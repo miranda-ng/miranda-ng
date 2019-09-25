@@ -32,36 +32,47 @@ void CSkypeProto::SendFileThread(void *p)
 void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	CFileUploadParam *fup = (CFileUploadParam*)arg;
-	if (response && response->pData) {
-		JSONNode node = JSONNode::parse((char*)response->pData);
-		std::string strObjectId = node["id"].as_string();
-		fup->uid = mir_strdup(strObjectId.c_str());
-		FILE *pFile = _wfopen(fup->tszFileName, L"rb");
-		if (pFile == nullptr) return;
-
-		fseek(pFile, 0, SEEK_END);
-		long lFileLen = ftell(pFile);
-
-		if (lFileLen < 1) {
-			fclose(pFile);
-			return;
-		}
-
-		fseek(pFile, 0, SEEK_SET);
-
-		mir_ptr<BYTE> pData((BYTE*)mir_alloc(lFileLen));
-		long lBytes = (long)fread(pData, sizeof(BYTE), lFileLen, pFile);
-
-		if (lBytes != lFileLen) {
-			fclose(pFile);
-			FILETRANSFER_FAILED(fup);
-			return;
-		}
-		fup->size = lBytes;
-		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
-		SendRequest(new ASMObjectUploadRequest(this, strObjectId.c_str(), pData, lBytes), &CSkypeProto::OnASMObjectUploaded, fup);
-		fclose(pFile);
+	if (response == nullptr || response->pData == nullptr) {
+LBL_Error:
+		FILETRANSFER_FAILED(fup);
+		return;
 	}
+
+	if (response->resultCode != 200) {
+		debugLogA("Object creation failed with error code %d", response->resultCode);
+		goto LBL_Error;
+	}
+
+	JSONNode node = JSONNode::parse((char*)response->pData);
+	std::string strObjectId = node["id"].as_string();
+	if (strObjectId.empty()) {
+		debugLogA("Invalid server response (empty object id)");
+		goto LBL_Error;
+	}
+	
+	fup->uid = mir_strdup(strObjectId.c_str());
+	FILE *pFile = _wfopen(fup->tszFileName, L"rb");
+	if (pFile == nullptr) return;
+
+	fseek(pFile, 0, SEEK_END);
+	long lFileLen = ftell(pFile);
+	if (lFileLen < 1) {
+		fclose(pFile);
+		goto LBL_Error;
+	}
+
+	fseek(pFile, 0, SEEK_SET);
+
+	mir_ptr<BYTE> pData((BYTE*)mir_alloc(lFileLen));
+	long lBytes = (long)fread(pData, sizeof(BYTE), lFileLen, pFile);
+	if (lBytes != lFileLen) {
+		fclose(pFile);
+		goto LBL_Error;
+	}
+	fup->size = lBytes;
+	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
+	SendRequest(new ASMObjectUploadRequest(this, strObjectId.c_str(), pData, lBytes), &CSkypeProto::OnASMObjectUploaded, fup);
+	fclose(pFile);
 }
 
 void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *arg)

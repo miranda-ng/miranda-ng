@@ -19,8 +19,7 @@ public:
 		node << JSONNode("type", "sharing/file") << JSONNode("filename", szFileName) << jPermissions;
 
 		Body << VALUE(node.write().c_str());
-
-	}// {"id":"0-neu-d1-d0649c1fb4e4c60f2d2d1f2165a99f60"}
+	}
 };
 
 class ASMObjectUploadRequest : public HttpRequest
