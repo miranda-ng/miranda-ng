@@ -72,14 +72,12 @@ void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 	if (totalCount >= 99 || conversations.size() >= 99)
 		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), this), &CSkypeProto::OnSyncHistory);
 
-	for (size_t i = 0; i < conversations.size(); i++) {
-		const JSONNode &conversation = conversations.at(i);
-		const JSONNode &threadProperties = conversation["threadProperties"];
-		const JSONNode &id = conversation["id"];
-
+	for (auto &conversation : conversations) {
 		if (!conversation["lastMessage"])
 			continue;
 
+		const JSONNode &id = conversation["id"];
+		const JSONNode &threadProperties = conversation["threadProperties"];
 		CMStringW topic(threadProperties["topic"].as_mstring());
 		SendRequest(new GetChatInfoRequest(id.as_string().c_str(), this), &CSkypeProto::OnGetChatInfo, topic.Detach());
 	}
@@ -384,9 +382,7 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 
 	CMStringA chatId(UrlToSkypename(root["messages"].as_string().c_str()));
 	StartChatRoom(_A2T(chatId), topic);
-	for (size_t i = 0; i < members.size(); i++) {
-		const JSONNode &member = members.at(i);
-
+	for (auto &member : members) {
 		CMStringA username(UrlToSkypename(member["userLink"].as_string().c_str()));
 		std::string role = member["role"].as_string();
 		AddChatContact(chatId, username, username, role.c_str(), true);

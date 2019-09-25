@@ -99,12 +99,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 	if (!root)
 		return;
 
-	const JSONNode &items = root["invite_list"].as_array();
-	for (size_t i = 0; i < items.size(); i++) {
-		const JSONNode &item = items.at(i);
-		if (!item)
-			break;
-
+	for (auto &item : root["invite_list"]) {
 		std::string skypename = item["mri"].as_string().erase(0, 2);
 		std::string reason = item["greeting"].as_string();
 
@@ -141,12 +136,7 @@ void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 	if (!root)
 		return;
 
-	const JSONNode &items = root.as_array();
-	for (size_t i = 0; i < items.size(); i++) {
-		const JSONNode &item = items.at(i);
-		if (!item)
-			break;
-
+	for (auto &item : root) {
 		std::string skypename = item["username"].as_string();
 		MCONTACT hContact = AddContact(skypename.c_str());
 		if (hContact) {
@@ -171,14 +161,8 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 
 	LIST<char> skypenames(1);
 	bool loadAll = getBool("LoadAllContacts", false);
-	const JSONNode &items = root["contacts"].as_array();
-	for (size_t i = 0; i < items.size(); i++) {
-		const JSONNode &item = items.at(i);
-		if (!item)
-			break;
-
+	for (auto &item : root["contacts"]) {
 		const JSONNode &name = item["name"];
-		const JSONNode &phones = item["phones"];
 
 		std::string skypename = item["id"].as_string();
 		CMStringW display_name = item["display_name"].as_mstring();
@@ -202,10 +186,16 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 					setByte(hContact, "IsBlocked", 1);
 				}
 				else {
-					if (db_get_b(hContact, m_szModuleName, "IsBlocked", 0)) {
-						db_set_dw(hContact, "Ignore", "Mask1", 0);
-						db_set_b(hContact, "CList", "Hidden", 0);
-						setByte(hContact, "IsBlocked", 0);
+					db_set_dw(hContact, "Ignore", "Mask1", 0);
+					db_set_b(hContact, "CList", "Hidden", 0);
+					delSetting(hContact, "IsBlocked");
+				}
+
+				ptrW wszGroup(Clist_GetGroup(hContact));
+				if (wszGroup == nullptr) {
+					if (m_opts.wstrCListGroup) {
+						Clist_GroupCreate(0, m_opts.wstrCListGroup);
+						Clist_SetGroup(hContact, m_opts.wstrCListGroup);
 					}
 				}
 
@@ -218,18 +208,13 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				if (last_name)
 					setWString(hContact, "LastName", last_name);
 
-				if (item["mood"]) {
+				if (item["mood"])
 					db_set_utf(hContact, "CList", "StatusMsg", ptrA(RemoveHtml(item["mood"].as_string().c_str())));
-				}
 
 				SetAvatarUrl(hContact, avatar_url);
 				ReloadAvatarInfo(hContact);
 
-				for (size_t j = 0; j < phones.size(); j++) {
-					const JSONNode &phone = phones.at(j);
-					if (!phone)
-						break;
-
+				for (auto &phone : item["phones"]) {
 					CMStringW number = phone["number"].as_mstring();
 
 					switch (phone["type"].as_int()) {
@@ -319,5 +304,5 @@ void CSkypeProto::OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p)
 		return;
 	db_set_dw(hContact, "Ignore", "Mask1", 0);
 	db_set_b(hContact, "CList", "Hidden", 0);
-	db_set_b(hContact, m_szModuleName, "IsBlocked", 0);
+	delSetting(hContact, "IsBlocked");
 }

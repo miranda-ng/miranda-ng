@@ -126,8 +126,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	if (totalCount >= 99 || conversations.size() >= 99)
 		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), this), &CSkypeProto::OnSyncHistory);
 
-	for (size_t i = 0; i < conversations.size(); i++) {
-		const JSONNode &conversation = conversations.at(i);
+	for (auto &conversation : conversations) {
 		const JSONNode &lastMessage = conversation["lastMessage"];
 		if (lastMessage) {
 			std::string strConversationLink = lastMessage["conversationLink"].as_string();
