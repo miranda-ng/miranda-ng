@@ -169,8 +169,12 @@ void CIcqProto::ConnectionFailed(int iReason, int iErrorCode)
 
 void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup)
 {
-	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy")
-		<< AIMSID(this) << WCHAR_PARAM("buddy", GetUserId(hContact)) << GROUP_PARAM("group", pwszGroup) << GROUP_PARAM("newGroup", pwszNewGroup));
+	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/moveBuddy") << AIMSID(this) << WCHAR_PARAM("buddy", GetUserId(hContact));
+	if (mir_wstrlen(pwszGroup))
+		pReq << GROUP_PARAM("group", pwszGroup);
+	if (mir_wstrlen(pwszNewGroup))
+		pReq << GROUP_PARAM("newGroup", pwszNewGroup);
+	Push(pReq);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
