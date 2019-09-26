@@ -242,7 +242,7 @@ public:
 		if (cmd == 1) { // rename
 			ENTER_STRING es = {};
 			es.cbSize = sizeof(es);
-			es.type = ESF_MULTILINE;
+			es.type = ESF_RICHEDIT;
 			es.caption = TranslateT("Enter new group name");
 			if (!EnterString(&es))
 				return;
