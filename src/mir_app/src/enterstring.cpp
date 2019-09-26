@@ -128,6 +128,10 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				rc.bottom += (rc.bottom - rc.top) * 2;
 				SetWindowPos(hwndDlg, nullptr, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_NOMOVE | SWP_NOREPOSITION);
 				break;
+
+			default: // single string edit field
+				params->idcControl = IDC_TXT_SIMPLE;
+				params->height = rc.bottom - rc.top;
 			}
 		}
 		ShowWindow(GetDlgItem(hwndDlg, params->idcControl), SW_SHOW);

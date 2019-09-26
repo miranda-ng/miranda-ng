@@ -241,7 +241,6 @@ public:
 
 		if (cmd == 1) { // rename
 			ENTER_STRING es = {};
-			es.type = ESF_COMBO;
 			es.szModuleName = m_proto->m_szModuleName;
 			es.caption = TranslateT("Enter new group name");
 			if (!EnterString(&es))

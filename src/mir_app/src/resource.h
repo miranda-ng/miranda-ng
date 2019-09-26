@@ -215,6 +215,7 @@
 #define IDC_TOOLBARTREE                 1040
 #define IDC_URL                         1041
 #define IDC_FONTGROUP                   1042
+#define IDC_TXT_SIMPLE                  1043
 #define IDC_BTN_RESET                   1045
 #define IDC_REASON                      1046
 #define IDC_BTN_UNDO                    1047
