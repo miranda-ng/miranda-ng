@@ -1317,8 +1317,9 @@ int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 		// If not on list changed
 		if (!strcmp(cws->szSetting, "NotOnList"))
 		{
-			if (db_get_b(hContact, "CList", "Hidden", 0))
+			if (Clist_IsHidden(hContact))
 				return 0;
+			
 			// Notify user normally this time if added to the list permanently
 			if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 				notifyuser(hContact, 1);
@@ -1460,7 +1461,7 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 		if ((uin_t)getDword(hContact, GG_KEY_UIN, 0) == uin && !isChatRoom(hContact)) {
 			if (inlist) {
 				db_unset(hContact, "CList", "NotOnList");
-				db_unset(hContact, "CList", "Hidden");
+				Clist_HideContact(hContact, false);
 			}
 			return hContact;
 		}

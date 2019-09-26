@@ -44,7 +44,7 @@ int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 				// ...send message
 
 				if (gbHideContacts)
-					db_set_b(hcntct, "CList", "Hidden", 1);
+					Clist_HideContact(hcntct);
 				if (gbSpecialGroup)
 					Clist_SetGroup(hcntct, gbSpammersGroup.c_str());
 				BYTE msg = 1;
@@ -156,7 +156,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	
 	if (answered) {
 		// unhide contact
-		db_unset(hContact, "CList", "Hidden");
+		Clist_HideContact(hContact, false);
 
 		g_plugin.delSetting(hContact, "MathAnswer");
 
@@ -270,7 +270,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 		}
 	}
 	if (gbHideContacts)
-		db_set_b(hContact, "CList", "Hidden", 1);
+		Clist_HideContact(hContact);
 	if (gbSpecialGroup)
 		Clist_SetGroup(hContact, gbSpammersGroup.c_str());
 	db_set_b(hContact, "CList", "NotOnList", 1);

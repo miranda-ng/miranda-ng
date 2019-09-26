@@ -50,7 +50,7 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 		auto *p = FindContactByUIN(wszId);
 		if (p == nullptr) {
 			auto hContact = CreateContact(wszId, false);
-			db_set_b(hContact, "CList", "Hidden", 1);
+			Clist_HideContact(hContact);
 			p = FindContactByUIN(wszId);
 		}
 		p->m_iApparentMode = ID_STATUS_OFFLINE;

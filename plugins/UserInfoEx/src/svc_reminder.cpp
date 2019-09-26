@@ -523,7 +523,7 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 static void CheckContact(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer = nullptr)
 {
 	// ignore meta subcontacts here as their birthday information are collected explicitly
-	if (hContact && (!gRemindOpts.bCheckVisibleOnly || !db_get_b(hContact, MOD_CLIST, "Hidden", FALSE)) && !db_mc_isSub(hContact)) {
+	if (hContact && (!gRemindOpts.bCheckVisibleOnly || !Clist_IsHidden(hContact)) && !db_mc_isSub(hContact)) {
 		CEvent ca;
 
 		if (CheckBirthday(hContact, Now, ca, bNotify, LastAnwer) || CheckAnniversaries(hContact, Now, ca, bNotify)) {

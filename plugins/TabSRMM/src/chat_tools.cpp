@@ -309,8 +309,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (bHighlight) {
 		gce->iType |= GC_EVENT_HIGHLIGHT;
 		params->sound = "ChatHighlight";
-		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
-			db_unset(si->hContact, "CList", "Hidden");
+		if (Clist_IsHidden(si->hContact) != 0)
+			Clist_HideContact(si->hContact, false);
 		if (params->bInactive) {
 			bFlagUnread = true;
 			DoTrayIcon(si, gce);

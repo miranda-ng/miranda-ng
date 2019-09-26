@@ -100,7 +100,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			db_set_b(PUGetContact(hWnd), "CList", "Hidden", 1);
+			Clist_HideContact(PUGetContact(hWnd));
 			PUDeletePopup(hWnd);
 		}
 		break;
@@ -112,7 +112,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 
 	case UM_POPUPACTION:
 		if (wParam == 2) {
-			db_set_b(PUGetContact(hWnd), "CList", "Hidden", 1);
+			Clist_HideContact(PUGetContact(hWnd));
 			PUDeletePopup(hWnd);
 		}
 		if (wParam == 3) {
@@ -223,7 +223,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 
 	if (options.hideInactive)
 		if (daysSinceMessage >= options.iSilencePeriod)
-			if (!db_get_b(hContact, "CList", "Hidden", 0) && !g_plugin.getByte(hContact, "NeverHide", 0)) {
+			if (!Clist_IsHidden(hContact) && !g_plugin.getByte(hContact, "NeverHide", 0)) {
 				POPUPDATAW ppd;
 				ppd.lchContact = hContact;
 				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
@@ -252,7 +252,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 
 void ReturnNotify(MCONTACT hContact, wchar_t *message)
 {
-	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1 || db_get_b(hContact, "CList", "Hidden", 0) == 1)
+	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1 || Clist_IsHidden(hContact))
 		return;
 
 	Skin_PlaySound("buddyExpectatorReturn");
@@ -291,7 +291,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 
 void GoneNotify(MCONTACT hContact, wchar_t *message)
 {
-	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1 || db_get_b(hContact, "CList", "Hidden", 0) == 1)
+	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1 || Clist_IsHidden(hContact))
 		return;
 
 	if (options.iShowPopup2 > 0) {

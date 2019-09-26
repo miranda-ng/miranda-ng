@@ -79,7 +79,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 
 	// hide the contact if clist groups disabled (shouldn't create one anyway since menus disabled)
 	if (!db_mc_isEnabled())
-		db_set_b(hMetaContact, "CList", "Hidden", 1);
+		Clist_HideContact(hMetaContact);
 
 	return hMetaContact;
 }
@@ -96,7 +96,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	DBCachedContact *ccSub = currDb->getCache()->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
 	if (ccSub != nullptr) {
 		if (ccSub->parentID == ccMeta->contactID) {
-			db_unset(ccSub->contactID, "CList", "Hidden");
+			Clist_HideContact(ccSub->contactID, false);
 
 			// stop ignoring, if we were
 			if (g_metaOptions.bSuppressStatus)

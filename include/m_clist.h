@@ -489,6 +489,12 @@ EXTERN_C MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hCon
 EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// gets / sets hidden status for a contact
+
+EXTERN_C MIR_APP_DLL(bool) Clist_IsHidden(MCONTACT hContact);
+EXTERN_C MIR_APP_DLL(void) Clist_HideContact(MCONTACT hContact, bool bHidden = true);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // DRAG-N-DROP SUPPORT
 /////////////////////////////////////////////////////////////////////////////////////////
 // a contact is being dragged outside the main window

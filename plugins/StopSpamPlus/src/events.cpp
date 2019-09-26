@@ -34,7 +34,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_sets.getReply(), hcntct).c_str()));
 
 			db_set_b(hcntct, "CList", "NotOnList", 1);
-			db_set_b(hcntct, "CList", "Hidden", 1);
+			Clist_HideContact(hcntct);
 			if (!g_sets.HistLog)
 				db_event_delete(0, hDbEvent);
 			return 1;
@@ -105,7 +105,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 			// if message equal right answer...
 			if (g_sets.AnswNotCaseSens ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
 				// unhide contact
-				db_unset(hContact, "CList", "Hidden");
+				Clist_HideContact(hContact, false);
 
 				// mark contact as Answered
 				g_plugin.setByte(hContact, DB_KEY_ANSWERED, 1);
@@ -147,7 +147,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 	// hide contact from contact list
 	db_set_b(hContact, "CList", "NotOnList", 1);
-	db_set_b(hContact, "CList", "Hidden", 1);
+	Clist_HideContact(hContact);
 
 	// save message from contact
 	dbei->flags |= DBEF_READ;

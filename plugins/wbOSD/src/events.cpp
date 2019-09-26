@@ -117,9 +117,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 
 	logmsg("ContactStatusChanged2");
 
-	if (db_get_b(hContact, "CList", "NotOnList", 0) || db_get_b(hContact, "CList", "Hidden", 0) ||
-		(CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE) && newStatus == ID_STATUS_ONLINE)
-		)
+	if (db_get_b(hContact, "CList", "NotOnList", 0) || Clist_IsHidden(hContact) || (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE) && newStatus == ID_STATUS_ONLINE))
 		return 0;
 
 	wchar_t bufferW[512];

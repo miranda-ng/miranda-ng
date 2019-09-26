@@ -373,7 +373,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 
 int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData *dat)
 {
-	int dbHidden = g_plugin.getByte(hContact, "Hidden"); // default hidden state, always respect it.
+	int dbHidden = Clist_IsHidden(hContact); // default hidden state, always respect it.
 
 	// always hide subcontacts (but show them on embedded contact lists)
 	if (dat != nullptr && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))

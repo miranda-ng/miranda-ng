@@ -96,7 +96,7 @@ bool isProtoSmallPackets(MCONTACT hContact)
 
 bool isContactInvisible(MCONTACT hContact)
 {
-	if (!db_mc_isSub(hContact) && db_get_b(hContact, "CList", "Hidden", 0))
+	if (!db_mc_isSub(hContact) && Clist_IsHidden(hContact))
 		return true;
 
 	pUinKey p = findUinKey(hContact);

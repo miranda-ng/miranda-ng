@@ -427,16 +427,13 @@ void CreateServiceFunctions(void)
 	CreateServiceFunction(MS_YAMN_CLISTCONTEXTAPP, ContactApplication);
 }
 
-//Function to put all enabled contact to the Online status
+// Function to put all enabled contact to the Online status
 void RefreshContact(void)
 {
 	CAccount *Finder;
 	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
 		if (Finder->hContact != NULL) {
-			if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
-				db_unset(Finder->hContact, "CList", "Hidden");
-			else
-				db_set_b(Finder->hContact, "CList", "Hidden", 1);
+			Clist_HideContact(Finder->hContact, !(Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT));
 		}
 		else if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
 			Finder->hContact = db_add_contact();

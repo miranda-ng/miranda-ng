@@ -127,7 +127,7 @@ void CMirfoxMiranda::onContactAdded_async(void* threadArg)
 		canAdd = false;
 
 	// execute
-	if (canAdd && db_get_b(onContactAsyncThreadArgStruct->hContact, "CList", "Hidden", 0) == 1)
+	if (canAdd && Clist_IsHidden(onContactAsyncThreadArgStruct->hContact))
 		canAdd = false;
 
 	// add
@@ -188,9 +188,8 @@ void CMirfoxMiranda::onContactSettingChanged_async(void* threadArg){
 		canAdd = false;
 
 	// edit
-	if (canAdd &&db_get_b(onContactAsyncThreadArgStruct->hContact, "CList", "Hidden", 0) == 1)
+	if (canAdd && Clist_IsHidden(onContactAsyncThreadArgStruct->hContact))
 		canAdd = false;
-
 
 	if (canAdd)
 		mirfoxMiranda->getMirfoxData().refreshContact_Edit(mirfoxMiranda->getSharedMemoryUtils(), onContactAsyncThreadArgStruct->hContact);

@@ -154,11 +154,11 @@ MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	Proto_AddToContact(hContact, m_szModuleName);
 
 	if (flags & PALF_TEMPORARY) {
-		db_set_b(hContact, "CList", "Hidden", 1);
+		Clist_HideContact(hContact);
 		db_set_b(hContact, "CList", "NotOnList", 1);
 	}
 	else if (db_get_b(hContact, "CList", "NotOnList", 0)) {
-		db_unset(hContact, "CList", "Hidden");
+		Clist_HideContact(hContact, false);
 		db_unset(hContact, "CList", "NotOnList");
 	}
 	setWString(hContact, uniqueIdSetting, psr->id.w);

@@ -80,7 +80,7 @@ void CMsnProto::MSN_SetContactDb(MCONTACT hContact, const char *szEmail)
 	if (listId & LIST_FL) {
 		if (db_get_b(hContact, "CList", "NotOnList", 0) == 1) {
 			db_unset(hContact, "CList", "NotOnList");
-			db_unset(hContact, "CList", "Hidden");
+			Clist_HideContact(hContact, false);
 		}
 
 		if (listId & (LIST_BL | LIST_AL)) {

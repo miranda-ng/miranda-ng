@@ -330,7 +330,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 	else
 		Chat_Control(m_szModuleName, wszRoomJid, SESSION_OFFLINE);
 
-	db_unset(item->hContact, "CList", "Hidden");
+	Clist_HideContact(item->hContact, false);
 	item->bChatActive = false;
 
 	if (m_bJabberOnline) {
@@ -1346,7 +1346,7 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 		if (r)
 			ppro->setWord(hContact, "Status", r->m_iStatus);
 
-		db_set_b(hContact, "CList", "Hidden", 1);
+		Clist_HideContact(hContact);
 		ppro->setUString(hContact, "Nick", nick);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 		CallService(MS_MSG_SENDMESSAGE, hContact, 0);

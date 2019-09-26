@@ -250,7 +250,7 @@ static void addWindow(MCONTACT hContact)
 	int frameID = g_plugin.addFrame(&Frame);
 
 	g_plugin.setDword(hContact, "mwin", frameID);
-	db_set_b(hContact, "CList", "Hidden", TRUE);
+	Clist_HideContact(hContact);
 }
 
 void removeWindow(MCONTACT hContact)
@@ -261,7 +261,7 @@ void removeWindow(MCONTACT hContact)
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 
 	g_plugin.setDword(hContact, "mwin", 0);
-	db_unset(hContact, "CList", "Hidden");
+	Clist_HideContact(hContact, false);
 }
 
 void UpdateMwinData(MCONTACT hContact)

@@ -50,7 +50,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 					// and add them on the list
 					if (db_get_b(hContact, "CList", "NotOnList", 1)) {
 						db_unset(hContact, "CList", "NotOnList");
-						db_unset(hContact, "CList", "Hidden");
+						Clist_HideContact(hContact, false);
 					}
 					db_free(&dbv);
 					// contact is added, function quitting

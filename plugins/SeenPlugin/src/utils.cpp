@@ -439,7 +439,7 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hcontact, IGNOREEVENT_USERONLINE))
 		return;
 
-	if (!g_plugin.getByte("UsePopups", 0) || !db_get_b(hcontact, "CList", "Hidden", 0))
+	if (!g_plugin.getByte("UsePopups", 0) || !Clist_IsHidden(hcontact))
 		return;
 
 	DBVARIANT dbv;

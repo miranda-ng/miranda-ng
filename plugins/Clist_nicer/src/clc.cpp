@@ -131,7 +131,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (!__strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				if (!__strcmp(cws->szSetting, "Status")) {
-					if (!g_plugin.getByte(hContact, "Hidden"))
+					if (!Clist_IsHidden(hContact))
 						if (cws->value.wVal == ID_STATUS_OFFLINE)
 							if (g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
 								return 0;

@@ -400,7 +400,7 @@ int Meta_HideMetaContacts(bool bHide)
 		else
 			continue;
 
-		db_set_b(hContact, "CList", "Hidden", bSet);
+		Clist_HideContact(hContact, bSet);
 	}
 
 	if (bHide) {

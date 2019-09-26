@@ -189,7 +189,7 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 	Netlib_Logf(hNetlibUser, "[   ] receive message\n");
 
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	db_unset(ccs->hContact, "CList", "Hidden");
+	Clist_HideContact(ccs->hContact, false);
 
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
 	ptrA szMsg(mir_utf8encode(pre->szMessage));
@@ -362,7 +362,7 @@ static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 	Netlib_Logf(hNetlibUser, "[   ] receive file\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
-	db_unset(ccs->hContact, "CList", "Hidden");
+	Clist_HideContact(ccs->hContact, false);
 
 	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
 	char *szFile = pre->szMessage + sizeof(DWORD);

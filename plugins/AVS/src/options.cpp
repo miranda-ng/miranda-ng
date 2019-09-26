@@ -496,7 +496,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ShowWindow(hwndDlg, SW_SHOWNORMAL);
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, FALSE);
 		CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, Clist_IsHidden(hContact) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), 0);
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
@@ -525,11 +525,11 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case IDOK:
 			{
-				BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
-				int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
+				bool locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR) != 0;
+				bool hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) != 0;
 				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
-				if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
-					db_set_b(hContact, "ContactPhoto", "Hidden", hidden);
+				if (hidden != Clist_IsHidden(hContact))
+					Clist_HideContact(hContact, hidden);
 
 				if (!locked && db_get_b(hContact, "ContactPhoto", "NeedUpdate", 0))
 					QueueAdd(hContact);
@@ -750,7 +750,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 		CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, Clist_IsHidden(hContact) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), 0);
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
@@ -783,10 +783,10 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		case IDC_HIDEAVATAR:
 			{
-				int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
+				bool hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) != 0;
 				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
-				if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
-					db_set_b(hContact, "ContactPhoto", "Hidden", hidden);
+				if (hidden != Clist_IsHidden(hContact))
+					Clist_HideContact(hContact, hidden);
 			}
 			break;
 

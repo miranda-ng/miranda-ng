@@ -524,7 +524,7 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 				MSN_AddUser(hContact, szEmail, netId, LIST_PL + LIST_REMOVE);
 				MSN_AddUser(hContact, szEmail, netId, LIST_BL + LIST_REMOVE);
 				MSN_AddUser(hContact, szEmail, netId, LIST_AL);
-				db_unset(hContact, "CList", "Hidden");
+				Clist_HideContact(hContact, false);
 			}
 			MSN_SetContactDb(hContact, szEmail);
 		}
