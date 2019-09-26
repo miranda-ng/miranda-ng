@@ -181,13 +181,11 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				else setByte(hContact, "Grant", 1);
 
 				if (item["blocked"].as_bool()) {
-					db_set_dw(hContact, "Ignore", "Mask1", 127);
 					db_set_b(hContact, "CList", "Hidden", 1);
 					setByte(hContact, "IsBlocked", 1);
 				}
 				else {
-					db_set_dw(hContact, "Ignore", "Mask1", 0);
-					db_set_b(hContact, "CList", "Hidden", 0);
+					db_unset(hContact, "CList", "Hidden");
 					delSetting(hContact, "IsBlocked");
 				}
 
@@ -287,7 +285,6 @@ void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
 	MCONTACT hContact = (DWORD_PTR)p;
 	if (response == nullptr)
 		return;
-	db_set_dw(hContact, "Ignore", "Mask1", 127);
 	db_set_b(hContact, "CList", "Hidden", 1);
 }
 
@@ -299,10 +296,10 @@ INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p)
 {
-	MCONTACT hContact = (DWORD_PTR)p;
 	if (response == nullptr)
 		return;
-	db_set_dw(hContact, "Ignore", "Mask1", 0);
+
+	MCONTACT hContact = (DWORD_PTR)p;
 	db_set_b(hContact, "CList", "Hidden", 0);
 	delSetting(hContact, "IsBlocked");
 }
