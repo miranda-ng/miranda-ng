@@ -815,7 +815,7 @@ BOOL CJabberProto::EnterString(CMStringW &result, const wchar_t *caption, int ty
 		result.Empty();
 	}
 
-	ENTER_STRING param = { sizeof(param) };
+	ENTER_STRING param = {};
 	param.type = type;
 	param.caption = caption;
 	param.szModuleName = m_szModuleName;

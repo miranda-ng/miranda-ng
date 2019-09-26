@@ -251,7 +251,7 @@ function PathIsAbsoluteW(const pSrc:PWideChar):int; stdcall;
                  external CoreDLL name 'PathIsAbsoluteW';
 
 {
-   Generates Random number of any length
+  Generates Random number of any length
   wParam=size - length of the random number to generate
   lParam=(LPARAM)(char*)pszArray - pointer to array to fill with random number
   Always returns 0
@@ -274,69 +274,5 @@ function Utils_ReplaceVars(const pSrc:PAnsiChar; hContact:TMCONTACT = 0; vars:PR
                  external AppDLL name 'Utils_ReplaceVars';
 function Utils_ReplaceVarsW(const pSrc:PWideChar; hContact:TMCONTACT = 0; vars:PREPLACEVARSARRAY = nil):PWideChar; stdcall;
                  external AppDLL name 'Utils_ReplaceVarsW';
-
-{
-  variables known by the core:
-  ----------------------------
-  folders comes without trailing slash
-
-  %miranda_profile%     -> same as MS_DB_GETPROFILEPATH, base folder for all profiles
-  %miranda_userdata%    -> the active profile folder (home of the .dat file and all
-                           profile data)
-  %miranda_path%        -> home path of the miranda installation (installation path
-                           of miranda32/64.exe
-  %miranda_profilename% -> Name of the profile in use. Essentially, the name of the
-                           .dat file without file name extension. Also: the folder name
-                           relative to %miranda_profile% where all profile data is stored.
-  %miranda_logpath%     -> base folder for log files. This is \Logs relative to the
-                           current profile folder.
-  %miranda_avatarcache% -> base folder for all protocol avatars. internal use only.
-
-  the following variables operate on contacts. REPLACEVARSDATA::hContact must be
-  supplied by the caller.
-
-  %nick%                -> a contact nick name.
-  %proto%               -> internal protocol name for a given contact. NOT the user-
-                           defined account name.
-  %accountname%         -> user-defined account name for a given contact.
-  %userid%              -> Unique ID for a given contact (UIN, JID etc.)
-
-  the following variables are system variables - unrelated to miranda profiles.
-
-  %appdata%             -> same as %APPDATA% environment variable.
-  %destkop%             -> location of the desktop folder in a user's profile.
-  %mydocuments%         -> location of the "My Documents" shell folder.
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// one field form
-
-const
-  ESF_MULTILINE = 1;
-  ESF_COMBO     = 2;
-  ESF_RICHEDIT  = 3;
-  ESF_PASSWORD  = 4;
-
-type
-  PENTER_STRING = ^TENTER_STRING;
-  TENTER_STRING = record
-    cbSize      :int;       // structure size
-    _type       :int;       // one of ESF_* constants
-    szModuleName:PAnsiChar; // module name to save window size and combobox strings
-    szDataPrefix:PAnsiChar; // prefix for stored database variables
-    caption     :PAnsiChar; // window caption
-    // next TChar fields is on same place
-    // ptszInitVal:TChar;   // initial value (note: the core DOES NOT free it)
-    ptszResult  :TChar;     // result entered (must be freed via mir_free)
-    recentCount :int;       // number of combobox strings to store
-    timeout     :int;       // timeout for the form auto-close
-  end;
-
-const
-// enters one string
-// wParam = 0 (unused)
-// lParam = PENTER_STRING (form description)
-// returns TRUE on pressing OK or FALSE if Cancel was pressed
-  MS_UTILS_ENTERSTRING:PAnsiChar = 'Utils/EnterString';
 
 {$ENDIF}

@@ -31,8 +31,6 @@ void UninitCrypt(void);
 
 void InitClistCore(void);
 
-INT_PTR __cdecl svcEnterString(WPARAM, LPARAM lParam);
-
 static BOOL bModuleInitialized = FALSE;
 
 static CountryListEntry countries[] = {
@@ -324,8 +322,6 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER, GetCountryByNumber);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYISOCODE, GetCountryByISOCode);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
-
-	CreateServiceFunction(MS_UTILS_ENTERSTRING, svcEnterString);
 
 	InitCrypt();
 	InitClistCore();

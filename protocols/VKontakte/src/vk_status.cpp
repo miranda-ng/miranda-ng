@@ -135,7 +135,7 @@ void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	ptrW pwszOldStatusMsg(db_get_wsa(0, m_szModuleName, "OldStatusMsg"));
 	CMStringW wszOldStatusMsg(pwszOldStatusMsg);
 
-	ENTER_STRING pForm = { sizeof(pForm) };
+	ENTER_STRING pForm = {};
 	pForm.type = ESF_MULTILINE;
 	pForm.caption = TranslateT("Enter new status message");
 	pForm.ptszInitVal = pwszOldStatusMsg;

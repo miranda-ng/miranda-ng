@@ -96,7 +96,7 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 	if (pUser == nullptr)
 		return;
 
-	ENTER_STRING es = { sizeof(es) };
+	ENTER_STRING es = {};
 	es.szModuleName = m_szModuleName;
 
 	switch (gch->dwData) {

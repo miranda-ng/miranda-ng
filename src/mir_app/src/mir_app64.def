@@ -104,6 +104,7 @@ Button_SetSkin_IcoLib      @24
 ?setWString@PROTO_INTERFACE@@QEAAXPEBDPEB_W@Z @107 NONAME
 ?setWord@PROTO_INTERFACE@@QEAAXIPEBDG@Z @108 NONAME
 ?setWord@PROTO_INTERFACE@@QEAAXPEBDG@Z @109 NONAME
+EnterString @110 NONAME
 ProtoBroadcastAck @111
 ProtoCreateHookableEvent @113
 ProtoCreateService @114

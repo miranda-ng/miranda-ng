@@ -247,17 +247,16 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	return FALSE;
 }
 
-INT_PTR __cdecl svcEnterString(WPARAM, LPARAM lParam)
+MIR_APP_DLL(bool) EnterString(ENTER_STRING *pForm)
 {
-	ENTER_STRING *pForm = (ENTER_STRING*)lParam;
-	if (pForm == nullptr || pForm->cbSize != sizeof(ENTER_STRING))
-		return FALSE;
+	if (pForm == nullptr)
+		return false;
 
-	EnterStringFormParam param;
+	EnterStringFormParam param = {};
 	memcpy(&param, pForm, sizeof(ENTER_STRING));
 	if (!DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ENTER_STRING), GetForegroundWindow(), sttEnterStringDlgProc, LPARAM(&param)))
-		return FALSE;
+		return false;
 
 	pForm->ptszResult = param.ptszResult;
-	return TRUE;
+	return true;
 }

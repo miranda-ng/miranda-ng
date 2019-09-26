@@ -39,7 +39,7 @@ INT_PTR CDiscordProto::OnMenuCopyId(WPARAM hContact, LPARAM)
 
 INT_PTR CDiscordProto::OnMenuCreateChannel(WPARAM hContact, LPARAM)
 {
-	ENTER_STRING es = { sizeof(es), ESF_COMBO, m_szModuleName, "channel_name", TranslateT("Enter channel name"), nullptr, 5 };
+	ENTER_STRING es = { m_szModuleName, "channel_name", TranslateT("Enter channel name"), nullptr, ESF_COMBO, 5 };
 	if (EnterString(&es)) {
 		JSONNode roles(JSON_ARRAY); roles.set_name("permission_overwrites");
 		JSONNode root; root << INT_PARAM("type", 0) << WCHAR_PARAM("name", es.ptszResult) << roles;
@@ -54,7 +54,7 @@ INT_PTR CDiscordProto::OnMenuCreateChannel(WPARAM hContact, LPARAM)
 
 INT_PTR CDiscordProto::OnMenuJoinGuild(WPARAM, LPARAM)
 {
-	ENTER_STRING es = { sizeof(es), ESF_COMBO, m_szModuleName, "guild_name", TranslateT("Enter invitation code you received"), nullptr, 5 };
+	ENTER_STRING es = { m_szModuleName, "guild_name", TranslateT("Enter invitation code you received"), nullptr, ESF_COMBO, 5 };
 	if (EnterString(&es)) {
 		CMStringA szUrl(FORMAT, "/invite/%S", es.ptszResult);
 		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr));

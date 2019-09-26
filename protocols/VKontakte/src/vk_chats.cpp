@@ -519,7 +519,7 @@ void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 LPTSTR CVkProto::ChangeChatTopic(CVkChatInfo *cc)
 {
-	ENTER_STRING pForm = { sizeof(pForm) };
+	ENTER_STRING pForm = {};
 	pForm.type = ESF_MULTILINE;
 	pForm.caption = TranslateT("Enter new chat title");
 	pForm.ptszInitVal = cc->m_wszTopic;

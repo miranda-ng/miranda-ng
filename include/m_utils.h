@@ -380,7 +380,8 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTAC
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// one field form
+// enters one string
+// returns TRUE on pressing OK or FALSE if Cancel was pressed
 
 #define ESF_MULTILINE 1
 #define ESF_COMBO     2
@@ -389,30 +390,19 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTAC
 
 struct ENTER_STRING
 {
-	int     cbSize;         // structure size
-	int     type;           // one of ESF_* constants
-	LPCSTR  szModuleName;   // module name to save window size and combobox strings
-	LPCSTR  szDataPrefix;   // prefix for stored database variables
-	LPCTSTR caption;        // window caption
+	LPCSTR szModuleName;   // module name to save window size and combobox strings
+	LPCSTR szDataPrefix;   // prefix for stored database variables
+	LPCWSTR caption;       // window caption
 	union {
-		LPCTSTR ptszInitVal; // initial value (note: the core DOES NOT free it)
-		LPTSTR  ptszResult;  // result entered (must be freed via mir_free)
+		LPCWSTR ptszInitVal; // initial value (note: the core DOES NOT free it)
+		LPWSTR  ptszResult;  // result entered (must be freed via mir_free)
 	};
-	int     recentCount;    // number of combobox strings to store
-	int     timeout;        // timeout for the form auto-close
+	
+	int type;           // one of ESF_* constants
+	int recentCount;    // number of combobox strings to store
+	int timeout;        // timeout for the form auto-close
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// enters one string
-// wParam = 0 (unused)
-// lParam = ENTER_STRING* (form description)
-// returns TRUE on pressing OK or FALSE if Cancel was pressed
-
-#define MS_UTILS_ENTERSTRING "Utils/EnterString"
-
-__forceinline INT_PTR EnterString(ENTER_STRING *pForm)
-{
-	return CallService(MS_UTILS_ENTERSTRING, 0, (LPARAM)pForm);
-}
+EXTERN_C MIR_APP_DLL(bool) EnterString(ENTER_STRING *pForm);
 
 #endif // M_UTILS_H__
