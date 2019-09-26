@@ -61,7 +61,7 @@ static int makeDatabase(const wchar_t*)
 // returns 0 if the given profile has a valid header
 static int grokHeader(const wchar_t *profile)
 {
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, DBMODE_SHARED | DBMODE_READONLY));
+	std::unique_ptr<CDb3Mmap> db(new CDb3Mmap(profile, DBMODE_SHARED | DBMODE_READONLY));
 	if (db->Load(true) != ERROR_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
@@ -116,7 +116,7 @@ LBL_Error:
 		return pLink->Load(profile, false);
 	}
 
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, DBMODE_READONLY));
+	std::unique_ptr<CDb3Mmap> db(new CDb3Mmap(profile, DBMODE_READONLY));
 	if (db->Load(false) != ERROR_SUCCESS)
 		return nullptr;
 

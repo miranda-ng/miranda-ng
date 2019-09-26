@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 # define __COMMONS_H__
 
 #define _CRT_NONSTDC_NO_DEPRECATE
+#define _HAS_AUTO_PTR_ETC 1
 
 #include <windows.h>
 #include <time.h>

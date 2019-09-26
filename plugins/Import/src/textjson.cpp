@@ -216,7 +216,7 @@ static int mc_grokHeader(const wchar_t *profile)
 
 static MDatabaseCommon* mc_load(const wchar_t *profile, BOOL)
 {
-	std::auto_ptr<CDbxJson> db(new CDbxJson());
+	std::unique_ptr<CDbxJson> db(new CDbxJson());
 	if (db->Open(profile))
 		return nullptr;
 

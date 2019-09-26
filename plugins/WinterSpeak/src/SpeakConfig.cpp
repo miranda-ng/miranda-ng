@@ -7,7 +7,7 @@ SpeakConfig::SpeakConfig(HINSTANCE instance) : m_instance(instance), m_db(), m_t
 	// create and configure the tts
 	SpeechInterface si;
 	VoiceDesc desc = m_db.getVoiceDesc();
-	m_tts = std::auto_ptr<TextToSpeech>(si.createTts(desc.engine));
+	m_tts = std::unique_ptr<TextToSpeech>(si.createTts(desc.engine));
 	si.configureTts(m_tts.get(), desc);
 	
 	// observer the database for changes
@@ -28,7 +28,7 @@ void SpeakConfig::update(Subject &subject)
 
 	SpeechInterface si;
 	VoiceDesc desc = db.getVoiceDesc();
-	m_tts = std::auto_ptr<TextToSpeech>(si.createTts(desc.engine));
+	m_tts = std::unique_ptr<TextToSpeech>(si.createTts(desc.engine));
 	si.configureTts(m_tts.get(), desc);
 }
 

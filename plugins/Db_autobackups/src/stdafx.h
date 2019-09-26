@@ -6,11 +6,13 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <time.h>
+
+#include <string>
 #include <vector>
 #include <functional>
 #include <filesystem>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 #include <newpluginapi.h>
 #include <m_clist.h>

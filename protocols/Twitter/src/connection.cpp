@@ -355,7 +355,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 {
 	if (p == nullptr)
 		return;
-	std::auto_ptr<update_avatar> data(static_cast<update_avatar*>(p));
+	std::unique_ptr<update_avatar> data(static_cast<update_avatar*>(p));
 	DBVARIANT dbv = { 0 };
 
 	// db_get_s returns 0 when it suceeds, so if this suceeds it will return 0, or false.

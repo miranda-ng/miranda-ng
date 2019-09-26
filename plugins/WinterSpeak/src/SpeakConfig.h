@@ -35,7 +35,7 @@ private:
 	HINSTANCE                   m_instance;
 
 	ConfigDatabase              m_db;
-	std::auto_ptr<TextToSpeech> m_tts;
+	std::unique_ptr<TextToSpeech> m_tts;
 	DialogConfigEngine          m_dialog_engine;
 	DialogConfigActive          m_dialog_active;
 };

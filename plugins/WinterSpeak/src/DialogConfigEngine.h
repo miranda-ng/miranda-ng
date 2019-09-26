@@ -37,5 +37,5 @@ private:
 
 	static DialogConfigEngine*  m_instance;
 	ConfigDatabase&             m_db;
-	std::auto_ptr<TextToSpeech> m_test_tts;
+	std::unique_ptr<TextToSpeech> m_test_tts;
 };

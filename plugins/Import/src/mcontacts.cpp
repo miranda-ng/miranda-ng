@@ -285,7 +285,7 @@ static int mc_grokHeader(const wchar_t *profile)
 
 static MDatabaseCommon* mc_load(const wchar_t *profile, BOOL)
 {
-	std::auto_ptr<CDbxMc> db(new CDbxMc());
+	std::unique_ptr<CDbxMc> db(new CDbxMc());
 	if (db->Open(profile))
 		return nullptr;
 

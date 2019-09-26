@@ -53,7 +53,7 @@ void CMPlugin::LoadPattern(const wchar_t *pwszFileName)
 	if (!GetPrivateProfileStringW(L"General", L"Name", L"", buf, _countof(buf), pwszFileName))
 		return;
 
-	std::auto_ptr<CImportPattern> pNew(new CImportPattern());
+	std::unique_ptr<CImportPattern> pNew(new CImportPattern());
 	pNew->wszName = buf;
 	pNew->iType = GetPrivateProfileIntW(L"General", L"Type", 1, pwszFileName);
 
@@ -707,7 +707,7 @@ static int pattern_grokHeader(const wchar_t *profile)
 
 static MDatabaseCommon* pattern_load(const wchar_t *profile, BOOL)
 {
-	std::auto_ptr<CDbxPattern> db(new CDbxPattern());
+	std::unique_ptr<CDbxPattern> db(new CDbxPattern());
 	if (db->Open(profile))
 		return nullptr;
 

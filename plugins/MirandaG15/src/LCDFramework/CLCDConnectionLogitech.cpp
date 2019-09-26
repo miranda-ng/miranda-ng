@@ -892,7 +892,7 @@ SG15LightStatus CLCDConnectionLogitech::GetLightStatus()
 		m_pConnectedDevice->GetIndex() != LGLCD_DEVICE_BW) //m_lcdDeviceDesc.deviceFamilyId != LGLCD_DEVICE_FAMILY_KEYBOARD_G15)
 		return status;
 
-	byte *data = new byte[m_HIDCapabilities.FeatureReportByteLength];
+	BYTE *data = new BYTE[m_HIDCapabilities.FeatureReportByteLength];
 
 	data[0] = 0x02;
 	data[1] = 0x02;
@@ -936,7 +936,7 @@ void CLCDConnectionLogitech::SetMKeyLight(bool bM1, bool bM2, bool bM3, bool bMR
 		m_pConnectedDevice->GetIndex() != LGLCD_DEVICE_BW) //m_lcdDeviceDesc.deviceFamilyId != LGLCD_DEVICE_FAMILY_KEYBOARD_G15)
 		return;
 
-	byte *data = new byte[m_HIDCapabilities.FeatureReportByteLength];
+	BYTE *data = new BYTE[m_HIDCapabilities.FeatureReportByteLength];
 	data[0] = 0x02;
 	data[1] = 0x04;
 	data[2] = 0x00;
@@ -962,7 +962,7 @@ void CLCDConnectionLogitech::SetLCDBacklight(ELCDBrightness eBrightness)
 		m_pConnectedDevice->GetIndex() != LGLCD_DEVICE_BW) //m_lcdDeviceDesc.deviceFamilyId != LGLCD_DEVICE_FAMILY_KEYBOARD_G15)
 		return;
 
-	byte *data = new byte[m_HIDCapabilities.FeatureReportByteLength];
+	BYTE *data = new BYTE[m_HIDCapabilities.FeatureReportByteLength];
 
 	data[0] = 0x02;
 	data[1] = 0x02;
@@ -980,7 +980,7 @@ void CLCDConnectionLogitech::SetKBDBacklight(EKBDBrightness eBrightness)
 		m_pConnectedDevice->GetIndex() != LGLCD_DEVICE_BW) //m_lcdDeviceDesc.deviceFamilyId != LGLCD_DEVICE_FAMILY_KEYBOARD_G15)
 		return;
 
-	byte *data = new byte[m_HIDCapabilities.FeatureReportByteLength];
+	BYTE *data = new BYTE[m_HIDCapabilities.FeatureReportByteLength];
 
 	data[0] = 0x02;
 	data[1] = 0x01;

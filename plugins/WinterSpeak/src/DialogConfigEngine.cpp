@@ -144,7 +144,7 @@ void DialogConfigEngine::save(HWND window)
 void DialogConfigEngine::updateVoices(HWND window)
 {
 	SpeechInterface si;
-	m_test_tts = std::auto_ptr<TextToSpeech>(si.createTts(getEngine(window)));
+	m_test_tts = std::unique_ptr<TextToSpeech>(si.createTts(getEngine(window)));
 
 	if (!m_test_tts.get())
 	{
@@ -215,12 +215,9 @@ bool DialogConfigEngine::createTts(HWND window)
 	getVoiceDesc(window, desc);
 
 	SpeechInterface si;
-	m_test_tts = std::auto_ptr<TextToSpeech>(si.createTts(desc.engine));
-
+	m_test_tts = std::unique_ptr<TextToSpeech>(si.createTts(desc.engine));
 	if (!m_test_tts.get())
-	{
 		return false;
-	}
 	
 	si.configureTts(m_test_tts.get(), desc);
 	return true;
