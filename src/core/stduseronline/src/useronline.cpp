@@ -35,7 +35,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 	int newStatus = cws->value.wVal;
 	int oldStatus = g_plugin.getWord(hContact, "OldStatus", ID_STATUS_OFFLINE);
 	g_plugin.setWord(hContact, "OldStatus", (WORD)newStatus);
-	if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE)) return 0;
+	if (Ignore_IsIgnored(hContact, IGNOREEVENT_USERONLINE)) return 0;
 	if (Clist_IsHidden(hContact)) return 0;
 	if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
 		// Remove the event from the queue if it exists since they are now offline
