@@ -180,14 +180,10 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 				}
 				else setByte(hContact, "Grant", 1);
 
-				if (item["blocked"].as_bool()) {
-					Clist_HideContact(hContact);
+				if (item["blocked"].as_bool())
 					setByte(hContact, "IsBlocked", 1);
-				}
-				else {
-					Clist_HideContact(hContact, false);
+				else
 					delSetting(hContact, "IsBlocked");
-				}
 
 				ptrW wszGroup(Clist_GetGroup(hContact));
 				if (wszGroup == nullptr) {
