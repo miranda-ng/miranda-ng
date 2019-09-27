@@ -880,9 +880,9 @@ bool COptionsMain::OnApply()
 			if (mir_wstrcmp(dbNick, nick) == 0) {
 				g_plugin.setByte(hContact, "CheckState", m_feeds.GetCheckState(i));
 				if (!m_feeds.GetCheckState(i))
-					Clist_HideContact(hContact);
+					Contact_Hide(hContact);
 				else
-					Clist_HideContact(hContact, false);
+					Contact_Hide(hContact, false);
 			}
 		}
 	}

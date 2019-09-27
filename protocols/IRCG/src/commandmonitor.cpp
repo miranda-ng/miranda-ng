@@ -146,7 +146,7 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 				continue;
 
 			BYTE bDCC = ppro->getByte(hContact, "DCC", 0);
-			bool bHidden = Clist_IsHidden(hContact);
+			bool bHidden = Contact_IsHidden(hContact);
 			if (bDCC || bHidden)
 				continue;
 			if (ppro->getWString(hContact, "Default", &dbv))
@@ -691,7 +691,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage *pmsg)
 
 			if ((m_ignore && IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'q'))) {
 				MCONTACT hContact = CList_FindContact(&user);
-				if (!hContact || (hContact && Clist_IsHidden(hContact)))
+				if (!hContact || (hContact && Contact_IsHidden(hContact)))
 					return true;
 			}
 
@@ -1063,7 +1063,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 				MCONTACT hContact = CList_FindContact(&user);
 
 				// check if it should be ignored
-				if (m_DCCChatIgnore == 1 || m_DCCChatIgnore == 2 && hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 0 && !Clist_IsHidden(hContact)) {
+				if (m_DCCChatIgnore == 1 || m_DCCChatIgnore == 2 && hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 0 && !Contact_IsHidden(hContact)) {
 					CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 					CList_AddDCCChat(pmsg->prefix.sNick, host, dwAdr, iPort); // add a CHAT event to the clist
 				}

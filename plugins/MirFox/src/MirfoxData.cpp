@@ -616,7 +616,7 @@ void MirfoxData::initializeMirandaContacts()
 	for (auto &hContact : Contacts()){
 
 		//"Hidden" contacts not allowed in MirfoxData and SM, "NotOnList" contacts allowed and enabled
-		if (Clist_IsHidden(hContact))
+		if (Contact_IsHidden(hContact))
 			continue;
 
 		//add to MirfoxData list

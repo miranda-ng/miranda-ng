@@ -358,7 +358,7 @@ MCONTACT CJabberProto::AddToListByJID(const char *newJid, DWORD flags)
 
 	MCONTACT hContact = DBCreateContact(newJid, nullptr, true, false);
 	if (flags & PALF_TEMPORARY)
-		Clist_HideContact(hContact);
+		Contact_Hide(hContact);
 
 	return hContact;
 }

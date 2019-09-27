@@ -38,6 +38,7 @@
 #include <win2k.h>
 #include <m_button.h>
 #include <m_clc.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_genmenu.h>
 #include <m_history.h>

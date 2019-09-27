@@ -43,6 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <raserror.h>  /* error codes for RAS */
 
 #include <newpluginapi.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_skin.h>

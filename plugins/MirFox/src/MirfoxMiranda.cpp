@@ -127,7 +127,7 @@ void CMirfoxMiranda::onContactAdded_async(void* threadArg)
 		canAdd = false;
 
 	// execute
-	if (canAdd && Clist_IsHidden(onContactAsyncThreadArgStruct->hContact))
+	if (canAdd && Contact_IsHidden(onContactAsyncThreadArgStruct->hContact))
 		canAdd = false;
 
 	// add
@@ -188,7 +188,7 @@ void CMirfoxMiranda::onContactSettingChanged_async(void* threadArg){
 		canAdd = false;
 
 	// edit
-	if (canAdd && Clist_IsHidden(onContactAsyncThreadArgStruct->hContact))
+	if (canAdd && Contact_IsHidden(onContactAsyncThreadArgStruct->hContact))
 		canAdd = false;
 
 	if (canAdd)

@@ -262,7 +262,7 @@ wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt)
 
 bool SkipHiddenContact(MCONTACT hContact)
 {
-	return (!opt.HiddenContactsToo && Clist_IsHidden(hContact));
+	return (!opt.HiddenContactsToo && Contact_IsHidden(hContact));
 }
 
 void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt)

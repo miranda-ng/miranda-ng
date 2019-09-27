@@ -10,17 +10,18 @@
 
 #include <win2k.h>
 #include <newpluginapi.h>
-#include <m_skin.h>
-#include <m_langpack.h>
 #include <m_clistint.h>
-#include <m_options.h>
+#include <m_contacts.h>
 #include <m_database.h>
-#include <m_protosvc.h>
+#include <m_hotkeys.h>
 #include <m_icolib.h>
-#include <m_popup.h>
+#include <m_langpack.h>
 #include <m_messages.h>
 #include <m_netlib.h>
-#include <m_hotkeys.h>
+#include <m_options.h>
+#include <m_popup.h>
+#include <m_protosvc.h>
+#include <m_skin.h>
 #include <m_timezones.h>
 
 #include <m_toptoolbar.h>

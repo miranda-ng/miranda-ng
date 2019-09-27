@@ -9,6 +9,7 @@
 #include <win2k.h>
 #include <m_system.h>
 #include <m_options.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_protosvc.h>
 #include <m_langpack.h>

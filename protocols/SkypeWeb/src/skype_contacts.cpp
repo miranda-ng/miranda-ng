@@ -280,7 +280,7 @@ void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
 {
 	MCONTACT hContact = (DWORD_PTR)p;
 	if (response != nullptr)
-		Clist_HideContact(hContact);
+		Contact_Hide(hContact);
 }
 
 INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
@@ -295,6 +295,6 @@ void CSkypeProto::OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p)
 		return;
 
 	MCONTACT hContact = (DWORD_PTR)p;
-	Clist_HideContact(hContact, false);
+	Contact_Hide(hContact, false);
 	delSetting(hContact, "IsBlocked");
 }

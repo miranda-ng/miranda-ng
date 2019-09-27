@@ -1257,7 +1257,7 @@ ICQUser* ICQ::addUser(unsigned int uin, bool persistent)
 		if (u->dwUIN == uin) {
 			if (persistent) {
 				db_unset(u->hContact, "CList", "NotOnList");
-				Clist_HideContact(u->hContact, false);
+				Contact_Hide(u->hContact, false);
 			}
 			return u;
 		}
@@ -1275,7 +1275,7 @@ ICQUser* ICQ::addUser(unsigned int uin, bool persistent)
 		getUserInfo(u, true);
 	else {
 		db_set_b(u->hContact, "CList", "NotOnList", 1);
-		Clist_HideContact(u->hContact);
+		Contact_Hide(u->hContact);
 	}
 
 	updateContactList();

@@ -12,6 +12,7 @@
 #include <prsht.h>
 
 #include <newpluginapi.h>
+#include <m_contacts.h>
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <m_database.h>

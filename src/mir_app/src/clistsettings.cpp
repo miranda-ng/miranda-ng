@@ -69,7 +69,7 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 		p->szProto = GetContactProto(p->hContact);
 
 	if (p->bIsHidden == -1)
-		p->bIsHidden = Clist_IsHidden(p->hContact);
+		p->bIsHidden = Contact_IsHidden(p->hContact);
 }
 
 void fnFreeCacheItem(ClcCacheEntry *p)
@@ -203,7 +203,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			g_clistApi.pfnCheckCacheItem(pdnce);
 		}
 		else if (!strcmp(cws->szSetting, "Status")) {
-			if (!Clist_IsHidden(hContact))
+			if (!Contact_IsHidden(hContact))
 				Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact));
 		}
 	}

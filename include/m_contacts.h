@@ -82,6 +82,12 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Contact_GetInfo(
 EXTERN_C MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// gets / sets hidden status for a contact
+
+EXTERN_C MIR_APP_DLL(bool) Contact_IsHidden(MCONTACT hContact);
+EXTERN_C MIR_APP_DLL(void) Contact_Hide(MCONTACT hContact, bool bHidden = true);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Add contact's dialog
 
 // passing hWnd == NULL will result in a dialog that is created modeless

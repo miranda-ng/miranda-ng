@@ -403,7 +403,7 @@ int Meta_HideMetaContacts(bool bHide)
 		else
 			continue;
 
-		Clist_HideContact(hContact, bSet);
+		Contact_Hide(hContact, bSet);
 	}
 
 	if (bHide) {

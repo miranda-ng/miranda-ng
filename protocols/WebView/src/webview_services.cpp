@@ -353,7 +353,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 			sameurl++;
 			if (db_get_b(hContact, "CList", "NotOnList", 1)) {
 				db_unset(hContact, "CList", "NotOnList");
-				Clist_HideContact(hContact, false);
+				Contact_Hide(hContact, false);
 			}
 		}
 		db_free(&dbv);
@@ -404,7 +404,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 				samename++;
 				if (db_get_b(hContact2, "CList", "NotOnList", 1)) {
 					db_unset(hContact2, "CList", "NotOnList");
-					Clist_HideContact(hContact2, false);
+					Contact_Hide(hContact2, false);
 				}
 				db_free(&dbv);
 			}

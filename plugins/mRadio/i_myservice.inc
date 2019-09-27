@@ -283,8 +283,6 @@ begin
     if result<>0 then
     begin
       Proto_AddToContact(result,PluginName);
-      //
-//      DBWriteByte(result,strCList,'Hidden'   ,0);
       DBWriteByte(result,strCList,'NotOnList',1);
       // URL
       DBWriteUnicode(result,PluginName,optStationURL,@buf);

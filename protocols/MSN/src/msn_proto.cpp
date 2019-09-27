@@ -195,17 +195,17 @@ MCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD 
 
 	if (flags & PALF_TEMPORARY) {
 		if (db_get_b(hContact, "CList", "NotOnList", 0) == 1)
-			Clist_HideContact(hContact);
+			Contact_Hide(hContact);
 	}
 	else {
-		Clist_HideContact(hContact, false);
+		Contact_Hide(hContact, false);
 		if (msnLoggedIn) {
 			int netId = strncmp(email, "tel:", 4) ? NETID_MSN : NETID_MOB;
 			if (MSN_AddUser(hContact, email, netId, LIST_FL)) {
 				MSN_AddUser(hContact, email, netId, LIST_PL + LIST_REMOVE);
 				MSN_AddUser(hContact, email, netId, LIST_BL + LIST_REMOVE);
 				MSN_AddUser(hContact, email, netId, LIST_AL);
-				Clist_HideContact(hContact, false);
+				Contact_Hide(hContact, false);
 			}
 			MSN_SetContactDb(hContact, email);
 
@@ -660,7 +660,7 @@ MEVENT CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (!db_get_static(hContact, m_szModuleName, "wlid", tEmail, sizeof(tEmail)) || !db_get_static(hContact, m_szModuleName, "e-mail", tEmail, sizeof(tEmail)))
 		if (Lists_IsInList(LIST_FL, tEmail) && db_get_b(hContact, "MetaContacts", "IsSubcontact", 0) == 0)
-			Clist_HideContact(hContact, false);
+			Contact_Hide(hContact, false);
 
 	return CSuper::RecvMsg(hContact, pre);
 }

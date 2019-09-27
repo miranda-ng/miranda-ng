@@ -293,8 +293,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		gce->iType |= GC_EVENT_HIGHLIGHT;
 		if (bInactive || !g_Settings->bSoundsFocus)
 			Skin_PlaySound("ChatHighlight");
-		if (Clist_IsHidden(si->hContact))
-			Clist_HideContact(si->hContact, false);
+		if (Contact_IsHidden(si->hContact))
+			Contact_Hide(si->hContact, false);
 		if (bInactive)
 			g_chatApi.DoTrayIcon(si, gce);
 		if (bInactive || !g_Settings->bPopupInactiveOnly)

@@ -46,7 +46,7 @@ void CJabberProto::AddContactToRoster(const char *jid, const char *nick, const c
 void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
 {
 	MCONTACT hContact = DBCreateContact(jid, nick, true, true);
-	Clist_HideContact(hContact, false);
+	Contact_Hide(hContact, false);
 
 	DB_AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 

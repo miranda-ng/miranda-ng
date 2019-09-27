@@ -431,7 +431,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 			if (char *p = strchr(wszTitle, '@')) *p = 0;
 			Chat_NewSession(GCW_CHATROOM, m_szModuleName, Utf2T(jid), Utf2T(wszTitle));
 
-			Clist_HideContact(hContact, false);
+			Contact_Hide(hContact, false);
 			chatRooms.insert((HANDLE)hContact);
 		}
 		else UpdateSubscriptionInfo(hContact, item);

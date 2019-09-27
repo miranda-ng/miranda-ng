@@ -6,6 +6,7 @@
 #include <time.h>
 
 #include <newpluginapi.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_system.h>
 #include <m_utils.h>

@@ -365,8 +365,8 @@ Chat_UpdateOptions @418 NONAME
 ?onDblClick_List@CSrmmBaseDialog@@IEAAXPEAVCCtrlListBox@@@Z @440 NONAME
 ?OnDestroy@CSrmmBaseDialog@@MEAAXXZ @441 NONAME
 Chat_AddMenuItems @442 NONAME
-Clist_IsHidden @443
-Clist_HideContact @444
+Contact_IsHidden @443
+Contact_Hide @444
 Chat_DoEventHook @445 NONAME
 stubLogProc @446 NONAME
 stubMessageProc @447 NONAME

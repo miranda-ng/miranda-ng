@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <malloc.h>
 
 #include <newpluginapi.h>
+#include <m_contacts.h>
 #include <m_icolib.h>
 #include <m_options.h>
 #include <m_langpack.h>

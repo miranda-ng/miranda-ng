@@ -1123,7 +1123,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		Event.hContact = NULL;
 
 	// Ignore events from hidden chatrooms, except for join events
-	if (gce->pszID.w != nullptr && Clist_IsHidden(Event.hContact)) {
+	if (gce->pszID.w != nullptr && Contact_IsHidden(Event.hContact)) {
 		if (gce->iType == GC_EVENT_JOIN && pHistory)
 			pHistory->LUsers.push_back(toTstring(gce->pszNick.w));
 
@@ -1645,7 +1645,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 	else if (!strcmp(dbcws->szModule, "CList")) {
 		if (!strcmp(dbcws->szSetting, "Hidden")) {
 			Event.eType = EVENT_CONTACT_HIDDEN;
-			Event.iValue = Clist_IsHidden(hContact);
+			Event.iValue = Contact_IsHidden(hContact);
 		}
 		else if (!strcmp(dbcws->szSetting, "Group")) {
 			Event.eType = EVENT_CONTACT_GROUP;

@@ -1308,7 +1308,7 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 		flags = contact->flags;
 	}
 	Clist_DeleteItemFromTree(hwnd, wParam);
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !Clist_IsHidden(wParam)) {
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !Contact_IsHidden(wParam)) {
 		NMCLISTCONTROL nm;
 		g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {

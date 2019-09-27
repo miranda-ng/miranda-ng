@@ -342,7 +342,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 
 int fnGetContactHiddenStatus(MCONTACT hContact, char*, ClcData*)
 {
-	return Clist_IsHidden(hContact);
+	return Contact_IsHidden(hContact);
 }
 
 void fnRebuildEntireList(HWND hwnd, ClcData *dat)

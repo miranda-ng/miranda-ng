@@ -377,7 +377,7 @@ static INT_PTR onSetVis(WPARAM wparam, LPARAM)
 static INT_PTR onHide(WPARAM wparam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wparam;
-	Clist_HideContact(hContact, !Clist_IsHidden(hContact));
+	Contact_Hide(hContact, !Contact_IsHidden(hContact));
 	return 0;
 }
 
@@ -643,7 +643,7 @@ static int isIgnored(MCONTACT hContact, int type)
 static INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 {
 	if (g_plugin.getByte("ignorehide", 0) && (lparam == IGNOREEVENT_ALL))
-		Clist_HideContact(wparam, !isIgnored((MCONTACT)wparam, lparam));
+		Contact_Hide(wparam, !isIgnored((MCONTACT)wparam, lparam));
 
 	if (isIgnored(wparam, lparam))
 		Ignore_Allow(wparam, lparam);
@@ -696,7 +696,7 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 	bEnabled = bShowAll || (flags & VF_HFL);
 	Menu_ShowItem(hmenuHide, bEnabled);
 	if (bEnabled) {
-		if (Clist_IsHidden(hContact))
+		if (Contact_IsHidden(hContact))
 			Menu_ModifyItem(hmenuHide, LPGENW("Show in list"), IcoLib_GetIconHandle("miex_showil"));
 		else
 			Menu_ModifyItem(hmenuHide, LPGENW("Hide from list"), IcoLib_GetIconHandle("miex_hidefl"));

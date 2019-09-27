@@ -182,7 +182,7 @@ static BOOL CheckAllContactsOffline(void)
 			if (db_get_b(hContact, pszProto, "ChatRoom", 0)) continue;
 			if (db_get_w(hContact, pszProto, "Status", 0) != ID_STATUS_OFFLINE) {
 				if (fSmartCheck) {
-					if (Clist_IsHidden(hContact)) continue;
+					if (Contact_IsHidden(hContact)) continue;
 					if (db_get_b(hContact, "CList", "NotOnList", 0)) continue;
 				}
 				fAllOffline = FALSE;

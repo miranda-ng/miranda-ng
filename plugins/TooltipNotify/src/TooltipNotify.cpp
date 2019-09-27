@@ -203,7 +203,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		idle = true;
 	else return 0;
 
-	if (Clist_IsHidden(hContact))
+	if (Contact_IsHidden(hContact))
 		return 0;
 
 	const char *pszProto = cws->szModule;

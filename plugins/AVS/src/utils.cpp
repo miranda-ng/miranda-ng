@@ -158,7 +158,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 	GetObject(ace->hbmPic, sizeof(bminfo), &bminfo);
 
 	ace->dwFlags = AVS_BITMAP_VALID;
-	if (hContact != NULL && Clist_IsHidden(hContact))
+	if (hContact != NULL && Contact_IsHidden(hContact))
 		ace->dwFlags |= AVS_HIDEONCLIST;
 	ace->hContact = hContact;
 	ace->bmHeight = bminfo.bmHeight;

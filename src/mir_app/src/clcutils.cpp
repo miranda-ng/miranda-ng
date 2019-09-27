@@ -861,21 +861,6 @@ MIR_APP_DLL(void) Clist_InvalidateItem(HWND hwnd, ClcData *dat, int iItem)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(bool) Clist_IsHidden(MCONTACT hContact)
-{
-	return db_get_b(hContact, "CList", "Hidden", 0) != 0;
-}
-
-MIR_APP_DLL(void) Clist_HideContact(MCONTACT hContact, bool bHidden)
-{
-	if (bHidden)
-		db_set_b(hContact, "CList", "Hidden", 1);
-	else
-		db_unset(hContact, "CList", "Hidden");
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // row coord functions
 
 int fnGetRowTopY(ClcData *dat, int item)

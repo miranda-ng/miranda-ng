@@ -101,7 +101,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// Hide the contact until verified if option set.
 	if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
-		Clist_HideContact(hContact);
+		Contact_Hide(hContact);
 
 	// Fetch the incoming message body
 	char *msgblob;
@@ -145,7 +145,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			if (bCorrectResponse) {
 				g_plugin.setByte(hContact, "Verified", 1);
 				if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
-					Clist_HideContact(hContact, false);
+					Contact_Hide(hContact, false);
 				if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
 					db_unset(hContact, "CList", "NotOnList");
 				db_unset(hContact, "CList", "Delete");
@@ -210,7 +210,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	{
 		g_plugin.setByte(hContact, "Verified", 1);
 		if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
-			Clist_HideContact(hContact, false);
+			Contact_Hide(hContact, false);
 		if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
 			db_unset(hContact, "CList", "NotOnList");
 		db_unset(hContact, "CList", "Delete");
@@ -313,7 +313,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			_notify(hContact, POPUP_APPROVED, TranslateT("Contact %s approved."), message);
 			g_plugin.setByte(hContact, "Verified", 1);
 			if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
-				Clist_HideContact(hContact, false);
+				Contact_Hide(hContact, false);
 			if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
 				db_unset(hContact, "CList", "NotOnList");
 			db_unset(hContact, "CList", "Delete");

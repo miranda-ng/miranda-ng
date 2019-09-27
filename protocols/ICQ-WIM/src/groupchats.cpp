@@ -258,7 +258,7 @@ void CIcqProto::Chat_SendPrivateMessage(GCHOOK *gch)
 	if (pCache == nullptr) {
 		hContact = CreateContact(gch->ptszUID, true);
 		setWString(hContact, "Nick", gch->ptszNick);
-		Clist_HideContact(hContact);
+		Contact_Hide(hContact);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 	}
 	else hContact = pCache->m_hContact;

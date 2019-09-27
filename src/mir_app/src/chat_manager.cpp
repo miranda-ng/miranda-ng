@@ -326,7 +326,7 @@ BOOL SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus)
 	si->wStatus = wStatus;
 	if (si->hContact) {
 		if (si->iType != GCW_SERVER && wStatus != ID_STATUS_OFFLINE)
-			Clist_HideContact(si->hContact, false);
+			Contact_Hide(si->hContact, false);
 
 		db_set_w(si->hContact, si->pszModule, "Status", (WORD)wStatus);
 	}

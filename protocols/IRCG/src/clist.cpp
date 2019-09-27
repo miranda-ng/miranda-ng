@@ -31,7 +31,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmas
 
 	CONTACT usertemp = { name, nullptr, nullptr, false, false, true };
 	MCONTACT hc = CList_FindContact(&usertemp);
-	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && Clist_IsHidden(hc) == 0)
+	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && Contact_IsHidden(hc) == 0)
 		bFlag = true;
 
 	CMStringW contactname = name; contactname += DCCSTRING;
@@ -90,7 +90,7 @@ MCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 		if (InList)
 			db_unset(hContact, "CList", "NotOnList");
 		setWString(hContact, "Nick", user->name);
-		Clist_HideContact(hContact, false);
+		Contact_Hide(hContact, false);
 		if (SetOnline && getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 		return hContact;
@@ -105,7 +105,7 @@ MCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 			db_unset(hContact, "CList", "NotOnList");
 		else
 			db_set_b(hContact, "CList", "NotOnList", 1);
-		Clist_HideContact(hContact, false);
+		Contact_Hide(hContact, false);
 		setWString(hContact, "Nick", user->name);
 		setWString(hContact, "Default", user->name);
 		setWord(hContact, "Status", SetOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);

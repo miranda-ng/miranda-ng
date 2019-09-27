@@ -17,6 +17,7 @@
 using namespace std;
 
 #include <newpluginapi.h>
+#include <m_contacts.h>
 #include <m_message.h>
 #include <m_protosvc.h>
 #include <m_database.h>

@@ -917,7 +917,7 @@ bool CMsnProto::MSN_ABRefreshClist(unsigned int nTry)
 						else
 							delSetting(hContact, "Nick");
 						if (mir_strcmpi(ezxml_txt(ezxml_child(pers, "onHideList")), "true") == 0) 
-							Clist_HideContact(hContact); 
+							Contact_Hide(hContact); 
 						setString(hContact, "ID", ezxml_txt(ezxml_child(pers, "id")));
 						SetAbParam(hContact, "CID", cid);
 

@@ -452,7 +452,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				flags = contact->flags;
 			}
 			Clist_DeleteItemFromTree(hwnd, wParam);
-			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !Clist_IsHidden(wParam)) {
+			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !Contact_IsHidden(wParam)) {
 				NMCLISTCONTROL nm;
 				g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 				if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
@@ -486,7 +486,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 			// this means an offline msg is flashing, so the contact should be shown
 			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-			int shouldShow = (style & CLS_SHOWHIDDEN || !Clist_IsHidden(wParam))
+			int shouldShow = (style & CLS_SHOWHIDDEN || !Contact_IsHidden(wParam))
 				&& (!Clist_IsHiddenMode(dat, status) || Clist_GetContactIcon(wParam) != lParam);
 
 			contact = nullptr;

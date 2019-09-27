@@ -257,7 +257,7 @@ BOOL CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 				UpdateSubscriptionInfo(item->hContact, item);
 			}
 			else if (isChatRoom(item->hContact))
-				Clist_HideContact(item->hContact, false);
+				Contact_Hide(item->hContact, false);
 			else
 				UpdateSubscriptionInfo(item->hContact, item);
 		}

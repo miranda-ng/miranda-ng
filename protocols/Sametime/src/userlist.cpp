@@ -70,7 +70,7 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 	}
 	else if (!temporary) {
 		db_unset(hContact, "CList", "NotOnList");
-		Clist_HideContact(hContact, false);
+		Contact_Hide(hContact, false);
 	}
 
 
@@ -105,11 +105,11 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 
 	if (temporary) {
 		db_set_b(hContact, "CList", "NotOnList", 1);
-		Clist_HideContact(hContact);
+		Contact_Hide(hContact);
 	}
 	else {
 		db_unset(hContact, "CList", "NotOnList");
-		Clist_HideContact(hContact, false);
+		Contact_Hide(hContact, false);
 	}
 
 	return hContact;

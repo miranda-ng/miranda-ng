@@ -107,7 +107,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			if (hContact == NULL) {
 				hContact = AddContact(user_id, true);
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
-				Clist_HideContact(hContact);
+				Contact_Hide(hContact);
 				setWString(hContact, "Nick", gch->ptszUID);
 			}
 			CallService(MS_MSG_SENDMESSAGEW, hContact, 0);

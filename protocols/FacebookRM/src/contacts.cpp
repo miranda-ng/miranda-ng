@@ -234,7 +234,7 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, bool force_add, boo
 	if (hContact) {
 		// Save these values only when adding new contact, not when updating existing
 		if (add_temporarily) {
-			Clist_HideContact(hContact);
+			Contact_Hide(hContact);
 			db_set_b(hContact, "CList", "NotOnList", 1);
 		}
 

@@ -38,7 +38,7 @@ static DWORD GetMask(MCONTACT hContact)
 		if (hContact == 0)
 			mask = 0;
 		else {
-			if (Clist_IsHidden(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
+			if (Contact_IsHidden(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
 				mask = db_get_dw(0, "Ignore", "Mask1", 0);
 			else
 				mask = db_get_dw(0, "Ignore", "Default1", 0);
@@ -192,7 +192,7 @@ static void SetAllContactIcons(HWND hwndList)
 			}
 			else proto1Caps = proto4Caps = 0;
 			InitialiseItem(hwndList, hContact, hItem, proto1Caps, proto4Caps);
-			if (!Clist_IsHidden(hContact))
+			if (!Contact_IsHidden(hContact))
 				SendMessage(hwndList, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 		}
 	}
@@ -306,7 +306,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, hContact, 0);
 					if (hItem)
 						SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), hContact, hItem, "Mask1");
-					Clist_HideContact(hContact, !SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0));
+					Contact_Hide(hContact, !SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0));
 				}
 
 				SaveItemMask(GetDlgItem(hwndDlg, IDC_LIST), 0, hItemAll, "Default1");

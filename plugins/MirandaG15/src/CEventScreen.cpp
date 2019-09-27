@@ -186,7 +186,7 @@ void CEventScreen::OnLCDButtonDown(int iButton)
 		char *szProto = GetContactProto(pEntry->hContact);
 		CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(szProto));
 
-		if (pIRCCon && db_get_b(pEntry->hContact, szProto, "ChatRoom", 0) != 0 && Clist_IsHidden(pEntry->hContact))
+		if (pIRCCon && db_get_b(pEntry->hContact, szProto, "ChatRoom", 0) != 0 && Contact_IsHidden(pEntry->hContact))
 			return;
 
 		CAppletManager::GetInstance()->ActivateChatScreen(pEntry->hContact);

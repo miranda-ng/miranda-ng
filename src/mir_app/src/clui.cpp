@@ -203,7 +203,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 
 	switch (action) {
 	case IDC_HIDE: // Archive contact
-		Clist_HideContact(wParam);
+		Contact_Hide(wParam);
 		break;
 
 	case IDYES: // Delete contact

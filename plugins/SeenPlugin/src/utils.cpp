@@ -439,7 +439,7 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	if (Ignore_IsIgnored(hcontact, IGNOREEVENT_USERONLINE))
 		return;
 
-	if (!g_plugin.getByte("UsePopups", 0) || !Clist_IsHidden(hcontact))
+	if (!g_plugin.getByte("UsePopups", 0) || !Contact_IsHidden(hcontact))
 		return;
 
 	DBVARIANT dbv;

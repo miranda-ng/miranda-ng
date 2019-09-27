@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <malloc.h>
 
 #include <newpluginapi.h>
+#include <m_contacts.h>
 #include <m_options.h>
 #include <m_clc.h>
 #include <m_utils.h>

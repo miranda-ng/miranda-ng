@@ -326,7 +326,7 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 
 	pdnce->hContact = hContact;
 	pdnce->szProto = GetContactProto(hContact);
-	pdnce->bIsHidden = Clist_IsHidden(hContact);
+	pdnce->bIsHidden = Contact_IsHidden(hContact);
 	pdnce->m_bIsSub = db_mc_isSub(hContact) != 0;
 	pdnce->m_bNoHiddenOffline = g_plugin.getByte(hContact, "noOffline");
 	pdnce->IdleTS = db_get_dw(hContact, pdnce->szProto, "IdleTS", 0);
@@ -396,7 +396,7 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 
 int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 {
-	int dbHidden = Clist_IsHidden(hContact); // default hidden state, always respect it.
+	int dbHidden = Contact_IsHidden(hContact); // default hidden state, always respect it.
 	int filterResult = 1;
 	int searchResult = 0;
 	ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
