@@ -181,23 +181,23 @@ void CJabberProto::OnIqResultPrivacyListActive(const TiXmlElement *iqNode, CJabb
 	if (type == nullptr)
 		return;
 
-	CMStringW szText;
+	CMStringA szText;
 
 	if (!mir_strcmp(type, "result")) {
 		mir_cslock lck(m_privacyListManager.m_cs);
 		if (pList) {
 			m_privacyListManager.SetActiveListName(pList->GetListName());
-			szText.Format(TranslateT("Privacy list %s set as active"), pList->GetListName());
+			szText.Format(TranslateU("Privacy list %s set as active"), pList->GetListName());
 		}
 		else {
 			m_privacyListManager.SetActiveListName(nullptr);
-			szText.Format(TranslateT("Active privacy list successfully declined"));
+			szText.Format(TranslateU("Active privacy list successfully declined"));
 		}
 	}
-	else szText = TranslateT("Error occurred while setting active list");
+	else szText = TranslateU("Error occurred while setting active list");
 
 	if (m_pDlgPrivacyLists) {
-		m_pDlgPrivacyLists->SetStatusText(szText);
+		m_pDlgPrivacyLists->SetStatusText(Utf2T(szText));
 		RedrawWindow(GetDlgItem(m_pDlgPrivacyLists->GetHwnd(), IDC_LB_LISTS), nullptr, nullptr, RDW_INVALIDATE);
 	}
 
@@ -630,54 +630,53 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 		CPrivacyListRule* pRule = pList->GetFirstRule();
 		while (pRule) {
 			bListEmpty = FALSE;
-			wchar_t szTypeValue[512];
+			char szTypeValue[512];
 			switch (pRule->GetType()) {
 			case Jid:
-				mir_snwprintf(szTypeValue, L"If Jabber ID is '%s' then", pRule->GetValue());
+				mir_snprintf(szTypeValue, "If Jabber ID is '%s' then", pRule->GetValue());
 				break;
 			case Group:
-				mir_snwprintf(szTypeValue, L"If group is '%s' then", pRule->GetValue());
+				mir_snprintf(szTypeValue, "If group is '%s' then", pRule->GetValue());
 				break;
 			case Subscription:
-				mir_snwprintf(szTypeValue, L"If subscription is '%s' then", pRule->GetValue());
+				mir_snprintf(szTypeValue, "If subscription is '%s' then", pRule->GetValue());
 				break;
 			case Else:
-				mir_snwprintf(szTypeValue, L"Else");
+				mir_snprintf(szTypeValue, "Else");
 				break;
 			}
 
-			wchar_t szPackets[512];
-			szPackets[0] = '\0';
+			CMStringA szPackets;
 
 			DWORD dwPackets = pRule->GetPackets();
 			if (!dwPackets)
 				dwPackets = JABBER_PL_RULE_TYPE_ALL;
 			if (dwPackets == JABBER_PL_RULE_TYPE_ALL)
-				mir_wstrcpy(szPackets, L"all");
+				szPackets = "all";
 			else {
 				if (dwPackets & JABBER_PL_RULE_TYPE_MESSAGE)
-					mir_wstrcat(szPackets, L"messages");
+					szPackets +=  "messages";
 				if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN) {
-					if (mir_wstrlen(szPackets))
-						mir_wstrcat(szPackets, L", ");
-					mir_wstrcat(szPackets, L"presence-in");
+					if (!szPackets.IsEmpty())
+						szPackets += ", ";
+					szPackets += "presence-in";
 				}
 				if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_OUT) {
-					if (mir_wstrlen(szPackets))
-						mir_wstrcat(szPackets, L", ");
-					mir_wstrcat(szPackets, L"presence-out");
+					if (!szPackets.IsEmpty())
+						szPackets += ", ";
+					szPackets += "presence-out";
 				}
 				if (dwPackets & JABBER_PL_RULE_TYPE_IQ) {
-					if (mir_wstrlen(szPackets))
-						mir_wstrcat(szPackets, L", ");
-					mir_wstrcat(szPackets, L"queries");
+					if (!szPackets.IsEmpty())
+						szPackets += ", ";
+					szPackets += "queries";
 				}
 			}
 
-			wchar_t szListItem[512];
-			mir_snwprintf(szListItem, L"%s %s %s", szTypeValue, pRule->GetAction() ? L"allow" : L"deny", szPackets);
+			char szListItem[512];
+			mir_snprintf(szListItem, "%s %s %s", szTypeValue, pRule->GetAction() ? "allow" : "deny", szPackets.c_str());
 
-			LRESULT nItemId = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)szListItem);
+			LRESULT nItemId = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, Utf2T(szListItem));
 			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETITEMDATA, nItemId, (LPARAM)pRule);
 
 			pRule = pRule->GetNext();
