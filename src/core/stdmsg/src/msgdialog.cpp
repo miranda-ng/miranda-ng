@@ -336,7 +336,7 @@ void CMsgDialog::OnDestroy()
 
 	// a temporary contact should be destroyed after removing window from the window list to prevent recursion
 	if (m_hContact && g_dat.bDeleteTempCont)
-		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
+		if (!Contact_OnList(m_hContact))
 			db_delete_contact(m_hContact);
 }
 
@@ -878,7 +878,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case IDC_ADD:
 			Contact_Add(m_hContact, m_hwnd);
 
-			if (!db_get_b(m_hContact, "CList", "NotOnList", 0))
+			if (Contact_OnList(m_hContact))
 				ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
 			break;
 		}
@@ -1472,7 +1472,7 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 		bool bShow = false;
 		if (m_hContact && g_dat.bShowButtons) {
 			if (cbd->m_dwButtonCID == IDC_ADD) {
-				bShow = 0 != db_get_b(m_hContact, "CList", "NotOnList", 0);
+				bShow = !Contact_OnList(m_hContact);
 				cbd->m_bHidden = !bShow;
 			}
 			else bShow = true;
@@ -1611,7 +1611,7 @@ void CMsgDialog::NotifyTyping(int mode)
 	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		return;
 
-	if (!g_dat.bTypingUnknown && db_get_b(m_hContact, "CList", "NotOnList", 0))
+	if (!g_dat.bTypingUnknown && !Contact_OnList(m_hContact))
 		return;
 
 	// End user check

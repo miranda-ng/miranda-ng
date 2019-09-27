@@ -79,7 +79,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	}
 
 	// Check that is is 'on the list'
-	if (db_get_b(hSub, "CList", "NotOnList", 0) == 1) {
+	if (!Contact_OnList(hSub)) {
 		MessageBox(nullptr, TranslateT("Contact is 'not on list' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;

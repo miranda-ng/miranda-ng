@@ -296,7 +296,7 @@ void SetButtonsPos(HWND hwndDlg, MCONTACT hContact, bool bShow)
 			continue;
 
 		if (cbd->m_dwButtonCID == IDC_ADD)
-			if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
+			if (Contact_OnList(hContact)) {
 				ShowWindow(hwndButton, SW_HIDE);
 				continue;
 			}

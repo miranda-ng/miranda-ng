@@ -116,7 +116,7 @@ bool isContactInvisible(MCONTACT hContact)
 
 bool isNotOnList(MCONTACT hContact)
 {
-	return db_get_b(hContact, "CList", "NotOnList", 0) != 0;
+	return !Contact_OnList(hContact);
 }
 
 bool isContactNewPG(MCONTACT hContact)
@@ -193,7 +193,7 @@ bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM)
 	if (!bAIP) return false;
 	if (!ptr->proto->inspecting) return false;
 
-	if (bNOL && db_get_b(ptr->hContact, "CList", "NotOnList", 0))
+	if (bNOL && !Contact_OnList(ptr->hContact))
 		return false;
 
 	bool isSecureIM = false;

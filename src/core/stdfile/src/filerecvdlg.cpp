@@ -250,7 +250,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ptrW info(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
 			SetDlgItemText(hwndDlg, IDC_NAME, (info) ? info : contactName);
 
-			if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) {
+			if (!Contact_OnList(dat->hContact)) {
 				RECT rcBtn1, rcBtn2, rcDateCtrl;
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_ADD), &rcBtn1);
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rcBtn2);
@@ -261,7 +261,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				//don't check auto-min here to fix BUG#647620
 				PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDOK));
 			}
-			if (!db_get_b(dat->hContact, "CList", "NotOnList", 0))
+			if (Contact_OnList(dat->hContact))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 		}
 		return TRUE;
@@ -348,7 +348,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_ADD:
 			Contact_Add(dat->hContact, hwndDlg);
 
-			if (!db_get_b(dat->hContact, "CList", "NotOnList", 0))
+			if (Contact_OnList(dat->hContact))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 			break;
 

@@ -70,7 +70,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 
 	for (auto &it : m_arCache)
 		if (!it->m_bInList)
-			db_set_b(it->m_hContact, "CList", "NotOnList", 1);
+			Contact_RemoveFromList(it->m_hContact);
 
 	RetrieveUserInfo();
 }
@@ -116,7 +116,7 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 
 					// prepare contact for deletion
 					Clist_SetGroup(hContact, nullptr);
-					db_set_b(hContact, "CList", "NotOnList", 1);
+					Contact_RemoveFromList(hContact);
 					continue;
 				}
 

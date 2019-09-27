@@ -424,7 +424,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 			if (MCONTACT hContact = AddToListByJID(blob.get_email(), 0)) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
-				db_unset(hContact, "CList", "NotOnList");
+				Contact_PutOnList(hContact);
 			}
 		}
 	}

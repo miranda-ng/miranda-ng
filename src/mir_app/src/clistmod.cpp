@@ -239,7 +239,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 {
 	RECT rc, rcWin, rcWorkArea;
 	POINT pt;
-	register int i, j, width, height, iCountedDots = 0, iNotCoveredDots = 0;
+	int i, j, width, height, iCountedDots = 0, iNotCoveredDots = 0;
 	BOOL bPartiallyCovered = FALSE;
 	HWND hAux = nullptr;
 
@@ -405,7 +405,7 @@ void UnloadContactListModule()
 	// remove transitory contacts
 	for (MCONTACT hContact = db_find_first(); hContact != 0; ) {
 		MCONTACT hNext = db_find_next(hContact);
-		if (db_get_b(hContact, "CList", "NotOnList", 0))
+		if (!Contact_OnList(hContact))
 			db_delete_contact(hContact);
 		hContact = hNext;
 	}

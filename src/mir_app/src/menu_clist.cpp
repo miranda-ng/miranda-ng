@@ -229,7 +229,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact)
 
 	BuildContactParam bcp;
 	bcp.szProto = szProto;
-	bcp.isOnList = (db_get_b(hContact, "CList", "NotOnList", 0) == 0);
+	bcp.isOnList = Contact_OnList(hContact);
 	bcp.isOnline = (szProto != nullptr && ID_STATUS_OFFLINE != db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE));
 
 	HMENU hMenu = CreatePopupMenu();

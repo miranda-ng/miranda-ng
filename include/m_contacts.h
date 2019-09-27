@@ -88,6 +88,14 @@ EXTERN_C MIR_APP_DLL(bool) Contact_IsHidden(MCONTACT hContact);
 EXTERN_C MIR_APP_DLL(void) Contact_Hide(MCONTACT hContact, bool bHidden = true);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// checks / adds / removes a contact from list of contacts
+// removed contacts would be physically deleted after restart
+
+EXTERN_C MIR_APP_DLL(bool) Contact_OnList(MCONTACT hContact);
+EXTERN_C MIR_APP_DLL(void) Contact_PutOnList(MCONTACT hContact);
+EXTERN_C MIR_APP_DLL(void) Contact_RemoveFromList(MCONTACT hContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Add contact's dialog
 
 // passing hWnd == NULL will result in a dialog that is created modeless

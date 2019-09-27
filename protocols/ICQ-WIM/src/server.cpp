@@ -611,7 +611,7 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	JsonReply root(pReply);
 	if (root.error() == 200) {
 		RetrieveUserInfo(pReq->hContact);
-		db_unset(pReq->hContact, "CList", "NotOnList");
+		Contact_PutOnList(pReq->hContact);
 	}
 }
 

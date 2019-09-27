@@ -476,7 +476,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			if (hContact == 0) {
 				hContact = FindUser(_wtoi(gch->ptszUID), true);
 				Contact_Hide(hContact);
-				db_set_b(hContact, "CList", "NotOnList", 1);
+				Contact_RemoveFromList(hContact);
 				db_set_dw(hContact, "Ignore", "Mask1", 0);
 				RetrieveUserInfo(_wtoi(gch->ptszUID));
 			}
@@ -724,7 +724,7 @@ void CVkProto::NickMenuHook(CVkChatInfo *cc, GCHOOK *gch)
 		if (hContact == 0) {
 			hContact = FindUser(cu->m_uid, true);
 			Contact_Hide(hContact);
-			db_set_b(hContact, "CList", "NotOnList", 1);
+			Contact_RemoveFromList(hContact);
 			db_set_dw(hContact, "Ignore", "Mask1", 0);
 		}
 		CallService(MS_USERINFO_SHOWDIALOG, hContact);

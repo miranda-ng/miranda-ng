@@ -205,7 +205,7 @@ MCONTACT CMLan::FindContact(in_addr addr, const char *nick, bool add_to_list, bo
 		u_long caddr = g_plugin.getDword(res, "ipaddr", -1);
 		if (caddr == addr.S_un.S_addr) {
 			if (make_permanent)
-				db_unset(res, "CList", "NotOnList");
+				Contact_PutOnList(res);
 			if (make_visible)
 				Contact_Hide(res, false);
 			return res;
@@ -219,7 +219,7 @@ MCONTACT CMLan::FindContact(in_addr addr, const char *nick, bool add_to_list, bo
 		g_plugin.setString(res, "Nick", nick);
 
 		if (!make_permanent)
-			db_set_b(res, "CList", "NotOnList", 1);
+			Contact_RemoveFromList(res);
 		if (!make_visible)
 			Contact_Hide(res);
 

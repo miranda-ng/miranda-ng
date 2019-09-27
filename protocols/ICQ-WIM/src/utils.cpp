@@ -99,7 +99,7 @@ MCONTACT CIcqProto::CreateContact(const CMStringW &wszId, bool bTemporary)
 	RetrieveUserInfo(hContact);
 
 	if (bTemporary)
-		db_set_b(hContact, "CList", "NotOnList", 1);
+		Contact_RemoveFromList(hContact);
 
 	return hContact;
 }

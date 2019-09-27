@@ -470,7 +470,7 @@ void CMsgDialog::OnDestroy()
 	if (m_hContact && g_dat.flags.bDelTemp) {
 		m_hContact = INVALID_CONTACT_ID; // to prevent recursion
 
-		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
+		if (!Contact_OnList(m_hContact))
 			db_delete_contact(m_hContact);
 	}
 
@@ -632,7 +632,7 @@ void CMsgDialog::onClick_Add(CCtrlButton*)
 {
 	Contact_Add(m_hContact, m_hwnd);
 
-	if (!db_get_b(m_hContact, "CList", "NotOnList", 0))
+	if (Contact_OnList(m_hContact))
 		ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), SW_HIDE);
 }
 

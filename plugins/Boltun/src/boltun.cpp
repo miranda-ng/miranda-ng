@@ -181,7 +181,7 @@ static bool BoltunAutoChat(MCONTACT hContact)
 			return true;
 	}
 
-	if ((db_get_b(hContact, "CList", "NotOnList", 0) == 1) && Config.TalkWithNotInList)
+	if (!Contact_OnList(hContact) && Config.TalkWithNotInList)
 		return true;
 
 	if (g_plugin.getByte(hContact, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE) == TRUE)
@@ -491,7 +491,7 @@ static int OnContactMenuPrebuild(WPARAM hContact, LPARAM)
 {
 	INT_PTR flags = CallProtoService(GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1);
 
-	bool bEnable = blInit && !db_get_b(hContact, "CList", "NotOnList", 0) && (flags & PF1_IM) != 0;
+	bool bEnable = blInit && Contact_OnList(hContact) && (flags & PF1_IM) != 0;
 	Menu_ShowItem(hMenuItemAutoChat, bEnable);
 	Menu_ShowItem(hMenuItemNotToChat, bEnable);
 	Menu_ShowItem(hMenuItemStartChatting, bEnable);

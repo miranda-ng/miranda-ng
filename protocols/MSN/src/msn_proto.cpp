@@ -194,7 +194,7 @@ MCONTACT CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD 
 	MCONTACT hContact = MSN_HContactFromEmail(email, nick, true, flags & PALF_TEMPORARY);
 
 	if (flags & PALF_TEMPORARY) {
-		if (db_get_b(hContact, "CList", "NotOnList", 0) == 1)
+		if (!Contact_OnList(hContact))
 			Contact_Hide(hContact);
 	}
 	else {

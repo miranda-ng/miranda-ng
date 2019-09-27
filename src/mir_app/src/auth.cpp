@@ -117,7 +117,7 @@ public:
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, hdr);
 		SetDlgItemText(m_hwnd, IDC_REASON, reasonT);
 
-		if (m_hContact == INVALID_CONTACT_ID || !db_get_b(m_hContact, "CList", "NotOnList", 0))
+		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
 			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
 
 		SendDlgItemMessage(m_hwnd, IDC_DENYREASON, EM_LIMITTEXT, 255, 0);
@@ -126,7 +126,7 @@ public:
 			SetDlgItemText(m_hwnd, IDC_DENYREASON, TranslateT("Feature is not supported by protocol"));
 		}
 
-		if (!db_get_b(m_hContact, "CList", "NotOnList", 0)) {
+		if (Contact_OnList(m_hContact)) {
 			chkAdd.Disable();
 			chkAdd.SetState(false);
 		}
@@ -254,7 +254,7 @@ public:
 			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT.get() : TranslateT("(Unknown)"), acc->tszAccountName);
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, hdr);
 
-		if (m_hContact == INVALID_CONTACT_ID || !db_get_b(m_hContact, "CList", "NotOnList", 0))
+		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
 			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
 		return true;
 	}
@@ -276,7 +276,7 @@ public:
 	{
 		Contact_AddByEvent(m_hDbEvent, m_hwnd);
 
-		if (m_hContact == INVALID_CONTACT_ID || !db_get_b(m_hContact, "CList", "NotOnList", 0))
+		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
 			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
 	}
 

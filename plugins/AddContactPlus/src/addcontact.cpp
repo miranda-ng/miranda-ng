@@ -263,7 +263,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				}
 
 				if (BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_ADDTEMP)) {
-					db_unset(hContact, "CList", "NotOnList");
+					Contact_PutOnList(hContact);
 
 					if (IsDlgButtonChecked(hdlg, IDC_AUTH)) {
 						DWORD flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);

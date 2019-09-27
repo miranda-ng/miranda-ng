@@ -157,7 +157,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 			return FALSE;
 		mir_free(ptszVal);
 
-		if (db_get_b(hContact, "CList", "NotOnList", 0))
+		if (!Contact_OnList(hContact))
 			return FALSE;
 
 		if (g_plugin.getByte(hContact, "TurnedOn"))

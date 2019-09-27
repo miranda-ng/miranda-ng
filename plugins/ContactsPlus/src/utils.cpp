@@ -131,7 +131,7 @@ void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, wchar_t *pszTitleStart)
 
 void UpdateDialogAddButton(HWND hwndDlg, MCONTACT hContact)
 {
-	int bVisible = db_get_b(hContact, "CList", "NotOnList", 0);
+	int bVisible = !Contact_OnList(hContact);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), bVisible ? SW_SHOW : SW_HIDE);
 }
 

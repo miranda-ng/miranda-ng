@@ -85,7 +85,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 		setByte(hContact, "Grant", 1);
 
 		if (isTemporary)
-			db_set_b(hContact, "CList", "NotOnList", 1);
+			Contact_RemoveFromList(hContact);
 	}
 	return hContact;
 }

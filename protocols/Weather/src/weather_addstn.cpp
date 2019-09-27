@@ -48,8 +48,8 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 				if (!mir_wstrcmpi(psr->email.w, dbv.pwszVal)) {
 					// remove the flag for not on list and hidden, thus make the contact visible
 					// and add them on the list
-					if (db_get_b(hContact, "CList", "NotOnList", 1)) {
-						db_unset(hContact, "CList", "NotOnList");
+					if (!Contact_OnList(hContact)) {
+						Contact_PutOnList(hContact);
 						Contact_Hide(hContact, false);
 					}
 					db_free(&dbv);

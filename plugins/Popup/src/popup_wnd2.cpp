@@ -535,7 +535,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Send message")) ++m_actionCount;
 		if (enableDefaultUsr && IsActionEnabled("General/User details")) ++m_actionCount;
 		if (enableDefaultUsr && IsActionEnabled("General/Contact menu")) ++m_actionCount;
-		if (enableDefaultUsr && db_get_b(m_hContact, "CList", "NotOnList", 0) && IsActionEnabled("General/Add permanently")) ++m_actionCount;
+		if (enableDefaultUsr && !Contact_OnList(m_hContact) && IsActionEnabled("General/Add permanently")) ++m_actionCount;
 		if (enableDefaultGen && (m_iTimeout != -1) && IsActionEnabled("General/Pin popup")) ++m_actionCount;
 		if (enableDefaultGen && IsActionEnabled("General/Dismiss popup")) ++m_actionCount;
 		if (enableDefaultGen && IsActionEnabled("General/Copy to clipboard")) ++m_actionCount;
@@ -578,7 +578,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 			++iAction;
 		}
 
-		if (enableDefaultUsr && db_get_b(m_hContact, "CList", "NotOnList", 0) && IsActionEnabled("General/Add permanently")) {
+		if (enableDefaultUsr && !Contact_OnList(m_hContact) && IsActionEnabled("General/Add permanently")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = g_plugin.getIcon(IDI_ACT_ADD, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Add permanently");

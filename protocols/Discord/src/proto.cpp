@@ -341,7 +341,7 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
 	if (flags & PALF_TEMPORARY)
-		db_set_b(hContact, "CList", "NotOnList", 1);
+		Contact_RemoveFromList(hContact);
 	
 	*p = 0;
 	CDiscordUser *pUser = new CDiscordUser(0);

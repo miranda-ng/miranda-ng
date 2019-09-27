@@ -44,7 +44,7 @@ MCONTACT CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick,
 		setWord(hContact, "netId", netId);
 		setString(hContact, "wlid", szEmail);
 		if (temporary)
-			db_set_b(hContact, "CList", "NotOnList", 1);
+			Contact_RemoveFromList(hContact);
 
 		Lists_Add(0, szNet?atoi(szNet):NETID_MSN, szEmail, hContact);
 	}
@@ -78,8 +78,8 @@ void CMsnProto::MSN_SetContactDb(MCONTACT hContact, const char *szEmail)
 	const int listId = cont->list;
 
 	if (listId & LIST_FL) {
-		if (db_get_b(hContact, "CList", "NotOnList", 0) == 1) {
-			db_unset(hContact, "CList", "NotOnList");
+		if (!Contact_OnList(hContact)) {
+			Contact_PutOnList(hContact);
 			Contact_Hide(hContact, false);
 		}
 

@@ -1063,7 +1063,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 				MCONTACT hContact = CList_FindContact(&user);
 
 				// check if it should be ignored
-				if (m_DCCChatIgnore == 1 || m_DCCChatIgnore == 2 && hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 0 && !Contact_IsHidden(hContact)) {
+				if (m_DCCChatIgnore == 1 || m_DCCChatIgnore == 2 && hContact && Contact_OnList(hContact) && !Contact_IsHidden(hContact)) {
 					CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 					CList_AddDCCChat(pmsg->prefix.sNick, host, dwAdr, iPort); // add a CHAT event to the clist
 				}

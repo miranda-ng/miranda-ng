@@ -803,7 +803,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 				CONTACT user = { (wchar_t*)gcmi->pszUID, nullptr, nullptr, false, false, false };
 				MCONTACT hContact = CList_FindContact(&user);
 
-				BOOL bIsInList = (hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 0);
+				BOOL bIsInList = hContact && Contact_OnList(hContact);
 				nickItems[_countof(nickItems)-1].bDisabled = bIsInList;
 
 				unsigned long ulAdr = 0;

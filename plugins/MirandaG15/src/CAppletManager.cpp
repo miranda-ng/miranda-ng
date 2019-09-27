@@ -720,8 +720,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 		return;
 	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		return;
-	if (db_get_b(hContact, "CList", "NotOnList", 0)
-		&& !db_get_b(0, "SRMsg", "UnknownTyping", 1))
+	if (!Contact_OnList(hContact) && !db_get_b(0, "SRMsg", "UnknownTyping", 1))
 		return;
 	// End user check
 	CallService(MS_PROTO_SELFISTYPING, hContact, bEnable ? PROTOTYPE_SELFTYPING_ON : PROTOTYPE_SELFTYPING_OFF);

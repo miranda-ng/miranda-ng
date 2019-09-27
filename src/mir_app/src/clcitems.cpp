@@ -201,7 +201,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 		cc->flags |= CONTACTF_VISTO;
 	else if (apparentMode)
 		cc->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
-	if (db_get_b(hContact, "CList", "NotOnList", 0))
+	if (!Contact_OnList(hContact))
 		cc->flags |= CONTACTF_NOTONLIST;
 	DWORD idleMode = szProto != nullptr ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)

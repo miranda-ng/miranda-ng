@@ -210,7 +210,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (g_plugin.getByte(pszProto, ProtoUserBit | ProtoIntBit) != (ProtoUserBit | ProtoIntBit))
 		return 0;
 
-	if (db_get_b(hContact, "CList", "NotOnList", 0) && m_sOptions.bIgnoreUnknown)
+	if (!Contact_OnList(hContact) && m_sOptions.bIgnoreUnknown)
 		return 0;
 
 	if (g_plugin.getByte(hContact, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))

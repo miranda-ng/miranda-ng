@@ -245,8 +245,10 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			CreateDirectoryTreeW(dat->szSavePath);
 			dat->fs = (HANDLE)ProtoChainSend(dat->hContact, PSS_FILEALLOW, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
 			dat->transferStatus.szWorkingDir.w = mir_wstrdup(dat->szSavePath);
-			if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) dat->resumeBehaviour = FILERESUME_ASK;
-			else dat->resumeBehaviour = g_plugin.getByte("IfExists", FILERESUME_ASK);
+			if (!Contact_OnList(dat->hContact))
+				dat->resumeBehaviour = FILERESUME_ASK;
+			else
+				dat->resumeBehaviour = g_plugin.getByte("IfExists", FILERESUME_ASK);
 			SetFtStatus(hwndDlg, LPGENW("Waiting for connection..."), FTS_TEXT);
 		}
 

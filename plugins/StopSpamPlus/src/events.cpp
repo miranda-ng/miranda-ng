@@ -23,7 +23,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
-		if (db_get_b(hcntct, "CList", "NotOnList", 0) && !g_plugin.getByte(hcntct, DB_KEY_ANSWERED) && !IsExistMyMessage(hcntct)) {
+		if (!Contact_OnList(hcntct) && !g_plugin.getByte(hcntct, DB_KEY_ANSWERED) && !IsExistMyMessage(hcntct)) {
 			if (!g_sets.HandleAuthReq) {
 				char *buf = mir_utf8encodeW(variables_parse(g_sets.getReply(), hcntct).c_str());
 				ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buf);
@@ -33,7 +33,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 			// ...send message
 			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_sets.getReply(), hcntct).c_str()));
 
-			db_set_b(hcntct, "CList", "NotOnList", 1);
+			Contact_RemoveFromList(hcntct);
 			Contact_Hide(hcntct);
 			if (!g_sets.HistLog)
 				db_event_delete(0, hDbEvent);
@@ -67,7 +67,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 	// checking if message from self-added contact
 	//Contact in Not in list icq group
-	if (!db_get_b(hContact, "CList", "NotOnList", 0) && db_get_w(hContact, dbei->szModule, "SrvGroupId", -1) != 1)
+	if (Contact_OnList(hContact) && db_get_w(hContact, dbei->szModule, "SrvGroupId", -1) != 1)
 		return 0;
 
 	//if I sent message to this contact
@@ -112,7 +112,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 				//add contact permanently
 				if (g_sets.AddPermanent)
-					db_unset(hContact, "CList", "NotOnList");
+					Contact_PutOnList(hContact);
 
 				// send congratulation
 
@@ -146,7 +146,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	}
 
 	// hide contact from contact list
-	db_set_b(hContact, "CList", "NotOnList", 1);
+	Contact_RemoveFromList(hContact);
 	Contact_Hide(hContact);
 
 	// save message from contact

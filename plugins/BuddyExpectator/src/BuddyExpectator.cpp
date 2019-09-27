@@ -252,7 +252,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 
 void ReturnNotify(MCONTACT hContact, wchar_t *message)
 {
-	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1 || Contact_IsHidden(hContact))
+	if (!Contact_OnList(hContact) || Contact_IsHidden(hContact))
 		return;
 
 	Skin_PlaySound("buddyExpectatorReturn");
@@ -291,7 +291,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 
 void GoneNotify(MCONTACT hContact, wchar_t *message)
 {
-	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1 || Contact_IsHidden(hContact))
+	if (!Contact_OnList(hContact) || Contact_IsHidden(hContact))
 		return;
 
 	if (options.iShowPopup2 > 0) {
@@ -457,7 +457,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact == NULL || inf->value.type == DBVT_DELETED || strcmp(inf->szSetting, "Status") != 0)
 		return 0;
 
-	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1)
+	if (!Contact_OnList(hContact))
 		return 0;
 
 	char *proto = GetContactProto(hContact);

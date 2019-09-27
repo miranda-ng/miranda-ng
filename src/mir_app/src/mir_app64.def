@@ -693,3 +693,6 @@ Miranda_GetIdle @778 NONAME
 Ignore_Allow @779
 Ignore_Ignore @780
 Ignore_IsIgnored @781
+Contact_OnList @782
+Contact_PutOnList @783
+Contact_RemoveFromList @784

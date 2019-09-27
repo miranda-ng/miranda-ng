@@ -146,7 +146,7 @@ public:
 		if (item > 0)
 			Clist_ContactChangeGroup(hContact, m_group.GetItemData(item));
 
-		db_unset(hContact, "CList", "NotOnList");
+		Contact_PutOnList(hContact);
 
 		if (m_chkAuth.GetState()) {
 			DWORD flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);

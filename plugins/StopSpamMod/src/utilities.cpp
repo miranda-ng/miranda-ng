@@ -249,7 +249,7 @@ void __cdecl CleanProtocolTmpThread(void *param)
 
 	std::list<MCONTACT> contacts;
 	for (auto &hContact : Contacts(szProto))
-		if (db_get_b(hContact, "CList", "NotOnList", 0) || (L"Not In List" == DBGetContactSettingStringPAN(hContact, "CList", "Group", L"")))
+		if (!Contact_OnList(hContact) || (L"Not In List" == DBGetContactSettingStringPAN(hContact, "CList", "Group", L"")))
 			contacts.push_back(hContact);
 
 	Sleep(5000);
@@ -279,7 +279,7 @@ void __cdecl CleanProtocolExclThread(void *param)
 
 	std::list<MCONTACT> contacts;
 	for (auto &hContact : Contacts(szProto))
-		if (db_get_b(hContact, "CList", "NotOnList", 0) && g_plugin.getByte(hContact, "Excluded"))
+		if (!Contact_OnList(hContact) && g_plugin.getByte(hContact, "Excluded"))
 			contacts.push_back(hContact);
 
 	Sleep(5000);

@@ -281,9 +281,9 @@ MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	MCONTACT hContact = AddToContactList(&fbu, false, add_temporarily);
 
 	// Reset NotOnList flag if present and we're adding this contact not temporarily
-	if (hContact && !add_temporarily && db_get_b(hContact, "CList", "NotOnList", 0)) {
+	if (hContact && !add_temporarily && !Contact_OnList(hContact)) {
 		Contact_Hide(hContact, false);
-		db_unset(hContact, "CList", "NotOnList");
+		Contact_PutOnList(hContact);
 	}
 
 	return hContact;

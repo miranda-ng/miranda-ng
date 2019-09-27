@@ -294,6 +294,23 @@ MIR_APP_DLL(void) Contact_Hide(MCONTACT hContact, bool bHidden)
 		db_unset(hContact, "CList", "Hidden");
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(bool) Contact_OnList(MCONTACT hContact)
+{
+	return db_get_b(hContact, "CList", "NotOnList", 0) == 0;
+}
+
+MIR_APP_DLL(void) Contact_PutOnList(MCONTACT hContact)
+{
+	db_unset(hContact, "CList", "NotOnList");
+}
+
+MIR_APP_DLL(void) Contact_RemoveFromList(MCONTACT hContact)
+{
+	db_set_b(hContact, "CList", "NotOnList", 1);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Options dialog
 
