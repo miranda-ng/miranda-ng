@@ -340,45 +340,50 @@ static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static INT_PTR IsIgnored(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(bool) Ignore_IsIgnored(MCONTACT hContact, int idx)
 {
-	DWORD mask = GetMask(wParam);
-	if (lParam < 1 || lParam > IGNOREEVENT_MAX)
+	DWORD mask = GetMask(hContact);
+	if (idx < 1 || idx > IGNOREEVENT_MAX)
 		return 1;
-	return (masks[lParam-1] & mask) != 0;
+	return (masks[idx-1] & mask) != 0;
 }
 
-static INT_PTR Ignore(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Ignore_Ignore(MCONTACT hContact, int idx)
 {
-	DWORD mask = GetMask(wParam);
-	if ((lParam < 1 || lParam > IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL)
+	DWORD mask = GetMask(hContact);
+	if ((idx < 1 || idx > IGNOREEVENT_MAX) && idx != IGNOREEVENT_ALL)
 		return 1;
-	if (lParam == IGNOREEVENT_ALL)
+	
+	if (idx == IGNOREEVENT_ALL)
 		mask = 0xFFFF;
 	else
-		mask |= masks[lParam-1];
-	SaveItemValue(wParam, "Mask1", mask);
+		mask |= masks[idx-1];
+	SaveItemValue(hContact, "Mask1", mask);
 	return 0;
 }
 
-static INT_PTR Unignore(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) Ignore_Allow(MCONTACT hContact, int idx)
 {
-	DWORD mask = GetMask(wParam);
-	if ((lParam < 1 || lParam > IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL)
+	DWORD mask = GetMask(hContact);
+	if ((idx < 1 || idx > IGNOREEVENT_MAX) && idx != IGNOREEVENT_ALL)
 		return 1;
 
-	if (lParam == IGNOREEVENT_ALL)
+	if (idx == IGNOREEVENT_ALL)
 		mask = 0;
 	else
-		mask &= ~(masks[lParam-1]);
-	SaveItemValue(wParam, "Mask1", mask);
+		mask &= ~(masks[idx-1]);
+	SaveItemValue(hContact, "Mask1", mask);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR IgnoreRecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	if (IsIgnored(ccs->hContact, IGNOREEVENT_MESSAGE))
+	if (Ignore_IsIgnored(ccs->hContact, IGNOREEVENT_MESSAGE))
 		return 1;
 	return Proto_ChainRecv(wParam, ccs);
 }
@@ -386,7 +391,7 @@ static INT_PTR IgnoreRecvMessage(WPARAM wParam, LPARAM lParam)
 static INT_PTR IgnoreRecvFile(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	if (IsIgnored(ccs->hContact, IGNOREEVENT_FILE))
+	if (Ignore_IsIgnored(ccs->hContact, IGNOREEVENT_FILE))
 		return 1;
 	return Proto_ChainRecv(wParam, ccs);
 }
@@ -394,7 +399,7 @@ static INT_PTR IgnoreRecvFile(WPARAM wParam, LPARAM lParam)
 static INT_PTR IgnoreRecvAuth(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	if (IsIgnored(ccs->hContact, IGNOREEVENT_AUTHORIZATION))
+	if (Ignore_IsIgnored(ccs->hContact, IGNOREEVENT_AUTHORIZATION))
 		return 1;
 	return Proto_ChainRecv(wParam, ccs);
 }
@@ -406,10 +411,6 @@ int LoadIgnoreModule(void)
 	CreateProtoServiceFunction("Ignore", PSR_MESSAGE, IgnoreRecvMessage);
 	CreateProtoServiceFunction("Ignore", PSR_FILE, IgnoreRecvFile);
 	CreateProtoServiceFunction("Ignore", PSR_AUTH, IgnoreRecvAuth);
-
-	CreateServiceFunction(MS_IGNORE_ISIGNORED, IsIgnored);
-	CreateServiceFunction(MS_IGNORE_IGNORE, Ignore);
-	CreateServiceFunction(MS_IGNORE_UNIGNORE, Unignore);
 
 	HookEvent(ME_OPT_INITIALISE, IgnoreOptInitialise);
 	return 0;

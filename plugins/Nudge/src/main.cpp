@@ -110,7 +110,7 @@ static int NudgeReceived(WPARAM hContact, LPARAM lParam)
 			if (!mir_strcmp(protoName, p->ProtocolName)) {
 
 				if (p->enabled) {
-					if (p->useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
+					if (p->useIgnoreSettings && Ignore_IsIgnored(hContact, IGNOREEVENT_USERONLINE))
 						return 0;
 
 					int Status = Proto_GetStatus(protoName);
@@ -152,7 +152,7 @@ static int NudgeReceived(WPARAM hContact, LPARAM lParam)
 	}
 	else {
 		if (DefaultNudge.enabled) {
-			if (DefaultNudge.useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
+			if (DefaultNudge.useIgnoreSettings && Ignore_IsIgnored(hContact, IGNOREEVENT_USERONLINE))
 				return 0;
 
 			DWORD Status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);

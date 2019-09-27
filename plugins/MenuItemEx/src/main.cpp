@@ -630,7 +630,7 @@ static INT_PTR onChangeProto(WPARAM hContact, LPARAM lparam)
 static int isIgnored(MCONTACT hContact, int type)
 {
 	if (type != IGNOREEVENT_ALL)
-		return CallService(MS_IGNORE_ISIGNORED, hContact, (LPARAM)type);
+		return Ignore_IsIgnored(hContact, (LPARAM)type);
 
 	int i = 0, all = 0;
 	for (i = 1; i < _countof(ii); i++)
@@ -645,7 +645,10 @@ static INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 	if (g_plugin.getByte("ignorehide", 0) && (lparam == IGNOREEVENT_ALL))
 		Clist_HideContact(wparam, !isIgnored((MCONTACT)wparam, lparam));
 
-	CallService(isIgnored((MCONTACT)wparam, lparam) ? MS_IGNORE_UNIGNORE : MS_IGNORE_IGNORE, wparam, lparam);
+	if (isIgnored(wparam, lparam))
+		Ignore_Allow(wparam, lparam);
+	else
+		Ignore_Ignore(wparam, lparam);
 	return 0;
 }
 

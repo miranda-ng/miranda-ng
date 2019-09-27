@@ -33,7 +33,7 @@ by the FreeImage project (http://freeimage.sourceforge.net)
 {$IFNDEF M_IMGSRVC}
 {$DEFINE M_IMGSRVC}
 
-
+const
   IMGL_RETURNDIB = 1; // will NOT return a HBITMAP but a FIBITMAP * instead (useful,
                       // if you want to do further image manipulations before
                       // converting to a Win32 bitmap caller MUST then free the

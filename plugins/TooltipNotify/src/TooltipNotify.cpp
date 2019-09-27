@@ -227,7 +227,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		break;
 
 	case ID_STATUS_ONLINE:
-		if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE) && m_sOptions.bConjSOLN) return 0;
+		if (Ignore_IsIgnored(hContact, IGNOREEVENT_USERONLINE) && m_sOptions.bConjSOLN) return 0;
 		if (!m_sOptions.bOnline) return 0;
 		Skin_PlaySound(SND_ONLINE);
 		break;

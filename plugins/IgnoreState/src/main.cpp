@@ -72,7 +72,7 @@ INT_PTR isIgnored(MCONTACT hContact, int type)
 	int all = 0, filtered = 0;
 
 	if (type != IGNOREEVENT_ALL)
-		return CallService(MS_IGNORE_ISIGNORED, hContact, (LPARAM)type);
+		return Ignore_IsIgnored(hContact, type);
 
 	for (int i = 1; i < nII; i++)
 		if (isIgnored(hContact, ii[i].type))
@@ -151,7 +151,7 @@ int CMPlugin::Load()
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 
-	//IcoLib support
+	// IcoLib support
 	g_plugin.registerIcon(LPGEN("Ignore State"), iconList);
 
 	hExtraIcon = ExtraIcon_RegisterIcolib("ignore", LPGEN("Ignore State"), "ignore_full");

@@ -251,7 +251,7 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, bool force_add, boo
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, fbu->type);
 
 		if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
-			CallService(MS_IGNORE_IGNORE, hContact, (LPARAM)IGNOREEVENT_USERONLINE);
+			Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 
 		if (!fbu->real_name.empty())
 			SaveName(hContact, fbu);

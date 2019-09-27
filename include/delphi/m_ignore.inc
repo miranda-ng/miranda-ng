@@ -34,38 +34,6 @@ const
   IGNOREEVENT_AUTHORIZATION = 4;
   IGNOREEVENT_TYPINGNOTIFY  = 5;
 
-  {
-    wParam : TMCONTACT
-    lParam : IGNOREEVENT_*
-    Affects: Determines if a message type to a contact should be ignored, see notes
-    Returns: 0 if the message type MUST be shown [non zero] if it MUST be ignored
-    Notes  : TMCONTACT can be NULL(0) to see what to do with a contact
-             that isn't on the list (or is unknown in some way)
-             don't use the IGNOREEVENT_ALL type!
-    Version: v0.1.0.1+
-  }
-  MS_IGNORE_ISIGNORED:PAnsiChar = 'Ignore/IsIgnored';
-
-  {
-    wParam : TMCONTACT
-    lParam : IGNOREEVENT_* constant
-    Affects: Ignore future messages from a contact, see notes
-    Returns: 0 on success, [nonzero] on failure
-    Notes  : wParam: NULL(0) can be used to see if an unknown contact should be
-             ignored or not - you can't SET unknown contact's ignore types, this
-             is to stop a plugin allowing certain functions (I guess)
-    Version: v0.1.0.1+
-  }
-  MS_IGNORE_IGNORE:PAnsiChar = 'Ignore/Ignore';
-
-  {
-    wParam : TMCONTACT
-    lParam : IGNOREEVENT_*
-    Affects: Receive future messages from a contact -- of the given type, see notes
-    Returns: 0 on success, non zero on failure
-    Notes  : Use NULL(0) for TMCONTACT to retrieve the setting for an unknown contact
-    Version: v0.1.0.1+
-  }
-  MS_IGNORE_UNIGNORE:PAnsiChar = 'Ignore/Unignore';
+function Ignore_Ignore(hContact:TMCONTACT; mask:integer) : integer; stdcall; external AppDll;
 
 {$ENDIF}

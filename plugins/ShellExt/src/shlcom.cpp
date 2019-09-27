@@ -274,7 +274,7 @@ bool ipcGetSortedContacts(THeaderIPC * ipch, int* pSlot, bool bGroupMode)
 				// don't show people who are hidden, "NotOnList" or ignored
 				if (Clist_IsHidden(hContact) ||
 					 db_get_b(hContact, "CList", "NotOnList", 0) == 1 ||
-					 CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_MESSAGE | IGNOREEVENT_FILE) != 0)
+					 Ignore_IsIgnored(hContact, IGNOREEVENT_MESSAGE | IGNOREEVENT_FILE) != 0)
 					continue;
 			}
 			// is HIT2 off?

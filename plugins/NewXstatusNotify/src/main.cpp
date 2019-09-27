@@ -505,7 +505,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	}
 
 	//If *Miranda* ignores the UserOnline event, exit!
-	if (CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
+	if (Ignore_IsIgnored(hContact, IGNOREEVENT_USERONLINE))
 		return 0;
 
 	//If we get here, we have to notify the Hooks.

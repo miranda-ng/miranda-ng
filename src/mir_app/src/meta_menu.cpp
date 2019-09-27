@@ -100,7 +100,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 
 			// stop ignoring, if we were
 			if (g_metaOptions.bSuppressStatus)
-				CallService(MS_IGNORE_UNIGNORE, ccSub->contactID, IGNOREEVENT_USERONLINE);
+				Ignore_Allow(ccSub->contactID, IGNOREEVENT_USERONLINE);
 		}
 	}
 

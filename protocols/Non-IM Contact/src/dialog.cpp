@@ -305,7 +305,7 @@ INT_PTR addContact(WPARAM, LPARAM)
 	char tmp[256];
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, MODNAME);
-	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
+	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 	g_plugin.setWString(hContact, "Nick", TranslateT("New Non-IM Contact"));
 	DoPropertySheet(hContact);
 	if (db_get_static(hContact, MODNAME, "Name", tmp, _countof(tmp)))
@@ -321,7 +321,7 @@ INT_PTR editContact(WPARAM wParam, LPARAM)
 	if (!hContact) {
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, MODNAME);
-		CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
+		Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 		g_plugin.setString(hContact, "Nick", Translate("New Non-IM Contact"));
 	}
 	DoPropertySheet(hContact);

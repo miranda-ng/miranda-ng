@@ -685,7 +685,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage *pmsg)
 
 			CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
 
-			if (CallService(MS_IGNORE_ISIGNORED, NULL, IGNOREEVENT_MESSAGE))
+			if (Ignore_IsIgnored(NULL, IGNOREEVENT_MESSAGE))
 			if (!CList_FindContact(&user))
 				return true;
 
@@ -1126,7 +1126,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 				}
 				else {
 					CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
-					if (CallService(MS_IGNORE_ISIGNORED, NULL, IGNOREEVENT_FILE))
+					if (Ignore_IsIgnored(NULL, IGNOREEVENT_FILE))
 					if (!CList_FindContact(&user))
 						return true;
 

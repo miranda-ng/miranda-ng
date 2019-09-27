@@ -1449,7 +1449,10 @@ void HandleIgnoreCommand(PCommand command, TArgument *argv, int argc, PReply rep
 		for (int i = 3; i < argc; i++) {
 			MCONTACT hContact = ParseContactParam(argv[i]);
 			if (hContact) {
-				CallService(block ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, (WPARAM)hContact, IGNOREEVENT_ALL);
+				if (block)
+					Ignore_Ignore(hContact, IGNOREEVENT_ALL);
+				else
+					Ignore_Allow(hContact, IGNOREEVENT_ALL);
 			}
 		}
 

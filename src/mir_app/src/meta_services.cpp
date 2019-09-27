@@ -478,7 +478,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 
 		// stop ignoring, if we were
 		if (g_metaOptions.bSuppressStatus)
-			CallService(MS_IGNORE_UNIGNORE, cc->pSubs[i], IGNOREEVENT_USERONLINE);
+			Ignore_Allow(cc->pSubs[i], IGNOREEVENT_USERONLINE);
 	}
 	return 0;
 }

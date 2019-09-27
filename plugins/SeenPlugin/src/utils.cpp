@@ -436,7 +436,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 {
-	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hcontact, IGNOREEVENT_USERONLINE))
+	if (Ignore_IsIgnored(hcontact, IGNOREEVENT_USERONLINE))
 		return;
 
 	if (!g_plugin.getByte("UsePopups", 0) || !Clist_IsHidden(hcontact))
@@ -470,8 +470,10 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 
 void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
 {
-	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hcontact, IGNOREEVENT_USERONLINE)) return;
-	//oldStatus and hcontact are not used yet
+	if (Ignore_IsIgnored(hcontact, IGNOREEVENT_USERONLINE))
+		return;
+	
+	// oldStatus and hcontact are not used yet
 	char *soundname = nullptr;
 	if ((newStatus == ID_STATUS_ONLINE) || (newStatus == ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
 	else if (newStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";

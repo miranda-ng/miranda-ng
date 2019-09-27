@@ -25,38 +25,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_IGNORE_H__
 #define M_IGNORE_H__ 1
 
-//this module provides UI and storage for blocking only, protocol modules are
-//responsible for implementing the block
+#ifndef M_CORE_H__
+#include <m_core.h>
+#endif
 
-#define IGNOREEVENT_ALL        (LPARAM)(-1)
+/////////////////////////////////////////////////////////////////////////////////////////
+// this module provides UI and storage for blocking only, protocol modules are
+// responsible for implementing the block
+
+#define IGNOREEVENT_ALL        (int)(-1)
 #define IGNOREEVENT_MESSAGE       1
 #define IGNOREEVENT_FILE          2
 #define IGNOREEVENT_USERONLINE    3
 #define IGNOREEVENT_AUTHORIZATION 4
 #define IGNOREEVENT_TYPINGNOTIFY  5
 
-//determines if a message type to a contact should be ignored  v0.1.0.1+
-//wParam = (MCONTACT)hContact
-//lParam = message type, an ignoreevent_ constant
-//returns 0 if the message should be shown, or nonzero if it should be ignored
-//Use hContact = NULL to retrieve the setting for unknown contacts (not on the
-//contact list, as either permanent or temporary).
-//don't use ignoreevent_all when calling this service
-#define MS_IGNORE_ISIGNORED   "Ignore/IsIgnored"
+// determines if a message type to a contact should be ignored
+// mask is one of IGNOREEVENT_* constants
+EXTERN_C MIR_APP_DLL(bool) Ignore_IsIgnored(MCONTACT hContact, int mask);
 
-//ignore future messages from a contact    v0.1.0.1+
-//wParam = (MCONTACT)hContact
-//lParam = message type, an ignoreevent_ constant
-//returns 0 on success or nonzero on failure
-//Use hContact = NULL to retrieve the setting for unknown contacts
-#define MS_IGNORE_IGNORE      "Ignore/Ignore"
+// ignores certain type of events from a contact
+// returns 0 on success or nonzero on failure
+// Use hContact = 0 to retrieve the setting for unknown contacts
+EXTERN_C MIR_APP_DLL(int) Ignore_Ignore(MCONTACT hContact, int mask);
 
-//receive future messages from a contact    v0.1.0.1+
-//wParam = (MCONTACT)hContact
-//lParam = message type, an ignoreevent_ constant
-//returns 0 on success or nonzero on failure
-//Use hContact = NULL to retrieve the setting for unknown contacts
-#define MS_IGNORE_UNIGNORE    "Ignore/Unignore"
-
+// allows certain type of future events from a contact
+// returns 0 on success or nonzero on failure
+// Use hContact = NULL to retrieve the setting for unknown contacts
+EXTERN_C MIR_APP_DLL(int) Ignore_Allow(MCONTACT hContact, int mask);
 
 #endif // M_IGNORE_H__

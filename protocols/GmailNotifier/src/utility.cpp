@@ -10,7 +10,7 @@ void BuildList(void)
 			Account *p = new Account;
 			p->hContact = hContact;
 			mir_strcpy(p->name, szName);
-			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
+			Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 
 			ptrA szPassword(g_plugin.getStringA(hContact, "Password"));
 			if (szPassword != nullptr)

@@ -431,7 +431,7 @@ begin
 
 //          SetAvatar(hContact);
 
-          CallService(MS_IGNORE_IGNORE,hContact,IGNOREEVENT_USERONLINE{IGNOREEVENT_ALL});
+          Ignore_Ignore(hContact,IGNOREEVENT_USERONLINE);
           result:=hContact;
         end;
       end;

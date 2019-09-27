@@ -123,7 +123,7 @@ int Test(WPARAM wparam, LPARAM lparam)
 	if (lparam < ICON_OFFLINE || lparam > ICON_INVIS)
 		return 0;
 
-	if (CallService(MS_IGNORE_ISIGNORED, wparam, IGNOREEVENT_USERONLINE))
+	if (Ignore_IsIgnored(wparam, IGNOREEVENT_USERONLINE))
 		return 0;
 
 	if (g_plugin.getByte((MCONTACT)wparam, "Missed", 0) == 2)

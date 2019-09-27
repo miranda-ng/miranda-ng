@@ -690,3 +690,6 @@ Clist_GetGroup @775
 Clist_SetGroup @776
 ?ReportSelfAvatarChanged@PROTO_INTERFACE@@QEAAXXZ @777 NONAME
 Miranda_GetIdle @778 NONAME
+Ignore_Allow @779
+Ignore_Ignore @780
+Ignore_IsIgnored @781

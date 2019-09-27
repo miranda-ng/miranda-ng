@@ -66,7 +66,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, MODULENAME);
 	// suppress online notification for the new contact
-	CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
+	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 
 	// set contact info and settings
 	wchar_t svc[256];

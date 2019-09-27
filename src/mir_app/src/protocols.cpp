@@ -219,7 +219,7 @@ static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 	if (!szProto)
 		return 0;
 
-	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_TYPINGNOTIFY))
+	if (Ignore_IsIgnored(wParam, IGNOREEVENT_TYPINGNOTIFY))
 		return 0;
 
 	if (type < PROTOTYPE_CONTACTTYPING_OFF)

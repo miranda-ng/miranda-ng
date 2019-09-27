@@ -339,7 +339,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					free(replace);
 					MCONTACT hContact2 = db_add_contact();
 					Proto_AddToContact(hContact2, MODNAME);
-					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
+					Ignore_Ignore(hContact2, IGNOREEVENT_USERONLINE);
 					g_plugin.setString(hContact2, "Nick", Translate("New Non-IM Contact"));
 					// blank dbVar2 so the replaceing doesnt crash..
 					mir_strcpy(dbVar2, "");
@@ -399,7 +399,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						return 0;
 					}
 					Proto_AddToContact(hContact2, MODNAME);
-					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
+					Ignore_Ignore(hContact2, IGNOREEVENT_USERONLINE);
 					g_plugin.setString(hContact2, "Nick", Translate("New Non-IM Contact"));
 					g_plugin.setString(hContact2, "Name", dbVar1);
 					if (!db_get_static(hContact1, MODNAME, "ProgramString", dbVar1, _countof(dbVar1)))
@@ -632,7 +632,7 @@ INT_PTR ImportContacts(WPARAM, LPARAM)
 					continue;
 				}
 				Proto_AddToContact(hContact, MODNAME);
-				CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
+				Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 				g_plugin.setString(hContact, "Nick", Translate("New Non-IM Contact"));
 				g_plugin.setString(hContact, "Name", name);
 				g_plugin.setString(hContact, "ProgramString", program);
