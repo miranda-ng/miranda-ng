@@ -216,7 +216,7 @@ void CJabberProto::OnIqResultPrivacyListDefault(const TiXmlElement *iqNode, CJab
 	if (type == nullptr)
 		return;
 
-	wchar_t szText[512];
+	char szText[512];
 	szText[0] = 0;
 	{
 		mir_cslock lck(m_privacyListManager.m_cs);
@@ -224,18 +224,18 @@ void CJabberProto::OnIqResultPrivacyListDefault(const TiXmlElement *iqNode, CJab
 			CPrivacyList *pList = (CPrivacyList *)pInfo->GetUserData();
 			if (pList) {
 				m_privacyListManager.SetDefaultListName(pList->GetListName());
-				mir_snwprintf(szText, TranslateT("Privacy list %s set as default"), pList->GetListName());
+				mir_snprintf(szText, TranslateU("Privacy list %s set as default"), pList->GetListName());
 			}
 			else {
 				m_privacyListManager.SetDefaultListName(nullptr);
-				mir_snwprintf(szText, TranslateT("Default privacy list successfully declined"));
+				mir_snprintf(szText, TranslateU("Default privacy list successfully declined"));
 			}
 		}
-		else mir_snwprintf(szText, TranslateT("Error occurred while setting default list"));
+		else mir_snprintf(szText, TranslateU("Error occurred while setting default list"));
 	}
 
 	if (m_pDlgPrivacyLists) {
-		m_pDlgPrivacyLists->SetStatusText(szText);
+		m_pDlgPrivacyLists->SetStatusText(Utf2T(szText));
 		RedrawWindow(GetDlgItem(m_pDlgPrivacyLists->GetHwnd(), IDC_LB_LISTS), nullptr, nullptr, RDW_INVALIDATE);
 	}
 }
