@@ -50,11 +50,13 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 			if (hContact == INVALID_CONTACT_ID)
 				continue;
 
+			setWString(hContact, "IcqGroup", pGroup->wszName);
+
 			ptrW mirGroup(Clist_GetGroup(hContact));
 			if (mir_wstrcmp(mirGroup, pGroup->wszName))
 				bEnableMenu = true;
 
-			if (mirGroup) {
+			if (!mirGroup) {
 				if (!bCreated) {
 					Clist_GroupCreate(0, pGroup->wszName);
 					bCreated = true;
