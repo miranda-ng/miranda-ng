@@ -184,7 +184,7 @@ bool CMetaSelectDlg::OnApply()
 	}
 
 	MCONTACT hMeta = (MCONTACT)m_metaList.GetItemData(item);
-	if (!Meta_Assign(m_hContact, hMeta, FALSE))
+	if (!Meta_Assign(m_hContact, hMeta, false))
 		MessageBox(GetHwnd(), TranslateT("Assignment to the metacontact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
 	return true;
 }

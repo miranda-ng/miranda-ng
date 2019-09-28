@@ -473,13 +473,9 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 		NotifyEventHooks(hSubcontactsChanged, hContact, 0);
 
 	// remove & restore all subcontacts
-	for (int i = 0; i < cc->nSubs; i++) {
+	for (int i = 0; i < cc->nSubs; i++)
 		currDb->MetaDetouchSub(cc, i);
 
-		// stop ignoring, if we were
-		if (g_metaOptions.bSuppressStatus)
-			Ignore_Allow(cc->pSubs[i], IGNOREEVENT_USERONLINE);
-	}
 	return 0;
 }
 
@@ -804,7 +800,6 @@ int Meta_CallMostOnline(WPARAM hContact, LPARAM)
 int Meta_PreShutdown(WPARAM, LPARAM)
 {
 	Meta_SetStatus(ID_STATUS_OFFLINE, 0);
-	Meta_SuppressStatus(false);
 	if (setStatusTimerId)
 		KillTimer(nullptr, setStatusTimerId);
 	return 0;

@@ -71,7 +71,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 		Clist_SetGroup(hMetaContact, tszGroup);
 
 	// Assign the contact to the MetaContact just created (and make default).
-	if (!Meta_Assign(wParam, hMetaContact, TRUE)) {
+	if (!Meta_Assign(wParam, hMetaContact, true)) {
 		MessageBox(nullptr, TranslateT("There was a problem in assigning the contact to the metacontact"), TranslateT("Error"), MB_ICONEXCLAMATION);
 		db_delete_contact(hMetaContact);
 		return 0;
@@ -94,15 +94,9 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 
 	// make sure this contact thinks it's part of this metacontact
 	DBCachedContact *ccSub = currDb->getCache()->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
-	if (ccSub != nullptr) {
-		if (ccSub->parentID == ccMeta->contactID) {
+	if (ccSub != nullptr)
+		if (ccSub->parentID == ccMeta->contactID)
 			Contact_Hide(ccSub->contactID, false);
-
-			// stop ignoring, if we were
-			if (g_metaOptions.bSuppressStatus)
-				Ignore_Allow(ccSub->contactID, IGNOREEVENT_USERONLINE);
-		}
-	}
 
 	// each contact from 'number' upwards will be moved down one
 	// and the last one will be deleted
@@ -434,8 +428,5 @@ void InitMenus()
 		Menu_ModifyItem(hMenuOnOff, LPGENW("Toggle metacontacts on"), Meta_GetIconHandle(I_MENUOFF));
 		Meta_HideMetaContacts(true);
 	}
-	else {
-		Meta_SuppressStatus(g_metaOptions.bSuppressStatus);
-		Meta_HideMetaContacts(false);
-	}
+	else Meta_HideMetaContacts(false);
 }

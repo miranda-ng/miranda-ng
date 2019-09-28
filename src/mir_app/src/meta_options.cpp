@@ -29,7 +29,6 @@ MetaOptions g_metaOptions;
 int Meta_WriteOptions()
 {
 	db_set_b(0, META_PROTO, "LockHandle", g_metaOptions.bLockHandle);
-	db_set_b(0, META_PROTO, "SuppressStatus", g_metaOptions.bSuppressStatus);
 	db_set_w(0, META_PROTO, "MenuContactLabel", (WORD)g_metaOptions.menu_contact_label);
 	db_set_w(0, META_PROTO, "MenuContactFunction", (WORD)g_metaOptions.menu_function);
 	db_set_w(0, META_PROTO, "CListContactName", (WORD)g_metaOptions.clist_contact_name);
@@ -40,7 +39,6 @@ int Meta_WriteOptions()
 int Meta_ReadOptions()
 {
 	db_mc_enable(db_get_b(0, META_PROTO, "Enabled", true) != 0);
-	g_metaOptions.bSuppressStatus = db_get_b(0, META_PROTO, "SuppressStatus", true) != 0;
 	g_metaOptions.menu_contact_label = (int)db_get_w(0, META_PROTO, "MenuContactLabel", DNT_UID);
 	g_metaOptions.menu_function = (int)db_get_w(0, META_PROTO, "MenuContactFunction", FT_MENU);
 	g_metaOptions.clist_contact_name = (int)db_get_w(0, META_PROTO, "CListContactName", CNNT_DISPLAYNAME);
@@ -73,7 +71,6 @@ public:
 	bool OnInitDialog() override
 	{
 		m_btnLock.SetState(g_metaOptions.bLockHandle);
-		m_btnCheck.SetState(g_metaOptions.bSuppressStatus);
 
 		if (g_metaOptions.menu_contact_label == DNT_UID)
 			m_btnUid.SetState(true);
@@ -96,7 +93,6 @@ public:
 	bool OnApply() override
 	{
 		g_metaOptions.bLockHandle = m_btnLock.GetState() != 0;
-		g_metaOptions.bSuppressStatus = m_btnCheck.GetState() != 0;
 
 		     if (m_btnUid.GetState()) g_metaOptions.menu_contact_label = DNT_UID;
 		else if (m_btnDid.GetState()) g_metaOptions.menu_contact_label = DNT_DID;
@@ -109,8 +105,6 @@ public:
 		else if (m_btnName.GetState()) g_metaOptions.clist_contact_name = CNNT_DISPLAYNAME;
 
 		Meta_WriteOptions();
-
-		Meta_SuppressStatus(g_metaOptions.bSuppressStatus);
 		Meta_SetAllNicks();
 		return true;
 	}

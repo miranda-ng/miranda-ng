@@ -58,7 +58,7 @@ int Meta_SetNick(char *szProto)
 * @return TRUE on success, FALSE otherwise
 */
 
-BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
+BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 {
 	DBCachedContact *ccDest = CheckMeta(hMeta), *ccSub = currDb->getCache()->GetCachedContact(hSub);
 	if (ccDest == nullptr || ccSub == nullptr)
@@ -180,9 +180,8 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	// merge sub's events to the meta-history
 	currDb->MetaMergeHistory(ccDest, ccSub);
 
-	// Ignore status if the option is on
-	if (g_metaOptions.bSuppressStatus)
-		Ignore_Ignore(hSub, IGNOREEVENT_USERONLINE);
+	// hide sub finally
+	Contact_Hide(ccSub->contactID);
 
 	NotifyEventHooks(hSubcontactsChanged, hMeta, 0);
 	return TRUE;
@@ -372,9 +371,6 @@ int Meta_HideLinkedContacts(void)
 			}
 		}
 
-		if (g_metaOptions.bSuppressStatus)
-			Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
-
 		MCONTACT hMostOnline = Meta_GetMostOnline(ccMeta); // set nick
 		Meta_CopyContactNick(ccMeta, hMostOnline);
 		Meta_FixStatus(ccMeta);
@@ -385,19 +381,11 @@ int Meta_HideLinkedContacts(void)
 
 int Meta_HideMetaContacts(bool bHide)
 {
-	// set status suppression
-	bool bSuppress = bHide ? FALSE : g_metaOptions.bSuppressStatus;
-
 	for (auto &hContact : Contacts()) {
 		bool bSet;
 		DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
-		if (cc->IsSub()) { // show on hide, reverse flag
+		if (cc->IsSub()) // show on hide, reverse flag
 			bSet = !bHide;
-			if (bSuppress)
-				Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
-			else
-				Ignore_Allow(hContact, IGNOREEVENT_USERONLINE);
-		}
 		else if (cc->IsMeta())
 			bSet = bHide;
 		else
@@ -411,19 +399,6 @@ int Meta_HideMetaContacts(bool bHide)
 			SendMessage(p->m_hWnd, WM_CLOSE, 0, 0);
 		arMetaWindows.destroy();
 	}
-
-	return 0;
-}
-
-int Meta_SuppressStatus(bool bSuppress)
-{
-	for (auto &hContact : Contacts())
-		if (db_mc_isSub(hContact)) {
-			if (bSuppress)
-				Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
-			else
-				Ignore_Allow(hContact, IGNOREEVENT_USERONLINE);
-		}
 
 	return 0;
 }

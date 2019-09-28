@@ -129,7 +129,7 @@ MIR_APP_DLL(MCONTACT) db_mc_convertToMeta(MCONTACT hContact)
 // adds an existing contact to a metacontact
 MIR_APP_DLL(int) db_mc_addToMeta(MCONTACT hSub, MCONTACT hMetaContact)
 {
-	return Meta_Assign(hSub, hMetaContact, FALSE);
+	return Meta_Assign(hSub, hMetaContact, false);
 }
 
 // removes a contact from a metacontact
