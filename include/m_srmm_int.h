@@ -99,4 +99,87 @@ EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, 
 // lParam = 0 (ignored)
 #define WM_CBD_RECREATE (WM_CBD_FIRST+4)
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Basic SRMM window dialog
+
+#include <chat_resource.h>
+
+// message procedures' stubs
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
+{
+	CSrmmBaseDialog(const CSrmmBaseDialog &) = delete;
+	CSrmmBaseDialog &operator=(const CSrmmBaseDialog &) = delete;
+
+protected:
+	CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, struct SESSION_INFO *si = nullptr);
+
+	bool OnInitDialog() override;
+	void OnDestroy() override;
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+
+	int  NotifyEvent(int code);
+	bool ProcessHotkeys(int key, bool bShift, bool bCtrl, bool bAlt);
+	void RefreshButtonStatus(void);
+	void RunUserMenu(HWND hwndOwner, struct USERINFO *ui, const POINT &pt);
+
+protected:
+	CCtrlRichEdit m_message, m_log;
+	SESSION_INFO *m_si;
+	COLORREF m_clrInputBG, m_clrInputFG;
+	time_t m_iLastEnterTime;
+
+	CCtrlListBox m_nickList;
+	CCtrlButton m_btnColor, m_btnBkColor;
+	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
+	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;
+
+	void onClick_BIU(CCtrlButton *);
+	void onClick_Color(CCtrlButton *);
+	void onClick_BkColor(CCtrlButton *);
+
+	void onClick_ChanMgr(CCtrlButton *);
+	void onClick_History(CCtrlButton *);
+
+	void onDblClick_List(CCtrlListBox *);
+
+public:
+	MCONTACT m_hContact;
+	int m_iLogFilterFlags;
+	bool m_bFilterEnabled, m_bNicklistEnabled;
+	bool m_bFGSet, m_bBGSet;
+	bool m_bInMenu;
+	COLORREF m_iFG, m_iBG;
+
+	void ClearLog();
+	void RedrawLog();
+	void ShowColorChooser(int iCtrlId);
+
+	virtual void AddLog();
+	virtual void CloseTab() {}
+	virtual bool IsActive() const PURE;
+	virtual void LoadSettings() PURE;
+	virtual void ScrollToBottom() {}
+	virtual void SetStatusText(const wchar_t *, HICON) {}
+	virtual void ShowFilterMenu() {}
+	virtual void StreamInEvents(struct LOGINFO *, bool) {}
+	virtual void UpdateNickList() {}
+	virtual void UpdateOptions();
+	virtual void UpdateStatusBar() {}
+	virtual void UpdateTitle() PURE;
+
+	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam);
+
+	__forceinline bool isChat() const { return m_si != nullptr; }
+
+	__inline void *operator new(size_t size) { return calloc(1, size); }
+	__inline void operator delete(void *p) { free(p); }
+};
+
 #endif // M_MESSAGE_H__
