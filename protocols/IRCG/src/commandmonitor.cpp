@@ -708,11 +708,8 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage *pmsg)
 		}
 
 		if (bIsChannel) {
-			if (!(pmsg->m_bIncoming && m_ignore && IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'm'))) {
-				if (!pmsg->m_bIncoming)
-					mess.Replace(L"%%", L"%");
+			if (!(pmsg->m_bIncoming && m_ignore && IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'm')))
 				DoEvent(GC_EVENT_MESSAGE, pmsg->parameters[0], pmsg->m_bIncoming ? pmsg->prefix.sNick : m_info.sNick, mess, nullptr, nullptr, NULL, true, pmsg->m_bIncoming ? false : true);
-			}
 			return true;
 		}
 	}
