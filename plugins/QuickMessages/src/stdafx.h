@@ -27,14 +27,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <newpluginapi.h>
 #include <m_clist.h>
-#include <m_options.h>
-#include <m_utils.h>
-#include <m_protosvc.h>
-#include <m_chat_int.h>
-#include <m_langpack.h>
-#include <m_icolib.h>
-#include <m_message.h>
 #include <m_contacts.h>
+#include <m_icolib.h>
+#include <m_langpack.h>
+#include <m_message.h>
+#include <m_options.h>
+#include <m_protosvc.h>
+#include <m_srmm_int.h>
+#include <m_utils.h>
 #include <win2k.h>
 
 #include "resource.h"
