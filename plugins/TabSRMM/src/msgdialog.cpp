@@ -823,15 +823,20 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		return;
 	}
 
-	// don't parse text formatting when the message contains curly braces - these are used by the rtf syntax
-	// and the parser currently cannot handle them properly in the text - XXX needs to be fixed later.
-	FINDTEXTEX fi = { 0 };
-	fi.chrg.cpMin = 0;
-	fi.chrg.cpMax = -1;
-	fi.lpstrText = L"{";
-	int final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)& fi) == -1 ? m_SendFormat : 0;
-	fi.lpstrText = L"}";
-	final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)& fi) == -1 ? final_sendformat : 0;
+	int final_sendformat;
+
+	if (!isChat()) {
+		// don't parse text formatting when the message contains curly braces - these are used by the rtf syntax
+		// and the parser currently cannot handle them properly in the text - XXX needs to be fixed later.
+		FINDTEXTEX fi = { 0 };
+		fi.chrg.cpMin = 0;
+		fi.chrg.cpMax = -1;
+		fi.lpstrText = L"{";
+		int final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_SendFormat : 0;
+		fi.lpstrText = L"}";
+		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? final_sendformat : 0;
+	}
+	else final_sendformat = true;
 
 	if (GetSendButtonState(m_hwnd) == PBS_DISABLED)
 		return;
