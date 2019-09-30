@@ -485,7 +485,6 @@ void CMenuBar::configureMenu() const
 		bool fChat = dat->isChat();
 
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 103, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
-		::SendMessage(m_hwndToolbar, TB_SETSTATE, 104, fChat ? TBSTATE_ENABLED : TBSTATE_HIDDEN);
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 105, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
 
 		if (!fChat)
@@ -556,25 +555,18 @@ void CMenuBar::checkButtons()
 		m_TbButtons[3].dwData = 0;								// dynamically built by Clist service
 
 		m_TbButtons[4].iBitmap = I_IMAGENONE;
-		m_TbButtons[4].iString = (INT_PTR)TranslateT("&Room");
+		m_TbButtons[4].iString = (INT_PTR)TranslateT("Message &log");
 		m_TbButtons[4].fsState = TBSTATE_ENABLED;
 		m_TbButtons[4].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
-		m_TbButtons[4].idCommand = 104;
-		m_TbButtons[4].dwData = 0;
+		m_TbButtons[4].idCommand = 105;
+		m_TbButtons[4].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 2));
 
 		m_TbButtons[5].iBitmap = I_IMAGENONE;
-		m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &log");
+		m_TbButtons[5].iString = (INT_PTR)TranslateT("&Container");
 		m_TbButtons[5].fsState = TBSTATE_ENABLED;
 		m_TbButtons[5].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
-		m_TbButtons[5].idCommand = 105;
-		m_TbButtons[5].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 2));
-
-		m_TbButtons[6].iBitmap = I_IMAGENONE;
-		m_TbButtons[6].iString = (INT_PTR)TranslateT("&Container");
-		m_TbButtons[6].fsState = TBSTATE_ENABLED;
-		m_TbButtons[6].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
-		m_TbButtons[6].idCommand = 106;
-		m_TbButtons[6].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
+		m_TbButtons[5].idCommand = 106;
+		m_TbButtons[5].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
 
 		m_buttonsInit = true;
 	}
