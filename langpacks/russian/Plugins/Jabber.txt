@@ -1781,8 +1781,8 @@ XML для MS Excel (кодировка UTF-8)
 Версия
 [System]
 Система
-[<currenty online>]
-
+[<currently online>]
+<сейчас в сети>
 [Last activity]
 Последняя активность
 [Client capabilities]
@@ -1811,8 +1811,6 @@ XML для MS Excel (кодировка UTF-8)
 от
 [none]
 нет
-[<currently online>]
-
 [Last logoff time]
 Время выхода
 [Uptime]

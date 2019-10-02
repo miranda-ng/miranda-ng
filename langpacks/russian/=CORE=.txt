@@ -1110,6 +1110,10 @@ UIN, E-mail и т.д.
 Использовать отображаемое имя
 [Lock name to first contact]
 Фиксировать имя
+[Choose needed logger from listed below:]
+Выберите желаемый просмотрщик из перечисленных ниже:
+[Enable custom log controls in group chats]
+Использовать сторонний просмотрщик в групповых чатах
 [Current language:]
 Язык интерфейса:
 [Last modified using:]
@@ -1440,12 +1444,6 @@ Google Карты
 Мигать окном, если есть подсвеченные сообщения
 [Show list of users in the chat room]
 Показывать список пользователей в комнате чата
-[Show button for sending messages]
-Показывать кнопку отправки сообщения
-[Show buttons for controlling the chat room]
-Показывать кнопки управления комнатой
-[Show buttons for formatting the text you are typing]
-Показывать кнопки форматирования текста
 [Show button menus when right clicking the buttons]
 Показывать меню кнопки по правому щелчку
 [Show the topic of the room on your contact list (if supported)]
@@ -1662,19 +1660,6 @@ Google Карты
 Чат
 [Popups]
 Всплывающие окна
-;file \src\core\stdmsg\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: комната чата (%u пользователь)
-[%s: chat room (%u users)]
-%s: комната чата (%u пользователей)
-[%s: message session]
-%s: беседа
-[%s: message session (%u users)]
-%s: беседа (%u пользователей)
-[Nickname]
-Ник
-[Unique ID]
-Уник. ID
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Таймаут отправки сообщения
@@ -1684,12 +1669,20 @@ Google Карты
 [Outgoing message (10x10)]
 Исходящее сообщение (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[Last message received on %s at %s.]
-Последнее сообщение вы получили %s в %s.
-[Message session]
-Беседа
 [%s is typing a message...]
 %s набирает текст...
+[Last message received on %s at %s.]
+Последнее сообщение вы получили %s в %s.
+[%s: chat room (%u user)]
+%s: комната чата (%u пользователь)
+[%s: chat room (%u users)]
+%s: комната чата (%u пользователей)
+[%s: message session]
+%s: беседа
+[%s: message session (%u users)]
+%s: беседа (%u пользователей)
+[Message session]
+Беседа
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 Я
@@ -1791,7 +1784,6 @@ Miranda не смогла загрузить встроенную систему
 Всплывающие окна включены
 [Popups are disabled]
 Всплывающие окна выключены
-;file \src\core\stdpopup\src\notify_imp.cpp
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Пример
@@ -2794,6 +2786,13 @@ ANSI плагин
 [Unselect all]
 Снять выбор
 ;file \src\mir_app\src\srmm_base.cpp
+[Nickname]
+Ник
+[Unique ID]
+Уник. ID
+;file \src\mir_app\src\srmm_log.cpp
+[Log viewer]
+Просмотрщик журнала сообщений
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделитель>

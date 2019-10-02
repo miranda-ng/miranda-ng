@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -36,8 +36,8 @@
 Вкладки
 [Enable tabs]
 Включить вкладки
-[Always show tab bar]
-Всегда показывать панель вкладок
+[Only show tab bar when it's needed]
+Панель вкладок только когда требуется
 [Tabs at the bottom]
 Вкладки cнизу
 [Limit names on tabs to]
@@ -82,8 +82,6 @@
 Допускаются переменные: %name% - имя контакта, %status% - его статус, %statusmsg% - сообщение статуса, %account% - имя учётной записи
 [Message window event log]
 Журнал окна сообщений
-[Enable IEView]
-Включить IEView
 [Show icons]
 Показывать значки
 [Show time]
@@ -96,8 +94,8 @@
 Буквенный формат даты
 [Relative date]
 Относительная дата
-[Show names]
-Показывать имена
+[Hide names]
+Скрывать имена
 [Enable message grouping]
 Группировать сообщения
 [Mark follow-up messages with timestamp]
@@ -234,30 +232,6 @@
 Длительность (с)
 [(0 means default setting, -1 means indefinite time)]
 0 = стандартные значения, -1 = бесконечное время
-[Log]
-Журнал
-[&Copy]
-&Копировать
-[Co&py all]
-Ко&пировать всё
-[Select &all]
-Выделить &всё
-[Word lookup]
-Найти слово
-[Yandex]
-Яндекс
-[Wikipedia (en)]
-Википедия (англ.)
-[Google Maps]
-Google Карты
-[Google Translate]
-Переводчик Google
-[C&lear log]
-Оч&истить журнал
-[&Open link]
-&Открыть ссылку
-[&Copy link]
-&Копировать ссылку
 [Message]
 Сообщение
 [Undo]
@@ -274,6 +248,8 @@ Google Карты
 Вставить и отправить
 [Delete]
 Удалить
+[Select &all]
+Выделить &всё
 [Clear]
 Очистить
 [Close other tabs]
@@ -454,21 +430,14 @@ ID текущего контакта (если определён). Наприм
 Показать в новом окне, если 'Фильтр событий' включён
 [Select folder]
 Выбрать папку
-;file \plugins\Scriver\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: комната чата (%u пользователь)
-[%s: chat room (%u users)]
-%s: комната чата (%u пользователей)
-[%s: message session]
-%s: беседа
-[%s: message session (%u users)]
-%s: беседа (%u пользователей)
-[Nickname]
-Ник
-[Unique ID]
-Уник. ID
-[Status]
-Статус
+[Message sessions]
+Беседы
+[General]
+Общее
+[Event log]
+Журнал событий
+[Popups]
+Всплывающие окна
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Добавить контакт
@@ -620,18 +589,14 @@ ID текущего контакта (если определён). Наприм
 [Action: Paste and send]
 Действие: Вставить и отправить
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Sending in progress: %d message(s) left...]
-Отправка сообщения: %d осталось...
-[%s is typing a message...]
-%s набирает текст...
-[Last message received on %s at %s.]
-Последнее сообщение вы получили %s в %s.
-[Look up '%s':]
-Искать '%s':
-[No word to look up]
-Нет слов для просмотра
 [User menu - %s]
 Меню пользователя - %s
+[Nickname]
+Ник
+[Unique ID]
+Уник. ID
+[Status]
+Статус
 ;file \plugins\Scriver\src\msglog.cpp
 [Me]
 Я
@@ -716,16 +681,8 @@ Shift+Enter
 ** Новые контакты **
 [** Unknown contacts **]
 ** Неизвестные контакты **
-[Message sessions]
-Беседы
-[General]
-Общее
-[Event log]
-Журнал событий
 [Typing notify]
 Набирает текст
-[Popups]
-Всплывающие окна
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Сообщение от %s
@@ -806,6 +763,21 @@ Miranda не смогла загрузить встроенную систему
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Неизвестная ошибка.
+;file \plugins\Scriver\src\msgutils.cpp
+[Sending in progress: %d message(s) left...]
+Отправка сообщения: %d осталось...
+[%s is typing a message...]
+%s набирает текст...
+[Last message received on %s at %s.]
+Последнее сообщение вы получили %s в %s.
+[%s: chat room (%u user)]
+%s: комната чата (%u пользователь)
+[%s: chat room (%u users)]
+%s: комната чата (%u пользователей)
+[%s: message session]
+%s: беседа
+[%s: message session (%u users)]
+%s: беседа (%u пользователей)
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Таймаут отправки сообщения

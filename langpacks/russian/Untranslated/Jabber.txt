@@ -22,6 +22,4 @@
 [Choose the group chats you want to leave]
 [Error %s %s\r\nTry to specify more detailed]
 [Message redirected from: %s\r\n]
-[<currenty online>]
-[<currently online>]
 [Please switch online to see more details.]

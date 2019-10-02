@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
@@ -42,16 +42,6 @@ WUMF: Текущие соединения
 Доступ к папкам
 [Alerts on folders access]
 Оповещения доступа к папкам
-[Log files and folders in UNC format]
-Папки и файлы в UNC формате
-[Alert files && folders in UNC format]
-Показывать папки и файлы в UNC формате
-[Log computer name with username]
-Имена компьютеров вместе с именами пользователей
-[Alert computer name with username]
-Показывать имена компьютеров вместе с именами пользователей
-[Disabled options will be available in the next version]
-Будут доступны в следующей версии
 [Show current connections]
 Показать соединения
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
@@ -59,8 +49,6 @@ WUMF: Текущие соединения
 Ошибка диалога 0x%lx
 [Error]
 Ошибка
-[Not implemented yet...]
-Ещё не реализовано...
 [Who uses my files]
 Используемые файлы
 [Services]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -34,6 +34,8 @@
 Классический формат времени и даты
 [* You need to restart Miranda NG to apply changes]
 * Применение изменений произойдёт после перезапуска программы
+[Display popups about successful actions]
+Показать всплывающее окно после успешной операции
 [View]
 Вид
 [&Copy]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.0.1
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -186,10 +186,6 @@
 Все статусы
 [Choose modes]
 Режимы статуса
-[Message log view mode (does not affect open windows)]
-Режим журнала сообщений (не влияет на открытые окна)
-[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Выберите, как показывать журнал. Не работает, если один из перечисленных плагинов не установлен.
 [Send text formatting method]
 Метод отправки форматирования
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
@@ -342,8 +338,6 @@ RTL шаблоны...
 События, полученные менее чем
 [minutes old]
 минут назад
-[Global message log display]
-Основной журнал сообщений
 [Typing notification options]
 Настройки уведомлений набора
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -716,8 +710,6 @@ BBCode ([b][i][u])
 Копировать сообщение
 [&File]
 &Файл
-[Save message log as...]
-Сохранить историю как...
 [Close message session\tCtrl+W]
 Закрыть беседу\tCtrl+W
 [Close container\tAlt+F4]
@@ -944,66 +936,6 @@ BBCode ([b][i][u])
 Время контакта
 [Window caption (skinned mode)]
 Заголовок (режим скина)
-[Open new chat rooms in the default container]
-Открывать новые чаты и беседы в контейнере по умолчанию
-[Flash window when someone speaks]
-Мигать окном, если есть новое сообщение
-[Flash window when a word is highlighted]
-Мигать окном, если есть подсвеченные сообщения
-[Create tabs or windows for highlight events]
-Создавать вкладку или окно при подсвеченном событии
-[Activate chat window on highlight]
-Активировать окно чата при подсвеченном событии
-[Show list of users in the chat room]
-Показывать список пользователей в комнате чата
-[Colorize nicknames in member list]
-Цветные ники в списке пользователей
-[Show button menus when right clicking the buttons]
-Показывать меню кнопки по правому щелчку
-[Show topic as status message on the contact list]
-Показать тему комнаты чата в списке контактов как сообщение статуса
-[Do not pop up the window when joining a chat room]
-Не открывать окно чата при входе в комнату чата
-[Sync splitter position with standard IM sessions]
-Синхронизировать положение разделителя со стандартом
-[Show contact's status modes if supported by the protocol]
-Показывать значки статусов, если поддерживается протоколом
-[Display contact's status icon before user role icon]
-Показывать значок статуса перед значком роли
-[Use IRC style status indicators in the nick list]
-IRC-стиль (текстовый) индикаторов ролей участников в списке
-[Use alternative sorting method in member list]
-Альтернативная сортировка ников в списке
-[Prefix all events with a timestamp]
-Подставлять время во все события
-[Timestamp only when event time differs]
-Подставлять время, если есть изменения
-[Timestamp has same color as the event]
-Время того же цвета, что и событие
-[Indent the second line of a message]
-Отступ второй строки сообщения
-[Limit user names in the message log to 20 characters]
-Ограничить имена в журнале 20 символами
-[Add a colon (:) to auto-completed user names]
-Добавлять к именам пользователей двоеточие (:) при автозавершении
-[Add a comma instead of a colon to auto-completed user names]
-Добавлять к именам пользователей запятую вместо двоеточия при автозавершении
-[Start private conversation on double click in nick list (insert nick if unchecked)]
-Приват при двойном щелчке в списке ников (иначе вставлять ник)
-[Strip colors from messages in the log]
-Запретить цвета в журнале
-[Enable the 'event filter' for new rooms]
-Включить 'фильтр событий' для новых комнат чата
-[Use IRC style status indicators in the log]
-IRC-стиль (текстовый) индикаторов ролей в журнале чата
-[Allow clickable user names in the message log]
-Ники кликабельны как гиперссылки
-[Add new line after names]
-Добавлять перевод строки после имён пользователей
-[Colorize user names in message log]
-Цветные ники в чате
-[Scale down icons to 10x10 pixels in the chat log]
-Менять разрешение значков на 10х10 в окне чата
 [Window Icon]
 Значок окна
 [Icon overlay]
@@ -1080,6 +1012,66 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 Интерфейс и функциональность окон чата
 [Appearance of the message log]
 Внешний вид журнала сообщений
+[Open new chat rooms in the default container]
+Открывать новые чаты и беседы в контейнере по умолчанию
+[Flash window when someone speaks]
+Мигать окном, если есть новое сообщение
+[Flash window when a word is highlighted]
+Мигать окном, если есть подсвеченные сообщения
+[Create tabs or windows for highlight events]
+Создавать вкладку или окно при подсвеченном событии
+[Activate chat window on highlight]
+Активировать окно чата при подсвеченном событии
+[Show list of users in the chat room]
+Показывать список пользователей в комнате чата
+[Colorize nicknames in member list]
+Цветные ники в списке пользователей
+[Show button menus when right clicking the buttons]
+Показывать меню кнопки по правому щелчку
+[Show topic as status message on the contact list]
+Показать тему комнаты чата в списке контактов как сообщение статуса
+[Do not pop up the window when joining a chat room]
+Не открывать окно чата при входе в комнату чата
+[Sync splitter position with standard IM sessions]
+Синхронизировать положение разделителя со стандартом
+[Show contact's status modes if supported by the protocol]
+Показывать значки статусов, если поддерживается протоколом
+[Display contact's status icon before user role icon]
+Показывать значок статуса перед значком роли
+[Use IRC style status indicators in the nick list]
+IRC-стиль (текстовый) индикаторов ролей участников в списке
+[Use alternative sorting method in member list]
+Альтернативная сортировка ников в списке
+[Prefix all events with a timestamp]
+Подставлять время во все события
+[Timestamp only when event time differs]
+Подставлять время, если есть изменения
+[Timestamp has same color as the event]
+Время того же цвета, что и событие
+[Indent the second line of a message]
+Отступ второй строки сообщения
+[Limit user names in the message log to 20 characters]
+Ограничить имена в журнале 20 символами
+[Add a colon (:) to auto-completed user names]
+Добавлять к именам пользователей двоеточие (:) при автозавершении
+[Add a comma instead of a colon to auto-completed user names]
+Добавлять к именам пользователей запятую вместо двоеточия при автозавершении
+[Start private conversation on double click in nick list (insert nick if unchecked)]
+Приват при двойном щелчке в списке ников (иначе вставлять ник)
+[Strip colors from messages in the log]
+Запретить цвета в журнале
+[Enable the 'event filter' for new rooms]
+Включить 'фильтр событий' для новых комнат чата
+[Use IRC style status indicators in the log]
+IRC-стиль (текстовый) индикаторов ролей в журнале чата
+[Allow clickable user names in the message log]
+Ники кликабельны как гиперссылки
+[Add new line after names]
+Добавлять перевод строки после имён пользователей
+[Colorize user names in message log]
+Цветные ники в чате
+[Scale down icons to 10x10 pixels in the chat log]
+Менять разрешение значков на 10х10 в окне чата
 [nick of current contact (if defined)]
 ник текущего контакта (если определён)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1151,37 +1143,6 @@ ID текущего контакта (если определён). Наприм
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 %s%s пишет:%s %s
-;file \plugins\TabSRMM\src\chat_window.cpp
-[Expand or collapse the side bar]
-Развернуть или свернуть боковую панель
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Нельзя включить фильтр, т.к. не выбран ни один тип событий, как глобально так и для этого чата
-[Event filter error]
-Ошибка фильтра событий
-[, %d %s, %d %s idle]
-, %d %s, %d %s не активен
-[hours]
-часа(ов)
-[hour]
-час
-[minutes]
-минут(ы)
-[minute]
-минута(у)
-[, %d %s idle]
-, %d %s не активен
-[%s on %s%s]
-%s в %s%s
-[%s: chat room (%u user%s)]
-%s: комната чата (%u пользователь%s)
-[%s: chat room (%u users%s)]
-%s: комната чата (%u пользователей%s)
-[, event filter active]
-, фильтр событий включён
-[%s: message session]
-%s: беседа
-[%s: message session (%u users)]
-%s: беседа (%u пользователей)
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Беседа...
@@ -1237,8 +1198,6 @@ ID текущего контакта (если определён). Наприм
 ;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 &Пользователь
-[&Room]
-&Комната чата
 [Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Звук: %s. Клик для переключения статуса, Shift+клик для всех открытых контейнеров
 [disabled]
@@ -1268,13 +1227,55 @@ ID текущего контакта (если определён). Наприм
 Новые сообщения:\s
 [Unknown module or contact]
 Неизвестный модуль или контакт
+[Show a preview of the event]
+Предпросмотр события
+[Don't announce event when message dialog is open]
+Не уведомлять, если открыто окно сообщений
+[Don't announce events from RSS protocols]
+Не уведомлять о событиях в протоколе RSS
+[Enable the system tray icon]
+Включить значок в трее
+[Merge new events for the same contact into existing popup]
+Добавлять новые события в уже существующее всплывающее окно
+[Show headers]
+Показать заголовки
+[Dismiss popup]
+Закрыть
+[Open event]
+Открыть событие
+[Dismiss event]
+Отклонить событие
+[Disable event notifications for instant messages]
+Выключить уведомления о событиях сообщений
+[Disable event notifications for group chats]
+Выключить уведомления о событиях групповых чатов
+[Disable notifications for non-message events]
+Выключить уведомления для всех событий, кроме сообщений
+[Remove popups for a contact when the message window is focused]
+Убирать, когда окно сообщений оказывается в фокусе
+[Remove popups for a contact when I start typing a reply]
+Убирать, когда я начинаю набирать ответ
+[Remove popups for a contact when I send a reply]
+Убирать, когда я отправляю ответ
+[Disable notifications]
+Выключить уведомления
+[System tray icon]
+Значок в трее
+[Left click actions (popups only)]
+Действия по левому щелчку (всплывающие окна)
+[Right click actions (popups only)]
+Действия по правому щелчку (всплывающие окна)
+[Timeout actions (popups only)]
+Действия по таймауту (всплывающие окна)
+[Combine notifications for the same contact]
+Соединять уведомления одного контакта
+[Remove popups under following conditions]
+Убирать всплывающие окна при условиях
 [Event notifications]
 Уведомления
 [Popups]
 Всплывающие окна
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-[Rich Edit file]
-Файл RTF
 [No status message]
 Нет сообщения статуса
 [You cannot edit user notes when there are unsent messages]
@@ -1445,6 +1446,8 @@ TabSRMM: набор текста
 Добавить этот контакт в список контактов
 [Do not add this contact permanently]
 Не добавлять этот контакт в список
+[Expand or collapse the side bar]
+Развернуть или свернуть боковую панель
 [Contact not on list. You may add it...]
 Контакт не в списке. Вы можете добавить его...
 [A message failed to send successfully.]
@@ -1457,14 +1460,12 @@ TabSRMM: набор текста
 Ещё раз
 [Send later]
 Отправить позже
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Shift+клик -> копировать в буфер)\nКлик - информация о пользователе\nПравой кнопкой - управление метаконтактом\nСтрелка вниз - добавление/удаление пользователя из избранного.
-[No UID]
-нет UID
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (Shift+клик -> копировать в буфер)\nКлик - информация о пользователе\nСтрелка вниз - добавление/удаление пользователя из избранного.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячую клавишу (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим набора ообщений
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+Нельзя включить фильтр, т.к. не выбран ни один тип событий, как глобально так и для этого чата
+[Event filter error]
+Ошибка фильтра событий
 [Selection copied to clipboard]
 Выделенный текст скопирован в буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1477,7 +1478,15 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 время отправки истекло
 [Contact is offline and this protocol does not support sending files to offline users.]
 Контакт не в сети и этот протокол не поддерживает оффлайн сообщения.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
+;file \plugins\TabSRMM\src\msgdlgother.cpp
+['(Unknown contact)']
+'(Неизвестный контакт)'
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
+Настройка "Вставить и отправить" выключена. Включите её в разделе "Настройки -> Беседы -> Общее -> Отправка сообщений".
+[Set your avatar...]
+Сменить аватар...
+[A message delivery has failed.\nClick to open the message window.]
+Доставка сообщения не удалась.\nНажмите для открытия окна сообщений
 [Error creating destination directory]
 Ошибка создания пути назначения
 [Save contact picture]
@@ -1486,16 +1495,40 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Файлы изображений
 [The file exists. Do you want to overwrite it?]
 Файл уже существует. Перезаписать?
-[Set your avatar...]
-Сменить аватар...
-[Save and close session]
-Сохранить набранное и закрыть вкладку
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-Настройка "Вставить и отправить" выключена. Включите её в разделе "Настройки -> Беседы -> Общее -> Отправка сообщений".
-['(Unknown contact)']
-'(Неизвестный контакт)'
 [JPEG-compressed images]
 Изображения в формате JPEG
+[Save and close session]
+Сохранить набранное и закрыть вкладку
+[, %d %s, %d %s idle]
+, %d %s, %d %s не активен
+[hours]
+часа(ов)
+[hour]
+час
+[minutes]
+минут(ы)
+[minute]
+минута(у)
+[, %d %s idle]
+, %d %s не активен
+[%s on %s%s]
+%s в %s%s
+[%s: chat room (%u user%s)]
+%s: комната чата (%u пользователь%s)
+[%s: chat room (%u users%s)]
+%s: комната чата (%u пользователей%s)
+[, event filter active]
+, фильтр событий включён
+[%s: message session]
+%s: беседа
+[%s: message session (%u users)]
+%s: беседа (%u пользователей)
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Shift+клик -> копировать в буфер)\nКлик - информация о пользователе\nПравой кнопкой - управление метаконтактом\nСтрелка вниз - добавление/удаление пользователя из избранного.
+[No UID]
+нет UID
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Shift+клик -> копировать в буфер)\nКлик - информация о пользователе\nСтрелка вниз - добавление/удаление пользователя из избранного.
 ;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 Тайский
@@ -1578,14 +1611,70 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Загрузить настройки шаблонов сообщений из этой темы?\nВнимание: это перезапишет ваш набор шаблонов, что может существенно затронуть вид вашего окна сообщений.\nЧтобы не загружать ничего, выберите "Отмена".
 [Load theme]
 Загрузить тему
-[Internal message log]
-Встроенный журнал
-[IEView plugin]
-Плагин IEView
-[History++ plugin]
-Плагин History++
-[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Вы выбрали внешний плагин для отображения сообщений в журнале. Большинство настроек на этой странице для журнала по умолчанию и не будут иметь эффекта. Для изменения внешнего вида журнала сообщений вы должны настроить IEView или History++.
+[Message window behavior]
+Поведение окна сообщений
+[Sending messages]
+Отправка сообщений
+[Send on Shift+Enter]
+Отправлять по Shift+Enter
+[Send message on 'Enter']
+Отправлять по "Enter"
+[Send message on double 'Enter']
+Отправлять по двойному "Enter"
+[Minimize the message window on send]
+Сворачивать окно после отправки
+[Close the message window on send]
+Закрывать окно после отправки
+[Always flash contact list and tray icon for new messages]
+Мигать значком в трее и списке контактов при новом сообщении
+[Delete temporary contacts on close]
+Удалять временные контакты при закрытии
+[Enable "Paste and send" feature]
+Включить функцию "вставить и отправить"
+[Allow BBCode formatting in outgoing messages]
+Разрешить BBCode для исходящих сообщений
+[Automatically split long messages (experimental, use with care)]
+Автоматически разделять длинные сообщения (экспериментально)
+[Log status changes]
+Записывать изменения статусов в журнал
+[Automatically copy selected text]
+Автоматически копировать выделенный текст
+[Message log appearance]
+Внешний вид журнала
+[Support for external plugins]
+Поддержка внешних плагинов
+[Timestamp settings (note: timestamps also depend on your templates)]
+Отображение времени (также зависит от ваших шаблонов)
+[Message log icons]
+Значки журнала сообщений
+[Show dates in timestamps]
+Показывать дату
+[Show seconds in timestamps]
+Показывать секунды
+[Use contacts local time (if timezone info available)]
+Местное время контакта (если доступен часовой пояс)
+[Draw grid lines]
+Рисовать линии сетки
+[Use incoming/outgoing icons]
+Использовать значки входящего/исходящего сообщения
+[Use message grouping]
+Группировать сообщения
+[Simple text formatting (*bold*, etc.)]
+Простое форматирование (*жирный* и т.п.)
+[Support BBCode formatting]
+Поддержка BBCode
+[Place a separator in the log after a window lost its foreground status]
+Ставить разделитель в журнале после того, как окно теряет фокус
+[Only place a separator when an incoming event is announced with a popup]
+Ставить разделитель только при событии, сопровождаемом вспл. окном
+[Show events at the new line (IEView Compatibility Mode)]
+Показывать события с новой строки (режим совместимости с IEView)
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+Подчёркивать время/ник (режим совместимости с IEView)
+[Show timestamp after nickname (IEView Compatibility Mode)]
+Показывать время после ника (режим совместимости с IEView)
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Обычные шаблоны (отключите для упрощённых шаблонов)
 [** New contacts **]
 ** Новые контакты **
 [** Unknown contacts **]
@@ -1596,6 +1685,30 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Всегда, но не показывать когда окно в фокусе
 [Only when no message window is open]
 Только когда не открыто окно сообщений
+[How to create tabs and windows for incoming messages]
+Настройки создания вкладок и окон для входящих сообщений
+[Show status text on tabs]
+Показывать текст статуса на вкладке
+[Prefer xStatus icons when available]
+Предпочитать значок xСтатуса, когда он доступен
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Показывать подсказку на вкладках (требуется плагин Tipper)
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+Создавать вкладку при новом сообщении (игнорируя настройки ниже)
+[Automatically create new message sessions without activating them]
+Автоматически создавать новые вкладки, без активации
+[New windows are minimized (the option above MUST be active)]
+Создавать новые окна свёрнутыми (настройка выше ДОЛЖНА быть включена)
+[Activate a minimized window when a new tab is created inside it]
+Открыть свёрнутое окно при создании в нём новой вкладки
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Автоматическая смена свёрнутой вкладки при новых сообщениях (не работает, когда включена функция Aero Peek)
+[Close button only hides message windows]
+Кнопка "Закрыть" только скрывает окна сообщений
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Разрешить табуляцию в поле ввода (отключит переключение фокуса по клавише Tab)
+[Add offline contacts to multisend list]
+Добавить в список рассылки контакты, находящиеся не в сети
 [Normal - close tab, if last tab is closed also close the window]
 Закрыть вкладку, но если это была последняя вкладка - закрыть окно
 [Minimize the window to the task bar]
@@ -1604,6 +1717,24 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Закрыть или скрыть окно, зависит от настройки кнопки закрытия
 [Do nothing (ignore Esc key)]
 Ничего не делать (игнорировать нажатие клавиши)
+[Message window tweaks]
+Настройки окна сообщений
+[Display metacontact icons]
+Использовать значки метаконтактов
+[Error feedback]
+Ошибки доставки сообщений
+[Close current tab on send]
+Закрывать вкладку при отправке
+[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+Включить автоотправку (нужно для мультиотправки и отправки с задержкой) (*)
+[Show client description in info panel]
+Показать описание клиента в инфо-панели
+[On tab control]
+На вкладках
+[On the button bar]
+На панели кнопок
+[Disable error popups on sending failures]
+Отключить всплывающие сообщения о неудачной отправке
 [Choose status modes]
 Выбор режимов статуса
 [General]
@@ -1623,8 +1754,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 [Window layout tweaks]
 Вид вкладок
 ;file \plugins\TabSRMM\src\msgs.cpp
-[A message delivery has failed.\nClick to open the message window.]
-Доставка сообщения не удалась.\nНажмите для открытия окна сообщений
 [Message Log Options]
 Настройки бесед
 [Image tag]
@@ -1821,157 +1950,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Перед сменой скина нужно закрыть все контейнеры\nПродолжить?
 [Change skin]
 Изменение скина
-;file \plugins\TabSRMM\src\translator.cpp
-[Message window tweaks]
-Настройки окна сообщений
-[Display metacontact icons]
-Использовать значки метаконтактов
-[Error feedback]
-Ошибки доставки сообщений
-[Close current tab on send]
-Закрывать вкладку при отправке
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Включить автоотправку (нужно для мультиотправки и отправки с задержкой) (*)
-[Show client description in info panel]
-Показать описание клиента в инфо-панели
-[On tab control]
-На вкладках
-[On the button bar]
-На панели кнопок
-[Disable error popups on sending failures]
-Отключить всплывающие сообщения о неудачной отправке
-[Show a preview of the event]
-Предпросмотр события
-[Don't announce event when message dialog is open]
-Не уведомлять, если открыто окно сообщений
-[Don't announce events from RSS protocols]
-Не уведомлять о событиях в протоколе RSS
-[Enable the system tray icon]
-Включить значок в трее
-[Merge new events for the same contact into existing popup]
-Добавлять новые события в уже существующее всплывающее окно
-[Show headers]
-Показать заголовки
-[Dismiss popup]
-Закрыть
-[Open event]
-Открыть событие
-[Dismiss event]
-Отклонить событие
-[Disable event notifications for instant messages]
-Выключить уведомления о событиях сообщений
-[Disable event notifications for group chats]
-Выключить уведомления о событиях групповых чатов
-[Disable notifications for non-message events]
-Выключить уведомления для всех событий, кроме сообщений
-[Remove popups for a contact when the message window is focused]
-Убирать, когда окно сообщений оказывается в фокусе
-[Remove popups for a contact when I start typing a reply]
-Убирать, когда я начинаю набирать ответ
-[Remove popups for a contact when I send a reply]
-Убирать, когда я отправляю ответ
-[Disable notifications]
-Выключить уведомления
-[System tray icon]
-Значок в трее
-[Left click actions (popups only)]
-Действия по левому щелчку (всплывающие окна)
-[Right click actions (popups only)]
-Действия по правому щелчку (всплывающие окна)
-[Timeout actions (popups only)]
-Действия по таймауту (всплывающие окна)
-[Combine notifications for the same contact]
-Соединять уведомления одного контакта
-[Remove popups under following conditions]
-Убирать всплывающие окна при условиях
-[Message window behavior]
-Поведение окна сообщений
-[Sending messages]
-Отправка сообщений
-[Send on Shift+Enter]
-Отправлять по Shift+Enter
-[Send message on 'Enter']
-Отправлять по "Enter"
-[Send message on double 'Enter']
-Отправлять по двойному "Enter"
-[Minimize the message window on send]
-Сворачивать окно после отправки
-[Close the message window on send]
-Закрывать окно после отправки
-[Always flash contact list and tray icon for new messages]
-Мигать значком в трее и списке контактов при новом сообщении
-[Delete temporary contacts on close]
-Удалять временные контакты при закрытии
-[Enable "Paste and send" feature]
-Включить функцию "вставить и отправить"
-[Allow BBCode formatting in outgoing messages]
-Разрешить BBCode для исходящих сообщений
-[Automatically split long messages (experimental, use with care)]
-Автоматически разделять длинные сообщения (экспериментально)
-[Log status changes]
-Записывать изменения статусов в журнал
-[Automatically copy selected text]
-Автоматически копировать выделенный текст
-[Message log appearance]
-Внешний вид журнала
-[Support for external plugins]
-Поддержка внешних плагинов
-[Timestamp settings (note: timestamps also depend on your templates)]
-Отображение времени (также зависит от ваших шаблонов)
-[Message log icons]
-Значки журнала сообщений
-[Show dates in timestamps]
-Показывать дату
-[Show seconds in timestamps]
-Показывать секунды
-[Use contacts local time (if timezone info available)]
-Местное время контакта (если доступен часовой пояс)
-[Draw grid lines]
-Рисовать линии сетки
-[Use incoming/outgoing icons]
-Использовать значки входящего/исходящего сообщения
-[Use message grouping]
-Группировать сообщения
-[Simple text formatting (*bold*, etc.)]
-Простое форматирование (*жирный* и т.п.)
-[Support BBCode formatting]
-Поддержка BBCode
-[Place a separator in the log after a window lost its foreground status]
-Ставить разделитель в журнале после того, как окно теряет фокус
-[Only place a separator when an incoming event is announced with a popup]
-Ставить разделитель только при событии, сопровождаемом вспл. окном
-[Show events at the new line (IEView Compatibility Mode)]
-Показывать события с новой строки (режим совместимости с IEView)
-[Underline timestamp/nickname (IEView Compatibility Mode)]
-Подчёркивать время/ник (режим совместимости с IEView)
-[Show timestamp after nickname (IEView Compatibility Mode)]
-Показывать время после ника (режим совместимости с IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Обычные шаблоны (отключите для упрощённых шаблонов)
-[How to create tabs and windows for incoming messages]
-Настройки создания вкладок и окон для входящих сообщений
-[Show status text on tabs]
-Показывать текст статуса на вкладке
-[Prefer xStatus icons when available]
-Предпочитать значок xСтатуса, когда он доступен
-[Detailed tooltip on tabs (requires Tipper plugin)]
-Показывать подсказку на вкладках (требуется плагин Tipper)
-[ALWAYS activate new message sessions (has PRIORITY over the options below)]
-Создавать вкладку при новом сообщении (игнорируя настройки ниже)
-[Automatically create new message sessions without activating them]
-Автоматически создавать новые вкладки, без активации
-[New windows are minimized (the option above MUST be active)]
-Создавать новые окна свёрнутыми (настройка выше ДОЛЖНА быть включена)
-[Activate a minimized window when a new tab is created inside it]
-Открыть свёрнутое окно при создании в нём новой вкладки
-[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Автоматическая смена свёрнутой вкладки при новых сообщениях (не работает, когда включена функция Aero Peek)
-[Close button only hides message windows]
-Кнопка "Закрыть" только скрывает окна сообщений
-[Allow Tab key in typing area (this will disable focus selection by Tab key)]
-Разрешить табуляцию в поле ввода (отключит переключение фокуса по клавише Tab)
-[Add offline contacts to multisend list]
-Добавить в список рассылки контакты, находящиеся не в сети
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
@@ -1987,12 +1965,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 [Contact stopped typing]
 Контакт закончил набор текста
 ;file \plugins\TabSRMM\src\userprefs.cpp
-[Force default message log]
-Журнал по умолчанию
-[Force History++]
-Принудительно History++
-[Force IEView]
-Принудительно IEView
 [Set messaging options for %s]
 Настройки бесед для %s
 ;file \plugins\TabSRMM\src\utils.cpp

@@ -2,12 +2,14 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.5
+;  Version: 0.95.11.6
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 Поддержка протокола ICQ в Miranda NG.
 ;file \protocols\ICQ-WIM\res\resources.rc
+[Edit server groups]
+Редактировать группы на сервере
 [UIN/e-mail:]
 UIN/почта:
 [Password:]
@@ -87,6 +89,14 @@ UIN/почта:
 %s подключение к серверу
 [Synchronize server groups]
 Синхронизировать группы с сервером
+[Name]
+Имя
+[Rename]
+Переименовать
+[Delete]
+Удалить
+[Enter new group name]
+Введите имя новой группы
 [UIN/e-mail/phone]
 UIN/почта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
