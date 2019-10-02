@@ -275,13 +275,11 @@ void CProxyWindow::sendPreview()
 	HDC hdc, dc;
 	int twips = (int)(15.0f / PluginConfig.m_DPIscaleY);
 	bool fIsChat = m_dat->isChat();
-	HWND 	hwndRich = ::GetDlgItem(m_dat->GetHwnd(), IDC_SRMM_LOG);
-	LONG 	cx, cy;
+	HWND hwndRich = m_dat->m_pLog->GetHwnd();
 	POINT	ptOrigin = { 0 }, ptBottom;
 
 	if (m_dat->m_dwFlags & MWF_NEEDCHECKSIZE) {
 		RECT	rcClient;
-
 		::SendMessage(m_dat->m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
 		::MoveWindow(m_dat->GetHwnd(), rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
 		::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
@@ -308,8 +306,8 @@ void CProxyWindow::sendPreview()
 	ptBottom.y = rcTemp.bottom;
 	::ScreenToClient(m_dat->m_pContainer->m_hwnd, &ptBottom);
 
-	cx = rcLog.right - rcLog.left;
-	cy = rcLog.bottom - rcLog.top;
+	int cx = rcLog.right - rcLog.left;
+	int cy = rcLog.bottom - rcLog.top;
 	rcRich.left = 0;
 	rcRich.top = 0;
 	rcRich.right = cx;
@@ -337,9 +335,9 @@ void CProxyWindow::sendPreview()
 	::FillRect(hdcRich, &rcRich, br);
 	::DeleteObject(br);
 
-	if (m_dat->m_hwndIEView)
-		::SendMessage(m_dat->m_hwndIEView, WM_PRINT, reinterpret_cast<WPARAM>(hdcRich), PRF_CLIENT | PRF_NONCLIENT);
-	else if (m_dat->m_hwndHPP) {
+	if (m_dat->m_iLogMode == WANT_IEVIEW_LOG)
+		::SendMessage(hwndRich, WM_PRINT, reinterpret_cast<WPARAM>(hdcRich), PRF_CLIENT | PRF_NONCLIENT);
+	else if (m_dat->m_iLogMode == WANT_HPP_LOG) {
 		CSkin::RenderText(hdcRich, m_dat->m_hTheme, TranslateT("Previews not available when using History++ plugin for message log display."),
 			&rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->m_pContainer->m_theme.fontColors[MSGFONTID_MYMSG], false);
 	}
@@ -353,7 +351,6 @@ void CProxyWindow::sendPreview()
 		fr.rcPage = rcRich;
 		fr.chrg.cpMax = -1;
 		fr.chrg.cpMin = first;
-
 		::SendMessage(hwndRich, EM_FORMATRANGE, 1, LPARAM(&fr));
 	}
 

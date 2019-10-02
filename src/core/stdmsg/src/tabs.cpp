@@ -515,7 +515,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (!((rc.right - rc.left) == oldSizeX && (rc.bottom - rc.top) == oldSizeY)) {
 			CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
 			if (pDlg != nullptr) {
-				pDlg->ScrollToBottom();
+				pDlg->m_pLog->ScrollToBottom();
 				pDlg->Resize();
 			}
 		}

@@ -247,6 +247,8 @@ void TreeViewToDB(CCtrlTreeView&, TOptionListItem *lvItems, const char *DBPath, 
 
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
+CSrmmLogWindow *logBuilder(CMsgDialog &pDlg);
+
 int TSAPI TBStateConvert2Flat(int state);
 int TSAPI RBStateConvert2Flat(int state);
 void TSAPI FillTabBackground(const HDC hdc, int iStateId, const CMsgDialog *dat, RECT* rc);

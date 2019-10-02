@@ -519,15 +519,15 @@ public:
 class CLogOptionsDlg : public CBaseOptionDlg
 {
 	CCtrlSpin spinCount, spinTime, spinIndent;
-	CCtrlCheck chkLoadUnread, chkLoadCount, chkLoadTime, chkUseIeview;
+	CCtrlCheck chkLoadUnread, chkLoadCount, chkLoadTime;
 	CCtrlCheck chkShowIcons, chkShowTime, chkShowSecs, chkShowDate, chkLongDate, chkRelativeDate;
 	CCtrlCheck chkGroupMsg, chkIndentText, chkHideNames, chkMarkFollowups, chkMsgOnNewline, chkDrawLines;
-	CCtrlRichEdit m_log;
+	CCtrlRichEdit m_rtf;
 	CCtrlHyperlink m_fonts;
 
 	void OnChange() override
 	{
-		m_log.SetText(L"");
+		m_rtf.SetText(L"");
 
 		struct GlobalMessageData gdat = {};
 		gdat.flags.bShowIcons = chkShowIcons.GetState();
@@ -548,15 +548,15 @@ class CLogOptionsDlg : public CBaseOptionDlg
 		pf2.cbSize = sizeof(pf2);
 		pf2.dwMask = PFM_OFFSET;
 		pf2.dxOffset = (gdat.flags.bIndentText) ? gdat.indentSize * 1440 / g_dat.logPixelSX : 0;
-		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+		m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 
-		StreamInTestEvents(m_log.GetHwnd(), &gdat);
+		StreamInTestEvents(m_rtf.GetHwnd(), &gdat);
 	}
 
 public:
 	CLogOptionsDlg() :
 		CBaseOptionDlg(IDD_OPT_MSGLOG),
-		m_log(this, IDC_SRMM_LOG),
+		m_rtf(this, IDC_SRMM_LOG),
 		m_fonts(this, IDC_FONTSCOLORS),
 		chkShowTime(this, IDC_SHOWTIMES),
 		chkShowSecs(this, IDC_SHOWSECONDS),
@@ -569,7 +569,6 @@ public:
 		chkShowIcons(this, IDC_SHOWLOGICONS),
 		chkIndentText(this, IDC_INDENTTEXT),
 		chkHideNames(this, IDC_HIDENAMES),
-		chkUseIeview(this, IDC_USEIEVIEW),
 		chkMsgOnNewline(this, IDC_MESSAGEONNEWLINE),
 		chkLoadTime(this, IDC_LOADTIME),
 		chkLoadCount(this, IDC_LOADCOUNT),
@@ -585,7 +584,6 @@ public:
 		CreateLink(chkShowDate, g_plugin.bShowDate);
 		CreateLink(chkLongDate, g_plugin.bLongDate);
 		CreateLink(chkGroupMsg, g_plugin.bGroupMessages);
-		CreateLink(chkUseIeview, g_plugin.bUseIeview);
 		CreateLink(chkShowIcons, g_plugin.bShowIcons);
 		CreateLink(chkHideNames, g_plugin.bHideNames);
 		CreateLink(chkDrawLines, g_plugin.bDrawLines);
@@ -618,11 +616,8 @@ public:
 			CheckDlgButton(m_hwnd, IDC_LOADTIME, BST_CHECKED);
 			break;
 		}
+
 		onChange_Time(0);
-
-		if (!g_dat.ieviewInstalled)
-			EnableWindow(GetDlgItem(m_hwnd, IDC_USEIEVIEW), FALSE);
-
 		onChange_Times(0);
 		onChange_Dates(0);
 		onChange_GroupMsg(0);
@@ -634,12 +629,12 @@ public:
 		pf2.dwMask = PFM_OFFSETINDENT | PFM_RIGHTINDENT;
 		pf2.dxStartIndent = 30;
 		pf2.dxRightIndent = 30;
-		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+		m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 
-		m_log.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-		m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
-		m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
-		m_log.SetReadOnly(true);
+		m_rtf.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
+		m_rtf.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
+		m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
+		m_rtf.SetReadOnly(true);
 
 		OnChange();
 		return true;

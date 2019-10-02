@@ -248,10 +248,52 @@ struct TContainerData : public MZeroedObject
 	}
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// CLogWindow - built-in log window
+
+class CLogWindow : public CRtfLogWindow
+{
+	typedef CRtfLogWindow CSuper;
+
+public:
+	CLogWindow(CMsgDialog &pDlg) :
+		CSuper(pDlg)
+	{
+	}
+
+	void Attach() override;
+	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
+	void LogEvents(DBEVENTINFO *dbei, bool bAppend) override;
+	void LogEvents(struct LOGINFO *, bool) override;
+	void ScrollToBottom() override;
+	void UpdateOptions() override;
+
+	void DisableStaticEdge()
+	{
+		SetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+	}
+
+	char* GetRichTextRtf(bool bText, bool bSelection)
+	{
+		return m_rtf.GetRichTextRtf(bText, bSelection);
+	}
+
+	void  LogEvents(MEVENT hDbEventFirst, int count, bool bAppend, DBEVENTINFO *dbei);
+	void  ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
+	void  ScrollToBottom(bool, bool);
+
+	INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CMsgDialog - SRMM window class
+
 class CMsgDialog : public CSrmmBaseDialog
 {
 	typedef CSrmmBaseDialog CSuper;
 	friend class CInfoPanel;
+	friend class CLogWindow;
+	friend class CProxyWindow;
 
 	void    BB_InitDlgButtons(void);
 	void    BB_RefreshTheme(void);
@@ -298,12 +340,9 @@ class CMsgDialog : public CSrmmBaseDialog
 	void    LoadOwnAvatar(void);
 	void    LoadSplitter(void);
 	void    PlayIncomingSound(void) const;
-	void    ReplaceIcons(LONG startAt, int fAppend, BOOL isSent);
 	void    ReplayQueue(void);
-	void    ResizeIeView(void);
 	void    SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
 	void 	  SendHBitmapAsFile(HBITMAP hbmp) const;
-	void    SetMessageLog(void);
 	void    ShowPopupMenu(const CCtrlBase&, POINT pt);
 	void    UpdateWindowIcon(void);
 	void    UpdateWindowState(UINT msg);
@@ -322,6 +361,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	int     m_originalSplitterY;
 	SIZE    m_minEditBoxSize;
 	int     m_nTypeMode;
+	int     m_iLogMode;
 	DWORD   m_nLastTyping;
 	DWORD   m_lastMessage;
 	DWORD   m_dwTickLastEvent;
@@ -382,7 +422,6 @@ public:
 	DWORD   m_dwFlags = MWF_INITMODE, m_dwFlagsEx;
 	DWORD   m_dwUnread;
 	HANDLE  m_hTheme, m_hThemeIP, m_hThemeToolbar;
-	HWND    m_hwndIEView, m_hwndIWebBrowserControl, m_hwndHPP;
 	HICON   m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;
 	MEVENT  m_hDbEventFirst, m_hDbEventLast;
 	HANDLE  m_hTimeZone;
@@ -452,17 +491,14 @@ public:
 	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	void AddLog() override;
 	void CloseTab() override;
 	void LoadSettings() override;
-	void ScrollToBottom() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;
-	void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
 	void UpdateNickList() override;
 	void UpdateOptions() override;
 	void UpdateStatusBar() override;
@@ -476,6 +512,14 @@ public:
 
 	__forceinline CCtrlRichEdit& GetEntry() { return m_message; }
 
+	__forceinline CLogWindow* LOG() {
+		return ((CLogWindow *)m_pLog);
+	}
+
+	__forceinline void LogEvent(DBEVENTINFO *dbei) {
+		m_pLog->LogEvents(dbei, 1);
+	}
+
 	bool IsActive() const override
 	{
 		return m_pContainer->IsActive() && m_pContainer->m_hwndActive == m_hwnd;
@@ -483,7 +527,6 @@ public:
 
 	void  DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
 	void  DM_RecalcPictureSize(void);
-	void  DM_SaveLogAsRTF(void) const;
 	void  DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
 
 	void  ActivateTooltip(int iCtrlId, const wchar_t *pwszMessage);
@@ -508,7 +551,6 @@ public:
 	void  SetDialogToType(void);
 	void  ShowPicture(bool showNewPic);
 	void  SplitterMoved(int x, HWND hwnd);
-	void  StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
 	void  UpdateReadChars(void) const;
 	void  UpdateSaveAndSendButton(void);
 
@@ -733,7 +775,6 @@ struct TIconDescW
 #define DM_SC_BUILDLIST          (TM_USER+100)
 #define DM_SC_INITDIALOG         (TM_USER+101)
 #define DM_SC_CONFIG             (TM_USER+104)
-#define DM_SCROLLIEVIEW          (TM_USER+102)
 #define DM_UPDATEUIN             (TM_USER+103)
 
 #define MINSPLITTERX         60
@@ -1058,6 +1099,9 @@ struct SKINDESC
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	HANDLE hLogger;
+	void InitLogger();
+
 	CMPlugin();
 
 	int Load() override;

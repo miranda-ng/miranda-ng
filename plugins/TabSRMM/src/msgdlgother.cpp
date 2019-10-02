@@ -1219,7 +1219,7 @@ void CMsgDialog::RemakeLog()
 	m_szMicroLf[0] = 0;
 	m_lastEventTime = 0;
 	m_iLastEventType = -1;
-	StreamInEvents(m_hDbEventFirst, -1, 0, nullptr);
+	m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1228,33 +1228,11 @@ void CMsgDialog::ReplayQueue()
 {
 	for (int i = 0; i < m_iNextQueuedEvent; i++)
 		if (m_hQueuedEvents[i] != 0)
-			StreamInEvents(m_hQueuedEvents[i], 1, 1, nullptr);
+			m_pLog->LogEvents(m_hQueuedEvents[i], 1, 1);
 
 	m_iNextQueuedEvent = 0;
 	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
 		TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CMsgDialog::ResizeIeView()
-{
-	RECT rcRichEdit;
-	GetWindowRect(m_log.GetHwnd(), &rcRichEdit);
-
-	POINT pt = { rcRichEdit.left, rcRichEdit.top };
-	ScreenToClient(m_hwnd, &pt);
-
-	IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
-	ieWindow.iType = IEW_SETPOS;
-	ieWindow.parent = m_hwnd;
-	ieWindow.hwnd = m_hwndIEView ? m_hwndIEView : m_hwndHPP;
-	ieWindow.x = pt.x;
-	ieWindow.y = pt.y;
-	ieWindow.cx = rcRichEdit.right - rcRichEdit.left;
-	ieWindow.cy = rcRichEdit.bottom - rcRichEdit.top;
-	if (ieWindow.cx != 0 && ieWindow.cy != 0)
-		CallService(m_hwndIEView ? MS_IEVIEW_WINDOW : MS_HPP_EG_WINDOW, 0, (LPARAM)& ieWindow);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1344,13 +1322,6 @@ void CMsgDialog::SaveSplitter()
 		else
 			db_set_dw(0, SRMSGMOD_T, "splitsplity", m_iSplitterY);
 	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CMsgDialog::ScrollToBottom()
-{
-	DM_ScrollToBottom(0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1468,41 +1439,6 @@ void TSAPI CleanTempFiles()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void CMsgDialog::SetMessageLog()
-{
-	if (isChat())
-		return;
-
-	unsigned int iLogMode = GetIEViewMode(m_hContact);
-
-	if (iLogMode == WANT_IEVIEW_LOG && m_hwndIEView == nullptr) {
-		IEVIEWWINDOW ieWindow = {};
-		ieWindow.iType = IEW_CREATE;
-		ieWindow.dwMode = IEWM_TABSRMM;
-		ieWindow.parent = m_hwnd;
-		ieWindow.cx = 200;
-		ieWindow.cy = 200;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)& ieWindow);
-		m_hwndIEView = ieWindow.hwnd;
-		m_log.Hide();
-		m_log.Enable(false);
-	}
-	else if (iLogMode == WANT_HPP_LOG && m_hwndHPP == nullptr) {
-		IEVIEWWINDOW ieWindow = {};
-		ieWindow.iType = IEW_CREATE;
-		ieWindow.dwMode = IEWM_TABSRMM;
-		ieWindow.parent = m_hwnd;
-		ieWindow.cx = 10;
-		ieWindow.cy = 10;
-		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)& ieWindow);
-		m_hwndHPP = ieWindow.hwnd;
-		m_log.Hide();
-		m_log.Enable(false);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Sets a status bar text for a contact
 
 void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
@@ -1530,7 +1466,7 @@ void CMsgDialog::ShowFilterMenu()
 
 	RECT rcFilter, rcLog;
 	GetClientRect(m_hwndFilter, &rcFilter);
-	GetWindowRect(m_log.GetHwnd(), &rcLog);
+	GetWindowRect(m_pLog->GetHwnd(), &rcLog);
 
 	POINT pt;
 	pt.x = rcLog.right; pt.y = rcLog.bottom;
@@ -1744,7 +1680,7 @@ void CMsgDialog::SplitterMoved(int coord, HWND hwnd)
 		break;
 
 	case IDC_PANELSPLITTER:
-		GetClientRect(m_log.GetHwnd(), &rc);
+		GetClientRect(m_pLog->GetHwnd(), &rc);
 
 		POINT	pnt = { 0, coord };
 		ScreenToClient(m_hwnd, &pnt);
@@ -1853,37 +1789,14 @@ LBL_SkipEnd:
 void CMsgDialog::tabClearLog()
 {
 	if (isChat()) {
-		SESSION_INFO *s = g_chatApi.SM_FindSession(m_si->ptszID, m_si->pszModule);
-		if (s) {
-			ClearLog();
-			g_chatApi.LM_RemoveAll(&s->pLog, &s->pLogEnd);
-			s->iEventCount = 0;
-			s->LastTime = 0;
-			m_si->iEventCount = 0;
-			m_si->LastTime = 0;
-			m_si->pLog = s->pLog;
-			m_si->pLogEnd = s->pLogEnd;
-			PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-		}
+		g_chatApi.LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
+		m_si->iEventCount = 0;
+		m_si->LastTime = 0;
+		PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 	}
-	else {
-		if (m_hwndIEView || m_hwndHPP) {
-			IEVIEWEVENT event = {};
-			event.iType = IEE_CLEAR_LOG;
-			event.dwFlags = (m_dwFlags & MWF_LOG_RTL) ? IEEF_RTL : 0;
-			event.hContact = m_hContact;
-			if (m_hwndIEView) {
-				event.hwnd = m_hwndIEView;
-				CallService(MS_IEVIEW_EVENT, 0, (LPARAM) & event);
-			}
-			else {
-				event.hwnd = m_hwndHPP;
-				CallService(MS_HPP_EG_EVENT, 0, (LPARAM) & event);
-			}
-		}
-		m_log.SetText(L"");
-		m_hDbEventFirst = 0;
-	}
+
+	m_pLog->Clear();
+	m_hDbEventFirst = 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1944,7 +1857,7 @@ void CMsgDialog::UpdateNickList()
 
 void CMsgDialog::UpdateOptions()
 {
-	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, db_get_dw(0, FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+	m_pLog->UpdateOptions();
 
 	DM_InitRichEdit();
 	m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);
@@ -2380,28 +2293,28 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 		m_pPanel.Invalidate();
 
-		if (m_dwFlags & MWF_DEFERREDSCROLL && m_hwndIEView == nullptr && m_hwndHPP == nullptr) {
+		if (m_dwFlags & MWF_DEFERREDSCROLL) {
 			m_dwFlags &= ~MWF_DEFERREDSCROLL;
 			DM_ScrollToBottom(0, 1);
 		}
 
-		if (m_hwndIEView) {
-			RECT rcRTF;
-			POINT pt;
+		if (m_iLogMode == WANT_IEVIEW_LOG) {
+			HWND hwndLog = m_pLog->GetHwnd();
 
-			GetWindowRect(m_log.GetHwnd(), &rcRTF);
+			RECT rcRTF;
+			GetWindowRect(hwndLog, &rcRTF);
 			rcRTF.left += 20;
 			rcRTF.top += 20;
+
+			POINT pt;
 			pt.x = rcRTF.left;
 			pt.y = rcRTF.top;
-			if (m_hwndIEView) {
-				if (M.GetByte("subclassIEView", 0)) {
-					mir_subclassWindow(m_hwndIEView, IEViewSubclassProc);
-					SetWindowPos(m_hwndIEView, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
-					RedrawWindow(m_hwndIEView, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
-				}
+
+			if (M.GetByte("subclassIEView", 0)) {
+				mir_subclassWindow(hwndLog, IEViewSubclassProc);
+				SetWindowPos(hwndLog, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
+				RedrawWindow(hwndLog, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
 			}
-			m_hwndIWebBrowserControl = WindowFromPoint(pt);
 		}
 
 		if (m_dwFlagsEx & MWF_EX_AVATARCHANGED) {
@@ -2437,14 +2350,14 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 LRESULT CMsgDialog::WMCopyHandler(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LRESULT result = mir_callNextSubclass(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
+	LRESULT result = mir_callNextSubclass(m_pLog->GetHwnd(), stubLogProc, msg, wParam, lParam);
 
-	ptrA szFromStream(m_log.GetRichTextRtf(true, true));
+	ptrA szFromStream(LOG()->GetRichTextRtf(true, true));
 	if (szFromStream != nullptr) {
 		ptrW converted(mir_utf8decodeW(szFromStream));
 		if (converted != nullptr) {
 			Utils::FilterEventMarkers(converted);
-			Utils::CopyToClipBoard(converted, m_log.GetHwnd());
+			Utils::CopyToClipBoard(converted, m_pLog->GetHwnd());
 		}
 	}
 

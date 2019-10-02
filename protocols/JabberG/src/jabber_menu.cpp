@@ -519,7 +519,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 		JABBER_LIST_ITEM *item = new JABBER_LIST_ITEM();
 		item->jid = mir_strdup(roomID);
 		item->name = Clist_GetContactDisplayName(hContact);
-		item->type = "conference";
+		item->type = mir_strdup("conference");
 		item->nick = getUStringA(hContact, "MyNick");
 		AddEditBookmark(item);
 		delete item;

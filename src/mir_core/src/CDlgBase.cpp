@@ -412,6 +412,11 @@ void CDlgBase::AddControl(CCtrlBase *ctrl)
 	m_controls.insert(ctrl);
 }
 
+void CDlgBase::RemoveControl(CCtrlBase *ctrl)
+{
+	m_controls.remove(ctrl);
+}
+
 void CDlgBase::NotifyControls(void (CCtrlBase::*fn)())
 {
 	for (auto &it : m_controls)

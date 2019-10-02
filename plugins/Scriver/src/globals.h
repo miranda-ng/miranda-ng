@@ -48,7 +48,6 @@ struct WindowFlags
 	bool bShowProgress : 1;
 	bool bShowAvatar : 1;
 	bool bRtl : 1;
-	bool bUseIeview : 1;
 	bool bShowIcons : 1;
 	bool bHideNames : 1;
 	bool bShowTime : 1;
@@ -107,7 +106,6 @@ struct GlobalMessageData
 	SendMode   sendMode;
 	int        tabIconListUsageSize;
 	int        smileyAddInstalled;
-	int        ieviewInstalled;
 	int        limitTabsNum;
 	int        limitChatsTabsNum;
 	int        indentSize;

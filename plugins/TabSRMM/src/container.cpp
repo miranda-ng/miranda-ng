@@ -1200,11 +1200,6 @@ panel_found:
 				SendMessage(pContainer->m_hwndActive, WM_COMMAND, wParam, lParam);      // pass the IDOK command to the active child - fixes the "enter not working
 				break;
 			
-			case ID_FILE_SAVEMESSAGELOGAS:
-				if (dat)
-					dat->DM_SaveLogAsRTF();
-				break;
-			
 			case ID_FILE_CLOSEMESSAGESESSION:
 				PostMessage(pContainer->m_hwndActive, WM_CLOSE, 0, 1);
 				break;

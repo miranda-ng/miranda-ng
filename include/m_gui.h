@@ -444,6 +444,9 @@ protected:
 
 	// register controls
 	void AddControl(CCtrlBase *ctrl);
+	void RemoveControl(CCtrlBase *ctrl);
+
+	// timers
 	void AddTimer(CTimer *timer);
 
 	// options support

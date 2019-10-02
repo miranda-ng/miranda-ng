@@ -322,33 +322,6 @@ wchar_t* TSAPI QuoteText(const wchar_t *text)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int g_IEViewAvail = -1;
-static int g_HPPAvail = -1;
-
-UINT TSAPI GetIEViewMode(MCONTACT hContact)
-{
-	int iWantIEView = 0, iWantHPP = 0;
-
-	if (g_IEViewAvail == -1)
-		g_IEViewAvail = ServiceExists(MS_IEVIEW_WINDOW);
-
-	if (g_HPPAvail == -1)
-		g_HPPAvail = ServiceExists(MS_HPP_GETVERSION);
-
-	PluginConfig.g_WantIEView = g_IEViewAvail && M.GetByte("default_ieview", 0);
-	PluginConfig.g_WantHPP = g_HPPAvail && M.GetByte("default_hpp", 0);
-
-	iWantIEView = (PluginConfig.g_WantIEView) || (M.GetByte(hContact, "ieview", 0) == 1 && g_IEViewAvail);
-	iWantIEView = (M.GetByte(hContact, "ieview", 0) == (BYTE)-1) ? 0 : iWantIEView;
-
-	iWantHPP = (PluginConfig.g_WantHPP) || (M.GetByte(hContact, "hpplog", 0) == 1 && g_HPPAvail);
-	iWantHPP = (M.GetByte(hContact, "hpplog", 0) == (BYTE)-1) ? 0 : iWantHPP;
-
-	return iWantHPP ? WANT_HPP_LOG : (iWantIEView ? WANT_IEVIEW_LOG : 0);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 bool IsStringValidLink(wchar_t *pszText)
 {
 	if (pszText == nullptr)

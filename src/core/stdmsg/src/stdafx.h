@@ -155,6 +155,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	HANDLE hLogger;
+
 	int Load() override;
 	int Unload() override;
 };
@@ -171,6 +173,7 @@ void Load_ChatModule(void);
 
 // log.cpp
 char* Log_CreateRtfHeader(void);
+CSrmmLogWindow *logBuilder(CMsgDialog &pDlg);
 
 // window.cpp
 SESSION_INFO* SM_GetPrevWindow(SESSION_INFO *si);

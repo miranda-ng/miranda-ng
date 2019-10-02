@@ -196,7 +196,7 @@ void ParentWindowData::ActivateChild(CMsgDialog *pDlg)
 		pDlg->UpdateTitle();
 		SendMessage(m_hwndActive, WM_SIZE, 0, 0);
 		ShowWindow(m_hwndActive, SW_SHOWNOACTIVATE);
-		pDlg->ScrollToBottom();
+		pDlg->m_pLog->ScrollToBottom();
 		if (hwndPrev != nullptr)
 			ShowWindow(hwndPrev, SW_HIDE);
 	}

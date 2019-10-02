@@ -97,17 +97,6 @@ void CGlobals::reloadSystemModulesChanged()
 		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, ::SmileyAddOptionsChanged);
 	}
 
-	// ieView
-	BOOL bIEView = ServiceExists(MS_IEVIEW_WINDOW);
-	if (bIEView) {
-		BOOL bOldIEView = M.GetByte("ieview_installed", 0);
-		if (bOldIEView != bIEView)
-			db_set_b(0, SRMSGMOD_T, "default_ieview", 1);
-		db_set_b(0, SRMSGMOD_T, "ieview_installed", 1);
-		HookEvent(ME_IEVIEW_OPTIONSCHANGED, ::IEViewOptionsChanged);
-	}
-	else db_set_b(0, SRMSGMOD_T, "ieview_installed", 0);
-
 	m_hwndClist = g_clistApi.hwndContactList;
 
 	CMenuItem mi(&g_plugin);
@@ -570,5 +559,5 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(0);
 	dbei.szModule = (char*)c->getProto();
-	dat->StreamInEvents(0, 1, 1, &dbei);
+	dat->LogEvent(&dbei);
 }

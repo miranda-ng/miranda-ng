@@ -70,6 +70,8 @@ int CMPlugin::Load()
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 
+	hLogger = RegisterSrmmLog("built-in", L"tabSRMM internal log", &logBuilder);
+
 	Chat_Load();
 
 	return LoadSendRecvMessageModule();
@@ -79,6 +81,7 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	UnregisterSrmmLog(hLogger);
 	FreeLogFonts();
 	Chat_Unload();
 	int iRet = SplitmsgShutdown();

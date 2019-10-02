@@ -230,7 +230,6 @@ bool CMsgDialog::OnInitDialog()
 	m_startTime = time(0);
 
 	m_bUseRtl = g_plugin.getByte(m_hContact, "UseRTL", 0) != 0;
-	m_bUseIEView = (g_dat.ieviewInstalled) ? g_dat.flags.bUseIeview && !m_si : false;
 
 	PARAFORMAT2 pf2;
 	memset(&pf2, 0, sizeof(pf2));
@@ -246,22 +245,6 @@ bool CMsgDialog::OnInitDialog()
 	}
 	m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	
-	// Workaround to make Richedit display RTL messages correctly
-	memset(&pf2, 0, sizeof(pf2));
-	pf2.cbSize = sizeof(pf2);
-	pf2.dwMask = PFM_RTLPARA | PFM_OFFSETINDENT | PFM_RIGHTINDENT;
-	pf2.wEffects = PFE_RTLPARA;
-	pf2.dxStartIndent = 30;
-	pf2.dxRightIndent = 30;
-	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-
-	pf2.dwMask = PFM_RTLPARA;
-	pf2.wEffects = 0;
-	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	
-	DWORD dwExStyle = GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE);
-	SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, (m_bUseRtl) ? dwExStyle | WS_EX_LEFTSCROLLBAR :dwExStyle & ~WS_EX_LEFTSCROLLBAR);
-
 	RECT rc;
 	GetWindowRect(m_message.GetHwnd(), &rc);
 	m_minLogBoxHeight = m_minEditBoxHeight = rc.bottom - rc.top;
@@ -290,14 +273,6 @@ bool CMsgDialog::OnInitDialog()
 
 	SendMessage(m_hwnd, DM_CHANGEICONS, 0, 0);
 
-	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_KEYEVENTS);
-	m_log.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-	m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
-	m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
-	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
-	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
-	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
-
 	m_message.SetReadOnly(false);
 	m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
@@ -308,23 +283,9 @@ bool CMsgDialog::OnInitDialog()
 	}
 
 	// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
-	m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 	::DragAcceptFiles(m_message.GetHwnd(), TRUE);
 	CreateInfobar();
 	
-	if (m_bUseIEView) {
-		IEVIEWWINDOW ieWindow = { sizeof(IEVIEWWINDOW) };
-		ieWindow.iType = IEW_CREATE;
-		ieWindow.dwMode = IEWM_SCRIVER;
-		ieWindow.parent = m_hwnd;
-		ieWindow.cx = 200;
-		ieWindow.cy = 300;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-		m_hwndIeview = ieWindow.hwnd;
-		if (m_hwndIeview == nullptr)
-			m_bUseIEView = false;
-	}
-
 	if (isChat()) {
 		UpdateOptions();
 		UpdateStatusBar();
@@ -478,12 +439,7 @@ void CMsgDialog::OnDestroy()
 		m_si->pDlg = nullptr;
 
 	m_pParent->RemoveChild(m_hwnd);
-	if (m_hwndIeview != nullptr) {
-		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
-		ieWindow.iType = IEW_DESTROY;
-		ieWindow.hwnd = m_hwndIeview;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-	}
+
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
 	mir_free(m_wszSearchQuery);
@@ -591,16 +547,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 	st.flags = ST_SELECTION;
 	st.codepage = 1200;
 
-	wchar_t *buffer = nullptr;
-	if (m_hwndIeview != nullptr) {
-		IEVIEWEVENT evt = { sizeof(evt) };
-		evt.hwnd = m_hwndIeview;
-		evt.hContact = m_hContact;
-		evt.iType = IEE_GET_SELECTION;
-		buffer = mir_wstrdup((wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt));
-	}
-	else buffer = GetRichEditSelection(m_log.GetHwnd());
-
+	wchar_t *buffer = m_pLog->GetSelection();
 	if (buffer != nullptr) {
 		wchar_t *quotedBuffer = GetQuotedTextW(buffer);
 		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
@@ -674,7 +621,7 @@ void CMsgDialog::onClick_ShowList(CCtrlButton *pButton)
 
 	m_bNicklistEnabled = !m_bNicklistEnabled;
 	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2));
-	ScrollToBottom();
+	m_pLog->ScrollToBottom();
 	Resize();
 }
 
@@ -754,7 +701,7 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 			logH -= toolbarHeight;
 
 		HDWP hdwp = BeginDeferWindowPos(5);
-		hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), nullptr, 1, 0, bNick ? w - pdat->iSplitterX - 1 : w - 2, logH, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, m_pLog->GetHwnd(), nullptr, 1, 0, bNick ? w - pdat->iSplitterX - 1 : w - 2, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), nullptr, w - pdat->iSplitterX + 2, 0, pdat->iSplitterX - 3, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), nullptr, w - pdat->iSplitterX, 1, 2, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - pdat->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
@@ -821,7 +768,7 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 
 		HDWP hdwp = BeginDeferWindowPos(5);
 		hdwp = DeferWindowPos(hdwp, m_hwndInfo, nullptr, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), nullptr, 1, logY, w - 2, logH, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, m_pLog->GetHwnd(), nullptr, 1, logY, w - 2, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - hSplitterPos - 1, messageEditWidth, hSplitterPos, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - hSplitterPos - SPLITTER_HEIGHT - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
@@ -832,19 +779,6 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	}
 
 	SetButtonsPos(m_hwnd, m_hContact, bToolbar);
-
-	if (m_hwndIeview != nullptr) {
-		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
-		ieWindow.iType = IEW_SETPOS;
-		ieWindow.parent = m_hwnd;
-		ieWindow.hwnd = m_hwndIeview;
-		ieWindow.x = 0;
-		ieWindow.y = logY;
-		ieWindow.cx = w;
-		ieWindow.cy = logH;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-	}
-	else RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 
 	RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
@@ -923,9 +857,9 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int result = InputAreaShortcuts(m_log.GetHwnd(), msg, wParam, lParam);
+	int result = m_pDlg.InputAreaShortcuts(m_rtf.GetHwnd(), msg, wParam, lParam);
 	if (result != -1)
 		return result;
 
@@ -938,20 +872,20 @@ LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		return DrawMenuItem(wParam, lParam);
 
 	case WM_LBUTTONUP:
-		if (isChat()) {
+		if (m_pDlg.isChat()) {
 			CHARRANGE sel;
-			SendMessage(m_log.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
+			SendMessage(m_rtf.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin != sel.cpMax) {
-				SendMessage(m_log.GetHwnd(), WM_COPY, 0, 0);
+				SendMessage(m_rtf.GetHwnd(), WM_COPY, 0, 0);
 				sel.cpMin = sel.cpMax;
-				SendMessage(m_log.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
+				SendMessage(m_rtf.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
 			}
-			SetFocus(m_message.GetHwnd());
+			SetFocus(m_pDlg.m_message.GetHwnd());
 		}
 		break;
 	}
 
-	return CSuper::WndProc_Log(msg, wParam, lParam);
+	return CSuper::WndProc(msg, wParam, lParam);
 }
 
 LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1017,7 +951,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (wParam == VK_NEXT || wParam == VK_PRIOR) {
-				m_log.SendMsg(msg, wParam, lParam);
+				LOG()->WndProc(msg, wParam, lParam);
 				return TRUE;
 			}
 		}
@@ -1029,7 +963,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_MOUSEWHEEL:
 		if ((GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
-			m_log.SendMsg(WM_MOUSEWHEEL, wParam, lParam);
+			LOG()->WndProc(WM_MOUSEWHEEL, wParam, lParam);
 		m_iLastEnterTime = 0;
 		break;
 
@@ -1184,7 +1118,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_LBUTTONDBLCLK:
 		if (LOWORD(lParam) < 30)
-			ScrollToBottom();
+			m_pLog->ScrollToBottom();
 		else
 			SendMessage(m_hwndParent, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 		break;
@@ -1237,33 +1171,12 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_OPTIONSAPPLIED:
-		m_bUseIEView = (g_dat.ieviewInstalled) ? g_dat.flags.bUseIeview && !m_si : false;
-		if (m_bUseIEView && m_hwndIeview == nullptr) {
-			IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
-			ieWindow.iType = IEW_CREATE;
-			ieWindow.dwMode = IEWM_SCRIVER;
-			ieWindow.parent = m_hwnd;
-			ieWindow.cx = 200;
-			ieWindow.cy = 300;
-			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-			m_hwndIeview = ieWindow.hwnd;
-			if (m_hwndIeview == nullptr)
-				m_bUseIEView = false;
-		}
-		else if (!m_bUseIEView && m_hwndIeview != nullptr) {
-			IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
-			ieWindow.iType = IEW_DESTROY;
-			ieWindow.hwnd = m_hwndIeview;
-			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-			m_hwndIeview = nullptr;
-		}
-
 		GetAvatar();
 		SetDialogToType();
 		{
-			COLORREF colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
-			m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-			colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
+			m_pLog->UpdateOptions();
+
+			COLORREF colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
 			m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 			InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 
@@ -1284,15 +1197,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf2);
 			m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 		}
-
-		PARAFORMAT2 pf2;
-		memset(&pf2, 0, sizeof(pf2));
-		pf2.cbSize = sizeof(pf2);
-		pf2.dwMask = PFM_OFFSET;
-		pf2.dxOffset = (g_dat.flags.bIndentText) ? g_dat.indentSize * 1440 / g_dat.logPixelSX : 0;
-		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
-		m_log.SetTextA("");
 
 		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 		UpdateTitle();
@@ -1371,16 +1275,11 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case DM_SETFOCUS:
 		if (lParam == WM_MOUSEACTIVATE) {
-			HWND hLog;
 			POINT pt;
 			GetCursorPos(&pt);
-			if (m_hwndIeview != nullptr)
-				hLog = m_hwndIeview;
-			else
-				hLog = m_log.GetHwnd();
 
 			RECT rc;
-			GetWindowRect(hLog, &rc);
+			GetWindowRect(m_pLog->GetHwnd(), &rc);
 			if (pt.x >= rc.left && pt.x <= rc.right && pt.y >= rc.top && pt.y <= rc.bottom)
 				return TRUE;
 		}
@@ -1405,7 +1304,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SIZE:
 		if (wParam == SIZE_MAXIMIZED)
-			ScrollToBottom();
+			m_pLog->ScrollToBottom();
 
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {
 			RECT rc;
@@ -1418,9 +1317,9 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case DM_REMAKELOG:
 		m_lastEventType = -1;
 		if (wParam == 0 || wParam == m_hContact)
-			StreamInEvents(m_hDbEventFirst, -1, 0);
+			m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
 
-		InvalidateRect(m_log.GetHwnd(), nullptr, FALSE);
+		InvalidateRect(m_pLog->GetHwnd(), nullptr, FALSE);
 		break;
 
 	case HM_DBEVENTADDED:
@@ -1449,7 +1348,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-					StreamInEvents(hDbEvent, 1, 1);
+					m_pLog->LogEvents(hDbEvent, 1, 1);
 				else
 					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
 

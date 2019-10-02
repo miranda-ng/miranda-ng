@@ -23,6 +23,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_MSGS_H
 #define SRMM_MSGS_H
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// CLogWindow - built-in log window
+
+class CLogWindow : public CRtfLogWindow
+{
+	typedef CRtfLogWindow CSuper;
+
+public:
+	CLogWindow(CMsgDialog &pDlg) :
+		CSuper(pDlg)
+	{
+	}
+
+	void Attach() override;
+	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
+	void LogEvents(DBEVENTINFO *dbei, bool bAppend) override;
+	void LogEvents(struct LOGINFO *, bool) override;
+	void ScrollToBottom() override;
+	void UpdateOptions() override;
+
+	INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define MSGERROR_CANCEL	0
 #define MSGERROR_RETRY	1
 #define MSGERROR_DONE	2
@@ -60,6 +85,7 @@ class CMsgDialog : public CSrmmBaseDialog
 {
 	typedef CSrmmBaseDialog CSuper;
 
+	friend class CLogWindow;
 	friend struct ParentWindowData;
 	friend INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -75,7 +101,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void   ShowAvatar(void);
 	void   SetDialogToType(void);
 	void   SetStatusIcon(void);
-	void   StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend);
 	void   ToggleRtl();
 	void   UpdateIcon(void);
 	void   UpdateReadChars(void);
@@ -102,14 +127,13 @@ class CMsgDialog : public CSrmmBaseDialog
 	time_t m_startTime, m_lastEventTime;
 	int    m_lastEventType;
 	int    m_isMixed;
-	bool   m_bUseRtl, m_bUseIEView;
+	bool   m_bUseRtl;
 
 	HBITMAP m_hbmpAvatarPic;
 	AVATARCACHEENTRY *m_ace;
 
 	TCmdList *cmdList, *cmdListCurrent;
 	ParentWindowData *m_pParent;
-	HWND m_hwndIeview;
 
 	// info bar support
 	HWND   m_hwndInfo;
@@ -153,10 +177,8 @@ public:
 
 	void CloseTab() override;
 	void LoadSettings() override;
-	void ScrollToBottom() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;
-	void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
 	void UpdateNickList() override;
 	void UpdateOptions() override;
 	void UpdateStatusBar() override;
@@ -172,20 +194,23 @@ public:
 	void StopMessageSending(void);
 	void ShowMessageSending(void);
 	
-	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
-	__forceinline bool IsActive() const
-	{	return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->m_hwndActive == m_hwnd;
+	__forceinline bool IsActive() const {
+		return GetActiveWindow() == m_hwndParent && GetForegroundWindow() == m_hwndParent && m_pParent->m_hwndActive == m_hwnd;
 	}
 
-	__forceinline void PopupWindow(bool bIncoming = false)
-	{	m_pParent->PopupWindow(this, bIncoming);
+	__forceinline void PopupWindow(bool bIncoming = false) {
+		m_pParent->PopupWindow(this, bIncoming);
 	}
 
-	__forceinline void StartFlashing() const
-	{	m_pParent->StartFlashing();
+	__forceinline void StartFlashing() const {
+		m_pParent->StartFlashing();
+	}
+
+	__forceinline CLogWindow *LOG() {
+		return ((CLogWindow *)m_pLog);
 	}
 
 	wchar_t *m_wszInitialText;

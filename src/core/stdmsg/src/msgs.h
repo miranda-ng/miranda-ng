@@ -32,10 +32,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTTYPE_JABBER_CHATSTATES     2000
 #define EVENTTYPE_JABBER_PRESENCE       2001
 
+class CLogWindow : public CRtfLogWindow
+{
+	typedef CRtfLogWindow CSuper;
+
+public:
+	CLogWindow(CMsgDialog &pDlg) :
+		CSuper(pDlg)
+	{}
+
+	void Attach() override;
+	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
+	void LogEvents(DBEVENTINFO *dbei, bool bAppend);
+	void LogEvents(struct LOGINFO *, bool) override;
+	void UpdateOptions() override;
+
+	INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+};
+
 class CMsgDialog : public CSrmmBaseDialog
 {
-	typedef CSrmmBaseDialog CSuper;
+	friend class CLogWindow;
 	friend class CTabbedWindow;
+	typedef CSrmmBaseDialog CSuper;
 
 	void Init(void);
 	void NotifyTyping(int mode);
@@ -43,14 +62,12 @@ class CMsgDialog : public CSrmmBaseDialog
 	void ShowAvatar(void);
 	void ShowTime(bool bForce);
 	void SetupStatusBar(void);
-	void StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend);
 	void UpdateIcon(WPARAM wParam);
 	void UpdateLastMessage(void);
 	void UpdateSizeBar(void);
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-protected:
 	CCtrlBase m_avatar;
 	CCtrlButton m_btnOk;
 
@@ -63,6 +80,7 @@ protected:
 	int  m_iSplitterX, m_iSplitterY;
 	SIZE m_minEditBoxSize;
 	RECT m_minEditInit;
+	RECT m_rcLog;
 
 	// tab autocomplete
 	int m_iTabStart = 0;
@@ -93,7 +111,6 @@ public:
 	int Resizer(UTILRESIZECONTROL *urc) override;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-	LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -115,9 +132,12 @@ public:
 
 	void UpdateReadChars(void);
 
-	__forceinline MCONTACT getActiveContact() const
-	{
+	__forceinline MCONTACT getActiveContact() const {
 		return (m_bIsMeta) ? db_mc_getSrmmSub(m_hContact) : m_hContact;
+	}
+
+	__forceinline CLogWindow* LOG() {
+		return ((CLogWindow *)m_pLog);
 	}
 
 	MEVENT m_hDbEventFirst, m_hDbEventLast;
@@ -137,9 +157,7 @@ public:
 	void CloseTab() override;
 	bool IsActive() const override;
 	void LoadSettings() override;
-	void ScrollToBottom() override;
 	void SetStatusText(const wchar_t *, HICON) override;
-	void StreamInEvents(LOGINFO *lin, bool bRedraw) override;
 	void ShowFilterMenu() override;
 	void UpdateNickList() override;
 	void UpdateOptions() override;

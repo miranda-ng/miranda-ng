@@ -672,6 +672,17 @@ BEGIN
     CONTROL         "Lock name to first contact",IDC_CHK_LOCKHANDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,151,278,10
 END
 
+IDD_OPT_SRMMLOG DIALOGEX 0, 0, 306, 226
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Choose needed logger from listed below:",IDC_STATIC,2,3,299,8
+    LISTBOX         IDC_LIST,0,16,305,189,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Enable custom log controls in group chats",IDC_ENABLE_CUSTOM,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,210,297,12
+END
+
 IDD_OPT_LANGUAGES DIALOGEX 0, 0, 301, 191
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
@@ -1018,6 +1029,10 @@ BEGIN
         BOTTOMMARGIN, 164
     END
 
+    IDD_OPT_SRMMLOG, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_LANGUAGES, DIALOG
     BEGIN
         VERTGUIDE, 5
@@ -1063,7 +1078,8 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "#include ""../src/resource.h""\r\n"
+    "\0"
 END
 
 2 TEXTINCLUDE 
@@ -1320,6 +1336,15 @@ BEGIN
     END
 END
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_SRMMLOG AFX_DIALOG_LAYOUT
+BEGIN
+    0
 END
 
 #endif    // English (United States) resources

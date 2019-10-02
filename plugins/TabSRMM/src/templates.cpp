@@ -125,6 +125,8 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 {
 	SetParent(hwndParent);
 
+	m_pLog = new CLogWindow(*this);
+
 	m_pContainer = new TContainerData();
 	m_pContainer->LoadOverrideTheme();
 	tSet = rtl ? m_pContainer->m_rtl_templates : m_pContainer->m_ltr_templates;
@@ -143,10 +145,6 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 
 bool CTemplateEditDlg::OnInitDialog()
 {
-	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK);
-	m_log.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-	m_log.SendMsg(EM_EXLIMITTEXT, 0, 0x80000000);
-
 	// set hContact to the first found contact so that we can use the Preview window properly
 	// also, set other parameters needed by the streaming function to display events
 	m_hContact = db_find_first();
@@ -250,13 +248,12 @@ void CTemplateEditDlg::onClick_Preview(CCtrlButton*)
 	dbei.flags |= (rtl ? DBEF_RTL : 0);
 	m_lastEventTime = (iIndex == 4 || iIndex == 5) ? time(0) - 1 : 0;
 	m_iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
-	m_log.SetText(L"");
 	m_dwFlags = MWF_LOG_ALL;
 	m_dwFlags = (rtl ? m_dwFlags | MWF_LOG_RTL : m_dwFlags & ~MWF_LOG_RTL);
 	m_dwFlags = (iIndex == 0 || iIndex == 1) ? m_dwFlags & ~MWF_LOG_GROUPMODE : m_dwFlags | MWF_LOG_GROUPMODE;
 	mir_snwprintf(m_wszMyNickname, L"My Nickname");
-	StreamInEvents(0, 1, 0, &dbei);
-	m_log.SendMsg(EM_SETSEL, -1, -1);
+	m_pLog->Clear();
+	LogEvent(&dbei);
 	if (changed)
 		memcpy(tSet->szTemplates[inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));
 }

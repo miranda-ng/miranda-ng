@@ -2155,7 +2155,7 @@ void CMsgDialog::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 	POINT	pt;
 
 	if (!(m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR)) {
-		::GetWindowRect(m_log.GetHwnd(), &rc);
+		::GetWindowRect(m_pLog->GetHwnd(), &rc);
 		pt.y = rc.bottom + 0;
 		::ScreenToClient(m_hwnd, &pt);
 		rcToolbar.top = pt.y;
@@ -2404,7 +2404,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 void CMsgDialog::UpdateToolbarBG()
 {
 	RECT rcUpdate, rcTmp;
-	::GetWindowRect(m_log.GetHwnd(), &rcTmp);
+	::GetWindowRect(m_pLog->GetHwnd(), &rcTmp);
 
 	POINT	pt;
 	pt.x = rcTmp.left;

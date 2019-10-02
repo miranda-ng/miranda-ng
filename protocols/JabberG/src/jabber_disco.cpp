@@ -1252,7 +1252,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 					item->name = mir_utf8decodeW(pNode->GetName());
 				}
 
-				item->type = "conference";
+				replaceStr(item->type, "conference");
 				AddEditBookmark(item);
 			}
 		}

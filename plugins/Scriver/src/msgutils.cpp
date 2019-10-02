@@ -25,16 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CMsgDialog::ClearLog()
 {
-	if (m_hwndIeview != nullptr) {
-		IEVIEWEVENT evt = { sizeof(evt) };
-		evt.iType = IEE_CLEAR_LOG;
-		evt.dwFlags = (m_bUseRtl) ? IEEF_RTL : 0;
-		evt.hwnd = m_hwndIeview;
-		evt.hContact = m_hContact;
-		evt.pszProto = m_szProto;
-		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)& evt);
-	}
-	else CSuper::ClearLog();
+	CSuper::ClearLog();
 
 	m_hDbEventFirst = 0;
 	m_lastEventType = -1;
@@ -218,31 +209,6 @@ void CMsgDialog::Reattach(HWND hwndContainer)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::ScrollToBottom()
-{
-	if (m_hwndIeview != nullptr) {
-		IEVIEWWINDOW ieWindow = {};
-		ieWindow.iType = IEW_SCROLLBOTTOM;
-		ieWindow.hwnd = m_hwndIeview;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-		return;
-	}
-
-	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-		SCROLLINFO si = { sizeof(si) };
-		si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-		if (GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si)) {
-			if (m_log.GetHwnd() != GetFocus()) {
-				si.fMask = SIF_POS;
-				si.nPos = si.nMax - si.nPage + 1;
-				SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
-
-				PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-			}
-		}
-	}
-}
-
 void CMsgDialog::SetDialogToType()
 {
 	if (!isChat()) {
@@ -257,8 +223,6 @@ void CMsgDialog::SetDialogToType()
 	}
 
 	m_message.Show();
-	m_log.Show(m_hwndIeview == nullptr);
-
 	m_splitterY.Show();
 	m_btnOk.Enable(m_message.GetRichTextLength() != 0);
 	Resize();
@@ -439,12 +403,12 @@ void CMsgDialog::ToggleRtl()
 	if (m_bUseRtl) {
 		pf2.wEffects = PFE_RTLPARA;
 		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
-		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
+		SetWindowLongPtr(m_pLog->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_pLog->GetHwnd(), GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
 	}
 	else {
 		pf2.wEffects = 0;
 		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
-		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_LEFTSCROLLBAR));
+		SetWindowLongPtr(m_pLog->GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_pLog->GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_LEFTSCROLLBAR));
 	}
 	m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
@@ -493,7 +457,7 @@ void CMsgDialog::UpdateOptions()
 	UpdateTitle();
 	FixTabIcons();
 
-	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
+	m_pLog->UpdateOptions();
 
 	// messagebox
 	COLORREF crFore;

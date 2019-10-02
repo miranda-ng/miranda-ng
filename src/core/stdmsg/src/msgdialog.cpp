@@ -143,9 +143,6 @@ bool CMsgDialog::OnInitDialog()
 		int nMax = CallProtoService(m_szProto, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, m_hContact);
 		if (nMax)
 			m_message.SendMsg(EM_EXLIMITTEXT, 0, nMax);
-
-		// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
-		m_log.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 	}
 
 	m_wOldStatus = m_wStatus;
@@ -156,9 +153,6 @@ bool CMsgDialog::OnInitDialog()
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
 	m_iSplitterY = g_plugin.getDword(g_dat.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
 	UpdateSizeBar();
-
-	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
-	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_CHANGE);
 
@@ -384,7 +378,7 @@ void CMsgDialog::onClick_NickList(CCtrlButton *pButton)
 	m_bNicklistEnabled = !m_bNicklistEnabled;
 	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2, FALSE));
 
-	ScrollToBottom();
+	m_pLog->ScrollToBottom();
 	Resize();
 }
 
@@ -479,17 +473,21 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 			urc->rcItem.top = 2;
 			urc->rcItem.left = 0;
 			urc->rcItem.right = bNick ? urc->dlgNewSize.cx - m_iSplitterX : urc->dlgNewSize.cx;
-		LBL_CalcBottom:
 			urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
 			if (!bToolbar)
 				urc->rcItem.bottom += 20;
+			m_rcLog = urc->rcItem;
 			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 		case IDC_SRMM_NICKLIST:
 			urc->rcItem.top = 2;
 			urc->rcItem.right = urc->dlgNewSize.cx;
 			urc->rcItem.left = urc->dlgNewSize.cx - m_iSplitterX + 2;
-			goto LBL_CalcBottom;
+LBL_CalcBottom:
+			urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+			if (!bToolbar)
+				urc->rcItem.bottom += 20;
+			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 		case IDC_SPLITTERX:
 			urc->rcItem.top = 1;
@@ -517,6 +515,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 			if (!g_dat.bShowButtons)
 				urc->rcItem.top = 2;
 			urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
+			m_rcLog = urc->rcItem;
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
 		case IDC_SPLITTERY:
@@ -605,10 +604,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SIZE:
 		if (!IsIconic(m_hwnd)) {
-			bool bottomScroll;
 
 			if (isChat()) {
-				bottomScroll = false;
 				bool bSend = g_dat.bSendButton;
 				bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
@@ -632,29 +629,18 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			else {
-				bottomScroll = true;
 				SetupStatusBar();
-
-				if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-					SCROLLINFO si = {};
-					si.cbSize = sizeof(si);
-					si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-					GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
-					bottomScroll = (si.nPos + (int)si.nPage + 5) >= si.nMax;
-				}
 			}
 
 			CSuper::DlgProc(uMsg, wParam, lParam); // call built-in resizer
 			SetButtonsPos(m_hwnd, isChat());
+			m_pLog->Resize();
 
 			InvalidateRect(m_pOwner->m_hwndStatus, nullptr, true);
 			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 			RedrawWindow(m_btnOk.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 			if (g_dat.bShowAvatar && m_avatarPic)
 				RedrawWindow(m_avatar.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-
-			if (bottomScroll)
-				ScrollToBottom();
 		}
 		return TRUE;
 
@@ -682,21 +668,15 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 
 				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
-					StreamInEvents(hDbEvent, 1, 1);
+					m_pLog->LogEvents(hDbEvent, 1, 1);
 				else
 					RemakeLog();
 
 				// Flash window *only* for messages, not for custom events
 				if (isMessage && !isSent) {
 					if (isActive) {
-						if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-							SCROLLINFO si = {};
-							si.cbSize = sizeof(si);
-							si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-							GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
-							if ((si.nPos + (int)si.nPage + 5) < si.nMax)
-								StartFlash();
-						}
+						if (m_pLog->AtBottom())
+							StartFlash();
 					}
 					else StartFlash();
 				}
@@ -928,11 +908,11 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case DM_UPDATETITLE:
 		if (lParam != 0) {
 			if (isChat()) {
-				if (lParam != m_hContact)
+				if ((MCONTACT)lParam != m_hContact)
 					break;
 			}
 			else {
-				bool bIsMe = (lParam == m_hContact) || (m_bIsMeta && db_mc_getMeta(lParam) == m_hContact);
+				bool bIsMe = ((MCONTACT)lParam == m_hContact) || (m_bIsMeta && db_mc_getMeta(lParam) == m_hContact);
 				if (!bIsMe)
 					break;
 			}
@@ -951,7 +931,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_LBUTTONDBLCLK:
 		if (LOWORD(lParam) < 30)
-			ScrollToBottom();
+			m_pLog->ScrollToBottom();
 		break;
 
 	case WM_ACTIVATE:
@@ -967,84 +947,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return CSuper::DlgProc(uMsg, wParam, lParam);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static const CHARRANGE rangeAll = { 0, -1 };
-
-LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CHARRANGE sel;
-
-	switch(msg) {
-	case WM_CONTEXTMENU:
-		// we display context menu here only for private chats, group chats are processed by the core
-		if (!isChat()) {
-			POINT pt;
-			GetCursorPos(&pt);
-
-			SetFocus(m_log.GetHwnd());
-
-			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-			HMENU hSubMenu = GetSubMenu(hMenu, 0);
-			TranslateMenu(hSubMenu);
-
-			CHARRANGE all = { 0, -1 };
-			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin == sel.cpMax)
-				EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-
-			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
-			case IDM_COPY:
-				m_log.SendMsg(WM_COPY, 0, 0);
-				break;
-			case IDM_COPYALL:
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				m_log.SendMsg(WM_COPY, 0, 0);
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-				break;
-			case IDM_SELECTALL:
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				break;
-			case IDM_CLEAR:
-				ClearLog();
-				m_hDbEventFirst = 0;
-				break;
-			}
-			DestroyMenu(hSubMenu);
-			DestroyMenu(hMenu);
-			return TRUE;
-		}
-		break;
-
-	case WM_LBUTTONUP:
-		if (isChat()) {
-			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)& sel);
-			if (sel.cpMin != sel.cpMax) {
-				m_log.SendMsg(WM_COPY, 0, 0);
-				sel.cpMin = sel.cpMax;
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)& sel);
-			}
-			SetFocus(m_message.GetHwnd());
-		}
-		break;
-
-	case WM_KEYDOWN:
-		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
-
-		if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
-			CloseTab();
-			return TRUE;
-		}
-
-		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
-			return FALSE;
-	}
-
-	return CSuper::WndProc_Log(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1065,11 +967,13 @@ LRESULT CMsgDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static const CHARRANGE rangeAll = { 0, -1 };
+
 LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_MOUSEWHEEL:
-		m_log.SendMsg(WM_MOUSEWHEEL, wParam, lParam);
+		LOG()->WndProc(msg, wParam, lParam);
 		m_iLastEnterTime = 0;
 		return TRUE;
 
@@ -1302,7 +1206,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (wParam == VK_NEXT || wParam == VK_PRIOR) {
-				m_log.SendMsg(msg, wParam, lParam);
+				((CLogWindow *)m_pLog)->WndProc(msg, wParam, lParam);
 				m_iLastEnterTime = 0;
 				return TRUE;
 			}
@@ -1373,21 +1277,6 @@ bool CMsgDialog::IsActive() const
 		bRes &= m_pOwner->m_tab.GetActivePage() == this;
 
 	return bRes;
-}
-
-void CMsgDialog::ScrollToBottom()
-{
-	if (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL) {
-		SCROLLINFO si = {};
-		si.cbSize = sizeof(si);
-		si.fMask = SIF_PAGE | SIF_RANGE;
-		GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
-
-		si.fMask = SIF_POS;
-		si.nPos = si.nMax - si.nPage;
-		SetScrollInfo(m_log.GetHwnd(), SB_VERT, &si, TRUE);
-		m_log.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-	}
 }
 
 void CMsgDialog::StartFlash()
@@ -1493,9 +1382,8 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 	UpdateTitle();
 	Resize();
 
-	COLORREF colour = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
-	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
-	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
+	m_pLog->UpdateOptions();
+	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 
 	// avatar stuff
 	m_avatarPic = nullptr;
@@ -1520,19 +1408,7 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 	cf.dwMask = CFM_COLOR;
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (WPARAM)&cf);
 
-	// configure message history for proper RTL formatting
-	PARAFORMAT2 pf2;
-	memset(&pf2, 0, sizeof(pf2));
-	pf2.cbSize = sizeof(pf2);
-
-	pf2.wEffects = PFE_RTLPARA;
-	pf2.dwMask = PFM_RTLPARA;
-	ClearLog();
-	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	pf2.wEffects = 0;
-	m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-	m_log.SendMsg(EM_SETLANGOPTIONS, 0, m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-
+	m_pLog->Clear();
 	RemakeLog();
 	FixTabIcons();
 }
@@ -1621,7 +1497,7 @@ void CMsgDialog::NotifyTyping(int mode)
 
 void CMsgDialog::RemakeLog()
 {
-	StreamInEvents(m_hDbEventFirst, -1, 0);
+	m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
 }
 
 void CMsgDialog::ProcessFileDrop(HDROP hDrop)

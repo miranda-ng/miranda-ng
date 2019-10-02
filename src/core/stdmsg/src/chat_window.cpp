@@ -62,7 +62,7 @@ void CMsgDialog::UpdateOptions()
 
 	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), g_plugin.getIconHandle(IDI_CHANMGR));
 
-	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
+	m_pLog->UpdateOptions();
 
 	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
@@ -111,18 +111,19 @@ void CMsgDialog::UpdateStatusBar()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::StreamInEvents(LOGINFO *lin, bool bRedraw)
+void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 {
-	if (m_hwnd == nullptr || lin == nullptr || m_si == nullptr)
+	auto *si = m_pDlg.m_si;
+	if (lin == nullptr || si == nullptr)
 		return;
 
-	if (!bRedraw && m_si->iType == GCW_CHATROOM && m_bFilterEnabled && (m_iLogFilterFlags & lin->iType) == 0)
+	if (!bRedraw && si->iType == GCW_CHATROOM && m_pDlg.m_bFilterEnabled && (m_pDlg.m_iLogFilterFlags & lin->iType) == 0)
 		return;
 
 	LOGSTREAMDATA streamData;
 	memset(&streamData, 0, sizeof(streamData));
-	streamData.hwnd = m_log.GetHwnd();
-	streamData.si = m_si;
+	streamData.hwnd = m_rtf.GetHwnd();
+	streamData.si = si;
 	streamData.lin = lin;
 	streamData.bStripFormat = FALSE;
 
@@ -135,20 +136,20 @@ void CMsgDialog::StreamInEvents(LOGINFO *lin, bool bRedraw)
 	SCROLLINFO scroll;
 	scroll.cbSize = sizeof(SCROLLINFO);
 	scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
-	GetScrollInfo(m_log.GetHwnd(), SB_VERT, &scroll);
+	GetScrollInfo(m_rtf.GetHwnd(), SB_VERT, &scroll);
 
 	POINT point = {};
-	m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
+	m_rtf.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do not scroll to bottom if there is a selection
 	CHARRANGE oldsel, sel;
-	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
+	m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
 	if (oldsel.cpMax != oldsel.cpMin)
-		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
 
 	//set the insertion point at the bottom
-	sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
-	m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+	sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
+	m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 
 	// fix for the indent... must be a M$ bug
 	if (sel.cpMax == 0)
@@ -163,14 +164,14 @@ void CMsgDialog::StreamInEvents(LOGINFO *lin, bool bRedraw)
 		g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 		ReleaseDC(nullptr, hdc);
-		m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
 		bFlag = true;
 	}
 
 	// stream in the event(s)
 	streamData.lin = lin;
 	streamData.bRedraw = bRedraw;
-	m_log.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
+	m_rtf.SendMsg(EM_STREAMIN, wp, (LPARAM)&stream);
 
 	// do smileys
 	if (g_dat.bSmileyInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS))) {
@@ -182,11 +183,11 @@ void CMsgDialog::StreamInEvents(LOGINFO *lin, bool bRedraw)
 
 		SMADD_RICHEDIT3 sm = {};
 		sm.cbSize = sizeof(sm);
-		sm.hwndRichEditControl = m_log.GetHwnd();
-		sm.Protocolname = m_si->pszModule;
+		sm.hwndRichEditControl = m_rtf.GetHwnd();
+		sm.Protocolname = si->pszModule;
 		sm.rangeToReplace = bRedraw ? nullptr : &newsel;
 		sm.disableRedraw = TRUE;
-		sm.hContact = m_si->hContact;
+		sm.hContact = si->hContact;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 	}
 
@@ -194,21 +195,21 @@ void CMsgDialog::StreamInEvents(LOGINFO *lin, bool bRedraw)
 	if (bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50)
 		ScrollToBottom();
 	else
-		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);
+		m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&point);
 
 	// do we need to restore the selection
 	if (oldsel.cpMax != oldsel.cpMin) {
-		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
-		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
+		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
+		m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(m_rtf.GetHwnd(), nullptr, TRUE);
 	}
 
 	// need to invalidate the window
 	if (bFlag) {
-		sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
-		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-		m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(m_log.GetHwnd(), nullptr, TRUE);
+		sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
+		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+		InvalidateRect(m_rtf.GetHwnd(), nullptr, TRUE);
 	}
 }
 

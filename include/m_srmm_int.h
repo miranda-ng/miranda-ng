@@ -100,6 +100,78 @@ EXTERN_C MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, 
 #define WM_CBD_RECREATE (WM_CBD_FIRST+4)
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// SRMM log window container
+
+class CMsgDialog;
+
+class MIR_APP_EXPORT CSrmmLogWindow
+{
+	CSrmmLogWindow(const CSrmmLogWindow &) = delete;
+	CSrmmLogWindow &operator=(const CSrmmLogWindow &) = delete;
+
+protected:
+	CMsgDialog &m_pDlg;
+
+	CSrmmLogWindow(CMsgDialog &pDlg) :
+		m_pDlg(pDlg)
+	{}
+
+public:
+	virtual ~CSrmmLogWindow() {}
+
+	virtual void     Attach() = 0;
+	virtual void     Detach() = 0;
+					     
+	virtual bool     AtBottom() = 0;
+	virtual void     Clear() = 0;
+	virtual int      GetType() = 0;
+	virtual HWND     GetHwnd() = 0;
+	virtual wchar_t* GetSelection() = 0;
+	virtual void     LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) = 0;
+	virtual void     LogEvents(DBEVENTINFO *dbei, bool bAppend) = 0;
+	virtual void     LogEvents(struct LOGINFO *, bool) = 0;
+	virtual void     Resize() = 0;
+	virtual void     ScrollToBottom() = 0;
+	virtual void     UpdateOptions() {};
+
+	virtual INT_PTR Notify(WPARAM, LPARAM) { return 0; }
+};
+
+typedef CSrmmLogWindow *(__cdecl *pfnSrmmLogCreator)(CMsgDialog &pDlg);
+
+EXTERN_C MIR_APP_DLL(HANDLE) RegisterSrmmLog(const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
+EXTERN_C MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Standard built-in RTF logger class
+
+class MIR_APP_EXPORT CRtfLogWindow : public CSrmmLogWindow
+{
+protected:
+	CCtrlRichEdit &m_rtf;
+
+public:
+	CRtfLogWindow(CMsgDialog &pDlg);
+	~CRtfLogWindow() override;
+
+	virtual INT_PTR WndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	void     Attach() override;
+	void     Detach() override;
+		      
+	bool     AtBottom() override;
+	void     Clear() override;
+	HWND     GetHwnd() override;
+	wchar_t* GetSelection() override;
+	int      GetType() override;
+	void     Resize() override;
+	void     ScrollToBottom() override;
+
+	INT_PTR Notify(WPARAM, LPARAM) override;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Basic SRMM window dialog
 
 #include <chat_resource.h>
@@ -111,6 +183,8 @@ EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubNicklistProc(HWND hwnd, UINT msg, WPA
 
 class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 {
+	friend class CRtfLogWindow;
+
 	CSrmmBaseDialog(const CSrmmBaseDialog &) = delete;
 	CSrmmBaseDialog &operator=(const CSrmmBaseDialog &) = delete;
 
@@ -128,7 +202,8 @@ protected:
 	void RunUserMenu(HWND hwndOwner, struct USERINFO *ui, const POINT &pt);
 
 protected:
-	CCtrlRichEdit m_message, m_log;
+	CSrmmLogWindow *m_pLog = nullptr;
+	CCtrlRichEdit m_message;
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
 	time_t m_iLastEnterTime;
@@ -163,16 +238,13 @@ public:
 	virtual void CloseTab() {}
 	virtual bool IsActive() const PURE;
 	virtual void LoadSettings() PURE;
-	virtual void ScrollToBottom() {}
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}
-	virtual void StreamInEvents(struct LOGINFO *, bool) {}
 	virtual void UpdateNickList() {}
 	virtual void UpdateOptions();
 	virtual void UpdateStatusBar() {}
 	virtual void UpdateTitle() PURE;
 
-	virtual LRESULT WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam);
 

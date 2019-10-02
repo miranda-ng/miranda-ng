@@ -70,8 +70,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	HANDLE hLogger;
+
 	CMOption<BYTE> bSavePerContact, bCascade, bStayMinimized, bAutoMin, bSaveDrafts, bDelTemp, bHideContainer, bAutoPopup;
-	CMOption<BYTE> bUseIeview, bUseTransparency, bTopmost, bAutoClose, bTypingNew, bTypingUnknown;
+	CMOption<BYTE> bUseTransparency, bTopmost, bAutoClose, bTypingNew, bTypingUnknown;
 	CMOption<BYTE> bShowTitleBar, bShowStatusBar, bShowToolBar, bShowInfoBar;
 	CMOption<BYTE> bShowAvatar, bShowProgress, bShowIcons, bShowTime, bShowSeconds, bShowDate, bLongDate, bRelativeDate;
 	CMOption<BYTE>	bGroupMessages, bMarkFollowups, bMsgOnNewline, bDrawLines, bHideNames, bIndentText;
@@ -123,6 +125,8 @@ int Chat_Load();
 int OptInitialise(WPARAM wParam, LPARAM lParam);
 int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
 int StatusIconPressed(WPARAM wParam, LPARAM lParam);
+
+CSrmmLogWindow *logBuilder(CMsgDialog &pDlg);
 
 #include "cmdlist.h"
 #include "sendqueue.h"

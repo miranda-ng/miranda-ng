@@ -18,6 +18,7 @@
 #define IDD_OPT_PROTOCOLORDER           109
 #define IDD_OPT_ICOLIB                  110
 #define IDD_ICOLIB_IMPORT               111
+#define IDD_OPT_SRMMLOG						 112
 #define IDI_LOADED_GRAY                 113
 #define IDI_NOTLOADED_GRAY              114
 #define IDD_ADDED                       115
@@ -540,6 +541,7 @@
 #define IDC_RADIO1                      1740
 #define IDC_RADIO2                      1741
 #define IDC_ADDCHECK                    1742
+#define IDC_ENABLE_CUSTOM               1743
 #define IDC_GETMOREPLUGINS              1744
 #define IDC_DISABLEMENUICONS            1745
 #define IDC_SM_ENABLED                  1746

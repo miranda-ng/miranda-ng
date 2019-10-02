@@ -1277,7 +1277,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 		if (item == nullptr) {
 			item = ppro->ListGetItemPtr(LIST_CHATROOM, roomJid);
 			if (item != nullptr) {
-				item->type = "conference";
+				replaceStr(item->type, "conference");
 				MCONTACT hContact = ppro->HContactFromJID(item->jid);
 				item->name = Clist_GetContactDisplayName(hContact);
 				ppro->AddEditBookmark(item);

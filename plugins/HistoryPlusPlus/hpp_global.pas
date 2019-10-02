@@ -580,6 +580,9 @@ var
 begin
   WSize := (Length(WideStr)+1)*SizeOf(WideChar);
   if WSize = SizeOf(WideChar) then exit;
+  if CodePage = 1200 then
+     CodePage := CP_ACP;
+
   AnsiStr := WideToAnsiString(WideStr,CodePage);
   ASize := Length(AnsiStr)+1;
   OpenClipboard(Handle);

@@ -23,8 +23,6 @@
   {.$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
 library historypp;
 
-{$IMAGEBASE $02630000}
-
 {$R 'hpp_resource.res' 'hpp_resource.rc'}
 {$R 'version.res'}
 {$R 'hpp_opt_dialog.res' 'hpp_opt_dialog.rc'}
@@ -111,6 +109,9 @@ var
   HookEventDeleted,
   HookMetaDefaultChanged,
   HookPreshutdown: THandle;
+
+procedure RegisterHppLogger; stdcall; external AppDll;
+procedure UnregisterHppLogger; stdcall; external AppDll;
 
 function OnModulesLoad(awParam:WPARAM; alParam:LPARAM):int; cdecl; forward;
 function OnSettingsChanged(wParam: WPARAM; lParam: LPARAM): Integer; cdecl; forward;
@@ -499,6 +500,7 @@ function OnPreshutdown(wParam: WPARAM; lParam: LPARAM): Integer; cdecl;
 begin
   Result := 0;
   NotifyAllForms(HM_MIEV_PRESHUTDOWN,0,0);
+  UnregisterHppLogger;
 end;
 
 exports
@@ -508,6 +510,8 @@ exports
 
 begin
   DisableThreadLibraryCalls(hInstance);
+
+  RegisterHppLogger;
 
   PluginInfo.cbSize:= SizeOf(TPLUGININFOEX);
   PluginInfo.shortName:= hppShortNameV;

@@ -33,6 +33,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Save message log for given session as RTF document
 
+/*
 void CMsgDialog::DM_SaveLogAsRTF() const
 {
 	if (m_hwndIEView != nullptr) {
@@ -67,10 +68,11 @@ void CMsgDialog::DM_SaveLogAsRTF() const
 			stream.dwCookie = (DWORD_PTR)szFilename;
 			stream.dwError = 0;
 			stream.pfnCallback = Utils::StreamOut;
-			m_log.SendMsg(EM_STREAMOUT, SF_RTF | SF_USECODEPAGE, (LPARAM)&stream);
+			m_rtf.SendMsg(EM_STREAMOUT, SF_RTF | SF_USECODEPAGE, (LPARAM)&stream);
 		}
 	}
 }
+*/
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // checks if the balloon tooltip can be dismissed (usually called by WM_MOUSEMOVE events)
@@ -525,8 +527,6 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 void CMsgDialog::DM_InitRichEdit()
 {
 	bool fIsChat = isChat();
-
-	COLORREF colour = fIsChat ? g_Settings.crLogBackground : m_pContainer->m_theme.bg;
 	COLORREF inputcharcolor;
 
 	char *szStreamOut = nullptr;
@@ -534,7 +534,6 @@ void CMsgDialog::DM_InitRichEdit()
 		szStreamOut = m_message.GetRichTextRtf();
 	SetWindowText(m_message.GetHwnd(), L"");
 
-	m_log.SendMsg(EM_SETBKGNDCOLOR, 0, colour);
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_pContainer->m_theme.inputbg);
 
 	CHARFORMAT2A cf2;
@@ -592,29 +591,12 @@ void CMsgDialog::DM_InitRichEdit()
 		m_message.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	}
 	m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-	pf2.wEffects = PFE_RTLPARA;
-	pf2.dwMask |= PFM_OFFSET;
-	if (m_dwFlags & MWF_INITMODE) {
-		pf2.dwMask |= (PFM_RIGHTINDENT | PFM_OFFSETINDENT);
-		pf2.dxStartIndent = 30;
-		pf2.dxRightIndent = 30;
-	}
-	pf2.dxOffset = m_pContainer->m_theme.left_indent + 30;
 
-	if (!fIsChat) {
-		ClearLog();
-		m_log.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-		m_log.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-		// set the scrollbars etc to RTL/LTR (only for manual RTL mode)
-		if (m_dwFlags & MWF_LOG_RTL) {
-			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
-			SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
-		}
-		else {
-			SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) &~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
-			SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) &~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
-		}
-	}
+	if (m_dwFlags & MWF_LOG_RTL)
+		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
+	else
+		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
+
 	if (szStreamOut != nullptr) {
 		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
 		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szStreamOut);
@@ -686,30 +668,10 @@ void CMsgDialog::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 	if (IsIconic(m_pContainer->m_hwnd))
 		m_dwFlags |= MWF_DEFERREDSCROLL;
 
-	if (m_hwndIEView) {
-		PostMessage(m_hwnd, DM_SCROLLIEVIEW, 0, 0);
-		return;
-	}
-	if (m_hwndHPP) {
-		SendMessage(m_hwnd, DM_SCROLLIEVIEW, 0, 0);
-		return;
-	}
-
-	if (lParam)
-		SendMessage(m_log.GetHwnd(), WM_SIZE, 0, 0);
-
-	if (wParam == 1 && lParam == 1) {
-		int len = GetWindowTextLength(m_log.GetHwnd());
-		SendMessage(m_log.GetHwnd(), EM_SETSEL, len - 1, len - 1);
-	}
-
-	if (wParam)
-		SendMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+	if (m_iLogMode == 0)
+		((CLogWindow *)m_pLog)->ScrollToBottom(wParam != 0, lParam != 0);
 	else
-		PostMessage(m_log.GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-
-	if (lParam)
-		InvalidateRect(m_log.GetHwnd(), nullptr, FALSE);
+		m_pLog->ScrollToBottom();
 }
 
 void CMsgDialog::DM_RecalcPictureSize()
@@ -819,26 +781,18 @@ LRESULT CMsgDialog::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 	}
-	if (m_hwndIEView)
-		GetWindowRect(m_hwndIEView, &rc);
-	else if (m_hwndHPP)
-		GetWindowRect(m_hwndHPP, &rc);
-	else
-		GetWindowRect(m_log.GetHwnd(), &rc);
-	if (PtInRect(&rc, pt)) {
-		HWND hwndLog = (m_hwndIEView || m_hwndHPP) ? m_hwndIWebBrowserControl : m_log.GetHwnd();
-		short wDirection = (short)HIWORD(wParam);
 
-		if (hwndLog == nullptr)
-			hwndLog = WindowFromPoint(pt);
+	GetWindowRect(m_pLog->GetHwnd(), &rc);
+	if (PtInRect(&rc, pt)) {
+		short wDirection = (short)HIWORD(wParam);
 
 		if (LOWORD(wParam) & MK_SHIFT || M.GetByte("fastscroll", 0)) {
 			if (wDirection < 0)
-				SendMessage(hwndLog, WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
+				SendMessage(m_pLog->GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
 			else if (wDirection > 0)
-				SendMessage(hwndLog, WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
+				SendMessage(m_pLog->GetHwnd(), WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
 		}
-		else SendMessage(hwndLog, WM_MOUSEWHEEL, wParam, lParam);
+		else SendMessage(m_pLog->GetHwnd(), WM_MOUSEWHEEL, wParam, lParam);
 		return 0;
 	}
 
@@ -874,7 +828,9 @@ void CMsgDialog::DM_ThemeChanged()
 	m_hTheme = OpenThemeData(m_hwnd, L"EDIT");
 
 	if (m_hTheme != nullptr || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
-		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+		if (m_iLogMode == 0)
+			LOG()->DisableStaticEdge();
+
 		if (isChat())
 			SetWindowLongPtr(m_nickList.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_nickList.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
 	}
@@ -956,7 +912,6 @@ void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	m_pPanel.getVisibility();
 
 	// small inner margins (padding) for the text areas
-	m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
 	m_message.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 
 	GetSendFormat();
@@ -1123,7 +1078,7 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 void CMsgDialog::DM_AddDivider()
 {
 	if (!(m_dwFlags & MWF_DIVIDERSET) && PluginConfig.m_bUseDividers) {
-		if (GetWindowTextLength(m_log.GetHwnd()) > 0)
+		if (GetWindowTextLength(m_pLog->GetHwnd()) > 0)
 			m_dwFlags |= MWF_DIVIDERWANTED | MWF_DIVIDERSET;
 	}
 }
@@ -1181,7 +1136,7 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 
 	if (hDbEvent != m_hDbEventFirst) {
 		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
-			StreamInEvents(hDbEvent, 1, 1, nullptr);
+			m_pLog->LogEvents(hDbEvent, 1, 1);
 		else {
 			if (m_iNextQueuedEvent >= m_iEventQueueSize) {
 				m_hQueuedEvents = (MEVENT*)mir_realloc(m_hQueuedEvents, (m_iEventQueueSize + 10) * sizeof(MEVENT));

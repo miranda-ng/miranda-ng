@@ -68,7 +68,7 @@ public:
 	HICON       g_iconOverlayDisabled, g_iconOverlayEnabled, g_iconClock;
 	HCURSOR     hCurSplitNS, hCurSplitWE, hCurSplitSW, hCurSplitWSE;
 	HBITMAP     g_hbmUnknown;
-	bool        g_SmileyAddAvail, g_WantIEView, g_WantHPP;
+	bool        g_SmileyAddAvail;
 	HIMAGELIST  g_hImageList;
 	HICON       g_IconMsgEvent, g_IconTypingEvent, g_IconFileEvent, g_IconSend;
 	HICON       g_IconMsgEventBig, g_IconTypingEventBig;

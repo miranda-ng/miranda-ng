@@ -34,7 +34,6 @@ void     TSAPI ProcessAvatarChange(HWND hwnd, LPARAM lParam);
 BOOL     TSAPI CheckCustomLink(HWND hwndRich, POINT *ptClient, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bUrlNeeded);
 int      TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact);
 wchar_t* TSAPI QuoteText(const wchar_t *text);
-UINT     TSAPI GetIEViewMode(MCONTACT hContact);
 int      TSAPI CutContactName(const wchar_t *szold, wchar_t *sznew, size_t size);
 LRESULT  TSAPI GetSendButtonState(HWND hwnd);
 void     TSAPI RearrangeTab(HWND hwndDlg, const CMsgDialog *dat, int iMode, BOOL bSavePos);

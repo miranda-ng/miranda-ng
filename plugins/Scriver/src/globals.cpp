@@ -352,7 +352,6 @@ void ReloadGlobals()
 	g_dat.flags.bStayMinimized = g_plugin.bStayMinimized;
 	g_dat.flags.bSaveDrafts = g_plugin.bSaveDrafts;
 	g_dat.flags.bDelTemp = g_plugin.bDelTemp;
-	g_dat.flags.bUseIeview = g_plugin.bUseIeview;
 
 	g_dat.sendMode = (SendMode)g_plugin.getByte(SRMSGSET_SENDMODE, SRMSGDEFSET_SENDMODE);
 	g_dat.openFlags = g_plugin.iPopFlags;

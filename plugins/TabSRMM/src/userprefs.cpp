@@ -35,8 +35,6 @@
 #define UPREF_ACTION_REMAKELOG 2
 #define UPREF_ACTION_SWITCHLOGVIEWER 4
 
-static int have_ieview = 0, have_hpp = 0;
-
 static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -47,15 +45,10 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		{
 			hContact = lParam;
 			DWORD maxhist = M.GetDword(hContact, "maxhist", 0);
-			BYTE bIEView = M.GetByte(hContact, "ieview", 0);
-			BYTE bHPP = M.GetByte(hContact, "hpplog", 0);
 			int iLocalFormat = M.GetDword(hContact, "sendformat", 0);
 			BYTE bSplit = M.GetByte(hContact, "splitoverride", 0);
 			BYTE bInfoPanel = M.GetByte(hContact, "infopanel", 0);
 			BYTE bAvatarVisible = M.GetByte(hContact, "hideavatar", -1);
-
-			have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
-			have_hpp = ServiceExists(MS_HPP_GETVERSION);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
@@ -68,33 +61,6 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Show always (if present)"));
 			SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
 			SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_SETCURSEL, bAvatarVisible == 0xff ? 0 : (bAvatarVisible == 1 ? 1 : 2), 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
-			SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Force default message log"));
-
-			SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETITEMDATA, 0, 0);
-			SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETITEMDATA, 1, 1);
-
-			if (have_hpp) {
-				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Force History++"));
-				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETITEMDATA, 2, 2);
-			}
-
-			if (have_ieview) {
-				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Force IEView"));
-				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETITEMDATA, have_hpp ? 3 : 2, 3);
-			}
-
-			if (bIEView == 0 && bHPP == 0)
-				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETCURSEL, 0, 0);
-			else if (bIEView == 0xff && bHPP == 0xff)
-				SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETCURSEL, 1, 0);
-			else {
-				if (bHPP == 1)
-					SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETCURSEL, have_hpp ? 2 : 0, 0);
-				if (bIEView == 1)
-					SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_SETCURSEL, (have_hpp && have_ieview) ? 3 : (have_ieview ? 2 : 0), 0);
-			}
 
 			SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
 			SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_INSERTSTRING, -1, (LPARAM)TranslateT("BBCode"));
@@ -134,46 +100,14 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		case WM_USER + 100:
 			CMsgDialog *dat = nullptr;
 			DWORD	*pdwActionToTake = (DWORD *)lParam;
-			unsigned int iOldIEView = 0;
 			HWND	hWnd = Srmm_FindWindow(hContact);
 			BYTE	bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
 
-			if (hWnd) {
+			if (hWnd)
 				dat = (CMsgDialog*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-				if (dat)
-					iOldIEView = GetIEViewMode(dat->m_hContact);
-			}
-			int iIndex = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETCURSEL, 0, 0);
-			int iMode = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETITEMDATA, iIndex, 0);
 
-			if (iIndex != CB_ERR && (iMode >= 0 && iMode <= 3)) {
-				switch (iMode) {
-				case 0:
-					db_set_b(hContact, SRMSGMOD_T, "ieview", 0);
-					db_set_b(hContact, SRMSGMOD_T, "hpplog", 0);
-					break;
-				case 1:
-					db_set_b(hContact, SRMSGMOD_T, "ieview", -1);
-					db_set_b(hContact, SRMSGMOD_T, "hpplog", -1);
-					break;
-				case 2:
-					db_set_b(hContact, SRMSGMOD_T, "ieview", -1);
-					db_set_b(hContact, SRMSGMOD_T, "hpplog", 1);
-					break;
-				case 3:
-					db_set_b(hContact, SRMSGMOD_T, "ieview", 1);
-					db_set_b(hContact, SRMSGMOD_T, "hpplog", -1);
-					break;
-				}
-				if (hWnd && dat) {
-					unsigned int iNewIEView = GetIEViewMode(dat->m_hContact);
-					if (iNewIEView != iOldIEView) {
-						if (pdwActionToTake)
-							*pdwActionToTake |= UPREF_ACTION_SWITCHLOGVIEWER;
-					}
-				}
-			}
-			if ((iIndex = SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_GETCURSEL, 0, 0)) != CB_ERR) {
+			int iIndex = SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_GETCURSEL, 0, 0);
+			if (iIndex != CB_ERR) {
 				if (iIndex == 0)
 					db_unset(hContact, SRMSGMOD_T, "sendformat");
 				else

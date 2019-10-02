@@ -604,26 +604,13 @@ class COptLogDlg : public CDlgBase
 {
 	CCtrlSpin spnLeft, spnRight, spnLoadCount, spnLoadTime, spnTrim;
 	CCtrlCheck chkAlwaysTrim, chkLoadUnread, chkLoadCount, chkLoadTime;
-	CCtrlCombo cmbLogDisplay;
 	CCtrlButton btnModify, btnRtlModify;
 	CCtrlTreeView logOpts;
-
-	bool have_ieview, have_hpp;
 
 	// configure the option page - hide most of the settings here when either IEView
 	// or H++ is set as the global message log viewer. Showing these options may confuse
 	// the user, because they are not working and the user needs to configure the 3rd
 	// party plugin.
-
-	void ShowHide()
-	{
-		LRESULT r = cmbLogDisplay.GetCurSel();
-		Utils::showDlgControl(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
-		logOpts.Show(r == 0);
-
-		for (auto &it : __ctrls)
-			Utils::enableDlgControl(m_hwnd, it, r == 0);
-	}
 
 public:
 	COptLogDlg() :
@@ -639,19 +626,13 @@ public:
 		chkLoadTime(this, IDC_LOADTIME),
 		chkLoadCount(this, IDC_LOADCOUNT),
 		chkAlwaysTrim(this, IDC_ALWAYSTRIM),
-		chkLoadUnread(this, IDC_LOADUNREAD),
-		cmbLogDisplay(this, IDC_MSGLOGDIDSPLAY)
+		chkLoadUnread(this, IDC_LOADUNREAD)
 	{
 		btnModify.OnClick = Callback(this, &COptLogDlg::onClick_Modify);
 		btnRtlModify.OnClick = Callback(this, &COptLogDlg::onClick_RtlModify);
 
-		cmbLogDisplay.OnChange = Callback(this, &COptLogDlg::onChange_Combo);
-
 		chkAlwaysTrim.OnChange = Callback(this, &COptLogDlg::onChange_Trim);
 		chkLoadTime.OnChange = chkLoadCount.OnChange = chkLoadUnread.OnChange = Callback(this, &COptLogDlg::onChange_Load);
-
-		have_ieview = ServiceExists(MS_IEVIEW_WINDOW) != 0;
-		have_hpp = ServiceExists(MS_HPP_GETVERSION) != 0;
 	}
 
 	bool OnInitDialog() override
@@ -687,33 +668,11 @@ public:
 		spnTrim.Enable(maxhist != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_TRIM, maxhist != 0);
 		chkAlwaysTrim.SetState(maxhist != 0);
-
-		cmbLogDisplay.AddString(TranslateT("Internal message log"));
-		cmbLogDisplay.SetCurSel(0);
-		if (have_ieview || have_hpp) {
-			if (have_ieview) {
-				cmbLogDisplay.AddString(TranslateT("IEView plugin"));
-				if (M.GetByte("default_ieview", 0))
-					cmbLogDisplay.SetCurSel(1);
-			}
-			if (have_hpp) {
-				cmbLogDisplay.AddString(TranslateT("History++ plugin"));
-				if (M.GetByte("default_ieview", 0))
-					cmbLogDisplay.SetCurSel(1);
-				else if (M.GetByte("default_hpp", 0))
-					cmbLogDisplay.SetCurSel(have_ieview ? 2 : 1);
-			}
-		}
-		else cmbLogDisplay.Disable();
-
-		SetDlgItemText(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, TranslateT("You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++."));
-		ShowHide();
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		LRESULT msglogmode = cmbLogDisplay.GetCurSel();
 		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
 		dwFlags &= ~(MWF_LOG_ALL);
@@ -729,22 +688,6 @@ public:
 
 		db_set_dw(0, SRMSGMOD_T, "IndentAmount", spnLeft.GetPosition());
 		db_set_dw(0, SRMSGMOD_T, "RightIndent", spnRight.GetPosition());
-
-		db_set_b(0, SRMSGMOD_T, "default_ieview", 0);
-		db_set_b(0, SRMSGMOD_T, "default_hpp", 0);
-		switch (msglogmode) {
-		case 0:
-			break;
-		case 1:
-			if (have_ieview)
-				db_set_b(0, SRMSGMOD_T, "default_ieview", 1);
-			else
-				db_set_b(0, SRMSGMOD_T, "default_hpp", 1);
-			break;
-		case 2:
-			db_set_b(0, SRMSGMOD_T, "default_hpp", 1);
-			break;
-		}
 
 		// scan the tree view and obtain the options...
 		TreeViewToDB(logOpts, lvItemsLog, SRMSGMOD_T, &dwFlags);
@@ -787,11 +730,6 @@ public:
 	{
 		CTemplateEditDlg *pDlg = new CTemplateEditDlg(TRUE, m_hwnd);
 		pDlg->Show();
-	}
-
-	void onChange_Combo(CCtrlCombo*)
-	{
-		ShowHide();
 	}
 };
 

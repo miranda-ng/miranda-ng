@@ -23,10 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-extern INT_PTR HandleIEWindow(WPARAM wParam, LPARAM lParam);
-extern INT_PTR HandleIEEvent(WPARAM wParam, LPARAM lParam);
-extern INT_PTR HandleIENavigate(WPARAM wParam, LPARAM lParam);
-extern INT_PTR ReloadOptions(WPARAM, LPARAM);
+INT_PTR HandleIEWindow(WPARAM wParam, LPARAM lParam);
+INT_PTR HandleIEEvent(WPARAM wParam, LPARAM lParam);
+INT_PTR HandleIENavigate(WPARAM wParam, LPARAM lParam);
+INT_PTR ReloadOptions(WPARAM, LPARAM);
 
 #endif
 

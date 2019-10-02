@@ -35,7 +35,6 @@ bool IsStringValidLink(wchar_t *pszText);
 static int g_cLinesPerPage = 0;
 static int g_iWheelCarryover = 0;
 
-static const UINT sendControls[] = { IDC_SRMM_MESSAGE, IDC_SRMM_LOG };
 static const UINT formatControls[] = { IDC_SRMM_BOLD, IDC_SRMM_ITALICS, IDC_SRMM_UNDERLINE, IDC_FONTSTRIKEOUT };
 static const UINT addControls[] = { IDC_ADD, IDC_CANCELADD };
 static const UINT btnControls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER, IDC_ADD, IDC_CANCELADD };
@@ -141,12 +140,7 @@ void CMsgDialog::SetDialogToType()
 
 	Utils::enableDlgControl(m_hwnd, IDC_TIME, true);
 
-	if (m_hwndIEView || m_hwndHPP) {
-		m_log.Hide();
-		m_log.Enable(false);
-		m_message.Show();
-	}
-	else ShowMultipleControls(m_hwnd, sendControls, _countof(sendControls), SW_SHOW);
+	m_message.Show();
 
 	ShowMultipleControls(m_hwnd, errorControls, _countof(errorControls), m_dwFlags & MWF_ERRORSTATE ? SW_SHOW : SW_HIDE);
 
@@ -405,6 +399,8 @@ bool CMsgDialog::OnInitDialog()
 	else
 		m_pWnd = nullptr;
 
+	m_iLogMode = m_pLog->GetType();
+
 	// set up Windows themes
 	DM_ThemeChanged();
 
@@ -504,10 +500,10 @@ bool CMsgDialog::OnInitDialog()
 		LoadLocalFlags();
 
 	DM_InitTip();
-	m_pPanel.getVisibility();
 
 	m_dwFlagsEx |= M.GetByte(m_hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
-	SetMessageLog();
+
+	m_pPanel.getVisibility();
 	if (m_hContact)
 		m_pPanel.loadHeight();
 
@@ -564,15 +560,6 @@ bool CMsgDialog::OnInitDialog()
 
 	SetDlgItemText(m_hwnd, IDC_CANCELSEND, TranslateT("Cancel"));
 	SetDlgItemText(m_hwnd, IDC_MSGSENDLATER, TranslateT("Send later"));
-
-	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
-	m_log.SendMsg(EM_EXLIMITTEXT, 0, 0x7FFFFFFF);
-	m_log.SendMsg(EM_SETUNDOLIMIT, 0, 0);
-	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
-	m_log.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
-	m_log.SendMsg(EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
-	m_log.SendMsg(EM_SETLANGOPTIONS, 0, m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOFONTSIZEADJUST);
-	m_log.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
 	m_message.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
@@ -686,8 +673,8 @@ bool CMsgDialog::OnInitDialog()
 	m_dwLastActivity = GetTickCount() - 1000;
 	m_pContainer->m_dwLastActivity = m_dwLastActivity;
 
-	if (m_hwndHPP)
-		mir_subclassWindow(m_hwndHPP, HPPKFSubclassProc);
+	if (m_iLogMode == WANT_HPP_LOG)
+		mir_subclassWindow(m_pLog->GetHwnd(), HPPKFSubclassProc);
 
 	m_dwFlags &= ~MWF_INITMODE;
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
@@ -796,20 +783,6 @@ void CMsgDialog::OnDestroy()
 
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
-	// clean up IEView and H++ log windows
-	if (m_hwndIEView != nullptr) {
-		IEVIEWWINDOW ieWindow = {};
-		ieWindow.iType = IEW_DESTROY;
-		ieWindow.hwnd = m_hwndIEView;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-	}
-	if (m_hwndHPP) {
-		IEVIEWWINDOW ieWindow = {};
-		ieWindow.iType = IEW_DESTROY;
-		ieWindow.hwnd = m_hwndHPP;
-		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
-	}
-
 	CSuper::OnDestroy();
 }
 
@@ -832,7 +805,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		fi.chrg.cpMin = 0;
 		fi.chrg.cpMax = -1;
 		fi.lpstrText = L"{";
-		int final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_SendFormat : 0;
+		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? m_SendFormat : 0;
 		fi.lpstrText = L"}";
 		final_sendformat = m_message.SendMsg(EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) == -1 ? final_sendformat : 0;
 	}
@@ -959,43 +932,25 @@ void CMsgDialog::onClick_Add(CCtrlButton*)
 
 void CMsgDialog::onClick_Quote(CCtrlButton*)
 {
-	CHARRANGE sel;
 	SETTEXTEX stx = { ST_SELECTION, 1200 };
 
-	MEVENT hDBEvent = m_hDbEventLast;
-	if (m_hwndIEView || m_hwndHPP) { // IEView quoting support..
-		IEVIEWEVENT event = { sizeof(event) };
-		event.hContact = m_hContact;
-		event.dwFlags = 0;
-		event.iType = IEE_GET_SELECTION;
-
-		wchar_t *selected;
-		if (m_hwndIEView) {
-			event.hwnd = m_hwndIEView;
-			selected = (wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
-		}
-		else {
-			event.hwnd = m_hwndHPP;
-			selected = (wchar_t*)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
-		}
-
-		if (selected != nullptr) {
-			ptrW szQuoted(QuoteText(selected));
-			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
-			return;
-		}
-
-		hDBEvent = db_event_last(m_hContact);
+	wchar_t *selected = m_pLog->GetSelection();
+	if (selected != nullptr) {
+		ptrW szQuoted(QuoteText(selected));
+		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
+		return;
 	}
 
+	MEVENT hDBEvent = db_event_last(m_hContact);
 	if (hDBEvent == 0)
 		return;
 
-	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+	CHARRANGE sel;
+	LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin == sel.cpMax) {
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = db_event_getBlobSize(hDBEvent);
-		wchar_t *szText = (wchar_t*)mir_alloc((dbei.cbBlob + 1) * sizeof(wchar_t));   //URLs are made one char bigger for crlf
+		wchar_t *szText = (wchar_t*)mir_alloc((dbei.cbBlob + 1) * sizeof(wchar_t));   // URLs are made one char bigger for crlf
 		dbei.pBlob = (BYTE*)szText;
 		db_event_get(hDBEvent, &dbei);
 		int iSize = int(mir_strlen((char*)dbei.pBlob)) + 1;
@@ -1027,21 +982,20 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 			bNeedsFree = true;
 		}
 		
-		if (szConverted != nullptr) {
-			ptrW szQuoted(QuoteText(szConverted));
-			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
-		}
+		if (szConverted != nullptr)
+			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, ptrW(QuoteText(szConverted)));
+
 		mir_free(szText);
 		if (bNeedsFree)
 			mir_free(szConverted);
 	}
 	else {
-		ptrA szFromStream(m_log.GetRichTextRtf(true, true));
+		ptrA szFromStream(LOG()->GetRichTextRtf(true, true));
 		ptrW converted(mir_utf8decodeW(szFromStream));
 		Utils::FilterEventMarkers(converted);
-		ptrW szQuoted(QuoteText(converted));
-		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);
+		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, ptrW(QuoteText(converted)));
 	}
+
 	SetFocus(m_message.GetHwnd());
 }
 
@@ -1086,7 +1040,7 @@ void CMsgDialog::onClick_ShowNickList(CCtrlButton *pButton)
 	Resize();
 	if (CSkin::m_skinEnabled)
 		InvalidateRect(m_hwnd, nullptr, TRUE);
-	ScrollToBottom();
+	m_pLog->ScrollToBottom();
 }
 
 void CMsgDialog::onDblClick_List(CCtrlListBox *pList)
@@ -1160,7 +1114,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	int  iSplitterX = m_pContainer->m_pSettings->iSplitterX;
 
 	RECT rc, rcButton;
-	GetClientRect(m_log.GetHwnd(), &rc);
+	GetClientRect(m_pLog->GetHwnd(), &rc);
 	GetClientRect(GetDlgItem(m_hwnd, IDC_PROTOCOL), &rcButton);
 
 	if (m_bIsAutosizingInput)
@@ -1609,7 +1563,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (wp == VK_DIVIDE) {
-			SetFocus(m_log.GetHwnd());
+			SetFocus(m_pLog->GetHwnd());
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (wp == VK_ADD) {
@@ -1653,7 +1607,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			if (GetSendButtonState(m_hwnd) != PBS_DISABLED && !(m_pContainer->m_dwFlags & CNT_HIDETOOLBAR))
 				SetFocus(GetDlgItem(m_hwnd, IDOK));
 			else
-				SetFocus(m_log.GetHwnd());
+				SetFocus(m_pLog->GetHwnd());
 			return _dlgReturn(m_hwnd, 1);
 		}
 
@@ -1669,14 +1623,14 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		POINT pt;
 		GetCursorPos(&pt);
 		RECT rc;
-		GetWindowRect(m_log.GetHwnd(), &rc);
+		GetWindowRect(m_pLog->GetHwnd(), &rc);
 		if (PtInRect(&rc, pt)) {
 			short wDirection = (short)HIWORD(wp);
 			if (LOWORD(wp) & MK_SHIFT) {
 				if (wDirection < 0)
-					m_log.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
+					LOG()->WndProc(WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
 				else if (wDirection > 0)
-					m_log.SendMsg(WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
+					LOG()->WndProc(WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
 				return 0;
 			}
 			return 0;
@@ -1750,13 +1704,13 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		// holding ctrl-alt does the same, but pastes formatted text
 		if (pFilter->nmhdr.idFrom == IDC_SRMM_LOG && M.GetByte("autocopy", 1)) {
 			CHARRANGE cr;
-			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&cr);
+			LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&cr);
 			if (cr.cpMax == cr.cpMin)
 				break;
 			cr.cpMin = cr.cpMax;
 			if (isCtrl) {
 				SETTEXTEX stx = { ST_KEEPUNDO | ST_SELECTION, CP_UTF8 };
-				ptrA streamOut(m_log.GetRichTextRtf(!isAlt, true));
+				ptrA streamOut(LOG()->GetRichTextRtf(!isAlt, true));
 				if (streamOut) {
 					Utils::FilterEventMarkers(streamOut);
 					m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);
@@ -1764,7 +1718,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 				SetFocus(m_message.GetHwnd());
 			}
 			else if (!isShift) {
-				m_log.SendMsg(WM_COPY, 0, 0);
+				LOG()->WndProc(WM_COPY, 0, 0);
 				SetFocus(m_message.GetHwnd());
 				if (m_pContainer->m_hwndStatus)
 					SendMessage(m_pContainer->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)TranslateT("Selection copied to clipboard"));
@@ -1927,135 +1881,6 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LRESULT CMsgDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	bool isCtrl, isShift, isAlt;
-
-	switch (msg) {
-	case WM_KILLFOCUS:
-		if (wParam != (WPARAM)m_log.GetHwnd() && 0 != wParam) {
-			CHARRANGE cr;
-			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&cr);
-			if (cr.cpMax != cr.cpMin) {
-				cr.cpMin = cr.cpMax;
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&cr);
-			}
-		}
-		break;
-
-	case WM_CHAR:
-		KbdState(isShift, isCtrl, isAlt);
-		if (wParam == 0x03 && isCtrl) // Ctrl+C
-			return WMCopyHandler(msg, wParam, lParam);
-		if (wParam == 0x11 && isCtrl) // Ctrl+Q
-			m_btnQuote.Click();
-		break;
-
-	case WM_LBUTTONUP:
-		if (isChat() && g_Settings.bClickableNicks) {
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			CheckCustomLink(m_log.GetHwnd(), &pt, msg, wParam, lParam, TRUE);
-		}
-		if (M.GetByte("autocopy", 1)) {
-			CHARRANGE sel;
-			SendMessage(m_log.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)& sel);
-			if (sel.cpMin != sel.cpMax) {
-				SendMessage(m_log.GetHwnd(), WM_COPY, 0, 0);
-				sel.cpMin = sel.cpMax;
-				SendMessage(m_log.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)& sel);
-				SetFocus(m_message.GetHwnd());
-			}
-		}
-		break;
-
-	case WM_LBUTTONDOWN:
-	case WM_LBUTTONDBLCLK:
-	case WM_RBUTTONUP:
-	case WM_RBUTTONDOWN:
-	case WM_RBUTTONDBLCLK:
-		if (isChat() && g_Settings.bClickableNicks) {
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			CheckCustomLink(m_log.GetHwnd(), &pt, msg, wParam, lParam, TRUE);
-		}
-		break;
-
-	case WM_SETCURSOR:
-		if (g_Settings.bClickableNicks && isChat() && (LOWORD(lParam) == HTCLIENT)) {
-			POINT pt;
-			GetCursorPos(&pt);
-			ScreenToClient(m_log.GetHwnd(), &pt);
-			if (CheckCustomLink(m_log.GetHwnd(), &pt, msg, wParam, lParam, FALSE))
-				return TRUE;
-		}
-		break;
-
-	case WM_SYSKEYUP:
-		if (wParam == VK_MENU) {
-			ProcessHotkeysByMsgFilter(m_log, msg, wParam, lParam);
-			return 0;
-		}
-		break;
-
-	case WM_SYSKEYDOWN:
-		m_bkeyProcessed = false;
-		if (ProcessHotkeysByMsgFilter(m_log, msg, wParam, lParam)) {
-			m_bkeyProcessed = true;
-			return 0;
-		}
-		break;
-
-	case WM_SYSCHAR:
-		if (m_bkeyProcessed) {
-			m_bkeyProcessed = false;
-			return 0;
-		}
-		break;
-
-	case WM_KEYDOWN:
-		KbdState(isShift, isCtrl, isAlt);
-		if (wParam == VK_INSERT && isCtrl)
-			return WMCopyHandler(msg, wParam, lParam);
-
-		if (wParam == 0x57 && isCtrl) { // ctrl-w (close window)
-			PostMessage(m_hwnd, WM_CLOSE, 0, 1);
-			return TRUE;
-		}
-
-		break;
-
-	case WM_COPY:
-		return WMCopyHandler(msg, wParam, lParam);
-
-	case WM_NCCALCSIZE:
-		return CSkin::NcCalcRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
-
-	case WM_NCPAINT:
-		return CSkin::DrawRichEditFrame(m_log.GetHwnd(), this, ID_EXTBKHISTORY, msg, wParam, lParam, stubLogProc);
-
-	case WM_CONTEXTMENU:
-		if (!isChat()) {
-			POINT pt;
-			if (lParam == 0xFFFFFFFF) {
-				CHARRANGE sel;
-				m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)& sel);
-				m_log.SendMsg(EM_POSFROMCHAR, (WPARAM)& pt, (LPARAM)sel.cpMax);
-				ClientToScreen(m_log.GetHwnd(), &pt);
-			}
-			else {
-				pt.x = GET_X_LPARAM(lParam);
-				pt.y = GET_Y_LPARAM(lParam);
-			}
-
-			ShowPopupMenu(m_log, pt);
-			return TRUE;
-		}
-	}
-
-	return CSuper::WndProc_Log(msg, wParam, lParam);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	bool isCtrl, isShift, isAlt;
@@ -2161,7 +1986,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				if ((GetSendButtonState(GetHwnd()) != PBS_DISABLED))
 					SetFocus(m_btnOk.GetHwnd());
 				else
-					SetFocus(m_log.GetHwnd());
+					SetFocus(m_pLog->GetHwnd());
 			}
 			return 0;
 		}
@@ -2242,10 +2067,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				else if (wParam == VK_DOWN)
 					wp = MAKEWPARAM(SB_LINEDOWN, 0);
 
-				if (m_hwndIEView == nullptr && m_hwndHPP == nullptr)
-					m_log.SendMsg(WM_VSCROLL, wp, 0);
-				else
-					SendMessage(m_hwndIWebBrowserControl, WM_VSCROLL, wp, 0);
+				LOG()->WndProc(WM_VSCROLL, wp, 0);
 				return 0;
 			}
 		}
@@ -2603,7 +2425,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SIZE:
 		if (wParam == SIZE_MAXIMIZED)
-			ScrollToBottom();
+			m_pLog->ScrollToBottom();
 
 		if (!IsIconic(m_hwnd)) {
 			if (m_ipFieldHeight == 0)
@@ -2684,7 +2506,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (GetDlgItem(m_hwnd, IDC_CLIST) != nullptr) {
 				RECT rcLog;
 				GetClientRect(m_hwnd, &rcClient);
-				GetClientRect(m_log.GetHwnd(), &rcLog);
+				GetClientRect(m_pLog->GetHwnd(), &rcLog);
 				rc.top = 0;
 				rc.right = rcClient.right;
 				rc.left = rcClient.right - m_iMultiSplit;
@@ -2694,8 +2516,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				MoveWindow(GetDlgItem(m_hwnd, IDC_CLIST), rc.left, rc.top, rc.right - rc.left, rcLog.bottom - rcLog.top, FALSE);
 			}
 
-			if (m_hwndIEView || m_hwndHPP)
-				ResizeIeView();
+			m_pLog->Resize();
 
 			DetermineMinHeight();
 		}
@@ -2920,22 +2741,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			RemakeLog();
 		}
 		else if (m_hContact == wParam && db_mc_isSub(wParam) && db_event_getContact(lParam) != wParam)
-			StreamInEvents(lParam, 1, 1, nullptr);
-		return 0;
-
-	case DM_SCROLLIEVIEW:
-		{
-			IEVIEWWINDOW iew = { sizeof(iew) };
-			iew.iType = IEW_SCROLLBOTTOM;
-			if (m_hwndIEView) {
-				iew.hwnd = m_hwndIEView;
-				CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&iew);
-			}
-			else if (m_hwndHPP) {
-				iew.hwnd = m_hwndHPP;
-				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&iew);
-			}
-		}
+			m_pLog->LogEvents(lParam, 1, 1);
 		return 0;
 
 	case HM_DBEVENTADDED:
@@ -3019,7 +2825,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			Resize();
 			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
 
-			if (m_hwndIEView != nullptr)
+			if (m_iLogMode != WANT_IEVIEW_LOG)
 				SetFocus(m_message.GetHwnd());
 			if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
 				m_pContainer->m_pSideBar->Layout();
@@ -3263,8 +3069,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_IEVIEWOPTIONSCHANGED:
-		if (m_hwndIEView)
-			RemakeLog();
+		RemakeLog();
 		break;
 
 	case DM_SMILEYOPTIONSCHANGED:

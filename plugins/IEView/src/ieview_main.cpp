@@ -67,6 +67,8 @@ int CMPlugin::Load()
 	workingDirUtf8 = mir_utf8encodeW(workingDir);
 	delete[] workingDir;
 
+	hLogger = RegisterSrmmLog("ieview", L"IEView log", &logBuilder);
+
 	HookEvent(ME_OPT_INITIALISE, IEViewOptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
@@ -83,6 +85,7 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	UnregisterSrmmLog(hLogger);
 	Options::uninit();
 	DestroyHookableEvent(hHookOptionsChanged);
 	IEView::release();

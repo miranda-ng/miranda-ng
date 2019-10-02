@@ -769,6 +769,8 @@ public:
 	}
 };
 
+void SrmmLogOptionsInit(WPARAM wParam);
+
 static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
@@ -778,6 +780,8 @@ static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CSrmmToolbarOptions();
 	g_plugin.addOptions(wParam, &odp);
+
+	SrmmLogOptionsInit(wParam);
 	return 0;
 }
 

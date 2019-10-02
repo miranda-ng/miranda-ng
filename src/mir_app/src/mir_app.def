@@ -348,9 +348,7 @@ Chat_UpdateOptions @418 NONAME
 ?ShowColorChooser@CSrmmBaseDialog@@QAEXH@Z @421 NONAME
 ?ShowFilterMenu@CSrmmBaseDialog@@UAEXXZ @422 NONAME
 ?OnInitDialog@CSrmmBaseDialog@@MAE_NXZ @423 NONAME
-?StreamInEvents@CSrmmBaseDialog@@UAEXPAULOGINFO@@_N@Z @424 NONAME
 ?AddLog@CSrmmBaseDialog@@UAEXXZ @425 NONAME
-?ScrollToBottom@CSrmmBaseDialog@@UAEXXZ @427 NONAME
 ?UpdateNickList@CSrmmBaseDialog@@UAEXXZ @428 NONAME
 ?onClick_BIU@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @430 NONAME
 ?onClick_BkColor@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @431 NONAME
@@ -359,7 +357,6 @@ Chat_UpdateOptions @418 NONAME
 ?ProcessHotkeys@CSrmmBaseDialog@@IAE_NH_N00@Z @434 NONAME
 ?onClick_History@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @435 NONAME
 ?onClick_ChanMgr@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @436 NONAME
-?WndProc_Log@CSrmmBaseDialog@@UAEJIIJ@Z @437 NONAME
 ?WndProc_Message@CSrmmBaseDialog@@UAEJIIJ@Z @438 NONAME
 ?WndProc_Nicklist@CSrmmBaseDialog@@UAEJIIJ@Z @439 NONAME
 ?onDblClick_List@CSrmmBaseDialog@@IAEXPAVCCtrlListBox@@@Z @440 NONAME
@@ -696,3 +693,26 @@ Ignore_IsIgnored @781
 Contact_OnList @782
 Contact_PutOnList @783
 Contact_RemoveFromList @784
+RegisterHppLogger @785
+UnregisterHppLogger @786
+??0CRtfLogWindow@@QAE@AAVCMsgDialog@@@Z @787 NONAME
+??0CSrmmLogWindow@@IAE@AAVCMsgDialog@@@Z @788 NONAME
+??1CRtfLogWindow@@UAE@XZ @789 NONAME
+??1CSrmmLogWindow@@UAE@XZ @790 NONAME
+??_7CRtfLogWindow@@6B@ @791 NONAME
+??_7CSrmmLogWindow@@6B@ @792 NONAME
+?AtBottom@CRtfLogWindow@@UAE_NXZ @793 NONAME
+?Attach@CRtfLogWindow@@UAEXXZ @794 NONAME
+?Clear@CRtfLogWindow@@UAEXXZ @795 NONAME
+?Detach@CRtfLogWindow@@UAEXXZ @796 NONAME
+?GetHwnd@CRtfLogWindow@@UAEPAUHWND__@@XZ @797 NONAME
+?GetSelection@CRtfLogWindow@@UAEPA_WXZ @798 NONAME
+?Notify@CRtfLogWindow@@UAEHIJ@Z @799 NONAME
+?Notify@CSrmmLogWindow@@UAEHIJ@Z @800 NONAME
+?Resize@CRtfLogWindow@@UAEXXZ @801 NONAME
+?ScrollToBottom@CRtfLogWindow@@UAEXXZ @802 NONAME
+?UpdateOptions@CSrmmLogWindow@@UAEXXZ @803 NONAME
+?WndProc@CRtfLogWindow@@UAEHIIJ@Z @804 NONAME
+_RegisterSrmmLog@12 @805 NONAME
+_UnregisterSrmmLog@4 @806 NONAME
+?GetType@CRtfLogWindow@@UAEHXZ @807 NONAME

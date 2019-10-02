@@ -361,7 +361,7 @@ void SendQueue::logError(CMsgDialog *dat, int iSendJobIndex, const wchar_t *szEr
 	dbei.cbBlob = (int)iMsgLen;
 	dbei.timestamp = time(0);
 	dbei.szModule = (char *)szErrMsg;
-	dat->StreamInEvents(0, 1, 1, &dbei);
+	dat->LogEvent(&dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -557,7 +557,8 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 		dbei.timestamp = time(0);
 		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
 		dbei.pBlob = (PBYTE)(char*)utfText;
-		dat->StreamInEvents(0, 1, 1, &dbei);
+		dat->LogEvent(&dbei);
+
 		if (dat->m_hDbEventFirst == 0)
 			dat->RemakeLog();
 		dat->m_cache->saveHistory();

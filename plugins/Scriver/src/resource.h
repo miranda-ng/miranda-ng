@@ -91,7 +91,6 @@
 #define IDC_SHOWSECONDS                 1023
 #define IDC_USELONGDATE                 1024
 #define IDC_USERELATIVEDATE             1025
-#define IDC_USEIEVIEW                   1026
 #define IDC_FONTSCOLORS                 1027
 #define IDC_LOADUNREAD                  1031
 #define IDC_SHOWLOGICONS                1032

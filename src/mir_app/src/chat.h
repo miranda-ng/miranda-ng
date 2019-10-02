@@ -28,8 +28,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
 void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
+class CLogWindow : public CSrmmLogWindow {};
+
 class CMsgDialog : public CSrmmBaseDialog
 {
+	friend void RedrawLog2(SESSION_INFO *si);
+
 	CMsgDialog(); // just to suppress compiler's warnings, never implemented
 };
 
@@ -123,6 +127,8 @@ BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 BOOL          DoTrayIcon(SESSION_INFO *si, GCEVENT *gce);
 BOOL          DoPopup(SESSION_INFO *si, GCEVENT *gce);
 int           ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
+
+CSrmmLogWindow *Srmm_GetLogWindow(CMsgDialog *pDlg);
 
 const wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2);
 

@@ -29,6 +29,9 @@
 
 //defines
 
+#define CLICKNICK_BEGIN L"~~++#"
+#define CLICKNICK_END L"#++~~"
+
 enum TChatStatusEx
 {
 	CHAT_STATUS_NORMAL,

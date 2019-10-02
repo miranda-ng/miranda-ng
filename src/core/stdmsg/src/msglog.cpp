@@ -393,98 +393,6 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-void CMsgDialog::StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend)
-{
-	CHARRANGE oldSel, sel;
-	BOOL bottomScroll = TRUE;
-	POINT scrollPos;
-
-	m_log.SendMsg(WM_SETREDRAW, FALSE, 0);
-	m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
-
-	LogStreamData streamData = {};
-	streamData.hContact = m_hContact;
-	streamData.hDbEvent = hDbEventFirst;
-	streamData.dlgDat = this;
-	streamData.eventsToInsert = count;
-	streamData.isEmpty = !bAppend || GetWindowTextLength(m_log.GetHwnd()) == 0;
-
-	EDITSTREAM stream = {};
-	stream.pfnCallback = LogStreamInEvents;
-	stream.dwCookie = (DWORD_PTR)&streamData;
-
-	if (!streamData.isEmpty) {
-		bottomScroll = (GetFocus() != m_log.GetHwnd());
-		if (bottomScroll && (GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL)) {
-			SCROLLINFO si = {};
-			si.cbSize = sizeof(si);
-			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-			GetScrollInfo(m_log.GetHwnd(), SB_VERT, &si);
-			bottomScroll = (si.nPos + (int)si.nPage) >= si.nMax;
-		}
-		if (!bottomScroll)
-			m_log.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
-	}
-
-	FINDTEXTEXA fi;
-	if (bAppend) {
-		sel.cpMin = sel.cpMax = -1;
-		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-		fi.chrg.cpMin = 0;
-	}
-	else {
-		GETTEXTLENGTHEX gtxl = { 0 };
-		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
-		gtxl.codepage = 1200;
-		fi.chrg.cpMin = m_log.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
-
-		sel.cpMin = sel.cpMax = m_log.GetRichTextLength();
-		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-	}
-
-	mir_strcpy(szSep2, bAppend ? "\\par\\sl0" : "\\sl1000");
-	mir_strcpy(szSep2_RTL, bAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
-
-	m_log.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
-	if (bottomScroll) {
-		sel.cpMin = sel.cpMax = -1;
-		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-	}
-	else {
-		m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
-		m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
-	}
-
-	if (g_dat.bSmileyInstalled) {
-		SMADD_RICHEDIT3 smre;
-		smre.cbSize = sizeof(SMADD_RICHEDIT3);
-		smre.hwndRichEditControl = m_log.GetHwnd();
-
-		MCONTACT hContact = db_mc_getSrmmSub(m_hContact);
-		smre.Protocolname = (hContact != 0) ? GetContactProto(hContact) : m_szProto;
-
-		if (fi.chrg.cpMin > 0) {
-			sel.cpMin = fi.chrg.cpMin;
-			sel.cpMax = -1;
-			smre.rangeToReplace = &sel;
-		}
-		else smre.rangeToReplace = nullptr;
-
-		smre.disableRedraw = TRUE;
-		smre.hContact = m_hContact;
-		smre.flags = 0;
-		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
-	}
-
-	m_log.SendMsg(WM_SETREDRAW, TRUE, 0);
-	if (bottomScroll) {
-		ScrollToBottom();
-		RedrawWindow(m_log.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
-	}
-
-	m_hDbEventLast = streamData.hDbEventLast;
-}
-
 #define RTFPICTHEADERMAXSIZE   78
 void LoadMsgLogIcons(void)
 {
@@ -537,4 +445,217 @@ void FreeMsgLogIcons(void)
 {
 	for (auto &it : pLogIconBmpBits)
 		mir_free(it);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CLogWindow::Attach()
+{
+	CSuper::Attach();
+
+	// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
+	m_rtf.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
+	m_rtf.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
+	m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
+}
+
+void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
+{
+	CHARRANGE oldSel, sel;
+	BOOL bottomScroll = TRUE;
+	POINT scrollPos;
+
+	m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
+
+	LogStreamData streamData = {};
+	streamData.hContact = m_pDlg.m_hContact;
+	streamData.hDbEvent = hDbEventFirst;
+	streamData.dlgDat = &m_pDlg;
+	streamData.eventsToInsert = count;
+	streamData.isEmpty = !bAppend || GetWindowTextLength(m_rtf.GetHwnd()) == 0;
+
+	EDITSTREAM stream = {};
+	stream.pfnCallback = LogStreamInEvents;
+	stream.dwCookie = (DWORD_PTR)&streamData;
+
+	if (!streamData.isEmpty) {
+		bottomScroll = (GetFocus() != m_rtf.GetHwnd());
+		if (bottomScroll && (GetWindowLongPtr(m_rtf.GetHwnd(), GWL_STYLE) & WS_VSCROLL)) {
+			SCROLLINFO si = {};
+			si.cbSize = sizeof(si);
+			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
+			GetScrollInfo(m_rtf.GetHwnd(), SB_VERT, &si);
+			bottomScroll = (si.nPos + (int)si.nPage) >= si.nMax;
+		}
+		if (!bottomScroll)
+			m_rtf.SendMsg(EM_GETSCROLLPOS, 0, (LPARAM)&scrollPos);
+	}
+
+	FINDTEXTEXA fi;
+	if (bAppend) {
+		sel.cpMin = sel.cpMax = -1;
+		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		fi.chrg.cpMin = 0;
+	}
+	else {
+		GETTEXTLENGTHEX gtxl = { 0 };
+		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
+		gtxl.codepage = 1200;
+		fi.chrg.cpMin = m_rtf.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+
+		sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
+		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+	}
+
+	mir_strcpy(szSep2, bAppend ? "\\par\\sl0" : "\\sl1000");
+	mir_strcpy(szSep2_RTL, bAppend ? "\\rtlpar\\rtlmark\\par\\sl1000" : "\\sl1000");
+
+	m_rtf.SendMsg(EM_STREAMIN, bAppend ? SFF_SELECTION | SF_RTF : SF_RTF, (LPARAM)&stream);
+	if (bottomScroll) {
+		sel.cpMin = sel.cpMax = -1;
+		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+	}
+	else {
+		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
+		m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
+	}
+
+	if (g_dat.bSmileyInstalled) {
+		SMADD_RICHEDIT3 smre;
+		smre.cbSize = sizeof(SMADD_RICHEDIT3);
+		smre.hwndRichEditControl = m_rtf.GetHwnd();
+
+		MCONTACT hContact = db_mc_getSrmmSub(m_pDlg.m_hContact);
+		smre.Protocolname = (hContact != 0) ? GetContactProto(hContact) : m_pDlg.m_szProto;
+
+		if (fi.chrg.cpMin > 0) {
+			sel.cpMin = fi.chrg.cpMin;
+			sel.cpMax = -1;
+			smre.rangeToReplace = &sel;
+		}
+		else smre.rangeToReplace = nullptr;
+
+		smre.disableRedraw = TRUE;
+		smre.hContact = m_pDlg.m_hContact;
+		smre.flags = 0;
+		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
+	}
+
+	m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+	if (bottomScroll) {
+		ScrollToBottom();
+		RedrawWindow(m_rtf.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+	}
+
+	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
+}
+
+void CLogWindow::LogEvents(DBEVENTINFO*, bool)
+{
+}
+
+void CLogWindow::UpdateOptions()
+{
+	if (m_pDlg.isChat())
+		m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
+	else {
+		// configure message history for proper RTL formatting
+		PARAFORMAT2 pf2;
+		memset(&pf2, 0, sizeof(pf2));
+		pf2.cbSize = sizeof(pf2);
+
+		pf2.wEffects = PFE_RTLPARA;
+		pf2.dwMask = PFM_RTLPARA;
+		m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+
+		pf2.wEffects = 0;
+		m_rtf.SendMsg(EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
+
+		m_rtf.SendMsg(EM_SETLANGOPTIONS, 0, m_rtf.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+		m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static const CHARRANGE rangeAll = { 0, -1 };
+
+INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CHARRANGE sel;
+
+	switch (msg) {
+	case WM_CONTEXTMENU:
+		// we display context menu here only for private chats, group chats are processed by the core
+		if (!m_pDlg.isChat()) {
+			POINT pt;
+			GetCursorPos(&pt);
+
+			SetFocus(m_rtf.GetHwnd());
+
+			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
+			HMENU hSubMenu = GetSubMenu(hMenu, 0);
+			TranslateMenu(hSubMenu);
+
+			CHARRANGE all = { 0, -1 };
+			m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+			if (sel.cpMin == sel.cpMax)
+				EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
+
+			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_pDlg.m_hwnd, nullptr)) {
+			case IDM_COPY:
+				m_rtf.SendMsg(WM_COPY, 0, 0);
+				break;
+			case IDM_COPYALL:
+				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+				m_rtf.SendMsg(WM_COPY, 0, 0);
+				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+				break;
+			case IDM_SELECTALL:
+				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+				break;
+			case IDM_CLEAR:
+				Clear();
+				m_pDlg.m_hDbEventFirst = 0;
+				break;
+			}
+			DestroyMenu(hSubMenu);
+			DestroyMenu(hMenu);
+			return TRUE;
+		}
+		break;
+
+	case WM_LBUTTONUP:
+		if (m_pDlg.isChat()) {
+			m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+			if (sel.cpMin != sel.cpMax) {
+				m_rtf.SendMsg(WM_COPY, 0, 0);
+				sel.cpMin = sel.cpMax;
+				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+			}
+			SetFocus(m_pDlg.m_message.GetHwnd());
+		}
+		break;
+
+	case WM_KEYDOWN:
+		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
+
+		if (wParam == 0x57 && isCtrl && !isAlt) { // ctrl-w (close window)
+			m_pDlg.CloseTab();
+			return TRUE;
+		}
+
+		if (m_pDlg.ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+			return FALSE;
+	}
+
+	return CSuper::WndProc(msg, wParam, lParam);
+}
+
+CSrmmLogWindow *logBuilder(CMsgDialog &pDlg)
+{
+	return new CLogWindow(pDlg);
 }

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\..\res\resource.rc
+// Used by w:\miranda-ng\plugins\TabSRMM\res\resource.rc
 //
 #define IDD_TEMPLATEEDIT                1
 #define IDD_USERPREFS                   2
@@ -187,7 +187,6 @@
 #define IDC_STMSGLOGGROUP               1139
 #define IDC_PROTOCOL                    1140
 #define IDC_STMSGLOGGROUP2              1140
-#define IDC_STMSGLOGGROUP3              1141
 #define IDC_PROTOMENU                   1141
 #define IDC_TYPING                      1143
 #define IDC_TOGGLETOOLBAR               1144
@@ -315,7 +314,6 @@
 #define IDC_SINGLEROWTAB                1263
 #define IDC_STREAMTHREADING             1264
 #define IDC_TABBORDEROUTERBOTTOM        1264
-#define IDC_IEVIEWMODE                  1265
 #define IDC_TABBORDERSPINOUTERBOTTOM    1265
 #define IDC_TEXTFORMATTING              1266
 #define IDC_AVATARMODE                  1267
@@ -439,7 +437,6 @@
 #define IDC_TITLEBOX                    1402
 #define IDC_DESC                        1404
 #define IDC_LABEL_PRIVATETHEME          1405
-#define IDC_MSGLOGDIDSPLAY              1407
 #define IDC_BOTTOMTOOLBAR               1414
 #define IDC_BUTTON1                     1415
 #define IDC_PLUS_REVERT                 1415
@@ -472,7 +469,6 @@
 #define IDC_GROUP_OTHER                 1435
 #define IDC_SIZE_TIP                    1436
 #define IDC_IPCONFIG_PRIVATECONTAINER   1437
-#define IDC_EXPLAINMSGLOGSETTINGS       1437
 #define IDC_PANELPICTUREVIS             1438
 #define IDC_SKINNAME                    1438
 #define IDC_SKINROOTFOLDER              1439
@@ -621,7 +617,6 @@
 #define ID_WINDOWFLASHING_USEDEFAULTVALUES 40106
 #define ID_WINDOWFLASHING_FLASHUNTILFOCUSED 40107
 #define ID_WINDOWFLASHING_DISABLEFLASHING 40108
-#define ID_FILE_SAVEMESSAGELOGAS        40109
 #define ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED 40110
 #define ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED 40111
 #define ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS 40112
@@ -720,3 +715,14 @@
 #define ID_QUEUEMANAGER_RESUMESELECTED  40259
 #define ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS 40260
 #define ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD 40261
+
+// Next default values for new objects
+// 
+#ifdef APSTUDIO_INVOKED
+#ifndef APSTUDIO_READONLY_SYMBOLS
+#define _APS_NEXT_RESOURCE_VALUE        102
+#define _APS_NEXT_COMMAND_VALUE         40001
+#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_SYMED_VALUE           101
+#endif
+#endif

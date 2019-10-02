@@ -54,7 +54,6 @@ CMPlugin::CMPlugin() :
 	bTypingNew(SRMM_MODULE, "DefaultTyping", 1),
 	bAutoClose(SRMM_MODULE, "AutoClose", 0),
 	bAutoPopup(SRMM_MODULE, "AutoPopupMsg", 0),
-	bUseIeview(SRMM_MODULE, "UseIEView", 1),
 	bSaveDrafts(SRMM_MODULE, "SaveDrafts", 0),
 	bTypingUnknown(SRMM_MODULE, "UnknownTyping", 0),
 	bHideContainer(SRMM_MODULE, "HideContainers", 0),
@@ -125,6 +124,17 @@ int CMPlugin::Load()
 	if (IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
+	hLogger = RegisterSrmmLog("built-in", L"Scriver internal log", &logBuilder);
+
+	switch (getByte("UseIEView", -1)) {
+	case 1:
+		setString("Logger", "ieview");
+		__fallthrough;
+
+	case 0:
+		delSetting("UseIEView");
+	}
+
 	return OnLoadModule();
 }
 
@@ -132,6 +142,7 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	UnregisterSrmmLog(hLogger);
 	if (pTaskbarInterface)
 		pTaskbarInterface->Release();
 	return OnUnloadModule();

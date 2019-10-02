@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_INFO *si) :
 	CDlgBase(pPlugin, idDialog),
-	m_log(this, IDC_SRMM_LOG),
 	m_message(this, IDC_SRMM_MESSAGE),
 	m_nickList(this, IDC_SRMM_NICKLIST),
 
@@ -130,193 +129,6 @@ static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	}
 
 	return mir_callNextSubclass(hwnd, Srmm_ButtonSubclassProc, msg, wParam, lParam);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
-
-EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
-	if (pDlg != nullptr)
-		return pDlg->WndProc_Log(msg, wParam, lParam);
-
-	return mir_callNextSubclass(hwnd, stubLogProc, msg, wParam, lParam);
-}
-
-LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CHARRANGE sel;
-
-	switch (msg) {
-	case WM_ACTIVATE:
-		if (LOWORD(wParam) == WA_INACTIVE) {
-			m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				sel.cpMin = sel.cpMax;
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-			}
-		}
-		break;
-
-	case WM_SETCURSOR:
-		if (m_bInMenu) {
-			SetCursor(LoadCursor(nullptr, IDC_ARROW));
-			return TRUE;
-		}
-		break;
-
-	case WM_KEYDOWN:
-	case WM_SYSKEYDOWN:
-		if (!(GetKeyState(VK_RMENU) & 0x8000)) {
-			MSG message = { m_hwnd, msg, wParam, lParam };
-			LRESULT iButtonFrom = Hotkey_Check(&message, BB_HK_SECTION);
-			if (iButtonFrom) {
-				Srmm_ProcessToolbarHotkey(m_hContact, iButtonFrom, m_hwnd);
-				return TRUE;
-			}
-		}
-		break;
-
-	case WM_CHAR:
-		if (wParam >= ' ') {
-			SetFocus(m_message.GetHwnd());
-			m_message.SendMsg(WM_CHAR, wParam, lParam);
-		}
-		else if (wParam == '\t')
-			SetFocus(m_message.GetHwnd());
-		break;
-
-	case WM_CONTEXTMENU:
-		POINT pt, ptl;
-		m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-		if (lParam == 0xFFFFFFFF) {
-			m_log.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
-			ClientToScreen(m_log.GetHwnd(), &pt);
-		}
-		else {
-			pt.x = GET_X_LPARAM(lParam);
-			pt.y = GET_Y_LPARAM(lParam);
-		}
-		ptl = pt;
-		ScreenToClient(m_log.GetHwnd(), (LPPOINT)&ptl);
-		{
-			wchar_t *pszWord = (wchar_t*)_alloca(8192);
-			pszWord[0] = '\0';
-
-			// get a word under cursor
-			if (sel.cpMin == sel.cpMax) {
-				int iCharIndex = m_log.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)&ptl);
-				if (iCharIndex < 0)
-					break;
-
-				sel.cpMin = m_log.SendMsg(EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
-				sel.cpMax = m_log.SendMsg(EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
-			}
-
-			if (sel.cpMax > sel.cpMin) {
-				TEXTRANGE tr = { 0 };
-				tr.chrg = sel;
-				tr.lpstrText = pszWord;
-				int iRes = m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-				if (iRes > 0) {
-					wchar_t *p = wcschr(pszWord, '\r');
-					if (p) *p = 0;
-
-					size_t iLen = mir_wstrlen(pszWord) - 1;
-					while (wcschr(szTrimString, pszWord[iLen])) {
-						pszWord[iLen] = '\0';
-						iLen--;
-					}
-				}
-			}
-
-			CHARRANGE all = { 0, -1 };
-			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_LOGMENU));
-			HMENU hSubMenu = GetSubMenu(hMenu, 0);
-			TranslateMenu(hSubMenu);
-			m_bInMenu = true;
-			UINT uID = CreateGCMenu(m_log.GetHwnd(), hSubMenu, pt, m_si, nullptr, pszWord);
-			m_bInMenu = false;
-			switch (uID) {
-			case 0:
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				break;
-
-			case IDM_COPYALL:
-				m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				m_log.SendMsg(WM_COPY, 0, 0);
-				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				break;
-
-			case IDM_CLEAR:
-				m_log.SetText(L"");
-				if (m_si) {
-					g_chatApi.LM_RemoveAll(&m_si->pLog, &m_si->pLogEnd);
-					m_si->iEventCount = 0;
-					m_si->LastTime = 0;
-				}
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				break;
-
-			case IDM_SEARCH_GOOGLE:
-			case IDM_SEARCH_BING:
-			case IDM_SEARCH_YANDEX:
-			case IDM_SEARCH_YAHOO:
-			case IDM_SEARCH_WIKIPEDIA:
-			case IDM_SEARCH_FOODNETWORK:
-			case IDM_SEARCH_GOOGLE_MAPS:
-			case IDM_SEARCH_GOOGLE_TRANSLATE:
-				{
-					CMStringW szURL;
-					switch (uID) {
-					case IDM_SEARCH_WIKIPEDIA:
-						szURL.Format(L"http://en.wikipedia.org/wiki/%s", pszWord);
-						break;
-					case IDM_SEARCH_YAHOO:
-						szURL.Format(L"http://search.yahoo.com/search?p=%s&ei=UTF-8", pszWord);
-						break;
-					case IDM_SEARCH_FOODNETWORK:
-						szURL.Format(L"http://search.foodnetwork.com/search/delegate.do?fnSearchString=%s", pszWord);
-						break;
-					case IDM_SEARCH_BING:
-						szURL.Format(L"http://www.bing.com/search?q=%s&form=OSDSRC", pszWord);
-						break;
-					case IDM_SEARCH_GOOGLE_MAPS:
-						szURL.Format(L"http://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", pszWord);
-						break;
-					case IDM_SEARCH_GOOGLE_TRANSLATE:
-						szURL.Format(L"http://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", pszWord);
-						break;
-					case IDM_SEARCH_YANDEX:
-						szURL.Format(L"http://yandex.ru/yandsearch?text=%s", pszWord);
-						break;
-					case IDM_SEARCH_GOOGLE:
-						szURL.Format(L"http://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", pszWord);
-						break;
-					}
-					Utils_OpenUrlW(szURL);
-				}
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				break;
-
-			default:
-				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
-				Chat_DoEventHook(m_si, GC_USER_LOGMENU, nullptr, nullptr, uID);
-				break;
-			}
-			DestroyMenu(hMenu);
-		}
-		break;
-	}
-
-	LRESULT res = mir_callNextSubclass(m_log.GetHwnd(), stubLogProc, msg, wParam, lParam);
-	if (msg == WM_GETDLGCODE)
-		return res & ~DLGC_HASSETSEL;
-	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -636,9 +448,13 @@ bool CSrmmBaseDialog::OnInitDialog()
 	WindowList_Add(g_hWindowList, m_hwnd, m_hContact);
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
-	SetWindowLongPtr(m_log.GetHwnd(), GWLP_USERDATA, LPARAM(this));
-	mir_subclassWindow(m_log.GetHwnd(), stubLogProc);
-	m_log.SetReadOnly(true);
+	m_pLog = Srmm_GetLogWindow((CMsgDialog*)this);
+	if (m_pLog->GetType() != 0) { // custom log type
+		HWND hwndLog = GetDlgItem(m_hwnd, IDC_SRMM_LOG);
+		EnableWindow(hwndLog, FALSE);
+		ShowWindow(hwndLog, SW_HIDE);
+	}
+	m_pLog->Attach();
 
 	SetWindowLongPtr(m_message.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_message.GetHwnd(), stubMessageProc);
@@ -661,10 +477,12 @@ bool CSrmmBaseDialog::OnInitDialog()
 
 void CSrmmBaseDialog::OnDestroy()
 {
+	m_pLog->Detach();
+	delete m_pLog;
+
 	WindowList_Remove(g_hWindowList, m_hwnd);
 
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-	mir_unsubclassWindow(m_log.GetHwnd(), stubLogProc);
 	mir_unsubclassWindow(m_message.GetHwnd(), stubMessageProc);
 	mir_unsubclassWindow(m_nickList.GetHwnd(), stubNicklistProc);
 }
@@ -697,65 +515,8 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_NOTIFY:
 		LPNMHDR hdr = (LPNMHDR)lParam;
-		if (hdr->hwndFrom == m_log.GetHwnd() && hdr->code == EN_LINK) {
-			ENLINK *pLink = (ENLINK*)lParam;
-			switch (pLink->msg) {
-			case WM_SETCURSOR:
-				SetCursor(g_hCurHyperlinkHand);
-				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-				return TRUE;
-
-			case WM_RBUTTONDOWN:
-			case WM_LBUTTONUP:
-			case WM_LBUTTONDBLCLK:
-				CHARRANGE sel;
-				m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-				if (sel.cpMin != sel.cpMax)
-					break;
-
-				CMStringW wszText(' ', pLink->chrg.cpMax - pLink->chrg.cpMin + 1);
-
-				TEXTRANGE tr;
-				tr.chrg = pLink->chrg;
-				tr.lpstrText = wszText.GetBuffer();
-				m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-				if (wcschr(tr.lpstrText, '@') != nullptr && wcschr(tr.lpstrText, ':') == nullptr && wcschr(tr.lpstrText, '/') == nullptr)
-					wszText.Insert(0, L"mailto:");
-
-				if (pLink->msg == WM_RBUTTONDOWN) {
-					HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-					HMENU hSubMenu = GetSubMenu(hMenu, 6);
-					TranslateMenu(hSubMenu);
-
-					POINT pt = { GET_X_LPARAM(pLink->lParam), GET_Y_LPARAM(pLink->lParam) };
-					ClientToScreen(((NMHDR *)lParam)->hwndFrom, &pt);
-
-					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr)) {
-					case IDM_OPENLINK:
-						Utils_OpenUrlW(wszText);
-						break;
-
-					case IDM_COPYLINK:
-						if (OpenClipboard(m_hwnd)) {
-							EmptyClipboard();
-							HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (wszText.GetLength() + 1) * sizeof(wchar_t));
-							mir_wstrcpy((wchar_t*)GlobalLock(hData), wszText);
-							GlobalUnlock(hData);
-							SetClipboardData(CF_UNICODETEXT, hData);
-							CloseClipboard();
-						}
-						break;
-					}
-
-					DestroyMenu(hMenu);
-					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-					return TRUE;
-				}
-
-				Utils_OpenUrlW(wszText);
-				SetFocus(m_message.GetHwnd());
-			}
-		}
+		if (hdr->hwndFrom == m_pLog->GetHwnd())
+			m_pLog->Notify(wParam, lParam);
 		break;
 	}
 
@@ -765,14 +526,14 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 void CSrmmBaseDialog::AddLog()
 {
 	if (m_si->pLogEnd)
-		StreamInEvents(m_si->pLog, false);
+		m_pLog->LogEvents(m_si->pLog, false);
 	else
-		ClearLog();
+		m_pLog->Clear();
 }
 
 void CSrmmBaseDialog::ClearLog()
 {
-	m_log.SetText(L"");
+	m_pLog->Clear();
 }
 
 void CSrmmBaseDialog::UpdateOptions()
@@ -796,7 +557,7 @@ void RedrawLog2(SESSION_INFO *si)
 {
 	si->LastTime = 0;
 	if (si->pLog)
-		si->pDlg->StreamInEvents(si->pLogEnd, TRUE);
+		si->pDlg->m_pLog->LogEvents(si->pLogEnd, TRUE);
 }
 
 static void __cdecl phase2(SESSION_INFO *si)
@@ -821,10 +582,10 @@ void CSrmmBaseDialog::RedrawLog()
 				if (m_si->iType != GCW_CHATROOM || !m_bFilterEnabled || (m_iLogFilterFlags & pLog->iType) != 0)
 					index++;
 			}
-			StreamInEvents(pLog, true);
+			m_pLog->LogEvents(pLog, true);
 			mir_forkThread<SESSION_INFO>(phase2, m_si);
 		}
-		else StreamInEvents(m_si->pLogEnd, true);
+		else m_pLog->LogEvents(m_si->pLogEnd, true);
 	}
 	else ClearLog();
 }
@@ -955,7 +716,7 @@ int CSrmmBaseDialog::NotifyEvent(int code)
 	mwe.uType = code;
 	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwe.hwndInput = m_message.GetHwnd();
-	mwe.hwndLog = m_log.GetHwnd();
+	mwe.hwndLog = m_pLog->GetHwnd();
 	return ::NotifyEventHooks(hHookSrmmEvent, 0, (LPARAM)&mwe);
 }
 
