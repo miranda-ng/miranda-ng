@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -21,7 +21,7 @@
 [Send message on:]
 [Tabs]
 [Enable tabs]
-[Always show tab bar]
+[Only show tab bar when it's needed]
 [Tabs at the bottom]
 [Limit names on tabs to]
 [characters]
@@ -44,14 +44,13 @@
 [lines]
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 [Message window event log]
-[Enable IEView]
 [Show icons]
 [Show time]
 [Show seconds]
 [Show date]
 [Long date format]
 [Relative date]
-[Show names]
+[Hide names]
 [Enable message grouping]
 [Mark follow-up messages with timestamp]
 [Start message text on a new line]
@@ -120,18 +119,6 @@
 [Background]
 [Timeout (s)]
 [(0 means default setting, -1 means indefinite time)]
-[Log]
-[&Copy]
-[Co&py all]
-[Select &all]
-[Word lookup]
-[Yandex]
-[Wikipedia (en)]
-[Google Maps]
-[Google Translate]
-[C&lear log]
-[&Open link]
-[&Copy link]
 [Message]
 [Undo]
 [Redo]
@@ -140,6 +127,7 @@
 [Paste]
 [Paste && send]
 [Delete]
+[Select &all]
 [Clear]
 [Close other tabs]
 [Close tab]
@@ -231,14 +219,10 @@
 [Appearance]
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 [Select folder]
-;file \plugins\Scriver\src\chat_window.cpp
-[%s: chat room (%u user)]
-[%s: chat room (%u users)]
-[%s: message session]
-[%s: message session (%u users)]
-[Nickname]
-[Unique ID]
-[Status]
+[Message sessions]
+[General]
+[Event log]
+[Popups]
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 [User's details]
@@ -316,12 +300,10 @@
 [Action: Send to all]
 [Action: Paste and send]
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Sending in progress: %d message(s) left...]
-[%s is typing a message...]
-[Last message received on %s at %s.]
-[Look up '%s':]
-[No word to look up]
 [User menu - %s]
+[Nickname]
+[Unique ID]
+[Status]
 ;file \plugins\Scriver\src\msglog.cpp
 [Me]
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -365,11 +347,7 @@
 [Shift+Enter]
 [** New contacts **]
 [** Unknown contacts **]
-[Message sessions]
-[General]
-[Event log]
 [Typing notify]
-[Popups]
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 [%s is typing a message]
@@ -411,6 +389,14 @@
 [Contact stopped typing]
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
+;file \plugins\Scriver\src\msgutils.cpp
+[Sending in progress: %d message(s) left...]
+[%s is typing a message...]
+[Last message received on %s at %s.]
+[%s: chat room (%u user)]
+[%s: chat room (%u users)]
+[%s: message session]
+[%s: message session (%u users)]
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 ;file \plugins\Scriver\src\tabs.cpp

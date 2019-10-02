@@ -561,6 +561,8 @@
 [Display subcontact nickname]
 [Display subcontact display name]
 [Lock name to first contact]
+[Choose needed logger from listed below:]
+[Enable custom log controls in group chats]
 [Current language:]
 [Last modified using:]
 [Locale:]
@@ -735,9 +737,6 @@
 [Flash window when someone speaks]
 [Flash window when a word is highlighted]
 [Show list of users in the chat room]
-[Show button for sending messages]
-[Show buttons for controlling the chat room]
-[Show buttons for formatting the text you are typing]
 [Show button menus when right clicking the buttons]
 [Show the topic of the room on your contact list (if supported)]
 [Do not play sounds when the chat room is focused]
@@ -846,22 +845,19 @@
 [Chat log]
 [Chat]
 [Popups]
-;file \src\core\stdmsg\src\chat_window.cpp
-[%s: chat room (%u user)]
-[%s: chat room (%u users)]
-[%s: message session]
-[%s: message session (%u users)]
-[Nickname]
-[Unique ID]
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 ;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 [Outgoing message (10x10)]
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[Last message received on %s at %s.]
-[Message session]
 [%s is typing a message...]
+[Last message received on %s at %s.]
+[%s: chat room (%u user)]
+[%s: chat room (%u users)]
+[%s: message session]
+[%s: message session (%u users)]
+[Message session]
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 [File sent]
@@ -915,7 +911,6 @@
 ;file \src\core\stdpopup\src\icons.cpp
 [Popups are enabled]
 [Popups are disabled]
-;file \src\core\stdpopup\src\notify_imp.cpp
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 [The quick brown fox jumped over the lazy dog.]
@@ -1451,6 +1446,10 @@
 [WAV files]
 [Unselect all]
 ;file \src\mir_app\src\srmm_base.cpp
+[Nickname]
+[Unique ID]
+;file \src\mir_app\src\srmm_log.cpp
+[Log viewer]
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 [Toolbar]
