@@ -431,6 +431,7 @@
 #define IDC_THEME                       1394
 #define IDC_INFOPANEL                   1395
 #define IDC_SHOWAVATAR                  1396
+#define IDC_SHOWAVATAR2                 1397
 #define IDC_QHTM                        1399
 #define IDC_TSLABEL_ACTIVE              1400
 #define IDC_TSLABEL_INACTIVE            1401
@@ -720,7 +721,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        102
+#define _APS_NEXT_RESOURCE_VALUE        103
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101

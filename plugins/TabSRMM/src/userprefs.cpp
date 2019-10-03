@@ -35,148 +35,151 @@
 #define UPREF_ACTION_REMAKELOG 2
 #define UPREF_ACTION_SWITCHLOGVIEWER 4
 
-static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CUserPrefsOptDlg : public CDlgBase
 {
-	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	typedef CDlgBase CSuper;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			hContact = lParam;
-			DWORD maxhist = M.GetDword(hContact, "maxhist", 0);
-			int iLocalFormat = M.GetDword(hContact, "sendformat", 0);
-			BYTE bSplit = M.GetByte(hContact, "splitoverride", 0);
-			BYTE bInfoPanel = M.GetByte(hContact, "infopanel", 0);
-			BYTE bAvatarVisible = M.GetByte(hContact, "hideavatar", -1);
+	MCONTACT m_hContact;
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
+	CCtrlCombo cmbPanel, cmbAvatar, cmbTextFormat;
+	CCtrlCheck chkAlwaysTrim;
 
-			SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
-			SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always on"));
-			SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always off"));
-			SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_SETCURSEL, bInfoPanel == 0 ? 0 : (bInfoPanel == 1 ? 1 : 2), 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
-			SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Show always (if present)"));
-			SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
-			SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_SETCURSEL, bAvatarVisible == 0xff ? 0 : (bAvatarVisible == 1 ? 1 : 2), 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
-			SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_INSERTSTRING, -1, (LPARAM)TranslateT("BBCode"));
-			SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Force off"));
-
-			SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_SETCURSEL, iLocalFormat == 0 ? 0 : (iLocalFormat == -1 ? 2 : (1)), 0);
-
-			if (CheckMenuItem(PluginConfig.g_hMenuFavorites, (UINT_PTR)lParam, MF_BYCOMMAND | MF_UNCHECKED) == -1)
-				CheckDlgButton(hwndDlg, IDC_ISFAVORITE, BST_UNCHECKED);
-			else
-				CheckDlgButton(hwndDlg, IDC_ISFAVORITE, BST_CHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_PRIVATESPLITTER, bSplit);
-			CheckDlgButton(hwndDlg, IDC_TEMPLOVERRIDE, db_get_b(hContact, TEMPLATES_MODULE, "enabled", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_RTLTEMPLOVERRIDE, db_get_b(hContact, RTLTEMPLATES_MODULE, "enabled", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_LOADONLYACTUAL, M.GetByte(hContact, "ActualHistory", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
-			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
-			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, maxhist != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_TRIM, maxhist != 0);
-			CheckDlgButton(hwndDlg, IDC_ALWAYSTRIM2, maxhist != 0 ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_IGNORETIMEOUTS, M.GetByte(hContact, "no_ack", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-			ShowWindow(hwndDlg, SW_SHOW);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_ALWAYSTRIM2:
-			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2) != 0);
-			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2) != 0);
-			break;
-
-		case WM_USER + 100:
-			CMsgDialog *dat = nullptr;
-			DWORD	*pdwActionToTake = (DWORD *)lParam;
-			HWND	hWnd = Srmm_FindWindow(hContact);
-			BYTE	bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
-
-			if (hWnd)
-				dat = (CMsgDialog*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-
-			int iIndex = SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_GETCURSEL, 0, 0);
-			if (iIndex != CB_ERR) {
-				if (iIndex == 0)
-					db_unset(hContact, SRMSGMOD_T, "sendformat");
-				else
-					db_set_dw(hContact, SRMSGMOD_T, "sendformat", iIndex == 2 ? -1 : 1);
-			}
-
-			if (IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE)) {
-				if (!M.IsFavorite(hContact))
-					AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, nullptr, 1, PluginConfig.g_hMenuFavorites);
-			}
-			else DeleteMenu(PluginConfig.g_hMenuFavorites, hContact, MF_BYCOMMAND);
-
-			M.SetFavorite(hContact, IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE) != 0);
-			db_set_b(hContact, SRMSGMOD_T, "splitoverride", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PRIVATESPLITTER) ? 1 : 0));
-
-			db_set_b(hContact, TEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_TEMPLOVERRIDE)));
-			db_set_b(hContact, RTLTEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_RTLTEMPLOVERRIDE)));
-
-			BYTE bAvatarVisible = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
-			if (bAvatarVisible == 0)
-				db_unset(hContact, SRMSGMOD_T, "hideavatar");
-			else
-				db_set_b(hContact, SRMSGMOD_T, "hideavatar", (BYTE)(bAvatarVisible == 1 ? 1 : 0));
-
-			BYTE bInfoPanel = (BYTE)SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_GETCURSEL, 0, 0);
-			if (bInfoPanel != bOldInfoPanel) {
-				db_set_b(hContact, SRMSGMOD_T, "infopanel", (BYTE)(bInfoPanel == 0 ? 0 : (bInfoPanel == 1 ? 1 : -1)));
-				if (hWnd && dat)
-					SendMessage(hWnd, DM_SETINFOPANEL, 0, 0);
-			}
-			if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2))
-				db_set_dw(hContact, SRMSGMOD_T, "maxhist", (DWORD)SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
-			else
-				db_set_dw(hContact, SRMSGMOD_T, "maxhist", 0);
-
-			if (IsDlgButtonChecked(hwndDlg, IDC_LOADONLYACTUAL)) {
-				db_set_b(hContact, SRMSGMOD_T, "ActualHistory", 1);
-				if (hWnd && dat)
-					dat->m_bActualHistory = true;
-			}
-			else {
-				db_set_b(hContact, SRMSGMOD_T, "ActualHistory", 0);
-				if (hWnd && dat)
-					dat->m_bActualHistory = false;
-			}
-
-			if (IsDlgButtonChecked(hwndDlg, IDC_IGNORETIMEOUTS)) {
-				db_set_b(hContact, SRMSGMOD_T, "no_ack", 1);
-				if (hWnd && dat)
-					dat->m_sendMode |= SMODE_NOACK;
-			}
-			else {
-				db_unset(hContact, SRMSGMOD_T, "no_ack");
-				if (hWnd && dat)
-					dat->m_sendMode &= ~SMODE_NOACK;
-			}
-			if (hWnd && dat) {
-				SendMessage(hWnd, DM_CONFIGURETOOLBAR, 0, 1);
-				dat->ShowPicture(false);
-				SendMessage(hWnd, WM_SIZE, 0, 0);
-				dat->DM_ScrollToBottom(0, 1);
-			}
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
+public:
+	CUserPrefsOptDlg(MCONTACT hContact) :
+		CSuper(g_plugin, IDD_USERPREFS),
+		m_hContact(hContact),
+		cmbPanel(this, IDC_INFOPANEL),
+		cmbAvatar(this, IDC_SHOWAVATAR),
+		cmbTextFormat(this, IDC_TEXTFORMATTING),
+		chkAlwaysTrim(this, IDC_ALWAYSTRIM2)
+	{
+		chkAlwaysTrim.OnChange = Callback(this, &CUserPrefsOptDlg::onChange_Trim);
 	}
-	return FALSE;
-}
+
+	bool OnInitDialog() override
+	{
+		DWORD maxhist = M.GetDword(m_hContact, "maxhist", 0);
+		int iLocalFormat = M.GetDword(m_hContact, "sendformat", 0);
+		BYTE bSplit = M.GetByte(m_hContact, "splitoverride", 0);
+		BYTE bInfoPanel = M.GetByte(m_hContact, "infopanel", 0);
+		BYTE bAvatarVisible = M.GetByte(m_hContact, "hideavatar", -1);
+
+		cmbPanel.AddString(TranslateT("Use global setting"));
+		cmbPanel.AddString(TranslateT("Always on"));
+		cmbPanel.AddString(TranslateT("Always off"));
+		cmbPanel.SetCurSel(bInfoPanel);
+
+		cmbAvatar.AddString(TranslateT("Use global setting"));
+		cmbAvatar.AddString(TranslateT("Show always (if present)"));
+		cmbAvatar.AddString(TranslateT("Never show it at all"));
+		cmbAvatar.SetCurSel(bAvatarVisible == 0xff ? 0 : (bAvatarVisible == 1 ? 1 : 2));
+
+		cmbTextFormat.AddString(TranslateT("Use global setting"));
+		cmbTextFormat.AddString(TranslateT("BBCode"));
+		cmbTextFormat.AddString(TranslateT("Force off"));
+		cmbTextFormat.SetCurSel(iLocalFormat == 0 ? 0 : (iLocalFormat == -1 ? 2 : 1));
+
+		if (CheckMenuItem(PluginConfig.g_hMenuFavorites, m_hContact, MF_BYCOMMAND | MF_UNCHECKED) == -1)
+			CheckDlgButton(m_hwnd, IDC_ISFAVORITE, BST_UNCHECKED);
+		else
+			CheckDlgButton(m_hwnd, IDC_ISFAVORITE, BST_CHECKED);
+
+		CheckDlgButton(m_hwnd, IDC_PRIVATESPLITTER, bSplit);
+		CheckDlgButton(m_hwnd, IDC_TEMPLOVERRIDE, db_get_b(m_hContact, TEMPLATES_MODULE, "enabled", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_RTLTEMPLOVERRIDE, db_get_b(m_hContact, RTLTEMPLATES_MODULE, "enabled", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_LOADONLYACTUAL, M.GetByte(m_hContact, "ActualHistory", 0) ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
+		SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
+		Utils::enableDlgControl(m_hwnd, IDC_TRIMSPIN, maxhist != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_TRIM, maxhist != 0);
+		chkAlwaysTrim.SetState(maxhist != 0);
+
+		CheckDlgButton(m_hwnd, IDC_IGNORETIMEOUTS, M.GetByte(m_hContact, "no_ack", 0) ? BST_CHECKED : BST_UNCHECKED);
+
+		ShowWindow(m_hwnd, SW_SHOW);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		CMsgDialog *dat = Srmm_FindDialog(m_hContact);
+		BYTE bOldInfoPanel = M.GetByte(m_hContact, "infopanel", 0);
+
+		int iIndex = SendDlgItemMessage(m_hwnd, IDC_TEXTFORMATTING, CB_GETCURSEL, 0, 0);
+		if (iIndex != CB_ERR) {
+			if (iIndex == 0)
+				db_unset(m_hContact, SRMSGMOD_T, "sendformat");
+			else
+				db_set_dw(m_hContact, SRMSGMOD_T, "sendformat", iIndex == 2 ? -1 : 1);
+		}
+
+		if (IsDlgButtonChecked(m_hwnd, IDC_ISFAVORITE)) {
+			if (!M.IsFavorite(m_hContact))
+				AddContactToFavorites(m_hContact, nullptr, nullptr, nullptr, 0, nullptr, 1, PluginConfig.g_hMenuFavorites);
+		}
+		else DeleteMenu(PluginConfig.g_hMenuFavorites, m_hContact, MF_BYCOMMAND);
+
+		M.SetFavorite(m_hContact, IsDlgButtonChecked(m_hwnd, IDC_ISFAVORITE) != 0);
+		db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_PRIVATESPLITTER) ? 1 : 0));
+
+		db_set_b(m_hContact, TEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_TEMPLOVERRIDE)));
+		db_set_b(m_hContact, RTLTEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_RTLTEMPLOVERRIDE)));
+
+		BYTE bAvatarVisible = (BYTE)SendDlgItemMessage(m_hwnd, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
+		if (bAvatarVisible == 0)
+			db_unset(m_hContact, SRMSGMOD_T, "hideavatar");
+		else
+			db_set_b(m_hContact, SRMSGMOD_T, "hideavatar", (BYTE)(bAvatarVisible == 1 ? 1 : 0));
+
+		BYTE bInfoPanel = (BYTE)SendDlgItemMessage(m_hwnd, IDC_INFOPANEL, CB_GETCURSEL, 0, 0);
+		if (bInfoPanel != bOldInfoPanel) {
+			db_set_b(m_hContact, SRMSGMOD_T, "infopanel", (BYTE)(bInfoPanel == 0 ? 0 : (bInfoPanel == 1 ? 1 : -1)));
+			if (dat)
+				SendMessage(dat->GetHwnd(), DM_SETINFOPANEL, 0, 0);
+		}
+		if (chkAlwaysTrim.GetState())
+			db_set_dw(m_hContact, SRMSGMOD_T, "maxhist", (DWORD)SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
+		else
+			db_set_dw(m_hContact, SRMSGMOD_T, "maxhist", 0);
+
+		if (IsDlgButtonChecked(m_hwnd, IDC_LOADONLYACTUAL)) {
+			db_set_b(m_hContact, SRMSGMOD_T, "ActualHistory", 1);
+			if (dat)
+				dat->m_bActualHistory = true;
+		}
+		else {
+			db_set_b(m_hContact, SRMSGMOD_T, "ActualHistory", 0);
+			if (dat)
+				dat->m_bActualHistory = false;
+		}
+
+		if (IsDlgButtonChecked(m_hwnd, IDC_IGNORETIMEOUTS)) {
+			db_set_b(m_hContact, SRMSGMOD_T, "no_ack", 1);
+			if (dat)
+				dat->m_sendMode |= SMODE_NOACK;
+		}
+		else {
+			db_unset(m_hContact, SRMSGMOD_T, "no_ack");
+			if (dat)
+				dat->m_sendMode &= ~SMODE_NOACK;
+		}
+		if (dat) {
+			SendMessage(dat->GetHwnd(), DM_CONFIGURETOOLBAR, 0, 1);
+			dat->ShowPicture(false);
+			dat->Resize();
+			dat->DM_ScrollToBottom(0, 1);
+		}
+		return true;
+	}
+
+	void onChange_Trim(CCtrlCheck *)
+	{
+		bool bChecked = chkAlwaysTrim.GetState();
+		Utils::enableDlgControl(m_hwnd, IDC_TRIMSPIN, bChecked);
+		Utils::enableDlgControl(m_hwnd, IDC_TRIM, bChecked);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // loads message log and other "per contact" flags
@@ -230,219 +233,159 @@ int CMsgDialog::LoadLocalFlags()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// dialog procedure for the user preferences dialog (2nd page,
-// "per contact" message log options)
-//
-// @params: Win32 window procedure conform
-// @return LRESULT
+// dialog procedure for the user preferences dialog 
+// (Second page, "per contact" message log options)
 
-static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CUserPrefsLogDlg : public CDlgBase
 {
-	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	switch (msg) {
-	case WM_INITDIALOG:
-		hContact = lParam;
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
-		SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
-		return TRUE;
+	typedef CDlgBase CSuper;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case WM_USER + 200: {
-			DWORD	dwLocalFlags, dwLocalMask, maskval;
-			int i = 0;
+	MCONTACT m_hContact;
 
-			dwLocalFlags = M.GetDword(hContact, "mwflags", 0);
-			dwLocalMask = M.GetDword(hContact, "mwmask", 0);
+	CCtrlButton btnReset;
 
-			while (checkboxes[i].uId) {
-				maskval = checkboxes[i].uFlag;
+public:
+	CUserPrefsLogDlg(MCONTACT hContact) :
+		CSuper(g_plugin, IDD_USERPREFS1),
+		m_hContact(hContact),
+		btnReset(this, IDC_REVERTGLOBAL)
+	{
+		btnReset.OnClick = Callback(this, &CUserPrefsLogDlg::onClick_Reset);
+	}
 
-				if (dwLocalMask & maskval)
-					CheckDlgButton(hwndDlg, checkboxes[i].uId, (dwLocalFlags & maskval) ? BST_CHECKED : BST_UNCHECKED);
-				else
-					CheckDlgButton(hwndDlg, checkboxes[i].uId, BST_INDETERMINATE);
-				i++;
-			}
-			if (M.GetByte("logstatuschanges", 0) == M.GetByte(hContact, "logstatuschanges", 0))
-				CheckDlgButton(hwndDlg, IDC_UPREFS_LOGSTATUS, BST_INDETERMINATE);
+	bool OnInitDialog() override
+	{
+		DWORD	dwLocalFlags, dwLocalMask, maskval;
+
+		dwLocalFlags = M.GetDword(m_hContact, "mwflags", 0);
+		dwLocalMask = M.GetDword(m_hContact, "mwmask", 0);
+
+		int i = 0;
+		while (checkboxes[i].uId) {
+			maskval = checkboxes[i].uFlag;
+
+			if (dwLocalMask & maskval)
+				CheckDlgButton(m_hwnd, checkboxes[i].uId, (dwLocalFlags & maskval) ? BST_CHECKED : BST_UNCHECKED);
 			else
-				CheckDlgButton(hwndDlg, IDC_UPREFS_LOGSTATUS, M.GetByte(hContact, "logstatuschanges", 0) ? BST_CHECKED : BST_UNCHECKED);
-			break;
+				CheckDlgButton(m_hwnd, checkboxes[i].uId, BST_INDETERMINATE);
+			i++;
 		}
-		case WM_USER + 100: {
-			int i = 0;
-			LRESULT state;
-			HWND	hwnd = Srmm_FindWindow(hContact);
-			DWORD	*dwActionToTake = (DWORD *)lParam, dwMask = 0, dwFlags = 0, maskval;
 
-			CMsgDialog *dat = nullptr;
-			if (hwnd)
-				dat = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
-			while (checkboxes[i].uId) {
-				maskval = checkboxes[i].uFlag;
-
-				state = IsDlgButtonChecked(hwndDlg, checkboxes[i].uId);
-				if (state != BST_INDETERMINATE) {
-					dwMask |= maskval;
-					dwFlags = (state == BST_CHECKED) ? (dwFlags | maskval) : (dwFlags & ~maskval);
-				}
-				i++;
-			}
-			state = IsDlgButtonChecked(hwndDlg, IDC_UPREFS_LOGSTATUS);
-			if (state != BST_INDETERMINATE)
-				db_set_b(hContact, SRMSGMOD_T, "logstatuschanges", (BYTE)state);
-
-			if (dwMask) {
-				db_set_dw(hContact, SRMSGMOD_T, "mwmask", dwMask);
-				db_set_dw(hContact, SRMSGMOD_T, "mwflags", dwFlags);
-			}
-			else {
-				db_unset(hContact, SRMSGMOD_T, "mwmask");
-				db_unset(hContact, SRMSGMOD_T, "mwflags");
-			}
-
-			if (hwnd && dat) {
-				if (dwMask)
-					*dwActionToTake |= (DWORD)UPREF_ACTION_REMAKELOG;
-				if ((dat->m_dwFlags & MWF_LOG_RTL) != (dwFlags & MWF_LOG_RTL))
-					*dwActionToTake |= (DWORD)UPREF_ACTION_APPLYOPTIONS;
-			}
-			break;
-		}
-		case IDC_REVERTGLOBAL:
-			db_unset(hContact, SRMSGMOD_T, "mwmask");
-			db_unset(hContact, SRMSGMOD_T, "mwflags");
-			SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
-			break;
-		}
-		break;
+		if (M.GetByte("logstatuschanges", 0) == M.GetByte(m_hContact, "logstatuschanges", 0))
+			CheckDlgButton(m_hwnd, IDC_UPREFS_LOGSTATUS, BST_INDETERMINATE);
+		else
+			CheckDlgButton(m_hwnd, IDC_UPREFS_LOGSTATUS, M.GetByte(m_hContact, "logstatuschanges", 0) ? BST_CHECKED : BST_UNCHECKED);
+		return true;
 	}
-	return FALSE;
-}
+
+	bool OnApply() override
+	{
+		DWORD dwMask = 0, dwFlags = 0, maskval;
+
+		int i = 0;
+		while (checkboxes[i].uId) {
+			maskval = checkboxes[i].uFlag;
+
+			int state = IsDlgButtonChecked(m_hwnd, checkboxes[i].uId);
+			if (state != BST_INDETERMINATE) {
+				dwMask |= maskval;
+				dwFlags = (state == BST_CHECKED) ? (dwFlags | maskval) : (dwFlags & ~maskval);
+			}
+			i++;
+		}
+		
+		int state = IsDlgButtonChecked(m_hwnd, IDC_UPREFS_LOGSTATUS);
+		if (state != BST_INDETERMINATE)
+			db_set_b(m_hContact, SRMSGMOD_T, "logstatuschanges", (BYTE)state);
+
+		if (dwMask) {
+			db_set_dw(m_hContact, SRMSGMOD_T, "mwmask", dwMask);
+			db_set_dw(m_hContact, SRMSGMOD_T, "mwflags", dwFlags);
+		}
+		else {
+			db_unset(m_hContact, SRMSGMOD_T, "mwmask");
+			db_unset(m_hContact, SRMSGMOD_T, "mwflags");
+		}
+		return true;
+	}
+
+	void onClick_Reset(CCtrlButton *)
+	{
+		db_unset(m_hContact, SRMSGMOD_T, "mwmask");
+		db_unset(m_hContact, SRMSGMOD_T, "mwflags");
+		OnInitDialog();
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// dialog procedure for the user preferences dialog. Handles the top
-// level window (a tab control with 2 subpages)
-//
-// @params: like any Win32 window procedure
-//
-// @return LRESULT (ignored for dialog procs, use DWLP_MSGRESULT)
+// dialog procedure for the user preferences dialog
 
-static INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CUserPrefsDlg : public CDlgBase
 {
-	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	HWND hwndTab = GetDlgItem(hwndDlg, IDC_OPTIONSTAB);
+	typedef CDlgBase CSuper;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+	MCONTACT m_hContact;
 
-		hContact = lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
+	CCtrlPages m_tab;
 
-		WindowList_Add(PluginConfig.hUserPrefsWindowList, hwndDlg, hContact);
-		{
-			RECT rcClient;
-			GetClientRect(hwndDlg, &rcClient);
-
-			wchar_t szBuffer[180];
-			mir_snwprintf(szBuffer, TranslateT("Set messaging options for %s"), Clist_GetContactDisplayName(hContact));
-			SetWindowText(hwndDlg, szBuffer);
-
-			TCITEM tci;
-			tci.mask = TCIF_PARAM | TCIF_TEXT;
-			tci.lParam = (LPARAM)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERPREFS), hwndDlg, DlgProcUserPrefs, hContact);
-			tci.pszText = TranslateT("General");
-			TabCtrl_InsertItem(hwndTab, 0, &tci);
-			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
-			ShowWindow((HWND)tci.lParam, SW_SHOW);
-			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERPREFS1), hwndDlg, DlgProcUserPrefsLogOptions, hContact);
-			tci.pszText = TranslateT("Message Log");
-			TabCtrl_InsertItem(hwndTab, 1, &tci);
-			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
-			ShowWindow((HWND)tci.lParam, SW_HIDE);
-			EnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-		}
-		TabCtrl_SetCurSel(hwndTab, 0);
-		ShowWindow(hwndDlg, SW_SHOW);
-		return TRUE;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_OPTIONSTAB:
-			switch (((LPNMHDR)lParam)->code) {
-			case TCN_SELCHANGING:
-				ShowWindow(GetTabWindow(hwndTab, TabCtrl_GetCurSel(hwndTab)), SW_HIDE);
-				break;
-
-			case TCN_SELCHANGE:
-				ShowWindow(GetTabWindow(hwndTab, TabCtrl_GetCurSel(hwndTab)), SW_SHOW);
-				break;
-			}
-			break;
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDOK:
-			DWORD	dwActionToTake = 0;			// child pages request which action to take
-			HWND hwnd = Srmm_FindWindow(hContact);
-
-			int count = TabCtrl_GetItemCount(hwndTab);
-			for (int i = 0; i < count; i++)
-				SendMessage(GetTabWindow(hwndTab, i), WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
-
-			if (hwnd) {
-				CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				if (dat) {
-					DWORD dwOldFlags = (dat->m_dwFlags & MWF_LOG_ALL);
-					dat->SetDialogToType();
-					dat->LoadLocalFlags();
-					if ((dat->m_dwFlags & MWF_LOG_ALL) != dwOldFlags) {
-						bool fShouldHide = true;
-						if (IsIconic(dat->m_pContainer->m_hwnd))
-							fShouldHide = false;
-						else
-							ShowWindow(dat->m_pContainer->m_hwnd, SW_HIDE);
-						dat->DM_OptionsApplied(0, 0);
-						dat->RemakeLog();
-						if (fShouldHide)
-							ShowWindow(dat->m_pContainer->m_hwnd, SW_SHOWNORMAL);
-					}
-				}
-			}
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_DESTROY:
-		WindowList_Remove(PluginConfig.hUserPrefsWindowList, hwndDlg);
-		break;
+public:
+	CUserPrefsDlg(MCONTACT hContact) :
+		CSuper(g_plugin, IDD_USERPREFS_FRAME),
+		m_hContact(hContact),
+		m_tab(this, IDC_OPTIONSTAB)
+	{
 	}
-	return FALSE;
-}
+
+	bool OnInitDialog() override
+	{
+		WindowList_Add(PluginConfig.hUserPrefsWindowList, m_hwnd, m_hContact);
+
+		wchar_t szBuffer[180];
+		mir_snwprintf(szBuffer, TranslateT("Set messaging options for %s"), Clist_GetContactDisplayName(m_hContact));
+		SetCaption(szBuffer);
+
+		m_tab.AddPage(TranslateT("General"), nullptr, new CUserPrefsOptDlg(m_hContact));
+		m_tab.AddPage(TranslateT("Message Log"), nullptr, new CUserPrefsLogDlg(m_hContact));
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		CMsgDialog *dat = Srmm_FindDialog(m_hContact);
+		if (dat) {
+			DWORD dwOldFlags = (dat->m_dwFlags & MWF_LOG_ALL);
+			dat->SetDialogToType();
+			dat->LoadLocalFlags();
+			if ((dat->m_dwFlags & MWF_LOG_ALL) != dwOldFlags) {
+				bool fShouldHide = true;
+				if (IsIconic(dat->m_pContainer->m_hwnd))
+					fShouldHide = false;
+				else
+					ShowWindow(dat->m_pContainer->m_hwnd, SW_HIDE);
+				dat->DM_OptionsApplied(0, 0);
+				dat->RemakeLog();
+				if (fShouldHide)
+					ShowWindow(dat->m_pContainer->m_hwnd, SW_SHOWNORMAL);
+			}
+		}
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		WindowList_Remove(PluginConfig.hUserPrefsWindowList, m_hwnd);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// service function. Invokes the user preferences dialog for the contact given (by handle) in wParam
+// service function. Invokes the user preferences dialog for the contact given in wParam
 
-INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
+INT_PTR SetUserPrefs(WPARAM hContact, LPARAM)
 {
-	HWND hWnd = WindowList_Find(PluginConfig.hUserPrefsWindowList, wParam);
-	if (hWnd) {
+	HWND hWnd = WindowList_Find(PluginConfig.hUserPrefsWindowList, hContact);
+	if (hWnd)
 		SetForegroundWindow(hWnd);			// already open, bring it to front
-		return 0;
-	}
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_USERPREFS_FRAME), nullptr, DlgProcUserPrefsFrame, (LPARAM)wParam);
+	else
+		(new CUserPrefsDlg(hContact))->Show();
 	return 0;
 }
