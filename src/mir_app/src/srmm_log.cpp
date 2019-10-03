@@ -66,7 +66,9 @@ MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE pLogger)
 CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
 {
 	if (!pDlg->isChat() || g_bEnableCustomLogs) {
-		ptrA szCurr(db_get_sa(0, "SRMM", "Logger", "built-in"));
+		ptrA szCurr(db_get_sa(pDlg->m_hContact, "SRMsg", "Logger"));
+		if (!szCurr)
+			szCurr = db_get_sa(0, "SRMM", "Logger", "built-in");
 
 		for (auto &it : g_arLogClasses)
 			if (!mir_strcmp(szCurr, it->szShortName))
