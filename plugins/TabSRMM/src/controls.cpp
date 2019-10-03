@@ -431,9 +431,6 @@ void CMenuBar::cancel()
 
 void CMenuBar::Cancel(void)
 {
-	if (m_activeMenu == nullptr)
-		return;
-
 	cancel();
 	m_fTracking = false;
 	autoShow(0);

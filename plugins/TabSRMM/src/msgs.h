@@ -1100,7 +1100,6 @@ struct SKINDESC
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	HANDLE hLogger;
-	void InitLogger();
 
 	CMPlugin();
 
