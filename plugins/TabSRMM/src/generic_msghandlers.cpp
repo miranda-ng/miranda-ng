@@ -1136,7 +1136,7 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 
 	if (hDbEvent != m_hDbEventFirst) {
 		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
-			m_pLog->LogEvents(hDbEvent, 1, 1);
+			StreamEvents(hDbEvent, 1, 1);
 		else {
 			if (m_iNextQueuedEvent >= m_iEventQueueSize) {
 				m_hQueuedEvents = (MEVENT*)mir_realloc(m_hQueuedEvents, (m_iEventQueueSize + 10) * sizeof(MEVENT));

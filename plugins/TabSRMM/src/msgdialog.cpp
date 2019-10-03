@@ -2741,7 +2741,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			RemakeLog();
 		}
 		else if (m_hContact == wParam && db_mc_isSub(wParam) && db_event_getContact(lParam) != wParam)
-			m_pLog->LogEvents(lParam, 1, 1);
+			StreamEvents(lParam, 1, 1);
 		return 0;
 
 	case HM_DBEVENTADDED:

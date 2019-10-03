@@ -1223,12 +1223,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 	today = mktime(&tm_today);
 
-	m_pDlg.DM_ScrollToBottom(0, 0);
-	if (fAppend && hDbEventFirst)
-		m_pDlg.m_hDbEventLast = hDbEventFirst;
-	else
-		m_pDlg.m_hDbEventLast = db_event_last(m_pDlg.m_hContact);
-
 	// separator strings used for grid lines, message separation and so on...
 	m_pDlg.m_bClrAdded = false;
 
@@ -1315,8 +1309,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 
 	int len = GetWindowTextLength(m_rtf.GetHwnd())-1;
 	m_rtf.SendMsg(EM_SETSEL, len, len);
-
-	m_pDlg.DM_ScrollToBottom(0, 0);
 
 	m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(m_rtf.GetHwnd(), nullptr, FALSE);

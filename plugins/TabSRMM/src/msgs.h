@@ -344,6 +344,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	void    SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
 	void 	  SendHBitmapAsFile(HBITMAP hbmp) const;
 	void    ShowPopupMenu(const CCtrlBase&, POINT pt);
+	void    StreamEvents(MEVENT, int, bool);
 	void    UpdateWindowIcon(void);
 	void    UpdateWindowState(UINT msg);
 	void    VerifyProxy(void);

@@ -1219,7 +1219,7 @@ void CMsgDialog::RemakeLog()
 	m_szMicroLf[0] = 0;
 	m_lastEventTime = 0;
 	m_iLastEventType = -1;
-	m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
+	StreamEvents(m_hDbEventFirst, -1, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1228,7 +1228,7 @@ void CMsgDialog::ReplayQueue()
 {
 	for (int i = 0; i < m_iNextQueuedEvent; i++)
 		if (m_hQueuedEvents[i] != 0)
-			m_pLog->LogEvents(m_hQueuedEvents[i], 1, 1);
+			StreamEvents(m_hQueuedEvents[i], 1, 1);
 
 	m_iNextQueuedEvent = 0;
 	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
@@ -1692,6 +1692,19 @@ void CMsgDialog::SplitterMoved(int coord, HWND hwnd)
 			InvalidateRect(GetParent(m_hwnd), nullptr, FALSE);
 		break;
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::StreamEvents(MEVENT hDbEventFirst, int count, bool bAppend)
+{
+	m_pLog->LogEvents(hDbEventFirst, count, bAppend);
+
+	DM_ScrollToBottom(0, 0);
+	if (bAppend && hDbEventFirst)
+		m_hDbEventLast = hDbEventFirst;
+	else
+		m_hDbEventLast = db_event_last(m_hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
