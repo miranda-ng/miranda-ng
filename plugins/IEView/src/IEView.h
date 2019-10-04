@@ -517,7 +517,6 @@ protected:
 	void    navigate(const wchar_t *);
 public:
 	IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy);
-	//	IEView::IEView(HWND parent, SmileyWindow* smileyWindow, int x, int y, int cx, int cy);
 	virtual ~IEView();
 
 	void    waitWhileBusy();
@@ -527,13 +526,11 @@ public:
 	bool    mouseActivate();
 	bool    setFocus(HWND prevFocus);
 	void    setWindowPos(int x, int y, int cx, int cy);
-	HTMLBuilder* getBuilder();
 
 	void    write(const wchar_t *text);
 	void    write(const char *text);
 	void    writef(const char *fmt, ...);
 	void    documentClose();
-	void    rebuildLog();
 	void    scrollToBottom();
 	void    scrollToBottomSoft();
 	void    scrollToTop();
