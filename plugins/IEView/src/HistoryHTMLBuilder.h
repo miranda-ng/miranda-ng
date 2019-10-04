@@ -28,13 +28,13 @@ class HistoryHTMLBuilder;
 class HistoryHTMLBuilder :public TemplateHTMLBuilder
 {
 protected:
-	void loadMsgDlgFont(const char *, LOGFONTA * lf, COLORREF * colour, COLORREF * bkgColour);
+	void loadMsgDlgFont(const char *, LOGFONTA *lf, COLORREF *colour, COLORREF *bkgColour);
 	char *timestampToString(time_t check);
-	bool isDbEventShown(DBEVENTINFO * dbei);
+	bool isDbEventShown(DBEVENTINFO *dbei);
 	void appendEventNonTemplate(IEView *, IEVIEWEVENT *event);
 	const char *getTemplateFilename(ProtocolSettings *);
-	const char *getTemplateFilenameRtl(ProtocolSettings *);
 	int getFlags(ProtocolSettings *);
+
 public:
 	HistoryHTMLBuilder();
 	void buildHead(IEView *, IEVIEWEVENT *event);

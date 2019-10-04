@@ -31,8 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* IEView window type/mode */
 #define IEWM_TABSRMM  1             // TabSRMM-compatible HTML builder
 #define IEWM_SCRIVER  3             // Scriver-compatible HTML builder
-#define IEWM_MUCC     4             // MUCC group chats GUI
-#define IEWM_CHAT     5             // chat.dll group chats GUI
 #define IEWM_HISTORY  6             // history viewer
 #define IEWM_BROWSER  256           // empty browser window
 

@@ -26,14 +26,8 @@ INT_PTR HandleIEWindow(WPARAM, LPARAM lParam)
 	IEVIEWWINDOW *window = (IEVIEWWINDOW *)lParam;
 	Options::init();
 	if (window->iType == IEW_CREATE) {
-		HTMLBuilder *builder = nullptr;
+		HTMLBuilder *builder;
 		switch (window->dwMode) {
-		case IEWM_MUCC:
-			builder = new MUCCHTMLBuilder();
-			break;
-		case IEWM_CHAT:
-			builder = new ChatHTMLBuilder();
-			break;
 		case IEWM_TABSRMM:
 			builder = new TabSRMMHTMLBuilder();
 			break;

@@ -140,7 +140,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 
 				IEVIEWWINDOW ieWindow = {};
 				ieWindow.iType = IEW_CREATE;
-				ieWindow.dwMode = IEWM_MUCC;
+				ieWindow.dwMode = IEWM_HISTORY;
 				ieWindow.parent = hwnd;
 				ieWindow.cx = 100;
 				ieWindow.cy = 100;
