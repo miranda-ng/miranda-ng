@@ -436,35 +436,42 @@ void CMenuBar::Cancel(void)
 	autoShow(0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void MY_CheckMenu(const HMENU hMenu, int id, DWORD key)
+{
+	::CheckMenuItem(hMenu, id, MF_BYCOMMAND | (key ? MF_CHECKED : MF_UNCHECKED));
+}
+
 void CMenuBar::updateState(const HMENU hMenu) const
 {
 	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 	if (dat) {
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWMENUBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOMENUBAR ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWSTATUSBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOSTATUSBAR ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWAVATAR, MF_BYCOMMAND | (dat->m_bShowAvatar ? MF_CHECKED : MF_UNCHECKED));
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOTITLE ? MF_UNCHECKED : MF_CHECKED);
-
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWMENUBAR, !(m_pContainer->m_dwFlags & CNT_NOMENUBAR) && !m_mustAutoHide);
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWSTATUSBAR, !(m_pContainer->m_dwFlags & CNT_NOSTATUSBAR));
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWAVATAR, dat->m_bShowAvatar);
+		
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWTITLEBAR, !(m_pContainer->m_dwFlags & CNT_NOTITLE));
 		::EnableMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, CSkin::m_skinEnabled && CSkin::m_frameSkins ? MF_GRAYED : MF_ENABLED);
 
-		::CheckMenuItem(hMenu, ID_VIEW_TABSATBOTTOM, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_TABSBOTTOM ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_VERTICALMAXIMIZE, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_VERTICALMAX ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWTOOLBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_HIDETOOLBAR ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_BOTTOMTOOLBAR, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR ? MF_CHECKED : MF_UNCHECKED);
+		MY_CheckMenu(hMenu, ID_VIEW_TABSATBOTTOM, m_pContainer->m_dwFlags & CNT_TABSBOTTOM);
+		MY_CheckMenu(hMenu, ID_VIEW_VERTICALMAXIMIZE, m_pContainer->m_dwFlags & CNT_VERTICALMAX);
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWTOOLBAR, !(m_pContainer->m_dwFlags & CNT_HIDETOOLBAR));
+		MY_CheckMenu(hMenu, ID_VIEW_BOTTOMTOOLBAR, m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR);
 
-		::CheckMenuItem(hMenu, ID_VIEW_SHOWMULTISENDCONTACTLIST, MF_BYCOMMAND | (dat->m_sendMode & SMODE_MULTIPLE) ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_VIEW_STAYONTOP, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_STICKY ? MF_CHECKED : MF_UNCHECKED);
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWMULTISENDCONTACTLIST, dat->m_sendMode & SMODE_MULTIPLE);
+		MY_CheckMenu(hMenu, ID_VIEW_STAYONTOP, m_pContainer->m_dwFlags & CNT_STICKY);
 
 		::EnableMenuItem(hMenu, 2, MF_BYPOSITION | (nen_options.bWindowCheck ? MF_GRAYED : MF_ENABLED));
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS, MF_BYCOMMAND | m_pContainer->m_dwFlags & (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE) ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_DONTREPORT ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED ? MF_CHECKED : MF_UNCHECKED);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS, !(m_pContainer->m_dwFlags & (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE)));
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED, m_pContainer->m_dwFlags & CNT_DONTREPORT);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS, m_pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED, m_pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED, m_pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED);
 
-		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_USEDEFAULTVALUES, MF_BYCOMMAND | (m_pContainer->m_dwFlags & (CNT_NOFLASH | CNT_FLASHALWAYS)) ? MF_UNCHECKED : MF_CHECKED);
-		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_DISABLEFLASHING, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_NOFLASH ? MF_CHECKED : MF_UNCHECKED);
-		::CheckMenuItem(hMenu, ID_WINDOWFLASHING_FLASHUNTILFOCUSED, MF_BYCOMMAND | m_pContainer->m_dwFlags & CNT_FLASHALWAYS ? MF_CHECKED : MF_UNCHECKED);
+		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_USEDEFAULTVALUES, !(m_pContainer->m_dwFlags & (CNT_NOFLASH | CNT_FLASHALWAYS)));
+		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_DISABLEFLASHING, m_pContainer->m_dwFlags & CNT_NOFLASH);
+		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_FLASHUNTILFOCUSED, m_pContainer->m_dwFlags & CNT_FLASHALWAYS);
 	}
 }
 
