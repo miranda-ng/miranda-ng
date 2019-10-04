@@ -154,7 +154,6 @@ struct IEVIEWEVENT
 	};
 	int count;                      // number of events to log
 	int codepage;                   // ANSI codepage
-	const char *pszProto;           // Name of the protocol
 };
 
 #define MS_IEVIEW_EVENT    "IEVIEW/Event"

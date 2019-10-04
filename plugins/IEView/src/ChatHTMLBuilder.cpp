@@ -97,7 +97,7 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	LOGFONTA lf;
 	COLORREF color;
 
-	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
+	ProtocolSettings *protoSettings = getChatProtocolSettings(event->hContact);
 	if (protoSettings == nullptr)
 		return;
 
@@ -170,14 +170,14 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 
 		ptrA szName, szText;
 		if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
-			szText = encodeUTF8(NULL, event->pszProto, eventData->szText.w, ENF_ALL | ENF_CHAT_FORMATTING, isSent);
+			szText = encodeUTF8(NULL, eventData->szText.w, ENF_ALL | ENF_CHAT_FORMATTING, isSent);
 		else
-			szText = encodeUTF8(NULL, event->pszProto, eventData->szText.a, ENF_ALL | ENF_CHAT_FORMATTING, isSent);
+			szText = encodeUTF8(NULL, eventData->szText.a, ENF_ALL | ENF_CHAT_FORMATTING, isSent);
 
 		if (eventData->dwFlags & IEEDF_UNICODE_NICK)
-			szName = encodeUTF8(NULL, event->pszProto, eventData->szNick.w, ENF_NAMESMILEYS, true);
+			szName = encodeUTF8(NULL, eventData->szNick.w, ENF_NAMESMILEYS, true);
 		else
-			szName = encodeUTF8(NULL, event->pszProto, eventData->szNick.a, ENF_NAMESMILEYS, true);
+			szName = encodeUTF8(NULL, eventData->szNick.a, ENF_NAMESMILEYS, true);
 
 		if (eventData->iType == IEED_GC_EVENT_MESSAGE) {
 			iconFile = isSent ? "message_out_chat.gif" : "message_in_chat.gif";
@@ -255,7 +255,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 
 void ChatHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 {
-	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
+	ProtocolSettings *protoSettings = getChatProtocolSettings(event->hContact);
 	if (protoSettings != nullptr)
 		appendEventNonTemplate(view, event);
 }

@@ -298,7 +298,6 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	dwFlags2 |= MWF_SHOW_MICROLF;
 	dwFlags2 |= db_get_b(0, SRMSGMOD_T, "followupts", 1) ? MWF_SHOW_MARKFOLLOWUPTS : 0;
 
-	char *szRealProto = getRealProto(event->hContact);
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_STATUSCHANGE) {
@@ -316,14 +315,14 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 
 			ptrA szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
-				szName = encodeUTF8(event->hContact, szRealProto, eventData->szNick.w, ENF_NAMESMILEYS, true);
+				szName = encodeUTF8(event->hContact, eventData->szNick.w, ENF_NAMESMILEYS, true);
 			else
-				szName = encodeUTF8(event->hContact, szRealProto, eventData->szNick.a, ENF_NAMESMILEYS, true);
+				szName = encodeUTF8(event->hContact, eventData->szNick.a, ENF_NAMESMILEYS, true);
 
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT)
-				szText = encodeUTF8(event->hContact, szRealProto, eventData->szText.w, ENF_ALL, isSent);
+				szText = encodeUTF8(event->hContact, eventData->szText.w, ENF_ALL, isSent);
 			else
-				szText = encodeUTF8(event->hContact, szRealProto, eventData->szText.a, event->codepage, ENF_ALL, isSent);
+				szText = encodeUTF8(event->hContact, eventData->szText.a, event->codepage, ENF_ALL, isSent);
 
 			/* TabSRMM-specific formatting */
 			CMStringA str;
@@ -406,7 +405,6 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 		}
 	}
 
-	mir_free(szRealProto);
 	view->documentClose();
 }
 

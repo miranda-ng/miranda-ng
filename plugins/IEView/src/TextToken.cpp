@@ -282,7 +282,7 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text)
 	return firstToken;
 }
 
-TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *text, bool isSent)
+TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const wchar_t *text, bool isSent)
 {
 	TextToken *firstToken = nullptr, *lastToken = nullptr;
 	int l = (int)mir_wstrlen(text);
@@ -291,7 +291,7 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 
 	SMADD_BATCHPARSE2 sp;
 	sp.cbSize = sizeof(sp);
-	sp.Protocolname = proto;
+	sp.Protocolname = GetContactProto(hContact);
 	sp.flag = SAFL_PATH | SAFL_UNICODE | (isSent ? SAFL_OUTGOING : 0);
 	sp.wstr = (wchar_t *)text;
 	sp.hContact = hContact;
