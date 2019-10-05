@@ -335,7 +335,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	HICON   GetXStatusIcon() const;
 	void    HandlePasteAndSend(void);
 	void    Init(void);
-	bool    IsAutoSplitEnabled(void) const;
 	void    LoadContactAvatar(void);
 	void    LoadOwnAvatar(void);
 	void    LoadSplitter(void);

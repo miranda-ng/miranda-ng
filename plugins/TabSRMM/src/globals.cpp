@@ -128,6 +128,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_bCutContactNameOnTabs = M.GetBool("cuttitle", false);
 	m_bStatusOnTabs = M.GetBool("tabstatus", true);
 	m_bLogStatusChanges = M.GetBool("logstatuschanges", false);
+	m_bUseSameSplitSize = M.GetBool("usesamesplitsize", true);
 	m_bUseDividers = M.GetBool("usedividers", false);
 	m_bDividersUsePopupConfig = M.GetBool("div_popupconfig", false);
 	m_MsgTimeout = g_plugin.getDword(SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);

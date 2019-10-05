@@ -751,13 +751,6 @@ void CMsgDialog::HandlePasteAndSend()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-bool CMsgDialog::IsAutoSplitEnabled() const
-{
-	return (m_pContainer->m_dwFlags & CNT_AUTOSPLITTER) && !(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // read keyboard state and return the state of the modifier keys
 
 void CMsgDialog::KbdState(bool &isShift, bool &isControl, bool &isAlt)

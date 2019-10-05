@@ -178,7 +178,7 @@ class CSkinOptsDlg : public CDlgBase
 		wchar_t tszSkinRoot[MAX_PATH], tszFindMask[MAX_PATH];
 		wcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
 
-		SetDlgItemText(m_hwnd, IDC_SKINROOTFOLDER, tszSkinRoot);
+		SetDlgItemTextW(m_hwnd, IDC_SKINROOTFOLDER, tszSkinRoot);
 		mir_snwprintf(tszFindMask, L"%s*.*", tszSkinRoot);
 
 		cmbSkins.ResetContent();
@@ -510,6 +510,7 @@ static TOptionListItem lvItemsMsg[] =
 	{ 0, LPGENW("Allow BBCode formatting in outgoing messages"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendformat", 1 },
 	{ 0, LPGENW("Automatically split long messages (experimental, use with care)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"autosplit", 2 },
 	{ 0, LPGENW("Log status changes"), 0, LOI_TYPE_SETTING, (UINT_PTR)"logstatuschanges", 2 },
+	{ 0, LPGENW("Use the same splitter height for all sessions"), 1, LOI_TYPE_SETTING, (UINT_PTR)"usesamesplitsize", 2 },
 	{ 0, LPGENW("Automatically copy selected text"), 1, LOI_TYPE_SETTING, (UINT_PTR)"autocopy", 2 },
 	{ 0, nullptr, 0, 0, 0, 0 }
 };

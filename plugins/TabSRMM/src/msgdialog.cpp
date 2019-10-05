@@ -263,7 +263,9 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			GetClientRect(hwnd, &rc);
 
 			int selection;
-			if (dat->m_bIsAutosizingInput)
+			if (PluginConfig.m_bUseSameSplitSize)
+				selection = ID_SPLITTERCONTEXT_SAVEGLOBALFORALLSESSIONS;
+			else if (dat->m_bIsAutosizingInput)
 				selection = ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION;
 			else
 				selection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndParent, nullptr);
@@ -410,7 +412,7 @@ bool CMsgDialog::OnInitDialog()
 	m_cache->updateUIN();
 	m_cache->setWindowData(this);
 
-	m_bIsAutosizingInput = IsAutoSplitEnabled();
+	m_bIsAutosizingInput = (m_pContainer->m_dwFlags & CNT_AUTOSPLITTER) && !(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE);
 	m_szProto = const_cast<char *>(m_cache->getProto());
 	m_bIsMeta = m_cache->isMeta();
 	if (m_bIsMeta)

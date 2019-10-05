@@ -89,6 +89,7 @@ public:
 	bool        m_bHideOnClose;
 	bool        m_bStatusOnTabs;
 	bool        m_bLogStatusChanges;
+	bool        m_bUseSameSplitSize;
 	bool        m_bUseDividers;
 	bool        m_bDividersUsePopupConfig;
 	bool        m_bAllowOfflineMultisend;
