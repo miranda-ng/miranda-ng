@@ -1,0 +1,5 @@
+LIBRARY libqrencode.mir
+
+EXPORTS
+   QRcode_encodeString @1
+   QRcode_free         @2
