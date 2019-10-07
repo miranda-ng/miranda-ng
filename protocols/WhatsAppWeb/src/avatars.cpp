@@ -1,10 +1,17 @@
+/*
+
+WhatsAppWeb plugin for Miranda NG
+Copyright © 2019 George Hazan
+
+*/
+
 #include "stdafx.h"
 
 INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	ptrA id(getStringA(pai->hContact, isChatRoom(pai->hContact) ? "ChatRoomID" : WHATSAPP_KEY_ID));
+	ptrA id(getStringA(pai->hContact, isChatRoom(pai->hContact) ? "ChatRoomID" : DBKEY_ID));
 	if (id == NULL)
 		return GAIR_NOAVATAR;
 
@@ -12,7 +19,7 @@ INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	wcsncpy_s(pai->filename, tszFileName.c_str(), _TRUNCATE);
 	pai->format = PA_FORMAT_JPEG;
 
-	ptrA szAvatarId(getStringA(pai->hContact, WHATSAPP_KEY_AVATAR_ID));
+	ptrA szAvatarId(getStringA(pai->hContact, DBKEY_AVATAR_ID));
 	if (szAvatarId == NULL || (wParam & GAIF_FORCE) != 0)
 		if (pai->hContact != NULL && isOnline()) {
 			// m_pConnection->sendGetPicture(id, "image");
@@ -50,7 +57,7 @@ CMStringW WhatsAppProto::GetAvatarFileName(MCONTACT hContact)
 
 	CMStringA jid;
 	if (hContact != NULL) {
-		ptrA szId(getStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : WHATSAPP_KEY_ID));
+		ptrA szId(getStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : DBKEY_ID));
 		if (szId == NULL)
 			return L"";
 

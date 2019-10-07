@@ -6,7 +6,7 @@
 #include <stdver.h>
 
 #define __PLUGIN_NAME            "WhatsAppWeb protocol"
-#define __FILENAME               "WhatsApp.dll"
+#define __FILENAME               "WhatsAppWeb.dll"
 #define __DESCRIPTION            "WhatsApp Web protocol support for Miranda NG."
 #define __AUTHOR                 "George Hazan"
 #define __AUTHOREMAIL            ""

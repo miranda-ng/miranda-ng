@@ -1,5 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
+#pragma code_page(65001)
+
 #include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -13,11 +15,100 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
+// English (United States) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
-#pragma code_page(1252)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SHOWQR DIALOGEX 0, 0, 318, 335
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_QRPIC,"Static",SS_BITMAP | SS_NOTIFY | SS_CENTERIMAGE | SS_REALSIZEIMAGE | SS_SUNKEN,7,7,304,304
+    DEFPUSHBUTTON   "OK",IDOK,205,316,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,261,316,50,14
+END
+
+IDD_ACCMGRUI DIALOGEX 0, 0, 188, 144
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    LTEXT           "Phone number",IDC_STATIC,4,7,55,10
+    EDITTEXT        IDC_CC,60,6,24,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LOGIN,84,6,100,12,ES_AUTOHSCROLL
+    LTEXT           "Nickname",IDC_STATIC,4,23,55,10
+    EDITTEXT        IDC_NICK,60,22,124,12,ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,4,37,55,10
+    EDITTEXT        IDC_DEFGROUP,60,36,124,12,ES_AUTOHSCROLL
+    CONTROL         "Use SSL connection (port 443)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,52,180,10
+    CONTROL         "Use remote message timestamps",IDC_REMOTE_TIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,180,10
+    CONTROL         "Automatically open group chats",IDC_AUTORUN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,76,180,10
+    GROUPBOX        "Registration",IDC_STATIC,4,92,184,48
+    LTEXT           "Enter code",IDC_STATIC,8,123,47,10
+    EDITTEXT        IDC_PW,45,121,20,12,ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           "-",IDC_STATIC,64,123,8,10
+    EDITTEXT        IDC_PW2,72,121,20,12,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Request SMS code",IDC_BUTTON_REQUEST_SMS_CODE,12,104,80,14
+    PUSHBUTTON      "Request Voice code",IDC_BUTTON_REQUEST_VOICE_CODE,99,104,80,14
+    PUSHBUTTON      "Register code",IDC_BUTTON_REGISTER,100,120,80,14
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 188, 164
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Phone number",IDC_STATIC,4,7,55,10
+    EDITTEXT        IDC_CC,60,6,24,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LOGIN,84,6,100,12,ES_AUTOHSCROLL
+    LTEXT           "Including country code, without '+' or '00'",IDC_STATIC,60,22,118,18
+    LTEXT           "Nickname",IDC_STATIC,4,43,55,10
+    EDITTEXT        IDC_NICK,60,42,124,12,ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,4,57,55,10
+    EDITTEXT        IDC_DEFGROUP,60,56,124,12,ES_AUTOHSCROLL
+    CONTROL         "Use SSL connection (port 443)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,72,180,10
+    CONTROL         "Use remote message timestamps",IDC_REMOTE_TIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,84,180,10
+    CONTROL         "Automatically open group chats",IDC_AUTORUN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,96,180,10
+    GROUPBOX        "Registration",IDC_STATIC,4,112,184,48
+    LTEXT           "Enter code",IDC_STATIC,8,143,47,10
+    EDITTEXT        IDC_PW,45,141,20,12,ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           "-",IDC_STATIC,64,143,8,10
+    EDITTEXT        IDC_PW2,72,141,20,12,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Request SMS code",IDC_BUTTON_REQUEST_SMS_CODE,12,124,80,14
+    PUSHBUTTON      "Request Voice code",IDC_BUTTON_REQUEST_VOICE_CODE,100,124,80,14
+    PUSHBUTTON      "Register code",IDC_BUTTON_REGISTER,100,140,80,14
+END
+
+IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 170
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Invite users"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Choose a user",IDC_STATIC,4,2,208,130
+    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,12,12,192,112,WS_EX_CLIENTEDGE
+    LTEXT           "Other user:",IDC_STATIC,4,138,55,8
+    EDITTEXT        IDC_NEWJID,60,136,152,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Invite",IDOK,108,152,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,162,152,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_WHATSAPP            ICON                    "whatsapp.ico"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -53,11 +144,9 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_WHATSAPOPTIONS, DIALOG
+    IDD_SHOWQR, DIALOG
     BEGIN
-        VERTGUIDE, 60
-        VERTGUIDE, 178
-        BOTTOMMARGIN, 126
+        BOTTOMMARGIN, 330
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -65,84 +154,15 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Dialog
+// AFX_DIALOG_LAYOUT
 //
 
-IDD_ACCMGRUI DIALOGEX 0, 0, 188, 144
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 400, 0, 0x0
+IDD_SHOWQR AFX_DIALOG_LAYOUT
 BEGIN
-    LTEXT           "Phone number",IDC_STATIC,4,7,55,10
-    EDITTEXT        IDC_CC,60,6,24,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_LOGIN,84,6,100,12,ES_AUTOHSCROLL
-    LTEXT           "Nickname",IDC_STATIC,4,23,55,10
-    EDITTEXT        IDC_NICK,60,22,124,12,ES_AUTOHSCROLL
-    LTEXT           "Default group:",IDC_STATIC,4,37,55,10
-    EDITTEXT        IDC_DEFGROUP,60,36,124,12,ES_AUTOHSCROLL
-    CONTROL         "Use SSL connection (port 443)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,52,180,10
-    CONTROL         "Use remote message timestamps", IDC_REMOTE_TIME, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 4, 64, 180, 10
-    CONTROL         "Automatically open group chats",IDC_AUTORUN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,76,180,10
-    GROUPBOX        "Registration",IDC_STATIC,4,92,184,48
-    LTEXT           "Enter code",IDC_STATIC,8,123,47,10
-    EDITTEXT        IDC_PW,45,121,20,12,ES_AUTOHSCROLL | ES_NUMBER
-    CTEXT           "-",IDC_STATIC,64,123,8,10
-    EDITTEXT        IDC_PW2,72,121,20,12,ES_AUTOHSCROLL | ES_NUMBER
-    PUSHBUTTON      "Request SMS code",IDC_BUTTON_REQUEST_SMS_CODE,12,104,80,14
-    PUSHBUTTON      "Request Voice code",IDC_BUTTON_REQUEST_VOICE_CODE,99,104,80,14
-    PUSHBUTTON      "Register code",IDC_BUTTON_REGISTER,100,120,80,14
+    0
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 188, 164
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    LTEXT           "Phone number",IDC_STATIC,4,7,55,10
-    EDITTEXT        IDC_CC,60,6,24,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_LOGIN,84,6,100,12,ES_AUTOHSCROLL
-    LTEXT           "Including country code, without '+' or '00'",IDC_STATIC,60,22,118,18
-    LTEXT           "Nickname",IDC_STATIC,4,43,55,10
-    EDITTEXT        IDC_NICK,60,42,124,12,ES_AUTOHSCROLL
-    LTEXT           "Default group:",IDC_STATIC,4,57,55,10
-    EDITTEXT        IDC_DEFGROUP,60,56,124,12,ES_AUTOHSCROLL
-    CONTROL         "Use SSL connection (port 443)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,72,180,10
-    CONTROL         "Use remote message timestamps", IDC_REMOTE_TIME, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 4, 84, 180, 10
-    CONTROL         "Automatically open group chats",IDC_AUTORUN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,96,180,10
-    GROUPBOX        "Registration",IDC_STATIC,4,112,184,48
-    LTEXT           "Enter code",IDC_STATIC,8,143,47,10
-    EDITTEXT        IDC_PW,45,141,20,12,ES_AUTOHSCROLL | ES_NUMBER
-    CTEXT           "-",IDC_STATIC,64,143,8,10
-    EDITTEXT        IDC_PW2,72,141,20,12,ES_AUTOHSCROLL | ES_NUMBER
-    PUSHBUTTON      "Request SMS code",IDC_BUTTON_REQUEST_SMS_CODE,12,124,80,14
-    PUSHBUTTON      "Request Voice code",IDC_BUTTON_REQUEST_VOICE_CODE,100,124,80,14
-    PUSHBUTTON      "Register code",IDC_BUTTON_REGISTER,100,140,80,14
-END
-
-IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 170
-STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Invite users"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    GROUPBOX        "Choose a user",IDC_STATIC,4,2,208,130
-    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,12,12,192,112,WS_EX_CLIENTEDGE
-    LTEXT           "Other user:",IDC_STATIC,4,138,55,8
-    EDITTEXT        IDC_NEWJID,60,136,152,12,ES_AUTOHSCROLL
-    DEFPUSHBUTTON   "&Invite",IDOK,108,152,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,162,152,50,14
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_WHATSAPP            ICON                    "whatsapp.ico"
-
-#endif    // German (Germany) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,3 +1,10 @@
+/*
+
+WhatsAppWeb plugin for Miranda NG
+Copyright © 2019 George Hazan
+
+*/
+
 #if !defined(PROTO_H)
 #define PROTO_H
 
@@ -15,12 +22,21 @@ struct WAChatInfo
 	MCONTACT hContact;
 };
 
+struct WAConnection : public MZeroedObject
+{
+	EVP_PKEY *m_pKeys; // private & public keys
+};
+
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
 	ptrW m_tszDefaultGroup;
 
-	CMStringA m_szJid;
+	CMStringA m_szJid, m_szClientId;
 	CMStringW m_tszAvatarFolder;
+
+	WAConnection *m_pConn;
+
+	bool ShowQrCode(void);
 
 	/// Avatars //////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);
@@ -48,12 +64,12 @@ public:
 
 	// PROTO_INTERFACE ///////////////////////////////////////////////////////////////////
 
-	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr) override;
-	INT_PTR  __cdecl GetCaps(int type, MCONTACT hContact = NULL) override;
-	HANDLE   __cdecl SearchBasic(const wchar_t* id) override;
-	int      __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg) override;
-	int      __cdecl SetStatus(int iNewStatus) override;
-	int      __cdecl UserIsTyping(MCONTACT hContact, int type) override;
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	HANDLE   SearchBasic(const wchar_t* id) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char* msg) override;
+	int      SetStatus(int iNewStatus) override;
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	// Services //////////////////////////////////////////////////////////////////////////
 
@@ -74,6 +90,7 @@ public:
 
 	void __cdecl ProcessBuddyList(void*);
 	void __cdecl SearchAckThread(void*);
+	void __cdecl ServerThread(void*);
 
 	// Contacts handling /////////////////////////////////////////////////////////////////
 

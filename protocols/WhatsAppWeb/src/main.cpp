@@ -1,3 +1,10 @@
+/*
+
+WhatsAppWeb plugin for Miranda NG
+Copyright © 2019 George Hazan
+
+*/
+
 #include "stdafx.h"
 #include "version.h"
 
@@ -12,9 +19,8 @@ PLUGININFOEX pluginInfo = {
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	UNICODE_AWARE, //not transient
-	// {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
-	{ 0x4f1ff7fa, 0x4d75, 0x44b9, { 0x93, 0xb0, 0x2c, 0xed, 0x2e, 0x4f, 0x9e, 0x3e } }
-
+	// {008B9CE1-154B-44E4-9823-97C1AAB00C3C}
+	{ 0x8b9ce1, 0x154b, 0x44e4, { 0x98, 0x23, 0x97, 0xc1, 0xaa, 0xb0, 0xc, 0x3c }}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +33,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<WhatsAppProto>(MODULENAME, pluginInfo)
 {
-	SetUniqueId(WHATSAPP_KEY_ID);
+	SetUniqueId(DBKEY_ID);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

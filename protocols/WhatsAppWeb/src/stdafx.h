@@ -1,14 +1,12 @@
 /*
 
-WhatsApp plugin for Miranda NG
-Copyright © 2013-14 Uli Hecht
+WhatsAppWeb plugin for Miranda NG
+Copyright © 2019 George Hazan
 
 */
 
 #pragma once
 
-//#pragma warning(push)
-//#pragma warning(disable:4312)
 #pragma warning(disable:4996)
 #pragma warning(disable:4290)
 
@@ -43,5 +41,20 @@ Copyright © 2013-14 Uli Hecht
 #include <m_json.h>
 #include <m_gui.h>
 
+#include <openssl/evp.h>
+
+#include "../../libs/libqrencode/src/qrencode.h"
+#include "../../libs/libsignal/src/curve.h"
+#include "../../libs/libsignal/src/signal_protocol.h"
+
+struct signal_buffer
+{
+	size_t len;
+	uint8_t data[];
+};
+
 #include "db.h"
 #include "proto.h"
+#include "resource.h"
+
+#pragma comment(lib, "libeay32.lib")

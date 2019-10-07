@@ -1,3 +1,10 @@
+/*
+
+WhatsAppWeb plugin for Miranda NG
+Copyright © 2019 George Hazan
+
+*/
+
 #include "stdafx.h"
 
 struct SearchParam
@@ -12,7 +19,7 @@ struct SearchParam
 
 WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 	: PROTO<WhatsAppProto>(proto_name, username),
-	m_tszDefaultGroup(getWStringA(WHATSAPP_KEY_DEF_GROUP))
+	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP))
 {
 	db_set_resident(m_szModuleName, "StatusMsg");
 
@@ -25,6 +32,16 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 
 	// HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 	// HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
+
+	// Client id generation
+	m_szClientId = getMStringA(DBKEY_CLIENT_ID);
+	if (m_szClientId.IsEmpty()) {
+		int8_t randBytes[16];
+		Utils_GetRandom(randBytes, sizeof(randBytes));
+
+		m_szClientId = ptrA(mir_base64_encode(randBytes, sizeof(randBytes)));
+		setString(DBKEY_CLIENT_ID, m_szClientId);
+	}
 
 	// Create standard network connection
 	wchar_t descr[512];
@@ -53,6 +70,21 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 
 WhatsAppProto::~WhatsAppProto()
 {
+}
+
+MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+{
+	if (psr->id.w == nullptr)
+		return NULL;
+
+	std::string phone(T2Utf(psr->id.w));
+	std::string jid(phone + "@s.whatsapp.net");
+
+	/*	MCONTACT hContact = AddToContactList(jid, phone.c_str());
+		if (!(flags & PALF_TEMPORARY))
+			db_unset(hContact, "CList", "NotOnList");
+
+		return hContact;*/
 }
 
 INT_PTR WhatsAppProto::GetCaps(int type, MCONTACT)
@@ -103,28 +135,28 @@ int WhatsAppProto::SetStatus(int new_status)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if (!IsStatusConnecting(m_iStatus)) {
+	else if (m_pConn == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+
+		ForkThread(&WhatsAppProto::ServerThread);
+	}
+	else if (m_pConn != nullptr) {
+		if (m_iDesiredStatus == ID_STATUS_ONLINE) {
+			// m_pConn->sendAvailableForChat();
+			m_iStatus = ID_STATUS_ONLINE;
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		}
+		else if (m_iStatus == ID_STATUS_ONLINE && m_iDesiredStatus == ID_STATUS_INVISIBLE) {
+			// m_pConn->sendClose();
+			m_iStatus = ID_STATUS_INVISIBLE;
+			setAllContactStatuses(ID_STATUS_OFFLINE);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		}
 	}
 	else ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	return 0;
-}
-
-MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
-{
-	if (psr->id.w == nullptr)
-		return NULL;
-
-	std::string phone(T2Utf(psr->id.w));
-	std::string jid(phone + "@s.whatsapp.net");
-
-/*	MCONTACT hContact = AddToContactList(jid, phone.c_str());
-	if (!(flags & PALF_TEMPORARY))
-		db_unset(hContact, "CList", "NotOnList");
-
-	return hContact;*/
 }
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *msg)
@@ -144,7 +176,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *msg)
 int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (hContact && isOnline()) {
-		ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
+		ptrA jid(getStringA(hContact, DBKEY_ID));
 		if (jid && isOnline()) {
 		}
 	}

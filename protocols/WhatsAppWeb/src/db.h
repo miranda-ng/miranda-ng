@@ -1,35 +1,34 @@
+/*
+
+WhatsAppWeb plugin for Miranda NG
+Copyright © 2019 George Hazan
+
+*/
+
 #define MODULENAME  "WhatsApp"
 
 // DB keys
-#define WHATSAPP_KEY_ID                      "ID"
-#define WHATSAPP_KEY_LOGIN                   "Login"
-#define WHATSAPP_KEY_CC                      "CountryCode"
-#define WHATSAPP_KEY_NICK                    "Nick"
-#define WHATSAPP_KEY_PASS                    "Password"
-#define WHATSAPP_KEY_IDX                     "DeviceID"
-#define WHATSAPP_KEY_MAP_STATUSES			   "MapStatuses"
-#define WHATSAPP_KEY_LOGGING_ENABLE			   "LoggingEnable"
-#define WHATSAPP_KEY_NAME                    "RealName"
-#define WHATSAPP_KEY_LAST_SEEN               "LastSeen"
-#define WHATSAPP_KEY_LAST_SEEN_DENIED        "LastSeenDenied"
-#define WHATSAPP_KEY_AVATAR_ID               "AvatarId"
-#define WHATSAPP_KEY_SYSTRAY_NOTIFY			   "UseSystrayNotify"
-#define WHATSAPP_KEY_DEF_GROUP               "DefaultGroup"
-#define WHATSAPP_KEY_REG_CODE                "RegistrationCode"
-#define WHATSAPP_KEY_SSL                     "UseSSL"
-#define WHATSAPP_KEY_AUTORUNCHATS            "AutoRunChats"
-#define WHATSAPP_KEY_USE_REMOTE_TIME         "UseRemoteTime"
+#define DBKEY_ID                      "ID"
+#define DBKEY_LOGIN                   "Login"
+#define DBKEY_CC                      "CountryCode"
 
-#define WHATSAPP_KEY_EVENT_CLIENT_ENABLE            "EventClientEnable"
-#define WHATSAPP_KEY_EVENT_OTHER_ENABLE             "EventOtherEnable"
+#define DBKEY_CLIENT_ID               "ClientId"
+#define DBKEY_CLIENT_SECRET			  "ClientSecret"
+#define DBKEY_PUBKEY                  "PublicKey"
+#define DBKEY_PRIVATEKEY              "PrivateKey"
 
-#define WHATSAPP_KEY_EVENT_CLIENT_COLBACK           "PopupClientColorBack"
-#define WHATSAPP_KEY_EVENT_CLIENT_COLTEXT           "PopupClientColorText"
-#define WHATSAPP_KEY_EVENT_CLIENT_TIMEOUT           "PopupClientTimeout"
-#define WHATSAPP_KEY_EVENT_CLIENT_DEFAULT           "PopupClientColorDefault"
+#define DBKEY_NAME                    "RealName"
+#define DBKEY_DEF_GROUP               "DefaultGroup"
+#define DBKEY_AUTORUNCHATS            "AutoRunChats"
+#define DBKEY_AVATAR_ID					  "AvatarId"
 
-#define WHATSAPP_KEY_EVENT_OTHER_COLBACK            "PopupOtherColorBack"
-#define WHATSAPP_KEY_EVENT_OTHER_COLTEXT            "PopupOtherColorText"
-#define WHATSAPP_KEY_EVENT_OTHER_TIMEOUT            "PopupOtherTimeout"
-#define WHATSAPP_KEY_EVENT_OTHER_DEFAULT            "PopupOtherColorDefault"
+#define DBKEY_EVENT_CLIENT_COLBACK    "PopupClientColorBack"
+#define DBKEY_EVENT_CLIENT_COLTEXT    "PopupClientColorText"
+#define DBKEY_EVENT_CLIENT_TIMEOUT    "PopupClientTimeout"
+#define DBKEY_EVENT_CLIENT_DEFAULT    "PopupClientColorDefault"
+
+#define DBKEY_EVENT_OTHER_COLBACK     "PopupOtherColorBack"
+#define DBKEY_EVENT_OTHER_COLTEXT     "PopupOtherColorText"
+#define DBKEY_EVENT_OTHER_TIMEOUT     "PopupOtherTimeout"
+#define DBKEY_EVENT_OTHER_DEFAULT     "PopupOtherColorDefault"
 
