@@ -186,5 +186,5 @@ MIR_APP_DLL(void) WebSocket_Send(HNETLIBCONN nlc, const void *pData, size_t strL
 		for (size_t i = 0; i < strLen; i++)
 			sendBuf[i + datalen] ^= arMask[i & 3];
 	}
-	Netlib_Send(nlc, sendBuf, int(strLen + datalen), 0);
+	Netlib_Send(nlc, sendBuf, int(strLen + datalen), MSG_NODUMP);
 }

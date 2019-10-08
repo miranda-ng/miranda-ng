@@ -13,11 +13,14 @@ Copyright © 2019 George Hazan
 #define DBKEY_CC                      "CountryCode"
 
 #define DBKEY_CLIENT_ID               "ClientId"
-#define DBKEY_CLIENT_SECRET			  "ClientSecret"
+#define DBKEY_CLIENT_TOKEN            "ClientToken"
+#define DBKEY_SERVER_TOKEN            "ServerToken"
+#define DBKEY_BROWSER_TOKEN           "BrowserToken"
+
 #define DBKEY_PUBKEY                  "PublicKey"
 #define DBKEY_PRIVATEKEY              "PrivateKey"
 
-#define DBKEY_NAME                    "RealName"
+#define DBKEY_NICK                    "Nick"
 #define DBKEY_DEF_GROUP               "DefaultGroup"
 #define DBKEY_AUTORUNCHATS            "AutoRunChats"
 #define DBKEY_AVATAR_ID					  "AvatarId"

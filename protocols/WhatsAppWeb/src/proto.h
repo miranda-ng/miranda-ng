@@ -57,7 +57,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);
-	void ProcessPacket(const JSONNode &node);
 	void RestoreSession(void);
 	bool ServerThreadWorker(void);
 	void StartSession(void);
@@ -66,6 +65,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
 	void OnStartSession(const JSONNode &node);
+
+	void ProcessPacket(const JSONNode &node);
+	void ProcessConn(const JSONNode &node);
 
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);
@@ -90,6 +92,8 @@ public:
 	inline bool isInvisible() const
 	{	return (m_iStatus == ID_STATUS_INVISIBLE);
 	}
+
+	class CWhatsAppQRDlg *m_pQRDlg;
 
 	// PROTO_INTERFACE /////////////////////////////////////////////////////////////////////
 

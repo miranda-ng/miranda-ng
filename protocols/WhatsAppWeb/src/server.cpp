@@ -9,44 +9,39 @@ Copyright © 2019 George Hazan
 
 class CWhatsAppQRDlg : public CProtoDlgBase<WhatsAppProto>
 {
-	QRcode *m_qr;
-
 public:
-	CWhatsAppQRDlg(WhatsAppProto *ppro, const CMStringA &szData) :
+	CWhatsAppQRDlg(WhatsAppProto *ppro) :
 		CProtoDlgBase<WhatsAppProto>(ppro, IDD_SHOWQR)
-	{
-		m_qr = QRcode_encodeString(szData, 0, QR_ECLEVEL_L, QR_MODE_8, 1);
-	}
+	{}
 
-	~CWhatsAppQRDlg()
+	void SetData(const CMStringA &str)
 	{
-		QRcode_free(m_qr);
-	}
+		auto *pQR = QRcode_encodeString(str, 0, QR_ECLEVEL_L, QR_MODE_8, 1);
 
-	bool OnInitDialog() override
-	{
 		HWND hwndRc = GetDlgItem(m_hwnd, IDC_QRPIC);
 		RECT rc;
 		GetClientRect(hwndRc, &rc);
 
 		::SetForegroundWindow(m_hwnd);
 
-		int scale = 8; // (rc.bottom - rc.top) / m_qr->width;
-		int rowLen = m_qr->width * scale * 3;
+		int scale = 8; // (rc.bottom - rc.top) / pQR->width;
+		int rowLen = pQR->width * scale * 3;
 		if (rowLen % 4)
 			rowLen = (rowLen / 4 + 1) * 4;
-		int dataLen = rowLen * m_qr->width * scale;
+		int dataLen = rowLen * pQR->width * scale;
 
 		mir_ptr<BYTE> pData((BYTE *)mir_alloc(dataLen));
-		if (pData == nullptr)
-			return false;
+		if (pData == nullptr) {
+			QRcode_free(pQR);
+			return;
+		}
 
 		memset(pData, 0xFF, dataLen); // white background by default
 
-		const BYTE *s = m_qr->data;
-		for (int y = 0; y < m_qr->width; y++) {
+		const BYTE *s = pQR->data;
+		for (int y = 0; y < pQR->width; y++) {
 			BYTE *d = pData.get() + rowLen * y * scale;
-			for (int x = 0; x < m_qr->width; x++) {
+			for (int x = 0; x < pQR->width; x++) {
 				if (*s & 1)
 					for (int i = 0; i < scale; i++)
 						for (int j = 0; j < scale; j++) {
@@ -67,7 +62,7 @@ public:
 
 		BITMAPINFOHEADER bih = {};
 		bih.biSize = sizeof(BITMAPINFOHEADER);
-		bih.biWidth = m_qr->width * scale;
+		bih.biWidth = pQR->width * scale;
 		bih.biHeight = -bih.biWidth;
 		bih.biPlanes = 1;
 		bih.biBitCount = 24;
@@ -85,9 +80,24 @@ public:
 		SendMessage(hwndRc, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)Image_Load(wszTempFile));
 		
 		DeleteFileW(wszTempFile);
-		return true;
+		QRcode_free(pQR);
 	}
 };
+
+static INT_PTR __stdcall sttShowDialog(void *param)
+{
+	WhatsAppProto *ppro = (WhatsAppProto *)param;
+
+	if (ppro->m_pQRDlg == nullptr) {
+		ppro->m_pQRDlg = new CWhatsAppQRDlg(ppro);
+		ppro->m_pQRDlg->Show();
+	}
+	else {
+		SetForegroundWindow(ppro->m_pQRDlg->GetHwnd());
+		SetActiveWindow(ppro->m_pQRDlg->GetHwnd());
+	}
+	return 0;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,8 +140,10 @@ bool WhatsAppProto::ShowQrCode(const CMStringA &ref)
 		setString(DBKEY_PRIVATEKEY, szPrivKey);
 	}
 
-	CMStringA szQrData(FORMAT, "%s,%s,%s", m_szJid.c_str(), szPubKey.c_str(), m_szClientId.c_str());
-	CWhatsAppQRDlg(this, szQrData).DoModal();
+	CallFunctionSync(sttShowDialog, this);
+
+	CMStringA szQrData(FORMAT, "%s,%s,%s", ref.c_str(), szPubKey.c_str(), m_szClientId.c_str());
+	m_pQRDlg->SetData(szQrData);
 	return true;
 }
 
@@ -162,6 +174,7 @@ int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
 		m_arPacketQueue.insert(pReq);
 	}
 
+	debugLogA("Sending packet #%d: %s", pktId, buf.c_str());
 	WebSocket_Send(m_hServerConn, buf.c_str(), buf.GetLength());
 	return pktId;
 }
@@ -206,11 +219,7 @@ void WhatsAppProto::ShutdownSession()
 
 void WhatsAppProto::StartSession()
 {
-	WORD v[4];
-	Miranda_GetFileVersion(&v);
-
-	CMStringA payload(FORMAT, "[\"admin\",\"init\",[%d,%d,%d],[\"Windows\",\"Miranda\",\"10\"],%s,true]", 
-		v[1], v[2], v[3], m_szClientId.c_str());
+	CMStringA payload(FORMAT, "[\"admin\",\"init\",[0,3,4940],[\"Windows\",\"Chrome\",\"10\"],\"%s\",true]", m_szClientId.c_str());
 	WSSend(payload, &WhatsAppProto::OnStartSession);
 }
 
@@ -254,7 +263,8 @@ bool WhatsAppProto::ServerThreadWorker()
 
 	debugLogA("Server connection succeeded");
 
-	m_szClientToken = getMStringA(DBKEY_CLIENT_SECRET);
+	m_iLoginTime = time(0);
+	m_szClientToken = getMStringA(DBKEY_CLIENT_TOKEN);
 	if (m_szClientToken.IsEmpty())
 		StartSession();
 	else
@@ -323,13 +333,13 @@ bool WhatsAppProto::ServerThreadWorker()
 
 					int pos = szJson.Find(',');
 					if (pos != -1) {
-						CMStringA prefix = szJson.Left(pos);
-						szJson.Delete(0, pos);
+						CMStringA szPrefix = szJson.Left(pos);
+						szJson.Delete(0, pos+1);
 
 						JSONNode root = JSONNode::parse(szJson);
 						if (root) {
 							int sessId, pktId;
-							if (sscanf(szJson, "%d--.%d,", &sessId, &pktId) == 2) {
+							if (sscanf(szPrefix, "%d.--%d,", &sessId, &pktId) == 2) {
 								auto *pReq = m_arPacketQueue.find((WARequest *)&pktId);
 								if (pReq != nullptr) {
 									(this->*pReq->pHandler)(root);
@@ -384,4 +394,31 @@ bool WhatsAppProto::ServerThreadWorker()
 
 void WhatsAppProto::ProcessPacket(const JSONNode &root)
 {
+	CMStringA szType = root[(size_t)0].as_mstring();
+	const JSONNode &content = root[1];
+
+	if (szType == "Conn")
+		ProcessConn(content);
+}
+
+void WhatsAppProto::ProcessConn(const JSONNode &root)
+{
+	if (m_pQRDlg) {
+		m_pQRDlg->Close();
+		m_pQRDlg = nullptr;
+	}
+
+	m_szJid = root["wid"].as_mstring();
+	setString(DBKEY_ID, m_szJid);
+
+	CMStringA szSecret(root["secret"].as_mstring());
+	size_t secretLen;
+	void *pSecret = mir_base64_decode(szSecret, &secretLen);
+
+	setWString(DBKEY_NICK, root["pushname"].as_mstring());
+	setWString(DBKEY_CLIENT_TOKEN, root["clientToken"].as_mstring());
+	setWString(DBKEY_SERVER_TOKEN, root["serverToken"].as_mstring());
+	setWString(DBKEY_BROWSER_TOKEN, root["browserToken"].as_mstring());
+
+	OnLoggedIn();
 }
