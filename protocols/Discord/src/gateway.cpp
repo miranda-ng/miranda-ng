@@ -17,111 +17,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-struct WSHeader
-{
-	WSHeader()
-	{
-		memset(this, 0, sizeof(*this));
-	}
-
-	bool init(BYTE *buf, size_t bufSize)
-	{
-		if (bufSize < 2)
-			return false;
-
-		bIsFinal = (buf[0] & 0x80) != 0;
-		bIsMasked = (buf[1] & 0x80) != 0;
-		opCode = buf[0] & 0x0F;
-		firstByte = buf[1] & 0x7F;
-		headerSize = 2 + (firstByte == 0x7E ? 2 : 0) + (firstByte == 0x7F ? 8 : 0) + (bIsMasked ? 4 : 0);
-		if (bufSize < headerSize)
-			return false;
-
-		uint64_t tmpSize = 0;
-		switch (firstByte) {
-		case 0x7F:
-			tmpSize += ((uint64_t)buf[2]) << 56;
-			tmpSize += ((uint64_t)buf[3]) << 48;
-			tmpSize += ((uint64_t)buf[4]) << 40;
-			tmpSize += ((uint64_t)buf[5]) << 32;
-			tmpSize += ((uint64_t)buf[6]) << 24;
-			tmpSize += ((uint64_t)buf[7]) << 16;
-			tmpSize += ((uint64_t)buf[8]) << 8;
-			tmpSize += ((uint64_t)buf[9]);
-			break;
-
-		case 0x7E:
-			tmpSize += ((uint64_t)buf[2]) << 8;
-			tmpSize += ((uint64_t)buf[3]);
-			break;
-
-		default:
-			tmpSize = firstByte;
-		}
-		payloadSize = tmpSize;
-		return true;
-	}
-
-	bool bIsFinal, bIsMasked;
-	int opCode, firstByte;
-	size_t payloadSize, headerSize;
-};
-
 //////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
-void CDiscordProto::GatewaySend(const JSONNode &pRoot, int opCode)
+void CDiscordProto::GatewaySend(const JSONNode &pRoot)
 {
 	if (m_hGatewayConnection == nullptr)
 		return;
 
 	json_string szText = pRoot.write();
-
-	BYTE header[20];
-	size_t datalen;
-	uint64_t strLen = szText.length();
-
-	header[0] = 0x80 + (opCode & 0x7F);
-	if (strLen < 126) {
-		header[1] = (strLen & 0xFF);
-		datalen = 2;
-	}
-	else if (strLen < 65536) {
-		header[1] = 0x7E;
-		header[2] = (strLen >> 8) & 0xFF;
-		header[3] = strLen & 0xFF;
-		datalen = 4;
-	}
-	else {
-		header[1] = 0x7F;
-		header[2] = (strLen >> 56) & 0xff;
-		header[3] = (strLen >> 48) & 0xff;
-		header[4] = (strLen >> 40) & 0xff;
-		header[5] = (strLen >> 32) & 0xff;
-		header[6] = (strLen >> 24) & 0xff;
-		header[7] = (strLen >> 16) & 0xff;
-		header[8] = (strLen >> 8) & 0xff;
-		header[9] = strLen & 0xff;
-		datalen = 10;
-	}
-
-	union {
-		uLong dwMask;
-		Bytef arMask[4];
-	};
-	dwMask = crc32(rand(), (Bytef*)szText.c_str(), (uInt)szText.length());
-	memcpy(header + datalen, arMask, _countof(arMask));
-	datalen += _countof(arMask);
-	header[1] |= 0x80;
-
-	ptrA sendBuf((char*)mir_alloc(strLen + datalen));
-	memcpy(sendBuf, header, datalen);
-	if (strLen) {
-		memcpy(sendBuf.get() + datalen, szText.c_str(), strLen);
-		for (size_t i = 0; i < strLen; i++)
-			sendBuf[i + datalen] ^= arMask[i & 3];
-	}
-	Netlib_Send(m_hGatewayConnection, sendBuf, int(strLen + datalen), 0);
+	WebSocket_Send(m_hGatewayConnection, szText.c_str(), szText.length());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -136,59 +41,10 @@ void CDiscordProto::GatewayThread(void*)
 
 bool CDiscordProto::GatewayThreadWorker()
 {
-	// connect to the gateway server
-	if (!mir_strncmp(m_szGateway, "wss://", 6))
-		m_szGateway.Delete(0, 6);
-
-	NETLIBOPENCONNECTION conn = {};
-	conn.szHost = m_szGateway;
-	conn.flags = NLOCF_V2 | NLOCF_SSL;
-	conn.timeout = 5;
-
-	int pos = m_szGateway.Find(':');
-	if (pos != -1) {
-		conn.wPort = atoi(m_szGateway.GetBuffer() + pos + 1);
-		m_szGateway.Truncate(pos);
-	}
-	else conn.wPort = 443;
-
-	m_hGatewayConnection = Netlib_OpenConnection(m_hGatewayNetlibUser, &conn);
-	if (m_hGatewayConnection == nullptr) {
-		debugLogA("Gateway connection failed to connect to %s:%d, exiting", m_szGateway.c_str(), conn.wPort);
-		return false;
-	}
-	{
-		CMStringA szBuf;
-		szBuf.AppendFormat("GET https://%s/?encoding=json&v=6 HTTP/1.1\r\n", m_szGateway.c_str());
-		szBuf.AppendFormat("Host: %s\r\n", m_szGateway.c_str());
-		szBuf.AppendFormat("Upgrade: websocket\r\n");
-		szBuf.AppendFormat("Pragma: no-cache\r\n");
-		szBuf.AppendFormat("Cache-Control: no-cache\r\n");
-		szBuf.AppendFormat("Connection: Upgrade\r\n");
-		szBuf.AppendFormat("Sec-WebSocket-Key: KFShSwLlp4E6C7JZc5h4sg==\r\n");
-		szBuf.AppendFormat("Sec-WebSocket-Version: 13\r\n");
-		szBuf.AppendFormat("Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits\r\n");
-		szBuf.AppendFormat("\r\n");
-		if (Netlib_Send(m_hGatewayConnection, szBuf, szBuf.GetLength(), MSG_DUMPASTEXT) == SOCKET_ERROR) {
-			debugLogA("Error establishing gateway connection to %s:%d, send failed", m_szGateway.c_str(), conn.wPort);
-			return false;
-		}
-	}
-	{
-		char buf[1024];
-		int bufSize = Netlib_Recv(m_hGatewayConnection, buf, _countof(buf), MSG_DUMPASTEXT);
-		if (bufSize <= 0) {
-			debugLogA("Error establishing gateway connection to %s:%d, read failed", m_szGateway.c_str(), conn.wPort);
-			return false;
-		}
-
-		int status = 0;
-		if (sscanf(buf, "HTTP/1.1 %d", &status) != 1 || status != 101) {
-			debugLogA("Error establishing gateway connection to %s:%d, status %d", m_szGateway.c_str(), conn.wPort, status);
-			return false;
-		}
-	}
-
+	m_hGatewayConnection = WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=6");
+	if (m_hGatewayConnection == nullptr)
+		debugLogA("Gateway connection failed, exiting");
+	
 	debugLogA("Gateway connection succeeded");
 
 	bool bExit = false;
@@ -212,7 +68,7 @@ bool CDiscordProto::GatewayThreadWorker()
 		}
 
 		WSHeader hdr;
-		if (!hdr.init(buf, bufSize)) {
+		if (!WebSocket_InitHeader(hdr, buf, bufSize)) {
 			offset += bufSize;
 			continue;
 		}
@@ -275,7 +131,7 @@ bool CDiscordProto::GatewayThreadWorker()
 				break;
 
 			// if we have not enough data for header, continue reading
-			if (!hdr.init((BYTE*)netbuf.data(), netbuf.length()))
+			if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length()))
 				break;
 
 			// if we have not enough data for data, continue reading

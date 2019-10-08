@@ -774,6 +774,30 @@ EXTERN_C MIR_APP_DLL(void) Netlib_DestroySecurityProvider(HANDLE hProvider);
 EXTERN_C MIR_APP_DLL(char*) Netlib_NtlmCreateResponse(HANDLE hProvider, const char *szChallenge, wchar_t *szLogin, wchar_t *szPass, unsigned &complete);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// WebSocket support
+
+struct WSHeader
+{
+	WSHeader()
+	{
+		memset(this, 0, sizeof(*this));
+	}
+
+	bool bIsFinal, bIsMasked;
+	int opCode, firstByte;
+	size_t payloadSize, headerSize;
+};
+
+// connects to a WebSocket server
+EXTERN_C MIR_APP_DLL(HNETLIBCONN) WebSocket_Connect(HNETLIBUSER, const char *szHost);
+
+// validates that the provided buffer contains full WebSocket datagram
+EXTERN_C MIR_APP_DLL(bool) WebSocket_InitHeader(WSHeader &hdr, const void *pData, size_t bufSize);
+
+// sends a packet to WebSocket
+EXTERN_C MIR_APP_DLL(void) WebSocket_Send(HNETLIBCONN nlc, const void *pData, size_t strLen);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Netlib hooks (0.8+)
 
 // WARNING: these hooks are being called in the context of the calling thread, without switching
