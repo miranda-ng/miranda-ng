@@ -22,23 +22,52 @@ struct WAChatInfo
 	MCONTACT hContact;
 };
 
-struct WAConnection : public MZeroedObject
+class WhatsAppProto;
+typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node);
+
+struct WARequest
 {
-	EVP_PKEY *m_pKeys; // private & public keys
+	int pktId;
+	time_t issued;
+	WA_PKT_HANDLER pHandler;
 };
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
+	bool m_bTerminated, m_bOnline;
 	ptrW m_tszDefaultGroup;
 
-	CMStringA m_szJid, m_szClientId;
+	CMStringA m_szJid, m_szClientId, m_szClientToken;
 	CMStringW m_tszAvatarFolder;
 
-	WAConnection *m_pConn;
+	EVP_PKEY *m_pKeys; // private & public keys
 
-	bool ShowQrCode(void);
+	bool ShowQrCode(const CMStringA &ref);
 
-	/// Avatars //////////////////////////////////////////////////////////////////////////
+	/// Network ////////////////////////////////////////////////////////////////////////////
+
+	int m_iPktNumber;
+	time_t m_iLoginTime;
+	HNETLIBCONN m_hServerConn;
+
+	mir_cs m_csPacketQueue;
+	OBJLIST<WARequest> m_arPacketQueue;
+
+	int WSSend(const CMStringA &str, WA_PKT_HANDLER = nullptr);
+
+	void OnLoggedIn(void);
+	void OnLoggedOut(void);
+	void ProcessPacket(const JSONNode &node);
+	void RestoreSession(void);
+	bool ServerThreadWorker(void);
+	void StartSession(void);
+	void ShutdownSession(void);
+
+	/// Request handlers ///////////////////////////////////////////////////////////////////
+
+	void OnStartSession(const JSONNode &node);
+
+	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
@@ -51,7 +80,7 @@ public:
 	~WhatsAppProto();
 
 	inline bool isOnline() const
-	{	return false;
+	{	return m_bOnline;
 	}
 
 	inline bool isOffline() const
@@ -62,7 +91,7 @@ public:
 	{	return (m_iStatus == ID_STATUS_INVISIBLE);
 	}
 
-	// PROTO_INTERFACE ///////////////////////////////////////////////////////////////////
+	// PROTO_INTERFACE /////////////////////////////////////////////////////////////////////
 
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
@@ -71,31 +100,23 @@ public:
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	// Services //////////////////////////////////////////////////////////////////////////
+	// Services ////////////////////////////////////////////////////////////////////////////
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 
-	// Events ////////////////////////////////////////////////////////////////////////////
+	// Events //////////////////////////////////////////////////////////////////////////////
 
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnUserInfo(WPARAM, LPARAM);
 	int __cdecl OnBuildStatusMenu(WPARAM, LPARAM);
 
-	// Worker Threads ////////////////////////////////////////////////////////////////////
+	// Processing Threads //////////////////////////////////////////////////////////////////
 
-	void __cdecl stayConnectedLoop(void*);
-	void __cdecl sentinelLoop(void*);
-
-	// Processing Threads ////////////////////////////////////////////////////////////////
-
-	void __cdecl ProcessBuddyList(void*);
 	void __cdecl SearchAckThread(void*);
 	void __cdecl ServerThread(void*);
 
-	// Contacts handling /////////////////////////////////////////////////////////////////
+	// Contacts handling ///////////////////////////////////////////////////////////////////
 
-	void     SetAllContactStatuses(int status, bool reset_client = false);
-	void     UpdateStatusMsg(MCONTACT hContact);
 	void     RequestFriendship(MCONTACT hContact);
 };
 

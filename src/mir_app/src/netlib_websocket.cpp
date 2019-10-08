@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../libs/zlib/src/zlib.h"
 
-MIR_APP_DLL(HNETLIBCONN) WebSocket_Connect(HNETLIBUSER nlu, const char *szHost)
+MIR_APP_DLL(HNETLIBCONN) WebSocket_Connect(HNETLIBUSER nlu, const char *szHost, NETLIBHTTPHEADER *pHeaders)
 {
 	CMStringA tmpHost(szHost);
 
@@ -67,9 +67,14 @@ MIR_APP_DLL(HNETLIBCONN) WebSocket_Connect(HNETLIBUSER nlu, const char *szHost)
 	szBuf.AppendFormat("Pragma: no-cache\r\n");
 	szBuf.AppendFormat("Cache-Control: no-cache\r\n");
 	szBuf.AppendFormat("Connection: Upgrade\r\n");
-	szBuf.AppendFormat("Sec-WebSocket-Key: KFShSwLlp4E6C7JZc5h4sg==\r\n");
 	szBuf.AppendFormat("Sec-WebSocket-Version: 13\r\n");
 	szBuf.AppendFormat("Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits\r\n");
+	if (pHeaders) {
+		while (pHeaders->szName != nullptr) {
+			szBuf.AppendFormat("%s: %s\r\n", pHeaders->szName, pHeaders->szValue);
+			pHeaders++;
+		}
+	}
 	szBuf.AppendFormat("\r\n");
 	if (Netlib_Send(res, szBuf, szBuf.GetLength(), MSG_DUMPASTEXT) == SOCKET_ERROR) {
 		Netlib_Logf(nlu, "Error establishing WebSocket connection to %s:%d, send failed", tmpHost.c_str(), conn.wPort);

@@ -41,9 +41,17 @@ void CDiscordProto::GatewayThread(void*)
 
 bool CDiscordProto::GatewayThreadWorker()
 {
-	m_hGatewayConnection = WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=6");
-	if (m_hGatewayConnection == nullptr)
+	NETLIBHTTPHEADER hdrs[] =
+	{
+		{ "Sec-WebSocket-Key", "KFShSwLlp4E6C7JZc5h4sg==" },
+		{ 0, 0 }
+	};
+
+	m_hGatewayConnection = WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=6", hdrs);
+	if (m_hGatewayConnection == nullptr) {
 		debugLogA("Gateway connection failed, exiting");
+		return false;
+	}
 	
 	debugLogA("Gateway connection succeeded");
 

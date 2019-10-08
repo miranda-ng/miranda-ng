@@ -19,7 +19,8 @@ struct SearchParam
 
 WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 	: PROTO<WhatsAppProto>(proto_name, username),
-	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP))
+	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
+	m_arPacketQueue(10, NumericKeySortT)
 {
 	db_set_resident(m_szModuleName, "StatusMsg");
 
@@ -135,13 +136,13 @@ int WhatsAppProto::SetStatus(int new_status)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if (m_pConn == nullptr && !IsStatusConnecting(m_iStatus)) {
+	else if (m_hServerConn == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 		ForkThread(&WhatsAppProto::ServerThread);
 	}
-	else if (m_pConn != nullptr) {
+	else if (m_hServerConn != nullptr) {
 		if (m_iDesiredStatus == ID_STATUS_ONLINE) {
 			// m_pConn->sendAvailableForChat();
 			m_iStatus = ID_STATUS_ONLINE;
