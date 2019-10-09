@@ -121,7 +121,7 @@ public:
 
 	// Contacts handling ///////////////////////////////////////////////////////////////////
 
-	void     RequestFriendship(MCONTACT hContact);
+	void RequestFriendship(MCONTACT hContact);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<WhatsAppProto>

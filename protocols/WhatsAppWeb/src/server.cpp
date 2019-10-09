@@ -323,9 +323,7 @@ bool WhatsAppProto::ServerThreadWorker()
 		size_t prevSize = 0;
 		while (true) {
 			switch (hdr.opCode) {
-			case 0: // text packet
-			case 1: // binary packet
-			case 2: // continuation
+			case 1: // json packet
 				if (hdr.bIsFinal) {
 					// process a packet here
 					CMStringA szJson(netbuf.data() + hdr.headerSize, (int)hdr.payloadSize);
@@ -349,6 +347,9 @@ bool WhatsAppProto::ServerThreadWorker()
 						}
 					}
 				}
+				break;
+
+			case 2: // binary packet
 				break;
 
 			case 8: // close
