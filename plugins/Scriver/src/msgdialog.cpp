@@ -588,11 +588,6 @@ void CMsgDialog::onClick_Details(CCtrlButton*)
 	CallService(MS_USERINFO_SHOWDIALOG, m_hContact, 0);
 }
 
-void CMsgDialog::onClick_History(CCtrlButton*)
-{
-	CallService(MS_HISTORY_SHOWCONTACTHISTORY, m_hContact, 0);
-}
-
 void CMsgDialog::onChange_Message(CCtrlEdit*)
 {
 	cmdListCurrent = nullptr;
