@@ -125,8 +125,6 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 {
 	SetParent(hwndParent);
 
-	m_pLog = new CLogWindow(*this);
-
 	m_pContainer = new TContainerData();
 	m_pContainer->LoadOverrideTheme();
 	tSet = rtl ? m_pContainer->m_rtl_templates : m_pContainer->m_ltr_templates;
@@ -145,6 +143,8 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 
 bool CTemplateEditDlg::OnInitDialog()
 {
+	m_pLog = new CLogWindow(*this);
+
 	// set hContact to the first found contact so that we can use the Preview window properly
 	// also, set other parameters needed by the streaming function to display events
 	m_hContact = db_find_first();
