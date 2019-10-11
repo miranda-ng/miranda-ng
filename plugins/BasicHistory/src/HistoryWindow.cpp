@@ -1769,7 +1769,7 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 			g_plugin.openOptions(L"Customize", L"Fonts and colors");
 			break;
 		case IDM_ICONS:
-			g_plugin.openOptions(L"Customize", L"Icons");
+			g_plugin.openOptions(L"Icons");
 			break;
 		case IDM_HOTKEYS:
 			g_plugin.openOptions(L"Customize", L"Hotkeys");
