@@ -135,7 +135,7 @@ bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
 	if (db_get(0, m_szModuleName, szSetting, &dbv))
 		return false;
 
-	buf.append(dbv.pbVal, dbv.cpbVal);
+	buf.assign(dbv.pbVal, dbv.cpbVal);
 	db_free(&dbv);
 	return true;
 }
@@ -282,8 +282,8 @@ bool WhatsAppProto::ProcessSecret(const CMStringA &szSecret)
 		dec_len += final_len;
 		EVP_CIPHER_CTX_free(ctx);
 
-		enc_key.append(dec, 32);
-		mac_key.append(dec + 32, 32);
+		enc_key.assign(dec, 32);
+		mac_key.assign(dec + 32, 32);
 
 		db_set_blob(0, m_szModuleName, DBKEY_ENC_KEY, enc_key.data(), (int)enc_key.length());
 		db_set_blob(0, m_szModuleName, DBKEY_MAC_KEY, mac_key.data(), (int)mac_key.length());

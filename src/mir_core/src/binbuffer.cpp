@@ -55,6 +55,19 @@ void MBinBuffer::appendBefore(void *pBuf, size_t bufLen)
 	else m_len = 0;
 }
 
+void MBinBuffer::assign(void *pBuf, size_t bufLen)
+{
+	if (pBuf == nullptr || bufLen == 0)
+		return;
+
+	m_buf = (char *)mir_realloc(m_buf, bufLen);
+	if (m_buf) {
+		memcpy(m_buf, pBuf, bufLen);
+		m_len = bufLen;
+	}
+	else m_len = 0;
+}
+
 void MBinBuffer::remove(size_t sz)
 {
 	if (sz > m_len)

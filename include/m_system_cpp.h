@@ -382,6 +382,9 @@ public:
 	// adds a buffer to the beginning
 	void appendBefore(void *pBuf, size_t bufLen);
 
+	// replaces buffer contents
+	void assign(void *pBuf, size_t bufLen);
+
 	// drops a part of buffer
 	void remove(size_t sz);
 };

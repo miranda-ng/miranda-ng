@@ -1450,3 +1450,4 @@ XmlGetChildText @1645
 ?Unsigned64Text@XMLElement@tinyxml2@@QEBA_K_K@Z @1665 NONAME
 ?Unsigned64Value@XMLAttribute@tinyxml2@@QEBA_KXZ @1666 NONAME
 ?RemoveControl@CDlgBase@@IEAAXPEAVCCtrlBase@@@Z @1667 NONAME
+?assign@MBinBuffer@@QEAAXPEAX_K@Z @1668 NONAME
