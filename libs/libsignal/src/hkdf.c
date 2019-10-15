@@ -249,7 +249,7 @@ int hkdf_compare(const hkdf_context *context1, const hkdf_context *context2)
     }
 }
 
-void hkdf_destroy(signal_type_base *type)
+void hkdf_destroy(hkdf_context *type)
 {
     hkdf_context *context = (hkdf_context *)type;
     free(context);

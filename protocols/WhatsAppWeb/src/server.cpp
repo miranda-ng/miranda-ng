@@ -101,53 +101,46 @@ static INT_PTR __stdcall sttShowDialog(void *param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int random_func(uint8_t *pData, size_t size, void *)
-{
-	Utils_GetRandom(pData, size);
-	return 0;
-}
-
 bool WhatsAppProto::ShowQrCode(const CMStringA &ref)
 {
-	CMStringA szPubKey(getMStringA(DBKEY_PUBKEY));
-	if (szPubKey.IsEmpty()) {
+	MBinBuffer pubKey;
+	if (!getBlob(DBKEY_PUB_KEY, pubKey)) {
 		// generate new pair of private & public keys for this account
-		signal_context *pTmpCtx;
-		signal_context_create(&pTmpCtx, nullptr);
-
-		signal_crypto_provider prov;
-		memset(&prov, 0xFF, sizeof(prov));
-		prov.random_func = random_func;
-		signal_context_set_crypto_provider(pTmpCtx, &prov);
 
 		ec_key_pair *pKeys;
-		if (curve_generate_key_pair(pTmpCtx, &pKeys)) {
-			signal_context_destroy(pTmpCtx);
+		if (curve_generate_key_pair(g_plugin.pCtx, &pKeys))
 			return false;
-		}
 
 		auto *pPubKey = ec_key_pair_get_public(pKeys);
-		signal_buffer *pBuf;
-		ec_public_key_serialize(&pBuf, pPubKey);
-		szPubKey = ptrA(mir_base64_encode(&pBuf->data, pBuf->len));
-		signal_buffer_free(pBuf);
-		setString(DBKEY_PUBKEY, szPubKey);
+		pubKey.append(pPubKey->data, sizeof(pPubKey->data));
+		db_set_blob(0, m_szModuleName, DBKEY_PUB_KEY, pPubKey->data, sizeof(pPubKey->data));
 
 		auto *pPrivKey = ec_key_pair_get_private(pKeys);
-		ec_private_key_serialize(&pBuf, pPrivKey);
-		CMStringA szPrivKey(ptrA(mir_base64_encode(&pBuf->data, pBuf->len)));
-		signal_buffer_free(pBuf);
-		setString(DBKEY_PRIVATEKEY, szPrivKey);
+		db_set_blob(0, m_szModuleName, DBKEY_PRIVATE_KEY, pPrivKey->data, sizeof(pPrivKey->data));
+		ec_key_pair_destroy(pKeys);
 	}
 
 	CallFunctionSync(sttShowDialog, this);
 
-	CMStringA szQrData(FORMAT, "%s,%s,%s", ref.c_str(), szPubKey.c_str(), m_szClientId.c_str());
+	CMStringA szQrData(FORMAT, "%s,%s,%s", ref.c_str(), ptrA(mir_base64_encode(pubKey.data(), pubKey.length())).get(), m_szClientId.c_str());
 	m_pQRDlg->SetData(szQrData);
 	return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
+{
+	DBVARIANT dbv = { DBVT_BLOB };
+	if (db_get(0, m_szModuleName, szSetting, &dbv))
+		return false;
+
+	buf.append(dbv.pbVal, dbv.cpbVal);
+	db_free(&dbv);
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
 int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
@@ -183,7 +176,9 @@ void WhatsAppProto::OnLoggedIn()
 {
 	debugLogA("CDiscordProto::OnLoggedIn");
 	m_bOnline = true;
-	// SetServerStatus(m_iDesiredStatus);
+
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+	m_iStatus = m_iDesiredStatus;
 }
 
 void WhatsAppProto::OnLoggedOut(void)
@@ -199,29 +194,105 @@ void WhatsAppProto::OnLoggedOut(void)
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::ProcessChallenge(const CMStringA &szChallenge)
+bool WhatsAppProto::ProcessChallenge(const CMStringA &szChallenge)
 {
-	if (mac_key.isEmpty()) {
-		ShutdownSession();
-		return;
-	}
+	if (szChallenge.IsEmpty() || mac_key.isEmpty())
+		return false;
 
 	size_t cbLen;
 	void *pChallenge = mir_base64_decode(szChallenge, &cbLen);
 
 	BYTE digest[32];
 	unsigned cbResult = sizeof(digest);
-	HMAC(EVP_sha256(), mac_key.data(), mac_key.length(), (BYTE*)pChallenge, cbLen, digest, &cbResult);
+	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE*)pChallenge, (int)cbLen, digest, &cbResult);
 
 	ptrA szServer(getStringA(DBKEY_SERVER_TOKEN));
 	CMStringA payload(FORMAT, "[\"admin\",\"challenge\",\"%s\",\"%s\",\"%s\"]",
 		ptrA(mir_base64_encode(digest, cbResult)).get(), szServer.get(), m_szClientId.c_str());
 	WSSend(payload);
+	return true;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool WhatsAppProto::ProcessSecret(const CMStringA &szSecret)
+{
+	if (szSecret.IsEmpty())
+		return false;
+
+	size_t secretLen = 0;
+	mir_ptr<BYTE> pSecret((BYTE *)mir_base64_decode(szSecret, &secretLen));
+	if (pSecret == nullptr || secretLen != 144) {
+		debugLogA("Invalid secret key, dropping session (secret len = %u", (unsigned)secretLen);
+		return false;
+	}
+
+	ec_public_key pPeerPublic;
+	memcpy(pPeerPublic.data, pSecret, 32);
+
+	MBinBuffer privKey;
+	if (!getBlob(DBKEY_PRIVATE_KEY, privKey))
+		return false;
+
+	ec_private_key pMyPrivate;
+	memcpy(pMyPrivate.data, privKey.data(), 32);
+
+	uint8_t *pSharedKey, *pSharedExpanded;
+	int sharedLen = curve_calculate_agreement(&pSharedKey, &pPeerPublic, &pMyPrivate);
+	{
+		BYTE salt[32], md[32];
+		unsigned int md_len = 32;
+		memset(salt, 0, sizeof(salt));
+		HMAC(EVP_sha256(), salt, sizeof(salt), pSharedKey, sharedLen, md, &md_len);
+
+		hkdf_context *pHKDF;
+		hkdf_create(&pHKDF, 3, g_plugin.pCtx);
+		hkdf_expand(pHKDF, &pSharedExpanded, md, sizeof(md), 0, 0, 80);
+		hkdf_destroy(pHKDF);
+	}
+
+	// validation
+	{
+		unsigned int md_len = 32;
+		BYTE sum[32], md[32], enc[112], *key = pSharedExpanded + 32;
+		memcpy(enc, pSecret, 32);
+		memcpy(enc + 32, (BYTE *)pSecret + 64, 80);
+		memcpy(sum, (BYTE *)pSecret + 32, 32);
+		HMAC(EVP_sha256(), key, 32, enc, sizeof(enc), md, &md_len);
+		if (memcmp(md, sum, 32)) {
+			debugLogA("Secret key validation failed, exiting");
+			return false;
+		}
+	}
+
+	// woohoo, everything is ok, decrypt keys
+	{
+		BYTE enc[80], dec[112], key[32], iv[16];
+		memcpy(key, pSharedExpanded, sizeof(key));
+		memcpy(key, pSharedExpanded+64, sizeof(iv));
+		memcpy(enc, pSecret.get() + 64, sizeof(enc));
+
+		int dec_len = 0, final_len = 0;
+		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+		EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv);
+		EVP_DecryptUpdate(ctx, dec, &dec_len, enc, sizeof(enc));
+		EVP_DecryptFinal_ex(ctx, dec + dec_len, &final_len);
+		dec_len += final_len;
+		EVP_CIPHER_CTX_free(ctx);
+
+		enc_key.append(dec, 32);
+		mac_key.append(dec + 32, 32);
+
+		db_set_blob(0, m_szModuleName, DBKEY_ENC_KEY, enc_key.data(), (int)enc_key.length());
+		db_set_blob(0, m_szModuleName, DBKEY_MAC_KEY, mac_key.data(), (int)mac_key.length());
+	}
+
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::RestoreSession()
 {
@@ -239,16 +310,13 @@ void WhatsAppProto::OnRestoreSession(const JSONNode &root)
 {
 	int status = root["status"].as_int();
 	if (status != 200) {
-		debugLogA("Attmept to restore session failed with error %d", status);
-		delSetting(DBKEY_CLIENT_TOKEN);
-		delSetting(DBKEY_SERVER_TOKEN);
-
+		debugLogA("Attempt to restore session failed with error %d", status);
 		ShutdownSession();
 		return;
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::ShutdownSession()
 {
@@ -264,7 +332,7 @@ void WhatsAppProto::ShutdownSession()
 	OnLoggedOut();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::StartSession()
 {
@@ -285,7 +353,7 @@ void WhatsAppProto::OnStartSession(const JSONNode &root)
 	ShowQrCode(ref);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // gateway worker thread
 
 void WhatsAppProto::ServerThread(void *)
@@ -314,7 +382,10 @@ bool WhatsAppProto::ServerThreadWorker()
 
 	m_iLoginTime = time(0);
 	m_szClientToken = getMStringA(DBKEY_CLIENT_TOKEN);
-	if (m_szClientToken.IsEmpty())
+	getBlob(DBKEY_ENC_KEY, enc_key);
+	getBlob(DBKEY_MAC_KEY, mac_key);
+
+	if (m_szClientToken.IsEmpty() || mac_key.isEmpty() || enc_key.isEmpty())
 		StartSession();
 	else
 		RestoreSession();
@@ -458,8 +529,10 @@ void WhatsAppProto::ProcessCmd(const JSONNode &root)
 	CMStringW wszType(root["type"].as_mstring());
 	if (wszType == L"challenge") {
 		CMStringA szChallenge(root["challenge"].as_mstring());
-		if (!szChallenge.IsEmpty())
-			ProcessChallenge(szChallenge);
+		if (!ProcessChallenge(szChallenge)) {
+			ShutdownSession();
+			return;
+		}
 	}
 }
 
@@ -474,8 +547,10 @@ void WhatsAppProto::ProcessConn(const JSONNode &root)
 	setString(DBKEY_ID, m_szJid);
 
 	CMStringA szSecret(root["secret"].as_mstring());
-	size_t secretLen;
-	void *pSecret = mir_base64_decode(szSecret, &secretLen);
+	if (!ProcessSecret(szSecret)) {
+		ShutdownSession();
+		return;
+	}
 
 	setWString(DBKEY_NICK, root["pushname"].as_mstring());
 	setWString(DBKEY_CLIENT_TOKEN, root["clientToken"].as_mstring());

@@ -57,6 +57,7 @@ EXPORTS
    ec_key_pair_get_public
    ec_key_pair_get_private
    ec_private_key_serialize
+   ec_key_pair_destroy
    ratchet_identity_key_pair_get_public
    ratchet_identity_key_pair_get_private
    signal_protocol_key_helper_generate_identity_key_pair
@@ -95,3 +96,8 @@ EXPORTS
 	displayable_fingerprint_local
 	displayable_fingerprint_remote
 	ciphertext_message_get_type
+   curve_calculate_agreement
+   curve_decode_private_point
+   hkdf_create
+   hkdf_expand
+   hkdf_destroy

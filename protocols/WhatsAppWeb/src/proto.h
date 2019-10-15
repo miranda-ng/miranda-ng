@@ -41,6 +41,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	CMStringW m_tszAvatarFolder;
 
 	MBinBuffer mac_key, enc_key;
+	bool getBlob(const char *pSetting, MBinBuffer &buf);
 
 	EVP_PKEY *m_pKeys; // private & public keys
 
@@ -64,7 +65,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void StartSession(void);
 	void ShutdownSession(void);
 
-	void ProcessChallenge(const CMStringA &szChallenge);
+	bool ProcessChallenge(const CMStringA &szChallenge);
+	bool ProcessSecret(const CMStringA &szSecret);
 
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
@@ -132,6 +134,8 @@ public:
 
 struct CMPlugin : public ACCPROTOPLUGIN<WhatsAppProto>
 {
+	signal_context *pCtx;
+
 	CMPlugin();
 
 	int Load() override;

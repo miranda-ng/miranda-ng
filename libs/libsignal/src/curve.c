@@ -264,7 +264,7 @@ ec_private_key *ec_key_pair_get_private(const ec_key_pair *key_pair)
     return key_pair->private_key;
 }
 
-void ec_key_pair_destroy(signal_type_base *type)
+void ec_key_pair_destroy(ec_key_pair *type)
 {
     ec_key_pair *key_pair = (ec_key_pair *)type;
     SIGNAL_UNREF(key_pair->public_key);

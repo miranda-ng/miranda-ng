@@ -17,8 +17,11 @@ Copyright © 2019 George Hazan
 #define DBKEY_SERVER_TOKEN            "ServerToken"
 #define DBKEY_BROWSER_TOKEN           "BrowserToken"
 
-#define DBKEY_PUBKEY                  "PublicKey"
-#define DBKEY_PRIVATEKEY              "PrivateKey"
+#define DBKEY_PUB_KEY                 "PublicKey"
+#define DBKEY_PRIVATE_KEY             "PrivateKey"
+
+#define DBKEY_MAC_KEY                 "MacKey"
+#define DBKEY_ENC_KEY                 "EncKey"
 
 #define DBKEY_NICK                    "Nick"
 #define DBKEY_DEF_GROUP               "DefaultGroup"
