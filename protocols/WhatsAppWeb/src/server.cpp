@@ -199,9 +199,56 @@ void WhatsAppProto::OnLoggedOut(void)
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::ProcessChallenge(const CMStringA &szChallenge)
+{
+	if (mac_key.isEmpty()) {
+		ShutdownSession();
+		return;
+	}
+
+	size_t cbLen;
+	void *pChallenge = mir_base64_decode(szChallenge, &cbLen);
+
+	BYTE digest[32];
+	unsigned cbResult = sizeof(digest);
+	HMAC(EVP_sha256(), mac_key.data(), mac_key.length(), (BYTE*)pChallenge, cbLen, digest, &cbResult);
+
+	ptrA szServer(getStringA(DBKEY_SERVER_TOKEN));
+	CMStringA payload(FORMAT, "[\"admin\",\"challenge\",\"%s\",\"%s\",\"%s\"]",
+		ptrA(mir_base64_encode(digest, cbResult)).get(), szServer.get(), m_szClientId.c_str());
+	WSSend(payload);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::RestoreSession()
 {
+	ptrA szClient(getStringA(DBKEY_CLIENT_TOKEN)), szServer(getStringA(DBKEY_SERVER_TOKEN));
+	if (szClient == nullptr || szServer == nullptr) {
+		ShutdownSession();
+		return;
+	}
+
+	CMStringA payload(FORMAT, "[\"admin\",\"login\",\"%s\",\"%s\",\"%s\",\"takeover\"]", szClient.get(), szServer.get(), m_szClientId.c_str());
+	WSSend(payload, &WhatsAppProto::OnRestoreSession);
 }
+
+void WhatsAppProto::OnRestoreSession(const JSONNode &root)
+{
+	int status = root["status"].as_int();
+	if (status != 200) {
+		debugLogA("Attmept to restore session failed with error %d", status);
+		delSetting(DBKEY_CLIENT_TOKEN);
+		delSetting(DBKEY_SERVER_TOKEN);
+
+		ShutdownSession();
+		return;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::ShutdownSession()
 {
@@ -216,6 +263,8 @@ void WhatsAppProto::ShutdownSession()
 
 	OnLoggedOut();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::StartSession()
 {
@@ -400,6 +449,18 @@ void WhatsAppProto::ProcessPacket(const JSONNode &root)
 
 	if (szType == "Conn")
 		ProcessConn(content);
+	else if (szType == "Cmd")
+		ProcessCmd(content);
+}
+
+void WhatsAppProto::ProcessCmd(const JSONNode &root)
+{
+	CMStringW wszType(root["type"].as_mstring());
+	if (wszType == L"challenge") {
+		CMStringA szChallenge(root["challenge"].as_mstring());
+		if (!szChallenge.IsEmpty())
+			ProcessChallenge(szChallenge);
+	}
 }
 
 void WhatsAppProto::ProcessConn(const JSONNode &root)

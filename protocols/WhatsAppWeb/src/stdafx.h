@@ -43,6 +43,7 @@ Copyright © 2019 George Hazan
 #include <m_gui.h>
 
 #include <openssl/evp.h>
+#include <openssl/hmac.h>
 
 #include "../../libs/libqrencode/src/qrencode.h"
 #include "../../libs/libsignal/src/curve.h"

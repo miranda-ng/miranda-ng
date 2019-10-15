@@ -40,6 +40,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	CMStringA m_szJid, m_szClientId, m_szClientToken;
 	CMStringW m_tszAvatarFolder;
 
+	MBinBuffer mac_key, enc_key;
+
 	EVP_PKEY *m_pKeys; // private & public keys
 
 	bool ShowQrCode(const CMStringA &ref);
@@ -62,11 +64,15 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void StartSession(void);
 	void ShutdownSession(void);
 
+	void ProcessChallenge(const CMStringA &szChallenge);
+
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
+	void OnRestoreSession(const JSONNode &node);
 	void OnStartSession(const JSONNode &node);
 
 	void ProcessPacket(const JSONNode &node);
+	void ProcessCmd(const JSONNode &node);
 	void ProcessConn(const JSONNode &node);
 
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
