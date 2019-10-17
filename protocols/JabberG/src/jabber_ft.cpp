@@ -99,8 +99,13 @@ void CJabberProto::FtInitiate(const char* jid, filetransfer *ft)
 			struct _stat64 st;
 			_wstat64(ft->std.szCurrentFile.w, &st);
 
+			auto *pwszContentType = ProtoGetAvatarMimeType(ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w));
+			if (pwszContentType == nullptr)
+				pwszContentType = "application/octet-stream";
+
 			XmlNodeIq iq(AddIQ(&CJabberProto::OnHttpSlotAllocated, JABBER_IQ_TYPE_GET, szUploadService, ft));
-			iq << XCHILDNS("request", "urn:xmpp:http:upload:0") << XATTR("filename", T2Utf(filename)) << XATTRI64("size", st.st_size);
+			iq << XCHILDNS("request", "urn:xmpp:http:upload:0") 
+				<< XATTR("filename", T2Utf(filename)) << XATTRI64("size", st.st_size) << XATTR("content-type", pwszContentType);
 			m_ThreadInfo->send(iq);
 			return;
 		}
