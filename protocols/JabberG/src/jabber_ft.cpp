@@ -75,27 +75,43 @@ void CJabberProto::FtCancel(filetransfer *ft)
 
 ///////////////// File sending using stream initiation /////////////////////////
 
-void CJabberProto::FtInitiate(char* jid, filetransfer *ft)
+void CJabberProto::FtInitiate(const char* jid, filetransfer *ft)
 {
-	char *rs;
-	int i;
-	char sid[9];
-
-	if (jid == nullptr || ft == nullptr || !m_bJabberOnline || (rs = ListGetBestClientResourceNamePtr(jid)) == nullptr) {
+	char *rs = ListGetBestClientResourceNamePtr(jid);
+	if (ft == nullptr || !m_bJabberOnline || rs == nullptr) {
 		if (ft) {
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 			delete ft;
 		}
 		return;
 	}
-	ft->type = FT_SI;
-	for (i = 0; i < 8; i++)
-		sid[i] = (rand() % 10) + '0';
-	sid[8] = '\0';
-	replaceStr(ft->sid, sid);
+
 	wchar_t *filename = ft->std.pszFiles.w[ft->std.currentFileNumber];
 	if (wchar_t *p = wcsrchr(filename, '\\'))
 		filename = p + 1;
+
+	// if we use XEP-0363, send a slot allocation request
+	if (m_bUseHttpUpload) {
+		ptrA szUploadService(getStringA("HttpUpload"));
+		if (szUploadService != nullptr) {
+			ft->type = FT_HTTP;
+
+			struct _stat64 st;
+			_wstat64(ft->std.szCurrentFile.w, &st);
+
+			XmlNodeIq iq(AddIQ(&CJabberProto::OnHttpSlotAllocated, JABBER_IQ_TYPE_GET, szUploadService, ft));
+			iq << XCHILDNS("request", "urn:xmpp:http:upload:0") << XATTR("filename", T2Utf(filename)) << XATTRI64("size", st.st_size);
+			m_ThreadInfo->send(iq);
+			return;
+		}
+	}
+
+	ft->type = FT_SI;
+	char sid[9];
+	for (int i = 0; i < 8; i++)
+		sid[i] = (rand() % 10) + '0';
+	sid[8] = '\0';
+	replaceStr(ft->sid, sid);
 
 	auto *pIq = AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, MakeJid(jid, rs), ft);
 	pIq->SetParamsToParse(JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO);
@@ -178,12 +194,13 @@ void CJabberProto::OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo
 
 BOOL CJabberProto::FtSend(HNETLIBCONN hConn, filetransfer *ft)
 {
-	struct _stati64 statbuf;
 	int fd;
 	char* buffer;
 	int numRead;
 
 	debugLogW(L"Sending [%s]", ft->std.pszFiles.w[ft->std.currentFileNumber]);
+
+	struct _stat64 statbuf;
 	_wstat64(ft->std.pszFiles.w[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 	if ((fd = _wopen(ft->std.pszFiles.w[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY)) < 0) {
 		debugLogA("File cannot be opened");
@@ -215,7 +232,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 {
 	debugLogW(L"Sending [%s]", ft->std.pszFiles.w[ft->std.currentFileNumber]);
 
-	struct _stati64 statbuf;
+	struct _stat64 statbuf;
 	_wstat64(ft->std.pszFiles.w[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
 
 	int fd = _wopen(ft->std.pszFiles.w[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY);
@@ -526,4 +543,90 @@ void CJabberProto::FtReceiveFinal(BOOL success, filetransfer *ft)
 	else debugLogA("File transfer complete with error");
 
 	delete ft;
+}
+
+void CJabberProto::OnHttpSlotAllocated(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+{
+	filetransfer *ft = (filetransfer *)pInfo->GetUserData();
+	if (!ft)
+		return;
+
+	if (pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT) {
+		debugLogA("HTTP upload aborted");
+LBL_Fail:
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, pInfo->GetIqType() == JABBER_IQ_TYPE_ERROR ? ACKRESULT_DENIED : ACKRESULT_FAILED, ft, 0);
+		delete ft;
+		return;
+	}
+
+	if (auto *slotNode = XmlFirstChild(iqNode, "slot")) {
+		if (auto *putNode = XmlFirstChild(slotNode, "put")) {
+			if (auto *szUrl = putNode->Attribute("url")) {
+				NETLIBHTTPHEADER hdr[10];
+
+				NETLIBHTTPREQUEST nlhr = {};
+				nlhr.cbSize = sizeof(nlhr);
+				nlhr.requestType = REQUEST_PUT;
+				nlhr.flags = NLHRF_NODUMPSEND | NLHRF_SSL | NLHRF_REDIRECT;
+				nlhr.szUrl = (char *)szUrl;
+
+				for (auto *it : TiXmlFilter(putNode, "header")) {
+					auto *szName = it->Attribute("name");
+					auto *szValue = it->GetText();
+					if (szName && szValue && nlhr.headersCount < _countof(hdr)) {
+						nlhr.headers = hdr;
+						hdr[nlhr.headersCount].szName = (char *)szName;
+						hdr[nlhr.headersCount].szValue = (char *)szValue;
+						nlhr.headersCount++;
+					}
+				}
+
+				const wchar_t *pwszFileName = ft->std.pszFiles.w[ft->std.currentFileNumber];
+
+				int fileId = _wopen(pwszFileName, _O_BINARY | _O_RDONLY);
+				if (fileId < 0) {
+					debugLogA("error opening file %S", pwszFileName);
+					goto LBL_Fail;
+				}
+
+				nlhr.dataLength = _filelength(fileId);
+				nlhr.pData = new char[nlhr.dataLength];
+				_read(fileId, nlhr.pData, nlhr.dataLength);
+				_close(fileId);
+
+				NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
+				if (res == nullptr) {
+					debugLogA("error uploading file %S", pwszFileName);
+					goto LBL_Fail;
+				}
+				
+				switch (res->resultCode) {
+				case 200: // ok
+				case 201: // created
+					break;
+
+				default:
+					debugLogA("error uploading file %S: error %d", pwszFileName, res->resultCode);
+					Netlib_FreeHttpRequest(res);
+					goto LBL_Fail;
+				}
+
+				Netlib_FreeHttpRequest(res);
+
+				// this parameter is optional, if not specified we simply use upload URL
+				auto *szGetUrl = XmlGetAttr(XmlFirstChild(slotNode, "get"), "url");
+				if (szGetUrl)
+					SendMsg(ft->std.hContact, 0, szGetUrl);
+				else
+					SendMsg(ft->std.hContact, 0, szUrl);
+
+				ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+				delete ft;
+				return;
+			}
+		}
+	}
+	
+	debugLogA("wrong or not recognizable http slot received");
+	goto LBL_Fail;
 }

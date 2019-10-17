@@ -128,6 +128,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bProcessXMPPLinks(this, "ProcessXMPPLinks", false),
 	m_bIgnoreRosterGroups(this, "IgnoreRosterGroups", false),
 	m_bEnableCarbons(this, "EnableCarbons", true),
+	m_bUseHttpUpload(this, "UseHttpUpload", false),
 	m_bUseOMEMO(this, "UseOMEMO", false),
 	m_bEnableStreamMgmt(this, "UseStreamMgmt", false)
 {
@@ -839,31 +840,31 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 	if (item->ft != nullptr)
 		return nullptr;
 
-	JabberCapsBits jcb = GetResourceCapabilities(item->jid);
-	if (jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS) {
-		Sleep(600);
-		jcb = GetResourceCapabilities(item->jid);
-	}
+	JabberCapsBits jcb = 0;
+	if (!m_bUseHttpUpload) {
+		GetResourceCapabilities(item->jid);
+		if (jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS) {
+			Sleep(600);
+			jcb = GetResourceCapabilities(item->jid);
+		}
 
-	// fix for very smart clients, like gajim
-	if (!m_bBsDirect && !m_bBsProxyManual) {
-		// disable bytestreams
-		jcb &= ~JABBER_CAPS_BYTESTREAMS;
-	}
+		// fix for very smart clients, like gajim
+		if (!m_bBsDirect && !m_bBsProxyManual) {
+			// disable bytestreams
+			jcb &= ~JABBER_CAPS_BYTESTREAMS;
+		}
 
-	// if only JABBER_CAPS_SI_FT feature set (without BS or IBB), disable JABBER_CAPS_SI_FT
-	if ((jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_IBB | JABBER_CAPS_BYTESTREAMS)) == JABBER_CAPS_SI_FT)
-		jcb &= ~JABBER_CAPS_SI_FT;
+		// if only JABBER_CAPS_SI_FT feature set (without BS or IBB), disable JABBER_CAPS_SI_FT
+		if ((jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_IBB | JABBER_CAPS_BYTESTREAMS)) == JABBER_CAPS_SI_FT)
+			jcb &= ~JABBER_CAPS_SI_FT;
 
-	if (
-		// can't get caps
-		(jcb & JABBER_RESOURCE_CAPS_ERROR)
-		// caps not already received
-		|| (jcb == JABBER_RESOURCE_CAPS_NONE)
-		// XEP-0096 and OOB not supported?
-		|| !(jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_OOB))) {
-		MsgPopup(hContact, TranslateT("No compatible file transfer mechanism exists"), Utf2T(item->jid));
-		return nullptr;
+		if ((jcb & JABBER_RESOURCE_CAPS_ERROR) // can't get caps
+			|| (jcb == JABBER_RESOURCE_CAPS_NONE) // caps not already received
+			|| !(jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_OOB))) // XEP-0096 and OOB not supported?
+		{
+			MsgPopup(hContact, TranslateT("No compatible file transfer mechanism exists"), Utf2T(item->jid));
+			return nullptr;
+		}
 	}
 
 	filetransfer *ft = new filetransfer(this);
@@ -876,7 +877,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 
 	int i, j;
 	for (i = j = 0; i < ft->std.totalFiles; i++) {
-		struct _stati64 statbuf;
+		struct _stat64 statbuf;
 		if (_wstat64(ppszFiles[i], &statbuf))
 			debugLogW(L"'%s' is an invalid filename", ppszFiles[i]);
 		else {
@@ -895,7 +896,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 	ft->szDescription = mir_wstrdup(szDescription);
 	ft->jid = mir_strdup(jid);
 
-	if (jcb & JABBER_CAPS_SI_FT)
+	if (m_bUseHttpUpload || (jcb & JABBER_CAPS_SI_FT))
 		FtInitiate(item->jid, ft);
 	else if (jcb & JABBER_CAPS_OOB)
 		ForkThread((MyThreadFunc)&CJabberProto::FileServerThread, ft);
@@ -951,7 +952,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		}
 	}
 
-	int  isEncrypted, id = SerialNext();
+	int isEncrypted, id = SerialNext();
 	if (!strncmp(pszSrc, PGP_PROLOG, mir_strlen(PGP_PROLOG))) {
 		const char *szEnd = strstr(pszSrc, PGP_EPILOG);
 		char *tempstring = (char*)alloca(mir_strlen(pszSrc) + 2);

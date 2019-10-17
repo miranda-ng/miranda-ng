@@ -86,12 +86,12 @@ static sttNodeIcons[] =
 
 	{ nullptr,   "store",          nullptr,         IDI_NODE_STORE,   0                        },
 
-	//   icons for non-standard identities
+	// icons for non-standard identities
 	{ nullptr,   "x-service",      "x-rss",         IDI_NODE_RSS,     0                        },
 	{ nullptr,   "application",    "x-weather",     IDI_NODE_WEATHER, 0                        },
 	{ nullptr,   "user",           nullptr,         0,                SKINICON_STATUS_ONLINE   },
 
-	//   icon suggestions based on supported features
+	// icon suggestions based on supported features
 	{ "jabber:iq:gateway",  nullptr, nullptr,      IDI_AGENTS,        0                        },
 	{ JABBER_FEAT_JUD,      nullptr, nullptr,      0,                 SKINICON_OTHER_FINDUSER  },
 	{ JABBER_FEAT_COMMANDS, nullptr, nullptr,      IDI_COMMAND,       0                        },
@@ -1026,7 +1026,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		SD_ACT_LOGON = 100, SD_ACT_LOGOFF, SD_ACT_UNREGISTER,
 
 		SD_ACT_REGISTER = 200, SD_ACT_ADHOC, SD_ACT_ADDDIRECTORY,
-		SD_ACT_JOIN, SD_ACT_BOOKMARK, SD_ACT_PROXY, SD_ACT_VCARD
+		SD_ACT_JOIN, SD_ACT_BOOKMARK, SD_ACT_PROXY, SD_ACT_VCARD, SD_ACT_UPLOAD
 	};
 
 	enum
@@ -1063,6 +1063,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{ JABBER_FEAT_MUC,           LPGENW("Bookmark chatroom"),     SD_ACT_BOOKMARK,         SD_FLG_NORESOURCE | SD_FLG_HASUSER},
 		{ JABBER_FEAT_JUD,           LPGENW("Add search directory"),  SD_ACT_ADDDIRECTORY},
 		{ JABBER_FEAT_BYTESTREAMS,   LPGENW("Use this proxy"),        SD_ACT_PROXY},
+		{ JABBER_FEAT_UPLOAD,        LPGENW("Use for uploads"),       SD_ACT_UPLOAD},
 		{ nullptr },
 		{ JABBER_FEAT_REGISTER,      LPGENW("Register"),              SD_ACT_REGISTER},
 		{ "jabber:iq:gateway",       LPGENW("Unregister"),            SD_ACT_UNREGISTER,       SD_FLG_ONROSTER | SD_FLG_SUBSCRIBED},
@@ -1129,7 +1130,20 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 		if (bFeatureOk) {
 			if (it.title) {
-				AppendMenu(hMenu, MF_STRING, it.action, TranslateW(it.title));
+				UINT dwFlags = MF_STRING;
+				switch (it.action) {
+				case SD_ACT_PROXY:
+					if (m_bBsProxyManual)
+						dwFlags += MF_CHECKED;
+					break;
+
+				case SD_ACT_UPLOAD:
+					if (m_bUseHttpUpload)
+						dwFlags += MF_CHECKED;
+					break;
+				}
+
+				AppendMenu(hMenu, dwFlags, it.action, TranslateW(it.title));
 				lastSeparator = FALSE;
 			}
 			else if (!lastSeparator) {
@@ -1231,8 +1245,13 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		break;
 
 	case SD_ACT_PROXY:
-		m_bBsProxyManual = true;
+		m_bBsProxyManual = !m_bBsProxyManual;
 		setUString("BsProxyServer", pNode->GetJid());
+		break;
+
+	case SD_ACT_UPLOAD:
+		m_bUseHttpUpload = !m_bUseHttpUpload;
+		setUString("HttpUpload", pNode->GetJid());
 		break;
 
 	case SD_ACT_JOIN:

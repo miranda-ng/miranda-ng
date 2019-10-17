@@ -195,6 +195,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_CSI                         "urn:xmpp:csi:0"
 #define JABBER_FEAT_JUD									"jabber:iq:search"
 #define JABBER_FEAT_SERVER_AVATAR               "storage:client:avatar"
+#define JABBER_FEAT_UPLOAD                      "urn:xmpp:http:upload"
 
 #define JABBER_FEAT_PUBSUB_EVENT                "http://jabber.org/protocol/pubsub#event"
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          "http://jabber.org/protocol/pubsub#node_config"

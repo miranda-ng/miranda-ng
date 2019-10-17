@@ -186,6 +186,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<BYTE> m_bProcessXMPPLinks;
 	CMOption<BYTE> m_bIgnoreRosterGroups;
 	CMOption<BYTE> m_bEnableCarbons;
+	CMOption<BYTE> m_bUseHttpUpload;
 	CMOption<BYTE> m_bUseOMEMO;
 	CMOption<BYTE> m_bEnableStreamMgmt;
 
@@ -457,7 +458,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   __cdecl FileServerThread(filetransfer *ft);
 
 	void   FtCancel(filetransfer *ft);
-	void   FtInitiate(char* jid, filetransfer *ft);
+	void   FtInitiate(const char* jid, filetransfer *ft);
 	void   FtHandleSiRequest(const TiXmlElement *iqNode);
 	void   FtAcceptSiRequest(filetransfer *ft);
 	void   FtAcceptIbbRequest(filetransfer *ft);
@@ -549,6 +550,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnIbbCloseResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	BOOL   OnFtHandleIbbIq(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	BOOL   OnIbbRecvdData(const char *data, const char *sid, const char *seq);
+
+	void   OnHttpSlotAllocated(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 	void   OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	BOOL   FtIbbSend(int blocksize, filetransfer *ft);
