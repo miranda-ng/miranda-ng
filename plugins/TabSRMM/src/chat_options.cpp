@@ -250,7 +250,7 @@ void RegisterFontServiceFonts()
 	for (auto &it : IM_fontOptionsList) {
 		fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS;
 		LoadMsgDlgFont(FONTSECTION_IM, i, &lf, &it.colour, FONTMODULE);
-		mir_snprintf(fid.setting, "Font%d", i++);
+		mir_snprintf(fid.setting, "Font%d", i);
 		fid.order = i;
 		wcsncpy(fid.name, it.szDescr, _countof(fid.name));
 		fid.deffontsettings.colour = it.colour;
@@ -263,22 +263,29 @@ void RegisterFontServiceFonts()
 		wcsncpy(fid.group, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), _countof(fid.group));
 		switch (i) {
 		case MSGFONTID_MYMSG:
-		case 1:
+		case MSGFONTID_MYMISC:
 		case MSGFONTID_MYNAME:
 		case MSGFONTID_MYTIME:
-		case 21:
+		case MSGFONTID_SYMBOLS_OUT:
 			wcsncpy(fid.backgroundName, LPGENW("Outgoing background"), _countof(fid.backgroundName));
 			break;
-		case 8:
-		case 9:
-		case 12:
-		case 13:
+		case H_MSGFONTID_MYMSG:
+		case H_MSGFONTID_MYMISC:
+		case H_MSGFONTID_MYNAME:
+		case H_MSGFONTID_MYTIME:
+		case MSGFONTID_SYMBOLS_IN:
 			wcsncpy(fid.backgroundName, LPGENW("Outgoing background(old)"), _countof(fid.backgroundName));
 			break;
-		case 10:
-		case 11:
-		case 14:
-		case 15:
+		case MSGFONTID_YOURMSG:
+		case MSGFONTID_YOURMISC:
+		case MSGFONTID_YOURNAME:
+		case MSGFONTID_YOURTIME:
+			wcsncpy(fid.backgroundName, LPGENW("Incoming background"), _countof(fid.backgroundName));
+			break;
+		case H_MSGFONTID_YOURMSG:
+		case H_MSGFONTID_YOURMISC:
+		case H_MSGFONTID_YOURNAME:
+		case H_MSGFONTID_YOURTIME:
 			wcsncpy(fid.backgroundName, LPGENW("Incoming background(old)"), _countof(fid.backgroundName));
 			break;
 		case MSGFONTID_MESSAGEAREA:
@@ -286,23 +293,21 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.backgroundGroup, LPGENW("Message sessions"), _countof(fid.backgroundGroup));
 			wcsncpy(fid.backgroundName, LPGENW("Input area background"), _countof(fid.backgroundName));
 			break;
-		case 17:
+		case H_MSGFONTID_STATUSCHANGES:
 			fid.flags |= FIDF_DISABLESTYLES;
 			fid.flags &= ~FIDF_ALLOWEFFECTS;
 			wcsncpy(fid.backgroundName, LPGENW("Status background"), _countof(fid.backgroundName));
 			break;
-		case 18:
+		case H_MSGFONTID_DIVIDERS:
 			wcsncpy(fid.backgroundGroup, LPGENW("Message sessions"), _countof(fid.backgroundGroup));
 			wcsncpy(fid.backgroundName, LPGENW("Log background"), _countof(fid.backgroundName));
 			break;
-		case 19:
+		case MSGFONTID_ERROR:
 			wcsncpy(fid.backgroundName, L"", _countof(fid.backgroundName));
-			break;
-		default:
-			wcsncpy(fid.backgroundName, LPGENW("Incoming background"), _countof(fid.backgroundName));
 			break;
 		}
 		g_plugin.addFont(&fid);
+		i++;
 	}
 
 	i = 0;
