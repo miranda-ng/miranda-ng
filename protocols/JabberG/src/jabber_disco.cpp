@@ -93,7 +93,7 @@ static sttNodeIcons[] =
 
 	//   icon suggestions based on supported features
 	{ "jabber:iq:gateway",  nullptr, nullptr,      IDI_AGENTS,        0                        },
-	{ "jabber:iq:search",   nullptr, nullptr,      0,                 SKINICON_OTHER_FINDUSER  },
+	{ JABBER_FEAT_JUD,      nullptr, nullptr,      0,                 SKINICON_OTHER_FINDUSER  },
 	{ JABBER_FEAT_COMMANDS, nullptr, nullptr,      IDI_COMMAND,       0                        },
 	{ JABBER_FEAT_REGISTER, nullptr, nullptr,      0,                 SKINICON_OTHER_KEYS      },
 };
@@ -1061,7 +1061,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{ nullptr,                   LPGENW("Add to favorites"),      SD_ACT_FAVORITE},
 		{ nullptr,                   LPGENW("Add to roster"),         SD_ACT_ROSTER,           SD_FLG_NONODE | SD_FLG_NOTONROSTER},
 		{ JABBER_FEAT_MUC,           LPGENW("Bookmark chatroom"),     SD_ACT_BOOKMARK,         SD_FLG_NORESOURCE | SD_FLG_HASUSER},
-		{ "jabber:iq:search",        LPGENW("Add search directory"),  SD_ACT_ADDDIRECTORY},
+		{ JABBER_FEAT_JUD,           LPGENW("Add search directory"),  SD_ACT_ADDDIRECTORY},
 		{ JABBER_FEAT_BYTESTREAMS,   LPGENW("Use this proxy"),        SD_ACT_PROXY},
 		{ nullptr },
 		{ JABBER_FEAT_REGISTER,      LPGENW("Register"),              SD_ACT_REGISTER},
@@ -1227,12 +1227,11 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		break;
 
 	case SD_ACT_ADDDIRECTORY:
-		SearchAddToRecent(pNode->GetJid());
+		setUString("Jud", pNode->GetJid());
 		break;
 
 	case SD_ACT_PROXY:
-		m_bBsDirect = FALSE;
-		m_bBsProxyManual = TRUE;
+		m_bBsProxyManual = true;
 		setUString("BsProxyServer", pNode->GetJid());
 		break;
 

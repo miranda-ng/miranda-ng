@@ -457,7 +457,7 @@ int CJabberProto::SearchRenewFields(HWND hwndDlg, JabberSearchData *dat)
 	searchHandleDlg = hwndDlg;
 
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultGetSearchFields, JABBER_IQ_TYPE_GET, T2Utf(szServerName));
-	m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY("jabber:iq:search"));
+	m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_JUD));
 	return pInfo->GetIqId();
 }
 
@@ -519,20 +519,22 @@ void CJabberProto::SearchAddToRecent(const char *szAddr, HWND hwndDialog)
 
 static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	JabberSearchData* dat = (JabberSearchData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	JabberSearchData *dat = (JabberSearchData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
 			dat = new JabberSearchData();
-			dat->ppro = (CJabberProto*)lParam;
+			dat->ppro = (CJabberProto *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 			/* Server Combo box */
 			ptrA jud(dat->ppro->getStringA("Jud"));
-			char *szServerName = (jud == nullptr) ? "users.jabber.org" : jud.get();
-			SetDlgItemTextA(hwndDlg, IDC_SERVER, szServerName);
-			SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)szServerName);
+			if (jud != nullptr) {
+				SetDlgItemTextA(hwndDlg, IDC_SERVER, jud);
+				SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, jud);
+			}
+
 			//TO DO: Add Transports here
 			for (auto &it : dat->ppro->m_lstTransports)
 				if (it != nullptr)
@@ -601,7 +603,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 				dat->doc.DeleteNode(dat->xNode);
 				dat->xNode = nullptr;
 			}
-			TiXmlElement *pNode = (TiXmlElement*)wParam;
+			TiXmlElement *pNode = (TiXmlElement *)wParam;
 			if (pNode) {
 				dat->xNode = pNode->DeepClone(&dat->doc)->ToElement();
 				JabberFormCreateUI(GetDlgItem(hwndDlg, IDC_FRAME), dat->xNode, &dat->CurrentHeight, TRUE);
@@ -613,7 +615,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 
 	case WM_USER + 10:
 		{
-			Data *MyDat = (Data*)lParam;
+			Data *MyDat = (Data *)lParam;
 			if (MyDat) {
 				dat->fSearchRequestIsXForm = (BOOL)wParam;
 				dat->CurrentHeight = JabberSearchAddField(hwndDlg, MyDat);
@@ -636,7 +638,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
 			if (zDelta) {
 				int nScrollLines = 0;
-				SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, (void*)&nScrollLines, 0);
+				SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, (void *)&nScrollLines, 0);
 				for (int i = 0; i < (nScrollLines + 1) / 2; i++)
 					SendMessage(hwndDlg, WM_VSCROLL, (zDelta < 0) ? SB_LINEDOWN : SB_LINEUP, 0);
 			}
@@ -673,7 +675,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 					ScrollWindow(GetDlgItem(hwndDlg, IDC_FRAME), 0, dat->curPos - pos, nullptr, &(dat->frameRect));
 					SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, pos, TRUE);
 					RECT Invalid = dat->frameRect;
-					if (dat->curPos - pos >0)
+					if (dat->curPos - pos > 0)
 						Invalid.bottom = Invalid.top + (dat->curPos - pos);
 					else
 						Invalid.top = Invalid.bottom + (dat->curPos - pos);
@@ -714,7 +716,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 	if (!m_bJabberOnline || !hwndDlg)
 		return nullptr;	//error
 
-	JabberSearchData * dat = (JabberSearchData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	JabberSearchData *dat = (JabberSearchData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (!dat)
 		return nullptr; //error
 
@@ -732,7 +734,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 	// formating query
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultAdvancedSearch, JABBER_IQ_TYPE_SET, T2Utf(szServerName));
 	XmlNodeIq iq(pInfo);
-	TiXmlElement *query = iq << XQUERY("jabber:iq:search");
+	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_JUD);
 
 	if (m_tszSelectedLang)
 		iq << XATTR("xml:lang", m_tszSelectedLang); // i'm sure :)

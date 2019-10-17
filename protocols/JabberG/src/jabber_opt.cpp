@@ -349,7 +349,6 @@ class CDlgOptAccount : public CJabberDlgBase
 	CCtrlEdit		m_txtManualPort;
 	CCtrlCheck		m_chkKeepAlive;
 	CCtrlCheck		m_chkAutoDeleteContacts;
-	CCtrlEdit		m_txtUserDirectory;
 	CCtrlCombo		m_cbLocale;
 	CCtrlButton		m_btnRegister;
 	CCtrlButton		m_btnUnregister;
@@ -375,7 +374,6 @@ public:
 		m_txtManualPort(this, IDC_HOSTPORT),
 		m_chkKeepAlive(this, IDC_KEEPALIVE),
 		m_chkAutoDeleteContacts(this, IDC_ROSTER_SYNC),
-		m_txtUserDirectory(this, IDC_JUD),
 		m_cbLocale(this, IDC_MSGLANG),
 		m_btnRegister(this, IDC_BUTTON_REGISTER),
 		m_btnUnregister(this, IDC_UNREGISTER),
@@ -398,7 +396,6 @@ public:
 		CreateLink(m_txtManualPort, "ManualPort", DBVT_WORD, 0);
 		CreateLink(m_chkKeepAlive, proto->m_bKeepAlive);
 		CreateLink(m_chkAutoDeleteContacts, proto->m_bRosterSync);
-		CreateLink(m_txtUserDirectory, "Jud", L"");
 
 		// Bind events
 		m_cbServer.OnDropdown = Callback(this, &CDlgOptAccount::cbServer_OnDropdown);
@@ -741,9 +738,7 @@ class CDlgOptAdvanced : public CJabberDlgBase
 
 	CCtrlCheck		m_chkDirect;
 	CCtrlCheck		m_chkDirectManual;
-	CCtrlCheck		m_chkProxy;
 	CCtrlEdit		m_txtDirect;
-	CCtrlEdit		m_txtProxy;
 	CCtrlTreeOpts	m_otvOptions;
 
 	BYTE m_oldFrameValue;
@@ -753,21 +748,15 @@ public:
 		CJabberDlgBase(proto, IDD_OPT_JABBER2),
 		m_chkDirect(this, IDC_DIRECT),
 		m_chkDirectManual(this, IDC_DIRECT_MANUAL),
-		m_chkProxy(this, IDC_PROXY_MANUAL),
 		m_txtDirect(this, IDC_DIRECT_ADDR),
-		m_txtProxy(this, IDC_PROXY_ADDR),
 		m_otvOptions(this, IDC_OPTTREE),
 		m_oldFrameValue(proto->m_bDisableFrame)
 	{
 		CreateLink(m_chkDirect, proto->m_bBsDirect);
 		CreateLink(m_chkDirectManual, proto->m_bBsDirectManual);
-		CreateLink(m_chkProxy, proto->m_bBsProxyManual);
 		CreateLink(m_txtDirect, "BsDirectAddr", L"");
-		CreateLink(m_txtProxy, "BsProxyServer", L"");
 
-		m_chkDirect.OnChange =
-			m_chkDirectManual.OnChange = Callback(this, &CDlgOptAdvanced::chkDirect_OnChange);
-		m_chkProxy.OnChange = Callback(this, &CDlgOptAdvanced::chkProxy_OnChange);
+		m_chkDirect.OnChange = m_chkDirectManual.OnChange = Callback(this, &CDlgOptAdvanced::chkDirect_OnChange);
 
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Send messages slower, but with full acknowledgment"), m_proto->m_bMsgAck);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable avatars"), m_proto->m_bEnableAvatars);
@@ -807,7 +796,6 @@ public:
 		CSuper::OnInitDialog();
 
 		chkDirect_OnChange(&m_chkDirect);
-		chkProxy_OnChange(&m_chkProxy);
 		return true;
 	}
 
@@ -860,14 +848,6 @@ public:
 			m_txtDirect.Disable();
 			m_chkDirectManual.Disable();
 		}
-	}
-
-	void chkProxy_OnChange(CCtrlData *)
-	{
-		if (m_chkProxy.GetState() == BST_CHECKED)
-			m_txtProxy.Enable();
-		else
-			m_txtProxy.Disable();
 	}
 };
 

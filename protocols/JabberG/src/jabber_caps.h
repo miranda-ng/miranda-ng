@@ -46,116 +46,158 @@ typedef unsigned __int64 JabberCapsBits;
 
 #define JABBER_FEAT_DISCO_INFO                  "http://jabber.org/protocol/disco#info"
 #define JABBER_CAPS_DISCO_INFO                  ((JabberCapsBits)1)
+
 #define JABBER_FEAT_DISCO_ITEMS                 "http://jabber.org/protocol/disco#items"
 #define JABBER_CAPS_DISCO_ITEMS                 ((JabberCapsBits)1<<1)
+
 #define JABBER_FEAT_ENTITY_CAPS                 "http://jabber.org/protocol/caps"
 #define JABBER_CAPS_ENTITY_CAPS                 ((JabberCapsBits)1<<2)
+
 #define JABBER_FEAT_SI                          "http://jabber.org/protocol/si"
 #define JABBER_CAPS_SI                          ((JabberCapsBits)1<<3)
+
 #define JABBER_FEAT_SI_FT                       "http://jabber.org/protocol/si/profile/file-transfer"
 #define JABBER_CAPS_SI_FT                       ((JabberCapsBits)1<<4)
+
 #define JABBER_FEAT_BYTESTREAMS                 "http://jabber.org/protocol/bytestreams"
 #define JABBER_CAPS_BYTESTREAMS                 ((JabberCapsBits)1<<5)
+
 #define JABBER_FEAT_IBB                         "http://jabber.org/protocol/ibb"
 #define JABBER_CAPS_IBB                         ((JabberCapsBits)1<<6)
+
 #define JABBER_FEAT_OOB                         "jabber:iq:oob"
 #define JABBER_FEAT_OOB2                        "jabber:x:oob"
 #define JABBER_CAPS_OOB                         ((JabberCapsBits)1<<7)
+
 #define JABBER_FEAT_COMMANDS                    "http://jabber.org/protocol/commands"
 #define JABBER_CAPS_COMMANDS                    ((JabberCapsBits)1<<8)
+
 #define JABBER_FEAT_REGISTER                    "jabber:iq:register"
 #define JABBER_CAPS_REGISTER                    ((JabberCapsBits)1<<9)
+
 #define JABBER_FEAT_MUC                         "http://jabber.org/protocol/muc"
 #define JABBER_CAPS_MUC                         ((JabberCapsBits)1<<10)
+
 #define JABBER_FEAT_CHATSTATES                  "http://jabber.org/protocol/chatstates"
 #define JABBER_CAPS_CHATSTATES                  ((JabberCapsBits)1<<11)
+
 #define JABBER_FEAT_LAST_ACTIVITY               "jabber:iq:last"
 #define JABBER_CAPS_LAST_ACTIVITY               ((JabberCapsBits)1<<12)
+
 #define JABBER_FEAT_VERSION                     "jabber:iq:version"
 #define JABBER_CAPS_VERSION                     ((JabberCapsBits)1<<13)
+
 #define JABBER_FEAT_ENTITY_TIME                 "urn:xmpp:time"
 #define JABBER_CAPS_ENTITY_TIME                 ((JabberCapsBits)1<<14)
+
 #define JABBER_FEAT_PING                        "urn:xmpp:ping"
 #define JABBER_CAPS_PING                        ((JabberCapsBits)1<<15)
+
 #define JABBER_FEAT_DATA_FORMS                  "jabber:x:data"
 #define JABBER_CAPS_DATA_FORMS                  ((JabberCapsBits)1<<16)
+
 #define JABBER_FEAT_MESSAGE_EVENTS              "jabber:x:event"
 #define JABBER_CAPS_MESSAGE_EVENTS              ((JabberCapsBits)1<<17)
+
 #define JABBER_FEAT_VCARD_TEMP                  "vcard-temp"
 #define JABBER_CAPS_VCARD_TEMP                  ((JabberCapsBits)1<<18)
+
 #define JABBER_FEAT_XHTML                       "http://jabber.org/protocol/xhtml-im"
 #define JABBER_CAPS_XHTML                       ((JabberCapsBits)1<<20)
+
 #define JABBER_FEAT_AGENTS                      "jabber:iq:agents"
 #define JABBER_CAPS_AGENTS                      ((JabberCapsBits)1<<21)
+
 #define JABBER_FEAT_BROWSE                      "jabber:iq:browse"
 #define JABBER_CAPS_BROWSE                      ((JabberCapsBits)1<<22)
+
 #define JABBER_FEAT_FEATURE_NEG                 "http://jabber.org/protocol/feature-neg"
 #define JABBER_CAPS_FEATURE_NEG                 ((JabberCapsBits)1<<23)
+
 #define JABBER_FEAT_AMP                         "http://jabber.org/protocol/amp"
 #define JABBER_CAPS_AMP                         ((JabberCapsBits)1<<24)
+
 #define JABBER_FEAT_USER_MOOD                   "http://jabber.org/protocol/mood"
 #define JABBER_CAPS_USER_MOOD                   ((JabberCapsBits)1<<25)
+
 #define JABBER_FEAT_USER_MOOD_NOTIFY            "http://jabber.org/protocol/mood+notify"
 #define JABBER_CAPS_USER_MOOD_NOTIFY            ((JabberCapsBits)1<<26)
+
 #define JABBER_FEAT_PUBSUB                      "http://jabber.org/protocol/pubsub"
 #define JABBER_CAPS_PUBSUB                      ((JabberCapsBits)1<<27)
+
 #define JABBER_FEAT_SECUREIM                    "http://miranda-ng.org/caps/secureim"
 #define JABBER_CAPS_SECUREIM                    ((JabberCapsBits)1<<28)
-#define JABBER_FEAT_MIROTR                      "http://miranda-ng.org/caps/mirotr"
-#define JABBER_CAPS_MIROTR                      ((JabberCapsBits)1<<42)
-#define JABBER_FEAT_NEWGPG                      "http://miranda-ng.org/caps/new_gpg"
-#define JABBER_CAPS_NEWGPG                      ((JabberCapsBits)1<<43)
-#define JABBER_FEAT_OMEMO                       "eu.siacs.conversations.axolotl"
-#define JABBER_CAPS_OMEMO                       ((JabberCapsBits)1<<46)
-#define JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY     JABBER_FEAT_OMEMO ".devicelist+notify"
-#define JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY     ((JabberCapsBits)1<<47)
-#define JABBER_CAPS_PLATFORMX86                 ((JabberCapsBits)1<<44)
-#define JABBER_CAPS_PLATFORMX64                 ((JabberCapsBits)1<<45)
+
 #define JABBER_FEAT_PRIVACY_LISTS               "jabber:iq:privacy"
 #define JABBER_CAPS_PRIVACY_LISTS               ((JabberCapsBits)1<<29)
+
 #define JABBER_FEAT_MESSAGE_RECEIPTS            "urn:xmpp:receipts"
 #define JABBER_CAPS_MESSAGE_RECEIPTS            ((JabberCapsBits)1<<30)
+
 #define JABBER_FEAT_USER_TUNE                   "http://jabber.org/protocol/tune"
 #define JABBER_CAPS_USER_TUNE                   ((JabberCapsBits)1<<31)
+
 #define JABBER_FEAT_USER_TUNE_NOTIFY            "http://jabber.org/protocol/tune+notify"
 #define JABBER_CAPS_USER_TUNE_NOTIFY            ((JabberCapsBits)1<<32)
+
 #define JABBER_FEAT_PRIVATE_STORAGE             "jabber:iq:private"
 #define JABBER_CAPS_PRIVATE_STORAGE             ((JabberCapsBits)1<<33)
 
-#define JABBER_FEAT_SERVER_AVATAR               "storage:client:avatar"
-#define JABBER_FEAT_ARCHIVE                     "urn:xmpp:archive"
 #define JABBER_FEAT_ARCHIVE_AUTO                "urn:xmpp:archive:auto"
 #define JABBER_CAPS_ARCHIVE_AUTO                ((JabberCapsBits)1<<34)
+
 #define JABBER_FEAT_ARCHIVE_MANAGE              "urn:xmpp:archive:manage"
 #define JABBER_CAPS_ARCHIVE_MANAGE              ((JabberCapsBits)1<<35)
-
-#define JABBER_FEAT_BIND                        "urn:ietf:params:xml:ns:xmpp-bind"
-#define JABBER_FEAT_CAPTCHA                     "urn:xmpp:captcha"
-#define JABBER_FEAT_CSI                         "urn:xmpp:csi:0"
 
 #define JABBER_FEAT_ATTENTION                   "urn:xmpp:attention:0"
 #define JABBER_CAPS_ATTENTION                   ((JabberCapsBits)1<<36)
 
-// deferred
 #define JABBER_FEAT_USER_ACTIVITY               "http://jabber.org/protocol/activity"
 #define JABBER_CAPS_USER_ACTIVITY               ((JabberCapsBits)1<<37)
+
 #define JABBER_FEAT_USER_ACTIVITY_NOTIFY        "http://jabber.org/protocol/activity+notify"
 #define JABBER_CAPS_USER_ACTIVITY_NOTIFY        ((JabberCapsBits)1<<38)
+
 #define JABBER_FEAT_MIRANDA_NOTES               "http://miranda-ng.org/storage#notes"
 #define JABBER_CAPS_MIRANDA_NOTES               ((JabberCapsBits)1<<39)
+
 #define JABBER_FEAT_JINGLE                      "urn:xmpp:jingle:1"
 #define JABBER_CAPS_JINGLE                      ((JabberCapsBits)1<<40)
+
 #define JABBER_FEAT_ROSTER_EXCHANGE             "http://jabber.org/protocol/rosterx"
 #define JABBER_CAPS_ROSTER_EXCHANGE             ((JabberCapsBits)1<<41)
 
+#define JABBER_FEAT_MIROTR                      "http://miranda-ng.org/caps/mirotr"
+#define JABBER_CAPS_MIROTR                      ((JabberCapsBits)1<<42)
+
+#define JABBER_FEAT_NEWGPG                      "http://miranda-ng.org/caps/new_gpg"
+#define JABBER_CAPS_NEWGPG                      ((JabberCapsBits)1<<43)
+
+#define JABBER_CAPS_PLATFORMX86                 ((JabberCapsBits)1<<44)
+#define JABBER_CAPS_PLATFORMX64                 ((JabberCapsBits)1<<45)
+
+#define JABBER_FEAT_OMEMO                       "eu.siacs.conversations.axolotl"
+#define JABBER_CAPS_OMEMO                       ((JabberCapsBits)1<<46)
+
+#define JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY     JABBER_FEAT_OMEMO ".devicelist+notify"
+#define JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY     ((JabberCapsBits)1<<47)
+
 #define JABBER_FEAT_DIRECT_MUC_INVITE           "jabber:x:conference"
-#define JABBER_CAPS_DIRECT_MUC_INVITE           ((JabberCapsBits)1<<42)
+#define JABBER_CAPS_DIRECT_MUC_INVITE           ((JabberCapsBits)1<<48)
+
+#define JABBER_FEAT_CARBONS                     "urn:xmpp:carbons:2"
+#define JABBER_CAPS_CARBONS                     ((JabberCapsBits)1<<49)
+
+#define JABBER_FEAT_ARCHIVE                     "urn:xmpp:archive"
+#define JABBER_FEAT_BIND                        "urn:ietf:params:xml:ns:xmpp-bind"
+#define JABBER_FEAT_CAPTCHA                     "urn:xmpp:captcha"
+#define JABBER_FEAT_CSI                         "urn:xmpp:csi:0"
+#define JABBER_FEAT_JUD									"jabber:iq:search"
+#define JABBER_FEAT_SERVER_AVATAR               "storage:client:avatar"
 
 #define JABBER_FEAT_PUBSUB_EVENT                "http://jabber.org/protocol/pubsub#event"
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          "http://jabber.org/protocol/pubsub#node_config"
-
-#define JABBER_FEAT_CARBONS                     "urn:xmpp:carbons:2"
-#define JABBER_CAPS_CARBONS                     ((JabberCapsBits)1<<43)
 
 #define JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY  ((JabberCapsBits)1<<63)
 #define JABBER_CAPS_OTHER_SPECIAL               (JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY|JABBER_RESOURCE_CAPS_ERROR) // must contain all the caps not listed in g_JabberFeatCapPairs, to prevent using these bits for features registered through IJabberNetInterface::RegisterFeature()

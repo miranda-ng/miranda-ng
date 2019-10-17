@@ -1,5 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
+#pragma code_page(65001)
+
 #include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -8,7 +10,6 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "winres.h"
-#include "richedit.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -18,7 +19,6 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -91,7 +91,7 @@ BEGIN
     PUSHBUTTON      "Export to file",IDC_EXPORT,272,268,71,15
 END
 
-IDD_OPT_JABBER DIALOGEX 0, 0, 304, 228
+IDD_OPT_JABBER DIALOGEX 0, 0, 304, 208
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -120,7 +120,7 @@ BEGIN
     CONTROL         "Use TLS",IDC_USE_TLS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,189,100,97,10
     PUSHBUTTON      "Register new user",IDC_BUTTON_REGISTER,156,16,78,13
     PUSHBUTTON      "Unregister",IDC_UNREGISTER,235,16,56,13
-    GROUPBOX        "Expert",IDC_STATIC,4,120,295,105
+    GROUPBOX        "Expert",IDC_STATIC,4,120,295,85
     CONTROL         "Manually specify connection host",IDC_MANUAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,134,223,10
     RTEXT           "Host:",IDC_STATIC,26,147,30,8
     EDITTEXT        IDC_HOST,57,145,90,12,ES_AUTOHSCROLL | WS_DISABLED
@@ -129,10 +129,8 @@ BEGIN
     CONTROL         "Keep connection alive",IDC_KEEPALIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,158,221,10
     CONTROL         "Automatically delete contacts not in my roster",IDC_ROSTER_SYNC,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,172,221,10
-    LTEXT           "User directory:",IDC_JUD_LABEL,11,188,170,8
-    EDITTEXT        IDC_JUD,188,185,103,12,ES_AUTOHSCROLL
-    LTEXT           "Language for human-readable resources:",IDC_MSGLANG_LABEL,11,203,170,8
-    COMBOBOX        IDC_MSGLANG,188,201,103,69,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Language for human-readable resources:",IDC_MSGLANG_LABEL,11,188,170,8
+    COMBOBOX        IDC_MSGLANG,188,186,103,69,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use Domain Login",IDC_USEDOMAINLOGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,45,137,9
 END
 
@@ -141,18 +139,15 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "File Transfer",IDC_STATIC,4,3,295,71
+    GROUPBOX        "File Transfer",IDC_STATIC,4,3,295,62
     CONTROL         "Allow file sending through direct peer-to-peer connection",IDC_DIRECT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,14,284,10
     CONTROL         "Specify external address:",IDC_DIRECT_MANUAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,29,27,166,10
     EDITTEXT        IDC_DIRECT_ADDR,200,25,94,12,ES_AUTOHSCROLL
-    CONTROL         "Allow file sending through bytestream proxy server:",IDC_PROXY_MANUAL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,41,183,10
-    EDITTEXT        IDC_PROXY_ADDR,200,39,94,12,ES_AUTOHSCROLL | WS_GROUP
-    GROUPBOX        "Miscellaneous",IDC_STATIC,4,76,295,149
-    RTEXT           "Hint:",IDC_STATIC,12,56,27,8
-    LTEXT           "Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.",IDC_STATIC,46,53,245,16
-    CONTROL         "",IDC_OPTTREE,"SysTreeView32",TVS_DISABLEDRAGDROP | WS_BORDER | WS_HSCROLL | WS_TABSTOP,9,88,285,132
+    GROUPBOX        "Miscellaneous",IDC_STATIC,4,65,295,159
+    RTEXT           "Hint:",IDC_STATIC,12,47,27,8
+    LTEXT           "Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.",IDC_STATIC,46,44,245,16
+    CONTROL         "",IDC_OPTTREE,"SysTreeView32",TVS_DISABLEDRAGDROP | WS_BORDER | WS_HSCROLL | WS_TABSTOP,9,75,285,143
 END
 
 IDD_INFO_JABBER DIALOGEX 0, 0, 221, 152
@@ -561,7 +556,7 @@ BEGIN
     COMBOBOX        IDC_COMBO_NODE,243,6,84,70,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Go",IDC_BUTTON_BROWSE,"MButtonClass",WS_TABSTOP,332,5,16,14
     CONTROL         "",IDC_TREE_DISCO,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,5,21,343,180
-    RTEXT           "Filter:", IDC_TXT_FILTER,5,207,48,8
+    RTEXT           "Filter:",IDC_TXT_FILTER,5,207,48,8
     EDITTEXT        IDC_FILTER,58,205,289,14,ES_AUTOHSCROLL
 END
 
@@ -836,7 +831,6 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\r\n"
-    "#include ""richedit.h""\r\n"
     "\0"
 END
 

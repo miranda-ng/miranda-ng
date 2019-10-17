@@ -734,14 +734,12 @@ HANDLE CJabberProto::SearchBasic(const wchar_t *szJid)
 
 HANDLE CJabberProto::SearchByEmail(const wchar_t *email)
 {
-	if (!m_bJabberOnline || email == nullptr)
+	ptrA szServerName(getStringA("Jud"));
+	if (!m_bJabberOnline || email == nullptr || szServerName == nullptr)
 		return nullptr;
 
-	ptrA szServerName(getStringA("Jud"));
-
-	LPCSTR jid = szServerName == 0 ? "users.jabber.org" : szServerName.get();
-	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultSetSearch, JABBER_IQ_TYPE_SET, jid);
-	m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY("jabber:iq:search") << XCHILD("email", T2Utf(email)));
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultSetSearch, JABBER_IQ_TYPE_SET, szServerName);
+	m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_JUD) << XCHILD("email", T2Utf(email)));
 	return (HANDLE)pInfo->GetIqId();
 }
 
@@ -750,18 +748,15 @@ HANDLE CJabberProto::SearchByEmail(const wchar_t *email)
 
 HANDLE CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
-	if (!m_bJabberOnline)
+	ptrA szServerName(getStringA("Jud"));
+	if (!m_bJabberOnline || szServerName == nullptr)
 		return nullptr;
 
 	BOOL bIsExtFormat = m_bExtendedSearch;
 
-	ptrA szServerName(getStringA("Jud"));
-
-	CJabberIqInfo *pInfo = AddIQ(
-		(bIsExtFormat) ? &CJabberProto::OnIqResultExtSearch : &CJabberProto::OnIqResultSetSearch,
-		JABBER_IQ_TYPE_SET, szServerName == 0 ? "users.jabber.org" : szServerName);
+	CJabberIqInfo *pInfo = AddIQ((bIsExtFormat) ? &CJabberProto::OnIqResultExtSearch : &CJabberProto::OnIqResultSetSearch, JABBER_IQ_TYPE_SET, szServerName);
 	XmlNodeIq iq(pInfo);
-	TiXmlElement *query = iq << XQUERY("jabber:iq:search");
+	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_JUD);
 
 	if (bIsExtFormat) {
 		if (m_tszSelectedLang)
