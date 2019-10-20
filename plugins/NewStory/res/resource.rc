@@ -44,14 +44,11 @@ ICO_URL                      ICON         "17 url.ico"
 ICO_UNKNOWN                      ICON         "18 unknown.ico"
 ICO_FINDPREV                      ICON         "19 findprev.ico"
 ICO_FINDNEXT                      ICON         "20 findnext.ico"
-ICO_NOPASSWORD                      ICON         "nopassword.ico"
-ICO_PASSWORD                      ICON         "password.ico"
 ICO_CALENDAR                      ICON         "Calendar.ico"
 ICO_RESET                      ICON         "reset.ico"
 ICO_PREVIEW                      ICON         "reload.ico"
 ICO_VARHELP                      ICON         "vars.ico"
 ICO_TPLGROUP                      ICON         "folder.ico"
-ICO_SAVEPASS                      ICON         "save pass.ico"
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -108,7 +105,6 @@ BEGIN
     ICON            "",IDC_SEARCHICON,1,298,20,20,SS_CENTERIMAGE
     CONTROL         "",IDC_LOGOPTIONS,"MButtonClass",WS_TABSTOP,116,99,16,14
     CONTROL         "Tree1",IDC_TIMETREE,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_TRACKSELECT | TVS_FULLROWSELECT | TVS_SINGLEEXPAND | NOT WS_VISIBLE | WS_TABSTOP,0,134,84,160,WS_EX_STATICEDGE
-    CONTROL         "",IDC_SECURITY,"MButtonClass",WS_TABSTOP,347,99,16,14
     CONTROL         "",IDC_DATEPOPUP,"MButtonClass",WS_TABSTOP,148,99,16,14
     CONTROL         "",IDC_ITEMS2,"NewstoryList",WS_TABSTOP,90,132,290,166
     CONTROL         "",IDC_IB_SEPARATOR,"Static",SS_ETCHEDHORZ,21,76,124,1
@@ -142,38 +138,12 @@ BEGIN
     CONTROL         "till",IDC_CHK_DATE_TO,"Button",BS_AUTOCHECKBOX | BS_RIGHT | BS_VCENTER | BS_FLAT | WS_TABSTOP,210,97,33,10,WS_EX_TRANSPARENT | WS_EX_RIGHT
 END
 
-IDD_PASSWORD DIALOGEX 0, 0, 259, 61
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
-CAPTION "Newstory"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,147,39,50,15
-    PUSHBUTTON      "Cancel",IDCANCEL,202,39,50,15
-    LTEXT           "Ooops! This is a protected area, so type your password here:",IDC_STATIC,7,7,192,8
-    EDITTEXT        IDC_PASSWORD,12,20,240,14,ES_PASSWORD | ES_AUTOHSCROLL
-END
-
 IDD_CALENDARTOOL DIALOGEX 0, 0, 98, 85
 STYLE DS_SETFONT | WS_POPUP | WS_BORDER
 EXSTYLE WS_EX_TOOLWINDOW
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "MonthCalendar1",IDC_MONTHCALENDAR1,"SysMonthCal32",MCS_NOTODAYCIRCLE | WS_TABSTOP,0,0,98,85
-END
-
-IDD_CHANGEPASSWORD DIALOGEX 0, 0, 259, 126
-STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION
-CAPTION "Change Newstory Password"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,148,103,50,16
-    PUSHBUTTON      "Cancel",IDCANCEL,202,103,50,16
-    LTEXT           "Current Password:",IDC_STATIC,7,7,58,8
-    EDITTEXT        IDC_PASSWORD,12,20,240,14,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "New password:",IDC_STATIC,7,39,50,8
-    EDITTEXT        IDC_PASSWORD2,12,52,240,14,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Confirm new password:",IDC_STATIC,7,71,74,8
-    EDITTEXT        IDC_PASSWORD3,12,84,240,14,ES_PASSWORD | ES_AUTOHSCROLL
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 314, 240
@@ -205,29 +175,6 @@ STYLE DS_SETFONT | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CTEXT           "Coming soon...",IDC_STATIC,7,7,293,209,SS_CENTERIMAGE
-END
-
-IDD_OPT_PASSWORDS DIALOGEX 0, 0, 307, 223
-STYLE DS_SETFONT | WS_CHILD
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    LTEXT           "Edit password for:",IDC_STATIC,7,7,125,8
-    LTEXT           "Current password:",IDC_STATIC,137,20,163,8
-    CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x1d0,13,21,118,194
-    EDITTEXT        IDC_CHANGEPASS,142,34,158,14,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "New password:",IDC_STATIC,137,54,163,8
-    EDITTEXT        IDC_CHANGEPASS2,142,67,158,14,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Confirm new password",IDC_STATIC,137,86,163,8
-    EDITTEXT        IDC_CHANGEPASS3,142,99,158,14,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "",IDC_SAVEPASSWORD,"MButtonClass",WS_TABSTOP,284,118,16,14
-    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,12,20,120,196
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,137,139,163,1
-    LTEXT           "Password is NOT set for the contact",IDC_STATIC,158,146,142,14,SS_CENTERIMAGE
-    LTEXT           "Password is set for the contact",IDC_STATIC,158,160,142,14,SS_CENTERIMAGE
-    ICON            "",IDC_ICO_PASSWORD,137,160,16,14,SS_CENTERIMAGE | SS_REALSIZEIMAGE
-    ICON            "",IDC_ICO_NOPASSWORD,137,146,16,14,SS_CENTERIMAGE | SS_REALSIZEIMAGE
-    LTEXT           "Global password is password used to access history of contacts with no password set.",IDC_STATIC,137,179,163,16
-    LTEXT           "Master password can be used to override ANY password. This may be useful if you forget some...",IDC_STATIC,137,200,163,16
 END
 
 IDD_FILTERMODE DIALOGEX 0, 0, 219, 171
@@ -309,47 +256,8 @@ BEGIN
         HORZGUIDE, 149
     END
 
-    IDD_PASSWORD, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 252
-        VERTGUIDE, 12
-        VERTGUIDE, 119
-        VERTGUIDE, 197
-        VERTGUIDE, 202
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 54
-        HORZGUIDE, 15
-        HORZGUIDE, 20
-        HORZGUIDE, 34
-        HORZGUIDE, 39
-    END
-
     IDD_CALENDARTOOL, DIALOG
     BEGIN
-    END
-
-    IDD_CHANGEPASSWORD, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 252
-        VERTGUIDE, 12
-        VERTGUIDE, 198
-        VERTGUIDE, 202
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 119
-        HORZGUIDE, 15
-        HORZGUIDE, 20
-        HORZGUIDE, 34
-        HORZGUIDE, 39
-        HORZGUIDE, 47
-        HORZGUIDE, 52
-        HORZGUIDE, 66
-        HORZGUIDE, 71
-        HORZGUIDE, 79
-        HORZGUIDE, 84
-        HORZGUIDE, 98
-        HORZGUIDE, 103
     END
 
     IDD_OPTIONS, DIALOG
@@ -391,41 +299,6 @@ BEGIN
         RIGHTMARGIN, 300
         TOPMARGIN, 7
         BOTTOMMARGIN, 216
-    END
-
-    IDD_OPT_PASSWORDS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 300
-        VERTGUIDE, 12
-        VERTGUIDE, 132
-        VERTGUIDE, 137
-        VERTGUIDE, 142
-        VERTGUIDE, 153
-        VERTGUIDE, 158
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 216
-        HORZGUIDE, 15
-        HORZGUIDE, 20
-        HORZGUIDE, 28
-        HORZGUIDE, 34
-        HORZGUIDE, 48
-        HORZGUIDE, 54
-        HORZGUIDE, 62
-        HORZGUIDE, 67
-        HORZGUIDE, 81
-        HORZGUIDE, 86
-        HORZGUIDE, 94
-        HORZGUIDE, 99
-        HORZGUIDE, 113
-        HORZGUIDE, 118
-        HORZGUIDE, 132
-        HORZGUIDE, 146
-        HORZGUIDE, 160
-        HORZGUIDE, 174
-        HORZGUIDE, 179
-        HORZGUIDE, 195
-        HORZGUIDE, 200
     END
 
     IDD_FILTERMODE, DIALOG
@@ -499,7 +372,6 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Options...",                  ID_LOGOPTIONS_OPTIONS
         MENUITEM "Templates...",                ID_LOGOPTIONS_TEMPLATES
-        MENUITEM "Passwords...",                ID_LOGOPTIONS_PASSWORDS
     END
     POPUP "Context"
     BEGIN

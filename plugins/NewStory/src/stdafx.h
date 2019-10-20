@@ -66,10 +66,8 @@ Boston, MA 02111-1307, USA.
 #define MODULETITLE "NewStory"
 
 #include "utils.h"
-#include "opt_passwords.h"
 #include "options.h"
 #include "fonts.h"
-#include "password.h"
 #include "calendartool.h"
 #include "history.h"
 #include "history_array.h"

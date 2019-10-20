@@ -38,7 +38,6 @@ struct TemplateInfo
 enum
 {
 	TPL_TITLE,
-	TPL_PASSWORDQUERY,
 
 	TPL_MESSAGE,
 	TPL_FILE,

@@ -64,15 +64,12 @@ static IconItem icons[] =
 
 	{ LPGEN("Find Previous"),     "findprev",  ICO_FINDPREV   },
 	{ LPGEN("Find Next"),         "findnext",  ICO_FINDNEXT   },
-	{ LPGEN("Password disabled"), "nopassword",ICO_NOPASSWORD },
-	{ LPGEN("Password enabled"),  "password",  ICO_PASSWORD   },
 	{ LPGEN("Jump to Date"),      "calendar",  ICO_CALENDAR   },
 
 	{ LPGEN("Template Group"),    "tplgroup",  ICO_TPLGROUP   },
 	{ LPGEN("Reset"),             "reset",     ICO_RESET      },
 	{ LPGEN("Update Preview"),    "preview",   ICO_PREVIEW    },
-	{ LPGEN("Help"),              "varhelp",   ICO_VARHELP    },
-	{ LPGEN("Save Password"),     "savepass",  ICO_SAVEPASS   }
+	{ LPGEN("Help"),              "varhelp",   ICO_VARHELP    }
 };
 
 int evtModulesLoaded(WPARAM, LPARAM)

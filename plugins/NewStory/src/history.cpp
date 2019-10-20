@@ -72,11 +72,11 @@ enum
 	TBTN_USERINFO, TBTN_USERMENU, TBTN_MESSAGE,
 	TBTN_SEARCH, TBTN_FILTER, TBTN_DATEPOPUP,
 	TBTN_COPY, TBTN_EXPORT,
-	TBTN_LOGOPTIONS, TBTN_SECURITY, TBTN_CLOSE,
+	TBTN_LOGOPTIONS, TBTN_CLOSE,
 	TBTN_COUNT
 };
 
-int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, TBTN_SPACER, 0, -1, 0, 0, 0 };
+int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, TBTN_SPACER, 0, -1, 0, 0 };
 
 struct InfoBarEvents
 {
@@ -435,7 +435,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			data->hwndBtnToolbar[TBTN_LOGOPTIONS] = GetDlgItem(hwnd, IDC_LOGOPTIONS);
 			data->hwndBtnToolbar[TBTN_FILTER] = GetDlgItem(hwnd, IDC_FILTER);
 			data->hwndBtnToolbar[TBTN_DATEPOPUP] = GetDlgItem(hwnd, IDC_DATEPOPUP);
-			data->hwndBtnToolbar[TBTN_SECURITY] = GetDlgItem(hwnd, IDC_SECURITY);
 			data->hwndBtnToolbar[TBTN_CLOSE] = GetDlgItem(hwnd, IDC_CLOSE);
 			data->hwndLog = GetDlgItem(hwnd, IDC_ITEMS2);
 			data->hwndBtnCloseSearch = GetDlgItem(hwnd, IDC_SEARCHICON);
@@ -544,7 +543,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			SendMessage(GetDlgItem(hwnd, IDC_SEARCH), BUTTONSETASFLATBTN, 0, 0);
 			SendMessage(GetDlgItem(hwnd, IDC_EXPORT), BUTTONSETASFLATBTN, 0, 0);
 			SendMessage(GetDlgItem(hwnd, IDC_CLOSE), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_SECURITY), BUTTONSETASFLATBTN, 0, 0);
 			SendMessage(GetDlgItem(hwnd, IDC_FINDPREV), BUTTONSETASFLATBTN, 0, 0);
 			SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT), BUTTONSETASFLATBTN, 0, 0);
 
@@ -558,7 +556,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			SendMessage(GetDlgItem(hwnd, IDC_SEARCH), BUTTONADDTOOLTIP, (WPARAM)Translate("Search..."), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_EXPORT), BUTTONADDTOOLTIP, (WPARAM)Translate("Export..."), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_CLOSE), BUTTONADDTOOLTIP, (WPARAM)Translate("Close"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_SECURITY), BUTTONADDTOOLTIP, (WPARAM)Translate("Security Options"), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_FINDPREV), BUTTONADDTOOLTIP, (WPARAM)Translate("Find Previous"), 0);
 			SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT), BUTTONADDTOOLTIP, (WPARAM)Translate("Find Next"), 0);
 
@@ -625,11 +622,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		SendMessage(data->ibTotal.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_UNKNOWN), 0);
 		SendMessage(data->ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
 		SendMessage(data->ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
-
-		if (CheckPassword(data->hContact, ""))
-			SendMessage(GetDlgItem(hwnd, IDC_SECURITY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_NOPASSWORD));
-		else
-			SendMessage(GetDlgItem(hwnd, IDC_SECURITY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_PASSWORD));
 
 		break;
 
@@ -800,10 +792,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				case ID_LOGOPTIONS_TEMPLATES:
 					g_plugin.openOptions(nullptr, L"Newstory", L"Templates");
 					break;
-
-				case ID_LOGOPTIONS_PASSWORDS:
-					g_plugin.openOptions(nullptr, L"Newstory", L"Passwords (not ready yet)");
-					break;
 				}
 				PostMessage(hwnd, WM_SIZE, 0, 0);
 				break;
@@ -901,11 +889,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				PostMessage(hwnd, UM_REBUILDLIST, 0, 0);
 			break;*/
 	
-		case IDC_SECURITY:
-			ChangePassword(hwnd, data->hContact);
-			PostMessage(hwnd, UM_UPDATEICONS, 0, 0);
-			break;
-
 		case IDC_EXPORT:
 			// ExportHistoryDialog(data->hContact, hwnd);
 			// DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT), hwnd, ExportWndProc);
@@ -966,7 +949,7 @@ INT_PTR svcShowNewstory(WPARAM wParam, LPARAM)
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		SetFocus(hwnd);
 	}
-	else if (AskPassword((MCONTACT)wParam)) {
+	else {
 		HWND hwnd2 = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, wParam);
 		ShowWindow(hwnd2, SW_SHOWNORMAL);
 	}
@@ -980,7 +963,7 @@ INT_PTR svcShowSystemNewstory(WPARAM, LPARAM)
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		SetFocus(hwnd);
 	}
-	else if (AskPassword(0)) {
+	else {
 		HWND hwnd2 = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), 0, HistoryDlgProc, 0);
 		ShowWindow(hwnd2, SW_SHOWNORMAL);
 	}

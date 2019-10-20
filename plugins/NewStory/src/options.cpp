@@ -20,10 +20,6 @@ static int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TEMPLATES);
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.szTab.w = LPGENW("Passwords (not ready yet)");
-	odp.pfnDlgProc = OptPasswordsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PASSWORDS);
-	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
 

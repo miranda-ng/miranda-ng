@@ -8,13 +8,10 @@
 #define IDD_MESSAGE                     112  //!!!
 #define IDR_POPUPS                      113
 #define IDR_ACCEL                       114  //!!!
-#define IDD_PASSWORD                    116
 #define IDD_CALENDARTOOL                118
-#define IDD_CHANGEPASSWORD              119
 #define IDD_OPT_TEMPLATES               121
 #define IDD_FILTERMODE                  123  //!!!
 #define IDD_OPT_GENERAL                 124
-#define IDD_OPT_PASSWORDS               126
 #define ICO_NEWSTORY                    127
 #define ICO_USERINFO                    128
 #define ICO_USERMENU                    129
@@ -33,14 +30,11 @@
 #define ICO_UNKNOWN                     142
 #define ICO_FINDPREV                    143
 #define ICO_FINDNEXT                    144
-#define ICO_NOPASSWORD                  145
-#define ICO_PASSWORD                    146
 #define ICO_CALENDAR                    147
 #define ICO_TPLGROUP                    148
 #define ICO_RESET                       149
 #define ICO_PREVIEW                     150
 #define ICO_VARHELP                     151
-#define ICO_SAVEPASS                    152
 #define IDC_GPREVIEW                    1000
 #define IDC_LIST                        1000
 #define IDC_ITEMS2                      1000
@@ -61,7 +55,6 @@
 #define IDC_LOGOPTIONS                  1018
 #define IDC_FINDPREV                    1019
 #define IDC_SEARCHICON                  1020
-#define IDC_SECURITY                    1021
 #define IDC_MSGICON                     1022  //!!!
 #define IDC_DATEPOPUP                   1022
 #define IDC_ICO_MESSAGES_IN             1023
@@ -69,13 +62,9 @@
 #define IDC_ICO_FILES_IN                1025
 #define IDC_ICO_FILES_OUT               1026
 #define IDC_ICO_TOTAL_IN                1027
-#define IDC_PASSWORD                    1028
 #define IDC_PREVIEW                     1028
-#define IDC_CHANGEPASS2                 1028  //!!!
 #define IDC_ICO_TOTAL_OUT               1028
-#define IDC_PASSWORD2                   1029
 #define IDC_ICO_URLS_IN                 1029
-#define IDC_PASSWORD3                   1030
 #define IDC_ICO_URLS_OUT                1030
 #define IDC_TAB                         1032
 #define IDC_TIMETREE                    1035
@@ -87,7 +76,6 @@
 #define IDC_TEMPLATES                   1057
 #define IDC_VARHELP                     1058
 #define IDC_CHK_IN                      1059  //!!!
-#define IDC_SAVEPASSWORD                1059
 #define IDC_DISCARD                     1060
 #define IDC_CHK_FILE                    1060  //!!!
 #define IDC_CHK_URL                     1061  //!!!
@@ -100,10 +88,6 @@
 #define IDC_CHK_OUT                     1067  //!!!
 #define IDC_CHK_MESSAGES                1068  //!!!
 #define IDC_EDITTEMPLATE                1069
-#define IDC_CHANGEPASS3                 1071  //!!!
-#define IDC_ICO_NOPASSWORD              1072
-#define IDC_ICO_PASSWORD                1073
-#define IDC_CHANGEPASS                  1074  //!!!
 #define IDC_ICO_MESSAGES                1078
 #define IDC_ICO_FILES                   1079
 #define IDC_ICO_URLS                    1080
@@ -148,7 +132,6 @@
 #define ID_FILTER_SHOWINCOMINGEVENTSONLY 40037  //!!!
 #define ID_FILTER_SHOWOUTGOINGEVENTSONLY 40038  //!!!
 #define ID_FILTER_USECUSTOMFILTER       40039  //!!!
-#define ID_LOGOPTIONS_PASSWORDS         40040
 
 // Next default values for new objects
 // 

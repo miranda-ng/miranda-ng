@@ -24,9 +24,6 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/interface/title", _T("Interface"), ICO_NEWSTORY, _T("Window Title"),
 		_T("%N's Newstory [%c messages total]"), 0, 0,
 		{ vfGlobal, vfContact, 0, 0, 0 } },
-	{ "tpl/interface/passwordq", _T("Interface"), ICO_NOPASSWORD, _T("Password Query"),
-		_T("Ooops, %N's history seems to be password protected, so type your password here:"), 0, 0,
-		{ vfGlobal, vfContact, 0, 0, 0 } },
 
 	{ "tpl/msglog/msg", _T("Message Log"), ICO_SENDMSG, _T("Messages"),
 		_T("%I%i[b]%N, %t:[/b]\x0d\x0a%M"), 0, 0,
