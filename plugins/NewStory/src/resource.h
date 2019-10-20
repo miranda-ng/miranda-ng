@@ -63,7 +63,6 @@
 #define IDC_ICO_URLS_IN                 1031
 #define IDC_ICO_URLS_OUT                1032
 #define IDC_PREVIEW                     1033
-#define IDC_TAB                         1034
 #define IDC_TIMETREE                    1035
 #define IDC_PROGRESS1                   1037  //!!!
 #define IDC_COMBO1                      1038  //!!!
@@ -72,7 +71,6 @@
 #define IDC_MONTHCALENDAR1              1044
 #define IDC_TEMPLATES                   1057
 #define IDC_VARHELP                     1058
-#define IDC_CHK_IN                      1059  //!!!
 #define IDC_DISCARD                     1060
 #define IDC_UPDATEPREVIEW               1061
 #define IDC_CHK_FILE                    1062  //!!!
@@ -82,9 +80,10 @@
 #define IDC_CHK_AUTOFILTER              1066  //!!!
 #define IDC_DATETIMEPICKER1             1067  //!!!
 #define IDC_DATETIMEPICKER2             1068  //!!!
-#define IDC_CHK_OUT                     1069  //!!!
-#define IDC_CHK_MESSAGES                1070  //!!!
-#define IDC_EDITTEMPLATE                1071
+#define IDC_CHK_IN                      1069  //!!!
+#define IDC_CHK_OUT                     1070  //!!!
+#define IDC_CHK_MESSAGES                1071  //!!!
+#define IDC_EDITTEMPLATE                1072
 #define IDC_ICO_MESSAGES                1078
 #define IDC_ICO_FILES                   1079
 #define IDC_ICO_URLS                    1080
