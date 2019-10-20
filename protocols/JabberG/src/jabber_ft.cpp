@@ -620,10 +620,16 @@ LBL_Fail:
 
 				// this parameter is optional, if not specified we simply use upload URL
 				auto *szGetUrl = XmlGetAttr(XmlFirstChild(slotNode, "get"), "url");
-				if (szGetUrl)
-					SendMsg(ft->std.hContact, 0, szGetUrl);
-				else
-					SendMsg(ft->std.hContact, 0, szUrl);
+				if (szGetUrl == nullptr)
+					szGetUrl = szUrl;
+
+				if (ProtoChainSend(ft->std.hContact, PSS_MESSAGE, 0, (LPARAM)szGetUrl) != -1) {
+					PROTORECVEVENT recv = {};
+					recv.flags = PREF_CREATEREAD;
+					recv.szMessage = (char*)szGetUrl;
+					recv.timestamp = time(0);
+					ProtoChainRecvMsg(ft->std.hContact, &recv);
+				}
 
 				ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 				delete ft;
