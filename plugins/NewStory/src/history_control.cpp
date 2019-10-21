@@ -7,23 +7,21 @@ HANDLE htuLog = 0;
 void InitNewstoryControl()
 {
 	htuLog = MTextRegister("Newstory", MTEXT_FANCY_DEFAULT | MTEXT_SYSTEM_HICONS);
-	WNDCLASS wndclass = { 0 };
+
+	WNDCLASS wndclass = {};
 	wndclass.style = /*CS_HREDRAW | CS_VREDRAW | */CS_DBLCLKS | CS_GLOBALCLASS;
 	wndclass.lpfnWndProc = NewstoryListWndProc;
-	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = sizeof(void *);
 	wndclass.hInstance = g_plugin.getInst();
-	wndclass.hIcon = NULL;
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wndclass.hbrBackground = NULL;
-	wndclass.lpszMenuName = NULL;
 	wndclass.lpszClassName = _T(NEWSTORYLIST_CLASS);
 	RegisterClass(&wndclass);
 }
 
 /////////////////////////////////////////////////////////////////////////
 // Control utilities, types and constants
-struct NewstoryListData
+
+struct NewstoryListData : public MZeroedObject
 {
 	HistoryArray items;
 
@@ -105,14 +103,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_CREATE:
 		{
 			data = new NewstoryListData;
-			data->scrollTopItem = 0;
-			data->scrollTopPixel = 0;
-			data->cachedMaxTopItem = 0;
-			data->cachedMaxTopPixel = 0;
-			data->hwndEditBox = 0;
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
 			RecalcScrollBar(hwnd, data);
-
 			break;
 		}
 
