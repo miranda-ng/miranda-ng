@@ -339,6 +339,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	void    LoadOwnAvatar(void);
 	void    LoadSplitter(void);
 	void    PlayIncomingSound(void) const;
+	LRESULT ProcessHotkeysByMsgFilter(const CCtrlBase &pCtrl, UINT msg, WPARAM wParam, LPARAM lParam);
 	void    ReplayQueue(void);
 	void    SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
 	void 	  SendHBitmapAsFile(HBITMAP hbmp) const;

@@ -1120,14 +1120,14 @@ INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SYSKEYUP:
 		if (wParam == VK_MENU) {
-			ProcessHotkeysByMsgFilter(m_rtf, msg, wParam, lParam);
+			m_pDlg.ProcessHotkeysByMsgFilter(m_rtf, msg, wParam, lParam);
 			return 0;
 		}
 		break;
 
 	case WM_SYSKEYDOWN:
 		m_pDlg.m_bkeyProcessed = false;
-		if (ProcessHotkeysByMsgFilter(m_rtf, msg, wParam, lParam)) {
+		if (m_pDlg.ProcessHotkeysByMsgFilter(m_rtf, msg, wParam, lParam)) {
 			m_pDlg.m_bkeyProcessed = true;
 			return 0;
 		}

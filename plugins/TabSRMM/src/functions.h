@@ -144,10 +144,6 @@ int   TN_OptionsInitialize(WPARAM wParam, LPARAM lParam);
 int   TN_ModuleDeInit();
 void  TN_TypingMessage(MCONTACT hContact, int iMode);
 
-// hotkeys
-
-LRESULT ProcessHotkeysByMsgFilter(const CCtrlBase&, UINT msg, WPARAM wParam, LPARAM lParam);
-
 void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle);
 
 /*

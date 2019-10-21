@@ -1989,8 +1989,8 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					SetFocus(m_btnOk.GetHwnd());
 				else
 					SetFocus(m_pLog->GetHwnd());
+				return 0;
 			}
-			return 0;
 		}
 
 		if (wParam != VK_RIGHT && wParam != VK_LEFT) {
