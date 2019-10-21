@@ -69,6 +69,4 @@ void SaveTemplates();
 TCHAR *TplFormatString(int tpl, MCONTACT hContact, HistoryArray::ItemData *args);
 TCHAR *TplFormatStringEx(int tpl, TCHAR *sztpl, MCONTACT hContact, HistoryArray::ItemData *args);
 
-INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 #endif // __templates_h__
