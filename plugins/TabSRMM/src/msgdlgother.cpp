@@ -1863,8 +1863,6 @@ void CMsgDialog::UpdateNickList()
 
 void CMsgDialog::UpdateOptions()
 {
-	m_pLog->UpdateOptions();
-
 	DM_InitRichEdit();
 	m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);
 

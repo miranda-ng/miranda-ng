@@ -530,6 +530,8 @@ void CMsgDialog::DM_InitRichEdit()
 		szStreamOut = m_message.GetRichTextRtf();
 	SetWindowText(m_message.GetHwnd(), L"");
 
+	m_pLog->UpdateOptions();
+
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_pContainer->m_theme.inputbg);
 
 	CHARFORMAT2A cf2;

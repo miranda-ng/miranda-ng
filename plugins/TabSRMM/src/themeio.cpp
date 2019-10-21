@@ -31,25 +31,27 @@
 #define CURRENT_THEME_VERSION 5
 #define THEME_COOKIE 25099837
 
-static struct _tagExtSettings {
+struct {
 	char*	szIniSection;
 	char*	szIniName;
 	char*	szDbModule;
 	char*	szDbSetting;
 	DWORD	dwDef;
-} _extSettings[] = {
-	"Message Log", "BackgroundColor", FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR,
-	"Message Log", "IncomingBG", FONTMODULE, "inbg", SRMSGDEFSET_BKGINCOLOUR,
-	"Message Log", "OutgoingBG", FONTMODULE, "outbg", SRMSGDEFSET_BKGOUTCOLOUR,
-	"Message Log", "OldIncomingBG", FONTMODULE, "oldinbg", SRMSGDEFSET_BKGINCOLOUR,
-	"Message Log", "OldOutgoingBG", FONTMODULE, "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR,
-	"Message Log", "StatusBG", FONTMODULE, "statbg", SRMSGDEFSET_BKGCOLOUR,
-	"Message Log", "InputBG", FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR,
-	"Message Log", "HgridColor", FONTMODULE, "hgrid", SRMSGDEFSET_BKGCOLOUR,
-	"Message Log", "DWFlags", SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT,
-	CHAT_MODULE, "UserListBG", CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR,
-	"Message Log", "LeftIndent", SRMSGMOD_T, "IndentAmount", 20,
-	"Message Log", "RightIndent", SRMSGMOD_T, "RightIndent", 20,
+}
+static _extSettings[] =
+{
+	{ "Message Log", "BackgroundColor", FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR },
+	{ "Message Log", "IncomingBG", FONTMODULE, "inbg", SRMSGDEFSET_BKGINCOLOUR },
+	{ "Message Log", "OutgoingBG", FONTMODULE, "outbg", SRMSGDEFSET_BKGOUTCOLOUR },
+	{ "Message Log", "OldIncomingBG", FONTMODULE, "oldinbg", SRMSGDEFSET_BKGINCOLOUR },
+	{ "Message Log", "OldOutgoingBG", FONTMODULE, "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR },
+	{ "Message Log", "StatusBG", FONTMODULE, "statbg", SRMSGDEFSET_BKGCOLOUR },
+	{ "Message Log", "InputBG", FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR },
+	{ "Message Log", "HgridColor", FONTMODULE, "hgrid", SRMSGDEFSET_BKGCOLOUR },
+	{ "Message Log", "DWFlags", SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT },
+	{ CHAT_MODULE, "UserListBG", CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR },
+	{ "Message Log", "LeftIndent", SRMSGMOD_T, "IndentAmount", 20 },
+	{ "Message Log", "RightIndent", SRMSGMOD_T, "RightIndent", 20 }
 };
 
 /**
