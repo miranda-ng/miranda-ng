@@ -29,22 +29,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <Uxtheme.h>
 
 #include <newpluginapi.h>
+#include <m_chat_int.h>
+#include <m_clc.h>
+#include <m_clistint.h>
 #include <m_contacts.h>
 #include <m_database.h>
-#include <m_options.h>
-#include <m_icolib.h>
-#include <m_clistint.h>
-#include <m_langpack.h>
-#include <m_protosvc.h>
-#include <m_message.h>
-#include <m_xstatus.h>
-#include <m_clc.h>
-#include <m_skin.h>
-#include <win2k.h>
 #include <m_extraicons.h>
-
+#include <m_icolib.h>
 #include <m_kbdnotify.h>
+#include <m_langpack.h>
+#include <m_message.h>
 #include <m_metacontacts.h>
+#include <m_options.h>
+#include <m_protosvc.h>
+#include <m_skin.h>
+#include <m_xstatus.h>
+#include <win2k.h>
 
 #include "flash.h"
 #include "ignore.h"

@@ -46,6 +46,7 @@ POINT lastGlobalMousePos = { 0, 0 };
 
 BYTE bFlashOnMsg;
 BYTE bFlashOnFile;
+BYTE bFlashOnGC;
 BYTE bFlashOnOther;
 BYTE bFullScreenMode;
 BYTE bScreenSaverRunning;
@@ -212,7 +213,7 @@ BOOL checkIgnore(MCONTACT hContact, WORD eventType)
 	return !IsIgnored(hContact, eventType);
 }
 
-BOOL checkProtocol(char *szProto)
+BOOL checkProtocol(const char *szProto)
 {
 	if (!szProto)
 		return FALSE;
@@ -224,7 +225,7 @@ BOOL checkProtocol(char *szProto)
 	return FALSE;
 }
 
-BOOL metaCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
+BOOL metaCheckProtocol(const char *szProto, MCONTACT hContact, WORD eventType)
 {
 	MCONTACT hSubContact = NULL;
 
@@ -340,7 +341,7 @@ BOOL checkMsgTimestamp(MCONTACT hContact, MEVENT hEventCurrent, DWORD timestampC
 }
 
 
-BOOL contactCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
+BOOL contactCheckProtocol(const char *szProto, MCONTACT hContact, WORD eventType)
 {
 	if (bMetaProtoEnabled && hContact) {
 		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
@@ -352,7 +353,7 @@ BOOL contactCheckProtocol(char *szProto, MCONTACT hContact, WORD eventType)
 }
 
 
-BOOL checkStatus(char *szProto)
+BOOL checkStatus(const char *szProto)
 {
 	if (!szProto)
 		return checkGlobalStatus();
@@ -361,7 +362,7 @@ BOOL checkStatus(char *szProto)
 }
 
 
-BOOL checkXstatus(char *szProto)
+BOOL checkXstatus(const char *szProto)
 {
 	int status = 0;
 
@@ -403,6 +404,18 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 	return 0;
 }
 
+// monitors group chat events
+static int OnGcEvent(WPARAM, LPARAM lParam)
+{
+	GCHOOK *gc = (GCHOOK *)lParam;
+	if (gc->iType == GC_USER_MESSAGE && bFlashOnGC) {
+		if (SESSION_INFO *si = g_chatApi.SM_FindSession(gc->ptszID, gc->pszModule))
+			if (contactCheckProtocol(gc->pszModule, si->hContact, EVENTTYPE_MESSAGE) && checkNotifyOptions() && checkStatus(gc->pszModule))
+				SetEvent(hFlashEvent);
+	}
+
+	return 0;
+}
 
 // **
 // ** Checks for pending events. If it finds any, it pings the FlashThread to keep the LEDs flashing.
@@ -661,6 +674,7 @@ void LoadSettings(void)
 {
 	bFlashOnMsg = g_plugin.getByte("onmsg", DEF_SETTING_ONMSG);
 	bFlashOnFile = g_plugin.getByte("onfile", DEF_SETTING_ONFILE);
+	bFlashOnGC = g_plugin.getByte("ongcmsg", DEF_SETTING_ONMSGGC);
 	bFlashOnOther = g_plugin.getByte("onother", DEF_SETTING_OTHER);
 	bFullScreenMode = g_plugin.getByte("fscreenmode", DEF_SETTING_FSCREEN);
 	bScreenSaverRunning = g_plugin.getByte("ssaverrunning", DEF_SETTING_SSAVER);
@@ -901,6 +915,7 @@ int CMPlugin::Load()
 	OpenKeyboardDevice();
 
 	HookEvent(ME_MC_ENABLED, OnMetaChanged);
+	HookEvent(ME_GC_EVENT, OnGcEvent);
 	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
 	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

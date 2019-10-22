@@ -1,10 +1,9 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resources.rc
+// Used by W:\miranda-ng\plugins\KeyboardNotify\res\resources.rc
 //
 #define IDC_OTHERICON                   1
 #define IDD_OPT_KN_ACTION               120
-#define IDD_OPTIONS                     150
 #define IDD_PROTO_OPTIONS               151
 #define IDD_BASIC_OPTIONS               152
 #define IDD_EFFECT_OPTIONS              153
@@ -15,6 +14,8 @@
 #define IDD_XSTATUSES                   158
 #define IDC_ONMESSAGE                   1000
 #define IDC_ONFILE                      1001
+#define IDC_ONFILE2                     1002
+#define IDC_GCMSG                       1002
 #define IDC_ONOTHER                     1003
 #define IDC_IFOPEN                      1004
 #define IDC_IFNOTTOP                    1005
@@ -108,7 +109,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        103
+#define _APS_NEXT_RESOURCE_VALUE        104
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1088
 #define _APS_NEXT_SYMED_VALUE           101

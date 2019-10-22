@@ -24,14 +24,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_OPTIONS DIALOGEX 0, 0, 313, 250
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "",IDC_TABS,"SysTabControl32",0x0,0,0,313,250
-END
-
 IDD_PROTO_OPTIONS DIALOGEX 1, 15, 308, 228
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
@@ -49,7 +41,8 @@ BEGIN
     GROUPBOX        "Events to react on",IDC_STATIC,3,4,147,68
     CONTROL         "Incoming messages",IDC_ONMESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,16,127,10
     CONTROL         "Incoming files",IDC_ONFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,29,127,10
-    CONTROL         "Everything else",IDC_ONOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,42,128,10
+    CONTROL         "Groupchat messages",IDC_GCMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,42,127,10
+    CONTROL         "Everything else",IDC_ONOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,55,128,10
     GROUPBOX        "Message-Event only",IDC_STATIC,3,77,147,57
     CONTROL         "Blink if message window is open",IDC_IFOPEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,89,140,10
     CONTROL         "and not in foreground",IDC_IFNOTTOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,102,127,10
@@ -76,19 +69,19 @@ BEGIN
     CONTROL         "All other situations",IDC_ACTIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,58,117,10
     GROUPBOX        "Only notify if status is",IDC_STATIC,155,77,147,107
     CONTROL         "Online",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,88,65,9
-    CONTROL         "Away",IDC_AWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,98,128,9
-    CONTROL         "Occupied",IDC_OCCUPIED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,118,128,9
-    CONTROL         "Not available",IDC_NA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,108,128,9
-    CONTROL         "Do not disturb",IDC_DND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,128,85,9
-    CONTROL         "Free for chat",IDC_FREECHAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,138,127,9
-    CONTROL         "Invisible",IDC_INVISIBLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,148,128,9
+    CONTROL         "Away",IDC_AWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,101,128,9
+    CONTROL         "Not available",IDC_NA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,114,128,9
+    CONTROL         "Occupied",IDC_OCCUPIED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,127,128,9
+    CONTROL         "Do not disturb",IDC_DND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,140,85,9
+    CONTROL         "Free for chat",IDC_FREECHAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,153,127,9
+    CONTROL         "Invisible",IDC_INVISIBLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,168,166,128,9
     GROUPBOX        "Pending Events",IDC_STATIC,155,189,147,28
     LTEXT           "Remind me every",IDC_STATIC,168,200,58,9
     EDITTEXT        IDC_SREMCHECK,226,198,37,13,ES_NUMBER
     CONTROL         "Spin1",IDC_REMCHECK,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS,252,198,9,13
     LTEXT           "minutes",IDC_STATIC,266,200,30,9
     CONTROL         "Offline",IDC_OFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,237,88,61,9
-    PUSHBUTTON      "xStatuses",IDC_SELECTXSTATUS,258,128,40,9
+    PUSHBUTTON      "xStatuses",IDC_SELECTXSTATUS,258,140,40,9
 END
 
 IDD_EFFECT_OPTIONS DIALOGEX 1, 15, 310, 223
@@ -234,10 +227,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_OPTIONS, DIALOG
-    BEGIN
-    END
-
     IDD_PROTO_OPTIONS, DIALOG
     BEGIN
         RIGHTMARGIN, 304
@@ -326,6 +315,17 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_BASIC_OPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

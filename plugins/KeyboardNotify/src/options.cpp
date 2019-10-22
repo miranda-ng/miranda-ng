@@ -22,9 +22,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void LoadSettings(void);
 
-extern BYTE bFlashOnMsg, bFlashOnFile, bFlashOnOther, bFullScreenMode, bScreenSaverRunning, bWorkstationLocked, bProcessesAreRunning,
-bWorkstationActive, bFlashIfMsgOpen, bFlashIfMsgOlder, bFlashUntil, bMirandaOrWindows, bFlashLed[3], bFlashEffect, bSequenceOrder, bFlashSpeed,
-bEmulateKeypresses, bOverride, bFlashIfMsgWinNotTop, bTrillianLedsMsg, bTrillianLedsURL, bTrillianLedsFile, bTrillianLedsOther;
+extern BYTE 
+	bFlashOnMsg, bFlashOnFile, bFlashOnGC, bFlashOnOther, bFullScreenMode, bScreenSaverRunning, bWorkstationLocked, bProcessesAreRunning,
+	bWorkstationActive, bFlashIfMsgOpen, bFlashIfMsgOlder, bFlashUntil, bMirandaOrWindows, bFlashLed[3], bFlashEffect, bSequenceOrder, bFlashSpeed,
+	bEmulateKeypresses, bOverride, bFlashIfMsgWinNotTop, bTrillianLedsMsg, bTrillianLedsURL, bTrillianLedsFile, bTrillianLedsOther;
+
 extern WORD wSecondsOlder, wBlinksNumber, wStatusMap, wReminderCheck, wCustomTheme, wStartDelay;
 
 extern PROTOCOL_LIST ProtoList;
@@ -47,18 +49,16 @@ static void writeThemeToCombo(const wchar_t *theme, const wchar_t *custom, BOOL 
 		wchar_t *str = mir_wstrdup(custom);
 		SendDlgItemMessage(hwndTheme, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
 	}
-	else
-		if (overrideExisting) {
-			wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndTheme, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
-			if (str)
-				mir_wstrcpy(str, custom);
-		}
+	else if (overrideExisting) {
+		wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndTheme, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+		if (str)
+			mir_wstrcpy(str, custom);
+	}
 }
 
 void exportThemes(const wchar_t *filename)
 {
 	FILE *fExport = _wfopen(filename, L"wt");
-
 	if (!fExport)
 		return;
 
@@ -72,8 +72,7 @@ void exportThemes(const wchar_t *filename)
 			fwprintf(fExport, L"%s\n\n", szTheme);
 			mir_free(szTheme);
 		}
-		else
-			fwprintf(fExport, L"0\n\n");
+		else fwprintf(fExport, L"0\n\n");
 	}
 
 	fwprintf(fExport, TranslateT("\n; End of automatically generated Keyboard Notify Theme file\n"));
@@ -118,27 +117,26 @@ static void createProcessListAux(void)
 {
 	ProcessListAux.count = ProcessList.count;
 	ProcessListAux.szFileName = (wchar_t **)mir_alloc(ProcessListAux.count * sizeof(wchar_t *));
-	if (!ProcessListAux.szFileName)
-		ProcessListAux.count = 0;
-	else
-		for (int i = 0; i < ProcessListAux.count; i++)
+	if (ProcessListAux.szFileName) {
+		for (int i = 0; i < ProcessListAux.count; i++) {
 			if (!ProcessList.szFileName[i])
 				ProcessListAux.szFileName[i] = nullptr;
-			else {
+			else
 				ProcessListAux.szFileName[i] = mir_wstrdup(ProcessList.szFileName[i]);
-			}
-
+		}
+	}
+	else ProcessListAux.count = 0;
 }
 
 static void destroyProcessListAux(void)
 {
 	if (ProcessListAux.szFileName == nullptr)
 		return;
-	for (int i = 0; i < ProcessListAux.count; i++) {
-		if (ProcessListAux.szFileName[i]) {
+
+	for (int i = 0; i < ProcessListAux.count; i++)
+		if (ProcessListAux.szFileName[i])
 			mir_free(ProcessListAux.szFileName[i]);
-		}
-	}
+
 	mir_free(ProcessListAux.szFileName);
 	ProcessListAux.count = 0;
 	ProcessListAux.szFileName = nullptr;
@@ -173,13 +171,11 @@ static void destroyXstatusListAux(void)
 		mir_free(XstatusListAux);
 		XstatusListAux = nullptr;
 	}
-
 }
 
 static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -226,30 +222,30 @@ static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			break;
 		case IDC_ADDPGM:
-		{
-			wchar_t szFileName[MAX_PATH + 1];
-			GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, _countof(szFileName));
-			if (!szFileName[0])
-				break;
-			SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_ADDSTRING, 0, (LPARAM)szFileName);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ADDPGM), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), TRUE);
-		}
-		break;
-		case IDC_DELETEPGM:
-		{
-			wchar_t szFileName[MAX_PATH + 1];
-			GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, _countof(szFileName));
-			int item = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_FINDSTRINGEXACT, -1, (LPARAM)szFileName);
-			SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_DELETESTRING, (WPARAM)item, 0);
-			if (SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETCOUNT, 0, 0) == 0) {
-				SetDlgItemText(hwndDlg, IDC_PROGRAMS, L"");
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), FALSE);
+			{
+				wchar_t szFileName[MAX_PATH + 1];
+				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, _countof(szFileName));
+				if (!szFileName[0])
+					break;
+				SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_ADDSTRING, 0, (LPARAM)szFileName);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ADDPGM), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), TRUE);
 			}
-			else
-				SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_SETCURSEL, 0, 0);
-		}
-		break;
+			break;
+		case IDC_DELETEPGM:
+			{
+				wchar_t szFileName[MAX_PATH + 1];
+				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, _countof(szFileName));
+				int item = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_FINDSTRINGEXACT, -1, (LPARAM)szFileName);
+				SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_DELETESTRING, (WPARAM)item, 0);
+				if (SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETCOUNT, 0, 0) == 0) {
+					SetDlgItemText(hwndDlg, IDC_PROGRAMS, L"");
+					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), FALSE);
+				}
+				else
+					SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_SETCURSEL, 0, 0);
+			}
+			break;
 		case IDC_OKPGM:
 			destroyProcessListAux();
 
@@ -279,7 +275,6 @@ static INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, 
 static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
-
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
@@ -371,43 +366,43 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 		return TRUE;
 
 	case WM_DESTROY:
-	{
-		// Destroy tree view imagelist since it does not get destroyed automatically (see msdn docs)
-		HIMAGELIST hImageList = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), TVSIL_STATE);
-		if (hImageList) {
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), NULL, TVSIL_STATE);
-			ImageList_Destroy(hImageList);
+		{
+			// Destroy tree view imagelist since it does not get destroyed automatically (see msdn docs)
+			HIMAGELIST hImageList = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), TVSIL_STATE);
+			if (hImageList) {
+				TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), NULL, TVSIL_STATE);
+				ImageList_Destroy(hImageList);
+			}
+			hImageList = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), TVSIL_NORMAL);
+			if (hImageList) {
+				TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), NULL, TVSIL_NORMAL);
+				ImageList_Destroy(hImageList);
+			}
 		}
-		hImageList = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), TVSIL_NORMAL);
-		if (hImageList) {
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TREE_XSTATUS), NULL, TVSIL_NORMAL);
-			ImageList_Destroy(hImageList);
-		}
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_OKXST:
-		{
-			unsigned int i, j;
-			HTREEITEM hSectionItem, hItem;
-			TVITEM tvi = { 0 };
-			HWND hwndTree = GetDlgItem(hwndDlg, IDC_TREE_XSTATUS);
+			{
+				unsigned int i, j;
+				HTREEITEM hSectionItem, hItem;
+				TVITEM tvi = { 0 };
+				HWND hwndTree = GetDlgItem(hwndDlg, IDC_TREE_XSTATUS);
 
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-			for (hSectionItem = TreeView_GetRoot(hwndTree); hSectionItem; hSectionItem = TreeView_GetNextSibling(hwndTree, hSectionItem)) {
-				tvi.hItem = hSectionItem;
-				TreeView_GetItem(hwndTree, &tvi);
-				i = (unsigned int)tvi.lParam;
-				for (hItem = TreeView_GetChild(hwndTree, hSectionItem); hItem; hItem = TreeView_GetNextSibling(hwndTree, hItem)) {
-					tvi.hItem = hItem;
+				tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+				for (hSectionItem = TreeView_GetRoot(hwndTree); hSectionItem; hSectionItem = TreeView_GetNextSibling(hwndTree, hSectionItem)) {
+					tvi.hItem = hSectionItem;
 					TreeView_GetItem(hwndTree, &tvi);
-					j = (unsigned int)tvi.lParam;
-					XstatusListAux[i].enabled[j] = (TreeView_GetItemState(hwndTree, hItem, TVIS_STATEIMAGEMASK)&INDEXTOSTATEIMAGEMASK(2));
+					i = (unsigned int)tvi.lParam;
+					for (hItem = TreeView_GetChild(hwndTree, hSectionItem); hItem; hItem = TreeView_GetNextSibling(hwndTree, hItem)) {
+						tvi.hItem = hItem;
+						TreeView_GetItem(hwndTree, &tvi);
+						j = (unsigned int)tvi.lParam;
+						XstatusListAux[i].enabled[j] = (TreeView_GetItemState(hwndTree, hItem, TVIS_STATEIMAGEMASK) & INDEXTOSTATEIMAGEMASK(2));
+					}
 				}
-			}
-		} // fallthrough
+			} // fallthrough
 
 		case IDC_CANCELXST:
 			EndDialog(hwndDlg, LOWORD(wParam));
@@ -422,7 +417,6 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 static INT_PTR CALLBACK DlgProcEventLeds(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
-
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -441,7 +435,6 @@ static INT_PTR CALLBACK DlgProcEventLeds(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		CheckDlgButton(hwndDlg, IDC_OTHERLEDNUM, trillianLedsOther & 2 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_OTHERLEDCAPS, trillianLedsOther & 4 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_OTHERLEDSCROLL, trillianLedsOther & 1 ? BST_CHECKED : BST_UNCHECKED);
-
 		return TRUE;
 
 	case WM_COMMAND:
@@ -494,7 +487,6 @@ static INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM, LPAR
 	static BOOL initDlg = FALSE;
 
 	switch (msg) {
-
 	case WM_INITDIALOG:
 		initDlg = TRUE;
 		TranslateDialogDefault(hwndDlg);
@@ -518,7 +510,7 @@ static INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM, LPAR
 			lvItem.iItem = 0;
 			lvItem.iSubItem = 0;
 			for (int i = 0; i < ProtoList.protoCount; i++) {
-				int count; PROTOACCOUNT** protos;
+				int count; PROTOACCOUNT **protos;
 				Proto_EnumAccounts(&count, &protos);
 				if (ProtoList.protoInfo[i].visible) {
 					lvItem.lParam = (LPARAM)ProtoList.protoInfo[i].szProto;
@@ -534,47 +526,47 @@ static INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM, LPAR
 		return TRUE;
 
 	case WM_NOTIFY:
-	{
-		//Here we have pressed either the OK or the APPLY button.
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				// enabled protos
-			{
-				LVITEM lvItem;
-				HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
+		{
+			//Here we have pressed either the OK or the APPLY button.
+			switch (((LPNMHDR)lParam)->idFrom) {
+			case 0:
+				switch (((LPNMHDR)lParam)->code) {
+				case PSN_APPLY:
+					// enabled protos
+					{
+						LVITEM lvItem;
+						HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
 
-				memset(&lvItem, 0, sizeof(lvItem));
-				lvItem.mask = LVIF_PARAM;
-				lvItem.iSubItem = 0;
-				for (int i = 0; i < ListView_GetItemCount(hList); i++) {
-					lvItem.iItem = i;
-					ListView_GetItem(hList, &lvItem);
-					g_plugin.setByte((char *)lvItem.lParam, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
-				}
-			}
+						memset(&lvItem, 0, sizeof(lvItem));
+						lvItem.mask = LVIF_PARAM;
+						lvItem.iSubItem = 0;
+						for (int i = 0; i < ListView_GetItemCount(hList); i++) {
+							lvItem.iItem = i;
+							ListView_GetItem(hList, &lvItem);
+							g_plugin.setByte((char *)lvItem.lParam, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+						}
+					}
 
-			LoadSettings();
+					LoadSettings();
 
-			return TRUE;
-			} // switch code - 0
-			break;
-		case IDC_PROTOCOLLIST:
-			switch (((NMHDR*)lParam)->code) {
-			case LVN_ITEMCHANGED:
-			{
-				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+					return TRUE;
+				} // switch code - 0
+				break;
+			case IDC_PROTOCOLLIST:
+				switch (((NMHDR *)lParam)->code) {
+				case LVN_ITEMCHANGED:
+					{
+						NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 
-				if (!initDlg && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
-					SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-			}
-			break;
-			} // switch code - IDC_PROTOCOLLIST
-			break;
-		} //switch idFrom
-	}
-	break; //End WM_NOTIFY
+						if (!initDlg && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
+							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
+					break;
+				} // switch code - IDC_PROTOCOLLIST
+				break;
+			} //switch idFrom
+		}
+		break; //End WM_NOTIFY
 
 	default:
 		break;
@@ -598,6 +590,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 
 		CheckDlgButton(hwndDlg, IDC_ONMESSAGE, bFlashOnMsg ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONFILE, bFlashOnFile ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_GCMSG, bFlashOnGC ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_ONOTHER, bFlashOnOther ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_FSCREEN, bFullScreenMode ? BST_CHECKED : BST_UNCHECKED);
@@ -619,7 +612,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			EnableWindow(GetDlgItem(hwndDlg, IDC_OLDERSPIN), FALSE);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_UNTILBLK, bFlashUntil&UNTIL_NBLINKS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_UNTILBLK, bFlashUntil & UNTIL_NBLINKS ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SBLINK), 0);
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETRANGE32, 1, MAKELONG(UD_MAXVAL, 0));
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(wBlinksNumber, 0));
@@ -627,7 +620,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SBLINK), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKSPIN), FALSE);
 		}
-		CheckDlgButton(hwndDlg, IDC_UNTILATTENDED, bFlashUntil&UNTIL_REATTENDED ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_UNTILATTENDED, bFlashUntil & UNTIL_REATTENDED ? BST_CHECKED : BST_UNCHECKED);
 		for (int i = 0; i < 2; i++) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)AttendedName[i]);
 			if (index != CB_ERR && index != CB_ERRSPACE)
@@ -657,7 +650,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 
 	case WM_VSCROLL:
 	case WM_HSCROLL:
-		SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_DESTROY:
@@ -668,6 +661,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_ONMESSAGE:
+		case IDC_GCMSG:
 		case IDC_ONFILE:
 		case IDC_ONOTHER:
 		case IDC_IFOPEN:
@@ -696,7 +690,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SBLINK), IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKSPIN), IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIRORWIN), IsDlgButtonChecked(hwndDlg, IDC_UNTILATTENDED) == BST_CHECKED);
-			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SOLDER:
 			if (HIWORD(wParam) == EN_CHANGE && !initDlg) {
@@ -704,7 +698,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				int val = GetDlgItemInt(hwndDlg, IDC_SOLDER, &translated, FALSE);
 				if (translated && val < 1)
 					SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_SETPOS, 0, MAKELONG(val, 0));
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			return TRUE;
 		case IDC_SBLINK:
@@ -713,104 +707,104 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				int val = GetDlgItemInt(hwndDlg, IDC_SBLINK, &translated, FALSE);
 				if (translated && val < 1)
 					SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(val, 0));
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			return TRUE;
 		case IDC_ASSIGNPGMS:
 			if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PROCESSES), hwndDlg, DlgProcProcesses, 0) == IDC_OKPGM)
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SELECTXSTATUS:
 			if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_XSTATUSES), hwndDlg, DlgProcXstatusList, 0) == IDC_OKXST)
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SREMCHECK:
 			if (HIWORD(wParam) == EN_CHANGE && !initDlg)
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_MIRORWIN:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		}
 		break;
 
 	case WM_NOTIFY:
-	{
-		BYTE untilMap = 0;
-		WORD statusMap = 0;
-		//Here we have pressed either the OK or the APPLY button.
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				g_plugin.setByte("onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
+		{
+			BYTE untilMap = 0;
+			WORD statusMap = 0;
+			//Here we have pressed either the OK or the APPLY button.
+			switch (((LPNMHDR)lParam)->idFrom) {
+			case 0:
+				switch (((LPNMHDR)lParam)->code) {
+				case PSN_APPLY:
+					g_plugin.setByte("onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ongcmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_GCMSG) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
 
-				g_plugin.setByte("fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1 : 0));
 
-				g_plugin.setByte("ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
-				g_plugin.setWord("secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
+					g_plugin.setByte("ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
+					g_plugin.setWord("secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
 
-				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED)
-					untilMap |= UNTIL_NBLINKS;
-				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILATTENDED) == BST_CHECKED)
-					untilMap |= UNTIL_REATTENDED;
-				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILOPEN) == BST_CHECKED)
-					untilMap |= UNTIL_EVENTSOPEN;
-				if (IsDlgButtonChecked(hwndDlg, IDC_UNTILCOND) == BST_CHECKED)
-					untilMap |= UNTIL_CONDITIONS;
-				g_plugin.setByte("funtil", untilMap);
-				g_plugin.setWord("nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
-				g_plugin.setByte("mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
+					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED)
+						untilMap |= UNTIL_NBLINKS;
+					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILATTENDED) == BST_CHECKED)
+						untilMap |= UNTIL_REATTENDED;
+					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILOPEN) == BST_CHECKED)
+						untilMap |= UNTIL_EVENTSOPEN;
+					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILCOND) == BST_CHECKED)
+						untilMap |= UNTIL_CONDITIONS;
+					g_plugin.setByte("funtil", untilMap);
+					g_plugin.setWord("nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+					g_plugin.setByte("mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
 
-				if (IsDlgButtonChecked(hwndDlg, IDC_ONLINE) == BST_CHECKED)
-					statusMap |= MAP_ONLINE;
-				if (IsDlgButtonChecked(hwndDlg, IDC_AWAY) == BST_CHECKED)
-					statusMap |= MAP_AWAY;
-				if (IsDlgButtonChecked(hwndDlg, IDC_NA) == BST_CHECKED)
-					statusMap |= MAP_NA;
-				if (IsDlgButtonChecked(hwndDlg, IDC_OCCUPIED) == BST_CHECKED)
-					statusMap |= MAP_OCCUPIED;
-				if (IsDlgButtonChecked(hwndDlg, IDC_DND) == BST_CHECKED)
-					statusMap |= MAP_DND;
-				if (IsDlgButtonChecked(hwndDlg, IDC_FREECHAT) == BST_CHECKED)
-					statusMap |= MAP_FREECHAT;
-				if (IsDlgButtonChecked(hwndDlg, IDC_INVISIBLE) == BST_CHECKED)
-					statusMap |= MAP_INVISIBLE;
-				if (IsDlgButtonChecked(hwndDlg, IDC_OFFLINE) == BST_CHECKED)
-					statusMap |= MAP_OFFLINE;
-				g_plugin.setWord("status", statusMap);
+					if (IsDlgButtonChecked(hwndDlg, IDC_ONLINE) == BST_CHECKED)
+						statusMap |= MAP_ONLINE;
+					if (IsDlgButtonChecked(hwndDlg, IDC_AWAY) == BST_CHECKED)
+						statusMap |= MAP_AWAY;
+					if (IsDlgButtonChecked(hwndDlg, IDC_NA) == BST_CHECKED)
+						statusMap |= MAP_NA;
+					if (IsDlgButtonChecked(hwndDlg, IDC_OCCUPIED) == BST_CHECKED)
+						statusMap |= MAP_OCCUPIED;
+					if (IsDlgButtonChecked(hwndDlg, IDC_DND) == BST_CHECKED)
+						statusMap |= MAP_DND;
+					if (IsDlgButtonChecked(hwndDlg, IDC_FREECHAT) == BST_CHECKED)
+						statusMap |= MAP_FREECHAT;
+					if (IsDlgButtonChecked(hwndDlg, IDC_INVISIBLE) == BST_CHECKED)
+						statusMap |= MAP_INVISIBLE;
+					if (IsDlgButtonChecked(hwndDlg, IDC_OFFLINE) == BST_CHECKED)
+						statusMap |= MAP_OFFLINE;
+					g_plugin.setWord("status", statusMap);
 
-				g_plugin.setWord("remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
+					g_plugin.setWord("remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
 
-				int i = 0;
-				for (int j = 0; j < ProcessListAux.count; j++)
-					if (ProcessListAux.szFileName[j])
-						g_plugin.setWString(fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
-				g_plugin.setWord("processcount", (WORD)i);
-				while (!g_plugin.delSetting(fmtDBSettingName("process%d", i++)));
+					int i = 0;
+					for (int j = 0; j < ProcessListAux.count; j++)
+						if (ProcessListAux.szFileName[j])
+							g_plugin.setWString(fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
+					g_plugin.setWord("processcount", (WORD)i);
+					while (!g_plugin.delSetting(fmtDBSettingName("process%d", i++)));
 
-				if (XstatusListAux)
-					for (i = 0; i < ProtoList.protoCount; i++)
-						for (int j = 0; j < (int)XstatusListAux[i].count; j++)
-							g_plugin.setByte(fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
+					if (XstatusListAux)
+						for (i = 0; i < ProtoList.protoCount; i++)
+							for (int j = 0; j < (int)XstatusListAux[i].count; j++)
+								g_plugin.setByte(fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
 
-				LoadSettings();
-
-				return TRUE;
-			} // switch code
-			break;
-		} //switch idFrom
-	}
-	break; //End WM_NOTIFY
+					LoadSettings();
+					return TRUE;
+				} // switch code
+				break;
+			} //switch idFrom
+		}
+		break; //End WM_NOTIFY
 
 	default:
 		break;
@@ -880,7 +874,7 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 	case WM_VSCROLL:
 	case WM_HSCROLL:
-		SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_DESTROY:
@@ -902,15 +896,15 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SEQORDER), IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SCUSTOM), IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ASSIGNLEDS), IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED);
-			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_ASSIGNLEDS:
 			if (DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EVENTLEDS), hwndDlg, DlgProcEventLeds, 0) == IDC_OK)
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_SDELAY:
 			if (HIWORD(wParam) == EN_CHANGE && !initDlg)
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_PREVIEW:
 			previewFlashing(IsDlgButtonChecked(hwndDlg, IDC_PREVIEW) == BST_CHECKED);
@@ -918,54 +912,54 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_SEQORDER:
 		case IDC_SCUSTOM:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		}
 		break;
 
 	case WM_NOTIFY:
-	{
-		//Here we have pressed either the OK or the APPLY button.
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				g_plugin.setByte("fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1 : 0));
-				g_plugin.setByte("fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1 : 0));
+		{
+			//Here we have pressed either the OK or the APPLY button.
+			switch (((LPNMHDR)lParam)->idFrom) {
+			case 0:
+				switch (((LPNMHDR)lParam)->code) {
+				case PSN_APPLY:
+					g_plugin.setByte("fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1 : 0));
 
-				if (IsDlgButtonChecked(hwndDlg, IDC_INTURN) == BST_CHECKED)
-					g_plugin.setByte("feffect", FLASH_INTURN);
-				else if (IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED)
-					g_plugin.setByte("feffect", FLASH_INSEQUENCE);
-				else if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED)
-					g_plugin.setByte("feffect", FLASH_CUSTOM);
-				else if (IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED)
-					g_plugin.setByte("feffect", FLASH_TRILLIAN);
-				else
-					g_plugin.setByte("feffect", FLASH_SAMETIME);
-				g_plugin.setByte("order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
-				g_plugin.setWord("custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
+					if (IsDlgButtonChecked(hwndDlg, IDC_INTURN) == BST_CHECKED)
+						g_plugin.setByte("feffect", FLASH_INTURN);
+					else if (IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED)
+						g_plugin.setByte("feffect", FLASH_INSEQUENCE);
+					else if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED)
+						g_plugin.setByte("feffect", FLASH_CUSTOM);
+					else if (IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED)
+						g_plugin.setByte("feffect", FLASH_TRILLIAN);
+					else
+						g_plugin.setByte("feffect", FLASH_SAMETIME);
+					g_plugin.setByte("order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
+					g_plugin.setWord("custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
 
-				g_plugin.setByte("ledsmsg", trillianLedsMsg);
-				g_plugin.setByte("ledsfile", trillianLedsFile);
-				g_plugin.setByte("ledsurl", trillianLedsURL);
-				g_plugin.setByte("ledsother", trillianLedsOther);
+					g_plugin.setByte("ledsmsg", trillianLedsMsg);
+					g_plugin.setByte("ledsfile", trillianLedsFile);
+					g_plugin.setByte("ledsurl", trillianLedsURL);
+					g_plugin.setByte("ledsother", trillianLedsOther);
 
-				g_plugin.setWord("sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
+					g_plugin.setWord("sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
 
-				g_plugin.setByte("speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
+					g_plugin.setByte("speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
 
-				g_plugin.setByte("keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1 : 0));
 
-				LoadSettings();
+					LoadSettings();
 
-				return TRUE;
-			} // switch code
-			break;
-		} //switch idFrom
-	}
-	break; //End WM_NOTIFY
+					return TRUE;
+				} // switch code
+				break;
+			} //switch idFrom
+		}
+		break; //End WM_NOTIFY
 
 	default:
 		break;
@@ -1019,17 +1013,18 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		case IDC_THEME:
 			switch (HIWORD(wParam)) {
 			case CBN_SELENDOK:
-			case CBN_SELCHANGE: {
-				wchar_t *str = (wchar_t *)SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
-				if (str)
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
-				else
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
-			}
-								break;
+			case CBN_SELCHANGE:
+				{
+					wchar_t *str = (wchar_t *)SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
+					if (str)
+						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
+					else
+						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
+					EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
+				}
+				break;
 			case CBN_EDITCHANGE:
 				wchar_t theme[MAX_PATH + 1];
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
@@ -1072,192 +1067,191 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 			}
 			return TRUE;
 		case IDC_TEST:
-		{
-			wchar_t custom[MAX_PATH + 1];
+			{
+				wchar_t custom[MAX_PATH + 1];
 
-			GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, _countof(custom));
-			SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(custom));
-			testSequence(custom);
-		}
-		return TRUE;
+				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, _countof(custom));
+				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(custom));
+				testSequence(custom);
+			}
+			return TRUE;
 		case IDC_ADD:
-		{
-			wchar_t theme[MAX_PATH + 1];
+			{
+				wchar_t theme[MAX_PATH + 1];
 
-			GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
-			if (!theme[0])
-				return TRUE;
-			int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-			wchar_t *str = (wchar_t *)mir_alloc((MAX_PATH + 1) * sizeof(wchar_t));
-			if (str) {
-				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
-				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
+				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
+				if (!theme[0])
+					return TRUE;
+				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
+				wchar_t *str = (wchar_t *)mir_alloc((MAX_PATH + 1) * sizeof(wchar_t));
+				if (str) {
+					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
+					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
+				}
+				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 			}
-			SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
-		}
-		SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-		return TRUE;
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			return TRUE;
 		case IDC_UPDATE:
-		{
-			wchar_t theme[MAX_PATH + 1];
+			{
+				wchar_t theme[MAX_PATH + 1];
 
-			GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
-			int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
-			wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
-			if (str) {
-				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
-				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
+				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
+				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+				wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+				if (str) {
+					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
+					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
+				}
+				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 			}
-			EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
-		}
-		SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-		return TRUE;
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			return TRUE;
 		case IDC_DELETE:
-		{
-			wchar_t theme[MAX_PATH + 1];
+			{
+				wchar_t theme[MAX_PATH + 1];
 
-			GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
-			int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
-			wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
-			if (str)
-				mir_free(str);
-			SendDlgItemMessage(hwndDlg, IDC_THEME, CB_DELETESTRING, (WPARAM)item, 0);
-			if (SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0) == 0) {
-				SetDlgItemText(hwndDlg, IDC_THEME, L"");
-				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
-			}
-			else {
-				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETCURSEL, 0, 0);
-				str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, 0, 0);
+				GetDlgItemText(hwndDlg, IDC_THEME, theme, _countof(theme));
+				int item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
+				wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str)
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
+					mir_free(str);
+				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_DELETESTRING, (WPARAM)item, 0);
+				if (SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0) == 0) {
+					SetDlgItemText(hwndDlg, IDC_THEME, L"");
+					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, L"");
+					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
+				}
+				else {
+					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETCURSEL, 0, 0);
+					str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, 0, 0);
+					if (str)
+						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
+				}
+				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 			}
-			EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
-		}
-		SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-		return TRUE;
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			return TRUE;
 		case IDC_EXPORT:
-		{
-			wchar_t path[MAX_PATH + 1], filter[MAX_PATH + 1], *pfilter;
-			OPENFILENAME ofn = { 0 };
+			{
+				wchar_t path[MAX_PATH + 1], filter[MAX_PATH + 1], *pfilter;
+				OPENFILENAME ofn = { 0 };
 
-			path[0] = '\0';
-			ofn.lStructSize = sizeof(OPENFILENAME);
-			ofn.hwndOwner = hwndDlg;
-			ofn.hInstance = nullptr;
-			mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
-			mir_wstrcat(filter, L" (*.knt)");
-			pfilter = filter + mir_wstrlen(filter) + 1;
-			mir_wstrcpy(pfilter, L"*.knt");
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			mir_wstrcpy(pfilter, TranslateT("All Files"));
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			mir_wstrcpy(pfilter, L"*.*");
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			*pfilter = '\0';
-			ofn.lpstrFilter = filter;
-			ofn.lpstrFile = path;
-			ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_NOREADONLYRETURN | OFN_PATHMUSTEXIST;
-			ofn.nMaxFile = _countof(path);
-			ofn.lpstrDefExt = L"knt";
-			if (GetSaveFileName(&ofn))
-				exportThemes(path);
-		}
-		return TRUE;
-		case IDC_IMPORT:
-		{
-			wchar_t path[MAX_PATH + 1], filter[MAX_PATH + 1], *pfilter;
-			OPENFILENAME ofn = { 0 };
-
-			path[0] = '\0';
-			ofn.lStructSize = sizeof(OPENFILENAME);
-			ofn.hwndOwner = hwndDlg;
-			ofn.hInstance = nullptr;
-			mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
-			mir_wstrcat(filter, L" (*.knt)");
-			pfilter = filter + mir_wstrlen(filter) + 1;
-			mir_wstrcpy(pfilter, L"*.knt");
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			mir_wstrcpy(pfilter, TranslateT("All Files"));
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			mir_wstrcpy(pfilter, L"*.*");
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			*pfilter = '\0';
-			ofn.lpstrFilter = filter;
-			ofn.lpstrFile = path;
-			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_NOCHANGEDIR;
-			ofn.nMaxFile = _countof(path);
-			ofn.lpstrDefExt = L"knt";
-			if (GetOpenFileName(&ofn)) {
-				importThemes(path, IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED);
-				SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+				path[0] = '\0';
+				ofn.lStructSize = sizeof(OPENFILENAME);
+				ofn.hwndOwner = hwndDlg;
+				ofn.hInstance = nullptr;
+				mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
+				mir_wstrcat(filter, L" (*.knt)");
+				pfilter = filter + mir_wstrlen(filter) + 1;
+				mir_wstrcpy(pfilter, L"*.knt");
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				mir_wstrcpy(pfilter, TranslateT("All Files"));
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				mir_wstrcpy(pfilter, L"*.*");
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				*pfilter = '\0';
+				ofn.lpstrFilter = filter;
+				ofn.lpstrFile = path;
+				ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_NOREADONLYRETURN | OFN_PATHMUSTEXIST;
+				ofn.nMaxFile = _countof(path);
+				ofn.lpstrDefExt = L"knt";
+				if (GetSaveFileName(&ofn))
+					exportThemes(path);
 			}
-		}
-		return TRUE;
+			return TRUE;
+		case IDC_IMPORT:
+			{
+				wchar_t path[MAX_PATH + 1], filter[MAX_PATH + 1], *pfilter;
+				OPENFILENAME ofn = { 0 };
+
+				path[0] = '\0';
+				ofn.lStructSize = sizeof(OPENFILENAME);
+				ofn.hwndOwner = hwndDlg;
+				ofn.hInstance = nullptr;
+				mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
+				mir_wstrcat(filter, L" (*.knt)");
+				pfilter = filter + mir_wstrlen(filter) + 1;
+				mir_wstrcpy(pfilter, L"*.knt");
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				mir_wstrcpy(pfilter, TranslateT("All Files"));
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				mir_wstrcpy(pfilter, L"*.*");
+				pfilter = pfilter + mir_wstrlen(pfilter) + 1;
+				*pfilter = '\0';
+				ofn.lpstrFilter = filter;
+				ofn.lpstrFile = path;
+				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_NOCHANGEDIR;
+				ofn.nMaxFile = _countof(path);
+				ofn.lpstrDefExt = L"knt";
+				if (GetOpenFileName(&ofn)) {
+					importThemes(path, IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				}
+			}
+			return TRUE;
 		case IDC_OVERRIDE:
-			SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
 		}
 		break;
 
 	case WM_NOTIFY:
-	{
-		int count;
-		wchar_t theme[MAX_PATH + 1], themeAux[MAX_PATH + 1];
-		// Here we have pressed either the OK or the APPLY button.
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				if (szTheme = g_plugin.getWStringA(fmtDBSettingName("theme%d", wCustomTheme))) {
-					mir_wstrcpy(theme, szTheme);
-					mir_free(szTheme);
-				}
-				else
-					theme[0] = '\0';
-
-				// Here we will delete all the items in the theme combo on the Flashing tab: we will load them again later
-				for (int i = 0; SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_DELETESTRING, 0, (LPARAM)i) != CB_ERR; i++);
-
-				count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
-				for (int i = 0; i < count; i++) {
-					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
-					g_plugin.setWString(fmtDBSettingName("theme%d", i), themeAux);
-					wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
-					if (str)
-						g_plugin.setWString(fmtDBSettingName("custom%d", i), str);
+		{
+			int count;
+			wchar_t theme[MAX_PATH + 1], themeAux[MAX_PATH + 1];
+			// Here we have pressed either the OK or the APPLY button.
+			switch (((LPNMHDR)lParam)->idFrom) {
+			case 0:
+				switch (((LPNMHDR)lParam)->code) {
+				case PSN_APPLY:
+					if (szTheme = g_plugin.getWStringA(fmtDBSettingName("theme%d", wCustomTheme))) {
+						mir_wstrcpy(theme, szTheme);
+						mir_free(szTheme);
+					}
 					else
-						g_plugin.setWString(fmtDBSettingName("custom%d", i), L"");
+						theme[0] = '\0';
 
-					if (!mir_wstrcmp(theme, themeAux))
-						wCustomTheme = i;
+					// Here we will delete all the items in the theme combo on the Flashing tab: we will load them again later
+					for (int i = 0; SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_DELETESTRING, 0, (LPARAM)i) != CB_ERR; i++);
 
-					// Here we will update the theme combo on the Flashing tab: horrible but can't imagine a better way right now
-					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)i, (LPARAM)themeAux);
-					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETITEMDATA, (WPARAM)i, (LPARAM)i);
-				}
-				for (int i = count; !g_plugin.delSetting(fmtDBSettingName("theme%d", i)); i++)
-					g_plugin.delSetting(fmtDBSettingName("custom%d", i));
+					count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
+					for (int i = 0; i < count; i++) {
+						SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
+						g_plugin.setWString(fmtDBSettingName("theme%d", i), themeAux);
+						wchar_t *str = (wchar_t *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
+						if (str)
+							g_plugin.setWString(fmtDBSettingName("custom%d", i), str);
+						else
+							g_plugin.setWString(fmtDBSettingName("custom%d", i), L"");
 
-				g_plugin.setWord("custom", wCustomTheme);
-				// Still updating here the the Flashing tab's controls
-				SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
+						if (!mir_wstrcmp(theme, themeAux))
+							wCustomTheme = i;
 
-				g_plugin.setByte("override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1 : 0));
+						// Here we will update the theme combo on the Flashing tab: horrible but can't imagine a better way right now
+						SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)i, (LPARAM)themeAux);
+						SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETITEMDATA, (WPARAM)i, (LPARAM)i);
+					}
+					for (int i = count; !g_plugin.delSetting(fmtDBSettingName("theme%d", i)); i++)
+						g_plugin.delSetting(fmtDBSettingName("custom%d", i));
 
-				return TRUE;
-			} // switch code
-			break;
-		} //switch idFrom
-	}
-	break; //End WM_NOTIFY
+					g_plugin.setWord("custom", wCustomTheme);
+					// Still updating here the the Flashing tab's controls
+					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
+
+					g_plugin.setByte("override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1 : 0));
+
+					return TRUE;
+				} // switch code
+				break;
+			} //switch idFrom
+		}
+		break; //End WM_NOTIFY
 
 	case WM_DESTROY:
-	{
 		int count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
 
 		for (int item = 0; item < count; item++) {
@@ -1268,102 +1262,6 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 		break;
 	}
 
-	default:
-		break;
-	}
-
-	return FALSE;
-}
-
-static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-	{
-		TCITEM tci;
-		HWND tc = GetDlgItem(hwndDlg, IDC_TABS);
-		tci.mask = TCIF_TEXT;
-		tci.pszText = TranslateT("Accounts");
-		TabCtrl_InsertItem(tc, 0, &tci);
-		tci.pszText = TranslateT("Rules");
-		TabCtrl_InsertItem(tc, 1, &tci);
-		tci.pszText = TranslateT("Flashing");
-		TabCtrl_InsertItem(tc, 2, &tci);
-		tci.pszText = TranslateT("Themes");
-		TabCtrl_InsertItem(tc, 3, &tci);
-		tci.pszText = TranslateT("Ignore");
-		TabCtrl_InsertItem(tc, 4, &tci);
-
-		hwndProto = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PROTO_OPTIONS), hwndDlg, DlgProcProtoOptions, (LPARAM)NULL);
-		EnableThemeDialogTexture(hwndProto, ETDT_ENABLETAB);
-		SetWindowPos(hwndProto, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		ShowWindow(hwndProto, SW_SHOW);
-		hwndBasic = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BASIC_OPTIONS), hwndDlg, DlgProcBasicOptions, (LPARAM)NULL);
-		EnableThemeDialogTexture(hwndBasic, ETDT_ENABLETAB);
-		SetWindowPos(hwndBasic, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		hwndEffect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EFFECT_OPTIONS), hwndDlg, DlgProcEffectOptions, (LPARAM)NULL);
-		EnableThemeDialogTexture(hwndEffect, ETDT_ENABLETAB);
-		SetWindowPos(hwndEffect, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		hwndTheme = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_THEME_OPTIONS), hwndDlg, DlgProcThemeOptions, (LPARAM)NULL);
-		EnableThemeDialogTexture(hwndTheme, ETDT_ENABLETAB);
-		SetWindowPos(hwndTheme, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		hwndIgnore = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_IGNORE_OPTIONS), hwndDlg, DlgProcIgnoreOptions, (LPARAM)NULL);
-		EnableThemeDialogTexture(hwndIgnore, ETDT_ENABLETAB);
-		SetWindowPos(hwndIgnore, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		hwndCurrentTab = hwndProto;
-		return TRUE;
-
-	}
-	case WM_COMMAND:
-		break;
-	case WM_NOTIFY:
-	{
-		switch (((LPNMHDR)lParam)->code) {
-		case TCN_SELCHANGE:
-			switch (wParam) {
-			case IDC_TABS:
-			{
-				HWND hwnd;
-				switch (TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TABS))) {
-				default:
-				case 0:
-					hwnd = hwndProto;
-					break;
-				case 1:
-					hwnd = hwndBasic;
-					break;
-				case 2:
-					hwnd = hwndEffect;
-					break;
-				case 3:
-					hwnd = hwndTheme;
-					break;
-				case 4:
-					hwnd = hwndIgnore;
-					break;
-				}
-				if (hwnd != hwndCurrentTab) {
-					ShowWindow(hwnd, SW_SHOW);
-					ShowWindow(hwndCurrentTab, SW_HIDE);
-					hwndCurrentTab = hwnd;
-				}
-			}
-			break;
-			}
-			break;
-		case PSN_APPLY:
-			SendMessage(hwndProto, WM_NOTIFY, wParam, lParam);
-			SendMessage(hwndBasic, WM_NOTIFY, wParam, lParam);
-			SendMessage(hwndEffect, WM_NOTIFY, wParam, lParam);
-			SendMessage(hwndTheme, WM_NOTIFY, wParam, lParam);
-			SendMessage(hwndIgnore, WM_NOTIFY, wParam, lParam);
-			return TRUE;
-		}
-	}
-	break;
-	case WM_DESTROY:
-		break;
-	}
 	return FALSE;
 }
 
@@ -1373,11 +1271,33 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 int InitializeOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szTitle.a = LPGEN("Keyboard Flash");
 	odp.szGroup.a = LPGEN("Events");
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = DlgProcOptions;
+
+	odp.szTab.a = LPGEN("Accounts");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO_OPTIONS);
+	odp.pfnDlgProc = DlgProcProtoOptions;
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szTab.a = LPGEN("Rules");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_BASIC_OPTIONS);
+	odp.pfnDlgProc = DlgProcBasicOptions;
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szTab.a = LPGEN("Flashing");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_EFFECT_OPTIONS);
+	odp.pfnDlgProc = DlgProcEffectOptions;
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szTab.a = LPGEN("Themes");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_THEME_OPTIONS);
+	odp.pfnDlgProc = DlgProcThemeOptions;
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szTab.a = LPGEN("Ignore");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_IGNORE_OPTIONS);
+	odp.pfnDlgProc = DlgProcIgnoreOptions;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

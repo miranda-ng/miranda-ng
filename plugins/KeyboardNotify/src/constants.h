@@ -47,6 +47,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // Default settings
 #define DEF_SETTING_ONMSG       1   // 1: Yes, 0: No
+#define DEF_SETTING_ONMSGGC     0   // 1: Yes, 0: No
 #define DEF_SETTING_ONURL       1   // 1: Yes, 0: No
 #define DEF_SETTING_ONFILE      1   // 1: Yes, 0: No
 #define DEF_SETTING_OTHER       1   // 1: Yes, 0: No
