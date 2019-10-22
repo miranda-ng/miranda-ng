@@ -39,7 +39,7 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
 		if (!p->m_pSettings->fPrivate) {
 			Utils::SettingsToContainer(p);
 			if (fForceReconfig)
-				SendMessage(p->m_hwnd, DM_CONFIGURECONTAINER, 0, 0);
+				p->Configure();
 			else
 				SendMessage(p->m_hwnd, WM_SIZE, 0, 1);
 			BroadCastContainer(p, DM_SETINFOPANEL, 0, 0);
@@ -85,7 +85,7 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 		if (flags & CNT_SIDEBAR)
 			SendMessage(pContainer->m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 		else
-			SendMessage(pContainer->m_hwnd, DM_CONFIGURECONTAINER, 0, 0);
+			pContainer->Configure();
 		if (flags & CNT_INFOPANEL)
 			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
 	}
@@ -343,7 +343,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				Utils::SaveContainerSettings(pContainer, szSetting);
 			}
 
-			SendMessage(pContainer->m_hwnd, DM_CONFIGURECONTAINER, 0, 0);
+			pContainer->Configure();
 			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
 
 			ShowWindow(pContainer->m_hwnd, SW_HIDE);

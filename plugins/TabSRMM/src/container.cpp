@@ -73,6 +73,96 @@ void TContainerData::CloseTabByMouse(POINT *pt)
 	}
 }
 
+void TContainerData::Configure()
+{
+	DWORD wsold, ws = wsold = GetWindowLongPtr(m_hwnd, GWL_STYLE);
+	if (!CSkin::m_frameSkins) {
+		ws = (m_dwFlags & CNT_NOTITLE) ?
+			((IsWindowVisible(m_hwnd) ? WS_VISIBLE : 0) | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_THICKFRAME | (CSkin::m_frameSkins ? WS_SYSMENU : WS_SYSMENU | WS_SIZEBOX)) :
+			ws | WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
+	}
+
+	SetWindowLongPtr(m_hwnd, GWL_STYLE, ws);
+
+	m_tBorder = M.GetByte((CSkin::m_skinEnabled ? "S_tborder" : "tborder"), 2);
+	m_tBorder_outer_left = g_ButtonSet.left + M.GetByte((CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left"), 2);
+	m_tBorder_outer_right = g_ButtonSet.right + M.GetByte((CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right"), 2);
+	m_tBorder_outer_top = g_ButtonSet.top + M.GetByte((CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top"), 2);
+	m_tBorder_outer_bottom = g_ButtonSet.bottom + M.GetByte((CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom"), 2);
+	UINT sBarHeight = (UINT)M.GetByte((CSkin::m_skinEnabled ? "S_sbarheight" : "sbarheight"), 0);
+
+	BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
+
+	DWORD exold = GetWindowLongPtr(m_hwnd, GWL_EXSTYLE);
+	DWORD ex = (m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? ex | WS_EX_LAYERED : ex & ~(WS_EX_LAYERED);
+
+	SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, ex);
+	if (m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
+		DWORD trans = LOWORD(m_pSettings->dwTransparency);
+		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (BYTE)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+	}
+
+	HMENU hSysmenu = GetSystemMenu(m_hwnd, FALSE);
+	if (!CSkin::m_frameSkins)
+		CheckMenuItem(hSysmenu, IDM_NOTITLE, (m_dwFlags & CNT_NOTITLE) ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
+
+	CheckMenuItem(hSysmenu, IDM_STAYONTOP, m_dwFlags & CNT_STICKY ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
+	SetWindowPos(m_hwnd, (m_dwFlags & CNT_STICKY) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
+	if (ws != wsold) {
+		RECT rc;
+		GetWindowRect(m_hwnd, &rc);
+		if ((ws & WS_CAPTION) != (wsold & WS_CAPTION)) {
+			SetWindowPos(m_hwnd, nullptr, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_NOCOPYBITS);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
+			if (m_hwndActive != nullptr) {
+				auto *dat = (CMsgDialog *)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
+				dat->DM_ScrollToBottom(0, 0);
+			}
+		}
+	}
+
+	if (m_dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT))
+		m_dwFlags |= CNT_SIDEBAR;
+	else
+		m_dwFlags &= ~CNT_SIDEBAR;
+
+	m_pSideBar->Init();
+
+	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
+	ws = wsold = GetWindowLongPtr(hwndTab, GWL_STYLE);
+	if (m_dwFlags & CNT_TABSBOTTOM)
+		ws |= (TCS_BOTTOM);
+	else
+		ws &= ~(TCS_BOTTOM);
+	if ((ws & (TCS_BOTTOM | TCS_MULTILINE)) != (wsold & (TCS_BOTTOM | TCS_MULTILINE))) {
+		SetWindowLongPtr(hwndTab, GWL_STYLE, ws);
+		RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE);
+	}
+
+	if (m_dwFlags & CNT_NOSTATUSBAR) {
+		if (m_hwndStatus) {
+			DestroyWindow(m_hwndStatus);
+			m_hwndStatus = nullptr;
+			m_statusBarHeight = 0;
+			SendMessage(m_hwnd, DM_STATUSBARCHANGED, 0, 0);
+		}
+	}
+	else if (m_hwndStatus == nullptr) {
+		m_hwndStatus = CreateWindowEx(0, L"TSStatusBarClass", nullptr, SBT_TOOLTIPS | WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, m_hwnd, nullptr, g_plugin.getInst(), nullptr);
+
+		if (sBarHeight && CSkin::m_skinEnabled)
+			SendMessage(m_hwndStatus, SB_SETMINHEIGHT, sBarHeight, 0);
+	}
+	if (m_hwndActive != nullptr) {
+		MCONTACT hContact = 0;
+		SendMessage(m_hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
+		if (hContact)
+			UpdateTitle(hContact);
+	}
+	SendMessage(m_hwnd, WM_SIZE, 0, 1);
+	BroadCastContainer(this, DM_CONFIGURETOOLBAR, 0, 1);
+}
+
 void TContainerData::InitRedraw()
 {
 	::KillTimer(m_hwnd, (UINT_PTR)this);
@@ -422,11 +512,10 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	BOOL bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
 
 	switch (msg) {
 	case WM_NCPAINT:
-		if (pContainer && bSkinned) {
+		if (pContainer && CSkin::m_skinEnabled) {
 			if (CSkin::m_frameSkins) {
 				HDC dcFrame = GetDCEx(hwndDlg, nullptr, DCX_WINDOW |/*DCX_INTERSECTRGN|*/0x10000); // GetWindowDC(hwndDlg);
 				LONG clip_top, clip_left;
@@ -688,7 +777,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_NCACTIVATE:
 		if (pContainer) {
 			pContainer->m_ncActive = wParam;
-			if (bSkinned && CSkin::m_frameSkins) {
+			if (CSkin::m_skinEnabled && CSkin::m_frameSkins) {
 				SendMessage(hwndDlg, WM_NCPAINT, 0, 0);
 				return 1;
 			}
@@ -765,7 +854,6 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	CMsgDialog *dat;
 
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	BOOL bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
 	HWND hwndTab = GetDlgItem(hwndDlg, IDC_MSGTABS);
 
 	switch (msg) {
@@ -808,8 +896,10 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			pContainer->m_buttonItems = g_ButtonSet.items;
 
-			pContainer->m_dwFlags = ((pContainer->m_dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT)) ?
-				pContainer->m_dwFlags | CNT_SIDEBAR : pContainer->m_dwFlags & ~CNT_SIDEBAR);
+			if (pContainer->m_dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT))
+				pContainer->m_dwFlags |= CNT_SIDEBAR;
+			else
+				pContainer->m_dwFlags &= ~CNT_SIDEBAR;
 
 			pContainer->m_pSideBar = new CSideBar(pContainer);
 			pContainer->m_pMenuBar = new CMenuBar(hwndDlg, pContainer);
@@ -847,7 +937,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			TabCtrl_SetImageList(hwndTab, PluginConfig.g_hImageList);
 
-			SendMessage(hwndDlg, DM_CONFIGURECONTAINER, 0, 10);
+			pContainer->Configure();
 
 			// tab tooltips...
 			if (!fHaveTipper || M.GetByte("d_tooltips", 0) == 0) {
@@ -960,7 +1050,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			if (!M.isAero()) {					// aero mode uses buffered paint, no forced redraw needed
 				RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE | (pContainer->m_bSizingLoop ? RDW_ERASE : 0));
-				RedrawWindow(hwndDlg, nullptr, nullptr, (bSkinned ? RDW_FRAME : 0) | RDW_INVALIDATE | ((pContainer->m_bSizingLoop || wParam == SIZE_RESTORED) ? RDW_ERASE : 0));
+				RedrawWindow(hwndDlg, nullptr, nullptr, (CSkin::m_skinEnabled ? RDW_FRAME : 0) | RDW_INVALIDATE | ((pContainer->m_bSizingLoop || wParam == SIZE_RESTORED) ? RDW_ERASE : 0));
 			}
 
 			if (pContainer->m_hwndStatus)
@@ -1318,7 +1408,7 @@ panel_found:
 			}
 
 			if (pContainer->m_dwFlags != dwOldFlags)
-				SendMessage(hwndDlg, DM_CONFIGURECONTAINER, 0, 0);
+				pContainer->Configure();
 		}
 		break;
 
@@ -1489,7 +1579,7 @@ panel_found:
 			BroadCastContainer(pContainer, DM_CHECKINFOTIP, wParam, lParam);
 
 		if (LOWORD(wParam == WA_INACTIVE) && (HWND)lParam != PluginConfig.g_hwndHotkeyHandler && GetParent((HWND)lParam) != hwndDlg) {
-			BOOL fTransAllowed = !bSkinned || IsWinVerVistaPlus();
+			BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
 			if (pContainer->m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
 				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)HIWORD(pContainer->m_pSettings->dwTransparency), (pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
@@ -1507,7 +1597,7 @@ panel_found:
 
 	case WM_MOUSEACTIVATE:
 		if (pContainer != nullptr) {
-			BOOL fTransAllowed = !bSkinned || IsWinVerVistaPlus();
+			BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
 			FlashContainer(pContainer, 0, 0);
 			pContainer->m_dwFlashingStarted = 0;
@@ -1563,7 +1653,7 @@ panel_found:
 		break;
 
 	case WM_PAINT:
-		if (bSkinned || M.isAero()) {
+		if (CSkin::m_skinEnabled || M.isAero()) {
 			PAINTSTRUCT ps;
 			BeginPaint(hwndDlg, &ps);
 			EndPaint(hwndDlg, &ps);
@@ -1654,95 +1744,6 @@ panel_found:
 
 		if (pContainer->m_hwndStatus != nullptr && pContainer->m_hwndActive != nullptr)
 			PostMessage(pContainer->m_hwndActive, DM_STATUSBARCHANGED, 0, 0);
-		return 0;
-
-	case DM_CONFIGURECONTAINER:
-		UINT sBarHeight;
-		{
-			HMENU hSysmenu = GetSystemMenu(hwndDlg, FALSE);
-
-			DWORD wsold, ws = wsold = GetWindowLongPtr(hwndDlg, GWL_STYLE);
-			if (!CSkin::m_frameSkins) {
-				ws = (pContainer->m_dwFlags & CNT_NOTITLE) ?
-					((IsWindowVisible(hwndDlg) ? WS_VISIBLE : 0) | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_THICKFRAME | (CSkin::m_frameSkins ? WS_SYSMENU : WS_SYSMENU | WS_SIZEBOX)) :
-					ws | WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
-			}
-
-			SetWindowLongPtr(hwndDlg, GWL_STYLE, ws);
-
-			pContainer->m_tBorder = M.GetByte((bSkinned ? "S_tborder" : "tborder"), 2);
-			pContainer->m_tBorder_outer_left = g_ButtonSet.left + M.GetByte((bSkinned ? "S_tborder_outer_left" : "tborder_outer_left"), 2);
-			pContainer->m_tBorder_outer_right = g_ButtonSet.right + M.GetByte((bSkinned ? "S_tborder_outer_right" : "tborder_outer_right"), 2);
-			pContainer->m_tBorder_outer_top = g_ButtonSet.top + M.GetByte((bSkinned ? "S_tborder_outer_top" : "tborder_outer_top"), 2);
-			pContainer->m_tBorder_outer_bottom = g_ButtonSet.bottom + M.GetByte((bSkinned ? "S_tborder_outer_bottom" : "tborder_outer_bottom"), 2);
-			sBarHeight = (UINT)M.GetByte((bSkinned ? "S_sbarheight" : "sbarheight"), 0);
-
-			BOOL fTransAllowed = !bSkinned || IsWinVerVistaPlus();
-
-			DWORD exold, ex = exold = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE);
-			ex = (pContainer->m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? ex | WS_EX_LAYERED : ex & ~(WS_EX_LAYERED);
-
-			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ex);
-			if (pContainer->m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
-				DWORD trans = LOWORD(pContainer->m_pSettings->dwTransparency);
-				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (/* pContainer->m_bSkinned ? LWA_COLORKEY : */ 0) | (pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
-			}
-
-			if (!CSkin::m_frameSkins)
-				CheckMenuItem(hSysmenu, IDM_NOTITLE, (pContainer->m_dwFlags & CNT_NOTITLE) ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
-
-			CheckMenuItem(hSysmenu, IDM_STAYONTOP, pContainer->m_dwFlags & CNT_STICKY ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
-			SetWindowPos(hwndDlg, (pContainer->m_dwFlags & CNT_STICKY) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-			if (ws != wsold) {
-				GetWindowRect(hwndDlg, &rc);
-				if ((ws & WS_CAPTION) != (wsold & WS_CAPTION)) {
-					SetWindowPos(hwndDlg, nullptr, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_FRAMECHANGED | SWP_NOCOPYBITS);
-					RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
-					if (pContainer->m_hwndActive != nullptr) {
-						dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
-						dat->DM_ScrollToBottom(0, 0);
-					}
-				}
-			}
-
-			pContainer->m_dwFlags = ((pContainer->m_dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT)) ?
-				pContainer->m_dwFlags | CNT_SIDEBAR : pContainer->m_dwFlags & ~CNT_SIDEBAR);
-
-			pContainer->m_pSideBar->Init();
-
-			ws = wsold = GetWindowLongPtr(hwndTab, GWL_STYLE);
-			if (pContainer->m_dwFlags & CNT_TABSBOTTOM)
-				ws |= (TCS_BOTTOM);
-			else
-				ws &= ~(TCS_BOTTOM);
-			if ((ws & (TCS_BOTTOM | TCS_MULTILINE)) != (wsold & (TCS_BOTTOM | TCS_MULTILINE))) {
-				SetWindowLongPtr(hwndTab, GWL_STYLE, ws);
-				RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE);
-			}
-
-			if (pContainer->m_dwFlags & CNT_NOSTATUSBAR) {
-				if (pContainer->m_hwndStatus) {
-					DestroyWindow(pContainer->m_hwndStatus);
-					pContainer->m_hwndStatus = nullptr;
-					pContainer->m_statusBarHeight = 0;
-					SendMessage(hwndDlg, DM_STATUSBARCHANGED, 0, 0);
-				}
-			}
-			else if (pContainer->m_hwndStatus == nullptr) {
-				pContainer->m_hwndStatus = CreateWindowEx(0, L"TSStatusBarClass", nullptr, SBT_TOOLTIPS | WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hwndDlg, nullptr, g_plugin.getInst(), nullptr);
-
-				if (sBarHeight && bSkinned)
-					SendMessage(pContainer->m_hwndStatus, SB_SETMINHEIGHT, sBarHeight, 0);
-			}
-			if (pContainer->m_hwndActive != nullptr) {
-				hContact = 0;
-				SendMessage(pContainer->m_hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-				if (hContact)
-					pContainer->UpdateTitle(hContact);
-			}
-			SendMessage(hwndDlg, WM_SIZE, 0, 1);
-			BroadCastContainer(pContainer, DM_CONFIGURETOOLBAR, 0, 1);
-		}
 		return 0;
 
 	case WM_DRAWITEM:

@@ -230,6 +230,7 @@ struct TContainerData : public MZeroedObject
 
 	void InitRedraw(void);
 	void CloseTabByMouse(POINT *);
+	void Configure();
 	void LoadOverrideTheme(void);
 	void LoadThemeDefaults(void);
 	void QueryPending();
@@ -750,7 +751,6 @@ struct TIconDescW
 #define DM_CHECKSIZE             (TM_USER+37)
 #define DM_FORCEREDRAW           (TM_USER+38)
 #define DM_CONTAINERSELECTED     (TM_USER+39)
-#define DM_CONFIGURECONTAINER    (TM_USER+40)
 #define DM_QUERYHCONTACT         (TM_USER+41)
 #define DM_QUERYCLIENTAREA       (TM_USER+45)
 #define DM_ACTIVATEME            (TM_USER+46)
