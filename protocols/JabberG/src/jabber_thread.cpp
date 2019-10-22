@@ -1643,12 +1643,17 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 					auto *szPhoto = XmlGetChildText(xNode, "photo");
 					if (szPhoto && !bHasAvatar) {
 						if (mir_strlen(szPhoto)) {
+							// no file - no saved hash
+							wchar_t tszFileName[MAX_PATH];
+							GetAvatarFileName(hContact, tszFileName, _countof(tszFileName));
+							if (::_waccess(tszFileName, 0) != 0)
+								delSetting(hContact, "AvatarHash");
+
 							bHasAvatar = true;
 							ptrA saved(getStringA(hContact, "AvatarHash"));
 							if (saved == nullptr || mir_strcmp(saved, szPhoto)) {
 								debugLogA("Avatar was changed, reloading");
-								setString(hContact, "AvatarHash", szPhoto);
-								ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
+								SendGetVcard(hContact);
 								continue;
 							}
 						}
