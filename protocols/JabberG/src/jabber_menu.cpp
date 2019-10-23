@@ -39,7 +39,6 @@ static HANDLE hStatusMenuInit;
 static int hChooserMenu;
 static int iChooserMenuPos = 30000;
 
-static HGENMENU g_hMenuConvert;
 static HGENMENU g_hMenuRosterAdd;
 static HGENMENU g_hMenuAddBookmark;
 static HGENMENU g_hMenuLogin;
@@ -70,12 +69,6 @@ static INT_PTR JabberMenuChooseService(WPARAM wParam, LPARAM lParam)
 	if (lParam)
 		*(void**)lParam = (void*)wParam;
 	return 0;
-}
-
-static INT_PTR JabberMenuConvertChatContact(WPARAM hContact, LPARAM lParam)
-{
-	CJabberProto *ppro = CMPlugin::getInstance(hContact);
-	return(ppro) ? ppro->OnMenuConvertChatContact(hContact, lParam) : 0;
 }
 
 static INT_PTR JabberMenuRosterAdd(WPARAM hContact, LPARAM lParam)
@@ -130,7 +123,6 @@ static int JabberPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	Menu_ShowItem(g_hMenuCommands, false);
 	Menu_ShowItem(g_hMenuSendNote, false);
-	Menu_ShowItem(g_hMenuConvert, false);
 	Menu_ShowItem(g_hMenuRosterAdd, false);
 	Menu_ShowItem(g_hMenuLogin, false);
 	Menu_ShowItem(g_hMenuRefresh, false);
@@ -164,15 +156,6 @@ void g_MenuInit(void)
 
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNMOVABLE;
-
-	// "Convert Chat/Contact"
-	SET_UID(mi, 0xa98894ec, 0xbaa6, 0x4e1e, 0x8d, 0x75, 0x72, 0xc, 0xae, 0x25, 0xd8, 0x87);
-	mi.pszService = "Jabber/ConvertChatContact";
-	mi.name.a = LPGEN("Convert");
-	mi.position = -1999901004;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_USER2ROOM);
-	g_hMenuConvert = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuConvertChatContact);
 
 	// "Add to roster"
 	SET_UID(mi, 0x3928ba10, 0x69bc, 0x4ec9, 0x96, 0x48, 0xa4, 0x1b, 0xbe, 0x58, 0x4a, 0x7e);
@@ -286,7 +269,6 @@ void g_MenuUninit(void)
 {
 	DestroyHookableEvent(hStatusMenuInit);
 
-	Menu_RemoveItem(g_hMenuConvert);
 	Menu_RemoveItem(g_hMenuRosterAdd);
 	Menu_RemoveItem(g_hMenuLogin);
 	Menu_RemoveItem(g_hMenuRefresh);
@@ -305,13 +287,6 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	bool bIsChatRoom = isChatRoom(hContact);
 	bool bIsTransport = getBool(hContact, "IsTransport", false);
-
-	if ((bIsChatRoom == GCW_CHATROOM) || bIsChatRoom == 0) {
-		if (ptrW(getWStringA(hContact, bIsChatRoom ? "ChatRoomID" : "jid")) != nullptr) {
-			Menu_ShowItem(g_hMenuConvert, TRUE);
-			Menu_ModifyItem(g_hMenuConvert, bIsChatRoom ? LPGENW("&Convert to Contact") : LPGENW("&Convert to Chat Room"));
-		}
-	}
 
 	if (!m_bJabberOnline)
 		return 0;
@@ -404,20 +379,6 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	}
 
 	m_nMenuResourceItems = nMenuResourceItemsNew;
-	return 0;
-}
-
-INT_PTR __cdecl CJabberProto::OnMenuConvertChatContact(WPARAM hContact, LPARAM)
-{
-	BYTE bIsChatRoom = isChatRoom(hContact);
-	const char *szSetting = (bIsChatRoom) ? "ChatRoomID" : "jid";
-
-	ptrW jid(getWStringA(hContact, szSetting));
-	if (jid != nullptr) {
-		delSetting(hContact, szSetting);
-		setWString(hContact, szSetting, jid);
-		setByte(hContact, "ChatRoom", !bIsChatRoom);
-	}
 	return 0;
 }
 

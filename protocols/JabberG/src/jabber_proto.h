@@ -607,7 +607,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_menu.cpp ---------------------------------------------------------------
 
-	INT_PTR    __cdecl OnMenuConvertChatContact(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuRosterAdd(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam);
