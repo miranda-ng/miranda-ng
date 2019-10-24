@@ -75,14 +75,13 @@ void TContainerData::CloseTabByMouse(POINT *pt)
 
 void TContainerData::Configure()
 {
-	DWORD wsold, ws = wsold = GetWindowLongPtr(m_hwnd, GWL_STYLE);
+	DWORD wsold, ws = wsold = GetWindowLong(m_hwnd, GWL_STYLE);
 	if (!CSkin::m_frameSkins) {
 		ws = (m_dwFlags & CNT_NOTITLE) ?
 			((IsWindowVisible(m_hwnd) ? WS_VISIBLE : 0) | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_THICKFRAME | (CSkin::m_frameSkins ? WS_SYSMENU : WS_SYSMENU | WS_SIZEBOX)) :
 			ws | WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
+		SetWindowLong(m_hwnd, GWL_STYLE, ws);
 	}
-
-	SetWindowLongPtr(m_hwnd, GWL_STYLE, ws);
 
 	m_tBorder = M.GetByte((CSkin::m_skinEnabled ? "S_tborder" : "tborder"), 2);
 	m_tBorder_outer_left = g_ButtonSet.left + M.GetByte((CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left"), 2);
@@ -93,10 +92,10 @@ void TContainerData::Configure()
 
 	BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
-	DWORD exold = GetWindowLongPtr(m_hwnd, GWL_EXSTYLE);
-	DWORD ex = (m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? ex | WS_EX_LAYERED : ex & ~(WS_EX_LAYERED);
+	DWORD exold = GetWindowLong(m_hwnd, GWL_EXSTYLE);
+	DWORD ex = (m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? (ex | WS_EX_LAYERED) : (ex & ~WS_EX_LAYERED);
+	SetWindowLong(m_hwnd, GWL_EXSTYLE, ex);
 
-	SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, ex);
 	if (m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
 		DWORD trans = LOWORD(m_pSettings->dwTransparency);
 		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (BYTE)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
@@ -129,13 +128,13 @@ void TContainerData::Configure()
 	m_pSideBar->Init();
 
 	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
-	ws = wsold = GetWindowLongPtr(hwndTab, GWL_STYLE);
+	ws = wsold = GetWindowLong(hwndTab, GWL_STYLE);
 	if (m_dwFlags & CNT_TABSBOTTOM)
-		ws |= (TCS_BOTTOM);
+		ws |= TCS_BOTTOM;
 	else
-		ws &= ~(TCS_BOTTOM);
+		ws &= ~TCS_BOTTOM;
 	if ((ws & (TCS_BOTTOM | TCS_MULTILINE)) != (wsold & (TCS_BOTTOM | TCS_MULTILINE))) {
-		SetWindowLongPtr(hwndTab, GWL_STYLE, ws);
+		SetWindowLong(hwndTab, GWL_STYLE, ws);
 		RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE);
 	}
 
