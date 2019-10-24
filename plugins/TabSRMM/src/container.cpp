@@ -92,8 +92,8 @@ void TContainerData::Configure()
 
 	BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
-	DWORD exold = GetWindowLong(m_hwnd, GWL_EXSTYLE);
-	DWORD ex = (m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? (ex | WS_EX_LAYERED) : (ex & ~WS_EX_LAYERED);
+	DWORD ex = GetWindowLong(m_hwnd, GWL_EXSTYLE);
+	ex = (m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? (ex | WS_EX_LAYERED) : (ex & ~WS_EX_LAYERED);
 	SetWindowLong(m_hwnd, GWL_EXSTYLE, ex);
 
 	if (m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
