@@ -32,18 +32,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * param:	none
  * return:	none
  **/
-CPsTree::CPsTree(LPPS pPs)
+CPsTree::CPsTree(LPPS pPs) :
+	_pages(1)
 {
-	_hWndTree = nullptr;
-	_hImages = nullptr;
-
-	_pItems = nullptr;
-	_numItems = 0;
 	_curItem = -1;
 	_dwFlags = 0;
 	_hLabelEdit = nullptr;
 	_hDragItem = nullptr;
-	_isDragging = FALSE;
+	_isDragging = false;
 	_pPs = pPs;
 }
 
@@ -60,20 +56,9 @@ CPsTree::~CPsTree()
 		DestroyWindow(_hLabelEdit);
 		_hLabelEdit = nullptr;
 	}
-	if (_pItems) 
-	{
-		for (int i = 0; i < _numItems; i++) 
-		{
-			if (_pItems[i])
-			{
-				delete _pItems[i];
-				_pItems[i] = nullptr;
-			}
-		}
-		MIR_FREE(_pItems);
-		_pItems = nullptr;
-		_numItems = NULL;
-	}
+
+	_pages.destroy();
+
 	ImageList_Destroy(_hImages);
 	_hImages = nullptr;
 }
@@ -93,10 +78,13 @@ BYTE CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
 	{
 		_hWndTree = hWndTree;
 		_hImages = pPsh->_hImages;
-		_pItems = pPsh->_pPages;
-		_numItems = pPsh->_numPages;
 		_dwFlags = pPsh->_dwFlags;
-		
+
+		for (int i = 0; i < pPsh->_numPages; i++)
+			_pages.insert(pPsh->_pPages[i]);
+		pPsh->_pPages = nullptr;
+		pPsh->_numPages = 0;
+
 		TreeView_SetImageList(_hWndTree, _hImages, TVSIL_NORMAL);
 		TreeView_SetItemHeight(_hWndTree, TreeView_GetItemHeight(_hWndTree) + 4);
 		SetUserData(_hWndTree, this);
@@ -116,30 +104,48 @@ BYTE CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
  * param:	pszGroup	- utf8 encoded string of the item to add
  * return:	index of the new item or -1 if failed to add
  **/
+
 int CPsTree::AddDummyItem(LPCSTR pszGroup)
 {
-	if (mir_strcmpi(pszGroup, TREE_ROOTITEM)) 
-	{
-		CPsHdr psh;
-		psh._hContact = _pPs->hContact;
-		psh._pszProto = _pPs->pszProto;
-		psh._hImages	= _hImages;
-		psh._pPages	 = _pItems;
-		psh._numPages = _numItems;
-
-		OPTIONSDIALOGPAGE odp = {};
-		odp.flags = ODPF_UNICODE;
-		odp.szTitle.w = mir_utf8decodeW(pszGroup);
+	if (!mir_strcmpi(pszGroup, TREE_ROOTITEM))
+		return -1;
 		
-		int rc = g_plugin.addUserInfo((WPARAM)&psh, &odp);
-		mir_free(odp.szTitle.w);
-		if (!rc) {
-			_pItems = psh._pPages;
-			_numItems = psh._numPages;
-			return _numItems - 1;
+	CPsHdr psh;
+	psh._hContact = _pPs->hContact;
+	psh._pszProto = _pPs->pszProto;
+	psh._hImages = _hImages;
+
+	OPTIONSDIALOGPAGE odp = {};
+	odp.flags = ODPF_UNICODE;
+	odp.szTitle.w = mir_utf8decodeW(pszGroup);
+
+	auto *p = new CPsTreeItem();
+	p->Create(&psh, &odp);
+	_pages.insert(p);
+	
+	return _pages.indexOf(&p);
+}
+
+void CPsTree::Remove(HINSTANCE hInst)
+{
+	bool bRemoved = false;
+
+	for (auto &it : _pages.rev_iter()) {
+		if (it->Inst() == hInst) {
+			if (!bRemoved) {
+				TreeView_DeleteAllItems(_hWndTree);
+				bRemoved = true;
+			}
+			_pages.remove(_pages.indexOf(&it));
 		}
 	}
-	return -1;
+
+	if (bRemoved) {
+		for (auto &it : _pages)
+			it->Hti(nullptr);
+
+		InitTreeItems(nullptr);
+	}
 }
 
 /**
@@ -150,58 +156,45 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
  **/
 BYTE CPsTree::InitTreeItems(LPWORD needWidth)
 {
-	int i;
-	DBVARIANT dbv;
-
-	if (!_hWndTree || !_pItems)
-	{
+	if (!_hWndTree || !_pages.getCount())
 		return FALSE;
-	}
 
-	if (!DB::Setting::GetUString(0, MODULENAME, SET_LASTITEM, &dbv)) 
-	{
+	DBVARIANT dbv;
+	if (!DB::Setting::GetUString(0, MODULENAME, SET_LASTITEM, &dbv)) {
 		_curItem = FindItemIndexByName(dbv.pszVal);
 		db_free(&dbv);
 	}
 
 	// init the groups
-	if ((_dwFlags & PSTVF_GROUPS) || (!_pPs->hContact && myGlobals.CanChangeDetails)) 
-	{
-		LPSTR pszGroup;
-		
+	if ((_dwFlags & PSTVF_GROUPS) || (!_pPs->hContact && myGlobals.CanChangeDetails)) {
 		// set treeview styles
 		TreeView_SetIndent(_hWndTree, 3);
-		SetWindowLongPtr(_hWndTree, GWL_STYLE, GetWindowLongPtr(_hWndTree, GWL_STYLE)|TVS_HASBUTTONS);
+		SetWindowLongPtr(_hWndTree, GWL_STYLE, GetWindowLongPtr(_hWndTree, GWL_STYLE) | TVS_HASBUTTONS);
 
 		// init the iParent member for all the items
-		for (i = 0; i < _numItems; i++) 
-		{
-			if (_pItems[i] && (pszGroup = _pItems[i]->ParentItemName()) != nullptr) 
-			{
+		for (auto &it : _pages) {
+			LPSTR pszGroup = it->ParentItemName();
+			if (pszGroup != nullptr) {
 				int iParent = FindItemIndexByName(pszGroup);
-				
+
 				// need to add an empty parent item
-				if (iParent == -1) 
+				if (iParent == -1)
 					iParent = AddDummyItem(pszGroup);
 
-				_pItems[i]->Parent(iParent);
+				it->Parent(iParent);
 				mir_free(pszGroup);
 			}
 		}
 	}
 
 	if (needWidth)
-	{
 		*needWidth = 0;
-	}
+
 	ShowWindow(_hWndTree, SW_HIDE);
-	for (i = 0; i < _numItems; i++)
-	{
-		if (_pItems[i]->State() != DBTVIS_INVISIBLE)
-		{
-			ShowItem(i, needWidth);
-		}
-	}
+	for (auto &it : _pages)
+		if (it->State() != DBTVIS_INVISIBLE)
+			ShowItem(_pages.indexOf(&it), needWidth);
+
 	ShowWindow(_hWndTree, SW_SHOW);
 	return TRUE;
 }
@@ -217,16 +210,13 @@ BYTE CPsTree::InitTreeItems(LPWORD needWidth)
  * param:	hItem		- handle of the treeview's treeitem
  * return:	HTREEITEM if item exists or NULL otherwise
  **/
+
 int CPsTree::FindItemIndexByHandle(HTREEITEM hItem)
 {
-	int i;
-	for (i = 0; i < _numItems; i++) 
-	{
-		if (_pItems[i] && hItem == _pItems[i]->Hti())
-		{
-			return i;
-		}
-	}
+	for (auto &it : _pages)
+		if (it && hItem == it->Hti())
+			return _pages.indexOf(&it);
+
 	return -1;
 }
 
@@ -237,16 +227,13 @@ int CPsTree::FindItemIndexByHandle(HTREEITEM hItem)
  * param:	hItem		- handle of the treeview's treeitem
  * return:	HTREEITEM if item exists or NULL otherwise
  **/
+
 int CPsTree::FindItemIndexByName(LPCSTR pszName)
 {
-	int i;
-	for (i = 0; i < _numItems; i++) 
-	{
-		if (_pItems[i] && _pItems[i]->HasName(pszName))
-		{
-			return i;
-		}
-	}
+	for (auto &it : _pages)
+		if (it && it->HasName(pszName))
+			return _pages.indexOf(&it);
+
 	return -1;
 }
 
@@ -257,14 +244,13 @@ int CPsTree::FindItemIndexByName(LPCSTR pszName)
  * param:	hItem		- handle of the treeview's treeitem
  * return:	HTREEITEM if item exists or NULL otherwise
  **/
+
 CPsTreeItem* CPsTree::FindItemByHandle(HTREEITEM hItem)
 {
-	int i;
+	int i = FindItemIndexByHandle(hItem);
+	if (i > -1)
+		return &_pages[i];
 
-	if ((i = FindItemIndexByHandle(hItem)) > -1)
-	{
-		return _pItems[i];
-	}
 	return nullptr;
 }
 
@@ -277,12 +263,10 @@ CPsTreeItem* CPsTree::FindItemByHandle(HTREEITEM hItem)
  **/
 CPsTreeItem* CPsTree::FindItemByName(LPCSTR pszName)
 {
-	int i;
-	
-	if ((i = FindItemIndexByName(pszName)) > -1) 
-	{
-		return _pItems[i];
-	}
+	int i = FindItemIndexByName(pszName);
+	if (i > -1) 
+		return &_pages[i];
+
 	return nullptr;
 }
 
@@ -293,16 +277,13 @@ CPsTreeItem* CPsTree::FindItemByName(LPCSTR pszName)
  * param:	hItem		- handle of the treeview's treeitem
  * return:	HTREEITEM if item exists or NULL otherwise
  **/
+
 CPsTreeItem* CPsTree::FindItemByResource(HINSTANCE hInst, int idDlg)
 {
-	int i;
-	for (i = 0; i < _numItems; i++) 
-	{
-		if (_pItems[i] && _pItems[i]->Inst() == hInst && _pItems[i]->DlgId() == idDlg) 
-		{
-			return _pItems[i];
-		}
-	}
+	for (auto &it : _pages)
+		if (it && it->Inst() == hInst && it->DlgId() == idDlg) 
+			return it;
+
 	return nullptr;
 }
 
@@ -314,14 +295,13 @@ CPsTreeItem* CPsTree::FindItemByResource(HINSTANCE hInst, int idDlg)
  * param:	pszName		- name of the item to search for
  * return:	HTREEITEM if item exists or NULL otherwise
  **/
+
 HTREEITEM CPsTree::FindItemHandleByName(LPCSTR pszName)
 {
-	int i;
+	int i = FindItemIndexByName(pszName);
+	if (i > -1)
+		return _pages[i].Hti();
 
-	if ((i = FindItemIndexByName(pszName)) > -1)
-	{
-		return _pItems[i]->Hti();
-	}
 	return nullptr;
 }
 
@@ -337,12 +317,13 @@ HTREEITEM CPsTree::FindItemHandleByName(LPCSTR pszName)
  * param:	iPageIndex	- the index of the treeitem in the array.
  * return:	nothing
  **/
+
 void CPsTree::HideItem(const int iPageIndex)
 {
-	if (IsIndexValid(iPageIndex)) 
-	{
-		TreeView_DeleteItem(_hWndTree, _pItems[iPageIndex]->Hti());
-		_pItems[iPageIndex]->Hti(nullptr);
+	if (IsIndexValid(iPageIndex)) {
+		auto &p = _pages[iPageIndex];
+		TreeView_DeleteItem(_hWndTree, p.Hti());
+		p.Hti(nullptr);
 		_dwFlags |= PSTVF_STATE_CHANGED;
 	}
 }
@@ -363,7 +344,7 @@ HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
 	// check parameters
 	if (!_hWndTree || 
 		!IsIndexValid(iPageIndex) || 
-		!(pti = _pItems[iPageIndex]) ||
+		!(pti = &_pages[iPageIndex]) ||
 		!pti->Name() ||
 		!pti->Label())
 	{
@@ -419,7 +400,6 @@ HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BYTE bAsChi
 {
 	TVINSERTSTRUCT tvis;
 	HTREEITEM hParent, hChild, hNewItem;
-	int iItemIndex;
 
 	if (!hItem || !hInsertAfter)
 		return nullptr;
@@ -440,10 +420,14 @@ HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BYTE bAsChi
 	// do not move a parent next to its own children!
 	if (hItem == hParent)
 		return hItem;
-	// get detailed information about the item to move
-	if (FAILED(iItemIndex = FindItemIndexByHandle(hItem)))
-		return hItem;
 	
+	// get detailed information about the item to move
+	int idx = FindItemIndexByHandle(hItem);
+	if (idx < 0)
+		return hItem;
+
+	auto &pItem = _pages[idx];
+
 	// item should be inserted as the first child of an existing root item
 	if (bAsChild) { 
 		tvis.hParent = hInsertAfter;
@@ -456,30 +440,30 @@ HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BYTE bAsChi
 	}
 
 	// don't move subitems of a protocol to root as this would mean them not to be unique anymore
-	if (!_pPs->hContact && (_pItems[iItemIndex]->Flags() & PSPF_PROTOPREPENDED) && !tvis.hParent)
+	if (!_pPs->hContact && (pItem.Flags() & PSPF_PROTOPREPENDED) && !tvis.hParent)
 		return hItem;
 	
 	// prepare the insert structure
 	tvis.itemex.mask = TVIF_PARAM|TVIF_TEXT;
 	tvis.itemex.state = TVIS_EXPANDED;
 	tvis.itemex.stateMask = TVIS_EXPANDED;
-	tvis.itemex.pszText = _pItems[iItemIndex]->Label();
-	tvis.itemex.lParam = (LPARAM)iItemIndex;
-	if ((tvis.itemex.iImage = tvis.itemex.iSelectedImage = _pItems[iItemIndex]->Image()) >= 0)
+	tvis.itemex.pszText = pItem.Label();
+	tvis.itemex.lParam = idx;
+	if ((tvis.itemex.iImage = tvis.itemex.iSelectedImage = pItem.Image()) >= 0)
 		tvis.itemex.mask |= TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 
 	// insert the item
 	if (!(hNewItem = TreeView_InsertItem(_hWndTree, &tvis)))
 		return hItem;
 	// update handle pointer in the page structure
-	_pItems[iItemIndex]->Hti(hNewItem);
+	pItem.Hti(hNewItem);
 	// get the index of the parent
-	_pItems[iItemIndex]->Parent(FindItemIndexByHandle(tvis.hParent));
+	pItem.Parent(FindItemIndexByHandle(tvis.hParent));
 	// move children
 	hInsertAfter = hNewItem;
-	while (hChild = TreeView_GetChild(_hWndTree, hItem)) {
+	while (hChild = TreeView_GetChild(_hWndTree, hItem))
 		MoveItem(hChild, hInsertAfter, 2);
-	}
+
 	// delete old tree
 	TreeView_DeleteItem(_hWndTree, hItem);
 	_dwFlags |= PSTVF_POS_CHANGED;
@@ -498,23 +482,22 @@ HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BYTE bAsChi
  *			iItem			- index of the current item for position saving
  * return:	0 on success or 1 otherwise
  **/
+
 WORD CPsTree::SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, int& iItem)
 {
 	TVITEMEX tvi;
-	WORD numErrors = 0;
-
 	tvi.mask = TVIF_CHILDREN|TVIF_STATE|TVIF_PARAM;
 	tvi.state = 0;
 	tvi.stateMask = TVIS_EXPANDED;
 	tvi.lParam = (LPARAM)-1;
 
 	// save all visible items
-	for (tvi.hItem = TreeView_GetChild(_hWndTree, hRootItem);
-			 TreeView_GetItem(_hWndTree, &tvi);
-			 tvi.hItem = TreeView_GetNextSibling(_hWndTree, tvi.hItem)) 
-	{
-		numErrors += _pItems[tvi.lParam]->DBSaveItemState(pszGroup, iItem++, tvi.state, _dwFlags);
-		if (tvi.cChildren) numErrors += SaveItemsState(_pItems[tvi.lParam]->Name(), tvi.hItem, iItem);
+	WORD numErrors = 0;
+	for (tvi.hItem = TreeView_GetChild(_hWndTree, hRootItem); TreeView_GetItem(_hWndTree, &tvi); tvi.hItem = TreeView_GetNextSibling(_hWndTree, tvi.hItem)) {
+		auto &it = _pages[tvi.lParam];
+		numErrors += it.DBSaveItemState(pszGroup, iItem++, tvi.state, _dwFlags);
+		if (tvi.cChildren)
+			numErrors += SaveItemsState(it.Name(), tvi.hItem, iItem);
 	}
 	return numErrors;
 }
@@ -526,25 +509,25 @@ WORD CPsTree::SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, int& iItem)
  * param:	none
  * return:	nothing
  **/
+
 void CPsTree::SaveState()
 {
 	CPsTreeItem *pti = CurrentItem();
 
 	if (_hWndTree && (_dwFlags & (PSTVF_LABEL_CHANGED|PSTVF_POS_CHANGED|PSTVF_STATE_CHANGED))) {
-		SHORT i;
 		int iItem = 0;
 
 		// save all visible items
 		WORD numErrors = SaveItemsState(TREE_ROOTITEM, TVGN_ROOT, iItem);
 
 		// save all invisible items of the current subtree
-		for (i = 0; i < _numItems; i++) {
-			if (!_pItems[i]->Hti()) {
+		for (auto &it : _pages) {
+			if (!it->Hti()) {
 				LPSTR pszGroup;
 
-				if (!IsIndexValid(_pItems[i]->Parent()) || !(pszGroup = _pItems[_pItems[i]->Parent()]->Name()))
+				if (!IsIndexValid(it->Parent()) || !(pszGroup = _pages[it->Parent()].Name()))
 					pszGroup = TREE_ROOTITEM;
-				numErrors += _pItems[i]->DBSaveItemState(pszGroup, iItem++, DBTVIS_INVISIBLE, _dwFlags);
+				numErrors += it->DBSaveItemState(pszGroup, iItem++, DBTVIS_INVISIBLE, _dwFlags);
 			}
 		}
 		// remove changed flags
@@ -565,6 +548,7 @@ void CPsTree::SaveState()
  *			iItem			- index of the current item for position saving
  * return: 0 on success or 1 otherwise
  **/
+
 void CPsTree::DBResetState()
 {
 	DB::CEnumList	Settings;
@@ -622,6 +606,7 @@ static LRESULT CALLBACK TPropsheetTree_LabelEditProc(HWND hwnd, UINT uMsg, WPARA
  * param:	hItem		- handle of the treeitm whose label to edit
  * return:	0
  **/
+
 int CPsTree::BeginLabelEdit(HTREEITEM hItem)
 {
 	CPsTreeItem* pti;
@@ -672,6 +657,7 @@ int CPsTree::BeginLabelEdit(HTREEITEM hItem)
  *			bSave		- tell whether to save changes or not
  * return:	0
  **/
+
 int CPsTree::EndLabelEdit(const BYTE bSave)
 {
 	wchar_t szEdit[MAX_TINAME];
@@ -708,7 +694,7 @@ void CPsTree::PopupMenu()
 	HMENU hPopup;
 	TVHITTESTINFO hti;
 	POINT pt;
-	int iItem, i;
+	int iItem;
 
 	// init popup menu
 	if (!(hPopup = CreatePopupMenu()))
@@ -747,13 +733,15 @@ void CPsTree::PopupMenu()
 		InsertMenuItem(hPopup, 0, FALSE, &mii);
 	}
 	else {
+		int i = 0;
 		// add hidden items to menu
 		mii.wID = 0;
-		for (i = 0; i < _numItems; i++) {
-			if (!_pItems[i]->Hti()) {
-				mii.dwTypeData = _pItems[i]->Label();
+		for (auto &it : _pages) {
+			if (!it->Hti()) {
+				mii.dwTypeData = it->Label();
 				mii.wID = 100 + i;
 				InsertMenuItem(hPopup, 0, FALSE, &mii);
+				i++;
 			}
 		}
 		// add headline
@@ -805,11 +793,11 @@ void CPsTree::PopupMenu()
  * param:	none
  * return:	nothing
  **/
+
 void CPsTree::OnIconsChanged()
 {
-	for (int i = 0; i < _numItems; i++) {
-		_pItems[i]->OnIconsChanged(this);
-	}
+	for (auto &it : _pages)
+		it->OnIconsChanged(this);
 }
 
 /**
@@ -819,6 +807,7 @@ void CPsTree::OnIconsChanged()
  * param:	none
  * return:	TRUE if any page holds changed information
  **/
+
 BYTE CPsTree::OnInfoChanged()
 {
 	PSHNOTIFY pshn;
@@ -826,15 +815,15 @@ BYTE CPsTree::OnInfoChanged()
 
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_INFOCHANGED;
-	for (int i = 0; i < _numItems; i++) {
-		pshn.hdr.hwndFrom = _pItems[i]->Wnd();
+	for (auto &it : _pages) {
+		pshn.hdr.hwndFrom = it->Wnd();
 		if (pshn.hdr.hwndFrom != nullptr) {
-			pshn.lParam = (LPARAM)_pItems[i]->hContact();
+			pshn.lParam = (LPARAM)it->hContact();
 			SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
 			if (PSP_CHANGED == GetWindowLongPtr(pshn.hdr.hwndFrom, DWLP_MSGRESULT))
 				bChanged |= 1;
 			else
-				_pItems[i]->RemoveFlags(PSPF_CHANGED);
+				it->RemoveFlags(PSPF_CHANGED);
 		}
 	}
 	return bChanged;
@@ -908,10 +897,10 @@ void CPsTree::OnCancel()
 	PSHNOTIFY pshn;
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_RESET;
-	for (int i = 0; i < _numItems; i++) {
-		pshn.hdr.hwndFrom = _pItems[i]->Wnd();
-		if (pshn.hdr.hwndFrom && (_pItems[i]->Flags() & PSPF_CHANGED)) {
-			pshn.lParam = (LPARAM)_pItems[i]->hContact();
+	for (auto &it : _pages) {
+		pshn.hdr.hwndFrom = it->Wnd();
+		if (pshn.hdr.hwndFrom && (it->Flags() & PSPF_CHANGED)) {
+			pshn.lParam = (LPARAM)it->hContact();
 			SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
 		}
 	}
@@ -938,18 +927,18 @@ int CPsTree::OnApply()
 		return 1;
 	// save everything to database
 	pshn.hdr.code = PSN_APPLY;
-	for (int i = 0; i < _numItems; i++) {
-		if (_pItems[i] && _pItems[i]->Wnd() && _pItems[i]->Flags() & PSPF_CHANGED) {
-			pshn.lParam = (LPARAM)_pItems[i]->hContact();
-			pshn.hdr.hwndFrom = _pItems[i]->Wnd();
+	for (auto &it : _pages) {
+		if (it && it->Wnd() && it->Flags() & PSPF_CHANGED) {
+			pshn.lParam = (LPARAM)it->hContact();
+			pshn.hdr.hwndFrom = it->Wnd();
 			if (SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
 				if (pti = CurrentItem())
 					ShowWindow(pti->Wnd(), SW_HIDE);
-				_curItem = i;
-				ShowWindow(_pItems[i]->Wnd(), SW_SHOW);
+				_curItem = _pages.indexOf(&it);
+				ShowWindow(it->Wnd(), SW_SHOW);
 				return 1;
 			}
-			_pItems[i]->RemoveFlags(PSPF_CHANGED);
+			it->RemoveFlags(PSPF_CHANGED);
 		}
 	}
 	return 0;
