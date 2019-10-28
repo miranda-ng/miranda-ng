@@ -394,8 +394,7 @@ void CSideBar::Init()
 			m_hwndScrollWnd = ::CreateWindowEx(0, L"TS_SideBarClass", L"", WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | WS_CHILD,
 				0, 0, m_width, 40, m_pContainer->m_hwnd, reinterpret_cast<HMENU>(5000), g_plugin.getInst(), this);
 
-		m_isActive = true;
-		m_isVisible = m_isActive ? m_isVisible : true;
+		m_isActive = m_isVisible = true;
 		createScroller();
 		m_elementHeight = m_currentLayout->height;
 		m_elementWidth = m_currentLayout->width;
