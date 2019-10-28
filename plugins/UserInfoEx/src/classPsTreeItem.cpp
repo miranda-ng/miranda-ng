@@ -383,7 +383,7 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 	wchar_t szTitle[ MAXSETTING ];
 
 	// check parameter
-	if (pPsh && pPsh->_dwSize == sizeof(CPsHdr) && odp && PtrIsValid(odp->pPlugin)) {
+	if (pPsh && odp && PtrIsValid(odp->pPlugin)) {
 		// instance value
 		_hInst = odp->pPlugin->getInst();
 		_dwFlags = odp->flags;

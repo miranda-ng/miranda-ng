@@ -64,7 +64,6 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 CPsHdr::CPsHdr()
 	: _ignore(10, wcscmp)
 {
-	_dwSize = sizeof(*this);
 	_hContact = NULL;
 	_pszProto = nullptr;
 	_pszPrefix = nullptr;
@@ -314,7 +313,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE *)lParam;
 
 	// check size of the handled structures
-	if (pPsh == nullptr || odp == nullptr || pPsh->_dwSize != sizeof(CPsHdr))
+	if (pPsh == nullptr || odp == nullptr)
 		return 1;
 
 	// try to check whether the flag member is initialized or not
@@ -557,15 +556,11 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hDlg);
 		{
-			CPsHdr* pPsh = (CPsHdr *)lParam;
-			WORD needWidth = 0;
-			RECT rc;
-
-			if (!pPsh || pPsh->_dwSize != sizeof(CPsHdr))
+			CPsHdr *pPsh = (CPsHdr *)lParam;
+			if (!pPsh)
 				return FALSE;
-
-			TranslateDialogDefault(hDlg);
 
 			// create data structures
 			if (!(pPs = (LPPS)mir_alloc(sizeof(PS))))
@@ -623,6 +618,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			pPs->hBoldFont = CreateFontIndirect(&lf);
 
 			// initialize the optionpages and tree control
+			WORD needWidth = 0;
 			if (!pPs->pTree->InitTreeItems((LPWORD)&needWidth))
 				return FALSE;
 
@@ -658,7 +654,10 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						pPs->rcDisplay.bottom - pPs->rcDisplay.top, FALSE);
 
 				}
+
+				RECT rc;
 				GetClientRect(GetDlgItem(hDlg, IDC_PAGETITLEBG), &rc);
+
 				// calculate dislpay area for pages
 				OffsetRect(&pPs->rcDisplay, -pt.x, -pt.y);
 				pPs->rcDisplay.bottom = rcTree.bottom;
