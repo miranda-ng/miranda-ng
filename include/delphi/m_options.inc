@@ -49,6 +49,14 @@ const
     DLUs.
   }
 
+const
+{
+  show the User Details dialog box
+  wParam=(WPARAM)(HANDLE)hContact
+  lParam=0
+}
+  MS_USERINFO_SHOWDIALOG:PAnsiChar = 'UserInfo/ShowDialog';
+
 type
   POPTIONSDIALOGPAGE = ^TOPTIONSDIALOGPAGE;
   TOPTIONSDIALOGPAGE = record
