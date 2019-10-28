@@ -122,6 +122,9 @@ class CUserInfoDlg : public CDlgBase
 				m_currentPage = i;
 			p.hItem = m_tree.InsertItem(&tvis);
 		}
+
+		if (m_currentPage == -1)
+			m_currentPage = 0;
 	}
 
 	void CreateDetailsTabs(DetailsPageData *ppg)
