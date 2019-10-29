@@ -40,14 +40,6 @@
 #define CONTAINER_NAMELEN 25
 #define TITLE_FORMATLEN 30
 
-#define MWF_SAVEBTN_SAV 2
-
-#define MWF_DEFERREDSCROLL 4
-#define MWF_WASBACKGROUNDCREATE 16
-//#define MWF_MOUSEDOWN 32
-#define MWF_ERRORSTATE 128
-#define MWF_DEFERREDREMAKELOG 256
-
 #define MWF_LOG_NORMALTEMPLATES 512
 #define MWF_LOG_SHOWTIME 1024
 #define MWF_LOG_SHOWSECONDS 2048
@@ -66,25 +58,12 @@
 
 #define MWF_LOG_SHOWICONS 262144
 #define MWF_LOG_SYMBOLS 0x200000
-#define MWF_INITMODE  0x400000
-#define MWF_NEEDCHECKSIZE 0x800000
 #define MWF_DIVIDERSET 0x1000000
 #define MWF_LOG_TEXTFORMAT 0x2000000
 #define MWF_LOG_GRID 0x4000000
-// #define MWF_LOG_INDIVIDUALBKG 0x8000000 * FREE *
 #define MWF_LOG_INOUTICONS 0x10000000
-#define MWF_SMBUTTONSELECTED 0x20000000
 #define MWF_DIVIDERWANTED 0x40000000
 #define MWF_LOG_GROUPMODE 0x80000000
-
-#define MWF_SHOW_FLASHCLIST 64
-#define MWF_SHOW_SPLITTEROVERRIDE 128
-#define MWF_SHOW_SCROLLINGDISABLED 256
-#define MWF_SHOW_ISIDLE 4096
-#define MWF_SHOW_AWAYMSGTIMER 8192
-#define MWF_EX_DELAYEDSPLITTER 32768
-#define MWF_EX_AVATARCHANGED 65536
-#define MWF_EX_WARNCLOSE     0x20000
 
 #define SMODE_DEFAULT 0
 #define SMODE_MULTIPLE 1
@@ -440,11 +419,15 @@ class CMsgDialog : public CSrmmBaseDialog
 	bool    m_bStatusSet;
 			  
 	bool    m_bShowInfoAvatar, m_bShowUIElements;
+	bool    m_bFlashClist, m_bScrollingDisabled, m_bAwayMsgTimer;
+	bool    m_bDelayedSplitter, m_bWarnClose;
 	bool    m_bUseOffset;
 	bool    m_bkeyProcessed;
 	bool    m_fLimitedUpdate;
 	bool    m_bClrAdded;
-	bool    m_bInsertMode;
+	bool    m_bInsertMode, m_bInitMode = true;
+	bool    m_bDeferredScroll, m_bDeferredRemakeLog;
+	bool    m_bWasBackgroundCreate;
 
 	MEVENT *m_hQueuedEvents;
 	int     m_iNextQueuedEvent;
@@ -476,17 +459,20 @@ public:
 	char   *m_szProto;
 	int     m_iTabID;
 	BYTE    m_bShowTyping;
-	bool    m_bIsHistory, m_bNotOnList;
+	bool    m_bIsHistory, m_bNotOnList, m_bIsIdle;
 	bool    m_bActualHistory;
 	bool    m_bIsAutosizingInput;
 	bool    m_bCanFlashTab, m_bTabFlash;
 	bool    m_bEditNotesActive;
 	bool    m_bShowAvatar;
+	bool    m_bSaveBtn, m_bNeedCheckSize;
+	bool    m_bErrorState;
+	bool    m_bSplitterOverride;
 	int     m_sendMode;
 	HKL     m_hkl;                                    // keyboard layout identifier
 	DWORD   m_isAutoRTL;
 	DWORD   m_idle;
-	DWORD   m_dwFlags = MWF_INITMODE, m_dwFlagsEx;
+	DWORD   m_dwFlags;
 	DWORD   m_dwUnread;
 	HANDLE  m_hTheme, m_hThemeIP, m_hThemeToolbar;
 	HICON   m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;

@@ -177,7 +177,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 	int iSize = 16;
 	HICON hIcon;
-	if (dat->m_dwFlags & MWF_ERRORSTATE)
+	if (dat->m_bErrorState)
 		hIcon = PluginConfig.g_iconErr;
 	else if (dat->m_bCanFlashTab)
 		hIcon = dat->m_iFlashIcon;
@@ -197,7 +197,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !dat->m_pContainer->m_flagsEx.m_bTabFlashIcon) {
 		DWORD ix = rcItem->left + tabdat->xpad - 1;
 		DWORD iy = (rcItem->bottom + rcItem->top - iSize) / 2;
-		if (dat->m_dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
+		if (dat->m_bIsIdle && PluginConfig.m_bIdleDetect)
 			CSkin::DrawDimmedIcon(dc, ix, iy, iSize, iSize, hIcon, 180);
 		else
 			DrawIconEx(dc, ix, iy, hIcon, iSize, iSize, 0, nullptr, DI_NORMAL | DI_COMPAT);

@@ -257,8 +257,8 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 			GetWindowRect(GetDlgItem(m_hwnd, IDC_PROTOCOL), &rc);
 
-			CheckMenuItem(submenu, ID_MODE_GLOBAL, MF_BYCOMMAND | (!(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_MODE_PRIVATE, MF_BYCOMMAND | (m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_MODE_GLOBAL, MF_BYCOMMAND | (!m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_MODE_PRIVATE, MF_BYCOMMAND | (m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED));
 
 			// formatting menu..
 			CheckMenuItem(submenu, ID_GLOBAL_BBCODE, MF_BYCOMMAND | ((PluginConfig.m_SendFormat) ? MF_CHECKED : MF_UNCHECKED));
@@ -271,7 +271,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
 			switch (iSelection) {
 			case ID_MODE_GLOBAL:
-				m_dwFlagsEx &= ~(MWF_SHOW_SPLITTEROVERRIDE);
+				m_bSplitterOverride = false;
 				db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", 0);
 				LoadSplitter();
 				AdjustBottomAvatarDisplay();
@@ -280,7 +280,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				break;
 			
 			case ID_MODE_PRIVATE:
-				m_dwFlagsEx |= MWF_SHOW_SPLITTEROVERRIDE;
+				m_bSplitterOverride = true;
 				db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", 1);
 				LoadSplitter();
 				AdjustBottomAvatarDisplay();
@@ -661,11 +661,11 @@ void CMsgDialog::DM_SetDBButtonStates()
 
 void CMsgDialog::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 {
-	if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
+	if (m_bScrollingDisabled)
 		return;
 
 	if (IsIconic(m_pContainer->m_hwnd))
-		m_dwFlags |= MWF_DEFERREDSCROLL;
+		m_bDeferredScroll = true;
 
 	if (m_iLogMode == 0)
 		((CLogWindow *)m_pLog)->ScrollToBottom(wParam != 0, lParam != 0);
@@ -906,8 +906,7 @@ void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 
 	m_bShowUIElements = (m_pContainer->m_flags.m_bHideToolbar) == 0;
-
-	m_dwFlagsEx = M.GetByte(m_hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
+	m_bSplitterOverride = M.GetByte(m_hContact, "splitoverride", 0) != 0;
 	m_pPanel.getVisibility();
 
 	// small inner margins (padding) for the text areas
@@ -923,7 +922,7 @@ void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
 	if (!lParam) {
 		if (IsIconic(m_pContainer->m_hwnd))
-			m_dwFlags |= MWF_DEFERREDREMAKELOG;
+			m_bDeferredRemakeLog = true;
 		else
 			RemakeLog();
 	}
@@ -1029,7 +1028,7 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 
 	LONG newPos;
 	if (wParam == 0 && lParam == 0) {
-		if ((m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) && this != srcDat)
+		if (m_bSplitterOverride && this != srcDat)
 			return 0;
 
 		if (srcDat->isChat() == isChat())
@@ -1056,7 +1055,7 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 		// for inactive sessions, delay the splitter repositioning until they become
 		// active (faster, avoid redraw/resize problems for minimized windows)
 		if (IsIconic(m_pContainer->m_hwnd) || m_pContainer->m_hwndActive != m_hwnd) {
-			m_dwFlagsEx |= MWF_EX_DELAYEDSPLITTER;
+			m_bDelayedSplitter = true;
 			m_wParam = newPos;
 			m_lParam = PluginConfig.lastSPlitterPos.lParam;
 			return 0;
@@ -1134,7 +1133,7 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	m_cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
 	if (hDbEvent != m_hDbEventFirst) {
-		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+		if (!m_bScrollingDisabled)
 			StreamEvents(hDbEvent, 1, 1);
 		else {
 			if (m_iNextQueuedEvent >= m_iEventQueueSize) {
@@ -1366,7 +1365,7 @@ void CMsgDialog::DM_ErrorDetected(int type, int flag)
 	switch (type) {
 	case MSGERROR_CANCEL:
 	case MSGERROR_SENDLATER:
-		if (m_dwFlags & MWF_ERRORSTATE) {
+		if (m_bErrorState) {
 			m_cache->saveHistory();
 			if (type == MSGERROR_SENDLATER)
 				sendQueue->doSendLater(m_iCurrentQueueError, this); // to be implemented at a later time
@@ -1386,7 +1385,7 @@ void CMsgDialog::DM_ErrorDetected(int type, int flag)
 		break;
 
 	case MSGERROR_RETRY:
-		if (m_dwFlags & MWF_ERRORSTATE) {
+		if (m_bErrorState) {
 			int resent = 0;
 
 			m_cache->saveHistory();

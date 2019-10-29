@@ -378,10 +378,10 @@ void SendQueue::showErrorControls(CMsgDialog *dat, const int showCmd) const
 		item.mask = TCIF_IMAGE;
 		item.iImage = 0;
 		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->m_hwnd, IDC_MSGTABS), dat->m_iTabID, &item);
-		dat->m_dwFlags |= MWF_ERRORSTATE;
+		dat->m_bErrorState = true;
 	}
 	else {
-		dat->m_dwFlags &= ~MWF_ERRORSTATE;
+		dat->m_bErrorState = false;
 		dat->m_hTabIcon = dat->m_hTabStatusIcon;
 	}
 
@@ -447,7 +447,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), (wchar_t*)ack->lParam);
 			job.iStatus = SQ_ERROR;
 			KillTimer(dat->GetHwnd(), TIMERID_MSGSEND + iFound);
-			if (!(dat->m_dwFlags & MWF_ERRORSTATE))
+			if (!dat->m_bErrorState)
 				handleError(dat, iFound);
 			return 0;
 		}
@@ -505,7 +505,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 		checkQueue(dat);
 
 		int iNextFailed = findNextFailed(dat);
-		if (iNextFailed >= 0 && !(dat->m_dwFlags & MWF_ERRORSTATE))
+		if (iNextFailed >= 0 && !dat->m_bErrorState)
 			handleError(dat, iNextFailed);
 		else {
 			if (M.GetByte("AutoClose", 0)) {
@@ -567,7 +567,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 			dat->UpdateReadChars();
 		SendDlgItemMessage(dat->GetHwnd(), IDC_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
 		SendDlgItemMessage(dat->GetHwnd(), IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
-		dat->m_dwFlags &= ~MWF_SAVEBTN_SAV;
+		dat->m_bSaveBtn = false;
 
 		if (!fAvail)
 			return 0;

@@ -2163,9 +2163,9 @@ void CMsgDialog::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 		rcToolbar.right = rcWindow.right;
 
 		if (!isChat()) {
-			if (m_dwFlags & MWF_ERRORSTATE)
+			if (m_bErrorState)
 				rcToolbar.top += ERRORPANEL_HEIGHT;
-			if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED || m_bNotOnList) {
+			if (m_bScrollingDisabled || m_bNotOnList) {
 				rcToolbar.top += 20;
 				RECT	rcAdd;
 				rcAdd.left = 0; rcAdd.right = rcToolbar.right - rcToolbar.left;

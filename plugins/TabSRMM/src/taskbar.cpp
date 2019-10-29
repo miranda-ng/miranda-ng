@@ -278,7 +278,7 @@ void CProxyWindow::sendPreview()
 	HWND hwndRich = m_dat->m_pLog->GetHwnd();
 	POINT	ptOrigin = { 0 }, ptBottom;
 
-	if (m_dat->m_dwFlags & MWF_NEEDCHECKSIZE) {
+	if (m_dat->m_bNeedCheckSize) {
 		RECT	rcClient;
 		::SendMessage(m_dat->m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
 		::MoveWindow(m_dat->GetHwnd(), rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);

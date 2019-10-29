@@ -775,7 +775,7 @@ void CInfoPanel::handleClick(const POINT& pt)
 
 	if (!m_isChat) {
 		::KillTimer(m_dat->GetHwnd(), TIMERID_AWAYMSG);
-		m_dat->m_dwFlagsEx &= ~MWF_SHOW_AWAYMSGTIMER;
+		m_dat->m_bAwayMsgTimer = false;
 	}
 	HMENU m = constructContextualMenu();
 	if (m) {
@@ -845,15 +845,15 @@ void CInfoPanel::trackMouse(POINT &pt)
 	}
 
 	if (m_hoverFlags) {
-		if (!(m_dat->m_dwFlagsEx & MWF_SHOW_AWAYMSGTIMER)) {
+		if (!m_dat->m_bAwayMsgTimer) {
 			::SetTimer(m_dat->GetHwnd(), TIMERID_AWAYMSG, 1000, nullptr);
-			m_dat->m_dwFlagsEx |= MWF_SHOW_AWAYMSGTIMER;
+			m_dat->m_bAwayMsgTimer = true;
 		}
 	}
 	if (dwOldHovering != m_hoverFlags)
 		Invalidate(TRUE);
 	if (m_hoverFlags == 0)
-		m_dat->m_dwFlagsEx &= ~MWF_SHOW_AWAYMSGTIMER;
+		m_dat->m_bAwayMsgTimer = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

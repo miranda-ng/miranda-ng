@@ -89,7 +89,7 @@ void CMsgDialog::AdjustBottomAvatarDisplay()
 
 void CMsgDialog::CalcDynamicAvatarSize(BITMAP *bminfo)
 {
-	if (m_dwFlags & MWF_WASBACKGROUNDCREATE || m_pContainer->m_flags.m_bDeferredConfigure || m_pContainer->m_flags.m_bCreateMinimized || IsIconic(m_pContainer->m_hwnd))
+	if (m_bWasBackgroundCreate || m_pContainer->m_flags.m_bDeferredConfigure || m_pContainer->m_flags.m_bCreateMinimized || IsIconic(m_pContainer->m_hwnd))
 		return;  // at this stage, the layout is not yet ready...
 
 	RECT rc;
@@ -535,7 +535,7 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 	if (!PluginConfig.m_bFlashOnClist)
 		return;
 
-	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(m_dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !m_bFlashClist) {
 		CLISTEVENT cle = {};
 		cle.hContact = m_hContact;
 		cle.hDbEvent = hEvent;
@@ -543,7 +543,7 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 		cle.pszService = MS_MSG_READMESSAGE;
 		g_clistApi.pfnAddEvent(&cle);
 
-		m_dwFlagsEx |= MWF_SHOW_FLASHCLIST;
+		m_bFlashClist = true;
 		m_hFlashingEvent = hEvent;
 	}
 }
@@ -842,7 +842,7 @@ void CMsgDialog::LoadSplitter()
 		return;
 	}
 
-	if (!(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)) {
+	if (!m_bSplitterOverride) {
 		if (!m_pContainer->m_pSettings->fPrivate)
 			m_iSplitterY = (int)M.GetDword("splitsplity", 60);
 		else
@@ -1307,7 +1307,7 @@ void CMsgDialog::SaveSplitter()
 	if (m_iSplitterY < DPISCALEY_S(MINSPLITTERY) || m_iSplitterY < 0)
 		m_iSplitterY = DPISCALEY_S(MINSPLITTERY);
 
-	if (m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE)
+	if (m_bSplitterOverride)
 		db_set_dw(m_hContact, SRMSGMOD_T, "splitsplity", m_iSplitterY);
 	else {
 		if (m_pContainer->m_pSettings->fPrivate)
@@ -1529,7 +1529,7 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 
 	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG) {
 		InsertMenuA(hSubMenu, 6, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
-		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, MF_BYCOMMAND | (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, MF_BYCOMMAND | (m_bScrollingDisabled ? MF_CHECKED : MF_UNCHECKED));
 	}
 
 	MessageWindowPopupData mwpd;
@@ -1930,16 +1930,16 @@ void CMsgDialog::UpdateSaveAndSendButton()
 		EnableSendButton(false);
 
 	if (len) {          // looks complex but avoids flickering on the button while typing.
-		if (!(m_dwFlags & MWF_SAVEBTN_SAV)) {
+		if (!m_bSaveBtn) {
 			SendDlgItemMessage(m_hwnd, IDC_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
 			SendDlgItemMessage(m_hwnd, IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Save and close session"), BATF_UNICODE);
-			m_dwFlags |= MWF_SAVEBTN_SAV;
+			m_bSaveBtn = true;
 		}
 	}
 	else {
 		SendDlgItemMessage(m_hwnd, IDC_CLOSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
 		SendDlgItemMessage(m_hwnd, IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
-		m_dwFlags &= ~MWF_SAVEBTN_SAV;
+		m_bSaveBtn = false;
 	}
 	m_textLen = len;
 }
@@ -2074,7 +2074,7 @@ void CMsgDialog::UpdateTitle()
 
 				bool bHasName = (m_cache->getUIN()[0] != 0);
 				m_idle = m_cache->getIdleTS();
-				m_dwFlagsEx = m_idle ? m_dwFlagsEx | MWF_SHOW_ISIDLE : m_dwFlagsEx & ~MWF_SHOW_ISIDLE;
+				m_bIsIdle = m_idle != 0;
 
 				m_wStatus = m_cache->getStatus();
 				wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
@@ -2169,7 +2169,7 @@ void CMsgDialog::UpdateWindowIcon()
 		if (M.GetByte("use_xicons", 1))
 			m_hXStatusIcon = GetXStatusIcon();
 
-		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BUTTONSETASDIMMED, (m_dwFlagsEx & MWF_SHOW_ISIDLE) != 0, 0);
+		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BUTTONSETASDIMMED, m_bIsIdle, 0);
 		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(m_hXStatusIcon ? m_hXStatusIcon : GetMyContactIcon("MetaiconBar")));
 
 		if (m_pContainer->m_hwndActive == m_hwnd)
@@ -2251,7 +2251,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 		m_pContainer->m_flags.m_bNeedsUpdateTitle = false;
 
-		if (m_dwFlags & MWF_NEEDCHECKSIZE)
+		if (m_bNeedCheckSize)
 			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
 
 		SetFocus(m_message.GetHwnd());
@@ -2266,20 +2266,20 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 			m_bCanFlashTab = false;
 		}
 
-		if (m_dwFlagsEx & MWF_SHOW_FLASHCLIST) {
-			m_dwFlagsEx &= ~MWF_SHOW_FLASHCLIST;
+		if (m_bFlashClist) {
+			m_bFlashClist = false;
 			if (m_hFlashingEvent != 0)
 				g_clistApi.pfnRemoveEvent(m_hContact, m_hFlashingEvent);
 			m_hFlashingEvent = 0;
 		}
 		m_pContainer->m_flags.m_bNeedsUpdateTitle = false;
 
-		if ((m_dwFlags & MWF_DEFERREDREMAKELOG) && !IsIconic(m_pContainer->m_hwnd)) {
+		if (m_bDeferredRemakeLog && !IsIconic(m_pContainer->m_hwnd)) {
 			RemakeLog();
-			m_dwFlags &= ~MWF_DEFERREDREMAKELOG;
+			m_bDeferredRemakeLog = false;
 		}
 
-		if (m_dwFlags & MWF_NEEDCHECKSIZE)
+		if (m_bNeedCheckSize)
 			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
 
 		m_pContainer->m_hIconTaskbarOverlay = nullptr;
@@ -2297,8 +2297,8 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 		m_pPanel.Invalidate();
 
-		if (m_dwFlags & MWF_DEFERREDSCROLL) {
-			m_dwFlags &= ~MWF_DEFERREDSCROLL;
+		if (m_bDeferredScroll) {
+			m_bDeferredScroll = false;
 			DM_ScrollToBottom(0, 1);
 		}
 
@@ -2320,17 +2320,12 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 				RedrawWindow(hwndLog, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
 			}
 		}
-
-		if (m_dwFlagsEx & MWF_EX_AVATARCHANGED) {
-			m_dwFlagsEx &= ~MWF_EX_AVATARCHANGED;
-			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
-		}
 	}
 
 	DM_SetDBButtonStates();
 
-	if (m_dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
-		m_dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
+	if (m_bDelayedSplitter) {
+		m_bDelayedSplitter = false;
 		ShowWindow(m_pContainer->m_hwnd, SW_RESTORE);
 		PostMessage(m_hwnd, DM_SPLITTERGLOBALEVENT, m_wParam, m_lParam);
 		PostMessage(m_hwnd, WM_SIZE, 0, 0);

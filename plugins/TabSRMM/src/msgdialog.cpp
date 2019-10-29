@@ -142,7 +142,7 @@ void CMsgDialog::SetDialogToType()
 
 	m_message.Show();
 
-	ShowMultipleControls(m_hwnd, errorControls, _countof(errorControls), m_dwFlags & MWF_ERRORSTATE ? SW_SHOW : SW_HIDE);
+	ShowMultipleControls(m_hwnd, errorControls, _countof(errorControls), m_bErrorState ? SW_SHOW : SW_HIDE);
 
 	if (!m_SendFormat)
 		ShowMultipleControls(m_hwnd, formatControls, _countof(formatControls), SW_HIDE);
@@ -272,7 +272,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			switch (selection) {
 			case ID_SPLITTERCONTEXT_SAVEFORTHISCONTACTONLY:
-				dat->m_dwFlagsEx |= MWF_SHOW_SPLITTEROVERRIDE;
+				dat->m_bSplitterOverride = true;
 				db_set_b(dat->m_hContact, SRMSGMOD_T, "splitoverride", 1);
 				if (!dat->isChat())
 					dat->SaveSplitter();
@@ -412,7 +412,7 @@ bool CMsgDialog::OnInitDialog()
 	m_cache->updateUIN();
 	m_cache->setWindowData(this);
 
-	m_bIsAutosizingInput = (m_pContainer->m_flags.m_bAutoSplitter) && !(m_dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE);
+	m_bIsAutosizingInput = m_pContainer->m_flags.m_bAutoSplitter && !m_bSplitterOverride;
 	m_szProto = const_cast<char *>(m_cache->getProto());
 	m_bIsMeta = m_cache->isMeta();
 	if (m_bIsMeta)
@@ -503,7 +503,7 @@ bool CMsgDialog::OnInitDialog()
 
 	DM_InitTip();
 
-	m_dwFlagsEx |= M.GetByte(m_hContact, "splitoverride", 0) ? MWF_SHOW_SPLITTEROVERRIDE : 0;
+	m_bSplitterOverride = M.GetByte(m_hContact, "splitoverride", 0) != 0;
 
 	m_pPanel.getVisibility();
 	if (m_hContact)
@@ -650,7 +650,7 @@ bool CMsgDialog::OnInitDialog()
 		if (!isChat())
 			m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 		m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
-		m_dwFlags |= MWF_NEEDCHECKSIZE | MWF_WASBACKGROUNDCREATE | MWF_DEFERREDSCROLL;
+		m_bWasBackgroundCreate = m_bNeedCheckSize = m_bDeferredScroll = true;
 	}
 
 	if (isChat()) {
@@ -664,7 +664,7 @@ bool CMsgDialog::OnInitDialog()
 		SetForegroundWindow(m_hwnd);
 	}
 	else if (m_pContainer->m_flags.m_bCreateMinimized) {
-		m_dwFlags |= MWF_DEFERREDSCROLL;
+		m_bDeferredScroll = true;
 		ShowWindow(m_hwnd, SW_SHOWNOACTIVATE);
 		m_pContainer->m_hwndActive = m_hwnd;
 		m_pContainer->m_flags.m_bDeferredConfigure = true;
@@ -678,7 +678,7 @@ bool CMsgDialog::OnInitDialog()
 	if (m_iLogMode == WANT_HPP_LOG)
 		mir_subclassWindow(m_pLog->GetHwnd(), HPPKFSubclassProc);
 
-	m_dwFlags &= ~MWF_INITMODE;
+	m_bInitMode = false;
 	NotifyEvent(MSG_WINDOW_EVT_OPEN);
 
 	if (m_pContainer->m_flags.m_bCreateMinimized) {
@@ -926,7 +926,7 @@ void CMsgDialog::onClick_Add(CCtrlButton*)
 	if (Contact_OnList(m_hContact)) {
 		m_bNotOnList = false;
 		ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
-		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+		if (!m_bScrollingDisabled)
 			Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
 		Resize();
 	}
@@ -1005,7 +1005,7 @@ void CMsgDialog::onClick_CancelAdd(CCtrlButton*)
 {
 	m_bNotOnList = false;
 	ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
-	if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+	if (!m_bScrollingDisabled)
 		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
 	Resize();
 }
@@ -1090,7 +1090,7 @@ void CMsgDialog::onChange_Message(CCtrlEdit*)
 			m_nLastTyping = GetTickCount();
 			if (GetWindowTextLength(m_message.GetHwnd())) {
 				if (m_nTypeMode == PROTOTYPE_SELFTYPING_OFF) {
-					if (!(m_dwFlags & MWF_INITMODE))
+					if (!m_bInitMode)
 						DM_NotifyTyping(PROTOTYPE_SELFTYPING_ON);
 				}
 			}
@@ -1109,7 +1109,6 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	bool bNick = false;
 	bool bInfoPanel = m_pPanel.isActive();
-	bool bErrorState = (m_dwFlags & MWF_ERRORSTATE) != 0;
 	bool bShowToolbar = (m_pContainer->m_flags.m_bHideToolbar) == 0;
 	bool bBottomToolbar = (m_pContainer->m_flags.m_bBottomToolbar) != 0;
 
@@ -1177,9 +1176,9 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 		}
 
-		if (m_dwFlags & MWF_ERRORSTATE)
+		if (m_bErrorState)
 			urc->rcItem.bottom -= ERRORPANEL_HEIGHT;
-		if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED || m_bNotOnList)
+		if (m_bScrollingDisabled || m_bNotOnList)
 			urc->rcItem.bottom -= 20;
 		if (m_sendMode & SMODE_MULTIPLE)
 			urc->rcItem.right -= (m_iMultiSplit + 3);
@@ -1353,9 +1352,9 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_RETRY:
 	case IDC_CANCELSEND:
 	case IDC_MSGSENDLATER:
-		if (bErrorState) {
-			urc->rcItem.bottom = msgTop - 5 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED) ? 20 : 0);
-			urc->rcItem.top = msgTop - 25 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED) ? 20 : 0);
+		if (m_bErrorState) {
+			urc->rcItem.bottom = msgTop - 5 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.top = msgTop - 25 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
 		}
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
@@ -1365,9 +1364,9 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	case IDC_STATICTEXT:
 	case IDC_STATICERRORICON:
-		if (bErrorState) {
-			urc->rcItem.bottom = msgTop - 28 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED) ? 20 : 0);
-			urc->rcItem.top = msgTop - 45 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED) ? 20 : 0);
+		if (m_bErrorState) {
+			urc->rcItem.bottom = msgTop - 28 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
+			urc->rcItem.top = msgTop - 45 - (bBottomToolbar ? 0 : 28) - ((m_bNotOnList || m_bScrollingDisabled) ? 20 : 0);
 		}
 		if (!bShowToolbar && !bBottomToolbar) {
 			urc->rcItem.bottom += 21;
@@ -1581,11 +1580,11 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 	if (msg == WM_KEYDOWN && wp == VK_F12) {
 		if (isShift || isCtrl || isAlt)
 			return _dlgReturn(m_hwnd, 1);
-		if (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
+		if (m_bScrollingDisabled)
 			ReplayQueue();
-		m_dwFlagsEx ^= MWF_SHOW_SCROLLINGDISABLED;
-		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, (m_bNotOnList || m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED) ? SW_SHOW : SW_HIDE);
-		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+		m_bScrollingDisabled = !m_bScrollingDisabled;
+		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, (m_bNotOnList || m_bScrollingDisabled) ? SW_SHOW : SW_HIDE);
+		if (!m_bScrollingDisabled)
 			SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
 		else
 			SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
@@ -2734,7 +2733,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case DM_FORCEDREMAKELOG:
 		m_dwFlags &= ~(MWF_LOG_ALL);
 		m_dwFlags |= (lParam & MWF_LOG_ALL);
-		m_dwFlags |= MWF_DEFERREDREMAKELOG;
+		m_bDeferredRemakeLog = true;
 		return 0;
 
 	case DM_APPENDMCEVENT:
@@ -2762,7 +2761,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (wParam == TIMERID_AWAYMSG && m_pPanel.hitTest(pt) != CInfoPanel::HTNIRVANA)
 				ActivateTooltip(0, 0);
 			else
-				m_dwFlagsEx &= ~MWF_SHOW_AWAYMSGTIMER;
+				m_bAwayMsgTimer = false;
 			break;
 		}
 
@@ -2777,7 +2776,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				job->iStatus = SendQueue::SQ_ERROR;
 				if (!nen_options.iNoSounds && !m_pContainer->m_flags.m_bNoSound)
 					Skin_PlaySound("SendError");
-				if (!(m_dwFlags & MWF_ERRORSTATE))
+				if (!m_bErrorState)
 					sendQueue->handleError(this, iIndex);
 				break;
 			}
@@ -2810,20 +2809,20 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_SAVESIZE:
-		if (m_dwFlags & MWF_NEEDCHECKSIZE)
+		if (m_bNeedCheckSize)
 			lParam = 0;
 
-		m_dwFlags &= ~MWF_NEEDCHECKSIZE;
-		if (m_dwFlags & MWF_WASBACKGROUNDCREATE) {
-			m_dwFlags &= ~MWF_INITMODE;
+		m_bNeedCheckSize = false;
+		if (m_bWasBackgroundCreate) {
+			m_bInitMode = false;
 			if (m_lastMessage)
 				DM_UpdateLastMessage();
 		}
 
 		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
 		MoveWindow(m_hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), TRUE);
-		if (m_dwFlags & MWF_WASBACKGROUNDCREATE) {
-			m_dwFlags &= ~MWF_WASBACKGROUNDCREATE;
+		if (m_bWasBackgroundCreate) {
+			m_bWasBackgroundCreate = false;
 			Resize();
 			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
 
@@ -3066,7 +3065,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_NEXTDLGCTL:
-		if (m_dwFlags & MWF_WASBACKGROUNDCREATE)
+		if (m_bWasBackgroundCreate)
 			return 1;
 		break;
 
@@ -3186,7 +3185,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// usual close, not forced
 		if (wParam == 0 && lParam == 0) {
 			// esc handles error controls if we are in error state (error controls visible)
-			if (m_dwFlags & MWF_ERRORSTATE) {
+			if (m_bErrorState) {
 				DM_ErrorDetected(MSGERROR_CANCEL, 0);
 				return TRUE;
 			}
@@ -3211,16 +3210,15 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (m_iOpenJobs > 0 && lParam != 2) {
-			if (m_dwFlags & MWF_ERRORSTATE) {
+			if (m_bErrorState)
 				DM_ErrorDetected(MSGERROR_CANCEL, 1);
-			}
 			else {
-				if (m_dwFlagsEx & MWF_EX_WARNCLOSE)
+				if (m_bWarnClose)
 					return TRUE;
 
-				m_dwFlagsEx |= MWF_EX_WARNCLOSE;
+				m_bWarnClose = true;
 				LRESULT result = SendQueue::WarnPendingJobs(0);
-				m_dwFlagsEx &= ~MWF_EX_WARNCLOSE;
+				m_bWarnClose = false;
 				if (result == IDNO)
 					return TRUE;
 			}
@@ -3286,7 +3284,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_CHECKSIZE:
-		m_dwFlags |= MWF_NEEDCHECKSIZE;
+		m_bNeedCheckSize = true;
 		return 0;
 
 	case DM_CONTAINERSELECTED:

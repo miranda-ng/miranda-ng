@@ -431,7 +431,7 @@ HICON CContactCache::getIcon(int &iSize) const
 	if (!m_dat)
 		return Skin_LoadProtoIcon(cc->szProto, getStatus());
 
-	if (m_dat->m_dwFlags & MWF_ERRORSTATE)
+	if (m_dat->m_bErrorState)
 		return PluginConfig.g_iconErr;
 	if (m_dat->m_bCanFlashTab)
 		return m_dat->m_iFlashIcon;

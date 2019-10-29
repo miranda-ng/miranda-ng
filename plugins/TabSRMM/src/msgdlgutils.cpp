@@ -213,7 +213,7 @@ void TSAPI HandleIconFeedback(CMsgDialog *dat, HICON iIcon)
 	TCITEM item = {};
 
 	if (iIcon == (HICON)-1) { // restore status image
-		if (dat->m_dwFlags & MWF_ERRORSTATE)
+		if (dat->m_bErrorState)
 			dat->m_hTabIcon = PluginConfig.g_iconErr;
 		else
 			dat->m_hTabIcon = dat->m_hTabStatusIcon;

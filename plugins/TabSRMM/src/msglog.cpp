@@ -1625,7 +1625,7 @@ void CLogWindow::UpdateOptions()
 		PARAFORMAT2 pf2;
 		pf2.wEffects = PFE_RTLPARA;
 		pf2.dwMask |= PFM_OFFSET;
-		if (m_pDlg.m_dwFlags & MWF_INITMODE) {
+		if (m_pDlg.m_bInitMode) {
 			pf2.dwMask |= (PFM_RIGHTINDENT | PFM_OFFSETINDENT);
 			pf2.dxStartIndent = 30;
 			pf2.dxRightIndent = 30;
