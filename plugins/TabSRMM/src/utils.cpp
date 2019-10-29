@@ -28,7 +28,6 @@
 
 #include "stdafx.h"
 
-#define MWF_LOG_BBCODE 1
 #define MWF_LOG_TEXTFORMAT 0x2000000
 #define MSGDLGFONTCOUNT 22
 

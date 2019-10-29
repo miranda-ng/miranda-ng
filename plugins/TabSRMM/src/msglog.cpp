@@ -487,19 +487,21 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 
 	g_groupBreak = TRUE;
 
-	if (dwEffectiveFlags & MWF_DIVIDERWANTED) {
+	if (dat->m_bDividerWanted) {
 		static char szStyle_div[128] = "\0";
 		if (szStyle_div[0] == 0)
 			mir_snprintf(szStyle_div, "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS, 0, 0, 5);
 
 		str.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS);
-		dat->m_dwFlags &= ~MWF_DIVIDERWANTED;
+		dat->m_bDividerWanted = false;
 	}
+
 	if (dwEffectiveFlags & MWF_LOG_GROUPMODE && ((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)) == LOWORD(dat->m_iLastEventType)) && dbei.eventType == EVENTTYPE_MESSAGE && HIWORD(dat->m_iLastEventType) == EVENTTYPE_MESSAGE && (dbei.timestamp - dat->m_lastEventTime) < 86400) {
 		g_groupBreak = FALSE;
 		if ((time_t)dbei.timestamp > today && dat->m_lastEventTime < today)
 			g_groupBreak = TRUE;
 	}
+
 	if (!streamData->isEmpty && g_groupBreak && (dwEffectiveFlags & MWF_LOG_GRID))
 		str.AppendFormat("\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", MSGDLGFONTCOUNT + 4, MSGDLGFONTCOUNT + 4);
 

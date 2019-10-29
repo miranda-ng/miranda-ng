@@ -40,29 +40,22 @@
 #define CONTAINER_NAMELEN 25
 #define TITLE_FORMATLEN 30
 
+#define MWF_LOG_BBCODE		 1
+#define MWF_LOG_LOCALTIME	 64
 #define MWF_LOG_NORMALTEMPLATES 512
 #define MWF_LOG_SHOWTIME 1024
 #define MWF_LOG_SHOWSECONDS 2048
 #define MWF_LOG_SHOWDATES 4096
-
+#define MWF_LOG_NEWLINE   8192
 #define MWF_LOG_INDENT 16384
 #define MWF_LOG_RTL 32768
-
-// ieview still mistakenly uses these...
-#define MWF_LOG_NEWLINE   8192
 #define MWF_LOG_UNDERLINE 65536
 #define MWF_LOG_SWAPNICK  131072
-
-#define MWF_LOG_BBCODE		 1
-#define MWF_LOG_LOCALTIME	 64
-
 #define MWF_LOG_SHOWICONS 262144
 #define MWF_LOG_SYMBOLS 0x200000
-#define MWF_DIVIDERSET 0x1000000
 #define MWF_LOG_TEXTFORMAT 0x2000000
 #define MWF_LOG_GRID 0x4000000
 #define MWF_LOG_INOUTICONS 0x10000000
-#define MWF_DIVIDERWANTED 0x40000000
 #define MWF_LOG_GROUPMODE 0x80000000
 
 #define SMODE_DEFAULT 0
@@ -467,6 +460,7 @@ public:
 	bool    m_bShowAvatar;
 	bool    m_bSaveBtn, m_bNeedCheckSize;
 	bool    m_bErrorState;
+	bool    m_bDividerWanted, m_bDividerSet;
 	bool    m_bSplitterOverride;
 	int     m_sendMode;
 	HKL     m_hkl;                                    // keyboard layout identifier

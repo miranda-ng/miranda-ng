@@ -1075,9 +1075,9 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 
 void CMsgDialog::DM_AddDivider()
 {
-	if (!(m_dwFlags & MWF_DIVIDERSET) && PluginConfig.m_bUseDividers) {
+	if (!m_bDividerSet && PluginConfig.m_bUseDividers) {
 		if (GetWindowTextLength(m_pLog->GetHwnd()) > 0)
-			m_dwFlags |= MWF_DIVIDERWANTED | MWF_DIVIDERSET;
+			m_bDividerSet = m_bDividerWanted = true;
 	}
 }
 
