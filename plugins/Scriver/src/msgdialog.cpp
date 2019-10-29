@@ -659,6 +659,7 @@ void CMsgDialog::onChange_SplitterY(CSplitter *pSplitter)
 void CMsgDialog::MessageDialogResize(int w, int h)
 {
 	ParentWindowData *pdat = m_pParent;
+	HWND hwndLog = GetDlgItem(m_hwnd, IDC_SRMM_LOG);
 	bool bToolbar = pdat->flags2.bShowToolBar;
 	int logY, logH;
 
@@ -696,12 +697,14 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 			logH -= toolbarHeight;
 
 		HDWP hdwp = BeginDeferWindowPos(5);
-		hdwp = DeferWindowPos(hdwp, m_pLog->GetHwnd(), nullptr, 1, 0, bNick ? w - pdat->iSplitterX - 1 : w - 2, logH, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, hwndLog, nullptr, 1, 0, bNick ? w - pdat->iSplitterX - 1 : w - 2, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), nullptr, w - pdat->iSplitterX + 2, 0, pdat->iSplitterX - 3, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), nullptr, w - pdat->iSplitterX, 1, 2, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - pdat->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - pdat->iSplitterY + SPLITTER_HEIGHT, w - 2, pdat->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 		EndDeferWindowPos(hdwp);
+
+		m_pLog->Resize();
 
 		RedrawWindow(m_nickList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 	}
@@ -763,11 +766,13 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 
 		HDWP hdwp = BeginDeferWindowPos(5);
 		hdwp = DeferWindowPos(hdwp, m_hwndInfo, nullptr, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_pLog->GetHwnd(), nullptr, 1, logY, w - 2, logH, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, hwndLog, nullptr, 1, logY, w - 2, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - hSplitterPos - 1, messageEditWidth, hSplitterPos, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - hSplitterPos - SPLITTER_HEIGHT - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
 		EndDeferWindowPos(hdwp);
+
+		m_pLog->Resize();
 
 		RefreshInfobar();
 		RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
