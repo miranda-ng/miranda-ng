@@ -2144,7 +2144,7 @@ void CSkin::MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc)
 
 void CMsgDialog::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 {
-	if (m_pContainer->m_dwFlags & CNT_HIDETOOLBAR)
+	if (m_pContainer->m_flags.m_bHideToolbar)
 		return;
 
 	bool	 bAero = M.isAero();
@@ -2154,7 +2154,7 @@ void CMsgDialog::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 	RECT 	rc, rcToolbar;
 	POINT	pt;
 
-	if (!(m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR)) {
+	if (!m_pContainer->m_flags.m_bBottomToolbar) {
 		::GetWindowRect(m_pLog->GetHwnd(), &rc);
 		pt.y = rc.bottom + 0;
 		::ScreenToClient(m_hwnd, &pt);

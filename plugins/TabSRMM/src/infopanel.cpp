@@ -223,7 +223,7 @@ bool CInfoPanel::getVisibility()
 		return false;
 	}
 
-	BYTE bDefault = (m_dat->m_pContainer->m_dwFlags & CNT_INFOPANEL) ? 1 : 0;
+	BYTE bDefault = (m_dat->m_pContainer->m_flags.m_bInfoPanel) ? 1 : 0;
 	BYTE bContact = M.GetByte(m_dat->m_hContact, "infopanel", 0);
 
 	BYTE visible = (bContact == 0 ? bDefault : (bContact == (BYTE)-1 ? 0 : 1));

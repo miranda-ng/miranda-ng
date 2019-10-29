@@ -109,7 +109,6 @@ public:
 	double      m_DPIscaleY;
 	HBITMAP     m_hbmMsgArea;
 	HWND        m_hwndClist;
-	int         m_TabAppearance;
 	myTabCtrl   tabConfig;
 	int         m_panelHeight, m_MUCpanelHeight;
 	int         m_smcxicon, m_smcyicon;

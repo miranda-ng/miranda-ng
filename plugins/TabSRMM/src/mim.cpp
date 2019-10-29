@@ -252,7 +252,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 	}
 	else fShowOnClist = false;
 
-	if ((!foundWin || !(pContainer->m_dwFlags & CNT_NOSOUND)) && preTyping != (mode != 0))
+	if ((!foundWin || !pContainer->m_flags.m_bNoSound) && preTyping != (mode != 0))
 		Skin_PlaySound(mode ? "TNStart" : "TNStop");
 
 	if (g_plugin.getByte("ShowTypingPopup", 0)) {

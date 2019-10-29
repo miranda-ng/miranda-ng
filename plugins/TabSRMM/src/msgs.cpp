@@ -97,16 +97,16 @@ int TSAPI MessageWindowOpened(MCONTACT hContact, HWND _hwnd)
 
 	SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 	if (pContainer) {
-		if (pContainer->m_dwFlags & CNT_DONTREPORT) {
+		if (pContainer->m_flags.m_bDontReport) {
 			if (IsIconic(pContainer->m_hwnd))
 				return 0;
 		}
-		if (pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED) {
+		if (pContainer->m_flags.m_bDontReportUnfocused) {
 			if (!IsIconic(pContainer->m_hwnd) && !pContainer->IsActive())
 				return 0;
 		}
-		if (pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE) {
-			if (pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED)
+		if (pContainer->m_flags.m_bAlwaysReportInactive) {
+			if (pContainer->m_flags.m_bDontReportFocused)
 				return 0;
 
 			return pContainer->m_hwndActive == hwnd;
@@ -271,7 +271,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 	NMHDR nmhdr = {};
 	nmhdr.code = TCN_SELCHANGE;
-	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS)) > 1 && !(pContainer->m_dwFlags & CNT_DEFERREDTABSELECT)) {
+	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS)) > 1 && !pContainer->m_flags.m_bDeferredTabSelect) {
 		TabCtrl_SetCurSel(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), hwndChild));
 		SendMessage(pContainer->m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
@@ -397,7 +397,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	HWND hwndNew = pWindow->GetHwnd();
 
 	// switchbar support
-	if (pContainer->m_dwFlags & CNT_SIDEBAR)
+	if (pContainer->m_flags.m_bSideBar)
 		pContainer->m_pSideBar->addSession(pWindow, pContainer->m_iTabIndex);
 
 	SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 0);
@@ -409,7 +409,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			SetFocus(pContainer->m_hwndActive);
 		}
 		else {
-			if (pContainer->m_dwFlags & CNT_NOFLASH)
+			if (pContainer->m_flags.m_bNoFlash)
 				pContainer->SetIcon(0, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			else
 				FlashContainer(pContainer, 1, 0);

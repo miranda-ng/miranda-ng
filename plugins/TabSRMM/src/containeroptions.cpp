@@ -47,54 +47,25 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
 	}
 }
 
-/**
- * Apply a container setting
- *
- * @param pContainer ContainerWindowData *: the container
- * @param flags      DWORD: the flag values to set or clear
- * @param mode       int: bit #0 set/clear, any bit from 16-31 indicates that dwFlagsEx should be affected
- * @param fForceResize
- */
-void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT mode, bool fForceResize)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Apply a container setting
+
+void TContainerData::ApplySetting(bool fForceResize)
 {
-	bool  isEx = (mode & 0xffff0000) ? true : false;
-	bool  set = (mode & 0x01) ? true : false;
+	Utils::ContainerToSettings(this);
 
-	if (!pContainer->m_pSettings->fPrivate) {
-		if (!isEx)
-			pContainer->m_dwFlags = (set ? pContainer->m_dwFlags | flags : pContainer->m_dwFlags & ~flags);
-		else
-			pContainer->m_dwFlagsEx = (set ? pContainer->m_dwFlagsEx | flags : pContainer->m_dwFlagsEx & ~flags);
-
-		Utils::ContainerToSettings(pContainer);
-		if (flags & CNT_INFOPANEL)
-			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
-		if (flags & CNT_SIDEBAR) {
-			for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-				if (!p->m_pSettings->fPrivate)
-					SendMessage(p->m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
-		}
-		else ReloadGlobalContainerSettings(fForceResize);
-	}
-	else {
-		if (!isEx)
-			pContainer->m_dwFlags = (set ? pContainer->m_dwFlags | flags : pContainer->m_dwFlags & ~flags);
-		else
-			pContainer->m_dwFlagsEx = (set ? pContainer->m_dwFlagsEx | flags : pContainer->m_dwFlagsEx & ~flags);
-		Utils::ContainerToSettings(pContainer);
-		if (flags & CNT_SIDEBAR)
-			SendMessage(pContainer->m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
-		else
-			pContainer->Configure();
-		if (flags & CNT_INFOPANEL)
-			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
-	}
+	if (m_pSettings->fPrivate)
+		Configure();
+	else
+		ReloadGlobalContainerSettings(fForceResize);
 
 	if (fForceResize)
-		SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 1);
+		SendMessage(m_hwnd, WM_SIZE, 0, 1);
 
-	BroadCastContainer(pContainer, WM_CBD_UPDATED, 0, 0);
+	BroadCastContainer(this, WM_CBD_UPDATED, 0, 0);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct
 {
@@ -176,8 +147,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateW(sblayouts[i].szName));
 
 			/* bits 24 - 31 of dwFlagsEx hold the side bar layout id */
-			SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_SETCURSEL, (WPARAM)((pContainer->m_pSettings->dwFlagsEx & 0xff000000) >> 24), 0);
-
+			SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_SETCURSEL, (WPARAM)((pContainer->m_pSettings->flagsEx.dw & 0xff000000) >> 24), 0);
 
 			SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->m_pSettings);
 			SendDlgItemMessage(hwndDlg, IDC_TITLEFORMAT, EM_LIMITTEXT, TITLE_FORMATLEN - 1, 0);
@@ -375,9 +345,10 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 		{
 			TContainerSettings* cs = (TContainerSettings *)lParam;
 
-			DWORD dwFlags = cs->dwFlags;
+			auto flags = cs->flags;
+			auto flagsEx = cs->flagsEx;
+
 			DWORD dwTransparency = cs->dwTransparency;
-			DWORD dwFlagsEx = cs->dwFlagsEx;
 			BOOL fAllowTrans = FALSE;
 
 			if (IsWinVerVistaPlus())
@@ -385,50 +356,50 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			else
 				fAllowTrans = !CSkin::m_skinEnabled;
 
-			MY_CheckDlgButton(hwndDlg, IDC_O_HIDETITLE, dwFlags & CNT_NOTITLE);
-			MY_CheckDlgButton(hwndDlg, IDC_O_DONTREPORT, dwFlags & CNT_DONTREPORT);
-			MY_CheckDlgButton(hwndDlg, IDC_O_NOTABS, dwFlags & CNT_HIDETABS);
-			MY_CheckDlgButton(hwndDlg, IDC_O_STICKY, dwFlags & CNT_STICKY);
-			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHNEVER, dwFlags & CNT_NOFLASH);
-			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHALWAYS, dwFlags & CNT_FLASHALWAYS);
-			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHDEFAULT, !((dwFlags & CNT_NOFLASH) || (dwFlags & CNT_FLASHALWAYS)));
-			MY_CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, dwFlags & CNT_TRANSPARENCY);
-			MY_CheckDlgButton(hwndDlg, IDC_DONTREPORTUNFOCUSED2, dwFlags & CNT_DONTREPORTUNFOCUSED);
-			MY_CheckDlgButton(hwndDlg, IDC_DONTREPORTFOCUSED2, dwFlags & CNT_DONTREPORTFOCUSED);
-			MY_CheckDlgButton(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, dwFlags & CNT_ALWAYSREPORTINACTIVE);
-			MY_CheckDlgButton(hwndDlg, IDC_CNTNOSTATUSBAR, dwFlags & CNT_NOSTATUSBAR);
-			MY_CheckDlgButton(hwndDlg, IDC_HIDEMENUBAR, dwFlags & CNT_NOMENUBAR);
-			MY_CheckDlgButton(hwndDlg, IDC_HIDETOOLBAR, dwFlags & CNT_HIDETOOLBAR);
-			MY_CheckDlgButton(hwndDlg, IDC_BOTTOMTOOLBAR, dwFlags & CNT_BOTTOMTOOLBAR);
-			MY_CheckDlgButton(hwndDlg, IDC_UIDSTATUSBAR, dwFlags & CNT_UINSTATUSBAR);
-			MY_CheckDlgButton(hwndDlg, IDC_VERTICALMAX, dwFlags & CNT_VERTICALMAX);
-			MY_CheckDlgButton(hwndDlg, IDC_AUTOSPLITTER, dwFlags & CNT_AUTOSPLITTER);
-			MY_CheckDlgButton(hwndDlg, IDC_AVATARSONTASKBAR, dwFlags & CNT_AVATARSONTASKBAR);
-			MY_CheckDlgButton(hwndDlg, IDC_INFOPANEL, dwFlags & CNT_INFOPANEL);
-			MY_CheckDlgButton(hwndDlg, IDC_USEGLOBALSIZE, dwFlags & CNT_GLOBALSIZE);
+			MY_CheckDlgButton(hwndDlg, IDC_O_HIDETITLE, flags.m_bNoTitle);
+			MY_CheckDlgButton(hwndDlg, IDC_O_DONTREPORT, flags.m_bDontReport);
+			MY_CheckDlgButton(hwndDlg, IDC_O_NOTABS, flags.m_bHideTabs);
+			MY_CheckDlgButton(hwndDlg, IDC_O_STICKY, flags.m_bSticky);
+			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHNEVER, flags.m_bNoFlash);
+			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHALWAYS, flags.m_bFlashAlways);
+			MY_CheckDlgButton(hwndDlg, IDC_O_FLASHDEFAULT, !flags.m_bNoFlash && !flags.m_bFlashAlways);
+			MY_CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, flags.m_bTransparent);
+			MY_CheckDlgButton(hwndDlg, IDC_DONTREPORTUNFOCUSED2, flags.m_bDontReportUnfocused);
+			MY_CheckDlgButton(hwndDlg, IDC_DONTREPORTFOCUSED2, flags.m_bDontReportFocused);
+			MY_CheckDlgButton(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, flags.m_bAlwaysReportInactive);
+			MY_CheckDlgButton(hwndDlg, IDC_CNTNOSTATUSBAR, flags.m_bNoStatusBar);
+			MY_CheckDlgButton(hwndDlg, IDC_HIDEMENUBAR, flags.m_bNoMenuBar);
+			MY_CheckDlgButton(hwndDlg, IDC_HIDETOOLBAR, flags.m_bHideToolbar);
+			MY_CheckDlgButton(hwndDlg, IDC_BOTTOMTOOLBAR, flags.m_bBottomToolbar);
+			MY_CheckDlgButton(hwndDlg, IDC_UIDSTATUSBAR, flags.m_bUinStatusBar);
+			MY_CheckDlgButton(hwndDlg, IDC_VERTICALMAX, flags.m_bVerticalMax);
+			MY_CheckDlgButton(hwndDlg, IDC_AUTOSPLITTER, flags.m_bAutoSplitter);
+			MY_CheckDlgButton(hwndDlg, IDC_AVATARSONTASKBAR, flags.m_bAvatarsOnTaskbar);
+			MY_CheckDlgButton(hwndDlg, IDC_INFOPANEL, flags.m_bInfoPanel);
+			MY_CheckDlgButton(hwndDlg, IDC_USEGLOBALSIZE, flags.m_bGlobalSize);
 
-			MY_CheckDlgButton(hwndDlg, IDC_FLASHICON, dwFlagsEx & TCF_FLASHICON);
-			MY_CheckDlgButton(hwndDlg, IDC_FLASHLABEL, dwFlagsEx & TCF_FLASHLABEL);
-			MY_CheckDlgButton(hwndDlg, IDC_CLOSEBUTTONONTABS, dwFlagsEx & TCF_CLOSEBUTTON);
+			MY_CheckDlgButton(hwndDlg, IDC_FLASHICON, flagsEx.m_bTabFlashIcon);
+			MY_CheckDlgButton(hwndDlg, IDC_FLASHLABEL, flagsEx.m_bTabFlashLabel);
+			MY_CheckDlgButton(hwndDlg, IDC_CLOSEBUTTONONTABS, flagsEx.m_bTabCloseButton);
 
-			MY_CheckDlgButton(hwndDlg, IDC_SINGLEROWTAB, dwFlagsEx & TCF_SINGLEROWTABCONTROL);
-			MY_CheckDlgButton(hwndDlg, IDC_BUTTONTABS, dwFlagsEx & TCF_FLAT);
+			MY_CheckDlgButton(hwndDlg, IDC_SINGLEROWTAB, flagsEx.m_bTabSingleRow);
+			MY_CheckDlgButton(hwndDlg, IDC_BUTTONTABS, flagsEx.m_bTabFlat);
 
-			MY_CheckDlgButton(hwndDlg, IDC_O_ENABLESOUNDS, !(dwFlags & CNT_NOSOUND));
-			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSMINIMIZED, dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED);
-			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSUNFOCUSED, dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED);
-			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSINACTIVE, dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS);
-			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSFOCUSED, dwFlagsEx & CNT_EX_SOUNDS_FOCUSED);
+			MY_CheckDlgButton(hwndDlg, IDC_O_ENABLESOUNDS, !flags.m_bNoSound);
+			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSMINIMIZED, flagsEx.m_bSoundMinimized);
+			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSUNFOCUSED, flagsEx.m_bSoundUnfocused);
+			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSINACTIVE, flagsEx.m_bSoundInactive);
+			MY_CheckDlgButton(hwndDlg, IDC_O_SOUNDSFOCUSED, flagsEx.m_bSoundFocused);
 
 			SendMessage(hwndDlg, DM_SC_CONFIG, 0, 0);
 
-			if (!(dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT)))
-				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlags & CNT_TABSBOTTOM ? 1 : 0, 0);
+			if (!flagsEx.m_bTabSBarLeft && !flagsEx.m_bTabSBarRight)
+				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, flags.m_bTabsBottom ? 1 : 0, 0);
 			else
-				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlagsEx & TCF_SBARLEFT ? 2 : 3, 0);
+				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, flagsEx.m_bTabSBarLeft ? 2 : 3, 0);
 
 			if (fAllowTrans)
-				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, (dwFlags & CNT_TRANSPARENCY) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, (flags.m_bTransparent) ? BST_CHECKED : BST_UNCHECKED);
 			else
 				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, BST_UNCHECKED);
 
@@ -471,63 +442,67 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 
 	case DM_SC_BUILDLIST:
 		{
-			DWORD dwNewFlags = 0, dwNewFlagsEx = 0;
 			TContainerSettings* cs = (TContainerSettings *)lParam;
 
-			dwNewFlags = (IsDlgButtonChecked(hwndDlg, IDC_O_HIDETITLE) ? CNT_NOTITLE : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_DONTREPORT) ? CNT_DONTREPORT : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_NOTABS) ? CNT_HIDETABS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_STICKY) ? CNT_STICKY : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_FLASHALWAYS) ? CNT_FLASHALWAYS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_FLASHNEVER) ? CNT_NOFLASH : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) ? CNT_TRANSPARENCY : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_DONTREPORTUNFOCUSED2) ? CNT_DONTREPORTUNFOCUSED : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_DONTREPORTFOCUSED2) ? CNT_DONTREPORTFOCUSED : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE) ? CNT_ALWAYSREPORTINACTIVE : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_CNTNOSTATUSBAR) ? CNT_NOSTATUSBAR : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_HIDEMENUBAR) ? CNT_NOMENUBAR : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_HIDETOOLBAR) ? CNT_HIDETOOLBAR : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_BOTTOMTOOLBAR) ? CNT_BOTTOMTOOLBAR : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_UIDSTATUSBAR) ? CNT_UINSTATUSBAR : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_USEGLOBALSIZE) ? CNT_GLOBALSIZE : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_INFOPANEL) ? CNT_INFOPANEL : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS) ? 0 : CNT_NOSOUND) |
-				(IsDlgButtonChecked(hwndDlg, IDC_AVATARSONTASKBAR) ? CNT_AVATARSONTASKBAR : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_VERTICALMAX) ? CNT_VERTICALMAX : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_AUTOSPLITTER) ? CNT_AUTOSPLITTER : 0) |
-				(CNT_NEWCONTAINERFLAGS);
+			TContainerFlags newFlags;
+			newFlags.dw = 0;
+			newFlags.m_bNoTitle = IsDlgButtonChecked(hwndDlg, IDC_O_HIDETITLE);
+			newFlags.m_bDontReport = IsDlgButtonChecked(hwndDlg, IDC_O_DONTREPORT);
+			newFlags.m_bHideTabs = IsDlgButtonChecked(hwndDlg, IDC_O_NOTABS);
+			newFlags.m_bSticky = IsDlgButtonChecked(hwndDlg, IDC_O_STICKY);
+			newFlags.m_bFlashAlways = IsDlgButtonChecked(hwndDlg, IDC_O_FLASHALWAYS);
+			newFlags.m_bNoFlash = IsDlgButtonChecked(hwndDlg, IDC_O_FLASHNEVER);
+			newFlags.m_bTransparent = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
+			newFlags.m_bDontReportUnfocused = IsDlgButtonChecked(hwndDlg, IDC_DONTREPORTUNFOCUSED2);
+			newFlags.m_bDontReportFocused = IsDlgButtonChecked(hwndDlg, IDC_DONTREPORTFOCUSED2);
+			newFlags.m_bAlwaysReportInactive = IsDlgButtonChecked(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE);
+			newFlags.m_bNoStatusBar = IsDlgButtonChecked(hwndDlg, IDC_CNTNOSTATUSBAR);
+			newFlags.m_bNoMenuBar = IsDlgButtonChecked(hwndDlg, IDC_HIDEMENUBAR);
+			newFlags.m_bHideToolbar = IsDlgButtonChecked(hwndDlg, IDC_HIDETOOLBAR);
+			newFlags.m_bBottomToolbar = IsDlgButtonChecked(hwndDlg, IDC_BOTTOMTOOLBAR);
+			newFlags.m_bUinStatusBar = IsDlgButtonChecked(hwndDlg, IDC_UIDSTATUSBAR);
+			newFlags.m_bGlobalSize = IsDlgButtonChecked(hwndDlg, IDC_USEGLOBALSIZE);
+			newFlags.m_bInfoPanel = IsDlgButtonChecked(hwndDlg, IDC_INFOPANEL);
+			newFlags.m_bNoSound = IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS);
+			newFlags.m_bAvatarsOnTaskbar = IsDlgButtonChecked(hwndDlg, IDC_AVATARSONTASKBAR);
+			newFlags.m_bVerticalMax = IsDlgButtonChecked(hwndDlg, IDC_VERTICALMAX);
+			newFlags.m_bAutoSplitter = IsDlgButtonChecked(hwndDlg, IDC_AUTOSPLITTER);
+			newFlags.m_bNewContainerFlags = true;
 
 			LRESULT iTabMode = SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_GETCURSEL, 0, 0);
 			LRESULT iTabLayout = SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_GETCURSEL, 0, 0);
 
-			dwNewFlagsEx = 0;
+			TContainerFlagsEx newFlagsEx;
+			newFlagsEx.dw = 0;
 
 			if (iTabMode < 2)
-				dwNewFlags = ((iTabMode == 1) ? (dwNewFlags | CNT_TABSBOTTOM) : (dwNewFlags & ~CNT_TABSBOTTOM));
+				newFlags.m_bTabsBottom = (iTabMode == 1);
 			else {
-				dwNewFlags &= ~CNT_TABSBOTTOM;
-				dwNewFlagsEx = iTabMode == 2 ? TCF_SBARLEFT : TCF_SBARRIGHT;
+				newFlags.m_bTabsBottom = false;
+				if (iTabMode == 2)
+					newFlagsEx.m_bTabSBarLeft = true;
+				else
+					newFlagsEx.m_bTabSBarRight = true;
 			}
 
-			dwNewFlagsEx |= ((IsDlgButtonChecked(hwndDlg, IDC_FLASHICON) ? TCF_FLASHICON : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_FLASHLABEL) ? TCF_FLASHLABEL : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_BUTTONTABS) ? TCF_FLAT : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_CLOSEBUTTONONTABS) ? TCF_CLOSEBUTTON : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_SINGLEROWTAB) ? TCF_SINGLEROWTABCONTROL : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSMINIMIZED) ? CNT_EX_SOUNDS_MINIMIZED : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSUNFOCUSED) ? CNT_EX_SOUNDS_UNFOCUSED : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSFOCUSED) ? CNT_EX_SOUNDS_FOCUSED : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSINACTIVE) ? CNT_EX_SOUNDS_INACTIVETABS : 0)
-				);
+			newFlagsEx.m_bTabFlashIcon = IsDlgButtonChecked(hwndDlg, IDC_FLASHICON);
+			newFlagsEx.m_bTabFlashLabel = IsDlgButtonChecked(hwndDlg, IDC_FLASHLABEL);
+			newFlagsEx.m_bTabFlat = IsDlgButtonChecked(hwndDlg, IDC_BUTTONTABS);
+			newFlagsEx.m_bTabCloseButton = IsDlgButtonChecked(hwndDlg, IDC_CLOSEBUTTONONTABS);
+			newFlagsEx.m_bTabSingleRow = IsDlgButtonChecked(hwndDlg, IDC_SINGLEROWTAB);
+			newFlagsEx.m_bSoundMinimized = IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSMINIMIZED);
+			newFlagsEx.m_bSoundUnfocused = IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSUNFOCUSED);
+			newFlagsEx.m_bSoundFocused = IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSFOCUSED);
+			newFlagsEx.m_bSoundInactive = IsDlgButtonChecked(hwndDlg, IDC_O_SOUNDSINACTIVE);
 
 			/* bits 24 - 31 of dwFlagsEx hold the sidebar layout id */
-			dwNewFlagsEx |= ((int)((iTabLayout << 24) & 0xff000000));
+			newFlagsEx.dw |= ((int)((iTabLayout << 24) & 0xff000000));
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_O_FLASHDEFAULT))
-				dwNewFlags &= ~(CNT_FLASHALWAYS | CNT_NOFLASH);
+				newFlags.m_bFlashAlways = newFlags.m_bNoFlash = false;
 
-			cs->dwFlags = dwNewFlags;
-			cs->dwFlagsEx = dwNewFlagsEx;
+			cs->flags = newFlags;
+			cs->flagsEx = newFlagsEx;
 			cs->autoCloseSeconds = (WORD)SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_GETPOS, 0, 0);
 		}
 		break;

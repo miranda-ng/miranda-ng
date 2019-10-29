@@ -137,7 +137,7 @@ void CMenuBar::releaseHook()
 
 LONG CMenuBar::getHeight() const
 {
-	return((m_pContainer->m_dwFlags & CNT_NOMENUBAR) ? 0 : m_size_y);
+	return (m_pContainer->m_flags.m_bNoMenuBar) ? 0 : m_size_y;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +186,7 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM, const LPARAM lParam)
 		}
 	}
 	else if (msg == WM_LBUTTONDOWN) {
-		if (m_pContainer->m_dwFlags & CNT_NOTITLE) {
+		if (m_pContainer->m_flags.m_bNoTitle) {
 			POINT	pt;
 			::GetCursorPos(&pt);
 			return ::SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
@@ -447,31 +447,32 @@ void CMenuBar::updateState(const HMENU hMenu) const
 {
 	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 	if (dat) {
-		MY_CheckMenu(hMenu, ID_VIEW_SHOWMENUBAR, !(m_pContainer->m_dwFlags & CNT_NOMENUBAR) && !m_mustAutoHide);
-		MY_CheckMenu(hMenu, ID_VIEW_SHOWSTATUSBAR, !(m_pContainer->m_dwFlags & CNT_NOSTATUSBAR));
+		auto f = m_pContainer->m_flags;
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWMENUBAR, !f.m_bNoMenuBar && !m_mustAutoHide);
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWSTATUSBAR, !f.m_bNoStatusBar);
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWAVATAR, dat->m_bShowAvatar);
 		
-		MY_CheckMenu(hMenu, ID_VIEW_SHOWTITLEBAR, !(m_pContainer->m_dwFlags & CNT_NOTITLE));
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWTITLEBAR, !f.m_bNoTitle);
 		::EnableMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, CSkin::m_skinEnabled && CSkin::m_frameSkins ? MF_GRAYED : MF_ENABLED);
 
-		MY_CheckMenu(hMenu, ID_VIEW_TABSATBOTTOM, m_pContainer->m_dwFlags & CNT_TABSBOTTOM);
-		MY_CheckMenu(hMenu, ID_VIEW_VERTICALMAXIMIZE, m_pContainer->m_dwFlags & CNT_VERTICALMAX);
-		MY_CheckMenu(hMenu, ID_VIEW_SHOWTOOLBAR, !(m_pContainer->m_dwFlags & CNT_HIDETOOLBAR));
-		MY_CheckMenu(hMenu, ID_VIEW_BOTTOMTOOLBAR, m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR);
+		MY_CheckMenu(hMenu, ID_VIEW_TABSATBOTTOM, f.m_bTabsBottom);
+		MY_CheckMenu(hMenu, ID_VIEW_VERTICALMAXIMIZE, f.m_bVerticalMax);
+		MY_CheckMenu(hMenu, ID_VIEW_SHOWTOOLBAR, !f.m_bHideToolbar);
+		MY_CheckMenu(hMenu, ID_VIEW_BOTTOMTOOLBAR, f.m_bBottomToolbar);
 
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWMULTISENDCONTACTLIST, dat->m_sendMode & SMODE_MULTIPLE);
-		MY_CheckMenu(hMenu, ID_VIEW_STAYONTOP, m_pContainer->m_dwFlags & CNT_STICKY);
+		MY_CheckMenu(hMenu, ID_VIEW_STAYONTOP, f.m_bSticky);
 
 		::EnableMenuItem(hMenu, 2, MF_BYPOSITION | (nen_options.bWindowCheck ? MF_GRAYED : MF_ENABLED));
-		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS, !(m_pContainer->m_dwFlags & (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE)));
-		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED, m_pContainer->m_dwFlags & CNT_DONTREPORT);
-		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS, m_pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE);
-		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED, m_pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED);
-		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED, m_pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS, !f.m_bDontReport && !f.m_bDontReportUnfocused && !f.m_bDontReportFocused && !f.m_bAlwaysReportInactive);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED, f.m_bDontReport);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS, f.m_bAlwaysReportInactive);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED, f.m_bDontReportUnfocused);
+		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED, f.m_bDontReportFocused);
 
-		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_USEDEFAULTVALUES, !(m_pContainer->m_dwFlags & (CNT_NOFLASH | CNT_FLASHALWAYS)));
-		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_DISABLEFLASHING, m_pContainer->m_dwFlags & CNT_NOFLASH);
-		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_FLASHUNTILFOCUSED, m_pContainer->m_dwFlags & CNT_FLASHALWAYS);
+		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_USEDEFAULTVALUES, !f.m_bNoFlash && !f.m_bFlashAlways);
+		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_DISABLEFLASHING, f.m_bNoFlash);
+		MY_CheckMenu(hMenu, ID_WINDOWFLASHING_FLASHUNTILFOCUSED, f.m_bFlashAlways);
 	}
 }
 
@@ -502,8 +503,8 @@ void CMenuBar::configureMenu() const
 
 void CMenuBar::autoShow(const int showcmd)
 {
-	if (m_mustAutoHide && !(m_pContainer->m_dwFlags & CNT_NOMENUBAR)) {
-		m_pContainer->m_dwFlags |= CNT_NOMENUBAR;
+	if (m_mustAutoHide && !m_pContainer->m_flags.m_bNoMenuBar) {
+		m_pContainer->m_flags.m_bNoMenuBar = true;
 		m_mustAutoHide = false;
 		::SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 		releaseHook();
@@ -514,9 +515,9 @@ void CMenuBar::autoShow(const int showcmd)
 		return;
 	}
 
-	if (m_pContainer->m_dwFlags & CNT_NOMENUBAR) {
+	if (m_pContainer->m_flags.m_bNoMenuBar) {
 		m_mustAutoHide = true;
-		m_pContainer->m_dwFlags &= ~CNT_NOMENUBAR;
+		m_pContainer->m_flags.m_bNoMenuBar = false;
 		::SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 	}
 	else // do nothing, already visible
@@ -627,14 +628,13 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 				break;
 			if (m_Owner->m_activeSubMenu && ::MenuItemFromPoint(nullptr, m_Owner->m_activeSubMenu, pt) >= 0)
 				break;
-			else {																// anywhere else, cancel the menu
-				::CallNextHookEx(m_hHook, nCode, wParam, lParam);
-				m_Owner->Cancel();
-				return 0;
-			}
+			
+			// anywhere else, cancel the menu
+			::CallNextHookEx(m_hHook, nCode, wParam, lParam);
+			m_Owner->Cancel();
+			return 0;
 
-			// allow hottracking by the toolbar control
-		case WM_MOUSEMOVE:
+		case WM_MOUSEMOVE: // allow hottracking by the toolbar control
 			::GetCursorPos(&pt);
 			::ScreenToClient(m_Owner->m_hwndToolbar, &pt);
 			LPARAM newPos = MAKELONG(pt.x, pt.y);
@@ -923,7 +923,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 		rcLastStatusBarClick.top = pt.y - 2;
 		rcLastStatusBarClick.bottom = pt.y + 2;
 
-		if (pContainer->m_dwFlags & CNT_NOTITLE) {
+		if (pContainer->m_flags.m_bNoTitle) {
 			POINT	pt1 = pt;
 			ScreenToClient(hWnd, &pt1);
 
@@ -960,7 +960,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 				if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
 					if (sid->dwId == MSG_ICON_SOUND)
 						mir_snwprintf(wBuf, TranslateT("Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers"),
-							pContainer->m_dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
+							pContainer->m_flags.m_bNoSound ? TranslateT("disabled") : TranslateT("enabled"));
 
 					else if (sid->dwId == MSG_ICON_UTN && (!dat->isChat() || dat->m_si->iType == GCW_PRIVMESS)) {
 						int mtnStatus = g_plugin.getByte(dat->m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));

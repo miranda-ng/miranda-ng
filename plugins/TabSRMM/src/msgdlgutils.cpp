@@ -222,7 +222,7 @@ void TSAPI HandleIconFeedback(CMsgDialog *dat, HICON iIcon)
 
 	item.iImage = 0;
 	item.mask = TCIF_IMAGE;
-	if (dat->m_pContainer->m_dwFlags & CNT_SIDEBAR)
+	if (dat->m_pContainer->m_flags.m_bSideBar)
 		dat->m_pContainer->m_pSideBar->updateSession(dat);
 	else
 		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->m_hwnd, IDC_MSGTABS), dat->m_iTabID, &item);

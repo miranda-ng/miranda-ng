@@ -77,7 +77,7 @@ void TContainerData::Configure()
 {
 	DWORD wsold, ws = wsold = GetWindowLong(m_hwnd, GWL_STYLE);
 	if (!CSkin::m_frameSkins) {
-		ws = (m_dwFlags & CNT_NOTITLE) ?
+		ws = (m_flags.m_bNoTitle) ?
 			((IsWindowVisible(m_hwnd) ? WS_VISIBLE : 0) | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_THICKFRAME | (CSkin::m_frameSkins ? WS_SYSMENU : WS_SYSMENU | WS_SIZEBOX)) :
 			ws | WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
 		SetWindowLong(m_hwnd, GWL_STYLE, ws);
@@ -93,20 +93,20 @@ void TContainerData::Configure()
 	BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
 	DWORD ex = GetWindowLong(m_hwnd, GWL_EXSTYLE);
-	ex = (m_dwFlags & CNT_TRANSPARENCY && (!CSkin::m_skinEnabled || fTransAllowed)) ? (ex | WS_EX_LAYERED) : (ex & ~WS_EX_LAYERED);
+	ex = (m_flags.m_bTransparent && (!CSkin::m_skinEnabled || fTransAllowed)) ? (ex | WS_EX_LAYERED) : (ex & ~WS_EX_LAYERED);
 	SetWindowLong(m_hwnd, GWL_EXSTYLE, ex);
 
-	if (m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
+	if (m_flags.m_bTransparent && fTransAllowed) {
 		DWORD trans = LOWORD(m_pSettings->dwTransparency);
-		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (BYTE)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (BYTE)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (m_flags.m_bTransparent ? LWA_ALPHA : 0));
 	}
 
 	HMENU hSysmenu = GetSystemMenu(m_hwnd, FALSE);
 	if (!CSkin::m_frameSkins)
-		CheckMenuItem(hSysmenu, IDM_NOTITLE, (m_dwFlags & CNT_NOTITLE) ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
+		CheckMenuItem(hSysmenu, IDM_NOTITLE, (m_flags.m_bNoTitle) ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
 
-	CheckMenuItem(hSysmenu, IDM_STAYONTOP, m_dwFlags & CNT_STICKY ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
-	SetWindowPos(m_hwnd, (m_dwFlags & CNT_STICKY) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
+	CheckMenuItem(hSysmenu, IDM_STAYONTOP, m_flags.m_bSticky ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
+	SetWindowPos(m_hwnd, (m_flags.m_bSticky) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	if (ws != wsold) {
 		RECT rc;
 		GetWindowRect(m_hwnd, &rc);
@@ -120,16 +120,12 @@ void TContainerData::Configure()
 		}
 	}
 
-	if (m_dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT))
-		m_dwFlags |= CNT_SIDEBAR;
-	else
-		m_dwFlags &= ~CNT_SIDEBAR;
-
+	m_flags.m_bSideBar = m_flagsEx.m_bTabSBarLeft || m_flagsEx.m_bTabSBarRight;
 	m_pSideBar->Init();
 
 	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
 	ws = wsold = GetWindowLong(hwndTab, GWL_STYLE);
-	if (m_dwFlags & CNT_TABSBOTTOM)
+	if (m_flags.m_bTabsBottom)
 		ws |= TCS_BOTTOM;
 	else
 		ws &= ~TCS_BOTTOM;
@@ -138,7 +134,7 @@ void TContainerData::Configure()
 		RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE);
 	}
 
-	if (m_dwFlags & CNT_NOSTATUSBAR) {
+	if (m_flags.m_bNoStatusBar) {
 		if (m_hwndStatus) {
 			DestroyWindow(m_hwndStatus);
 			m_hwndStatus = nullptr;
@@ -267,7 +263,7 @@ void TContainerData::QueryPending()
 // retrieve the container window geometry information from the database.
 void TContainerData::RestoreWindowPos()
 {
-	if (m_isCloned && m_hContactFrom != 0 && !(m_dwFlags & CNT_GLOBALSIZE)) {
+	if (m_isCloned && m_hContactFrom != 0 && !m_flags.m_bGlobalSize) {
 		if (Utils_RestoreWindowPosition(m_hwnd, m_hContactFrom, SRMSGMOD_T, "split")) {
 			if (Utils_RestoreWindowPositionNoMove(m_hwnd, m_hContactFrom, SRMSGMOD_T, "split"))
 				if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMSGMOD_T, "split"))
@@ -276,7 +272,7 @@ void TContainerData::RestoreWindowPos()
 		}
 	}
 	else {
-		if (m_dwFlags & CNT_GLOBALSIZE) {
+		if (m_flags.m_bGlobalSize) {
 			if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMSGMOD_T, "split"))
 				if (Utils_RestoreWindowPositionNoMove(m_hwnd, 0, SRMSGMOD_T, "split"))
 					SetWindowPos(m_hwnd, nullptr, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
@@ -356,7 +352,7 @@ void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
 				pDlg->m_hTaskbarIcon = nullptr;
 			}
 
-			if (pDlg->m_pContainer->m_dwFlags & CNT_AVATARSONTASKBAR)
+			if (pDlg->m_pContainer->m_flags.m_bAvatarsOnTaskbar)
 				pDlg->m_hTaskbarIcon = pDlg->IconFromAvatar();
 
 			if (pDlg->m_hTaskbarIcon) {
@@ -389,7 +385,7 @@ void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
 	if (hIcon == hIconMsg)
 		hIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 
-	if (m_hIcon == STICK_ICON_MSG && hIcon != hIconMsg && m_dwFlags & CNT_NEED_UPDATETITLE) {
+	if (m_hIcon == STICK_ICON_MSG && hIcon != hIconMsg && m_flags.m_bNeedsUpdateTitle) {
 		hIcon = hIconMsg;
 		hIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 	}
@@ -482,7 +478,7 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 
 	LONG sbar_left, sbar_right;
 	if (!pContainer->m_pSideBar->isActive()) {
-		pt.y = rcWnd.bottom + ((pContainer->m_iChilds > 1 || !(pContainer->m_dwFlags & CNT_HIDETABS)) ? pContainer->m_tBorder : 0);
+		pt.y = rcWnd.bottom + ((pContainer->m_iChilds > 1 || !pContainer->m_flags.m_bHideTabs) ? pContainer->m_tBorder : 0);
 		sbar_left = 0, sbar_right = 0;
 	}
 	else {
@@ -626,7 +622,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			int height = rcClient.bottom - rcClient.top;
 			if (width != pContainer->m_oldDCSize.cx || height != pContainer->m_oldDCSize.cy) {
 				CSkinItem *sbaritem = &SkinItems[ID_EXTBKSTATUSBAR];
-				BOOL statusBarSkinnd = !(pContainer->m_dwFlags & CNT_NOSTATUSBAR) && !sbaritem->IGNORED;
+				BOOL statusBarSkinnd = !pContainer->m_flags.m_bNoStatusBar && !sbaritem->IGNORED;
 				LONG sbarDelta = statusBarSkinnd ? pContainer->m_statusBarHeight : 0;
 
 				pContainer->m_oldDCSize.cx = width;
@@ -793,7 +789,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_NCHITTEST:
-		if (pContainer && (pContainer->m_dwFlags & CNT_NOTITLE)) {
+		if (pContainer && (pContainer->m_flags.m_bNoTitle)) {
 			RECT r;
 			GetWindowRect(hwndDlg, &r);
 
@@ -866,21 +862,21 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		pContainer->m_hwnd = hwndDlg;
 		{
-			DWORD dwCreateFlags = pContainer->m_dwFlags;
-			pContainer->m_isCloned = (dwCreateFlags & CNT_CREATE_CLONED);
+			DWORD dwCreateFlags = pContainer->m_flags.dw;
+			pContainer->m_isCloned = pContainer->m_flags.m_bCreateCloned;
 			pContainer->m_fPrivateThemeChanged = FALSE;
 
 			SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);          // set options...
-			pContainer->m_dwFlags |= dwCreateFlags;
+			pContainer->m_flags.dw |= dwCreateFlags;
 
 			pContainer->LoadOverrideTheme();
 			DWORD ws = GetWindowLongPtr(hwndTab, GWL_STYLE);
-			if (pContainer->m_dwFlagsEx & TCF_FLAT)
+			if (pContainer->m_flagsEx.m_bTabFlat)
 				ws |= TCS_BUTTONS;
 
 			pContainer->ClearMargins();
 
-			if (pContainer->m_dwFlagsEx & TCF_SINGLEROWTABCONTROL) {
+			if (pContainer->m_flagsEx.m_bTabSingleRow) {
 				ws &= ~TCS_MULTILINE;
 				ws |= TCS_SINGLELINE;
 				ws |= TCS_FIXEDWIDTH;
@@ -895,12 +891,9 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			pContainer->m_buttonItems = g_ButtonSet.items;
 
-			if (pContainer->m_dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT))
-				pContainer->m_dwFlags |= CNT_SIDEBAR;
-			else
-				pContainer->m_dwFlags &= ~CNT_SIDEBAR;
-
+			pContainer->m_flags.m_bSideBar = pContainer->m_flagsEx.m_bTabSBarLeft || pContainer->m_flagsEx.m_bTabSBarRight;
 			pContainer->m_pSideBar = new CSideBar(pContainer);
+
 			pContainer->m_pMenuBar = new CMenuBar(hwndDlg, pContainer);
 
 			SetClassLongPtr(hwndDlg, GCL_STYLE, GetClassLongPtr(hwndDlg, GCL_STYLE) & ~(CS_VREDRAW | CS_HREDRAW));
@@ -926,11 +919,11 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ws = GetWindowLongPtr(hwndTab, GWL_EXSTYLE);
 			SetWindowLongPtr(hwndTab, GWL_EXSTYLE, ws | WS_EX_CONTROLPARENT);
 
-			LONG x_pad = M.GetByte("x-pad", 3) + (pContainer->m_dwFlagsEx & TCF_CLOSEBUTTON ? 7 : 0);
-			LONG y_pad = M.GetByte("y-pad", 3) + ((pContainer->m_dwFlags & CNT_TABSBOTTOM) ? 1 : 0);
+			LONG x_pad = M.GetByte("x-pad", 3) + (pContainer->m_flagsEx.m_bTabCloseButton ? 7 : 0);
+			LONG y_pad = M.GetByte("y-pad", 3) + ((pContainer->m_flags.m_bTabsBottom) ? 1 : 0);
 
-			if (pContainer->m_dwFlagsEx & TCF_FLAT)
-				y_pad++; //(pContainer->m_dwFlags & CNT_TABSBOTTOM ? 1 : 2);
+			if (pContainer->m_flagsEx.m_bTabFlat)
+				y_pad++; //(pContainer->m_flags.m_bTabsBottom ? 1 : 2);
 
 			TabCtrl_SetPadding(hwndTab, x_pad, y_pad);
 
@@ -950,7 +943,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			else pContainer->m_hwndTip = nullptr;
 
-			if (pContainer->m_dwFlags & CNT_CREATE_MINIMIZED) {
+			if (pContainer->m_flags.m_bCreateMinimized) {
 				SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~WS_VISIBLE);
 				ShowWindow(hwndDlg, SW_SHOWMINNOACTIVE);
 				pContainer->RestoreWindowPos();
@@ -979,7 +972,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_SIZE:
 		if (IsIconic(hwndDlg))
-			pContainer->m_dwFlags |= CNT_DEFERREDSIZEREQUEST;
+			pContainer->m_flags.m_bDeferredResize = true;
 		else {
 			RECT rcClient, rcUnadjusted;
 
@@ -1002,7 +995,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			pContainer->m_pMenuBar->Resize(LOWORD(lParam));
 			LONG rebarHeight = pContainer->m_pMenuBar->getHeight();
-			pContainer->m_pMenuBar->Show((pContainer->m_dwFlags & CNT_NOMENUBAR) ? SW_HIDE : SW_SHOW);
+			pContainer->m_pMenuBar->Show((pContainer->m_flags.m_bNoMenuBar) ? SW_HIDE : SW_SHOW);
 
 			LONG sbarWidth = pContainer->m_pSideBar->getWidth();
 			LONG sbarWidth_left = pContainer->m_pSideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT ? sbarWidth : 0;
@@ -1228,7 +1221,9 @@ panel_found:
 			pContainer->m_pMenuBar->Cancel();
 
 			dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
-			DWORD dwOldFlags = pContainer->m_dwFlags;
+			DWORD dwOldFlags = pContainer->m_flags.dw;
+
+			auto &f = pContainer->m_flags;
 
 			if (dat) {
 				if (fProcessContactMenu)
@@ -1298,33 +1293,40 @@ panel_found:
 				break;
 			
 			case ID_VIEW_SHOWSTATUSBAR:
-				ApplyContainerSetting(pContainer, CNT_NOSTATUSBAR, pContainer->m_dwFlags & CNT_NOSTATUSBAR ? 0 : 1, true);
+				f.m_bNoStatusBar = !f.m_bNoStatusBar;
+				pContainer->ApplySetting(true);
 				break;
 			
 			case ID_VIEW_VERTICALMAXIMIZE:
-				ApplyContainerSetting(pContainer, CNT_VERTICALMAX, pContainer->m_dwFlags & CNT_VERTICALMAX ? 0 : 1, false);
+				f.m_bVerticalMax = !f.m_bVerticalMax;
+				pContainer->ApplySetting();
 				break;
 			
 			case ID_VIEW_BOTTOMTOOLBAR:
-				ApplyContainerSetting(pContainer, CNT_BOTTOMTOOLBAR, pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR ? 0 : 1, false);
+				f.m_bBottomToolbar = !f.m_bBottomToolbar;
+				pContainer->ApplySetting();
 				Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
 				return 0;
 			
 			case ID_VIEW_SHOWTOOLBAR:
-				ApplyContainerSetting(pContainer, CNT_HIDETOOLBAR, pContainer->m_dwFlags & CNT_HIDETOOLBAR ? 0 : 1, false);
+				f.m_bHideToolbar = !f.m_bHideToolbar;
+				pContainer->ApplySetting();
 				Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
 				return 0;
 			
 			case ID_VIEW_SHOWMENUBAR:
-				ApplyContainerSetting(pContainer, CNT_NOMENUBAR, pContainer->m_dwFlags & CNT_NOMENUBAR ? 0 : 1, true);
+				f.m_bNoMenuBar = !f.m_bNoMenuBar;
+				pContainer->ApplySetting(true);
 				break;
 			
 			case ID_VIEW_SHOWTITLEBAR:
-				ApplyContainerSetting(pContainer, CNT_NOTITLE, pContainer->m_dwFlags & CNT_NOTITLE ? 0 : 1, true);
+				f.m_bNoTitle = !f.m_bNoTitle;
+				pContainer->ApplySetting(true);
 				break;
 			
 			case ID_VIEW_TABSATBOTTOM:
-				ApplyContainerSetting(pContainer, CNT_TABSBOTTOM, pContainer->m_dwFlags & CNT_TABSBOTTOM ? 0 : 1, false);
+				f.m_bTabsBottom = !f.m_bTabsBottom;
+				pContainer->ApplySetting();
 				break;
 			
 			case ID_VIEW_SHOWMULTISENDCONTACTLIST:
@@ -1340,37 +1342,45 @@ panel_found:
 				break;
 			
 			case ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS:
-				ApplyContainerSetting(pContainer, (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE), 0, false);
+				f.m_bDontReport = f.m_bDontReportUnfocused = f.m_bDontReportFocused = f.m_bAlwaysReportInactive = false;
+				pContainer->ApplySetting();
 				return 0;
 			
 			case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED:
-				ApplyContainerSetting(pContainer, CNT_DONTREPORT, pContainer->m_dwFlags & CNT_DONTREPORT ? 0 : 1, false);
+				f.m_bDontReport = !f.m_bDontReport;
+				pContainer->ApplySetting();
 				return 0;
 			
 			case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED:
-				ApplyContainerSetting(pContainer, CNT_DONTREPORTUNFOCUSED, pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED ? 0 : 1, false);
+				f.m_bDontReportUnfocused = !f.m_bDontReportUnfocused;
+				pContainer->ApplySetting();
 				return 0;
 			
 			case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED:
-				ApplyContainerSetting(pContainer, CNT_DONTREPORTFOCUSED, pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED ? 0 : 1, false);
+				f.m_bDontReportFocused = !f.m_bDontReportFocused;
+				pContainer->ApplySetting();
 				return 0;
 			
 			case ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS:
-				ApplyContainerSetting(pContainer, CNT_ALWAYSREPORTINACTIVE, pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE ? 0 : 1, false);
+				f.m_bAlwaysReportInactive = !f.m_bAlwaysReportInactive;
+				pContainer->ApplySetting();
 				return 0;
 			
 			case ID_WINDOWFLASHING_DISABLEFLASHING:
-				ApplyContainerSetting(pContainer, CNT_NOFLASH, 1, false);
-				ApplyContainerSetting(pContainer, CNT_FLASHALWAYS, 0, false);
+				f.m_bNoFlash = true;
+				f.m_bFlashAlways = false;
+				pContainer->ApplySetting();
 				return 0;
 			
 			case ID_WINDOWFLASHING_FLASHUNTILFOCUSED:
-				ApplyContainerSetting(pContainer, CNT_NOFLASH, 0, false);
-				ApplyContainerSetting(pContainer, CNT_FLASHALWAYS, 1, false);
+				f.m_bNoFlash = false;
+				f.m_bFlashAlways = true;
+				pContainer->ApplySetting();
 				return 0;
 			
 			case ID_WINDOWFLASHING_USEDEFAULTVALUES:
-				ApplyContainerSetting(pContainer, (CNT_NOFLASH | CNT_FLASHALWAYS), 0, false);
+				f.m_bNoFlash = f.m_bFlashAlways = false;
+				pContainer->ApplySetting();
 				return 0;
 			
 			case ID_OPTIONS_SAVECURRENTWINDOWPOSITIONASDEFAULT:
@@ -1406,7 +1416,7 @@ panel_found:
 				break;
 			}
 
-			if (pContainer->m_dwFlags != dwOldFlags)
+			if (f.dw != dwOldFlags)
 				pContainer->Configure();
 		}
 		break;
@@ -1458,7 +1468,7 @@ panel_found:
 			if (pContainer->m_hwndActive)
 				mmi->ptMinTrackSize.y = pContainer->m_uChildMinHeight + (pContainer->m_hwndActive ? ((rcWindow.bottom - rcWindow.top) - rcClient.bottom) : 0);
 
-			if (pContainer->m_dwFlags & CNT_VERTICALMAX || (GetKeyState(VK_CONTROL) & 0x8000)) {
+			if (pContainer->m_flags.m_bVerticalMax || (GetKeyState(VK_CONTROL) & 0x8000)) {
 				RECT rcDesktop = { 0 };
 				BOOL fDesktopValid = FALSE;
 				int monitorXOffset = 0;
@@ -1518,16 +1528,20 @@ panel_found:
 	case WM_SYSCOMMAND:
 		switch (wParam) {
 		case IDM_STAYONTOP:
-			SetWindowPos(hwndDlg, (pContainer->m_dwFlags & CNT_STICKY) ? HWND_NOTOPMOST : HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_STAYONTOP, (pContainer->m_dwFlags & CNT_STICKY) ? MF_BYCOMMAND | MF_UNCHECKED : MF_BYCOMMAND | MF_CHECKED);
-			ApplyContainerSetting(pContainer, CNT_STICKY, pContainer->m_dwFlags & CNT_STICKY ? 0 : 1, false);
+			SetWindowPos(hwndDlg, (pContainer->m_flags.m_bSticky) ? HWND_NOTOPMOST : HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_STAYONTOP, (pContainer->m_flags.m_bSticky) ? MF_BYCOMMAND | MF_UNCHECKED : MF_BYCOMMAND | MF_CHECKED);
+
+			pContainer->m_flags.m_bSticky = !pContainer->m_flags.m_bSticky;
+			pContainer->ApplySetting();
 			break;
 		case IDM_NOTITLE:
 			pContainer->m_oldSize.cx = 0;
 			pContainer->m_oldSize.cy = 0;
 
-			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_NOTITLE, (pContainer->m_dwFlags & CNT_NOTITLE) ? MF_BYCOMMAND | MF_UNCHECKED : MF_BYCOMMAND | MF_CHECKED);
-			ApplyContainerSetting(pContainer, CNT_NOTITLE, pContainer->m_dwFlags & CNT_NOTITLE ? 0 : 1, true);
+			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_NOTITLE, (pContainer->m_flags.m_bNoTitle) ? MF_BYCOMMAND | MF_UNCHECKED : MF_BYCOMMAND | MF_CHECKED);
+
+			pContainer->m_flags.m_bNoTitle = !pContainer->m_flags.m_bNoTitle;
+			pContainer->ApplySetting(true);
 			break;
 		case IDM_MOREOPTIONS:
 			if (IsIconic(pContainer->m_hwnd))
@@ -1558,7 +1572,7 @@ panel_found:
 		break;
 
 	case WM_LBUTTONDOWN:
-		if (pContainer->m_dwFlags & CNT_NOTITLE) {
+		if (pContainer->m_flags.m_bNoTitle) {
 			GetCursorPos(&pt);
 			return SendMessage(hwndDlg, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
@@ -1580,8 +1594,8 @@ panel_found:
 		if (LOWORD(wParam == WA_INACTIVE) && (HWND)lParam != PluginConfig.g_hwndHotkeyHandler && GetParent((HWND)lParam) != hwndDlg) {
 			BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
-			if (pContainer->m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
-				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)HIWORD(pContainer->m_pSettings->dwTransparency), (pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+			if (pContainer->m_flags.m_bTransparent && fTransAllowed) {
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)HIWORD(pContainer->m_pSettings->dwTransparency), (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
 			}
 		}
 		pContainer->m_hwndSaved = nullptr;
@@ -1601,24 +1615,24 @@ panel_found:
 			FlashContainer(pContainer, 0, 0);
 			pContainer->m_dwFlashingStarted = 0;
 			pLastActiveContainer = pContainer;
-			if (pContainer->m_dwFlags & CNT_DEFERREDTABSELECT) {
-				pContainer->m_dwFlags &= ~CNT_DEFERREDTABSELECT;
+			if (pContainer->m_flags.m_bDeferredTabSelect) {
+				pContainer->m_flags.m_bDeferredTabSelect = false;
 				SendMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
 
 				NMHDR nmhdr = { hwndTab, IDC_MSGTABS, TCN_SELCHANGE };
 				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nmhdr);     // do it via a WM_NOTIFY / TCN_SELCHANGE to simulate user-activation
 			}
-			if (pContainer->m_dwFlags & CNT_DEFERREDSIZEREQUEST) {
-				pContainer->m_dwFlags &= ~CNT_DEFERREDSIZEREQUEST;
+			if (pContainer->m_flags.m_bDeferredResize) {
+				pContainer->m_flags.m_bDeferredResize = false;
 				SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			}
 
-			if (pContainer->m_dwFlags & CNT_TRANSPARENCY && fTransAllowed) {
+			if (pContainer->m_flags.m_bTransparent && fTransAllowed) {
 				DWORD trans = LOWORD(pContainer->m_pSettings->dwTransparency);
-				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
 			}
-			if (pContainer->m_dwFlags & CNT_NEED_UPDATETITLE) {
-				pContainer->m_dwFlags &= ~CNT_NEED_UPDATETITLE;
+			if (pContainer->m_flags.m_bNeedsUpdateTitle) {
+				pContainer->m_flags.m_bNeedsUpdateTitle = false;
 				if (pContainer->m_hwndActive) {
 					hContact = 0;
 					SendMessage(pContainer->m_hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
@@ -1628,8 +1642,8 @@ panel_found:
 			}
 			
 			HWND hDlg = GetTabWindow(hwndTab, TabCtrl_GetCurSel(hwndTab));
-			if (pContainer->m_dwFlags & CNT_DEFERREDCONFIGURE && hDlg) {
-				pContainer->m_dwFlags &= ~CNT_DEFERREDCONFIGURE;
+			if (pContainer->m_flags.m_bDeferredConfigure && hDlg) {
+				pContainer->m_flags.m_bDeferredConfigure = false;
 				pContainer->m_hwndActive = hDlg;
 				SendMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
 				if (pContainer->m_hwndActive != nullptr && IsWindow(pContainer->m_hwndActive)) {
@@ -1748,7 +1762,7 @@ panel_found:
 	case WM_DRAWITEM:
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-			if (dis->hwndItem == pContainer->m_hwndStatus && !(pContainer->m_dwFlags & CNT_NOSTATUSBAR)) {
+			if (dis->hwndItem == pContainer->m_hwndStatus && !pContainer->m_flags.m_bNoStatusBar) {
 				dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 				if (dat)
 					dat->DrawStatusIcons(dis->hDC, dis->rcItem, 2);
@@ -1842,7 +1856,7 @@ panel_found:
 			}
 
 			// save geometry information to the database...
-			if (!(pContainer->m_dwFlags & CNT_GLOBALSIZE)) {
+			if (!pContainer->m_flags.m_bGlobalSize) {
 				WINDOWPLACEMENT wp = { 0 };
 				wp.length = sizeof(wp);
 				if (GetWindowPlacement(hwndDlg, &wp) != 0) {
@@ -1879,8 +1893,7 @@ panel_found:
 
 			// clear temp flags which should NEVER be saved...
 			if (pContainer->m_isCloned && pContainer->m_hContactFrom != 0) {
-				
-				pContainer->m_dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
+				pContainer->m_flags.m_bDeferredConfigure = pContainer->m_flags.m_bCreateMinimized = pContainer->m_flags.m_bDeferredResize = pContainer->m_flags.m_bCreateCloned = false;
 				for (int i = 0; i < TabCtrl_GetItemCount(hwndTab); i++) {
 					if (HWND hDlg = GetTabWindow(hwndTab, i)) {
 						SendMessage(hDlg, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
@@ -1961,11 +1974,13 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 	}
 
 	if (iTemp & CNT_CREATEFLAG_MINIMIZED)
-		pContainer->m_dwFlags = CNT_CREATE_MINIMIZED;
+		pContainer->m_flags.m_bCreateMinimized = true;
+
 	if (iTemp & CNT_CREATEFLAG_CLONED) {
-		pContainer->m_dwFlags |= CNT_CREATE_CLONED;
+		pContainer->m_flags.m_bCreateCloned = true;
 		pContainer->m_hContactFrom = hContactFrom;
 	}
+
 	pContainer->m_hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGCONTAINER), nullptr, DlgProcContainer, (LPARAM)pContainer);
 	return pContainer;
 }
@@ -2116,7 +2131,7 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 
 	RECT rcTab, rcTabOrig;
 	GetClientRect(hwndTab, &rcTab);
-	if (!(pContainer->m_dwFlags & CNT_SIDEBAR) && (pContainer->m_iChilds > 1 || !(pContainer->m_dwFlags & CNT_HIDETABS))) {
+	if (!pContainer->m_flags.m_bSideBar && (pContainer->m_iChilds > 1 || !pContainer->m_flags.m_bHideTabs)) {
 		rcTabOrig = rcTab;
 		TabCtrl_AdjustRect(hwndTab, FALSE, &rcTab);
 		DWORD dwTopPad = rcTab.top - rcTabOrig.top;
@@ -2125,7 +2140,7 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 		rc->right -= tBorder;
 
 		if (dwStyle & TCS_BUTTONS) {
-			if (pContainer->m_dwFlags & CNT_TABSBOTTOM) {
+			if (pContainer->m_flags.m_bTabsBottom) {
 				int nCount = TabCtrl_GetItemCount(hwndTab);
 				if (nCount > 0) {
 					RECT rcItem;
@@ -2139,7 +2154,7 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 			}
 		}
 		else {
-			if (pContainer->m_dwFlags & CNT_TABSBOTTOM)
+			if (pContainer->m_flags.m_bTabsBottom)
 				rc->bottom = rcTab.bottom + 2;
 			else {
 				rc->top += (dwTopPad - 2);
@@ -2268,7 +2283,7 @@ HMENU TSAPI BuildContainerMenu()
 
 void TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iCount)
 {
-	if (pContainer->m_dwFlags & CNT_NOFLASH)                  // container should never flash
+	if (pContainer->m_flags.m_bNoFlash)                  // container should never flash
 		return;
 
 	FLASHWINFO fwi;
@@ -2277,7 +2292,7 @@ void TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iCount)
 
 	if (iMode) {
 		fwi.dwFlags = FLASHW_ALL;
-		if (pContainer->m_dwFlags & CNT_FLASHALWAYS)
+		if (pContainer->m_flags.m_bFlashAlways)
 			fwi.dwFlags |= FLASHW_TIMER;
 		else
 			fwi.uCount = (iCount == 0) ? M.GetByte("nrflash", 4) : iCount;
@@ -2298,10 +2313,10 @@ void TSAPI ReflashContainer(TContainerData *pContainer)
 	if (pContainer->IsActive())       // dont care about active windows
 		return;
 
-	if (pContainer->m_dwFlags & CNT_NOFLASH || pContainer->m_dwFlashingStarted == 0)
+	if (pContainer->m_flags.m_bNoFlash || pContainer->m_dwFlashingStarted == 0)
 		return;                                                                                 // dont care about containers which should never flash
 
-	if (pContainer->m_dwFlags & CNT_FLASHALWAYS)
+	if (pContainer->m_flags.m_bFlashAlways)
 		FlashContainer(pContainer, 1, 0);
 	else {
 		// recalc the remaining flashes

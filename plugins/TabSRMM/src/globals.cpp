@@ -34,7 +34,7 @@ void CB_InitCustomButtons();
 
 CGlobals PluginConfig;
 
-static TContainerSettings _cnt_default = { CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, 60, L"%n (%s)", 1, 0 };
+static TContainerSettings _cnt_default = { 0, 0, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, 60, L"%n (%s)", 1, 0 };
 
 wchar_t* CGlobals::m_default_container_name = L"default";
 
@@ -145,7 +145,6 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_bAlwaysFullToolbarWidth = M.GetBool("alwaysfulltoolbar", true);
 	m_LimitStaticAvatarHeight = M.GetDword("avatarheight", 96);
 	m_SendFormat = M.GetByte("sendformat", 0);
-	m_TabAppearance = M.GetDword("tabconfig", TCF_FLASHICON | TCF_SINGLEROWTABCONTROL);
 	m_panelHeight = (DWORD)M.GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_MUCpanelHeight = db_get_dw(0, CHAT_MODULE, "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_bIdleDetect = M.GetBool("dimIconsForIdleContacts", true);
@@ -178,7 +177,11 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_genericTxtColor = db_get_dw(0, FONTMODULE, "genericTxtClr", GetSysColor(COLOR_BTNTEXT));
 	m_cRichBorders = db_get_dw(0, FONTMODULE, "cRichBorders", 0);
 
+	TContainerFlags f; f.dw = 0;
+	f.m_bDontReport = f.m_bDontReportUnfocused = f.m_bAlwaysReportInactive = f.m_bHideTabs = f.m_bNewContainerFlags = f.m_bNoMenuBar = f.m_bInfoPanel = true;
+
 	::memcpy(&globalContainerSettings, &_cnt_default, sizeof(TContainerSettings));
+	globalContainerSettings.flags = f;
 	Utils::ReadContainerSettingsFromDB(0, &globalContainerSettings);
 	globalContainerSettings.fPrivate = false;
 	if (fReloadSkins)

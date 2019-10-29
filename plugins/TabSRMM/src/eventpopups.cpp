@@ -757,15 +757,15 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 		if (nen_options.bWindowCheck && windowOpen) // no popups at all for open windows... no exceptions
 			return 0;
 	
-		if (pContainer->m_dwFlags & CNT_DONTREPORT && (IsIconic(pContainer->m_hwnd))) // in tray counts as "minimised"
+		if (pContainer->m_flags.m_bDontReport && (IsIconic(pContainer->m_hwnd))) // in tray counts as "minimised"
 			goto passed;
 
-		if (pContainer->m_dwFlags & CNT_DONTREPORTUNFOCUSED)
+		if (pContainer->m_flags.m_bDontReportUnfocused)
 			if (!IsIconic(pContainer->m_hwnd) && !pContainer->IsActive())
 				goto passed;
 
-		if (pContainer->m_dwFlags & CNT_ALWAYSREPORTINACTIVE) {
-			if (pContainer->m_dwFlags & CNT_DONTREPORTFOCUSED)
+		if (pContainer->m_flags.m_bAlwaysReportInactive) {
+			if (pContainer->m_flags.m_bDontReportFocused)
 				goto passed;
 
 			if (pContainer->m_hwndActive != hwndChild)

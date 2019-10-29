@@ -484,8 +484,8 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 			TOldContainerSettings oldBin = {};
 			if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(oldBin)) {
 				::memcpy(&oldBin, (void*)dbv.pbVal, dbv.cpbVal);
-				cs->dwFlags = oldBin.dwFlags;
-				cs->dwFlagsEx = oldBin.dwFlagsEx;
+				cs->flags.dw = oldBin.dwFlags;
+				cs->flagsEx.dw = oldBin.dwFlagsEx;
 				cs->dwTransparency = oldBin.dwTransparency;
 				cs->panelheight = oldBin.panelheight;
 				if (szKey == nullptr)
@@ -508,8 +508,8 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 		return 1;
 	}
 
-	cs->dwFlags = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_Flags", 0);
-	cs->dwFlagsEx = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_FlagsEx", 0);
+	cs->flags.dw = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_Flags", 0);
+	cs->flagsEx.dw = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_FlagsEx", 0);
 	cs->dwTransparency = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_Transparency", 0);
 	cs->panelheight = db_get_dw(hContact, SRMSGMOD_T, szSetting + "_PanelY", 0);
 	cs->iSplitterX = iSplitterX;
@@ -525,8 +525,8 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 int Utils::WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey)
 {
 	CMStringA szSetting(szKey ? szKey : CNT_KEYNAME);
-	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_Flags", cs->dwFlags);
-	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_FlagsEx", cs->dwFlagsEx);
+	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_Flags", cs->flags.dw);
+	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_FlagsEx", cs->flagsEx.dw);
 	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_Transparency", cs->dwTransparency);
 	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_PanelY", cs->panelheight);
 	db_set_dw(hContact, SRMSGMOD_T, szSetting + "_SplitterX", cs->iSplitterX);
@@ -541,16 +541,16 @@ int Utils::WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSetting
 
 void Utils::SettingsToContainer(TContainerData *pContainer)
 {
-	pContainer->m_dwFlags = pContainer->m_pSettings->dwFlags;
-	pContainer->m_dwFlagsEx = pContainer->m_pSettings->dwFlagsEx;
+	pContainer->m_flags = pContainer->m_pSettings->flags;
+	pContainer->m_flagsEx = pContainer->m_pSettings->flagsEx;
 	pContainer->m_avatarMode = pContainer->m_pSettings->avatarMode;
 	pContainer->m_ownAvatarMode = pContainer->m_pSettings->ownAvatarMode;
 }
 
 void Utils::ContainerToSettings(TContainerData *pContainer)
 {
-	pContainer->m_pSettings->dwFlags = pContainer->m_dwFlags;
-	pContainer->m_pSettings->dwFlagsEx = pContainer->m_dwFlagsEx;
+	pContainer->m_pSettings->flags = pContainer->m_flags;
+	pContainer->m_pSettings->flagsEx = pContainer->m_flagsEx;
 	pContainer->m_pSettings->avatarMode = pContainer->m_avatarMode;
 	pContainer->m_pSettings->ownAvatarMode = pContainer->m_ownAvatarMode;
 }
@@ -582,7 +582,9 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 {
 	char szCName[50];
 
-	pContainer->m_dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
+	auto &f = pContainer->m_flags;
+	f.m_bDeferredConfigure = f.m_bCreateMinimized = f.m_bDeferredResize = f.m_bCreateCloned = false;
+
 	if (pContainer->m_pSettings->fPrivate) {
 		mir_snprintf(szCName, "%s%d", szSetting, pContainer->m_iContainerIndex);
 		WriteContainerSettingsToDB(0, pContainer->m_pSettings, szCName);
@@ -741,29 +743,26 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO &mii, HICON hIcon, const wc
 // return != 0 when the sound effect must be played for the given
 // session. Uses container sound settings
 
-int CMsgDialog::MustPlaySound() const
+bool CMsgDialog::MustPlaySound() const
 {
 	if (m_pContainer->m_bHidden)		// hidden container is treated as closed, so play the sound
-		return 1;
+		return true;
 
-	if (m_pContainer->m_dwFlags & CNT_NOSOUND || nen_options.iNoSounds)
-		return 0;
-
-	bool fActiveWindow = (m_pContainer->m_hwnd == ::GetForegroundWindow() ? true : false);
-	bool fActiveTab = (m_pContainer->m_hwndActive == GetHwnd() ? true : false);
-	bool fIconic = (::IsIconic(m_pContainer->m_hwnd) ? true : false);
+	if (m_pContainer->m_flags.m_bNoSound || nen_options.iNoSounds)
+		return false;
 
 	// window minimized, check if sound has to be played
-	if (fIconic)
-		return(m_pContainer->m_dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
+	if (::IsIconic(m_pContainer->m_hwnd))
+		return m_pContainer->m_flagsEx.m_bSoundMinimized;
 
 	// window in foreground
-	if (!fActiveWindow)
-		return(m_pContainer->m_dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED ? 1 : 0);
+	if (m_pContainer->m_hwnd != ::GetForegroundWindow())
+		return m_pContainer->m_flagsEx.m_bSoundUnfocused;
 
-	if (fActiveTab)
-		return(m_pContainer->m_dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
-	return(m_pContainer->m_dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS ? 1 : 0);
+	if (m_pContainer->m_hwndActive == GetHwnd())
+		return m_pContainer->m_flagsEx.m_bSoundFocused;
+	
+	return m_pContainer->m_flagsEx.m_bSoundInactive;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

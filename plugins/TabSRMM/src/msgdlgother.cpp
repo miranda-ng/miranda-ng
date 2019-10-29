@@ -89,14 +89,14 @@ void CMsgDialog::AdjustBottomAvatarDisplay()
 
 void CMsgDialog::CalcDynamicAvatarSize(BITMAP *bminfo)
 {
-	if (m_dwFlags & MWF_WASBACKGROUNDCREATE || m_pContainer->m_dwFlags & CNT_DEFERREDCONFIGURE || m_pContainer->m_dwFlags & CNT_CREATE_MINIMIZED || IsIconic(m_pContainer->m_hwnd))
+	if (m_dwFlags & MWF_WASBACKGROUNDCREATE || m_pContainer->m_flags.m_bDeferredConfigure || m_pContainer->m_flags.m_bCreateMinimized || IsIconic(m_pContainer->m_hwnd))
 		return;  // at this stage, the layout is not yet ready...
 
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
-	BOOL bBottomToolBar = m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR;
-	BOOL bToolBar = m_pContainer->m_dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
+	BOOL bBottomToolBar = m_pContainer->m_flags.m_bBottomToolbar;
+	BOOL bToolBar = m_pContainer->m_flags.m_bHideToolbar ? 0 : 1;
 	int  iSplitOffset = m_bIsAutosizingInput ? 1 : 0;
 
 	double picAspect = (bminfo->bmWidth == 0 || bminfo->bmHeight == 0) ? 1.0 : (double)(bminfo->bmWidth / (double)bminfo->bmHeight);
@@ -172,7 +172,7 @@ void CMsgDialog::DetermineMinHeight()
 {
 	RECT rc;
 	LONG height = (m_pPanel.isActive() ? m_pPanel.getHeight() + 2 : 0);
-	if (!(m_pContainer->m_dwFlags & CNT_HIDETOOLBAR))
+	if (!m_pContainer->m_flags.m_bHideToolbar)
 		height += DPISCALEY_S(24); // toolbar
 	GetClientRect(m_message.GetHwnd(), &rc);
 	height += rc.bottom; // input area
@@ -560,7 +560,7 @@ void CMsgDialog::FlashTab(bool bInvertMode)
 	TCITEM item = {};
 	item.mask = TCIF_IMAGE;
 	TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
-	if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
+	if (m_pContainer->m_flags.m_bSideBar)
 		m_pContainer->m_pSideBar->updateSession(this);
 }
 
@@ -835,7 +835,7 @@ void CMsgDialog::LoadSettings()
 void CMsgDialog::LoadSplitter()
 {
 	if (m_bIsAutosizingInput) {
-		m_iSplitterY = (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
+		m_iSplitterY = (m_pContainer->m_flags.m_bBottomToolbar) ? DPISCALEY_S(46 + 22) : DPISCALEY_S(46);
 
 		if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKINPUTAREA].IGNORED)
 			m_iSplitterY += (SkinItems[ID_EXTBKINPUTAREA].MARGIN_BOTTOM + SkinItems[ID_EXTBKINPUTAREA].MARGIN_TOP - 2);
@@ -1650,7 +1650,7 @@ void CMsgDialog::SplitterMoved(int coord, HWND hwnd)
 			// attempt to fix splitter troubles..
 			// hardcoded limits... better solution is possible, but this works for now
 			int bottomtoolbarH = 0;
-			if (m_pContainer->m_dwFlags & CNT_BOTTOMTOOLBAR)
+			if (m_pContainer->m_flags.m_bBottomToolbar)
 				bottomtoolbarH = 22;
 
 			if (m_iSplitterY < (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH)) {	// min splitter size
@@ -2128,7 +2128,7 @@ void CMsgDialog::UpdateTitle()
 			}
 			if (m_iTabID >= 0) {
 				TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
-				if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
+				if (m_pContainer->m_flags.m_bSideBar)
 					m_pContainer->m_pSideBar->updateSession(this);
 			}
 			if (m_pContainer->m_hwndActive == m_hwnd && bChanged)
@@ -2149,7 +2149,7 @@ void CMsgDialog::UpdateTitle()
 		// care about MetaContacts and update the statusbar icon with the currently "most online" contact...
 		if (m_bIsMeta) {
 			PostMessage(m_hwnd, DM_OWNNICKCHANGED, 0, 0);
-			if (m_pContainer->m_dwFlags & CNT_UINSTATUSBAR)
+			if (m_pContainer->m_flags.m_bUinStatusBar)
 				DM_UpdateLastMessage();
 		}
 	}
@@ -2190,9 +2190,9 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		return;
 
 	if (msg == WM_ACTIVATE) {
-		if (m_pContainer->m_dwFlags & CNT_TRANSPARENCY) {
+		if (m_pContainer->m_flags.m_bTransparent) {
 			DWORD trans = LOWORD(m_pContainer->m_pSettings->dwTransparency);
-			SetLayeredWindowAttributes(m_pContainer->m_hwnd, CSkin::m_ContainerColorKey, (BYTE)trans, (m_pContainer->m_dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
+			SetLayeredWindowAttributes(m_pContainer->m_hwnd, CSkin::m_ContainerColorKey, (BYTE)trans, (m_pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
 		}
 	}
 
@@ -2249,7 +2249,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 			m_iFlashIcon = nullptr;
 		}
 
-		m_pContainer->m_dwFlags &= ~CNT_NEED_UPDATETITLE;
+		m_pContainer->m_flags.m_bNeedsUpdateTitle = false;
 
 		if (m_dwFlags & MWF_NEEDCHECKSIZE)
 			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
@@ -2272,7 +2272,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 				g_clistApi.pfnRemoveEvent(m_hContact, m_hFlashingEvent);
 			m_hFlashingEvent = 0;
 		}
-		m_pContainer->m_dwFlags &= ~CNT_NEED_UPDATETITLE;
+		m_pContainer->m_flags.m_bNeedsUpdateTitle = false;
 
 		if ((m_dwFlags & MWF_DEFERREDREMAKELOG) && !IsIconic(m_pContainer->m_hwnd)) {
 			RemakeLog();
@@ -2340,7 +2340,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 	BB_SetButtonsPos();
 	if (M.isAero())
 		InvalidateRect(m_hwndParent, nullptr, FALSE);
-	if (m_pContainer->m_dwFlags & CNT_SIDEBAR)
+	if (m_pContainer->m_flags.m_bSideBar)
 		m_pContainer->m_pSideBar->setActiveItem(this);
 
 	if (m_pWnd)

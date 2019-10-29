@@ -153,10 +153,73 @@ struct TLogTheme
 	bool      isPrivate;
 };
 
+union TContainerFlags
+{
+	DWORD dw;
+	struct {
+		bool m_bUnused1 : 1;
+		bool m_bNoTitle : 1;
+		bool m_bHideTabs : 1;
+		bool m_bSideBar : 1;
+		bool m_bNoFlash : 1;
+		bool m_bSticky : 1;
+		bool m_bDontReport : 1;
+		bool m_bFlashAlways : 1;
+		bool m_bTransparent : 1;
+		bool m_bAvatarsOnTaskbar : 1;
+		bool m_bDontReportFocused : 1;
+		bool m_bGlobalSize : 1;
+		bool m_bInfoPanel : 1;
+		bool m_bNoSound : 1;
+		bool m_bAutoSplitter : 1;
+		bool m_bDeferredConfigure : 1;
+		bool m_bCreateMinimized : 1;
+		bool m_bNeedsUpdateTitle : 1;
+		bool m_bDeferredResize : 1;
+		bool m_bDontReportUnfocused : 1;
+		bool m_bAlwaysReportInactive : 1;
+		bool m_bNewContainerFlags : 1;
+		bool m_bDeferredTabSelect : 1;
+		bool m_bCreateCloned : 1;
+		bool m_bNoStatusBar : 1;
+		bool m_bNoMenuBar : 1;
+		bool m_bTabsBottom : 1;
+		bool m_bUnused2 : 1;
+		bool m_bBottomToolbar : 1;
+		bool m_bHideToolbar : 1;
+		bool m_bUinStatusBar : 1;
+		bool m_bVerticalMax : 1;
+	};
+};
+
+union TContainerFlagsEx
+{
+	DWORD dw;
+	struct
+	{
+		bool m_bTabFlat : 1;
+		bool m_bUnused1 : 1;
+		bool m_bTabCloseButton : 1;
+		bool m_bTabFlashIcon : 1;
+		bool m_bTabFlashLabel : 1;
+		bool m_bTabSingleRow : 1;
+		bool m_bUnused2 : 1;
+		bool m_bUnused3 : 1;
+		bool m_bTabSBarLeft : 1;
+		bool m_bTabSBarRight : 1;
+
+		bool m_bSoundMinimized : 1;
+		bool m_bSoundUnfocused : 1;
+		bool m_bSoundInactive : 1;
+		bool m_bSoundFocused : 1;
+	};
+};
+
 struct TContainerSettings
 {
-	DWORD   dwFlags;
-	DWORD   dwFlagsEx;
+	TContainerFlags flags;
+	TContainerFlagsEx flagsEx;
+
 	DWORD   dwTransparency;
 	DWORD   panelheight;
 	int     iSplitterX, iSplitterY;
@@ -175,8 +238,9 @@ struct TContainerData : public MZeroedObject
 	~TContainerData();
 
 	TContainerData *pNext;
+	TContainerFlags m_flags;
+	TContainerFlagsEx m_flagsEx;
 
-	wchar_t  m_wszName[CONTAINER_NAMELEN + 4];		// container name
 	HWND     m_hwndActive;		// active message window
 	HWND     m_hwnd;				// the container handle
 	int      m_iTabIndex;			// next tab id
@@ -185,8 +249,6 @@ struct TContainerData : public MZeroedObject
 	bool	   m_bHidden;
 	HWND     m_hwndTip;			// tab - tooltips...
 	BOOL     m_bDontSmartClose;      // if set, do not search and select the next possible tab after closing one.
-	DWORD    m_dwFlags;
-	DWORD    m_dwFlagsEx;
 	LONG     m_uChildMinHeight;
 	int      m_tBorder;
 	int	   m_tBorder_outer_left, m_tBorder_outer_right, m_tBorder_outer_top, m_tBorder_outer_bottom;
@@ -200,7 +262,6 @@ struct TContainerData : public MZeroedObject
 	DWORD    m_dwFlashingStarted;
 	HWND     m_hWndOptions;
 	BOOL     m_bSizingLoop;
-	wchar_t  m_szRelThemeFile[MAX_PATH], m_szAbsThemeFile[MAX_PATH];
 	HDC      m_cachedDC;
 	HBITMAP  m_cachedHBM, m_oldHBM;
 	SIZE     m_oldDCSize;
@@ -228,9 +289,13 @@ struct TContainerData : public MZeroedObject
 	CTaskbarInteract *m_pTaskBar;
 	TContainerSettings *m_pSettings;
 
-	void InitRedraw(void);
+	wchar_t m_wszName[CONTAINER_NAMELEN + 4];		// container name
+	wchar_t m_szRelThemeFile[MAX_PATH], m_szAbsThemeFile[MAX_PATH];
+
+	void ApplySetting(bool fForceResize = false);
 	void CloseTabByMouse(POINT *);
 	void Configure();
+	void InitRedraw(void);
 	void LoadOverrideTheme(void);
 	void LoadThemeDefaults(void);
 	void QueryPending();
@@ -546,7 +611,7 @@ public:
 	void  KbdState(bool &isShift, bool &isControl, bool &isAlt);
 	void  LimitMessageText(int iLen);
 	int   LoadLocalFlags(void);
-	int   MustPlaySound(void) const;
+	bool  MustPlaySound(void) const;
 	void  NotifyDeliveryFailure(void) const;
 	void  RemakeLog(void);
 	void  SaveSplitter(void);
@@ -649,63 +714,11 @@ struct TIconDescW
  * tab config flags
  */
 
-#define TCF_FLAT 1
-//#define TCF_STYLED 2
-#define TCF_CLOSEBUTTON 4
-#define TCF_FLASHICON 8
-#define TCF_FLASHLABEL 16
-#define TCF_SINGLEROWTABCONTROL 32
-//#define TCF_LABELUSEWINCOLORS 64
-//#define TCF_BKGUSEWINCOLORS 128
-#define TCF_SBARLEFT 256
-#define TCF_SBARRIGHT 512
-
-#define TCF_DEFAULT (TCF_FLASHICON)
-
 #define MIN_PANELHEIGHT 20
 
-// flags for the container dwFlags
-#define CNT_MOUSEDOWN                   1
-#define CNT_NOTITLE                     2
-#define CNT_HIDETABS                    4
-#define CNT_SIDEBAR                     8
-#define CNT_NOFLASH                  0x10
-#define CNT_STICKY                   0x20
-#define CNT_DONTREPORT               0x40
-#define CNT_FLASHALWAYS              0x80
-#define CNT_TRANSPARENCY            0x100
-#define CNT_AVATARSONTASKBAR        0x200
-#define CNT_DONTREPORTFOCUSED       0x400
-#define CNT_GLOBALSIZE              0x800
-#define CNT_INFOPANEL              0x1000
-#define CNT_NOSOUND                0x2000
-#define CNT_AUTOSPLITTER           0x4000
-#define CNT_DEFERREDCONFIGURE      0x8000
-#define CNT_CREATE_MINIMIZED      0x10000
-#define CNT_NEED_UPDATETITLE      0x20000
-#define CNT_DEFERREDSIZEREQUEST   0x40000
-#define CNT_DONTREPORTUNFOCUSED   0x80000
-#define CNT_ALWAYSREPORTINACTIVE 0x100000
-#define CNT_NEWCONTAINERFLAGS    0x200000
-#define CNT_DEFERREDTABSELECT    0x400000
-#define CNT_CREATE_CLONED        0x800000
-#define CNT_NOSTATUSBAR         0x1000000
-#define CNT_NOMENUBAR           0x2000000
-#define CNT_TABSBOTTOM          0x4000000
-#define CNT_BOTTOMTOOLBAR      0x10000000
-#define CNT_HIDETOOLBAR        0x20000000
-#define CNT_UINSTATUSBAR       0x40000000
-#define CNT_VERTICALMAX        0x80000000
-
-#define CNT_EX_SOUNDS_MINIMIZED      1024
-#define CNT_EX_SOUNDS_UNFOCUSED      2048
-#define CNT_EX_SOUNDS_INACTIVETABS   4096
-#define CNT_EX_SOUNDS_FOCUSED	       8192
-
-#define CNT_FLAGS_DEFAULT (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_ALWAYSREPORTINACTIVE | CNT_HIDETABS | CNT_NEWCONTAINERFLAGS | CNT_NOMENUBAR | CNT_INFOPANEL)
 #define CNT_TRANS_DEFAULT 0x00ff00ff
 
-#define CNT_FLAGSEX_DEFAULT (TCF_FLASHICON | CNT_EX_SOUNDS_MINIMIZED | CNT_EX_SOUNDS_UNFOCUSED | CNT_EX_SOUNDS_INACTIVETABS | CNT_EX_SOUNDS_FOCUSED)
+#define CNT_FLAGSEX_DEFAULT (m_bTabFlashIcon | m_bSoundMinimized | m_bSoundUnfocused | m_bSoundInactive | m_bSoundFocused)
 
 #define CNT_CREATEFLAG_CLONED 1
 #define CNT_CREATEFLAG_MINIMIZED 2
