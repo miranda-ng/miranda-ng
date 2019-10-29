@@ -55,7 +55,7 @@ public:
 private:
 	void tokenize(wchar_t *tszString, wchar_t** &patterns, UINT &nr);
 
-	DWORD     m_dwFlags = 0;
+	DWORD     m_iMode = 0; // combination of MATCH_* masks
 	UINT      m_iNickPatterns = 0;
 	UINT      m_iTextPatterns = 0;
 	bool      m_fInitialized = false;

@@ -58,7 +58,7 @@ void CMUCHighlight::init()
 	if (0 == db_get_ws(0, CHAT_MODULE, "HighlightNames", &dbv))
 		m_NickPatternString = dbv.pwszVal;
 
-	m_dwFlags = db_get_b(0, CHAT_MODULE, "HighlightEnabled", MATCH_TEXT);
+	m_iMode = db_get_b(0, CHAT_MODULE, "HighlightEnabled", MATCH_TEXT);
 	m_fHighlightMe = (db_get_b(0, CHAT_MODULE, "HighlightMe", 1) ? true : false);
 
 	tokenize(m_TextPatternString, m_TextPatterns, m_iTextPatterns);
@@ -117,7 +117,7 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 	if (pgce == nullptr || m_Valid == false)
 		return false;
 
-	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != nullptr) {
+	if ((m_iMode & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != nullptr) {
 		wchar_t *p = g_chatApi.RemoveFormatting(pgce->pszText.w);
 		p = NEWWSTR_ALLOCA(p);
 		if (p == nullptr)
@@ -164,11 +164,11 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 skip_textpatterns:
 
 	// optionally, match the nickname against the list of nicks to highlight
-	if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->pszNick.w && m_iNickPatterns > 0) {
+	if ((m_iMode & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->pszNick.w && m_iNickPatterns > 0) {
 		for (UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
 			if (pgce->pszNick.w)
 				nResult = wildcmpw(pgce->pszNick.w, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
-			if ((m_dwFlags & MATCH_UIN) && pgce->pszUserInfo.w)
+			if ((m_iMode & MATCH_UIN) && pgce->pszUserInfo.w)
 				nResult = wildcmpw(pgce->pszUserInfo.w, m_NickPatterns[i]) ? MATCH_NICKNAME : 0;
 		}
 	}
