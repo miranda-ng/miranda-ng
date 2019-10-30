@@ -169,8 +169,9 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	else if (strMessageType == "RichText/Media_GenericFile") {
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILE, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}
-	//else if (messageType == "Event/SkypeVideoMessage") {}
-	//else if (messageType.c_str() == "RichText/Location") {}
+	else if (strMessageType == "RichText/Media_Album") {
+		// do nothing
+	}
 	else {
 		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
 	}

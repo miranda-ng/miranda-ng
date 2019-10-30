@@ -88,6 +88,9 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 			else if (messageType == "RichText/Contacts") {
 				ProcessContactRecv(hContact, timestamp, content.c_str(), szMessageId);
 			}
+			else if (messageType == "RichText/Media_Album") {
+				// do nothing
+			}
 			else {
 				AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, iFlags, content.c_str(), szMessageId);
 			}

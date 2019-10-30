@@ -100,9 +100,12 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 				break;
 
 			szText.Empty();
-			if (auto *pRoot = doc.FirstChildElement("URIObject"))
+			if (auto *pRoot = doc.FirstChildElement("URIObject")) {
 				if (auto *xmlA = pRoot->FirstChildElement("a"))
 					szText += xmlA->Attribute("href");
+				if (auto *xmlThumb = pRoot->Attribute("url_thumbnail"))
+					szText.AppendFormat("\r\n%s: %s", TranslateU("Preview"), xmlThumb);
+			}
 		}
 		break;
 
