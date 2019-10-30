@@ -717,6 +717,14 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 			pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
 				<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
 			Push(pReq);
+
+			// Send the same message to myself
+			T2Utf msgText(wszUrl);
+			PROTORECVEVENT recv = {};
+			recv.flags = PREF_CREATEREAD;
+			recv.szMessage = msgText;
+			recv.timestamp = time(0);
+			ProtoChainRecvMsg(pTransfer->pfts.hContact, &recv);
 		}
 		else ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
 		delete pTransfer;
