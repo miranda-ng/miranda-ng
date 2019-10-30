@@ -46,23 +46,6 @@ static CMOption<BYTE> g_bEnableCustomLogs("SRMM", "EnableCustomLogs", 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HANDLE) RegisterSrmmLog(const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder)
-{
-	if (!pszShortName || !pwszScreenName || !fnBuilder)
-		return nullptr;
-
-	auto *p = new LoggerClass(pszShortName, pwszScreenName, fnBuilder);
-	g_arLogClasses.insert(p);
-	return p;
-}
-
-MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE pLogger)
-{
-	g_arLogClasses.remove((LoggerClass *)pLogger);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
 {
 	if (!pDlg->isChat() || g_bEnableCustomLogs) {
@@ -85,6 +68,8 @@ CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // options dialog
 
+static class CSrmmLogOptionsDlg *pDialog = nullptr;
+
 class CSrmmLogOptionsDlg : public CDlgBase
 {
 	CCtrlListBox m_list;
@@ -103,6 +88,7 @@ public:
 
 	bool OnInitDialog() override
 	{
+		pDialog = this;
 		ptrA szCurr(db_get_sa(0, "SRMM", "Logger", "built-in"));
 
 		for (auto &it : g_arLogClasses) {
@@ -125,6 +111,17 @@ public:
 		return true;
 	}
 
+	void OnDestroy() override
+	{
+		pDialog = nullptr;
+	}
+
+	void Rebuild()
+	{
+		m_list.ResetContent();
+		OnInitDialog();
+	}
+
 	void onChange_List(CCtrlListBox *)
 	{
 		NotifyChange();
@@ -140,4 +137,27 @@ void SrmmLogOptionsInit(WPARAM wParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pDialog = new CSrmmLogOptionsDlg();
 	g_plugin.addOptions(wParam, &odp);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(HANDLE) RegisterSrmmLog(const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder)
+{
+	if (!pszShortName || !pwszScreenName || !fnBuilder)
+		return nullptr;
+
+	auto *p = new LoggerClass(pszShortName, pwszScreenName, fnBuilder);
+	g_arLogClasses.insert(p);
+
+	if (pDialog)
+		pDialog->Rebuild();
+	return p;
+}
+
+MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE pLogger)
+{
+	g_arLogClasses.remove((LoggerClass *)pLogger);
+
+	if (pDialog)
+		pDialog->Rebuild();
 }
