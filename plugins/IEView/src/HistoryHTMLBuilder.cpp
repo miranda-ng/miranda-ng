@@ -73,6 +73,7 @@ bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 {
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
+	case EVENTTYPE_FILE:
 		return 1;
 	default:
 		return Utils::DbEventIsForHistory(dbei);
@@ -81,11 +82,11 @@ bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 
 char *HistoryHTMLBuilder::timestampToString(time_t check)
 {
-	static char szResult[512];
 	char str[80];
 	TimeZone_ToString(check, "d t", str, _countof(str));
-	mir_strncat(szResult, str, _countof(szResult) - mir_strlen(szResult));
-	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
+
+	static char szResult[512];
+	mir_strncpy(szResult, ptrA(mir_utf8encode(str)), 500);
 	return szResult;
 }
 

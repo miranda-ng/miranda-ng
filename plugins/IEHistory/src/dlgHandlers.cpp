@@ -612,6 +612,8 @@ public:
 		chkLoadNumber(this, IDC_LOAD_NUMBER),
 		chkLastFirst(this, IDC_SHOW_LAST_FIRST)
 	{
+		chkLoadAll.OnChange = chkLoadNumber.OnChange = Callback(this, &COptionsDlg::onChange_All);
+
 		CreateLink(edtCount, g_plugin.iLoadCount);
 		CreateLink(chkRtl, g_plugin.bEnableRtl);
 		CreateLink(chkLoadBack, g_plugin.bUseWorker);
@@ -620,9 +622,9 @@ public:
 
 	bool OnInitDialog() override
 	{
-		onChange_All(0);
 		chkLoadAll.SetState(g_plugin.iLoadCount == 0);
 		chkLoadNumber.SetState(!chkLoadAll.GetState());
+		onChange_All(0);
 		return true;
 	}
 
