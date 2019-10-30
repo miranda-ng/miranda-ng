@@ -49,11 +49,11 @@ struct CMDBTraits<1>
 {
 	typedef BYTE DBType;
 	enum { DBTypeId = DBVT_BYTE };
-	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
+	static __forceinline DBType Get(const char *szModule, const char *szSetting, DBType value)
 	{
 		return db_get_b(0, szModule, szSetting, value);
 	}
-	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
+	static __forceinline void Set(const char *szModule, const char *szSetting, DBType value)
 	{
 		db_set_b(0, szModule, szSetting, value);
 	}
@@ -64,11 +64,11 @@ struct CMDBTraits<2>
 {
 	typedef WORD DBType;
 	enum { DBTypeId = DBVT_WORD };
-	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
+	static __forceinline DBType Get(const char *szModule, const char *szSetting, DBType value)
 	{
 		return db_get_w(0, szModule, szSetting, value);
 	}
-	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
+	static __forceinline void Set(const char *szModule, const char *szSetting, DBType value)
 	{
 		db_set_w(0, szModule, szSetting, value);
 	}
@@ -79,11 +79,11 @@ struct CMDBTraits<4>
 {
 	typedef DWORD DBType;
 	enum { DBTypeId = DBVT_DWORD };
-	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
+	static __forceinline DBType Get(const char *szModule, const char *szSetting, DBType value)
 	{
 		return db_get_dw(0, szModule, szSetting, value);
 	}
-	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
+	static __forceinline void Set(const char *szModule, const char *szSetting, DBType value)
 	{
 		db_set_dw(0, szModule, szSetting, value);
 	}
@@ -94,11 +94,11 @@ struct CMDBTraits<8>
 {
 	typedef DWORD DBType;
 	enum { DBTypeId = DBVT_DWORD };
-	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
+	static __forceinline DBType Get(const char *szModule, const char *szSetting, DBType value)
 	{
 		return db_get_dw(0, szModule, szSetting, value);
 	}
-	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
+	static __forceinline void Set(const char *szModule, const char *szSetting, DBType value)
 	{
 		db_set_dw(0, szModule, szSetting, value);
 	}
@@ -111,16 +111,16 @@ public:
 	__forceinline const char* GetDBSettingName() const { return m_szSetting; }
 
 protected:
-	__forceinline CMOptionBase(PROTO_INTERFACE *proto, char *szSetting) :
+	__forceinline CMOptionBase(PROTO_INTERFACE *proto, const const char *szSetting) :
 		m_szModuleName(proto->m_szModuleName), m_szSetting(szSetting)
 	{}
 
-	__forceinline CMOptionBase(char *module, char *szSetting) :
+	__forceinline CMOptionBase(const char *module, const const char *szSetting) :
 		m_szModuleName(module), m_szSetting(szSetting)
 	{}
 
-	char *m_szModuleName;
-	char *m_szSetting;
+	const char *m_szModuleName;
+	const char *m_szSetting;
 };
 
 template<class T>
@@ -129,11 +129,11 @@ class CMOption : public CMOptionBase
 public:
 	typedef T Type;
 
-	__forceinline CMOption(PROTO_INTERFACE *proto, char *szSetting, Type defValue) :
+	__forceinline CMOption(PROTO_INTERFACE *proto, const const char *szSetting, Type defValue) :
 		CMOptionBase(proto, szSetting), m_default(defValue)
 	{}
 
-	__forceinline CMOption(char *szModule, char *szSetting, Type defValue) :
+	__forceinline CMOption(const const char *szModule, const const char *szSetting, Type defValue) :
 		CMOptionBase(szModule, szSetting), m_default(defValue)
 	{}
 
@@ -166,11 +166,11 @@ public:
 	
 	typedef char Type;
 
-	__forceinline CMOption(PROTO_INTERFACE *proto, char *szSetting, const Type *defValue = nullptr) :
+	__forceinline CMOption(PROTO_INTERFACE *proto, const const char *szSetting, const Type *defValue = nullptr) :
 		CMOptionBase(proto, szSetting), m_default(defValue)
 	{}
 
-	__forceinline CMOption(char *szModule, char *szSetting, const Type *defValue = nullptr) :
+	__forceinline CMOption(const const char *szModule, const const char *szSetting, const Type *defValue = nullptr) :
 		CMOptionBase(szModule, szSetting), m_default(defValue)
 	{}
 
@@ -204,11 +204,11 @@ public:
 
 	typedef wchar_t Type;
 
-	__forceinline CMOption(PROTO_INTERFACE *proto, char *szSetting, const Type *defValue = nullptr) :
+	__forceinline CMOption(PROTO_INTERFACE *proto, const const char *szSetting, const Type *defValue = nullptr) :
 		CMOptionBase(proto, szSetting), m_default(defValue)
 	{}
 
-	__forceinline CMOption(char *szModule, char *szSetting, const Type *defValue = nullptr) :
+	__forceinline CMOption(const const char *szModule, const const char *szSetting, const Type *defValue = nullptr) :
 		CMOptionBase(szModule, szSetting), m_default(defValue)
 	{}
 
@@ -323,8 +323,8 @@ class MIR_CORE_EXPORT CDbLink : public CDataLink
 	DBVARIANT dbv;
 
 public:
-	CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD iValue);
-	CDbLink(const char *szModule, const char *szSetting, BYTE type, wchar_t *szValue);
+	CDbLink(const const char *szModule, const const char *szSetting, BYTE type, DWORD iValue);
+	CDbLink(const const char *szModule, const const char *szSetting, BYTE type, wchar_t *szValue);
 	~CDbLink();
 
 	DWORD LoadInt() override;
@@ -450,8 +450,8 @@ protected:
 	void AddTimer(CTimer *timer);
 
 	// options support
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
+	void CreateLink(CCtrlData& ctrl, const const char *szSetting, BYTE type, DWORD iValue);
+	void CreateLink(CCtrlData& ctrl, const const char *szSetting, wchar_t *szValue);
 
 	template<class T>
 	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
@@ -1467,8 +1467,8 @@ class MIR_APP_EXPORT CProtoIntDlgBase : public CDlgBase
 public:
 	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog);
 
-	void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue);
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
+	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
+	void CreateLink(CCtrlData& ctrl, const const char *szSetting, wchar_t *szValue);
 
 	template<class T>
 	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)

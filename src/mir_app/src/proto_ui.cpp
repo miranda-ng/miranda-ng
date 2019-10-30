@@ -42,7 +42,7 @@ CProtoIntDlgBase::CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog) :
 {
 }
 
-void CProtoIntDlgBase::CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue)
+void CProtoIntDlgBase::CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue)
 {
 	ctrl.CreateDbLink(m_proto_interface->m_szModuleName, szSetting, type, iValue);
 }
