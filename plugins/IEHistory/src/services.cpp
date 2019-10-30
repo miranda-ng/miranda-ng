@@ -21,36 +21,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "services.h"
 
-int InitServices()
-{
-	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistoryService);
-	return 0;
-}
-
-INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM)
+INT_PTR ShowContactHistoryService(WPARAM hContact, LPARAM)
 {
 	Log("%s", "Entering function " __FUNCTION__);
 	HWND historyDlg;
 	HWND parent = nullptr;
-	historyDlg = WindowList_Find(hOpenWindowsList, (MCONTACT)wParam);
+	historyDlg = WindowList_Find(hOpenWindowsList, hContact);
 	if (historyDlg == nullptr){
-		int count = g_plugin.getDword("EventsToLoad", 0);
-		int loadInBackground = g_plugin.getByte("UseWorkerThread", 0);
-		HistoryWindowData *data;
-		data = (HistoryWindowData *)malloc(sizeof(HistoryWindowData));
-		data->contact = (MCONTACT)wParam;
+		HistoryWindowData *data = (HistoryWindowData *)malloc(sizeof(HistoryWindowData));
+		data->contact = hContact;
 		data->hIEView = nullptr;
-		data->itemsPerPage = count;
+		data->itemsPerPage = g_plugin.iLoadCount;
 		data->index = 0;
 		data->count = 0;
-		data->loadMethod = (loadInBackground) ? LOAD_IN_BACKGROUND : 0;
+		data->loadMethod = (g_plugin.bUseWorker) ? LOAD_IN_BACKGROUND : 0;
 		historyDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_HISTORY), parent, HistoryDlgProc);
 		SetWindowLongPtr(historyDlg, DWLP_USER, (LONG_PTR)data);
 
-		WindowList_Add(hOpenWindowsList, historyDlg, (MCONTACT)wParam);
+		WindowList_Add(hOpenWindowsList, historyDlg, hContact);
 	}
-	else
-		SetForegroundWindow(historyDlg);
+	else SetForegroundWindow(historyDlg);
+
 	ShowWindow(historyDlg, SW_SHOWNORMAL);
 	return 0;
 }

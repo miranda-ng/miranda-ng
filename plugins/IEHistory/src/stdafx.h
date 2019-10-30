@@ -35,19 +35,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <uxtheme.h>
 
 #include <newpluginapi.h>
-#include <m_database.h>
-#include <m_utils.h>
-#include <m_system.h>
-#include <m_skin.h>
-#include <m_options.h>
 #include <m_clist.h>
-#include <m_langpack.h>
-#include <m_history.h>
 #include <m_contacts.h>
-#include <m_metacontacts.h>
-#include <m_protocols.h>
-#include <m_popup.h>
+#include <m_database.h>
+#include <m_history.h>
 #include <m_ieview.h>
+#include <m_gui.h>
+#include <m_langpack.h>
+#include <m_metacontacts.h>
+#include <m_options.h>
+#include <m_popup.h>
+#include <m_protocols.h>
+#include <m_skin.h>
+#include <m_system.h>
+#include <m_utils.h>
 
 #include "resource.h"
 #include "version.h"
@@ -71,6 +72,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<BYTE> bEnableRtl, bShowLastFirst, bUseWorker;
+	CMOption<DWORD> iLoadCount;
+
 	CMPlugin();
 
 	int Load() override;

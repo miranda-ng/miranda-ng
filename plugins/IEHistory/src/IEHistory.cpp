@@ -46,8 +46,13 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("IEHistory", pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>("IEHistory", pluginInfoEx),
+	iLoadCount(m_szModuleName, "EventsToLoad", 0),
+	bEnableRtl(m_szModuleName, "EnableRTL", 0),
+	bUseWorker(m_szModuleName, "UseWorkerThread", 0),
+	bShowLastFirst(m_szModuleName, "ShowLastPageFirst", 0)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -65,13 +70,13 @@ int CMPlugin::Load()
 	if ((hUxTheme = LoadLibraryA("uxtheme.dll")) != nullptr)
 		MyEnableThemeDialogTexture = (BOOL(WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 
-	/// all initialization here
+	// all initialization here
 	hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HISTORYICON));
 	hOpenWindowsList = WindowList_Create();
 
-	InitServices();
+	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistoryService);
 
-	/// menu items
+	// menu items
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x28848d7a, 0x6995, 0x4799, 0x82, 0xd7, 0x18, 0x40, 0x3d, 0xe3, 0x71, 0xc4);
 	mi.name.w = LPGENW("View &history");
@@ -81,7 +86,7 @@ int CMPlugin::Load()
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddContactMenuItem(&mi);
 
-	/// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^
+	// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^
 	SET_UID(mi, 0xfcb4bb2a, 0xd4d8, 0x48ab, 0x94, 0xcc, 0x5b, 0xe9, 0x8d, 0x53, 0x3e, 0xf1);
 	mi.name.w = LPGENW("&System History");
 	Menu_AddMainMenuItem(&mi);

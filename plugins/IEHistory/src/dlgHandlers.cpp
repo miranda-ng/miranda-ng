@@ -234,8 +234,8 @@ int LoadEvents(HWND hWnd)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
 	int count = db_event_count(data->contact);
-	int bLastFirst = g_plugin.getByte("ShowLastPageFirst", 0);
-	int bRTL = g_plugin.getByte("EnableRTL", 0);
+	int bLastFirst = g_plugin.bShowLastFirst;
+	int bRTL = g_plugin.bEnableRtl;
 	bRTL = db_get_b(data->contact, "Tab_SRMsg", "RTL", bRTL);
 	data->bEnableRTL = bRTL;
 	data->count = count;
@@ -354,7 +354,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hWnd);
 		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 		{
-			int bRTL = g_plugin.getByte("EnableRTL", 0);
+			int bRTL = g_plugin.bEnableRtl;
 			if (bRTL)
 				SetWindowLongPtr(hWnd, GWL_EXSTYLE, WS_EX_RTLREADING);
 
@@ -384,7 +384,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		LoadEvents(hWnd);
 		{
 			bool bAll = (data->itemsPerPage <= 0) || (data->itemsPerPage >= data->count);
-			int bLastFirst = g_plugin.getByte("ShowLastPageFirst", 0);
+			int bLastFirst = g_plugin.bShowLastFirst;
 			if (!bLastFirst) {
 				EnableWindow(GetDlgItem(hWnd, IDC_PREV), FALSE);
 				EnableWindow(GetDlgItem(hWnd, IDC_NEXT), !bAll);
@@ -597,84 +597,57 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 /////////////////////////////////////////////////////////////////////////////////////////
 // options
 
-static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptionsDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hWnd);
-		{
-			int count = g_plugin.getDword("EventsToLoad", 0);
-			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), count > 0);
-			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), count > 0);
+	CCtrlEdit edtCount;
+	CCtrlCheck chkLoadAll, chkLoadNumber, chkRtl, chkLastFirst, chkLoadBack;
 
-			CheckDlgButton(hWnd, IDC_LOAD_ALL, count <= 0 ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_LOAD_NUMBER, count > 0 ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_ENABLE_RTL, g_plugin.getByte("EnableRTL", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, g_plugin.getByte("ShowLastPageFirst", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, g_plugin.getByte("UseWorkerThread", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-			wchar_t buffer[40];
-			_itow_s(count, buffer, 10);
-			SetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_LOAD_ALL:
-			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), FALSE);
-			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), FALSE);
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_LOAD_NUMBER:
-			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), TRUE);
-			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), TRUE);
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_ENABLE_RTL:
-		case IDC_SHOW_LAST_FIRST:
-		case IDC_EVENTS_COUNT:
-		case IDC_LOAD_BACKGROUND:
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				long count;
-				if (IsDlgButtonChecked(hWnd, IDC_LOAD_ALL))
-					count = 0;
-				else {
-					wchar_t buffer[1024];
-					GetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer, _countof(buffer));
-					count = _wtol(buffer);
-					count = (count < 0) ? 0 : count;
-				}
-				g_plugin.setByte("ShowLastPageFirst", IsDlgButtonChecked(hWnd, IDC_SHOW_LAST_FIRST));
-				g_plugin.setByte("EnableRTL", IsDlgButtonChecked(hWnd, IDC_ENABLE_RTL));
-				g_plugin.setByte("UseWorkerThread", IsDlgButtonChecked(hWnd, IDC_LOAD_BACKGROUND));
-				g_plugin.setDword("EventsToLoad", count);
-			}
-		}
-		break;
+public:
+	COptionsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_HISTORY),
+		edtCount(this, IDC_EVENTS_COUNT),
+		chkRtl(this, IDC_ENABLE_RTL),
+		chkLoadAll(this, IDC_LOAD_ALL),
+		chkLoadBack(this, IDC_LOAD_BACKGROUND),
+		chkLoadNumber(this, IDC_LOAD_NUMBER),
+		chkLastFirst(this, IDC_SHOW_LAST_FIRST)
+	{
+		CreateLink(edtCount, g_plugin.iLoadCount);
+		CreateLink(chkRtl, g_plugin.bEnableRtl);
+		CreateLink(chkLoadBack, g_plugin.bUseWorker);
+		CreateLink(chkLastFirst, g_plugin.bShowLastFirst);
 	}
-	return 0;
-}
+
+	bool OnInitDialog() override
+	{
+		onChange_All(0);
+		chkLoadAll.SetState(g_plugin.iLoadCount == 0);
+		chkLoadNumber.SetState(!chkLoadAll.GetState());
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (chkLoadAll.GetState())
+			g_plugin.iLoadCount = 0;
+		return true;
+	}
+
+	void onChange_All(CCtrlCheck *)
+	{
+		bool bEnabled = chkLoadNumber.GetState();
+		edtCount.Enable(bEnabled);
+		chkLastFirst.Enable(bEnabled);
+	}
+};
 
 int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.szTitle.w = LPGENW("History");
-	odp.pfnDlgProc = OptionsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HISTORY);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	odp.szTitle.a = LPGEN("History");
+	odp.pDialog = new COptionsDlg();
+	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

@@ -23,10 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "dlgHandlers.h"
 
-int InitServices();
+INT_PTR ShowContactHistoryService(WPARAM, LPARAM);
 
 int OnOptionsInitialize(WPARAM, LPARAM);
-
-INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM lParam);
 
 #endif //M_IEHISTORY_PROVIDED_SERVICES_H
