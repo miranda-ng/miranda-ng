@@ -99,14 +99,35 @@ MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
 /////////////////////////////////////////////////////////////////////////////////////////
 // stubs for pascal plugins
 
+static void wipePluginData(CMPluginBase *pPlugin)
+{
+	if (g_bMirandaTerminated)
+		return;
+
+	KillModuleMenus(pPlugin);
+	KillModuleFonts(pPlugin);
+	KillModuleColours(pPlugin);
+	KillModuleEffects(pPlugin);
+	KillModuleIcons(pPlugin);
+	KillModuleHotkeys(pPlugin);
+	KillModuleSounds(pPlugin);
+	KillModuleExtraIcons(pPlugin);
+	KillModuleSrmmIcons(pPlugin);
+	KillModuleToolbarIcons(pPlugin);
+	KillModuleOptions(pPlugin);
+}
+
+// emulates the call of CMPluginBase::CMPluginBase for Pascal plugins
 EXTERN_C MIR_APP_DLL(void) RegisterPlugin(CMPluginBase *pPlugin)
 {
 	if (pPlugin->getInst() != nullptr)
 		g_arPlugins.insert(pPlugin);
 }
 
+// emulates the call of CMPluginBase::~CMPluginBase for Pascal plugins
 EXTERN_C MIR_APP_DLL(void) UnregisterPlugin(CMPluginBase *pPlugin)
 {
+	wipePluginData(pPlugin);
 	g_arPlugins.remove(pPlugin);
 }
 
@@ -128,19 +149,7 @@ CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
 
 CMPluginBase::~CMPluginBase()
 {
-	if (!g_bMirandaTerminated) {
-		KillModuleMenus(this);
-		KillModuleFonts(this);
-		KillModuleColours(this);
-		KillModuleEffects(this);
-		KillModuleIcons(this);
-		KillModuleHotkeys(this);
-		KillModuleSounds(this);
-		KillModuleExtraIcons(this);
-		KillModuleSrmmIcons(this);
-		KillModuleToolbarIcons(this);
-		KillModuleOptions(this);
-	}
+	wipePluginData(this);
 
 	if (m_hLogger) {
 		mir_closeLog(m_hLogger);
