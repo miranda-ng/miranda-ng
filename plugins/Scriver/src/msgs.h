@@ -208,10 +208,6 @@ public:
 		m_pParent->StartFlashing();
 	}
 
-	__forceinline CLogWindow *LOG() {
-		return ((CLogWindow *)m_pLog);
-	}
-
 	wchar_t *m_wszInitialText;
 
 	char* CreateRTFFromEvent(EventData *evt, GlobalMessageData *gdat, struct LogStreamData *streamData);

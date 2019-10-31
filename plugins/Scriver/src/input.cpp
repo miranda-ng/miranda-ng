@@ -134,8 +134,6 @@ bool CMsgDialog::CheckSend()
 		if (m_iLastEnterTime + 1000 < GetTickCount())
 			m_iLastEnterTime = GetTickCount();
 		else {
-			LOG()->WndProc(WM_KEYDOWN, VK_BACK, 0);
-			LOG()->WndProc(WM_KEYUP, VK_BACK, 0);
 			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
 			return true;
 		}

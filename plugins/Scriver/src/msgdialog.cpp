@@ -949,11 +949,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 				return TRUE;
 			}
-
-			if (wParam == VK_NEXT || wParam == VK_PRIOR) {
-				LOG()->WndProc(msg, wParam, lParam);
-				return TRUE;
-			}
 		}
 		break;
 
@@ -962,11 +957,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MOUSEWHEEL:
-		if ((GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & WS_VSCROLL) == 0)
-			LOG()->WndProc(WM_MOUSEWHEEL, wParam, lParam);
-		m_iLastEnterTime = 0;
-		break;
-
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
