@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define STATUSICON_REFRESHDELAY		100		/* time for which setting changes are buffered */
 
 extern bool g_bUseUnknownFlag, g_bShowStatusIconFlag;
-extern bool g_eiGender, g_eiHome, g_eiEmail, g_eiPhone;
 
 struct MsgWndData
 {

@@ -299,10 +299,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 			}
 
 			// extra icon settings
-			CheckDlgButton(hDlg, CHECK_OPT_GENDER, g_eiGender ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hDlg, CHECK_OPT_EMAILICON, g_eiEmail ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hDlg, CHECK_OPT_PHONEICON, g_eiPhone ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hDlg, CHECK_OPT_HOMEPAGEICON, g_eiHome ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, g_bUseUnknownFlag ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, g_bShowStatusIconFlag ? BST_CHECKED : BST_UNCHECKED);
 
@@ -340,11 +336,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				db_set_b(0, MODNAMEFLAGS, "ShowStatusIconFlag", valNew);
 				FlagsMsgWndChange = true;
 			}
-
-			FlagsClistChange |= SvcHomepageEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_HOMEPAGEICON), true);
-			FlagsClistChange |= SvcEMailEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_EMAILICON), true);
-			FlagsClistChange |= SvcPhoneEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_PHONEICON), true);
-			FlagsClistChange |= SvcGenderEnableExtraIcons(0 != IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER), true);
 
 			if (FlagsClistChange)
 				ExtraIcon_SetAll();
@@ -391,10 +382,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 		case RADIO_OPT_MI_ACCOUNT_ALL:
 		case RADIO_OPT_MI_ACCOUNT_NONE:
 		case RADIO_OPT_MI_ACCOUNT_EXIMPORT:
-		case CHECK_OPT_HOMEPAGEICON:
-		case CHECK_OPT_EMAILICON:
-		case CHECK_OPT_PHONEICON:
-		case CHECK_OPT_GENDER:
 		case CHECK_OPT_FLAGSUNKNOWN:
 		case CHECK_OPT_FLAGSMSGSTATUS:
 		case CHECK_OPT_ZODIACAVATAR:

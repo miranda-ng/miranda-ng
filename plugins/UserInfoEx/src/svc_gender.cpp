@@ -21,15 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static HANDLE ghExtraIconF = INVALID_HANDLE_VALUE;
-static HANDLE ghExtraIconM = INVALID_HANDLE_VALUE;
-static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
-
-static HANDLE hChangedHook = nullptr;
-static HANDLE hApplyIconHook = nullptr;
-
-bool g_eiGender = false;
-
 BYTE GenderOf(MCONTACT hContact, LPCSTR pszProto)
 {
 	DBVARIANT dbv;
@@ -56,100 +47,4 @@ BYTE GenderOf(MCONTACT hContact, LPCSTR pszProto)
 BYTE GenderOf(MCONTACT hContact)
 {
 	return GenderOf(hContact, Proto_GetBaseAccountName(hContact));
-}
-
-/***********************************************************************************************************
- * Event Handler functions
- ***********************************************************************************************************/
-
-/**
-* Notification handler for clist extra icons to be applied for a contact.
-*
-* @param	wParam			- handle to the contact whose extra icon is to apply
-* @param	lParam			- not used
-**/
-
-static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
-{
-	if (ghExtraIconSvc != INVALID_HANDLE_VALUE) {
-		HANDLE hIcon;
-		switch (GenderOf(hContact)) {
-			case 'M':  hIcon = g_plugin.getIconHandle(IDI_MALE); break;
-			case 'F':  hIcon = g_plugin.getIconHandle(IDI_FEMALE); break;
-			default:   hIcon = nullptr;
-		}
-		ExtraIcon_SetIcon(ghExtraIconSvc, hContact, hIcon);
-	}
-	return 0;
-}
-
-/**
- * Notification handler for changed contact settings
- *
- * @param	wParam			- (HANDLE)hContact
- * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
- **/
-
-static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdbcws)
-{
-	if (hContact && pdbcws && (pdbcws->value.type <= DBVT_BYTE) && !strcmp(pdbcws->szSetting, SET_CONTACT_GENDER))
-		OnCListApplyIcons(hContact, 0);
-
-	return 0;
-}
-
-/**
-* Enable or disable the replacement of clist extra icons.
-*
-* @param	bEnable			- determines whether icons are enabled or not
-* @param	bUpdateDB		- if true the database setting is updated, too.
-**/
-
-bool SvcGenderEnableExtraIcons(bool bEnable, bool bUpdateDB) 
-{
-	bool bChanged;
-
-	if (bUpdateDB) {
-		bChanged = g_eiGender != bEnable;
-		g_plugin.setByte(SET_CLIST_EXTRAICON_GENDER2, g_eiGender = bEnable);
-	}
-	else bChanged = g_eiGender = g_plugin.getByte(SET_CLIST_EXTRAICON_GENDER2, 0) != 0;
-
-	if (g_eiGender) { // Gender checked or dropdown select
-		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender (UInfoEx)"), g_plugin.getIconHandle(IDI_MALE));
-
-		// hook events
-		if (hChangedHook == nullptr) 
-			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
-
-		if (hApplyIconHook == nullptr) 
-			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
-	}
-	else {
-		if (hChangedHook) {
-			UnhookEvent(hChangedHook); 
-			hChangedHook = nullptr;
-		}
-		if (hApplyIconHook) {
-			UnhookEvent(hApplyIconHook); 
-			hApplyIconHook = nullptr;
-		}
-	}
-	return bChanged;
-}
-
-/**
-* This function unloads the module.
-*
-* @param	none
-*
-* @return	nothing
-**/
-
-void SvcGenderUnloadModule()
-{	
-	// unhook event handlers
-	UnhookEvent(hChangedHook);	hChangedHook = nullptr;
-	UnhookEvent(hApplyIconHook); hApplyIconHook = nullptr;
 }

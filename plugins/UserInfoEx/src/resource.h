@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by w:\miranda-ng\plugins\UserInfoEx\res\resource.rc
 //
 #define IDSKIP                          20
 #define IDALL                           21
@@ -198,7 +198,6 @@
 #define CHECK_POPUP                     1572
 #define GROUP_FILTER                    1573
 #define GROUP_REMINDER                  1574
-#define GROUP_OPT_EXTRAICONS            1578
 #define TXT_OPT_DEFAULTICONS            1579
 #define TXT_OPT_DEFAULTICONS2           1580
 #define ICO_COUNTRY                     1580
@@ -210,7 +209,6 @@
 #define TITLE_AGE                       1583
 #define FRAME_AGE                       1584
 #define IDC_STATIC_GROUP                1585
-#define CHECK_OPT_GENDER                1586
 #define TXT_OPT_EXTRAICONS              1587
 #define BTN_PREVIEW                     1588
 #define IDC_PAGETITLE                   1589
@@ -285,13 +283,10 @@
 #define CHECK_REMIND_HIDDEN             40106
 #define CHECK_REMIND_VISIBLEONLY        40106
 #define CHECK_OPT_ICOVERSION            40108
-#define CHECK_OPT_HOMEPAGEICON          40108
 #define CHECK_OPT_CLR                   40109
 #define CHECK_OPT_REPLACECONTACTS       40109
 #define CHECK_OPT_GROUPS                40110
-#define CHECK_OPT_EMAILICON             40110
 #define CHECK_OPT_SORTTREE              40111
-#define CHECK_OPT_PHONEICON             40111
 #define CHECK_OPT_READONLY              40112
 #define CHECK_OPT_ZODIACAVATAR          40112
 #define CHECK_OPT_CHANGEMYDETAILS       40113

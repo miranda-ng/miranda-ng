@@ -101,7 +101,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	SvcReminderOnModulesLoaded();
 
 	// load extended intagration services
-	SvcHomepageLoadModule();
 	SvcFlagsOnModulesLoaded();
 
 	// build contact's menuitems
@@ -120,11 +119,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	CtrlButtonUnloadModule();
 
 	SvcConstantsUnloadModule();
-	SvcEMailUnloadModule();
 	SvcFlagsUnloadModule();
-	SvcGenderUnloadModule();
-	SvcHomepageUnloadModule();
-	SvcPhoneUnloadModule();
 
 	mir_free(hMenuItemAccount);
 	return 0;
@@ -183,12 +178,7 @@ int CMPlugin::Load()
 
 	SvcFlagsLoadModule();
 	SvcTimezoneLoadModule();
-	SvcEMailLoadModule();
 	SvcRefreshContactInfoLoadModule();
-
-	SvcPhoneEnableExtraIcons();
-	SvcGenderEnableExtraIcons();
-	SvcHomepageEnableExtraIcons();
 
 	CtrlContactLoadModule();
 	// load my button class

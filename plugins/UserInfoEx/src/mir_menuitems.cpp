@@ -69,9 +69,6 @@ void RebuildContact()
 	HGENMENU mhExIm = nullptr;
 	static HGENMENU hMenuItem[4] = { nullptr, nullptr, nullptr, nullptr };
 
-	SvcEMailRebuildMenu();
-	SvcHomepageRebuildMenu();
-
 	// load options
 	int flag = g_plugin.getByte(SET_MI_CONTACT, MCAS_NOTINITIATED);
 	if (flag == MCAS_NOTINITIATED) {
