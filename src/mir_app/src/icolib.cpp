@@ -72,6 +72,22 @@ void __fastcall SafeDestroyIcon(HICON &hIcon)
 
 // Helper functions to manage Icon resources
 
+static IcolibItem *Handle2Ptr(HANDLE hIcoLib)
+{
+	IcolibItem *p = (IcolibItem *)hIcoLib;
+	if (p == nullptr)
+		return nullptr;
+
+	__try {
+		if (p->signature != ICOLIB_MAGIC)
+			p = nullptr;
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER) {
+		p = nullptr;
+	}
+	return p;
+}
+
 static IconSourceFile* IconSourceFile_Get(const wchar_t *file, bool isPath)
 {
 	if (!file)
@@ -581,9 +597,10 @@ MIR_APP_DLL(void) IcoLib_RemoveIcon(const char *pszIconName)
 
 MIR_APP_DLL(void) IcoLib_RemoveIconByHandle(HANDLE hIcoLib)
 {
-	mir_cslock lck(csIconList);
+	auto *pItem = Handle2Ptr(hIcoLib);
 
-	int i = iconList.getIndex((IcolibItem*)hIcoLib);
+	mir_cslock lck(csIconList);
+	int i = iconList.getIndex(pItem);
 	if (i != -1) {
 		iconList.remove(i);
 		delete iconList[i];
@@ -655,7 +672,7 @@ HICON IconItem_GetDefaultIcon(IcolibItem *item, bool big)
 
 HICON IconItem_GetIcon(HANDLE hIcoLib, bool big)
 {
-	IcolibItem *item = (IcolibItem*)hIcoLib;
+	auto *item = Handle2Ptr(hIcoLib);
 	if (item == nullptr)
 		return nullptr;
 
@@ -724,11 +741,11 @@ MIR_APP_DLL(HANDLE) IcoLib_GetIconHandle(const char *pszIconName)
 
 MIR_APP_DLL(HICON) IcoLib_GetIconByHandle(HANDLE hItem, bool big)
 {
-	if (hItem == nullptr)
+	IcolibItem *pi = Handle2Ptr(hItem);
+	if (pi == nullptr)
 		return nullptr;
 
 	mir_cslock lck(csIconList);
-	IcolibItem *pi = (IcolibItem*)hItem;
 	if (iconList.getIndex(pi) != -1)
 		return IconItem_GetIcon(pi, big);
 

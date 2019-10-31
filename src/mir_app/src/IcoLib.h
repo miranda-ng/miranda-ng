@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
+#define ICOLIB_MAGIC 0xDEADBEEF
+
 #define SECTIONPARAM_MAKE(index, level, flags) MAKELONG((index)&0xFFFF, MAKEWORD(level, flags))
 #define SECTIONPARAM_INDEX(lparam) LOWORD(lparam)
 #define SECTIONPARAM_LEVEL(lparam) LOBYTE(HIWORD(lparam))
@@ -78,6 +80,7 @@ public:
 struct IcolibItem : public MZeroedObject
 {
 	char*           name;
+	DWORD           signature = ICOLIB_MAGIC;
 	SectionItem*    section;
 	int             orderID;
 	wchar_t*        description;
