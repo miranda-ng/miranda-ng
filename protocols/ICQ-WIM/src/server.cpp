@@ -721,7 +721,7 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 			// Send the same message to myself
 			T2Utf msgText(wszUrl);
 			PROTORECVEVENT recv = {};
-			recv.flags = PREF_CREATEREAD;
+			recv.flags = PREF_CREATEREAD | PREF_SENT;
 			recv.szMessage = msgText;
 			recv.timestamp = time(0);
 			ProtoChainRecvMsg(pTransfer->pfts.hContact, &recv);

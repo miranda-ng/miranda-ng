@@ -625,7 +625,7 @@ LBL_Fail:
 
 				if (ProtoChainSend(ft->std.hContact, PSS_MESSAGE, 0, (LPARAM)szGetUrl) != -1) {
 					PROTORECVEVENT recv = {};
-					recv.flags = PREF_CREATEREAD;
+					recv.flags = PREF_CREATEREAD | PREF_SENT;
 					recv.szMessage = (char*)szGetUrl;
 					recv.timestamp = time(0);
 					ProtoChainRecvMsg(ft->std.hContact, &recv);
