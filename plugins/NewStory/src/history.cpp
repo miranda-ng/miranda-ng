@@ -29,12 +29,20 @@ int evtEventDeleted(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int evtEventEdited(WPARAM wParam, LPARAM lParam)
+{
+	HWND hwnd = WindowList_Find(hNewstoryWindows, (UINT_PTR)wParam);
+	SendMessage(hwnd, UM_EDITEVENT, wParam, lParam);
+	return 0;
+}
+
 void InitHistory()
 {
 	hNewstoryWindows = WindowList_Create();
 
 	HookEvent(ME_DB_EVENT_ADDED, evtEventAdded);
 	HookEvent(ME_DB_EVENT_DELETED, evtEventDeleted);
+	HookEvent(ME_DB_EVENT_EDITED, evtEventEdited);
 }
 
 void FreeHistory()

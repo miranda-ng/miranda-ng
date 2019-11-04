@@ -11,8 +11,6 @@
 
 #include "stdafx.h"
 
-HANDLE hhkModulesLoaded = 0, hhkOptInitialise = 0, hhkTTBLoaded = 0;
-
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -104,13 +102,12 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, svcShowNewstory);
 	CreateServiceFunction("Newstory/System", svcShowSystemNewstory);
 
-	hhkModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
 	return 0;
 }
 
 int CMPlugin::Unload()
 {
-	UnhookEvent(hhkModulesLoaded);
 	FreeHistory();
 	return 0;
 }
