@@ -111,14 +111,10 @@ HistoryArray::ItemData::~ItemData()
 HistoryArray::HistoryArray()
 {
 	head = tail = 0;
-	caching = false;
-	caching_complete = true;
-	InitializeCriticalSection(&csItems);
 }
 
 HistoryArray::~HistoryArray()
 {
-	DeleteCriticalSection(&csItems);
 	clear();
 }
 
@@ -202,34 +198,15 @@ bool HistoryArray::preloadEvents(int count)
 */
 HistoryArray::ItemData *HistoryArray::get(int id, EventLoadMode mode)
 {
-	caching = false;
-	if (caching) EnterCriticalSection(&csItems);
 	int offset = 0;
 	for (ItemBlock *p = head; p; p = p->next) {
 		if (id < offset + p->count) {
 			if (mode != ELM_NOTHING)
 				p->items[id - offset].load(mode);
 
-			if (caching) {
-				if (caching_complete) caching = false;
-				LeaveCriticalSection(&csItems);
-			}
 			return p->items + id - offset;
 		}
 		offset += p->count;
 	}
-	if (caching) {
-		if (caching_complete) caching = false;
-		LeaveCriticalSection(&csItems);
-	}
 	return 0;
-}
-
-///////////////////////////////////////////////////////////
-// Cache data
-void HistoryArray::CacheThreadFunc(void *arg)
-{
-	HistoryArray *_this = (HistoryArray *)arg;
-	_this->caching_complete = true;
-	_endthread();
 }

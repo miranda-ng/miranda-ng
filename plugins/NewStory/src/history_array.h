@@ -174,11 +174,6 @@ private:
 	int preIndex;
 	bool allocateBlock(int count);
 
-	bool caching;
-	bool caching_complete;
-	CRITICAL_SECTION csItems;
-	static void CacheThreadFunc(void *arg);
-
 public:
 	HistoryArray();
 	~HistoryArray();
