@@ -99,6 +99,8 @@ private:
 
 class CSideBar
 {
+	CSideBarButton *setActiveItem(CSideBarButton *newItem);
+
 public:
 	enum {
 		NR_LAYOUTS = 4
@@ -150,17 +152,9 @@ public:
 	bool                  isSkinnedContainer() const { return(CSkin::m_skinEnabled ? true : false); }
 	const UINT            getLayoutId() const { return(m_uLayout); }
 	void                  invalidateButton(CMsgDialog *dat);
+	
+	CSideBarButton*       setActiveItem(const CMsgDialog *dat);
 
-	const CSideBarButton* setActiveItem(const CSideBarButton *newItem)
-	{
-		CSideBarButton *oldItem = m_activeItem;
-		m_activeItem = const_cast<CSideBarButton *>(newItem);
-		if (oldItem)
-			::InvalidateRect(oldItem->getHwnd(), nullptr, FALSE);
-		::InvalidateRect(m_activeItem->getHwnd(), nullptr, FALSE);
-		scrollIntoView(m_activeItem);
-		return(oldItem);
-	}
 	/**
 	 * this item has its close button currently hovered
 	 * @param item: the CSideBarButton* which is hovered
@@ -171,8 +165,7 @@ public:
 	}
 	HWND                  getScrollWnd() const { return(m_hwndScrollWnd); }
 	const CSideBarButton* getHoveredClose() const { return(m_hoveredClose); }
-	const CSideBarButton* setActiveItem(const CMsgDialog *dat);
-
+	
 	static LRESULT CALLBACK wndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	static const TSideBarLayout* getLayouts(int& uLayoutCount)

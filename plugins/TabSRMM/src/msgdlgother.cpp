@@ -2335,8 +2335,10 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 	BB_SetButtonsPos();
 	if (M.isAero())
 		InvalidateRect(m_hwndParent, nullptr, FALSE);
-	if (m_pContainer->m_flags.m_bSideBar)
-		m_pContainer->m_pSideBar->setActiveItem(this);
+
+	if (msg == WM_ACTIVATE)
+		if (m_pContainer->m_flags.m_bSideBar)
+			m_pContainer->m_pSideBar->setActiveItem(this);
 
 	if (m_pWnd)
 		m_pWnd->Invalidate();
