@@ -74,39 +74,6 @@ const
   }
   ME_SYSTEM_PRESHUTDOWN:PAnsiChar = 'Miranda/System/PShutdown';
 
-  {
-    wParam : 0
-    lParam : (address) void (__cdecl  callback) (void)
-    Affect : Setup a function pointer to be called after main loop iterations, it allows for
-           idle processing, See notes
-    Returns: 1 on success, 0 on failure
-
-    Notes  : This service will only allow one function to be registered, if one is registered, 0 will be returned
-           Remember that this uses __cdecl.
-    Version: Added during 0.3.4+
-  }
-  MS_SYSTEM_SETIDLECALLBACK:PAnsiChar = 'Miranda/SetIdleCallback';
-
-  {
-    wParam : 0
-    lParam : &tick
-    Affect : return the last window tick where a monitored event was seen, currently WM_CHAR/WM_MOUSEMOVE
-    Returns: Always returns 0
-    Version: Added during 0.3.4+ (2004/09/12)
-  }
-  MS_SYSTEM_GETIDLE:PAnsiChar = 'Miranda/GetIdle';
-
-  {
-    wParam: cchMax (max length of buffer)
-    lParam: pointer to buffer to fill
-    Affect: Returns the build timestamp of the core, as a string of YYYYMMDDhhmmss, this service might
-      not exist and therefore the build is before 2004-09-30
-    Returns: zero on success, non zero on failure
-    Version: 0.3.4a+ (2004/09/30)
-    DEFUNCT: This service was removed on 0.3.4.3+ (2004/11/19) use APILEVEL
-  }
-  MS_SYSTEM_GETBUILDSTRING:PAnsiChar = 'Miranda/GetBuildString';
-
 function Miranda_IsTerminated : bytebool; stdcall; external AppDll;
 
 {$ENDIF}
