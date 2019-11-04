@@ -935,6 +935,18 @@ size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+HWND TSAPI GetTabWindow(HWND hwndTab, int i)
+{
+	if (i < 0)
+		return nullptr;
+
+	TCITEM tci;
+	tci.mask = TCIF_PARAM;
+	return (TabCtrl_GetItem(hwndTab, i, &tci)) ? (HWND)tci.lParam : nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // file list handler
 
 void Utils::AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilename)

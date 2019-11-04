@@ -33,23 +33,58 @@
 #define CONTAINER_SUBKEY "containerW"
 #define CONTAINER_PREFIX "CNTW_"
 
+static bool fForceOverlayIcons = false;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// functions for handling the linked list of struct ContainerWindowData *foo
+
 TContainerData *pFirstContainer = nullptr;        // the linked list of struct ContainerWindowData
 TContainerData *pLastActiveContainer = nullptr;
 
-static TContainerData* TSAPI AppendToContainerList(TContainerData*);
-static TContainerData* TSAPI RemoveContainerFromList(TContainerData*);
-
-static bool fForceOverlayIcons = false;
-
-HWND TSAPI GetTabWindow(HWND hwndTab, int i)
+static TContainerData *AppendToContainerList(TContainerData *pContainer)
 {
-	if (i < 0)
-		return nullptr;
+	if (!pFirstContainer) {
+		pFirstContainer = pContainer;
+		pFirstContainer->pNext = nullptr;
+		return pFirstContainer;
+	}
 
-	TCITEM tci;
-	tci.mask = TCIF_PARAM;
-	return (TabCtrl_GetItem(hwndTab, i, &tci)) ? (HWND)tci.lParam: nullptr;
+	TContainerData *p = pFirstContainer;
+	while (p->pNext != nullptr)
+		p = p->pNext;
+	p->pNext = pContainer;
+	pContainer->pNext = nullptr;
+	return p;
 }
+
+static TContainerData *RemoveContainerFromList(TContainerData *pContainer)
+{
+	if (pContainer == pFirstContainer) {
+		if (pContainer->pNext != nullptr)
+			pFirstContainer = pContainer->pNext;
+		else
+			pFirstContainer = nullptr;
+
+		if (pLastActiveContainer == pContainer)     // make sure, we don't reference this container anymore
+			pLastActiveContainer = pFirstContainer;
+
+		return pFirstContainer;
+	}
+
+	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+		if (p->pNext == pContainer) {
+			p->pNext = p->pNext->pNext;
+
+			if (pLastActiveContainer == pContainer)     // make sure, we don't reference this container anymore
+				pLastActiveContainer = pFirstContainer;
+
+			return nullptr;
+		}
+	}
+	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 TContainerData::~TContainerData()
 {
@@ -222,6 +257,36 @@ void TContainerData::Configure()
 	}
 	SendMessage(m_hwnd, WM_SIZE, 0, 1);
 	BroadCastContainer(DM_CONFIGURETOOLBAR, 0, 1);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// flashes the container
+// iMode != 0: turn on flashing
+// iMode == 0: turn off flashing
+
+void TContainerData::FlashContainer(int iMode, int iCount)
+{
+	if (m_flags.m_bNoFlash)                  // container should never flash
+		return;
+
+	FLASHWINFO fwi;
+	fwi.cbSize = sizeof(fwi);
+	fwi.uCount = 0;
+
+	if (iMode) {
+		fwi.dwFlags = FLASHW_ALL;
+		if (m_flags.m_bFlashAlways)
+			fwi.dwFlags |= FLASHW_TIMER;
+		else
+			fwi.uCount = (iCount == 0) ? M.GetByte("nrflash", 4) : iCount;
+		fwi.dwTimeout = M.GetDword("flashinterval", 1000);
+
+	}
+	else fwi.dwFlags = FLASHW_STOP;
+
+	fwi.hwnd = m_hwnd;
+	m_dwFlashingStarted = GetTickCount();
+	FlashWindowEx(&fwi);
 }
 
 void TContainerData::InitDialog(HWND hwndDlg)
@@ -1256,7 +1321,7 @@ panel_found:
 				itoa(iSelection - IDM_CONTAINERMENU, szIndex, 10);
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					ptrW tszName(db_get_wsa(0, CONTAINER_KEY, szIndex));
-					if (tszName != nullptr)
+					if (hDlg && tszName != nullptr)
 						SendMessage(hDlg, DM_CONTAINERSELECTED, 0, tszName);
 				}
 				return 1;
@@ -2093,29 +2158,7 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 	return pContainer;
 }
 
-// search the list of tabs and return the tab (by index) which "belongs" to the given
-// hwnd. The hwnd is the handle of a message dialog childwindow. At creation,
-// the dialog handle is stored in the TCITEM.lParam field, because we need
-// to know the owner of the tab.
-//
-// hwndTab: handle of the tab control itself.
-// hwnd: handle of a message dialog.
-//
-// returns the tab index (zero based), -1 if no tab is found (which SHOULD not
-// really happen, but who knows... ;))
-
-int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
-{
-	int iItems = TabCtrl_GetItemCount(hwndTab);
-
-	for (int i = 0; i < iItems; i++) {
-		HWND pDlg = GetTabWindow(hwndTab, i);
-		if (pDlg == hwnd)
-			return i;
-	}
-	return -1;
-}
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // activates the tab belonging to the given client HWND (handle of the actual
 // message window.
 
@@ -2133,169 +2176,7 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 	return -1;
 }
 
-// enumerates tabs and closes all of them, but the one in dat
-void TSAPI CloseOtherTabs(HWND hwndTab, CMsgDialog &dat)
-{
-	for (int idxt = 0; idxt < dat.m_pContainer->m_iChilds;) {
-		HWND otherTab = GetTabWindow(hwndTab, idxt);
-		if (otherTab != nullptr && otherTab != dat.GetHwnd())
-			SendMessage(otherTab, WM_CLOSE, 1, 0);
-		else
-			++idxt;
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
-// cut off contact name to the option value set via Options->Tabbed messaging
-// some people were requesting this, because really long contact list names
-// are causing extraordinary wide tabs and these are looking ugly and wasting
-// screen space.
-//
-// size = max length of target string
-
-int TSAPI CutContactName(const wchar_t *oldname, wchar_t *newname, size_t size)
-{
-	if ((int)mir_wstrlen(oldname) <= PluginConfig.m_iTabNameLimit)
-		wcsncpy_s(newname, size, oldname, _TRUNCATE);
-	else {
-		wchar_t fmt[30];
-		mir_snwprintf(fmt, L"%%%d.%ds...", PluginConfig.m_iTabNameLimit, PluginConfig.m_iTabNameLimit);
-		mir_snwprintf(newname, size, fmt, oldname);
-	}
-	return 0;
-}
-
-// functions for handling the linked list of struct ContainerWindowData *foo
-
-static TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer)
-{
-	if (!pFirstContainer) {
-		pFirstContainer = pContainer;
-		pFirstContainer->pNext = nullptr;
-		return pFirstContainer;
-	}
-
-	TContainerData *p = pFirstContainer;
-	while (p->pNext != nullptr)
-		p = p->pNext;
-	p->pNext = pContainer;
-	pContainer->pNext = nullptr;
-	return p;
-}
-
-TContainerData* TSAPI FindContainerByName(const wchar_t *name)
-{
-	if (name == nullptr || mir_wstrlen(name) == 0)
-		return nullptr;
-
-	if (M.GetByte("singlewinmode", 0)) // single window mode - always return 0 and force a new container
-		return nullptr;
-
-	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-		if (!wcsncmp(p->m_wszName, name, CONTAINER_NAMELEN))
-			return p;
-
-	// error, didn't find it.
-	return nullptr;
-}
-
-static TContainerData* TSAPI RemoveContainerFromList(TContainerData *pContainer)
-{
-	if (pContainer == pFirstContainer) {
-		if (pContainer->pNext != nullptr)
-			pFirstContainer = pContainer->pNext;
-		else
-			pFirstContainer = nullptr;
-
-		if (pLastActiveContainer == pContainer)     // make sure, we don't reference this container anymore
-			pLastActiveContainer = pFirstContainer;
-
-		return pFirstContainer;
-	}
-
-	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-		if (p->pNext == pContainer) {
-			p->pNext = p->pNext->pNext;
-
-			if (pLastActiveContainer == pContainer)     // make sure, we don't reference this container anymore
-				pLastActiveContainer = pFirstContainer;
-
-			return nullptr;
-		}
-	}
-	return nullptr;
-}
-
-// retrieve the container name for the given contact handle.
-// if none is assigned, return the name of the default container
-
-void TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen)
-{
-	// single window mode using cloned (temporary) containers
-	if (M.GetByte("singlewinmode", 0)) {
-		wcsncpy_s(szName, iNameLen, L"Message Session", _TRUNCATE);
-		return;
-	}
-
-	// use clist group names for containers...
-	if (M.GetByte("useclistgroups", 0)) {
-		wcsncpy_s(szName, iNameLen, ptrW(db_get_wsa(hContact, "CList", "Group", L"default")), _TRUNCATE);
-		return;
-	}
-
-	wcsncpy_s(szName, iNameLen, ptrW(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, L"default")), _TRUNCATE);
-}
-
-void TSAPI DeleteContainer(int iIndex)
-{
-	char szIndex[10];
-	itoa(iIndex, szIndex, 10);
-	ptrW tszContainerName(db_get_wsa(0, CONTAINER_KEY, szIndex));
-	if (tszContainerName == nullptr)
-		return;
-
-	db_set_ws(0, CONTAINER_KEY, szIndex, L"**free**");
-
-	for (auto &hContact : Contacts()) {
-		ptrW tszValue(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
-		if (!mir_wstrcmp(tszValue, tszContainerName))
-			db_unset(hContact, SRMSGMOD_T, CONTAINER_SUBKEY);
-	}
-
-	char szSetting[CONTAINER_NAMELEN + 30];
-	mir_snprintf(szSetting, "%s%d_Flags", CONTAINER_PREFIX, iIndex);
-	db_unset(0, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, "%s%d_Trans", CONTAINER_PREFIX, iIndex);
-	db_unset(0, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, "%s%dwidth", CONTAINER_PREFIX, iIndex);
-	db_unset(0, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, "%s%dheight", CONTAINER_PREFIX, iIndex);
-	db_unset(0, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, "%s%dx", CONTAINER_PREFIX, iIndex);
-	db_unset(0, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, "%s%dy", CONTAINER_PREFIX, iIndex);
-	db_unset(0, SRMSGMOD_T, szSetting);
-}
-
-void TSAPI RenameContainer(int iIndex, const wchar_t *szNew)
-{
-	if (mir_wstrlen(szNew) == 0)
-		return;
-
-	char szIndex[10];
-	itoa(iIndex, szIndex, 10);
-	ptrW tszContainerName(db_get_wsa(0, CONTAINER_KEY, szIndex));
-	if (tszContainerName == nullptr)
-		return;
-
-	db_set_ws(0, CONTAINER_KEY, szIndex, szNew);
-
-	for (auto &hContact : Contacts()) {
-		ptrW tszValue(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
-		if (!mir_wstrcmp(tszValue, tszContainerName))
-			db_set_ws(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, szNew);
-	}
-}
 
 HMENU TSAPI BuildContainerMenu()
 {
@@ -2330,34 +2211,6 @@ HMENU TSAPI BuildContainerMenu()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// flashes the container
-// iMode != 0: turn on flashing
-// iMode == 0: turn off flashing
-
-void TContainerData::FlashContainer(int iMode, int iCount)
-{
-	if (m_flags.m_bNoFlash)                  // container should never flash
-		return;
-
-	FLASHWINFO fwi;
-	fwi.cbSize = sizeof(fwi);
-	fwi.uCount = 0;
-
-	if (iMode) {
-		fwi.dwFlags = FLASHW_ALL;
-		if (m_flags.m_bFlashAlways)
-			fwi.dwFlags |= FLASHW_TIMER;
-		else
-			fwi.uCount = (iCount == 0) ? M.GetByte("nrflash", 4) : iCount;
-		fwi.dwTimeout = M.GetDword("flashinterval", 1000);
-
-	}
-	else fwi.dwFlags = FLASHW_STOP;
-
-	fwi.hwnd = m_hwnd;
-	m_dwFlashingStarted = GetTickCount();
-	FlashWindowEx(&fwi);
-}
 
 void TSAPI CloseAllContainers()
 {
@@ -2373,4 +2226,155 @@ void TSAPI CloseAllContainers()
 	}
 
 	PluginConfig.m_bHideOnClose = fOldHideSetting;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// enumerates tabs and closes all of them, but the one in dat
+
+void TSAPI CloseOtherTabs(HWND hwndTab, CMsgDialog &dat)
+{
+	for (int idxt = 0; idxt < dat.m_pContainer->m_iChilds;) {
+		HWND otherTab = GetTabWindow(hwndTab, idxt);
+		if (otherTab != nullptr && otherTab != dat.GetHwnd())
+			SendMessage(otherTab, WM_CLOSE, 1, 0);
+		else
+			++idxt;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// cut off contact name to the option value set via Options->Tabbed messaging
+// some people were requesting this, because really long contact list names
+// are causing extraordinary wide tabs and these are looking ugly and wasting
+// screen space.
+//
+// size = max length of target string
+
+void TSAPI CutContactName(const wchar_t *oldname, wchar_t *newname, size_t size)
+{
+	if ((int)mir_wstrlen(oldname) <= PluginConfig.m_iTabNameLimit)
+		wcsncpy_s(newname, size, oldname, _TRUNCATE);
+	else {
+		wchar_t fmt[30];
+		mir_snwprintf(fmt, L"%%%d.%ds...", PluginConfig.m_iTabNameLimit, PluginConfig.m_iTabNameLimit);
+		mir_snwprintf(newname, size, fmt, oldname);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void TSAPI DeleteContainer(int iIndex)
+{
+	char szIndex[10];
+	itoa(iIndex, szIndex, 10);
+	ptrW tszContainerName(db_get_wsa(0, CONTAINER_KEY, szIndex));
+	if (tszContainerName == nullptr)
+		return;
+
+	db_set_ws(0, CONTAINER_KEY, szIndex, L"**free**");
+
+	for (auto &hContact : Contacts()) {
+		ptrW tszValue(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
+		if (!mir_wstrcmp(tszValue, tszContainerName))
+			db_unset(hContact, SRMSGMOD_T, CONTAINER_SUBKEY);
+	}
+
+	char szSetting[CONTAINER_NAMELEN + 30];
+	mir_snprintf(szSetting, "%s%d_Flags", CONTAINER_PREFIX, iIndex);
+	db_unset(0, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, "%s%d_Trans", CONTAINER_PREFIX, iIndex);
+	db_unset(0, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, "%s%dwidth", CONTAINER_PREFIX, iIndex);
+	db_unset(0, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, "%s%dheight", CONTAINER_PREFIX, iIndex);
+	db_unset(0, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, "%s%dx", CONTAINER_PREFIX, iIndex);
+	db_unset(0, SRMSGMOD_T, szSetting);
+	mir_snprintf(szSetting, "%s%dy", CONTAINER_PREFIX, iIndex);
+	db_unset(0, SRMSGMOD_T, szSetting);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// retrieve the container name for the given contact handle.
+// if none is assigned, return the name of the default container
+
+void TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen)
+{
+	// single window mode using cloned (temporary) containers
+	if (M.GetByte("singlewinmode", 0)) {
+		wcsncpy_s(szName, iNameLen, L"Message Session", _TRUNCATE);
+		return;
+	}
+
+	// use clist group names for containers...
+	if (M.GetByte("useclistgroups", 0)) {
+		wcsncpy_s(szName, iNameLen, ptrW(db_get_wsa(hContact, "CList", "Group", L"default")), _TRUNCATE);
+		return;
+	}
+
+	wcsncpy_s(szName, iNameLen, ptrW(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, L"default")), _TRUNCATE);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// search the list of tabs and return the tab (by index) which "belongs" to the given
+// hwnd. The hwnd is the handle of a message dialog childwindow. At creation,
+// the dialog handle is stored in the TCITEM.lParam field, because we need
+// to know the owner of the tab.
+//
+// hwndTab: handle of the tab control itself.
+// hwnd: handle of a message dialog.
+//
+// returns the tab index (zero based), -1 if no tab is found (which SHOULD not
+// really happen, but who knows... ;))
+
+int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
+{
+	int iItems = TabCtrl_GetItemCount(hwndTab);
+
+	for (int i = 0; i < iItems; i++) {
+		HWND pDlg = GetTabWindow(hwndTab, i);
+		if (pDlg == hwnd)
+			return i;
+	}
+	return -1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TContainerData* TSAPI FindContainerByName(const wchar_t *name)
+{
+	if (name == nullptr || mir_wstrlen(name) == 0)
+		return nullptr;
+
+	if (M.GetByte("singlewinmode", 0)) // single window mode - always return 0 and force a new container
+		return nullptr;
+
+	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
+		if (!wcsncmp(p->m_wszName, name, CONTAINER_NAMELEN))
+			return p;
+
+	// error, didn't find it.
+	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void TSAPI RenameContainer(int iIndex, const wchar_t *szNew)
+{
+	if (mir_wstrlen(szNew) == 0)
+		return;
+
+	char szIndex[10];
+	itoa(iIndex, szIndex, 10);
+	ptrW tszContainerName(db_get_wsa(0, CONTAINER_KEY, szIndex));
+	if (tszContainerName == nullptr)
+		return;
+
+	db_set_ws(0, CONTAINER_KEY, szIndex, szNew);
+
+	for (auto &hContact : Contacts()) {
+		ptrW tszValue(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
+		if (!mir_wstrcmp(tszValue, tszContainerName))
+			db_set_ws(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, szNew);
+	}
 }
