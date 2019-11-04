@@ -2228,7 +2228,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 	m_bDividerSet = false;
 
 	if (m_pContainer->m_dwFlashingStarted != 0) {
-		FlashContainer(m_pContainer, 0, 0);
+		m_pContainer->FlashContainer(0, 0);
 		m_pContainer->m_dwFlashingStarted = 0;
 	}
 

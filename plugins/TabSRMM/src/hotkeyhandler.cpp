@@ -356,7 +356,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				TContainerData *pContainer = nullptr;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 				if (pContainer) {
-					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS));
+					int iTabs = TabCtrl_GetItemCount(pContainer->m_hwndTabs);
 					if (iTabs == 1)
 						SendMessage(pContainer->m_hwnd, WM_CLOSE, 0, 1);
 					else
@@ -394,7 +394,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
 				if (bNewAero)
-					SetAeroMargins(pCont);
+					pCont->SetAeroMargins();
 				else {
 					MARGINS m = { 0 };
 					if (M.m_pfnDwmExtendFrameIntoClientArea)
@@ -431,8 +431,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ReloadTabConfig();
 
 		for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext) {
-			SendDlgItemMessage(pCont->m_hwnd, IDC_MSGTABS, EM_THEMECHANGED, 0, 0);
-			BroadCastContainer(pCont, EM_THEMECHANGED, 0, 0);
+			SendMessage(pCont->m_hwndTabs, EM_THEMECHANGED, 0, 0);
+			pCont->BroadCastContainer(EM_THEMECHANGED, 0, 0);
 		}
 		break;
 

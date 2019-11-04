@@ -242,7 +242,7 @@ int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-		BroadCastContainer(p, DM_UPDATEPICLAYOUT, wParam, lParam);
+		p->BroadCastContainer(DM_UPDATEPICLAYOUT, wParam, lParam);
 	return 0;
 }
 
@@ -252,7 +252,7 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
-		BroadCastContainer(p, DM_MYAVATARCHANGED, wParam, lParam);
+		p->BroadCastContainer(DM_MYAVATARCHANGED, wParam, lParam);
 	return 0;
 }
 
@@ -271,8 +271,8 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 	NMHDR nmhdr = {};
 	nmhdr.code = TCN_SELCHANGE;
-	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS)) > 1 && !pContainer->m_flags.m_bDeferredTabSelect) {
-		TabCtrl_SetCurSel(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), hwndChild));
+	if (TabCtrl_GetItemCount(pContainer->m_hwndTabs) > 1 && !pContainer->m_flags.m_bDeferredTabSelect) {
+		TabCtrl_SetCurSel(pContainer->m_hwndTabs, GetTabIndexFromHWND(pContainer->m_hwndTabs, hwndChild));
 		SendMessage(pContainer->m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 	}
 	if (!dat->isChat())
@@ -290,7 +290,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 		// all tabs must re-check the layout on activation because adding a tab while
 		// the container was hidden can make this necessary
-		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0);
+		pContainer->BroadCastContainer(DM_CHECKSIZE, 0, 0);
 		if (wp.showCmd == SW_SHOWMAXIMIZED)
 			ShowWindow(pContainer->m_hwnd, SW_SHOWMAXIMIZED);
 		else {
@@ -349,18 +349,17 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	else
 		mir_snwprintf(tabtitle, L"%s", newcontactname);
 
-	HWND hwndTab = GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS);
 	// hide the active tab
 	if (pContainer->m_hwndActive && bActivateTab)
 		ShowWindow(pContainer->m_hwndActive, SW_HIDE);
 
 	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->m_iChilds * 100);
-	int iCount = TabCtrl_GetItemCount(hwndTab);
+	int iCount = TabCtrl_GetItemCount(pContainer->m_hwndTabs);
 
 	pContainer->m_iTabIndex = iCount;
 	if (iCount > 0) {
 		for (int i = iCount - 1; i >= 0; i--) {
-			HWND hwnd = GetTabWindow(hwndTab, i);
+			HWND hwnd = GetTabWindow(pContainer->m_hwndTabs, i);
 			CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			if (dat) {
 				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
@@ -375,11 +374,11 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	item.mask = TCIF_TEXT | TCIF_IMAGE;
 	item.iImage = 0;
 	item.cchTextMax = _countof(tabtitle);
-	int iTabId = TabCtrl_InsertItem(hwndTab, pContainer->m_iTabIndex, &item);
+	int iTabId = TabCtrl_InsertItem(pContainer->m_hwndTabs, pContainer->m_iTabIndex, &item);
 
-	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);
+	SendMessage(pContainer->m_hwndTabs, EM_REFRESHWITHOUTCLIP, 0, 0);
 	if (bActivateTab)
-		TabCtrl_SetCurSel(hwndTab, iTabId);
+		TabCtrl_SetCurSel(pContainer->m_hwndTabs, iTabId);
 	
 	CMsgDialog *pWindow = new CMsgDialog(IDD_MSGSPLITNEW, hContact);
 	pWindow->m_iTabID = iTabId;
@@ -391,7 +390,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	pWindow->m_hDbEventFirst = hdbEvent;
 	if (pszInitialText)
 		pWindow->wszInitialText = (bIsUnicode) ? mir_wstrdup((const wchar_t*)pszInitialText) : mir_a2u(pszInitialText);
-	pWindow->SetParent(hwndTab);
+	pWindow->SetParent(pContainer->m_hwndTabs);
 	pWindow->Create();
 
 	HWND hwndNew = pWindow->GetHwnd();
@@ -412,7 +411,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			if (pContainer->m_flags.m_bNoFlash)
 				pContainer->SetIcon(0, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			else
-				FlashContainer(pContainer, 1, 0);
+				pContainer->FlashContainer(1, 0);
 		}
 	}
 
@@ -435,7 +434,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->m_hwnd, &wp);
 
-		BroadCastContainer(pContainer, DM_CHECKSIZE, 0, 0); // make sure all tabs will re-check layout on activation
+		pContainer->BroadCastContainer(DM_CHECKSIZE, 0, 0); // make sure all tabs will re-check layout on activation
 		if (wp.showCmd == SW_SHOWMAXIMIZED)
 			ShowWindow(pContainer->m_hwnd, SW_SHOWMAXIMIZED);
 		else {

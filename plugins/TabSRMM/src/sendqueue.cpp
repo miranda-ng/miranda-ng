@@ -377,7 +377,7 @@ void SendQueue::showErrorControls(CMsgDialog *dat, const int showCmd) const
 		dat->m_hTabIcon = PluginConfig.g_iconErr;
 		item.mask = TCIF_IMAGE;
 		item.iImage = 0;
-		TabCtrl_SetItem(GetDlgItem(dat->m_pContainer->m_hwnd, IDC_MSGTABS), dat->m_iTabID, &item);
+		TabCtrl_SetItem(dat->m_pContainer->m_hwndTabs, dat->m_iTabID, &item);
 		dat->m_bErrorState = true;
 	}
 	else {

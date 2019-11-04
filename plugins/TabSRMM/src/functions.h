@@ -72,7 +72,6 @@ void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
 
 HWND  TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTAb, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent = 0, bool bIsWchar = false, const char *pszInitialText = nullptr);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
-void  TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iNum);
 void  TSAPI CreateImageList(bool bInitial);
 
 TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName);
@@ -84,16 +83,12 @@ HWND  TSAPI GetTabWindow(HWND hwndTab, int idx);
 int   TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt);
 void  TSAPI CloseOtherTabs(HWND hwndTab, CMsgDialog &dat);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
-void  TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc);
-void  TSAPI ReflashContainer(TContainerData *pContainer);
 
 void  TSAPI CloseAllContainers();
 void  TSAPI DeleteContainer(int iIndex);
 void  TSAPI RenameContainer(int iIndex, const wchar_t *newName);
 void  TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen);
 HMENU TSAPI BuildContainerMenu();
-void  TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam);
-void  TSAPI SetAeroMargins(TContainerData *pContainer);
 
 int TSAPI MessageWindowOpened(MCONTACT hContact, HWND hwnd);
 

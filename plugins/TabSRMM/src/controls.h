@@ -36,7 +36,7 @@ public:
 		NR_BUTTONS = 8
 	};
 
-	CMenuBar(HWND hwndParent, const TContainerData *pContainer);
+	CMenuBar(const TContainerData *pContainer);
 	~CMenuBar();
 
 	const RECT&  getClientRect();

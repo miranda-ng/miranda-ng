@@ -162,7 +162,7 @@ bool CMsgDialog::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_CLOSE_OTHER:
-		CloseOtherTabs(GetDlgItem(m_pContainer->m_hwnd, IDC_MSGTABS), *this);
+		CloseOtherTabs(m_pContainer->m_hwndTabs, *this);
 		return true;
 	}
 	return false;
@@ -757,21 +757,11 @@ LRESULT CMsgDialog::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 	POINT pt;
 	GetCursorPos(&pt);
 
-	RECT rc, rc1;
+	RECT rc;
 	GetWindowRect(m_message.GetHwnd(), &rc);
 	if (PtInRect(&rc, pt))
 		return 1;
 
-	if (m_pContainer->m_flags.m_bSideBar) {
-		GetWindowRect(GetDlgItem(m_pContainer->m_hwnd, IDC_SIDEBARUP), &rc);
-		GetWindowRect(GetDlgItem(m_pContainer->m_hwnd, IDC_SIDEBARDOWN), &rc1);
-		rc.bottom = rc1.bottom;
-		if (PtInRect(&rc, pt)) {
-			short amount = (short)(HIWORD(wParam));
-			SendMessage(m_pContainer->m_hwnd, WM_COMMAND, MAKELONG(amount > 0 ? IDC_SIDEBARUP : IDC_SIDEBARDOWN, 0), IDC_SRMM_MESSAGE);
-			return 0;
-		}
-	}
 	if (isChat()) {					// scroll nick list by just hovering it
 		RECT rcNicklist;
 		GetWindowRect(m_nickList.GetHwnd(), &rcNicklist);
@@ -795,9 +785,8 @@ LRESULT CMsgDialog::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	HWND hwndTab = GetDlgItem(m_pContainer->m_hwnd, IDC_MSGTABS);
-	if (GetTabItemFromMouse(hwndTab, &pt) != -1) {
-		SendMessage(hwndTab, WM_MOUSEWHEEL, wParam, -1);
+	if (GetTabItemFromMouse(m_pContainer->m_hwndTabs, &pt) != -1) {
+		SendMessage(m_pContainer->m_hwndTabs, WM_MOUSEWHEEL, wParam, -1);
 		return 0;
 	}
 	return 1;
@@ -964,7 +953,7 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 			else
 				m_pContainer->UpdateTitle(0, dat_active);
 			if (!m_pContainer->m_flags.m_bNoFlash && PluginConfig.m_FlashOnMTN)
-				ReflashContainer(m_pContainer);
+				m_pContainer->ReflashContainer();
 		}
 	}
 	else if (m_bShowTyping == 2) {
@@ -988,7 +977,7 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 			SetWindowText(hwndContainer, m_wszStatusBar);
 			m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
 			if (!m_pContainer->m_flags.m_bNoFlash && PluginConfig.m_FlashOnMTN)
-				ReflashContainer(m_pContainer);
+				m_pContainer->ReflashContainer();
 		}
 
 		if (m_pContainer->m_hwndActive != m_hwnd) {
@@ -1193,7 +1182,7 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	if (!bDisableNotify && !bIsStatusChangeEvent)
 		if (!IsActive() && !(dbei.flags & DBEF_SENT)) {
 			if (!m_pContainer->m_flags.m_bNoFlash && !m_pContainer->IsActive())
-				FlashContainer(m_pContainer, 1, 0);
+				m_pContainer->FlashContainer(1, 0);
 			m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
 		}

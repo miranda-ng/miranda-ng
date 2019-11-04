@@ -28,7 +28,8 @@
 
 #include "stdafx.h"
 
-TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
+TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] =
+{
 	{
 		LPGENW("Like tabs, vertical text orientation"),
 		26, 30,
@@ -134,19 +135,17 @@ void CSideBarButton::Show(const int showCmd) const
  */
 const SIZE& CSideBarButton::measureItem()
 {
-	SIZE	 sz;
-
 	if (m_sideBarLayout->pfnMeasureItem)
 		m_sideBarLayout->pfnMeasureItem(this);        // use the current layout's function, if available, else use default
 	else {
 		HDC dc = ::GetDC(m_hwnd);
-		wchar_t	 tszLabel[255];
-
 		HFONT oldFont = reinterpret_cast<HFONT>(::SelectObject(dc, ::GetStockObject(DEFAULT_GUI_FONT)));
 
+		wchar_t tszLabel[255];
 		wcsncpy_s(tszLabel, m_dat->m_wszTitle, _TRUNCATE);
-		::GetTextExtentPoint32(dc, tszLabel, (int)mir_wstrlen(tszLabel), &sz);
 
+		SIZE sz;
+		::GetTextExtentPoint32(dc, tszLabel, (int)mir_wstrlen(tszLabel), &sz);
 		sz.cx += 28;
 		if (m_dat->m_pContainer->m_flagsEx.m_bTabCloseButton)
 			sz.cx += 20;
@@ -161,25 +160,25 @@ const SIZE& CSideBarButton::measureItem()
 	}
 	return(m_sz);
 }
+
 /**
  * Render the button item. Callback from the button window procedure
  *
  * @param ctl    TSButtonCtrl *: pointer to the private button data structure
  * @param hdc    HDC: device context for painting
  */
+
 void CSideBarButton::RenderThis(const HDC hdc) const
 {
 	RECT rc;
-	LONG cx, cy;
-	bool fVertical = (m_sideBarLayout->dwFlags & CSideBar::SIDEBARLAYOUT_VERTICALORIENTATION) ? true : false;
-	HBITMAP hbmMem, hbmOld;
-
 	::GetClientRect(m_hwnd, &rc);
 
+	bool bVertical = (m_sideBarLayout->dwFlags & CSideBar::SIDEBARLAYOUT_VERTICALORIENTATION) ? true : false;
 	if (m_id == IDC_SIDEBARUP || m_id == IDC_SIDEBARDOWN)
-		fVertical = false;
+		bVertical = false;
 
-	if (fVertical) {
+	int cx, cy;
+	if (bVertical) {
 		cx = rc.bottom;
 		cy = rc.right;
 	}
@@ -190,15 +189,15 @@ void CSideBarButton::RenderThis(const HDC hdc) const
 
 	HDC hdcMem = ::CreateCompatibleDC(hdc);
 
-	if (fVertical) {
+	HBITMAP hbmMem;
+	if (bVertical) {
 		RECT	rcFlipped = { 0, 0, cx, cy };
 		hbmMem = CSkin::CreateAeroCompatibleBitmap(rcFlipped, hdcMem);
 		rc = rcFlipped;
 	}
 	else hbmMem = CSkin::CreateAeroCompatibleBitmap(rc, hdcMem);
 
-	hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbmMem));
-
+	HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbmMem));
 	HFONT hFontOld = reinterpret_cast<HFONT>(::SelectObject(hdcMem, ::GetStockObject(DEFAULT_GUI_FONT)));
 
 	m_sideBarLayout->pfnBackgroundRenderer(hdcMem, &rc, this);
@@ -206,12 +205,9 @@ void CSideBarButton::RenderThis(const HDC hdc) const
 
 	::SelectObject(hdcMem, hFontOld);
 
-	/*
-	 * for vertical tabs, we did draw to a rotated rectangle, so we now must rotate the
-	 * final bitmap back to it's original orientation
-	 */
-
-	if (fVertical) {
+	// for vertical tabs, we did draw to a rotated rectangle, so we now must rotate the
+	// final bitmap back to it's original orientation
+	if (bVertical) {
 		::SelectObject(hdcMem, hbmOld);
 
 		FIBITMAP *fib = FreeImage_CreateDIBFromHBITMAP(hbmMem);
@@ -243,6 +239,7 @@ void CSideBarButton::RenderThis(const HDC hdc) const
  * @param hdc	 : target device context
  * @param rcItem : rectangle to render into
  */
+
 void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 {
 	HICON	hIcon;
@@ -266,9 +263,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 
 		rc.left += (iSize + 7);
 
-		/*
-		 * draw the close button if enabled
-		 */
+		// draw the close button if enabled
 		if (m_sideBar->getContainer()->m_flagsEx.m_bTabCloseButton) {
 			if (m_sideBar->getHoveredClose() != this)
 				CSkin::m_default_bf.SourceConstantAlpha = 150;
@@ -427,10 +422,7 @@ void CSideBar::setVisible(bool fNewVisible)
 {
 	m_isVisible = fNewVisible;
 
-	/*
-	 * only needed on hiding. Layout() will do it when showing it
-	 */
-
+	// only needed on hiding. Layout() will do it when showing it
 	if (!m_isVisible)
 		showAll(SW_HIDE);
 	else {
@@ -489,16 +481,12 @@ void CSideBar::removeAll()
  */
 void CSideBar::populateAll()
 {
-	HWND	hwndTab = ::GetDlgItem(m_pContainer->m_hwnd, IDC_MSGTABS);
-	if (hwndTab == nullptr)
-		return;
-
-	int iItems = (int)TabCtrl_GetItemCount(hwndTab);
+	int iItems = (int)TabCtrl_GetItemCount(m_pContainer->m_hwndTabs);
 
 	m_iTopButtons = 0;
 
 	for (int i = 0; i < iItems; i++) {
-		HWND hDlg = GetTabWindow(hwndTab, i);
+		HWND hDlg = GetTabWindow(m_pContainer->m_hwndTabs, i);
 		if (hDlg == 0 || !IsWindow(hDlg))
 			continue;
 
@@ -623,7 +611,7 @@ void CSideBar::scrollIntoView(const CSideBarButton *item)
 			fNeedLayout = true;
 		}
 		else {
-			if (spaceUsed > rc.bottom) {				// partially or not at all visible at the bottom
+			if (spaceUsed > rc.bottom) { // partially or not at all visible at the bottom
 				fNeedLayout = true;
 				m_firstVisibleOffset = spaceUsed - rc.bottom;
 			}
@@ -868,6 +856,7 @@ LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		HDC hdc = (HDC)wParam;
 		RECT rc;
 		::GetClientRect(hwnd, &rc);
+		
 		if (CSkin::m_skinEnabled) {
 			CSkinItem *item = &SkinItems[ID_EXTBKSIDEBARBG];
 
@@ -877,8 +866,8 @@ LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				CSkin::DrawItem(hdc, &rc, item);
 		}
 		else if (M.isAero() || M.isVSThemed()) {
-			HDC		hdcMem;
-			HANDLE  hbp = nullptr;
+			HDC hdcMem;
+			HANDLE hbp = nullptr;
 			HBITMAP hbm, hbmOld;
 
 			if (CMimAPI::m_haveBufferedPaint) {

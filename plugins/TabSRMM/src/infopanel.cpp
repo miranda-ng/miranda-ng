@@ -150,7 +150,7 @@ void CInfoPanel::setHeight(LONG newHeight, bool fBroadcast)
 			if (!m_dat->m_pContainer->m_pSettings->fPrivate)
 				Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
 			else
-				::BroadCastContainer(m_dat->m_pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
+				m_dat->m_pContainer->BroadCastContainer(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
 		}
 		saveHeight();
 	}
@@ -204,7 +204,7 @@ void CInfoPanel::showHide() const
 
 		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
 	}
-	::SetAeroMargins(m_dat->m_pContainer);
+	m_dat->m_pContainer->SetAeroMargins();
 	if (M.isAero())
 		::InvalidateRect(GetParent(hwndDlg), nullptr, FALSE);
 	m_dat->DM_ScrollToBottom(0, 1);
@@ -1196,20 +1196,20 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					if (!m_dat->m_pContainer->m_pSettings->fPrivate)
 						Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 					else
-						::BroadCastContainer(m_dat->m_pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
+						m_dat->m_pContainer->BroadCastContainer(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 				}
 				else {
 					if (!m_dat->m_pContainer->m_pSettings->fPrivate)
 						Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
 					else
-						::BroadCastContainer(m_dat->m_pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, 0);
+						m_dat->m_pContainer->BroadCastContainer(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
 				}
 				break;
 			}
 
 			if (m_height != lOldHeight) {
 				::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
-				::SetAeroMargins(m_dat->m_pContainer);
+				m_dat->m_pContainer->SetAeroMargins();
 				::RedrawWindow(m_dat->GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 				::RedrawWindow(GetParent(m_dat->GetHwnd()), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 			}

@@ -42,7 +42,7 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
 				p->Configure();
 			else
 				SendMessage(p->m_hwnd, WM_SIZE, 0, 1);
-			BroadCastContainer(p, DM_SETINFOPANEL, 0, 0);
+			p->BroadCastContainer(DM_SETINFOPANEL, 0, 0);
 		}
 	}
 }
@@ -62,7 +62,7 @@ void TContainerData::ApplySetting(bool fForceResize)
 	if (fForceResize)
 		SendMessage(m_hwnd, WM_SIZE, 0, 1);
 
-	BroadCastContainer(this, WM_CBD_UPDATED, 0, 0);
+	BroadCastContainer(WM_CBD_UPDATED, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -314,7 +314,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 
 			pContainer->Configure();
-			BroadCastContainer(pContainer, DM_SETINFOPANEL, 0, 0);
+			pContainer->BroadCastContainer(DM_SETINFOPANEL, 0, 0);
 
 			ShowWindow(pContainer->m_hwnd, SW_HIDE);
 			{

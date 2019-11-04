@@ -48,13 +48,13 @@ static int resetLP(WPARAM, LPARAM, LPARAM obj)
 	return 0;
 }
 
-CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
+CMenuBar::CMenuBar(const TContainerData *pContainer)
 {
 	m_pContainer = const_cast<TContainerData *>(pContainer);
 
 	if (m_MimIcon == nullptr) {
-		HDC		hdc = ::GetDC(m_pContainer->m_hwnd);
-		HANDLE 	hIcon = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
+		HDC hdc = ::GetDC(m_pContainer->m_hwnd);
+		HANDLE hIcon = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 
 		HDC hdcTemp = ::CreateCompatibleDC(hdc);
 
@@ -71,7 +71,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 	m_MimIconRefCount++;
 
 	m_hwndToolbar = ::CreateWindowEx(WS_EX_TOOLWINDOW, TOOLBARCLASSNAME, nullptr, WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_LIST |/*CCS_NOPARENTALIGN|*/CCS_NODIVIDER | CCS_TOP,
-		0, 0, 0, 0, hwndParent, nullptr, g_plugin.getInst(), nullptr);
+		0, 0, 0, 0, m_pContainer->m_hwnd, nullptr, g_plugin.getInst(), nullptr);
 
 	::SendMessage(m_hwndToolbar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 

@@ -2409,7 +2409,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				DeleteDC(hdcMem);
 			}
 			if (!m_fLimitedUpdate)
-				SetAeroMargins(m_pContainer);
+				m_pContainer->SetAeroMargins();
 		}
 		return 1;
 

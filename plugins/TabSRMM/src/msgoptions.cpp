@@ -478,9 +478,8 @@ public:
 		ReloadTabConfig();
 
 		for (TContainerData* p = pFirstContainer; p; p = p->pNext) {
-			HWND hwndTab = GetDlgItem(p->m_hwnd, IDC_MSGTABS);
-			TabCtrl_SetPadding(hwndTab, xpad.GetPosition(), ypad.GetPosition());
-			RedrawWindow(hwndTab, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE);
+			TabCtrl_SetPadding(p->m_hwndTabs, xpad.GetPosition(), ypad.GetPosition());
+			::RedrawWindow(p->m_hwndTabs, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE);
 		}
 		return true;
 	}

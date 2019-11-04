@@ -213,14 +213,15 @@ struct TContainerData : public MZeroedObject
 	TContainerFlags m_flags;
 	TContainerFlagsEx m_flagsEx;
 
-	HWND     m_hwndActive;		// active message window
-	HWND     m_hwnd;				// the container handle
-	int      m_iTabIndex;			// next tab id
+	HWND     m_hwndActive; // active message window
+	HWND     m_hwnd;       // the container handle
+	HWND     m_hwndTabs;   // tab control handle
+	int      m_iTabIndex;  // next tab id
 	int	   m_iChilds;
 	int      m_iContainerIndex;
 	bool	   m_bHidden;
-	HWND     m_hwndTip;			// tab - tooltips...
-	BOOL     m_bDontSmartClose;      // if set, do not search and select the next possible tab after closing one.
+	HWND     m_hwndTip;         // tab - tooltips...
+	BOOL     m_bDontSmartClose; // if set, do not search and select the next possible tab after closing one.
 	LONG     m_uChildMinHeight;
 	int      m_tBorder;
 	int	   m_tBorder_outer_left, m_tBorder_outer_right, m_tBorder_outer_top, m_tBorder_outer_bottom;
@@ -229,8 +230,8 @@ struct TContainerData : public MZeroedObject
 	HWND     m_hwndStatus;
 	int      m_statusBarHeight;
 	DWORD    m_dwLastActivity;
-	int      m_hIcon;                	// current window icon stick indicator
-	HICON	   m_hIconTaskbarOverlay;	// contains a "sticky" taskbar overlay (e.g. new message icon)
+	int      m_hIcon;               // current window icon stick indicator
+	HICON	   m_hIconTaskbarOverlay; // contains a "sticky" taskbar overlay (e.g. new message icon)
 	DWORD    m_dwFlashingStarted;
 	HWND     m_hWndOptions;
 	BOOL     m_bSizingLoop;
@@ -264,15 +265,22 @@ struct TContainerData : public MZeroedObject
 	wchar_t m_wszName[CONTAINER_NAMELEN + 4];		// container name
 	wchar_t m_szRelThemeFile[MAX_PATH], m_szAbsThemeFile[MAX_PATH];
 
+	void AdjustTabClientRect(RECT &rc);
 	void ApplySetting(bool fForceResize = false);
+	void BroadCastContainer(UINT message, WPARAM wParam, LPARAM lParam) const;
 	void CloseTabByMouse(POINT *);
 	void Configure();
+	void FlashContainer(int iMode, int iCount);
+	void InitDialog(HWND);
 	void InitRedraw(void);
 	void LoadOverrideTheme(void);
 	void LoadThemeDefaults(void);
 	void QueryPending();
+	void ReflashContainer(void);
+	void Resize(bool, int newWidth);
 	void RestoreWindowPos(void);
 	void SelectTab(int iCommand, int idx = 0);
+	void SetAeroMargins(void);
 	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
 	void UpdateTabs(void);
 	void UpdateTitle(MCONTACT, class CMsgDialog* = nullptr);

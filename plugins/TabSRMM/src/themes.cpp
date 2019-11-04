@@ -2356,7 +2356,7 @@ void CSkin::initAeroEffect()
 	}
 
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-		InvalidateRect(GetDlgItem(p->m_hwnd, IDC_MSGTABS), nullptr, TRUE);
+		InvalidateRect(p->m_hwndTabs, nullptr, TRUE);
 		InvalidateRect(p->m_hwnd, nullptr, TRUE);
 		if (IsWindow(GetDlgItem(p->m_hwnd, 5000)))
 			InvalidateRect(GetDlgItem(p->m_hwnd, 5000), nullptr, TRUE);

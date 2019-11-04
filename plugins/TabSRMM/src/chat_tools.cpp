@@ -222,7 +222,6 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 		Skin_PlaySound(p->sound);
 
 	if (dat) {
-		HWND hwndTab = GetParent(si->pDlg->GetHwnd());
 		BOOL bForcedIcon = (p->hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || p->hNotifyIcon == g_chatApi.hIcons[ICON_MESSAGE]);
 
 		if ((p->iEvent & si->iLogTrayFlags) || bForcedIcon) {
@@ -245,9 +244,9 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 		// autoswitch tab..
 		if (p->bMustAutoswitch) {
 			if ((IsIconic(dat->m_pContainer->m_hwnd)) && !IsZoomed(dat->m_pContainer->m_hwnd) && PluginConfig.m_bAutoSwitchTabs && dat->m_pContainer->m_hwndActive != si->pDlg->GetHwnd()) {
-				int iItem = GetTabIndexFromHWND(hwndTab, si->pDlg->GetHwnd());
+				int iItem = GetTabIndexFromHWND(dat->m_pContainer->m_hwndTabs, si->pDlg->GetHwnd());
 				if (iItem >= 0) {
-					TabCtrl_SetCurSel(hwndTab, iItem);
+					TabCtrl_SetCurSel(dat->m_pContainer->m_hwndTabs, iItem);
 					ShowWindow(dat->m_pContainer->m_hwndActive, SW_HIDE);
 					dat->m_pContainer->m_hwndActive = si->pDlg->GetHwnd();
 					dat->m_pContainer->UpdateTitle(dat->m_hContact);
@@ -259,7 +258,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 		// flash window if it is not focused
 		if (p->bMustFlash && p->bInactive)
 			if (!dat->m_pContainer->m_flags.m_bNoFlash)
-				FlashContainer(dat->m_pContainer, 1, 0);
+				dat->m_pContainer->FlashContainer(1, 0);
 
 		if (p->hNotifyIcon && p->bInactive && ((p->iEvent & si->iLogTrayFlags) || bForcedIcon)) {
 			if (p->bMustFlash)
