@@ -882,9 +882,10 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 					else                                      role = ROLE_NONE;
 				}
 
-				if ((role != ROLE_NONE) && (JabberGcGetStatus(r) != JabberGcGetStatus(affiliation, role))) {
+				if (r->m_role != ROLE_NONE && JabberGcGetStatus(r) != JabberGcGetStatus(affiliation, role)) {
 					GcLogUpdateMemberStatus(item, resource, nick, nullptr, GC_EVENT_REMOVESTATUS, nullptr);
-					if (!newRes) newRes = GC_EVENT_ADDSTATUS;
+					if (!newRes)
+						newRes = GC_EVENT_ADDSTATUS;
 				}
 
 				if (affiliation != r->m_affiliation) {

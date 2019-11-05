@@ -97,7 +97,7 @@ static TRoleOrAffiliationInfo sttRoleItems[] =
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberGcInit - initializes the new chat
 
-static const char *sttStatuses[] = { LPGEN("Owners"), LPGEN("Moderators"),  LPGEN("Participants"), LPGEN("Visitors") };
+static const char *sttStatuses[] = { LPGEN("Visitors"), LPGEN("Participants"), LPGEN("Moderators"), LPGEN("Owners") };;
 
 int JabberGcGetStatus(JABBER_GC_AFFILIATION a, JABBER_GC_ROLE r)
 {
