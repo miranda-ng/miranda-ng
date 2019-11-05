@@ -72,9 +72,9 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 	LIST<JSONNode> arNodes(10, compareMsgHistory);
 	int iNumMessages = 0;
-	for (auto it = root.begin(); it != root.end(); ++it, ++iNumMessages) {
-		JSONNode &p = *it;
-		arNodes.insert(&p);
+	for (auto &it : root) {
+		arNodes.insert(&it);
+		iNumMessages++;
 	}
 
 	for (auto &it : arNodes) {

@@ -77,20 +77,8 @@ GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 {
 	SnowFlake guildId = ::getId(pRoot["guild_id"]);
-	if (guildId == 0) {
-		// private channel, created for a contact
-		const JSONNode &members = pRoot["recipients"];
-		for (auto it = members.begin(); it != members.end(); ++it) {
-			bool bNewUser = FindUser(::getId((*it)["id"])) == nullptr;
-			CDiscordUser *pUser = PrepareUser(*it);
-			pUser->bIsPrivate = true;
-			pUser->lastMsgId = ::getId(pRoot["last_message_id"]);
-			pUser->channelId = ::getId(pRoot["id"]);
-			setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
-			if (bNewUser)
-				setWord(pUser->hContact, "ApparentMode", ID_STATUS_OFFLINE);
-		}
-	}
+	if (guildId == 0)
+		PreparePrivateChannel(pRoot);
 	else {
 		// group channel for a guild
 		CDiscordGuild *pGuild = FindGuild(guildId);
@@ -495,57 +483,27 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 
 	m_szGatewaySessionId = pRoot["session_id"].as_mstring();
 
-	const JSONNode &guilds = pRoot["guilds"];
-	for (auto it = guilds.begin(); it != guilds.end(); ++it)
-		ProcessGuild(*it);
+	for (auto &it : pRoot["guilds"])
+		ProcessGuild(it);
 
-	const JSONNode &relations = pRoot["relationships"];
-	for (auto it = relations.begin(); it != relations.end(); ++it) {
-		const JSONNode &p = *it;
-
-		CDiscordUser *pUser = PrepareUser(p["user"]);
-		ProcessType(pUser, p);
+	for (auto &it : pRoot["relationships"]) {
+		CDiscordUser *pUser = PrepareUser(it["user"]);
+		ProcessType(pUser, it);
 	}
 
-	const JSONNode &pStatuses = pRoot["presences"];
-	for (auto it = pStatuses.begin(); it != pStatuses.end(); ++it) {
-		const JSONNode &p = *it;
-
-		CDiscordUser *pUser = FindUser(::getId(p["user"]["id"]));
+	for (auto &it : pRoot["presences"]) {
+		CDiscordUser *pUser = FindUser(::getId(it["user"]["id"]));
 		if (pUser != nullptr)
-			setWord(pUser->hContact, "Status", StrToStatus(p["status"].as_mstring()));
+			setWord(pUser->hContact, "Status", StrToStatus(it["status"].as_mstring()));
 	}
 
-	const JSONNode &channels = pRoot["private_channels"];
-	for (auto it = channels.begin(); it != channels.end(); ++it) {
-		const JSONNode &p = *it;
+	for (auto &it : pRoot["private_channels"])
+		PreparePrivateChannel(it);
 
-		CDiscordUser *pUser = nullptr;
-		const JSONNode &recipients = p["recipients"];
-		for (auto it2 = recipients.begin(); it2 != recipients.end(); ++it2)
-			pUser = PrepareUser(*it2);
-
-		if (pUser == nullptr)
-			continue;
-		
-		CMStringW wszChannelId = p["id"].as_mstring();
-		pUser->channelId = _wtoi64(wszChannelId);
-		pUser->lastMsgId = ::getId(p["last_message_id"]);
-		pUser->bIsPrivate = true;
-
-		setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
-
-		SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
-		if (pUser->lastMsgId > oldMsgId)
-			RetrieveHistory(pUser, MSG_AFTER, oldMsgId, 99);
-	}
-
-	const JSONNode &readState = pRoot["read_state"];
-	for (auto it = readState.begin(); it != readState.end(); ++it) {
-		const JSONNode &p = *it;
-		CDiscordUser *pUser = FindUserByChannel(::getId(p["id"]));
+	for (auto &it : pRoot["read_state"]) {
+		CDiscordUser *pUser = FindUserByChannel(::getId(it["id"]));
 		if (pUser != nullptr)
-			pUser->lastReadId = ::getId(p["last_message_id"]);
+			pUser->lastReadId = ::getId(it["last_message_id"]);
 	}
 }
 

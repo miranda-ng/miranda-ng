@@ -150,17 +150,16 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
 	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);
 
-	const JSONNode &roles = p["roles"];
-	for (auto itr = roles.begin(); itr != roles.end(); ++itr)
-		ProcessRole(pGuild, *itr);
+	for (auto &it : p["roles"])
+		ProcessRole(pGuild, it);
+
 	BuildStatusList(pGuild, si);
 
 	for (auto &it : pGuild->arChatUsers)
 		AddGuildUser(pGuild, *it);
 
-	const JSONNode &channels = p["channels"];
-	for (auto itc = channels.begin(); itc != channels.end(); ++itc)
-		ProcessGuildChannel(pGuild, *itc);
+	for (auto &it : p["channels"])
+		ProcessGuildChannel(pGuild, it);
 
 	if (m_bUseGroupchats)
 		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
@@ -265,11 +264,8 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 	LIST<CDiscordGuildMember> newMembers(100);
 
 	// store all guild members
-	const JSONNode &pMembers = pRoot["members"];
-	for (auto it = pMembers.begin(); it != pMembers.end(); ++it) {
-		const JSONNode &m = *it;
-
-		CMStringW wszUserId = m["user"]["id"].as_mstring();
+	for (auto &it : pRoot["members"]) {
+		CMStringW wszUserId = it["user"]["id"].as_mstring();
 		SnowFlake userId = _wtoi64(wszUserId);
 		CDiscordGuildMember *pm = pGuild->FindUser(userId);
 		if (pm == nullptr) {
@@ -278,17 +274,16 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 			newMembers.insert(pm);
 		}
 
-		pm->wszNick = m["nick"].as_mstring();
+		pm->wszNick = it["nick"].as_mstring();
 		if (pm->wszNick.IsEmpty())
-			pm->wszNick = m["user"]["username"].as_mstring() + L"#" + m["user"]["discriminator"].as_mstring();
+			pm->wszNick = it["user"]["username"].as_mstring() + L"#" + it["user"]["discriminator"].as_mstring();
 
 		if (userId == pGuild->ownerId)
 			pm->wszRole = L"@owner";
 		else {
 			CDiscordRole *pRole = nullptr;
-			const JSONNode &pRoles = m["roles"];
-			for (auto itr = pRoles.begin(); itr != pRoles.end(); ++itr) {
-				SnowFlake roleId = ::getId(*itr);
+			for (auto &itr : it["roles"]) {
+				SnowFlake roleId = ::getId(itr);
 				if (pRole = pGuild->arRoles.find((CDiscordRole*)&roleId))
 					break;
 			}
@@ -298,12 +293,10 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 	}
 
 	// parse online statuses
-	const JSONNode &pStatuses = pRoot["presences"];
-	for (auto it = pStatuses.begin(); it != pStatuses.end(); ++it) {
-		const JSONNode &s = *it;
-		CDiscordGuildMember *gm = pGuild->FindUser(::getId(s["user"]["id"]));
+	for (auto &it : pRoot["presences"]) {
+		CDiscordGuildMember *gm = pGuild->FindUser(::getId(it["user"]["id"]));
 		if (gm != nullptr)
-			gm->iStatus = StrToStatus(s["status"].as_mstring());
+			gm->iStatus = StrToStatus(it["status"].as_mstring());
 	}
 
 	for (auto &pm : newMembers)
