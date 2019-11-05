@@ -34,8 +34,8 @@ static int compareChatUsers(const CDiscordGuildMember *p1, const CDiscordGuildMe
 	return compareInt64(p1->userId, p2->userId);
 }
 
-CDiscordGuild::CDiscordGuild(SnowFlake _id)
-	: id(_id),
+CDiscordGuild::CDiscordGuild(SnowFlake _id) :
+	id(_id),
 	arChannels(10, compareUsers),
 	arChatUsers(30, compareChatUsers),
 	arRoles(10, compareRoles)

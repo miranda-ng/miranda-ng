@@ -363,7 +363,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		if (!edited.isnull())
 			wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
 
-		if (pUser->bIsPrivate) {
+		if (pUser->bIsPrivate && !pUser->bIsGroup) {
 			// if a message has myself as an author, add some flags
 			PROTORECVEVENT recv = {};
 			if (bOurMessage)
@@ -387,12 +387,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 			}
 
 			CDiscordGuild *pGuild = pUser->pGuild;
-			if (pGuild == nullptr) {
-				debugLogA("message to unknown guild ignored");
-				return;
-			}
-
-			if (userId != 0) {
+			if (pGuild != nullptr && userId != 0) {
 				CDiscordGuildMember *pm = pGuild->FindUser(userId);
 				if (pm == nullptr) {
 					pm = new CDiscordGuildMember(userId);

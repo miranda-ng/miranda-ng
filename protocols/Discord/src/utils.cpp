@@ -135,14 +135,71 @@ CDiscordUser* CDiscordProto::FindUserByChannel(SnowFlake channelId)
 void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 {
 	CDiscordUser *pUser = nullptr;
-	for (auto &it : root["recipients"])
-		pUser = PrepareUser(it);
-
-	if (pUser == nullptr)
-		return;
 
 	CMStringW wszChannelId = root["id"].as_mstring();
-	pUser->channelId = _wtoi64(wszChannelId);
+	SnowFlake channelId = _wtoi64(wszChannelId);
+
+	int type = root["type"].as_int();
+	switch (type) {
+	case 1: // single channel
+		for (auto &it : root["recipients"])
+			pUser = PrepareUser(it);
+		if (pUser == nullptr) {
+			debugLogA("Invalid recipients list, exiting");
+			return;
+		}
+		break;
+
+	case 3: // private groupchat
+		if ((pUser = FindUserByChannel(channelId)) == nullptr) {
+			pUser = new CDiscordUser(channelId);
+			arUsers.insert(pUser);
+		}
+		pUser->bIsGroup = true;
+		pUser->wszUsername = wszChannelId;
+		pUser->wszChannelName = root["name"].as_mstring();
+		{
+			SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
+			pUser->hContact = si->hContact;
+
+			Chat_AddGroup(si, LPGENW("Owners"));
+			Chat_AddGroup(si, LPGENW("Participants"));
+
+			SnowFlake ownerId = _wtoi64(root["owner_id"].as_mstring());
+
+			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
+			gce.pszID.w = pUser->wszUsername;
+			for (auto &it : root["recipients"]) {
+				CMStringW wszId = it["id"].as_mstring();
+				CMStringW wszNick = it["nick"].as_mstring();
+				if (wszNick.IsEmpty())
+					wszNick = it["username"].as_mstring() + L"#" + it["discriminator"].as_mstring();
+
+				gce.pszUID.w = wszId;
+				gce.pszNick.w = wszNick;
+				gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
+				Chat_Event(&gce);
+			}
+
+			CMStringW wszId(FORMAT, L"%lld", getId(DB_KEY_ID));
+			CMStringW wszNick(FORMAT, L"%s#%d", getMStringW(DB_KEY_NICK).c_str(), getDword(DB_KEY_DISCR));
+			gce.bIsMe = true;
+			gce.pszUID.w = wszId;
+			gce.pszNick.w = wszNick;
+			gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
+			Chat_Event(&gce);
+
+			Chat_Control(m_szModuleName, pUser->wszUsername, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+			Chat_Control(m_szModuleName, pUser->wszUsername, SESSION_ONLINE);
+		}
+		break;
+
+	default:
+		debugLogA("Invalid channel type: %d, exiting", type);
+		return;
+	}
+
+	pUser->channelId = channelId;
 	pUser->lastMsgId = ::getId(root["last_message_id"]);
 	pUser->bIsPrivate = true;
 
