@@ -58,12 +58,12 @@ static int HookEventEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM par
 	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
 
 	if (wParam)
-		lua_pushlightuserdata(env->L, (void*)wParam);
+		lua_pushinteger(env->L, wParam);
 	else
 		lua_pushnil(env->L);
 
 	if (lParam)
-		lua_pushlightuserdata(env->L, (void*)lParam);
+		lua_pushinteger(env->L, lParam);
 	else
 		lua_pushnil(env->L);
 
@@ -98,8 +98,8 @@ static INT_PTR CreateServiceFunctionEnvParam(void *obj, WPARAM wParam, LPARAM lP
 	int ref = param;
 	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
 
-	lua_pushlightuserdata(env->L, (void*)wParam);
-	lua_pushlightuserdata(env->L, (void*)lParam);
+	lua_pushinteger(env->L, wParam);
+	lua_pushinteger(env->L, lParam);
 	luaM_pcall(env->L, 2, 1);
 
 	INT_PTR res = lua_tointeger(env->L, 1);
