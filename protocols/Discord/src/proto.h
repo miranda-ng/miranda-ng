@@ -126,12 +126,15 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void __cdecl SearchThread(void *param);
 	void __cdecl SendMessageAckThread(void* param);
 	void __cdecl BatchChatCreate(void* param);
+	void __cdecl GetAwayMsgThread(void *param);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// session control
 
 	void ConnectionFailed(int iReason);
 	void ShutdownSession(void);
+
+	wchar_t *m_wszStatusMsg[MAX_STATUS_COUNT];
 
 	ptrA m_szAccessToken, m_szAccessCookie;
 
@@ -263,31 +266,34 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
 
-	INT_PTR GetCaps(int, MCONTACT = 0) override;
+	INT_PTR  GetCaps(int, MCONTACT = 0) override;
 
-	HWND CreateExtendedSearchUI(HWND owner) override;
-	HWND SearchAdvanced(HWND owner) override;
+	HWND     CreateExtendedSearchUI(HWND owner) override;
+	HWND     SearchAdvanced(HWND owner) override;
 
-	HANDLE SearchBasic(const wchar_t *id) override;
+	HANDLE   SearchBasic(const wchar_t *id) override;
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	
-	int AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
-	int Authorize(MEVENT hDbEvent) override;
-	int AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
-	int AuthRequest(MCONTACT hContact, const wchar_t*) override;
+	int      AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
+	int      Authorize(MEVENT hDbEvent) override;
+	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t*) override;
 
-	int SendMsg(MCONTACT hContact, int flags, const char *pszSrc) override;
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+	int      SetAwayMsg(int iStatus, const wchar_t *msg) override;
 
-	HANDLE SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	int      SendMsg(MCONTACT hContact, int flags, const char *pszSrc) override;
 
-	int UserIsTyping(MCONTACT hContact, int type) override;
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 
-	int SetStatus(int iNewStatus) override;
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	void OnBuildProtoMenu() override;
-	void OnContactDeleted(MCONTACT) override;
-	void OnModulesLoaded() override;
-	void OnShutdown() override;
+	int      SetStatus(int iNewStatus) override;
+
+	void     OnBuildProtoMenu() override;
+	void     OnContactDeleted(MCONTACT) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Services

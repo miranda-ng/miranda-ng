@@ -92,6 +92,9 @@ CDiscordProto::~CDiscordProto()
 {
 	debugLogA("CDiscordProto::~CDiscordProto");
 
+	for (auto &msg : m_wszStatusMsg)
+		mir_free(msg);
+
 	arUsers.destroy();
 
 	m_arHttpQueue.destroy();
@@ -152,7 +155,7 @@ INT_PTR CDiscordProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_MODEMSGRECV | PF1_SERVERCLIST | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_ADDSEARCHRES | PF1_FILESEND;
+		return PF1_IM | PF1_MODEMSG | PF1_MODEMSGRECV | PF1_SERVERCLIST | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_ADDSEARCHRES | PF1_FILESEND;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_INVISIBLE;
 	case PFLAGNUM_3:
@@ -411,6 +414,46 @@ int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 	arOwnMessages.insert(new COwnMessage(nonce, pReq->m_iReqNum));
 	Push(pReq);
 	return pReq->m_iReqNum;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void __cdecl CDiscordProto::GetAwayMsgThread(void *param)
+{
+	Thread_SetName("Jabber: GetAwayMsgThread");
+
+	auto *pUser = (CDiscordUser *)param;
+	if (pUser != nullptr) {
+		if (!pUser->wszTopic.IsEmpty()) {
+			ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pUser->wszTopic.c_str());
+			return;
+		}
+	}
+
+	ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+}
+
+HANDLE CDiscordProto::GetAwayMsg(MCONTACT hContact)
+{
+	ForkThread(&CDiscordProto::GetAwayMsgThread, FindUser(getId(hContact, DB_KEY_ID)));
+	return (HANDLE)1;
+}
+
+int CDiscordProto::SetAwayMsg(int iStatus, const wchar_t *msg)
+{
+	if (iStatus < ID_STATUS_MIN || iStatus > ID_STATUS_MAX)
+		return 0;
+
+	wchar_t *&pwszMessage = m_wszStatusMsg[iStatus - ID_STATUS_MIN];
+	if (!mir_wstrcmp(msg, pwszMessage))
+		return 0;
+
+	pwszMessage = mir_wstrdup(msg);
+
+	JSONNode status; status.set_name("custom_status"); status << WCHAR_PARAM("text", msg);
+	JSONNode root; root << status;
+	Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me/settings", nullptr, &root));
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
