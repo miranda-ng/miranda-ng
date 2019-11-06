@@ -133,7 +133,7 @@ static int lua_RemoveIcon(lua_State *L)
 static luaL_Reg icolibApi[] =
 {
 	{ "AddIcon", lua_AddIcon },
-	{ "g_plugin.getIcon", lua_GetIcon },
+	{ "GetIcon", lua_GetIcon },
 	{ "GetHandle", lua_GetIconHandle },
 	{ "GetIconHandle", lua_GetIconHandle },
 	{ "RemoveIcon", lua_RemoveIcon },
