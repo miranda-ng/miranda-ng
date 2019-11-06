@@ -366,10 +366,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	int       SetApparentMode(MCONTACT hContact, int mode) override;
 	int       SetStatus(int iNewStatus) override;
 			    
-	HANDLE    GetAwayMsg(MCONTACT hContact) override;
-	int       RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt) override;
-	int       SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
-			    
 	int       UserIsTyping(MCONTACT hContact, int type) override;
 			    
 	void      OnBuildProtoMenu(void) override;
