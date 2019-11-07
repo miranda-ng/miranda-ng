@@ -842,7 +842,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 
 	JabberCapsBits jcb = 0;
 	if (!m_bUseHttpUpload) {
-		GetResourceCapabilities(item->jid);
+		jcb = GetResourceCapabilities(item->jid);
 		if (jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS) {
 			Sleep(600);
 			jcb = GetResourceCapabilities(item->jid);
