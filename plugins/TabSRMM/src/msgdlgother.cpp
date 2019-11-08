@@ -1706,6 +1706,7 @@ bool CMsgDialog::TabAutoComplete()
 {
 	LRESULT lResult = m_message.SendMsg(EM_GETSEL, 0, 0);
 	int start = LOWORD(lResult), end = HIWORD(lResult);
+	int origStart = start, origEnd = end;
 	m_message.SendMsg(EM_SETSEL, end, end);
 
 	GETTEXTEX gt = { 0 };
@@ -1786,6 +1787,7 @@ LBL_SkipEnd:
 		m_message.SendMsg(EM_SETSEL, start, end);
 		m_message.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)m_wszSearchQuery);
 	}
+	m_message.SendMsg(EM_SETSEL, origStart, origEnd);
 	replaceStrW(m_wszSearchQuery, nullptr);
 	return false;
 }
