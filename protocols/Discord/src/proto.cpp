@@ -448,9 +448,9 @@ int CDiscordProto::SetAwayMsg(int iStatus, const wchar_t *msg)
 	if (!mir_wstrcmp(msg, pwszMessage))
 		return 0;
 
-	pwszMessage = mir_wstrdup(msg);
+	replaceStrW(pwszMessage, msg);
 
-	JSONNode status; status.set_name("custom_status"); status << WCHAR_PARAM("text", msg);
+	JSONNode status; status.set_name("custom_status"); status << WCHAR_PARAM("text", (msg) ? msg : L"");
 	JSONNode root; root << status;
 	Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me/settings", nullptr, &root));
 	return 0;
