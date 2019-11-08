@@ -37,6 +37,7 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	CMStringA str;
 	do {
 		pReq->bNeedsRestart = false;
+		pReq->m_iErrorCode = 0;
 		pReq->szUrl = pReq->m_szUrl.GetBuffer();
 		if (!pReq->m_szParam.IsEmpty()) {
 			if (pReq->requestType == REQUEST_GET) {
