@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: KeyboardNotify.dll
 ;  Plugin: Keyboard notify ext.
-;  Version: 1.5.7.7
+;  Version: 1.6.0.1
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
@@ -11,6 +11,7 @@
 [Events to react on]
 [Incoming messages]
 [Incoming files]
+[Groupchat messages]
 [Everything else]
 [Message-Event only]
 [Blink if message window is open]
@@ -31,8 +32,8 @@
 [Only notify if status is]
 [Online]
 [Away]
-[Occupied]
 [Not available]
+[Occupied]
 [Do not disturb]
 [Free for chat]
 [Invisible]
@@ -101,9 +102,9 @@
 [Protocol]
 [Keyboard Notify Theme]
 [All Files]
+[Keyboard Flash]
+[Events]
 [Accounts]
 [Rules]
 [Flashing]
 [Themes]
-[Keyboard Flash]
-[Events]

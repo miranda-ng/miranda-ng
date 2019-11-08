@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.2
+;  Version: 0.9.0.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -139,12 +139,6 @@
 [Group menu]
 [Subgroup menu]
 [Account menu]
-[Extra icons]
-[Replace the following default icons:]
-[Homepage]
-[Phone]
-[E-mail]
-[Gender]
 [Misc]
 [Show 'Restart' menu item]
 [Use zodiac as default avatar]
@@ -274,9 +268,11 @@
 [Update]
 [Export]
 [Goto]
+[Phone]
 [Fax]
 [Cellular]
 [Custom phone]
+[E-mail]
 [Down arrow]
 [Add]
 [Edit]
@@ -552,19 +548,6 @@
 [jun.]
 [sen.]
 ;file \plugins\UserInfoEx\src\svc_constants.h
-;file \plugins\UserInfoEx\src\svc_email.cpp
-[Send e-mail]
-[Memory allocation error!]
-[E-mail (UInfoEx)]
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (UInfoEx)]
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-[User has no valid homepage]
-[View Homepage]
-[&Homepage]
-[Homepage (UInfoEx)]
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (UInfoEx)]
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 [Abort Refreshing Contact Details]

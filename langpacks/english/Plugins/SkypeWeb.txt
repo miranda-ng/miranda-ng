@@ -65,6 +65,7 @@
 [Call missed]
 [Call ended (%s)]
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
+[Preview]
 [Unknown event, please send this text for developer: "%s"]
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]

@@ -1306,7 +1306,7 @@
 ;file \src\mir_app\src\movetogroup.cpp
 [<Root group>]
 [&Move to group]
-;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 [No times]
 [Standard hh:mm:ss times]
@@ -1315,7 +1315,7 @@
 [(Miranda core logging)]
 [Select where log file will be created]
 [Select program to be run]
-;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 [<All connections>]
 [Network]
