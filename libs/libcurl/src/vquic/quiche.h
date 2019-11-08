@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_STRCASE_H
-#define HEADER_CURL_STRCASE_H
+#ifndef HEADER_CURL_VQUIC_QUICHE_H
+#define HEADER_CURL_VQUIC_QUICHE_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -22,31 +22,28 @@
  *
  ***************************************************************************/
 
-#include <curl/curl.h>
+#include "curl_setup.h"
 
-/*
- * Only "raw" case insensitive strings. This is meant to be locale independent
- * and only compare strings we know are safe for this.
- *
- * The function is capable of comparing a-z case insensitively even for
- * non-ascii.
- */
+#ifdef USE_QUICHE
 
-#define strcasecompare(a,b) Curl_strcasecompare(a,b)
-#define strncasecompare(a,b,c) Curl_strncasecompare(a,b,c)
+#include <quiche.h>
 
-int Curl_strcasecompare(const char *first, const char *second);
-int Curl_safe_strcasecompare(const char *first, const char *second);
-int Curl_strncasecompare(const char *first, const char *second, size_t max);
+struct quic_handshake {
+  char *buf;       /* pointer to the buffer */
+  size_t alloclen; /* size of allocation */
+  size_t len;      /* size of content in buffer */
+  size_t nread;    /* how many bytes have been read */
+};
 
-char Curl_raw_toupper(char in);
-char Curl_raw_tolower(char in);
+struct quicsocket {
+  quiche_config *cfg;
+  quiche_conn *conn;
+  quiche_h3_conn *h3c;
+  quiche_h3_config *h3config;
+  uint8_t scid[QUICHE_MAX_CONN_ID_LEN];
+  uint32_t version;
+};
 
-/* checkprefix() is a shorter version of the above, used when the first
-   argument is zero-byte terminated */
-#define checkprefix(a,b)    curl_strnequal(a,b,strlen(a))
+#endif
 
-void Curl_strntoupper(char *dest, const char *src, size_t n);
-void Curl_strntolower(char *dest, const char *src, size_t n);
-
-#endif /* HEADER_CURL_STRCASE_H */
+#endif /* HEADER_CURL_VQUIC_QUICHE_H */
