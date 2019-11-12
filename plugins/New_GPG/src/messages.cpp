@@ -789,7 +789,7 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 
 	if (strstr(msg, "-----BEGIN PGP MESSAGE-----")) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info: encrypted messge, let it go, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+			globals.debuglog << std::string(time_str() + ": info: encrypted message, let it go, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
 		return Proto_ChainSend(w, ccs);
 	}
 
