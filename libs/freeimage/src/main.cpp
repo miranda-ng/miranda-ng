@@ -161,8 +161,7 @@ EXTERN_C DLL_API FIBITMAP* DLL_CALLCONV FreeImage_CreateDIBFromHBITMAP(HBITMAP h
 	// So we save these infos below. This is needed for palettized images only.
 	int nColors = FreeImage_GetColorsUsed(dib);
 	HDC dc = GetDC(nullptr);
-	int Success = GetDIBits(dc, hBmp, 0, FreeImage_GetHeight(dib),
-		FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
+	GetDIBits(dc, hBmp, 0, FreeImage_GetHeight(dib), FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
 	ReleaseDC(nullptr, dc);
 	// restore BITMAPINFO members
 	FreeImage_GetInfoHeader(dib)->biClrUsed = nColors;

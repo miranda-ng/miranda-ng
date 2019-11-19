@@ -672,7 +672,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	if (jnResponse["freeoffline"].as_bool())
 		for (auto &it : arContacts) {
-			MCONTACT cc = (MCONTACT)it;
+			MCONTACT cc = (UINT_PTR)it;
 			LONG userID = getDword(cc, "ID", VK_INVALID_USER);
 			if (userID == m_myUserId || userID == VK_FEED_USER)
 				continue;
@@ -838,7 +838,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 	if (bCleanContacts)
 		for (auto &it : arContacts) {
-			MCONTACT hContact = (MCONTACT)it;
+			MCONTACT hContact = (UINT_PTR)it;
 			LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 			bool bIsFriendGroup = IsGroupUser(hContact) && getBool(hContact, "friend");
 			if (userID == m_myUserId || userID == VK_FEED_USER || bIsFriendGroup)
