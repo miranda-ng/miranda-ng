@@ -75,6 +75,69 @@ static SESSION_INFO* GetActiveSession(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Log manager functions
+//	Necessary to keep track of events in a window log
+
+static LOGINFO *LM_AddEvent(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
+{
+	if (!ppLogListStart || !ppLogListEnd)
+		return nullptr;
+
+	LOGINFO *node = (LOGINFO *)mir_calloc(sizeof(LOGINFO));
+	if (*ppLogListStart == nullptr) { // list is empty
+		*ppLogListStart = node;
+		*ppLogListEnd = node;
+		node->next = nullptr;
+		node->prev = nullptr;
+	}
+	else {
+		ppLogListStart[0]->prev = node;
+		node->next = *ppLogListStart;
+		*ppLogListStart = node;
+		ppLogListStart[0]->prev = nullptr;
+	}
+
+	return node;
+}
+
+static BOOL LM_TrimLog(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd, int iCount)
+{
+	LOGINFO *pTemp = *ppLogListEnd;
+	while (pTemp != nullptr && iCount > 0) {
+		*ppLogListEnd = pTemp->prev;
+		if (*ppLogListEnd == nullptr)
+			*ppLogListStart = nullptr;
+
+		mir_free(pTemp->ptszNick);
+		mir_free(pTemp->ptszUserInfo);
+		mir_free(pTemp->ptszText);
+		mir_free(pTemp->ptszStatus);
+		mir_free(pTemp);
+		pTemp = *ppLogListEnd;
+		iCount--;
+	}
+	ppLogListEnd[0]->next = nullptr;
+
+	return TRUE;
+}
+
+static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
+{
+	while (*ppLogListStart != nullptr) {
+		LOGINFO *pLast = ppLogListStart[0]->next;
+		mir_free(ppLogListStart[0]->ptszText);
+		mir_free(ppLogListStart[0]->ptszNick);
+		mir_free(ppLogListStart[0]->ptszStatus);
+		mir_free(ppLogListStart[0]->ptszUserInfo);
+		mir_free(*ppLogListStart);
+		*ppLogListStart = pLast;
+	}
+	*ppLogListStart = nullptr;
+	*ppLogListEnd = nullptr;
+	return TRUE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //	Session Manager functions
 //	Keeps track of all sessions and its windows
 
@@ -208,7 +271,7 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	if (si == nullptr)
 		return TRUE;
 
-	LOGINFO *li = g_chatApi.LM_AddEvent(&si->pLog, &si->pLogEnd);
+	LOGINFO *li = LM_AddEvent(&si->pLog, &si->pLogEnd);
 	si->iEventCount++;
 
 	li->iType = gce->iType;
@@ -222,7 +285,7 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	li->bIsHighlighted = bIsHighlighted;
 
 	if (g_Settings->iEventLimit > 0 && si->iEventCount > g_Settings->iEventLimit + 20) {
-		g_chatApi.LM_TrimLog(&si->pLog, &si->pLogEnd, si->iEventCount - g_Settings->iEventLimit);
+		LM_TrimLog(&si->pLog, &si->pLogEnd, si->iEventCount - g_Settings->iEventLimit);
 		si->bTrimmed = true;
 		si->iEventCount = g_Settings->iEventLimit;
 		return FALSE;
@@ -782,69 +845,6 @@ BOOL UM_RemoveAll(SESSION_INFO *si)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Log manager functions
-//	Necessary to keep track of events in a window log
-
-static LOGINFO* LM_AddEvent(LOGINFO **ppLogListStart, LOGINFO** ppLogListEnd)
-{
-	if (!ppLogListStart || !ppLogListEnd)
-		return nullptr;
-
-	LOGINFO *node = (LOGINFO*)mir_calloc(sizeof(LOGINFO));
-	if (*ppLogListStart == nullptr) { // list is empty
-		*ppLogListStart = node;
-		*ppLogListEnd = node;
-		node->next = nullptr;
-		node->prev = nullptr;
-	}
-	else {
-		ppLogListStart[0]->prev = node;
-		node->next = *ppLogListStart;
-		*ppLogListStart = node;
-		ppLogListStart[0]->prev = nullptr;
-	}
-
-	return node;
-}
-
-static BOOL LM_TrimLog(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd, int iCount)
-{
-	LOGINFO *pTemp = *ppLogListEnd;
-	while (pTemp != nullptr && iCount > 0) {
-		*ppLogListEnd = pTemp->prev;
-		if (*ppLogListEnd == nullptr)
-			*ppLogListStart = nullptr;
-
-		mir_free(pTemp->ptszNick);
-		mir_free(pTemp->ptszUserInfo);
-		mir_free(pTemp->ptszText);
-		mir_free(pTemp->ptszStatus);
-		mir_free(pTemp);
-		pTemp = *ppLogListEnd;
-		iCount--;
-	}
-	ppLogListEnd[0]->next = nullptr;
-
-	return TRUE;
-}
-
-static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
-{
-	while (*ppLogListStart != nullptr) {
-		LOGINFO *pLast = ppLogListStart[0]->next;
-		mir_free(ppLogListStart[0]->ptszText);
-		mir_free(ppLogListStart[0]->ptszNick);
-		mir_free(ppLogListStart[0]->ptszStatus);
-		mir_free(ppLogListStart[0]->ptszUserInfo);
-		mir_free(*ppLogListStart);
-		*ppLogListStart = pLast;
-	}
-	*ppLogListStart = nullptr;
-	*ppLogListEnd = nullptr;
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 static void ResetApi()
 {
@@ -877,8 +877,6 @@ static void ResetApi()
 	g_chatApi.UM_FindUserAutoComplete = ::UM_FindUserAutoComplete;
 	g_chatApi.UM_RemoveUser = ::UM_RemoveUser;
 
-	g_chatApi.LM_AddEvent = ::LM_AddEvent;
-	g_chatApi.LM_TrimLog = ::LM_TrimLog;
 	g_chatApi.LM_RemoveAll = ::LM_RemoveAll;
 
 	g_chatApi.SetOffline = ::SetOffline;

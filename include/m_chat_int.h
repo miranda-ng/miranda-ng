@@ -309,8 +309,6 @@ struct CHAT_MANAGER
 	wchar_t*      (*UM_FindUserAutoComplete)(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 	BOOL          (*UM_RemoveUser)(SESSION_INFO *si, const wchar_t *pszUID);
 
-	LOGINFO*      (*LM_AddEvent)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd);
-	BOOL          (*LM_TrimLog)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd, int iCount);
 	BOOL          (*LM_RemoveAll)(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd);
 
 	BOOL          (*SetOffline)(MCONTACT hContact, BOOL bHide);
