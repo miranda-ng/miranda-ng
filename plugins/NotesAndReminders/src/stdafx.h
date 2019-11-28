@@ -29,6 +29,13 @@
 #define MODULENAME	"StickyNotes"
 #define SECTIONNAME	LPGEN("Notes & Reminders")
 
+#define MS_NOTES_NEW       MODULENAME"/MenuCommandAddNew"
+#define MS_NOTES_SHOWHIDE  MODULENAME"/MenuCommandShowHide"
+#define MS_NOTES_DISPLAY   MODULENAME"/MenuCommandBringAllFront"
+
+#define MS_REMINDER_NEW    MODULENAME"/MenuCommandNewReminder"
+#define MS_REMINDER_VIEW   MODULENAME"/MenuCommandViewReminders"
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
@@ -68,9 +75,6 @@ bool CheckRemindersAndStart(void);
 void InitSettings(void);
 void TermSettings(void);
 void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour);
-
-BOOL WS_Init();
-void WS_CleanUp();
 
 wchar_t* GetDateFormatStr();
 wchar_t* GetTimeFormatStr();

@@ -3,8 +3,6 @@
 CMPlugin g_plugin;
 HINSTANCE hmiranda = nullptr;
 
-HMODULE hRichedDll = nullptr;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfoEx =
@@ -59,12 +57,12 @@ int OnTopToolBarInit(WPARAM, LPARAM)
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 
 	ttb.hIconHandleUp = iconList[14].hIcolib;
-	ttb.pszService = MODULENAME"/MenuCommandAddNew";
+	ttb.pszService = MS_NOTES_NEW;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Note");
 	g_plugin.addTTB(&ttb);
 
 	ttb.hIconHandleUp = iconList[15].hIcolib;
-	ttb.pszService = MODULENAME"/MenuCommandNewReminder";
+	ttb.pszService = MS_REMINDER_NEW;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Reminder");
 	g_plugin.addTTB(&ttb);
 	return 0;
@@ -96,56 +94,56 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	mi.position = 1600000000;
 	mi.hIcolibItem = iconList[2].hIcolib;
-	mi.name.w = LPGENW("New &Note");
-	mi.pszService = MODULENAME"/MenuCommandAddNew";
+	mi.name.w = LPGENW("New Note");
+	mi.pszService = MS_NOTES_NEW;
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandAddNew);
 
 	mi.position = 1600000001;
 	mi.hIcolibItem = iconList[0].hIcolib;
-	mi.name.w = LPGENW("New &Reminder");
-	mi.pszService = MODULENAME"/MenuCommandNewReminder";
+	mi.name.w = LPGENW("New Reminder");
+	mi.pszService = MS_REMINDER_NEW;
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandNewReminder);
 
 	mi.position = 1600100000;
 	mi.hIcolibItem = iconList[3].hIcolib;
-	mi.name.w = LPGENW("&Show / Hide Notes");
-	mi.pszService = MODULENAME"/MenuCommandShowHide";
+	mi.name.w = LPGENW("Toggle Notes Visibility");
+	mi.pszService = MS_NOTES_SHOWHIDE;
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandShowHide);
 
 	mi.position = 1600100001;
 	mi.hIcolibItem = iconList[13].hIcolib;
-	mi.name.w = LPGENW("Vie&w Notes");
+	mi.name.w = LPGENW("View Notes");
 	mi.pszService = MODULENAME"/MenuCommandViewNotes";
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandViewNotes);
 
 	mi.position = 1600100002;
 	mi.hIcolibItem = iconList[1].hIcolib;
-	mi.name.w = LPGENW("&Delete All Notes");
+	mi.name.w = LPGENW("Delete All Notes");
 	mi.pszService = MODULENAME"/MenuCommandDeleteAll";
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandDeleteNotes);
 
 	mi.position = 1600100003;
 	mi.hIcolibItem = iconList[11].hIcolib;
-	mi.name.w = LPGENW("&Bring All to Front");
-	mi.pszService = MODULENAME"/MenuCommandBringAllFront";
+	mi.name.w = LPGENW("Bring All to Front");
+	mi.pszService = MS_NOTES_DISPLAY;
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandAllBringFront);
 
 	mi.position = 1600200000;
 	mi.hIcolibItem = iconList[6].hIcolib;
-	mi.name.w = LPGENW("&View Reminders");
-	mi.pszService = MODULENAME"/MenuCommandViewReminders";
+	mi.name.w = LPGENW("View Reminders");
+	mi.pszService = MS_REMINDER_VIEW;
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandViewReminders);
 
 	mi.position = 1600200001;
 	mi.hIcolibItem = iconList[5].hIcolib;
-	mi.name.w = LPGENW("D&elete All Reminders");
+	mi.name.w = LPGENW("Delete All Reminders");
 	mi.pszService = MODULENAME"/MenuCommandDeleteReminders";
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandDeleteReminders);
@@ -185,13 +183,6 @@ int CMPlugin::Load()
 	ctrls.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&ctrls);
 
-	hRichedDll = LoadLibraryA("Msftedit.dll");
-	if (!hRichedDll) {
-		if (MessageBox(nullptr, TranslateT("Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."), _A2W(SECTIONNAME), MB_YESNO | MB_ICONINFORMATION) != IDYES)
-			return 1;
-		return 0;
-	}
-
 	CreateServiceFunction(MODULENAME"/OpenTriggeredReminder", OpenTriggeredReminder);
 
 	// register sounds
@@ -199,12 +190,9 @@ int CMPlugin::Load()
 	g_plugin.addSound("AlertReminder2", LPGENW("Alerts"), LPGENW("Reminder triggered (Alternative 1)"));
 	g_plugin.addSound("AlertReminder3", LPGENW("Alerts"), LPGENW("Reminder triggered (Alternative 2)"));
 
-	WS_Init();
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	InitIcons();
-
 	return 0;
 }
 
@@ -217,15 +205,10 @@ int CMPlugin::Unload()
 	SaveNotes();
 	SaveReminders();
 	DestroyMsgWindow();
-	WS_CleanUp();
 	TermSettings();
 
 	IcoLib_ReleaseIcon(g_hReminderIcon);
 	DeleteObject(hBodyFont);
 	DeleteObject(hCaptionFont);
-
-	if (hRichedDll)
-		FreeLibrary(hRichedDll);
-
 	return 0;
 }

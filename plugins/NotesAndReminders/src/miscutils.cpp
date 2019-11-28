@@ -3,18 +3,6 @@
 /////////////////////////////////////////////////////////////////////
 // Email/SMS and WinSock functions
 
-BOOL WS_Init()
-{
-	WSADATA wsd;
-	if (WSAStartup(MAKEWORD(2, 2), &wsd) != 0) return FALSE;
-	return TRUE;
-}
-
-void WS_CleanUp()
-{
-	WSACleanup();
-}
-
 int WS_Send(SOCKET s, const char *data, int datalen)
 {
 	int rlen;

@@ -4,7 +4,7 @@
 
 HWND HKHwnd;
 
-enum KB_ACTIONS {KB_NEW_NOTE = 1, KB_TOGGLE_NOTES, KB_NEW_REMINDER};
+enum KB_ACTIONS {KB_NEW_NOTE = 1, KB_TOGGLE_NOTES, KB_VIEW_NOTES, KB_NEW_REMINDER, KB_VIEW_REMINDERS };
 
 void RegisterKeyBindings()
 {
@@ -16,28 +16,35 @@ void RegisterKeyBindings()
 	desc.szDescription.w = LPGENW("New Note");
 	desc.lParam = KB_NEW_NOTE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_INSERT);
-	desc.pszService = MODULENAME"/MenuCommandAddNew";
+	desc.pszService = MS_NOTES_NEW;
 	g_plugin.addHotkey(&desc);
 
 	desc.pszName = MODULENAME"/ToggleNotesVis";
 	desc.szDescription.w = LPGENW("Toggle Notes Visibility");
 	desc.lParam = KB_TOGGLE_NOTES;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_ADD);
-	desc.pszService = MODULENAME"/MenuCommandShowHide";
+	desc.pszService = MS_NOTES_SHOWHIDE;
 	g_plugin.addHotkey(&desc);
 
 	desc.pszName = MODULENAME"/BringNotesFront";
 	desc.szDescription.w = LPGENW("Bring All Notes to Front");
-	desc.lParam = KB_TOGGLE_NOTES;
+	desc.lParam = KB_VIEW_NOTES;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_HOME);
-	desc.pszService = MODULENAME"/MenuCommandBringAllFront";
+	desc.pszService = MS_NOTES_DISPLAY;
 	g_plugin.addHotkey(&desc);
 
 	desc.pszName = MODULENAME"/NewReminder";
 	desc.szDescription.w = LPGENW("New Reminder");
 	desc.lParam = KB_NEW_REMINDER;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_SUBTRACT);
-	desc.pszService = MODULENAME"/MenuCommandNewReminder";
+	desc.pszService = MS_REMINDER_NEW;
+	g_plugin.addHotkey(&desc);
+
+	desc.pszName = MODULENAME"/ViewReminders";
+	desc.szDescription.w = LPGENW("View Reminders");
+	desc.lParam = KB_VIEW_REMINDERS;
+	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_DIVIDE);
+	desc.pszService = MS_REMINDER_VIEW;
 	g_plugin.addHotkey(&desc);
 }
 
