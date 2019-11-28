@@ -1309,13 +1309,14 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wPara
 	}
 	Clist_DeleteItemFromTree(hwnd, wParam);
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !Contact_IsHidden(wParam)) {
-		NMCLISTCONTROL nm;
 		g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, 1, 1);
 		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
 			memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 			if (flags & CONTACTF_CHECKED)
 				contact->flags |= CONTACTF_CHECKED;
 		}
+
+		NMCLISTCONTROL nm;
 		nm.hdr.code = CLN_CONTACTMOVED;
 		nm.hdr.hwndFrom = hwnd;
 		nm.hdr.idFrom = GetDlgCtrlID(hwnd);
@@ -1527,7 +1528,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 					Cache_GetNthLineText(dat, pdnce, 3);
 				}
 
-				SendMessage(hwnd, INTM_ICONCHANGED, wParam, Clist_GetContactIcon(wParam));
+				clcOnIntmIconChanged(dat, hwnd, msg, wParam, Clist_GetContactIcon(wParam));
 
 				if (contact->type == CLCIT_CONTACT) {
 					if (!contact->bImageIsSpecial && pdnce->getStatus() > ID_STATUS_OFFLINE)
