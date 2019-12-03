@@ -416,42 +416,28 @@ bool CIcqProto::RefreshRobustToken()
 	if (!m_szRToken.IsEmpty())
 		return true;
 
-	bool bRet = false;
-	auto *tmp = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER "/genToken");
+	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER "/genToken", &CIcqProto::OnGenToken);
+	pReq->flags |= NLHRF_NODUMPSEND;
 
 	int ts = TS();
-	tmp << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", TS());
-	CalcHash(tmp);
-	tmp->flags |= NLHRF_PERSISTENT;
-	tmp->nlc = m_ConnPool[CONN_RAPI].s;
-	tmp->dataLength = tmp->m_szParam.GetLength();
-	tmp->pData = tmp->m_szParam.Detach();
-	tmp->szUrl = tmp->m_szUrl.GetBuffer();
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
+	CalcHash(pReq);
 
 	CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
-	tmp->AddHeader("User-Agent", szAgent);
+	pReq->AddHeader("User-Agent", szAgent);
+	if (!ExecuteRequest(pReq))
+		return false;
 
-	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, tmp));
-	if (reply != nullptr) {
-		m_ConnPool[CONN_RAPI].s = reply->nlc;
+	// now add this token
+	bool bRet = false;
+	pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER "/addClient", &CIcqProto::OnAddClient);
+	pReq->flags |= NLHRF_NODUMPSEND;
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", ts)
+		<< CHAR_PARAM("client", "icq") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken);
+	pReq->pUserInfo = &bRet;
+	if (!ExecuteRequest(pReq))
+		return false;
 
-		RobustReply result(reply);
-		if (result.error() == 20000) {
-			const JSONNode &results = result.results();
-			m_szRToken = results["authToken"].as_mstring();
-
-			// now add this token
-			auto *add = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnAddClient);
-			JSONNode request, params; params.set_name("params");
-			request << CHAR_PARAM("method", "addClient") << CHAR_PARAM("reqId", add->m_reqId) << CHAR_PARAM("authToken", m_szRToken) << params;
-			add->m_szParam = ptrW(json_write(&request));
-			add->pUserInfo = &bRet;
-			ExecuteRequest(add);
-		}
-	}
-	else m_ConnPool[CONN_RAPI].s = nullptr;
-
-	delete tmp;
 	return bRet;
 }
 
@@ -776,6 +762,16 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
 }
 
+void CIcqProto::OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	RobustReply root(pReply);
+	if (root.error() != 20000)
+		return;
+
+	auto &results = root.results();
+	m_szRToken = results["authToken"].as_mstring();
+}
+
 void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
@@ -784,7 +780,7 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 	__int64 lastMsgId = getId(pReq->hContact, DB_KEY_LASTMSGID);
 
-	const JSONNode &results = root.results();
+	auto &results = root.results();
 	for (auto &it : results["messages"])
 		ParseMessage(pReq->hContact, lastMsgId, it, true);
 
@@ -799,7 +795,7 @@ void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	const JSONNode &data = root.data();
+	auto &data = root.data();
 	for (auto &it : data["users"])
 		ParseBuddyInfo(it, pReq->hContact);
 

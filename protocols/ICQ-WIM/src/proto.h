@@ -227,6 +227,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnCheckPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnGenToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnGetChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnGetPermitDeny(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void      OnGetUserHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
