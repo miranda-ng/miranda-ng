@@ -188,7 +188,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 
 int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM hContact)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (!hContact || !szProto || mir_strcmpi(szProto, m_szModuleName))
 		return 0;
 

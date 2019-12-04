@@ -91,7 +91,7 @@ class CGroupchatInviteDlg : public CIcqDlgBase
 	void FilterList(CCtrlClc*)
 	{
 		for (auto &hContact : Contacts()) {
-			char *proto = GetContactProto(hContact);
+			char *proto = Proto_GetBaseAccountName(hContact);
 			if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
 				if (HANDLE hItem = m_clc.FindContact(hContact))
 					m_clc.DeleteItem(hItem);

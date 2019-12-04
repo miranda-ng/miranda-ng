@@ -272,7 +272,7 @@ MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact)
 	if (hContact == 0)
 		return ID_STATUS_OFFLINE;
 
-	const char *szProto = GetContactProto(hContact);
+	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return ID_STATUS_OFFLINE;
 

@@ -54,7 +54,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	if (dbei->cbBlob == 0 || dbei->pBlob == nullptr)
 		return 0; // just to be safe
 
-	const char *proto = GetContactProto(hContact);
+	const char *proto = Proto_GetBaseAccountName(hContact);
 	if (!proto)
 		return 0;
 	if (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
@@ -64,7 +64,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 		hContact = db_mc_getMostOnline(hContact);
 		if (!hContact)
 			return 0;
-		proto = GetContactProto(hContact);
+		proto = Proto_GetBaseAccountName(hContact);
 		if (!proto)
 			return 0;
 	}

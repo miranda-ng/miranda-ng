@@ -333,7 +333,7 @@ public:
 
 		case M_CHECKONLINE:
 			if (m_hContact != NULL) {
-				char *szProto = GetContactProto(m_hContact);
+				char *szProto = Proto_GetBaseAccountName(m_hContact);
 				if (szProto == nullptr)
 					EnableWindow(GetDlgItem(m_hwnd, IDC_UPDATE), FALSE);
 				else {

@@ -158,7 +158,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	}
 
 	// does the MCONTACT's protocol support IM messages?
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return 0; // unknown contact
 	if (0 == (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
@@ -325,7 +325,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
 				return nullptr;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 
 	// obtain various status information about the contact
 	wchar_t *contactName = Clist_GetContactDisplayName(hContact);

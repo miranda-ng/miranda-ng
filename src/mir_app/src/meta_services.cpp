@@ -203,7 +203,7 @@ INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	MCONTACT hSubContact = Meta_GetMostOnline(cc);
-	return CallProtoService(GetContactProto(hSubContact), PS_SEND_NUDGE, hSubContact, lParam);
+	return CallProtoService(Proto_GetBaseAccountName(hSubContact), PS_SEND_NUDGE, hSubContact, lParam);
 }
 
 /** Send a message to the protocol specific network.
@@ -246,7 +246,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 	Meta_CopyContactNick(cc, hMostOnline);
 
 	ccs->hContact = hMostOnline;
-	char *proto = GetContactProto(hMostOnline);
+	char *proto = Proto_GetBaseAccountName(hMostOnline);
 	Meta_SetNick(proto);	// (no matter what was there before)
 
 	return ProtoChainSend(ccs->hContact, PSS_MESSAGE, ccs->wParam, ccs->lParam);
@@ -391,7 +391,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 	else if (!strcmp(dcws->szModule, "CList") && !strcmp(dcws->szSetting, "MyHandle")) {
 		if (dcws->value.type == DBVT_DELETED) {
-			char *proto = GetContactProto(hContact);
+			char *proto = Proto_GetBaseAccountName(hContact);
 			mir_snprintf(buffer, "CListName%d", contact_number);
 
 			DBVARIANT dbv;
@@ -497,7 +497,7 @@ static INT_PTR Meta_UserIsTyping(WPARAM hMeta, LPARAM lParam)
 	if (!hMostOnline)
 		return 0;
 
-	char *proto = GetContactProto(hMostOnline);
+	char *proto = Proto_GetBaseAccountName(hMostOnline);
 	if (proto)
 		if (ProtoServiceExists(proto, PSS_USERISTYPING))
 			CallProtoService(proto, PSS_USERISTYPING, hMostOnline, lParam);
@@ -573,7 +573,7 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_ID | MIIM_STATE | MIIM_STRING;
 	for (int i = 0; i < cc->nSubs; i++)	{
-		char *szProto = GetContactProto(cc->pSubs[i]);
+		char *szProto = Proto_GetBaseAccountName(cc->pSubs[i]);
 		if (szProto == nullptr) continue;
 
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
@@ -658,7 +658,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM hMeta, LPARAM lParam)
 
 	if (g_metaOptions.menu_function == FT_MSG) {
 		// open message window if protocol supports message sending or chat, else simulate double click
-		char *proto = GetContactProto(hContact);
+		char *proto = Proto_GetBaseAccountName(hContact);
 		if (proto) {
 			INT_PTR caps = CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ((caps & PF1_IMSEND) || (caps & PF1_CHAT)) {
@@ -695,7 +695,7 @@ INT_PTR Meta_FileSend(WPARAM, LPARAM lParam)
 	if (!hMostOnline)
 		return 0;
 
-	char *proto = GetContactProto(hMostOnline);
+	char *proto = Proto_GetBaseAccountName(hMostOnline);
 	if (proto)
 		return ProtoChainSend(hMostOnline, PSS_FILE, ccs->wParam, ccs->lParam);
 
@@ -713,7 +713,7 @@ INT_PTR Meta_GetAwayMsg(WPARAM, LPARAM lParam)
 	if (!hMostOnline)
 		return 0;
 
-	char *proto = GetContactProto(hMostOnline);
+	char *proto = Proto_GetBaseAccountName(hMostOnline);
 	if (!proto)
 		return 0;
 
@@ -735,7 +735,7 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!hSub)
 		return GAIR_NOAVATAR;
 
-	char *proto = GetContactProto(hSub);
+	char *proto = Proto_GetBaseAccountName(hSub);
 	if (!proto)
 		return GAIR_NOAVATAR;
 
@@ -762,7 +762,7 @@ INT_PTR Meta_GetInfo(WPARAM, LPARAM lParam)
 	if (!hMostOnline)
 		return 0;
 
-	char *proto = GetContactProto(hMostOnline);
+	char *proto = Proto_GetBaseAccountName(hMostOnline);
 	if (!proto)
 		return 0;
 

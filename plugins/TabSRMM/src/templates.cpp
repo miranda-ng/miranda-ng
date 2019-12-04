@@ -148,10 +148,10 @@ bool CTemplateEditDlg::OnInitDialog()
 	// set hContact to the first found contact so that we can use the Preview window properly
 	// also, set other parameters needed by the streaming function to display events
 	m_hContact = db_find_first();
-	m_szProto = GetContactProto(m_hContact);
+	m_szProto = Proto_GetBaseAccountName(m_hContact);
 	while (m_szProto == nullptr && m_hContact != 0) {
 		m_hContact = db_find_next(m_hContact);
-		m_szProto = GetContactProto(m_hContact);
+		m_szProto = Proto_GetBaseAccountName(m_hContact);
 	}
 	m_dwFlags = m_pContainer->m_theme.dwFlags;
 

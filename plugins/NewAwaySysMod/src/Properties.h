@@ -455,7 +455,7 @@ public:
 			_ASSERT((Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
 			int m_value = *this;
 			if (m_value == VAL_USEDEFAULT) {
-				const char *szProto = (Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) ? GetContactProto(Parent->m_hContact) : szProtoOverride;
+				const char *szProto = (Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) ? Proto_GetBaseAccountName(Parent->m_hContact) : szProtoOverride;
 				return CProtoSettings(szProto).Autoreply.IncludingParents();
 			}
 			return m_value;
@@ -483,7 +483,7 @@ public:
 		{
 			if (!Status) {
 				_ASSERT(m_hContact != INVALID_CONTACT_ID);
-				char *szProto = m_hContact ? GetContactProto(m_hContact) : nullptr;
+				char *szProto = m_hContact ? Proto_GetBaseAccountName(m_hContact) : nullptr;
 				Status = (szProto || !m_hContact) ? g_ProtoStates[szProto].m_status : ID_STATUS_AWAY;
 			}
 			return Status;

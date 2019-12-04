@@ -489,7 +489,7 @@ static INT_PTR ContactClickStartChatting(WPARAM hContact, LPARAM)
 
 static int OnContactMenuPrebuild(WPARAM hContact, LPARAM)
 {
-	INT_PTR flags = CallProtoService(GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1);
+	INT_PTR flags = CallProtoService(Proto_GetBaseAccountName(hContact), PS_GETCAPS, PFLAGNUM_1);
 
 	bool bEnable = blInit && Contact_OnList(hContact) && (flags & PF1_IM) != 0;
 	Menu_ShowItem(hMenuItemAutoChat, bEnable);

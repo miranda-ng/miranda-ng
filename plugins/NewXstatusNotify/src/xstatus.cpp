@@ -470,7 +470,7 @@ void AddXStatusEventThread(void *arg)
 {
 	MCONTACT hContact = (MCONTACT)(DWORD_PTR)arg;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return;
 
@@ -503,7 +503,7 @@ void AddSMsgEventThread(void *arg)
 
 	STATUSMSGINFO smi;
 	smi.hContact = hContact;
-	smi.proto = GetContactProto(hContact);
+	smi.proto = Proto_GetBaseAccountName(hContact);
 	if (smi.proto == nullptr)
 		return;
 

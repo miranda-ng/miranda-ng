@@ -207,7 +207,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case IDYES: // Delete contact
-		char *szProto = GetContactProto(wParam);
+		char *szProto = Proto_GetBaseAccountName(wParam);
 		if (szProto != nullptr) {
 			// Check if protocol uses server side lists
 			DWORD caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);

@@ -394,7 +394,7 @@ std::wstring HistoryEventList::GetContactName()
 
 std::wstring HistoryEventList::GetMyName()
 {
-	ptrW name(Contact_GetInfo(CNF_DISPLAY, NULL, GetContactProto(m_hContact)));
+	ptrW name(Contact_GetInfo(CNF_DISPLAY, NULL, Proto_GetBaseAccountName(m_hContact)));
 	return (name == NULL) ? TranslateT("Me") : name;
 }
 
@@ -421,13 +421,13 @@ std::wstring HistoryEventList::GetProtocolName()
 
 std::string HistoryEventList::GetBaseProtocol()
 {
-	char* proto = GetContactProto(m_hContact);
+	char* proto = Proto_GetBaseAccountName(m_hContact);
 	return proto == nullptr ? "" : proto;
 }
 
 std::wstring HistoryEventList::GetMyId()
 {
-	ptrW id(Contact_GetInfo(CNF_DISPLAYUID, NULL, GetContactProto(m_hContact)));
+	ptrW id(Contact_GetInfo(CNF_DISPLAYUID, NULL, Proto_GetBaseAccountName(m_hContact)));
 	return (id == NULL) ? L"" : id;
 }
 
@@ -495,7 +495,7 @@ void HistoryEventList::MargeMessages(const std::vector<IImport::ExternalMessage>
 	GetTempList(tempList, true, false, m_hContact);
 
 	DBEVENTINFO dbei = {};
-	dbei.szModule = GetContactProto(m_hContact);
+	dbei.szModule = Proto_GetBaseAccountName(m_hContact);
 
 	db_set_safety_mode(FALSE);
 	for (std::list<EventTempIndex>::iterator it = tempList.begin(); it != tempList.end(); ++it) {

@@ -722,7 +722,7 @@ int CVkProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 
 
-	CMStringA szProto(GetContactProto(event->hContact));
+	CMStringA szProto(Proto_GetBaseAccountName(event->hContact));
 	if (szProto.IsEmpty() || szProto != m_szModuleName)
 		return 0;
 

@@ -576,7 +576,7 @@ begin
   if CurContact = 0 then
     CurProto := 'ICQ'
   else
-    CurProto := GetContactProto(CurContact);
+    CurProto := Proto_GetBaseAccountName(CurContact);
   laProgress.Caption := Format(TranslateW('Searching "%s"...'),
     [GetContactDisplayName(CurContact, CurProto, True)]);
 end;

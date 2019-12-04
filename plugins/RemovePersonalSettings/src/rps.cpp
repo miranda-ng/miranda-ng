@@ -260,7 +260,7 @@ void DeleteSetting(const char *setting)
 
 BOOL isMetaContact(MCONTACT hContact)
 {
-	return mir_strcmp(GetContactProto(hContact), METACONTACTS_PROTOCOL_NAME) == 0;
+	return mir_strcmp(Proto_GetBaseAccountName(hContact), METACONTACTS_PROTOCOL_NAME) == 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

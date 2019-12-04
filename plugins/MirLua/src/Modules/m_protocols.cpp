@@ -12,7 +12,7 @@ static int lua_GetProtocol(lua_State *L)
 	switch (lua_type(L, 1)) {
 	case LUA_TNUMBER:
 	{
-		const char *szModule = GetContactProto(lua_tonumber(L, 1));
+		const char *szModule = Proto_GetBaseAccountName(lua_tonumber(L, 1));
 		PROTOACCOUNT *pa = Proto_GetAccount(szModule);
 		if (pa)
 			szProto = pa->szProtoName;
@@ -115,7 +115,7 @@ static int lua_GetAccount(lua_State *L)
 
 	switch (lua_type(L, 1)) {
 	case LUA_TNUMBER:
-		name = GetContactProto(lua_tonumber(L, 1));
+		name = Proto_GetBaseAccountName(lua_tonumber(L, 1));
 		break;
 	case LUA_TSTRING:
 		name = lua_tostring(L, 1);
@@ -194,7 +194,7 @@ static int lua_CallService(lua_State *L)
 
 	switch (lua_type(L, 1)) {
 	case LUA_TNUMBER:
-		szModule = GetContactProto(lua_tonumber(L, 1));
+		szModule = Proto_GetBaseAccountName(lua_tonumber(L, 1));
 		break;
 	case LUA_TSTRING:
 		szModule = lua_tostring(L, 1);

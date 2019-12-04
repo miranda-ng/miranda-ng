@@ -50,7 +50,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 	bool bNeedWait = false;
 	if (opt.bWaitForContent && IsContactTooltip(clcitex)) {
 		MCONTACT hContact = (DWORD_PTR)clcitex->hItem;
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (!szProto) return false;
 
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady) {

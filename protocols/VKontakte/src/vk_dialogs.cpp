@@ -221,7 +221,7 @@ void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
 void CVkGCCreateForm::FilterList(CCtrlClc*)
 {
 	for (auto &hContact : Contacts()) {
-		char *proto = GetContactProto(hContact);
+		char *proto = Proto_GetBaseAccountName(hContact);
 		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact) || m_proto->getDword(hContact, "ID") == VK_FEED_USER)
 			if (HANDLE hItem = m_clCList.FindContact(hContact))
 				m_clCList.DeleteItem(hItem);

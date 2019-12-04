@@ -349,7 +349,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	bool bEnabled = false;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		// leave this menu item hidden for chats
 		if (!db_get_b(hContact, szProto, "ChatRoom", 0))
@@ -472,9 +472,9 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (dwStatusMask == -1)
 		bAllowAutoCreate = true;
 	else {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto && !mir_strcmp(szProto, META_PROTO))
-			szProto = GetContactProto(db_mc_getSrmmSub(hContact));
+			szProto = Proto_GetBaseAccountName(db_mc_getSrmmSub(hContact));
 
 		if (szProto) {
 			int dwStatus = Proto_GetStatus(szProto);

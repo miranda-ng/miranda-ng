@@ -44,7 +44,7 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact)
 
 	if (szProto != nullptr && !mir_strcmp(szProto, META_PROTO) && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
-		szFinalProto = GetContactProto(hSubContact);
+		szFinalProto = Proto_GetBaseAccountName(hSubContact);
 		finalStatus = (status == 0) ? db_get_w(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
 		hContact = hSubContact;
 	}

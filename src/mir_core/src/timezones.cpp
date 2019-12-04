@@ -248,7 +248,7 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule
 
 	signed char timezone = (signed char)db_get_b(hContact, szModule, "Timezone", -1);
 	if (timezone == -1) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (!db_get_ws(hContact, szProto, "TzName", &dbv)) {
 			HANDLE res = TimeZone_CreateByName(dbv.pwszVal, dwFlags);
 			db_free(&dbv);

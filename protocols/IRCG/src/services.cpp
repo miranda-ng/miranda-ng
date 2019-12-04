@@ -863,7 +863,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM hContact, LPARAM)
 	if (hContact == NULL)
 		return 0;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto && !mir_strcmpi(szProto, m_szModuleName)) {
 		bool bIsOnline = getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE;
 

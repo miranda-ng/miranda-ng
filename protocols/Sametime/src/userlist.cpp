@@ -18,7 +18,7 @@ MCONTACT CSametimeProto::FindContactByUserId(const char* id)
 
 bool CSametimeProto::GetAwareIdFromContact(MCONTACT hContact, mwAwareIdBlock* id_block)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	DBVARIANT dbv;
 	if (proto && !mir_strcmp(m_szModuleName, proto)) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {

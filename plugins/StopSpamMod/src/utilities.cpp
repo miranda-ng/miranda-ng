@@ -331,9 +331,9 @@ void HistoryLogFunc(MCONTACT hContact, std::string message)
 
 		std::string msg = message;
 		msg.append("\n");
-		msg.append("Protocol: ").append(GetContactProto(hContact)).append(" Contact: ");
+		msg.append("Protocol: ").append(Proto_GetBaseAccountName(hContact)).append(" Contact: ");
 		msg.append(toUTF8(Clist_GetContactDisplayName(hContact))).append(" ID: ");
-		msg.append(toUTF8(GetContactUid(hContact, toUTF16(GetContactProto(hContact)))));
+		msg.append(toUTF8(GetContactUid(hContact, toUTF16(Proto_GetBaseAccountName(hContact)))));
 		HistoryLog(NULL, (char*)msg.c_str(), EVENTTYPE_MESSAGE, DBEF_READ);
 	}
 }

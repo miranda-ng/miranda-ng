@@ -5,7 +5,7 @@ var
 
 function OnContactMenu(hContact:WPARAM;lParam:LPARAM):int;cdecl;
 begin
-  if StrCmp(Proto_GetProtoName(hContact),PluginName)<>0 then
+  if StrCmp(Proto_GetBaseAccountName(hContact),PluginName)<>0 then
   begin
     Menu_ShowItem(hCMenuItemRec, 0);
     Menu_ShowItem(hCMenuItemPlay, 0);

@@ -803,7 +803,7 @@ int OnExtraImageApply(WPARAM hContact, LPARAM)
 		return 0;
 
 	ptrW tszMirver;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr)
 		tszMirver = db_get_wsa(hContact, szProto, "MirVer");
 
@@ -856,7 +856,7 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
 		ptrW ptszMirVer;
-		char *szProto = GetContactProto(event->hContact);
+		char *szProto = Proto_GetBaseAccountName(event->hContact);
 		if (szProto != nullptr)
 			ptszMirVer = db_get_wsa(event->hContact, szProto, "MirVer");
 		SetSrmmIcon(event->hContact, ptszMirVer);

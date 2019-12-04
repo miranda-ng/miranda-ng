@@ -438,7 +438,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 				DBEVENTINFO dbei = {};
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
-				dbei.szModule = GetContactProto((p->hContact));
+				dbei.szModule = Proto_GetBaseAccountName((p->hContact));
 				dbei.timestamp = time(0);
 				dbei.cbBlob = (int)mir_strlen(p->sendBuffer) + 1;
 				dbei.pBlob = (PBYTE)(p->sendBuffer);

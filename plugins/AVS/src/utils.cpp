@@ -78,7 +78,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 	ace->szFilename[0] = 0;
 
 	if (szProto == nullptr) {
-		char *proto = GetContactProto(hContact);
+		char *proto = Proto_GetBaseAccountName(hContact);
 		if (proto == nullptr || !g_plugin.getByte(proto, 1))
 			return -1;
 
@@ -378,7 +378,7 @@ BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto)
 
 protoPicCacheEntry* GetProtoDefaultAvatar(MCONTACT hContact)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto)
 		for (auto &p : g_ProtoPictures)
 			if (!mir_strcmp(p->szProtoname, szProto) && p->hbmPic != nullptr)

@@ -129,7 +129,7 @@ void CContactCache::updateMeta()
 	if (m_isValid) {
 		MCONTACT hOldSub = m_hSub;
 		m_hSub = db_mc_getSrmmSub(cc->contactID);
-		m_szMetaProto = GetContactProto(m_hSub);
+		m_szMetaProto = Proto_GetBaseAccountName(m_hSub);
 		m_iMetaStatus = (WORD)db_get_w(m_hSub, m_szMetaProto, "Status", ID_STATUS_OFFLINE);
 		PROTOACCOUNT *pa = Proto_GetAccount(m_szMetaProto);
 		if (pa)

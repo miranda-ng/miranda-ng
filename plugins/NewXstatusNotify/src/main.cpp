@@ -79,7 +79,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_USERON
 
 BYTE GetGender(MCONTACT hContact)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		switch (db_get_b(hContact, szProto, "Gender", 0)) {
 		case 'M':
@@ -374,12 +374,12 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	}
 
 	bool bEnablePopup = true, bEnableSound = true;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	int myStatus = Proto_GetStatus(szProto);
 
 	if (!mir_strcmp(szProto, META_PROTO)) { //this contact is Meta
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
-		char *szSubProto = GetContactProto(hSubContact);
+		char *szSubProto = Proto_GetBaseAccountName(hSubContact);
 		if (szSubProto == nullptr)
 			return 0;
 
@@ -475,7 +475,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (newStatus < ID_STATUS_MIN || newStatus > ID_STATUS_MAX)
 		return 0;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (mir_strcmp(cws->szModule, szProto))
 		return 0;
 
@@ -518,7 +518,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 {
 	XSTATUSCHANGE *xsc;
 	STATUSMSGINFO smi = { 0 };
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	smi.hContact = hContact;
 
 	if (strstr(cws->szSetting, "/mood/") || strstr(cws->szSetting, "/activity/")) { // Jabber mood or activity changed
@@ -616,7 +616,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 {
 	STATUSMSGINFO smi;
 	bool bEnablePopup = true, bEnableSound = true;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 
 	smi.proto = szProto;
 	smi.hContact = hContact;
@@ -778,7 +778,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return 0;
 

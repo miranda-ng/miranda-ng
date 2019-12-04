@@ -140,7 +140,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 		rvaVarsToReplace[1].key.w = L"userid";
 		rvaVarsToReplace[1].value.w = GetContactID(hContact);
 		rvaVarsToReplace[2].key.w = L"proto";
-		rvaVarsToReplace[2].value.w = mir_a2u(GetContactProto(hContact));
+		rvaVarsToReplace[2].value.w = mir_a2u(Proto_GetBaseAccountName(hContact));
 		rvaVarsToReplace[3].key.w = nullptr;
 		rvaVarsToReplace[3].value.w = nullptr;
 		for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
@@ -273,7 +273,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
-				char *szProto = GetContactProto(dat->hContact);
+				char *szProto = Proto_GetBaseAccountName(dat->hContact);
 				if (szProto) {
 					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {

@@ -115,7 +115,7 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 	char *szMessage;
 	std::string key_id_str;
 	{
-		LPSTR proto = GetContactProto(hContact);
+		LPSTR proto = Proto_GetBaseAccountName(hContact);
 		PROTOACCOUNT *acc = Proto_GetAccount(proto);
 		std::string acc_str;
 		if (acc) {
@@ -190,7 +190,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 	MCONTACT hContact = db_mc_tryMeta(w);
 	{
 		CMenuItem mi2(&g_plugin);
-		LPSTR proto = GetContactProto(hContact);
+		LPSTR proto = Proto_GetBaseAccountName(hContact);
 		PROTOACCOUNT *acc = Proto_GetAccount(proto);
 		std::string setting;
 		if (acc) {
@@ -452,7 +452,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 		return Proto_ChainSend(w, ccs);
 
 	if (isContactSecured(ccs->hContact)) {
-		char *proto = GetContactProto(ccs->hContact);
+		char *proto = Proto_GetBaseAccountName(ccs->hContact);
 		bool cap_found = false, supported_proto = false;
 		ptrA jid(db_get_utfa(ccs->hContact, proto, "jid", ""));
 		if (jid[0]) {
@@ -1056,7 +1056,7 @@ struct TFakeAckParams
 
 __forceinline int SendBroadcast(MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	return ProtoBroadcastAck(GetContactProto(hContact), hContact, type, result, hProcess, lParam);
+	return ProtoBroadcastAck(Proto_GetBaseAccountName(hContact), hContact, type, result, hProcess, lParam);
 }
 
 unsigned __stdcall sttFakeAck(void *param)
@@ -1212,7 +1212,7 @@ void ExportGpGKeysFunc(int type)
 				mir_free(k);
 			}
 
-			const char *proto = GetContactProto(hContact);
+			const char *proto = Proto_GetBaseAccountName(hContact);
 			std::string id = "Comment: login ";
 			const char *uid = Proto_GetUniqueId(proto);
 			DBVARIANT dbv = { 0 };

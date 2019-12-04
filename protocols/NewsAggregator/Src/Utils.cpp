@@ -25,7 +25,7 @@ bool UpdateListFlag = FALSE;
 
 bool IsMyContact(MCONTACT hContact)
 {
-	const char *szProto = GetContactProto(hContact);
+	const char *szProto = Proto_GetBaseAccountName(hContact);
 	return szProto != nullptr && mir_strcmp(MODULENAME, szProto) == 0;
 }
 

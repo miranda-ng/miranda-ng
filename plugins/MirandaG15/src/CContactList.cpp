@@ -92,7 +92,7 @@ void CContactList::AddContact(MCONTACT hContact)
 	CListContainer<CContactListEntry*, CContactListGroup*> *pGroup = nullptr;
 
 	tstring strName = CAppletManager::GetContactDisplayname(hContact);
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 
 	tstring strGroup = GetContactGroupPath(hContact);
 	// ignore contacts without a valid protocoll
@@ -191,7 +191,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry)
 			int dwNumContacts = db_mc_getSubCount(pEntry->hHandle);
 			for (int i = 0; i < dwNumContacts; i++) {
 				MCONTACT hSubContact = db_mc_getSub(pEntry->hHandle, i);
-				char *szProto = GetContactProto(hSubContact);
+				char *szProto = Proto_GetBaseAccountName(hSubContact);
 				if (db_get_w(hSubContact, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 					return true;
 			}
@@ -937,7 +937,7 @@ void CContactList::InitializeGroupObjects()
 
 	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 		tstring strGroup = GetContactGroupPath(hContact);
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto && db_get_b(0, META_PROTO, "Enabled", 1) && !mir_strcmpi(szProto, META_PROTO)) {
 			tstring strName = CAppletManager::GetContactDisplayname(hContact);
 			tstring strPath = L"";

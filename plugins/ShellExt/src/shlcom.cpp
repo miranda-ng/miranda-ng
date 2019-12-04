@@ -256,7 +256,7 @@ bool ipcGetSortedContacts(THeaderIPC * ipch, int* pSlot, bool bGroupMode)
 			break;
 
 		// do they have a running protocol? 
-		char* szProto = GetContactProto(hContact);
+		char* szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto != nullptr) {
 			// does it support file sends?
 			DWORD dwCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);

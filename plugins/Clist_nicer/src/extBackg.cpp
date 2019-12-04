@@ -1271,7 +1271,7 @@ void LoadPerContactSkins(wchar_t *tszFileName)
 
 	if (items) {
 		for (auto &hContact : Contacts()) {
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto == nullptr)
 				continue;
 

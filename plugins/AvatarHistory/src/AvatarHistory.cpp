@@ -97,7 +97,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (proto == nullptr)
 		return 0;
 
@@ -204,7 +204,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			T2Utf blob(rel_path);
 
 			DBEVENTINFO dbei = {};
-			dbei.szModule = GetContactProto(hContact);
+			dbei.szModule = Proto_GetBaseAccountName(hContact);
 			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.timestamp = (DWORD)time(0);
 			dbei.eventType = EVENTTYPE_AVATAR_CHANGE;

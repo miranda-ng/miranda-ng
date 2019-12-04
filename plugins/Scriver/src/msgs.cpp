@@ -54,11 +54,11 @@ static int SRMMStatusToPf2(int status)
 
 int IsAutoPopup(MCONTACT hContact) {
 	if (g_dat.flags.bAutoPopup) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 
 		hContact = db_mc_getSrmmSub(hContact);
 		if (hContact != 0)
-			szProto = GetContactProto(hContact);
+			szProto = Proto_GetBaseAccountName(hContact);
 
 		if (szProto && (g_dat.openFlags & SRMMStatusToPf2(Proto_GetStatus(szProto))))
 			return 1;
@@ -132,7 +132,7 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, wchar_t *pszMsg)
 	hContact = db_mc_tryMeta(hContact);
 
 	/* does the MCONTACT's protocol support IM messages? */
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return 1; /* unknown contact */
 
@@ -213,7 +213,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	char *szProto = GetContactProto(hContact); // szProto maybe nullptr
+	char *szProto = Proto_GetBaseAccountName(hContact); // szProto maybe nullptr
 	if (!strcmp(cws->szModule, "CList") || !mir_strcmp(cws->szModule, szProto))
 		Srmm_Broadcast(DM_CLISTSETTINGSCHANGED, hContact, lParam);
 	return 0;
@@ -296,7 +296,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	bool bEnabled = false;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if ( szProto ) {
 		// leave this menu item hidden for chats
 		if ( !db_get_b(hContact, szProto, "ChatRoom", 0))

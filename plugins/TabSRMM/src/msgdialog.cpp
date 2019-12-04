@@ -360,7 +360,7 @@ CMsgDialog::CMsgDialog(SESSION_INFO *si) :
 
 void CMsgDialog::Init()
 {
-	m_szProto = GetContactProto(m_hContact);
+	m_szProto = Proto_GetBaseAccountName(m_hContact);
 	m_autoClose = CLOSE_ON_CANCEL;
 	m_forceResizable = true;
 	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;

@@ -375,12 +375,12 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 
 static MCONTACT gg_getsubcontact(GaduProto* gg, MCONTACT hContact)
 {
-	char* szProto = GetContactProto(hContact);
+	char* szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto && !mir_strcmp(szProto, META_PROTO)) {
 		int nSubContacts = db_mc_getSubCount(hContact), i;
 		for (i = 0; i < nSubContacts; i++) {
 			MCONTACT hMetaContact = db_mc_getSub(hContact, i);
-			szProto = GetContactProto(hMetaContact);
+			szProto = Proto_GetBaseAccountName(hMetaContact);
 			if (szProto && !mir_strcmp(szProto, gg->m_szModuleName))
 				return hMetaContact;
 		}
@@ -496,7 +496,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 								uin = (uin_t)gg->getDword(hMetaContact, GG_KEY_UIN, 0);
 							}
 							else {
-								szProto = GetContactProto(hContact);
+								szProto = Proto_GetBaseAccountName(hContact);
 								uin = (uin_t)gg->getDword(hContact, GG_KEY_UIN, 0);
 							}
 

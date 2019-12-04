@@ -348,7 +348,7 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 	if (!Proto_IsProtocolLoaded(m_szModuleName))
 		return 0;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
@@ -382,7 +382,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			case PSN_INFOCHANGED:
 				{
 					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-					char *szProto = (hContact == NULL) ? proto->m_szModuleName : GetContactProto(hContact);
+					char *szProto = (hContact == NULL) ? proto->m_szModuleName : Proto_GetBaseAccountName(hContact);
 					if (szProto != nullptr)
 						SetDlgItemText(hwnd, IDC_DNS_ID, ptrW(proto->getWStringA(hContact, TOX_SETTINGS_DNS)));
 				}
@@ -394,7 +394,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			case PSN_APPLY:
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				char *szProto = (hContact == NULL) ? proto->m_szModuleName : GetContactProto(hContact);
+				char *szProto = (hContact == NULL) ? proto->m_szModuleName : Proto_GetBaseAccountName(hContact);
 				if (szProto == nullptr)
 					break;
 

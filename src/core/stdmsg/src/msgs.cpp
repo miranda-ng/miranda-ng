@@ -94,7 +94,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	/* new message */
 	Skin_PlaySound("AlertMsg");
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))) {
 		GetContainer()->AddPage(hContact);
 		return 0;
@@ -117,7 +117,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 INT_PTR SendMessageCmd(MCONTACT hContact, wchar_t *pwszInitialText)
 {
 	/* does the MCONTACT's protocol support IM messages? */
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto || !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 1;
 
@@ -213,7 +213,7 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
 			Srmm_Broadcast(DM_NEWTIMEZONE, (WPARAM)cws, 0);
 		else {
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto && !strcmp(cws->szModule, szProto))
 				Srmm_Broadcast(DM_UPDATETITLE, (WPARAM)cws, hContact);
 		}
@@ -263,7 +263,7 @@ static void RestoreUnreadMessageAlerts(void)
 				if (windowAlreadyExists)
 					continue;
 
-				char *szProto = GetContactProto(hContact);
+				char *szProto = Proto_GetBaseAccountName(hContact);
 				if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto))))
 					autoPopup = true;
 
@@ -483,7 +483,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (hContact) {
 		bool bEnabled = false;
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto) {
 			// leave this menu item hidden for chats
 			if (!db_get_b(hContact, szProto, "ChatRoom", 0))

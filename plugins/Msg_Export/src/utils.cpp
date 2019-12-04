@@ -457,7 +457,7 @@ void ReplaceDefines(MCONTACT hContact, wstring & sTarget)
 	bool bIdentifierUsed = sTarget.find(L"%identifier%") != string::npos;
 
 	if (bUINUsed || bEMailUsed || bProtoUsed || bIdentifierUsed) {
-		const char *szProto = GetContactProto(hContact);
+		const char *szProto = Proto_GetBaseAccountName(hContact);
 		if (bUINUsed || (bIdentifierUsed && !mir_strcmp(szProto, "ICQ"))) {
 			DWORD dwUIN = db_get_dw(hContact, szProto, "UIN", 0);
 			wstring sReplaceUin;
@@ -665,7 +665,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 	wchar_t szTemp[500];
 	bool bWriteUTF8Format = false;
 
-	const char *szProto = GetContactProto(hContact);
+	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr) {
 		Netlib_Logf(0, MODULENAME ": cannot write message for a contact %d without protocol", hContact);
 		return false;
@@ -949,7 +949,7 @@ bool bIsExportEnabled(MCONTACT hContact)
 	if (!g_plugin.getByte(hContact, "EnableLog", 1))
 		return false;
 
-	const char *szProto = GetContactProto(hContact);
+	const char *szProto = Proto_GetBaseAccountName(hContact);
 	char szTemp[500];
 	mir_snprintf(szTemp, "DisableProt_%s", szProto);
 	if (!g_plugin.getByte(szTemp, 1))
@@ -1130,6 +1130,6 @@ int nContactDeleted(WPARAM hContact, LPARAM)
 
 wchar_t* GetMyOwnNick(MCONTACT hContact)
 {
-	wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, GetContactProto(hContact));
+	wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, Proto_GetBaseAccountName(hContact));
 	return (p != nullptr) ? p : mir_wstrdup(TranslateT("No_Nick"));
 }

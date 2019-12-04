@@ -146,7 +146,7 @@ void MirandaUtils::sendMessage(ActionThreadArgStruct* args, MFENUM_SEND_MESSAGE_
 		//		targetHandleSzProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hSubContact, 0);
 		//	}
 
-		char *targetHandleSzProto = GetContactProto((UINT_PTR)args->targetHandle); //targetHandleSzProto doesnt need mir_free or delete
+		char *targetHandleSzProto = Proto_GetBaseAccountName((UINT_PTR)args->targetHandle); //targetHandleSzProto doesnt need mir_free or delete
 		if (targetHandleSzProto == nullptr) {
 			logger->log(L"MirandaUtils::sendMessageToContact: ERROR targetHandleSzProto == NULL");
 			return;

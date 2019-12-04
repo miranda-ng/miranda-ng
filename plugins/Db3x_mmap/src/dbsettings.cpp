@@ -208,7 +208,7 @@ LBL_Seek:
 	// try to get the missing mc setting from the active sub
 	if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
 		if (contactID = db_mc_getDefault(contactID)) {
-			if (szModule = GetContactProto(contactID)) {
+			if (szModule = Proto_GetBaseAccountName(contactID)) {
 				moduleNameLen = (int)mir_strlen(szModule);
 				goto LBL_Seek;
 			}

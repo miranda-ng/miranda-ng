@@ -316,7 +316,7 @@ int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 		return 0;
 
 	// filter out only events of my protocol
-	const char *szProto = GetContactProto(hContact);
+	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (mir_strcmp(szProto, m_szModuleName))
 		return 0;
 

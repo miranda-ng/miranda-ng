@@ -681,7 +681,7 @@ begin
       begin
         if value._type=DBVT_DELETED then
         begin
-          if StrCmp(Proto_GetProtoName(wParam),PluginName)<>0 then exit;
+          if StrCmp(Proto_GetBaseAccountName(wParam),PluginName)<>0 then exit;
 
           pc:=DBReadString(wParam,PluginName,optNick);
           DBWriteString(wParam,strCList,optMyHandle,pc);
@@ -695,7 +695,7 @@ begin
 
     if StrCmp(szSetting,optAge)=0 then
     begin
-      if StrCmp(Proto_GetProtoName(wParam),PluginName)<>0 then exit;
+      if StrCmp(Proto_GetBaseAccountName(wParam),PluginName)<>0 then exit;
       if value._type=DBVT_DELETED then
         i:=DBReadWord(wParam,PluginName,optAge)
       else
@@ -709,7 +709,7 @@ begin
       DBVT_ASCIIZ ,
       DBVT_WCHAR  ,
       DBVT_UTF8   :
-      if StrCmp(Proto_GetProtoName(wParam),PluginName)<>0 then exit;
+      if StrCmp(Proto_GetBaseAccountName(wParam),PluginName)<>0 then exit;
     else
       exit;
     end;

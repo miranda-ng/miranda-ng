@@ -39,7 +39,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (!strcmp(cws->szModule, "CList")) {
 		int invalidpresent = 0;
 
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto == nullptr || strcmp(szProto, MODULENAME))
 			return 0;
 
@@ -111,7 +111,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 int SiteDeleted(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
-	if (mir_strcmp(GetContactProto(hContact), MODULENAME))
+	if (mir_strcmp(Proto_GetBaseAccountName(hContact), MODULENAME))
 		return 0;
 
 	ptrW contactName(g_plugin.getWStringA(hContact, PRESERVE_NAME_KEY));

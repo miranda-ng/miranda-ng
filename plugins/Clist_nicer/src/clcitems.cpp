@@ -105,7 +105,7 @@ ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hCo
 		p->bIsMeta = FALSE;
 	if (p->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		p->hSubContact = db_mc_getMostOnline(hContact);
-		p->metaProto = GetContactProto(p->hSubContact);
+		p->metaProto = Proto_GetBaseAccountName(p->hSubContact);
 		p->iImage = Clist_GetContactIcon(p->hSubContact);
 	}
 	else {
@@ -166,7 +166,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		p->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
 		if (!szProto)
-			szProto = GetContactProto(hContact);
+			szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto) {
 			if (!result)
 				db_free(&dbv);
@@ -383,7 +383,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 		return dbHidden;
 
 	if (szProto == nullptr)
-		szProto = GetContactProto(hContact);
+		szProto = Proto_GetBaseAccountName(hContact);
 	// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 	if (cfg::dat.bFilterEffective & CLVM_STICKY_CONTACTS) {
 		DWORD dwLocalMask = db_get_dw(hContact, "CLVM", cfg::dat.current_viewmode, 0);

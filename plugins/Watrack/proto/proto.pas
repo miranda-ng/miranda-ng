@@ -111,7 +111,7 @@ begin
      (StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,
              wpRequest,Length(wpRequest))=0) then
   begin
-    StrCopy(PAnsiChar(buf),Proto_GetProtoName(ccs^.hContact));
+    StrCopy(PAnsiChar(buf),Proto_GetBaseAccountName(ccs^.hContact));
     i:=DBReadWord(ccs^.hContact,PAnsiChar(buf),'ApparentMode');
     if (i=ID_STATUS_OFFLINE) or
        ((i=0) and (Proto_GetStatus(PAnsiChar(buf))=ID_STATUS_INVISIBLE)) then

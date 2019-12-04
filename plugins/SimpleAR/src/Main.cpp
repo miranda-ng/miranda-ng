@@ -133,7 +133,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 	if (!fEnabled || !hContact || !hDBEvent)
 		return FALSE;	/// unspecified error
 
-	char *pszProto = GetContactProto(hContact);
+	char *pszProto = Proto_GetBaseAccountName(hContact);
 	int status = Proto_GetStatus(pszProto);
 	if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT || status == ID_STATUS_INVISIBLE)
 		return FALSE;

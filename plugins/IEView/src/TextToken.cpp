@@ -291,7 +291,7 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const wchar_t *text, bo
 
 	SMADD_BATCHPARSE2 sp;
 	sp.cbSize = sizeof(sp);
-	sp.Protocolname = GetContactProto(hContact);
+	sp.Protocolname = Proto_GetBaseAccountName(hContact);
 	sp.flag = SAFL_PATH | SAFL_UNICODE | (isSent ? SAFL_OUTGOING : 0);
 	sp.wstr = (wchar_t *)text;
 	sp.hContact = hContact;

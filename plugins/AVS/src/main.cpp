@@ -88,7 +88,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 			ProcessAvatarInfo(ack->hContact, GAIR_FAILED, (PROTO_AVATAR_INFORMATION*)ack->hProcess, ack->szModule);
 		}
 		else if (ack->result == ACKRESULT_STATUS) {
-			char *szProto = GetContactProto(ack->hContact);
+			char *szProto = Proto_GetBaseAccountName(ack->hContact);
 			if (szProto == nullptr || Proto_NeedDelaysForAvatars(szProto)) {
 				// Queue
 				db_set_b(ack->hContact, "ContactPhoto", "NeedUpdate", 1);

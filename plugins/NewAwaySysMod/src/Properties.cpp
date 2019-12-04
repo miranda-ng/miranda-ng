@@ -36,7 +36,7 @@ void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPerson
 
 	for (auto &hContact : Contacts()) {
 		const char *szCurProto;
-		if (!szProto || ((szCurProto = GetContactProto(hContact)) && !mir_strcmp(szProto, szCurProto))) {
+		if (!szProto || ((szCurProto = Proto_GetBaseAccountName(hContact)) && !mir_strcmp(szProto, szCurProto))) {
 			ResetContactSettingsOnStatusChange(hContact);
 			if (bResetPersonalMsgs)
 				CContactSettings(Status, hContact).SetMsgFormat(SMF_PERSONAL, nullptr); // TODO: delete only when SAM dialog opens?
@@ -135,7 +135,7 @@ TCString CContactSettings::GetMsgFormat(int Flags, int *pOrder, char *szProtoOve
 		Message = db_get_s(m_hContact, MODULENAME, StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL), (wchar_t*)NULL);
 
 	if (Flags & (GMF_LASTORDEFAULT | GMF_PROTOORGLOBAL | GMF_TEMPORARY) && Message.IsEmpty()) {
-		char *szProto = szProtoOverride ? szProtoOverride : (m_hContact ? GetContactProto(m_hContact) : nullptr);
+		char *szProto = szProtoOverride ? szProtoOverride : (m_hContact ? Proto_GetBaseAccountName(m_hContact) : nullptr);
 
 		// we mustn't pass here by GMF_TEMPORARY flag, as otherwise we'll handle GMF_TEMPORARY | GMF_PERSONAL combination incorrectly, 
 		// which is supposed to get only per-contact messages, and at the same time also may be used with NULL contact to get the global status message

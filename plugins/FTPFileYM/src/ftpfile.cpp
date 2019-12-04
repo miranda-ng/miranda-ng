@@ -181,7 +181,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	bool bIsContact = false;
 
-	char *szProto = GetContactProto(wParam);
+	char *szProto = Proto_GetBaseAccountName(wParam);
 	if (szProto) bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
 
 	bool bHideRoot = opt.bHideInactive;

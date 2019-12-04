@@ -41,7 +41,7 @@ int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day)
 	if (IsDOBValid(year, month, day))
 		return DOB_USERINFO;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	year = db_get_w(hContact, szProto, "BirthYear", 0);
 	month = db_get_b(hContact, szProto, "BirthMonth", 0);
 	day = db_get_b(hContact, szProto, "BirthDay", 0);
@@ -86,7 +86,7 @@ char GetContactGender(MCONTACT hContact)
 {
 	char gender = db_get_b(hContact, "UserInfo", "Gender", 'U');
 	if (gender == 'U')
-		gender = db_get_b(hContact, GetContactProto(hContact), "Gender", 'U');
+		gender = db_get_b(hContact, Proto_GetBaseAccountName(hContact), "Gender", 'U');
 
 	return gender;
 }
@@ -194,7 +194,7 @@ int SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode)
 	char *sYear, *sdYear, *sd2Year;
 	char *sMonth, *sdMonth, *sd2Month;
 	char *sDay, *sdDay, *sd2Day;
-	char *protocol = GetContactProto(hContact);
+	char *protocol = Proto_GetBaseAccountName(hContact);
 
 	switch (mode) {
 	case SAVE_MODE_MBIRTHDAY:

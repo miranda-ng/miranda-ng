@@ -76,7 +76,7 @@ public:
 			MCONTACT hContact = favList[i]->getHandle();
 			wchar_t *name = Clist_GetContactDisplayName(hContact);
 			AVATARCACHEENTRY *avatar = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
-			int status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
+			int status = db_get_w(hContact, Proto_GetBaseAccountName(hContact), "Status", ID_STATUS_OFFLINE);
 
 			Send("SetContact(");
 			Send(i);

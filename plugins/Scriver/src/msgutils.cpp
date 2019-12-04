@@ -237,7 +237,7 @@ void CMsgDialog::SetStatusIcon()
 	if (hContact == 0)
 		hContact = m_hContact;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	m_hStatusIcon = Skin_LoadProtoIcon(szProto, m_wStatus, false);
 	m_hStatusIconBig = Skin_LoadProtoIcon(szProto, m_wStatus, true);
 

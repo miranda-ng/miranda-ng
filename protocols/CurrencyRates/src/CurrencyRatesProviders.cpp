@@ -58,7 +58,7 @@ void InitProviders()
 
 ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact)
 {
-	char* szProto = GetContactProto(hContact);
+	char* szProto = Proto_GetBaseAccountName(hContact);
 	if (nullptr == szProto || 0 != ::_stricmp(szProto, CURRENCYRATES_PROTOCOL_NAME))
 		return nullptr;
 

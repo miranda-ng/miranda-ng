@@ -27,7 +27,7 @@ static HANDLE hServiceDetectContactOrigin;
 static INT_PTR ServiceDetectContactOriginCountry(WPARAM hContact, LPARAM)
 {
 	int countryNumber = 0xFFFF;
-	char *pszProto = GetContactProto(hContact);
+	char *pszProto = Proto_GetBaseAccountName(hContact);
 	/* ip detect */
 	if (bUseIpToCountry)
 		countryNumber = ServiceIpToCountry(db_get_dw(hContact, pszProto, "RealIP", 0), 0);

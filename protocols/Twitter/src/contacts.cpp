@@ -196,7 +196,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
 
 bool TwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (proto && mir_strcmp(m_szModuleName, proto) == 0) {
 		if (include_chat)
 			return true;

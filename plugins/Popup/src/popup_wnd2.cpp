@@ -497,7 +497,7 @@ void PopupWnd2::fixDefaults()
 
 	m_hContactPassed = m_hContact;
 	if (m_hContact)
-		if (!GetContactProto(m_hContact))
+		if (!Proto_GetBaseAccountName(m_hContact))
 			m_hContact = NULL;
 
 	switch (m_textType) {
@@ -524,7 +524,7 @@ void PopupWnd2::fixAvatar()
 
 int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 {
-	bool isIm = (m_hContact && (CallProtoService(GetContactProto(m_hContact), PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) ? true : false;
+	bool isIm = (m_hContact && (CallProtoService(Proto_GetBaseAccountName(m_hContact), PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) ? true : false;
 
 	bool enableDefaultGen = (m_hContact || !(PopupOptions.actions & ACT_DEF_NOGLOBAL)) ? true : false;
 	bool enableDefaultUsr = (isIm || m_hContact && !(PopupOptions.actions & ACT_DEF_IMONLY)) ? true : false;
@@ -795,7 +795,7 @@ void AddMessageToDB(MCONTACT hContact, char *msg)
 	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
-	dbei.szModule = GetContactProto(hContact);
+	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(msg) + 1;
 	dbei.pBlob = (PBYTE)msg;

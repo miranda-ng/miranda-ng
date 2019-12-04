@@ -201,7 +201,7 @@ static int Proto_ValidTypingContact(MCONTACT hContact, char *szProto)
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == PROTOTYPE_SELFTYPING_OFF || lParam == PROTOTYPE_SELFTYPING_ON) {
-		char *szProto = GetContactProto(wParam);
+		char *szProto = Proto_GetBaseAccountName(wParam);
 		if (!szProto)
 			return 0;
 
@@ -215,7 +215,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	int type = (int)lParam;
-	char *szProto = GetContactProto(wParam);
+	char *szProto = Proto_GetBaseAccountName(wParam);
 	if (!szProto)
 		return 0;
 

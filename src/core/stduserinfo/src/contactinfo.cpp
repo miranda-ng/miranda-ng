@@ -262,7 +262,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (hContact != NULL) {
-				char *szProto = GetContactProto(hContact);
+				char *szProto = Proto_GetBaseAccountName(hContact);
 				if (szProto == nullptr)
 					break;
 

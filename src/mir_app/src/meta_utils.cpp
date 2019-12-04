@@ -64,7 +64,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 	if (ccDest == nullptr || ccSub == nullptr)
 		return FALSE;
 
-	char *szProto = GetContactProto(hSub);
+	char *szProto = Proto_GetBaseAccountName(hSub);
 	if (szProto == nullptr) {
 		MessageBox(nullptr, TranslateT("Could not retrieve contact protocol"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
@@ -230,7 +230,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 
 	int most_online_status = ID_STATUS_OFFLINE;
 	MCONTACT most_online_contact = Meta_GetContactHandle(cc, cc->nDefault);
-	char *szProto = GetContactProto(most_online_contact);
+	char *szProto = Proto_GetBaseAccountName(most_online_contact);
 	if (szProto && Proto_GetStatus(szProto) >= ID_STATUS_ONLINE) {
 		DWORD caps = CallProtoService(szProto, PS_GETCAPS, pflagnum, 0);
 		if (capability == -1 || (caps & capability) == capability) {
@@ -252,7 +252,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 			continue;
 
 		MCONTACT hContact = Meta_GetContactHandle(cc, i);
-		szProto = GetContactProto(hContact);
+		szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto == nullptr || Proto_GetStatus(szProto) < ID_STATUS_ONLINE) // szProto offline or connecting
 			continue;
 
@@ -343,7 +343,7 @@ int Meta_HideLinkedContacts(void)
 		mir_snprintf(buffer, "Status%d",contact_number);
 
 		// prepare to update metacontact record of subcontat status
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 
 		WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, status);
@@ -411,7 +411,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 	if (!hContact)
 		return 1;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return 1;
 
@@ -522,7 +522,7 @@ void Meta_FixStatus(DBCachedContact *ccMeta)
 
 	MCONTACT most_online = db_mc_getMostOnline(ccMeta->contactID);
 	if (most_online) {
-		char *szProto = GetContactProto(most_online);
+		char *szProto = Proto_GetBaseAccountName(most_online);
 		if (szProto)
 			status = db_get_w(most_online, szProto, "Status", ID_STATUS_OFFLINE);
 	}

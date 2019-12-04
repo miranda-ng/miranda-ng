@@ -12,7 +12,7 @@ INT_PTR doubleClick(WPARAM wParam, LPARAM)
 {
 	char program[MAX_PATH], params[MAX_PATH];
 	INT_PTR shellEXEerror = 0;
-	char* proto = GetContactProto(wParam);
+	char* proto = Proto_GetBaseAccountName(wParam);
 	if (proto && !mir_strcmp(proto, MODNAME)) {
 		if (GetKeyState(VK_CONTROL) & 0x8000) // ctrl is pressed
 			editContact(wParam, 0);		// for later when i add a second double click setting

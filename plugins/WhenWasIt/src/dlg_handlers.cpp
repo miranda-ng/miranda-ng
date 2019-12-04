@@ -408,7 +408,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		{
 			wchar_t *szTooltipText = TranslateT("Please select the module where you want the date of birth to be saved.\r\n\"UserInfo\" is the default location.\r\nUse \"Protocol module\" to make the data visible in User Details.\n\"mBirthday module\" uses the same module as mBirthday plugin.");
 			wchar_t *szCurrentModuleTooltip = nullptr;
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 
 			wchar_t buffer[2048];
 			mir_snwprintf(buffer, TranslateT("Set birthday for %s:"), Clist_GetContactDisplayName(hContact));
@@ -584,7 +584,7 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 			if (month > currentMonth || (month == currentMonth) && (day > currentDay)) // birthday still to come
 				age--;
 
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		PROTOACCOUNT *pAcc = Proto_GetAccount(szProto);
 		wchar_t *ptszAccName = (pAcc == nullptr) ? TranslateT("Unknown") : pAcc->tszAccountName;
 

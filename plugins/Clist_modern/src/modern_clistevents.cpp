@@ -108,7 +108,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 			}
 		}
 
-		char *szProto = GetContactProto(p->hContact);
+		char *szProto = Proto_GetBaseAccountName(p->hContact);
 		wchar_t *szName = Clist_GetContactDisplayName(p->hContact);
 		if (szProto && szName) {
 			NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) malloc(sizeof(struct NotifyMenuItemExData));

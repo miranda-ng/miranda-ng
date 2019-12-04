@@ -64,7 +64,7 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 BOOL SetOffline(MCONTACT hContact, BOOL)
 {
 	if (hContact) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		db_set_w(hContact, szProto, "ApparentMode", 0);
 		db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;
@@ -76,7 +76,7 @@ BOOL SetOffline(MCONTACT hContact, BOOL)
 BOOL SetAllOffline(BOOL, const char *pszModule)
 {
 	for (auto &hContact : Contacts(pszModule)) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (!MM_FindModule(szProto))
 			continue;
 		int i = db_get_b(hContact, szProto, "ChatRoom", 0);
@@ -94,7 +94,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (!hContact)
 		return 0;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (MM_FindModule(szProto) == nullptr)
 		return 0;
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
@@ -123,7 +123,7 @@ static INT_PTR EventDoubleclicked(WPARAM,LPARAM lParam)
 INT_PTR JoinChat(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto) {
 			if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
 				CallProtoService(szProto, PS_JOINCHAT, hContact, lParam);
@@ -138,7 +138,7 @@ INT_PTR JoinChat(WPARAM hContact, LPARAM lParam)
 INT_PTR LeaveChat(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto)
 			CallProtoService(szProto, PS_LEAVECHAT, hContact, lParam);
 	}
@@ -151,7 +151,7 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	bool bEnabledJoin = false, bEnabledLeave = false;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		// display this menu item only for chats
 		if (db_get_b(hContact, szProto, "ChatRoom", 0)) {

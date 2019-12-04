@@ -57,7 +57,7 @@ char* __fastcall null_strdup(const char *string)
 
 wchar_t* GetContactUID(MCONTACT hContact)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	const char *uid = Proto_GetUniqueId(szProto);
 	if (uid == nullptr)
 		return nullptr;
@@ -109,7 +109,7 @@ void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, wchar_t *pszTitleStart)
 	mir_wstrncpy(newtitle, TranslateW(pszTitleStart), _countof(newtitle));
 	
 	if (hContact) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto) {
 			ptrW uid(GetContactUID(hContact));
 			wchar_t *contactName = Clist_GetContactDisplayName(hContact);
@@ -150,7 +150,7 @@ HICON InitMButton(HWND hDlg, int idButton, int idIcon, wchar_t *szTip)
 
 HICON LoadContactProtoIcon(MCONTACT hContact)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto)
 		return (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 	return nullptr;

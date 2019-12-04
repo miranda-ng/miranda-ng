@@ -162,7 +162,7 @@ void CChatScreen::UpdateObjects()
 void CChatScreen::UpdateLabels()
 {
 	tstring strNickname = CAppletManager::GetContactDisplayname(m_hContact);
-	char *szProto = GetContactProto(m_hContact);
+	char *szProto = Proto_GetBaseAccountName(m_hContact);
 	m_iStatus = ID_STATUS_OFFLINE;
 
 	tstring strProto = L"";
@@ -213,7 +213,7 @@ bool CChatScreen::SetContact(MCONTACT hContact)
 	}
 
 	// Check if the contact is valid
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	m_strProto = toTstring(szProto);
 
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(m_strProto);
@@ -249,7 +249,7 @@ void CChatScreen::LoadHistory()
 	if (!m_hContact)
 		return;
 
-	char *szProto = GetContactProto(m_hContact);
+	char *szProto = Proto_GetBaseAccountName(m_hContact);
 
 	if (m_bIRCProtocol && db_get_b(m_hContact, szProto, "ChatRoom", 0) != 0) {
 		if (!CAppletManager::GetInstance()->IsIRCHookEnabled()) {

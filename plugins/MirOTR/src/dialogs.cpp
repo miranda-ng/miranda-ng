@@ -37,7 +37,7 @@ static INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			smp_for_contact[context->app_data].responder = data->responder;
 			mir_free(data);
 
-			wchar_t title[512], *proto = mir_a2u(GetContactProto(hContact));
+			wchar_t title[512], *proto = mir_a2u(Proto_GetBaseAccountName(hContact));
 			const wchar_t *name = contact_get_nameT(hContact);
 			mir_snwprintf(title, TranslateW(LANG_SMP_PROGRESS_TITLE), name, proto);
 			SetWindowText(hwndDlg, title);
@@ -171,7 +171,7 @@ static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			smp_for_contact[context->app_data].oldlevel = data->oldlevel;
 			smp_for_contact[context->app_data].responder = data->responder;
 
-			wchar_t buff[512], *proto = mir_a2u(GetContactProto(hContact));
+			wchar_t buff[512], *proto = mir_a2u(Proto_GetBaseAccountName(hContact));
 			mir_snwprintf(buff, TranslateW(LANG_SMP_VERIFY_TITLE), contact_get_nameT(hContact), proto);
 			mir_free(proto);
 			SetWindowText(hwndDlg, buff);
@@ -302,7 +302,7 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 
 			MCONTACT hContact = (UINT_PTR)context->app_data;
-			wchar_t title[512], *proto = mir_a2u(GetContactProto(hContact));
+			wchar_t title[512], *proto = mir_a2u(Proto_GetBaseAccountName(hContact));
 			mir_snwprintf(title, TranslateW(LANG_SMP_VERIFY_TITLE), contact_get_nameT(hContact), proto);
 			mir_free(proto);
 			SetWindowText(hwndDlg, title);

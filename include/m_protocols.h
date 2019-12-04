@@ -189,15 +189,6 @@ EXTERN_C MIR_APP_DLL(const char*) Proto_GetUniqueId(const char *szModuleName);
 EXTERN_C MIR_APP_DLL(void) Proto_SetUniqueId(const char *szProtoName, const char *szUniqueId);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// gets the network-level protocol associated with a contact
-// Returns a char* pointing to the asciiz name of the protocol or NULL if the
-// contact has no protocol. There is no need to free() it or anything.
-// This is the name of the module that actually accesses the network for that
-// contact.
-
-EXTERN_C MIR_APP_DLL(char*) GetContactProto(MCONTACT hContact);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // determines whether the specified contact has the given protocol in its chain
 // Returns -1 if it is base protocol, positive number if it is filter and 0 if it doesn't
 

@@ -3,7 +3,7 @@
 void HistoryLog(MCONTACT hContact, LPCSTR szText)
 {
 	DBEVENTINFO dbei = {};
-	dbei.szModule = GetContactProto(hContact);
+	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.flags = DBEF_SENT | DBEF_READ;
 	dbei.timestamp = time(0);
 	dbei.eventType = EVENTTYPE_MESSAGE;

@@ -53,7 +53,7 @@ void __cdecl AutoreplyDelayThread(CAutoreplyData *ad)
 	Thread_SetName("NewAwaySysMod: AutoreplyDelayThread");
 
 	_ASSERT(ad && ad->hContact && ad->Reply.GetLen());
-	char *szProto = GetContactProto(ad->hContact);
+	char *szProto = Proto_GetBaseAccountName(ad->hContact);
 	if (!szProto) {
 		_ASSERT(0);
 		return;
@@ -116,7 +116,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (time(0) - dbei->timestamp > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
 		return 0;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto)
 		return 0;
 

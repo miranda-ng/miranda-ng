@@ -446,7 +446,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			i = -1;
 			break;
 		case 'P':
-			ptszName = mir_a2u(GetContactProto(hContact));
+			ptszName = mir_a2u(Proto_GetBaseAccountName(hContact));
 			NameLenght = (int)mir_wstrlen(ptszName);
 			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
 			if (!p) {

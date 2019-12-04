@@ -228,7 +228,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 				ppd.lchContact = hContact;
 				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
 
-				mir_snwprintf(ppd.lpwzContactName, TranslateT("Hiding %s (%S)"), Clist_GetContactDisplayName(hContact), GetContactProto(hContact));
+				mir_snwprintf(ppd.lpwzContactName, TranslateT("Hiding %s (%S)"), Clist_GetContactDisplayName(hContact), Proto_GetBaseAccountName(hContact));
 				mir_snwprintf(ppd.lpwzText, TranslateT("%d days since last message"), daysSinceMessage);
 
 				if (!options.iUsePopupColors) {
@@ -427,7 +427,7 @@ INT_PTR MenuMissYouClick(WPARAM hContact, LPARAM)
  */
 int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (!proto)
 		return 0;
 
@@ -460,7 +460,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!Contact_OnList(hContact))
 		return 0;
 
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (proto == nullptr || (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
 		|| !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
@@ -539,7 +539,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	for (auto &hContact : Contacts()) {
-		char *proto = GetContactProto(hContact);
+		char *proto = Proto_GetBaseAccountName(hContact);
 		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (g_plugin.getByte(hContact, "StillAbsentNotified", 0) == 0))
 		{
 			g_plugin.setByte(hContact, "StillAbsentNotified", 1);

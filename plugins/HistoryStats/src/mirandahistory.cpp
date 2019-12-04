@@ -60,7 +60,7 @@ void MirandaHistory::readContacts()
 	for (auto &hContact : Contacts()) {
 		db.setContact(hContact);
 
-		const char* pProtoName = GetContactProto(hContact);
+		const char* pProtoName = Proto_GetBaseAccountName(hContact);
 
 		// ignore because of bad or not loaded protocol?
 		if (!pProtoName)

@@ -144,7 +144,7 @@ void amRequestAwayMsg(MCONTACT hContact)
 		return;
 
 	//Do not re-ask for chat rooms
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr && !db_get_b(hContact, szProto, "ChatRoom", 0))
 		amAddHandleToChain(hContact);
 }

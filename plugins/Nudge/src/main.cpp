@@ -53,7 +53,7 @@ static INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 {
-	char *protoName = GetContactProto(hContact);
+	char *protoName = Proto_GetBaseAccountName(hContact);
 	int diff = time(0) - db_get_dw(hContact, "Nudge", "LastSent", time(0) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
 		wchar_t msg[500];
@@ -92,7 +92,7 @@ void OpenContactList()
 
 static int NudgeReceived(WPARAM hContact, LPARAM lParam)
 {
-	char *protoName = GetContactProto(hContact);
+	char *protoName = Proto_GetBaseAccountName(hContact);
 
 	DWORD currentTimestamp = time(0);
 	DWORD nudgeSentTimestamp = lParam ? (DWORD)lParam : currentTimestamp;
@@ -394,7 +394,7 @@ static int TabsrmmButtonInit(WPARAM, LPARAM)
 
 void HideNudgeButton(MCONTACT hContact)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (!ProtoServiceExists(szProto, PS_SEND_NUDGE)) {
 		BBButton bbd = {};
 		bbd.pszModuleName = "Nudge";
@@ -415,7 +415,7 @@ static int ContactWindowOpen(WPARAM, LPARAM lParam)
 
 static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr) {
 		bool isChat = db_get_b(hContact, szProto, "ChatRoom", false) != 0;
 		NudgeShowMenu((WPARAM)szProto, !isChat);

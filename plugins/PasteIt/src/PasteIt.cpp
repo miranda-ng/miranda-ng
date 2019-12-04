@@ -107,7 +107,7 @@ static void PasteIt(MCONTACT hContact, int mode)
 		MessageBox(nullptr, pasteToWeb->error, TranslateT("Error"), MB_OK | MB_ICONERROR);
 	}
 	else if (hContact != NULL && pasteToWeb->szFileLink[0] != 0) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND) {
 			BOOL isChat = db_get_b(hContact, szProto, "ChatRoom", 0);
 			if (Options::instance->autoSend) {
@@ -233,7 +233,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	bool bIsContact = false;
 
-	char *szProto = GetContactProto(wParam);
+	char *szProto = Proto_GetBaseAccountName(wParam);
 	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) != 0;
 
@@ -321,7 +321,7 @@ static void InitTabsrmmButton()
 static int WindowEvent(WPARAM, MessageWindowEventData* lParam)
 {
 	if (lParam->uType == MSG_WINDOW_EVT_OPEN) {
-		char *szProto = GetContactProto(lParam->hContact);
+		char *szProto = Proto_GetBaseAccountName(lParam->hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND) {
 			if (db_get_b(lParam->hContact, szProto, "ChatRoom", 0)) {
 				(*contactWindows)[lParam->hContact] = lParam->hwndInput;

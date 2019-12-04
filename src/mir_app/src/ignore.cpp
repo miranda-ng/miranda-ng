@@ -185,7 +185,7 @@ static void SetAllContactIcons(HWND hwndList)
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
 			DWORD proto1Caps, proto4Caps;
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto) {
 				proto1Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				proto4Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_4, 0);

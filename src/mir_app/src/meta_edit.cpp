@@ -61,7 +61,7 @@ static void FillContactList(HWND hList)
 		ListView_InsertItem(hList, &LvItem);
 
 		LvItem.iSubItem = 1; // id
-		char *szProto = GetContactProto(g_data.hContact[i]);
+		char *szProto = Proto_GetBaseAccountName(g_data.hContact[i]);
 		if (szProto) {
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 

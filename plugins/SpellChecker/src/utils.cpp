@@ -721,7 +721,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 
 void GetUserLanguageSetting(Dialog *dlg, char *setting)
 {
-	char *proto = GetContactProto(dlg->hContact);
+	char *proto = Proto_GetBaseAccountName(dlg->hContact);
 	if (proto == nullptr)
 		return;
 

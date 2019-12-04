@@ -232,7 +232,7 @@ void GenericJob::refreshTab(bool bTabChanged)
 {
 	if (bTabChanged) {
 		if (m_hContact != NULL) {
-			SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PROTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadProtoIcon(GetContactProto(m_hContact), ID_STATUS_ONLINE));
+			SendDlgItemMessage(uDlg->m_hwnd, IDC_BTN_PROTO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadProtoIcon(Proto_GetBaseAccountName(m_hContact), ID_STATUS_ONLINE));
 			SetDlgItemText(uDlg->m_hwnd, IDC_UP_CONTACT, Clist_GetContactDisplayName(m_hContact));
 		}
 		else {

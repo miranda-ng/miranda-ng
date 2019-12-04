@@ -80,7 +80,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent*)lParam;
-	if (mir_strcmp(GetContactProto(evt->hContact), m_szModuleName))
+	if (mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName))
 		return 0;
 
 	char *message = (char*)evt->dbei->pBlob;
@@ -179,7 +179,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
 {
-	if (IsOnline() && !isChatRoom(hContact) && !mir_strcmp(GetContactProto(hContact), m_szModuleName))
+	if (IsOnline() && !isChatRoom(hContact) && !mir_strcmp(Proto_GetBaseAccountName(hContact), m_szModuleName))
 		MarkMessagesRead(hContact, hDbEvent);
 	return 0;
 }

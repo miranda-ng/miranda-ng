@@ -56,7 +56,7 @@ ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
 		return nullptr;
 
 	p->hContact = hContact;
-	p->szProto = GetContactProto(hContact);
+	p->szProto = Proto_GetBaseAccountName(hContact);
 	return p;
 }
 
@@ -66,7 +66,7 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 		p->tszGroup = Clist_GetGroup(p->hContact);
 
 	if (p->szProto == nullptr)
-		p->szProto = GetContactProto(p->hContact);
+		p->szProto = Proto_GetBaseAccountName(p->hContact);
 
 	if (p->bIsHidden == -1)
 		p->bIsHidden = Contact_IsHidden(p->hContact);
@@ -139,7 +139,7 @@ MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, 0));
+	Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(Proto_GetBaseAccountName(hContact), ID_STATUS_OFFLINE, 0));
 	return 0;
 }
 
@@ -195,7 +195,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (!mir_strcmp(cws->szModule, szProto)) {
 		if (!strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName") || !strcmp(cws->szSetting, "LastName") || !strcmp(cws->szSetting, "e-mail")) {
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);

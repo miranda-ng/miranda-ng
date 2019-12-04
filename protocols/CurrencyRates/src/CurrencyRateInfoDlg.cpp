@@ -232,7 +232,7 @@ int CurrencyRates_PrebuildContactMenu(WPARAM wp, LPARAM)
 	Menu_EnableItem(g_hMenuRefresh, false);
 
 	MCONTACT hContact = MCONTACT(wp);
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (mir_strcmp(szProto, CURRENCYRATES_PROTOCOL_NAME)) {
 		Menu_ShowItem(g_hMenuRoot, false);
 		return 0;

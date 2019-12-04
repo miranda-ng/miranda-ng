@@ -65,7 +65,7 @@ bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di)
 	if (di.type == DIT_ALL)
 		return true;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		if (db_get_b(hContact, szProto, "ChatRoom", 0) != 0)
 			return di.type == DIT_CHATS;
@@ -140,7 +140,7 @@ void FormatTimestamp(DWORD ts, char *szFormat, wchar_t *buff, int bufflen)
 
 bool Uid(MCONTACT hContact, char *szProto, wchar_t *buff, int bufflen)
 {
-	char *tmpProto = (hContact ? GetContactProto(hContact) : szProto);
+	char *tmpProto = (hContact ? Proto_GetBaseAccountName(hContact) : szProto);
 	if (tmpProto) {
 		const char *szUid = Proto_GetUniqueId(tmpProto);
 		if (szUid)
@@ -211,7 +211,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 	wchar_t *swzMsg = nullptr;
 	DBVARIANT dbv;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		if (!mir_strcmp(szProto, META_PROTO))
 			hContact = db_mc_getMostOnline(hContact);
@@ -254,7 +254,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 		return Uid(hContact, nullptr, buff, bufflen);
 
 	if (!mir_wstrcmp(swzRawSpec, L"proto")) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto) {
 			a2t(szProto, buff, bufflen);
 			return true;
@@ -280,7 +280,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 			return true;
 	}
 	else if (!mir_wstrcmp(swzRawSpec, L"uidname")) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		return UidName(szProto, buff, bufflen);
 	}
 	else if (!mir_wstrcmp(swzRawSpec, L"status_msg")) {
@@ -356,7 +356,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 		int iNumber = 1;
 		MCONTACT hTmpContact = hContact;
 
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto && !mir_strcmp(szProto, META_PROTO)) {
 			iNumber = db_mc_getSubCount(hContact);
 			hTmpContact = db_mc_getSub(hContact, 0);
@@ -434,7 +434,7 @@ bool GetSubstText(MCONTACT hContact, const DISPLAYSUBST &ds, wchar_t *buff, int 
 	case DVT_DB:
 		return transFunc(hContact, ds.szModuleName, ds.szSettingName, buff, bufflen) != nullptr;
 	case DVT_PROTODB:
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto) {
 			if (transFunc(hContact, szProto, ds.szSettingName, buff, bufflen) != nullptr)
 				return true;
@@ -452,7 +452,7 @@ bool GetRawSubstText(MCONTACT hContact, char *szRawSpec, wchar_t *buff, int buff
 		if (szRawSpec[i] == '/') {
 			szRawSpec[i] = 0;
 			if (mir_strlen(szRawSpec) == 0) {
-				char *szProto = GetContactProto(hContact);
+				char *szProto = Proto_GetBaseAccountName(hContact);
 				if (szProto) {
 					if (translations[0].transFunc(hContact, szProto, &szRawSpec[i + 1], buff, bufflen) != nullptr)
 						return true;
@@ -507,7 +507,7 @@ bool ApplySubst(MCONTACT hContact, const wchar_t *swzSource, bool parseTipperVar
 					*p = 0;
 					p++;
 					if (*p) {
-						char *cp = GetContactProto(hContact);
+						char *cp = Proto_GetBaseAccountName(hContact);
 						if (cp != nullptr) {
 							PROTOACCOUNT *acc = Proto_GetAccount(cp);
 							if (acc != nullptr) {
@@ -748,11 +748,11 @@ wchar_t* GetProtoExtraStatusMessage(char *szProto)
 
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		MCONTACT hContact = db_find_first();
-		char *proto = GetContactProto(hContact);
+		char *proto = Proto_GetBaseAccountName(hContact);
 		while (!proto) {
 			hContact = db_find_next(hContact);
 			if (hContact)
-				proto = GetContactProto(hContact);
+				proto = Proto_GetBaseAccountName(hContact);
 			else {
 				hContact = NULL;
 				break;

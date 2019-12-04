@@ -98,7 +98,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			Clist_Broadcast(INTM_NAMEORDERCHANGED, 0, 0);
 	}
 	else {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto != nullptr) {
 			if (!strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
 				Clist_Broadcast(INTM_PROTOCHANGED, hContact, lParam);
@@ -478,7 +478,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			MCONTACT hSelItem = 0;
 			ClcContact *selcontact = nullptr;
 
-			char *szProto = GetContactProto(wParam);
+			char *szProto = Proto_GetBaseAccountName(wParam);
 			if (szProto == nullptr)
 				status = ID_STATUS_OFFLINE;
 			else
@@ -545,7 +545,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 			break;
 
-		contact->pce->szProto = GetContactProto(wParam);
+		contact->pce->szProto = Proto_GetBaseAccountName(wParam);
 		g_clistApi.pfnInvalidateDisplayNameCacheEntry(wParam);
 		mir_wstrncpy(contact->szText, Clist_GetContactDisplayName(wParam), _countof(contact->szText));
 		SortClcByTimer(hwnd);
@@ -571,7 +571,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case INTM_APPARENTMODECHANGED:
 		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
-			char *szProto = GetContactProto(wParam);
+			char *szProto = Proto_GetBaseAccountName(wParam);
 			if (szProto == nullptr)
 				break;
 
@@ -593,7 +593,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case INTM_IDLECHANGED:
 		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
-			char *szProto = GetContactProto(wParam);
+			char *szProto = Proto_GetBaseAccountName(wParam);
 			if (szProto == nullptr)
 				break;
 			contact->flags &= ~CONTACTF_IDLE;

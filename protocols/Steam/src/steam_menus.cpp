@@ -68,7 +68,7 @@ int CSteamProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (!hContact)
 		return 0;
 
-	if (!IsOnline() || mir_strcmp(GetContactProto(hContact), m_szModuleName))
+	if (!IsOnline() || mir_strcmp(Proto_GetBaseAccountName(hContact), m_szModuleName))
 		return 0;
 
 	bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;

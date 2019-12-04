@@ -10,7 +10,7 @@ void lib_cs_lock()
 MCONTACT find_contact(const char* userid, const char* protocol)
 {
 	for (auto &hContact : Contacts()) {
-		const char *proto = GetContactProto(hContact);
+		const char *proto = Proto_GetBaseAccountName(hContact);
 		if (proto && mir_strcmp(proto, protocol) == 0) {
 			ptrA name(contact_get_id(hContact));
 			if (name && mir_strcmp(name, userid) == 0)
@@ -28,7 +28,7 @@ MCONTACT find_contact(const char* userid, const char* protocol)
 * filled in by the application, and set *addedp to 1. */
 ConnContext* otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact)
 {
-	const char *proto = GetContactProto(hContact);
+	const char *proto = Proto_GetBaseAccountName(hContact);
 	return otrl_context_find(us, ptrA(contact_get_id(hContact)), proto, proto, OTRL_INSTAG_BEST, 0, nullptr, nullptr, nullptr);
 }
 

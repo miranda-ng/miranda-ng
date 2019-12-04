@@ -65,7 +65,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 
 int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	Menu_ShowItem(g_hMenuItem, (CallProtoService(GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1) & PF1_IM) != 0);
+	Menu_ShowItem(g_hMenuItem, (CallProtoService(Proto_GetBaseAccountName(hContact), PS_GETCAPS, PFLAGNUM_1) & PF1_IM) != 0);
 	return 0;
 }
 
@@ -124,7 +124,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (hContact == NULL || strcmp(cws->szSetting, "Status")) return 0;
 	if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 		int newStatus = cws->value.wVal;

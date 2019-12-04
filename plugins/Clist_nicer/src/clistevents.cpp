@@ -252,7 +252,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 			}
 		}
 
-		char *szProto = GetContactProto(p->hContact);
+		char *szProto = Proto_GetBaseAccountName(p->hContact);
 		wchar_t *szName = Clist_GetContactDisplayName(p->hContact);
 		if (szProto && szName) {
 			NotifyMenuItemExData *nmi = (NotifyMenuItemExData*)malloc(sizeof(NotifyMenuItemExData));

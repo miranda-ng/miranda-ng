@@ -63,7 +63,7 @@ static int Service_ContactDoubleclicked(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 {
-	char *szProto = GetContactProto(wParam);
+	char *szProto = Proto_GetBaseAccountName(wParam);
 	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return 0;
 
@@ -165,7 +165,7 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return 0;
 
@@ -217,7 +217,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 
 /*static*/ void ContactDoubleclicked(WPARAM wParam, LPARAM)
 {
-	char *szProto = GetContactProto(wParam);
+	char *szProto = Proto_GetBaseAccountName(wParam);
 	if (mir_strcmp(szProto, YAMN_DBMODULE))
 		return;
 

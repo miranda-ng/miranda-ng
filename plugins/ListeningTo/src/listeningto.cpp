@@ -179,7 +179,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	EnableDisablePlayers();
 
 	for (auto &hContact : Contacts()) {
-		char *proto = GetContactProto(hContact);
+		char *proto = Proto_GetBaseAccountName(hContact);
 		if (proto != nullptr) {
 			DBVARIANT dbv;
 			if (!db_get_ws(hContact, proto, "ListeningTo", &dbv)) {
@@ -806,7 +806,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (strcmp(cws->szSetting, "ListeningTo") != 0)
 		return 0;
 
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (proto == nullptr || strcmp(cws->szModule, proto) != 0)
 		return 0;
 

@@ -303,7 +303,7 @@ int DoExport(wchar_t *fileName)
 		int year, month, day;
 		GetContactDOB(hContact, year, month, day);
 		if (IsDOBValid(year, month, day)) {
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 			wchar_t *szHandle = GetContactID(hContact, szProto);
 
 			if ((szHandle) && (mir_strlen(szProto) > 0))

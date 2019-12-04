@@ -46,7 +46,7 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 wchar_t* GetContactName(MCONTACT hContact, char *szProto);
 wchar_t* GetContactID(MCONTACT hContact, char *szProto);
 MCONTACT GetContactFromID(wchar_t *szID, char *szProto);
-void GetContactProto(MCONTACT hContact, char *szProto, size_t size);
+void Proto_GetBaseAccountName(MCONTACT hContact, char *szProto, size_t size);
 
 int MyPUShowMessage(char *lpzText, BYTE kind);
 

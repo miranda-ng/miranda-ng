@@ -109,7 +109,7 @@ const char* HTMLBuilder::getRealProto(MCONTACT hContact)
 	if (hContact == NULL)
 		return nullptr;
 
-	return GetContactProto(getRealContact(hContact));
+	return Proto_GetBaseAccountName(getRealContact(hContact));
 }
 
 MCONTACT HTMLBuilder::getRealContact(MCONTACT hContact)
@@ -192,7 +192,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	MEVENT hDbEvent = event->hDbEventFirst;
 	event->hDbEventFirst = NULL;
 
-	const char *szProto = GetContactProto(event->hContact);
+	const char *szProto = Proto_GetBaseAccountName(event->hContact);
 
 	IEVIEWEVENT newEvent = {};
 	newEvent.iType = IEE_LOG_MEM_EVENTS;
@@ -339,7 +339,7 @@ void HTMLBuilder::clear(IEView *view, IEVIEWEVENT *event)
 	if (event != nullptr) {
 		setLastIEViewEvent(event);
 
-		if (event->hContact == NULL || GetContactProto(lastIEViewEvent.hContact))
+		if (event->hContact == NULL || Proto_GetBaseAccountName(lastIEViewEvent.hContact))
 			buildHead(view, &lastIEViewEvent);
 	}
 }

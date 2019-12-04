@@ -14,7 +14,7 @@ void __stdcall ShowToastNotification(void* p)
 
 	ptrW imagePath;
 	if (td->hContact != NULL && td->hContact != INVALID_CONTACT_ID) {
-		const char *szProto = GetContactProto(td->hContact);
+		const char *szProto = Proto_GetBaseAccountName(td->hContact);
 		if (ProtoServiceExists(szProto, PS_GETAVATARINFO)) {
 			PROTO_AVATAR_INFORMATION pai = { td->hContact };
 			if (CallProtoService(szProto, PS_GETAVATARINFO, 0, (LPARAM)&pai) == GAIR_SUCCESS)

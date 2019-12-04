@@ -580,7 +580,7 @@ static int GetContactStatus(MCONTACT hContact)
 		return 0;
 	}
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return ID_STATUS_OFFLINE;
 

@@ -479,7 +479,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			g_SetAwayMsgPage.SetWnd(hwndDlg);
 			g_SetAwayMsgPage.DBToMemToPage();
 
-			char *szProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
+			char *szProto = dat->hInitContact ? Proto_GetBaseAccountName(dat->hInitContact) : dat->szProtocol;
 			int Status = 0;
 			Status = g_ProtoStates[dat->szProtocol].m_status;
 
@@ -559,7 +559,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			// init message tree
 			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RECENTMSGSCOUNT) && g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSMRM)) {
-				char *szInitProto = dat->hInitContact ? GetContactProto(dat->hInitContact) : dat->szProtocol;
+				char *szInitProto = dat->hInitContact ? Proto_GetBaseAccountName(dat->hInitContact) : dat->szProtocol;
 				int ID = GetRecentGroupID((szInitProto || !dat->hInitContact) ? g_ProtoStates[szInitProto].m_status : ID_STATUS_AWAY);
 				CBaseTreeItem* pTreeItem = MsgTree->GetNextItem(MTGN_CHILD | MTGN_BYID, (CBaseTreeItem*)g_Messages_RecentRootID);
 				while (pTreeItem) {
@@ -712,7 +712,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							if (ItemType == MCLCIT_CONTACT) {
 								hContact = CList->GethContact(hItem);
 								_ASSERT(hContact);
-								szProto = GetContactProto(hContact);
+								szProto = Proto_GetBaseAccountName(hContact);
 								_ASSERT(szProto);
 							}
 							else if (ItemType == MCLCIT_INFO)
@@ -865,7 +865,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			CList->SetRedraw(false);
 			for (auto &hContact : Contacts()) {
-				char *szProto = GetContactProto(hContact);
+				char *szProto = Proto_GetBaseAccountName(hContact);
 				if (szProto) {
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 					if ((Flag1 & PF1_IM) == PF1_IM || Flag1 & PF1_INDIVMODEMSG) { // check if the protocol supports message sending/receiving or individual status messages before adding this contact

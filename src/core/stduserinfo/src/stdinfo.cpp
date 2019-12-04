@@ -203,7 +203,7 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					char *szProto = GetContactProto(hContact);
+					char *szProto = Proto_GetBaseAccountName(hContact);
 					if (szProto == nullptr)
 						break;
 
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					char *szProto = GetContactProto(hContact);
+					char *szProto = Proto_GetBaseAccountName(hContact);
 					if (szProto == nullptr)
 						break;
 
@@ -328,7 +328,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					char *szProto = GetContactProto(hContact);
+					char *szProto = Proto_GetBaseAccountName(hContact);
 					if (szProto == nullptr) break;
 					SetValue(hwndDlg, IDC_COMPANY, hContact, szProto, "Company", SVS_ZEROISUNSPEC);
 					SetValue(hwndDlg, IDC_DEPARTMENT, hContact, szProto, "CompanyDepartment", SVS_ZEROISUNSPEC);
@@ -405,7 +405,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				char idstr[33];
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					char *szProto = GetContactProto(hContact);
+					char *szProto = Proto_GetBaseAccountName(hContact);
 					if (szProto == nullptr)
 						break;
 
@@ -538,7 +538,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case PSN_INFOCHANGED:
 				hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					char *szProto = GetContactProto(hContact);
+					char *szProto = Proto_GetBaseAccountName(hContact);
 					if (szProto != NULL)
 						SetValue(hwndDlg, IDC_ABOUT, hContact, szProto, "About", 0);
 				}
@@ -577,7 +577,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	if (lParam == NULL)
 		return 0;
 
-	if (GetContactProto(lParam) == nullptr)
+	if (Proto_GetBaseAccountName(lParam) == nullptr)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = {};

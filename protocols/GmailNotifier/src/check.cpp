@@ -135,7 +135,7 @@ void __cdecl Check_ThreadFunc(void *lpParam)
 	}
 	else {
 		for (auto &it : g_accs) {
-			if (GetContactProto(it->hContact)) {
+			if (Proto_GetBaseAccountName(it->hContact)) {
 				CheckMailInbox(it);
 				NotifyUser(it);
 			}

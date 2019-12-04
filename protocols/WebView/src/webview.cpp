@@ -165,7 +165,7 @@ void InitialiseGlobals(void)
 int Doubleclick(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (mir_strcmp(MODULENAME, szProto))
 		return 0;
 

@@ -633,7 +633,7 @@ void CMsgDialog::DM_SetDBButtonStates()
 				continue;
 			}
 			if (buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION)
-				szModule = GetContactProto(m_hContact);
+				szModule = Proto_GetBaseAccountName(m_hContact);
 			hFinalContact = m_hContact;
 		}
 		else hFinalContact = 0;

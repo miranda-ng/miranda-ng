@@ -73,7 +73,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 		bool bFree = false;
 		wchar_t *title = db_get_wsa(hContact, "CList", "StatusMsg");
 		if (title == nullptr) {
-			char *proto = GetContactProto(hContact);
+			char *proto = Proto_GetBaseAccountName(hContact);
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 			title = Clist_GetStatusModeDescription(status, 0);
 		}
@@ -239,7 +239,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = nullp
 	lpdis->rcItem.top += 2;
 	lpdis->rcItem.bottom -= 2;
 
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 
 	HIMAGELIST hIml = Clist_GetImageList();
 	int iIcon = Clist_GetContactIcon(hContact);

@@ -108,7 +108,7 @@ TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, DWORD UIN, int iSta
 		VarParseData.Message = CProtoSettings(szProto, iStatus).GetMsgFormat(iStatus ? GMF_LASTORDEFAULT : GMF_ANYCURRENT);
 
 	TCString sTime;
-	VarParseData.szProto = szProto ? szProto : ((hContact && hContact != INVALID_CONTACT_ID) ? GetContactProto(hContact) : nullptr);
+	VarParseData.szProto = szProto ? szProto : ((hContact && hContact != INVALID_CONTACT_ID) ? Proto_GetBaseAccountName(hContact) : nullptr);
 	VarParseData.UIN = UIN;
 	VarParseData.Flags = 0;
 	if (ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
@@ -227,7 +227,7 @@ static int IdleChangeEvent(WPARAM, LPARAM lParam)
 
 int PreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	int iMode = szProto ? Proto_GetStatus(szProto) : 0;
 	int Flag1 = szProto ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
 	int iContactMode = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -302,7 +302,7 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 	SetAwayMsgData *dat = new SetAwayMsgData;
 	memset(dat, 0, sizeof(SetAwayMsgData));
 	dat->hInitContact = hContact;
-	dat->szProtocol = GetContactProto(hContact);
+	dat->szProtocol = Proto_GetBaseAccountName(hContact);
 	dat->IsModeless = false;
 	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
 	return 0;
@@ -311,7 +311,7 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 {
 	// used only for the global setting
-	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : nullptr].m_status, hContact).Autoreply.Toggle();
+	CContactSettings(g_ProtoStates[hContact ? Proto_GetBaseAccountName(hContact) : nullptr].m_status, hContact).Autoreply.Toggle();
 
 	if (hContact == NULL) {
 		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].m_status).Autoreply;
@@ -330,19 +330,19 @@ INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 
 INT_PTR srvAutoreplyOn(WPARAM hContact, LPARAM)
 {
-	CContactSettings(g_ProtoStates[GetContactProto(hContact)].m_status, hContact).Autoreply = 1;
+	CContactSettings(g_ProtoStates[Proto_GetBaseAccountName(hContact)].m_status, hContact).Autoreply = 1;
 	return 0;
 }
 
 INT_PTR srvAutoreplyOff(WPARAM hContact, LPARAM)
 {
-	CContactSettings(g_ProtoStates[GetContactProto(hContact)].m_status, hContact).Autoreply = 0;
+	CContactSettings(g_ProtoStates[Proto_GetBaseAccountName(hContact)].m_status, hContact).Autoreply = 0;
 	return 0;
 }
 
 INT_PTR srvAutoreplyUseDefault(WPARAM hContact, LPARAM)
 {
-	CContactSettings(g_ProtoStates[GetContactProto(hContact)].m_status, hContact).Autoreply = VAL_USEDEFAULT;
+	CContactSettings(g_ProtoStates[Proto_GetBaseAccountName(hContact)].m_status, hContact).Autoreply = VAL_USEDEFAULT;
 	return 0;
 }
 

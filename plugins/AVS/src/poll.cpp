@@ -184,7 +184,7 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 	int result = GAIR_NOAVATAR;
 
 	if (szProto == nullptr)
-		szProto = GetContactProto(hContact);
+		szProto = Proto_GetBaseAccountName(hContact);
 
 	if (szProto != nullptr && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto)) {
 		// Can have avatar, but must request it?

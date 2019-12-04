@@ -78,7 +78,7 @@ HANDLE CCloudService::SendFile(MCONTACT hContact, const wchar_t *description, wc
 
 void CCloudService::OpenUploadDialog(MCONTACT hContact)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (!mir_strcmpi(proto, META_PROTO))
 		hContact = db_mc_getMostOnline(hContact);
 

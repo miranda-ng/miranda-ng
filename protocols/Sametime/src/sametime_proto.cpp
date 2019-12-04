@@ -203,7 +203,7 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
 {
 	debugLogW(L"CSametimeProto::SendMsg()  hContact=[%x]", hContact);
 
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (!proto || mir_strcmp(proto, m_szModuleName) != 0 || db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		TFakeAckParams* tfap = (TFakeAckParams*)mir_alloc(sizeof(TFakeAckParams));
 		tfap->proto = this;

@@ -899,7 +899,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_FE_STATUSCHANGE:
 	{
-		char *szProto = GetContactProto(dat->hContact);
+		char *szProto = Proto_GetBaseAccountName(dat->hContact);
 		if (szProto) {
 			int dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			if (dat->inSend && dwStatus != dat->contactStatus) {

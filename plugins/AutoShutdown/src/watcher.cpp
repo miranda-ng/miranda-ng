@@ -177,7 +177,7 @@ static BOOL CheckAllContactsOffline(void)
 	BOOL fSmartCheck, fAllOffline = TRUE; /* tentatively */
 	fSmartCheck = g_plugin.getByte("SmartOfflineCheck", SETTING_SMARTOFFLINECHECK_DEFAULT);
 	for (auto &hContact : Contacts()) {
-		char *pszProto = GetContactProto(hContact);
+		char *pszProto = Proto_GetBaseAccountName(hContact);
 		if (pszProto != nullptr && Proto_GetStatus(pszProto) != ID_STATUS_OFFLINE) {
 			if (db_get_b(hContact, pszProto, "ChatRoom", 0)) continue;
 			if (db_get_w(hContact, pszProto, "Status", 0) != ID_STATUS_OFFLINE) {
@@ -198,7 +198,7 @@ static int StatusSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (currentWatcherType&SDWTF_STATUS) {
 		DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
 		if ((HANDLE)wParam != nullptr && dbcws->value.wVal == ID_STATUS_OFFLINE && !strcmp(dbcws->szSetting, "Status")) {
-			char *pszProto = GetContactProto(wParam);
+			char *pszProto = Proto_GetBaseAccountName(wParam);
 			if (pszProto != nullptr && !strcmp(dbcws->szModule, pszProto))
 				if (CheckAllContactsOffline())
 					ShutdownAndStopWatcher();
@@ -234,7 +234,7 @@ static BOOL CALLBACK CpuUsageWatcherProc(BYTE nCpuUsage, LPARAM lParam)
 
 static int WeatherUpdated(WPARAM wParam, LPARAM lParam)
 {
-	char *pszProto = GetContactProto(wParam);
+	char *pszProto = Proto_GetBaseAccountName(wParam);
 	if ((BOOL)lParam && pszProto != nullptr && Proto_GetStatus(pszProto) == ID_STATUS_INVISIBLE)
 		if (g_plugin.getByte("WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT))
 			ServiceShutdown(SDSDT_SHUTDOWN, TRUE);

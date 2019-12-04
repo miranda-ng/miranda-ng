@@ -74,7 +74,7 @@ HICON createProtoOverlayedIcon(MCONTACT hContact)
 {
 	HICON icon1 = LoadIconEx(I_OVERLAY);
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	HICON icon0 = Skin_LoadProtoIcon(szProto, ID_STATUS_ONLINE);
 
 	HICON resIcon = getOverlayedIcon(icon0, icon1, FALSE);

@@ -34,7 +34,7 @@ bool ContactEnabled(MCONTACT hContact, char *setting, int def)
 	if (hContact == NULL)
 		return false;
 
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (!ProtocolEnabled(proto))
 		return false;
 
@@ -106,7 +106,7 @@ wchar_t* GetProtocolFolder(wchar_t *fn, char *proto)
 
 wchar_t* GetContactFolder(wchar_t *fn, MCONTACT hContact)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	GetProtocolFolder(fn, proto);
 
 	wchar_t uin[MAX_PATH];

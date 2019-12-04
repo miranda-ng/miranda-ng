@@ -139,7 +139,7 @@ INT_PTR service_SendDesktop(WPARAM wParam, LPARAM)
 		return -1;
 	}
 	MCONTACT hContact = (MCONTACT)wParam;
-	char *pszProto = GetContactProto(hContact);
+	char *pszProto = Proto_GetBaseAccountName(hContact);
 	bool bChatRoom = db_get_b(hContact, pszProto, "ChatRoom", 0) != 0;
 	frmMain->m_opt_chkTimed = false;
 	frmMain->m_opt_tabCapture = 1;
@@ -237,7 +237,7 @@ int hook_SystemPreShutdown(WPARAM, LPARAM)
 
 int hook_PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	INT_PTR flags = CallProtoService(GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1, 0);
+	INT_PTR flags = CallProtoService(Proto_GetBaseAccountName(hContact), PS_GETCAPS, PFLAGNUM_1, 0);
 	bool bEnabled = (flags != CALLSERVICE_NOTFOUND) && (flags & PF1_FILE) != 0;
 	Menu_ShowItem(g_hMenu1, bEnabled);
 	Menu_ShowItem(g_hMenu2, bEnabled);

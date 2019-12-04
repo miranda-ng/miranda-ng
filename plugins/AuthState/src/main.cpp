@@ -64,7 +64,7 @@ CMPlugin::CMPlugin() :
 
 INT_PTR getIconToUse(MCONTACT hContact, LPARAM)
 {
-	const char *proto = GetContactProto(hContact);
+	const char *proto = Proto_GetBaseAccountName(hContact);
 	//	if (lParam == 1) return icon_none;
 	if (!g_plugin.getByte(hContact, "ShowIcons", !Options.bIconsForRecentContacts))
 		return ICON_NONE;
@@ -103,7 +103,7 @@ int onExtraImageApplying(WPARAM hContact, LPARAM lParam)
 int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	const char *proto = GetContactProto((MCONTACT)hContact);
+	const char *proto = Proto_GetBaseAccountName((MCONTACT)hContact);
 	if (!proto)
 		return 0;
 
@@ -135,7 +135,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 	}
 
-	char *proto = GetContactProto((MCONTACT)hContact);
+	char *proto = Proto_GetBaseAccountName((MCONTACT)hContact);
 	if (!proto)
 		return 0;
 

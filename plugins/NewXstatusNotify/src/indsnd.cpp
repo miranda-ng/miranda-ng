@@ -112,7 +112,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		TranslateDialogDefault(hwndDlg);
 		{
 			hContact = lParam;
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 
 			ListView_SetImageList(hList, GetStatusIconsImgList(szProto), LVSIL_SMALL);
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
@@ -304,7 +304,7 @@ void SetAllContactsIcons(HWND hwndList)
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto) {
 				EnableSounds = g_plugin.getByte(hContact, "EnableSounds", 1);
 				EnablePopups = g_plugin.getByte(hContact, "EnablePopups", 1);

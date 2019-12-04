@@ -49,7 +49,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam
 
 int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
-	if (hContact && mir_strcmp(GetContactProto(hContact), m_szModuleName))
+	if (hContact && mir_strcmp(Proto_GetBaseAccountName(hContact), m_szModuleName))
 		return 0;
 
 	if (isChatRoom(hContact))

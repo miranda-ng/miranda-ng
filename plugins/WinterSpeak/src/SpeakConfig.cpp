@@ -50,7 +50,7 @@ bool SpeakConfig::say(const std::wstring &sentence, MCONTACT user, bool message)
 	if (NULL != user)
 	{
 		// get the status of the protocol of this user
-		const char *protocol = GetContactProto(user);
+		const char *protocol = Proto_GetBaseAccountName(user);
 		
 		switch (Proto_GetStatus(protocol)) {
 		case ID_STATUS_ONLINE:

@@ -151,7 +151,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)calloc(1, sizeof(PLUGIN_DATA));
 	POPUPDATAW ppd;
 	ppd.lchContact = sd->hContact;
-	char *szProto = GetContactProto(sd->hContact);
+	char *szProto = Proto_GetBaseAccountName(sd->hContact);
 	pdata->hIcon = ppd.lchIcon = Finger_GetClientIcon(sd->MirVer, false);
 	_ASSERT(ppd.lchIcon);
 	if (!ppd.lchIcon || (INT_PTR)ppd.lchIcon == CALLSERVICE_NOTFOUND) {
@@ -187,7 +187,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (!hContact) // exit if hContact == NULL and it's not a popup preview
 			return 0;
 
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (!mir_strcmp(szProto, META_PROTO)) // workaround for metacontacts
 			return 0;
 

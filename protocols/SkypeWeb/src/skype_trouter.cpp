@@ -196,7 +196,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 				cle.lParam = SKYPE_DB_EVENT_TYPE_INCOMING_CALL;
 				cle.hIcon = g_plugin.getIcon(IDI_CALL);
 
-				CMStringA service(FORMAT, "%s/IncomingCallCLE", GetContactProto(hContact));
+				CMStringA service(FORMAT, "%s/IncomingCallCLE", Proto_GetBaseAccountName(hContact));
 				cle.pszService = service.GetBuffer();
 
 				CMStringW tooltip(FORMAT, TranslateT("Incoming call from %s"), Clist_GetContactDisplayName(hContact));

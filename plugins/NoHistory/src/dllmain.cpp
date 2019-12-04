@@ -135,7 +135,7 @@ INT_PTR ServiceClear(WPARAM hContact, LPARAM)
 int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	bool remove = g_plugin.getByte(hContact, DBSETTING_REMOVE) != 0;
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 
 	if (chat_room)
@@ -173,7 +173,7 @@ int WindowEvent(WPARAM, LPARAM lParam)
 		break;
 
 	case MSG_WINDOW_EVT_OPEN:
-		char *proto = GetContactProto(hContact);
+		char *proto = Proto_GetBaseAccountName(hContact);
 		bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 		int remove = g_plugin.getByte(hContact, DBSETTING_REMOVE) != 0;
 
@@ -193,7 +193,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 	if (sicd->flags & MBCF_RIGHTBUTTON) return 0; // ignore right-clicks
 	if (mir_strcmp(sicd->szModule, MODULENAME) != 0) return 0; // not our event
 
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 	if (!chat_room)
 		ServiceToggle(hContact, 0);

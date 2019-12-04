@@ -163,7 +163,7 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 			msgwnd->hwndInput = wndEvtData->hwndInput;
 
 			// Get the protocol for this contact to display correct smileys.
-			char *protonam = GetContactProto(DecodeMetaContact(msgwnd->hContact));
+			char *protonam = Proto_GetBaseAccountName(DecodeMetaContact(msgwnd->hContact));
 			if (protonam)
 				strncpy_s(msgwnd->ProtocolName, protonam, _TRUNCATE);
 

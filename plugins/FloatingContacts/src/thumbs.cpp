@@ -245,7 +245,7 @@ void ThumbInfo::ResizeThumb()
 
 	HDC hdc = GetWindowDC(hwnd);
 	if (Contact_OnList(hContact)) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (nullptr != szProto) {
 			int nStatus = Proto_GetStatus(szProto);
 			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -573,7 +573,7 @@ void ThumbInfo::UpdateContent()
 	oldBkMode = SetBkMode(hdcDraw, TRANSPARENT);
 
 	if (Contact_OnList(hContact)) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (nullptr != szProto) {
 			int nStatus = Proto_GetStatus(szProto);
 			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);

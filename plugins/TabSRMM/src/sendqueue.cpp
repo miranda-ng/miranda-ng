@@ -461,7 +461,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
-	dbei.szModule = GetContactProto(job.hContact);
+	dbei.szModule = Proto_GetBaseAccountName(job.hContact);
 	dbei.timestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(job.szSendBuffer) + 1;
 
@@ -553,7 +553,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 		DBEVENTINFO dbei = {};
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
-		dbei.szModule = GetContactProto(dat->m_hContact);
+		dbei.szModule = Proto_GetBaseAccountName(dat->m_hContact);
 		dbei.timestamp = time(0);
 		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
 		dbei.pBlob = (PBYTE)(char*)utfText;

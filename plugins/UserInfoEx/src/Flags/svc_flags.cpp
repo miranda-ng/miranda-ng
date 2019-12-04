@@ -44,7 +44,7 @@ static LIST<MsgWndData> gMsgWndList(10, NumericKeySortT);
 static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM)
 {
 	WORD countryNumber;
-	char *pszProto = GetContactProto(wParam);
+	char *pszProto = Proto_GetBaseAccountName(wParam);
 	/* UserinfoEx */
 	if (countryNumber = db_get_w(wParam, USERINFO, SET_CONTACT_ORIGIN_COUNTRY, 0))
 		return countryNumber;

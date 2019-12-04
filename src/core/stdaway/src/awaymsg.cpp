@@ -56,7 +56,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 		{
 			wchar_t str[256], format[128];
 			wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
-			char *szProto = GetContactProto(dat->hContact);
+			char *szProto = Proto_GetBaseAccountName(dat->hContact);
 			WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);
 
@@ -132,7 +132,7 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 
 static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr) {
 		int chatRoom = db_get_b(hContact, szProto, "ChatRoom", 0);
 		if (!chatRoom) {

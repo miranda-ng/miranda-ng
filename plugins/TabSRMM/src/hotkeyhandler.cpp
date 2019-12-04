@@ -362,7 +362,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else
 						SendMessage(hWnd, WM_CLOSE, 0, 1);
 
-					char *szProto = GetContactProto(lParam);
+					char *szProto = Proto_GetBaseAccountName(lParam);
 					if (szProto != nullptr && db_get_b(lParam, szProto, "ChatRoom", 0))
 						ShowRoom((TContainerData*)wParam, SM_FindSessionByHCONTACT(lParam));
 					else

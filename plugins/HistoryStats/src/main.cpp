@@ -201,9 +201,9 @@ static INT_PTR MenuHistoryPaste(WPARAM wParam, LPARAM lParam)
 	// ask user if this is really what he wants
 	ext::string strConfirm = ext::str(ext::kformat(TranslateT("You're going to copy the complete history of #{source_name} (#{source_proto}) to #{target_name} (#{target_proto}). Afterwards, the target history will contain entries from both histories. There is no way to revert this operation. Be careful! This is a rather big operation and has the potential to damage your database. Be sure to have a backup of this database before performing this operation.\r\n\r\nAre you sure you would like to continue?")))
 		% L"#{source_name}" * mu::clist::getContactDisplayName(g_hHistoryCopyContact)
-		% L"#{source_proto}" * utils::fromA(GetContactProto(g_hHistoryCopyContact))
+		% L"#{source_proto}" * utils::fromA(Proto_GetBaseAccountName(g_hHistoryCopyContact))
 		% L"#{target_name}" * mu::clist::getContactDisplayName(hTarget)
-		% L"#{target_proto}" * utils::fromA(GetContactProto(hTarget)));
+		% L"#{target_proto}" * utils::fromA(Proto_GetBaseAccountName(hTarget)));
 
 		if (MessageBox(0, strConfirm.c_str(), TranslateT("HistoryStats - Confirm")), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) != IDYES)
 	{
@@ -270,7 +270,7 @@ static int EventPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 	{
-		const char* szProto = GetContactProto(hContact);
+		const char* szProto = Proto_GetBaseAccountName(hContact);
 
 		if ((!g_pSettings->m_ShowContactMenuPseudo && (!szProto || !(mu::protosvc::getCaps(szProto, PFLAGNUM_2) & ~mu::protosvc::getCaps(szProto, PFLAGNUM_5)))) || g_pSettings->m_HideContactMenuProtos.find(szProto) != g_pSettings->m_HideContactMenuProtos.end())
 			Menu_ShowItem(g_hMenuToggleExclude, false);

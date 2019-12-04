@@ -9,7 +9,6 @@ uses
 
 //----- Contact info -----
 
-function GetContactProto(hContact: TMCONTACT): PAnsiChar; overload;
 function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: PAnsiChar): PAnsiChar; overload;
 function GetContactDisplayName(hContact: TMCONTACT; Proto: PAnsiChar = nil; Contact: boolean = false): PWideChar;
 function GetContactID(hContact: TMCONTACT; Proto: PAnsiChar = nil; Contact: boolean = false): PAnsiChar;
@@ -61,19 +60,13 @@ uses
 
 //----- Contact info -----
 
-function GetContactProto(hContact: TMCONTACT): PAnsiChar;
-{$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  Result := Proto_GetProtoName(hContact);
-end;
-
 function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: PAnsiChar): PAnsiChar;
 begin
-  Result := Proto_GetProtoName(hContact);
+  Result := Proto_GetBaseAccountName(hContact);
   if StrCmp(Result, META_PROTO)=0 then
   begin
     SubContact  := db_mc_getMostOnline(hContact);
-    SubProtocol := Proto_GetProtoName(SubContact);
+    SubProtocol := Proto_GetBaseAccountName(SubContact);
   end
   else
   begin
@@ -91,7 +84,7 @@ begin
   else
   begin
     if Proto = nil then
-      Proto := GetContactProto(hContact);
+      Proto := Proto_GetBaseAccountName(hContact);
     pUnk := TranslateW('''(Unknown Contact)''');
     if Proto = nil then
       StrDupW(Result, pUnk)
@@ -126,7 +119,7 @@ begin
   if not((hContact = 0) and Contact) then
   begin
     if Proto = nil then
-      Proto := GetContactProto(hContact);
+      Proto := Proto_GetBaseAccountName(hContact);
     uid := Proto_GetUniqueId(Proto);
     if (uid <> nil) then
     begin
@@ -158,7 +151,7 @@ end;
 function GetContactCodePage(hContact: TMCONTACT; Proto: PAnsiChar; var UsedDefault: boolean) : Cardinal;
 begin
   if Proto = nil then
-    Proto := GetContactProto(hContact);
+    Proto := Proto_GetBaseAccountName(hContact);
   if Proto = nil then
     Result := Langpack_GetDefaultCodePage
   else
@@ -183,7 +176,7 @@ function WriteContactCodePage(hContact: TMCONTACT; CodePage: Cardinal; Proto: PA
 begin
   Result := false;
   if Proto = nil then
-    Proto := GetContactProto(hContact);
+    Proto := Proto_GetBaseAccountName(hContact);
   if Proto = nil then
     exit;
   DBWriteWord(hContact, Proto, 'AnsiCodePage', CodePage);
@@ -194,7 +187,7 @@ function GetContactStatus(hContact:TMCONTACT):integer;
 var
   szProto:PAnsiChar;
 begin
-  szProto:=GetContactProto(hContact);
+  szProto:=Proto_GetBaseAccountName(hContact);
   if szProto=nil then
     result:=ID_STATUS_OFFLINE
   else
@@ -205,14 +198,14 @@ end;
 
 function IsChat(hContact:TMCONTACT):bool;
 begin
-  result:=DBReadByte(hContact,GetContactProto(hContact),'ChatRoom',0)=1;
+  result:=DBReadByte(hContact,Proto_GetBaseAccountName(hContact),'ChatRoom',0)=1;
 end;
 
 function IsMirandaUser(hContact:TMCONTACT):integer; // >0=Miranda; 0=Not miranda; -1=unknown
 var
   sz:PAnsiChar;
 begin
-  sz:=DBReadString(hContact,GetContactProto(hContact),'MirVer');
+  sz:=DBReadString(hContact,Proto_GetBaseAccountName(hContact),'MirVer');
   if sz<>nil then
   begin
     result:=int_ptr(StrPos(sz,'Miranda'));
@@ -243,7 +236,7 @@ begin
       result:=255;
       if db_mc_getMeta(hContact)<>0 then
         result:=2;
-      if StrCmp(GetContactProto(hContact),META_PROTO)=0 then
+      if StrCmp(Proto_GetBaseAccountName(hContact),META_PROTO)=0 then
         result:=1;
     end;
     if Proto<>nil then
@@ -450,7 +443,7 @@ var
 begin
   if (hContact<>0) and (db_is_contact(hContact)<>0) then
   begin
-    if StrCopy(pc,GetContactProto(hContact))<>nil then
+    if StrCopy(pc,Proto_GetBaseAccountName(hContact))<>nil then
       if DblClk or (DBReadByte(hContact,pc,'ChatRoom',0)=1) then // chat room
       begin
         if not anystatus then

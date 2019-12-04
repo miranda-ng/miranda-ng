@@ -146,12 +146,6 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact)
 	return Proto_GetAccount(szProto);
 }
 
-MIR_APP_DLL(char*) GetContactProto(MCONTACT hContact)
-{
-	PROTOACCOUNT *pa = Proto_GetAccount(hContact);
-	return pa->IsEnabled() ? pa->szModuleName : nullptr;
-}
-
 MIR_APP_DLL(char*) Proto_GetBaseAccountName(MCONTACT hContact)
 {
 	PROTOACCOUNT *pa = Proto_GetAccount(hContact);

@@ -225,7 +225,7 @@ EXTERN_C MIR_APP_DLL(HMENU) Menu_BuildContactMenu(MCONTACT hContact)
 {
 	NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 
 	BuildContactParam bcp;
 	bcp.szProto = szProto;

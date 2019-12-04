@@ -120,7 +120,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	char *szStatusMsg = nullptr;
 
 	MCONTACT hRealContact = getRealContact(event->hContact);
-	const char *szRealProto = GetContactProto(hRealContact);
+	const char *szRealProto = Proto_GetBaseAccountName(hRealContact);
 
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
 	if (tmpm == nullptr)
@@ -285,8 +285,8 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	bool isGrouping = false;
 
 	MCONTACT hRealContact = getRealContact(event->hContact);
-	const char *szRealProto = GetContactProto(hRealContact);
-	const char *szProto = GetContactProto(event->hContact);
+	const char *szRealProto = Proto_GetBaseAccountName(hRealContact);
+	const char *szProto = Proto_GetBaseAccountName(event->hContact);
 	tempBase[0] = '\0';
 
 	TemplateMap *tmpm = getTemplateMap(protoSettings);

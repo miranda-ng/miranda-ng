@@ -5,7 +5,7 @@
 
 int StartOTR(MCONTACT hContact)
 {
-	const char *proto = GetContactProto(hContact);
+	const char *proto = Proto_GetBaseAccountName(hContact);
 	if (!proto)
 		return 1; // error
 	
@@ -91,7 +91,7 @@ int otr_disconnect_contact(MCONTACT hContact)
 	if (hSub != 0)
 		hContact = hSub;
 
-	const char *proto = GetContactProto(hContact);
+	const char *proto = Proto_GetBaseAccountName(hContact);
 	if (!proto)
 		return 1; // error
 	
@@ -183,7 +183,7 @@ int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hStartItem, false);
 	Menu_ShowItem(hStopItem, false);
 
-	const char *proto = GetContactProto(hContact);
+	const char *proto = Proto_GetBaseAccountName(hContact);
 	if (!proto || db_get_b(hContact, proto, "ChatRoom", 0) == 1)
 		return 0;
 
@@ -192,7 +192,7 @@ int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM)
 		hContact = db_mc_getMostOnline(hContact);
 		if (!hContact)
 			return 0;
-		proto = GetContactProto(hContact);
+		proto = Proto_GetBaseAccountName(hContact);
 	}
 
 	INT_PTR caps = CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0);

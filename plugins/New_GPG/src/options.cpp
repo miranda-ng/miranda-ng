@@ -64,7 +64,7 @@ public:
 				int row = list_USERLIST.AddItem(L"", 0);
 				list_USERLIST.SetItemText(row, 0, name);
 
-				wchar_t *tmp = mir_a2u(GetContactProto(hContact));
+				wchar_t *tmp = mir_a2u(Proto_GetBaseAccountName(hContact));
 				list_USERLIST.SetItemText(row, 4, tmp);
 				mir_free(tmp);
 

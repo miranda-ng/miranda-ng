@@ -68,16 +68,16 @@ uses hpp_database, hpp_options;
 
 function GetContactProto(hContact: TMCONTACT): AnsiString;
 begin
-  Result := Proto_GetProtoName(hContact);
+  Result := Proto_GetBaseAccountName(hContact);
 end;
 
 function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: AnsiString): AnsiString;
 begin
-  Result := Proto_GetProtoName(hContact);
+  Result := Proto_GetBaseAccountName(hContact);
   if (Result = META_PROTO) then
   begin
     SubContact := db_mc_getMostOnline(hContact);
-    SubProtocol := Proto_GetProtoName(SubContact);
+    SubProtocol := Proto_GetBaseAccountName(SubContact);
   end
   else
   begin

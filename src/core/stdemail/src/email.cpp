@@ -35,7 +35,7 @@ void __cdecl SendEmailThread(char *szUrl)
 static INT_PTR SendEMailCommand(WPARAM hContact, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr || db_get_s(hContact, szProto, "e-mail", &dbv)) {
 		if (db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv)) {
 			MessageBox((HWND)lParam, TranslateT("User has not registered an e-mail address"), TranslateT("Send e-mail"), MB_OK);
@@ -54,7 +54,7 @@ static int EMailPreBuildMenu(WPARAM hContact, LPARAM)
 {
 	bool bEnabled = true;
 	DBVARIANT dbv = { 0 };
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr || db_get_s(hContact, szProto, "e-mail", &dbv))
 		if (db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv))
 			bEnabled = false;

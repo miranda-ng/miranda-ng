@@ -22,7 +22,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			WindowList_Add(hChangeSoundDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULENAME, "ChangeSoundDlg");
-			char* szProto = GetContactProto(hContact);
+			char* szProto = Proto_GetBaseAccountName(hContact);
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			const char* szUniqueId = Proto_GetUniqueId(pa->szModuleName);
 			if (szUniqueId != nullptr) {

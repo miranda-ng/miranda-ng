@@ -145,7 +145,7 @@ void CToxProto::OnReadReceipt(Tox *tox, uint32_t friendNumber, uint32_t messageN
 int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent*)lParam;
-	if (mir_strcmp(GetContactProto(evt->hContact), m_szModuleName))
+	if (mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName))
 		return 0;
 
 	char *message = (char*)evt->dbei->pBlob;

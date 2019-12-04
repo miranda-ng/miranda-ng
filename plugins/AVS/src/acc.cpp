@@ -418,7 +418,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			DestroyAnimation(data);
 
 			data->hContact = lParam;
-			mir_strncpy(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
+			mir_strncpy(data->proto, Proto_GetBaseAccountName(data->hContact), sizeof(data->proto));
 
 			StartAnimation(data);
 

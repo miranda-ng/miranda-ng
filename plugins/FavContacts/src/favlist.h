@@ -24,7 +24,7 @@ public:
 		else
 			group = mir_wstrdup(TranslateT("Favorite Contacts"));
 
-		status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
+		status = db_get_w(hContact, Proto_GetBaseAccountName(hContact), "Status", ID_STATUS_OFFLINE);
 	}
 
 	~TContactInfo()

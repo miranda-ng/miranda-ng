@@ -65,7 +65,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 
 int UserinfoInit(WPARAM wparam, LPARAM hContact)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (IsWatchedProtocol(szProto) && !db_get_b(hContact, szProto, "ChatRoom", false)) {
 		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);

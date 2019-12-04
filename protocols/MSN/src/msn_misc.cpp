@@ -1019,7 +1019,7 @@ char* TWinErrorCode::getText()
 
 bool CMsnProto::MSN_IsMyContact(MCONTACT hContact)
 {
-	const char* szProto = GetContactProto(hContact);
+	const char* szProto = Proto_GetBaseAccountName(hContact);
 	return szProto != nullptr && mir_strcmp(m_szModuleName, szProto) == 0;
 }
 

@@ -494,7 +494,7 @@ public:
 
 	static P* getInstance(MCONTACT hContact)
 	{
-		return getInstance(::GetContactProto(hContact));
+		return getInstance(::Proto_GetBaseAccountName(hContact));
 	}
 };
 

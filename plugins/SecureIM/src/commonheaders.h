@@ -94,7 +94,7 @@ extern mir_cs localQueueMutex;
 
 __forceinline int SendBroadcast(MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	return ProtoBroadcastAck( GetContactProto(hContact), hContact, type, result, hProcess, lParam);
+	return ProtoBroadcastAck( Proto_GetBaseAccountName(hContact), hContact, type, result, hProcess, lParam);
 }
 
 extern HNETLIBUSER hNetlibUser;

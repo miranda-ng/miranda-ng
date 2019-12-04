@@ -69,7 +69,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 
 int OpenBrowser(WPARAM hContact, LPARAM)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (proto && !mir_strcmp(proto, MODULENAME)) {
 		Account *curAcc = GetAccountByContact(hContact);
 		PUDeletePopup(curAcc->popUpHwnd);

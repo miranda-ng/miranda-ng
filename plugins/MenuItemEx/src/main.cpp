@@ -234,7 +234,7 @@ void CopyToClipboard(const wchar_t *pwszMsg)
 
 BOOL isMetaContact(MCONTACT hContact)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 	if (mir_strcmp(proto, META_PROTO) == 0)
 		return TRUE;
 
@@ -277,7 +277,7 @@ int StatusMsgExists(MCONTACT hContact)
 	char par[32];
 	BOOL ret = 0;
 
-	LPSTR module = GetContactProto(hContact);
+	LPSTR module = Proto_GetBaseAccountName(hContact);
 	if (!module) return 0;
 
 	for (auto &it : statusMsg) {
@@ -298,7 +298,7 @@ int StatusMsgExists(MCONTACT hContact)
 
 BOOL IPExists(MCONTACT hContact)
 {
-	LPSTR szProto = GetContactProto(hContact);
+	LPSTR szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto) return 0;
 
 	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
@@ -309,7 +309,7 @@ BOOL IPExists(MCONTACT hContact)
 
 BOOL MirVerExists(MCONTACT hContact)
 {
-	LPSTR szProto = GetContactProto(hContact);
+	LPSTR szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto)
 		return 0;
 
@@ -319,7 +319,7 @@ BOOL MirVerExists(MCONTACT hContact)
 
 LPWSTR getMirVer(MCONTACT hContact)
 {
-	LPSTR szProto = GetContactProto(hContact);
+	LPSTR szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto) return nullptr;
 
 	LPWSTR msg = db_get_wsa(hContact, szProto, "MirVer");
@@ -362,7 +362,7 @@ static BOOL isProtoOnline(char *szProto)
 static INT_PTR onSetInvis(WPARAM wparam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wparam;
-	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0) == ID_STATUS_OFFLINE) ? 0 : ID_STATUS_OFFLINE, 0);
+	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, Proto_GetBaseAccountName(hContact), "ApparentMode", 0) == ID_STATUS_OFFLINE) ? 0 : ID_STATUS_OFFLINE, 0);
 	return 0;
 }
 
@@ -370,7 +370,7 @@ static INT_PTR onSetInvis(WPARAM wparam, LPARAM)
 static INT_PTR onSetVis(WPARAM wparam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wparam;
-	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0) == ID_STATUS_ONLINE) ? 0 : ID_STATUS_ONLINE, 0);
+	ProtoChainSend(hContact, PSS_SETAPPARENTMODE, (db_get_w(hContact, Proto_GetBaseAccountName(hContact), "ApparentMode", 0) == ID_STATUS_ONLINE) ? 0 : ID_STATUS_ONLINE, 0);
 	return 0;
 }
 
@@ -400,7 +400,7 @@ static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 		hContact = hC;
 	}
 
-	LPSTR szProto = GetContactProto(hContact);
+	LPSTR szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto) {
 		Menu_ShowItem(hmenuCopyID, false);
 		return;
@@ -434,7 +434,7 @@ static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 
 static void ModifyStatusMsg(MCONTACT hContact)
 {
-	LPSTR szProto = GetContactProto(hContact);
+	LPSTR szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto) {
 		Menu_ShowItem(hmenuStatusMsg, false);
 		return;
@@ -453,7 +453,7 @@ static void ModifyStatusMsg(MCONTACT hContact)
 
 static void ModifyCopyIP(MCONTACT hContact)
 {
-	LPSTR szProto = GetContactProto(hContact);
+	LPSTR szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto) {
 		Menu_ShowItem(hmenuCopyIP, false);
 		return;
@@ -494,7 +494,7 @@ static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 		hContact = hC;
 	}
 
-	LPSTR szProto = GetContactProto(hContact);
+	LPSTR szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return 0;
 
@@ -521,7 +521,7 @@ static INT_PTR onCopyStatusMsg(WPARAM hContact, LPARAM)
 {
 	DWORD flags = g_plugin.getDword("flags", vf_default);
 
-	LPSTR module = GetContactProto(hContact);
+	LPSTR module = Proto_GetBaseAccountName(hContact);
 	if (!module)
 		return 0;
 
@@ -555,7 +555,7 @@ static INT_PTR onCopyStatusMsg(WPARAM hContact, LPARAM)
 
 static INT_PTR onCopyIP(WPARAM hContact, LPARAM)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 
 	CMStringW wszBuffer;
 	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
@@ -602,7 +602,7 @@ static INT_PTR onRecvFiles(WPARAM hContact, LPARAM)
 
 static INT_PTR onChangeProto(WPARAM hContact, LPARAM lparam)
 {
-	char *szOldProto = GetContactProto(hContact);
+	char *szOldProto = Proto_GetBaseAccountName(hContact);
 	char *szNewProto = (char *)lparam;
 	if (!mir_strcmp(szOldProto, szNewProto))
 		return 0;
@@ -684,7 +684,7 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 	int j = 0, all = 0, hide = 0;
 	BOOL bIsOnline = FALSE, bShowAll = CTRL_IS_PRESSED;
 	MCONTACT hContact = (MCONTACT)wparam;
-	char* pszProto = GetContactProto(hContact);
+	char* pszProto = Proto_GetBaseAccountName(hContact);
 	PROTOACCOUNT *pa = Proto_GetAccount(pszProto);
 
 	bIsOnline = isProtoOnline(pszProto);
@@ -760,7 +760,7 @@ static int BuildMenu(WPARAM wparam, LPARAM)
 
 	if ((bShowAll || (flags & VF_VS)) && pszProto) {
 		INT_PTR caps = CallProtoService(pszProto, PS_GETCAPS, PFLAGNUM_1, 0);
-		int apparent = db_get_w(hContact, GetContactProto(hContact), "ApparentMode", 0);
+		int apparent = db_get_w(hContact, Proto_GetBaseAccountName(hContact), "ApparentMode", 0);
 
 		Menu_ShowItem(hmenuVis, (caps & PF1_VISLIST) != 0);
 		if (caps & PF1_VISLIST)

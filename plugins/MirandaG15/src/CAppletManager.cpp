@@ -551,7 +551,7 @@ void CAppletManager::HandleEvent(CEvent *pEvent)
 
 	// check for protocol filters
 	if (pEvent->hContact != NULL && pEvent->eType != EVENT_CONTACT_ADDED) {
-		char *szProto = GetContactProto(pEvent->hContact);
+		char *szProto = Proto_GetBaseAccountName(pEvent->hContact);
 		if (szProto == nullptr || !CConfig::GetProtocolNotificationFilter(toTstring(szProto)))
 			pEvent->bNotification = false;
 	}
@@ -639,7 +639,7 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 	list<SMessageJob*>::iterator iter = m_MessageJobs.begin();
 	while (iter != m_MessageJobs.end()) {
 		if ((*iter) == pJob) {
-			char *szProto = GetContactProto(pJob->hContact);
+			char *szProto = Proto_GetBaseAccountName(pJob->hContact);
 			tstring strProto = toTstring(szProto);
 			CIRCConnection *pIRCCon = GetIRCConnection(strProto);
 
@@ -703,7 +703,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 	if (!db_get_b(hContact, "SRMsg", "SupportTyping", db_get_b(0, "SRMsg", "DefaultTyping", 1)))
 		return;
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto)
 		return;
 
@@ -733,7 +733,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 {
 	tstring strAscii = _A2T(toNarrowString(strMessage).c_str());
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	tstring strProto = toTstring(szProto);
 
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(strProto);
@@ -883,7 +883,7 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 	}
 
 	if (CConfig::GetBoolSetting(NOTIFY_SHOWPROTO)) {
-		char *szProto = GetContactProto(pEvent->hContact);
+		char *szProto = Proto_GetBaseAccountName(pEvent->hContact);
 		pEvent->strDescription = L"(" + toTstring(szProto) + L") " + pEvent->strDescription;
 	}
 
@@ -1015,7 +1015,7 @@ void CAppletManager::DeleteIRCHistory(MCONTACT hContact)
 //************************************************************************
 CIRCHistory *CAppletManager::CreateIRCHistory(MCONTACT hContact, tstring strChannel)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto)
 		return nullptr;
 
@@ -1401,7 +1401,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 
 	int iOldStatus = CAppletManager::GetInstance()->m_ContactlistScreen.GetContactStatus(Event.hContact);
 
-	char *szProto = GetContactProto(Event.hContact);
+	char *szProto = Proto_GetBaseAccountName(Event.hContact);
 	tstring strProto = toTstring(szProto);
 
 	CProtocolData *pProtocolData = CAppletManager::GetInstance()->GetProtocolData(toTstring(szProto));
@@ -1634,7 +1634,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 				Event.strValue = toTstring(dbcws->value.pszVal);
 		}
 		else {
-			char *szProto = GetContactProto(Event.hContact);
+			char *szProto = Proto_GetBaseAccountName(Event.hContact);
 			if (db_get_ws(Event.hContact, szProto, "Nick", &dbv))
 				return 0;
 			Event.strValue = dbv.pwszVal;

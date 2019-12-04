@@ -1338,7 +1338,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	ClcGroup *selgroup;
 	ClcContact *selcontact = nullptr;
 
-	char *szProto = GetContactProto(wParam);
+	char *szProto = Proto_GetBaseAccountName(wParam);
 	WORD status = (szProto == nullptr) ? ID_STATUS_OFFLINE : GetContactCachedStatus(wParam);
 	bool bImageIsSpecial = (LOWORD(contacticon) != (LOWORD(lParam))); //check only base icons
 

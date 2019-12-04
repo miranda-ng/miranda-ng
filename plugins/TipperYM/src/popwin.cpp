@@ -306,7 +306,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				wcsncpy_s(pwd->swzTitle, Clist_GetContactDisplayName(pwd->hContact), _TRUNCATE);
 
-				char *szProto = GetContactProto(pwd->hContact);
+				char *szProto = Proto_GetBaseAccountName(pwd->hContact);
 				pwd->spiTitle = Smileys_PreParse(pwd->swzTitle, -1, szProto);
 
 				// get extra icons
@@ -1035,7 +1035,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						}
 						else pwd->rows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData)* (pwd->iRowCount + 1));
 
-						char *szProto = GetContactProto(pwd->hContact);
+						char *szProto = Proto_GetBaseAccountName(pwd->hContact);
 
 						pwd->rows[pwd->iRowCount].swzLabel = mir_wstrdup(buff_label);
 						pwd->rows[pwd->iRowCount].swzValue = mir_wstrdup(buff);
@@ -1580,7 +1580,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				for (auto &hContact : Contacts()) {
 					if (g_plugin.getByte(hContact, "FavouriteContact")) {
-						char *proto = GetContactProto(hContact);
+						char *proto = Proto_GetBaseAccountName(hContact);
 						if (proto == nullptr)
 							continue;
 

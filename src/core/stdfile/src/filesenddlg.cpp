@@ -161,7 +161,7 @@ void __cdecl ChooseFilesThread(void* param)
 	ofn.nMaxFile = 32767;
 	ofn.Flags = OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
 	
-	char *szProto = GetContactProto(dat->hContact);
+	char *szProto = Proto_GetBaseAccountName(dat->hContact);
 	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SINGLEFILEONLY))
 		ofn.Flags |= OFN_ALLOWMULTISELECT;
 
@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
-				char *szProto = GetContactProto(dat->hContact);
+				char *szProto = Proto_GetBaseAccountName(dat->hContact);
 				if (szProto) {
 					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 					if (hIcon) {

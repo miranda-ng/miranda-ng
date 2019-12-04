@@ -75,7 +75,7 @@ static void SetOpenFileButtonStyle(HWND hwndButton, int enabled)
 
 void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 {
-	dbei.szModule = GetContactProto(dat->hContact);
+	dbei.szModule = Proto_GetBaseAccountName(dat->hContact);
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_SENT;
 	dbei.timestamp = time(0);
@@ -271,7 +271,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		dat->hIcon = nullptr;
 		{
-			char *szProto = GetContactProto(dat->hContact);
+			char *szProto = Proto_GetBaseAccountName(dat->hContact);
 			WORD status = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_ONLINE);
 			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadProtoIcon(szProto, status));
 		}
@@ -457,7 +457,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		{
 			PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
 			wchar_t *szOriginalFilename = (wchar_t*)wParam;
-			char *szProto = GetContactProto(dat->hContact);
+			char *szProto = Proto_GetBaseAccountName(dat->hContact);
 
 			switch (pfr->action) {
 			case FILERESUME_CANCEL:

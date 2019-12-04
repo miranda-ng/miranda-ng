@@ -184,14 +184,6 @@ const
 
 function Proto_IsProtocolLoaded(protoName:PAnsiCHar) : PPROTOCOLDESCRIPTOR; stdcall; external AppDLL;
 
-{ gets the network-level protocol associated with a contact
-  Returns a AnsiChar* pointing to the asciiz name of the protocol or NULL if the
-  contact has no protocol. There is no need to free() it or anything.
-  This is the name of the module that actually accesses the network for that
-  contact. }
-
-function Proto_GetProtoName(hContact:TMCONTACT) : PAnsiChar; stdcall; external AppDLL name 'GetContactProto';
-
 { determines whether the specified contact has the given protocol in its chain
   wParam=(WPARAM)(HANDLE)hContact
   lParam=(LPARAM)(const AnsiChar*)szName

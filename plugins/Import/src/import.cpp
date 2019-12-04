@@ -408,7 +408,7 @@ bool CImportBatch::ImportAccounts(OBJLIST<char> &arSkippedModules)
 	else {
 		AccountMap *pNew = new AccountMap("Pattern", 0, m_pPattern->wszName);
 		if (m_hContact)
-			pNew->pa = Proto_GetAccount(GetContactProto(m_hContact));
+			pNew->pa = Proto_GetAccount(Proto_GetBaseAccountName(m_hContact));
 		m_accounts.insert(pNew);
 
 		bNeedManualMerge = pNew->pa == nullptr;

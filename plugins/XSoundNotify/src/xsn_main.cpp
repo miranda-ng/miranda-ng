@@ -114,7 +114,7 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 	size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
 	char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
@@ -159,7 +159,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 				isOwnSound = 1;
 				return 0;
 			}
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
 			char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
@@ -217,7 +217,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	if (hContact) {
-		char *szProto = GetContactProto(hContact);
+		char *szProto = Proto_GetBaseAccountName(hContact);
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		Menu_ShowItem(hChangeSound, IsSuitableProto(pa));
 	}

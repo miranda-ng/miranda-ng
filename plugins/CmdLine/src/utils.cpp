@@ -140,7 +140,7 @@ wchar_t* GetContactName(MCONTACT hContact, char *szProto)
 	return Contact_GetInfo(CNF_DISPLAY, hContact, szProto);
 }
 
-void GetContactProto(MCONTACT hContact, char *szProto, size_t size)
+void Proto_GetBaseAccountName(MCONTACT hContact, char *szProto, size_t size)
 {
 	GetStringFromDatabase(hContact, "Protocol", "p", nullptr, szProto, size);
 }
@@ -157,7 +157,7 @@ MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 
 	int found = 0;
 	for (auto &hContact : Contacts()) {
-		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
+		Proto_GetBaseAccountName(hContact, cProtocol, sizeof(cProtocol));
 		ptrW szHandle(GetContactID(hContact, cProtocol));
 
 		wchar_t *tmp = Clist_GetContactDisplayName(hContact);

@@ -197,7 +197,7 @@ void CMsgDialog::Init()
 	g_arDialogs.insert(this);
 
 	m_autoClose = CLOSE_ON_CANCEL;
-	m_szProto = GetContactProto(m_hContact);
+	m_szProto = Proto_GetBaseAccountName(m_hContact);
 
 	SetParent(GetParentWindow(m_hContact, isChat()));
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);

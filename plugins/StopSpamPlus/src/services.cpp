@@ -2,7 +2,7 @@
 
 INT_PTR IsContactPassed(WPARAM hContact, LPARAM /*lParam*/)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return CS_PASSED;
 
@@ -28,7 +28,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 		ptrW szGroup(Clist_GetGroup(hContact));
 
 		if (!Contact_OnList(hContact) || (szGroup != NULL && (wcsstr(szGroup, L"Not In List") || wcsstr(szGroup, TranslateT("Not In List"))))) {
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto != nullptr) {
 				// Check if protocol uses server side lists
 				DWORD caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);

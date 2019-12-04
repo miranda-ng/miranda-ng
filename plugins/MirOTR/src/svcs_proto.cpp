@@ -13,7 +13,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	if (ccs->wParam & PREF_BYPASS_OTR) // bypass for OTR-messages
 		return Proto_ChainSend(wParam, ccs);
 
-	char *proto = GetContactProto(ccs->hContact);
+	char *proto = Proto_GetBaseAccountName(ccs->hContact);
 	if(proto && mir_strcmp(proto, META_PROTO) == 0) // bypass for metacontacts
 		return Proto_ChainSend(wParam, ccs);
 	
@@ -85,7 +85,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	if (pre->flags & PREF_BYPASS_OTR)  // bypass for our inline messages
 		return Proto_ChainRecv(wParam, ccs);
 
-	char *proto = GetContactProto(ccs->hContact);
+	char *proto = Proto_GetBaseAccountName(ccs->hContact);
 	if (!proto || !ccs->hContact)
 		return 1; //error
 	else if(proto && mir_strcmp(proto, META_PROTO) == 0) // bypass for metacontacts

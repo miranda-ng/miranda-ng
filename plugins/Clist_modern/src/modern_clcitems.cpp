@@ -325,7 +325,7 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 		return nullptr;
 
 	pdnce->hContact = hContact;
-	pdnce->szProto = GetContactProto(hContact);
+	pdnce->szProto = Proto_GetBaseAccountName(hContact);
 	pdnce->bIsHidden = Contact_IsHidden(hContact);
 	pdnce->m_bIsSub = db_mc_isSub(hContact) != 0;
 	pdnce->m_bNoHiddenOffline = g_plugin.getByte(hContact, "noOffline");
@@ -417,7 +417,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 	
 	if (pdnce && g_CluiData.bFilterEffective && dat != nullptr && !dat->bForceInDialog) {
 		if (szProto == nullptr)
-			szProto = GetContactProto(hContact);
+			szProto = Proto_GetBaseAccountName(hContact);
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) {
 			if (DWORD dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) {
@@ -435,7 +435,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 			mir_snprintf(szTemp, "%s|", szProto);
 			if (db_mc_isMeta(hContact)) {
 				for (int i = db_mc_getSubCount(hContact) - 1; i >= 0; i--) {
-					mir_snprintf(szTemp, "%s|", GetContactProto(db_mc_getSub(hContact, i)));
+					mir_snprintf(szTemp, "%s|", Proto_GetBaseAccountName(db_mc_getSub(hContact, i)));
 					if (strstr(g_CluiData.protoFilter, szTemp) != 0) {
 						filterResult = 1;
 						break;

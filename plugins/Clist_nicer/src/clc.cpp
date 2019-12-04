@@ -117,7 +117,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			else if (!__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 				ReloadExtraInfo(hContact);
 		}
-		else if (hContact != 0 && (szProto = GetContactProto(hContact)) != nullptr) {
+		else if (hContact != 0 && (szProto = Proto_GetBaseAccountName(hContact)) != nullptr) {
 			if (!__strcmp(cws->szModule, "Protocol") && !__strcmp(cws->szSetting, "p")) {
 				char *szProto_s;
 				Clist_Broadcast(INTM_PROTOCHANGED, hContact, lParam);
@@ -312,7 +312,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			MCONTACT hSelItem = NULL;
 			ClcContact *selcontact = nullptr;
 
-			char *szProto = GetContactProto(hContact);
+			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto == nullptr)
 				status = ID_STATUS_OFFLINE;
 			else
@@ -376,7 +376,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		if (contact->bIsMeta && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 			contact->hSubContact = db_mc_getMostOnline(contact->hContact);
-			contact->metaProto = GetContactProto(contact->hSubContact);
+			contact->metaProto = Proto_GetBaseAccountName(contact->hSubContact);
 			contact->iImage = Clist_GetContactIcon(contact->hSubContact);
 			if (contact->pExtra) {
 				TExtraCache *pSub = cfg::getCache(contact->hSubContact, contact->metaProto);
@@ -488,7 +488,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 			break;
 
-		contact->pce->szProto = GetContactProto(wParam);
+		contact->pce->szProto = Proto_GetBaseAccountName(wParam);
 		g_clistApi.pfnInvalidateDisplayNameCacheEntry(wParam);
 		mir_wstrncpy(contact->szText, Clist_GetContactDisplayName(wParam), _countof(contact->szText));
 

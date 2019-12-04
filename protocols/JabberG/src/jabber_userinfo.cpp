@@ -764,7 +764,7 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 		return 0;
 	}
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
 		OPTIONSDIALOGPAGE odp = {};
 		odp.dwInitParam = (LPARAM)this;

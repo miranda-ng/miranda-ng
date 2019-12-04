@@ -400,7 +400,7 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 				continue;
 			}
 			if (buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION)
-				szModule = GetContactProto(hContact);
+				szModule = Proto_GetBaseAccountName(hContact);
 			hFinalContact = hContact;
 		}
 		else
@@ -1348,7 +1348,7 @@ skipbg:
 							}
 							else if (item->dwFlags & BUTTON_ISPROTOSERVICE && cfg::clcdat) {
 								if (contactOK) {
-									char *szProto = GetContactProto(hContact);
+									char *szProto = Proto_GetBaseAccountName(hContact);
 									if (ProtoServiceExists(szProto, item->szService))
 										CallProtoService(szProto, item->szService, wwParam, llParam);
 									else
@@ -1364,7 +1364,7 @@ skipbg:
 								if (item->dwFlags & BUTTON_ISCONTACTDBACTION || item->dwFlags & BUTTON_DBACTIONONCONTACT) {
 									contactOK = ServiceParamsOK(item, &wwParam, &llParam, hContact);
 									if (contactOK && item->dwFlags & BUTTON_ISCONTACTDBACTION)
-										szModule = GetContactProto(hContact);
+										szModule = Proto_GetBaseAccountName(hContact);
 									finalhContact = hContact;
 								}
 								else

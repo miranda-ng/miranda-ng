@@ -133,7 +133,7 @@ int TSendContactsData::SendContactsPacket(HWND hwndDlg, MCONTACT *phContacts, in
 
 int TSendContactsData::SendContacts(HWND hwndDlg)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	int nMaxContacts = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, hContact);
 
 	if (!nMaxContacts) {
@@ -196,7 +196,7 @@ static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful n
 		return;
 
 	binListEvent = TRUE;
-	char *szProto = GetContactProto(hReceiver);
+	char *szProto = Proto_GetBaseAccountName(hReceiver);
 	if (szProto == nullptr)
 		return;
 
@@ -207,7 +207,7 @@ static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful n
 
 	MCONTACT hItem, hContact = FindFirstClistContact(hwndList, &hItem);
 	while (hContact) {
-		char* szProto2 = GetContactProto(hContact);
+		char* szProto2 = Proto_GetBaseAccountName(hContact);
 
 		// different protocols or protocol undefined, remove contact, useless anyway
 		if (strcmpnull(szProto, szProto2))
@@ -399,7 +399,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			}
 
 			DBEVENTINFO dbei = {};
-			dbei.szModule = GetContactProto(ackData->hContact);
+			dbei.szModule = Proto_GetBaseAccountName(ackData->hContact);
 			dbei.eventType = EVENTTYPE_CONTACTS;
 			dbei.flags = DBEF_SENT | DBEF_UTF;
 			dbei.timestamp = time(0);

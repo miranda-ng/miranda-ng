@@ -121,7 +121,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	// Check if contact handle is valid.
 	char *proto = nullptr;
 	if (ppd->lchContact)
-		proto = GetContactProto(ppd->lchContact);
+		proto = Proto_GetBaseAccountName(ppd->lchContact);
 
 	BYTE bShowMode = proto ? db_get_b(ppd->lchContact, MODULENAME, "ShowMode", PU_SHOWMODE_AUTO) : PU_SHOWMODE_AUTO;
 
@@ -143,7 +143,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 
 		if (proto) {
 			char prefix[128];
-			mir_snprintf(prefix, LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
+			mir_snprintf(prefix, LPGEN("Protocol Status") "/%s", Proto_GetBaseAccountName(ppd->lchContact));
 			if (g_plugin.getDword(prefix, 0) & Proto_Status2Flag_My(Proto_GetStatus(proto)))
 				return -1;
 			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(Proto_GetStatus(proto)))

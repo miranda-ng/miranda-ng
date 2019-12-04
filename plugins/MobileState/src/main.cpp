@@ -51,7 +51,7 @@ CMPlugin::CMPlugin() :
 
 bool hasMobileClient(MCONTACT hContact, LPARAM)
 {
-	char *proto = GetContactProto(hContact);
+	char *proto = Proto_GetBaseAccountName(hContact);
 
 	ptrW client(db_get_wsa(hContact, proto, "MirVer"));
 	if (client) {
@@ -84,7 +84,7 @@ static int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 
 static int onContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {	
-	char *proto = GetContactProto(wParam);
+	char *proto = Proto_GetBaseAccountName(wParam);
 	if (!proto)
 		return 0;
 

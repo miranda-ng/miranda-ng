@@ -194,7 +194,7 @@ DBEVENTINFO createMsgEventInfo(MCONTACT hContact)
 {
 	DBEVENTINFO einfo = {};
 	einfo.eventType = EVENTTYPE_MESSAGE;
-	einfo.szModule = GetContactProto(hContact);
+	einfo.szModule = Proto_GetBaseAccountName(hContact);
 	return einfo;
 }
 
@@ -231,7 +231,7 @@ BOOL metaCheckProtocol(const char *szProto, MCONTACT hContact, WORD eventType)
 
 	if (bMetaProtoEnabled && szProto && !mir_strcmp(META_PROTO, szProto))
 		if (hSubContact = db_mc_getMostOnline(hContact))
-			szProto = GetContactProto(hSubContact);
+			szProto = Proto_GetBaseAccountName(hSubContact);
 
 	return checkProtocol(szProto) && checkIgnore(hSubContact ? hSubContact : hContact, eventType);
 }

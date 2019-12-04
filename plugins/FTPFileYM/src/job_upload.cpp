@@ -80,7 +80,7 @@ void UploadJob::autoSend()
 	if (m_hContact == NULL)
 		return;
 
-	char *szProto = GetContactProto(m_hContact);
+	char *szProto = Proto_GetBaseAccountName(m_hContact);
 	if (szProto == nullptr)
 		return;
 

@@ -121,7 +121,7 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 
 MIR_APP_DLL(int) Clist_GetContactIcon(MCONTACT hContact)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	return g_clistApi.pfnIconFromStatusMode(szProto,
 		szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
 }

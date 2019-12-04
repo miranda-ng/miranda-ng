@@ -62,7 +62,7 @@ void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 int CSteamProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
-	if (mir_strcmp(GetContactProto(evt->hContact), m_szModuleName))
+	if (mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName))
 		return 0;
 
 	auto it = m_mpOutMessages.find((HANDLE)evt->seq);

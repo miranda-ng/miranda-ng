@@ -63,7 +63,7 @@ void FacebookProto::SaveName(MCONTACT hContact, const facebook_user *fbu)
 
 bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
 {
-	const char *proto = GetContactProto(hContact);
+	const char *proto = Proto_GetBaseAccountName(hContact);
 	if (proto && !mir_strcmp(m_szModuleName, proto)) {
 		if (include_chat)
 			return true;

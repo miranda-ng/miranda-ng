@@ -161,7 +161,7 @@ CMStringW ParseString(const wchar_t *pwszFormat, MCONTACT hcontact)
 	if (!isSeen(hcontact, &st))
 		return TranslateT("<never seen>");
 
-	char *szProto = hcontact ? GetContactProto(hcontact) : courProtoName;
+	char *szProto = hcontact ? Proto_GetBaseAccountName(hcontact) : courProtoName;
 	ptrW info;
 
 	CMStringW res;
@@ -518,7 +518,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lparam;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 
 	if (cws->value.type == DBVT_DWORD && !strcmp(cws->szSetting, "LastSeen") && !mir_strcmp(cws->szModule, szProto)) {
 		DBWriteTimeTS(cws->value.dVal, hContact);
@@ -563,7 +563,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 				if (g_bFileActive)
 					FileWrite(hContact);
 
-				char *sProto = GetContactProto(hContact);
+				char *sProto = Proto_GetBaseAccountName(hContact);
 				if (Proto_GetStatus(sProto) > ID_STATUS_OFFLINE) {
 					myPlaySound(hContact, ID_STATUS_OFFLINE, prevStatus);
 					if (g_plugin.getByte("UsePopups", 0))
@@ -588,7 +588,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
 			if (g_plugin.getByte("UsePopups", 0))
 				if (prevStatus != cws->value.wVal)
-					ShowPopup(hContact, GetContactProto(hContact), cws->value.wVal | 0x8000);
+					ShowPopup(hContact, Proto_GetBaseAccountName(hContact), cws->value.wVal | 0x8000);
 
 			if (g_plugin.getByte("KeepHistory", 0))
 				HistoryWrite(hContact);

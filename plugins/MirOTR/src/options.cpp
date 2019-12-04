@@ -545,7 +545,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
 			for (auto &hContact : Contacts()) {
-				const char *proto = GetContactProto(hContact);
+				const char *proto = Proto_GetBaseAccountName(hContact);
 				if (proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && Proto_IsProtoOnContact(hContact, MODULENAME) // ignore chatrooms
 					&& mir_strcmp(proto, META_PROTO) != 0) // and MetaContacts
 				{
@@ -752,7 +752,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						MCONTACT hContact = (UINT_PTR)fp->context->app_data;
 						wchar_t buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
+						PROTOACCOUNT *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
 						mir_snwprintf(buff, TranslateW(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
 						ShowError(buff);
 					}
@@ -782,7 +782,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						MCONTACT hContact = (UINT_PTR)it->first->context->app_data;
 						wchar_t buff[1024], hash[45];
 						otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
-						PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
+						PROTOACCOUNT *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
 						mir_snwprintf(buff, TranslateW(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
 						ShowError(buff);
 					}

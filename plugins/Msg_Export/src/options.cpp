@@ -79,11 +79,11 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 		return mir_wstrcmpi(Clist_GetContactDisplayName(lParam1), Clist_GetContactDisplayName(lParam2));
 
 	if (lParamSort == 2)
-		return mir_strcmp(GetContactProto((MCONTACT)lParam1), GetContactProto((MCONTACT)lParam2));
+		return mir_strcmp(Proto_GetBaseAccountName((MCONTACT)lParam1), Proto_GetBaseAccountName((MCONTACT)lParam2));
 
 	if (lParamSort == 3) {
-		DWORD dwUin1 = db_get_dw((MCONTACT)lParam1, GetContactProto((MCONTACT)lParam1), "UIN", 0);
-		DWORD dwUin2 = db_get_dw((MCONTACT)lParam2, GetContactProto((MCONTACT)lParam2), "UIN", 0);
+		DWORD dwUin1 = db_get_dw((MCONTACT)lParam1, Proto_GetBaseAccountName((MCONTACT)lParam1), "UIN", 0);
+		DWORD dwUin2 = db_get_dw((MCONTACT)lParam2, Proto_GetBaseAccountName((MCONTACT)lParam2), "UIN", 0);
 		if (dwUin1 == dwUin2)
 			return 0;
 		return (dwUin1 > dwUin2) ? -1 : 1;
@@ -473,7 +473,7 @@ public:
 		wstring sTmp;
 		LVITEM sItem = { 0 };
 		for (auto &hContact : Contacts()) {
-			PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
+			PROTOACCOUNT *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
 			if (pa == nullptr)
 				continue;
 

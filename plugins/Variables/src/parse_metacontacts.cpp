@@ -33,7 +33,7 @@ static wchar_t* parseGetParent(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	ptrW szUniqueID;
-	char* szProto = GetContactProto(hContact);
+	char* szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
@@ -61,7 +61,7 @@ static wchar_t* parseGetDefault(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	ptrW szUniqueID;
-	char* szProto = GetContactProto(hContact);
+	char* szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
@@ -89,7 +89,7 @@ static wchar_t* parseGetMostOnline(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	ptrW szUniqueID;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 

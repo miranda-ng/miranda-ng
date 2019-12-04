@@ -146,7 +146,7 @@ static INT_PTR CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, L
 
 int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 {
-	char *proto = GetContactProto(lParam);
+	char *proto = Proto_GetBaseAccountName(lParam);
 	if ((proto == nullptr || mir_strcmp(proto, protoName)) && lParam)
 		return 0;
 

@@ -110,7 +110,7 @@ void SortArray(void)
 int GetStatus(MCONTACT hContact, char *proto = nullptr)
 {
 	if (proto == nullptr)
-		proto = GetContactProto(hContact);
+		proto = Proto_GetBaseAccountName(hContact);
 
 	if (proto == nullptr)
 		return ID_STATUS_OFFLINE;
@@ -140,7 +140,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 	FreeContacts();
 
 	for (auto &hContact : Contacts()) {
-		char *pszProto = GetContactProto(hContact);
+		char *pszProto = Proto_GetBaseAccountName(hContact);
 		if (pszProto == nullptr)
 			continue;
 
@@ -236,7 +236,7 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 		// Get caps
 		INT_PTR caps = 0;
 
-		char *pszProto = GetContactProto(hContact);
+		char *pszProto = Proto_GetBaseAccountName(hContact);
 		if (pszProto != nullptr)
 			caps = CallProtoService(pszProto, PS_GETCAPS, PFLAGNUM_1, 0);
 

@@ -556,7 +556,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		return 0;
 	}
 	else if (!isContactHaveKey(ccs->hContact) && globals.bAutoExchange && globals.gpg_valid && globals.gpg_keyexist) {
-		char *proto = GetContactProto(ccs->hContact);
+		char *proto = Proto_GetBaseAccountName(ccs->hContact);
 		ptrA jid(db_get_utfa(ccs->hContact, proto, "jid", ""));
 		if (jid[0]) {
 			for (auto p : globals.Accounts) {
@@ -843,7 +843,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 			if (globals.bDebugLog)
 				globals.debuglog << std::string(time_str() + ": info: checking for autoexchange possibility, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
 
-			LPSTR proto = GetContactProto(hContact);
+			LPSTR proto = Proto_GetBaseAccountName(hContact);
 			ptrA jid(db_get_utfa(hContact, proto, "jid", ""));
 			if (jid[0]) {
 				if (globals.bDebugLog)

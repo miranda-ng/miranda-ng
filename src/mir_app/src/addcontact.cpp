@@ -172,7 +172,7 @@ MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, HWND hwndParent)
 		{	
 			m_hContact = hContact;
 			m_szName = Clist_GetContactDisplayName(hContact);
-			m_szProto = GetContactProto(hContact);
+			m_szProto = Proto_GetBaseAccountName(hContact);
 		}
 	};
 

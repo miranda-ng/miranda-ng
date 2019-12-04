@@ -347,7 +347,7 @@ begin
     exit;
   end;
 
-  szProto := Proto_GetProtoName(wParam);
+  szProto := Proto_GetBaseAccountName(wParam);
   if (StrComp(cws.szModule, 'CList') <> 0) and
     ((szProto = nil) or (StrComp(cws.szModule, szProto) <> 0)) then
     exit;

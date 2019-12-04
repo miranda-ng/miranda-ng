@@ -125,7 +125,7 @@ LBL_Seek:
 		sqlite3_reset(stmt);
 		if (rc == SQLITE_DONE && cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
 			if (hContact = db_mc_getDefault(hContact)) {
-				if (szModule = GetContactProto(hContact))
+				if (szModule = Proto_GetBaseAccountName(hContact))
 					goto LBL_Seek;
 			}
 		}

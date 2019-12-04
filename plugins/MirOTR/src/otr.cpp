@@ -104,7 +104,7 @@ extern "C" {
 	void otr_gui_create_privkey(void *opdata, const char *, const char *protocol) {
 		DEBUGOUTA("OTR_GUI_CREATE_PRIVKEY\n");
 		if (opdata) {
-			protocol = GetContactProto((UINT_PTR)opdata);
+			protocol = Proto_GetBaseAccountName((UINT_PTR)opdata);
 		}
 		if (!protocol) return;
 		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_GENKEYNOTIFY), nullptr, GenKeyDlgBoxProc, (LPARAM)protocol);
@@ -122,7 +122,7 @@ extern "C" {
 		DEBUGOUTA("OTR_GUI_IS_LOGGED_IN\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		if (hContact) {
-			WORD status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
+			WORD status = db_get_w(hContact, Proto_GetBaseAccountName(hContact), "Status", ID_STATUS_OFFLINE);
 			if (status == ID_STATUS_OFFLINE) return 0;
 			else return 1;
 		}
@@ -252,7 +252,7 @@ extern "C" {
 		if (context && context->protocol)
 			proto = context->protocol;
 		else
-			proto = GetContactProto((UINT_PTR)opdata);
+			proto = Proto_GetBaseAccountName((UINT_PTR)opdata);
 		// ugly wokaround for ICQ. ICQ protocol reports more than 7k, but in SMP this is too long.
 		// possibly ICQ doesn't allow single words without spaces to become longer than ~2340?
 		if (mir_strcmp("ICQ", proto) == 0 || strncmp("ICQ_", proto, 4) == 0)

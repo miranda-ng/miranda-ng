@@ -1107,7 +1107,7 @@ void ICQ::updateContactList()
 	ICQUser *u;
 
 	for (auto &hContact : Contacts()) {
-		proto = GetContactProto(hContact);
+		proto = Proto_GetBaseAccountName(hContact);
 		if (proto && !mir_strcmp(proto, protoName)) {
 			if ((u = getUserByContact(hContact)) == nullptr) {
 				u = new ICQUser();

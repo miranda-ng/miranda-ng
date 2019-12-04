@@ -947,7 +947,7 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 	void CListFilter()
 	{
 		for (auto &hContact : Contacts()) {
-			char *proto = GetContactProto(hContact);
+			char *proto = Proto_GetBaseAccountName(hContact);
 			if (!proto || mir_strcmp(proto, m_proto->m_szModuleName))
 				if (HANDLE hItem = m_clcClist.FindContact(hContact))
 					m_clcClist.DeleteItem(hItem);

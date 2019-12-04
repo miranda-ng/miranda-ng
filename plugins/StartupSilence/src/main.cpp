@@ -129,7 +129,7 @@ int DisablePopup(WPARAM wParam, LPARAM)
 	{
 		MCONTACT hContact = wParam;
 		if (hContact != NULL) {
-			char* cp = GetContactProto(hContact);
+			char* cp = Proto_GetBaseAccountName(hContact);
 			if (!mir_strcmp(cp, "Weather") || !mir_strcmp(cp, "mRadio"))
 				return 0;
 			return 1;

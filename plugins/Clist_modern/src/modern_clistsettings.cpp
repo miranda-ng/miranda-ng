@@ -49,7 +49,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	}
 
 	if (pdnce->szProto == nullptr) {
-		pdnce->szProto = GetContactProto(pdnce->hContact);
+		pdnce->szProto = Proto_GetBaseAccountName(pdnce->hContact);
 		if (pdnce->szProto && pdnce->tszName)
 			mir_free_and_nil(pdnce->tszName);
 	}
@@ -96,7 +96,7 @@ int GetContactCachedStatus(MCONTACT hContact)
 int ContactAdded(WPARAM hContact, LPARAM)
 {
 	if (!MirandaExiting())
-		Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(GetContactProto(hContact), ID_STATUS_OFFLINE, hContact));
+		Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(Proto_GetBaseAccountName(hContact), ID_STATUS_OFFLINE, hContact));
 
 	return 0;
 }
@@ -183,7 +183,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 	else if (!strcmp(cws->szModule, "Protocol")) {
 		if (!strcmp(cws->szSetting, "p")) {
-			pdnce->szProto = GetContactProto(hContact);
+			pdnce->szProto = Proto_GetBaseAccountName(hContact);
 			char *szProto = (cws->value.type == DBVT_DELETED) ? nullptr : cws->value.pszVal;
 			Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(szProto, pdnce->getStatus(), hContact));
 		}

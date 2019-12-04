@@ -216,7 +216,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 						continue;
 
 					if (LastUCOpt.HideOffline == 1) {
-						szProto = GetContactProto(curContact->second);
+						szProto = Proto_GetBaseAccountName(curContact->second);
 						if (szProto != nullptr && db_get_w(curContact->second, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 							continue;
 					}

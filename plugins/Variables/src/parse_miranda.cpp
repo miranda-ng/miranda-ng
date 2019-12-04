@@ -378,7 +378,7 @@ static wchar_t* parseSpecialContact(ARGUMENTSINFO *ai)
 
 	ai->flags |= AIF_DONTPARSE;
 	ptrW szUniqueID;
-	char *szProto = GetContactProto(ai->fi->hContact);
+	char *szProto = Proto_GetBaseAccountName(ai->fi->hContact);
 	if (szProto != nullptr)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, ai->fi->hContact);
 

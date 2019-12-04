@@ -538,7 +538,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						break;
 					}
 
-					char *szProto = (hContact == NULL) ? gg->m_szModuleName : GetContactProto(hContact);
+					char *szProto = (hContact == NULL) ? gg->m_szModuleName : Proto_GetBaseAccountName(hContact);
 					if (szProto == nullptr)
 						break;
 
@@ -735,7 +735,7 @@ int GaduProto::details_init(WPARAM wParam, LPARAM hContact)
 	}
 	else {
 		// Other user details
-		char* szProto = GetContactProto(hContact);
+		char* szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto == nullptr)
 			return 0;
 		if (mir_strcmp(szProto, m_szModuleName) || isChatRoom(hContact))

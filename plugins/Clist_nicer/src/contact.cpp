@@ -44,7 +44,7 @@ static int GetContactStatus(MCONTACT hContact)
 {
 	char *szProto;
 
-	szProto = GetContactProto(hContact);
+	szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return ID_STATUS_OFFLINE;
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);

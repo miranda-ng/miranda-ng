@@ -110,7 +110,7 @@ static bool CheckContactsServiceSupport(const char* szProto)
 
 static int HookPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	bool bVisible = false;
 
 	if (szProto && CheckContactsServiceSupport(szProto)) {
@@ -149,7 +149,7 @@ static int HookModulesLoaded(WPARAM, LPARAM)
 static int HookContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (strcmpnull(cws->szModule, "CList") && strcmpnull(cws->szModule, szProto))
 		return 0;
 

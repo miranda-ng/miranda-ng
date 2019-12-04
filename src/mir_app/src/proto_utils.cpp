@@ -89,7 +89,7 @@ static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr;
 
 static INT_PTR __cdecl stubRequestAuth(WPARAM hContact, LPARAM)
 {
-	const char *szProto = GetContactProto(hContact);
+	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto)
 		ProtoCallService(szProto, PS_MENU_REQAUTH, hContact, 0);
 	return 0;
@@ -97,7 +97,7 @@ static INT_PTR __cdecl stubRequestAuth(WPARAM hContact, LPARAM)
 
 static INT_PTR __cdecl stubGrantAuth(WPARAM hContact, LPARAM)
 {
-	const char *szProto = GetContactProto(hContact);
+	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto)
 		ProtoCallService(szProto, PS_MENU_GRANTAUTH, hContact, 0);
 	return 0;
@@ -105,7 +105,7 @@ static INT_PTR __cdecl stubGrantAuth(WPARAM hContact, LPARAM)
 
 static INT_PTR __cdecl stubRevokeAuth(WPARAM hContact, LPARAM)
 {
-	const char *szProto = GetContactProto(hContact);
+	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto)
 		ProtoCallService(szProto, PS_MENU_REVOKEAUTH, hContact, 0);
 	return 0;
@@ -511,7 +511,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 	DBEVENTINFO dbei = {};
 	dbei.flags = DBEF_UTF;
-	dbei.szModule = GetContactProto(hContact);
+	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;

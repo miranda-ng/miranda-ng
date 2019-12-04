@@ -120,7 +120,7 @@ bool CMsgDialog::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	m_szProto = GetContactProto(m_hContact);
+	m_szProto = Proto_GetBaseAccountName(m_hContact);
 	m_bIsMeta = db_mc_isMeta(m_hContact) != 0;
 	m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 	m_wMinute = 61;

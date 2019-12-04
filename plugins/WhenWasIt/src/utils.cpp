@@ -152,7 +152,7 @@ wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 {
 	for (auto &hContact : Contacts()) {
-		char *m_szProto = GetContactProto(hContact);
+		char *m_szProto = Proto_GetBaseAccountName(hContact);
 		wchar_t *szHandle = GetContactID(hContact, szProto);
 		if (szHandle) {
 			bool found = (!mir_wstrcmpi(szHandle, szID) && !_stricmp(szProto, m_szProto));

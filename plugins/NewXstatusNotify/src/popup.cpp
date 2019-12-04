@@ -96,7 +96,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 {
 	MCONTACT hContact = PUGetContact(hWnd);
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		if ((CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) &&
 			(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(pdp->newStatus)))
@@ -186,7 +186,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	case UM_INITPOPUP:
 		pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
 		if (pdp != nullptr) {
-			char *szProto = GetContactProto(PUGetContact(hwnd));
+			char *szProto = Proto_GetBaseAccountName(PUGetContact(hwnd));
 			if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus)) {
 				int myStatus = Proto_GetStatus(szProto);
 				if (myStatus != ID_STATUS_INVISIBLE)

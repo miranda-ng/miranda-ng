@@ -1167,7 +1167,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 
 			reply->code = MIMRES_SUCCESS;
 			for (auto &hContact : Contacts()) {
-				GetContactProto(hContact, protocol, _countof(protocol));
+				Proto_GetBaseAccountName(hContact, protocol, _countof(protocol));
 
 				ptrW contact(GetContactName(hContact, protocol));
 				ptrW id(GetContactID(hContact, protocol));
@@ -1197,7 +1197,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 				reply->code = MIMRES_SUCCESS;
 				*reply->message = 0;
 				for (auto &hContact : Contacts()) {
-					GetContactProto(hContact, protocol, _countof(protocol));
+					Proto_GetBaseAccountName(hContact, protocol, _countof(protocol));
 
 					ptrW contact(GetContactName(hContact, protocol));
 					ptrW id(GetContactID(hContact, protocol));
@@ -1276,7 +1276,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 						}
 
 						char protocol[128];
-						GetContactProto(hContact, protocol, _countof(protocol));
+						Proto_GetBaseAccountName(hContact, protocol, _countof(protocol));
 						ptrW contact(GetContactName(hContact, protocol));
 						mir_snwprintf(buffer, TranslateT("%s:%S - %d unread events."), contact, protocol, count);
 

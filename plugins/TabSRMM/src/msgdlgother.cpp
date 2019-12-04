@@ -1095,7 +1095,7 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 			break;
 		case ID_TABMENU_LEAVECHATROOM:
 			if (isChat() && m_hContact != 0) {
-				char *szProto = GetContactProto(m_hContact);
+				char *szProto = Proto_GetBaseAccountName(m_hContact);
 				if (szProto)
 					CallProtoService(szProto, PS_LEAVECHAT, m_hContact, 0);
 			}

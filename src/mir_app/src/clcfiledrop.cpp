@@ -78,7 +78,7 @@ static MCONTACT HContactFromPoint(HWND hwnd, ClcData *dat, int x, int y, int *hi
 	if (hit == -1 || !(hitFlags & (CLCHT_ONITEMLABEL | CLCHT_ONITEMICON)) || contact->type != CLCIT_CONTACT)
 		return 0;
 
-	char *szProto = GetContactProto(contact->hContact);
+	char *szProto = Proto_GetBaseAccountName(contact->hContact);
 	if (szProto == nullptr)
 		return 0;
 

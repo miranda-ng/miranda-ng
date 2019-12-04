@@ -56,7 +56,7 @@ public:
 
 		wchar_t str[256], format[128];
 		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact, 0);
-		char *szProto = GetContactProto(m_hContact);
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
 		WORD dwStatus = db_get_w(m_hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);
 
@@ -293,7 +293,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hGoToURLMenuItem, false);
 	Menu_ShowItem(hAwayMsgMenuItem, false);
 
-	char *szProto = GetContactProto(hContact);
+	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr || db_get_b(hContact, szProto, "ChatRoom", 0))
 		return 0;
 
