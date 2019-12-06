@@ -1,15 +1,44 @@
-language: c
-dist: xenial
+language: c cpp
 
-compiler:
-- gcc
-- clang
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      env: CC=cc CXX=c++
+    - os: linux
+      dist: trusty
+      compiler: clang
+      env: CC=clang CXX=clang++
+    - os: linux
+      dist: xenial
+      compiler: gcc
+      env: CC=gcc CXX=g++
+    - os: linux
+      dist: bionic
+      compiler: clang
+      env: CC=clang CXX=clang++
+    - os: osx
+      osx_image: xcode11
+      env: CC=cc CXX=c++
+    - os: osx
+      osx_image: xcode9.4
+      env: CC=cc CXX=c++
 
-os:
-- linux
-- osx
-
-script: if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then make all check; fi
+script: >
+  if [ "${COVERITY_SCAN_BRANCH}" != 1 ]; then
+    git fetch --unshallow --tags --prune &&
+    git submodule foreach --recursive git fetch --unshallow --tags --prune &&
+    (if which clang-format-6.0 > /dev/null && make reformat && [[ -n $(git diff) ]];
+      then
+        echo "You must run 'make reformat' before submitting a pull request";
+        echo "";
+        git diff;
+        exit -1;
+      fi) &&
+    make --keep-going all && MALLOC_CHECK_=7 MALLOC_PERTURB_=42 make --keep-going check
+  else
+    [ ! -s cov-int/scm_log.txt ] || cat cov-int/scm_log.txt;
+  fi && sleep 3
 
 env:
   global:
@@ -17,6 +46,8 @@ env:
 
 before_install:
   - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+  - ${CC} --version
+  - ${CXX} --version
 
 addons:
   coverity_scan:
@@ -25,6 +56,6 @@ addons:
       version: 0.1
       description: "Build submitted via Travis CI"
     notification_email: leo@yuriev.ru
-    build_command_prepend: "make clean"
-    build_command: "make all -j 2"
+    build_command_prepend: "git fetch --unshallow --tags --prune && make dist"
+    build_command: "make MDBX_OPTIONS=-DMDBX_DEBUG=2 -C dist all"
     branch_pattern: coverity_scan

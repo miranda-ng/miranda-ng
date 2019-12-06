@@ -291,7 +291,7 @@ static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, D
 void CDbxMDBX::DBFlush(bool bForce)
 {
 	if (bForce) {
-		mdbx_env_sync(m_env, true);
+		mdbx_env_sync(m_env);
 	}
 	else if (m_safetyMode) {
 		::KillTimer(m_hwndTimer, 1);

@@ -20,9 +20,8 @@
 #pragma warning(disable : 4996) /* The POSIX name is deprecated... */
 #endif                          /* _MSC_VER (warnings) */
 
-/* Avoid reference to mdbx_runtime_flags from assert() */
-#define mdbx_runtime_flags (~0u)
-#include "../bits.h"
+#define MDBX_TOOLS /* Avoid using internal mdbx_assert() */
+#include "../elements/internals.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 #include "wingetopt.h"
@@ -55,9 +54,38 @@ static void prstat(MDBX_stat *ms) {
 
 static void usage(char *prog) {
   fprintf(stderr,
-          "usage: %s [-V] [-n] [-e] [-r[r]] [-f[f[f]]] [-a|-s subdb] dbpath\n",
+          "usage: %s [-V] [-e] [-f[f[f]]] [-r[r]] [-a|-s name] [-n] dbpath\n"
+          "  -V\t\tprint version and exit\n"
+          "  -e\t\tshow whole DB info\n"
+          "  -f\t\tshow GC info\n"
+          "  -r\t\tshow readers\n"
+          "  -a\t\tprint stat of main DB and all subDBs\n"
+          "  \t\t(default) print stat of only the main DB\n"
+          "  -s name\tprint stat of only the named subDB\n"
+          "  -n\t\tNOSUBDIR mode for open\n",
           prog);
   exit(EXIT_FAILURE);
+}
+
+static int reader_list_func(void *ctx, int num, int slot, mdbx_pid_t pid,
+                            mdbx_tid_t thread, uint64_t txnid, uint64_t lag,
+                            size_t bytes_used, size_t bytes_retained) {
+  (void)ctx;
+  if (num == 1)
+    printf("Reader Table Status\n"
+           "   #\tslot\t%6s %*s %20s %10s %13s %13s\n",
+           "pid", (int)sizeof(size_t) * 2, "thread", "txnid", "lag", "used",
+           "retained");
+
+  printf(" %3d)\t[%d]\t%6" PRIdSIZE " %*" PRIxSIZE, num, slot, (size_t)pid,
+         (int)sizeof(size_t) * 2, (size_t)thread);
+  if (txnid)
+    printf(" %20" PRIu64 " %10" PRIu64 " %12.1fM %12.1fM\n", txnid, lag,
+           bytes_used / 1048576.0, bytes_retained / 1048576.0);
+  else
+    printf(" %20s %10s %13s %13s\n", "-", "0", "0", "0");
+
+  return user_break ? MDBX_RESULT_TRUE : MDBX_RESULT_FALSE;
 }
 
 int main(int argc, char *argv[]) {
@@ -72,26 +100,25 @@ int main(int argc, char *argv[]) {
   char *subname = NULL;
   int alldbs = 0, envinfo = 0, envflags = 0, freinfo = 0, rdrinfo = 0;
 
-  if (argc < 2) {
+  if (argc < 2)
     usage(prog);
-  }
 
-  /* -a: print stat of main DB and all subDBs
-   * -s: print stat of only the named subDB
-   * -e: print env info
-   * -f: print freelist info
-   * -r: print reader info
-   * -n: use NOSUBDIR flag on env_open
-   * -V: print version and exit
-   * (default) print stat of only the main DB
-   */
   while ((o = getopt(argc, argv, "Vaefnrs:")) != EOF) {
     switch (o) {
     case 'V':
-      printf("%s (%s, build %s)\n", mdbx_version.git.describe,
-             mdbx_version.git.datetime, mdbx_build.datetime);
-      exit(EXIT_SUCCESS);
-      break;
+      printf("mdbx_stat version %d.%d.%d.%d\n"
+             " - source: %s %s, commit %s, tree %s\n"
+             " - anchor: %s\n"
+             " - build: %s for %s by %s\n"
+             " - flags: %s\n"
+             " - options: %s\n",
+             mdbx_version.major, mdbx_version.minor, mdbx_version.release,
+             mdbx_version.revision, mdbx_version.git.describe,
+             mdbx_version.git.datetime, mdbx_version.git.commit,
+             mdbx_version.git.tree, mdbx_sourcery_anchor, mdbx_build.datetime,
+             mdbx_build.target, mdbx_build.compiler, mdbx_build.flags,
+             mdbx_build.options);
+      return EXIT_SUCCESS;
     case 'a':
       if (subname)
         usage(prog);
@@ -136,6 +163,12 @@ int main(int argc, char *argv[]) {
 #endif /* !WINDOWS */
 
   envname = argv[optind];
+  envname = argv[optind];
+  printf("mdbx_stat %s (%s, T-%s)\nRunning for %s...\n",
+         mdbx_version.git.describe, mdbx_version.git.datetime,
+         mdbx_version.git.tree, envname);
+  fflush(NULL);
+
   rc = mdbx_env_create(&env);
   if (rc) {
     fprintf(stderr, "mdbx_env_create failed, error %d %s\n", rc,
@@ -143,9 +176,8 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  if (alldbs || subname) {
+  if (alldbs || subname)
     mdbx_env_set_maxdbs(env, 4);
-  }
 
   rc = mdbx_env_open(env, envname, envflags | MDBX_RDONLY, 0664);
   if (rc) {
@@ -154,15 +186,22 @@ int main(int argc, char *argv[]) {
     goto env_close;
   }
 
+  rc = mdbx_txn_begin(env, NULL, MDBX_RDONLY, &txn);
+  if (rc) {
+    fprintf(stderr, "mdbx_txn_begin failed, error %d %s\n", rc,
+            mdbx_strerror(rc));
+    goto env_close;
+  }
+
   if (envinfo || freinfo) {
-    (void)mdbx_env_info(env, &mei, sizeof(mei));
+    (void)mdbx_env_info_ex(env, txn, &mei, sizeof(mei));
   } else {
     /* LY: zap warnings from gcc */
     memset(&mei, 0, sizeof(mei));
   }
 
   if (envinfo) {
-    (void)mdbx_env_stat(env, &mst, sizeof(mst));
+    (void)mdbx_env_stat_ex(env, txn, &mst, sizeof(mst));
     printf("Environment Info\n");
     printf("  Pagesize: %u\n", mst.ms_psize);
     if (mei.mi_geo.lower != mei.mi_geo.upper) {
@@ -194,23 +233,27 @@ int main(int argc, char *argv[]) {
   }
 
   if (rdrinfo) {
-    printf("Reader Table Status\n");
-    rc = mdbx_reader_list(env, (MDBX_msg_func *)fputs, stdout);
-    if (rdrinfo > 1) {
+    rc = mdbx_reader_list(env, reader_list_func, nullptr);
+    if (rc == MDBX_RESULT_TRUE)
+      printf("Reader Table is empty\n");
+    else if (rc == MDBX_SUCCESS && rdrinfo > 1) {
       int dead;
-      mdbx_reader_check(env, &dead);
-      printf("  %d stale readers cleared.\n", dead);
-      rc = mdbx_reader_list(env, (MDBX_msg_func *)fputs, stdout);
+      rc = mdbx_reader_check(env, &dead);
+      if (rc == MDBX_RESULT_TRUE) {
+        printf("  %d stale readers cleared.\n", dead);
+        rc = mdbx_reader_list(env, reader_list_func, nullptr);
+        if (rc == MDBX_RESULT_TRUE)
+          printf("  Now Reader Table is empty\n");
+      } else
+        printf("  No stale readers.\n");
+    }
+    if (MDBX_IS_ERROR(rc)) {
+      fprintf(stderr, "mdbx_txn_begin failed, error %d %s\n", rc,
+              mdbx_strerror(rc));
+      goto env_close;
     }
     if (!(subname || alldbs || freinfo))
       goto env_close;
-  }
-
-  rc = mdbx_txn_begin(env, NULL, MDBX_RDONLY, &txn);
-  if (rc) {
-    fprintf(stderr, "mdbx_txn_begin failed, error %d %s\n", rc,
-            mdbx_strerror(rc));
-    goto env_close;
   }
 
   if (freinfo) {

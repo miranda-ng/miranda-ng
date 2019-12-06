@@ -20,9 +20,8 @@
 #pragma warning(disable : 4996) /* The POSIX name is deprecated... */
 #endif                          /* _MSC_VER (warnings) */
 
-/* Avoid reference to mdbx_runtime_flags from assert() */
-#define mdbx_runtime_flags (~0u)
-#include "../../libs/libmdbx/src/src/bits.h"
+#define MDBX_TOOLS /* Avoid using internal mdbx_assert() */
+#include "../../libs/libmdbx/src/src/elements/internals.h"
 
 #include <ctype.h>
 

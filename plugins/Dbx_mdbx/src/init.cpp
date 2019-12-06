@@ -99,7 +99,7 @@ static DATABASELINK dblink =
 
 int CMPlugin::Load()
 {
-	mdbx_setup_debug(MDBX_DBG_ASSERT | MDBX_DBG_PRINT, &logger);
+	mdbx_setup_debug(MDBX_DBG_ASSERT, MDBX_LOG_WARN, &logger);
 	RegisterDatabasePlugin(&dblink);
 	return 0;
 }

@@ -20,22 +20,21 @@
 #pragma warning(disable : 4996) /* The POSIX name is deprecated... */
 #endif                          /* _MSC_VER (warnings) */
 
-/* Avoid reference to mdbx_runtime_flags from assert() */
-#define mdbx_runtime_flags (~0u)
-#include "../bits.h"
+#define MDBX_TOOLS /* Avoid using internal mdbx_assert() */
+#include "../elements/internals.h"
 
 typedef struct flagbit {
   int bit;
-  char *name;
+  const char *name;
 } flagbit;
 
-flagbit dbflags[] = {{MDBX_DUPSORT, "dupsort"},
-                     {MDBX_INTEGERKEY, "integerkey"},
-                     {MDBX_REVERSEKEY, "reversekey"},
-                     {MDBX_DUPFIXED, "dupfixed"},
-                     {MDBX_REVERSEDUP, "reversedup"},
-                     {MDBX_INTEGERDUP, "integerdup"},
-                     {0, NULL}};
+const flagbit dbflags[] = {{MDBX_DUPSORT, "dupsort"},
+                           {MDBX_INTEGERKEY, "integerkey"},
+                           {MDBX_REVERSEKEY, "reversekey"},
+                           {MDBX_DUPFIXED, "dupfixed"},
+                           {MDBX_REVERSEDUP, "reversedup"},
+                           {MDBX_INTEGERDUP, "integerdup"},
+                           {0, NULL}};
 
 #if defined(_WIN32) || defined(_WIN64)
 #include "wingetopt.h"
@@ -43,7 +42,7 @@ flagbit dbflags[] = {{MDBX_DUPSORT, "dupsort"},
 static volatile BOOL user_break;
 static BOOL WINAPI ConsoleBreakHandlerRoutine(DWORD dwCtrlType) {
   (void)dwCtrlType;
-  user_break = true;
+  user_break = 1;
   return true;
 }
 
@@ -78,24 +77,23 @@ struct {
   short *pagemap;
   uint64_t total_payload_bytes;
   uint64_t pgcount;
-  walk_dbi_t dbi[MAX_DBI];
+  walk_dbi_t dbi[MAX_DBI + CORE_DBS + /* account pseudo-entry for meta */ 1];
 } walk;
 
 #define dbi_free walk.dbi[FREE_DBI]
 #define dbi_main walk.dbi[MAIN_DBI]
 #define dbi_meta walk.dbi[CORE_DBS]
 
-uint64_t total_unused_bytes;
 int envflags = MDBX_RDONLY | MDBX_EXCLUSIVE;
-
 MDBX_env *env;
 MDBX_txn *txn;
 MDBX_envinfo envinfo;
 MDBX_stat envstat;
-size_t maxkeysize, userdb_count, skipped_subdb;
-uint64_t reclaimable_pages, gc_pages, alloc_pages, unused_pages, backed_pages;
+size_t userdb_count, skipped_subdb;
+uint64_t total_unused_bytes, reclaimable_pages, gc_pages, alloc_pages,
+    unused_pages, backed_pages;
 unsigned verbose;
-char ignore_wrong_order, quiet;
+bool ignore_wrong_order, quiet;
 const char *only_subdb;
 
 struct problem {
@@ -124,7 +122,7 @@ static void __printf_args(1, 2) error(const char *msg, ...) {
   if (!quiet) {
     va_list args;
 
-    fflush(stdout);
+    fflush(NULL);
     va_start(args, msg);
     fputs(" ! ", stderr);
     vfprintf(stderr, msg, args);
@@ -133,8 +131,21 @@ static void __printf_args(1, 2) error(const char *msg, ...) {
   }
 }
 
+static int check_user_break(void) {
+  switch (user_break) {
+  case 0:
+    return MDBX_SUCCESS;
+  case 1:
+    print(" - interrupted by signal\n");
+    fflush(NULL);
+    user_break = 2;
+  }
+  return MDBX_EINTR;
+}
+
 static void pagemap_cleanup(void) {
-  for (int i = CORE_DBS; ++i < MAX_DBI;) {
+  for (size_t i = CORE_DBS + /* account pseudo-entry for meta */ 1;
+       i < ARRAY_LENGTH(walk.dbi); ++i) {
     if (walk.dbi[i].name) {
       mdbx_free((void *)walk.dbi[i].name);
       walk.dbi[i].name = NULL;
@@ -158,20 +169,21 @@ static walk_dbi_t *pagemap_lookup_dbi(const char *dbi_name, bool silent) {
   if (last && strcmp(last->name, dbi_name) == 0)
     return last;
 
-  walk_dbi_t *dbi = walk.dbi + CORE_DBS;
-  for (dbi = walk.dbi + CORE_DBS; (++dbi)->name;) {
+  walk_dbi_t *dbi = walk.dbi + CORE_DBS + /* account pseudo-entry for meta */ 1;
+  for (; dbi < ARRAY_END(walk.dbi) && dbi->name; ++dbi) {
     if (strcmp(dbi->name, dbi_name) == 0)
       return last = dbi;
-    if (dbi == walk.dbi + MAX_DBI)
-      return NULL;
   }
 
-  dbi->name = mdbx_strdup(dbi_name);
   if (verbose > 0 && !silent) {
     print(" - found '%s' area\n", dbi_name);
     fflush(NULL);
   }
 
+  if (dbi == ARRAY_END(walk.dbi))
+    return NULL;
+
+  dbi->name = mdbx_strdup(dbi_name);
   return last = dbi;
 }
 
@@ -387,7 +399,7 @@ static int pgvisitor(const uint64_t pgno, const unsigned pgnumber,
     }
   }
 
-  return user_break ? MDBX_EINTR : MDBX_SUCCESS;
+  return check_user_break();
 }
 
 typedef int(visitor)(const uint64_t record_number, const MDBX_val *key,
@@ -400,106 +412,112 @@ static int handle_userdb(const uint64_t record_number, const MDBX_val *key,
   (void)record_number;
   (void)key;
   (void)data;
-  return MDBX_SUCCESS;
+  return check_user_break();
 }
 
 static int handle_freedb(const uint64_t record_number, const MDBX_val *key,
                          const MDBX_val *data) {
   char *bad = "";
   pgno_t *iptr = data->iov_base;
-  txnid_t txnid = *(txnid_t *)key->iov_base;
 
   if (key->iov_len != sizeof(txnid_t))
     problem_add("entry", record_number, "wrong txn-id size",
                 "key-size %" PRIiPTR, key->iov_len);
-  else if (txnid < 1 || txnid > envinfo.mi_recent_txnid)
-    problem_add("entry", record_number, "wrong txn-id", "%" PRIaTXN, txnid);
   else {
-    if (data->iov_len < sizeof(pgno_t) || data->iov_len % sizeof(pgno_t))
-      problem_add("entry", txnid, "wrong idl size", "%" PRIuPTR, data->iov_len);
-    size_t number = (data->iov_len >= sizeof(pgno_t)) ? *iptr++ : 0;
-    if (number < 1 || number > MDBX_PNL_MAX)
-      problem_add("entry", txnid, "wrong idl length", "%" PRIuPTR, number);
-    else if ((number + 1) * sizeof(pgno_t) > data->iov_len) {
-      problem_add("entry", txnid, "trimmed idl",
-                  "%" PRIuSIZE " > %" PRIuSIZE " (corruption)",
-                  (number + 1) * sizeof(pgno_t), data->iov_len);
-      number = data->iov_len / sizeof(pgno_t) - 1;
-    } else if (data->iov_len - (number + 1) * sizeof(pgno_t) >=
-               /* LY: allow gap upto one page. it is ok
-                * and better than shink-and-retry inside mdbx_update_gc() */
-               envstat.ms_psize)
-      problem_add("entry", txnid, "extra idl space",
-                  "%" PRIuSIZE " < %" PRIuSIZE " (minor, not a trouble)",
-                  (number + 1) * sizeof(pgno_t), data->iov_len);
+    txnid_t txnid;
+    memcpy(&txnid, key->iov_base, sizeof(txnid));
+    if (txnid < 1 || txnid > envinfo.mi_recent_txnid)
+      problem_add("entry", record_number, "wrong txn-id", "%" PRIaTXN, txnid);
+    else {
+      if (data->iov_len < sizeof(pgno_t) || data->iov_len % sizeof(pgno_t))
+        problem_add("entry", txnid, "wrong idl size", "%" PRIuPTR,
+                    data->iov_len);
+      size_t number = (data->iov_len >= sizeof(pgno_t)) ? *iptr++ : 0;
+      if (number < 1 || number > MDBX_PNL_MAX)
+        problem_add("entry", txnid, "wrong idl length", "%" PRIuPTR, number);
+      else if ((number + 1) * sizeof(pgno_t) > data->iov_len) {
+        problem_add("entry", txnid, "trimmed idl",
+                    "%" PRIuSIZE " > %" PRIuSIZE " (corruption)",
+                    (number + 1) * sizeof(pgno_t), data->iov_len);
+        number = data->iov_len / sizeof(pgno_t) - 1;
+      } else if (data->iov_len - (number + 1) * sizeof(pgno_t) >=
+                 /* LY: allow gap upto one page. it is ok
+                  * and better than shink-and-retry inside mdbx_update_gc() */
+                 envstat.ms_psize)
+        problem_add("entry", txnid, "extra idl space",
+                    "%" PRIuSIZE " < %" PRIuSIZE " (minor, not a trouble)",
+                    (number + 1) * sizeof(pgno_t), data->iov_len);
 
-    gc_pages += number;
-    if (envinfo.mi_latter_reader_txnid > txnid)
-      reclaimable_pages += number;
+      gc_pages += number;
+      if (envinfo.mi_latter_reader_txnid > txnid)
+        reclaimable_pages += number;
 
-    pgno_t prev = MDBX_PNL_ASCENDING ? NUM_METAS - 1 : txn->mt_next_pgno;
-    pgno_t span = 1;
-    for (unsigned i = 0; i < number; ++i) {
-      const pgno_t pgno = iptr[i];
-      if (pgno < NUM_METAS)
-        problem_add("entry", txnid, "wrong idl entry",
-                    "pgno %" PRIaPGNO " < meta-pages %u", pgno, NUM_METAS);
-      else if (pgno >= backed_pages)
-        problem_add("entry", txnid, "wrong idl entry",
-                    "pgno %" PRIaPGNO " > backed-pages %" PRIu64, pgno,
-                    backed_pages);
-      else if (pgno >= alloc_pages)
-        problem_add("entry", txnid, "wrong idl entry",
-                    "pgno %" PRIaPGNO " > alloc-pages %" PRIu64, pgno,
-                    alloc_pages - 1);
-      else {
-        if (MDBX_PNL_DISORDERED(prev, pgno)) {
-          bad = " [bad sequence]";
-          problem_add("entry", txnid, "bad sequence",
-                      "%" PRIaPGNO " %c [%u].%" PRIaPGNO, prev,
-                      (prev == pgno) ? '=' : (MDBX_PNL_ASCENDING ? '>' : '<'),
-                      i, pgno);
+      pgno_t prev = MDBX_PNL_ASCENDING ? NUM_METAS - 1 : txn->mt_next_pgno;
+      pgno_t span = 1;
+      for (unsigned i = 0; i < number; ++i) {
+        if (check_user_break())
+          return MDBX_EINTR;
+        const pgno_t pgno = iptr[i];
+        if (pgno < NUM_METAS)
+          problem_add("entry", txnid, "wrong idl entry",
+                      "pgno %" PRIaPGNO " < meta-pages %u", pgno, NUM_METAS);
+        else if (pgno >= backed_pages)
+          problem_add("entry", txnid, "wrong idl entry",
+                      "pgno %" PRIaPGNO " > backed-pages %" PRIu64, pgno,
+                      backed_pages);
+        else if (pgno >= alloc_pages)
+          problem_add("entry", txnid, "wrong idl entry",
+                      "pgno %" PRIaPGNO " > alloc-pages %" PRIu64, pgno,
+                      alloc_pages - 1);
+        else {
+          if (MDBX_PNL_DISORDERED(prev, pgno)) {
+            bad = " [bad sequence]";
+            problem_add("entry", txnid, "bad sequence",
+                        "%" PRIaPGNO " %c [%u].%" PRIaPGNO, prev,
+                        (prev == pgno) ? '=' : (MDBX_PNL_ASCENDING ? '>' : '<'),
+                        i, pgno);
+          }
+          if (walk.pagemap) {
+            int idx = walk.pagemap[pgno];
+            if (idx == 0)
+              walk.pagemap[pgno] = -1;
+            else if (idx > 0)
+              problem_add("page", pgno, "already used", "by %s",
+                          walk.dbi[idx - 1].name);
+            else
+              problem_add("page", pgno, "already listed in GC", nullptr);
+          }
         }
-        if (walk.pagemap) {
-          int idx = walk.pagemap[pgno];
-          if (idx == 0)
-            walk.pagemap[pgno] = -1;
-          else if (idx > 0)
-            problem_add("page", pgno, "already used", "by %s",
-                        walk.dbi[idx - 1].name);
-          else
-            problem_add("page", pgno, "already listed in GC", nullptr);
-        }
-      }
-      prev = pgno;
-      while (i + span < number &&
-             iptr[i + span] == (MDBX_PNL_ASCENDING ? pgno_add(pgno, span)
-                                                   : pgno_sub(pgno, span)))
-        ++span;
-    }
-    if (verbose > 3 && !only_subdb) {
-      print("     transaction %" PRIaTXN ", %" PRIuPTR
-            " pages, maxspan %" PRIaPGNO "%s\n",
-            txnid, number, span, bad);
-      if (verbose > 4) {
-        for (unsigned i = 0; i < number; i += span) {
-          const pgno_t pgno = iptr[i];
-          for (span = 1;
-               i + span < number &&
+        prev = pgno;
+        while (i + span < number &&
                iptr[i + span] == (MDBX_PNL_ASCENDING ? pgno_add(pgno, span)
-                                                     : pgno_sub(pgno, span));
-               ++span)
-            ;
-          if (span > 1) {
-            print("    %9" PRIaPGNO "[%" PRIaPGNO "]\n", pgno, span);
-          } else
-            print("    %9" PRIaPGNO "\n", pgno);
+                                                     : pgno_sub(pgno, span)))
+          ++span;
+      }
+      if (verbose > 3 && !only_subdb) {
+        print("     transaction %" PRIaTXN ", %" PRIuPTR
+              " pages, maxspan %" PRIaPGNO "%s\n",
+              txnid, number, span, bad);
+        if (verbose > 4) {
+          for (unsigned i = 0; i < number; i += span) {
+            const pgno_t pgno = iptr[i];
+            for (span = 1;
+                 i + span < number &&
+                 iptr[i + span] == (MDBX_PNL_ASCENDING ? pgno_add(pgno, span)
+                                                       : pgno_sub(pgno, span));
+                 ++span)
+              ;
+            if (span > 1) {
+              print("    %9" PRIaPGNO "[%" PRIaPGNO "]\n", pgno, span);
+            } else
+              print("    %9" PRIaPGNO "\n", pgno);
+          }
         }
       }
     }
   }
 
-  return MDBX_SUCCESS;
+  return check_user_break();
 }
 
 static int handle_maindb(const uint64_t record_number, const MDBX_val *key,
@@ -555,7 +573,7 @@ static int process_db(MDBX_dbi dbi_handle, char *dbi_name, visitor *handler,
   }
 
   if (dbi_handle >= CORE_DBS && dbi_name && only_subdb &&
-      strcmp(only_subdb, dbi_name)) {
+      strcmp(only_subdb, dbi_name) != 0) {
     if (verbose) {
       print("Skip processing '%s'...\n", dbi_name);
       fflush(NULL);
@@ -630,6 +648,8 @@ static int process_db(MDBX_dbi dbi_handle, char *dbi_name, visitor *handler,
     return rc;
   }
 
+  const size_t maxkeysize = mdbx_env_get_maxkeysize_ex(env, flags);
+
   saved_list = problems_push();
   prev_key.iov_base = NULL;
   prev_key.iov_len = 0;
@@ -637,12 +657,9 @@ static int process_db(MDBX_dbi dbi_handle, char *dbi_name, visitor *handler,
   prev_data.iov_len = 0;
   rc = mdbx_cursor_get(mc, &key, &data, MDBX_FIRST);
   while (rc == MDBX_SUCCESS) {
-    if (user_break) {
-      print(" - interrupted by signal\n");
-      fflush(NULL);
-      rc = MDBX_EINTR;
+    rc = check_user_break();
+    if (rc)
       goto bailout;
-    }
 
     bool bad_key = false;
     if (key.iov_len > maxkeysize) {
@@ -742,16 +759,16 @@ bailout:
 
 static void usage(char *prog) {
   fprintf(stderr,
-          "usage: %s dbpath [-V] [-v] [-n] [-q] [-w] [-c] [-d] [-s subdb]\n"
-          "  -V\t\tshow version\n"
+          "usage: %s [-V] [-v] [-n] [-q] [-c] [-w] [-d] [-i] [-s subdb] dbpath\n"
+          "  -V\t\tprint version and exit\n"
           "  -v\t\tmore verbose, could be used multiple times\n"
           "  -n\t\tNOSUBDIR mode for open\n"
           "  -q\t\tbe quiet\n"
-          "  -w\t\tlock DB for writing while checking\n"
-          "  -d\t\tdisable page-by-page traversal of b-tree\n"
-          "  -s subdb\tprocess a specific subdatabase only\n"
           "  -c\t\tforce cooperative mode (don't try exclusive)\n"
-          "  -i\t\tignore wrong order errors (for custom comparators case)\n",
+          "  -w\t\tlock DB for writing while checking\n"
+          "  -d\t\tdisable page-by-page traversal of B-tree\n"
+          "  -i\t\tignore wrong order errors (for custom comparators case)\n"
+          "  -s subdb\tprocess a specific subdatabase only\n",
           prog);
   exit(EXIT_INTERRUPTED);
 }
@@ -830,9 +847,13 @@ static int meta_steady(void) { return meta_recent(true); }
 
 static int meta_head(void) { return meta_recent(false); }
 
-void verbose_meta(int num, txnid_t txnid, uint64_t sign) {
+void verbose_meta(int num, txnid_t txnid, uint64_t sign, uint64_t bootid_h,
+                  uint64_t bootid_l) {
   print(" - meta-%d: %s %" PRIu64, num, meta_synctype(sign), txnid);
   bool stay = true;
+  const bool bootid_match = bootid_h == envinfo.mi_bootid.current.h &&
+                            bootid_l == envinfo.mi_bootid.current.l &&
+                            (bootid_h | bootid_l) != 0;
 
   const int steady = meta_steady();
   const int head = meta_head();
@@ -843,7 +864,7 @@ void verbose_meta(int num, txnid_t txnid, uint64_t sign) {
     print(", head-steady");
     stay = false;
   } else if (num == head) {
-    print(", head-weak");
+    print(", head-weak%s", bootid_match ? "-intact (same boot-id)" : "");
     stay = false;
   }
   if (num == meta_tail(head)) {
@@ -860,38 +881,19 @@ void verbose_meta(int num, txnid_t txnid, uint64_t sign) {
   print("\n");
 }
 
-static int check_meta_head(bool steady) {
-  switch (meta_recent(steady)) {
+static uint64_t get_meta_txnid(const unsigned meta_id) {
+  switch (meta_id) {
   default:
     assert(false);
-    error("unexpected internal error (%s)\n",
-          steady ? "meta_steady_head" : "meta_weak_head");
-    __fallthrough;
+    error("unexpected meta_id %u\n", meta_id);
+    return 0;
   case 0:
-    if (envinfo.mi_meta0_txnid != envinfo.mi_recent_txnid) {
-      print(" - meta-%d txn-id mismatch recent-txn-id (%" PRIi64 " != %" PRIi64
-            ")\n",
-            0, envinfo.mi_meta0_txnid, envinfo.mi_recent_txnid);
-      return 1;
-    }
-    break;
+    return envinfo.mi_meta0_txnid;
   case 1:
-    if (envinfo.mi_meta1_txnid != envinfo.mi_recent_txnid) {
-      print(" - meta-%d txn-id mismatch recent-txn-id (%" PRIi64 " != %" PRIi64
-            ")\n",
-            1, envinfo.mi_meta1_txnid, envinfo.mi_recent_txnid);
-      return 1;
-    }
-    break;
+    return envinfo.mi_meta1_txnid;
   case 2:
-    if (envinfo.mi_meta2_txnid != envinfo.mi_recent_txnid) {
-      print(" - meta-%d txn-id mismatch recent-txn-id (%" PRIi64 " != %" PRIi64
-            ")\n",
-            2, envinfo.mi_meta2_txnid, envinfo.mi_recent_txnid);
-      return 1;
-    }
+    return envinfo.mi_meta2_txnid;
   }
-  return 0;
 }
 
 static void print_size(const char *prefix, const uint64_t value,
@@ -910,7 +912,7 @@ int main(int argc, char *argv[]) {
   char *prog = argv[0];
   char *envname;
   int problems_maindb = 0, problems_freedb = 0, problems_meta = 0;
-  int dont_traversal = 0;
+  bool dont_traversal = false;
   bool locked = false;
 
   double elapsed;
@@ -931,22 +933,30 @@ int main(int argc, char *argv[]) {
   dbi_main.name = "@MAIN";
   atexit(pagemap_cleanup);
 
-  if (argc < 2) {
+  if (argc < 2)
     usage(prog);
-  }
 
   for (int i; (i = getopt(argc, argv, "Vvqnwcdsi:")) != EOF;) {
     switch (i) {
     case 'V':
-      printf("%s (%s, build %s)\n", mdbx_version.git.describe,
-             mdbx_version.git.datetime, mdbx_build.datetime);
-      exit(EXIT_SUCCESS);
-      break;
+      printf("mdbx_chk version %d.%d.%d.%d\n"
+             " - source: %s %s, commit %s, tree %s\n"
+             " - anchor: %s\n"
+             " - build: %s for %s by %s\n"
+             " - flags: %s\n"
+             " - options: %s\n",
+             mdbx_version.major, mdbx_version.minor, mdbx_version.release,
+             mdbx_version.revision, mdbx_version.git.describe,
+             mdbx_version.git.datetime, mdbx_version.git.commit,
+             mdbx_version.git.tree, mdbx_sourcery_anchor, mdbx_build.datetime,
+             mdbx_build.target, mdbx_build.compiler, mdbx_build.flags,
+             mdbx_build.options);
+      return EXIT_SUCCESS;
     case 'v':
       verbose++;
       break;
     case 'q':
-      quiet = 1;
+      quiet = true;
       break;
     case 'n':
       envflags |= MDBX_NOSUBDIR;
@@ -955,10 +965,10 @@ int main(int argc, char *argv[]) {
       envflags &= ~MDBX_RDONLY;
       break;
     case 'c':
-      envflags &= ~MDBX_EXCLUSIVE;
+      envflags = (envflags & ~MDBX_EXCLUSIVE) | MDBX_ACCEDE;
       break;
     case 'd':
-      dont_traversal = 1;
+      dont_traversal = true;
       break;
     case 's':
       if (only_subdb && strcmp(only_subdb, optarg))
@@ -966,7 +976,7 @@ int main(int argc, char *argv[]) {
       only_subdb = optarg;
       break;
     case 'i':
-      ignore_wrong_order = 1;
+      ignore_wrong_order = true;
       break;
     default:
       usage(prog);
@@ -990,7 +1000,9 @@ int main(int argc, char *argv[]) {
 #endif /* !WINDOWS */
 
   envname = argv[optind];
-  print("Running mdbx_chk for %s in 'read-%s' mode...\n", envname,
+  print("mdbx_chk %s (%s, T-%s)\nRunning for %s in 'read-%s' mode...\n",
+        mdbx_version.git.describe, mdbx_version.git.datetime,
+        mdbx_version.git.tree, envname,
         (envflags & MDBX_RDONLY) ? "only" : "write");
   fflush(NULL);
 
@@ -1006,7 +1018,7 @@ int main(int argc, char *argv[]) {
     goto bailout;
   }
 
-  rc = mdbx_env_open(env, envname, envflags, 0664);
+  rc = mdbx_env_open(env, envname, envflags, 0);
   if ((envflags & MDBX_EXCLUSIVE) &&
       (rc == MDBX_BUSY ||
 #if defined(_WIN32) || defined(_WIN64)
@@ -1016,7 +1028,7 @@ int main(int argc, char *argv[]) {
 #endif
        )) {
     envflags &= ~MDBX_EXCLUSIVE;
-    rc = mdbx_env_open(env, envname, envflags, 0664);
+    rc = mdbx_env_open(env, envname, envflags | MDBX_ACCEDE, 0);
   }
 
   if (rc) {
@@ -1044,21 +1056,13 @@ int main(int argc, char *argv[]) {
     goto bailout;
   }
 
-  rc = mdbx_env_get_maxkeysize(env);
-  if (rc < 0) {
-    error("mdbx_env_get_maxkeysize failed, error %d %s\n", rc,
-          mdbx_strerror(rc));
-    goto bailout;
-  }
-  maxkeysize = rc;
-
-  rc = mdbx_env_info2(env, txn, &envinfo, sizeof(envinfo));
+  rc = mdbx_env_info_ex(env, txn, &envinfo, sizeof(envinfo));
   if (rc) {
     error("mdbx_env_info failed, error %d %s\n", rc, mdbx_strerror(rc));
     goto bailout;
   }
 
-  rc = mdbx_env_stat2(env, txn, &envstat, sizeof(envstat));
+  rc = mdbx_env_stat_ex(env, txn, &envstat, sizeof(envstat));
   if (rc) {
     error("mdbx_env_stat failed, error %d %s\n", rc, mdbx_strerror(rc));
     goto bailout;
@@ -1100,14 +1104,11 @@ int main(int argc, char *argv[]) {
   const uint64_t dxbfile_pages = dxb_filesize / envinfo.mi_dxb_pagesize;
   alloc_pages = txn->mt_next_pgno;
   backed_pages = envinfo.mi_geo.current / envinfo.mi_dxb_pagesize;
-#if !(defined(_WIN32) || defined(_WIN64))
-  if ((envflags & (MDBX_EXCLUSIVE | MDBX_RDONLY)) != MDBX_RDONLY &&
-      backed_pages != dxbfile_pages) {
-    print(" ! backed-pages %" PRIu64 " != file-pages %" PRIu64 "\n",
+  if (backed_pages > dxbfile_pages) {
+    print(" ! backed-pages %" PRIu64 " > file-pages %" PRIu64 "\n",
           backed_pages, dxbfile_pages);
     ++problems_meta;
   }
-#endif /* !Windows */
   if (dxbfile_pages < NUM_METAS)
     print(" ! file-pages %" PRIu64 " < %u\n", dxbfile_pages, NUM_METAS);
   if (backed_pages < NUM_METAS)
@@ -1153,10 +1154,11 @@ int main(int argc, char *argv[]) {
   }
 
   if (verbose) {
-    print(" - pagesize %u (%u system), max keysize %" PRIuPTR
+    print(" - pagesize %u (%u system), max keysize %d..%d"
           ", max readers %u\n",
-          envinfo.mi_dxb_pagesize, envinfo.mi_sys_pagesize, maxkeysize,
-          envinfo.mi_maxreaders);
+          envinfo.mi_dxb_pagesize, envinfo.mi_sys_pagesize,
+          mdbx_env_get_maxkeysize_ex(env, MDBX_DUPSORT),
+          mdbx_env_get_maxkeysize_ex(env, 0), envinfo.mi_maxreaders);
     print_size(" - mapsize ", envinfo.mi_mapsize, "\n");
     if (envinfo.mi_geo.lower == envinfo.mi_geo.upper)
       print_size(" - fixed datafile: ", envinfo.mi_geo.current, "");
@@ -1174,12 +1176,15 @@ int main(int argc, char *argv[]) {
           envinfo.mi_recent_txnid, envinfo.mi_latter_reader_txnid,
           envinfo.mi_recent_txnid - envinfo.mi_latter_reader_txnid);
 
-    verbose_meta(0, envinfo.mi_meta0_txnid, envinfo.mi_meta0_sign);
-    verbose_meta(1, envinfo.mi_meta1_txnid, envinfo.mi_meta1_sign);
-    verbose_meta(2, envinfo.mi_meta2_txnid, envinfo.mi_meta2_sign);
+    verbose_meta(0, envinfo.mi_meta0_txnid, envinfo.mi_meta0_sign,
+                 envinfo.mi_bootid.meta0.h, envinfo.mi_bootid.meta0.l);
+    verbose_meta(1, envinfo.mi_meta1_txnid, envinfo.mi_meta1_sign,
+                 envinfo.mi_bootid.meta1.h, envinfo.mi_bootid.meta1.l);
+    verbose_meta(2, envinfo.mi_meta2_txnid, envinfo.mi_meta2_sign,
+                 envinfo.mi_bootid.meta2.h, envinfo.mi_bootid.meta2.l);
   }
 
-  if (verbose)
+  if (verbose > 1)
     print(" - performs check for meta-pages clashes\n");
   if (meta_eq(envinfo.mi_meta0_txnid, envinfo.mi_meta0_sign,
               envinfo.mi_meta1_txnid, envinfo.mi_meta1_sign)) {
@@ -1197,19 +1202,34 @@ int main(int argc, char *argv[]) {
     ++problems_meta;
   }
 
+  const unsigned steady_meta_id = meta_recent(true);
+  const uint64_t steady_meta_txnid = get_meta_txnid(steady_meta_id);
+  const unsigned weak_meta_id = meta_recent(false);
+  const uint64_t weak_meta_txnid = get_meta_txnid(weak_meta_id);
   if (envflags & MDBX_EXCLUSIVE) {
-    if (verbose)
+    if (verbose > 1)
       print(" - performs full check recent-txn-id with meta-pages\n");
-    problems_meta += check_meta_head(true);
+    if (steady_meta_txnid != envinfo.mi_recent_txnid) {
+      print(" ! steady meta-%d txn-id mismatch recent-txn-id (%" PRIi64
+            " != %" PRIi64 ")\n",
+            steady_meta_id, steady_meta_txnid, envinfo.mi_recent_txnid);
+      ++problems_meta;
+    }
   } else if (locked) {
-    if (verbose)
+    if (verbose > 1)
       print(" - performs lite check recent-txn-id with meta-pages (not a "
             "monopolistic mode)\n");
-    problems_meta += check_meta_head(false);
+    if (weak_meta_txnid != envinfo.mi_recent_txnid) {
+      print(" ! weak meta-%d txn-id mismatch recent-txn-id (%" PRIi64
+            " != %" PRIi64 ")\n",
+            weak_meta_id, weak_meta_txnid, envinfo.mi_recent_txnid);
+      ++problems_meta;
+    }
   } else if (verbose) {
     print(" - skip check recent-txn-id with meta-pages (monopolistic or "
           "read-write mode only)\n");
   }
+  total_problems += problems_meta;
 
   if (!dont_traversal) {
     struct problem *saved_list;
@@ -1230,12 +1250,8 @@ int main(int argc, char *argv[]) {
     traversal_problems = problems_pop(saved_list);
 
     if (rc) {
-      if (rc == MDBX_EINTR && user_break) {
-        print(" - interrupted by signal\n");
-        fflush(NULL);
-      } else {
+      if (rc != MDBX_EINTR || !check_user_break())
         error("mdbx_env_pgwalk failed, error %d %s\n", rc, mdbx_strerror(rc));
-      }
       goto bailout;
     }
 
@@ -1244,7 +1260,7 @@ int main(int argc, char *argv[]) {
         unused_pages += 1;
 
     empty_pages = lost_bytes = 0;
-    for (walk_dbi_t *dbi = &dbi_main; dbi < walk.dbi + MAX_DBI && dbi->name;
+    for (walk_dbi_t *dbi = &dbi_main; dbi < ARRAY_END(walk.dbi) && dbi->name;
          ++dbi) {
       empty_pages += dbi->pages.empty;
       lost_bytes += dbi->lost_bytes;
@@ -1255,7 +1271,7 @@ int main(int argc, char *argv[]) {
       print(" - pages: total %" PRIu64 ", unused %" PRIu64 "\n", walk.pgcount,
             unused_pages);
       if (verbose > 1) {
-        for (walk_dbi_t *dbi = walk.dbi; dbi < walk.dbi + MAX_DBI && dbi->name;
+        for (walk_dbi_t *dbi = walk.dbi; dbi < ARRAY_END(walk.dbi) && dbi->name;
              ++dbi) {
           print("     %s: subtotal %" PRIu64, dbi->name, dbi->pages.total);
           if (dbi->pages.other && dbi->pages.other != dbi->pages.total)
@@ -1289,7 +1305,7 @@ int main(int argc, char *argv[]) {
               (total_page_bytes - walk.total_payload_bytes) * 100.0 /
                   total_page_bytes);
       if (verbose > 2) {
-        for (walk_dbi_t *dbi = walk.dbi; dbi < walk.dbi + MAX_DBI && dbi->name;
+        for (walk_dbi_t *dbi = walk.dbi; dbi < ARRAY_END(walk.dbi) && dbi->name;
              ++dbi)
           if (dbi->pages.total) {
             uint64_t dbi_bytes = dbi->pages.total * envstat.ms_psize;
@@ -1359,12 +1375,13 @@ int main(int argc, char *argv[]) {
     if (!dont_traversal &&
         (envflags & (MDBX_EXCLUSIVE | MDBX_RDONLY)) != MDBX_RDONLY) {
       if (walk.pgcount != alloc_pages - gc_pages) {
-        error("used pages mismatch (%" PRIu64 " != %" PRIu64 ")\n",
+        error("used pages mismatch (%" PRIu64 "(walked) != %" PRIu64
+              "(allocated - GC))\n",
               walk.pgcount, alloc_pages - gc_pages);
       }
       if (unused_pages != gc_pages) {
-        error("gc pages mismatch (%" PRIu64 " != %" PRIu64 ")\n", unused_pages,
-              gc_pages);
+        error("gc pages mismatch (%" PRIu64 "(walked) != %" PRIu64 "(GC))\n",
+              unused_pages, gc_pages);
       }
     } else if (verbose) {
       print(" - skip check used and gc pages (btree-traversal with "
@@ -1377,17 +1394,41 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  if (rc == 0 && total_problems == 1 && problems_meta == 1 && !dont_traversal &&
+      (envflags & MDBX_RDONLY) == 0 && !only_subdb &&
+      steady_meta_txnid < envinfo.mi_recent_txnid) {
+    print("Perform sync-to-disk for make steady checkpoint at txn-id #%" PRIi64
+          "\n",
+          envinfo.mi_recent_txnid);
+    fflush(NULL);
+    if (locked) {
+      mdbx_txn_unlock(env);
+      locked = false;
+    }
+    rc = mdbx_env_sync_ex(env, true, false);
+    if (rc != MDBX_SUCCESS)
+      error("mdbx_env_pgwalk failed, error %d %s\n", rc, mdbx_strerror(rc));
+    else {
+      total_problems -= 1;
+      problems_meta -= 1;
+    }
+  }
+
 bailout:
   if (txn)
     mdbx_txn_abort(txn);
-  if (locked)
+  if (locked) {
     mdbx_txn_unlock(env);
-  if (env)
-    mdbx_env_close(env);
+    locked = false;
+  }
+  if (env) {
+    const bool dont_sync = rc != 0 || total_problems;
+    mdbx_env_close_ex(env, dont_sync);
+  }
   fflush(NULL);
   if (rc) {
     if (rc < 0)
-      return (user_break) ? EXIT_INTERRUPTED : EXIT_FAILURE_SYS;
+      return user_break ? EXIT_INTERRUPTED : EXIT_FAILURE_SYS;
     return EXIT_FAILURE_MDB;
   }
 
@@ -1404,8 +1445,7 @@ bailout:
             (timestamp_finish.tv_nsec - timestamp_start.tv_nsec) * 1e-9;
 #endif /* !WINDOWS */
 
-  total_problems += problems_meta;
-  if (total_problems || problems_maindb || problems_freedb) {
+  if (total_problems) {
     print("Total %" PRIu64 " error%s detected, elapsed %.3f seconds.\n",
           total_problems, (total_problems > 1) ? "s are" : " is", elapsed);
     if (problems_meta || problems_maindb || problems_freedb)
