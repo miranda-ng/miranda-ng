@@ -55,7 +55,7 @@ public:
 		CMStringW wszTitle(FORMAT, TranslateT("Import history for %s"), Clist_GetContactDisplayName(m_hContact));
 		SetWindowTextW(m_hwnd, wszTitle);
 
-		m_cmbFileType.AddString(TranslateT("Miranda NG database"), -1);
+		m_cmbFileType.AddString(TranslateT("Miranda NG database/mContacts"), -1);
 		m_cmbFileType.AddString(TranslateT("JSON file"), -2);
 
 		int iType = 1;
