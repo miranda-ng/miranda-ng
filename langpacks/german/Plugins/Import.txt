@@ -25,11 +25,11 @@ Import vollständig
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Zum Reaktivieren des Plugins bitte die Pluginseite nutzen und dort das Plugin 'Import' aktivieren.
 [Choose import type:]
-
+Importart auswählen
 [Choose directory]
-
+Verzeichnis auswählen
 [Choose file]
-
+Datei auswählen
 [&Filename:]
 &Dateiname:
 [Now importing...]
@@ -81,7 +81,7 @@ Andere
 [Choose appropriate accounts for import]
 Passendes Konto zum Importieren auswählen
 [Choose file type:]
-
+Dateityp auswählen:
 [Enter file name for import:]
 Zu importierende Datei angeben:
 [Copy]
@@ -172,20 +172,20 @@ Alle Dateien
 [You cannot import your current profile into itself]
 Sie können ein Profil nicht in sich selbst importieren.
 [Importing whole directory]
-
+Komplettes Verzeichnis importieren
 ;file \plugins\Import\src\patterns.cpp
 [Invalid file header]
-
+Ungültiger Dateianfang
 [Cannot parse file header, skipping file]
-
+Konnte Dateianfang nicht parsen, überspringe Datei
 [Loading file '%s'...]
-
+Lade Datei '%s'...
 [Failed to open file <%s> for import: %d]
-
+Öffnen der Datei <%s> zum Import fehlgeschlagen: %d
 [Failed to mmap file <%s> for import: %d]
-
+Speicherabbildung der Datei <%s> zum Import fehlgeschlagen: %d
 [Failed to map view of file <%s> for import: %d]
-
+Speicheransicht der Datei <%s> zum Import fehlgeschlagen: %d
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 Verlauf für %s importieren

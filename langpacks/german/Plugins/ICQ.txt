@@ -21,7 +21,7 @@ Benachrichtigungen mittels Systemtray-Symbol
 [Launch mailbox in a browser on click]
 Beim anklicken Postfach im Browser öffnen
 [Show error popups]
-
+Fehler-Popups anzeigen
 [Notifications]
 Benachrichtigung
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
@@ -57,7 +57,7 @@ Zuletzt gesehen:
 [Enter ICQ Password]
 ICQ-Passwort eingeben
 [Enter a password:]
-
+Passwort eingeben:
 [Remember this session password]
 Dieses Sitzungspasswort merken
 ;file \protocols\ICQ-WIM\src\groupchats.cpp
@@ -91,7 +91,7 @@ Servergruppen synchronisieren
 UIN/E-Mail/Telefon
 ;file \protocols\ICQ-WIM\src\server.cpp
 [You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
-
+Sie haben keine ICQ-Nummer oder -Passwort eingegeben.\nGeben Sie dies unter Einstellungen > Netzwerk > ICQ ein und versuchen Sie es nochmal.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Verbindung fehlgeschlagen.\nICQ-Nummer oder Passwort wurden abgelehnt (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]

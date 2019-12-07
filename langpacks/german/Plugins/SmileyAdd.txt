@@ -63,7 +63,7 @@ SmileyAdd-Plugin HTTP-Verbindungen
 [SmileyAdd]
 SmileyAdd
 [Smiley packs' folder]
-
+Smiley-Pakete-Verzeichnis
 [Smiley cache]
 Smiley-Cache
 ;file \plugins\SmileyAdd\src\main.cpp

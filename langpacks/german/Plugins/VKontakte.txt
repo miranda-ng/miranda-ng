@@ -312,7 +312,7 @@ Video
 [Link]
 Link
 [Audio message]
-
+Audio-Nachricht
 [Document]
 Dokument
 [Wall post]
@@ -371,7 +371,7 @@ Unbekannt
 [Enter new chat title]
 Neuen Chattitel eingeben
 [Adding bots to MUC is not supported]
-
+Bots zu einem Mehrbenutzerchat hinzuzufügen wird nicht unterstützt.
 [Not supported]
 Wird nicht unterstützt
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
@@ -383,7 +383,7 @@ Sie wurden gekickt von\s
 [Chat]
 Chat
 [Kick bots is not supported]
-
+Bots kicken wird nicht unterstützt
 [&Invite a user]
 Benutzer e&inladen
 [View/change &title]

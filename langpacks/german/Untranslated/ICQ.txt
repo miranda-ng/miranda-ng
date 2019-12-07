@@ -1,3 +1,0 @@
-[Show error popups]
-[Enter a password:]
-[You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]

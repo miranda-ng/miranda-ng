@@ -1603,7 +1603,7 @@ Minimiert das Fenster in die Taskleiste
 [Close or hide window, depends on the close button setting above]
 Schließe oder verstecke Fenster abhängig vom obigen Schließverhalten
 [Do nothing (ignore Esc key)]
-
+Nichts machen (Esc-Taske ignorieren)
 [Choose status modes]
 Wähle Statusmodi
 [General]
