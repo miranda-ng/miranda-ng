@@ -112,15 +112,8 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
 
-				if (bDeleted) {
-					if (processed[hContact])
-						continue;
-
-					// prepare contact for deletion
-					Clist_SetGroup(hContact, nullptr);
-					Contact_RemoveFromList(hContact);
+				if (bDeleted)
 					continue;
-				}
 
 				processed[hContact] = true;
 				setWString(hContact, "IcqGroup", pGroup->wszName);

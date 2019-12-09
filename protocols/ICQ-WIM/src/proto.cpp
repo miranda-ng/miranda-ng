@@ -176,11 +176,14 @@ INT_PTR CIcqProto::UploadGroups(WPARAM, LPARAM)
 		if (isChatRoom(it))
 			continue;
 
-		CMStringW wszIcqGroup(getMStringW(it, "IcqGroup"));
+		ptrW wszIcqGroup(getWStringA(it, "IcqGroup"));
+		if (wszIcqGroup == nullptr)
+			continue;
+
 		ptrW wszMirGroup(Clist_GetGroup(it));
 		if (!wszMirGroup)
 			wszMirGroup = mir_wstrdup(L"General");
-		if (wszIcqGroup != wszMirGroup)
+		if (mir_wstrcmp(wszIcqGroup, wszMirGroup))
 			MoveContactToGroup(it, wszIcqGroup, wszMirGroup);
 	}
 	return 0;
@@ -357,7 +360,7 @@ int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 				<< AIMSID(this) << GROUP_PARAM("oldGroup", pParam->pszOldName) << GROUP_PARAM("newGroup", pParam->pszNewName));
 		}
 	}
-	else MoveContactToGroup(hContact, getMStringW(hContact, "IcqGroup"), pParam->pszNewName);
+	else MoveContactToGroup(hContact, ptrW(getWStringA(hContact, "IcqGroup")), pParam->pszNewName);
 	
 	return 0;
 }
