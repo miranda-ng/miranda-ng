@@ -25,17 +25,10 @@
 #define WS_EX_LAYERED 0x00080000
 #define LWA_ALPHA 0x00000002
 
-#define WM_RELOAD (WM_USER + 100)
-
-#define NOTIFY_LIST() if (ListNotesVisible) PostMessage(LV,WM_RELOAD,0,0)
-
 #define NOTE_WND_CLASS L"MIM_StickyNote"
 
 #define IDM_COLORPRESET_BG 41000
 #define IDM_COLORPRESET_FG 41100
-
-static bool ListNotesVisible = false;
-static HWND LV;
 
 struct ColorPreset
 {
@@ -102,8 +95,10 @@ struct STICKYNOTE : public MZeroedObject
 static OBJLIST<STICKYNOTE> g_arStickies(1, PtrKeySortT);
 
 void GetTriggerTimeString(const ULONGLONG *When, wchar_t *s, size_t strSize, BOOL bUtc);
-void OnListResize(HWND hwndDlg);
 void FileTimeToTzLocalST(const FILETIME *lpUtc, SYSTEMTIME *tmLocal);
+
+static void NotifyList();
+static class CNotesListDlg *pListDialog;
 
 COLORREF GetCaptionColor(COLORREF bodyClr)
 {
@@ -202,14 +197,6 @@ static bool CreateStickyNoteFont(STICKYNOTEFONT *pCustomFont, LOGFONT *plf)
 	return pCustomFont->hFont != nullptr;
 }
 
-void CloseNotesList()
-{
-	if (ListNotesVisible) {
-		DestroyWindow(LV);
-		ListNotesVisible = false;
-	}
-}
-
 void PurgeNotes(void)
 {
 	char ValueName[16];
@@ -226,7 +213,7 @@ void DeleteNotes(void)
 	PurgeNotes();
 	g_plugin.setDword("NotesData", 0);
 	g_arStickies.destroy();
-	NOTIFY_LIST();
+	NotifyList();
 }
 
 void BringAllNotesToFront(STICKYNOTE *pActive)
@@ -346,7 +333,7 @@ static void JustSaveNotes(STICKYNOTE *pModified = nullptr)
 		g_plugin.delSetting(ValueName);
 	}
 
-	NOTIFY_LIST();
+	NotifyList();
 }
 
 void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
@@ -354,7 +341,7 @@ void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 	if (MessageBoxW(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK) {
 		g_arStickies.remove(SN);
 		JustSaveNotes();
-		NOTIFY_LIST();
+		NotifyList();
 	}
 }
 
@@ -421,9 +408,9 @@ static int FindMenuItem(HMENU h, LPSTR lpszName)
 	return -1;
 }
 
-static BOOL DoContextMenu(HWND AhWnd, WPARAM, LPARAM lParam)
+static BOOL DoContextMenu(HWND m_hwnd, WPARAM, LPARAM lParam)
 {
-	STICKYNOTE *SN = (STICKYNOTE*)GetPropA(AhWnd, "ctrldata");
+	STICKYNOTE *SN = (STICKYNOTE*)GetPropA(m_hwnd, "ctrldata");
 
 	HMENU hMenuLoad, FhMenu, hSub;
 	hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_NOTEPOPUP");
@@ -452,7 +439,7 @@ static BOOL DoContextMenu(HWND AhWnd, WPARAM, LPARAM lParam)
 	}
 
 	TranslateMenu(FhMenu);
-	TrackPopupMenu(FhMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, LOWORD(lParam), HIWORD(lParam), 0, AhWnd, nullptr);
+	TrackPopupMenu(FhMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, LOWORD(lParam), HIWORD(lParam), 0, m_hwnd, nullptr);
 	DestroyMenu(hMenuLoad);
 	return TRUE;
 }
@@ -1185,9 +1172,8 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText
 	// make sure that any event triggered by init doesn't cause a meaningless save
 	KillTimer(TSN->SNHwnd, 1025);
 
-	if (!bLoading) {
-		NOTIFY_LIST();
-	}
+	if (!bLoading)
+		NotifyList();
 
 	return TSN;
 }
@@ -1360,7 +1346,7 @@ void LoadNotes(bool bIsStartup)
 	}
 
 
-	NOTIFY_LIST();
+	NotifyList();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1420,280 +1406,267 @@ wchar_t* GetPreviewString(const char *lpsz)
 	return s;
 }
 
-static void InitListView(HWND AHLV)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CNotesListDlg : public CDlgBase
 {
-	int i = 0;
+	void InitListView()
+	{
+		int i = 0;
 
-	wchar_t S1[128];
-	wchar_t *V = TranslateT("Visible");
-	wchar_t *T = TranslateT("Top");
+		wchar_t S1[128];
+		wchar_t *V = TranslateT("Visible");
+		wchar_t *T = TranslateT("Top");
 
-	ListView_SetHoverTime(AHLV, 700);
-	ListView_SetExtendedListViewStyle(AHLV, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
-	ListView_DeleteAllItems(AHLV);
+		m_list.SetHoverTime(700);
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
+		m_list.DeleteAllItems();
 
-	for (auto &pNote : g_arStickies) {
-		LV_ITEM lvTIt;
-		lvTIt.mask = LVIF_TEXT;
+		for (auto &pNote : g_arStickies) {
+			LV_ITEM lvTIt;
+			lvTIt.mask = LVIF_TEXT;
 
-		if (!pNote->CustomTitle || !pNote->pwszTitle)
-			GetTriggerTimeString(&pNote->ID, S1, _countof(S1), TRUE);
+			if (!pNote->CustomTitle || !pNote->pwszTitle)
+				GetTriggerTimeString(&pNote->ID, S1, _countof(S1), TRUE);
 
-		lvTIt.iItem = i;
-		lvTIt.iSubItem = 0;
-		lvTIt.pszText = (pNote->CustomTitle && pNote->pwszTitle) ? pNote->pwszTitle : S1;
-		ListView_InsertItem(AHLV, &lvTIt);
-
-		if (pNote->bVisible) {
 			lvTIt.iItem = i;
-			lvTIt.iSubItem = 1;
-			lvTIt.pszText = V;
-			ListView_SetItem(AHLV, &lvTIt);
-		}
+			lvTIt.iSubItem = 0;
+			lvTIt.pszText = (pNote->CustomTitle && pNote->pwszTitle) ? pNote->pwszTitle : S1;
+			m_list.InsertItem(&lvTIt);
 
-		if (pNote->bOnTop) {
-			lvTIt.iItem = i;
-			lvTIt.iSubItem = 2;
-			lvTIt.pszText = T;
-			ListView_SetItem(AHLV, &lvTIt);
-		}
-
-		lvTIt.iItem = i;
-		lvTIt.iSubItem = 3;
-		lvTIt.pszText = GetPreviewString(pNote->szText);
-		ListView_SetItem(AHLV, &lvTIt);
-
-		i++;
-	}
-
-	ListView_SetItemState(AHLV, 0, LVIS_SELECTED, LVIS_SELECTED);
-}
-
-static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam, STICKYNOTE *pNote)
-{
-	HWND hwndListView = (HWND)wParam;
-	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS))
-		return FALSE;
-
-	HMENU hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_NOTELISTPOPUP");
-	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
-
-	MENUITEMINFO mii = {0};
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_STATE;
-	mii.fState = MFS_DEFAULT;
-	if (!pNote)
-		mii.fState |= MFS_GRAYED;
-	SetMenuItemInfo(FhMenu, ID_CONTEXTMENUNOTE_EDITNOTE, FALSE, &mii);
-
-	if (!pNote) {
-		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_REMOVENOTE, MF_GRAYED | MF_BYCOMMAND);
-		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY, MF_GRAYED | MF_BYCOMMAND);
-		EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEONTOP, MF_GRAYED | MF_BYCOMMAND);
-	}
-	else {
-		if (pNote->bVisible)
-			CheckMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY, MF_CHECKED | MF_BYCOMMAND);
-		if (pNote->bOnTop)
-			CheckMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEONTOP, MF_CHECKED | MF_BYCOMMAND);
-	}
-
-	TranslateMenu(FhMenu);
-	TrackPopupMenu(FhMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, LOWORD(lParam), HIWORD(lParam), 0, AhWnd, nullptr);
-	DestroyMenu(hMenuLoad);
-	return TRUE;
-}
-
-
-static INT_PTR CALLBACK DlgProcViewNotes(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
-{
-	switch (Message) {
-	case WM_SIZE:
-		OnListResize(hwndDlg);
-		break;
-
-	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mm = (MINMAXINFO*)lParam;
-			mm->ptMinTrackSize.x = 394;
-			mm->ptMinTrackSize.y = 300;
-		}
-		return 0;
-
-	case WM_RELOAD:
-		SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
-		InitListView(GetDlgItem(hwndDlg, IDC_LISTREMINDERS));
-		return TRUE;
-
-	case WM_CONTEXTMENU:
-		{
-			STICKYNOTE *pNote = nullptr;
-
-			HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-			if (ListView_GetSelectedCount(H)) {
-				int i = ListView_GetSelectionMark(H);
-				if (i != -1)
-					pNote = &g_arStickies[i];
+			if (pNote->bVisible) {
+				lvTIt.iItem = i;
+				lvTIt.iSubItem = 1;
+				lvTIt.pszText = V;
+				m_list.SetItem(&lvTIt);
 			}
 
-			if (DoListContextMenu(hwndDlg, wParam, lParam, pNote))
-				return TRUE;
-		}
-		break;
-
-	case WM_INITDIALOG:
-		Window_SetIcon_IcoLib(hwndDlg, iconList[13].hIcolib);
-
-		SetWindowText(hwndDlg, LPGENW("Notes"));
-
-		TranslateDialogDefault(hwndDlg);
-
-		SetDlgItemText(hwndDlg, IDC_REMINDERDATA, L"");
-		{
-			HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-
-			LV_COLUMN lvCol;
-			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
-
-			lvCol.pszText = TranslateT("Note text");
-			lvCol.cx = 150;
-			ListView_InsertColumn(H, 0, &lvCol);
-
-			lvCol.pszText = TranslateT("Top");
-			lvCol.cx = 20;
-			ListView_InsertColumn(H, 0, &lvCol);
-
-			lvCol.pszText = TranslateT("Visible");
-			lvCol.cx = 20;
-			ListView_InsertColumn(H, 0, &lvCol);
-
-			lvCol.pszText = TranslateT("Date/Title");
-			lvCol.cx = 165;
-			ListView_InsertColumn(H, 0, &lvCol);
-
-			InitListView(H);
-			SetWindowLongPtr(GetDlgItem(H, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
-			LV = hwndDlg;
-
-			Utils_RestoreWindowPosition(hwndDlg, 0, MODULENAME, "ListNotes");
-		}
-		return TRUE;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		ListNotesVisible = false;
-		return TRUE;
-
-	case WM_DESTROY:
-		ListNotesVisible = false;
-		Utils_SaveWindowPosition(hwndDlg, 0, MODULENAME, "ListNotes");
-		Window_FreeIcon_IcoLib(hwndDlg);
-		return TRUE;
-
-	case WM_NOTIFY:
-		if (wParam == IDC_LISTREMINDERS) {
-			LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
-			switch (NM->hdr.code) {
-			case LVN_ITEMCHANGED:
-				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, g_arStickies[NM->iItem].szText);
-				break;
-
-			case NM_DBLCLK:
-				if (ListView_GetSelectedCount(NM->hdr.hwndFrom)) {
-					int i = ListView_GetSelectionMark(NM->hdr.hwndFrom);
-					if (i != -1)
-						EditNote(&g_arStickies[i]);
-				}
-				break;
+			if (pNote->bOnTop) {
+				lvTIt.iItem = i;
+				lvTIt.iSubItem = 2;
+				lvTIt.pszText = T;
+				m_list.SetItem(&lvTIt);
 			}
-		}
-		break;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
+			lvTIt.iItem = i;
+			lvTIt.iSubItem = 3;
+			lvTIt.pszText = GetPreviewString(pNote->szText);
+			m_list.SetItem(&lvTIt);
+
+			i++;
+		}
+
+		m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
+	}
+
+	CCtrlListView m_list;
+	CCtrlButton btnNew;
+
+public:
+	CNotesListDlg() :
+		CDlgBase(g_plugin, IDD_LISTREMINDERS),
+		m_list(this, IDC_LISTREMINDERS),
+		btnNew(this, IDC_ADDNEWREMINDER)
+	{
+		SetMinSize(394, 300);
+
+		btnNew.OnClick = Callback(this, &CNotesListDlg::onClick_New);
+	}
+
+	bool OnInitDialog() override
+	{
+		pListDialog = this;
+		Window_SetIcon_IcoLib(m_hwnd, iconList[13].hIcolib);
+
+		SetWindowText(m_hwnd, LPGENW("Notes"));
+
+		TranslateDialogDefault(m_hwnd);
+
+		SetDlgItemText(m_hwnd, IDC_REMINDERDATA, L"");
+
+		LV_COLUMN lvCol;
+		lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
+
+		lvCol.pszText = TranslateT("Note text");
+		lvCol.cx = 150;
+		m_list.InsertColumn( 0, &lvCol);
+
+		lvCol.pszText = TranslateT("Top");
+		lvCol.cx = 20;
+		m_list.InsertColumn(0, &lvCol);
+
+		lvCol.pszText = TranslateT("Visible");
+		lvCol.cx = 20;
+		m_list.InsertColumn(0, &lvCol);
+
+		lvCol.pszText = TranslateT("Date/Title");
+		lvCol.cx = 165;
+		m_list.InsertColumn(0, &lvCol);
+
+		InitListView();
+		SetWindowLongPtr(GetDlgItem(m_list.GetHwnd(), 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
+
+		Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "ListNotes");
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "ListNotes");
+		Window_FreeIcon_IcoLib(m_hwnd);
+		pListDialog = nullptr;
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_LISTREMINDERS:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+		case IDC_REMINDERDATA:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+		}
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+	}
+
+	void onClick_New(CCtrlButton *)
+	{
+		PluginMenuCommandAddNew(0, 0);
+	}
+
+	void onContextMenu()
+	{
+		int idx = m_list.GetSelectionMark();
+		STICKYNOTE *pNote = (idx != -1) ? &g_arStickies[idx] : nullptr;
+
+		HMENU hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_NOTELISTPOPUP");
+		HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
+
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
+		mii.fMask = MIIM_STATE;
+		mii.fState = MFS_DEFAULT;
+		if (!pNote)
+			mii.fState |= MFS_GRAYED;
+		SetMenuItemInfo(FhMenu, ID_CONTEXTMENUNOTE_EDITNOTE, FALSE, &mii);
+
+		if (!pNote) {
+			EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_REMOVENOTE, MF_GRAYED | MF_BYCOMMAND);
+			EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY, MF_GRAYED | MF_BYCOMMAND);
+			EnableMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEONTOP, MF_GRAYED | MF_BYCOMMAND);
+		}
+		else {
+			if (pNote->bVisible)
+				CheckMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY, MF_CHECKED | MF_BYCOMMAND);
+			if (pNote->bOnTop)
+				CheckMenuItem(FhMenu, ID_CONTEXTMENUNOTE_TOGGLEONTOP, MF_CHECKED | MF_BYCOMMAND);
+		}
+
+		TranslateMenu(FhMenu);
+
+		RECT rc;
+		m_list.GetItemRect(idx, &rc, LVIR_LABEL);
+		POINT pt = { rc.left, rc.bottom };
+		ClientToScreen(m_list.GetHwnd(), &pt);
+
+		int iSel = TrackPopupMenu(FhMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, m_hwnd, nullptr);
+		DestroyMenu(hMenuLoad);
+
+		switch (iSel) {
 		case ID_CONTEXTMENUNOTE_EDITNOTE:
-			{
-				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-				if (ListView_GetSelectedCount(H)) {
-					int i = ListView_GetSelectionMark(H);
-					if (i != -1) {
-						EditNote(&g_arStickies[i]);
-					}
-				}
+			if (m_list.GetSelectedCount()) {
+				int i = m_list.GetSelectionMark();
+				if (i != -1)
+					EditNote(&g_arStickies[i]);
 			}
-			return TRUE;
+			break;
 
 		case ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY:
-			{
-				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-				if (ListView_GetSelectedCount(H)) {
-					int i = ListView_GetSelectionMark(H);
-					if (i != -1) {
-						auto &SN = g_arStickies[i];
-						SN.bVisible = !SN.bVisible;
-						ShowWindow(SN.SNHwnd, SN.bVisible ? SW_SHOWNA : SW_HIDE);
-						JustSaveNotes();
-					}
+			if (m_list.GetSelectedCount()) {
+				int i = m_list.GetSelectionMark();
+				if (i != -1) {
+					auto &SN = g_arStickies[i];
+					SN.bVisible = !SN.bVisible;
+					ShowWindow(SN.SNHwnd, SN.bVisible ? SW_SHOWNA : SW_HIDE);
+					JustSaveNotes();
 				}
 			}
-			return TRUE;
+			break;
 
 		case ID_CONTEXTMENUNOTE_TOGGLEONTOP:
-			{
-				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-				if (ListView_GetSelectedCount(H)) {
-					int i = ListView_GetSelectionMark(H);
-					if (i != -1) {
-						auto &SN = g_arStickies[i];
-						SN.bOnTop = !SN.bOnTop;
-						SetWindowPos(SN.SNHwnd, SN.bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
-						RedrawWindow(SN.SNHwnd, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
-						JustSaveNotes();
-					}
+			if (m_list.GetSelectedCount()) {
+				int i = m_list.GetSelectionMark();
+				if (i != -1) {
+					auto &SN = g_arStickies[i];
+					SN.bOnTop = !SN.bOnTop;
+					SetWindowPos(SN.SNHwnd, SN.bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
+					RedrawWindow(SN.SNHwnd, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
+					JustSaveNotes();
 				}
 			}
-			return TRUE;
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			ListNotesVisible = false;
-			return TRUE;
+			break;
 
 		case ID_CONTEXTMENUNOTE_NEWNOTE:
-		case IDC_ADDNEWREMINDER:
 			PluginMenuCommandAddNew(0, 0);
-			return TRUE;
+			break;
 
 		case ID_CONTEXTMENUNOTE_DELETEALLNOTES:
 			PluginMenuCommandDeleteNotes(0, 0);
-			return TRUE;
+			break;
 
 		case ID_CONTEXTMENUNOTE_REMOVENOTE:
-			{
-				HWND H = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-				if (ListView_GetSelectedCount(H)) {
-					int i = ListView_GetSelectionMark(H);
-					if (i != -1)
-						OnDeleteNote(hwndDlg, &g_arStickies[i]);
-				}
+			if (m_list.GetSelectedCount()) {
+				int i = m_list.GetSelectionMark();
+				if (i != -1)
+					OnDeleteNote(m_hwnd, &g_arStickies[i]);
 			}
-			return TRUE;
+			break;
 
 		case ID_CONTEXTMENUNOTE_SHOW:
 			ShowHideNotes();
-			return TRUE;
+			break;
 
 		case ID_CONTEXTMENUNOTE_BRINGALLTOTOP:
 			BringAllNotesToFront(nullptr);
-			return TRUE;
+			break;
 		}
 	}
-	return FALSE;
+
+	void Reload()
+	{
+		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
+		InitListView();
+	}
+
+	void list_onItemChanged(CCtrlListView::TEventInfo *ev)
+	{
+		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, g_arStickies[ev->nmlv->iItem].szText);
+	}
+
+	void list_onDblClick(CCtrlListView::TEventInfo*)
+	{
+		if (m_list.GetSelectedCount()) {
+			int i = m_list.GetSelectionMark();
+			if (i != -1)
+				EditNote(&g_arStickies[i]);
+		}
+	}
+};
+
+void CloseNotesList()
+{
+	if (pListDialog)
+		pListDialog->Close();
 }
 
+static void NotifyList()
+{
+	if (pListDialog)
+		pListDialog->Reload();
+}
 
 /////////////////////////////////////////////////////////////////////
-// Notes List hwndDlg (uses same dialog template as reminder list)
+// Notes List dialog (uses same dialog template as reminder list)
 
 INT_PTR PluginMenuCommandAddNew(WPARAM, LPARAM)
 {
@@ -1709,11 +1682,10 @@ INT_PTR PluginMenuCommandShowHide(WPARAM, LPARAM)
 
 INT_PTR PluginMenuCommandViewNotes(WPARAM, LPARAM)
 {
-	if (!ListNotesVisible) {
-		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewNotes);
-		ListNotesVisible = true;
-	}
-	else BringWindowToTop(LV);
+	if (!pListDialog)
+		(new CNotesListDlg())->Show();
+	else
+		BringWindowToTop(pListDialog->GetHwnd());
 	return 0;
 }
 

@@ -10,10 +10,6 @@
 #define DATATAG_SNDSEL     3 // %d (which sound to use, default, alt1, alt2, -1 means no sound at all)
 #define DATATAG_REPEAT     4 // %d (repeateable reminder)
 
-#define WM_RELOAD (WM_USER + 100)
-
-#define NOTIFY_LIST() if (bListReminderVisible) PostMessage(LV,WM_RELOAD,0,0)
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static void RemoveReminderSystemEvent(struct REMINDERDATA *p);
@@ -43,26 +39,20 @@ struct REMINDERDATA : public MZeroedObject
 	}
 };
 
-static int ReminderSortCb(const REMINDERDATA *v1, const REMINDERDATA *v2)
-{
-	if (v1->When == v2->When)
-		return 0;
+static LIST<REMINDERDATA> arReminders(1, PtrKeySortT);
 
-	return (v1->When < v2->When) ? -1 : 1;
-}
-
-static LIST<REMINDERDATA> arReminders(1, ReminderSortCb);
+static class CReminderListDlg *pListDialog;
 
 static bool bNewReminderVisible = false;
-static bool bListReminderVisible = false;
 static UINT QueuedReminderCount = 0;
-static HWND LV;
 
 int WS_Send(SOCKET s, char *data, int datalen);
 unsigned long WS_ResolveName(char *name, WORD *port, int defaultPort);
 
 void Send(char *user, char *host, const char *Msg, char* server);
 wchar_t* GetPreviewString(const char *lpsz);
+
+static void NotifyList();
 
 // time convertsion routines that take local time-zone specific daylight saving configuration into account
 // (unlike the standard FileTimeToLocalFileTime functions)
@@ -96,10 +86,9 @@ static DWORD CreateUid()
 		return 1;
 
 	// check existing reminders if uid is in use
-	for (DWORD uid = 1;; uid++) {
+	for (DWORD uid = 1;; uid++)
 		if (!FindReminder(uid)) // uid in use
 			return uid;
-	}
 }
 
 static void RemoveReminderSystemEvent(REMINDERDATA *p)
@@ -407,73 +396,6 @@ static void FireReminder(REMINDERDATA *pReminder, DWORD *pHasPlayedSound)
 
 		*pHasPlayedSound |= dwSoundMask;
 	}
-}
-
-bool CheckRemindersAndStart(void)
-{
-	// returns TRUE if there are any triggered reminder with bSystemEventQueued, this will shorten the update interval
-	// allowing sound repeats with shorter intervals
-
-	if (!arReminders.getCount())
-		return false;
-
-	ULONGLONG curT;
-	SYSTEMTIME tm;
-	GetSystemTime(&tm);
-	SystemTimeToFileTime(&tm, (FILETIME*)&curT);
-
-	// NOTE: reminder list is sorted by trigger time, so we can early out on the first reminder > cur time
-	// quick check for normal case with no reminder ready to be triggered and no queued triggered reminders
-	// (happens 99.99999999999% of the time)
-	if (curT < arReminders[0]->When && !QueuedReminderCount)
-		return false;
-
-	bool bResult = false;
-
-	// var used to avoid playing multiple alarm sounds during a single update
-	DWORD bHasPlayedSound = 0;
-
-	// if there are queued (triggered) reminders then iterate through entire list, becaue of WM_TIMECHANGE events
-	// and for example daylight saving changes it's possible for an already triggered event to end up with When>curT
-	bool bHasQueuedReminders = (QueuedReminderCount != 0);
-
-	// allthough count should always be correct, it's fool proof to just count them again in the loop below
-	QueuedReminderCount = 0;
-
-	for (auto &pReminder : arReminders) {
-		if (!bHasQueuedReminders && pReminder->When > curT)
-			break;
-
-		if (!pReminder->bVisible) {
-			if (pReminder->bSystemEventQueued) {
-				UpdateReminderEvent(pReminder, REMINDER_UPDATE_INTERVAL_SHORT / 1000, &bHasPlayedSound);
-
-				QueuedReminderCount++;
-				bResult = true;
-			}
-			else if (pReminder->When <= curT) {
-				if (!g_RemindSMS) {
-					FireReminder(pReminder, &bHasPlayedSound);
-
-					if (pReminder->bSystemEventQueued)
-						bResult = true;
-				}
-				else {
-					char *p = strchr(g_RemindSMS, '@');
-					if (p) {
-						Send(g_RemindSMS, p+1, pReminder->szText, NULL);
-						*p = '@';
-
-						DeleteReminder(pReminder);
-						JustSaveReminders();
-						NOTIFY_LIST();
-					}
-				}
-			}
-		}
-	}
-
-	return bResult;
 }
 
 static LRESULT CALLBACK DatePickerWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -1182,7 +1104,7 @@ public:
 		if (m_pReminder)
 			DeleteReminder(m_pReminder);
 		JustSaveReminders();
-		NOTIFY_LIST();
+		NotifyList();
 		return true;
 	}
 
@@ -1534,7 +1456,7 @@ public:
 		
 		edtText.SetTextA("");
 		JustSaveReminders();
-		NOTIFY_LIST();
+		NotifyList();
 		if (bClose)
 			Close();
 	}
@@ -1590,7 +1512,7 @@ public:
 	}
 };
 
-void EditReminder(REMINDERDATA *p)
+static void EditReminder(REMINDERDATA *p)
 {
 	if (!p)
 		return;
@@ -1606,162 +1528,82 @@ void EditReminder(REMINDERDATA *p)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void InitListView(HWND AHLV)
+static int ReminderSortCb(const REMINDERDATA *v1, const REMINDERDATA *v2)
 {
-	ListView_SetHoverTime(AHLV, 700);
-	ListView_SetExtendedListViewStyle(AHLV, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
-	ListView_DeleteAllItems(AHLV);
-
-	int i = 0;
-	for (auto &pReminder : arReminders) {
-		LV_ITEM lvTIt;
-		lvTIt.mask = LVIF_TEXT;
-
-		wchar_t S1[128];
-		GetTriggerTimeString(&pReminder->When, S1, _countof(S1), TRUE);
-
-		lvTIt.iItem = i;
-		lvTIt.iSubItem = 0;
-		lvTIt.pszText = S1;
-		ListView_InsertItem(AHLV, &lvTIt);
-		lvTIt.mask = LVIF_TEXT;
-
-		wchar_t *S2 = GetPreviewString(pReminder->szText);
-		lvTIt.iItem = i;
-		lvTIt.iSubItem = 1;
-		lvTIt.pszText = S2;
-		ListView_SetItem(AHLV, &lvTIt);
-
-		i++;
-	}
-
-	ListView_SetItemState(AHLV, 0, LVIS_SELECTED, LVIS_SELECTED);
-}
-
-void OnListResize(HWND hwndDlg)
-{
-	HWND hList = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-	HWND hText = GetDlgItem(hwndDlg, IDC_REMINDERDATA);
-	HWND hBtnNew = GetDlgItem(hwndDlg, IDC_ADDNEWREMINDER);
-	HWND hBtnClose = GetDlgItem(hwndDlg, IDCANCEL);
-
-	POINT org = {};
-	ClientToScreen(hwndDlg, &org);
-
-	RECT lr, cr, tr, clsr;
-	GetClientRect(hwndDlg, &cr);
-	GetWindowRect(hList, &lr); OffsetRect(&lr, -org.x, -org.y);
-	GetWindowRect(hText, &tr); OffsetRect(&tr, -org.x, -org.y);
-	GetWindowRect(hBtnClose, &clsr); OffsetRect(&clsr, -org.x, -org.y);
-
-	int iMargin = lr.left;
-	int th = tr.bottom - tr.top;
-	int btnh = clsr.bottom - clsr.top;
-	int btnw = clsr.right - clsr.left;
-
-	clsr.left = cr.right - iMargin - btnw;
-	clsr.top = cr.bottom - iMargin - btnh;
-
-	tr.left = iMargin;
-	tr.right = cr.right - iMargin;
-	tr.bottom = clsr.top - iMargin - 2;
-	tr.top = tr.bottom - th;
-
-	lr.right = cr.right - iMargin;
-	lr.bottom = tr.top - 5;
-
-	MoveWindow(hList, lr.left, lr.top, lr.right - lr.left, lr.bottom - lr.top, FALSE);
-	MoveWindow(hText, tr.left, tr.top, tr.right - tr.left, tr.bottom - tr.top, FALSE);
-
-	MoveWindow(hBtnClose, clsr.left, clsr.top, btnw, btnh, FALSE);
-	clsr.left -= btnw + 2;
-	MoveWindow(hBtnNew, clsr.left, clsr.top, btnw, btnh, FALSE);
-
-	GetWindowRect(hList, &cr);
-	ListView_SetColumnWidth(hList, 1, cr.right - cr.left - ListView_GetColumnWidth(hList, 0) - 4);
-
-	RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE);
-}
-
-static BOOL DoListContextMenu(HWND AhWnd, WPARAM wParam, LPARAM lParam)
-{
-	HWND hwndListView = (HWND)wParam;
-	if (hwndListView != GetDlgItem(AhWnd, IDC_LISTREMINDERS))
-		return FALSE;
-	
-	HMENU hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_REMINDERPOPUP");
-	HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
-
-	int idx = ListView_GetSelectionMark(hwndListView);
-	REMINDERDATA *pReminder = (idx == -1) ? nullptr : arReminders[idx];
-
-	MENUITEMINFO mii = {};
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_STATE;
-	mii.fState = MFS_DEFAULT;
-	if (!pReminder || pReminder->bSystemEventQueued)
-		mii.fState |= MFS_GRAYED;
-	SetMenuItemInfo(FhMenu, ID_CONTEXTMENUREMINDER_EDIT, FALSE, &mii);
-
-	if (!pReminder)
-		EnableMenuItem(FhMenu, ID_CONTEXTMENUREMINDER_DELETE, MF_GRAYED | MF_BYCOMMAND);
-
-	POINT pt = { GET_X_LPARAM(lParam),  GET_Y_LPARAM(lParam) };
-	if (pt.x == -1 && pt.y == -1) {
-		RECT rc;
-		ListView_GetItemRect(hwndListView, idx, &rc, LVIR_LABEL);
-		pt.x = rc.left;
-		pt.y = rc.bottom;
-		ClientToScreen(hwndListView, &pt);
-	}
-
-	TranslateMenu(FhMenu);
-	TrackPopupMenu(FhMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, AhWnd, nullptr);
-	DestroyMenu(hMenuLoad);
-	return TRUE;
-}
-
-static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM wParam, LPARAM lParam)
-{
-	HWND hList = GetDlgItem(hwndDlg, IDC_LISTREMINDERS);
-	int idx, cx1, cx2;
-
-	switch (Message) {
-	case WM_SIZE:
-		OnListResize(hwndDlg);
-		break;
-
-	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mm = (MINMAXINFO*)lParam;
-			mm->ptMinTrackSize.x = 394;
-			mm->ptMinTrackSize.y = 300;
-		}
+	if (v1->When == v2->When)
 		return 0;
 
-	case WM_RELOAD:
-		SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
-		InitListView(hList);
-		return TRUE;
+	return (v1->When < v2->When) ? -1 : 1;
+}
 
-	case WM_CONTEXTMENU:
-		if (DoListContextMenu(hwndDlg, wParam, lParam))
-			return TRUE;
-		break;
+class CReminderListDlg : public CDlgBase
+{
+	void RefreshList()
+	{
+		m_list.DeleteAllItems();
 
-	case WM_INITDIALOG:
-		Window_SetIcon_IcoLib(hwndDlg, iconList[6].hIcolib);
+		LIST< REMINDERDATA> tmpSort(10, ReminderSortCb);
+		for (auto &it : arReminders)
+			tmpSort.insert(it);
 
-		TranslateDialogDefault(hwndDlg);
-		SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
-		{
-			cx1 = 150, cx2 = 205;
-			ptrA colWidth(g_plugin.getStringA("ColWidth"));
-			if (colWidth != 0) {
-				int tmp1 = 0, tmp2 = 0;
-				if (2 == sscanf(colWidth, "%d,%d", &tmp1, &tmp2))
-					cx1 = tmp1, cx2 = tmp2;
-			}
+		int i = 0;
+		for (auto &pReminder : tmpSort) {
+			LV_ITEM lvTIt;
+			lvTIt.mask = LVIF_TEXT;
+
+			wchar_t S1[128];
+			GetTriggerTimeString(&pReminder->When, S1, _countof(S1), TRUE);
+
+			lvTIt.iItem = i;
+			lvTIt.iSubItem = 0;
+			lvTIt.pszText = S1;
+			m_list.InsertItem(&lvTIt);
+			lvTIt.mask = LVIF_TEXT;
+
+			wchar_t *S2 = GetPreviewString(pReminder->szText);
+			lvTIt.iItem = i;
+			lvTIt.iSubItem = 1;
+			lvTIt.pszText = S2;
+			m_list.SetItem(&lvTIt);
+
+			i++;
+		}
+
+		m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
+	}
+
+	CCtrlListView m_list;
+	CCtrlButton btnNew;
+
+public:
+	CReminderListDlg() :
+		CDlgBase(g_plugin, IDD_LISTREMINDERS),
+		m_list(this, IDC_LISTREMINDERS),
+		btnNew(this, IDC_ADDNEWREMINDER)
+	{
+		SetMinSize(394, 300);
+
+		btnNew.OnClick = Callback(this, &CReminderListDlg::onClick_New);
+
+		m_list.OnBuildMenu = Callback(this, &CReminderListDlg::onContextMenu);
+		m_list.OnDoubleClick = Callback(this, &CReminderListDlg::list_onDblClick);
+		m_list.OnItemChanged = Callback(this, &CReminderListDlg::list_onItemChanged);
+	}
+
+	bool OnInitDialog() override
+	{
+		pListDialog = this;
+		Window_SetIcon_IcoLib(m_hwnd, iconList[6].hIcolib);
+
+		TranslateDialogDefault(m_hwnd);
+		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
+
+		int cx1 = 150, cx2 = 205;
+		ptrA colWidth(g_plugin.getStringA("ColWidth"));
+		if (colWidth != 0) {
+			int tmp1 = 0, tmp2 = 0;
+			if (2 == sscanf(colWidth, "%d,%d", &tmp1, &tmp2))
+				cx1 = tmp1, cx2 = tmp2;
 		}
 
 		LV_COLUMN lvCol;
@@ -1769,110 +1611,233 @@ static INT_PTR CALLBACK DlgProcViewReminders(HWND hwndDlg, UINT Message, WPARAM 
 
 		lvCol.pszText = TranslateT("Date of activation");
 		lvCol.cx = cx1;
-		ListView_InsertColumn(hList, 0, &lvCol);
+		m_list.InsertColumn(0, &lvCol);
 
 		lvCol.pszText = TranslateT("Reminder text");
 		lvCol.cx = cx2;
-		ListView_InsertColumn(hList, 1, &lvCol);
+		m_list.InsertColumn(1, &lvCol);
 
-		InitListView(hList);
+		m_list.SetHoverTime(700);
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
+		RefreshList();
 
-		SetWindowLongPtr(GetDlgItem(hList, 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
-		LV = hwndDlg;
+		SetWindowLongPtr(GetDlgItem(m_list.GetHwnd(), 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
 
-		Utils_RestoreWindowPosition(hwndDlg, 0, MODULENAME, "ListReminders");
-		return TRUE;
+		Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "ListReminders");
+		return true;
+	}
 
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		bListReminderVisible = false;
-		return TRUE;
-
-	case WM_NOTIFY:
-		if (wParam == IDC_LISTREMINDERS) {
-			LPNMLISTVIEW NM = (LPNMLISTVIEW)lParam;
-			switch (NM->hdr.code) {
-			case LVN_ITEMCHANGED:
-				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, arReminders[NM->iItem]->szText);
-				break;
-
-			case NM_DBLCLK:
-				int i = ListView_GetSelectionMark(hList);
-				if (i != -1)
-					EditReminder(arReminders[i]);
-				break;
-			}
-		}
-		else if (wParam == IDC_LISTREMINDERS_HEADER) {
-			LPNMHEADER NM = (LPNMHEADER)lParam;
-			switch (NM->hdr.code) {
-			case HDN_ENDTRACK:
-				RECT rc;
-				GetWindowRect(hList, &rc);
-				ListView_SetColumnWidth(hList, 1, rc.right - rc.left - ListView_GetColumnWidth(hList, 0) - 4);
-				break;
-			}
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case ID_CONTEXTMENUREMINDER_EDIT:
-			idx = ListView_GetSelectionMark(hList);
-			if (idx != -1)
-				EditReminder(arReminders[idx]);
-			return TRUE;
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			bListReminderVisible = false;
-			return TRUE;
-
-		case ID_CONTEXTMENUREMINDER_NEW:
-		case IDC_ADDNEWREMINDER:
-			PluginMenuCommandNewReminder(0, 0);
-			return TRUE;
-
-		case ID_CONTEXTMENUREMINDER_DELETEALL:
-			if (arReminders.getCount() && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
-				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
-				DeleteReminders();
-				InitListView(hList);
-			}
-			return TRUE;
-
-		case ID_CONTEXTMENUREMINDER_DELETE:
-			idx = ListView_GetSelectionMark(hList);
-			if (idx != -1 && IDOK == MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
-				SetDlgItemTextA(hwndDlg, IDC_REMINDERDATA, "");
-				DeleteReminder(arReminders[idx]);
-				JustSaveReminders();
-				InitListView(hList);
-			}
-			return TRUE;
-		}
-		break;
-
-	case WM_DESTROY:
-		cx1 = ListView_GetColumnWidth(hList, 0);
-		cx2 = ListView_GetColumnWidth(hList, 1);
+	void OnDestroy() override
+	{
+		int cx1 = m_list.GetColumnWidth(0);
+		int cx2 = m_list.GetColumnWidth(1);
 		g_plugin.setString("ColWidth", CMStringA(FORMAT, "%d,%d", cx1, cx2));
 
-		Utils_SaveWindowPosition(hwndDlg, 0, MODULENAME, "ListReminders");
-		Window_FreeIcon_IcoLib(hwndDlg);
-		break;
+		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "ListReminders");
+		Window_FreeIcon_IcoLib(m_hwnd);
 	}
-	return FALSE;
-}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_LISTREMINDERS:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+		case IDC_REMINDERDATA:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+		}
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+	}
+
+	void onContextMenu(CCtrlListView*)
+	{
+		HMENU hMenuLoad = LoadMenuA(g_plugin.getInst(), "MNU_REMINDERPOPUP");
+		HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
+
+		int idx = m_list.GetSelectionMark();
+		REMINDERDATA *pReminder = (idx == -1) ? nullptr : arReminders[idx];
+
+		MENUITEMINFO mii = {};
+		mii.cbSize = sizeof(mii);
+		mii.fMask = MIIM_STATE;
+		mii.fState = MFS_DEFAULT;
+		if (!pReminder || pReminder->bSystemEventQueued)
+			mii.fState |= MFS_GRAYED;
+		SetMenuItemInfo(FhMenu, ID_CONTEXTMENUREMINDER_EDIT, FALSE, &mii);
+
+		if (!pReminder)
+			EnableMenuItem(FhMenu, ID_CONTEXTMENUREMINDER_DELETE, MF_GRAYED | MF_BYCOMMAND);
+
+		RECT rc;
+		m_list.GetItemRect(idx, &rc, LVIR_LABEL);
+		POINT pt = { rc.left, rc.bottom };
+		ClientToScreen(m_list.GetHwnd(), &pt);
+
+		TranslateMenu(FhMenu);
+		int iSel = TrackPopupMenu(FhMenu, TPM_RETURNCMD | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, m_hwnd, nullptr);
+		DestroyMenu(hMenuLoad);
+
+		switch(iSel) {
+		case ID_CONTEXTMENUREMINDER_EDIT:
+			idx = m_list.GetSelectionMark();
+			if (idx != -1)
+				EditReminder(arReminders[idx]);
+			break;
+
+		case ID_CONTEXTMENUREMINDER_NEW:
+			PluginMenuCommandNewReminder(0, 0);
+			break;
+
+		case ID_CONTEXTMENUREMINDER_DELETEALL:
+			if (arReminders.getCount() && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+				SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
+				DeleteReminders();
+				RefreshList();
+			}
+			break;
+
+		case ID_CONTEXTMENUREMINDER_DELETE:
+			idx = m_list.GetSelectionMark();
+			if (idx != -1 && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+				SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
+				DeleteReminder(arReminders[idx]);
+				JustSaveReminders();
+				RefreshList();
+			}
+			break;
+		}
+	}
+
+	void Reload()
+	{
+		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
+		RefreshList();
+	}
+
+	void list_onItemChanged(CCtrlListView::TEventInfo *ev)
+	{
+		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, arReminders[ev->nmlv->iItem]->szText);
+	}
+
+	void list_onDblClick(CCtrlListView::TEventInfo*)
+	{
+		int i = m_list.GetSelectionMark();
+		if (i != -1)
+			EditReminder(arReminders[i]);
+	}
+
+	void onClick_New(CCtrlButton *)
+	{
+		PluginMenuCommandNewReminder(0, 0);
+	}
+
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+	{
+		RECT rc;
+
+		switch (msg) {
+		case WM_NOTIFY:
+			if (wParam == IDC_LISTREMINDERS_HEADER) {
+				LPNMHEADER NM = (LPNMHEADER)lParam;
+				if (NM->hdr.code == HDN_ENDTRACK) {
+					GetWindowRect(m_list.GetHwnd(), &rc);
+					m_list.SetColumnWidth(1, rc.right - rc.left - m_list.GetColumnWidth(0) - 4);
+				}
+			}
+			break;
+
+		case WM_SIZE:
+			CDlgBase::DlgProc(msg, wParam, lParam);
+
+			GetWindowRect(m_list.GetHwnd(), &rc);
+			m_list.SetColumnWidth(1, rc.right - rc.left - m_list.GetColumnWidth(0) - 4);
+			return 0;
+		}
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool CheckRemindersAndStart(void)
+{
+	// returns TRUE if there are any triggered reminder with bSystemEventQueued, this will shorten the update interval
+	// allowing sound repeats with shorter intervals
+
+	if (!arReminders.getCount())
+		return false;
+
+	ULONGLONG curT;
+	SYSTEMTIME tm;
+	GetSystemTime(&tm);
+	SystemTimeToFileTime(&tm, (FILETIME *)&curT);
+
+	// NOTE: reminder list is sorted by trigger time, so we can early out on the first reminder > cur time
+	// quick check for normal case with no reminder ready to be triggered and no queued triggered reminders
+	// (happens 99.99999999999% of the time)
+	if (curT < arReminders[0]->When && !QueuedReminderCount)
+		return false;
+
+	bool bResult = false;
+
+	// var used to avoid playing multiple alarm sounds during a single update
+	DWORD bHasPlayedSound = 0;
+
+	// if there are queued (triggered) reminders then iterate through entire list, becaue of WM_TIMECHANGE events
+	// and for example daylight saving changes it's possible for an already triggered event to end up with When>curT
+	bool bHasQueuedReminders = (QueuedReminderCount != 0);
+
+	// allthough count should always be correct, it's fool proof to just count them again in the loop below
+	QueuedReminderCount = 0;
+
+	for (auto &pReminder : arReminders) {
+		if (!bHasQueuedReminders && pReminder->When > curT)
+			break;
+
+		if (!pReminder->bVisible) {
+			if (pReminder->bSystemEventQueued) {
+				UpdateReminderEvent(pReminder, REMINDER_UPDATE_INTERVAL_SHORT / 1000, &bHasPlayedSound);
+
+				QueuedReminderCount++;
+				bResult = true;
+			}
+			else if (pReminder->When <= curT) {
+				if (!g_RemindSMS) {
+					FireReminder(pReminder, &bHasPlayedSound);
+
+					if (pReminder->bSystemEventQueued)
+						bResult = true;
+				}
+				else {
+					char *p = strchr(g_RemindSMS, '@');
+					if (p) {
+						Send(g_RemindSMS, p + 1, pReminder->szText, NULL);
+						*p = '@';
+
+						DeleteReminder(pReminder);
+						JustSaveReminders();
+						if (pListDialog)
+							pListDialog->Reload();
+					}
+				}
+			}
+		}
+	}
+
+	return bResult;
+}
+
 void CloseReminderList()
 {
-	if (bListReminderVisible) {
-		DestroyWindow(LV);
-		bListReminderVisible = false;
-	}
+	if (pListDialog)
+		pListDialog->Close();
+}
+
+static void NotifyList()
+{
+	if (pListDialog)
+		pListDialog->Reload();
 }
 
 INT_PTR PluginMenuCommandNewReminder(WPARAM, LPARAM)
@@ -1886,11 +1851,10 @@ INT_PTR PluginMenuCommandNewReminder(WPARAM, LPARAM)
 
 INT_PTR PluginMenuCommandViewReminders(WPARAM, LPARAM)
 {
-	if (!bListReminderVisible) {
-		CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LISTREMINDERS), nullptr, DlgProcViewReminders);
-		bListReminderVisible = true;
-	}
-	else BringWindowToTop(LV);
+	if (!pListDialog)
+		(new CReminderListDlg())->Show();
+	else 
+		BringWindowToTop(pListDialog->GetHwnd());
 	return 0;
 }
 
