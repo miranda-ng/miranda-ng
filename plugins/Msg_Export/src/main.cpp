@@ -162,7 +162,7 @@ int CMPlugin::Load()
 	g_bUseJson = getBool("UseJson", false);
 	g_bAppendNewLine = getBool("AppendNewLine", true);
 	g_bReplaceHistory = getBool("ReplaceHistory", false);
-	g_bUseUtf8InNewFiles = getBool("UseUtf8InNewFiles", g_bUseUtf8InNewFiles);
+	g_bUseUtf8InNewFiles = getBool("UseUtf8InNewFiles", true);
 	g_bUseLessAndGreaterInExport = getBool("UseLessAndGreaterInExport", false);
 
 	g_enRenameAction = (ENDialogAction)getByte("RenameAction", eDAPromptUser);
