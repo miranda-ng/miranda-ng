@@ -1750,14 +1750,7 @@ static uint64_t windows_bootime(void) {
 typedef LSTATUS (APIENTRY *pfnRegGetValueW)(HKEY, LPCWSTR, LPCWSTR, DWORD, LPDWORD, PVOID, LPDWORD);
 static pfnRegGetValueW fnRegGetValueW = nullptr;
 
-static LSTATUS APIENTRY stubRegGetValueW(
-   HKEY    hkey,
-   LPCWSTR lpSubKey,
-   LPCWSTR lpValue,
-   DWORD   dwFlags,
-   LPDWORD pdwType,
-   PVOID   pvData,
-   LPDWORD pcbData)
+static LSTATUS APIENTRY stubRegGetValueW(HKEY hkey, LPCWSTR lpSubKey, LPCWSTR lpValue, DWORD dwFlags, LPDWORD pdwType, PVOID pvData, LPDWORD pcbData)
 {
    HKEY tmp;
    LSTATUS rc = RegOpenKeyW(hkey, lpSubKey, &tmp);
@@ -1766,6 +1759,11 @@ static LSTATUS APIENTRY stubRegGetValueW(
 
    DWORD dwType = (dwFlags == RRF_RT_ANY) ? REG_SZ : REG_DWORD;
    rc = RegQueryValueExW(tmp, lpValue, 0, &dwType, pvData, pcbData);
+   if (rc != 0 && dwFlags == RRF_RT_DWORD) {
+      rc = 0;
+      *(DWORD *)pvData = 0xBABAEBA;
+      *pcbData = sizeof(DWORD);
+   }
    RegCloseKey(tmp);
    return rc;
 }
@@ -1779,8 +1777,7 @@ static LSTATUS mdbx_RegGetValue(HKEY hkey, LPCWSTR lpSubKey, LPCWSTR lpValue,
       fnRegGetValueW = stubRegGetValueW;
   }
 
-  LSTATUS rc =
-     fnRegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
+  LSTATUS rc = fnRegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
   if (rc != ERROR_FILE_NOT_FOUND)
     return rc;
 
