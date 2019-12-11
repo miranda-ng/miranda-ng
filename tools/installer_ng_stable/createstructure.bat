@@ -40,19 +40,19 @@ curl.exe -o tmp\langpack_russian.zip https://miranda-ng.org/distr/stable/x32/Lan
 rem end
 
 rem Extract
-..\7-zip\7z.exe x tmp\InnoSetup5.7z -y -oTools
-..\7-zip\7z.exe x tmp\miranda-ng-v%MirVer%.7z -y -oInnoNG_32\Files
-..\7-zip\7z.exe x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
-..\7-zip\7z.exe x tmp\clist_nicer_x32.zip -y -oInnoNG_32\Files
-..\7-zip\7z.exe x tmp\cln_skinedit_x32.zip -y -oInnoNG_32\Files
-..\7-zip\7z.exe x tmp\scriver_x32.zip -y -oInnoNG_32\Files
-..\7-zip\7z.exe x tmp\miranda-ng-v%MirVer%_x64.7z -y -oInnoNG_64\Files
-..\7-zip\7z.exe x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
-..\7-zip\7z.exe x tmp\clist_nicer_x64.zip -y -oInnoNG_64\Files
-..\7-zip\7z.exe x tmp\cln_skinedit_x64.zip -y -oInnoNG_64\Files
-..\7-zip\7z.exe x tmp\scriver_x64.zip -y -oInnoNG_64\Files
-..\7-zip\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
-..\7-zip\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
-..\7-zip\7z.exe x tmp\lang*.zip -y -oInnoNG_32\Files
-..\7-zip\7z.exe x tmp\lang*.zip -y -oInnoNG_64\Files
+..\%ZipIt%\7z.exe x tmp\InnoSetup5.7z -y -oTools
+..\%ZipIt%\7z.exe x tmp\miranda-ng-v%MirVer%.7z -y -oInnoNG_32\Files
+..\%ZipIt%\7z.exe x tmp\clist_blind_x32.zip -y -oInnoNG_32\Files
+..\%ZipIt%\7z.exe x tmp\clist_nicer_x32.zip -y -oInnoNG_32\Files
+..\%ZipIt%\7z.exe x tmp\cln_skinedit_x32.zip -y -oInnoNG_32\Files
+..\%ZipIt%\7z.exe x tmp\scriver_x32.zip -y -oInnoNG_32\Files
+..\%ZipIt%\7z.exe x tmp\miranda-ng-v%MirVer%_x64.7z -y -oInnoNG_64\Files
+..\%ZipIt%\7z.exe x tmp\clist_blind_x64.zip -y -oInnoNG_64\Files
+..\%ZipIt%\7z.exe x tmp\clist_nicer_x64.zip -y -oInnoNG_64\Files
+..\%ZipIt%\7z.exe x tmp\cln_skinedit_x64.zip -y -oInnoNG_64\Files
+..\%ZipIt%\7z.exe x tmp\scriver_x64.zip -y -oInnoNG_64\Files
+..\%ZipIt%\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_32\Files
+..\%ZipIt%\7z.exe x tmp\MNG_Sounds.7z -y -oInnoNG_64\Files
+..\%ZipIt%\7z.exe x tmp\lang*.zip -y -oInnoNG_32\Files
+..\%ZipIt%\7z.exe x tmp\lang*.zip -y -oInnoNG_64\Files
 rem end
