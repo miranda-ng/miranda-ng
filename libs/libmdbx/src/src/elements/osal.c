@@ -1747,20 +1747,49 @@ static uint64_t windows_bootime(void) {
   return 0;
 }
 
+typedef LSTATUS (APIENTRY *pfnRegGetValueW)(HKEY, LPCWSTR, LPCWSTR, DWORD, LPDWORD, PVOID, LPDWORD);
+static pfnRegGetValueW fnRegGetValueW = nullptr;
+
+static LSTATUS APIENTRY stubRegGetValueW(
+   HKEY    hkey,
+   LPCWSTR lpSubKey,
+   LPCWSTR lpValue,
+   DWORD   dwFlags,
+   LPDWORD pdwType,
+   PVOID   pvData,
+   LPDWORD pcbData)
+{
+   HKEY tmp;
+   LSTATUS rc = RegOpenKeyW(hkey, lpSubKey, &tmp);
+   if (rc != 0)
+      return rc;
+
+   DWORD dwType = (dwFlags == RRF_RT_ANY) ? REG_SZ : REG_DWORD;
+   rc = RegQueryValueExW(tmp, lpValue, 0, &dwType, pvData, pcbData);
+   RegCloseKey(tmp);
+   return rc;
+}
+
 static LSTATUS mdbx_RegGetValue(HKEY hkey, LPCWSTR lpSubKey, LPCWSTR lpValue,
                                 DWORD dwFlags, LPDWORD pdwType, PVOID pvData,
                                 LPDWORD pcbData) {
+  if (fnRegGetValueW == nullptr) {
+    fnRegGetValueW = (pfnRegGetValueW)GetProcAddress(GetModuleHandleA("advapi32.dll"), "RegGetValueW");
+    if (fnRegGetValueW == nullptr)
+      fnRegGetValueW = stubRegGetValueW;
+  }
+
   LSTATUS rc =
-      RegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
+     fnRegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
   if (rc != ERROR_FILE_NOT_FOUND)
     return rc;
 
-  rc = RegGetValueW(hkey, lpSubKey, lpValue,
+  rc = fnRegGetValueW(hkey, lpSubKey, lpValue,
                     dwFlags | 0x00010000 /* RRF_SUBKEY_WOW6464KEY */, pdwType,
                     pvData, pcbData);
   if (rc != ERROR_FILE_NOT_FOUND)
     return rc;
-  return RegGetValueW(hkey, lpSubKey, lpValue,
+  return fnRegGetValueW(hkey, lpSubKey, lpValue,
                       dwFlags | 0x00020000 /* RRF_SUBKEY_WOW6432KEY */, pdwType,
                       pvData, pcbData);
 }
