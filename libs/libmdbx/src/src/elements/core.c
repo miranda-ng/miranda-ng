@@ -824,7 +824,7 @@ static __inline void safe64_reset(mdbx_safe64_t *ptr, bool single_writer) {
     ptr->atomic = UINT64_MAX;
 #else
   /* atomically make value >= SAFE64_INVALID_THRESHOLD */
-  ptr->high = UINT32_MAX;
+  ptr->high = ptr->low = UINT32_MAX;
 #endif /* MDBX_64BIT_ATOMIC */
   assert(ptr->inconsistent >= SAFE64_INVALID_THRESHOLD);
   mdbx_flush_incoherent_cpu_writeback();
@@ -867,7 +867,7 @@ static __inline void safe64_write(mdbx_safe64_t *ptr, const uint64_t v) {
 #else  /* MDBX_64BIT_ATOMIC */
   /* update low-part but still value >= SAFE64_INVALID_THRESHOLD */
   ptr->low = (uint32_t)v;
-  assert(ptr->inconsistent >= SAFE64_INVALID_THRESHOLD);
+  // assert(ptr->inconsistent >= SAFE64_INVALID_THRESHOLD);
   mdbx_flush_incoherent_cpu_writeback();
   mdbx_jitter4testing(true);
   /* update high-part from SAFE64_INVALID_THRESHOLD to actual value */
