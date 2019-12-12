@@ -149,6 +149,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsignal", "..\libs\libsig
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pcre16", "..\libs\Pcre16\pcre16.vcxproj", "{6124E997-426E-4A0B-9617-D6D577D5E7D7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_chk", "..\tools\mdbx_chk\mdbx_chk.vcxproj", "{EE383404-4E87-7976-BD13-A9B7B47C0C10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -549,6 +551,14 @@ Global
 		{6124E997-426E-4A0B-9617-D6D577D5E7D7}.Release|Win32.Build.0 = Release|Win32
 		{6124E997-426E-4A0B-9617-D6D577D5E7D7}.Release|x64.ActiveCfg = Release|x64
 		{6124E997-426E-4A0B-9617-D6D577D5E7D7}.Release|x64.Build.0 = Release|x64
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Debug|Win32.Build.0 = Debug|Win32
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Debug|x64.ActiveCfg = Debug|x64
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Debug|x64.Build.0 = Debug|x64
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Release|Win32.ActiveCfg = Release|Win32
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Release|Win32.Build.0 = Release|Win32
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Release|x64.ActiveCfg = Release|x64
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -602,6 +612,7 @@ Global
 		{713067DF-65EE-480B-A000-B2A323495F16} = {85220459-761D-4E24-A381-D35A95880254}
 		{620E0BE7-3763-4F35-9DBD-4770104E269C} = {52282CDE-49DF-4662-B582-CCF971A9FEC2}
 		{6124E997-426E-4A0B-9617-D6D577D5E7D7} = {52282CDE-49DF-4662-B582-CCF971A9FEC2}
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10} = {30B05A85-FD7F-49CD-BBA9-0B7CE5825D52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A4CD630-DD83-4096-AA4D-7A141E43E853}

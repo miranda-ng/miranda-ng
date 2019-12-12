@@ -128,6 +128,7 @@ Source: "Files\Plugins\Scriver.dll"; DestDir: "{app}\Plugins"; Components: messa
 ; DB drivers
 Source: "Files\Plugins\Dbx_mdbx.dll"; DestDir: "{app}\Plugins"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\fixme.cmd"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\mdbx_chk.exe"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\mdbx_dump.exe"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\mdbx_load.exe"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 

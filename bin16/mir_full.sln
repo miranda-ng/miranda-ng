@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 16
+# Visual Studio Version 16
 VisualStudioVersion = 16.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
@@ -450,6 +450,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesReminders", "..\plugins\NotesAndReminders\NotesReminders.vcxproj", "{EEB57129-946C-4B98-8856-FDA501AE2A5E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsignal", "..\libs\libsignal\libsignal.vcxproj", "{620E0BE7-3763-4F35-9DBD-4770104E269C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_chk", "..\tools\mdbx_chk\mdbx_chk.vcxproj", "{EE383404-4E87-7976-BD13-A9B7B47C0C10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2033,6 +2035,14 @@ Global
 		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|Win32.Build.0 = Release|Win32
 		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|x64.ActiveCfg = Release|x64
 		{620E0BE7-3763-4F35-9DBD-4770104E269C}.Release|x64.Build.0 = Release|x64
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Debug|Win32.Build.0 = Debug|Win32
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Debug|x64.ActiveCfg = Debug|x64
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Debug|x64.Build.0 = Debug|x64
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Release|Win32.ActiveCfg = Release|Win32
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Release|Win32.Build.0 = Release|Win32
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Release|x64.ActiveCfg = Release|x64
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2163,6 +2173,7 @@ Global
 		{B3BC3949-6949-41DE-94BF-B112FBFB1A84} = {37EDFBEA-8446-4BF3-9F2E-655908CDFB62}
 		{713067DF-65EE-480B-A000-B2A323495F16} = {E7FB43FB-3563-4568-8846-A88FC37449BF}
 		{620E0BE7-3763-4F35-9DBD-4770104E269C} = {37EDFBEA-8446-4BF3-9F2E-655908CDFB62}
+		{EE383404-4E87-7976-BD13-A9B7B47C0C10} = {F13387B0-1C74-48EC-9AEC-65E3B9DE29E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}

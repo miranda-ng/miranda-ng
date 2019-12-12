@@ -43,6 +43,7 @@ Libs\ucrtbase.dll
 Libs\vcruntime140.dll
 fixme.cmd
 mirandaboot.ini
+mdbx_chk.exe
 mdbx_load.exe
 mdbx_dump.exe
 pu_stub.exe

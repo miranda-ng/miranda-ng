@@ -42,6 +42,10 @@
 #define _POSIX_C_SOURCE 200809L
 #endif /* Windows */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*----------------------------------------------------------------------------*/
 /* C99 includes */
 #include <inttypes.h>
@@ -892,6 +896,10 @@ MDBX_INTERNAL_VAR MDBX_OfferVirtualMemory mdbx_OfferVirtualMemory;
 #define PRIdSIZE PRIdPTR
 #define PRIxSIZE PRIxPTR
 #endif /* PRI*SIZE macros for MSVC */
+
+#ifdef __cplusplus
+}
+#endif
 
 #ifdef _MSC_VER
 #pragma warning(pop)

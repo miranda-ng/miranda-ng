@@ -1,5 +1,6 @@
 hashes.txt
 fixme.cmd
+mdbx_chk.exe
 mdbx_dump.exe
 mdbx_load.exe
 miranda64.exe
