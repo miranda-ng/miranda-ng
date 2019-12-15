@@ -463,7 +463,7 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			newFlags.m_bUinStatusBar = IsDlgButtonChecked(hwndDlg, IDC_UIDSTATUSBAR);
 			newFlags.m_bGlobalSize = IsDlgButtonChecked(hwndDlg, IDC_USEGLOBALSIZE);
 			newFlags.m_bInfoPanel = IsDlgButtonChecked(hwndDlg, IDC_INFOPANEL);
-			newFlags.m_bNoSound = IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS);
+			newFlags.m_bNoSound = !IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS);
 			newFlags.m_bAvatarsOnTaskbar = IsDlgButtonChecked(hwndDlg, IDC_AVATARSONTASKBAR);
 			newFlags.m_bVerticalMax = IsDlgButtonChecked(hwndDlg, IDC_VERTICALMAX);
 			newFlags.m_bAutoSplitter = IsDlgButtonChecked(hwndDlg, IDC_AUTOSPLITTER);
