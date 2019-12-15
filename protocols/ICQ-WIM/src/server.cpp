@@ -605,11 +605,7 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 				continue;
 
 			int iResultCode = it["resultCode"].as_int();
-			if (iResultCode == 0) {
-				RetrieveUserInfo(pReq->hContact);
-				Contact_PutOnList(pReq->hContact);
-			}
-			else {
+			if (iResultCode != 0) {
 				debugLogA("Contact %d failed to add: error %d", pReq->hContact, iResultCode);
 
 				POPUPDATAW Popup = {};
@@ -619,8 +615,11 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 				Popup.iSeconds = 20;
 				PUAddPopupW(&Popup);
 
-				Contact_RemoveFromList(pReq->hContact);
+				// Contact_RemoveFromList(pReq->hContact);
 			}
+
+			RetrieveUserInfo(pReq->hContact);
+			Contact_PutOnList(pReq->hContact);
 		}
 	}
 }
