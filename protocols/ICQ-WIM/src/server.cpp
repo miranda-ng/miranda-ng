@@ -599,8 +599,29 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
 	if (root.error() == 200) {
-		RetrieveUserInfo(pReq->hContact);
-		Contact_PutOnList(pReq->hContact);
+		CMStringW wszId = getMStringW(pReq->hContact, DB_KEY_ID);
+		for (auto &it : root.data()["results"]) {
+			if (it["buddy"].as_mstring() != wszId)
+				continue;
+
+			int iResultCode = it["resultCode"].as_int();
+			if (iResultCode == 0) {
+				RetrieveUserInfo(pReq->hContact);
+				Contact_PutOnList(pReq->hContact);
+			}
+			else {
+				debugLogA("Contact %d failed to add: error %d", pReq->hContact, iResultCode);
+
+				POPUPDATAW Popup = {};
+				Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR));
+				wcsncpy_s(Popup.lpwzText, TranslateT("Buddy addition failed"), _TRUNCATE);
+				wcsncpy_s(Popup.lpwzContactName, Clist_GetContactDisplayName(pReq->hContact), _TRUNCATE);
+				Popup.iSeconds = 20;
+				PUAddPopupW(&Popup);
+
+				Contact_RemoveFromList(pReq->hContact);
+			}
+		}
 	}
 }
 
