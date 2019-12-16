@@ -66,6 +66,8 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
+
+	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
 }
 
 FacebookProto::~FacebookProto()
@@ -168,4 +170,12 @@ int FacebookProto::SetStatus(int iNewStatus)
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// EVENTS
+
+INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam) {
+	return (INT_PTR) CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
+		(HWND) lParam, FBAccountProc, (LPARAM) this);
 }

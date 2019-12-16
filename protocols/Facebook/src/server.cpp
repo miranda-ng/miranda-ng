@@ -27,32 +27,49 @@ void FacebookProto::OnLoggedOut()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void FacebookProto::ServerThread(void *)
+void FacebookProto::ServerThread(void *) 
 {
-	m_szAuthToken = getMStringA(DBKEY_TOKEN);
-	if (m_szAuthToken.IsEmpty()) {
-		auto *pReq = new AsyncHttpRequest();
-		pReq->requestType = REQUEST_GET;
-		pReq->flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
-		pReq->m_szUrl = "https://www.facebook.com/v3.3/dialog/oauth?client_id=478386432928815&redirect_uri=https://oauth.miranda-ng.org/facebook.php&state=qq";
 
-		if (JsonReply(ExecuteRequest(pReq)).error()) {
-FAIL:
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
+	m_szAuthToken = getMStringA(DBKEY_TOKEN);
+
+	if (m_szAuthToken.IsEmpty()) {
+		auto* pReq = CreateRequest("authenticate", "auth.login");
+		pReq->m_szUrl = FB_API_URL_AUTH;
+		
+		pReq << CHAR_PARAM("email", getMStringA(DBKEY_USERNAME));
+		pReq << CHAR_PARAM("password", getMStringA(DBKEY_PASS));
+
+		pReq->CalcSig();
+
+		JsonReply reply(ExecuteRequest(pReq));
+
+		if (reply.error()) {
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE) m_iStatus, m_iDesiredStatus);
 
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, m_iDesiredStatus);
+
 			return;
 		}
+
+		m_szAuthToken = reply.data()["access_token"].as_mstring();
+		setString(DBKEY_TOKEN, m_szAuthToken);
+
+		m_uid = reply.data()["uid"].as_int();
+		CMStringA m_szUid = reply.data()["uid"].as_mstring();
+		setString(DBKEY_ID, m_szUid);
 	}
 
-	auto *pReq = CreateRequest("FetchContactsFullQuery", "get");
-	pReq->m_szUrl = "https://graph.facebook.com/me/friends";
+	auto* pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
+	pReq << CHAR_PARAM("query_params", "{\"0\":[\"user\"],\"1\":\"" FB_API_CONTACTS_COUNT "\"}");
 	pReq->CalcSig();
 
 	JsonReply reply(ExecuteRequest(pReq));
 	if (reply.error())
 		goto FAIL;
+
+	// TODO: process contacts
+
 
 	if (!MqttConnect())
 		goto FAIL;
@@ -60,7 +77,7 @@ FAIL:
 	MqttOpen();
 
 	int bufSize = 2048;
-	char *buf = (char*)mir_alloc(bufSize);
+	char* buf = (char*) mir_alloc(bufSize);
 
 	while (!Miranda_IsTerminated()) {
 		int ret = Netlib_Recv(m_mqttConn, buf, bufSize);
@@ -72,10 +89,20 @@ FAIL:
 			debugLogA("Connection closed gracefully");
 			break;
 		}
+
+		// TODO: process MQTT responses
 	}
 
 	debugLogA("exiting ServerThread");
 	int oldStatus = m_iStatus;
 	m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, m_iStatus);
+
+	return;
+	
+FAIL:
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE) m_iStatus, m_iDesiredStatus);
+
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, m_iDesiredStatus);
 }

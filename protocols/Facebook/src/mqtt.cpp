@@ -158,6 +158,7 @@ bool FacebookProto::MqttConnect()
 	NETLIBOPENCONNECTION nloc = {};
 	nloc.szHost = "mqtt.facebook.com";
 	nloc.wPort = 443;
+	nloc.flags = NLOCF_SSL | NLOCF_V2;
 	m_mqttConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	if (m_mqttConn == nullptr) {
 		debugLogA("connection failed, exiting");
@@ -169,7 +170,7 @@ bool FacebookProto::MqttConnect()
 
 void FacebookProto::MqttOpen()
 {
-	Utils_GetRandom(&m_iMqttId, sizeof(m_iMqttId));
+	Utils_GetRandom(&m_iMqttId, sizeof(m_iMqttId) / 2);
 
 	FbThrift thrift;
 	thrift.writeField(FB_THRIFT_TYPE_STRING);  // Client identifier
@@ -181,7 +182,7 @@ void FacebookProto::MqttOpen()
 	thrift.writeInt64(m_uid);
 
 	thrift.writeField(FB_THRIFT_TYPE_STRING); // User agent
-	thrift << FACEBOOK_ORCA_AGENT;
+	thrift << FB_API_MQTT_AGENT;
 
 	thrift.writeField(FB_THRIFT_TYPE_I64);
 	thrift.writeInt64(23);
@@ -211,9 +212,13 @@ void FacebookProto::MqttOpen()
 	thrift.writeField(FB_THRIFT_TYPE_STRING);
 	thrift << m_szAuthToken << (BYTE)0;
 
-	FILE *out = fopen("C:\\qq.out", "wb");
-	fwrite(thrift.data(), 1, thrift.size(), out);
-	fclose(out);
+	//FILE *out = fopen("C:\\qq.out", "wb");
+	//fwrite(thrift.data(), 1, thrift.size(), out);
+	//fclose(out);
+	//
+	//out = fopen("C:\\qq.size", "w");
+	//fprintf(out, "%d", thrift.size());
+	//fclose(out);
 
 	size_t dataSize = thrift.size() + 100;
 	BYTE *pData = (BYTE *)mir_alloc(dataSize);
@@ -225,7 +230,8 @@ void FacebookProto::MqttOpen()
 	zStreamOut.avail_out = (unsigned)dataSize;
 	zStreamOut.next_out = (BYTE *)pData;
 
-	switch (deflate(&zStreamOut, Z_SYNC_FLUSH)) {
+	switch (deflate(&zStreamOut, Z_FINISH)) {
+	case Z_STREAM_END: debugLogA("Deflate: Z_STREAM_END"); break;
 	case Z_OK:         debugLogA("Deflate: Z_OK");         break;
 	case Z_BUF_ERROR:  debugLogA("Deflate: Z_BUF_ERROR");  break;
 	case Z_DATA_ERROR: debugLogA("Deflate: Z_DATA_ERROR"); break;
@@ -235,9 +241,26 @@ void FacebookProto::MqttOpen()
 	deflateEnd(&zStreamOut);
 	dataSize = dataSize - zStreamOut.avail_out;
 
+	//pData[2]++;
+
+	//dataSize -= 4;
+
+	//out = fopen("C:\\qq_deflated.out", "wb");
+	//fwrite(pData, 1, dataSize, out);
+	//fclose(out);
+	//
+	//out = fopen("C:\\qq_deflated.size", "w");
+	//fprintf(out, "%d", dataSize);
+	//fclose(out);
+
+	//dataSize = 369;
+	//out = fopen("c:\\Users\\Uzivatel\\Desktop\\deflated_purple", "rb");
+	//fread(pData, 1, dataSize, out);
+	//fclose(out);
+
 	uint8_t protocolVersion = 3;
 	uint8_t flags = FB_MQTT_CONNECT_FLAG_USER | FB_MQTT_CONNECT_FLAG_PASS | FB_MQTT_CONNECT_FLAG_CLR | FB_MQTT_CONNECT_FLAG_QOS1;
-	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_CONNECT, 0, dataSize - 3);
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_CONNECT, 0, dataSize + 12); // size of things between size and payload (header, ...)
 	payload.writeStr("MQTToT");
 	payload << protocolVersion << flags;
 	payload.writeInt16(60); // timeout

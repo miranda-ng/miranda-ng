@@ -53,7 +53,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../libs/zlib/src/zlib.h"
 
 #include "db.h"
+#include "dialogs.h"
 #include "mqtt.h"
 #include "proto.h"
+#include "resource.h"
 
 extern bool g_bMessageState;

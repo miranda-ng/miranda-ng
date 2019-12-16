@@ -37,7 +37,8 @@ void AsyncHttpRequest::CalcSig()
 	CMStringA buf;
 	for (auto &it : params)
 		buf.AppendFormat("%s=%s", it->key.c_str(), it->val.c_str());
-	buf.Append(FB_APP_SECRET);
+
+	buf.Append(FB_API_SECRET);
 
 	char szHash[33];
 	BYTE digest[16];
@@ -99,8 +100,11 @@ AsyncHttpRequest* FacebookProto::CreateRequest(const char *szName, const char *s
 {
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
 	pReq->requestType = REQUEST_POST;
-	pReq << CHAR_PARAM("api_key", FB_APP_KEY) << CHAR_PARAM("device_id", m_szDeviceID) << CHAR_PARAM("fb_api_req_friendly_name", szName)
-		<< CHAR_PARAM("format", "json") << CHAR_PARAM("method", szMethod);
+	pReq << CHAR_PARAM("api_key", FB_API_KEY) 
+		<< CHAR_PARAM("device_id", m_szDeviceID) 
+		<< CHAR_PARAM("fb_api_req_friendly_name", szName)
+		<< CHAR_PARAM("format", "json") 
+		<< CHAR_PARAM("method", szMethod);
 
 	CMStringA szLocale = getMStringA(DBKEY_LOCALE);
 	if (szLocale.IsEmpty())
@@ -112,10 +116,51 @@ AsyncHttpRequest* FacebookProto::CreateRequest(const char *szName, const char *s
 
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
-	unsigned int id;
-	Utils_GetRandom(&id, sizeof(id));
-	id &= ~0x80000000;
-	pReq << INT_PARAM("queryid", id);
+	//unsigned int id;
+	//Utils_GetRandom(&id, sizeof(id));
+	//id &= ~0x80000000;
+	//pReq << INT_PARAM("queryid", id);
+
+	return pReq;
+}
+
+AsyncHttpRequest* FacebookProto::CreateRequestGQL(int64_t query_id) {
+	const char* szName;
+
+	switch (query_id) {
+		case FB_API_QUERY_CONTACT:
+			szName = "UsersQuery";
+			break;
+		case FB_API_QUERY_CONTACTS:
+			szName = "FetchContactsFullQuery";
+			break;
+		case FB_API_QUERY_CONTACTS_AFTER:
+			szName = "FetchContactsFullWithAfterQuery";
+			break;
+		case FB_API_QUERY_CONTACTS_DELTA:
+			szName = "FetchContactsDeltaQuery";
+			break;
+		case FB_API_QUERY_STICKER:
+			szName = "FetchStickersWithPreviewsQuery";
+			break;
+		case FB_API_QUERY_THREAD:
+			szName = "ThreadQuery";
+			break;
+		case FB_API_QUERY_SEQ_ID:
+		case FB_API_QUERY_THREADS:
+			szName = "ThreadListQuery";
+			break;
+		case FB_API_QUERY_XMA:
+			szName = "XMAQuery";
+			break;
+		default:
+			return nullptr;
+	}
+
+	AsyncHttpRequest* pReq = CreateRequest(szName, "get");
+
+	pReq->m_szUrl = FB_API_URL_GQL;
+	pReq << INT64_PARAM("query_id", query_id);
 
 	return pReq;
 }

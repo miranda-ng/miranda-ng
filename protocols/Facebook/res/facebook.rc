@@ -48,5 +48,22 @@ END
 
 IDI_FACEBOOK            ICON                    "facebook.ico"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FACEBOOKACCOUNT DIALOGEX 0, 0, 186, 134
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "E-mail:",IDC_STATIC,6,0,46,12,0,WS_EX_RIGHT
+    EDITTEXT        IDC_UN,56,0,122,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,6,16,46,12,0,WS_EX_RIGHT
+    EDITTEXT        IDC_PW,56,16,122,12,ES_PASSWORD | ES_AUTOHSCROLL
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
