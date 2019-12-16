@@ -1635,6 +1635,7 @@ public:
 
 		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "ListReminders");
 		Window_FreeIcon_IcoLib(m_hwnd);
+		pListDialog = nullptr;
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override
