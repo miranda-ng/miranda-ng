@@ -266,8 +266,10 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 	case DBVT_UTF8:
 		lvi.iImage = IMAGE_UNICODE;
 		ListView_SetItem(hwnd2List, &lvi);
-		ListView_SetItemText(hwnd2List, index, 1, ptrW(mir_utf8decodeW(dbv->pszVal)));
-
+		{
+			ptrW wszText(mir_utf8decodeW(dbv->pszVal));
+			ListView_SetItemText(hwnd2List, index, 1, wszText);
+		}
 		length = (int)mir_strlen(dbv->pszVal) + 1;
 		mir_snwprintf(data, L"0x%04X (%u)", length, length);
 		ListView_SetItemText(hwnd2List, index, 3, data);
