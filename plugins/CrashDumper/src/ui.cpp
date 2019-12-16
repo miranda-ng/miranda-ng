@@ -187,13 +187,14 @@ public:
 		m_edtUserName(this, IDC_USERNAME),
 		m_edtPass(this, IDC_PASSWORD),
 		m_chkAutoUpload(this, IDC_UPLOADCHN),
+		m_chkCatchCrashes(this, IDC_CATCHCRASHES),
 		m_chkClassicDates(this, IDC_CLASSICDATES),
 		m_chkRepSubfolder(this, IDC_DATESUBFOLDER),
-		m_chkCatchCrashes(this, IDC_CATCHCRASHES),
 		m_chkSuccessPopups(this, IDC_SUCCESSPOPUPS),
 		m_lblRestart(this, IDC_RESTARTNOTE)
 	{
 		CreateLink(m_chkAutoUpload, g_plugin.bUploadChanged);
+		CreateLink(m_chkCatchCrashes, g_plugin.bCatchCrashes);
 		CreateLink(m_chkClassicDates, g_plugin.bClassicDates);
 		CreateLink(m_chkRepSubfolder, g_plugin.bUseSubFolder);
 		CreateLink(m_chkSuccessPopups, g_plugin.bSuccessPopups);
