@@ -71,7 +71,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 		Menu_ShowItem(m_hUploadGroups, true);
 
 	for (auto &it : m_arCache)
-		if (!it->m_bInList && getMStringW(it->m_hContact, "Nick") != "[deleted]")
+		if (!it->m_bInList && !getBool(it->m_hContact, "IcqDeleted"))
 			Contact_RemoveFromList(it->m_hContact);
 
 	RetrieveUserInfo();
