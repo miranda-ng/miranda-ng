@@ -290,8 +290,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	if (var)
 		setWString(hContact, "Nick", var.as_mstring());
 
-	if (buddy["deleted"].as_bool())
+	if (buddy["deleted"].as_bool()) {
 		setByte(hContact, "IcqDeleted", 1);
+		Contact_PutOnList(hContact);
+	}
 
 	Json2string(hContact, buddy, "emailId", "Email");
 	Json2string(hContact, buddy, "cellNumber", "Cellular");
