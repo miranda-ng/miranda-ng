@@ -288,6 +288,34 @@ public:
 		return true;
 	}
 
+	bool OnApply() override
+	{
+		PSHNOTIFY pshn;
+		pshn.hdr.idFrom = 0;
+		pshn.lParam = (LPARAM)m_hContact;
+		if (m_currentPage != -1) {
+			pshn.hdr.code = PSN_KILLACTIVE;
+			pshn.hdr.hwndFrom = m_pages[m_currentPage].hwnd;
+			if (SendMessage(m_pages[m_currentPage].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
+				return false;
+		}
+
+		pshn.hdr.code = PSN_APPLY;
+		for (auto &odp : m_pages) {
+			if (odp->hwnd == nullptr || !odp->changed)
+				continue;
+			pshn.hdr.hwndFrom = odp->hwnd;
+			if (SendMessage(odp->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
+				m_tree.Select(odp->hItem, TVGN_CARET);
+				if (m_currentPage != -1) ShowWindow(m_pages[m_currentPage].hwnd, SW_HIDE);
+				m_currentPage = m_pages.indexOf(&odp);
+				ShowWindow(m_pages[m_currentPage].hwnd, SW_SHOW);
+				return false;
+			}
+		}
+		return true;
+	}
+
 	void OnDestroy() override
 	{
 		wchar_t name[128];
@@ -475,33 +503,6 @@ public:
 				continue;
 			pshn.hdr.hwndFrom = odp->hwnd;
 			SendMessage(odp->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
-		}
-	}
-
-	void onClick_Ok(CCtrlButton *)
-	{
-		PSHNOTIFY pshn;
-		pshn.hdr.idFrom = 0;
-		pshn.lParam = (LPARAM)m_hContact;
-		if (m_currentPage != -1) {
-			pshn.hdr.code = PSN_KILLACTIVE;
-			pshn.hdr.hwndFrom = m_pages[m_currentPage].hwnd;
-			if (SendMessage(m_pages[m_currentPage].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
-				return;
-		}
-
-		pshn.hdr.code = PSN_APPLY;
-		for (auto &odp : m_pages) {
-			if (odp->hwnd == nullptr || !odp->changed)
-				continue;
-			pshn.hdr.hwndFrom = odp->hwnd;
-			if (SendMessage(odp->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
-				m_tree.Select(odp->hItem, TVGN_CARET);
-				if (m_currentPage != -1) ShowWindow(m_pages[m_currentPage].hwnd, SW_HIDE);
-				m_currentPage = m_pages.indexOf(&odp);
-				ShowWindow(m_pages[m_currentPage].hwnd, SW_SHOW);
-				return;
-			}
 		}
 	}
 
