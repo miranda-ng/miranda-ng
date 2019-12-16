@@ -90,7 +90,7 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 		if (IsModuleEmpty(lParam->hContact, lParam->module) || !EnumSettings(lParam->hContact, lParam->module, &settinglist))
 			return;
 
-		struct DBsetting dummy = { 0 };
+		struct DBsetting dummy = {};
 		dummy.hContact = lParam->hContact;
 		dummy.module = lParam->module;
 

@@ -104,7 +104,7 @@ void doItems(ModuleSettingLL* modlist, int count)
 	wchar_t percent[128], title[96];
 	mir_snwprintf(title, TranslateT("Loading modules..."));
 
-	TVITEM item = { 0 };
+	TVITEM item = {};
 	item.mask = TVIF_STATE | TVIF_PARAM;
 
 	HTREEITEM contact = TreeView_GetChild(hwnd2Tree, TVI_ROOT);
@@ -320,7 +320,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 	case 1: // restore after rebuild
 		if (HTREEITEM item = TreeView_GetSelection(hwnd2Tree)) {
 			wchar_t text[FLD_SIZE];
-			TVITEM tvi = { 0 };
+			TVITEM tvi = {};
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.pszText = text;
 			tvi.cchTextMax = _countof(text);
@@ -496,7 +496,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 	case TVN_SELCHANGED:
 	{
 		LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-		TVITEM tvi = { 0 };
+		TVITEM tvi = {};
 		wchar_t text[FLD_SIZE];
 		MCONTACT hContact;
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
@@ -577,7 +577,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd h
 
 	case TVN_ENDLABELEDIT:
 		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
-		TVITEM tvi = { 0 };
+		TVITEM tvi = {};
 		wchar_t text[FLD_SIZE];
 		ModuleTreeInfoStruct *mtis;
 		tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
@@ -617,7 +617,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 
 	if (!TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) || !(hti.flags & TVHT_ONITEM)) return;
 
-	TVITEM tvi = { 0 };
+	TVITEM tvi = {};
 	HMENU hMenu, hSubMenu;
 	int menuNumber;
 	wchar_t text[FLD_SIZE];

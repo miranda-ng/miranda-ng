@@ -25,7 +25,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		{
 			struct DBsetting *dbsetting = (struct DBsetting*)lParam;
 
-			char val[16] = { 0 };
+			char val[16] = {};
 			int convert = 0;
 
 			switch (dbsetting->dbv.type) {
@@ -265,7 +265,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 void editSetting(MCONTACT hContact, const char *module, const char *setting)
 {
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv = {};
 	if (!db_get_s(hContact, module, setting, &dbv, 0) || IsResidentSetting(module, setting)) {
 		// gets free()ed in the window proc
 		struct DBsetting *dbsetting = (struct DBsetting *)mir_calloc(sizeof(struct DBsetting));
@@ -281,7 +281,7 @@ void editSetting(MCONTACT hContact, const char *module, const char *setting)
 
 void copySetting(MCONTACT hContact, const char *module, const char *setting)
 {
-	DBVARIANT dbv = { 0 }, dbv2;
+	DBVARIANT dbv = {}, dbv2;
 	if (db_get_s(hContact, module, setting, &dbv, 0)) return;
 
 	char tmp[FLD_SIZE];

@@ -133,7 +133,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	for (int i = 0; i < NAMEORDERCOUNT; i++)
 		nameOrder[i] = i;
 
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv = {};
 	if (!db_get_s(0, "Contact", "NameOrder", &dbv, DBVT_BLOB)) {
 		memcpy(nameOrder, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
@@ -320,7 +320,7 @@ int setTextValue(MCONTACT hContact, const char *module, const char *setting, wch
 
 int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *value, int length)
 {
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv = {};
 
 	if (!module || !setting || !value)
 		return 0;
@@ -362,7 +362,7 @@ int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *
 
 int GetValueW(MCONTACT hContact, const char *module, const char *setting, WCHAR *value, int length)
 {
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv = {};
 
 	if (!module || !setting || !value)
 		return 0;
@@ -511,7 +511,7 @@ int ApplyProtoFilter(MCONTACT hContact)
 
 void loadListSettings(HWND hwnd, ColumnsSettings *cs)
 {
-	LVCOLUMN sLC = { 0 };
+	LVCOLUMN sLC = {};
 	sLC.fmt = LVCFMT_LEFT;
 	sLC.mask = LVCF_FMT | LVCF_TEXT | LVCF_WIDTH;
 	int i = 0;
@@ -526,7 +526,7 @@ void loadListSettings(HWND hwnd, ColumnsSettings *cs)
 void saveListSettings(HWND hwnd, ColumnsSettings *cs)
 {
 	char tmp[FLD_SIZE];
-	LVCOLUMN sLC = { 0 };
+	LVCOLUMN sLC = {};
 	sLC.mask = LVCF_WIDTH;
 	int i = 0;
 	while (cs[i].name) {

@@ -31,7 +31,7 @@ int Openfile(wchar_t *outputFile, const char *module, int maxlen)
 	}
 	else filename[0] = 0;
 
-	OPENFILENAME ofn = { 0 };
+	OPENFILENAME ofn = {};
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFile = filename;
 	ofn.lpstrFilter = GetFilter();
@@ -459,7 +459,7 @@ void ImportSettingsMenuItem(MCONTACT hContact)
 
 int Openfile2Import(wchar_t *outputFiles, int maxlen)
 {
-	OPENFILENAME ofn = { 0 };
+	OPENFILENAME ofn = {};
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrFilter = GetFilter();
 	ofn.lpstrFile = outputFiles;
@@ -481,7 +481,7 @@ BOOL Exists(LPCTSTR strName)
 void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 {
 	wchar_t szFileNames[MAX_PATH * 10];
-	wchar_t szPath[MAX_PATH] = { 0 };
+	wchar_t szPath[MAX_PATH] = {};
 	wchar_t szFile[MAX_PATH];
 
 	DWORD offset = 0;

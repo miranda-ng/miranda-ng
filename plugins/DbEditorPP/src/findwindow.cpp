@@ -97,7 +97,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				SetWindowLongPtr(GetDlgItem(hwnd, IDC_SEARCH), GWLP_USERDATA, 0);
 			else {
 				wchar_t text[FLD_SIZE];
-				wchar_t replace[FLD_SIZE] = { 0 };
+				wchar_t replace[FLD_SIZE] = {};
 
 				if (!GetDlgItemText(hwnd, IDC_TEXT, text, _countof(text)) && !IsDlgButtonChecked(hwnd, IDC_EXACT)) break;
 
@@ -180,7 +180,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					lvi.iItem = hti.iItem;
 					lvi.iSubItem = 0;
 					if (ListView_GetItem(hwndResults, &lvi)) {
-						ItemInfo ii = { 0 };
+						ItemInfo ii = {};
 						ii.hContact = (MCONTACT)lvi.lParam;
 						ListView_GetItemTextA(hwndResults, hti.iItem, 2, ii.module, _countof(ii.module));
 						ListView_GetItemTextA(hwndResults, hti.iItem, 3, ii.setting, _countof(ii.setting));
@@ -236,7 +236,7 @@ void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *set
 
 	GetContactName(hContact, nullptr, name, _countof(name));
 
-	LVITEM lvi = { 0 };
+	LVITEM lvi = {};
 	lvi.mask = LVIF_PARAM;
 	lvi.lParam = (LPARAM)hContact;
 
@@ -350,7 +350,7 @@ void __cdecl FindSettings(LPVOID param)
 	ModSetLinkLinkItem *module, *setting;
 
 	MCONTACT hContact;
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv = {};
 
 	int foundCount = 0, replaceCount = 0, deleteCount = 0;
 

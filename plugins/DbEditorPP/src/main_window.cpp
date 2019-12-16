@@ -309,7 +309,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			if (item = TreeView_GetSelection(hwnd2Tree)) {
 				int type = MODULE;
-				TVITEM tvi = { 0 };
+				TVITEM tvi = {};
 				tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 				tvi.pszText = text;
 				tvi.cchTextMax = _countof(text);
