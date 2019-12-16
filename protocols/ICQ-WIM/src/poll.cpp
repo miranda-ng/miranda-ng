@@ -79,8 +79,6 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 
 void CIcqProto::ProcessDiff(const JSONNode &ev)
 {
-	std::map<MCONTACT, bool> processed;
-
 	for (auto &block : ev) {
 		CMStringW szType = block["type"].as_mstring();
 		if (szType != "updated" && szType != "created" && szType != "deleted")
@@ -108,14 +106,13 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 			bool bCreated = false, bDeleted = (szType == "deleted");
 
 			for (auto &buddy : it["buddies"]) {
+				if (bDeleted)
+					continue;
+
 				MCONTACT hContact = ParseBuddyInfo(buddy);
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
 
-				if (bDeleted)
-					continue;
-
-				processed[hContact] = true;
 				setWString(hContact, "IcqGroup", pGroup->wszName);
 
 				ptrW wszGroup(Clist_GetGroup(hContact));

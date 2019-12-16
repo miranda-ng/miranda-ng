@@ -41,8 +41,6 @@
 #include <fcntl.h>
 #include <process.h>
 
-#include <map>
-
 // Miranda IM SDK includes
 #include <newpluginapi.h> // This must be included first
 #include <m_avatars.h>
