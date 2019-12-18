@@ -22,8 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-
-
 INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
@@ -37,7 +35,7 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			proto = reinterpret_cast<FacebookProto*>(lparam);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-			ptrA login(db_get_sa(0, proto->ModuleName(), DBKEY_USERNAME));
+			ptrA login(db_get_sa(0, proto->ModuleName(), DBKEY_LOGIN));
 			if (login != nullptr)
 				SetDlgItemTextA(hwnd, IDC_UN, login);
 
@@ -66,7 +64,7 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			char str[128];
 
 			GetDlgItemTextA(hwnd, IDC_UN, str, _countof(str));
-			db_set_s(0, proto->ModuleName(), DBKEY_USERNAME, str);
+			db_set_s(0, proto->ModuleName(), DBKEY_LOGIN, str);
 
 			GetDlgItemTextA(hwnd, IDC_PW, str, _countof(str));
 			db_set_s(0, proto->ModuleName(), DBKEY_PASS, str);

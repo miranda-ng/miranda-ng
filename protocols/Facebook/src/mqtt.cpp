@@ -212,14 +212,6 @@ void FacebookProto::MqttOpen()
 	thrift.writeField(FB_THRIFT_TYPE_STRING);
 	thrift << m_szAuthToken << (BYTE)0;
 
-	//FILE *out = fopen("C:\\qq.out", "wb");
-	//fwrite(thrift.data(), 1, thrift.size(), out);
-	//fclose(out);
-	//
-	//out = fopen("C:\\qq.size", "w");
-	//fprintf(out, "%d", thrift.size());
-	//fclose(out);
-
 	size_t dataSize = thrift.size() + 100;
 	BYTE *pData = (BYTE *)mir_alloc(dataSize);
 
@@ -240,23 +232,6 @@ void FacebookProto::MqttOpen()
 
 	deflateEnd(&zStreamOut);
 	dataSize = dataSize - zStreamOut.avail_out;
-
-	//pData[2]++;
-
-	//dataSize -= 4;
-
-	//out = fopen("C:\\qq_deflated.out", "wb");
-	//fwrite(pData, 1, dataSize, out);
-	//fclose(out);
-	//
-	//out = fopen("C:\\qq_deflated.size", "w");
-	//fprintf(out, "%d", dataSize);
-	//fclose(out);
-
-	//dataSize = 369;
-	//out = fopen("c:\\Users\\Uzivatel\\Desktop\\deflated_purple", "rb");
-	//fread(pData, 1, dataSize, out);
-	//fclose(out);
 
 	uint8_t protocolVersion = 3;
 	uint8_t flags = FB_MQTT_CONNECT_FLAG_USER | FB_MQTT_CONNECT_FLAG_PASS | FB_MQTT_CONNECT_FLAG_CLR | FB_MQTT_CONNECT_FLAG_QOS1;

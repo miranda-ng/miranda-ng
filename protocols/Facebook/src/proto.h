@@ -300,12 +300,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define FB_API_CONTACTS_COUNT  "500"
 
-
 #define FACEBOOK_MESSAGE_LIMIT 100000
-
-
-
-
 
 class FacebookProto;
 
@@ -344,9 +339,9 @@ public:
 
 class FacebookProto : public PROTO<FacebookProto>
 {
-    AsyncHttpRequest* CreateRequest(const char* szName, const char* szMethod);
-    AsyncHttpRequest* CreateRequestGQL(int64_t id);
-	NETLIBHTTPREQUEST* ExecuteRequest(AsyncHttpRequest *pReq);
+	AsyncHttpRequest *CreateRequest(const char *szName, const char *szMethod);
+	AsyncHttpRequest *CreateRequestGQL(int64_t id);
+	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
 
 	// MQTT functions
 	bool MqttConnect();
@@ -359,13 +354,14 @@ class FacebookProto : public PROTO<FacebookProto>
 	CMStringA m_szClientID; // stored, random alphanumeric string of 20 chars
 	__int64   m_uid;        // stored, Facebook user id
 	__int64   m_iMqttId;
-	
+
 	bool      m_invisible;
 	bool      m_bOnline;
 
 	CMStringA m_szAuthToken; // calculated 
 
-	void OnLoggedOut();
+   void OnLoggedIn();
+   void OnLoggedOut();
 
 	void __cdecl ServerThread(void *);
 
@@ -381,6 +377,7 @@ public:
 	// PROTO_INTERFACE
 
 	void OnModulesLoaded() override;
+   void OnShutdown() override;
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact) override;
 

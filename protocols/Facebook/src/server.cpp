@@ -20,23 +20,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+void FacebookProto::OnLoggedIn()
+{
+	m_bOnline = true;
+
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+	m_iStatus = m_iDesiredStatus;
+}
+
 void FacebookProto::OnLoggedOut()
 {
+	OnShutdown();
+
 	m_bOnline = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void FacebookProto::ServerThread(void *) 
+void FacebookProto::ServerThread(void *)
 {
-
 	m_szAuthToken = getMStringA(DBKEY_TOKEN);
 
 	if (m_szAuthToken.IsEmpty()) {
-		auto* pReq = CreateRequest("authenticate", "auth.login");
+		auto *pReq = CreateRequest("authenticate", "auth.login");
 		pReq->m_szUrl = FB_API_URL_AUTH;
-		
-		pReq << CHAR_PARAM("email", getMStringA(DBKEY_USERNAME));
+
+		pReq << CHAR_PARAM("email", getMStringA(DBKEY_LOGIN));
 		pReq << CHAR_PARAM("password", getMStringA(DBKEY_PASS));
 
 		pReq->CalcSig();
@@ -44,11 +53,10 @@ void FacebookProto::ServerThread(void *)
 		JsonReply reply(ExecuteRequest(pReq));
 
 		if (reply.error()) {
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE) m_iStatus, m_iDesiredStatus);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
 
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, m_iDesiredStatus);
-
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 			return;
 		}
 
@@ -60,24 +68,29 @@ void FacebookProto::ServerThread(void *)
 		setString(DBKEY_ID, m_szUid);
 	}
 
-	auto* pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
+	auto *pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
 	pReq << CHAR_PARAM("query_params", "{\"0\":[\"user\"],\"1\":\"" FB_API_CONTACTS_COUNT "\"}");
 	pReq->CalcSig();
 
 	JsonReply reply(ExecuteRequest(pReq));
-	if (reply.error())
-		goto FAIL;
+	if (reply.error()) {
+FAIL:
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
+
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+		return;
+	}
 
 	// TODO: process contacts
-
-
 	if (!MqttConnect())
 		goto FAIL;
 
 	MqttOpen();
+	OnLoggedIn();
 
 	int bufSize = 2048;
-	char* buf = (char*) mir_alloc(bufSize);
+	char *buf = (char *)mir_alloc(bufSize);
 
 	while (!Miranda_IsTerminated()) {
 		int ret = Netlib_Recv(m_mqttConn, buf, bufSize);
@@ -96,13 +109,5 @@ void FacebookProto::ServerThread(void *)
 	debugLogA("exiting ServerThread");
 	int oldStatus = m_iStatus;
 	m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, m_iStatus);
-
-	return;
-	
-FAIL:
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE) m_iStatus, m_iDesiredStatus);
-
-	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) m_iStatus, m_iDesiredStatus);
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 }

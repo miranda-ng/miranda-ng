@@ -78,6 +78,12 @@ void FacebookProto::OnModulesLoaded()
 {
 }
 
+void FacebookProto::OnShutdown()
+{
+	if (m_mqttConn != nullptr)
+		Netlib_Shutdown(m_mqttConn);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR FacebookProto::GetCaps(int type, MCONTACT)
@@ -175,7 +181,8 @@ int FacebookProto::SetStatus(int iNewStatus)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam) {
+INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
+{
 	return (INT_PTR) CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
 		(HWND) lParam, FBAccountProc, (LPARAM) this);
 }
