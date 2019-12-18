@@ -59,8 +59,8 @@ class FbThrift
 	MBinBuffer m_buf;
 
 public:
-	__inline void* data() { return m_buf.data(); }
-	__inline size_t size() { return m_buf.length(); }
+	__inline void* data() const { return m_buf.data(); }
+	__inline size_t size() const { return m_buf.length(); }
 
 	FbThrift& operator<<(uint8_t);
 	FbThrift& operator<<(const char *);
@@ -78,8 +78,12 @@ public:
 
 class MqttMessage : public FbThrift
 {
+	friend class FacebookProto;
+
+	uint8_t m_leadingByte;
+
 public:
-	MqttMessage(FbMqttMessageType type, uint8_t flags, size_t payloadSize);
+	MqttMessage(FbMqttMessageType type, uint8_t flags = 0);
 
 	void writeStr(const char *str);
 };

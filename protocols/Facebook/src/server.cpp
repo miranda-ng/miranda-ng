@@ -23,9 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void FacebookProto::OnLoggedIn()
 {
 	m_bOnline = true;
+	m_mid = 0;
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
+
+	// MqttPublish("/foreground_state", "{\"foreground\":\"true\", \"keepalive_timeout\":\"60\"}");
 }
 
 void FacebookProto::OnLoggedOut()
@@ -107,6 +110,10 @@ FAIL:
 	}
 
 	debugLogA("exiting ServerThread");
+
+	Netlib_CloseHandle(m_mqttConn);
+	m_mqttConn = nullptr;
+
 	int oldStatus = m_iStatus;
 	m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);

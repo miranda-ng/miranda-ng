@@ -339,13 +339,17 @@ public:
 
 class FacebookProto : public PROTO<FacebookProto>
 {
+   uint8_t* doZip(size_t cbData, const void *pData, size_t &cbRes);
+
 	AsyncHttpRequest *CreateRequest(const char *szName, const char *szMethod);
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
 	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
 
 	// MQTT functions
 	bool MqttConnect();
-	void MqttOpen();
+   void MqttOpen();
+   void MqttPublish(const char *topic, const char *value);
+   void MqttSend(const MqttMessage &payload);
 
 	HNETLIBCONN m_mqttConn;
 
@@ -354,6 +358,7 @@ class FacebookProto : public PROTO<FacebookProto>
 	CMStringA m_szClientID; // stored, random alphanumeric string of 20 chars
 	__int64   m_uid;        // stored, Facebook user id
 	__int64   m_iMqttId;
+   int16_t   m_mid;
 
 	bool      m_invisible;
 	bool      m_bOnline;
