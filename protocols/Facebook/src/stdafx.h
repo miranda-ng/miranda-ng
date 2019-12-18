@@ -22,6 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <windows.h>
 #include <time.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
 
 #include <win2k.h>
 #include <newpluginapi.h>

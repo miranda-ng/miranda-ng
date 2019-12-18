@@ -198,7 +198,7 @@ void FacebookProto::MqttSend(const MqttMessage &payload)
 	msg << payload.m_leadingByte;
 	msg.writeIntV(payload.size());
 	msg.writeBuf(payload.data(), payload.size());
-	Netlib_Send(m_mqttConn, (char*)msg.data(), msg.size());
+	Netlib_Send(m_mqttConn, (char*)msg.data(), (unsigned)msg.size());
 }
 
 void FacebookProto::MqttOpen()
@@ -266,9 +266,49 @@ void FacebookProto::MqttPublish(const char *topic, const char *value)
 	size_t dataSize;
 	mir_ptr<uint8_t> pData(doZip(strlen(value), value, dataSize));
 
-	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_PUBLISH);
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_PUBLISH, FB_MQTT_CONNECT_FLAG_QOS1);
 	payload.writeStr(topic);
-	payload.writeInt16(++m_mid); // timeout
+	payload.writeInt16(++m_mid);
 	payload.writeBuf(pData, dataSize);
+	MqttSend(payload);
+}
+
+void FacebookProto::MqttSubscribe(const char *topic, ...)
+{
+	uint8_t zeroByte = 0;
+
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_SUBSCRIBE, FB_MQTT_CONNECT_FLAG_QOS1);
+	payload.writeInt16(++m_mid);
+	payload.writeStr(topic);
+	payload << zeroByte;
+
+	va_list ap;
+	va_start(ap, topic);
+	while ((topic = va_arg(ap, const char *)) != nullptr) {
+		payload.writeStr(topic);
+		payload << zeroByte;
+	}
+	va_end(ap);
+
+	MqttSend(payload);
+}
+
+void FacebookProto::MqttUnsubscribe(const char *topic, ...)
+{
+	uint8_t zeroByte = 0;
+
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_UNSUBSCRIBE, FB_MQTT_CONNECT_FLAG_QOS1);
+	payload.writeInt16(++m_mid);
+	payload.writeStr(topic);
+	payload << zeroByte;
+
+	va_list ap;
+	va_start(ap, topic);
+	while ((topic = va_arg(ap, const char *)) != nullptr) {
+		payload.writeStr(topic);
+		payload << zeroByte;
+	}
+	va_end(ap);
+
 	MqttSend(payload);
 }
