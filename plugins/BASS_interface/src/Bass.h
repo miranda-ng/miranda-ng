@@ -57,7 +57,7 @@ typedef DWORD HRECORD;		// recording handle
 typedef DWORD HSYNC;		// synchronizer handle
 typedef DWORD HDSP;			// DSP handle
 typedef DWORD HFX;			// DX8 effect handle
-typedef DWORD HPLUGIN;		// Plugin handle
+typedef DWORD HSUBPLUGIN;	// Plugin handle
 
 // Error codes returned by BASS_ErrorGetCode
 #define BASS_OK				0	// all is OK
@@ -379,7 +379,7 @@ typedef struct {
 	DWORD flags;	// BASS_SAMPLE/STREAM/MUSIC/SPEAKER flags
 	DWORD ctype;	// type of channel
 	DWORD origres;	// original resolution
-	HPLUGIN plugin;	// plugin
+	HSUBPLUGIN plugin;	// plugin
 	HSAMPLE sample; // sample
 	const char *filename; // filename
 } BASS_CHANNELINFO;
@@ -1030,9 +1030,9 @@ BOOL BASSDEF(BASS_IsStarted)();
 BOOL BASSDEF(BASS_SetVolume)(float volume);
 float BASSDEF(BASS_GetVolume)();
 
-HPLUGIN BASSDEF(BASS_PluginLoad)(const char *file, DWORD flags);
-BOOL BASSDEF(BASS_PluginFree)(HPLUGIN handle);
-const BASS_PLUGININFO *BASSDEF(BASS_PluginGetInfo)(HPLUGIN handle);
+HSUBPLUGIN BASSDEF(BASS_PluginLoad)(const char *file, DWORD flags);
+BOOL BASSDEF(BASS_PluginFree)(HSUBPLUGIN handle);
+const BASS_PLUGININFO *BASSDEF(BASS_PluginGetInfo)(HSUBPLUGIN handle);
 
 BOOL BASSDEF(BASS_Set3DFactors)(float distf, float rollf, float doppf);
 BOOL BASSDEF(BASS_Get3DFactors)(float *distf, float *rollf, float *doppf);
@@ -1125,7 +1125,7 @@ BOOL BASSDEF(BASS_FXSetPriority)(HFX handle, int priority);
 }
 
 #if defined(_WIN32) && !defined(NOBASSOVERLOADS)
-static inline HPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
+static inline HSUBPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
 {
 	return BASS_PluginLoad((const char*)file, flags|BASS_UNICODE);
 }
