@@ -39,7 +39,15 @@ struct REMINDERDATA : public MZeroedObject
 	}
 };
 
-static LIST<REMINDERDATA> arReminders(1, PtrKeySortT);
+static int ReminderSortCb(const REMINDERDATA *v1, const REMINDERDATA *v2)
+{
+	if (v1->When == v2->When)
+		return 0;
+
+	return (v1->When < v2->When) ? -1 : 1;
+}
+
+static LIST<REMINDERDATA> arReminders(1, ReminderSortCb);
 
 static class CReminderListDlg *pListDialog;
 
@@ -78,6 +86,13 @@ static REMINDERDATA* FindReminder(DWORD uid)
 			return pReminder;
 
 	return nullptr;
+}
+
+static void InsertReminder(REMINDERDATA *p)
+{
+	while (arReminders.find(p))
+		p->When++;
+	arReminders.insert(p);
 }
 
 static DWORD CreateUid()
@@ -219,7 +234,7 @@ static bool LoadReminder(char *Value)
 		TempRem->RepeatSound = 0;
 
 	// queue uid generation if invalid uid is present
-	arReminders.insert(TempRem);
+	InsertReminder(TempRem);
 	return TempRem->uid == 0;
 }
 
@@ -1227,7 +1242,7 @@ public:
 		m_pReminder->handle = nullptr;
 
 		// re-insert tree item sorted
-		arReminders.insert(m_pReminder);
+		InsertReminder(m_pReminder);
 		m_pReminder = nullptr; // prevent reminder from being deleted;
 		Close();
 	}
@@ -1435,7 +1450,7 @@ public:
 			TempRem->bRepeat = chkRepeat.GetState();
 			TempRem->SoundSel = cmbSound.GetItemData(cmbSound.GetCurSel());
 			TempRem->RepeatSound = TempRem->SoundSel < 0 ? 0 : (UINT)RepeatSound;
-			arReminders.insert(TempRem);
+			InsertReminder(TempRem);
 		}
 		else {
 			// update existing reminder
@@ -1448,7 +1463,7 @@ public:
 			m_pReminder->RepeatSound = m_pReminder->SoundSel < 0 ? 0 : (UINT)RepeatSound;
 
 			// re-insert tree item sorted
-			arReminders.insert(m_pReminder);
+			InsertReminder(m_pReminder);
 
 			m_pReminder->bVisible = false;
 			m_pReminder = nullptr; // prevent new reminder from being deleted
@@ -1528,28 +1543,14 @@ static void EditReminder(REMINDERDATA *p)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int ReminderSortCb(const REMINDERDATA *v1, const REMINDERDATA *v2)
-{
-	if (v1->When == v2->When)
-		return 0;
-
-	return (v1->When < v2->When) ? -1 : 1;
-}
-
 class CReminderListDlg : public CDlgBase
 {
-	LIST< REMINDERDATA> m_items;
-
 	void RefreshList()
 	{
 		m_list.DeleteAllItems();
 
-		m_items.destroy();
-		for (auto &it : arReminders)
-			m_items.insert(it);
-
 		int i = 0;
-		for (auto &pReminder : m_items) {
+		for (auto &pReminder : arReminders) {
 			LV_ITEM lvTIt;
 			lvTIt.mask = LVIF_TEXT;
 
@@ -1580,7 +1581,6 @@ class CReminderListDlg : public CDlgBase
 public:
 	CReminderListDlg() :
 		CDlgBase(g_plugin, IDD_LISTREMINDERS),
-		m_items(10, ReminderSortCb),
 		m_list(this, IDC_LISTREMINDERS),
 		btnNew(this, IDC_ADDNEWREMINDER)
 	{
@@ -1659,7 +1659,7 @@ public:
 		HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
 		int idx = m_list.GetSelectionMark();
-		REMINDERDATA *pReminder = (idx == -1) ? nullptr : m_items[idx];
+		REMINDERDATA *pReminder = (idx == -1) ? nullptr : arReminders[idx];
 
 		MENUITEMINFO mii = {};
 		mii.cbSize = sizeof(mii);
@@ -1685,7 +1685,7 @@ public:
 		case ID_CONTEXTMENUREMINDER_EDIT:
 			idx = m_list.GetSelectionMark();
 			if (idx != -1)
-				EditReminder(m_items[idx]);
+				EditReminder(arReminders[idx]);
 			break;
 
 		case ID_CONTEXTMENUREMINDER_NEW:
@@ -1693,7 +1693,7 @@ public:
 			break;
 
 		case ID_CONTEXTMENUREMINDER_DELETEALL:
-			if (m_items.getCount() && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+			if (arReminders.getCount() && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
 				SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
 				DeleteReminders();
 				RefreshList();
@@ -1704,7 +1704,7 @@ public:
 			idx = m_list.GetSelectionMark();
 			if (idx != -1 && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
 				SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
-				DeleteReminder(m_items[idx]);
+				DeleteReminder(arReminders[idx]);
 				JustSaveReminders();
 				RefreshList();
 			}
@@ -1720,14 +1720,14 @@ public:
 
 	void list_onItemChanged(CCtrlListView::TEventInfo *ev)
 	{
-		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, m_items[ev->nmlv->iItem]->szText);
+		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, arReminders[ev->nmlv->iItem]->szText);
 	}
 
 	void list_onDblClick(CCtrlListView::TEventInfo*)
 	{
 		int i = m_list.GetSelectionMark();
 		if (i != -1)
-			EditReminder(m_items[i]);
+			EditReminder(arReminders[i]);
 	}
 
 	void onClick_New(CCtrlButton *)
