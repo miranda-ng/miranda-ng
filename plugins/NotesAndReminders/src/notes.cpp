@@ -1419,7 +1419,7 @@ class CNotesListDlg : public CDlgBase
 		wchar_t *T = TranslateT("Top");
 
 		m_list.SetHoverTime(700);
-		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 		m_list.DeleteAllItems();
 
 		for (auto &pNote : g_arStickies) {

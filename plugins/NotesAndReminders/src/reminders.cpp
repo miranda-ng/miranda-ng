@@ -1621,7 +1621,7 @@ public:
 		m_list.InsertColumn(1, &lvCol);
 
 		m_list.SetHoverTime(700);
-		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_TRACKSELECT);
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 		RefreshList();
 
 		SetWindowLongPtr(GetDlgItem(m_list.GetHwnd(), 0), GWL_ID, IDC_LISTREMINDERS_HEADER);
