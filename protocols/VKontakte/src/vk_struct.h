@@ -307,6 +307,7 @@ struct CVKOptions {
 	CMOption<BYTE> bShowProtoMenuItem5;
 	CMOption<BYTE> bShowProtoMenuItem6;
 
+	CMOption<DWORD> iReqAuthTimeLater;
 	CMOption<DWORD> iNewsInterval;
 	CMOption<DWORD> iNotificationsInterval;
 	CMOption<DWORD> iNewsAutoClearHistoryInterval;

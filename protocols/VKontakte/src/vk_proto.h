@@ -343,6 +343,8 @@ private:
 	CMStringW RunRenameNick(LPCWSTR pwszOldName);
 	void GrabCookies(NETLIBHTTPREQUEST *nhr);
 	void ApplyCookies(AsyncHttpRequest*);
+	bool IsAuthContactLater(MCONTACT hContact);
+	bool AddAuthContactLater(MCONTACT hContact);
 	void __cdecl DBAddAuthRequestThread(void *p);
 	void DBAddAuthRequest(const MCONTACT hContact, bool bAdded = false);
 	MCONTACT MContactFromDbEvent(MEVENT hDbEvent);

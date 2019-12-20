@@ -149,7 +149,7 @@ CVkChatUser* CVkChatInfo::GetUserById(int user_id)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
+CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bLoadLastMessageOnMsgWindowsOpen(proto, "LoadLastMessageOnMsgWindowsOpen", true),
 	bLoadOnlyFriends(proto, "LoadOnlyFriends", false),
 	bServerDelivery(proto, "BsDirect", true),
@@ -215,6 +215,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE *proto) :
 	iBBCForNews(proto, "BBCForNews", BBCSupport::bbcBasic),
 	iBBCForAttachments(proto, "BBCForAttachments", BBCSupport::bbcBasic),
 
+	iReqAuthTimeLater(proto, "ReqAuthTimeLater", 60 * 60 * 24),
 	iNewsInterval(proto, "NewsInterval", 15),
 	iNotificationsInterval(proto, "NotificationsInterval", 1),
 	iNewsAutoClearHistoryInterval(proto, "NewsAutoClearHistoryInterval", 60 * 60 * 24 * 3),

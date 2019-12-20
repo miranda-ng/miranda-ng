@@ -328,7 +328,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	RetrieveUserInfo(m_myUserId);
 	TrackVisitor();
 	RetrieveUnreadMessages();
-	RetrieveFriends();
+	RetrieveFriends(m_vkOptions.bLoadOnlyFriends);
 	RetrievePollingInfo();
 }
 
@@ -706,9 +706,9 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			break;
 
 		MCONTACT hContact = FindUser(userid, true);
-		if (!getBool(hContact, "ReqAuth")) {
+		if (!IsAuthContactLater(hContact)) {
 			RetrieveUserInfo(userid);
-			setByte(hContact, "ReqAuth", 1);
+			AddAuthContactLater(hContact);
 			CVkDBAddAuthRequestThreadParam *param = new CVkDBAddAuthRequestThreadParam(hContact, false);
 			ForkThread(&CVkProto::DBAddAuthRequestThread, (void *)param);
 		}
@@ -817,7 +817,6 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	for (auto &hContact : AccContacts()) {
 		if (!isChatRoom(hContact) && !IsGroupUser(hContact))
 			setByte(hContact, "Auth", 1);
-		db_unset(hContact, m_szModuleName, "ReqAuth");
 		SetMirVer(hContact, -1);
 		if (bCleanContacts && !isChatRoom(hContact))
 			arContacts.insert((HANDLE)hContact);
@@ -834,6 +833,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 			arContacts.remove((HANDLE)hContact);
 			setByte(hContact, "Auth", 0);
+			db_unset(hContact, m_szModuleName, "ReqAuthTime");
 		}
 
 	if (bCleanContacts)
@@ -843,7 +843,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 			bool bIsFriendGroup = IsGroupUser(hContact) && getBool(hContact, "friend");
 			if (userID == m_myUserId || userID == VK_FEED_USER || bIsFriendGroup)
 				continue;
-			DeleteContact(hContact);
+			if (!IsAuthContactLater(hContact))
+				DeleteContact(hContact);
 		}
 
 	arContacts.destroy();

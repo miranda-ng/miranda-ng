@@ -545,6 +545,38 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool CVkProto::IsAuthContactLater(MCONTACT hContact)
+{
+	if (hContact == 0
+		|| hContact == INVALID_CONTACT_ID
+		|| isChatRoom(hContact)
+		|| IsGroupUser(hContact)
+		|| getDword(hContact, "ReqAuthTime") == 0
+		|| getBool(hContact, "friend"))
+		return false;
+
+	if (time(0) - getDword(hContact, "ReqAuthTime") >= m_vkOptions.iReqAuthTimeLater) {
+		db_unset(hContact, m_szModuleName, "ReqAuthTime");
+		return false;
+	}
+
+	return true;
+}
+
+bool CVkProto::AddAuthContactLater(MCONTACT hContact)
+{
+	if (hContact == 0
+		|| hContact == INVALID_CONTACT_ID
+		|| isChatRoom(hContact)
+		|| IsGroupUser(hContact)
+		|| getDword(hContact, "ReqAuthTime") != 0
+		|| getBool(hContact, "friend"))
+		return false;
+
+	setDword(hContact, "ReqAuthTime", (DWORD)time(0));
+	return true;
+}
+
 void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
 {
 	CVkDBAddAuthRequestThreadParam *param = (CVkDBAddAuthRequestThreadParam *)p;
@@ -599,7 +631,7 @@ MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 		return INVALID_CONTACT_ID;
 
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
-	db_unset(hContact, m_szModuleName, "ReqAuth");
+	db_unset(hContact, m_szModuleName, "ReqAuthTime");
 	return hContact;
 }
 
