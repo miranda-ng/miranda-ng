@@ -162,6 +162,11 @@ void FbThrift::writeIntV(uint64_t value)
 	} while (!bLast);
 }
 
+MqttMessage::MqttMessage() :
+	m_leadingByte(0)
+{
+}
+
 MqttMessage::MqttMessage(FbMqttMessageType type, uint8_t flags)
 {
 	m_leadingByte = ((type & 0x0F) << 4) | (flags & 0x0F);
@@ -192,6 +197,58 @@ bool FacebookProto::MqttConnect()
 	return true;
 }
 
+bool FacebookProto::MqttParse(const MqttMessage &payload)
+{
+	auto *pData = (const uint8_t *)payload.data();
+
+	switch (payload.getType()) {
+	case FB_MQTT_MESSAGE_TYPE_CONNACK:
+		if (pData[1] != 0) { // connection failed;
+			ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
+			return false;
+		}
+
+		OnLoggedIn();
+		MqttPing();
+		break;
+	}
+
+	return true;
+}
+
+bool FacebookProto::MqttRead(MqttMessage &payload)
+{
+	uint8_t b;
+	int res = Netlib_Recv(m_mqttConn, (char *)&b, sizeof(b));
+	if (res != 1)
+		return false;
+
+	payload.m_leadingByte = b;
+
+	uint32_t m = 1, remainingBytes = 0;
+	do {
+		if ((res = Netlib_Recv(m_mqttConn, (char *)&b, sizeof(b))) != 1)
+			return false;
+
+		remainingBytes += (b & 0x7F) * m;
+		m *= 128;
+	} while ((b & 0x80) != 0);
+
+	if (remainingBytes != 0) {
+		while (remainingBytes > 0) {
+			uint8_t buf[1024];
+			int size = min(remainingBytes, sizeof(buf));
+			if ((res = Netlib_Recv(m_mqttConn, (char *)buf, size)) <= 0)
+				return false;
+
+			payload.writeBuf(buf, res);
+			remainingBytes -= res;
+		}
+	}
+
+	return true;
+}
+
 void FacebookProto::MqttSend(const MqttMessage &payload)
 {
 	FbThrift msg;
@@ -200,6 +257,9 @@ void FacebookProto::MqttSend(const MqttMessage &payload)
 	msg.writeBuf(payload.data(), payload.size());
 	Netlib_Send(m_mqttConn, (char*)msg.data(), (unsigned)msg.size());
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// creates initial MQTT will and sends initialization packet
 
 void FacebookProto::MqttOpen()
 {
@@ -256,6 +316,15 @@ void FacebookProto::MqttOpen()
 	payload << protocolVersion << flags;
 	payload.writeInt16(60); // timeout
 	payload.writeBuf(pData, dataSize);
+	MqttSend(payload);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// various MQTT send commands
+
+void FacebookProto::MqttPing()
+{
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_PINGREQ);
 	MqttSend(payload);
 }
 

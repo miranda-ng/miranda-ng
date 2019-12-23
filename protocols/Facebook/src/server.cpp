@@ -88,28 +88,45 @@ FAIL:
 		return;
 	}
 
-	// TODO: process contacts
+	// connect to MQTT server
 	if (!MqttConnect())
 		goto FAIL;
 
+	// send initial packet
 	MqttOpen();
-	OnLoggedIn();
 
-	int bufSize = 2048;
-	char *buf = (char *)mir_alloc(bufSize);
+	__int64 startTime = GetTickCount64();
 
 	while (!Miranda_IsTerminated()) {
-		int ret = Netlib_Recv(m_mqttConn, buf, bufSize);
+		NETLIBSELECT nls = {};
+		nls.hReadConns[0] = m_mqttConn;
+		nls.dwTimeout = 1000;
+		int ret = Netlib_Select(&nls);
 		if (ret == SOCKET_ERROR) {
 			debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 			break;
 		}
-		if (ret == 0) {
-			debugLogA("Connection closed gracefully");
+
+		__int64 currTime = GetTickCount64();
+		if (currTime - startTime > 60000) {
+			startTime = currTime;
+			MqttPing();
+		}
+
+		// no data, continue waiting
+		if (ret == 0)
+			continue;
+
+		MqttMessage msg;
+		if (!MqttRead(msg)) {
+			debugLogA("MqttRead() failed");
 			break;
 		}
 
-		// TODO: process MQTT responses
+		if (!MqttParse(msg)) {
+			debugLogA("MqttParse() failed");
+			break;
+		}
 	}
 
 	debugLogA("exiting ServerThread");

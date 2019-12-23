@@ -348,9 +348,14 @@ class FacebookProto : public PROTO<FacebookProto>
 	// MQTT functions
 	bool MqttConnect();
    void MqttOpen();
+   
+   void MqttPing();
    void MqttPublish(const char *topic, const char *value);
    void MqttSubscribe(const char *topic, ...);
    void MqttUnsubscribe(const char *topic, ...);
+
+   bool MqttRead(MqttMessage &payload);
+   bool MqttParse(const MqttMessage &payload);
    void MqttSend(const MqttMessage &payload);
 
 	HNETLIBCONN m_mqttConn;

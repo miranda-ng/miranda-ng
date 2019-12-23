@@ -83,7 +83,17 @@ class MqttMessage : public FbThrift
 	uint8_t m_leadingByte;
 
 public:
+	MqttMessage();
 	MqttMessage(FbMqttMessageType type, uint8_t flags = 0);
+
+	__forceinline int getType() const
+	{
+		return m_leadingByte >> 4;
+	}
+
+	__forceinline int getFlags() const
+	{	return m_leadingByte & 0x0F;
+	}
 
 	void writeStr(const char *str);
 };
