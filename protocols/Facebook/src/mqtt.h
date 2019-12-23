@@ -59,8 +59,12 @@ class FbThrift
 	MBinBuffer m_buf;
 
 public:
-	__inline void* data() const { return m_buf.data(); }
-	__inline size_t size() const { return m_buf.length(); }
+	__forceinline void* data() const { return m_buf.data(); }
+	__forceinline size_t size() const { return m_buf.length(); }
+
+	__forceinline void reset(const size_t cbLen, void *pData)
+	{	m_buf.assign(pData, cbLen);
+	}
 
 	FbThrift& operator<<(uint8_t);
 	FbThrift& operator<<(const char *);

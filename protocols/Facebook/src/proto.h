@@ -339,7 +339,8 @@ public:
 
 class FacebookProto : public PROTO<FacebookProto>
 {
-   uint8_t* doZip(size_t cbData, const void *pData, size_t &cbRes);
+   uint8_t *doZip(size_t cbData, const void *pData, size_t &cbRes);
+   uint8_t *doUnzip(size_t cbData, const void *pData, size_t &cbRes);
 
 	AsyncHttpRequest *CreateRequest(const char *szName, const char *szMethod);
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
