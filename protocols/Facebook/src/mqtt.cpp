@@ -20,36 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static uint8_t encodeType(int type)
-{
-	switch (type) {
-	case FB_THRIFT_TYPE_BOOL:
-		return 2;
-	case FB_THRIFT_TYPE_BYTE:
-		return 3;
-	case FB_THRIFT_TYPE_I16:
-		return 4;
-	case FB_THRIFT_TYPE_I32:
-		return 5;
-	case FB_THRIFT_TYPE_I64:
-		return 6;
-	case FB_THRIFT_TYPE_DOUBLE:
-		return 7;
-	case FB_THRIFT_TYPE_STRING:
-		return 8;
-	case FB_THRIFT_TYPE_LIST:
-		return 9;
-	case FB_THRIFT_TYPE_SET:
-		return 10;
-	case FB_THRIFT_TYPE_MAP:
-		return 11;
-	case FB_THRIFT_TYPE_STRUCT:
-		return 12;
-	default:
-		return 0;
-	}
-}
-
 uint8_t *FacebookProto::doZip(size_t cbData, const void *pData, size_t &cbRes)
 {
 	size_t dataSize = cbData + 100;
@@ -101,91 +71,7 @@ uint8_t *FacebookProto::doUnzip(size_t cbData, const void *pData, size_t &cbRes)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-FbThrift& FbThrift::operator<<(uint8_t value)
-{
-	m_buf.append(&value, 1);
-	return *this;
-}
-
-FbThrift& FbThrift::operator<<(const char *str)
-{
-	size_t len = mir_strlen(str);
-	writeIntV(len);
-	m_buf.append((void*)str, len);
-	return *this;
-}
-
-void FbThrift::writeBool(bool bValue)
-{
-	uint8_t b = (bValue) ? 0x11 : 0x12;
-	m_buf.append(&b, 1);
-}
-
-void FbThrift::writeBuf(const void *pData, size_t cbLen)
-{
-	m_buf.append((void*)pData, cbLen);
-}
-
-void FbThrift::writeField(int iType)
-{
-	uint8_t type = encodeType(iType) + 0x10;
-	m_buf.append(&type, 1);
-}
-
-void FbThrift::writeField(int iType, int id, int lastid)
-{
-	uint8_t type = encodeType(iType);
-	uint8_t diff = uint8_t(id - lastid);
-	if (diff > 0x0F) {
-		m_buf.append(&type, 1);
-		writeInt64(id);
-	}
-	else {
-		type += (diff << 4);
-		m_buf.append(&type, 1);
-	}
-}
-
-void FbThrift::writeList(int iType, int size)
-{
-	uint8_t type = encodeType(iType);
-	if (size > 14) {
-		writeIntV(size);
-		*this << (type | 0xF0);
-	}
-	else *this << (type | (size << 4));
-}
-
-void FbThrift::writeInt16(uint16_t value)
-{
-	value = htons(value);
-	m_buf.append(&value, sizeof(value));
-}
-
-void FbThrift::writeInt32(int32_t value)
-{
-	writeIntV((value << 1) ^ (value >> 31));
-}
-
-void FbThrift::writeInt64(int64_t value)
-{
-	writeIntV((value << 1) ^ (value >> 63));
-}
-
-void FbThrift::writeIntV(uint64_t value)
-{
-	bool bLast;
-	do {
-		bLast = (value & ~0x7F) == 0;
-		uint8_t b = value & 0x7F;
-		if (!bLast) {
-			b |= 0x80;
-			value >>= 7;
-		}
-		m_buf.append(&b, 1);
-	} while (!bLast);
-}
+// MqttMessage class members
 
 MqttMessage::MqttMessage() :
 	m_leadingByte(0)
@@ -195,6 +81,19 @@ MqttMessage::MqttMessage() :
 MqttMessage::MqttMessage(FbMqttMessageType type, uint8_t flags)
 {
 	m_leadingByte = ((type & 0x0F) << 4) | (flags & 0x0F);
+}
+
+char* MqttMessage::readStr(const uint8_t *&pData) const
+{
+	u_short len = ntohs(*(u_short *)pData); pData += sizeof(u_short);
+	if (len == 0)
+		return nullptr;
+
+	char *res = (char*)mir_alloc(len + 1);
+	memcpy(res, pData, len);
+	res[len] = 0;
+	pData += len;
+	return res;
 }
 
 void MqttMessage::writeStr(const char *str)
@@ -224,7 +123,9 @@ bool FacebookProto::MqttConnect()
 
 bool FacebookProto::MqttParse(const MqttMessage &payload)
 {
-	auto *pData = (const uint8_t *)payload.data();
+	auto *pData = (const uint8_t *)payload.data(), *pBeg = pData;
+	int flags = payload.getFlags();
+	uint16_t mid;
 
 	switch (payload.getType()) {
 	case FB_MQTT_MESSAGE_TYPE_CONNACK:
@@ -235,6 +136,30 @@ bool FacebookProto::MqttParse(const MqttMessage &payload)
 
 		OnLoggedIn();
 		MqttPing();
+		break;
+
+	case FB_MQTT_MESSAGE_TYPE_PUBREL:
+		mid = ntohs(*(u_short *)pData);
+		{
+			MqttMessage reply(FB_MQTT_MESSAGE_TYPE_PUBCOMP);
+			reply << mid;
+			MqttSend(reply);
+		}
+		break;
+
+	case FB_MQTT_MESSAGE_TYPE_PUBLISH:
+		char *str = payload.readStr(pData);
+
+		if ((flags & FB_MQTT_MESSAGE_FLAG_QOS1) || (flags & FB_MQTT_MESSAGE_FLAG_QOS2)) {
+			mid = ntohs(*(u_short *)pData);
+
+			MqttMessage reply((flags & FB_MQTT_MESSAGE_FLAG_QOS1) ? FB_MQTT_MESSAGE_TYPE_PUBACK : FB_MQTT_MESSAGE_TYPE_PUBREC);
+			reply << mid;
+			MqttSend(reply);
+		}
+
+		OnPublish(str, pData, payload.size() - (pData - pBeg));
+		mir_free(str);
 		break;
 	}
 
@@ -270,19 +195,6 @@ bool FacebookProto::MqttRead(MqttMessage &payload)
 
 			payload.writeBuf(buf, res);
 			remainingBytes -= res;
-		}
-
-		// that might be a zipped buffer
-		if (payload.size() >= 2) {
-			auto *p = (const uint8_t *)payload.data();
-			if ((((p[0] << 8) | p[1]) % 31) == 0 && (p[0] & 0x0F) == 8) { // zip header ok
-				size_t dataSize;
-				void *pData = doUnzip(payload.size(), payload.data(), dataSize);
-				if (pData != nullptr) {
-					payload.reset(dataSize, pData);
-					mir_free(pData);
-				}
-			}
 		}
 	}
 

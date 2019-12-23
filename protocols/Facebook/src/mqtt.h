@@ -62,7 +62,7 @@ public:
 	__forceinline void* data() const { return m_buf.data(); }
 	__forceinline size_t size() const { return m_buf.length(); }
 
-	__forceinline void reset(const size_t cbLen, void *pData)
+	__forceinline void reset(size_t cbLen, void *pData)
 	{	m_buf.assign(pData, cbLen);
 	}
 
@@ -78,6 +78,26 @@ public:
 	void writeField(int type);
 	void writeField(int type, int id, int lastid);
 	void writeList(int iType, int size);
+};
+
+class FbThriftReader : public FbThrift
+{
+	bool m_lastBool = false, m_lastBval = false;
+	size_t offset = 0;
+
+	uint8_t decodeType(int type);
+
+public:
+	bool isStop();
+	bool readBool(bool &bVal);
+	bool readByte(uint8_t &val);
+	bool readField(uint8_t &type, uint16_t &id);
+	bool readInt16(uint16_t &val);
+	bool readInt32(uint32_t &val);
+	bool readInt64(uint64_t &val);
+	bool readIntV(uint64_t &val);
+	bool readList(uint8_t &type, uint32_t &size);
+	bool readStr(char *&val); // val must be freed via mir_free()
 };
 
 class MqttMessage : public FbThrift
@@ -99,6 +119,7 @@ public:
 	{	return m_leadingByte & 0x0F;
 	}
 
+	char* readStr(const uint8_t *&pData) const;
 	void writeStr(const char *str);
 };
 
@@ -110,3 +131,7 @@ public:
 #define FB_MQTT_CONNECT_FLAG_RET  0x0020
 #define FB_MQTT_CONNECT_FLAG_PASS 0x0040
 #define FB_MQTT_CONNECT_FLAG_USER 0x0080
+
+#define FB_MQTT_MESSAGE_FLAG_QOS0 0x0000
+#define FB_MQTT_MESSAGE_FLAG_QOS1 0x0002
+#define FB_MQTT_MESSAGE_FLAG_QOS2 0x0004

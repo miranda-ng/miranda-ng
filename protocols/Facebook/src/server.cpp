@@ -138,3 +138,85 @@ FAIL:
 	m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
+{
+	FbThriftReader rdr;
+
+	// that might be a zipped buffer
+	if (cbLen >= 2) {
+		if ((((p[0] << 8) | p[1]) % 31) == 0 && (p[0] & 0x0F) == 8) { // zip header ok
+			size_t dataSize;
+			void *pData = doUnzip(cbLen, p, dataSize);
+			if (pData != nullptr) {
+				rdr.reset(dataSize, pData);
+				mir_free(pData);
+			}
+		}
+	}
+
+	if (rdr.size() == 0)
+		rdr.reset(cbLen, (void*)p);
+
+	if (!strcmp(topic, "/t_p"))
+		OnPublishP(rdr);
+
+}
+
+void FacebookProto::OnPublishP(FbThriftReader &rdr)
+{
+	char *str;
+	assert(rdr.readStr(str));
+	mir_free(str);
+
+	bool bVal;
+	uint8_t fieldType;
+	uint16_t fieldId;
+	assert(rdr.readField(fieldType, fieldId));
+	assert(fieldType == FB_THRIFT_TYPE_BOOL);
+	assert(fieldId == 1);
+	assert(rdr.readBool(bVal));
+
+	assert(rdr.readField(fieldType, fieldId));
+	assert(fieldType == FB_THRIFT_TYPE_LIST);
+	assert(fieldId == 1);
+
+	uint32_t size;
+	assert(rdr.readList(fieldType, size));
+	assert(fieldType == FB_THRIFT_TYPE_STRUCT);
+
+	for (uint32_t i = 0; i < size; i++) {
+		uint64_t userId, timestamp, voipBits;
+		assert(rdr.readField(fieldType, fieldId));
+		assert(fieldType == FB_THRIFT_TYPE_I64);
+		assert(fieldId == 1);
+		assert(rdr.readInt64(userId));
+
+		uint32_t u32;
+		assert(rdr.readField(fieldType, fieldId));
+		assert(fieldType == FB_THRIFT_TYPE_I32);
+		assert(fieldId == 1);
+		assert(rdr.readInt32(u32));
+
+		debugLogA("Presence from user %lld => %d", userId, u32);
+
+		assert(rdr.readField(fieldType, fieldId));
+		assert(fieldType == FB_THRIFT_TYPE_I64);
+		assert(fieldId == 1);
+		assert(rdr.readInt64(timestamp));
+
+		while (!rdr.isStop()) {
+			assert(rdr.readField(fieldType, fieldId));
+			assert(fieldType == FB_THRIFT_TYPE_I64 || fieldType == FB_THRIFT_TYPE_I16 || fieldType == FB_THRIFT_TYPE_I32);
+			assert(rdr.readIntV(voipBits));
+		}
+
+		assert(rdr.readByte(fieldType));
+		assert(fieldType == FB_THRIFT_TYPE_STOP);
+	}
+
+	assert(rdr.readByte(fieldType));
+	assert(fieldType == FB_THRIFT_TYPE_STOP);
+}
