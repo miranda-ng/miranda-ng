@@ -235,7 +235,7 @@ bool FbThriftReader::readIntV(uint64_t &val)
 		if (!readByte(b))
 			return false;
 
-		val |= ((b & 0x7F) << i);
+		val |= (uint64_t(b & 0x7F) << i);
 		i += 7;
 	} while ((b & 0x80) != 0);
 	

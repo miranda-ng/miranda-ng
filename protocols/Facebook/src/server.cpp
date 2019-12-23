@@ -41,6 +41,83 @@ void FacebookProto::OnLoggedOut()
 	m_bOnline = false;
 }
 
+bool FacebookProto::RefreshContacts()
+{
+	auto *pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
+	pReq << CHAR_PARAM("query_params", "{\"0\":[\"user\"],\"1\":\"" FB_API_CONTACTS_COUNT "\"}");
+	pReq->CalcSig();
+
+	JsonReply reply(ExecuteRequest(pReq));
+	if (reply.error())
+		return false;
+
+	for (auto &it : reply.data()["viewer"]["messenger_contacts"]["nodes"]) {
+		auto &n = it["represented_profile"];
+		CMStringW wszId(n["id"].as_mstring());
+		__int64 id = _wtoi64(wszId);
+
+		MCONTACT hContact;
+		if (id != m_uid) {
+			auto *pUser = FindUser(id);
+			if (pUser == nullptr) {
+				hContact = db_add_contact();
+				Proto_AddToContact(hContact, m_szModuleName);
+				setWString(hContact, DBKEY_ID, wszId);
+				
+				m_users.insert(new FacebookUser(id, hContact));
+			}
+			else hContact = pUser->hContact;
+		}
+		else hContact = 0;
+
+		if (auto &nName = n["structured_name"]) {
+			CMStringW wszName(nName["text"].as_mstring());
+			setWString(hContact, DBKEY_NICK, wszName);
+			for (auto &nn : nName["parts"]) {
+				CMStringW wszPart(nn["part"].as_mstring());
+				int offset = nn["offset"].as_int(), length = nn["length"].as_int();
+				if (wszPart == L"first")
+					setWString(hContact, DBKEY_FIRST_NAME, wszName.Mid(offset, length));
+				else if (wszPart == L"last")
+					setWString(hContact, DBKEY_LAST_NAME, wszName.Mid(offset, length));
+			}
+		}
+
+		if (auto &nBirth = n["birthdate"]) {
+			setDword(hContact, "BirthDay", nBirth["day"].as_int());
+			setDword(hContact, "BirthMonth", nBirth["month"].as_int());
+		}
+
+		if (auto &nCity = n["current_city"])
+			setDword(hContact, "City", nCity["name"].as_int());
+
+		if (auto &nAva = n["smallPictureUrl"])
+			setWString(hContact, "Avatar", nAva["uri"].as_mstring());
+	}
+	return true;
+}
+
+bool FacebookProto::RefreshToken()
+{
+	auto *pReq = CreateRequest("authenticate", "auth.login");
+	pReq->m_szUrl = FB_API_URL_AUTH;
+	pReq << CHAR_PARAM("email", getMStringA(DBKEY_LOGIN));
+	pReq << CHAR_PARAM("password", getMStringA(DBKEY_PASS));
+	pReq->CalcSig();
+
+	JsonReply reply(ExecuteRequest(pReq));
+	if (reply.error())
+		return false;
+
+	m_szAuthToken = reply.data()["access_token"].as_mstring();
+	setString(DBKEY_TOKEN, m_szAuthToken);
+
+	m_uid = reply.data()["uid"].as_int();
+	CMStringA m_szUid = reply.data()["uid"].as_mstring();
+	setString(DBKEY_ID, m_szUid);
+	return true;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void FacebookProto::ServerThread(void *)
@@ -48,52 +125,32 @@ void FacebookProto::ServerThread(void *)
 	m_szAuthToken = getMStringA(DBKEY_TOKEN);
 
 	if (m_szAuthToken.IsEmpty()) {
-		auto *pReq = CreateRequest("authenticate", "auth.login");
-		pReq->m_szUrl = FB_API_URL_AUTH;
-
-		pReq << CHAR_PARAM("email", getMStringA(DBKEY_LOGIN));
-		pReq << CHAR_PARAM("password", getMStringA(DBKEY_PASS));
-
-		pReq->CalcSig();
-
-		JsonReply reply(ExecuteRequest(pReq));
-
-		if (reply.error()) {
+		if (!RefreshToken()) {
+FAIL:
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
 
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 			return;
 		}
-
-		m_szAuthToken = reply.data()["access_token"].as_mstring();
-		setString(DBKEY_TOKEN, m_szAuthToken);
-
-		m_uid = reply.data()["uid"].as_int();
-		CMStringA m_szUid = reply.data()["uid"].as_mstring();
-		setString(DBKEY_ID, m_szUid);
 	}
 
-	auto *pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
-	pReq << CHAR_PARAM("query_params", "{\"0\":[\"user\"],\"1\":\"" FB_API_CONTACTS_COUNT "\"}");
-	pReq->CalcSig();
-
-	JsonReply reply(ExecuteRequest(pReq));
-	if (reply.error()) {
-FAIL:
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
-
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
-		return;
-	}
-
-	// connect to MQTT server
-	if (!MqttConnect())
+	if (!RefreshContacts())
 		goto FAIL;
 
+	// connect to MQTT server
+	NETLIBOPENCONNECTION nloc = {};
+	nloc.szHost = "mqtt.facebook.com";
+	nloc.wPort = 443;
+	nloc.flags = NLOCF_SSL | NLOCF_V2;
+	m_mqttConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
+	if (m_mqttConn == nullptr) {
+		debugLogA("connection failed, exiting");
+		goto FAIL;
+	}
+
 	// send initial packet
-	MqttOpen();
+	MqttLogin();
 
 	__int64 startTime = GetTickCount64();
 
@@ -200,7 +257,13 @@ void FacebookProto::OnPublishP(FbThriftReader &rdr)
 		assert(fieldId == 1);
 		assert(rdr.readInt32(u32));
 
-		debugLogA("Presence from user %lld => %d", userId, u32);
+		auto *pUser = FindUser(userId);
+		if (pUser == nullptr)
+			debugLogA("Skipping presence from unknown user %lld", userId);
+		else {
+			debugLogA("Presence from user %lld => %d", userId, u32);
+			setWord(pUser->hContact, "Status", (u32 != 0) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
+		}
 
 		assert(rdr.readField(fieldType, fieldId));
 		assert(fieldType == FB_THRIFT_TYPE_I64);

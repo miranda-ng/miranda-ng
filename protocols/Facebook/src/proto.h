@@ -337,6 +337,17 @@ public:
 	__forceinline int error() const { return m_errorCode; }
 };
 
+struct FacebookUser
+{
+   FacebookUser(__int64 _p1, MCONTACT _p2) :
+      id(_p1),
+      hContact(_p2)
+   {}
+
+   __int64  id;
+   MCONTACT hContact;
+};
+
 class FacebookProto : public PROTO<FacebookProto>
 {
    uint8_t *doZip(size_t cbData, const void *pData, size_t &cbRes);
@@ -347,8 +358,7 @@ class FacebookProto : public PROTO<FacebookProto>
 	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
 
 	// MQTT functions
-	bool MqttConnect();
-   void MqttOpen();
+   void MqttLogin();
    
    void MqttPing();
    void MqttPublish(const char *topic, const char *value);
@@ -376,8 +386,17 @@ class FacebookProto : public PROTO<FacebookProto>
 
 	CMStringA m_szAuthToken; // calculated 
 
+   OBJLIST<FacebookUser> m_users;
+   FacebookUser *FindUser(__int64 id)
+   {
+      return m_users.find((FacebookUser *)&id);
+   }
+
    void OnLoggedIn();
    void OnLoggedOut();
+
+   bool RefreshToken();
+   bool RefreshContacts();
 
 	void __cdecl ServerThread(void *);
 

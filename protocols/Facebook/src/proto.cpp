@@ -20,9 +20,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
-	PROTO<FacebookProto>(proto_name, username)
+static int CompareUsers(const FacebookUser *p1, const FacebookUser *p2)
 {
+	if (p1->id == p2->id)
+		return 0;
+
+	return (p1->id < p2->id) ? -1 : 1;
+}
+
+FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
+	PROTO<FacebookProto>(proto_name, username),
+	m_users(50, CompareUsers)
+{
+	for (auto &cc : AccContacts()) {
+		CMStringA szId(getMStringA(cc, DBKEY_ID));
+		if (!szId.IsEmpty())
+			m_users.insert(new FacebookUser(_atoi64(szId), cc));
+	}
+
 	// to upgrade previous settings
 	if (getByte("Compatibility") < 1) {
 		setByte("Compatibility", 1);

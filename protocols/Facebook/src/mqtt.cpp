@@ -31,16 +31,9 @@ uint8_t *FacebookProto::doZip(size_t cbData, const void *pData, size_t &cbRes)
 	zStreamOut.next_in = (uint8_t *)pData;
 	zStreamOut.avail_out = (unsigned)dataSize;
 	zStreamOut.next_out = (uint8_t *)pRes;
-
-	switch (deflate(&zStreamOut, Z_FINISH)) {
-	case Z_STREAM_END: debugLogA("Deflate: Z_STREAM_END"); break;
-	case Z_OK:         debugLogA("Deflate: Z_OK");         break;
-	case Z_BUF_ERROR:  debugLogA("Deflate: Z_BUF_ERROR");  break;
-	case Z_DATA_ERROR: debugLogA("Deflate: Z_DATA_ERROR"); break;
-	case Z_MEM_ERROR:  debugLogA("Deflate: Z_MEM_ERROR");  break;
-	}
-
+	deflate(&zStreamOut, Z_FINISH);
 	deflateEnd(&zStreamOut);
+
 	cbRes = dataSize - zStreamOut.avail_out;
 	return pRes;
 }
@@ -56,16 +49,9 @@ uint8_t *FacebookProto::doUnzip(size_t cbData, const void *pData, size_t &cbRes)
 	zStreamOut.next_in = (uint8_t *)pData;
 	zStreamOut.avail_out = (unsigned)dataSize;
 	zStreamOut.next_out = (uint8_t *)pRes;
-
-	switch (inflate(&zStreamOut, Z_FINISH)) {
-	case Z_STREAM_END: debugLogA("Deflate: Z_STREAM_END"); break;
-	case Z_OK:         debugLogA("Deflate: Z_OK");         break;
-	case Z_BUF_ERROR:  debugLogA("Deflate: Z_BUF_ERROR");  break;
-	case Z_DATA_ERROR: debugLogA("Deflate: Z_DATA_ERROR"); break;
-	case Z_MEM_ERROR:  debugLogA("Deflate: Z_MEM_ERROR");  break;
-	}
-
+	inflate(&zStreamOut, Z_FINISH);
 	inflateEnd(&zStreamOut);
+
 	cbRes = dataSize - zStreamOut.avail_out;
 	return pRes;
 }
@@ -99,27 +85,12 @@ char* MqttMessage::readStr(const uint8_t *&pData) const
 void MqttMessage::writeStr(const char *str)
 {
 	size_t len = mir_strlen(str);
-	writeInt16((int)len);
+	writeInt16((uint16_t)len);
 	writeBuf(str, len);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MQTT functions
-
-bool FacebookProto::MqttConnect()
-{
-	NETLIBOPENCONNECTION nloc = {};
-	nloc.szHost = "mqtt.facebook.com";
-	nloc.wPort = 443;
-	nloc.flags = NLOCF_SSL | NLOCF_V2;
-	m_mqttConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
-	if (m_mqttConn == nullptr) {
-		debugLogA("connection failed, exiting");
-		return false;
-	}
-
-	return true;
-}
 
 bool FacebookProto::MqttParse(const MqttMessage &payload)
 {
@@ -213,7 +184,7 @@ void FacebookProto::MqttSend(const MqttMessage &payload)
 /////////////////////////////////////////////////////////////////////////////////////////
 // creates initial MQTT will and sends initialization packet
 
-void FacebookProto::MqttOpen()
+void FacebookProto::MqttLogin()
 {
 	uint8_t zeroByte = 0;
 	Utils_GetRandom(&m_iMqttId, sizeof(m_iMqttId) / 2);
