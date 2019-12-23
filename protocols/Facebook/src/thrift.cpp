@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // FbThrift class members
 
+#include "stdafx.h"
+
 static uint8_t encodeType(int type)
 {
 	switch (type) {
