@@ -70,7 +70,7 @@ bool FacebookProto::RefreshContacts()
 		}
 		else hContact = 0;
 
-		if (auto &nName = n["structured_name"]) {
+		if (auto &nName = it["structured_name"]) {
 			CMStringW wszName(nName["text"].as_mstring());
 			setWString(hContact, DBKEY_NICK, wszName);
 			for (auto &nn : nName["parts"]) {
@@ -89,9 +89,9 @@ bool FacebookProto::RefreshContacts()
 		}
 
 		if (auto &nCity = n["current_city"])
-			setDword(hContact, "City", nCity["name"].as_int());
+			setWString(hContact, "City", nCity["name"].as_mstring());
 
-		if (auto &nAva = n["smallPictureUrl"])
+		if (auto &nAva = it["smallPictureUrl"])
 			setWString(hContact, "Avatar", nAva["uri"].as_mstring());
 	}
 	return true;
@@ -225,37 +225,38 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 void FacebookProto::OnPublishP(FbThriftReader &rdr)
 {
 	char *str;
-	assert(rdr.readStr(str));
+	rdr.readStr(str);
 	mir_free(str);
 
 	bool bVal;
 	uint8_t fieldType;
 	uint16_t fieldId;
-	assert(rdr.readField(fieldType, fieldId));
+	rdr.readField(fieldType, fieldId);
 	assert(fieldType == FB_THRIFT_TYPE_BOOL);
 	assert(fieldId == 1);
-	assert(rdr.readBool(bVal));
+	rdr.readBool(bVal);
 
-	assert(rdr.readField(fieldType, fieldId));
+	rdr.readField(fieldType, fieldId);
 	assert(fieldType == FB_THRIFT_TYPE_LIST);
 	assert(fieldId == 1);
 
 	uint32_t size;
-	assert(rdr.readList(fieldType, size));
+	rdr.readList(fieldType, size);
 	assert(fieldType == FB_THRIFT_TYPE_STRUCT);
 
+	debugLogA("Received list of presences: %d records", size);
 	for (uint32_t i = 0; i < size; i++) {
 		uint64_t userId, timestamp, voipBits;
-		assert(rdr.readField(fieldType, fieldId));
+		rdr.readField(fieldType, fieldId);
 		assert(fieldType == FB_THRIFT_TYPE_I64);
 		assert(fieldId == 1);
-		assert(rdr.readInt64(userId));
+		rdr.readInt64(userId);
 
 		uint32_t u32;
-		assert(rdr.readField(fieldType, fieldId));
+		rdr.readField(fieldType, fieldId);
 		assert(fieldType == FB_THRIFT_TYPE_I32);
 		assert(fieldId == 1);
-		assert(rdr.readInt32(u32));
+		rdr.readInt32(u32);
 
 		auto *pUser = FindUser(userId);
 		if (pUser == nullptr)
@@ -265,21 +266,21 @@ void FacebookProto::OnPublishP(FbThriftReader &rdr)
 			setWord(pUser->hContact, "Status", (u32 != 0) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
 		}
 
-		assert(rdr.readField(fieldType, fieldId));
+		rdr.readField(fieldType, fieldId);
 		assert(fieldType == FB_THRIFT_TYPE_I64);
-		assert(fieldId == 1);
-		assert(rdr.readInt64(timestamp));
+		assert(fieldId == 1 || fieldId == 4);
+		rdr.readInt64(timestamp);
 
 		while (!rdr.isStop()) {
-			assert(rdr.readField(fieldType, fieldId));
+			rdr.readField(fieldType, fieldId);
 			assert(fieldType == FB_THRIFT_TYPE_I64 || fieldType == FB_THRIFT_TYPE_I16 || fieldType == FB_THRIFT_TYPE_I32);
-			assert(rdr.readIntV(voipBits));
+			rdr.readIntV(voipBits);
 		}
 
-		assert(rdr.readByte(fieldType));
+		rdr.readByte(fieldType);
 		assert(fieldType == FB_THRIFT_TYPE_STOP);
 	}
 
-	assert(rdr.readByte(fieldType));
+	rdr.readByte(fieldType);
 	assert(fieldType == FB_THRIFT_TYPE_STOP);
 }
