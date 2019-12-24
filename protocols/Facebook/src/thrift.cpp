@@ -182,7 +182,7 @@ bool FbThriftReader::isStop()
 {
 	byte b;
 	if (!readByte(b))
-		return false;
+		return true;
 
 	offset--;
 	return b == FB_THRIFT_TYPE_STOP;
