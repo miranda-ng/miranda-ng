@@ -246,7 +246,7 @@ void FacebookProto::MqttLogin()
 
 void FacebookProto::MqttPing()
 {
-	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_PINGREQ);
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_PINGREQ, FB_MQTT_MESSAGE_FLAG_QOS1);
 	MqttSend(payload);
 }
 
@@ -257,7 +257,7 @@ void FacebookProto::MqttPublish(const char *topic, const char *value)
 	size_t dataSize;
 	mir_ptr<uint8_t> pData(doZip(strlen(value), value, dataSize));
 
-	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_PUBLISH, FB_MQTT_CONNECT_FLAG_QOS1);
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_PUBLISH, FB_MQTT_MESSAGE_FLAG_QOS1);
 	payload.writeStr(topic);
 	payload.writeInt16(++m_mid);
 	payload.writeBuf(pData, dataSize);
@@ -268,7 +268,7 @@ void FacebookProto::MqttSubscribe(const char *topic, ...)
 {
 	uint8_t zeroByte = 0;
 
-	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_SUBSCRIBE, FB_MQTT_CONNECT_FLAG_QOS1);
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_SUBSCRIBE, FB_MQTT_MESSAGE_FLAG_QOS1);
 	payload.writeInt16(++m_mid);
 	payload.writeStr(topic);
 	payload << zeroByte;
@@ -286,7 +286,7 @@ void FacebookProto::MqttSubscribe(const char *topic, ...)
 
 void FacebookProto::MqttUnsubscribe(const char *topic, ...)
 {
-	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_UNSUBSCRIBE, FB_MQTT_CONNECT_FLAG_QOS1);
+	MqttMessage payload(FB_MQTT_MESSAGE_TYPE_UNSUBSCRIBE, FB_MQTT_MESSAGE_FLAG_QOS1);
 	payload.writeInt16(++m_mid);
 	payload.writeStr(topic);
 

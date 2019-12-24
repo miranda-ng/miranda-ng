@@ -28,7 +28,7 @@ void FacebookProto::OnLoggedIn()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
 
-	// MqttPublish("/foreground_state", "{\"foreground\":\"true\", \"keepalive_timeout\":\"60\"}");
+	MqttPublish("/foreground_state", "{\"foreground\":true, \"keepalive_timeout\":60}");
 
 	MqttSubscribe("/inbox", "/mercury", "/messaging_events", "/orca_presence", "/orca_typing_notifications", "/pp", "/t_ms", "/t_p", "/t_rtc", "/webrtc", "/webrtc_response", 0);
 	MqttUnsubscribe("/orca_message_notifications", 0);
