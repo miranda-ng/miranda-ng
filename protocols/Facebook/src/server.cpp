@@ -31,7 +31,7 @@ void FacebookProto::OnLoggedIn()
 	// MqttPublish("/foreground_state", "{\"foreground\":\"true\", \"keepalive_timeout\":\"60\"}");
 
 	MqttSubscribe("/inbox", "/mercury", "/messaging_events", "/orca_presence", "/orca_typing_notifications", "/pp", "/t_ms", "/t_p", "/t_rtc", "/webrtc", "/webrtc_response", 0);
-	//	MqttUnsubscribe("/orca_message_notifications", 0);
+	MqttUnsubscribe("/orca_message_notifications", 0);
 }
 
 void FacebookProto::OnLoggedOut()
@@ -208,6 +208,7 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 			size_t dataSize;
 			void *pData = doUnzip(cbLen, p, dataSize);
 			if (pData != nullptr) {
+				debugLogA("UNZIP: <%s>", CMStringA((const char *)pData, (int)dataSize).c_str());
 				rdr.reset(dataSize, pData);
 				mir_free(pData);
 			}
@@ -221,7 +222,6 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 		OnPublishPresence(rdr);
 	else if (!strcmp(topic, "/orca_typing_notifications"))
 		OnPublishUtn(rdr);
-
 }
 
 void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
