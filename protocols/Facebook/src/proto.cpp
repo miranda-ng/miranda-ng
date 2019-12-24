@@ -30,7 +30,8 @@ static int CompareUsers(const FacebookUser *p1, const FacebookUser *p2)
 
 FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	PROTO<FacebookProto>(proto_name, username),
-	m_users(50, CompareUsers)
+	m_users(50, CompareUsers),
+	m_wszDefaultGroup(this, "DefaultGroup", L"Facebook")
 {
 	for (auto &cc : AccContacts()) {
 		CMStringA szId(getMStringA(cc, DBKEY_ID));
@@ -82,7 +83,14 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
+	// Services
 	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
+
+	// Events
+	HookProtoEvent(ME_OPT_INITIALISE, &FacebookProto::OnOptionsInit);
+
+	// Default group
+	Clist_GroupCreate(0, m_wszDefaultGroup);
 }
 
 FacebookProto::~FacebookProto()

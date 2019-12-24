@@ -63,6 +63,7 @@ bool FacebookProto::RefreshContacts()
 				hContact = db_add_contact();
 				Proto_AddToContact(hContact, m_szModuleName);
 				setWString(hContact, DBKEY_ID, wszId);
+				Clist_SetGroup(hContact, m_wszDefaultGroup);
 				
 				m_users.insert(new FacebookUser(id, hContact));
 			}
