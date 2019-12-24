@@ -218,11 +218,13 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 		rdr.reset(cbLen, (void*)p);
 
 	if (!strcmp(topic, "/t_p"))
-		OnPublishP(rdr);
+		OnPublishPresence(rdr);
+	else if (!strcmp(topic, "/orca_typing_notifications"))
+		OnPublishUtn(rdr);
 
 }
 
-void FacebookProto::OnPublishP(FbThriftReader &rdr)
+void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
 {
 	char *str;
 	rdr.readStr(str);
@@ -283,4 +285,14 @@ void FacebookProto::OnPublishP(FbThriftReader &rdr)
 
 	rdr.readByte(fieldType);
 	assert(fieldType == FB_THRIFT_TYPE_STOP);
+}
+
+void FacebookProto::OnPublishUtn(FbThriftReader &rdr)
+{
+	JSONNode root = JSONNode::parse((const char *)rdr.data());
+	auto *pUser = FindUser(_wtoi64(root["sender_fbid"].as_mstring()));
+	if (pUser != nullptr) {
+		int length = (root["state"].as_int() == 0) ? PROTOTYPE_CONTACTTYPING_OFF : 60;
+		CallService(MS_PROTO_CONTACTISTYPING, pUser->hContact, length);
+	}
 }

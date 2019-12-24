@@ -370,7 +370,8 @@ class FacebookProto : public PROTO<FacebookProto>
    void MqttSend(const MqttMessage &payload);
 
    void OnPublish(const char *str, const uint8_t *payLoad, size_t cbLen);
-   void OnPublishP(FbThriftReader &rdr);
+   void OnPublishPresence(FbThriftReader &rdr);
+   void OnPublishUtn(FbThriftReader &rdr);
 
 	HNETLIBCONN m_mqttConn;
 
