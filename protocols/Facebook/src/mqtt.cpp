@@ -110,9 +110,10 @@ bool FacebookProto::MqttParse(const MqttMessage &payload)
 
 	case FB_MQTT_MESSAGE_TYPE_PUBREL:
 		mid = ntohs(*(u_short *)pData);
+		pData += 2;
 		{
 			MqttMessage reply(FB_MQTT_MESSAGE_TYPE_PUBCOMP);
-			reply << mid;
+			reply.writeInt16(mid);
 			MqttSend(reply);
 		}
 		break;
@@ -122,9 +123,10 @@ bool FacebookProto::MqttParse(const MqttMessage &payload)
 
 		if ((flags & FB_MQTT_MESSAGE_FLAG_QOS1) || (flags & FB_MQTT_MESSAGE_FLAG_QOS2)) {
 			mid = ntohs(*(u_short *)pData);
+			pData += 2;
 
 			MqttMessage reply((flags & FB_MQTT_MESSAGE_FLAG_QOS1) ? FB_MQTT_MESSAGE_TYPE_PUBACK : FB_MQTT_MESSAGE_TYPE_PUBREC);
-			reply << mid;
+			reply.writeInt16(mid);
 			MqttSend(reply);
 		}
 

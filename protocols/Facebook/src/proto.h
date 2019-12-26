@@ -290,6 +290,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *   0: xma_id
  */
 #define FB_API_QUERY_XMA  10153919431161729
+#define FB_API_QUERY_XMA_STR (#FB_API_QUERY_XMA)
 
 /**
  * FB_API_CONTACTS_COUNT:
@@ -353,11 +354,13 @@ class FacebookProto : public PROTO<FacebookProto>
    uint8_t *doZip(size_t cbData, const void *pData, size_t &cbRes);
    uint8_t *doUnzip(size_t cbData, const void *pData, size_t &cbRes);
 
+   void ConnectionFailed();
+
 	AsyncHttpRequest *CreateRequest(const char *szName, const char *szMethod);
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
 	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
 
-	// MQTT functions
+	// MQTT
    void MqttLogin();
    
    void MqttPing();
@@ -371,17 +374,22 @@ class FacebookProto : public PROTO<FacebookProto>
 
    void OnPublish(const char *str, const uint8_t *payLoad, size_t cbLen);
    void OnPublishPresence(FbThriftReader &rdr);
+   void OnPublishQueueCreated(FbThriftReader &rdr);
    void OnPublishUtn(FbThriftReader &rdr);
 
 	HNETLIBCONN m_mqttConn;
+   __int64     m_iMqttId;
+   int16_t     m_mid;        // MQTT message id
 
 	// internal data
-	CMStringA m_szDeviceID; // stored, GUID that identifies this miranda's account
-	CMStringA m_szClientID; // stored, random alphanumeric string of 20 chars
-	__int64   m_uid;        // stored, Facebook user id
-	__int64   m_iMqttId;
-   int16_t   m_mid;
+	CMStringA m_szDeviceID;   // stored, GUID that identifies this miranda's account
+	CMStringA m_szClientID;   // stored, random alphanumeric string of 20 chars
+   __int64   m_uid;          // stored, Facebook user id
 
+   CMStringA m_szSyncToken;  // stored, sequence query token
+   __int64   m_sid;          // stored, Facebook sequence id
+
+   int       m_iUnread;
 	bool      m_invisible;
 	bool      m_bOnline;
 

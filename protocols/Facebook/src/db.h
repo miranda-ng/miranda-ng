@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Contact DB keys
 #define DBKEY_LOGIN           "Email"
 #define DBKEY_ID              "ID"
+#define DBKEY_SID             "SID"
 #define DBKEY_TID             "ThreadID"
 #define DBKEY_FIRST_NAME      "FirstName"
 #define DBKEY_SECOND_NAME     "SecondName"
@@ -36,12 +37,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DBKEY_CLIENT_ID       "ClientID"
 #define DBKEY_DEVICE_ID       "DeviceID"
 #define DBKEY_AVATAR          "Avatar"
-#define DBKEY_DELETED         "DeletedTS"
 #define DBKEY_CONTACT_TYPE    "ContactType"
-#define DBKEY_MESSAGE_ID      "LastMessageId"
-#define DBKEY_MESSAGE_READ    "LastMsgReadTime"
-#define DBKEY_MESSAGE_READERS "MessageReaders"
 #define DBKEY_TOKEN           "Token"
+#define DBKEY_SYNC_TOKEN      "SyncToken"
 
 // Thread specific DB keys 
 #define DBKEY_CHAT_CAN_REPLY  "CanReply"

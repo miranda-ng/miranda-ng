@@ -72,6 +72,8 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	}
 
 	m_uid = _atoi64(getMStringA(DBKEY_ID));
+	m_sid = _atoi64(getMStringA(DBKEY_SID));
+	m_szSyncToken = getMStringA(DBKEY_SYNC_TOKEN);
 
 	// Create standard network connection
 	wchar_t descr[512];

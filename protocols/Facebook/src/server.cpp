@@ -20,18 +20,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+void FacebookProto::ConnectionFailed()
+{
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
+
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+	OnLoggedOut();
+}
+
 void FacebookProto::OnLoggedIn()
 {
 	m_bOnline = true;
 	m_mid = 0;
 
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
-	m_iStatus = m_iDesiredStatus;
-
 	MqttPublish("/foreground_state", "{\"foreground\":true, \"keepalive_timeout\":60}");
 
 	MqttSubscribe("/inbox", "/mercury", "/messaging_events", "/orca_presence", "/orca_typing_notifications", "/pp", "/t_ms", "/t_p", "/t_rtc", "/webrtc", "/webrtc_response", 0);
 	MqttUnsubscribe("/orca_message_notifications", 0);
+
+	// if sequence is not initialized, request SID from the server
+	if (m_sid == 0) {
+		auto *pReq = CreateRequestGQL(FB_API_QUERY_SEQ_ID);
+		pReq << CHAR_PARAM("query_params", "{\"1\":\"0\"}");
+		pReq->CalcSig();
+
+		JsonReply reply(ExecuteRequest(pReq));
+		if (reply.error()) {
+			ConnectionFailed();
+			return;
+		}
+
+		auto &n = reply.data()["viewer"]["message_threads"];
+		CMStringW wszSid(n["sync_sequence_id"].as_mstring());
+		setWString(DBKEY_SID, wszSid);
+		m_sid = _wtoi64(wszSid);
+		m_iUnread = n["unread_count"].as_int();
+	}
+
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+	m_iStatus = m_iDesiredStatus;
+
+	// connect message queue
+	JSONNode query;
+	query <<	INT_PARAM("delta_batch_size", 125) << INT_PARAM("max_deltas_able_to_process", 1000) << INT_PARAM("sync_api_version", 3) <<	CHAR_PARAM("encoding", "JSON");
+	if (m_szSyncToken.IsEmpty()) {
+		JSONNode hashes; hashes.set_name("graphql_query_hashes"); hashes << CHAR_PARAM("xma_query_id", __STRINGIFY(FB_API_QUERY_XMA));
+
+		JSONNode xma; xma.set_name(__STRINGIFY(FB_API_QUERY_XMA)); xma << CHAR_PARAM("xma_id", "<ID>");
+		JSONNode hql; hql.set_name("graphql_query_params"); hql << xma;
+
+		JSONNode params; params.set_name("queue_params");
+		params << CHAR_PARAM("buzz_on_deltas_enabled", "false") << hashes << hql;
+
+		query << INT64_PARAM("initial_titan_sequence_id", m_sid) << CHAR_PARAM("device_id", m_szDeviceID) << INT64_PARAM("entity_fbid", m_uid) << params;
+		MqttPublish("/messenger_sync_create_queue", query.write().c_str());
+	}
+	else {
+		query << INT64_PARAM("last_seq_id", m_sid) << CHAR_PARAM("sync_token", m_szSyncToken);
+		MqttPublish("/messenger_sync_get_diffs", query.write().c_str());
+	}
 }
 
 void FacebookProto::OnLoggedOut()
@@ -127,17 +175,15 @@ void FacebookProto::ServerThread(void *)
 
 	if (m_szAuthToken.IsEmpty()) {
 		if (!RefreshToken()) {
-FAIL:
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
-
-			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
+			ConnectionFailed();
 			return;
 		}
 	}
 
-	if (!RefreshContacts())
-		goto FAIL;
+	if (!RefreshContacts()) {
+		ConnectionFailed();
+		return;
+	}
 
 	// connect to MQTT server
 	NETLIBOPENCONNECTION nloc = {};
@@ -147,7 +193,8 @@ FAIL:
 	m_mqttConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	if (m_mqttConn == nullptr) {
 		debugLogA("connection failed, exiting");
-		goto FAIL;
+		ConnectionFailed();
+		return;
 	}
 
 	// send initial packet
@@ -221,6 +268,8 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 
 	if (!strcmp(topic, "/t_p"))
 		OnPublishPresence(rdr);
+	else if (!strcmp(topic, "/t_ms"))
+		OnPublishQueueCreated(rdr);
 	else if (!strcmp(topic, "/orca_typing_notifications"))
 		OnPublishUtn(rdr);
 }
@@ -276,7 +325,7 @@ void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
 
 		while (!rdr.isStop()) {
 			rdr.readField(fieldType, fieldId);
-			assert(fieldType == FB_THRIFT_TYPE_I64 || fieldType == FB_THRIFT_TYPE_I16 || fieldType == FB_THRIFT_TYPE_I32);
+			assert(fieldType == FB_THRIFT_TYPE_I64 || fieldType == FB_THRIFT_TYPE_I16 || fieldType == FB_THRIFT_TYPE_I32);																									
 			rdr.readIntV(voipBits);
 		}
 
@@ -286,6 +335,21 @@ void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
 
 	rdr.readByte(fieldType);
 	assert(fieldType == FB_THRIFT_TYPE_STOP);
+}
+
+void FacebookProto::OnPublishQueueCreated(FbThriftReader &rdr)
+{
+	auto *pszJson = (const char *)rdr.data();
+	if (*pszJson == 0)
+		pszJson++;
+
+	JSONNode root = JSONNode::parse(pszJson);
+	m_szSyncToken = root["syncToken"].as_mstring();
+	setString(DBKEY_SYNC_TOKEN, m_szSyncToken);
+
+	CMStringW wszSid = root["firstDeltaSeqId"].as_mstring();
+	setWString(DBKEY_SID, wszSid);
+	m_sid = _wtoi64(wszSid);
 }
 
 void FacebookProto::OnPublishUtn(FbThriftReader &rdr)
