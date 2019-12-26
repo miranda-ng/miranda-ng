@@ -48,6 +48,7 @@
 		foo(short); foo(unsigned short);\
 		foo(int); foo(unsigned int);\
 		foo(long); foo(unsigned long);\
+		foo(long long); foo(unsigned long long);\
 		foo(float); foo(double);\
 		foo(bool);\
 		foo(const json_string &);\
@@ -57,6 +58,7 @@
 		foo(short) const; foo(unsigned short) const;\
 		foo(int) const; foo(unsigned int) const;\
 		foo(long) const; foo(unsigned long) const;\
+		foo(long long) const; foo(unsigned long long) const;\
 		foo(float) const; foo(double) const;\
 		foo(bool) const;\
 		foo(const json_string &) const;\
@@ -67,6 +69,7 @@
 		foo(short) foo(unsigned short)\
 		foo(int) foo(unsigned int)\
 		foo(long) foo(unsigned long)\
+		foo(long long) foo(unsigned long long)\
 		foo(float) foo(double)
 #endif
 #define IMPLEMENT_FOR_ALL_TYPES(foo)\

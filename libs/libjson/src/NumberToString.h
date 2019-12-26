@@ -24,11 +24,11 @@ class NumberToString {
 public:
 	template<typename T>
 	static json_string _itoa(T val, unsigned int size){
-		long value = (long)val;
+		int64_t value = (int64_t)val;
 		const unsigned int digits = getlen(size);
 		json_auto<json_char> result(digits);
 		result.ptr[digits - 1] = JSON_TEXT('\0'); //null terminator
-		json_char * runner = &result.ptr[digits - 2];
+		json_char *runner = &result.ptr[digits - 2];
 		bool negative;
 
 		//first thing, check if it's negative, if so, make it positive
@@ -58,7 +58,7 @@ public:
 	#ifndef JSON_LIBRARY
 		template<typename T>
 		static json_string _uitoa(T val, unsigned int size){
-			unsigned long value = val;
+			uint64_t value = (uint64_t)val;
 			const unsigned int digits = getlen(size) - 1;  //minus one because no '-' char
 			json_auto<json_char> result(digits);
 			result.ptr[digits - 1] = JSON_TEXT('\0'); //null terminator

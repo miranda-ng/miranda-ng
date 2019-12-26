@@ -28,9 +28,7 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT_PARAM &param)
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT64_PARAM &param)
 {
-	char tmp[100];
-	_i64toa_s(param.iValue, tmp, _countof(tmp), 10);
-	json.push_back(JSONNode(param.szName, tmp));
+	json.push_back(JSONNode(param.szName, param.iValue));
 	return json;
 }
 
