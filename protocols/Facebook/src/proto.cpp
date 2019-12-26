@@ -202,7 +202,17 @@ int FacebookProto::SetStatus(int iNewStatus)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// EVENTS
+
+int FacebookProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	ptrA id(getStringA(hContact, DBKEY_ID));
+	CMStringA json(FORMAT, "{\"state\":%d, \"to\":\"%s\"}", type == PROTOTYPE_SELFTYPING_ON, id.get());
+	MqttPublish("/typing", json);
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// Services
 
 INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {

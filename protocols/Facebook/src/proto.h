@@ -421,8 +421,8 @@ public:
    void OnShutdown() override;
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact) override;
-
 	int      SetStatus(int iNewStatus) override;
+   int      UserIsTyping(MCONTACT hContact, int type) override;
 
    ////////////////////////////////////////////////////////////////////////////////////////
    // Events
