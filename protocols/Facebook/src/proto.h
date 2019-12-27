@@ -290,7 +290,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *   0: xma_id
  */
 #define FB_API_QUERY_XMA  10153919431161729
-#define FB_API_QUERY_XMA_STR (#FB_API_QUERY_XMA)
 
 /**
  * FB_API_CONTACTS_COUNT:
@@ -360,6 +359,10 @@ class FacebookProto : public PROTO<FacebookProto>
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
 	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
 
+   // Avatars
+   void __cdecl AvatarsUpdate(void *);
+   void GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName);
+
 	// MQTT
    void MqttLogin();
    
@@ -423,6 +426,7 @@ public:
     // options
 
     CMOption<wchar_t *> m_wszDefaultGroup; // clist group to store contacts
+    CMOption<BYTE>      m_bUseBigAvatars;  // use big or small avatars by default
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
@@ -442,6 +446,8 @@ public:
    ////////////////////////////////////////////////////////////////////////////////////////
    // Services
    
+   INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+   INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
    INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 };
 

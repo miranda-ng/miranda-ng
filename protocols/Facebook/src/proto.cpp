@@ -31,6 +31,7 @@ static int CompareUsers(const FacebookUser *p1, const FacebookUser *p2)
 FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	PROTO<FacebookProto>(proto_name, username),
 	m_users(50, CompareUsers),
+	m_bUseBigAvatars(this, "UseBigAvatars", true),
 	m_wszDefaultGroup(this, "DefaultGroup", L"Facebook")
 {
 	for (auto &cc : AccContacts()) {
@@ -85,8 +86,12 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
+	db_set_resident(m_szModuleName, "UpdateNeeded");
+
 	// Services
 	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_GETAVATARINFO, &FacebookProto::GetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS, &FacebookProto::GetAvatarCaps);
 
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &FacebookProto::OnOptionsInit);

@@ -99,6 +99,8 @@ bool FacebookProto::RefreshContacts()
 	if (reply.error())
 		return false;
 
+	bool bNeedUpdate = false;
+
 	for (auto &it : reply.data()["viewer"]["messenger_contacts"]["nodes"]) {
 		auto &n = it["represented_profile"];
 		CMStringW wszId(n["id"].as_mstring());
@@ -140,9 +142,18 @@ bool FacebookProto::RefreshContacts()
 		if (auto &nCity = n["current_city"])
 			setWString(hContact, "City", nCity["name"].as_mstring());
 
-		if (auto &nAva = it["smallPictureUrl"])
-			setWString(hContact, "Avatar", nAva["uri"].as_mstring());
+		if (auto &nAva = it[(m_bUseBigAvatars) ? "hugePictureUrl" : "bigPictureUrl"]) {
+			CMStringW wszOldUrl(getMStringW(DBKEY_AVATAR)), wszNewUrl(nAva["uri"].as_mstring());
+			if (wszOldUrl != wszNewUrl) {
+				bNeedUpdate = true;
+				setByte(hContact, "UpdateNeeded", 1);
+				setWString(hContact, DBKEY_AVATAR, wszNewUrl);
+			}
+		}
 	}
+
+	if (bNeedUpdate)
+		ForkThread(&FacebookProto::AvatarsUpdate);
 	return true;
 }
 
@@ -396,6 +407,11 @@ void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
 void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 {
 	auto &metadata = root["messageMetadata"];
+	__int64 offlineId = _wtoi64(metadata["offlineThreadingId"].as_mstring());
+	if (offlineId) {
+		debugLogA("We care about messages only, event skipped");
+		return;
+	}
 
 	CMStringA wszUserId(metadata["actorFbId"].as_mstring());
 	auto *pUser = FindUser(_atoi64(wszUserId));
