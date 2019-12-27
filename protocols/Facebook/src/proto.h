@@ -373,8 +373,8 @@ class FacebookProto : public PROTO<FacebookProto>
    void MqttSend(const MqttMessage &payload);
 
    void OnPublish(const char *str, const uint8_t *payLoad, size_t cbLen);
+   void OnPublishMessage(FbThriftReader &rdr);
    void OnPublishPresence(FbThriftReader &rdr);
-   void OnPublishQueueCreated(FbThriftReader &rdr);
    void OnPublishUtn(FbThriftReader &rdr);
 
 	HNETLIBCONN m_mqttConn;
@@ -416,6 +416,8 @@ public:
     inline const char* ModuleName() const {
         return m_szModuleName;
     }
+
+    void OnPublishPrivateMessage(const JSONNode &json);
 
     //////////////////////////////////////////////////////////////////////////////////////
     // options

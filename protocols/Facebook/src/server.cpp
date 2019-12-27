@@ -269,7 +269,7 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 	if (!strcmp(topic, "/t_p"))
 		OnPublishPresence(rdr);
 	else if (!strcmp(topic, "/t_ms"))
-		OnPublishQueueCreated(rdr);
+		OnPublishMessage(rdr);
 	else if (!strcmp(topic, "/orca_typing_notifications"))
 		OnPublishUtn(rdr);
 }
@@ -337,21 +337,6 @@ void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
 	assert(fieldType == FB_THRIFT_TYPE_STOP);
 }
 
-void FacebookProto::OnPublishQueueCreated(FbThriftReader &rdr)
-{
-	auto *pszJson = (const char *)rdr.data();
-	if (*pszJson == 0)
-		pszJson++;
-
-	JSONNode root = JSONNode::parse(pszJson);
-	m_szSyncToken = root["syncToken"].as_mstring();
-	setString(DBKEY_SYNC_TOKEN, m_szSyncToken);
-
-	CMStringW wszSid = root["firstDeltaSeqId"].as_mstring();
-	setWString(DBKEY_SID, wszSid);
-	m_sid = _wtoi64(wszSid);
-}
-
 void FacebookProto::OnPublishUtn(FbThriftReader &rdr)
 {
 	JSONNode root = JSONNode::parse((const char *)rdr.data());
@@ -360,4 +345,71 @@ void FacebookProto::OnPublishUtn(FbThriftReader &rdr)
 		int length = (root["state"].as_int() == 0) ? PROTOTYPE_CONTACTTYPING_OFF : 60;
 		CallService(MS_PROTO_CONTACTISTYPING, pUser->hContact, length);
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct
+{
+	const char *messageType;
+	void (FacebookProto:: *pFunc)(const JSONNode &);
+}
+static MsgHandlers[] =
+{
+	{ "deltaNewMessage", &FacebookProto::OnPublishPrivateMessage }
+};
+
+void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
+{
+	CMStringA szJson((const char *)rdr.data(), (int)rdr.size());
+	if (szJson[0] == 0)
+		szJson.Delete(0);
+
+	debugLogA("MS: <%s>", szJson.c_str());
+	JSONNode root = JSONNode::parse(szJson);
+
+	CMStringW str = root["lastIssuedSeqId"].as_mstring();
+	if (!str.IsEmpty()) {
+		setWString(DBKEY_SID, str);
+		m_sid = _wtoi64(str);
+	}
+
+	str = root["syncToken"].as_mstring();
+	if (!str.IsEmpty()) {
+		m_szSyncToken = str;
+		setString(DBKEY_SYNC_TOKEN, m_szSyncToken);
+		return;
+	}
+
+	for (auto &it : root["deltas"]) {
+		for (auto &handler : MsgHandlers) {
+			auto &json = it[handler.messageType];
+			if (json) {
+				(this->*(handler.pFunc))(json);
+				break;
+			}
+		}
+	}
+}
+
+// new message arrived
+void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
+{
+	auto &metadata = root["messageMetadata"];
+
+	CMStringA wszUserId(metadata["actorFbId"].as_mstring());
+	auto *pUser = FindUser(_atoi64(wszUserId));
+	if (pUser == nullptr) {
+		debugLogA("Message from unknown contact %s, ignored", wszUserId.c_str());
+		return;
+	}
+
+	std::string szBody(root["body"].as_string());
+	std::string szId(metadata["messageId"].as_string());
+
+	PROTORECVEVENT pre = {};
+	pre.timestamp = DWORD(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
+	pre.szMessage = (char *)szBody.c_str();
+	pre.szMsgId = (char *)szId.c_str();
+	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
