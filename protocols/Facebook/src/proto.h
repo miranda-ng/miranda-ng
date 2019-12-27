@@ -304,6 +304,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class FacebookProto;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct AsyncHttpRequest : public MTHttpRequest<FacebookProto>
 {
 	struct Param
@@ -337,6 +339,8 @@ public:
 	__forceinline int error() const { return m_errorCode; }
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct FacebookUser
 {
    FacebookUser(__int64 _p1, MCONTACT _p2) :
@@ -346,6 +350,20 @@ struct FacebookUser
 
    __int64  id;
    MCONTACT hContact;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct COwnMessage
+{
+   __int64 msgId;
+   int reqId;
+
+   COwnMessage(__int64 _id, int _reqId) :
+      msgId(_id),
+      reqId(_reqId)
+   {
+   }
 };
 
 class FacebookProto : public PROTO<FacebookProto>
@@ -398,6 +416,8 @@ class FacebookProto : public PROTO<FacebookProto>
 
 	CMStringA m_szAuthToken; // calculated 
 
+   OBJLIST<COwnMessage> arOwnMessages;
+
    OBJLIST<FacebookUser> m_users;
    FacebookUser *FindUser(__int64 id)
    {
@@ -410,7 +430,8 @@ class FacebookProto : public PROTO<FacebookProto>
    bool RefreshToken();
    bool RefreshContacts();
 
-	void __cdecl ServerThread(void *);
+   void __cdecl SendMessageAckThread(void *);
+   void __cdecl ServerThread(void *);
 
 public:
 	FacebookProto(const char *proto_name, const wchar_t *username);
@@ -421,6 +442,7 @@ public:
     }
 
     void OnPublishPrivateMessage(const JSONNode &json);
+    void OnPublishSentMessage(const JSONNode &json);
 
     //////////////////////////////////////////////////////////////////////////////////////
     // options
@@ -435,6 +457,7 @@ public:
    void OnShutdown() override;
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact) override;
+   int      SendMsg(MCONTACT hContact, int flags, const char *pszSrc);
 	int      SetStatus(int iNewStatus) override;
    int      UserIsTyping(MCONTACT hContact, int type) override;
 

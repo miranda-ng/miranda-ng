@@ -28,9 +28,18 @@ static int CompareUsers(const FacebookUser *p1, const FacebookUser *p2)
 	return (p1->id < p2->id) ? -1 : 1;
 }
 
+static int CompareMessages(const COwnMessage *p1, const COwnMessage *p2)
+{
+	if (p1->msgId == p2->msgId)
+		return 0;
+
+	return (p1->msgId < p2->msgId) ? -1 : 1;
+}
+
 FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	PROTO<FacebookProto>(proto_name, username),
 	m_users(50, CompareUsers),
+	arOwnMessages(1, CompareMessages),
 	m_bUseBigAvatars(this, "UseBigAvatars", true),
 	m_wszDefaultGroup(this, "DefaultGroup", L"Facebook")
 {
@@ -148,6 +157,35 @@ INT_PTR FacebookProto::GetCaps(int type, MCONTACT)
 		return (INT_PTR) "Facebook ID";
 	}
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void __cdecl FacebookProto::SendMessageAckThread(void *param)
+{
+	Sleep(100);
+	ProtoBroadcastAck((UINT_PTR)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)TranslateT("Protocol is offline or user isn't authorized yet"));
+}
+
+int FacebookProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
+{
+	if (!m_bOnline) {
+		ForkThread(&FacebookProto::SendMessageAckThread, (void *)hContact);
+		return 1;
+	}
+
+	CMStringA userId(getMStringA(hContact, DBKEY_ID));
+
+	__int64 msgId;
+	Utils_GetRandom(&msgId, sizeof(msgId));
+	msgId = abs(msgId);
+
+	JSONNode root;
+	root << CHAR_PARAM("body", pszSrc) << INT64_PARAM("msgid", msgId) << INT64_PARAM("sender_fbid", m_uid) << CHAR_PARAM("to", userId);
+	MqttPublish("/send_message2", root.write().c_str());
+
+	arOwnMessages.insert(new COwnMessage(msgId, m_mid));
+	return m_mid;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -367,7 +367,8 @@ struct
 }
 static MsgHandlers[] =
 {
-	{ "deltaNewMessage", &FacebookProto::OnPublishPrivateMessage }
+	{ "deltaNewMessage", &FacebookProto::OnPublishPrivateMessage },
+	{ "deltaSentMessage", &FacebookProto::OnPublishSentMessage }
 };
 
 void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
@@ -408,7 +409,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 {
 	auto &metadata = root["messageMetadata"];
 	__int64 offlineId = _wtoi64(metadata["offlineThreadingId"].as_mstring());
-	if (offlineId) {
+	if (!offlineId) {
 		debugLogA("We care about messages only, event skipped");
 		return;
 	}
@@ -428,4 +429,27 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	pre.szMessage = (char *)szBody.c_str();
 	pre.szMsgId = (char *)szId.c_str();
 	ProtoChainRecvMsg(pUser->hContact, &pre);
+}
+
+// my own message was sent
+void FacebookProto::OnPublishSentMessage(const JSONNode &root)
+{
+	auto &metadata = root["messageMetadata"];
+
+	__int64 offlineId = _wtoi64(metadata["offlineThreadingId"].as_mstring());
+	std::string szId(metadata["messageId"].as_string());
+
+	CMStringA wszUserId(metadata["threadKey"]["otherUserFbId"].as_mstring());
+	auto *pUser = FindUser(_atoi64(wszUserId));
+	if (pUser == nullptr) {
+		debugLogA("Message from unknown contact %s, ignored", wszUserId.c_str());
+		return;
+	}
+
+	for (auto &it : arOwnMessages)
+		if (it->msgId == offlineId) {
+			ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
+			arOwnMessages.remove(arOwnMessages.indexOf(&it));
+			break;
+		}
 }
