@@ -89,15 +89,15 @@ void FacebookProto::OnLoggedOut()
 	m_bOnline = false;
 }
 
-bool FacebookProto::RefreshContacts()
+int FacebookProto::RefreshContacts()
 {
 	auto *pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
 	pReq << CHAR_PARAM("query_params", "{\"0\":[\"user\"],\"1\":\"" FB_API_CONTACTS_COUNT "\"}");
 	pReq->CalcSig();
 
 	JsonReply reply(ExecuteRequest(pReq));
-	if (reply.error())
-		return false;
+	if (int iErrorCode = reply.error())
+		return iErrorCode;  // unknown error
 
 	bool bNeedUpdate = false;
 
@@ -154,7 +154,7 @@ bool FacebookProto::RefreshContacts()
 
 	if (bNeedUpdate)
 		ForkThread(&FacebookProto::AvatarsUpdate);
-	return true;
+	return 0;
 }
 
 bool FacebookProto::RefreshToken()
@@ -182,8 +182,8 @@ bool FacebookProto::RefreshToken()
 
 void FacebookProto::ServerThread(void *)
 {
+LBL_Begin:
 	m_szAuthToken = getMStringA(DBKEY_TOKEN);
-
 	if (m_szAuthToken.IsEmpty()) {
 		if (!RefreshToken()) {
 			ConnectionFailed();
@@ -191,7 +191,13 @@ void FacebookProto::ServerThread(void *)
 		}
 	}
 
-	if (!RefreshContacts()) {
+	int iErrorCode = RefreshContacts();
+	if (iErrorCode != 0) {
+		if (iErrorCode == 401) {
+			delSetting(DBKEY_TOKEN);
+			goto LBL_Begin;
+		}
+
 		ConnectionFailed();
 		return;
 	}

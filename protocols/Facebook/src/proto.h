@@ -428,7 +428,7 @@ class FacebookProto : public PROTO<FacebookProto>
    void OnLoggedOut();
 
    bool RefreshToken();
-   bool RefreshContacts();
+   int  RefreshContacts();
 
    void __cdecl SendMessageAckThread(void *);
    void __cdecl ServerThread(void *);
