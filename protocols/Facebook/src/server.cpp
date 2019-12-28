@@ -143,7 +143,7 @@ int FacebookProto::RefreshContacts()
 			setWString(hContact, "City", nCity["name"].as_mstring());
 
 		if (auto &nAva = it[(m_bUseBigAvatars) ? "hugePictureUrl" : "bigPictureUrl"]) {
-			CMStringW wszOldUrl(getMStringW(DBKEY_AVATAR)), wszNewUrl(nAva["uri"].as_mstring());
+			CMStringW wszOldUrl(getMStringW(hContact, DBKEY_AVATAR)), wszNewUrl(nAva["uri"].as_mstring());
 			if (wszOldUrl != wszNewUrl) {
 				bNeedUpdate = true;
 				setByte(hContact, "UpdateNeeded", 1);
