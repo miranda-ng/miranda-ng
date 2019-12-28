@@ -65,6 +65,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.szTitle.w = m_tszUserName;
 	odp.szGroup.w = LPGENW("Network");
+	odp.flags = ODPF_UNICODE;
 
 	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new CFacebookAccOptsDlg(this);
