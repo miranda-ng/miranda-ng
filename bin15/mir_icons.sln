@@ -10,8 +10,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\pl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons", "..\plugins\UserInfoEx\IconPacks\default\icons_default_15.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Facebook", "..\protocols\FacebookRM\proto_facebook\Proto_Facebook.vcxproj", "{44298314-7DD4-4EF7-B576-30E503257223}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_IRC", "..\protocols\IRCG\proto_irc\Proto_IRC.vcxproj", "{DD667247-3712-4355-9774-7E6ACAF2275E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Jabber", "..\protocols\JabberG\proto_jabber\Proto_Jabber.vcxproj", "{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}"
@@ -64,6 +62,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\I
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MRA", "..\protocols\ICQ-WIM\proto_mra\Proto_MRA.vcxproj", "{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Facebook", "..\protocols\Facebook\proto_facebook\Proto_Facebook.vcxproj", "{44298314-7DD4-4EF7-B576-30E503257223}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -104,14 +104,6 @@ Global
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|Win32.Build.0 = Release|Win32
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|x64.ActiveCfg = Release|x64
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|x64.Build.0 = Release|x64
-		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|Win32.ActiveCfg = Debug|Win32
-		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|Win32.Build.0 = Debug|Win32
-		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|x64.ActiveCfg = Debug|x64
-		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|x64.Build.0 = Debug|x64
-		{44298314-7DD4-4EF7-B576-30E503257223}.Release|Win32.ActiveCfg = Release|Win32
-		{44298314-7DD4-4EF7-B576-30E503257223}.Release|Win32.Build.0 = Release|Win32
-		{44298314-7DD4-4EF7-B576-30E503257223}.Release|x64.ActiveCfg = Release|x64
-		{44298314-7DD4-4EF7-B576-30E503257223}.Release|x64.Build.0 = Release|x64
 		{DD667247-3712-4355-9774-7E6ACAF2275E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{DD667247-3712-4355-9774-7E6ACAF2275E}.Debug|Win32.Build.0 = Debug|Win32
 		{DD667247-3712-4355-9774-7E6ACAF2275E}.Debug|x64.ActiveCfg = Debug|x64
@@ -320,6 +312,14 @@ Global
 		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|Win32.Build.0 = Release|Win32
 		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|x64.ActiveCfg = Release|x64
 		{38BF6F63-58E7-442D-A7E8-B4BD57D224E2}.Release|x64.Build.0 = Release|x64
+		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|Win32.ActiveCfg = Debug|Win32
+		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|Win32.Build.0 = Debug|Win32
+		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|x64.ActiveCfg = Debug|x64
+		{44298314-7DD4-4EF7-B576-30E503257223}.Debug|x64.Build.0 = Debug|x64
+		{44298314-7DD4-4EF7-B576-30E503257223}.Release|Win32.ActiveCfg = Release|Win32
+		{44298314-7DD4-4EF7-B576-30E503257223}.Release|Win32.Build.0 = Release|Win32
+		{44298314-7DD4-4EF7-B576-30E503257223}.Release|x64.ActiveCfg = Release|x64
+		{44298314-7DD4-4EF7-B576-30E503257223}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
