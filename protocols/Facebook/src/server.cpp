@@ -420,12 +420,20 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		return;
 	}
 
-	CMStringA wszUserId(metadata["actorFbId"].as_mstring());
-	auto *pUser = FindUser(_atoi64(wszUserId));
-	if (pUser == nullptr) {
-		debugLogA("Message from unknown contact %s, ignored", wszUserId.c_str());
+	__int64 otherUserFbId = _wtoi64(metadata["threadKey"]["otherUserFbId"].as_mstring());
+	if (!otherUserFbId) {
+		// TODO: handling thread/room/groupchat messages
+		debugLogA("We can't handle group chats at the moment, ignored");
 		return;
 	}
+
+	auto *pUser = FindUser(otherUserFbId);
+	if (pUser == nullptr) {
+		debugLogA("Message from unknown contact %lu, ignored", otherUserFbId);
+		return;
+	}
+
+	__int64 actorFbId = _wtoi64(metadata["actorFbId"].as_mstring());
 
 	std::string szBody(root["body"].as_string());
 	std::string szId(metadata["messageId"].as_string());
@@ -434,6 +442,11 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	pre.timestamp = DWORD(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
 	pre.szMessage = (char *)szBody.c_str();
 	pre.szMsgId = (char *)szId.c_str();
+	
+	if (m_uid == actorFbId) {
+		pre.flags |= PREF_SENT;
+	}
+
 	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
 
