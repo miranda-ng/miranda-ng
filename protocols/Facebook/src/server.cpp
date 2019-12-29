@@ -373,8 +373,9 @@ struct
 }
 static MsgHandlers[] =
 {
-	{ "deltaNewMessage", &FacebookProto::OnPublishPrivateMessage },
-	{ "deltaSentMessage", &FacebookProto::OnPublishSentMessage }
+	{ "deltaNewMessage",  &FacebookProto::OnPublishPrivateMessage },
+	{ "deltaSentMessage", &FacebookProto::OnPublishSentMessage },
+	{ "deltaReadReceipt", &FacebookProto::OnPublishReadReceipt },
 };
 
 void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
@@ -469,6 +470,30 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
 
+// read notification
+void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
+{
+	CMStringA wszUserId(root["threadKey"]["otherUserFbId"].as_mstring());
+	auto *pUser = FindUser(_atoi64(wszUserId));
+	if (pUser == nullptr) {
+		debugLogA("Message from unknown contact %s, ignored", wszUserId.c_str());
+		return;
+	}
+
+	DWORD timestamp = _wtoi64(root["watermarkTimestampMs"].as_mstring());
+	for (MEVENT ev = db_event_firstUnread(pUser->hContact); ev != 0; ev = db_event_next(pUser->hContact, ev)) {
+		DBEVENTINFO dbei = {};
+		if (db_event_get(ev, &dbei))
+			continue;
+
+		if (dbei.timestamp > timestamp)
+			break;
+
+		if (!dbei.markedRead())
+			db_event_markRead(pUser->hContact, ev);
+	}
+}
+
 // my own message was sent
 void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 {
@@ -484,10 +509,11 @@ void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 		return;
 	}
 
-	for (auto &it : arOwnMessages)
+	for (auto &it : arOwnMessages) {
 		if (it->msgId == offlineId) {
 			ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
 			arOwnMessages.remove(arOwnMessages.indexOf(&it));
 			break;
 		}
+	}
 }

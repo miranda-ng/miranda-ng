@@ -442,6 +442,7 @@ public:
     }
 
     void OnPublishPrivateMessage(const JSONNode &json);
+    void OnPublishReadReceipt(const JSONNode &json);
     void OnPublishSentMessage(const JSONNode &json);
 
     //////////////////////////////////////////////////////////////////////////////////////
