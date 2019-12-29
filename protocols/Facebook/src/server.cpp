@@ -411,6 +411,16 @@ void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
 }
 
 // new message arrived
+struct
+{
+	const char *szTag, *szClientVersion;
+}
+static facebookClients[] =
+{
+	{ "source:titan:web",       "Facebook (website)" },
+	{ "app_id:256002347743983", "Facebook (Facebook Messenger)" }
+};
+
 void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 {
 	auto &metadata = root["messageMetadata"];
@@ -433,6 +443,16 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		return;
 	}
 
+	for (auto &it : metadata["tags"]) {
+		auto *szTagName = it.name();
+		for (auto &cli : facebookClients) {
+			if (!mir_strcmp(szTagName, cli.szTag)) {
+				setString(pUser->hContact, "MirVer", cli.szClientVersion);
+				break;
+			}
+		}
+	}
+
 	__int64 actorFbId = _wtoi64(metadata["actorFbId"].as_mstring());
 
 	std::string szBody(root["body"].as_string());
@@ -442,10 +462,9 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	pre.timestamp = DWORD(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
 	pre.szMessage = (char *)szBody.c_str();
 	pre.szMsgId = (char *)szId.c_str();
-	
-	if (m_uid == actorFbId) {
+
+	if (m_uid == actorFbId)
 		pre.flags |= PREF_SENT;
-	}
 
 	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
