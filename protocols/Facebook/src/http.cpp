@@ -115,12 +115,6 @@ AsyncHttpRequest* FacebookProto::CreateRequest(const char *szName, const char *s
 		pReq->AddHeader("Authorization", "OAuth " + m_szAuthToken);
 
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-
-	//unsigned int id;
-	//Utils_GetRandom(&id, sizeof(id));
-	//id &= ~0x80000000;
-	//pReq << INT_PARAM("queryid", id);
-
 	return pReq;
 }
 

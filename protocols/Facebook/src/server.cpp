@@ -92,6 +92,7 @@ void FacebookProto::OnLoggedOut()
 int FacebookProto::RefreshContacts()
 {
 	auto *pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
+	pReq->flags |= NLHRF_NODUMPSEND;
 	pReq << CHAR_PARAM("query_params", "{\"0\":[\"user\"],\"1\":\"" FB_API_CONTACTS_COUNT "\"}");
 	pReq->CalcSig();
 
@@ -160,6 +161,7 @@ int FacebookProto::RefreshContacts()
 bool FacebookProto::RefreshToken()
 {
 	auto *pReq = CreateRequest("authenticate", "auth.login");
+	pReq->flags |= NLHRF_NODUMP;
 	pReq->m_szUrl = FB_API_URL_AUTH;
 	pReq << CHAR_PARAM("email", getMStringA(DBKEY_LOGIN));
 	pReq << CHAR_PARAM("password", getMStringA(DBKEY_PASS));
