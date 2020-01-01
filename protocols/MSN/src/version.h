@@ -29,5 +29,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define __FILENAME               "MSN.dll"
 #define __DESCRIPTION            "Microsoft Network (MSN) protocol support for Miranda NG."
 #define __AUTHOR                 "Boris Krasnovskiy, George Hazan, Richard Hughes, leecher"
-#define __COPYRIGHT              "© 2001-19 Richard Hughes, George Hazan, Boris Krasnovskiy, leecher"
+#define __COPYRIGHT              "© 2001-20 Richard Hughes, George Hazan, Boris Krasnovskiy, leecher"
 #define __AUTHORWEB              "https://miranda-ng.org/p/MSN/"
