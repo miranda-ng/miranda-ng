@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "Core driver to provide OpenSSL-based SSL services."
 #define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/OpenSSL/"
-#define __COPYRIGHT              "© 2014-19 Miranda NG team"
+#define __COPYRIGHT              "© 2014-20 Miranda NG team"

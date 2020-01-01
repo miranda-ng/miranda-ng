@@ -1,7 +1,7 @@
 /*
 Plugin for Miranda NG for communicating with users of the MSN Messenger protocol.
 
-Copyright (C) 2012-19 Miranda NG team
+Copyright (C) 2012-20 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

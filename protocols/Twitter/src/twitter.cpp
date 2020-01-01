@@ -1,5 +1,5 @@
 /*
-Copyright © 2012-19 Miranda NG team
+Copyright © 2012-20 Miranda NG team
 Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
