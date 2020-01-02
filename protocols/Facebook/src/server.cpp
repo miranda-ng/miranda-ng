@@ -468,7 +468,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			CreateDirectoryTreeW(wszPath);
 
 			bool bSuccess = false;
-			CMStringW wszFileName(FORMAT, L"%s\\%S.png", wszPath.c_str(), stickerId.c_str());
+			CMStringW wszFileName(FORMAT, L"%s\\STK{%S}.png", wszPath.c_str(), stickerId.c_str());
 			if (GetFileAttributesW(wszFileName) == INVALID_FILE_ATTRIBUTES) {
 				auto *pReq = CreateRequestGQL(FB_API_QUERY_STICKER);
 				pReq << CHAR_PARAM("query_params", CMStringA(FORMAT, "{\"0\":[\"%s\"]}", stickerId.c_str()));
@@ -488,19 +488,10 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 							NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
 							if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
-								int iImageFormat = PA_FORMAT_UNKNOWN;
-								for (int i = 0; i < pReply->headersCount; i++)
-									if (!mir_strcmp(pReply->headers[i].szName, "Content-Type")) {
-										iImageFormat = ProtoGetAvatarFormatByMimeType(pReply->headers[i].szValue);
-										break;
-									}
-
-								if (iImageFormat != PA_FORMAT_UNKNOWN) {
-									bSuccess = true;
-									FILE *out = _wfopen(wszFileName, L"wb");
-									fwrite(pReply->pData, 1, pReply->dataLength, out);
-									fclose(out);
-								}
+								bSuccess = true;
+								FILE *out = _wfopen(wszFileName, L"wb");
+								fwrite(pReply->pData, 1, pReply->dataLength, out);
+								fclose(out);
 							}
 						}
 					}
@@ -511,7 +502,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			if (bSuccess) {
 				if (!szBody.empty())
 					szBody += "\r\n";
-				szBody += stickerId.c_str();
+				szBody += "STK{" + std::string(stickerId.c_str()) + "}";
 
 				SMADD_CONT cont;
 				cont.cbSize = sizeof(SMADD_CONT);
