@@ -461,6 +461,70 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	std::string szBody(root["body"].as_string());
 	std::string szId(metadata["messageId"].as_string());
 
+	CMStringA stickerId = root["stickerId"].as_mstring();
+	if (!stickerId.IsEmpty()) {
+		if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
+			CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
+			CreateDirectoryTreeW(wszPath);
+
+			bool bSuccess = false;
+			CMStringW wszFileName(FORMAT, L"%s\\%S.png", wszPath.c_str(), stickerId.c_str());
+			if (GetFileAttributesW(wszFileName) == INVALID_FILE_ATTRIBUTES) {
+				auto *pReq = CreateRequestGQL(FB_API_QUERY_STICKER);
+				pReq << CHAR_PARAM("query_params", CMStringA(FORMAT, "{\"0\":[\"%s\"]}", stickerId.c_str()));
+				pReq->CalcSig();
+
+				JsonReply reply(ExecuteRequest(pReq));
+				if (!reply.error()) {
+					for (auto &sticker : reply.data()) {
+						for (auto &img : sticker["thread_image"]) {
+							CMStringA szUrl(img.as_mstring());
+
+							NETLIBHTTPREQUEST req = {};
+							req.cbSize = sizeof(req);
+							req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+							req.requestType = REQUEST_GET;
+							req.szUrl = szUrl.GetBuffer();
+
+							NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
+							if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
+								int iImageFormat = PA_FORMAT_UNKNOWN;
+								for (int i = 0; i < pReply->headersCount; i++)
+									if (!mir_strcmp(pReply->headers[i].szName, "Content-Type")) {
+										iImageFormat = ProtoGetAvatarFormatByMimeType(pReply->headers[i].szValue);
+										break;
+									}
+
+								if (iImageFormat != PA_FORMAT_UNKNOWN) {
+									bSuccess = true;
+									FILE *out = _wfopen(wszFileName, L"wb");
+									fwrite(pReply->pData, 1, pReply->dataLength, out);
+									fclose(out);
+								}
+							}
+						}
+					}
+				}
+			}
+			else bSuccess = true;
+
+			if (bSuccess) {
+				if (!szBody.empty())
+					szBody += "\r\n";
+				szBody += stickerId.c_str();
+
+				SMADD_CONT cont;
+				cont.cbSize = sizeof(SMADD_CONT);
+				cont.hContact = pUser->hContact;
+				cont.type = 1;
+				cont.path = wszFileName.GetBuffer();
+				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+			}
+			else szBody += TranslateU("Sticker received");
+		}
+		else szBody += TranslateU("SmileyAdd plugin required to support stickers");
+	}
+
 	PROTORECVEVENT pre = {};
 	pre.timestamp = DWORD(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
 	pre.szMessage = (char *)szBody.c_str();

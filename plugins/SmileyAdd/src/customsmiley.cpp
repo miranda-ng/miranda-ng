@@ -70,15 +70,7 @@ bool SmileyCType::CreateTriggerText(char *text)
 	if (mir_strlen(text) == 0)
 		return false;
 
-	size_t reslen;
-	ptrA res((char*)mir_base64_decode(mir_urlDecode(text), &reslen));
-	if (res == nullptr)
-		return false;
-
-	char save = res[reslen]; res[reslen] = 0; // safe because of mir_alloc
-	wchar_t *txt = mir_utf8decodeW(res);
-	res[reslen] = save;
-
+	wchar_t *txt = mir_utf8decodeW(text);
 	if (txt == nullptr)
 		return false;
 
