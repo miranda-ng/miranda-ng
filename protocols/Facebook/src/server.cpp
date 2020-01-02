@@ -87,6 +87,7 @@ void FacebookProto::OnLoggedOut()
 	OnShutdown();
 
 	m_bOnline = false;
+	setAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
 int FacebookProto::RefreshContacts()
