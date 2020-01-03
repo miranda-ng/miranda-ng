@@ -273,9 +273,8 @@ class MSystemWindow : public CDlgBase
 
 public:
 	MSystemWindow() :
-		CDlgBase(g_plugin, -1)
+		CDlgBase(g_plugin, IDD_EMPTY)
 	{
-		m_hwnd = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 	}
 };
 
@@ -343,6 +342,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	OpenSSL_Init();
 
 	g_pSystemWindow = new MSystemWindow();
+	g_pSystemWindow->Create();
 
 	int result = 0;
 	if (LoadDefaultModules()) {
