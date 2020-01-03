@@ -488,6 +488,7 @@ public:
 	CTimer(CDlgBase* wnd, UINT_PTR idEvent);
 
 	__forceinline UINT_PTR GetEventId() const { return m_idEvent; }
+	__forceinline HWND GetHwnd() const { return m_wnd->GetHwnd(); }
 
 	virtual BOOL OnTimer();
 

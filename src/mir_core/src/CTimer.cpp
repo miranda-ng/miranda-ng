@@ -38,12 +38,35 @@ BOOL CTimer::OnTimer()
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct TStartParam
+{
+	CTimer *pTimer;
+	int period;
+};
+
+static INT_PTR CALLBACK stubStart(void *param)
+{
+	auto *p = (TStartParam *)param;
+	return ::SetTimer(p->pTimer->GetHwnd(), p->pTimer->GetEventId(), p->period, nullptr);
+}
+
 void CTimer::Start(int elapse)
 {
-	::SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, nullptr);
+	TStartParam param = { this, elapse };
+	CallFunctionSync(stubStart, &param);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR CALLBACK stubStop(void *param)
+{
+	auto *p = (CTimer*)param;
+	return ::KillTimer(p->GetHwnd(), p->GetEventId());
 }
 
 void CTimer::Stop()
 {
-	::KillTimer(m_wnd->GetHwnd(), m_idEvent);
+	CallFunctionSync(stubStop, this);
 }
