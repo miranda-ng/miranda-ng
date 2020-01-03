@@ -297,8 +297,6 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	OBJLIST<IcqGroup> m_arGroups;
 
-	CIcqDlgBase *m_pdlgEditIgnore;	
-
 	int       m_unreadEmails = -1;
 	CMStringA m_szMailBox;
 

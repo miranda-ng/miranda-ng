@@ -75,6 +75,8 @@ void __cdecl CIcqProto::ServerThread(void*)
 		}
 	}
 
+	OnLoggedOut();
+
 	m_hWorkerThread = nullptr;
 	for (auto &it : m_ConnPool) {
 		if (it.s)

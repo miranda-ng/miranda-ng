@@ -226,7 +226,7 @@ int FacebookProto::SetStatus(int iNewStatus)
 
 	// log off & free all resources
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		OnLoggedOut();
+		OnShutdown();
 
 		m_iStatus = ID_STATUS_OFFLINE;
 	}

@@ -130,8 +130,6 @@ void CIcqProto::OnModulesLoaded()
 
 void CIcqProto::OnShutdown()
 {
-	UI_SAFE_CLOSE(m_pdlgEditIgnore);
-
 	m_bTerminated = true;
 }
 

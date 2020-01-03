@@ -26,7 +26,8 @@ void FacebookProto::ConnectionFailed()
 
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
-	OnLoggedOut();
+
+	OnShutdown();
 }
 
 void FacebookProto::OnLoggedIn()
@@ -86,10 +87,12 @@ void FacebookProto::OnLoggedIn()
 
 void FacebookProto::OnLoggedOut()
 {
-	OnShutdown();
-
 	m_impl.m_heartBeat.Stop();
 	m_bOnline = false;
+
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+
 	setAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
@@ -254,9 +257,7 @@ LBL_Begin:
 	Netlib_CloseHandle(m_mqttConn);
 	m_mqttConn = nullptr;
 
-	int oldStatus = m_iStatus;
-	m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	OnLoggedOut();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
