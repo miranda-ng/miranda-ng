@@ -38,6 +38,7 @@ static int CompareMessages(const COwnMessage *p1, const COwnMessage *p2)
 
 FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	PROTO<FacebookProto>(proto_name, username),
+	m_impl(*this),
 	m_users(50, CompareUsers),
 	arOwnMessages(1, CompareMessages),
 	m_bUseBigAvatars(this, "UseBigAvatars", true),

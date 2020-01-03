@@ -31,7 +31,6 @@ void FacebookProto::ConnectionFailed()
 
 void FacebookProto::OnLoggedIn()
 {
-	m_bOnline = true;
 	m_mid = 0;
 
 	MqttPublish("/foreground_state", "{\"foreground\":true, \"keepalive_timeout\":60}");
@@ -58,8 +57,11 @@ void FacebookProto::OnLoggedIn()
 		m_iUnread = n["unread_count"].as_int();
 	}
 
+	// point of no return;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
+	m_bOnline = true;
+	m_impl.m_heartBeat.Start(60000);
 
 	// connect message queue
 	JSONNode query;
@@ -86,6 +88,7 @@ void FacebookProto::OnLoggedOut()
 {
 	OnShutdown();
 
+	m_impl.m_heartBeat.Stop();
 	m_bOnline = false;
 	setAllContactStatuses(ID_STATUS_OFFLINE);
 }
@@ -220,8 +223,6 @@ LBL_Begin:
 	// send initial packet
 	MqttLogin();
 
-	__int64 startTime = GetTickCount64();
-
 	while (!Miranda_IsTerminated()) {
 		NETLIBSELECT nls = {};
 		nls.hReadConns[0] = m_mqttConn;
@@ -230,12 +231,6 @@ LBL_Begin:
 		if (ret == SOCKET_ERROR) {
 			debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 			break;
-		}
-
-		__int64 currTime = GetTickCount64();
-		if (currTime - startTime > 60000) {
-			startTime = currTime;
-			MqttPing();
 		}
 
 		// no data, continue waiting

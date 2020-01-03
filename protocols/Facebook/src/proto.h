@@ -368,6 +368,28 @@ struct COwnMessage
 
 class FacebookProto : public PROTO<FacebookProto>
 {
+   class FacebookImpl
+   {
+      friend class FacebookProto;
+      
+      FacebookProto &m_proto;
+      CTimer m_heartBeat;
+
+      void OnHeartBeat(CTimer *)
+      {
+         m_proto.MqttPing();
+      }
+      
+      FacebookImpl(FacebookProto &pro) :
+         m_proto(pro),
+         m_heartBeat(Miranda_GetSystemWindow(), (UINT_PTR)this)
+      {
+         m_heartBeat.OnEvent = Callback(this, &FacebookImpl::OnHeartBeat);
+      }
+   };
+
+   FacebookImpl m_impl;
+
    uint8_t *doZip(size_t cbData, const void *pData, size_t &cbRes);
    uint8_t *doUnzip(size_t cbData, const void *pData, size_t &cbRes);
 
