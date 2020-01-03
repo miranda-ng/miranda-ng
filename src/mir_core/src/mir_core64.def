@@ -962,7 +962,7 @@ db_get_current @1169
 CallFunctionSync @1170
 ??0CProgress@@QEAA@PEAVCDlgBase@@H@Z @1172 NONAME
 ??0CTimer@@QEAA@AEBV0@@Z @1173 NONAME
-??0CTimer@@QEAA@PEAVCDlgBase@@H@Z @1174 NONAME
+??0CTimer@@QEAA@PEAVCDlgBase@@_K@Z @1174 NONAME
 ??1CProgress@@UEAA@XZ @1175 NONAME
 ??4CTimer@@QEAAAEAV0@AEBV0@@Z @1177 NONAME
 ??_7CProgress@@6B@ @1178 NONAME

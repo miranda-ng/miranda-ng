@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // CTimer
 
-CTimer::CTimer(CDlgBase *wnd, int idEvent)
+CTimer::CTimer(CDlgBase *wnd, UINT_PTR idEvent)
 	: m_wnd(wnd), m_idEvent(idEvent)
 {
 	if (wnd)
@@ -40,10 +40,10 @@ BOOL CTimer::OnTimer()
 
 void CTimer::Start(int elapse)
 {
-	SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, nullptr);
+	::SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, nullptr);
 }
 
 void CTimer::Stop()
 {
-	KillTimer(m_wnd->GetHwnd(), m_idEvent);
+	::KillTimer(m_wnd->GetHwnd(), m_idEvent);
 }

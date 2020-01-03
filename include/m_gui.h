@@ -485,7 +485,7 @@ class MIR_CORE_EXPORT CTimer
 	friend class CDlgBase;
 
 public:
-	CTimer(CDlgBase* wnd, int idEvent);
+	CTimer(CDlgBase* wnd, UINT_PTR idEvent);
 
 	__forceinline int GetEventId() const { return m_idEvent; }
 
@@ -497,7 +497,7 @@ public:
 	CCallback<CTimer> OnEvent;
 
 protected:
-	int m_idEvent;
+	UINT_PTR  m_idEvent;
 	CDlgBase* m_wnd;
 };
 
