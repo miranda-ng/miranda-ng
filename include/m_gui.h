@@ -487,7 +487,7 @@ class MIR_CORE_EXPORT CTimer
 public:
 	CTimer(CDlgBase* wnd, UINT_PTR idEvent);
 
-	__forceinline int GetEventId() const { return m_idEvent; }
+	__forceinline UINT_PTR GetEventId() const { return m_idEvent; }
 
 	virtual BOOL OnTimer();
 

@@ -968,7 +968,7 @@ CallFunctionSync @1170
 ??_7CProgress@@6B@ @1178 NONAME
 ??_7CTimer@@6B@ @1179 NONAME
 ?FindTimer@CDlgBase@@AAEPAVCTimer@@H@Z @1180 NONAME
-?GetEventId@CTimer@@QBEHXZ @1181 NONAME
+?GetEventId@CTimer@@QBEIXZ @1181 NONAME
 ?Move@CProgress@@QAEGG@Z @1182 NONAME
 ?OnTimer@CDlgBase@@MAEXPAVCTimer@@@Z @1183 NONAME
 ?OnTimer@CTimer@@UAEHXZ @1184 NONAME
