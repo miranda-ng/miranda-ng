@@ -39,6 +39,7 @@ static int compareGuilds(const CDiscordGuild *p1, const CDiscordGuild *p2)
 
 CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CDiscordProto>(proto_name, username),
+	m_impl(*this),
 	m_arHttpQueue(10, compareRequests),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	arUsers(10, compareUsers),
@@ -469,18 +470,15 @@ int CDiscordProto::UserIsTyping(MCONTACT hContact, int type)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
+void CDiscordProto::SendMarkRead()
 {
-	CDiscordProto *ppro = (CDiscordProto*)(id - 1);
-
-	mir_cslock lck(ppro->csMarkReadQueue);
-	while (ppro->arMarkReadQueue.getCount()) {
-		CDiscordUser *pUser = ppro->arMarkReadQueue[0];
+	mir_cslock lck(csMarkReadQueue);
+	while (arMarkReadQueue.getCount()) {
+		CDiscordUser *pUser = arMarkReadQueue[0];
 		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMsgId);
-		ppro->Push(new AsyncHttpRequest(ppro, REQUEST_POST, szUrl, nullptr));
-		ppro->arMarkReadQueue.remove(0);
+		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr));
+		arMarkReadQueue.remove(0);
 	}
-	KillTimer(hwnd, id);
 }
 
 int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
@@ -495,7 +493,7 @@ int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 		return 0;
 
 	if (m_bOnline) {
-		SetTimer(g_hwndHeartbeat, UINT_PTR(this) + 1, 200, &CDiscordProto::MarkReadTimerProc);
+		m_impl.m_markRead.Start(200);
 
 		CDiscordUser *pUser = FindUser(getId(hContact, DB_KEY_ID));
 		if (pUser != nullptr) {

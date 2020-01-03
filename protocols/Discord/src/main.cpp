@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 
-HWND g_hwndHeartbeat;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -58,17 +56,6 @@ IconItem g_iconList[] =
 
 int CMPlugin::Load()
 {
-	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
-
 	g_plugin.registerIcon("Protocols/Discord", g_iconList);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Unload
-
-int CMPlugin::Unload()
-{
-	DestroyWindow(g_hwndHeartbeat);
 	return 0;
 }

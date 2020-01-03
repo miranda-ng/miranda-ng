@@ -73,11 +73,6 @@ void CDiscordProto::OnLoggedIn()
 		ForkThread(&CDiscordProto::GatewayThread, nullptr);
 }
 
-static void __stdcall sttKillTimer(void *param)
-{
-	KillTimer(g_hwndHeartbeat, (UINT_PTR)param);
-}
-
 void CDiscordProto::OnLoggedOut()
 {
 	debugLogA("CDiscordProto::OnLoggedOut");
@@ -85,7 +80,7 @@ void CDiscordProto::OnLoggedOut()
 	m_bTerminated = true;
 	m_iGatewaySeq = 0;
 
-	CallFunctionAsync(sttKillTimer, this);
+	m_impl.m_heartBeat.Stop();
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;

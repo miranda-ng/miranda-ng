@@ -47,7 +47,6 @@
 #include "../../libs/zlib/src/zlib.h"
 
 extern IconItem g_iconList[];
-extern HWND g_hwndHeartbeat;
 
 #define DB_KEY_ID        "id"
 #define DB_KEY_PASSWORD  "Password"

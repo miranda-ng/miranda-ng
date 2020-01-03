@@ -118,6 +118,34 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	friend struct AsyncHttpRequest;
 	friend class CDiscardAccountOptions;
 
+	class CDiscordProtoImpl
+	{
+		friend class CDiscordProto;
+		CDiscordProto &m_proto;
+
+		CTimer m_heartBeat, m_markRead;
+		void OnHeartBeat(CTimer *) {
+			m_proto.GatewaySendHeartbeat();
+		}
+		
+		void OnMarkRead(CTimer *pTimer) {
+			m_proto.SendMarkRead();
+			pTimer->Stop();
+		}
+
+	public:
+		CDiscordProtoImpl(CDiscordProto &pro) :
+			m_proto(pro),
+			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+		{
+			m_markRead.OnEvent = Callback(this, &CDiscordProtoImpl::OnMarkRead);
+			m_heartBeat.OnEvent = Callback(this, &CDiscordProtoImpl::OnHeartBeat);
+		}
+	};
+
+	CDiscordProtoImpl m_impl;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// threads
 
@@ -360,16 +388,12 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Misc
 
+	void SendMarkRead(void);
 	void SetServerStatus(int iStatus);
 	void RemoveFriend(SnowFlake id);
 
 	CMStringW GetAvatarFilename(MCONTACT hContact);
 	void CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNewHash);
-
-	__forceinline int getHeartbeatInterval() const { return m_iHartbeatInterval; }
-
-	static void CALLBACK HeartbeatTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
-	static void CALLBACK MarkReadTimerProc(HWND hwnd, UINT msg, UINT_PTR id, DWORD);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -379,5 +403,4 @@ struct CMPlugin : public ACCPROTOPLUGIN<CDiscordProto>
 	CMPlugin();
 
 	int Load() override;
-	int Unload() override;
 };

@@ -460,21 +460,10 @@ void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
 /////////////////////////////////////////////////////////////////////////////////////////
 // gateway session start
 
-void CALLBACK CDiscordProto::HeartbeatTimerProc(HWND, UINT, UINT_PTR id, DWORD)
-{
-	((CDiscordProto*)id)->GatewaySendHeartbeat();
-}
-
-static void __stdcall sttStartTimer(void *param)
-{
-	CDiscordProto *ppro = (CDiscordProto*)param;
-	SetTimer(g_hwndHeartbeat, (UINT_PTR)param, ppro->getHeartbeatInterval(), &CDiscordProto::HeartbeatTimerProc);
-}
-
 void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 {
 	GatewaySendHeartbeat();
-	CallFunctionAsync(sttStartTimer, this);
+	m_impl.m_heartBeat.Start(m_iHartbeatInterval);
 
 	m_szGatewaySessionId = pRoot["session_id"].as_mstring();
 
