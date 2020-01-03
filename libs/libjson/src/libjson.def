@@ -201,3 +201,11 @@ json_write_formatted @191
 ??6@YGAAVJSONNode@@AAV0@ABUWCHAR_PARAM@@@Z @198 NONAME
 ??6@YGAAVJSONNode@@AAV0@ABUJSON_PARAM@@@Z @199 NONAME
 ??6@YGAAVJSONNode@@AAV0@ABUNULL_PARAM@@@Z @200 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J@Z @201 NONAME
+??0JSONNode@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_K@Z @202 NONAME
+??4JSONNode@@QAEAAV0@_J@Z @203 NONAME
+??4JSONNode@@QAEAAV0@_K@Z @204 NONAME
+??8JSONNode@@QBE_N_J@Z @205 NONAME
+??8JSONNode@@QBE_N_K@Z @206 NONAME
+??9JSONNode@@QBE_N_J@Z @207 NONAME
+??9JSONNode@@QBE_N_K@Z @208 NONAME
