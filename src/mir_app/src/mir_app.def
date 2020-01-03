@@ -329,6 +329,7 @@ ProtoGetAvatarFormatByMimeType @400
 ProtoGetAvatarMimeType @401
 ?set_uin@DB_AUTH_BLOB@@QAEXK@Z @402 NONAME
 ??0CSrmmBaseDialog@@IAE@AAVCMPluginBase@@HPAUSESSION_INFO@@@Z @403 NONAME
+Miranda_GetSystemWindow @404 NONAME
 ??1CSrmmBaseDialog@@UAE@XZ @405 NONAME
 Srmm_FindDialog @406 NONAME
 ??_7CSrmmBaseDialog@@6B@ @407 NONAME

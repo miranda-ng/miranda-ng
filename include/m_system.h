@@ -89,6 +89,10 @@ EXTERN_C MIR_APP_DLL(void) Miranda_GetFileVersion(MFileVersion*);
 // returns 0 on success, nonzero on failure
 EXTERN_C MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize);
 
+// returns a system window that can handle global timers
+// a usual practice is to use a unique pointer as a timer id
+EXTERN_C MIR_APP_DLL(class CDlgBase *) Miranda_GetSystemWindow();
+
 // Adds an event to the list to be checked in the main message loop
 // when a handle gets triggered, an appopriate stub gets called
 typedef void (CALLBACK *MWaitableStub)(void);

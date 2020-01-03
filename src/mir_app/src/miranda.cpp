@@ -202,6 +202,8 @@ static int SystemShutdownProc(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define MIRANDA_PROCESS_WAIT_TIMEOUT        60000
 #define MIRANDA_PROCESS_WAIT_RESOLUTION     1000
 #define MIRANDA_PROCESS_WAIT_STEPS          (MIRANDA_PROCESS_WAIT_TIMEOUT/MIRANDA_PROCESS_WAIT_RESOLUTION)
@@ -264,6 +266,23 @@ INT_PTR CheckRestart()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class MSystemWindow : public CDlgBase
+{
+
+public:
+	MSystemWindow() :
+		CDlgBase(g_plugin, -1)
+	{
+		m_hwnd = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
+	}
+};
+
+static MSystemWindow *g_pSystemWindow;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static void crtErrorHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned, uintptr_t)
 {}
 
@@ -322,7 +341,9 @@ int WINAPI mir_main(LPTSTR cmdLine)
 		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
 	OpenSSL_Init();
-	
+
+	g_pSystemWindow = new MSystemWindow();
+
 	int result = 0;
 	if (LoadDefaultModules()) {
 		g_bMirandaTerminated = true;
@@ -393,14 +414,18 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 	UnloadNewPluginsModule();
 	UnloadCoreModule();
-	FreeLibrary(hDwmApi);
-	FreeLibrary(hThemeAPI);
+
+	if (hDwmApi)
+		FreeLibrary(hDwmApi);
+	if (hThemeAPI)
+		FreeLibrary(hThemeAPI);
 
 	if (pTaskbarInterface)
 		pTaskbarInterface->Release();
 
+	delete g_pSystemWindow;
+
 	OpenSSL_Cleanup();
-	
 	OleUninitialize();
 
 	if (bufferedPaintUninit)
@@ -489,6 +514,11 @@ MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
 #if defined(_WIN64)
 	strcat_s(pDest, cbSize, " x64");
 #endif
+}
+
+MIR_APP_DLL(CDlgBase *) Miranda_GetSystemWindow()
+{
+	return g_pSystemWindow;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
