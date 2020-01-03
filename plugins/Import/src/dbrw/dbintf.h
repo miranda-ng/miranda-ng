@@ -94,7 +94,6 @@ struct CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 {
 private:
 	sqlite3 *m_sqlite;
-	HWND m_hAPCWindow;
 	
 	int sql_prepare_len;
 	char **sql_prepare_text;

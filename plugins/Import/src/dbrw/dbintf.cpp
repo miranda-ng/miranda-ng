@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 CDbxSQLite::CDbxSQLite()
 	: sql_prepare_len(0)
 {
-	m_hAPCWindow = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
-
 	sql_prepare_add(ctc_stmts, ctc_stmts_prep, SQL_CTC_STMT_NUM);
 	sql_prepare_add(evt_stmts, evt_stmts_prep, SQL_EVT_STMT_NUM);
 	sql_prepare_add(set_stmts, set_stmts_prep, SQL_SET_STMT_NUM);
@@ -40,7 +38,6 @@ CDbxSQLite::~CDbxSQLite()
 		sql_finalize(*sql_prepare_stmt[i]);
 	mir_free(sql_prepare_text);
 	mir_free(sql_prepare_stmt);
-	DestroyWindow(m_hAPCWindow);
 }
 
 int CDbxSQLite::Open(const wchar_t *profile)
