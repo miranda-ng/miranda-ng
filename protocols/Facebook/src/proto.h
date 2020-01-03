@@ -386,9 +386,7 @@ class FacebookProto : public PROTO<FacebookProto>
       {
          m_heartBeat.OnEvent = Callback(this, &FacebookImpl::OnHeartBeat);
       }
-   };
-
-   FacebookImpl m_impl;
+   } m_impl;
 
    uint8_t *doZip(size_t cbData, const void *pData, size_t &cbRes);
    uint8_t *doUnzip(size_t cbData, const void *pData, size_t &cbRes);

@@ -133,7 +133,6 @@ class CDiscordProto : public PROTO<CDiscordProto>
 			pTimer->Stop();
 		}
 
-	public:
 		CDiscordProtoImpl(CDiscordProto &pro) :
 			m_proto(pro),
 			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
@@ -142,9 +141,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 			m_markRead.OnEvent = Callback(this, &CDiscordProtoImpl::OnMarkRead);
 			m_heartBeat.OnEvent = Callback(this, &CDiscordProtoImpl::OnHeartBeat);
 		}
-	};
-
-	CDiscordProtoImpl m_impl;
+	} m_impl;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// threads
