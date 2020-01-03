@@ -40,6 +40,7 @@ static int CompareCache(const IcqCacheItem *p1, const IcqCacheItem *p2)
 
 CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	PROTO<CIcqProto>(aProtoName, aUserName),
+	m_impl(*this),
 	m_arHttpQueue(10),
 	m_arOwnIds(1, PtrKeySortT),
 	m_arCache(20, &CompareCache),
@@ -292,24 +293,21 @@ INT_PTR CIcqProto::GotoInbox(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
+void CIcqProto::SendMarkRead()
 {
-	CIcqProto *ppro = (CIcqProto*)id;
-
-	mir_cslock lck(ppro->m_csMarkReadQueue);
-	while (ppro->m_arMarkReadQueue.getCount()) {
-		IcqCacheItem *pUser = ppro->m_arMarkReadQueue[0];
+	mir_cslock lck(m_csMarkReadQueue);
+	while (m_arMarkReadQueue.getCount()) {
+		IcqCacheItem *pUser = m_arMarkReadQueue[0];
 
 		auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER);
 		JSONNode request, params; params.set_name("params");
-		params << WCHAR_PARAM("sn", ppro->GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", ppro->getId(pUser->m_hContact, DB_KEY_LASTMSGID));
+		params << WCHAR_PARAM("sn", GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", getId(pUser->m_hContact, DB_KEY_LASTMSGID));
 		request << CHAR_PARAM("method", "setDlgStateWim") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
 		pReq->m_szParam = ptrW(json_write(&request));
-		ppro->Push(pReq);
+		Push(pReq);
 
-		ppro->m_arMarkReadQueue.remove(0);
+		m_arMarkReadQueue.remove(0);
 	}
-	KillTimer(hwnd, id);
 }
 
 int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
@@ -324,7 +322,7 @@ int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 		return 0;
 
 	if (m_bOnline) {
-		SetTimer(g_hwndHeartbeat, UINT_PTR(this), 200, &CIcqProto::MarkReadTimerProc);
+		m_impl.m_markRead.Start(200);
 		
 		IcqCacheItem *pCache = FindContactByUIN(GetUserId(hContact));
 		if (pCache) {

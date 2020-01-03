@@ -182,18 +182,12 @@ void CIcqProto::MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void CALLBACK CheckStatusTimerProc(HWND, UINT, UINT_PTR id, DWORD)
-{
-	CIcqProto *ppro = (CIcqProto*)(id - 1);
-	ppro->CheckStatus();
-}
-
 void CIcqProto::OnLoggedIn()
 {
 	debugLogA("CIcqProto::OnLoggedIn");
 	m_bOnline = true;
+	m_impl.m_heartBeat.Start(1000);
 
-	::SetTimer(g_hwndHeartbeat, UINT_PTR(this)+1, 1000, CheckStatusTimerProc);
 	for (auto &it : m_arCache)
 		it->m_timer1 = it->m_timer2 = 0;
 
@@ -208,8 +202,8 @@ void CIcqProto::OnLoggedOut()
 {
 	debugLogA("CIcqProto::OnLoggedOut");
 	m_bOnline = false;
+	m_impl.m_heartBeat.Stop();
 
-	::KillTimer(g_hwndHeartbeat, UINT_PTR(this)+1);
 	for (auto &it : m_arCache)
 		it->m_timer1 = it->m_timer2 = 0;
 

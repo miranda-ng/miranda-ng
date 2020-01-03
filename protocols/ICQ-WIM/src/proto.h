@@ -177,6 +177,32 @@ struct IcqFileTransfer : public MZeroedObject
 
 class CIcqProto : public PROTO<CIcqProto>
 {
+	class CIcqProtoImpl
+	{
+		friend class CIcqProto;
+
+		CIcqProto &m_proto;
+		CTimer m_heartBeat, m_markRead;
+		
+		void OnHeartBeat(CTimer *) {
+			m_proto.CheckStatus();
+		}
+
+		void OnMarkRead(CTimer *pTimer) {
+			m_proto.SendMarkRead();
+			pTimer->Stop();
+		}
+
+		CIcqProtoImpl(CIcqProto &pro) :
+			m_proto(pro),
+			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+		{
+			m_markRead.OnEvent = Callback(this, &CIcqProtoImpl::OnMarkRead);
+			m_heartBeat.OnEvent = Callback(this, &CIcqProtoImpl::OnHeartBeat);
+		}
+	} m_impl;
+
 	friend struct CIcqRegistrationDlg;
 	friend class CGroupchatInviteDlg;
 	friend class CEditIgnoreListDlg;
@@ -215,7 +241,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	mir_cs    m_csMarkReadQueue;
 	LIST<IcqCacheItem> m_arMarkReadQueue;
-	static    void CALLBACK MarkReadTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD);
+	void      SendMarkRead();
 
 	AsyncHttpRequest* UserInfoRequest(MCONTACT);
 
@@ -403,7 +429,6 @@ struct CMPlugin : public ACCPROTOPLUGIN<CIcqProto>
 	CMPlugin();
 
 	int Load() override;
-	int Unload() override;
 };
 
 #endif

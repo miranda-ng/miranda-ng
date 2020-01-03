@@ -104,6 +104,5 @@ void RefreshGroups(void);
 int StatusFromString(const CMStringW&);
 char* time2text(time_t time);
 
-extern HWND g_hwndHeartbeat;
 extern bool g_bSecureIM, g_bMessageState;
 extern IconItem iconList[];

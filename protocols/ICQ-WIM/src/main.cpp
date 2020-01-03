@@ -22,8 +22,6 @@
 
 bool g_bSecureIM, g_bMessageState;
 
-HWND g_hwndHeartbeat;
-
 IconItem iconList[] =
 {
 	{ LPGEN("E-mail"), "icq_email", IDI_INBOX },
@@ -95,18 +93,10 @@ int CMPlugin::Load()
 	// register the second instance of this plugin as MRA
 	g_pluginMra.Register();
 
-	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
-
 	registerIcon("Protocols/ICQ", iconList, "ICQ");
 
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	return 0;
-}
-
-int CMPlugin::Unload()
-{
-	DestroyWindow(g_hwndHeartbeat);
 	return 0;
 }
