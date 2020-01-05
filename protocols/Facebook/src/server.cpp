@@ -455,9 +455,12 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 	__int64 actorFbId = _wtoi64(metadata["actorFbId"].as_mstring());
 
-	std::string szBody(root["body"].as_string());
-	std::string szId(metadata["messageId"].as_string());
+	CMStringA szId(metadata["messageId"].as_mstring());
+	CMStringA szBody(root["body"].as_mstring());
+	if (szBody.IsEmpty())
+		szBody = metadata["snippet"].as_mstring();
 
+	// parse stickers
 	CMStringA stickerId = root["stickerId"].as_mstring();
 	if (!stickerId.IsEmpty()) {
 		if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
@@ -497,9 +500,9 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			else bSuccess = true;
 
 			if (bSuccess) {
-				if (!szBody.empty())
+				if (!szBody.IsEmpty())
 					szBody += "\r\n";
-				szBody += "STK{" + std::string(stickerId.c_str()) + "}";
+				szBody += "STK{" + stickerId + "}";
 
 				SMADD_CONT cont;
 				cont.cbSize = sizeof(SMADD_CONT);
@@ -513,6 +516,35 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		else szBody += TranslateU("SmileyAdd plugin required to support stickers");
 	}
 
+	// parse stickers
+	for (auto &it : root["attachments"]) {
+		// madness... json inside json
+		CMStringA szJson(it["xmaGraphQL"].as_mstring());
+		JSONROOT nBody(szJson);
+		if (!nBody)
+			continue;
+
+		const JSONNode &attach = (*nBody).at((json_index_t)0)["story_attachment"];
+		szBody += "\r\n-----------------------------------\r\n";
+
+		CMStringA str = attach["title"].as_mstring();
+		if (!str.IsEmpty())
+			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Title"), str.c_str());
+
+		str = attach["source"]["text"].as_mstring();
+		if (!str.IsEmpty())
+			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Source"), str.c_str());
+
+		str = attach["description"]["text"].as_mstring();
+		if (!str.IsEmpty())
+			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Description"), str.c_str());
+
+		str = attach["media"]["playable_url"].as_mstring();
+		if (!str.IsEmpty())
+			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Playable media"), str.c_str());
+	}
+
+	// store message
 	PROTORECVEVENT pre = {};
 	pre.timestamp = DWORD(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
 	pre.szMessage = (char *)szBody.c_str();
