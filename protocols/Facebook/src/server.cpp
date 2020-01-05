@@ -525,9 +525,24 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			continue;
 
 		const JSONNode &attach = (*nBody).at((json_index_t)0)["story_attachment"];
-		szBody += "\r\n-----------------------------------\r\n";
+		szBody += "\r\n-----------------------------------";
 
-		CMStringA str = attach["title"].as_mstring();
+		CMStringA str = attach["url"].as_mstring();
+		if (!str.IsEmpty()) {
+			if (str.Left(8) == "fbrpc") {
+				int iStart = str.Find("target_url=");
+				if (iStart != 0) {
+					int iEnd = str.Find("&", iStart + 11);
+					if (iEnd == -1)
+						szBody.AppendFormat("\r\n\t%s: %s", TranslateU("URL"), str.c_str() + iStart);
+					else
+						szBody.AppendFormat("\r\n\t%s: %s", TranslateU("URL"), str.Mid(iStart, iEnd).c_str());
+				}
+			}
+			else szBody.AppendFormat("\r\n\t%s: %s", TranslateU("URL"), str.c_str());
+		}
+
+		str = attach["title"].as_mstring();
 		if (!str.IsEmpty())
 			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Title"), str.c_str());
 
