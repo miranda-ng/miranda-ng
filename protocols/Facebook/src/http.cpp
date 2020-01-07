@@ -96,9 +96,10 @@ JsonReply::~JsonReply()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncHttpRequest* FacebookProto::CreateRequest(const char *szName, const char *szMethod)
+AsyncHttpRequest* FacebookProto::CreateRequest(const char *szUrl, const char *szName, const char *szMethod)
 {
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();
+	pReq->m_szUrl = szUrl;
 	pReq->requestType = REQUEST_POST;
 	pReq << CHAR_PARAM("api_key", FB_API_KEY) 
 		<< CHAR_PARAM("device_id", m_szDeviceID) 
@@ -111,8 +112,10 @@ AsyncHttpRequest* FacebookProto::CreateRequest(const char *szName, const char *s
 		szLocale = "en";
 	pReq << CHAR_PARAM("locale", szLocale);
 
-	if (!m_szAuthToken.IsEmpty())
+	if (!m_szAuthToken.IsEmpty()) {
+		pReq->flags |= NLHRF_NODUMPHEADERS;
 		pReq->AddHeader("Authorization", "OAuth " + m_szAuthToken);
+	}
 
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	return pReq;
@@ -151,11 +154,8 @@ AsyncHttpRequest* FacebookProto::CreateRequestGQL(int64_t query_id) {
 			return nullptr;
 	}
 
-	AsyncHttpRequest* pReq = CreateRequest(szName, "get");
-
-	pReq->m_szUrl = FB_API_URL_GQL;
+	AsyncHttpRequest* pReq = CreateRequest(FB_API_URL_GQL, szName, "get");
 	pReq << INT64_PARAM("query_id", query_id);
-
 	return pReq;
 }
 

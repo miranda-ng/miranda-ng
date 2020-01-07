@@ -393,7 +393,7 @@ class FacebookProto : public PROTO<FacebookProto>
 
    void ConnectionFailed();
 
-	AsyncHttpRequest *CreateRequest(const char *szName, const char *szMethod);
+	AsyncHttpRequest *CreateRequest(const char *szUrl, const char *szName, const char *szMethod);
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
 	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
 

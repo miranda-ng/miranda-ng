@@ -167,9 +167,8 @@ int FacebookProto::RefreshContacts()
 
 bool FacebookProto::RefreshToken()
 {
-	auto *pReq = CreateRequest("authenticate", "auth.login");
+	auto *pReq = CreateRequest(FB_API_URL_AUTH, "authenticate", "auth.login");
 	pReq->flags |= NLHRF_NODUMP;
-	pReq->m_szUrl = FB_API_URL_AUTH;
 	pReq << CHAR_PARAM("email", getMStringA(DBKEY_LOGIN));
 	pReq << CHAR_PARAM("password", getMStringA(DBKEY_PASS));
 	pReq->CalcSig();
@@ -520,6 +519,26 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	for (auto &it : root["attachments"]) {
 		// madness... json inside json
 		CMStringA szJson(it["xmaGraphQL"].as_mstring());
+		if (szJson.IsEmpty()) {
+			__int64 fbid = _wtoi64(it["fbid"].as_mstring());
+			if (fbid == 0) {
+				debugLogA("Neither a GQL nor an inline attachment, nothing to do");
+				continue;
+			}
+
+			// inline attachment, request its description
+			auto *pReq = CreateRequest(FB_API_URL_ATTACH, "getAttachment", "messaging.getAttachment");
+			pReq << CHAR_PARAM("mid", szId) << INT64_PARAM("aid", fbid);
+			pReq->CalcSig();
+
+			JsonReply reply(ExecuteRequest(pReq));
+			if (!reply.error()) {
+				CMStringA str = reply.data()["redirect_uri"].as_mstring();
+				if (!str.IsEmpty())
+					szBody.AppendFormat("\r\nPicture attachment: %s", str.c_str());
+			}
+			continue;
+		}
 		JSONROOT nBody(szJson);
 		if (!nBody)
 			continue;
