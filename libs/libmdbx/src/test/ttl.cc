@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -29,11 +29,10 @@ static unsigned edge2count(uint64_t edge, unsigned count_max) {
 }
 
 bool testcase_ttl::run() {
-  MDBX_dbi dbi;
   int err = db_open__begin__table_create_open_clean(dbi);
   if (unlikely(err != MDBX_SUCCESS)) {
     log_notice("ttl: bailout-prepare due '%s'", mdbx_strerror(err));
-    return true;
+    return false;
   }
 
   /* LY: тест "эмуляцией time-to-live":
@@ -54,18 +53,8 @@ bool testcase_ttl::run() {
 
   /* LY: для параметризации используем подходящие параметры, которые не имеют
    * здесь смысла в первоначальном значении. */
-  const unsigned window_max_lower =
-#ifdef __APPLE__
-      333;
-#else
-      999;
-#endif
-  const unsigned count_max_lower =
-#ifdef __APPLE__
-      333;
-#else
-      999;
-#endif
+  const unsigned window_max_lower = 333;
+  const unsigned count_max_lower = 333;
 
   const unsigned window_max = (config.params.batch_read > window_max_lower)
                                   ? config.params.batch_read
@@ -73,8 +62,8 @@ bool testcase_ttl::run() {
   const unsigned count_max = (config.params.batch_write > count_max_lower)
                                  ? config.params.batch_write
                                  : count_max_lower;
-  log_info("ttl: using `batch_read` value %u for window_max", window_max);
-  log_info("ttl: using `batch_write` value %u for count_max", count_max);
+  log_verbose("ttl: using `batch_read` value %u for window_max", window_max);
+  log_verbose("ttl: using `batch_write` value %u for count_max", count_max);
 
   uint64_t seed =
       prng64_map2_white(config.params.keygen.seed) + config.actor_id;
@@ -87,14 +76,16 @@ bool testcase_ttl::run() {
 
   std::deque<std::pair<uint64_t, unsigned>> fifo;
   uint64_t serial = 0;
+  bool rc = false;
   while (should_continue()) {
     const uint64_t salt = prng64_white(seed) /* mdbx_txn_id(txn_guard.get()) */;
 
-    const unsigned window_width = edge2window(salt, window_max);
+    const unsigned window_width =
+        flipcoin_x4() ? 0 : edge2window(salt, window_max);
     unsigned head_count = edge2count(salt, count_max);
-    log_verbose("ttl: step #%zu (serial %" PRIu64
-                ", window %u, count %u) salt %" PRIu64,
-                nops_completed, serial, window_width, head_count, salt);
+    log_debug("ttl: step #%zu (serial %" PRIu64
+              ", window %u, count %u) salt %" PRIu64,
+              nops_completed, serial, window_width, head_count, salt);
 
     if (window_width) {
       while (fifo.size() > window_width) {
@@ -104,7 +95,7 @@ bool testcase_ttl::run() {
                   tail_count);
         fifo.pop_back();
         for (unsigned n = 0; n < tail_count; ++n) {
-          log_trace("ttl: remove-tail %" PRIu64, serial);
+          log_trace("ttl: remove-tail %" PRIu64, tail_serial);
           generate_pair(tail_serial);
           err = mdbx_del(txn_guard.get(), dbi, &key->value, &data->value);
           if (unlikely(err != MDBX_SUCCESS)) {
@@ -158,7 +149,9 @@ bool testcase_ttl::run() {
       serial = fifo.front().first;
       fifo.pop_front();
     }
+
     report(1);
+    rc = true;
   }
 
 bailout:
@@ -170,10 +163,10 @@ bailout:
       err = breakable_commit();
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("ttl: bailout-clean due '%s'", mdbx_strerror(err));
-        return true;
+        return false;
       }
     } else
       db_table_close(dbi);
   }
-  return true;
+  return rc;
 }

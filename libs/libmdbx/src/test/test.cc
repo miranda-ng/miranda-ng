@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -37,6 +37,8 @@ const char *testcase2str(const actor_testcase testcase) {
     return "append";
   case ac_ttl:
     return "ttl";
+  case ac_nested:
+    return "nested";
   }
 }
 
@@ -45,8 +47,8 @@ const char *status2str(actor_status status) {
   default:
     assert(false);
     return "?!";
-  case as_debuging:
-    return "debuging";
+  case as_debugging:
+    return "debugging";
   case as_running:
     return "running";
   case as_successful:
@@ -76,15 +78,16 @@ const char *keygencase2str(const keygen_case keycase) {
 
 //-----------------------------------------------------------------------------
 
-int testcase::oom_callback(MDBX_env *env, int pid, mdbx_tid_t tid, uint64_t txn,
-                           unsigned gap, int retry) {
+int testcase::oom_callback(MDBX_env *env, mdbx_pid_t pid, mdbx_tid_t tid,
+                           uint64_t txn, unsigned gap, size_t space,
+                           int retry) {
 
   testcase *self = (testcase *)mdbx_env_get_userctx(env);
 
   if (retry == 0)
-    log_notice("oom_callback: waitfor pid %u, thread %" PRIuPTR
-               ", txn #%" PRIu64 ", gap %d",
-               pid, (size_t)tid, txn, gap);
+    log_notice("oom_callback: waitfor pid %lu, thread %" PRIuPTR
+               ", txn #%" PRIu64 ", gap %d, scape %zu",
+               (long)pid, (size_t)tid, txn, gap, space);
 
   if (self->should_continue(true)) {
     osal_yield();
@@ -186,7 +189,8 @@ int testcase::breakable_commit() {
     if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
       rc = err;
       err = mdbx_txn_abort(txn);
-      if (unlikely(err != MDBX_SUCCESS && err != MDBX_THREAD_MISMATCH))
+      if (unlikely(err != MDBX_SUCCESS && err != MDBX_THREAD_MISMATCH &&
+                   err != MDBX_BAD_TXN))
         failure_perror("mdbx_txn_abort()", err);
     } else
       failure_perror("mdbx_txn_commit()", err);
@@ -196,6 +200,20 @@ int testcase::breakable_commit() {
   return rc;
 }
 
+unsigned testcase::txn_underutilization_x256(MDBX_txn *txn) const {
+  if (txn) {
+    MDBX_txn_info info;
+    int err = mdbx_txn_info(txn, &info, false);
+    if (unlikely(err != MDBX_SUCCESS))
+      failure_perror("mdbx_txn_info()", err);
+    const size_t left = size_t(info.txn_space_leftover);
+    const size_t total =
+        size_t(info.txn_space_leftover) + size_t(info.txn_space_dirty);
+    return (unsigned)(left / (total >> 8));
+  }
+  return 0;
+}
+
 void testcase::txn_end(bool abort) {
   log_trace(">> txn_end(%s)", abort ? "abort" : "commit");
   assert(txn_guard);
@@ -203,7 +221,8 @@ void testcase::txn_end(bool abort) {
   MDBX_txn *txn = txn_guard.release();
   if (abort) {
     int err = mdbx_txn_abort(txn);
-    if (unlikely(err != MDBX_SUCCESS && err != MDBX_THREAD_MISMATCH))
+    if (unlikely(err != MDBX_SUCCESS && err != MDBX_THREAD_MISMATCH &&
+                 err != MDBX_BAD_TXN))
       failure_perror("mdbx_txn_abort()", err);
   } else {
     txn_inject_writefault(txn);
@@ -215,18 +234,18 @@ void testcase::txn_end(bool abort) {
   log_trace("<< txn_end(%s)", abort ? "abort" : "commit");
 }
 
-void testcase::cursor_open(unsigned dbi) {
-  log_trace(">> cursor_open(%u)", dbi);
+void testcase::cursor_open(MDBX_dbi handle) {
+  log_trace(">> cursor_open(%u)", handle);
   assert(!cursor_guard);
   assert(txn_guard);
 
   MDBX_cursor *cursor = nullptr;
-  int rc = mdbx_cursor_open(txn_guard.get(), dbi, &cursor);
+  int rc = mdbx_cursor_open(txn_guard.get(), handle, &cursor);
   if (unlikely(rc != MDBX_SUCCESS))
     failure_perror("mdbx_cursor_open()", rc);
   cursor_guard.reset(cursor);
 
-  log_trace("<< cursor_open(%u)", dbi);
+  log_trace("<< cursor_open(%u)", handle);
 }
 
 void testcase::cursor_close() {
@@ -264,8 +283,9 @@ void testcase::txn_inject_writefault(MDBX_txn *txn) {
   if (config.params.inject_writefaultn && txn) {
     if (config.params.inject_writefaultn <= nops_completed &&
         (mdbx_txn_flags(txn) & MDBX_RDONLY) == 0) {
-      log_info("== txn_inject_writefault(): got %u nops or more, inject FAULT",
-               config.params.inject_writefaultn);
+      log_verbose(
+          "== txn_inject_writefault(): got %u nops or more, inject FAULT",
+          config.params.inject_writefaultn);
       log_flush();
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
       TerminateProcess(GetCurrentProcess(), 42);
@@ -305,21 +325,9 @@ bool testcase::wait4start() {
 }
 
 void testcase::kick_progress(bool active) const {
-  chrono::time now = chrono::now_motonic();
-  if (active) {
-    static int last_point = -1;
-    int point = (now.fixedpoint >> 29) & 3;
-    if (point != last_point) {
-      last.progress_timestamp = now;
-      fprintf(stderr, "%c\b", "-\\|/"[last_point = point]);
-      fflush(stderr);
-    }
-  } else if (now.fixedpoint - last.progress_timestamp.fixedpoint >
-             chrono::from_seconds(2).fixedpoint) {
-    last.progress_timestamp = now;
-    fprintf(stderr, "%c\b", "@*"[now.utc & 1]);
-    fflush(stderr);
-  }
+  if (!global::config::progress_indicator)
+    return;
+  logging::progress_canary(active);
 }
 
 void testcase::report(size_t nops_done) {
@@ -328,11 +336,10 @@ void testcase::report(size_t nops_done) {
     return;
 
   nops_completed += nops_done;
-  log_verbose("== complete +%" PRIuPTR " iteration, total %" PRIuPTR " done",
-              nops_done, nops_completed);
+  log_debug("== complete +%" PRIuPTR " iteration, total %" PRIuPTR " done",
+            nops_done, nops_completed);
 
-  if (global::config::progress_indicator)
-    kick_progress(true);
+  kick_progress(true);
 
   if (config.signal_nops && !signalled &&
       config.signal_nops <= nops_completed) {
@@ -387,7 +394,7 @@ bool testcase::should_continue(bool check_timeout_only) const {
       nops_completed >= config.params.test_nops)
     result = false;
 
-  if (result && global::config::progress_indicator)
+  if (result)
     kick_progress(false);
 
   return result;
@@ -430,14 +437,14 @@ void testcase::update_canary(uint64_t increment) {
   log_trace("<< update_canary: sequence = %" PRIu64, canary_now.y);
 }
 
-int testcase::db_open__begin__table_create_open_clean(MDBX_dbi &dbi) {
+int testcase::db_open__begin__table_create_open_clean(MDBX_dbi &handle) {
   db_open();
 
   int err, retry_left = 42;
   for (;;) {
     txn_begin(false);
-    dbi = db_table_open(true);
-    db_table_clear(dbi);
+    handle = db_table_open(true);
+    db_table_clear(handle);
     err = breakable_commit();
     if (likely(err == MDBX_SUCCESS)) {
       txn_begin(false);
@@ -464,7 +471,7 @@ MDBX_dbi testcase::db_table_open(bool create) {
       failure("snprintf(tablename): %d", rc);
     tablename = tablename_buf;
   }
-  log_verbose("use %s table", tablename ? tablename : "MAINDB");
+  log_debug("use %s table", tablename ? tablename : "MAINDB");
 
   MDBX_dbi handle = 0;
   int rc = mdbx_dbi_open(txn_guard.get(), tablename,
@@ -490,9 +497,9 @@ void testcase::db_table_drop(MDBX_dbi handle) {
   }
 }
 
-void testcase::db_table_clear(MDBX_dbi handle) {
+void testcase::db_table_clear(MDBX_dbi handle, MDBX_txn *txn) {
   log_trace(">> testcase::db_table_clear, handle %u", handle);
-  int rc = mdbx_drop(txn_guard.get(), handle, false);
+  int rc = mdbx_drop(txn ? txn : txn_guard.get(), handle, false);
   if (unlikely(rc != MDBX_SUCCESS))
     failure_perror("mdbx_drop(delete=false)", rc);
   log_trace("<< testcase::db_table_clear");
@@ -510,7 +517,7 @@ void testcase::db_table_close(MDBX_dbi handle) {
 void testcase::checkdata(const char *step, MDBX_dbi handle, MDBX_val key2check,
                          MDBX_val expected_valued) {
   MDBX_val actual_value = expected_valued;
-  int rc = mdbx_get2(txn_guard.get(), handle, &key2check, &actual_value);
+  int rc = mdbx_get_nearest(txn_guard.get(), handle, &key2check, &actual_value);
   if (unlikely(rc != MDBX_SUCCESS))
     failure_perror(step, rc);
   if (!is_samedata(&actual_value, &expected_valued))
@@ -560,6 +567,9 @@ bool test_execute(const actor_config &config_const) {
     case ac_ttl:
       test.reset(new testcase_ttl(config, pid));
       break;
+    case ac_nested:
+      test.reset(new testcase_nested(config, pid));
+      break;
     default:
       test.reset(new testcase(config, pid));
       break;
@@ -582,13 +592,13 @@ bool test_execute(const actor_config &config_const) {
       }
 
       if (config.params.nrepeat == 1)
-        log_info("test successed");
+        log_verbose("test successed");
       else {
         if (config.params.nrepeat)
-          log_info("test successed (iteration %zi of %zi)", iter,
-                   size_t(config.params.nrepeat));
+          log_verbose("test successed (iteration %zi of %zi)", iter,
+                      size_t(config.params.nrepeat));
         else
-          log_info("test successed (iteration %zi)", iter);
+          log_verbose("test successed (iteration %zi)", iter);
         config.params.keygen.seed += INT32_C(0xA4F4D37B);
       }
 
@@ -598,4 +608,136 @@ bool test_execute(const actor_config &config_const) {
     failure("***** Exception: %s *****", pipets.what());
     return false;
   }
+}
+
+//-----------------------------------------------------------------------------
+
+int testcase::insert(const keygen::buffer &akey, const keygen::buffer &adata,
+                     unsigned flags) {
+  int err = mdbx_put(txn_guard.get(), dbi, &akey->value, &adata->value, flags);
+  if (err == MDBX_SUCCESS && config.params.speculum) {
+    const auto S_key = S(akey);
+    const auto S_data = S(adata);
+    const bool inserted = speculum.emplace(S_key, S_data).second;
+    assert(inserted);
+    (void)inserted;
+  }
+  return err;
+}
+
+int testcase::replace(const keygen::buffer &akey,
+                      const keygen::buffer &new_data,
+                      const keygen::buffer &old_data, unsigned flags) {
+  if (config.params.speculum) {
+    const auto S_key = S(akey);
+    const auto S_old = S(old_data);
+    const auto S_new = S(new_data);
+    const auto removed = speculum.erase(SET::key_type(S_key, S_old));
+    assert(removed == 1);
+    (void)removed;
+    const bool inserted = speculum.emplace(S_key, S_new).second;
+    assert(inserted);
+    (void)inserted;
+  }
+  return mdbx_replace(txn_guard.get(), dbi, &akey->value, &new_data->value,
+                      &old_data->value, flags);
+}
+
+int testcase::remove(const keygen::buffer &akey, const keygen::buffer &adata) {
+  if (config.params.speculum) {
+    const auto S_key = S(akey);
+    const auto S_data = S(adata);
+    const auto removed = speculum.erase(SET::key_type(S_key, S_data));
+    assert(removed == 1);
+    (void)removed;
+  }
+  return mdbx_del(txn_guard.get(), dbi, &akey->value, &adata->value);
+}
+
+bool testcase::speculum_verify() {
+  if (!config.params.speculum)
+    return true;
+
+  if (!txn_guard)
+    txn_begin(true);
+
+  char dump_key[128], dump_value[128];
+  char dump_mkey[128], dump_mvalue[128];
+
+  MDBX_cursor *cursor;
+  int err = mdbx_cursor_open(txn_guard.get(), dbi, &cursor);
+  if (err != MDBX_SUCCESS)
+    failure_perror("mdbx_cursor_open()", err);
+
+  bool rc = true;
+  MDBX_val akey, avalue;
+  MDBX_val mkey, mvalue;
+  err = mdbx_cursor_get(cursor, &akey, &avalue, MDBX_FIRST);
+
+  unsigned extra = 0, lost = 0, n = 0;
+  assert(std::is_sorted(speculum.cbegin(), speculum.cend(), ItemCompare(this)));
+  auto it = speculum.cbegin();
+  while (true) {
+    if (err != MDBX_SUCCESS) {
+      akey.iov_len = avalue.iov_len = 0;
+      akey.iov_base = avalue.iov_base = nullptr;
+    }
+    const auto S_key = S(akey);
+    const auto S_data = S(avalue);
+    if (it != speculum.cend()) {
+      mkey.iov_base = (void *)it->first.c_str();
+      mkey.iov_len = it->first.size();
+      mvalue.iov_base = (void *)it->second.c_str();
+      mvalue.iov_len = it->second.size();
+    }
+    if (err == MDBX_SUCCESS && it != speculum.cend() && S_key == it->first &&
+        S_data == it->second) {
+      ++it;
+      err = mdbx_cursor_get(cursor, &akey, &avalue, MDBX_NEXT);
+    } else if (err == MDBX_SUCCESS &&
+               (it == speculum.cend() || S_key < it->first ||
+                (S_key == it->first && S_data < it->second))) {
+      extra += 1;
+      if (it != speculum.cend()) {
+        log_error("extra pair %u/%u: db{%s, %s} < mi{%s, %s}", n, extra,
+                  mdbx_dump_val(&akey, dump_key, sizeof(dump_key)),
+                  mdbx_dump_val(&avalue, dump_value, sizeof(dump_value)),
+                  mdbx_dump_val(&mkey, dump_mkey, sizeof(dump_mkey)),
+                  mdbx_dump_val(&mvalue, dump_mvalue, sizeof(dump_mvalue)));
+      } else {
+        log_error("extra pair %u/%u: db{%s, %s} < mi.END", n, extra,
+                  mdbx_dump_val(&akey, dump_key, sizeof(dump_key)),
+                  mdbx_dump_val(&avalue, dump_value, sizeof(dump_value)));
+      }
+      err = mdbx_cursor_get(cursor, &akey, &avalue, MDBX_NEXT);
+      rc = false;
+    } else if (it != speculum.cend() &&
+               (err == MDBX_NOTFOUND || S_key > it->first ||
+                (S_key == it->first && S_data > it->second))) {
+      lost += 1;
+      if (err == MDBX_NOTFOUND) {
+        log_error("lost pair %u/%u: db.END > mi{%s, %s}", n, lost,
+                  mdbx_dump_val(&mkey, dump_mkey, sizeof(dump_mkey)),
+                  mdbx_dump_val(&mvalue, dump_mvalue, sizeof(dump_mvalue)));
+      } else {
+        log_error("lost pair %u/%u: db{%s, %s} > mi{%s, %s}", n, lost,
+                  mdbx_dump_val(&akey, dump_key, sizeof(dump_key)),
+                  mdbx_dump_val(&avalue, dump_value, sizeof(dump_value)),
+                  mdbx_dump_val(&mkey, dump_mkey, sizeof(dump_mkey)),
+                  mdbx_dump_val(&mvalue, dump_mvalue, sizeof(dump_mvalue)));
+      }
+      ++it;
+      rc = false;
+    } else if (err == MDBX_NOTFOUND && it == speculum.cend()) {
+      break;
+    } else if (err != MDBX_SUCCESS) {
+      failure_perror("mdbx_cursor_get()", err);
+    } else {
+      assert(!"WTF?");
+    }
+    n += 1;
+  }
+
+  mdbx_cursor_close(cursor);
+  return rc;
 }

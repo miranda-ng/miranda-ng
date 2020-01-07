@@ -151,7 +151,7 @@ int mdbx_txn_lock(MDBX_env *env, bool dontwait) {
   }
 
   if ((env->me_flags & MDBX_EXCLUSIVE) ||
-      flock(env->me_fd,
+      flock(env->me_lazy_fd,
             dontwait ? (LCK_EXCLUSIVE | LCK_DONTWAIT)
                      : (LCK_EXCLUSIVE | LCK_WAITFOR),
             LCK_BODY))
@@ -162,11 +162,12 @@ int mdbx_txn_lock(MDBX_env *env, bool dontwait) {
 }
 
 void mdbx_txn_unlock(MDBX_env *env) {
-  int rc =
-      (env->me_flags & MDBX_EXCLUSIVE) ? TRUE : funlock(env->me_fd, LCK_BODY);
+  int rc = (env->me_flags & MDBX_EXCLUSIVE)
+               ? TRUE
+               : funlock(env->me_lazy_fd, LCK_BODY);
   LeaveCriticalSection(&env->me_windowsbug_lock);
   if (!rc)
-    mdbx_panic("%s failed: errcode %u", __func__, GetLastError());
+    mdbx_panic("%s failed: err %u", __func__, GetLastError());
 }
 
 /*----------------------------------------------------------------------------*/
@@ -200,7 +201,7 @@ MDBX_INTERNAL_FUNC void mdbx_rdt_unlock(MDBX_env *env) {
     /* transite from S-E (locked) to S-? (used), e.g. unlock upper-part */
     if ((env->me_flags & MDBX_EXCLUSIVE) == 0 &&
         !funlock(env->me_lfd, LCK_UPPER))
-      mdbx_panic("%s failed: errcode %u", __func__, GetLastError());
+      mdbx_panic("%s failed: err %u", __func__, GetLastError());
   }
   mdbx_srwlock_ReleaseShared(&env->me_remap_guard);
 }
@@ -385,24 +386,24 @@ static void lck_unlock(MDBX_env *env) {
     SetLastError(ERROR_SUCCESS);
   }
 
-  if (env->me_fd != INVALID_HANDLE_VALUE) {
+  if (env->me_lazy_fd != INVALID_HANDLE_VALUE) {
     /* explicitly unlock to avoid latency for other processes (windows kernel
      * releases such locks via deferred queues) */
-    while (funlock(env->me_fd, LCK_BODY))
+    while (funlock(env->me_lazy_fd, LCK_BODY))
       ;
     rc = GetLastError();
     assert(rc == ERROR_NOT_LOCKED);
     (void)rc;
     SetLastError(ERROR_SUCCESS);
 
-    while (funlock(env->me_fd, LCK_META))
+    while (funlock(env->me_lazy_fd, LCK_META))
       ;
     rc = GetLastError();
     assert(rc == ERROR_NOT_LOCKED);
     (void)rc;
     SetLastError(ERROR_SUCCESS);
 
-    while (funlock(env->me_fd, LCK_WHOLE))
+    while (funlock(env->me_lazy_fd, LCK_WHOLE))
       ;
     rc = GetLastError();
     assert(rc == ERROR_NOT_LOCKED);
@@ -446,8 +447,7 @@ static int internal_seize_lck(HANDLE lfd) {
   mdbx_jitter4testing(false);
   if (!flock(lfd, LCK_EXCLUSIVE | LCK_WAITFOR, LCK_UPPER)) {
     rc = GetLastError() /* 2) something went wrong, give up */;
-    mdbx_error("%s(%s) failed: errcode %u", __func__,
-               "?-?(free) >> ?-E(middle)", rc);
+    mdbx_error("%s, err %u", "?-?(free) >> ?-E(middle)", rc);
     return rc;
   }
 
@@ -462,8 +462,8 @@ static int internal_seize_lck(HANDLE lfd) {
   if (rc != ERROR_SHARING_VIOLATION && rc != ERROR_LOCK_VIOLATION) {
     /* 6) something went wrong, give up */
     if (!funlock(lfd, LCK_UPPER))
-      mdbx_panic("%s(%s) failed: errcode %u", __func__,
-                 "?-E(middle) >> ?-?(free)", GetLastError());
+      mdbx_panic("%s(%s) failed: err %u", __func__, "?-E(middle) >> ?-?(free)",
+                 GetLastError());
     return rc;
   }
 
@@ -474,13 +474,12 @@ static int internal_seize_lck(HANDLE lfd) {
 
   mdbx_jitter4testing(false);
   if (rc != MDBX_RESULT_FALSE)
-    mdbx_error("%s(%s) failed: errcode %u", __func__,
-               "?-E(middle) >> S-E(locked)", rc);
+    mdbx_error("%s, err %u", "?-E(middle) >> S-E(locked)", rc);
 
   /* 8) now on S-E (locked) or still on ?-E (middle),
    *    transite to S-? (used) or ?-? (free) */
   if (!funlock(lfd, LCK_UPPER))
-    mdbx_panic("%s(%s) failed: errcode %u", __func__,
+    mdbx_panic("%s(%s) failed: err %u", __func__,
                "X-E(locked/middle) >> X-?(used/free)", GetLastError());
 
   /* 9) now on S-? (used, DONE) or ?-? (free, FAILURE) */
@@ -490,7 +489,7 @@ static int internal_seize_lck(HANDLE lfd) {
 MDBX_INTERNAL_FUNC int mdbx_lck_seize(MDBX_env *env) {
   int rc;
 
-  assert(env->me_fd != INVALID_HANDLE_VALUE);
+  assert(env->me_lazy_fd != INVALID_HANDLE_VALUE);
   if (env->me_flags & MDBX_EXCLUSIVE)
     return MDBX_RESULT_TRUE /* nope since files were must be opened
                                non-shareable */
@@ -499,9 +498,9 @@ MDBX_INTERNAL_FUNC int mdbx_lck_seize(MDBX_env *env) {
   if (env->me_lfd == INVALID_HANDLE_VALUE) {
     /* LY: without-lck mode (e.g. on read-only filesystem) */
     mdbx_jitter4testing(false);
-    if (!flock(env->me_fd, LCK_SHARED | LCK_DONTWAIT, LCK_WHOLE)) {
+    if (!flock(env->me_lazy_fd, LCK_SHARED | LCK_DONTWAIT, LCK_WHOLE)) {
       rc = GetLastError();
-      mdbx_error("%s(%s) failed: errcode %u", __func__, "without-lck", rc);
+      mdbx_error("%s, err %u", "without-lck", rc);
       return rc;
     }
     return MDBX_RESULT_FALSE;
@@ -516,16 +515,15 @@ MDBX_INTERNAL_FUNC int mdbx_lck_seize(MDBX_env *env) {
      *  - we need an exclusive lock for do so;
      *  - we can't lock meta-pages, otherwise other process could get an error
      *    while opening db in valid (non-conflict) mode. */
-    if (!flock(env->me_fd, LCK_EXCLUSIVE | LCK_DONTWAIT, LCK_BODY)) {
+    if (!flock(env->me_lazy_fd, LCK_EXCLUSIVE | LCK_DONTWAIT, LCK_BODY)) {
       rc = GetLastError();
-      mdbx_error("%s(%s) failed: errcode %u", __func__,
-                 "lock-against-without-lck", rc);
+      mdbx_error("%s, err %u", "lock-against-without-lck", rc);
       mdbx_jitter4testing(false);
       lck_unlock(env);
     } else {
       mdbx_jitter4testing(false);
-      if (!funlock(env->me_fd, LCK_BODY))
-        mdbx_panic("%s(%s) failed: errcode %u", __func__,
+      if (!funlock(env->me_lazy_fd, LCK_BODY))
+        mdbx_panic("%s(%s) failed: err %u", __func__,
                    "unlock-against-without-lck", GetLastError());
     }
   }
@@ -535,7 +533,7 @@ MDBX_INTERNAL_FUNC int mdbx_lck_seize(MDBX_env *env) {
 
 MDBX_INTERNAL_FUNC int mdbx_lck_downgrade(MDBX_env *env) {
   /* Transite from exclusive state (E-?) to used (S-?) */
-  assert(env->me_fd != INVALID_HANDLE_VALUE);
+  assert(env->me_lazy_fd != INVALID_HANDLE_VALUE);
   assert(env->me_lfd != INVALID_HANDLE_VALUE);
 
 #if 1
@@ -547,7 +545,7 @@ MDBX_INTERNAL_FUNC int mdbx_lck_downgrade(MDBX_env *env) {
   if (env->me_flags & MDBX_EXCLUSIVE) {
     /* transite from E-E to E_? (exclusive-read) */
     if (!funlock(env->me_lfd, LCK_UPPER))
-      mdbx_panic("%s(%s) failed: errcode %u", __func__,
+      mdbx_panic("%s(%s) failed: err %u", __func__,
                  "E-E(exclusive-write) >> E-?(exclusive-read)", GetLastError());
     return MDBX_SUCCESS /* 2) now at E-? (exclusive-read), done */;
   }
@@ -555,21 +553,20 @@ MDBX_INTERNAL_FUNC int mdbx_lck_downgrade(MDBX_env *env) {
 
   /* 3) now at E-E (exclusive-write), transite to ?_E (middle) */
   if (!funlock(env->me_lfd, LCK_LOWER))
-    mdbx_panic("%s(%s) failed: errcode %u", __func__,
+    mdbx_panic("%s(%s) failed: err %u", __func__,
                "E-E(exclusive-write) >> ?-E(middle)", GetLastError());
 
   /* 4) now at ?-E (middle), transite to S-E (locked) */
   if (!flock(env->me_lfd, LCK_SHARED | LCK_DONTWAIT, LCK_LOWER)) {
     int rc = GetLastError() /* 5) something went wrong, give up */;
-    mdbx_error("%s(%s) failed: errcode %u", __func__,
-               "?-E(middle) >> S-E(locked)", rc);
+    mdbx_error("%s, err %u", "?-E(middle) >> S-E(locked)", rc);
     return rc;
   }
 
   /* 6) got S-E (locked), continue transition to S-? (used) */
   if (!funlock(env->me_lfd, LCK_UPPER))
-    mdbx_panic("%s(%s) failed: errcode %u", __func__,
-               "S-E(locked) >> S-?(used)", GetLastError());
+    mdbx_panic("%s(%s) failed: err %u", __func__, "S-E(locked) >> S-?(used)",
+               GetLastError());
 
   return MDBX_SUCCESS /* 7) now at S-? (used), done */;
 }
@@ -613,6 +610,10 @@ MDBX_INTERNAL_FUNC int mdbx_rpid_check(MDBX_env *env, uint32_t pid) {
   case WAIT_OBJECT_0:
     /* process just exited */
     return MDBX_RESULT_FALSE;
+  case ERROR_ACCESS_DENIED:
+    /* The ERROR_ACCESS_DENIED would be returned for CSRSS-processes, etc.
+     * assume pid exists */
+    return MDBX_RESULT_TRUE;
   case WAIT_TIMEOUT:
     /* pid running */
     return MDBX_RESULT_TRUE;

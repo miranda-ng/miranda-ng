@@ -15,6 +15,7 @@
 #pragma once
 
 #include "base.h"
+#include "chrono.h"
 
 void __noreturn usage(void);
 void __noreturn __printf_args(1, 2) failure(const char *fmt, ...);
@@ -24,26 +25,46 @@ const char *test_strerror(int errnum);
 namespace logging {
 
 enum loglevel {
-  extra,
-  trace,
-  verbose,
-  info,
-  notice,
-  warning,
-  error,
-  failure,
+  extra = MDBX_LOG_EXTRA,
+  trace = MDBX_LOG_TRACE,
+  debug = MDBX_LOG_DEBUG,
+  verbose = MDBX_LOG_VERBOSE,
+  notice = MDBX_LOG_NOTICE,
+  warning = MDBX_LOG_WARN,
+  error = MDBX_LOG_ERROR,
+  failure = MDBX_LOG_FATAL
 };
 
-const char *level2str(const loglevel level);
-void setup(loglevel level, const std::string &prefix);
-void setup(const std::string &prefix);
-void setlevel(loglevel level);
+inline bool lower(loglevel left, loglevel right) {
+  static_assert(MDBX_LOG_EXTRA > MDBX_LOG_FATAL, "WTF?");
+  return left > right;
+}
 
-bool output(const loglevel priority, const char *format, va_list ap);
+inline bool same_or_higher(loglevel left, loglevel right) {
+  return left <= right;
+}
+
+const char *level2str(const loglevel level);
+void setup(loglevel priority, const std::string &prefix);
+void setup(const std::string &prefix);
+void setlevel(loglevel priority);
+
+void output_nocheckloglevel_ap(const loglevel priority, const char *format,
+                               va_list ap);
 bool __printf_args(2, 3)
     output(const loglevel priority, const char *format, ...);
 bool feed_ap(const char *format, va_list ap);
 bool __printf_args(1, 2) feed(const char *format, ...);
+
+void inline __printf_args(2, 3)
+    output_nocheckloglevel(const loglevel priority, const char *format, ...) {
+  va_list ap;
+  va_start(ap, format);
+  output_nocheckloglevel_ap(priority, format, ap);
+  va_end(ap);
+}
+
+void progress_canary(bool active);
 
 class local_suffix {
 protected:
@@ -66,8 +87,8 @@ public:
 
 void __printf_args(1, 2) log_extra(const char *msg, ...);
 void __printf_args(1, 2) log_trace(const char *msg, ...);
+void __printf_args(1, 2) log_debug(const char *msg, ...);
 void __printf_args(1, 2) log_verbose(const char *msg, ...);
-void __printf_args(1, 2) log_info(const char *msg, ...);
 void __printf_args(1, 2) log_notice(const char *msg, ...);
 void __printf_args(1, 2) log_warning(const char *msg, ...);
 void __printf_args(1, 2) log_error(const char *msg, ...);

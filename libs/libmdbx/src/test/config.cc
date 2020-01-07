@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -294,14 +294,21 @@ bool parse_option(int argc, char *const argv[], int &narg, const char *option,
 
 //-----------------------------------------------------------------------------
 
-const struct option_verb mode_bits[] = {
-    {"rdonly", MDBX_RDONLY},          {"mapasync", MDBX_MAPASYNC},
-    {"utterly", MDBX_UTTERLY_NOSYNC}, {"nosubdir", MDBX_NOSUBDIR},
-    {"nosync", MDBX_NOSYNC},          {"nometasync", MDBX_NOMETASYNC},
-    {"writemap", MDBX_WRITEMAP},      {"notls", MDBX_NOTLS},
-    {"nordahead", MDBX_NORDAHEAD},    {"nomeminit", MDBX_NOMEMINIT},
-    {"coalesce", MDBX_COALESCE},      {"lifo", MDBX_LIFORECLAIM},
-    {"perturb", MDBX_PAGEPERTURB},    {nullptr, 0}};
+const struct option_verb mode_bits[] = {{"rdonly", MDBX_RDONLY},
+                                        {"mapasync", MDBX_MAPASYNC},
+                                        {"nosync-utterly", MDBX_UTTERLY_NOSYNC},
+                                        {"nosubdir", MDBX_NOSUBDIR},
+                                        {"nosync-safe", MDBX_SAFE_NOSYNC},
+                                        {"nometasync", MDBX_NOMETASYNC},
+                                        {"writemap", MDBX_WRITEMAP},
+                                        {"notls", MDBX_NOTLS},
+                                        {"nordahead", MDBX_NORDAHEAD},
+                                        {"nomeminit", MDBX_NOMEMINIT},
+                                        {"coalesce", MDBX_COALESCE},
+                                        {"lifo", MDBX_LIFORECLAIM},
+                                        {"perturb", MDBX_PAGEPERTURB},
+                                        {"accede", MDBX_ACCEDE},
+                                        {nullptr, 0}};
 
 const struct option_verb table_bits[] = {
     {"key.reverse", MDBX_REVERSEKEY},
@@ -314,7 +321,7 @@ const struct option_verb table_bits[] = {
 
 static void dump_verbs(const char *caption, size_t bits,
                        const struct option_verb *verbs) {
-  log_info("%s: 0x%" PRIx64 " = ", caption, (uint64_t)bits);
+  log_verbose("%s: 0x%" PRIx64 " = ", caption, (uint64_t)bits);
 
   const char *comma = "";
   while (verbs->mask && bits) {
@@ -330,7 +337,7 @@ static void dump_verbs(const char *caption, size_t bits,
 }
 
 static void dump_duration(const char *caption, unsigned duration) {
-  log_info("%s: ", caption);
+  log_verbose("%s: ", caption);
   if (duration) {
     if (duration > 24 * 3600)
       logging::feed("%u_", duration / (24 * 3600));
@@ -347,84 +354,92 @@ void dump(const char *title) {
   logging::local_suffix indent(title);
 
   for (auto i = global::actors.begin(); i != global::actors.end(); ++i) {
-    log_info("#%u, testcase %s, space_id/table %u\n", i->actor_id,
-             testcase2str(i->testcase), i->space_id);
+    log_verbose("#%u, testcase %s, space_id/table %u\n", i->actor_id,
+                testcase2str(i->testcase), i->space_id);
     indent.push();
 
     if (i->params.loglevel) {
-      log_info("log: level %u, %s\n", i->params.loglevel,
-               i->params.pathname_log.empty() ? "console"
-                                              : i->params.pathname_log.c_str());
+      log_verbose("log: level %u, %s\n", i->params.loglevel,
+                  i->params.pathname_log.empty()
+                      ? "console"
+                      : i->params.pathname_log.c_str());
     }
 
-    log_info("database: %s, size %" PRIuPTR "[%" PRIiPTR "..%" PRIiPTR
-             ", %i %i, %i]\n",
-             i->params.pathname_db.c_str(), i->params.size_now,
-             i->params.size_lower, i->params.size_upper,
-             i->params.shrink_threshold, i->params.growth_step,
-             i->params.pagesize);
+    log_verbose("database: %s, size %" PRIuPTR "[%" PRIiPTR "..%" PRIiPTR
+                ", %i %i, %i]\n",
+                i->params.pathname_db.c_str(), i->params.size_now,
+                i->params.size_lower, i->params.size_upper,
+                i->params.shrink_threshold, i->params.growth_step,
+                i->params.pagesize);
 
     dump_verbs("mode", i->params.mode_flags, mode_bits);
     dump_verbs("table", i->params.table_flags, table_bits);
 
     if (i->params.test_nops)
-      log_info("iterations/records %u\n", i->params.test_nops);
+      log_verbose("iterations/records %u\n", i->params.test_nops);
     else
       dump_duration("duration", i->params.test_duration);
 
     if (i->params.nrepeat)
-      log_info("repeat %u\n", i->params.nrepeat);
+      log_verbose("repeat %u\n", i->params.nrepeat);
     else
-      log_info("repeat ETERNALLY\n");
+      log_verbose("repeat ETERNALLY\n");
 
-    log_info("threads %u\n", i->params.nthreads);
+    log_verbose("threads %u\n", i->params.nthreads);
 
-    log_info(
+    log_verbose(
         "keygen.params: case %s, width %u, mesh %u, rotate %u, offset %" PRIu64
         ", split %u/%u\n",
         keygencase2str(i->params.keygen.keycase), i->params.keygen.width,
         i->params.keygen.mesh, i->params.keygen.rotate, i->params.keygen.offset,
         i->params.keygen.split,
         i->params.keygen.width - i->params.keygen.split);
-    log_info("keygen.seed: %u\n", i->params.keygen.seed);
-    log_info("key: minlen %u, maxlen %u\n", i->params.keylen_min,
-             i->params.keylen_max);
-    log_info("data: minlen %u, maxlen %u\n", i->params.datalen_min,
-             i->params.datalen_max);
+    log_verbose("keygen.seed: %u\n", i->params.keygen.seed);
+    log_verbose("key: minlen %u, maxlen %u\n", i->params.keylen_min,
+                i->params.keylen_max);
+    log_verbose("data: minlen %u, maxlen %u\n", i->params.datalen_min,
+                i->params.datalen_max);
 
-    log_info("batch: read %u, write %u\n", i->params.batch_read,
-             i->params.batch_write);
+    log_verbose("batch: read %u, write %u\n", i->params.batch_read,
+                i->params.batch_write);
 
     if (i->params.waitfor_nops)
-      log_info("wait: actor %u for %u ops\n", i->wait4id,
-               i->params.waitfor_nops);
+      log_verbose("wait: actor %u for %u ops\n", i->wait4id,
+                  i->params.waitfor_nops);
     else if (i->params.delaystart)
       dump_duration("delay", i->params.delaystart);
     else
-      log_info("no-delay\n");
+      log_verbose("no-delay\n");
 
     if (i->params.inject_writefaultn)
-      log_info("inject-writefault on %u ops\n", i->params.inject_writefaultn);
+      log_verbose("inject-writefault on %u ops\n",
+                  i->params.inject_writefaultn);
     else
-      log_info("no-inject-writefault\n");
+      log_verbose("no-inject-writefault\n");
 
-    log_info("limits: readers %u, tables %u\n", i->params.max_readers,
-             i->params.max_tables);
+    log_verbose("limits: readers %u, tables %u, txn-bytes %zu\n",
+                i->params.max_readers, i->params.max_tables,
+                mdbx_limits_txnsize_max(i->params.pagesize));
 
-    log_info("drop table: %s\n", i->params.drop_table ? "Yes" : "No");
-    log_info("ignore MDBX_MAP_FULL error: %s\n",
-             i->params.ignore_dbfull ? "Yes" : "No");
+    log_verbose("drop table: %s\n", i->params.drop_table ? "Yes" : "No");
+    log_verbose("ignore MDBX_MAP_FULL error: %s\n",
+                i->params.ignore_dbfull ? "Yes" : "No");
+    log_verbose("verifying by speculum: %s\n",
+                i->params.speculum ? "Yes" : "No");
+
     indent.pop();
   }
 
   dump_duration("timeout", global::config::timeout_duration_seconds);
-  log_info("cleanup: before %s, after %s\n",
-           global::config::cleanup_before ? "Yes" : "No",
-           global::config::cleanup_after ? "Yes" : "No");
+  log_verbose("cleanup: before %s, after %s\n",
+              global::config::cleanup_before ? "Yes" : "No",
+              global::config::cleanup_after ? "Yes" : "No");
 
-  log_info("failfast: %s\n", global::config::failfast ? "Yes" : "No");
-  log_info("progress indicator: %s\n",
-           global::config::progress_indicator ? "Yes" : "No");
+  log_verbose("failfast: %s\n", global::config::failfast ? "Yes" : "No");
+  log_verbose("progress indicator: %s\n",
+              global::config::progress_indicator ? "Yes" : "No");
+  log_verbose("console mode: %s\n",
+              global::config::console_mode ? "Yes" : "No");
 }
 
 } /* namespace config */
@@ -452,26 +467,31 @@ const std::string actor_config::serialize(const char *prefix) const {
 
   checksum.push(params.pathname_db);
   result.append(params.pathname_db);
-  result.append("|");
+  result.push_back('|');
 
   checksum.push(params.pathname_log);
   result.append(params.pathname_log);
-  result.append("|");
+  result.push_back('|');
 
   static_assert(std::is_pod<actor_params_pod>::value,
                 "actor_params_pod should by POD");
   result.append(data2hex(static_cast<const actor_params_pod *>(&params),
                          sizeof(actor_params_pod), checksum));
-  result.append("|");
+  result.push_back('|');
 
   static_assert(std::is_pod<actor_config_pod>::value,
                 "actor_config_pod should by POD");
   result.append(data2hex(static_cast<const actor_config_pod *>(this),
                          sizeof(actor_config_pod), checksum));
-  result.append("|");
+  result.push_back('|');
+  result.push_back(global::config::progress_indicator ? 'Y' : 'N');
+  checksum.push(global::config::progress_indicator);
+  result.push_back(global::config::console_mode ? 'Y' : 'N');
+  checksum.push(global::config::console_mode);
+  result.push_back('|');
 
   result.append(osal_serialize(checksum));
-  result.append("|");
+  result.push_back('|');
 
   result.append(std::to_string(checksum.value));
   return result;
@@ -535,6 +555,20 @@ bool actor_config::deserialize(const char *str, actor_config &config) {
     TRACE("<< actor_config::deserialize: slash-5\n");
     return false;
   }
+  if ((str[0] == 'Y' || str[0] == 'N') && (str[1] == 'Y' || str[1] == 'N')) {
+    global::config::progress_indicator = str[0] == 'Y';
+    checksum.push(global::config::progress_indicator);
+    global::config::console_mode = str[1] == 'Y';
+    checksum.push(global::config::console_mode);
+    str = slash + 1;
+
+    slash = strchr(str, '|');
+    if (!slash) {
+      TRACE("<< actor_config::deserialize: slash-6\n");
+      return false;
+    }
+  }
+
   if (!config.osal_deserialize(str, slash, checksum)) {
     TRACE("<< actor_config::deserialize: osal\n");
     return false;
@@ -556,10 +590,7 @@ unsigned actor_params::mdbx_keylen_min() const {
 }
 
 unsigned actor_params::mdbx_keylen_max() const {
-  return (table_flags & MDBX_INTEGERKEY)
-             ? 8
-             : std::min((unsigned)mdbx_limits_keysize_max(pagesize),
-                        (unsigned)UINT16_MAX);
+  return (unsigned)mdbx_limits_keysize_max(pagesize, table_flags);
 }
 
 unsigned actor_params::mdbx_datalen_min() const {
@@ -567,10 +598,6 @@ unsigned actor_params::mdbx_datalen_min() const {
 }
 
 unsigned actor_params::mdbx_datalen_max() const {
-  return (table_flags & MDBX_INTEGERDUP)
-             ? 8
-             : std::min((table_flags & MDBX_DUPSORT)
-                            ? (unsigned)mdbx_limits_keysize_max(pagesize)
-                            : (unsigned)MDBX_MAXDATASIZE,
-                        (unsigned)UINT16_MAX);
+  return std::min((unsigned)UINT16_MAX,
+                  (unsigned)mdbx_limits_valsize_max(pagesize, table_flags));
 }

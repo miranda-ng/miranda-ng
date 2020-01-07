@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -331,6 +331,9 @@ double double_from_upper(uint64_t salt) {
 }
 
 bool flipcoin() { return bleach32((uint32_t)entropy_ticks()) & 1; }
+bool flipcoin_x2() { return (bleach32((uint32_t)entropy_ticks()) & 3) == 0; }
+bool flipcoin_x3() { return (bleach32((uint32_t)entropy_ticks()) & 7) == 0; }
+bool flipcoin_x4() { return (bleach32((uint32_t)entropy_ticks()) & 15) == 0; }
 
 bool jitter(unsigned probability_percent) {
   const uint32_t top = UINT32_MAX - UINT32_MAX % 100;

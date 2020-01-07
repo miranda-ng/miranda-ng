@@ -15,7 +15,6 @@
 #pragma once
 
 #include "base.h"
-#include "log.h"
 #include "utils.h"
 
 namespace chrono {
@@ -24,7 +23,7 @@ namespace chrono {
 
 typedef union time {
   uint64_t fixedpoint;
-  struct {
+  __anonymous_struct_extension__ struct {
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
     uint32_t fractional;
     union {

@@ -93,7 +93,7 @@ size_t userdb_count, skipped_subdb;
 uint64_t total_unused_bytes, reclaimable_pages, gc_pages, alloc_pages,
     unused_pages, backed_pages;
 unsigned verbose;
-bool ignore_wrong_order, quiet;
+bool ignore_wrong_order, quiet, dont_traversal;
 const char *only_subdb;
 
 struct problem {
@@ -626,22 +626,23 @@ static int process_db(MDBX_dbi dbi_handle, char *dbi_name, visitor *handler,
     error("too many DBIs or out of memory\n");
     return MDBX_ENOMEM;
   }
-  const uint64_t subtotal_pages =
-      ms.ms_branch_pages + ms.ms_leaf_pages + ms.ms_overflow_pages;
-  if (subtotal_pages != dbi->pages.total)
-    error("%s pages mismatch (%" PRIu64 " != walked %" PRIu64 ")\n", "subtotal",
-          subtotal_pages, dbi->pages.total);
-  if (ms.ms_branch_pages != dbi->pages.branch)
-    error("%s pages mismatch (%" PRIu64 " != walked %" PRIu64 ")\n", "branch",
-          ms.ms_branch_pages, dbi->pages.branch);
-  const uint64_t allleaf_pages = dbi->pages.leaf + dbi->pages.leaf_dupfixed;
-  if (ms.ms_leaf_pages != allleaf_pages)
-    error("%s pages mismatch (%" PRIu64 " != walked %" PRIu64 ")\n", "all-leaf",
-          ms.ms_leaf_pages, allleaf_pages);
-  if (ms.ms_overflow_pages != dbi->pages.large_volume)
-    error("%s pages mismatch (%" PRIu64 " != walked %" PRIu64 ")\n",
-          "large/overlow", ms.ms_overflow_pages, dbi->pages.large_volume);
-
+  if (!dont_traversal) {
+    const uint64_t subtotal_pages =
+        ms.ms_branch_pages + ms.ms_leaf_pages + ms.ms_overflow_pages;
+    if (subtotal_pages != dbi->pages.total)
+      error("%s pages mismatch (%" PRIu64 " != walked %" PRIu64 ")\n",
+            "subtotal", subtotal_pages, dbi->pages.total);
+    if (ms.ms_branch_pages != dbi->pages.branch)
+      error("%s pages mismatch (%" PRIu64 " != walked %" PRIu64 ")\n", "branch",
+            ms.ms_branch_pages, dbi->pages.branch);
+    const uint64_t allleaf_pages = dbi->pages.leaf + dbi->pages.leaf_dupfixed;
+    if (ms.ms_leaf_pages != allleaf_pages)
+      error("%s pages mismatch (%" PRIu64 " != walked %" PRIu64 ")\n",
+            "all-leaf", ms.ms_leaf_pages, allleaf_pages);
+    if (ms.ms_overflow_pages != dbi->pages.large_volume)
+      error("%s pages mismatch (%" PRIu64 " != walked %" PRIu64 ")\n",
+            "large/overlow", ms.ms_overflow_pages, dbi->pages.large_volume);
+  }
   rc = mdbx_cursor_open(txn, dbi_handle, &mc);
   if (rc) {
     error("mdbx_cursor_open failed, error %d %s\n", rc, mdbx_strerror(rc));
@@ -758,18 +759,19 @@ bailout:
 }
 
 static void usage(char *prog) {
-  fprintf(stderr,
-          "usage: %s [-V] [-v] [-n] [-q] [-c] [-w] [-d] [-i] [-s subdb] dbpath\n"
-          "  -V\t\tprint version and exit\n"
-          "  -v\t\tmore verbose, could be used multiple times\n"
-          "  -n\t\tNOSUBDIR mode for open\n"
-          "  -q\t\tbe quiet\n"
-          "  -c\t\tforce cooperative mode (don't try exclusive)\n"
-          "  -w\t\tlock DB for writing while checking\n"
-          "  -d\t\tdisable page-by-page traversal of B-tree\n"
-          "  -i\t\tignore wrong order errors (for custom comparators case)\n"
-          "  -s subdb\tprocess a specific subdatabase only\n",
-          prog);
+  fprintf(
+      stderr,
+      "usage: %s [-V] [-v] [-n] [-q] [-c] [-w] [-d] [-i] [-s subdb] dbpath\n"
+      "  -V\t\tprint version and exit\n"
+      "  -v\t\tmore verbose, could be used multiple times\n"
+      "  -n\t\tNOSUBDIR mode for open\n"
+      "  -q\t\tbe quiet\n"
+      "  -c\t\tforce cooperative mode (don't try exclusive)\n"
+      "  -w\t\tlock DB for writing while checking\n"
+      "  -d\t\tdisable page-by-page traversal of B-tree\n"
+      "  -i\t\tignore wrong order errors (for custom comparators case)\n"
+      "  -s subdb\tprocess a specific subdatabase only\n",
+      prog);
   exit(EXIT_INTERRUPTED);
 }
 
@@ -912,7 +914,6 @@ int main(int argc, char *argv[]) {
   char *prog = argv[0];
   char *envname;
   int problems_maindb = 0, problems_freedb = 0, problems_meta = 0;
-  bool dont_traversal = false;
   bool locked = false;
 
   double elapsed;
@@ -1171,6 +1172,14 @@ int main(int argc, char *argv[]) {
     }
     printf(", %" PRIu64 " pages\n",
            envinfo.mi_geo.current / envinfo.mi_dxb_pagesize);
+#if defined(_WIN32) || defined(_WIN64)
+    if (envinfo.mi_geo.shrink && envinfo.mi_geo.current != envinfo.mi_geo.upper)
+      print("                     WARNING: Due Windows system limitations a "
+            "file couldn't\n                     be truncated while database "
+            "is opened. So, the size of\n                     database file "
+            "may by large than the database itself,\n                     "
+            "until it will be closed or reopened in read-write mode.\n");
+#endif
     print(" - transactions: recent %" PRIu64 ", latter reader %" PRIu64
           ", lag %" PRIi64 "\n",
           envinfo.mi_recent_txnid, envinfo.mi_latter_reader_txnid,

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -15,12 +15,13 @@
 #include "test.h"
 
 bool testcase_hill::run() {
-  MDBX_dbi dbi;
   int err = db_open__begin__table_create_open_clean(dbi);
   if (unlikely(err != MDBX_SUCCESS)) {
     log_notice("hill: bailout-prepare due '%s'", mdbx_strerror(err));
-    return true;
+    return false;
   }
+  speculum.clear();
+  speculum_commited.clear();
 
   /* LY: тест "холмиком":
    *  - сначала наполняем таблицу циклическими CRUD-манипуляциями,
@@ -63,6 +64,7 @@ bool testcase_hill::run() {
   uint64_t commited_serial = serial_count;
   unsigned txn_nops = 0;
 
+  bool rc = false;
   while (should_continue()) {
     const keygen::serial_t a_serial = serial_count;
     if (unlikely(!keyvalue_maker.increment(serial_count, 1))) {
@@ -78,16 +80,21 @@ bool testcase_hill::run() {
     log_trace("uphill: insert-a (age %" PRIu64 ") %" PRIu64, age_shift,
               a_serial);
     generate_pair(a_serial, a_key, a_data_1, age_shift);
-    err = mdbx_put(txn_guard.get(), dbi, &a_key->value, &a_data_1->value,
-                   insert_flags);
+
+    err = insert(a_key, a_data_1, insert_flags);
     if (unlikely(err != MDBX_SUCCESS)) {
       if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
         log_notice("uphill: bailout at insert-a due '%s'", mdbx_strerror(err));
         txn_restart(true, false);
         serial_count = commited_serial;
+        speculum = speculum_commited;
         break;
       }
       failure_perror("mdbx_put(insert-a.1)", err);
+    }
+    if (!speculum_verify()) {
+      log_notice("uphill: bailout after insert-a, before commit");
+      goto bailout;
     }
 
     if (++txn_nops >= config.params.batch_write) {
@@ -95,25 +102,35 @@ bool testcase_hill::run() {
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("uphill: bailout at commit due '%s'", mdbx_strerror(err));
         serial_count = commited_serial;
+        speculum = speculum_commited;
         break;
       }
+      speculum_commited = speculum;
       commited_serial = a_serial;
       txn_nops = 0;
+      if (!speculum_verify()) {
+        log_notice("uphill: bailout after insert-a, after commit");
+        goto bailout;
+      }
     }
 
     // создаем вторую запись из пары
     log_trace("uphill: insert-b %" PRIu64, b_serial);
     generate_pair(b_serial, b_key, b_data, 0);
-    err = mdbx_put(txn_guard.get(), dbi, &b_key->value, &b_data->value,
-                   insert_flags);
+    err = insert(b_key, b_data, insert_flags);
     if (unlikely(err != MDBX_SUCCESS)) {
       if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
         log_notice("uphill: bailout at insert-b due '%s'", mdbx_strerror(err));
         txn_restart(true, false);
         serial_count = commited_serial;
+        speculum = speculum_commited;
         break;
       }
       failure_perror("mdbx_put(insert-b)", err);
+    }
+    if (!speculum_verify()) {
+      log_notice("uphill: bailout after insert-b, before commit");
+      goto bailout;
     }
 
     if (++txn_nops >= config.params.batch_write) {
@@ -121,10 +138,16 @@ bool testcase_hill::run() {
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("uphill: bailout at commit due '%s'", mdbx_strerror(err));
         serial_count = commited_serial;
+        speculum = speculum_commited;
         break;
       }
+      speculum_commited = speculum;
       commited_serial = a_serial;
       txn_nops = 0;
+      if (!speculum_verify()) {
+        log_notice("uphill: bailout after insert-b, after commit");
+        goto bailout;
+      }
     }
 
     // обновляем данные в первой записи
@@ -132,16 +155,20 @@ bool testcase_hill::run() {
               a_serial);
     generate_pair(a_serial, a_key, a_data_0, 0);
     checkdata("uphill: update-a", dbi, a_key->value, a_data_1->value);
-    err = mdbx_replace(txn_guard.get(), dbi, &a_key->value, &a_data_0->value,
-                       &a_data_1->value, update_flags);
+    err = replace(a_key, a_data_0, a_data_1, update_flags);
     if (unlikely(err != MDBX_SUCCESS)) {
       if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
         log_notice("uphill: bailout at update-a due '%s'", mdbx_strerror(err));
         txn_restart(true, false);
         serial_count = commited_serial;
+        speculum = speculum_commited;
         break;
       }
       failure_perror("mdbx_replace(update-a: 1->0)", err);
+    }
+    if (!speculum_verify()) {
+      log_notice("uphill: bailout after update-a, before commit");
+      goto bailout;
     }
 
     if (++txn_nops >= config.params.batch_write) {
@@ -149,24 +176,35 @@ bool testcase_hill::run() {
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("uphill: bailout at commit due '%s'", mdbx_strerror(err));
         serial_count = commited_serial;
+        speculum = speculum_commited;
         break;
       }
+      speculum_commited = speculum;
       commited_serial = a_serial;
       txn_nops = 0;
+      if (!speculum_verify()) {
+        log_notice("uphill: bailout after update-a, after commit");
+        goto bailout;
+      }
     }
 
     // удаляем вторую запись
     log_trace("uphill: delete-b %" PRIu64, b_serial);
     checkdata("uphill: delete-b", dbi, b_key->value, b_data->value);
-    err = mdbx_del(txn_guard.get(), dbi, &b_key->value, &b_data->value);
+    err = remove(b_key, b_data);
     if (unlikely(err != MDBX_SUCCESS)) {
       if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
         log_notice("uphill: bailout at delete-b due '%s'", mdbx_strerror(err));
         txn_restart(true, false);
         serial_count = commited_serial;
+        speculum = speculum_commited;
         break;
       }
       failure_perror("mdbx_del(b)", err);
+    }
+    if (!speculum_verify()) {
+      log_notice("uphill: bailout after delete-b, before commit");
+      goto bailout;
     }
 
     if (++txn_nops >= config.params.batch_write) {
@@ -174,10 +212,16 @@ bool testcase_hill::run() {
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("uphill: bailout at commit due '%s'", mdbx_strerror(err));
         serial_count = commited_serial;
+        speculum = speculum_commited;
         break;
       }
+      speculum_commited = speculum;
       commited_serial = a_serial;
       txn_nops = 0;
+      if (!speculum_verify()) {
+        log_notice("uphill: bailout after delete-b, after commit");
+        goto bailout;
+      }
     }
 
     report(1);
@@ -204,101 +248,145 @@ bool testcase_hill::run() {
     generate_pair(a_serial, a_key, a_data_0, 0);
     generate_pair(a_serial, a_key, a_data_1, age_shift);
     checkdata("downhill: update-a", dbi, a_key->value, a_data_0->value);
-    err = mdbx_replace(txn_guard.get(), dbi, &a_key->value, &a_data_1->value,
-                       &a_data_0->value, update_flags);
+    err = replace(a_key, a_data_1, a_data_0, update_flags);
     if (unlikely(err != MDBX_SUCCESS)) {
       if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
         log_notice("downhill: bailout at update-a due '%s'",
                    mdbx_strerror(err));
         txn_end(true);
+        speculum = speculum_commited;
         break;
       }
       failure_perror("mdbx_put(update-a: 0->1)", err);
+    }
+    if (!speculum_verify()) {
+      log_notice("downhill: bailout after update-a, before commit");
+      break;
     }
 
     if (++txn_nops >= config.params.batch_write) {
       err = breakable_restart();
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("downhill: bailout at commit due '%s'", mdbx_strerror(err));
+        speculum = speculum_commited;
         break;
       }
+      speculum_commited = speculum;
       txn_nops = 0;
+      if (!speculum_verify()) {
+        log_notice("downhill: bailout after update-a, after commit");
+        break;
+      }
     }
 
     // создаем вторую запись из пары
     log_trace("downhill: insert-b %" PRIu64, b_serial);
     generate_pair(b_serial, b_key, b_data, 0);
-    err = mdbx_put(txn_guard.get(), dbi, &b_key->value, &b_data->value,
-                   insert_flags);
+    err = insert(b_key, b_data, insert_flags);
     if (unlikely(err != MDBX_SUCCESS)) {
       if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
         log_notice("downhill: bailout at insert-a due '%s'",
                    mdbx_strerror(err));
         txn_end(true);
+        speculum = speculum_commited;
         break;
       }
       failure_perror("mdbx_put(insert-b)", err);
+    }
+    if (!speculum_verify()) {
+      log_notice("downhill: bailout after insert-b, before commit");
+      break;
     }
 
     if (++txn_nops >= config.params.batch_write) {
       err = breakable_restart();
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("downhill: bailout at commit due '%s'", mdbx_strerror(err));
+        speculum = speculum_commited;
         break;
       }
+      speculum_commited = speculum;
       txn_nops = 0;
+      if (!speculum_verify()) {
+        log_notice("downhill: bailout after insert-b, after commit");
+        break;
+      }
     }
 
     // удаляем первую запись
     log_trace("downhill: delete-a (age %" PRIu64 ") %" PRIu64, age_shift,
               a_serial);
     checkdata("downhill: delete-a", dbi, a_key->value, a_data_1->value);
-    err = mdbx_del(txn_guard.get(), dbi, &a_key->value, &a_data_1->value);
+    err = remove(a_key, a_data_1);
     if (unlikely(err != MDBX_SUCCESS)) {
       if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
         log_notice("downhill: bailout at delete-a due '%s'",
                    mdbx_strerror(err));
         txn_end(true);
+        speculum = speculum_commited;
         break;
       }
       failure_perror("mdbx_del(a)", err);
+    }
+    if (!speculum_verify()) {
+      log_notice("downhill: bailout after delete-a, before commit");
+      break;
     }
 
     if (++txn_nops >= config.params.batch_write) {
       err = breakable_restart();
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("downhill: bailout at commit due '%s'", mdbx_strerror(err));
+        speculum = speculum_commited;
         break;
       }
+      speculum_commited = speculum;
       txn_nops = 0;
+      if (!speculum_verify()) {
+        log_notice("downhill: bailout after delete-a, after commit");
+        break;
+      }
     }
 
     // удаляем вторую запись
     log_trace("downhill: delete-b %" PRIu64, b_serial);
     checkdata("downhill: delete-b", dbi, b_key->value, b_data->value);
-    err = mdbx_del(txn_guard.get(), dbi, &b_key->value, &b_data->value);
+    err = remove(b_key, b_data);
     if (unlikely(err != MDBX_SUCCESS)) {
       if (err == MDBX_MAP_FULL && config.params.ignore_dbfull) {
         log_notice("downhill: bailout at delete-b due '%s'",
                    mdbx_strerror(err));
         txn_end(true);
+        speculum = speculum_commited;
         break;
       }
       failure_perror("mdbx_del(b)", err);
+    }
+    if (!speculum_verify()) {
+      log_notice("downhill: bailout after delete-b, before commit");
+      break;
     }
 
     if (++txn_nops >= config.params.batch_write) {
       err = breakable_restart();
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("downhill: bailout at commit due '%s'", mdbx_strerror(err));
+        speculum = speculum_commited;
         break;
       }
+      speculum_commited = speculum;
       txn_nops = 0;
+      if (!speculum_verify()) {
+        log_notice("downhill: bailout after delete-b, after commit");
+        goto bailout;
+      }
     }
 
     report(1);
   }
 
+  rc = speculum_verify();
+bailout:
   if (txn_guard) {
     err = breakable_commit();
     if (unlikely(err != MDBX_SUCCESS))
@@ -312,10 +400,10 @@ bool testcase_hill::run() {
       err = breakable_commit();
       if (unlikely(err != MDBX_SUCCESS)) {
         log_notice("hill: bailout-clean due '%s'", mdbx_strerror(err));
-        return true;
+        return rc;
       }
     } else
       db_table_close(dbi);
   }
-  return true;
+  return rc;
 }

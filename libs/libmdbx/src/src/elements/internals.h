@@ -211,6 +211,7 @@ typedef uint32_t pgno_t;
 typedef uint64_t txnid_t;
 #define PRIaTXN PRIi64
 #define MIN_TXNID UINT64_C(1)
+#define INVALID_TXNID UINT64_MAX
 /* LY: for testing non-atomic 64-bit txnid on 32-bit arches.
  * #define MDBX_TXNID_STEP (UINT32_MAX / 3) */
 #ifndef MDBX_TXNID_STEP
@@ -256,7 +257,7 @@ typedef union mdbx_safe64 {
 typedef struct MDBX_db {
   uint16_t md_flags;        /* see mdbx_dbi_open */
   uint16_t md_depth;        /* depth of this tree */
-  uint32_t md_xsize;        /* also ksize for LEAF2 pages */
+  uint32_t md_xsize;        /* key-size for MDBX_DUPFIXED (LEAF2 pages) */
   pgno_t md_root;           /* the root page of this tree */
   pgno_t md_branch_pages;   /* number of internal pages */
   pgno_t md_leaf_pages;     /* number of leaf pages */
@@ -347,8 +348,7 @@ typedef struct MDBX_meta {
 typedef struct MDBX_page {
   union {
     struct MDBX_page *mp_next; /* for in-memory list of freed pages */
-    uint64_t mp_validator;     /* checksum of page content or a txnid during
-                                * which the page has been updated */
+    uint64_t mp_txnid;         /* txnid during which the page has been COW-ed */
   };
   uint16_t mp_leaf2_ksize; /* key size if this is a LEAF2 page */
 #define P_BRANCH 0x01      /* branch page */
@@ -703,7 +703,8 @@ struct MDBX_txn {
   /* Transaction Flags */
   /* mdbx_txn_begin() flags */
 #define MDBX_TXN_BEGIN_FLAGS                                                   \
-  (MDBX_NOMETASYNC | MDBX_NOSYNC | MDBX_MAPASYNC | MDBX_RDONLY | MDBX_TRYTXN)
+  (MDBX_NOMETASYNC | MDBX_SAFE_NOSYNC | MDBX_MAPASYNC | MDBX_RDONLY |          \
+   MDBX_TRYTXN)
   /* internal txn flags */
 #define MDBX_TXN_FINISHED 0x01  /* txn is finished or never began */
 #define MDBX_TXN_ERROR 0x02     /* txn is unusable after an error */
@@ -864,7 +865,8 @@ struct MDBX_env {
   size_t me_signature;
   mdbx_mmap_t me_dxb_mmap; /*  The main data file */
 #define me_map me_dxb_mmap.dxb
-#define me_fd me_dxb_mmap.fd
+#define me_lazy_fd me_dxb_mmap.fd
+  mdbx_filehandle_t me_dsync_fd;
   mdbx_mmap_t me_lck_mmap; /*  The lock file */
 #define me_lfd me_lck_mmap.fd
 #define me_lck me_lck_mmap.lck
@@ -947,7 +949,7 @@ struct MDBX_env {
 #endif
 #if defined(MDBX_USE_VALGRIND) || defined(__SANITIZE_ADDRESS__)
   pgno_t me_poison_edge;
-#endif
+#endif /* MDBX_USE_VALGRIND || __SANITIZE_ADDRESS__ */
   MDBX_env *me_lcklist_next;
 
   /* struct me_dbgeo used for accepting db-geo params from user for the new
@@ -1008,7 +1010,7 @@ MDBX_INTERNAL_FUNC void mdbx_panic(const char *fmt, ...) __printf_args(1, 2);
 
 #define mdbx_audit_enabled() (0)
 
-#if !defined(NDEBUG) || defined(MDBX_FORCE_ASSERT)
+#if !defined(NDEBUG) || defined(MDBX_FORCE_ASSERTIONS)
 #define mdbx_assert_enabled() (1)
 #else
 #define mdbx_assert_enabled() (0)

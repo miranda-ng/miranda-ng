@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -17,7 +17,6 @@
 void configure_actor(unsigned &last_space_id, const actor_testcase testcase,
                      const char *space_id_cstr, const actor_params &params) {
   unsigned wait4id = 0;
-
   if (params.waitfor_nops) {
     for (auto i = global::actors.rbegin(); i != global::actors.rend(); ++i) {
       if (i->is_waitable(params.waitfor_nops)) {
@@ -61,15 +60,15 @@ void testcase_setup(const char *casename, actor_params &params,
                     unsigned &last_space_id) {
   if (strcmp(casename, "basic") == 0) {
     log_notice(">>> testcase_setup(%s)", casename);
-    configure_actor(last_space_id, ac_jitter, nullptr, params);
+    configure_actor(last_space_id, ac_nested, nullptr, params);
     configure_actor(last_space_id, ac_hill, nullptr, params);
     configure_actor(last_space_id, ac_ttl, nullptr, params);
-    configure_actor(last_space_id, ac_jitter, nullptr, params);
-    configure_actor(last_space_id, ac_hill, nullptr, params);
-    configure_actor(last_space_id, ac_ttl, nullptr, params);
-    configure_actor(last_space_id, ac_try, nullptr, params);
     configure_actor(last_space_id, ac_copy, nullptr, params);
     configure_actor(last_space_id, ac_append, nullptr, params);
+    configure_actor(last_space_id, ac_jitter, nullptr, params);
+    configure_actor(last_space_id, ac_try, nullptr, params);
+    configure_actor(last_space_id, ac_jitter, nullptr, params);
+    configure_actor(last_space_id, ac_try, nullptr, params);
     log_notice("<<< testcase_setup(%s): done", casename);
   } else {
     failure("unknown testcase `%s`", casename);

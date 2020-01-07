@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
@@ -15,7 +15,6 @@
 #include "test.h"
 
 bool testcase_append::run() {
-  MDBX_dbi dbi;
   int err = db_open__begin__table_create_open_clean(dbi);
   if (unlikely(err != MDBX_SUCCESS)) {
     log_notice("append: bailout-prepare due '%s'", mdbx_strerror(err));
@@ -54,7 +53,7 @@ bool testcase_append::run() {
     }
 
     log_trace("append: append-a %" PRIu64, serial);
-    generate_pair(serial, key, data);
+    generate_pair(serial);
     int cmp = inserted_number ? mdbx_cmp(txn_guard.get(), dbi, &key->value,
                                          &last_key->value)
                               : 1;
