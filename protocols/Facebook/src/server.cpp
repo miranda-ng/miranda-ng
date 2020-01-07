@@ -533,9 +533,16 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 			JsonReply reply(ExecuteRequest(pReq));
 			if (!reply.error()) {
-				CMStringA str = reply.data()["redirect_uri"].as_mstring();
-				if (!str.IsEmpty())
-					szBody.AppendFormat("\r\nPicture attachment: %s", str.c_str());
+				CMStringA uri = reply.data()["redirect_uri"].as_mstring();
+				CMStringA type = reply.data()["content_type"].as_mstring();
+				if (!uri.IsEmpty()) {
+					if (type.Find("image/") == 0) 
+						szBody.Append("\r\nPicture attachment: ");
+					else 
+						szBody.Append("\r\nFile attachment: ");
+					
+					szBody.Append(uri);
+				}
 			}
 			continue;
 		}
