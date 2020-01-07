@@ -454,8 +454,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 	__int64 actorFbId = _wtoi64(metadata["actorFbId"].as_mstring());
 
-	CMStringA szId(metadata["messageId"].as_mstring());
-	CMStringA szBody(root["body"].as_mstring());
+	CMStringA szId(metadata["messageId"].as_string().c_str());
+	CMStringA szBody(root["body"].as_string().c_str());
 	if (szBody.IsEmpty())
 		szBody = metadata["snippet"].as_mstring();
 
