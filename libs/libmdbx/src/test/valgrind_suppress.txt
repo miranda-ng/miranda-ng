@@ -1,0 +1,24 @@
+{
+   msync-whole-mmap-1
+   Memcheck:Param
+   msync(start)
+   fun:msync
+   ...
+   fun:mdbx_sync_locked
+}
+{
+   msync-whole-mmap-2
+   Memcheck:Param
+   msync(start)
+   fun:msync
+   ...
+   fun:mdbx_env_sync_ex
+}
+{
+   pwrite-page-flush
+   Memcheck:Param
+   pwritev(vector[...])
+   fun:pwritev
+   ...
+   fun:mdbx_page_flush
+}

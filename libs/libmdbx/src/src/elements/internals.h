@@ -251,7 +251,7 @@ typedef union mdbx_safe64 {
   };
 } mdbx_safe64_t;
 
-#define SAFE64_INVALID_THRESHOLD UINT64_C(0xFFFFFFFFFFFF0000)
+#define SAFE64_INVALID_THRESHOLD UINT64_C(0xffffFFFF00000000)
 
 /* Information about a single database in the environment. */
 typedef struct MDBX_db {
