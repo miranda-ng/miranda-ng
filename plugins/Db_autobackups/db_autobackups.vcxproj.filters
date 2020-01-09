@@ -8,34 +8,13 @@
     <ClCompile Include="src\*.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\*.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\*.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
     <ResourceCompile Include="res\*.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

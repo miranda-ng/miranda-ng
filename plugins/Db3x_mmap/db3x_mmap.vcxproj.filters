@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <Filter Include="Source Files\Checker">
-      <UniqueIdentifier>{18e1a858-92e5-48e6-98f1-e08f4b562ea8}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
+  <ItemGroup>
+    <ClInclude Include="src\*.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="src\*.cpp;src\*.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ResourceCompile Include="res\*.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <None Include="res\*.ico;res\*.bmp;res\*.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

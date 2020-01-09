@@ -2,40 +2,17 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
   <ItemGroup>
-    <ClCompile Include="src\stdafx.cxx">
+    <ClInclude Include="src\*.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="src\*.cpp;src\*.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\*.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="res\*.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\*.ico">
+    <None Include="res\*.ico;res\*.bmp;res\*.cur">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="telegram.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>
