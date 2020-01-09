@@ -36,7 +36,7 @@ static int CountStatusModes(DWORD flags)
 	if (flags & PF2_LIGHTDND) ++res;
 	if (flags & PF2_HEAVYDND) ++res;
 	if (flags & PF2_FREECHAT) ++res;
-	if (res) ++res; //  Offline
+	++res; //  Offline
 	return res;
 }
 
