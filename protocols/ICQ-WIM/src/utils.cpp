@@ -132,10 +132,15 @@ void CIcqProto::Json2int(MCONTACT hContact, const JSONNode &node, const char *sz
 void CIcqProto::Json2string(MCONTACT hContact, const JSONNode &node, const char *szJson, const char *szSetting)
 {
 	const JSONNode &var = node[szJson];
-	if (var)
-		setWString(hContact, szSetting, var.as_mstring());
-	else
-		delSetting(hContact, szSetting);
+	if (var) {
+		CMStringW wszStr(var.as_mstring());
+		if (wszStr == L"[deleted]") {
+			setByte(hContact, "IcqDeleted", 1);
+			Contact_PutOnList(hContact);
+		}
+		else setWString(hContact, szSetting, wszStr);
+	}
+	else delSetting(hContact, szSetting);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
