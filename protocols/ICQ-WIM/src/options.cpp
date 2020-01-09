@@ -215,7 +215,7 @@ class CIcqOptionsDlg : public CIcqDlgBase
 	CCtrlEdit edtUin, edtPassword;
 	CCtrlCheck chkHideChats, chkTrayIcon, chkLaunchMailbox, chkShowErrorPopups;
 	CCtrlButton btnCreate;
-	CMStringA wszOldPass;
+	CMStringW wszOldPass;
 
 public:
 	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
@@ -239,13 +239,13 @@ public:
 
 			chkTrayIcon.OnChange = Callback(this, &CIcqOptionsDlg::onChange_Tray);
 		}
-
-		edtPassword.SetText(Utf2T(ppro->m_szPassword));
-		wszOldPass = ppro->m_szPassword;
 	}
 
 	bool OnInitDialog() override
 	{
+		wszOldPass = m_proto->getMStringW("Password");
+		edtPassword.SetText(wszOldPass);
+
 		onChange_Tray(0);
 		return true;
 	}
