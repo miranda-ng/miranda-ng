@@ -143,6 +143,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	SESSION_INFO *si = Chat_NewSession(GCW_SERVER, m_szModuleName, pGuild->wszName, pGuild->wszName, pGuild);
 	pGuild->pParentSi = (SESSION_INFO*)si;
 	pGuild->hContact = si->hContact;
+	setId(pGuild->hContact, DB_KEY_CHANNELID, guildId);
 
 	if (!pGuild->bSynced && getByte(si->hContact, "EnableSync"))
 		GatewaySendGuildInfo(guildId);
