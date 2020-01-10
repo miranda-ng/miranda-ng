@@ -55,6 +55,9 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 		pData = mir_utf8encodeW(text);
 		dataLength = (int)mir_strlen(pData);
 	}
+
+	if (!ppro->m_szCookie.IsEmpty())
+		AddHeader("Cookie", ppro->m_szCookie);
 	AddHeader("Content-Type", "application/json");
 
 	m_pFunc = pFunc;

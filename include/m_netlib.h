@@ -789,7 +789,7 @@ struct WSHeader
 };
 
 // connects to a WebSocket server
-EXTERN_C MIR_APP_DLL(HNETLIBCONN) WebSocket_Connect(HNETLIBUSER, const char *szHost, NETLIBHTTPHEADER *pHeaders = nullptr);
+EXTERN_C MIR_APP_DLL(NETLIBHTTPREQUEST*) WebSocket_Connect(HNETLIBUSER, const char *szHost, NETLIBHTTPHEADER *pHeaders = nullptr);
 
 // validates that the provided buffer contains full WebSocket datagram
 EXTERN_C MIR_APP_DLL(bool) WebSocket_InitHeader(WSHeader &hdr, const void *pData, size_t bufSize);

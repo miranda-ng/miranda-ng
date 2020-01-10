@@ -47,13 +47,25 @@ bool CDiscordProto::GatewayThreadWorker()
 		{ 0, 0 }
 	};
 
-	m_hGatewayConnection = WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=6", hdrs);
-	if (m_hGatewayConnection == nullptr) {
+	auto *pReply = WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=6", hdrs);
+	if (pReply == nullptr) {
 		debugLogA("Gateway connection failed, exiting");
 		return false;
 	}
 	
 	debugLogA("Gateway connection succeeded");
+	m_hGatewayConnection = pReply->nlc;
+
+	for (int i=0; i < pReply->headersCount; i++)
+		if (!mir_strcmp(pReply->headers[i].szName, "Set-Cookie")) {
+			m_szCookie = pReply->headers[i].szValue;
+			
+			int idx = m_szCookie.Find(';');
+			if (idx != -1)
+				m_szCookie.Truncate(idx);
+			break;
+		}
+	Netlib_FreeHttpRequest(pReply);
 
 	bool bExit = false;
 	int offset = 0;

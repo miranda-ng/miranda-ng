@@ -182,7 +182,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	CMStringA
 		m_szGateway,           // gateway url
-		m_szGatewaySessionId;  // current session id
+		m_szGatewaySessionId,  // current session id
+		m_szCookie;				  // a cookie to be passed into all http queries
 	
 	HNETLIBUSER m_hGatewayNetlibUser; // the separate netlib user handle for gateways
 	HNETLIBCONN m_hGatewayConnection;      // gateway connection
