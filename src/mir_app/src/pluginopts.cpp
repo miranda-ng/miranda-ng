@@ -331,7 +331,7 @@ public:
 
 		// set checkboxes for all loaded plugins
 		for (auto &it : arPluginList)
-			if (isPluginOnWhiteList(it->fileName) && it->hInst)
+			if (it->bWasChecked && isPluginOnWhiteList(it->fileName) && it->hInst)
 				m_plugList.SetItemState(it->iRow, 0x2000, LVIS_STATEIMAGEMASK);
 
 		// sort out the headers
