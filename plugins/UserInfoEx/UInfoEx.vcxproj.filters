@@ -1,6 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files\Export">
+      <UniqueIdentifier>{c8dd3d4e-3adb-4b2d-ac98-78e190c2b499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Flags">
+      <UniqueIdentifier>{c8dd3d4e-3adb-4b2d-ac98-78e190c2b49A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
+  <ItemGroup>
+    <ClInclude Include="src\ex_import\*.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClCompile Include="src\ex_import\*.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Flags\*.h">
+      <Filter>Source Files\Flags</Filter>
+    </ClInclude>
+    <ClCompile Include="src\Flags\*.cpp">
+      <Filter>Source Files\Flags</Filter>
+    </ClCompile>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\*.h">
       <Filter>Header Files</Filter>
