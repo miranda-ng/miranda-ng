@@ -562,14 +562,20 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 		CMStringA str = attach["url"].as_mstring();
 		if (!str.IsEmpty()) {
-			if (str.Left(8) == "fbrpc") {
+			if (str.Left(8) == "fbrpc://") {
 				int iStart = str.Find("target_url=");
 				if (iStart != 0) {
-					int iEnd = str.Find("&", iStart + 11);
-					if (iEnd == -1)
-						szBody.AppendFormat("\r\n\t%s: %s", TranslateU("URL"), str.c_str() + iStart);
+					CMStringA tmp;
+
+					iStart += 11;
+					int iEnd = str.Find("&", iStart);
+					if (iEnd != -1)
+						tmp = str.Mid(iStart, iEnd - iStart);
 					else
-						szBody.AppendFormat("\r\n\t%s: %s", TranslateU("URL"), str.Mid(iStart, iEnd).c_str());
+						tmp = str.Right(iStart);
+					
+					mir_urlDecode(tmp.GetBuffer());
+					szBody.AppendFormat("\r\n\t%s: %s", TranslateU("URL"), tmp.c_str());
 				}
 			}
 			else szBody.AppendFormat("\r\n\t%s: %s", TranslateU("URL"), str.c_str());
