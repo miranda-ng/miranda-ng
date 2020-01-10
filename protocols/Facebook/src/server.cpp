@@ -96,6 +96,20 @@ void FacebookProto::OnLoggedOut()
 	setAllContactStatuses(ID_STATUS_OFFLINE);
 }
 
+FacebookUser* FacebookProto::AddContact(const CMStringW &wszId, bool bTemp)
+{
+	MCONTACT hContact = db_add_contact();
+	Proto_AddToContact(hContact, m_szModuleName);
+	setWString(hContact, DBKEY_ID, wszId);
+	Clist_SetGroup(hContact, m_wszDefaultGroup);
+	if (bTemp)
+		Contact_RemoveFromList(hContact);
+
+	auto *ret = new FacebookUser(_wtoi64(wszId), hContact);
+	m_users.insert(ret);
+	return ret;
+}
+
 int FacebookProto::RefreshContacts()
 {
 	auto *pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
@@ -117,15 +131,9 @@ int FacebookProto::RefreshContacts()
 		MCONTACT hContact;
 		if (id != m_uid) {
 			auto *pUser = FindUser(id);
-			if (pUser == nullptr) {
-				hContact = db_add_contact();
-				Proto_AddToContact(hContact, m_szModuleName);
-				setWString(hContact, DBKEY_ID, wszId);
-				Clist_SetGroup(hContact, m_wszDefaultGroup);
-				
-				m_users.insert(new FacebookUser(id, hContact));
-			}
-			else hContact = pUser->hContact;
+			if (pUser == nullptr)
+				pUser = AddContact(wszId, false);
+			hContact = pUser->hContact;
 		}
 		else hContact = 0;
 
@@ -429,7 +437,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		return;
 	}
 
-	__int64 otherUserFbId = _wtoi64(metadata["threadKey"]["otherUserFbId"].as_mstring());
+	CMStringW wszOtherUserFbId(metadata["threadKey"]["otherUserFbId"].as_mstring());
+	__int64 otherUserFbId = _wtoi64(wszOtherUserFbId);
 	if (!otherUserFbId) {
 		// TODO: handling thread/room/groupchat messages
 		debugLogA("We can't handle group chats at the moment, ignored");
@@ -437,10 +446,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	}
 
 	auto *pUser = FindUser(otherUserFbId);
-	if (pUser == nullptr) {
-		debugLogA("Message from unknown contact %lu, ignored", otherUserFbId);
-		return;
-	}
+	if (pUser == nullptr)
+		pUser = AddContact(wszOtherUserFbId);
 
 	for (auto &it : metadata["tags"]) {
 		auto *szTagName = it.name();

@@ -450,6 +450,8 @@ class FacebookProto : public PROTO<FacebookProto>
    bool RefreshToken();
    int  RefreshContacts();
 
+   FacebookUser* AddContact(const CMStringW &wszId, bool bTemp = true);
+
    void __cdecl SendMessageAckThread(void *);
    void __cdecl ServerThread(void *);
 
