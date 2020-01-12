@@ -30,14 +30,10 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
-	m_maxContactId(0)
+	m_maxContactId(0),
+	m_impl(*this)
 {
 	m_tszProfileName = mir_wstrdup(tszFileName);
-
-	if (!m_bReadOnly) {
-		m_hwndTimer = CreateWindowExW(0, L"STATIC", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
-		::SetWindowLongPtr(m_hwndTimer, GWLP_USERDATA, (LONG_PTR)this);
-	}
 }
 
 CDbxMDBX::~CDbxMDBX()
@@ -46,9 +42,6 @@ CDbxMDBX::~CDbxMDBX()
 
 	if (!m_bReadOnly)
 		TouchFile();
-
-	if (m_hwndTimer != nullptr)
-		::DestroyWindow(m_hwndTimer);
 
 	for (auto &it : hService)
 		DestroyServiceFunction(it);
@@ -188,7 +181,7 @@ LBL_Fail:
 
 	res = FlushFileBuffers(pFile);
 	if (res == 0) {
-		Netlib_Logf(0, "CDbxMDBX::Backup: FlushFileBuffers failed with error code %d (%d)", GetLastError());
+		Netlib_Logf(0, "CDbxMDBX::Backup: FlushFileBuffers failed with error code %d", GetLastError());
 		goto LBL_Fail;
 	}
 
@@ -279,22 +272,11 @@ void CDbxMDBX::TouchFile()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
-{
-	KillTimer(hwnd, idEvent);
-
-	CDbxMDBX *pDb = (CDbxMDBX *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (pDb)
-		pDb->DBFlush(true);
-}
-
 void CDbxMDBX::DBFlush(bool bForce)
 {
-	if (bForce) {
+	if (bForce)
 		mdbx_env_sync(m_env);
-	}
-	else if (m_safetyMode) {
-		::KillTimer(m_hwndTimer, 1);
-		::SetTimer(m_hwndTimer, 1, 50, DoBufferFlushTimerProc);
-	}
+
+	else if (m_safetyMode)
+		m_impl.m_timer.Start(50);
 }

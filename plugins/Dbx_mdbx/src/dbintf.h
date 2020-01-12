@@ -140,6 +140,24 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 {
 	friend class MDBXEventCursor;
 
+	struct Impl {
+		CDbxMDBX &pro;
+
+		CTimer m_timer;
+		void OnTimer(CTimer *pTimer)
+		{
+			pTimer->Stop();
+			pro.DBFlush(true);
+		}
+
+		Impl(CDbxMDBX &_p) :
+			pro(_p),
+			m_timer(Miranda_GetSystemWindow(), UINT_PTR(this))
+		{
+			m_timer.OnEvent = Callback(this, &Impl::OnTimer);
+		}
+	} m_impl;
+
 	__forceinline MDBX_txn* StartTran() const
 	{
 		MDBX_txn *res = 0;
@@ -168,7 +186,6 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 
 	MDBX_dbi m_dbGlobal;
 	DBHeader m_header;
-	HWND     m_hwndTimer; // for flushing database
 
 	DBCachedContact m_ccDummy; // dummy contact to serve a cache item for MCONTACT = 0
 
