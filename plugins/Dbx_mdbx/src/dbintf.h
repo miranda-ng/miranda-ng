@@ -158,13 +158,12 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 		}
 	} m_impl;
 
-	__forceinline MDBX_txn* StartTran() const
+	__forceinline MDBX_txn* StartTran()
 	{
 		MDBX_txn *res = 0;
-		int rc = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_RDONLY : 0, &res);
+		m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_RDONLY : 0, &res);
 		/* FIXME: throw an exception */
-		_ASSERT(rc == MDBX_SUCCESS);
-		UNREFERENCED_PARAMETER(rc);
+		_ASSERT(m_dbError == MDBX_SUCCESS);
 		return res;
 	}
 
@@ -181,8 +180,9 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	TCHAR*   m_tszProfileName;
 	bool     m_safetyMode, m_bReadOnly, m_bShared, m_bEncrypted, m_bUsesPassword;
 
-	MDBX_env *m_env;
+	MDBX_env    *m_env;
 	CMDBX_txn_ro m_txn_ro;
+	int 			 m_dbError;
 
 	MDBX_dbi m_dbGlobal;
 	DBHeader m_header;
@@ -192,7 +192,7 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	////////////////////////////////////////////////////////////////////////////
 	// settings
 
-	MDBX_dbi  m_dbSettings;
+	MDBX_dbi     m_dbSettings;
 	MDBX_cursor *m_curSettings;
 
 	HANDLE   hService[2], hHook;
@@ -219,7 +219,7 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	////////////////////////////////////////////////////////////////////////////
 	// modules
 
-	MDBX_dbi	m_dbModules;
+	MDBX_dbi	    m_dbModules;
 	MDBX_cursor *m_curModules;
 
 	std::map<uint32_t, std::string> m_Modules;
@@ -232,7 +232,7 @@ class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 	////////////////////////////////////////////////////////////////////////////
 	// encryption
 
-	MDBX_dbi  m_dbCrypto;
+	MDBX_dbi m_dbCrypto;
 
 	int      InitCrypt(void);
 	CRYPTO_PROVIDER* SelectProvider();

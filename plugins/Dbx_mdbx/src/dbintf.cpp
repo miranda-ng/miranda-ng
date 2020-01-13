@@ -60,6 +60,15 @@ int CDbxMDBX::Load()
 	unsigned int defFlags = MDBX_CREATE;
 	{
 		txn_ptr trnlck(StartTran());
+		if (trnlck == nullptr) {
+			if (m_dbError == MDBX_TXN_FULL) {
+				if (IDOK == MessageBox(NULL, TranslateT("Your database is in the obsolete format. Click Ok to read the upgrade instructions or Cancel to exit"), TranslateT("Error"), MB_ICONERROR | MB_OKCANCEL))
+					Utils_OpenUrl("https://www.miranda-ng.org/news/unknown_profile_format");
+				return EGROKPRF_OBSOLETE;
+			}
+			return EGROKPRF_DAMAGED;
+		}
+		
 		mdbx_dbi_open(trnlck, "global", defFlags | MDBX_INTEGERKEY, &m_dbGlobal);
 		mdbx_dbi_open(trnlck, "crypto", defFlags, &m_dbCrypto);
 		mdbx_dbi_open(trnlck, "contacts", defFlags | MDBX_INTEGERKEY, &m_dbContacts);
