@@ -104,7 +104,6 @@ struct CVkProto;
 extern mir_cs csInstances;
 extern bool g_bMessageState;
 
-LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
 bool wlstrstr(wchar_t *_s1, wchar_t *_s2);
 
 void InitIcons(void);

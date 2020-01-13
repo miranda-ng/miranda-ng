@@ -179,16 +179,11 @@ auto CGDriveService::CreateUploadSession(const std::string &parentId, const std:
 
 	HandleHttpError(response);
 
-	if (HTTP_CODE_SUCCESS(response->resultCode)) {
-		for (int i = 0; i < response->headersCount; i++) {
-			if (mir_strcmpi(response->headers[i].szName, "Location"))
-				continue;
-			return std::string(response->headers[i].szValue);
-		}
-	}
+	if (HTTP_CODE_SUCCESS(response->resultCode)) 
+		if (auto *pszHdr = Netlib_GetHeader(response, "Location"))
+			return std::string(pszHdr);
 
 	HttpResponseToError(response);
-
 	return std::string();
 }
 

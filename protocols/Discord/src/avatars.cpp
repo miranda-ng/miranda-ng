@@ -69,11 +69,8 @@ LBL_Error:
 		return;
 	}
 
-	for (int i = 0; i < reply->headersCount; i++)
-		if (!mir_strcmp(reply->headers[i].szName, "Content-Type")) {
-			ai.format = ProtoGetAvatarFormatByMimeType(reply->headers[i].szValue);
-			break;
-		}
+	if (auto *pszHdr = Netlib_GetHeader(reply, "Content-Type"))
+		ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
 
 	if (ai.format == PA_FORMAT_UNKNOWN) {
 		debugLogA("unknown avatar mime type");

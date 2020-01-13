@@ -1055,18 +1055,13 @@ int CMsnProto::MSN_AuthOAuth(void)
 				mHttpsTS = clock();
 				if (nlhrReply2) {
 					char *pszURL = nullptr, *pAccessToken, *pEnd;
+				
 					hHttpsConnection = nlhrReply2->nlc;
-
 					bPassportAuth = true;
 
 					if (nlhrReply2->resultCode == 302) {
 						/* Extract access_token from Location can be found */
-						for (int i = 0; i < nlhrReply2->headersCount; i++) {
-							if (!mir_strcmpi(nlhrReply2->headers[i].szName, "Location")) {
-								pszURL = nlhrReply2->headers[i].szValue;
-								break;
-							}
-						}
+						pszURL = Netlib_GetHeader(nlhrReply2, "Location");
 					}
 					else {
 						/* There may be a problem with login, i.e. M$ security measures. Open up browser

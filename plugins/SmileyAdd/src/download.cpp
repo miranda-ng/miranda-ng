@@ -87,24 +87,21 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 			else if (nlhrReply->resultCode == 302 || nlhrReply->resultCode == 301 || nlhrReply->resultCode == 307) { // page moved
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
-				for (int i = 0; i < nlhrReply->headersCount; i++) {
-					if (!mir_strcmp(nlhrReply->headers[i].szName, "Location")) {
-						size_t rlen = 0;
-						if (nlhrReply->headers[i].szValue[0] == '/') {
-							const char *szPref = strstr(szUrl, "://");
-							szPref = szPref ? szPref + 3 : szUrl;
-							const char *szPath = strchr(szPref, '/');
-							rlen = szPath != nullptr ? szPath - szUrl : mir_strlen(szUrl);
-						}
-
-						szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + mir_strlen(nlhrReply->headers[i].szValue) * 3 + 1);
-
-						strncpy(szRedirUrl, szUrl, rlen);
-						mir_strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue);
-
-						nlhr.szUrl = szRedirUrl;
-						break;
+				if (auto *pszUrl = Netlib_GetHeader(nlhrReply, "Location")) {
+					size_t rlen = 0;
+					if (pszUrl[0] == '/') {
+						const char *szPref = strstr(szUrl, "://");
+						szPref = szPref ? szPref + 3 : szUrl;
+						const char *szPath = strchr(szPref, '/');
+						rlen = szPath != nullptr ? szPath - szUrl : mir_strlen(szUrl);
 					}
+
+					szRedirUrl = (char *)mir_realloc(szRedirUrl, rlen + mir_strlen(pszUrl) * 3 + 1);
+
+					strncpy(szRedirUrl, szUrl, rlen);
+					mir_strcpy(szRedirUrl + rlen, pszUrl);
+
+					nlhr.szUrl = szRedirUrl;
 				}
 			}
 			else result = 1;

@@ -105,10 +105,13 @@ static int RecvWithTimeoutTime(NetlibConnection *nlc, unsigned dwTimeoutTime, ch
 	return Netlib_Recv(nlc, buf, len, flags);
 }
 
-static char* NetlibHttpFindHeader(NETLIBHTTPREQUEST *nlhrReply, const char *hdr)
+MIR_APP_DLL(char *) Netlib_GetHeader(const NETLIBHTTPREQUEST *nlhr, const char *hdr)
 {
-	for (int i=0; i < nlhrReply->headersCount; i++) {
-		NETLIBHTTPHEADER &p = nlhrReply->headers[i];
+	if (nlhr == nullptr || hdr == nullptr)
+		return nullptr;
+
+	for (int i=0; i < nlhr->headersCount; i++) {
+		NETLIBHTTPHEADER &p = nlhr->headers[i];
 		if (_stricmp(p.szName, hdr) == 0)
 			return p.szValue;
 	}
@@ -552,7 +555,7 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags);
 
 			if (nlhrReply) {
-				char* tmpUrl = NetlibHttpFindHeader(nlhrReply, "Location");
+				auto *tmpUrl = Netlib_GetHeader(nlhrReply, "Location");
 				if (tmpUrl) {
 					size_t rlen = 0;
 					if (tmpUrl[0] == '/') {
@@ -825,8 +828,8 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHT
 	NETLIBHTTPREQUEST nlhrSend = *nlhr;
 	nlhrSend.flags |= NLHRF_SMARTREMOVEHOST;
 
-	bool doneUserAgentHeader = NetlibHttpFindHeader(nlhr, "User-Agent") != nullptr;
-	bool doneAcceptEncoding = NetlibHttpFindHeader(nlhr, "Accept-Encoding") != nullptr;
+	bool doneUserAgentHeader = Netlib_GetHeader(nlhr, "User-Agent") != nullptr;
+	bool doneAcceptEncoding = Netlib_GetHeader(nlhr, "Accept-Encoding") != nullptr;
 	if (!doneUserAgentHeader || !doneAcceptEncoding) {
 		nlhrSend.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER) * (nlhrSend.headersCount + 2));
 		memcpy(nlhrSend.headers, nlhr->headers, sizeof(NETLIBHTTPHEADER) * nlhr->headersCount);

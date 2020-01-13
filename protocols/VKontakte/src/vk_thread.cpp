@@ -199,7 +199,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	GrabCookies(reply);
 
 	if (reply->resultCode == 302) { // manual redirect
-		LPCSTR pszLocation = findHeader(reply, "Location");
+		LPCSTR pszLocation = Netlib_GetHeader(reply, "Location");
 		if (pszLocation) {
 			if (!_strnicmp(pszLocation, szBlankUrl, sizeof(szBlankUrl) - 1)) {
 				m_szAccessToken = nullptr;

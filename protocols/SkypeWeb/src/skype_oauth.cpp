@@ -39,12 +39,9 @@ void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
 	}
 	std::string PPTF = match[1];
 
-	for (int i = 0; i < response->headersCount; i++) {
-		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
-			continue;
-
+	if (auto *pszHdr = Netlib_GetHeader(response, "Set-Cookie")) {
 		regex = "^(.+?)=(.+?);";
-		content = response->headers[i].szValue;
+		content = pszHdr;
 		if (std::regex_search(content, match, regex))
 			scookies[match[1]] = match[2];
 	}

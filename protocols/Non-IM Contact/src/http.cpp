@@ -49,35 +49,31 @@ int InternetDownloadFile(char *szUrl)
 
 	// download the page
 	NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
-	if (nlhrReply) {
-		// return error code if the recieved code is neither 200 OK or 302 Moved
-		if (nlhrReply->resultCode != 200 && nlhrReply->resultCode != 302)
-			return nlhrReply->resultCode;
-		// if the recieved code is 200 OK
-		else if (nlhrReply->resultCode == 200) {
-			// allocate memory and save the retrieved data
-			szData = (char *)malloc(mir_strlen(nlhrReply->pData) + 2);
-			mir_strncpy(szData, nlhrReply->pData, mir_strlen(nlhrReply->pData));
-		}
-		// if the recieved code is 302 Moved, Found, etc
-		else if (nlhrReply->resultCode == 302) {	// page moved
-			int i;
-			// get the url for the new location and save it to szInfo
-			// look for the reply header "Location"
-			for (i = 0; i < nlhrReply->headersCount; i++) {
-				if (!mir_strcmp(nlhrReply->headers[i].szName, "Location")) {
-					szData = (char *)malloc(512);
-					// add "Moved/Location:" in front of the new URL for identification
-					mir_snprintf(szData, 512, "Moved/Location: %s\n", nlhrReply->headers[i].szValue);
-					break;
-				}
-			}
-			// log the new url into netlib log
-			Netlib_Log(hNetlibUser, szData);
-		}
+	if (nlhrReply == nullptr)
+		return 1; // if the data does not downloaded successfully (ie. disconnected), then return 1 as error code
+
+	// return error code if the recieved code is neither 200 OK or 302 Moved
+	if (nlhrReply->resultCode != 200 && nlhrReply->resultCode != 302)
+		return nlhrReply->resultCode;
+	// if the recieved code is 200 OK
+	else if (nlhrReply->resultCode == 200) {
+		// allocate memory and save the retrieved data
+		szData = (char *)malloc(mir_strlen(nlhrReply->pData) + 2);
+		mir_strncpy(szData, nlhrReply->pData, mir_strlen(nlhrReply->pData));
 	}
-	// if the data does not downloaded successfully (ie. disconnected), then return 1 as error code
-	else   return 1;
+	// if the recieved code is 302 Moved, Found, etc
+	else if (nlhrReply->resultCode == 302) {	// page moved
+		// get the url for the new location and save it to szInfo
+		// look for the reply header "Location"
+		if (auto *pszHdr = Netlib_GetHeader(nlhrReply, "Location")) {
+			szData = (char *)malloc(512);
+			// add "Moved/Location:" in front of the new URL for identification
+			mir_snprintf(szData, 512, "Moved/Location: %s\n", pszHdr);
+		}
+
+		// log the new url into netlib log
+		Netlib_Log(hNetlibUser, szData);
+	}
 
 	// make a copy of the retrieved data, then free the memory of the http reply
 	szInfo = szData;

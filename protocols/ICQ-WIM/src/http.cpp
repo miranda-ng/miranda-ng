@@ -179,13 +179,10 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			auto &conn = m_ConnPool[pReq->m_conn];
 			conn.s = reply->nlc;
 			conn.timeout = 0;
-			for (int i = 0; i < reply->headersCount; i++) {
-				if (!mir_strcmp(reply->headers[i].szName, "Keep-Alive")) {
-					int timeout;
-					if (1 == sscanf(reply->headers[i].szValue, "timeout=%d", &timeout))
-						conn.timeout = timeout;
-					break;
-				}
+			if (auto *pszHdr = Netlib_GetHeader(reply, "Keep-Alive")) {
+				int timeout;
+				if (1 == sscanf(pszHdr, "timeout=%d", &timeout))
+					conn.timeout = timeout;
 			}
 		}
 

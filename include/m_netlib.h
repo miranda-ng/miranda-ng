@@ -434,6 +434,10 @@ struct NETLIBHTTPHEADER
 	char *szValue;
 };
 
+EXTERN_C MIR_APP_DLL(char*) Netlib_GetHeader(const NETLIBHTTPREQUEST *pRec, const char *pszName);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define REQUEST_RESPONSE 0	// used by structure returned by MS_NETLIB_RECVHTTPHEADERS
 #define REQUEST_GET      1
 #define REQUEST_POST     2
@@ -471,6 +475,10 @@ struct NETLIBHTTPREQUEST
 	char *szResultDescr;
 	HNETLIBCONN nlc;
 	int timeout;
+
+	__forceinline const char *operator[](const char *pszName) {
+		return Netlib_GetHeader(this, pszName);
+	}
 };
 
 EXTERN_C MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN hConnection, NETLIBHTTPREQUEST *pRec);

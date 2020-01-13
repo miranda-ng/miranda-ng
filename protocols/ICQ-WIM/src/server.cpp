@@ -38,17 +38,13 @@ void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 		}
 
 		setWString(hContact, "IconId", wszIconId);
-	}
-	else delSetting(hContact, "IconId");
 
-	CMStringA szUrl(ev["bigBuddyIcon"].as_mstring());
-	if (szUrl.IsEmpty())
-		szUrl = ev["buddyIcon"].as_mstring();
-	if (!szUrl.IsEmpty()) {
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnReceiveAvatar);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/expressions/get", &CIcqProto::OnReceiveAvatar);
+		pReq << CHAR_PARAM("f", "native") << WCHAR_PARAM("t", GetUserId(hContact)) << CHAR_PARAM("type", "bigBuddyIcon");
 		pReq->hContact = hContact;
 		Push(pReq);
 	}
+	else delSetting(hContact, "IconId");
 }
 
 void CIcqProto::CheckLastId(MCONTACT hContact, const JSONNode &ev)
@@ -889,8 +885,11 @@ LBL_Error:
 		return;
 	}
 
-	const wchar_t *pwszExtension;
-	ai.format = ProtoGetBufferFormat(pReply->pData, &pwszExtension);
+	const char *szContentType = Netlib_GetHeader(pReply, "Content-Type");
+	if (szContentType == nullptr)
+		szContentType = "image/jpeg";
+
+	ai.format = ProtoGetAvatarFormatByMimeType(szContentType);
 	setByte(pReq->hContact, "AvatarType", ai.format);
 	GetAvatarFileName(pReq->hContact, ai.filename, _countof(ai.filename));
 

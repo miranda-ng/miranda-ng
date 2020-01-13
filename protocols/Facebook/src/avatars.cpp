@@ -71,11 +71,8 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 
 		bool bSuccess = false;
 		if (pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
-			for (int i = 0; i < pReply->headersCount; i++)
-				if (!mir_strcmp(pReply->headers[i].szName, "Content-Type")) {
-					ai.format = ProtoGetAvatarFormatByMimeType(pReply->headers[i].szValue);
-					break;
-				}
+			if (auto *pszHdr = Netlib_GetHeader(pReply, "Content-Type"))
+				ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
 
 			if (ai.format != PA_FORMAT_UNKNOWN) {
 				FILE *fout = _wfopen(ai.filename, L"wb");

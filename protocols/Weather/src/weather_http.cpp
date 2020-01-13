@@ -27,16 +27,6 @@ from the web using netlib
 
 HNETLIBUSER hNetlibUser;
 
-static int findHeader(const NETLIBHTTPREQUEST *nlhrReply, const char *hdr)
-{
-	for (int i = 0; i < nlhrReply->headersCount; i++) {
-		if (_stricmp(nlhrReply->headers[i].szName, hdr) == 0) {
-			return i;
-		}
-	}
-	return -1;
-}
-
 //============  DOWNLOAD NEW WEATHER  ============
 //
 // function to download webpage from the internet
@@ -90,9 +80,9 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 			result = 0;
 
 			// allocate memory and save the retrieved data
-			int i = findHeader(nlhrReply, "Content-Type");
+			auto *pszHdr = Netlib_GetHeader(nlhrReply, "Content-Type");
 			// look for Content-Type=utf-8 in header
-			if (i != -1 && strstr(_strlwr(nlhrReply->headers[i].szValue), "utf-8"))
+			if (pszHdr && strstr(pszHdr, "utf-8"))
 				bIsUtf = true;
 			else {
 				char *end = nlhrReply->pData;

@@ -67,11 +67,8 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 
 void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
 {
-	for (int i = 0; i < nhr->headersCount; i++) {
-		LPCSTR szValue = nhr->headers[i].szValue;
-		if (!_stricmp(nhr->headers[i].szName, "Location"))
-			m_szUrl = szValue;
-	}
+	if (auto *pszHdr = Netlib_GetHeader(nhr, "Location"))
+		m_szUrl = pszHdr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

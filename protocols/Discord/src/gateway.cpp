@@ -56,15 +56,13 @@ bool CDiscordProto::GatewayThreadWorker()
 	debugLogA("Gateway connection succeeded");
 	m_hGatewayConnection = pReply->nlc;
 
-	for (int i=0; i < pReply->headersCount; i++)
-		if (!mir_strcmp(pReply->headers[i].szName, "Set-Cookie")) {
-			m_szCookie = pReply->headers[i].szValue;
+	if (auto *pszHdr = Netlib_GetHeader(pReply, "Set-Cookie")) {
+		m_szCookie = pszHdr;
 			
-			int idx = m_szCookie.Find(';');
-			if (idx != -1)
-				m_szCookie.Truncate(idx);
-			break;
-		}
+		int idx = m_szCookie.Find(';');
+		if (idx != -1)
+			m_szCookie.Truncate(idx);
+	}
 	Netlib_FreeHttpRequest(pReply);
 
 	bool bExit = false;

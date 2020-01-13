@@ -37,15 +37,6 @@ bool IsEmpty(LPCSTR str)
 	return (str == nullptr || str[0] == 0);
 }
 
-LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
-{
-	for (int i = 0; i < pReq->headersCount; i++)
-		if (!_stricmp(pReq->headers[i].szName, szField))
-			return pReq->headers[i].szValue;
-
-	return nullptr;
-}
-
 bool wlstrstr(wchar_t *_s1, wchar_t *_s2)
 {
 	wchar_t s1[1024], s2[1024];
@@ -487,11 +478,8 @@ CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 {
 	debugLogA("CVkProto::GrabCookies");
-	for (int i = 0; i < nhr->headersCount; i++) {
-		if (_stricmp(nhr->headers[i].szName, "Set-cookie"))
-			continue;
-
-		CMStringA szValue = nhr->headers[i].szValue, szCookieName, szCookieVal, szDomain;
+	if (auto *pszCookie = Netlib_GetHeader(nhr, "Set-cookie")) {
+		CMStringA szValue = pszCookie, szCookieName, szCookieVal, szDomain;
 		int iStart = 0;
 		while (true) {
 			bool bFirstToken = (iStart == 0);
