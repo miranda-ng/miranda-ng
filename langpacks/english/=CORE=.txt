@@ -582,6 +582,7 @@
 [&Close]
 [About Miranda NG]
 [Credits >]
+[Hidden window]
 [Tray]
 [&Hide/Show]
 [E&xit]

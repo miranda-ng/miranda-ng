@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.4
+;  Version: 0.2.1.0
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -82,12 +82,12 @@
 [Toggle Notes Visibility]
 [Bring All Notes to Front]
 [New Reminder]
+[View Reminders]
 ;file \plugins\NotesAndReminders\src\main.cpp
 [Delete All Notes]
 [Show/Hide Notes]
 [On Top Caption Icon]
 [Delete All Reminders]
-[View Reminders]
 [Not on Top Caption Icon]
 [Hide Note Icon]
 [Remove Note Icon]
@@ -99,11 +99,6 @@
 [Add New Note]
 [Add New Reminder]
 [Notes && Reminders]
-[New &Note]
-[Vie&w Notes]
-[&Delete All Notes]
-[&Bring All to Front]
-[Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 [Alerts]
 [Reminder triggered]
 [Reminder triggered (Alternative 1)]

@@ -548,6 +548,13 @@
 [jun.]
 [sen.]
 ;file \plugins\UserInfoEx\src\svc_constants.h
+;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+[Memory allocation error!]
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+[User has no valid homepage]
+[View Homepage]
+[&Homepage]
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 [Abort Refreshing Contact Details]
