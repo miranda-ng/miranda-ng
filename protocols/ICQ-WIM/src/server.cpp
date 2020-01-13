@@ -538,6 +538,8 @@ void CIcqProto::ShutdownSession()
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
 
+	OnLoggedOut();
+
 	for (auto &it : m_ConnPool) {
 		if (it.s) {
 			Netlib_Shutdown(it.s);
