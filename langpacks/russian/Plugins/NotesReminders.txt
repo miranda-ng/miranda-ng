@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.4
+;  Version: 0.2.1.0
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -157,6 +157,8 @@
 Переместить заметки на передний план
 [New Reminder]
 Новое напоминание
+[View Reminders]
+Просмотр напоминаний
 ;file \plugins\NotesAndReminders\src\main.cpp
 [Delete All Notes]
 Удалить все заметки
@@ -166,8 +168,6 @@
 Прикрепить
 [Delete All Reminders]
 Удалить все напоминания
-[View Reminders]
-Просмотр напоминаний
 [Not on Top Caption Icon]
 Отцепить
 [Hide Note Icon]
@@ -190,16 +190,6 @@
 Добавить напоминание…
 [Notes && Reminders]
 Заметки &и напоминания
-[New &Note]
-Новая &заметка
-[Vie&w Notes]
-Про&смотр заметок
-[&Delete All Notes]
-&Удалить все заметки
-[&Bring All to Front]
-&Переместить на передний план
-[Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda не смогла загрузить плагин Notes & Reminders из-за отсутствия Msftedit.dll. Если вы используете WINE, то убедитесь, что установлена библиотека Msftedit.dll. Нажмите "Да" для продолжения запуска программы.
 [Alerts]
 Сигнал
 [Reminder triggered]

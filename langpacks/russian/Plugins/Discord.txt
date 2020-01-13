@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.1
+;  Version: 0.6.2.2
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -93,6 +93,10 @@ ID пользователя
 [Protocol is offline or user isn't authorized yet]
 Протокол не в сети или пользователь ещё не авторизовался
 ;file \protocols\Discord\src\utils.cpp
+[Owners]
+Владельцы
+[Participants]
+Участники
 [Attachment]
 Вложение
 [Embed]

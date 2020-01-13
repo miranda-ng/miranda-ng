@@ -1152,6 +1152,8 @@ UIN, E-mail и т.д.
 О программе
 [Credits >]
 Благодарности >
+[Hidden window]
+Скрытое окно
 [Tray]
 Трей
 [&Hide/Show]
@@ -2521,7 +2523,7 @@ xСтатус
 <Корневая группа>
 [&Move to group]
 &Группа
-;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 Стандартный журнал Netlib
 [No times]
@@ -2538,7 +2540,7 @@ xСтатус
 Выбрать путь к файлу журнала
 [Select program to be run]
 Выбрать программу для запуска
-;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 <различные>
 [<All connections>]

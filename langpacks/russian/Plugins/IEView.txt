@@ -89,15 +89,6 @@
 Вкл. группировку
 [Group Off]
 Откл. группировку
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[%s has joined.]
-%s вошёл.
-[%s has left.]
-%s вышел.
-[The topic is %s.]
-Тема %s
-[Error]
-Ошибка
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 По умолчанию

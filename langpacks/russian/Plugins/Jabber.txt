@@ -76,8 +76,6 @@ TLS
 Поддерживать соединение
 [Automatically delete contacts not in my roster]
 Автоматически удалять контакты, которые не в списке
-[User directory:]
-Директория пользователей:
 [Language for human-readable resources:]
 Язык для видимых человеку ресурсов:
 [File Transfer]
@@ -86,8 +84,6 @@ TLS
 Передача файлов через прямое соединение
 [Specify external address:]
 Внешний адрес:
-[Allow file sending through bytestream proxy server:]
-Передача через потоковый прокси-сервер:
 [Miscellaneous]
 Прочее
 [Hint:]
@@ -544,14 +540,14 @@ xHTML формат чат сообщений
 Участник
 [Moderator]
 Модератор
-[Owners]
-Владельцы
-[Moderators]
-Модераторы
-[Participants]
-Участники
 [Visitors]
 Посетители
+[Participants]
+Участники
+[Moderators]
+Модераторы
+[Owners]
+Владельцы
 [User %s is now banned.]
 
 [User %s changed status to %s with message: %s]
@@ -730,6 +726,8 @@ Jabber ошибка
 Добавить поиск
 [Use this proxy]
 Использовать этот прокси
+[Use for uploads]
+Использовать для отправки файлов
 [Commands...]
 Команды...
 [Logon]
@@ -911,8 +909,6 @@ Jabber ошибка
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Выбор учётной записи Jabber
-[Convert]
-Конвертировать
 [Add to Bookmarks]
 Добавить в закладки
 [Commands]
@@ -927,10 +923,6 @@ Jabber ошибка
 Последний активный
 [Server's Choice]
 Выбор сервера
-[&Convert to Contact]
-&Конвертировать в контакт
-[&Convert to Chat Room]
-&Конвертировать в чат
 [Services...]
 Службы...
 [Registered Transports]

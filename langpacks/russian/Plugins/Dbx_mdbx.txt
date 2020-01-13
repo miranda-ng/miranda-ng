@@ -49,6 +49,11 @@
 Неверный пароль!
 [Please type in your password]
 Пожалуйста, введите свой пароль
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click Ok to read the upgrade instructions or Cancel to exit]
+Формат вашей базы является устаревшим. Нажмите "OK", чтобы получить сведения об обновлении, либо "Отмена" для выхода.
+[Error]
+Ошибка
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Изменить/удалить пароль

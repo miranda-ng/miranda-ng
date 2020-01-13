@@ -119,6 +119,8 @@ URI объект
 Звонок завершён (%s)
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Передача файла:\n\tИмя файла: %s \n\tРазмер: %lld байт \n
+[Preview]
+Тест
 [Unknown event, please send this text for developer: "%s"]
 Неизвестное событие, пожалуйста, отправьте этот текст разработчику: "%s"
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
