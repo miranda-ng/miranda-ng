@@ -161,7 +161,11 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 static INT_PTR CompactMe(void* obj, WPARAM, LPARAM)
 {
 	CDbxMDBX *db = (CDbxMDBX*)obj;
-	return db->Compact();
+	if (!db->Compact())
+		MessageBox(0, TranslateT("Database was compacted successfully"), TranslateT("Database"), MB_OK | MB_ICONINFORMATION);
+	else
+		MessageBox(0, TranslateT("Database compaction failed"), TranslateT("Database"), MB_OK | MB_ICONERROR);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
