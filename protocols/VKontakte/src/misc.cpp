@@ -478,8 +478,11 @@ CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 {
 	debugLogA("CVkProto::GrabCookies");
-	if (auto *pszCookie = Netlib_GetHeader(nhr, "Set-cookie")) {
-		CMStringA szValue = pszCookie, szCookieName, szCookieVal, szDomain;
+	for (int i = 0; i < nhr->headersCount; i++) {
+		if (_stricmp(nhr->headers[i].szName, "Set-cookie"))
+			continue;
+
+		CMStringA szValue = nhr->headers[i].szValue, szCookieName, szCookieVal, szDomain;
 		int iStart = 0;
 		while (true) {
 			bool bFirstToken = (iStart == 0);
