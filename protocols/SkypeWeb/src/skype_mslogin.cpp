@@ -39,9 +39,12 @@ void CSkypeProto::OnMSLoginFirst(const NETLIBHTTPREQUEST *response)
 	}
 	std::string PPTF = match[1];
 
-	if (auto *pszHdr = Netlib_GetHeader(response, "Set-Cookie")) {
+	for (int i = 0; i < response->headersCount; i++) {
+		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
+			continue;
+
 		regex = "^(.+?)=(.+?);";
-		content = pszHdr;
+		content = response->headers[i].szValue;
 		if (std::regex_search(content, match, regex))
 			scookies[match[1]] = match[2];
 	}
@@ -68,9 +71,12 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 	if (std::regex_search(content, match, regex)) {
 		if (match[1] == "i5600") {
 			CMStringA szCookies;
-			if (auto *pszHdr = Netlib_GetHeader(response, "Set-Cookie")) {
+			for (int i = 0; i < response->headersCount; i++) {
+				if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
+					continue;
+
 				regex = "^(.+?)=(.+?);";
-				content = pszHdr;
+				content = response->headers[i].szValue;
 				if (std::regex_search(content, match, regex))
 					if (!std::string(match[2]).empty() && std::string(match[2]) != " ")
 						szCookies.AppendFormat("%s=%s;", std::string(match[1]).c_str(), std::string(match[2]).c_str());
