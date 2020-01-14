@@ -62,7 +62,7 @@ int CDbxMDBX::Load()
 		txn_ptr trnlck(StartTran());
 		if (trnlck == nullptr) {
 			if (m_dbError == MDBX_TXN_FULL) {
-				if (IDOK == MessageBox(NULL, TranslateT("Your database is in the obsolete format. Click Ok to read the upgrade instructions or Cancel to exit"), TranslateT("Error"), MB_ICONERROR | MB_OKCANCEL))
+				if (IDOK == MessageBox(NULL, TranslateT("Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit"), TranslateT("Error"), MB_ICONERROR | MB_OKCANCEL))
 					Utils_OpenUrl("https://www.miranda-ng.org/news/unknown_profile_format");
 				return EGROKPRF_OBSOLETE;
 			}
