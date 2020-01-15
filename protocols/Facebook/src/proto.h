@@ -444,6 +444,8 @@ class FacebookProto : public PROTO<FacebookProto>
       return m_users.find((FacebookUser *)&id);
    }
 
+   void FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody);
+
    void OnLoggedIn();
    void OnLoggedOut();
 

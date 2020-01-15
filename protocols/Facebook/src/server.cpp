@@ -428,6 +428,34 @@ static facebookClients[] =
 	{ "app_id:256002347743983", "Facebook (Facebook Messenger)" }
 };
 
+void FacebookProto::FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody)
+{
+	for (int iAttempt = 0; iAttempt < 5; iAttempt++) {
+		auto *pReq = CreateRequest(FB_API_URL_ATTACH, "getAttachment", "messaging.getAttachment");
+		pReq << CHAR_PARAM("mid", mid) << INT64_PARAM("aid", fbid);
+		pReq->CalcSig();
+
+		JsonReply reply(ExecuteRequest(pReq));
+		switch (reply.error()) {
+		case 0:
+			{
+				std::string uri = reply.data()["redirect_uri"].as_string();
+				std::string type = reply.data()["content_type"].as_string();
+				if (!uri.empty())
+					szBody.AppendFormat("\r\n%s: %s", TranslateU(type.find("image/") != -1 ? "Picture attachment" : "File attachment"), uri.c_str());
+			}
+			return;
+
+		case 509: // attachment isn't ready, wait a bit and retry
+			::Sleep(100);
+			continue;
+
+		default: // shit happened, exiting
+			return;
+		}
+	}
+}
+
 void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 {
 	auto &metadata = root["messageMetadata"];
@@ -534,23 +562,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			}
 
 			// inline attachment, request its description
-			auto *pReq = CreateRequest(FB_API_URL_ATTACH, "getAttachment", "messaging.getAttachment");
-			pReq << CHAR_PARAM("mid", szId) << INT64_PARAM("aid", fbid);
-			pReq->CalcSig();
-
-			JsonReply reply(ExecuteRequest(pReq));
-			if (!reply.error()) {
-				CMStringA uri = reply.data()["redirect_uri"].as_mstring();
-				CMStringA type = reply.data()["content_type"].as_mstring();
-				if (!uri.IsEmpty()) {
-					if (type.Find("image/") == 0) 
-						szBody.Append("\r\nPicture attachment: ");
-					else 
-						szBody.Append("\r\nFile attachment: ");
-					
-					szBody.Append(uri);
-				}
-			}
+			FetchAttach(szId, fbid, szBody);
 			continue;
 		}
 		JSONROOT nBody(szJson);
