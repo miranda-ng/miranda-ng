@@ -339,9 +339,11 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 	}
 	else {
 		CMStringW wszText = PrepareMessageText(pRoot);
-		bool bOurMessage = userId == m_ownId;
+		if (wszText.IsEmpty())
+			return;
 
 		// old message? try to restore it from database
+		bool bOurMessage = userId == m_ownId;
 		if (!bIsNew) {
 			MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
 			if (hOldEvent) {
