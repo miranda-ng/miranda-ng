@@ -53,7 +53,7 @@ IconItem g_iconList[] =
 	{ LPGEN("Main icon"),   "main",      IDI_MAIN },
 	{ LPGEN("Group chats"), "groupchat", IDI_GROUPCHAT },
 	{ LPGEN("Voice call"),  "voicecall", IDI_VOICE_CALL },
-	{ LPGEN("Call ended"),  "voiceend",  IDI_VOICE_ENDED }
+	{ LPGEN("Voice call ended"),  "voiceend",  IDI_VOICE_ENDED }
 };
 
 int CMPlugin::Load()
