@@ -29,7 +29,7 @@
 [Password is not correct!]
 [Please type in your password]
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
-[Your database is in the obsolete format. Click Ok to read the upgrade instructions or Cancel to exit]
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 [Error]
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
@@ -37,6 +37,8 @@
 [Wrong old password entered!]
 [Password is too short!]
 [Passwords do not match!]
+[Database was compacted successfully]
 [Database]
+[Database compaction failed]
 [Logo]
 [Compact]
