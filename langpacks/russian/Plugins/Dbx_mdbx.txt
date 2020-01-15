@@ -50,7 +50,7 @@
 [Please type in your password]
 Пожалуйста, введите свой пароль
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
-[Your database is in the obsolete format. Click Ok to read the upgrade instructions or Cancel to exit]
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 Формат вашей базы является устаревшим. Нажмите "OK", чтобы получить сведения об обновлении, либо "Отмена" для выхода.
 [Error]
 Ошибка
@@ -64,8 +64,12 @@
 Слишком короткий пароль!
 [Passwords do not match!]
 Пароли не совпадают!
+[Database was compacted successfully]
+База успешно сжата
 [Database]
 База данных
+[Database compaction failed]
+Не удалось сжать базу
 [Logo]
 Логотип
 [Compact]

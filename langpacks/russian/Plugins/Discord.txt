@@ -27,6 +27,10 @@
 [Nick:]
 Ник:
 ;file \protocols\Discord\src\dispatch.cpp
+[Incoming voice call]
+Входящий звонок
+[Voice call ended, %d seconds long]
+Звонок завершён, длительность - %d секунд
 [edited at]
 изменено в
 ;file \protocols\Discord\src\groupchat.cpp
@@ -53,6 +57,10 @@
 Главный значок
 [Group chats]
 Чаты
+[Voice call]
+Звонок
+[Voice call ended]
+Звонок завершён
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 Укажите имя комнаты чаты
