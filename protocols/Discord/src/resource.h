@@ -7,6 +7,8 @@
 #define IDD_OPTIONS_ACCOUNT             103
 #define IDD_EXTSEARCH                   104
 #define IDD_OPTIONS_ACCMGR              105
+#define IDI_VOICE_CALL                  106
+#define IDI_VOICE_ENDED                 107
 #define IDC_PASSWORD                    1001
 #define IDC_USERNAME                    1002
 #define IDC_GROUP                       1003

@@ -28,6 +28,10 @@ struct CDiscordCommand
 }
 static handlers[] = // these structures must me sorted alphabetically
 {
+	{ L"CALL_CREATE", &CDiscordProto::OnCommandCallCreated },
+	{ L"CALL_DELETE", &CDiscordProto::OnCommandCallDeleted },
+	{ L"CALL_UPDATE", &CDiscordProto::OnCommandCallUpdated },
+
 	{ L"CHANNEL_CREATE", &CDiscordProto::OnCommandChannelCreated },
 	{ L"CHANNEL_DELETE", &CDiscordProto::OnCommandChannelDeleted },
 	{ L"CHANNEL_UPDATE", &CDiscordProto::OnCommandChannelUpdated },
@@ -69,6 +73,74 @@ GatewayHandlerFunc CDiscordProto::GetHandler(const wchar_t *pwszCommand)
 	CDiscordCommand tmp = { pwszCommand, nullptr };
 	CDiscordCommand *p = (CDiscordCommand*)bsearch(&tmp, handlers, _countof(handlers), sizeof(handlers[0]), pSearchFunc);
 	return (p != nullptr) ? p->pFunc : nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// call operations (voice & video)
+
+void CDiscordProto::OnCommandCallCreated(const JSONNode &pRoot)
+{
+	for (auto &it : pRoot["voice_states"]) {
+		SnowFlake channelId = ::getId(pRoot["channel_id"]);
+		auto *pUser = FindUserByChannel(channelId);
+		if (pUser == nullptr) {
+			debugLogA("Call from unknown channel %lld, skipping", channelId);
+			continue;
+		}
+
+		auto *pCall = new CDiscordVoiceCall();
+		pCall->szId = it["session_id"].as_mstring();
+		pCall->channelId = channelId;
+		pCall->startTime = time(0);
+		arVoiceCalls.insert(pCall);
+
+		char *szMessage = TranslateU("Incoming voice call");
+		DBEVENTINFO dbei = {};
+		dbei.szModule = m_szModuleName;
+		dbei.timestamp = pCall->startTime;
+		dbei.eventType = EVENT_INCOMING_CALL;
+		dbei.cbBlob = DWORD(mir_strlen(szMessage)+1);
+		dbei.pBlob = (BYTE*)szMessage;
+		dbei.flags = DBEF_UTF;
+		db_event_add(pUser->hContact, &dbei);
+	}
+}
+
+void CDiscordProto::OnCommandCallDeleted(const JSONNode &pRoot)
+{
+	SnowFlake channelId = ::getId(pRoot["channel_id"]);
+	auto *pUser = FindUserByChannel(channelId);
+	if (pUser == nullptr) {
+		debugLogA("Call from unknown channel %lld, skipping", channelId);
+		return;
+	}
+
+	int elapsed = 0, currTime = time(0);
+	for (auto &call : arVoiceCalls.rev_iter())
+		if (call->channelId == channelId) {
+			elapsed = currTime - call->startTime;
+			arVoiceCalls.remove(arVoiceCalls.indexOf(&call));
+			break;
+		}
+
+	if (!elapsed) {
+		debugLogA("Call from channel %lld isn't registered, skipping", channelId);
+		return;
+	}
+
+	CMStringA szMessage(FORMAT, TranslateU("Voice call ended, %d seconds long"), elapsed);
+	DBEVENTINFO dbei = {};
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = currTime;
+	dbei.eventType = EVENT_CALL_FINISHED;
+	dbei.cbBlob = DWORD(szMessage.GetLength() + 1);
+	dbei.pBlob = (BYTE *)szMessage.c_str();
+	dbei.flags = DBEF_UTF;
+	db_event_add(pUser->hContact, &dbei);
+}
+
+void CDiscordProto::OnCommandCallUpdated(const JSONNode &pRoot)
+{
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

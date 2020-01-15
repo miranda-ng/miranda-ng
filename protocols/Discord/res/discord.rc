@@ -56,6 +56,9 @@ IDI_MAIN                ICON                    "discord.ico"
 
 IDI_GROUPCHAT           ICON                    "groupchat.ico"
 
+IDI_VOICE_CALL          ICON                    "voiceCall.ico"
+
+IDI_VOICE_ENDED         ICON                    "voiceEnded.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

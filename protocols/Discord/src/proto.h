@@ -1,5 +1,8 @@
 #pragma once
 
+#define EVENT_INCOMING_CALL 10001
+#define EVENT_CALL_FINISHED 10002
+
 typedef __int64 SnowFlake;
 
 __forceinline int compareInt64(const SnowFlake i1, const SnowFlake i2)
@@ -109,6 +112,13 @@ struct CDiscordGuild : public MZeroedObject
 	SESSION_INFO *pParentSi;
 	OBJLIST<CDiscordGuildMember> arChatUsers;
 	OBJLIST<CDiscordRole> arRoles; // guild roles
+};
+
+struct CDiscordVoiceCall
+{
+	CMStringA szId;
+	SnowFlake channelId;
+	time_t    startTime;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -223,6 +233,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	OBJLIST<CDiscordUser> arUsers;
 	OBJLIST<COwnMessage> arOwnMessages;
+	OBJLIST<CDiscordVoiceCall> arVoiceCalls;
 
 	CDiscordUser* FindUser(SnowFlake id);
 	CDiscordUser* FindUser(const wchar_t *pwszUsername, int iDiscriminator);
@@ -326,6 +337,7 @@ public:
 
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetEventIcon(WPARAM, LPARAM);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
@@ -342,28 +354,31 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// dispatch commands
 
-	void OnCommandChannelCreated(const JSONNode&);
-	void OnCommandChannelDeleted(const JSONNode&);
-	void OnCommandChannelUpdated(const JSONNode&);
-	void OnCommandGuildCreated(const JSONNode&);
-	void OnCommandGuildDeleted(const JSONNode&);
-	void OnCommandGuildMemberAdded(const JSONNode&);
-	void OnCommandGuildMemberRemoved(const JSONNode&);
-	void OnCommandGuildMemberUpdated(const JSONNode&);
-	void OnCommandGuildSync(const JSONNode&);
-	void OnCommandFriendAdded(const JSONNode&);
-	void OnCommandFriendRemoved(const JSONNode&);
+	void OnCommandCallCreated(const JSONNode &json);
+	void OnCommandCallDeleted(const JSONNode &json);
+	void OnCommandCallUpdated(const JSONNode &json);
+	void OnCommandChannelCreated(const JSONNode &json);
+	void OnCommandChannelDeleted(const JSONNode &json);
+	void OnCommandChannelUpdated(const JSONNode &json);
+	void OnCommandGuildCreated(const JSONNode &json);
+	void OnCommandGuildDeleted(const JSONNode &json);
+	void OnCommandGuildMemberAdded(const JSONNode &json);
+	void OnCommandGuildMemberRemoved(const JSONNode &json);
+	void OnCommandGuildMemberUpdated(const JSONNode &json);
+	void OnCommandGuildSync(const JSONNode &json);
+	void OnCommandFriendAdded(const JSONNode &json);
+	void OnCommandFriendRemoved(const JSONNode &json);
 	void OnCommandMessage(const JSONNode&, bool);
-	void OnCommandMessageCreate(const JSONNode&);
-	void OnCommandMessageUpdate(const JSONNode&);
-	void OnCommandMessageAck(const JSONNode&);
-	void OnCommandPresence(const JSONNode&);
-	void OnCommandReady(const JSONNode&);
-	void OnCommandRoleCreated(const JSONNode&);
-	void OnCommandRoleDeleted(const JSONNode&);
-	void OnCommandTyping(const JSONNode&);
-	void OnCommandUserUpdate(const JSONNode&);
-	void OnCommandUserSettingsUpdate(const JSONNode&);
+	void OnCommandMessageCreate(const JSONNode &json);
+	void OnCommandMessageUpdate(const JSONNode &json);
+	void OnCommandMessageAck(const JSONNode &json);
+	void OnCommandPresence(const JSONNode &json);
+	void OnCommandReady(const JSONNode &json);
+	void OnCommandRoleCreated(const JSONNode &json);
+	void OnCommandRoleDeleted(const JSONNode &json);
+	void OnCommandTyping(const JSONNode &json);
+	void OnCommandUserUpdate(const JSONNode &json);
+	void OnCommandUserSettingsUpdate(const JSONNode &json);
 
 	void OnLoggedIn();
 	void OnLoggedOut();
