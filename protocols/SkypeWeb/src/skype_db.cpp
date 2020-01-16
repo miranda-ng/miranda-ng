@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-struct SkypeDBType { int type; char *name; DWORD flags; } g_SkypeDBTypes[] =
+struct { int type; char *name; DWORD flags; } g_SkypeDBTypes[] =
 {
 	{ SKYPE_DB_EVENT_TYPE_INCOMING_CALL, LPGEN("Incoming call"), DETF_NONOTIFY },
 	{ SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, LPGEN("Edited message"), 0 },
