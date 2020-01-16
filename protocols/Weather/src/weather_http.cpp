@@ -82,7 +82,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 			// allocate memory and save the retrieved data
 			auto *pszHdr = Netlib_GetHeader(nlhrReply, "Content-Type");
 			// look for Content-Type=utf-8 in header
-			if (pszHdr && strstr(pszHdr, "utf-8"))
+			if (pszHdr && strstr(_strlwr(pszHdr), "utf-8"))
 				bIsUtf = true;
 			else {
 				char *end = nlhrReply->pData;
