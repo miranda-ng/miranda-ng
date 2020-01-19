@@ -488,8 +488,20 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	}
 
 	__int64 actorFbId = _wtoi64(metadata["actorFbId"].as_mstring());
-
 	CMStringA szId(metadata["messageId"].as_string().c_str());
+
+	// messages sent with attachments are returning as deltaNewMessage, not deltaSentMessage
+	if (m_uid == actorFbId) {
+		for (auto& it : arOwnMessages) {
+			if (it->msgId == offlineId) {
+				ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) it->reqId, (LPARAM) szId.c_str());
+				arOwnMessages.remove(arOwnMessages.indexOf(&it));
+				break;
+			}
+		}
+	}
+
+	// parse message body
 	CMStringA szBody(root["body"].as_string().c_str());
 	if (szBody.IsEmpty())
 		szBody = metadata["snippet"].as_string().c_str();
@@ -550,7 +562,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		else szBody += TranslateU("SmileyAdd plugin required to support stickers");
 	}
 
-	// parse stickers
+	// parse attachments (links, files, ...)
 	for (auto &it : root["attachments"]) {
 		// madness... json inside json
 		CMStringA szJson(it["xmaGraphQL"].as_mstring());
