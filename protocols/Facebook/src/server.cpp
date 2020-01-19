@@ -492,7 +492,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	CMStringA szId(metadata["messageId"].as_string().c_str());
 	CMStringA szBody(root["body"].as_string().c_str());
 	if (szBody.IsEmpty())
-		szBody = metadata["snippet"].as_mstring();
+		szBody = metadata["snippet"].as_string().c_str();
 
 	// parse stickers
 	CMStringA stickerId = root["stickerId"].as_mstring();
@@ -593,19 +593,19 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			else szBody.AppendFormat("\r\n\t%s: %s", TranslateU("URL"), str.c_str());
 		}
 
-		str = attach["title"].as_mstring();
+		str = attach["title"].as_string().c_str();
 		if (!str.IsEmpty())
 			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Title"), str.c_str());
 
-		str = attach["source"]["text"].as_mstring();
+		str = attach["source"]["text"].as_string().c_str();
 		if (!str.IsEmpty())
 			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Source"), str.c_str());
 
-		str = attach["description"]["text"].as_mstring();
+		str = attach["description"]["text"].as_string().c_str();
 		if (!str.IsEmpty())
 			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Description"), str.c_str());
 
-		str = attach["media"]["playable_url"].as_mstring();
+		str = attach["media"]["playable_url"].as_string().c_str();
 		if (!str.IsEmpty())
 			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Playable media"), str.c_str());
 	}
