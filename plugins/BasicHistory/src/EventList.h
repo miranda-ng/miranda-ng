@@ -97,7 +97,7 @@ protected:
 	void DeleteEvent(const EventIndex& ev)
 	{
 		if (!ev.isExternal)
-			db_event_delete(m_hContact, ev.hEvent);
+			db_event_delete(ev.hEvent);
 	}
 
 	void RebuildGroup(int selected);

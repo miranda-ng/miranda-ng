@@ -162,11 +162,16 @@ MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	return (MEVENT)ofsNew;
 }
 
-BOOL CDb3Mmap::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
+BOOL CDb3Mmap::DeleteEvent(MEVENT hDbEvent)
 {
+	mir_cslockfull lck(m_csDbAccess);
+	DBEvent dbe = *(DBEvent*)DBRead((DWORD)hDbEvent, nullptr);
+	if (dbe.signature != DBEVENT_SIGNATURE)
+		return 1;
+
 	DBCachedContact *cc;
-	if (contactID) {
-		if ((cc = m_cache->GetCachedContact(contactID)) == nullptr)
+	if (dbe.contactID) {
+		if ((cc = m_cache->GetCachedContact(dbe.contactID)) == nullptr)
 			return 2;
 		if (cc->IsSub())
 			if ((cc = m_cache->GetCachedContact(cc->parentID)) == nullptr)
@@ -174,18 +179,16 @@ BOOL CDb3Mmap::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	}
 	else cc = nullptr;
 
-	mir_cslockfull lck(m_csDbAccess);
 	DWORD ofsContact = (cc) ? cc->dwOfsContact : m_dbHeader.ofsUser;
-	DBContact dbc = *(DBContact*)DBRead(ofsContact, nullptr);
-	DBEvent dbe = *(DBEvent*)DBRead((DWORD)hDbEvent, nullptr);
-	if (dbc.signature != DBCONTACT_SIGNATURE || dbe.signature != DBEVENT_SIGNATURE)
+	DBContact dbc = *(DBContact *)DBRead(ofsContact, nullptr);
+	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
 
 	lck.unlock();
 	log1("delete event @ %08x", hContact);
 
 	// call notifier while outside mutex
-	NotifyEventHooks(g_hevEventDeleted, contactID, (LPARAM)hDbEvent);
+	NotifyEventHooks(g_hevEventDeleted, dbe.contactID, (LPARAM)hDbEvent);
 
 	// get back in
 	lck.lock();

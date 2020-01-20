@@ -968,7 +968,7 @@ end;
 procedure TExternalGrid.GridItemDelete(Sender: TObject; Index: Integer);
 begin
   if (FGridState = gsDelete) and (Items[Index].hDBEvent <> 0) and (not Items[Index].Custom) then
-    db_event_delete(Items[Index].hContact, Items[Index].hDBEvent);
+    db_event_delete(Items[Index].hDBEvent);
   if Index <> High(Items) then
   begin
     Finalize(Items[Index]);

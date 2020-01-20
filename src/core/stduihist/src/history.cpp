@@ -229,15 +229,14 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 
 		case IDC_DELETEHISTORY:
-			MEVENT hDbevent;
 			{
 				int index = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
 				if (index == LB_ERR)
 					break;
 
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this history item?"), TranslateT("Delete history"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-					hDbevent = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
-					db_event_delete(hContact, hDbevent);
+					MEVENT hDbevent = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
+					db_event_delete(hDbevent);
 					SendMessage(hwndDlg, DM_HREBUILD, 0, 0);
 				}
 			}

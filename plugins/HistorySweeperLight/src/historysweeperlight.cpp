@@ -179,7 +179,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 		// find next event
 		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
 		if (doDelete)
-			db_event_delete(hContact, hDBEvent);
+			db_event_delete(hDBEvent);
 
 		hDBEvent = hDBEventNext;
 	}

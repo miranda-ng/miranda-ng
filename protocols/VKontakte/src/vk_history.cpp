@@ -41,7 +41,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPAR
 	MEVENT hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {
 		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
-		db_event_delete(hContact, hDBEvent);
+		db_event_delete(hDBEvent);
 		hDBEvent = hDBEventNext;
 	}
 
@@ -73,7 +73,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 		MEVENT hDBEvent = db_event_first(hContact);
 		while (hDBEvent) {
 			MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
-			db_event_delete(hContact, hDBEvent);
+			db_event_delete(hDBEvent);
 			hDBEvent = hDBEventNext;
 		}
 
@@ -111,7 +111,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 			DBEVENTINFO dbei = {};
 			db_event_get(hDBEvent, &dbei);
 			if (dbei.timestamp > tTime && dbei.eventType != VK_USER_DEACTIVATE_ACTION)
-				db_event_delete(hContact, hDBEvent);
+				db_event_delete(hDBEvent);
 			hDBEvent = hDBEventNext;
 		}
 
@@ -305,7 +305,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		MEVENT hDbEvent = db_event_getById(m_szModuleName, strcat(szMid, "_"));
 		if (hDbEvent)
-			db_event_delete(hContact, hDbEvent);
+			db_event_delete(hDbEvent);
 
 		if (isRead && isOut && datetime > tLastReadMessageTime)
 			tLastReadMessageTime = datetime;

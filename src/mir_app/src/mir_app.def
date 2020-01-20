@@ -578,7 +578,7 @@ Miranda_WaitOnHandleEx @663
 ?AddEvent@MDatabaseReadonly@@UAGIIPAUDBEVENTINFO@@@Z @666 NONAME
 ?DeleteContact@MDatabaseReadonly@@UAGJI@Z @667 NONAME
 ?DeleteContactSetting@MDatabaseReadonly@@UAGHIPBD0@Z @668 NONAME
-?DeleteEvent@MDatabaseReadonly@@UAGHII@Z @669 NONAME
+?DeleteEvent@MDatabaseReadonly@@UAGHI@Z @669 NONAME
 ?EnumContactSettings@MDatabaseReadonly@@UAGHIP6AHPBDPAX@Z01@Z @670 NONAME
 ?EnumModuleNames@MDatabaseReadonly@@UAGHP6AHPBDPAX@Z1@Z @671 NONAME
 ?FindFirstUnreadEvent@MDatabaseReadonly@@UAGII@Z @672 NONAME

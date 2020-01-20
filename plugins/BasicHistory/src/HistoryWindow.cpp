@@ -394,7 +394,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 	MEVENT hDbEvent = db_event_last(hContact);
 	while (hDbEvent != NULL) {
 		MEVENT hPrevEvent = db_event_prev(hContact, hDbEvent);
-		hDbEvent = (db_event_delete(hContact, hDbEvent) == 0) ? hPrevEvent : NULL;
+		hDbEvent = (db_event_delete(hDbEvent) == 0) ? hPrevEvent : NULL;
 	}
 	db_set_safety_mode(TRUE);
 

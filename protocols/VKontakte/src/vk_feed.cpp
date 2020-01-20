@@ -866,7 +866,7 @@ void CVkProto::NewsClearHistory()
 		DBEVENTINFO dbei = {};
 		db_event_get(hDBEvent, &dbei);
 		if (dbei.timestamp < tTime)
-			db_event_delete(hContact, hDBEvent);
+			db_event_delete(hDBEvent);
 		hDBEvent = hDBEventNext;
 	}
 }

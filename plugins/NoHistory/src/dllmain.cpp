@@ -69,7 +69,7 @@ void RemoveReadEvents(MCONTACT hContact = 0)
 		
 		if (remove) {
 			if (g_plugin.getByte(node->hContact, DBSETTING_REMOVE)) // is history disabled for this contact?
-				db_event_delete(node->hContact, node->hDBEvent);
+				db_event_delete(node->hDBEvent);
 			
 			// remove list node anyway
 			if (event_list == node) event_list = node->next;
@@ -92,7 +92,7 @@ void RemoveAllEvents(MCONTACT hContact)
 	MEVENT hDBEvent = db_event_first(hContact);
 	while(hDBEvent) {
 		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
-		db_event_delete(hContact, hDBEvent);
+		db_event_delete(hDBEvent);
 		hDBEvent = hDBEventNext;
 	}
 }

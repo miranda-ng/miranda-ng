@@ -71,7 +71,7 @@ MEVENT MDatabaseReadonly::AddEvent(MCONTACT, DBEVENTINFO*)
 	return 0;
 }
 
-BOOL MDatabaseReadonly::DeleteEvent(MCONTACT, MEVENT)
+BOOL MDatabaseReadonly::DeleteEvent(MEVENT)
 {
 	return 1;
 }

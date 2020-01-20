@@ -1733,14 +1733,14 @@ begin
     if FormState = gsDelete then
     begin // probably unnecessary considering prev check
       hDBEvent := db_event_first(hContact);
-      db_event_delete(hContact, hDBEvent);
+      db_event_delete(hDBEvent);
     end;
   end
   else
   begin
     idx := GridIndexToHistory(Index);
     if (FormState = gsDelete) and (History[idx] <> 0) then
-      db_event_delete(hContact, History[idx]);
+      db_event_delete(History[idx]);
     DeleteEventFromSessions(idx);
     DeleteHistoryItem(idx);
   end;

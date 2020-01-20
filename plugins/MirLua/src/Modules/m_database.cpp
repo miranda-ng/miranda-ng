@@ -341,10 +341,9 @@ static int db_AddEvent(lua_State *L)
 
 static int db_DeleteEvent(lua_State *L)
 {
-	MCONTACT hContact = luaL_optinteger(L, 1, 0);
-	MEVENT hDbEvent = luaL_checkinteger(L, 2);
+	MCONTACT hDbEvent = luaL_optinteger(L, 1, 0);
 
-	int res = db_event_delete(hContact, hDbEvent);
+	int res = db_event_delete(hDbEvent);
 	lua_pushboolean(L, res == 0);
 
 	return 1;

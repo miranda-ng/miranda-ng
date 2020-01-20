@@ -48,37 +48,38 @@ MEVENT CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-BOOL CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
+BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 {
-	DBCachedContact *cc = (contactID != 0) ? m_cache->GetCachedContact(contactID) : &m_ccDummy, *cc2;
-	if (cc == nullptr || cc->dbc.dwEventCount == 0)
-		return 1;
-
+	DBCachedContact *cc, *cc2;
 	DBEvent dbe;
 	{
 		txn_ptr_ro txn(m_txn_ro);
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
 			return 1;
+
 		dbe = *(DBEvent*)data.iov_base;
+		cc = (dbe.dwContactID != 0) ? m_cache->GetCachedContact(dbe.dwContactID) : &m_ccDummy;
+		if (cc == nullptr || cc->dbc.dwEventCount == 0)
+			return 1;
 	}
 
 	if (!CheckEvent(cc, &dbe, cc2))
 		return 1;
 	{
 		txn_ptr trnlck(StartTran());
-		DBEventSortingKey key2 = { contactID, hDbEvent, dbe.timestamp };
+		DBEventSortingKey key2 = { dbe.dwContactID, hDbEvent, dbe.timestamp };
 		MDBX_val key = { &key2, sizeof(key2) }, data;
 
 		if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
 
-		if (contactID != 0) {
+		if (dbe.dwContactID != 0) {
 			cc->dbc.dwEventCount--;
 			if (cc->dbc.evFirstUnread == hDbEvent)
 				FindNextUnread(trnlck, cc, key2);
 
-			MDBX_val keyc = { &contactID, sizeof(MCONTACT) };
+			MDBX_val keyc = { &dbe.dwContactID, sizeof(MCONTACT) };
 			data.iov_len = sizeof(DBContact); data.iov_base = &cc->dbc;
 			if (mdbx_put(trnlck, m_dbContacts, &keyc, &data, 0) != MDBX_SUCCESS)
 				return 1;
@@ -99,7 +100,7 @@ BOOL CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 			if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 				return 1;
 
-			key.iov_len = sizeof(MCONTACT); key.iov_base = &contactID;
+			key.iov_len = sizeof(MCONTACT); key.iov_base = &dbe.dwContactID;
 			cc2->dbc.dwEventCount--;
 			if (cc2->dbc.evFirstUnread == hDbEvent)
 				FindNextUnread(trnlck, cc2, key2);
@@ -120,7 +121,7 @@ BOOL CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	}
 
 	DBFlush();
-	NotifyEventHooks(g_hevEventDeleted, contactID, hDbEvent);
+	NotifyEventHooks(g_hevEventDeleted, dbe.dwContactID, hDbEvent);
 	return 0;
 }
 

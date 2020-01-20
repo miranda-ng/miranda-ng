@@ -209,7 +209,7 @@ begin
   while hDBEvent <> 0 do
   begin
     prevhDbEvent := db_event_prev(hContact,hDBEvent);
-    if db_event_delete(hContact,hDBEvent) = 0 then
+    if db_event_delete(hDBEvent) = 0 then
       hDBEvent := prevhDbEvent
     else
       hDBEvent := 0;

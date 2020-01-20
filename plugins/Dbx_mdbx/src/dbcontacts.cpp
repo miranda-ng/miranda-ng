@@ -48,7 +48,7 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 		OBJLIST<EventItem> events(50);
 		GatherContactHistory(contactID, events);
 		while (events.getCount()) {
-			DeleteEvent(contactID, events[0].eventId);
+			DeleteEvent(events[0].eventId);
 			events.remove(0);
 		}
 	}

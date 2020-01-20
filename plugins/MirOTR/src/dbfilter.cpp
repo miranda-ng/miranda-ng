@@ -26,7 +26,7 @@ void CALLBACK DeleteTimerProc(HWND, UINT, UINT_PTR, DWORD) {
 		if (difftime(time(0), current->timestamp) < 1) break;
 		if (!db_event_get(current->hDbEvent, &info)) // && info.flags&DBEF_READ)
 		{
-			db_event_delete(current->hContact, current->hDbEvent);
+			db_event_delete(current->hDbEvent);
 			next = current->next;
 			if (prev) prev->next = next;
 			else if (DeleteEvents.first == current) DeleteEvents.first = next;

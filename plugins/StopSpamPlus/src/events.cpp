@@ -36,7 +36,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 			Contact_RemoveFromList(hcntct);
 			Contact_Hide(hcntct);
 			if (!g_sets.HistLog)
-				db_event_delete(0, hDbEvent);
+				db_event_delete(hDbEvent);
 			return 1;
 		}
 	}

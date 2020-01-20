@@ -207,14 +207,13 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, DBEVENTINFO *dbei)
 	return hDbEvent;
 }
 
-BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
+BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 {
 	if (hDbEvent == 0)
 		return 1;
 
-	DBCachedContact *cc = (hContact)
-		? m_cache->GetCachedContact(hContact)
-		: &m_system;
+	MEVENT hContact = GetEventContact(hDbEvent);
+	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return 1;
 
@@ -236,13 +235,12 @@ BOOL CDbxSQLite::DeleteEvent(MCONTACT hContact, MEVENT hDbEvent)
 		if (rc != SQLITE_DONE)
 			return 1;
 
-
 		cc->DeleteEvent(hDbEvent);
 		if (cc->IsSub() && (cc = m_cache->GetCachedContact(cc->parentID)))
 			cc->DeleteEvent(hDbEvent);
 	}
 
-	NotifyEventHooks(g_hevEventDeleted, hContact, (LPARAM)hDbEvent);
+	NotifyEventHooks(g_hevEventDeleted, hContact, hDbEvent);
 
 	return 0;
 }
