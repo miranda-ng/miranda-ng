@@ -717,6 +717,9 @@ Vista
 #  define CURL_DISABLE_LDAP 1
 #endif
 
+/* if SSL is enabled */
+#define USE_OPENSSL 1
+
 /* Define to use the Windows crypto library. */
 #define USE_WIN32_CRYPTO
 
