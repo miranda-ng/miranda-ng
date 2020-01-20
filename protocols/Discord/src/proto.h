@@ -370,6 +370,7 @@ public:
 	void OnCommandFriendRemoved(const JSONNode &json);
 	void OnCommandMessage(const JSONNode&, bool);
 	void OnCommandMessageCreate(const JSONNode &json);
+	void OnCommandMessageDelete(const JSONNode &json);
 	void OnCommandMessageUpdate(const JSONNode &json);
 	void OnCommandMessageAck(const JSONNode &json);
 	void OnCommandPresence(const JSONNode &json);
