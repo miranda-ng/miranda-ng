@@ -26,38 +26,9 @@ HWND hwnd_container = NULL;
 
 int frame_id = -1;
 
-static LRESULT CALLBACK FrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 #define H_SPACE 2
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
-
-void InitFrames()
-{
-	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		hwnd_frame = CreateDialogW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALLS), g_clistApi.hwndContactList, FrameWndProc);
-
-		CLISTFrame Frame = {};
-		Frame.cbSize = sizeof(CLISTFrame);
-		Frame.szName.w = TranslateT("Voice Calls");
-		Frame.hWnd = hwnd_frame;
-		Frame.align = alBottom;
-		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_UNICODE;
-		Frame.height = 0;
-		Frame.hIcon = g_plugin.getIcon(IDI_MAIN, true);
-
-		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-	}
-}
-
-void DeInitFrames()
-{
-	if (ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME) && frame_id != -1)
-		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
-
-	if (hwnd_frame != NULL)
-		DestroyWindow(hwnd_frame);
-}
 
 static int GetMaxLineHeight()
 {
@@ -259,7 +230,7 @@ static void DrawIconLib(HDC hDC, const RECT &rc, int iconId)
 	IcoLib_ReleaseIcon(hIcon);
 }
 
-static LRESULT CALLBACK FrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK FrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc;
 
@@ -738,4 +709,33 @@ static LRESULT CALLBACK FrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
+// Module entry point /////////////////////////////////////////////////////////////////////////////
+
+void InitFrames()
+{
+	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		hwnd_frame = CreateDialogW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALLS), g_clistApi.hwndContactList, FrameWndProc);
+
+		CLISTFrame Frame = {};
+		Frame.cbSize = sizeof(CLISTFrame);
+		Frame.szName.w = TranslateT("Voice Calls");
+		Frame.hWnd = hwnd_frame;
+		Frame.align = alBottom;
+		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_UNICODE;
+		Frame.height = 0;
+		Frame.hIcon = g_plugin.getIcon(IDI_MAIN, true);
+
+		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	}
+}
+
+void DeInitFrames()
+{
+	if (ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME) && frame_id != -1)
+		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
+
+	if (hwnd_frame != NULL)
+		DestroyWindow(hwnd_frame);
 }

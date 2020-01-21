@@ -55,7 +55,7 @@ static OptPageControl popupsControls[] = {
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
@@ -93,7 +93,7 @@ static void PopupsEnableDisableCtrls(HWND hwndDlg)
 		IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM));
 }
 
-static LRESULT CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -271,7 +271,7 @@ int ImageList_AddIcon_NotShared(HIMAGELIST hIml, int iconId)
 }
 
 
-static LRESULT CALLBACK AutoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
+static INT_PTR CALLBACK AutoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	static HICON hAnswerIcon, hDropIcon;
 

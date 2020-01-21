@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK DlgProcNewCall(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcNewCall(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	VoiceCall *call = (VoiceCall *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
