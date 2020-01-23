@@ -101,7 +101,15 @@ bool FacebookProto::MqttParse(const MqttMessage &payload)
 	switch (payload.getType()) {
 	case FB_MQTT_MESSAGE_TYPE_CONNACK:
 		if (pData[1] != 0) { // connection failed;
-			ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
+			int iErrorCode = ntohs(*(u_short *)pData);
+			debugLogA("Login failed with error %d", iErrorCode);
+
+			if (iErrorCode == 4) { // invalid login/password
+				delSetting(DBKEY_TOKEN);
+				m_szAuthToken.Empty();
+				ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, 0, LOGINERR_WRONGPASSWORD);
+			}
+			else ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, 0, LOGINERR_WRONGPROTOCOL);
 			return false;
 		}
 
