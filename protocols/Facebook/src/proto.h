@@ -413,6 +413,8 @@ class FacebookProto : public PROTO<FacebookProto>
    bool MqttParse(const MqttMessage &payload);
    void MqttSend(const MqttMessage &payload);
 
+   void MqttQueueConnect();
+
    void OnPublish(const char *str, const uint8_t *payLoad, size_t cbLen);
    void OnPublishMessage(FbThriftReader &rdr);
    void OnPublishPresence(FbThriftReader &rdr);
@@ -433,6 +435,7 @@ class FacebookProto : public PROTO<FacebookProto>
    int       m_iUnread;
 	bool      m_invisible;
 	bool      m_bOnline;
+   bool      m_QueueCreated;
 
 	CMStringA m_szAuthToken; // calculated 
 

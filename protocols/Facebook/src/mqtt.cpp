@@ -308,3 +308,28 @@ void FacebookProto::MqttUnsubscribe(const char *topic, ...)
 
 	MqttSend(payload);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// MQTT queue
+
+void FacebookProto::MqttQueueConnect()
+{
+	JSONNode query;
+	query << INT_PARAM("delta_batch_size", 125) << INT_PARAM("max_deltas_able_to_process", 1000) << INT_PARAM("sync_api_version", 3) << CHAR_PARAM("encoding", "JSON");
+	if (m_szSyncToken.IsEmpty()) {
+		JSONNode hashes; hashes.set_name("graphql_query_hashes"); hashes << CHAR_PARAM("xma_query_id", __STRINGIFY(FB_API_QUERY_XMA));
+
+		JSONNode xma; xma.set_name(__STRINGIFY(FB_API_QUERY_XMA)); xma << CHAR_PARAM("xma_id", "<ID>");
+		JSONNode hql; hql.set_name("graphql_query_params"); hql << xma;
+
+		JSONNode params; params.set_name("queue_params");
+		params << CHAR_PARAM("buzz_on_deltas_enabled", "false") << hashes << hql;
+
+		query << INT64_PARAM("initial_titan_sequence_id", m_sid) << CHAR_PARAM("device_id", m_szDeviceID) << INT64_PARAM("entity_fbid", m_uid) << params;
+		MqttPublish("/messenger_sync_create_queue", query.write().c_str());
+	}
+	else {
+		query << INT64_PARAM("last_seq_id", m_sid) << CHAR_PARAM("sync_token", m_szSyncToken);
+		MqttPublish("/messenger_sync_get_diffs", query.write().c_str());
+	}
+}
