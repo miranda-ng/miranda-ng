@@ -71,7 +71,7 @@ public:
 	const HWND            getHwnd() const { return(m_hwnd); }
 	const UINT            getID() const { return(m_id); }
 	const MCONTACT        getContactHandle() const { return(m_dat->m_hContact); }
-	const CMsgDialog*    getDat() const { return(m_dat); }
+	const CMsgDialog*     getDat() const { return(m_dat); }
 	const TSideBarLayout* getLayout() const { return(m_sideBarLayout); }
 
 	void                  RenderThis(const HDC hdc) const;
@@ -91,7 +91,7 @@ private:
 private:
 	const TSideBarLayout* m_sideBarLayout;
 	HWND                  m_hwnd;           // window handle for the TSButton object
-	CMsgDialog          *m_dat;            // session data
+	CMsgDialog*           m_dat;            // session data
 	UINT                  m_id;             // control id
 	bool                  m_isTopAligned;
 	SIZE                  m_sz;
@@ -99,7 +99,7 @@ private:
 
 class CSideBar
 {
-	CSideBarButton *setActiveItem(CSideBarButton *newItem);
+	void setActiveItem(CSideBarButton *newItem, bool bScroll);
 
 public:
 	enum {
@@ -136,24 +136,24 @@ public:
 	HRESULT               removeSession(CMsgDialog *dat);
 	void                  updateSession(CMsgDialog *dat);
 
+	void                  moveButtons();
+	void                  invalidateButton(CMsgDialog *dat);
 	void                  processScrollerButtons(UINT cmd);
-	void                  Layout();
+	void                  setActiveItem(const CMsgDialog *dat, bool bScroll);
 	void                  setVisible(bool fNewVisibility);
 	void                  showAll(int showCmd);
 
 	const LONG            getWidth() const { return(m_isVisible ? m_width + SIDEBAR_GAP : 0); }
 	const DWORD           getFlags() const { return(m_dwFlags); }
 	const TContainerData* getContainer() const { return(m_pContainer); }
-	const bool            isActive() const { return(m_isActive); }
+	const UINT            getLayoutId() const { return(m_uLayout); }
 	const bool            isVisible() const { return(m_isVisible); }
 	const CSideBarButton* getActiveItem() const { return(m_activeItem); }
 	const CSideBarButton* getScrollUp() const { return(m_up); }
 	const CSideBarButton* getScrollDown() const { return(m_down); }
+
+	const bool            isActive() const { return(m_isActive); }
 	bool                  isSkinnedContainer() const { return(CSkin::m_skinEnabled ? true : false); }
-	const UINT            getLayoutId() const { return(m_uLayout); }
-	void                  invalidateButton(CMsgDialog *dat);
-	
-	CSideBarButton*       setActiveItem(const CMsgDialog *dat);
 
 	/**
 	 * this item has its close button currently hovered
@@ -181,7 +181,6 @@ private:
 	void                  destroyScroller();
 	void                  populateAll();
 	void                  removeAll();
-	void                  Invalidate();
 	CSideBarButton*       findSession(const CMsgDialog *dat);
 	CSideBarButton*       findSession(const MCONTACT hContact);
 

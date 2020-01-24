@@ -2829,7 +2829,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (m_iLogMode != WANT_IEVIEW_LOG)
 				SetFocus(m_message.GetHwnd());
 			if (m_pContainer->m_flags.m_bSideBar)
-				m_pContainer->m_pSideBar->Layout();
+				m_pContainer->m_pSideBar->moveButtons();
 		}
 		else {
 			Resize();
