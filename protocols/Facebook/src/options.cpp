@@ -25,13 +25,18 @@ typedef CProtoDlgBase<FacebookProto> CFBDlgBase;
 class CFacebookAccOptsDlg : public CFBDlgBase
 {
 	CCtrlEdit edtGroup;
+	CCtrlCheck chkEnableChats, chkHideChats;
 
 public:
 	CFacebookAccOptsDlg(FacebookProto *pThis) :
 		CFBDlgBase(pThis, IDD_OPTIONS),
-		edtGroup(this, IDC_GROUP)
+		edtGroup(this, IDC_GROUP),
+		chkHideChats(this, IDC_HIDECHATS),
+		chkEnableChats(this, IDC_ENABLECHATS)
 	{
 		CreateLink(edtGroup, pThis->m_wszDefaultGroup);
+		CreateLink(chkHideChats, pThis->m_bUseGroupchats);
+		CreateLink(chkEnableChats, pThis->m_bHideGroupchats);
 	}
 
 	bool OnInitDialog() override

@@ -453,6 +453,7 @@ class FacebookProto : public PROTO<FacebookProto>
    void OnLoggedOut();
 
    bool RefreshToken();
+   void RefreshThreads();
    int  RefreshContacts();
 
    FacebookUser* AddContact(const CMStringW &wszId, bool bTemp = true);
@@ -477,6 +478,8 @@ public:
 
     CMOption<wchar_t *> m_wszDefaultGroup; // clist group to store contacts
     CMOption<BYTE>      m_bUseBigAvatars;  // use big or small avatars by default
+    CMOption<BYTE>      m_bUseGroupchats;  // do we need group chats at all?
+    CMOption<BYTE>      m_bHideGroupchats; // do not open chat windows on creation
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE

@@ -67,6 +67,9 @@ void FacebookProto::OnLoggedIn()
 	// connect message queue
 	MqttQueueConnect();
 
+	// request message threads if needed
+	if (m_bUseGroupchats)
+		RefreshThreads();
 }
 
 void FacebookProto::OnLoggedOut()
@@ -155,6 +158,50 @@ int FacebookProto::RefreshContacts()
 	if (bNeedUpdate)
 		ForkThread(&FacebookProto::AvatarsUpdate);
 	return 0;
+}
+
+void FacebookProto::RefreshThreads()
+{
+	auto * pReq = CreateRequestGQL(FB_API_QUERY_THREADS);
+	JSONNode json; json << CHAR_PARAM("2", "true") << CHAR_PARAM("12", "false") << CHAR_PARAM("13", "false");
+	pReq << CHAR_PARAM("query_params", json.write().c_str());
+	pReq->CalcSig();
+
+	JsonReply reply(ExecuteRequest(pReq));
+	if (!reply.error()) {
+		auto &root = reply.data()["viewer"]["message_threads"];
+
+		for (auto &n : root["nodes"]) {
+			if (!n["is_group_thread"].as_bool())
+				continue;
+
+			CMStringW chatId(n["id"].as_mstring());
+			CMStringW name(n["name"].as_mstring());
+
+			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chatId, name);
+			if (si == nullptr)
+				continue;
+
+			Chat_AddGroup(si, TranslateT("Participant"));
+
+			for (auto &u : n["all_participants"]["nodes"]) {
+				auto &ur = u["messaging_actor"];
+				CMStringW userId(ur["id"].as_mstring());
+				CMStringW userName(ur["name"].as_mstring());
+
+				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
+				gce.pszID.w = chatId;
+				gce.pszUID.w = userId;
+				gce.pszNick.w = userName;
+				gce.bIsMe = _wtoi64(userId) == m_uid;
+				gce.time = time(0);
+				Chat_Event(&gce);
+			}
+
+			Chat_Control(m_szModuleName, chatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+			Chat_Control(m_szModuleName, chatId, SESSION_ONLINE);
+		}
+	}
 }
 
 bool FacebookProto::RefreshToken()

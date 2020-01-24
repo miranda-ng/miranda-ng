@@ -68,7 +68,8 @@ BEGIN
     EDITTEXT        IDC_UN,56,0,122,12,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,6,18,46,10,0,WS_EX_RIGHT
     EDITTEXT        IDC_PW,56,16,122,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Create a new Facebook account", IDC_NEWACCOUNTLINK, "Hyperlink", WS_TABSTOP, 6, 40, 172, 12
+    CONTROL         "Create a new Facebook account",IDC_NEWACCOUNTLINK,
+                    "Hyperlink",WS_TABSTOP,6,40,172,12
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 305, 195
@@ -83,10 +84,15 @@ BEGIN
     EDITTEXT        IDC_PW,84,34,123,13,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Create a new Facebook account",IDC_NEWACCOUNTLINK,
                     "Hyperlink",WS_TABSTOP,84,53,189,10
-    GROUPBOX        "Contacts",IDC_STATIC,7,77,291,103
-    LTEXT           "Default group:",IDC_STATIC,17,91,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_GROUP,84,89,123,13,ES_AUTOHSCROLL
+    GROUPBOX        "Contacts",IDC_STATIC,7,70,291,31
+    LTEXT           "Default group:",IDC_STATIC,17,84,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_GROUP,84,82,123,13,ES_AUTOHSCROLL
+    GROUPBOX        "Group chats",IDC_STATIC,7,103,291,44
+    CONTROL         "Enable group chats",IDC_ENABLECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,117,277,10
+    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,130,277,10
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -99,6 +105,10 @@ BEGIN
     IDD_FACEBOOKACCOUNT, DIALOG
     BEGIN
     END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -109,6 +119,11 @@ END
 //
 
 IDD_FACEBOOKACCOUNT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPTIONS AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

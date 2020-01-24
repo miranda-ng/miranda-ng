@@ -42,6 +42,8 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	m_users(50, CompareUsers),
 	arOwnMessages(1, CompareMessages),
 	m_bUseBigAvatars(this, "UseBigAvatars", true),
+	m_bUseGroupchats(this, "UseGroupChats", true),
+	m_bHideGroupchats(this, "HideGroupChats", true),
 	m_wszDefaultGroup(this, "DefaultGroup", L"Facebook")
 {
 	for (auto &cc : AccContacts()) {
@@ -108,6 +110,13 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 
 	// Default group
 	Clist_GroupCreate(0, m_wszDefaultGroup);
+
+	// Group chats
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
 }
 
 FacebookProto::~FacebookProto()
