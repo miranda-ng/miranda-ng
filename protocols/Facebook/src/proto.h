@@ -368,6 +368,8 @@ struct COwnMessage
 
 class FacebookProto : public PROTO<FacebookProto>
 {
+   friend class CGroupchatInviteDlg;
+
    class FacebookImpl
    {
       friend class FacebookProto;
@@ -400,6 +402,13 @@ class FacebookProto : public PROTO<FacebookProto>
    // Avatars
    void __cdecl AvatarsUpdate(void *);
    void GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName);
+
+   // Group chats
+   void Chat_InviteUser(SESSION_INFO *si);
+   int  Chat_KickUser(SESSION_INFO *si, const wchar_t *pwszUid);
+   void Chat_Leave(SESSION_INFO *si);
+   void Chat_SendPrivateMessage(GCHOOK *gch);
+   void Chat_ProcessLogMenu(SESSION_INFO *si, int iChoice);
 
 	// MQTT
    void MqttLogin();
@@ -496,6 +505,9 @@ public:
    // Events
 
    int __cdecl OnOptionsInit(WPARAM, LPARAM);
+   
+   int __cdecl GroupchatMenuHook(WPARAM, LPARAM);
+   int __cdecl GroupchatEventHook(WPARAM, LPARAM);
 
    ////////////////////////////////////////////////////////////////////////////////////////
    // Services
@@ -504,6 +516,8 @@ public:
    INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
    INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 };
+
+typedef CProtoDlgBase<FacebookProto> CFBDlgBase;
 
 struct CMPlugin : public ACCPROTOPLUGIN<FacebookProto>
 {

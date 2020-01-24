@@ -175,7 +175,7 @@ void FacebookProto::RefreshThreads()
 			if (!n["is_group_thread"].as_bool())
 				continue;
 
-			CMStringW chatId(n["id"].as_mstring());
+			CMStringW chatId(n["thread_key"]["thread_fbid"].as_mstring());
 			CMStringW name(n["name"].as_mstring());
 
 			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chatId, name);

@@ -106,6 +106,8 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	CreateProtoService(PS_GETAVATARCAPS, &FacebookProto::GetAvatarCaps);
 
 	// Events
+	HookProtoEvent(ME_GC_EVENT, &FacebookProto::GroupchatEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &FacebookProto::GroupchatMenuHook);
 	HookProtoEvent(ME_OPT_INITIALISE, &FacebookProto::OnOptionsInit);
 
 	// Default group

@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <windows.h>
+#include <malloc.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -30,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_avatars.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_clistint.h>
 #include <m_contacts.h>
 #include <m_database.h>
