@@ -177,6 +177,23 @@ void FacebookProto::RefreshThreads()
 
 			CMStringW chatId(n["thread_key"]["thread_fbid"].as_mstring());
 			CMStringW name(n["name"].as_mstring());
+			if (name.IsEmpty()) {
+				for (auto &u : n["all_participants"]["nodes"]) {
+					auto &ur = u["messaging_actor"];
+					CMStringW userId(ur["id"].as_mstring());
+					if (_wtoi64(userId) == m_uid)
+						continue;
+
+					if (!name.IsEmpty())
+						name.Append(L", ");
+					name += ur["name"].as_mstring();
+				}
+
+				if (name.GetLength() > 128) {
+					name.Truncate(125);
+					name.Append(L"...");
+				}
+			}
 
 			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chatId, name);
 			if (si == nullptr)
