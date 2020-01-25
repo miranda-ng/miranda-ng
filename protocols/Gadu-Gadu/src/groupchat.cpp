@@ -112,17 +112,15 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 	uin_t uin;
 
 	// Check if we got our protocol, and fields are set
-	if (!gch
-		|| !gch->ptszID
-		|| !gch->pszModule
-		|| mir_strcmpi(gch->pszModule, m_szModuleName)
+	if (!gch || !gch->si->ptszID || !gch->si->pszModule
+		|| mir_strcmpi(gch->si->pszModule, m_szModuleName)
 		|| !(uin = getDword(GG_KEY_UIN, 0))
-		|| !(chat = gc_lookup(gch->ptszID)))
+		|| !(chat = gc_lookup(gch->si->ptszID)))
 		return 0;
 
 	// Window terminated (Miranda exit)
 	if (gch->iType == SESSION_TERMINATE) {
-		debugLogW(L"gc_event(): Terminating chat %x, id %s from chat window...", chat, gch->ptszID);
+		debugLogW(L"gc_event(): Terminating chat %x, id %s from chat window...", chat, gch->si->ptszID);
 		// Destroy chat entry
 		free(chat->recipients);
 		list_remove(&chats, chat, 1);
@@ -132,7 +130,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 			MCONTACT hNext = db_find_next(hContact);
 			DBVARIANT dbv;
 			if (!getWString(hContact, "ChatRoomID", &dbv)) {
-				if (dbv.pwszVal && !mir_wstrcmp(gch->ptszID, dbv.pwszVal))
+				if (dbv.pwszVal && !mir_wstrcmp(gch->si->ptszID, dbv.pwszVal))
 					db_delete_contact(hContact);
 				db_free(&dbv);
 			}
@@ -148,7 +146,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		DBVARIANT dbv;
 
 		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-		gce.pszID.w = gch->ptszID;
+		gce.pszID.w = gch->si->ptszID;
 		gce.pszUID.w = id;
 		gce.pszText.w = gch->ptszText;
 		wchar_t* nickT;
@@ -169,7 +167,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		gce.time = time(0);
 		gce.bIsMe = 1;
 		gce.dwFlags = GCEF_ADDTOLOG;
-		debugLogW(L"gc_event(): Sending conference message to room %s, \"%s\".", gch->ptszID, gch->ptszText);
+		debugLogW(L"gc_event(): Sending conference message to room %s, \"%s\".", gch->si->ptszID, gch->ptszText);
 		Chat_Event(&gce);
 		mir_free(nickT);
 

@@ -64,7 +64,7 @@
 #include <m_avatars.h>
 #include <m_xml.h>
 #include <m_json.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_popup.h>
 #include <win2k.h>
 #include <m_folders.h>

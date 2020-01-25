@@ -462,8 +462,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 	// handle the hook
 	if (gch) {
-		if (!mir_strcmpi(gch->pszModule, m_szModuleName)) {
-			wchar_t *p1 = mir_wstrdup(gch->ptszID);
+		if (!mir_strcmpi(gch->si->pszModule, m_szModuleName)) {
+			wchar_t *p1 = mir_wstrdup(gch->si->ptszID);
 			wchar_t *p2 = wcsstr(p1, L" - ");
 			if (p2)
 				*p2 = 0;

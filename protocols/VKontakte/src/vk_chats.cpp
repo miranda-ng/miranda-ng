@@ -453,10 +453,10 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 	if (gch == nullptr)
 		return 0;
 
-	if (mir_strcmpi(gch->pszModule, m_szModuleName))
+	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
 		return 0;
 
-	CVkChatInfo *cc = GetChatById(gch->ptszID);
+	CVkChatInfo *cc = GetChatById(gch->si->ptszID);
 	if (cc == nullptr)
 		return 0;
 

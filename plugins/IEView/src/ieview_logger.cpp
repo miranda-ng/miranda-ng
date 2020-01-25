@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTTYPE_STATUSCHANGE 25368
 #define EVENTTYPE_ERRMSG 25366
 
-class CMsgDialog : public CSrmmBaseDialog {};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // CIeviewLogWindow class
 

@@ -557,7 +557,7 @@ void RedrawLog2(SESSION_INFO *si)
 {
 	si->LastTime = 0;
 	if (si->pLog)
-		si->pDlg->m_pLog->LogEvents(si->pLogEnd, TRUE);
+		si->pDlg->log()->LogEvents(si->pLogEnd, TRUE);
 }
 
 static void __cdecl phase2(SESSION_INFO *si)

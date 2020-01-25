@@ -91,10 +91,10 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	if (!gch)
 		return 1;
 
-	if (mir_strcmp(gch->pszModule, m_szModuleName) != 0)
+	if (mir_strcmp(gch->si->pszModule, m_szModuleName) != 0)
 		return 0;
 
-	T2Utf chat_id(gch->ptszID), user_id(gch->ptszUID);
+	T2Utf chat_id(gch->si->ptszID), user_id(gch->ptszUID);
 
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:

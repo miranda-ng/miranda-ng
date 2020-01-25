@@ -408,11 +408,9 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 static int OnGcEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gc = (GCHOOK *)lParam;
-	if (gc->iType == GC_USER_MESSAGE && bFlashOnGC) {
-		if (SESSION_INFO *si = g_chatApi.SM_FindSession(gc->ptszID, gc->pszModule))
-			if (contactCheckProtocol(gc->pszModule, si->hContact, EVENTTYPE_MESSAGE) && checkNotifyOptions() && checkStatus(gc->pszModule))
-				SetEvent(hFlashEvent);
-	}
+	if (gc->iType == GC_USER_MESSAGE && bFlashOnGC)
+		if (contactCheckProtocol(gc->si->pszModule, gc->si->hContact, EVENTTYPE_MESSAGE) && checkNotifyOptions() && checkStatus(gc->si->pszModule))
+			SetEvent(hFlashEvent);
 
 	return 0;
 }

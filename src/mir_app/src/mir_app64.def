@@ -720,3 +720,4 @@ UnregisterSrmmLog @806 NONAME
 WebSocket_Send @808 NONAME
 WebSocket_InitHeader @809 NONAME
 WebSocket_Connect @810 NONAME
+?log@CSrmmBaseDialog@@QEBAPEAVCSrmmLogWindow@@XZ @811 NONAME

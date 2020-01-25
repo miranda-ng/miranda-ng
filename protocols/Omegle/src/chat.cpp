@@ -72,7 +72,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 
-	if (mir_strcmp(hook->pszModule, m_szModuleName))
+	if (mir_strcmp(hook->si->pszModule, m_szModuleName))
 		return 0;
 
 	switch (hook->iType) {

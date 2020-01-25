@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_langpack.h>
 #include <m_netlib.h>
 #include <m_popup.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_avatars.h>
 #include <m_timezones.h>
 #include <m_extraicons.h>

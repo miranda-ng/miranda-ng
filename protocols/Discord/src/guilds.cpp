@@ -17,11 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-class CMsgDialog : public CSrmmBaseDialog
-{
-	CMsgDialog(); // just to suppress compiler's warnings, never implemented
-};
-
 int compareUsers(const CDiscordUser *p1, const CDiscordUser *p2);
 
 static int compareRoles(const CDiscordRole *p1, const CDiscordRole *p2)

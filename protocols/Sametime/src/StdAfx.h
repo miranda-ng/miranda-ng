@@ -71,6 +71,6 @@ extern "C" {
 #include <m_idle.h>
 #include <m_contacts.h>
 #include <m_popup.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_genmenu.h>
 #include <m_icolib.h>

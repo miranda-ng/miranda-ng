@@ -19,7 +19,6 @@
 #include <m_protocols.h>
 #include <m_popup_int.h>
 #include <m_message.h>
-#include <m_chat.h>
 #include <m_skin.h>
 #include <m_imgsrvc.h>
 #include <m_xml.h>

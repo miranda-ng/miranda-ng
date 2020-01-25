@@ -42,7 +42,7 @@ typedef std::basic_string<wchar_t> wstring;
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_button.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_clistint.h>
 #include <m_database.h>
 #include <m_folders.h>

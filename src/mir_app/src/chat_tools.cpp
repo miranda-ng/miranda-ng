@@ -558,7 +558,9 @@ MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *
 	if (si == nullptr)
 		return FALSE;
 
-	GCHOOK gch = { si->pszModule, si->ptszID, iType };
+	GCHOOK gch = {};
+	gch.iType = iType;
+	gch.si = si;
 	if (pUser != nullptr) {
 		gch.ptszUID = pUser->pszUID;
 		gch.ptszNick = pUser->pszNick;
@@ -567,7 +569,6 @@ MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *
 
 	gch.ptszText = (LPTSTR)pszText;
 	gch.dwData = dwItem;
-	gch.pDlg = si->pDlg;
 	NotifyEventHooks(hevSendEvent, 0, (WPARAM)&gch);
 	return TRUE;
 }

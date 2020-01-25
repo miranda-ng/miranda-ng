@@ -30,13 +30,6 @@ void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwnd
 
 class CLogWindow : public CSrmmLogWindow {};
 
-class CMsgDialog : public CSrmmBaseDialog
-{
-	friend void RedrawLog2(SESSION_INFO *si);
-
-	CMsgDialog(); // just to suppress compiler's warnings, never implemented
-};
-
 extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
 extern HPLUGIN g_pChatPlugin;
 extern GlobalLogSettingsBase *g_Settings;

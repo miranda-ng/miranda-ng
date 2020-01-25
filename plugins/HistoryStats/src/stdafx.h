@@ -33,32 +33,17 @@
 
 #include <newpluginapi.h>
 
-#include <m_awaymsg.h>     // not used
-#include <m_button.h>      // not used
-#include <m_chat.h>        // not used
 #include <m_clc.h>
 #include <m_clist.h>
 #include <m_contacts.h>
 #include <m_database.h>
-#include <m_email.h>       // not used
-#include <m_file.h>        // not used
-#include <m_findadd.h>     // not used
-#include <m_fontservice.h> // not used
-#include <m_genmenu.h>     // not used
-#include <m_history.h>     // not used
 #include <m_icolib.h>
-#include <m_idle.h>        // not used
-#include <m_ignore.h>      // not used
 #include <m_langpack.h>
-#include <m_message.h>     // not used
-#include <m_netlib.h>      // not used
 #include <m_options.h>
-#include <m_popup.h>       // not used
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_skin.h>
 #include <m_system.h>
-#include <m_userinfo.h>    // not used
 #include <m_utils.h>
 #include <m_imgsrvc.h>
 #include <m_timezones.h>

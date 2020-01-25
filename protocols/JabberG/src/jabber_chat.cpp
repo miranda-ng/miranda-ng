@@ -1212,35 +1212,35 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *gch)
 {
 	CMStringW szBuffer, szTitle;
-	T2Utf roomJid(gch->ptszID);
+	T2Utf roomJid(gch->si->ptszID);
 
 	switch (gch->dwData) {
 	case IDM_LST_PARTICIPANT:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "role", "participant", &CJabberProto::OnIqResultMucGetVoiceList, gch->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "role", "participant", &CJabberProto::OnIqResultMucGetVoiceList, gch->si->pDlg);
 		break;
 
 	case IDM_LST_MEMBER:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "member", &CJabberProto::OnIqResultMucGetMemberList, gch->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "member", &CJabberProto::OnIqResultMucGetMemberList, gch->si->pDlg);
 		break;
 
 	case IDM_LST_MODERATOR:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "role", "moderator", &CJabberProto::OnIqResultMucGetModeratorList, gch->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "role", "moderator", &CJabberProto::OnIqResultMucGetModeratorList, gch->si->pDlg);
 		break;
 
 	case IDM_LST_BAN:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "outcast", &CJabberProto::OnIqResultMucGetBanList, gch->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "outcast", &CJabberProto::OnIqResultMucGetBanList, gch->si->pDlg);
 		break;
 
 	case IDM_LST_ADMIN:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "admin", &CJabberProto::OnIqResultMucGetAdminList, gch->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "admin", &CJabberProto::OnIqResultMucGetAdminList, gch->si->pDlg);
 		break;
 
 	case IDM_LST_OWNER:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "owner", &CJabberProto::OnIqResultMucGetOwnerList, gch->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "owner", &CJabberProto::OnIqResultMucGetOwnerList, gch->si->pDlg);
 		break;
 
 	case IDM_TOPIC:
-		szTitle.Format(TranslateT("Set topic for %s"), gch->ptszID);
+		szTitle.Format(TranslateT("Set topic for %s"), gch->si->ptszID);
 		szBuffer = Utf2T(item->getTemp()->m_szStatusMessage);
 		szBuffer.Replace(L"\n", L"\r\n");
 		if (ppro->EnterString(szBuffer, szTitle, ESF_RICHEDIT, "gcTopic_"))
@@ -1249,7 +1249,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 		break;
 
 	case IDM_NICK:
-		szTitle.Format(TranslateT("Change nickname in %s"), gch->ptszID);
+		szTitle.Format(TranslateT("Change nickname in %s"), gch->si->ptszID);
 		if (item->nick)
 			szBuffer = Utf2T(item->nick);
 		if (ppro->EnterString(szBuffer, szTitle, ESF_COMBO, "gcNick_"))
@@ -1260,8 +1260,8 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 	case IDM_INVITE:
 		{
 			auto *pDlg = new CGroupchatInviteDlg(ppro, roomJid);
-			if (gch->pDlg)
-				pDlg->SetParent(gch->pDlg->GetHwnd());
+			if (gch->si->pDlg)
+				pDlg->SetParent(gch->si->pDlg->GetHwnd());
 			pDlg->Show();
 		}
 		break;
@@ -1286,7 +1286,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 		break;
 
 	case IDM_DESTROY:
-		szTitle.Format(TranslateT("Reason to destroy %s"), gch->ptszID);
+		szTitle.Format(TranslateT("Reason to destroy %s"), gch->si->ptszID);
 		if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
 			ppro->m_ThreadInfo->send(
 				XmlNodeIq("set", ppro->SerialNext(), roomJid) << XQUERY(JABBER_FEAT_MUC_OWNER)
@@ -1362,10 +1362,10 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 	if (gch == nullptr)
 		return 0;
 
-	if (mir_strcmpi(gch->pszModule, m_szModuleName))
+	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
 		return 0;
 
-	T2Utf roomJid(gch->ptszID);
+	T2Utf roomJid(gch->si->ptszID);
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, roomJid);
 	if (item == nullptr)
 		return 0;

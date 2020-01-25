@@ -49,8 +49,7 @@ void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, con
 int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
-
-	if(strcmp(hook->pszModule,m_szModuleName))
+	if(strcmp(hook->si->pszModule,m_szModuleName))
 		return 0;
 
 	switch(hook->iType) {

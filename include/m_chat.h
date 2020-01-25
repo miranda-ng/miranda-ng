@@ -477,16 +477,13 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO*);
 
 struct GCHOOK
 {
-	LPCSTR  pszModule;   // Name of the protocol (same as you registered with)
-	LPCTSTR ptszID;      // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
 	int     iType;       // Use GC_EVENT_* as defined above. Only one event per service call.
-	
 	LPTSTR  ptszText;    // usage depends on type of event
 	LPTSTR  ptszUID;     // unique identifier, usage depends on type of event
 	LPTSTR  ptszNick;    // user nick, as displayed in a nicklist
 	INT_PTR dwData;      // user defined data, usage depends on type of event
 
-	class CSrmmBaseDialog *pDlg; // dialog from which this event was called
+	SESSION_INFO *si;    // session information
 };
 
 /*
