@@ -97,6 +97,30 @@ FacebookUser* FacebookProto::AddContact(const CMStringW &wszId, bool bTemp)
 	return ret;
 }
 
+FacebookUser* FacebookProto::UserFromJson(const JSONNode &root, CMStringW &wszUserId)
+{
+	bool bIsChat = false;
+	wszUserId = root["threadKey"]["otherUserFbId"].as_mstring();
+	if (wszUserId.IsEmpty()) {
+		// if only thread id is present, it must be a group chat
+		wszUserId = root["threadKey"]["threadFbId"].as_mstring();
+		bIsChat = true;
+	}
+
+	auto *pUser = FindUser(_wtoi64(wszUserId));
+	if (pUser == nullptr) {
+		debugLogA("Message from unknown contact %s, ignored", wszUserId.c_str());
+		return nullptr;
+	}
+
+	if (pUser->bIsChat != bIsChat) {
+		debugLogA("Wrong chat user: %d vs %d for user %lld, ignored", pUser->bIsChat, bIsChat, pUser->id);
+		return nullptr;
+	}
+
+	return pUser;
+}
+
 int FacebookProto::RefreshContacts()
 {
 	auto *pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
@@ -199,6 +223,7 @@ void FacebookProto::RefreshThreads()
 			if (si == nullptr)
 				continue;
 
+			setWString(si->hContact, DBKEY_ID, chatId);
 			Chat_AddGroup(si, TranslateT("Participant"));
 
 			for (auto &u : n["all_participants"]["nodes"]) {
@@ -528,20 +553,10 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		return;
 	}
 
-	CMStringW wszOtherUserFbId(metadata["threadKey"]["otherUserFbId"].as_mstring());
-	if (wszOtherUserFbId.IsEmpty())
-		wszOtherUserFbId = metadata["threadKey"]["threadFbId"].as_mstring();
-
-	__int64 otherUserFbId = _wtoi64(wszOtherUserFbId);
-	if (!otherUserFbId) {
-		// TODO: handling thread/room/groupchat messages
-		debugLogA("We can't handle group chats at the moment, ignored");
-		return;
-	}
-
-	auto *pUser = FindUser(otherUserFbId);
+	CMStringW wszUserId;
+	auto *pUser = UserFromJson(metadata, wszUserId);
 	if (pUser == nullptr)
-		pUser = AddContact(wszOtherUserFbId);
+		pUser = AddContact(wszUserId);
 
 	for (auto &it : metadata["tags"]) {
 		auto *szTagName = it.name();
@@ -695,7 +710,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		ptrW wszText(mir_utf8decodeW(szBody));
 
 		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-		gce.pszID.w = wszOtherUserFbId;
+		gce.pszID.w = wszUserId;
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.pszUID.w = wszActorFbId;
 		gce.pszText.w = wszText;
@@ -721,10 +736,10 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 // read notification
 void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 {
-	CMStringA wszUserId(root["threadKey"]["otherUserFbId"].as_mstring());
-	auto *pUser = FindUser(_atoi64(wszUserId));
+	CMStringW wszUserId;
+	auto *pUser = UserFromJson(root, wszUserId);
 	if (pUser == nullptr) {
-		debugLogA("Message from unknown contact %s, ignored", wszUserId.c_str());
+		debugLogA("Message from unknown contact %S, ignored", wszUserId.c_str());
 		return;
 	}
 
@@ -750,8 +765,8 @@ void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 	__int64 offlineId = _wtoi64(metadata["offlineThreadingId"].as_mstring());
 	std::string szId(metadata["messageId"].as_string());
 
-	CMStringA wszUserId(metadata["threadKey"]["otherUserFbId"].as_mstring());
-	auto *pUser = FindUser(_atoi64(wszUserId));
+	CMStringW wszUserId;
+	auto *pUser = UserFromJson(metadata, wszUserId);
 	if (pUser == nullptr) {
 		debugLogA("Message from unknown contact %s, ignored", wszUserId.c_str());
 		return;
@@ -759,7 +774,21 @@ void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 
 	for (auto &it : arOwnMessages) {
 		if (it->msgId == offlineId) {
-			ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
+			if (pUser->bIsChat) {
+				CMStringW wszId(FORMAT, L"%lld", m_uid);
+				it->wszText.Replace(L"%", L"%%");
+
+				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+				gce.pszID.w = wszUserId;
+				gce.dwFlags = GCEF_ADDTOLOG;
+				gce.pszUID.w = wszId;
+				gce.pszText.w = it->wszText;
+				gce.time = time(0);
+				gce.bIsMe = true;
+				Chat_Event(&gce);
+			}
+			else ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
+
 			arOwnMessages.remove(arOwnMessages.indexOf(&it));
 			break;
 		}

@@ -360,6 +360,7 @@ struct COwnMessage
 {
    __int64 msgId;
    int reqId;
+   CMStringW wszText;
 
    COwnMessage(__int64 _id, int _reqId) :
       msgId(_id),
@@ -454,10 +455,12 @@ class FacebookProto : public PROTO<FacebookProto>
    OBJLIST<COwnMessage> arOwnMessages;
 
    OBJLIST<FacebookUser> m_users;
-   FacebookUser *FindUser(__int64 id)
+   FacebookUser* FindUser(__int64 id)
    {
       return m_users.find((FacebookUser *)&id);
    }
+
+   FacebookUser* UserFromJson(const JSONNode &root, CMStringW &wszId);
 
    void FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody);
 
