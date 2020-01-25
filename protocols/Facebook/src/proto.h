@@ -408,7 +408,8 @@ class FacebookProto : public PROTO<FacebookProto>
    int  Chat_KickUser(SESSION_INFO *si, const wchar_t *pwszUid);
    void Chat_Leave(SESSION_INFO *si);
    void Chat_SendPrivateMessage(GCHOOK *gch);
-   void Chat_ProcessLogMenu(SESSION_INFO *si, int iChoice);
+   void Chat_ProcessLogMenu(SESSION_INFO *si, GCHOOK *gch);
+   void Chat_ProcessNickMenu(SESSION_INFO *si, GCHOOK *gch);
 
 	// MQTT
    void MqttLogin();

@@ -83,7 +83,7 @@ public:
 
 			if (HANDLE hItem = m_clc.FindContact(hContact)) {
 				if (m_clc.GetCheck(hItem)) {
-					JSONNode user; user << CHAR_PARAM("type", "id") << CHAR_PARAM("id", m_proto->getMStringA(DBKEY_ID));
+					JSONNode user; user << CHAR_PARAM("type", "id") << CHAR_PARAM("id", m_proto->getMStringA(hContact, DBKEY_ID));
 					list << user;
 				}
 			}
@@ -111,14 +111,21 @@ void FacebookProto::Chat_InviteUser(SESSION_INFO *si)
 
 enum ChatMenuItems
 {
-	IDM_INVITE = 10, IDM_LEAVE
+	IDM_INVITE = 10, IDM_LEAVE,
+
+	IDM_KICK = 20
 };
 
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("&Invite a user"), IDM_INVITE, MENU_ITEM },
 	{ nullptr, 0, MENU_SEPARATOR },
-	{ LPGENW("&Leave/destroy chat"), IDM_LEAVE, MENU_ITEM }
+	{ LPGENW("&Leave/destroy chat"), IDM_LEAVE, MENU_ITEM },
+};
+
+static gc_item sttNickListItems[] =
+{
+	{ LPGENW("&Kick user"), IDM_KICK, MENU_ITEM },
 };
 
 int FacebookProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
@@ -130,12 +137,12 @@ int FacebookProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
-	SESSION_INFO *si = g_chatApi.SM_FindSession(gcmi->pszID, gcmi->pszModule);
-	if (si == nullptr)
-		return 0;
-
-	if (gcmi->Type == MENU_ON_LOG)
-		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
+	if (SESSION_INFO *si = g_chatApi.SM_FindSession(gcmi->pszID, gcmi->pszModule)) {
+		if (gcmi->Type == MENU_ON_LOG)
+			Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
+		if (gcmi->Type == MENU_ON_NICKLIST)
+			Chat_AddMenuItems(gcmi->hMenu, _countof(sttNickListItems), sttNickListItems, &g_plugin);
+	}
 
 	return 0;
 }
@@ -171,22 +178,35 @@ int FacebookProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_LOGMENU:
-		Chat_ProcessLogMenu(si, gch->dwData);
+		Chat_ProcessLogMenu(si, gch);
+		break;
+
+	case GC_USER_NICKLISTMENU:
+		Chat_ProcessNickMenu(si, gch);
 		break;
 	}
 
 	return 0;
 }
 
-void FacebookProto::Chat_ProcessLogMenu(SESSION_INFO *si, int iChoice)
+void FacebookProto::Chat_ProcessLogMenu(SESSION_INFO *si, GCHOOK *gch)
 {
-	switch (iChoice) {
+	switch (gch->dwData) {
 	case IDM_INVITE:
 		Chat_InviteUser(si);
 		break;
 
 	case IDM_LEAVE:
 		Chat_Leave(si);
+		break;
+	}
+}
+
+void FacebookProto::Chat_ProcessNickMenu(SESSION_INFO *si, GCHOOK *gch)
+{
+	switch (gch->dwData) {
+	case IDM_KICK:
+		Chat_KickUser(si, gch->ptszUID);
 		break;
 	}
 }
