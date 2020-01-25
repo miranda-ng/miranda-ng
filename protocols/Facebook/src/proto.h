@@ -343,13 +343,15 @@ public:
 
 struct FacebookUser
 {
-   FacebookUser(__int64 _p1, MCONTACT _p2) :
+   FacebookUser(__int64 _p1, MCONTACT _p2, bool _p3 = false) :
       id(_p1),
-      hContact(_p2)
+      hContact(_p2),
+      bIsChat(_p3)
    {}
 
    __int64  id;
    MCONTACT hContact;
+   bool bIsChat;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

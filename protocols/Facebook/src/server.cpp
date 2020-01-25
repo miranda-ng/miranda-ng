@@ -80,7 +80,7 @@ void FacebookProto::OnLoggedOut()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
-	setAllContactStatuses(ID_STATUS_OFFLINE);
+	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
 FacebookUser* FacebookProto::AddContact(const CMStringW &wszId, bool bTemp)
@@ -217,6 +217,8 @@ void FacebookProto::RefreshThreads()
 
 			Chat_Control(m_szModuleName, chatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 			Chat_Control(m_szModuleName, chatId, SESSION_ONLINE);
+
+			m_users.insert(new FacebookUser(_wtoi64(chatId), si->hContact, true));
 		}
 	}
 }
@@ -527,6 +529,9 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	}
 
 	CMStringW wszOtherUserFbId(metadata["threadKey"]["otherUserFbId"].as_mstring());
+	if (wszOtherUserFbId.IsEmpty())
+		wszOtherUserFbId = metadata["threadKey"]["threadFbId"].as_mstring();
+
 	__int64 otherUserFbId = _wtoi64(wszOtherUserFbId);
 	if (!otherUserFbId) {
 		// TODO: handling thread/room/groupchat messages
@@ -548,10 +553,11 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		}
 	}
 
-	__int64 actorFbId = _wtoi64(metadata["actorFbId"].as_mstring());
+	CMStringW wszActorFbId(metadata["actorFbId"].as_mstring());
 	CMStringA szId(metadata["messageId"].as_string().c_str());
 
 	// messages sent with attachments are returning as deltaNewMessage, not deltaSentMessage
+	__int64 actorFbId = _wtoi64(wszActorFbId);
 	if (m_uid == actorFbId) {
 		for (auto& it : arOwnMessages) {
 			if (it->msgId == offlineId) {
@@ -683,16 +689,33 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			szBody.AppendFormat("\r\n\t%s: %s", TranslateU("Playable media"), str.c_str());
 	}
 
-	// store message
-	PROTORECVEVENT pre = {};
-	pre.timestamp = DWORD(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
-	pre.szMessage = (char *)szBody.c_str();
-	pre.szMsgId = (char *)szId.c_str();
+	// if that's a group chat, send it to the room
+	if (pUser->bIsChat) {
+		szBody.Replace("%", "%%");
+		ptrW wszText(mir_utf8decodeW(szBody));
 
-	if (m_uid == actorFbId)
-		pre.flags |= PREF_SENT;
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+		gce.pszID.w = wszOtherUserFbId;
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.pszUID.w = wszActorFbId;
+		gce.pszText.w = wszText;
+		gce.time = time(0);
+		gce.bIsMe = actorFbId == m_uid;
+		Chat_Event(&gce);
 
-	ProtoChainRecvMsg(pUser->hContact, &pre);
+		debugLogA("New channel %lld message from %S: %s", pUser->id, gce.pszUID.w, gce.pszText.w);
+	}
+	else { // otherwise store a private message
+		PROTORECVEVENT pre = {};
+		pre.timestamp = DWORD(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
+		pre.szMessage = (char *)szBody.c_str();
+		pre.szMsgId = (char *)szId.c_str();
+
+		if (m_uid == actorFbId)
+			pre.flags |= PREF_SENT;
+
+		ProtoChainRecvMsg(pUser->hContact, &pre);
+	}
 }
 
 // read notification
