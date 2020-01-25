@@ -147,13 +147,10 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	it.lParam = (LPARAM)dat;
 	pCtrl->InsertItem(&it);
 
-	if (bNoCheckbox) {
+	if (bNoCheckbox)
 		pCtrl->SetItemState(dat->iRow, 0x3000, LVIS_STATEIMAGEMASK);
-	}
-	else if (isPluginOnWhiteList(fd->cFileName)) {
-		if (!dat->bRequiresRestart)
-			dat->bWasChecked = true;
-	}
+	else if (isPluginOnWhiteList(fd->cFileName))
+		dat->bWasChecked = true;
 
 	if (dat->iRow != -1) {
 		// column 2: plugin short name
@@ -326,12 +323,12 @@ public:
 
 		// some plugins could be just loaded by Plugin Updater, load them first
 		for (auto &it : arPluginList)
-			if (!it->bWasLoaded && it->bWasChecked && !it->hInst)
+			if (!it->bWasLoaded && !it->bRequiresRestart && it->bWasChecked && !it->hInst)
 				LoadPluginDynamically(it);
 
 		// set checkboxes for all loaded plugins
 		for (auto &it : arPluginList)
-			if (it->bWasChecked && isPluginOnWhiteList(it->fileName) && it->hInst)
+			if (isPluginOnWhiteList(it->fileName) && it->hInst)
 				m_plugList.SetItemState(it->iRow, 0x2000, LVIS_STATEIMAGEMASK);
 
 		// sort out the headers
