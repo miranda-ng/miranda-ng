@@ -753,7 +753,7 @@ bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool is
 			m_btnItalic.Click();
 			return true;
 
-		case 0x4b: // ctrl-k (paste clean text)
+		case 0x4b: // ctrl-k (text color)
 			m_btnColor.Push(!m_btnColor.IsPushed());
 			m_btnColor.Click();
 			return true;

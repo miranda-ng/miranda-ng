@@ -77,18 +77,18 @@ void CMsgDialog::FormatRaw(CMStringW &msg, int flags, bool isSent)
 					continue;
 				}
 
-				CMStringW colorname = msg.Mid(beginmark + 7, 8);
+				CMStringW colorname = msg.Mid(beginmark + 7, closing - beginmark - 7);
 search_again:
 				bool clr_found = false;
 				for (int ii = 0; ii < Utils::rtf_clrs.getCount(); ii++) {
 					auto &rtfc = Utils::rtf_clrs[ii];
-					if (!wcsnicmp(colorname, rtfc.szName, mir_wstrlen(rtfc.szName))) {
+					if (!wcsicmp(colorname, rtfc.szName)) {
 						closing = beginmark + 7 + (int)mir_wstrlen(rtfc.szName);
 						if (endmark != -1) {
 							msg.Delete(endmark, 8);
 							msg.Insert(endmark, L"c0 ");
 						}
-						msg.Delete(beginmark, (closing - beginmark));
+						msg.Delete(beginmark, closing - beginmark + 1);
 
 						wchar_t szTemp[5];
 						msg.Insert(beginmark, L"cxxx ");
@@ -413,12 +413,18 @@ int CMsgDialog::FindRTLLocale()
 /////////////////////////////////////////////////////////////////////////////////////////
 // init default color table. the table may grow when using custom colors via bbcodes
 
+static const wchar_t *sttColorNames[] = {
+	L"black",
+	L"",  L"", L"", L"", L"", L"", L"", L"",
+	L"blue", L"cyan", L"magenta", L"green", L"yellow", L"red", L"white"
+};
+
 void Utils::RTF_CTableInit()
 {
 	int iTableSize;
 	COLORREF *pTable = Srmm_GetColorTable(&iTableSize);
 	for (int i = 0; i < iTableSize; i++)
-		rtf_clrs.insert(new TRTFColorTable(L"", pTable[i]));
+		rtf_clrs.insert(new TRTFColorTable(sttColorNames[i], pTable[i]));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
