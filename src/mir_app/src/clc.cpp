@@ -1117,6 +1117,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					}
 				}
 				break;
+			
 			case DROPTARGET_OUTSIDE:
 				g_clistApi.pfnGetRowByIndex(dat, dat->iDragItem, &contact, nullptr);
 				{
@@ -1130,10 +1131,12 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nm);
 				}
 				break;
+			
 			default:
 				g_clistApi.pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
-				if (!group->parent)
+				if (group && !group->parent)
 					break;
+				
 				if (contact->type == CLCIT_GROUP) { //dropee is a group
 					wchar_t szNewName[120];
 					mir_wstrncpy(szNewName, contact->szText, _countof(szNewName));
