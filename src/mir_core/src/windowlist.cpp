@@ -87,7 +87,7 @@ MIR_CORE_DLL(HWND) WindowList_Find(MWindowList hList, UINT_PTR param)
 MIR_CORE_DLL(int) WindowList_Broadcast(MWindowList hList, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (hList == nullptr)
-		return NULL;
+		return 0;
 
 	for (auto &it : hList->rev_iter())
 		SendMessage(it->hWnd, message, wParam, lParam);
@@ -97,7 +97,7 @@ MIR_CORE_DLL(int) WindowList_Broadcast(MWindowList hList, UINT message, WPARAM w
 MIR_CORE_DLL(int) WindowList_BroadcastAsync(MWindowList hList, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (hList == nullptr)
-		return NULL;
+		return 0;
 
 	for (auto &it : hList->rev_iter())
 		PostMessage(it->hWnd, message, wParam, lParam);
