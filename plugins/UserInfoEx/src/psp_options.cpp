@@ -36,22 +36,6 @@ static FORCEINLINE void NotifyParentOfChange(HWND hDlg)
 	SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 }
 
-/**
- * Sends a PSN_INFOCHANGED notify to the handle.
- *
- * @param	hWnd					- the dialog's window handle
- *
- * @return	nothing
- **/
-static void SendNotify_InfoChanged(HWND hDlg)
-{
-	PSHNOTIFY pshn;
-
-	// send info changed message
-	pshn.hdr.code = PSN_INFOCHANGED;
-	SendMessage(hDlg, WM_NOTIFY, NULL, (LPARAM)&pshn);
-}
-
 static int FORCEINLINE ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
 {
 	int nItemIndex;
@@ -275,39 +259,35 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
 		ShowWindow(GetDlgItem(hDlg, CHECK_OPT_ZODIACAVATAR), SW_HIDE);
-		SendNotify_InfoChanged(hDlg);
+		bInitialized = 0;
+
+		// menu item settings
+		for (auto &it : ctrl_Menu) {
+			int flag = g_plugin.getByte(it.pszKey, 2);
+			// check button and enable / disable control
+			int idEnable[] = { it.idCheckbox + 1, it.idNONE, it.idALL, it.idEXIMPORT };
+			EnableControls(hDlg, idEnable, _countof(idEnable), DBGetCheckBtn(hDlg, it.idCheckbox, it.pszKey, 0));
+			// set radio button state
+			int id = it.idNONE;	//default
+			if ((flag & 4) == 4)
+				id = it.idALL;
+			else if ((flag & 8) == 8)
+				id = it.idEXIMPORT;
+			CheckRadioButton(hDlg, it.idNONE, it.idEXIMPORT, id);
+		}
+
+		// extra icon settings
+		CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, g_bUseUnknownFlag ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, g_bShowStatusIconFlag ? BST_CHECKED : BST_UNCHECKED);
+
+		// misc
+		DBGetCheckBtn(hDlg, CHECK_OPT_ZODIACAVATAR, SET_ZODIAC_AVATARS, FALSE);
+
+		bInitialized = 1;
 		return TRUE;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
-		case PSN_INFOCHANGED:
-			bInitialized = 0;
-
-			// menu item settings
-			for (auto &it : ctrl_Menu) {
-				int flag = g_plugin.getByte(it.pszKey, 2);
-				// check button and enable / disable control
-				int idEnable[] = { it.idCheckbox + 1, it.idNONE, it.idALL, it.idEXIMPORT };
-				EnableControls(hDlg, idEnable, _countof(idEnable), DBGetCheckBtn(hDlg, it.idCheckbox, it.pszKey, 0));
-				// set radio button state
-				int id = it.idNONE;	//default
-				if ((flag & 4) == 4)
-					id = it.idALL;
-				else if ((flag & 8) == 8)
-					id = it.idEXIMPORT;
-				CheckRadioButton(hDlg, it.idNONE, it.idEXIMPORT, id);
-			}
-
-			// extra icon settings
-			CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, g_bUseUnknownFlag ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, g_bShowStatusIconFlag ? BST_CHECKED : BST_UNCHECKED);
-
-			// misc
-			DBGetCheckBtn(hDlg, CHECK_OPT_ZODIACAVATAR, SET_ZODIAC_AVATARS, FALSE);
-
-			bInitialized = 1;
-			break;
-
 		case PSN_APPLY:
 			// menu item settings
 			for (auto &it : ctrl_Menu) {
@@ -399,24 +379,20 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		SendNotify_InfoChanged(hDlg);
+		bInitialized = 0;
+
+		DBGetCheckBtn(hDlg, CHECK_OPT_ICOVERSION, SET_ICONS_CHECKFILEVERSION, TRUE);
+		DBGetCheckBtn(hDlg, CHECK_OPT_BUTTONICONS, SET_ICONS_BUTTONS, TRUE);
+		DBGetCheckBtn(hDlg, CHECK_OPT_METASCAN, SET_META_SCAN, TRUE);
+		DBGetCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE, TRUE);
+		CheckDlgButton(hDlg, CHECK_OPT_AUTOTIMEZONE, BST_CHECKED);
+		EnableWindow(GetDlgItem(hDlg, CHECK_OPT_AUTOTIMEZONE), FALSE);
+
+		bInitialized = 1;
 		return TRUE;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
-		case PSN_INFOCHANGED:
-			bInitialized = 0;
-
-			DBGetCheckBtn(hDlg, CHECK_OPT_ICOVERSION, SET_ICONS_CHECKFILEVERSION, TRUE);
-			DBGetCheckBtn(hDlg, CHECK_OPT_BUTTONICONS, SET_ICONS_BUTTONS, TRUE);
-			DBGetCheckBtn(hDlg, CHECK_OPT_METASCAN, SET_META_SCAN, TRUE);
-			DBGetCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE, TRUE);
-			CheckDlgButton(hDlg, CHECK_OPT_AUTOTIMEZONE, BST_CHECKED);
-			EnableWindow(GetDlgItem(hDlg, CHECK_OPT_AUTOTIMEZONE), FALSE);
-
-			bInitialized = 1;
-			break;
-
 		case PSN_APPLY:
 			DBWriteCheckBtn(hDlg, CHECK_OPT_ICOVERSION, SET_ICONS_CHECKFILEVERSION);
 			DBWriteCheckBtn(hDlg, CHECK_OPT_BUTTONICONS, SET_ICONS_BUTTONS);
@@ -491,36 +467,32 @@ static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wPar
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		SendNotify_InfoChanged(hDlg);
+		bInitialized = 0;
+
+		// init colors
+		DBGetCheckBtn(hDlg, CHECK_OPT_CLR, SET_PROPSHEET_SHOWCOLOURS, TRUE);
+		SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_CLR, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, CHECK_OPT_CLR));
+		DBGetColor(hDlg, CLR_NORMAL, SET_PROPSHEET_CLRNORMAL, RGB(90, 90, 90));
+		DBGetColor(hDlg, CLR_USER, SET_PROPSHEET_CLRCUSTOM, RGB(0, 10, 130));
+		DBGetColor(hDlg, CLR_BOTH, SET_PROPSHEET_CLRBOTH, RGB(0, 160, 10));
+		DBGetColor(hDlg, CLR_CHANGED, SET_PROPSHEET_CLRCHANGED, RGB(190, 0, 0));
+		DBGetColor(hDlg, CLR_META, SET_PROPSHEET_CLRMETA, RGB(120, 40, 130));
+
+		// treeview options
+		DBGetCheckBtn(hDlg, CHECK_OPT_GROUPS, SET_PROPSHEET_GROUPS, TRUE);
+		DBGetCheckBtn(hDlg, CHECK_OPT_SORTTREE, SET_PROPSHEET_SORTITEMS, FALSE);
+		DBGetCheckBtn(hDlg, CHECK_OPT_AEROADAPTION, SET_PROPSHEET_AEROADAPTION, TRUE);
+
+		// common options
+		DBGetCheckBtn(hDlg, CHECK_OPT_READONLY, SET_PROPSHEET_PCBIREADONLY, FALSE);
+		DBGetCheckBtn(hDlg, CHECK_OPT_CHANGEMYDETAILS, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
+		Button_Enable(GetDlgItem(hDlg, CHECK_OPT_CHANGEMYDETAILS), myGlobals.CanChangeDetails);
+
+		bInitialized = 1;
 		return TRUE;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
-		case PSN_INFOCHANGED:
-			bInitialized = 0;
-
-			// init colors
-			DBGetCheckBtn(hDlg, CHECK_OPT_CLR, SET_PROPSHEET_SHOWCOLOURS, TRUE);
-			SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_CLR, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, CHECK_OPT_CLR));
-			DBGetColor(hDlg, CLR_NORMAL, SET_PROPSHEET_CLRNORMAL, RGB(90, 90, 90));
-			DBGetColor(hDlg, CLR_USER, SET_PROPSHEET_CLRCUSTOM, RGB(0, 10, 130));
-			DBGetColor(hDlg, CLR_BOTH, SET_PROPSHEET_CLRBOTH, RGB(0, 160, 10));
-			DBGetColor(hDlg, CLR_CHANGED, SET_PROPSHEET_CLRCHANGED, RGB(190, 0, 0));
-			DBGetColor(hDlg, CLR_META, SET_PROPSHEET_CLRMETA, RGB(120, 40, 130));
-
-			// treeview options
-			DBGetCheckBtn(hDlg, CHECK_OPT_GROUPS, SET_PROPSHEET_GROUPS, TRUE);
-			DBGetCheckBtn(hDlg, CHECK_OPT_SORTTREE, SET_PROPSHEET_SORTITEMS, FALSE);
-			DBGetCheckBtn(hDlg, CHECK_OPT_AEROADAPTION, SET_PROPSHEET_AEROADAPTION, TRUE);
-
-			// common options
-			DBGetCheckBtn(hDlg, CHECK_OPT_READONLY, SET_PROPSHEET_PCBIREADONLY, FALSE);
-			DBGetCheckBtn(hDlg, CHECK_OPT_CHANGEMYDETAILS, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
-			Button_Enable(GetDlgItem(hDlg, CHECK_OPT_CHANGEMYDETAILS), myGlobals.CanChangeDetails);
-
-			bInitialized = 1;
-			break;
-
 		case PSN_APPLY:
 			DBWriteCheckBtn(hDlg, CHECK_OPT_CLR, SET_PROPSHEET_SHOWCOLOURS);
 			DBWriteCheckBtn(hDlg, CHECK_OPT_GROUPS, SET_PROPSHEET_GROUPS);
@@ -598,46 +570,41 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			ComboBox_AddString(hCtrl, TranslateT("mBirthday"));
 			ComboBox_AddString(hCtrl, TranslateT("UserInfo (default)"));
 		}
-		SendNotify_InfoChanged(hDlg);
+
+		bInitialized = 0;
+		{
+			// set reminder options
+			BYTE bEnabled = g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
+			SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_SETCURSEL, bEnabled, NULL);
+			DlgProc_ReminderOpts(hDlg, WM_COMMAND, MAKEWPARAM(EDIT_REMIND_ENABLED, CBN_SELCHANGE),
+				(LPARAM)GetDlgItem(hDlg, EDIT_REMIND_ENABLED));
+
+			DBGetCheckBtn(hDlg, CHECK_REMIND_MI, SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
+			DBGetCheckBtn(hDlg, CHECK_REMIND_FLASHICON, SET_REMIND_FLASHICON, FALSE);
+			DBGetCheckBtn(hDlg, CHECK_REMIND_VISIBLEONLY, SET_REMIND_CHECKVISIBLE, DEFVAL_REMIND_CHECKVISIBLE);
+			DBGetCheckBtn(hDlg, CHECK_REMIND_STARTUP, SET_REMIND_CHECKON_STARTUP, FALSE);
+			DBGetCheckBtn(hDlg, CHECK_REMIND_SECURED, SET_REMIND_SECUREBIRTHDAY, FALSE);
+
+			SetDlgItemInt(hDlg, EDIT_REMIND, g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
+			SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, g_plugin.getByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
+			SetDlgItemInt(hDlg, EDIT_REMIND2, g_plugin.getWord(SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
+
+			SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
+
+			MTime mtLast;
+			wchar_t szTime[MAX_PATH];
+
+			mtLast.DBGetStamp(0, MODULENAME, SET_REMIND_LASTCHECK);
+			mtLast.UTCToLocal();
+			mtLast.TimeFormat(szTime, _countof(szTime));
+
+			SetDlgItemText(hDlg, TXT_REMIND_LASTCHECK, szTime);
+		}
+		bInitialized = 1;
 		return TRUE;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
-		case PSN_INFOCHANGED:
-			{
-				bInitialized = 0;
-
-				// set reminder options
-				BYTE bEnabled = g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
-				SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_SETCURSEL, bEnabled, NULL);
-				DlgProc_ReminderOpts(hDlg, WM_COMMAND, MAKEWPARAM(EDIT_REMIND_ENABLED, CBN_SELCHANGE),
-					(LPARAM)GetDlgItem(hDlg, EDIT_REMIND_ENABLED));
-
-				DBGetCheckBtn(hDlg, CHECK_REMIND_MI, SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
-				DBGetCheckBtn(hDlg, CHECK_REMIND_FLASHICON, SET_REMIND_FLASHICON, FALSE);
-				DBGetCheckBtn(hDlg, CHECK_REMIND_VISIBLEONLY, SET_REMIND_CHECKVISIBLE, DEFVAL_REMIND_CHECKVISIBLE);
-				DBGetCheckBtn(hDlg, CHECK_REMIND_STARTUP, SET_REMIND_CHECKON_STARTUP, FALSE);
-				DBGetCheckBtn(hDlg, CHECK_REMIND_SECURED, SET_REMIND_SECUREBIRTHDAY, FALSE);
-
-				SetDlgItemInt(hDlg, EDIT_REMIND, g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
-				SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, g_plugin.getByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
-				SetDlgItemInt(hDlg, EDIT_REMIND2, g_plugin.getWord(SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
-
-				SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
-
-				MTime mtLast;
-				wchar_t szTime[MAX_PATH];
-
-				mtLast.DBGetStamp(0, MODULENAME, SET_REMIND_LASTCHECK);
-				mtLast.UTCToLocal();
-				mtLast.TimeFormat(szTime, _countof(szTime));
-
-				SetDlgItemText(hDlg, TXT_REMIND_LASTCHECK, szTime);
-
-				bInitialized = 1;
-			}
-			break;
-
 		case PSN_APPLY:
 			{
 				BYTE bReminderCheck = FALSE;
@@ -757,76 +724,69 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		SendNotify_InfoChanged(hDlg);
+		bInitialized = 0;
+		{
+			DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_MSGBOX, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX);
+			DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_PROGRESS, "PopupProgress", FALSE);
+			// disable if popup plugin dos not sopport buttons inside popop
+			if (!(db_get_dw(0, "Popup", "Actions", 0) & 1))
+				EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
+
+			// enable/disable popups
+			BYTE isEnabled = DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_ENABLED, SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
+			SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ENABLED, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, CHECK_OPT_POPUP_ENABLED));
+
+			// set colortype checkboxes and color controls
+			DBGetColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK, RGB(192, 180, 30));
+			DBGetColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT, RGB(0, 0, 0));
+			switch (g_plugin.getByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
+			case POPUP_COLOR_DEFAULT:
+				CheckDlgButton(hDlg, CHECK_OPT_POPUP_DEFCLR, BST_CHECKED);
+				break;
+
+			case POPUP_COLOR_WINDOWS:
+				CheckDlgButton(hDlg, CHECK_OPT_POPUP_WINCLR, BST_CHECKED);
+			}
+
+			DBGetColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
+			DBGetColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT, RGB(0, 0, 0));
+			switch (g_plugin.getByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
+			case POPUP_COLOR_DEFAULT:
+				CheckDlgButton(hDlg, CHECK_OPT_POPUP_ADEFCLR, BST_CHECKED);
+				break;
+			case POPUP_COLOR_WINDOWS:
+				CheckDlgButton(hDlg, CHECK_OPT_POPUP_AWINCLR, BST_CHECKED);
+			}
+
+			if (isEnabled) {
+				SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_DEFCLR, BN_CLICKED), NULL);
+				SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ADEFCLR, BN_CLICKED), NULL);
+			}
+			// set delay values
+			BYTE bDelay = g_plugin.getByte(SET_POPUP_DELAY, 0);
+			switch (bDelay) {
+			case 0:
+				CheckDlgButton(hDlg, RADIO_OPT_POPUP_DEFAULT, BST_CHECKED);
+				if (isEnabled)
+					EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
+				break;
+
+			case 255:
+				CheckDlgButton(hDlg, RADIO_OPT_POPUP_PERMANENT, BST_CHECKED);
+				if (isEnabled)
+					EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
+				break;
+
+			default:
+				CheckDlgButton(hDlg, RADIO_OPT_POPUP_CUSTOM, BST_CHECKED);
+				SetDlgItemInt(hDlg, EDIT_DELAY, bDelay, FALSE);
+			}
+		}
+		bInitialized = TRUE;
 		return TRUE;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
-		case PSN_INFOCHANGED:
-			{
-				BYTE bDelay, isEnabled;
-
-				bInitialized = 0;
-
-				DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_MSGBOX, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX);
-				DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_PROGRESS, "PopupProgress", FALSE);
-				// disable if popup plugin dos not sopport buttons inside popop
-				if (!(db_get_dw(0, "Popup","Actions", 0) & 1))
-					EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
-
-				// enable/disable popups
-				isEnabled = DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_ENABLED, SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
-				SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ENABLED, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, CHECK_OPT_POPUP_ENABLED));
-
-				// set colortype checkboxes and color controls
-				DBGetColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK, RGB(192, 180, 30));
-				DBGetColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT, RGB(0, 0, 0));
-				switch (g_plugin.getByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
-				case POPUP_COLOR_DEFAULT:
-					CheckDlgButton(hDlg, CHECK_OPT_POPUP_DEFCLR, BST_CHECKED);
-					break;
-
-				case POPUP_COLOR_WINDOWS:
-					CheckDlgButton(hDlg, CHECK_OPT_POPUP_WINCLR, BST_CHECKED);
-				}
-
-				DBGetColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
-				DBGetColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT, RGB(0, 0, 0));
-				switch (g_plugin.getByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
-				case POPUP_COLOR_DEFAULT:
-					CheckDlgButton(hDlg, CHECK_OPT_POPUP_ADEFCLR, BST_CHECKED);
-					break;
-				case POPUP_COLOR_WINDOWS:
-					CheckDlgButton(hDlg, CHECK_OPT_POPUP_AWINCLR, BST_CHECKED);
-				}
-
-				if (isEnabled) {
-					SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_DEFCLR, BN_CLICKED), NULL);
-					SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ADEFCLR, BN_CLICKED), NULL);
-				}
-				// set delay values
-				bDelay = g_plugin.getByte(SET_POPUP_DELAY, 0);
-				switch (bDelay) {
-				case 0:
-					CheckDlgButton(hDlg, RADIO_OPT_POPUP_DEFAULT, BST_CHECKED);
-					if (isEnabled)
-						EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
-					break;
-
-				case 255:
-					CheckDlgButton(hDlg, RADIO_OPT_POPUP_PERMANENT, BST_CHECKED);
-					if (isEnabled)
-						EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
-					break;
-
-				default:
-					CheckDlgButton(hDlg, RADIO_OPT_POPUP_CUSTOM, BST_CHECKED);
-					SetDlgItemInt(hDlg, EDIT_DELAY, bDelay, FALSE);
-				}
-				bInitialized = TRUE;
-			}
-			break;
-
 		case PSN_APPLY:
 			DBWriteCheckBtn(hDlg, CHECK_OPT_POPUP_MSGBOX, SET_POPUPMSGBOX);
 			DBWriteCheckBtn(hDlg, CHECK_OPT_POPUP_PROGRESS, "PopupProgress");
