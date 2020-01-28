@@ -103,9 +103,20 @@ void CJabberProto::FtInitiate(const char* jid, filetransfer *ft)
 			if (pwszContentType == nullptr)
 				pwszContentType = "application/octet-stream";
 
+			char szSize[100];
+			_i64toa(st.st_size, szSize, 10);
+
 			XmlNodeIq iq(AddIQ(&CJabberProto::OnHttpSlotAllocated, JABBER_IQ_TYPE_GET, szUploadService, ft));
-			iq << XCHILDNS("request", "urn:xmpp:http:upload:0") 
-				<< XATTR("filename", T2Utf(filename)) << XATTRI64("size", st.st_size) << XATTR("content-type", pwszContentType);
+			if (getByte("HttpUploadVer")) {
+				auto *p = iq << XCHILDNS("request", JABBER_FEAT_UPLOAD);
+				p << XCHILD("filename", T2Utf(filename));
+				p << XCHILD("size", szSize);
+				p << XCHILD("content-type", pwszContentType);
+			}
+			else {
+				iq << XCHILDNS("request", JABBER_FEAT_UPLOAD0)
+					<< XATTR("filename", T2Utf(filename)) << XATTR("size", szSize) << XATTR("content-type", pwszContentType);
+			}
 			m_ThreadInfo->send(iq);
 			return;
 		}
@@ -566,7 +577,18 @@ LBL_Fail:
 
 	if (auto *slotNode = XmlFirstChild(iqNode, "slot")) {
 		if (auto *putNode = XmlFirstChild(slotNode, "put")) {
-			if (auto *szUrl = putNode->Attribute("url")) {
+			const char *szXmlns = slotNode->Attribute("xmlns"), *szUrl = nullptr;
+			if (!mir_strcmp(szXmlns, JABBER_FEAT_UPLOAD)) {
+				szUrl = putNode->GetText();
+				debugLogA("%s: setting url to %s", szXmlns, szUrl);
+			}
+			else if (!mir_strcmp(szXmlns, JABBER_FEAT_UPLOAD0)) {
+				szUrl = putNode->Attribute("url");
+				debugLogA("%s: setting url to %s", szXmlns, szUrl);
+			}
+			else debugLogA("missing url location");
+
+			if (szUrl) {
 				NETLIBHTTPHEADER hdr[10];
 
 				NETLIBHTTPREQUEST nlhr = {};
@@ -636,8 +658,8 @@ LBL_Fail:
 				return;
 			}
 		}
+		else debugLogA("missing put node");
 	}
-	
-	debugLogA("wrong or not recognizable http slot received");
+	else debugLogA("wrong or not recognizable http slot received");
 	goto LBL_Fail;
 }

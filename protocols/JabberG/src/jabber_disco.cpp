@@ -1026,7 +1026,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		SD_ACT_LOGON = 100, SD_ACT_LOGOFF, SD_ACT_UNREGISTER,
 
 		SD_ACT_REGISTER = 200, SD_ACT_ADHOC, SD_ACT_ADDDIRECTORY,
-		SD_ACT_JOIN, SD_ACT_BOOKMARK, SD_ACT_PROXY, SD_ACT_VCARD, SD_ACT_UPLOAD
+		SD_ACT_JOIN, SD_ACT_BOOKMARK, SD_ACT_PROXY, SD_ACT_VCARD, SD_ACT_UPLOAD, SD_ACT_UPLOAD0
 	};
 
 	enum
@@ -1064,6 +1064,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{ JABBER_FEAT_JUD,           LPGENW("Add search directory"),  SD_ACT_ADDDIRECTORY},
 		{ JABBER_FEAT_BYTESTREAMS,   LPGENW("Use this proxy"),        SD_ACT_PROXY},
 		{ JABBER_FEAT_UPLOAD,        LPGENW("Use for uploads"),       SD_ACT_UPLOAD},
+		{ JABBER_FEAT_UPLOAD0,       LPGENW("Use for uploads"),       SD_ACT_UPLOAD0},
 		{ nullptr },
 		{ JABBER_FEAT_REGISTER,      LPGENW("Register"),              SD_ACT_REGISTER},
 		{ "jabber:iq:gateway",       LPGENW("Unregister"),            SD_ACT_UNREGISTER,       SD_FLG_ONROSTER | SD_FLG_SUBSCRIBED},
@@ -1138,6 +1139,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 					break;
 
 				case SD_ACT_UPLOAD:
+				case SD_ACT_UPLOAD0:
 					if (m_bUseHttpUpload)
 						dwFlags += MF_CHECKED;
 					break;
@@ -1252,6 +1254,13 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 	case SD_ACT_UPLOAD:
 		m_bUseHttpUpload = !m_bUseHttpUpload;
 		setUString("HttpUpload", pNode->GetJid());
+		setByte("HttpUploadVer", 1);
+		break;
+
+	case SD_ACT_UPLOAD0:
+		m_bUseHttpUpload = !m_bUseHttpUpload;
+		setUString("HttpUpload", pNode->GetJid());
+		setByte("HttpUploadVer", 0);
 		break;
 
 	case SD_ACT_JOIN:
