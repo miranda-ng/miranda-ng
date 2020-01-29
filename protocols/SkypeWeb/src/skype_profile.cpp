@@ -406,12 +406,13 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root) {
+	JsonReply reply(response);
+	if (reply.error()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, 0);
 		return;
 	}
 
+	auto &root = reply.data();
 	std::string username = root["username"].as_string();
 	if (username.empty()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, 0);

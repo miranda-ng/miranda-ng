@@ -25,10 +25,11 @@ LBL_Error:
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply reply(response);
+	if (reply.error())
 		goto LBL_Error;
 
+	auto &root = reply.data();
 	const JSONNode &ccid = root["ccid"];
 	const JSONNode &connId = root["connId"];
 	const JSONNode &instance = root["instance"];
@@ -55,10 +56,11 @@ LBL_Error:
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply reply(response);
+	if (reply.error())
 		goto LBL_Error;
 
+	auto &root = reply.data();
 	const JSONNode &st = root["st"];
 	const JSONNode &se = root["se"];
 	const JSONNode &sig = root["sig"];

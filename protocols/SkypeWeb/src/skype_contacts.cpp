@@ -95,10 +95,11 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 	if (response == nullptr)
 		return;
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply reply(response);
+	if (reply.error())
 		return;
 
+	auto &root = reply.data();
 	for (auto &item : root["invite_list"]) {
 		std::string skypename = item["mri"].as_string().erase(0, 2);
 		std::string reason = item["greeting"].as_string();
@@ -132,11 +133,11 @@ void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 	if (response == nullptr)
 		return;
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply root(response);
+	if (root.error())
 		return;
 
-	for (auto &item : root) {
+	for (auto &item : root.data()) {
 		std::string skypename = item["username"].as_string();
 		MCONTACT hContact = AddContact(skypename.c_str());
 		if (hContact) {
@@ -155,10 +156,11 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 	if (response == nullptr)
 		return;
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply reply(response);
+	if (reply.error())
 		return;
 
+	auto &root = reply.data();
 	LIST<char> skypenames(1);
 	bool loadAll = getBool("LoadAllContacts", false);
 	for (auto &item : root["contacts"]) {

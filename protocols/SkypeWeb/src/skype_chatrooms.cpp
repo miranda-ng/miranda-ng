@@ -59,10 +59,11 @@ void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 	if (response == nullptr)
 		return;
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply reply(response);
+	if (reply.error())
 		return;
 
+	auto &root = reply.data();
 	const JSONNode &metadata = root["_metadata"];
 	const JSONNode &conversations = root["conversations"].as_array();
 
@@ -369,10 +370,11 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 	if (response == nullptr || response->pData == nullptr)
 		return;
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply reply(response);
+	if (reply.error())
 		return;
 
+	auto &root = reply.data();
 	const JSONNode &members = root["members"];
 	const JSONNode &properties = root["properties"];
 	if (!properties["capabilities"] || properties["capabilities"].empty())

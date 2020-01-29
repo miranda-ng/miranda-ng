@@ -44,12 +44,13 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root) {
+	JsonReply reply(response);
+	if (reply.error()) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
 
+	auto &root = reply.data();
 	const JSONNode &items = root["results"].as_array();
 	for (auto &it : items) {
 		const JSONNode &item = it["nodeProfileData"];

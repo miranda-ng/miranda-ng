@@ -83,8 +83,8 @@ void CSkypeProto::OnSentAvatar(const NETLIBHTTPREQUEST *response)
 	if (response == nullptr)
 		return;
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply root(response);
+	if (root.error())
 		return;
 }
 

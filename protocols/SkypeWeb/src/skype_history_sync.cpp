@@ -24,10 +24,11 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	if (response == nullptr)
 		return;
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply reply(response);
+	if (reply.error())
 		return;
 
+	auto &root = reply.data();
 	const JSONNode &metadata = root["_metadata"];
 	const JSONNode &conversations = root["messages"].as_array();
 
@@ -116,10 +117,11 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	if (response == nullptr || response->pData == nullptr)
 		return;
 
-	JSONNode root = JSONNode::parse(response->pData);
-	if (!root)
+	JsonReply reply(response);
+	if (reply.error())
 		return;
 
+	auto &root = reply.data();
 	const JSONNode &metadata = root["_metadata"];
 	const JSONNode &conversations = root["conversations"].as_array();
 

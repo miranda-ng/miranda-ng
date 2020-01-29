@@ -137,8 +137,11 @@ HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
 		if (!response || !response->pData)
 			return;
 
-		JSONNode root = JSONNode::parse(response->pData);
+		JsonReply reply(response);
+		if (reply.error())
+			return;
 
+		auto &root = reply.data();
 		if (JSONNode &mood = root["mood"]) {
 			CMStringW str = mood.as_mstring();
 			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
