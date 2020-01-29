@@ -56,9 +56,6 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 
 void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr)
-		return;
-
 	JsonReply reply(response);
 	if (reply.error())
 		return;
@@ -367,8 +364,6 @@ void CSkypeProto::AddMessageToChat(const char *chat_id, const char *from, const 
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 {
 	ptrW topic((wchar_t*)p); // memory must be freed in any case
-	if (response == nullptr || response->pData == nullptr)
-		return;
 
 	JsonReply reply(response);
 	if (reply.error())

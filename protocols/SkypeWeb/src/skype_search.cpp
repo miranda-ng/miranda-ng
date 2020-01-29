@@ -33,17 +33,7 @@ void CSkypeProto::SearchBasicThread(void* id)
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 {
 	debugLogA(__FUNCTION__);
-	if (response == nullptr) {
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-		return;
-	}
-
-	debugLogA("CSkypeProto::OnSearch %d", response->resultCode);
-	if (response->resultCode != 200) {
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-		return;
-	}
-
+	
 	JsonReply reply(response);
 	if (reply.error()) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);

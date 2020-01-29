@@ -134,9 +134,6 @@ int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
 HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
 {
 	PushRequest(new GetProfileRequest(this, Contacts[hContact]), [this, hContact](const NETLIBHTTPREQUEST *response) {
-		if (!response || !response->pData)
-			return;
-
 		JsonReply reply(response);
 		if (reply.error())
 			return;

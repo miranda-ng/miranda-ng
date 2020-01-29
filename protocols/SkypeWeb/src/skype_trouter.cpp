@@ -19,15 +19,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr || response->pData == nullptr) {
+	JsonReply reply(response);
+	if (reply.error()) {
 LBL_Error:
 		debugLogA("Failed to establish a TRouter connection.");
 		return;
 	}
-
-	JsonReply reply(response);
-	if (reply.error())
-		goto LBL_Error;
 
 	auto &root = reply.data();
 	const JSONNode &ccid = root["ccid"];
@@ -50,15 +47,12 @@ LBL_Error:
 
 void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr || response->pData == nullptr) {
+	JsonReply reply(response);
+	if (reply.error()) {
 LBL_Error:
 		debugLogA("Failed to establish a TRouter connection.");
 		return;
 	}
-
-	JsonReply reply(response);
-	if (reply.error())
-		goto LBL_Error;
 
 	auto &root = reply.data();
 	const JSONNode &st = root["st"];

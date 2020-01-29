@@ -21,9 +21,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr)
-		return;
-
 	JsonReply reply(response);
 	if (reply.error())
 		return;
@@ -114,9 +111,6 @@ INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr || response->pData == nullptr)
-		return;
-
 	JsonReply reply(response);
 	if (reply.error())
 		return;

@@ -80,9 +80,6 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSkypeProto::OnSentAvatar(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr)
-		return;
-
 	JsonReply root(response);
 	if (root.error())
 		return;

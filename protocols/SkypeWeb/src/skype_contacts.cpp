@@ -92,9 +92,6 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 
 void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr)
-		return;
-
 	JsonReply reply(response);
 	if (reply.error())
 		return;
@@ -130,9 +127,6 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 //[{"username":"echo123", "firstname" : "Echo \/ Sound Test Service", "lastname" : null, "avatarUrl" : null, "mood" : null, "richMood" : null, "displayname" : null, "country" : null, "city" : null},...]
 void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr)
-		return;
-
 	JsonReply root(response);
 	if (root.error())
 		return;
@@ -153,9 +147,6 @@ void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 {
-	if (response == nullptr)
-		return;
-
 	JsonReply reply(response);
 	if (reply.error())
 		return;
