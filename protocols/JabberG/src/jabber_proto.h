@@ -64,8 +64,30 @@ struct TFilterInfo
 
 struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 {
-				CJabberProto(const char*, const wchar_t*);
-				~CJabberProto();
+	class CJabberProtoImpl
+	{
+		friend struct CJabberProto;
+		CJabberProto &m_proto;
+
+		CTimer m_heartBeat;
+		void OnHeartBeat(CTimer *pTimer)
+		{
+			m_proto.SendGetVcard(0);
+			
+			pTimer->Stop();
+			pTimer->Start(86400 * 1000);
+		}
+
+		CJabberProtoImpl(CJabberProto &pro) :
+			m_proto(pro),
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this))
+		{
+			m_heartBeat.OnEvent = Callback(this, &CJabberProtoImpl::OnHeartBeat);
+		}
+	} m_impl;
+
+	CJabberProto(const char *, const wchar_t *);
+	~CJabberProto();
 
 	//====================================================================================
 	// PROTO_INTERFACE
@@ -243,7 +265,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CPrivacyListManager m_privacyListManager;
 	CJabberSDManager m_SDManager;
 
-	//HWND m_hwndConsole;
+	// xml console
 	CJabberDlgBase *m_pDlgConsole;
 	HANDLE m_hThreadConsole;
 	UINT m_dwConsoleThreadId;

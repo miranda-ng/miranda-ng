@@ -210,9 +210,11 @@ void CJabberProto::OnLoggedIn()
 		SendGetVcard(0);
 	}
 	else {
-		time_t lastReadVcard(getDword("LastGetVcard"));
-		if (time(0) - lastReadVcard > 84600) // read vcard on login once a day
+		time_t elapsed = time(0) - getDword("LastGetVcard");
+		if (elapsed > 84600) // read vcard on login once a day
 			SendGetVcard(0);
+		else
+			m_impl.m_heartBeat.Start(elapsed * 1000);
 	}
 
 	m_pepServices.ResetPublishAll();

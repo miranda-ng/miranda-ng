@@ -54,6 +54,7 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 
 CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	PROTO<CJabberProto>(aProtoName, aUserName),
+	m_impl(*this),
 	m_omemo(this),
 	m_lstTransports(50, compareTransports),
 	m_lstRoster(50, compareListItems),
