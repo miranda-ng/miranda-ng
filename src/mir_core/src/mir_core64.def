@@ -1025,8 +1025,8 @@ CallFunctionSync @1170
 Utils_IsRtl @1240
 HookTemporaryEvent @1241
 ?Click@CCtrlButton@@QEAAXXZ @1242 NONAME
-??0CTimer@@QEAA@$$QEAV0@@Z @1243 NONAME
-??4CTimer@@QEAAAEAV0@$$QEAV0@@Z @1244 NONAME
+??1CTimer@@QEAA@XZ @1243 NONAME
+?RemoveTimer@CDlgBase@@IEAAX_K@Z @1244 NONAME
 IsTerminalDisconnected @1245
 ?FindControl@CDlgBase@@QEAAPEAVCCtrlBase@@H@Z @1246 NONAME
 ?FindControl@CDlgBase@@QEAAPEAVCCtrlBase@@PEAUHWND__@@@Z @1247 NONAME

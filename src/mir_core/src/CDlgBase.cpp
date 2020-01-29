@@ -452,6 +452,12 @@ void CDlgBase::AddTimer(CTimer *timer)
 	m_timers.insert(timer);
 }
 
+void CDlgBase::RemoveTimer(UINT_PTR idEvent)
+{
+	CTimer search(nullptr, idEvent);
+	m_timers.remove(&search);
+}
+
 CTimer* CDlgBase::FindTimer(int idEvent)
 {
 	CTimer search(nullptr, idEvent);

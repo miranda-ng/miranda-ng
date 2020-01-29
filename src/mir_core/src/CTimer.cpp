@@ -32,6 +32,12 @@ CTimer::CTimer(CDlgBase *wnd, UINT_PTR idEvent)
 		wnd->AddTimer(this);
 }
 
+CTimer::~CTimer()
+{
+	if (m_wnd)
+		m_wnd->RemoveTimer(m_idEvent);
+}
+
 BOOL CTimer::OnTimer()
 {
 	OnEvent(this);
