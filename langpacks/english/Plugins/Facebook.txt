@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.0.1.1
+;  Version: 0.0.2.1
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -13,6 +13,16 @@
 [User details]
 [Contacts]
 [Default group:]
+[Group chats]
+[Enable group chats]
+[Do not open chat windows on creation]
+[Send group chat invitation]
+[&Invite]
+[Cancel]
+;file \protocols\Facebook\src\groupchats.cpp
+[&Invite a user]
+[&Leave/destroy chat]
+[&Kick user]
 ;file \protocols\Facebook\src\options.cpp
 [Network]
 [Account]
@@ -20,6 +30,7 @@
 [%s server connection]
 [Protocol is offline or user isn't authorized yet]
 ;file \protocols\Facebook\src\server.cpp
+[Participant]
 [Sticker received]
 [SmileyAdd plugin required to support stickers]
 [URL]
