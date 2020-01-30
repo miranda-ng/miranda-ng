@@ -65,12 +65,14 @@ class RobustReply
 {
 	JSONNode *m_root = nullptr;
 	int m_errorCode = 0;
-	JSONNode* m_results = nullptr;
+	JSONNode *m_result = nullptr;
+	JSONNode *m_results = nullptr;
 
 public:
 	RobustReply(NETLIBHTTPREQUEST*);
 	~RobustReply();
 
-	__forceinline JSONNode& results() const { return *m_results; }
+	__forceinline JSONNode &result() const { return *m_result; }
+	__forceinline JSONNode &results() const { return *m_results; }
 	__forceinline int error() const { return m_errorCode; }
 };

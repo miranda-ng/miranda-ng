@@ -336,6 +336,7 @@ RobustReply::RobustReply(NETLIBHTTPREQUEST *pReply)
 	}
 
 	m_errorCode = (*m_root)["status"]["code"].as_int();
+	m_result = &(*m_root)["result"];
 	m_results = &(*m_root)["results"];
 }
 

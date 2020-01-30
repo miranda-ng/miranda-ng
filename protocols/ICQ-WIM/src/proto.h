@@ -35,6 +35,7 @@
 
 #define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
 #define ICQ_API_SERVER "https://u.icq.net/wim"
+#define ICQ_FILE_SERVER "https://u.icq.net/files/api/v1.1"
 #define ICQ_FAKE_EVENT_ID 0xBABAEB
 #define ICQ_ROBUST_SERVER "https://u.icq.net/rapi"
 
@@ -228,6 +229,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      SetServerStatus(int iNewStatus);
 	void      ShutdownSession(void);
 	void      StartSession(void);
+	void      TryFetchFileInfo(CMStringW &wszText);
 
 	void      CheckAvatarChange(MCONTACT hContact, const JSONNode&);
 	void      CheckLastId(MCONTACT hContact, const JSONNode&);
@@ -248,38 +250,39 @@ class CIcqProto : public PROTO<CIcqProto>
 	__int64   getId(MCONTACT hContact, const char *szSetting);
 	void      setId(MCONTACT hContact, const char *szSetting, __int64 iValue);
 
-	void      OnAddBuddy(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnAddClient(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnCheckPassword(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnCheckPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnFetchEvents(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnGenToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnGetChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnGetPermitDeny(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnGetUserHistory(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnGetUserInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnFileContinue(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnFileInit(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnLoginViaPhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnNormalizePhone(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnSearchResults(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnStartSession(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void      OnValidateSms(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void      OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnNormalizePhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnValidateSms(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 
-	void      ProcessBuddyList(const JSONNode&);
-	void      ProcessDiff(const JSONNode&);
-	void      ProcessEvent(const JSONNode&);
-	void      ProcessGroupChat(const JSONNode&);
-	void      ProcessHistData(const JSONNode&);
-	void      ProcessImState(const JSONNode&);
-	void      ProcessMyInfo(const JSONNode&);
-	void      ProcessNotification(const JSONNode&);
-	void      ProcessPermissions(const JSONNode&);
-	void      ProcessPresence(const JSONNode&);
-	void      ProcessSessionEnd(const JSONNode&);
-	void      ProcessTyping(const JSONNode&);
+	void      ProcessBuddyList(const JSONNode &pRoot);
+	void      ProcessDiff(const JSONNode &pRoot);
+	void      ProcessEvent(const JSONNode &pRoot);
+	void      ProcessGroupChat(const JSONNode &pRoot);
+	void      ProcessHistData(const JSONNode &pRoot);
+	void      ProcessImState(const JSONNode &pRoot);
+	void      ProcessMyInfo(const JSONNode &pRoot);
+	void      ProcessNotification(const JSONNode &pRoot);
+	void      ProcessPermissions(const JSONNode &pRoot);
+	void      ProcessPresence(const JSONNode &pRoot);
+	void      ProcessSessionEnd(const JSONNode &pRoot);
+	void      ProcessTyping(const JSONNode &pRoot);
 
 	IcqConn   m_ConnPool[CONN_LAST];
 	CMStringA m_szPassword;

@@ -366,7 +366,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			wszUrl = TranslateT("Unknown sticker");
 		wszText.Format(L"%s\n%s", TranslateT("User sent a sticker:"), wszUrl.c_str());
 	}
-	else wszText = it["text"].as_mstring();
+	else {
+		wszText = it["text"].as_mstring();
+		TryFetchFileInfo(wszText);
+	}
 
 	int iMsgTime = (bFromHistory) ? it["time"].as_int() : time(0);
 
@@ -462,6 +465,19 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 	else pReq << WCHAR_PARAM("t", GetUserId(hContact));
 
 	Push(pReq);
+}
+
+void CIcqProto::TryFetchFileInfo(CMStringW &wszText)
+{
+	wszText.TrimRight();
+
+	if (wszText.Left(26) == L"https://files.icq.net/get/") {
+		CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszText.Mid(26).c_str());
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
+		pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
+		pReq->pUserInfo = &wszText;
+		ExecuteRequest(pReq);
+	}
 }
 
 AsyncHttpRequest* CIcqProto::UserInfoRequest(MCONTACT hContact)
@@ -584,7 +600,6 @@ void CIcqProto::StartSession()
 		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
 
 	CalcHash(pReq);
-
 	Push(pReq);
 }
 
@@ -593,29 +608,30 @@ void CIcqProto::StartSession()
 void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	JsonReply root(pReply);
-	if (root.error() == 200) {
-		CMStringW wszId = getMStringW(pReq->hContact, DB_KEY_ID);
-		for (auto &it : root.data()["results"]) {
-			if (it["buddy"].as_mstring() != wszId)
-				continue;
+	if (root.error() != 200)
+		return;
 
-			int iResultCode = it["resultCode"].as_int();
-			if (iResultCode != 0) {
-				debugLogA("Contact %d failed to add: error %d", pReq->hContact, iResultCode);
+	CMStringW wszId = getMStringW(pReq->hContact, DB_KEY_ID);
+	for (auto &it : root.data()["results"]) {
+		if (it["buddy"].as_mstring() != wszId)
+			continue;
 
-				POPUPDATAW Popup = {};
-				Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR));
-				wcsncpy_s(Popup.lpwzText, TranslateT("Buddy addition failed"), _TRUNCATE);
-				wcsncpy_s(Popup.lpwzContactName, Clist_GetContactDisplayName(pReq->hContact), _TRUNCATE);
-				Popup.iSeconds = 20;
-				PUAddPopupW(&Popup);
+		int iResultCode = it["resultCode"].as_int();
+		if (iResultCode != 0) {
+			debugLogA("Contact %d failed to add: error %d", pReq->hContact, iResultCode);
 
-				// Contact_RemoveFromList(pReq->hContact);
-			}
+			POPUPDATAW Popup = {};
+			Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR));
+			wcsncpy_s(Popup.lpwzText, TranslateT("Buddy addition failed"), _TRUNCATE);
+			wcsncpy_s(Popup.lpwzContactName, Clist_GetContactDisplayName(pReq->hContact), _TRUNCATE);
+			Popup.iSeconds = 20;
+			PUAddPopupW(&Popup);
 
-			RetrieveUserInfo(pReq->hContact);
-			Contact_PutOnList(pReq->hContact);
+			// Contact_RemoveFromList(pReq->hContact);
 		}
+
+		RetrieveUserInfo(pReq->hContact);
+		Contact_PutOnList(pReq->hContact);
 	}
 }
 
@@ -723,6 +739,8 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 			Push(pReq);
 
 			// Send the same message to myself
+			TryFetchFileInfo(wszUrl);
+
 			T2Utf msgText(wszUrl);
 			PROTORECVEVENT recv = {};
 			recv.flags = PREF_CREATEREAD | PREF_SENT;
@@ -778,6 +796,34 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 
 	pTransfer->pfts.currentFileTime = time(0);
 	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
+}
+
+void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	CMStringW *wszText = (CMStringW *)pReq->pUserInfo;
+
+	RobustReply root(pReply);
+	if (root.error() != 200)
+		return;
+
+	wszText->Empty();
+	auto &data = root.result();
+	CMStringW tmp(data["extra"]["file_type"].as_mstring());
+	wszText->AppendFormat(L"%s\r\n", (tmp == "image") ? TranslateT("Image received:") : TranslateT("File received"));
+
+	tmp = data["info"]["file_name"].as_mstring();
+	if (!tmp.IsEmpty())
+		wszText->AppendFormat(L"%s: %s\r\n", TranslateT("File name"), tmp.c_str());
+
+	tmp = data["info"]["dlink"].as_mstring();
+	if (!tmp.IsEmpty())
+		wszText->AppendFormat(L"%s: %s\r\n", TranslateT("URL"), tmp.c_str());
+
+	if (data["info"]["has_previews"].as_bool()) {
+		tmp = data["previews"]["600"].as_mstring();
+		if (!tmp.IsEmpty())
+			wszText->AppendFormat(L"%s: %s\r\n", TranslateT("Preview"), tmp.c_str());
+	}
 }
 
 void CIcqProto::OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
