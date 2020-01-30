@@ -1,0 +1,415 @@
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook
+;  Version: 0.4.2.4
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+[Facebook protocol support for Miranda NG.]
+Zapewnia obsługę protokołu Facebook w Mirandzie NG.
+;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+E-mail:
+[Password:]
+Hasło:
+[Create a new Facebook account]
+Utwórz nowe konto na Facebooku
+[What's on your mind?]
+O czym teraz myślisz?
+[Wall:]
+Tablica:
+[Visibility:]
+Widoczność:
+[Text:]
+Tekst:
+[URL:]
+Link:
+[Place:]
+Miejsce:
+[Contacts >>]
+Kontakty >>
+[Attach contacts:]
+Dołącz kontakty:
+[Share]
+Wyślij
+[Cancel]
+Anuluj
+[User details]
+Dane kontaktu
+[Contacts]
+Kontakty
+[Default group:]
+Domyślna grupa:
+[Automatically set 'Ignore status change' flag]
+Automatycznie ustaw "Ignoruj zmiany statusu"
+[Use bigger avatars]
+Użyj większych awatarów
+[Prefer real names instead of nicknames]
+Preferuj prawdziwe imiona niż nicki
+[Load also Messenger contacts at login (not only Facebook friends)]
+Pobieraj przy logowaniu także kontakty Messenger'a (a nie tylko znajomości Facebook'a)
+[Use Invisible status for Facebook Pages (instead of Offline)]
+Używaj statusu Niewidoczny dla Stron Facebook'a (zamiast Rozłączony)
+[Popup notifications]
+Popupy powiadomień
+[Show notifications]
+Pokazuj powiadomienia
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
+Pokazuj posty z tablicy (UWAGA: Powoduje nadmierne obciążenie łącza!) 
+[News feed types to notify:]
+Powiadamiaj o następujących typach aktualności:
+[Don't show advertising posts]
+Nie pokazuj proponowanych postów
+[Show friendships changes (when someone removes/approves you)]
+Pokazuj zmiany znajomości (gdy ktoś Cię doda/usunie)
+[Show real-time friends activity (ticker feed)]
+
+[Show my "On this day" posts at login]
+
+[Chatroom logging]
+Rejestrowanie w czacie
+[Log notifications into special chatroom]
+Zapisuj powiadomienia do specjalnego czatu
+[Extra]
+Dodatkowe
+[Use balloon notifications in system tray instead of popups]
+Użyj baloników systemowych w zasobniku zamiast popupów
+[Use this server for opening links:]
+Użyj tego serwera do otwierania linków:
+[Statuses]
+Statusy
+[Post Miranda statuses to Wall]
+Pokazuj statusy Mirandy jako posty na Tablicy
+[Turn off chat on Facebook when going to offline in Miranda]
+Wyłącz czat Facebooka gdy rozłączasz się z Mirandą
+[Map unsupported statuses to Invisible (instead of Away)]
+Mapuj nieznane statusy jako Niewidoczny zamiast Zaraz wracam
+[Allow posting statuses to my pages (may slow down login)]
+Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
+[Advanced]
+Zaawansowane
+[Send typing notifications even when Invisible]
+Wysyłaj powiadomienie o pisaniu nawet gdy Niewidoczny
+[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
+Pisanie jest jednym z czynników po którym użytkownik oznaczany jest jako aktywny. Jeżeli nie chcesz być widoczny na Facebook'u jako "aktywny 1 min temu", to odznacz tą opcję oraz nie wykonuj żadnych działań na FB w przeglądarce. Wysyłanie wiadomości z Mirandy powinno być bezpieczne, ale nie polegaj na tym w 100%.
+[Bots challenge test]
+Test sprawdzający obecność botów
+[Instruction:]
+Instrukcja:
+[Submit]
+Wyślij
+[Messages]
+Wiadomości
+[Keep messages as unread on server (don't send "seen" info)]
+Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o dostępności)
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
+[Multi user chats]
+Czaty grupowe
+[Enable multi user chats support]
+Włącz wsparcie dla czatów grupowych
+[Do not open chat windows on creation]
+Nie otwieraj okien czatów po ich utworzeniu
+[Automatically join active chats that exist in contact list]
+Automatycznie dołączaj do aktywnych czatów z listy kontaktów
+[History synchronization]
+Synchronizacja historii
+[Load last messages on opening message window (EXPERIMENTAL)]
+Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
+[Number of messages to load:]
+Liczba wiadomości do załadowania:
+[Facebook Login Approval]
+Zatwierdzenie logowania Facebook
+[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
+Twoje ustawienia bezpieczeństwa wymagają podania kodu weryfikacyjnego aby zalogować się do swojego konta z nieznanej przeglądarki.\n\nKod możesz uzyskać z aplikacji Facebook na swoim telefonie lub otrzymać SMS-em klikając przycisk poniżej.
+[Send SMS]
+Wyślij SMS
+;file \protocols\FacebookRM\src\captcha.cpp
+[Enter the text you see]
+Wprowadź tekst, który widzisz
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+&Zaproś użytkownika
+[E&xit chat session]
+Opuść grupę
+[&Destroy chat session]
+&Usuń sesję czatu
+[User &details]
+&Dane użytkownika
+[User &history]
+&Historia użytkownika
+[Delete conversation]
+Usuń konwersację
+[This will permanently delete the conversation history]
+To nieodwracalnie usunie historię konwersacji
+[Former]
+
+[Myself]
+Ja
+[Friend]
+Znajomy
+[User]
+Użytkownik
+[Notifications]
+Powiadomienia
+[%s and more (%d)]
+%s i więcej (%d)
+;file \protocols\FacebookRM\src\communication.cpp
+[Login error: %s]
+Błąd logowania: %s
+[Unknown error]
+Nieznany błąd
+[Login error: Invalid request.]
+Błąd logowania: Nieprawidłowe żądanie.
+[You entered too many invalid verification codes. Plugin will disconnect.]
+Wprowadziłeś zbyt wiele nieprawidłowych kodów weryfikacyjnych. Nastąpi rozłączenie wtyczki.
+[You entered wrong verification code. Try it again.]
+Wprowadziłeś zły kod weryfikacyjny. Spróbuj ponownie.
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+Błąd logowania: twoje konto jest tymczasowo zablokowane. Musisz potwierdzić to urządzenie w przeglądarce.
+[Check last login]
+Sprawdź ostatnie logowanie
+[Do you recognize this activity?]
+Czy rozpoznajesz tą aktywność?
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
+Błąd logowania: Musisz z poziomu przeglądarki potwierdzić ostatnie nieznane logowanie lub je unieważnić.
+[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
+Błąd logowania: Facebook uważa, że Twój komputer jest zainfekowany. Aby to naprawić, zaloguj się w trybie prywatnym swojej przeglądarki i uruchom ich kontrolę antywirusową.
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
+Błąd logowania: wymagany jest kod CAPTCHA. Musisz potwierdzić to urządzenie w przeglądarce.
+[Login error, probably bad login credentials.]
+Błąd logowania, sprawdź login i hasło.
+[Could not load communication token. You should report this and wait for plugin update.]
+Nie udało się załadować tokenu komunikacji. Powinieneś to zgłosić i czekać na aktualizację wtyczki.
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+Nie udało się załadować wszystkich wymaganych danych. Wtyczka powinna działać poprawnie, ale powinieneś to zgłosić i czekać na jej aktualizację.
+[Contact doesn't have required data in database.]
+Kontakt nie posiada wymaganych danych w bazie.
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
+Potrzebujesz potwierdzenia dla wysyłania wiadomości do innych klientów.\nOtwórz stronę Facebook i spróbuj wysłać wiadomość do kontaktu ponownie!
+[User cancel captcha challenge.]
+Użytkownik anulował zadanie captcha.
+[Timeout when sending message.]
+Upłynęło zbyt dużo czasu wysyłania wiadomości.
+[Status update was successful.]
+Aktualizacja statusu powiodła się.
+[Error occurred when requesting verification SMS code.]
+Wystąpił błąd w trakcie żądania SMS-a z kodem weryfikacyjnym.
+[Verification SMS code was sent to your mobile phone.]
+SMS z kodem weryfikacyjnym został wysłany na Twój telefon.
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+Wprowadź nazwę użytkownika.
+[Please enter a password.]
+Wprowadź hasło
+;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+Kontakt został usunięty z listy serwera.
+[Error occurred when removing contact from server.]
+Błąd podczas usuwania kontaktu z serwera.
+[Request for friendship was sent.]
+Zaproszenie zostało wysłane.
+[Error occurred when requesting friendship.]
+Błąd podczas zapraszania do grona znajomych.
+[Request for friendship was accepted.]
+Prośba o dodanie do znajomych została zaakceptowana.
+[Error occurred when accepting friendship request.]
+Wystąpił błąd podczas akceptowania prośby o dodanie do znajomych.
+[Request for friendship was canceled.]
+Zaproszenie zostało cofnięte.
+[Error occurred when canceling friendship request.]
+Wystąpił błąd podczas anulowania zaproszenia do grona znajomych
+[Request for friendship was ignored.]
+Prośba o dodanie do znajomych została zignorowana.
+[Error occurred when ignoring friendship request.]
+Wystąpił błąd podczas ignorowania prośby o dodanie do znajomych.
+;file \protocols\FacebookRM\src\dialogs.cpp
+[Top News]
+Najpopularniejsze
+[Most Recent]
+Najnowsze
+[Pages]
+Strony
+[Classic website]
+Klasyczna strona
+[Mobile website]
+Strona mobilna
+[Smartphone website]
+Strona dla ekranów dotykowych
+[Public]
+Publiczny
+[Friends of friends]
+Znajomi znajomych
+[Friends]
+Znajomi
+[Friends except acquaintances]
+Znajomi poza dalszymi znajomymi
+[Only me]
+Tylko ja
+[Default]
+Domyślny
+[<< Contacts]
+<< Kontakty
+[What's on your mind, %s?]
+O czym teraz myślisz, %s?
+;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+naklejka
+[a GIF]
+GIF
+[a link]
+link
+[files]
+pliki
+[a file]
+plik
+[User sent %s:]
+Użytkownik wysłał %s:
+[User sent an unsupported attachment. Open your browser to see it.]
+Użytkownik wysłał plik niewspieranego typu. Otwórz przeglądarkę, aby go zobaczyć.
+[Reaction]
+Reakcje
+[%s is typing a message...]
+%s pisze wiadomość...
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+Nie można wysłać wiadomości, gdy jesteś offline.
+;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+Kontakt powrócił na listę na serwerze.
+[Contact is no longer on server-list.]
+Kontakt nie jest już na liście serwera.
+[Loading history started.]
+Rozpoczęto pobieranie historii.
+[Loading messages: %d/%d]
+Pobieranie wiadomości: %d/%d
+[Loading history completed.]
+Zakończono pobieranie historii.
+[<attachment without text>]
+<załącznik bez tekstu>
+[Loading memories...]
+Sprawdzanie wspomnień...
+[On this day]
+Tego dnia
+[Found %d memories.]
+Znaleziono %d wspomnień.
+[Loading notifications...]
+Sprawdzanie powiadomień...
+[Found %d notifications.]
+Znaleziono powiadomienia: %d
+[Loading friendship requests...]
+Sprawdzanie zaproszeń do znajomych...
+[Found %d friendship requests (%d seen).]
+Znaleziono zaproszenia do znajomych: %d (widzianych: %d)
+[Found %d friendship requests.]
+Znaleziono zaproszenia do znajomych: %d
+[Loading wall posts...]
+Sprawdzanie postów...
+[Found %d wall posts.]
+Znaleziono posty: %d
+;file \protocols\FacebookRM\src\proto.cpp
+[%s server connection]
+Połączenie %s
+[Unable to initialize Netlib for %s.]
+Nie udało się zainicjować połączenia Netlib dla %s.
+[Video call]
+Rozmowa video
+[Facebook ID must be numeric value.]
+Facebook ID musi być wartością numeryczną.
+[Network]
+Protokoły
+[Account]
+Konto
+[Events]
+Zdarzenia
+[Messaging]
+Wiadomości
+[Share status...]
+Udostępnij status
+[Own wall]
+Własna tablica
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+Pobieranie historii już trwa. Nie może już pobierać dla kolejnych kontaktów, proszę poczekaj aż skończy.
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
+Zostaną pobrane wszystkie wiadomości z serwera. Aby uniknąć zduplikowanych wiadomości w historii, usuń przed kontynuowaniem istniejące wiadomości.\nPobieranie może potrwać, zachowaj cierpliwość.\n\nCzy chcesz kontynuować?
+[Do you want to cancel your friendship with '%s'?]
+Czy chcesz anulować znajomość z "%s"?
+[Client errors]
+Błędy klienta
+[Wall posts]
+Posty na tablicy
+[Other events]
+Inne zdarzenia
+[Friendship events]
+Zdarzenia znajomości
+[Real-time friends activity]
+Aktywność znajomych w czasie rzeczywistym
+[Memories]
+Wspomnienia
+[Visit profile]
+Odwiedź profil
+[Visit notifications]
+Przejdź do powiadomień
+[Show 'Share status' window]
+Pokaż okno "Udostępnij status"
+[Notification]
+Powiadomienie
+[Newsfeed event]
+Aktualności
+[Other event]
+Inne zdarzenie
+[Friendship event]
+Zdarzenie Znajomości
+[Ticker event]
+Wydarzenie paska
+[Message read: %s by %s]
+Wiadomość odczytana: %s przez %s
+[Message read: %s]
+Wiadomość odczytana: %s
+;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+Facebook
+[Mind]
+Status
+[Poke]
+Zaczep
+[Newsfeed]
+Aktualności
+[Friendship details]
+Dane znajomości
+[Conversation]
+Rozmowa
+[Message read]
+Wiadomość odczytana
+[Angry]
+Wrr
+[Haha]
+Ha ha
+[Like]
+Lubię to!
+[Love]
+Super
+[Sad]
+Przykro mi
+[Wow]
+Wow
+[Visit friendship details]
+Sprawdź dane znajomości
+[Visit conversation]
+Przejdź do historii rozmowy
+[Load history]
+Pobierz historię
+[Cancel friendship request]
+Cofnij zaproszenie
+[Deny friendship request]
+Odrzuć prośbę o dodanie do znajomych
+[Services...]
+Usługi...
+[Check friendship requests]
+Sprawdź zaproszenia do grona znajomych
+[Check newsfeeds]
+Sprawdź aktualności
+[Check memories]
+Sprawdź wspomnienia
+[Check notifications]
+Sprawdź powiadomienia

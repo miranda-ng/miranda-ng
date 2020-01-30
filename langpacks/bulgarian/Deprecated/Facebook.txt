@@ -1,0 +1,415 @@
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook
+;  Version: 0.4.2.4
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+[Facebook protocol support for Miranda NG.]
+Осигурява комуникация чрез социалната мрежа Facebook в Miranda NG.
+;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+Имейл:
+[Password:]
+Парола:
+[Create a new Facebook account]
+Създаване на Facebook акаунт
+[What's on your mind?]
+Какво мислите?
+[Wall:]
+Стена:
+[Visibility:]
+Видимост:
+[Text:]
+Текст:
+[URL:]
+URL:
+[Place:]
+Място:
+[Contacts >>]
+Контакти >>
+[Attach contacts:]
+
+[Share]
+Сподели
+[Cancel]
+Отказ
+[User details]
+Подробности за потребителя
+[Contacts]
+Контакти
+[Default group:]
+Стандартна група
+[Automatically set 'Ignore status change' flag]
+Автозадаване на флаг "Игнориране промените на състояния"
+[Use bigger avatars]
+Ползване на по-големи аватари
+[Prefer real names instead of nicknames]
+
+[Load also Messenger contacts at login (not only Facebook friends)]
+
+[Use Invisible status for Facebook Pages (instead of Offline)]
+
+[Popup notifications]
+
+[Show notifications]
+
+[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
+
+[News feed types to notify:]
+Уведомяване за следните новини:
+[Don't show advertising posts]
+
+[Show friendships changes (when someone removes/approves you)]
+
+[Show real-time friends activity (ticker feed)]
+
+[Show my "On this day" posts at login]
+
+[Chatroom logging]
+
+[Log notifications into special chatroom]
+
+[Extra]
+Допълнителни
+[Use balloon notifications in system tray instead of popups]
+Ползване на балонни известия в трея вместо popup
+[Use this server for opening links:]
+
+[Statuses]
+
+[Post Miranda statuses to Wall]
+Публикуване на състоянията от Miranda на стената
+[Turn off chat on Facebook when going to offline in Miranda]
+
+[Map unsupported statuses to Invisible (instead of Away)]
+
+[Allow posting statuses to my pages (may slow down login)]
+
+[Advanced]
+Разширени
+[Send typing notifications even when Invisible]
+
+[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
+
+[Bots challenge test]
+Тест за ботове
+[Instruction:]
+Инструкции:
+[Submit]
+Пращане
+[Messages]
+Съобщения
+[Keep messages as unread on server (don't send "seen" info)]
+
+[Show stickers as custom smileys (EXPERIMENTAL)]
+
+[Multi user chats]
+
+[Enable multi user chats support]
+
+[Do not open chat windows on creation]
+
+[Automatically join active chats that exist in contact list]
+
+[History synchronization]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+
+[Number of messages to load:]
+
+[Facebook Login Approval]
+
+[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
+
+[Send SMS]
+
+;file \protocols\FacebookRM\src\captcha.cpp
+[Enter the text you see]
+Въведете текста, който виждате
+;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+Покани потребител...
+[E&xit chat session]
+
+[&Destroy chat session]
+
+[User &details]
+Подробности за потребителя
+[User &history]
+История на потребителя
+[Delete conversation]
+
+[This will permanently delete the conversation history]
+
+[Former]
+
+[Myself]
+Аз
+[Friend]
+Приятел
+[User]
+Потребител
+[Notifications]
+Уведомявания
+[%s and more (%d)]
+
+;file \protocols\FacebookRM\src\communication.cpp
+[Login error: %s]
+
+[Unknown error]
+Непозната грешка
+[Login error: Invalid request.]
+
+[You entered too many invalid verification codes. Plugin will disconnect.]
+
+[You entered wrong verification code. Try it again.]
+
+[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
+
+[Check last login]
+
+[Do you recognize this activity?]
+
+[Login error: You need to confirm last unknown login or revoke it from web browser.]
+
+[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
+
+[Login error: Captcha code is required. You need to confirm this device from web browser.]
+
+[Login error, probably bad login credentials.]
+Грешка при вписване вероятно поради сгрешени данни за вписване.
+[Could not load communication token. You should report this and wait for plugin update.]
+
+[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
+
+[Contact doesn't have required data in database.]
+
+[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
+За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уеб страницата на Facebook и опитайте да изпратите съобщението до контакта отново!
+[User cancel captcha challenge.]
+
+[Timeout when sending message.]
+
+[Status update was successful.]
+
+[Error occurred when requesting verification SMS code.]
+
+[Verification SMS code was sent to your mobile phone.]
+
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+Моля, въведете потребителско име.
+[Please enter a password.]
+Моля, въведете парола.
+;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+
+[Error occurred when removing contact from server.]
+
+[Request for friendship was sent.]
+
+[Error occurred when requesting friendship.]
+
+[Request for friendship was accepted.]
+
+[Error occurred when accepting friendship request.]
+
+[Request for friendship was canceled.]
+
+[Error occurred when canceling friendship request.]
+
+[Request for friendship was ignored.]
+
+[Error occurred when ignoring friendship request.]
+
+;file \protocols\FacebookRM\src\dialogs.cpp
+[Top News]
+
+[Most Recent]
+
+[Pages]
+
+[Classic website]
+
+[Mobile website]
+
+[Smartphone website]
+
+[Public]
+
+[Friends of friends]
+
+[Friends]
+
+[Friends except acquaintances]
+
+[Only me]
+
+[Default]
+Стандарт
+[<< Contacts]
+<< Контакти
+[What's on your mind, %s?]
+
+;file \protocols\FacebookRM\src\json.cpp
+[a sticker]
+стикер
+[a GIF]
+
+[a link]
+
+[files]
+файлове
+[a file]
+файл
+[User sent %s:]
+Потребител изпрати%s:
+[User sent an unsupported attachment. Open your browser to see it.]
+
+[Reaction]
+
+[%s is typing a message...]
+%s пише съобщение...
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+Не можете да изпращате съобщения, когато сте "Извън линия"
+;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+Контактът е отново в списъка на сървъра.
+[Contact is no longer on server-list.]
+Контактът вече не е в списъка на сървъра.
+[Loading history started.]
+
+[Loading messages: %d/%d]
+
+[Loading history completed.]
+
+[<attachment without text>]
+
+[Loading memories...]
+
+[On this day]
+
+[Found %d memories.]
+
+[Loading notifications...]
+
+[Found %d notifications.]
+
+[Loading friendship requests...]
+
+[Found %d friendship requests (%d seen).]
+
+[Found %d friendship requests.]
+
+[Loading wall posts...]
+
+[Found %d wall posts.]
+
+;file \protocols\FacebookRM\src\proto.cpp
+[%s server connection]
+%s връзка със сървъра
+[Unable to initialize Netlib for %s.]
+
+[Video call]
+
+[Facebook ID must be numeric value.]
+
+[Network]
+Мрежа
+[Account]
+Акаунт
+[Events]
+Събития
+[Messaging]
+Съобщения
+[Share status...]
+
+[Own wall]
+
+[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+
+[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
+
+[Do you want to cancel your friendship with '%s'?]
+
+[Client errors]
+
+[Wall posts]
+
+[Other events]
+Други събития
+[Friendship events]
+
+[Real-time friends activity]
+
+[Memories]
+
+[Visit profile]
+
+[Visit notifications]
+
+[Show 'Share status' window]
+
+[Notification]
+Уведомяване
+[Newsfeed event]
+Новина
+[Other event]
+Друго събитие
+[Friendship event]
+
+[Ticker event]
+
+[Message read: %s by %s]
+
+[Message read: %s]
+
+;file \protocols\FacebookRM\src\theme.cpp
+[Facebook icon]
+
+[Mind]
+Мисли си
+[Poke]
+
+[Newsfeed]
+
+[Friendship details]
+
+[Conversation]
+
+[Message read]
+
+[Angry]
+Ядосан
+[Haha]
+Ха-ха
+[Like]
+Харесва ми
+[Love]
+Любов
+[Sad]
+Тъжно
+[Wow]
+Еха
+[Visit friendship details]
+
+[Visit conversation]
+
+[Load history]
+
+[Cancel friendship request]
+
+[Deny friendship request]
+
+[Services...]
+Услуги...
+[Check friendship requests]
+
+[Check newsfeeds]
+
+[Check memories]
+
+[Check notifications]
+
