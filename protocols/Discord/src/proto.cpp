@@ -78,12 +78,12 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
 
 	dbEventType.eventType = EVENT_INCOMING_CALL;
-	dbEventType.descr = Translate("Incoming voice call");
+	dbEventType.descr = Translate("Incoming call");
 	dbEventType.eventIcon = g_plugin.getIconHandle(IDI_VOICE_CALL);
 	DbEvent_RegisterType(&dbEventType);
 
 	dbEventType.eventType = EVENT_CALL_FINISHED;
-	dbEventType.descr = Translate("Voice call ended");
+	dbEventType.descr = Translate("Call ended");
 	dbEventType.eventIcon = g_plugin.getIconHandle(IDI_VOICE_ENDED);
 	DbEvent_RegisterType(&dbEventType);
 

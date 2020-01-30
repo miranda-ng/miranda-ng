@@ -95,7 +95,7 @@ void CDiscordProto::OnCommandCallCreated(const JSONNode &pRoot)
 		pCall->startTime = time(0);
 		arVoiceCalls.insert(pCall);
 
-		char *szMessage = TranslateU("Incoming voice call");
+		char *szMessage = TranslateU("Incoming call");
 		DBEVENTINFO dbei = {};
 		dbei.szModule = m_szModuleName;
 		dbei.timestamp = pCall->startTime;
@@ -129,7 +129,7 @@ void CDiscordProto::OnCommandCallDeleted(const JSONNode &pRoot)
 		return;
 	}
 
-	CMStringA szMessage(FORMAT, TranslateU("Voice call ended, %d seconds long"), elapsed);
+	CMStringA szMessage(FORMAT, TranslateU("Call ended, %d seconds long"), elapsed);
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = currTime;
