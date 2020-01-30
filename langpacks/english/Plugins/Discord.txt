@@ -17,8 +17,8 @@
 [Use subgroups for server channels (requires restart)]
 [Nick:]
 ;file \protocols\Discord\src\dispatch.cpp
-[Incoming voice call]
-[Voice call ended, %d seconds long]
+[Incoming call]
+[Call ended, %d seconds long]
 [edited at]
 ;file \protocols\Discord\src\groupchat.cpp
 [Change &nickname]
@@ -33,8 +33,8 @@
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 [Group chats]
-[Voice call]
-[Voice call ended]
+[Call]
+[Call ended]
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 [Enter invitation code you received]
