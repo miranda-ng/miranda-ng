@@ -545,7 +545,7 @@ xHTML фармат чат-паведамленняў
 [Participants]
 Удзельнікі
 [Moderators]
-адэратары
+Мадэратары
 [Owners]
 Уладальнікі
 [User %s is now banned.]
