@@ -76,8 +76,6 @@ Host:
 Utrzymuj połączenie
 [Automatically delete contacts not in my roster]
 Automatycznie usuwaj kontakty spoza mojej listy
-[User directory:]
-Katalog użytkownika:
 [Language for human-readable resources:]
 Wybierz swój język:
 [File Transfer]
@@ -86,8 +84,6 @@ Transfer plików
 Pozwól na przesyłanie plików bezpośrednio za pomocą p2p
 [Specify external address:]
 Określ zewnętrzny adres:
-[Allow file sending through bytestream proxy server:]
-Pozwól na przesyłanie plików pośrednio poprzez serwer:
 [Miscellaneous]
 Różne
 [Hint:]
@@ -544,14 +540,14 @@ Gość
 Uczestnik
 [Moderator]
 Moderator
-[Owners]
-Właściciel
-[Moderators]
-Moderatorzy
-[Participants]
-Uczestnicy
 [Visitors]
 Goście
+[Participants]
+Uczestnicy
+[Moderators]
+Moderatorzy
+[Owners]
+Właściciel
 [User %s is now banned.]
 
 [User %s changed status to %s with message: %s]
@@ -730,6 +726,8 @@ Zakładki czatów
 Dodaj do "wyszukiwarki kontaktów"
 [Use this proxy]
 Użyj proxy
+[Use for uploads]
+
 [Commands...]
 Komendy...
 [Logon]
@@ -911,8 +909,6 @@ Lista właścicieli
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Wybór konta Jabber
-[Convert]
-Konwertuj
 [Add to Bookmarks]
 Dodaj do zakładek
 [Commands]
@@ -927,10 +923,6 @@ Zasób Jabbera
 Ostatnio aktywny
 [Server's Choice]
 Wybór serwera
-[&Convert to Contact]
-&Skonwertuj do kontaktu
-[&Convert to Chat Room]
-S&konwertuj na pokój
 [Services...]
 Usługi...
 [Registered Transports]
@@ -1781,7 +1773,7 @@ Komunikator
 Wersja
 [System]
 System
-[<currenty online>]
+[<currently online>]
 
 [Last activity]
 
@@ -1811,8 +1803,6 @@ do
 od
 [none]
 brak
-[<currently online>]
-
 [Last logoff time]
 Ostatnio wylogowany
 [Uptime]

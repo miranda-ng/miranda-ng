@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -34,6 +34,8 @@ Vytvářet výpisy chyb v podsložkách s názvem aktuálního data
 Použít klasický formát data
 [* You need to restart Miranda NG to apply changes]
 * Je vyžadován restart Mirandy NG pro uvedení změn v platnost
+[Display popups about successful actions]
+
 [View]
 Zobrazit
 [&Copy]

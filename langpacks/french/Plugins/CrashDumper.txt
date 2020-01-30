@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -33,6 +33,8 @@ Mot de passe
 [Use classic dates]
 
 [* You need to restart Miranda NG to apply changes]
+
+[Display popups about successful actions]
 
 [View]
 

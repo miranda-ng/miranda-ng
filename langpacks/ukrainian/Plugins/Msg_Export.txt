@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.3
+;  Version: 3.1.2.4
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -80,7 +80,7 @@ UTF8 у нових файлах
 [Miranda database contains %d events]
 
 [Failed to open file]
-
+Неможливо відкрити файл
 [Search string was not found!]
 Рядок не знайдено!
 [Save as RTF]

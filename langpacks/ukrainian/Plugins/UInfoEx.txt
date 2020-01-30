@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.2
+;  Version: 0.9.0.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -272,18 +272,6 @@
 Меню підгруп
 [Account menu]
 Меню облік. записів
-[Extra icons]
-Додаткові значки
-[Replace the following default icons:]
-Замінити такі значки:
-[Homepage]
-Сайт
-[Phone]
-Телефон
-[E-mail]
-Пошта
-[Gender]
-Стать
 [Misc]
 Інше
 [Show 'Restart' menu item]
@@ -532,12 +520,16 @@
 Експорт
 [Goto]
 Зайти на сайт
+[Phone]
+Телефон
 [Fax]
 Факс
 [Cellular]
 Мобільний
 [Custom phone]
 Вибраний телефон
+[E-mail]
+Пошта
 [Down arrow]
 Стрілка вниз
 [Add]
@@ -1084,11 +1076,6 @@ Web-дизайн
 Надіслати E-mail
 [Memory allocation error!]
 Помилка розподілу пам'яті.
-[E-mail (UInfoEx)]
-Пошта (UInfoEx)
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (UInfoEx)]
-Стать (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 У користувача немає правильної домашньої сторінки
@@ -1096,11 +1083,6 @@ Web-дизайн
 Сайт
 [&Homepage]
 &Сайт
-[Homepage (UInfoEx)]
-Сайт (UInfoEx)
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (UInfoEx)]
-Телефон (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d контактів залишилось

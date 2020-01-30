@@ -89,15 +89,6 @@ Transferencia de archivos entrantes
 
 [Group Off]
 
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[%s has joined.]
-
-[%s has left.]
-
-[The topic is %s.]
-
-[Error]
-Error
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Por defecto

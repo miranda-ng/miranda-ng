@@ -1,3 +1,4 @@
 [Change platform to 32-bit]
+[Use HTTPS]
 [Plugin updater URI scheme]
 [Change platform to 64-bit]

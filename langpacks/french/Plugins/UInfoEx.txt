@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.2
+;  Version: 0.9.0.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -272,18 +272,6 @@ Menu du contact
 
 [Account menu]
 
-[Extra icons]
-Icônes d'accès rapide
-[Replace the following default icons:]
-Remplacer les icônes par défaut suivants :
-[Homepage]
-Page web
-[Phone]
-Téléphone
-[E-mail]
-Courriel
-[Gender]
-Sexe
 [Misc]
 
 [Show 'Restart' menu item]
@@ -532,12 +520,16 @@ Mise à jour
 
 [Goto]
 
+[Phone]
+Téléphone
 [Fax]
 Fax
 [Cellular]
 Portable
 [Custom phone]
 Téléphone
+[E-mail]
+Courriel
 [Down arrow]
 Flèche bas
 [Add]
@@ -1084,22 +1076,12 @@ Amoureux
 Envoyer un courriel
 [Memory allocation error!]
 Erreur d'allocution de mémoire !
-[E-mail (UInfoEx)]
-
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (UInfoEx)]
-
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Le contact n'a pas de page web valdie
 [View Homepage]
 Voir la page web
 [&Homepage]
-
-[Homepage (UInfoEx)]
-
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (UInfoEx)]
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]

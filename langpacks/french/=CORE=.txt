@@ -1110,6 +1110,10 @@ Voir le pseudo du sous-contact
 Voir le nom défini du sous-contact
 [Lock name to first contact]
 Verrouiller nom sur le 1er contact
+[Choose needed logger from listed below:]
+
+[Enable custom log controls in group chats]
+
 [Current language:]
 Langue actuelle :
 [Last modified using:]
@@ -1148,6 +1152,8 @@ Vous avez été ajouté
 À propos de Miranda NG
 [Credits >]
 Crédits >
+[Hidden window]
+
 [Tray]
 Tray
 [&Hide/Show]
@@ -1440,12 +1446,6 @@ Fenêtre clignotante quand quelqu'un parle
 Fenêtre clignotante quand un mot est surligné
 [Show list of users in the chat room]
 Voir la liste des présents d'un salon
-[Show button for sending messages]
-Afficher le bouton d'envoi des messages
-[Show buttons for controlling the chat room]
-Afficher les boutons de contrôle du salon
-[Show buttons for formatting the text you are typing]
-Afficher les boutons de formatage du texte saisi
 [Show button menus when right clicking the buttons]
 Afficher les menus des boutons par un clic droit dessus
 [Show the topic of the room on your contact list (if supported)]
@@ -1662,19 +1662,6 @@ Fenêtre de chat
 
 [Popups]
 Popups
-;file \src\core\stdmsg\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s : Salon de chat (%u usager)
-[%s: chat room (%u users)]
-%s : Salon de chat (%u usagers)
-[%s: message session]
-%s : Session de message
-[%s: message session (%u users)]
-%s : Session de message (%u usagers)
-[Nickname]
-Pseudo
-[Unique ID]
-ID unique
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Délai d'envoi du message expiré
@@ -1684,12 +1671,20 @@ Message entrant (10x10)
 [Outgoing message (10x10)]
 Message sortant (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[Last message received on %s at %s.]
-Dernier message reçu le %s à %s
-[Message session]
-Session message
 [%s is typing a message...]
 %s vous écrit un message...
+[Last message received on %s at %s.]
+Dernier message reçu le %s à %s
+[%s: chat room (%u user)]
+%s : Salon de chat (%u usager)
+[%s: chat room (%u users)]
+%s : Salon de chat (%u usagers)
+[%s: message session]
+%s : Session de message
+[%s: message session (%u users)]
+%s : Session de message (%u usagers)
+[Message session]
+Session message
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 
@@ -1791,7 +1786,6 @@ Une erreur inconnue s'est produite.
 
 [Popups are disabled]
 
-;file \src\core\stdpopup\src\notify_imp.cpp
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Exemple
@@ -2529,7 +2523,7 @@ Impossible d'écrire le pseudo du contact au metacontact
 <sans groupe>
 [&Move to group]
 &Déplacer vers le groupe
-;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 
 [No times]
@@ -2546,7 +2540,7 @@ Temps en microsecondes
 Sélectionnez l'emplacement du fichier journal
 [Select program to be run]
 Sélectionnez le programme à lancer
-;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 
 [<All connections>]
@@ -2794,6 +2788,13 @@ Fichiers WAV
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[Nickname]
+Pseudo
+[Unique ID]
+ID unique
+;file \src\mir_app\src\srmm_log.cpp
+[Log viewer]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Séparateur>

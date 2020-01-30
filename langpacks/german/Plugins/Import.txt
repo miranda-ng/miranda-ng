@@ -189,6 +189,8 @@ Speicheransicht der Datei <%s> zum Import fehlgeschlagen: %d
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 Verlauf für %s importieren
+[Miranda NG database/mContacts]
+Miranda-NG-Datenbank/mContacts
 [JSON file]
 JSON-Datei
 ;file \plugins\Import\src\utils.cpp

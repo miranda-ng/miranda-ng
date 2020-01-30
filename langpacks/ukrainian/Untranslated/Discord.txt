@@ -1,6 +1,7 @@
 [Discord support for Miranda NG.]
 [Enable group chats]
 [Use subgroups for server channels (requires restart)]
+[Call ended, %d seconds long]
 [edited at]
 [Channel control]
 [Change &topic]

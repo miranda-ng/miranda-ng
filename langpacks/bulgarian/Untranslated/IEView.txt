@@ -5,6 +5,4 @@
 [RTL Off]
 [Group On]
 [Group Off]
-[%s has joined.]
-[%s has left.]
 [Style Sheet]

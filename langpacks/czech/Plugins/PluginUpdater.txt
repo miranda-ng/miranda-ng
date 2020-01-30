@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.3
+;  Version: 0.2.0.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -54,6 +54,8 @@ Vlastní verze
 Změnit platformu na 32-bit
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Některé komponenty byly aktualizovány.\nJe nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
+[Use HTTPS]
+
 [Notifications]
 Upozornění
 [Restart]
@@ -101,6 +103,18 @@ Zde je kompletní seznam dostupných komponent pro Mirandu NG. Zaškrtněte komp
 [Download]
 Stáhnout
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Component Name]
+Název komponenty
+[State]
+Stav
+[Plugins]
+Doplňky
+[Icons]
+Ikony
+[Languages]
+Jazyky
+[Other]
+Ostatní
 [Downloading...]
 Stahování...
 [Succeeded.]
@@ -115,18 +129,6 @@ Aktualizátor
 Stahování dokončeno
 [Download complete. Do you want to go to plugins option page?]
 Stahování dokončeno. Přejete si zobrazit nastavení doplňků?
-[Component Name]
-Název komponenty
-[State]
-Stav
-[Plugins]
-Doplňky
-[Icons]
-Ikony
-[Languages]
-Jazyky
-[Other]
-Ostatní
 [List is empty.]
 Seznam je prázdný
 [List loading already started!]

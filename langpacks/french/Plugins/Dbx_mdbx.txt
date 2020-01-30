@@ -49,6 +49,11 @@ Mot de passe du profil
 Mot de passe incorrect !
 [Please type in your password]
 Veuillez taper un mot de passe
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+
+[Error]
+Erreur
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 
@@ -59,7 +64,11 @@ Veuillez taper un mot de passe
 
 [Passwords do not match!]
 Mot de passe incorrect !
+[Database was compacted successfully]
+
 [Database]
+
+[Database compaction failed]
 
 [Logo]
 

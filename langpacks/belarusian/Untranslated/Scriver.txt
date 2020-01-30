@@ -1,7 +1,4 @@
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
-[Wikipedia (en)]
-[Google Maps]
-[Google Translate]
 [user-defined account name of current contact (if defined).]
 [path to folder containing Miranda profiles]
 [will return parsed string %miranda_userdata%\\Logs]

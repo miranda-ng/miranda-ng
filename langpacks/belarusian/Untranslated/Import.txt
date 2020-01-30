@@ -27,4 +27,5 @@
 [Failed to mmap file <%s> for import: %d]
 [Failed to map view of file <%s> for import: %d]
 [Import history for %s]
+[Miranda NG database/mContacts]
 [JSON file]

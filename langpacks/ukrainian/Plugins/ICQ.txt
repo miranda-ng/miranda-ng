@@ -2,12 +2,14 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.5
+;  Version: 0.95.11.7
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 Підтримка протоколу ICQ в Miranda NG.
 ;file \protocols\ICQ-WIM\res\resources.rc
+[Edit server groups]
+
 [UIN/e-mail:]
 UIN/пошта:
 [Password:]
@@ -29,7 +31,7 @@ UIN/пошта:
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 
 [Send group chat invitation]
-
+Запросити до чат-кімнати
 [&Invite]
 &Запросити
 [Cancel]
@@ -87,6 +89,14 @@ UIN/пошта:
 З'єднання з сервером %s
 [Synchronize server groups]
 
+[Name]
+Ім'я
+[Rename]
+Перейменувати
+[Delete]
+Видалити
+[Enter new group name]
+
 [UIN/e-mail/phone]
 UIN/пошта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
@@ -105,4 +115,6 @@ UIN/пошта/телефон
 [Unknown sticker]
 
 [User sent a sticker:]
+
+[Buddy addition failed]
 

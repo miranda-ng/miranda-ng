@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.5
+;  Version: 1.2.0.6
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -298,7 +298,7 @@
 Протокол
 [Closing in %d]
 Закрити (%d)
-;file \plugins\StatusManager\src\keepstatus.cpp
+;file \plugins\StatusManager\src\ks_main.cpp
 [%s connected from another location]
 %s підключено з іншого місця
 [%s login error, cancel reconnecting]

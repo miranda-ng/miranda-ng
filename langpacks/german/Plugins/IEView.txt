@@ -89,15 +89,6 @@ RTL aus
 Gruppierung an
 [Group Off]
 Gruppierung aus
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[%s has joined.]
-%s ist beigetreten.
-[%s has left.]
-%s ist gegangen.
-[The topic is %s.]
-Das Thema ist %s.
-[Error]
-Fehler
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Standard

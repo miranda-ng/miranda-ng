@@ -49,6 +49,11 @@ Příliš mnoho chybných pokusů!
 Zadané heslo není správné!
 [Please type in your password]
 Zadejte prosím své heslo
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+
+[Error]
+Chyba
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Změnit/zrušit heslo
@@ -59,8 +64,12 @@ Zadané původní heslo není správné!
 Heslo je příliš krátké!
 [Passwords do not match!]
 Zadaná hesla se neshodují!
+[Database was compacted successfully]
+
 [Database]
 Databáze
+[Database compaction failed]
+
 [Logo]
 Logo
 [Compact]

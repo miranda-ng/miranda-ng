@@ -1,415 +1,68 @@
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.0.2.1
+;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Facebook protokol pro Mirandu NG.
-;file \protocols\FacebookRM\res\facebook.rc
+;file \protocols\Facebook\res\facebook.rc
 [E-mail:]
 E-mail:
 [Password:]
 Heslo:
 [Create a new Facebook account]
 Zřídit nový účet na Facebooku
-[What's on your mind?]
-Co se vám honí hlavou?
-[Wall:]
-Zeď:
-[Visibility:]
-Viditelnost:
-[Text:]
-Text:
-[URL:]
-Odkaz:
-[Place:]
-Místo:
-[Contacts >>]
-Kontakty >>
-[Attach contacts:]
-Označit kontakty:
-[Share]
-Sdílet
-[Cancel]
-Zrušit
 [User details]
 Informace o uživateli
 [Contacts]
 Kontakty
 [Default group:]
 Výchozí skupina:
-[Automatically set 'Ignore status change' flag]
-Automaticky ignorovat změnu stavu
-[Use bigger avatars]
-Zobrazit větší avatary
-[Prefer real names instead of nicknames]
-Preferovat reálná jména namísto přezdívek
-[Load also Messenger contacts at login (not only Facebook friends)]
-
-[Use Invisible status for Facebook Pages (instead of Offline)]
-
-[Popup notifications]
-Oznámení
-[Show notifications]
-Zobrazovat upozornění
-[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
-Zobrazovat příspěvky ze zdi (kanál novinek) (VAROVÁNÍ: Způsobuje zvýšený síťový přenos dat!)
-[News feed types to notify:]
-Upozorňovat na tyto příspěvky:
-[Don't show advertising posts]
-Nezobrazovat reklamní příspěvky
-[Show friendships changes (when someone removes/approves you)]
-Zobrazovat změny přátelství (když vás někdo odebere nebo potvrdí)
-[Show real-time friends activity (ticker feed)]
-Zobrazit aktivitu přátel v reálném čase (kanál aktivity)
-[Show my "On this day" posts at login]
-Zobrazit vzpomínky (příspěvky "v tento den") po přihlášení
-[Chatroom logging]
-Záznam do skupinových rozhovorů
-[Log notifications into special chatroom]
-Zaznamenávat upozornění do speciálního skupinového rozhovoru
-[Extra]
-Další možnosti
-[Use balloon notifications in system tray instead of popups]
-Místo klasického oznámení použít bubliny v systémové liště
-[Use this server for opening links:]
-Pro otevírání odkazů použít tento server:
-[Statuses]
-Stavy
-[Post Miranda statuses to Wall]
-Odesílat stav Mirandy na zeď Facebooku
-[Turn off chat on Facebook when going to offline in Miranda]
-Vypnout chat na Facebooku při odpojení v Mirandě
-[Map unsupported statuses to Invisible (instead of Away)]
-Pro nepodporované stavy použít Neviditelný (nikoli Na chvíli pryč)
-[Allow posting statuses to my pages (may slow down login)]
-Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
-[Advanced]
-Extra
-[Send typing notifications even when Invisible]
-
-[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
-
-[Bots challenge test]
-Kontrola robotů
-[Instruction:]
-Instrukce:
-[Submit]
-Potvrdit
-[Messages]
-Zprávy
-[Keep messages as unread on server (don't send "seen" info)]
-Ponechat zprávy na serveru jako nepřečtené (neodesílat informaci o času přečtení)
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Zobrazovat samolepky jako vlastní smajlíky (EXPERIMENTÁLNÍ)
-[Multi user chats]
+[Group chats]
 Skupinové rozhovory
-[Enable multi user chats support]
-Povolit podporu pro skupinové rozhovory
+[Enable group chats]
+
 [Do not open chat windows on creation]
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
-[Automatically join active chats that exist in contact list]
-Automaticky připojit existující skupinové rozhovory v seznamu
-[History synchronization]
-Synchronizace historie
-[Load last messages on opening message window (EXPERIMENTAL)]
-Načíst poslední zprávy při otevření komunikačního okna (EXPERIMENTÁLNÍ)
-[Number of messages to load:]
-Počet zpráv pro načtení:
-[Facebook Login Approval]
-Potvrzení přihlášení Facebooku
-[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
-V rámci zabezpečení vašeho účtu musíte zadat bezpečnostní kód pro přístup přihlášení z neznámých prohlížečů.\n\nKód můžete získat v mobilní Facebook aplikaci na vašem telefonu nebo klikněte dole pro zaslání kódu v SMS.
-[Send SMS]
-Poslat SMS
-;file \protocols\FacebookRM\src\captcha.cpp
-[Enter the text you see]
-Zadejte text, který vidíte
-;file \protocols\FacebookRM\src\chat.cpp
-[&Invite user...]
-Pozvat k d&iskusi...
-[E&xit chat session]
+[Send group chat invitation]
+Odeslat pozvánku k diskusi
+[&Invite]
+&Pozvat
+[Cancel]
+Zrušit
+;file \protocols\Facebook\src\groupchats.cpp
+[&Invite a user]
+Pozvat už&ivatele
+[&Leave/destroy chat]
 
-[&Destroy chat session]
+[&Kick user]
 
-[User &details]
-&Detaily uživatele
-[User &history]
-Zobrazit &historii
-[Delete conversation]
-
-[This will permanently delete the conversation history]
-
-[Former]
-Bývalý účastník
-[Myself]
-Já
-[Friend]
-Přítel
-[User]
-Uživatel
-[Notifications]
-Upozornění
-[%s and more (%d)]
-%s a další (%d)
-;file \protocols\FacebookRM\src\communication.cpp
-[Login error: %s]
-Chyba připojení: %s
-[Unknown error]
-Neznámá chyba
-[Login error: Invalid request.]
-Chyba připojení: Neplatný požadavek.
-[You entered too many invalid verification codes. Plugin will disconnect.]
-Zadali jste příliš mnoho neplatných ověřovacích kódů. Nyní budete odhlášeni.
-[You entered wrong verification code. Try it again.]
-Zadali jste neplatný ověřovací kód. Zkuste to znovu.
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-Chyba připojení: Váš účet je dočasně zablokován. Musíte potvrdit toto zařízení z webového prohlížeče.
-[Check last login]
-Zkontrolovavt poslední přihlášení
-[Do you recognize this activity?]
-Poznáváte tuto aktivitu?
-[Login error: You need to confirm last unknown login or revoke it from web browser.]
-Chyba připojení: Je potřeba potvrdit poslední neznámé přihlášení nebo ho zamítnout z webového prohlížeče.
-[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
-Chyba připojení: Facebook si myslí, že je váš počítač nakažen. To můžete vyřešit přihlášením ve vašem prohlížeči v "privátním režimu", kdy následně potvrdíte antivirovou kontrolu.
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-Chyba připojení: Je vyžadována captcha. Musíte potvrdit toto zařízení z webového prohlížeče.
-[Login error, probably bad login credentials.]
-Chyba při přihlašování, možná máte špatné přihlašovací údaje.
-[Could not load communication token. You should report this and wait for plugin update.]
-Nelze načíst komunikační token. Měli byste tento problém nahlásit a počkat na aktualizaci.
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-Nelze načíst všechna požadovaná data. Doplněk může stále fungovat korektně, ale měli byste tento problém nahlásit a počkat na aktualizaci.
-[Contact doesn't have required data in database.]
-Kontakt nemá v databázi požadovaná data.
-[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-Vyžadováno potvrzení pro odesílání zpráv jiným klientům.\nOtevřte stránky Facebooku a odešlete znovu zprávu tomuto kontaktu!
-[User cancel captcha challenge.]
-Uživatel nezadal captcha kód.
-[Timeout when sending message.]
-Vypršel čas na odeslání zprávy.
-[Status update was successful.]
-Stav byl úspěšně aktualizován.
-[Error occurred when requesting verification SMS code.]
-Nastala chyba při požadavku o ověřovací SMS kód.
-[Verification SMS code was sent to your mobile phone.]
-Ověřovací SMS kód byl odeslán na váš mobilní telefon.
-;file \protocols\FacebookRM\src\connection.cpp
-[Please enter a username.]
-Zadejte uživatelské jméno.
-[Please enter a password.]
-Zadejte heslo.
-;file \protocols\FacebookRM\src\contacts.cpp
-[Contact was removed from your server list.]
-Kontakt byl odebrán z vašeho seznamu přátel.
-[Error occurred when removing contact from server.]
-Nastala chyba při odebírání kontaktu z vašeho seznamu přátel.
-[Request for friendship was sent.]
-Požadavek o přátelství byl odeslán.
-[Error occurred when requesting friendship.]
-Nastala chyba při požadavku o přátelství.
-[Request for friendship was accepted.]
-Požadavek o přátelství byl přijat.
-[Error occurred when accepting friendship request.]
-Nastala chyba při pokusu o přijetí požadavku o přátelství.
-[Request for friendship was canceled.]
-Požadavek o přátelství byl zrušen.
-[Error occurred when canceling friendship request.]
-Nastala chyba při rušení požadavku o přátelství.
-[Request for friendship was ignored.]
-Požadavek o přátelství byl ignorován.
-[Error occurred when ignoring friendship request.]
-Nastala chyba při pokusu o ignorování požadavku o přátelství.
-;file \protocols\FacebookRM\src\dialogs.cpp
-[Top News]
-Hlavní zprávy
-[Most Recent]
-Nejnovější
-[Pages]
-Stránky
-[Classic website]
-Klasické stránky
-[Mobile website]
-Mobilní stránky
-[Smartphone website]
-Smartphone stránky
-[Public]
-Veřejný
-[Friends of friends]
-Přátelé přátel
-[Friends]
-Přátelé
-[Friends except acquaintances]
-Přátelé kromě známých
-[Only me]
-Jenom já
-[Default]
-Výchozí
-[<< Contacts]
-<< Kontakty
-[What's on your mind, %s?]
-Co se vám honí hlavou, %s?
-;file \protocols\FacebookRM\src\json.cpp
-[a sticker]
-samolepku
-[a GIF]
-GIF
-[a link]
-odkaz
-[files]
-soubory
-[a file]
-soubor
-[User sent %s:]
-Uživatel odeslal %s:
-[User sent an unsupported attachment. Open your browser to see it.]
-Uživatel odeslal nepodporovanou přílohu. Otevřte webový prohlížeč pro její zobrazení.
-[Reaction]
-
-[%s is typing a message...]
-%s píše zprávu...
-;file \protocols\FacebookRM\src\messages.cpp
-[You cannot send messages when you are offline.]
-Ve stavu offline nelze odesílat zprávy.
-;file \protocols\FacebookRM\src\process.cpp
-[Contact is back on server-list.]
-Kontakt je zpět mezi vašimi přáteli.
-[Contact is no longer on server-list.]
-Kontakt již není mezi vašimi přáteli.
-[Loading history started.]
-Načítání historie spuštěno.
-[Loading messages: %d/%d]
-Načteno zpráv: %d/%d
-[Loading history completed.]
-Načítání historie dokončeno.
-[<attachment without text>]
-<příloha bez textu>
-[Loading memories...]
-Načítání vzpomínek...
-[On this day]
-V tento den
-[Found %d memories.]
-
-[Loading notifications...]
-Načítání upozornění...
-[Found %d notifications.]
-
-[Loading friendship requests...]
-Načítání požadavků o přátelství...
-[Found %d friendship requests (%d seen).]
-
-[Found %d friendship requests.]
-
-[Loading wall posts...]
-Načítání příspěvků ze zdi...
-[Found %d wall posts.]
-
-;file \protocols\FacebookRM\src\proto.cpp
-[%s server connection]
-%s - spojení se serverem
-[Unable to initialize Netlib for %s.]
-Nelze inicializovat síťovou komunikaci pro %s.
-[Video call]
-Video hovor
-[Facebook ID must be numeric value.]
-Facebook ID musí být číselná hodnota.
+;file \protocols\Facebook\src\options.cpp
 [Network]
 Sítě
 [Account]
 Účet
-[Events]
-Události
-[Messaging]
-Komunikace
-[Share status...]
-Sdílet stav...
-[Own wall]
-Vlastní zeď
-[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
-Načítání historie již probíhá a nemůže být spuštěno pro více kontaktů najednou. Počkejte prosím na jeho dokončení.
-[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
-Toto načte všechny zprávy ze serveru. Abyste zabránili duplicitním zprávám ve vaší historii, před pokračováním ručně smažte existující zpráv.\nNačítání může nějakou dobu trvat, buďte trpěliví.\n\nPřejete si pokračovat?
-[Do you want to cancel your friendship with '%s'?]
-Přejete si zrušit vaše přátelství s '%s'?
-[Client errors]
-Chyby klienta
-[Wall posts]
-Příspěvky ze zdi
-[Other events]
-Jiné události
-[Friendship events]
-Přátelství
-[Real-time friends activity]
-Aktivita přátel v reálném čase
-[Memories]
-Vzpomínky
-[Visit profile]
-Zobrazit profil
-[Visit notifications]
-Zobrazit upozornění
-[Show 'Share status' window]
-Zobrazit okno pro sdílení stavu
-[Notification]
-Oznámení
-[Newsfeed event]
-Příspěvek na zdi
-[Other event]
-Ostatní události
-[Friendship event]
-Přátelství
-[Ticker event]
-Ticker události
-[Message read: %s by %s]
-Zpráva byla přečtena: %s - %s
-[Message read: %s]
-Zpráva byla přečtena: %s
-;file \protocols\FacebookRM\src\theme.cpp
-[Facebook icon]
-Ikona Facebooku
-[Mind]
-Zpráva stavu
-[Poke]
-Šťouchnout
-[Newsfeed]
-Novinka
-[Friendship details]
-Podrobnosti o přátelství
-[Conversation]
-Konverzace
-[Message read]
-Zpráva přečtena
-[Angry]
-To mě štve
-[Haha]
-Haha
-[Like]
-To se mi líbí
-[Love]
-Super
-[Sad]
-To mě mrzí
-[Wow]
-Paráda
-[Visit friendship details]
-Zobrazit podrobnosti o přátelství
-[Visit conversation]
-Zobrazit konverzaci
-[Load history]
-Načíst historii
-[Cancel friendship request]
-Zrušit požadavek o přátelství
-[Deny friendship request]
-Odmítnout požadavek o přátelství
-[Services...]
-Služby
-[Check friendship requests]
-Zkontrolovat požadavky o přátelství
-[Check newsfeeds]
-Zkontrolovat novinky ze zdi
-[Check memories]
-Zkontrolovat vzpomínky
-[Check notifications]
-Zkontrolovat upozornění
+;file \protocols\Facebook\src\proto.cpp
+[%s server connection]
+%s - spojení se serverem
+[Protocol is offline or user isn't authorized yet]
+
+;file \protocols\Facebook\src\server.cpp
+[Participant]
+Účastník
+[Sticker received]
+
+[SmileyAdd plugin required to support stickers]
+
+[URL]
+Odkaz
+[Title]
+Název
+[Source]
+Zdroj
+[Description]
+Popis
+[Playable media]
+

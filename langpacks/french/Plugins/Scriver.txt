@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -36,8 +36,8 @@ secondes
 Onglets
 [Enable tabs]
 Activer les onglets
-[Always show tab bar]
-Toujours afficher la barre d'onglets
+[Only show tab bar when it's needed]
+Voir la barre d'onglet si nécessaire
 [Tabs at the bottom]
 Onglets en bas
 [Limit names on tabs to]
@@ -82,8 +82,6 @@ lignes
 
 [Message window event log]
 Zone de texte de la Fenêtre
-[Enable IEView]
-Activer IEView
 [Show icons]
 Voir les icônes
 [Show time]
@@ -96,8 +94,8 @@ Voir la date
 Format de date long
 [Relative date]
 Date relative
-[Show names]
-Voir les noms
+[Hide names]
+Cacher les noms
 [Enable message grouping]
 Activer le groupement de message
 [Mark follow-up messages with timestamp]
@@ -234,30 +232,6 @@ Arrière-plan
 Délai (*)
 [(0 means default setting, -1 means indefinite time)]
 
-[Log]
-Journal
-[&Copy]
-&Copier
-[Co&py all]
-&Tout copier
-[Select &all]
-Tout &sélectionner
-[Word lookup]
-Consultation de mot
-[Yandex]
-Yandex
-[Wikipedia (en)]
-Wikipedia (en)
-[Google Maps]
-Google Maps
-[Google Translate]
-Google Translate
-[C&lear log]
-Effacer le journal
-[&Open link]
-&Ouvrir le lien
-[&Copy link]
-&Copier le lien
 [Message]
 Message
 [Undo]
@@ -274,6 +248,8 @@ Coller
 
 [Delete]
 Effacer
+[Select &all]
+Tout &sélectionner
 [Clear]
 Effacer
 [Close other tabs]
@@ -454,21 +430,14 @@ Apparence
 
 [Select folder]
 Sélectionnez un répertoire
-;file \plugins\Scriver\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s : salon de chat (%u usager)
-[%s: chat room (%u users)]
-%s : salon de chat (%u usagers)
-[%s: message session]
-%s : session de message
-[%s: message session (%u users)]
-%s : session de message (%u usagers)
-[Nickname]
-Pseudo
-[Unique ID]
-ID unique
-[Status]
-État
+[Message sessions]
+Sessions de message
+[General]
+Général
+[Event log]
+
+[Popups]
+Popups
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Ajouter le contact
@@ -620,18 +589,14 @@ Coréen (Johab)
 [Action: Paste and send]
 
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Sending in progress: %d message(s) left...]
-Envoi en cours : il reste %d message(s)...
-[%s is typing a message...]
-%s vous écrit un message...
-[Last message received on %s at %s.]
-Dernier message reçu le %s à %s
-[Look up '%s':]
-
-[No word to look up]
-Aucun mot à chercher
 [User menu - %s]
 Menu contact - %s
+[Nickname]
+Pseudo
+[Unique ID]
+ID unique
+[Status]
+État
 ;file \plugins\Scriver\src\msglog.cpp
 [Me]
 
@@ -716,16 +681,8 @@ Invisible
 ** Nouveaux contacts **
 [** Unknown contacts **]
 ** Contacts inconnus **
-[Message sessions]
-Sessions de message
-[General]
-Général
-[Event log]
-
 [Typing notify]
 Notification de frappe
-[Popups]
-Popups
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Message de %s
@@ -806,6 +763,21 @@ Sortant
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
+;file \plugins\Scriver\src\msgutils.cpp
+[Sending in progress: %d message(s) left...]
+Envoi en cours : il reste %d message(s)...
+[%s is typing a message...]
+%s vous écrit un message...
+[Last message received on %s at %s.]
+Dernier message reçu le %s à %s
+[%s: chat room (%u user)]
+%s : salon de chat (%u usager)
+[%s: chat room (%u users)]
+%s : salon de chat (%u usagers)
+[%s: message session]
+%s : session de message
+[%s: message session (%u users)]
+%s : session de message (%u usagers)
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Délai d'envoi du message expiré

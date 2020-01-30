@@ -76,8 +76,6 @@ Anfitrión:
 Mantener viva la conexión
 [Automatically delete contacts not in my roster]
 Eliminar automáticamente los contactos que no están en mi lista
-[User directory:]
-Directorio de usuario:
 [Language for human-readable resources:]
 Idioma de los recursos legibles:
 [File Transfer]
@@ -86,8 +84,6 @@ Transferencia de Archivos
 Permitir el envío de archivos a través de la conexión peer-to-peer directa
 [Specify external address:]
 Especifique la dirección externa:
-[Allow file sending through bytestream proxy server:]
-Permitir enviar archivos con servidor proxy bytestream:
 [Miscellaneous]
 Diverso
 [Hint:]
@@ -544,13 +540,13 @@ Propietario
 
 [Moderator]
 
-[Owners]
-
-[Moderators]
+[Visitors]
 
 [Participants]
 
-[Visitors]
+[Moderators]
+
+[Owners]
 
 [User %s is now banned.]
 
@@ -729,6 +725,8 @@ Libre para el chat
 [Add search directory]
 
 [Use this proxy]
+
+[Use for uploads]
 
 [Commands...]
 
@@ -911,8 +909,6 @@ Protocolos
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 
-[Convert]
-
 [Add to Bookmarks]
 
 [Commands]
@@ -926,10 +922,6 @@ Protocolos
 [Last Active]
 
 [Server's Choice]
-
-[&Convert to Contact]
-
-[&Convert to Chat Room]
 
 [Services...]
 Servicios...
@@ -1781,7 +1773,7 @@ Nick:
 Versión
 [System]
 Sistema
-[<currenty online>]
+[<currently online>]
 
 [Last activity]
 
@@ -1811,8 +1803,6 @@ a
 
 [none]
 ninguno
-[<currently online>]
-
 [Last logoff time]
 
 [Uptime]

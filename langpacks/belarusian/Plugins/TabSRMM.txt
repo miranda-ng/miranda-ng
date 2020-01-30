@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -186,10 +186,6 @@
 Усе статусы
 [Choose modes]
 Рэжымы статусу
-[Message log view mode (does not affect open windows)]
-Рэжым лога паведамленняў (не ўплывае на адкрытыя вокны)
-[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Абярыце, як адлюстроўваць лог. Не працуе, калі адзін з пералічаных плагінаў не ўсталяваны.
 [Send text formatting method]
 Метад адпраўкі фарматавання
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
@@ -198,14 +194,14 @@
 Рэжым інфа панэлі
 [Show avatar in message window]
 Аватар у вакне гутаркі
-[Use private splitter position]
-Уласны падзельнік
-[Contact is a favorite contact]
-Кантакт знаходзіцца ў абраным
 [Ignore sending timeouts]
 Ігнараваць затрымку адпраўкі
 [Load only actual history]
 Толькі актуальная гісторыя
+[Use private splitter position]
+Уласны падзельнік
+[Contact is a favorite contact]
+Кантакт знаходзіцца ў абраным
 [Always trim message log to]
 Заўсёды абмяжоўваць лог да
 [events]
@@ -342,8 +338,6 @@ RTL шаблоны
 Падзеі, атрыманыя
 [minutes old]
 хвілін назад
-[Global message log display]
-Асноўны лог паведамленняў
 [Typing notification options]
 Налады абвестак набору
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -716,8 +710,6 @@ RTL па змаўчанні
 Капіяваць паведамленне
 [&File]
 &Файл
-[Save message log as...]
-Захаваць гісторыю як...
 [Close message session\tCtrl+W]
 Зачыніць сеанс\tCtrl+W
 [Close container\tAlt+F4]
@@ -944,66 +936,6 @@ RTL па змаўчанні
 Час кантакту
 [Window caption (skinned mode)]
 Загаловак (рэжым скіна)
-[Open new chat rooms in the default container]
-Адкрываць чаты і гутаркі ў адным вакне
-[Flash window when someone speaks]
-Міргаць вакном, пры новым паведамленні
-[Flash window when a word is highlighted]
-Міргаць вакном, пры падсветленым паведамленні
-[Create tabs or windows for highlight events]
-Ствараць укладку ці вакно пры падсветленай падзеі
-[Activate chat window on highlight]
-Актываваць вакно чата пры падсветленай падзеі
-[Show list of users in the chat room]
-Паказваць спіс удзельнікаў чата
-[Colorize nicknames in member list]
-Каляровыя мянушкі ў спісе
-[Show button menus when right clicking the buttons]
-Паказваць меню кнопкі па правай пстрычцы
-[Show topic as status message on the contact list]
-Паказаць тэму чата ў спісе кантактаў як паведамленне статусу
-[Do not pop up the window when joining a chat room]
-Не адчыняць вакно чата пры ўваходзе ў чат
-[Sync splitter position with standard IM sessions]
-Сінхранізаваць пазіцыю падзельніка са стандартам
-[Show contact's status modes if supported by the protocol]
-Паказваць значкі статусаў, калі падтрымліваецца пратаколам
-[Display contact's status icon before user role icon]
-Паказваць абразок статусу перад абразком ролі
-[Use IRC style status indicators in the nick list]
-IRC-стыль (тэкставы) індыкатараў роляў удзельнікаў у спісе
-[Use alternative sorting method in member list]
-Альтэрнатыўнае сартаванне мянушак у спісе
-[Prefix all events with a timestamp]
-Падстаўляць час ва ўсе падзеі
-[Timestamp only when event time differs]
-Падстаўляць час, калі ёсць змены
-[Timestamp has same color as the event]
-Час таго ж колеры, што і падзея
-[Indent the second line of a message]
-Водступ другога радка паведамлення
-[Limit user names in the message log to 20 characters]
-Абмежаваць імёны ў логе 20-ю знакамі
-[Add a colon (:) to auto-completed user names]
-Дадаваць ":" да імёнаў карыстачоў
-[Add a comma instead of a colon to auto-completed user names]
-
-[Start private conversation on double click in nick list (insert nick if unchecked)]
-Прыват пры падвойнай пстрычцы ў спісе мямнушак (інакш устаўляць мянушку)
-[Strip colors from messages in the log]
-Забараніць колеры ў логе
-[Enable the 'event filter' for new rooms]
-Уключыць 'фільтр падзей' для новых чат
-[Use IRC style status indicators in the log]
-IRC-стыль(тэкставы) індыкатараў роляў у логе чата
-[Allow clickable user names in the message log]
-Мянушкі клікабельныя як гіперспасылкі
-[Add new line after names]
-
-[Colorize user names in message log]
-Каляровыя мянушкі ў чаце
-[Scale down icons to 10x10 pixels in the chat log]
-Змяняць дазвол значкоў на 10х10 у вакне чата
 [Window Icon]
 Абразок вакна
 [Icon overlay]
@@ -1080,6 +1012,66 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 Выгляд і функцыянальнасць вокнаў чата
 [Appearance of the message log]
 Вонкавы выгляд лога паведамленняў
+[Open new chat rooms in the default container]
+Адкрываць чаты і гутаркі ў адным вакне
+[Flash window when someone speaks]
+Міргаць вакном, пры новым паведамленні
+[Flash window when a word is highlighted]
+Міргаць вакном, пры падсветленым паведамленні
+[Create tabs or windows for highlight events]
+Ствараць укладку ці вакно пры падсветленай падзеі
+[Activate chat window on highlight]
+Актываваць вакно чата пры падсветленай падзеі
+[Show list of users in the chat room]
+Паказваць спіс удзельнікаў чата
+[Colorize nicknames in member list]
+Каляровыя мянушкі ў спісе
+[Show button menus when right clicking the buttons]
+Паказваць меню кнопкі па правай пстрычцы
+[Show topic as status message on the contact list]
+Паказаць тэму чата ў спісе кантактаў як паведамленне статусу
+[Do not pop up the window when joining a chat room]
+Не адчыняць вакно чата пры ўваходзе ў чат
+[Sync splitter position with standard IM sessions]
+Сінхранізаваць пазіцыю падзельніка са стандартам
+[Show contact's status modes if supported by the protocol]
+Паказваць значкі статусаў, калі падтрымліваецца пратаколам
+[Display contact's status icon before user role icon]
+Паказваць абразок статусу перад абразком ролі
+[Use IRC style status indicators in the nick list]
+IRC-стыль (тэкставы) індыкатараў роляў удзельнікаў у спісе
+[Use alternative sorting method in member list]
+Альтэрнатыўнае сартаванне мянушак у спісе
+[Prefix all events with a timestamp]
+Падстаўляць час ва ўсе падзеі
+[Timestamp only when event time differs]
+Падстаўляць час, калі ёсць змены
+[Timestamp has same color as the event]
+Час таго ж колеры, што і падзея
+[Indent the second line of a message]
+Водступ другога радка паведамлення
+[Limit user names in the message log to 20 characters]
+Абмежаваць імёны ў логе 20-ю знакамі
+[Add a colon (:) to auto-completed user names]
+Дадаваць ":" да імёнаў карыстачоў
+[Add a comma instead of a colon to auto-completed user names]
+
+[Start private conversation on double click in nick list (insert nick if unchecked)]
+Прыват пры падвойнай пстрычцы ў спісе мямнушак (інакш устаўляць мянушку)
+[Strip colors from messages in the log]
+Забараніць колеры ў логе
+[Enable the 'event filter' for new rooms]
+Уключыць 'фільтр падзей' для новых чат
+[Use IRC style status indicators in the log]
+IRC-стыль(тэкставы) індыкатараў роляў у логе чата
+[Allow clickable user names in the message log]
+Мянушкі клікабельныя як гіперспасылкі
+[Add new line after names]
+
+[Colorize user names in message log]
+Каляровыя мянушкі ў чаце
+[Scale down icons to 10x10 pixels in the chat log]
+Змяняць дазвол значкоў на 10х10 у вакне чата
 [nick of current contact (if defined)]
 мянушка бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1151,37 +1143,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 %s%s піша:%s %s
-;file \plugins\TabSRMM\src\chat_window.cpp
-[Expand or collapse the side bar]
-Разгарнуць і згарнуць бакавую панэль
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Нельга ўключыць фільтр, бо не абраны ніводны тып падзей, як глабальна так і для гэтага чата
-[Event filter error]
-Памылка фільтра падзей
-[, %d %s, %d %s idle]
-, %d %s, %d %s не актыўны
-[hours]
-гадзін(ы)
-[hour]
-гадзіна
-[minutes]
-хвілін(ы)
-[minute]
-хвіліна(ы)
-[, %d %s idle]
-, %d %s не актыўны
-[%s on %s%s]
-%s у %s%s
-[%s: chat room (%u user%s)]
-%s: Чат (%u удзельнікаў)
-[%s: chat room (%u users%s)]
-%s: Чат (%u удзельнікаў %s)
-[, event filter active]
-, фільтр падзей уключаны
-[%s: message session]
-%s: гутарка
-[%s: message session (%u users)]
-%s: гутарка (%u удзельнікаў)
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Гутарка...
@@ -1237,8 +1198,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 ;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 &Карыстач
-[&Room]
-Чат
 [Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Гук: %s. Клік для пераключэння статусу, Shift+клік для ўсіх адкрытых кантэйнераў
 [disabled]
@@ -1268,13 +1227,55 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Новыя паведамленні:\s
 [Unknown module or contact]
 Невядомы плагін ці кантакт
+[Show a preview of the event]
+Прадпрагляд падзеі
+[Don't announce event when message dialog is open]
+Не абвяшчаць, калі адчынена вакно гутаркі
+[Don't announce events from RSS protocols]
+Не абвяшчаць пра падзеі ў конце RSS
+[Enable the system tray icon]
+Уключыць абразок у трэі
+[Merge new events for the same contact into existing popup]
+Дадаваць новыя падзеі ва ўжо існае ўсплывальнае вакно
+[Show headers]
+Паказаць загалоўкі
+[Dismiss popup]
+Зачыніць вакно
+[Open event]
+Адкрыць падзею
+[Dismiss event]
+Адхіліць падзею
+[Disable event notifications for instant messages]
+Выключыць абвесткі пра падзеі паведамленняў
+[Disable event notifications for group chats]
+Выключыць абвесткі пра падзеі чатаў
+[Disable notifications for non-message events]
+Выключыць абвесткі для ўсіх падзей, акрамя паведамленняў
+[Remove popups for a contact when the message window is focused]
+Прыбіраць, калі вакно гутаркі апынецца ў фокусе
+[Remove popups for a contact when I start typing a reply]
+Прыбіраць, калі я пачынаю набіраць адказ
+[Remove popups for a contact when I send a reply]
+Прыбіраць, калі я пасылаю адказ
+[Disable notifications]
+Выключыць абвесткі
+[System tray icon]
+Абразок у трэі
+[Left click actions (popups only)]
+Дзеянні па левай пстрычцы (усплывальныя вокны)
+[Right click actions (popups only)]
+Дзеянні па правай пстрычцы (усплывальныя вокны)
+[Timeout actions (popups only)]
+Дзеянні па затрымцы (усплывальныя вокны)
+[Combine notifications for the same contact]
+Злучаць абвесткі аднаго кантакту
+[Remove popups under following conditions]
+Прыбіраць усплывальныя вокны пры ўмовах
 [Event notifications]
 Абвесткі
 [Popups]
 Усплывальныя вокны
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-[Rich Edit file]
-Файл RTF
 [No status message]
 Няма паведамлення статусу
 [You cannot edit user notes when there are unsent messages]
@@ -1445,6 +1446,8 @@ TabSRMM: Набірае
 Дадаць гэты кантакт у спіс кантактаў
 [Do not add this contact permanently]
 Не дадаваць гэты кантакт у спіс
+[Expand or collapse the side bar]
+Разгарнуць і згарнуць бакавую панэль
 [Contact not on list. You may add it...]
 Кантакт не ў спісе. Вы можаце дадаць яго...
 [A message failed to send successfully.]
@@ -1457,14 +1460,12 @@ TabSRMM: Набірае
 Яшчэ раз
 [Send later]
 Паслаць пазней
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інфармацыя пра карыстача\nПравай кнопкай - кіраванне метакантактам\nСтрэлка ўніз - даданне/выдаленне карыстача з абранага.
-[No UID]
-няма UID
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інфармацыя пра карыстача\nСтрэлка ўніз - даданне/выдаленне карыстача з абранага.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Вы рэдагуеце нататкі пра кантакт. Націсніце на кнопку яшчэ раз ці скарыстайце гарачыя клавішы (па змаўчанні: Alt+N), каб захаваць нататкі і вярнуцца ў нармальны рэжым паведамленняў
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+Нельга ўключыць фільтр, бо не абраны ніводны тып падзей, як глабальна так і для гэтага чата
+[Event filter error]
+Памылка фільтра падзей
 [Selection copied to clipboard]
 Вылучаны тэкст скапіяваны ў буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1477,7 +1478,15 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 час адпраўкі мінула
 [Contact is offline and this protocol does not support sending files to offline users.]
 Кантакт не далучаны а гэты пратакол не падтрымлівае афлайн паведамленні.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
+;file \plugins\TabSRMM\src\msgdlgother.cpp
+['(Unknown contact)']
+'(Невядомы кантакт)'
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
+Опцыя "уставіць і адправіць" выключана. Уключэнне: Налады-Гутаркі-Вакно паведамленняў-Галоўнае
+[Set your avatar...]
+Змяніць аватар
+[A message delivery has failed.\nClick to open the message window.]
+Дастаўка паведамлення не атрымалася.\nНажміце для адкрыцця вакна гутаркі
 [Error creating destination directory]
 Памылка стварэння шляху прызначэння
 [Save contact picture]
@@ -1486,16 +1495,40 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Файлы малюнкаў
 [The file exists. Do you want to overwrite it?]
 Файл ужо існуе. Перазахаваць?
-[Set your avatar...]
-Змяніць аватар
-[Save and close session]
-Захаваць набранае і зачыніць вакно
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-Опцыя "уставіць і адправіць" выключана. Уключэнне: Налады-Гутаркі-Вакно паведамленняў-Галоўнае
-['(Unknown contact)']
-'(Невядомы кантакт)'
 [JPEG-compressed images]
 Файлы jpeg
+[Save and close session]
+Захаваць набранае і зачыніць вакно
+[, %d %s, %d %s idle]
+, %d %s, %d %s не актыўны
+[hours]
+гадзін(ы)
+[hour]
+гадзіна
+[minutes]
+хвілін(ы)
+[minute]
+хвіліна(ы)
+[, %d %s idle]
+, %d %s не актыўны
+[%s on %s%s]
+%s у %s%s
+[%s: chat room (%u user%s)]
+%s: Чат (%u удзельнікаў)
+[%s: chat room (%u users%s)]
+%s: Чат (%u удзельнікаў %s)
+[, event filter active]
+, фільтр падзей уключаны
+[%s: message session]
+%s: гутарка
+[%s: message session (%u users)]
+%s: гутарка (%u удзельнікаў)
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інфармацыя пра карыстача\nПравай кнопкай - кіраванне метакантактам\nСтрэлка ўніз - даданне/выдаленне карыстача з абранага.
+[No UID]
+няма UID
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інфармацыя пра карыстача\nСтрэлка ўніз - даданне/выдаленне карыстача з абранага.
 ;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 Тайскі
@@ -1578,14 +1611,72 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Загрузіць налады шаблонаў паведамленняў з гэтай тэмы?\nУвага: гэта перазапіша ваш набор шаблонаў, што можа істотна закрануць выгляд вашага вакна гутаркі.\nВыберыце Скасаваць, для таго каб не загружаць нічога.
 [Load theme]
 Загрузіць тэму
-[Internal message log]
-Убудаваны журнал
-[IEView plugin]
-Плагін IEView
-[History++ plugin]
-Плагін History++
-[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Вы абралі вонкавы плагін для адлюстравання паведамленняў у логе. Большасць налад на гэтай старонцы для лога па змаўчанні і не будуць мець эфекту. Для змены вонкавага выгляду лога паведамленняў Вы павінны наладзіць IEView ці History++.
+[Message window behavior]
+Паводзіны вакна паведамленняў
+[Sending messages]
+Адпраўка паведамленняў
+[Send on Shift+Enter]
+Пасылаць па Shift+Enter
+[Send message on 'Enter']
+Пасылаць па "Enter"
+[Send message on double 'Enter']
+Пасылаць па падвойным "Enter"
+[Minimize the message window on send]
+Згортваць вакно пасля адпраўкі
+[Close the message window on send]
+Зачыняць вакно пасля адпраўкі
+[Always flash contact list and tray icon for new messages]
+Заўсёды міргаць значком у трэі і спісе кантактаў пры новым паведамленні
+[Delete temporary contacts on close]
+Выдаляць часовыя кантакты пры зачыненні
+[Enable "Paste and send" feature]
+Уключыць функцыю "ўставіць і адправіць"
+[Allow BBCode formatting in outgoing messages]
+Дазволіць BB-коды для выходных паведамленняў
+[Automatically split long messages (experimental, use with care)]
+Аўтаматычна падзяляць доўгія паведамленні (эксперыментальна)
+[Log status changes]
+Запісваць змены статусаў
+[Use the same splitter height for all sessions]
+
+[Automatically copy selected text]
+Аўтаматычна капіяваць вылучаны тэкст
+[Message log appearance]
+Вонкавы выгляд лога
+[Support for external plugins]
+Падтрымка вонкавых плагінаў
+[Timestamp settings (note: timestamps also depend on your templates)]
+Адлюстраванне часу (таксама залежыць ад вашых шаблонаў)
+[Message log icons]
+Значкі лога паведамленняў
+[Show dates in timestamps]
+Паказваць дату
+[Show seconds in timestamps]
+Паказваць секунды
+[Use contacts local time (if timezone info available)]
+Лакальны час кантакту (калі даступны гадзінны пояс)
+[Draw grid lines]
+Маляваць лініі сеткі
+[Use incoming/outgoing icons]
+Выкарыстоўваць значкі ўваходнага/выходнага паведамлення
+[Use message grouping]
+Гуртаваць паведамленні
+[Simple text formatting (*bold*, etc.)]
+Простае фарматаванне (*тоўсты* і да т.п.)
+[Support BBCode formatting]
+Падтрымка BB-кодаў
+[Place a separator in the log after a window lost its foreground status]
+Ставіць падзельнік у логе пасля таго, як вакно губляе фокус
+[Only place a separator when an incoming event is announced with a popup]
+Ставіць падзельнік толькі пры падзеі, які суправаджаецца успл. вакном
+[Show events at the new line (IEView Compatibility Mode)]
+Паказваць падзеі ў новым радку (Рэжым сумяшчальнасці з IEView)
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+Падкрэсліваць час/мянушку (Рэжым сумяшчальнасці з IEView)
+[Show timestamp after nickname (IEView Compatibility Mode)]
+Паказваць час пасля мянушкі (Рэжым сумяшчальнасці з IEView)
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Звычайныя шаблоны (адключыце для простых шаблонаў, калі ваш шаблон гэта падтрымлівае)
 [** New contacts **]
 ** Новыя кантакты **
 [** Unknown contacts **]
@@ -1596,6 +1687,30 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Заўсёды, але не паказваць калі вакно ў фокусе
 [Only when no message window is open]
 Толькі калі не адкрыта вакно паведамленняў
+[How to create tabs and windows for incoming messages]
+Налады стварэння ўкладак і вокнаў для ўваходных паведамленняў
+[Show status text on tabs]
+Паказваць тэкст статусу ва ўкладцы
+[Prefer xStatus icons when available]
+Паказваць абразок xСтатуса, калі даступна (замест статусу)
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Паказваць падказку на ўкладках (патрабуецца плагін Tipper)
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+Заўсёды ствараць укладку пры новым паведамленні (мае прыярытэт над наступнымі опцыямі)
+[Automatically create new message sessions without activating them]
+Аўтаматычна ствараць новыя ўкладкі, без актывацыі
+[New windows are minimized (the option above MUST be active)]
+Ствараць новыя вокны згорнутымі (опцыя вышэй павінна быць уключана)
+[Activate a minimized window when a new tab is created inside it]
+Адкрыць згорнутае вакно пры стварэнні новай укладкі ўсярэдзіне гэтага вакна
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Аўтаматычная змена ўкладак у згорнутым вакне пры ўваходных паведамленнях (ігнаруецца пры выкарыстанні Aero Peek)
+[Close button only hides message windows]
+Кнопка зачыніць толькі хавае вокны паведамленняў
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Дазволіць табуляцыю ўсярэдзіне поля ўводу паведамленняў (адключыць пераключэнне фокусу па Tab клавішы)
+[Add offline contacts to multisend list]
+Дадаць у спіс рассылання адключаныя кантакты
 [Normal - close tab, if last tab is closed also close the window]
 Зачыніць укладку, калі апошняя ўкладка - зачыніць вакно
 [Minimize the window to the task bar]
@@ -1604,6 +1719,24 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Зачыніць ці схаваць вакно, залежыць ад налады кнопкі зачынення
 [Do nothing (ignore Esc key)]
 
+[Message window tweaks]
+Налады вакна паведамленняў
+[Display metacontact icons]
+
+[Error feedback]
+Памылкі дастаўкі паведамленняў
+[Close current tab on send]
+Зачыняць укладку пры адпраўцы
+[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+Уключыць аўтаматычную адпраўку (эксперыментальная опцыя, неабходна для мультыадпраўкі і адпраўкі з затрымкай) (*)
+[Show client description in info panel]
+Паказваць у інфо-панэлі кліент кантакту
+[On tab control]
+
+[On the button bar]
+
+[Disable error popups on sending failures]
+Адключыць усплывальныя вокны пра няўдалую дастаўку
 [Choose status modes]
 Выбар рэжымаў статусу
 [General]
@@ -1623,8 +1756,6 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 [Window layout tweaks]
 Выгляд укладак
 ;file \plugins\TabSRMM\src\msgs.cpp
-[A message delivery has failed.\nClick to open the message window.]
-Дастаўка паведамлення не атрымалася.\nНажміце для адкрыцця вакна гутаркі
 [Message Log Options]
 Налады гутарак
 [Image tag]
@@ -1821,157 +1952,6 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Перад зменай скіна трэба закрыць усе кантэйнеры\nПрацягнуць?
 [Change skin]
 Змяніць скін
-;file \plugins\TabSRMM\src\translator.cpp
-[Message window tweaks]
-Налады вакна паведамленняў
-[Display metacontact icons]
-
-[Error feedback]
-Памылкі дастаўкі паведамленняў
-[Close current tab on send]
-Зачыняць укладку пры адпраўцы
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Уключыць аўтаматычную адпраўку (эксперыментальная опцыя, неабходна для мультыадпраўкі і адпраўкі з затрымкай) (*)
-[Show client description in info panel]
-Паказваць у інфо-панэлі кліент кантакту
-[On tab control]
-
-[On the button bar]
-
-[Disable error popups on sending failures]
-Адключыць усплывальныя вокны пра няўдалую дастаўку
-[Show a preview of the event]
-Прадпрагляд падзеі
-[Don't announce event when message dialog is open]
-Не абвяшчаць, калі адчынена вакно гутаркі
-[Don't announce events from RSS protocols]
-Не абвяшчаць пра падзеі ў конце RSS
-[Enable the system tray icon]
-Уключыць абразок у трэі
-[Merge new events for the same contact into existing popup]
-Дадаваць новыя падзеі ва ўжо існае ўсплывальнае вакно
-[Show headers]
-Паказаць загалоўкі
-[Dismiss popup]
-Зачыніць вакно
-[Open event]
-Адкрыць падзею
-[Dismiss event]
-Адхіліць падзею
-[Disable event notifications for instant messages]
-Выключыць абвесткі пра падзеі паведамленняў
-[Disable event notifications for group chats]
-Выключыць абвесткі пра падзеі чатаў
-[Disable notifications for non-message events]
-Выключыць абвесткі для ўсіх падзей, акрамя паведамленняў
-[Remove popups for a contact when the message window is focused]
-Прыбіраць, калі вакно гутаркі апынецца ў фокусе
-[Remove popups for a contact when I start typing a reply]
-Прыбіраць, калі я пачынаю набіраць адказ
-[Remove popups for a contact when I send a reply]
-Прыбіраць, калі я пасылаю адказ
-[Disable notifications]
-Выключыць абвесткі
-[System tray icon]
-Абразок у трэі
-[Left click actions (popups only)]
-Дзеянні па левай пстрычцы (усплывальныя вокны)
-[Right click actions (popups only)]
-Дзеянні па правай пстрычцы (усплывальныя вокны)
-[Timeout actions (popups only)]
-Дзеянні па затрымцы (усплывальныя вокны)
-[Combine notifications for the same contact]
-Злучаць абвесткі аднаго кантакту
-[Remove popups under following conditions]
-Прыбіраць усплывальныя вокны пры ўмовах
-[Message window behavior]
-Паводзіны вакна паведамленняў
-[Sending messages]
-Адпраўка паведамленняў
-[Send on Shift+Enter]
-Пасылаць па Shift+Enter
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
-[Minimize the message window on send]
-Згортваць вакно пасля адпраўкі
-[Close the message window on send]
-Зачыняць вакно пасля адпраўкі
-[Always flash contact list and tray icon for new messages]
-Заўсёды міргаць значком у трэі і спісе кантактаў пры новым паведамленні
-[Delete temporary contacts on close]
-Выдаляць часовыя кантакты пры зачыненні
-[Enable "Paste and send" feature]
-Уключыць функцыю "ўставіць і адправіць"
-[Allow BBCode formatting in outgoing messages]
-Дазволіць BB-коды для выходных паведамленняў
-[Automatically split long messages (experimental, use with care)]
-Аўтаматычна падзяляць доўгія паведамленні (эксперыментальна)
-[Log status changes]
-Запісваць змены статусаў
-[Automatically copy selected text]
-Аўтаматычна капіяваць вылучаны тэкст
-[Message log appearance]
-Вонкавы выгляд лога
-[Support for external plugins]
-Падтрымка вонкавых плагінаў
-[Timestamp settings (note: timestamps also depend on your templates)]
-Адлюстраванне часу (таксама залежыць ад вашых шаблонаў)
-[Message log icons]
-Значкі лога паведамленняў
-[Show dates in timestamps]
-Паказваць дату
-[Show seconds in timestamps]
-Паказваць секунды
-[Use contacts local time (if timezone info available)]
-Лакальны час кантакту (калі даступны гадзінны пояс)
-[Draw grid lines]
-Маляваць лініі сеткі
-[Use incoming/outgoing icons]
-Выкарыстоўваць значкі ўваходнага/выходнага паведамлення
-[Use message grouping]
-Гуртаваць паведамленні
-[Simple text formatting (*bold*, etc.)]
-Простае фарматаванне (*тоўсты* і да т.п.)
-[Support BBCode formatting]
-Падтрымка BB-кодаў
-[Place a separator in the log after a window lost its foreground status]
-Ставіць падзельнік у логе пасля таго, як вакно губляе фокус
-[Only place a separator when an incoming event is announced with a popup]
-Ставіць падзельнік толькі пры падзеі, які суправаджаецца успл. вакном
-[Show events at the new line (IEView Compatibility Mode)]
-Паказваць падзеі ў новым радку (Рэжым сумяшчальнасці з IEView)
-[Underline timestamp/nickname (IEView Compatibility Mode)]
-Падкрэсліваць час/мянушку (Рэжым сумяшчальнасці з IEView)
-[Show timestamp after nickname (IEView Compatibility Mode)]
-Паказваць час пасля мянушкі (Рэжым сумяшчальнасці з IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Звычайныя шаблоны (адключыце для простых шаблонаў, калі ваш шаблон гэта падтрымлівае)
-[How to create tabs and windows for incoming messages]
-Налады стварэння ўкладак і вокнаў для ўваходных паведамленняў
-[Show status text on tabs]
-Паказваць тэкст статусу ва ўкладцы
-[Prefer xStatus icons when available]
-Паказваць абразок xСтатуса, калі даступна (замест статусу)
-[Detailed tooltip on tabs (requires Tipper plugin)]
-Паказваць падказку на ўкладках (патрабуецца плагін Tipper)
-[ALWAYS activate new message sessions (has PRIORITY over the options below)]
-Заўсёды ствараць укладку пры новым паведамленні (мае прыярытэт над наступнымі опцыямі)
-[Automatically create new message sessions without activating them]
-Аўтаматычна ствараць новыя ўкладкі, без актывацыі
-[New windows are minimized (the option above MUST be active)]
-Ствараць новыя вокны згорнутымі (опцыя вышэй павінна быць уключана)
-[Activate a minimized window when a new tab is created inside it]
-Адкрыць згорнутае вакно пры стварэнні новай укладкі ўсярэдзіне гэтага вакна
-[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Аўтаматычная змена ўкладак у згорнутым вакне пры ўваходных паведамленнях (ігнаруецца пры выкарыстанні Aero Peek)
-[Close button only hides message windows]
-Кнопка зачыніць толькі хавае вокны паведамленняў
-[Allow Tab key in typing area (this will disable focus selection by Tab key)]
-Дазволіць табуляцыю ўсярэдзіне поля ўводу паведамленняў (адключыць пераключэнне фокусу па Tab клавішы)
-[Add offline contacts to multisend list]
-Дадаць у спіс рассылання адключаныя кантакты
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
@@ -1987,12 +1967,6 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 [Contact stopped typing]
 Кантакт скончыў набор паведамлення
 ;file \plugins\TabSRMM\src\userprefs.cpp
-[Force default message log]
-лог па змаўчанні
-[Force History++]
-Прымусова History++
-[Force IEView]
-Прымусова IEView
 [Set messaging options for %s]
 Налады гутарак для %s
 ;file \plugins\TabSRMM\src\utils.cpp

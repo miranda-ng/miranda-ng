@@ -1,4 +1,7 @@
 [OutputDebugString()]
+[Choose needed logger from listed below:]
+[Enable custom log controls in group chats]
+[Hidden window]
 [Wikipedia (en)]
 [In a civil union]
 [&Open/close chat window]
@@ -24,4 +27,5 @@
 [Win + ]
 [Unused]
 [Unselect all]
+[Log viewer]
 [Message window toolbar]

@@ -89,15 +89,6 @@
 
 [Group Off]
 
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[%s has joined.]
-%s увійшов.
-[%s has left.]
-%s вийшов.
-[The topic is %s.]
-Тема %s
-[Error]
-Помилка
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 За замовчанням

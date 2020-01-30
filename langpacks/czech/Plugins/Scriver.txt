@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -36,8 +36,8 @@ Odeslat zprávu:
 Panely
 [Enable tabs]
 Zapnout panely
-[Always show tab bar]
-Trvale zobrazit lištu s panely
+[Only show tab bar when it's needed]
+Skrýt lištu s panely, je-li jen jeden
 [Tabs at the bottom]
 Panely v dolní části okna
 [Limit names on tabs to]
@@ -82,8 +82,6 @@ Min. velikost pole pro zadávání textu:
 
 [Message window event log]
 Záznam událostí
-[Enable IEView]
-Použít doplněk IEView
 [Show icons]
 Zobrazit ikony
 [Show time]
@@ -96,8 +94,8 @@ Zobrazit datum
 Použít dlouhý formát data
 [Relative date]
 Použít relativní zápis data
-[Show names]
-Zobrazit jména
+[Hide names]
+Skrýt jména
 [Enable message grouping]
 Seskupovat zprávy
 [Mark follow-up messages with timestamp]
@@ -234,30 +232,6 @@ Pozadí
 Prodleva (s)
 [(0 means default setting, -1 means indefinite time)]
 (0 = výchozí nastavení, -1 = vypnutí prodlevy)
-[Log]
-Záznam
-[&Copy]
-Z&kopírovat
-[Co&py all]
-Zko&pírovat vše
-[Select &all]
-Vybr&at vše
-[Word lookup]
-Vyhledávání slova
-[Yandex]
-Yandex
-[Wikipedia (en)]
-Wikipedia (en)
-[Google Maps]
-Mapy Google
-[Google Translate]
-Překladač Google
-[C&lear log]
-Vy&mazat záznam
-[&Open link]
-&Otevřít odkaz
-[&Copy link]
-Z&kopírovat odkaz
 [Message]
 Zpráva
 [Undo]
@@ -274,6 +248,8 @@ Vložit
 Vložit a poslat
 [Delete]
 Smazat
+[Select &all]
+Vybr&at vše
 [Clear]
 Vymazat
 [Close other tabs]
@@ -454,21 +430,14 @@ Vzhled
 Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
 [Select folder]
 Vyberte požadovanou složku
-;file \plugins\Scriver\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: kanál (účastníků: %u)
-[%s: chat room (%u users)]
-%s: kanál (účastníků: %u)
-[%s: message session]
-%s: rozhovor
-[%s: message session (%u users)]
-%s: rozhovor (účastníků: %u)
-[Nickname]
-Přezdívka
-[Unique ID]
-Identifikátor
-[Status]
-Stavy
+[Message sessions]
+Komunikace
+[General]
+Obecné
+[Event log]
+Záznam událostí
+[Popups]
+Oznámení
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Přidat kontakt
@@ -620,18 +589,14 @@ Poslat všem
 [Action: Paste and send]
 Vložit text a poslat
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Sending in progress: %d message(s) left...]
-Odesílání; počet zpráv k odeslání: %d
-[%s is typing a message...]
-%s píše zprávu...
-[Last message received on %s at %s.]
-Poslední zpráva přijata %s v %s.
-[Look up '%s':]
-Vyhledat '%s':
-[No word to look up]
-Není co vyhledat
 [User menu - %s]
 Uživatelské menu - %s
+[Nickname]
+Přezdívka
+[Unique ID]
+Identifikátor
+[Status]
+Stavy
 ;file \plugins\Scriver\src\msglog.cpp
 [Me]
 Já
@@ -716,16 +681,8 @@ Shift+Enter
 ** nové kontakty **
 [** Unknown contacts **]
 ** neznámé kontakty **
-[Message sessions]
-Komunikace
-[General]
-Obecné
-[Event log]
-Záznam událostí
 [Typing notify]
 Psaní zprávy
-[Popups]
-Oznámení
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Zpráva od: %s
@@ -806,6 +763,21 @@ Kontakt přestal psát
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Neznámá chyba.
+;file \plugins\Scriver\src\msgutils.cpp
+[Sending in progress: %d message(s) left...]
+Odesílání; počet zpráv k odeslání: %d
+[%s is typing a message...]
+%s píše zprávu...
+[Last message received on %s at %s.]
+Poslední zpráva přijata %s v %s.
+[%s: chat room (%u user)]
+%s: kanál (účastníků: %u)
+[%s: chat room (%u users)]
+%s: kanál (účastníků: %u)
+[%s: message session]
+%s: rozhovor
+[%s: message session (%u users)]
+%s: rozhovor (účastníků: %u)
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.

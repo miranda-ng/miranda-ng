@@ -1,415 +1,68 @@
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.0.2.1
+;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Підтримка протоколу Facebook у Miranda NG.
-;file \protocols\FacebookRM\res\facebook.rc
+;file \protocols\Facebook\res\facebook.rc
 [E-mail:]
 Пошта:
 [Password:]
 Пароль:
 [Create a new Facebook account]
 Створити новий обліковий запис Facebook
-[What's on your mind?]
-Про що ви думаєте?
-[Wall:]
-Стіна:
-[Visibility:]
-Видно:
-[Text:]
-Текст:
-[URL:]
-Посилання:
-[Place:]
-Місце:
-[Contacts >>]
-Контакти >>
-[Attach contacts:]
-Приєднати контакти:
-[Share]
-Відправити
-[Cancel]
-Скасувати
 [User details]
 Про користувача
 [Contacts]
 Контакти
 [Default group:]
 Група:
-[Automatically set 'Ignore status change' flag]
-Автоматично вмикати ігнорування зміни статусів
-[Use bigger avatars]
-Великі аватари
-[Prefer real names instead of nicknames]
-Показувати справжні імена замість ніків
-[Load also Messenger contacts at login (not only Facebook friends)]
+[Group chats]
+Групові чати
+[Enable group chats]
 
-[Use Invisible status for Facebook Pages (instead of Offline)]
-
-[Popup notifications]
-Спливаючі вікна
-[Show notifications]
-Показувати сповіщення
-[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
-Повідомлення на стіні (стрічка новин) Увага: підвищує споживання трафіку!
-[News feed types to notify:]
-Сповіщати про типи новин:
-[Don't show advertising posts]
-Не показувати рекламні публікації
-[Show friendships changes (when someone removes/approves you)]
-Показувати зміни запитів дружби (коли хтось видаляє/підтверджує запит)
-[Show real-time friends activity (ticker feed)]
-Показувати активність друзів у реальному часі
-[Show my "On this day" posts at login]
-Показувати повідомлення "Цього дня" при вході
-[Chatroom logging]
-Журнал чатів
-[Log notifications into special chatroom]
-Показувати сповіщення в окремому чаті
-[Extra]
-Додатково
-[Use balloon notifications in system tray instead of popups]
-Сповіщати підказкою в треї замість спливаючих вікон
-[Use this server for opening links:]
-Тип сайту для відкриття посилань:
-[Statuses]
-Статуси
-[Post Miranda statuses to Wall]
-Публікувати статуси Miranda на стіну
-[Turn off chat on Facebook when going to offline in Miranda]
-Відключати чат на сайті при виході Miranda в офлайн
-[Map unsupported statuses to Invisible (instead of Away)]
-Непідтримувані статуси як "Невидимий" (замість "Відсутній")
-[Allow posting statuses to my pages (may slow down login)]
-Дозволити публікувати статуси на своїх сторінках (уповільнює вхід)
-[Advanced]
-Розширений
-[Send typing notifications even when Invisible]
-
-[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
-
-[Bots challenge test]
-Захист від ботів
-[Instruction:]
-Інструкція:
-[Submit]
-Передати
-[Messages]
-Повідомлення
-[Keep messages as unread on server (don't send "seen" info)]
-Не позначати повідомлення на сервері як прочитані
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Стікери у вигляді користувацьких смайлів (експериментально)
-[Multi user chats]
-Чати
-[Enable multi user chats support]
-Увімкнути чати
 [Do not open chat windows on creation]
 Не відкривати вікно чату при створенні
-[Automatically join active chats that exist in contact list]
-Автоматично заходити в активні чати зі списку контактів
-[History synchronization]
-Синхронізація історії
-[Load last messages on opening message window (EXPERIMENTAL)]
-Показувати історію при відкритті вікна (експериментально)
-[Number of messages to load:]
-Кількість останніх повідомлень:
-[Facebook Login Approval]
-Підтвердження входу у Facebook
-[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
-Для доступу до облікового запису з невідомого браузера необхідно ввести перевірочний код.\n\nОтримайте код через мобільний додаток Facebook або натисніть кнопку нижче, щоб отримати SMS з кодом.
-[Send SMS]
-Надіслати SMS
-;file \protocols\FacebookRM\src\captcha.cpp
-[Enter the text you see]
-Введіть текст, який бачите
-;file \protocols\FacebookRM\src\chat.cpp
-[&Invite user...]
-&Запросити користувача...
-[E&xit chat session]
+[Send group chat invitation]
+Запросити до чат-кімнати
+[&Invite]
+&Запросити
+[Cancel]
+Скасувати
+;file \protocols\Facebook\src\groupchats.cpp
+[&Invite a user]
+&Запросити користувача
+[&Leave/destroy chat]
 
-[&Destroy chat session]
-
-[User &details]
-&Дані контакту
-[User &history]
-&Історія користувача
-[Delete conversation]
-
-[This will permanently delete the conversation history]
-
-[Former]
-
-[Myself]
-Я
-[Friend]
-Друг
-[User]
-Користувач
-[Notifications]
-Сповіщення
-[%s and more (%d)]
-%s і ще %d
-;file \protocols\FacebookRM\src\communication.cpp
-[Login error: %s]
-Помилка входу: %s
-[Unknown error]
-Невідома помилка
-[Login error: Invalid request.]
-Помилка входу: недопустимий запит.
-[You entered too many invalid verification codes. Plugin will disconnect.]
-Ви занадто часто вводили неправильний код. Протокол буде відключено.
-[You entered wrong verification code. Try it again.]
-Ви ввели неправильний код. Спробуйте знову.
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-Помилка входу: ваш обліковий запис заблоковано. Необхідно виконати підтвердження в браузері.
-[Check last login]
-Перевірити останній вхід
-[Do you recognize this activity?]
-Впізнаєте цю активність?
-[Login error: You need to confirm last unknown login or revoke it from web browser.]
-Помилка входу: необхідно підтвердити останній невідомий вхід або відкликати його з веб-браузера.
-[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
-Помилка входу: Facebook вважає, що ваш комп'ютер заражений. Зайдіть у свій обліковий запис за допомогою браузера в режимі приватного перегляду і запустіть перевірку на віруси.
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-Помилка входу: потрібно ввести капчу. Необхідно виконати підтвердження в браузері.
-[Login error, probably bad login credentials.]
-Помилка входу: імовірно, неправильні дані облікового запису.
-[Could not load communication token. You should report this and wait for plugin update.]
-Неможливо отримати токен авторизації. Повідомте про цю помилку та чекайте на оновлення плагіна.
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-Неможливо отримати всі необхідні дані. Можливо, плагін працюватиме нормально, але краще повідомити про цю помилку та дочекатися оновлення плагіна.
-[Contact doesn't have required data in database.]
-У базі відсутні необхідні дані контакту.
-[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-Щоб надсилати повідомлення для інших клієнтів, необхідне підтвердження.\nВідкрийте сайт Facebook і спробуйте надіслати повідомлення знову!
-[User cancel captcha challenge.]
-Користувач скасував перевірку.
-[Timeout when sending message.]
-Час надсилання повідомлення вичерпано.
-[Status update was successful.]
-Успішне оновлення статусу.
-[Error occurred when requesting verification SMS code.]
-Помилка при запиті SMS з кодом підтвердження.
-[Verification SMS code was sent to your mobile phone.]
-SMS з кодом підтвердження відправлено на ваш телефон.
-;file \protocols\FacebookRM\src\connection.cpp
-[Please enter a username.]
-Будь ласка, введіть ім'я користувача.
-[Please enter a password.]
-Будь ласка, введіть пароль.
-;file \protocols\FacebookRM\src\contacts.cpp
-[Contact was removed from your server list.]
-Контакт видалено зі списку на сервері.
-[Error occurred when removing contact from server.]
-Помилка при видаленні контакту зі списку на сервері.
-[Request for friendship was sent.]
-Запит дружби надіслано.
-[Error occurred when requesting friendship.]
-Помилка при надсиланні запиту дружби.
-[Request for friendship was accepted.]
-Запит дружби підтверджено.
-[Error occurred when accepting friendship request.]
-Помилка під час підтвердження запиту дружби.
-[Request for friendship was canceled.]
-Запит дружби відкликано.
-[Error occurred when canceling friendship request.]
-Помилка під час відкликання запиту дружби.
-[Request for friendship was ignored.]
-Запит дружби проігноровано.
-[Error occurred when ignoring friendship request.]
-Помилка під час ігнорування запиту дружби.
-;file \protocols\FacebookRM\src\dialogs.cpp
-[Top News]
-Популярні новини
-[Most Recent]
-Останні оновлення
-[Pages]
-Сторінки
-[Classic website]
-Класичний сайт
-[Mobile website]
-Мобільний сайт
-[Smartphone website]
-Сайт для смартфонів
-[Public]
-Усім
-[Friends of friends]
-Друзям друзів
-[Friends]
-Друзям
-[Friends except acquaintances]
-Друзям, крім знайомих
-[Only me]
-Тільки мені
-[Default]
-За замовчанням
-[<< Contacts]
-<< Контакти
-[What's on your mind, %s?]
-Про що ви думаєте, %s?
-;file \protocols\FacebookRM\src\json.cpp
-[a sticker]
-стікер
-[a GIF]
-анімоване зображення
-[a link]
-посилання
-[files]
-файли
-[a file]
-файл
-[User sent %s:]
-Контакт надіслав %s:
-[User sent an unsupported attachment. Open your browser to see it.]
-Контакт надіслав вкладення, що не підримується. Для перегляду перейдіть на сайт.
-[Reaction]
-
-[%s is typing a message...]
-%s друкує вам повідомлення...
-;file \protocols\FacebookRM\src\messages.cpp
-[You cannot send messages when you are offline.]
-Для надсилання повідомлень необхідно підключитися до мережі.
-;file \protocols\FacebookRM\src\process.cpp
-[Contact is back on server-list.]
-Контакт доданий у список на сервері.
-[Contact is no longer on server-list.]
-Контакт видалений зі списку на сервері.
-[Loading history started.]
-Завантаження історії почалося.
-[Loading messages: %d/%d]
-Завантажено повідомлень: %d/%d
-[Loading history completed.]
-Завантаження історії завершено.
-[<attachment without text>]
-<вкладення без тексту>
-[Loading memories...]
-Завантаження спогадів...
-[On this day]
-Цього дня
-[Found %d memories.]
-
-[Loading notifications...]
-Завантаження сповіщень...
-[Found %d notifications.]
-
-[Loading friendship requests...]
-Завантаження запитів дружби...
-[Found %d friendship requests (%d seen).]
-
-[Found %d friendship requests.]
-
-[Loading wall posts...]
-Завантаження записів зі стіни...
-[Found %d wall posts.]
-
-;file \protocols\FacebookRM\src\proto.cpp
-[%s server connection]
-З'єднання з сервером %s
-[Unable to initialize Netlib for %s.]
-Не вдається встановити з'єднання Netlib для %s.
-[Video call]
-Відеовиклик
-[Facebook ID must be numeric value.]
-Вкажіть Facebook ID цифрами.
+[&Kick user]
+&Вигнати
+;file \protocols\Facebook\src\options.cpp
 [Network]
 Мережа
 [Account]
 Обліковий запис
-[Events]
-Події
-[Messaging]
-Повідомлення
-[Share status...]
-Статус...
-[Own wall]
-Своя стіна
-[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
-Триває завантаження історії. Завантаження неможливе для кількох контактів одночасно. Будь ласка, дочекайтеся завершення.
-[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
-Усі повідомлення буде завантажено з сервера. Щоб уникнути дублювання повідомлень в історії, заздалегідь видаліть наявні повідомлення вручну.\nПроцес завантаження може тривати деякий час.\n\nПродовжити?
-[Do you want to cancel your friendship with '%s'?]
-Ви впевнені, що хочете видалити "%s" з друзів?
-[Client errors]
-Помилки клієнта
-[Wall posts]
-Повідомлення на стіні
-[Other events]
-Інші події
-[Friendship events]
-Події дружби
-[Real-time friends activity]
-Активність друзів у реальному часі
-[Memories]
-Спогади
-[Visit profile]
-Профіль
-[Visit notifications]
-Сповіщення
-[Show 'Share status' window]
-Повідомлення статусу Facebook
-[Notification]
-Сповіщення
-[Newsfeed event]
-Новини
-[Other event]
-Інша подія
-[Friendship event]
-Подія дружби
-[Ticker event]
-Тікер
-[Message read: %s by %s]
-Повідомлення прочитане о %s користувачем %s
-[Message read: %s]
-Повідомлення прочитане о %s
-;file \protocols\FacebookRM\src\theme.cpp
-[Facebook icon]
-Значок Facebook
-[Mind]
-Думка
-[Poke]
-Підморгнути
-[Newsfeed]
-Стрічка
-[Friendship details]
-Інформація про дружбу
-[Conversation]
-Бесіда
-[Message read]
-Прочитане повідомлення
-[Angry]
-Злість
-[Haha]
-Ха-ха
-[Like]
-Подобається
-[Love]
-У захваті
-[Sad]
-Сумно
-[Wow]
-Овва
-[Visit friendship details]
-Інформація про дружбу
-[Visit conversation]
-Бесіда на сайті
-[Load history]
-Завантажити історію
-[Cancel friendship request]
-Відкликати запит дружби
-[Deny friendship request]
-Відхилити додавання в друзі
-[Services...]
-Служби...
-[Check friendship requests]
-Перевірити запити дружби
-[Check newsfeeds]
-Перевірити новини
-[Check memories]
-Перевірити спогади
-[Check notifications]
-Перевірити сповіщення
+;file \protocols\Facebook\src\proto.cpp
+[%s server connection]
+З'єднання з сервером %s
+[Protocol is offline or user isn't authorized yet]
+
+;file \protocols\Facebook\src\server.cpp
+[Participant]
+Учасник
+[Sticker received]
+
+[SmileyAdd plugin required to support stickers]
+
+[URL]
+Посилання
+[Title]
+Заголовок
+[Source]
+
+[Description]
+Опис
+[Playable media]
+

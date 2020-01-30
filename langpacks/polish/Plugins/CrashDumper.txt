@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -34,6 +34,8 @@ Twórz raporty w podfolderach używając bieżącej daty
 Użyj klasycznych dat
 [* You need to restart Miranda NG to apply changes]
 Musisz uruchomić Mirandę ponownie, aby zastosować zmiany
+[Display popups about successful actions]
+
 [View]
 Pokaż
 [&Copy]

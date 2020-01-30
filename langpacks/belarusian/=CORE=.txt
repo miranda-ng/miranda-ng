@@ -1110,6 +1110,10 @@ UIN, E-mail і г.д.
 Выкарыстоўваць адлюстроўванае імя
 [Lock name to first contact]
 Фіксаваць імя
+[Choose needed logger from listed below:]
+
+[Enable custom log controls in group chats]
+
 [Current language:]
 
 [Last modified using:]
@@ -1148,6 +1152,8 @@ UIN, E-mail і г.д.
 Аб праграме
 [Credits >]
 Аўтары >
+[Hidden window]
+
 [Tray]
 Трэй
 [&Hide/Show]
@@ -1440,12 +1446,6 @@ UIN, E-mail і г.д.
 Міргаць вакном, пры падсветленым паведамленні
 [Show list of users in the chat room]
 Паказваць спіс удзельнікаў чата
-[Show button for sending messages]
-Паказваць кнопку адпраўкі паведамлення
-[Show buttons for controlling the chat room]
-Паказваць кнопкі кіравання чатам
-[Show buttons for formatting the text you are typing]
-Паказваць кнопкі фарматавання тэксту
 [Show button menus when right clicking the buttons]
 Паказваць меню кнопкі па правай пстрычцы
 [Show the topic of the room on your contact list (if supported)]
@@ -1662,19 +1662,6 @@ UIN, E-mail і г.д.
 Чат
 [Popups]
 Усплывальныя вокны
-;file \src\core\stdmsg\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: Чат (%u удзельнік)
-[%s: chat room (%u users)]
-%s: Чат (%u удзельнікаў)
-[%s: message session]
-%s: гутарка
-[%s: message session (%u users)]
-%s: гутарка (%u удзельнікаў)
-[Nickname]
-Мянушка
-[Unique ID]
-Асабісты конт
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
@@ -1684,12 +1671,20 @@ UIN, E-mail і г.д.
 [Outgoing message (10x10)]
 Выходнае паведамленне (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[Last message received on %s at %s.]
-Апошняе паведамленне вы атрымалі %s у %s.
-[Message session]
-Гутарка
 [%s is typing a message...]
 %s набірае тэкст...
+[Last message received on %s at %s.]
+Апошняе паведамленне вы атрымалі %s у %s.
+[%s: chat room (%u user)]
+%s: Чат (%u удзельнік)
+[%s: chat room (%u users)]
+%s: Чат (%u удзельнікаў)
+[%s: message session]
+%s: гутарка
+[%s: message session (%u users)]
+%s: гутарка (%u удзельнікаў)
+[Message session]
+Гутарка
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 Я
@@ -1791,7 +1786,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Вокны ўключаны
 [Popups are disabled]
 Вокны выключаны
-;file \src\core\stdpopup\src\notify_imp.cpp
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Прыклад
@@ -2529,7 +2523,7 @@ xСтатус
 <Каранёвы гурт>
 [&Move to group]
 Перасунуць у
-;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 Стандартны журнал Netlib
 [No times]
@@ -2546,7 +2540,7 @@ xСтатус
 Абраць шлях ды файла лога
 [Select program to be run]
 Абраць праграму для запуску
-;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 <розныя>
 [<All connections>]
@@ -2794,6 +2788,13 @@ ANSI плагін
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[Nickname]
+Мянушка
+[Unique ID]
+Асабісты конт
+;file \src\mir_app\src\srmm_log.cpp
+[Log viewer]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Падзельнік>

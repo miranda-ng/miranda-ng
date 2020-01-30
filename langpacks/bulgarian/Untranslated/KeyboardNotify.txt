@@ -1,5 +1,6 @@
 [Accounts to check]
 [Events to react on]
+[Groupchat messages]
 [Everything else]
 [Message-Event only]
 [Blink if message window is open]
@@ -50,5 +51,5 @@
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 [\n; End of automatically generated Keyboard Notify Theme file\n]
 [Keyboard Notify Theme]
-[Themes]
 [Keyboard Flash]
+[Themes]

@@ -76,8 +76,6 @@ Hostitel:
 Udržovat spojení
 [Automatically delete contacts not in my roster]
 Automaticky mazat kontakty mimo vlastní seznam
-[User directory:]
-Adresářová služba:
 [Language for human-readable resources:]
 Definice jazyka pro textové služby:
 [File Transfer]
@@ -86,8 +84,6 @@ Přenos souborů
 Povolit odesílání souborů přímým spojením mezi klienty
 [Specify external address:]
 Zadat externí adresu:
-[Allow file sending through bytestream proxy server:]
-Povolit odesílání souborů přes proxy server:
 [Miscellaneous]
 Ostatní
 [Hint:]
@@ -544,14 +540,14 @@ Přihlížející
 Účastník
 [Moderator]
 Moderátor
-[Owners]
-Vlastníci
-[Moderators]
-Moderátoři
-[Participants]
-Účastníci
 [Visitors]
 Přihlížející
+[Participants]
+Účastníci
+[Moderators]
+Moderátoři
+[Owners]
+Vlastníci
 [User %s is now banned.]
 
 [User %s changed status to %s with message: %s]
@@ -730,6 +726,8 @@ Přidat mezi záložky...
 
 [Use this proxy]
 Použít tuto proxy
+[Use for uploads]
+
 [Commands...]
 Příkazy...
 [Logon]
@@ -911,8 +909,6 @@ Seznam vlastníků
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Volba účtu protokolu Jabber
-[Convert]
-Nahradit
 [Add to Bookmarks]
 Přidat mezi záložky
 [Commands]
@@ -927,10 +923,6 @@ Umístění
 Naposledy aktivní
 [Server's Choice]
 Podle serveru
-[&Convert to Contact]
-Z&měnit na kontakt
-[&Convert to Chat Room]
-Z&měnit na místnost
 [Services...]
 Služby
 [Registered Transports]
@@ -1781,7 +1773,7 @@ Software
 Verze
 [System]
 Systém
-[<currenty online>]
+[<currently online>]
 
 [Last activity]
 
@@ -1811,8 +1803,6 @@ do
 od
 [none]
 ---
-[<currently online>]
-
 [Last logoff time]
 Doba posledního odhlášení
 [Uptime]

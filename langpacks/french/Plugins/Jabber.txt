@@ -76,8 +76,6 @@ Hôte :
 Garder la connection active
 [Automatically delete contacts not in my roster]
 Supprimer automatiquement les contacts non dans ma liste
-[User directory:]
-Adresse utilisateur :
 [Language for human-readable resources:]
 Langue pour les ressources lisibles :
 [File Transfer]
@@ -86,8 +84,6 @@ Transfert de fichiers
 Envoi de fichier en connexion directe
 [Specify external address:]
 Définir une adresse externe
-[Allow file sending through bytestream proxy server:]
-
 [Miscellaneous]
 Divers
 [Hint:]
@@ -544,14 +540,14 @@ Visiteur
 
 [Moderator]
 Modérateur
-[Owners]
+[Visitors]
+Visiteurs
+[Participants]
 
 [Moderators]
 Modérateurs
-[Participants]
+[Owners]
 
-[Visitors]
-Visiteurs
 [User %s is now banned.]
 
 [User %s changed status to %s with message: %s]
@@ -729,6 +725,8 @@ Ajouter
 [Add search directory]
 
 [Use this proxy]
+
+[Use for uploads]
 
 [Commands...]
 Commandes...
@@ -911,8 +909,6 @@ Liste des admins
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 
-[Convert]
-
 [Add to Bookmarks]
 Ajouter aux favoris
 [Commands]
@@ -927,10 +923,6 @@ Commandes
 Dernière activité
 [Server's Choice]
 
-[&Convert to Contact]
-&Convertir en contact
-[&Convert to Chat Room]
-&Convertir en salon
 [Services...]
 Services...
 [Registered Transports]
@@ -1781,7 +1773,7 @@ Logiciel
 Version
 [System]
 Système
-[<currenty online>]
+[<currently online>]
 
 [Last activity]
 
@@ -1811,8 +1803,6 @@ vers
 de
 [none]
 aucun
-[<currently online>]
-
 [Last logoff time]
 
 [Uptime]

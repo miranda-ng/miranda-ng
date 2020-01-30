@@ -189,6 +189,8 @@
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 
+[Miranda NG database/mContacts]
+
 [JSON file]
 
 ;file \plugins\Import\src\utils.cpp

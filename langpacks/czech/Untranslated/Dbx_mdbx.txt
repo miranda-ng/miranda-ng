@@ -1,3 +1,6 @@
 [Total encryption (Recommended only for paranoid users)]
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+[Database was compacted successfully]
+[Database compaction failed]
 [Compact]

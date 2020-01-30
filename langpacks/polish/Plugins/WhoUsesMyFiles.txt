@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
@@ -42,16 +42,6 @@ Zapisuj do pliku tekstowego
 Zapisuj dostęp do folderów
 [Alerts on folders access]
 Powiadomienia o dostępie do folderów
-[Log files and folders in UNC format]
-Zapisuj pliki i foldery w formacie UNC
-[Alert files && folders in UNC format]
-Powiadamiaj o plikach i folderach w formacie UNC
-[Log computer name with username]
-Zapisuj nazwę komputera wraz z nazwą użytkownika
-[Alert computer name with username]
-Podaj nazwę komputera wraz z nazwą użytkownika w powiadomieniu
-[Disabled options will be available in the next version]
-Wyłączone opcje będą dostępne w następnej wersji
 [Show current connections]
 Pokaż aktualne połączenia
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
@@ -59,8 +49,6 @@ Pokaż aktualne połączenia
 Powszechny błąd dialogu 0x%lx
 [Error]
 Błąd
-[Not implemented yet...]
-Jeszcze nie zaimplementowano...
 [Who uses my files]
 Who uses my files
 [Services]

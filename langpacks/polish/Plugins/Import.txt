@@ -189,6 +189,8 @@ Nie możesz zaimportować obecnego profilu do niego samego
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 
+[Miranda NG database/mContacts]
+Profil Mirandy NG/mContacts
 [JSON file]
 
 ;file \plugins\Import\src\utils.cpp

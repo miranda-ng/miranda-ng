@@ -89,15 +89,6 @@ RTL wył.
 Grupowanie wł.
 [Group Off]
 Grupowanie wył.
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[%s has joined.]
-% dołączył.
-[%s has left.]
-%s opuścił czat
-[The topic is %s.]
-Temat: %s.
-[Error]
-Błąd
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Domyślny

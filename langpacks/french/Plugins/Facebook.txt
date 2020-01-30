@@ -1,415 +1,68 @@
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.0.2.1
+;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Support du protocole Facebook pour Miranda NG.
-;file \protocols\FacebookRM\res\facebook.rc
+;file \protocols\Facebook\res\facebook.rc
 [E-mail:]
 Courriel :
 [Password:]
 Passe :
 [Create a new Facebook account]
 Créer un nouveau compte Facebook
-[What's on your mind?]
-Exprimez-vous
-[Wall:]
-Mur :
-[Visibility:]
-Visibilité :
-[Text:]
-Texte :
-[URL:]
-Lien :
-[Place:]
-
-[Contacts >>]
-Contacts >>
-[Attach contacts:]
-
-[Share]
-Partager
-[Cancel]
-Annuler
 [User details]
 Détails du contact
 [Contacts]
 Contacts
 [Default group:]
 Groupes :
-[Automatically set 'Ignore status change' flag]
-
-[Use bigger avatars]
-Utiliser des grands avatars
-[Prefer real names instead of nicknames]
-
-[Load also Messenger contacts at login (not only Facebook friends)]
-
-[Use Invisible status for Facebook Pages (instead of Offline)]
-
-[Popup notifications]
-
-[Show notifications]
-
-[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
-
-[News feed types to notify:]
-
-[Don't show advertising posts]
-
-[Show friendships changes (when someone removes/approves you)]
-
-[Show real-time friends activity (ticker feed)]
-
-[Show my "On this day" posts at login]
-
-[Chatroom logging]
-
-[Log notifications into special chatroom]
-
-[Extra]
-
-[Use balloon notifications in system tray instead of popups]
-
-[Use this server for opening links:]
-Utiliser ce serveur pour ouvrir les liens :
-[Statuses]
-
-[Post Miranda statuses to Wall]
-Poster les statuts de Miranda sur le mur
-[Turn off chat on Facebook when going to offline in Miranda]
-
-[Map unsupported statuses to Invisible (instead of Away)]
-
-[Allow posting statuses to my pages (may slow down login)]
-
-[Advanced]
-Avancé
-[Send typing notifications even when Invisible]
-
-[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
-
-[Bots challenge test]
-
-[Instruction:]
-Instruction :
-[Submit]
-Soumettre
-[Messages]
-Messages
-[Keep messages as unread on server (don't send "seen" info)]
-Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
-[Show stickers as custom smileys (EXPERIMENTAL)]
-
-[Multi user chats]
-
-[Enable multi user chats support]
+[Group chats]
+Groupe chats
+[Enable group chats]
 
 [Do not open chat windows on creation]
 
-[Automatically join active chats that exist in contact list]
-
-[History synchronization]
-
-[Load last messages on opening message window (EXPERIMENTAL)]
-
-[Number of messages to load:]
-
-[Facebook Login Approval]
-
-[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
-
-[Send SMS]
-Envoyer SMS
-;file \protocols\FacebookRM\src\captcha.cpp
-[Enter the text you see]
-
-;file \protocols\FacebookRM\src\chat.cpp
-[&Invite user...]
-&Inviter l'utilisateur...
-[E&xit chat session]
-
-[&Destroy chat session]
-
-[User &details]
-&Détails du contact
-[User &history]
-
-[Delete conversation]
-
-[This will permanently delete the conversation history]
-
-[Former]
-
-[Myself]
-
-[Friend]
-
-[User]
-Utilisateur
-[Notifications]
-Notifications
-[%s and more (%d)]
-
-;file \protocols\FacebookRM\src\communication.cpp
-[Login error: %s]
-
-[Unknown error]
-Erreur inconnue
-[Login error: Invalid request.]
-
-[You entered too many invalid verification codes. Plugin will disconnect.]
-
-[You entered wrong verification code. Try it again.]
-
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-
-[Check last login]
-
-[Do you recognize this activity?]
-
-[Login error: You need to confirm last unknown login or revoke it from web browser.]
-
-[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
-
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-
-[Login error, probably bad login credentials.]
-
-[Could not load communication token. You should report this and wait for plugin update.]
-
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-
-[Contact doesn't have required data in database.]
-
-[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-
-[User cancel captcha challenge.]
-
-[Timeout when sending message.]
-
-[Status update was successful.]
-Mise à jour du statut avec succès.
-[Error occurred when requesting verification SMS code.]
-
-[Verification SMS code was sent to your mobile phone.]
-
-;file \protocols\FacebookRM\src\connection.cpp
-[Please enter a username.]
-Veuillez entrer un nom d'utilisateur.
-[Please enter a password.]
-S'il vous plaît entrer un mot de passe.
-;file \protocols\FacebookRM\src\contacts.cpp
-[Contact was removed from your server list.]
-Le contact a été supprimé de votre liste sur le serveur.
-[Error occurred when removing contact from server.]
-
-[Request for friendship was sent.]
-
-[Error occurred when requesting friendship.]
-
-[Request for friendship was accepted.]
-
-[Error occurred when accepting friendship request.]
-
-[Request for friendship was canceled.]
-
-[Error occurred when canceling friendship request.]
-
-[Request for friendship was ignored.]
-
-[Error occurred when ignoring friendship request.]
-
-;file \protocols\FacebookRM\src\dialogs.cpp
-[Top News]
-
-[Most Recent]
-
-[Pages]
-
-[Classic website]
-Site internet classique
-[Mobile website]
-Site internet Mobile
-[Smartphone website]
-Site internet Mobile
-[Public]
-Public
-[Friends of friends]
-
-[Friends]
-
-[Friends except acquaintances]
-
-[Only me]
-
-[Default]
-Défaut
-[<< Contacts]
-
-[What's on your mind, %s?]
-
-;file \protocols\FacebookRM\src\json.cpp
-[a sticker]
-un autocollant
-[a GIF]
-
-[a link]
-
-[files]
-Fichiers
-[a file]
-un fichier
-[User sent %s:]
-
-[User sent an unsupported attachment. Open your browser to see it.]
-
-[Reaction]
-
-[%s is typing a message...]
-%s vous écrit un message...
-;file \protocols\FacebookRM\src\messages.cpp
-[You cannot send messages when you are offline.]
-Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
-;file \protocols\FacebookRM\src\process.cpp
-[Contact is back on server-list.]
-
-[Contact is no longer on server-list.]
-Le contact n'est plus sur la liste du serveur.
-[Loading history started.]
-
-[Loading messages: %d/%d]
-
-[Loading history completed.]
-
-[<attachment without text>]
-
-[Loading memories...]
-
-[On this day]
-
-[Found %d memories.]
-
-[Loading notifications...]
-
-[Found %d notifications.]
-
-[Loading friendship requests...]
-
-[Found %d friendship requests (%d seen).]
-
-[Found %d friendship requests.]
-
-[Loading wall posts...]
-
-[Found %d wall posts.]
-
-;file \protocols\FacebookRM\src\proto.cpp
-[%s server connection]
-%s serveur connexion
-[Unable to initialize Netlib for %s.]
-
-[Video call]
-
-[Facebook ID must be numeric value.]
-
+[Send group chat invitation]
+Envoyer des invitations de groupe de chat
+[&Invite]
+&Inviter
+[Cancel]
+Annuler
+;file \protocols\Facebook\src\groupchats.cpp
+[&Invite a user]
+
+[&Leave/destroy chat]
+
+[&Kick user]
+
+;file \protocols\Facebook\src\options.cpp
 [Network]
 Réseau
 [Account]
 Compte
-[Events]
-Évènements
-[Messaging]
-Envoi de message
-[Share status...]
-Partager le statut
-[Own wall]
+;file \protocols\Facebook\src\proto.cpp
+[%s server connection]
+%s serveur connexion
+[Protocol is offline or user isn't authorized yet]
 
-[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+;file \protocols\Facebook\src\server.cpp
+[Participant]
 
-[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
+[Sticker received]
 
-[Do you want to cancel your friendship with '%s'?]
+[SmileyAdd plugin required to support stickers]
 
-[Client errors]
+[URL]
+Lien
+[Title]
 
-[Wall posts]
+[Source]
 
-[Other events]
-Autres événements
-[Friendship events]
+[Description]
 
-[Real-time friends activity]
-
-[Memories]
-
-[Visit profile]
-Visiter le profil
-[Visit notifications]
-
-[Show 'Share status' window]
-
-[Notification]
-
-[Newsfeed event]
-
-[Other event]
-Autre événement
-[Friendship event]
-
-[Ticker event]
-
-[Message read: %s by %s]
-
-[Message read: %s]
-Message lu : %s
-;file \protocols\FacebookRM\src\theme.cpp
-[Facebook icon]
-
-[Mind]
-
-[Poke]
-Poke
-[Newsfeed]
-
-[Friendship details]
-
-[Conversation]
-Conversation
-[Message read]
-
-[Angry]
-Grrr
-[Haha]
-Haha
-[Like]
-J'aime
-[Love]
-J'adore
-[Sad]
-Triste
-[Wow]
-Wouah
-[Visit friendship details]
-Voir les détails
-[Visit conversation]
-
-[Load history]
-
-[Cancel friendship request]
-
-[Deny friendship request]
-
-[Services...]
-Services...
-[Check friendship requests]
-
-[Check newsfeeds]
-
-[Check memories]
-
-[Check notifications]
+[Playable media]
 

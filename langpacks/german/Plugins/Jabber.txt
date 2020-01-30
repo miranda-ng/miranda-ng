@@ -76,8 +76,6 @@ Host:
 Verbindung aufrechterhalten
 [Automatically delete contacts not in my roster]
 Kontakte außerhalb meiner Kontaktliste automatisch löschen
-[User directory:]
-Benutzerverzeichnis:
 [Language for human-readable resources:]
 Sprache für menschenlesbare Dialoge:
 [File Transfer]
@@ -86,8 +84,6 @@ Dateiübertragungen
 Dateitransfer durch Direktverbindung der Clients aktivieren
 [Specify external address:]
 Externe Adresse angeben:
-[Allow file sending through bytestream proxy server:]
-Dateitransfer über Bytestream-Proxyserver erlauben:
 [Miscellaneous]
 Sonstiges
 [Hint:]
@@ -544,14 +540,14 @@ Besucher
 Teilnehmer
 [Moderator]
 Moderator
-[Owners]
-Besitzer
-[Moderators]
-Moderatoren
-[Participants]
-Teilnehmer
 [Visitors]
 Besucher
+[Participants]
+Teilnehmer
+[Moderators]
+Moderatoren
+[Owners]
+Besitzer
 [User %s is now banned.]
 
 [User %s changed status to %s with message: %s]
@@ -730,6 +726,8 @@ Zu Lesezeichen hinzufügen
 Suchverzeichnis hinzufügen
 [Use this proxy]
 Diesen Proxyserver benutzen
+[Use for uploads]
+
 [Commands...]
 Befehle...
 [Logon]
@@ -911,8 +909,6 @@ HTTP-Authentifizierungsanfrage empfangen
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Jabber-Kontenauswahl
-[Convert]
-Umwandeln
 [Add to Bookmarks]
 Als Lesezeichen speichern
 [Commands]
@@ -927,10 +923,6 @@ Jabberstandort
 Zuletzt aktiv
 [Server's Choice]
 Serverauswahl
-[&Convert to Contact]
-In Kontakt umwandeln
-[&Convert to Chat Room]
-In Konferenzraum umwandeln
 [Services...]
 Dienste...
 [Registered Transports]
@@ -1781,7 +1773,7 @@ Software
 Version
 [System]
 System
-[<currenty online>]
+[<currently online>]
 
 [Last activity]
 Letzte Aktivität
@@ -1811,8 +1803,6 @@ an
 von
 [none]
 keine
-[<currently online>]
-
 [Last logoff time]
 Zuletzt abgemeldet
 [Uptime]

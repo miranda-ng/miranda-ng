@@ -8,6 +8,7 @@
 [Create reports in subfolders naming as current date]
 [Use classic dates]
 [* You need to restart Miranda NG to apply changes]
+[Display popups about successful actions]
 [View]
 [Version Info stored into file %s]
 [Version Info file %s is inaccessible]

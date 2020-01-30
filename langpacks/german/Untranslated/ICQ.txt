@@ -1,0 +1,3 @@
+[Edit server groups]
+[Enter new group name]
+[Buddy addition failed]

@@ -1,6 +1,5 @@
 [Use JSON format for export]
 [Miranda database contains %d events]
-[Failed to open file]
 [History was saved successfully in file\r\n]
 [Max line width must be at least %d. Or use 0 for no limit.]
 [Miranda NG (Message Export Plugin)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.1
+;  Version: 0.6.2.2
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -27,6 +27,10 @@ Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 [Nick:]
 Přezdívka:
 ;file \protocols\Discord\src\dispatch.cpp
+[Incoming call]
+Příchozí hovor
+[Call ended, %d seconds long]
+
 [edited at]
 
 ;file \protocols\Discord\src\groupchat.cpp
@@ -53,6 +57,10 @@ Změ&nit přezdívku
 Hlavní ikona
 [Group chats]
 Skupinové rozhovory
+[Call]
+Volat
+[Call ended]
+Hovor ukončen
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 
@@ -93,6 +101,10 @@ Identifikátor
 [Protocol is offline or user isn't authorized yet]
 
 ;file \protocols\Discord\src\utils.cpp
+[Owners]
+Vlastníci
+[Participants]
+Účastníci
 [Attachment]
 
 [Embed]

@@ -189,6 +189,8 @@ Všechny soubory
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 
+[Miranda NG database/mContacts]
+Databáze Mirandy NG/mContacts
 [JSON file]
 
 ;file \plugins\Import\src\utils.cpp

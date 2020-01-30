@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
@@ -42,16 +42,6 @@
 
 [Alerts on folders access]
 
-[Log files and folders in UNC format]
-
-[Alert files && folders in UNC format]
-
-[Log computer name with username]
-
-[Alert computer name with username]
-
-[Disabled options will be available in the next version]
-
 [Show current connections]
 
 ;file \plugins\WhoUsesMyFiles\src\options.cpp
@@ -59,8 +49,6 @@
 
 [Error]
 Грешка
-[Not implemented yet...]
-
 [Who uses my files]
 
 [Services]

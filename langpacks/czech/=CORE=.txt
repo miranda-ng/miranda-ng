@@ -1110,6 +1110,10 @@ Zobrazit přezdívku podkontaktu
 Zobrazit nastavené jméno podkontaktu
 [Lock name to first contact]
 Použít jméno prvního kontaktu
+[Choose needed logger from listed below:]
+
+[Enable custom log controls in group chats]
+
 [Current language:]
 Zvolený jazyk:
 [Last modified using:]
@@ -1148,6 +1152,8 @@ Zpráva o zařazení mezi kontakty
 O programu Miranda NG
 [Credits >]
 Poděkování >
+[Hidden window]
+
 [Tray]
 Oznamovací oblast
 [&Hide/Show]
@@ -1440,12 +1446,6 @@ Zablikat oknem při přijetí zprávy
 Zablikat oknem při zvýraznění slova
 [Show list of users in the chat room]
 Zobrazit seznam uživatelů v místnosti
-[Show button for sending messages]
-Zobrazit tlačítko pro odesílání zpráv
-[Show buttons for controlling the chat room]
-Zobrazit tlačítka řízení pravidel místnosti
-[Show buttons for formatting the text you are typing]
-Zobrazit tlačítka pro formátování textu při psaní
 [Show button menus when right clicking the buttons]
 Zobrazit kontextové menu u tlačítek
 [Show the topic of the room on your contact list (if supported)]
@@ -1662,19 +1662,6 @@ Záznam diskuse
 Diskuse
 [Popups]
 Oznámení
-;file \src\core\stdmsg\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: kanál (účastníků: %u)
-[%s: chat room (%u users)]
-%s: kanál (účastníků: %u)
-[%s: message session]
-%s: rozhovor
-[%s: message session (%u users)]
-%s: rozhovor (účastníků: %u)
-[Nickname]
-Přezdívka
-[Unique ID]
-Identifikátor
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
@@ -1684,12 +1671,20 @@ Příchozí zpráva (10x10)
 [Outgoing message (10x10)]
 Odchozí zpráva (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[Last message received on %s at %s.]
-Poslední zpráva přijata %s v %s.
-[Message session]
-Rozhovor
 [%s is typing a message...]
 %s píše zprávu...
+[Last message received on %s at %s.]
+Poslední zpráva přijata %s v %s.
+[%s: chat room (%u user)]
+%s: kanál (účastníků: %u)
+[%s: chat room (%u users)]
+%s: kanál (účastníků: %u)
+[%s: message session]
+%s: rozhovor
+[%s: message session (%u users)]
+%s: rozhovor (účastníků: %u)
+[Message session]
+Rozhovor
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 Já
@@ -1791,7 +1786,6 @@ Neznámá chyba.
 Oznámení jsou zapnuta
 [Popups are disabled]
 Oznámení jsou vypnuta
-;file \src\core\stdpopup\src\notify_imp.cpp
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Příklad
@@ -2529,7 +2523,7 @@ Nelze zapsat přezdívku kontaktu do metakontaktu
 <kořenová skupina>
 [&Move to group]
 Přesunout do s&kupiny
-;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 Výchozí záznam pro Netlib
 [No times]
@@ -2546,7 +2540,7 @@ Záznam jádra Mirandy
 Zadejte požadovaný soubor pro záznam
 [Select program to be run]
 Vyberte požadovaný program
-;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 <různé>
 [<All connections>]
@@ -2794,6 +2788,13 @@ Soubory WAV
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[Nickname]
+Přezdívka
+[Unique ID]
+Identifikátor
+;file \src\mir_app\src\srmm_log.cpp
+[Log viewer]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <oddělovač>

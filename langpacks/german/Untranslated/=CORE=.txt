@@ -1,0 +1,4 @@
+[Choose needed logger from listed below:]
+[Enable custom log controls in group chats]
+[Hidden window]
+[Log viewer]

@@ -2,12 +2,14 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.5
+;  Version: 0.95.11.7
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 ICQ-Protokollunterstützung für Miranda NG.
 ;file \protocols\ICQ-WIM\res\resources.rc
+[Edit server groups]
+
 [UIN/e-mail:]
 UIN/E-Mail:
 [Password:]
@@ -87,6 +89,14 @@ Sie haben %d ungelesene E-Mails
 %s Serververbindung
 [Synchronize server groups]
 Servergruppen synchronisieren
+[Name]
+Name
+[Rename]
+Umbenennen
+[Delete]
+Löschen
+[Enter new group name]
+
 [UIN/e-mail/phone]
 UIN/E-Mail/Telefon
 ;file \protocols\ICQ-WIM\src\server.cpp
@@ -106,3 +116,5 @@ Mitglied
 Unbekannter Sticker
 [User sent a sticker:]
 Benutzer hat einen Sticker gesendet:
+[Buddy addition failed]
+

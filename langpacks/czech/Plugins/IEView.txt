@@ -89,15 +89,6 @@ Odchozí přenos souboru
 
 [Group Off]
 
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[%s has joined.]
-Příchod: %s
-[%s has left.]
-Odchod: %s
-[The topic is %s.]
-Téma: %s
-[Error]
-Chyba
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 Výchozí

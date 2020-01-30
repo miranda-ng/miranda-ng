@@ -162,7 +162,7 @@ Nouveau compte
 &Importer...
 ;file \plugins\Import\src\miranda.cpp
 [Miranda NG database]
-Profil Miranda-IM
+Profil Miranda-NG
 [The given file does not exist. Please check that you have entered the name correctly.]
 Le fichier donné n'existe pas. Veuillez vérifier que vous avez entré correctement le nom.
 [Miranda Import]
@@ -189,6 +189,8 @@ Tous les fichiers
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 
+[Miranda NG database/mContacts]
+Profil Miranda-NG/mContacts
 [JSON file]
 
 ;file \plugins\Import\src\utils.cpp

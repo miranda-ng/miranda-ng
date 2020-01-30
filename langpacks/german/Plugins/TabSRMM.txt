@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -186,10 +186,6 @@ Abbrechen
 Alle Modi
 [Choose modes]
 Wähle Modi
-[Message log view mode (does not affect open windows)]
-Nachrichtenverlauf ansehen (hat keinen Effekt auf geöffnete Fenster)
-[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Hier können Sie die Darstellungsart des Verlaufes festlegen, falls mehrere Plugins dazu zu Verfügung stehen.
 [Send text formatting method]
 Formatierungsinformationen senden
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
@@ -198,14 +194,14 @@ Die globale Einstellung kann hier überschrieben werden. "Niemals" unterbindet T
 Infobereichsmodus
 [Show avatar in message window]
 Avatar im Nachrichtenfenster anzeigen
-[Use private splitter position]
-Private Splitterposition verwenden
-[Contact is a favorite contact]
-Kontakt in der Liste der Favoriten
 [Ignore sending timeouts]
 Zeitüberschreitungen ignorieren
 [Load only actual history]
 Lade nur aktuellen Nachrichtenverlauf
+[Use private splitter position]
+Private Splitterposition verwenden
+[Contact is a favorite contact]
+Kontakt in der Liste der Favoriten
 [Always trim message log to]
 Neue Nachrichten begrenzen auf
 [events]
@@ -342,8 +338,6 @@ Lade Anzahl vorheriger Ereignisse
 Lade Ereignisse, die nicht älter als
 [minutes old]
 Minuten alt
-[Global message log display]
-Globale Nachrichtenverlauf-Darstellung
 [Typing notification options]
 Tippbenachrichtigungseinstellungen
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -716,8 +710,6 @@ Alle Mehrfach-Senden-Liste Aufgaben abbrechen
 Nachricht in Zwischenablage kopieren
 [&File]
 &Datei
-[Save message log as...]
-Verlauf speichern als...
 [Close message session\tCtrl+W]
 Sitzung schließen\tStrg+W
 [Close container\tAlt+F4]
@@ -944,66 +936,6 @@ Protokoll
 Lokale Kontaktzeit
 [Window caption (skinned mode)]
 Fenstertitel (wenn Skin verwendet)
-[Open new chat rooms in the default container]
-Neue Chaträume im Standardcontainer öffnen
-[Flash window when someone speaks]
-Fenster blinkt, wenn jemand schreibt
-[Flash window when a word is highlighted]
-Fenster blinkt, wenn Wort hervorgehoben wird
-[Create tabs or windows for highlight events]
-Tabs oder Fenster bei Hervorhebung aktivieren
-[Activate chat window on highlight]
-Chatfenster bei Hervorhebung aktivieren
-[Show list of users in the chat room]
-Benutzerliste im Chatfenster anzeigen
-[Colorize nicknames in member list]
-Nicknamen in der Nickliste färben
-[Show button menus when right clicking the buttons]
-Buttonmenü bei Rechtsklick auf Button anzeigen
-[Show topic as status message on the contact list]
-Thema als Statusnachricht in der Kontaktliste anzeigen
-[Do not pop up the window when joining a chat room]
-Fenster beim Betreten eines Chatraumes nicht automatisch erzeugen
-[Sync splitter position with standard IM sessions]
-Splitterposition mit Standard-Nachrichtensitzungen synchronisieren
-[Show contact's status modes if supported by the protocol]
-Kontaktstatus anzeigen, falls das Protokoll dies unterstützt
-[Display contact's status icon before user role icon]
-Statusicon vor dem Rollen-/Rangicon des Kontakts anzeigen
-[Use IRC style status indicators in the nick list]
-IRC-ähnliche Statusanzeigen in der Nickliste verwenden
-[Use alternative sorting method in member list]
-Alternative Sortierung in der Nickliste verwenden
-[Prefix all events with a timestamp]
-Zeitstempel bei allen Ereignissen als Präfix
-[Timestamp only when event time differs]
-Zeitstempel nur wenn Ereignis-Zeit abweicht
-[Timestamp has same color as the event]
-Zeitstempel hat die selbe Farbe wie das Ereignis
-[Indent the second line of a message]
-Zweite Zeile einer Nachricht einziehen
-[Limit user names in the message log to 20 characters]
-Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
-[Add a colon (:) to auto-completed user names]
-Doppelpunkt (:) zu automatisch vervollständigten Benutzernamen hinzufügen
-[Add a comma instead of a colon to auto-completed user names]
-Komma anstelle eines Doppelpunktes zu automatisch vervollständigten Benutzernamen hinzufügen
-[Start private conversation on double click in nick list (insert nick if unchecked)]
-Private Unterhaltung bei Doppelklick in Nickliste starten (fügt sonst Nick ein)
-[Strip colors from messages in the log]
-Farben aus Nachrichten im Verlauf entfernen
-[Enable the 'event filter' for new rooms]
-'Ereignis-Filter' für neue Räume aktivieren
-[Use IRC style status indicators in the log]
-IRC-ähnliche Statusanzeigen im Verlauf verwenden
-[Allow clickable user names in the message log]
-Nicknamen im Nachrichtenverlauf in anklickbare Hyperlinks umwandeln
-[Add new line after names]
-Neue Zeile nach Namen einfügen
-[Colorize user names in message log]
-Nutzernamen im Nachrichtenverlauf färben
-[Scale down icons to 10x10 pixels in the chat log]
-Icons auf 10 x 10 Pixel im Verlauf verkleinern
 [Window Icon]
 Fenstericon
 [Icon overlay]
@@ -1080,6 +1012,66 @@ Gruppenchat-Verlaufshintergrund
 Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
 Aussehen des Verlaufsfensters
+[Open new chat rooms in the default container]
+Neue Chaträume im Standardcontainer öffnen
+[Flash window when someone speaks]
+Fenster blinkt, wenn jemand schreibt
+[Flash window when a word is highlighted]
+Fenster blinkt, wenn Wort hervorgehoben wird
+[Create tabs or windows for highlight events]
+Tabs oder Fenster bei Hervorhebung aktivieren
+[Activate chat window on highlight]
+Chatfenster bei Hervorhebung aktivieren
+[Show list of users in the chat room]
+Benutzerliste im Chatfenster anzeigen
+[Colorize nicknames in member list]
+Nicknamen in der Nickliste färben
+[Show button menus when right clicking the buttons]
+Buttonmenü bei Rechtsklick auf Button anzeigen
+[Show topic as status message on the contact list]
+Thema als Statusnachricht in der Kontaktliste anzeigen
+[Do not pop up the window when joining a chat room]
+Fenster beim Betreten eines Chatraumes nicht automatisch erzeugen
+[Sync splitter position with standard IM sessions]
+Splitterposition mit Standard-Nachrichtensitzungen synchronisieren
+[Show contact's status modes if supported by the protocol]
+Kontaktstatus anzeigen, falls das Protokoll dies unterstützt
+[Display contact's status icon before user role icon]
+Statusicon vor dem Rollen-/Rangicon des Kontakts anzeigen
+[Use IRC style status indicators in the nick list]
+IRC-ähnliche Statusanzeigen in der Nickliste verwenden
+[Use alternative sorting method in member list]
+Alternative Sortierung in der Nickliste verwenden
+[Prefix all events with a timestamp]
+Zeitstempel bei allen Ereignissen als Präfix
+[Timestamp only when event time differs]
+Zeitstempel nur wenn Ereignis-Zeit abweicht
+[Timestamp has same color as the event]
+Zeitstempel hat die selbe Farbe wie das Ereignis
+[Indent the second line of a message]
+Zweite Zeile einer Nachricht einziehen
+[Limit user names in the message log to 20 characters]
+Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
+[Add a colon (:) to auto-completed user names]
+Doppelpunkt (:) zu automatisch vervollständigten Benutzernamen hinzufügen
+[Add a comma instead of a colon to auto-completed user names]
+Komma anstelle eines Doppelpunktes zu automatisch vervollständigten Benutzernamen hinzufügen
+[Start private conversation on double click in nick list (insert nick if unchecked)]
+Private Unterhaltung bei Doppelklick in Nickliste starten (fügt sonst Nick ein)
+[Strip colors from messages in the log]
+Farben aus Nachrichten im Verlauf entfernen
+[Enable the 'event filter' for new rooms]
+'Ereignis-Filter' für neue Räume aktivieren
+[Use IRC style status indicators in the log]
+IRC-ähnliche Statusanzeigen im Verlauf verwenden
+[Allow clickable user names in the message log]
+Nicknamen im Nachrichtenverlauf in anklickbare Hyperlinks umwandeln
+[Add new line after names]
+Neue Zeile nach Namen einfügen
+[Colorize user names in message log]
+Nutzernamen im Nachrichtenverlauf färben
+[Scale down icons to 10x10 pixels in the chat log]
+Icons auf 10 x 10 Pixel im Verlauf verkleinern
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1151,37 +1143,6 @@ Hervorhebungen
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 %s%s sagt:%s %s
-;file \plugins\TabSRMM\src\chat_window.cpp
-[Expand or collapse the side bar]
-Seitenleiste aus- oder einklappen
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Ihr Filter kann nicht aktiviert werden, weil keine Ereignistypen global oder für diesen Chatraum ausgewählt wurden
-[Event filter error]
-Ereignisfilter-Fehler
-[, %d %s, %d %s idle]
-, %d %s, %d %s untätig
-[hours]
-Stunden
-[hour]
-Stunde
-[minutes]
-Minuten
-[minute]
-Minute
-[, %d %s idle]
-, %d %s untätig
-[%s on %s%s]
-%s in %s%s
-[%s: chat room (%u user%s)]
-%s: Chatraum (%u Benutzer%s)
-[%s: chat room (%u users%s)]
-%s: Chatraum (%u Benutzer%s)
-[, event filter active]
-, Ereignisfilter aktiv
-[%s: message session]
-%s: Nachrichtensitzung
-[%s: message session (%u users)]
-%s: Nachrichtensitzung (%u Benutzer)
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Nachrichtensitzung...
@@ -1237,8 +1198,6 @@ Nicht anzeigen
 ;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 Ben&utzer
-[&Room]
-&Raum
 [Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Klänge sind %s. Klick schaltet Status um, Umschalt+Klick überträgt Status auf alle Container
 [disabled]
@@ -1268,13 +1227,55 @@ Unbekanntes Ereignis
 Neue Nachrichten:\s
 [Unknown module or contact]
 Unbekanntes Modul oder Kontakt
+[Show a preview of the event]
+Vorschau des Ereignisses zeigen
+[Don't announce event when message dialog is open]
+Keine Benachrichtigung, wenn bereits ein Nachrichtenfenster geöffnet ist
+[Don't announce events from RSS protocols]
+Keine Benachrichtigung für Ereignisse von RSS-Protokollen
+[Enable the system tray icon]
+Systemtray-Icon aktivieren
+[Merge new events for the same contact into existing popup]
+Behandle neue Benachrichtigungen für den gleichen Kontakt in einem existierenden Popup
+[Show headers]
+Kopfzeilen anzeigen
+[Dismiss popup]
+Popup schließen
+[Open event]
+Ereignis öffnen
+[Dismiss event]
+Ereignis löschen
+[Disable event notifications for instant messages]
+Benachrichtigungen für Sofortnachrichten deaktivieren
+[Disable event notifications for group chats]
+Benachrichtigungen für Gruppenchats deaktivieren
+[Disable notifications for non-message events]
+Benachrichtigungen für 'Nicht-Nachrichten'-Ereignisse deaktivieren
+[Remove popups for a contact when the message window is focused]
+Entferne Popups für einen Kontakt, wenn das Fenster fokusiert ist
+[Remove popups for a contact when I start typing a reply]
+Entferne Popups für einen Kontakt, wenn ich anfange, eine Nachricht zu tippen
+[Remove popups for a contact when I send a reply]
+Entferne Popups für einen Kontakt, wenn ich eine Antwort sende
+[Disable notifications]
+Benachrichtigungen deaktivieren
+[System tray icon]
+Systemtray-Icon
+[Left click actions (popups only)]
+Linksklick-Aktionen (nur für Popups)
+[Right click actions (popups only)]
+Rechtsklick-Aktionen (nur für Popups)
+[Timeout actions (popups only)]
+Zeitlimit-Aktionen (nur für Popups)
+[Combine notifications for the same contact]
+Kombiniere Benachrichtigungen für die gleichen Kontakte
+[Remove popups under following conditions]
+Entferne Popups unter den folgenden Bedingungen
 [Event notifications]
 Ereignisbenachrichtigungen
 [Popups]
 Popups
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-[Rich Edit file]
-Rich-Edit-Datei
 [No status message]
 Keine Statusnachricht
 [You cannot edit user notes when there are unsent messages]
@@ -1445,6 +1446,8 @@ Füge [img]-Tag ein / Umschließe markierten Text mit [img][/img]
 Kontakt dauerhaft zur Kontaktliste hinzufügen
 [Do not add this contact permanently]
 Kontakt nicht zur Kontaktliste hinzufügen
+[Expand or collapse the side bar]
+Seitenleiste aus- oder einklappen
 [Contact not on list. You may add it...]
 Kontakt ist nicht in Ihrer Liste. Sie können ihn hinzufügen...
 [A message failed to send successfully.]
@@ -1457,14 +1460,12 @@ Klicken Sie auf die Schaltfläche für Kontaktmenü\nKlicken Sie auf das Auswahl
 Wiederholen
 [Send later]
 Später senden
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetails\nRechtsklick fur Einstellungen von Metakontakte\nKlick auf das Auswahlfeld, um Benutzer hinzuzufugen oder zu entfernen.
-[No UID]
-Keine UID
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick für Benutzerdetails\nKlick auf das Auswahlfeld, um die Kontakteinstellung des Favoriten zu ändern.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+Ihr Filter kann nicht aktiviert werden, weil keine Ereignistypen global oder für diesen Chatraum ausgewählt wurden
+[Event filter error]
+Ereignisfilter-Fehler
 [Selection copied to clipboard]
 Auswahl in die Zwischenablage kopiert
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1477,7 +1478,15 @@ Zustellungsfehler: %s
 Zeitüberschreitung beim Versenden einer Nachricht
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakt ist offline, und das Protokoll unterstützt keine Datenübertragung zu Leuten, die offline sind.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
+;file \plugins\TabSRMM\src\msgdlgother.cpp
+['(Unknown contact)']
+(Unbekannter Kontakt)
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
+Die 'einfügen und senden'-Funktion ist deaktiviert. Sie können diese unter 'Allgemein' auf der Optionsseite 'Nachrichtenversand'-Sektion aktivieren.
+[Set your avatar...]
+Setzen Sie Ihr Avatar...
+[A message delivery has failed.\nClick to open the message window.]
+Eine Nachricht konnte nicht zugestellt werden.\nKlicken Sie hier, um das Nachrichtenfenster zu öffnen.
 [Error creating destination directory]
 Fehler beim Erstellen des Zielverzeichnisses
 [Save contact picture]
@@ -1486,16 +1495,40 @@ Kontaktbild speichern
 Bilddateien
 [The file exists. Do you want to overwrite it?]
 Diese Datei existiert bereits. Wollen Sie diese überschreiben?
-[Set your avatar...]
-Setzen Sie Ihr Avatar...
-[Save and close session]
-Speichern und schließen
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-Die 'einfügen und senden'-Funktion ist deaktiviert. Sie können diese unter 'Allgemein' auf der Optionsseite 'Nachrichtenversand'-Sektion aktivieren.
-['(Unknown contact)']
-(Unbekannter Kontakt)
 [JPEG-compressed images]
 JPEG-komprimierte Bilder
+[Save and close session]
+Speichern und schließen
+[, %d %s, %d %s idle]
+, %d %s, %d %s untätig
+[hours]
+Stunden
+[hour]
+Stunde
+[minutes]
+Minuten
+[minute]
+Minute
+[, %d %s idle]
+, %d %s untätig
+[%s on %s%s]
+%s in %s%s
+[%s: chat room (%u user%s)]
+%s: Chatraum (%u Benutzer%s)
+[%s: chat room (%u users%s)]
+%s: Chatraum (%u Benutzer%s)
+[, event filter active]
+, Ereignisfilter aktiv
+[%s: message session]
+%s: Nachrichtensitzung
+[%s: message session (%u users)]
+%s: Nachrichtensitzung (%u Benutzer)
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetails\nRechtsklick fur Einstellungen von Metakontakte\nKlick auf das Auswahlfeld, um Benutzer hinzuzufugen oder zu entfernen.
+[No UID]
+Keine UID
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick für Benutzerdetails\nKlick auf das Auswahlfeld, um die Kontakteinstellung des Favoriten zu ändern.
 ;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 Thailändisch
@@ -1578,14 +1611,72 @@ Gestern
 Wollen Sie bereits gelesene Nachrichten-Vorlagen aus dem Theme laden?\nAchtung: Dies wird das gespeicherte Template-Set, das das Aussehen Ihres Meldungsfenster beeinflusst erheblich beeinträchtigen und könnte überschrieben werden.\nWählen Sie Abbrechen, um nichts zu laden.
 [Load theme]
 Theme laden
-[Internal message log]
-Interner Nachrichtenverlauf
-[IEView plugin]
-IEView-Plugin
-[History++ plugin]
-History++-Plugin
-[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Sie haben sich entschieden, ein externes Plugin fur die Darstellung des Nachrichtenverlaufs im Chatfenster zu nutzen. Die meisten Einstellungen auf dieser Seite sind fur die Standartverlaufsansicht gedacht und haben daher keine Auswirkungen. Um das Erscheinungsbild zu verandern, mussen Sie IEView oder History++ konfigurieren.
+[Message window behavior]
+Verhalten des Nachrichtenfensters
+[Sending messages]
+Nachrichten senden
+[Send on Shift+Enter]
+Umschalt+Enter sendet Nachricht
+[Send message on 'Enter']
+'Enter' sendet Nachricht
+[Send message on double 'Enter']
+2-mal Enter sendet Nachricht
+[Minimize the message window on send]
+Nachrichtenfenster beim Senden minimieren
+[Close the message window on send]
+Nachrichtenfenster beim Senden schließen
+[Always flash contact list and tray icon for new messages]
+Neue Nachrichten immer auf der Kontaktliste und im Tray blinken lassen
+[Delete temporary contacts on close]
+Temporäre Kontakte beim Schließen löschen
+[Enable "Paste and send" feature]
+"Einfügen und Senden" Funktion aktivieren
+[Allow BBCode formatting in outgoing messages]
+BBCode-Formatierung in ausgehenden Nachrichten erlauben
+[Automatically split long messages (experimental, use with care)]
+Lange Nachrichten automatisch trennen (experimentell, Vorsicht)
+[Log status changes]
+Statuswechsel aufzeichnen
+[Use the same splitter height for all sessions]
+
+[Automatically copy selected text]
+Markierten Text automatisch kopieren
+[Message log appearance]
+Verlaufseinstellungen
+[Support for external plugins]
+Unterstützung für externe Plugins
+[Timestamp settings (note: timestamps also depend on your templates)]
+Zeitstempel-Einstellungen (Hinweis: ist auch von der verwendeten Vorlage abhängig)
+[Message log icons]
+Icons im Nachrichtenverlauf
+[Show dates in timestamps]
+Datum im Zeitstempel anzeigen
+[Show seconds in timestamps]
+Sekunden im Zeitstempel anzeigen
+[Use contacts local time (if timezone info available)]
+Lokale Kontaktzeit verwenden (falls Zeitzone bekannt)
+[Draw grid lines]
+Gitterlinien zeigen
+[Use incoming/outgoing icons]
+Verschiedene Icons für ein- und ausgehende Nachrichten
+[Use message grouping]
+Nachrichten gruppieren
+[Simple text formatting (*bold*, etc.)]
+Einfache Textformatierung (*fett* etc.)
+[Support BBCode formatting]
+BBCode-Formatierung verwenden
+[Place a separator in the log after a window lost its foreground status]
+Einen Abstandshalter im Verlauf platzieren, wenn ein Fenster den Fokus verliert
+[Only place a separator when an incoming event is announced with a popup]
+Abstandshalter nur dann platzieren wenn eingehendes Ereignis mit einem Popup angekündigt wird
+[Show events at the new line (IEView Compatibility Mode)]
+Ereignisse in einer neuen Zeile anzeigen (IEView-Kompatibilitätsmodus)
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+Zeitstempel/Nicknamen unterstreichen (IEView-Kompatibilitätsmodus)
+[Show timestamp after nickname (IEView Compatibility Mode)]
+Zeitstempel nach Nicknamen anzeigen (IEView-Kompatibilitätsmodus)
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Verwende normale Vorlagen (deaktivieren für einfache Vorlagen, falls unterstützt)
 [** New contacts **]
 ** Neue Kontakte **
 [** Unknown contacts **]
@@ -1596,6 +1687,30 @@ Immer
 Immer, außer wenn Nachrichtenfenster fokussiert ist
 [Only when no message window is open]
 Nur, wenn kein Nachrichtenfenster geöffnet ist
+[How to create tabs and windows for incoming messages]
+Erzeugen von Tabs und Fenstern für eintreffende Nachrichten
+[Show status text on tabs]
+Statustext auf den Tabs
+[Prefer xStatus icons when available]
+xStatus-Icon bevorzugen, wenn vorhanden
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Detaillierte Tooltips auf Tabs (erfordert Tipper-Plugin)
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+Fenster IMMER automatisch öffnen und auf den Desktop bringen (hat HÖCHSTE Priorität!)
+[Automatically create new message sessions without activating them]
+Erzeuge automatisch neue Nachrichtensitzungen ohne vorherige Aktivierung
+[New windows are minimized (the option above MUST be active)]
+Neue Fenster minimiert erzeugen (die Option darüber MUSS aktiviert sein!)
+[Activate a minimized window when a new tab is created inside it]
+Minimierte Fenster in Vordergrund bringen, wenn ein neuer Tab erzeugt wird
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Automatisch zu existierenden Tabs in minimierten Fenstern bei eingehenden Nachrichten wechseln (ignoriert, wenn Aero Peek Taskleisten-Funktionen benutzt wird)
+[Close button only hides message windows]
+"Schließen"-Schaltfläche versteckt nur das Nachrichtenfenster
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Tab-Taste im Eingabefeld erlauben (dies deakiviert Fokus-Auswahl durch Tab-Taste)
+[Add offline contacts to multisend list]
+Offline-Kontakte zur Mehrfach-Senden-Liste hinzufügen
 [Normal - close tab, if last tab is closed also close the window]
 Normal - Schließt Tabs; schließt das Fenster, wenn der letzte Tab geschlossen wird
 [Minimize the window to the task bar]
@@ -1604,6 +1719,24 @@ Minimiert das Fenster in die Taskleiste
 Schließe oder verstecke Fenster abhängig vom obigen Schließverhalten
 [Do nothing (ignore Esc key)]
 Nichts machen (Esc-Taske ignorieren)
+[Message window tweaks]
+Nachrichtenfenster-Tweaks
+[Display metacontact icons]
+Metakontact-Icon anzeigen
+[Error feedback]
+Fehlermeldung
+[Close current tab on send]
+Aktuellen Tab nach dem Senden schließen
+[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+Unbeaufsichtigtes Senden aktivieren (experimentell, benötigt für multisend und 'später senden' (*)
+[Show client description in info panel]
+Client-Beschreibung im Infobereich anzeigen
+[On tab control]
+Auf der Tableiste
+[On the button bar]
+Auf der Werkzeugleiste
+[Disable error popups on sending failures]
+Fehler-Popups bei Sendefehlern deaktivieren
 [Choose status modes]
 Wähle Statusmodi
 [General]
@@ -1623,8 +1756,6 @@ Laden und Übernehmen
 [Window layout tweaks]
 Fenster-Anordnung
 ;file \plugins\TabSRMM\src\msgs.cpp
-[A message delivery has failed.\nClick to open the message window.]
-Eine Nachricht konnte nicht zugestellt werden.\nKlicken Sie hier, um das Nachrichtenfenster zu öffnen.
 [Message Log Options]
 Verlaufseinstellungen
 [Image tag]
@@ -1821,157 +1952,6 @@ Benutzerdefiniert (benutze eigenen Farbverl.)
 Alle Nachrichtenfenster müssen geschlossen werden, damit der Skin geändert werden kann.\nFortsetzen?
 [Change skin]
 Skin ändern
-;file \plugins\TabSRMM\src\translator.cpp
-[Message window tweaks]
-Nachrichtenfenster-Tweaks
-[Display metacontact icons]
-Metakontact-Icon anzeigen
-[Error feedback]
-Fehlermeldung
-[Close current tab on send]
-Aktuellen Tab nach dem Senden schließen
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Unbeaufsichtigtes Senden aktivieren (experimentell, benötigt für multisend und 'später senden' (*)
-[Show client description in info panel]
-Client-Beschreibung im Infobereich anzeigen
-[On tab control]
-Auf der Tableiste
-[On the button bar]
-Auf der Werkzeugleiste
-[Disable error popups on sending failures]
-Fehler-Popups bei Sendefehlern deaktivieren
-[Show a preview of the event]
-Vorschau des Ereignisses zeigen
-[Don't announce event when message dialog is open]
-Keine Benachrichtigung, wenn bereits ein Nachrichtenfenster geöffnet ist
-[Don't announce events from RSS protocols]
-Keine Benachrichtigung für Ereignisse von RSS-Protokollen
-[Enable the system tray icon]
-Systemtray-Icon aktivieren
-[Merge new events for the same contact into existing popup]
-Behandle neue Benachrichtigungen für den gleichen Kontakt in einem existierenden Popup
-[Show headers]
-Kopfzeilen anzeigen
-[Dismiss popup]
-Popup schließen
-[Open event]
-Ereignis öffnen
-[Dismiss event]
-Ereignis löschen
-[Disable event notifications for instant messages]
-Benachrichtigungen für Sofortnachrichten deaktivieren
-[Disable event notifications for group chats]
-Benachrichtigungen für Gruppenchats deaktivieren
-[Disable notifications for non-message events]
-Benachrichtigungen für 'Nicht-Nachrichten'-Ereignisse deaktivieren
-[Remove popups for a contact when the message window is focused]
-Entferne Popups für einen Kontakt, wenn das Fenster fokusiert ist
-[Remove popups for a contact when I start typing a reply]
-Entferne Popups für einen Kontakt, wenn ich anfange, eine Nachricht zu tippen
-[Remove popups for a contact when I send a reply]
-Entferne Popups für einen Kontakt, wenn ich eine Antwort sende
-[Disable notifications]
-Benachrichtigungen deaktivieren
-[System tray icon]
-Systemtray-Icon
-[Left click actions (popups only)]
-Linksklick-Aktionen (nur für Popups)
-[Right click actions (popups only)]
-Rechtsklick-Aktionen (nur für Popups)
-[Timeout actions (popups only)]
-Zeitlimit-Aktionen (nur für Popups)
-[Combine notifications for the same contact]
-Kombiniere Benachrichtigungen für die gleichen Kontakte
-[Remove popups under following conditions]
-Entferne Popups unter den folgenden Bedingungen
-[Message window behavior]
-Verhalten des Nachrichtenfensters
-[Sending messages]
-Nachrichten senden
-[Send on Shift+Enter]
-Umschalt+Enter sendet Nachricht
-[Send message on 'Enter']
-'Enter' sendet Nachricht
-[Send message on double 'Enter']
-2-mal Enter sendet Nachricht
-[Minimize the message window on send]
-Nachrichtenfenster beim Senden minimieren
-[Close the message window on send]
-Nachrichtenfenster beim Senden schließen
-[Always flash contact list and tray icon for new messages]
-Neue Nachrichten immer auf der Kontaktliste und im Tray blinken lassen
-[Delete temporary contacts on close]
-Temporäre Kontakte beim Schließen löschen
-[Enable "Paste and send" feature]
-"Einfügen und Senden" Funktion aktivieren
-[Allow BBCode formatting in outgoing messages]
-BBCode-Formatierung in ausgehenden Nachrichten erlauben
-[Automatically split long messages (experimental, use with care)]
-Lange Nachrichten automatisch trennen (experimentell, Vorsicht)
-[Log status changes]
-Statuswechsel aufzeichnen
-[Automatically copy selected text]
-Markierten Text automatisch kopieren
-[Message log appearance]
-Verlaufseinstellungen
-[Support for external plugins]
-Unterstützung für externe Plugins
-[Timestamp settings (note: timestamps also depend on your templates)]
-Zeitstempel-Einstellungen (Hinweis: ist auch von der verwendeten Vorlage abhängig)
-[Message log icons]
-Icons im Nachrichtenverlauf
-[Show dates in timestamps]
-Datum im Zeitstempel anzeigen
-[Show seconds in timestamps]
-Sekunden im Zeitstempel anzeigen
-[Use contacts local time (if timezone info available)]
-Lokale Kontaktzeit verwenden (falls Zeitzone bekannt)
-[Draw grid lines]
-Gitterlinien zeigen
-[Use incoming/outgoing icons]
-Verschiedene Icons für ein- und ausgehende Nachrichten
-[Use message grouping]
-Nachrichten gruppieren
-[Simple text formatting (*bold*, etc.)]
-Einfache Textformatierung (*fett* etc.)
-[Support BBCode formatting]
-BBCode-Formatierung verwenden
-[Place a separator in the log after a window lost its foreground status]
-Einen Abstandshalter im Verlauf platzieren, wenn ein Fenster den Fokus verliert
-[Only place a separator when an incoming event is announced with a popup]
-Abstandshalter nur dann platzieren wenn eingehendes Ereignis mit einem Popup angekündigt wird
-[Show events at the new line (IEView Compatibility Mode)]
-Ereignisse in einer neuen Zeile anzeigen (IEView-Kompatibilitätsmodus)
-[Underline timestamp/nickname (IEView Compatibility Mode)]
-Zeitstempel/Nicknamen unterstreichen (IEView-Kompatibilitätsmodus)
-[Show timestamp after nickname (IEView Compatibility Mode)]
-Zeitstempel nach Nicknamen anzeigen (IEView-Kompatibilitätsmodus)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Verwende normale Vorlagen (deaktivieren für einfache Vorlagen, falls unterstützt)
-[How to create tabs and windows for incoming messages]
-Erzeugen von Tabs und Fenstern für eintreffende Nachrichten
-[Show status text on tabs]
-Statustext auf den Tabs
-[Prefer xStatus icons when available]
-xStatus-Icon bevorzugen, wenn vorhanden
-[Detailed tooltip on tabs (requires Tipper plugin)]
-Detaillierte Tooltips auf Tabs (erfordert Tipper-Plugin)
-[ALWAYS activate new message sessions (has PRIORITY over the options below)]
-Fenster IMMER automatisch öffnen und auf den Desktop bringen (hat HÖCHSTE Priorität!)
-[Automatically create new message sessions without activating them]
-Erzeuge automatisch neue Nachrichtensitzungen ohne vorherige Aktivierung
-[New windows are minimized (the option above MUST be active)]
-Neue Fenster minimiert erzeugen (die Option darüber MUSS aktiviert sein!)
-[Activate a minimized window when a new tab is created inside it]
-Minimierte Fenster in Vordergrund bringen, wenn ein neuer Tab erzeugt wird
-[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Automatisch zu existierenden Tabs in minimierten Fenstern bei eingehenden Nachrichten wechseln (ignoriert, wenn Aero Peek Taskleisten-Funktionen benutzt wird)
-[Close button only hides message windows]
-"Schließen"-Schaltfläche versteckt nur das Nachrichtenfenster
-[Allow Tab key in typing area (this will disable focus selection by Tab key)]
-Tab-Taste im Eingabefeld erlauben (dies deakiviert Fokus-Auswahl durch Tab-Taste)
-[Add offline contacts to multisend list]
-Offline-Kontakte zur Mehrfach-Senden-Liste hinzufügen
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
@@ -1987,12 +1967,6 @@ Kontakt beginnt zu tippen
 [Contact stopped typing]
 Kontakt tippt nicht mehr
 ;file \plugins\TabSRMM\src\userprefs.cpp
-[Force default message log]
-Standardverlauf erzwingen
-[Force History++]
-History++ erzwingen
-[Force IEView]
-IEView erzwingen
 [Set messaging options for %s]
 Nachrichteneinstellungen für %s
 ;file \plugins\TabSRMM\src\utils.cpp

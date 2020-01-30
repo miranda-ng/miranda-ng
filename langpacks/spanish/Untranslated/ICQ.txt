@@ -1,4 +1,5 @@
 [ICQ protocol support for Miranda NG.]
+[Edit server groups]
 [UIN/e-mail:]
 [Sign in/sign up using phone]
 [Do not open chat windows on creation]
@@ -27,6 +28,7 @@
 [You received e-mail from %s: %s]
 [You have %d unread emails]
 [Synchronize server groups]
+[Enter new group name]
 [UIN/e-mail/phone]
 [You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
@@ -36,3 +38,4 @@
 [member]
 [Unknown sticker]
 [User sent a sticker:]
+[Buddy addition failed]

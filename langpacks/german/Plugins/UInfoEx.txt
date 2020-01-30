@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.2
+;  Version: 0.9.0.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -272,18 +272,6 @@ Gruppenmenü
 Untergruppenmenü
 [Account menu]
 Kontenmenü
-[Extra icons]
-Extraicons
-[Replace the following default icons:]
-Folgende Standard-Icons ersetzen:
-[Homepage]
-Homepage
-[Phone]
-Telefon
-[E-mail]
-E-Mail
-[Gender]
-Geschlecht
 [Misc]
 Diverses
 [Show 'Restart' menu item]
@@ -532,12 +520,16 @@ Aktualisieren
 Exportieren
 [Goto]
 Gehe zu
+[Phone]
+Telefon
 [Fax]
 Fax
 [Cellular]
 Mobiltelefon
 [Custom phone]
 Benutzerdef. Telefon
+[E-mail]
+E-Mail
 [Down arrow]
 Pfeil runter
 [Add]
@@ -1084,11 +1076,6 @@ Sen.
 E-Mail senden
 [Memory allocation error!]
 Speicher konnte nicht bereitgestellt werden!
-[E-mail (UInfoEx)]
-E-Mail (UInfoEx)
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (UInfoEx)]
-Geschlecht (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Der Kontakt hat keine gültige Homepage
@@ -1096,11 +1083,6 @@ Der Kontakt hat keine gültige Homepage
 Homepage ansehen
 [&Homepage]
 &Homepage
-[Homepage (UInfoEx)]
-Homepage (UInfoEx)
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (UInfoEx)]
-Telefon (UInfoEx)
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d verbleibende Kontakte

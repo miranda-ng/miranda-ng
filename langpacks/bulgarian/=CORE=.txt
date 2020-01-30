@@ -1110,6 +1110,10 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване на display name на подконтакта
 [Lock name to first contact]
 
+[Choose needed logger from listed below:]
+
+[Enable custom log controls in group chats]
+
 [Current language:]
 Текущ език:
 [Last modified using:]
@@ -1148,6 +1152,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Относно Miranda NG
 [Credits >]
 Заслуги >
+[Hidden window]
+
 [Tray]
 Трей
 [&Hide/Show]
@@ -1440,12 +1446,6 @@ Google Translate
 Мигане на прозореца при отличаване на дума
 [Show list of users in the chat room]
 Списък с потребители в чат стаята
-[Show button for sending messages]
-Показване на бутона за изпращане на съобщение
-[Show buttons for controlling the chat room]
-Показване на бутон за контрол на чат стаята
-[Show buttons for formatting the text you are typing]
-Показване на бутони за форматиране на текста, който въвеждате
 [Show button menus when right clicking the buttons]
 Показване менютата на бутоните при натискане с десен бутон
 [Show the topic of the room on your contact list (if supported)]
@@ -1662,19 +1662,6 @@ Popups за изобразяване
 
 [Popups]
 Рopups
-;file \src\core\stdmsg\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: Чат стая (%u потребител)
-[%s: chat room (%u users)]
-%s: Чат стая (%u потребителя)
-[%s: message session]
-%s: Разговор
-[%s: message session (%u users)]
-%s: Разговор (%u потребителя)
-[Nickname]
-Прякор
-[Unique ID]
-Уникален ID
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 
@@ -1684,12 +1671,20 @@ Popups за изобразяване
 [Outgoing message (10x10)]
 Изходящо съобщение (10х10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[Last message received on %s at %s.]
-Последното съобщение е получено на %s в %s.
-[Message session]
-Разговор
 [%s is typing a message...]
 %s пише съобщение...
+[Last message received on %s at %s.]
+Последното съобщение е получено на %s в %s.
+[%s: chat room (%u user)]
+%s: Чат стая (%u потребител)
+[%s: chat room (%u users)]
+%s: Чат стая (%u потребителя)
+[%s: message session]
+%s: Разговор
+[%s: message session (%u users)]
+%s: Разговор (%u потребителя)
+[Message session]
+Разговор
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 Аз
@@ -1791,7 +1786,6 @@ Popups за изобразяване
 Popups са включени
 [Popups are disabled]
 Popups са изключени
-;file \src\core\stdpopup\src\notify_imp.cpp
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Пример
@@ -2529,7 +2523,7 @@ Win +\s
 <Главна група>
 [&Move to group]
 Преместване в друга група
-;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 
 [No times]
@@ -2546,7 +2540,7 @@ Win +\s
 Изберете къде да бъде създаден дневника
 [Select program to be run]
 Изберете програма за изпълнение
-;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 
 [<All connections>]
@@ -2794,6 +2788,13 @@ WAV файлове
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[Nickname]
+Прякор
+[Unique ID]
+Уникален ID
+;file \src\mir_app\src\srmm_log.cpp
+[Log viewer]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделител>

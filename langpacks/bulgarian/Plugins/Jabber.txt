@@ -76,8 +76,6 @@
 Поддържане на връзката
 [Automatically delete contacts not in my roster]
 Автоизтриване на контакти, които не са в моя списък с хора
-[User directory:]
-Директория на потребителя:
 [Language for human-readable resources:]
 Език за човешките ресурси:
 [File Transfer]
@@ -86,8 +84,6 @@
 Разрешаване изпращането на файлове чрез директна peer-to-peer връзка
 [Specify external address:]
 Въведете външен адрес:
-[Allow file sending through bytestream proxy server:]
-
 [Miscellaneous]
 Разни
 [Hint:]
@@ -544,14 +540,14 @@ Jabber настроение
 Участник
 [Moderator]
 Модератор
-[Owners]
-Собственици
-[Moderators]
-Модератори
-[Participants]
-Участници
 [Visitors]
 Посетители
+[Participants]
+Участници
+[Moderators]
+Модератори
+[Owners]
+Собственици
 [User %s is now banned.]
 
 [User %s changed status to %s with message: %s]
@@ -730,6 +726,8 @@ Jabber грешка
 
 [Use this proxy]
 Ползване на проксито
+[Use for uploads]
+
 [Commands...]
 Команди...
 [Logon]
@@ -911,8 +909,6 @@ RSS услуга
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Избор на Jabber акаунт
-[Convert]
-Превръщане
 [Add to Bookmarks]
 Добавяне в отметките
 [Commands]
@@ -927,10 +923,6 @@ Jabber източник
 Последна активност
 [Server's Choice]
 По избор на сървъра
-[&Convert to Contact]
-Превръщане в контакт
-[&Convert to Chat Room]
-Превръщане в чат стая
 [Services...]
 Услуги...
 [Registered Transports]
@@ -1781,7 +1773,7 @@ XML за MS Excel (кодиран с UTF-8)
 Версия
 [System]
 Система
-[<currenty online>]
+[<currently online>]
 
 [Last activity]
 
@@ -1811,8 +1803,6 @@ XML за MS Excel (кодиран с UTF-8)
 от
 [none]
 няма
-[<currently online>]
-
 [Last logoff time]
 Последно отписване на
 [Uptime]

@@ -1,15 +1,7 @@
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.0.2.1
+;  Authors: Miranda NG Team
 ;============================================================
-[History synchronization]
-History synchronisation
-[Request for friendship was canceled.]
-Request for friendship was cancelled.
-[Error occurred when canceling friendship request.]
-Error occurred when cancelling friendship request.
-[Unable to initialize Netlib for %s.]
-Unable to initialise Netlib for %s.

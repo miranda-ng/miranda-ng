@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.3
+;  Version: 0.2.0.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -54,6 +54,8 @@
 
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
+[Use HTTPS]
+
 [Notifications]
 Абвесткі
 [Restart]
@@ -101,6 +103,18 @@
 [Download]
 Запампаваць
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Component Name]
+Імя кампанента
+[State]
+Стан
+[Plugins]
+Плагіны
+[Icons]
+Абразкі
+[Languages]
+Мовы
+[Other]
+Іншае
 [Downloading...]
 Загрузка...
 [Succeeded.]
@@ -115,18 +129,6 @@
 Загрузка скончана
 [Download complete. Do you want to go to plugins option page?]
 Загрузка завершана. Адчыніць старонку налад?
-[Component Name]
-Імя кампанента
-[State]
-Стан
-[Plugins]
-Плагіны
-[Icons]
-Абразкі
-[Languages]
-Мовы
-[Other]
-Іншае
 [List is empty.]
 Спіс пусты
 [List loading already started!]

@@ -49,6 +49,11 @@ Zbyt wiele błędów!
 Nieprawidłowe hasło!
 [Please type in your password]
 Proszę wprowadzić hasło
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+
+[Error]
+Błąd
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Zmień/Usuń hasło
@@ -59,8 +64,12 @@ Złe stare hasło!
 Hasło jest za krótkie!
 [Passwords do not match!]
 Hasła nie pasują!
+[Database was compacted successfully]
+
 [Database]
 Profil
+[Database compaction failed]
+
 [Logo]
 Logo
 [Compact]

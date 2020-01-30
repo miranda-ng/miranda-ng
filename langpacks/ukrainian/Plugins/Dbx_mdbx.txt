@@ -49,6 +49,11 @@
 Неправильний пароль!
 [Please type in your password]
 Будь ласка, введіть пароль
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+
+[Error]
+Помилка
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Змінити/видалити пароль
@@ -59,8 +64,12 @@
 Пароль занадто короткий!
 [Passwords do not match!]
 Паролі не збігаються!
+[Database was compacted successfully]
+
 [Database]
 База даних
+[Database compaction failed]
+
 [Logo]
 Профіль
 [Compact]

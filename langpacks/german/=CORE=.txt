@@ -1110,6 +1110,10 @@ Unterkontakt-Nicknamen anzeigen
 Unterkontakt-Anzeigenamen anzeigen
 [Lock name to first contact]
 Namen auf ersten Kontakt festlegen
+[Choose needed logger from listed below:]
+
+[Enable custom log controls in group chats]
+
 [Current language:]
 Aktuelle Sprache:
 [Last modified using:]
@@ -1148,6 +1152,8 @@ S&chließen
 Über Miranda NG
 [Credits >]
 Dank an >
+[Hidden window]
+
 [Tray]
 Tray
 [&Hide/Show]
@@ -1440,12 +1446,6 @@ Fenster blinkt, wenn jemand schreibt
 Fenster blinkt, wenn Wort hervorgehoben wird
 [Show list of users in the chat room]
 Benutzerliste im Chatraum anzeigen
-[Show button for sending messages]
-Schaltfläche zum Senden von Nachrichten anzeigen
-[Show buttons for controlling the chat room]
-Schaltfläche für Chatraumeinstellungen anzeigen
-[Show buttons for formatting the text you are typing]
-Schaltfläche für Smileys und Schriftformatierung anzeigen
 [Show button menus when right clicking the buttons]
 Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
 [Show the topic of the room on your contact list (if supported)]
@@ -1662,19 +1662,6 @@ Chatverlauf
 Chat
 [Popups]
 Popups
-;file \src\core\stdmsg\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: Chatraum (%u Benutzer)
-[%s: chat room (%u users)]
-%s: Chatraum (%u Benutzer)
-[%s: message session]
-%s: Nachrichtensitzung
-[%s: message session (%u users)]
-%s: Nachrichtensitzung (%u Benutzer)
-[Nickname]
-Nickname
-[Unique ID]
-Unique ID
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Timeout beim Nachrichtenversand
@@ -1684,12 +1671,20 @@ Eingehende Nachricht (10x10)
 [Outgoing message (10x10)]
 Ausgehende Nachricht (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[Last message received on %s at %s.]
-Letzte Nachricht am %s um %s erhalten.
-[Message session]
-Nachrichtensitzung
 [%s is typing a message...]
 %s tippt eine Nachricht...
+[Last message received on %s at %s.]
+Letzte Nachricht am %s um %s erhalten.
+[%s: chat room (%u user)]
+%s: Chatraum (%u Benutzer)
+[%s: chat room (%u users)]
+%s: Chatraum (%u Benutzer)
+[%s: message session]
+%s: Nachrichtensitzung
+[%s: message session (%u users)]
+%s: Nachrichtensitzung (%u Benutzer)
+[Message session]
+Nachrichtensitzung
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 Ich
@@ -1791,7 +1786,6 @@ Ein unbekannter Fehler ist aufgetreten.
 Popups sind aktiviert
 [Popups are disabled]
 Popups sind deaktiviert
-;file \src\core\stdpopup\src\notify_imp.cpp
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Beispiel
@@ -2529,7 +2523,7 @@ Konnte Nicknamen des Kontakts nicht in Metakontakt schreiben
 <Hauptgruppe>
 [&Move to group]
 Verschiebe in &Gruppe
-;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 Standard Netlib Log
 [No times]
@@ -2546,7 +2540,7 @@ Zeit in Mikrosekunden
 Dateiauswahl zum Erstellen der Verlaufsdatei
 [Select program to be run]
 Programmauswahl für den Start
-;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 <gemischt>
 [<All connections>]
@@ -2794,6 +2788,13 @@ WAV-Dateien
 [Unselect all]
 Alle abwählen
 ;file \src\mir_app\src\srmm_base.cpp
+[Nickname]
+Nickname
+[Unique ID]
+Unique ID
+;file \src\mir_app\src\srmm_log.cpp
+[Log viewer]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Trennlinie>

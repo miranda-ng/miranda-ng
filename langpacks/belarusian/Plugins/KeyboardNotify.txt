@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: KeyboardNotify.dll
 ;  Plugin: Keyboard notify ext.
-;  Version: 1.5.7.7
+;  Version: 1.6.0.1
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
@@ -16,6 +16,8 @@
 Уваходныя паведамленні
 [Incoming files]
 Уваходныя файлы
+[Groupchat messages]
+
 [Everything else]
 Усе іншыя
 [Message-Event only]
@@ -56,10 +58,10 @@
 Далучаны
 [Away]
 Адсутнічаю
-[Occupied]
-Заняты
 [Not available]
 Недаступны
+[Occupied]
+Заняты
 [Do not disturb]
 Не турбаваць
 [Free for chat]
@@ -194,6 +196,10 @@ Scroll
 Тэма звесткі
 [All Files]
 Усе файлы
+[Keyboard Flash]
+Мігценне клавіятуры
+[Events]
+Падзеі
 [Accounts]
 Конты
 [Rules]
@@ -202,7 +208,3 @@ Scroll
 Мігценне
 [Themes]
 Тэмы
-[Keyboard Flash]
-Мігценне клавіятуры
-[Events]
-Падзеі

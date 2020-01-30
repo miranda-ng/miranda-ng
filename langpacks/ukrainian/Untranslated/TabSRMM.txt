@@ -1,1 +1,2 @@
+[Use the same splitter height for all sessions]
 [Do nothing (ignore Esc key)]

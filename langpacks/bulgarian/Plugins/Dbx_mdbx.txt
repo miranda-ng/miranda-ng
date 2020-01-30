@@ -49,6 +49,11 @@
 Паролата е грешна!
 [Please type in your password]
 Моля, въведете паролата
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+
+[Error]
+Грешка
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Промяна/премахване на парола
@@ -59,8 +64,12 @@
 Паролата е твърде кратка!
 [Passwords do not match!]
 Паролите не са еднакви!
+[Database was compacted successfully]
+
 [Database]
 База от данни
+[Database compaction failed]
+
 [Logo]
 
 [Compact]

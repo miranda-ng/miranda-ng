@@ -1,3 +1,4 @@
+[Groupchat messages]
 [Num Lock]
 [Caps Lock]
 [Scroll Lock]

@@ -1,0 +1,1 @@
+[Use the same splitter height for all sessions]

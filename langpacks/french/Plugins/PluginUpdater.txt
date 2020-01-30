@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.3
+;  Version: 0.2.0.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -54,6 +54,8 @@ Version personnalisée
 
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
+[Use HTTPS]
+
 [Notifications]
 Notifications
 [Restart]
@@ -101,6 +103,18 @@ Ici se trouve la liste complète des composants manquants de Miranda NG. Cocher 
 [Download]
 Téléchargement
 ;file \plugins\PluginUpdater\src\DlgListNew.cpp
+[Component Name]
+Nom du composant
+[State]
+État
+[Plugins]
+Plugins
+[Icons]
+Icônes
+[Languages]
+Langages
+[Other]
+Autre
 [Downloading...]
 Télécharge...
 [Succeeded.]
@@ -115,18 +129,6 @@ Accompli.
 Téléchargement terminé
 [Download complete. Do you want to go to plugins option page?]
 Téléchargement terminé. Voulez-vous ouvrir la page d'option des plugins?
-[Component Name]
-Nom du composant
-[State]
-État
-[Plugins]
-Plugins
-[Icons]
-Icônes
-[Languages]
-Langages
-[Other]
-Autre
 [List is empty.]
 Liste vide.
 [List loading already started!]

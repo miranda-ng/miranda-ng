@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -36,8 +36,8 @@ Nachricht senden mit:
 Tabs
 [Enable tabs]
 Tabs aktivieren
-[Always show tab bar]
-Tab-Leiste immer anzeigen
+[Only show tab bar when it's needed]
+Tableiste nur zeigen, wenn sie benötigt wird
 [Tabs at the bottom]
 Tabs unten anzeigen
 [Limit names on tabs to]
@@ -82,8 +82,6 @@ Linien
 Sie können Variablen verwenden: %name% für den Namen des Kontaktes, %status% für seinen Status, %statusmsg% für seine Statusnachricht und %account% für den Kontonamen.
 [Message window event log]
 Nachrichtenfenster-Ereignisverlauf
-[Enable IEView]
-IEView aktivieren
 [Show icons]
 Icons anzeigen
 [Show time]
@@ -96,8 +94,8 @@ Datum anzeigen
 Langes Datumsformat
 [Relative date]
 Relatives Datum
-[Show names]
-Namen anzeigen
+[Hide names]
+Namen ausblenden
 [Enable message grouping]
 Nachrichtengruppierung nutzen
 [Mark follow-up messages with timestamp]
@@ -234,30 +232,6 @@ Hintergrund
 Zeitüberschreitung (s)
 [(0 means default setting, -1 means indefinite time)]
 (0 ist die Standardeinstellung, -1 bedeutet unendlich)
-[Log]
-Verlauf
-[&Copy]
-Kopieren
-[Co&py all]
-Alles ko&pieren
-[Select &all]
-&Alles auswählen
-[Word lookup]
-Wort nachschlagen
-[Yandex]
-Yandex
-[Wikipedia (en)]
-Wikipedia (en)
-[Google Maps]
-Google Maps
-[Google Translate]
-Google Translate
-[C&lear log]
-Verlauf &leeren
-[&Open link]
-Link &öffnen
-[&Copy link]
-Link kopieren
 [Message]
 Nachricht
 [Undo]
@@ -274,6 +248,8 @@ Einfügen
 Einfügen && Senden
 [Delete]
 Löschen
+[Select &all]
+&Alles auswählen
 [Clear]
 Löschen
 [Close other tabs]
@@ -454,21 +430,14 @@ Erscheinungsbild
 Standard-Ereignisse in neuen Chaträumen, wenn Ereignisfilter aktiviert ist
 [Select folder]
 Ordner wählen
-;file \plugins\Scriver\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: Chatraum (%u Benutzer)
-[%s: chat room (%u users)]
-%s: Chatraum (%u Benutzer)
-[%s: message session]
-%s: Nachrichtensitzung
-[%s: message session (%u users)]
-%s: Nachrichtensitzung (%u Benutzer)
-[Nickname]
-Nickname
-[Unique ID]
-Unique ID
-[Status]
-Status
+[Message sessions]
+Nachrichtensitzungen
+[General]
+Allgemein
+[Event log]
+Ereignisverlauf
+[Popups]
+Popups
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Kontakt hinzufügen
@@ -620,18 +589,14 @@ Aktion: Sende an alle
 [Action: Paste and send]
 Aktion: Einfügen und senden
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Sending in progress: %d message(s) left...]
-%d Nachricht(en) werden momentan gesendet.
-[%s is typing a message...]
-%s tippt eine Nachricht...
-[Last message received on %s at %s.]
-Letzte Nachricht am %s um %s erhalten.
-[Look up '%s':]
-Suche nach '%s'
-[No word to look up]
-Kein Wort zum Nachschlagen
 [User menu - %s]
 Benutzermenü - %s
+[Nickname]
+Nickname
+[Unique ID]
+Unique ID
+[Status]
+Status
 ;file \plugins\Scriver\src\msglog.cpp
 [Me]
 Ich
@@ -716,16 +681,8 @@ Umschalt+Eingabe
 ** Neue Kontakte **
 [** Unknown contacts **]
 ** Unbekannte Kontakte **
-[Message sessions]
-Nachrichtensitzungen
-[General]
-Allgemein
-[Event log]
-Ereignisverlauf
 [Typing notify]
 Tippbenachrichtigungen
-[Popups]
-Popups
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Nachricht von %s
@@ -806,6 +763,21 @@ Kontakt tippt nicht mehr
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
+;file \plugins\Scriver\src\msgutils.cpp
+[Sending in progress: %d message(s) left...]
+%d Nachricht(en) werden momentan gesendet.
+[%s is typing a message...]
+%s tippt eine Nachricht...
+[Last message received on %s at %s.]
+Letzte Nachricht am %s um %s erhalten.
+[%s: chat room (%u user)]
+%s: Chatraum (%u Benutzer)
+[%s: chat room (%u users)]
+%s: Chatraum (%u Benutzer)
+[%s: message session]
+%s: Nachrichtensitzung
+[%s: message session (%u users)]
+%s: Nachrichtensitzung (%u Benutzer)
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Timeout beim Nachrichtenversand

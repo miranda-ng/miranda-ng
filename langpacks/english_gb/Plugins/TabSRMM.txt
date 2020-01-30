@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
@@ -71,16 +71,6 @@ Do not synchronise the panel height with group chat windows
 UID: %s (Shift click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favourites.
 [UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Shift click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favourite status.
-[Minimize the window to the task bar]
-Minimise the window to the task bar
-[Font color]
-Font colour
-[Background color]
-Background colour
-[Semi transparent, custom colors]
-Semi transparent, custom colours
-[Custom (use own gradient colors)]
-Custom (use own gradient colours)
 [Message window behavior]
 Message window behaviour
 [Minimize the message window on send]
@@ -91,5 +81,15 @@ New windows are minimised (the option above MUST be active)
 Activate a minimised window when a new tab is created inside it
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
 Automatically switch existing tabs in minimised windows on incoming messages (ignored when using Aero Peek task bar features)
+[Minimize the window to the task bar]
+Minimise the window to the task bar
+[Font color]
+Font colour
+[Background color]
+Background colour
+[Semi transparent, custom colors]
+Semi transparent, custom colours
+[Custom (use own gradient colors)]
+Custom (use own gradient colours)
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Loading a theme|Loading a colour and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?

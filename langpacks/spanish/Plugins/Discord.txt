@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.1
+;  Version: 0.6.2.2
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -27,6 +27,10 @@ Grupo predeterminado:
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
+[Incoming call]
+
+[Call ended, %d seconds long]
+
 [edited at]
 
 ;file \protocols\Discord\src\groupchat.cpp
@@ -53,6 +57,10 @@ Nick:
 Icono principal
 [Group chats]
 Grupo de chats
+[Call]
+
+[Call ended]
+
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 
@@ -93,6 +101,10 @@ ID de usuario
 [Protocol is offline or user isn't authorized yet]
 
 ;file \protocols\Discord\src\utils.cpp
+[Owners]
+
+[Participants]
+
 [Attachment]
 
 [Embed]

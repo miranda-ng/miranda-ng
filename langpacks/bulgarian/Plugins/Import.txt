@@ -189,6 +189,8 @@ Miranda внос
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 
+[Miranda NG database/mContacts]
+База от данни на Miranda NG/mContacts
 [JSON file]
 
 ;file \plugins\Import\src\utils.cpp

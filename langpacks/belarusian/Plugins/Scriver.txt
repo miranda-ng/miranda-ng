@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -36,8 +36,8 @@
 Укладкі
 [Enable tabs]
 Уключыць укладкі
-[Always show tab bar]
-Заўсёды паказваць панэль укладак
+[Only show tab bar when it's needed]
+Панэль укладак толькі калі патрабуецца
 [Tabs at the bottom]
 Укладкі знізу
 [Limit names on tabs to]
@@ -82,8 +82,6 @@
 
 [Message window event log]
 Журнал гутаркі
-[Enable IEView]
-Уключыць IEView
 [Show icons]
 Паказваць абразкі
 [Show time]
@@ -96,8 +94,8 @@
 Літарны фармат даты
 [Relative date]
 Адносная дата
-[Show names]
-Паказваць імёны
+[Hide names]
+Схаваць імёны
 [Enable message grouping]
 Гуртаваць паведамленні
 [Mark follow-up messages with timestamp]
@@ -234,30 +232,6 @@ KB
 Працягласць (з)
 [(0 means default setting, -1 means indefinite time)]
 0 = стандартныя значэнні, -1 = бясконцы час
-[Log]
-Лог
-[&Copy]
-&Капіяваць
-[Co&py all]
-Ка&піяваць усе
-[Select &all]
-Вылучыць &усё
-[Word lookup]
-Знайсці слова
-[Yandex]
-Яндэкс
-[Wikipedia (en)]
-
-[Google Maps]
-
-[Google Translate]
-
-[C&lear log]
-Сцерці лог
-[&Open link]
-&адчыніць спасылку
-[&Copy link]
-&Капіяваць спасылку
 [Message]
 Паведамленне
 [Undo]
@@ -274,6 +248,8 @@ KB
 Уставіць і адправіць
 [Delete]
 Выдаліць
+[Select &all]
+Вылучыць &усё
 [Clear]
 Сцерці
 [Close other tabs]
@@ -454,21 +430,14 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Паказаць у новым вакне, калі 'Фільтр падзей' уключаны
 [Select folder]
 Абраць тэчку
-;file \plugins\Scriver\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: Чат (%u удзельнік)
-[%s: chat room (%u users)]
-%s: Чат (%u удзельнікаў)
-[%s: message session]
-%s: гутарка
-[%s: message session (%u users)]
-%s: гутарка (%u удзельнікаў)
-[Nickname]
-Мянушка
-[Unique ID]
-Асабісты конт
-[Status]
-Статус
+[Message sessions]
+Гутаркі
+[General]
+Агульнае
+[Event log]
+Лог падзей
+[Popups]
+Усплывальныя вокны
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Дадаць кантакт
@@ -620,18 +589,14 @@ ID бягучага кантакту (калі вызначаны). Напрык
 [Action: Paste and send]
 Дзеянне: Уставіць і адправіць
 ;file \plugins\Scriver\src\msgdialog.cpp
-[Sending in progress: %d message(s) left...]
-Адпраўка паведамлення: %d засталося...
-[%s is typing a message...]
-%s набірае тэкст...
-[Last message received on %s at %s.]
-Апошняе паведамленне вы атрымалі %s у %s.
-[Look up '%s':]
-Шукаць '%s':
-[No word to look up]
-Няма слоў для пошуку
 [User menu - %s]
 Меню кантакта - %s
+[Nickname]
+Мянушка
+[Unique ID]
+Асабісты конт
+[Status]
+Статус
 ;file \plugins\Scriver\src\msglog.cpp
 [Me]
 Я
@@ -716,16 +681,8 @@ Shift+Enter
 ** Новыя кантакты **
 [** Unknown contacts **]
 ** Невядомыя кантакты **
-[Message sessions]
-Гутаркі
-[General]
-Агульнае
-[Event log]
-Лог падзей
 [Typing notify]
 Набірае тэкст
-[Popups]
-Усплывальныя вокны
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Паведамленне ад %s
@@ -806,6 +763,21 @@ Miranda не змагла загрузіць убудаваную сістэму
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невядомая памылка.
+;file \plugins\Scriver\src\msgutils.cpp
+[Sending in progress: %d message(s) left...]
+Адпраўка паведамлення: %d засталося...
+[%s is typing a message...]
+%s набірае тэкст...
+[Last message received on %s at %s.]
+Апошняе паведамленне вы атрымалі %s у %s.
+[%s: chat room (%u user)]
+%s: Чат (%u удзельнік)
+[%s: chat room (%u users)]
+%s: Чат (%u удзельнікаў)
+[%s: message session]
+%s: гутарка
+[%s: message session (%u users)]
+%s: гутарка (%u удзельнікаў)
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення

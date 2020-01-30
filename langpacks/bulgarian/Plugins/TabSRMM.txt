@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.0.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -186,10 +186,6 @@ Popup настройки
 Всички режими
 [Choose modes]
 Изберете състояния
-[Message log view mode (does not affect open windows)]
-
-[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Начин за изобразяване на дневника за съобщения. Настройката може да бъде игнорирана при липса на приставка.
 [Send text formatting method]
 Метод за форматиране на изпращания текст
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
@@ -198,14 +194,14 @@ Popup настройки
 Режим с информационен панел
 [Show avatar in message window]
 Аватар на контакта в прозореца за съобщения
-[Use private splitter position]
-
-[Contact is a favorite contact]
-Контакта е любим контакт
 [Ignore sending timeouts]
 
 [Load only actual history]
 Зареди само актуална история
+[Use private splitter position]
+
+[Contact is a favorite contact]
+Контакта е любим контакт
 [Always trim message log to]
 Ограничаване на дневника до
 [events]
@@ -342,8 +338,6 @@ ID на потребителя в лентата за състояние
 Събития от преди
 [minutes old]
 минути
-[Global message log display]
-Общо изобразяване на дневника чрез
 [Typing notification options]
 Настройки за уведомяване при писане
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -716,8 +710,6 @@ Mаксимална ширина за лента с бутони
 Копиране на съобщението в клипборда
 [&File]
 Файл
-[Save message log as...]
-Запис на дневника за съобщения като...
 [Close message session\tCtrl+W]
 Затваряне на разговора\tCtrl+W
 [Close container\tAlt+F4]
@@ -944,66 +936,6 @@ UIN
 Местно време на контактите
 [Window caption (skinned mode)]
 
-[Open new chat rooms in the default container]
-Отваряне на новите чат стаи в стандартния контейнер
-[Flash window when someone speaks]
-Мигане на прозореца при ново съобщение
-[Flash window when a word is highlighted]
-Мигане на прозореца при отличаване на дума
-[Create tabs or windows for highlight events]
-Създаване на контейнер/таб при отличаване на събитие
-[Activate chat window on highlight]
-Активиране на чат прозореца при отличаване
-[Show list of users in the chat room]
-Списък с потребители в чат стаята
-[Colorize nicknames in member list]
-Оцветяване на прякорите в списъка на членовете
-[Show button menus when right clicking the buttons]
-Показване менютата на бутоните при натискане с десен бутон
-[Show topic as status message on the contact list]
-Показване на темата на стаята като текст за състояние в списъка с контакти
-[Do not pop up the window when joining a chat room]
-Без изскачане на прозореца при влизане в чат стая
-[Sync splitter position with standard IM sessions]
-
-[Show contact's status modes if supported by the protocol]
-Показване състоянието на потребителите (ако се поддържа от протокола)
-[Display contact's status icon before user role icon]
-Иконата за състояние на потребителя пред иконата на протокола
-[Use IRC style status indicators in the nick list]
-Ползване на индикатори в стил IRC в списъка с прякори (@, %, + и т.н.)
-[Use alternative sorting method in member list]
-Алтернативно сортиране на списъка с прякори
-[Prefix all events with a timestamp]
-Времева марка като представка за всички събития
-[Timestamp only when event time differs]
-Представка (времева марка) само ако времето е различно
-[Timestamp has same color as the event]
-Еднакъв цвят на времевата марка и събитието
-[Indent the second line of a message]
-Отстъп на втория ред от всяко съобщение
-[Limit user names in the message log to 20 characters]
-Ограничаване на потребителските имена в дневника за съобщения до 20 знака
-[Add a colon (:) to auto-completed user names]
-Добавяне на ":" след автодовършените потребителски имена
-[Add a comma instead of a colon to auto-completed user names]
-
-[Start private conversation on double click in nick list (insert nick if unchecked)]
-Стартиране на разговор при двукратно натискане (вмъкване на прякора, ако не е отметнато)
-[Strip colors from messages in the log]
-Премахване на цветовете от съобщенията в дневника
-[Enable the 'event filter' for new rooms]
-Включване на филтъра за събития в нови стаи
-[Use IRC style status indicators in the log]
-Ползване на индикатори в стил IRC в дневника
-[Allow clickable user names in the message log]
-Превръщане на прякорите от дневника в хипервръзки (автовъвеждане)
-[Add new line after names]
-
-[Colorize user names in message log]
-Оцветяване на прякорите в дневника за съобщения
-[Scale down icons to 10x10 pixels in the chat log]
-Мащабиране на иконите до 10х10 пиксела в чат дневника
 [Window Icon]
 Икона на прозореца
 [Icon overlay]
@@ -1080,6 +1012,66 @@ UIN
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
 Външен вид на дневника за съобщения
+[Open new chat rooms in the default container]
+Отваряне на новите чат стаи в стандартния контейнер
+[Flash window when someone speaks]
+Мигане на прозореца при ново съобщение
+[Flash window when a word is highlighted]
+Мигане на прозореца при отличаване на дума
+[Create tabs or windows for highlight events]
+Създаване на контейнер/таб при отличаване на събитие
+[Activate chat window on highlight]
+Активиране на чат прозореца при отличаване
+[Show list of users in the chat room]
+Списък с потребители в чат стаята
+[Colorize nicknames in member list]
+Оцветяване на прякорите в списъка на членовете
+[Show button menus when right clicking the buttons]
+Показване менютата на бутоните при натискане с десен бутон
+[Show topic as status message on the contact list]
+Показване на темата на стаята като текст за състояние в списъка с контакти
+[Do not pop up the window when joining a chat room]
+Без изскачане на прозореца при влизане в чат стая
+[Sync splitter position with standard IM sessions]
+
+[Show contact's status modes if supported by the protocol]
+Показване състоянието на потребителите (ако се поддържа от протокола)
+[Display contact's status icon before user role icon]
+Иконата за състояние на потребителя пред иконата на протокола
+[Use IRC style status indicators in the nick list]
+Ползване на индикатори в стил IRC в списъка с прякори (@, %, + и т.н.)
+[Use alternative sorting method in member list]
+Алтернативно сортиране на списъка с прякори
+[Prefix all events with a timestamp]
+Времева марка като представка за всички събития
+[Timestamp only when event time differs]
+Представка (времева марка) само ако времето е различно
+[Timestamp has same color as the event]
+Еднакъв цвят на времевата марка и събитието
+[Indent the second line of a message]
+Отстъп на втория ред от всяко съобщение
+[Limit user names in the message log to 20 characters]
+Ограничаване на потребителските имена в дневника за съобщения до 20 знака
+[Add a colon (:) to auto-completed user names]
+Добавяне на ":" след автодовършените потребителски имена
+[Add a comma instead of a colon to auto-completed user names]
+
+[Start private conversation on double click in nick list (insert nick if unchecked)]
+Стартиране на разговор при двукратно натискане (вмъкване на прякора, ако не е отметнато)
+[Strip colors from messages in the log]
+Премахване на цветовете от съобщенията в дневника
+[Enable the 'event filter' for new rooms]
+Включване на филтъра за събития в нови стаи
+[Use IRC style status indicators in the log]
+Ползване на индикатори в стил IRC в дневника
+[Allow clickable user names in the message log]
+Превръщане на прякорите от дневника в хипервръзки (автовъвеждане)
+[Add new line after names]
+
+[Colorize user names in message log]
+Оцветяване на прякорите в дневника за съобщения
+[Scale down icons to 10x10 pixels in the chat log]
+Мащабиране на иконите до 10х10 пиксела в чат дневника
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1151,37 +1143,6 @@ UIN
 ;file \plugins\TabSRMM\src\chat_tools.cpp
 [%s%s says:%s %s]
 %s%s каза:%s %s
-;file \plugins\TabSRMM\src\chat_window.cpp
-[Expand or collapse the side bar]
-Разгръщане / Сгъване на страничната лента
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Филтърът не може да бъде зареден, защото няма избрани събития за показване общо или само чат стаята
-[Event filter error]
-Филтър на събития: грешка
-[, %d %s, %d %s idle]
-, %d %s и %d %s бездействие
-[hours]
-часа
-[hour]
-час
-[minutes]
-минути
-[minute]
-минута
-[, %d %s idle]
-, %d %s бездействие
-[%s on %s%s]
-Прякор: %s, Акаунт: %s%s
-[%s: chat room (%u user%s)]
-%s: Чат стая (%u потребител%s)
-[%s: chat room (%u users%s)]
-%s: Чат стая (%u потребителя%s)
-[, event filter active]
-, включен филтър на събития
-[%s: message session]
-%s: Разговор
-[%s: message session (%u users)]
-%s: Разговор (%u потребителя)
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Разговор...
@@ -1237,8 +1198,6 @@ UIN
 ;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 Потребител
-[&Room]
-Стая
 [Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Звукът е %s. Натиснете, за да превключите. Задръжте бутона "Shift" и натиснете, за да зададете състояние за всички контейнери
 [disabled]
@@ -1268,13 +1227,55 @@ TabSRMM предупреждение
 Нови съобщения:\s
 [Unknown module or contact]
 Непознат модул/контакт
+[Show a preview of the event]
+Представяне на образец на събитието
+[Don't announce event when message dialog is open]
+Без уведомяване за събития при отворен прозорец
+[Don't announce events from RSS protocols]
+Без уведомяване за събития от протокола RSS
+[Enable the system tray icon]
+Включване на икона в трея
+[Merge new events for the same contact into existing popup]
+Сливане на нови събития от един и същ контакт в съществуващ popup
+[Show headers]
+Показване на горните колонтитули
+[Dismiss popup]
+Затваряне на Popup
+[Open event]
+Отваряне на събитието
+[Dismiss event]
+Затваряне на събитието
+[Disable event notifications for instant messages]
+Без уведомяване за събития в разговори
+[Disable event notifications for group chats]
+Без уведомяване за събития в групови чатове
+[Disable notifications for non-message events]
+Без уведомяване за събития, които не са свързани със съобщение
+[Remove popups for a contact when the message window is focused]
+Премахване на popups за контакт, при фокусиране на прозореца за съобщения
+[Remove popups for a contact when I start typing a reply]
+Премахване на popups за контакт, при писане на отговор
+[Remove popups for a contact when I send a reply]
+Премахване на popups за контакт, след изпращане на отговор
+[Disable notifications]
+Без уведомяване
+[System tray icon]
+Икона в трея
+[Left click actions (popups only)]
+Действие на левия бутон (само за popups)
+[Right click actions (popups only)]
+Действие на десния бутон (само за popups)
+[Timeout actions (popups only)]
+Автоматично действие след изтичане на времетраенето (само за popups)
+[Combine notifications for the same contact]
+Обединяване на уведомявания за един и същ потребител
+[Remove popups under following conditions]
+Премахване на popup за събитие при:
 [Event notifications]
 Уведомявания за събития
 [Popups]
 Рopups
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-[Rich Edit file]
-
 [No status message]
 Няма текст за състоянието
 [You cannot edit user notes when there are unsent messages]
@@ -1445,6 +1446,8 @@ TabSRMM
 Добавяне на контакта за постоянно в списъка с контакти
 [Do not add this contact permanently]
 Не добавяй контакта за постоянно
+[Expand or collapse the side bar]
+Разгръщане / Сгъване на страничната лента
 [Contact not on list. You may add it...]
 Потребителят не е в списъка с контакти. Можете да го добавите...
 [A message failed to send successfully.]
@@ -1457,14 +1460,12 @@ TabSRMM
 Нов опит
 [Send later]
 Изпрати след време
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Shift+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
-[No UID]
-Няма UID
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редактирате бележките за потребителя. За запаметяване на промените и връщане към нормалния режим за писане/изпращане на съобщения натиснете отново бутона или клавишната комбинация, обикновено: Alt+N
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+Филтърът не може да бъде зареден, защото няма избрани събития за показване общо или само чат стаята
+[Event filter error]
+Филтър на събития: грешка
 [Selection copied to clipboard]
 Маркираното бе копирано в клипборда
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1477,7 +1478,15 @@ UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛя
 
 [Contact is offline and this protocol does not support sending files to offline users.]
 Контактът е извън линия, а протоколът не поддържа изпращане на съобщения до контакти извън линия.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
+;file \plugins\TabSRMM\src\msgdlgother.cpp
+['(Unknown contact)']
+"(Непознат контакт)"
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
+Функцията "Поставяне и изпращане" е изключена. Можете да я включите от Разговори>Основни - Изпращане на съобщения.
+[Set your avatar...]
+Задаване на собствен аватар...
+[A message delivery has failed.\nClick to open the message window.]
+Неуспешно доставяне на съобщение.\nНатиснете тук, за да бъде отворен прозореца за съобщения.
 [Error creating destination directory]
 Грешка при създаването на директорията
 [Save contact picture]
@@ -1486,16 +1495,40 @@ UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛя
 Изображения
 [The file exists. Do you want to overwrite it?]
 Файлът съществува. Желаете ли да бъде презаписан?
-[Set your avatar...]
-Задаване на собствен аватар...
-[Save and close session]
-Запис и затваряне
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-Функцията "Поставяне и изпращане" е изключена. Можете да я включите от Разговори>Основни - Изпращане на съобщения.
-['(Unknown contact)']
-"(Непознат контакт)"
 [JPEG-compressed images]
 JPEG компресирани изображения
+[Save and close session]
+Запис и затваряне
+[, %d %s, %d %s idle]
+, %d %s и %d %s бездействие
+[hours]
+часа
+[hour]
+час
+[minutes]
+минути
+[minute]
+минута
+[, %d %s idle]
+, %d %s бездействие
+[%s on %s%s]
+Прякор: %s, Акаунт: %s%s
+[%s: chat room (%u user%s)]
+%s: Чат стая (%u потребител%s)
+[%s: chat room (%u users%s)]
+%s: Чат стая (%u потребителя%s)
+[, event filter active]
+, включен филтър на събития
+[%s: message session]
+%s: Разговор
+[%s: message session (%u users)]
+%s: Разговор (%u потребителя)
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Shift+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
+[No UID]
+Няма UID
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 ;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 тайски (тайландски)
@@ -1578,14 +1611,72 @@ Latin I
 
 [Load theme]
 Зареждане на тема
-[Internal message log]
-Вградения дневник за съобщения
-[IEView plugin]
-Приставката IEView
-[History++ plugin]
-Приставката History++
-[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-За изобразяване на историята в прозореца за съобщения е избрана приставка различна от TabSRMM. Повечето от настройките които ще намерите тук са само за TabSRMM и няма да окажат ефект. Ако желаете да промените външния вид на дневника ще трябва да го направите от настройките на IEView или History++.
+[Message window behavior]
+Поведение на прозореца за съобщения
+[Sending messages]
+Изпращане на съобщения
+[Send on Shift+Enter]
+Изпращане със Shift+Enter
+[Send message on 'Enter']
+Изпращане на съобщение с "Enter"
+[Send message on double 'Enter']
+Двукратно натискане на "Enter" изпраща съобщение
+[Minimize the message window on send]
+Минимизиране на прозореца след изпращане
+[Close the message window on send]
+Затваряне на прозореца след изпращане
+[Always flash contact list and tray icon for new messages]
+Мигане на списъка с контакти и трей иконата при ново съобщение
+[Delete temporary contacts on close]
+Изтриване на временните контакти след затваряне на прозореца
+[Enable "Paste and send" feature]
+Включване на функцията "Поставяне и изпращане"
+[Allow BBCode formatting in outgoing messages]
+Разрешаване форматиране на изходящите съобщения с BBCode
+[Automatically split long messages (experimental, use with care)]
+Автоматично разделяне на дългите съобщения (експериментално - използвайте внимателно)
+[Log status changes]
+Запис на промените на състоянията
+[Use the same splitter height for all sessions]
+
+[Automatically copy selected text]
+Автокопиране на маркирания текст
+[Message log appearance]
+Външен вид на дневника за съобщения
+[Support for external plugins]
+Поддръжка на външни приставки
+[Timestamp settings (note: timestamps also depend on your templates)]
+Настройки на времевата марка (бележка: те зависят и от шаблона)
+[Message log icons]
+Икони в дневника за съобщения
+[Show dates in timestamps]
+Показване на дата във времевата марка
+[Show seconds in timestamps]
+Показване на секунди във времевата марка
+[Use contacts local time (if timezone info available)]
+Ползване на часовия пояс на потребителя (ако е наличен)
+[Draw grid lines]
+Добавяне на решетка
+[Use incoming/outgoing icons]
+Ползване на входящи/изходящи икони
+[Use message grouping]
+Групиране на съобщенията
+[Simple text formatting (*bold*, etc.)]
+Лесно форматиране (*bold* и т.н.)
+[Support BBCode formatting]
+Поддържане на BBCode форматиране
+[Place a separator in the log after a window lost its foreground status]
+Поставяне на разделите в дневника след дефокусиран на прозореца
+[Only place a separator when an incoming event is announced with a popup]
+Поставяне на разделител само след уведомяване за входящо събитие с popup
+[Show events at the new line (IEView Compatibility Mode)]
+Събитията на нов ред (режим на съвместимост с IEView)
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+Подчертаване на времевата марка/прякор (режим на съвместимост с IEView)
+[Show timestamp after nickname (IEView Compatibility Mode)]
+Времева марка след прякора (режим на съвместимост с IEView)
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+
 [** New contacts **]
 ** Нови контакти **
 [** Unknown contacts **]
@@ -1596,6 +1687,30 @@ Latin I
 Винаги, но не и когато прозореца е фокусиран
 [Only when no message window is open]
 Само когато прозорецът за съобщенията е отворен
+[How to create tabs and windows for incoming messages]
+Създаване на табове и прозорци при получаване на съобщение
+[Show status text on tabs]
+Показване на състоянието в табовете
+[Prefer xStatus icons when available]
+Ползване на икона за xСъстояние, ако е налично
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Подробни подсказки (изисква приставка Tipper)
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+АКТИВИРАНЕ на новия разговор при получаване на ново съобщение (има предимство!)
+[Automatically create new message sessions without activating them]
+Автоматично създаване на нов разговор, без да бъде активиран
+[New windows are minimized (the option above MUST be active)]
+Създаване на прозореца в минимизирано състояние (горната опция трябва да има отметка)
+[Activate a minimized window when a new tab is created inside it]
+Активиране на минимизиран прозорец при създаването на нов таб в него
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Автопревключване на табове в минимизирани прозорци (игнорира се при ползване функцията Aero Peek на лентата със задачи)
+[Close button only hides message windows]
+Бутон "Затваряне" само скрива прозореца за съобщения
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Ползване на клавиша Tab в полето за въвеждане на съобщения (ще отмени функцията му за преместване на фокуса)
+[Add offline contacts to multisend list]
+Включване на контактите "Извън линия" в списъка за многократно изпращане
 [Normal - close tab, if last tab is closed also close the window]
 Обикновено затваря таба, а ако е единствен - затваря прозореца
 [Minimize the window to the task bar]
@@ -1604,6 +1719,24 @@ Latin I
 Затваря/Скрива прозореца (зависи как е настроен бутона "Затваряне" по-горе)
 [Do nothing (ignore Esc key)]
 
+[Message window tweaks]
+Допълнителни настройки на прозореца за съобщения
+[Display metacontact icons]
+Показване на икони за метаконтакти
+[Error feedback]
+При грешка
+[Close current tab on send]
+Затваряне на таба след изпращане
+[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)*
+[Show client description in info panel]
+Описание на клиента  в информационния панел
+[On tab control]
+В таба
+[On the button bar]
+В лентата с бутони
+[Disable error popups on sending failures]
+Без popups при неуспешно изпращане на съобщение
 [Choose status modes]
 Избор на състояния
 [General]
@@ -1623,8 +1756,6 @@ Latin I
 [Window layout tweaks]
 
 ;file \plugins\TabSRMM\src\msgs.cpp
-[A message delivery has failed.\nClick to open the message window.]
-Неуспешно доставяне на съобщение.\nНатиснете тук, за да бъде отворен прозореца за съобщения.
 [Message Log Options]
 Настройки на дневника за съобщения
 [Image tag]
@@ -1821,157 +1952,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Всички контейнери трябва да се затворят, преди да бъде сменен обликът\nЖелаете ли да бъдат затворени сега?
 [Change skin]
 Смяна на облика
-;file \plugins\TabSRMM\src\translator.cpp
-[Message window tweaks]
-Допълнителни настройки на прозореца за съобщения
-[Display metacontact icons]
-Показване на икони за метаконтакти
-[Error feedback]
-При грешка
-[Close current tab on send]
-Затваряне на таба след изпращане
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)*
-[Show client description in info panel]
-Описание на клиента  в информационния панел
-[On tab control]
-В таба
-[On the button bar]
-В лентата с бутони
-[Disable error popups on sending failures]
-Без popups при неуспешно изпращане на съобщение
-[Show a preview of the event]
-Представяне на образец на събитието
-[Don't announce event when message dialog is open]
-Без уведомяване за събития при отворен прозорец
-[Don't announce events from RSS protocols]
-Без уведомяване за събития от протокола RSS
-[Enable the system tray icon]
-Включване на икона в трея
-[Merge new events for the same contact into existing popup]
-Сливане на нови събития от един и същ контакт в съществуващ popup
-[Show headers]
-Показване на горните колонтитули
-[Dismiss popup]
-Затваряне на Popup
-[Open event]
-Отваряне на събитието
-[Dismiss event]
-Затваряне на събитието
-[Disable event notifications for instant messages]
-Без уведомяване за събития в разговори
-[Disable event notifications for group chats]
-Без уведомяване за събития в групови чатове
-[Disable notifications for non-message events]
-Без уведомяване за събития, които не са свързани със съобщение
-[Remove popups for a contact when the message window is focused]
-Премахване на popups за контакт, при фокусиране на прозореца за съобщения
-[Remove popups for a contact when I start typing a reply]
-Премахване на popups за контакт, при писане на отговор
-[Remove popups for a contact when I send a reply]
-Премахване на popups за контакт, след изпращане на отговор
-[Disable notifications]
-Без уведомяване
-[System tray icon]
-Икона в трея
-[Left click actions (popups only)]
-Действие на левия бутон (само за popups)
-[Right click actions (popups only)]
-Действие на десния бутон (само за popups)
-[Timeout actions (popups only)]
-Автоматично действие след изтичане на времетраенето (само за popups)
-[Combine notifications for the same contact]
-Обединяване на уведомявания за един и същ потребител
-[Remove popups under following conditions]
-Премахване на popup за събитие при:
-[Message window behavior]
-Поведение на прозореца за съобщения
-[Sending messages]
-Изпращане на съобщения
-[Send on Shift+Enter]
-Изпращане със Shift+Enter
-[Send message on 'Enter']
-Изпращане на съобщение с "Enter"
-[Send message on double 'Enter']
-Двукратно натискане на "Enter" изпраща съобщение
-[Minimize the message window on send]
-Минимизиране на прозореца след изпращане
-[Close the message window on send]
-Затваряне на прозореца след изпращане
-[Always flash contact list and tray icon for new messages]
-Мигане на списъка с контакти и трей иконата при ново съобщение
-[Delete temporary contacts on close]
-Изтриване на временните контакти след затваряне на прозореца
-[Enable "Paste and send" feature]
-Включване на функцията "Поставяне и изпращане"
-[Allow BBCode formatting in outgoing messages]
-Разрешаване форматиране на изходящите съобщения с BBCode
-[Automatically split long messages (experimental, use with care)]
-Автоматично разделяне на дългите съобщения (експериментално - използвайте внимателно)
-[Log status changes]
-Запис на промените на състоянията
-[Automatically copy selected text]
-Автокопиране на маркирания текст
-[Message log appearance]
-Външен вид на дневника за съобщения
-[Support for external plugins]
-Поддръжка на външни приставки
-[Timestamp settings (note: timestamps also depend on your templates)]
-Настройки на времевата марка (бележка: те зависят и от шаблона)
-[Message log icons]
-Икони в дневника за съобщения
-[Show dates in timestamps]
-Показване на дата във времевата марка
-[Show seconds in timestamps]
-Показване на секунди във времевата марка
-[Use contacts local time (if timezone info available)]
-Ползване на часовия пояс на потребителя (ако е наличен)
-[Draw grid lines]
-Добавяне на решетка
-[Use incoming/outgoing icons]
-Ползване на входящи/изходящи икони
-[Use message grouping]
-Групиране на съобщенията
-[Simple text formatting (*bold*, etc.)]
-Лесно форматиране (*bold* и т.н.)
-[Support BBCode formatting]
-Поддържане на BBCode форматиране
-[Place a separator in the log after a window lost its foreground status]
-Поставяне на разделите в дневника след дефокусиран на прозореца
-[Only place a separator when an incoming event is announced with a popup]
-Поставяне на разделител само след уведомяване за входящо събитие с popup
-[Show events at the new line (IEView Compatibility Mode)]
-Събитията на нов ред (режим на съвместимост с IEView)
-[Underline timestamp/nickname (IEView Compatibility Mode)]
-Подчертаване на времевата марка/прякор (режим на съвместимост с IEView)
-[Show timestamp after nickname (IEView Compatibility Mode)]
-Времева марка след прякора (режим на съвместимост с IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-
-[How to create tabs and windows for incoming messages]
-Създаване на табове и прозорци при получаване на съобщение
-[Show status text on tabs]
-Показване на състоянието в табовете
-[Prefer xStatus icons when available]
-Ползване на икона за xСъстояние, ако е налично
-[Detailed tooltip on tabs (requires Tipper plugin)]
-Подробни подсказки (изисква приставка Tipper)
-[ALWAYS activate new message sessions (has PRIORITY over the options below)]
-АКТИВИРАНЕ на новия разговор при получаване на ново съобщение (има предимство!)
-[Automatically create new message sessions without activating them]
-Автоматично създаване на нов разговор, без да бъде активиран
-[New windows are minimized (the option above MUST be active)]
-Създаване на прозореца в минимизирано състояние (горната опция трябва да има отметка)
-[Activate a minimized window when a new tab is created inside it]
-Активиране на минимизиран прозорец при създаването на нов таб в него
-[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Автопревключване на табове в минимизирани прозорци (игнорира се при ползване функцията Aero Peek на лентата със задачи)
-[Close button only hides message windows]
-Бутон "Затваряне" само скрива прозореца за съобщения
-[Allow Tab key in typing area (this will disable focus selection by Tab key)]
-Ползване на клавиша Tab в полето за въвеждане на съобщения (ще отмени функцията му за преместване на фокуса)
-[Add offline contacts to multisend list]
-Включване на контактите "Извън линия" в списъка за многократно изпращане
 ;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
@@ -1987,12 +1967,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 [Contact stopped typing]
 Контакт спря да пише
 ;file \plugins\TabSRMM\src\userprefs.cpp
-[Force default message log]
-Винаги стандартният дневник
-[Force History++]
-Винаги History++
-[Force IEView]
-Винаги IEView
 [Set messaging options for %s]
 Настройки на разговорите с %s
 ;file \plugins\TabSRMM\src\utils.cpp

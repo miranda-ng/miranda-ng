@@ -1110,6 +1110,10 @@ Contactos
 
 [Lock name to first contact]
 
+[Choose needed logger from listed below:]
+
+[Enable custom log controls in group chats]
+
 [Current language:]
 
 [Last modified using:]
@@ -1148,6 +1152,8 @@ Usted fue añadido
 Acerca de Miranda NG
 [Credits >]
 Créditos >
+[Hidden window]
+
 [Tray]
 Bandeja
 [&Hide/Show]
@@ -1440,12 +1446,6 @@ Parpadear ventana cuando alguien habla
 Parpadear ventana cuando se resalta una palabra
 [Show list of users in the chat room]
 Mostrar lista de usuarios en la sala de chat
-[Show button for sending messages]
-Mostrar el botón para enviar mensajes
-[Show buttons for controlling the chat room]
-Mostrar botones para el control de la sala de chat
-[Show buttons for formatting the text you are typing]
-Mostrar botones para formatear el texto que está escribiendo
 [Show button menus when right clicking the buttons]
 Mostrar menús del botón derecho cuando se hace clic en los botones
 [Show the topic of the room on your contact list (if supported)]
@@ -1662,19 +1662,6 @@ Registro de chat
 Chat
 [Popups]
 Ventanas emergentes
-;file \src\core\stdmsg\src\chat_window.cpp
-[%s: chat room (%u user)]
-%s: sala de chat (%u usuario)
-[%s: chat room (%u users)]
-%s: sala de chat (%u usuarios)
-[%s: message session]
-%s: sesión de mensaje
-[%s: message session (%u users)]
-%s: sesión de mensaje (%u usuarios)
-[Nickname]
-Apodo
-[Unique ID]
-ID único
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
@@ -1684,12 +1671,20 @@ Mensaje entrante (10x10)
 [Outgoing message (10x10)]
 Mensaje saliente (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[Last message received on %s at %s.]
-Último mensaje recibido el %s a %s.
-[Message session]
-Sesión de mensaje
 [%s is typing a message...]
 %s está escribiendo un mensaje...
+[Last message received on %s at %s.]
+Último mensaje recibido el %s a %s.
+[%s: chat room (%u user)]
+%s: sala de chat (%u usuario)
+[%s: chat room (%u users)]
+%s: sala de chat (%u usuarios)
+[%s: message session]
+%s: sesión de mensaje
+[%s: message session (%u users)]
+%s: sesión de mensaje (%u usuarios)
+[Message session]
+Sesión de mensaje
 ;file \src\core\stdmsg\src\msglog.cpp
 [Me]
 
@@ -1791,7 +1786,6 @@ Se ha producido un error desconocido.
 
 [Popups are disabled]
 
-;file \src\core\stdpopup\src\notify_imp.cpp
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 
@@ -2529,7 +2523,7 @@ Editar
 <Grupo raíz>
 [&Move to group]
 &Mover a grupo
-;file \src\mir_app\src\netliblog.cpp
+;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 Registro Netlib estándar
 [No times]
@@ -2546,7 +2540,7 @@ Tiempos en microsegundos
 Seleccione el archivo de registro que se creará
 [Select program to be run]
 Seleccione el programa a ser ejecutado
-;file \src\mir_app\src\netlibopts.cpp
+;file \src\mir_app\src\netlib_opts.cpp
 [<mixed>]
 
 [<All connections>]
@@ -2794,6 +2788,13 @@ Archivos WAV
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[Nickname]
+Apodo
+[Unique ID]
+ID único
+;file \src\mir_app\src\srmm_log.cpp
+[Log viewer]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Separador>

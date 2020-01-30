@@ -49,6 +49,11 @@
 Пароль няслушны!
 [Please type in your password]
 Увядзіце ваш пароль
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+
+[Error]
+Памылка
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Змяніць/выдаліць пароль
@@ -59,8 +64,12 @@
 Пароль надта кароткі!
 [Passwords do not match!]
 Паролі не супадаюць!
+[Database was compacted successfully]
+
 [Database]
 Профіль
+[Database compaction failed]
+
 [Logo]
 Меню
 [Compact]

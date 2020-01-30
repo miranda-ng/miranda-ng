@@ -49,6 +49,11 @@ Zu viele Fehler!
 Das Passwort ist inkorrekt!
 [Please type in your password]
 Bitte vergeben Sie ein Passwort!
+;file \plugins\Dbx_mdbx\src\dbintf.cpp
+[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
+
+[Error]
+Fehler
 ;file \plugins\Dbx_mdbx\src\dbintf.h
 [Change/remove password]
 Passwort ändern/entfernen
@@ -59,8 +64,12 @@ Falsches altes Passwort eingegeben!
 Passwort ist zu kurz!
 [Passwords do not match!]
 Passwörter stimmen nicht überein!
+[Database was compacted successfully]
+
 [Database]
 Datenbank
+[Database compaction failed]
+
 [Logo]
 Logo
 [Compact]

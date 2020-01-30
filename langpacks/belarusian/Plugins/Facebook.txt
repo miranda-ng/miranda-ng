@@ -1,415 +1,68 @@
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.0.2.1
+;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Падтрымка пратаколу Facebook.
-;file \protocols\FacebookRM\res\facebook.rc
+;file \protocols\Facebook\res\facebook.rc
 [E-mail:]
 Пошта:
 [Password:]
 Пароль:
 [Create a new Facebook account]
 Стварыць новы конт Facebook
-[What's on your mind?]
-Пра што вы думаеце?
-[Wall:]
-Сцяна:
-[Visibility:]
-Бачнасць:
-[Text:]
-Тэкст:
-[URL:]
-URL:
-[Place:]
-Месца:
-[Contacts >>]
-Кантакты >>
-[Attach contacts:]
-Далучыць кантакты:
-[Share]
-Падзяліцца
-[Cancel]
-Скасаваць
 [User details]
 Пра кантакт
 [Contacts]
 Кантакты
 [Default group:]
 Гурт:
-[Automatically set 'Ignore status change' flag]
-Аўтаматычна ўключаць ігнараванне змены статусаў
-[Use bigger avatars]
-Вялікія аватары
-[Prefer real names instead of nicknames]
-
-[Load also Messenger contacts at login (not only Facebook friends)]
-
-[Use Invisible status for Facebook Pages (instead of Offline)]
-
-[Popup notifications]
-
-[Show notifications]
-
-[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
-
-[News feed types to notify:]
-Абвяшчаць пра тыпы навін:
-[Don't show advertising posts]
-
-[Show friendships changes (when someone removes/approves you)]
-
-[Show real-time friends activity (ticker feed)]
-
-[Show my "On this day" posts at login]
-
-[Chatroom logging]
-
-[Log notifications into special chatroom]
-
-[Extra]
-Іншае
-[Use balloon notifications in system tray instead of popups]
-Абвяшчаць падказкай у трэі замест усплывальных вокнаў
-[Use this server for opening links:]
-Выкарыстоўваць гэты сервер для адкрыцця спасылкі:
-[Statuses]
-Статусы
-[Post Miranda statuses to Wall]
-Публікаваць статусы Miranda на сцяну
-[Turn off chat on Facebook when going to offline in Miranda]
-Адключаць чат на сайце пры адключэнні
-[Map unsupported statuses to Invisible (instead of Away)]
-
-[Allow posting statuses to my pages (may slow down login)]
-Дазволіць публікаваць статусы на сваіх старонках (замаруджвае уваход)
-[Advanced]
-Дадаткова
-[Send typing notifications even when Invisible]
-
-[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
-
-[Bots challenge test]
-Абарона ад ботаў
-[Instruction:]
-Інструкцыя:
-[Submit]
-Перадаць
-[Messages]
-Паведамленні
-[Keep messages as unread on server (don't send "seen" info)]
-Не пазначаць паведамленні прачытанымі
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
-[Multi user chats]
-
-[Enable multi user chats support]
+[Group chats]
+Чаты
+[Enable group chats]
 
 [Do not open chat windows on creation]
 
-[Automatically join active chats that exist in contact list]
+[Send group chat invitation]
+Запрасіць у чат
+[&Invite]
+Запрасіць
+[Cancel]
+Скасаваць
+;file \protocols\Facebook\src\groupchats.cpp
+[&Invite a user]
+Запрасіць кантакт
+[&Leave/destroy chat]
 
-[History synchronization]
+[&Kick user]
 
-[Load last messages on opening message window (EXPERIMENTAL)]
-
-[Number of messages to load:]
-
-[Facebook Login Approval]
-
-[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
-
-[Send SMS]
-Адправіць SMS
-;file \protocols\FacebookRM\src\captcha.cpp
-[Enter the text you see]
-Увядзіце тэкст, які бачыце
-;file \protocols\FacebookRM\src\chat.cpp
-[&Invite user...]
-&Запрасіць кантакт...
-[E&xit chat session]
-
-[&Destroy chat session]
-
-[User &details]
-&Дадзеныя кантакта
-[User &history]
-&Гісторыя кантакта
-[Delete conversation]
-
-[This will permanently delete the conversation history]
-
-[Former]
-
-[Myself]
-
-[Friend]
-
-[User]
-Карыстач
-[Notifications]
-Абвесткі
-[%s and more (%d)]
-
-;file \protocols\FacebookRM\src\communication.cpp
-[Login error: %s]
-Памылка далучэння: %s
-[Unknown error]
-Невядомая памылка
-[Login error: Invalid request.]
-Памылка далучэння: Памылковы запрос.
-[You entered too many invalid verification codes. Plugin will disconnect.]
-
-[You entered wrong verification code. Try it again.]
-
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-
-[Check last login]
-
-[Do you recognize this activity?]
-
-[Login error: You need to confirm last unknown login or revoke it from web browser.]
-
-[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
-
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-
-[Login error, probably bad login credentials.]
-Памылка далучэння, верагодна, няслушныя дадзеныя для ўваходу.
-[Could not load communication token. You should report this and wait for plugin update.]
-
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-
-[Contact doesn't have required data in database.]
-
-[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\nАдкрыйце сайт Facebook і паспрабуйце там адправіць паведамленне гэтаму кантакту!
-[User cancel captcha challenge.]
-
-[Timeout when sending message.]
-Затрымка пры адпраўцы паведамлення.
-[Status update was successful.]
-Паспяховае абнаўленне статуса.
-[Error occurred when requesting verification SMS code.]
-
-[Verification SMS code was sent to your mobile phone.]
-
-;file \protocols\FacebookRM\src\connection.cpp
-[Please enter a username.]
-Калі ласка, увядзіце імя карыстача.
-[Please enter a password.]
-Калі ласка, увядзіце пароль.
-;file \protocols\FacebookRM\src\contacts.cpp
-[Contact was removed from your server list.]
-Кантакт быў выдалены з вашага спісу на серверы.
-[Error occurred when removing contact from server.]
-Памылка пры выдаленні кантакта з сервера.
-[Request for friendship was sent.]
-Запыт на сяброўства адпраўлены.
-[Error occurred when requesting friendship.]
-Адбылася памылка пры запыце сяброўства.
-[Request for friendship was accepted.]
-
-[Error occurred when accepting friendship request.]
-
-[Request for friendship was canceled.]
-Запыт на сяброўства быў адменены.
-[Error occurred when canceling friendship request.]
-Адбылася памылка пры скасаванні запыта сяброўства.
-[Request for friendship was ignored.]
-
-[Error occurred when ignoring friendship request.]
-
-;file \protocols\FacebookRM\src\dialogs.cpp
-[Top News]
-Папулярныя навіны
-[Most Recent]
-Апошнія абнаўленні
-[Pages]
-Старонкі
-[Classic website]
-Класічны сайт
-[Mobile website]
-Мабільны сайт
-[Smartphone website]
-Для смартфонаў
-[Public]
-Усім
-[Friends of friends]
-Сябрам сяброў
-[Friends]
-Сябрам
-[Friends except acquaintances]
-Сябрам, акр. знаёмых
-[Only me]
-Толькі мне
-[Default]
-Змаўчанні
-[<< Contacts]
-<< Кантакты
-[What's on your mind, %s?]
-Пра што думаеш, %s?
-;file \protocols\FacebookRM\src\json.cpp
-[a sticker]
-сцікер
-[a GIF]
-
-[a link]
-
-[files]
-файлы
-[a file]
-файл
-[User sent %s:]
-Кантакт паслаў вам %s:
-[User sent an unsupported attachment. Open your browser to see it.]
-Кантакт паслаў непадтрымліваемае ўкладанне. Каб прагледзець, перайдзіце на сайт.
-[Reaction]
-
-[%s is typing a message...]
-%s набірае тэкст...
-;file \protocols\FacebookRM\src\messages.cpp
-[You cannot send messages when you are offline.]
-Вы не можаце адпраўляць паведамленні без далучэння.
-;file \protocols\FacebookRM\src\process.cpp
-[Contact is back on server-list.]
-Кантакт даданы ў спіс на серверы.
-[Contact is no longer on server-list.]
-Кантакт выдалены з спісу сервера.
-[Loading history started.]
-
-[Loading messages: %d/%d]
-
-[Loading history completed.]
-
-[<attachment without text>]
-
-[Loading memories...]
-
-[On this day]
-
-[Found %d memories.]
-
-[Loading notifications...]
-
-[Found %d notifications.]
-
-[Loading friendship requests...]
-
-[Found %d friendship requests (%d seen).]
-
-[Found %d friendship requests.]
-
-[Loading wall posts...]
-
-[Found %d wall posts.]
-
-;file \protocols\FacebookRM\src\proto.cpp
-[%s server connection]
-Далучэнне да сервера %s
-[Unable to initialize Netlib for %s.]
-Немагчыма стварыць злучэнне Netlib для %s.
-[Video call]
-
-[Facebook ID must be numeric value.]
-Facebook ID павінна быць лічбавым значэннем.
+;file \protocols\Facebook\src\options.cpp
 [Network]
 Сеціва
 [Account]
 Конт
-[Events]
-Падзеі
-[Messaging]
-Паведамленні
-[Share status...]
-Статус...
-[Own wall]
-Свая сцяна
-[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
+;file \protocols\Facebook\src\proto.cpp
+[%s server connection]
+Далучэнне да сервера %s
+[Protocol is offline or user isn't authorized yet]
 
-[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
+;file \protocols\Facebook\src\server.cpp
+[Participant]
+Удзельнік
+[Sticker received]
 
-[Do you want to cancel your friendship with '%s'?]
-Хочаце адмяніць сяброўства з '%s'?
-[Client errors]
+[SmileyAdd plugin required to support stickers]
 
-[Wall posts]
+[URL]
+Спасылка
+[Title]
+Загаловак
+[Source]
 
-[Other events]
-Іншыя падзеі
-[Friendship events]
-
-[Real-time friends activity]
-
-[Memories]
-
-[Visit profile]
-Профіль
-[Visit notifications]
-
-[Show 'Share status' window]
-Паведамленне статуса Facebook
-[Notification]
-Абвестка
-[Newsfeed event]
-Навіны
-[Other event]
-Іншая падзея
-[Friendship event]
-
-[Ticker event]
-
-[Message read: %s by %s]
-Паведамленне прачытана ў: %s карытальнікам %s
-[Message read: %s]
-Паведамленне прачытана ў: %s
-;file \protocols\FacebookRM\src\theme.cpp
-[Facebook icon]
-Абразок Facebook
-[Mind]
-Меркаванне
-[Poke]
-Тыкнуць
-[Newsfeed]
-Навіны
-[Friendship details]
-Дэталі сяброўства
-[Conversation]
-Гутарка
-[Message read]
-
-[Angry]
-Раззлаваныя
-[Haha]
-Ха-ха
-[Like]
-Упадабаць
-[Love]
-Каханне
-[Sad]
-Сумна
-[Wow]
-Ого
-[Visit friendship details]
-Дэталі сяброўства
-[Visit conversation]
-Гутарка на сайце
-[Load history]
-
-[Cancel friendship request]
-Скасаваць запыт сяброўства
-[Deny friendship request]
-
-[Services...]
-Службы...
-[Check friendship requests]
-Праверыць запыты сяброўства
-[Check newsfeeds]
-Праверыць навіны
-[Check memories]
-
-[Check notifications]
+[Description]
+Апісанне
+[Playable media]
 
