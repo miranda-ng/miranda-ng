@@ -317,16 +317,17 @@ void CSteamProto::HandleTokenExpired()
 
 void CSteamProto::OnLoggedOn(const HttpResponse &response, void *)
 {
+	if (response.GetStatusCode() == HTTP_CODE_UNAUTHORIZED) {
+		// Probably expired TokenSecret
+		SetStatus(ID_STATUS_OFFLINE);
+		HandleTokenExpired();
+		return;
+	}
+
 	if (!response.IsSuccess()) {
 		// Probably timeout or no connection, we can do nothing here
 		debugLogA(__FUNCTION__ ": unknown login error");
 		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	if (response.GetStatusCode() == HTTP_CODE_UNAUTHORIZED) {
-		// Probably expired TokenSecret
-		HandleTokenExpired();
 		return;
 	}
 
