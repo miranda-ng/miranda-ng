@@ -123,6 +123,16 @@ static void SetLastStatusMessages(TProtoSettings &ps)
 	}
 }
 
+void SS_LoadDynamic(SMProto *setting)
+{
+	if (!SSPlugin.getByte(SETTING_SETPROFILE, 1))
+		return;
+
+	TProtoSettings ps;
+	ps.insert(new SMProto(*setting));
+	SetStatusEx(ps);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Account control event
 
@@ -409,7 +419,7 @@ static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
 
 void StartupStatusLoad()
 {
-	if (g_bMirandaLoaded)
+	if (g_plugin.bMirandaLoaded)
 		SSModuleLoaded(0, 0);
 	else
 		HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
@@ -436,7 +446,7 @@ void StartupStatusLoad()
 
 void StartupStatusUnload()
 {
-	if (g_bMirandaLoaded)
+	if (g_plugin.bMirandaLoaded)
 		OnShutdown(0, 0);
 
 	KillModuleOptions(&SSPlugin);

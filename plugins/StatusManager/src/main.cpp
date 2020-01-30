@@ -60,11 +60,9 @@ extern "C" __declspec(dllexport) MUUID* MirandaPluginInterfaces(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's entry point
 
-bool g_bMirandaLoaded = false;
-
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	g_bMirandaLoaded = true;
+	g_plugin.bMirandaLoaded = true;
 
 	HookEvent(ME_OPT_INITIALISE, OnCommonOptionsInit);
 
@@ -79,8 +77,30 @@ int OnAccChanged(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
 	switch (wParam) {
+	case PRAC_CHECKED:
+		{
+			bool bFound = false, bEnabled = pa->IsEnabled();
+			for (auto &it : protoList) {
+				if (!mir_strcmp(it->m_szName, pa->szModuleName)) {
+					it->ssDisabled = !bEnabled;
+					if (g_SSEnabled && bEnabled)
+						SS_LoadDynamic(it);
+					bFound = true;
+					break;
+				}
+			}
+			if (bFound || !bEnabled)
+				break;
+		}
+		__fallthrough;
+
 	case PRAC_ADDED:
-		protoList.insert(new SMProto(pa));
+		{
+			auto *setting = new SMProto(pa);
+			protoList.insert(setting);
+			if (g_SSEnabled)
+				SS_LoadDynamic(setting);
+		}
 		break;
 
 	case PRAC_REMOVED:

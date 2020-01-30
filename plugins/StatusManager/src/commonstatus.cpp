@@ -304,7 +304,7 @@ bool IsSuitableProto(PROTOACCOUNT *pa)
 
 static int onShutdown(WPARAM, LPARAM)
 {
-	g_bMirandaLoaded = false;
+	g_plugin.bMirandaLoaded = false;
 	DestroyHookableEvent(hCSStatusChangedExEvent);
 	return 0;
 }

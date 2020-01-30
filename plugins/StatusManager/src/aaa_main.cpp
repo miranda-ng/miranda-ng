@@ -519,7 +519,7 @@ void AdvancedAutoAwayLoad()
 {
 	g_bAAASettingSame = AAAPlugin.getByte(SETTING_SAMESETTINGS);
 
-	if (g_bMirandaLoaded)
+	if (g_plugin.bMirandaLoaded)
 		AAAModuleLoaded(0, 0);
 	else
 		HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
@@ -527,7 +527,7 @@ void AdvancedAutoAwayLoad()
 
 void AdvancedAutoAwayUnload()
 {
-	if (g_bMirandaLoaded)
+	if (g_plugin.bMirandaLoaded)
 		AutoAwayShutdown(0, 0);
 
 	KillModuleOptions(&AAAPlugin);

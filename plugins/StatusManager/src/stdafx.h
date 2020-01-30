@@ -41,6 +41,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	bool bMirandaLoaded;
+
 	int Load() override;
 	int Unload() override;
 };
@@ -50,13 +52,11 @@ struct CFakePlugin : public CMPluginBase
 	CFakePlugin(const char *szModuleName);
 };
 
-
 #include "commonstatus.h"
 #include "keepstatus.h"
 #include "startupstatus.h"
 #include "advancedautoaway.h"
 
-extern bool g_bMirandaLoaded;
 extern CFakePlugin AAAPlugin, KSPlugin, SSPlugin;
 extern CMOption<bool> g_AAAEnabled, g_KSEnabled, g_SSEnabled;
 

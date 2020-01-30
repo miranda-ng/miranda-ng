@@ -112,6 +112,8 @@ char* OptName(int i, const char *setting);
 void StartupStatusLoad();
 void StartupStatusUnload();
 
+void SS_LoadDynamic(SMProto *);
+
 // profile
 void FillStatus(SMProto &ps, int profile);
 int GetProfile(int profileID, TProtoSettings &arSettings);

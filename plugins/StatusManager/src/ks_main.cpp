@@ -1066,7 +1066,7 @@ int KSModuleLoaded(WPARAM, LPARAM)
 
 void KeepStatusLoad()
 {
-	if (g_bMirandaLoaded)
+	if (g_plugin.bMirandaLoaded)
 		KSModuleLoaded(0, 0);
 	else
 		HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
@@ -1081,7 +1081,7 @@ void KeepStatusLoad()
 
 void KeepStatusUnload()
 {
-	if (g_bMirandaLoaded)
+	if (g_plugin.bMirandaLoaded)
 		onShutdown(0, 0);
 
 	KillModuleOptions(&KSPlugin);
