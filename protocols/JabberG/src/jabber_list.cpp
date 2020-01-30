@@ -176,12 +176,9 @@ void CJabberProto::ListRemove(JABBER_LIST list, const char *jid)
 void CJabberProto::ListRemoveList(JABBER_LIST list)
 {
 	mir_cslock lck(m_csLists);
-	for (auto &it : m_lstRoster.rev_iter()) {
-		if (it->list == list) {
-			delete it;
-			m_lstRoster.remove(m_lstRoster.indexOf(&it));
-		}
-	}
+	for (auto &it : m_lstRoster.rev_iter())
+		if (it->list == list)
+			delete m_lstRoster.removeItem(&it);
 }
 
 void CJabberProto::ListRemoveByIndex(int index)

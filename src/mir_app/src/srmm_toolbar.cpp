@@ -222,12 +222,9 @@ MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
 	{
 		mir_cslock lck(csToolBar);
 
-		auto T = arButtonsList.rev_iter();
-		for (auto &cbd : T)
-			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonID == bbdi->dwButtonID) {
-				pFound = cbd;
-				arButtonsList.remove(T.indexOf(&cbd));
-			}
+		for (auto &cbd : arButtonsList.rev_iter())
+			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonID == bbdi->dwButtonID)
+				pFound = arButtonsList.removeItem(&cbd);
 	}
 
 	if (pFound) {
@@ -425,15 +422,14 @@ MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg)
 
 static void CB_ReInitCustomButtons()
 {
-	auto T = arButtonsList.rev_iter();
-	for (auto &cbd : T) {
+	for (auto &cbd : arButtonsList.rev_iter())
 		if (cbd->m_opFlags & (BBSF_NTBSWAPED | BBSF_NTBDESTRUCT)) {
 			cbd->m_opFlags ^= BBSF_NTBSWAPED;
 
 			if (cbd->m_opFlags & BBSF_NTBDESTRUCT)
-				arButtonsList.remove(T.indexOf(&cbd));
+				arButtonsList.removeItem(&cbd);
 		}
-	}
+
 	qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
 
 	WindowList_Broadcast(g_hWindowList, WM_CBD_RECREATE, 0, 0);
@@ -791,10 +787,8 @@ void KillModuleToolbarIcons(HPLUGIN pPlugin)
 {
 	auto T = arButtonsList.rev_iter();
 	for (auto &cbd : T)
-		if (cbd->m_pPlugin == pPlugin) {
-			delete cbd;
-			arButtonsList.remove(T.indexOf(&cbd));
-		}
+		if (cbd->m_pPlugin == pPlugin)
+			delete arButtonsList.removeItem(&cbd);
 }
 
 static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)

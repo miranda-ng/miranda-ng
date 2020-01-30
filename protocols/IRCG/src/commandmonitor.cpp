@@ -2078,10 +2078,9 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage *pmsg)
 							setWString(hContact, "Nick", nick);
 	
 							// If user found, remove from checklist
-							auto T = checklist.rev_iter();
-							for (auto &it : T)
+							for (auto &it : checklist.rev_iter())
 								if (!mir_wstrcmpi(it->GetString(), nick))
-									checklist.remove(T.indexOf(&it));
+									checklist.removeItem(&it);
 						}
 					}
 					break;

@@ -193,11 +193,10 @@ MIR_APP_DLL(void) KillModuleExtraIcons(HPLUGIN pPlugin)
 {
 	LIST<ExtraIcon> arIcons(1);
 
-	auto T = registeredExtraIcons.rev_iter();
-	for (auto &it : T)
+	for (auto &it : registeredExtraIcons.rev_iter())
 		if (it->m_pPlugin == pPlugin) {
 			arIcons.insert(it);
-			registeredExtraIcons.remove(T.indexOf(&it));
+			registeredExtraIcons.removeItem(&it);
 		}
 
 	if (arIcons.getCount() == 0)

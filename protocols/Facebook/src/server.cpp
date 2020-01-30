@@ -576,8 +576,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	if (m_uid == actorFbId) {
 		for (auto& it : arOwnMessages) {
 			if (it->msgId == offlineId) {
-				ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) it->reqId, (LPARAM) szId.c_str());
-				arOwnMessages.remove(arOwnMessages.indexOf(&it));
+				ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
+				arOwnMessages.removeItem(&it);
 				break;
 			}
 		}
@@ -789,7 +789,7 @@ void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 			}
 			else ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
 
-			arOwnMessages.remove(arOwnMessages.indexOf(&it));
+			arOwnMessages.removeItem(&it);
 			break;
 		}
 	}

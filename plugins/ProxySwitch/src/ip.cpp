@@ -647,7 +647,7 @@ void UnboundConnections(LONG *OldIP, LONG *NewIP)
 			mir_cslock lck(csConnection_List);
 			for (auto &it : g_arConnections.rev_iter())
 				if (it->IP == (ULONG)*OldIP)
-					g_arConnections.remove(g_arConnections.indexOf(&it));
+					g_arConnections.removeItem(&it);
 		}
 		OldIP++;
 	}

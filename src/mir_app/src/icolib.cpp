@@ -613,12 +613,9 @@ MIR_APP_DLL(void) KillModuleIcons(HPLUGIN pPlugin)
 		return;
 
 	mir_cslock lck(csIconList);
-	auto T = iconList.rev_iter();
-	for (auto &it : T)
-		if (it->pPlugin == pPlugin) {
-			delete it;
-			iconList.remove(T.indexOf(&it));
-		}
+	for (auto &it : iconList.rev_iter())
+		if (it->pPlugin == pPlugin)
+			delete iconList.removeItem(&it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

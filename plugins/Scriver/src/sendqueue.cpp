@@ -89,7 +89,7 @@ void ReportSendQueueTimeouts(CMsgDialog *pDlg)
 			pDlg->StopMessageSending();
 			(new CErrorDlg(TranslateT("The message send timed out."), pDlg, it))->Create();
 		}
-		else arQueue.remove(arQueue.indexOf(&it));
+		else arQueue.removeItem(&it);
 	}
 }
 

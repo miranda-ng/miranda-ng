@@ -87,51 +87,51 @@ MIR_APP_DLL(void) KillModuleFonts(HPLUGIN pPlugin)
 {
 	for (auto &it : font_id_list.rev_iter())
 		if (it->pPlugin == pPlugin) {
-			font_id_list.remove(font_id_list.indexOf(&it));
+			font_id_list.removeItem(&it);
 			notifyOptions();
 		}
 
 	for (auto &it : font_id_list_w2.rev_iter())
 		if (it->pPlugin == pPlugin)
-			font_id_list_w2.remove(font_id_list_w2.indexOf(&it));
+			font_id_list_w2.removeItem(&it);
 
 	for (auto &it : font_id_list_w3.rev_iter())
 		if (it->pPlugin == pPlugin)
-			font_id_list_w3.remove(font_id_list_w3.indexOf(&it));
+			font_id_list_w3.removeItem(&it);
 }
 
 MIR_APP_DLL(void) KillModuleColours(HPLUGIN pPlugin)
 {
 	for (auto &it : colour_id_list.rev_iter())
 		if (it->pPlugin == pPlugin) {
-			colour_id_list.remove(colour_id_list.indexOf(&it));
+			colour_id_list.removeItem(&it);
 			notifyOptions();
 		}
 
 	for (auto &it : colour_id_list_w2.rev_iter())
 		if (it->pPlugin == pPlugin)
-			colour_id_list_w2.remove(colour_id_list_w2.indexOf(&it));
+			colour_id_list_w2.removeItem(&it);
 
 	for (auto &it : colour_id_list_w3.rev_iter())
 		if (it->pPlugin == pPlugin)
-			colour_id_list_w3.remove(colour_id_list_w3.indexOf(&it));
+			colour_id_list_w3.removeItem(&it);
 }
 
 MIR_APP_DLL(void) KillModuleEffects(HPLUGIN pPlugin)
 {
 	for (auto &it : effect_id_list.rev_iter())
 		if (it->pPlugin == pPlugin) {
-			effect_id_list.remove(effect_id_list.indexOf(&it));
+			effect_id_list.removeItem(&it);
 			notifyOptions();
 		}
 
 	for (auto &it : effect_id_list_w2.rev_iter())
 		if (it->pPlugin == pPlugin)
-			effect_id_list_w2.remove(effect_id_list_w2.indexOf(&it));
+			effect_id_list_w2.removeItem(&it);
 
 	for (auto &it : effect_id_list_w3.rev_iter())
 		if (it->pPlugin == pPlugin)
-			effect_id_list_w3.remove(effect_id_list_w3.indexOf(&it));
+			effect_id_list_w3.removeItem(&it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

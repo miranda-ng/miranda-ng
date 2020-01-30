@@ -371,7 +371,7 @@ MIR_APP_DLL(void) KillModuleSounds(HPLUGIN pPlugin)
 	auto T = arSounds.rev_iter();
 	for (auto &it : T)
 		if (it->pPlugin == pPlugin) {
-			arSounds.remove(T.indexOf(&it));
+			arSounds.removeItem(&it);
 			bFound = true;
 		}
 

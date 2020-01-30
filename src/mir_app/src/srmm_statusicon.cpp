@@ -256,10 +256,9 @@ MIR_APP_DLL(void) Srmm_ClickStatusIcon(MCONTACT hContact, const StatusIconClickD
 
 void KillModuleSrmmIcons(HPLUGIN pPlugin)
 {
-	auto T = arIcons.rev_iter();
-	for (auto &it : T)
+	for (auto &it : arIcons.rev_iter())
 		if (it->pPlugin == pPlugin)
-			arIcons.remove(T.indexOf(&it));
+			arIcons.removeItem(&it);
 }
 
 int LoadSrmmModule()

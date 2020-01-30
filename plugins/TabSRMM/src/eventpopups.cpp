@@ -50,14 +50,13 @@ static PLUGIN_DATAT* PU_GetByContact(const MCONTACT hContact)
  */
 static void PU_CleanUp()
 {
-	auto T = arPopupList.rev_iter();
-	for (auto &p : T) {
+	for (auto &p : arPopupList.rev_iter()) {
 		if (p->hContact != 0)
 			continue;
 
 		mir_free(p->eventData);
 		mir_free(p);
-		arPopupList.remove(T.indexOf(&p));
+		arPopupList.removeItem(&p);
 	}
 }
 

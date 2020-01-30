@@ -471,13 +471,13 @@ void CJabberInfoFrame::RemoveInfoItem(char *pszName)
 {
 	bool bUpdate = false;
 	size_t length = mir_strlen(pszName);
-	auto T = m_pItems.rev_iter();
-	for (auto &p : T) {
+
+	for (auto &p : m_pItems.rev_iter()) {
 		if (!strncmp(p->m_pszName, pszName, length)) {
 			if (!p->m_bShow)
 				--m_hiddenItemCount;
 			RemoveTooltip(p->m_tooltipId);
-			m_pItems.remove(T.indexOf(&p));
+			m_pItems.removeItem(&p);
 			bUpdate = true;
 		}
 	}

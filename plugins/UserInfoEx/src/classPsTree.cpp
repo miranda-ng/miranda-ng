@@ -136,7 +136,7 @@ void CPsTree::Remove(HINSTANCE hInst)
 				TreeView_DeleteAllItems(_hWndTree);
 				bRemoved = true;
 			}
-			_pages.remove(_pages.indexOf(&it));
+			_pages.removeItem(&it);
 		}
 	}
 

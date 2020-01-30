@@ -383,7 +383,7 @@ public:
 							m_tree.DeleteAllItems();
 							bRemoved = true;
 						}
-						m_pages.remove(m_pages.indexOf(&odp));
+						m_pages.removeItem(&odp);
 					}
 				}
 

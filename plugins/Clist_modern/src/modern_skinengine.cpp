@@ -525,10 +525,9 @@ int ske_ReleaseBufferDC(HDC hDC, int keepTime)
 {
 	DWORD dwCurrentTime = GetTickCount();
 
-	//Try to find DC in buffer list - set flag to be release after time;
+	// Try to find DC in buffer list - set flag to be release after time;
 	mir_cslock lck(BufferListCS);
-	auto T = BufferList.rev_iter();
-	for (auto &it : T) {
+	for (auto &it : BufferList.rev_iter()) {
 		if (it) {
 			if (hDC != nullptr && it->hDC == hDC) {
 				it->dwDestroyAfterTime = dwCurrentTime + keepTime;
@@ -539,8 +538,7 @@ int ske_ReleaseBufferDC(HDC hDC, int keepTime)
 				SelectObject(it->hDC, it->oldBitmap);
 				DeleteObject(it->hBitmap);
 				DeleteDC(it->hDC);
-				mir_free(it);
-				BufferList.remove(T.indexOf(&it));
+				mir_free(BufferList.removeItem(&it));
 			}
 		}
 	}

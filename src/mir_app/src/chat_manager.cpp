@@ -211,7 +211,7 @@ int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeCon
 	for (auto &si : T) {
 		if (si->iType != GCW_SERVER && !mir_strcmpi(si->pszModule, pszModule)) {
 			SM_FreeSession(si, removeContact);
-			g_arSessions.remove(T.indexOf(&si));
+			g_arSessions.removeItem(&si);
 		}
 	}
 	return TRUE;
@@ -428,7 +428,7 @@ void SM_RemoveAll(void)
 {
 	for (auto &it : g_arSessions.rev_iter()) {
 		SM_FreeSession(it, false);
-		g_arSessions.remove(g_arSessions.indexOf(&it));
+		g_arSessions.removeItem(&it);
 	}
 }
 
@@ -821,7 +821,7 @@ static BOOL UM_RemoveUser(SESSION_INFO *si, const wchar_t *pszUID)
 		if (!mir_wstrcmpi(ui->pszUID, pszUID)) {
 			mir_free(ui->pszNick);
 			mir_free(ui->pszUID);
-			arUsers.remove(arUsers.indexOf(&ui));
+			arUsers.removeItem(&ui);
 			break;
 		}
 	}

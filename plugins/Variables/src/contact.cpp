@@ -332,7 +332,7 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 			(isUid && (it->flags & CI_UNIQUEID))) {
 			/* remove from cache */
 			mir_free(it->tszContact);
-			arContactCache.remove(arContactCache.indexOf(&it));
+			arContactCache.removeItem(&it);
 			break;
 		}
 	}

@@ -239,7 +239,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 
 		iGap++;
 		arByName.remove(it);
-		arByIds.remove(arByIds.indexOf(&it));
+		arByIds.removeItem(&it);
 	}
 
 	for (auto &it : arByIds) {

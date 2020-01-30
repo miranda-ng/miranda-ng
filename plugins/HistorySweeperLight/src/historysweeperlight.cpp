@@ -225,10 +225,9 @@ int OnWindowEvent(WPARAM, LPARAM lParam)
 			SweepHistoryFromContact(msgEvData->hContact, Criteria, TRUE);
 		}
 
-		auto T = g_hWindows.rev_iter();
-		for (auto &it : T)
+		for (auto &it : g_hWindows.rev_iter())
 			if (it == PVOID(msgEvData->hContact))
-				g_hWindows.remove(T.indexOf(&it));
+				g_hWindows.removeItem(&it);
 		break;
 	}
 

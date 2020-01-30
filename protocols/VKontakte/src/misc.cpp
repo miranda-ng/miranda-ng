@@ -212,7 +212,7 @@ bool CVkProto::CheckMid(LIST<void> &lList, int guid)
 {
 	for (auto &it : lList)
 		if ((INT_PTR)it == guid) {
-			lList.remove(lList.indexOf(&it));
+			lList.removeItem(&it);
 			return true;
 		}
 

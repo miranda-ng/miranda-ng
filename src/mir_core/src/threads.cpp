@@ -239,7 +239,7 @@ static void __cdecl KillObjectThreadsWorker(void* owner)
 			TerminateThread(it->hThread, 9999);
 			CloseHandle(it->hThread);
 			mir_free(it);
-			threads.remove(T.indexOf(&it));
+			threads.removeItem(&it);
 		}
 	}
 }

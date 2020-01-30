@@ -373,7 +373,7 @@ void KillModuleAccounts(HINSTANCE hInst)
 			}
 		}
 
-		g_arProtos.remove(g_arProtos.indexOf(&pd));
+		g_arProtos.removeItem(&pd);
 	}
 }
 
@@ -418,7 +418,7 @@ void UnloadAccountsModule()
 	auto T = accounts.rev_iter();
 	for (auto &it : T) {
 		UnloadAccount(it, 0);
-		accounts.remove(T.indexOf(&it));
+		accounts.removeItem(&it);
 	}
 	accounts.destroy();
 

@@ -121,10 +121,9 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 	}
 
 	// Remove contacts not on list (not tagged)
-	auto T = info->mJoinedContacts.rev_iter();
-	for (auto &it : T) {
+	for (auto &it : info->mJoinedContacts.rev_iter()) {
 		if (!it->btag)
-			info->mJoinedContacts.remove(T.indexOf(&it));
+			info->mJoinedContacts.removeItem(&it);
 		else
 			it->btag = 0;
 	}

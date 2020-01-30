@@ -120,7 +120,7 @@ void CDiscordProto::OnCommandCallDeleted(const JSONNode &pRoot)
 	for (auto &call : arVoiceCalls.rev_iter())
 		if (call->channelId == channelId) {
 			elapsed = currTime - call->startTime;
-			arVoiceCalls.remove(arVoiceCalls.indexOf(&call));
+			arVoiceCalls.removeItem(&call);
 			break;
 		}
 
@@ -257,11 +257,10 @@ void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 	if (pGuild == nullptr)
 		return;
 
-	auto T = arUsers.rev_iter();
-	for (auto &it : T)
+	for (auto &it : arUsers.rev_iter())
 		if (it->pGuild == pGuild) {
 			Chat_Terminate(m_szModuleName, it->wszUsername, true);
-			arUsers.remove(T.indexOf(&it));
+			arUsers.removeItem(&it);
 		}
 
 	Chat_Terminate(m_szModuleName, pRoot["name"].as_mstring(), true);

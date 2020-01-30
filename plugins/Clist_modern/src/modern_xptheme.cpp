@@ -72,12 +72,10 @@ void xpt_FreeThemeHandle(XPTHANDLE xptHandle)
 void xpt_FreeThemeForWindow(HWND hwnd)
 {
 	mir_cslock lck(xptCS);
-	auto T = xptObjectList.rev_iter();
-	for (auto &xptObject : T)
-		if (xptObject->hOwnerWindow == hwnd) {
-			_sttXptCloseThemeData(xptObject);
-			xptObjectList.remove(T.indexOf(&xptObject));
-		}
+
+	for (auto &xptObject : xptObjectList.rev_iter())
+		if (xptObject->hOwnerWindow == hwnd)
+			_sttXptCloseThemeData(xptObjectList.removeItem(&xptObject));
 }
 
 void xpt_OnWM_THEMECHANGED()
