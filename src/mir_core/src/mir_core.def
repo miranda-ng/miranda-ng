@@ -1452,3 +1452,8 @@ XmlGetChildText @1645
 ?RemoveControl@CDlgBase@@IAEXPAVCCtrlBase@@@Z @1667 NONAME
 ?assign@MBinBuffer@@QAEXPAXI@Z @1668 NONAME
 ?GetHwnd@CTimer@@QBEPAUHWND__@@XZ @1669 NONAME
+??0MNonCopyable@@QAE@XZ @1670 NONAME
+??0mir_cs@@QAE@XZ @1671 NONAME
+??1mir_cs@@QAE@XZ @1672 NONAME
+?Lock@mir_cs@@QAEXXZ @1673 NONAME
+?Unlock@mir_cs@@QAEXXZ @1674 NONAME

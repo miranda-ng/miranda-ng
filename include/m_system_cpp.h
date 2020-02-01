@@ -39,9 +39,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ///////////////////////////////////////////////////////////////////////////////
 // general lists' templates
 
-struct MNonCopyable
+struct MIR_CORE_EXPORT MNonCopyable
 {
-	MNonCopyable() {}
+	__inline MNonCopyable() {}
 
 	MNonCopyable(const MNonCopyable&) = delete;
 	MNonCopyable& operator=(const MNonCopyable&) = delete;
@@ -73,18 +73,16 @@ typedef mir_ptr<wchar_t> ptrW;
 ///////////////////////////////////////////////////////////////////////////////
 // mir_cs - simple wrapper for the critical sections
 
-class mir_cs
+class MIR_CORE_EXPORT mir_cs : public MNonCopyable
 {
 	CRITICAL_SECTION m_cs;
 
 public:
-	__inline mir_cs() { ::InitializeCriticalSection(&m_cs); }
-	__inline ~mir_cs() { ::DeleteCriticalSection(&m_cs); }
+	mir_cs();
+	~mir_cs();
 
-	__inline void Lock() { ::EnterCriticalSection(&m_cs); }
-	__inline void Unlock() { ::LeaveCriticalSection(&m_cs); }
-
-	__inline operator CRITICAL_SECTION&() { return m_cs; }
+	void Lock();
+	void Unlock();
 };
 
 ///////////////////////////////////////////////////////////////////////////////
