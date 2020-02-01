@@ -1111,9 +1111,9 @@ Unterkontakt-Anzeigenamen anzeigen
 [Lock name to first contact]
 Namen auf ersten Kontakt festlegen
 [Choose needed logger from listed below:]
-
+Gewünschten Verlaufsbetrachter aus Liste auswählen:
 [Enable custom log controls in group chats]
-
+Angepassten Verlaufsbetrachter in Gruppenchats verwenden
 [Current language:]
 Aktuelle Sprache:
 [Last modified using:]
@@ -1153,7 +1153,7 @@ S&chließen
 [Credits >]
 Dank an >
 [Hidden window]
-
+Verstecktes Fenster
 [Tray]
 Tray
 [&Hide/Show]
@@ -2794,7 +2794,7 @@ Nickname
 Unique ID
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
-
+Verlaufsbetrachter
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Trennlinie>

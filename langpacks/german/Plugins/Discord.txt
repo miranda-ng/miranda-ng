@@ -30,7 +30,7 @@ Nick:
 [Incoming call]
 Eingehender Anruf
 [Call ended, %d seconds long]
-
+Anruf beendet, dauerte %d Sekunden
 [edited at]
 bearbeitet am
 ;file \protocols\Discord\src\groupchat.cpp

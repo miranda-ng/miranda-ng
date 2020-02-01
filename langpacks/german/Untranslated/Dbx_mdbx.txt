@@ -1,3 +1,0 @@
-[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
-[Database was compacted successfully]
-[Database compaction failed]

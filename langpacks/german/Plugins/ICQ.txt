@@ -9,7 +9,7 @@
 ICQ-Protokollunterstützung für Miranda NG.
 ;file \protocols\ICQ-WIM\res\resources.rc
 [Edit server groups]
-
+Servergruppen bearbeiten
 [UIN/e-mail:]
 UIN/E-Mail:
 [Password:]
@@ -96,7 +96,7 @@ Umbenennen
 [Delete]
 Löschen
 [Enter new group name]
-
+Neuen Gruppennamen eingeben
 [UIN/e-mail/phone]
 UIN/E-Mail/Telefon
 ;file \protocols\ICQ-WIM\src\server.cpp
@@ -117,4 +117,4 @@ Unbekannter Sticker
 [User sent a sticker:]
 Benutzer hat einen Sticker gesendet:
 [Buddy addition failed]
-
+Hinzufügen eines Freundes fehlgeschlagen

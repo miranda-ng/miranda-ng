@@ -45,9 +45,9 @@ Herunterladen
 [Upload]
 Hochladen
 [Import from file]
-Importieren
+Aus Datei importieren
 [Export to file]
-Exportieren
+In Datei exportieren
 [Username:]
 Benutzername:
 [Change password]
@@ -195,7 +195,7 @@ Aktuelles Passwort:
 [New Password:]
 Neues Passwort:
 [Confirm New Password:]
-Bestätigung:
+Neues Passwort bestätigen:
 [Jabber Multi-User Conference]
 Jabber-Mehrbenutzerkonferenz
 [Create or join existing conference room.]
@@ -391,7 +391,7 @@ Jabber-Aktivität
 Jabber-Stimmung
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
-
+Fehler %s %s
 [Select Command]
 Befehl wählen
 [Not supported]
@@ -399,15 +399,15 @@ Wird nicht unterstützt
 [Done]
 Fertig
 [In progress. Please Wait...]
-
+In Arbeit. Bitte warten...
 [Execute]
 Ausführen
 [Requesting command list. Please wait...]
 Liste der verfügbaren Befehle wird abgefragt. Bitte warten Sie...
 [Jabber Ad-Hoc commands at %s]
-
+Jabber Ad-Hoc-Befehle an %s
 [Sending Ad-Hoc command to %s]
-
+Sende Ad-Hoc-Befehl an %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Registrierung an Jabberagenten
@@ -549,7 +549,7 @@ Moderatoren
 [Owners]
 Besitzer
 [User %s is now banned.]
-
+Benutzer %s ist nun verbannt.
 [User %s changed status to %s with message: %s]
 Benutzer %s änderte den Status zu '%s' mit der Nachricht: %s
 [User %s changed status to %s]
@@ -563,9 +563,9 @@ Mitgliedschaft von %s wurde geändert in '%s'.
 [Role of %s was changed to '%s'.]
 Rolle von %s wurde in '%s' geändert.
 [because room is now members-only]
-
+weil Raum nun nur für Mitglieder ist
 [user banned]
-
+Benutzer verbannt
 [Change &nickname]
 &Nickname ändern
 [&Invite a user]
@@ -665,7 +665,7 @@ Benutzer einladen in\n%s
 [%s (not on roster)]
 %s (nicht in der Kontaktliste)
 [%s from\n%s]
-
+%s aus\n%s
 [Real JID not available]
 Echte JID nicht verfügbar
 [Reason to kick %s]
@@ -727,7 +727,7 @@ Suchverzeichnis hinzufügen
 [Use this proxy]
 Diesen Proxyserver benutzen
 [Use for uploads]
-
+Zum Hochladen benutzen
 [Commands...]
 Befehle...
 [Logon]
@@ -737,26 +737,26 @@ Abmelden
 [Copy JID]
 JID kopieren
 [Copy node name]
-Nodenamen kopieren
+Knotennamen kopieren
 [Copy node information]
-Nodeinformationen kopieren
+Knoteninformationen kopieren
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
-
+Identitäten
 [category]
-
+Kategorie
 [type]
-typ
+Typ
 [Category]
-
+Kategorie
 [Type]
 Typ
 [Supported features]
-
+Unterstützte Funktionen
 [Info request error]
-
+Fehler beim Anfragen der Info
 [Items request error]
-
+Fehler beim Anfragen der Einträge
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Fehler beim Abrufen der Raumliste vom Server.
@@ -779,7 +779,7 @@ Nicknamen in <%s> ändern
 [Error]
 Fehler
 [has set the subject to:]
-
+hat das Thema geändert zu:
 [Group chat invitation to\n%s]
 Gruppenchateinladung in\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -798,9 +798,9 @@ Transporte
 [Personal vCard]
 Persönliche vCard
 [Convert to room]
-In Konferenzraum umwandeln
+In Raum umwandeln
 [Login/logout]
-Anmelden/Abmelden
+An-/Abmelden
 [Resolve nicks]
 Nicks auflösen
 [Send note]
@@ -1369,7 +1369,7 @@ Konto wirklich löschen?
 [You can change your password only when you are online]
 Sie können Ihr Passwort nur ändern, wenn Sie online sind.
 [You must be online]
-Du musst Online sein
+Sie müssen Online sein
 [Messaging]
 Nachrichten
 [Send messages slower, but with full acknowledgment]
@@ -1494,7 +1494,7 @@ S.ms
 Einige Änderungen werden sich erst bei Ihrer nächsten Verbindung mit Jabber auswirken.
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%s]
-
+Neues Passwort für %s@%s eingeben
 [New password does not match.]
 Neues Passwort und Bestätigung stimmen nicht überein.
 [Current password is incorrect.]
@@ -1631,9 +1631,9 @@ Protokoll ist offline oder keine JID
 Es existiert noch keine gültige OMEMO-Sitzung
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
-
+Befehl erfolgreich ausgeführt
 [Error occurred during processing command]
-
+Fehler beim Verarbeiten des Befehls aufgetreten
 [Set status]
 Status setzen
 [Set options]
@@ -1641,7 +1641,7 @@ Einstellungen vornehmen
 [Forward unread messages]
 Ungelesene Nachrichten weiterleiten
 [Leave group chats]
-
+Gruppenchats verlassen
 [Lock workstation]
 Arbeitsstation sperren
 [Quit Miranda NG]
@@ -1653,7 +1653,7 @@ Bitte wählen Sie den Status und die Statusnachricht aus
 [Status]
 Status
 [Extended away (Not available)]
-
+Erweiterte Abwesenheit (Nicht verfügbar)
 [Invisible]
 Unsichtbar
 [Offline]
@@ -1663,7 +1663,7 @@ Priorität
 [Status message]
 Statusnachricht
 [Change global status]
-
+Globalen Status ändern
 [Set Options]
 Einstellungen vornehmen
 [Set the desired options]
@@ -1673,29 +1673,29 @@ Dateitransfer automatisch annehmen
 [Play sounds]
 Klänge abspielen
 [Disable remote controlling (check twice what you are doing)]
-
+Fernsteuerung deaktivieren (prüfen Sie zweimal was Sie machen)
 [There is no messages to forward]
-
+Es gibt keine Nachricht zum Weiterleiten
 [Forward options]
-
+Weiterleitungs-Einstellungen
 [%d message(s) to be forwarded]
-
+%d weiterzuleitende Nachricht(en)
 [Mark messages as read]
 Nachrichten als gelesen markieren
 [%d message(s) forwarded]
-
+%d Nachricht(en) weitergeleitet
 [Workstation successfully locked]
 Arbeitsstation erfolgreich gesperrt!
 [Error %d occurred during workstation lock]
-
+Fehler %d beim Sperren des Arbeitsplatzes aufgetreten
 [Confirmation needed]
-
+Bestätigung erforderlich
 [Please confirm Miranda NG shutdown]
 Bitte bestätigen Sie das Beenden von Miranda NG
 [There is no group chats to leave]
-
+Es gibt keine Gruppenchats, die Sie verlassen können
 [Choose the group chats you want to leave]
-
+Wählen Sie, welche Gruppenchats Sie verlassen möchten
 ;file \protocols\JabberG\src\jabber_roster.cpp
 [Group]
 Gruppe
@@ -1715,7 +1715,7 @@ Fehler %s %s\r\nBitte den Server wechseln!
 [Error: unknown reply received\r\nPlease select other server]
 Fehler: Unbekannte Antwort erhalten.\r\nBitte den Server wechseln!
 [Error %s %s\r\nTry to specify more detailed]
-
+Fehler %s %s\r\nBitte machen Sie detailliertere Angaben
 [Search error]
 Suchfehler
 [Select/type search service URL above and press <Go>]
@@ -1726,17 +1726,17 @@ Bitte warten...\r\nVerbinde mit Suchserver...
 Hinweis: Sie müssen mit dem Server verbunden sein!
 ;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
-hat das Nachrichtenfenster geschlossen
+hat Chatsitzung geschlossen
 [sent subscription request]
-sende Autorisierungsanfrage
+hat Autorisierungsanfrage gesendet
 [approved subscription request]
-genehmigt Autorisierungsanfrage
+hat Autorisierungsanfrage angenommen
 [declined subscription]
-Autorisierungsanfrage zurückgezogen
+hat Autorisierungsanfrage abgelehnt
 [sent error presence]
-sende Anwesenheitsfehler
+hat Anwesenheitsfehler gesendet
 [sent unknown presence type]
-sende unbekannten Anwesenheitstyp
+hat unbekannten Anwesenheitstyp gesendet
 [Nick:]
 Nick:
 [Status:]
@@ -1755,9 +1755,9 @@ Fehler: Verbindung unterbrochen
 [Requesting registration instruction...]
 Registrierungsanweisung wird empfangen...
 [Authentication failed for %s@%s.]
-
+Autorisierung fehlgeschlagen für %s@%s.
 [Message redirected from: %s\r\n]
-
+Nachricht weitergeleitet von: %s\r\n
 [Registration canceled]
 Registrierung abgebrochen
 [Sending registration information...]
@@ -1774,7 +1774,7 @@ Version
 [System]
 System
 [<currently online>]
-
+<aktuell online>
 [Last activity]
 Letzte Aktivität
 [Client capabilities]
@@ -1814,7 +1814,7 @@ Abmeldenachricht
 [Last active resource]
 Letzter aktiver Standort
 [Please switch online to see more details.]
-
+Bitte gehen Sie online um weitere Details zu sehen.
 [Copy]
 Kopieren
 [Copy only this value]

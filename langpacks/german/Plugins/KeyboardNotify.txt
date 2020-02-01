@@ -17,9 +17,9 @@ Eingehende Nachrichten
 [Incoming files]
 Eingehende Dateien
 [Groupchat messages]
-
+Gruppenchat-Nachrichten
 [Everything else]
-Der ganze Rest
+Alles andere
 [Message-Event only]
 Nur Textnachrichten
 [Blink if message window is open]

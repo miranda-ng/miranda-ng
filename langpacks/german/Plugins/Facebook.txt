@@ -34,7 +34,7 @@ E&inladen
 Abbrechen
 ;file \protocols\Facebook\src\groupchats.cpp
 [&Invite a user]
-Benutzer in diesen MUC e&inladen
+Benutzer e&inladen
 [&Leave/destroy chat]
 Chat ver&lassen/zerstören
 [&Kick user]
@@ -53,16 +53,16 @@ Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
 [Participant]
 Teilnehmer
 [Sticker received]
-
+Sticker empfangen
 [SmileyAdd plugin required to support stickers]
-
+Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [URL]
 URL
 [Title]
 Titel
 [Source]
-
+Quelle
 [Description]
 Übersicht
 [Playable media]
-
+Abspielbares Medium

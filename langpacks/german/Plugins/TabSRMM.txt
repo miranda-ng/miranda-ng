@@ -1638,7 +1638,7 @@ Lange Nachrichten automatisch trennen (experimentell, Vorsicht)
 [Log status changes]
 Statuswechsel aufzeichnen
 [Use the same splitter height for all sessions]
-
+Selbe Trennerhöhe für alle Sitzungen verwenden
 [Automatically copy selected text]
 Markierten Text automatisch kopieren
 [Message log appearance]
