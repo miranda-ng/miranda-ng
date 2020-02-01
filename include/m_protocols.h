@@ -32,8 +32,8 @@ struct PROTO_INTERFACE;
 #include "statusmodes.h"
 
 #include <m_core.h>
+#include <m_system.h>
 #include <m_genmenu.h>
-#include <m_system_cpp.h>
 
 struct CCSDATA
 {

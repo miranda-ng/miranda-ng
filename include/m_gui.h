@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <CommCtrl.h>
 
+#include <m_system.h>
 #include <m_protoint.h>
 #include <m_clc.h>
 
@@ -157,8 +158,6 @@ private:
 	Type m_default;
 };
 
-#ifdef M_SYSTEM_CPP_H__
-
 template<>
 class CMOption<char*> : public CMOptionBase
 {
@@ -235,7 +234,6 @@ private:
 	mir_ptr<Type> m_value;
 };
 
-#endif
 /////////////////////////////////////////////////////////////////////////////////////////
 // Callbacks
 

@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <windows.h>
 #include <time.h>
 
-#include <m_system_cpp.h>
+#include <m_system.h>
 
 // C++ bool type
 #define UTILS_CONV_BOOLEAN              0x0001 // true | false

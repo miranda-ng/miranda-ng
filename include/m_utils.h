@@ -360,8 +360,8 @@ EXTERN_C MIR_APP_DLL(char*) Utils_ReplaceVars(const char *szData, MCONTACT hCont
 EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = nullptr);
 
 #if defined(__cplusplus)
-	#if !defined(M_SYSTEM_CPP_H__)
-		#include "m_system_cpp.h"
+	#if !defined(M_SYSTEM_H__)
+		#include "m_system.h"
 	#endif
 
 	struct VARS : public ptrA

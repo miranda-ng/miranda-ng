@@ -13,7 +13,7 @@
 #include <string>
 
 #include <newpluginapi.h>
-#include <m_system_cpp.h>
+#include <m_system.h>
 #include <m_langpack.h>
 #include <m_avatars.h>
 #include <m_protocols.h>
