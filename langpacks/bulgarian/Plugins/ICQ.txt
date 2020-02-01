@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.7
+;  Version: 0.95.11.8
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -118,3 +118,13 @@ UIN:
 
 [Buddy addition failed]
 
+[Image received:]
+
+[File received]
+Файлът е получен
+[File name]
+Име на файла
+[URL]
+URL
+[Preview]
+Образец
