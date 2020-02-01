@@ -46,6 +46,18 @@ BOOL CTimer::OnTimer()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTimer::Start(int elapse)
+{
+	::SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, nullptr);
+}
+
+void CTimer::Stop()
+{
+	::KillTimer(m_wnd->GetHwnd(), m_idEvent);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct TStartParam
 {
 	CTimer *pTimer;
@@ -58,7 +70,7 @@ static INT_PTR CALLBACK stubStart(void *param)
 	return ::SetTimer(p->pTimer->GetHwnd(), p->pTimer->GetEventId(), p->period, nullptr);
 }
 
-void CTimer::Start(int elapse)
+void CTimer::StartSafe(int elapse)
 {
 	TStartParam param = { this, elapse };
 	CallFunctionSync(stubStart, &param);
@@ -72,7 +84,7 @@ static INT_PTR CALLBACK stubStop(void *param)
 	return ::KillTimer(p->GetHwnd(), p->GetEventId());
 }
 
-void CTimer::Stop()
+void CTimer::StopSafe()
 {
 	CallFunctionSync(stubStop, this);
 }

@@ -497,6 +497,9 @@ public:
 	void Start(int elapse);
 	void Stop();
 
+	void StartSafe(int elapse);
+	void StopSafe();
+
 	CCallback<CTimer> OnEvent;
 
 protected:

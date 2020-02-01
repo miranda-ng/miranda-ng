@@ -1457,3 +1457,5 @@ XmlGetChildText @1645
 ??1mir_cs@@QEAA@XZ @1672 NONAME
 ?Lock@mir_cs@@QEAAXXZ @1673 NONAME
 ?Unlock@mir_cs@@QEAAXXZ @1674 NONAME
+?StartSafe@CTimer@@QEAAXH@Z @1675 NONAME
+?StopSafe@CTimer@@QEAAXXZ @1676 NONAME

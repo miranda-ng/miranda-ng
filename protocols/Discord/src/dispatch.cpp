@@ -550,7 +550,7 @@ void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
 void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 {
 	GatewaySendHeartbeat();
-	m_impl.m_heartBeat.Start(m_iHartbeatInterval);
+	m_impl.m_heartBeat.StartSafe(m_iHartbeatInterval);
 
 	m_szGatewaySessionId = pRoot["session_id"].as_mstring();
 
