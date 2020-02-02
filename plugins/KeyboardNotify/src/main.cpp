@@ -407,10 +407,13 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 // monitors group chat events
 static int OnGcEvent(WPARAM, LPARAM lParam)
 {
-	GCHOOK *gc = (GCHOOK *)lParam;
-	if (gc->iType == GC_USER_MESSAGE && bFlashOnGC)
-		if (contactCheckProtocol(gc->si->pszModule, gc->si->hContact, EVENTTYPE_MESSAGE) && checkNotifyOptions() && checkStatus(gc->si->pszModule))
-			SetEvent(hFlashEvent);
+	auto *gce = (GCEVENT *)lParam;
+	if (gce->iType == GC_EVENT_MESSAGE && bFlashOnGC) {
+		SESSION_INFO *si = g_chatApi.SM_FindSession(gce->pszID.w, gce->pszModule);
+		if (si)
+			if (contactCheckProtocol(si->pszModule, si->hContact, EVENTTYPE_MESSAGE) && checkNotifyOptions() && checkStatus(si->pszModule))
+				SetEvent(hFlashEvent);
+	}
 
 	return 0;
 }
@@ -913,7 +916,7 @@ int CMPlugin::Load()
 	OpenKeyboardDevice();
 
 	HookEvent(ME_MC_ENABLED, OnMetaChanged);
-	HookEvent(ME_GC_EVENT, OnGcEvent);
+	HookEvent(ME_GC_HOOK_EVENT, OnGcEvent);
 	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);
 	HookEvent(ME_OPT_INITIALISE, InitializeOptions);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
