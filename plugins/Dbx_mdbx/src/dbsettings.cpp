@@ -82,21 +82,22 @@ LBL_Seek:
 	if (szCachedSettingName[-1] != 0)
 		return 1;
 
+	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : nullptr;
+
+	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen);
+	keyVal->hContact = contactID;
+	keyVal->dwModuleId = GetModuleID(szModule);
+	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
+
 	int res;
 	const BYTE *pBlob;
-	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : nullptr;
 	{
 		txn_ptr_ro trnlck(m_txn_ro);
-
-		DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen);
-		keyVal->hContact = contactID;
-		keyVal->dwModuleId = GetModuleID(szModule);
-		memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
-
 		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
 		res = mdbx_get(trnlck, m_dbSettings, &key, &data);
 		pBlob = (const BYTE*)data.iov_base;
 	}
+
 	if (res != MDBX_SUCCESS) {
 		// try to get the missing mc setting from the active sub
 		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
