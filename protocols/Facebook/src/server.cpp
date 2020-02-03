@@ -263,9 +263,9 @@ bool FacebookProto::RefreshToken()
 	m_szAuthToken = reply.data()["access_token"].as_mstring();
 	setString(DBKEY_TOKEN, m_szAuthToken);
 
-	m_uid = reply.data()["uid"].as_int();
 	CMStringA m_szUid = reply.data()["uid"].as_mstring();
 	setString(DBKEY_ID, m_szUid);
+	m_uid = _atoi64(m_szUid);
 	return true;
 }
 
