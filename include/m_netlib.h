@@ -753,6 +753,8 @@ EXTERN_C MIR_APP_DLL(int) Netlib_LogW(HNETLIBUSER hUser, const wchar_t *pwszStr)
 EXTERN_C MIR_APP_DLL(int) Netlib_Logf(HNETLIBUSER hUser, _Printf_format_string_ const char *fmt, ...);
 EXTERN_C MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, _Printf_format_string_ const wchar_t *fmt, ...);
 
+EXTERN_C MIR_APP_DLL(void) Netlib_Dump(HNETLIBCONN nlc, const void *buf, size_t len, bool bIsSent, int flags);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Security providers (0.6+)
 

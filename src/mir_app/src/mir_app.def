@@ -721,3 +721,4 @@ _WebSocket_Send@12 @808 NONAME
 _WebSocket_InitHeader@12 @809 NONAME
 _WebSocket_Connect@12 @810 NONAME
 ?log@CSrmmBaseDialog@@QBEPAVCSrmmLogWindow@@XZ @811 NONAME
+Netlib_Dump @812 NONAME

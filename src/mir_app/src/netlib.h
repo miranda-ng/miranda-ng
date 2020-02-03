@@ -164,7 +164,6 @@ void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc
 
 // netliblog.c
 void NetlibLogShowOptions(void);
-void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags);
 void NetlibLogInit(void);
 void NetlibLogShutdown(void);
 

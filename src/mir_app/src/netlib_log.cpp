@@ -409,7 +409,7 @@ MIR_APP_DLL(int) Netlib_LogW(HNETLIBUSER hUser, const wchar_t *pwszStr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
+MIR_APP_DLL(void) Netlib_Dump(HNETLIBCONN nlc, const void *pBuf, size_t len, bool bIsSent, int flags)
 {
 	// This section checks a number of conditions and aborts
 	// the dump if the data should not be written to the log
@@ -421,7 +421,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	// Check user's log settings
 	if (!(logOptions.toOutputDebugString || GetSubscribersCount((THook*)hLogEvent) != 0 || (logOptions.toFile && !logOptions.tszFile.IsEmpty())))
 		return;
-	if ((sent && !logOptions.dumpSent) || (!sent && !logOptions.dumpRecv))
+	if ((bIsSent && !logOptions.dumpSent) || (!bIsSent && !logOptions.dumpRecv))
 		return;
 	if ((flags & MSG_DUMPPROXY) && !logOptions.dumpProxy)
 		return;
@@ -434,7 +434,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	NetlibUser *nlu = nlc ? nlc->nlu : nullptr;
 
 	if (!(flags & MSG_NOTITLE))
-		str.Format("(%p:%u) Data %s%s\r\n", nlc, nlc ? (int)nlc->s : 0, sent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
+		str.Format("(%p:%u) Data %s%s\r\n", nlc, nlc ? (int)nlc->s : 0, bIsSent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
 	ReleaseMutex(hConnectionHeaderMutex);
 
 	// check filter settings
@@ -444,6 +444,8 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	}
 	else if (!nlu->toLog)
 		return;
+
+	const uint8_t *buf = (const uint8_t *)pBuf;
 
 	bool isText = true;
 	if (!logOptions.textDumps)
@@ -467,7 +469,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 	// Binary data
 	else {
 		for (int line = 0;; line += 16) {
-			PBYTE p = buf + line;
+			auto *p = buf + line;
 			int colsInLine = min(16, len - line);
 			if (colsInLine == 16)
 				str.AppendFormat("%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ",
@@ -500,6 +502,8 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 
 	NetlibLog_Worker(nlu, str, flags);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void NetlibLogInit(void)
 {
