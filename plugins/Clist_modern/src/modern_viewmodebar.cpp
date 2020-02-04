@@ -58,7 +58,7 @@ static UINT _page1Controls[] =
 
 static UINT _page2Controls[] = { IDC_CLIST, IDC_STATIC9, IDC_STATIC8, IDC_CLEARALL, IDC_CURVIEWMODE2, 0 };
 
-static UINT _buttons[] = { IDC_RESETMODES, IDC_SELECTMODE, IDC_CONFIGUREMODES, 0 };
+static UINT _buttons[] = { IDC_RESETMODES, IDC_SELECTMODE, IDC_CONFIGUREMODES };
 
 static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect);
 static void DeleteViewMode(char * szName);
@@ -76,15 +76,14 @@ static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, vo
 	RECT MyRect = { 0 };
 	GetWindowRect(hWnd, &MyRect);
 	DrawViewModeBar(hWnd, hDC);
-	for (int i = 0; _buttons[i] != 0; i++) {
+	for (auto &btn : _buttons) {
 		RECT childRect;
-		GetWindowRect(GetDlgItem(hWnd, _buttons[i]), &childRect);
+		GetWindowRect(GetDlgItem(hWnd, btn), &childRect);
 
 		POINT Offset;
 		Offset.x = childRect.left - MyRect.left;
 		Offset.y = childRect.top - MyRect.top;
-		SendDlgItemMessage(hWnd, _buttons[i], BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
-
+		SendDlgItemMessage(hWnd, btn, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
 	}
 	return 0;
 }
@@ -208,16 +207,17 @@ static int FillDialog(HWND hwnd)
 	ListView_SetExtendedListViewStyle(GetDlgItem(hwnd, IDC_PROTOCOLS), LVS_EX_CHECKBOXES);
 	lvc.mask = LVCF_FMT;
 	lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
-	ListView_InsertColumn(GetDlgItem(hwnd, IDC_PROTOCOLS), 0, &lvc);
+	ListView_InsertColumn(hwndList, 0, &lvc);
 
 	// fill protocols...
 	{
-		LVITEMA item = { 0 };
-		item.mask = LVIF_TEXT;
+		LVITEM item = { 0 };
+		item.mask = LVIF_TEXT | LVIF_PARAM;
 		item.iItem = 1000;
 		for (auto &pa : Accounts()) {
-			item.pszText = pa->szModuleName;
-			SendMessageA(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&item);
+			item.lParam = (LPARAM)pa->szModuleName;
+			item.pszText = pa->tszAccountName;
+			ListView_InsertItem(hwndList, &item);
 		}
 	}
 
@@ -376,18 +376,15 @@ void SaveState()
 		return;
 
 	{
-		LVITEMA item = { 0 };
-		char szTemp[256];
-
+		LVITEM item = { 0 };
 		HWND hwndList = GetDlgItem(clvmHwnd, IDC_PROTOCOLS);
 		for (int i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			if (ListView_GetCheckState(hwndList, i)) {
-				item.mask = LVIF_TEXT;
-				item.pszText = szTemp;
-				item.cchTextMax = _countof(szTemp);
+				item.mask = LVIF_PARAM;
 				item.iItem = i;
-				SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-				mir_strncat(newProtoFilter, szTemp, _countof(newProtoFilter) - mir_strlen(newProtoFilter));
+				ListView_GetItem(hwndList, &item);
+
+				mir_strncat(newProtoFilter, (char*)item.lParam, _countof(newProtoFilter) - mir_strlen(newProtoFilter));
 				mir_strncat(newProtoFilter, "|", _countof(newProtoFilter) - mir_strlen(newProtoFilter));
 				newProtoFilter[2047] = 0;
 			}
@@ -520,20 +517,16 @@ static void UpdateFilters()
 	stickyStatusMask = db_get_dw(0, CLVM_MODULE, szSetting, -1);
 	dwFlags = db_get_dw(0, CLVM_MODULE, szBuf, 0);
 	{
-		LVITEMA item = { 0 };
-		char szTemp[256];
 		char szMask[256];
-		int i;
 		HWND hwndList = GetDlgItem(clvmHwnd, IDC_PROTOCOLS);
 
-		item.mask = LVIF_TEXT;
-		item.pszText = szTemp;
-		item.cchTextMax = _countof(szTemp);
+		LVITEM item = { 0 };
+		item.mask = LVIF_PARAM;
 
-		for (i = 0; i < ListView_GetItemCount(hwndList); i++) {
+		for (int i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
-			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-			mir_snprintf(szMask, "%s|", szTemp);
+			ListView_GetItem(hwndList, &item);
+			mir_snprintf(szMask, "%s|", (char*)item.lParam);
 			if (szPF && strstr(szPF, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -929,7 +922,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			SendMessage(hwndSelector, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 			SendMessage(hwndSelector, BUTTONSETSENDONDOWN, 0, (LPARAM)1);
 
-			//SendMessage(hwndSelector, BM_SETASMENUACTION, 1, 0);
+			// SendMessage(hwndSelector, BM_SETASMENUACTION, 1, 0);
 			HWND hwndButton = CreateWindow(MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU)IDC_CONFIGUREMODES, g_plugin.getInst(), nullptr);
 			MakeButtonSkinned(hwndButton);
@@ -950,7 +943,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return FALSE;
 
 	case WM_NCCALCSIZE:
-		return 18;// FrameNCCalcSize(hwnd, DefWindowProc, wParam, lParam, hasTitleBar);
+		return 18; // FrameNCCalcSize(hwnd, DefWindowProc, wParam, lParam, hasTitleBar);
 
 	case WM_SIZE:
 		{
@@ -974,11 +967,9 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		SendDlgItemMessage(hwnd, IDC_CONFIGUREMODES, MBM_SETICOLIBHANDLE, 0,
 			(LPARAM)RegisterIcolibIconHandle("CLN_CLVM_set", LPGEN("Contact list"), LPGEN("Setup view modes"), nullptr, 0, g_plugin.getInst(), IDI_SETVIEW));
 
-		{
-			for (int i = 0; _buttons[i] != 0; i++) {
-				SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 0);
-				SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN + 10, 0, 0);
-			}
+		for (auto &btn : _buttons) {
+			SendDlgItemMessage(hwnd, btn, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwnd, btn, BUTTONSETASFLATBTN + 10, 0, 0);
 		}
 
 		if (g_CluiData.bFilterEffective)
@@ -1019,15 +1010,15 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				DrawViewModeBar(hwnd, hdc2);
 			}
 
-			for (int i = 0; _buttons[i] != 0; i++) {
-				RECT childRect;
-				RECT MyRect;
-				POINT Offset;
+			for (auto &btn : _buttons) {
+				RECT childRect, MyRect;
 				GetWindowRect(hwnd, &MyRect);
-				GetWindowRect(GetDlgItem(hwnd, _buttons[i]), &childRect);
+				GetWindowRect(GetDlgItem(hwnd, btn), &childRect);
+
+				POINT Offset;
 				Offset.x = childRect.left - MyRect.left;
 				Offset.y = childRect.top - MyRect.top;
-				SendDlgItemMessage(hwnd, _buttons[i], BUTTONDRAWINPARENT, (WPARAM)hdc2, (LPARAM)&Offset);
+				SendDlgItemMessage(hwnd, btn, BUTTONDRAWINPARENT, (WPARAM)hdc2, (LPARAM)&Offset);
 			}
 
 			BitBlt(hdc, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, hdc2, rc.left, rc.top, SRCCOPY);
@@ -1069,9 +1060,10 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		switch (LOWORD(wParam)) {
 		case IDC_SELECTMODE:
 			BuildViewModeMenu();
+
+			RECT rc;
+			GetWindowRect((HWND)lParam, &rc);
 			{
-				RECT rc;
-				GetWindowRect((HWND)lParam, &rc);
 				POINT pt = { rc.left, rc.bottom };
 				int selection = TrackPopupMenu(hViewModeMenu, TPM_RETURNCMD | TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, GetParent(hwnd), nullptr);
 				PostMessage(hwnd, WM_NULL, 0, 0);
@@ -1208,24 +1200,24 @@ void CreateViewModeFrame()
 	ApplyViewMode(nullptr); // Apply last selected view mode
 }
 
-void ApplyViewMode(const char *Name, bool onlySelector)
+void ApplyViewMode(const char *szName, bool onlySelector)
 {
-	char szSetting[256];
 	DBVARIANT dbv = { 0 };
 
 	g_CluiData.bFilterEffective = 0;
 
+	char szSetting[256];
 	mir_snprintf(szSetting, "%c_LastMode", 246);
 
-	if (!Name) { // Name is null - apply last stored view mode
-		if (!db_get_s(0, CLVM_MODULE, szSetting, &dbv)) {
-			Name = NEWSTR_ALLOCA(dbv.pszVal);
-			db_free(&dbv);
-		}
-		else return;
+	if (szName == nullptr) { // Name is null - apply last stored view mode
+		ptrA szStoredName(db_get_sa(0, CLVM_MODULE, szSetting));
+		if (szStoredName == nullptr)
+			return;
+
+		szName = NEWSTR_ALLOCA(szStoredName);
 	}
 
-	if (Name[0] == '\0') {
+	if (szName[0] == '\0') {
 		// Reset View Mode
 		g_CluiData.bFilterEffective = 0;
 
@@ -1251,54 +1243,50 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 	}
 
 	if (!onlySelector) {
-		mir_snprintf(szSetting, "%c%s_PF", 246, Name);
-		if (!db_get_s(0, CLVM_MODULE, szSetting, &dbv)) {
-			if (mir_strlen(dbv.pszVal) >= 2) {
-				strncpy_s(g_CluiData.protoFilter, dbv.pszVal, _TRUNCATE);
-				g_CluiData.protoFilter[_countof(g_CluiData.protoFilter) - 1] = 0;
-				g_CluiData.bFilterEffective |= CLVM_FILTER_PROTOS;
-			}
-			mir_free(dbv.pszVal);
+		mir_snprintf(szSetting, "%c%s_PF", 246, szName);
+		ptrA szFilter(db_get_sa(0, CLVM_MODULE, szSetting));
+		if (mir_strlen(szFilter) >= 2) {
+			strncpy_s(g_CluiData.protoFilter, szFilter.get(), _TRUNCATE);
+			g_CluiData.bFilterEffective |= CLVM_FILTER_PROTOS;
 		}
-		mir_snprintf(szSetting, "%c%s_GF", 246, Name);
-		if (!db_get_ws(0, CLVM_MODULE, szSetting, &dbv)) {
-			if (mir_wstrlen(dbv.pwszVal) >= 2) {
-				wcsncpy_s(g_CluiData.groupFilter, dbv.pwszVal, _TRUNCATE);
-				g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
-			}
-			mir_free(dbv.pwszVal);
+
+		mir_snprintf(szSetting, "%c%s_GF", 246, szName);
+		ptrW wszGroupFilter(db_get_wsa(0, CLVM_MODULE, szSetting));
+		if (mir_wstrlen(wszGroupFilter) >= 2) {
+			wcsncpy_s(g_CluiData.groupFilter, wszGroupFilter.get(), _TRUNCATE);
+			g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
 		}
-		mir_snprintf(szSetting, "%c%s_SM", 246, Name);
+		mir_free(dbv.pwszVal);
+
+		mir_snprintf(szSetting, "%c%s_SM", 246, szName);
 		g_CluiData.statusMaskFilter = db_get_dw(0, CLVM_MODULE, szSetting, -1);
 		if (g_CluiData.statusMaskFilter >= 1)
 			g_CluiData.bFilterEffective |= CLVM_FILTER_STATUS;
 
-		mir_snprintf(szSetting, "%c%s_SSM", 246, Name);
+		mir_snprintf(szSetting, "%c%s_SSM", 246, szName);
 		g_CluiData.stickyMaskFilter = db_get_dw(0, CLVM_MODULE, szSetting, -1);
 		if (g_CluiData.stickyMaskFilter != -1)
 			g_CluiData.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
 
-		g_CluiData.filterFlags = db_get_dw(0, CLVM_MODULE, Name, 0);
+		g_CluiData.filterFlags = db_get_dw(0, CLVM_MODULE, szName, 0);
 
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
 
 		if (g_CluiData.filterFlags & CLVM_AUTOCLEAR) {
-			mir_snprintf(szSetting, "%c%s_OPT", 246, Name);
+			mir_snprintf(szSetting, "%c%s_OPT", 246, szName);
 			DWORD timerexpire = LOWORD(db_get_dw(0, CLVM_MODULE, szSetting, 0));
 			strncpy_s(g_CluiData.old_viewmode, g_CluiData.current_viewmode, _TRUNCATE);
-			g_CluiData.old_viewmode[255] = 0;
 			CLUI_SafeSetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, nullptr);
 		}
 		else { //store last selected view mode only if it is not autoclear
 			mir_snprintf(szSetting, "%c_LastMode", 246);
-			db_set_s(0, CLVM_MODULE, szSetting, Name);
+			db_set_s(0, CLVM_MODULE, szSetting, szName);
 		}
-		strncpy_s(g_CluiData.current_viewmode, Name, _TRUNCATE);
-		g_CluiData.current_viewmode[255] = 0;
-
+		strncpy_s(g_CluiData.current_viewmode, szName, _TRUNCATE);
+		
 		if (g_CluiData.filterFlags & CLVM_USELASTMSG) {
 			g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG;
-			mir_snprintf(szSetting, "%c%s_LM", 246, Name);
+			mir_snprintf(szSetting, "%c%s_LM", 246, szName);
 			g_CluiData.lastMsgFilter = db_get_dw(0, CLVM_MODULE, szSetting, 0);
 			if (LOBYTE(HIWORD(g_CluiData.lastMsgFilter)))
 				g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;
@@ -1353,7 +1341,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		}
 	}
 
-	SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((Name[0] == 13) ? Name + 1 : Name)));
+	SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((szName[0] == 13) ? szName + 1 : szName)));
 
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	cliInvalidateRect(g_clistApi.hwndStatus, nullptr, FALSE);
