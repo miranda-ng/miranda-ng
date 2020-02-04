@@ -537,13 +537,13 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 			MCONTACT hContact = AddToClientList(i->username.c_str(), "");
 			UpdateAvatar(hContact, i->profile_image_url);
 
-			// i think we maybe should just do that DBEF_READ line instead of stopping ALL this code.  have to test.
+			// if we send twits as messages, add an unread event
 			if (tweetToMsg) {
 				DBEVENTINFO dbei = {};
 				dbei.pBlob = (BYTE*)(i->status.text.c_str());
 				dbei.cbBlob = (int)i->status.text.size() + 1;
 				dbei.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
-				dbei.flags = DBEF_UTF | DBEF_READ;
+				dbei.flags = DBEF_UTF;
 				dbei.timestamp = static_cast<DWORD>(i->status.time);
 				dbei.szModule = m_szModuleName;
 				db_event_add(hContact, &dbei);
