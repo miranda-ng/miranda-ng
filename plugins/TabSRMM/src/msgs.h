@@ -580,7 +580,7 @@ public:
 		return m_pContainer->IsActive() && m_pContainer->m_hwndActive == m_hwnd;
 	}
 
-	void  DM_OptionsApplied(WPARAM wParam, LPARAM lParam);
+	void  DM_OptionsApplied(bool bRemakeLog = true);
 	void  DM_RecalcPictureSize(void);
 	void  DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
 

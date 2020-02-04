@@ -883,7 +883,7 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 	CallService(MS_PROTO_SELFISTYPING, hContact, m_nTypeMode);
 }
 
-void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
+void CMsgDialog::DM_OptionsApplied(bool bRemakeLog)
 {
 	m_szMicroLf[0] = 0;
 	if (!m_pContainer->m_theme.isPrivate) {
@@ -909,7 +909,7 @@ void CMsgDialog::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	if (m_hwnd == m_pContainer->m_hwndActive)
 		SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
 	InvalidateRect(m_message.GetHwnd(), nullptr, FALSE);
-	if (!lParam) {
+	if (bRemakeLog) {
 		if (IsIconic(m_pContainer->m_hwnd))
 			m_bDeferredRemakeLog = true;
 		else

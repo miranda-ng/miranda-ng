@@ -357,8 +357,7 @@ static void Build_RTF_Header(CMStringA &str, CMsgDialog *dat)
 	// paragraph header
 	str.AppendFormat("}");
 
-	// indent:
-	// real indent is set in msgdialog.c (DM_OPTIONSAPPLIED)
+	// indent
 	if (!(dat->m_dwFlags & MWF_LOG_INDENT))
 		str.AppendFormat("\\li%u\\ri%u\\fi%u\\tx%u", 2 * 15, 2 * 15, 0, 70 * 15);
 }

@@ -362,7 +362,7 @@ public:
 					fShouldHide = false;
 				else
 					ShowWindow(dat->m_pContainer->m_hwnd, SW_HIDE);
-				dat->DM_OptionsApplied(0, 0);
+				dat->DM_OptionsApplied();
 				dat->RemakeLog();
 				if (fShouldHide)
 					ShowWindow(dat->m_pContainer->m_hwnd, SW_SHOWNORMAL);

@@ -599,7 +599,7 @@ bool CMsgDialog::OnInitDialog()
 		if (m_hContact)
 			FindFirstEvent();
 
-		DM_OptionsApplied(0, 0);
+		DM_OptionsApplied();
 
 		// restore saved msg if any...
 		if (m_hContact) {
@@ -1474,7 +1474,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 					db_unset(m_hContact, SRMSGMOD_T, "mwmask");
 					db_unset(m_hContact, SRMSGMOD_T, "mwflags");
 				}
-				DM_OptionsApplied(0, 0);
+				DM_OptionsApplied();
 				RemakeLog();
 			}
 			return _dlgReturn(m_hwnd, 1);
@@ -2527,7 +2527,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (isChat())
 			RedrawLog();
 		else
-			DM_OptionsApplied(0, 0);
+			DM_OptionsApplied();
 		break;
 
 	case WM_NOTIFY:
@@ -2689,7 +2689,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_OPTIONSAPPLIED:
-		DM_OptionsApplied(wParam, lParam);
+		DM_OptionsApplied(lParam == 0);
 		return 0;
 
 	case DM_UPDATESTATUSMSG:
