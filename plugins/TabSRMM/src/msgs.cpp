@@ -257,73 +257,22 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// tabbed mode support functions...
-// (C) by Nightwish
-//
-// this function searches and activates the tab belonging to the given hwnd (which is the
-// hwnd of a message dialog window)
-
-int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
-{
-	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
-	if (!dat || !pContainer)
-		return FALSE;
-
-	NMHDR nmhdr = {};
-	nmhdr.code = TCN_SELCHANGE;
-	if (TabCtrl_GetItemCount(pContainer->m_hwndTabs) > 1 && !pContainer->m_flags.m_bDeferredTabSelect) {
-		TabCtrl_SetCurSel(pContainer->m_hwndTabs, GetTabIndexFromHWND(pContainer->m_hwndTabs, hwndChild));
-		SendMessage(pContainer->m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
-	}
-	if (!dat->isChat())
-		pContainer->UpdateTitle(dat->m_hContact);
-	if (IsIconic(pContainer->m_hwnd)) {
-		SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-		SetForegroundWindow(pContainer->m_hwnd);
-	}
-
-	// hide on close feature
-	if (!IsWindowVisible(pContainer->m_hwnd)) {
-		WINDOWPLACEMENT wp = { 0 };
-		wp.length = sizeof(wp);
-		GetWindowPlacement(pContainer->m_hwnd, &wp);
-
-		// all tabs must re-check the layout on activation because adding a tab while
-		// the container was hidden can make this necessary
-		pContainer->BroadCastContainer(DM_CHECKSIZE, 0, 0);
-		if (wp.showCmd == SW_SHOWMAXIMIZED)
-			ShowWindow(pContainer->m_hwnd, SW_SHOWMAXIMIZED);
-		else {
-			ShowWindow(pContainer->m_hwnd, SW_SHOWNA);
-			SetForegroundWindow(pContainer->m_hwnd);
-		}
-		SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);			// make sure the active tab resizes its layout properly
-	}
-	else if (GetForegroundWindow() != pContainer->m_hwnd)
-		SetForegroundWindow(pContainer->m_hwnd);
-
-	if (!dat->isChat())
-		SetFocus(GetDlgItem(hwndChild, IDC_SRMM_MESSAGE));
-	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // this function creates and activates a new tab within the given container.
 // bActivateTab: make the new tab the active one
 // bPopupContainer: restore container if it was minimized, otherwise flash it...
 
-HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTab, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent, bool bIsUnicode, const char *pszInitialText)
+void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTab, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent, bool bIsUnicode, const char *pszInitialText)
 {
 	if (Srmm_FindWindow(hContact) != nullptr) {
 		_DebugPopup(hContact, L"Warning: trying to create duplicate window");
-		return nullptr;
+		return ;
 	}
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
 		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
-				return nullptr;
+				return;
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
 
@@ -393,8 +342,6 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	pWindow->SetParent(pContainer->m_hwndTabs);
 	pWindow->Create();
 
-	HWND hwndNew = pWindow->GetHwnd();
-
 	// switchbar support
 	if (pContainer->m_flags.m_bSideBar)
 		pContainer->m_pSideBar->addSession(pWindow, pContainer->m_iTabIndex);
@@ -416,8 +363,8 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 
 	if (bActivateTab) {
-		ActivateExistingTab(pContainer, hwndNew);
-		SetFocus(hwndNew);
+		pWindow->ActivateTab();
+		SetFocus(pWindow->GetHwnd());
 		RedrawWindow(pContainer->m_hwnd, nullptr, nullptr, RDW_ERASENOW);
 		UpdateWindow(pContainer->m_hwnd);
 		if (GetForegroundWindow() != pContainer->m_hwnd && bPopupContainer == TRUE)
@@ -452,8 +399,6 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && db_get_b(0, "HistoryPlusPlus", "IEViewAPI", 0))
 		if (IDYES == CWarning::show(CWarning::WARN_HPP_APICHECK, MB_ICONWARNING | MB_YESNO))
 			db_set_b(0, "HistoryPlusPlus", "IEViewAPI", 0);
-
-	return hwndNew;		// return handle of the new dialog
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

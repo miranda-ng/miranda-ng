@@ -95,6 +95,53 @@ TContainerData::~TContainerData()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// this function searches and activates the tab belonging to the given message dialog
+
+void TContainerData::ActivateExistingTab(CMsgDialog *dat)
+{
+	if (dat == nullptr)
+		return;
+
+	NMHDR nmhdr = {};
+	nmhdr.code = TCN_SELCHANGE;
+	if (TabCtrl_GetItemCount(m_hwndTabs) > 1 && !m_flags.m_bDeferredTabSelect) {
+		TabCtrl_SetCurSel(m_hwndTabs, GetTabIndexFromHWND(m_hwndTabs, dat->GetHwnd()));
+		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
+		if (m_flags.m_bSideBar)
+			m_pSideBar->setActiveItem(dat, true);
+	}
+	if (!dat->isChat())
+		UpdateTitle(dat->m_hContact);
+	if (IsIconic(m_hwnd)) {
+		SendMessage(m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+		SetForegroundWindow(m_hwnd);
+	}
+
+	// hide on close feature
+	if (!IsWindowVisible(m_hwnd)) {
+		WINDOWPLACEMENT wp = { 0 };
+		wp.length = sizeof(wp);
+		GetWindowPlacement(m_hwnd, &wp);
+
+		// all tabs must re-check the layout on activation because adding a tab while
+		// the container was hidden can make this necessary
+		BroadCastContainer(DM_CHECKSIZE, 0, 0);
+		if (wp.showCmd == SW_SHOWMAXIMIZED)
+			ShowWindow(m_hwnd, SW_SHOWMAXIMIZED);
+		else {
+			ShowWindow(m_hwnd, SW_SHOWNA);
+			SetForegroundWindow(m_hwnd);
+		}
+		SendMessage(m_hwndActive, WM_SIZE, 0, 0);			// make sure the active tab resizes its layout properly
+	}
+	else if (GetForegroundWindow() != m_hwnd)
+		SetForegroundWindow(m_hwnd);
+
+	if (!dat->isChat())
+		SetFocus(dat->GetEntry().GetHwnd());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // calls the TabCtrl_AdjustRect to calculate the "real" client area of the tab.
 // also checks for the option "hide tabs when only one tab open" and adjusts
 // geometry if necessary

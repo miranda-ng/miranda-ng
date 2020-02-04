@@ -70,7 +70,7 @@ void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
  * gneric msgwindow functions(creation, container management etc.)
  */
 
-HWND  TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTAb, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent = 0, bool bIsWchar = false, const char *pszInitialText = nullptr);
+void  TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTAb, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent = 0, bool bIsWchar = false, const char *pszInitialText = nullptr);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI CreateImageList(bool bInitial);
 

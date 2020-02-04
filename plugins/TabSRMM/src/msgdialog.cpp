@@ -3270,7 +3270,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case DM_ACTIVATEME: // the child window will activate itself
-		ActivateExistingTab(m_pContainer, m_hwnd);
+		ActivateTab();
 		return 0;
 
 	case DM_QUERYCONTAINER: // container API support functions

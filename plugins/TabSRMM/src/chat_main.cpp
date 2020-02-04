@@ -211,7 +211,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 		return;
 
 	if (si->pDlg != nullptr) {
-		ActivateExistingTab(si->pDlg->m_pContainer, si->pDlg->GetHwnd());
+		si->pDlg->ActivateTab();
 		return;
 	}
 

@@ -105,6 +105,7 @@ struct TitleBtn {
 
 class CContactCache;
 class CMenuBar;
+class CMsgDialog;
 class CProxyWindow;
 class CSideBar;
 class CTaskbarInteract;
@@ -265,6 +266,7 @@ struct TContainerData : public MZeroedObject
 	wchar_t m_wszName[CONTAINER_NAMELEN + 4];		// container name
 	wchar_t m_szRelThemeFile[MAX_PATH], m_szAbsThemeFile[MAX_PATH];
 
+	void ActivateExistingTab(CMsgDialog *dat);
 	void AdjustTabClientRect(RECT &rc);
 	void ApplySetting(bool fForceResize = false);
 	void BroadCastContainer(UINT message, WPARAM wParam, LPARAM lParam) const;
@@ -283,7 +285,7 @@ struct TContainerData : public MZeroedObject
 	void SetAeroMargins(void);
 	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
 	void UpdateTabs(void);
-	void UpdateTitle(MCONTACT, class CMsgDialog* = nullptr);
+	void UpdateTitle(MCONTACT, CMsgDialog* = nullptr);
 
 	void ClearMargins()
 	{	memset(&m_mOld, 0xfe, sizeof(m_mOld));
@@ -566,6 +568,10 @@ public:
 	static LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	__forceinline CCtrlRichEdit& GetEntry() { return m_message; }
+
+	__forceinline void ActivateTab() {
+		m_pContainer->ActivateExistingTab(this);
+	}
 
 	__forceinline CLogWindow* LOG() {
 		return ((CLogWindow *)m_pLog);

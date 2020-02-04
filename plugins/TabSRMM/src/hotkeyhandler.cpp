@@ -93,12 +93,10 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 	if (hContact == 0)
 		return;
 
-	HWND hWnd = Srmm_FindWindow(hContact);
-	if (hWnd && IsWindow(hWnd)) {
-		TContainerData *pContainer = nullptr;
-		SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-		if (pContainer) {
-			ActivateExistingTab(pContainer, hWnd);
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg && IsWindow(pDlg->GetHwnd())) {
+		if (TContainerData *pContainer = pDlg->m_pContainer) {
+			pDlg->ActivateTab();
 			pContainer->m_hwndSaved = nullptr;
 			SetForegroundWindow(pContainer->m_hwnd);
 		}

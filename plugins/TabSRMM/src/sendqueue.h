@@ -107,7 +107,6 @@ private:
 
 extern SendQueue *sendQueue;
 
-int  TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild);
 void TSAPI HandleIconFeedback(CMsgDialog *dat, HICON iIcon);
 
 #endif /* __SENDQUEUE_H */
