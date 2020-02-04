@@ -1165,7 +1165,7 @@ MDBX_INTERNAL_FUNC void mdbx_rthc_thread_dtor(void *ptr);
   ((rc) != MDBX_RESULT_TRUE && (rc) != MDBX_RESULT_FALSE)
 
 /* Internal error codes, not exposed outside libmdbx */
-#define MDBX_NO_ROOT (MDBX_LAST_ERRCODE + 10)
+#define MDBX_NO_ROOT (MDBX_LAST_LMDB_ERRCODE + 10)
 
 /* Debugging output value of a cursor DBI: Negative in a sub-cursor. */
 #define DDBI(mc)                                                               \
@@ -1317,4 +1317,15 @@ static __maybe_unused __inline void mdbx_jitter4testing(bool tiny) {
 #else
   (void)tiny;
 #endif
+}
+
+static __pure_function __always_inline __maybe_unused bool
+is_powerof2(size_t x) {
+  return (x & (x - 1)) == 0;
+}
+
+static __pure_function __always_inline __maybe_unused size_t
+roundup_powerof2(size_t value, size_t granularity) {
+  assert(is_powerof2(granularity));
+  return (value + granularity - 1) & ~(granularity - 1);
 }
