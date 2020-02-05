@@ -34,7 +34,8 @@ void FacebookProto::OnLoggedIn()
 {
 	m_mid = 0;
 
-	MqttPublish("/foreground_state", "{\"foreground\":true, \"keepalive_timeout\":60}");
+	JSONNode root; root << BOOL_PARAM("foreground", true) << INT_PARAM("keepalive_timeout", 60);
+	MqttPublish("/foreground_state", root);
 
 	MqttSubscribe("/inbox", "/mercury", "/messaging_events", "/orca_presence", "/orca_typing_notifications", "/pp", "/t_ms", "/t_p", "/t_rtc", "/webrtc", "/webrtc_response", 0);
 	MqttUnsubscribe("/orca_message_notifications", 0);
@@ -362,7 +363,7 @@ int FacebookProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)
 		root << CHAR_PARAM("threadFbId", getMStringA(hContact, DBKEY_ID));
 	else
 		root << CHAR_PARAM("otherUserFbId", getMStringA(hContact, DBKEY_ID));
-	MqttPublish("/mark_thread", root.write().c_str());
+	MqttPublish("/mark_thread", root);
 	return 0;
 }
 
