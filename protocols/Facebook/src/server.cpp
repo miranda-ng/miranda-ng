@@ -346,6 +346,28 @@ LBL_Begin:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int FacebookProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)
+{
+	MCONTACT hContact = db_event_getContact(hDbEvent);
+	if (!hContact)
+		return 0;
+
+	// filter out only events of my protocol
+	const char *szProto = Proto_GetBaseAccountName(hContact);
+	if (mir_strcmp(szProto, m_szModuleName))
+		return 0;
+
+	JSONNode root; root << BOOL_PARAM("state", true) << INT_PARAM("syncSeqId", m_sid) << CHAR_PARAM("mark", "read");
+	if (isChatRoom(hContact))
+		root << CHAR_PARAM("threadFbId", getMStringA(hContact, DBKEY_ID));
+	else
+		root << CHAR_PARAM("otherUserFbId", getMStringA(hContact, DBKEY_ID));
+	MqttPublish("/mark_thread", root.write().c_str());
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 {
 	FbThriftReader rdr;

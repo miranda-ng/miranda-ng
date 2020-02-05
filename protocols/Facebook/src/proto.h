@@ -510,6 +510,7 @@ public:
    ////////////////////////////////////////////////////////////////////////////////////////
    // Events
 
+   int __cdecl OnMarkedRead(WPARAM, LPARAM);
    int __cdecl OnOptionsInit(WPARAM, LPARAM);
    
    int __cdecl GroupchatMenuHook(WPARAM, LPARAM);
