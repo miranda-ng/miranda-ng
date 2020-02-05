@@ -368,7 +368,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 	else {
 		wszText = it["text"].as_mstring();
-		TryFetchFileInfo(wszText);
+		wszText.TrimRight();
 	}
 
 	int iMsgTime = (bFromHistory) ? it["time"].as_int() : time(0);
@@ -401,6 +401,15 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			return;
 
 		bool bIsOutgoing = it["outgoing"].as_bool();
+		if (!bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
+			CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszText.Mid(26).c_str());
+			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
+			pReq->hContact = hContact;
+			pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
+			Push(pReq);
+			return;
+		}
+
 		ptrA szUtf(mir_utf8encodeW(wszText));
 
 		PROTORECVEVENT pre = {};
@@ -465,19 +474,6 @@ void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 	else pReq << WCHAR_PARAM("t", GetUserId(hContact));
 
 	Push(pReq);
-}
-
-void CIcqProto::TryFetchFileInfo(CMStringW &wszText)
-{
-	wszText.TrimRight();
-
-	if (wszText.Left(26) == L"https://files.icq.net/get/") {
-		CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszText.Mid(26).c_str());
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
-		pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
-		pReq->pUserInfo = &wszText;
-		ExecuteRequest(pReq);
-	}
 }
 
 AsyncHttpRequest* CIcqProto::UserInfoRequest(MCONTACT hContact)
@@ -738,9 +734,6 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 				<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
 			Push(pReq);
 
-			// Send the same message to myself
-			TryFetchFileInfo(wszUrl);
-
 			T2Utf msgText(wszUrl);
 			PROTORECVEVENT recv = {};
 			recv.flags = PREF_CREATEREAD | PREF_SENT;
@@ -798,33 +791,66 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	CMStringW *wszText = (CMStringW *)pReq->pUserInfo;
-
 	RobustReply root(pReply);
 	if (root.error() != 200)
 		return;
 
-	wszText->Empty();
 	auto &data = root.result();
-	CMStringW tmp(data["extra"]["file_type"].as_mstring());
-	wszText->AppendFormat(L"%s\r\n", (tmp == "image") ? TranslateT("Image received:") : TranslateT("File received"));
+	std::string szUrl(data["info"]["dlink"].as_string());
+	if (szUrl.empty())
+		return;
 
-	tmp = data["info"]["file_name"].as_mstring();
-	if (!tmp.IsEmpty())
-		wszText->AppendFormat(L"%s: %s\r\n", TranslateT("File name"), tmp.c_str());
+	mir_urlDecode(&*szUrl.begin());
+	auto *ft = new IcqFileTransfer(pReq->hContact, szUrl.c_str());
+	ft->pfts.totalBytes = ft->pfts.currentFileSize = 100;
+	ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
 
-	tmp = data["info"]["dlink"].as_mstring();
-	if (!tmp.IsEmpty())
-		wszText->AppendFormat(L"%s: %s\r\n", TranslateT("URL"), tmp.c_str());
-
-	if (data["info"]["has_previews"].as_bool()) {
-		tmp = data["previews"]["600"].as_mstring();
-		if (!tmp.IsEmpty())
-			wszText->AppendFormat(L"%s: %s\r\n", TranslateT("Preview"), tmp.c_str());
-	}
+	PROTORECVFILE pre = { 0 };
+	pre.dwFlags = PRFF_UNICODE;
+	pre.fileCount = 1;
+	pre.timestamp = time(0);
+	pre.files.w = &ft->m_wszShortName;
+	pre.lParam = (LPARAM)ft;
+	ProtoChainRecvFile(pReq->hContact, &pre);
 }
+
+void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	auto *ft = (IcqFileTransfer*)pReq->pUserInfo;
+
+	if (pReply->resultCode != 200) {
+LBL_Error:
+		FileCancel(pReq->hContact, ft);
+		return;
+	}
+
+	ft->pfts.totalProgress += 100;
+	ft->pfts.currentFileProgress += 100;
+	ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
+
+	debugLogW(L"Saving to [%s]", ft->pfts.szCurrentFile.w);
+	int fileId = _wopen(ft->pfts.szCurrentFile.w, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+	if (fileId == -1) {
+		debugLogW(L"Cannot open [%s] for writing", ft->pfts.szCurrentFile.w);
+		goto LBL_Error;
+	}
+
+	int result = _write(fileId, pReply->pData, pReply->dataLength);
+	_close(fileId);
+	if (result != pReply->dataLength) {
+		debugLogW(L"Error writing data into [%s]", ft->pfts.szCurrentFile.w);
+		goto LBL_Error;
+	}
+
+	ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+	delete ft;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CIcqProto::OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {

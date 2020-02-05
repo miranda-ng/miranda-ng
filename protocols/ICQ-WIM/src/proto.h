@@ -127,6 +127,21 @@ struct IcqConn
 
 struct IcqFileTransfer : public MZeroedObject
 {
+	// create an object for receiving
+	IcqFileTransfer(MCONTACT hContact, const char *pszUrl) :
+		m_szHost(pszUrl)
+	{
+		pfts.hContact = hContact;
+		pfts.totalFiles = 1;
+		pfts.flags = PFTS_UNICODE | PFTS_RECEIVING;
+
+		ptrW pwszFileName(mir_utf8decodeW(pszUrl));
+		const wchar_t *p = wcsrchr(pwszFileName, '/');
+		m_wszFileName = (p == nullptr) ? pwszFileName : p + 1;
+		m_wszShortName = m_wszShortName;
+	}
+
+	// create an object for sending
 	IcqFileTransfer(MCONTACT hContact, const wchar_t *pwszFileName) :
 		m_wszFileName(pwszFileName)
 	{
@@ -229,7 +244,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      SetServerStatus(int iNewStatus);
 	void      ShutdownSession(void);
 	void      StartSession(void);
-	void      TryFetchFileInfo(CMStringW &wszText);
 
 	void      CheckAvatarChange(MCONTACT hContact, const JSONNode&);
 	void      CheckLastId(MCONTACT hContact, const JSONNode&);
@@ -258,6 +272,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
@@ -387,7 +402,10 @@ class CIcqProto : public PROTO<CIcqProto>
 	int       GetInfo(MCONTACT hContact, int infoType) override;
 			    
 	HANDLE    SearchBasic(const wchar_t *id) override;
-			    
+
+	HANDLE    FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
+	int       FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+
 	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int       SendMsg(MCONTACT hContact, int flags, const char *msg) override;
 			    
