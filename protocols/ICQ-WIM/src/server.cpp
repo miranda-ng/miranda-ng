@@ -734,12 +734,6 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 				<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
 			Push(pReq);
 
-			T2Utf msgText(wszUrl);
-			PROTORECVEVENT recv = {};
-			recv.flags = PREF_CREATEREAD | PREF_SENT;
-			recv.szMessage = msgText;
-			recv.timestamp = time(0);
-			ProtoChainRecvMsg(pTransfer->pfts.hContact, &recv);
 		}
 		else ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
 		delete pTransfer;
@@ -799,14 +793,21 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	if (root.error() != 200)
 		return;
 
-	auto &data = root.result();
-	std::string szUrl(data["info"]["dlink"].as_string());
+	auto &data = root.result()["info"];
+	std::string szUrl(data["dlink"].as_string());
 	if (szUrl.empty())
 		return;
 
 	mir_urlDecode(&*szUrl.begin());
+	for (size_t i = 0; i < szUrl.length(); ++i)
+		if (szUrl[i] == '_' && isxdigit(szUrl[i+1]) && isxdigit(szUrl[i+2])) {
+			int c;
+			if (1 == sscanf(szUrl.c_str() + i + 1, "%02x", &c))
+				szUrl.replace(i, 3, 1, c);
+		}
+
 	auto *ft = new IcqFileTransfer(pReq->hContact, szUrl.c_str());
-	ft->pfts.totalBytes = ft->pfts.currentFileSize = 100;
+	ft->pfts.totalBytes = ft->pfts.currentFileSize = data["file_size"].as_int();
 	ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
 
 	PROTORECVFILE pre = { 0 };
@@ -828,8 +829,8 @@ LBL_Error:
 		return;
 	}
 
-	ft->pfts.totalProgress += 100;
-	ft->pfts.currentFileProgress += 100;
+	ft->pfts.totalProgress += pReply->dataLength;
+	ft->pfts.currentFileProgress += pReply->dataLength;
 	ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
 
 	debugLogW(L"Saving to [%s]", ft->pfts.szCurrentFile.w);

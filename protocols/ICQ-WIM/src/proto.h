@@ -138,7 +138,7 @@ struct IcqFileTransfer : public MZeroedObject
 		ptrW pwszFileName(mir_utf8decodeW(pszUrl));
 		const wchar_t *p = wcsrchr(pwszFileName, '/');
 		m_wszFileName = (p == nullptr) ? pwszFileName : p + 1;
-		m_wszShortName = m_wszShortName;
+		m_wszShortName = m_wszFileName;
 	}
 
 	// create an object for sending
