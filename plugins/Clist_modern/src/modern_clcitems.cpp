@@ -37,7 +37,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 
 	cont->iSubNumber = 0;
 	mir_free(cont->subcontacts);
-	cont->subcontacts = (ClcContact *)mir_calloc(sizeof(ClcContact)*subcount);
+	cont->subcontacts = (ClcContact *)mir_calloc(sizeof(ClcContact) * subcount);
 	cont->iSubAllocated = subcount;
 	int i = 0;
 	int bHideOffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
@@ -54,7 +54,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		if (!showOfflineHereGroup && bHideOffline && !pdnce->m_bNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)
 			continue;
 
-		ClcContact& p = cont->subcontacts[i];
+		ClcContact &p = cont->subcontacts[i];
 		p.hContact = pdnce->hContact;
 		p.pce = pdnce;
 
@@ -310,7 +310,7 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 
 ClcContact* cliCreateClcContact()
 {
-	ClcContact *contact = (ClcContact*)mir_calloc(sizeof(ClcContact));
+	ClcContact *contact = (ClcContact *)mir_calloc(sizeof(ClcContact));
 	memset(contact->iExtraImage, 0xFF, sizeof(contact->iExtraImage));
 	return contact;
 }
@@ -373,7 +373,7 @@ int cliGetGroupContentsCount(ClcGroup *group, int visibleOnly)
 			group->scanIndex++;
 			continue;
 		}
-		
+
 		ClcContact *cc = group->cl[group->scanIndex];
 		if (cc->type == CLCIT_GROUP && (!(visibleOnly & 0x01) || cc->group->expanded)) {
 			group = cc->group;
@@ -414,7 +414,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		wchar_t *lowered_search = CharLowerW(NEWWSTR_ALLOCA(dat->szQuickSearch));
 		searchResult = wcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
-	
+
 	if (pdnce && g_CluiData.bFilterEffective && dat != nullptr && !dat->bForceInDialog) {
 		if (szProto == nullptr)
 			szProto = Proto_GetBaseAccountName(hContact);
