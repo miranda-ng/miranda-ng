@@ -1160,7 +1160,6 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	const char *inviteFromJid = nullptr;
 	const char *inviteReason = nullptr;
 	const char *invitePassword = nullptr;
-	bool isDelivered = false;
 
 	// check chatstates availability
 	if (pFromResource && XmlGetChildByTag(node, "active", "xmlns", JABBER_FEAT_CHATSTATES))
@@ -1283,54 +1282,6 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			const char *ptszTimeStamp = XmlGetAttr(xNode, "stamp");
 			if (ptszTimeStamp != nullptr)
 				msgTime = JabberIsoToUnixTime(ptszTimeStamp);
-		}
-		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MESSAGE_EVENTS)) {
-
-			// set events support only if we discovered caps and if events not already set
-			JabberCapsBits jcbCaps = GetResourceCapabilities(from);
-			if (jcbCaps & JABBER_RESOURCE_CAPS_ERROR)
-				jcbCaps = JABBER_RESOURCE_CAPS_NONE;
-			// FIXME: disabled due to expired XEP-0022 and problems with bombus delivery checks
-			//			if (jcbCaps && pFromResource && (!(jcbCaps & JABBER_CAPS_MESSAGE_EVENTS)))
-			//				pFromResource->m_jcbManualDiscoveredCaps |= (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY);
-
-			if (bodyNode == nullptr) {
-				auto *idNode = XmlFirstChild(xNode, "id");
-				if (XmlFirstChild(xNode, "delivered") != nullptr || XmlFirstChild(xNode, "offline") != nullptr) {
-					int id = -1;
-					if (idNode != nullptr)
-						id = JabberGetPacketID(idNode->GetText());
-
-					if (id != -1)
-						ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id, 0);
-				}
-
-				if (hContact && XmlFirstChild(xNode, "composing") != nullptr)
-					CallService(MS_PROTO_CONTACTISTYPING, hContact, 60);
-
-				// Maybe a cancel to the previous composing
-				auto *child = XmlFirstChild(xNode, 0);
-				if (hContact && (!child || (child && idNode != nullptr)))
-					CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
-			}
-			else {
-				// Check whether any event is requested
-				if (!isDelivered && XmlFirstChild(xNode, "delivered")) {
-					isDelivered = true;
-
-					XmlNode m("message"); m << XATTR("to", from);
-					TiXmlElement *x = m << XCHILDNS("x", JABBER_FEAT_MESSAGE_EVENTS);
-					x << XCHILD("delivered");
-					x << XCHILD("id", idStr);
-					info->send(m);
-				}
-				
-				if (item != nullptr && XmlFirstChild(xNode, "composing") != nullptr) {
-					if (item->messageEventIdStr)
-						mir_free(item->messageEventIdStr);
-					item->messageEventIdStr = (idStr == nullptr) ? nullptr : mir_strdup(idStr);
-				}
-			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
 			auto *url = XmlGetChildText(xNode, "url");

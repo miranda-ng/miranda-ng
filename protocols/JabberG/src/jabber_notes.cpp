@@ -691,10 +691,6 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	// message receipts XEP priority
 	if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
 		m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
-	else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-		TiXmlElement *x = m << XCHILDNS("x", JABBER_FEAT_MESSAGE_EVENTS);
-		x << XCHILD("delivered"); x << XCHILD("offline");
-	}
 	else
 		nMsgId = -1;
 

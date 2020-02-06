@@ -1009,7 +1009,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		// if message delivery check disabled by entity caps manager
 		(jcb & JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY) ||
 		// if client knows nothing about delivery
-		!(jcb & (JABBER_CAPS_MESSAGE_EVENTS | JABBER_CAPS_MESSAGE_RECEIPTS)) ||
+		!(jcb & JABBER_CAPS_MESSAGE_RECEIPTS) ||
 		// if message sent to groupchat
 		!mir_strcmp(msgType, "groupchat") ||
 		// if message delivery check disabled in settings
@@ -1029,10 +1029,6 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		// message receipts XEP priority
 		if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
 			m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
-		else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-			TiXmlElement *x = m << XCHILDNS("x", JABBER_FEAT_MESSAGE_EVENTS);
-			x << XCHILD("delivered"); x << XCHILD("offline");
-		}
 
 		m_ThreadInfo->send(m);
 	}
@@ -1252,21 +1248,6 @@ int CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 			break;
 		case PROTOTYPE_SELFTYPING_ON:
 			m << XCHILDNS("composing", JABBER_FEAT_CHATSTATES);
-			m_ThreadInfo->send(m);
-			break;
-		}
-	}
-	else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
-		TiXmlElement *x = m << XCHILDNS("x", JABBER_FEAT_MESSAGE_EVENTS);
-		if (item->messageEventIdStr != nullptr)
-			x << XCHILD("id", item->messageEventIdStr);
-
-		switch (type) {
-		case PROTOTYPE_SELFTYPING_OFF:
-			m_ThreadInfo->send(m);
-			break;
-		case PROTOTYPE_SELFTYPING_ON:
-			x << XCHILD("composing");
 			m_ThreadInfo->send(m);
 			break;
 		}
