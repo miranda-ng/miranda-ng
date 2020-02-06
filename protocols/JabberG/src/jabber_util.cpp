@@ -391,19 +391,19 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 			<< XATTR("node", JABBER_CAPS_MIRANDA_NODE) << XATTR("ver", m_clientCapsManager.GetFeaturesCrc());
 
 		LIST<char> arrExtCaps(5);
-		if (bSecureIM)
+		if (g_plugin.bSecureIM)
 			arrExtCaps.insert(JABBER_EXT_SECUREIM);
 
-		if (bMirOTR)
+		if (g_plugin.bMirOTR)
 			arrExtCaps.insert(JABBER_EXT_MIROTR);
 
-		if (bNewGPG)
+		if (g_plugin.bNewGPG)
 			arrExtCaps.insert(JABBER_EXT_NEWGPG);
 
 		if(m_bUseOMEMO)
 			arrExtCaps.insert(JABBER_EXT_OMEMO);
 
-		if (bPlatform)
+		if (g_plugin.bPlatform)
 			arrExtCaps.insert(JABBER_EXT_PLATFORMX64);
 		else
 			arrExtCaps.insert(JABBER_EXT_PLATFORMX86);

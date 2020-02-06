@@ -73,6 +73,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
+#include <m_messagestate.h>
 #include <m_netlib.h>
 #include <m_options.h>
 #include <m_protosvc.h>
@@ -117,6 +118,7 @@ struct CJabberProto;
 
 struct CMPlugin : public ACCPROTOPLUGIN<CJabberProto>
 {
+	bool bMessageState = false, bSecureIM = false, bMirOTR = false, bNewGPG = false, bPlatform = false;
 	char szRandom[17];
 
 	CMPlugin();
@@ -573,7 +575,6 @@ extern int g_cbCountries;
 extern struct CountryListEntry* g_countries;
 
 extern HANDLE hExtListInit, hDiscoInfoResult;
-extern bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
 /*******************************************************************
  * Function declarations

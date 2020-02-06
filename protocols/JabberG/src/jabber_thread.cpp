@@ -1185,8 +1185,14 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		int nPacketId = JabberGetPacketID(n);
 		if (nPacketId == -1)
 			nPacketId = JabberGetPacketID(node);
-		if (nPacketId != -1)
+		if (nPacketId != -1) {
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)nPacketId, 0);
+
+			if (g_plugin.bMessageState) {
+				MessageReadData readData(time(0), MRD_TYPE_READTIME);
+				CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&readData);
+			}
+		}
 	}
 
 	JabberReadXep203delay(node, msgTime);

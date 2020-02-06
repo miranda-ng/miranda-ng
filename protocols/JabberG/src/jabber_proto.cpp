@@ -586,7 +586,7 @@ INT_PTR CJabberProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS;
+		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_READNOTIFY;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("JID");
 	case PFLAG_MAXCONTACTSPERPACKET:
@@ -1032,6 +1032,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 
 		m_ThreadInfo->send(m);
 	}
+
 	return id;
 }
 
