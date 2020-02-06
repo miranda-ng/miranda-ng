@@ -1,16 +1,16 @@
 #pragma once
 
+enum MessageReadData_TimeType
+{
+	MRD_TYPE_READTIME,
+	MRD_TYPE_MESSAGETIME
+};
+
 struct MessageReadData
 {
 	DWORD dw_lastTime;
 	int iTimeType;
 	MessageReadData(DWORD lastTime, int type) : dw_lastTime(lastTime), iTimeType(type) {}
-};
-
-enum MessageReadData_TimeType
-{
-	MRD_TYPE_READTIME,
-	MRD_TYPE_MESSAGETIME
 };
 
 /*

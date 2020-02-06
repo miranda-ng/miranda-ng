@@ -13,5 +13,11 @@ time_t GetLastSentMessageTime(MCONTACT hContact)
 
 bool HasUnread(MCONTACT hContact)
 {
-	return (CheckProtoSupport(Proto_GetBaseAccountName(hContact))) && ((GetLastSentMessageTime(hContact) > g_plugin.getDword(hContact, DBKEY_MESSAGE_READ_TIME, 0)) && g_plugin.getDword(hContact, DBKEY_MESSAGE_READ_TIME, 0) != 0);
+	if (!CheckProtoSupport(Proto_GetBaseAccountName(hContact)))
+		return false;
+	
+	if (GetLastSentMessageTime(hContact) <= g_plugin.getDword(hContact, DBKEY_MESSAGE_READ_TIME, 0))
+		return false;
+	
+	return g_plugin.getDword(hContact, DBKEY_MESSAGE_READ_TIME, 0) != 0;
 }
