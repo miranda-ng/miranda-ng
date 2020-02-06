@@ -758,7 +758,7 @@ public:
 
 		m_chkDirect.OnChange = m_chkDirectManual.OnChange = Callback(this, &CDlgOptAdvanced::chkDirect_OnChange);
 
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Send messages slower, but with full acknowledgment"), m_proto->m_bMsgAck);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Use message delivery receipts (XEP-0184)"), m_proto->m_bMsgAck);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable avatars"), m_proto->m_bEnableAvatars);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log chat state changes"), m_proto->m_bLogChatstates);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log presence subscription state changes"), m_proto->m_bLogPresence);
