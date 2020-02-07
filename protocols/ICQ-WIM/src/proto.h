@@ -136,6 +136,9 @@ struct IcqFileTransfer : public MZeroedObject
 		pfts.flags = PFTS_UNICODE | PFTS_RECEIVING;
 
 		ptrW pwszFileName(mir_utf8decodeW(pszUrl));
+		if (pwszFileName == nullptr)
+			pwszFileName = mir_a2u(pszUrl);
+
 		const wchar_t *p = wcsrchr(pwszFileName, '/');
 		m_wszFileName = (p == nullptr) ? pwszFileName : p + 1;
 		m_wszShortName = m_wszFileName;

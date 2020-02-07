@@ -787,6 +787,11 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static bool sttIsXDigit(char c)
+{
+	return (c >= 'A' && c <= 'F') || (c >= '0' && c <= '9');
+}
+
 void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
@@ -800,7 +805,7 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	mir_urlDecode(&*szUrl.begin());
 	for (size_t i = 0; i < szUrl.length(); ++i)
-		if (szUrl[i] == '_' && isxdigit(szUrl[i+1]) && isxdigit(szUrl[i+2])) {
+		if (szUrl[i] == '_' && sttIsXDigit(szUrl[i+1]) && sttIsXDigit(szUrl[i+2])) {
 			int c;
 			if (1 == sscanf(szUrl.c_str() + i + 1, "%02x", &c))
 				szUrl.replace(i, 3, 1, c);
