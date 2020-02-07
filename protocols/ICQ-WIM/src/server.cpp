@@ -211,6 +211,23 @@ void CIcqProto::OnLoggedOut()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CIcqProto::MarkAsRead(MCONTACT hContact)
+{
+	if (!m_bOnline)
+		return;
+
+	m_impl.m_markRead.Start(200);
+
+	IcqCacheItem *pCache = FindContactByUIN(GetUserId(hContact));
+	if (pCache) {
+		mir_cslock lck(m_csMarkReadQueue);
+		if (m_arMarkReadQueue.indexOf(pCache) == -1)
+			m_arMarkReadQueue.insert(pCache);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 {
 	// user chat?
@@ -407,6 +424,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			pReq->hContact = hContact;
 			pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
 			Push(pReq);
+
+			MarkAsRead(hContact);
 			return;
 		}
 

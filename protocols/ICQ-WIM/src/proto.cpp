@@ -319,16 +319,7 @@ int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 	if (mir_strcmp(szProto, m_szModuleName))
 		return 0;
 
-	if (m_bOnline) {
-		m_impl.m_markRead.Start(200);
-		
-		IcqCacheItem *pCache = FindContactByUIN(GetUserId(hContact));
-		if (pCache) {
-			mir_cslock lck(m_csMarkReadQueue);
-			if (m_arMarkReadQueue.indexOf(pCache) == -1)
-				m_arMarkReadQueue.insert(pCache);
-		}
-	}
+	MarkAsRead(hContact);
 	return 0;
 }
 

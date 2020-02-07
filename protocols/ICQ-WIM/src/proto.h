@@ -240,6 +240,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      EmailNotification(const wchar_t *pwszText);
 	void      GetPermitDeny();
 	wchar_t*  GetUIN(MCONTACT hContact);
+	void      MarkAsRead(MCONTACT hContact);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	bool      RetrievePassword();
 	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId = -1);
