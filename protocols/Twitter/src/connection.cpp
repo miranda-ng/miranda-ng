@@ -548,8 +548,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 				dbei.szModule = m_szModuleName;
 				db_event_add(hContact, &dbei);
 			}
-
-			db_set_utf(hContact, "CList", "StatusMsg", i->status.text.c_str());
+			else db_set_utf(hContact, "CList", "StatusMsg", i->status.text.c_str());
 
 			if (!pre_read && popups) {
 				std::stringstream url;
