@@ -37,7 +37,7 @@ void LoadOptions()
 	options.time_layout = (PopupTimeLayout)g_plugin.getByte("TimeLayout", PT_RIGHT);
 
 	char buff[128];
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < _countof(options.disable_status); i++) {
 		mir_snprintf(buff, "DisableStatus%d", i - 1); // -1 because i forgot offline status earlier!
 		options.disable_status[i] = (g_plugin.getByte(buff, 0) == 1);
 	}
@@ -71,7 +71,7 @@ void SaveOptions()
 	g_plugin.setByte("TimeLayout", (BYTE)options.time_layout);
 
 	char buff[128];
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < _countof(options.disable_status); i++) {
 		mir_snprintf(buff, "DisableStatus%d", i - 1);
 		g_plugin.setByte(buff, options.disable_status[i] ? 1 : 0);
 	}
@@ -180,7 +180,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			lvI.mask = LVIF_TEXT;
 
 			int i = 0;
-			for (; i < 10; i++) {
+			for (; i < _countof(options.disable_status); i++) {
 				lvI.pszText = Clist_GetStatusModeDescription(ID_STATUS_OFFLINE + i, 0);
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);
@@ -335,7 +335,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			options.global_hover = IsDlgButtonChecked(hwndDlg, IDC_CHK_GLOBALHOVER) ? true : false;
 
 			int i = 0;
-			for (; i < 10; i++)
+			for (; i < _countof(options.disable_status); i++)
 				options.disable_status[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_LST_STATUS), i) == 1);
 			options.disable_full_screen = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_LST_STATUS), i) == 1);
 
@@ -433,7 +433,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 						d.pszClassName = pc.pszName;
 						d.szTitle.w = L"Preview";
 						d.szText.w = L"The quick brown fox jumps over the lazy dog.";
-						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)& pc, (LPARAM)& d);
+						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
 					}
 					else {
 						POPUPCLASS pc = *arNewClasses[i];
@@ -442,7 +442,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 						d.pszClassName = pc.pszName;
 						d.szTitle.a = "Preview";
 						d.szText.a = "The quick brown fox jumps over the lazy dog.";
-						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)& pc, (LPARAM)& d);
+						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
 					}
 					break;
 				}

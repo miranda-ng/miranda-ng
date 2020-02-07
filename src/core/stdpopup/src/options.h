@@ -18,7 +18,7 @@ struct Options
 	bool use_mim_monitor;
 	bool right_icon;
 	PopupAvLayout av_layout;
-	bool disable_status[10];
+	bool disable_status[MAX_STATUS_COUNT];
 	int text_indent;
 	bool global_hover;
 	PopupTimeLayout time_layout;
