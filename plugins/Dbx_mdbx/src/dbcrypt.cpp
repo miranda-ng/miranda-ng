@@ -202,11 +202,15 @@ int CDbxMDBX::InitCrypt()
 	if (m_crypto != nullptr)
 		return 0;
 
-	txn_ptr_ro txn(m_txn_ro);
+	int rc;
+	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value;
+	{
+		txn_ptr_ro txn(m_txn_ro);
+		rc = mdbx_get(txn, m_dbCrypto, &key, &value);
+	}
 
 	CRYPTO_PROVIDER *pProvider;
-	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value;
-	if (mdbx_get(txn, m_dbCrypto, &key, &value) == MDBX_SUCCESS) {
+	if (rc == MDBX_SUCCESS) {
 		pProvider = Crypto_GetProvider((const char*)value.iov_base);
 		if (pProvider == nullptr)
 			pProvider = SelectProvider();
@@ -220,7 +224,12 @@ int CDbxMDBX::InitCrypt()
 		return 3;
 
 	key.iov_len = sizeof(DBKey_Crypto_Key); key.iov_base = DBKey_Crypto_Key;
-	if (mdbx_get(txn, m_dbCrypto, &key, &value) == MDBX_SUCCESS && (value.iov_len == m_crypto->getKeyLength())) {
+	{
+		txn_ptr_ro txn(m_txn_ro);
+		rc = mdbx_get(txn, m_dbCrypto, &key, &value);
+	}
+	
+	if (rc == MDBX_SUCCESS && (value.iov_len == m_crypto->getKeyLength())) {
 		if (!m_crypto->setKey((const BYTE*)value.iov_base, value.iov_len)) {
 			CEnterPasswordDialog dlg(this);
 			while (true) {
@@ -243,11 +252,13 @@ int CDbxMDBX::InitCrypt()
 	}
 
 	key.iov_len = sizeof(DBKey_Crypto_IsEncrypted); key.iov_base = DBKey_Crypto_IsEncrypted;
-
-	if (mdbx_get(txn, m_dbCrypto, &key, &value) == MDBX_SUCCESS)
-		m_bEncrypted = *(const bool*)value.iov_base;
-	else
-		m_bEncrypted = false;
+	{
+		txn_ptr_ro txn(m_txn_ro);
+		if (mdbx_get(txn, m_dbCrypto, &key, &value) == MDBX_SUCCESS)
+			m_bEncrypted = *(const bool *)value.iov_base;
+		else
+			m_bEncrypted = false;
+	}
 
 	InitDialogs();
 	return 0;
