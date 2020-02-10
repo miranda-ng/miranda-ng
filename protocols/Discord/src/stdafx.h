@@ -63,6 +63,19 @@ extern IconItem g_iconList[];
 #include "version.h"
 #include "proto.h"
 
+struct SINT64_PARAM : public PARAM
+{
+	int64_t iValue;
+	__forceinline SINT64_PARAM(const char *_name, int64_t _value) :
+		PARAM(_name), iValue(_value)
+	{
+	}
+};
+
+JSONNode& operator<<(JSONNode &json, const SINT64_PARAM &param);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si);
 
 SnowFlake getId(const JSONNode &pNode);

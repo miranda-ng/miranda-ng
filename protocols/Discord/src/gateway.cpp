@@ -259,7 +259,7 @@ void CDiscordProto::GatewaySendIdentify()
 void CDiscordProto::GatewaySendGuildInfo(SnowFlake id)
 {
 	JSONNode payload(JSON_ARRAY); payload.set_name("d");
-	payload << INT64_PARAM("", id);
+	payload << SINT64_PARAM("", id);
 
 	JSONNode root;
 	root << INT_PARAM("op", 12) << payload;
