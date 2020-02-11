@@ -77,6 +77,7 @@ LBL_Error:
 		goto LBL_Error;
 	}
 
+	setByte(ai.hContact, "AvatarType", ai.format);
 	mir_wstrncpy(ai.filename, GetAvatarFilename(ai.hContact), _countof(ai.filename));
 
 	FILE *out = _wfopen(ai.filename, L"wb");
@@ -101,7 +102,7 @@ bool CDiscordProto::RetrieveAvatar(MCONTACT hContact)
 	if (id == 0 || szAvatarHash == nullptr)
 		return false;
 
-	CMStringA szUrl(FORMAT, "https://cdn.discordapp.com/avatars/%lld/%s.jpg", id, szAvatarHash);
+	CMStringA szUrl(FORMAT, "https://cdn.discordapp.com/avatars/%lld/%s.jpg", id, szAvatarHash.get());
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveAvatar);
 	pReq->pUserInfo = (void*)hContact;
 	Push(pReq);
