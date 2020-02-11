@@ -173,10 +173,17 @@ void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 	m_wszEmail = root["email"].as_mstring();
 
 	m_ownId = id;
-	if (auto *pszHdr = Netlib_GetHeader(pReply, "Set-Cookie")) {
-		char *p = strchr(pszHdr, ';');
-		if (p) *p = 0;
-		m_szAccessCookie = mir_strdup(pszHdr);
+	
+	m_szCookie.Empty();
+	for (int i=0; i < pReply->headersCount; i++) {
+		if (!mir_strcmpi(pReply->headers[i].szName, "Set-Cookie")) {
+			char *p = strchr(pReply->headers[i].szValue, ';');
+			if (p) *p = 0;
+			if (!m_szCookie.IsEmpty())
+				m_szCookie.Append("; ");
+
+			m_szCookie.Append(pReply->headers[i].szValue);
+		}
 	}
 
 	OnLoggedIn();

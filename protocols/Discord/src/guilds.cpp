@@ -120,7 +120,7 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 	}
 }
 
-void CDiscordProto::ProcessGuild(const JSONNode &p)
+CDiscordGuild* CDiscordProto::ProcessGuild(const JSONNode &p)
 {
 	SnowFlake guildId = ::getId(p["id"]);
 
@@ -141,7 +141,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 	setId(pGuild->hContact, DB_KEY_CHANNELID, guildId);
 
 	if (!pGuild->bSynced && getByte(si->hContact, "EnableSync"))
-		GatewaySendGuildInfo(guildId);
+		LoadGuildInfo(pGuild);
 
 	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
 	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);
@@ -159,6 +159,8 @@ void CDiscordProto::ProcessGuild(const JSONNode &p)
 
 	if (m_bUseGroupchats)
 		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
+
+	return pGuild;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +253,55 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 	p->iStatusEx = flags;
 	if (pUser.userId == m_ownId)
 		pGuild->pParentSi->pMe = p;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static CMStringW GetCacheFileName(SnowFlake guildId)
+{
+	VARSW wszCacheDir(L"%miranda_userdata%\\Discord");
+	CreateDirectoryTreeW(wszCacheDir);
+
+	return CMStringW(FORMAT, L"%s\\%lld.cache", wszCacheDir.get(), guildId);
+}
+
+void CDiscordProto::LoadGuildInfo(CDiscordGuild *pGuild)
+{
+	CMStringW wszCacheFile(GetCacheFileName(pGuild->id));
+	int fileId = _wopen(wszCacheFile, _O_BINARY | _O_RDONLY);
+	if (fileId != -1) {
+		size_t length = _filelength(fileId);
+		ptrA buf((char *)mir_alloc(length+1));
+		_read(fileId, buf, (unsigned)length);
+		_close(fileId);
+
+		JSONNode root(JSONNode::parse(buf));
+		for (auto &cc : root) {
+			auto *pUser = new CDiscordGuildMember(_wtoi64(cc["id"].as_mstring()));
+			pUser->wszNick = cc["nick"].as_mstring();
+			pUser->wszRole = cc["role"].as_mstring();
+			pGuild->arChatUsers.insert(pUser);
+
+			AddGuildUser(pGuild, *pUser);
+		}
+	}
+	else {
+		CMStringA szUrl(FORMAT, "/guilds/%lld/members", pGuild->id);
+		auto *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveGuildInfo);
+		pReq << INT_PARAM("limit", 1000);
+		pReq->pUserInfo = pGuild;
+		// Push(pReq);
+	}
+}
+
+void CDiscordProto::OnReceiveGuildInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	if (pReply->resultCode != 200)
+		return;
+
+	JSONNode root = JSONNode::parse(pReply->pData);
+	if (root)
+		ParseGuildContents((CDiscordGuild*)pReq->pUserInfo, root);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

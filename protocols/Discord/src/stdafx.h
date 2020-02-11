@@ -12,6 +12,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <io.h>
+#include <fcntl.h>
 #include <direct.h>
 #include <time.h>
 

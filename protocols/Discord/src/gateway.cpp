@@ -26,6 +26,7 @@ void CDiscordProto::GatewaySend(const JSONNode &pRoot)
 		return;
 
 	json_string szText = pRoot.write();
+	debugLogA("Gateway send: %s", szText.c_str());
 	WebSocket_Send(m_hGatewayConnection, szText.c_str(), szText.length());
 }
 
@@ -55,14 +56,6 @@ bool CDiscordProto::GatewayThreadWorker()
 	
 	debugLogA("Gateway connection succeeded");
 	m_hGatewayConnection = pReply->nlc;
-
-	if (auto *pszHdr = Netlib_GetHeader(pReply, "Set-Cookie")) {
-		m_szCookie = pszHdr;
-			
-		int idx = m_szCookie.Find(';');
-		if (idx != -1)
-			m_szCookie.Truncate(idx);
-	}
 	Netlib_FreeHttpRequest(pReply);
 
 	bool bExit = false;
@@ -253,16 +246,6 @@ void CDiscordProto::GatewaySendIdentify()
 
 	JSONNode root;
 	root << INT_PARAM("op", 2) << payload;
-	GatewaySend(root);
-}
-
-void CDiscordProto::GatewaySendGuildInfo(SnowFlake id)
-{
-	JSONNode payload(JSON_ARRAY); payload.set_name("d");
-	payload << SINT64_PARAM("", id);
-
-	JSONNode root;
-	root << INT_PARAM("op", 12) << payload;
 	GatewaySend(root);
 }
 

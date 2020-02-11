@@ -36,8 +36,7 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	if (pReq->m_bMainSite) {
 		pReq->flags |= NLHRF_PERSISTENT;
 		pReq->nlc = m_hAPIConnection;
-		if (m_szAccessCookie)
-			pReq->AddHeader("Cookie", m_szAccessCookie);
+		pReq->AddHeader("Cookie", m_szCookie);
 	}
 
 	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->szUrl);
@@ -79,6 +78,7 @@ void CDiscordProto::OnLoggedOut()
 	m_bOnline = false;
 	m_bTerminated = true;
 	m_iGatewaySeq = 0;
+	m_szCookie.Empty();
 
 	m_impl.m_heartBeat.StopSafe();
 

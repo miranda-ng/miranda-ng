@@ -94,7 +94,8 @@ INT_PTR CDiscordProto::OnMenuToggleSync(WPARAM hContact, LPARAM)
 	setByte(hContact, "EnableSync", bEnabled);
 
 	if (bEnabled)
-		GatewaySendGuildInfo(getId(hContact, DB_KEY_CHANNELID));
+		if (auto *pGuild = FindGuild(getId(hContact, DB_KEY_CHANNELID)))
+			LoadGuildInfo(pGuild);
 	return 0;
 }
 

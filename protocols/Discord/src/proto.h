@@ -171,7 +171,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	wchar_t *m_wszStatusMsg[MAX_STATUS_COUNT];
 
-	ptrA m_szAccessToken, m_szAccessCookie;
+	ptrA m_szAccessToken;
 
 	mir_cs m_csHttpQueue;
 	HANDLE m_evRequestsQueue;
@@ -193,7 +193,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	CMStringA
 		m_szGateway,           // gateway url
 		m_szGatewaySessionId,  // current session id
-		m_szCookie;				  // a cookie to be passed into all http queries
+		m_szCookie;            // cookie used for all http queries
 	
 	HNETLIBUSER m_hGatewayNetlibUser; // the separate netlib user handle for gateways
 	HNETLIBCONN m_hGatewayConnection;      // gateway connection
@@ -206,7 +206,6 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void  GatewaySendHeartbeat(void);
 	void  GatewaySendIdentify(void);
-	void  GatewaySendGuildInfo(SnowFlake id);
 	void  GatewaySendResume(void);
 
 	GatewayHandlerFunc GetHandler(const wchar_t*);
@@ -268,12 +267,14 @@ class CDiscordProto : public PROTO<CDiscordProto>
 		return arGuilds.find((CDiscordGuild*)&id);
 	}
 
-	void ProcessGuild(const JSONNode&);
 	void AddGuildUser(CDiscordGuild *guild, const CDiscordGuildMember &pUser);
+	void LoadGuildInfo(CDiscordGuild *guild);
 	void ParseGuildContents(CDiscordGuild *guild, const JSONNode &);
-	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode&);
-	void ProcessRole(CDiscordGuild *guild, const JSONNode&);
-	void ProcessType(CDiscordUser *pUser, const JSONNode&);
+
+	CDiscordGuild* ProcessGuild(const JSONNode &json);
+	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode &json);
+	void ProcessRole(CDiscordGuild *guild, const JSONNode &json);
+	void ProcessType(CDiscordUser *pUser, const JSONNode &json);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// group chats
@@ -365,7 +366,6 @@ public:
 	void OnCommandGuildMemberAdded(const JSONNode &json);
 	void OnCommandGuildMemberRemoved(const JSONNode &json);
 	void OnCommandGuildMemberUpdated(const JSONNode &json);
-	void OnCommandGuildSync(const JSONNode &json);
 	void OnCommandFriendAdded(const JSONNode &json);
 	void OnCommandFriendRemoved(const JSONNode &json);
 	void OnCommandMessage(const JSONNode&, bool);
@@ -387,6 +387,7 @@ public:
 	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveGuildInfo(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 

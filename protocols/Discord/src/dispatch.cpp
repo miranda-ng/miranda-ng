@@ -44,8 +44,7 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"GUILD_ROLE_CREATE", &CDiscordProto::OnCommandRoleCreated },
 	{ L"GUILD_ROLE_DELETE", &CDiscordProto::OnCommandRoleDeleted },
 	{ L"GUILD_ROLE_UPDATE", &CDiscordProto::OnCommandRoleCreated },
-	{ L"GUILD_SYNC", &CDiscordProto::OnCommandGuildSync },
-
+	
 	{ L"MESSAGE_ACK", &CDiscordProto::OnCommandMessageAck },
 	{ L"MESSAGE_CREATE", &CDiscordProto::OnCommandMessageCreate },
 	{ L"MESSAGE_DELETE", &CDiscordProto::OnCommandMessageDelete },
@@ -240,13 +239,7 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandGuildCreated(const JSONNode &pRoot)
 {
-	ProcessGuild(pRoot);
-	OnCommandGuildSync(pRoot);
-}
-
-void CDiscordProto::OnCommandGuildSync(const JSONNode &pRoot)
-{
-	CDiscordGuild *pGuild = FindGuild(::getId(pRoot["id"]));
+	auto *pGuild = ProcessGuild(pRoot);
 	if (pGuild != nullptr)
 		ParseGuildContents(pGuild, pRoot);
 }
