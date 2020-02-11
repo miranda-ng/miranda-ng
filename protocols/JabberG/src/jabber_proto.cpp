@@ -1005,6 +1005,10 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 
 	m << XATTR("to", szClientJid);
 
+	bool bSendReceipt = (m_bMsgAck || getByte(hContact, "MsgAck", false));
+	if (bSendReceipt)
+		m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
+
 	if (
 		// if message delivery check disabled by entity caps manager
 		(jcb & JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY) ||
@@ -1013,23 +1017,17 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		// if message sent to groupchat
 		!mir_strcmp(msgType, "groupchat") ||
 		// if message delivery check disabled in settings
-		!m_bMsgAck || !getByte(hContact, "MsgAck", true))
+		!bSendReceipt)
 	{
-		if (mir_strcmp(msgType, "groupchat")) {
-			id = SerialNext();
+		if (mir_strcmp(msgType, "groupchat"))
 			XmlAddAttrID(m, id);
-		}
+
 		m_ThreadInfo->send(m);
 
 		ForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, nullptr, id));
 	}
 	else {
 		XmlAddAttrID(m, id);
-
-		// message receipts XEP priority
-		if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
-			m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
-
 		m_ThreadInfo->send(m);
 	}
 
