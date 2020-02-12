@@ -495,6 +495,7 @@ public:
     CMOption<BYTE>      m_bUseBigAvatars;  // use big or small avatars by default
     CMOption<BYTE>      m_bUseGroupchats;  // do we need group chats at all?
     CMOption<BYTE>      m_bHideGroupchats; // do not open chat windows on creation
+    CMOption<bool>      m_bKeepUnread;     // do not mark incoming messages as read
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE

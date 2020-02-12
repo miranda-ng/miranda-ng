@@ -358,6 +358,9 @@ int FacebookProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)
 	if (mir_strcmp(szProto, m_szModuleName))
 		return 0;
 
+	if (m_bKeepUnread)
+		return 0;
+
 	JSONNode root; root << BOOL_PARAM("state", true) << INT_PARAM("syncSeqId", m_sid) << CHAR_PARAM("mark", "read");
 	if (isChatRoom(hContact))
 		root << CHAR_PARAM("threadFbId", getMStringA(hContact, DBKEY_ID));

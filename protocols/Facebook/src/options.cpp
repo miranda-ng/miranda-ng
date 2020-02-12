@@ -23,17 +23,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class CFacebookAccOptsDlg : public CFBDlgBase
 {
 	CCtrlEdit edtGroup;
-	CCtrlCheck chkEnableChats, chkHideChats;
+	CCtrlCheck chkEnableChats, chkHideChats, chkKeepUnread;
 
 public:
 	CFacebookAccOptsDlg(FacebookProto *pThis) :
 		CFBDlgBase(pThis, IDD_OPTIONS),
 		edtGroup(this, IDC_GROUP),
 		chkHideChats(this, IDC_HIDECHATS),
+		chkKeepUnread(this, IDC_KEEP_UNREAD),
 		chkEnableChats(this, IDC_ENABLECHATS)
 	{
 		CreateLink(edtGroup, pThis->m_wszDefaultGroup);
 		CreateLink(chkHideChats, pThis->m_bUseGroupchats);
+		CreateLink(chkKeepUnread, pThis->m_bKeepUnread);
 		CreateLink(chkEnableChats, pThis->m_bHideGroupchats);
 	}
 
