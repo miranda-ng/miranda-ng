@@ -466,8 +466,6 @@ Liens
 
 [Supports data forms]
 
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-
 [Supports vCard]
 
 [Supports XHTML formatting of chat messages]
@@ -1372,7 +1370,7 @@ Avertissement d'effacement de comtpe
 
 [Messaging]
 Envoi de message
-[Send messages slower, but with full acknowledgment]
+[Use message delivery receipts (XEP-0184)]
 
 [Enable avatars]
 

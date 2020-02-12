@@ -118,13 +118,3 @@ admin
 
 [Buddy addition failed]
 
-[Image received:]
-
-[File received]
-Přijatý soubor
-[File name]
-Název souboru
-[URL]
-Odkaz
-[Preview]
-Náhled

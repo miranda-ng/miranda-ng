@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.0.2.1
+;  Version: 0.1.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -20,6 +20,8 @@ Détails du contact
 Contacts
 [Default group:]
 Groupes :
+[Keep messages as unread on server]
+Conserver les messages comme non lus sur le serveur
 [Group chats]
 Groupe chats
 [Enable group chats]

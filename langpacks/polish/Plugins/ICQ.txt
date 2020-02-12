@@ -118,13 +118,3 @@ członek
 
 [Buddy addition failed]
 
-[Image received:]
-
-[File received]
-Plik odebrany
-[File name]
-Nazwa Pliku
-[URL]
-Link
-[Preview]
-Podgląd

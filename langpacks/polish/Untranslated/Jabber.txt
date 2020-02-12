@@ -22,6 +22,7 @@
 [Items request error]
 [<no nick>]
 [has set the subject to:]
+[Use message delivery receipts (XEP-0184)]
 [Set New Password for %s@%s]
 [Command completed successfully]
 [Error occurred during processing command]

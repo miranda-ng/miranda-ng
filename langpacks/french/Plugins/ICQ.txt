@@ -118,13 +118,3 @@ membre
 
 [Buddy addition failed]
 
-[Image received:]
-
-[File received]
-Fichier reçu
-[File name]
-
-[URL]
-Lien
-[Preview]
-Aperçu

@@ -466,8 +466,6 @@ Bytestream Proxy недоступний
 Прийом і відправка пінгів (ping)
 [Supports data forms]
 Форми даних
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Запит і відповідь на події - доставка, відображення, складання повідомлень
 [Supports vCard]
 vCard (візитні картки)
 [Supports XHTML formatting of chat messages]
@@ -1372,8 +1370,8 @@ xHTML-формат повідомлень чату
 Вам потрібно підключитися до мережі
 [Messaging]
 Повідомлення
-[Send messages slower, but with full acknowledgment]
-Надсилати повідомлення повільніше, але з підтвердженням
+[Use message delivery receipts (XEP-0184)]
+
 [Enable avatars]
 Увімкнути аватари
 [Log chat state changes]

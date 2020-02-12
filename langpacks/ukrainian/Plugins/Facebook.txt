@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.0.2.1
+;  Version: 0.1.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -20,6 +20,8 @@
 Контакти
 [Default group:]
 Група:
+[Keep messages as unread on server]
+Не позначати повідомлення на сервері як прочитані
 [Group chats]
 Групові чати
 [Enable group chats]

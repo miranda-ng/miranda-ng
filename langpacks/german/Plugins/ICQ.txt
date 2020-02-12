@@ -118,13 +118,3 @@ Unbekannter Sticker
 Benutzer hat einen Sticker gesendet:
 [Buddy addition failed]
 Hinzufügen eines Freundes fehlgeschlagen
-[Image received:]
-
-[File received]
-Datei empfangen
-[File name]
-Dateiname
-[URL]
-URL
-[Preview]
-Vorschau

@@ -466,8 +466,6 @@ Możliwość raportowania czasu lokalnego użytkownika
 Możliwość wysyłania i odbierania żądań pingu
 [Supports data forms]
 Wsparcie dla formularzy danych
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Możliwość informowania o zdarzeniach związanych z dostarczaniem, wyświetlaniem i składem wiadomości
 [Supports vCard]
 Wsparcie dla vCard
 [Supports XHTML formatting of chat messages]
@@ -1372,8 +1370,8 @@ Ostrzeżenie o usuwaniu konta
 Musisz być połączony
 [Messaging]
 Wiadomości
-[Send messages slower, but with full acknowledgment]
-Wysyłaj wiadomości wolniej, ale z potwierdzeniem
+[Use message delivery receipts (XEP-0184)]
+
 [Enable avatars]
 Włącz obsługę awatarów
 [Log chat state changes]

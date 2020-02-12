@@ -466,8 +466,6 @@ Bytestream проксі недасяжны.
 Прыём і адпраўка пінгаў
 [Supports data forms]
 Формы дадзеных
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Запыт і адказ на падзеі - дастаўка, адлюстраванне, складанне паведамленняў
 [Supports vCard]
 Падтрымка vCard
 [Supports XHTML formatting of chat messages]
@@ -1372,8 +1370,8 @@ Jabber Рэсурс
 Вам трэба далучыцца
 [Messaging]
 Паведамленні
-[Send messages slower, but with full acknowledgment]
-Адсылаць паведамленні павольней, але з пацверджаннем
+[Use message delivery receipts (XEP-0184)]
+
 [Enable avatars]
 Уключыць аватары
 [Log chat state changes]

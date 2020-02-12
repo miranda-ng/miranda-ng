@@ -22,4 +22,3 @@
 [Unknown sticker]
 [User sent a sticker:]
 [Buddy addition failed]
-[Image received:]

@@ -14,6 +14,7 @@
 [has set the subject to:]
 [Do you want to create OMEMO session with new device:]
 [OMEMO: New session]
+[Use message delivery receipts (XEP-0184)]
 [Receive conversations from other devices (XEP-0280)]
 [Use Stream Management (XEP-0198) if possible (Testing)]
 [Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]

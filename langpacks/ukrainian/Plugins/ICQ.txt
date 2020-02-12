@@ -118,13 +118,3 @@ UIN/пошта/телефон
 
 [Buddy addition failed]
 
-[Image received:]
-
-[File received]
-Отримано файл
-[File name]
-Ім'я файлу
-[URL]
-Посилання
-[Preview]
-Тест

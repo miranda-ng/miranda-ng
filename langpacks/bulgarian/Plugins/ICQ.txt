@@ -118,13 +118,3 @@ UIN:
 
 [Buddy addition failed]
 
-[Image received:]
-
-[File received]
-Файлът е получен
-[File name]
-Име на файла
-[URL]
-URL
-[Preview]
-Образец

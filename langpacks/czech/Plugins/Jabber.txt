@@ -466,8 +466,6 @@ Poskytuje informace o místním času
 Umožňuje poslat a přijmout ping
 [Supports data forms]
 Podporuje formulářové prvky
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Umožňuje zpracovávat a reagovat na události typu doručení, zobrazení a psaní zprávy
 [Supports vCard]
 Podporuje vCard
 [Supports XHTML formatting of chat messages]
@@ -1372,8 +1370,8 @@ Změnu hesla lze provést pouze pokud jste připojen
 Musíte být přípojen
 [Messaging]
 Rozhovor
-[Send messages slower, but with full acknowledgment]
-Odeslat zprávy pomaleji, ale s úplným potvrzením
+[Use message delivery receipts (XEP-0184)]
+
 [Enable avatars]
 Aktivovat avatary
 [Log chat state changes]

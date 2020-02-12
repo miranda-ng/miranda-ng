@@ -466,8 +466,6 @@ Kann lokale Zeit des Nutzers veröffentlichen
 Kann Pinganfragen senden und empfangen
 [Supports data forms]
 Unterstützt Datenformulare
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Kann Ereignisse bezogen zur Zustellung, Anzeige und Verfassung von Nachrichten anfordern und beantworten
 [Supports vCard]
 Unterstützt vCard
 [Supports XHTML formatting of chat messages]
@@ -1372,8 +1370,8 @@ Sie können Ihr Passwort nur ändern, wenn Sie online sind.
 Sie müssen Online sein
 [Messaging]
 Nachrichten
-[Send messages slower, but with full acknowledgment]
-Nachrichten langsamer, aber mit voller Bestätigung senden
+[Use message delivery receipts (XEP-0184)]
+
 [Enable avatars]
 Avatare aktivieren
 [Log chat state changes]

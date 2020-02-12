@@ -118,13 +118,3 @@ Eliminar
 
 [Buddy addition failed]
 
-[Image received:]
-
-[File received]
-Archivo recibido
-[File name]
-
-[URL]
-URL
-[Preview]
-Previsualizar

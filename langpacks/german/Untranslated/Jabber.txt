@@ -1,0 +1,1 @@
+[Use message delivery receipts (XEP-0184)]

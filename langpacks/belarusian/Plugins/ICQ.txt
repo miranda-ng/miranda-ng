@@ -118,13 +118,3 @@
 
 [Buddy addition failed]
 
-[Image received:]
-
-[File received]
-Файл атрыманы
-[File name]
-Імя файла
-[URL]
-Спасылка
-[Preview]
-Прагляд

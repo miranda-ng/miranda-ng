@@ -1,3 +1,4 @@
+[Keep messages as unread on server]
 [Enable group chats]
 [Do not open chat windows on creation]
 [Send group chat invitation]

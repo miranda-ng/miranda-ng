@@ -466,8 +466,6 @@ Bytestream Proxy недоступно
 Приём и отправка пингов (ping)
 [Supports data forms]
 Формы данных
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Запрос и ответ на события - доставка, отображение, составление сообщений
 [Supports vCard]
 vCard (визитные карточки)
 [Supports XHTML formatting of chat messages]
@@ -1372,8 +1370,8 @@ OMEMO: Новая сессия
 Необходимо подключиться к сети
 [Messaging]
 Сообщения
-[Send messages slower, but with full acknowledgment]
-Отправлять сообщения медленнее, но с подтверждением
+[Use message delivery receipts (XEP-0184)]
+Отправлять уведомления о прочтении сообщений (XEP-0184)
 [Enable avatars]
 Включить аватары
 [Log chat state changes]
