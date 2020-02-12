@@ -1285,7 +1285,7 @@ ID текущего контакта (если определён). Наприм
 [Last received: %s at %s]
 Последнее сообщение было получено %s в %s
 [%s has entered text.]
-%s ввёл(а) текст.
+%s ввел(а) текст.
 [%s is typing a message]
 %s набирает текст
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
