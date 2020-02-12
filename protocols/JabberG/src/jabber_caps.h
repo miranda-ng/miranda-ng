@@ -96,7 +96,8 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_DATA_FORMS                  "jabber:x:data"
 #define JABBER_CAPS_DATA_FORMS                  ((JabberCapsBits)1<<16)
 
-//!!!!!!!! Vacancy
+#define JABBER_FEAT_CHAT_MARKERS                "urn:xmpp:chat-markers:0"
+#define JABBER_CAPS_CHAT_MARKERS                ((JabberCapsBits)1<<17)
 
 #define JABBER_FEAT_VCARD_TEMP                  "vcard-temp"
 #define JABBER_CAPS_VCARD_TEMP                  ((JabberCapsBits)1<<18)
@@ -208,7 +209,7 @@ typedef unsigned __int64 JabberCapsBits;
                                      JABBER_CAPS_BYTESTREAMS | JABBER_CAPS_IBB | JABBER_CAPS_OOB | JABBER_CAPS_CHATSTATES | JABBER_CAPS_AGENTS | JABBER_CAPS_BROWSE | \
 											    JABBER_CAPS_VERSION | JABBER_CAPS_LAST_ACTIVITY | JABBER_CAPS_DATA_FORMS | JABBER_CAPS_VCARD_TEMP | \
 												 JABBER_CAPS_ENTITY_TIME | JABBER_CAPS_PING | JABBER_CAPS_PRIVACY_LISTS | JABBER_CAPS_MESSAGE_RECEIPTS | JABBER_CAPS_PRIVATE_STORAGE | \
-												 JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE)
+												 JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE | JABBER_CAPS_CHAT_MARKERS)
 
 #define JABBER_CAPS_MIRANDA_ALL     (JABBER_CAPS_MIRANDA_PARTIAL | JABBER_CAPS_COMMANDS | \
                                      JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY  \

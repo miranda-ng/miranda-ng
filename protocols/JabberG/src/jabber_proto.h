@@ -62,6 +62,18 @@ struct TFilterInfo
 	wchar_t pattern[256];
 };
 
+struct CChatMark
+{
+	CChatMark(MEVENT _p1, const CMStringA &_p2, const CMStringA &_p3) :
+		hEvent(_p1),
+		szId(_p2),
+		szFrom(_p3)
+	{}
+
+	MEVENT hEvent;
+	CMStringA szId, szFrom;
+};
+
 struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 {
 	class CJabberProtoImpl
@@ -113,6 +125,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HWND     SearchAdvanced(HWND owner) override;
 	HWND     CreateExtendedSearchUI(HWND owner) override;
 
+	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT *) override;
+
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
@@ -136,6 +150,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//====| Events |======================================================================
 	void __cdecl OnAddContactForever(MCONTACT hContact);
+	int  __cdecl OnDbMarkedRead(WPARAM, LPARAM);
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int  __cdecl OnLangChanged(WPARAM, LPARAM);
@@ -219,14 +234,14 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	HANDLE m_hThreadHandle;
 
-	char *m_szJabberJID;
-	int      m_nJabberSearchID;
-	time_t   m_tmJabberLoggedInTime;
-	time_t   m_tmJabberIdleStartTime;
-	UINT     m_nJabberCodePage;
-	char *m_tszSelectedLang;
+	char*  m_szJabberJID;
+	int    m_nJabberSearchID;
+	time_t m_tmJabberLoggedInTime;
+	time_t m_tmJabberIdleStartTime;
+	UINT   m_nJabberCodePage;
+	char*  m_tszSelectedLang;
 
-	mir_cs   m_csModeMsgMutex;
+	mir_cs m_csModeMsgMutex;
 	JABBER_MODEMSGS m_modeMsgs;
 
 	bool   m_bCisAvailable;
@@ -311,6 +326,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	TFilterInfo m_filterInfo;
 
 	CNoteList m_notes;
+
+	OBJLIST<CChatMark> m_arChatMarks;
 
 	/*******************************************************************
 	* Function declarations

@@ -1060,13 +1060,24 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	pResourceStatus pFromResource(ResourceInfoFromJID(from));
 
 	// Message receipts delivery request. Reply here, before a call to HandleMessagePermanent() to make sure message receipts are handled for external plugins too.
-	if ((!type || mir_strcmpi(type, "error")) && XmlGetChildByTag(node, "request", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS)) {
-		info->send(
-			XmlNode("message") << XATTR("to", from) << XATTR("id", idStr)
-			<< XCHILDNS("received", JABBER_FEAT_MESSAGE_RECEIPTS) << XATTR("id", idStr));
-
-		if (pFromResource)
-			pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_MESSAGE_RECEIPTS;
+	bool bSendMark = false;
+	if ((!type || mir_strcmpi(type, "error"))) {
+		bool bSendReceipt = XmlGetChildByTag(node, "request", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS) != 0;
+		bSendMark = XmlGetChildByTag(node, "markable", "xmlns", JABBER_FEAT_CHAT_MARKERS) != 0;
+		if (bSendReceipt || bSendMark) {
+			XmlNode reply("message"); reply << XATTR("to", from) << XATTR("id", idStr);
+			if (bSendReceipt) {
+				if (pFromResource)
+					pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_MESSAGE_RECEIPTS;
+				reply << XCHILDNS("received", JABBER_FEAT_MESSAGE_RECEIPTS) << XATTR("id", idStr);
+			}
+			if (bSendMark) {
+				if (pFromResource)
+					pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_CHAT_MARKERS;
+				reply << XCHILDNS("received", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", idStr);
+			}
+			info->send(reply);
+		}
 	}
 
 	if (m_messageManager.HandleMessagePermanent(node, info))
@@ -1399,6 +1410,10 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	}
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = szMessage.GetBuffer();
+	if (bSendMark) {
+		recv.szMsgId = idStr;
+		recv.lParam = (LPARAM)from;
+	}
 	ProtoChainRecvMsg(hContact, &recv);
 }
 
