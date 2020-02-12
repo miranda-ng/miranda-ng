@@ -65,8 +65,3 @@
 [Unknown sticker]
 [User sent a sticker:]
 [Buddy addition failed]
-[Image received:]
-[File received]
-[File name]
-[URL]
-[Preview]
