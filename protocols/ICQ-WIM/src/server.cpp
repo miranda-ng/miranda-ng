@@ -425,6 +425,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
 			Push(pReq);
 
+			db_event_setId(m_szModuleName, 1, szMsgId);
+
 			MarkAsRead(hContact);
 			return;
 		}
