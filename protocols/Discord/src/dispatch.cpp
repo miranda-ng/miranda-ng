@@ -239,9 +239,7 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandGuildCreated(const JSONNode &pRoot)
 {
-	auto *pGuild = ProcessGuild(pRoot);
-	if (pGuild != nullptr)
-		ParseGuildContents(pGuild, pRoot);
+	ProcessGuild(pRoot);
 }
 
 void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)

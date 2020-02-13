@@ -269,9 +269,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void AddGuildUser(CDiscordGuild *guild, const CDiscordGuildMember &pUser);
 	void LoadGuildInfo(CDiscordGuild *guild);
-	void ParseGuildContents(CDiscordGuild *guild, const JSONNode &);
 
-	CDiscordGuild* ProcessGuild(const JSONNode &json);
+	void ProcessGuild(const JSONNode &json);
 	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode &json);
 	void ProcessRole(CDiscordGuild *guild, const JSONNode &json);
 	void ProcessType(CDiscordUser *pUser, const JSONNode &json);
@@ -387,7 +386,6 @@ public:
 	void OnReceiveCreateChannel(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveGateway(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveGuildInfo(NETLIBHTTPREQUEST *, AsyncHttpRequest *);
 	void OnReceiveMessageAck(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveToken(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
