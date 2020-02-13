@@ -1231,7 +1231,7 @@ void ApplyViewMode(const char *szName, bool onlySelector)
 
 		Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
-		SetDlgItemText(g_hwndViewModeFrame, IDC_SELECTMODE, TranslateT("All contacts"));
+
 		if (g_CluiData.boldHideOffline != (BYTE)-1)
 			g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
 		if (g_CluiData.bOldUseGroups != (BYTE)-1)
@@ -1240,108 +1240,113 @@ void ApplyViewMode(const char *szName, bool onlySelector)
 		g_CluiData.bOldUseGroups = (BYTE)-1;
 		g_CluiData.current_viewmode[0] = 0;
 		g_CluiData.old_viewmode[0] = 0;
-		return;
+
+		SetWindowText(hwndSelector, TranslateT("All contacts"));
 	}
-
-	if (!onlySelector) {
-		mir_snprintf(szSetting, "%c%s_PF", 246, szName);
-		ptrA szFilter(db_get_sa(0, CLVM_MODULE, szSetting));
-		if (mir_strlen(szFilter) >= 2) {
-			strncpy_s(g_CluiData.protoFilter, szFilter.get(), _TRUNCATE);
-			g_CluiData.bFilterEffective |= CLVM_FILTER_PROTOS;
-		}
-
-		mir_snprintf(szSetting, "%c%s_GF", 246, szName);
-		ptrW wszGroupFilter(db_get_wsa(0, CLVM_MODULE, szSetting));
-		if (mir_wstrlen(wszGroupFilter) >= 2) {
-			wcsncpy_s(g_CluiData.groupFilter, wszGroupFilter.get(), _TRUNCATE);
-			g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
-		}
-		mir_free(dbv.pwszVal);
-
-		mir_snprintf(szSetting, "%c%s_SM", 246, szName);
-		g_CluiData.statusMaskFilter = db_get_dw(0, CLVM_MODULE, szSetting, -1);
-		if (g_CluiData.statusMaskFilter >= 1)
-			g_CluiData.bFilterEffective |= CLVM_FILTER_STATUS;
-
-		mir_snprintf(szSetting, "%c%s_SSM", 246, szName);
-		g_CluiData.stickyMaskFilter = db_get_dw(0, CLVM_MODULE, szSetting, -1);
-		if (g_CluiData.stickyMaskFilter != -1)
-			g_CluiData.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
-
-		g_CluiData.filterFlags = db_get_dw(0, CLVM_MODULE, szName, 0);
-
-		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
-
-		if (g_CluiData.filterFlags & CLVM_AUTOCLEAR) {
-			mir_snprintf(szSetting, "%c%s_OPT", 246, szName);
-			DWORD timerexpire = LOWORD(db_get_dw(0, CLVM_MODULE, szSetting, 0));
-			strncpy_s(g_CluiData.old_viewmode, g_CluiData.current_viewmode, _TRUNCATE);
-			CLUI_SafeSetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, nullptr);
-		}
-		else { //store last selected view mode only if it is not autoclear
-			mir_snprintf(szSetting, "%c_LastMode", 246);
-			db_set_s(0, CLVM_MODULE, szSetting, szName);
-		}
-		strncpy_s(g_CluiData.current_viewmode, szName, _TRUNCATE);
-
-		if (g_CluiData.filterFlags & CLVM_USELASTMSG) {
-			g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG;
-			mir_snprintf(szSetting, "%c%s_LM", 246, szName);
-			g_CluiData.lastMsgFilter = db_get_dw(0, CLVM_MODULE, szSetting, 0);
-			if (LOBYTE(HIWORD(g_CluiData.lastMsgFilter)))
-				g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;
-			else
-				g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_OLDERTHAN;
-
-			DWORD unit = LOWORD(g_CluiData.lastMsgFilter);
-			switch (HIBYTE(HIWORD(g_CluiData.lastMsgFilter))) {
-			case 0:
-				unit *= 60;
-				break;
-			case 1:
-				unit *= 3600;
-				break;
-			case 2:
-				unit *= 86400;
-				break;
+	else {
+		if (!onlySelector) {
+			mir_snprintf(szSetting, "%c%s_PF", 246, szName);
+			ptrA szFilter(db_get_sa(0, CLVM_MODULE, szSetting));
+			if (mir_strlen(szFilter) >= 2) {
+				strncpy_s(g_CluiData.protoFilter, szFilter.get(), _TRUNCATE);
+				g_CluiData.bFilterEffective |= CLVM_FILTER_PROTOS;
 			}
-			g_CluiData.lastMsgFilter = unit;
+
+			mir_snprintf(szSetting, "%c%s_GF", 246, szName);
+			ptrW wszGroupFilter(db_get_wsa(0, CLVM_MODULE, szSetting));
+			if (mir_wstrlen(wszGroupFilter) >= 2) {
+				wcsncpy_s(g_CluiData.groupFilter, wszGroupFilter.get(), _TRUNCATE);
+				g_CluiData.bFilterEffective |= CLVM_FILTER_GROUPS;
+			}
+			mir_free(dbv.pwszVal);
+
+			mir_snprintf(szSetting, "%c%s_SM", 246, szName);
+			g_CluiData.statusMaskFilter = db_get_dw(0, CLVM_MODULE, szSetting, -1);
+			if (g_CluiData.statusMaskFilter >= 1)
+				g_CluiData.bFilterEffective |= CLVM_FILTER_STATUS;
+
+			mir_snprintf(szSetting, "%c%s_SSM", 246, szName);
+			g_CluiData.stickyMaskFilter = db_get_dw(0, CLVM_MODULE, szSetting, -1);
+			if (g_CluiData.stickyMaskFilter != -1)
+				g_CluiData.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
+
+			g_CluiData.filterFlags = db_get_dw(0, CLVM_MODULE, szName, 0);
+
+			KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
+
+			if (g_CluiData.filterFlags & CLVM_AUTOCLEAR) {
+				mir_snprintf(szSetting, "%c%s_OPT", 246, szName);
+				DWORD timerexpire = LOWORD(db_get_dw(0, CLVM_MODULE, szSetting, 0));
+				strncpy_s(g_CluiData.old_viewmode, g_CluiData.current_viewmode, _TRUNCATE);
+				CLUI_SafeSetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, nullptr);
+			}
+			else { //store last selected view mode only if it is not autoclear
+				mir_snprintf(szSetting, "%c_LastMode", 246);
+				db_set_s(0, CLVM_MODULE, szSetting, szName);
+			}
+			strncpy_s(g_CluiData.current_viewmode, szName, _TRUNCATE);
+
+			if (g_CluiData.filterFlags & CLVM_USELASTMSG) {
+				g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG;
+				mir_snprintf(szSetting, "%c%s_LM", 246, szName);
+				g_CluiData.lastMsgFilter = db_get_dw(0, CLVM_MODULE, szSetting, 0);
+				if (LOBYTE(HIWORD(g_CluiData.lastMsgFilter)))
+					g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;
+				else
+					g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_OLDERTHAN;
+
+				DWORD unit = LOWORD(g_CluiData.lastMsgFilter);
+				switch (HIBYTE(HIWORD(g_CluiData.lastMsgFilter))) {
+				case 0:
+					unit *= 60;
+					break;
+				case 1:
+					unit *= 3600;
+					break;
+				case 2:
+					unit *= 86400;
+					break;
+				}
+				g_CluiData.lastMsgFilter = unit;
+			}
+
+			if (HIWORD(g_CluiData.filterFlags) > 0)
+				g_CluiData.bFilterEffective |= CLVM_STICKY_CONTACTS;
+
+			if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
+				if (g_CluiData.boldHideOffline == (BYTE)-1)
+					g_CluiData.boldHideOffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+
+				g_clistApi.pfnSetHideOffline(false);
+			}
+			else if (g_CluiData.boldHideOffline != (BYTE)-1) {
+				g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
+				g_CluiData.boldHideOffline = -1;
+			}
+
+			int bUseGroups = -1;
+			if (g_CluiData.filterFlags & CLVM_USEGROUPS)
+				bUseGroups = 1;
+			else if (g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS)
+				bUseGroups = 0;
+
+			if (bUseGroups != -1) {
+				if (g_CluiData.bOldUseGroups == (BYTE)-1)
+					g_CluiData.bOldUseGroups = g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT);
+
+				CallService(MS_CLIST_SETUSEGROUPS, bUseGroups, 0);
+			}
+			else if (g_CluiData.bOldUseGroups != (BYTE)-1) {
+				CallService(MS_CLIST_SETUSEGROUPS, g_CluiData.bOldUseGroups, 0);
+				g_CluiData.bOldUseGroups = -1;
+			}
 		}
 
-		if (HIWORD(g_CluiData.filterFlags) > 0)
-			g_CluiData.bFilterEffective |= CLVM_STICKY_CONTACTS;
-
-		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
-			if (g_CluiData.boldHideOffline == (BYTE)-1)
-				g_CluiData.boldHideOffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-
-			g_clistApi.pfnSetHideOffline(false);
-		}
-		else if (g_CluiData.boldHideOffline != (BYTE)-1) {
-			g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
-			g_CluiData.boldHideOffline = -1;
-		}
-
-		int bUseGroups = -1;
-		if (g_CluiData.filterFlags & CLVM_USEGROUPS)
-			bUseGroups = 1;
-		else if (g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS)
-			bUseGroups = 0;
-
-		if (bUseGroups != -1) {
-			if (g_CluiData.bOldUseGroups == (BYTE)-1)
-				g_CluiData.bOldUseGroups = g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT);
-
-			CallService(MS_CLIST_SETUSEGROUPS, bUseGroups, 0);
-		}
-		else if (g_CluiData.bOldUseGroups != (BYTE)-1) {
-			CallService(MS_CLIST_SETUSEGROUPS, g_CluiData.bOldUseGroups, 0);
-			g_CluiData.bOldUseGroups = -1;
-		}
+		SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((szName[0] == 13) ? szName + 1 : szName)));
 	}
 
-	SetWindowText(hwndSelector, ptrW(mir_utf8decodeW((szName[0] == 13) ? szName + 1 : szName)));
+	InvalidateRect(hwndSelector, NULL, TRUE);
+	CallService(MS_CLIST_FRAMES_UPDATEFRAME, hCLVMFrame, -1);
 
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	cliInvalidateRect(g_clistApi.hwndStatus, nullptr, FALSE);
