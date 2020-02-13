@@ -947,9 +947,20 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 	if (hDBEvent == 0)
 		return;
 
-	CHARRANGE sel;
-	LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&sel);
-	if (sel.cpMin == sel.cpMax) {
+	bool bUseSelection = false;
+	if (m_iLogMode == 0) {
+		CHARRANGE sel;
+		LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&sel);
+		if (sel.cpMin != sel.cpMax) {
+			ptrA szFromStream(LOG()->GetRichTextRtf(true, true));
+			ptrW converted(mir_utf8decodeW(szFromStream));
+			Utils::FilterEventMarkers(converted);
+			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, ptrW(QuoteText(converted)));
+			bUseSelection = true;
+		}
+	}
+
+	if (!bUseSelection) {
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = db_event_getBlobSize(hDBEvent);
 		wchar_t *szText = (wchar_t*)mir_alloc((dbei.cbBlob + 1) * sizeof(wchar_t));   // URLs are made one char bigger for crlf
@@ -990,12 +1001,6 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		mir_free(szText);
 		if (bNeedsFree)
 			mir_free(szConverted);
-	}
-	else {
-		ptrA szFromStream(LOG()->GetRichTextRtf(true, true));
-		ptrW converted(mir_utf8decodeW(szFromStream));
-		Utils::FilterEventMarkers(converted);
-		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, ptrW(QuoteText(converted)));
 	}
 
 	SetFocus(m_message.GetHwnd());
