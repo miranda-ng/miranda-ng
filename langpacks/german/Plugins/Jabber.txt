@@ -101,7 +101,7 @@ Senden
 [Next]
 Weiter
 [Back]
-Hgrd.
+Zurück
 [Complete]
 Fertig
 [Jabber Password]
@@ -1371,7 +1371,7 @@ Sie müssen Online sein
 [Messaging]
 Nachrichten
 [Use message delivery receipts (XEP-0184)]
-
+Empfangsbestätigungen für Nachrichten verwenden (XEP-0184)
 [Enable avatars]
 Avatare aktivieren
 [Log chat state changes]
