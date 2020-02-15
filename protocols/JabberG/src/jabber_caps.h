@@ -189,6 +189,9 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_CARBONS                     "urn:xmpp:carbons:2"
 #define JABBER_CAPS_CARBONS                     ((JabberCapsBits)1<<49)
 
+#define JABBER_FEAT_BITS                        "urn:xmpp:bob"
+#define JABBER_CAPS_BITS                        ((JabberCapsBits)1<<50)
+
 #define JABBER_FEAT_ARCHIVE                     "urn:xmpp:archive"
 #define JABBER_FEAT_BIND                        "urn:ietf:params:xml:ns:xmpp-bind"
 #define JABBER_FEAT_CAPTCHA                     "urn:xmpp:captcha"
@@ -209,7 +212,7 @@ typedef unsigned __int64 JabberCapsBits;
                                      JABBER_CAPS_BYTESTREAMS | JABBER_CAPS_IBB | JABBER_CAPS_OOB | JABBER_CAPS_CHATSTATES | JABBER_CAPS_AGENTS | JABBER_CAPS_BROWSE | \
 											    JABBER_CAPS_VERSION | JABBER_CAPS_LAST_ACTIVITY | JABBER_CAPS_DATA_FORMS | JABBER_CAPS_VCARD_TEMP | \
 												 JABBER_CAPS_ENTITY_TIME | JABBER_CAPS_PING | JABBER_CAPS_PRIVACY_LISTS | JABBER_CAPS_MESSAGE_RECEIPTS | JABBER_CAPS_PRIVATE_STORAGE | \
-												 JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE | JABBER_CAPS_CHAT_MARKERS)
+												 JABBER_CAPS_ROSTER_EXCHANGE | JABBER_CAPS_DIRECT_MUC_INVITE | JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_BITS)
 
 #define JABBER_CAPS_MIRANDA_ALL     (JABBER_CAPS_MIRANDA_PARTIAL | JABBER_CAPS_COMMANDS | \
                                      JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY  \

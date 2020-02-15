@@ -26,6 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _JABBER_XML_H_
 #define _JABBER_XML_H_
 
+#define JCPF_IN    0x01UL
+#define JCPF_OUT   0x02UL
+#define JCPF_ERROR 0x04UL
+
 void XmlAddAttrID(TiXmlElement*, int id);
 
 class XmlNodeHash : public tinyxml2::XMLVisitor

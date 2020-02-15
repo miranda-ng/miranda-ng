@@ -46,16 +46,6 @@ static ThreadData *g_pRegInfo;  // pointer to registration thread
 int iqIdRegGetReg;
 int iqIdRegSetReg;
 
-// XML Console
-#define JCPF_IN      0x01UL
-#define JCPF_OUT     0x02UL
-#define JCPF_ERROR   0x04UL
-
-static VOID CALLBACK JabberDummyApcFunc(DWORD_PTR)
-{
-	return;
-}
-
 struct JabberPasswordDlgParam
 {
 	CJabberProto *pro;
@@ -103,7 +93,8 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 					param->saveOnlinePassword = TRUE;
 				}
 			}
-			// Fall through
+			__fallthrough;
+
 		case IDCANCEL:
 			param->dlgResult = LOWORD(wParam);
 			SetEvent(param->hEventPasswdDlg);
@@ -116,7 +107,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	return FALSE;
 }
 
-static VOID CALLBACK JabberPasswordCreateDialogApcProc(void* param)
+static VOID CALLBACK JabberPasswordCreateDialogApcProc(void *param)
 {
 	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PASSWORD), nullptr, JabberPasswordDlgProc, (LPARAM)param);
 }
@@ -1180,11 +1171,6 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		item = ListGetItemPtr(LIST_VCARD_TEMP, from);
 
 	time_t msgTime = 0;
-	bool isChatRoomInvitation = false;
-	const char *inviteRoomJid = nullptr;
-	const char *inviteFromJid = nullptr;
-	const char *inviteReason = nullptr;
-	const char *invitePassword = nullptr;
 
 	// check chatstates availability
 	if (pFromResource && XmlGetChildByTag(node, "active", "xmlns", JABBER_FEAT_CHATSTATES))
@@ -1330,13 +1316,12 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
 			auto *inviteNode = XmlFirstChild(xNode, "invite");
 			if (inviteNode != nullptr) {
-				inviteFromJid = XmlGetAttr(inviteNode, "from");
-				inviteReason = XmlGetChildText(inviteNode, "reason");
-				inviteRoomJid = from;
+				auto *inviteReason = XmlGetChildText(inviteNode, "reason");
 				if (inviteReason == nullptr)
 					inviteReason = szMessage;
-				isChatRoomInvitation = true;
-				invitePassword = XmlGetChildText(xNode, "password");
+				if (!m_bIgnoreMUCInvites)
+					GroupchatProcessInvite(XmlGetAttr(inviteNode, "from"), from, inviteReason, XmlGetChildText(xNode, "password"));
+				return;
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_ROSTER_EXCHANGE) && item != nullptr && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
@@ -1361,35 +1346,14 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				}
 			}
 		}
-		else if (!isChatRoomInvitation && !mir_strcmp(pszXmlns, JABBER_FEAT_DIRECT_MUC_INVITE)) {
-			inviteRoomJid = XmlGetAttr(xNode, "jid");
-			inviteFromJid = from;
-			if (inviteReason == nullptr)
-				inviteReason = xNode->GetText();
+		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_DIRECT_MUC_INVITE)) {
+			auto *inviteReason = xNode->GetText();
 			if (!inviteReason)
 				inviteReason = szMessage;
-			isChatRoomInvitation = true;
+			if (!m_bIgnoreMUCInvites)
+				GroupchatProcessInvite(XmlGetAttr(xNode, "jid"), from, inviteReason, nullptr);
+			return;
 		}
-	}
-
-	if (isChatRoomInvitation) {
-		if (inviteRoomJid != nullptr) {
-			if (m_bIgnoreMUCInvites) {
-				// FIXME: temporary disabled due to MUC inconsistence on server side
-				/*
-				XmlNode m("message"); XmlAddAttr(m, "to", from);
-				XmlNode xNode = XmlAddChild(m, "x");
-				XmlAddAttr(xNode, "xmlns", JABBER_FEAT_MUC_USER);
-				XmlNode declineNode = XmlAddChild(xNode, "decline");
-				XmlAddAttr(declineNode, "from", inviteRoomJid);
-				XmlNode reasonNode = XmlAddChild(declineNode, "reason", "The user has chosen to not accept chat invites");
-				info->send(m);
-				*/
-			}
-			else GroupchatProcessInvite(inviteRoomJid, inviteFromJid, inviteReason, invitePassword);
-		}
-		debugLogA("chat room invitation processed, returning");
-		return;
 	}
 
 	// all service info was already processed

@@ -26,12 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define JCPF_IN    0x01UL
-#define JCPF_OUT   0x02UL
-#define JCPF_ERROR 0x04UL
-
-#define JCPF_TCHAR 0x00UL
-
 #define WM_CREATECONSOLE  WM_USER+1000
 
 #ifndef SES_EXTENDBACKCOLOR
@@ -196,8 +190,10 @@ static void sttRtfAppendXml(StringBuf *buf, const TiXmlElement *node, DWORD flag
 
 	sttAppendBufRaw(buf, RTF_BEGINTAG);
 	sttAppendBufRaw(buf, indentLevel);
-	if (flags&JCPF_IN)	sttAppendBufRaw(buf, "\\highlight3 ");
-	if (flags&JCPF_OUT)	sttAppendBufRaw(buf, "\\highlight4 ");
+	if (flags & JCPF_IN)
+		sttAppendBufRaw(buf, "\\highlight3 ");
+	if (flags & JCPF_OUT)
+		sttAppendBufRaw(buf, "\\highlight4 ");
 	sttAppendBufRaw(buf, "<");
 	sttAppendBufRaw(buf, RTF_BEGINTAGNAME);
 	sttAppendBufRaw(buf, node->Name());

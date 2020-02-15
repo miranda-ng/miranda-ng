@@ -832,6 +832,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const char *jid);
 
+	void   OnGetBob(const TiXmlElement *node, CJabberIqInfo *pInfo);
+
 	MCONTACT HContactFromJID(const char *jid, bool bStripResource = true);
 	MCONTACT ChatRoomHContactFromJID(const char *jid);
 	void   SendVisibleInvisiblePresence(bool invisible);
