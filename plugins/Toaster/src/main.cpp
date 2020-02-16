@@ -61,10 +61,7 @@ int CMPlugin::Load()
 
 	if (GetEnvironmentVariableW(L"TEMP", wszTempDir, MAX_PATH) != 0) {
 		wcscat_s(wszTempDir, L"\\Miranda.Toaster");
-
-		DWORD dwAttributes = GetFileAttributes(wszTempDir);
-		if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-			CreateDirectoryTreeW(wszTempDir);
+		CreateDirectoryTreeW(wszTempDir);
 	}
 	else MessageBox(nullptr, TranslateT("Failed to create temporary directory"), _T(MODULENAME), MB_OK | MB_ICONERROR);
 

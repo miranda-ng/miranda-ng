@@ -102,13 +102,12 @@ MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
 	if (szDir == nullptr)
 		return 1;
 
-	char szTestDir[MAX_PATH];
-	mir_strncpy(szTestDir, szDir, _countof(szTestDir));
-
-	DWORD dwAttributes = GetFileAttributesA(szTestDir);
+	DWORD dwAttributes = GetFileAttributesA(szDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
+	char szTestDir[MAX_PATH];
+	mir_strncpy(szTestDir, szDir, _countof(szTestDir));
 	char *pszLastBackslash = strrchr(szTestDir, '\\');
 	if (pszLastBackslash == nullptr)
 		return 0;
@@ -192,13 +191,12 @@ MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *szDir)
 	if (szDir == nullptr)
 		return 1;
 
-	wchar_t szTestDir[MAX_PATH];
-	mir_wstrncpy(szTestDir, szDir, _countof(szTestDir));
-
-	DWORD dwAttributes = GetFileAttributesW(szTestDir);
+	DWORD dwAttributes = GetFileAttributesW(szDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
+	wchar_t szTestDir[MAX_PATH];
+	mir_wstrncpy(szTestDir, szDir, _countof(szTestDir));
 	wchar_t *pszLastBackslash = wcsrchr(szTestDir, '\\');
 	if (pszLastBackslash == nullptr)
 		return 0;

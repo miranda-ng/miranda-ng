@@ -123,11 +123,7 @@ INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
 	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s", VARSW(L"%miranda_avatarcache%").get(), m_tszUserName);
-
-	DWORD dwAttributes = GetFileAttributes(pszDest);
-	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeW(pszDest);
-
+	CreateDirectoryTreeW(pszDest);
 	pszDest[tPathLen++] = '\\';
 
 	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));

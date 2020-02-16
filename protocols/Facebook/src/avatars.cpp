@@ -26,10 +26,7 @@ void FacebookProto::GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName)
 {
 	WCHAR wszPath[MAX_PATH];
 	mir_snwprintf(wszPath, MAX_PATH, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
-
-	DWORD dwAttributes = GetFileAttributes(wszPath);
-	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeW(wszPath);
+	CreateDirectoryTreeW(wszPath);
 
 	CMStringW id(getMStringW(hContact, DBKEY_ID));
 	mir_snwprintf(pwszFileName, MAX_PATH, L"%s\\%s.jpg", wszPath, id.c_str());

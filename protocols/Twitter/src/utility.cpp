@@ -137,8 +137,7 @@ bool save_url(HNETLIBUSER hNetlib, const std::string &url, const std::wstring &f
 		if (success) {
 			// Create folder if necessary
 			std::wstring dir = filename.substr(0, filename.rfind('\\'));
-			if (_waccess(dir.c_str(), 0))
-				CreateDirectoryTreeW(dir.c_str());
+			CreateDirectoryTreeW(dir.c_str());
 
 			// Write to file
 			FILE *f = _wfopen(filename.c_str(), L"wb");

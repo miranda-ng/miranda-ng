@@ -4,10 +4,7 @@ wchar_t* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	wchar_t path[MAX_PATH];
 	mir_snwprintf(path, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-
-	DWORD dwAttributes = GetFileAttributes(path);
-	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeW(path);
+	CreateDirectoryTreeW(path);
 
 	ptrA steamId(getStringA(hContact, "SteamID"));
 	if (steamId != NULL)

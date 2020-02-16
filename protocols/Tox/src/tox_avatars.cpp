@@ -4,10 +4,7 @@ wchar_t* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {
 	wchar_t *path = (wchar_t*)mir_calloc(MAX_PATH * sizeof(wchar_t) + 1);
 	mir_snwprintf(path, MAX_PATH, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-
-	DWORD dwAttributes = GetFileAttributes(path);
-	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeW(path);
+	CreateDirectoryTreeW(path);
 
 	ptrW address(getWStringA(hContact, TOX_SETTINGS_ID));
 	if (address == NULL) {

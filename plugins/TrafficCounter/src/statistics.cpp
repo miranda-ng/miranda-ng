@@ -296,13 +296,14 @@ void Stat_ReadFile(PROTOLIST &p)
 {
 	LARGE_INTEGER Size;
 	DWORD BytesRead;
-	wchar_t FileName[MAX_PATH], *pszPath;
-	SYSTEMTIME stNow;
+	wchar_t FileName[MAX_PATH];
+	{
+		VARSW pszPath(Utils_ReplaceVarsW(L"%miranda_userdata%\\statistics"));
+		CreateDirectoryTreeW(pszPath);
+		mir_snwprintf(FileName, L"%s\\%S.stat", pszPath.get(), p.name);
+	}
 
-	pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\statistics");
-	CreateDirectoryTreeW(pszPath);
-	mir_snwprintf(FileName, L"%s\\%S.stat", pszPath, p.name);
-	mir_free(pszPath);
+	SYSTEMTIME stNow;
 	GetLocalTime(&stNow);
 	p.hFile = CreateFile(FileName, GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);

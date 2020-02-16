@@ -20,10 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 CMStringW CDiscordProto::GetAvatarFilename(MCONTACT hContact)
 {
 	CMStringW wszResult(FORMAT, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
-
-	DWORD dwAttributes = GetFileAttributes(wszResult);
-	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
-		CreateDirectoryTreeW(wszResult);
+	CreateDirectoryTreeW(wszResult);
 
 	wszResult.AppendChar('\\');
 
