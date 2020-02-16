@@ -112,7 +112,6 @@ struct NEN_OPTIONS
 	int    iDisable;
 	int    iMUCDisable;
 	int    dwStatusMask;
-	BOOL   bTraySupport;
 	BOOL   bTrayExist;
 	BOOL   iNoSounds;
 	BOOL   iNoAutoPopup;

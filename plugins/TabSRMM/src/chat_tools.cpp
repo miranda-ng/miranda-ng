@@ -278,9 +278,6 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 				dat->m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
 			}
 		}
-
-		if (p->bMustFlash && p->bInactive)
-			UpdateTrayMenu(dat, si->wStatus, si->pszModule, dat->m_wszStatus, si->hContact, 1);
 	}
 
 	delete p;

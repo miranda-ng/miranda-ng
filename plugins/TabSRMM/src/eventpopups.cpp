@@ -93,7 +93,6 @@ int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 	options->iDisable = (BYTE)db_get_b(0, MODULE, OPT_DISABLE, 0);
 	options->iMUCDisable = (BYTE)db_get_b(0, MODULE, OPT_MUCDISABLE, 0);
 	options->dwStatusMask = db_get_dw(0, MODULE, "statusmask", (DWORD)-1);
-	options->bTraySupport = (BOOL)db_get_b(0, MODULE, "traysupport", 0);
 	options->bWindowCheck = (BOOL)db_get_b(0, MODULE, OPT_WINDOWCHECK, 0);
 	options->bNoRSS = (BOOL)db_get_b(0, MODULE, OPT_NORSS, 0);
 	options->iLimitPreview = db_get_dw(0, MODULE, OPT_LIMITPREVIEW, 0);
@@ -127,7 +126,6 @@ int TSAPI NEN_WriteOptions(NEN_OPTIONS *options)
 	db_set_b(0, MODULE, OPT_SHOW_HEADERS, (BYTE)options->bShowHeaders);
 	db_set_b(0, MODULE, OPT_DISABLE, (BYTE)options->iDisable);
 	db_set_b(0, MODULE, OPT_MUCDISABLE, (BYTE)options->iMUCDisable);
-	db_set_b(0, MODULE, "traysupport", (BYTE)options->bTraySupport);
 	db_set_b(0, MODULE, OPT_WINDOWCHECK, (BYTE)options->bWindowCheck);
 	db_set_b(0, MODULE, OPT_NORSS, (BYTE)options->bNoRSS);
 	db_set_dw(0, MODULE, OPT_LIMITPREVIEW, options->iLimitPreview);
@@ -451,7 +449,6 @@ static TOptionListItem lvItemsNEN[] =
 	{ 0, LPGENW("Show a preview of the event"), IDC_CHKPREVIEW, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bPreview, 1 },
 	{ 0, LPGENW("Don't announce event when message dialog is open"), IDC_CHKWINDOWCHECK, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bWindowCheck, 1 },
 	{ 0, LPGENW("Don't announce events from RSS protocols"), IDC_NORSS, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bNoRSS, 1 },
-	{ 0, LPGENW("Enable the system tray icon"), IDC_ENABLETRAYSUPPORT, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bTraySupport, 2 },
 	{ 0, LPGENW("Merge new events for the same contact into existing popup"), 1, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bMergePopup, 6 },
 	{ 0, LPGENW("Show headers"), IDC_CHKSHOWHEADERS, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bShowHeaders, 6 },
 	{ 0, LPGENW("Dismiss popup"), MASK_DISMISS, LOI_TYPE_FLAG, (UINT_PTR)&nen_options.maskActL, 3 },
@@ -569,8 +566,6 @@ public:
 
 		NEN_WriteOptions(&nen_options);
 		CheckForRemoveMask();
-		CreateSystrayIcon(nen_options.bTraySupport);
-		SetEvent(g_hEvent); // wake up the thread which cares about the floater and tray
 		return true;
 	}
 
@@ -657,77 +652,6 @@ void Popup_Options(WPARAM wParam)
 	odp.szTitle.a = LPGEN("Event notifications");
 	odp.szGroup.a = LPGEN("Popups");
 	g_plugin.addOptions(wParam, &odp);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// updates the menu entry...
-// bForced is used to only update the status, nickname etc. and does NOT update the unread count
-
-void TSAPI UpdateTrayMenuState(CMsgDialog *dat, BOOL bForced)
-{
-	if (PluginConfig.g_hMenuTrayUnread == nullptr || dat->m_hContact == 0)
-		return;
-
-	MENUITEMINFO mii = { 0 };
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_DATA | MIIM_BITMAP;
-
-	const wchar_t *tszProto = dat->m_cache->getRealAccount();
-	assert(tszProto != nullptr);
-
-	GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->m_hContact, FALSE, &mii);
-	if (!bForced)
-		PluginConfig.m_UnreadInTray -= mii.dwItemData;
-	if (mii.dwItemData > 0 || bForced) {
-		wchar_t szMenuEntry[80];
-		mir_snwprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszProto, dat->m_cache->getNick(), dat->m_wszStatus[0] ? dat->m_wszStatus : L"(undef)", (int)mii.dwItemData);
-
-		if (!bForced)
-			mii.dwItemData = 0;
-		mii.fMask |= MIIM_STRING;
-		mii.dwTypeData = (LPTSTR)szMenuEntry;
-		mii.cch = (int)mir_wstrlen(szMenuEntry) + 1;
-	}
-	mii.hbmpItem = HBMMENU_CALLBACK;
-	SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->m_hContact, FALSE, &mii);
-}
-
-// if we want tray support, add the contact to the list of unread sessions in the tray menu
-int TSAPI UpdateTrayMenu(const CMsgDialog *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent)
-{
-	if (!PluginConfig.g_hMenuTrayUnread || hContact == 0 || szProto == nullptr)
-		return 0;
-
-	PROTOACCOUNT *acc = Proto_GetAccount(szProto);
-	wchar_t *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : nullptr);
-	if (tszFinalProto == nullptr)
-		return 0;
-
-	WORD wMyStatus = (wStatus == 0) ? Contact_GetStatus(hContact) : wStatus;
-	const wchar_t *szMyStatus = (szStatus == nullptr) ? Clist_GetStatusModeDescription(wMyStatus, 0) : szStatus;
-
-	MENUITEMINFO mii = {};
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_DATA | MIIM_ID;
-	mii.wID = hContact;
-	if (!GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, hContact, FALSE, &mii))
-		AppendMenu(PluginConfig.g_hMenuTrayUnread, MF_BYCOMMAND | MF_STRING, hContact, L"");
-
-	mii.dwItemData += fromEvent;
-	PluginConfig.m_UnreadInTray += fromEvent;
-	if (PluginConfig.m_UnreadInTray)
-		SetEvent(g_hEvent);
-
-	wchar_t szMenuEntry[80];
-	const wchar_t *szNick = (dat != nullptr) ? dat->m_cache->getNick() : Clist_GetContactDisplayName(hContact);
-	mir_snwprintf(szMenuEntry, L"%s: %s (%s) [%d]", tszFinalProto, szNick, szMyStatus, (int)mii.dwItemData);
-
-	mii.hbmpItem = HBMMENU_CALLBACK;
-	mii.fMask |= MIIM_STRING | MIIM_BITMAP;
-	mii.cch = (int)mir_wstrlen(szMenuEntry) + 1;
-	mii.dwTypeData = szMenuEntry;
-	SetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, hContact, FALSE, &mii);
-	return 0;
 }
 
 int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto)

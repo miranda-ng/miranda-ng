@@ -50,21 +50,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int   TSAPI NEN_ReadOptions(NEN_OPTIONS *options);
 int   TSAPI NEN_WriteOptions(NEN_OPTIONS *options);
-int   TSAPI UpdateTrayMenu(const CMsgDialog *dat, WORD wStatus, const char *szProto, const wchar_t *szStatus, MCONTACT hContact, DWORD fromEvent);
 void  TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask);
-
-/*
- * tray stuff
- */
-
-void  TSAPI CreateSystrayIcon(int create);
-void  TSAPI FlashTrayIcon(HICON hIcon);
-void  TSAPI UpdateTrayMenuState(CMsgDialog *dat, BOOL bForced);
-void  TSAPI LoadFavoritesAndRecent();
-void  TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, const char *szProto, wchar_t *szStatus,
-	WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu);
-void  TSAPI CreateTrayMenus(int mode);
-void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
 
 /*
  * gneric msgwindow functions(creation, container management etc.)

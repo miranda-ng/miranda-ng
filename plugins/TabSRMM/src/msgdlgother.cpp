@@ -522,12 +522,9 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 {
 	m_dwTickLastEvent = GetTickCount();
 
-	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE) {
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE)
 		m_dwUnread++;
-		UpdateTrayMenu(this, (WORD)(m_cache->getActiveStatus()), m_cache->getActiveProto(), m_wszStatus, m_hContact, 0);
-		if (nen_options.bTraySupport)
-			return;
-	}
+
 	if (hEvent == 0)
 		return;
 
@@ -2137,13 +2134,6 @@ void CMsgDialog::UpdateTitle()
 			if (m_pContainer->m_hwndActive == m_hwnd && bChanged)
 				m_pContainer->UpdateTitle(m_hContact);
 
-			UpdateTrayMenuState(this, TRUE);
-			if (M.IsFavorite(m_hContact))
-				AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuFavorites);
-
-			if (M.IsRecent(m_hContact))
-				AddContactToFavorites(m_hContact, m_cache->getNick(), szActProto, m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 0, PluginConfig.g_hMenuRecent);
-
 			m_pPanel.Invalidate();
 			if (m_pWnd)
 				m_pWnd->Invalidate();
@@ -2261,7 +2251,6 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		m_dwLastActivity = GetTickCount();
 		m_pContainer->m_dwLastActivity = m_dwLastActivity;
 		m_pContainer->m_pMenuBar->configureMenu();
-		UpdateTrayMenuState(this, FALSE);
 	}
 	else {
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND)) {
@@ -2293,7 +2282,6 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		m_pContainer->m_dwLastActivity = m_dwLastActivity;
 
 		m_pContainer->m_pMenuBar->configureMenu();
-		UpdateTrayMenuState(this, FALSE);
 
 		if (m_pContainer->m_hwndActive == m_hwnd)
 			DeletePopupsForContact(m_hContact, PU_REMOVE_ON_FOCUS);

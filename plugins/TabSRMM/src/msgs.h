@@ -770,7 +770,6 @@ struct TIconDescW
 #define DM_CHECKQUEUEFORCLOSE    (TM_USER+70)
 #define DM_CHECKAUTOHIDE         (TM_USER+71)
 #define DM_HANDLECLISTEVENT      (TM_USER+73)
-#define DM_TRAYICONNOTIFY        (TM_USER+74)
 #define DM_REMOVECLISTEVENT      (TM_USER+75)
 #define DM_DOCREATETAB           (TM_USER+77)
 #define DM_SMILEYOPTIONSCHANGED  (TM_USER+85)
@@ -1019,15 +1018,6 @@ struct SIDEBARITEM
 
 #define MS_TABMSG_SETUSERPREFS	"SRMsg_MOD/SetUserPrefs"
 #define MS_TABMSG_SLQMGR		"SRMsg_MOD/InvokeQmgr"
-
-// show one of the tray menus
-// wParam = 0 -> session list
-// wParam = 1 -> tray menu
-// lParam must be 0
-#define MS_TABMSG_TRAYSUPPORT "SRMsg_MOD/Show_TrayMenu"
-
-// the service which processes globally registered hotkeys
-#define MS_TABMSG_HOTKEYPROCESS "SRMsg_MOD/ProcessHotkey"
 
 #define MBF_DISABLED		0x01
 

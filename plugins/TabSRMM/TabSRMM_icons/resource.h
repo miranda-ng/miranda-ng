@@ -45,7 +45,6 @@
 
 #define IDI_CONTAINER       136         /* static container icon */
 
-#define IDI_SESSIONLIST     137         /* session list */
 #define IDI_IMGTAG          138         /* image tag button */
 #define IDI_RECENTLIST      139         /* recent contact list */
 #define IDI_CONFIGSIDEBAR   140         /* sidebar config */

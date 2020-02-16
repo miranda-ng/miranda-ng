@@ -520,21 +520,18 @@ nowindowcreate:
 	// for tray support, we add the event to the tray menu. otherwise we send it back to
 	// the contact list for flashing
 	if (!(dbei.flags & DBEF_READ)) {
-		UpdateTrayMenu(nullptr, 0, dbei.szModule, nullptr, hContact, 1);
+		wchar_t toolTip[256];
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
 
-		if (!nen_options.bTraySupport) {
-			wchar_t toolTip[256];
-			mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
+		CLISTEVENT cle = {};
+		cle.hContact = hContact;
+		cle.hDbEvent = hDbEvent;
+		cle.flags = CLEF_UNICODE;
+		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+		cle.pszService = MS_MSG_READMESSAGE;
+		cle.szTooltip.w = toolTip;
+		g_clistApi.pfnAddEvent(&cle);
 
-			CLISTEVENT cle = {};
-			cle.hContact = hContact;
-			cle.hDbEvent = hDbEvent;
-			cle.flags = CLEF_UNICODE;
-			cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-			cle.pszService = MS_MSG_READMESSAGE;
-			cle.szTooltip.w = toolTip;
-			g_clistApi.pfnAddEvent(&cle);
-		}
 		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, nullptr, nullptr, dbei.szModule);
 	}
 	return 0;

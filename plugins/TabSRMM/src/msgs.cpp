@@ -60,15 +60,6 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// service function - open the tray menu from the TTB button
-
-static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
-{
-	SendMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, lParam == 0 ? WM_LBUTTONUP : WM_RBUTTONUP);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // service function finds a message session
 // wParam = contact handle for which we want the window handle
 // thanks to bio for the suggestion of this service
@@ -492,7 +483,6 @@ static TIconDesc _deficons[] =
 	{ "tabSRMM_Leftarrow", LPGEN("Left Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_LEFT], -IDI_LEFTARROW, 1 },
 	{ "tabSRMM_Rightarrow", LPGEN("Right Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_RIGHT], -IDI_RIGHTARROW, 1 },
 	{ "tabSRMM_Pulluparrow", LPGEN("Up Arrow"), &PluginConfig.g_buttonBarIcons[ICON_DEFAULT_UP], -IDI_PULLUPARROW, 1 },
-	{ "tabSRMM_sb_slist", LPGEN("Session List"), &PluginConfig.g_sideBarIcons[0], -IDI_SESSIONLIST, 1 },
 };
 
 static TIconDesc _trayIcon[] =
@@ -678,7 +668,6 @@ static void TSAPI InitAPI()
 	CreateServiceFunction("TabSRMsg/ReloadSettings", ReloadSettings);
 
 	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
-	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
 	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
 
 	SI_InitStatusIcons();

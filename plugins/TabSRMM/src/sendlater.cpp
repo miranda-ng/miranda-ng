@@ -686,14 +686,11 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (((LPNMHDR)lParam)->hwndFrom == m_hwndList) {
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_RCLICK:
-				HMENU hMenu = ::LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_TABCONTEXT));
-				HMENU hSubMenu = ::GetSubMenu(hMenu, 9);
-				::TranslateMenu(hSubMenu);
-
 				POINT pt;
 				::GetCursorPos(&pt);
 
 				// copy to clipboard only allowed with a single selection
+				HMENU hSubMenu = ::GetSubMenu(PluginConfig.g_hMenuContext, 7);
 				if (::SendMessage(m_hwndList, LVM_GETSELECTEDCOUNT, 0, 0) == 1)
 					::EnableMenuItem(hSubMenu, ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD, MF_ENABLED);
 
@@ -711,7 +708,6 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					::SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_QMGR_REMOVE, LOWORD(selection)), 0);
 					m_last_sendlater_processed = 0;			// force a queue check
 				}
-				::DestroyMenu(hMenu);
 				m_fIsInteractive = false;
 				break;
 			}

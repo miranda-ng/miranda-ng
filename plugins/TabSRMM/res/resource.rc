@@ -9,7 +9,6 @@
 //
 #include <winres.h>
 #include "..\..\..\include\statusmodes.h"
-#include "..\..\..\include\chat_resource.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -160,11 +159,10 @@ BEGIN
     CONTROL         "Load only actual history",IDC_LOADONLYACTUAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,113,164,12
     CONTROL         "Use private splitter position",IDC_PRIVATESPLITTER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,125,296,12
-    CONTROL         "Contact is a favorite contact",IDC_ISFAVORITE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,137,297,12
-    CONTROL         "Always trim message log to",IDC_ALWAYSTRIM2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,149,163,12
-    EDITTEXT        IDC_TRIM,177,147,33,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
-    CONTROL         "",IDC_TRIMSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,207,147,11,14
-    LTEXT           "events",IDC_STATIC,214,149,64,8
+    CONTROL         "Always trim message log to",IDC_ALWAYSTRIM2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,137,163,12
+    EDITTEXT        IDC_TRIM,177,137,33,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_TRIMSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,204,137,11,14
+    LTEXT           "events",IDC_STATIC,214,139,64,8
 END
 
 IDD_CONTAINEROPTIONS DIALOGEX 0, 0, 428, 258
@@ -718,26 +716,6 @@ BEGIN
     BEGIN
         MENUITEM SEPARATOR
     END
-    POPUP "Traycontext"
-    BEGIN
-        MENUITEM "Recent sessions",             0
-        MENUITEM SEPARATOR
-        MENUITEM "Favorites",                   0
-        MENUITEM SEPARATOR
-        MENUITEM "Show the tray icon",          ID_TRAYCONTEXT_SHOWTHETRAYICON
-        MENUITEM SEPARATOR
-        MENUITEM "Disable all event notifications", ID_TRAYCONTEXT_DISABLEALLPOPUPS
-        MENUITEM "Don't create windows automatically", ID_TRAYCONTEXT_DON
-        MENUITEM "Hide all message containers", ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS
-        MENUITEM "Restore all message containers", ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS
-        MENUITEM "Don't play sounds",           ID_TRAYCONTEXT_DON40223
-        MENUITEM "Be ""super quiet""",          ID_TRAYCONTEXT_BE
-    END
-    POPUP "Favorites"
-    BEGIN
-        MENUITEM "Add contact to favorites",    ID_FAVORITES_ADDCONTACTTOFAVORITES
-        MENUITEM "Remove contact from favorites", ID_FAVORITES_REMOVECONTACTFROMFAVORITES
-    END
     POPUP "Splitter context"
     BEGIN
         MENUITEM "Set position for this session", ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION
@@ -827,10 +805,10 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-
 IDI_FEATURE_DISABLED    ICON                    "overlay_disabled.ico"
 
 IDI_FEATURE_ENABLED     ICON                    "overlay_enabled.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

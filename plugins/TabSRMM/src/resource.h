@@ -90,7 +90,6 @@
 #define IDC_CHKACTL_OPEN                1021
 #define IDC_NAME                        1022
 #define IDC_CHKACTL_REMOVE              1023
-#define IDC_INFOPANELMENU               1023
 #define IDC_CHKWINDOWCHECK              1024
 #define IDC_CLOSE                       1025
 #define IDC_CHKACTR_DISMISS             1026
@@ -333,7 +332,6 @@
 #define IDC_STATICTEXT                  1287
 #define IDC_GROUPMODE                   1288
 #define IDC_ANIMATED                    1289
-#define IDC_ISFAVORITE                  1289
 #define IDC_ALWAYSTRIM                  1289
 #define IDC_SKIN_LOADFONTS              1289
 #define IDC_PRESERVEAVATARSIZE          1289
@@ -362,7 +360,6 @@
 #define IDC_UPREFS_RTL                  1301
 #define IDC_CHECKICONDLL                1302
 #define IDC_UPREFS_LOGSTATUS            1302
-#define IDC_ENABLETRAYSUPPORT           1303
 #define IDC_UPREFS_LOGSTATUS2           1303
 #define IDC_UPREFS_NORMALTEMPLATES      1303
 #define IDC_HEADERSHADING               1304
@@ -644,16 +641,8 @@
 #define ID_UNREADMENU_TEST              40151
 #define ID_UNREADMENU_FOOBAR            40152
 #define ID_UNREADMENU_                  40153
-#define ID_TRAYCONTEXT_RECENTSESSIONS   40154
 #define ID_RECENTSESSIONS_1             40155
-#define ID_TRAYCONTEXT_FAVORITES        40156
 #define ID_FAVORITES_1                  40157
-#define ID_TRAYCONTEXT_DISABLEALLPOPUPS 40158
-#define ID_TRAYCONTEXT_DON              40159
-#define ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS 40160
-#define ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS 40161
-#define ID_TRAYCONTEXT_DON40223         40164
-#define ID_TRAYCONTEXT_BE               40165
 #define ID_RECENTSESSIONS_2             40166
 #define ID_PROTOMENU_SENDTEXTFORMATTING 40167
 #define ID_SENDTEXTFORMATTING_GLOBAL    40169
@@ -666,8 +655,6 @@
 #define ID_THISCONTACT_OFF              40177
 #define ID_GLOBAL_BBCODE                40178
 #define ID_PROTOMENU_FAVORITES          40179
-#define ID_FAVORITES_ADDCONTACTTOFAVORITES 40180
-#define ID_FAVORITES_REMOVECONTACTFROMFAVORITES 40181
 #define ID_FILE_HTTP                    40182
 #define ID_LOG_FREEZELOG                40183
 #define ID_FONT_SIZE                    40186
@@ -678,7 +665,6 @@
 #define ID_SIZE_TINY                    40191
 #define ID_DUMMY_NOMESSAGESESSIONSOPENED 40202
 #define ID_SENDMENU_SENDWITHOUTTIMEOUTS 40203
-#define ID_TRAYCONTEXT_SHOWTHETRAYICON  40204
 #define ID_INFOPANEL_QUICKTOGGLE        40206
 #define ID_INFOPANEL_GLOBAL             40207
 #define ID_VIEW_INFOPANEL               40208

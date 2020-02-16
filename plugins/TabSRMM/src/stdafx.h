@@ -216,7 +216,6 @@ extern NEN_OPTIONS nen_options;
 extern CSkinItem SkinItems[];
 extern TContainerData *pFirstContainer, *pLastActiveContainer;
 extern ButtonSet g_ButtonSet;
-extern HANDLE g_hEvent;
 extern RECT rcLastStatusBarClick;
 extern TTemplateSet RTL_Active, LTR_Active;
 extern LOGFONTA logfonts[MSGDLGFONTCOUNT + 2];

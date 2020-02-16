@@ -229,25 +229,6 @@ void CGlobals::hookSystemEvents()
 	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
 }
 
-int CGlobals::TopToolbarLoaded(WPARAM, LPARAM)
-{
-	TTBButton ttb = {};
-	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
-	ttb.pszService = MS_TABMSG_TRAYSUPPORT;
-	ttb.name = "TabSRMM session list";
-	ttb.pszTooltipUp = LPGEN("TabSRMM session list");
-	ttb.hIconHandleUp = IcoLib_GetIcon("tabSRMM_sb_slist");
-	g_plugin.addTTB(&ttb);
-
-	ttb.name = "TabSRMM Menu";
-	ttb.pszTooltipUp = LPGEN("TabSRMM menu");
-	ttb.lParamUp = ttb.lParamDown = 1;
-	ttb.hIconHandleUp = IcoLib_GetIcon("tabSRMM_container");
-	g_plugin.addTTB(&ttb);
-
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // second part of the startup initialisation.All plugins are now fully loaded
 
@@ -275,10 +256,6 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);
 
 	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP, 0, 0, 40, 40, nullptr, nullptr, g_plugin.getInst(), nullptr);
-
-	::CreateTrayMenus(TRUE);
-	if (nen_options.bTraySupport)
-		::CreateSystrayIcon(TRUE);
 
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x9f68b822, 0xff97, 0x477d, 0xb7, 0x6d, 0xa5, 0x59, 0x33, 0x1c, 0x54, 0x40);
@@ -312,7 +289,6 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_DB_EVENT_EDITED, CMimAPI::MessageEventAdded);
 
 	HookEvent(ME_FONT_RELOAD, ::FontServiceFontsChanged);
-	HookEvent(ME_TTB_MODULELOADED, TopToolbarLoaded);
 
 	HookEvent(ME_MC_ENABLED, &CContactCache::cacheUpdateMetaChanged);
 	HookEvent(ME_MC_DEFAULTTCHANGED, MetaContactEvent);
@@ -456,9 +432,6 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 
 int CGlobals::OkToExit(WPARAM, LPARAM)
 {
-	::CreateSystrayIcon(0);
-	::CreateTrayMenus(0);
-
 	CWarning::destroyAll();
 
 	CMimAPI::m_shutDown = true;

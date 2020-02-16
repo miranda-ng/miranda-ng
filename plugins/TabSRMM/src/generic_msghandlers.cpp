@@ -333,29 +333,6 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 		m_pContainer->ApplySetting(true);
 		break;
 
-	case IDC_INFOPANELMENU:
-		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
-		GetWindowRect(GetDlgItem(m_hwnd, IDC_NAME), &rc);
-		{
-			bool bIsFavorite = M.IsFavorite(m_hContact);
-			EnableMenuItem(submenu, ID_FAVORITES_ADDCONTACTTOFAVORITES, !bIsFavorite ? MF_ENABLED : MF_GRAYED);
-			EnableMenuItem(submenu, ID_FAVORITES_REMOVECONTACTFROMFAVORITES, bIsFavorite ? MF_ENABLED : MF_GRAYED);
-		}
-		iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
-
-		switch (iSelection) {
-		case ID_FAVORITES_ADDCONTACTTOFAVORITES:
-			M.SetFavorite(m_hContact, 1);
-			AddContactToFavorites(m_hContact, m_cache->getNick(), m_cache->getProto(), m_wszStatus, m_wStatus, Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus()), 1, PluginConfig.g_hMenuFavorites);
-			break;
-		
-		case ID_FAVORITES_REMOVECONTACTFROMFAVORITES:
-			M.SetFavorite(m_hContact, 0);
-			DeleteMenu(PluginConfig.g_hMenuFavorites, m_hContact, MF_BYCOMMAND);
-			break;
-		}
-		break;
-
 	case IDC_SENDMENU:
 		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 3);
 
@@ -1330,12 +1307,6 @@ void CMsgDialog::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int cod
 		else if (sid->dwId == MSG_ICON_UTN && code != NM_RCLICK && (!isChat() || m_si->iType == GCW_PRIVMESS)) {
 			SendMessage(m_pContainer->m_hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
 			InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
-		}
-		else if (sid->dwId == MSG_ICON_SESSION) {
-			if (code == NM_CLICK)
-				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
-			else if (code == NM_RCLICK)
-				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_RBUTTONUP);
 		}
 	}
 	else {

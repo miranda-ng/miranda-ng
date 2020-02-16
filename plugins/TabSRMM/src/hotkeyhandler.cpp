@@ -36,11 +36,10 @@
 
 #include "stdafx.h"
 
-static UINT 	WM_TASKBARCREATED;
-static HANDLE 	hSvcHotkeyProcessor = nullptr;
+static UINT WM_TASKBARCREATED;
 
 static HOTKEYDESC _hotkeydescs[] = {
-	{ "tabsrmm_mostrecent", LPGEN("Most recent unread session"), TABSRMM_HK_SECTION_IM, MS_TABMSG_HOTKEYPROCESS, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'R'), 0, TABSRMM_HK_LASTUNREAD },
+	{ "tabsrmm_mostrecent", LPGEN("Most recent unread session"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'R'), 0, TABSRMM_HK_LASTUNREAD },
 	{ "tabsrmm_paste_and_send", LPGEN("Paste and send"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'D'), 0, TABSRMM_HK_PASTEANDSEND },
 	{ "tabsrmm_uprefs", LPGEN("Contact's messaging preferences"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C'), 0, TABSRMM_HK_SETUSERPREFS },
 	{ "tabsrmm_copts", LPGEN("Container options"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'O'), 0, TABSRMM_HK_CONTAINEROPTIONS },
@@ -80,14 +79,6 @@ LRESULT CMsgDialog::ProcessHotkeysByMsgFilter(const CCtrlBase &pCtrl, UINT msg, 
 	return OnFilter(&mf);
 }
 
-static INT_PTR HotkeyProcessor(WPARAM, LPARAM lParam)
-{
-	if (lParam == TABSRMM_HK_LASTUNREAD)
-		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_MBUTTONDOWN);
-
-	return 0;
-}
-
 void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 {
 	if (hContact == 0)
@@ -121,13 +112,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	static POINT ptLast;
 	static int iMousedown;
 
-	if (msg == WM_TASKBARCREATED) {
-		CreateSystrayIcon(FALSE);
-		if (nen_options.bTraySupport)
-			CreateSystrayIcon(TRUE);
-		return 0;
-	}
-
 	switch (msg) {
 	case WM_CREATE:
 		for (auto &it : _hotkeydescs)
@@ -135,7 +119,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		WM_TASKBARCREATED = RegisterWindowMessageA("TaskbarCreated");
 		ShowWindow(hwndDlg, SW_HIDE);
-		hSvcHotkeyProcessor = CreateServiceFunction(MS_TABMSG_HOTKEYPROCESS, HotkeyProcessor);
 		SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, nullptr);
 		break;
 
@@ -148,8 +131,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 				}
 			}
-			if (wParam == 0xc001)
-				SendMessage(hwndDlg, DM_TRAYICONNOTIFY, 101, WM_MBUTTONDOWN);
 		}
 		break;
 
@@ -166,13 +147,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-			if (dis->CtlType == ODT_MENU && (dis->hwndItem == (HWND)PluginConfig.g_hMenuFavorites || dis->hwndItem == (HWND)PluginConfig.g_hMenuRecent)) {
-				HICON hIcon = (HICON)dis->itemData;
-
-				DrawMenuItem(dis, hIcon, 0);
-				return TRUE;
-			}
-			else if (dis->CtlType == ODT_MENU) {
+			if (dis->CtlType == ODT_MENU) {
 				HWND hWnd = Srmm_FindWindow((MCONTACT)dis->itemID);
 				DWORD idle = 0;
 
@@ -199,129 +174,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					DrawMenuItem(dis, hIcon, idle);
 					return TRUE;
 				}
-			}
-		}
-		break;
-
-	case DM_TRAYICONNOTIFY:
-		if (wParam == 100 || wParam == 101) {
-			switch (lParam) {
-			case WM_LBUTTONUP:
-				POINT pt;
-				{
-					GetCursorPos(&pt);
-					if (wParam == 100)
-						SetForegroundWindow(hwndDlg);
-					if (GetMenuItemCount(PluginConfig.g_hMenuTrayUnread) > 0) {
-						BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
-						HandleMenuEntryFromhContact((MCONTACT)iSelection);
-					}
-					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 6), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
-
-					if (wParam == 100)
-						PostMessage(hwndDlg, WM_NULL, 0, 0);
-				}
-				break;
-
-			case WM_MBUTTONDOWN:
-				if (wParam == 100)
-					SetForegroundWindow(hwndDlg);
-				{
-					int iCount = GetMenuItemCount(PluginConfig.g_hMenuTrayUnread);
-					if (iCount > 0) {
-						UINT uid = 0;
-						MENUITEMINFOA mii = { 0 };
-						mii.fMask = MIIM_DATA;
-						mii.cbSize = sizeof(mii);
-						int i = iCount - 1;
-						do {
-							GetMenuItemInfoA(PluginConfig.g_hMenuTrayUnread, i, TRUE, &mii);
-							if (mii.dwItemData > 0) {
-								uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
-								HandleMenuEntryFromhContact((MCONTACT)uid);
-								break;
-							}
-						} while (--i >= 0);
-
-						if (uid == 0 && pLastActiveContainer != nullptr) {                // no session found, restore last active container
-							if (IsIconic(pLastActiveContainer->m_hwnd) || !IsWindowVisible(pLastActiveContainer->m_hwnd)) {
-								SendMessage(pLastActiveContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-								SetForegroundWindow(pLastActiveContainer->m_hwnd);
-								SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_SRMM_MESSAGE));
-							}
-							else if (GetForegroundWindow() != pLastActiveContainer->m_hwnd) {
-								SetForegroundWindow(pLastActiveContainer->m_hwnd);
-								SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_SRMM_MESSAGE));
-							}
-							else {
-								if (PluginConfig.m_bHideOnClose)
-									ShowWindow(pLastActiveContainer->m_hwnd, SW_HIDE);
-								else
-									SendMessage(pLastActiveContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-							}
-						}
-					}
-					if (wParam == 100)
-						PostMessage(hwndDlg, WM_NULL, 0, 0);
-				}
-				break;
-
-			case WM_RBUTTONUP:
-				HMENU submenu = PluginConfig.g_hMenuTrayContext;
-
-				if (wParam == 100)
-					SetForegroundWindow(hwndDlg);
-				GetCursorPos(&pt);
-				CheckMenuItem(submenu, ID_TRAYCONTEXT_DISABLEALLPOPUPS, MF_BYCOMMAND | (nen_options.iDisable ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(submenu, ID_TRAYCONTEXT_DON40223, MF_BYCOMMAND | (nen_options.iNoSounds ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(submenu, ID_TRAYCONTEXT_DON, MF_BYCOMMAND | (nen_options.iNoAutoPopup ? MF_CHECKED : MF_UNCHECKED));
-				EnableMenuItem(submenu, ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS, MF_BYCOMMAND | (nen_options.bTraySupport ? MF_ENABLED : MF_GRAYED));
-				CheckMenuItem(submenu, ID_TRAYCONTEXT_SHOWTHETRAYICON, MF_BYCOMMAND | (nen_options.bTraySupport ? MF_CHECKED : MF_UNCHECKED));
-				BOOL iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
-				if (iSelection) {
-					MENUITEMINFO mii = { 0 };
-					mii.cbSize = sizeof(mii);
-					mii.fMask = MIIM_DATA | MIIM_ID;
-					GetMenuItemInfo(submenu, (UINT_PTR)iSelection, FALSE, &mii);
-					if (mii.dwItemData != 0)  // this must be an itm of the fav or recent menu
-						HandleMenuEntryFromhContact((MCONTACT)iSelection);
-					else {
-						switch (iSelection) {
-						case ID_TRAYCONTEXT_SHOWTHETRAYICON:
-							nen_options.bTraySupport = !nen_options.bTraySupport;
-							CreateSystrayIcon(nen_options.bTraySupport ? TRUE : FALSE);
-							break;
-						case ID_TRAYCONTEXT_DISABLEALLPOPUPS:
-							nen_options.iDisable ^= 1;
-							break;
-						case ID_TRAYCONTEXT_DON40223:
-							nen_options.iNoSounds ^= 1;
-							break;
-						case ID_TRAYCONTEXT_DON:
-							nen_options.iNoAutoPopup ^= 1;
-							break;
-						case ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS:
-							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
-								ShowWindow(pCont->m_hwnd, SW_HIDE);
-							break;
-						case ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS:
-							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
-								ShowWindow(pCont->m_hwnd, SW_SHOW);
-							break;
-						case ID_TRAYCONTEXT_BE:
-							nen_options.iDisable = 1;
-							nen_options.iNoSounds = 1;
-							nen_options.iNoAutoPopup = 1;
-
-							for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)
-								SendMessage(pCont->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
-							break;
-						}
-					}
-				}
-				if (wParam == 100)
-					PostMessage(hwndDlg, WM_NULL, 0, 0);
-				break;
 			}
 		}
 		break;
@@ -536,7 +388,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_DESTROY:
 		KillTimer(hwndDlg, TIMERID_SENDLATER_TICK);
 		KillTimer(hwndDlg, TIMERID_SENDLATER);
-		DestroyServiceFunction(hSvcHotkeyProcessor);
 		break;
 	}
 	return DefWindowProc(hwndDlg, msg, wParam, lParam);

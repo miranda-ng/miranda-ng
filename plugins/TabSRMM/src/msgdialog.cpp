@@ -268,7 +268,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			else if (dat->m_bIsAutosizingInput)
 				selection = ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION;
 			else
-				selection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndParent, nullptr);
+				selection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 6), TPM_RETURNCMD, pt.x, pt.y, 0, hwndParent, nullptr);
 
 			switch (selection) {
 			case ID_SPLITTERCONTEXT_SAVEFORTHISCONTACTONLY:
@@ -569,9 +569,6 @@ bool CMsgDialog::OnInitDialog()
 
 	m_bActualHistory = M.GetByte(m_hContact, "ActualHistory", 0) != 0;
 
-	// add us to the tray list (if it exists)
-	UpdateTrayMenu(nullptr, m_wStatus, m_szProto, m_wszStatus, m_hContact, 0);
-
 	// subclassing stuff
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_CONTACTPIC), AvatarSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), SplitterSubclassProc);
@@ -720,8 +717,6 @@ void CMsgDialog::OnDestroy()
 	}
 
 	if (m_cache->isValid()) { // not valid means the contact was deleted
-		AddContactToFavorites(m_hContact, m_cache->getNick(), m_cache->getActiveProto(), m_wszStatus, m_wStatus,
-			Skin_LoadProtoIcon(m_cache->getActiveProto(), m_cache->getActiveStatus()), 1, PluginConfig.g_hMenuRecent);
 		if (m_hContact) {
 			if (!m_bEditNotesActive) {
 				char *msg = m_message.GetRichTextRtf(true);
@@ -767,10 +762,6 @@ void CMsgDialog::OnDestroy()
 
 	if (m_hwndTip)
 		DestroyWindow(m_hwndTip);
-
-	UpdateTrayMenuState(this, FALSE);               // remove me from the tray menu (if still there)
-	if (PluginConfig.g_hMenuTrayUnread)
-		DeleteMenu(PluginConfig.g_hMenuTrayUnread, m_hContact, MF_BYCOMMAND);
 
 	if (m_cache->isValid())
 		g_plugin.setDword("multisplit", m_iMultiSplit);
