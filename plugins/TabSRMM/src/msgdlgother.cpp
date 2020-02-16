@@ -49,8 +49,7 @@ void CMsgDialog::AddLog()
 				DM_AddDivider();
 		}
 		else {
-			bool bInactive = !IsActive();
-			if (bInactive)
+			if (!IsActive())
 				DM_AddDivider();
 			else if (m_pContainer->m_hwndActive != m_hwnd)
 				DM_AddDivider();

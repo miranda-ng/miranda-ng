@@ -462,15 +462,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
 			if (1 == wParam) {
 				Clist_ContactDoubleClicked(p->hContact);
-				p->bActiveTab = TRUE;
-				p->bInactive = FALSE;
-				p->bMustAutoswitch = p->bMustFlash = FALSE;
+				p->bActiveTab = true;
+				p->bInactive = p->bMustAutoswitch = p->bMustFlash = false;
 			}
 
 			if (2 == wParam) {
-				p->bActiveTab = TRUE;
-				p->bInactive = FALSE;
-				p->bMustAutoswitch = p->bMustFlash = FALSE;
+				p->bActiveTab = true;
+				p->bInactive = p->bMustAutoswitch = p->bMustFlash = false;
 				SendMessage(p->hWnd, DM_ACTIVATEME, 0, 0);
 			}
 			DoFlashAndSoundWorker(p);

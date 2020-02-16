@@ -80,13 +80,13 @@ struct TMUCSettings : public GlobalLogSettingsBase
 	CMUCHighlight *Highlight;
 };
 
-struct FLASH_PARAMS
+struct FLASH_PARAMS : public MZeroedObject
 {
 	MCONTACT hContact;
 	const char* sound;
 	int   iEvent;
 	HICON hNotifyIcon;
-	bool  bActiveTab, bHighlight, bInactive, bMustFlash, bMustAutoswitch;
+	bool  bActiveTab, bInactive, bMustFlash, bMustAutoswitch;
 	HWND  hWnd;
 };
 
