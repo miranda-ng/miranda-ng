@@ -156,9 +156,9 @@ int FacebookProto::RefreshContacts()
 				CMStringW wszPart(nn["part"].as_mstring());
 				int offset = nn["offset"].as_int(), length = nn["length"].as_int();
 				if (wszPart == L"first")
-					setWString(hContact, DBKEY_FIRST_NAME, wszName.Mid(offset, length));
+					setWString(hContact, "FirstName", wszName.Mid(offset, length));
 				else if (wszPart == L"last")
-					setWString(hContact, DBKEY_LAST_NAME, wszName.Mid(offset, length));
+					setWString(hContact, "LastName", wszName.Mid(offset, length));
 			}
 		}
 
