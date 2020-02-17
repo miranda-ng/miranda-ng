@@ -39,7 +39,6 @@ static HANDLE hStatusMenuInit;
 static int hChooserMenu;
 static int iChooserMenuPos = 30000;
 
-static HGENMENU g_hMenuRosterAdd;
 static HGENMENU g_hMenuAddBookmark;
 static HGENMENU g_hMenuLogin;
 static HGENMENU g_hMenuRefresh;
@@ -69,12 +68,6 @@ static INT_PTR JabberMenuChooseService(WPARAM wParam, LPARAM lParam)
 	if (lParam)
 		*(void**)lParam = (void*)wParam;
 	return 0;
-}
-
-static INT_PTR JabberMenuRosterAdd(WPARAM hContact, LPARAM lParam)
-{
-	CJabberProto *ppro = CMPlugin::getInstance(hContact);
-	return(ppro) ? ppro->OnMenuRosterAdd(hContact, lParam) : 0;
 }
 
 static INT_PTR JabberMenuBookmarkAdd(WPARAM hContact, LPARAM lParam)
@@ -123,7 +116,6 @@ static int JabberPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	Menu_ShowItem(g_hMenuCommands, false);
 	Menu_ShowItem(g_hMenuSendNote, false);
-	Menu_ShowItem(g_hMenuRosterAdd, false);
 	Menu_ShowItem(g_hMenuLogin, false);
 	Menu_ShowItem(g_hMenuRefresh, false);
 	Menu_ShowItem(g_hMenuAddBookmark, false);
@@ -156,15 +148,6 @@ void g_MenuInit(void)
 
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNMOVABLE;
-
-	// "Add to roster"
-	SET_UID(mi, 0x3928ba10, 0x69bc, 0x4ec9, 0x96, 0x48, 0xa4, 0x1b, 0xbe, 0x58, 0x4a, 0x7e);
-	mi.pszService = "Jabber/AddToRoster";
-	mi.name.a = LPGEN("Add to roster");
-	mi.position = -1999901005;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_ADD);
-	g_hMenuRosterAdd = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuRosterAdd);
 
 	// "Add to Bookmarks"
 	SET_UID(mi, 0x7d06d00b, 0x3a3e, 0x4d65, 0xac, 0xc5, 0x63, 0xe2, 0x60, 0xbe, 0xc6, 0x6);
@@ -269,7 +252,6 @@ void g_MenuUninit(void)
 {
 	DestroyHookableEvent(hStatusMenuInit);
 
-	Menu_RemoveItem(g_hMenuRosterAdd);
 	Menu_RemoveItem(g_hMenuLogin);
 	Menu_RemoveItem(g_hMenuRefresh);
 	Menu_RemoveItem(g_hMenuAddBookmark);
@@ -297,13 +279,9 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	if (bIsChatRoom) {
 		ptrA roomid(getUStringA(hContact, "ChatRoomID"));
-		if (roomid != nullptr) {
-			Menu_ShowItem(g_hMenuRosterAdd, FALSE);
-
-			if (ListGetItemPtr(LIST_BOOKMARK, roomid) == nullptr)
-				if (m_ThreadInfo && m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)
-					Menu_ShowItem(g_hMenuAddBookmark, TRUE);
-		}
+		if (ListGetItemPtr(LIST_BOOKMARK, roomid) == nullptr)
+			if (m_ThreadInfo && m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)
+				Menu_ShowItem(g_hMenuAddBookmark, TRUE);
 	}
 
 	if (bIsChatRoom == GCW_CHATROOM)
@@ -379,35 +357,6 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	}
 
 	m_nMenuResourceItems = nMenuResourceItemsNew;
-	return 0;
-}
-
-INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM hContact, LPARAM)
-{
-	if (!hContact)
-		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
-
-	ptrA roomID(getUStringA(hContact, "ChatRoomID"));
-	if (roomID == nullptr)
-		return 0;
-
-	if (ListGetItemPtr(LIST_ROSTER, roomID) == nullptr) {
-		ptrA group(db_get_utfa(hContact, "CList", "Group"));
-		ptrA nick(getUStringA(hContact, "Nick"));
-
-		AddContactToRoster(roomID, nick, group);
-		if (m_bAddRoster2Bookmarks == TRUE) {
-			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_BOOKMARK, roomID);
-			if (item == nullptr) {
-				item = new JABBER_LIST_ITEM();
-				item->jid = mir_strdup(roomID);
-				item->name = mir_wstrdup(Utf2T(nick));
-				item->nick = getUStringA(hContact, "MyNick");
-				AddEditBookmark(item);
-				delete item;
-			}
-		}
-	}
 	return 0;
 }
 

@@ -1153,8 +1153,6 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t *szPhotoFileName)
 							char buf[MIR_SHA1_HASH_SIZE * 2 + 1];
 							bin2hex(digest, sizeof(digest), buf);
 
-							m_bAvatarType = ProtoGetBufferFormat(buffer);
-
 							if (bPhotoChanged) {
 								DeleteFile(szAvatarName);
 

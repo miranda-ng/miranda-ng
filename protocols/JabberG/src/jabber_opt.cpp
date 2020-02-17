@@ -741,7 +741,7 @@ class CDlgOptAdvanced : public CJabberDlgBase
 	CCtrlEdit		m_txtDirect;
 	CCtrlTreeOpts	m_otvOptions;
 
-	BYTE m_oldFrameValue;
+	bool m_oldFrameValue;
 
 public:
 	CDlgOptAdvanced(CJabberProto *proto) :
@@ -768,6 +768,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user activity receiving"), m_proto->m_bEnableUserActivity);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive notes"), m_proto->m_bAcceptNotes);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Automatically save received notes"), m_proto->m_bAutosaveNotes);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Inline pictures in messages (XEO-0231)"), m_proto->m_bInlinePictures);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive conversations from other devices (XEP-0280)"), m_proto->m_bEnableCarbons);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Use Stream Management (XEP-0198) if possible (Testing)"), m_proto->m_bEnableStreamMgmt);
@@ -878,7 +879,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Autoaccept multiuser chat invitations"),   m_proto->m_bAutoAcceptMUC);
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join bookmarks on login"),   m_proto->m_bAutoJoinBookmarks);
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join conferences on login"), m_proto->m_bAutoJoinConferences);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not open chat windows on creation"),      m_proto->m_bAutoJoinHidden);
+		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not open chat windows on creation"),    m_proto->m_bAutoJoinHidden);
 		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not show multiuser chat invitations"),  m_proto->m_bIgnoreMUCInvites);
 		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Ban notifications"),                    m_proto->m_bGcLogBans);
 		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Room configuration changes"),           m_proto->m_bGcLogConfig);

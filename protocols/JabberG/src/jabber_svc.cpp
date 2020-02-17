@@ -269,8 +269,6 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		char buf[MIR_SHA1_HASH_SIZE * 2 + 1];
 		bin2hex(digest, sizeof(digest), buf);
 
-		m_bAvatarType = ProtoGetBufferFormat(pResult);
-
 		GetAvatarFileName(0, tFileName, MAX_PATH);
 		FILE *out = _wfopen(tFileName, L"wb");
 		if (out != nullptr) {

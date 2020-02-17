@@ -75,64 +75,63 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_uEnabledFeatCapsDynamic(0),
 	m_StrmMgmt(this),
 
-	m_bBsDirect(this, "BsDirect", true),
-	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", true),
 	m_bAcceptHttpAuth(this, "m_bAcceptHttpAuth", true),
-	m_bAddRoster2Bookmarks(this, "m_bAddRoster2Bookmarks", true),
+	m_bAcceptNotes(this, "AcceptNotes", true),
+	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", true),
 	m_bAutoAcceptAuthorization(this, "AutoAcceptAuthorization", false),
 	m_bAutoAcceptMUC(this, "AutoAcceptMUC", false),
 	m_bAutoAdd(this, "AutoAdd", true),
 	m_bAutoJoinBookmarks(this, "AutoJoinBookmarks", true),
-	m_bAutoJoinConferences(this, "AutoJoinConferences", 0),
+	m_bAutoJoinConferences(this, "AutoJoinConferences", false),
 	m_bAutoJoinHidden(this, "AutoJoinHidden", true),
-	m_bAvatarType(this, "AvatarType", PA_FORMAT_UNKNOWN),
+	m_bAutosaveNotes(this, "AutosaveNotes", false),
+	m_bBsDirect(this, "BsDirect", true),
 	m_bBsDirectManual(this, "BsDirectManual", false),
 	m_bBsOnlyIBB(this, "BsOnlyIBB", false),
 	m_bBsProxyManual(this, "BsProxyManual", false),
 	m_bDisable3920auth(this, "Disable3920auth", false),
 	m_bDisableFrame(this, "DisableFrame", true),
 	m_bEnableAvatars(this, "EnableAvatars", true),
-	m_bEnableRemoteControl(this, "EnableRemoteControl", false),
+	m_bEnableCarbons(this, "EnableCarbons", true),
 	m_bEnableMsgArchive(this, "EnableMsgArchive", false),
+	m_bEnableRemoteControl(this, "EnableRemoteControl", false),
+	m_bEnableStreamMgmt(this, "UseStreamMgmt", false),
 	m_bEnableUserActivity(this, "EnableUserActivity", true),
 	m_bEnableUserMood(this, "EnableUserMood", true),
 	m_bEnableUserTune(this, "EnableUserTune", false),
 	m_bEnableZlib(this, "EnableZlib", true),
-	m_bExtendedSearch(this, "ExtendedSearch", true),
 	m_bFixIncorrectTimestamps(this, "FixIncorrectTimestamps", true),
 	m_bGcLogAffiliations(this, "GcLogAffiliations", false),
 	m_bGcLogBans(this, "GcLogBans", true),
+	m_bGcLogChatHistory(this, "GcLogChatHistory", true),
 	m_bGcLogConfig(this, "GcLogConfig", false),
 	m_bGcLogRoles(this, "GcLogRoles", false),
 	m_bGcLogStatuses(this, "GcLogStatuses", false),
-	m_bGcLogChatHistory(this, "GcLogChatHistory", true),
 	m_bHostNameAsResource(this, "HostNameAsResource", false),
 	m_bIgnoreMUCInvites(this, "IgnoreMUCInvites", false),
+	m_bIgnoreRosterGroups(this, "IgnoreRosterGroups", false),
+	m_bInlinePictures(this, "InlinePictures", true),
 	m_bKeepAlive(this, "KeepAlive", true),
 	m_bLogChatstates(this, "LogChatstates", false),
 	m_bLogPresence(this, "LogPresence", true),
 	m_bLogPresenceErrors(this, "LogPresenceErrors", false),
 	m_bManualConnect(this, "ManualConnect", false),
 	m_bMsgAck(this, "MsgAck", false),
+	m_bProcessXMPPLinks(this, "ProcessXMPPLinks", false),
+	m_bRcMarkMessagesAsRead(this, "RcMarkMessagesAsRead", true),
 	m_bRosterSync(this, "RosterSync", false),
 	m_bSavePassword(this, "SavePassword", true),
 	m_bShowForeignResourceInMirVer(this, "ShowForeignResourceInMirVer", false),
 	m_bShowOSVersion(this, "ShowOSVersion", true),
 	m_bShowTransport(this, "ShowTransport", true),
-	m_bUseSSL(this, "UseSSL", false),
-	m_bUseTLS(this, "UseTLS", true),
 	m_bUseDomainLogin(this, "UseDomainLogin", false),
-	m_bAcceptNotes(this, "AcceptNotes", true),
-	m_bAutosaveNotes(this, "AutosaveNotes", false),
-	m_bRcMarkMessagesAsRead(this, "RcMarkMessagesAsRead", 1),
-	m_iConnectionKeepAliveInterval(this, "ConnectionKeepAliveInterval", 60000),
-	m_iConnectionKeepAliveTimeout(this, "ConnectionKeepAliveTimeout", 50000),
-	m_bProcessXMPPLinks(this, "ProcessXMPPLinks", false),
-	m_bIgnoreRosterGroups(this, "IgnoreRosterGroups", false),
-	m_bEnableCarbons(this, "EnableCarbons", true),
 	m_bUseHttpUpload(this, "UseHttpUpload", false),
 	m_bUseOMEMO(this, "UseOMEMO", false),
-	m_bEnableStreamMgmt(this, "UseStreamMgmt", false)
+	m_bUseSSL(this, "UseSSL", false),
+	m_bUseTLS(this, "UseTLS", true),
+
+	m_iConnectionKeepAliveInterval(this, "ConnectionKeepAliveInterval", 60000),
+	m_iConnectionKeepAliveTimeout(this, "ConnectionKeepAliveTimeout", 50000)
 {
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
@@ -756,36 +755,22 @@ HANDLE CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *firstName,
 	if (!m_bJabberOnline || szServerName == nullptr)
 		return nullptr;
 
-	BOOL bIsExtFormat = m_bExtendedSearch;
-
-	CJabberIqInfo *pInfo = AddIQ((bIsExtFormat) ? &CJabberProto::OnIqResultExtSearch : &CJabberProto::OnIqResultSetSearch, JABBER_IQ_TYPE_SET, szServerName);
+	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultExtSearch, JABBER_IQ_TYPE_SET, szServerName);
 	XmlNodeIq iq(pInfo);
 	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_JUD);
 
-	if (bIsExtFormat) {
-		if (m_tszSelectedLang)
-			iq << XATTR("xml:lang", m_tszSelectedLang);
+	if (m_tszSelectedLang)
+		iq << XATTR("xml:lang", m_tszSelectedLang);
 
-		TiXmlElement *x = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
-		if (nick[0] != '\0')
-			x << XCHILD("field") << XATTR("var", "user") << XATTR("value", T2Utf(nick));
+	TiXmlElement *x = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
+	if (nick[0] != '\0')
+		x << XCHILD("field") << XATTR("var", "user") << XATTR("value", T2Utf(nick));
 
-		if (firstName[0] != '\0')
-			x << XCHILD("field") << XATTR("var", "fn") << XATTR("value", T2Utf(firstName));
+	if (firstName[0] != '\0')
+		x << XCHILD("field") << XATTR("var", "fn") << XATTR("value", T2Utf(firstName));
 
-		if (lastName[0] != '\0')
-			x << XCHILD("field") << XATTR("var", "given") << XATTR("value", T2Utf(lastName));
-	}
-	else {
-		if (nick[0] != '\0')
-			query << XCHILD("nick", T2Utf(nick));
-
-		if (firstName[0] != '\0')
-			query << XCHILD("first", T2Utf(firstName));
-
-		if (lastName[0] != '\0')
-			query << XCHILD("last", T2Utf(lastName));
-	}
+	if (lastName[0] != '\0')
+		x << XCHILD("field") << XATTR("var", "given") << XATTR("value", T2Utf(lastName));
 
 	m_ThreadInfo->send(iq);
 	return (HANDLE)pInfo->GetIqId();

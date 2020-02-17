@@ -41,7 +41,7 @@ CCtrlTreeOpts::~CCtrlTreeOpts()
 		delete it;
 }
 
-void CCtrlTreeOpts::AddOption(wchar_t *szOption, CMOption<BYTE> &option)
+void CCtrlTreeOpts::AddOption(wchar_t *szOption, CMOption<bool> &option)
 {
 	m_options.insert(new COptionsItem(szOption, option), m_options.getCount());
 }
@@ -226,8 +226,9 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 	SetItem(&tvi);
 }
 
-CCtrlTreeOpts::COptionsItem::COptionsItem(wchar_t *szOption, CMOption<BYTE> &option) :
-m_option(&option), m_groupId(OPTTREE_CHECK), m_hItem(nullptr)
+CCtrlTreeOpts::COptionsItem::COptionsItem(wchar_t *szOption, CMOption<bool> &option) :
+	m_option(&option),
+	m_groupId(OPTTREE_CHECK)
 {
 	m_szOptionName = mir_wstrdup(szOption);
 }
