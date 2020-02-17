@@ -35,7 +35,7 @@ typedef void (*SEND_USER_DATA_FREE_FUNC)(void *pUserData);
 
 class CJabberSendInfo;
 
-typedef BOOL (CJabberProto::*JABBER_SEND_HANDLER)(const TiXmlElement *node, ThreadData *pThreadData, CJabberSendInfo* pInfo);
+typedef bool (CJabberProto::*JABBER_SEND_HANDLER)(const TiXmlElement *node, ThreadData *pThreadData, CJabberSendInfo* pInfo);
 
 class CJabberSendInfo
 {

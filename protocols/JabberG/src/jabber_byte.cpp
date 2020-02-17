@@ -155,7 +155,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	if (m_bBsProxyManual) {
 		ptrA proxyJid(getUStringA("BsProxyServer"));
 		if (proxyJid) {
-			jbt->bProxyDiscovered = FALSE;
+			jbt->bProxyDiscovered = false;
 			jbt->szProxyHost = nullptr;
 			jbt->szProxyPort = nullptr;
 			jbt->szProxyJid = nullptr;
@@ -414,7 +414,7 @@ void CJabberProto::IqResultStreamActivate(const TiXmlElement *iqNode, CJabberIqI
 		return;
 
 	if (!mir_strcmp(XmlGetAttr(iqNode, "type"), "result"))
-		item->jbt->bStreamActivated = TRUE;
+		item->jbt->bStreamActivated = true;
 
 	if (item->jbt->hProxyEvent)
 		SetEvent(item->jbt->hProxyEvent);
@@ -434,7 +434,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	}
 
 	jbt->state = JBT_INIT;
-	BOOL validStreamhost = FALSE;
+	bool validStreamhost = false;
 	char *szPort = jbt->szProxyPort;
 	char *szHost = jbt->szProxyHost;
 
@@ -466,7 +466,8 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 			if (bytesParsed < datalen)
 				memmove(buffer, buffer + bytesParsed, datalen - bytesParsed);
 			datalen -= bytesParsed;
-			if (jbt->state == JBT_DONE) validStreamhost = TRUE;
+			if (jbt->state == JBT_DONE)
+				validStreamhost = true;
 		}
 		Netlib_CloseHandle(hConn);
 	}
@@ -536,7 +537,7 @@ int CJabberProto::ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jb
 			jbt->state = JBT_SENDING;
 
 			jbt->hProxyEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-			jbt->bStreamActivated = FALSE;
+			jbt->bStreamActivated = false;
 
 			auto *pIq = AddIQ(&CJabberProto::IqResultStreamActivate, JABBER_IQ_TYPE_SET, jbt->streamhostJID);
 
@@ -568,15 +569,17 @@ int CJabberProto::ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jb
 
 void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 {
+	Thread_SetName("Jabber: ByteReceiveThread");
+
+	if (jbt == nullptr)
+		return;
+
 	const TiXmlElement *iqNode, *queryNode = nullptr;
 	WORD port;
 	char data[3];
 	char* buffer;
 	int datalen, bytesParsed, recvResult;
-	BOOL validStreamhost = FALSE;
-
-	if (jbt == nullptr) return;
-	Thread_SetName("Jabber: ByteReceiveThread");
+	bool validStreamhost = false;
 
 	jbt->state = JBT_INIT;
 
@@ -636,12 +639,13 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 						if (bytesParsed < datalen)
 							memmove(buffer, buffer + bytesParsed, datalen - bytesParsed);
 						datalen -= bytesParsed;
-						if (jbt->state == JBT_RECVING) validStreamhost = TRUE;
+						if (jbt->state == JBT_RECVING)
+							validStreamhost = true;
 					}
 					Netlib_CloseHandle(hConn);
 					debugLogA("bytestream_recv_connection closing connection");
 				}
-				if (jbt->state == JBT_ERROR || validStreamhost == TRUE)
+				if (jbt->state == JBT_ERROR || validStreamhost)
 					break;
 				debugLogA("bytestream_recv_connection stream cannot be established, try next streamhost");
 			}

@@ -168,7 +168,8 @@ void CJabberProto::OnIqResultGetSearchFields(const TiXmlElement *iqNode, CJabber
 					MyData->Var = mir_utf8decodeW(chNode->Name());
 					MyData->defValue = mir_utf8decodeW(chNode->GetText());
 					MyData->Order = Order;
-					if (MyData->defValue) MyData->bReadOnly = TRUE;
+					if (MyData->defValue)
+						MyData->bReadOnly = true;
 					PostMessage(searchHandleDlg, WM_USER + 10, FALSE, (LPARAM)MyData);
 					Order++;
 				}
@@ -725,7 +726,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 		return nullptr;
 
 	// formating request
-	BOOL fRequestNotEmpty = FALSE;
+	bool fRequestNotEmpty = false;
 
 	// get server name
 	wchar_t szServerName[100];
@@ -742,7 +743,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 	// next can be 2 cases:
 	// Forms: XEP-0055 Example 7
 	if (dat->fSearchRequestIsXForm) {
-		fRequestNotEmpty = TRUE;
+		fRequestNotEmpty = true;
 		JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), query, dat->xNode);
 	}
 	else { //and Simple fields: XEP-0055 Example 3
@@ -751,7 +752,7 @@ HWND CJabberProto::SearchAdvanced(HWND hwndDlg)
 			GetWindowText(dat->pJSInf[i].hwndValueItem, szFieldValue, _countof(szFieldValue));
 			if (szFieldValue[0] != 0) {
 				XmlAddChildA(query, T2Utf(dat->pJSInf[i].szFieldName).get(), T2Utf(szFieldValue).get());
-				fRequestNotEmpty = TRUE;
+				fRequestNotEmpty = true;
 			}
 		}
 	}

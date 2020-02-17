@@ -1111,13 +1111,13 @@ protected:
 		// clear saved password
 		m_proto->m_savedPassword = nullptr;
 
-		BOOL bUseHostnameAsResource = FALSE;
+		bool bUseHostnameAsResource = false;
 		wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1], szResource[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
 		if (GetComputerName(szCompName, &dwCompNameLength)) {
 			m_cbResource.GetText(szResource, _countof(szResource));
 			if (!mir_wstrcmp(szCompName, szResource))
-				bUseHostnameAsResource = TRUE;
+				bUseHostnameAsResource = true;
 		}
 		m_proto->m_bHostNameAsResource = bUseHostnameAsResource;
 
@@ -1130,7 +1130,7 @@ protected:
 
 		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
 		case ACC_PUBLIC:
-			m_proto->m_bUseSSL = m_proto->m_bUseTLS = FALSE;
+			m_proto->m_bUseSSL = m_proto->m_bUseTLS = false;
 			break;
 
 		case ACC_GTALK:
@@ -1138,27 +1138,27 @@ protected:
 			{
 				int port = m_txtPort.GetInt();
 				if (port == 443 || port == 5223) {
-					m_proto->m_bUseSSL = TRUE;
-					m_proto->m_bUseTLS = FALSE;
+					m_proto->m_bUseSSL = true;
+					m_proto->m_bUseTLS = false;
 				}
 				else if (port == 5222) {
-					m_proto->m_bUseSSL = FALSE;
-					m_proto->m_bUseTLS = TRUE;
+					m_proto->m_bUseSSL = false;
+					m_proto->m_bUseTLS = true;
 				}
 			}
 			break;
 
 		case ACC_OK:
-			m_proto->m_bIgnoreRosterGroups = TRUE;
-			m_proto->m_bUseSSL = FALSE;
-			m_proto->m_bUseTLS = TRUE;
+			m_proto->m_bIgnoreRosterGroups = true;
+			m_proto->m_bUseSSL = false;
+			m_proto->m_bUseTLS = true;
 
 		case ACC_TLS:
 		case ACC_HIPCHAT:
 		case ACC_LJTALK:
 		case ACC_SMS:
-			m_proto->m_bUseSSL = FALSE;
-			m_proto->m_bUseTLS = TRUE;
+			m_proto->m_bUseSSL = false;
+			m_proto->m_bUseTLS = true;
 			break;
 
 		case ACC_LOL_EN:
@@ -1166,13 +1166,13 @@ protected:
 		case ACC_LOL_OC:
 		case ACC_LOL_US:
 			m_proto->setDword("Priority", -2);
-			m_proto->m_bUseSSL = TRUE;
-			m_proto->m_bUseTLS = FALSE;
+			m_proto->m_bUseSSL = true;
+			m_proto->m_bUseTLS = false;
 			break;
 
 		case ACC_SSL:
-			m_proto->m_bUseSSL = TRUE;
-			m_proto->m_bUseTLS = FALSE;
+			m_proto->m_bUseSSL = true;
+			m_proto->m_bUseTLS = false;
 			break;
 		}
 
@@ -1183,13 +1183,13 @@ protected:
 		m_txtManualHost.GetTextA(manualServer, _countof(manualServer));
 
 		if ((m_chkManualHost.GetState() == BST_CHECKED) && mir_strcmp(server, manualServer)) {
-			m_proto->m_bManualConnect = TRUE;
+			m_proto->m_bManualConnect = true;
 			m_proto->setString("ManualHost", manualServer);
 			m_proto->setWord("ManualPort", m_txtPort.GetInt());
 			m_proto->setWord("Port", m_txtPort.GetInt());
 		}
 		else {
-			m_proto->m_bManualConnect = FALSE;
+			m_proto->m_bManualConnect = false;
 			m_proto->delSetting("ManualHost");
 			m_proto->delSetting("ManualPort");
 			m_proto->setWord("Port", m_txtPort.GetInt());

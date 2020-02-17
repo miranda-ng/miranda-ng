@@ -309,11 +309,11 @@ public:
 				if (m_list.FindItem(-1, &lvfi) == -1) {
 					ptrA tszName(db_get_utfa(hContact, "CList", "MyHandle"));
 					ptrA tszGroup(db_get_utfa(hContact, "CList", "Group"));
-					_RosterInsertListItem(T2Utf(tszJid), tszName, tszGroup, nullptr, FALSE);
+					_RosterInsertListItem(T2Utf(tszJid), tszName, tszGroup, nullptr, false);
 				}
 			}
-			m_bReadyToDownload = FALSE;
-			m_bReadyToUpload = TRUE;
+			m_bReadyToDownload = false;
+			m_bReadyToUpload = true;
 			btnDownload.SetText(TranslateT("Download"));
 			btnUpload.SetText(TranslateT("Upload"));
 			OnChangeStatus();
@@ -351,20 +351,20 @@ public:
 					itemCount++;
 				}
 				else if (!bRemove) {
-					BOOL bPushed = itemRoster ? TRUE : FALSE;
+					bool bPushed = itemRoster != 0;
 					if (!bPushed) {
 						const char *rosterName = XmlGetAttr(itemRoster, "name");
 						if ((rosterName != nullptr || name[0] != 0) && mir_strcmpi(rosterName, szName))
-							bPushed = TRUE;
+							bPushed = true;
 						if (!bPushed) {
 							rosterName = XmlGetAttr(itemRoster, "subscription");
 							if ((rosterName != nullptr || subscr[0] != 0) && mir_strcmpi(rosterName, T2Utf(subscr)))
-								bPushed = TRUE;
+								bPushed = true;
 						}
 						if (!bPushed) {
 							auto *rosterGroup = XmlGetChildText(itemRoster, "group");
 							if (rosterGroup != nullptr && mir_strcmpi(rosterGroup, szGroup))
-								bPushed = TRUE;
+								bPushed = true;
 						}
 					}
 					if (bPushed) {
@@ -503,7 +503,7 @@ public:
 		const TiXmlElement *Table = TiXmlConst(&doc)["Workbook"]["Worksheet"]["Table"].ToElement();
 		if (Table) {
 			for (auto *Row : TiXmlFilter(Table, "Row")) {
-				BOOL bAdd = FALSE;
+				bool bAdd = false;
 				const char *jid = nullptr;
 				const char *name = nullptr;
 				const char *group = nullptr;
@@ -511,15 +511,18 @@ public:
 				auto *Cell = XmlFirstChild(Row, "Cell");
 				auto *Data = XmlFirstChild(Cell, "Data");
 				if (Data) {
-					if (!mir_strcmpi(Data->GetText(), "+")) bAdd = TRUE;
-					else if (mir_strcmpi(Data->GetText(), "-")) continue;
+					if (!mir_strcmpi(Data->GetText(), "+"))
+						bAdd = true;
+					else if (mir_strcmpi(Data->GetText(), "-"))
+						continue;
 
 					Cell = Cell->NextSiblingElement("Cell");
 					if (Cell) Data = XmlFirstChild(Cell, "Data");
 					else Data = nullptr;
 					if (Data) {
 						jid = Data->GetText();
-						if (!jid || mir_strlen(jid) == 0) continue;
+						if (!jid || mir_strlen(jid) == 0)
+							continue;
 					}
 
 					Cell = Cell->NextSiblingElement("Cell");

@@ -107,7 +107,7 @@ void CJabberProto::AdHoc_RequestListOfCommands(char *szResponder, HWND hwndDlg)
 		<< XQUERY(JABBER_FEAT_DISCO_ITEMS) << XATTR("node", JABBER_FEAT_COMMANDS));
 }
 
-int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, char*, JabberAdHocData *dat)
+void CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, char*, JabberAdHocData *dat)
 {
 	int i = 1;
 	for (auto *itemNode : TiXmlFilter(dat->CommandsNode, "item")) {
@@ -125,12 +125,10 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, char*, JabberAdHocData *dat
 			SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("OK"));
 		}
 	}
-
-	return TRUE;
 }
 
 // Messages handlers
-int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNode, JabberAdHocData *dat)
+void CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNode, JabberAdHocData *dat)
 {
 	const char *type = XmlGetAttr(iqNode, "type");
 	if (!type || !mir_strcmp(type, "error")) {
@@ -182,10 +180,9 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqNo
 	}
 
 	JabberAdHoc_RefreshFrameScroll(hwndDlg, dat);
-	return (TRUE);
 }
 
-int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode, JabberAdHocData *dat)
+void CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode, JabberAdHocData *dat)
 {
 	EnumChildWindows(GetDlgItem(hwndDlg, IDC_FRAME), sttDeleteChildWindowsProc, 0);
 	dat->CurrentHeight = 0;
@@ -193,17 +190,19 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 	SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, 0, FALSE);
 
 	if (workNode == nullptr)
-		return TRUE;
+		return;
 
 	dat->AdHocNode = workNode->DeepClone(&dat->doc)->ToElement();
 
 	const char *type;
-	if ((type = XmlGetAttr(workNode, "type")) == nullptr) return TRUE;
+	if ((type = XmlGetAttr(workNode, "type")) == nullptr)
+		return;
+	
 	if (!mir_strcmp(type, "result")) {
 		// wParam = <iq/> node from responder as a result of command execution
 		const TiXmlElement *commandNode, *xNode;
 		if ((commandNode = XmlFirstChild(dat->AdHocNode, "command")) == nullptr)
-			return TRUE;
+			return;
 
 		const char *status = XmlGetAttr(commandNode, "status");
 		if (!status)
@@ -270,10 +269,9 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode
 		JabberFormSetInstruction(hwndDlg, CMStringA(FORMAT, TranslateU("Error %s %s"), code, description));
 	}
 	JabberAdHoc_RefreshFrameScroll(hwndDlg, dat);
-	return TRUE;
 }
 
-int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData *dat, char* action)
+void CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData *dat, char* action)
 {
 	auto *commandNode = XmlFirstChild(dat->AdHocNode, "command");
 	auto *xNode = XmlFirstChild(commandNode, "x");
@@ -300,7 +298,6 @@ int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData *dat, ch
 
 	static const int toDisable[] = { IDC_SUBMIT, IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
 	sttEnableControls(hwndDlg, FALSE, toDisable);
-	return TRUE;
 }
 
 int CJabberProto::AdHoc_AddCommandRadio(HWND hFrame, const char *labelStr, int id, int ypos, int value)
@@ -396,16 +393,20 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_PREV:
-			return dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, "prev");
+			dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, "prev");
+			return TRUE;
 		case IDC_NEXT:
-			return dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, "next");
+			dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, "next");
+			return TRUE;
 		case IDC_COMPLETE:
-			return dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, "complete");
+			dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, "complete");
+			return TRUE;
 		case IDC_SUBMIT:
 			if (!dat->AdHocNode && dat->CommandsNode && LOWORD(wParam) == IDC_SUBMIT)
-				return dat->proto->AdHoc_ExecuteCommand(hwndDlg, dat->ResponderJID, dat);
+				dat->proto->AdHoc_ExecuteCommand(hwndDlg, dat->ResponderJID, dat);
 			else
-				return dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, nullptr);
+				dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, nullptr);
+			return TRUE;
 		case IDCLOSE:
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
@@ -414,10 +415,12 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 		break;
 
 	case JAHM_COMMANDLISTRESULT:
-		return dat->proto->AdHoc_OnJAHMCommandListResult(hwndDlg, (TiXmlElement*)lParam, dat);
+		dat->proto->AdHoc_OnJAHMCommandListResult(hwndDlg, (TiXmlElement*)lParam, dat);
+		return TRUE;
 
 	case JAHM_PROCESSRESULT:
-		return dat->proto->AdHoc_OnJAHMProcessResult(hwndDlg, (TiXmlElement*)lParam, dat);
+		dat->proto->AdHoc_OnJAHMProcessResult(hwndDlg, (TiXmlElement*)lParam, dat);
+		return TRUE;
 
 	case WM_MOUSEWHEEL:
 		{

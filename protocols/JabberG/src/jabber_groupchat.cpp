@@ -165,14 +165,14 @@ struct JabberGcRecentInfo
 	}
 
 private:
-	BOOL null_strequals(const char *str1, const char *str2)
+	bool null_strequals(const char *str1, const char *str2)
 	{
-		if (!str1 && !str2) return TRUE;
-		if (!str1 && str2 && !*str2) return TRUE;
-		if (!str2 && str1 && !*str1) return TRUE;
+		if (!str1 && !str2) return true;
+		if (!str1 && str2 && !*str2) return true;
+		if (!str2 && str1 && !*str1) return true;
 
-		if (!str1 && str2) return FALSE;
-		if (!str2 && str1) return FALSE;
+		if (!str1 && str2) return false;
+		if (!str2 && str1) return false;
 
 		return !mir_strcmp(str1, str2);
 	}

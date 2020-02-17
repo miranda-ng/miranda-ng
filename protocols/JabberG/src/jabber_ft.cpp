@@ -90,6 +90,15 @@ void CJabberProto::FtInitiate(const char* jid, filetransfer *ft)
 	if (wchar_t *p = wcsrchr(filename, '\\'))
 		filename = p + 1;
 
+	// if we enabled XEP-0231, try to inline a picture
+	if (m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w)) {
+		if (FtTryInlineFile(ft->std.szCurrentFile.w)) {
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+			delete ft;
+			return;
+		}
+	}
+
 	// if we use XEP-0363, send a slot allocation request
 	if (m_bUseHttpUpload) {
 		ptrA szUploadService(getStringA("HttpUpload"));
@@ -208,31 +217,29 @@ void CJabberProto::OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo
 	}
 }
 
-BOOL CJabberProto::FtSend(HNETLIBCONN hConn, filetransfer *ft)
+bool CJabberProto::FtSend(HNETLIBCONN hConn, filetransfer *ft)
 {
-	int fd;
-	char* buffer;
-	int numRead;
-
 	debugLogW(L"Sending [%s]", ft->std.pszFiles.w[ft->std.currentFileNumber]);
 
 	struct _stat64 statbuf;
 	_wstat64(ft->std.pszFiles.w[ft->std.currentFileNumber], &statbuf);	// file size in statbuf.st_size
-	if ((fd = _wopen(ft->std.pszFiles.w[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY)) < 0) {
+	int fd = _wopen(ft->std.pszFiles.w[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY);
+	if (fd < 0) {
 		debugLogA("File cannot be opened");
-		return FALSE;
+		return false;
 	}
 
 	ft->std.flags |= PFTS_SENDING;
 	ft->std.currentFileSize = statbuf.st_size;
 	ft->std.currentFileProgress = 0;
 
-	if ((buffer = (char*)mir_alloc(2048)) != nullptr) {
+	if (char *buffer = (char *)mir_alloc(2048)) {
+		int numRead;
 		while ((numRead = _read(fd, buffer, 2048)) > 0) {
 			if (Netlib_Send(hConn, buffer, numRead, 0) != numRead) {
 				mir_free(buffer);
 				_close(fd);
-				return FALSE;
+				return false;
 			}
 			ft->std.currentFileProgress += numRead;
 			ft->std.totalProgress += numRead;
@@ -241,10 +248,10 @@ BOOL CJabberProto::FtSend(HNETLIBCONN hConn, filetransfer *ft)
 		mir_free(buffer);
 	}
 	_close(fd);
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
+bool CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 {
 	debugLogW(L"Sending [%s]", ft->std.pszFiles.w[ft->std.currentFileNumber]);
 
@@ -254,7 +261,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 	int fd = _wopen(ft->std.pszFiles.w[ft->std.currentFileNumber], _O_BINARY | _O_RDONLY);
 	if (fd < 0) {
 		debugLogA("File cannot be opened");
-		return FALSE;
+		return false;
 	}
 
 	ft->std.flags |= PFTS_SENDING;
@@ -286,7 +293,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 			if (ft->jibb->state == JIBB_ERROR || ft->jibb->bStreamClosed || m_ThreadInfo->send(msg) == SOCKET_ERROR) {
 				debugLogA("JabberFtIbbSend unsuccessful exit");
 				_close(fd);
-				return FALSE;
+				return false;
 			}
 
 			ft->jibb->dwTransferredSize += (DWORD)numRead;
@@ -297,7 +304,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 		}
 	}
 	_close(fd);
-	return TRUE;
+	return true;
 }
 
 void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
@@ -439,14 +446,13 @@ void CJabberProto::FtAcceptIbbRequest(filetransfer *ft)
 	}
 }
 
-BOOL CJabberProto::FtHandleBytestreamRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+bool CJabberProto::FtHandleBytestreamRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	auto *queryNode = pInfo->GetChildNode();
 
 	const char *sid = XmlGetAttr(queryNode, "sid");
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
-
-	if ((sid ) != nullptr && (item ) != nullptr) {
+	if (sid && item) {
 		// Start Bytestream session
 		JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
 		jbt->iqNode = iqNode->DeepClone(&jbt->doc)->ToElement();
@@ -456,27 +462,31 @@ BOOL CJabberProto::FtHandleBytestreamRequest(const TiXmlElement *iqNode, CJabber
 		item->ft->jbt = jbt;
 		ForkThread((MyThreadFunc)&CJabberProto::ByteReceiveThread, jbt);
 		ListRemove(LIST_FTRECV, sid);
-		return TRUE;
+		return true;
 	}
 
 	debugLogA("File transfer invalid bytestream initiation request received");
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::FtHandleIbbRequest(const TiXmlElement *iqNode, BOOL bOpen)
+bool CJabberProto::FtHandleIbbRequest(const TiXmlElement *iqNode, bool bOpen)
 {
-	if (iqNode == nullptr) return FALSE;
+	if (iqNode == nullptr)
+		return false;
 
 	const char *id = XmlGetAttr(iqNode, "id");
 	const char *from = XmlGetAttr(iqNode, "from");
 	const char *to = XmlGetAttr(iqNode, "to");
-	if (!id || !from || !to) return FALSE;
+	if (!id || !from || !to)
+		return false;
 
 	auto *ibbNode = XmlGetChildByTag(iqNode, bOpen ? "open" : "close", "xmlns", JABBER_FEAT_IBB);
-	if (!ibbNode) return FALSE;
+	if (!ibbNode)
+		return false;
 
 	const char *sid = XmlGetAttr(ibbNode, "sid");
-	if (!sid) return FALSE;
+	if (!sid)
+		return false;
 
 	// already closed?
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
@@ -485,7 +495,7 @@ BOOL CJabberProto::FtHandleIbbRequest(const TiXmlElement *iqNode, BOOL bOpen)
 			XmlNodeIq("error", id, from)
 			<< XCHILD("error") << XATTRI("code", 404) << XATTR("type", "cancel")
 			<< XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas"));
-		return FALSE;
+		return false;
 	}
 
 	// open event
@@ -504,28 +514,27 @@ BOOL CJabberProto::FtHandleIbbRequest(const TiXmlElement *iqNode, BOOL bOpen)
 			ForkThread((MyThreadFunc)&CJabberProto::IbbReceiveThread, jibb);
 
 			m_ThreadInfo->send(XmlNodeIq("result", id, from));
-			return TRUE;
+			return true;
 		}
 		// stream already open
 		m_ThreadInfo->send(
 			XmlNodeIq("error", id, from)
 			<< XCHILD("error") << XATTRI("code", 404) << XATTR("type", "cancel")
 			<< XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas"));
-		return FALSE;
+		return false;
 	}
 
 	// close event && stream already open
 	if (item->jibb && item->jibb->hEvent) {
-		item->jibb->bStreamClosed = TRUE;
+		item->jibb->bStreamClosed = true;
 		SetEvent(item->jibb->hEvent);
 
 		m_ThreadInfo->send(XmlNodeIq("result", id, from));
-		return TRUE;
+		return true;
 	}
 
 	ListRemove(LIST_FTRECV, sid);
-
-	return FALSE;
+	return false;
 }
 
 int CJabberProto::FtReceive(HNETLIBCONN, filetransfer *ft, char* buffer, int datalen)
@@ -560,6 +569,8 @@ void CJabberProto::FtReceiveFinal(BOOL success, filetransfer *ft)
 
 	delete ft;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CJabberProto::OnHttpSlotAllocated(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
@@ -662,4 +673,11 @@ LBL_Fail:
 	}
 	else debugLogA("wrong or not recognizable http slot received");
 	goto LBL_Fail;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool CJabberProto::FtTryInlineFile(const wchar_t *pwszFileName)
+{
+	return false;
 }

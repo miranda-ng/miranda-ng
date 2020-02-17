@@ -35,7 +35,7 @@ typedef void (*PRESENCE_USER_DATA_FREE_FUNC)(void *pUserData);
 
 class CJabberPresenceInfo;
 
-typedef BOOL (CJabberProto::*JABBER_PRESENCE_HANDLER)(const TiXmlElement *node, ThreadData *pThreadData, CJabberPresenceInfo* pInfo);
+typedef bool (CJabberProto::*JABBER_PRESENCE_HANDLER)(const TiXmlElement *node, ThreadData *pThreadData, CJabberPresenceInfo* pInfo);
 
 class CJabberPresenceInfo
 {

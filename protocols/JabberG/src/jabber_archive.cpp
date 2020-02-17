@@ -83,12 +83,12 @@ static MCONTACT hPreviousContact = INVALID_CONTACT_ID;
 static MEVENT hPreviousDbEvent = 0;
 
 // Returns TRUE if the event already exist in the database
-BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
+bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 {
 	// get last event
 	MEVENT hExistingDbEvent = db_event_last(hContact);
 	if (!hExistingDbEvent)
-		return FALSE;
+		return false;
 
 	DBEVENTINFO dbeiExisting = {};
 	db_event_get(hExistingDbEvent, &dbeiExisting);
@@ -99,7 +99,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 		// remember event
 		hPreviousDbEvent = hExistingDbEvent;
 		dwPreviousTimeStamp = dwEventTimeStamp;
-		return FALSE;
+		return false;
 	}
 
 	if (hContact != hPreviousContact) {
@@ -110,7 +110,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 
 		// get first event
 		if (!(hExistingDbEvent = db_event_first(hContact)))
-			return FALSE;
+			return false;
 
 		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 		db_event_get(hExistingDbEvent, &dbeiExisting);
@@ -123,7 +123,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 			hPreviousDbEvent = hExistingDbEvent;
 
 			if (dbei.timestamp != dwEventTimeStamp)
-				return FALSE;
+				return false;
 		}
 	}
 
@@ -133,7 +133,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 		db_event_get(hPreviousDbEvent, &dbeiExisting);
 
 		if (dbei == dbeiExisting)
-			return TRUE;
+			return true;
 
 		// find event with another timestamp
 		hExistingDbEvent = db_event_next(hContact, hPreviousDbEvent);
@@ -165,7 +165,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				return FALSE;
+				return false;
 			}
 
 			// Compare event with import candidate
@@ -173,7 +173,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				return TRUE;
+				return true;
 			}
 
 			// Get previous event in chain
@@ -190,7 +190,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				return FALSE;
+				return false;
 			}
 
 			// Compare event with import candidate
@@ -198,7 +198,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
 				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				return TRUE;
+				return true;
 			}
 
 			// Get next event in chain
@@ -207,7 +207,7 @@ BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 	}
 	// reset last event
 	hPreviousContact = INVALID_CONTACT_ID;
-	return FALSE;
+	return false;
 }
 
 void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIqInfo*)

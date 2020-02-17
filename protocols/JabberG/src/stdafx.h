@@ -363,7 +363,7 @@ struct ThreadData
 
 	void     xmpp_client_query(void);
 
-	BOOL     zlibInit(void);
+	bool     zlibInit(void);
 	void     zlibUninit();
 	int      zlibSend(char* data, int datalen);
 	int      zlibRecv(char* data, long datalen);

@@ -36,11 +36,11 @@ struct JABBER_IBB_TRANSFER
 	unsigned __int64 dwTransferredSize;
 	JABBER_IBB_STATE state;
 	HANDLE hEvent;
-	BOOL bStreamInitialized;
-	BOOL bStreamClosed;
+	bool bStreamInitialized;
+	bool bStreamClosed;
 	WORD wPacketId;
-	BOOL (CJabberProto::*pfnSend)(int blocksize, filetransfer *ft);
-	int (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
+	bool (CJabberProto::*pfnSend)(int blocksize, filetransfer *ft);
+	int  (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
 	void (CJabberProto::*pfnFinal)(BOOL success, filetransfer *ft);
 	filetransfer *ft;
 };

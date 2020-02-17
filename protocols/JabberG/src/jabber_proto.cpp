@@ -884,7 +884,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 	ft->szDescription = mir_wstrdup(szDescription);
 	ft->jid = mir_strdup(jid);
 
-	if (m_bUseHttpUpload || (jcb & JABBER_CAPS_SI_FT))
+	if ((m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w)) || m_bUseHttpUpload || (jcb & JABBER_CAPS_SI_FT))
 		FtInitiate(item->jid, ft);
 	else if (jcb & JABBER_CAPS_OOB)
 		ForkThread((MyThreadFunc)&CJabberProto::FileServerThread, ft);

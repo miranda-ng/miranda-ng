@@ -603,7 +603,7 @@ void CJabberProto::ConsoleUninit()
 		m_hThreadConsole = nullptr;
 	}
 
-	m_filterInfo.iq = m_filterInfo.msg = m_filterInfo.presence = FALSE;
+	m_filterInfo.iq = m_filterInfo.msg = m_filterInfo.presence = false;
 	m_filterInfo.type = TFilterInfo::T_OFF;
 }
 

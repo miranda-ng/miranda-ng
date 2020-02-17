@@ -511,10 +511,10 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAuthorized)
+bool CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, bool bAuthorized)
 {
 	if (!m_bJabberOnline || !pParams || !m_ThreadInfo)
-		return FALSE;
+		return false;
 
 	if (pParams->m_nType == CJabberHttpAuthParams::IQ) {
 		XmlNodeIq iq(bAuthorized ? "result" : "error", pParams->m_szIqId, pParams->m_szFrom);
@@ -525,8 +525,10 @@ BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAutho
 				<< XCHILDNS("not-authorized", "urn:ietf:params:xml:xmpp-stanzas");
 		}
 		m_ThreadInfo->send(iq);
+		return true;
 	}
-	else if (pParams->m_nType == CJabberHttpAuthParams::MSG) {
+	
+	if (pParams->m_nType == CJabberHttpAuthParams::MSG) {
 		XmlNode msg("message");
 		msg << XATTR("to", pParams->m_szFrom);
 		if (!bAuthorized)
@@ -542,10 +544,9 @@ BOOL CJabberProto::SendHttpAuthReply(CJabberHttpAuthParams *pParams, BOOL bAutho
 			<< XCHILDNS("not-authorized", "urn:ietf:params:xml:xmpp-stanzas");
 
 		m_ThreadInfo->send(msg);
+		return true;
 	}
-	else return FALSE;
-
-	return TRUE;
+	return false;
 }
 
 class CJabberDlgHttpAuth : public CJabberDlgBase

@@ -56,8 +56,8 @@ struct Data
 	wchar_t *Label;
 	wchar_t *Var;
 	wchar_t *defValue;
-	BOOL bHidden;
-	BOOL bReadOnly;
+	bool bHidden;
+	bool bReadOnly;
 	int Order;
 };
 

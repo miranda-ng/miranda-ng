@@ -75,7 +75,7 @@ void CJabberIqManager::Shutdown()
 	if (m_bExpirerThreadShutdownRequest || !m_hExpirerThread)
 		return;
 
-	m_bExpirerThreadShutdownRequest = TRUE;
+	m_bExpirerThreadShutdownRequest = true;
 
 	WaitForSingleObject(m_hExpirerThread, INFINITE);
 	CloseHandle(m_hExpirerThread);

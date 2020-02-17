@@ -45,19 +45,18 @@ struct JABBER_BYTE_TRANSFER : public MZeroedObject
 	HANDLE hEvent;
 	TiXmlDocument doc;
 	TiXmlElement *iqNode;
-	BOOL (CJabberProto::*pfnSend)(HNETLIBCONN hConn, filetransfer *ft);
-	int (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
+	bool (CJabberProto::*pfnSend)(HNETLIBCONN hConn, filetransfer *ft);
+	int  (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
 	void (CJabberProto::*pfnFinal)(BOOL success, filetransfer *ft);
 	filetransfer *ft;
 
 	// XEP-0065 proxy support
-	BOOL bProxyDiscovered;
+	bool bProxyDiscovered, bStreamActivated;
 	HANDLE hProxyEvent;
 	char *szProxyHost;
 	char *szProxyPort;
 	char *szProxyJid;
 	char *szStreamhostUsed;
-	BOOL bStreamActivated;
 	HANDLE hSendEvent;
 };
 

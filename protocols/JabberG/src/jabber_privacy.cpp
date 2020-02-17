@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 const wchar_t JABBER_PL_BUSY_MSG[] = LPGENW("Sending request, please wait...");
 
-BOOL CJabberProto::OnIqRequestPrivacyLists(const TiXmlElement*, CJabberIqInfo *pInfo)
+bool CJabberProto::OnIqRequestPrivacyLists(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_SET) {
 		if (!m_pDlgPrivacyLists) {
@@ -41,7 +41,7 @@ BOOL CJabberProto::OnIqRequestPrivacyLists(const TiXmlElement*, CJabberIqInfo *p
 
 		m_ThreadInfo->send(XmlNodeIq("result", pInfo));
 	}
-	return TRUE;
+	return true;
 }
 
 void CJabberProto::OnIqResultPrivacyListModify(const TiXmlElement*, CJabberIqInfo *pInfo)
@@ -51,7 +51,7 @@ void CJabberProto::OnIqResultPrivacyListModify(const TiXmlElement*, CJabberIqInf
 		return;
 
 	if (pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT)
-		pParam->m_bAllOk = FALSE;
+		pParam->m_bAllOk = false;
 
 	InterlockedDecrement(&pParam->m_dwCount);
 	if (!pParam->m_dwCount) {
@@ -113,9 +113,9 @@ void CJabberProto::OnIqResultPrivacyList(const TiXmlElement *iqNode, CJabberIqIn
 
 		const char *itemValue = XmlGetAttr(item, "value");
 		const char *itemAction = XmlGetAttr(item, "action");
-		BOOL bAllow = TRUE;
+		bool bAllow = true;
 		if (itemAction && !mir_strcmpi(itemAction, "deny"))
-			bAllow = FALSE;
+			bAllow = false;
 
 		const char *itemOrder = XmlGetAttr(item, "order");
 		DWORD dwOrder = 0;
@@ -625,11 +625,11 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 		int nLbSel = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCURSEL, 0, 0);
 		SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_RESETCONTENT, 0, 0);
 
-		BOOL bListEmpty = TRUE;
+		bool bListEmpty = true;
 
 		CPrivacyListRule* pRule = pList->GetFirstRule();
 		while (pRule) {
-			bListEmpty = FALSE;
+			bListEmpty = false;
 			char szTypeValue[512];
 			switch (pRule->GetType()) {
 			case Jid:
@@ -1238,24 +1238,21 @@ lbl_return:
 		return mir_callNextSubclass(hwnd, LstRulesSubclassProc, msg, wParam, lParam);
 	}
 
-	BOOL CanExit()
+	bool CanExit()
 	{
-		BOOL bModified;
+		bool bModified;
 		{
 			mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 			bModified = m_proto->m_privacyListManager.IsModified();
 		}
 
 		if (clc_info.bChanged)
-			bModified = TRUE;
+			bModified = true;
 
 		if (!bModified)
-			return TRUE;
+			return true;
 
-		if (IDYES == MessageBox(m_hwnd, TranslateT("Privacy lists are not saved, discard any changes and exit?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2))
-			return TRUE;
-
-		return FALSE;
+		return (IDYES == MessageBox(m_hwnd, TranslateT("Privacy lists are not saved, discard any changes and exit?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2));
 	}
 
 	CCtrlMButton	m_btnSimple, m_btnAdvanced, m_btnAddJid, m_btnActivate, m_btnSetDefault;

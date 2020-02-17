@@ -349,16 +349,16 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Transport check functions
 
-BOOL CJabberProto::DBCheckIsTransportedContact(const char *jid, MCONTACT hContact)
+bool CJabberProto::DBCheckIsTransportedContact(const char *jid, MCONTACT hContact)
 {
 	// check if transport is already set
 	if (!jid || !hContact)
-		return FALSE;
+		return false;
 
 	// strip domain part from jid
 	char *domain = (char*)strchr(jid, '@');
-	BOOL isAgent = (domain == nullptr) ? TRUE : FALSE;
-	BOOL isTransported = FALSE;
+	bool isAgent = (domain == nullptr);
+	bool isTransported = false;
 	if (domain != nullptr)
 		domain = NEWSTR_ALLOCA(domain + 1);
 	else
@@ -371,7 +371,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const char *jid, MCONTACT hContac
 	for (auto &it : TransportProtoTable)
 		if (MatchMask(domain, it.mask)) {
 			GetTransportStatusIconIndex(GetTransportProtoID(domain), ID_STATUS_OFFLINE);
-			isTransported = TRUE;
+			isTransported = true;
 			break;
 		}
 

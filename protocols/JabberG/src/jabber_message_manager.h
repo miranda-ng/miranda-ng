@@ -35,7 +35,7 @@ typedef void (*MESSAGE_USER_DATA_FREE_FUNC)(void *pUserData);
 
 class CJabberMessageInfo;
 
-typedef BOOL (CJabberProto::*JABBER_PERMANENT_MESSAGE_HANDLER)(const TiXmlElement *messageNode, ThreadData *pThreadData, CJabberMessageInfo* pInfo);
+typedef bool (CJabberProto::*JABBER_PERMANENT_MESSAGE_HANDLER)(const TiXmlElement *messageNode, ThreadData *pThreadData, CJabberMessageInfo* pInfo);
 
 #define JABBER_MESSAGE_PARSE_FROM					(1<<3)
 #define JABBER_MESSAGE_PARSE_HCONTACT				((1<<4)|JABBER_MESSAGE_PARSE_FROM)

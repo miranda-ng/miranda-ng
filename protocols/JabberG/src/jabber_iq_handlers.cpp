@@ -28,13 +28,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_rc.h"
 #include "version.h"
 
-BOOL CJabberProto::OnIqRequestVersion(const TiXmlElement*, CJabberIqInfo *pInfo)
+bool CJabberProto::OnIqRequestVersion(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	if (!pInfo->GetFrom())
-		return TRUE;
+		return true;
 
 	if (!m_bAllowVersionRequests)
-		return FALSE;
+		return false;
 
 	XmlNodeIq iq("result", pInfo);
 	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_VERSION);
@@ -49,23 +49,23 @@ BOOL CJabberProto::OnIqRequestVersion(const TiXmlElement*, CJabberIqInfo *pInfo)
 	}
 
 	m_ThreadInfo->send(iq);
-	return TRUE;
+	return true;
 }
 
 // last activity (XEP-0012) support
-BOOL CJabberProto::OnIqRequestLastActivity(const TiXmlElement*, CJabberIqInfo *pInfo)
+bool CJabberProto::OnIqRequestLastActivity(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	m_ThreadInfo->send(
 		XmlNodeIq("result", pInfo) << XQUERY(JABBER_FEAT_LAST_ACTIVITY)
 		<< XATTRI("seconds", m_tmJabberIdleStartTime ? time(0) - m_tmJabberIdleStartTime : 0));
-	return TRUE;
+	return true;
 }
 
 // XEP-0199: XMPP Ping support
-BOOL CJabberProto::OnIqRequestPing(const TiXmlElement*, CJabberIqInfo *pInfo)
+bool CJabberProto::OnIqRequestPing(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	m_ThreadInfo->send(XmlNodeIq("result", pInfo) << XATTR("from", m_ThreadInfo->fullJID));
-	return TRUE;
+	return true;
 }
 
 // Returns the current GMT offset in seconds
@@ -96,7 +96,7 @@ int GetGMTOffset(void)
 }
 
 // entity time (XEP-0202) support
-BOOL CJabberProto::OnIqRequestTime(const TiXmlElement*, CJabberIqInfo *pInfo)
+bool CJabberProto::OnIqRequestTime(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	wchar_t stime[100];
 	wchar_t szTZ[10];
@@ -115,10 +115,10 @@ BOOL CJabberProto::OnIqRequestTime(const TiXmlElement*, CJabberIqInfo *pInfo)
 		timeNode << XCHILD("tz", T2Utf(szTZName));
 	
 	m_ThreadInfo->send(iq);
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::OnIqProcessIqOldTime(const TiXmlElement*, CJabberIqInfo *pInfo)
+bool CJabberProto::OnIqProcessIqOldTime(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	struct tm *gmt;
 	time_t ltime;
@@ -143,10 +143,10 @@ BOOL CJabberProto::OnIqProcessIqOldTime(const TiXmlElement*, CJabberIqInfo *pInf
 
 	queryNode << XCHILD("display", dtime);
 	m_ThreadInfo->send(iq);
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::OnSiRequest(const TiXmlElement *node, CJabberIqInfo *pInfo)
+bool CJabberProto::OnSiRequest(const TiXmlElement *node, CJabberIqInfo *pInfo)
 {
 	const char *szProfile = XmlGetAttr(pInfo->GetChildNode(), "profile");
 
@@ -159,10 +159,10 @@ BOOL CJabberProto::OnSiRequest(const TiXmlElement *node, CJabberIqInfo *pInfo)
 		error << XCHILD("bad-profile");
 		m_ThreadInfo->send(iq);
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo)
+bool CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	auto *queryNode = pInfo->GetChildNode();
 
@@ -170,11 +170,11 @@ BOOL CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 	if (pInfo->GetFrom()) {
 		ptrA szFrom(JabberPrepareJid(pInfo->GetFrom()));
 		if (!szFrom)
-			return TRUE;
+			return true;
 
 		ptrA szTo(JabberPrepareJid(m_ThreadInfo->fullJID));
 		if (!szTo)
-			return TRUE;
+			return true;
 
 		char *pDelimiter = strchr(szFrom, '/');
 		if (pDelimiter)
@@ -188,7 +188,7 @@ BOOL CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 		BOOL bRetVal = mir_strcmp(szFrom, szTo) == 0;
 		if (!bRetVal) {
 			debugLogA("<iq/> attempt to hack via roster push from %s", pInfo->GetFrom());
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -265,24 +265,24 @@ BOOL CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 
 	UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 	RebuildInfoFrame();
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
+bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
 	if (!pInfo->GetFrom() || !pInfo->GetHContact())
-		return TRUE;
+		return true;
 
 	const char *pszUrl = XmlGetChildText(pInfo->GetChildNode(), "url");
 	if (!pszUrl)
-		return TRUE;
+		return true;
 
 	if (m_bBsOnlyIBB) {
 		// reject
 		XmlNodeIq iq("error", pInfo);
 		TiXmlElement *e = XmlAddChildA(iq, "error", "File transfer refused"); e->SetAttribute("code", 406);
 		m_ThreadInfo->send(iq);
-		return TRUE;
+		return true;
 	}
 
 	filetransfer *ft = new filetransfer(this);
@@ -342,40 +342,40 @@ BOOL CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 		m_ThreadInfo->send(iq);
 		delete ft;
 	}
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::OnHandleDiscoInfoRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+bool CJabberProto::OnHandleDiscoInfoRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	if (!pInfo->GetChildNode())
-		return TRUE;
+		return true;
 
 	const char *szNode = XmlGetAttr(pInfo->GetChildNode(), "node");
 	// caps hack
 	if (m_clientCapsManager.HandleInfoRequest(iqNode, pInfo, szNode))
-		return TRUE;
+		return true;
 
 	// ad-hoc hack:
 	if (szNode && m_adhocManager.HandleInfoRequest(iqNode, pInfo, szNode))
-		return TRUE;
+		return true;
 
 	// another request, send empty result
 	m_ThreadInfo->send(
 		XmlNodeIq("error", pInfo)
 		<< XCHILD("error") << XATTRI("code", 404) << XATTR("type", "cancel")
 		<< XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas"));
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::OnHandleDiscoItemsRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+bool CJabberProto::OnHandleDiscoItemsRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	if (!pInfo->GetChildNode())
-		return TRUE;
+		return true;
 
 	// ad-hoc commands check:
 	const char *szNode = XmlGetAttr(pInfo->GetChildNode(), "node");
 	if (szNode && m_adhocManager.HandleItemsRequest(iqNode, pInfo, szNode))
-		return TRUE;
+		return true;
 
 	// another request, send empty result
 	XmlNodeIq iq("result", pInfo);
@@ -387,10 +387,10 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(const TiXmlElement *iqNode, CJabber
 		resultQuery << XCHILD("item") << XATTR("jid", m_ThreadInfo->fullJID) << XATTR("node", JABBER_FEAT_COMMANDS) << XATTR("name", "Ad-hoc commands");
 
 	m_ThreadInfo->send(iq);
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
+bool CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 {
 	char szService[256];
 	mir_snprintf(szService, "%s%s", m_szModuleName, JS_HTTP_AUTH);
@@ -403,26 +403,26 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 	cle.pszService = szService;
 	cle.szTooltip.w = TranslateT("Http authentication request received");
 	g_clistApi.pfnAddEvent(&cle);
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberProto::OnIqHttpAuth(const TiXmlElement *node, CJabberIqInfo *pInfo)
+bool CJabberProto::OnIqHttpAuth(const TiXmlElement *node, CJabberIqInfo *pInfo)
 {
 	if (!m_bAcceptHttpAuth)
-		return TRUE;
+		return true;
 
 	if (!node || !pInfo->GetChildNode() || !pInfo->GetFrom() || !pInfo->GetIdStr())
-		return TRUE;
+		return true;
 
 	auto *pConfirm = XmlFirstChild(node, "confirm");
 	if (!pConfirm)
-		return TRUE;
+		return true;
 
 	const char *szId = XmlGetAttr(pConfirm, "id");
 	const char *szUrl = XmlGetAttr(pConfirm, "url");
 	const char *szMethod = XmlGetAttr(pConfirm, "method");
 	if (!szId || !szMethod || !szUrl)
-		return TRUE;
+		return true;
 
 	CJabberHttpAuthParams *pParams = (CJabberHttpAuthParams*)mir_calloc(sizeof(CJabberHttpAuthParams));
 	if (pParams) {
@@ -433,5 +433,5 @@ BOOL CJabberProto::OnIqHttpAuth(const TiXmlElement *node, CJabberIqInfo *pInfo)
 		pParams->m_szUrl = mir_strdup(szUrl);
 		AddClistHttpAuthEvent(pParams);
 	}
-	return TRUE;
+	return true;
 }

@@ -115,25 +115,25 @@ void CJabberProto::ExternalTempIqHandler(const TiXmlElement *node, CJabberIqInfo
 	free(d); // free IqHandlerData allocated in CJabberProto::AddIqHandler below
 }
 
-BOOL CJabberProto::ExternalIqHandler(const TiXmlElement *node, CJabberIqInfo *pInfo)
+bool CJabberProto::ExternalIqHandler(const TiXmlElement *node, CJabberIqInfo *pInfo)
 {
 	sHandlerData *d = (sHandlerData*)pInfo->GetUserData();
 	return d->Func(this, node, d->pUserData);
 }
 
-BOOL CJabberProto::ExternalMessageHandler(const TiXmlElement *node, ThreadData*, CJabberMessageInfo* pInfo)
+bool CJabberProto::ExternalMessageHandler(const TiXmlElement *node, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	sHandlerData *d = (sHandlerData*)pInfo->GetUserData();
 	return d->Func(this, node, d->pUserData);
 }
 
-BOOL CJabberProto::ExternalPresenceHandler(const TiXmlElement *node, ThreadData*, CJabberPresenceInfo* pInfo)
+bool CJabberProto::ExternalPresenceHandler(const TiXmlElement *node, ThreadData*, CJabberPresenceInfo* pInfo)
 {
 	sHandlerData *d = (sHandlerData*)pInfo->GetUserData();
 	return d->Func(this, node, d->pUserData);
 }
 
-BOOL CJabberProto::ExternalSendHandler(const TiXmlElement *node, ThreadData*, CJabberSendInfo* pInfo)
+bool CJabberProto::ExternalSendHandler(const TiXmlElement *node, ThreadData*, CJabberSendInfo* pInfo)
 {
 	sHandlerData *d = (sHandlerData*)pInfo->GetUserData();
 	return d->Func(this, node, d->pUserData);

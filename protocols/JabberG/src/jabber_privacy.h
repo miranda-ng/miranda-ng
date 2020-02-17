@@ -57,8 +57,9 @@ class CPrivacyListRule
 {
 protected:
 	friend class CPrivacyList;
+
 public:
-	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const char *szValue = "", BOOL bAction = TRUE, DWORD dwOrder = 90, DWORD dwPackets = 0)
+	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const char *szValue = "", bool bAction = true, DWORD dwOrder = 90, DWORD dwPackets = 0)
 	{
 		m_proto = ppro;
 		m_szValue = mir_strdup(szValue);
@@ -98,58 +99,56 @@ public:
 	{
 		return m_nType;
 	}
-	__inline BOOL SetType(PrivacyListRuleType type)
+	__inline void SetType(PrivacyListRuleType type)
 	{
 		m_nType = type;
-		return TRUE;
 	}
 	__inline char* GetValue()
 	{
 		return m_szValue;
 	}
-	__inline BOOL SetValue(const char *szValue)
+	__inline void SetValue(const char *szValue)
 	{
 		replaceStr(m_szValue, szValue);
-		return TRUE;
 	}
 	__inline DWORD GetPackets()
 	{
 		return m_dwPackets;
 	}
-	__inline BOOL SetPackets(DWORD dwPackets)
+	__inline void SetPackets(DWORD dwPackets)
 	{
 		m_dwPackets = dwPackets;
-		return TRUE;
 	}
-	__inline BOOL GetAction()
+	__inline bool GetAction()
 	{
 		return m_bAction;
 	}
-	__inline BOOL SetAction(BOOL bAction)
+	__inline void SetAction(BOOL bAction)
 	{
 		m_bAction = bAction;
-		return TRUE;
 	}
+
 	CJabberProto* m_proto;
+
 protected:
 	PrivacyListRuleType m_nType;
 	char *m_szValue;
-	BOOL  m_bAction;
+	bool  m_bAction;
 	DWORD m_dwOrder;
 	DWORD m_dwPackets;
 	CPrivacyListRule *m_pNext;
 };
 
-class CPrivacyList;
 class CPrivacyList
 {
 protected:
-	CPrivacyListRule *m_pRules;
+	CPrivacyListRule *m_pRules = nullptr;
+	CPrivacyList *m_pNext = nullptr;
 	char *m_szListName;
-	CPrivacyList *m_pNext;
-	BOOL m_bLoaded;
-	BOOL m_bModified;
-	BOOL m_bDeleted;
+	bool m_bLoaded = false;
+	bool m_bModified = false;
+	bool m_bDeleted = false;
+
 public:
 	CJabberProto* m_proto;
 
@@ -157,12 +156,8 @@ public:
 	{
 		m_proto = ppro;
 		m_szListName = mir_strdup(szListName);
-		m_pRules = nullptr;
-		m_pNext = nullptr;
-		m_bLoaded = FALSE;
-		m_bModified = FALSE;
-		m_bDeleted = FALSE;
 	};
+
 	~CPrivacyList()
 	{
 		mir_free(m_szListName);
@@ -170,56 +165,59 @@ public:
 		if (m_pNext)
 			delete m_pNext;
 	};
-	BOOL RemoveAllRules()
+
+	void RemoveAllRules()
 	{
 		if (m_pRules)
 			delete m_pRules;
 		m_pRules = nullptr;
-		return TRUE;
 	}
+
 	__inline char* GetListName()
 	{
 		return m_szListName;
 	}
+
 	__inline CPrivacyListRule* GetFirstRule()
 	{
 		return m_pRules;
 	}
+
 	__inline CPrivacyList* GetNext()
 	{
 		return m_pNext;
 	}
+
 	CPrivacyList* SetNext(CPrivacyList *pNext)
 	{
 		CPrivacyList *pRetVal = m_pNext;
 		m_pNext = pNext;
 		return pRetVal;
 	}
-	BOOL AddRule(PrivacyListRuleType type, const char *szValue, BOOL bAction, DWORD dwOrder, DWORD dwPackets)
+
+	void AddRule(PrivacyListRuleType type, const char *szValue, BOOL bAction, DWORD dwOrder, DWORD dwPackets)
 	{
 		CPrivacyListRule *pRule = new CPrivacyListRule(m_proto, type, szValue, bAction, dwOrder, dwPackets);
-		if (!pRule)
-			return FALSE;
 		pRule->SetNext(m_pRules);
 		m_pRules = pRule;
-		return TRUE;
 	}
-	BOOL AddRule(CPrivacyListRule *pRule)
+
+	void AddRule(CPrivacyListRule *pRule)
 	{
 		pRule->SetNext(m_pRules);
 		m_pRules = pRule;
-		return TRUE;
 	}
-	BOOL RemoveRule(CPrivacyListRule *pRuleToRemove)
+
+	bool RemoveRule(CPrivacyListRule *pRuleToRemove)
 	{
 		if (!m_pRules)
-			return FALSE;
+			return false;
 
 		if (m_pRules == pRuleToRemove) {
 			m_pRules = m_pRules->GetNext();
 			pRuleToRemove->SetNext(nullptr);
 			delete pRuleToRemove;
-			return TRUE;
+			return true;
 		}
 
 		CPrivacyListRule *pRule = m_pRules;
@@ -228,20 +226,21 @@ public:
 				pRule->SetNext(pRule->GetNext()->GetNext());
 				pRuleToRemove->SetNext(nullptr);
 				delete pRuleToRemove;
-				return TRUE;
+				return true;
 			}
 			pRule = pRule->GetNext();
 		}
-		return FALSE;
+		return false;
 	}
-	BOOL Reorder()
+	
+	bool Reorder()
 	{
 		// 0 or 1 rules?
 		if (!m_pRules)
-			return TRUE;
+			return true;
 		if (!m_pRules->GetNext()) {
 			m_pRules->SetOrder(100);
-			return TRUE;
+			return true;
 		}
 
 		// get rules count
@@ -255,7 +254,7 @@ public:
 		// create pointer array for sort procedure
 		CPrivacyListRule **pRules = (CPrivacyListRule **)mir_alloc(dwCount * sizeof(CPrivacyListRule *));
 		if (!pRules)
-			return FALSE;
+			return false;
 		DWORD dwPos = 0;
 		pRule = m_pRules;
 		while (pRule) {
@@ -287,30 +286,30 @@ public:
 		}
 		*ppPtr = nullptr;
 		mir_free(pRules);
-
-		return TRUE;
+		return true;
 	}
-	__inline void SetLoaded(BOOL bLoaded = TRUE)
+	
+	__inline void SetLoaded(bool bLoaded = true)
 	{
 		m_bLoaded = bLoaded;
 	}
-	__inline BOOL IsLoaded()
+	__inline bool IsLoaded()
 	{
 		return m_bLoaded;
 	}
-	__inline void SetModified(BOOL bModified = TRUE)
+	__inline void SetModified(bool bModified = true)
 	{
 		m_bModified = bModified;
 	}
-	__inline BOOL IsModified()
+	__inline bool IsModified()
 	{
 		return m_bModified;
 	}
-	__inline void SetDeleted(BOOL bDeleted = TRUE)
+	__inline void SetDeleted(bool bDeleted = true)
 	{
 		m_bDeleted = bDeleted;
 	}
-	__inline BOOL IsDeleted()
+	__inline bool IsDeleted()
 	{
 		return m_bDeleted;
 	}
@@ -319,52 +318,54 @@ public:
 class CPrivacyListManager
 {
 protected:
-	char *m_szActiveListName;
-	char *m_szDefaultListName;
-	CPrivacyList *m_pLists;
-	BOOL m_bModified;
+	char *m_szActiveListName = nullptr;
+	char *m_szDefaultListName = nullptr;
+	CPrivacyList *m_pLists = nullptr;
+	bool m_bModified = false;
 
 public:
 	CJabberProto* m_proto;
 	mir_cs m_cs;
 
-	CPrivacyListManager(CJabberProto *ppro)
+	CPrivacyListManager(CJabberProto *ppro) :
+		m_proto(ppro)
 	{
-		m_proto = ppro;
-		m_szActiveListName = nullptr;
-		m_szDefaultListName = nullptr;
-		m_pLists = nullptr;
-		m_bModified = FALSE;
-	};
+	}
+
 	~CPrivacyListManager()
 	{
 		mir_free(m_szActiveListName);
 		mir_free(m_szDefaultListName);
 		RemoveAllLists();
-	};
+	}
+
 	void SetActiveListName(const char *szListName)
 	{
 		replaceStr(m_szActiveListName, szListName);
 	}
+
 	void SetDefaultListName(const char *szListName)
 	{
 		replaceStr(m_szDefaultListName, szListName);
 	}
+
 	char* GetDefaultListName()
 	{
 		return m_szDefaultListName;
 	}
+
 	char* GetActiveListName()
 	{
 		return m_szActiveListName;
 	}
-	BOOL RemoveAllLists()
+
+	void RemoveAllLists()
 	{
 		if (m_pLists)
 			delete m_pLists;
 		m_pLists = nullptr;
-		return TRUE;
 	}
+	
 	CPrivacyList* FindList(const char *szListName)
 	{
 		CPrivacyList *pList = m_pLists;
@@ -375,45 +376,50 @@ public:
 		}
 		return nullptr;
 	}
+	
 	CPrivacyList* GetFirstList()
 	{
 		return m_pLists;
 	}
-	BOOL AddList(const char *szListName)
+	
+	bool AddList(const char *szListName)
 	{
 		if (FindList(szListName))
-			return FALSE;
+			return false;
+
 		CPrivacyList *pList = new CPrivacyList(m_proto, szListName);
 		pList->SetNext(m_pLists);
 		m_pLists = pList;
-		return TRUE;
+		return true;
 	}
-	BOOL SetModified(BOOL bModified = TRUE)
+	
+	void SetModified(BOOL bModified = TRUE)
 	{
 		m_bModified = bModified;
-		return TRUE;
 	}
-	BOOL IsModified()
+
+	bool IsModified()
 	{
 		if (m_bModified)
-			return TRUE;
+			return true;
 		CPrivacyList *pList = m_pLists;
 		while (pList) {
 			if (pList->IsModified())
-				return TRUE;
+				return true;
 			pList = pList->GetNext();
 		}
-		return FALSE;
+		return false;
 	}
-	BOOL IsAllListsLoaded()
+	
+	bool IsAllListsLoaded()
 	{
 		CPrivacyList *pList = m_pLists;
 		while (pList) {
 			if (!pList->IsLoaded())
-				return FALSE;
+				return false;
 			pList = pList->GetNext();
 		}
-		return TRUE;
+		return true;
 	}
 };
 

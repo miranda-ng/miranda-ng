@@ -29,77 +29,71 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_iq.h"
 #include "jabber_rc.h"
 
-CJabberAdhocSession::CJabberAdhocSession(CJabberProto* global)
+CJabberAdhocSession::CJabberAdhocSession(CJabberProto* _ppro) :
+	ppro(_ppro)
 {
-	m_pNext = nullptr;
-	m_pUserData = nullptr;
-	m_bAutofreeUserData = FALSE;
-	m_dwStage = 0;
-	ppro = global;
 	m_szSessionId.Format("%u%u", ppro->SerialNext(), GetTickCount());
 	m_dwStartTime = GetTickCount();
 }
 
-BOOL CJabberProto::IsRcRequestAllowedByACL(CJabberIqInfo *pInfo)
+bool CJabberProto::IsRcRequestAllowedByACL(CJabberIqInfo *pInfo)
 {
 	if (!pInfo || !pInfo->GetFrom())
-		return FALSE;
+		return false;
 
 	return IsMyOwnJID(pInfo->GetFrom());
 }
 
-BOOL CJabberProto::HandleAdhocCommandRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+bool CJabberProto::HandleAdhocCommandRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	if (!pInfo->GetChildNode())
-		return TRUE;
+		return true;
 
 	if (!m_bEnableRemoteControl || !IsRcRequestAllowedByACL(pInfo)) {
 		// FIXME: send error and return
-		return TRUE;
+		return true;
 	}
 
 	const char *szNode = XmlGetAttr(pInfo->GetChildNode(), "node");
-	if (!szNode)
-		return TRUE;
-
-	m_adhocManager.HandleCommandRequest(iqNode, pInfo, szNode);
-	return TRUE;
+	if (szNode)
+		m_adhocManager.HandleCommandRequest(iqNode, pInfo, szNode);
+	return true;
 }
 
-BOOL CJabberAdhocManager::HandleItemsRequest(const TiXmlElement*, CJabberIqInfo *pInfo, const char *szNode)
+bool CJabberAdhocManager::HandleItemsRequest(const TiXmlElement*, CJabberIqInfo *pInfo, const char *szNode)
 {
 	if (!szNode || !m_pProto->m_bEnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
-		return FALSE;
+		return false;
 
-	if (!mir_strcmp(szNode, JABBER_FEAT_COMMANDS)) {
-		XmlNodeIq iq("result", pInfo);
-		TiXmlElement *resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS) << XATTR("node", JABBER_FEAT_COMMANDS);
-		{
-			mir_cslock lck(m_cs);
+	if (mir_strcmp(szNode, JABBER_FEAT_COMMANDS))
+		return false;
 
-			CJabberAdhocNode* pNode = GetFirstNode();
-			while (pNode) {
-				const char *szJid = pNode->GetJid();
-				if (!szJid)
-					szJid = m_pProto->m_ThreadInfo->fullJID;
+	XmlNodeIq iq("result", pInfo);
+	TiXmlElement *resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS) << XATTR("node", JABBER_FEAT_COMMANDS);
+	{
+		mir_cslock lck(m_cs);
 
-				resultQuery << XCHILD("item") << XATTR("jid", szJid)
-					<< XATTR("node", pNode->GetNode()) << XATTR("name", pNode->GetName());
+		CJabberAdhocNode* pNode = GetFirstNode();
+		while (pNode) {
+			const char *szJid = pNode->GetJid();
+			if (!szJid)
+				szJid = m_pProto->m_ThreadInfo->fullJID;
 
-				pNode = pNode->GetNext();
-			}
+			resultQuery << XCHILD("item") << XATTR("jid", szJid)
+				<< XATTR("node", pNode->GetNode()) << XATTR("name", pNode->GetName());
+
+			pNode = pNode->GetNext();
 		}
-
-		m_pProto->m_ThreadInfo->send(iq);
-		return TRUE;
 	}
-	return FALSE;
+
+	m_pProto->m_ThreadInfo->send(iq);
+	return true;
 }
 
-BOOL CJabberAdhocManager::HandleInfoRequest(const TiXmlElement*, CJabberIqInfo *pInfo, const char *szNode)
+bool CJabberAdhocManager::HandleInfoRequest(const TiXmlElement*, CJabberIqInfo *pInfo, const char *szNode)
 {
 	if (!szNode || !m_pProto->m_bEnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
-		return FALSE;
+		return false;
 
 	// FIXME: same code twice
 	if (!mir_strcmp(szNode, JABBER_FEAT_COMMANDS)) {
@@ -114,13 +108,13 @@ BOOL CJabberAdhocManager::HandleInfoRequest(const TiXmlElement*, CJabberIqInfo *
 		resultQuery << XCHILD("feature") << XATTR("var", JABBER_FEAT_DISCO_ITEMS);
 
 		m_pProto->m_ThreadInfo->send(iq);
-		return TRUE;
+		return true;
 	}
 
 	mir_cslockfull lck(m_cs);
 	CJabberAdhocNode *pNode = FindNode(szNode);
 	if (pNode == nullptr)
-		return FALSE;
+		return false;
 
 	XmlNodeIq iq("result", pInfo);
 	TiXmlElement *resultQuery = iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR("node", JABBER_FEAT_DISCO_INFO);
@@ -132,10 +126,10 @@ BOOL CJabberAdhocManager::HandleInfoRequest(const TiXmlElement*, CJabberIqInfo *
 	resultQuery << XCHILD("feature") << XATTR("var", JABBER_FEAT_DISCO_INFO);
 	lck.unlock();
 	m_pProto->m_ThreadInfo->send(iq);
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, const char *szNode)
+bool CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, const char *szNode)
 {
 	// ATTN: ACL and db settings checked in calling function
 
@@ -151,7 +145,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabb
 			<< XCHILD("error") << XATTR("type", "cancel")
 			<< XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas"));
 
-		return FALSE;
+		return false;
 	}
 
 	const char *szSessionId = XmlGetAttr(commandNode, "sessionid");
@@ -167,11 +161,10 @@ BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabb
 			errorNode << XCHILDNS("bad-request", "urn:ietf:params:xml:ns:xmpp-stanzas");
 			errorNode << XCHILDNS("bad-sessionid", JABBER_FEAT_COMMANDS);
 			m_pProto->m_ThreadInfo->send(iq);
-			return FALSE;
+			return false;
 		}
 	}
-	else
-		pSession = AddNewSession();
+	else pSession = AddNewSession();
 
 	if (!pSession) {
 		lck.unlock();
@@ -181,7 +174,7 @@ BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabb
 			<< XCHILD("error") << XATTR("type", "cancel")
 			<< XCHILDNS("forbidden", "urn:ietf:params:xml:ns:xmpp-stanzas"));
 
-		return FALSE;
+		return false;
 	}
 
 	// session id and node exits here, call handler
@@ -213,10 +206,10 @@ BOOL CJabberAdhocManager::HandleCommandRequest(const TiXmlElement *iqNode, CJabb
 		pSession = nullptr;
 	}
 
-	return TRUE;
+	return true;
 }
 
-BOOL CJabberAdhocManager::FillDefaultNodes()
+void CJabberAdhocManager::FillDefaultNodes()
 {
 	AddNode(nullptr, JABBER_FEAT_RC_SET_STATUS, TranslateU("Set status"), &CJabberProto::AdhocSetStatusHandler);
 	AddNode(nullptr, JABBER_FEAT_RC_SET_OPTIONS, TranslateU("Set options"), &CJabberProto::AdhocOptionsHandler);
@@ -224,11 +217,9 @@ BOOL CJabberAdhocManager::FillDefaultNodes()
 	AddNode(nullptr, JABBER_FEAT_RC_LEAVE_GROUPCHATS, TranslateU("Leave group chats"), &CJabberProto::AdhocLeaveGroupchatsHandler);
 	AddNode(nullptr, JABBER_FEAT_RC_WS_LOCK, TranslateU("Lock workstation"), &CJabberProto::AdhocLockWSHandler);
 	AddNode(nullptr, JABBER_FEAT_RC_QUIT_MIRANDA, TranslateU("Quit Miranda NG"), &CJabberProto::AdhocQuitMirandaHandler);
-	return TRUE;
 }
 
-
-static char *StatusModeToDbSetting(int status, const char *suffix)
+static char* StatusModeToDbSetting(int status, const char *suffix)
 {
 	char *prefix;
 	static char str[64];
@@ -525,7 +516,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 		if (!xNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		BOOL bRemoveCListEvents = TRUE;
+		bool bRemoveCListEvents = true;
 
 		// remove clist events
 		if (auto *fieldNode = XmlGetChildByTag(xNode, "field", "var", "remove-clist-events"))

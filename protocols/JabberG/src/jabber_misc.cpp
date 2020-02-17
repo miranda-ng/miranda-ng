@@ -98,10 +98,10 @@ MCONTACT CJabberProto::DBCreateContact(const char *jid, const char *nick, bool t
 	return hNewContact;
 }
 
-BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
+bool CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 {
 	if (!hContact)
-		return FALSE;
+		return false;
 
 	switch (btEventType) {
 	case JABBER_DB_EVENT_PRESENCE_SUBSCRIBE:
@@ -109,12 +109,12 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 	case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBE:
 	case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBED:
 		if (!m_bLogPresence)
-			return FALSE;
+			return false;
 		break;
 
 	case JABBER_DB_EVENT_PRESENCE_ERROR:
 		if (!m_bLogPresenceErrors)
-			return FALSE;
+			return false;
 		break;
 	}
 
@@ -126,8 +126,7 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 	dbei.timestamp = time(0);
 	dbei.szModule = m_szModuleName;
 	db_event_add(hContact, &dbei);
-
-	return TRUE;
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

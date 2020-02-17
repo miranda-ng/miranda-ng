@@ -155,7 +155,8 @@ public:
 	{
 		RemoveAll();
 	}
-	BOOL RemoveAll()
+	
+	void RemoveAll()
 	{
 		replaceStr(m_szJid, nullptr);
 		replaceStr(m_szNode, nullptr);
@@ -179,9 +180,9 @@ public:
 		m_dwInfoRequestTime = 0;
 		m_dwItemsRequestTime = 0;
 		m_hTreeItem = nullptr;
-		return TRUE;
 	}
-	BOOL ResetInfo()
+
+	void ResetInfo()
 	{
 		replaceStrW(m_szInfoError, nullptr);
 		replaceStrW(m_szItemsError, nullptr);
@@ -198,81 +199,92 @@ public:
 		m_nItemsRequestId = JABBER_DISCO_RESULT_NOT_REQUESTED;
 		m_dwInfoRequestTime = 0;
 		m_dwItemsRequestTime = 0;
-		return TRUE;
 	}
-	BOOL SetTreeItemHandle(HTREELISTITEM hItem)
+
+	void SetTreeItemHandle(HTREELISTITEM hItem)
 	{
 		m_hTreeItem = hItem;
-		return TRUE;
 	}
+
 	HTREELISTITEM GetTreeItemHandle()
 	{
 		return m_hTreeItem;
 	}
-	BOOL SetInfoRequestId(int nId)
+
+	void SetInfoRequestId(int nId)
 	{
 		m_nInfoRequestId = nId;
 		m_dwInfoRequestTime = GetTickCount();
-		return TRUE;
 	}
+
 	int GetInfoRequestId()
 	{
 		return m_nInfoRequestId;
 	}
-	BOOL SetItemsRequestId(int nId)
+	
+	void SetItemsRequestId(int nId)
 	{
 		m_nItemsRequestId = nId;
 		m_dwItemsRequestTime = GetTickCount();
-		return TRUE;
 	}
+
 	int GetItemsRequestId()
 	{
 		return m_nItemsRequestId;
 	}
-	BOOL SetJid(char *szJid)
+
+	void SetJid(char *szJid)
 	{
 		replaceStr(m_szJid, szJid);
-		return TRUE;
 	}
+	
 	char* GetJid()
 	{
 		return m_szJid;
 	}
-	BOOL SetNode(char *szNode)
+	
+	void SetNode(char *szNode)
 	{
 		replaceStr(m_szNode, szNode);
-		return TRUE;
 	}
+
 	char* GetNode()
 	{
 		return m_szNode;
 	}
-	char *GetName()
+
+	char* GetName()
 	{
 		return m_szName;
 	}
+
 	CJabberSDIdentity* GetFirstIdentity()
 	{
 		return m_pIdentities;
 	}
+	
 	CJabberSDFeature* GetFirstFeature()
 	{
 		return m_pFeatures;
 	}
+	
 	CJabberSDNode* GetFirstChildNode()
 	{
 		return m_pChild;
 	}
+	
 	CJabberSDNode* GetNext()
 	{
 		return m_pNext;
 	}
+	
 	CJabberSDNode* SetNext(CJabberSDNode *pNext)
 	{
 		CJabberSDNode *pRetVal = m_pNext;
 		m_pNext = pNext;
 		return pRetVal;
 	}
+	
 	CJabberSDNode* FindByIqId(int nIqId, BOOL bInfoId = TRUE)
 	{
 		if ((m_nInfoRequestId == nIqId && bInfoId) || (m_nItemsRequestId == nIqId && !bInfoId))
@@ -293,58 +305,57 @@ public:
 		}
 		return nullptr;
 	}
-	BOOL AddFeature(const char *szFeature)
+	
+	bool AddFeature(const char *szFeature)
 	{
 		if (!szFeature)
-			return FALSE;
+			return false;
 
 		CJabberSDFeature *pFeature = new CJabberSDFeature(szFeature);
 		if (!pFeature)
-			return FALSE;
+			return false;
 
 		pFeature->SetNext(m_pFeatures);
 		m_pFeatures = pFeature;
-
-		return TRUE;
+		return true;
 	}
-	BOOL AddIdentity(const char *szCategory, const char *szType, const char*szName)
+	
+	bool AddIdentity(const char *szCategory, const char *szType, const char*szName)
 	{
 		if (!szCategory || !szType)
-			return FALSE;
+			return false;
 
 		CJabberSDIdentity *pIdentity = new CJabberSDIdentity(szCategory, szType, szName);
 		if (!pIdentity)
-			return FALSE;
+			return false;
 
 		pIdentity->SetNext(m_pIdentities);
 		m_pIdentities = pIdentity;
-
-		return TRUE;
+		return true;
 	}
-	BOOL AddChildNode(const char *szJid, const char *szNode, const char *szName)
+	
+	bool AddChildNode(const char *szJid, const char *szNode, const char *szName)
 	{
 		if (!szJid)
-			return FALSE;
+			return false;
 
 		CJabberSDNode *pNode = new CJabberSDNode(szJid, szNode, szName);
 		if (!pNode)
-			return FALSE;
+			return false;
 
 		pNode->SetNext(m_pChild);
 		m_pChild = pNode;
-		return TRUE;
+		return true;
 	}
 
-	BOOL SetItemsRequestErrorText(const wchar_t *szError)
+	void SetItemsRequestErrorText(const wchar_t *szError)
 	{
 		replaceStrW(m_szItemsError, szError);
-		return TRUE;
 	}
 
-	BOOL SetInfoRequestErrorText(const wchar_t *szError)
+	void SetInfoRequestErrorText(const wchar_t *szError)
 	{
 		replaceStrW(m_szInfoError, szError);
-		return TRUE;
 	}
 
 	CMStringA GetTooltipText()

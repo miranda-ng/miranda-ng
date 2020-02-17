@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-BOOL ThreadData::zlibInit(void)
+bool ThreadData::zlibInit(void)
 {
 	proto->debugLogA("Zlib init...");
 	zStreamIn.zalloc = Z_NULL;
@@ -39,11 +39,11 @@ BOOL ThreadData::zlibInit(void)
 	zStreamOut.zfree = Z_NULL;
 	zStreamOut.opaque = Z_NULL;
 
-	if (deflateInit(&zStreamOut, Z_BEST_COMPRESSION) != Z_OK) return FALSE;
-	if (inflateInit(&zStreamIn) != Z_OK) return FALSE;
+	if (deflateInit(&zStreamOut, Z_BEST_COMPRESSION) != Z_OK) return false;
+	if (inflateInit(&zStreamIn) != Z_OK) return false;
 
 	zRecvReady = true;
-	return TRUE;
+	return true;
 }
 
 void ThreadData::zlibUninit(void)

@@ -2097,7 +2097,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 	OmemoCheckSession(hContact);
 }
 
-unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact)
+int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact)
 {
 	const EVP_CIPHER *cipher = EVP_aes_128_gcm();
 	unsigned char key[16], iv[12], tag[16] /*, aad[48]*/;
@@ -2131,7 +2131,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_tex
 
 	TiXmlElement *header = encrypted << XCHILD("header");
 	header << XATTRI64("sid", m_omemo.GetOwnDeviceId());
-	unsigned int session_count = 0;
+	int session_count = 0;
 	char key_plus_tag[32] = { 0 };
 	memcpy(key_plus_tag, key, 16);
 	{

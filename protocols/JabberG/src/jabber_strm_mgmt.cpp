@@ -276,7 +276,7 @@ void strm_mgmt::FinishLoginProcess(ThreadData *info)
 			<< XCHILD("resource", info->resource));
 
 		if (proto->m_AuthMechs.isSessionAvailable)
-			info->bIsSessionAvailable = TRUE;
+			info->bIsSessionAvailable = true;
 
 		return;
 	}
