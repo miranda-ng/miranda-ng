@@ -688,12 +688,16 @@ LBL_Fail:
 bool CJabberProto::FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileName)
 {
 	int fileFormat = ProtoGetAvatarFormat(pwszFileName);
-	if (fileFormat == PA_FORMAT_UNKNOWN)
+	if (fileFormat == PA_FORMAT_UNKNOWN) {
+		debugLogA("Unknown picture format");
 		return false;
+	}
 
 	char szClientJid[JABBER_MAX_JID_LEN];
-	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid)))
+	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
+		debugLogA("Protocol is offline or no contact %d", hContact);
 		return false;
+	}
 
 	int fileId = _wopen(pwszFileName, _O_BINARY | _O_RDONLY);
 	if (fileId < 0) {
@@ -720,7 +724,7 @@ bool CJabberProto::FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileNam
 
 	CMStringW wszFileName(FORMAT, L"%s\\%S%s", wszTempPath.get(), szHash, ProtoGetAvatarExtension(fileFormat));
 	if (_waccess(wszFileName, 0))
-		if (CopyFileW(pwszFileName, wszFileName, FALSE)) {
+		if (!CopyFileW(pwszFileName, wszFileName, FALSE)) {
 			DWORD dwError = GetLastError();
 			debugLogW(L"File <%s> cannot be copied to <%s>: error %d", pwszFileName, wszFileName.c_str(), dwError);
 			return false;
@@ -743,7 +747,6 @@ bool CJabberProto::FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileNam
 	m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
 	m << XCHILDNS("markable", JABBER_FEAT_CHAT_MARKERS);
 	m_ThreadInfo->send(m);
-
 	return true;
 }
 
