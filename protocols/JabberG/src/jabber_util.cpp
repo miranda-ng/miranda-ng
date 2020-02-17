@@ -931,10 +931,10 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 							fwrite(res->pData, res->dataLength, 1, out);
 							fclose(out);
 							setString(ai.hContact, "AvatarHash", buffer);
-							ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
+							ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 							debugLogW(L"Broadcast new avatar: %s", ai.filename);
 						}
-						else ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
+						else ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 					}
 				}
 			}

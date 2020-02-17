@@ -303,7 +303,7 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 	LIST<UNIQUE_MAP> SearchResults(2);
 
 	if (((id = JabberGetPacketID(iqNode)) == -1) || ((type = XmlGetAttr(iqNode, "type")) == nullptr)) {
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 		return;
 	}
 
@@ -371,7 +371,7 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 			description = errorNode->GetText();
 		}
 
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 
 		char buff[255];
 		mir_snprintf(buff, TranslateU("Error %s %s\r\nTry to specify more detailed"), code, description);
@@ -388,7 +388,7 @@ void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberI
 		delete ((UNIQUE_MAP*)it);
 
 	//send success to finish searching
-	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 }
 
 static BOOL CALLBACK DeleteChildWindowsProc(HWND hwnd, LPARAM)

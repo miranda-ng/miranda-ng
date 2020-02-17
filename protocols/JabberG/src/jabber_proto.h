@@ -502,7 +502,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       FtAcceptIbbRequest(filetransfer *ft);
 	bool       FtHandleBytestreamRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	bool       FtHandleIbbRequest(const TiXmlElement *iqNode, bool bOpen);
-	bool       FtTryInlineFile(const wchar_t *pwszFileName);
+	bool       FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileName);
+	bool       FtHandleCidRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_groupchat.c ------------------------------------------------------------
 

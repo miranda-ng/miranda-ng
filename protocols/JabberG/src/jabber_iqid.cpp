@@ -658,12 +658,12 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 				psr.email.a = (char*)XmlGetChildText(vCardNode, "EMAIL");
 				psr.id.a = NEWSTR_ALLOCA(jid);
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
-				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 			}
 			else if (!mir_strcmp(type, "error"))
-				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 		}
-		else ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		else ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 		return;
 	}
 
@@ -1106,7 +1106,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 	if (!hasPhoto) {
 		debugLogA("Has no avatar");
 		if (!delSetting(hContact, "AvatarHash"))
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
 	}
 	
 	if (id == m_ThreadInfo->resolveID) {
@@ -1174,10 +1174,10 @@ void CJabberProto::OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo
 			}
 		}
 
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 	}
 	else if (!mir_strcmp(type, "error"))
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 }
 
 void CJabberProto::OnIqResultExtSearch(const TiXmlElement *iqNode, CJabberIqInfo*)
@@ -1235,10 +1235,10 @@ void CJabberProto::OnIqResultExtSearch(const TiXmlElement *iqNode, CJabberIqInfo
 			replaceStrW(psr.email.w, 0);
 		}
 
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 	}
 	else if (!mir_strcmp(type, "error"))
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 }
 
 void CJabberProto::OnIqResultSetPassword(const TiXmlElement *iqNode, CJabberIqInfo*)
@@ -1280,7 +1280,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(const TiXmlElement *iqNode, CJabberI
 
 	if (vCard->NoChildren()) {
 		if (!delSetting(hContact, "AvatarHash"))
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
 		return;
 	}
 
@@ -1373,10 +1373,10 @@ void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, const char *pszText, c
 
 		char buffer[41];
 		setString(hContact, "AvatarHash", bin2hex(digest, sizeof(digest), buffer));
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai));
 		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
+	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

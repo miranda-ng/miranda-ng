@@ -691,7 +691,7 @@ void __cdecl CJabberProto::BasicSearchThread(JABBER_SEARCH_BASIC *jsb)
 	psr.id.w = jsb->jid;
 
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)jsb->hSearch, (LPARAM)&psr);
-	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)jsb->hSearch, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)jsb->hSearch);
 	mir_free(jsb);
 }
 
@@ -986,7 +986,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 			m << XCHILD("body", pszSrc);
 		else {
 			m << XCHILD("body", "[This message is encrypted.]");
-			m << XCHILD("x", pszSrc) << XATTR("xmlns", "jabber:x:encrypted");
+			m << XCHILDNS("x", "jabber:x:encrypted");
 		}
 	}
 
@@ -1159,7 +1159,7 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 		}
 	}
 
-	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1);
 }
 
 HANDLE CJabberProto::GetAwayMsg(MCONTACT hContact)

@@ -42,7 +42,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 	info.s = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	if (info.s == nullptr) {
 		debugLogA("Connection failed (%d), thread ended", WSAGetLastError());
-		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft);
 	}
 	else {
 		ft->s = info.s;
@@ -107,7 +107,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 					ft->state = FT_INITIALIZING;
 					ft->std.currentFileSize = -1;
 					debugLogA("Change to FT_INITIALIZING");
-					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
+					ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft);
 				}
 			}
 			else {	// FT_INITIALIZING
@@ -247,7 +247,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	info.s = (HNETLIBCONN)Netlib_BindPort(m_hNetlibUser, &nlb);
 	if (info.s == nullptr) {
 		debugLogA("Cannot allocate port to bind for file server thread, thread ended.");
-		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft);
 		delete ft;
 		return;
 	}
@@ -304,7 +304,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				WaitForSingleObject(hEvent, INFINITE);
 			}
 			debugLogA("File sent, advancing to the next file...");
-			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0);
+			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft);
 		}
 		CloseHandle(hEvent);
 		ft->hFileEvent = nullptr;
@@ -319,14 +319,14 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	switch (ft->state) {
 	case FT_DONE:
 		debugLogA("Finish successfully");
-		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
 		break;
 	case FT_DENIED:
-		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ft);
 		break;
 	default: // FT_ERROR:
 		debugLogA("Finish with errors");
-		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
+		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft);
 		break;
 	}
 
@@ -449,7 +449,7 @@ filetransfer::~filetransfer()
 	ppro->debugLogA("Destroying file transfer session %08p", this);
 
 	if (!bCompleted)
-		ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this, 0);
+		ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this);
 
 	close();
 
@@ -485,7 +485,7 @@ void filetransfer::complete()
 	close();
 
 	bCompleted = true;
-	ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this, 0);
+	ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this);
 }
 
 int filetransfer::create()
