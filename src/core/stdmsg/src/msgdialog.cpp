@@ -973,7 +973,8 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_MOUSEWHEEL:
-		LOG()->WndProc(msg, wParam, lParam);
+		if (m_pLog->GetType() == 0)
+			LOG()->WndProc(msg, wParam, lParam);
 		m_iLastEnterTime = 0;
 		return TRUE;
 
