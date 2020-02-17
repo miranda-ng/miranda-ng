@@ -447,7 +447,7 @@ public:
 
 					TiXmlDocument doc;
 					if (0 == doc.Parse(T2Utf(textToSend)))
-						m_proto->m_ThreadInfo->send(doc.ToElement());
+						m_proto->m_ThreadInfo->send(doc.RootElement());
 					else {
 						StringBuf buf = {};
 						sttAppendBufRaw(&buf, RTF_HEADER);
