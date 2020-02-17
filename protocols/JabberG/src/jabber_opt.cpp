@@ -768,7 +768,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user activity receiving"), m_proto->m_bEnableUserActivity);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive notes"), m_proto->m_bAcceptNotes);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Automatically save received notes"), m_proto->m_bAutosaveNotes);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Inline pictures in messages (XEO-0231)"), m_proto->m_bInlinePictures);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Inline pictures in messages (XEP-0231)"), m_proto->m_bInlinePictures);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive conversations from other devices (XEP-0280)"), m_proto->m_bEnableCarbons);
 		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Use Stream Management (XEP-0198) if possible (Testing)"), m_proto->m_bEnableStreamMgmt);
