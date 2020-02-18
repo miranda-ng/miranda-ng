@@ -44,6 +44,18 @@ struct AsyncHttpRequest : public MHttpRequest
 	AsyncHttpRequest(int type, const char *szUrl);
 };
 
+struct CChatMark
+{
+	CChatMark(MEVENT _p1, const CMStringA &_p2) :
+		hEvent(_p1),
+		szId(_p2)
+	{
+	}
+
+	MEVENT hEvent;
+	CMStringA szId;
+};
+
 class CTwitterProto : public PROTO<CTwitterProto>
 {
 	ptrA m_szChatId;
@@ -51,13 +63,13 @@ class CTwitterProto : public PROTO<CTwitterProto>
 	http::response request_token();
 	http::response request_access_tokens();
 
-	void set_base_url(const CMStringA &base_url);
-
 	bool get_info(const CMStringA &name, twitter_user *);
 	bool get_info_by_email(const CMStringA &email, twitter_user *);
 
 	bool add_friend(const CMStringA &name, twitter_user &u);
 	void remove_friend(const CMStringA &name);
+
+	void mark_read(MCONTACT hContact, const CMStringA &msgId);
 
 	void set_status(const CMStringA &text);
 	void send_direct(const CMStringA &name, const CMStringA &text);
@@ -72,6 +84,24 @@ class CTwitterProto : public PROTO<CTwitterProto>
 	CMStringA m_szAccessToken;
 	CMStringA m_szAccessTokenSecret;
 	CMStringA m_szPin;
+
+	CMStringW GetAvatarFolder();
+
+	mir_cs signon_lock_;
+	mir_cs avatar_lock_;
+	mir_cs twitter_lock_;
+
+	OBJLIST<CChatMark> m_arChatMarks;
+
+	HNETLIBUSER hAvatarNetlib_;
+	HANDLE hMsgLoop_;
+
+	twitter_id since_id_;
+	twitter_id dm_since_id_;
+
+	bool in_chat_;
+
+	int disconnectionCount;
 
 	// OAuthWebRequest used for all OAuth related queries
 	//
@@ -91,6 +121,32 @@ class CTwitterProto : public PROTO<CTwitterProto>
 	HNETLIBCONN m_hConnHttp;
 	void Disconnect(void) { if (m_hConnHttp) Netlib_CloseHandle(m_hConnHttp); m_hConnHttp = nullptr; }
 
+	bool NegotiateConnection();
+
+	void UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg);
+	void UpdateMessages(bool pre_read);
+	void UpdateFriends();
+	void UpdateAvatar(MCONTACT, const CMStringA &, bool force = false);
+
+	int  ShowPinDialog();
+	void ShowPopup(const wchar_t *, int Error = 0);
+	void ShowPopup(const char *, int Error = 0);
+	void ShowContactPopup(MCONTACT, const CMStringA &, const CMStringA *);
+
+	bool IsMyContact(MCONTACT, bool include_chat = false);
+	MCONTACT UsernameToHContact(const char *);
+	MCONTACT AddToClientList(const char *, const char *);
+	MCONTACT FindContactById(const char *);
+
+	static void CALLBACK APC_callback(ULONG_PTR p);
+
+	void UpdateChat(const twitter_user &update);
+	void AddChatContact(const char *name, const char *nick = nullptr);
+	void DeleteChatContact(const char *name);
+	void SetChatStatus(int);
+
+	void resetOAuthKeys();
+
 public:
 	CTwitterProto(const char*,const wchar_t*);
 	~CTwitterProto();
@@ -106,6 +162,7 @@ public:
 	HANDLE   SearchBasic(const wchar_t *) override;
 	HANDLE   SearchByEmail(const wchar_t *) override;
 
+	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT *) override;
 	int      SendMsg(MCONTACT, int, const char *) override;
 
 	int      SetStatus(int) override;
@@ -133,18 +190,18 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Events
 
+	int  __cdecl OnBuildStatusMenu(WPARAM, LPARAM);
+	int  __cdecl OnChatOutgoing(WPARAM, LPARAM);
 	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
-	int  __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
+	int  __cdecl OnMarkedRead(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM,LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
-	int  __cdecl OnChatOutgoing(WPARAM,LPARAM);
 
 	void __cdecl SendTweetWorker(void *);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Threads
 
-private:
 	void __cdecl AddToListWorker(void *p);
 	void __cdecl SendSuccess(void *);
 	void __cdecl DoSearch(void *);
@@ -153,47 +210,6 @@ private:
 	void __cdecl GetAwayMsgWorker(void *);
 	void __cdecl UpdateAvatarWorker(void *);
 	void __cdecl UpdateInfoWorker(void *);
-
-	bool NegotiateConnection();
-
-	void UpdateStatuses(bool pre_read,bool popups, bool tweetToMsg);
-	void UpdateMessages(bool pre_read);
-	void UpdateFriends();
-	void UpdateAvatar(MCONTACT, const CMStringA &, bool force = false);
-
-	int ShowPinDialog();
-	void ShowPopup(const wchar_t *, int Error = 0);
-	void ShowPopup(const char *, int Error = 0);
-	void ShowContactPopup(MCONTACT, const CMStringA &, const CMStringA *);
-
-	bool IsMyContact(MCONTACT, bool include_chat = false);
-	MCONTACT UsernameToHContact(const char *);
-	MCONTACT AddToClientList(const char *, const char *);
-
-	static void CALLBACK APC_callback(ULONG_PTR p);
-
-	void UpdateChat(const twitter_user &update);
-	void AddChatContact(const char *name,const char *nick = nullptr);
-	void DeleteChatContact(const char *name);
-	void SetChatStatus(int);
-
-	void CTwitterProto::resetOAuthKeys();
-
-	CMStringW GetAvatarFolder();
-
-	mir_cs signon_lock_;
-	mir_cs avatar_lock_;
-	mir_cs twitter_lock_;
-
-	HNETLIBUSER hAvatarNetlib_;
-	HANDLE hMsgLoop_;
-
-	twitter_id since_id_;
-	twitter_id dm_since_id_;
-
-	bool in_chat_;
-
-	int disconnectionCount;
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CTwitterProto>

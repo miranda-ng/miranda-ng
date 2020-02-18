@@ -20,34 +20,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <io.h>
 
-http::response CTwitterProto::Execute(AsyncHttpRequest *req)
+http::response CTwitterProto::Execute(AsyncHttpRequest *pReq)
 {
-	if (!req->m_szParam.IsEmpty()) {
-		if (req->requestType == REQUEST_POST) {
-			req->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			req->AddHeader("Cache-Control", "no-cache");
+	if (!pReq->m_szParam.IsEmpty()) {
+		if (pReq->requestType == REQUEST_POST) {
+			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			pReq->AddHeader("Cache-Control", "no-cache");
 
-			req->dataLength = (int)req->m_szParam.GetLength();
-			req->pData = req->m_szParam.GetBuffer();
+			pReq->dataLength = (int)pReq->m_szParam.GetLength();
+			pReq->pData = pReq->m_szParam.GetBuffer();
 		}
 		else {
-			req->m_szUrl.AppendChar('?');
-			req->m_szUrl += req->m_szParam;
+			pReq->m_szUrl.AppendChar('?');
+			pReq->m_szUrl += pReq->m_szParam;
 		}
 	}
 
 	CMStringA auth;
-	if (req->requestType == REQUEST_GET)
-		auth = OAuthWebRequestSubmit(req->m_szUrl, "GET", "");
+	if (pReq->requestType == REQUEST_GET)
+		auth = OAuthWebRequestSubmit(pReq->m_szUrl, "GET", "");
 	else
-		auth = OAuthWebRequestSubmit(req->m_szUrl, "POST", req->m_szParam);
-	req->AddHeader("Authorization", auth);
+		auth = OAuthWebRequestSubmit(pReq->m_szUrl, "POST", pReq->m_szParam);
+	pReq->AddHeader("Authorization", auth);
 
-	req->szUrl = req->m_szUrl.GetBuffer();
-	req->flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
-	req->nlc = m_hConnHttp;
+	pReq->szUrl = pReq->m_szUrl.GetBuffer();
+	pReq->flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	pReq->nlc = m_hConnHttp;
 	http::response resp_data;
-	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, req));
+	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 	if (resp) {
 		debugLogA("**SLURP - the server has responded!");
 		m_hConnHttp = resp->nlc;
@@ -61,6 +61,7 @@ http::response CTwitterProto::Execute(AsyncHttpRequest *req)
 		debugLogA("SLURP - there was no response!");
 	}
 
+	delete pReq;
 	return resp_data;
 }
 

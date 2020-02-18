@@ -175,6 +175,26 @@ int CTwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+int CTwitterProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)
+{
+	MCONTACT hContact = db_event_getContact(hDbEvent);
+	if (!hContact)
+		return 0;
+
+	// filter out only events of my protocol
+	const char *szProto = Proto_GetBaseAccountName(hContact);
+	if (mir_strcmp(szProto, m_szModuleName))
+		return 0;
+
+	auto *pMark = (m_arChatMarks.find((CChatMark *)&hDbEvent));
+	if (pMark) {
+		mark_read(hContact, pMark->szId);
+		m_arChatMarks.remove(pMark);
+	}
+	
+	return 0;
+}
+
 // *************************
 
 bool CTwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
@@ -200,6 +220,20 @@ MCONTACT CTwitterProto::UsernameToHContact(const char *name)
 
 	return 0;
 }
+
+MCONTACT CTwitterProto::FindContactById(const char *id)
+{
+	for (auto &hContact : AccContacts()) {
+		if (getByte(hContact, "ChatRoom"))
+			continue;
+
+		if (getMStringA(hContact, TWITTER_KEY_ID) == id)
+			return hContact;
+	}
+
+	return INVALID_CONTACT_ID;
+}
+
 
 MCONTACT CTwitterProto::AddToClientList(const char *name, const char *status)
 {

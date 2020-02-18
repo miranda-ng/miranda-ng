@@ -108,6 +108,17 @@ void CTwitterProto::remove_friend(const CMStringA &name)
 	Execute(req);
 }
 
+void CTwitterProto::mark_read(MCONTACT hContact, const CMStringA &msgId)
+{
+	CMStringA id(getMStringA(hContact, TWITTER_KEY_ID));
+	if (id.IsEmpty())
+		return;
+
+	auto *req = new AsyncHttpRequest(REQUEST_POST, m_szBaseUrl + "1.1/direct_messages/mark_read.json");
+	req << CHAR_PARAM("recipient_id", id) << CHAR_PARAM("last_read_event_id", msgId);
+	Execute(req);
+}
+
 void CTwitterProto::set_status(const CMStringA &text)
 {
 	if (text.IsEmpty())

@@ -62,6 +62,7 @@ using std::map;
 
 #define TWITTER_KEY_NICK             "Nick"  // we need one called Nick for the chat thingo to work
 #define TWITTER_KEY_UN               "Username"
+#define TWITTER_KEY_ID               "ID"
 #define TWITTER_KEY_PASS             "Password"
 #define TWITTER_KEY_OAUTH_PIN        "OAuthPIN"
 #define TWITTER_KEY_OAUTH_TOK        "OAuthToken"

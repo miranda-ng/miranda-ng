@@ -373,11 +373,13 @@ void CTwitterProto::UpdateFriends()
 		if (m_szUserName == username.c_str())
 			continue;
 
+		std::string id = one["id_str"].as_string();
 		std::string real_name = one["name"].as_string();
 		std::string profile_image_url = one["profile_image_url"].as_string();
 		std::string status_text = one["status"]["text"].as_string();
 
 		MCONTACT hContact = AddToClientList(username.c_str(), status_text.c_str());
+		setString(hContact, TWITTER_KEY_ID, id.c_str());
 		setUString(hContact, "Nick", real_name.c_str());
 		UpdateAvatar(hContact, profile_image_url.c_str());
 	}
@@ -539,13 +541,10 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 	db_pod_set(0, m_szModuleName, TWITTER_KEY_SINCEID, since_id_);
 	disconnectionCount = 0;
 	debugLogA("***** Status messages updated");
-
 }
 
 void CTwitterProto::UpdateMessages(bool pre_read)
 {
-	OBJLIST<twitter_user> messages(50);
-
 	auto *req = new AsyncHttpRequest(REQUEST_GET, m_szBaseUrl + "1.1/direct_messages/events/list.json");
 	req << INT_PARAM("count", 50);
 	if (dm_since_id_ != 0)
@@ -564,25 +563,35 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 	}
 
 	for (auto &one : root["events"]) {
-		twitter_user *u = new twitter_user();
-		u->username = one["sender_screen_name"].as_string();
-		u->status.text = one["text"].as_string();
-		u->status.time = parse_time(one["created_at"].as_string().c_str());
-		messages.insert(u);
+		std::string type = one["type"].as_string();
+		if (type != "message_create")
+			continue;
 
-		twitter_id id = _atoi64(one["id"].as_string().c_str());
+		auto &msgCreate = one["message_create"];
+		std::string sender = msgCreate["sender_id"].as_string();
+		MCONTACT hContact = FindContactById(sender.c_str());
+		if (hContact == INVALID_CONTACT_ID) {
+			debugLogA("Message from unknown sender %s, ignored", sender.c_str());
+			continue;
+		}
+
+		std::string text = msgCreate["message_data"]["text"].as_string();
+		__time64_t time = _atoi64(one["created_timestamp"].as_string().c_str()) / 1000;
+
+		std::string msgid = one["id"].as_string();
+		if (db_event_getById(m_szModuleName, msgid.c_str()))
+			continue;
+
+		twitter_id id = _atoi64(msgid.c_str());
 		if (id > dm_since_id_)
 			dm_since_id_ = id;
-	}
-
-	for (auto &it : messages.rev_iter()) {
-		MCONTACT hContact = AddToClientList(it->username.c_str(), "");
 
 		PROTORECVEVENT recv = { 0 };
 		if (pre_read)
 			recv.flags |= PREF_CREATEREAD;
-		recv.szMessage = const_cast<char*>(it->status.text.c_str());
-		recv.timestamp = static_cast<DWORD>(it->status.time);
+		recv.szMessage = const_cast<char*>(text.c_str());
+		recv.timestamp = static_cast<DWORD>(time);
+		recv.szMsgId = msgid.c_str();
 		ProtoChainRecvMsg(hContact, &recv);
 	}
 

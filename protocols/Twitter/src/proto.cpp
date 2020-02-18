@@ -26,7 +26,8 @@ static volatile LONG g_msgid = 1;
 CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CTwitterProto>(proto_name, username),
 	m_szChatId(mir_utf8encodeW(username)),
-	m_szBaseUrl("https://api.twitter.com/")
+	m_szBaseUrl("https://api.twitter.com/"),
+	m_arChatMarks(10, NumericKeySortT)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CTwitterProto::SvcCreateAccMgrUI);
 
@@ -38,6 +39,7 @@ CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CTwitterProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_CONTACT_DELETED, &CTwitterProto::OnContactDeleted);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CTwitterProto::OnMarkedRead);
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CTwitterProto::OnBuildStatusMenu);
 
 	// Initialize hotkeys
@@ -148,6 +150,14 @@ void CTwitterProto::SendSuccess(void *p)
 	delete data;
 }
 
+MEVENT CTwitterProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
+{
+	MEVENT res = CSuper::RecvMsg(hContact, pre);
+	if (pre->szMsgId)
+		m_arChatMarks.insert(new CChatMark(res, pre->szMsgId));
+
+	return res;
+}
 int CTwitterProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
