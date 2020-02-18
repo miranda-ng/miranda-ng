@@ -17,9 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#include "proto.h"
 
-void TwitterProto::AddToListWorker(void *pArg)
+void CTwitterProto::AddToListWorker(void *pArg)
 {
 	// TODO: what happens if there is an error?
 	if (pArg == nullptr)
@@ -27,35 +26,26 @@ void TwitterProto::AddToListWorker(void *pArg)
 
 	char *name = static_cast<char*>(pArg);
 
-	try {
-		twitter_user user;
-		{
-			mir_cslock s(twitter_lock_);
-			user = twit_.add_friend(name);
-		}
-
+	twitter_user user;
+	if (add_friend(name, user)) {
 		MCONTACT hContact = UsernameToHContact(name);
-		UpdateAvatar(hContact, user.profile_image_url);
-	}
-	catch (const std::exception &e) {
-		ShowPopup((std::string("While adding a friend, an error occurred: ") + e.what()).c_str());
-		debugLogA("***** Error adding friend: %s", e.what());
+		UpdateAvatar(hContact, user.profile_image_url.c_str());
 	}
 	mir_free(name);
 }
 
-MCONTACT TwitterProto::AddToList(int, PROTOSEARCHRESULT *psr)
+MCONTACT CTwitterProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	ForkThread(&TwitterProto::AddToListWorker, mir_utf8encodeW(psr->nick.w));
+	ForkThread(&CTwitterProto::AddToListWorker, mir_utf8encodeW(psr->nick.w));
 	return AddToClientList(_T2A(psr->nick.w), "");
 }
 
 // *************************
 
-void TwitterProto::UpdateInfoWorker(void *arg)
+void CTwitterProto::UpdateInfoWorker(void *arg)
 {
 	MCONTACT hContact = (MCONTACT)(DWORD_PTR)arg;
 	twitter_user user;
@@ -66,14 +56,14 @@ void TwitterProto::UpdateInfoWorker(void *arg)
 
 	{
 		mir_cslock s(twitter_lock_);
-		twit_.get_info(std::string(username), &user);
+		get_info(CMStringA(username), &user);
 	}
 
-	UpdateAvatar(hContact, user.profile_image_url, true);
+	UpdateAvatar(hContact, user.profile_image_url.c_str(), true);
 	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
 
-int TwitterProto::GetInfo(MCONTACT hContact, int info_type)
+int CTwitterProto::GetInfo(MCONTACT hContact, int info_type)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 1;
@@ -82,7 +72,7 @@ int TwitterProto::GetInfo(MCONTACT hContact, int info_type)
 		return 1;
 
 	if (info_type == 0) { // From clicking "Update" in the Userinfo dialog
-		ForkThread(&TwitterProto::UpdateInfoWorker, (void*)hContact);
+		ForkThread(&CTwitterProto::UpdateInfoWorker, (void*)hContact);
 		return 0;
 	}
 
@@ -93,14 +83,14 @@ int TwitterProto::GetInfo(MCONTACT hContact, int info_type)
 
 struct search_query
 {
-	search_query(const std::wstring &_query, bool _by_email) : query(_query), by_email(_by_email)
+	search_query(const CMStringA &_query, bool _by_email) : query(_query), by_email(_by_email)
 	{
 	}
-	std::wstring query;
+	CMStringW query;
 	bool by_email;
 };
 
-void TwitterProto::DoSearch(void *pArg)
+void CTwitterProto::DoSearch(void *pArg)
 {
 	if (pArg == nullptr)
 		return;
@@ -108,21 +98,14 @@ void TwitterProto::DoSearch(void *pArg)
 	search_query *query = static_cast<search_query*>(pArg);
 	twitter_user info;
 
-	bool found = false;
-	try {
-		T2Utf p(query->query.c_str());
+	bool found ;
+	T2Utf p(query->query.c_str());
 
-		mir_cslock s(twitter_lock_);
-		if (query->by_email)
-			found = twit_.get_info_by_email(p.str(), &info);
-		else
-			found = twit_.get_info(p.str(), &info);
-	}
-	catch (const std::exception &e) {
-		ShowPopup((std::string("While searching for contacts, an error occurred: ") + e.what()).c_str());
-		debugLogA("***** Error searching for contacts: %s", e.what());
-		found = false;
-	}
+	mir_cslock s(twitter_lock_);
+	if (query->by_email)
+		found = get_info_by_email(p.get(), &info);
+	else
+		found = get_info(p.get(), &info);
 
 	if (found) {
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
@@ -141,21 +124,21 @@ void TwitterProto::DoSearch(void *pArg)
 	delete query;
 }
 
-HANDLE TwitterProto::SearchBasic(const wchar_t *username)
+HANDLE CTwitterProto::SearchBasic(const wchar_t *username)
 {
-	ForkThread(&TwitterProto::DoSearch, new search_query(username, false));
+	ForkThread(&CTwitterProto::DoSearch, new search_query(username, false));
 	return (HANDLE)1;
 }
 
-HANDLE TwitterProto::SearchByEmail(const wchar_t *email)
+HANDLE CTwitterProto::SearchByEmail(const wchar_t *email)
 {
-	ForkThread(&TwitterProto::DoSearch, new search_query(email, true));
+	ForkThread(&CTwitterProto::DoSearch, new search_query(email, true));
 	return (HANDLE)1;
 }
 
 // *************************
 
-void TwitterProto::GetAwayMsgWorker(void *arg)
+void CTwitterProto::GetAwayMsgWorker(void *arg)
 {
 	MCONTACT hContact = (MCONTACT)(DWORD_PTR)arg;
 	if (hContact == 0)
@@ -165,13 +148,13 @@ void TwitterProto::GetAwayMsgWorker(void *arg)
 	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, wszMsg);
 }
 
-HANDLE TwitterProto::GetAwayMsg(MCONTACT hContact)
+HANDLE CTwitterProto::GetAwayMsg(MCONTACT hContact)
 {
-	ForkThread(&TwitterProto::GetAwayMsgWorker, (void*)hContact);
+	ForkThread(&CTwitterProto::GetAwayMsgWorker, (void*)hContact);
 	return (HANDLE)1;
 }
 
-int TwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
+int CTwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 	if (m_iStatus != ID_STATUS_ONLINE)
@@ -186,7 +169,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
 			DeleteChatContact(dbv.pszVal);
 
 		mir_cslock s(twitter_lock_);
-		twit_.remove_friend(dbv.pszVal); // Be careful about this until Miranda is fixed
+		remove_friend(dbv.pszVal); // Be careful about this until Miranda is fixed
 		db_free(&dbv);
 	}
 	return 0;
@@ -194,7 +177,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
 
 // *************************
 
-bool TwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
+bool CTwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
 {
 	char *proto = Proto_GetBaseAccountName(hContact);
 	if (proto && mir_strcmp(m_szModuleName, proto) == 0) {
@@ -205,7 +188,7 @@ bool TwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
 	else return false;
 }
 
-MCONTACT TwitterProto::UsernameToHContact(const char *name)
+MCONTACT CTwitterProto::UsernameToHContact(const char *name)
 {
 	for (auto &hContact : AccContacts()) {
 		if (getByte(hContact, "ChatRoom"))
@@ -218,7 +201,7 @@ MCONTACT TwitterProto::UsernameToHContact(const char *name)
 	return 0;
 }
 
-MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
+MCONTACT CTwitterProto::AddToClientList(const char *name, const char *status)
 {
 	// First, check if this contact exists
 	MCONTACT hContact = UsernameToHContact(name);

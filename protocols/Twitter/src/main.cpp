@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "version.h"
 
-#include "proto.h"
 #include "theme.h"
 
 CMPlugin g_plugin;
@@ -40,7 +39,7 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	ACCPROTOPLUGIN<TwitterProto>("Twitter", pluginInfoEx)
+	ACCPROTOPLUGIN<CTwitterProto>("Twitter", pluginInfoEx)
 {
 	SetUniqueId(TWITTER_KEY_UN);
 }

@@ -17,22 +17,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#include "proto.h"
 
 #include <set>
 #include <ctime>
 
-void TwitterProto::UpdateChat(const twitter_user &update)
+void CTwitterProto::UpdateChat(const twitter_user &update)
 {
 	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
-	gce.bIsMe = (update.username == twit_.get_username());
+	gce.bIsMe = (update.username.c_str() == m_szUserName);
 	gce.pszUID.a = update.username.c_str();
-	//TODO: write code here to replace % with %% in update.status.text (which is a std::string)
+	//TODO: write code here to replace % with %% in update.status.text (which is a CMStringA)
 
-	std::string chatText = update.status.text;
-
-	replaceAll(chatText, "%", "%%");
+	CMStringA chatText = update.status.text.c_str();
+	chatText.Replace("%", "%%");
 
 	gce.pszText.a = chatText.c_str();
 	gce.time = static_cast<DWORD>(update.status.time);
@@ -51,7 +49,7 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 	mir_free(const_cast<wchar_t*>(gce.pszText.w));
 }
 
-int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
+int CTwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 	if (mir_strcmp(hook->si->pszModule, m_szModuleName))
@@ -61,13 +59,11 @@ int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 	case GC_USER_MESSAGE:
 		debugLogW(L"**Chat - Outgoing message: %s", hook->ptszText);
 		{
-			T2Utf text(hook->ptszText);
-
-			std::string tweet(text);
-			replaceAll(tweet, "%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
+			CMStringA tweet(T2Utf(hook->ptszText).get());
+			tweet.Replace("%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
 
 			char *varTweet = mir_strdup(tweet.c_str());
-			ForkThread(&TwitterProto::SendTweetWorker, varTweet);
+			ForkThread(&CTwitterProto::SendTweetWorker, varTweet);
 		}
 		break;
 
@@ -83,7 +79,7 @@ int TwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 }
 
 // TODO: remove nick?
-void TwitterProto::AddChatContact(const char *name, const char *nick)
+void CTwitterProto::AddChatContact(const char *name, const char *nick)
 {
 	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_JOIN };
 	gce.dwFlags = GCEF_UTF8;
@@ -94,7 +90,7 @@ void TwitterProto::AddChatContact(const char *name, const char *nick)
 	Chat_Event(&gce);
 }
 
-void TwitterProto::DeleteChatContact(const char *name)
+void CTwitterProto::DeleteChatContact(const char *name)
 {
 	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_PART };
 	gce.dwFlags = GCEF_UTF8;
@@ -103,7 +99,7 @@ void TwitterProto::DeleteChatContact(const char *name)
 	Chat_Event(&gce);
 }
 
-INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
+INT_PTR CTwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// ***** Create the group chat session
 	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, m_tszUserName, m_tszUserName);
@@ -114,7 +110,7 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 	Chat_AddGroup(si, TranslateT("Normal"));
 
 	// ***** Hook events
-	HookProtoEvent(ME_GC_EVENT, &TwitterProto::OnChatOutgoing);
+	HookProtoEvent(ME_GC_EVENT, &CTwitterProto::OnChatOutgoing);
 
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if (!suppress)
@@ -124,7 +120,7 @@ INT_PTR TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 	return 0;
 }
 
-INT_PTR TwitterProto::OnLeaveChat(WPARAM, LPARAM)
+INT_PTR CTwitterProto::OnLeaveChat(WPARAM, LPARAM)
 {
 	in_chat_ = false;
 
@@ -133,7 +129,7 @@ INT_PTR TwitterProto::OnLeaveChat(WPARAM, LPARAM)
 	return 0;
 }
 
-void TwitterProto::SetChatStatus(int status)
+void CTwitterProto::SetChatStatus(int status)
 {
 	if (status == ID_STATUS_ONLINE) {
 		// Add all friends to contact list

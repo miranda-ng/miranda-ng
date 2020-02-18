@@ -19,9 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "ui.h"
 
-#include "proto.h"
-#include "twitter.h"
-
 static const wchar_t *sites[] = {
 	L"https://api.twitter.com/",
 	L"https://identi.ca/api/"
@@ -29,13 +26,13 @@ static const wchar_t *sites[] = {
 
 INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TwitterProto *proto;
+	CTwitterProto *proto;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		proto = reinterpret_cast<TwitterProto*>(lParam);
+		proto = reinterpret_cast<CTwitterProto*>(lParam);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		DBVARIANT dbv;
@@ -78,7 +75,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_NOTIFY: // might be able to get rid of this bit?
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) {
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+			proto = reinterpret_cast<CTwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			char str[128];
 			wchar_t tstr[128];
 
@@ -100,13 +97,13 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	TwitterProto *proto;
+	CTwitterProto *proto;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		proto = reinterpret_cast<TwitterProto*>(lParam);
+		proto = reinterpret_cast<CTwitterProto*>(lParam);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, EM_LIMITTEXT, 140, 0);
 		SetDlgItemText(hwndDlg, IDC_CHARACTERS, L"140");
@@ -120,13 +117,13 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK) {
 			wchar_t msg[141];
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+			proto = reinterpret_cast<CTwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
 			GetDlgItemText(hwndDlg, IDC_TWEETMSG, msg, _countof(msg));
 			ShowWindow(hwndDlg, SW_HIDE);
 
 			char *narrow = mir_u2a_cp(msg, CP_UTF8);
-			proto->ForkThread(&TwitterProto::SendTweetWorker, narrow);
+			proto->ForkThread(&CTwitterProto::SendTweetWorker, narrow);
 
 			EndDialog(hwndDlg, wParam);
 			return true;
@@ -164,13 +161,13 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TwitterProto *proto;
+	CTwitterProto *proto;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		proto = reinterpret_cast<TwitterProto*>(lParam);
+		proto = reinterpret_cast<CTwitterProto*>(lParam);
 
 		DBVARIANT dbv;
 		if (!proto->getString(TWITTER_KEY_UN, &dbv)) {
@@ -221,7 +218,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) {
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+			proto = reinterpret_cast<CTwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			char str[128];
 
 			GetDlgItemTextA(hwndDlg, IDC_UN, str, _countof(str));
@@ -350,7 +347,7 @@ void CheckAndUpdateDlgButton(HWND hWnd, int button, BOOL check)
 INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	using namespace popup_options;
-	TwitterProto *proto;
+	CTwitterProto *proto;
 
 	int text_color, back_color, timeout;
 
@@ -358,7 +355,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		proto = reinterpret_cast<TwitterProto*>(lParam);
+		proto = reinterpret_cast<CTwitterProto*>(lParam);
 
 		CheckAndUpdateDlgButton(hwndDlg, IDC_SHOWPOPUPS, proto->getByte(TWITTER_KEY_POPUP_SHOW, 0));
 		CheckDlgButton(hwndDlg, IDC_NOSIGNONPOPUPS, !proto->getByte(TWITTER_KEY_POPUP_SIGNON, 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -440,7 +437,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) {
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+			proto = reinterpret_cast<CTwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
 			proto->setByte(TWITTER_KEY_POPUP_SHOW, IsDlgButtonChecked(hwndDlg, IDC_SHOWPOPUPS) != 0);
 			proto->setByte(TWITTER_KEY_POPUP_SIGNON, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_NOSIGNONPOPUPS));
@@ -462,7 +459,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 INT_PTR CALLBACK pin_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TwitterProto *proto;
+	CTwitterProto *proto;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -472,7 +469,7 @@ INT_PTR CALLBACK pin_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK) {
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+			proto = reinterpret_cast<CTwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			char str[128];
 
 			GetDlgItemTextA(hwndDlg, IDC_PIN, str, _countof(str));

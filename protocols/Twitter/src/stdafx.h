@@ -15,24 +15,11 @@
 #include <direct.h>
 #include <time.h>
 
-#include <cstdio>
-#include <ctime>
-#include <fstream>
 #include <string>
 #include <memory>
-using std::string;
-using std::wstring;
+
 #include <map>
 using std::map;
-#include <vector>
-using std::vector;
-#include <list>
-using std::list;
-#include <algorithm>
-using std::min;
-#include <sstream>
-
-typedef std::basic_string<wchar_t> wstring;
 
 #include "resource.h"
 
@@ -69,34 +56,36 @@ typedef std::basic_string<wchar_t> wstring;
 #include <openssl/sha.h>
 #pragma comment(lib, "libeay32.lib")
 
-#include "StringUtil.h"
+#include "utility.h"
+#include "http.h"
+#include "proto.h"
 
-#define TWITTER_KEY_NICK		   "Nick"  // we need one called Nick for the chat thingo to work
-#define TWITTER_KEY_UN             "Username"
-#define TWITTER_KEY_PASS           "Password"
-#define TWITTER_KEY_OAUTH_PIN	   "OAuthPIN"
-#define TWITTER_KEY_OAUTH_TOK	   "OAuthToken"
-#define TWITTER_KEY_OAUTH_TOK_SECRET "OAuthTokenSecret"
+#define TWITTER_KEY_NICK             "Nick"  // we need one called Nick for the chat thingo to work
+#define TWITTER_KEY_UN               "Username"
+#define TWITTER_KEY_PASS             "Password"
+#define TWITTER_KEY_OAUTH_PIN        "OAuthPIN"
+#define TWITTER_KEY_OAUTH_TOK        "OAuthToken"
+#define TWITTER_KEY_OAUTH_TOK_SEC    "OAuthTokenSecret"
 #define TWITTER_KEY_OAUTH_ACCESS_TOK "OAuthAccessToken"
-#define TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET "OAuthAccessTokenSecret"
-#define TWITTER_KEY_BASEURL        "BaseURL"
-#define TWITTER_KEY_CHATFEED       "ChatFeed"
-#define TWITTER_KEY_POLLRATE       "PollRate"
-#define TWITTER_KEY_GROUP		   "DefaultGroup"
+#define TWITTER_KEY_OAUTH_ACCESS_SEC "OAuthAccessTokenSecret"
+#define TWITTER_KEY_BASEURL          "BaseURL"
+#define TWITTER_KEY_CHATFEED         "ChatFeed"
+#define TWITTER_KEY_POLLRATE         "PollRate"
+#define TWITTER_KEY_GROUP            "DefaultGroup"
 
-#define TWITTER_KEY_POPUP_SHOW     "Popup/Show"
-#define TWITTER_KEY_POPUP_SIGNON   "Popup/Signon"
-#define TWITTER_KEY_POPUP_COLBACK  "Popup/ColorBack"
-#define TWITTER_KEY_POPUP_COLTEXT  "Popup/ColorText"
-#define TWITTER_KEY_POPUP_TIMEOUT  "Popup/Timeout"
-
-#define TWITTER_KEY_TWEET_TO_MSG   "TweetToMsg"
-
-#define TWITTER_KEY_SINCEID        "SinceID"
-#define TWITTER_KEY_DMSINCEID      "DMSinceID"
-#define TWITTER_KEY_NEW            "NewAcc"
-
-#define TWITTER_KEY_AV_URL         "AvatarURL"
+#define TWITTER_KEY_POPUP_SHOW       "Popup/Show"
+#define TWITTER_KEY_POPUP_SIGNON     "Popup/Signon"
+#define TWITTER_KEY_POPUP_COLBACK    "Popup/ColorBack"
+#define TWITTER_KEY_POPUP_COLTEXT    "Popup/ColorText"
+#define TWITTER_KEY_POPUP_TIMEOUT    "Popup/Timeout"
+											   
+#define TWITTER_KEY_TWEET_TO_MSG     "TweetToMsg"
+											   
+#define TWITTER_KEY_SINCEID          "SinceID"
+#define TWITTER_KEY_DMSINCEID        "DMSinceID"
+#define TWITTER_KEY_NEW              "NewAcc"
+											   
+#define TWITTER_KEY_AV_URL           "AvatarURL"
 
 #define TWITTER_DB_EVENT_TYPE_TWEET 2718
 

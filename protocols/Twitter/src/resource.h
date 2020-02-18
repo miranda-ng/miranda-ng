@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by twitter.rc
+// Used by CTwitterProto.rc
 //
 #define IDD_TWITTERACCOUNT              101
 #define IDI_TWITTER                     102

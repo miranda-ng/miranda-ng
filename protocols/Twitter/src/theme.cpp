@@ -18,11 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 #include "theme.h"
-#include "proto.h"
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Twitter Icon"), "twitter", IDI_TWITTER },
+	{ LPGEN("Twitter Icon"), "CTwitterProto", IDI_TWITTER },
 	{ LPGEN("Tweet"), "tweet", IDI_TWITTER },
 	{ LPGEN("Reply to Tweet"), "reply", IDI_TWITTER },
 
@@ -56,10 +55,10 @@ static HGENMENU g_hMenuItems[2];
 
 // Helper functions
 
-template<INT_PTR(__cdecl TwitterProto::*Fcn)(WPARAM, LPARAM)>
+template<INT_PTR(__cdecl CTwitterProto::*Fcn)(WPARAM, LPARAM)>
 INT_PTR GlobalService(WPARAM hContact, LPARAM lParam)
 {
-	TwitterProto *proto = CMPlugin::getInstance(MCONTACT(hContact));
+	CTwitterProto *proto = CMPlugin::getInstance(MCONTACT(hContact));
 	return proto ? (proto->*Fcn)(hContact, lParam) : 0;
 }
 
@@ -67,7 +66,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	ShowContactMenus(false);
 
-	TwitterProto *proto = CMPlugin::getInstance(MCONTACT(hContact));
+	CTwitterProto *proto = CMPlugin::getInstance(MCONTACT(hContact));
 	return proto ? proto->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
@@ -84,7 +83,7 @@ void InitContactMenus()
 	mi.name.w = LPGENW("Reply...");
 	mi.pszService = "Twitter/ReplyToTweet";
 	g_hMenuItems[0] = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
+	CreateServiceFunction(mi.pszService, GlobalService<&CTwitterProto::ReplyToTweet>);
 
 	SET_UID(mi, 0x7f7e4c24, 0x821c, 0x450f, 0x93, 0x76, 0xbe, 0x65, 0xe9, 0x2f, 0xb6, 0xc2);
 	mi.position = -2000006000;
@@ -92,7 +91,7 @@ void InitContactMenus()
 	mi.name.w = LPGENW("Visit Homepage");
 	mi.pszService = "Twitter/VisitHomepage";
 	g_hMenuItems[1] = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::VisitHomepage>);
+	CreateServiceFunction(mi.pszService, GlobalService<&CTwitterProto::VisitHomepage>);
 }
 
 void ShowContactMenus(bool show)

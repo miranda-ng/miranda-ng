@@ -18,18 +18,85 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "utility.h"
 #include "..\..\..\..\miranda-private-keys\Twitter\oauth.dev.h"
 
-class TwitterProto : public PROTO<TwitterProto>
+typedef __int64 twitter_id;
+
+struct twitter_status
 {
-	ptrA     m_szChatId;
+	std::string text;
+	twitter_id id;
+	time_t time;
+};
+
+struct twitter_user
+{
+	std::string username;
+	std::string real_name;
+	std::string profile_image_url;
+	twitter_status status;
+};
+
+time_t parse_time(const CMStringA &str);
+
+struct AsyncHttpRequest : public MHttpRequest
+{
+	AsyncHttpRequest(int type, const char *szUrl);
+};
+
+class CTwitterProto : public PROTO<CTwitterProto>
+{
+	ptrA m_szChatId;
+
+	http::response request_token();
+	http::response request_access_tokens();
+
+	void set_base_url(const CMStringA &base_url);
+
+	bool get_info(const CMStringA &name, twitter_user *);
+	bool get_info_by_email(const CMStringA &email, twitter_user *);
+
+	bool add_friend(const CMStringA &name, twitter_user &u);
+	void remove_friend(const CMStringA &name);
+
+	void set_status(const CMStringA &text);
+	void send_direct(const CMStringA &name, const CMStringA &text);
+
+	http::response Execute(AsyncHttpRequest *req);
+
+	CMStringA m_szUserName;
+	CMStringA m_szPassword;
+	CMStringA m_szBaseUrl;
+	CMStringA m_szConsumerKey;
+	CMStringA m_szConsumerSecret;
+	CMStringA m_szAccessToken;
+	CMStringA m_szAccessTokenSecret;
+	CMStringA m_szPin;
+
+	// OAuthWebRequest used for all OAuth related queries
+	//
+	// consumerKey and consumerSecret - must be provided for every call, they identify the application
+	// oauthToken and oauthTokenSecret - need to be provided for every call, except for the first token request before authorizing
+	// pin - only used during authorization, when the user enters the PIN they received from the CTwitterProto website
+	
+	CMStringA OAuthWebRequestSubmit(const CMStringA &url, const char *httpMethod, const char *postData);
+
+	CMStringA UrlGetQuery(const CMStringA &url);
+
+	CMStringA BuildSignedOAuthParameters(const CMStringA &requestParameters, const CMStringA &url, const CMStringA &httpMethod, const CMStringA &postData);
+
+	CMStringA OAuthCreateNonce();
+	CMStringA OAuthCreateSignature(const CMStringA &signatureBase, const CMStringA &consumerSecret, const CMStringA &requestTokenSecret);
+
+	HNETLIBCONN m_hConnHttp;
+	void Disconnect(void) { if (m_hConnHttp) Netlib_CloseHandle(m_hConnHttp); m_hConnHttp = nullptr; }
 
 public:
-	TwitterProto(const char*,const wchar_t*);
-	~TwitterProto();
+	CTwitterProto(const char*,const wchar_t*);
+	~CTwitterProto();
 
-	//PROTO_INTERFACE
+	//////////////////////////////////////////////////////////////////////////////////////
+	// PROTO_INTERFACE
 
 	MCONTACT AddToList(int,PROTOSEARCHRESULT *) override;
 
@@ -49,7 +116,9 @@ public:
 
 	void UpdateSettings();
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Services
+
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM,LPARAM);
 	INT_PTR __cdecl ReplyToTweet(WPARAM,LPARAM);
 	INT_PTR __cdecl VisitHomepage(WPARAM,LPARAM);
@@ -61,7 +130,9 @@ public:
 
 	INT_PTR __cdecl OnTweet(WPARAM,LPARAM);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Events
+
 	int  __cdecl OnContactDeleted(WPARAM,LPARAM);
 	int  __cdecl OnBuildStatusMenu(WPARAM,LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM,LPARAM);
@@ -69,8 +140,11 @@ public:
 	int  __cdecl OnChatOutgoing(WPARAM,LPARAM);
 
 	void __cdecl SendTweetWorker(void *);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Threads
+
 private:
-	// Worker threads
 	void __cdecl AddToListWorker(void *p);
 	void __cdecl SendSuccess(void *);
 	void __cdecl DoSearch(void *);
@@ -85,12 +159,12 @@ private:
 	void UpdateStatuses(bool pre_read,bool popups, bool tweetToMsg);
 	void UpdateMessages(bool pre_read);
 	void UpdateFriends();
-	void UpdateAvatar(MCONTACT, const std::string &, bool force = false);
+	void UpdateAvatar(MCONTACT, const CMStringA &, bool force = false);
 
 	int ShowPinDialog();
 	void ShowPopup(const wchar_t *, int Error = 0);
 	void ShowPopup(const char *, int Error = 0);
-	void ShowContactPopup(MCONTACT, const std::string &, const std::string *);
+	void ShowContactPopup(MCONTACT, const CMStringA &, const CMStringA *);
 
 	bool IsMyContact(MCONTACT, bool include_chat = false);
 	MCONTACT UsernameToHContact(const char *);
@@ -103,9 +177,9 @@ private:
 	void DeleteChatContact(const char *name);
 	void SetChatStatus(int);
 
-	void TwitterProto::resetOAuthKeys();
+	void CTwitterProto::resetOAuthKeys();
 
-	std::wstring GetAvatarFolder();
+	CMStringW GetAvatarFolder();
 
 	mir_cs signon_lock_;
 	mir_cs avatar_lock_;
@@ -113,7 +187,6 @@ private:
 
 	HNETLIBUSER hAvatarNetlib_;
 	HANDLE hMsgLoop_;
-	mir_twitter twit_;
 
 	twitter_id since_id_;
 	twitter_id dm_since_id_;
@@ -123,7 +196,7 @@ private:
 	int disconnectionCount;
 };
 
-struct CMPlugin : public ACCPROTOPLUGIN<TwitterProto>
+struct CMPlugin : public ACCPROTOPLUGIN<CTwitterProto>
 {
 	CMPlugin();
 

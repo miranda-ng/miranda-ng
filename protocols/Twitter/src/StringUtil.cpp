@@ -1,40 +1,34 @@
 /*
+Copyright © 2012-20 Miranda NG team
+Copyright © 2009 Jim Porter
 
-Copyright (c) 2010 Brook Miles
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
 
-void Split(const wstring& str, std::vector<wstring>& out, wchar_t sep, bool includeEmpty)
+void Split(const CMStringA &str, OBJLIST<CMStringA> &out, char sep, bool includeEmpty)
 {
-	unsigned start = 0;
-	unsigned end = 0;
+	int start = 0;
+	int end = 0;
 
 	while (true) {
-		if (end == str.size() || str[end] == sep) {
+		if (end == str.GetLength() || str[end] == sep) {
 			if (end > start || includeEmpty)
-				out.push_back(str.substr(start, end - start));
+				out.insert(new CMStringA(str.Mid(start, end - start)));
 
-			if (end == str.size())
+			if (end == str.GetLength())
 				break;
 
 			++end;
@@ -44,55 +38,26 @@ void Split(const wstring& str, std::vector<wstring>& out, wchar_t sep, bool incl
 	}
 }
 
-wstring GetWord(const wstring& str, unsigned index, bool getRest)
+StringPairs ParseQueryString(const CMStringA &query)
 {
-	unsigned start = 0;
-	unsigned end = 0;
+	StringPairs ret;
 
-	unsigned count = 0;
+	OBJLIST<CMStringA> queryParams(10);
+	Split(query, queryParams, '&', false);
 
-	while (true) {
-		if (end == str.size() || str[end] == ' ') {
-			if (end > start) {
-				if (count == index) {
-					if (getRest)
-						return str.substr(start);
-
-					return str.substr(start, end - start);
-				}
-				++count;
-			}
-
-			if (end == str.size())
-				break;
-
-			++end;
-			start = end;
-		}
-		else ++end;
+	for (auto &it : queryParams) {
+		OBJLIST<CMStringA> paramElements(2);
+		Split(*it, paramElements, '=', true);
+		if (paramElements.getCount() == 2)
+			ret[paramElements[0]] = paramElements[1];
 	}
-	return L"";
+	return ret;
 }
 
-// takes a pointer to a string, and does an inplace replace of all the characters "from" found 
-// within the string with "to". returns the pointer to the string which is kinda silly IMO
-std::string& replaceAll(std::string& context, const std::string& from, const std::string& to)
+void htmlEntitiesDecode(CMStringA &context)
 {
-	size_t lookHere = 0;
-	size_t foundHere;
-	while ((foundHere = context.find(from, lookHere)) != std::string::npos) {
-		context.replace(foundHere, from.size(), to);
-		lookHere = foundHere + to.size();
-	}
-	return context;
-}
-
-std::string& htmlEntitiesDecode(std::string& context)
-{
-	replaceAll(context, "&amp;", "&");
-	replaceAll(context, "&quot;", "\"");
-	replaceAll(context, "&lt;", "<");
-	replaceAll(context, "&gt;", ">");
-
-	return context;
+	context.Replace("&amp;", "&");
+	context.Replace("&quot;", "\"");
+	context.Replace("&lt;", "<");
+	context.Replace("&gt;", ">");
 }

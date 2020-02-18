@@ -17,114 +17,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#include "utility.h"
 
 #include <io.h>
 
-std::string b64encode(const std::string &s)
+http::response CTwitterProto::Execute(AsyncHttpRequest *req)
 {
-	return std::string(ptrA(mir_base64_encode(s.c_str(), s.length())));
-}
+	if (!req->m_szParam.IsEmpty()) {
+		if (req->requestType == REQUEST_POST) {
+			req->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			req->AddHeader("Cache-Control", "no-cache");
 
-std::string int2str(int32_t iVal)
-{
-	char buf[100];
-	_itoa_s(iVal, buf, 10);
-	return std::string(buf);
-}
-
-std::string int2str(uint64_t iVal)
-{
-	char buf[100];
-	_i64toa_s(iVal, buf, _countof(buf), 10);
-	return std::string(buf);
-}
-
-uint64_t str2int(const std::string &str)
-{
-	return _atoi64(str.c_str());
-}
-
-http::response mir_twitter::slurp(const std::string &url, http::method meth, OAuthParameters postParams)
-{
-	NETLIBHTTPREQUEST req = { sizeof(req) };
-	req.requestType = (meth == http::get) ? REQUEST_GET : REQUEST_POST;
-	req.szUrl = const_cast<char*>(url.c_str());
-
-	std::wstring url_WSTR = UTF8ToWide(url);
-	std::string pdata_STR;
-	std::wstring pdata_WSTR;
-	std::wstring auth;
-
-	if (meth == http::get) {
-		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::GET - we have a URL: %s", url_WSTR.c_str()); }
-		if (consumerKey_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a consumerKey"); }
-		if (consumerSecret_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a consumerSecret"); }
-		if (oauthAccessToken_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessToken"); }
-		if (oauthAccessTokenSecret_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessTokenSecret"); }
-		if (pin_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a pin"); }
-
-		auth = OAuthWebRequestSubmit(url_WSTR, L"GET", nullptr, consumerKey_, consumerSecret_,
-			oauthAccessToken_, oauthAccessTokenSecret_, pin_);
-	}
-	else {
-		// OAuthParameters postParams;
-		if (url_WSTR.size() > 0) { ppro_->debugLogW(L"**SLURP::POST - we have a URL: %s", url_WSTR.c_str()); }
-		if (consumerKey_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a consumerKey"); }
-		if (consumerSecret_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a consumerSecret"); }
-		if (oauthAccessToken_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessToken"); }
-		if (oauthAccessTokenSecret_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a oauthAccessTokenSecret"); }
-		if (pin_.size() > 0) { ppro_->debugLogA("**SLURP::POST - we have a pin"); }
-
-		pdata_WSTR = BuildQueryString(postParams);
-
-		ppro_->debugLogW(L"**SLURP::POST - post data is: %s", pdata_WSTR.c_str());
-
-		auth = OAuthWebRequestSubmit(url_WSTR, L"POST", &postParams, consumerKey_, consumerSecret_, oauthAccessToken_, oauthAccessTokenSecret_);
+			req->dataLength = (int)req->m_szParam.GetLength();
+			req->pData = req->m_szParam.GetBuffer();
+		}
+		else {
+			req->m_szUrl.AppendChar('?');
+			req->m_szUrl += req->m_szParam;
+		}
 	}
 
-	std::string auth_STR = WideToUTF8(auth);
+	CMStringA auth;
+	if (req->requestType == REQUEST_GET)
+		auth = OAuthWebRequestSubmit(req->m_szUrl, "GET", "");
+	else
+		auth = OAuthWebRequestSubmit(req->m_szUrl, "POST", req->m_szParam);
+	req->AddHeader("Authorization", auth);
 
-	NETLIBHTTPHEADER hdr[3];
-	hdr[0].szName = "Authorization";
-	hdr[0].szValue = const_cast<char*>(auth_STR.c_str());
-
-	req.headers = hdr;
-	req.headersCount = 1;
-
-	if (meth == http::post) {
-		hdr[1].szName = "Content-Type";
-		hdr[1].szValue = "application/x-www-form-urlencoded";
-		hdr[2].szName = "Cache-Control";
-		hdr[2].szValue = "no-cache";
-
-		pdata_STR = WideToUTF8(pdata_WSTR);
-
-		req.headersCount = 3;
-		req.dataLength = (int)pdata_STR.size();
-		req.pData = const_cast<char*>(pdata_STR.c_str());
-		ppro_->debugLogA("**SLURP::POST - req.pdata is %s", req.pData);
-	}
-
-	req.flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
-	req.nlc = httpPOST_;
+	req->szUrl = req->m_szUrl.GetBuffer();
+	req->flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	req->nlc = m_hConnHttp;
 	http::response resp_data;
-	NLHR_PTR resp(Netlib_HttpTransaction(handle_, &req));
+	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, req));
 	if (resp) {
-		ppro_->debugLogA("**SLURP - the server has responded!");
-		httpPOST_ = resp->nlc;
+		debugLogA("**SLURP - the server has responded!");
+		m_hConnHttp = resp->nlc;
 		resp_data.code = resp->resultCode;
-		resp_data.data = resp->pData ? resp->pData : "";
+		if (resp->pData)
+			resp_data.data = resp->pData;
 	}
 	else {
-		httpPOST_ = nullptr;
-		ppro_->debugLogA("SLURP - there was no response!");
+		m_hConnHttp = nullptr;
+		resp_data.code = 500;
+		debugLogA("SLURP - there was no response!");
 	}
 
 	return resp_data;
 }
 
-bool save_url(HNETLIBUSER hNetlib, const std::string &url, const std::wstring &filename)
+bool save_url(HNETLIBUSER hNetlib, const CMStringA &url, const CMStringW &filename)
 {
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
@@ -136,11 +76,10 @@ bool save_url(HNETLIBUSER hNetlib, const std::string &url, const std::wstring &f
 		bool success = (resp->resultCode == 200);
 		if (success) {
 			// Create folder if necessary
-			std::wstring dir = filename.substr(0, filename.rfind('\\'));
-			CreateDirectoryTreeW(dir.c_str());
+			CreatePathToFileW(filename);
 
 			// Write to file
-			FILE *f = _wfopen(filename.c_str(), L"wb");
+			FILE *f = _wfopen(filename, L"wb");
 			fwrite(resp->pData, 1, resp->dataLength, f);
 			fclose(f);
 		}
