@@ -50,7 +50,7 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	for (auto &cc : AccContacts()) {
 		CMStringA szId(getMStringA(cc, DBKEY_ID));
 		if (!szId.IsEmpty())
-			m_users.insert(new FacebookUser(_atoi64(szId), cc));
+			m_users.insert(new FacebookUser(_atoi64(szId), cc, isChatRoom(cc)));
 	}
 
 	// to upgrade previous settings
