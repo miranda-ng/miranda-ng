@@ -1122,16 +1122,13 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 class CGroupchatInviteAcceptDlg : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
-	CCtrlButton m_accept;
 	CMStringA m_roomJid, m_from, m_reason, m_password;
 
 public:
 	CGroupchatInviteAcceptDlg(CJabberProto *ppro, const char *roomJid, const char *from, const char *reason, const char *password) :
 		CSuper(ppro, IDD_GROUPCHAT_INVITE_ACCEPT),
-		m_roomJid(roomJid), m_from(from), m_reason(reason), m_password(password),
-		m_accept(this, IDC_ACCEPT)
+		m_roomJid(roomJid), m_from(from), m_reason(reason), m_password(password)
 	{
-		m_accept.OnClick = Callback(this, &CGroupchatInviteAcceptDlg::OnCommand_Accept);
 	}
 
 	bool OnInitDialog() override
@@ -1152,12 +1149,12 @@ public:
 		return true;
 	}
 
-	void OnCommand_Accept(CCtrlButton*)
+	bool OnApply() override
 	{
 		wchar_t text[128];
 		GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
 		m_proto->AcceptGroupchatInvite(m_roomJid, T2Utf(text), m_password);
-		EndDialog(m_hwnd, 0);
+		return true;
 	}
 };
 

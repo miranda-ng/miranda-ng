@@ -180,7 +180,6 @@
 #define IDC_ADDJID                      1174
 #define IDC_INVITE                      1175
 #define IDC_BTN_ADVANCED                1175
-#define IDC_ACCEPT                      1176
 #define IDC_BTN_SIMPLE                  1176
 #define IDC_FROM                        1177
 #define IDC_USE_TLS                     1180
