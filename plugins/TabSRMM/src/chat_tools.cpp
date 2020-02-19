@@ -278,6 +278,9 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 				dat->m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
 			}
 		}
+
+		if (p->bMustFlash && p->bInactive)
+			AddUnreadContact(dat->m_hContact);
 	}
 
 	delete p;

@@ -520,6 +520,8 @@ nowindowcreate:
 	// for tray support, we add the event to the tray menu. otherwise we send it back to
 	// the contact list for flashing
 	if (!(dbei.flags & DBEF_READ)) {
+		AddUnreadContact(hContact);
+
 		wchar_t toolTip[256];
 		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
 

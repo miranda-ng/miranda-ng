@@ -37,9 +37,10 @@
 #include "stdafx.h"
 
 static UINT WM_TASKBARCREATED;
+static HANDLE hSvcHotkeyProcessor = nullptr;
 
 static HOTKEYDESC _hotkeydescs[] = {
-	{ "tabsrmm_mostrecent", LPGEN("Most recent unread session"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'R'), 0, TABSRMM_HK_LASTUNREAD },
+	{ "tabsrmm_mostrecent", LPGEN("Most recent unread session"), TABSRMM_HK_SECTION_IM, MS_TABMSG_HOTKEYPROCESS, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'R'), 0, TABSRMM_HK_LASTUNREAD },
 	{ "tabsrmm_paste_and_send", LPGEN("Paste and send"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'D'), 0, TABSRMM_HK_PASTEANDSEND },
 	{ "tabsrmm_uprefs", LPGEN("Contact's messaging preferences"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C'), 0, TABSRMM_HK_SETUSERPREFS },
 	{ "tabsrmm_copts", LPGEN("Container options"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'O'), 0, TABSRMM_HK_CONTAINEROPTIONS },
@@ -79,7 +80,7 @@ LRESULT CMsgDialog::ProcessHotkeysByMsgFilter(const CCtrlBase &pCtrl, UINT msg, 
 	return OnFilter(&mf);
 }
 
-void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
+static void HandleMenuEntryFromhContact(MCONTACT hContact)
 {
 	if (hContact == 0)
 		return;
@@ -96,6 +97,37 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 	}
 
 	Clist_ContactDoubleClicked(hContact);
+}
+
+static INT_PTR HotkeyProcessor(WPARAM, LPARAM lParam)
+{
+	if (lParam == TABSRMM_HK_LASTUNREAD) {
+		if (g_arUnreadWindows.getCount()) {
+			HANDLE hContact = g_arUnreadWindows[0];
+			g_arUnreadWindows.remove(0);
+			HandleMenuEntryFromhContact(MCONTACT(hContact));
+		}
+		// restore last active container
+		else if (pLastActiveContainer != nullptr) { 
+			if (IsIconic(pLastActiveContainer->m_hwnd) || !IsWindowVisible(pLastActiveContainer->m_hwnd)) {
+				SendMessage(pLastActiveContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+				SetForegroundWindow(pLastActiveContainer->m_hwnd);
+				SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_SRMM_MESSAGE));
+			}
+			else if (GetForegroundWindow() != pLastActiveContainer->m_hwnd) {
+				SetForegroundWindow(pLastActiveContainer->m_hwnd);
+				SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_SRMM_MESSAGE));
+			}
+			else {
+				if (PluginConfig.m_bHideOnClose)
+					ShowWindow(pLastActiveContainer->m_hwnd, SW_HIDE);
+				else
+					SendMessage(pLastActiveContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+			}
+		}
+	}
+
+	return 0;
 }
 
 void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle)
@@ -119,6 +151,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		WM_TASKBARCREATED = RegisterWindowMessageA("TaskbarCreated");
 		ShowWindow(hwndDlg, SW_HIDE);
+		hSvcHotkeyProcessor = CreateServiceFunction(MS_TABMSG_HOTKEYPROCESS, HotkeyProcessor);
 		SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, nullptr);
 		break;
 
@@ -386,6 +419,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
+		DestroyServiceFunction(hSvcHotkeyProcessor);
 		KillTimer(hwndDlg, TIMERID_SENDLATER_TICK);
 		KillTimer(hwndDlg, TIMERID_SENDLATER);
 		break;

@@ -66,6 +66,14 @@ bool TSAPI IsCustomEvent(int eventType)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void TSAPI AddUnreadContact(MCONTACT hContact)
+{
+	if (!g_arUnreadWindows.find(HANDLE(hContact)))
+		g_arUnreadWindows.insert(HANDLE(hContact));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // checking if theres's protected text at the point
 // emulates EN_LINK WM_NOTIFY to parent to process links
 

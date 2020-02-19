@@ -660,6 +660,8 @@ public:
 	void onSelChange_List(CCtrlListBox*);
 };
 
+extern LIST<void> g_arUnreadWindows;
+
 #define MESSAGE_WINDOW_DATA_SIZE offsetof(_MessageWindowData, hdbEventFirst);
 
 /*
@@ -1016,8 +1018,11 @@ struct SIDEBARITEM
 
 // callback for the user menu entry
 
-#define MS_TABMSG_SETUSERPREFS	"SRMsg_MOD/SetUserPrefs"
-#define MS_TABMSG_SLQMGR		"SRMsg_MOD/InvokeQmgr"
+#define MS_TABMSG_SETUSERPREFS  "SRMsg_MOD/SetUserPrefs"
+#define MS_TABMSG_SLQMGR        "SRMsg_MOD/InvokeQmgr"
+
+// the service which processes globally registered hotkeys
+#define MS_TABMSG_HOTKEYPROCESS "SRMsg_MOD/ProcessHotkey"
 
 #define MBF_DISABLED		0x01
 

@@ -522,8 +522,10 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 {
 	m_dwTickLastEvent = GetTickCount();
 
-	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE)
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE) {
 		m_dwUnread++;
+		AddUnreadContact(m_hContact);
+	}
 
 	if (hEvent == 0)
 		return;
@@ -2282,6 +2284,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		m_pContainer->m_dwLastActivity = m_dwLastActivity;
 
 		m_pContainer->m_pMenuBar->configureMenu();
+		g_arUnreadWindows.remove(HANDLE(m_hContact));
 
 		if (m_pContainer->m_hwndActive == m_hwnd)
 			DeletePopupsForContact(m_hContact, PU_REMOVE_ON_FOCUS);

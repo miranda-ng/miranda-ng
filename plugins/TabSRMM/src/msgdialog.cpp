@@ -32,6 +32,8 @@
 
 bool IsStringValidLink(wchar_t *pszText);
 
+LIST<void> g_arUnreadWindows(1, PtrKeySortT);
+
 static int g_cLinesPerPage = 0;
 static int g_iWheelCarryover = 0;
 
@@ -688,6 +690,8 @@ bool CMsgDialog::OnInitDialog()
 void CMsgDialog::OnDestroy()
 {
 	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
+
+	g_arUnreadWindows.remove((HANDLE)m_hContact);
 
 	m_cache->setWindowData();
 	m_pContainer->ClearMargins();
