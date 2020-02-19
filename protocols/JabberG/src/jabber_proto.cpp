@@ -219,7 +219,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		m_tszSelectedLang = mir_strdup("en");
 }
 
-
 CJabberProto::~CJabberProto()
 {
 	ConsoleUninit();

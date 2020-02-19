@@ -455,265 +455,263 @@ static void DoChatFormatting(CMStringW &wszText)
 
 int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 {
+	// handle the hook
 	GCHOOK *gch = (GCHOOK*)lParam;
-	CMStringW S = L"";
+	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
+		return 0;
 
+	CMStringW S = L"";
 	mir_cslock lock(m_csGcHook);
 
-	// handle the hook
-	if (gch) {
-		if (!mir_strcmpi(gch->si->pszModule, m_szModuleName)) {
-			wchar_t *p1 = mir_wstrdup(gch->si->ptszID);
-			wchar_t *p2 = wcsstr(p1, L" - ");
-			if (p2)
-				*p2 = 0;
+	wchar_t *p1 = mir_wstrdup(gch->si->ptszID);
+	wchar_t *p2 = wcsstr(p1, L" - ");
+	if (p2)
+		*p2 = 0;
 
-			switch (gch->iType) {
-			case GC_SESSION_TERMINATE:
-				FreeWindowItemData(p1, (CHANNELINFO*)gch->dwData);
-				break;
+	switch (gch->iType) {
+	case GC_SESSION_TERMINATE:
+		FreeWindowItemData(p1, (CHANNELINFO*)gch->dwData);
+		break;
 
-			case GC_USER_MESSAGE:
-				if (gch && gch->ptszText && *gch->ptszText) {
-					CMStringW wszText(gch->ptszText);
-					DoChatFormatting(wszText);
-					PostIrcMessageWnd(p1, NULL, wszText);
-				}
-				break;
-
-			case GC_USER_CHANMGR:
-				PostIrcMessageWnd(p1, NULL, L"/CHANNELMANAGER");
-				break;
-
-			case GC_USER_PRIVMESS:
-				PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/QUERY %s", gch->ptszUID));
-				break;
-
-			case GC_USER_LOGMENU:
-				switch (gch->dwData) {
-				case 1:
-					OnChangeNickMenuCommand(NULL, NULL);
-					break;
-				case 2:
-					PostIrcMessageWnd(p1, NULL, L"/CHANNELMANAGER");
-					break;
-
-				case 3:
-					PostIrcMessage(L"/PART %s %s", p1, m_userInfo);
-					Chat_Terminate(m_szModuleName, MakeWndID(p1));
-					break;
-
-				case 4:		// show server window
-					PostIrcMessageWnd(p1, NULL, L"/SERVERSHOW");
-					break;
-					/*					case 5:		// nickserv register nick
-					PostIrcMessage( L"/nickserv REGISTER %%question=\"%s\",\"%s\"",
-					TranslateT("Please enter your authentication code"), TranslateT("Authenticate nick"));
-					break;
-					*/
-				case 6:		// nickserv Identify
-					PostIrcMessage(L"/nickserv AUTH %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter your authentication code"), TranslateT("Authenticate nick"));
-					break;
-				case 7:		// nickserv drop nick
-					if (MessageBox(nullptr, TranslateT("Are you sure you want to unregister your current nick?"), TranslateT("Delete nick"),
-						MB_ICONERROR + MB_YESNO + MB_DEFBUTTON2) == IDYES)
-						PostIrcMessage(L"/nickserv DROP");
-					break;
-				case 8:		// nickserv Identify
-					{
-						CQuestionDlg* dlg = new CQuestionDlg(this);
-						dlg->Show();
-						HWND question_hWnd = dlg->GetHwnd();
-						HWND hEditCtrl = GetDlgItem(question_hWnd, IDC_EDIT);
-						SetDlgItemText(question_hWnd, IDC_CAPTION, TranslateT("Identify nick"));
-						SetDlgItemText(question_hWnd, IDC_TEXT, TranslateT("Please enter your password"));
-						SetDlgItemText(question_hWnd, IDC_HIDDENEDIT, L"/nickserv IDENTIFY %question=\"%s\",\"%s\"");
-						SetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE,
-							(LONG)GetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
-						SendMessage(hEditCtrl, EM_SETPASSWORDCHAR, (WPARAM)'*', 0);
-						SetFocus(hEditCtrl);
-						dlg->Activate();
-					}
-					break;
-				case 9:		// nickserv remind password
-					{
-						DBVARIANT dbv;
-						if (!getWString("Nick", &dbv)) {
-							PostIrcMessage(L"/nickserv SENDPASS %s", dbv.pwszVal);
-							db_free(&dbv);
-						}
-					}
-					break;
-				case 10:		// nickserv set new password
-					PostIrcMessage(L"/nickserv SET PASSWORD %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter your new password"), TranslateT("Set new password"));
-					break;
-				case 11:		// nickserv set language
-					PostIrcMessage(L"/nickserv SET LANGUAGE %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter desired language ID (numeric value, depends on server)"), TranslateT("Change language of NickServ messages"));
-					break;
-				case 12:		// nickserv set homepage
-					PostIrcMessage(L"/nickserv SET URL %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter URL that will be linked to your nick"), TranslateT("Set URL, linked to nick"));
-					break;
-				case 13:		// nickserv set email
-					PostIrcMessage(L"/nickserv SET EMAIL %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter your e-mail, that will be linked to your nick"), TranslateT("Set e-mail, linked to nick"));
-					break;
-				case 14:		// nickserv set info
-					PostIrcMessage(L"/nickserv SET INFO %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter some information about your nick"), TranslateT("Set information for nick"));
-					break;
-				case 15:		// nickserv kill unauth off
-					PostIrcMessage(L"/nickserv SET KILL OFF");
-					break;
-				case 16:		// nickserv kill unauth on
-					PostIrcMessage(L"/nickserv SET KILL ON");
-					break;
-				case 17:		// nickserv kill unauth quick
-					PostIrcMessage(L"/nickserv SET KILL QUICK");
-					break;
-				case 18:		// nickserv hide nick from /LIST
-					PostIrcMessage(L"/nickserv SET PRIVATE ON");
-					break;
-				case 19:		// nickserv show nick to /LIST
-					PostIrcMessage(L"/nickserv SET PRIVATE OFF");
-					break;
-				case 20:		// nickserv Hide e-mail from info
-					PostIrcMessage(L"/nickserv SET HIDE EMAIL ON");
-					break;
-				case 21:		// nickserv Show e-mail in info
-					PostIrcMessage(L"/nickserv SET HIDE EMAIL OFF");
-					break;
-				case 22:		// nickserv Set security for nick
-					PostIrcMessage(L"/nickserv SET SECURE ON");
-					break;
-				case 23:		// nickserv Remove security for nick
-					PostIrcMessage(L"/nickserv SET SECURE OFF");
-					break;
-				case 24:		// nickserv Link nick to current
-					PostIrcMessage(L"/nickserv LINK %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter nick you want to link to your current nick"), TranslateT("Link another nick to current nick"));
-					break;
-				case 25:		// nickserv Unlink nick from current
-					PostIrcMessage(L"/nickserv LINK %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter nick you want to unlink from your current nick"), TranslateT("Unlink another nick from current nick"));
-					break;
-				case 26:		// nickserv Set main nick
-					PostIrcMessage(L"/nickserv LINK %%question=\"%s\",\"%s\"",
-						TranslateT("Please enter nick you want to set as your main nick"), TranslateT("Set main nick"));
-					break;
-				case 27:		// nickserv list all linked nicks
-					PostIrcMessage(L"/nickserv LISTLINKS");
-					break;
-				case 28:		// nickserv list all channels owned
-					PostIrcMessage(L"/nickserv LISTCHANS");
-					break;
-				}
-				break;
-
-			case GC_USER_NICKLISTMENU:
-				switch (gch->dwData) {
-				case 1:
-					PostIrcMessage(L"/MODE %s +o %s", p1, gch->ptszUID);
-					break;
-				case 2:
-					PostIrcMessage(L"/MODE %s -o %s", p1, gch->ptszUID);
-					break;
-				case 3:
-					PostIrcMessage(L"/MODE %s +v %s", p1, gch->ptszUID);
-					break;
-				case 4:
-					PostIrcMessage(L"/MODE %s -v %s", p1, gch->ptszUID);
-					break;
-				case 5:
-					PostIrcMessage(L"/KICK %s %s", p1, gch->ptszUID);
-					break;
-				case 6:
-					PostIrcMessage(L"/KICK %s %s %%question=\"%s\",\"%s\",\"%s\"",
-						p1, gch->ptszUID, TranslateT("Please enter the reason"), TranslateT("Kick"), "");
-					break;
-				case 7:
-					DoUserhostWithReason(1, L"B" + (CMStringW)p1, true, L"%s", gch->ptszUID);
-					break;
-				case 8:
-					DoUserhostWithReason(1, L"K" + (CMStringW)p1, true, L"%s", gch->ptszUID);
-					break;
-				case 9:
-					DoUserhostWithReason(1, L"L" + (CMStringW)p1, true, L"%s", gch->ptszUID);
-					break;
-				case 10:
-					PostIrcMessage(L"/WHOIS %s %s", gch->ptszUID, gch->ptszUID);
-					break;
-					//	case 11:
-					//		DoUserhostWithReason(1, "I", true, "%s", gch->ptszUID );
-					//		break;
-					//	case 12:
-					//		DoUserhostWithReason(1, "J", true, "%s", gch->ptszUID );
-					//		break;
-				case 13:
-					PostIrcMessage(L"/DCC CHAT %s", gch->ptszUID);
-					break;
-				case 14:
-					PostIrcMessage(L"/DCC SEND %s", gch->ptszUID);
-					break;
-				case 15:
-					DoUserhostWithReason(1, L"I", true, L"%s", gch->ptszUID);
-					break;
-				case 16:
-					PostIrcMessage(L"/MODE %s +h %s", p1, gch->ptszUID);
-					break;
-				case 17:
-					PostIrcMessage(L"/MODE %s -h %s", p1, gch->ptszUID);
-					break;
-				case 18:
-					PostIrcMessage(L"/MODE %s +q %s", p1, gch->ptszUID);
-					break;
-				case 19:
-					PostIrcMessage(L"/MODE %s -q %s", p1, gch->ptszUID);
-					break;
-				case 20:
-					PostIrcMessage(L"/MODE %s +a %s", p1, gch->ptszUID);
-					break;
-				case 21:
-					PostIrcMessage(L"/MODE %s -a %s", p1, gch->ptszUID);
-					break;
-				case 22:
-					PostIrcMessage(L"/NOTICE %s %%question=\"%s\",\"%s\"",
-						gch->ptszUID, TranslateT("Please enter the notice text"), TranslateT("Send notice"));
-					break;
-				case 23:
-					PostIrcMessage(L"/INVITE %s %%question=\"%s\",\"%s\"",
-						gch->ptszUID, TranslateT("Please enter the channel name to invite to"), TranslateT("Invite to channel"));
-					break;
-				case 30:
-					{
-						PROTOSEARCHRESULT psr = {};
-						psr.cbSize = sizeof(psr);
-						psr.flags = PSR_UNICODE;
-						psr.id.w = gch->ptszUID;
-						psr.nick.w = gch->ptszUID;
-						Contact_AddBySearch(m_szModuleName, &psr);
-					}
-					break;
-				case 31:	//slap
-					PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/slap %s", gch->ptszUID));
-					break;
-				case 32:  //nickserv info
-					PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/nickserv INFO %s ALL", gch->ptszUID));
-					break;
-				case 33:  //nickserv ghost
-					PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/nickserv GHOST %s", gch->ptszUID));
-					break;
-				}
-				break;
-			}
-			mir_free(p1);
+	case GC_USER_MESSAGE:
+		if (gch && gch->ptszText && *gch->ptszText) {
+			CMStringW wszText(gch->ptszText);
+			DoChatFormatting(wszText);
+			PostIrcMessageWnd(p1, NULL, wszText);
 		}
-	}
+		break;
 
-	return 0;
+	case GC_USER_CHANMGR:
+		PostIrcMessageWnd(p1, NULL, L"/CHANNELMANAGER");
+		break;
+
+	case GC_USER_PRIVMESS:
+		PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/QUERY %s", gch->ptszUID));
+		break;
+
+	case GC_USER_LOGMENU:
+		switch (gch->dwData) {
+		case 1:
+			OnChangeNickMenuCommand(NULL, NULL);
+			break;
+		case 2:
+			PostIrcMessageWnd(p1, NULL, L"/CHANNELMANAGER");
+			break;
+
+		case 3:
+			PostIrcMessage(L"/PART %s %s", p1, m_userInfo);
+			Chat_Terminate(m_szModuleName, MakeWndID(p1));
+			break;
+
+		case 4:		// show server window
+			PostIrcMessageWnd(p1, NULL, L"/SERVERSHOW");
+			break;
+			/*					case 5:		// nickserv register nick
+			PostIrcMessage( L"/nickserv REGISTER %%question=\"%s\",\"%s\"",
+			TranslateT("Please enter your authentication code"), TranslateT("Authenticate nick"));
+			break;
+			*/
+		case 6:		// nickserv Identify
+			PostIrcMessage(L"/nickserv AUTH %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter your authentication code"), TranslateT("Authenticate nick"));
+			break;
+		case 7:		// nickserv drop nick
+			if (MessageBox(nullptr, TranslateT("Are you sure you want to unregister your current nick?"), TranslateT("Delete nick"),
+				MB_ICONERROR + MB_YESNO + MB_DEFBUTTON2) == IDYES)
+				PostIrcMessage(L"/nickserv DROP");
+			break;
+		case 8:		// nickserv Identify
+			{
+				CQuestionDlg* dlg = new CQuestionDlg(this);
+				dlg->Show();
+				HWND question_hWnd = dlg->GetHwnd();
+				HWND hEditCtrl = GetDlgItem(question_hWnd, IDC_EDIT);
+				SetDlgItemText(question_hWnd, IDC_CAPTION, TranslateT("Identify nick"));
+				SetDlgItemText(question_hWnd, IDC_TEXT, TranslateT("Please enter your password"));
+				SetDlgItemText(question_hWnd, IDC_HIDDENEDIT, L"/nickserv IDENTIFY %question=\"%s\",\"%s\"");
+				SetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE,
+					(LONG)GetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
+				SendMessage(hEditCtrl, EM_SETPASSWORDCHAR, (WPARAM)'*', 0);
+				SetFocus(hEditCtrl);
+				dlg->Activate();
+			}
+			break;
+		case 9:		// nickserv remind password
+			{
+				DBVARIANT dbv;
+				if (!getWString("Nick", &dbv)) {
+					PostIrcMessage(L"/nickserv SENDPASS %s", dbv.pwszVal);
+					db_free(&dbv);
+				}
+			}
+			break;
+		case 10:		// nickserv set new password
+			PostIrcMessage(L"/nickserv SET PASSWORD %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter your new password"), TranslateT("Set new password"));
+			break;
+		case 11:		// nickserv set language
+			PostIrcMessage(L"/nickserv SET LANGUAGE %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter desired language ID (numeric value, depends on server)"), TranslateT("Change language of NickServ messages"));
+			break;
+		case 12:		// nickserv set homepage
+			PostIrcMessage(L"/nickserv SET URL %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter URL that will be linked to your nick"), TranslateT("Set URL, linked to nick"));
+			break;
+		case 13:		// nickserv set email
+			PostIrcMessage(L"/nickserv SET EMAIL %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter your e-mail, that will be linked to your nick"), TranslateT("Set e-mail, linked to nick"));
+			break;
+		case 14:		// nickserv set info
+			PostIrcMessage(L"/nickserv SET INFO %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter some information about your nick"), TranslateT("Set information for nick"));
+			break;
+		case 15:		// nickserv kill unauth off
+			PostIrcMessage(L"/nickserv SET KILL OFF");
+			break;
+		case 16:		// nickserv kill unauth on
+			PostIrcMessage(L"/nickserv SET KILL ON");
+			break;
+		case 17:		// nickserv kill unauth quick
+			PostIrcMessage(L"/nickserv SET KILL QUICK");
+			break;
+		case 18:		// nickserv hide nick from /LIST
+			PostIrcMessage(L"/nickserv SET PRIVATE ON");
+			break;
+		case 19:		// nickserv show nick to /LIST
+			PostIrcMessage(L"/nickserv SET PRIVATE OFF");
+			break;
+		case 20:		// nickserv Hide e-mail from info
+			PostIrcMessage(L"/nickserv SET HIDE EMAIL ON");
+			break;
+		case 21:		// nickserv Show e-mail in info
+			PostIrcMessage(L"/nickserv SET HIDE EMAIL OFF");
+			break;
+		case 22:		// nickserv Set security for nick
+			PostIrcMessage(L"/nickserv SET SECURE ON");
+			break;
+		case 23:		// nickserv Remove security for nick
+			PostIrcMessage(L"/nickserv SET SECURE OFF");
+			break;
+		case 24:		// nickserv Link nick to current
+			PostIrcMessage(L"/nickserv LINK %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter nick you want to link to your current nick"), TranslateT("Link another nick to current nick"));
+			break;
+		case 25:		// nickserv Unlink nick from current
+			PostIrcMessage(L"/nickserv LINK %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter nick you want to unlink from your current nick"), TranslateT("Unlink another nick from current nick"));
+			break;
+		case 26:		// nickserv Set main nick
+			PostIrcMessage(L"/nickserv LINK %%question=\"%s\",\"%s\"",
+				TranslateT("Please enter nick you want to set as your main nick"), TranslateT("Set main nick"));
+			break;
+		case 27:		// nickserv list all linked nicks
+			PostIrcMessage(L"/nickserv LISTLINKS");
+			break;
+		case 28:		// nickserv list all channels owned
+			PostIrcMessage(L"/nickserv LISTCHANS");
+			break;
+		}
+		break;
+
+	case GC_USER_NICKLISTMENU:
+		switch (gch->dwData) {
+		case 1:
+			PostIrcMessage(L"/MODE %s +o %s", p1, gch->ptszUID);
+			break;
+		case 2:
+			PostIrcMessage(L"/MODE %s -o %s", p1, gch->ptszUID);
+			break;
+		case 3:
+			PostIrcMessage(L"/MODE %s +v %s", p1, gch->ptszUID);
+			break;
+		case 4:
+			PostIrcMessage(L"/MODE %s -v %s", p1, gch->ptszUID);
+			break;
+		case 5:
+			PostIrcMessage(L"/KICK %s %s", p1, gch->ptszUID);
+			break;
+		case 6:
+			PostIrcMessage(L"/KICK %s %s %%question=\"%s\",\"%s\",\"%s\"",
+				p1, gch->ptszUID, TranslateT("Please enter the reason"), TranslateT("Kick"), "");
+			break;
+		case 7:
+			DoUserhostWithReason(1, L"B" + (CMStringW)p1, true, L"%s", gch->ptszUID);
+			break;
+		case 8:
+			DoUserhostWithReason(1, L"K" + (CMStringW)p1, true, L"%s", gch->ptszUID);
+			break;
+		case 9:
+			DoUserhostWithReason(1, L"L" + (CMStringW)p1, true, L"%s", gch->ptszUID);
+			break;
+		case 10:
+			PostIrcMessage(L"/WHOIS %s %s", gch->ptszUID, gch->ptszUID);
+			break;
+			//	case 11:
+			//		DoUserhostWithReason(1, "I", true, "%s", gch->ptszUID );
+			//		break;
+			//	case 12:
+			//		DoUserhostWithReason(1, "J", true, "%s", gch->ptszUID );
+			//		break;
+		case 13:
+			PostIrcMessage(L"/DCC CHAT %s", gch->ptszUID);
+			break;
+		case 14:
+			PostIrcMessage(L"/DCC SEND %s", gch->ptszUID);
+			break;
+		case 15:
+			DoUserhostWithReason(1, L"I", true, L"%s", gch->ptszUID);
+			break;
+		case 16:
+			PostIrcMessage(L"/MODE %s +h %s", p1, gch->ptszUID);
+			break;
+		case 17:
+			PostIrcMessage(L"/MODE %s -h %s", p1, gch->ptszUID);
+			break;
+		case 18:
+			PostIrcMessage(L"/MODE %s +q %s", p1, gch->ptszUID);
+			break;
+		case 19:
+			PostIrcMessage(L"/MODE %s -q %s", p1, gch->ptszUID);
+			break;
+		case 20:
+			PostIrcMessage(L"/MODE %s +a %s", p1, gch->ptszUID);
+			break;
+		case 21:
+			PostIrcMessage(L"/MODE %s -a %s", p1, gch->ptszUID);
+			break;
+		case 22:
+			PostIrcMessage(L"/NOTICE %s %%question=\"%s\",\"%s\"",
+				gch->ptszUID, TranslateT("Please enter the notice text"), TranslateT("Send notice"));
+			break;
+		case 23:
+			PostIrcMessage(L"/INVITE %s %%question=\"%s\",\"%s\"",
+				gch->ptszUID, TranslateT("Please enter the channel name to invite to"), TranslateT("Invite to channel"));
+			break;
+		case 30:
+			{
+				PROTOSEARCHRESULT psr = {};
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_UNICODE;
+				psr.id.w = gch->ptszUID;
+				psr.nick.w = gch->ptszUID;
+				Contact_AddBySearch(m_szModuleName, &psr);
+			}
+			break;
+		case 31:	//slap
+			PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/slap %s", gch->ptszUID));
+			break;
+		case 32:  //nickserv info
+			PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/nickserv INFO %s ALL", gch->ptszUID));
+			break;
+		case 33:  //nickserv ghost
+			PostIrcMessageWnd(p1, NULL, CMStringW(FORMAT, L"/nickserv GHOST %s", gch->ptszUID));
+			break;
+		}
+		break;
+	}
+	mir_free(p1);
+
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

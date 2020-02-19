@@ -62,14 +62,14 @@ int CTwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_PRIVMESS:
-	{
-		ptrA text(mir_u2a(hook->ptszUID));
-		CallService(MS_MSG_SENDMESSAGE, WPARAM(UsernameToHContact(text)), 0);
-	}
-	break;
+		{
+			ptrA text(mir_u2a(hook->ptszUID));
+			CallService(MS_MSG_SENDMESSAGE, UsernameToHContact(text), 0);
+		}
+		break;
 	}
 
-	return 0;
+	return 1;
 }
 
 // TODO: remove nick?

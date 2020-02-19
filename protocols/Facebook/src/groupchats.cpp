@@ -158,7 +158,7 @@ int FacebookProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 
 	SESSION_INFO *si = g_chatApi.SM_FindSession(gch->si->ptszID, gch->si->pszModule);
 	if (si == nullptr)
-		return 0;
+		return 1;
 
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:
@@ -190,7 +190,7 @@ int FacebookProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 		break;
 	}
 
-	return 0;
+	return 1;
 }
 
 void FacebookProto::Chat_ProcessLogMenu(SESSION_INFO *si, GCHOOK *gch)

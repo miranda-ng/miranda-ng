@@ -365,7 +365,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			DestroyMenu(hMenu);
 		}
-		break;
+		return 0;
 	}
 
 	LRESULT res = mir_callNextSubclass(m_rtf.GetHwnd(), stubLogProc, msg, wParam, lParam);

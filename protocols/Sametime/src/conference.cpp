@@ -280,8 +280,8 @@ void CSametimeProto::TerminateConference(char* name)
 int CSametimeProto::GcEventHook(WPARAM, LPARAM lParam) {
 
 	GCHOOK* gch = (GCHOOK*)lParam;
-
-	if (strcmp(gch->si->pszModule, m_szModuleName) != 0) return 0;
+	if (strcmp(gch->si->pszModule, m_szModuleName) != 0)
+		return 0;
 
 	GList *conferences = mwServiceConference_getConferences(service_conference);
 	for (GList *conf = conferences;conf;conf = conf->next) {
@@ -313,8 +313,7 @@ int CSametimeProto::GcEventHook(WPARAM, LPARAM lParam) {
 	}
 
 	g_list_free(conferences);
-
-	return 0;
+	return 1;
 }
 
 int CSametimeProto::ChatDeleted(MCONTACT hContact) {

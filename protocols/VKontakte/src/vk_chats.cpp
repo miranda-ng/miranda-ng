@@ -455,7 +455,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 	CVkChatInfo *cc = GetChatById(gch->si->ptszID);
 	if (cc == nullptr)
-		return 0;
+		return 1;
 
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:
@@ -489,7 +489,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 		NickMenuHook(cc, gch);
 		break;
 	}
-	return 0;
+	return 1;
 }
 
 void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

@@ -87,7 +87,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
 	if (!gch)
-		return 1;
+		return 0;
 
 	if (mir_strcmp(gch->si->pszModule, m_szModuleName) != 0)
 		return 0;
@@ -129,10 +129,8 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				if (hContact != NULL)
 					SendRequest(new InviteUserToChatRequest(chat_id, Contacts[hContact], "User", this));
 
-				{
-					mir_cslock lck(m_InviteDialogsLock);
-					m_InviteDialogs.remove(&dlg);
-				}
+				mir_cslock lck(m_InviteDialogsLock);
+				m_InviteDialogs.remove(&dlg);
 			}
 			break;
 
@@ -200,7 +198,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		}
 		break;
 	}
-	return 0;
+	return 1;
 }
 
 INT_PTR CSkypeProto::OnJoinChatRoom(WPARAM hContact, LPARAM)

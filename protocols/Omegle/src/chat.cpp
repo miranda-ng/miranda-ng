@@ -71,7 +71,6 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
-
 	if (mir_strcmp(hook->si->pszModule, m_szModuleName))
 		return 0;
 
@@ -182,7 +181,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 		break;
 	}
 
-	return 0;
+	return 1;
 }
 
 void OmegleProto::SendChatMessage(std::string text)

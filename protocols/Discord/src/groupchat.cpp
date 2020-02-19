@@ -201,5 +201,5 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 		break;
 	}
 
-	return 0;
+	return 1;
 }

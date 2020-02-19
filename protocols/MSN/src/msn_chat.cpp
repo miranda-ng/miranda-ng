@@ -455,7 +455,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
 	if (!gch)
-		return 1;
+		return 0;
 
 	if (_stricmp(gch->si->pszModule, m_szModuleName)) return 0;
 
@@ -549,7 +549,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		break;
 	}
 
-	return 0;
+	return 1;
 }
 
 int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)

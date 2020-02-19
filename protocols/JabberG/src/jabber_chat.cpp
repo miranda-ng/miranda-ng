@@ -1368,7 +1368,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 	T2Utf roomJid(gch->si->ptszID);
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_CHATROOM, roomJid);
 	if (item == nullptr)
-		return 0;
+		return 1;
 
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:
@@ -1408,7 +1408,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 		break;
 	}
 
-	return 0;
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

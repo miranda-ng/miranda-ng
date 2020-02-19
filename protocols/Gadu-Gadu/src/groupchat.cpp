@@ -184,9 +184,9 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		if ((uin = _wtoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, nullptr)))
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	}
-	debugLogW(L"gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->iType, chat, uin, gch->ptszText);
 
-	return 0;
+	debugLogW(L"gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->iType, chat, uin, gch->ptszText);
+	return 1;
 }
 
 typedef struct _gg_gc_echat
