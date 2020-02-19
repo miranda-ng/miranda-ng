@@ -19,11 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "ui.h"
 
-static const wchar_t *sites[] = {
-	L"https://api.twitter.com/",
-	L"https://identi.ca/api/"
-};
-
 INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CTwitterProto *proto;
@@ -46,15 +41,6 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemTextA(hwndDlg, IDC_USERNAME, dbv.pszVal);
 			db_free(&dbv);
 		}
-
-		for (auto &it : sites)
-			SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(it));
-
-		if (!proto->getString(TWITTER_KEY_BASEURL, &dbv)) {
-			SetDlgItemTextA(hwndDlg, IDC_SERVER, dbv.pszVal);
-			db_free(&dbv);
-		}
-		else SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_SETCURSEL, 0, 0);
 		return true;
 
 	case WM_COMMAND:
@@ -76,14 +62,8 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_NOTIFY: // might be able to get rid of this bit?
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) {
 			proto = reinterpret_cast<CTwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
-			char str[128];
+
 			wchar_t tstr[128];
-
-			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, _countof(str) - 1);
-			if (str[mir_strlen(str) - 1] != '/')
-				mir_strncat(str, "/", _countof(str) - mir_strlen(str));
-			proto->setString(TWITTER_KEY_BASEURL, str);
-
 			GetDlgItemText(hwndDlg, IDC_GROUP, tstr, _countof(tstr));
 			proto->setWString(TWITTER_KEY_GROUP, tstr);
 
@@ -177,15 +157,6 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		CheckDlgButton(hwndDlg, IDC_CHATFEED, proto->getByte(TWITTER_KEY_CHATFEED) ? BST_CHECKED : BST_UNCHECKED);
 
-		for (auto &it : sites)
-			SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(it));
-
-		if (!proto->getString(TWITTER_KEY_BASEURL, &dbv)) {
-			SetDlgItemTextA(hwndDlg, IDC_BASEURL, dbv.pszVal);
-			db_free(&dbv);
-		}
-		else SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_SETCURSEL, 0, 0);
-
 		char pollrate_str[32];
 		mir_snprintf(pollrate_str, "%d", proto->getDword(TWITTER_KEY_POLLRATE, 80));
 		SetDlgItemTextA(hwndDlg, IDC_POLLRATE, pollrate_str);
@@ -208,7 +179,6 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				switch (LOWORD(wParam)) {
 				case IDC_UN:
 				case IDC_PW:
-				case IDC_BASEURL:
 					ShowWindow(GetDlgItem(hwndDlg, IDC_RECONNECT), SW_SHOW);
 				}
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -223,11 +193,6 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			GetDlgItemTextA(hwndDlg, IDC_UN, str, _countof(str));
 			proto->setString(TWITTER_KEY_UN, str);
-
-			GetDlgItemTextA(hwndDlg, IDC_BASEURL, str, _countof(str) - 1);
-			if (str[mir_strlen(str) - 1] != '/')
-				mir_strncat(str, "/", _countof(str) - mir_strlen(str));
-			proto->setString(TWITTER_KEY_BASEURL, str);
 
 			proto->setByte(TWITTER_KEY_CHATFEED, IsDlgButtonChecked(hwndDlg, IDC_CHATFEED) != 0);
 

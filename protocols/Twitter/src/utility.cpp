@@ -22,13 +22,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 http::response CTwitterProto::Execute(AsyncHttpRequest *pReq)
 {
+	if (pReq->m_szUrl[0] == '/')
+		pReq->m_szUrl.Insert(0, TWITTER_BASE_URL);
+
+	bool bIsJson = false;
 	if (!pReq->m_szParam.IsEmpty()) {
 		if (pReq->requestType == REQUEST_POST) {
-			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			if (pReq->m_szParam[0] == '{') {
+				bIsJson = true;
+				pReq->AddHeader("Content-Type", "application/json");
+			}
+			else pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			pReq->AddHeader("Cache-Control", "no-cache");
 
 			pReq->dataLength = (int)pReq->m_szParam.GetLength();
-			pReq->pData = pReq->m_szParam.GetBuffer();
+			pReq->pData = pReq->m_szParam.Detach();
 		}
 		else {
 			pReq->m_szUrl.AppendChar('?');
@@ -40,7 +48,7 @@ http::response CTwitterProto::Execute(AsyncHttpRequest *pReq)
 	if (pReq->requestType == REQUEST_GET)
 		auth = OAuthWebRequestSubmit(pReq->m_szUrl, "GET", "");
 	else
-		auth = OAuthWebRequestSubmit(pReq->m_szUrl, "POST", pReq->m_szParam);
+		auth = OAuthWebRequestSubmit(pReq->m_szUrl, "POST", (bIsJson) ? "" : pReq->pData);
 	pReq->AddHeader("Authorization", auth);
 
 	pReq->szUrl = pReq->m_szUrl.GetBuffer();
@@ -73,19 +81,19 @@ bool save_url(HNETLIBUSER hNetlib, const CMStringA &url, const CMStringW &filena
 	req.szUrl = const_cast<char*>(url.c_str());
 
 	NLHR_PTR resp(Netlib_HttpTransaction(hNetlib, &req));
-	if (resp) {
-		bool success = (resp->resultCode == 200);
-		if (success) {
-			// Create folder if necessary
-			CreatePathToFileW(filename);
+	if (!resp)
+		return false;
+	
+	if (resp->resultCode != 200)
+		return false;
+	
+	// Create folder if necessary
+	CreatePathToFileW(filename);
 
-			// Write to file
-			FILE *f = _wfopen(filename, L"wb");
-			fwrite(resp->pData, 1, resp->dataLength, f);
-			fclose(f);
-		}
-		return success;
-	}
-
-	return false;
+	// Write to file
+	FILE *f = _wfopen(filename, L"wb");
+	fwrite(resp->pData, 1, resp->dataLength, f);
+	fclose(f);
+	
+	return true;
 }

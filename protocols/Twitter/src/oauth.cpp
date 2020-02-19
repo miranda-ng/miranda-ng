@@ -62,17 +62,13 @@ static CMStringA OAuthNormalizeRequestParameters(const CMStringA &requestParamet
 	return res;
 }
 
-CMStringA CTwitterProto::BuildSignedOAuthParameters(
-	const CMStringA &requestParameters,
-	const CMStringA &url,
-	const CMStringA &httpMethod,
-	const CMStringA &postData)
+CMStringA CTwitterProto::BuildSignedOAuthParameters(const CMStringA &request, const CMStringA &url, const char *httpMethod, const char *postData)
 {
 	CMStringA timestamp(FORMAT, "%lld", _time64(0));
 	CMStringA nonce = OAuthCreateNonce();
 
 	// create oauth requestParameters
-	auto *req = new AsyncHttpRequest(httpMethod == "GET" ? REQUEST_GET : REQUEST_POST, url);
+	auto *req = new AsyncHttpRequest(!mir_strcmp(httpMethod, "GET") ? REQUEST_GET : REQUEST_POST, url);
 	req << CHAR_PARAM("oauth_timestamp", timestamp) << CHAR_PARAM("oauth_nonce", nonce) << CHAR_PARAM("oauth_version", "1.0")
 		<< CHAR_PARAM("oauth_signature_method", "HMAC-SHA1") << CHAR_PARAM("oauth_consumer_key", OAUTH_CONSUMER_KEY) << CHAR_PARAM("oauth_callback", "oob");
 
@@ -86,12 +82,12 @@ CMStringA CTwitterProto::BuildSignedOAuthParameters(
 
 	// create a parameter list containing both oauth and original parameters
 	// this will be used to create the parameter signature
-	if (!requestParameters.IsEmpty()) {
+	if (!request.IsEmpty()) {
 		req->m_szParam.AppendChar('&');
-		req->m_szParam.Append(requestParameters);
+		req->m_szParam.Append(request);
 	}
 
-	if (!postData.IsEmpty()) {
+	if (!mir_strlen(postData)) {
 		req->m_szParam.AppendChar('&');
 		req->m_szParam.Append(postData);
 	}
@@ -100,7 +96,7 @@ CMStringA CTwitterProto::BuildSignedOAuthParameters(
 	// all of the necessary information needed to generate a valid signature
 	CMStringA normalUrl = OAuthNormalizeUrl(url);
 	CMStringA normalizedParameters = OAuthNormalizeRequestParameters(req->m_szParam, true);
-	CMStringA signatureBase = httpMethod + "&" + mir_urlEncode(normalUrl) + "&" + mir_urlEncode(normalizedParameters);
+	CMStringA signatureBase = CMStringA(httpMethod) + "&" + mir_urlEncode(normalUrl) + "&" + mir_urlEncode(normalizedParameters);
 
 	// obtain a signature and add it to header requestParameters
 	CMStringA signature = OAuthCreateSignature(signatureBase, OAUTH_CONSUMER_SECRET, m_szAccessTokenSecret);

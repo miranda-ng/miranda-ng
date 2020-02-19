@@ -26,7 +26,6 @@ static volatile LONG g_msgid = 1;
 CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CTwitterProto>(proto_name, username),
 	m_szChatId(mir_utf8encodeW(username)),
-	m_szBaseUrl("https://api.twitter.com/"),
 	m_arChatMarks(10, NumericKeySortT)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CTwitterProto::SvcCreateAccMgrUI);
@@ -138,13 +137,10 @@ void CTwitterProto::SendSuccess(void *p)
 	
 	auto *data = (TSendDirect*)p;
 
-	DBVARIANT dbv;
-	if (!db_get_s(data->hContact, m_szModuleName, TWITTER_KEY_UN, &dbv)) {
-		mir_cslock s(twitter_lock_);
-		send_direct(dbv.pszVal, data->msg);
-
+	CMStringA id(getMStringA(data->hContact, TWITTER_KEY_ID));
+	if (!id.IsEmpty()) {
+		send_direct(id, data->msg);
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
-		db_free(&dbv);
 	}
 
 	delete data;

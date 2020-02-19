@@ -23,17 +23,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CTwitterProto::UpdateChat(const twitter_user &update)
 {
+	CMStringA chatText = update.status.text.c_str();
+	chatText.Replace("%", "%%");
+
 	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 	gce.bIsMe = (update.username.c_str() == m_szUserName);
 	gce.pszUID.a = update.username.c_str();
-	//TODO: write code here to replace % with %% in update.status.text (which is a CMStringA)
-
-	CMStringA chatText = update.status.text.c_str();
-	chatText.Replace("%", "%%");
-
 	gce.pszText.a = chatText.c_str();
-	gce.time = static_cast<DWORD>(update.status.time);
+	gce.time = (DWORD)update.status.time;
 
 	MCONTACT hContact = UsernameToHContact(update.username.c_str());
 	CMStringA szNick = db_get_sm(hContact, "CList", "MyHandle");
@@ -43,10 +41,6 @@ void CTwitterProto::UpdateChat(const twitter_user &update)
 		gce.pszNick.a = update.username.c_str();
 
 	Chat_Event(&gce);
-
-	mir_free(const_cast<wchar_t*>(gce.pszNick.w));
-	mir_free(const_cast<wchar_t*>(gce.pszUID.w));
-	mir_free(const_cast<wchar_t*>(gce.pszText.w));
 }
 
 int CTwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)

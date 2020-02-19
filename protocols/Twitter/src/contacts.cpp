@@ -43,7 +43,7 @@ MCONTACT CTwitterProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	return AddToClientList(_T2A(psr->nick.w), "");
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTwitterProto::UpdateInfoWorker(void *arg)
 {
@@ -79,7 +79,7 @@ int CTwitterProto::GetInfo(MCONTACT hContact, int info_type)
 	return 1;
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct search_query
 {
@@ -136,7 +136,7 @@ HANDLE CTwitterProto::SearchByEmail(const wchar_t *email)
 	return (HANDLE)1;
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTwitterProto::GetAwayMsgWorker(void *arg)
 {
@@ -195,7 +195,7 @@ int CTwitterProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)
 	return 0;
 }
 
-// *************************
+/////////////////////////////////////////////////////////////////////////////////////////
 
 bool CTwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
 {

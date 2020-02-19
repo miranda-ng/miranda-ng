@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by CTwitterProto.rc
+// Used by w:\miranda-ng\protocols\Twitter\res\twitter.rc
 //
 #define IDD_TWITTERACCOUNT              101
 #define IDI_TWITTER                     102
@@ -16,7 +16,6 @@
 #define IDC_USERDETAILS                 1006
 #define IDC_MISC                        1007
 #define IDC_CHATFEED                    1008
-#define IDC_BASEURL                     1009
 #define IDC_POLLRATE                    1010
 #define IDC_COLBACK                     1011
 #define IDC_COLTEXT                     1012
@@ -32,7 +31,6 @@
 #define IDC_PREVIEW                     1022
 #define IDC_NOSIGNONPOPUPS              1023
 #define IDC_RECONNECT                   1024
-#define IDC_SERVER                      1025
 #define IDC_PIN                         1026
 #define IDC_GROUP                       1027
 #define IDC_USERNAME                    1028
@@ -42,7 +40,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        110
+#define _APS_NEXT_RESOURCE_VALUE        111
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1030
 #define _APS_NEXT_SYMED_VALUE           101

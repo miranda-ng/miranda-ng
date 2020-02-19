@@ -69,7 +69,6 @@ using std::map;
 #define TWITTER_KEY_OAUTH_TOK_SEC    "OAuthTokenSecret"
 #define TWITTER_KEY_OAUTH_ACCESS_TOK "OAuthAccessToken"
 #define TWITTER_KEY_OAUTH_ACCESS_SEC "OAuthAccessTokenSecret"
-#define TWITTER_KEY_BASEURL          "BaseURL"
 #define TWITTER_KEY_CHATFEED         "ChatFeed"
 #define TWITTER_KEY_POLLRATE         "PollRate"
 #define TWITTER_KEY_GROUP            "DefaultGroup"

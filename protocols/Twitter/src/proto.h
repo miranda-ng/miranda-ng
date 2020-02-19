@@ -78,7 +78,6 @@ class CTwitterProto : public PROTO<CTwitterProto>
 
 	CMStringA m_szUserName;
 	CMStringA m_szPassword;
-	CMStringA m_szBaseUrl;
 	CMStringA m_szConsumerKey;
 	CMStringA m_szConsumerSecret;
 	CMStringA m_szAccessToken;
@@ -113,7 +112,7 @@ class CTwitterProto : public PROTO<CTwitterProto>
 
 	CMStringA UrlGetQuery(const CMStringA &url);
 
-	CMStringA BuildSignedOAuthParameters(const CMStringA &requestParameters, const CMStringA &url, const CMStringA &httpMethod, const CMStringA &postData);
+	CMStringA BuildSignedOAuthParameters(const CMStringA &requestParameters, const CMStringA &url, const char *httpMethod, const char *postData);
 
 	CMStringA OAuthCreateNonce();
 	CMStringA OAuthCreateSignature(const CMStringA &signatureBase, const CMStringA &consumerSecret, const CMStringA &requestTokenSecret);

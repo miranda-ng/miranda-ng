@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#define TWITTER_BASE_URL "https://api.twitter.com/1.1"
+
 namespace http
 {
 	struct response

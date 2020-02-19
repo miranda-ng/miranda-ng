@@ -50,17 +50,15 @@ END
 // Dialog
 //
 
-IDD_TWITTERACCOUNT DIALOGEX 0, 0, 186, 134
+IDD_TWITTERACCOUNT DIALOGEX 0, 0, 186, 74
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    LTEXT           "Server:",IDC_STATIC,0,32,53,8
-    COMBOBOX        IDC_SERVER,54,30,131,12,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Create a new Twitter account",IDC_NEWACCOUNTLINK,
-                    "Hyperlink",WS_TABSTOP,0,75,174,12
-    EDITTEXT        IDC_GROUP,54,52,131,12,ES_AUTOHSCROLL
-    LTEXT           "Default group:",IDC_STATIC,0,53,54,14
+                    "Hyperlink",WS_TABSTOP,6,55,174,12
+    EDITTEXT        IDC_GROUP,0,36,179,12,ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,0,26,54,9
     LTEXT           "Username:",IDC_STATIC,0,9,51,13
     LTEXT           "<Sign in to link your Twitter account>",IDC_USERNAME,55,9,122,18
 END
@@ -83,8 +81,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Miscellaneous options",IDC_MISC,17,14,269,82
     CONTROL         "Use group chat for Twitter feed",IDC_CHATFEED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,28,183,10
-    LTEXT           "Base URL:",IDC_STATIC,25,43,41,8
-    COMBOBOX        IDC_BASEURL,72,41,95,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Polling rate:",IDC_STATIC,25,60,42,8
     LTEXT           "Once every",IDC_STATIC,72,60,40,8
     EDITTEXT        IDC_POLLRATE,113,58,30,14,ES_AUTOHSCROLL | ES_NUMBER
@@ -139,6 +135,7 @@ END
 // remains consistent on all systems.
 IDI_TWITTER             ICON                    "twitter.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -190,6 +187,16 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_TWITTERACCOUNT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

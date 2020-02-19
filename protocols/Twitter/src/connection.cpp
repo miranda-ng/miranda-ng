@@ -93,14 +93,6 @@ bool CTwitterProto::NegotiateConnection()
 	if (m_szUserName.IsEmpty())
 		m_szUserName = getMStringA(TWITTER_KEY_UN);
 
-	// CTwitterProto changed the base URL in v1.1 of the API, I don't think users will need to modify it, so
-	// i'll be forcing it to the new API URL here. After a while I can get rid of this as users will
-	// have either had this run at least once, or have reset their miranda profile. 14/10/2012
-	if (getByte("UpgradeBaseURL", 1)) {
-		setString(TWITTER_KEY_BASEURL, "https://api.twitter.com/");
-		setByte("UpgradeBaseURL", 0);
-	}
-
 	if (szOauthToken.IsEmpty() || szOauthTokenSecret.IsEmpty()) {
 		// first, reset all the keys so we can start fresh
 		debugLogA("**NegotiateConnection - Reset OAuth Keys");
@@ -196,8 +188,6 @@ bool CTwitterProto::NegotiateConnection()
 		m_szAccessTokenSecret = szOauthTokenSecret;
 	}
 
-	m_szBaseUrl = getMStringA(TWITTER_KEY_BASEURL);
-
 	debugLogA("**NegotiateConnection - Setting Consumer Keys and verifying creds...");
 
 	if (m_szUserName.IsEmpty()) {
@@ -205,7 +195,7 @@ bool CTwitterProto::NegotiateConnection()
 		debugLogA("**NegotiateConnection - Missing the Nick key in the database.  Everything will still work, but it's nice to have");
 	}
 
-	auto *req = new AsyncHttpRequest(REQUEST_GET, m_szBaseUrl + "1.1/account/verify_credentials.json");
+	auto *req = new AsyncHttpRequest(REQUEST_GET, "/account/verify_credentials.json");
 	if (Execute(req).code != 200) {
 		debugLogA("**NegotiateConnection - Verifying credentials failed!  No internet maybe?");
 
@@ -355,7 +345,7 @@ void CTwitterProto::UpdateAvatar(MCONTACT hContact, const CMStringA &url, bool f
 
 void CTwitterProto::UpdateFriends()
 {
-	auto *req = new AsyncHttpRequest(REQUEST_GET, m_szBaseUrl + "1.1/friends/list.json");
+	auto *req = new AsyncHttpRequest(REQUEST_GET, "/friends/list.json");
 	http::response resp = Execute(req);
 	if (resp.code != 200) {
 		debugLogA("Friend list reading failed");
@@ -448,7 +438,7 @@ void CTwitterProto::ShowContactPopup(MCONTACT hContact, const CMStringA &text, c
 
 void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 {
-	auto *req = new AsyncHttpRequest(REQUEST_GET, m_szBaseUrl + "1.1/statuses/home_timeline.json");
+	auto *req = new AsyncHttpRequest(REQUEST_GET, "/statuses/home_timeline.json");
 	req << INT_PARAM("count", 200);
 	if (since_id_ != 0)
 		req << INT64_PARAM("since_id", since_id_);
@@ -545,7 +535,7 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 
 void CTwitterProto::UpdateMessages(bool pre_read)
 {
-	auto *req = new AsyncHttpRequest(REQUEST_GET, m_szBaseUrl + "1.1/direct_messages/events/list.json");
+	auto *req = new AsyncHttpRequest(REQUEST_GET, "/direct_messages/events/list.json");
 	req << INT_PARAM("count", 50);
 	if (dm_since_id_ != 0)
 		req << INT64_PARAM("since_id", dm_since_id_);

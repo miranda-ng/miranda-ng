@@ -37,7 +37,7 @@ bool CTwitterProto::get_info(const CMStringA &name, twitter_user *info)
 	if (!info)
 		return false;
 
-	auto *req = new AsyncHttpRequest(REQUEST_GET, m_szBaseUrl + "1.1/users/show/" + mir_urlEncode(name.c_str()).c_str() + ".json");
+	auto *req = new AsyncHttpRequest(REQUEST_GET, "/users/show/" + mir_urlEncode(name) + ".json");
 	http::response resp = Execute(req);
 	if (resp.code != 200)
 		return false;
@@ -60,7 +60,7 @@ bool CTwitterProto::get_info_by_email(const CMStringA &email, twitter_user *info
 	if (!info)
 		return false;
 
-	auto *req = new AsyncHttpRequest(REQUEST_GET, m_szBaseUrl + "1.1/users/show.json?email=" + mir_urlEncode(email));
+	auto *req = new AsyncHttpRequest(REQUEST_GET, "/users/show.json?email=" + mir_urlEncode(email));
 	http::response resp = Execute(req);
 	if (resp.code != 200)
 		return false;
@@ -80,7 +80,7 @@ bool CTwitterProto::get_info_by_email(const CMStringA &email, twitter_user *info
 
 bool CTwitterProto::add_friend(const CMStringA &name, twitter_user &ret)
 {
-	auto *req = new AsyncHttpRequest(REQUEST_POST, m_szBaseUrl + "1.1/friendships/create/" + mir_urlEncode(name) + ".json");
+	auto *req = new AsyncHttpRequest(REQUEST_POST, "/friendships/create/" + mir_urlEncode(name) + ".json");
 	http::response resp = Execute(req);
 	if (resp.code != 200)
 		return false;
@@ -104,7 +104,7 @@ bool CTwitterProto::add_friend(const CMStringA &name, twitter_user &ret)
 
 void CTwitterProto::remove_friend(const CMStringA &name)
 {
-	auto *req = new AsyncHttpRequest(REQUEST_POST, m_szBaseUrl + "1.1/friendships/destroy/" + mir_urlEncode(name) + ".json");
+	auto *req = new AsyncHttpRequest(REQUEST_POST, "/friendships/destroy/" + mir_urlEncode(name) + ".json");
 	Execute(req);
 }
 
@@ -114,7 +114,7 @@ void CTwitterProto::mark_read(MCONTACT hContact, const CMStringA &msgId)
 	if (id.IsEmpty())
 		return;
 
-	auto *req = new AsyncHttpRequest(REQUEST_POST, m_szBaseUrl + "1.1/direct_messages/mark_read.json");
+	auto *req = new AsyncHttpRequest(REQUEST_POST, "/direct_messages/mark_read.json");
 	req << CHAR_PARAM("recipient_id", id) << CHAR_PARAM("last_read_event_id", msgId);
 	Execute(req);
 }
@@ -124,15 +124,20 @@ void CTwitterProto::set_status(const CMStringA &text)
 	if (text.IsEmpty())
 		return;
 
-	auto *req = new AsyncHttpRequest(REQUEST_POST, m_szBaseUrl + "1.1/statuses/update.json");
+	auto *req = new AsyncHttpRequest(REQUEST_POST, "/statuses/update.json");
 	req << CHAR_PARAM("status", text);
 	Execute(req);
 }
 
 void CTwitterProto::send_direct(const CMStringA &name, const CMStringA &text)
 {
-	auto *req = new AsyncHttpRequest(REQUEST_POST, m_szBaseUrl + "1.1/direct_messages/events/new.json");
-	req << CHAR_PARAM("text", text) << CHAR_PARAM("screen_name", name);
+	auto *req = new AsyncHttpRequest(REQUEST_POST, "/direct_messages/events/new.json");
+	JSONNode target; target.set_name("target"); target << CHAR_PARAM("recipient_id", name);
+	JSONNode msgData; msgData.set_name("message_data"); msgData << CHAR_PARAM("text", text);
+	JSONNode msgCreate; msgCreate.set_name("message_create"); msgCreate << msgData << target;
+	JSONNode event; event.set_name("event"); event << CHAR_PARAM("type", "message_create") << msgCreate;	
+	JSONNode body; body << event;
+	req->m_szParam = body.write().c_str();
 	Execute(req);
 }
 
