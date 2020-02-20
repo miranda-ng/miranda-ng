@@ -234,10 +234,17 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode& n) {
 	Chat_Control(m_szModuleName, chatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(m_szModuleName, chatId, SESSION_ONLINE);
 
-	auto* ret = new FacebookUser(_wtoi64(chatId), si->hContact, true);
-	m_users.insert(ret);
+	__int64 userId = _wtoi64(chatId);
+	auto* user = FindUser(userId);
 
-	return ret;
+	if (user == nullptr) {
+		user = new FacebookUser(userId, si->hContact, true);
+		m_users.insert(user);
+	}
+	else 
+		user->hContact = si->hContact;
+
+	return user;
 }
 
 FacebookUser* FacebookProto::RefreshThread(CMStringW& wszId) {
@@ -615,7 +622,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			pUser = AddContact(wszUserId, true);
 	}
 	else if (bIsChat && Chat_GetUserInfo(m_szModuleName, wszUserId) == nullptr) // user already exists, but room is not initialized
-		pUser = RefreshThread(wszUserId); 
+		RefreshThread(wszUserId); 
 	
 
 	for (auto &it : metadata["tags"]) {
