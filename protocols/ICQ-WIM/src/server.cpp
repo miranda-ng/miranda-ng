@@ -419,7 +419,12 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 		bool bIsOutgoing = it["outgoing"].as_bool();
 		if (!bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
-			CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszText.Mid(26).c_str());
+			CMStringW wszUrl(wszText.Mid(26));
+			int idx = wszUrl.Find(' ');
+			if (idx != -1)
+				wszUrl.Truncate(idx);
+
+			CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszUrl.c_str());
 			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
 			pReq->hContact = hContact;
 			pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
@@ -808,11 +813,6 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static bool sttIsXDigit(char c)
-{
-	return (c >= 'A' && c <= 'F') || (c >= '0' && c <= '9');
-}
-
 void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
 	RobustReply root(pReply);
@@ -825,12 +825,8 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		return;
 
 	mir_urlDecode(&*szUrl.begin());
-	for (size_t i = 0; i < szUrl.length(); ++i)
-		if (szUrl[i] == '_' && sttIsXDigit(szUrl[i+1]) && sttIsXDigit(szUrl[i+2])) {
-			int c;
-			if (1 == sscanf(szUrl.c_str() + i + 1, "%02x", &c))
-				szUrl.replace(i, 3, 1, c);
-		}
+
+	CMStringW wszDescr(data["file_name"].as_mstring());
 
 	auto *ft = new IcqFileTransfer(pReq->hContact, szUrl.c_str());
 	ft->pfts.totalBytes = ft->pfts.currentFileSize = data["file_size"].as_int();
@@ -841,6 +837,7 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	pre.fileCount = 1;
 	pre.timestamp = time(0);
 	pre.files.w = &ft->m_wszShortName;
+	pre.descr.w = wszDescr;
 	pre.lParam = (LPARAM)ft;
 	ProtoChainRecvFile(pReq->hContact, &pre);
 }
