@@ -1975,11 +1975,11 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 				if (!fCompleted && !PluginConfig.m_bAllowTab) {
 					if ((GetSendButtonState(GetHwnd()) != PBS_DISABLED))
-						SetFocus(m_btnOk.GetHwnd());
+						SetFocus(m_message.GetHwnd());
 					else
 						SetFocus(m_pLog->GetHwnd());
-					return 0;
 				}
+				return 0;
 			}
 
 			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
