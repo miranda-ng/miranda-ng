@@ -34,9 +34,9 @@ public:
 		chkEnableChats(this, IDC_ENABLECHATS)
 	{
 		CreateLink(edtGroup, pThis->m_wszDefaultGroup);
-		CreateLink(chkHideChats, pThis->m_bUseGroupchats);
+		CreateLink(chkHideChats, pThis->m_bHideGroupchats);
 		CreateLink(chkKeepUnread, pThis->m_bKeepUnread);
-		CreateLink(chkEnableChats, pThis->m_bHideGroupchats);
+		CreateLink(chkEnableChats, pThis->m_bUseGroupchats);
 	}
 
 	bool OnInitDialog() override
