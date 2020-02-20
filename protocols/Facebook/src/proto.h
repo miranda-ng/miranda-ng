@@ -249,8 +249,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * The query hash for the `ThreadListQuery`.
  *
  * Key mapping:
- *   0: folder_tag
- *   1: thread_count
+ *   0: folder_tag (INBOX, PENDING, ARCHIVED, OTHER, UNREAD)
+ *   1: thread_count (result is sorted from newest to oldest when parameter is sent)
  *   2: include_thread_info
  *   3: verification_type
  *   4: hash_key
