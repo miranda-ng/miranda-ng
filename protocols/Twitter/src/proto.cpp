@@ -101,14 +101,13 @@ INT_PTR CTwitterProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_MODEMSGRECV | PF1_BASICSEARCH | PF1_SEARCHBYEMAIL |
-			PF1_SERVERCLIST | PF1_CHANGEINFO;
+		return PF1_IM | PF1_MODEMSGRECV | PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SERVERCLIST | PF1_CHANGEINFO;
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
 	case PFLAGNUM_3:
 		return PF2_ONLINE;
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_AVATARS;
+		return PF4_NOCUSTOMAUTH | PF4_AVATARS | PF4_SERVERMSGID;
 	case PFLAG_MAXLENOFMESSAGE:
 		return 159; // 140 + <max length of a users name (15 apparently)> + 4 ("RT @").  this allows for the new style retweets
 	case PFLAG_UNIQUEIDTEXT:
