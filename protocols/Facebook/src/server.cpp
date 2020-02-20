@@ -93,14 +93,15 @@ FacebookUser* FacebookProto::AddContact(const CMStringW &wszId, bool bTemp)
 	if (bTemp)
 		Contact_RemoveFromList(hContact);
 
-	auto *ret = new FacebookUser(_wtoi64(wszId), hContact);
+	auto* ret = new FacebookUser(_wtoi64(wszId), hContact);
+
 	m_users.insert(ret);
 	return ret;
 }
 
-FacebookUser* FacebookProto::UserFromJson(const JSONNode &root, CMStringW &wszUserId)
+FacebookUser* FacebookProto::UserFromJson(const JSONNode &root, CMStringW &wszUserId, bool &bIsChat)
 {
-	bool bIsChat = false;
+	bIsChat = false;
 	wszUserId = root["threadKey"]["otherUserFbId"].as_mstring();
 	if (wszUserId.IsEmpty()) {
 		// if only thread id is present, it must be a group chat
@@ -185,6 +186,78 @@ int FacebookProto::RefreshContacts()
 	return 0;
 }
 
+FacebookUser* FacebookProto::RefreshThread(JSONNode& n) {
+	if (!n["is_group_thread"].as_bool())
+		return nullptr;
+
+	CMStringW chatId(n["thread_key"]["thread_fbid"].as_mstring());
+	CMStringW name(n["name"].as_mstring());
+	if (name.IsEmpty()) {
+		for (auto& u : n["all_participants"]["nodes"]) {
+			auto& ur = u["messaging_actor"];
+			CMStringW userId(ur["id"].as_mstring());
+			if (_wtoi64(userId) == m_uid)
+				continue;
+
+			if (!name.IsEmpty())
+				name.Append(L", ");
+			name += ur["name"].as_mstring();
+		}
+
+		if (name.GetLength() > 128) {
+			name.Truncate(125);
+			name.Append(L"...");
+		}
+	}
+
+	auto* si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chatId, name);
+	if (si == nullptr)
+		return nullptr;
+
+	setWString(si->hContact, DBKEY_ID, chatId);
+	Chat_AddGroup(si, TranslateT("Participant"));
+
+	for (auto& u : n["all_participants"]["nodes"]) {
+		auto& ur = u["messaging_actor"];
+		CMStringW userId(ur["id"].as_mstring());
+		CMStringW userName(ur["name"].as_mstring());
+
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
+		gce.pszID.w = chatId;
+		gce.pszUID.w = userId;
+		gce.pszNick.w = userName;
+		gce.bIsMe = _wtoi64(userId) == m_uid;
+		gce.time = time(0);
+		Chat_Event(&gce);
+	}
+
+	Chat_Control(m_szModuleName, chatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(m_szModuleName, chatId, SESSION_ONLINE);
+
+	auto* ret = new FacebookUser(_wtoi64(chatId), si->hContact, true);
+	m_users.insert(ret);
+
+	return ret;
+}
+
+FacebookUser* FacebookProto::RefreshThread(CMStringW& wszId) {
+	auto* pReq = CreateRequestGQL(FB_API_QUERY_THREAD);
+
+	pReq << WCHAR_PARAM("query_params", CMStringW(FORMAT, L"{\"0\":[\"%s\"], \"12\":0, \"13\":\"false\"}", wszId.c_str()));
+	pReq->CalcSig();
+
+	JsonReply reply(ExecuteRequest(pReq));
+	if (!reply.error()) {
+		auto& root = reply.data();
+
+		for (auto& n : root) {
+			return RefreshThread(n);
+		}
+	}
+
+	return nullptr;
+}
+
 void FacebookProto::RefreshThreads()
 {
 	auto * pReq = CreateRequestGQL(FB_API_QUERY_THREADS);
@@ -197,54 +270,7 @@ void FacebookProto::RefreshThreads()
 		auto &root = reply.data()["viewer"]["message_threads"];
 
 		for (auto &n : root["nodes"]) {
-			if (!n["is_group_thread"].as_bool())
-				continue;
-
-			CMStringW chatId(n["thread_key"]["thread_fbid"].as_mstring());
-			CMStringW name(n["name"].as_mstring());
-			if (name.IsEmpty()) {
-				for (auto &u : n["all_participants"]["nodes"]) {
-					auto &ur = u["messaging_actor"];
-					CMStringW userId(ur["id"].as_mstring());
-					if (_wtoi64(userId) == m_uid)
-						continue;
-
-					if (!name.IsEmpty())
-						name.Append(L", ");
-					name += ur["name"].as_mstring();
-				}
-
-				if (name.GetLength() > 128) {
-					name.Truncate(125);
-					name.Append(L"...");
-				}
-			}
-
-			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chatId, name);
-			if (si == nullptr)
-				continue;
-
-			setWString(si->hContact, DBKEY_ID, chatId);
-			Chat_AddGroup(si, TranslateT("Participant"));
-
-			for (auto &u : n["all_participants"]["nodes"]) {
-				auto &ur = u["messaging_actor"];
-				CMStringW userId(ur["id"].as_mstring());
-				CMStringW userName(ur["name"].as_mstring());
-
-				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-				gce.pszID.w = chatId;
-				gce.pszUID.w = userId;
-				gce.pszNick.w = userName;
-				gce.bIsMe = _wtoi64(userId) == m_uid;
-				gce.time = time(0);
-				Chat_Event(&gce);
-			}
-
-			Chat_Control(m_szModuleName, chatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-			Chat_Control(m_szModuleName, chatId, SESSION_ONLINE);
-
-			m_users.insert(new FacebookUser(_wtoi64(chatId), si->hContact, true));
+			RefreshThread(n);
 		}
 	}
 }
@@ -580,9 +606,17 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	}
 
 	CMStringW wszUserId;
-	auto *pUser = UserFromJson(metadata, wszUserId);
-	if (pUser == nullptr)
-		pUser = AddContact(wszUserId);
+	bool bIsChat;
+	auto *pUser = UserFromJson(metadata, wszUserId, bIsChat);
+	if (pUser == nullptr) {
+		if (bIsChat)
+			pUser = RefreshThread(wszUserId);
+		else
+			pUser = AddContact(wszUserId, true);
+	}
+	else if (bIsChat && Chat_GetUserInfo(m_szModuleName, wszUserId) == nullptr) // user already exists, but room is not initialized
+		pUser = RefreshThread(wszUserId); 
+	
 
 	for (auto &it : metadata["tags"]) {
 		auto *szTagName = it.name();
@@ -735,6 +769,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		szBody.Replace("%", "%%");
 		ptrW wszText(mir_utf8decodeW(szBody));
 
+		// TODO: GC_EVENT_JOIN for chat participants which are missing (for example added later during group chat)
+
 		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
 		gce.pszID.w = wszUserId;
 		gce.dwFlags = GCEF_ADDTOLOG;
@@ -763,7 +799,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 {
 	CMStringW wszUserId;
-	auto *pUser = UserFromJson(root, wszUserId);
+	bool bIsChat;
+	auto *pUser = UserFromJson(root, wszUserId, bIsChat);
 	if (pUser == nullptr) {
 		debugLogA("Message from unknown contact %S, ignored", wszUserId.c_str());
 		return;
@@ -792,7 +829,8 @@ void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 	std::string szId(metadata["messageId"].as_string());
 
 	CMStringW wszUserId;
-	auto *pUser = UserFromJson(metadata, wszUserId);
+	bool bIsChat;
+	auto *pUser = UserFromJson(metadata, wszUserId, bIsChat);
 	if (pUser == nullptr) {
 		debugLogA("Message from unknown contact %s, ignored", wszUserId.c_str());
 		return;

@@ -460,7 +460,7 @@ class FacebookProto : public PROTO<FacebookProto>
       return m_users.find((FacebookUser *)&id);
    }
 
-   FacebookUser* UserFromJson(const JSONNode &root, CMStringW &wszId);
+   FacebookUser* UserFromJson(const JSONNode &root, CMStringW &wszId, bool &bIsChat);
 
    void FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody);
 
@@ -468,6 +468,8 @@ class FacebookProto : public PROTO<FacebookProto>
    void OnLoggedOut();
 
    bool RefreshToken();
+   FacebookUser* RefreshThread(JSONNode& n);
+   FacebookUser* RefreshThread(CMStringW& wszId);
    void RefreshThreads();
    int  RefreshContacts();
 
