@@ -163,13 +163,6 @@ INT_PTR GaduProto::GetCaps(int type, MCONTACT)
 //////////////////////////////////////////////////////////
 // user info request
 //
-void __cdecl GaduProto::cmdgetinfothread(void *hContact)
-{
-	debugLogA("cmdgetinfothread(): started. Failed info retreival.");
-	gg_sleep(100, FALSE, "cmdgetinfothread", 103, 1);
-	ProtoBroadcastAck((UINT_PTR)hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1);
-	debugLogA("cmdgetinfothread(): end.");
-}
 
 int GaduProto::GetInfo(MCONTACT hContact, int)
 {
@@ -181,7 +174,7 @@ int GaduProto::GetInfo(MCONTACT hContact, int)
 #ifdef DEBUGMODE
 			debugLogA("GetInfo(): ForkThread 6 GaduProto::cmdgetinfothread");
 #endif
-			ForkThread(&GaduProto::cmdgetinfothread, (void*)hContact);
+			ProtoBroadcastAsync(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1);
 			return 1;
 		}
 
@@ -197,7 +190,7 @@ int GaduProto::GetInfo(MCONTACT hContact, int)
 #ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 7 GaduProto::cmdgetinfothread");
 #endif
-				ForkThread(&GaduProto::cmdgetinfothread, (void*)hContact);
+				ProtoBroadcastAsync(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1);
 				return 1;
 			}
 			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 2, "sess_mutex", 1);
@@ -209,7 +202,7 @@ int GaduProto::GetInfo(MCONTACT hContact, int)
 #ifdef DEBUGMODE
 			debugLogA("GetInfo(): ForkThread 8 GaduProto::cmdgetinfothread");
 #endif
-			ForkThread(&GaduProto::cmdgetinfothread, (void*)hContact);
+			ProtoBroadcastAsync(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1);
 			return 1;
 		}
 
@@ -224,7 +217,7 @@ int GaduProto::GetInfo(MCONTACT hContact, int)
 #ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 9 GaduProto::cmdgetinfothread");
 #endif
-				ForkThread(&GaduProto::cmdgetinfothread, (void*)hContact);
+				ProtoBroadcastAsync(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)1);
 				gg_pubdir50_free(req);
 				return 1;
 			}
@@ -233,18 +226,7 @@ int GaduProto::GetInfo(MCONTACT hContact, int)
 	}
 	debugLogA("GetInfo(): Seq %d.", req->seq);
 	gg_pubdir50_free(req);
-
 	return 1;
-}
-
-void __cdecl GaduProto::searchthread(void *)
-{
-	debugLogA("searchthread(): started. Failed search.");
-	gg_sleep(100, FALSE, "searchthread", 104, 1);
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
-#ifdef DEBUGMODE
-	debugLogA("searchthread(): end.");
-#endif
 }
 
 //////////////////////////////////////////////////////////
@@ -260,7 +242,7 @@ HANDLE GaduProto::SearchBasic(const wchar_t *id)
 #ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 10 GaduProto::searchthread");
 #endif
-		ForkThread(&GaduProto::searchthread, nullptr);
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
 		return (HANDLE)1;
 	}
 
@@ -274,13 +256,12 @@ HANDLE GaduProto::SearchBasic(const wchar_t *id)
 #ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 11 GaduProto::searchthread");
 #endif
-		ForkThread(&GaduProto::searchthread, nullptr);
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
 		return (HANDLE)1;
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 2, "sess_mutex", 1);
 	debugLogA("SearchBasic(): Seq %d.", req->seq);
 	gg_pubdir50_free(req);
-
 	return (HANDLE)1;
 }
 
@@ -301,7 +282,7 @@ HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, co
 #ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 12 GaduProto::searchthread");
 #endif
-		ForkThread(&GaduProto::searchthread, nullptr);
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
 		return (HANDLE)1;
 	}
 
@@ -342,7 +323,7 @@ HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, co
 #ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 13 GaduProto::searchthread");
 #endif
-		ForkThread(&GaduProto::searchthread, nullptr);
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
 	}
 	else
 	{
@@ -368,7 +349,7 @@ HWND GaduProto::SearchAdvanced(HWND hwndDlg)
 #ifdef DEBUGMODE
 		debugLogA("SearchAdvanced(): ForkThread 14 GaduProto::searchthread");
 #endif
-		ForkThread(&GaduProto::searchthread, nullptr);
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
 		return (HWND)1;
 	}
 
@@ -478,7 +459,7 @@ HWND GaduProto::SearchAdvanced(HWND hwndDlg)
 #ifdef DEBUGMODE
 			debugLogA("SearchAdvanced(): ForkThread 15 GaduProto::searchthread");
 #endif
-			ForkThread(&GaduProto::searchthread, nullptr);
+			ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
 			return (HWND)1;
 		}
 		gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 2, "sess_mutex", 1);
@@ -511,20 +492,6 @@ HWND GaduProto::CreateExtendedSearchUI(HWND owner)
 		MAKEINTRESOURCE(IDD_GGADVANCEDSEARCH), owner, gg_advancedsearchdlgproc, (LPARAM)this);
 }
 
-struct GG_SEQ_ACK
-{
-	MCONTACT hContact;
-	int seq;
-};
-
-void __cdecl GaduProto::sendackthread(void *ack)
-{
-	GG_SEQ_ACK *pAck = (GG_SEQ_ACK *)ack;
-	gg_sleep(100, FALSE, "sendackthread", 105, 1);
-	ProtoBroadcastAck(pAck->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pAck->seq, 0);
-	mir_free(ack);
-}
-
 //////////////////////////////////////////////////////////
 // when messsage sent
 //
@@ -540,18 +507,10 @@ int GaduProto::SendMsg(MCONTACT hContact, int, const char *msg)
 	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
 	int seq = gg_send_message(m_sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
 	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
-	if (!m_gaduOptions.useMsgDeliveryAcknowledge) {
-		// Auto-ack message without waiting for server ack
-		GG_SEQ_ACK *ack = (GG_SEQ_ACK*)mir_alloc(sizeof(GG_SEQ_ACK));
-		if (ack) {
-			ack->seq = seq;
-			ack->hContact = hContact;
-#ifdef DEBUGMODE
-			debugLogA("SendMsg(): ForkThread 16 GaduProto::sendackthread");
-#endif
-			ForkThread(&GaduProto::sendackthread, ack);
-		}
-	}
+
+	// Auto-ack message without waiting for server ack
+	if (!m_gaduOptions.useMsgDeliveryAcknowledge)
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
 
 	return seq;
 }

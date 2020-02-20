@@ -705,53 +705,18 @@ int CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-struct TFakeAckParams
-{
-	inline TFakeAckParams(MCONTACT p2, long p3, const char* p4, CMsnProto *p5, int p6 = ACKTYPE_MESSAGE) :
-		hContact(p2),
-		id(p3),
-		msg(p4),
-		proto(p5),
-		type(p6)
-	{}
-
-	MCONTACT hContact;
-	int     type;
-	long	id;
-	const char*	msg;
-	CMsnProto *proto;
-};
-
-void CMsnProto::MsnFakeAck(void* arg)
-{
-	TFakeAckParams* tParam = (TFakeAckParams*)arg;
-
-	Sleep(150);
-	tParam->proto->ProtoBroadcastAck(tParam->hContact, tParam->type,
-		tParam->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
-		(HANDLE)tParam->id, LPARAM(tParam->msg));
-
-	delete tParam;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendMessage - sends the message to a server
 
 int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 {
-	const char *errMsg = nullptr;
-
 	if (!msnLoggedIn) {
-		errMsg = Translate("Protocol is offline");
-		ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, 999999, errMsg, this));
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)999999, (LPARAM)Translate("Protocol is offline"));
 		return 999999;
 	}
 
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (MSN_IsMeByContact(hContact, tEmail)) {
-		errMsg = Translate("You cannot send message to yourself");
-		ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, 999999, errMsg, this));
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)999999, (LPARAM)Translate("You cannot send message to yourself"));
 		return 999999;
 	}
 
@@ -767,43 +732,39 @@ int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	switch (netId) {
 	case NETID_MOB:
 		if (mir_strlen(msg) > 133) {
-			errMsg = Translate("Message is too long: SMS page limited to 133 UTF8 chars");
 			seq = 999997;
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: SMS page limited to 133 UTF8 chars"));
 		}
 		else {
-			errMsg = nullptr;
 			seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag);
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)seq);
 		}
-		ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
 		break;
 
 	case NETID_YAHOO:
 		if (mir_strlen(msg) > 1202) {
 			seq = 999996;
-			errMsg = Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
-			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars"));
 		}
 		else {
 			seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag);
-			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, nullptr, this));
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)seq);
 		}
 		break;
 
 	default:
 		if (mir_strlen(msg) > 1202) {
 			seq = 999996;
-			errMsg = Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
-			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars"));
 		}
 		else {
 			if (netId != NETID_LCS) {
 				seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag | MSG_OFFLINE);
-				ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, nullptr, this));
+				ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)seq);
 			}
 			else {
 				seq = 999993;
-				errMsg = Translate("Offline messaging is not allowed for LCS contacts");
-				ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
+				ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Offline messaging is not allowed for LCS contacts"));
 			}
 		}
 		break;
@@ -835,7 +796,7 @@ int CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hCo
 	}
 	msg.Append("</contacts>");
 	seq = msnNsThread->sendMessage('1', tEmail, netId, msg, MSG_CONTACT);
-	ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, nullptr, this, ACKTYPE_CONTACTS));
+	ProtoBroadcastAsync(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)seq);
 	return seq;
 }
 

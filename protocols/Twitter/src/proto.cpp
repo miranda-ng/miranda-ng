@@ -118,33 +118,6 @@ INT_PTR CTwitterProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct TSendDirect
-{
-	__inline TSendDirect(MCONTACT _hContact, const CMStringA &_msg, int _msgid) :
-		hContact(_hContact), msg(_msg), msgid(_msgid)
-	{}
-
-	MCONTACT hContact;
-	CMStringA msg;
-	int msgid;
-};
-
-void CTwitterProto::SendSuccess(void *p)
-{
-	if (p == nullptr)
-		return;
-	
-	auto *data = (TSendDirect*)p;
-
-	CMStringA id(getMStringA(data->hContact, TWITTER_KEY_ID));
-	if (!id.IsEmpty()) {
-		send_direct(id, data->msg);
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
-	}
-
-	delete data;
-}
-
 MEVENT CTwitterProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	MEVENT res = CSuper::RecvMsg(hContact, pre);
@@ -158,8 +131,14 @@ int CTwitterProto::SendMsg(MCONTACT hContact, int, const char *msg)
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
+	CMStringA id(getMStringA(hContact, TWITTER_KEY_ID));
+	if (id.IsEmpty())
+		return 0;
+
+	send_direct(id, msg);
+
 	int seq = InterlockedIncrement(&g_msgid);
-	ForkThread(&CTwitterProto::SendSuccess, new TSendDirect(hContact, msg, seq));
+	ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)seq);
 	return seq;
 }
 

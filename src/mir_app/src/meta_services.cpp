@@ -178,24 +178,6 @@ INT_PTR Meta_GetStatus(WPARAM, LPARAM)
 /// Copied from MSN plugin - sent acks need to be from different thread :(
 //////////////////////////////////////////////////////////
 
-struct TFakeAckParams
-{
-	HANDLE hEvent;
-	MCONTACT hContact;
-	LONG id;
-};
-
-static void __cdecl sttFakeAckFail(TFakeAckParams *tParam)
-{
-	WaitForSingleObject(tParam->hEvent, INFINITE);
-
-	Sleep(100);
-	ProtoBroadcastAck(META_PROTO, tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tParam->id, (WPARAM)TranslateT("No online contacts found."));
-
-	CloseHandle(tParam->hEvent);
-	mir_free(tParam);
-}
-
 INT_PTR Meta_SendNudge(WPARAM wParam, LPARAM lParam)
 {
 	DBCachedContact *cc = CheckMeta(wParam);
@@ -230,16 +212,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 
 	MCONTACT hMostOnline = db_mc_getSrmmSub(cc->contactID);
 	if (!hMostOnline) {
-		// send failure to notify user of reason
-		HANDLE hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-
-		TFakeAckParams *tfap = (TFakeAckParams *)mir_alloc(sizeof(TFakeAckParams));
-		tfap->hContact = ccs->hContact;
-		tfap->hEvent = hEvent;
-		tfap->id = 10;
-		mir_forkThread<TFakeAckParams>(sttFakeAckFail, tfap);
-
-		SetEvent(hEvent);
+		ProtoBroadcastAsync(META_PROTO, ccs->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)10, (WPARAM)TranslateT("No online contacts found."));
 		return 10;
 	}
 

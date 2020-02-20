@@ -722,3 +722,5 @@ WebSocket_InitHeader @809 NONAME
 WebSocket_Connect @810 NONAME
 ?log@CSrmmBaseDialog@@QEBAPEAVCSrmmLogWindow@@XZ @811 NONAME
 Netlib_Dump @812 NONAME
+?ProtoBroadcastAsync@PROTO_INTERFACE@@QEAAXIHHPEAX_J@Z @813 NONAME
+ProtoBroadcastAsync @814 NONAME

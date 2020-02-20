@@ -159,7 +159,6 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void __cdecl SendFileThread(void*);
 	void __cdecl ServerThread(void*);
 	void __cdecl SearchThread(void *param);
-	void __cdecl SendMessageAckThread(void* param);
 	void __cdecl BatchChatCreate(void* param);
 	void __cdecl GetAwayMsgThread(void *param);
 

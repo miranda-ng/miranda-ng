@@ -88,39 +88,12 @@ void GaduProto::dccconnect(uin_t uin)
 	gg_LeaveCriticalSection(&ft_mutex, "dccconnect", 36, 1, "ft_mutex", 1);
 }
 
-struct ftfaildata
-{
-	MCONTACT hContact;
-	HANDLE hProcess;
-};
-
-//////////////////////////////////////////////////////////
-// THREAD: File transfer fail
-//
-void __cdecl GaduProto::ftfailthread(void *param)
-{
-	struct ftfaildata *ft = (struct ftfaildata *)param;
-	debugLogA("ftfailthread(): started. Sending failed file transfer.");
-	gg_sleep(100, FALSE, "ftfailthread", 102, 1);
-	ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft->hProcess, 0);
-	free(ft);
-	debugLogA("ftfailthread(): end.");
-}
-
 HANDLE ftfail(GaduProto *gg, MCONTACT hContact)
 {
-	ftfaildata *ft = (ftfaildata*)malloc(sizeof(struct ftfaildata));
-#ifdef DEBUGMODE
-	gg->debugLogA("ftfail(): Failing file transfer...");
-#endif
 	srand(time(0));
-	ft->hProcess = (HANDLE)rand();
-	ft->hContact = hContact;
-#ifdef DEBUGMODE
-	gg->debugLogA("ftfail(): ForkThread 5 GaduProto::ftfailthread");
-#endif
-	gg->ForkThread(&GaduProto::ftfailthread, ft);
-	return ft->hProcess;
+	HANDLE hProcess = (HANDLE)rand();
+	gg->ProtoBroadcastAsync(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, hProcess);
+	return hProcess;
 }
 
 // Info refresh min time (msec) / half-sec

@@ -305,7 +305,6 @@ bool CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 			}
 
 			ft->jibb->dwTransferredSize += (DWORD)numRead;
-
 			ft->std.currentFileProgress += numRead;
 			ft->std.totalProgress += numRead;
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);

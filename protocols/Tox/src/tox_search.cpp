@@ -49,12 +49,6 @@ void CToxProto::SearchByNameAsync(void *arg)
 	mir_free(arg);
 }
 
-void CToxProto::SearchFailedAsync(void*)
-{
-	Thread_SetName(MODULE ": SearchFailedThread");
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
-}
-
 INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -96,14 +90,14 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 		psr.id.a = mir_strdup(query.c_str());
 		Contact_AddBySearch(m_szModuleName, &psr, owner);
 
-		ForkThread(&CToxProto::SearchFailedAsync, nullptr);
+		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
 	}
 	else {
 		regex = "^\\s*(([^ @/:;()\"']+)(@[A-Za-z]+.[A-Za-z]{2,6})?)\\s*$";
 		if (std::regex_search(query, match, regex))
 			ForkThread(&CToxProto::SearchByNameAsync, mir_strdup(query.c_str()));
 		else
-			ForkThread(&CToxProto::SearchFailedAsync, nullptr);
+			ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
 	}
 	return (HWND)1;
 }

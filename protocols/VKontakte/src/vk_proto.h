@@ -385,7 +385,6 @@ private:
 	void SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl);
 	void GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cbLen);
 	void ReloadAvatarInfo(MCONTACT hContact);
-	void __cdecl SendMsgAck(void *param);
 	void __cdecl ChatContactTypingThread(void *p);
 	void StopChatContactTyping(int iChatId, LONG iUserId);
 	void OnCreateNewChat(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

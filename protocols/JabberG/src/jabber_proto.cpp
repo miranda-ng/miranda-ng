@@ -906,29 +906,6 @@ MEVENT CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberSendMessage - sends a message
 
-struct TFakeAckParams
-{
-	inline TFakeAckParams(MCONTACT _hContact, const wchar_t *_msg, int _msgid = 0)
-		: hContact(_hContact), msg(_msg), msgid(_msgid)
-	{
-	}
-
-	MCONTACT hContact;
-	const wchar_t *msg;
-	int msgid;
-};
-
-void __cdecl CJabberProto::SendMessageAckThread(void* param)
-{
-	Thread_SetName("Jabber: SendMessageAckThread");
-	TFakeAckParams *par = (TFakeAckParams*)param;
-	Sleep(100);
-	debugLogA("Broadcast ACK");
-	ProtoBroadcastAck(par->hContact, ACKTYPE_MESSAGE, par->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS, (HANDLE)par->msgid, (LPARAM)par->msg);
-	debugLogA("Returning from thread");
-	delete par;
-}
-
 static char PGP_PROLOG[] = "-----BEGIN PGP MESSAGE-----\r\n\r\n";
 static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
 
@@ -936,8 +913,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 {
 	char szClientJid[JABBER_MAX_JID_LEN];
 	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
-		TFakeAckParams *param = new TFakeAckParams(hContact, TranslateT("Protocol is offline or no JID"));
-		ForkThread(&CJabberProto::SendMessageAckThread, param);
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 0, (LPARAM)TranslateT("Protocol is offline or no JID"));
 		return 1;
 	}
 
@@ -945,8 +921,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		if (!OmemoCheckSession(hContact)) {
 			OmemoPutMessageToOutgoingQueue(hContact, unused_unknown, pszSrc);
 			int id = SerialNext();
-			TFakeAckParams *param = new TFakeAckParams(hContact, nullptr, id);
-			ForkThread(&CJabberProto::SendMessageAckThread, param);
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id);
 			return id;
 		}
 	}
@@ -974,8 +949,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 	if (m_bUseOMEMO && OmemoIsEnabled(hContact) && !mir_strcmp(msgType, "chat")) {
 		// TODO: check if message encrypted for at least one session and return error if not
 		if (!OmemoEncryptMessage(m, pszSrc, hContact)) {
-			TFakeAckParams *param = new TFakeAckParams(hContact, TranslateT("No valid OMEMO session exists"));
-			ForkThread(&CJabberProto::SendMessageAckThread, param);
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 0, (LPARAM)TranslateT("No valid OMEMO session exists"));
 			return 0;
 		}
 	}
@@ -1024,7 +998,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 
 		m_ThreadInfo->send(m);
 
-		ForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, nullptr, id));
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id);
 	}
 	else {
 		XmlAddAttrID(m, id);

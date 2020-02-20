@@ -232,9 +232,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 
 	// ircproto.cpp
 	void __cdecl AckBasicSearch(void* param);
-	void __cdecl AckMessageFail(void* info);
-	void __cdecl AckMessageFailDcc(void* info);
-	void __cdecl AckMessageSuccess(void* info);
 
 	int  SetStatusInternal(int iNewStatus, bool bIsInternal);
 

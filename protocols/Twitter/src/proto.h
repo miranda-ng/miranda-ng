@@ -202,7 +202,6 @@ public:
 	// Threads
 
 	void __cdecl AddToListWorker(void *p);
-	void __cdecl SendSuccess(void *);
 	void __cdecl DoSearch(void *);
 	void __cdecl SignOn(void *);
 	void __cdecl MessageLoop(void *);

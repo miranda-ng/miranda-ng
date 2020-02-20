@@ -170,12 +170,8 @@ static void __cdecl WeatherGetAwayMsgThread(void *arg)
 	Sleep(100);
 
 	MCONTACT hContact = (DWORD_PTR)arg;
-	DBVARIANT dbv;
-	if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
-		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pwszVal);
-		db_free(&dbv);
-	}
-	else ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1);
+	ptrW wszStatus(db_get_wsa(hContact, "CList", "StatusMsg"));
+	ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, wszStatus);
 }
 
 static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)

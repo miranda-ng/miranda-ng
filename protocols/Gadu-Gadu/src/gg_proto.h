@@ -73,12 +73,8 @@ struct GaduProto : public PROTO<GaduProto>
 	// Threads
 
 	void __cdecl mainthread(void *empty);
-	void __cdecl sendackthread(void *);
-	void __cdecl searchthread(void *);
-	void __cdecl cmdgetinfothread(void *hContact);
 	void __cdecl getawaymsgthread(void *hContact);
 	void __cdecl dccmainthread(void *);
-	void __cdecl ftfailthread(void *param);
 	void __cdecl remindpasswordthread(void *param);
 
 	//////////////////////////////////////////////////////////////////////////////////////

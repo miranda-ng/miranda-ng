@@ -42,7 +42,6 @@ struct CDummyProto : public PROTO<CDummyProto>
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	
-	void __cdecl SendMsgAck(void *param);
 	void __cdecl SearchIdAckThread(void*);
 	
 	char uniqueIdText[100];

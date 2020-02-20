@@ -50,11 +50,7 @@ struct TFakeAckParams
 	LPARAM lParam;
 };
 
-void __cdecl sttFakeAckInfoSuccessThread(TFakeAckParams* tParam);
-void __cdecl sttFakeAckMessageFailedThread(TFakeAckParams* tParam);
-void __cdecl sttFakeAckMessageSuccessThread(TFakeAckParams* tParam);
 void __cdecl sttRecvAwayThread(TFakeAckParams* tParam);
-
 
 //sametime structs
 

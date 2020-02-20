@@ -167,7 +167,6 @@ private:
 
 	// contacts search
 	void __cdecl SearchByNameAsync(void *arg);
-	void __cdecl SearchFailedAsync(void *arg);
 
 	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

@@ -630,47 +630,17 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMessage - sends a message
 
-struct TFakeAckParam
-{
-	__inline TFakeAckParam(MCONTACT _hContact, int _msgid) :
-		hContact(_hContact), msgid(_msgid)
-	{}
-
-	MCONTACT hContact;
-	int    msgid;
-};
-
-void __cdecl CIrcProto::AckMessageFail(void *info)
-{
-	Thread_SetName("IRC: AckMessageFail");
-	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("The protocol is not online"));
-}
-
-void __cdecl CIrcProto::AckMessageFailDcc(void *info)
-{
-	Thread_SetName("IRC: AckMessageFailDcc");
-	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("The dcc chat connection is not active"));
-}
-
-void __cdecl CIrcProto::AckMessageSuccess(void *info)
-{
-	Thread_SetName("IRC: AckMessageSuccess");
-	TFakeAckParam *param = (TFakeAckParam*)info;
-	ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)param->msgid, 0);
-	delete param;
-}
-
 int CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
 	BYTE bDcc = getByte(hContact, "DCC", 0);
 	WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (bDcc && wStatus != ID_STATUS_ONLINE) {
-		ForkThread(&CIrcProto::AckMessageFailDcc, (void*)hContact);
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("The dcc chat connection is not active"));
 		return 0;
 	}
 	
 	if (!bDcc && (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)) {
-		ForkThread(&CIrcProto::AckMessageFail, (void*)hContact);
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("The protocol is not online"));
 		return 0;
 	}
 
@@ -680,7 +650,7 @@ int CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	mir_free(result);
 
 	int seq = InterlockedIncrement(&g_msgid);
-	ForkThread(&CIrcProto::AckMessageSuccess, new TFakeAckParam(hContact, seq));
+	ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)seq);
 	return seq;
 }
 

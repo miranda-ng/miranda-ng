@@ -91,6 +91,8 @@ public:
 
 	__forceinline INT_PTR ProtoBroadcastAck(MCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam = 0) {
 		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
+	__forceinline void ProtoBroadcastAsync(MCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam = 0) {
+		return ::ProtoBroadcastAsync(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
 
 	__forceinline INT_PTR delSetting(const char *name) { return db_unset(NULL, m_szModuleName, name); }
 	__forceinline INT_PTR delSetting(MCONTACT hContact, const char *name) { return db_unset(hContact, m_szModuleName, name); }

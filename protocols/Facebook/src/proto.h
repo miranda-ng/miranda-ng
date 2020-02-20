@@ -475,7 +475,6 @@ class FacebookProto : public PROTO<FacebookProto>
 
    FacebookUser* AddContact(const CMStringW &wszId, bool bTemp = true);
 
-   void __cdecl SendMessageAckThread(void *);
    void __cdecl ServerThread(void *);
 
 public:

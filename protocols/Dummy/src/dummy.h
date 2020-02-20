@@ -24,14 +24,6 @@ struct CDummyProto;
 #define DUMMY_ID_SETTING "UniqueIdSetting"
 #define DUMMY_KEY_ALLOW_SENDING "AllowSending"
 
-struct message_data
-{
-	message_data(MCONTACT hContact, const std::string &msg, int msgid) : hContact(hContact), msg(msg), msgid(msgid) {}
-	MCONTACT hContact;
-	std::string msg;
-	int msgid;
-};
-
 struct ttemplate
 {
 	const char *name;

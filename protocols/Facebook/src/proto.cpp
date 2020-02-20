@@ -175,16 +175,10 @@ INT_PTR FacebookProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void __cdecl FacebookProto::SendMessageAckThread(void *param)
-{
-	Sleep(100);
-	ProtoBroadcastAck((UINT_PTR)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)TranslateT("Protocol is offline or user isn't authorized yet"));
-}
-
 int FacebookProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 {
 	if (!m_bOnline) {
-		ForkThread(&FacebookProto::SendMessageAckThread, (void *)hContact);
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)TranslateT("Protocol is offline or user isn't authorized yet"));
 		return 1;
 	}
 

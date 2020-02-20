@@ -60,6 +60,21 @@ MIR_APP_DLL(void) Proto_EnumProtocols(int *nProtos, PROTOCOLDESCRIPTOR ***pProto
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void __cdecl sttFakeAckThread(ACKDATA *ack)
+{
+	Sleep(100);
+	NotifyEventHooks(hAckEvent, 0, (LPARAM)ack);
+	delete ack;
+}
+
+MIR_APP_DLL(void) ProtoBroadcastAsync(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+{
+	ACKDATA ack = { szModule, hContact, type, result, hProcess, lParam };
+	mir_forkThread<ACKDATA>(sttFakeAckThread, new ACKDATA(ack));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	ACKDATA ack = { szModule, hContact, type, result, hProcess, lParam };

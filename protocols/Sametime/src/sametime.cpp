@@ -87,43 +87,8 @@ void SametimeInitIcons(void)
 }
 
 // Copied from MSN plugin - sent acks need to be from different thread
-void __cdecl sttFakeAckInfoSuccessThread(TFakeAckParams* tParam)
-{
-	CSametimeProto* proto = tParam->proto;
-	proto->debugLogW(L"sttFakeAckInfoSuccessThread() start");
 
-	Sleep(100);
-	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
-
-	proto->debugLogW(L"sttFakeAckInfoSuccessThread() end");
-	mir_free(tParam);
-}
-
-void __cdecl sttFakeAckMessageSuccessThread(TFakeAckParams* tParam)
-{
-	CSametimeProto* proto = tParam->proto;
-	proto->debugLogW(L"sttFakeAckMessageSuccessThread() start");
-
-	Sleep(100);
-	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->lParam, 0);
-
-	proto->debugLogW(L"sttFakeAckMessageSuccessThread() end");
-	mir_free(tParam);
-}
-
-void __cdecl sttFakeAckMessageFailedThread(TFakeAckParams* tParam)
-{
-	CSametimeProto* proto = tParam->proto;
-	proto->debugLogW(L"sttFakeAckMessageFailedThread() start");
-
-	Sleep(100);
-	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, tParam->lParam); ///TODO tParam->lParam: add error message
-
-	proto->debugLogW(L"sttFakeAckMessageFailedThread() end");
-	mir_free(tParam);
-}
-
-void __cdecl sttRecvAwayThread(TFakeAckParams* tParam)
+void __cdecl sttRecvAwayThread(TFakeAckParams *tParam)
 {
 	CSametimeProto* proto = tParam->proto;
 	proto->debugLogW(L"sttRecvAwayThread() start");

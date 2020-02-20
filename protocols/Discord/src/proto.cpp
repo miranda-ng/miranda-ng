@@ -386,16 +386,10 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMsg
 
-void __cdecl CDiscordProto::SendMessageAckThread(void *param)
-{
-	Sleep(100);
-	ProtoBroadcastAck((UINT_PTR)param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)TranslateT("Protocol is offline or user isn't authorized yet"));
-}
-
 int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 {
 	if (!m_bOnline) {
-		ForkThread(&CDiscordProto::SendMessageAckThread, (void*)hContact);
+		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)TranslateT("Protocol is offline or user isn't authorized yet"));
 		return 1;
 	}
 

@@ -246,8 +246,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	void __cdecl MsnFileAckThread(void* arg);
 	void __cdecl MsnSearchAckThread(void* arg);
-	void __cdecl sttFakeAvatarAck(void* arg);
-	void __cdecl MsnFakeAck(void* arg);
 
 	void __cdecl MsnGetAwayMsgThread(void* arg);
 
