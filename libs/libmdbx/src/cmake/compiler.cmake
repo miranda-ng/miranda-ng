@@ -214,14 +214,6 @@ else()
   check_compiler_flag("-Ominimal" CC_HAS_OMINIMAL)
   check_compiler_flag("-ffunction-sections -fdata-sections" CC_HAS_SECTIONS)
   check_compiler_flag("-ffast-math" CC_HAS_FASTMATH)
-
-  # Check for an omp support
-  set(CMAKE_REQUIRED_FLAGS "-fopenmp -Werror")
-  check_cxx_source_compiles("int main(void) {
-    #pragma omp parallel
-    return 0;
-    }" HAVE_OPENMP)
-  set(CMAKE_REQUIRED_FLAGS "")
 endif()
 
 # Check for LTO support by GCC
@@ -367,7 +359,7 @@ if(CMAKE_COMPILER_IS_CLANG)
       set(CMAKE_CLANG_NM ${CMAKE_NM})
     endif()
     if (NOT CMAKE_CLANG_RANLIB)
-      set(CMAKE_CLANG_RANLIB ${CMAKE_RANLIB })
+      set(CMAKE_CLANG_RANLIB ${CMAKE_RANLIB})
     endif()
     message(STATUS "Assume Link-Time Optimization by CLANG/LLVM is available via ${CMAKE_TOOLCHAIN_FILE}")
   else()
@@ -532,10 +524,6 @@ macro(setup_compile_flags)
     else()
       add_compile_flags("C;CXX" "-Werror")
     endif()
-  endif()
-
-  if(HAVE_OPENMP)
-    add_compile_flags("C;CXX" "-fopenmp")
   endif()
 
   if (ENABLE_ASAN)
