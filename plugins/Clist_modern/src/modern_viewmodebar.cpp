@@ -63,31 +63,6 @@ static UINT _buttons[] = { IDC_RESETMODES, IDC_SELECTMODE, IDC_CONFIGUREMODES };
 static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect);
 static void DeleteViewMode(char * szName);
 
-static int DrawViewModeBar(HWND hWnd, HDC hDC)
-{
-	RECT rc;
-	GetClientRect(hWnd, &rc);
-	SkinDrawGlyph(hDC, &rc, &rc, "ViewMode,ID=Background");
-	return 0;
-}
-
-static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
-{
-	RECT MyRect = { 0 };
-	GetWindowRect(hWnd, &MyRect);
-	DrawViewModeBar(hWnd, hDC);
-	for (auto &btn : _buttons) {
-		RECT childRect;
-		GetWindowRect(GetDlgItem(hWnd, btn), &childRect);
-
-		POINT Offset;
-		Offset.x = childRect.left - MyRect.left;
-		Offset.y = childRect.top - MyRect.top;
-		SendDlgItemMessage(hWnd, btn, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
-	}
-	return 0;
-}
-
 /*
  * enumerate all view modes, call the callback function with the mode name
  * useful for filling lists, menus and so on..
@@ -195,7 +170,6 @@ static void UpdateStickies()
 			SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELONG(i - ID_STATUS_OFFLINE, nullImage));
 		hItem = (HANDLE)SendDlgItemMessage(clvmHwnd, IDC_CLIST, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
-	ShowPage(clvmHwnd, 0);
 }
 
 static int FillDialog(HWND hwnd)
@@ -780,6 +754,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ADDVIEWMODE), FALSE);
 				UpdateFilters();
+				ShowPage(clvmHwnd, 0);
 				break;
 			}
 		case IDC_CLEARALL:
@@ -870,6 +845,8 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int menuCounter = 0;
 
 static int FillMenuCallback(char *szSetting)
@@ -905,6 +882,8 @@ void BuildViewModeMenu()
 		AppendMenu(hViewModeMenu, MF_SEPARATOR, 0, nullptr);
 	AppendMenu(hViewModeMenu, MFT_STRING, 10001, TranslateT("Setup view modes..."));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1008,7 +987,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 				else ske_BltBackImage(hwnd, hdc2, &rc);
 
-				DrawViewModeBar(hwnd, hdc2);
+				SkinDrawGlyph(hdc, &rc, &rc, "ViewMode,ID=Background");
 			}
 
 			for (auto &btn : _buttons) {
@@ -1163,6 +1142,24 @@ static int ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 		view_mode.backgroundBmpUse = db_get_w(0, "ViewMode", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 	PostMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
+	return 0;
+}
+
+static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
+{
+	RECT MyRect = { 0 };
+	GetWindowRect(hWnd, &MyRect);
+	SkinDrawGlyph(hDC, &MyRect, &MyRect, "ViewMode,ID=Background");
+
+	for (auto &btn : _buttons) {
+		RECT childRect;
+		GetWindowRect(GetDlgItem(hWnd, btn), &childRect);
+
+		POINT Offset;
+		Offset.x = childRect.left - MyRect.left;
+		Offset.y = childRect.top - MyRect.top;
+		SendDlgItemMessage(hWnd, btn, BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
+	}
 	return 0;
 }
 
