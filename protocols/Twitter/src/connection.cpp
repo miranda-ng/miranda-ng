@@ -36,13 +36,9 @@ inline static T db_pod_get(MCONTACT hContact, const char *module, const char *se
 	if (db_get(hContact, module, setting, &dbv))
 		return errorValue;
 
-	// TODO: remove this, it's just a temporary workaround
-	if (dbv.type == DBVT_DWORD)
-		return dbv.dVal;
-
-	if (dbv.cpbVal != sizeof(T))
-		return errorValue;
-	return *reinterpret_cast<T*>(dbv.pbVal);
+	T ret = *(T*)dbv.pbVal;
+	db_free(&dbv);
+	return ret;
 }
 
 template<typename T>
@@ -244,8 +240,7 @@ void CTwitterProto::MessageLoop(void*)
 		if (m_iStatus != ID_STATUS_ONLINE)
 			break;
 
-		if (i % 10 == 0)
-			UpdateMessages(new_account);
+		UpdateMessages(new_account);
 
 		if (new_account) { // Not anymore!
 			new_account = false;
@@ -455,13 +450,15 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 		return;
 	}
 
+	OBJLIST<twitter_user> messages(10);
+
 	for (auto &one : root) {
 		const JSONNode &pUser = one["user"];
 
-		twitter_user u;
-		u.username = pUser["screen_name"].as_string();
-		u.real_name = pUser["name"].as_string();
-		u.profile_image_url = pUser["profile_image_url"].as_string();
+		auto *u = new twitter_user();
+		u->username = pUser["screen_name"].as_string();
+		u->real_name = pUser["name"].as_string();
+		u->profile_image_url = pUser["profile_image_url"].as_string();
 
 		CMStringA retweeteesName, retweetText;
 
@@ -481,7 +478,7 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 			// fix html entities in the text
 			htmlEntitiesDecode(retweetText);
 
-			u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
+			u->status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
 		}
 		else {
 			// if it's not truncated, then the CTwitterProto API returns the native RT correctly anyway,
@@ -490,41 +487,44 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 			// fix html entities in the text
 			htmlEntitiesDecode(rawText);
 
-			u.status.text = rawText;
+			u->status.text = rawText;
 		}
 
-		twitter_id id = _atoi64(one["id"].as_string().c_str());
-		if (id > since_id_)
-			since_id_ = id;
+		u->status.id = _atoi64(one["id"].as_string().c_str());
+		if (u->status.id > since_id_)
+			since_id_ = u->status.id;
 
 		std::string timestr = one["created_at"].as_string();
-		u.status.time = parse_time(timestr.c_str());
+		u->status.time = parse_time(timestr.c_str());
+		messages.insert(u);
+	}
 
+	for (auto &u : messages.rev_iter()) {
 		if (!pre_read && in_chat_)
-			UpdateChat(u);
+			UpdateChat(*u);
 
-		if (u.username.c_str() == m_szUserName)
+		if (u->username.c_str() == m_szUserName)
 			continue;
 
-		MCONTACT hContact = AddToClientList(u.username.c_str(), "");
-		UpdateAvatar(hContact, u.profile_image_url.c_str());
+		MCONTACT hContact = AddToClientList(u->username.c_str(), "");
+		UpdateAvatar(hContact, u->profile_image_url.c_str());
 
 		// if we send twits as messages, add an unread event
 		if (tweetToMsg) {
 			DBEVENTINFO dbei = {};
-			dbei.pBlob = (BYTE*)(u.status.text.c_str());
-			dbei.cbBlob = (int)u.status.text.length() + 1;
+			dbei.pBlob = (BYTE*)(u->status.text.c_str());
+			dbei.cbBlob = (int)u->status.text.length() + 1;
 			dbei.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 			dbei.flags = DBEF_UTF;
-			dbei.timestamp = static_cast<DWORD>(u.status.time);
+			dbei.timestamp = static_cast<DWORD>(u->status.time);
 			dbei.szModule = m_szModuleName;
 			db_event_add(hContact, &dbei);
 		}
-		else db_set_utf(hContact, "CList", "StatusMsg", u.status.text.c_str());
+		else db_set_utf(hContact, "CList", "StatusMsg", u->status.text.c_str());
 
 		if (!pre_read && popups) {
 			Skin_PlaySound("TwitterNew");
-			ShowContactPopup(hContact, u.status.text.c_str(), new CMStringA(FORMAT, "https://twitter.com/%s/status/%lld", u.username.c_str(), u.status.id));
+			ShowContactPopup(hContact, u->status.text.c_str(), new CMStringA(FORMAT, "https://twitter.com/%s/status/%lld", u->username.c_str(), u->status.id));
 		}
 	}
 
