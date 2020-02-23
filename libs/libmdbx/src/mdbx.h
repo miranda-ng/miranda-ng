@@ -555,11 +555,6 @@
 
 #include <windows.h>
 #include <winnt.h>
-
-#ifndef FSCTL_GET_EXTERNAL_BACKING
-#define FSCTL_GET_EXTERNAL_BACKING CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 196, METHOD_BUFFERED, FILE_ANY_ACCESS)
-#endif
-
 #ifndef __mode_t_defined
 typedef unsigned short mode_t;
 #endif
