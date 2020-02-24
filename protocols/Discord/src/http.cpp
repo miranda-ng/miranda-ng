@@ -61,9 +61,9 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 		ptrW text(json_write(pRoot));
 		pData = mir_utf8encodeW(text);
 		dataLength = (int)mir_strlen(pData);
-	}
 
-	AddHeader("Content-Type", "application/json");
+		AddHeader("Content-Type", "application/json");
+	}
 
 	m_pFunc = pFunc;
 	requestType = iRequestType;
