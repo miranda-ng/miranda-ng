@@ -482,13 +482,22 @@ int CDiscordProto::UserIsTyping(MCONTACT hContact, int type)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CDiscordProto::OnReceiveMarkRead(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+{
+	JsonReply root(pReply);
+	if (root)
+		SaveToken(root.data());
+}
+
 void CDiscordProto::SendMarkRead()
 {
 	mir_cslock lck(csMarkReadQueue);
 	while (arMarkReadQueue.getCount()) {
 		CDiscordUser *pUser = arMarkReadQueue[0];
+		JSONNode payload; payload << CHAR_PARAM("token", m_szAccessToken);
 		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMsgId);
-		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr));
+		auto *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMarkRead, &payload);
+		Push(pReq);
 		arMarkReadQueue.remove(0);
 	}
 }

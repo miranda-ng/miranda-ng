@@ -27,6 +27,16 @@ void CDiscordProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 	SetEvent(m_evRequestsQueue);
 }
 
+void CDiscordProto::SaveToken(const JSONNode &data)
+{
+	CMStringA szToken = data["token"].as_mstring();
+	if (szToken.IsEmpty())
+		return;
+
+	m_szAccessToken = szToken.Detach();
+	setString("AccessToken", m_szAccessToken);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static LONG g_reqNum = 0;
@@ -62,6 +72,27 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	requestType = iRequestType;
 	m_iErrorCode = 0;
 	m_iReqNum = ::InterlockedIncrement(&g_reqNum);
+}
+
+JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
+{
+	if (pReply == nullptr) {
+		m_errorCode = 500;
+		return;
+	}
+
+	m_errorCode = pReply->resultCode;
+	if (m_errorCode != 200)
+		return;
+
+	m_root = json_parse(pReply->pData);
+	if (m_root == nullptr)
+		m_errorCode = 500;
+}
+
+JsonReply::~JsonReply()
+{
+	json_delete(m_root);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
