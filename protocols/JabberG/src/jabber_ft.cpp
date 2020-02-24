@@ -746,6 +746,15 @@ bool CJabberProto::FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileNam
 	m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
 	m << XCHILDNS("markable", JABBER_FEAT_CHAT_MARKERS);
 	m_ThreadInfo->send(m);
+
+	// emulate a message for us
+	CMStringA szMsg(FORMAT, "[img]%s[/img]", T2Utf(wszFileName).get());
+
+	PROTORECVEVENT recv = {};
+	recv.flags = PREF_CREATEREAD | PREF_SENT;
+	recv.szMessage = szMsg.GetBuffer();
+	recv.timestamp = time(0);
+	ProtoChainRecvMsg(hContact, &recv);
 	return true;
 }
 
