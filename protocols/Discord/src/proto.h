@@ -183,7 +183,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	wchar_t *m_wszStatusMsg[MAX_STATUS_COUNT];
 
-	ptrA m_szAccessToken;
+	ptrA m_szAccessToken, m_szTempToken;
 
 	mir_cs m_csHttpQueue;
 	HANDLE m_evRequestsQueue;
@@ -350,7 +350,6 @@ public:
 
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcGetEventIcon(WPARAM, LPARAM);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);

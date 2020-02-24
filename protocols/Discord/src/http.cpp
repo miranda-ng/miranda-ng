@@ -30,11 +30,8 @@ void CDiscordProto::Push(AsyncHttpRequest *pReq, int iTimeout)
 void CDiscordProto::SaveToken(const JSONNode &data)
 {
 	CMStringA szToken = data["token"].as_mstring();
-	if (szToken.IsEmpty())
-		return;
-
-	m_szAccessToken = szToken.Detach();
-	setString("AccessToken", m_szAccessToken);
+	if (!szToken.IsEmpty())
+		m_szTempToken = szToken.Detach();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

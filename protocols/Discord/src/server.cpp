@@ -286,7 +286,13 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	if (!root)
 		ConnectionFailed(LOGINERR_NOSERVER);
 	else {
-		SaveToken(root.data());
+		auto &data = root.data();
+		CMStringA szToken = data["token"].as_mstring();
+		if (szToken.IsEmpty())
+			return;
+
+		m_szAccessToken = szToken.Detach();
+		setString("AccessToken", m_szAccessToken);
 		RetrieveMyInfo();
 	}
 }

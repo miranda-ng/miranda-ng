@@ -40,7 +40,11 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const BOOL_PARAM &param)
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const CHAR_PARAM &param)
 {
-	json.push_back(JSONNode(param.szName, param.szValue));
+	if (param.szValue == nullptr) {
+		JSONNode tmp(JSON_NULL); tmp.set_name(param.szName);
+		json.push_back(tmp);
+	}
+	else json.push_back(JSONNode(param.szName, param.szValue));
 	return json;
 }
 

@@ -494,7 +494,7 @@ void CDiscordProto::SendMarkRead()
 	mir_cslock lck(csMarkReadQueue);
 	while (arMarkReadQueue.getCount()) {
 		CDiscordUser *pUser = arMarkReadQueue[0];
-		JSONNode payload; payload << CHAR_PARAM("token", m_szAccessToken);
+		JSONNode payload; payload << CHAR_PARAM("token", m_szTempToken);
 		CMStringA szUrl(FORMAT, "/channels/%lld/messages/%lld/ack", pUser->channelId, pUser->lastMsgId);
 		auto *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveMarkRead, &payload);
 		Push(pReq);
