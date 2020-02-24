@@ -270,9 +270,12 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 		if (root) {
 			const JSONNode &captcha = root["captcha_key"].as_array();
 			if (captcha) {
-				for (auto& it : captcha)
-					if (it.as_mstring() == "captcha-required")
-						debugLogA("captcha required");
+				for (auto &it : captcha) {
+					if (it.as_mstring() == "captcha-required") {
+						MessageBoxW(NULL, TranslateT("THe server requires you to enter the captcha. Miranda will redirect you to a browser now"), L"Discord", MB_OK | MB_ICONINFORMATION);
+						Utils_OpenUrl("https://discordapp.com/app");
+					}
+				}
 			}
 		}
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
