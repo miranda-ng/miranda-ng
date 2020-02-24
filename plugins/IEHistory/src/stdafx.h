@@ -56,20 +56,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "utils.h"
 #include "dlgHandlers.h"
 
-#define _strcat strcat_s
-#define _vsnprintf _vsnprintf_s
-#define snprintf _snprintf_s
-#define snwprintf _snwprintf_s
-#define sprintf sprintf_s
-#define itow _itow_s
-#ifndef _UNICODE
-#	define itot itoa
-#	define sntprintf snprintf
-#else
-#	define itot itow
-#	define sntprintf snwprintf
-#endif
-
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<BYTE> bEnableRtl, bShowLastFirst, bUseWorker;

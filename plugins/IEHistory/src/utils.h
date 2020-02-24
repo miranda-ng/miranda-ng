@@ -21,12 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_IEHISTORY_UTILS_H
 #define M_IEHISTORY_UTILS_H
 
-#define ANCHOR_LEFT     0x000001
-#define ANCHOR_RIGHT		0x000002
-#define ANCHOR_TOP      0x000004
-#define ANCHOR_BOTTOM   0x000008
-#define ANCHOR_ALL      ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM
-
 #define DIRECTION_BACK			0x000001
 #define DIRECTION_FORWARD		0x000002
 
@@ -68,25 +62,11 @@ int Log(char *format, ...);
 void ScreenToClient(HWND hWnd, LPRECT rect);
 
 int Info(char *title, char *format, ...);
-void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors);
-RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos, int anchors);
 
 void UnixTimeToFileTime(time_t t, LPFILETIME pft);
 void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst);
 
-MEVENT GetNeededEvent(MEVENT hLastFirstEvent, int num, int direction);
+MEVENT GetNeededEvent(MCONTACT contact, MEVENT hLastFirstEvent, int num, int direction);
 SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent,  void *searchData, int direction, int type);
 
-/*
-static __inline int mir_snprintf(char *buffer, size_t count, const char* fmt, ...) {
-	va_list va;
-	int len;
-
-	va_start(va, fmt);
-	len = _vsnprintf(buffer, count-1, fmt, va);
-	va_end(va);
-	buffer[count-1] = 0;
-	return len;
-}
-*/
 #endif

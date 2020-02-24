@@ -35,7 +35,6 @@ struct WorkerThreadData{
 void LoadName(HWND hWnd);
 int CalcIEViewPos(IEVIEWWINDOW *ieWnd, HWND hMainWindow);
 int LoadIEView(HWND hWnd);
-int MoveIEView(HWND hWnd);
 int DestroyIEView(HWND hWnd);
 int LoadEvents(HWND hWnd);
 int LoadPage(HWND hWnd, MEVENT hFirstEvent, long index, long shiftCount, long readCount, int direction);
@@ -44,8 +43,6 @@ int LoadPrev(HWND hWnd);
 int ScrollToBottom(HWND hWnd);
 
 void RefreshButtonStates(HWND hWnd);
-
-MEVENT GetNeededEvent(MEVENT hLastFirstEvent, int num, int direction);
 
 int CalcIEViewPos(IEVIEWWINDOW *ieWnd, HWND hMainWindow)
 {
@@ -71,7 +68,7 @@ void LoadName(HWND hWnd)
 	}
 
 	wchar_t buffer[1024];
-	sntprintf(buffer, 1024, L"'%s' - IEHistory", ptrW(Contact_GetInfo(CNF_DISPLAY, data->contact)).get());
+	mir_snwprintf(buffer, L"'%s' - IEHistory", ptrW(Contact_GetInfo(CNF_DISPLAY, data->contact)).get());
 	SetWindowText(hWnd, buffer);
 }
 
@@ -184,7 +181,6 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 				memcpy(messages[i], dbInfo.pBlob, newSize);
 				FillIEViewInfo(&ieData[i], dbInfo, messages[i]);
 			}
-			//FillIEViewEventData(&ieData[i], dbEvent);
 			dbEvent = db_event_next(0, dbEvent);
 		}
 		ieData[cLoad - 1].next = nullptr; //cLoad < LOAD_COUNT will only happen once, at the end
@@ -197,7 +193,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 	free(buffer);
 	EnableWindow(GetDlgItem(data->hWnd, IDC_CLOSE), TRUE);
 	free(data);
-	//RefreshButtonStates(data->hWnd);
+
 	Log("%s", "WorkerThread finished ... returning");
 	return 0;
 }
@@ -219,11 +215,11 @@ int DoLoadEvents(HWND hWnd, HistoryWindowData *data, IEVIEWEVENT ieEvent)
 		ScrollToBottom(hWnd);
 
 		wchar_t buffer[256];
-		itot(data->index + 1, buffer, 10);
+		_itow(data->index + 1, buffer, 10);
 		SendDlgItemMessage(hWnd, IDC_STATUSBAR, SB_SETTEXT, 0 | SBT_POPOUT, (LPARAM)buffer);
-		itot(data->index + ieEvent.count, buffer, 10);
+		_itow(data->index + ieEvent.count, buffer, 10);
 		SendDlgItemMessage(hWnd, IDC_STATUSBAR, SB_SETTEXT, 1 | SBT_POPOUT, (LPARAM)buffer);
-		itot(data->count, buffer, 10);
+		_itow(data->count, buffer, 10);
 		SendDlgItemMessage(hWnd, IDC_STATUSBAR, SB_SETTEXT, 3 | SBT_POPOUT, (LPARAM)buffer);
 		RefreshButtonStates(hWnd);
 	}
@@ -251,9 +247,10 @@ int LoadEvents(HWND hWnd)
 	int num = 0;
 	if ((data->itemsPerPage > 0) && (bLastFirst)) {
 		num = data->count - data->itemsPerPage;
-		hFirstEvent = GetNeededEvent(hFirstEvent, num, DIRECTION_FORWARD);
+		hFirstEvent = GetNeededEvent(data->contact, hFirstEvent, num, DIRECTION_FORWARD);
 	}
 	data->index = num;
+
 	data->hLastFirstEvent = hFirstEvent;
 	ieEvent.hDbEventFirst = hFirstEvent;
 	if (data->bEnableRTL)
@@ -287,7 +284,7 @@ int LoadPage(HWND hWnd, MEVENT hFirstEvent, long index, long shiftCount, long re
 		}
 	}
 	data->index = newIndex;
-	MEVENT hEvent = GetNeededEvent(hFirstEvent, count, direction);
+	MEVENT hEvent = GetNeededEvent(data->contact, hFirstEvent, count, direction);
 	data->hLastFirstEvent = hEvent;
 	ieEvent.hDbEventFirst = hEvent;
 	ieEvent.count = readCount;
@@ -304,6 +301,23 @@ int LoadPrev(HWND hWnd)
 	LoadPage(hWnd, data->hLastFirstEvent, data->index, data->itemsPerPage, data->itemsPerPage, DIRECTION_BACK);
 	int finish = data->index <= 0;
 	return finish;
+}
+
+int Resizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
+	case IDC_CLOSE:
+	case IDC_SEARCH:
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+
+	case IDC_IEVIEW_PLACEHOLDER:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+	case IDC_STATUSBAR:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+	}
+
+	return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 }
 
 int LoadNext(HWND hWnd)
@@ -325,14 +339,6 @@ int ScrollToBottom(HWND hWnd)
 	return 0;
 }
 
-void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOWPOS *wndPos, int anchors)
-{
-	if (nullptr == window) /* Wine fix. */
-		return;
-	RECT rChild = AnchorCalcPos(window, rParent, wndPos, anchors);
-	hdWnds = DeferWindowPos(hdWnds, window, HWND_NOTOPMOST, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, SWP_NOZORDER);
-}
-
 void RefreshButtonStates(HWND hWnd)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
@@ -342,9 +348,7 @@ void RefreshButtonStates(HWND hWnd)
 	EnableWindow(GetDlgItem(hWnd, IDC_NEXT), bNext);
 }
 
-
-
-INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
 
@@ -393,7 +397,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				EnableWindow(GetDlgItem(hWnd, IDC_PREV), !bAll);
 				EnableWindow(GetDlgItem(hWnd, IDC_NEXT), FALSE);
 			}
-			EnableWindow(GetDlgItem(hWnd, IDC_SEARCH), !bAll);
 		}
 		break;
 
@@ -411,34 +414,9 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_WINDOWPOSCHANGING:
-	{
-		HDWP hdWnds = BeginDeferWindowPos(6);
-		RECT rParent;
-		HWND hStatusBar = GetDlgItem(hWnd, IDC_STATUSBAR);
-		WINDOWPOS *wndPos = (WINDOWPOS *)lParam;
-		GetWindowRect(hWnd, &rParent);
-
-		// if (NULL != hStatusBar) /* Wine fix. */
-		//	hdWnds = DeferWindowPos(hdWnds, hStatusBar, HWND_NOTOPMOST, wndPos->x, wndPos->y + wndPos->cy - statusHeight, statusWidth, statusHeight, SWP_NOZORDER);
-		SendMessage(hStatusBar, WM_SIZE, 0, 0);
-		if (wndPos->cx < MIN_HISTORY_WIDTH)
-			wndPos->cx = MIN_HISTORY_WIDTH;
-		if (wndPos->cy < MIN_HISTORY_HEIGHT)
-			wndPos->cy = MIN_HISTORY_HEIGHT;
-
-		//MoveWindow(hStatusBar, wndPos->x, wndPos->y + wndPos->cy - statusHeight - 2, statusWidth - 2, statusHeight, TRUE);
-		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_STATUSBAR), &rParent, wndPos, ANCHOR_BOTTOM);
-		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_CLOSE), &rParent, wndPos, ANCHOR_RIGHT | ANCHOR_BOTTOM);
-		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_IEVIEW_PLACEHOLDER), &rParent, wndPos, ANCHOR_ALL);
-		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_PREV), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
-		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_NEXT), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
-		//AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_PAGE_NUMBER), &rParent, wndPos, ANCHOR_LEFT | ANCHOR_BOTTOM);
-		AddAnchorWindowToDeferList(hdWnds, GetDlgItem(hWnd, IDC_SEARCH), &rParent, wndPos, ANCHOR_RIGHT | ANCHOR_BOTTOM);
-
-		EndDeferWindowPos(hdWnds);
+		Utils_ResizeDialog(hWnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_HISTORY), &Resizer);
 		MoveIeView(hWnd);
-	}
-	break;
+		break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
@@ -458,7 +436,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			HWND hSearch = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCH), hWnd, SearchDlgProc);
 			if (hSearch == nullptr) {
 				char buffer[1024];
-				sprintf(buffer, "Error #%d", GetLastError());
+				sprintf_s(buffer, "Error #%d", GetLastError());
 				MessageBoxA(nullptr, buffer, "Error", MB_OK);
 			}
 			SearchWindowData *searchData = (SearchWindowData *)malloc(sizeof(SearchWindowData));
@@ -553,7 +531,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			if (data->hLastFoundEvent == NULL)
 				data->index = (direction == DIRECTION_FORWARD) ? 0 : histData->count;
 			else
-				data->hLastFoundEvent = GetNeededEvent(data->hLastFoundEvent, 1, direction);
+				data->hLastFoundEvent = GetNeededEvent(data->contact, data->hLastFoundEvent, 1, direction);
 
 			if (type == SEARCH_TEXT) { //text search
 				wchar_t text[2048]; //TODO buffer overrun
@@ -578,11 +556,8 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			}
 
 			if (searchResult.hEvent) {
-				//char buffer[1024];
-				//sprintf(buffer, "Found it: index = %ld hEvent = %p", searchResult.index, searchResult.hEvent);
-				//MessageBox(0, buffer, "Yupppi", 0);
 				data->index += (direction == DIRECTION_BACK) ? -searchResult.index : searchResult.index;
-				LoadPage(data->hHistoryWindow, searchResult.hEvent, data->index, histData->itemsPerPage / 2, histData->itemsPerPage, DIRECTION_BACK);
+				LoadPage(data->hHistoryWindow, searchResult.hEvent, data->index, 5, 10, DIRECTION_BACK);
 			}
 			else MessageBox(nullptr, TranslateT("Search finished. No more entries..."), TranslateT("Information"), MB_OK | MB_ICONINFORMATION);
 
