@@ -272,7 +272,7 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 			if (captcha) {
 				for (auto &it : captcha) {
 					if (it.as_mstring() == "captcha-required") {
-						MessageBoxW(NULL, TranslateT("THe server requires you to enter the captcha. Miranda will redirect you to a browser now"), L"Discord", MB_OK | MB_ICONINFORMATION);
+						MessageBoxW(NULL, TranslateT("The server requires you to enter the captcha. Miranda will redirect you to a browser now"), L"Discord", MB_OK | MB_ICONINFORMATION);
 						Utils_OpenUrl("https://discordapp.com/app");
 					}
 				}
