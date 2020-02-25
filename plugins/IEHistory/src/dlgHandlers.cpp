@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MIN_HISTORY_WIDTH 350
 #define MIN_HISTORY_HEIGHT 100
 
+static int statusHeight = 0;
+
 struct WorkerThreadData{
 	HWND hWnd;
 	HistoryWindowData *data;
@@ -312,9 +314,6 @@ int Resizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 
 	case IDC_IEVIEW_PLACEHOLDER:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-
-	case IDC_STATUSBAR:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 	}
 
 	return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
@@ -348,7 +347,7 @@ void RefreshButtonStates(HWND hWnd)
 	EnableWindow(GetDlgItem(hWnd, IDC_NEXT), bNext);
 }
 
-INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM)
+INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
 
@@ -378,6 +377,11 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM)
 			//SendMessage(hStatusBar, SB_SETTIPTEXT, 1, (LPARAM) TranslateT("First event shown in page"));
 			//SendMessage(hStatusBar, SB_SETTIPTEXT, 2, (LPARAM) TranslateT("Last event shown in page"));
 			SendMessage(hStatusBar, SB_SETTEXT, 2 | SBT_POPOUT, (LPARAM)TranslateT("Out of a total of"));
+
+			RECT rc;
+			GetWindowRect(hStatusBar, &rc);
+			statusHeight = rc.bottom - rc.top;
+
 		}
 		return TRUE;
 
@@ -416,6 +420,10 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM)
 	case WM_WINDOWPOSCHANGING:
 		Utils_ResizeDialog(hWnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_HISTORY), &Resizer);
 		MoveIeView(hWnd);
+		{
+			WINDOWPOS *wndPos = (WINDOWPOS *)lParam;
+			MoveWindow(GetDlgItem(hWnd, IDC_STATUSBAR), wndPos->x, wndPos->y + wndPos->cy - statusHeight, wndPos->x + wndPos->cx, statusHeight, TRUE);
+		}
 		break;
 
 	case WM_COMMAND:
