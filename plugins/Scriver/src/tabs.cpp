@@ -1325,7 +1325,7 @@ HWND GetParentWindow(MCONTACT hContact, bool bChat)
 		}
 		else {
 			if (g_dat.lastChatParent != nullptr) {
-				int tabsNum = g_dat.lastParent->GetChildCount();
+				int tabsNum = g_dat.lastChatParent->GetChildCount();
 				if (!g_dat.flags2.bLimitChatTabs || tabsNum < g_dat.limitChatsTabsNum)
 					return g_dat.lastChatParent->m_hwnd;
 			}
