@@ -116,7 +116,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bLogPresence(this, "LogPresence", true),
 	m_bLogPresenceErrors(this, "LogPresenceErrors", false),
 	m_bManualConnect(this, "ManualConnect", false),
-	m_bMsgAck(this, "MsgAck", false),
+	m_bMsgAck(this, "MsgAck", true),
 	m_bProcessXMPPLinks(this, "ProcessXMPPLinks", false),
 	m_bRcMarkMessagesAsRead(this, "RcMarkMessagesAsRead", true),
 	m_bRosterSync(this, "RosterSync", false),
