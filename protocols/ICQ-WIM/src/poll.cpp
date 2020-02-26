@@ -255,6 +255,7 @@ void CIcqProto::ProcessNotification(const JSONNode &ev)
 			CMStringW wszFrom((*root)["from"].as_mstring());
 			CMStringW wszSubj((*root)["subject"].as_mstring());
 			m_unreadEmails = (*root)["unreadCount"].as_int();
+			debugLogW(L"You received e-mail (%d) from <%s>: <%s>", m_unreadEmails, wszFrom.c_str(), wszSubj.c_str());
 
 			CMStringW wszMessage(FORMAT, TranslateT("You received e-mail from %s: %s"), wszFrom.c_str(), wszSubj.c_str());
 			EmailNotification(wszMessage);
