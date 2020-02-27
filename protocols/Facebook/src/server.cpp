@@ -238,11 +238,13 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode& n) {
 	auto* user = FindUser(userId);
 
 	if (user == nullptr) {
-		user = new FacebookUser(userId, si->hContact, true);
+		user = new FacebookUser(userId, si->hContact, true, true);
 		m_users.insert(user);
 	}
-	else 
+	else {
 		user->hContact = si->hContact;
+		user->bIsChatInitialized = true;
+	}
 
 	return user;
 }
@@ -621,15 +623,16 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	CMStringW wszUserId;
 	bool bIsChat;
 	auto *pUser = UserFromJson(metadata, wszUserId, bIsChat);
-	if (pUser == nullptr) {
-		if (bIsChat)
-			pUser = RefreshThread(wszUserId);
-		else
-			pUser = AddContact(wszUserId, true);
-	}
-	else if (bIsChat && Chat_GetUserInfo(m_szModuleName, wszUserId) == nullptr) // user already exists, but room is not initialized
-		RefreshThread(wszUserId); 
+
+	if (!bIsChat && pUser == nullptr)
+		pUser = AddContact(wszUserId, true);
+	else if (bIsChat && (pUser == nullptr || !pUser->bIsChatInitialized)) // chat room does not exists or is not initialized
+		pUser = RefreshThread(wszUserId);
 	
+	if (pUser == nullptr) {
+		debugLogA("User not found and adding failed, event skipped");
+		return;
+	}
 
 	for (auto &it : metadata["tags"]) {
 		auto *szTagName = it.name();
