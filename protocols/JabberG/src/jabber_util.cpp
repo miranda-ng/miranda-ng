@@ -244,15 +244,15 @@ static JabberErrorCodeToStrMapping[] = {
 		{ JABBER_ERROR_REMOTE_SERVER_ERROR, LPGENW("Remote server error") },
 		{ JABBER_ERROR_SERVICE_UNAVAILABLE, LPGENW("Service unavailable") },
 		{ JABBER_ERROR_REMOTE_SERVER_TIMEOUT, LPGENW("Remote server timeout") },
-		{ -1, LPGENW("Unknown error") }
 };
 
 wchar_t* JabberErrorStr(int errorCode)
 {
-	int i;
+	for (auto &it : JabberErrorCodeToStrMapping)
+		if (it.code == errorCode)
+			return it.str;
 
-	for (i = 0; JabberErrorCodeToStrMapping[i].code != -1 && JabberErrorCodeToStrMapping[i].code != errorCode; i++);
-	return JabberErrorCodeToStrMapping[i].str;
+	return LPGENW("Unknown error");
 }
 
 CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *pErrorCode)
