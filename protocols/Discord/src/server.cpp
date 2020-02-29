@@ -207,24 +207,7 @@ void CDiscordProto::SetServerStatus(int iStatus)
 	if (!m_bOnline)
 		return;
 
-	if (iStatus == ID_STATUS_OFFLINE)
-		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", nullptr));
-	else {
-		const char *pszStatus;
-		switch (iStatus) {
-		case ID_STATUS_AWAY:
-		case ID_STATUS_NA: 
-			pszStatus = "idle"; break;
-		case ID_STATUS_DND:
-			pszStatus = "dnd"; break;
-		case ID_STATUS_INVISIBLE:
-			pszStatus = "invisible"; break;
-		default:
-			pszStatus = "online"; break;
-		}
-		JSONNode root; root << CHAR_PARAM("status", pszStatus);
-		Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me/settings", nullptr, &root));
-	}
+	GatewaySendStatus(iStatus, nullptr);
 
 	int iOldStatus = m_iStatus; m_iStatus = iStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);

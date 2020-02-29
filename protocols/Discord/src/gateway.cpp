@@ -172,7 +172,7 @@ void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 {
 	int opCode = pRoot["op"].as_int();
 	switch (opCode) {
-	case 0:  // process incoming command
+	case OPCODE_DISPATCH:  // process incoming command
 		{
 			int iSeq = pRoot["s"].as_int();
 			if (iSeq != 0)
@@ -187,7 +187,7 @@ void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 		}
 		break;
 
-	case 9:  // session invalidated
+	case OPCODE_INVALID_SESSION:  // session invalidated
 		if (pRoot["d"].as_bool()) // session can be resumed
 			GatewaySendResume();
 		else {
@@ -196,13 +196,13 @@ void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 		}
 		break;
 
-	case 10: // hello
+	case OPCODE_HELLO: // hello
 		m_iHartbeatInterval = pRoot["d"]["heartbeat_interval"].as_int();
 
 		GatewaySendIdentify();
 		break;
 	
-	case 11: // heartbeat ack
+	case OPCODE_HEARTBEAT_ACK: // heartbeat ack
 		break;
 
 	default:
@@ -220,7 +220,7 @@ void CDiscordProto::GatewaySendHeartbeat()
 		return;
 
 	JSONNode root;
-	root << INT_PARAM("op", 1) << INT_PARAM("d", m_iGatewaySeq);
+	root << INT_PARAM("op", OPCODE_HEARTBEAT) << INT_PARAM("d", m_iGatewaySeq);
 	GatewaySend(root);
 }
 
@@ -245,7 +245,7 @@ void CDiscordProto::GatewaySendIdentify()
 	payload << CHAR_PARAM("token", m_szAccessToken) << props << BOOL_PARAM("compress", false) << INT_PARAM("large_threshold", 250);
 
 	JSONNode root;
-	root << INT_PARAM("op", 2) << payload;
+	root << INT_PARAM("op", OPCODE_IDENTIFY) << payload;
 	GatewaySend(root);
 }
 
@@ -258,5 +258,38 @@ void CDiscordProto::GatewaySendResume()
 
 	JSONNode root;
 	root << CHAR_PARAM("token", szRandom) << CHAR_PARAM("session_id", m_szGatewaySessionId) << INT_PARAM("seq", m_iGatewaySeq);
+	GatewaySend(root);
+}
+
+void CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText)
+{
+	if (iStatus == ID_STATUS_OFFLINE) {
+		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", nullptr));
+		return;
+	}
+
+	const char *pszStatus;
+	switch (iStatus) {
+	case ID_STATUS_AWAY:
+	case ID_STATUS_NA:
+		pszStatus = "idle"; break;
+	case ID_STATUS_DND:
+		pszStatus = "dnd"; break;
+	case ID_STATUS_INVISIBLE:
+		pszStatus = "invisible"; break;
+	default:
+		pszStatus = "online"; break;
+	}
+
+	JSONNode payload; payload.set_name("d");
+	payload << INT64_PARAM("since", __int64(time(0)) * 1000) << BOOL_PARAM("afk", true) << CHAR_PARAM("status", pszStatus);
+	if (pwszStatusText == nullptr)
+		payload << CHAR_PARAM("game", nullptr);
+	else {
+		JSONNode game; game.set_name("game"); game << WCHAR_PARAM("name", pwszStatusText) << INT_PARAM("type", 0);
+		payload << game;
+	}
+	
+	JSONNode root; root << INT_PARAM("op", OPCODE_STATUS_UPDATE) << payload;
 	GatewaySend(root);
 }

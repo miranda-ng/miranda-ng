@@ -136,6 +136,22 @@ struct CDiscordVoiceCall
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#define OPCODE_DISPATCH              0
+#define OPCODE_HEARTBEAT             1
+#define OPCODE_IDENTIFY              2
+#define OPCODE_STATUS_UPDATE         3
+#define OPCODE_VOICE_UPDATE          4
+#define OPCODE_VOICE_PING            5
+#define OPCODE_RESUME                6
+#define OPCODE_RECONNECT             7
+#define OPCODE_REQUEST_MEMBERS       8
+#define OPCODE_INVALID_SESSION       9
+#define OPCODE_HELLO                10
+#define OPCODE_HEARTBEAT_ACK        11
+#define OPCODE_REQUEST_SYNC         12
+#define OPCODE_REQUEST_SYNC_GROUP   13
+#define OPCODE_REQUEST_SYNC_CHANNEL 14
+
 class CDiscordProto : public PROTO<CDiscordProto>
 {
 	friend struct AsyncHttpRequest;
@@ -220,6 +236,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void  GatewaySendHeartbeat(void);
 	void  GatewaySendIdentify(void);
 	void  GatewaySendResume(void);
+	void  GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText);
 
 	GatewayHandlerFunc GetHandler(const wchar_t*);
 
