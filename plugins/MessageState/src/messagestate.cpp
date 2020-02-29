@@ -1,64 +1,66 @@
 #include "stdafx.h"
 
-IconItem Icons[] =
-{
-	{ LPGEN("Unread message icon"), "unread_icon", IDI_UNREAD },
-	{ LPGEN("Read message icon"), "read_icon", IDI_READ },
-	{ LPGEN("Failed sending icon"), "fail_icon", IDI_FAIL },
-	{ LPGEN("Sending message icon"), "nosent_icon", IDI_NOSENT },
-	{ LPGEN("Unread clist extra icon"), "clist_unread_icon", IDI_EXTRA },
-};
+static HANDLE hExtraIcon = nullptr;
 
-const wchar_t* Tooltips[] =
+int ExtraIconsApply(WPARAM hContact, LPARAM force)
 {
-	LPGENW("Last message is not read"),
-	LPGENW("Last message read"),
-	LPGENW("Last message was not sent"),
-	LPGENW("Sending...")
-};
-
-void SetSRMMIcon(MCONTACT hContact, SRMM_ICON_TYPE type, time_t time)
-{
-	MCONTACT hActualContact;
-	if (db_mc_isMeta(hContact))
-		hActualContact = db_mc_getSrmmSub(hContact);
-	else
-		hActualContact = hContact;
-
-	if (type != ICON_HIDDEN) {
-		const wchar_t *pwszToolTip;
-		if (type == ICON_READ) {
-			if (g_plugin.getDword(hActualContact, DBKEY_MESSAGE_READ_TIME_TYPE, -1) == MRD_TYPE_READTIME) {
-				wchar_t buf[100];
-				wcsftime(buf, _countof(buf), TranslateT("Last message read at %X %x"), localtime(&time));
-				pwszToolTip = buf;
-			}
-			else pwszToolTip = TranslateT("Last message read (unknown time)");
-		}
-		else pwszToolTip = TranslateW(Tooltips[type]);
-		
-		Srmm_ModifyIcon(hContact, MODULENAME, 1, IcoLib_GetIconByHandle(Icons[type].hIcolib), pwszToolTip);
+	if (hContact != 0) {
+		if (HasUnread(hContact) || force)
+			ExtraIcon_SetIcon(hExtraIcon, hContact, g_plugin.getIconHandle(IDI_EXTRA));
+		else
+			ExtraIcon_Clear(hExtraIcon, hContact);
 	}
-	else Srmm_SetIconFlags(hContact, MODULENAME, 1, MBF_HIDDEN);
+
+	return 0;
 }
 
-int IconsUpdate(MCONTACT hContact)
-{
-	MCONTACT hActualContact;
-	if (db_mc_isMeta(hContact))
-		hActualContact = db_mc_getSrmmSub(hContact);
-	else
-		hActualContact = hContact;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	time_t readtime = g_plugin.getDword(hActualContact, DBKEY_MESSAGE_READ_TIME, 0);
-	time_t lasttime = GetLastSentMessageTime(hActualContact);
-	if (lasttime != -1 && readtime != 0)
-		SetSRMMIcon(hContact, HasUnread(hActualContact) ? ICON_UNREAD : ICON_READ, readtime);
-	else
-		SetSRMMIcon(hContact, ICON_HIDDEN);
+void SetSRMMIcon(MCONTACT hContact, int iconId, time_t time)
+{
+	auto *p = FindContact(hContact);
+
+	const wchar_t *pwszToolTip;
+	switch (iconId) {
+	case IDI_READ:
+		// if that contact was never marked as read
+		if (p->type != -1) { 
+			wchar_t buf[100];
+			wcsftime(buf, _countof(buf), TranslateT("Last message read at %X %x"), localtime(&time));
+			pwszToolTip = buf;
+		}
+		else pwszToolTip = TranslateT("Last message read");
+		break;
+
+	case IDI_UNREAD: pwszToolTip = TranslateT("Last message is not read"); break;
+	case IDI_FAIL:   pwszToolTip = TranslateT("Last message was not sent"); break;
+	case IDI_NOSENT: pwszToolTip = TranslateT("Sending..."); break;
+	default:         pwszToolTip = nullptr;
+	}
+
+	Srmm_ModifyIcon(hContact, MODULENAME, 1, g_plugin.getIcon(iconId), pwszToolTip);
+}
+
+void IconsUpdate(MCONTACT hContact)
+{
+	auto *p = FindContact(hContact);
+
+	// if we've did nothing with this contact, leave its icon hidden
+	if (p->type == -1)
+		return;
+
+	// if that's the first time we show an icon, unhide it first
+	if (p->bHidden) {
+		p->bHidden = false;
+		Srmm_SetIconFlags(hContact, MODULENAME, 1, 0);
+	}
+
+	SetSRMMIcon(hContact, p->type == MRD_TYPE_DELIVERED ? IDI_UNREAD : IDI_READ, p->dwLastReadTime);
 
 	ExtraIconsApply(hContact, 0);
-	return 0;
+
+	if (db_mc_isSub(hContact))
+		IconsUpdate(db_mc_getMeta(hContact));
 }
 
 static int OnProtoAck(WPARAM, LPARAM lParam)
@@ -66,9 +68,9 @@ static int OnProtoAck(WPARAM, LPARAM lParam)
 	ACKDATA *pAck = (ACKDATA *)lParam;
 	if (pAck && (pAck->type == ACKTYPE_MESSAGE || pAck->type == ACKTYPE_FILE) && CheckProtoSupport(pAck->szModule)) {
 		if (pAck->result == ACKRESULT_SUCCESS)
-			SetSRMMIcon(pAck->hContact, ICON_UNREAD);
+			SetSRMMIcon(pAck->hContact, IDI_NOSENT);
 		else if (pAck->result == ACKRESULT_FAILED)
-			SetSRMMIcon(pAck->hContact, ICON_FAILED);
+			SetSRMMIcon(pAck->hContact, IDI_FAIL);
 
 		ExtraIconsApply(pAck->hContact, 0);
 	}
@@ -78,8 +80,14 @@ static int OnProtoAck(WPARAM, LPARAM lParam)
 static int OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
-	if ((dbei->flags & DBEF_SENT) && CheckProtoSupport(dbei->szModule) && db_get_b(hContact, "Tab_SRMsg", "no_ack", 0))
-		SetSRMMIcon(hContact, ICON_NOSENT);
+	if ((dbei->flags & DBEF_SENT) && CheckProtoSupport(dbei->szModule)) {
+		__time64_t dwTime = _time64(0);
+		FindContact(hContact)->setSent(dwTime);
+		if (db_mc_isSub(hContact))
+			FindContact(db_mc_getMeta(hContact))->setSent(dwTime);
+
+		SetSRMMIcon(hContact, IDI_NOSENT);
+	}
 	return 0;
 }
 
@@ -99,24 +107,19 @@ static int OnMetaChanged(WPARAM hContact, LPARAM)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
+	hExtraIcon = ExtraIcon_RegisterIcolib("messagestate_unread", LPGEN("MessageState unread extra icon"), "clist_unread_icon");
+
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnMetaChanged);
 	HookEvent(ME_MC_SUBCONTACTSCHANGED, OnMetaChanged);
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened);
-
-	g_plugin.registerIcon(MODULENAME, Icons);
+	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraIconsApply);
 
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 	sid.flags = MBF_HIDDEN;
 	sid.dwId = 1;
 	Srmm_AddIcon(&sid, &g_plugin);
-
-	InitClistExtraIcon();
-
-	for (auto &hContact : Contacts())
-		IconsUpdate(hContact);
-
 	return 0;
 }

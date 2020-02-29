@@ -315,10 +315,8 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 	setDword(param->hContact, "lastmsgid", iLastMsgId);
 
-	if (g_bMessageState) {
-		MessageReadData data(tLastReadMessageTime, MRD_TYPE_MESSAGETIME);
-		CallService(MS_MESSAGESTATE_UPDATE, param->hContact, (LPARAM)&data);
-	}
+	if (g_bMessageState)
+		CallService(MS_MESSAGESTATE_UPDATE, param->hContact, MRD_TYPE_DELIVERED);
 
 	int once = jnResponse["once"].as_int();
 	int iRCount = jnResponse["rcount"].as_int();

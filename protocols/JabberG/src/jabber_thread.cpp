@@ -1198,13 +1198,14 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			nPacketId = JabberGetPacketID(node);
 		if (nPacketId != -1)
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)nPacketId);
+
+		if (g_plugin.bMessageState)
+			CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_DELIVERED);
 	}
 
 	if (auto *n = XmlGetChildByTag(node, "displayed", "xmlns", JABBER_FEAT_CHAT_MARKERS))
-		if (g_plugin.bMessageState) {
-			MessageReadData readData(time(0), MRD_TYPE_READTIME);
-			CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&readData);
-		}
+		if (g_plugin.bMessageState)
+			CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
 
 	JabberReadXep203delay(node, msgTime);
 

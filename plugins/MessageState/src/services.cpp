@@ -1,19 +1,37 @@
 #include "stdafx.h"
 
-HANDLE hUpdateService;
-
-void InitServices()
+static IconItem Icons[] =
 {
-	hUpdateService = CreateServiceFunction(MS_MESSAGESTATE_UPDATE, UpdateService);
-}
+	{ LPGEN("Unread message icon"), "unread_icon", IDI_UNREAD },
+	{ LPGEN("Read message icon"), "read_icon", IDI_READ },
+	{ LPGEN("Failed sending icon"), "fail_icon", IDI_FAIL },
+	{ LPGEN("Sending message icon"), "nosent_icon", IDI_NOSENT },
+	{ LPGEN("Unread clist extra icon"), "clist_unread_icon", IDI_EXTRA },
+};
 
-INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)
+static INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)
 {
-	MessageReadData *mrd = (MessageReadData*)lParam;
-	if (mrd->dw_lastTime > g_plugin.getDword(hContact, DBKEY_MESSAGE_READ_TIME, 0)) {
-		g_plugin.setDword(hContact, DBKEY_MESSAGE_READ_TIME, mrd->dw_lastTime);
-		g_plugin.setDword(hContact, DBKEY_MESSAGE_READ_TIME_TYPE, mrd->iTimeType);
+	auto *p = FindContact(hContact);
+
+	__time64_t currTime = _time64(0);
+	if (currTime > p->dwLastReadTime) {
+		p->dwLastReadTime = currTime;
+		p->type = lParam;
+
+		if (db_mc_isSub(hContact)) {
+			p = FindContact(db_mc_getMeta(hContact));
+			p->dwLastReadTime = currTime;
+			p->type = lParam;
+		}
+		
 		IconsUpdate(hContact);
 	}
 	return 0;
+}
+
+void InitServices()
+{
+	g_plugin.registerIcon(MODULENAME, Icons);
+
+	CreateServiceFunction(MS_MESSAGESTATE_UPDATE, UpdateService);
 }

@@ -28,4 +28,3 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Load() override;
 };
 
-extern IconItem Icons[];

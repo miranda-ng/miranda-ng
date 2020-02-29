@@ -438,14 +438,11 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				szGroupIds.AppendFormat(szGroupIds.IsEmpty() ? "%d" : ",%d", -1 * uid);
 
 			if (g_bMessageState) {
-				time_t tLastReadMessageTime = jnDlg["date"].as_int();
 				bool isOut = jnDlg["out"].as_bool();
 				bool isRead = jnDlg["read_state"].as_bool();
 
-				if (isRead && isOut) {
-					MessageReadData data(tLastReadMessageTime, MRD_TYPE_MESSAGETIME);
-					CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
-				}
+				if (isRead && isOut)
+					CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_DELIVERED);
 			}
 		}
 
