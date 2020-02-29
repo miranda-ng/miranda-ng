@@ -1046,6 +1046,9 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		m_arOwnIds.remove(ownMsg);
 	}
 
+	if (g_bMessageState)
+		CallService(MS_MESSAGESTATE_UPDATE, ownMsg->m_hContact, MRD_TYPE_DELIVERED);
+
 	const JSONNode &data = root.data();
 	CMStringA reqId(root.requestId());
 	CMStringA msgId(data["histMsgId"].as_mstring());

@@ -217,7 +217,8 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		if (srvRemoteRead > lastRemoteRead) {
 			setId(hContact, DB_KEY_REMOTEREAD, srvRemoteRead);
 
-			CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
+			if (g_bMessageState)
+				CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
 		}
 	}
 }
