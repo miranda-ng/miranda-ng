@@ -1,7 +1,7 @@
 /* mdbx_dump.c - memory-mapped database dump tool */
 
 /*
- * Copyright 2015-2019 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2015-2020 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -12,6 +12,8 @@
  * A copy of this license is available in the file LICENSE in the
  * top-level directory of the distribution or, alternatively, at
  * <http://www.OpenLDAP.org/license.html>. */
+
+#include "stdafx.h"
 
 #ifdef _MSC_VER
 #if _MSC_VER > 1800
@@ -116,7 +118,7 @@ static int dumpit(MDBX_txn *txn, MDBX_dbi dbi, char *name) {
   if (rc)
     return rc;
 
-  rc = mdbx_env_info(mdbx_txn_env(txn), &info, sizeof(info));
+  rc = mdbx_env_info_ex(mdbx_txn_env(txn), txn, &info, sizeof(info));
   if (rc)
     return rc;
 
@@ -125,7 +127,7 @@ static int dumpit(MDBX_txn *txn, MDBX_dbi dbi, char *name) {
   if (name)
     printf("database=%s\n", name);
   printf("type=btree\n");
-  printf("mapsize=%" PRIu64 "\n", info.mi_mapsize);
+  printf("mapsize=%" PRIu64 "\n", info.mi_geo.upper);
   printf("maxreaders=%u\n", info.mi_maxreaders);
 
   for (i = 0; dbflags[i].bit; i++)
@@ -161,7 +163,18 @@ static int dumpit(MDBX_txn *txn, MDBX_dbi dbi, char *name) {
 
 static void usage(char *prog) {
   fprintf(stderr,
-          "usage: %s [-V] [-f output] [-l] [-n] [-p] [-a|-s subdb] dbpath\n",
+          "usage: %s [-V] [-q] [-f file] [-l] [-p] [-a|-s subdb] [-r] [-n] "
+          "dbpath\n"
+          "  -V\t\tprint version and exit\n"
+          "  -q\t\tbe quiet\n"
+          "  -f\t\twrite to file instead of stdout\n"
+          "  -l\t\tlist subDBs and exit\n"
+          "  -p\t\tuse printable characters\n"
+          "  -a\t\tdump main DB and all subDBs,\n"
+          "    \t\tby default dump only the main DB\n"
+          "  -s\t\tdump only the named subDB\n"
+          "  -r\t\trescure mode (ignore errors to dump corrupted DB)\n"
+          "  -n\t\tNOSUBDIR mode for open\n",
           prog);
   exit(EXIT_FAILURE);
 }
@@ -174,26 +187,28 @@ int main(int argc, char *argv[]) {
   char *prog = argv[0];
   char *envname;
   char *subname = NULL;
-  int alldbs = 0, envflags = 0, list = 0;
+  int alldbs = 0, envflags = 0, list = 0, quiet = 0, rescue = 0;
+  DECLARE_VERSION();
 
-  if (argc < 2) {
+  if (argc < 2)
     usage(prog);
-  }
 
-  /* -a: dump main DB and all subDBs
-   * -s: dump only the named subDB
-   * -n: use NOSUBDIR flag on env_open
-   * -p: use printable characters
-   * -f: write to file instead of stdout
-   * -V: print version and exit
-   * (default) dump only the main DB
-   */
-  while ((i = getopt(argc, argv, "af:lnps:V")) != EOF) {
+  while ((i = getopt(argc, argv, "af:lnps:Vrq")) != EOF) {
     switch (i) {
     case 'V':
-      //printf("%s (%s, build %s)\n", mdbx_version.git.describe, mdbx_version.git.datetime, mdbx_build.datetime);
-      exit(EXIT_SUCCESS);
-      break;
+      printf("mdbx_dump version %d.%d.%d.%d\n"
+             " - source: %s %s, commit %s, tree %s\n"
+             " - anchor: %s\n"
+             " - build: %s for %s by %s\n"
+             " - flags: %s\n"
+             " - options: %s\n",
+             MDBX_version.major, MDBX_version.minor, MDBX_version.release,
+             MDBX_version.revision, MDBX_version.git.describe,
+             MDBX_version.git.datetime, MDBX_version.git.commit,
+             MDBX_version.git.tree, MDBX_sourcery_anchor, MDBX_build.datetime,
+             MDBX_build.target, MDBX_build.compiler, MDBX_build.flags,
+             MDBX_build.options);
+      return EXIT_SUCCESS;
     case 'l':
       list = 1;
       /*FALLTHROUGH*/;
@@ -205,7 +220,8 @@ int main(int argc, char *argv[]) {
       break;
     case 'f':
       if (freopen(optarg, "w", stdout) == NULL) {
-        fprintf(stderr, "%s: %s: reopen: %s\n", prog, optarg, strerror(errno));
+        fprintf(stderr, "%s: %s: reopen: %s\n", prog, optarg,
+                mdbx_strerror(errno));
         exit(EXIT_FAILURE);
       }
       break;
@@ -219,6 +235,12 @@ int main(int argc, char *argv[]) {
       if (alldbs)
         usage(prog);
       subname = optarg;
+      break;
+    case 'q':
+      quiet = 1;
+      break;
+    case 'r':
+      rescue = 1;
       break;
     default:
       usage(prog);
@@ -242,6 +264,13 @@ int main(int argc, char *argv[]) {
 #endif /* !WINDOWS */
 
   envname = argv[optind];
+  if (!quiet) {
+    fprintf(stderr, "mdbx_dump %s (%s, T-%s)\nRunning for %s...\n",
+            MDBX_version.git.describe, MDBX_version.git.datetime,
+            MDBX_version.git.tree, envname);
+    fflush(NULL);
+  }
+
   rc = mdbx_env_create(&env);
   if (rc) {
     fprintf(stderr, "mdbx_env_create failed, error %d %s\n", rc,
@@ -253,7 +282,9 @@ int main(int argc, char *argv[]) {
     mdbx_env_set_maxdbs(env, 2);
   }
 
-  rc = mdbx_env_open(env, envname, envflags | MDBX_EXCLUSIVE | MDBX_RDONLY, 0664);
+  rc = mdbx_env_open(
+      env, envname,
+      envflags | (rescue ? MDBX_RDONLY | MDBX_EXCLUSIVE : MDBX_RDONLY), 0);
   if (rc) {
     fprintf(stderr, "mdbx_env_open failed, error %d %s\n", rc,
             mdbx_strerror(rc));
@@ -304,8 +335,32 @@ int main(int argc, char *argv[]) {
           list++;
         } else {
           rc = dumpit(txn, db2, str);
-          if (rc)
-            break;
+          if (rc) {
+            if (!rescue)
+              break;
+            fprintf(stderr, "%s: %s: ignore %s for `%s` and continue\n", prog,
+                    envname, mdbx_strerror(rc), str);
+            /* Here is a hack for rescue mode, don't do that:
+             *  - we should restart transaction in case error due
+             *    database corruption;
+             *  - but we won't close cursor, reopen and re-positioning it
+             *    for new a transaction;
+             *  - this is possible since DB is opened in read-only exclusive
+             *    mode and transaction is the same, i.e. has the same address
+             *    and so on. */
+            rc = mdbx_txn_reset(txn);
+            if (rc) {
+              fprintf(stderr, "mdbx_txn_reset failed, error %d %s\n", rc,
+                      mdbx_strerror(rc));
+              goto env_close;
+            }
+            rc = mdbx_txn_renew(txn);
+            if (rc) {
+              fprintf(stderr, "mdbx_txn_renew failed, error %d %s\n", rc,
+                      mdbx_strerror(rc));
+              goto env_close;
+            }
+          }
         }
         mdbx_dbi_close(env, db2);
       }

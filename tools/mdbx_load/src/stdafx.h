@@ -21,56 +21,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <stdint.h>
 #include <windows.h>
 
-#define MDBX_TOOLS /* Avoid using internal mdbx_assert() */
-#include "../../libs/libmdbx/src/src/elements/internals.h"
-
-#define CMP_UINT(x, y) { if ((x) != (y)) return (x) < (y) ? -1 : 1; }
-
-struct DBEventSortingKey
-{
-	uint32_t hContact;
-	uint32_t hEvent;
-	uint64_t ts;
-
-	static int Compare(const MDBX_val *ax, const MDBX_val *bx)
-	{
-		const DBEventSortingKey *a = (DBEventSortingKey*)ax->iov_base;
-		const DBEventSortingKey *b = (DBEventSortingKey*)bx->iov_base;
-
-		CMP_UINT(a->hContact, b->hContact);
-		CMP_UINT(a->ts, b->ts);
-		CMP_UINT(a->hEvent, b->hEvent);
-		return 0;
-	}
-};
-
-struct DBEventIdKey
-{
-	uint32_t iModuleId;	    // offset to a DBModuleName struct of the name of
-	char     szEventId[256]; // string id
-
-	static int Compare(const MDBX_val *ax, const MDBX_val *bx)
-	{
-		const DBEventIdKey *a = (DBEventIdKey*)ax->iov_base;
-		const DBEventIdKey *b = (DBEventIdKey*)bx->iov_base;
-		CMP_UINT(a->iModuleId, b->iModuleId);
-		return strcmp(a->szEventId, b->szEventId);
-	}
-};
-
-struct DBSettingKey
-{
-	uint32_t hContact;
-	uint32_t dwModuleId;
-	char     szSettingName[1];
-
-	static int Compare(const MDBX_val *ax, const MDBX_val *bx)
-	{
-		const DBSettingKey *a = (DBSettingKey*)ax->iov_base;
-		const DBSettingKey *b = (DBSettingKey*)bx->iov_base;
-
-		CMP_UINT(a->hContact, b->hContact);
-		CMP_UINT(a->dwModuleId, b->dwModuleId);
-		return strcmp(a->szSettingName, b->szSettingName);
-	}
-};
+#define DECLARE_VERSION() \
+   mdbx_version_info MDBX_version; \
+   mdbx_build_info MDBX_build; \
+   char* MDBX_sourcery_anchor; \
+   HINSTANCE hDll = LoadLibraryA("libmdbx.mir"); \
+   MDBX_version = *(mdbx_version_info *)GetProcAddress(hDll, "mdbx_version"); \
+   MDBX_build = *(mdbx_build_info*)GetProcAddress(hDll, "mdbx_build"); \
+   MDBX_sourcery_anchor = (char*)GetProcAddress(hDll, "mdbx_sourcery_MDBX_BUILD_SOURCERY"); 

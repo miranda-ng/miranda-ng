@@ -19,3 +19,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 #include <windows.h>
+
+#define DECLARE_VERSION() \
+   mdbx_version_info MDBX_version; \
+   mdbx_build_info MDBX_build; \
+   char* MDBX_sourcery_anchor; \
+   HINSTANCE hDll = LoadLibraryA("libmdbx.mir"); \
+   MDBX_version = *(mdbx_version_info *)GetProcAddress(hDll, "mdbx_version"); \
+   MDBX_build = *(mdbx_build_info*)GetProcAddress(hDll, "mdbx_build"); \
+   MDBX_sourcery_anchor = (char*)GetProcAddress(hDll, "mdbx_sourcery_MDBX_BUILD_SOURCERY"); 
