@@ -892,7 +892,6 @@ int CMStringT<BaseType, StringTraits>::Remove(XCHAR chRemove)
 		PXSTR pszNewSource = StringTraits::CharNext(pszSource);
 		if (*pszSource != chRemove) {
 			// Copy the source to the destination.  Remember to copy all bytes of an MBCS character
-			// Copy the source to the destination.  Remember to copy all bytes of an MBCS character
 			size_t NewSourceGap = (pszNewSource - pszSource);
 			PXSTR pszNewDest = pszDest + NewSourceGap;
 			for (size_t i = 0; pszDest != pszNewDest && i < NewSourceGap; i++) {
