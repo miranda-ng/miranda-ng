@@ -44,7 +44,7 @@ if not exist "%TmpFileName%" (
   goto :eof
 )
 
-mdbx_load.exe -n -f "%TmpFileName%" "%FullProfileName%.tmp"
+mdbx_load.exe -a -n -f "%TmpFileName%" "%FullProfileName%.tmp"
 if errorlevel 1 (
   echo Restore failed, exiting
   goto :eof
