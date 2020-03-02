@@ -64,7 +64,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_presenceManager(this),
 	m_sendManager(this),
 	m_adhocManager(this),
-	m_clientCapsManager(this),
 	m_privacyListManager(this),
 	m_privacyMenuServiceAllocated(-1),
 	m_priorityMenuVal(0),
@@ -191,6 +190,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_messageManager.FillPermanentHandlers();
 	m_adhocManager.FillDefaultNodes();
 
+	UpdateFeatHash();
 	AddDefaultCaps();
 
 	IconsInit();
@@ -255,7 +255,6 @@ CJabberProto::~CJabberProto()
 		mir_free(it->szDescription);
 		delete it;
 	}
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

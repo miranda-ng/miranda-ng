@@ -261,14 +261,15 @@ typedef unsigned __int64 JabberCapsBits;
 class CJabberClientPartialCaps
 {
 	friend struct CJabberProto;
+	friend class CJabberClientCapsManager;
 
 	ptrA m_szHash, m_szOs, m_szOsVer, m_szSoft, m_szSoftVer, m_szSoftMir;
-	JabberCapsBits m_jcbCaps;
-	int m_nIqId;
-	DWORD m_dwRequestTime;
+	JabberCapsBits m_jcbCaps = JABBER_RESOURCE_CAPS_UNINIT;
+	int m_nIqId = -1, m_iTime;
+	DWORD m_dwRequestTime = 0;
 
 	class CJabberClientCaps *m_parent;
-	CJabberClientPartialCaps *m_pNext;
+	CJabberClientPartialCaps *m_pNext = nullptr;
 
 public:
 	CJabberClientPartialCaps(CJabberClientCaps *pParent, const char *szHash, const char *szVer);
@@ -314,7 +315,8 @@ public:
 	JabberCapsBits            GetPartialCaps(const char *szVer);
 	CJabberClientPartialCaps* SetPartialCaps(const char *szHash, const char *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
 
-	__inline char* GetNode() const { return m_szNode; }
+	__inline char *GetNode() const { return m_szNode; }
+	__inline CJabberClientPartialCaps *GetFirst() const { return m_pCaps; }
 };
 
 __inline const char* CJabberClientPartialCaps::GetNode() const { return m_parent->GetNode(); }
@@ -324,29 +326,20 @@ class CJabberClientCapsManager
 	mir_cs m_cs;
 	OBJLIST<CJabberClientCaps> m_arCaps;
 
-	CJabberProto *ppro;
-	CMStringA m_szFeaturesCrc;
-
 protected:
 	CJabberClientCaps* FindClient(const char *szNode);
 
 public:
-	CJabberClientCapsManager(CJabberProto *proto);
+	CJabberClientCapsManager();
 	~CJabberClientCapsManager();
 
-	const char* GetFeaturesCrc();
-	void UpdateFeatHash();
+	void Load();
+	void Save();
 
 	JabberCapsBits GetClientCaps(const char *szNode, const char *szHash);
 	CJabberClientPartialCaps* GetPartialCaps(const char *szNode, const char *szHash);
 
 	CJabberClientPartialCaps* SetClientCaps(const char *szNode, const char *szHash, const char *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
-	__inline CJabberClientPartialCaps* SetOwnCaps(const char *szNode, const char *szVer, JabberCapsBits jcbCaps, int nIqId = -1)
-	{
-		return SetClientCaps(szNode, m_szFeaturesCrc, szVer, jcbCaps, nIqId);
-	}
-
-	bool HandleInfoRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, const char *szNode);
 };
 
 struct JabberFeatCapPair

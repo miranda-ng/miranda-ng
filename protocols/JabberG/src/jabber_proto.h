@@ -274,7 +274,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CJabberPresenceManager m_presenceManager; // manager of <presence> stanzas and their handlers
 	CJabberSendManager m_sendManager; // manager of outgoing stanza handlers
 	CJabberAdhocManager m_adhocManager;
-	CJabberClientCapsManager m_clientCapsManager;
 	CPrivacyListManager m_privacyListManager;
 	CJabberSDManager m_SDManager;
 
@@ -399,9 +398,12 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_caps.cpp ---------------------------------------------------------------
 
+	CMStringA  m_szFeaturesCrc;
+
 	void       AddDefaultCaps();
+	bool       HandleCapsInfoRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, const char *szNode);
 	void       RequestOldCapsInfo(pResourceStatus &r, const char *fullJid);
-	void       GetCachedCaps(const char *szNode, const char *szVer, class pResourceStatus &r);
+	void       UpdateFeatHash();
 
 	JabberCapsBits GetTotalJidCapabilities(const char *jid);
 	JabberCapsBits GetResourceCapabilities(const char *jid);

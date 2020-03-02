@@ -28,6 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 #include "version.h"
 
+CJabberClientCapsManager g_clientCapsManager;
+
 const JabberFeatCapPair g_JabberFeatCapPairs[] =
 {
 	{ JABBER_FEAT_DISCO_INFO,              JABBER_CAPS_DISCO_INFO,              LPGEN("Supports Service Discovery info") },
@@ -114,7 +116,7 @@ void CJabberProto::AddDefaultCaps()
 	char szOsBuffer[256];
 	OS_GetDisplayString(szOsBuffer, _countof(szOsBuffer));
 
-	CJabberClientPartialCaps *pCaps = m_clientCapsManager.SetOwnCaps(JABBER_CAPS_MIRANDA_NODE, __VERSION_STRING_DOTS, myCaps);
+	CJabberClientPartialCaps *pCaps = g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, __VERSION_STRING_DOTS, myCaps);
 	pCaps->m_szOs = mir_strdup("Microsoft Windows");
 	pCaps->m_szOsVer = mir_strdup(szOsBuffer);
 	pCaps->m_szSoft = mir_strdup("Miranda NG Jabber Protocol");
@@ -315,6 +317,97 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const char *jid, pResourceS
 	return JABBER_RESOURCE_CAPS_IN_PROGRESS;
 }
 
+bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pInfo, const char *szNode)
+{
+	JabberCapsBits jcb = 0;
+
+	if (szNode) {
+		char szExtCap[512], szExtCapWHash[560];
+		mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc.c_str());
+		if (!mir_strcmp(szExtCap, szNode)) {
+			szNode = nullptr;
+			goto LBL_All;
+		}
+
+		for (auto &it : g_JabberFeatCapPairsExt) {
+			if (!it.Valid())
+				continue;
+
+			// TODO: something better here
+			mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, it.szFeature);
+			mir_snprintf(szExtCapWHash, "%s %s", szExtCap, m_szFeaturesCrc.c_str());
+			if (!mir_strcmp(szNode, szExtCap) || !mir_strcmp(szNode, szExtCapWHash)) {
+				jcb = it.jcbCap;
+				break;
+			}
+		}
+
+		// check features registered through IJabberNetInterface::RegisterFeature() and IJabberNetInterface::AddFeatures()
+		for (auto &it : m_lstJabberFeatCapPairsDynamic) {
+			// TODO: something better here
+			mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, it->szExt);
+			mir_snprintf(szExtCapWHash, "%s %s", szExtCap, m_szFeaturesCrc.c_str());
+			if (!mir_strcmp(szNode, szExtCap) || !mir_strcmp(szNode, szExtCapWHash)) {
+				jcb = it->jcbCap;
+				break;
+			}
+		}
+
+		// unknown node, not XEP-0115 request
+		if (!jcb)
+			return false;
+	}
+	else {
+	LBL_All:
+		jcb = JABBER_CAPS_MIRANDA_ALL;
+		for (auto &it : m_lstJabberFeatCapPairsDynamic)
+			jcb |= it->jcbCap;
+	}
+
+	if (m_bUseOMEMO)
+		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
+
+	if (!m_bAllowVersionRequests)
+		jcb &= ~JABBER_CAPS_VERSION;
+
+	XmlNodeIq iq("result", pInfo);
+
+	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_DISCO_INFO);
+	if (szNode)
+		query << XATTR("node", szNode);
+
+	CMStringA szName(FORMAT, "Miranda %d.%d.%d.%d", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
+	query << XCHILD("identity") << XATTR("category", "client") << XATTR("type", "pc") << XATTR("name", szName);
+
+	for (auto &it : g_JabberFeatCapPairs)
+		if (jcb & it.jcbCap)
+			query << XCHILD("feature") << XATTR("var", it.szFeature);
+
+	for (auto &it : m_lstJabberFeatCapPairsDynamic)
+		if (jcb & it->jcbCap)
+			query << XCHILD("feature") << XATTR("var", it->szFeature);
+
+	if (m_bAllowVersionRequests && !szNode) {
+		TiXmlElement *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "result");
+		form << XCHILD("field") << XATTR("var", "FORM_TYPE") << XATTR("type", "hidden")
+			<< XCHILD("value", "urn:xmpp:dataforms:softwareinfo");
+
+		CJabberClientPartialCaps *pCaps = g_clientCapsManager.GetPartialCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc);
+		if (pCaps) {
+			if (m_bShowOSVersion) {
+				form << XCHILD("field") << XATTR("var", "os") << XCHILD("value", pCaps->GetOs());
+				form << XCHILD("field") << XATTR("var", "os_version") << XCHILD("value", pCaps->GetOsVer());
+			}
+			form << XCHILD("field") << XATTR("var", "software") << XCHILD("value", pCaps->GetSoft());
+			form << XCHILD("field") << XATTR("var", "software_version") << XCHILD("value", pCaps->GetSoftVer());
+			form << XCHILD("field") << XATTR("var", "x-miranda-core-version") << XCHILD("value", pCaps->GetSoftMir());
+		}
+	}
+
+	m_ThreadInfo->send(iq);
+	return true;
+}
+
 void CJabberProto::RequestOldCapsInfo(pResourceStatus &r, const char *fullJid)
 {
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid);
@@ -325,22 +418,42 @@ void CJabberProto::RequestOldCapsInfo(pResourceStatus &r, const char *fullJid)
 	m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(JABBER_FEAT_DISCO_INFO));
 }
 
-void CJabberProto::GetCachedCaps(const char *szNode, const char *szVer, pResourceStatus &r)
+void CJabberProto::UpdateFeatHash()
 {
-	CMStringA szName(FORMAT, "%s#%s", szNode, szVer);
-	ptrA szValue(db_get_sa(0, "JabberCaps", szName));
-	if (szValue != 0) {
-		JSONNode root = JSONNode::parse(szValue);
-		if (root) {
-			CMStringW wszCaps = root["c"].as_mstring();
-			r->m_pCaps = m_clientCapsManager.SetClientCaps(szNode, szVer, nullptr, _wtoi64(wszCaps));
-			r->m_pCaps->m_szOs = mir_utf8encodeW(root["o"].as_mstring());
-			r->m_pCaps->m_szOsVer = mir_utf8encodeW(root["ov"].as_mstring());
-			r->m_pCaps->m_szSoft = mir_utf8encodeW(root["s"].as_mstring());
-			r->m_pCaps->m_szSoftVer = mir_utf8encodeW(root["sv"].as_mstring());
-			r->m_pCaps->m_szSoftMir = mir_utf8encodeW(root["sm"].as_mstring());
+	m_szFeaturesCrc.Empty();
+
+	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
+	for (auto &it : m_lstJabberFeatCapPairsDynamic)
+		jcb |= it->jcbCap;
+	if (!m_bAllowVersionRequests)
+		jcb &= ~JABBER_CAPS_VERSION;
+
+	if (m_bUseOMEMO)
+		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
+
+	CMStringA feat_buf(FORMAT, "client/pc//Miranda %d.%d.%d.%d<", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
+	for (auto &it : g_JabberFeatCapPairs)
+		if (jcb & it.jcbCap) {
+			feat_buf.Append(it.szFeature);
+			feat_buf.AppendChar('<');
 		}
-	}
+
+	for (auto &it : m_lstJabberFeatCapPairsDynamic)
+		if (jcb & it->jcbCap) {
+			feat_buf.Append(it->szFeature);
+			feat_buf.AppendChar('<');
+		}
+
+	feat_buf.Append("software_version"); feat_buf.AppendChar('<');
+	feat_buf.Append(__VERSION_STRING_DOTS); feat_buf.AppendChar('<');
+
+	feat_buf.Append("x-miranda-core-version"); feat_buf.AppendChar('<');
+	feat_buf.Append(szCoreVersion); feat_buf.AppendChar('<');
+
+	BYTE hash[MIR_SHA1_HASH_SIZE];
+	mir_sha1_hash((BYTE *)feat_buf.c_str(), feat_buf.GetLength(), hash);
+	ptrA szHash(mir_base64_encode(&hash, sizeof(hash)));
+	m_szFeaturesCrc = szHash;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -349,12 +462,9 @@ void CJabberProto::GetCachedCaps(const char *szNode, const char *szVer, pResourc
 CJabberClientPartialCaps::CJabberClientPartialCaps(CJabberClientCaps *pParent, const char *szHash, const char *szVer)
 	: m_parent(pParent),
 	m_szHash(mir_strdup(szHash)),
-	m_szSoftVer(mir_strdup(szVer)),
-	m_jcbCaps(JABBER_RESOURCE_CAPS_UNINIT),
-	m_pNext(nullptr),
-	m_nIqId(-1),
-	m_dwRequestTime(0)
+	m_szSoftVer(mir_strdup(szVer))
 {
+	m_iTime = time(0);
 }
 
 CJabberClientPartialCaps::~CJabberClientPartialCaps()
@@ -458,59 +568,13 @@ static int sttCompareNodes(const CJabberClientCaps *p1, const CJabberClientCaps 
 	return mir_strcmp(p1->GetNode(), p2->GetNode());
 }
 
-CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto *proto) :
+CJabberClientCapsManager::CJabberClientCapsManager() :
 	m_arCaps(10, sttCompareNodes)
 {
-	ppro = proto;
-
-	UpdateFeatHash();
 }
 
 CJabberClientCapsManager::~CJabberClientCapsManager()
 {
-}
-
-void CJabberClientCapsManager::UpdateFeatHash()
-{
-	m_szFeaturesCrc.Empty();
-
-	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
-	for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
-		jcb |= it->jcbCap;
-	if (!ppro->m_bAllowVersionRequests)
-		jcb &= ~JABBER_CAPS_VERSION;
-
-	if (ppro->m_bUseOMEMO)
-		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
-
-	CMStringA feat_buf(FORMAT, "client/pc//Miranda %d.%d.%d.%d<", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
-	for (auto &it : g_JabberFeatCapPairs)
-		if (jcb & it.jcbCap) {
-			feat_buf.Append(it.szFeature);
-			feat_buf.AppendChar('<');
-		}
-
-	for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
-		if (jcb & it->jcbCap) {
-			feat_buf.Append(it->szFeature);
-			feat_buf.AppendChar('<');
-		}
-
-	feat_buf.Append("software_version"); feat_buf.AppendChar('<');
-	feat_buf.Append(__VERSION_STRING_DOTS); feat_buf.AppendChar('<');
-
-	feat_buf.Append("x-miranda-core-version"); feat_buf.AppendChar('<');
-	feat_buf.Append(szCoreVersion); feat_buf.AppendChar('<');
-
-	BYTE hash[MIR_SHA1_HASH_SIZE];
-	mir_sha1_hash((BYTE*)feat_buf.c_str(), feat_buf.GetLength(), hash);
-	ptrA szHash(mir_base64_encode(&hash, sizeof(hash)));
-	m_szFeaturesCrc = szHash;
-}
-
-const char* CJabberClientCapsManager::GetFeaturesCrc()
-{
-	return m_szFeaturesCrc.c_str();
 }
 
 CJabberClientCaps* CJabberClientCapsManager::FindClient(const char *szNode)
@@ -527,12 +591,12 @@ JabberCapsBits CJabberClientCapsManager::GetClientCaps(const char *szNode, const
 	CJabberClientCaps *pClient = FindClient(szNode);
 	if (!pClient) {
 		lck.unlock();
-		ppro->debugLogA("CAPS: get no caps for: %s, %s", szNode, szVer);
+		Netlib_Logf(0, "CAPS: get no caps for: %s, %s", szNode, szVer);
 		return JABBER_RESOURCE_CAPS_UNINIT;
 	}
 	JabberCapsBits jcbCaps = pClient->GetPartialCaps(szVer);
 	lck.unlock();
-	ppro->debugLogA("CAPS: get caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
+	Netlib_Logf(0, "CAPS: get caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
 	return jcbCaps;
 }
 
@@ -546,7 +610,7 @@ CJabberClientPartialCaps* CJabberClientCapsManager::GetPartialCaps(const char *s
 CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(const char *szNode, const char *szHash, const char *szVer, JabberCapsBits jcbCaps, int nIqId)
 {
 	mir_cslockfull lck(m_cs);
-	CJabberClientCaps *pClient = FindClient(szNode);
+	auto *pClient = FindClient(szNode);
 	if (!pClient) {
 		pClient = new CJabberClientCaps(szNode);
 		m_arCaps.insert(pClient);
@@ -554,97 +618,87 @@ CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(const char *sz
 
 	CJabberClientPartialCaps *res = pClient->SetPartialCaps(szHash, szVer, jcbCaps, nIqId);
 	lck.unlock();
-	ppro->debugLogA("CAPS: set caps %I64x for: %s#%s => [%s]", jcbCaps, szHash, szNode, szVer);
+	Netlib_Logf(0, "CAPS: set caps %I64x for: %s#%s => [%s]", jcbCaps, szHash, szNode, szVer);
 	return res;
 }
 
-bool CJabberClientCapsManager::HandleInfoRequest(const TiXmlElement*, CJabberIqInfo *pInfo, const char *szNode)
-{
-	JabberCapsBits jcb = 0;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	if (szNode) {
-		char szExtCap[512], szExtCapWHash[560];
-		mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc.c_str());
-		if (!mir_strcmp(szExtCap, szNode)) {
-			szNode = nullptr;
-			goto LBL_All;
+static char *str2buf(const std::string str)
+{
+	return (str.empty()) ? nullptr : mir_strdup(str.c_str());
+}
+
+void CJabberClientCapsManager::Load()
+{
+	int fileId = _wopen(VARSW(L"%miranda_userdata%\\jabberCaps.json"), _O_BINARY | _O_RDONLY);
+	if (fileId == -1)
+		return;
+
+	size_t dwFileLength = _filelength(fileId), dwReadLen;
+	ptrA szBuf((char *)mir_alloc(dwFileLength + 1));
+	dwReadLen = _read(fileId, szBuf, (unsigned)dwFileLength);
+	_close(fileId);
+	if (dwFileLength != dwReadLen)
+		return;
+
+	szBuf[dwFileLength] = 0;
+
+	JSONNode root = JSONNode::parse(szBuf);
+	if (!root)
+		return;
+
+	for (auto &node : root) {
+		std::string szNode = node["node"].as_string();
+		auto *pClient = FindClient(szNode.c_str());
+		if (!pClient) {
+			pClient = new CJabberClientCaps(szNode.c_str());
+			m_arCaps.insert(pClient);
 		}
 
-		for (auto &it : g_JabberFeatCapPairsExt) {
-			if (!it.Valid())
+		for (auto &ver : node["versions"]) {
+			std::string szVer = ver["ver"].as_string();
+			std::string szHash = ver["hash"].as_string();
+			JabberCapsBits jcbCaps = _atoi64(ver["caps"].as_string().c_str());
+
+			auto *res = pClient->SetPartialCaps(szHash.c_str(), szVer.c_str(), jcbCaps);
+			res->m_iTime = ver["time"].as_int();
+			res->m_szOs = str2buf(ver["os"].as_string());
+			res->m_szOsVer = str2buf(ver["osver"].as_string());
+			res->m_szSoft = str2buf(ver["soft"].as_string());
+			res->m_szSoftVer = str2buf(ver["softver"].as_string());
+			res->m_szSoftMir = str2buf(ver["softmir"].as_string());
+		}
+	}
+}
+
+void CJabberClientCapsManager::Save()
+{
+	JSONNode root(JSON_ARRAY);
+	int iFilterTime = time(0) - 30 * 86400; // month ago
+
+	for (auto &it : m_arCaps) {
+		JSONNode versions(JSON_ARRAY); versions.set_name("versions");
+		for (auto *p = it->GetFirst(); p != nullptr; p = p->GetNext()) {
+			if (p->m_iTime < iFilterTime)
 				continue;
 
-			// TODO: something better here
-			mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, it.szFeature);
-			mir_snprintf(szExtCapWHash, "%s %s", szExtCap, m_szFeaturesCrc.c_str());
-			if (!mir_strcmp(szNode, szExtCap) || !mir_strcmp(szNode, szExtCapWHash)) {
-				jcb = it.jcbCap;
-				break;
-			}
+			JSONNode ver;
+			ver << CHAR_PARAM("hash", p->GetHash()) << INT64_PARAM("caps", p->GetCaps()) << INT_PARAM("time", p->m_iTime)
+				<< CHAR_PARAM("os", p->GetOs()) << CHAR_PARAM("osver", p->GetOsVer())
+				<< CHAR_PARAM("soft", p->GetSoft()) << CHAR_PARAM("softver", p->GetSoftVer()) << CHAR_PARAM("softmir", p->GetSoftMir());
+			versions.push_back(ver);
 		}
 
-		// check features registered through IJabberNetInterface::RegisterFeature() and IJabberNetInterface::AddFeatures()
-		for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic) {
-			// TODO: something better here
-			mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, it->szExt);
-			mir_snprintf(szExtCapWHash, "%s %s", szExtCap, m_szFeaturesCrc.c_str());
-			if (!mir_strcmp(szNode, szExtCap) || !mir_strcmp(szNode, szExtCapWHash)) {
-				jcb = it->jcbCap;
-				break;
-			}
-		}
-
-		// unknown node, not XEP-0115 request
-		if (!jcb)
-			return false;
-	}
-	else {
-LBL_All:
-		jcb = JABBER_CAPS_MIRANDA_ALL;
-		for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
-			jcb |= it->jcbCap;
+		JSONNode node; node << CHAR_PARAM("node", it->GetNode()) << versions;
+		root << node;
 	}
 
-	if (ppro->m_bUseOMEMO)
-		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
+	std::string szBody = root.write_formatted();
 
-	if (!ppro->m_bAllowVersionRequests)
-		jcb &= ~JABBER_CAPS_VERSION;
-
-	XmlNodeIq iq("result", pInfo);
-
-	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_DISCO_INFO);
-	if (szNode)
-		query << XATTR("node", szNode);
-
-	CMStringA szName(FORMAT, "Miranda %d.%d.%d.%d", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
-	query << XCHILD("identity") << XATTR("category", "client") << XATTR("type", "pc") << XATTR("name", szName);
-
-	for (auto &it : g_JabberFeatCapPairs)
-		if (jcb & it.jcbCap)
-			query << XCHILD("feature") << XATTR("var", it.szFeature);
-
-	for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
-		if (jcb & it->jcbCap)
-			query << XCHILD("feature") << XATTR("var", it->szFeature);
-
-	if (ppro->m_bAllowVersionRequests && !szNode) {
-		TiXmlElement *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "result");
-		form << XCHILD("field") << XATTR("var", "FORM_TYPE") << XATTR("type", "hidden")
-			<< XCHILD("value", "urn:xmpp:dataforms:softwareinfo");
-
-		CJabberClientPartialCaps *pCaps = GetPartialCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc);
-		if (pCaps) {
-			if (ppro->m_bShowOSVersion) {
-				form << XCHILD("field") << XATTR("var", "os") << XCHILD("value", pCaps->GetOs());
-				form << XCHILD("field") << XATTR("var", "os_version") << XCHILD("value", pCaps->GetOsVer());
-			}
-			form << XCHILD("field") << XATTR("var", "software") << XCHILD("value", pCaps->GetSoft());
-			form << XCHILD("field") << XATTR("var", "software_version") << XCHILD("value", pCaps->GetSoftVer());
-			form << XCHILD("field") << XATTR("var", "x-miranda-core-version") << XCHILD("value", pCaps->GetSoftMir());
-		}
+	int fileId = _wopen(VARSW(L"%miranda_userdata%\\jabberCaps.json"), _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
+	if (fileId != -1) {
+		_write(fileId, szBody.c_str(), (unsigned)szBody.length());
+		_close(fileId);
 	}
-
-	ppro->m_ThreadInfo->send(iq);
-	return true;
 }

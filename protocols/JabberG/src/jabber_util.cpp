@@ -388,7 +388,7 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 	// XEP-0115:Entity Capabilities
 	if (m_bAllowVersionRequests) {
 		TiXmlElement *c = p << XCHILDNS("c", JABBER_FEAT_ENTITY_CAPS) << XATTR("hash", "sha-1") 
-			<< XATTR("node", JABBER_CAPS_MIRANDA_NODE) << XATTR("ver", m_clientCapsManager.GetFeaturesCrc());
+			<< XATTR("node", JABBER_CAPS_MIRANDA_NODE) << XATTR("ver", m_szFeaturesCrc);
 
 		LIST<char> arrExtCaps(5);
 		if (g_plugin.bSecureIM)

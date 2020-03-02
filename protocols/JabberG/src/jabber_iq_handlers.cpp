@@ -352,7 +352,7 @@ bool CJabberProto::OnHandleDiscoInfoRequest(const TiXmlElement *iqNode, CJabberI
 
 	const char *szNode = XmlGetAttr(pInfo->GetChildNode(), "node");
 	// caps hack
-	if (m_clientCapsManager.HandleInfoRequest(iqNode, pInfo, szNode))
+	if (HandleCapsInfoRequest(iqNode, pInfo, szNode))
 		return true;
 
 	// ad-hoc hack:

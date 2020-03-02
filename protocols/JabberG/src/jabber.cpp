@@ -177,6 +177,13 @@ int CMPlugin::Load()
 	g_MenuInit();
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	JabberUserInfoInit();
+
+	if (!db_get_b(0, "Compatibility", "JabberCaps", 0)) {
+		db_delete_module(0, "JabberCaps");
+		db_set_b(0, "Compatibility", "JabberCaps", 1);
+	}
+
+	g_clientCapsManager.Load();
 	return 0;
 }
 
@@ -185,6 +192,8 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	g_clientCapsManager.Save();
+
 	g_XstatusIconsUninit();
 	JabberUserInfoUninit();
 

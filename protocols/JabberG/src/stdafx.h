@@ -324,6 +324,8 @@ struct CJabberHttpAuthParams
 
 #include "jabber_caps.h"
 
+extern CJabberClientCapsManager g_clientCapsManager;
+
 #define JABBER_LOGIN_ROSTER				0x0001
 #define JABBER_LOGIN_BOOKMARKS			0x0002
 #define JABBER_LOGIN_SERVERINFO			0x0004

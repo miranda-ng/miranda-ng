@@ -830,7 +830,7 @@ public:
 			m_proto->m_omemo.init();
 		else
 			m_proto->m_omemo.deinit();
-		m_proto->m_clientCapsManager.UpdateFeatHash();
+		m_proto->UpdateFeatHash();
 		m_proto->SendPresence(m_proto->m_iStatus, true);
 		return true;
 	}
