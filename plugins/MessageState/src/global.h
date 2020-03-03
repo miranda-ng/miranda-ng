@@ -36,7 +36,7 @@ void InitServices();
 
 void IconsUpdate(MCONTACT);
 void SetSRMMIcon(MCONTACT hContact, int type, time_t time = 0);
-time_t GetLastSentMessageTime(MCONTACT hContact);
+__int64 GetPreciousTime(void);
 int OnModulesLoaded(WPARAM, LPARAM);
 bool HasUnread(MCONTACT hContact);
 

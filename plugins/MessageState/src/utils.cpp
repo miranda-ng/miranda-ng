@@ -15,11 +15,6 @@ ContactData* FindContact(MCONTACT hContact)
 	return p;
 }
 
-time_t GetLastSentMessageTime(MCONTACT hContact)
-{
-	return FindContact(hContact)->dwLastSentTime;
-}
-
 bool HasUnread(MCONTACT hContact)
 {
 	if (!CheckProtoSupport(Proto_GetBaseAccountName(hContact)))
@@ -30,4 +25,11 @@ bool HasUnread(MCONTACT hContact)
 		return false;
 	
 	return p->dwLastReadTime != 0;
+}
+
+__int64 GetPreciousTime()
+{
+	LARGE_INTEGER li;
+	QueryPerformanceCounter(&li);
+	return li.QuadPart;
 }

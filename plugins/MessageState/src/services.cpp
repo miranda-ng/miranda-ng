@@ -12,8 +12,8 @@ static IconItem Icons[] =
 static INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)
 {
 	auto *p = FindContact(hContact);
-
-	__time64_t currTime = _time64(0);
+	
+	__time64_t currTime = GetPreciousTime();
 	if (currTime > p->dwLastReadTime) {
 		p->dwLastReadTime = currTime;
 		p->type = lParam;

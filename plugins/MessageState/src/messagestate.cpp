@@ -81,7 +81,7 @@ static int OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	if ((dbei->flags & DBEF_SENT) && CheckProtoSupport(dbei->szModule)) {
-		__time64_t dwTime = _time64(0);
+		__time64_t dwTime = GetPreciousTime();
 		FindContact(hContact)->setSent(dwTime);
 		if (db_mc_isSub(hContact))
 			FindContact(db_mc_getMeta(hContact))->setSent(dwTime);
