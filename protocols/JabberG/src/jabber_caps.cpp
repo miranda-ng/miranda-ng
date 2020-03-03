@@ -618,7 +618,7 @@ CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(const char *sz
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const char *str2buf(const std::string str)
+static const char *str2buf(const std::string &str)
 {
 	return (str.empty()) ? nullptr : str.c_str();
 }
