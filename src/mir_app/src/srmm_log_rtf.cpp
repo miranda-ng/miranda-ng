@@ -71,7 +71,7 @@ void CRtfLogWindow::Detach()
 bool CRtfLogWindow::AtBottom()
 {
 	if (!(GetWindowLongPtr(m_rtf.GetHwnd(), GWL_STYLE) & WS_VSCROLL))
-		return true;
+		return false;
 
 	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
