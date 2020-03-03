@@ -178,9 +178,9 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	JabberUserInfoInit();
 
-	if (!db_get_b(0, "Compatibility", "JabberCaps", 0)) {
+	if (db_get_b(0, "Compatibility", "JabberCaps", 0) < 2) {
 		db_delete_module(0, "JabberCaps");
-		db_set_b(0, "Compatibility", "JabberCaps", 1);
+		db_set_b(0, "Compatibility", "JabberCaps", 2);
 	}
 
 	g_clientCapsManager.Load();

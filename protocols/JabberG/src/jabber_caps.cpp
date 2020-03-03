@@ -117,10 +117,10 @@ void CJabberProto::AddDefaultCaps()
 	OS_GetDisplayString(szOsBuffer, _countof(szOsBuffer));
 
 	CJabberClientPartialCaps *pCaps = g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, __VERSION_STRING_DOTS, myCaps);
-	pCaps->m_szOs = mir_strdup("Microsoft Windows");
-	pCaps->m_szOsVer = mir_strdup(szOsBuffer);
-	pCaps->m_szSoft = mir_strdup("Miranda NG Jabber Protocol");
-	pCaps->m_szSoftMir = mir_strdup(szCoreVersion);
+	pCaps->SetOs("Microsoft Windows");
+	pCaps->SetOsVer(szOsBuffer);
+	pCaps->SetSoft("Miranda NG Jabber Protocol");
+	pCaps->SetSoftMir(szCoreVersion);
 }
 
 void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *pInfo)
@@ -166,28 +166,22 @@ void CJabberProto::OnIqResultCapsDiscoInfo(const TiXmlElement*, CJabberIqInfo *p
 			if (!formType || mir_strcmp(formType, "urn:xmpp:dataforms:softwareinfo"))
 				continue;
 
-			JSONNode root;
 			for (auto *field : TiXmlFilter(xform, "field")) {
 				const char *fieldName = XmlGetAttr(field, "var"), *fieldValue = XmlGetChildText(field, "value");
 				if (fieldValue == nullptr)
 					continue;
 
 				if (!mir_strcmp(fieldName, "os"))
-					root.push_back(JSONNode("o", pCaps->m_szOs = mir_strdup(fieldValue)));
+					pCaps->SetOs(fieldValue);
 				else if (!mir_strcmp(fieldName, "os_version"))
-					root.push_back(JSONNode("ov", pCaps->m_szOsVer = mir_strdup(fieldValue)));
+					pCaps->SetOsVer(fieldValue);
 				else if (!mir_strcmp(fieldName, "software"))
-					root.push_back(JSONNode("s", pCaps->m_szSoft = mir_strdup(fieldValue)));
+					pCaps->SetSoft(fieldValue);
 				else if (!mir_strcmp(fieldName, "software_version"))
-					root.push_back(JSONNode("sv", pCaps->m_szSoftVer = mir_strdup(fieldValue)));
+					pCaps->SetSoftVer(fieldValue);
 				else if (!mir_strcmp(fieldName, "x-miranda-core-version"))
-					root.push_back(JSONNode("sm", pCaps->m_szSoftMir = mir_strdup(fieldValue)));
+					pCaps->SetSoftMir(fieldValue);
 			}
-			root.push_back(JSONNode("c", CMStringA(FORMAT, "%lld", jcbCaps)));
-
-			CMStringA szName(FORMAT, "%s#%s", pCaps->GetNode(), pCaps->GetHash());
-			json_string szValue = root.write();
-			db_set_s(0, "JabberCaps", szName, szValue.c_str());
 		}
 
 		pCaps->SetCaps(jcbCaps, pInfo->GetIqId());
@@ -624,9 +618,9 @@ CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(const char *sz
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static char *str2buf(const std::string str)
+static const char *str2buf(const std::string str)
 {
-	return (str.empty()) ? nullptr : mir_strdup(str.c_str());
+	return (str.empty()) ? nullptr : str.c_str();
 }
 
 void CJabberClientCapsManager::Load()
@@ -662,12 +656,12 @@ void CJabberClientCapsManager::Load()
 			JabberCapsBits jcbCaps = _atoi64(ver["caps"].as_string().c_str());
 
 			auto *res = pClient->SetPartialCaps(szHash.c_str(), szVer.c_str(), jcbCaps);
-			res->m_iTime = ver["time"].as_int();
-			res->m_szOs = str2buf(ver["os"].as_string());
-			res->m_szOsVer = str2buf(ver["osver"].as_string());
-			res->m_szSoft = str2buf(ver["soft"].as_string());
-			res->m_szSoftVer = str2buf(ver["softver"].as_string());
-			res->m_szSoftMir = str2buf(ver["softmir"].as_string());
+			res->SetTime(ver["time"].as_int());
+			res->SetOs(str2buf(ver["os"].as_string()));
+			res->SetOsVer(str2buf(ver["osver"].as_string()));
+			res->SetSoft(str2buf(ver["soft"].as_string()));
+			res->SetSoftVer(str2buf(ver["softver"].as_string()));
+			res->SetSoftMir(str2buf(ver["softmir"].as_string()));
 		}
 	}
 }
@@ -680,11 +674,11 @@ void CJabberClientCapsManager::Save()
 	for (auto &it : m_arCaps) {
 		JSONNode versions(JSON_ARRAY); versions.set_name("versions");
 		for (auto *p = it->GetFirst(); p != nullptr; p = p->GetNext()) {
-			if (p->m_iTime < iFilterTime)
+			if (p->GetTime() < iFilterTime)
 				continue;
 
 			JSONNode ver;
-			ver << CHAR_PARAM("hash", p->GetHash()) << INT64_PARAM("caps", p->GetCaps()) << INT_PARAM("time", p->m_iTime)
+			ver << CHAR_PARAM("hash", p->GetHash()) << INT64_PARAM("caps", p->GetCaps()) << INT_PARAM("time", p->GetTime())
 				<< CHAR_PARAM("os", p->GetOs()) << CHAR_PARAM("osver", p->GetOsVer())
 				<< CHAR_PARAM("soft", p->GetSoft()) << CHAR_PARAM("softver", p->GetSoftVer()) << CHAR_PARAM("softmir", p->GetSoftMir());
 			versions.push_back(ver);
