@@ -88,7 +88,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	if (hwnd == nullptr)
 		hwnd = Srmm_FindWindow(hContactWnd = db_event_getContact(hDbEvent));
 	if (hwnd)
-		SendMessage(hwnd, HM_DBEVENTADDED, hContactWnd, lParam);
+		::PostMessage(hwnd, HM_DBEVENTADDED, hContactWnd, lParam);
 
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
