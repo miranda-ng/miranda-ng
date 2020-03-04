@@ -36,7 +36,6 @@ enum SEARCHENGINES {
 
 wchar_t *limitText(wchar_t *text, int limit);
 void logInfo(const char *fmt, ...);
-wchar_t *GetRichEditSelection(HWND hwnd);
 void SearchWord(wchar_t * word, int engine);
 int MeasureMenuItem(WPARAM wParam, LPARAM lParam);
 int DrawMenuItem(WPARAM wParam, LPARAM lParam);

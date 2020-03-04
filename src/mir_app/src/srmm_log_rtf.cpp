@@ -95,10 +95,34 @@ int CRtfLogWindow::GetType()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+{
+	CMStringW *str = (CMStringW *)dwCookie;
+	str->Append((wchar_t*)pbBuff, cb / 2);
+	*pcb = cb;
+	return 0;
+}
+
 wchar_t* CRtfLogWindow::GetSelection()
 {
-	return nullptr;
+	CHARRANGE sel;
+	SendMessage(m_rtf.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
+	if (sel.cpMin == sel.cpMax)
+		return nullptr;
+
+	CMStringW result;
+
+	EDITSTREAM stream;
+	memset(&stream, 0, sizeof(stream));
+	stream.pfnCallback = StreamOutCallback;
+	stream.dwCookie = (DWORD_PTR)&result;
+	SendMessage(m_rtf.GetHwnd(), EM_STREAMOUT, SF_TEXT | SF_UNICODE | SFF_SELECTION, (LPARAM)&stream);
+	return result.Detach();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 {
