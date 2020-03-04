@@ -2567,7 +2567,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 								break;
 
 							// clicked a nick name
-							if (g_Settings.bClickableNicks) {
+							if (isChat() && g_Settings.bClickableNicks) {
 								if (msg == WM_RBUTTONDOWN) {
 									for (auto &ui : m_si->getUserList()) {
 										if (mir_wstrcmp(ui->pszNick, tr.lpstrText))
