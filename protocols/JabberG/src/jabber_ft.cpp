@@ -99,14 +99,6 @@ void CJabberProto::FtInitiate(const char* jid, filetransfer *ft)
 	if (wchar_t *p = wcsrchr(filename, '\\'))
 		filename = p + 1;
 
-	// if we enabled XEP-0231, try to inline a picture
-	if (m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w)) {
-		if (FtTryInlineFile(ft->std.hContact, ft->std.szCurrentFile.w)) {
-			mir_forkthread(FakeAckThread, ft);
-			return;
-		}
-	}
-
 	// if we use XEP-0363, send a slot allocation request
 	if (m_bUseHttpUpload) {
 		ptrA szUploadService(getStringA("HttpUpload"));
@@ -139,6 +131,15 @@ void CJabberProto::FtInitiate(const char* jid, filetransfer *ft)
 		}
 	}
 
+	// if we enabled XEP-0231, try to inline a picture
+	if (m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w)) {
+		if (FtTryInlineFile(ft->std.hContact, ft->std.szCurrentFile.w)) {
+			mir_forkthread(FakeAckThread, ft);
+			return;
+		}
+	}
+
+	// no cloud services enabled, try to initiate a p2p file transfer
 	ft->type = FT_SI;
 	char sid[9];
 	for (int i = 0; i < 8; i++)
