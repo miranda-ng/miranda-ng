@@ -117,6 +117,7 @@ AsyncHttpRequest* FacebookProto::CreateRequest(const char *szUrl, const char *sz
 		pReq->AddHeader("Authorization", "OAuth " + m_szAuthToken);
 	}
 
+	pReq->AddHeader("User-Agent", FB_API_AGENT);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	return pReq;
 }
