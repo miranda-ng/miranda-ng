@@ -1357,13 +1357,14 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		}
 	}
 
+	szMessage += ExtractImage(node);
+
 	// all service info was already processed
 	if (szMessage.IsEmpty()) {
 		debugLogA("empty message, returning");
 		return;
 	}
 
-	szMessage += ExtractImage(node);
 	szMessage.Replace("\n", "\r\n");
 
 	if (item != nullptr) {
