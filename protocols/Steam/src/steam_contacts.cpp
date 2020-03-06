@@ -216,7 +216,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 			if (!gameId)
 				message.Append(TranslateT(" (Non-Steam)"));
 			if (!serverIP.empty())
-				message.AppendFormat(TranslateT(" on server %s"), serverIP.c_str());
+				message.AppendFormat(TranslateT(" on server %S"), serverIP.c_str());
 		}
 
 		setDword(hContact, "XStatusId", gameId);
