@@ -50,14 +50,12 @@ void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
 
 	DB_AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 
-	DBEVENTINFO dbei = {};
-	dbei.szModule = m_szModuleName;
-	dbei.timestamp = (DWORD)time(0);
-	dbei.flags = DBEF_UTF;
-	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = blob.size();
-	dbei.pBlob = blob;
-	db_event_add(0, &dbei);
+	PROTORECVEVENT pre = {};
+	pre.timestamp = (DWORD)time(0);
+	pre.lParam = blob.size();
+	pre.szMessage = blob;
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+
 	debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", blob.get_nick(), blob.get_email());
 }
 
