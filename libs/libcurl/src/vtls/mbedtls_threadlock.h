@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_LLIST_H
-#define HEADER_CURL_LLIST_H
+#ifndef HEADER_CURL_MBEDTLS_THREADLOCK_H
+#define HEADER_CURL_MBEDTLS_THREADLOCK_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -7,7 +7,8 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2020, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 2013 - 2020, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 2010, Hoi-Ho Chan, <hoiho.chan@gmail.com>
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -21,30 +22,27 @@
  * KIND, either express or implied.
  *
  ***************************************************************************/
-
 #include "curl_setup.h"
-#include <stddef.h>
 
-typedef void (*curl_llist_dtor)(void *, void *);
+#ifdef USE_MBEDTLS
 
-struct curl_llist_element {
-  void *ptr;
-  struct curl_llist_element *prev;
-  struct curl_llist_element *next;
-};
+#if (defined(USE_THREADS_POSIX) && defined(HAVE_PTHREAD_H)) || \
+    (defined(USE_THREADS_WIN32) && defined(HAVE_PROCESS_H))
 
-struct curl_llist {
-  struct curl_llist_element *head;
-  struct curl_llist_element *tail;
-  curl_llist_dtor dtor;
-  size_t size;
-};
+int Curl_mbedtlsthreadlock_thread_setup(void);
+int Curl_mbedtlsthreadlock_thread_cleanup(void);
+int Curl_mbedtlsthreadlock_lock_function(int n);
+int Curl_mbedtlsthreadlock_unlock_function(int n);
 
-void Curl_llist_init(struct curl_llist *, curl_llist_dtor);
-void Curl_llist_insert_next(struct curl_llist *, struct curl_llist_element *,
-                            const void *, struct curl_llist_element *node);
-void Curl_llist_remove(struct curl_llist *, struct curl_llist_element *,
-                       void *);
-size_t Curl_llist_count(struct curl_llist *);
-void Curl_llist_destroy(struct curl_llist *, void *);
-#endif /* HEADER_CURL_LLIST_H */
+#else
+
+#define Curl_mbedtlsthreadlock_thread_setup() 1
+#define Curl_mbedtlsthreadlock_thread_cleanup() 1
+#define Curl_mbedtlsthreadlock_lock_function(x) 1
+#define Curl_mbedtlsthreadlock_unlock_function(x) 1
+
+#endif /* USE_THREADS_POSIX || USE_THREADS_WIN32 */
+
+#endif /* USE_MBEDTLS */
+
+#endif /* HEADER_CURL_MBEDTLS_THREADLOCK_H */
