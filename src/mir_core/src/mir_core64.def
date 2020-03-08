@@ -1186,7 +1186,7 @@ db_event_edit @1268
 ?LinkEndChild@XMLNode@tinyxml2@@QEAAPEAV12@PEAV12@@Z @1401 NONAME
 ?LoadFile@XMLDocument@tinyxml2@@QEAA?AW4XMLError@2@PEAU_iobuf@@@Z @1402 NONAME
 ?LoadFile@XMLDocument@tinyxml2@@QEAA?AW4XMLError@2@PEBD@Z @1403 NONAME
-?MarkInUse@XMLDocument@tinyxml2@@QEAAXPEAVXMLNode@2@@Z @1404 NONAME
+?MarkInUse@XMLDocument@tinyxml2@@QEAAXQEBVXMLNode@2@@Z @1404 NONAME
 ?Name@XMLAttribute@tinyxml2@@QEBAPEBDXZ @1405 NONAME
 ?Name@XMLElement@tinyxml2@@QEBAPEBDXZ @1406 NONAME
 ?NewComment@XMLDocument@tinyxml2@@QEAAPEAVXMLComment@2@PEBD@Z @1407 NONAME
@@ -1329,7 +1329,7 @@ db_event_edit @1268
 ?ShallowEqual@XMLElement@tinyxml2@@UEBA_NPEBVXMLNode@2@@Z @1544 NONAME
 ?ShallowEqual@XMLText@tinyxml2@@UEBA_NPEBVXMLNode@2@@Z @1545 NONAME
 ?ShallowEqual@XMLUnknown@tinyxml2@@UEBA_NPEBVXMLNode@2@@Z @1546 NONAME
-?SkipWhiteSpace@XMLUtil@tinyxml2@@SAPEADPEADPEAH@Z @1547 NONAME
+?SkipWhiteSpace@XMLUtil@tinyxml2@@SAPEADQEADPEAH@Z @1547 NONAME
 ?SkipWhiteSpace@XMLUtil@tinyxml2@@SAPEBDPEBDPEAH@Z @1548 NONAME
 ?StringEqual@XMLUtil@tinyxml2@@SA_NPEBD0H@Z @1549 NONAME
 ?ToBool@XMLUtil@tinyxml2@@SA_NPEBDPEA_N@Z @1550 NONAME
@@ -1459,3 +1459,8 @@ XmlGetChildText @1645
 ?Unlock@mir_cs@@QEAAXXZ @1674 NONAME
 ?StartSafe@CTimer@@QEAAXH@Z @1675 NONAME
 ?StopSafe@CTimer@@QEAAXXZ @1676 NONAME
+?InsertNewChildElement@XMLElement@tinyxml2@@QEAAPEAV12@PEBD@Z @1677 NONAME
+?InsertNewComment@XMLElement@tinyxml2@@QEAAPEAVXMLComment@2@PEBD@Z @1678 NONAME
+?InsertNewDeclaration@XMLElement@tinyxml2@@QEAAPEAVXMLDeclaration@2@PEBD@Z @1679 NONAME
+?InsertNewText@XMLElement@tinyxml2@@QEAAPEAVXMLText@2@PEBD@Z @1680 NONAME
+?InsertNewUnknown@XMLElement@tinyxml2@@QEAAPEAVXMLUnknown@2@PEBD@Z @1681 NONAME
