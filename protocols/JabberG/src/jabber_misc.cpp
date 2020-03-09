@@ -467,6 +467,15 @@ static bool SaveBlobToFile(const wchar_t *pwszFileName, const CMStringA &body)
 
 void CJabberProto::OnGetBob(const TiXmlElement *node, CJabberIqInfo *pReq)
 {
+	auto pMark = ((CChatMark *)pReq->GetUserData());
+	if (pMark) {
+		XmlNode reply("message"); reply << XATTR("to", pMark->szFrom) << XATTR("id", pMark->szId)
+			<< XCHILDNS("displayed", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", pMark->szId);
+		m_ThreadInfo->send(reply);
+		
+		delete pMark;
+	}
+
 	if (auto *data = XmlFirstChild(node, "data")) {
 		if (auto *cid = XmlGetAttr(data, "cid")) {
 			if (auto *src = data->GetText()) {
@@ -528,7 +537,10 @@ CMStringA CJabberProto::ExtractImage(const TiXmlElement *node)
 
 					// XEP-0231: Bits Of Bytes
 					else if (strSrc.Left(9) == "cid:sha1+" && strSrc.Right(13) == "@bob.xmpp.org") {
-						auto *pIQ = AddIQ(&CJabberProto::OnGetBob, JABBER_IQ_TYPE_GET, XmlGetAttr(node, "from"));
+						auto *szMsgId = XmlGetAttr(node, "id"), *szFrom = XmlGetAttr(node, "from");
+						auto *pMark = (szMsgId && szFrom) ? new CChatMark(0, szMsgId, szFrom) : nullptr;
+
+						auto *pIQ = AddIQ(&CJabberProto::OnGetBob, JABBER_IQ_TYPE_GET, XmlGetAttr(node, "from"), pMark);
 						pIQ->SetParamsToParse(JABBER_IQ_PARSE_HCONTACT);
 
 						strSrc.Delete(0, 4);
