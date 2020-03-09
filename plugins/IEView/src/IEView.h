@@ -553,7 +553,6 @@ public:
 
 	static IEView*	get(HWND);
 	static void		release();
-	static void		setOptions();
 
 	inline MCONTACT Get_CurrentContact()
 	{

@@ -609,7 +609,7 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 				if (iSelection == ID_MENU_CLEARLOG) {
 				clear(NULL);
 				} else {
-				SendMessage(hSPWnd, WM_COMMAND, iSelection, (LPARAM) NULL);
+				SendMessage(hSPWnd, WM_COMMAND, iSelection, 0);
 				}
 				*/
 	}
@@ -628,8 +628,10 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 				EnableMenuItem(hMenu, ID_MENU_COPYLINK, MF_BYCOMMAND | MF_ENABLED);
 			else if (dwID == 4) // text select
 				EnableMenuItem(hMenu, ID_MENU_COPY, MF_BYCOMMAND | MF_ENABLED);
-			else if (dwID == 1) // control (image)
+			else if (dwID == 1) { // control (image) 
 				EnableMenuItem(hMenu, ID_MENU_SAVEIMAGE, MF_BYCOMMAND | MF_ENABLED);
+				EnableMenuItem(hMenu, ID_MENU_COPY, MF_BYCOMMAND | MF_ENABLED);
+			}
 
 			int iSelection = TrackPopupMenu(hMenu,
 				TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD,
@@ -642,7 +644,7 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 			if (iSelection == ID_MENU_CLEARLOG)
 				clear(nullptr);
 			else
-				SendMessage(hSPWnd, WM_COMMAND, iSelection, (LPARAM)NULL);
+				SendMessage(hSPWnd, WM_COMMAND, iSelection, 0);
 		}
 	}
 #endif
