@@ -1405,7 +1405,10 @@ void CMsgDialog::SendHBitmapAsFile(HBITMAP hbmp) const
 	ii.pwszName = filename;
 	ii.dwMask = IMGI_HBITMAP;
 	ii.fif = FIF_JPEG;
-	Image_Save(&ii);
+	if (!Image_Save(&ii)) {
+		CWarning::show(CWarning::WARN_SAVEFILE, MB_OK | MB_ICONEXCLAMATION | CWarning::CWF_NOALLOWHIDE);
+		return;
+	}
 
 	int totalCount = 0;
 	wchar_t **ppFiles = nullptr;

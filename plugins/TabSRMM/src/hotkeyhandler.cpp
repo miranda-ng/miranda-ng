@@ -105,7 +105,7 @@ static INT_PTR HotkeyProcessor(WPARAM, LPARAM lParam)
 		if (g_arUnreadWindows.getCount()) {
 			HANDLE hContact = g_arUnreadWindows[0];
 			g_arUnreadWindows.remove(0);
-			HandleMenuEntryFromhContact(MCONTACT(hContact));
+			HandleMenuEntryFromhContact(UINT_PTR(hContact));
 		}
 		// restore last active container
 		else if (pLastActiveContainer != nullptr) { 
