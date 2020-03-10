@@ -294,21 +294,16 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 		return;
 
 	// create auth request event
-	ptrA steamId(getStringA(hContact, "SteamID"));
-	ptrA token(getStringA("TokenSecret"));
+	ptrA steamId(getUStringA(hContact, "SteamID"));
+	ptrA token(getUStringA("TokenSecret"));
 	SendRequest(new GetUserSummariesRequest(token, steamId), &CSteamProto::OnGotUserSummaries);
 
-	ptrA nickName(getStringA(hContact, "Nick"));
+	ptrA nickName(getUStringA(hContact, "Nick"));
 	if (nickName == nullptr)
 		nickName = mir_strdup(steamId);
 
-	ptrA firstName(getStringA(hContact, "FirstName"));
-	if (firstName == nullptr)
-		firstName = mir_strdup("");
-
-	ptrA lastName(getStringA(hContact, "LastName"));
-	if (lastName == nullptr)
-		lastName = mir_strdup("");
+	ptrA firstName(getUStringA(hContact, "FirstName"));
+	ptrA lastName(getUStringA(hContact, "LastName"));
 
 	char reason[MAX_PATH];
 	mir_snprintf(reason, Translate("%s has added you to contact list"), nickName.get());
