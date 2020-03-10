@@ -65,12 +65,12 @@ static int dbaddedevent(WPARAM hContact, LPARAM hDbEvent)
 	if (hContact) {
 		HWND h = Srmm_FindWindow(hContact);
 		if (h)
-			::PostMessage(h, HM_DBEVENTADDED, hContact, hDbEvent);
+			::SendMessage(h, HM_DBEVENTADDED, hContact, hDbEvent);
 
 		MCONTACT hEventContact = db_event_getContact(hDbEvent);
 		if (hEventContact != hContact)
 			if ((h = Srmm_FindWindow(hEventContact)) != nullptr)
-				::PostMessage(h, HM_DBEVENTADDED, hEventContact, hDbEvent);
+				::SendMessage(h, HM_DBEVENTADDED, hEventContact, hDbEvent);
 	}
 	return 0;
 }
