@@ -277,8 +277,8 @@ void CJabberProto::OnIqResultSetAuth(const TiXmlElement *iqNode, CJabberIqInfo*)
 	if ((type = XmlGetAttr(iqNode, "type")) == nullptr) return;
 
 	if (!mir_strcmp(type, "result")) {
-		ptrA tszNick(getUStringA("Nick"));
-		if (tszNick == nullptr)
+		ptrA szNick(getUStringA("Nick"));
+		if (!mir_strlen(szNick))
 			setUString("Nick", m_ThreadInfo->conn.username);
 
 		OnLoggedIn();

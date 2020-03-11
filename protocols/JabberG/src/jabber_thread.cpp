@@ -836,7 +836,7 @@ void CJabberProto::OnProcessSuccess(const TiXmlElement *node, ThreadData *info)
 
 		debugLogA("Success: Logged-in.");
 		ptrA szNick(getUStringA("Nick"));
-		if (szNick == nullptr)
+		if (!mir_strlen(szNick))
 			setUString("Nick", info->conn.username);
 
 		xmlStreamInitialize("after successful sasl");
