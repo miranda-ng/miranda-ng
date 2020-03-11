@@ -97,24 +97,24 @@ class VoiceProvider
 {
 public:
 	wchar_t description[256];
-	char name[256];
-	char icon[256];
-	int flags;
-	bool is_protocol;
+	char    name[256];
+	HANDLE  hIcolib;
+	int     flags;
+	bool    is_protocol;
 
-	VoiceProvider(const char *name, const wchar_t *description, int flags, const char *icon);
+	VoiceProvider(const char *name, const wchar_t *description, int flags, HANDLE hIcolib);
 	~VoiceProvider();
 
-	bool CanCall(const wchar_t *number);
-	bool CanCall(MCONTACT hContact, BOOL now = TRUE);
-	void Call(MCONTACT hContact, const wchar_t *number);
+	bool  CanCall(const wchar_t *number);
+	bool  CanCall(MCONTACT hContact, BOOL now = TRUE);
+	void  Call(MCONTACT hContact, const wchar_t *number);
 
-	bool CanHold();
+	bool  CanHold();
 
-	bool CanSendDTMF();
+	bool  CanSendDTMF();
 
 	HICON GetIcon();
-	void ReleaseIcon(HICON hIcon);
+	void  ReleaseIcon(HICON hIcon);
 
 private:
 	bool canHold;

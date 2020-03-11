@@ -47,8 +47,8 @@ static int VoiceState(WPARAM wParam, LPARAM)
 		return 0;
 
 	call->AppendCallerID(in->hContact,
-		(in->flags & VOICE_UNICODE) ? in->pwszName : _A2T(in->pszName),
-		(in->flags & VOICE_UNICODE) ? in->pwszNumber : _A2T(in->pszNumber));
+		(in->flags & VOICE_UNICODE) ? in->szName.w : _A2T(in->szName.a),
+		(in->flags & VOICE_UNICODE) ? in->szNumber.w : _A2T(in->szNumber.a));
 	call->secure = (in->flags & VOICE_SECURE) != 0;
 
 	if (in->state == VOICE_STATE_RINGING && call->hContact != NULL) {
@@ -74,17 +74,13 @@ static int VoiceState(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-VoiceProvider::VoiceProvider(const char *name, const wchar_t *description, int flags, const char *icon)
+VoiceProvider::VoiceProvider(const char *name, const wchar_t *description, int flags, HANDLE pIcon) :
+	hIcolib(pIcon)
 {
 	strncpy(this->name, name, _countof(this->name));
 	this->name[_countof(this->name) - 1] = 0;
 
 	lstrcpyn(this->description, description, _countof(this->description));
-
-	if (icon == NULL)
-		this->icon[0] = 0;
-	else
-		lstrcpynA(this->icon, icon, _countof(this->icon));
 
 	this->flags = flags;
 	is_protocol = IsProtocol(name);
@@ -159,8 +155,8 @@ void VoiceProvider::Call(MCONTACT hContact, const wchar_t *number)
 
 HICON VoiceProvider::GetIcon()
 {
-	if (!IsEmptyA(icon))
-		return IcoLib_GetIcon(icon);
+	if (hIcolib)
+		return IcoLib_GetIconByHandle(hIcolib);
 
 	if (is_protocol)
 		return Skin_LoadProtoIcon(name, ID_STATUS_ONLINE);
@@ -170,9 +166,6 @@ HICON VoiceProvider::GetIcon()
 
 void VoiceProvider::ReleaseIcon(HICON hIcon)
 {
-	if (hIcon == NULL)
-		return;
-
-	if (!IsEmptyA(icon))
+	if (hIcolib)
 		IcoLib_ReleaseIcon(hIcon);
 }

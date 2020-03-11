@@ -37,14 +37,13 @@ To get the devices for input/output and some options, query the db directly:
 
 struct VOICE_MODULE
 {
-	int cbSize;			// sizeof(VOICE_MODULE)
-	TCHAR *description;	// The description of the voice provider. This is the name that will be shown
-						// to the user
-	char *name;			// The internal name of the voice provider. All PS_* serivces
-						// defined in m_voide.h need to be created based in this name. For example, 
-						// PS_VOICE_CALL (/Voice/Call) need to be created as <name>/Voice/Call
-	char *icon;			// Icon to identify provider (from icolib)
-	int flags;			// or of VOICE_CAPS_*. You don't need to send VOICE_CAPS_VOICE.
+	int cbSize;           // sizeof(VOICE_MODULE)
+	TCHAR *description;   // The description of the voice provider. This is the name that will be shown to the user
+	char *name;           // The internal name of the voice provider. All PS_* serivces
+		                   // defined in m_voice.h need to be created based in this name. For example, 
+                         // PS_VOICE_CALL (/Voice/Call) need to be created as <name>/Voice/Call
+	HANDLE icon;          // Icon to identify provider (from icolib)
+	int flags;            // or of VOICE_CAPS_*. You don't need to send VOICE_CAPS_VOICE.
 };
 /*
 Register a new plugin that can make/receive voice calls (a voice provider).
