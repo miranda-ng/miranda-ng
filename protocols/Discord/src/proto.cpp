@@ -64,10 +64,14 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	CreateProtoService(PS_MENU_REQAUTH, &CDiscordProto::RequestFriendship);
 
+	CreateProtoService(PS_VOICE_CAPS, &CDiscordProto::VoiceCaps);
+
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CDiscordProto::OnDbEventRead);
 	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CDiscordProto::OnAccountChanged);
+	
+	HookProtoEvent(PE_VOICE_CALL_STATE, &CDiscordProto::OnVoiceState);
 
 	// database
 	db_set_resident(m_szModuleName, "XStatusMsg");
