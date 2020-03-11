@@ -52,12 +52,20 @@ IconItem g_iconList[] =
 {
 	{ LPGEN("Main icon"),   "main",      IDI_MAIN },
 	{ LPGEN("Group chats"), "groupchat", IDI_GROUPCHAT },
-	{ LPGEN("Call"),  "voicecall", IDI_VOICE_CALL },
+	{ LPGEN("Call"),        "voicecall", IDI_VOICE_CALL },
 	{ LPGEN("Call ended"),  "voiceend",  IDI_VOICE_ENDED }
 };
 
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	g_plugin.bVoiceService = ServiceExists(MS_VOICESERVICE_REGISTER);
+	return 0;
+}
+
 int CMPlugin::Load()
 {
+	HookEvent(ME_SYSTEM_MODULESLOADED, &OnModulesLoaded);
+
 	g_plugin.registerIcon("Protocols/Discord", g_iconList);
 	return 0;
 }

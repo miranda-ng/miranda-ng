@@ -20,6 +20,7 @@
 
 #include <m_system.h>
 #include <newpluginapi.h>
+#include <m_avatars.h>
 #include <m_chat_int.h>
 #include <m_clist.h>
 #include <m_contacts.h>
@@ -27,6 +28,9 @@
 #include <m_folders.h>
 #include <m_gui.h>
 #include <m_history.h>
+#include <m_hotkeys.h>
+#include <m_icolib.h>
+#include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_netlib.h>
@@ -38,11 +42,9 @@
 #include <m_skin.h>
 #include <m_srmm_int.h>
 #include <m_userinfo.h>
-#include <m_icolib.h>
 #include <m_utils.h>
-#include <m_hotkeys.h>
-#include <m_json.h>
-#include <m_avatars.h>
+#include <m_voice.h>
+#include <m_voiceservice.h>
 #include <win2k.h>
 
 #include "../../libs/zlib/src/zlib.h"

@@ -153,6 +153,17 @@ void CDiscordProto::OnModulesLoaded()
 	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
 
 	InitMenus();
+
+	// Voice support
+	if (g_plugin.bVoiceService) {
+		VOICE_MODULE voice = {};
+		voice.cbSize = sizeof(voice);
+		voice.name = m_szModuleName;
+		voice.description = TranslateT("Discord voice call");
+		voice.icon = m_hProtoIcon;
+		voice.flags = VOICE_CAPS_CALL_CONTACT | VOICE_CAPS_VOICE;
+		CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&voice, 0);
+	}
 }
 
 void CDiscordProto::OnShutdown()
@@ -164,6 +175,9 @@ void CDiscordProto::OnShutdown()
 
 	if (m_hGatewayConnection)
 		Netlib_Shutdown(m_hGatewayConnection);
+
+	if (g_plugin.bVoiceService)
+		CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)m_szModuleName, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
