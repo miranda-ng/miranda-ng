@@ -567,7 +567,6 @@ bool CMsgDialog::OnInitDialog()
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
 	m_message.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
-	m_message.SetReadOnly(false);
 
 	m_bActualHistory = M.GetByte(m_hContact, "ActualHistory", 0) != 0;
 

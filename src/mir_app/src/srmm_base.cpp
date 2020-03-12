@@ -458,6 +458,7 @@ bool CSrmmBaseDialog::OnInitDialog()
 
 	SetWindowLongPtr(m_message.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_message.GetHwnd(), stubMessageProc);
+	m_message.SetReadOnly(false);
 
 	if (isChat()) {
 		SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));

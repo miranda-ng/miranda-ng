@@ -273,7 +273,6 @@ bool CMsgDialog::OnInitDialog()
 
 	SendMessage(m_hwnd, DM_CHANGEICONS, 0, 0);
 
-	m_message.SetReadOnly(false);
 	m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_CHANGE | ENM_REQUESTRESIZE);
 	if (m_hContact && m_szProto) {
