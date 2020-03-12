@@ -416,7 +416,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		}
 		break;
 
-	case WM_JABBER_CHECK_ONLINE:
+	case WM_PROTO_CHECK_ONLINE:
 		if (dat && dat->ppro)
 			if (!dat->ppro->m_bJabberOnline) {
 				dat->item = nullptr;
@@ -424,7 +424,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			}
 		__fallthrough;
 
-	case WM_JABBER_REFRESH:
+	case WM_PROTO_REFRESH:
 		if (dat == nullptr) break;
 
 		if (dat->item == nullptr) {
@@ -511,7 +511,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		if (((LPNMHDR)lParam)->idFrom == 0) {
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_INFOCHANGED:
-				SendMessage(hwndDlg, WM_JABBER_REFRESH, 0, ((LPPSHNOTIFY)lParam)->lParam); // hContact
+				SendMessage(hwndDlg, WM_PROTO_REFRESH, 0, ((LPPSHNOTIFY)lParam)->lParam); // hContact
 				break;
 
 			case PSN_PARAMCHANGED:
@@ -580,7 +580,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_INFOCHANGED:
-				SendMessage(hwndDlg, WM_JABBER_REFRESH, 0, 0);
+				SendMessage(hwndDlg, WM_PROTO_REFRESH, 0, 0);
 				break;
 
 			case PSN_PARAMCHANGED:
@@ -591,7 +591,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 		}
 		break;
 
-	case WM_JABBER_REFRESH:
+	case WM_PROTO_REFRESH:
 		if (photoInfo->hBitmap) {
 			DeleteObject(photoInfo->hBitmap);
 			photoInfo->hBitmap = nullptr;
@@ -804,7 +804,7 @@ void JabberUserInfoUninit()
 void JabberUserInfoUpdate(MCONTACT hContact)
 {
 	if (!hContact)
-		WindowList_BroadcastAsync(hUserInfoList, WM_JABBER_REFRESH, 0, 0);
+		WindowList_BroadcastAsync(hUserInfoList, WM_PROTO_REFRESH, 0, 0);
 	else if (HWND hwnd = WindowList_Find(hUserInfoList, hContact))
-		PostMessage(hwnd, WM_JABBER_REFRESH, 0, 0);
+		PostMessage(hwnd, WM_PROTO_REFRESH, 0, 0);
 }

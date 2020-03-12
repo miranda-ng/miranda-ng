@@ -84,7 +84,7 @@ void CJabberProto::OnConsoleProcessXml(const TiXmlElement *node, DWORD flags)
 				sttRtfAppendXml(&buf, node, flags, 1);
 				sttAppendBufRaw(&buf, RTF_SEPARATOR);
 				sttAppendBufRaw(&buf, RTF_FOOTER);
-				SendMessage(m_pDlgConsole->GetHwnd(), WM_JABBER_REFRESH, 0, (LPARAM)&buf);
+				m_pDlgConsole->OnProtoRefresh(0, (LPARAM)&buf);
 				sttEmptyBuf(&buf);
 			}
 		}
@@ -456,7 +456,7 @@ public:
 						sttAppendBufRaw(&buf, RTF_ENDPLAINXML);
 						sttAppendBufRaw(&buf, RTF_SEPARATOR);
 						sttAppendBufRaw(&buf, RTF_FOOTER);
-						SendMessage(m_hwnd, WM_JABBER_REFRESH, 0, (LPARAM)&buf);
+						OnProtoRefresh(0, (LPARAM)&buf);
 						sttEmptyBuf(&buf);
 					}
 

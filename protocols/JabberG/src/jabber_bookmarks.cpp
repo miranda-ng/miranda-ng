@@ -146,7 +146,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		}
 		break;
 
-	case WM_JABBER_CHECK_ONLINE:
+	case WM_PROTO_CHECK_ONLINE:
 		if (!param->ppro->m_bJabberOnline)
 			EndDialog(hwndDlg, 0);
 		break;
@@ -343,6 +343,8 @@ public:
 		{
 			if (item = m_proto->ListGetItemPtrFromIndex(i)) {
 				int itemType = mir_strcmpi(item->type, "conference") ? 1 : 0;
+				m_proto->debugLogA("BOOKMARK #%d: %d %s", i, itemType, item->jid);
+
 				int iItem = m_lvBookmarks.AddItem(item->name, itemType, (LPARAM)item->jid, itemType);
 				m_lvBookmarks.SetItem(iItem, 1, Utf2T(item->jid));
 				if (itemType == 0)

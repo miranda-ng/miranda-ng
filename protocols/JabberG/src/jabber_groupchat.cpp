@@ -688,7 +688,7 @@ public:
 			}
 			break;
 
-		case WM_JABBER_CHECK_ONLINE:
+		case WM_PROTO_CHECK_ONLINE:
 			if (!m_proto->m_bJabberOnline)
 				EndDialog(m_hwnd, 0);
 			break;

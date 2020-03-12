@@ -133,7 +133,7 @@ void CJabberProto::OnIqResultServiceDiscoveryInfo(const TiXmlElement *iqNode, CJ
 
 	if (m_pDlgServiceDiscovery) {
 		ApplyNodeIcon(pNode->GetTreeItemHandle(), pNode);
-		PostMessage(m_pDlgServiceDiscovery->GetHwnd(), WM_JABBER_REFRESH, 0, 0);
+		PostMessage(m_pDlgServiceDiscovery->GetHwnd(), WM_PROTO_REFRESH, 0, 0);
 	}
 }
 
@@ -169,7 +169,7 @@ void CJabberProto::OnIqResultServiceDiscoveryItems(const TiXmlElement *iqNode, C
 
 	if (m_pDlgServiceDiscovery) {
 		ApplyNodeIcon(pNode->GetTreeItemHandle(), pNode);
-		PostMessage(m_pDlgServiceDiscovery->GetHwnd(), WM_JABBER_REFRESH, 0, 0);
+		PostMessage(m_pDlgServiceDiscovery->GetHwnd(), WM_PROTO_REFRESH, 0, 0);
 	}
 }
 
@@ -189,7 +189,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootInfo(const TiXmlElement *iqNode
 	}
 	lck.unlock();
 
-	UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_REFRESH);
+	UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_PROTO_REFRESH);
 }
 
 void CJabberProto::OnIqResultServiceDiscoveryRootItems(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
@@ -241,7 +241,7 @@ bool CJabberProto::SendInfoRequest(CJabberSDNode *pNode, TiXmlNode *parent)
 
 	if (m_pDlgServiceDiscovery) {
 		ApplyNodeIcon(pNode->GetTreeItemHandle(), pNode);
-		PostMessage(m_pDlgServiceDiscovery->GetHwnd(), WM_JABBER_REFRESH, 0, 0);
+		PostMessage(m_pDlgServiceDiscovery->GetHwnd(), WM_PROTO_REFRESH, 0, 0);
 	}
 
 	return true;
@@ -288,7 +288,7 @@ bool CJabberProto::SendBothRequests(CJabberSDNode *pNode, TiXmlNode *parent)
 
 	if (m_pDlgServiceDiscovery) {
 		ApplyNodeIcon(pNode->GetTreeItemHandle(), pNode);
-		PostMessage(m_pDlgServiceDiscovery->GetHwnd(), WM_JABBER_REFRESH, 0, 0);
+		PostMessage(m_pDlgServiceDiscovery->GetHwnd(), WM_PROTO_REFRESH, 0, 0);
 	}
 
 	return true;
@@ -370,7 +370,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 	}
 	lck.unlock();
 
-	PostMessage(hwndDlg, WM_JABBER_REFRESH, 0, 0);
+	PostMessage(hwndDlg, WM_PROTO_REFRESH, 0, 0);
 }
 
 bool CJabberProto::IsNodeRegistered(CJabberSDNode *pNode)
@@ -620,6 +620,17 @@ public:
 		CSuper::OnDestroy();
 	}
 
+	void OnProtoRefresh(WPARAM, LPARAM) override
+	{
+		KillTimer(m_hwnd, REFRESH_TIMER);
+		if (GetTickCount() - m_proto->m_dwSDLastRefresh < REFRESH_TIMEOUT) {
+			SetTimer(m_hwnd, REFRESH_TIMER, REFRESH_TIMEOUT, nullptr);
+			return;
+		}
+
+		RefreshTimer();
+	}
+
 	int Resizer(UTILRESIZECONTROL *urc) override
 	{
 		RECT rc;
@@ -815,6 +826,32 @@ public:
 		TreeList_SetFilter(GetDlgItem(m_hwnd, IDC_TREE_DISCO), ptrW(m_filter.GetText()));
 	}
 
+	void RefreshTimer()
+	{
+		mir_cslockfull lck(m_proto->m_SDManager.cs());
+
+		CJabberSDNode *pNode = m_proto->m_SDManager.GetPrimaryNode();
+		while (pNode) {
+			if (pNode->GetJid()) {
+				if (!pNode->GetTreeItemHandle()) {
+					HTREELISTITEM hNewItem = TreeList_AddItem(
+						GetDlgItem(m_hwnd, IDC_TREE_DISCO), nullptr,
+						Utf2T(pNode->GetName() ? pNode->GetName() : pNode->GetJid()),
+						(LPARAM)pNode);
+					TreeList_AppendColumn(hNewItem, Utf2T(pNode->GetJid()));
+					TreeList_AppendColumn(hNewItem, Utf2T(pNode->GetNode()));
+					pNode->SetTreeItemHandle(hNewItem);
+				}
+			}
+			m_proto->SyncTree(nullptr, pNode);
+			pNode = pNode->GetNext();
+		}
+		lck.unlock();
+		TreeList_Update(GetDlgItem(m_hwnd, IDC_TREE_DISCO));
+		KillTimer(m_hwnd, REFRESH_TIMER);
+		m_proto->m_dwSDLastRefresh = GetTickCount();
+	}
+
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		BOOL result;
@@ -830,40 +867,9 @@ public:
 			}
 			break;
 
-		case WM_JABBER_REFRESH:
-			KillTimer(m_hwnd, REFRESH_TIMER);
-			if (GetTickCount() - m_proto->m_dwSDLastRefresh < REFRESH_TIMEOUT) {
-				SetTimer(m_hwnd, REFRESH_TIMER, REFRESH_TIMEOUT, nullptr);
-				return TRUE;
-			}
-
-			wParam = REFRESH_TIMER;
-			__fallthrough;
-
 		case WM_TIMER:
 			if (wParam == REFRESH_TIMER) {
-				mir_cslockfull lck(m_proto->m_SDManager.cs());
-
-				CJabberSDNode *pNode = m_proto->m_SDManager.GetPrimaryNode();
-				while (pNode) {
-					if (pNode->GetJid()) {
-						if (!pNode->GetTreeItemHandle()) {
-							HTREELISTITEM hNewItem = TreeList_AddItem(
-								GetDlgItem(m_hwnd, IDC_TREE_DISCO), nullptr,
-								Utf2T(pNode->GetName() ? pNode->GetName() : pNode->GetJid()),
-								(LPARAM)pNode);
-							TreeList_AppendColumn(hNewItem, Utf2T(pNode->GetJid()));
-							TreeList_AppendColumn(hNewItem, Utf2T(pNode->GetNode()));
-							pNode->SetTreeItemHandle(hNewItem);
-						}
-					}
-					m_proto->SyncTree(nullptr, pNode);
-					pNode = pNode->GetNext();
-				}
-				lck.unlock();
-				TreeList_Update(GetDlgItem(m_hwnd, IDC_TREE_DISCO));
-				KillTimer(m_hwnd, REFRESH_TIMER);
-				m_proto->m_dwSDLastRefresh = GetTickCount();
+				RefreshTimer();
 				return TRUE;
 			}
 			

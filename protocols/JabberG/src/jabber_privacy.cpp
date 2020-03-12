@@ -138,7 +138,7 @@ void CJabberProto::OnIqResultPrivacyList(const TiXmlElement *iqNode, CJabberIqIn
 	pList->SetModified(FALSE);
 
 	lck.unlock();
-	UI_SAFE_NOTIFY(m_pDlgPrivacyLists, WM_JABBER_REFRESH);
+	UI_SAFE_NOTIFY(m_pDlgPrivacyLists, WM_PROTO_REFRESH);
 }
 
 CPrivacyList* GetSelectedList(HWND hDlg)
@@ -280,7 +280,7 @@ void CJabberProto::OnIqResultPrivacyLists(const TiXmlElement *iqNode, CJabberIqI
 			szName = XmlGetAttr(node, "name");
 		m_privacyListManager.SetDefaultListName(szName);
 	}
-	UI_SAFE_NOTIFY(m_pDlgPrivacyLists, WM_JABBER_REFRESH);
+	UI_SAFE_NOTIFY(m_pDlgPrivacyLists, WM_PROTO_REFRESH);
 
 	BuildPrivacyListsMenu(true);
 }
@@ -1707,7 +1707,7 @@ public:
 			int nResult = dlgPrivacyRule.DoModal();
 			if (nResult) {
 				pList->SetModified();
-				PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
+				::PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 			}
 		}
 	}
@@ -1726,7 +1726,7 @@ public:
 				pList->AddRule(pRule);
 				pList->Reorder();
 				pList->SetModified();
-				PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
+				PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 			}
 			else delete pRule;
 		}
@@ -1746,7 +1746,7 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETCURSEL, nCurSel != nItemCount - 1 ? nCurSel : nCurSel - 1, 0);
 			pList->Reorder();
 			pList->SetModified();
-			PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
+			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 		}
 	}
 
@@ -1763,7 +1763,7 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETCURSEL, nCurSel - 1, 0);
 			pList->Reorder();
 			pList->SetModified();
-			PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
+			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 		}
 	}
 
@@ -1781,7 +1781,7 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETCURSEL, nCurSel + 1, 0);
 			pList->Reorder();
 			pList->SetModified();
-			PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
+			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 		}
 	}
 
@@ -1812,7 +1812,7 @@ public:
 			}
 
 			lck.unlock();
-			PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
+			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 		}
 	}
 
@@ -1834,7 +1834,7 @@ public:
 		}
 
 		lck.unlock();
-		PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
+		PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 
 	void btnApply_OnClick(CCtrlButton*)
@@ -1911,7 +1911,7 @@ public:
 		}
 
 		SetStatusText(TranslateW(JABBER_PL_BUSY_MSG));
-		PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
+		PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 
 	void OnCommand_Close(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/)

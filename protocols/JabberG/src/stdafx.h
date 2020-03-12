@@ -130,6 +130,8 @@ struct CMPlugin : public ACCPROTOPLUGIN<CJabberProto>
 class CJabberDlgBase : public CProtoDlgBase<CJabberProto>
 {
 	typedef CProtoDlgBase<CJabberProto> CSuper;
+	friend struct CJabberProto;
+
 protected:
 	__inline CJabberDlgBase(CJabberProto *proto, int idDialog) :
 		CSuper(proto, idDialog)
@@ -178,9 +180,6 @@ protected:
 #define WM_JABBER_AGENT_REFRESH        (WM_PROTO_LAST + 101)
 #define WM_JABBER_TRANSPORT_REFRESH    (WM_PROTO_LAST + 102)
 #define WM_JABBER_REGINPUT_ACTIVATE    (WM_PROTO_LAST + 103)
-#define WM_JABBER_REFRESH              WM_PROTO_REFRESH
-#define WM_JABBER_CHECK_ONLINE         WM_PROTO_CHECK_ONLINE
-#define WM_JABBER_ACTIVATE             WM_PROTO_ACTIVATE
 #define WM_JABBER_CHANGED              (WM_PROTO_LAST + 106)
 #define WM_JABBER_SET_FONT             (WM_PROTO_LAST + 108)
 #define WM_JABBER_FLASHWND             (WM_PROTO_LAST + 109)

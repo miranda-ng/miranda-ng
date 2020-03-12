@@ -511,18 +511,19 @@ protected:
 			CheckRegistration();
 	}
 
+	void OnProtoRefresh(WPARAM, LPARAM lParam) override
+	{
+		RefreshServers((TiXmlElement *)lParam);
+	}
+
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
-		switch (msg) {
-		case WM_ACTIVATE:
-			m_chkUseTls.Enable(!m_proto->m_bDisable3920auth && (m_proto->m_bUseSSL ? false : true));
-			if (m_proto->m_bDisable3920auth) m_chkUseTls.SetState(BST_UNCHECKED);
-			break;
-
-		case WM_JABBER_REFRESH:
-			RefreshServers((TiXmlElement*)lParam);
-			break;
+		if (msg == WM_ACTIVATE) {
+			m_chkUseTls.Enable(!m_proto->m_bDisable3920auth && !m_proto->m_bUseSSL);
+			if (m_proto->m_bDisable3920auth)
+				m_chkUseTls.SetState(BST_UNCHECKED);
 		}
+
 		return CSuper::DlgProc(msg, wParam, lParam);
 	}
 
@@ -718,14 +719,14 @@ private:
 				TiXmlDocument doc;
 				if (0 == doc.Parse(result->pData)) {
 					TiXmlElement *queryNode = doc.FirstChildElement("query");
-					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
+					SendMessage(hwnd, WM_PROTO_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;
 				}
 			}
 		}
 
 		if (bIsError)
-			SendMessage(hwnd, WM_JABBER_REFRESH, 0, 0);
+			SendMessage(hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 };
 
@@ -1216,14 +1217,9 @@ protected:
 			CheckRegistration();
 	}
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	void OnProtoRefresh(WPARAM, LPARAM lParam) override
 	{
-		switch (msg) {
-		case WM_JABBER_REFRESH:
-			RefreshServers((TiXmlElement*)lParam);
-			break;
-		}
-		return CSuper::DlgProc(msg, wParam, lParam);
+		RefreshServers((TiXmlElement*)lParam);
 	}
 
 private:
@@ -1587,7 +1583,7 @@ private:
 				if (0 == doc.Parse(result->pData)) {
 					const TiXmlElement *queryNode = doc.FirstChildElement("query");
 					if (queryNode && IsWindow(hwnd)) {
-						SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
+						SendMessage(hwnd, WM_PROTO_REFRESH, 0, (LPARAM)queryNode);
 						bIsError = false;
 					}
 				}
@@ -1595,7 +1591,7 @@ private:
 		}
 
 		if (bIsError)
-			SendMessage(hwnd, WM_JABBER_REFRESH, 0, 0);
+			SendMessage(hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 };
 

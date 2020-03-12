@@ -137,6 +137,8 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 			LISTFOREACH(i, this, LIST_BOOKMARK)
 			{
 				JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
+				debugLogA("BOOKMARK #%d: %s %s", i, item->type, item->jid);
+
 				if (item != nullptr && !mir_strcmp(item->type, "conference") && item->bAutoJoin)
 					ll.insert(item);
 			}
@@ -491,8 +493,8 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 		for (auto &it : chatRooms)
 			GroupchatJoinByHContact((DWORD_PTR)it, true);
 
-	UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_JABBER_CHECK_ONLINE);
-	WindowList_Broadcast(m_hWindowList, WM_JABBER_CHECK_ONLINE, 0, 0);
+	UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_PROTO_CHECK_ONLINE);
+	WindowList_Broadcast(m_hWindowList, WM_PROTO_CHECK_ONLINE, 0, 0);
 
 	UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 
@@ -1414,6 +1416,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(const TiXmlElement *iqNode, CJabberI
 						const char *autoJ = XmlGetAttr(itemNode, "autojoin");
 						if (autoJ != nullptr)
 							item->bAutoJoin = !mir_strcmp(autoJ, "true") || !mir_strcmp(autoJ, "1");
+						debugLogA("+BOOKMARK %s %s", item->type, item->jid);
 					}
 					else if (!mir_strcmp(name, "url") && (jid = XmlGetAttr(itemNode, "url"))) {
 						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);
@@ -1424,7 +1427,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(const TiXmlElement *iqNode, CJabberI
 				}
 			}
 
-			UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_REFRESH);
+			UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_PROTO_REFRESH);
 			m_ThreadInfo->bBookmarksLoaded = true;
 			OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_BOOKMARKS);
 		}
@@ -1433,7 +1436,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(const TiXmlElement *iqNode, CJabberI
 		if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE) {
 			m_ThreadInfo->jabberServerCaps &= ~JABBER_CAPS_PRIVATE_STORAGE;
 			EnableMenuItems(true);
-			UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_ACTIVATE);
+			UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_PROTO_ACTIVATE);
 		}
 	}
 }
@@ -1481,11 +1484,11 @@ void CJabberProto::OnIqResultSetBookmarks(const TiXmlElement *iqNode, CJabberIqI
 		return;
 
 	if (!mir_strcmp(type, "result")) {
-		UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_REFRESH);
+		UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_PROTO_REFRESH);
 	}
 	else if (!mir_strcmp(type, "error")) {
 		MessageBox(nullptr, JabberErrorMsg(iqNode), TranslateT("Jabber Bookmarks Error"), MB_OK | MB_SETFOREGROUND);
-		UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_ACTIVATE);
+		UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_PROTO_ACTIVATE);
 	}
 }
 
