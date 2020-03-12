@@ -84,9 +84,11 @@ struct FILEURL
 
 struct FILEINFO
 {
-	wchar_t   tszOldName[MAX_PATH], tszNewName[MAX_PATH];
+	wchar_t tszOldName[MAX_PATH], tszNewName[MAX_PATH];
 	FILEURL File;
-	BOOL    bEnabled, bDeleteOnly;
+	bool    bEnabled, bDeleteOnly;
+
+	bool    IsFiltered(const CMStringW &wszFilter);
 };
 
 typedef OBJLIST<FILEINFO> FILELIST;

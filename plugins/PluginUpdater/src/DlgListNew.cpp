@@ -24,6 +24,17 @@ static HANDLE hListThread;
 
 static void ApplyDownloads(void *param);
 
+bool FILEINFO::IsFiltered(const CMStringW &wszFilter)
+{
+	if (wszFilter.IsEmpty())
+		return false;
+
+	wchar_t pathLwr[MAX_PATH];
+	wcsncpy_s(pathLwr, this->tszNewName, _TRUNCATE);
+	wcslwr(pathLwr);
+	return wcsstr(pathLwr, wszFilter) == 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -64,12 +75,13 @@ int ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i)
 
 class CMissingPLuginsDlg : public CDlgBase
 {
+	CMStringW m_wszFilter;
 	OBJLIST<FILEINFO> *todo;
 	CCtrlEdit m_filter;
 	CCtrlListView m_list;
 	CCtrlButton btnOk, btnNone;
 
-	void FillList(const wchar_t *pwszFilter)
+	void FillList()
 	{
 		m_list.DeleteAllItems();
 
@@ -78,13 +90,8 @@ class CMissingPLuginsDlg : public CDlgBase
 
 		bool enableOk = false;
 		for (auto &p : *todo) {
-			if (pwszFilter) {
-				wchar_t pathLwr[MAX_PATH];
-				wcsncpy_s(pathLwr, p->tszNewName, _TRUNCATE);
-				wcslwr(pathLwr);
-				if (!wcsstr(pathLwr, pwszFilter))
-					continue;
-			}
+			if (p->IsFiltered(m_wszFilter))
+				continue;
 
 			int groupId = 4;
 			if (wcschr(p->tszOldName, L'\\') != nullptr)
@@ -197,7 +204,7 @@ public:
 		//////////////////////////////////////////////////////////////////////////////////////
 		m_list.SendMsg(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
 
-		FillList(nullptr);
+		FillList();
 
 		// do this after filling list - enables 'ITEMCHANGED' below
 		Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "ListWindow");
@@ -270,11 +277,12 @@ public:
 		wchar_t wszText[100];
 		m_filter.GetText(wszText, _countof(wszText));
 		if (wszText[0] == 0)
-			FillList(nullptr);
+			m_wszFilter.Empty();
 		else {
 			wcslwr(wszText);
-			FillList(wszText);
+			m_wszFilter = wszText;
 		}
+		FillList();
 	}
 
 	void Unpack()
@@ -293,22 +301,26 @@ public:
 		VARSW tszMirandaPath(L"%miranda_path%");
 
 		HNETLIBCONN nlc = nullptr;
-		for (int i = 0; i < todo->getCount(); ++i) {
-			auto &p = (*todo)[i];
+		int i = 0;
+		for (auto &p : *todo) {
+			if (p->IsFiltered(m_wszFilter))
+				continue;
+
 			m_list.EnsureVisible(i, FALSE);
-			if (p.bEnabled) {
+			if (p->bEnabled) {
 				// download update
 				m_list.SetItemText(i, 1, TranslateT("Downloading..."));
 
-				if (DownloadFile(&p.File, nlc)) {
+				if (DownloadFile(&p->File, nlc)) {
 					m_list.SetItemText(i, 1, TranslateT("Succeeded."));
-					if (unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack, false))
-						SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
-					db_unset(0, DB_MODULE_NEW_FILES, _T2A(p.tszOldName));
+					if (unzip(p->File.tszDiskPath, tszMirandaPath, tszFileBack, false))
+						SafeDeleteFile(p->File.tszDiskPath);  // remove .zip after successful update
+					db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->tszOldName));
 				}
 				else m_list.SetItemText(i, 1, TranslateT("Failed!"));
 			}
 			else m_list.SetItemText(i, 1, TranslateT("Skipped."));
+			i++;
 		}
 		Netlib_CloseHandle(nlc);
 
