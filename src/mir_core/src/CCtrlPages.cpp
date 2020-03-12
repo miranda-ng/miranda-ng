@@ -149,7 +149,7 @@ void CCtrlPages::AddPage(const wchar_t *ptszName, HICON hIcon, CDlgBase *pDlg)
 void CCtrlPages::ActivatePage(int iPage)
 {
 	TPageInfo *info = GetItemPage(iPage);
-	if (info == nullptr)
+	if (info == nullptr || info->m_pDlg == nullptr)
 		return;
 
 	if (m_pActivePage != nullptr)
