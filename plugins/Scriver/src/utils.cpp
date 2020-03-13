@@ -197,13 +197,6 @@ void SearchWord(wchar_t *word, int engine)
 	}
 }
 
-void CMsgDialog::GetContactUniqueId(char *buf, int maxlen)
-{
-	ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
-	if (id != nullptr)
-		strncpy_s(buf, maxlen, _T2A(id), _TRUNCATE);
-}
-
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rect)
 {
 	TOOLINFO ti = { 0 };

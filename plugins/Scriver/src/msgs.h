@@ -91,7 +91,6 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	bool   CheckSend(void);
 	void   ClearLog(void);
-	void   GetContactUniqueId(char *buf, int maxlen);
 	HICON  GetTabIcon(void);
 	void   GetTitlebarIcon(struct TitleBarData *tbd);
 	void   Init(void);

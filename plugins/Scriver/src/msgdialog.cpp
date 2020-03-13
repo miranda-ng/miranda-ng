@@ -516,16 +516,15 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 void CMsgDialog::onClick_UserMenu(CCtrlButton *pButton)
 {
 	if (GetKeyState(VK_SHIFT) & 0x8000) { // copy user name
-		char buf[128];
-		GetContactUniqueId(buf, sizeof(buf));
-		if (!OpenClipboard(m_hwnd) || !mir_strlen(buf))
+		ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
+		if (!OpenClipboard(m_hwnd) || !mir_wstrlen(id))
 			return;
 
 		EmptyClipboard();
-		HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_strlen(buf) + 1);
-		mir_strcpy((LPSTR)GlobalLock(hData), buf);
+		HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, 2*mir_wstrlen(id) + 1);
+		mir_wstrcpy((LPWSTR)GlobalLock(hData), id);
 		GlobalUnlock(hData);
-		SetClipboardData(CF_TEXT, hData);
+		SetClipboardData(CF_UNICODETEXT, hData);
 		CloseClipboard();
 	}
 	else {
@@ -1148,10 +1147,9 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case DM_CLISTSETTINGSCHANGED:
 		if (wParam == m_hContact && m_hContact && m_szProto) {
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-			char idbuf[128], buf[128];
-			GetContactUniqueId(idbuf, sizeof(idbuf));
-			mir_snprintf(buf, Translate("User menu - %s"), idbuf);
-			SendDlgItemMessage(m_hwnd, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, 0);
+			wchar_t buf[128];
+			mir_snwprintf(buf, TranslateT("User menu - %s"), ptrW(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto)).get());
+			SendDlgItemMessage(m_hwnd, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, BATF_UNICODE);
 
 			if (cws && !mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status"))
 				m_wStatus = cws->value.wVal;
