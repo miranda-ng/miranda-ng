@@ -1968,11 +1968,15 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (isChat()) {
 			// tab-autocomplete
 			if (wParam == VK_TAB && !isCtrl && !isShift) {
+				// if tab acts as a key pressing, simply do nothing
+				if (PluginConfig.m_bAllowTab)
+					break;
+
 				m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
 				bool fCompleted = TabAutoComplete();
 				m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-				if (!fCompleted && !PluginConfig.m_bAllowTab) {
+				if (!fCompleted) {
 					if ((GetSendButtonState(GetHwnd()) != PBS_DISABLED))
 						SetFocus(m_message.GetHwnd());
 					else
