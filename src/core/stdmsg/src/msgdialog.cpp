@@ -1082,7 +1082,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			case IDM_PASTESEND:
-				m_message.SendMsg(EM_PASTESPECIAL, CF_TEXT, 0);
+				m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 				m_btnOk.Click();
 				break;
 
@@ -1111,7 +1111,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				CloseClipboard();
 			}
 		}
-		else m_message.SendMsg(EM_PASTESPECIAL, CF_TEXT, 0);
+		else m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 		return 0;
 
 	case WM_KEYDOWN:
@@ -1185,7 +1185,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if ((wParam == 45 && isShift || wParam == 0x56 && isCtrl) && !isAlt) { // ctrl-v (paste clean text)
-				m_message.SendMsg(EM_PASTESPECIAL, CF_TEXT, 0);
+				m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 				return TRUE;
 			}
 
