@@ -977,6 +977,9 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 	m << XATTR("to", szClientJid);
 
 	bool bSendReceipt = (m_bMsgAck || getByte(hContact, "MsgAck", false));
+	if (bSendReceipt && jcb && !(jcb & (JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS)))
+		bSendReceipt = false;
+
 	if (bSendReceipt) {
 		m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
 		m << XCHILDNS("markable", JABBER_FEAT_CHAT_MARKERS);
@@ -1195,7 +1198,8 @@ int CJabberProto::SetAwayMsg(int status, const wchar_t *msg)
 
 int CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	if (!m_bJabberOnline) return 0;
+	if (!m_bJabberOnline)
+		return 0;
 
 	char szClientJid[JABBER_MAX_JID_LEN];
 	if (!GetClientJID(hContact, szClientJid, _countof(szClientJid)))
