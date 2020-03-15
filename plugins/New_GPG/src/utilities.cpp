@@ -904,9 +904,9 @@ bool isGPGKeyExist()
 
 bool isGPGValid()
 {
-	ptrW tmp;
+	ptrW tmp(g_plugin.getWStringA("szGpgBinPath", L""));
 	bool gpg_exists = false, is_valid = true;
-	boost::filesystem::path p(g_plugin.getMStringW("szGpgBinPath").c_str());
+	boost::filesystem::path p(tmp);
 
 	if (boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p))
 		gpg_exists = true;

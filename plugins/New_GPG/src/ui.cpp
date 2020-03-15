@@ -710,7 +710,6 @@ void CDlgFirstRun::refresh_key_list()
 							accs += L",";
 						accs += pa->tszAccountName;
 					}
-					mir_free(str);
 				}
 				list_KEY_LIST.SetItemText(row, 6, accs.c_str());
 			}
