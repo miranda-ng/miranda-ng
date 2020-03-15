@@ -130,7 +130,7 @@ struct JabberGcRecentInfo
 		m_nick = ppro->getUStringA(setting);
 
 		mir_snprintf(setting, "password_rcMuc_%d", iRecent);
-		m_password = ppro->getUStringA(0, setting);
+		m_password = ppro->getUStringA(setting);
 
 		return m_room || m_server || m_nick || m_password;
 	}

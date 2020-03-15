@@ -79,7 +79,7 @@ INT_PTR CToxProto::GetCaps(int type, MCONTACT)
 
 MCONTACT CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	ptrA myAddress(getStringA(NULL, TOX_SETTINGS_ID));
+	ptrA myAddress(getStringA(TOX_SETTINGS_ID));
 	if (strnicmp(psr->id.a, myAddress, TOX_PUBLIC_KEY_SIZE) == 0) {
 		ShowNotification(TranslateT("You cannot add yourself to your contact list"), 0);
 		return NULL;

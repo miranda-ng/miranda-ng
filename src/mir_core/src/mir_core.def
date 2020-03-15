@@ -1042,8 +1042,8 @@ IsTerminalDisconnected @1245
 ??1CCtrlLabel@@UAE@XZ @1257 NONAME
 ??_7CCtrlLabel@@6B@ @1258 NONAME
 CallObjectEventHook @1259
-?db_get_sm@@YG?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPBD0@Z @1260 NONAME
-?db_get_wsm@@YG?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@IPBD0@Z @1261 NONAME
+?db_get_sm@@YG?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@IPBD00@Z @1682 NONAME
+?db_get_wsm@@YG?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@IPBD0PB_W@Z @1683 NONAME
 ?CreateLink@CDlgBase@@IAEXAAVCCtrlData@@PBDEK@Z @1262 NONAME
 ?CreateLink@CDlgBase@@IAEXAAVCCtrlData@@PBDPA_W@Z @1263 NONAME
 ?CheckRowCount@CCtrlPages@@AAEXXZ @1264 NONAME

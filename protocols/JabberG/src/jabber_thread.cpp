@@ -314,7 +314,7 @@ LBL_FatalError:
 			}
 		}
 		else {
-			ptrA tszPassw(getUStringA(0, "Password"));
+			ptrA tszPassw(getUStringA("Password"));
 			if (tszPassw == nullptr) {
 				JLoginFailed(LOGINERR_BADUSERID);
 				debugLogA("Thread ended, password is not configured");

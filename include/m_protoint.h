@@ -134,30 +134,30 @@ public:
 	__forceinline INT_PTR getWString(MCONTACT hContact, const char *name, DBVARIANT *result) {
 		return db_get_s(hContact, m_szModuleName, name, result, DBVT_WCHAR); }
 
-	__forceinline char* getStringA(const char *name) {
-		return db_get_sa(NULL, m_szModuleName, name); }
-	__forceinline char* getStringA(MCONTACT hContact, const char *name) {
-		return db_get_sa(hContact, m_szModuleName, name); }
+	__forceinline char* getStringA(const char *name, const char *szValue = nullptr) {
+		return db_get_sa(NULL, m_szModuleName, name, szValue); }
+	__forceinline char* getStringA(MCONTACT hContact, const char *name, const char *szValue = nullptr) {
+		return db_get_sa(hContact, m_szModuleName, name, szValue); }
 
-	__forceinline char* getUStringA(const char *name) {
-		return db_get_utfa(NULL, m_szModuleName, name); }
-	__forceinline char* getUStringA(MCONTACT hContact, const char *name) {
-		return db_get_utfa(hContact, m_szModuleName, name); }
+	__forceinline char* getUStringA(const char *name, const char *szValue = nullptr) {
+		return db_get_utfa(NULL, m_szModuleName, name, szValue); }
+	__forceinline char* getUStringA(MCONTACT hContact, const char *name, const char *szValue = nullptr) {
+		return db_get_utfa(hContact, m_szModuleName, name, szValue); }
 
-	__forceinline wchar_t* getWStringA(const char *name) {
-		return db_get_wsa(NULL, m_szModuleName, name); }
-	__forceinline wchar_t* getWStringA(MCONTACT hContact, const char *name) {
-		return db_get_wsa(hContact, m_szModuleName, name); }
+	__forceinline wchar_t* getWStringA(const char *name, const wchar_t *szValue = nullptr) {
+		return db_get_wsa(NULL, m_szModuleName, name, szValue); }
+	__forceinline wchar_t* getWStringA(MCONTACT hContact, const char *name, const wchar_t *szValue = nullptr) {
+		return db_get_wsa(hContact, m_szModuleName, name, szValue); }
 
-	__forceinline CMStringA getMStringA(const char *name) {
-		return db_get_sm(NULL, m_szModuleName, name); }
-	__forceinline CMStringA getMStringA(MCONTACT hContact, const char *name) {
-		return db_get_sm(hContact, m_szModuleName, name); }
+	__forceinline CMStringA getMStringA(const char *name, const char *szValue = nullptr) {
+		return db_get_sm(NULL, m_szModuleName, name, szValue); }
+	__forceinline CMStringA getMStringA(MCONTACT hContact, const char *name, const char *szValue = nullptr) {
+		return db_get_sm(hContact, m_szModuleName, name, szValue); }
 	
-	__forceinline CMStringW getMStringW(const char *name) {
-		return db_get_wsm(NULL, m_szModuleName, name); }
-	__forceinline CMStringW getMStringW(MCONTACT hContact, const char *name) {
-		return db_get_wsm(hContact, m_szModuleName, name); }
+	__forceinline CMStringW getMStringW(const char *name, const wchar_t *szValue = nullptr) {
+		return db_get_wsm(NULL, m_szModuleName, name, szValue); }
+	__forceinline CMStringW getMStringW(MCONTACT hContact, const char *name, const wchar_t *szValue = nullptr) {
+		return db_get_wsm(hContact, m_szModuleName, name, szValue); }
 
 	__forceinline void setByte(const char *name, BYTE value) { db_set_b(NULL, m_szModuleName, name, value); }
 	__forceinline void setByte(MCONTACT hContact, const char *name, BYTE value) { db_set_b(hContact, m_szModuleName, name, value); }

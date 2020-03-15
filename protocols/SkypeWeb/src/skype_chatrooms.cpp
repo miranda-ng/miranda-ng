@@ -411,7 +411,7 @@ char* CSkypeProto::GetChatContactNick(const char *chat_id, const char *id, const
 	// Check if we have this contact in database
 	if (IsMe(id)) {
 		// Return my nick
-		if (char *tname = getUStringA(NULL, "Nick"))
+		if (char *tname = getUStringA("Nick"))
 			return tname;
 	}
 	else {

@@ -196,26 +196,26 @@ MIR_CORE_DLL(wchar_t*) db_get_wsa(MCONTACT hContact, const char *szModule, const
 	return (szValue == nullptr) ? nullptr : mir_wstrdup(szValue);
 }
 
-MIR_CORE_DLL(CMStringA) db_get_sm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting)
+MIR_CORE_DLL(CMStringA) db_get_sm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, const char *szValue)
 {
 	if (currDb == nullptr)
-		return CMStringA();
+		return (szValue == nullptr) ? CMStringA() : CMStringA(szValue);
 
 	DBVARIANT dbv = { DBVT_ASCIIZ };
 	if (currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
-		return CMStringA();
+		return (szValue == nullptr) ? CMStringA() : CMStringA(szValue);
 
 	return CMStringA(ptrA(dbv.pszVal));
 }
 
-MIR_CORE_DLL(CMStringW) db_get_wsm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting)
+MIR_CORE_DLL(CMStringW) db_get_wsm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, const wchar_t *szValue)
 {
 	if (currDb == nullptr)
-		return CMStringW();
+		return (szValue == nullptr) ? CMStringW() : CMStringW(szValue);
 
 	DBVARIANT dbv = { DBVT_WCHAR };
 	if (currDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
-		return CMStringW();
+		return (szValue == nullptr) ? CMStringW() : CMStringW(szValue);
 
 	return CMStringW(ptrW(dbv.pwszVal));
 }
