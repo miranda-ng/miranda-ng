@@ -847,10 +847,8 @@ static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, TiXmlElement* node
 						string::size_type p1 = out.find("key ID ") + mir_strlen("key ID ");
 						string::size_type p2 = out.find("\n", p1);
 						if (p1 != string::npos && p2 != string::npos) {
-							MCONTACT hContact = NULL;
-
 							for (auto p : globals.Accounts) {
-								hContact = p->getJabberInterface()->ContactFromJID(node->Attribute("from"));
+								MCONTACT hContact = p->getJabberInterface()->ContactFromJID(node->Attribute("from"));
 								if (hContact)
 									globals.hcontact_data[hContact].key_in_prescense = out.substr(p1, p2 - p1 - 1).c_str();
 							}

@@ -208,12 +208,9 @@ bool CDlgFirstRun::OnInitDialog()
 			continue;
 		if (StriStr(pa->szModuleName, "weather"))
 			continue;
-		std::string acc = toUTF8(pa->tszAccountName);
-		acc += "(";
-		acc += pa->szModuleName;
-		acc += ")";
-		//acc += "_KeyID";
-		combo_ACCOUNT.AddStringA(acc.c_str());
+		
+		CMStringW wszAcc(FORMAT, L"%s (%S)", pa->tszAccountName, pa->szModuleName);
+		combo_ACCOUNT.AddString(wszAcc);
 	}
 	combo_ACCOUNT.SelectString(TranslateT("Default"));
 	string keyinfo = Translate("key ID");
