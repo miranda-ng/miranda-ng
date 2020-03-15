@@ -99,25 +99,23 @@ bool CDlgChangePasswdMsgBox::OnApply()
 		MessageBox(m_hwnd, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
 		return false;
 	}
+
 	std::string old_pass, new_pass;
-	//			wchar_t buf[256] = { 0 };
-	new_pass = toUTF8(edit_NEW_PASSWD1.GetText());
-	old_pass = toUTF8(edit_OLD_PASSWD.GetText());
+	new_pass = toUTF8(ptrW(edit_NEW_PASSWD1.GetText()).get());
+	old_pass = toUTF8(ptrW(edit_OLD_PASSWD.GetText()).get());
+	
 	bool old_pass_match = false;
-	wchar_t *pass = db_get_wsa(0, MODULENAME, "szKeyPassword", L"");
-	if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
+	if (!mir_strcmp(ptrA(g_plugin.getUStringA("szKeyPassword")), old_pass.c_str()))
 		old_pass_match = true;
-	mir_free(pass);
 
 	if (!old_pass_match) {
 		if (globals.key_id_global[0]) {
 			string dbsetting = "szKey_";
 			dbsetting += toUTF8(globals.key_id_global);
 			dbsetting += "_Password";
-			pass = db_get_wsa(0, MODULENAME, dbsetting.c_str(), L"");
-			if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
+			ptrA pass(g_plugin.getUStringA(dbsetting.c_str()));
+			if (!mir_strcmp(pass, old_pass.c_str()))
 				old_pass_match = true;
-			mir_free(pass);
 		}
 	}
 
@@ -213,12 +211,11 @@ bool CDlgFirstRun::OnInitDialog()
 		combo_ACCOUNT.AddString(wszAcc);
 	}
 	combo_ACCOUNT.SelectString(TranslateT("Default"));
-	string keyinfo = Translate("key ID");
-	keyinfo += ": ";
-	char *keyid = db_get_sa(0, MODULENAME, "KeyID", "");
-	keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
-	mir_free(keyid);
-	lbl_KEY_ID.SetTextA(keyinfo.c_str());
+
+	CMStringW keyinfo = TranslateT("key ID");
+	keyinfo += L": ";
+	keyinfo += g_plugin.getMStringW("KeyID", TranslateT("not set"));
+	lbl_KEY_ID.SetText(keyinfo);
 
 	combo_ACCOUNT.OnChange = Callback(this, &CDlgFirstRun::onChange_ACCOUNT);
 	list_KEY_LIST.OnClick = Callback(this, &CDlgFirstRun::onChange_KEY_LIST);
@@ -550,27 +547,19 @@ void CDlgFirstRun::onClick_OK(CCtrlButton*)
 
 void CDlgFirstRun::onChange_ACCOUNT(CCtrlCombo*)
 {
-	char *buf = mir_strdup(combo_ACCOUNT.GetTextA());
+	CMStringW keyinfo = TranslateT("key ID");
+	keyinfo += ": ";
+
+	ptrA buf(combo_ACCOUNT.GetTextA());
 	if (!mir_strcmp(buf, Translate("Default"))) {
-		string keyinfo = Translate("key ID");
-		keyinfo += ": ";
-		char *keyid = db_get_sa(0, MODULENAME, "KeyID", "");
-		keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
-		mir_free(keyid);
-		lbl_KEY_ID.SetTextA(keyinfo.c_str());
+		keyinfo += g_plugin.getMStringW("KeyID", TranslateT("not set"));
 	}
 	else {
-		string keyinfo = Translate("key ID");
-		keyinfo += ": ";
 		std::string acc_str = buf;
 		acc_str += "_KeyID";
-		char *keyid = db_get_sa(0, MODULENAME, acc_str.c_str(), "");
-		keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
-		mir_free(keyid);
-		lbl_KEY_ID.SetTextA(keyinfo.c_str());
+		keyinfo += g_plugin.getMStringW(acc_str.c_str(), TranslateT("not set"));
 	}
-	if (buf)
-		mir_free(buf);
+	lbl_KEY_ID.SetText(keyinfo);
 }
 
 void CDlgFirstRun::onChange_KEY_LIST(CCtrlListView::TEventInfo *ev) //TODO: check if this work
@@ -715,15 +704,15 @@ void CDlgFirstRun::refresh_key_list()
 					setting += pa->szModuleName;
 					setting += ")";
 					setting += "_KeyID";
-					wchar_t *str = db_get_wsa(0, MODULENAME, setting.c_str(), L"");
-					if (key_id == str) {
+					ptrW str(g_plugin.getWStringA(setting.c_str(), L""));
+					if (key_id == str.get()) {
 						if (!accs.empty())
 							accs += L",";
 						accs += pa->tszAccountName;
 					}
 					mir_free(str);
 				}
-				list_KEY_LIST.SetItemText(row, 6, (wchar_t*)accs.c_str());
+				list_KEY_LIST.SetItemText(row, 6, accs.c_str());
 			}
 			i++;
 			list_KEY_LIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
@@ -783,10 +772,10 @@ bool CDlgGpgBinOpts::OnInitDialog()
 	{
 		ptrW tmp;
 		if (!gpg_exists) {
-			tmp = db_get_wsa(0, MODULENAME, "szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
+			tmp = g_plugin.getWStringA("szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
 			if (tmp[0])
 				if (!boost::filesystem::exists((wchar_t*)tmp))
-					MessageBox(nullptr, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
+					MessageBoxW(nullptr, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 		}
 		else tmp = mir_wstrdup(path.c_str());
 
@@ -822,19 +811,19 @@ bool CDlgGpgBinOpts::OnInitDialog()
 		}
 	}
 	{
-		ptrW tmp(db_get_wsa(0, MODULENAME, "szHomePath", L""));
-		if (!tmp[0]) {
+		CMStringW tmp(g_plugin.getMStringW("szHomePath"));
+		if (tmp.IsEmpty()) {
 			wchar_t mir_path[MAX_PATH];
 			PathToAbsoluteW(L"\\", mir_path);
 			mir_wstrcat(mir_path, L"\\gpg");
 			if (_waccess(mir_path, 0) != -1) {
-				tmp = mir_wstrdup(mir_path);
-				MessageBox(nullptr, TranslateT("\"GPG\" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set."), TranslateT("Info"), MB_OK);
+				tmp = mir_path;
+				MessageBoxW(nullptr, TranslateT("\"GPG\" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set."), TranslateT("Info"), MB_OK);
 			}
 			else {
 				wstring path_ = _wgetenv(L"APPDATA");
 				path_ += L"\\GnuPG";
-				tmp = mir_wstrdup(path_.c_str());
+				tmp = path_.c_str();
 			}
 		}
 		edit_HOME_DIR.SetText(!gpg_exists ? tmp : L"gpg");
@@ -849,8 +838,9 @@ bool CDlgGpgBinOpts::OnInitDialog()
 void CDlgGpgBinOpts::onClick_SET_BIN_PATH(CCtrlButton*)
 {
 	GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
-	CMStringW tmp(ptrW(db_get_wsa(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
+	CMStringW tmp(g_plugin.getMStringW("szGpgBinPath", L"gpg.exe"));
 	edit_BIN_PATH.SetText(tmp);
+
 	wchar_t mir_path[MAX_PATH];
 	PathToAbsoluteW(L"\\", mir_path);
 	if (tmp.Find(mir_path, 0) == 0) {
@@ -862,8 +852,9 @@ void CDlgGpgBinOpts::onClick_SET_BIN_PATH(CCtrlButton*)
 void CDlgGpgBinOpts::onClick_SET_HOME_DIR(CCtrlButton*)
 {
 	GetFolderPath(L"Set home directory");
-	CMStringW tmp(ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L"")));
+	CMStringW tmp(g_plugin.getMStringW("szHomePath"));
 	edit_HOME_DIR.SetText(tmp);
+
 	wchar_t mir_path[MAX_PATH];
 	PathToAbsoluteW(L"\\", mir_path);
 	PathToAbsoluteW(L"\\", mir_path);
@@ -925,17 +916,14 @@ CDlgNewKey::CDlgNewKey(MCONTACT _hContact, wstring _new_key) :
 
 bool CDlgNewKey::OnInitDialog()
 {
-	//new_key_hcnt_mutex.unlock();
 	SetWindowPos(m_hwnd, nullptr, globals.new_key_rect.left, globals.new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-	wchar_t *tmp = db_get_wsa(hContact, MODULENAME, "GPGPubKey", L"");
-	lbl_MESSAGE.SetText(tmp[0] ? TranslateT("There is existing key for contact, would you like to replace it with new key?") : TranslateT("New public key was received, do you want to import it?"));
+	CMStringW tmp = g_plugin.getMStringW(hContact, "GPGPubKey");
+	lbl_MESSAGE.SetText(!tmp.IsEmpty() ? TranslateT("There is existing key for contact, would you like to replace it with new key?") : TranslateT("New public key was received, do you want to import it?"));
 	btn_IMPORT_AND_USE.Enable(g_plugin.getByte(hContact, "GPGEncryption", 0));
-	btn_IMPORT.SetText(tmp[0] ? TranslateT("Replace") : TranslateT("Accept"));
-	mir_free(tmp);
-	tmp = new wchar_t[256];
-	mir_snwprintf(tmp, 255 * sizeof(wchar_t), TranslateT("Received key from %s"), Clist_GetContactDisplayName(hContact));
+	btn_IMPORT.SetText(!tmp.IsEmpty() ? TranslateT("Replace") : TranslateT("Accept"));
+
+	tmp.Format(TranslateT("Received key from %s"), Clist_GetContactDisplayName(hContact));
 	lbl_KEY_FROM.SetText(tmp);
-	mir_free(tmp);
 	return true;
 }
 
@@ -1034,9 +1022,8 @@ bool CDlgKeyGen::OnApply()
 	}
 
 	// generating key file
-	wstring path = ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L""));
-
-	path.append(L"\\new_key");
+	CMStringW path = g_plugin.getMStringW("szHomePath");
+	path += L"\\new_key";
 	wfstream f(path.c_str(), std::ios::out);
 	if (!f.is_open()) {
 		MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
@@ -1091,7 +1078,7 @@ bool CDlgKeyGen::OnApply()
 	cmd.push_back(L"--batch");
 	cmd.push_back(L"--yes");
 	cmd.push_back(L"--gen-key");
-	cmd.push_back(path);
+	cmd.push_back(path.c_str());
 	gpg_execution_params params(cmd);
 	pxResult result;
 	params.out = &out;
@@ -1111,7 +1098,7 @@ bool CDlgKeyGen::OnApply()
 	if (result == pxNotFound)
 		return false;
 
-	boost::filesystem::remove(path);
+	boost::filesystem::remove(path.c_str());
 	return true;
 }
 
@@ -1355,14 +1342,12 @@ CDlgKeyPasswordMsgBox::CDlgKeyPasswordMsgBox(MCONTACT _hContact) :
 
 bool CDlgKeyPasswordMsgBox::OnInitDialog()
 {
-	inkeyid = db_get_sa(hContact, MODULENAME, "InKeyID", "");
-
 	SetWindowPos(m_hwnd, nullptr, globals.key_password_rect.left, globals.key_password_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 
-	string questionstr = "Please enter password for key with ID: ";
-	questionstr += inkeyid;
-	mir_free(inkeyid);
-	lbl_KEYID.SetTextA(questionstr.c_str());
+	CMStringW questionstr = TranslateT("Please enter password for key with ID: ");
+	questionstr += g_plugin.getMStringW(hContact, "InKeyID");
+	lbl_KEYID.SetText(questionstr.c_str());
+
 	chk_DEFAULT_PASSWORD.Disable();
 	return true;
 }
@@ -1377,23 +1362,19 @@ void CDlgKeyPasswordMsgBox::OnDestroy()
 
 void CDlgKeyPasswordMsgBox::onClick_OK(CCtrlButton*)
 {
-	wchar_t *tmp = mir_wstrdup(edit_KEY_PASSWORD.GetText());
+	ptrW tmp(edit_KEY_PASSWORD.GetText());
 	if (tmp && tmp[0]) {
 		if (chk_SAVE_PASSWORD.GetState()) {
-			inkeyid = db_get_sa(hContact, MODULENAME, "InKeyID", "");
+			inkeyid = g_plugin.getStringA(hContact, "InKeyID", "");
 			if (inkeyid && inkeyid[0] && !chk_DEFAULT_PASSWORD.GetState()) {
 				string dbsetting = "szKey_";
 				dbsetting += inkeyid;
 				dbsetting += "_Password";
 				g_plugin.setWString(dbsetting.c_str(), tmp);
 			}
-			else
-				g_plugin.setWString("szKeyPassword", tmp);
+			else g_plugin.setWString("szKeyPassword", tmp);
 		}
-		if (globals.password)
-			mir_free(globals.password);
-		globals.password = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(tmp) + 1));
-		mir_wstrcpy(globals.password, tmp);
+		globals.wszPassword = tmp;
 	}
 	mir_free(inkeyid);
 	DestroyWindow(m_hwnd);

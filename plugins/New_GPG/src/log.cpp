@@ -22,8 +22,8 @@ logtofile& logtofile::operator<<(wchar_t *buf)
 		init();
 	
 	mir_cslock l(csLock);
-	log.open(toUTF8(path).c_str(), std::ios::app | std::ios::ate);
-	log << toUTF8(buf);
+	log.open(path, std::ios::app | std::ios::ate);
+	log << buf;
 	log << "\n";
 	log.close();
 	return *this;
@@ -35,7 +35,7 @@ logtofile& logtofile::operator<<(char *buf)
 		init();
 
 	mir_cslock l(csLock);
-	log.open(toUTF8(path).c_str(), std::ios::app | std::ios::ate);
+	log.open(path, std::ios::app | std::ios::ate);
 	log << buf;
 	log << "\n";
 	log.close();
@@ -49,7 +49,7 @@ logtofile& logtofile::operator<<(string buf)
 
 	mir_cslock l(csLock);
 	char *tmp = mir_utf8encode(buf.c_str());
-	log.open(toUTF8(path).c_str(), std::ios::app | std::ios::ate);
+	log.open(path, std::ios::app | std::ios::ate);
 	log << tmp;
 	log << "\n";
 	log.close();
@@ -63,8 +63,8 @@ logtofile& logtofile::operator<<(wstring buf)
 		init();
 
 	mir_cslock l(csLock);
-	log.open(toUTF8(path).c_str(), std::ios::app | std::ios::ate);
-	log << toUTF8(buf);
+	log.open(path, std::ios::app | std::ios::ate);
+	log << buf;
 	log << "\n";
 	log.close();
 	return *this;
@@ -72,20 +72,16 @@ logtofile& logtofile::operator<<(wstring buf)
 
 void logtofile::init()
 {
-	if (globals.bDebugLog) {
-		if (path)
-			mir_free(path);
-		path = db_get_wsa(0, MODULENAME, "szLogFilePath", L"C:\\GPGdebug.log");
-	}
+	if (globals.bDebugLog)
+		path = g_plugin.getMStringW("szLogFilePath", L"C:\\GPGdebug.log");
+
 	_bDebugLog = globals.bDebugLog;
 }
 
 logtofile::logtofile()
 {
-	path = nullptr;
 }
 
 logtofile::~logtofile()
 {
-	mir_free(path);
 }

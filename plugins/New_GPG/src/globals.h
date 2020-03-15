@@ -20,7 +20,7 @@
 struct globals_s
 {
 	bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false, bDecryptFiles = false;;
-	wchar_t *inopentag = nullptr, *inclosetag = nullptr, *outopentag = nullptr, *outclosetag = nullptr, *password = nullptr;
+	CMStringW wszInopentag, wszInclosetag, wszOutopentag, wszOutclosetag, wszPassword;
 	wchar_t key_id_global[17] = { 0 };
 	list <JabberAccount*> Accounts;
 	HFONT bold_font = nullptr;

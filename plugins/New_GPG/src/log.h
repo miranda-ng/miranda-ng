@@ -26,11 +26,12 @@ public:
 	void init();
 	~logtofile();
 	logtofile();
+
 private:
-	fstream  log;
-	wchar_t *path;
-	bool    _bDebugLog;
-	mir_cs   csLock;
+	wfstream  log;
+	CMStringW path;
+	bool     _bDebugLog;
+	mir_cs    csLock;
 };
 
 #endif

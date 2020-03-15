@@ -21,15 +21,12 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	if (!globals.gpg_valid)
 		return pxNotConfigured;
 
-	wchar_t *bin_path = db_get_wsa(0, MODULENAME, "szGpgBinPath", L"");
-	{
-		if (!boost::filesystem::exists(bin_path)) {
-			mir_free(bin_path);
-			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": GPG executable not found");
-			*result = pxNotFound;
-			return pxNotFound;
-		}
+	CMStringW bin_path(g_plugin.getMStringW("szGpgBinPath"));
+	if (!boost::filesystem::exists(bin_path.c_str())) {
+		if (globals.bDebugLog)
+			globals.debuglog << std::string(time_str() + ": GPG executable not found");
+		*result = pxNotFound;
+		return pxNotFound;
 	}
 
 	using namespace boost::process;
@@ -41,14 +38,14 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	env.push_back(L"LANGUAGE=en@quot");
 	env.push_back(L"LC_ALL=English");
 	env.push_back(L"LANG=C");
-	argv.push_back(bin_path);
-	wchar_t *home_dir = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-	if (mir_wstrlen(home_dir)) //this check are required for first run gpg binary validation
-	{
+	argv.push_back(bin_path.c_str());
+
+	CMStringW home_dir(g_plugin.getMStringW("szHomePath"));
+	if (!home_dir.IsEmpty())  { // this check are required for first run gpg binary validation
 		argv.push_back(L"--homedir");
-		argv.push_back(home_dir);
+		argv.push_back(home_dir.c_str());
 	}
-	mir_free(home_dir);
+
 	argv.push_back(L"--display-charset");
 	argv.push_back(L"utf-8");
 	argv.push_back(L"-z9");
@@ -156,15 +153,12 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 	if (!globals.gpg_valid)
 		return pxNotConfigured;
 
-	wchar_t *bin_path = db_get_wsa(0, MODULENAME, "szGpgBinPath", L"");
-	{
-		if (!boost::filesystem::exists(bin_path)) {
-			mir_free(bin_path);
-			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": GPG executable not found");
-			*result = pxNotFound;
-			return pxNotFound;
-		}
+	CMStringW bin_path(g_plugin.getMStringW("szGpgBinPath"));
+	if (!boost::filesystem::exists(bin_path.c_str())) {
+		if (globals.bDebugLog)
+			globals.debuglog << std::string(time_str() + ": GPG executable not found");
+		*result = pxNotFound;
+		return pxNotFound;
 	}
 
 	using namespace boost::process;
@@ -175,11 +169,9 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *res
 	std::vector<std::wstring> env;
 	env.push_back(L"LANGUAGE=en@quot");
 	env.push_back(L"LC_ALL=English");
-	argv.push_back(bin_path);
+	argv.push_back(bin_path.c_str());
 	argv.push_back(L"--homedir");
-	wchar_t *home_dir = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-	argv.push_back(home_dir);
-	mir_free(home_dir);
+	argv.push_back(g_plugin.getMStringW("szHomePath").c_str());
 	argv.push_back(L"--display-charset");
 	argv.push_back(L"utf-8");
 	argv.push_back(L"-z9");

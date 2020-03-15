@@ -64,34 +64,16 @@ public:
 				int row = list_USERLIST.AddItem(L"", 0);
 				list_USERLIST.SetItemText(row, 0, name);
 
-				wchar_t *tmp = mir_a2u(Proto_GetBaseAccountName(hContact));
-				list_USERLIST.SetItemText(row, 4, tmp);
-				mir_free(tmp);
+				list_USERLIST.SetItemText(row, 4, _A2T(Proto_GetBaseAccountName(hContact)));
 
-				char *tmp2 = db_get_sa(hContact, MODULENAME, "KeyID", "");
-				tmp = mir_a2u(tmp2);
-				mir_free(tmp2);
-				list_USERLIST.SetItemText(row, 1, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
-				mir_free(tmp);
+				CMStringW tmp = g_plugin.getMStringW(hContact, "KeyID", L"not set");
+				list_USERLIST.SetItemText(row, 1, tmp);
 
-				tmp2 = db_get_sa(hContact, MODULENAME, "KeyMainName", "");
-				if (!toUTF16(tmp2).empty())
-					tmp = mir_wstrdup(toUTF16(tmp2).c_str());
-				else
-					tmp = db_get_wsa(hContact, MODULENAME, "KeyMainName", L"");
-				mir_free(tmp2);
-				list_USERLIST.SetItemText(row, 2, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
-				mir_free(tmp);
+				tmp = g_plugin.getMStringW(hContact, "KeyMainName", L"not set");
+				list_USERLIST.SetItemText(row, 2, tmp);
 
-				tmp2 = db_get_sa(hContact, MODULENAME, "KeyMainEmail", "");
-				if (!toUTF16(tmp2).empty())
-					tmp = mir_wstrdup(toUTF16(tmp2).c_str());
-				else
-					tmp = db_get_wsa(hContact, MODULENAME, "KeyMainEmail", L"");
-				mir_free(tmp2);
-				list_USERLIST.SetItemText(row, 3, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
-				mir_free(tmp);
-
+				tmp = g_plugin.getMStringW(hContact, "KeyMainEmail", L"not set");
+				list_USERLIST.SetItemText(row, 3, tmp);
 				
 				if (g_plugin.getByte(hContact, "GPGEncryption", 0))
 					list_USERLIST.SetCheckState(row, 1);
@@ -104,20 +86,19 @@ public:
 				i++;
 			}
 		}
-		edit_LOG_FILE_EDIT.SetText(ptrW(db_get_wsa(0, MODULENAME, "szLogFilePath", L"")));
+		edit_LOG_FILE_EDIT.SetText(ptrW(g_plugin.getWStringA("szLogFilePath", L"")));
 
 		check_DEBUG_LOG.SetState(g_plugin.getByte("bDebugLog", 0));
 		check_JABBER_API.Enable();
 		check_AUTO_EXCHANGE.Enable(globals.bJabberAPI);
 
-		{
-			string keyinfo = Translate("Default private key ID");
-			keyinfo += ": ";
-			char *keyid = db_get_sa(0, MODULENAME, "KeyID", "");
-			keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
-			mir_free(keyid);
-			lbl_CURRENT_KEY.SetTextA(keyinfo.c_str());
-		}
+		CMStringW keyinfo = TranslateT("Default private key ID");
+		keyinfo += L": ";
+			
+		ptrW keyid(g_plugin.getWStringA("KeyID"));
+		keyinfo += (mir_wstrlen(keyid) > 0) ? keyid : TranslateT("not set");
+		lbl_CURRENT_KEY.SetText(keyinfo);
+
 		check_JABBER_API.SetState(g_plugin.getByte("bJabberAPI", 1));
 		check_FILE_TRANSFERS.SetState(g_plugin.getByte("bFileTransfers", 0));
 		check_AUTO_EXCHANGE.SetState(g_plugin.getByte("bAutoExchange", 0));
@@ -156,7 +137,6 @@ public:
 		void setSrmmIcon(MCONTACT hContact);
 		{ //gpg execute block
 			wchar_t *ptmp;
-			char *tmp;
 			bool keep = false;
 			bool ismetacontact = false;
 			MCONTACT meta = NULL;
@@ -170,18 +150,18 @@ public:
 				hContact = metaGetMostOnline(meta);
 				ismetacontact = true;
 			}
-			tmp = db_get_sa(hContact, MODULENAME, "KeyID", "");
+
+			CMStringA tmp(g_plugin.getMStringA(hContact, "KeyID"));
 			for (auto &hcnttmp : Contacts()) {
 				if (hcnttmp != hContact) {
-					char *tmp2 = db_get_sa(hcnttmp, MODULENAME, "KeyID", "");
+					ptrA tmp2(g_plugin.getStringA(hcnttmp, "KeyID"));
 					if (!mir_strcmp(tmp, tmp2)) {
-						mir_free(tmp2);
 						keep = true;
 						break;
 					}
-					mir_free(tmp2);
 				}
 			}
+
 			if (!keep)
 				if (MessageBox(nullptr, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring?"), TranslateT("Key info"), MB_YESNO) == IDYES) {
 					std::vector<wstring> cmd;
@@ -198,20 +178,18 @@ public:
 					params.out = &output;
 					params.code = &exitcode;
 					params.result = &result;
-					if (!gpg_launcher(params)) {
-						mir_free(tmp);
+					if (!gpg_launcher(params))
 						return;
-					}
-					if (result == pxNotFound) {
-						mir_free(tmp);
+
+					if (result == pxNotFound)
 						return;
-					}
+
 					if (output.find("--delete-secret-keys") != string::npos)
 						MessageBox(nullptr, TranslateT("we have secret key for this public key, do not removing from GPG keyring"), TranslateT("info"), MB_OK);
 					else
 						MessageBox(nullptr, TranslateT("Key removed from GPG keyring"), TranslateT("info"), MB_OK);
 				}
-			mir_free(tmp);
+
 			if (ismetacontact) {
 				if (MessageBox(nullptr, TranslateT("Do you want to remove key from entire metacontact (all subcontacts)?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
 					MCONTACT hcnt = NULL;
@@ -219,12 +197,12 @@ public:
 					for (int i = 0; i < count; i++) {
 						hcnt = db_mc_getSub(meta, i);
 						if (hcnt) {
-							db_unset(hcnt, MODULENAME, "KeyID");
-							db_unset(hcnt, MODULENAME, "GPGPubKey");
-							db_unset(hcnt, MODULENAME, "KeyMainName");
-							db_unset(hcnt, MODULENAME, "KeyType");
-							db_unset(hcnt, MODULENAME, "KeyMainEmail");
-							db_unset(hcnt, MODULENAME, "KeyComment");
+							g_plugin.delSetting(hcnt, "KeyID");
+							g_plugin.delSetting(hcnt, "GPGPubKey");
+							g_plugin.delSetting(hcnt, "KeyMainName");
+							g_plugin.delSetting(hcnt, "KeyType");
+							g_plugin.delSetting(hcnt, "KeyMainEmail");
+							g_plugin.delSetting(hcnt, "KeyComment");
 							setClistIcon(hcnt);
 							setSrmmIcon(hcnt);
 						}
@@ -242,12 +220,12 @@ public:
 				}
 			}
 			else {
-				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyID");
-				db_unset(globals.user_data[item_num + 1], MODULENAME, "GPGPubKey");
-				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyMainName");
-				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyType");
-				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyMainEmail");
-				db_unset(globals.user_data[item_num + 1], MODULENAME, "KeyComment");
+				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyID");
+				g_plugin.delSetting(globals.user_data[item_num + 1], "GPGPubKey");
+				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyMainName");
+				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyType");
+				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyMainEmail");
+				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyComment");
 				setClistIcon(globals.user_data[item_num + 1]);
 				setSrmmIcon(globals.user_data[item_num + 1]);
 			}
@@ -267,10 +245,8 @@ public:
 	{
 		wchar_t *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
 		if (tmp) {
-			wstring str(ptrW(db_get_wsa(globals.user_data[item_num + 1], MODULENAME, "GPGPubKey", L"")));
-			wstring::size_type s = 0;
-			while ((s = str.find(L"\r", s)) != wstring::npos)
-				str.erase(s, 1);
+			CMStringW str(g_plugin.getMStringW(globals.user_data[item_num + 1], "GPGPubKey"));
+			str.Replace(L"\r", L"");
 
 			wfstream f(tmp, std::ios::out);
 			delete[] tmp;
@@ -282,16 +258,16 @@ public:
 	void onClick_COPY_KEY(CCtrlButton*)
 	{
 		if (OpenClipboard(m_hwnd)) {
-			char *szKey = db_get_sa(0, MODULENAME, "GPGPubKey", "");
-			std::string str = szKey;
-			mir_free(szKey);
-			boost::algorithm::replace_all(str, "\n", "\r\n");
-			HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, str.size() + 1);
+			CMStringA str(g_plugin.getMStringA("GPGPubKey"));
+			str.Replace("\n", "\r\n");
+			
+			HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, str.GetLength() + 1);
 			if (!hMem) {
 				MessageBox(nullptr, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
 				return;
 			}
-			szKey = (char*)GlobalLock(hMem);
+			
+			char *szKey = (char*)GlobalLock(hMem);
 			if (!szKey) {
 				wchar_t msg[64];
 				mir_snwprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
@@ -299,9 +275,9 @@ public:
 				GlobalFree(hMem);
 			}
 			else {
-				memcpy(szKey, str.c_str(), str.size());
-				szKey[str.size()] = '\0';
-				str.clear();
+				memcpy(szKey, str.c_str(), str.GetLength());
+				szKey[str.GetLength()] = '\0';
+
 				EmptyClipboard();
 				GlobalUnlock(hMem);
 				if (!SetClipboardData(CF_OEMTEXT, hMem)) {
@@ -343,9 +319,9 @@ public:
 			void setSrmmIcon(MCONTACT hContact);
 			item_num = hdr->iItem;
 			if (list_USERLIST.GetCheckState(hdr->iItem))
-				db_set_b(globals.user_data[item_num + 1], MODULENAME, "GPGEncryption", 1);
+				g_plugin.setByte(globals.user_data[item_num + 1], "GPGEncryption", 1);
 			else
-				db_set_b(globals.user_data[item_num + 1], MODULENAME, "GPGEncryption", 0);
+				g_plugin.setByte(globals.user_data[item_num + 1], "GPGEncryption", 0);
 			setClistIcon(globals.user_data[item_num + 1]);
 			setSrmmIcon(globals.user_data[item_num + 1]);
 		}
@@ -384,8 +360,8 @@ public:
 
 	bool OnInitDialog() override
 	{
-		edit_BIN_PATH.SetText(ptrW(db_get_wsa(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
-		edit_HOME_DIR.SetText(ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L"gpg")));
+		edit_BIN_PATH.SetText(g_plugin.getMStringW("szGpgBinPath", L"gpg.exe"));
+		edit_HOME_DIR.SetText(g_plugin.getMStringW("szHomePath", L"gpg"));
 		return true;
 	}
 
@@ -403,7 +379,7 @@ public:
 	void onClick_SET_BIN_PATH(CCtrlButton*)
 	{
 		GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", L"*.exe", TranslateT("EXE Executables"));
-		CMStringW tmp(ptrW(db_get_wsa(0, MODULENAME, "szGpgBinPath", L"gpg.exe")));
+		CMStringW tmp(g_plugin.getMStringW("szGpgBinPath", L"gpg.exe"));
 		edit_BIN_PATH.SetText(tmp);
 		bool gpg_exists = false;
 		{
@@ -411,7 +387,7 @@ public:
 				gpg_exists = true;
 			if (gpg_exists) {
 				bool bad_version = false;
-				wchar_t *tmp_path = db_get_wsa(0, MODULENAME, "szGpgBinPath", L"");
+				CMStringW tmp_path = g_plugin.getMStringW("szGpgBinPath", L"");
 				g_plugin.setWString("szGpgBinPath", tmp);
 				string out;
 				DWORD code;
@@ -427,7 +403,7 @@ public:
 				gpg_launcher(params);
 				globals.gpg_valid = old_gpg_state;
 				g_plugin.setWString("szGpgBinPath", tmp_path);
-				mir_free(tmp_path);
+
 				string::size_type p1 = out.find("(GnuPG) ");
 				if (p1 != string::npos) {
 					p1 += mir_strlen("(GnuPG) ");
@@ -438,8 +414,6 @@ public:
 					bad_version = false;
 					MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 				}
-				/*					  if(bad_version) //looks like working fine with gpg2
-				MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), L"Warning", MB_OK); */
 			}
 		}
 		wchar_t mir_path[MAX_PATH];
@@ -453,7 +427,7 @@ public:
 	void onClick_SET_HOME_DIR(CCtrlButton*)
 	{
 		GetFolderPath(TranslateT("Set home directory"));
-		CMStringW tmp(ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L"")));
+		CMStringW tmp(g_plugin.getMStringW("szHomePath", L""));
 		edit_HOME_DIR.SetText(tmp);
 		wchar_t mir_path[MAX_PATH];
 		PathToAbsoluteW(L"\\", mir_path);
@@ -479,10 +453,10 @@ public:
 	{
 		check_APPEND_TAGS.SetState(g_plugin.getByte("bAppendTags", 0));
 		check_STRIP_TAGS.SetState(g_plugin.getByte("bStripTags", 0));
-		edit_IN_OPEN_TAG.SetText(ptrW(db_get_wsa(0, MODULENAME, "szInOpenTag", L"<GPGdec>")));
-		edit_IN_CLOSE_TAG.SetText(ptrW(db_get_wsa(0, MODULENAME, "szInCloseTag", L"</GPGdec>")));
-		edit_OUT_OPEN_TAG.SetText(ptrW(db_get_wsa(0, MODULENAME, "szOutOpenTag", L"<GPGenc>")));
-		edit_OUT_CLOSE_TAG.SetText(ptrW(db_get_wsa(0, MODULENAME, "szOutCloseTag", L"</GPGenc>")));
+		edit_IN_OPEN_TAG.SetText(g_plugin.getMStringW("szInOpenTag", L"<GPGdec>"));
+		edit_IN_CLOSE_TAG.SetText(g_plugin.getMStringW("szInCloseTag", L"</GPGdec>"));
+		edit_OUT_OPEN_TAG.SetText(g_plugin.getMStringW("szOutOpenTag", L"<GPGenc>"));
+		edit_OUT_CLOSE_TAG.SetText(g_plugin.getMStringW("szOutCloseTag", L"</GPGenc>"));
 		return true;
 	}
 
@@ -491,22 +465,21 @@ public:
 		g_plugin.setByte("bAppendTags", globals.bAppendTags = check_APPEND_TAGS.GetState());
 		g_plugin.setByte("bStripTags", globals.bStripTags = check_STRIP_TAGS.GetState());
 		{
-			wchar_t *tmp = mir_wstrdup(edit_IN_OPEN_TAG.GetText());
+			ptrW tmp(edit_IN_OPEN_TAG.GetText());
 			g_plugin.setWString("szInOpenTag", tmp);
-			mir_free(globals.inopentag);
-			globals.inopentag = tmp;
-			tmp = mir_wstrdup(edit_IN_CLOSE_TAG.GetText());
+			globals.wszInopentag = tmp;
+
+			tmp = edit_IN_CLOSE_TAG.GetText();
 			g_plugin.setWString("szInCloseTag", tmp);
-			mir_free(globals.inclosetag);
-			globals.inclosetag = tmp;
+			globals.wszInclosetag = tmp;
+
 			tmp = mir_wstrdup(edit_OUT_OPEN_TAG.GetText());
 			g_plugin.setWString("szOutOpenTag", tmp);
-			mir_free(globals.outopentag);
-			globals.outopentag = tmp;
+			globals.wszOutopentag = tmp;
+
 			tmp = mir_wstrdup(edit_OUT_CLOSE_TAG.GetText());
 			g_plugin.setWString("szOutCloseTag", tmp);
-			mir_free(globals.outclosetag);
-			globals.outclosetag = tmp;
+			globals.wszOutclosetag = tmp;
 		}
 		return true;
 	}
@@ -609,9 +582,7 @@ public:
 			chk_ENABLE_ENCRYPTION.SetState(1);
 		}
 		if (hcnt) {
-			wchar_t *tmp = db_get_wsa(hcnt, MODULENAME, "GPGPubKey", L"");
-			wstring str = tmp;
-			mir_free(tmp); tmp = nullptr;
+			wstring str = ptrW(g_plugin.getWStringA(hcnt, "GPGPubKey", L""));
 			if (!str.empty()) {
 				wstring::size_type p = 0, stop = 0;
 				for (;;) {
@@ -624,10 +595,9 @@ public:
 					}
 				}
 			}
-			//			char *tmp = db_get_wsa(hcnt, MODULENAME, "KeyID_Prescense", "");
+
 			if (!globals.hcontact_data[hcnt].key_in_prescense.empty()) {
-				char *tmp2 = db_get_sa(hcnt, MODULENAME, "KeyID", "");
-				if (!tmp2[0]) {
+				if (g_plugin.getMStringA(hcnt, "KeyID").IsEmpty()) {
 					string out;
 					DWORD code;
 					std::vector<wstring> cmd;
@@ -662,10 +632,8 @@ public:
 						btn_IMPORT.Enable();
 					}
 				}
-				mir_free(tmp2);
 			}
-			if (tmp)
-				mir_free(tmp);
+
 			edit_PUBLIC_KEY_EDIT.SetText(!str.empty() ? str.c_str() : L"");
 		}
 		edit_p_PubKeyEdit = &edit_PUBLIC_KEY_EDIT;
@@ -723,10 +691,10 @@ public:
 					for (int i = 0; i < count; i++) {
 						MCONTACT hcnt = db_mc_getSub(hContact, i);
 						if (hcnt)
-							db_set_ws(hcnt, MODULENAME, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+							g_plugin.setWString(hcnt, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 					}
 				}
-				else db_set_ws(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+				else g_plugin.setWString(metaGetMostOnline(hContact), "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 			}
 			else g_plugin.setWString(hContact, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
 		}
@@ -734,31 +702,24 @@ public:
 		mir_wstrcpy(tmp, key_buf.substr(ws1, ws2 - ws1).c_str());
 		{ //gpg execute block
 			std::vector<wstring> cmd;
-			wchar_t tmp2[MAX_PATH] = { 0 };
-			wchar_t *ptmp;
+			CMStringW tmp2;
 			string output;
 			DWORD exitcode;
 			{
 				MCONTACT hcnt = db_mc_tryMeta(hContact);
-				ptmp = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-				wcsncpy(tmp2, ptmp, MAX_PATH - 1);
-				mir_free(ptmp);
-				mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
-				mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
-				boost::filesystem::remove(tmp2);
+				tmp2 = g_plugin.getMStringW("szHomePath");
+				tmp2 += L"\\temporary_exported.asc";
+				boost::filesystem::remove(tmp2.c_str());
+
 				wfstream f(tmp2, std::ios::out);
-				ptmp = db_get_wsa(hcnt, MODULENAME, "GPGPubKey", L"");
-				wstring str = ptmp;
-				mir_free(ptmp);
-				wstring::size_type s = 0;
-				while ((s = str.find(L"\r", s)) != wstring::npos) {
-					str.erase(s, 1);
-				}
+				CMStringW str = g_plugin.getMStringW(hcnt, "GPGPubKey");
+				str.Replace(L"\r", L"");
 				f << str.c_str();
 				f.close();
+
 				cmd.push_back(L"--batch");
 				cmd.push_back(L"--import");
-				cmd.push_back(tmp2);
+				cmd.push_back(tmp2.c_str());
 			}
 			gpg_execution_params params(cmd);
 			pxResult result;
@@ -778,17 +739,17 @@ public:
 						for (int i = 0; i < count; i++) {
 							MCONTACT hcnt = db_mc_getSub(hContact, i);
 							if (hcnt)
-								db_unset(hcnt, MODULENAME, "bAlwatsTrust");
+								g_plugin.delSetting(hcnt, "bAlwatsTrust");
 						}
 					}
-					else db_unset(metaGetMostOnline(hContact), MODULENAME, "bAlwatsTrust");
+					else g_plugin.delSetting(metaGetMostOnline(hContact), "bAlwatsTrust");
 				}
 				else g_plugin.delSetting(hContact, "bAlwatsTrust");
 			}
 			{
 				if (output.find("already in secret keyring") != string::npos) {
 					MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
-					boost::filesystem::remove(tmp2);
+					boost::filesystem::remove(tmp2.c_str());
 					return;
 				}
 				string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
@@ -804,14 +765,12 @@ public:
 								for (int i = 0; i < count; i++) {
 									MCONTACT hcnt = db_mc_getSub(hContact, i);
 									if (hcnt)
-										db_set_s(hcnt, MODULENAME, "KeyID", tmp3);
+										g_plugin.setString(hcnt, "KeyID", tmp3);
 								}
 							}
-							else
-								db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyID", tmp3);
+							else g_plugin.setString(metaGetMostOnline(hContact), "KeyID", tmp3);
 						}
-						else
-							g_plugin.setString(hContact, "KeyID", tmp3);
+						else g_plugin.setString(hContact, "KeyID", tmp3);
 					}
 					mir_free(tmp3);
 				}
@@ -945,36 +904,31 @@ public:
 				}
 			}
 			if (!hContact) {
-				wchar_t *fp = db_get_wsa(hContact, MODULENAME, "KeyID", L"");
-				{
-					string out;
-					DWORD code;
-					std::vector<wstring> cmds;
-					cmds.push_back(L"--batch");
-					cmds.push_back(L"-a");
-					cmds.push_back(L"--export");
-					cmds.push_back(fp);
-					mir_free(fp);
-					gpg_execution_params params2(cmds);
-					pxResult result2;
-					params2.out = &out;
-					params2.code = &code;
-					params2.result = &result2;
-					if (!gpg_launcher(params2))
-						return;
-					if (result2 == pxNotFound)
-						return;
-					string::size_type s = 0;
-					while ((s = out.find("\r", s)) != string::npos) {
-						out.erase(s, 1);
-					}
-					g_plugin.setString(hContact, "GPGPubKey", out.c_str());
+				string out;
+				DWORD code;
+				std::vector<wstring> cmds;
+				cmds.push_back(L"--batch");
+				cmds.push_back(L"-a");
+				cmds.push_back(L"--export");
+				cmds.push_back(g_plugin.getMStringW(hContact, "KeyID").c_str());
+
+				gpg_execution_params params2(cmds);
+				pxResult result2;
+				params2.out = &out;
+				params2.code = &code;
+				params2.result = &result2;
+				if (!gpg_launcher(params2))
+					return;
+				if (result2 == pxNotFound)
+					return;
+				string::size_type s = 0;
+				while ((s = out.find("\r", s)) != string::npos) {
+					out.erase(s, 1);
 				}
+				g_plugin.setString(hContact, "GPGPubKey", out.c_str());
 			}
-			tmp = mir_wstrdup(toUTF16(output).c_str());
-			MessageBox(nullptr, tmp, L"", MB_OK);
-			mir_free(tmp);
-			boost::filesystem::remove(tmp2);
+			MessageBoxA(nullptr, output.c_str(), "", MB_OK);
+			boost::filesystem::remove(tmp2.c_str());
 		}
 		key_buf.clear();
 		if (chk_ENABLE_ENCRYPTION.GetState()) {
@@ -985,24 +939,15 @@ public:
 						for (int i = 0; i < count; i++) {
 							MCONTACT hcnt = db_mc_getSub(hContact, i);
 							if (hcnt) {
-								if (!isContactSecured(hcnt))
-									db_set_b(hcnt, MODULENAME, "GPGEncryption", 1);
-								else
-									db_set_b(hcnt, MODULENAME, "GPGEncryption", 0);
+								g_plugin.setByte(hcnt, "GPGEncryption", !isContactSecured(hcnt));
 								setSrmmIcon(hContact);
 								setClistIcon(hContact);
 							}
 						}
 					}
-					else if (!isContactSecured(hContact))
-						db_set_b(metaGetMostOnline(hContact), MODULENAME, "GPGEncryption", 1);
-					else
-						db_set_b(metaGetMostOnline(hContact), MODULENAME, "GPGEncryption", 0);
+					else g_plugin.setByte(metaGetMostOnline(hContact), "GPGEncryption", !isContactSecured(hContact));
 				}
-				else if (!isContactSecured(hContact))
-					g_plugin.setByte(hContact, "GPGEncryption", 1);
-				else
-					g_plugin.setByte(hContact, "GPGEncryption", 0);
+				else g_plugin.setByte(hContact, "GPGEncryption", !isContactSecured(hContact));
 			}
 		}
 		this->Close();

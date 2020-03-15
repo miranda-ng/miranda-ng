@@ -70,20 +70,20 @@ void InitIconLib();
 
 void init_vars()
 {
-	globals.bAppendTags = g_plugin.getByte("bAppendTags", 0) != 0;
-	globals.bStripTags = g_plugin.getByte("bStripTags", 0) != 0;
-	globals.inopentag = db_get_wsa(0, MODULENAME, "szInOpenTag", L"<GPGdec>");
-	globals.inclosetag = db_get_wsa(0, MODULENAME, "szInCloseTag", L"</GPGdec>");
-	globals.outopentag = db_get_wsa(0, MODULENAME, "szOutOpenTag", L"<GPGenc>");
-	globals.outclosetag = db_get_wsa(0, MODULENAME, "szOutCloseTag", L"</GPGenc>");
-	globals.bDebugLog = g_plugin.getByte("bDebugLog", 0) != 0;
-	globals.bAutoExchange = g_plugin.getByte("bAutoExchange", 0) != 0;
-	globals.bSameAction = g_plugin.getByte("bSameAction", 0) != 0;
-	globals.password = db_get_wsa(0, MODULENAME, "szKeyPassword", L"");
+	globals.bAppendTags = g_plugin.getBool("bAppendTags", 0);
+	globals.bStripTags = g_plugin.getBool("bStripTags", 0);
+	globals.wszInopentag = g_plugin.getMStringW("szInOpenTag", L"<GPGdec>");
+	globals.wszInclosetag = g_plugin.getMStringW("szInCloseTag", L"</GPGdec>");
+	globals.wszOutopentag = g_plugin.getMStringW("szOutOpenTag", L"<GPGenc>");
+	globals.wszOutclosetag = g_plugin.getMStringW("szOutCloseTag", L"</GPGenc>");
+	globals.bDebugLog = g_plugin.getBool("bDebugLog", 0);
+	globals.bAutoExchange = g_plugin.getBool("bAutoExchange", 0);
+	globals.bSameAction = g_plugin.getBool("bSameAction", 0);
+	globals.wszPassword = g_plugin.getMStringW("szKeyPassword");
 	globals.debuglog.init();
-	globals.bJabberAPI = g_plugin.getByte("bJabberAPI", true) != 0;
-	globals.bPresenceSigning = g_plugin.getByte("bPresenceSigning", 0) != 0;
-	globals.bFileTransfers = g_plugin.getByte("bFileTransfers", 0) != 0;
+	globals.bJabberAPI = g_plugin.getBool("bJabberAPI", true);
+	globals.bPresenceSigning = g_plugin.getBool("bPresenceSigning", 0);
+	globals.bFileTransfers = g_plugin.getBool("bFileTransfers", 0);
 	globals.firstrun_rect.left = g_plugin.getDword("FirstrunWindowX", 0);
 	globals.firstrun_rect.top = g_plugin.getDword("FirstrunWindowY", 0);
 	globals.key_password_rect.left = g_plugin.getDword("PasswordWindowX", 0);
@@ -206,12 +206,6 @@ int CMPlugin::Unload()
 		if (!p.empty())
 			boost::filesystem::remove(p);
 
-	mir_free(globals.inopentag);
-	mir_free(globals.inclosetag);
-	mir_free(globals.outopentag);
-	mir_free(globals.outclosetag);
-	if (globals.password)
-		mir_free(globals.password);
 	clean_temp_dir();
 	return 0;
 }

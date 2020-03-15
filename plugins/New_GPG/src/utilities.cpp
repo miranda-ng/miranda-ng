@@ -23,7 +23,7 @@ void ShowLoadPublicKeyDialog(bool = false);
 
 void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t *szExtDesc)
 {
-	wchar_t str[MAX_PATH + 2] = { 0 }, *tmp;
+	wchar_t str[MAX_PATH + 2] = {};
 	OPENFILENAME ofn = { 0 };
 	wchar_t filter[512], *pfilter;
 	ofn.lStructSize = CDSIZEOF_STRUCT(OPENFILENAME, lpTemplateName);
@@ -35,9 +35,7 @@ void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t
 	pfilter[mir_wstrlen(pfilter) + 1] = '\0';
 	pfilter[mir_wstrlen(pfilter) + 2] = '\0';
 	ofn.lpstrFilter = filter;
-	tmp = db_get_wsa(0, MODULENAME, szSetting, L"");
-	wcsncpy(str, tmp, _countof(str) - 1);
-	mir_free(tmp);
+	wcsncpy(str, g_plugin.getMStringW(szSetting), _countof(str) - 1);
 	if (mir_wstrlen(str) < 2)
 		str[0] = '\0';
 	ofn.lpstrFile = str;
@@ -112,7 +110,7 @@ INT_PTR LoadKey(WPARAM w, LPARAM)
 INT_PTR SendKey(WPARAM w, LPARAM)
 {
 	MCONTACT hContact = db_mc_tryMeta(w);
-	char *szMessage;
+	CMStringA szMessage;
 	std::string key_id_str;
 	{
 		LPSTR proto = Proto_GetBaseAccountName(hContact);
@@ -127,31 +125,24 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 			key_id_str += "_KeyID";
 			acc_str += "_GPGPubKey";
 		}
-		szMessage = db_get_sa(0, MODULENAME, acc_str.empty() ? "GPGPubKey" : acc_str.c_str(), "");
-		if (!szMessage[0]) {
-			mir_free(szMessage);
-			szMessage = db_get_sa(0, MODULENAME, "GPGPubKey", ""); //try to get default key as fallback in any way
-		}
+		szMessage = g_plugin.getMStringA(acc_str.empty() ? "GPGPubKey" : acc_str.c_str());
+		if (szMessage.IsEmpty())
+			szMessage = g_plugin.getMStringA("GPGPubKey"); //try to get default key as fallback in any way
 	}
-	if (szMessage[0]) {
+	if (!szMessage.IsEmpty()) {
 		BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 		g_plugin.setByte(hContact, "GPGEncryption", 0);
-		ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)szMessage);
+		ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)szMessage.c_str());
 		std::string msg = "Public key ";
-		char *keyid = db_get_sa(0, MODULENAME, key_id_str.c_str(), "");
-		if (!keyid[0]) {
-			mir_free(keyid);
-			keyid = db_get_sa(0, MODULENAME, "KeyID", "");
-		}
+		CMStringA keyid = g_plugin.getMStringA(key_id_str.c_str());
+		if (keyid.IsEmpty())
+			keyid = g_plugin.getMStringA("KeyID");
 		msg += keyid;
-		mir_free(keyid);
 		msg += " sent";
-		mir_free(szMessage);
-		szMessage = mir_strdup(msg.c_str());
-		HistoryLog(hContact, db_event(szMessage, 0, 0, DBEF_SENT));
+
+		HistoryLog(hContact, db_event((char*)msg.c_str(), 0, 0, DBEF_SENT));
 		g_plugin.setByte(hContact, "GPGEncryption", enc);
 	}
-	else mir_free(szMessage);
 
 	return 0;
 }
@@ -161,13 +152,13 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM)
 	MCONTACT hContact = (MCONTACT)w;
 	BYTE enc;
 	if (db_mc_isMeta(hContact)) {
-		enc = db_get_b(metaGetMostOnline(hContact), MODULENAME, "GPGEncryption", 0);
+		enc = g_plugin.getByte(metaGetMostOnline(hContact), "GPGEncryption");
 		if (MessageBox(nullptr, TranslateT("Do you want to toggle encryption for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
 			int count = db_mc_getSubCount(hContact);
 			for (int i = 0; i < count; i++) {
 				MCONTACT hcnt = db_mc_getSub(hContact, i);
 				if (hcnt)
-					db_set_b(hcnt, MODULENAME, "GPGEncryption", enc ? 0 : 1);
+					g_plugin.getByte(hcnt, "GPGEncryption", enc ? 0 : 1);
 			}
 			g_plugin.setByte(hContact, "GPGEncryption", enc ? 0 : 1);
 		}
@@ -200,20 +191,19 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 			setting += ")";
 			setting += "_KeyID";
 		}
-		char *keyid = db_get_sa(0, MODULENAME, setting.c_str(), "");
-		if (!keyid[0]) {
-			mir_free(keyid);
-			keyid = db_get_sa(0, MODULENAME, "KeyID", "");
-		}
+		
+		CMStringA keyid = g_plugin.getMStringA(setting.c_str());
+		if (keyid.IsEmpty())
+			keyid = g_plugin.getMStringA("KeyID");
+
 		wchar_t buf[128] = { 0 };
-		mir_snwprintf(buf, L"%s: %s", TranslateT("Send public key"), toUTF16(keyid).c_str());
-		mir_free(keyid);
+		mir_snwprintf(buf, L"%s: %S", TranslateT("Send public key"), keyid.c_str());
 		Menu_ModifyItem(globals.hSendKey, buf);
 	}
 
 	int flags;
-	wchar_t *tmp = db_get_wsa(hContact, MODULENAME, "GPGPubKey", L"");
-	if (!tmp[0]) {
+	CMStringA tmp = g_plugin.getMStringW(hContact, "GPGPubKey");
+	if (tmp.IsEmpty()) {
 		g_plugin.delSetting(hContact, "GPGEncryption");
 		flags = CMIF_GRAYED;
 	}
@@ -222,7 +212,6 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 	Menu_ModifyItem(globals.hToggleEncryption,
 		g_plugin.getByte(hContact, "GPGEncryption", 0) ? L"Turn off GPG encryption" : L"Turn on GPG encryption",
 		INVALID_HANDLE_VALUE, flags);
-	mir_free(tmp);
 	return 0;
 }
 
@@ -283,36 +272,35 @@ int onProtoAck(WPARAM, LPARAM l)
 						}
 						cmd.push_back(file);
 						boost::filesystem::remove(file);
-						{ // password
-							wchar_t *pass = nullptr;
-							char *keyid = db_get_sa(ack->hContact, MODULENAME, "KeyID", "");
-							if (mir_strlen(keyid) > 0) {
+						{
+							// password
+							CMStringW pass;
+							CMStringA keyid = g_plugin.getMStringA(ack->hContact, "KeyID");
+							if (!keyid.IsEmpty()) {
 								string dbsetting = "szKey_";
 								dbsetting += keyid;
 								dbsetting += "_Password";
-								pass = db_get_wsa(0, MODULENAME, dbsetting.c_str(), L"");
-								if (mir_wstrlen(pass) > 0 && globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
+								pass = g_plugin.getMStringW(dbsetting.c_str());
+								if (!pass.IsEmpty() && globals.bDebugLog)
+									globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid.c_str() + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
 							}
 							else {
-								pass = db_get_wsa(0, MODULENAME, "szKeyPassword", L"");
-								if (mir_wstrlen(pass) > 0 && globals.bDebugLog)
+								pass = g_plugin.getMStringW("szKeyPassword");
+								if (!pass.IsEmpty() && globals.bDebugLog)
 									globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
 							}
-							if (mir_wstrlen(pass) > 0) {
+							if (!pass.IsEmpty()) {
 								cmd.push_back(L"--passphrase");
-								cmd.push_back(pass);
+								cmd.push_back(pass.c_str());
 							}
-							else if (globals.password) {
+							else if (!globals.wszPassword.IsEmpty()) {
 								if (globals.bDebugLog)
 									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
 								cmd.push_back(L"--passphrase");
-								cmd.push_back(globals.password);
+								cmd.push_back(globals.wszPassword.c_str());
 							}
 							else if (globals.bDebugLog)
 								globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with out password");
-							mir_free(pass);
-							mir_free(keyid);
 						}
 						cmd.push_back(L"-d");
 						cmd.push_back(filename);
@@ -333,19 +321,19 @@ int onProtoAck(WPARAM, LPARAM l)
 								s += mir_strlen(" ID ");
 								string::size_type s2 = out.find(",", s);
 								if (db_mc_isMeta(ack->hContact))
-									db_set_s(metaGetMostOnline(ack->hContact), MODULENAME, "InKeyID", out.substr(s, s2 - s).c_str());
+									g_plugin.setString(metaGetMostOnline(ack->hContact), "InKeyID", out.substr(s, s2 - s).c_str());
 								else
-									db_set_s(ack->hContact, MODULENAME, "InKeyID", out.substr(s, s2 - s).c_str());
+									g_plugin.setString(ack->hContact, "InKeyID", out.substr(s, s2 - s).c_str());
 							}
 							CDlgKeyPasswordMsgBox *d = new CDlgKeyPasswordMsgBox(ack->hContact);
 							d->DoModal();
 							std::vector<wstring> cmd2 = cmd;
-							if (globals.password) {
+							if (!globals.wszPassword.IsEmpty()) {
 								if (globals.bDebugLog)
 									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)));
 								std::vector<wstring> tmp;
 								tmp.push_back(L"--passphrase");
-								tmp.push_back(globals.password);
+								tmp.push_back(globals.wszPassword.c_str());
 								cmd2.insert(cmd2.begin(), tmp.begin(), tmp.end());
 							}
 							out.clear();
@@ -395,8 +383,8 @@ std::wstring encrypt_file(MCONTACT hContact, wchar_t *filename)
 	cmd.push_back(L"--batch");
 	cmd.push_back(L"--tes");
 	cmd.push_back(L"-r");
-	char *keyid = db_get_sa(hcnt, MODULENAME, "KeyID", "");
-	wchar_t *szKeyid = mir_a2u(keyid);
+	
+	CMStringW keyid = g_plugin.getMStringW(hcnt, "KeyID");
 	wchar_t *name = wcsrchr(filename, '\\');
 	if (!name)
 		name = filename;
@@ -404,13 +392,13 @@ std::wstring encrypt_file(MCONTACT hContact, wchar_t *filename)
 		name++;
 	wchar_t *file_out = new wchar_t[mir_wstrlen(name) + mir_wstrlen(L".gpg") + 1];
 	mir_snwprintf(file_out, mir_wstrlen(name) + mir_wstrlen(L".gpg") + 1, L"%s.gpg", name);
-	cmd.push_back(szKeyid);
-	if (db_get_b(hcnt, MODULENAME, "bAlwaysTrust", 0)) {
+	cmd.push_back(keyid.c_str());
+
+	if (g_plugin.getByte(hcnt, "bAlwaysTrust")) {
 		cmd.push_back(L"--trust-model");
 		cmd.push_back(L"always");
 	}
-	mir_free(szKeyid);
-	mir_free(keyid);
+
 	cmd.push_back(L"-o");
 	wchar_t *temp = _tgetenv(L"TEMP");
 	cmd.push_back(wstring(temp) + L"\\" + file_out);
@@ -430,7 +418,7 @@ std::wstring encrypt_file(MCONTACT hContact, wchar_t *filename)
 	if (out.find("There is no assurance this key belongs to the named user") != string::npos) {
 		out.clear();
 		if (MessageBox(nullptr, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
-			db_set_b(hcnt, MODULENAME, "bAlwaysTrust", 1);
+			g_plugin.setByte(hcnt, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;
 			tmp.push_back(L"--trust-model");
 			tmp.push_back(L"always");
@@ -631,10 +619,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 		}
 
 		if (globals.bPresenceSigning && nodename && strstr(nodename, "status")) {
-			char *path_c = db_get_utfa(0, MODULENAME, "szHomePath", "");
-			string path_out = path_c;
+			string path_out = ptrA(g_plugin.getUStringA("szHomePath", ""));
 			string file = get_random(10);
-			mir_free(path_c);
 			path_out += "\\tmp\\";
 			path_out += file;
 			boost::filesystem::remove(path_out);
@@ -651,50 +637,44 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 			DWORD code;
 			std::vector<wstring> cmd;
 			{
-				char* inkeyid = nullptr;
-
 				char setting[64];
 				mir_snprintf(setting, sizeof(setting) - 1, "%s_KeyID", ji->GetModuleName());
-				inkeyid = db_get_sa(0, MODULENAME, setting, "");
-				if (!inkeyid[0]) {
-					mir_free(inkeyid);
-					inkeyid = db_get_sa(0, MODULENAME, "KeyID", "");
-				}
+				CMStringA inkeyid = g_plugin.getMStringA(setting);
+				if (inkeyid.IsEmpty())
+					inkeyid = g_plugin.getMStringA("KeyID");
 
-				ptrW pass;
-				if (inkeyid[0]) {
+				CMStringW pass;
+				if (!inkeyid.IsEmpty()) {
 					string dbsetting = "szKey_";
 					dbsetting += inkeyid;
 					dbsetting += "_Password";
-					pass = db_get_wsa(0, MODULENAME, dbsetting.c_str(), L"");
-					if (pass[0] && globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid + ", trying to encrypt message from self with password");
+					pass = g_plugin.getMStringW(dbsetting.c_str());
+					if (!pass.IsEmpty() && globals.bDebugLog)
+						globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid.c_str() + ", trying to encrypt message from self with password");
 				}
-				if (inkeyid && inkeyid[0])
-					mir_free(inkeyid);
 				else {
-					pass = db_get_wsa(0, MODULENAME, "szKeyPassword", L"");
-					if (pass[0] && globals.bDebugLog)
+					pass = g_plugin.getMStringW("szKeyPassword");
+					if (!pass.IsEmpty() && globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to encrypt message from self with password");
 				}
 				if (pass[0]) {
 					cmd.push_back(L"--passphrase");
-					cmd.push_back(pass.get());
+					cmd.push_back(pass.c_str());
 				}
-				else if (globals.password && globals.password[0]) {
+				else if (!globals.wszPassword.IsEmpty()) {
 					if (globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to encrypt message from self with password");
 					cmd.push_back(L"--passphrase");
-					cmd.push_back(globals.password);
+					cmd.push_back(globals.wszPassword.c_str());
 				}
 				else if (globals.bDebugLog)
 					globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to encrypt message from self with out password");
 			}
 
 			cmd.push_back(L"--local-user");
-			cmd.push_back(ptrW(db_get_wsa(0, MODULENAME, "KeyID", L"")).get());
+			cmd.push_back(g_plugin.getMStringW("KeyID").c_str());
 			cmd.push_back(L"--default-key");
-			cmd.push_back(ptrW(db_get_wsa(0, MODULENAME, "KeyID", L"")).get());
+			cmd.push_back(g_plugin.getMStringW("KeyID").c_str());
 			cmd.push_back(L"--batch");
 			cmd.push_back(L"--yes");
 			cmd.push_back(L"-abs");
@@ -794,18 +774,17 @@ static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, TiXmlElement* node
 				wstring file = toUTF16(get_random(10)), status_file = toUTF16(get_random(10));
 				sign += data;
 				sign += "\n-----END PGP SIGNATURE-----\n";
-				wchar_t *path_c = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-				wstring path_out = path_c, status_file_out = path_c;
-				mir_free(path_c);
+				
+				CMStringW path_out = g_plugin.getMStringW("szHomePath"), status_file_out = path_out;
 				path_out += L"\\tmp\\";
-				path_out += file;
+				path_out += file.c_str();
 				path_out += L".sig";
 				status_file_out += L"\\tmp\\";
-				status_file_out += status_file;
+				status_file_out += status_file.c_str();
 				status_file_out += L".status";
 				
-				boost::filesystem::remove(path_out);
-				boost::filesystem::remove(status_file_out);
+				boost::filesystem::remove(path_out.c_str());
+				boost::filesystem::remove(status_file_out.c_str());
 				wfstream f(path_out.c_str(), std::ios::out);
 				while (!f.is_open())
 					f.open(path_out.c_str(), std::ios::out);
@@ -816,7 +795,7 @@ static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, TiXmlElement* node
 					f.open(status_file_out.c_str(), std::ios::out);
 				f << status_str.c_str();
 				f.close();
-				if (!boost::filesystem::exists(path_out)) {
+				if (!boost::filesystem::exists(path_out.c_str())) {
 					if (globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info: Failed to write sign in file");
 					return FALSE;
@@ -827,8 +806,8 @@ static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, TiXmlElement* node
 					std::vector<wstring> cmd;
 					cmd.push_back(L"--verify");
 					cmd.push_back(L"-a");
-					cmd.push_back(path_out);
-					cmd.push_back(status_file_out);
+					cmd.push_back(path_out.c_str());
+					cmd.push_back(status_file_out.c_str());
 					gpg_execution_params params(cmd);
 					pxResult result;
 					params.out = &out;
@@ -840,8 +819,8 @@ static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, TiXmlElement* node
 					if (result == pxNotFound) {
 						return FALSE;
 					}
-					boost::filesystem::remove(path_out);
-					boost::filesystem::remove(status_file_out);
+					boost::filesystem::remove(path_out.c_str());
+					boost::filesystem::remove(status_file_out.c_str());
 					if (out.find("key ID ") != string::npos) {
 						//need to get hcontact here, i can get jid from hxml, and get handle from jid, maybe exists better way ?
 						string::size_type p1 = out.find("key ID ") + mir_strlen("key ID ");
@@ -898,14 +877,12 @@ bool isContactSecured(MCONTACT hContact)
 		return false;
 	}
 	if (!db_mc_isMeta(hContact)) {
-		wchar_t *key = db_get_wsa(hContact, MODULENAME, "GPGPubKey", L"");
-		if (!key[0]) {
-			mir_free(key);
+		CMStringW key = g_plugin.getMStringW(hContact, "GPGPubKey");
+		if (key.IsEmpty()) {
 			if (globals.bDebugLog)
 				globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact)));
 			return false;
 		}
-		mir_free(key);
 	}
 	if (globals.bDebugLog)
 		globals.debuglog << std::string(time_str() + ": encryption is turned on for " + toUTF8(Clist_GetContactDisplayName(hContact)));
@@ -914,66 +891,46 @@ bool isContactSecured(MCONTACT hContact)
 
 bool isContactHaveKey(MCONTACT hContact)
 {
-	wchar_t *key = db_get_wsa(hContact, MODULENAME, "GPGPubKey", L"");
-	if (mir_wstrlen(key) > 0) {
-		mir_free(key);
-		return true;
-	}
-	mir_free(key);
-	return false;
+	ptrW key(g_plugin.getWStringA(hContact, "GPGPubKey"));
+	return (mir_wstrlen(key) > 0);
 }
 
 bool isGPGKeyExist()
 {
-	wchar_t *id = db_get_wsa(0, MODULENAME, "KeyID", L"");
-	char *key = db_get_sa(0, MODULENAME, "GPGPubKey", "");
-	if (id[0] && key[0]) {
-		mir_free(id);
-		mir_free(key);
-		return true;
-	}
-	mir_free(id);
-	mir_free(key);
-	return false;
+	CMStringW id(g_plugin.getMStringW("KeyID", L""));
+	CMStringA key(g_plugin.getMStringA("GPGPubKey", ""));
+	return (!id.IsEmpty() && !key.IsEmpty());
 }
+
 bool isGPGValid()
 {
-	wchar_t *tmp = nullptr;
+	ptrW tmp;
 	bool gpg_exists = false, is_valid = true;
-	tmp = db_get_wsa(0, MODULENAME, "szGpgBinPath", L"");
-	boost::filesystem::path p(tmp);
+	boost::filesystem::path p(g_plugin.getMStringW("szGpgBinPath").c_str());
 
 	if (boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p))
 		gpg_exists = true;
 	else {
-		mir_free(tmp);
-		tmp = nullptr;
-		wchar_t *path = (wchar_t*)mir_alloc(sizeof(wchar_t)*MAX_PATH);
-		wchar_t *mir_path = (wchar_t*)mir_alloc(MAX_PATH * sizeof(wchar_t));
+		wchar_t path[MAX_PATH], mir_path[MAX_PATH];
 		PathToAbsoluteW(L"\\", mir_path);
 		SetCurrentDirectoryW(mir_path);
-		tmp = mir_wstrdup(mir_path);
-		mir_free(mir_path);
+
 		//mir_realloc(path, (mir_wstrlen(path)+64)*sizeof(wchar_t));
-		wchar_t *gpg_path = (wchar_t*)mir_alloc(sizeof(wchar_t)*MAX_PATH);
-		mir_wstrcpy(gpg_path, tmp);
+		wchar_t gpg_path[MAX_PATH];
+		mir_wstrcpy(gpg_path, mir_path);
 		mir_wstrcat(gpg_path, L"\\GnuPG\\gpg.exe");
-		mir_free(tmp);
-		tmp = nullptr;
+
 		p = boost::filesystem::path(gpg_path);
 		if (boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p)) {
 			gpg_exists = true;
 			mir_wstrcpy(path, L"GnuPG\\gpg.exe");
 		}
-		mir_free(gpg_path);
 		tmp = mir_wstrdup(path);
-		mir_free(path);
 	}
 
 	if (gpg_exists) {
 		g_plugin.setWString("szGpgBinPath", tmp);
-		mir_free(tmp);
-		tmp = nullptr;
+
 		string out;
 		DWORD code;
 		std::vector<wstring> cmd;
@@ -991,18 +948,7 @@ bool isGPGValid()
 		if (p1 == string::npos)
 			is_valid = false;
 	}
-	if (tmp) {
-		mir_free(tmp);
-		tmp = nullptr;
-	}
-	/*	if(!gpg_exists)
-		{
-			wstring path_ = _wgetenv(L"APPDATA");
-			path_ += L"\\GnuPG";
-			tmp = db_get_wsa(0, MODULENAME, "szHomePath", (wchar_t*)path_.c_str());
-		}
-		if(tmp)
-			mir_free(tmp); */
+
 	return is_valid && gpg_exists;
 }
 
@@ -1134,7 +1080,6 @@ void send_encrypted_msgs_thread(void *param)
 {
 	MCONTACT hContact = (MCONTACT)(DWORD_PTR)param;
 	while (true) {
-		//char *key = db_get_wsa(hContact, MODULENAME, "GPGPubKey", "");
 		while (!isContactSecured(hContact))
 			Sleep(1000);
 		
@@ -1199,16 +1144,7 @@ void ExportGpGKeysFunc(int type)
 		return; //TODO: handle error
 	if (!type || type == 2) {
 		for (auto &hContact : Contacts()) {
-			char *k = db_get_sa(hContact, MODULENAME, "GPGPubKey", "");
-			std::string key;
-			if (!k[0]) {
-				mir_free(k);
-				continue;
-			}
-			else {
-				key = k;
-				mir_free(k);
-			}
+			CMStringA key = g_plugin.getMStringA(hContact, "GPGPubKey");
 
 			const char *proto = Proto_GetBaseAccountName(hContact);
 			std::string id = "Comment: login ";
@@ -1315,18 +1251,19 @@ void ExportGpGKeysFunc(int type)
 				db_free(&dbv);
 				break;
 			}
-			std::string::size_type p1 = key.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
-			if (p1 == std::string::npos)
+			int p1 = key.Find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
+			if (p1 == -1)
 				continue;
 			p1 += mir_strlen("-----BEGIN PGP PUBLIC KEY BLOCK-----");
 			p1++;
 			id += '\n';
-			key.insert(p1, id);
+			key.Insert(p1, id.c_str());
 			file << key;
 			file << std::endl;
 			exported_keys++;
 		}
 	}
+	
 	if (type == 1 || type == 2) {
 		string out;
 		DWORD code;
@@ -1546,25 +1483,21 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 						break;
 					}
 					if (found) {
-						wstring path;
+						CMStringW path = g_plugin.getMStringW("szHomePath");
 						std::vector<std::wstring> cmd;
-						wchar_t *ptmp;
 						string output;
 						DWORD exitcode;
 						{
-							ptmp = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-							path = ptmp;
-							mir_free(ptmp);
 							wstring rand = toUTF16(get_random(10));
 							path += L"\\";
-							path += rand;
-							boost::filesystem::remove(path);
+							path += rand.c_str();
+							boost::filesystem::remove(path.c_str());
 							wfstream f(path, std::ios::out);
 							f << toUTF16(key).c_str();
 							f.close();
 							cmd.push_back(L"--batch");
 							cmd.push_back(L"--import");
-							cmd.push_back(path);
+							cmd.push_back(path.c_str());
 						}
 						gpg_execution_params params(cmd);
 						pxResult result;
@@ -1580,7 +1513,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 						{
 							if (output.find("already in secret keyring") != string::npos) {
 								MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
-								boost::filesystem::remove(path);
+								boost::filesystem::remove(path.c_str());
 								break;
 							}
 							char *tmp2;
@@ -1643,7 +1576,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 							g_plugin.setByte(hContact, "GPGEncryption", 1);
 							g_plugin.setWString(hContact, "GPGPubKey", toUTF16(key).c_str());
 						}
-						boost::filesystem::remove(path);
+						boost::filesystem::remove(path.c_str());
 						break;
 					}
 				}
@@ -1652,25 +1585,21 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 		}
 		else if (strstr(line, "-----END PGP PRIVATE KEY BLOCK-----")) {
 			std::vector<wstring> cmd;
-			wchar_t tmp2[MAX_PATH] = { 0 };
-			wchar_t *ptmp;
 			string output;
 			DWORD exitcode;
-			{
-				ptmp = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-				wcsncpy(tmp2, ptmp, MAX_PATH - 1);
-				mir_free(ptmp);
-				mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
-				mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
-				boost::filesystem::remove(tmp2);
-				wfstream f(tmp2, std::ios::out);
-				f << toUTF16(key).c_str();
-				f.close();
-				cmd.push_back(L"--batch");
-				cmd.push_back(L"--import");
-				cmd.push_back(tmp2);
-			}
+
+			CMStringW tmp2 = g_plugin.getMStringW("szHomePath");
+			tmp2 += L"\\temporary_exported.asc";
+			boost::filesystem::remove(tmp2.c_str());
+
+			wfstream f(tmp2, std::ios::out);
+			f << toUTF16(key).c_str();
+			f.close();
+			cmd.push_back(L"--batch");
+			cmd.push_back(L"--import");
+			cmd.push_back(tmp2.c_str());
 			gpg_execution_params params(cmd);
+
 			pxResult result;
 			params.out = &output;
 			params.code = &exitcode;
@@ -1729,13 +1658,11 @@ void strip_tags(std::wstring &str)
 {
 	if (str.empty())
 		return;
-	boost::algorithm::erase_all(str, globals.inopentag);
-	boost::algorithm::erase_all(str, globals.inclosetag);
-	boost::algorithm::erase_all(str, globals.outopentag);
-	boost::algorithm::erase_all(str, globals.outclosetag);
+	boost::algorithm::erase_all(str, globals.wszInopentag.c_str());
+	boost::algorithm::erase_all(str, globals.wszInclosetag.c_str());
+	boost::algorithm::erase_all(str, globals.wszOutopentag.c_str());
+	boost::algorithm::erase_all(str, globals.wszOutclosetag.c_str());
 }
-
-
 
 
 void ShowEncryptedFileMsgBox()
@@ -1744,17 +1671,11 @@ void ShowEncryptedFileMsgBox()
 	d->DoModal();
 }
 
-
-
-
 void ShowExportKeysDlg()
 {
 	CDlgExportKeysMsgBox *d = new CDlgExportKeysMsgBox;
 	d->Show();
 }
-
-
-
 
 void ShowChangePasswdDlg()
 {
@@ -1765,17 +1686,15 @@ void ShowChangePasswdDlg()
 void clean_temp_dir()
 {
 	using namespace boost::filesystem;
-	char *mir_path = new char[MAX_PATH];
-	PathToAbsolute("\\", mir_path);
-	wstring path = toUTF16(mir_path);
-	SetCurrentDirectoryA(mir_path);
-	delete[] mir_path;
-	wchar_t *tmp = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-	path += tmp;
-	mir_free(tmp);
-	path += L"\\tmp";
-	if (exists(path) && is_directory(path)) {
-		boost::filesystem::path p(path);
+	wchar_t mir_path[MAX_PATH];
+	PathToAbsoluteW(L"\\", mir_path);
+	SetCurrentDirectoryW(mir_path);
+	
+	CMStringW tmp = mir_path;
+	tmp += g_plugin.getMStringW("szHomePath");
+	tmp += L"\\tmp";
+	if (exists(tmp.c_str()) && is_directory(tmp.c_str())) {
+		boost::filesystem::path p(tmp);
 		for (directory_iterator i = directory_iterator(p), end = directory_iterator(); i != end; ++i) {
 			if (boost::filesystem::is_regular_file(i->path())) {
 				if ((i->path().filename().generic_string().length() == 10 && (i->path().filename().generic_string().find(".") == std::string::npos)) ||
@@ -1841,13 +1760,12 @@ bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 		return false;
 	}
 	{
-		wchar_t *path = db_get_wsa(0, MODULENAME, "szHomePath", L"");
+		CMStringW path = g_plugin.getMStringW("szHomePath");
 		DWORD dwFileAttr = GetFileAttributes(path);
 		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
 			SetFileAttributes(path, dwFileAttr);
 		}
-		mir_free(path);
 	}
 	return true;
 }
@@ -1863,18 +1781,15 @@ bool gpg_use_new_random_key(char *account_name, wchar_t *gpg_bin_path, wchar_t *
 	if (gpg_bin_path && gpg_home_dir)
 		gpg_save_paths(gpg_bin_path, gpg_home_dir);
 	
-	wstring path;
+	CMStringW path;
 	{
 		// generating key file
-		wchar_t *tmp = nullptr;
 		if (gpg_home_dir)
-			tmp = gpg_home_dir;
+			path = gpg_home_dir;
 		else
-			tmp = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-		path = tmp;
-		if (!gpg_home_dir)
-			mir_free(tmp);
-		path.append(L"\\new_key");
+			path = g_plugin.getMStringW("szHomePath");
+
+		path += L"\\new_key";
 		wfstream f(path.c_str(), std::ios::out);
 		if (!f.is_open()) {
 			MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
@@ -1905,7 +1820,7 @@ bool gpg_use_new_random_key(char *account_name, wchar_t *gpg_bin_path, wchar_t *
 		cmd.push_back(L"--batch");
 		cmd.push_back(L"--yes");
 		cmd.push_back(L"--gen-key");
-		cmd.push_back(path);
+		cmd.push_back(path.c_str());
 		gpg_execution_params params(cmd);
 		pxResult result;
 		params.out = &out;
@@ -1916,22 +1831,22 @@ bool gpg_use_new_random_key(char *account_name, wchar_t *gpg_bin_path, wchar_t *
 		if (result == pxNotFound)
 			return false;
 
-		boost::filesystem::remove(path);
+		boost::filesystem::remove(path.c_str());
 		string::size_type p1 = 0;
 		if ((p1 = out.find("key ")) != string::npos)
-			path = toUTF16(out.substr(p1 + 4, 8));
+			path = toUTF16(out.substr(p1 + 4, 8)).c_str();
 		else
-			path.clear();
+			path.Empty();
 	}
 
-	if (!path.empty()) {
+	if (!path.IsEmpty()) {
 		string out;
 		DWORD code;
 		std::vector<wstring> cmd;
 		cmd.push_back(L"--batch");
 		cmd.push_back(L"-a");
 		cmd.push_back(L"--export");
-		cmd.push_back(path);
+		cmd.push_back(path.c_str());
 		gpg_execution_params params(cmd);
 		pxResult result;
 		params.out = &out;

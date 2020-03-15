@@ -28,17 +28,16 @@ void FirstRun()
 
 void InitCheck()
 {
+	// parse gpg output
 	{
-		// parse gpg output
-		wchar_t *current_home = db_get_wsa(0, MODULENAME, "szHomePath", L"");
+		ptrW current_home(g_plugin.getWStringA("szHomePath", L""));
 		g_plugin.setWString("szHomePath", L""); //we do not need home for gpg binary validation
 		globals.gpg_valid = isGPGValid();
 		g_plugin.setWString("szHomePath", current_home); //return current home dir back
-		mir_free(current_home);
+	}
+	{
 		bool home_dir_access = false, temp_access = false;
-		wchar_t *home_dir = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-		std::wstring test_path = home_dir;
-		mir_free(home_dir);
+		std::wstring test_path(ptrW(g_plugin.getWStringA("szHomePath", L"")));
 		test_path += L"/";
 		test_path += toUTF16(get_random(13));
 		wfstream test_file;
@@ -50,8 +49,8 @@ void InitCheck()
 			test_file.close();
 			boost::filesystem::remove(test_path);
 		}
-		home_dir = _tgetenv(L"TEMP");
-		test_path = home_dir;
+
+		test_path = _wgetenv(L"TEMP");
 		test_path += L"/";
 		test_path += toUTF16(get_random(13));
 		test_file.open(test_path, std::ios::trunc | std::ios::out);
@@ -91,14 +90,10 @@ void InitCheck()
 			if (result == pxNotFound)
 				return;
 		}
-		home_dir = db_get_wsa(0, MODULENAME, "szHomePath", L"");
-		wstring tmp_dir = home_dir;
-		mir_free(home_dir);
-		tmp_dir += L"\\tmp";
-		_wmkdir(tmp_dir.c_str());
 
-		string question;
-		char *keyid = nullptr;
+		_wmkdir(g_plugin.getMStringW("szHomePath") + L"\\tmp");
+
+		CMStringW wszQuestion;
 		for (auto &pa : Accounts()) {
 			if (StriStr(pa->szModuleName, "metacontacts"))
 				continue;
@@ -109,17 +104,16 @@ void InitCheck()
 			acc += pa->szModuleName;
 			acc += ")";
 			acc += "_KeyID";
-			keyid = db_get_sa(0, MODULENAME, acc.c_str(), "");
-			if (keyid[0]) {
-				question = Translate("Your secret key with ID: ");
-				mir_free(keyid);
-				keyid = db_get_sa(0, MODULENAME, "KeyID", "");
+			CMStringA keyid = g_plugin.getMStringA(acc.c_str());
+			if (!keyid.IsEmpty()) {
+				wszQuestion = TranslateT("Your secret key with ID: ");
+				keyid = g_plugin.getMStringA("KeyID");
 				if ((p = out.find(keyid)) == string::npos) {
-					question += keyid;
-					question += Translate(" for account ");
-					question += toUTF8(pa->tszAccountName);
-					question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
-					if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES) {
+					wszQuestion += keyid;
+					wszQuestion += TranslateT(" for account ");
+					wszQuestion += pa->tszAccountName;
+					wszQuestion += TranslateT(" deleted from GPG secret keyring.\nDo you want to set another key?");
+					if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES) {
 						CDlgFirstRun *d = new CDlgFirstRun;
 						d->DoModal();
 					}
@@ -155,11 +149,11 @@ void InitCheck()
 						}
 					}
 					if (expired) {
-						question += keyid;
-						question += Translate(" for account ");
-						question += toUTF8(pa->tszAccountName);
-						question += Translate(" expired and will not work.\nDo you want to set another key?");
-						if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES) {
+						wszQuestion += keyid;
+						wszQuestion += TranslateT(" for account ");
+						wszQuestion += pa->tszAccountName;
+						wszQuestion += TranslateT(" expired and will not work.\nDo you want to set another key?");
+						if (MessageBoxW(nullptr, wszQuestion.c_str(), TranslateT("Own secret key warning"), MB_YESNO) == IDYES) {
 							CDlgFirstRun *d = new CDlgFirstRun;
 							d->DoModal();
 						}
@@ -167,25 +161,22 @@ void InitCheck()
 					mir_free(expire_date);
 				}
 			}
-			if (keyid) {
-				mir_free(keyid);
-				keyid = nullptr;
-			}
 		}
-		question = Translate("Your secret key with ID: ");
-		keyid = db_get_sa(0, MODULENAME, "KeyID", "");
-		char *key = db_get_sa(0, MODULENAME, "GPGPubKey", "");
-		if (!g_plugin.getByte("FirstRun", 1) && (!keyid[0] || !key[0])) {
-			question = Translate("You didn't set a private key.\nWould you like to set it now?");
-			if (MessageBoxA(nullptr, question.c_str(), Translate("Own private key warning"), MB_YESNO) == IDYES) {
+
+		wszQuestion = TranslateT("Your secret key with ID: ");
+		CMStringA keyid(g_plugin.getMStringA("KeyID"));
+		CMStringA key(g_plugin.getMStringA("GPGPubKey"));
+		if (!g_plugin.getByte("FirstRun", 1) && (keyid.IsEmpty() || key.IsEmpty())) {
+			wszQuestion = TranslateT("You didn't set a private key.\nWould you like to set it now?");
+			if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own private key warning"), MB_YESNO) == IDYES) {
 				CDlgFirstRun *d = new CDlgFirstRun;
 				d->DoModal();
 			}
 		}
 		if ((p = out.find(keyid)) == string::npos) {
-			question += keyid;
-			question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
-			if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES) {
+			wszQuestion += keyid;
+			wszQuestion += TranslateT(" deleted from GPG secret keyring.\nDo you want to set another key?");
+			if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES) {
 				CDlgFirstRun *d = new CDlgFirstRun;
 				d->DoModal();
 			}
@@ -221,9 +212,9 @@ void InitCheck()
 				}
 			}
 			if (expired) {
-				question += keyid;
-				question += Translate(" expired and will not work.\nDo you want to set another key?");
-				if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES) {
+				wszQuestion += keyid;
+				wszQuestion += TranslateT(" expired and will not work.\nDo you want to set another key?");
+				if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES) {
 					CDlgFirstRun *d = new CDlgFirstRun;
 					d->DoModal();
 				}
@@ -231,17 +222,14 @@ void InitCheck()
 			mir_free(expire_date);
 		}
 		// TODO: check for expired key
-		mir_free(keyid);
-		mir_free(key);
 	}
 	{
-		wchar_t *path = db_get_wsa(0, MODULENAME, "szHomePath", L"");
+		CMStringW path(g_plugin.getMStringW("szHomePath"));
 		DWORD dwFileAttr = GetFileAttributes(path);
 		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
 			SetFileAttributes(path, dwFileAttr);
 		}
-		mir_free(path);
 	}
 }
 
@@ -257,35 +245,32 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			for (int i = 0; i < count; i++) {
 				MCONTACT hcnt = db_mc_getSub(hContact, i);
 				if (hcnt)
-					db_set_ws(hcnt, MODULENAME, "GPGPubKey", new_key.c_str());
+					g_plugin.setWString(hcnt, "GPGPubKey", new_key.c_str());
 			}
 		}
-		else db_set_ws(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", new_key.c_str());
+		else g_plugin.setWString(metaGetMostOnline(hContact), "GPGPubKey", new_key.c_str());
 	}
 	else g_plugin.setWString(hContact, "GPGPubKey", new_key.c_str());
 
 	// gpg execute block
+	CMStringW tmp2 = g_plugin.getMStringW("szHomePath");
+	tmp2 += L"\\temporary_exported.asc";
+	boost::filesystem::remove(tmp2.c_str());
+
+	CMStringW ptmp;
+	if (db_mc_isMeta(hContact))
+		ptmp = g_plugin.getMStringW(metaGetMostOnline(hContact), "GPGPubKey");
+	else
+		ptmp = g_plugin.getMStringW(hContact, "GPGPubKey");
+
+	wfstream f(tmp2, std::ios::out);
+	f << ptmp.c_str();
+	f.close();
+
 	std::vector<wstring> cmd;
-	wchar_t tmp2[MAX_PATH] = { 0 };
-	{
-		wcsncpy(tmp2, ptrW(db_get_wsa(0, MODULENAME, "szHomePath", L"")), MAX_PATH - 1);
-		mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
-		mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
-		boost::filesystem::remove(tmp2);
-
-		ptrW ptmp;
-		if (db_mc_isMeta(hContact))
-			ptmp = db_get_wsa(metaGetMostOnline(hContact), MODULENAME, "GPGPubKey", L"");
-		else
-			ptmp = db_get_wsa(hContact, MODULENAME, "GPGPubKey", L"");
-
-		wfstream f(tmp2, std::ios::out);
-		f << ptmp.get();
-		f.close();
-		cmd.push_back(L"--batch");
-		cmd.push_back(L"--import");
-		cmd.push_back(tmp2);
-	}
+	cmd.push_back(L"--batch");
+	cmd.push_back(L"--import");
+	cmd.push_back(tmp2.c_str());
 
 	gpg_execution_params params(cmd);
 	string output;
@@ -308,7 +293,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					char *tmp = nullptr;
 					string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					string::size_type s2 = output.find(":", s);
-					db_set_s(hcnt, MODULENAME, "KeyID", output.substr(s, s2 - s).c_str());
+					g_plugin.setString(hcnt, "KeyID", output.substr(s, s2 - s).c_str());
 					s = output.find("вЂњ", s2);
 					if (s == string::npos) {
 						s = output.find("\"", s2);
@@ -329,7 +314,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 						tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 						mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
 						mir_utf8decode(tmp, nullptr);
-						db_set_s(hcnt, MODULENAME, "KeyMainName", tmp);
+						g_plugin.setString(hcnt, "KeyMainName", tmp);
 						mir_free(tmp);
 					}
 
@@ -343,7 +328,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 							mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 							mir_utf8decode(tmp, nullptr);
-							db_set_s(hcnt, MODULENAME, "KeyComment", tmp);
+							g_plugin.setString(hcnt, "KeyComment", tmp);
 							mir_free(tmp);
 							s += 3;
 							s2 = output.find(">", s);
@@ -351,7 +336,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 								tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 								mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
 								mir_utf8decode(tmp, nullptr);
-								db_set_s(hcnt, MODULENAME, "KeyMainEmail", tmp);
+								g_plugin.setString(hcnt, "KeyMainEmail", tmp);
 								mir_free(tmp);
 							}
 						}
@@ -359,11 +344,11 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 							mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 							mir_utf8decode(tmp, nullptr);
-							db_set_s(hcnt, MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+							g_plugin.setString(hcnt, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 							mir_free(tmp);
 						}
 					}
-					db_unset(hcnt, MODULENAME, "bAlwatsTrust");
+					g_plugin.delSetting(hcnt, "bAlwatsTrust");
 				}
 			}
 		}
@@ -371,7 +356,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			char *tmp = nullptr;
 			string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 			string::size_type s2 = output.find(":", s);
-			db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyID", output.substr(s, s2 - s).c_str());
+			g_plugin.setString(metaGetMostOnline(hContact), "KeyID", output.substr(s, s2 - s).c_str());
 			s = output.find("вЂњ", s2);
 			if (s == string::npos) {
 				s = output.find("\"", s2);
@@ -392,7 +377,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 				tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 				mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
 				mir_utf8decode(tmp, nullptr);
-				db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainName", tmp);
+				g_plugin.setString(metaGetMostOnline(hContact), "KeyMainName", tmp);
 				mir_free(tmp);
 			}
 			if ((s = output.find(")", s2)) == string::npos)
@@ -405,7 +390,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 					mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 					mir_utf8decode(tmp, nullptr);
-					db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyComment", tmp);
+					g_plugin.setString(metaGetMostOnline(hContact), "KeyComment", tmp);
 					mir_free(tmp);
 					s += 3;
 					s2 = output.find(">", s);
@@ -413,7 +398,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 						tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 						mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
 						mir_utf8decode(tmp, nullptr);
-						db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainEmail", tmp);
+						g_plugin.setString(metaGetMostOnline(hContact), "KeyMainEmail", tmp);
 						mir_free(tmp);
 					}
 				}
@@ -421,11 +406,11 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 					mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
 					mir_utf8decode(tmp, nullptr);
-					db_set_s(metaGetMostOnline(hContact), MODULENAME, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+					g_plugin.setString(metaGetMostOnline(hContact), "KeyMainEmail", output.substr(s2, s - s2).c_str());
 					mir_free(tmp);
 				}
 			}
-			db_unset(metaGetMostOnline(hContact), MODULENAME, "bAlwatsTrust");
+			g_plugin.delSetting(metaGetMostOnline(hContact), "bAlwatsTrust");
 		}
 	}
 	else {
@@ -490,5 +475,5 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 	}
 
 	MessageBox(nullptr, toUTF16(output).c_str(), L"", MB_OK);
-	boost::filesystem::remove(tmp2);
+	boost::filesystem::remove(tmp2.c_str());
 }
