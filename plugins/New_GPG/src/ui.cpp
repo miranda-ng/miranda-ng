@@ -278,19 +278,16 @@ void CDlgFirstRun::onClick_EXPORT_PRIVATE(CCtrlButton*)
 		int  i = list_KEY_LIST.GetSelectionMark();
 		if (i == -1)
 			return;
-		wchar_t *p = GetFilePath(L"Choose file to export key", L"*", L"Any file", true);
-		if (!p || !p[0]) {
-			delete[] p;
-			//TODO: handle error
+		
+		ptrW p(GetFilePath(L"Choose file to export key", L"*", L"Any file", true));
+		if (!p || !p[0])
 			return;
-		}
-		char *path = mir_u2a(p);
-		delete[] p;
+
 		std::ofstream file;
-		file.open(path, std::ios::trunc | std::ios::out);
-		mir_free(path);
+		file.open(p, std::ios::trunc | std::ios::out);
 		if (!file.is_open())
 			return; //TODO: handle error
+
 		list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
 		string out;
 		DWORD code;
@@ -310,7 +307,7 @@ void CDlgFirstRun::onClick_EXPORT_PRIVATE(CCtrlButton*)
 		if (result == pxNotFound)
 			return;
 		boost::algorithm::erase_all(out, "\r");
-		file << out;
+		file << out.c_str();
 		if (file.is_open())
 			file.close();
 	}

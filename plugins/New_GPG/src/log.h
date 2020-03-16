@@ -28,7 +28,7 @@ public:
 	logtofile();
 
 private:
-	wfstream  log;
+	fstream   log;
 	CMStringW path;
 	bool     _bDebugLog;
 	mir_cs    csLock;

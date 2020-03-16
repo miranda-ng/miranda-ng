@@ -42,7 +42,6 @@
 #define IDC_SELECT_EXISTING             1026
 #define IDC_KEY_EMAIL                   1026
 #define IDC_IGNORE                      1026
-#define IDC_OK                          1026
 #define IDC_EXPORT                      1026
 #define IDC_DELETE_KEY_BUTTON           1027
 #define IDC_IN_CLOSE_TAG                1027
@@ -65,7 +64,6 @@
 #define IDC_LOG_FILE_SET                1046
 #define IDC_IMPORT                      1046
 #define IDC_DECRYPT                     1046
-#define IDC_CANCEL                      1046
 #define IDC_SAVE_PASSWORD               1047
 #define IDC_DEBUG_LOG                   1048
 #define IDC_JABBER_API                  1049

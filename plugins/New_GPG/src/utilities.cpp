@@ -18,13 +18,12 @@
 
 #include "utf8.h"
 
-void ShowExportKeysDlg();
 void ShowLoadPublicKeyDialog(bool = false);
 
 void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t *szExtDesc)
 {
 	wchar_t str[MAX_PATH + 2] = {};
-	OPENFILENAME ofn = { 0 };
+	OPENFILENAME ofn = {};
 	wchar_t filter[512], *pfilter;
 	ofn.lStructSize = CDSIZEOF_STRUCT(OPENFILENAME, lpTemplateName);
 	ofn.Flags = OFN_EXPLORER;
@@ -41,15 +40,14 @@ void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t
 	ofn.lpstrFile = str;
 	ofn.nMaxFile = _MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
-	if (!GetOpenFileName(&ofn))
-		return;
-	g_plugin.setWString(szSetting, str);
+	if (GetOpenFileName(&ofn))
+		g_plugin.setWString(szSetting, str);
 }
 
 wchar_t* GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, bool save_file)
 {
-	wchar_t *str = new wchar_t[MAX_PATH + 2];
-	OPENFILENAME ofn = { 0 };
+	wchar_t str[MAX_PATH + 1];
+	OPENFILENAME ofn = {};
 	wchar_t filter[512], *pfilter;
 	ofn.lStructSize = CDSIZEOF_STRUCT(OPENFILENAME, lpTemplateName);
 	ofn.Flags = OFN_EXPLORER;
@@ -67,18 +65,14 @@ wchar_t* GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, 
 	ofn.nMaxFile = _MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
 	if (!save_file) {
-		if (!GetOpenFileName(&ofn)) {
-			delete[] str;
+		if (!GetOpenFileName(&ofn))
 			return nullptr;
-		}
 	}
 	else {
-		if (!GetSaveFileName(&ofn)) {
-			delete[] str;
+		if (!GetSaveFileName(&ofn))
 			return nullptr;
-		}
 	}
-	return str;
+	return mir_wstrdup(str);
 }
 
 void GetFolderPath(wchar_t *WindowTittle)
@@ -1128,20 +1122,16 @@ bool isTabsrmmUsed()
 
 void ExportGpGKeysFunc(int type)
 {
-	wchar_t *p = GetFilePath(L"Choose file to export keys", L"*", L"Any file", true);
-	if (!p || !p[0]) {
-		delete[] p;
-		//TODO: handle error
+	ptrW p(GetFilePath(L"Choose file to export keys", L"*", L"Any file", true));
+	if (!p || !p[0])
 		return;
-	}
-	char *path = mir_u2a(p);
-	delete[] p;
+
 	std::ofstream file;
-	file.open(path, std::ios::trunc | std::ios::out);
-	mir_free(path);
-	int exported_keys = 0;
+	file.open(p, std::ios::trunc | std::ios::out);
 	if (!file.is_open())
 		return; //TODO: handle error
+
+	int exported_keys = 0;
 	if (!type || type == 2) {
 		for (auto &hContact : Contacts()) {
 			CMStringA key = g_plugin.getMStringA(hContact, "GPGPubKey");
@@ -1278,7 +1268,7 @@ void ExportGpGKeysFunc(int type)
 		params.result = &result;
 		gpg_launcher(params); //TODO: handle errors
 		{
-			file << out;
+			file << out.c_str();
 			file << std::endl;
 		}
 	}
@@ -1296,25 +1286,18 @@ void ExportGpGKeysFunc(int type)
 
 INT_PTR ExportGpGKeys(WPARAM, LPARAM)
 {
-	ShowExportKeysDlg();
+	(new CDlgExportKeysMsgBox())->Show();
 	return 0;
 }
 
 INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 {
-	wchar_t *p = GetFilePath(L"Choose file to import keys from", L"*", L"Any file");
-	if (!p || !p[0]) {
-		delete[] p;
-		//TODO: handle error
+	ptrW p(GetFilePath(L"Choose file to import keys from", L"*", L"Any file"));
+	if (!p || !p[0])
 		return 1;
-	}
-	std::ifstream file;
-	{
-		ptrA szPath(mir_u2a(p));
-		delete[] p;
 
-		file.open(szPath, std::ios::in);
-	}
+	std::ifstream file;
+	file.open(p, std::ios::in);
 	if (!file.is_open())
 		return 1; //TODO: handle error
 
@@ -1669,12 +1652,6 @@ void ShowEncryptedFileMsgBox()
 {
 	CDlgEncryptedFileMsgBox *d = new CDlgEncryptedFileMsgBox;
 	d->DoModal();
-}
-
-void ShowExportKeysDlg()
-{
-	CDlgExportKeysMsgBox *d = new CDlgExportKeysMsgBox;
-	d->Show();
 }
 
 void ShowChangePasswdDlg()

@@ -64,7 +64,7 @@ logtofile& logtofile::operator<<(wstring buf)
 
 	mir_cslock l(csLock);
 	log.open(path, std::ios::app | std::ios::ate);
-	log << buf;
+	log << T2Utf(buf.c_str());
 	log << "\n";
 	log.close();
 	return *this;

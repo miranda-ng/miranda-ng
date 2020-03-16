@@ -243,13 +243,12 @@ public:
 
 	void onClick_SAVE_KEY_BUTTON(CCtrlButton*)
 	{
-		wchar_t *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
+		ptrW tmp(GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true));
 		if (tmp) {
 			CMStringW str(g_plugin.getMStringW(globals.user_data[item_num + 1], "GPGPubKey"));
 			str.Replace(L"\r", L"");
 
 			wfstream f(tmp, std::ios::out);
-			delete[] tmp;
 			f << str.c_str();
 			f.close();
 		}
@@ -953,14 +952,13 @@ public:
 		this->Close();
 	}
 
-	void onClick_LOAD_FROM_FILE(CCtrlButton*)
+	void onClick_LOAD_FROM_FILE(CCtrlButton *)
 	{
-		wchar_t *tmp = GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file"));
+		ptrW tmp(GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file")));
 		if (!tmp)
 			return;
 
 		wfstream f(tmp, std::ios::in | std::ios::ate | std::ios::binary);
-		delete[] tmp;
 		if (!f.is_open()) {
 			MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
 			return;
@@ -995,7 +993,8 @@ public:
 		edit_PUBLIC_KEY_EDIT.SetText(key_buf.substr(ws1, ws2 - ws1).c_str());
 		key_buf.clear();
 	}
-	void onClick_IMPORT(CCtrlButton*)
+
+	void onClick_IMPORT(CCtrlButton *)
 	{
 		CDlgImportKey *d = new CDlgImportKey(hContact);
 		d->Show();

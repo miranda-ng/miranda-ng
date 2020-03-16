@@ -192,12 +192,12 @@ CAPTION "Choose which keys to export"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Static",IDC_STATIC,7,7,267,63
-    PUSHBUTTON      "OK",IDC_OK,7,71,50,14
-    PUSHBUTTON      "Cancel",IDC_CANCEL,224,71,50,14
     CONTROL         "Export public keys (only set for contacts)",IDC_PUBLIC,
                     "Button",BS_AUTORADIOBUTTON,15,23,248,10
     CONTROL         "Export all private keys",IDC_PRIVATE,"Button",BS_AUTORADIOBUTTON,15,36,246,10
     CONTROL         "Export public and private keys",IDC_ALL,"Button",BS_AUTORADIOBUTTON,15,50,248,10
+    PUSHBUTTON      "OK",IDOK,7,71,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,224,71,50,14
 END
 
 IDD_CHANGE_PASSWD DIALOGEX 0, 0, 256, 74
@@ -210,7 +210,7 @@ BEGIN
     EDITTEXT        IDC_NEW_PASSWD2,81,50,157,14,ES_PASSWORD | ES_AUTOHSCROLL
     LTEXT           "Current password:",IDC_STATIC,7,17,61,8
     LTEXT           "New password twice:",IDC_STATIC,7,32,69,8
-    PUSHBUTTON      "OK",IDC_OK,7,55,50,14
+    PUSHBUTTON      "OK",IDOK,7,55,50,14
 END
 
 IDD_OPT_GPG DIALOGEX 0, 0, 286, 220
