@@ -17,7 +17,8 @@
 
 #ifndef GPG_WRAPPER_H
 #define GPG_WRAPPER_H
-typedef enum {
+enum pxResult
+{
 	pxSuccess,
 	pxSuccessExitCodeInvalid,
 	pxCreatePipeFailed,
@@ -29,40 +30,31 @@ typedef enum {
 	pxBufferOverflow,
 	pxNotFound,
 	pxNotConfigured
-}
-pxResult;
-
-pxResult pxExecute(std::vector<std::string> &aargv, string *aoutput, LPDWORD aexitcode, pxResult *result);
+};
 
 struct gpg_execution_params
 {
-	std::vector<std::wstring> &aargv;
-//	char *useless;
-	string *out;
-	LPDWORD code;
-	pxResult *result;
-	boost::process::child *child;
-//	HANDLE hProcess;
-//	PROCESS_INFORMATION *proc;
-	gpg_execution_params(std::vector<std::wstring> &a): aargv(a)
-	{
-		child = nullptr;
+	std::vector<std::wstring> aargv;
+	CMStringA out;
+	DWORD code = 0;
+	pxResult result = pxSuccess;
+	boost::process::child *child = nullptr;
+
+	__forceinline void addParam(const std::wstring &param)
+	{	aargv.push_back(param);
 	}
+
+	pxResult pxExecute();
 };
 
-struct gpg_execution_params_pass
+struct gpg_execution_params_pass : public gpg_execution_params
 {
-	std::vector<std::wstring> &args;
 	string &old_pass, &new_pass;
-	string *out;
-	LPDWORD code;
-	pxResult *result;
-	boost::process::child *child;
-//	HANDLE hProcess;
-//	PROCESS_INFORMATION *proc;
-	gpg_execution_params_pass(std::vector<std::wstring> &a, std::string &o, std::string &n): args(a), old_pass(o), new_pass(n)
+
+	gpg_execution_params_pass(std::string &o, std::string &n):
+		old_pass(o),
+		new_pass(n)
 	{
-		child = nullptr;
 	}
 };
 

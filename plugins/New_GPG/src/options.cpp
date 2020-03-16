@@ -164,27 +164,20 @@ public:
 
 			if (!keep)
 				if (MessageBox(nullptr, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring?"), TranslateT("Key info"), MB_YESNO) == IDYES) {
-					std::vector<wstring> cmd;
-					string output;
-					DWORD exitcode;
-					cmd.push_back(L"--batch");
-					cmd.push_back(L"--yes");
-					cmd.push_back(L"--delete-key");
+					gpg_execution_params params;
+					params.addParam(L"--batch");
+					params.addParam(L"--yes");
+					params.addParam(L"--delete-key");
 					ptmp = mir_a2u(tmp);
-					cmd.push_back(ptmp);
+					params.addParam(ptmp);
 					mir_free(ptmp);
-					gpg_execution_params params(cmd);
-					pxResult result;
-					params.out = &output;
-					params.code = &exitcode;
-					params.result = &result;
 					if (!gpg_launcher(params))
 						return;
 
-					if (result == pxNotFound)
+					if (params.result == pxNotFound)
 						return;
 
-					if (output.find("--delete-secret-keys") != string::npos)
+					if (params.out.Find("--delete-secret-keys") != -1)
 						MessageBox(nullptr, TranslateT("we have secret key for this public key, do not removing from GPG keyring"), TranslateT("info"), MB_OK);
 					else
 						MessageBox(nullptr, TranslateT("Key removed from GPG keyring"), TranslateT("info"), MB_OK);
@@ -388,25 +381,20 @@ public:
 				bool bad_version = false;
 				CMStringW tmp_path = g_plugin.getMStringW("szGpgBinPath", L"");
 				g_plugin.setWString("szGpgBinPath", tmp);
-				string out;
-				DWORD code;
-				std::vector<wstring> cmd;
-				cmd.push_back(L"--version");
-				gpg_execution_params params(cmd);
-				pxResult result;
-				params.out = &out;
-				params.code = &code;
-				params.result = &result;
+
+				gpg_execution_params params;
+				params.addParam(L"--version");
+
 				bool old_gpg_state = globals.gpg_valid;
 				globals.gpg_valid = true;
 				gpg_launcher(params);
 				globals.gpg_valid = old_gpg_state;
 				g_plugin.setWString("szGpgBinPath", tmp_path);
 
-				string::size_type p1 = out.find("(GnuPG) ");
+				int p1 = params.out.Find("(GnuPG) ");
 				if (p1 != string::npos) {
 					p1 += mir_strlen("(GnuPG) ");
-					if (out[p1] != '1')
+					if (params.out[p1] != '1')
 						bad_version = true;
 				}
 				else {
@@ -597,22 +585,16 @@ public:
 
 			if (!globals.hcontact_data[hcnt].key_in_prescense.empty()) {
 				if (g_plugin.getMStringA(hcnt, "KeyID").IsEmpty()) {
-					string out;
-					DWORD code;
-					std::vector<wstring> cmd;
-					cmd.push_back(L"--export");
-					cmd.push_back(L"-a");
-					cmd.push_back(toUTF16(globals.hcontact_data[hcnt].key_in_prescense));
-					gpg_execution_params params(cmd);
-					pxResult result;
-					params.out = &out;
-					params.code = &code;
-					params.result = &result;
+					gpg_execution_params params;
+					params.addParam(L"--export");
+					params.addParam(L"-a");
+					params.addParam(toUTF16(globals.hcontact_data[hcnt].key_in_prescense));
 					gpg_launcher(params); //TODO: handle errors
-					if ((out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != string::npos) && (out.find("-----END PGP PUBLIC KEY BLOCK-----") != string::npos)) {
-						boost::algorithm::replace_all(out, "\n", "\r\n");
 
-						wchar_t *tmp3 = mir_a2u(out.c_str());
+					if ((params.out.Find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != -1) && (params.out.Find("-----END PGP PUBLIC KEY BLOCK-----") != -1)) {
+						params.out.Replace("\n", "\r\n");
+
+						wchar_t *tmp3 = mir_a2u(params.out.c_str());
 						str.clear();
 						str.append(tmp3);
 						mir_free(tmp3);
@@ -702,8 +684,6 @@ public:
 		{ //gpg execute block
 			std::vector<wstring> cmd;
 			CMStringW tmp2;
-			string output;
-			DWORD exitcode;
 			{
 				MCONTACT hcnt = db_mc_tryMeta(hContact);
 				tmp2 = g_plugin.getMStringW("szHomePath");
@@ -715,20 +695,17 @@ public:
 				str.Replace(L"\r", L"");
 				f << str.c_str();
 				f.close();
-
-				cmd.push_back(L"--batch");
-				cmd.push_back(L"--import");
-				cmd.push_back(tmp2.c_str());
 			}
-			gpg_execution_params params(cmd);
-			pxResult result;
-			params.out = &output;
-			params.code = &exitcode;
-			params.result = &result;
+
+			gpg_execution_params params;
+			params.addParam(L"--batch");
+			params.addParam(L"--import");
+			params.addParam(tmp2.c_str());
 			if (!gpg_launcher(params))
 				return;
-			if (result == pxNotFound)
+			if (params.result == pxNotFound)
 				return;
+
 			mir_free(begin);
 			mir_free(end);
 			if (hContact) {
@@ -745,6 +722,8 @@ public:
 				}
 				else g_plugin.delSetting(hContact, "bAlwatsTrust");
 			}
+
+			string output(params.out);
 			{
 				if (output.find("already in secret keyring") != string::npos) {
 					MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
@@ -903,28 +882,18 @@ public:
 				}
 			}
 			if (!hContact) {
-				string out;
-				DWORD code;
-				std::vector<wstring> cmds;
-				cmds.push_back(L"--batch");
-				cmds.push_back(L"-a");
-				cmds.push_back(L"--export");
-				cmds.push_back(g_plugin.getMStringW(hContact, "KeyID").c_str());
-
-				gpg_execution_params params2(cmds);
-				pxResult result2;
-				params2.out = &out;
-				params2.code = &code;
-				params2.result = &result2;
+				gpg_execution_params params2;
+				params.addParam(L"--batch");
+				params.addParam(L"-a");
+				params.addParam(L"--export");
+				params.addParam(g_plugin.getMStringW(hContact, "KeyID").c_str());
 				if (!gpg_launcher(params2))
 					return;
-				if (result2 == pxNotFound)
+				if (params2.result == pxNotFound)
 					return;
-				string::size_type s = 0;
-				while ((s = out.find("\r", s)) != string::npos) {
-					out.erase(s, 1);
-				}
-				g_plugin.setString(hContact, "GPGPubKey", out.c_str());
+
+				params2.out.Remove('\r');
+				g_plugin.setString(hContact, "GPGPubKey", params2.out.c_str());
 			}
 			MessageBoxA(nullptr, output.c_str(), "", MB_OK);
 			boost::filesystem::remove(tmp2.c_str());

@@ -18,8 +18,37 @@
 
 #pragma comment(lib, "shlwapi.lib")
 
+static int EnumProc(const char *szSetting, void *param)
+{
+	auto *list = (OBJLIST<CMStringA> *)param;
+	if (strchr(szSetting, '(') && strchr(szSetting, ')'))
+		list->insert(new CMStringA(szSetting));
+	return 0;
+}
+
 void FirstRun()
 {
+	if (g_plugin.getByte("CompatLevel") != 1) {
+		OBJLIST<CMStringA> settings(1);
+		db_enum_settings(0, EnumProc, MODULENAME, &settings);
+
+		for (auto &it : settings) {
+			CMStringA newName(*it);
+			int p1 = newName.Find('(');
+			newName.Delete(0, p1+1);
+			int p2 = newName.Find(')');
+			if (p2 == -1)
+				continue;
+			newName.Delete(p2, 1);
+
+			CMStringW val = g_plugin.getMStringW(it->c_str());
+			g_plugin.delSetting(it->c_str());
+			g_plugin.setWString(newName, val);		
+		}
+
+		g_plugin.setByte("CompatLevel", 1);
+	}
+
 	if (!g_plugin.getByte("FirstRun", 1))
 		return;
 	CDlgGpgBinOpts *d = new CDlgGpgBinOpts;
@@ -73,25 +102,19 @@ void InitCheck()
 		if (!globals.gpg_valid)
 			return;
 		globals.gpg_keyexist = isGPGKeyExist();
-		string out;
-		DWORD code;
-		pxResult result;
+
 		wstring::size_type p = 0, p2 = 0;
-		{
-			std::vector<wstring> cmd;
-			cmd.push_back(L"--batch");
-			cmd.push_back(L"--list-secret-keys");
-			gpg_execution_params params(cmd);
-			params.out = &out;
-			params.code = &code;
-			params.result = &result;
-			if (!gpg_launcher(params))
-				return;
-			if (result == pxNotFound)
-				return;
-		}
+
+		gpg_execution_params params;
+		params.addParam(L"--list-secret-keys");
+		params.addParam(L"--batch");
+		if (!gpg_launcher(params))
+			return;
+		if (params.result == pxNotFound)
+			return;
 
 		_wmkdir(g_plugin.getMStringW("szHomePath") + L"\\tmp");
+		string out(params.out);
 
 		CMStringW wszQuestion;
 		for (auto &pa : Accounts()) {
@@ -99,10 +122,8 @@ void InitCheck()
 				continue;
 			if (StriStr(pa->szModuleName, "weather"))
 				continue;
-			std::string acc = toUTF8(pa->tszAccountName);
-			acc += "(";
-			acc += pa->szModuleName;
-			acc += ")";
+			
+			std::string acc = pa->szModuleName;
 			acc += "_KeyID";
 			CMStringA keyid = g_plugin.getMStringA(acc.c_str());
 			if (!keyid.IsEmpty()) {
@@ -267,23 +288,16 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 	f << ptmp.c_str();
 	f.close();
 
-	std::vector<wstring> cmd;
-	cmd.push_back(L"--batch");
-	cmd.push_back(L"--import");
-	cmd.push_back(tmp2.c_str());
-
-	gpg_execution_params params(cmd);
-	string output;
-	DWORD exitcode;
-	pxResult result;
-	params.out = &output;
-	params.code = &exitcode;
-	params.result = &result;
+	gpg_execution_params params;
+	params.addParam(L"--batch");
+	params.addParam(L"--import");
+	params.addParam(tmp2.c_str());
 	if (!gpg_launcher(params))
 		return;
-	if (result == pxNotFound)
+	if (params.result == pxNotFound)
 		return;
 
+	string output(params.out);
 	if (db_mc_isMeta(hContact)) {
 		if (for_all_sub) {
 			int count = db_mc_getSubCount(hContact);

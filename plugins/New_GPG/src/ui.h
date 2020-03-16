@@ -60,6 +60,7 @@ class CDlgFirstRun : public CDlgBase
 	CCtrlCombo combo_ACCOUNT;
 	CCtrlData lbl_KEY_ID, lbl_GENERATING_KEY;
 	wchar_t fp[16];
+	const char *m_szCurrAcc = nullptr;
 
 public:
 	CDlgFirstRun();

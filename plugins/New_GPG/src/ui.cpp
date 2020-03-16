@@ -123,30 +123,21 @@ bool CDlgChangePasswdMsgBox::OnApply()
 		if (MessageBox(m_hwnd, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
 			return false;
 
-	string output;
-	DWORD exitcode;
-	pxResult result;
-
-	std::vector<std::wstring> cmd;
-	cmd.push_back(L"--edit-key");
-	cmd.push_back(globals.key_id_global);
-	cmd.push_back(L"passwd");
+	gpg_execution_params_pass params(old_pass, new_pass);
+	params.addParam(L"--edit-key");
+	params.addParam(globals.key_id_global);
+	params.addParam(L"passwd");
 	
-	gpg_execution_params_pass *params = new gpg_execution_params_pass(cmd, old_pass, new_pass);
-	params->out = &output;
-	params->code = &exitcode;
-	params->result = &result;
-	
-	HANDLE hThread = mir_forkthread(&pxEexcute_passwd_change_thread, params);
+	HANDLE hThread = mir_forkthread(&pxEexcute_passwd_change_thread, &params);
 	if (WaitForSingleObject(hThread, 600000) != WAIT_OBJECT_0) {
-		if (params->child)
-			boost::process::terminate(*(params->child));
+		if (params.child)
+			boost::process::terminate(*(params.child));
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
 		return true;
 	}
 	
-	return (result != pxNotFound);
+	return params.result != pxNotFound;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -178,6 +169,9 @@ CDlgFirstRun::CDlgFirstRun() :
 	btn_DELETE_KEY.OnClick = Callback(this, &CDlgFirstRun::onClick_DELETE_KEY);
 	btn_OK.OnClick = Callback(this, &CDlgFirstRun::onClick_OK);
 
+	combo_ACCOUNT.OnChange = Callback(this, &CDlgFirstRun::onChange_ACCOUNT);
+
+	list_KEY_LIST.OnClick = Callback(this, &CDlgFirstRun::onChange_KEY_LIST);
 }
 
 bool CDlgFirstRun::OnInitDialog()
@@ -207,18 +201,14 @@ bool CDlgFirstRun::OnInitDialog()
 		if (StriStr(pa->szModuleName, "weather"))
 			continue;
 		
-		CMStringW wszAcc(FORMAT, L"%s (%S)", pa->tszAccountName, pa->szModuleName);
-		combo_ACCOUNT.AddString(wszAcc);
+		combo_ACCOUNT.AddString(pa->tszAccountName, (LPARAM)pa->szModuleName);
 	}
-	combo_ACCOUNT.SelectString(TranslateT("Default"));
+	combo_ACCOUNT.SetCurSel(0);
 
 	CMStringW keyinfo = TranslateT("key ID");
 	keyinfo += L": ";
 	keyinfo += g_plugin.getMStringW("KeyID", TranslateT("not set"));
 	lbl_KEY_ID.SetText(keyinfo);
-
-	combo_ACCOUNT.OnChange = Callback(this, &CDlgFirstRun::onChange_ACCOUNT);
-	list_KEY_LIST.OnClick = Callback(this, &CDlgFirstRun::onChange_KEY_LIST);
 	return true;
 }
 
@@ -227,119 +217,103 @@ void CDlgFirstRun::onClick_COPY_PUBKEY(CCtrlButton*)
 	int  i = list_KEY_LIST.GetSelectionMark();
 	if (i == -1)
 		return;
-	if (OpenClipboard(m_hwnd)) {
-		list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
-		string out;
-		DWORD code;
-		std::vector<wstring> cmd;
-		cmd.push_back(L"--batch");
-		cmd.push_back(L"-a");
-		cmd.push_back(L"--export");
-		cmd.push_back(fp);
-		gpg_execution_params params(cmd);
-		pxResult result;
-		params.out = &out;
-		params.code = &code;
-		params.result = &result;
-		if (!gpg_launcher(params))
-			return;
-		if (result == pxNotFound)
-			return;
-		boost::algorithm::erase_all(out, "\r");
-		HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, out.size() + 1);
-		if (!hMem) {
-			MessageBox(nullptr, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
-			return;
-		}
-		char *szKey = (char*)GlobalLock(hMem);
-		if (!szKey) {
-			wchar_t msg[64];
-			mir_snwprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
-			MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
-			GlobalFree(hMem);
-		}
-		memcpy(szKey, out.c_str(), out.size());
-		szKey[out.size()] = '\0';
-		EmptyClipboard();
-		GlobalUnlock(hMem);
-		if (!SetClipboardData(CF_OEMTEXT, hMem)) {
-			GlobalFree(hMem);
-			wchar_t msg[64];
-			mir_snwprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
-			MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
-		}
-		CloseClipboard();
+	
+	if (!OpenClipboard(m_hwnd))
+		return;
+
+	list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
+
+	gpg_execution_params params;
+	params.addParam(L"--batch");
+	params.addParam(L"-a");
+	params.addParam(L"--export");
+	params.addParam(fp);
+	if (!gpg_launcher(params))
+		return;
+	if (params.result == pxNotFound)
+		return;
+	
+	params.out.Remove('\r');
+	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, params.out.GetLength() + 1);
+	if (!hMem) {
+		MessageBox(nullptr, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
+		return;
 	}
+	char *szKey = (char*)GlobalLock(hMem);
+	if (!szKey) {
+		wchar_t msg[64];
+		mir_snwprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
+		MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
+		GlobalFree(hMem);
+	}
+	
+	memcpy(szKey, params.out.c_str(), params.out.GetLength());
+	szKey[params.out.GetLength()] = '\0';
+
+	EmptyClipboard();
+	GlobalUnlock(hMem);
+	if (!SetClipboardData(CF_OEMTEXT, hMem)) {
+		GlobalFree(hMem);
+		wchar_t msg[64];
+		mir_snwprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
+		MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
+	}
+	CloseClipboard();
 }
 
 void CDlgFirstRun::onClick_EXPORT_PRIVATE(CCtrlButton*)
 {
-	{
-		int  i = list_KEY_LIST.GetSelectionMark();
-		if (i == -1)
-			return;
+	int  i = list_KEY_LIST.GetSelectionMark();
+	if (i == -1)
+		return;
 		
-		ptrW p(GetFilePath(L"Choose file to export key", L"*", L"Any file", true));
-		if (!p || !p[0])
-			return;
+	ptrW p(GetFilePath(L"Choose file to export key", L"*", L"Any file", true));
+	if (!p || !p[0])
+		return;
 
-		std::ofstream file;
-		file.open(p, std::ios::trunc | std::ios::out);
-		if (!file.is_open())
-			return; //TODO: handle error
+	std::ofstream file;
+	file.open(p, std::ios::trunc | std::ios::out);
+	if (!file.is_open())
+		return; //TODO: handle error
 
-		list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
-		string out;
-		DWORD code;
-		std::vector<wstring> cmd;
-		cmd.push_back(L"--batch");
-		cmd.push_back(L"-a");
-		cmd.push_back(L"--export-secret-keys");
-		cmd.push_back(fp);
-		gpg_execution_params params(cmd);
-		pxResult result;
-		params.out = &out;
-		params.code = &code;
-		params.result = &result;
-		if (!gpg_launcher(params)) {
-			return;
-		}
-		if (result == pxNotFound)
-			return;
-		boost::algorithm::erase_all(out, "\r");
-		file << out.c_str();
-		if (file.is_open())
-			file.close();
-	}
+	list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
+
+	gpg_execution_params params;
+	params.addParam(L"--batch");
+	params.addParam(L"-a");
+	params.addParam(L"--export-secret-keys");
+	params.addParam(fp);
+	if (!gpg_launcher(params))
+		return;
+	if (params.result == pxNotFound)
+		return;
+
+	params.out.Remove('\r');
+	file << params.out.c_str();
+	if (file.is_open())
+		file.close();
 }
 
 void CDlgFirstRun::onClick_CHANGE_PASSWD(CCtrlButton*)
 {
-	int  i = list_KEY_LIST.GetSelectionMark();
+	int i = list_KEY_LIST.GetSelectionMark();
 	if (i == -1)
 		return;
+
 	list_KEY_LIST.GetItemText(i, 0, globals.key_id_global, _countof(globals.key_id_global));
 
 	// temporary code follows
 	std::string old_pass, new_pass;
-	string output;
-	DWORD exitcode;
-	pxResult result;
 
-	std::vector<std::wstring> cmd;
-	cmd.push_back(L"--edit-key");
-	cmd.push_back(globals.key_id_global);
-	cmd.push_back(L"passwd");
-	
-	gpg_execution_params_pass *params = new gpg_execution_params_pass(cmd, old_pass, new_pass);
-	params->out = &output;
-	params->code = &exitcode;
-	params->result = &result;
-	
-	HANDLE hThread = mir_forkthread(pxEexcute_passwd_change_thread, params);
+	gpg_execution_params_pass params(old_pass, new_pass);
+	params.addParam(L"--edit-key");
+	params.addParam(globals.key_id_global);
+	params.addParam(L"passwd");
+
+	HANDLE hThread = mir_forkthread(pxEexcute_passwd_change_thread, &params);
 	if (WaitForSingleObject(hThread, 600000) != WAIT_OBJECT_0) {
-		if (params->child)
-			boost::process::terminate(*(params->child));
+		if (params.child)
+			boost::process::terminate(*(params.child));
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
 		this->Close();
@@ -355,7 +329,7 @@ void CDlgFirstRun::onClick_GENERATE_RANDOM(CCtrlButton*)
 	btn_DELETE_KEY.Disable();
 	list_KEY_LIST.Disable();
 	btn_GENERATE_RANDOM.Disable();
-	gpg_use_new_random_key(combo_ACCOUNT.GetTextA());
+	gpg_use_new_random_key(m_szCurrAcc);
 	this->Close();
 }
 
@@ -382,21 +356,16 @@ void CDlgFirstRun::onClick_DELETE_KEY(CCtrlButton*)
 		return;
 	list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
 	{
-		string out;
-		DWORD code;
-		std::vector<wstring> cmd;
-		cmd.push_back(L"--batch");
-		cmd.push_back(L"--fingerprint");
-		cmd.push_back(fp);
-		gpg_execution_params params(cmd);
-		pxResult result;
-		params.out = &out;
-		params.code = &code;
-		params.result = &result;
+		gpg_execution_params params;
+		params.addParam(L"--batch");
+		params.addParam(L"--fingerprint");
+		params.addParam(fp);
 		if (!gpg_launcher(params))
 			return;
-		if (result == pxNotFound)
+		if (params.result == pxNotFound)
 			return;
+
+		string out(params.out);
 		string::size_type s = out.find("Key fingerprint = ");
 		s += mir_strlen("Key fingerprint = ");
 		string::size_type s2 = out.find("\n", s);
@@ -409,150 +378,111 @@ void CDlgFirstRun::onClick_DELETE_KEY(CCtrlButton*)
 
 			str = mir_a2u(tmp.c_str());
 		}
-		cmd.clear();
-		out.clear();
-		cmd.push_back(L"--batch");
-		cmd.push_back(L"--delete-secret-and-public-key");
-		cmd.push_back(L"--fingerprint");
-		cmd.push_back(str);
+
+		params.addParam(L"--batch");
+		params.addParam(L"--delete-secret-and-public-key");
+		params.addParam(L"--fingerprint");
+		params.addParam(str);
 		mir_free(str);
 		if (!gpg_launcher(params))
 			return;
-		if (result == pxNotFound)
+		if (params.result == pxNotFound)
 			return;
 	}
-	{
-		char *buf = mir_strdup(combo_ACCOUNT.GetTextA());
-		if (!mir_strcmp(buf, Translate("Default"))) {
-			g_plugin.delSetting("GPGPubKey");
-			g_plugin.delSetting("KeyID");
-			g_plugin.delSetting("KeyComment");
-			g_plugin.delSetting("KeyMainName");
-			g_plugin.delSetting("KeyMainEmail");
-			g_plugin.delSetting("KeyType");
-		}
-		else {
-			std::string acc_str = buf;
-			acc_str += "_GPGPubKey";
-			g_plugin.delSetting(acc_str.c_str());
-			acc_str = buf;
-			acc_str += "_KeyMainName";
-			g_plugin.delSetting(acc_str.c_str());
-			acc_str = buf;
-			acc_str += "_KeyID";
-			g_plugin.delSetting(acc_str.c_str());
-			acc_str = buf;
-			acc_str += "_KeyComment";
-			g_plugin.delSetting(acc_str.c_str());
-			acc_str = buf;
-			acc_str += "_KeyMainEmail";
-			g_plugin.delSetting(acc_str.c_str());
-			acc_str = buf;
-			acc_str += "_KeyType";
-			g_plugin.delSetting(acc_str.c_str());
-		}
-		if (buf)
-			mir_free(buf);
+
+	if (m_szCurrAcc == nullptr) {
+		g_plugin.delSetting("GPGPubKey");
+		g_plugin.delSetting("KeyID");
+		g_plugin.delSetting("KeyComment");
+		g_plugin.delSetting("KeyMainName");
+		g_plugin.delSetting("KeyMainEmail");
+		g_plugin.delSetting("KeyType");
 	}
+	else {
+		CMStringA acc_str = m_szCurrAcc;
+		g_plugin.delSetting(acc_str + "_GPGPubKey");
+		g_plugin.delSetting(acc_str + "_KeyMainName");
+		g_plugin.delSetting(acc_str + "_KeyID");
+		g_plugin.delSetting(acc_str + "_KeyComment");
+		g_plugin.delSetting(acc_str + "_KeyMainEmail");
+		g_plugin.delSetting(acc_str + "_KeyType");
+	}
+
 	list_KEY_LIST.DeleteItem(i);
 }
 
 void CDlgFirstRun::onClick_OK(CCtrlButton*)
 {
+	int  i = list_KEY_LIST.GetSelectionMark();
+	if (i == -1)
+		return;
+
+	list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
+	wchar_t name[65];
+	list_KEY_LIST.GetItemText(i, 2, name, 64);
 	{
-		int  i = list_KEY_LIST.GetSelectionMark();
-		if (i == -1)
-			return;
-
-		list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
-		wchar_t *name = new wchar_t[65];
-		list_KEY_LIST.GetItemText(i, 2, name, 64);
-		{
-			if (wcschr(name, '(')) {
-				wstring str = name;
-				wstring::size_type p = str.find(L"(") - 1;
-				mir_wstrcpy(name, str.substr(0, p).c_str());
-			}
+		if (wcschr(name, '(')) {
+			wstring str = name;
+			wstring::size_type p = str.find(L"(") - 1;
+			mir_wstrcpy(name, str.substr(0, p).c_str());
 		}
-		string out;
-		DWORD code;
-		std::vector<wstring> cmd;
-		cmd.push_back(L"--batch");
-		cmd.push_back(L"-a");
-		cmd.push_back(L"--export");
-		cmd.push_back(fp);
-		gpg_execution_params params(cmd);
-		pxResult result;
-		params.out = &out;
-		params.code = &code;
-		params.result = &result;
-		if (!gpg_launcher(params)) {
-			delete[] name;
-			return;
-		}
-		if (result == pxNotFound) {
-			delete[] name;
-			return;
-		}
-
-		boost::algorithm::erase_all(out, "\r");
-		{
-			char *buf = mir_strdup(combo_ACCOUNT.GetTextA());
-			if (!mir_strcmp(buf, Translate("Default"))) {
-				g_plugin.setString("GPGPubKey", out.c_str());
-				g_plugin.setWString("KeyMainName", name);
-				g_plugin.setWString("KeyID", fp);
-			}
-			else {
-				std::string acc_str = buf;
-				acc_str += "_GPGPubKey";
-				g_plugin.setString(acc_str.c_str(), out.c_str());
-				acc_str = buf;
-				acc_str += "_KeyMainName";
-				g_plugin.setWString(acc_str.c_str(), name);
-				acc_str = buf;
-				acc_str += "_KeyID";
-				g_plugin.setWString(acc_str.c_str(), fp);
-			}
-			if (!mir_strcmp(buf, Translate("Default"))) {
-				wstring keyinfo = TranslateT("Default private key ID");
-				keyinfo += L": ";
-				keyinfo += (fp[0]) ? fp : L"not set";
-				extern HWND hwndCurKey_p;
-				SetWindowText(hwndCurKey_p, keyinfo.c_str());
-			}
-			if (buf)
-				mir_free(buf);
-		}
-		wchar_t *passwd = mir_wstrdup(edit_KEY_PASSWORD.GetText());
-		if (passwd && passwd[0]) {
-			string dbsetting = "szKey_";
-			char *keyid = mir_u2a(fp);
-			dbsetting += keyid;
-			mir_free(keyid);
-			dbsetting += "_Password";
-			g_plugin.setWString(dbsetting.c_str(), passwd);
-		}
-		mir_free(passwd);
-		delete[] name;
 	}
+
+	gpg_execution_params params;
+	params.addParam(L"--batch");
+	params.addParam(L"-a");
+	params.addParam(L"--export");
+	params.addParam(fp);
+	if (!gpg_launcher(params))
+		return;
+	if (params.result == pxNotFound)
+		return;
+
+	params.out.Remove('\r');
+
+	if (m_szCurrAcc == nullptr) {
+		g_plugin.setString("GPGPubKey", params.out.c_str());
+		g_plugin.setWString("KeyMainName", name);
+		g_plugin.setWString("KeyID", fp);
+
+		wstring keyinfo = TranslateT("Default private key ID");
+		keyinfo += L": ";
+		keyinfo += (fp[0]) ? fp : L"not set";
+		extern HWND hwndCurKey_p;
+		SetWindowText(hwndCurKey_p, keyinfo.c_str());
+	}
+	else {
+		CMStringA acc_str = m_szCurrAcc;
+		g_plugin.setString(acc_str + "_GPGPubKey", params.out.c_str());
+		g_plugin.setWString(acc_str + "_KeyMainName", name);
+		g_plugin.setWString(acc_str + "_KeyID", fp);
+	}
+
+	ptrW passwd(edit_KEY_PASSWORD.GetText());
+	if (mir_wstrlen(passwd)) {
+		string dbsetting = "szKey_";
+		dbsetting += _T2A(fp);
+		dbsetting += "_Password";
+		g_plugin.setWString(dbsetting.c_str(), passwd);
+	}
+
 	//bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0; //TODO: check is it just typo, or doing something
 	globals.gpg_valid = isGPGValid();
 	globals.gpg_keyexist = isGPGKeyExist();
 	DestroyWindow(m_hwnd);
 }
 
-void CDlgFirstRun::onChange_ACCOUNT(CCtrlCombo*)
+void CDlgFirstRun::onChange_ACCOUNT(CCtrlCombo *pCombo)
 {
 	CMStringW keyinfo = TranslateT("key ID");
 	keyinfo += ": ";
 
-	ptrA buf(combo_ACCOUNT.GetTextA());
-	if (!mir_strcmp(buf, Translate("Default"))) {
+	m_szCurrAcc = (const char *)pCombo->GetItemData(pCombo->GetCurSel());
+	if (m_szCurrAcc == nullptr) {
 		keyinfo += g_plugin.getMStringW("KeyID", TranslateT("not set"));
 	}
 	else {
-		std::string acc_str = buf;
+		std::string acc_str = m_szCurrAcc;
 		acc_str += "_KeyID";
 		keyinfo += g_plugin.getMStringW(acc_str.c_str(), TranslateT("not set"));
 	}
@@ -584,142 +514,129 @@ void CDlgFirstRun::refresh_key_list()
 {
 	list_KEY_LIST.DeleteAllItems();
 	int i = 1;
-	{
-		{
-			//parse gpg output
-			string out;
-			DWORD code;
-			pxResult result;
-			wstring::size_type p = 0, p2 = 0, stop = 0;
-			{
-				std::vector<wstring> cmd;
-				cmd.push_back(L"--batch");
-				cmd.push_back(L"--list-secret-keys");
-				gpg_execution_params params(cmd);
-				params.out = &out;
-				params.code = &code;
-				params.result = &result;
-				if (!gpg_launcher(params))
-					return;
-				if (result == pxNotFound)
-					return;
-			}
-			while (p != string::npos) {
-				if ((p = out.find("sec  ", p)) == string::npos)
-					break;
-				p += 5;
-				if (p < stop)
-					break;
-				stop = p;
-				p2 = out.find("/", p) - 1;
-				wchar_t *key_len = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str()), *creation_date = nullptr, *expire_date = nullptr;
-				p2 += 2;
-				p = out.find(" ", p2);
-				std::wstring key_id = toUTF16(out.substr(p2, p - p2));
-				p += 1;
-				p2 = out.find(" ", p);
-				std::string::size_type p3 = out.find("\n", p);
-				if ((p2 != std::string::npos) && (p3 < p2)) {
-					p2 = p3;
-					creation_date = mir_wstrdup(toUTF16(out.substr(p, p2 - p - 1)).c_str());
-				}
-				else {
-					creation_date = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
-					p2 = out.find("[", p2);
-					p2 = out.find("expires:", p2);
-					p2 += mir_strlen("expires:");
-					if (p2 != std::string::npos) {
-						p2++;
-						p = p2;
-						p2 = out.find("]", p);
-						expire_date = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
-						//check expiration
-						bool expired = false;
-						{
-							boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
-							wchar_t buf[5];
-							wcsncpy_s(buf, expire_date, _TRUNCATE);
-							int year = _wtoi(buf);
-							if (year < now.date().year())
-								expired = true;
-							else if (year == now.date().year()) {
-								wcsncpy_s(buf, (expire_date + 5), _TRUNCATE);
-								int month = _wtoi(buf);
-								if (month < now.date().month())
-									expired = true;
-								else if (month == now.date().month()) {
-									wcsncpy_s(buf, (expire_date + 8), _TRUNCATE);
-									unsigned day = _wtoi(buf);
-									if (day <= now.date().day_number())
-										expired = true;
-								}
-							}
-						}
-						if (expired) {
-							mir_free(key_len);
-							mir_free(creation_date);
-							mir_free(expire_date);
-							//mimic normal behaviour
-							p = out.find("uid  ", p);
-							p2 = out.find_first_not_of(" ", p + 5);
-							p = out.find("<", p2);
-							p++;
-							//p2 = out.find(">", p);
-							//
-							continue; //does not add to key list
-						}
-					}
-				}
-				int row = list_KEY_LIST.AddItem(L"", 0);
-				list_KEY_LIST.SetItemText(row, 3, creation_date);
-				mir_free(creation_date);
-				if (expire_date) {
-					list_KEY_LIST.SetItemText(row, 4, expire_date);
-					mir_free(expire_date);
-				}
-				list_KEY_LIST.SetItemText(row, 5, key_len);
-				mir_free(key_len);
-				list_KEY_LIST.SetItemText(row, 0, (wchar_t*)key_id.c_str());
-				p = out.find("uid  ", p);
-				p2 = out.find_first_not_of(" ", p + 5);
-				p = out.find("<", p2);
 
-				wstring tmp = toUTF16(out.substr(p2, p - p2));
-				list_KEY_LIST.SetItemText(row, 2, (wchar_t*)tmp.c_str());
+	// parse gpg output
+	gpg_execution_params params;
+	params.addParam(L"--batch");
+	params.addParam(L"--list-secret-keys");
+	if (!gpg_launcher(params))
+		return;
+	if (params.result == pxNotFound)
+		return;
 
-				p++;
-				p2 = out.find(">", p);
-
-				tmp = toUTF16(out.substr(p, p2 - p));
-				list_KEY_LIST.SetItemText(row, 1, (wchar_t*)tmp.c_str());
-
-				// get accounts
-				std::wstring accs;
-				for (auto &pa : Accounts()) {
-					std::string setting = toUTF8(pa->tszAccountName);
-					setting += "(";
-					setting += pa->szModuleName;
-					setting += ")";
-					setting += "_KeyID";
-					ptrW str(g_plugin.getWStringA(setting.c_str(), L""));
-					if (key_id == str.get()) {
-						if (!accs.empty())
-							accs += L",";
-						accs += pa->tszAccountName;
-					}
-				}
-				list_KEY_LIST.SetItemText(row, 6, accs.c_str());
-			}
-			i++;
-			list_KEY_LIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
-			list_KEY_LIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
-			list_KEY_LIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
-			list_KEY_LIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
-			list_KEY_LIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
-			list_KEY_LIST.SetColumnWidth(5, LVSCW_AUTOSIZE);
-			list_KEY_LIST.SetColumnWidth(6, LVSCW_AUTOSIZE);
+	wstring::size_type p = 0, p2 = 0, stop = 0;
+	string out(params.out);
+	while (p != string::npos) {
+		if ((p = out.find("sec  ", p)) == string::npos)
+			break;
+		p += 5;
+		if (p < stop)
+			break;
+		stop = p;
+		p2 = out.find("/", p) - 1;
+		wchar_t *key_len = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str()), *creation_date = nullptr, *expire_date = nullptr;
+		p2 += 2;
+		p = out.find(" ", p2);
+		std::wstring key_id = toUTF16(out.substr(p2, p - p2));
+		p += 1;
+		p2 = out.find(" ", p);
+		std::string::size_type p3 = out.find("\n", p);
+		if ((p2 != std::string::npos) && (p3 < p2)) {
+			p2 = p3;
+			creation_date = mir_wstrdup(toUTF16(out.substr(p, p2 - p - 1)).c_str());
 		}
+		else {
+			creation_date = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
+			p2 = out.find("[", p2);
+			p2 = out.find("expires:", p2);
+			p2 += mir_strlen("expires:");
+			if (p2 != std::string::npos) {
+				p2++;
+				p = p2;
+				p2 = out.find("]", p);
+				expire_date = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
+				//check expiration
+				bool expired = false;
+				{
+					boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
+					wchar_t buf[5];
+					wcsncpy_s(buf, expire_date, _TRUNCATE);
+					int year = _wtoi(buf);
+					if (year < now.date().year())
+						expired = true;
+					else if (year == now.date().year()) {
+						wcsncpy_s(buf, (expire_date + 5), _TRUNCATE);
+						int month = _wtoi(buf);
+						if (month < now.date().month())
+							expired = true;
+						else if (month == now.date().month()) {
+							wcsncpy_s(buf, (expire_date + 8), _TRUNCATE);
+							unsigned day = _wtoi(buf);
+							if (day <= now.date().day_number())
+								expired = true;
+						}
+					}
+				}
+				if (expired) {
+					mir_free(key_len);
+					mir_free(creation_date);
+					mir_free(expire_date);
+					//mimic normal behaviour
+					p = out.find("uid  ", p);
+					p2 = out.find_first_not_of(" ", p + 5);
+					p = out.find("<", p2);
+					p++;
+					//p2 = out.find(">", p);
+					//
+					continue; //does not add to key list
+				}
+			}
+		}
+		int row = list_KEY_LIST.AddItem(L"", 0);
+		list_KEY_LIST.SetItemText(row, 3, creation_date);
+		mir_free(creation_date);
+		if (expire_date) {
+			list_KEY_LIST.SetItemText(row, 4, expire_date);
+			mir_free(expire_date);
+		}
+		list_KEY_LIST.SetItemText(row, 5, key_len);
+		mir_free(key_len);
+		list_KEY_LIST.SetItemText(row, 0, (wchar_t *)key_id.c_str());
+		p = out.find("uid  ", p);
+		p2 = out.find_first_not_of(" ", p + 5);
+		p = out.find("<", p2);
+
+		wstring tmp = toUTF16(out.substr(p2, p - p2));
+		list_KEY_LIST.SetItemText(row, 2, (wchar_t *)tmp.c_str());
+
+		p++;
+		p2 = out.find(">", p);
+
+		tmp = toUTF16(out.substr(p, p2 - p));
+		list_KEY_LIST.SetItemText(row, 1, (wchar_t *)tmp.c_str());
+
+		// get accounts
+		std::wstring accs;
+		for (auto &pa : Accounts()) {
+			std::string setting = pa->szModuleName;
+			setting += "_KeyID";
+			ptrW str(g_plugin.getWStringA(setting.c_str(), L""));
+			if (key_id == str.get()) {
+				if (!accs.empty())
+					accs += L",";
+				accs += pa->tszAccountName;
+			}
+		}
+		list_KEY_LIST.SetItemText(row, 6, accs.c_str());
 	}
+	i++;
+	list_KEY_LIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
+	list_KEY_LIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
+	list_KEY_LIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
+	list_KEY_LIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
+	list_KEY_LIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
+	list_KEY_LIST.SetColumnWidth(5, LVSCW_AUTOSIZE);
+	list_KEY_LIST.SetColumnWidth(6, LVSCW_AUTOSIZE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -768,9 +685,9 @@ bool CDlgGpgBinOpts::OnInitDialog()
 	{
 		ptrW tmp;
 		if (!gpg_exists) {
-			tmp = g_plugin.getWStringA("szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
+			tmp = g_plugin.getWStringA("szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void *)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
 			if (tmp[0])
-				if (!boost::filesystem::exists((wchar_t*)tmp))
+				if (!boost::filesystem::exists((wchar_t *)tmp))
 					MessageBoxW(nullptr, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 		}
 		else tmp = mir_wstrdup(path.c_str());
@@ -778,24 +695,18 @@ bool CDlgGpgBinOpts::OnInitDialog()
 		edit_BIN_PATH.SetText(tmp);
 		if (gpg_exists/* && lang_exists*/) {
 			g_plugin.setWString("szGpgBinPath", tmp);
-			string out;
-			DWORD code;
-			std::vector<wstring> cmd;
-			cmd.push_back(L"--version");
-			gpg_execution_params params(cmd);
-			pxResult result;
-			params.out = &out;
-			params.code = &code;
-			params.result = &result;
+
+			gpg_execution_params params;
+			params.addParam(L"--version");
 			bool _gpg_valid = globals.gpg_valid;
 			globals.gpg_valid = true;
 			gpg_launcher(params);
 			globals.gpg_valid = _gpg_valid; //TODO: check this
 			g_plugin.delSetting("szGpgBinPath");
-			string::size_type p1 = out.find("(GnuPG) ");
-			if (p1 != string::npos) {
+			int p1 = params.out.Find("(GnuPG) ");
+			if (p1 != -1) {
 				p1 += mir_strlen("(GnuPG) ");
-				if (out[p1] != '1')
+				if (params.out[p1] != '1')
 					bad_version = true;
 			}
 			else {
@@ -878,7 +789,7 @@ void CDlgGpgBinOpts::onClick_GENERATE_RANDOM(CCtrlButton*)
 	if (gpg_validate_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText())) {
 		gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
 		globals.gpg_valid = true;
-		if (gpg_use_new_random_key()) {
+		if (gpg_use_new_random_key(nullptr)) {
 			g_plugin.setByte("bAutoExchange", globals.bAutoExchange = chk_AUTO_EXCHANGE.GetState());
 			globals.gpg_valid = true;
 			g_plugin.setByte("FirstRun", 0);
@@ -1028,7 +939,7 @@ bool CDlgKeyGen::OnApply()
 
 	f << "Key-Type: ";
 	char *tmp2 = mir_u2a(combo_KEY_TYPE.GetText());
-	char *subkeytype = (char*)mir_alloc(6);
+	char *subkeytype = (char *)mir_alloc(6);
 	if (strstr(tmp2, "RSA"))
 		mir_strcpy(subkeytype, "RSA");
 	else if (strstr(tmp2, "DSA")) //this is useless check for now, but it will be required if someone add another key types support
@@ -1067,19 +978,6 @@ bool CDlgKeyGen::OnApply()
 	f << "\n";
 	f.close();
 
-	// gpg execution
-	DWORD code;
-	string out;
-	std::vector<wstring> cmd;
-	cmd.push_back(L"--batch");
-	cmd.push_back(L"--yes");
-	cmd.push_back(L"--gen-key");
-	cmd.push_back(path.c_str());
-	gpg_execution_params params(cmd);
-	pxResult result;
-	params.out = &out;
-	params.code = &code;
-	params.result = &result;
 	lbl_GENERATING_TEXT.SendMsg(WM_SETFONT, (WPARAM)globals.bold_font, TRUE);
 	lbl_GENERATING_TEXT.SetText(TranslateT("Generating new key, please wait..."));
 	combo_KEY_TYPE.Disable();
@@ -1089,9 +987,16 @@ bool CDlgKeyGen::OnApply()
 	edit_KEY_EMAIL.Disable();
 	edit_KEY_COMMENT.Disable();
 	edit_KEY_EXPIRE_DATE.Disable();
+
+	// gpg execution
+	gpg_execution_params params;
+	params.addParam(L"--batch");
+	params.addParam(L"--yes");
+	params.addParam(L"--gen-key");
+	params.addParam(path.c_str());
 	if (!gpg_launcher(params, boost::posix_time::minutes(10)))
 		return false;
-	if (result == pxNotFound)
+	if (params.result == pxNotFound)
 		return false;
 
 	boost::filesystem::remove(path.c_str());
@@ -1127,89 +1032,81 @@ bool CDlgLoadExistingKey::OnInitDialog()
 	list_EXISTING_KEY_LIST.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_SINGLEROW);
 	int i = 1;
 	{
-		{//parse gpg output
-			string out;
-			DWORD code;
-			string::size_type p = 0, p2 = 0, stop = 0;
-			{
-				std::vector<wstring> cmd;
-				cmd.push_back(L"--batch");
-				cmd.push_back(L"--list-keys");
-				gpg_execution_params params(cmd);
-				pxResult result;
-				params.out = &out;
-				params.code = &code;
-				params.result = &result;
-				if (!gpg_launcher(params))
-					return false;
-				if (result == pxNotFound)
-					return false;
-			}
-			while (p != string::npos) {
-				if ((p = out.find("pub  ", p)) == string::npos)
-					break;
-				p += 5;
-				if (p < stop)
-					break;
-				stop = p;
-				p2 = out.find("/", p) - 1;
-				wchar_t *tmp = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
-				int row = list_EXISTING_KEY_LIST.AddItem(L"", 0);
-				list_EXISTING_KEY_LIST.SetItemText(row, 5, tmp);
-				mir_free(tmp);
-				p2 += 2;
-				p = out.find(" ", p2);
-				tmp = mir_wstrdup(toUTF16(out.substr(p2, p - p2)).c_str());
-				list_EXISTING_KEY_LIST.SetItemText(row, 0, tmp);
-				mir_free(tmp);
-				p++;
-				p2 = out.find("\n", p);
-				string::size_type p3 = out.substr(p, p2 - p).find("[");
-				if (p3 != string::npos) {
-					p3 += p;
-					p2 = p3;
-					p2--;
-					p3++;
-					p3 += mir_strlen("expires: ");
-					string::size_type p4 = out.find("]", p3);
-					tmp = mir_wstrdup(toUTF16(out.substr(p3, p4 - p3)).c_str());
-					list_EXISTING_KEY_LIST.SetItemText(row, 4, tmp);
-					mir_free(tmp);
-				}
-				else
-					p2--;
-				tmp = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
-				list_EXISTING_KEY_LIST.SetItemText(row, 3, tmp);
-				mir_free(tmp);
-				p = out.find("uid  ", p);
-				p += mir_strlen("uid ");
-				p2 = out.find("\n", p);
-				p3 = out.substr(p, p2 - p).find("<");
-				if (p3 != string::npos) {
-					p3 += p;
-					p2 = p3;
-					p2--;
-					p3++;
-					string::size_type p4 = out.find(">", p3);
-					tmp = mir_wstrdup(toUTF16(out.substr(p3, p4 - p3)).c_str());
-					list_EXISTING_KEY_LIST.SetItemText(row, 1, tmp);
-					mir_free(tmp);
-				}
-				else
-					p2--;
-				p = out.find_first_not_of(" ", p);
-				tmp = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
-				list_EXISTING_KEY_LIST.SetItemText(row, 2, tmp);
-				mir_free(tmp);
+		// parse gpg output
+		gpg_execution_params params;
+		params.addParam(L"--batch");
+		params.addParam(L"--list-keys");
+		if (!gpg_launcher(params))
+			return false;
+		if (params.result == pxNotFound)
+			return false;
 
-				list_EXISTING_KEY_LIST.SetColumnWidth(0, LVSCW_AUTOSIZE);// not sure about this
-				list_EXISTING_KEY_LIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
-				list_EXISTING_KEY_LIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
-				list_EXISTING_KEY_LIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
-				list_EXISTING_KEY_LIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
-				list_EXISTING_KEY_LIST.SetColumnWidth(5, LVSCW_AUTOSIZE);
-				i++;
+		string out(params.out);
+		string::size_type p = 0, p2 = 0, stop = 0;
+		while (p != string::npos) {
+			if ((p = out.find("pub  ", p)) == string::npos)
+				break;
+			p += 5;
+			if (p < stop)
+				break;
+			stop = p;
+			p2 = out.find("/", p) - 1;
+			wchar_t *tmp = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
+			int row = list_EXISTING_KEY_LIST.AddItem(L"", 0);
+			list_EXISTING_KEY_LIST.SetItemText(row, 5, tmp);
+			mir_free(tmp);
+			p2 += 2;
+			p = out.find(" ", p2);
+			tmp = mir_wstrdup(toUTF16(out.substr(p2, p - p2)).c_str());
+			list_EXISTING_KEY_LIST.SetItemText(row, 0, tmp);
+			mir_free(tmp);
+			p++;
+			p2 = out.find("\n", p);
+			string::size_type p3 = out.substr(p, p2 - p).find("[");
+			if (p3 != string::npos) {
+				p3 += p;
+				p2 = p3;
+				p2--;
+				p3++;
+				p3 += mir_strlen("expires: ");
+				string::size_type p4 = out.find("]", p3);
+				tmp = mir_wstrdup(toUTF16(out.substr(p3, p4 - p3)).c_str());
+				list_EXISTING_KEY_LIST.SetItemText(row, 4, tmp);
+				mir_free(tmp);
 			}
+			else
+				p2--;
+			tmp = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
+			list_EXISTING_KEY_LIST.SetItemText(row, 3, tmp);
+			mir_free(tmp);
+			p = out.find("uid  ", p);
+			p += mir_strlen("uid ");
+			p2 = out.find("\n", p);
+			p3 = out.substr(p, p2 - p).find("<");
+			if (p3 != string::npos) {
+				p3 += p;
+				p2 = p3;
+				p2--;
+				p3++;
+				string::size_type p4 = out.find(">", p3);
+				tmp = mir_wstrdup(toUTF16(out.substr(p3, p4 - p3)).c_str());
+				list_EXISTING_KEY_LIST.SetItemText(row, 1, tmp);
+				mir_free(tmp);
+			}
+			else
+				p2--;
+			p = out.find_first_not_of(" ", p);
+			tmp = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str());
+			list_EXISTING_KEY_LIST.SetItemText(row, 2, tmp);
+			mir_free(tmp);
+
+			list_EXISTING_KEY_LIST.SetColumnWidth(0, LVSCW_AUTOSIZE);// not sure about this
+			list_EXISTING_KEY_LIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
+			list_EXISTING_KEY_LIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
+			list_EXISTING_KEY_LIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
+			list_EXISTING_KEY_LIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
+			list_EXISTING_KEY_LIST.SetColumnWidth(5, LVSCW_AUTOSIZE);
+			i++;
 		}
 	}
 	list_EXISTING_KEY_LIST.OnClick = Callback(this, &CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST);
@@ -1231,27 +1128,18 @@ bool CDlgLoadExistingKey::OnApply()
 
 	list_EXISTING_KEY_LIST.GetItemText(i, 0, id, _countof(id));
 	extern CCtrlEdit *edit_p_PubKeyEdit;
-	string out;
-	DWORD code;
-	std::vector<wstring> cmd;
-	cmd.push_back(L"--batch");
-	cmd.push_back(L"-a");
-	cmd.push_back(L"--export");
-	cmd.push_back(id);
-	gpg_execution_params params(cmd);
-	pxResult result;
-	params.out = &out;
-	params.code = &code;
-	params.result = &result;
+
+	gpg_execution_params params;
+	params.addParam(L"--batch");
+	params.addParam(L"-a");
+	params.addParam(L"--export");
+	params.addParam(id);
 	if (!gpg_launcher(params))
 		return false;
-	if (result == pxNotFound)
+	if (params.result == pxNotFound)
 		return false;
-	string::size_type s = 0;
-	while ((s = out.find("\r", s)) != string::npos) {
-		out.erase(s, 1);
-	}
 
+	string out(params.out);
 	std::string::size_type p1 = 0, p2 = 0;
 	p1 = out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
 	if (p1 != std::string::npos) {
@@ -1271,7 +1159,7 @@ bool CDlgLoadExistingKey::OnApply()
 	return true;
 }
 
-void CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST(CCtrlListView::TEventInfo * /*ev*/) 
+void CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST(CCtrlListView::TEventInfo*)
 {
 	EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
 }
@@ -1304,20 +1192,14 @@ void CDlgImportKey::OnDestroy()
 
 void CDlgImportKey::onClick_IMPORT(CCtrlButton*)
 {
-	string out;
-	DWORD code;
-	std::vector<wstring> cmd;
-	cmd.push_back(L"--keyserver");
-	cmd.push_back(combo_KEYSERVER.GetText());
-	cmd.push_back(L"--recv-keys");
-	cmd.push_back(toUTF16(globals.hcontact_data[hContact].key_in_prescense));
-	gpg_execution_params params(cmd);
-	pxResult result;
-	params.out = &out;
-	params.code = &code;
-	params.result = &result;
+	gpg_execution_params params;
+	params.addParam(L"--keyserver");
+	params.addParam(combo_KEYSERVER.GetText());
+	params.addParam(L"--recv-keys");
+	params.addParam(toUTF16(globals.hcontact_data[hContact].key_in_prescense));
 	gpg_launcher(params);
-	MessageBoxA(nullptr, out.c_str(), "GPG output", MB_OK);
+
+	MessageBoxA(nullptr, params.out.c_str(), "GPG output", MB_OK);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
