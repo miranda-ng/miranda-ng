@@ -473,6 +473,14 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
+// JabberAuthRecv - receives a auth
+
+int CJabberProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+{
+	return Proto_AuthRecv(m_szModuleName, pre);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileAllow - starts a file transfer
 
 HANDLE CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const wchar_t *szPath)
