@@ -50,12 +50,8 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 		setClistIcon(hContact);
 	}
 	else if (!enc) {
-		if (!isContactHaveKey(hContact)) {
-			void ShowLoadPublicKeyDialog(bool = false);
-			globals.item_num = 0;		 //black magic here
-			globals.user_data[1] = hContact;
-			ShowLoadPublicKeyDialog();
-		}
+		if (!isContactHaveKey(hContact))
+			ShowLoadPublicKeyDialog(hContact, false);
 		else {
 			g_plugin.setByte(hContact, "GPGEncryption", 1);
 			if (hMeta)
@@ -64,6 +60,7 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 			setClistIcon(hContact);
 			return 0;
 		}
+
 		if (isContactHaveKey(hContact)) {
 			g_plugin.setByte(hContact, "GPGEncryption", 1);
 			if (hMeta)

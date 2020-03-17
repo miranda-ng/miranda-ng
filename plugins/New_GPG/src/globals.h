@@ -30,7 +30,6 @@ struct globals_s
 	logtofile debuglog;
 	bool gpg_valid = false, gpg_keyexist = false;
 	std::map<MCONTACT, contact_data> hcontact_data;
-	map<int, MCONTACT> user_data;
 	bool _terminate;
 
 	int item_num; //TODO: get rid of this

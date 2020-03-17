@@ -18,8 +18,6 @@
 
 #include "utf8.h"
 
-void ShowLoadPublicKeyDialog(bool = false);
-
 void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t *szExtDesc)
 {
 	wchar_t str[MAX_PATH + 2] = {};
@@ -96,8 +94,7 @@ void GetFolderPath(wchar_t *WindowTittle)
 
 INT_PTR LoadKey(WPARAM w, LPARAM)
 {
-	globals.user_data[(int)1] = (MCONTACT)w;
-	ShowLoadPublicKeyDialog();
+	ShowLoadPublicKeyDialog((MCONTACT)w, false);
 	return 0;
 }
 

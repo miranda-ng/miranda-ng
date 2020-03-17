@@ -48,17 +48,14 @@ static void RecvMsgSvc_func(RecvParams *param)
 				if (globals.bDebugLog)
 					globals.debuglog << std::string(time_str() + ": info: received encrypted message from: " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with turned off encryption");
 				if (MessageBox(nullptr, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
-					if (!isContactHaveKey(hContact)) {
-						void ShowLoadPublicKeyDialog(bool = false);
-						globals.item_num = 0;		 //black magic here
-						globals.user_data[1] = hContact;
-						ShowLoadPublicKeyDialog(true);
-					}
+					if (!isContactHaveKey(hContact))
+						ShowLoadPublicKeyDialog(hContact, true);
 					else {
 						g_plugin.setByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption", 1);
 						setSrmmIcon(hContact);
 						setClistIcon(hContact);
 					}
+
 					if (isContactHaveKey(hContact)) {
 						g_plugin.setByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption", 1);
 						setSrmmIcon(hContact);

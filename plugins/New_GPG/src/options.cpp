@@ -18,12 +18,12 @@
 
 globals_s globals;
 
-
-int item_num = 0;
-HWND hwndList_p = nullptr;
 HWND hwndCurKey_p = nullptr;
 
-void ShowLoadPublicKeyDialog(bool = false);
+/////////////////////////////////////////////////////////////////////////////////////////
+// COptGpgMainDlg class
+
+static class COptGpgMainDlg *g_pMainDlg;
 
 class COptGpgMainDlg : public CDlgBase
 {
@@ -46,17 +46,21 @@ public:
 		btn_LOG_FILE_SET.OnClick = Callback(this, &COptGpgMainDlg::onClick_LOG_FILE_SET);
 
 		check_JABBER_API.OnChange = Callback(this, &COptGpgMainDlg::onChange_JABBER_API);
+
+		list_USERLIST.OnItemChanged = Callback(this, &COptGpgMainDlg::onItemChanged_USERLIST);
 	}
 
 	bool OnInitDialog() override
 	{
+		g_pMainDlg = this;
+
 		list_USERLIST.AddColumn(0, TranslateT("Contact"), 60);
 		list_USERLIST.AddColumn(1, TranslateT("Key ID"), 50);
 		list_USERLIST.AddColumn(2, TranslateT("Name"), 50);
 		list_USERLIST.AddColumn(3, TranslateT("Email"), 50);
 		list_USERLIST.AddColumn(4, TranslateT("Account"), 60);
 		list_USERLIST.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_SINGLEROW);
-		int i = 1;
+
 		for (auto &hContact : Contacts()) {
 			if (!isContactHaveKey(hContact))
 				continue;
@@ -67,7 +71,7 @@ public:
 
 			wchar_t *name = Clist_GetContactDisplayName(hContact);
 
-			int row = list_USERLIST.AddItem(L"", 0);
+			int row = list_USERLIST.AddItem(L"", 0, hContact);
 			list_USERLIST.SetItemText(row, 0, name);
 
 			list_USERLIST.SetItemText(row, 4, pa->tszAccountName);
@@ -83,15 +87,9 @@ public:
 				
 			if (g_plugin.getByte(hContact, "GPGEncryption", 0))
 				list_USERLIST.SetCheckState(row, 1);
-			globals.user_data[(int)i] = hContact;
-			i++;
 		}
 
-		list_USERLIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
-		list_USERLIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
-		list_USERLIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
-		list_USERLIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
-		list_USERLIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
+		SetListAutoSize();
 
 		edit_LOG_FILE_EDIT.SetText(ptrW(g_plugin.getWStringA("szLogFilePath", L"")));
 
@@ -112,11 +110,8 @@ public:
 
 		//TODO: get rid of following s..t
 		////////////////
-		hwndList_p = list_USERLIST.GetHwnd();
 		hwndCurKey_p = lbl_CURRENT_KEY.GetHwnd();
 		////////////////
-
-		list_USERLIST.OnItemChanged = Callback(this, &COptGpgMainDlg::onItemChanged_USERLIST);
 		return true;
 	}
 
@@ -138,101 +133,105 @@ public:
 		return true;
 	}
 
+	void OnDestroy() override
+	{
+		hwndCurKey_p = nullptr;
+		g_pMainDlg = nullptr;
+	}
+
 	void onClick_DELETE_KEY_BUTTON(CCtrlButton*)
 	{
-		void setClistIcon(MCONTACT hContact);
-		void setSrmmIcon(MCONTACT hContact);
-		{ //gpg execute block
-			wchar_t *ptmp;
-			bool keep = false;
-			bool ismetacontact = false;
-			MCONTACT meta = NULL;
-			MCONTACT hContact = globals.user_data[item_num + 1];
-			if (db_mc_isMeta(hContact)) {
-				meta = hContact;
-				hContact = metaGetMostOnline(hContact);
-				ismetacontact = true;
+		int idx = list_USERLIST.GetSelectionMark();
+		if (idx == -1)
+			return;
+
+		bool keep = false;
+		bool ismetacontact = false;
+		MCONTACT meta = NULL;
+		MCONTACT hContact = list_USERLIST.GetItemData(idx);
+		if (db_mc_isMeta(hContact)) {
+			meta = hContact;
+			hContact = metaGetMostOnline(hContact);
+			ismetacontact = true;
+		}
+		else if ((meta = db_mc_getMeta(hContact)) != NULL) {
+			hContact = metaGetMostOnline(meta);
+			ismetacontact = true;
+		}
+
+		CMStringA tmp(g_plugin.getMStringA(hContact, "KeyID"));
+		for (auto &hcnttmp : Contacts()) {
+			if (hcnttmp != hContact) {
+				ptrA tmp2(g_plugin.getStringA(hcnttmp, "KeyID"));
+				if (!mir_strcmp(tmp, tmp2)) {
+					keep = true;
+					break;
+				}
 			}
-			else if ((meta = db_mc_getMeta(globals.user_data[item_num + 1])) != NULL) {
-				hContact = metaGetMostOnline(meta);
-				ismetacontact = true;
+		}
+
+		if (!keep)
+			if (MessageBox(nullptr, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring?"), TranslateT("Key info"), MB_YESNO) == IDYES) {
+				gpg_execution_params params;
+				params.addParam(L"--batch");
+				params.addParam(L"--yes");
+				params.addParam(L"--delete-key");
+				params.addParam(_A2T(tmp).get());
+				if (!gpg_launcher(params))
+					return;
+
+				if (params.result == pxNotFound)
+					return;
+
+				if (params.out.Find("--delete-secret-keys") != -1)
+					MessageBox(nullptr, TranslateT("we have secret key for this public key, do not removing from GPG keyring"), TranslateT("info"), MB_OK);
+				else
+					MessageBox(nullptr, TranslateT("Key removed from GPG keyring"), TranslateT("info"), MB_OK);
 			}
 
-			CMStringA tmp(g_plugin.getMStringA(hContact, "KeyID"));
-			for (auto &hcnttmp : Contacts()) {
-				if (hcnttmp != hContact) {
-					ptrA tmp2(g_plugin.getStringA(hcnttmp, "KeyID"));
-					if (!mir_strcmp(tmp, tmp2)) {
-						keep = true;
-						break;
+		if (ismetacontact) {
+			if (MessageBox(nullptr, TranslateT("Do you want to remove key from entire metacontact (all subcontacts)?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
+				MCONTACT hcnt = NULL;
+				int count = db_mc_getSubCount(meta);
+				for (int i = 0; i < count; i++) {
+					hcnt = db_mc_getSub(meta, i);
+					if (hcnt) {
+						g_plugin.delSetting(hcnt, "KeyID");
+						g_plugin.delSetting(hcnt, "GPGPubKey");
+						g_plugin.delSetting(hcnt, "KeyMainName");
+						g_plugin.delSetting(hcnt, "KeyType");
+						g_plugin.delSetting(hcnt, "KeyMainEmail");
+						g_plugin.delSetting(hcnt, "KeyComment");
+						setClistIcon(hcnt);
+						setSrmmIcon(hcnt);
 					}
-				}
-			}
-
-			if (!keep)
-				if (MessageBox(nullptr, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring?"), TranslateT("Key info"), MB_YESNO) == IDYES) {
-					gpg_execution_params params;
-					params.addParam(L"--batch");
-					params.addParam(L"--yes");
-					params.addParam(L"--delete-key");
-					ptmp = mir_a2u(tmp);
-					params.addParam(ptmp);
-					mir_free(ptmp);
-					if (!gpg_launcher(params))
-						return;
-
-					if (params.result == pxNotFound)
-						return;
-
-					if (params.out.Find("--delete-secret-keys") != -1)
-						MessageBox(nullptr, TranslateT("we have secret key for this public key, do not removing from GPG keyring"), TranslateT("info"), MB_OK);
-					else
-						MessageBox(nullptr, TranslateT("Key removed from GPG keyring"), TranslateT("info"), MB_OK);
-				}
-
-			if (ismetacontact) {
-				if (MessageBox(nullptr, TranslateT("Do you want to remove key from entire metacontact (all subcontacts)?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
-					MCONTACT hcnt = NULL;
-					int count = db_mc_getSubCount(meta);
-					for (int i = 0; i < count; i++) {
-						hcnt = db_mc_getSub(meta, i);
-						if (hcnt) {
-							g_plugin.delSetting(hcnt, "KeyID");
-							g_plugin.delSetting(hcnt, "GPGPubKey");
-							g_plugin.delSetting(hcnt, "KeyMainName");
-							g_plugin.delSetting(hcnt, "KeyType");
-							g_plugin.delSetting(hcnt, "KeyMainEmail");
-							g_plugin.delSetting(hcnt, "KeyComment");
-							setClistIcon(hcnt);
-							setSrmmIcon(hcnt);
-						}
-					}
-				}
-				else {
-					g_plugin.delSetting(hContact, "KeyID");
-					g_plugin.delSetting(hContact, "GPGPubKey");
-					g_plugin.delSetting(hContact, "KeyMainName");
-					g_plugin.delSetting(hContact, "KeyType");
-					g_plugin.delSetting(hContact, "KeyMainEmail");
-					g_plugin.delSetting(hContact, "KeyComment");
-					setClistIcon(hContact);
-					setSrmmIcon(hContact);
 				}
 			}
 			else {
-				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyID");
-				g_plugin.delSetting(globals.user_data[item_num + 1], "GPGPubKey");
-				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyMainName");
-				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyType");
-				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyMainEmail");
-				g_plugin.delSetting(globals.user_data[item_num + 1], "KeyComment");
-				setClistIcon(globals.user_data[item_num + 1]);
-				setSrmmIcon(globals.user_data[item_num + 1]);
+				g_plugin.delSetting(hContact, "KeyID");
+				g_plugin.delSetting(hContact, "GPGPubKey");
+				g_plugin.delSetting(hContact, "KeyMainName");
+				g_plugin.delSetting(hContact, "KeyType");
+				g_plugin.delSetting(hContact, "KeyMainEmail");
+				g_plugin.delSetting(hContact, "KeyComment");
+				setClistIcon(hContact);
+				setSrmmIcon(hContact);
 			}
 		}
-		list_USERLIST.SetItemText(item_num, 3, TranslateT("not set"));
-		list_USERLIST.SetItemText(item_num, 2, TranslateT("not set"));
-		list_USERLIST.SetItemText(item_num, 1, TranslateT("not set"));
+		else {
+			g_plugin.delSetting(hContact, "KeyID");
+			g_plugin.delSetting(hContact, "GPGPubKey");
+			g_plugin.delSetting(hContact, "KeyMainName");
+			g_plugin.delSetting(hContact, "KeyType");
+			g_plugin.delSetting(hContact, "KeyMainEmail");
+			g_plugin.delSetting(hContact, "KeyComment");
+			setClistIcon(hContact);
+			setSrmmIcon(hContact);
+		}
+
+		list_USERLIST.SetItemText(idx, 3, TranslateT("not set"));
+		list_USERLIST.SetItemText(idx, 2, TranslateT("not set"));
+		list_USERLIST.SetItemText(idx, 1, TranslateT("not set"));
 	}
 
 	void onClick_SELECT_KEY(CCtrlButton*)
@@ -243,9 +242,14 @@ public:
 
 	void onClick_SAVE_KEY_BUTTON(CCtrlButton*)
 	{
+		int idx = list_USERLIST.GetSelectionMark();
+		if (idx == -1)
+			return;
+
+		MCONTACT hContact = list_USERLIST.GetItemData(idx);
 		ptrW tmp(GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true));
 		if (tmp) {
-			CMStringW str(g_plugin.getMStringW(globals.user_data[item_num + 1], "GPGPubKey"));
+			CMStringW str(g_plugin.getMStringW(hContact, "GPGPubKey"));
 			str.Replace(L"\r", L"");
 
 			wfstream f(tmp, std::ios::out);
@@ -307,40 +311,41 @@ public:
 
 	void onItemChanged_USERLIST(CCtrlListView::TEventInfo *ev)
 	{
-		//TODO: get rid of "item_num"
-		if (ev->nmlv)
-		{
-			NMLISTVIEW *hdr = ev->nmlv;
-			
-			if (hdr->iItem == -1)
-				return;
-			void setClistIcon(MCONTACT hContact);
-			void setSrmmIcon(MCONTACT hContact);
-			item_num = hdr->iItem;
-			if (list_USERLIST.GetCheckState(hdr->iItem))
-				g_plugin.setByte(globals.user_data[item_num + 1], "GPGEncryption", 1);
-			else
-				g_plugin.setByte(globals.user_data[item_num + 1], "GPGEncryption", 0);
-			setClistIcon(globals.user_data[item_num + 1]);
-			setSrmmIcon(globals.user_data[item_num + 1]);
-		}
+		NMLISTVIEW *hdr = ev->nmlv;
+		if (hdr->iItem == -1)
+			return;
+
+		void setClistIcon(MCONTACT hContact);
+		void setSrmmIcon(MCONTACT hContact);
+
+		MCONTACT hContact = list_USERLIST.GetItemData(hdr->iItem);
+		if (list_USERLIST.GetCheckState(hdr->iItem))
+			g_plugin.setByte(hContact, "GPGEncryption", 1);
+		else
+			g_plugin.setByte(hContact, "GPGEncryption", 0);
+		setClistIcon(hContact);
+		setSrmmIcon(hContact);
 	}
 
-	void onClick_USERLIST(CCtrlListView::TEventInfo *ev)
+	void SetLineText(int i, const wchar_t *pwszText)
 	{
-		//TODO: get rid of "item_num"
-		if (ev->nmlv)
-		{
-			NMLISTVIEW *hdr = ev->nmlv;
+		int idx = list_USERLIST.GetSelectionMark();
+		if (idx != -1)
+			list_USERLIST.SetItemText(idx, i, pwszText);			
+	}
 
-			if (hdr->iItem == -1)
-				return;
-
-			item_num = hdr->iItem;
-		}
+	void SetListAutoSize()
+	{
+		list_USERLIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
+		list_USERLIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
+		list_USERLIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
+		list_USERLIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
+		list_USERLIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
 	}
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// COptGpgBinDlg class
 
 class COptGpgBinDlg : public CDlgBase
 {
@@ -366,12 +371,12 @@ public:
 
 	bool OnApply() override
 	{
-		wchar_t tmp[8192];
-		g_plugin.setWString("szGpgBinPath", edit_BIN_PATH.GetText());
-		mir_wstrncpy(tmp, edit_HOME_DIR.GetText(), 8191);
-		while (tmp[mir_wstrlen(tmp) - 1] == '\\')
-			tmp[mir_wstrlen(tmp) - 1] = '\0';
-		g_plugin.setWString("szHomePath", tmp);
+		g_plugin.setWString("szGpgBinPath", ptrW(edit_BIN_PATH.GetText()));
+
+		ptrW wszHomeDir(edit_HOME_DIR.GetText());
+		while (wszHomeDir[mir_wstrlen(wszHomeDir) - 1] == '\\')
+			wszHomeDir[mir_wstrlen(wszHomeDir) - 1] = '\0';
+		g_plugin.setWString("szHomePath", wszHomeDir);
 		return true;
 	}
 
@@ -543,7 +548,9 @@ class CDlgLoadPubKeyDlg : public CDlgBase
 	CCtrlEdit edit_PUBLIC_KEY_EDIT;
 
 public:
-	CDlgLoadPubKeyDlg() : CDlgBase(g_plugin, IDD_LOAD_PUBLIC_KEY),
+	CDlgLoadPubKeyDlg(MCONTACT _p1) :
+		CDlgBase(g_plugin, IDD_LOAD_PUBLIC_KEY),
+		hContact(_p1),
 		chk_ENABLE_ENCRYPTION(this, IDC_ENABLE_ENCRYPTION),
 		btn_SELECT_EXISTING(this, IDC_SELECT_EXISTING), btn_OK(this, ID_OK), btn_LOAD_FROM_FILE(this, ID_LOAD_FROM_FILE), btn_IMPORT(this, IDC_IMPORT),
 		edit_PUBLIC_KEY_EDIT(this, IDC_PUBLIC_KEY_EDIT)
@@ -556,7 +563,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		hContact = globals.user_data[1];
 		SetWindowPos(m_hwnd, nullptr, globals.load_key_rect.left, globals.load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		mir_subclassWindow(GetDlgItem(m_hwnd, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
 		MCONTACT hcnt = db_mc_tryMeta(hContact);
@@ -759,10 +765,10 @@ public:
 					}
 					mir_free(tmp3);
 				}
-				tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s)).c_str());
-				if (hContact && hwndList_p)
-					ListView_SetItemText(hwndList_p, item_num, 1, tmp);
-				mir_free(tmp);
+
+				if (hContact && g_pMainDlg)
+					g_pMainDlg->SetLineText(1, toUTF16(output.substr(s, s2 - s)).c_str());
+
 				s = output.find("“", s2);
 				if (s == string::npos) {
 					s = output.find("\"", s2);
@@ -800,10 +806,10 @@ public:
 						}
 						mir_free(tmp3);
 					}
-					tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s - 1)).c_str());
-					if (hContact && hwndList_p)
-						ListView_SetItemText(hwndList_p, item_num, 2, tmp); //TODO: do something with this
-					mir_free(tmp);
+
+					if (hContact && g_pMainDlg)
+						g_pMainDlg->SetLineText(2, toUTF16(output.substr(s, s2 - s - 1)).c_str());
+
 					if ((s = output.find(")", s2)) == string::npos)
 						s = output.find(">", s2);
 					else if (s > output.find(">", s2))
@@ -849,10 +855,9 @@ public:
 								else g_plugin.setString(hContact, "KeyMainEmail", output.substr(s, s2 - s).c_str());
 							}
 							mir_free(tmp3);
-							tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s)).c_str());
-							if (hContact && hwndList_p)
-								ListView_SetItemText(hwndList_p, item_num, 3, tmp);
-							mir_free(tmp);
+
+							if (hContact && g_pMainDlg)
+								g_pMainDlg->SetLineText(3, toUTF16(output.substr(s, s2 - s)).c_str());
 						}
 						else {
 							char *tmp3 = (char*)mir_alloc(output.substr(s2, s - s2).length() + 1);
@@ -873,20 +878,14 @@ public:
 								else g_plugin.setString(hContact, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 							}
 							mir_free(tmp3);
-							tmp = mir_wstrdup(toUTF16(output.substr(s2, s - s2)).c_str());
-							if (hContact && hwndList_p)
-								ListView_SetItemText(hwndList_p, item_num, 3, tmp); //TODO: do something with this
-							mir_free(tmp);
+
+							if (hContact && g_pMainDlg)
+								g_pMainDlg->SetLineText(3, toUTF16(output.substr(s2, s - s2)).c_str());
 						}
 					}
 				}
-				if (hContact && hwndList_p)  //TODO: do something with this
-				{
-					ListView_SetColumnWidth(hwndList_p, 0, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList_p, 1, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList_p, 2, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList_p, 3, LVSCW_AUTOSIZE);
-				}
+				if (hContact && g_pMainDlg)
+					g_pMainDlg->SetListAutoSize();
 			}
 			if (!hContact) {
 				gpg_execution_params params2;
@@ -978,10 +977,10 @@ public:
 };
 
 
-void ShowLoadPublicKeyDialog(bool modal)
+void ShowLoadPublicKeyDialog(MCONTACT hContact, bool bModal)
 {
-	CDlgLoadPubKeyDlg *d = new CDlgLoadPubKeyDlg();
-	if (modal)
+	CDlgLoadPubKeyDlg *d = new CDlgLoadPubKeyDlg(hContact);
+	if (bModal)
 		d->DoModal();
 	else
 		d->Show();

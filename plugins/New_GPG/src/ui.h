@@ -17,6 +17,8 @@
 #ifndef UI_H
 #define UI_H
 
+void ShowLoadPublicKeyDialog(MCONTACT hContact, bool bModal);
+
 class CDlgEncryptedFileMsgBox : public CDlgBase
 {
 	CCtrlCheck chk_REMEMBER;

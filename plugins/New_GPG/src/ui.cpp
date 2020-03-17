@@ -342,10 +342,7 @@ void CDlgFirstRun::onClick_GENERATE_KEY(CCtrlButton*)
 
 void CDlgFirstRun::onClick_OTHER(CCtrlButton*)
 {
-	void ShowLoadPublicKeyDialog(bool = false);
-	globals.item_num = 0;		 //black magic here
-	globals.user_data[1] = 0;
-	ShowLoadPublicKeyDialog(true);
+	ShowLoadPublicKeyDialog(0, true);
 	refresh_key_list();
 }
 
@@ -354,6 +351,7 @@ void CDlgFirstRun::onClick_DELETE_KEY(CCtrlButton*)
 	int  i = list_KEY_LIST.GetSelectionMark();
 	if (i == -1)
 		return;
+	
 	list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
 	{
 		gpg_execution_params params;
@@ -365,28 +363,22 @@ void CDlgFirstRun::onClick_DELETE_KEY(CCtrlButton*)
 		if (params.result == pxNotFound)
 			return;
 
-		string out(params.out);
-		string::size_type s = out.find("Key fingerprint = ");
+		int s = params.out.Find("Key fingerprint = ");
 		s += mir_strlen("Key fingerprint = ");
-		string::size_type s2 = out.find("\n", s);
-		wchar_t *str = nullptr;
-		{
-			string tmp = out.substr(s, s2 - s - 1).c_str();
-			string::size_type p = 0;
-			while ((p = tmp.find(" ", p)) != string::npos)
-				tmp.erase(p, 1);
+		int s2 = params.out.Find("\n", s);
 
-			str = mir_a2u(tmp.c_str());
-		}
+		CMStringW tmp = params.out.Mid(s, s2 - s - 1);
+		tmp.Remove(' ');
 
-		params.addParam(L"--batch");
-		params.addParam(L"--delete-secret-and-public-key");
-		params.addParam(L"--fingerprint");
-		params.addParam(str);
-		mir_free(str);
-		if (!gpg_launcher(params))
+		gpg_execution_params params2;
+		params2.addParam(L"--batch");
+		params2.addParam(L"--delete-secret-and-public-key");
+		params2.addParam(L"--fingerprint");
+		params2.addParam(tmp.c_str());
+
+		if (!gpg_launcher(params2))
 			return;
-		if (params.result == pxNotFound)
+		if (params2.result == pxNotFound)
 			return;
 	}
 
