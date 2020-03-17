@@ -308,7 +308,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					string::size_type s2 = output.find(":", s);
 					g_plugin.setString(hcnt, "KeyID", output.substr(s, s2 - s).c_str());
-					s = output.find("вЂњ", s2);
+					s = output.find(RUS_QUOTE, s2);
 					if (s == string::npos) {
 						s = output.find("\"", s2);
 						s += 1;
@@ -318,7 +318,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 					bool uncommon = false;
 					if ((s2 = output.find("(", s)) == string::npos) {
 						if ((s2 = output.find("<", s)) == string::npos) {
-							s2 = output.find("вЂќ", s);
+							s2 = output.find(RUS_ANGLE, s);
 							uncommon = true;
 						}
 					}
@@ -371,7 +371,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 			string::size_type s2 = output.find(":", s);
 			g_plugin.setString(metaGetMostOnline(hContact), "KeyID", output.substr(s, s2 - s).c_str());
-			s = output.find("вЂњ", s2);
+			s = output.find(RUS_QUOTE, s2);
 			if (s == string::npos) {
 				s = output.find("\"", s2);
 				s += 1;
@@ -381,7 +381,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			bool uncommon = false;
 			if ((s2 = output.find("(", s)) == string::npos) {
 				if ((s2 = output.find("<", s)) == string::npos) {
-					s2 = output.find("вЂќ", s);
+					s2 = output.find(RUS_ANGLE, s);
 					uncommon = true;
 				}
 			}
@@ -432,17 +432,17 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 		string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 		string::size_type s2 = output.find(":", s);
 		g_plugin.setString(hContact, "KeyID", output.substr(s, s2 - s).c_str());
-		s = output.find("вЂњ", s2);
+		s = output.find(RUS_QUOTE, s2);
 		if (s == string::npos) {
 			s = output.find("\"", s2);
 			s += 1;
 		}
-		else
-			s += 3;
+		else s += 3;
+		
 		bool uncommon = false;
 		if ((s2 = output.find("(", s)) == string::npos) {
 			if ((s2 = output.find("<", s)) == string::npos) {
-				s2 = output.find("вЂќ", s);
+				s2 = output.find(RUS_ANGLE, s);
 				uncommon = true;
 			}
 		}

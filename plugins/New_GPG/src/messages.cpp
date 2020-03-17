@@ -435,7 +435,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				s2 = output.find(":", s1);
 				g_plugin.setString(ccs->hContact, "KeyID", output.substr(s1, s2 - s1).c_str());
 				s2 += 2;
-				s1 = output.find("вЂњ", s2);
+				s1 = output.find(RUS_QUOTE, s2);
 				if (s1 == string::npos) {
 					s1 = output.find("\"", s2);
 					s1 += 1;
