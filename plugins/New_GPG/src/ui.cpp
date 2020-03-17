@@ -128,10 +128,10 @@ bool CDlgChangePasswdMsgBox::OnApply()
 	params.addParam(globals.key_id_global);
 	params.addParam(L"passwd");
 	
-	HANDLE hThread = mir_forkthread(&pxEexcute_passwd_change_thread, &params);
+	HANDLE hThread = mir_forkThread<gpg_execution_params_pass>(&pxEexcute_passwd_change_thread, &params);
 	if (WaitForSingleObject(hThread, 600000) != WAIT_OBJECT_0) {
 		if (params.child)
-			boost::process::terminate(*(params.child));
+			params.child->terminate();
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
 		return true;
@@ -310,10 +310,10 @@ void CDlgFirstRun::onClick_CHANGE_PASSWD(CCtrlButton*)
 	params.addParam(globals.key_id_global);
 	params.addParam(L"passwd");
 
-	HANDLE hThread = mir_forkthread(pxEexcute_passwd_change_thread, &params);
+	HANDLE hThread = mir_forkThread<gpg_execution_params_pass>(pxEexcute_passwd_change_thread, &params);
 	if (WaitForSingleObject(hThread, 600000) != WAIT_OBJECT_0) {
 		if (params.child)
-			boost::process::terminate(*(params.child));
+			params.child->terminate();
 		if (globals.bDebugLog)
 			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
 		this->Close();

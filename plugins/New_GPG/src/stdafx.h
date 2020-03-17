@@ -19,12 +19,15 @@
 
 #pragma warning(disable:4512 4267 4127)
 
+#define WIN32_LEAN_AND_MEAN
 #define _SCL_SECURE_NO_WARNINGS
+
+#include <io.h>
 
 // windows
 #include <windows.h>
+#include <commdlg.h>
 #include <shlobj.h>
-#include <io.h>
 #include <shlwapi.h>
 
 // c++
@@ -48,6 +51,7 @@ using std::fstream;
 
 // boost process
 #include <boost/process.hpp>
+#include <boost/process/windows.hpp>
 
 // miranda
 #include <newpluginapi.h>

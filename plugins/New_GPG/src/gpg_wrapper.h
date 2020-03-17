@@ -43,8 +43,6 @@ struct gpg_execution_params
 	__forceinline void addParam(const std::wstring &param)
 	{	aargv.push_back(param);
 	}
-
-	pxResult pxExecute();
 };
 
 struct gpg_execution_params_pass : public gpg_execution_params
@@ -59,8 +57,7 @@ struct gpg_execution_params_pass : public gpg_execution_params
 };
 
 
-void pxEexcute_thread(gpg_execution_params &params);
 bool gpg_launcher(gpg_execution_params &params, boost::posix_time::time_duration t = boost::posix_time::seconds(10));
-void __cdecl pxEexcute_passwd_change_thread(void *param);
+void __cdecl pxEexcute_passwd_change_thread(gpg_execution_params_pass *param);
 
 #endif

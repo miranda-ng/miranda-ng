@@ -54,38 +54,45 @@ public:
 		list_USERLIST.AddColumn(1, TranslateT("Key ID"), 50);
 		list_USERLIST.AddColumn(2, TranslateT("Name"), 50);
 		list_USERLIST.AddColumn(3, TranslateT("Email"), 50);
-		list_USERLIST.AddColumn(4, TranslateT("Protocol"), 60);
+		list_USERLIST.AddColumn(4, TranslateT("Account"), 60);
 		list_USERLIST.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_SINGLEROW);
 		int i = 1;
 		for (auto &hContact : Contacts()) {
-			if (isContactHaveKey(hContact)) {
-				wchar_t *name = Clist_GetContactDisplayName(hContact);
+			if (!isContactHaveKey(hContact))
+				continue;
 
-				int row = list_USERLIST.AddItem(L"", 0);
-				list_USERLIST.SetItemText(row, 0, name);
+			auto *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
+			if (pa == nullptr)
+				continue;
 
-				list_USERLIST.SetItemText(row, 4, _A2T(Proto_GetBaseAccountName(hContact)));
+			wchar_t *name = Clist_GetContactDisplayName(hContact);
 
-				CMStringW tmp = g_plugin.getMStringW(hContact, "KeyID", L"not set");
-				list_USERLIST.SetItemText(row, 1, tmp);
+			int row = list_USERLIST.AddItem(L"", 0);
+			list_USERLIST.SetItemText(row, 0, name);
 
-				tmp = g_plugin.getMStringW(hContact, "KeyMainName", L"not set");
-				list_USERLIST.SetItemText(row, 2, tmp);
+			list_USERLIST.SetItemText(row, 4, pa->tszAccountName);
 
-				tmp = g_plugin.getMStringW(hContact, "KeyMainEmail", L"not set");
-				list_USERLIST.SetItemText(row, 3, tmp);
+			CMStringW tmp = g_plugin.getMStringW(hContact, "KeyID", L"not set");
+			list_USERLIST.SetItemText(row, 1, tmp);
+
+			tmp = g_plugin.getMStringW(hContact, "KeyMainName", L"not set");
+			list_USERLIST.SetItemText(row, 2, tmp);
+
+			tmp = g_plugin.getMStringW(hContact, "KeyMainEmail", L"not set");
+			list_USERLIST.SetItemText(row, 3, tmp);
 				
-				if (g_plugin.getByte(hContact, "GPGEncryption", 0))
-					list_USERLIST.SetCheckState(row, 1);
-				globals.user_data[(int)i] = hContact;
-				list_USERLIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
-				list_USERLIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
-				list_USERLIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
-				list_USERLIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
-				list_USERLIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
-				i++;
-			}
+			if (g_plugin.getByte(hContact, "GPGEncryption", 0))
+				list_USERLIST.SetCheckState(row, 1);
+			globals.user_data[(int)i] = hContact;
+			i++;
 		}
+
+		list_USERLIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
+		list_USERLIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
+		list_USERLIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
+		list_USERLIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
+		list_USERLIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
+
 		edit_LOG_FILE_EDIT.SetText(ptrW(g_plugin.getWStringA("szLogFilePath", L"")));
 
 		check_DEBUG_LOG.SetState(g_plugin.getByte("bDebugLog", 0));
