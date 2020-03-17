@@ -34,7 +34,7 @@ LPCSTR sim115 = LPGEN("Can't import RSA public key!");
 
 //Options
 LPCSTR sim201 = LPGEN("General");
-LPCSTR sim202 = LPGEN("Protocols");
+LPCSTR sim202 = LPGEN("Accounts");
 LPCSTR sim203 = LPGEN("Nickname");
 LPCSTR sim204 = "UIN/Email/JID/...";
 LPCSTR sim205 = LPGEN("Status");
