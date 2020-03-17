@@ -460,13 +460,13 @@ public:
 		listUsers.InsertColumn(1, &cCol);
 
 		cCol.cx = nProtoColWitdh;
-		cCol.pszText = TranslateT("Proto");
+		cCol.pszText = TranslateT("Account");
 		listUsers.InsertColumn(2, &cCol);
 
 		cCol.cx = nUINColWitdh;
 		cCol.mask |= LVCF_FMT;
 		cCol.fmt = LVCFMT_RIGHT;
-		cCol.pszText = TranslateT("UIN");
+		cCol.pszText = TranslateT("UIN/Email/JID/...");
 		listUsers.InsertColumn(3, &cCol);
 
 		int nUser = 0;
@@ -860,7 +860,7 @@ public:
 		LVCOLUMN cCol = { 0 };
 		cCol.mask = LVCF_TEXT | LVCF_WIDTH;
 		cCol.cx = nColumnWidth;
-		cCol.pszText = TranslateT("Export Protocols");
+		cCol.pszText = TranslateT("Export accounts");
 		listProtos.InsertColumn(0, &cCol);
 
 		LVITEMW sItem = { 0 };

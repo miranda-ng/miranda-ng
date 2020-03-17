@@ -744,7 +744,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 				// This is written this way because I expect this will become a string the user may set 
 				// in the options dialog.
 				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
-				output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Protocol"), szProto);
+				output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
 
 				ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
 				if (id != NULL)
