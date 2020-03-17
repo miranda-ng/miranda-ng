@@ -284,10 +284,9 @@ CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *pErrorCode)
 		}
 	}
 
+	ret.Format(L"%s %d: %s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)));
 	if (str != nullptr)
-		ret.Format(L"%s %d: %s\r\n%s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)), Utf2T(str).get());
-	else
-		ret.Format(L"%s %d: %s", TranslateT("Error"), errorCode, TranslateW(JabberErrorStr(errorCode)));
+		ret.AppendFormat(L"\r\n%s", Utf2T(str).get());
 
 	if (pErrorCode)
 		*pErrorCode = errorCode;

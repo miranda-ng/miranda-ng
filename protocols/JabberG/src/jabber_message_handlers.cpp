@@ -38,14 +38,16 @@ bool CJabberProto::OnMessageError(const TiXmlElement *node, ThreadData*, CJabber
 		if (id != -1)
 			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)szErrText.c_str());
 		else {
-			wchar_t buf[512];
-			auto *body = XmlGetChildText(node, "body");
-			if (body)
-				mir_snwprintf(buf, L"%s:\n%s\n%s", pInfo->GetFrom(), body, szErrText.c_str());
-			else
-				mir_snwprintf(buf, L"%s:\n%s", pInfo->GetFrom(), szErrText.c_str());
+			CMStringW wszErrorText(Utf2T(pInfo->GetFrom()));
+			wszErrorText.Append(L":\n");
 
-			MsgPopup(0, buf, TranslateT("Error"));
+			if (auto *body = XmlGetChildText(node, "body")) {
+				wszErrorText.Append(Utf2T(body));
+				wszErrorText.AppendChar('\n');
+			}
+
+			wszErrorText += szErrText;
+			MsgPopup(0, wszErrorText, TranslateT("Error"));
 		}
 	}
 	return true;
