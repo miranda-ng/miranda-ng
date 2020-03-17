@@ -313,7 +313,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 						s = output.find("\"", s2);
 						s += 1;
 					}
-					else s += 3;
+					else s += sizeof(RUS_QUOTE) - 1;
 
 					bool uncommon = false;
 					if ((s2 = output.find("(", s)) == string::npos) {
@@ -376,8 +376,8 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 				s = output.find("\"", s2);
 				s += 1;
 			}
-			else
-				s += 3;
+			else s += sizeof(RUS_QUOTE) - 1;
+
 			bool uncommon = false;
 			if ((s2 = output.find("(", s)) == string::npos) {
 				if ((s2 = output.find("<", s)) == string::npos) {
@@ -437,7 +437,7 @@ void ImportKey(MCONTACT hContact, std::wstring new_key)
 			s = output.find("\"", s2);
 			s += 1;
 		}
-		else s += 3;
+		else s += sizeof(RUS_QUOTE) - 1;
 		
 		bool uncommon = false;
 		if ((s2 = output.find("(", s)) == string::npos) {

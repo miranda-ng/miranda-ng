@@ -440,7 +440,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					s1 = output.find("\"", s2);
 					s1 += 1;
 				}
-				else s1 += 3;
+				else s1 += sizeof(RUS_QUOTE) - 1;
 
 				if ((s2 = output.find("(", s1)) == string::npos)
 					s2 = output.find("<", s1);
