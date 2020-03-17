@@ -56,6 +56,9 @@ BOOL CCtrlListView::OnNotify(int, NMHDR *pnmh)
 	case LVN_SETDISPINFO:       OnSetDispInfo(&evt);       return TRUE;
 
 	case LVN_ITEMCHANGED:
+		if (!m_parentWnd || !m_parentWnd->IsInitialized())
+			return FALSE;
+
 		OnItemChanged(&evt);
 
 		// item's state is calculated as 1/2 << 12, so we check it to filter out all non-state changes
