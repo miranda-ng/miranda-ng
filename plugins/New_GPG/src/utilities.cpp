@@ -710,7 +710,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 	return FALSE;
 }
 
-static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, TiXmlElement* node, void*)
+static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface *ji, TiXmlElement* node, void*)
 {
 	for (auto *local_node = node->FirstChildElement(); local_node; local_node = local_node->NextSiblingElement()) {
 		LPCSTR nodename = local_node->Name();
@@ -787,11 +787,9 @@ static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface*, TiXmlElement* node
 						string::size_type p1 = out.find("key ID ") + mir_strlen("key ID ");
 						string::size_type p2 = out.find("\n", p1);
 						if (p1 != string::npos && p2 != string::npos) {
-							for (auto p : globals.Accounts) {
-								MCONTACT hContact = p->getJabberInterface()->ContactFromJID(node->Attribute("from"));
-								if (hContact)
-									globals.hcontact_data[hContact].key_in_prescense = out.substr(p1, p2 - p1 - 1).c_str();
-							}
+							MCONTACT hContact = ji->ContactFromJID(node->Attribute("from"));
+							if (hContact)
+								globals.hcontact_data[hContact].key_in_prescense = out.substr(p1, p2 - p1 - 1).c_str();
 						}
 					}
 				}
@@ -858,8 +856,8 @@ bool isContactHaveKey(MCONTACT hContact)
 
 bool isGPGKeyExist()
 {
-	CMStringW id(g_plugin.getMStringW("KeyID", L""));
-	CMStringA key(g_plugin.getMStringA("GPGPubKey", ""));
+	CMStringW id(g_plugin.getMStringW("KeyID"));
+	CMStringA key(g_plugin.getMStringA("GPGPubKey"));
 	return (!id.IsEmpty() && !key.IsEmpty());
 }
 
