@@ -466,7 +466,7 @@ public:
 		cCol.cx = nUINColWitdh;
 		cCol.mask |= LVCF_FMT;
 		cCol.fmt = LVCFMT_RIGHT;
-		cCol.pszText = TranslateT("UIN/Email/JID/...");
+		cCol.pszText = TranslateT("User ID");
 		listUsers.InsertColumn(3, &cCol);
 
 		int nUser = 0;

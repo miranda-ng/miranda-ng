@@ -748,7 +748,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 				ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
 				if (id != NULL)
-					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("UIN"), id.get());
+					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
 
 				szTemp[0] = (wchar_t)db_get_b(hContact, szProto, "Gender", 0);
 				if (szTemp[0]) {
