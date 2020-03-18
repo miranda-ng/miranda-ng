@@ -983,6 +983,7 @@ bool CDlgKeyGen::OnApply()
 	params.addParam(L"--yes");
 	params.addParam(L"--gen-key");
 	params.addParam(path.c_str());
+	params.bNoOutput = true;
 	if (!gpg_launcher(params, boost::posix_time::minutes(10)))
 		return false;
 	if (params.result == pxNotFound)

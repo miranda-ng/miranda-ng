@@ -18,6 +18,12 @@
 
 namespace bp = boost::process;
 
+gpg_execution_params::gpg_execution_params()
+{ }
+
+gpg_execution_params::~gpg_execution_params()
+{ }
+
 void pxEexcute_thread(gpg_execution_params *params)
 {
 	if (!globals.gpg_valid)
@@ -64,27 +70,39 @@ void pxEexcute_thread(gpg_execution_params *params)
 	wchar_t mir_path[MAX_PATH];
 	PathToAbsoluteW(L"\\", mir_path);
 
+	bp::child *c;
 	bp::ipstream perr, pout;
-	bp::child c(bin_path.c_str(), argv, bp::windows::hide, bp::std_out > pout, bp::std_err > perr);
-	params->child = &c;
-	c.wait();
+	if (params->bNoOutput)
+		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide);
+	else 
+		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide, bp::std_out > pout, bp::std_err > perr);
 
-	std::string s;
-	while (std::getline(pout, s)) {
-		params->out.Append(s.c_str());
-		params->out.Append("\n");
+	params->child = c;
+	c->wait();
+
+	if (!params->bNoOutput) {
+		std::string s;
+		while (!pout.eof()) {
+			std::getline(pout, s);
+			params->out.Append(s.c_str());
+			params->out.Append("\n");
+		}
+
+		while (!perr.eof()) {
+			std::getline(perr, s);
+			params->out.Append(s.c_str());
+			params->out.Append("\n");
+		}
+
+		params->out.Replace("\r\r", "");
+
+		if (globals.bDebugLog)
+			globals.debuglog << "gpg out: " << params->out.c_str();
 	}
-	while (std::getline(perr, s)) {
-		params->out.Append(s.c_str());
-		params->out.Append("\n");
-	}
-	params->out.Replace("\r\r", "");
 
-	if (globals.bDebugLog)
-		globals.debuglog << "gpg out: " << params->out.c_str();
-
-	params->code = c.exit_code();
 	params->child = nullptr;
+	params->code = c->exit_code();
+	delete c;
 
 	if (params->code) {
 		if (globals.bDebugLog)

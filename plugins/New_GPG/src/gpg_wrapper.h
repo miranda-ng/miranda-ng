@@ -34,9 +34,13 @@ enum pxResult
 
 struct gpg_execution_params
 {
+	gpg_execution_params();
+	~gpg_execution_params();
+
 	std::vector<std::wstring> aargv;
 	CMStringA out;
 	DWORD code = 0;
+	int bNoOutput = false;
 	pxResult result = pxSuccess;
 	boost::process::child *child = nullptr;
 
