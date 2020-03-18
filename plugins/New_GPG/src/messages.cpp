@@ -136,7 +136,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						params.addParam(globals.wszPassword.c_str());
 					}
 					else if (globals.bDebugLog)
-						globals.debuglog << "info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with out password";
+						globals.debuglog << "info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " without password";
 				}
 
 				if (!globals.bDebugLog) {

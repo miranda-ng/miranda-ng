@@ -283,7 +283,7 @@ int onProtoAck(WPARAM, LPARAM l)
 								params.addParam(globals.wszPassword.c_str());
 							}
 							else if (globals.bDebugLog)
-								globals.debuglog << "info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with out password";
+								globals.debuglog << "info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " without password";
 						}
 						params.addParam(L"-d");
 						params.addParam(filename);
@@ -606,7 +606,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 					params.addParam(globals.wszPassword.c_str());
 				}
 				else if (globals.bDebugLog)
-					globals.debuglog << "info: passwords not found in database or memory, trying to encrypt message from self with out password";
+					globals.debuglog << "info: passwords not found in database or memory, trying to encrypt message from self without password";
 			}
 
 			params.addParam(L"--local-user");
