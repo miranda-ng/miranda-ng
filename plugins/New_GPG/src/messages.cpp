@@ -577,10 +577,6 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 			return;
 		}
 		
-		params.addParam(L"--comment");
-		params.addParam(L"\"\"");
-		params.addParam(L"--no-version");
-
 		if (g_plugin.getByte(hContact, "bAlwaysTrust", 0)) {
 			params.addParam(L"--trust-model");
 			params.addParam(L"always");
