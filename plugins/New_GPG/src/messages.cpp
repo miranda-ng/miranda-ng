@@ -339,6 +339,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 			}
 		}
 	}
+	
 	if (g_plugin.getByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption")) {
 		HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags | DBEF_READ));
 		delete param;
@@ -507,6 +508,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		HistoryLog(ccs->hContact, db_event(msg, 0, 0, dbflags));
 		return 0;
 	}
+
 	if (globals.bAutoExchange && strstr(msg, "-----PGP KEY REQUEST-----") && globals.gpg_valid && globals.gpg_keyexist) {
 		if (globals.bDebugLog)
 			globals.debuglog << "info(autoexchange): received key request from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
@@ -575,11 +577,10 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 			return;
 		}
 		
-		if (!globals.bJabberAPI)  { //force jabber to handle encrypted message by itself
-			params.addParam(L"--comment");
-			params.addParam(L"\"\"");
-			params.addParam(L"--no-version");
-		}
+		params.addParam(L"--comment");
+		params.addParam(L"\"\"");
+		params.addParam(L"--no-version");
+
 		if (g_plugin.getByte(hContact, "bAlwaysTrust", 0)) {
 			params.addParam(L"--trust-model");
 			params.addParam(L"always");
@@ -587,10 +588,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		params.addParam(L"--batch");
 		params.addParam(L"--yes");
 		params.addParam(L"-eatr");
-		wchar_t *tmp2 = mir_a2u(tmp);
-
-		params.addParam(tmp2);
-		mir_free(tmp2);
+		params.addParam(_A2T(tmp).get());
 	}
 
 	CMStringW path(g_plugin.getMStringW("szHomePath"));
@@ -787,6 +785,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	if (!isContactHaveKey(hContact)) {
 		if (globals.bDebugLog)
 			globals.debuglog << "info: contact have not key, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
+
 		if (globals.bAutoExchange && !strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----") && !strstr((char*)dbei->pBlob, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && globals.gpg_valid) {
 			if (globals.bDebugLog)
 				globals.debuglog << "info: checking for autoexchange possibility, name: " + toUTF8(Clist_GetContactDisplayName(hContact));

@@ -118,10 +118,10 @@ public:
 	bool OnApply() override
 	{
 		g_plugin.setByte("bDebugLog", globals.bDebugLog = check_DEBUG_LOG.GetState());
+		globals.debuglog.init();
 
-		if (globals.bDebugLog)
-			globals.debuglog.init();
 		g_plugin.setByte("bJabberAPI", globals.bJabberAPI = check_JABBER_API.GetState());
+
 		bool old_bFileTransfers = g_plugin.getByte("bFileTransfers", 0) != 0;
 		g_plugin.setByte("bFileTransfers", globals.bFileTransfers = check_FILE_TRANSFERS.GetState());
 		if (globals.bFileTransfers != old_bFileTransfers) {

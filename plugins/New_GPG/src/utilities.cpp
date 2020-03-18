@@ -558,35 +558,6 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 			continue;
 
 		// TODO: make following block more readable
-		if (strstr(str, "-----BEGIN PGP MESSAGE-----") && strstr(str, "-----END PGP MESSAGE-----")) {
-			string data = str;
-			local_node->SetText("This message is encrypted.");
-			string::size_type p1 = data.find("-----BEGIN PGP MESSAGE-----") + mir_strlen("-----BEGIN PGP MESSAGE-----");
-			while (data.find("Version: ", p1) != wstring::npos) {
-				p1 = data.find("Version: ", p1);
-				p1 = data.find("\n", p1);
-			}
-			while (data.find("Comment: ", p1) != wstring::npos) {
-				p1 = data.find("Comment: ", p1);
-				p1 = data.find("\n", p1);
-			}
-			while (data.find("Encoding: ", p1) != wstring::npos) {
-				p1 = data.find("Encoding: ", p1);
-				p1 = data.find("\n", p1);
-			}
-			p1 += 3;
-			string::size_type p2 = data.find("-----END PGP MESSAGE-----");
-			string data2 = data.substr(p1, p2 - p1 - 2);
-			strip_line_term(data2);
-			if (globals.bDebugLog)
-				globals.debuglog << "jabber_api: attaching:\r\n\r\n" + data2 + "\n\n\t to outgoing xml";
-			
-			TiXmlElement *encrypted_data = pDoc->NewElement("x"); node->InsertEndChild(encrypted_data);
-			encrypted_data->SetText(data2.c_str());
-			encrypted_data->SetAttribute("xmlns", "jabber:x:encrypted");
-			break;
-		}
-
 		if (globals.bPresenceSigning && nodename && strstr(nodename, "status")) {
 			string path_out = ptrA(g_plugin.getUStringA("szHomePath", ""));
 			string file = get_random(10);
