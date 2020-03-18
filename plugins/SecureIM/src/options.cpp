@@ -439,7 +439,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 							hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE) ? IDM_CLIST01 : IDM_CLIST11));
 							break;
 						case 4: // PSK/PUB
-						case 5: // SHA1
+						case 5: // SHA-1
 							hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE) ? IDM_CLIST02 : IDM_CLIST12));
 							break;
 						default: // full menu
@@ -555,7 +555,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 			if (res == IDOK) {
 				if (!mir_exp->rsa_import_keypair(CPP_MODE_RSA, priv, passphrase))
 					msgbox(hDlg, sim113, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
-				else // обновить SHA1 значение
+				else // обновить SHA-1 значение
 					RefreshProtoDlg(hDlg);
 			}
 		}

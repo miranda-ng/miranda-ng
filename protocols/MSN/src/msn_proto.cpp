@@ -733,7 +733,7 @@ int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	case NETID_MOB:
 		if (mir_strlen(msg) > 133) {
 			seq = 999997;
-			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: SMS page limited to 133 UTF8 chars"));
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: SMS page limited to 133 UTF-8 chars"));
 		}
 		else {
 			seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag);
@@ -744,7 +744,7 @@ int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	case NETID_YAHOO:
 		if (mir_strlen(msg) > 1202) {
 			seq = 999996;
-			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars"));
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: MSN messages are limited by 1202 UTF-8 chars"));
 		}
 		else {
 			seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag);
@@ -755,7 +755,7 @@ int CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	default:
 		if (mir_strlen(msg) > 1202) {
 			seq = 999996;
-			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars"));
+			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)Translate("Message is too long: MSN messages are limited by 1202 UTF-8 chars"));
 		}
 		else {
 			if (netId != NETID_LCS) {

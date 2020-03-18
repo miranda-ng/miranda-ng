@@ -43,7 +43,7 @@ typedef struct {
     int (__cdecl *rsa_set_pubkey)(HANDLE,PBYTE,int);			// загружает паблик ключ для указанного контекста
     void (__cdecl *rsa_set_timeout)(int);				// установить таймаут для установки секюрного соединения
     int (__cdecl *rsa_get_state)(HANDLE);				// получить статус указанного контекста
-    int (__cdecl *rsa_get_hash)(PBYTE,int,PBYTE,int*);			// вычисляет SHA1(key)
+    int (__cdecl *rsa_get_hash)(PBYTE,int,PBYTE,int*);			// вычисляет SHA-1 (key)
     int (__cdecl *rsa_connect)(HANDLE);					// запускает процесс установки содинения с указанным контекстом
     int (__cdecl *rsa_disconnect)(HANDLE);				// разрывает соединение с указанным контекстом
     int (__cdecl *rsa_disabled)(HANDLE);				// разрывает соединение по причине "disabled"

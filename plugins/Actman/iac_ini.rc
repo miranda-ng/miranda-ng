@@ -21,7 +21,7 @@ FONT 8, "MS Shell Dlg", 0, 0
   LTEXT           "Value", -1               ,   4   90, 160, 11
   EDITTEXT                   IDC_INI_VALUE  ,   4, 101, 160, 12, ES_AUTOHSCROLL
   AUTOCHECKBOX "Use LastResult", IDC_INI_LR ,   4, 113, 160, 11
-  AUTOCHECKBOX "UTF8 encoding" , IDC_INI_UTF,   4, 125, 160, 11
+  AUTOCHECKBOX "UTF-8 encoding" , IDC_INI_UTF,   4, 125, 160, 11
 }
 
 IDI_INI ICON "ico\ini.ico"
