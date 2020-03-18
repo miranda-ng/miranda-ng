@@ -66,7 +66,7 @@
 [Scripting support]
 [Quit message:]
 [Server code page:]
-[Enable UTF8 autodetection]
+[Enable UTF-8 autodetection]
 [Add server]
 [Auto]
 [On]
@@ -216,8 +216,8 @@
 [DCC reversed file transfer request sent to %s [%s]]
 [DCC file transfer request sent to %s [%s]]
 [DCC ERROR: Unable to bind local port]
-[The protocol is not online]
 [The dcc chat connection is not active]
+[The protocol is not online]
 [Please choose an IRC-network to go online. This network will be the default.]
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 ;file \protocols\IRCG\src\options.cpp

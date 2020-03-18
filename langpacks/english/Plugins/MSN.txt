@@ -128,8 +128,8 @@
 [Contact already in your contact list]
 [Protocol is offline]
 [You cannot send message to yourself]
-[Message is too long: SMS page limited to 133 UTF8 chars]
-[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+[Message is too long: SMS page limited to 133 UTF-8 chars]
+[Message is too long: MSN messages are limited by 1202 UTF-8 chars]
 [Offline messaging is not allowed for LCS contacts]
 ;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]

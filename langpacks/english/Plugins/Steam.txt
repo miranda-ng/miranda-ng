@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.6.6
+;  Version: 0.11.6.7
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -32,7 +32,7 @@
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 [ (Non-Steam)]
-[ on server %s]
+[ on server %S]
 [Playing]
 [%s is back in your contact list]
 [%s has been removed from your contact list]

@@ -45,7 +45,7 @@
 [Parameter]
 [Value]
 [Use LastResult]
-[UTF8 encoding]
+[UTF-8 encoding]
 [Function call]
 [Function name]
 [DLL name]

@@ -2,12 +2,11 @@
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.2
+;  Version: 1.3.1.3
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
 ;file \protocols\Twitter\res\twitter.rc
-[Server:]
 [Create a new Twitter account]
 [Default group:]
 [Username:]
@@ -17,7 +16,6 @@
 [Cancel]
 [Miscellaneous options]
 [Use group chat for Twitter feed]
-[Base URL:]
 [Polling rate:]
 [Once every]
 [sec]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -709,6 +709,7 @@
 [Enable user activity receiving]
 [Receive notes]
 [Automatically save received notes]
+[Inline pictures in messages (XEP-0231)]
 [Enable server-side history (XEP-0136)]
 [Receive conversations from other devices (XEP-0280)]
 [Use Stream Management (XEP-0198) if possible (Testing)]

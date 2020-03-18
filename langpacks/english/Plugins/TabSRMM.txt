@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -104,7 +104,6 @@
 [Ignore sending timeouts]
 [Load only actual history]
 [Use private splitter position]
-[Contact is a favorite contact]
 [Always trim message log to]
 [events]
 [Only show tab bar when it's needed]
@@ -336,17 +335,6 @@
 [This contact]
 [Global setting]
 [Force off]
-[Recent sessions]
-[Favorites]
-[Show the tray icon]
-[Disable all event notifications]
-[Don't create windows automatically]
-[Hide all message containers]
-[Restore all message containers]
-[Don't play sounds]
-[Be "super quiet"]
-[Add contact to favorites]
-[Remove contact from favorites]
 [Set position for this session]
 [Set and save for all sessions]
 [Set and save for this contact only]
@@ -625,7 +613,6 @@
 [Show a preview of the event]
 [Don't announce event when message dialog is open]
 [Don't announce events from RSS protocols]
-[Enable the system tray icon]
 [Merge new events for the same contact into existing popup]
 [Show headers]
 [Dismiss popup]
@@ -664,8 +651,6 @@
 [&Message]
 [Other]
 [TabSRMM: typing]
-[TabSRMM session list]
-[TabSRMM menu]
 [&Messaging settings...]
 [&Send later job list...]
 [Message from %s]
@@ -917,7 +902,6 @@
 [Left Arrow]
 [Right Arrow]
 [Up Arrow]
-[Session List]
 [Frame 1]
 [Frame 2]
 [Frame 3]
@@ -995,7 +979,6 @@
 [Custom (use own gradient colors)]
 [All message containers need to close before the skin can be changed\nProceed?]
 [Change skin]
-;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 [Enable &typing notification]
@@ -1007,6 +990,7 @@
 [Set messaging options for %s]
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
+[Save file|Unable to save temporary file]
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]

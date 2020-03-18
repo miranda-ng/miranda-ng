@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.1.0.1
+;  Version: 0.1.0.3
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
@@ -120,7 +120,7 @@
 [Key ID]
 [Name]
 [Email]
-[Protocol]
+[Account]
 [Default private key ID]
 [not set]
 [This key is not used by any contact. Do you want to remove it from public keyring?]
@@ -187,6 +187,7 @@
 [Generating new key, please wait...]
 [Expiration date]
 [Failed to export public key.]
+[Please enter password for key with ID: ]
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 [Turn off GPG encryption]
@@ -206,4 +207,3 @@
 [GPG binary does not exist.\nPlease choose another location]
 [Please choose GPG binary location]
 [Please set keyring's home directory]
-;file \plugins\New_GPG\src\utilities.h
