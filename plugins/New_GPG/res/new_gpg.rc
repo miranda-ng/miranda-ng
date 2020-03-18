@@ -274,9 +274,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Turn on presence signing (Jabber) (required by XEP-0027)",IDC_PRESCENSE_SUBSCRIPTION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,9,268,10
-    PUSHBUTTON      "Export keys",IDC_EXPORT,12,26,100,14
-    PUSHBUTTON      "Import keys",IDC_IMPORT,122,26,100,14
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,9,268,20
+    PUSHBUTTON      "Export keys",IDC_EXPORT,12,36,100,14
+    PUSHBUTTON      "Import keys",IDC_IMPORT,122,36,100,14
 END
 
 
