@@ -27,6 +27,8 @@ static class COptGpgMainDlg *g_pMainDlg;
 
 class COptGpgMainDlg : public CDlgBase
 {
+	bool old_bFileTransfers = g_plugin.bFileTransfers;
+
 	CCtrlListView list_USERLIST;
 	CCtrlData lbl_CURRENT_KEY;
 	CCtrlEdit edit_LOG_FILE_EDIT;
@@ -48,6 +50,10 @@ public:
 		check_JABBER_API.OnChange = Callback(this, &COptGpgMainDlg::onChange_JABBER_API);
 
 		list_USERLIST.OnItemChanged = Callback(this, &COptGpgMainDlg::onItemChanged_USERLIST);
+
+		CreateLink(check_JABBER_API, g_plugin.bJabberAPI);
+		CreateLink(check_AUTO_EXCHANGE, g_plugin.bAutoExchange);
+		CreateLink(check_FILE_TRANSFERS, g_plugin.bFileTransfers);
 	}
 
 	bool OnInitDialog() override
@@ -95,7 +101,7 @@ public:
 
 		check_DEBUG_LOG.SetState(g_plugin.getByte("bDebugLog", 0));
 		check_JABBER_API.Enable();
-		check_AUTO_EXCHANGE.Enable(globals.bJabberAPI);
+		check_AUTO_EXCHANGE.Enable(g_plugin.bJabberAPI);
 
 		CMStringW keyinfo = TranslateT("Default private key ID");
 		keyinfo += L": ";
@@ -120,15 +126,9 @@ public:
 		g_plugin.setByte("bDebugLog", globals.bDebugLog = check_DEBUG_LOG.GetState());
 		globals.debuglog.init();
 
-		g_plugin.setByte("bJabberAPI", globals.bJabberAPI = check_JABBER_API.GetState());
+		if (g_plugin.bFileTransfers != old_bFileTransfers)
+			g_plugin.bSameAction = false;
 
-		bool old_bFileTransfers = g_plugin.getByte("bFileTransfers", 0) != 0;
-		g_plugin.setByte("bFileTransfers", globals.bFileTransfers = check_FILE_TRANSFERS.GetState());
-		if (globals.bFileTransfers != old_bFileTransfers) {
-			g_plugin.setByte("bSameAction", 0);
-			globals.bSameAction = false;
-		}
-		g_plugin.setByte("bAutoExchange", globals.bAutoExchange = check_AUTO_EXCHANGE.GetState());
 		g_plugin.setWString("szLogFilePath", ptrW(edit_LOG_FILE_EDIT.GetText()));
 		return true;
 	}
@@ -496,18 +496,13 @@ public:
 	{
 		btn_EXPORT.OnClick = Callback(this, &COptGpgAdvDlg::onClick_EXPORT);
 		btn_IMPORT.OnClick = Callback(this, &COptGpgAdvDlg::onClick_IMPORT);
+
+		CreateLink(check_PRESCENSE_SUBSCRIPTION, g_plugin.bPresenceSigning);
 	}
 
 	bool OnInitDialog() override
 	{
-		check_PRESCENSE_SUBSCRIPTION.SetState(g_plugin.getByte("bPresenceSigning", 0));
-		check_PRESCENSE_SUBSCRIPTION.Enable(globals.bJabberAPI);
-		return true;
-	}
-
-	bool OnApply() override
-	{
-		g_plugin.setByte("bPresenceSigning", globals.bPresenceSigning = check_PRESCENSE_SUBSCRIPTION.GetState());
+		check_PRESCENSE_SUBSCRIPTION.Enable(g_plugin.bJabberAPI);
 		return true;
 	}
 
@@ -523,7 +518,6 @@ public:
 		ImportGpGKeys(NULL, NULL);
 	}
 };
-
 
 CCtrlEdit *edit_p_PubKeyEdit = nullptr;
 

@@ -51,7 +51,12 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bJabberAPI(MODULENAME, "bJabberAPI", true),
+	bSameAction(MODULENAME, "bSameAction", false),
+	bAutoExchange(MODULENAME, "bAutoExchange", false),
+	bFileTransfers(MODULENAME, "bFileTransfers", false),
+	bPresenceSigning(MODULENAME, "bPresenceSigning", false)
 {
 }
 
@@ -77,13 +82,7 @@ void init_vars()
 	globals.wszOutopentag = g_plugin.getMStringW("szOutOpenTag", L"<GPGenc>");
 	globals.wszOutclosetag = g_plugin.getMStringW("szOutCloseTag", L"</GPGenc>");
 	globals.bDebugLog = g_plugin.getBool("bDebugLog", 0);
-	globals.bAutoExchange = g_plugin.getBool("bAutoExchange", 0);
-	globals.bSameAction = g_plugin.getBool("bSameAction", 0);
 	globals.wszPassword = g_plugin.getMStringW("szKeyPassword");
-	globals.debuglog.init();
-	globals.bJabberAPI = g_plugin.getBool("bJabberAPI", true);
-	globals.bPresenceSigning = g_plugin.getBool("bPresenceSigning", 0);
-	globals.bFileTransfers = g_plugin.getBool("bFileTransfers", 0);
 	globals.firstrun_rect.left = g_plugin.getDword("FirstrunWindowX", 0);
 	globals.firstrun_rect.top = g_plugin.getDword("FirstrunWindowY", 0);
 	globals.key_password_rect.left = g_plugin.getDword("PasswordWindowX", 0);
@@ -100,6 +99,8 @@ void init_vars()
 	globals.load_existing_key_rect.top = g_plugin.getDword("LoadExistingKeyWindowY", 0);
 	globals.tabsrmm_used = isTabsrmmUsed();
 	globals.bold_font = CreateFont(14, 0, 0, 0, 600, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"Arial");
+
+	globals.debuglog.init();
 }
 
 static int OnModulesLoaded(WPARAM, LPARAM)
@@ -121,7 +122,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	sid.szTooltip.a = LPGEN("GPG Turn on encryption");
 	Srmm_AddIcon(&sid, &g_plugin);
 
-	if (globals.bJabberAPI) {
+	if (g_plugin.bJabberAPI) {
 		GetJabberInterface(0, 0);
 		HookEvent(ME_PROTO_ACCLISTCHANGED, GetJabberInterface);
 	}

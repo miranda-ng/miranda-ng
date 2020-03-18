@@ -19,7 +19,7 @@
 
 struct globals_s
 {
-	bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false, bDecryptFiles = false;;
+	bool bAppendTags = false, bDebugLog = false, bStripTags = false, tabsrmm_used = false, bDecryptFiles = false;
 	CMStringW wszInopentag, wszInclosetag, wszOutopentag, wszOutclosetag, wszPassword;
 	wchar_t key_id_global[17] = { 0 };
 	list <JabberAccount*> Accounts;
@@ -31,9 +31,6 @@ struct globals_s
 	bool gpg_valid = false, gpg_keyexist = false;
 	std::map<MCONTACT, contact_data> hcontact_data;
 	bool _terminate;
-
-	int item_num; //TODO: get rid of this
-
 };
 
 extern globals_s globals;

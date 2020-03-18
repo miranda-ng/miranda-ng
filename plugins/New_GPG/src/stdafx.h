@@ -72,6 +72,8 @@ using std::fstream;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<bool> bJabberAPI, bPresenceSigning, bFileTransfers, bAutoExchange, bSameAction;
+
 	CMPlugin();
 
 	int Load() override;

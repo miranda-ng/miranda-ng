@@ -373,7 +373,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	}
 	wstring str = toUTF16(msg);
 	size_t s1, s2;
-	if (globals.bAutoExchange && (str.find(L"-----PGP KEY RESPONSE-----") != wstring::npos)) {
+	if (g_plugin.bAutoExchange && (str.find(L"-----PGP KEY RESPONSE-----") != wstring::npos)) {
 		if (globals.bDebugLog)
 			globals.debuglog << "info(autoexchange): parsing key response:" + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 		s2 = str.find(L"-----END PGP PUBLIC KEY BLOCK-----");
@@ -509,7 +509,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		return 0;
 	}
 
-	if (globals.bAutoExchange && strstr(msg, "-----PGP KEY REQUEST-----") && globals.gpg_valid && globals.gpg_keyexist) {
+	if (g_plugin.bAutoExchange && strstr(msg, "-----PGP KEY REQUEST-----") && globals.gpg_valid && globals.gpg_keyexist) {
 		if (globals.bDebugLog)
 			globals.debuglog << "info(autoexchange): received key request from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 
@@ -527,7 +527,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		}
 		return 0;
 	}
-	else if (!isContactHaveKey(ccs->hContact) && globals.bAutoExchange && globals.gpg_valid && globals.gpg_keyexist) {
+	else if (!isContactHaveKey(ccs->hContact) && g_plugin.bAutoExchange && globals.gpg_valid && globals.gpg_keyexist) {
 		char *proto = Proto_GetBaseAccountName(ccs->hContact);
 		ptrA jid(db_get_utfa(ccs->hContact, proto, "jid", ""));
 		if (jid[0]) {
@@ -771,7 +771,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 				globals.debuglog << "info(send handler): block pgp message event, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 			return 1;
 		}
-		if (globals.bAutoExchange && (strstr((char*)dbei->pBlob, "-----PGP KEY RESPONSE-----") || strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----"))) ///do not show service data in history
+		if (g_plugin.bAutoExchange && (strstr((char*)dbei->pBlob, "-----PGP KEY RESPONSE-----") || strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----"))) ///do not show service data in history
 		{
 			if (globals.bDebugLog)
 				globals.debuglog << "info(send handler): block pgp key request/response event, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
@@ -786,7 +786,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		if (globals.bDebugLog)
 			globals.debuglog << "info: contact have not key, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 
-		if (globals.bAutoExchange && !strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----") && !strstr((char*)dbei->pBlob, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && globals.gpg_valid) {
+		if (g_plugin.bAutoExchange && !strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----") && !strstr((char*)dbei->pBlob, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && globals.gpg_valid) {
 			if (globals.bDebugLog)
 				globals.debuglog << "info: checking for autoexchange possibility, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 

@@ -232,11 +232,11 @@ int onProtoAck(WPARAM, LPARAM l)
 					}
 					if (wcsstr(filename, L".gpg")) { //decrypt it
 						//process encrypted file
-						if (!globals.bFileTransfers && !globals.bSameAction) {
+						if (!g_plugin.bFileTransfers && !g_plugin.bSameAction) {
 							void ShowEncryptedFileMsgBox();
 							ShowEncryptedFileMsgBox();
 						}
-						if (!globals.bFileTransfers && globals.bSameAction)
+						if (!g_plugin.bFileTransfers && g_plugin.bSameAction)
 							return 0;
 						if (!globals.bDecryptFiles)
 							return 0;
@@ -405,7 +405,7 @@ std::wstring encrypt_file(MCONTACT hContact, wchar_t *filename)
 INT_PTR onSendFile(WPARAM w, LPARAM l)
 {
 	CCSDATA *ccs = (CCSDATA*)l;
-	if (!globals.bFileTransfers)
+	if (!g_plugin.bFileTransfers)
 		return Proto_ChainSend(w, ccs);
 
 	if (isContactSecured(ccs->hContact)) {
@@ -558,7 +558,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 			continue;
 
 		// TODO: make following block more readable
-		if (globals.bPresenceSigning && nodename && strstr(nodename, "status")) {
+		if (g_plugin.bPresenceSigning && nodename && strstr(nodename, "status")) {
 			string path_out = ptrA(g_plugin.getUStringA("szHomePath", ""));
 			string file = get_random(10);
 			path_out += "\\tmp\\";
@@ -784,11 +784,11 @@ void AddHandlers()
 		if (p->getPresenceHandler() == INVALID_HANDLE_VALUE)
 			p->setPresenceHandler(p->getJabberInterface()->AddPresenceHandler((JABBER_HANDLER_FUNC)PresenceHandler));
 
-		if (globals.bAutoExchange) {
+		if (g_plugin.bAutoExchange) {
 			p->getJabberInterface()->RegisterFeature("GPG_Key_Auto_Exchange:0", "Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
 			p->getJabberInterface()->AddFeatures("GPG_Key_Auto_Exchange:0\0\0");
 		}
-		if (globals.bFileTransfers) {
+		if (g_plugin.bFileTransfers) {
 			p->getJabberInterface()->RegisterFeature("GPG_Encrypted_FileTransfers:0", "Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
 			p->getJabberInterface()->AddFeatures("GPG_Encrypted_FileTransfers:0\0\0");
 		}

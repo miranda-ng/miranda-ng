@@ -36,10 +36,9 @@ CDlgEncryptedFileMsgBox::CDlgEncryptedFileMsgBox() :
 
 void CDlgEncryptedFileMsgBox::onClick_IGNORE(CCtrlButton*)
 {
-	if (chk_REMEMBER.GetState()) {
-		g_plugin.setByte("bSameAction", 1);
-		globals.bSameAction = true;
-	}
+	if (chk_REMEMBER.GetState())
+		g_plugin.bSameAction = true;
+
 	this->Close();
 }
 
@@ -47,10 +46,8 @@ void CDlgEncryptedFileMsgBox::onClick_DECRYPT(CCtrlButton*)
 {
 	globals.bDecryptFiles = true;
 	if (chk_REMEMBER.GetState()) {
-		g_plugin.setByte("bFileTransfers", 1);
-		globals.bFileTransfers = true;
-		g_plugin.setByte("bSameAction", 0);
-		globals.bSameAction = false;
+		g_plugin.bFileTransfers = true;
+		g_plugin.bSameAction = false;
 	}
 	this->Close();
 }
@@ -782,7 +779,7 @@ void CDlgGpgBinOpts::onClick_GENERATE_RANDOM(CCtrlButton*)
 		gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
 		globals.gpg_valid = true;
 		if (gpg_use_new_random_key(nullptr)) {
-			g_plugin.setByte("bAutoExchange", globals.bAutoExchange = chk_AUTO_EXCHANGE.GetState());
+			g_plugin.bAutoExchange = chk_AUTO_EXCHANGE.GetState();
 			globals.gpg_valid = true;
 			g_plugin.setByte("FirstRun", 0);
 			this->Close();
