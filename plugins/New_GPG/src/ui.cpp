@@ -133,7 +133,7 @@ bool CDlgChangePasswdMsgBox::OnApply()
 		if (params.child)
 			params.child->terminate();
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
+			globals.debuglog << "GPG execution timed out, aborted";
 		return true;
 	}
 	
@@ -315,7 +315,7 @@ void CDlgFirstRun::onClick_CHANGE_PASSWD(CCtrlButton*)
 		if (params.child)
 			params.child->terminate();
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
+			globals.debuglog << "GPG execution timed out, aborted";
 		this->Close();
 	}
 }

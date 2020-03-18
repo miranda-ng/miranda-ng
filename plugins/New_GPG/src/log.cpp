@@ -16,72 +16,38 @@
 
 #include "stdafx.h"
 
-logtofile& logtofile::operator<<(wchar_t *buf)
+static string time_str()
 {
-	if (_bDebugLog != globals.bDebugLog)
+	boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
+	return (string)boost::posix_time::to_simple_string(now) + ": ";
+}
+
+logtofile &logtofile::operator<<(const char *buf)
+{
+	if (bEnabled != globals.bDebugLog)
 		init();
-	
-	mir_cslock l(csLock);
-	log.open(path, std::ios::app | std::ios::ate);
-	log << buf;
-	log << "\n";
-	log.close();
+
+	mir_writeLogA(hLogger, "%s: %s\n", time_str().c_str(), buf);
 	return *this;
 }
 
-logtofile& logtofile::operator<<(char *buf)
+logtofile& logtofile::operator<<(const string &buf)
 {
-	if (_bDebugLog != globals.bDebugLog)
+	if (bEnabled != globals.bDebugLog)
 		init();
 
-	mir_cslock l(csLock);
-	log.open(path, std::ios::app | std::ios::ate);
-	log << buf;
-	log << "\n";
-	log.close();
-	return *this;
-}
-
-logtofile& logtofile::operator<<(string buf)
-{
-	if (_bDebugLog != globals.bDebugLog)
-		init();
-
-	mir_cslock l(csLock);
-	char *tmp = mir_utf8encode(buf.c_str());
-	log.open(path, std::ios::app | std::ios::ate);
-	log << tmp;
-	log << "\n";
-	log.close();
-	mir_free(tmp);
-	return *this;
-}
-
-logtofile& logtofile::operator<<(wstring buf)
-{
-	if (_bDebugLog != globals.bDebugLog)
-		init();
-
-	mir_cslock l(csLock);
-	log.open(path, std::ios::app | std::ios::ate);
-	log << T2Utf(buf.c_str());
-	log << "\n";
-	log.close();
+	mir_writeLogA(hLogger, "%s: %s\n", time_str().c_str(), buf.c_str());
 	return *this;
 }
 
 void logtofile::init()
 {
 	if (globals.bDebugLog)
-		path = g_plugin.getMStringW("szLogFilePath", L"C:\\GPGdebug.log");
-
-	_bDebugLog = globals.bDebugLog;
-}
-
-logtofile::logtofile()
-{
-}
-
-logtofile::~logtofile()
-{
+		hLogger = mir_createLog("NewGPG", L"NewGPG log file", g_plugin.getMStringW("szLogFilePath", L"C:\\GPGdebug.log"), 0);
+	else {
+		mir_closeLog(hLogger);
+		hLogger = nullptr;
+	}
+		
+	bEnabled = globals.bDebugLog;
 }

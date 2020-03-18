@@ -37,7 +37,6 @@ const bool StriStr(const char *str, const char *substr);
 string toUTF8(wstring str);
 wstring toUTF16(string str);
 string get_random(int length);
-string time_str();
 
 struct db_event : public DBEVENTINFO
 {

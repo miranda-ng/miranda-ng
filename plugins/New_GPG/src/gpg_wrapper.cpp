@@ -26,7 +26,7 @@ void pxEexcute_thread(gpg_execution_params *params)
 	CMStringW bin_path(g_plugin.getMStringW("szGpgBinPath"));
 	if (_waccess(bin_path, 0)) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": GPG executable not found");
+			globals.debuglog << "GPG executable not found";
 		params->result = pxNotFound;
 		return;
 	}
@@ -56,7 +56,7 @@ void pxEexcute_thread(gpg_execution_params *params)
 		}
 		args.erase(args.size() - 1, 1);
 
-		globals.debuglog << std::string(time_str() + ": gpg in: " + toUTF8(args));
+		globals.debuglog << "gpg in: " << toUTF8(args);
 	}
 
 	params->out.Empty();
@@ -81,14 +81,14 @@ void pxEexcute_thread(gpg_execution_params *params)
 	params->out.Replace("\r\r", "");
 
 	if (globals.bDebugLog)
-		globals.debuglog << std::string(time_str() + ": gpg out: " + params->out.c_str());
+		globals.debuglog << "gpg out: " << params->out.c_str();
 
 	params->code = c.exit_code();
 	params->child = nullptr;
 
 	if (params->code) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": warning: wrong gpg exit status, gpg output: " + params->out.c_str());
+			globals.debuglog << ": warning: wrong gpg exit status, gpg output: " << params->out.c_str();
 		params->result = pxSuccessExitCodeInvalid;
 	}
 	else params->result = pxSuccess;
@@ -103,7 +103,7 @@ bool gpg_launcher(gpg_execution_params &params, boost::posix_time::time_duration
 		if (params.child)
 			params.child->terminate();
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
+			globals.debuglog << "GPG execution timed out, aborted";
 	}
 	return ret;
 }
@@ -120,7 +120,7 @@ void pxEexcute_passwd_change_thread(gpg_execution_params_pass *params)
 	CMStringW bin_path(g_plugin.getMStringW("szGpgBinPath"));
 	if (_waccess(bin_path, 0)) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": GPG executable not found");
+			globals.debuglog << "GPG executable not found";
 		params->result = pxNotFound;
 		return;
 	}

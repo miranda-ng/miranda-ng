@@ -46,7 +46,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 		if (s2 != wstring::npos && s1 != wstring::npos) { //this is generic encrypted data block
 			if (!isContactSecured(hContact)) {
 				if (globals.bDebugLog)
-					globals.debuglog << std::string(time_str() + ": info: received encrypted message from: " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with turned off encryption");
+					globals.debuglog << "info: received encrypted message from: " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with turned off encryption";
 				if (MessageBox(nullptr, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
 					if (!isContactHaveKey(hContact))
 						ShowLoadPublicKeyDialog(hContact, true);
@@ -69,7 +69,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 				}
 			}
 			else if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": info: received encrypted message from: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+				globals.debuglog << "info: received encrypted message from: " + toUTF8(Clist_GetContactDisplayName(hContact));
 			boost::algorithm::erase_all(param->str, "\r");
 			s2 += mir_wstrlen(L"-----END PGP MESSAGE-----");
 
@@ -95,7 +95,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 							g_plugin.setByte(hContact, "GPGEncryption", 0);
 							setSrmmIcon(hContact);
 							setClistIcon(hContact);
-							globals.debuglog << std::string(time_str() + "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock");
+							globals.debuglog << "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock";
 							delete param;
 							return;
 						}
@@ -118,12 +118,12 @@ static void RecvMsgSvc_func(RecvParams *param)
 						dbsetting += "_Password";
 						pass = g_plugin.getMStringW(dbsetting.c_str());
 						if (!pass.IsEmpty() && globals.bDebugLog)
-							globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid.c_str() + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
+							globals.debuglog << "info: found password in database for key ID: " + string(inkeyid.c_str()) + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password";
 					}
 					else {
 						pass = g_plugin.getMStringW("szKeyPassword");
 						if (!pass.IsEmpty() && globals.bDebugLog)
-							globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
+							globals.debuglog << "info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password";
 					}
 					if (!pass.IsEmpty()) {
 						params.addParam(L"--passphrase");
@@ -131,12 +131,12 @@ static void RecvMsgSvc_func(RecvParams *param)
 					}
 					else if (!globals.wszPassword.IsEmpty()) {
 						if (globals.bDebugLog)
-							globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password");
+							globals.debuglog << "info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with password";
 						params.addParam(L"--passphrase");
 						params.addParam(globals.wszPassword.c_str());
 					}
 					else if (globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with out password");
+						globals.debuglog << "info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " with out password";
 				}
 
 				if (!globals.bDebugLog) {
@@ -181,7 +181,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 				string out(params.out);
 				while (out.find("public key decryption failed: bad passphrase") != string::npos) {
 					if (globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: failed to decrypt messaage from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " password needed, trying to get one");
+						globals.debuglog << "info: failed to decrypt messaage from " + toUTF8(Clist_GetContactDisplayName(hContact)) + " password needed, trying to get one";
 					if (globals._terminate) {
 						BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 						g_plugin.setByte(hContact, "GPGEncryption", 0);
@@ -204,7 +204,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 					params2.aargv = params.aargv;
 					if (!globals.wszPassword.IsEmpty()) {
 						if (globals.bDebugLog)
-							globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact)));
+							globals.debuglog << "info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(hContact));
 
 						params2.addParam(L"--passphrase");
 						params2.addParam(globals.wszPassword.c_str());
@@ -271,7 +271,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 					string str1 = param->msg;
 					str1.insert(0, "Received unencrypted message:\n");
 					if (globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: Failed to decrypt GPG encrypted message.");
+						globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
 
 					ptrA tmp4((char*)mir_alloc(sizeof(char)*(str1.length() + 1)));
 					mir_strcpy(tmp4, str1.c_str());
@@ -313,7 +313,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 					string szMsg = param->msg;
 					szMsg.insert(0, "Failed to decrypt GPG encrypted message.\nMessage body for manual decryption:\n");
 					if (globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: Failed to decrypt GPG encrypted message.");
+						globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
 
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
 					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
@@ -366,7 +366,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			return Proto_ChainRecv(w, ccs);
 		else {
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": info: blocked pgp message to metacontact:" + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+				globals.debuglog << "info: blocked pgp message to metacontact:" + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 			return 0;
 		}
 	}
@@ -374,12 +374,12 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	size_t s1, s2;
 	if (globals.bAutoExchange && (str.find(L"-----PGP KEY RESPONSE-----") != wstring::npos)) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info(autoexchange): parsing key response:" + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+			globals.debuglog << "info(autoexchange): parsing key response:" + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 		s2 = str.find(L"-----END PGP PUBLIC KEY BLOCK-----");
 		s1 = str.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
 		if (s1 != wstring::npos && s2 != wstring::npos) {
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": info(autoexchange): found pubkey block:" + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+				globals.debuglog << "info(autoexchange): found pubkey block:" + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 			s2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
 			g_plugin.setWString(ccs->hContact, "GPGPubKey", str.substr(s1, s2 - s1).c_str());
 			{
@@ -404,7 +404,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 							g_plugin.setByte(ccs->hContact, "GPGEncryption", 0);
 							setSrmmIcon(ccs->hContact);
 							setClistIcon(ccs->hContact);
-							globals.debuglog << std::string(time_str() + "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock");
+							globals.debuglog << "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock";
 							return 1;
 						}
 						f.open(tmp2, std::ios::out);
@@ -494,7 +494,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	}
 	if ((s2 != wstring::npos) && (s1 != wstring::npos)) {  //this is public key
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info: received key from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+			globals.debuglog << "info: received key from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 		s1 = 0;
 		while ((s1 = str.find(L"\r", s1)) != wstring::npos)
 			str.erase(s1, 1);
@@ -509,7 +509,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	}
 	if (globals.bAutoExchange && strstr(msg, "-----PGP KEY REQUEST-----") && globals.gpg_valid && globals.gpg_keyexist) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info(autoexchange): received key request from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+			globals.debuglog << "info(autoexchange): received key request from: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 
 		CMStringA tmp(g_plugin.getMStringA("GPGPubKey"));
 		if (!tmp.IsEmpty()) {
@@ -561,7 +561,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	wstring str = toUTF16(msg);
 	if (globals.bStripTags && globals.bAppendTags) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info: stripping tags in outgoing message, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+			globals.debuglog << "info: stripping tags in outgoing message, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 		strip_tags(str);
 	}
 
@@ -609,7 +609,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 				g_plugin.setByte(hContact, "GPGEncryption", 0); //disable encryption
 				setSrmmIcon(hContact);
 				setClistIcon(hContact);
-				globals.debuglog << std::string(time_str() + ": info: failed to create temporary file for encryption, disabling encryption to avoid deadlock");
+				globals.debuglog << "info: failed to create temporary file for encryption, disabling encryption to avoid deadlock";
 				break;
 			}
 			f.open(path.c_str(), std::ios::out);
@@ -677,7 +677,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 			g_plugin.setByte(hContact, "GPGEncryption", 0); //disable encryption
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
-			globals.debuglog << std::string(time_str() + ": info: gpg failed to encrypt message, disabling encryption to avoid deadlock");
+			globals.debuglog << "info: gpg failed to encrypt message, disabling encryption to avoid deadlock";
 			break;
 		}
 	}
@@ -701,7 +701,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	if (str.empty()) {
 		HistoryLog(hContact, db_event("Failed to encrypt message with GPG", 0, 0, DBEF_SENT));
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info: Failed to encrypt message with GPG");
+			globals.debuglog << "info: Failed to encrypt message with GPG";
 		ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
 		return;
 	}
@@ -713,7 +713,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 	}
 
 	if (globals.bDebugLog)
-		globals.debuglog << std::string(time_str() + ": adding event to contact: " + toUTF8(Clist_GetContactDisplayName(hContact)) + " on send message.");
+		globals.debuglog << "adding event to contact: " + toUTF8(Clist_GetContactDisplayName(hContact)) + " on send message.";
 
 	fix_line_term(str);
 	sent_msgs.push_back((HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)toUTF8(str).c_str()));
@@ -731,25 +731,25 @@ INT_PTR SendMsgSvc(WPARAM w, LPARAM l)
 	char *msg = (char*)ccs->lParam;
 	if (!msg) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info: failed to get message data, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+			globals.debuglog << "info: failed to get message data, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 		return Proto_ChainSend(w, ccs);
 	}
 
 	if (strstr(msg, "-----BEGIN PGP MESSAGE-----")) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info: encrypted message, let it go, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+			globals.debuglog << "info: encrypted message, let it go, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 		return Proto_ChainSend(w, ccs);
 	}
 
 	if (globals.bDebugLog)
-		globals.debuglog << std::string(time_str() + ": info: contact have key, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+		globals.debuglog << "info: contact have key, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 
 	if (globals.bDebugLog && db_mc_isMeta(ccs->hContact))
-		globals.debuglog << std::string(time_str() + ": info: protocol is metacontacts, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+		globals.debuglog << "info: protocol is metacontacts, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 
 	if (!isContactSecured(ccs->hContact) || db_mc_isMeta(ccs->hContact)) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info: contact not secured, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact)));
+			globals.debuglog << "info: contact not secured, name: " + toUTF8(Clist_GetContactDisplayName(ccs->hContact));
 		return Proto_ChainSend(w, ccs);
 	}
 
@@ -770,13 +770,13 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		if (isContactSecured(hContact) && strstr((char*)dbei->pBlob, "-----BEGIN PGP MESSAGE-----")) //our service data, can be double added by metacontacts e.w.c.
 		{
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": info(send handler): block pgp message event, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+				globals.debuglog << "info(send handler): block pgp message event, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 			return 1;
 		}
 		if (globals.bAutoExchange && (strstr((char*)dbei->pBlob, "-----PGP KEY RESPONSE-----") || strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----"))) ///do not show service data in history
 		{
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": info(send handler): block pgp key request/response event, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+				globals.debuglog << "info(send handler): block pgp key request/response event, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 			return 1;
 		}
 	}
@@ -786,16 +786,16 @@ int HookSendMsg(WPARAM w, LPARAM l)
 
 	if (!isContactHaveKey(hContact)) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": info: contact have not key, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+			globals.debuglog << "info: contact have not key, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 		if (globals.bAutoExchange && !strstr((char*)dbei->pBlob, "-----PGP KEY REQUEST-----") && !strstr((char*)dbei->pBlob, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && globals.gpg_valid) {
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": info: checking for autoexchange possibility, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+				globals.debuglog << "info: checking for autoexchange possibility, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 
 			LPSTR proto = Proto_GetBaseAccountName(hContact);
 			ptrA jid(db_get_utfa(hContact, proto, "jid", ""));
 			if (jid[0]) {
 				if (globals.bDebugLog)
-					globals.debuglog << std::string(time_str() + ": info(autoexchange): protocol looks like jabber, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+					globals.debuglog << "info(autoexchange): protocol looks like jabber, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 				for (auto p : globals.Accounts) {
 					ptrA caps(p->getJabberInterface()->GetResourceFeatures(jid));
 					if (caps) {
@@ -809,7 +809,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 
 						if (str.find("GPG_Key_Auto_Exchange:0") != string::npos) {
 							if (globals.bDebugLog)
-								globals.debuglog << std::string(time_str() + ": info(autoexchange, jabber): autoexchange capability found, sending key request, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+								globals.debuglog << "info(autoexchange, jabber): autoexchange capability found, sending key request, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 							ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 							globals.hcontact_data[hContact].msgs_to_send.push_back((char*)dbei->pBlob);
 							mir_forkthread(send_encrypted_msgs_thread, (void*)hContact);
@@ -840,7 +840,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 
 	if (!isContactSecured(hContact)) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": event message: \"" + (char*)dbei->pBlob + "\" passed event filter, contact " + toUTF8(Clist_GetContactDisplayName(hContact)) + " is unsecured");
+			globals.debuglog << "event message: \"" + string((char*)dbei->pBlob) + "\" passed event filter, contact " + toUTF8(Clist_GetContactDisplayName(hContact)) + " is unsecured";
 		return 0;
 	}
 
@@ -850,7 +850,7 @@ int HookSendMsg(WPARAM w, LPARAM l)
 		tmp[28] = '\0';
 		if (strstr(tmp, "-----BEGIN PGP MESSAGE-----")) {
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": info(send handler): block pgp message event, name: " + toUTF8(Clist_GetContactDisplayName(hContact)));
+				globals.debuglog << "info(send handler): block pgp message event, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
 			return 1;
 		}
 	}

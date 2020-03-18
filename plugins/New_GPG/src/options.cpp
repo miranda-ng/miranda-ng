@@ -951,7 +951,7 @@ public:
 		if (key_buf.empty()) {
 			key_buf.clear();
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": info: Failed to read key file");
+				globals.debuglog << "info: Failed to read key file";
 			return;
 		}
 		ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----");

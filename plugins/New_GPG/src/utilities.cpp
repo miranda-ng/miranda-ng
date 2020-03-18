@@ -265,12 +265,12 @@ int onProtoAck(WPARAM, LPARAM l)
 								dbsetting += "_Password";
 								pass = g_plugin.getMStringW(dbsetting.c_str());
 								if (!pass.IsEmpty() && globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid.c_str() + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
+									globals.debuglog << "info: found password in database for key ID: " + string(keyid.c_str()) + ", trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password";
 							}
 							else {
 								pass = g_plugin.getMStringW("szKeyPassword");
 								if (!pass.IsEmpty() && globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
+									globals.debuglog << "info: found password for all keys in database, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password";
 							}
 							if (!pass.IsEmpty()) {
 								params.addParam(L"--passphrase");
@@ -278,12 +278,12 @@ int onProtoAck(WPARAM, LPARAM l)
 							}
 							else if (!globals.wszPassword.IsEmpty()) {
 								if (globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password");
+									globals.debuglog << "info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with password";
 								params.addParam(L"--passphrase");
 								params.addParam(globals.wszPassword.c_str());
 							}
 							else if (globals.bDebugLog)
-								globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with out password");
+								globals.debuglog << "info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " with out password";
 						}
 						params.addParam(L"-d");
 						params.addParam(filename);
@@ -293,7 +293,7 @@ int onProtoAck(WPARAM, LPARAM l)
 						string out(params.out);
 						while (out.find("public key decryption failed: bad passphrase") != string::npos) {
 							if (globals.bDebugLog)
-								globals.debuglog << std::string(time_str() + ": info: failed to decrypt messaage from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " password needed, trying to get one");
+								globals.debuglog << "info: failed to decrypt messaage from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " password needed, trying to get one";
 							if (globals._terminate)
 								break;
 							{ //save inkey id
@@ -311,7 +311,7 @@ int onProtoAck(WPARAM, LPARAM l)
 
 							if (!globals.wszPassword.IsEmpty()) {
 								if (globals.bDebugLog)
-									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)));
+									globals.debuglog << "info: found password in memory, trying to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact));
 
 								params.addParam(L"--passphrase");
 								params.addParam(globals.wszPassword.c_str());
@@ -579,7 +579,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 			string data2 = data.substr(p1, p2 - p1 - 2);
 			strip_line_term(data2);
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + data2 + "\n\n\t to outgoing xml");
+				globals.debuglog << "jabber_api: attaching:\r\n\r\n" + data2 + "\n\n\t to outgoing xml";
 			
 			TiXmlElement *encrypted_data = pDoc->NewElement("x"); node->InsertEndChild(encrypted_data);
 			encrypted_data->SetText(data2.c_str());
@@ -598,7 +598,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 			f.close();
 			if (!boost::filesystem::exists(path_out)) {
 				if (globals.bDebugLog)
-					globals.debuglog << std::string(time_str() + ": info: Failed to write prescense in file");
+					globals.debuglog << "info: Failed to write prescense in file";
 				break;
 			}
 
@@ -617,12 +617,12 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 					dbsetting += "_Password";
 					pass = g_plugin.getMStringW(dbsetting.c_str());
 					if (!pass.IsEmpty() && globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid.c_str() + ", trying to encrypt message from self with password");
+						globals.debuglog << "info: found password in database for key ID: " + string(inkeyid.c_str()) + ", trying to encrypt message from self with password";
 				}
 				else {
 					pass = g_plugin.getMStringW("szKeyPassword");
 					if (!pass.IsEmpty() && globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to encrypt message from self with password");
+						globals.debuglog << "info: found password for all keys in database, trying to encrypt message from self with password";
 				}
 				if (pass[0]) {
 					params.addParam(L"--passphrase");
@@ -630,12 +630,12 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 				}
 				else if (!globals.wszPassword.IsEmpty()) {
 					if (globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to encrypt message from self with password");
+						globals.debuglog << "info: found password in memory, trying to encrypt message from self with password";
 					params.addParam(L"--passphrase");
 					params.addParam(globals.wszPassword.c_str());
 				}
 				else if (globals.bDebugLog)
-					globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to encrypt message from self with out password");
+					globals.debuglog << "info: passwords not found in database or memory, trying to encrypt message from self with out password";
 			}
 
 			params.addParam(L"--local-user");
@@ -665,7 +665,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node,
 			}
 			if (data.empty()) {
 				if (globals.bDebugLog)
-					globals.debuglog << std::string(time_str() + ": info: Failed to read prescense sign from file");
+					globals.debuglog << "info: Failed to read prescense sign from file";
 				break;
 			}
 			if (data.find(L"-----BEGIN PGP SIGNATURE-----") != wstring::npos && data.find(L"-----END PGP SIGNATURE-----") != wstring::npos) {
@@ -760,7 +760,7 @@ static JABBER_HANDLER_FUNC PresenceHandler(IJabberInterface *ji, TiXmlElement* n
 				f.close();
 				if (!boost::filesystem::exists(path_out.c_str())) {
 					if (globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: Failed to write sign in file");
+						globals.debuglog << "info: Failed to write sign in file";
 					return FALSE;
 				}
 				{
@@ -829,19 +829,19 @@ bool isContactSecured(MCONTACT hContact)
 	BYTE gpg_enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 	if (!gpg_enc) {
 		if (globals.bDebugLog)
-			globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact)));
+			globals.debuglog << "encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact));
 		return false;
 	}
 	if (!db_mc_isMeta(hContact)) {
 		CMStringW key = g_plugin.getMStringW(hContact, "GPGPubKey");
 		if (key.IsEmpty()) {
 			if (globals.bDebugLog)
-				globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact)));
+				globals.debuglog << "encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact));
 			return false;
 		}
 	}
 	if (globals.bDebugLog)
-		globals.debuglog << std::string(time_str() + ": encryption is turned on for " + toUTF8(Clist_GetContactDisplayName(hContact)));
+		globals.debuglog << "encryption is turned on for " + toUTF8(Clist_GetContactDisplayName(hContact));
 	return true;
 }
 
@@ -1047,12 +1047,6 @@ void send_encrypted_msgs_thread(void *param)
 		else
 			return;
 	}
-}
-
-string time_str()
-{
-	boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
-	return (string)boost::posix_time::to_simple_string(now);
 }
 
 int handleEnum(const char *szSetting, void *lParam)

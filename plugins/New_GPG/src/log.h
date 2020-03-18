@@ -18,20 +18,13 @@
 
 class logtofile
 {
-public:
-	logtofile& operator<<(wchar_t *buf);
-	logtofile& operator<<(char *buf);
-	logtofile& operator<<(string buf);
-	logtofile& operator<<(wstring buf);
-	void init();
-	~logtofile();
-	logtofile();
+	HANDLE    hLogger;
+	bool      bEnabled = false;
 
-private:
-	fstream   log;
-	CMStringW path;
-	bool     _bDebugLog;
-	mir_cs    csLock;
+public:
+	logtofile& operator<<(const char *buf);
+	logtofile& operator<<(const std::string &buf);
+	void init();
 };
 
 #endif
