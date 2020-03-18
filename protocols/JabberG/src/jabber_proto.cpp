@@ -933,14 +933,14 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		}
 	}
 
+	CMStringA szBody;
 	int isEncrypted, id = SerialNext();
 	if (!strncmp(pszSrc, PGP_PROLOG, mir_strlen(PGP_PROLOG))) {
 		const char *szEnd = strstr(pszSrc, PGP_EPILOG);
-		char *tempstring = (char *)alloca(mir_strlen(pszSrc) + 2);
 		size_t nStrippedLength = mir_strlen(pszSrc) - mir_strlen(PGP_PROLOG) - (szEnd ? mir_strlen(szEnd) : 0) + 1;
-		strncpy_s(tempstring, nStrippedLength, pszSrc + mir_strlen(PGP_PROLOG), _TRUNCATE);
-		tempstring[nStrippedLength] = 0;
-		pszSrc = tempstring;
+		szBody.Append(pszSrc + mir_strlen(PGP_PROLOG), nStrippedLength);
+		szBody.Replace("\r\n", "");
+		pszSrc = szBody;
 		isEncrypted = 1;
 	}
 	else isEncrypted = 0;
@@ -966,7 +966,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 			m << XCHILD("body", pszSrc);
 		else {
 			m << XCHILD("body", "[This message is encrypted.]");
-			m << XCHILDNS("x", "jabber:x:encrypted");
+			m << XCHILD("x", pszSrc) << XATTR("xmlns", "jabber:x:encrypted");
 		}
 	}
 
