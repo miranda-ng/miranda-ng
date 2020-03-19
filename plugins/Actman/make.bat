@@ -15,10 +15,11 @@ set PROJECT=Actman
 if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
 
-brcc32.exe %myopts% options.rc     -fooptions.res
-brcc32.exe %myopts% hooks\hooks.rc -fohooks\hooks.res
-brcc32.exe %myopts% tasks\tasks.rc -fotasks\tasks.res
-brcc32.exe %myopts% ua\ua.rc       -foua\ua.res
+brcc32.exe options.rc
+brcc32.exe hooks\hooks.rc
+brcc32.exe tasks\tasks.rc
+brcc32.exe ua\ua.rc
+for /F %%i in ('dir /b *.rc') do brcc32.exe %%i
 rc version.rc
 
 %FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
