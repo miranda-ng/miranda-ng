@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-wchar_t Utils::base_dir[MAX_PATH];
+static wchar_t base_dir[MAX_PATH];
 
 const wchar_t *Utils::getBaseDir()
 {

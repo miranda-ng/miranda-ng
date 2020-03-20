@@ -962,6 +962,119 @@ ProtocolSettings::~ProtocolSettings()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void ProtocolSettings::readFromDb()
+{
+	/* SRMM settings */
+	const char *szProto = protocolName;
+	if (szProto == nullptr)
+		szProto = "_default_";
+
+	char dbsName[256];
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_ENABLE);
+	setSRMMEnable(protocolName == nullptr ? true : 0 != g_plugin.getByte(dbsName, FALSE));
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_MODE);
+	setSRMMMode(g_plugin.getByte(dbsName, FALSE));
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_FLAGS);
+	setSRMMFlags(g_plugin.getDword(dbsName, 16128));
+
+	DBVARIANT dbv;
+	char tmpPath[MAX_PATH];
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_BACKGROUND);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		PathToAbsolute(dbv.pszVal, tmpPath);
+		setSRMMBackgroundFilename(tmpPath);
+		db_free(&dbv);
+	}
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_CSS);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		PathToAbsolute(dbv.pszVal, tmpPath);
+		setSRMMCssFilename(tmpPath);
+		db_free(&dbv);
+	}
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_TEMPLATE);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		PathToAbsolute(dbv.pszVal, tmpPath);
+		setSRMMTemplateFilename(tmpPath);
+		db_free(&dbv);
+	}
+
+	/* Group chat settings */
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_ENABLE);
+	setChatEnable(protocolName == nullptr ? true : 0 != g_plugin.getByte(dbsName, FALSE));
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_MODE);
+	setChatMode(g_plugin.getByte(dbsName, FALSE));
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_FLAGS);
+	setChatFlags(g_plugin.getDword(dbsName, 16128));
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_BACKGROUND);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		if (strncmp(tmpPath, "http://", 7))
+			PathToAbsolute(dbv.pszVal, tmpPath);
+
+		setChatBackgroundFilename(tmpPath);
+		db_free(&dbv);
+	}
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_CSS);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		if (strncmp(tmpPath, "http://", 7))
+			PathToAbsolute(dbv.pszVal, tmpPath);
+
+		setChatCssFilename(tmpPath);
+		db_free(&dbv);
+	}
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_TEMPLATE);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		PathToAbsolute(dbv.pszVal, tmpPath);
+		setChatTemplateFilename(tmpPath);
+		db_free(&dbv);
+	}
+
+	/* History settings */
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_ENABLE);
+	setHistoryEnable(protocolName == nullptr ? true : 0 != g_plugin.getByte(dbsName, FALSE));
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_MODE);
+	setHistoryMode(g_plugin.getByte(dbsName, FALSE));
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_FLAGS);
+	setHistoryFlags(g_plugin.getDword(dbsName, 16128));
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_BACKGROUND);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		if (strncmp(tmpPath, "http://", 7))
+			PathToAbsolute(dbv.pszVal, tmpPath);
+
+		setHistoryBackgroundFilename(tmpPath);
+		db_free(&dbv);
+	}
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_CSS);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		if (strncmp(tmpPath, "http://", 7))
+			PathToAbsolute(dbv.pszVal, tmpPath);
+
+		setHistoryCssFilename(tmpPath);
+		db_free(&dbv);
+	}
+
+	mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_TEMPLATE);
+	if (!g_plugin.getString(dbsName, &dbv)) {
+		PathToAbsolute(dbv.pszVal, tmpPath);
+		setHistoryTemplateFilename(tmpPath);
+		db_free(&dbv);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void ProtocolSettings::setSRMMTemplateFilename(const char *filename)
 {
 	srmmTemplateFilename = filename;
@@ -986,136 +1099,22 @@ void Options::init()
 {
 	if (isInited) return;
 	isInited = true;
-	DBVARIANT dbv;
 
 	generalFlags = g_plugin.getDword(DBS_BASICFLAGS, 13);
 
-	/* TODO: move to buildProtocolList method */
-	int protoCount;
-	PROTOACCOUNT **pProtos;
-	Proto_EnumAccounts(&protoCount, &pProtos);
+	auto *proto = new ProtocolSettings(nullptr);
+	proto->readFromDb();
+	arProtos.insert(proto);
 
-	for (int i = 0; i < protoCount + 1; i++) {
-		ProtocolSettings *proto;
-		char tmpPath[MAX_PATH];
-		char dbsName[256];
-		if (i == 0) {
-			proto = new ProtocolSettings(nullptr);
-			proto->setSRMMEnable(true);
-		}
-		else if (mir_strcmp(pProtos[i - 1]->szModuleName, META_PROTO)) {
-			if ((CallProtoService(pProtos[i - 1]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0)
-				continue;
+	for (auto &it : Accounts()) {
 
-			proto = new ProtocolSettings(pProtos[i - 1]->szModuleName);
-		}
-		else continue;
+		if (!mir_strcmp(it->szModuleName, META_PROTO))
+			continue;
+		if ((CallProtoService(it->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) == 0)
+			continue;
 
-		/* SRMM settings */
-		const char *szProto = proto->getProtocolName();
-		if (szProto == nullptr)
-			szProto = "_default_";
-
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_ENABLE);
-		proto->setSRMMEnable(i == 0 ? true : 0 != g_plugin.getByte(dbsName, FALSE));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_MODE);
-		proto->setSRMMMode(g_plugin.getByte(dbsName, FALSE));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_FLAGS);
-		proto->setSRMMFlags(g_plugin.getDword(dbsName, 16128));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_BACKGROUND);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			PathToAbsolute(dbv.pszVal, tmpPath);
-			proto->setSRMMBackgroundFilename(tmpPath);
-			db_free(&dbv);
-		}
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_CSS);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			PathToAbsolute(dbv.pszVal, tmpPath);
-			proto->setSRMMCssFilename(tmpPath);
-			db_free(&dbv);
-		}
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_SRMM_TEMPLATE);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			PathToAbsolute(dbv.pszVal, tmpPath);
-			proto->setSRMMTemplateFilename(tmpPath);
-			db_free(&dbv);
-		}
-
-		/* Group chat settings */
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_ENABLE);
-		proto->setChatEnable(i == 0 ? true : 0 != g_plugin.getByte(dbsName, FALSE));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_MODE);
-		proto->setChatMode(g_plugin.getByte(dbsName, FALSE));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_FLAGS);
-		proto->setChatFlags(g_plugin.getDword(dbsName, 16128));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_BACKGROUND);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			if (strncmp(tmpPath, "http://", 7))
-				PathToAbsolute(dbv.pszVal, tmpPath);
-
-			proto->setChatBackgroundFilename(tmpPath);
-			db_free(&dbv);
-		}
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_CSS);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			if (strncmp(tmpPath, "http://", 7))
-				PathToAbsolute(dbv.pszVal, tmpPath);
-
-			proto->setChatCssFilename(tmpPath);
-			db_free(&dbv);
-		}
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_CHAT_TEMPLATE);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			PathToAbsolute(dbv.pszVal, tmpPath);
-			proto->setChatTemplateFilename(tmpPath);
-			db_free(&dbv);
-		}
-
-		/* History settings */
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_ENABLE);
-		proto->setHistoryEnable(i == 0 ? true : 0 != g_plugin.getByte(dbsName, FALSE));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_MODE);
-		proto->setHistoryMode(g_plugin.getByte(dbsName, FALSE));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_FLAGS);
-		proto->setHistoryFlags(g_plugin.getDword(dbsName, 16128));
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_BACKGROUND);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			if (strncmp(tmpPath, "http://", 7))
-				PathToAbsolute(dbv.pszVal, tmpPath);
-
-			proto->setHistoryBackgroundFilename(tmpPath);
-			db_free(&dbv);
-		}
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_CSS);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			if (strncmp(tmpPath, "http://", 7))
-				PathToAbsolute(dbv.pszVal, tmpPath);
-
-			proto->setHistoryCssFilename(tmpPath);
-			db_free(&dbv);
-		}
-		
-		mir_snprintf(dbsName, "%s.%s", szProto, DBS_HISTORY_TEMPLATE);
-		if (!g_plugin.getString(dbsName, &dbv)) {
-			PathToAbsolute(dbv.pszVal, tmpPath);
-			proto->setHistoryTemplateFilename(tmpPath);
-			db_free(&dbv);
-		}
-
+		proto = new ProtocolSettings(it->szModuleName);
+		proto->readFromDb();
 		arProtos.insert(proto);
 	}
 

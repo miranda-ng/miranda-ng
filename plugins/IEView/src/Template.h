@@ -18,29 +18,26 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-class TemplateMap;
-class Template;
+
 #ifndef TEMPLATE_INCLUDED
 #define TEMPLATE_INCLUDED
 
-#include "stdafx.h"
-
-class TokenDef {
-public:
+struct TokenDef
+{
 	const char *tokenString;
-	int 		token;
-	int         tokenLen;
-	int         escape;
+	int token, tokenLen, escape;
+	
 	TokenDef(const char *tokenString);
 	TokenDef(const char *tokenString, int token, int escape);
 };
 
-class Token {
-private:
+class Token
+{
 	int  escape;
 	int  type;
 	char *text;
 	Token *next;
+
 public:
 	enum TOKENS {
 		END = 0,
@@ -65,6 +62,7 @@ public:
 		NICKOUT,
 		FILEDESC,
 	};
+
 	Token(int, const char *, int);
 	~Token();
 	int getType();
@@ -91,10 +89,10 @@ protected:
 public:
 	~Template();
 
+	__forceinline Token *getTokens() const { return m_tokens; }
 	__forceinline Template* getNext() { return m_next; }
 	__forceinline const char* getText() const { return m_text; }
 	__forceinline const char* getName() const { return m_name; }
-	__forceinline Token* getTokens() const { return m_tokens; }
 };
 
 class TemplateMap
@@ -111,8 +109,8 @@ class TemplateMap
 	void addTemplate(const char *name, const char *text);
 	void setFilename(const char *filename);
 	void clear();
+
 	static TemplateMap* add(const char *id, const char *filename);
-	static void appendText(char **str, int *sizeAlloced, const char *fmt, ...);
 	static TemplateMap* loadTemplateFile(const char *proto, const char *filename, bool onlyInfo);
 
 public:
@@ -128,6 +126,5 @@ public:
 	__forceinline bool isGrouping() const { return m_grouping; }
 	__forceinline bool isRTL() const { return m_rtl; }
 };
-
 
 #endif

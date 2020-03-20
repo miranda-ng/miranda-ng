@@ -77,6 +77,8 @@ public:
 	ProtocolSettings(const char *protocolName);
 	~ProtocolSettings();
 
+	void readFromDb();
+
 	__forceinline const char* getProtocolName() { return protocolName; }
 
 	__forceinline void setSRMMEnable(bool enable) { this->srmmEnable = enable; }

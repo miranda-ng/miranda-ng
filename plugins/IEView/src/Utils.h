@@ -18,30 +18,21 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-class Utils;
 
 #ifndef UTILS_INCLUDED
 #define UTILS_INCLUDED
 
-#include "stdafx.h"
-
-class Utils {
-private:
-	static unsigned hookNum;
-	static unsigned serviceNum;
-	static HANDLE* hHooks;
-	static HANDLE* hServices;
-	static wchar_t base_dir[MAX_PATH];
-public:
-	static const wchar_t *getBaseDir();
-	static wchar_t* toAbsolute(wchar_t* relative);
-	static void appendIcon(CMStringA &str, const char *iconFile);
-	static void convertPath(char *path);
-	static void convertPath(wchar_t *path);
-	static char *escapeString(const char *a);
-	static int   detectURL(const wchar_t *text);
-	static bool DbEventIsForMsgWindow(DBEVENTINFO *dbei);
-	static bool DbEventIsForHistory(DBEVENTINFO *dbei);
+namespace Utils
+{
+	const wchar_t *getBaseDir();
+	wchar_t* toAbsolute(wchar_t* relative);
+	void appendIcon(CMStringA &str, const char *iconFile);
+	void convertPath(char *path);
+	void convertPath(wchar_t *path);
+	char *escapeString(const char *a);
+	int   detectURL(const wchar_t *text);
+	bool DbEventIsForMsgWindow(DBEVENTINFO *dbei);
+	bool DbEventIsForHistory(DBEVENTINFO *dbei);
 };
 
 #endif

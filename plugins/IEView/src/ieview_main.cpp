@@ -25,6 +25,7 @@ CMPlugin g_plugin;
 
 IconItem iconList[] =
 {
+	{ LPGEN("Code"), "CODE", IDI_CODE },
 	{ LPGEN("RTL On"), "RTL_ON", IDI_RTL_ON },
 	{ LPGEN("RTL Off"), "RTL_OFF", IDI_RTL_OFF },
 	{ LPGEN("Group On"), "GROUP_ON", IDI_GROUP_ON },
@@ -47,13 +48,39 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(ieviewModuleName, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static int CustomButtonPressed(WPARAM, LPARAM lParam)
+{
+	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
+	if (mir_strcmp(cbcd->pszModule, MODULENAME))
+		return 0;
+
+	if (cbcd->dwButtonId != 1)
+		return 1;
+
+	HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_SRMM_MESSAGE);
+	SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)L"[code][/code]");
+	return 0;
+}
+
 static int ModulesLoaded(WPARAM, LPARAM)
 {
+	BBButton bbd = {};
+	bbd.pszModuleName = MODULENAME;
+	bbd.dwButtonID = 1;
+	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISIMBUTTON;
+	bbd.dwDefPos = 40;
+	bbd.hIcon = g_plugin.getIconHandle(IDI_CODE);
+	bbd.pwszText = L"[Code]";
+	bbd.pwszTooltip = LPGENW("Format text as code");
+	Srmm_AddButton(&bbd, &g_plugin);
+
+	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
+
 	Options::init();
 	return 0;
 }
@@ -77,7 +104,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_IEVIEW_NAVIGATE, HandleIENavigate);
 	CreateServiceFunction("IEView/ReloadOptions", ReloadOptions);
 	hHookOptionsChanged = CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
-	g_plugin.registerIcon("IEView", iconList, ieviewModuleName);
+	g_plugin.registerIcon("IEView", iconList, MODULENAME);
 	return 0;
 }
 
