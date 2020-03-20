@@ -22,34 +22,12 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			WindowList_Add(hChangeSoundDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULENAME, "ChangeSoundDlg");
-			char* szProto = Proto_GetBaseAccountName(hContact);
-			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			const char* szUniqueId = Proto_GetUniqueId(pa->szModuleName);
-			if (szUniqueId != nullptr) {
-				DBVARIANT dbvuid = { 0 };
-				if (!db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid)) {
-					wchar_t uid[MAX_PATH];
-					switch (dbvuid.type) {
-					case DBVT_DWORD:
-						_itow(dbvuid.dVal, uid, 10);
-						break;
 
-					case DBVT_ASCIIZ:
-						mir_wstrcpy(uid, _A2T(dbvuid.pszVal));
-						break;
+			ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact));
+			wchar_t value[100];
+			mir_snwprintf(value, TranslateT("Custom sound for %s (%s)"), Clist_GetContactDisplayName(hContact), uid.get());
+			SetWindowText(hwndDlg, value);
 
-					case DBVT_UTF8:
-						mir_wstrcpy(uid, ptrW(mir_utf8decodeW(dbvuid.pszVal)));
-						break;
-					}
-
-					wchar_t *nick = Clist_GetContactDisplayName(hContact);
-					wchar_t value[100];
-					mir_snwprintf(value, TranslateT("Custom sound for %s (%s)"), nick, uid);
-					SetWindowText(hwndDlg, value);
-					db_free(&dbvuid);
-				}
-			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_BUTTON_CHOOSE_SOUND), TRUE);
 			DBVARIANT dbv = { 0 };
 			if (!g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {

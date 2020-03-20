@@ -4,7 +4,7 @@
 #include <Shlwapi.h>
 
 #include <newpluginapi.h>
-#include <m_system.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
