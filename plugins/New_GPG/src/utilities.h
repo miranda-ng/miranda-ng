@@ -29,10 +29,12 @@ void send_encrypted_msgs_thread(void*);
 int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, DWORD data);
 bool isContactSecured(MCONTACT hContact);
 bool isContactHaveKey(MCONTACT hContact);
-bool isTabsrmmUsed();
 bool isGPGKeyExist();
 bool isGPGValid();
+
 void ExportGpGKeysFunc(int type);
+void ImportKey(MCONTACT hContact, std::wstring new_key);
+
 const bool StriStr(const char *str, const char *substr);
 string toUTF8(wstring str);
 wstring toUTF16(string str);

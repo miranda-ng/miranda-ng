@@ -31,7 +31,7 @@ void pxEexcute_thread(gpg_execution_params *params)
 
 	CMStringW bin_path(g_plugin.getMStringW("szGpgBinPath"));
 	if (_waccess(bin_path, 0)) {
-		if (globals.bDebugLog)
+		if (globals.debuglog)
 			globals.debuglog << "GPG executable not found";
 		params->result = pxNotFound;
 		return;
@@ -54,7 +54,7 @@ void pxEexcute_thread(gpg_execution_params *params)
 	argv.push_back(L"-z9");
 	argv.insert(argv.end(), params->aargv.begin(), params->aargv.end());
 
-	if (globals.bDebugLog) {
+	if (globals.debuglog) {
 		std::wstring args;
 		for (unsigned int i = 0; i < argv.size(); ++i) {
 			args += argv[i];
@@ -96,7 +96,7 @@ void pxEexcute_thread(gpg_execution_params *params)
 
 		params->out.Replace("\r\r", "");
 
-		if (globals.bDebugLog)
+		if (globals.debuglog)
 			globals.debuglog << "gpg out: " << params->out.c_str();
 	}
 
@@ -105,7 +105,7 @@ void pxEexcute_thread(gpg_execution_params *params)
 	delete c;
 
 	if (params->code) {
-		if (globals.bDebugLog)
+		if (globals.debuglog)
 			globals.debuglog << ": warning: wrong gpg exit status, gpg output: " << params->out.c_str();
 		params->result = pxSuccessExitCodeInvalid;
 	}
@@ -120,7 +120,7 @@ bool gpg_launcher(gpg_execution_params &params, boost::posix_time::time_duration
 		ret = false;
 		if (params.child)
 			params.child->terminate();
-		if (globals.bDebugLog)
+		if (globals.debuglog)
 			globals.debuglog << "GPG execution timed out, aborted";
 	}
 	return ret;
@@ -137,7 +137,7 @@ void pxEexcute_passwd_change_thread(gpg_execution_params_pass *params)
 
 	CMStringW bin_path(g_plugin.getMStringW("szGpgBinPath"));
 	if (_waccess(bin_path, 0)) {
-		if (globals.bDebugLog)
+		if (globals.debuglog)
 			globals.debuglog << "GPG executable not found";
 		params->result = pxNotFound;
 		return;

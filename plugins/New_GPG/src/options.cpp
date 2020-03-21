@@ -51,6 +51,7 @@ public:
 
 		list_USERLIST.OnItemChanged = Callback(this, &COptGpgMainDlg::onItemChanged_USERLIST);
 
+		CreateLink(check_DEBUG_LOG, g_plugin.bDebugLog);
 		CreateLink(check_JABBER_API, g_plugin.bJabberAPI);
 		CreateLink(check_AUTO_EXCHANGE, g_plugin.bAutoExchange);
 		CreateLink(check_FILE_TRANSFERS, g_plugin.bFileTransfers);
@@ -99,7 +100,6 @@ public:
 
 		edit_LOG_FILE_EDIT.SetText(ptrW(g_plugin.getWStringA("szLogFilePath", L"")));
 
-		check_DEBUG_LOG.SetState(g_plugin.getByte("bDebugLog", 0));
 		check_JABBER_API.Enable();
 		check_AUTO_EXCHANGE.Enable(g_plugin.bJabberAPI);
 
@@ -123,7 +123,6 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.setByte("bDebugLog", globals.bDebugLog = check_DEBUG_LOG.GetState());
 		globals.debuglog.init();
 
 		if (g_plugin.bFileTransfers != old_bFileTransfers)
@@ -446,12 +445,13 @@ public:
 	COptGpgMsgDlg() : CDlgBase(g_plugin, IDD_OPT_GPG_MESSAGES),
 		check_APPEND_TAGS(this, IDC_APPEND_TAGS), check_STRIP_TAGS(this, IDC_STRIP_TAGS),
 		edit_IN_OPEN_TAG(this, IDC_IN_OPEN_TAG), edit_IN_CLOSE_TAG(this, IDC_IN_CLOSE_TAG), edit_OUT_OPEN_TAG(this, IDC_OUT_OPEN_TAG), edit_OUT_CLOSE_TAG(this, IDC_OUT_CLOSE_TAG)
-	{}
+	{
+		CreateLink(check_STRIP_TAGS, g_plugin.bStripTags);
+		CreateLink(check_APPEND_TAGS, g_plugin.bAppendTags);
+	}
 
 	bool OnInitDialog() override
 	{
-		check_APPEND_TAGS.SetState(g_plugin.getByte("bAppendTags", 0));
-		check_STRIP_TAGS.SetState(g_plugin.getByte("bStripTags", 0));
 		edit_IN_OPEN_TAG.SetText(g_plugin.getMStringW("szInOpenTag", L"<GPGdec>"));
 		edit_IN_CLOSE_TAG.SetText(g_plugin.getMStringW("szInCloseTag", L"</GPGdec>"));
 		edit_OUT_OPEN_TAG.SetText(g_plugin.getMStringW("szOutOpenTag", L"<GPGenc>"));
@@ -461,25 +461,21 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.setByte("bAppendTags", globals.bAppendTags = check_APPEND_TAGS.GetState());
-		g_plugin.setByte("bStripTags", globals.bStripTags = check_STRIP_TAGS.GetState());
-		{
-			ptrW tmp(edit_IN_OPEN_TAG.GetText());
-			g_plugin.setWString("szInOpenTag", tmp);
-			globals.wszInopentag = tmp;
+		ptrW tmp(edit_IN_OPEN_TAG.GetText());
+		g_plugin.setWString("szInOpenTag", tmp);
+		globals.wszInopentag = tmp;
 
-			tmp = edit_IN_CLOSE_TAG.GetText();
-			g_plugin.setWString("szInCloseTag", tmp);
-			globals.wszInclosetag = tmp;
+		tmp = edit_IN_CLOSE_TAG.GetText();
+		g_plugin.setWString("szInCloseTag", tmp);
+		globals.wszInclosetag = tmp;
 
-			tmp = mir_wstrdup(edit_OUT_OPEN_TAG.GetText());
-			g_plugin.setWString("szOutOpenTag", tmp);
-			globals.wszOutopentag = tmp;
+		tmp = mir_wstrdup(edit_OUT_OPEN_TAG.GetText());
+		g_plugin.setWString("szOutOpenTag", tmp);
+		globals.wszOutopentag = tmp;
 
-			tmp = mir_wstrdup(edit_OUT_CLOSE_TAG.GetText());
-			g_plugin.setWString("szOutCloseTag", tmp);
-			globals.wszOutclosetag = tmp;
-		}
+		tmp = mir_wstrdup(edit_OUT_CLOSE_TAG.GetText());
+		g_plugin.setWString("szOutCloseTag", tmp);
+		globals.wszOutclosetag = tmp;
 		return true;
 	}
 };
@@ -557,7 +553,8 @@ public:
 
 	bool OnInitDialog() override
 	{
-		SetWindowPos(m_hwnd, nullptr, globals.load_key_rect.left, globals.load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "LoadKeyWindow");
+
 		mir_subclassWindow(GetDlgItem(m_hwnd, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
 		MCONTACT hcnt = db_mc_tryMeta(hContact);
 		{
@@ -630,9 +627,7 @@ public:
 
 	virtual void OnDestroy() override
 	{
-		GetWindowRect(m_hwnd, &globals.load_key_rect);
-		g_plugin.setDword("LoadKeyWindowX", globals.load_key_rect.left);
-		g_plugin.setDword("LoadKeyWindowY", globals.load_key_rect.top);
+		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "LoadKeyWindow");
 		edit_p_PubKeyEdit = nullptr;
 	}
 
@@ -944,7 +939,7 @@ public:
 		}
 		if (key_buf.empty()) {
 			key_buf.clear();
-			if (globals.bDebugLog)
+			if (globals.debuglog)
 				globals.debuglog << "info: Failed to read key file";
 			return;
 		}

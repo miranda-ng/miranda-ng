@@ -17,16 +17,21 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+struct contact_data
+{
+	list<string>  msgs_to_send;// msgs_to_pass;
+	string key_in_prescense;
+};
+
 struct globals_s
 {
-	bool bAppendTags = false, bDebugLog = false, bStripTags = false, tabsrmm_used = false, bDecryptFiles = false;
+	bool bDecryptFiles = false;
 	CMStringW wszInopentag, wszInclosetag, wszOutopentag, wszOutclosetag, wszPassword;
 	wchar_t key_id_global[17] = { 0 };
 	list <JabberAccount*> Accounts;
 	HFONT bold_font = nullptr;
 	HANDLE hLoadPubKey = nullptr, g_hCLIcon = nullptr, hExportGpgKeys = nullptr, hImportGpgKeys = nullptr;
 	HGENMENU hSendKey = nullptr, hToggleEncryption = nullptr;
-	RECT key_from_keyserver_rect = { 0 }, firstrun_rect = { 0 }, new_key_rect = { 0 }, key_gen_rect = { 0 }, load_key_rect = { 0 }, import_key_rect = { 0 }, key_password_rect = { 0 }, load_existing_key_rect = { 0 };
 	logtofile debuglog;
 	bool gpg_valid = false, gpg_keyexist = false;
 	std::map<MCONTACT, contact_data> hcontact_data;

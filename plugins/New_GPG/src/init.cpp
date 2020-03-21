@@ -52,7 +52,10 @@ PLUGININFOEX pluginInfoEx = {
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bDebugLog(MODULENAME, "bDebugLog", false),
 	bJabberAPI(MODULENAME, "bJabberAPI", true),
+	bStripTags(MODULENAME, "bStripTags", false),
+	bAppendTags(MODULENAME, "bAppendTags", false),
 	bSameAction(MODULENAME, "bSameAction", false),
 	bAutoExchange(MODULENAME, "bAutoExchange", false),
 	bFileTransfers(MODULENAME, "bFileTransfers", false),
@@ -75,29 +78,11 @@ void InitIconLib();
 
 void init_vars()
 {
-	globals.bAppendTags = g_plugin.getBool("bAppendTags", 0);
-	globals.bStripTags = g_plugin.getBool("bStripTags", 0);
 	globals.wszInopentag = g_plugin.getMStringW("szInOpenTag", L"<GPGdec>");
 	globals.wszInclosetag = g_plugin.getMStringW("szInCloseTag", L"</GPGdec>");
 	globals.wszOutopentag = g_plugin.getMStringW("szOutOpenTag", L"<GPGenc>");
 	globals.wszOutclosetag = g_plugin.getMStringW("szOutCloseTag", L"</GPGenc>");
-	globals.bDebugLog = g_plugin.getBool("bDebugLog", 0);
 	globals.wszPassword = g_plugin.getMStringW("szKeyPassword");
-	globals.firstrun_rect.left = g_plugin.getDword("FirstrunWindowX", 0);
-	globals.firstrun_rect.top = g_plugin.getDword("FirstrunWindowY", 0);
-	globals.key_password_rect.left = g_plugin.getDword("PasswordWindowX", 0);
-	globals.key_password_rect.top = g_plugin.getDword("PasswordWindowY", 0);
-	globals.key_gen_rect.left = g_plugin.getDword("KeyGenWindowX", 0);
-	globals.key_gen_rect.top = g_plugin.getDword("KeyGenWindowY", 0);
-	globals.load_key_rect.left = g_plugin.getDword("LoadKeyWindowX", 0);
-	globals.load_key_rect.top = g_plugin.getDword("LoadKeyWindowY", 0);
-	globals.import_key_rect.left = g_plugin.getDword("ImportKeyWindowX", 0);
-	globals.import_key_rect.top = g_plugin.getDword("ImportKeyWindowY", 0);
-	globals.new_key_rect.left = g_plugin.getDword("NewKeyWindowX", 0);
-	globals.new_key_rect.top = g_plugin.getDword("NewKeyWindowY", 0);
-	globals.load_existing_key_rect.left = g_plugin.getDword("LoadExistingKeyWindowX", 0);
-	globals.load_existing_key_rect.top = g_plugin.getDword("LoadExistingKeyWindowY", 0);
-	globals.tabsrmm_used = isTabsrmmUsed();
 	globals.bold_font = CreateFont(14, 0, 0, 0, 600, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, L"Arial");
 
 	globals.debuglog.init();
@@ -147,52 +132,58 @@ int CMPlugin::Load()
 	HookEvent(ME_PROTO_ACK, onProtoAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
+	InitIconLib();
 	init_vars();
-	CreateServiceFunction("/LoadPubKey", LoadKey);
-	CreateServiceFunction("/ToggleEncryption", ToggleEncryption);
-	CreateServiceFunction("/SendKey", SendKey);
-	CreateServiceFunction("/ExportGPGKeys", ExportGpGKeys);
-	CreateServiceFunction("/ImportGPGKeys", ImportGpGKeys);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// Comtact menu items
 
 	CMenuItem mi(&g_plugin);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SECURED);
 
 	SET_UID(mi, 0xbd22e3f8, 0xc19c, 0x45a8, 0xb7, 0x37, 0x6b, 0x3b, 0x27, 0xf0, 0x8c, 0xbb);
 	mi.position = -0x7FFFFFFF;
-	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.w = LPGENW("Load public GPG key");
+	mi.name.a = LPGEN("Load public GPG key");
 	mi.pszService = "/LoadPubKey";
 	globals.hLoadPubKey = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, LoadKey);
 
 	SET_UID(mi, 0xc8008193, 0x56a9, 0x414a, 0x82, 0x98, 0x78, 0xe8, 0xa8, 0x84, 0x20, 0x67);
 	mi.position = -0x7FFFFFFe;
-	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.w = LPGENW("Toggle GPG encryption");
+	mi.name.a = LPGEN("Toggle GPG encryption");
 	mi.pszService = "/ToggleEncryption";
 	globals.hToggleEncryption = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, ToggleEncryption);
 
 	SET_UID(mi, 0x42bb535f, 0xd58e, 0x4edb, 0xbf, 0x2c, 0xfa, 0x9a, 0xbf, 0x1e, 0xb8, 0x69);
 	mi.position = -0x7FFFFFFd;
-	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.w = LPGENW("Send public key");
+	mi.name.a = LPGEN("Send public key");
 	mi.pszService = "/SendKey";
 	globals.hSendKey = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, SendKey);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// Main menu items
+
+	SET_UID(mi, 0x0bac023bb, 0xd2e, 0x46e0, 0x93, 0x13, 0x7c, 0xf9, 0xf6, 0xb5, 0x02, 0xd1);
+	mi.position = -0x7FFFFFFe;
+	mi.name.a = "GPG";
+	mi.root = Menu_AddMainMenuItem(&mi);
+	mi.flags = CMIF_UNMOVABLE;
 
 	SET_UID(mi, 0x33a204b2, 0xe3c0, 0x413b, 0xbf, 0xd8, 0x8b, 0x2e, 0x3d, 0xa0, 0xef, 0xa4);
 	mi.position = -0x7FFFFFFe;
-	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.w = LPGENW("Export GPG Public keys");
+	mi.name.a = LPGEN("Export GPG Public keys");
 	mi.pszService = "/ExportGPGKeys";
 	globals.hExportGpgKeys = Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, ExportGpGKeys);
 
-	SET_UID(mi, 0x627fcfc1, 0x4e60, 0x4428, 0xaf, 0x96, 0x11, 0x42, 0x24, 0xeb, 0x7, 0xea);
+	SET_UID(mi, 0x627fcfc1, 0x4e60, 0x4428, 0xaf, 0x96, 0x11, 0x42, 0x24, 0xeb, 0x07, 0xea);
 	mi.position = -0x7FFFFFFF;
-	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-	mi.name.w = LPGENW("Import GPG Public keys");
+	mi.name.a = LPGEN("Import GPG Public keys");
 	mi.pszService = "/ImportGPGKeys";
 	globals.hImportGpgKeys = Menu_AddMainMenuItem(&mi);
-
-	InitIconLib();
+	CreateServiceFunction(mi.pszService, ImportGpGKeys);
 
 	globals.g_hCLIcon = ExtraIcon_RegisterCallback(MODULENAME, Translate("GPG encryption status"), "secured", onExtraImageListRebuilding, onExtraImageApplying);
 	return 0;

@@ -129,7 +129,7 @@ bool CDlgChangePasswdMsgBox::OnApply()
 	if (WaitForSingleObject(hThread, 600000) != WAIT_OBJECT_0) {
 		if (params.child)
 			params.child->terminate();
-		if (globals.bDebugLog)
+		if (globals.debuglog)
 			globals.debuglog << "GPG execution timed out, aborted";
 		return true;
 	}
@@ -173,7 +173,7 @@ CDlgFirstRun::CDlgFirstRun() :
 
 bool CDlgFirstRun::OnInitDialog()
 {
-	SetWindowPos(m_hwnd, nullptr, globals.firstrun_rect.left, globals.firstrun_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "FirstrunWindow");
 	SetCaption(TranslateT("Set own key"));
 	btn_COPY_PUBKEY.Disable();
 	btn_EXPORT_PRIVATE.Disable();
@@ -311,7 +311,7 @@ void CDlgFirstRun::onClick_CHANGE_PASSWD(CCtrlButton*)
 	if (WaitForSingleObject(hThread, 600000) != WAIT_OBJECT_0) {
 		if (params.child)
 			params.child->terminate();
-		if (globals.bDebugLog)
+		if (globals.debuglog)
 			globals.debuglog << "GPG execution timed out, aborted";
 		this->Close();
 	}
@@ -494,9 +494,7 @@ void CDlgFirstRun::onChange_KEY_LIST(CCtrlListView::TEventInfo *ev) //TODO: chec
 
 void CDlgFirstRun::OnDestroy()
 {
-	GetWindowRect(m_hwnd, &globals.firstrun_rect);
-	g_plugin.setDword("FirstrunWindowX", globals.firstrun_rect.left);
-	g_plugin.setDword("FirstrunWindowY", globals.firstrun_rect.top);
+	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "FirstrunWindow");
 }
 
 void CDlgFirstRun::refresh_key_list()
@@ -812,7 +810,8 @@ CDlgNewKey::CDlgNewKey(MCONTACT _hContact, wstring _new_key) :
 
 bool CDlgNewKey::OnInitDialog()
 {
-	SetWindowPos(m_hwnd, nullptr, globals.new_key_rect.left, globals.new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "NewKeyWindow");
+
 	CMStringW tmp = g_plugin.getMStringW(hContact, "GPGPubKey");
 	lbl_MESSAGE.SetText(!tmp.IsEmpty() ? TranslateT("There is existing key for contact, would you like to replace it with new key?") : TranslateT("New public key was received, do you want to import it?"));
 	btn_IMPORT_AND_USE.Enable(g_plugin.getByte(hContact, "GPGEncryption", 0));
@@ -825,9 +824,7 @@ bool CDlgNewKey::OnInitDialog()
 
 void CDlgNewKey::OnDestroy()
 {
-	GetWindowRect(m_hwnd, &globals.new_key_rect);
-	g_plugin.setDword("NewKeyWindowX", globals.new_key_rect.left);
-	g_plugin.setDword("NewKeyWindowY", globals.new_key_rect.top);
+	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "NewKeyWindow");
 }
 
 void CDlgNewKey::onClick_IMPORT(CCtrlButton*)
@@ -869,8 +866,9 @@ CDlgKeyGen::CDlgKeyGen() :
 
 bool CDlgKeyGen::OnInitDialog()
 {
-	SetWindowPos(m_hwnd, nullptr, globals.key_gen_rect.left, globals.key_gen_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "KeygenWindow");
 	SetCaption(TranslateT("Key Generation dialog"));
+
 	combo_KEY_TYPE.AddString(L"RSA");
 	combo_KEY_TYPE.AddString(L"DSA");
 	combo_KEY_TYPE.SelectString(L"RSA");
@@ -995,9 +993,7 @@ bool CDlgKeyGen::OnApply()
 
 void CDlgKeyGen::OnDestroy()
 {
-	GetWindowRect(m_hwnd, &globals.key_gen_rect);
-	g_plugin.setDword("KeyGenWindowX", globals.key_gen_rect.left);
-	g_plugin.setDword("KeyGenWindowY", globals.key_gen_rect.top);
+	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "KeygenWindow");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1011,7 +1007,7 @@ CDlgLoadExistingKey::CDlgLoadExistingKey() :
 
 bool CDlgLoadExistingKey::OnInitDialog()
 {
-	SetWindowPos(m_hwnd, nullptr, globals.load_existing_key_rect.left, globals.load_existing_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "LoadKeyWindow");
 
 	list_EXISTING_KEY_LIST.AddColumn(0, TranslateT("Key ID"), 50);
 	list_EXISTING_KEY_LIST.AddColumn(1, TranslateT("Email"), 30);
@@ -1105,9 +1101,7 @@ bool CDlgLoadExistingKey::OnInitDialog()
 
 void CDlgLoadExistingKey::OnDestroy()
 {
-	GetWindowRect(m_hwnd, &globals.load_existing_key_rect);
-	g_plugin.setDword("LoadExistingKeyWindowX", globals.load_existing_key_rect.left);
-	g_plugin.setDword("LoadExistingKeyWindowY", globals.load_existing_key_rect.top);
+	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "LoadKeyWindow");
 }
 
 bool CDlgLoadExistingKey::OnApply()
@@ -1167,7 +1161,8 @@ CDlgImportKey::CDlgImportKey(MCONTACT _hContact) :
 
 bool CDlgImportKey::OnInitDialog()
 {
-	SetWindowPos(m_hwnd, nullptr, globals.import_key_rect.left, globals.import_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "ImportKeyWindow");
+
 	combo_KEYSERVER.AddString(L"subkeys.pgp.net");
 	combo_KEYSERVER.AddString(L"keys.gnupg.net");
 	return true;
@@ -1175,9 +1170,7 @@ bool CDlgImportKey::OnInitDialog()
 
 void CDlgImportKey::OnDestroy()
 {
-	GetWindowRect(m_hwnd, &globals.import_key_rect);
-	g_plugin.setDword("ImportKeyWindowX", globals.import_key_rect.left);
-	g_plugin.setDword("ImportKeyWindowY", globals.import_key_rect.top);
+	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "ImportKeyWindow");
 }
 
 void CDlgImportKey::onClick_IMPORT(CCtrlButton*)
@@ -1210,7 +1203,7 @@ CDlgKeyPasswordMsgBox::CDlgKeyPasswordMsgBox(MCONTACT _hContact) :
 
 bool CDlgKeyPasswordMsgBox::OnInitDialog()
 {
-	SetWindowPos(m_hwnd, nullptr, globals.key_password_rect.left, globals.key_password_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "PasswordWindow");
 
 	CMStringW questionstr = TranslateT("Please enter password for key with ID: ");
 	questionstr += g_plugin.getMStringW(hContact, "InKeyID");
@@ -1223,9 +1216,7 @@ bool CDlgKeyPasswordMsgBox::OnInitDialog()
 void CDlgKeyPasswordMsgBox::OnDestroy()
 {
 	mir_free(inkeyid);
-	GetWindowRect(m_hwnd, &globals.key_password_rect);
-	g_plugin.setDword("PasswordWindowX", globals.key_password_rect.left);
-	g_plugin.setDword("PasswordWindowY", globals.key_password_rect.top);
+	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "PasswordWindow");
 }
 
 void CDlgKeyPasswordMsgBox::onClick_OK(CCtrlButton*)

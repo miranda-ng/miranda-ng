@@ -72,7 +72,7 @@ using std::fstream;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMOption<bool> bJabberAPI, bPresenceSigning, bFileTransfers, bAutoExchange, bSameAction;
+	CMOption<bool> bJabberAPI, bPresenceSigning, bFileTransfers, bAutoExchange, bSameAction, bAppendTags, bStripTags, bDebugLog;
 
 	CMPlugin();
 
@@ -86,7 +86,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #include "constants.h"
 #include "log.h"
 #include "utilities.h"
-#include "main.h"
 #include "gpg_wrapper.h"
 #include "jabber_account.h"
 #include "metacontacts.h"

@@ -24,30 +24,26 @@ static string time_str()
 
 logtofile &logtofile::operator<<(const char *buf)
 {
-	if (bEnabled != globals.bDebugLog)
-		init();
-
-	mir_writeLogA(hLogger, "%s: %s\n", time_str().c_str(), buf);
+	if (bEnabled)
+		mir_writeLogA(hLogger, "%s: %s\n", time_str().c_str(), buf);
 	return *this;
 }
 
 logtofile& logtofile::operator<<(const string &buf)
 {
-	if (bEnabled != globals.bDebugLog)
-		init();
-
-	mir_writeLogA(hLogger, "%s: %s\n", time_str().c_str(), buf.c_str());
+	if (bEnabled)
+		mir_writeLogA(hLogger, "%s: %s\n", time_str().c_str(), buf.c_str());
 	return *this;
 }
 
 void logtofile::init()
 {
-	if (globals.bDebugLog)
+	if (g_plugin.bDebugLog)
 		hLogger = mir_createLog("NewGPG", L"NewGPG log file", g_plugin.getMStringW("szLogFilePath", L"C:\\GPGdebug.log"), 0);
 	else {
 		mir_closeLog(hLogger);
 		hLogger = nullptr;
 	}
 		
-	bEnabled = globals.bDebugLog;
+	bEnabled = g_plugin.bDebugLog;
 }

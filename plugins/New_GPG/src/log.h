@@ -25,6 +25,8 @@ public:
 	logtofile& operator<<(const char *buf);
 	logtofile& operator<<(const std::string &buf);
 	void init();
+
+	__forceinline operator bool() const { return bEnabled; }
 };
 
 #endif
