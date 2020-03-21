@@ -145,7 +145,7 @@ int CMPlugin::Load()
 	mi.position = -0x7FFFFFFF;
 	mi.name.a = LPGEN("Load public GPG key");
 	mi.pszService = "/LoadPubKey";
-	globals.hLoadPubKey = Menu_AddContactMenuItem(&mi);
+	Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, LoadKey);
 
 	SET_UID(mi, 0xc8008193, 0x56a9, 0x414a, 0x82, 0x98, 0x78, 0xe8, 0xa8, 0x84, 0x20, 0x67);
@@ -175,14 +175,14 @@ int CMPlugin::Load()
 	mi.position = -0x7FFFFFFe;
 	mi.name.a = LPGEN("Export GPG Public keys");
 	mi.pszService = "/ExportGPGKeys";
-	globals.hExportGpgKeys = Menu_AddMainMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, ExportGpGKeys);
 
 	SET_UID(mi, 0x627fcfc1, 0x4e60, 0x4428, 0xaf, 0x96, 0x11, 0x42, 0x24, 0xeb, 0x07, 0xea);
 	mi.position = -0x7FFFFFFF;
 	mi.name.a = LPGEN("Import GPG Public keys");
 	mi.pszService = "/ImportGPGKeys";
-	globals.hImportGpgKeys = Menu_AddMainMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, ImportGpGKeys);
 
 	globals.g_hCLIcon = ExtraIcon_RegisterCallback(MODULENAME, Translate("GPG encryption status"), "secured", onExtraImageListRebuilding, onExtraImageApplying);
