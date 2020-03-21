@@ -899,60 +899,6 @@ bool IsOnline(MCONTACT hContact)
 	return true;
 }
 
-//from secureim
-#include <process.h>
-
-struct TFakeAckParams
-{
-	inline TFakeAckParams(HANDLE p1, MCONTACT p2, LONG p3, LPCSTR p4) :
-		hEvent(p1),
-		hContact(p2),
-		id(p3),
-		msg(p4)
-	{
-	}
-
-	HANDLE hEvent;
-	MCONTACT hContact;
-	LONG id;
-	LPCSTR msg;
-};
-
-__forceinline int SendBroadcast(MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
-{
-	return ProtoBroadcastAck(Proto_GetBaseAccountName(hContact), hContact, type, result, hProcess, lParam);
-}
-
-unsigned __stdcall sttFakeAck(void *param)
-{
-	TFakeAckParams *tParam = (TFakeAckParams*)param;
-	WaitForSingleObject(tParam->hEvent, INFINITE);
-
-	Sleep(100);
-	if (tParam->msg == nullptr)
-		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->id, 0);
-	else
-		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tParam->id, LPARAM(tParam->msg));
-
-	CloseHandle(tParam->hEvent);
-	delete tParam;
-
-	return 0;
-}
-
-
-int returnNoError(MCONTACT hContact)
-{
-	HANDLE hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-	unsigned int tID;
-	CloseHandle((HANDLE)_beginthreadex(nullptr, 0, sttFakeAck, new TFakeAckParams(hEvent, hContact, 777, nullptr), 0, &tID));
-	SetEvent(hEvent);
-	return 777;
-}
-// end from secureim
-
-
-
 string toUTF8(wstring str)
 {
 	string ustr;
@@ -966,8 +912,6 @@ string toUTF8(wstring str)
 	}
 	return ustr;
 }
-
-
 
 wstring toUTF16(string str) //convert as much as possible
 {
