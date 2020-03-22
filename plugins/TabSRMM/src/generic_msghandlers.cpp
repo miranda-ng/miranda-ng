@@ -249,8 +249,8 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 		return MsgWindowMenuHandler(iSelection, MENU_LOGMENU);
 
 	case IDC_PROTOMENU:
-		if (m_hContact) {
-			submenu = GetSubMenu(PluginConfig.g_hMenuContext, 4);
+		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 4);
+		{
 			int iOldGlobalSendFormat = PluginConfig.m_SendFormat;
 			int iLocalFormat = M.GetDword(m_hContact, "sendformat", 0);
 			int iNewLocalFormat = iLocalFormat;
@@ -278,7 +278,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				DM_RecalcPictureSize();
 				Resize();
 				break;
-			
+
 			case ID_MODE_PRIVATE:
 				m_bSplitterOverride = true;
 				db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", 1);
@@ -287,28 +287,28 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				DM_RecalcPictureSize();
 				Resize();
 				break;
-			
+
 			case ID_GLOBAL_BBCODE:
 				PluginConfig.m_SendFormat = SENDFORMAT_BBCODE;
 				break;
-			
+
 			case ID_GLOBAL_OFF:
 				PluginConfig.m_SendFormat = SENDFORMAT_NONE;
 				break;
-			
+
 			case ID_THISCONTACT_GLOBALSETTING:
 				iNewLocalFormat = 0;
 				break;
-			
+
 			case ID_THISCONTACT_BBCODE:
 				iNewLocalFormat = SENDFORMAT_BBCODE;
 				break;
-			
+
 			case ID_THISCONTACT_OFF:
 				iNewLocalFormat = -1;
 				break;
 			}
-			
+
 			if (iNewLocalFormat == 0)
 				db_unset(m_hContact, SRMSGMOD_T, "sendformat");
 			else if (iNewLocalFormat != iLocalFormat)
@@ -476,15 +476,12 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 	case IDC_SELFTYPING:
 		if (m_si == nullptr || m_si->iType == GCW_PRIVMESS) {
-			if (m_hContact) {
-				int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
-
-				if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
-					DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
-					m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
-				}
-				g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
+			int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
+				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
+				m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 			}
+			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
 		}
 		break;
 
@@ -604,11 +601,6 @@ void CMsgDialog::DM_SetDBButtonStates()
 		char *szModule = buttonItem->szModule;
 		char *szSetting = buttonItem->szSetting;
 		if (buttonItem->dwFlags & BUTTON_DBACTIONONCONTACT || buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION) {
-			if (m_hContact == 0) {
-				SendMessage(hWnd, BM_SETCHECK, BST_UNCHECKED, 0);
-				buttonItem = buttonItem->nextItem;
-				continue;
-			}
 			if (buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION)
 				szModule = Proto_GetBaseAccountName(m_hContact);
 			hFinalContact = m_hContact;
@@ -813,9 +805,6 @@ void CMsgDialog::DM_ThemeChanged()
 
 void CMsgDialog::DM_NotifyTyping(int mode)
 {
-	if (!m_hContact)
-		return;
-
 	DeletePopupsForContact(m_hContact, PU_REMOVE_ON_TYPE);
 
 	const char *szProto = m_cache->getActiveProto();

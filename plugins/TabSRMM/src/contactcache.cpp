@@ -36,10 +36,9 @@ static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 static DBCachedContact ccInvalid;
 
 CContactCache::CContactCache(MCONTACT hContact) :
+	m_hContact(hContact),
 	m_history(10)
 {
-	m_hContact = hContact;
-
 	if (hContact) {
 		if ((cc = db_get_contact(hContact)) != nullptr) {
 			initPhaseTwo();

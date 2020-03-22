@@ -235,9 +235,6 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 		return 0;
 	}
 
-	if (dat->m_hContact == 0)
-		return 0;  //never happens
-
 	size_t iMaxSize = dat->m_cache->getMaxMessageLength();
 
 	if (M.GetByte("autosplit", 0) && !(dat->m_sendMode & SMODE_SENDLATER)) {

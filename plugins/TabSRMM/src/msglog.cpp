@@ -468,7 +468,8 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 
 	CMStringA str;
 
-	if (dat->m_isAutoRTL & 2) {                                     // means: last \\par was deleted to avoid new line at end of log
+	// means: last \\par was deleted to avoid new line at end of log
+	if (dat->m_isAutoRTL & 2) {
 		str.Append("\\par");
 		dat->m_isAutoRTL &= ~2;
 	}

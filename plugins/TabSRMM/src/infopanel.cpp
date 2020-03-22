@@ -218,11 +218,6 @@ void CInfoPanel::showHide() const
 
 bool CInfoPanel::getVisibility()
 {
-	if (m_dat->m_hContact == 0) {
-		setActive(false);    // no info panel, if no hcontact
-		return false;
-	}
-
 	BYTE bDefault = (m_dat->m_pContainer->m_flags.m_bInfoPanel) ? 1 : 0;
 	BYTE bContact = M.GetByte(m_dat->m_hContact, "infopanel", 0);
 

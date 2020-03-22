@@ -254,13 +254,18 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 
 void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTab, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent, bool bIsUnicode, const char *pszInitialText)
 {
+	if (hContact == 0) {
+		_DebugPopup(hContact, L"Warning: trying to create a window for empty contact");
+		return;
+	}
+
 	if (Srmm_FindWindow(hContact) != nullptr) {
 		_DebugPopup(hContact, L"Warning: trying to create duplicate window");
 		return ;
 	}
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
+	if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
 		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
 				return;

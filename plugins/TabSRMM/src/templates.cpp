@@ -125,6 +125,23 @@ CTemplateEditDlg::CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 {
 	SetParent(hwndParent);
 
+	// set hContact to the first found contact so that we can use the Preview window properly
+	// also, set other parameters needed by the streaming function to display events
+	for (auto &cc : Contacts()) {
+		if (m_szProto = Proto_GetBaseAccountName(m_hContact)) {
+			m_hContact = cc;
+			break;
+		}
+	}
+
+	// empty contact list? create a temportary one, that will be automatically removed 
+	if (m_hContact == 0) {
+		m_hContact = db_add_contact();
+		Proto_AddToContact(m_hContact, m_szProto = META_PROTO);
+		Contact_Hide(m_hContact);
+		Contact_RemoveFromList(m_hContact);
+	}
+
 	m_pContainer = new TContainerData();
 	m_pContainer->LoadOverrideTheme();
 	tSet = rtl ? m_pContainer->m_rtl_templates : m_pContainer->m_ltr_templates;
@@ -145,14 +162,6 @@ bool CTemplateEditDlg::OnInitDialog()
 {
 	m_pLog = new CLogWindow(*this);
 
-	// set hContact to the first found contact so that we can use the Preview window properly
-	// also, set other parameters needed by the streaming function to display events
-	m_hContact = db_find_first();
-	m_szProto = Proto_GetBaseAccountName(m_hContact);
-	while (m_szProto == nullptr && m_hContact != 0) {
-		m_hContact = db_find_next(m_hContact);
-		m_szProto = Proto_GetBaseAccountName(m_hContact);
-	}
 	m_dwFlags = m_pContainer->m_theme.dwFlags;
 
 	m_cache = CContactCache::getContactCache(m_hContact);

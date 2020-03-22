@@ -1394,7 +1394,7 @@ panel_found:
 					db_unset(dat->m_hContact, SRMSGMOD_T, "tabindex");
 				break;
 			case ID_TABMENU_LEAVECHATROOM:
-				if (dat && dat->isChat() && dat->m_hContact) {
+				if (dat && dat->isChat()) {
 					char *szProto = Proto_GetBaseAccountName(dat->m_hContact);
 					if (szProto)
 						CallProtoService(szProto, PS_LEAVECHAT, dat->m_hContact, 0);

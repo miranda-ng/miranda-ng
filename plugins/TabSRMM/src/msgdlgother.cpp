@@ -1092,7 +1092,7 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 			db_unset(m_hContact, SRMSGMOD_T, "tabindex");
 			break;
 		case ID_TABMENU_LEAVECHATROOM:
-			if (isChat() && m_hContact != 0) {
+			if (isChat()) {
 				char *szProto = Proto_GetBaseAccountName(m_hContact);
 				if (szProto)
 					CallProtoService(szProto, PS_LEAVECHAT, m_hContact, 0);
@@ -2073,52 +2073,50 @@ void CMsgDialog::UpdateTitle()
 
 		bool bChanged = false;
 		wchar_t newtitle[128];
-		if (m_hContact) {
-			if (m_szProto) {
-				szActProto = m_cache->getProto();
+		if (m_szProto) {
+			szActProto = m_cache->getProto();
 
-				bool bHasName = (m_cache->getUIN()[0] != 0);
-				m_idle = m_cache->getIdleTS();
-				m_bIsIdle = m_idle != 0;
+			bool bHasName = (m_cache->getUIN()[0] != 0);
+			m_idle = m_cache->getIdleTS();
+			m_bIsIdle = m_idle != 0;
 
-				m_wStatus = m_cache->getStatus();
-				wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
+			m_wStatus = m_cache->getStatus();
+			wcsncpy_s(m_wszStatus, Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : m_wStatus, 0), _TRUNCATE);
 
-				wchar_t newcontactname[128]; newcontactname[0] = 0;
-				if (PluginConfig.m_bCutContactNameOnTabs)
-					CutContactName(m_cache->getNick(), newcontactname, _countof(newcontactname));
+			wchar_t newcontactname[128]; newcontactname[0] = 0;
+			if (PluginConfig.m_bCutContactNameOnTabs)
+				CutContactName(m_cache->getNick(), newcontactname, _countof(newcontactname));
+			else
+				wcsncpy_s(newcontactname, m_cache->getNick(), _TRUNCATE);
+
+			Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
+
+			if (newcontactname[0] != 0) {
+				if (PluginConfig.m_bStatusOnTabs)
+					mir_snwprintf(newtitle, L"%s (%s)", newcontactname, m_wszStatus);
 				else
-					wcsncpy_s(newcontactname, m_cache->getNick(), _TRUNCATE);
-
-				Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
-
-				if (newcontactname[0] != 0) {
-					if (PluginConfig.m_bStatusOnTabs)
-						mir_snwprintf(newtitle, L"%s (%s)", newcontactname, m_wszStatus);
-					else
-						wcsncpy_s(newtitle, newcontactname, _TRUNCATE);
-				}
-				else wcsncpy_s(newtitle, L"Forward", _TRUNCATE);
-
-				if (mir_wstrcmp(newtitle, m_wszTitle))
-					bChanged = true;
-				else if (m_wStatus != m_wOldStatus)
-					bChanged = true;
-
-				UpdateWindowIcon();
-
-				wchar_t fulluin[256];
-				if (m_bIsMeta)
-					mir_snwprintf(fulluin,
-					TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
-					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
-				else
-					mir_snwprintf(fulluin,
-					TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
-					bHasName ? m_cache->getUIN() : TranslateT("No UID"));
-
-				SendDlgItemMessage(m_hwnd, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_UNICODE);
+					wcsncpy_s(newtitle, newcontactname, _TRUNCATE);
 			}
+			else wcsncpy_s(newtitle, L"Forward", _TRUNCATE);
+
+			if (mir_wstrcmp(newtitle, m_wszTitle))
+				bChanged = true;
+			else if (m_wStatus != m_wOldStatus)
+				bChanged = true;
+
+			UpdateWindowIcon();
+
+			wchar_t fulluin[256];
+			if (m_bIsMeta)
+				mir_snwprintf(fulluin,
+				TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
+				bHasName ? m_cache->getUIN() : TranslateT("No UID"));
+			else
+				mir_snwprintf(fulluin,
+				TranslateT("UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
+				bHasName ? m_cache->getUIN() : TranslateT("No UID"));
+
+			SendDlgItemMessage(m_hwnd, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_UNICODE);
 		}
 		else wcsncpy_s(newtitle, L"Message Session", _TRUNCATE);
 
