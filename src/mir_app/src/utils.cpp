@@ -315,6 +315,68 @@ static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void AddToFileList(wchar_t **&pppFiles, int &totalCount, const wchar_t *szFilename)
+{
+	pppFiles = (wchar_t **)mir_realloc(pppFiles, (++totalCount + 1) * sizeof(wchar_t *));
+	pppFiles[totalCount] = nullptr;
+	pppFiles[totalCount - 1] = mir_wstrdup(szFilename);
+
+	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
+		WIN32_FIND_DATA fd;
+		HANDLE hFind;
+		wchar_t szPath[MAX_PATH];
+		mir_wstrcpy(szPath, szFilename);
+		mir_wstrcat(szPath, L"\\*");
+		if (hFind = FindFirstFile(szPath, &fd)) {
+			do {
+				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
+					continue;
+				mir_wstrcpy(szPath, szFilename);
+				mir_wstrcat(szPath, L"\\");
+				mir_wstrcat(szPath, fd.cFileName);
+				AddToFileList(pppFiles, totalCount, szPath);
+			} while (FindNextFile(hFind, &fd));
+			FindClose(hFind);
+		}
+	}
+}
+
+MIR_APP_DLL(bool) ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
+{
+	if (hDrop == nullptr || hContact == 0)
+		return false;
+
+	auto *szProto = Proto_GetBaseAccountName(hContact);
+	if (szProto == nullptr)
+		return false;
+
+	int pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	if (!(pcaps & PF1_FILESEND))
+		return false;
+
+	if (Contact_GetStatus(hContact) == ID_STATUS_OFFLINE) {
+		pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		if (!(pcaps & PF4_OFFLINEFILES))
+			return false;
+	}
+
+	int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0;
+	wchar_t **ppFiles = nullptr;
+	for (int i = 0; i < fileCount; i++) {
+		wchar_t szFilename[MAX_PATH];
+		if (DragQueryFileW(hDrop, i, szFilename, _countof(szFilename)))
+			AddToFileList(ppFiles, totalCount, szFilename);
+	}
+
+	CallService(MS_FILE_SENDSPECIFICFILEST, hContact, (LPARAM)ppFiles);
+
+	for (int i=0; ppFiles[i]; i++)
+		mir_free(ppFiles[i]);
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int LoadUtilsModule(void)
 {
 	bModuleInitialized = TRUE;

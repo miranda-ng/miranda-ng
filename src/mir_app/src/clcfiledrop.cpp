@@ -172,31 +172,6 @@ HRESULT CDropTarget::DragLeave(void)
 	return S_OK;
 }
 
-static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t *szFilename)
-{
-	*pppFiles = (wchar_t **) mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(wchar_t *));
-	(*pppFiles)[*totalCount] = nullptr;
-	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
-	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
-		WIN32_FIND_DATA fd;
-		HANDLE hFind;
-		wchar_t szPath[MAX_PATH];
-		mir_wstrcpy(szPath, szFilename);
-		mir_wstrcat(szPath, L"\\*");
-		if (hFind = FindFirstFile(szPath, &fd)) {
-			do {
-				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
-					continue;
-				mir_wstrcpy(szPath, szFilename);
-				mir_wstrcat(szPath, L"\\");
-				mir_wstrcat(szPath, fd.cFileName);
-				AddToFileList(pppFiles, totalCount, szPath);
-			} while (FindNextFile(hFind, &fd));
-			FindClose(hFind);
-		}
-	}
-}
-
 HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt, DWORD * pdwEffect)
 {
 	FORMATETC fe = { CF_HDROP, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
@@ -210,32 +185,17 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 	*pdwEffect = DROPEFFECT_NONE;
 	if (hwndCurrentDrag == nullptr || S_OK != pDataObj->GetData(&fe, &stg))
 		return S_OK;
-	hDrop = (HDROP) stg.hGlobal;
-	ClcData *dat = (ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
+
+	hDrop = (HDROP)stg.hGlobal;
+	ClcData *dat = (ClcData *)GetWindowLongPtr(hwndCurrentDrag, 0);
 
 	shortPt.x = pt.x;
 	shortPt.y = pt.y;
 	ScreenToClient(hwndCurrentDrag, &shortPt);
 	MCONTACT hContact = HContactFromPoint(hwndCurrentDrag, dat, shortPt.x, shortPt.y, nullptr);
-	if (hContact != 0) {
-		wchar_t **ppFiles = nullptr;
-		wchar_t szFilename[MAX_PATH];
-		int fileCount, totalCount = 0, i;
-
-		fileCount = DragQueryFile(hDrop, -1, nullptr, 0);
-		ppFiles = nullptr;
-		for (i=0; i < fileCount; i++) {
-			DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
-			AddToFileList(&ppFiles, &totalCount, szFilename);
-		}
-
-		if (!CallService(MS_FILE_SENDSPECIFICFILEST, hContact, (LPARAM)ppFiles))
+	if (hContact != 0)
+		if (ProcessFileDrop(hDrop, hContact))
 			*pdwEffect = DROPEFFECT_COPY;
-
-		for (i=0; ppFiles[i]; i++)
-			mir_free(ppFiles[i]);
-		mir_free(ppFiles);
-	}
 
 	if (stg.pUnkForRelease)
 		stg.pUnkForRelease->Release();
@@ -248,7 +208,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 
 void RegisterFileDropping(HWND hwnd)
 {
-	RegisterDragDrop(hwnd, (IDropTarget *) & dropTarget);
+	RegisterDragDrop(hwnd, (IDropTarget*)&dropTarget);
 }
 
 void UnregisterFileDropping(HWND hwnd)

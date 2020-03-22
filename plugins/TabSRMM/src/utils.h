@@ -48,48 +48,45 @@ struct TRTFColorTable
 	COLORREF clr;
 };
 
-class Utils {
+namespace Utils
+{
+	wchar_t* GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen);
+	wchar_t* FilterEventMarkers(wchar_t *wszText);
+	char*    FilterEventMarkers(char *szText);
+	void     DoubleAmpersands(wchar_t *pszText, size_t len);
+	void     RTF_CTableInit();
+	void     RTF_ColorAdd(const wchar_t *tszColname);
+	int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = nullptr);
+	int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = nullptr);
+	void     SettingsToContainer(TContainerData *pContainer);
+	void     ContainerToSettings(TContainerData *pContainer);
+	void     ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce = false);
+	void     SaveContainerSettings(TContainerData *pContainer, const char *szSetting);
 
-public:
-	static wchar_t* GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen);
-	static wchar_t* FilterEventMarkers(wchar_t *wszText);
-	static char*    FilterEventMarkers(char *szText);
-	static void     DoubleAmpersands(wchar_t *pszText, size_t len);
-	static void     RTF_CTableInit();
-	static void     RTF_ColorAdd(const wchar_t *tszColname);
-	static int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = nullptr);
-	static int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = nullptr);
-	static void     SettingsToContainer(TContainerData *pContainer);
-	static void     ContainerToSettings(TContainerData *pContainer);
-	static void     ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce = false);
-	static void     SaveContainerSettings(TContainerData *pContainer, const char *szSetting);
+	DWORD    CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
 
-	static DWORD    CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
+	void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const wchar_t *szText, UINT uID, UINT pos);
+	void     enableDlgControl(const HWND hwnd, UINT id, bool fEnable = true);
+	void     showDlgControl(const HWND hwnd, UINT id, int showCmd);
+	void     setAvatarContact(HWND hWnd, MCONTACT hContact);
+	void     getIconSize(HICON hIcon, int& sizeX, int& sizeY);
 
-	static void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const wchar_t *szText, UINT uID, UINT pos);
-	static void     enableDlgControl(const HWND hwnd, UINT id, bool fEnable = true);
-	static void     showDlgControl(const HWND hwnd, UINT id, int showCmd);
-	static void     setAvatarContact(HWND hWnd, MCONTACT hContact);
-	static void     getIconSize(HICON hIcon, int& sizeX, int& sizeY);
+	bool     extractResource(const HMODULE h, const UINT uID, const wchar_t *tszName, const wchar_t *tszPath, const wchar_t *tszFilename, bool fForceOverwrite);
+	void     scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, double& dNewHeight, const LONG maxHeight);
 
-	static bool     extractResource(const HMODULE h, const UINT uID, const wchar_t *tszName, const wchar_t *tszPath, const wchar_t *tszFilename, bool fForceOverwrite);
-	static void     scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, double& dNewHeight, const LONG maxHeight);
+	AVATARCACHEENTRY*  loadAvatarFromAVS(const MCONTACT hContact);
 
-	static AVATARCACHEENTRY*  loadAvatarFromAVS(const MCONTACT hContact);
+	void     sanitizeFilename(wchar_t *tszFilename);
+	void     ensureTralingBackslash(wchar_t *szPathname);
 
-	static void     sanitizeFilename(wchar_t *tszFilename);
-	static void     ensureTralingBackslash(wchar_t *szPathname);
+	void     sendContactMessage(MCONTACT hContact, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	static void     sendContactMessage(MCONTACT hContact, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	HMODULE  loadSystemLibrary(const wchar_t* szFilename);
 
-	static HMODULE  loadSystemLibrary(const wchar_t* szFilename);
+	LRESULT  CALLBACK PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	LPTSTR   extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
 
-	static LRESULT  CALLBACK PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	static LPTSTR   extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
-
-	static size_t   CopyToClipBoard(const wchar_t *str, const HWND hwndOwner);
-
-	static void     AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilename);
+	size_t   CopyToClipBoard(const wchar_t *str, const HWND hwndOwner);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// safe mir_strlen function - do not overflow the given buffer length
@@ -98,7 +95,7 @@ public:
 	//
 	// careful: maxlen must be given in element counts!!
 
-	template<typename T> static size_t safe_strlen(const T* src, const size_t maxlen = 0)
+	template<typename T> size_t safe_strlen(const T* src, const size_t maxlen = 0)
 	{
 		size_t s = 0;
 
@@ -108,8 +105,7 @@ public:
 		return (s >= maxlen && *src != 0) ? 0 : s;
 	}
 
-public:
-	static OBJLIST<TRTFColorTable> rtf_clrs;
+	extern OBJLIST<TRTFColorTable> rtf_clrs;
 };
 
 __forceinline LRESULT _dlgReturn(HWND hWnd, LRESULT result)

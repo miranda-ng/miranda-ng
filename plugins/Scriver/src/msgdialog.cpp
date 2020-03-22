@@ -91,28 +91,6 @@ static wchar_t* GetQuotedTextW(wchar_t *text)
 	return out;
 }
 
-static void AddToFileList(wchar_t ***pppFiles, int *totalCount, const wchar_t* szFilename)
-{
-	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1)*sizeof(wchar_t*));
-	(*pppFiles)[*totalCount] = nullptr;
-	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
-
-	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
-		WIN32_FIND_DATA fd;
-		wchar_t szPath[MAX_PATH];
-		mir_snwprintf(szPath, L"%s\\*", szFilename);
-		HANDLE hFind = FindFirstFile(szPath, &fd);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			do {
-				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L"..")) continue;
-				mir_snwprintf(szPath, L"%s\\%s", szFilename, fd.cFileName);
-				AddToFileList(pppFiles, totalCount, szPath);
-			} while (FindNextFile(hFind, &fd));
-			FindClose(hFind);
-		}
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
@@ -981,7 +959,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (OpenClipboard(m_message.GetHwnd())) {
 				HANDLE hDrop = GetClipboardData(CF_HDROP);
 				if (hDrop)
-					SendMessage(m_hwnd, WM_DROPFILES, (WPARAM)hDrop, 0);
+					ProcessFileDrop((HDROP)hDrop, m_hContact);
 				CloseClipboard();
 			}
 			return 0;
@@ -989,7 +967,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DROPFILES:
-		SendMessage(m_hwnd, WM_DROPFILES, wParam, lParam);
+		ProcessFileDrop((HDROP)wParam, m_hContact);
 		return 0;
 
 	case WM_CONTEXTMENU:
@@ -1117,22 +1095,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DROPFILES:
-		if (m_szProto == nullptr) break;
-		if (!(CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0)&PF1_FILESEND)) break;
-		if (m_wStatus == ID_STATUS_OFFLINE) break;
-		if (m_hContact != 0) {
-			wchar_t szFilename[MAX_PATH];
-			HDROP hDrop = (HDROP)wParam;
-			int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0, i;
-			wchar_t** ppFiles = nullptr;
-			for (i = 0; i < fileCount; i++) {
-				DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
-				AddToFileList(&ppFiles, &totalCount, szFilename);
-			}
-			CallServiceSync(MS_FILE_SENDSPECIFICFILEST, m_hContact, (LPARAM)ppFiles);
-			for (i = 0; ppFiles[i]; i++) mir_free(ppFiles[i]);
-			mir_free(ppFiles);
-		}
+		ProcessFileDrop((HDROP)wParam, m_hContact);
 		break;
 
 	case DM_AVATARCHANGED:

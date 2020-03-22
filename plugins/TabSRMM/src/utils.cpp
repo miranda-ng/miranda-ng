@@ -955,32 +955,6 @@ HWND TSAPI GetTabWindow(HWND hwndTab, int i)
 /////////////////////////////////////////////////////////////////////////////////////////
 // file list handler
 
-void Utils::AddToFileList(wchar_t ***pppFiles, int *totalCount, LPCTSTR szFilename)
-{
-	*pppFiles = (wchar_t**)mir_realloc(*pppFiles, (++*totalCount + 1) * sizeof(wchar_t*));
-	(*pppFiles)[*totalCount] = nullptr;
-	(*pppFiles)[*totalCount - 1] = mir_wstrdup(szFilename);
-
-	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
-		WIN32_FIND_DATA fd;
-		wchar_t szPath[MAX_PATH];
-		mir_wstrcpy(szPath, szFilename);
-		mir_wstrcat(szPath, L"\\*");
-		HANDLE hFind = FindFirstFile(szPath, &fd);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			do {
-				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L".."))
-					continue;
-				mir_wstrcpy(szPath, szFilename);
-				mir_wstrcat(szPath, L"\\");
-				mir_wstrcat(szPath, fd.cFileName);
-				AddToFileList(pppFiles, totalCount, szPath);
-			} while (FindNextFile(hFind, &fd));
-			FindClose(hFind);
-		}
-	}
-}
-
 int _DebugTraceW(const wchar_t *fmt, ...)
 {
 	wchar_t 	debug[2048];

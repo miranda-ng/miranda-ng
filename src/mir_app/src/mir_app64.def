@@ -724,3 +724,4 @@ WebSocket_Connect @810 NONAME
 Netlib_Dump @812 NONAME
 ?ProtoBroadcastAsync@PROTO_INTERFACE@@QEAAXIHHPEAX_J@Z @813 NONAME
 ProtoBroadcastAsync @814 NONAME
+?ProcessFileDrop@@YA_NPEAUHDROP__@@I@Z @815 NONAME

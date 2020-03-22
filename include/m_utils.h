@@ -51,6 +51,15 @@ EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrl(const char *pszUrl, bool bOpenInNewWin
 EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNewWindow = true);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Converts a dropped file into a file transfer
+//
+// #include <shellapi.h> to use this function
+
+#ifdef _INC_SHELLAPI
+MIR_APP_DLL(bool) ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Resizes a dialog by calling a custom routine to move the individual
 // Returns 0 on success, or nonzero on failure
 // Does not support dialogtemplateex dialog boxes, and will return failure if you try to resize one

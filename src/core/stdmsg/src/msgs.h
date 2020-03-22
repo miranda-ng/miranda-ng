@@ -58,7 +58,6 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	void Init(void);
 	void NotifyTyping(int mode);
-	void ProcessFileDrop(HDROP hDrop);
 	void ShowAvatar(void);
 	void ShowTime(bool bForce);
 	void SetupStatusBar(void);

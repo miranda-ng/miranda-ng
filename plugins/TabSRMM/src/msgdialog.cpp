@@ -1897,7 +1897,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		return CSkin::DrawRichEditFrame(m_message.GetHwnd(), this, ID_EXTBKINPUTAREA, msg, wParam, lParam, stubMessageProc);
 
 	case WM_DROPFILES:
-		SendMessage(m_hwnd, WM_DROPFILES, (WPARAM)wParam, (LPARAM)lParam);
+		SendMessage(m_hwnd, WM_DROPFILES, wParam, lParam);
 		return 0;
 
 	case WM_CHAR:
@@ -3113,37 +3113,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_DROPFILES:
-		{
-			const char *szProto = m_cache->getActiveProto();
-			if (szProto == nullptr)
-				break;
-
-			int pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-			if (!(pcaps & PF1_FILESEND))
-				break;
-			if (m_wStatus == ID_STATUS_OFFLINE) {
-				pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-				if (!(pcaps & PF4_OFFLINEFILES)) {
-					ActivateTooltip(IDC_SRMM_MESSAGE, TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
-					break;
-				}
-			}
-
-			wchar_t szFilename[MAX_PATH];
-			HDROP hDrop = (HDROP)wParam;
-			int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0, i;
-			wchar_t **ppFiles = nullptr;
-			for (i = 0; i < fileCount; i++) {
-				DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
-				Utils::AddToFileList(&ppFiles, &totalCount, szFilename);
-			}
-
-			CallService(MS_FILE_SENDSPECIFICFILEST, m_hContact, (LPARAM)ppFiles);
-
-			for (i = 0; ppFiles[i]; i++)
-				mir_free(ppFiles[i]);
-			mir_free(ppFiles);
-		}
+		if (!ProcessFileDrop((HDROP)wParam, m_cache->getActiveContact()))
+			ActivateTooltip(IDC_SRMM_MESSAGE, TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
 		return 0;
 
 	case DM_CHECKQUEUEFORCLOSE:

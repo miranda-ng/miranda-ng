@@ -37,30 +37,6 @@ LIST<CMsgDialog> g_arDialogs(10, PtrKeySortT);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void AddToFileList(wchar_t ***pppFiles, int &totalCount, const wchar_t *szFilename)
-{
-	*pppFiles = (wchar_t **)mir_realloc(*pppFiles, (++totalCount + 1) * sizeof(wchar_t *));
-	(*pppFiles)[totalCount] = nullptr;
-	(*pppFiles)[totalCount - 1] = mir_wstrdup(szFilename);
-
-	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
-		WIN32_FIND_DATA fd;
-		wchar_t szPath[MAX_PATH];
-		mir_snwprintf(szPath, L"%s\\*", szFilename);
-		HANDLE hFind = FindFirstFile(szPath, &fd);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			do {
-				if (!mir_wstrcmp(fd.cFileName, L".") || !mir_wstrcmp(fd.cFileName, L"..")) continue;
-				mir_snwprintf(szPath, L"%s\\%s", szFilename, fd.cFileName);
-				AddToFileList(pppFiles, totalCount, szPath);
-			} while (FindNextFile(hFind, &fd));
-			FindClose(hFind);
-		}
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact) :
 	CSuper(g_plugin, IDD_MSG),
 	m_btnOk(this, IDOK),
@@ -573,7 +549,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DROPFILES: // Mod from tabsrmm
-		ProcessFileDrop((HDROP)wParam);
+		ProcessFileDrop((HDROP)wParam, m_hContact);
 		return TRUE;
 
 	case HM_AVATARACK:
@@ -987,7 +963,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DROPFILES:
-		ProcessFileDrop((HDROP)wParam);
+		ProcessFileDrop((HDROP)wParam, m_hContact);
 		break;
 
 	case WM_LBUTTONDOWN:
@@ -1107,7 +1083,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (OpenClipboard(m_message.GetHwnd())) {
 				HANDLE hDrop = GetClipboardData(CF_HDROP);
 				if (hDrop)
-					ProcessFileDrop((HDROP)hDrop);
+					ProcessFileDrop((HDROP)hDrop, m_hContact);
 				CloseClipboard();
 			}
 		}
@@ -1499,28 +1475,6 @@ void CMsgDialog::NotifyTyping(int mode)
 void CMsgDialog::RemakeLog()
 {
 	m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
-}
-
-void CMsgDialog::ProcessFileDrop(HDROP hDrop)
-{
-	if (m_szProto == nullptr) return;
-	if (!(CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND)) return;
-	if (m_wStatus == ID_STATUS_OFFLINE) return;
-	if (m_hContact != 0) {
-		wchar_t szFilename[MAX_PATH];
-		int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0;
-		wchar_t **ppFiles = nullptr;
-		for (int i = 0; i < fileCount; i++) {
-			DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
-			AddToFileList(&ppFiles, totalCount, szFilename);
-		}
-		CallServiceSync(MS_FILE_SENDSPECIFICFILEST, m_hContact, (LPARAM)ppFiles);
-		if (ppFiles) {
-			for (int i = 0; ppFiles[i]; i++)
-				mir_free(ppFiles[i]);
-			mir_free(ppFiles);
-		}
-	}
 }
 
 void CMsgDialog::ShowAvatar()
