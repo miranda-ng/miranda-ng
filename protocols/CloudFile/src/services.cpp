@@ -67,7 +67,7 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 	if (accountName == nullptr)
 		return 2;
 
-	CCloudService *service = FindService(uploadData->accountName);
+	CCloudService *service = FindService(accountName);
 	if (service == nullptr)
 		return 3;
 

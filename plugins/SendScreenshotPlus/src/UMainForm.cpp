@@ -300,6 +300,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 	}
 
 	// init SendBy combo box
+	UPLOAD_INFO *pDefault = nullptr;
 	{
 		hCtrl = GetDlgItem(m_hWnd, ID_cboxSendBy);
 		ComboBox_ResetContent(hCtrl);
@@ -338,6 +339,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		for (int i = 0; i < ComboBox_GetCount(hCtrl); i++) {
 			UPLOAD_INFO *p = (UPLOAD_INFO*)ComboBox_GetItemData(hCtrl, i);
 			if (p && p->sendBy == m_opt_cboxSendBy) {
+				pDefault = p;
 				ComboBox_SetCurSel(hCtrl, i);
 				break;
 			}
@@ -385,7 +387,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		SetWindowText(hCtrl, TranslateT("&Capture"));
 		SendMessage(hCtrl, BUTTONSETDEFAULT, 1, NULL);
 	}
-	cboxSendByChange(nullptr); // enable disable controls
+	cboxSendByChange((pDefault) ? pDefault->param : nullptr); // enable disable controls
 
 	TranslateDialogDefault(m_hWnd);
 }
