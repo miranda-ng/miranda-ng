@@ -827,9 +827,7 @@ int CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *
 
 HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t** ppszFiles)
 {
-	if (!m_bJabberOnline) return nullptr;
-
-	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+	if (!m_bJabberOnline)
 		return nullptr;
 
 	ptrA jid(getUStringA(hContact, "jid"));
