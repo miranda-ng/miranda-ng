@@ -109,7 +109,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bHostNameAsResource(this, "HostNameAsResource", false),
 	m_bIgnoreMUCInvites(this, "IgnoreMUCInvites", false),
 	m_bIgnoreRosterGroups(this, "IgnoreRosterGroups", false),
-	m_bInlinePictures(this, "InlinePictures", true),
+	m_bInlinePictures(this, "InlinePictures", false),
 	m_bKeepAlive(this, "KeepAlive", true),
 	m_bLogChatstates(this, "LogChatstates", false),
 	m_bLogPresence(this, "LogPresence", true),
@@ -585,17 +585,27 @@ int CJabberProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFi
 
 INT_PTR CJabberProto::GetCaps(int type, MCONTACT hContact)
 {
+	DWORD dwFlags;
+	
 	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_SERVERCLIST | PF1_MODEMSG | PF1_BASICSEARCH | PF1_EXTSEARCH | PF1_FILE | PF1_CONTACT;
+	
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT;
+	
 	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT;
+	
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_READNOTIFY;
+		dwFlags = PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_READNOTIFY;
+		if (m_bUseHttpUpload || m_bInlinePictures)
+			dwFlags |= PF4_OFFLINEFILES;
+		return dwFlags;		
+		
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)Translate("JID");
+	
 	case PFLAG_MAXCONTACTSPERPACKET:
 		char szClientJid[JABBER_MAX_JID_LEN];
 		if (GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
@@ -938,7 +948,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 	if (!strncmp(pszSrc, PGP_PROLOG, mir_strlen(PGP_PROLOG))) {
 		const char *szEnd = strstr(pszSrc, PGP_EPILOG);
 		size_t nStrippedLength = mir_strlen(pszSrc) - mir_strlen(PGP_PROLOG) - (szEnd ? mir_strlen(szEnd) : 0) + 1;
-		szBody.Append(pszSrc + mir_strlen(PGP_PROLOG), nStrippedLength);
+		szBody.Append(pszSrc + mir_strlen(PGP_PROLOG), (int)nStrippedLength);
 		szBody.Replace("\r\n", "");
 		pszSrc = szBody;
 		isEncrypted = 1;
