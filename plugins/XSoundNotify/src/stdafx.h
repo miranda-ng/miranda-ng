@@ -34,16 +34,10 @@ struct XSN_Data
 {
 	LPARAM hContact;
 	wchar_t path[MAX_PATH];
-	BYTE ignore;
-	BYTE iscontact;
+	bool bIsContact, bIgnore;
 
-	__forceinline XSN_Data(LPARAM _aContact, wchar_t *_path, BYTE _ignore, BYTE _iscontact) :
-		hContact(_aContact)
-	{
-		wcsncpy(path, _path, _countof(path));
-		ignore = _ignore;
-		iscontact = _iscontact;
-	}
+	XSN_Data(MCONTACT _aContact, bool _ignore);
+	XSN_Data(const char *szModuleName, bool _ignore);
 };
 
 extern LIST<XSN_Data> XSN_Users;

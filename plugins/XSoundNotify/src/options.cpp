@@ -23,298 +23,246 @@ bool IsSuitableProto(PROTOACCOUNT *pa)
 	return true;
 }
 
-static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptionsDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+	CCtrlBase label;
+	CCtrlCheck chkIgnore;
+	CCtrlCombo comboAcc, comboUser;
+	CCtrlButton btnTest, btnReset, btnChoose;
 
+	XSN_Data* ObtainData()
+	{
+		LPARAM hContact = comboUser.GetItemData(comboUser.GetCurSel());
+		if (hContact == -1) {
+			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetItemData(comboAcc.GetCurSel());
+			XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
+			if (p == nullptr)
+				XSN_Users.insert(p = new XSN_Data(pa->szModuleName, chkIgnore.GetState()));
+			return p;
+		}
+
+		XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
+		if (p == nullptr)
+			XSN_Users.insert(p = new XSN_Data(hContact, chkIgnore.GetState()));
+		return p;
+	}
+
+public:
+	COptionsDlg() :
+		CDlgBase(g_plugin, IDD_OPTIONS),
+		label(this, IDC_OPT_LABEL_SOUND),
+		btnTest(this, IDC_OPT_BUTTON_TEST_PLAY),
+		btnReset(this, IDC_OPT_BUTTON_RESET_SOUND),
+		btnChoose(this, IDC_OPT_BUTTON_CHOOSE_SOUND),
+		chkIgnore(this, IDC_OPT_IGNORE_SOUND),
+		comboAcc(this, IDC_OPT_COMBO_PROTO),
+		comboUser(this, IDC_OPT_COMBO_USERS)
+	{
+		btnTest.OnClick = Callback(this, &COptionsDlg::onClick_Test);
+		btnReset.OnClick = Callback(this, &COptionsDlg::onClick_Reset);
+		btnChoose.OnClick = Callback(this, &COptionsDlg::onClick_Choose);
+
+		comboAcc.OnSelChanged = Callback(this, &COptionsDlg::onSelChanged_Proto);
+		comboUser.OnSelChanged = Callback(this, &COptionsDlg::onSelChanged_Users);
+
+		chkIgnore.OnChange = Callback(this, &COptionsDlg::onChange_Ignore);
+	}
+
+	bool OnInitDialog() override
+	{
 		for (auto &pa : Accounts())
 			if (IsSuitableProto(pa))
-				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName), (LPARAM)pa);
-		return TRUE;
+				comboAcc.AddString(pa->tszAccountName, (LPARAM)pa);
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_OPT_COMBO_PROTO:
-			if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == LBN_SELCHANGE)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_COMBO_USERS), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_IGNORE_SOUND), FALSE);
-				CheckDlgButton(hwndDlg, IDC_OPT_IGNORE_SOUND, BST_UNCHECKED);
-				SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, TranslateT("Not set"));
-				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_RESETCONTENT, 0, 0);
-				int cursel = SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETCURSEL, 0, 0);
-				PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
+		return true;
+	}
 
-				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)TranslateT("All contacts")), cursel);
-				for (auto &hContact : Contacts(pa->szModuleName)) {
-					ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact));
-					CMStringW value(FORMAT, L"%s (%s)", Clist_GetContactDisplayName(hContact), uid.get());
-					SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)value.c_str()), hContact);
-				}
-			}
-			return 0;
-
-		case IDC_OPT_COMBO_USERS:
-			if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == LBN_SELCHANGE)) {
-				int cursel = SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETCURSEL, 0, 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_CHOOSE_SOUND), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_IGNORE_SOUND), TRUE);
-				if (!cursel) {
-					PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
-					DBVARIANT dbv = { 0 };
-					if (!g_plugin.getWString(pa->szModuleName, &dbv)) {
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), TRUE);
-						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(dbv.pwszVal));
-						db_free(&dbv);
-					}
-					else {
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), FALSE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), FALSE);
-						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, TranslateT("Not set"));
-					}
-					size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
-					char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
-					mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-					CheckDlgButton(hwndDlg, IDC_OPT_IGNORE_SOUND, g_plugin.getByte(value, 0) ? BST_CHECKED : BST_UNCHECKED);
-					mir_free(value);
-				}
-				else {
-					MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
-					DBVARIANT dbv = { 0 };
-					if (!g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), TRUE);
-						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(dbv.pwszVal));
-						db_free(&dbv);
-					}
-					else {
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), FALSE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), FALSE);
-						SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, TranslateT("Not set"));
-					}
-					CheckDlgButton(hwndDlg, IDC_OPT_IGNORE_SOUND, g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0) ? BST_CHECKED : BST_UNCHECKED);
-				}
-			}
-			return 0;
-
-		case IDC_OPT_BUTTON_CHOOSE_SOUND:
-			{
-				wchar_t FileName[MAX_PATH];
-				wchar_t *tszMirDir = Utils_ReplaceVarsW(L"%miranda_path%");
-
-				OPENFILENAME ofn = { 0 };
-				ofn.lStructSize = sizeof(ofn);
-				wchar_t tmp[MAX_PATH];
-				if (GetModuleHandle(L"bass_interface.dll"))
-					mir_snwprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
+	bool OnApply() override
+	{
+		for (auto &it : XSN_Users) {
+			if (it->path[0] != 0) {
+				wchar_t shortpath[MAX_PATH];
+				PathToRelativeW(it->path, shortpath);
+				if (it->bIsContact)
+					g_plugin.setWString(it->hContact, SETTINGSKEY, shortpath);
 				else
-					mir_snwprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
-				ofn.lpstrFilter = tmp;
-				ofn.hwndOwner = nullptr;
-				ofn.lpstrFile = FileName;
-				ofn.nMaxFile = MAX_PATH;
-				ofn.nMaxFileTitle = MAX_PATH;
-				ofn.Flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
-				ofn.lpstrInitialDir = tszMirDir;
-				*FileName = '\0';
-				ofn.lpstrDefExt = L"";
-
-				if (GetOpenFileName(&ofn)) {
-					SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, PathFindFileName(FileName));
-					int cursel = SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETCURSEL, 0, 0);
-					if (!cursel) {
-						PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
-						XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
-						if (p == nullptr)
-							XSN_Users.insert(new XSN_Data((LPARAM)pa->szModuleName, FileName, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 0));
-						else {
-							wcsncpy(p->path, FileName, _countof(p->path));
-							p->ignore = IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0;
-						}
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), TRUE);
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-					else {
-						MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
-						XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-						if (p == nullptr)
-							XSN_Users.insert(new XSN_Data(hContact, FileName, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 1));
-						else {
-							wcsncpy(p->path, FileName, _countof(p->path));
-							p->ignore = IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0;
-						}
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), TRUE);
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-				}
-				mir_free(tszMirDir);
+					g_plugin.setWString((LPCSTR)it->hContact, shortpath);
 			}
-			return 0;
+			else g_plugin.delSetting(it->hContact, SETTINGSKEY);
 
-		case IDC_OPT_BUTTON_TEST_PLAY:
-			{
-				int cursel = SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETCURSEL, 0, 0);
-				if (!cursel) {
-					PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
-					XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
-					isIgnoreSound = 0;
-					if (p == nullptr) {
-						DBVARIANT dbv;
-						if (!g_plugin.getWString(pa->szModuleName, &dbv)) {
-							wchar_t longpath[MAX_PATH];
-							PathToAbsoluteW(dbv.pwszVal, longpath);
-							Skin_PlaySoundFile(longpath);
-							db_free(&dbv);
-						}
-					}
-					else {
-						wchar_t longpath[MAX_PATH] = { 0 };
-						PathToAbsoluteW(p->path, longpath);
-						Skin_PlaySoundFile(longpath);
-					}
-				}
-				else {
-					MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
-					XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-					isIgnoreSound = 0;
-					if (p == nullptr) {
-						DBVARIANT dbv;
-						if (!g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
-							wchar_t longpath[MAX_PATH];
-							PathToAbsoluteW(dbv.pwszVal, longpath);
-							Skin_PlaySoundFile(longpath);
-							db_free(&dbv);
-						}
-					}
-					else {
-						wchar_t longpath[MAX_PATH] = { 0 };
-						PathToAbsoluteW(p->path, longpath);
-						Skin_PlaySoundFile(longpath);
-					}
-				}
+			if (it->bIsContact)
+				g_plugin.setByte(it->hContact, SETTINGSIGNOREKEY, it->bIgnore);
+			else {
+				size_t value_max_len = mir_strlen((const char *)it->hContact) + 8;
+				char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
+				mir_snprintf(value, value_max_len, "%s_ignore", (const char *)it->hContact);
+				g_plugin.setByte(value, it->bIgnore);
+				mir_free(value);
 			}
-			return 0;
-
-		case IDC_OPT_BUTTON_RESET_SOUND:
-			{
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_TEST_PLAY), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_OPT_BUTTON_RESET_SOUND), FALSE);
-				CheckDlgButton(hwndDlg, IDC_OPT_IGNORE_SOUND, BST_UNCHECKED);
-				SetDlgItemText(hwndDlg, IDC_OPT_LABEL_SOUND, TranslateT("Not set"));
-				int cursel = SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETCURSEL, 0, 0);
-				if (!cursel) {
-					PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
-					XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
-					if (p != nullptr) {
-						XSN_Users.remove(p);
-						delete p;
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-					g_plugin.delSetting(pa->szModuleName);
-					size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
-					char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
-					mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-					g_plugin.delSetting(value);
-					mir_free(value);
-				}
-				else {
-					MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
-					XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-					if (p != nullptr) {
-						XSN_Users.remove(p);
-						delete p;
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-					g_plugin.delSetting(hContact, SETTINGSKEY);
-					g_plugin.delSetting(hContact, SETTINGSIGNOREKEY);
-				}
-			}
-			return 0;
-
-		case IDC_OPT_IGNORE_SOUND:
-			{
-				int cursel = SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETCURSEL, 0, 0);
-				if (!cursel) {
-					PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
-					XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
-					if (p == nullptr) {
-						DBVARIANT dbv;
-						if (!g_plugin.getWString(pa->szModuleName, &dbv)) {
-							wchar_t longpath[MAX_PATH];
-							PathToAbsoluteW(dbv.pwszVal, longpath);
-							XSN_Users.insert(new XSN_Data((LPARAM)pa->szModuleName, longpath, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 0));
-							db_free(&dbv);
-						}
-						else XSN_Users.insert(new XSN_Data((LPARAM)pa->szModuleName, L"", IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 0));
-					}
-					else p->ignore = IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0;
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				else {
-					MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
-					XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-					if (p == nullptr) {
-						DBVARIANT dbv;
-						if (!g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
-							wchar_t longpath[MAX_PATH];
-							PathToAbsoluteW(dbv.pwszVal, longpath);
-							XSN_Users.insert(new XSN_Data(hContact, longpath, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 1));
-							db_free(&dbv);
-						}
-						else XSN_Users.insert(new XSN_Data(hContact, L"", IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 1));
-					}
-					else p->ignore = IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0;
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-			}
-			return 0;
 		}
-		break;
+		return true;
+	}
 
-	case WM_NOTIFY:
-		NMHDR *hdr = (NMHDR *)lParam;
-		switch (hdr->code) {
-		case PSN_APPLY:
-			for (auto &it : XSN_Users) {
-				if (mir_wstrcmpi(it->path, L"")) {
-					wchar_t shortpath[MAX_PATH];
-					PathToRelativeW(it->path, shortpath);
-					if (it->iscontact)
-						g_plugin.setWString(it->hContact, SETTINGSKEY, shortpath);
-					else
-						g_plugin.setWString((LPCSTR)it->hContact, shortpath);
-				}
-				if (it->iscontact)
-					g_plugin.setByte(it->hContact, SETTINGSIGNOREKEY, it->ignore);
-				else {
-					size_t value_max_len = mir_strlen((const char *)it->hContact) + 8;
-					char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
-					mir_snprintf(value, value_max_len, "%s_ignore", (const char *)it->hContact);
-					g_plugin.setByte(value, it->ignore);
-					mir_free(value);
-				}
-			}
-			break;
+	void onSelChanged_Proto(CCtrlCombo *)
+	{
+		comboUser.Enable();
+		comboUser.ResetContent();
+
+		btnTest.Disable();
+		btnReset.Disable();
+		chkIgnore.Disable();
+		chkIgnore.SetState(false);
+		label.SetText(TranslateT("Not set"));
+
+		int cursel = comboAcc.GetCurSel();
+		PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetItemData(cursel);
+		comboUser.AddString(TranslateT("All contacts"), -1);
+
+		for (auto &hContact : Contacts(pa->szModuleName)) {
+			ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact));
+			CMStringW value(FORMAT, L"%s (%s)", Clist_GetContactDisplayName(hContact), uid.get());
+			comboUser.AddString(value, hContact);
 		}
 	}
-	return FALSE;
-}
+
+	void onSelChanged_Users(CCtrlCombo *)
+	{
+		btnChoose.Enable();
+		chkIgnore.Enable();
+
+		LPARAM hContact = comboUser.GetItemData(comboUser.GetCurSel());
+		if (hContact == -1) {
+			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetItemData(comboAcc.GetCurSel());
+			ptrW wszText(g_plugin.getWStringA(pa->szModuleName));
+			if (wszText) {
+				btnTest.Enable();
+				btnReset.Enable();
+				label.SetText(PathFindFileNameW(wszText));
+			}
+			else {
+				btnTest.Disable();
+				btnReset.Disable();
+				label.SetText(TranslateT("Not set"));
+			}
+			
+			size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
+			char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
+			mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
+			chkIgnore.SetState(g_plugin.getByte(value, 0));
+			mir_free(value);
+		}
+		else {
+			ptrW wszPath(g_plugin.getWStringA(hContact, SETTINGSKEY));
+			if (wszPath) {
+				btnTest.Enable();
+				btnReset.Enable();
+				label.SetText(PathFindFileNameW(wszPath));
+			}
+			else {
+				btnTest.Disable();
+				btnReset.Disable();
+				label.SetText(TranslateT("Not set"));
+			}
+			chkIgnore.SetState(g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0));
+		}
+	}
+
+	void onClick_Test(CCtrlButton*)
+	{
+		isIgnoreSound = 0;
+
+		auto *p = ObtainData();
+		wchar_t longpath[MAX_PATH];
+		PathToAbsoluteW(p->path, longpath);
+		Skin_PlaySoundFile(longpath);
+	}
+
+	void onChange_Ignore(CCtrlCheck *)
+	{
+		auto *p = ObtainData();
+		p->bIgnore = chkIgnore.GetState();
+		NotifyChange();
+	}
+
+	void onClick_Choose(CCtrlButton *)
+	{
+		wchar_t tmp[MAX_PATH];
+		if (GetModuleHandle(L"bass_interface.dll"))
+			mir_snwprintf(tmp, L"%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%c", TranslateT("Sound files"), 0, 0, 0);
+		else
+			mir_snwprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
+
+		wchar_t FileName[MAX_PATH]; FileName[0] = '\0';
+		ptrW tszMirDir(Utils_ReplaceVarsW(L"%miranda_path%"));
+
+		OPENFILENAME ofn = { 0 };
+		ofn.lStructSize = sizeof(ofn);
+		ofn.lpstrFilter = tmp;
+		ofn.hwndOwner = nullptr;
+		ofn.lpstrFile = FileName;
+		ofn.nMaxFile = MAX_PATH;
+		ofn.nMaxFileTitle = MAX_PATH;
+		ofn.Flags = OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
+		ofn.lpstrInitialDir = tszMirDir;
+		ofn.lpstrDefExt = L"";
+		if (!GetOpenFileName(&ofn))
+			return;
+
+		label.SetText(PathFindFileNameW(FileName));
+
+		auto *p = ObtainData();
+		wcsncpy_s(p->path, FileName, _TRUNCATE);
+		p->bIgnore = chkIgnore.GetState();
+
+		btnTest.Enable();
+		btnReset.Enable();
+		NotifyChange();
+	}
+
+	void onClick_Reset(CCtrlButton *)
+	{
+		btnTest.Disable();
+		btnReset.Disable();
+		chkIgnore.SetState(false);
+		label.SetText(TranslateT("Not set"));
+
+		LPARAM hContact = comboUser.GetItemData(comboUser.GetCurSel());
+		if (hContact == -1) {
+			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetItemData(comboAcc.GetCurSel());
+			XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
+			if (p != nullptr) {
+				XSN_Users.remove(p);
+				delete p;
+				NotifyChange();
+			}
+			g_plugin.delSetting(pa->szModuleName);
+			size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
+			char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
+			mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
+			g_plugin.delSetting(value);
+			mir_free(value);
+		}
+		else {
+			XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
+			if (p != nullptr) {
+				XSN_Users.remove(p);
+				delete p;
+				NotifyChange();
+			}
+			g_plugin.delSetting(hContact, SETTINGSKEY);
+			g_plugin.delSetting(hContact, SETTINGSIGNOREKEY);
+		}
+	}
+};
 
 INT OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.szGroup.w = LPGENW("Sounds");
 	odp.szTitle.w = LPGENW("XSound Notify");
-	odp.pfnDlgProc = OptsProc;
+	odp.pDialog = new COptionsDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

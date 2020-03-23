@@ -11,7 +11,7 @@ There is no warranty.
 
 CMPlugin g_plugin;
 
-LIST<XSN_Data> XSN_Users(10, NumericKeySortT);
+LIST<XSN_Data> XSN_Users(10, PtrKeySortT);
 HGENMENU hChangeSound = nullptr;
 MWindowList hChangeSoundDlgList = nullptr;
 BYTE isIgnoreSound = 0, isOwnSound = 0, isIgnoreAccSound = 0, isAccSound = 0;
@@ -88,6 +88,32 @@ static int ProtoAck(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+XSN_Data::XSN_Data(MCONTACT _aContact, bool _ignore) :
+	hContact(_aContact),
+	bIgnore(_ignore),
+	bIsContact(true)
+{
+	ptrW wszPath(g_plugin.getWStringA(hContact, SETTINGSKEY));
+	if (wszPath)
+		wcsncpy_s(path, wszPath, _TRUNCATE);
+	else
+		path[0] = 0;
+}
+
+XSN_Data::XSN_Data(const char *szModuleName, bool _ignore) :
+	hContact((LPARAM)szModuleName),
+	bIgnore(_ignore),
+	bIsContact(false)
+{
+	ptrW wszPath(g_plugin.getWStringA(szModuleName));
+	if (wszPath)
+		wcsncpy_s(path, wszPath, _TRUNCATE);
+	else
+		path[0] = 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static bool isReceiveMessage(MEVENT hDbEvent)
 {
 	DBEVENTINFO info = {};
@@ -97,13 +123,11 @@ static bool isReceiveMessage(MEVENT hDbEvent)
 	return !(((info.eventType != EVENTTYPE_MESSAGE) && !(info.flags & DBEF_READ)) || (info.flags & DBEF_SENT));
 }
 
-static int ProcessEvent(WPARAM hContact, LPARAM lParam)
+static void PlayWorker(MCONTACT hContact)
 {
-	if (!isReceiveMessage(lParam))
-		return 0;
+	DBVARIANT dbv;
 
 	isIgnoreSound = g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0);
-	DBVARIANT dbv;
 	if (!isIgnoreSound && !g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
 		wchar_t PlaySoundPath[MAX_PATH] = { 0 };
 		PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
@@ -111,7 +135,7 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 		Skin_PlaySoundFile(PlaySoundPath);
 		db_free(&dbv);
 		isOwnSound = 1;
-		return 0;
+		return;
 	}
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
@@ -129,6 +153,12 @@ static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 		db_free(&dbv);
 		isAccSound = 1;
 	}
+}
+
+static int ProcessEvent(WPARAM hContact, LPARAM lParam)
+{
+	if (isReceiveMessage(lParam))
+		PlayWorker(hContact);
 
 	return 0;
 }
@@ -141,41 +171,9 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 	if (gce->iType != GC_EVENT_MESSAGE)
 		return 0;
 
-	MCONTACT hContact = g_chatApi.FindRoom(gce->pszModule, gce->pszID.w);
-	if (hContact != 0) {
-		ptrW nick(db_get_wsa(hContact, gce->pszModule, "MyNick"));
-		if (nick == NULL || gce->pszText.w == nullptr)
-			return 0;
-		
-		if (wcsstr(gce->pszText.w, nick)) {
-			isIgnoreSound = g_plugin.getByte(hContact, SETTINGSIGNOREKEY, 0);
-			DBVARIANT dbv;
-			if (!isIgnoreSound && !g_plugin.getWString(hContact, SETTINGSKEY, &dbv)) {
-				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
-				PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
-				isOwnSound = 0;
-				Skin_PlaySoundFile(PlaySoundPath);
-				db_free(&dbv);
-				isOwnSound = 1;
-				return 0;
-			}
-			char *szProto = Proto_GetBaseAccountName(hContact);
-			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			size_t value_max_len = mir_strlen(pa->szModuleName) + 8;
-			char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
-			mir_snprintf(value, value_max_len, "%s_ignore", pa->szModuleName);
-			isIgnoreAccSound = g_plugin.getByte(value, 0);
-			mir_free(value);
-			if (!isIgnoreAccSound && !g_plugin.getWString(pa->szModuleName, &dbv)) {
-				wchar_t PlaySoundPath[MAX_PATH] = { 0 };
-				PathToAbsoluteW(dbv.pwszVal, PlaySoundPath);
-				isAccSound = 0;
-				Skin_PlaySoundFile(PlaySoundPath);
-				db_free(&dbv);
-				isAccSound = 1;
-			}
-		}
-	}
+	auto *si = g_chatApi.SM_FindSession(gce->pszID.w, gce->pszModule);
+	if (si && g_chatApi.IsHighlighted(si, gce))
+		PlayWorker(si->hContact);
 
 	return 0;
 }
