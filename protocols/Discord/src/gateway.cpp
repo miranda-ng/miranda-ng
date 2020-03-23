@@ -120,7 +120,7 @@ bool CDiscordProto::GatewayThreadWorker()
 					debugLogA("JSON received:\n%s", szJson.c_str());
 					JSONNode root = JSONNode::parse(szJson);
 					if (root)
-						GatewayProcess(root);
+						bExit = GatewayProcess(root);
 				}
 				break;
 
@@ -168,7 +168,7 @@ bool CDiscordProto::GatewayThreadWorker()
 //////////////////////////////////////////////////////////////////////////////////////
 // handles server commands
 
-void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
+bool CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 {
 	int opCode = pRoot["op"].as_int();
 	switch (opCode) {
@@ -186,6 +186,10 @@ void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 				(this->*pFunc)(pRoot["d"]);
 		}
 		break;
+
+	case OPCODE_RECONNECT:  // we need to reconnect asap
+		debugLogA("we need to reconnect, leaving worker thread");
+		return true;
 
 	case OPCODE_INVALID_SESSION:  // session invalidated
 		if (pRoot["d"].as_bool()) // session can be resumed
@@ -208,6 +212,8 @@ void CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 	default:
 		debugLogA("ACHTUNG! Unknown opcode: %d, report it to developer", opCode);
 	}
+
+	return false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

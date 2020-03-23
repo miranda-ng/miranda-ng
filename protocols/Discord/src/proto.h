@@ -231,7 +231,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	bool  GatewayThreadWorker(void);
 	
 	void  GatewaySend(const JSONNode &pNode);
-	void  GatewayProcess(const JSONNode &pNode);
+	bool  GatewayProcess(const JSONNode &pNode);
 
 	void  GatewaySendHeartbeat(void);
 	void  GatewaySendIdentify(void);
