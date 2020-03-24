@@ -550,7 +550,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DROPFILES: // Mod from tabsrmm
 		ProcessFileDrop((HDROP)wParam, m_hContact);
-		return TRUE;
+		return FALSE;
 
 	case HM_AVATARACK:
 		ShowAvatar();
@@ -964,7 +964,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DROPFILES:
 		ProcessFileDrop((HDROP)wParam, m_hContact);
-		break;
+		return FALSE;
 
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
