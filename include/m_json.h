@@ -159,6 +159,7 @@ struct JSON_PARAM : public PARAM
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT64_PARAM &param);
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const SINT64_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const BOOL_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const CHAR_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const WCHAR_PARAM &param);

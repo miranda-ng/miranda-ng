@@ -531,6 +531,15 @@ struct INT64_PARAM : public PARAM
 	}
 };
 
+struct SINT64_PARAM : public PARAM
+{
+	int64_t iValue;
+	__forceinline SINT64_PARAM(const char *_name, int64_t _value) :
+		PARAM(_name), iValue(_value)
+	{
+	}
+};
+
 struct CHAR_PARAM : public PARAM
 {
 	const char *szValue;

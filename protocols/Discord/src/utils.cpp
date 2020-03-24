@@ -32,15 +32,6 @@ int StrToStatus(const CMStringW &str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-JSONNode& operator<<(JSONNode &json, const SINT64_PARAM &param)
-{
-	char str[40];
-	_i64toa(param.iValue, str, 10);
-	return json << CHAR_PARAM(param.szName, str);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 time_t StringToDate(const CMStringW &str)
 {
 	struct tm T = { 0 };
