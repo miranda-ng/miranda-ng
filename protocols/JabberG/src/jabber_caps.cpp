@@ -651,7 +651,7 @@ void CJabberClientCapsManager::Load()
 		}
 
 		for (auto &ver : node["versions"]) {
-			std::string szVer = ver["ver"].as_string();
+			std::string szVer = ver["softver"].as_string();
 			std::string szHash = ver["hash"].as_string();
 			JabberCapsBits jcbCaps = _atoi64(ver["caps"].as_string().c_str());
 
@@ -660,7 +660,6 @@ void CJabberClientCapsManager::Load()
 			res->SetOs(str2buf(ver["os"].as_string()));
 			res->SetOsVer(str2buf(ver["osver"].as_string()));
 			res->SetSoft(str2buf(ver["soft"].as_string()));
-			res->SetSoftVer(str2buf(ver["softver"].as_string()));
 			res->SetSoftMir(str2buf(ver["softmir"].as_string()));
 		}
 	}
