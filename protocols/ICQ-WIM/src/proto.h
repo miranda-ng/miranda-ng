@@ -243,7 +243,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      MarkAsRead(MCONTACT hContact);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	bool      RetrievePassword();
-	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, __int64 endMsgId = -1);
+	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bFromHistory);
 	void      RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
 	void      SetServerStatus(int iNewStatus);
 	void      ShutdownSession(void);
@@ -386,6 +386,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl GetEmailCount(WPARAM, LPARAM);
 	INT_PTR   __cdecl GotoInbox(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
+
+	INT_PTR   __cdecl OnMenuLoadHistory(WPARAM, LPARAM);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// events

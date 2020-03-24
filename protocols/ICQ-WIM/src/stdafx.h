@@ -89,6 +89,7 @@
 #define DB_KEY_PHONEREG "PhoneReg"
 #define DB_KEY_LASTSEEN "LastSeen"
 #define DB_KEY_ONLINETS "OnlineTS"
+#define DB_KEY_PATCHVER "PatchVersion"
 #define DB_KEY_RCLIENTID "RClientID"
 #define DB_KEY_LASTMSGID "LastMsgId"
 #define DB_KEY_REMOTEREAD "RemoteReadId"

@@ -98,7 +98,9 @@ void CIcqProto::CheckPassword()
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
 		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
 			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << WCHAR_PARAM("s", m_szOwnId) << CHAR_PARAM("pwd", m_szPassword);
-		pReq->flags |= NLHRF_NODUMPSEND;
+		#ifndef _DEBUG
+			pReq->flags |= NLHRF_NODUMPSEND;
+		#endif
 		Push(pReq);
 	}
 	else StartSession();
@@ -418,7 +420,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			return;
 
 		bool bIsOutgoing = it["outgoing"].as_bool();
-		if (!bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
+		if (!bFromHistory && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
 			CMStringW wszUrl(wszText.Mid(26));
 			int idx = wszUrl.Find(' ');
 			if (idx != -1)
@@ -439,7 +441,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		ptrA szUtf(mir_utf8encodeW(wszText));
 
 		PROTORECVEVENT pre = {};
-		pre.flags = (bIsOutgoing) ? PREF_SENT : 0;
+		if (bIsOutgoing) pre.flags |= PREF_SENT;
+		if (bFromHistory) pre.flags |= PREF_CREATEREAD;
 		pre.szMsgId = szMsgId;
 		pre.timestamp = iMsgTime;
 		pre.szMessage = szUtf;
@@ -453,7 +456,9 @@ bool CIcqProto::RefreshRobustToken()
 		return true;
 
 	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER "/genToken", &CIcqProto::OnGenToken);
-	pReq->flags |= NLHRF_NODUMPSEND;
+	#ifndef _DEBUG
+		pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
 
 	int ts = TS();
 	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
@@ -467,7 +472,9 @@ bool CIcqProto::RefreshRobustToken()
 	// now add this token
 	bool bRet = false;
 	pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER "/addClient", &CIcqProto::OnAddClient);
-	pReq->flags |= NLHRF_NODUMPSEND;
+	#ifndef _DEBUG
+		pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
 	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", ts)
 		<< CHAR_PARAM("client", "icq") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken);
 	pReq->pUserInfo = &bRet;
@@ -510,25 +517,25 @@ AsyncHttpRequest* CIcqProto::UserInfoRequest(MCONTACT hContact)
 	return pReq;
 }
 
-void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, __int64 endMsgId)
+void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool bFromHistory)
 {
 	if (startMsgId == 0)
 		startMsgId = -1;
-	if (endMsgId == 0)
-		endMsgId = -1;
-
-	if (endMsgId != -1 && startMsgId >= endMsgId)
-		return;
 
 	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetUserHistory);
-	pReq->flags |= NLHRF_NODUMPSEND;
+	#ifndef _DEBUG
+		pReq->flags |= NLHRF_NODUMPSEND;
+	#endif
 	pReq->hContact = hContact;
+	pReq->pUserInfo = (bFromHistory) ? pReq : nullptr;
+
+	__int64 patchVer = getId(hContact, DB_KEY_PATCHVER);
+	if (patchVer == 0)
+		patchVer = 1;
 
 	JSONNode request, params; params.set_name("params");
 	params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId);
-	if (endMsgId != -1)
-		params << INT64_PARAM("tillMsgId", endMsgId);
-	params << INT_PARAM("count", 1000) << CHAR_PARAM("aimSid", m_aimsid) << CHAR_PARAM("patchVersion", "1") << CHAR_PARAM("language", "ru-ru");
+	params << INT_PARAM("count", 1000) << CHAR_PARAM("aimSid", m_aimsid) << SINT64_PARAM("patchVersion", patchVer) << CHAR_PARAM("language", "ru-ru");
 	request << CHAR_PARAM("method", "getHistory") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
 	pReq->m_szParam = ptrW(json_write(&request));
 	Push(pReq);
@@ -896,7 +903,7 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 	auto &results = root.results();
 	for (auto &it : results["messages"])
-		ParseMessage(pReq->hContact, lastMsgId, it, true);
+		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr);
 
 	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
 }

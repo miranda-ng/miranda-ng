@@ -125,6 +125,15 @@ void CIcqProto::OnModulesLoaded()
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0xffe2c8fc, 0x9c4d, 0x4faf, 0xa2, 0x34, 0x3d, 0x19, 0x43, 0x0d, 0x31, 0x04);
+	mi.pszService = "/LoadHistory";
+	mi.name.a = LPGEN("Load server history");
+	mi.position = -200001004;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CIcqProto::OnMenuLoadHistory);
+
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 }
 
@@ -141,6 +150,14 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/removeBuddy")
 		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
+}
+
+INT_PTR CIcqProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
+{
+	delSetting(hContact, DB_KEY_LASTMSGID);
+
+	RetrieveUserHistory(hContact, 1, true);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

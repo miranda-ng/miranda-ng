@@ -198,15 +198,18 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 	}
 
+	__int64 patchVersion = _wtoi64(ev["patchVersion"].as_mstring());
+	setId(hContact, DB_KEY_PATCHVER, patchVersion);
+
 	// we load history in the very beginning or if the previous message 
 	if (m_bFirstBos) {
 		__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
 		if (srvLastId > lastMsgId)
-			RetrieveUserHistory(hContact, lastMsgId);
+			RetrieveUserHistory(hContact, lastMsgId, false);
 	}
 	else {
 		for (auto &it : ev["tail"]["messages"])
-			ParseMessage(hContact, lastMsgId, it, true);
+			ParseMessage(hContact, lastMsgId, it, false);
 		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 	}
 
