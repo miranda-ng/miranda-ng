@@ -435,7 +435,12 @@ MEVENT CDbxMDBX::GetEventById(LPCSTR szModule, LPCSTR szId)
 	if (mdbx_get(txn, m_dbEventIds, &key, &data) != MDBX_SUCCESS)
 		return 0;
 
-	return *(MEVENT*)data.iov_base;
+	MEVENT hDbEvent = *(MEVENT *)data.iov_base;
+	MDBX_val key2 = { &hDbEvent, sizeof(MEVENT) }, data2;
+	if (mdbx_get(txn, m_dbEvents, &key2, &data2) != MDBX_SUCCESS)
+		return 0;
+
+	return hDbEvent;
 }
 
 BOOL CDbxMDBX::SetEventId(LPCSTR szModule, MEVENT hDbEvent, LPCSTR szId)
