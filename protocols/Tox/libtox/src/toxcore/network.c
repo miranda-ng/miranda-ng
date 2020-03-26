@@ -1,25 +1,10 @@
-/*
- * Functions for the core networking.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2013 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2013 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * Functions for the core networking.
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -98,6 +83,26 @@
 
 #define TOX_EWOULDBLOCK EWOULDBLOCK
 
+static const char *inet_ntop4(const struct in_addr *addr, char *buf, size_t bufsize)
+{
+    return inet_ntop(AF_INET, addr, buf, bufsize);
+}
+
+static const char *inet_ntop6(const struct in6_addr *addr, char *buf, size_t bufsize)
+{
+    return inet_ntop(AF_INET6, addr, buf, bufsize);
+}
+
+static int inet_pton4(const char *addrString, struct in_addr *addrbuf)
+{
+    return inet_pton(AF_INET, addrString, addrbuf);
+}
+
+static int inet_pton6(const char *addrString, struct in6_addr *addrbuf)
+{
+    return inet_pton(AF_INET6, addrString, addrbuf);
+}
+
 #else
 #ifndef IPV6_V6ONLY
 #define IPV6_V6ONLY 27
@@ -105,72 +110,66 @@
 
 #define TOX_EWOULDBLOCK WSAEWOULDBLOCK
 
-static const char *inet_ntop(int family, const void *addr, char *buf, size_t bufsize)
+static const char *inet_ntop4(const struct in_addr *addr, char *buf, size_t bufsize)
 {
-    if (family == AF_INET) {
-        struct sockaddr_in saddr;
-        memset(&saddr, 0, sizeof(saddr));
+    struct sockaddr_in saddr = {0};
 
-        saddr.sin_family = AF_INET;
-        saddr.sin_addr = *(const struct in_addr *)addr;
+    saddr.sin_family = AF_INET;
+    saddr.sin_addr = *addr;
 
-        DWORD len = bufsize;
+    DWORD len = bufsize;
 
-        if (WSAAddressToString((LPSOCKADDR)&saddr, sizeof(saddr), nullptr, buf, &len)) {
-            return nullptr;
-        }
-
-        return buf;
-    } else if (family == AF_INET6) {
-        struct sockaddr_in6 saddr;
-        memset(&saddr, 0, sizeof(saddr));
-
-        saddr.sin6_family = AF_INET6;
-        saddr.sin6_addr = *(const struct in6_addr *)addr;
-
-        DWORD len = bufsize;
-
-        if (WSAAddressToString((LPSOCKADDR)&saddr, sizeof(saddr), nullptr, buf, &len)) {
-            return nullptr;
-        }
-
-        return buf;
+    if (WSAAddressToString((LPSOCKADDR)&saddr, sizeof(saddr), nullptr, buf, &len)) {
+        return nullptr;
     }
 
-    return nullptr;
+    return buf;
 }
 
-static int inet_pton(int family, const char *addrString, void *addrbuf)
+static const char *inet_ntop6(const struct in6_addr *addr, char *buf, size_t bufsize)
 {
-    if (family == AF_INET) {
-        struct sockaddr_in saddr;
-        memset(&saddr, 0, sizeof(saddr));
+    struct sockaddr_in6 saddr = {0};
 
-        INT len = sizeof(saddr);
+    saddr.sin6_family = AF_INET6;
+    saddr.sin6_addr = *addr;
 
-        if (WSAStringToAddress((LPTSTR)addrString, AF_INET, nullptr, (LPSOCKADDR)&saddr, &len)) {
-            return 0;
-        }
+    DWORD len = bufsize;
 
-        *(struct in_addr *)addrbuf = saddr.sin_addr;
-
-        return 1;
-    } else if (family == AF_INET6) {
-        struct sockaddr_in6 saddr;
-        memset(&saddr, 0, sizeof(saddr));
-
-        INT len = sizeof(saddr);
-
-        if (WSAStringToAddress((LPTSTR)addrString, AF_INET6, nullptr, (LPSOCKADDR)&saddr, &len)) {
-            return 0;
-        }
-
-        *(struct in6_addr *)addrbuf = saddr.sin6_addr;
-
-        return 1;
+    if (WSAAddressToString((LPSOCKADDR)&saddr, sizeof(saddr), nullptr, buf, &len)) {
+        return nullptr;
     }
 
-    return 0;
+    return buf;
+}
+
+static int inet_pton4(const char *addrString, struct in_addr *addrbuf)
+{
+    struct sockaddr_in saddr = {0};
+
+    INT len = sizeof(saddr);
+
+    if (WSAStringToAddress((LPTSTR)addrString, AF_INET, nullptr, (LPSOCKADDR)&saddr, &len)) {
+        return 0;
+    }
+
+    *addrbuf = saddr.sin_addr;
+
+    return 1;
+}
+
+static int inet_pton6(const char *addrString, struct in6_addr *addrbuf)
+{
+    struct sockaddr_in6 saddr = {0};
+
+    INT len = sizeof(saddr);
+
+    if (WSAStringToAddress((LPTSTR)addrString, AF_INET6, nullptr, (LPSOCKADDR)&saddr, &len)) {
+        return 0;
+    }
+
+    *addrbuf = saddr.sin6_addr;
+
+    return 1;
 }
 
 #endif
@@ -203,8 +202,33 @@ static int inet_pton(int family, const char *addrString, void *addrbuf)
 #error "TOX_INET_ADDRSTRLEN should be greater or equal to INET_ADDRSTRLEN (#INET_ADDRSTRLEN)"
 #endif
 
-static int make_proto(int proto);
-static int make_socktype(int type);
+static int make_proto(int proto)
+{
+    switch (proto) {
+        case TOX_PROTO_TCP:
+            return IPPROTO_TCP;
+
+        case TOX_PROTO_UDP:
+            return IPPROTO_UDP;
+
+        default:
+            return proto;
+    }
+}
+
+static int make_socktype(int type)
+{
+    switch (type) {
+        case TOX_SOCK_STREAM:
+            return SOCK_STREAM;
+
+        case TOX_SOCK_DGRAM:
+            return SOCK_DGRAM;
+
+        default:
+            return type;
+    }
+}
 
 static int make_family(Family tox_family)
 {
@@ -429,7 +453,7 @@ static void loglogdata(const Logger *log, const char *message, const uint8_t *bu
 {
     char ip_str[IP_NTOA_LEN];
 
-    if (res < 0) { /* Windows doesn't necessarily know %zu */
+    if (res < 0) { /* Windows doesn't necessarily know `%zu` */
         int error = net_error();
         const char *strerror = net_new_strerror(error);
         LOGGER_TRACE(log, "[%2u] %s %3u%c %s:%u (%u: %s) | %04x%04x",
@@ -852,19 +876,24 @@ Networking_Core *new_networking_ex(const Logger *log, IP ip, uint16_t port_from,
 
         int neterror = net_error();
         const char *strerror = net_new_strerror(neterror);
-        LOGGER_DEBUG(log, res < 0 ? "Failed to activate local multicast membership. (%d, %s)" :
-                     "Local multicast group FF02::1 joined successfully. (%d, %s)", neterror, strerror);
+
+        if (res < 0) {
+            LOGGER_DEBUG(log, "Failed to activate local multicast membership. (%d, %s)", neterror, strerror);
+        } else {
+            LOGGER_DEBUG(log, "Local multicast group FF02::1 joined successfully. (%d, %s)", neterror, strerror);
+        }
+
         net_kill_strerror(strerror);
     }
 
-    /* a hanging program or a different user might block the standard port;
-     * as long as it isn't a parameter coming from the commandline,
-     * try a few ports after it, to see if we can find a "free" one
+    /* A hanging program or a different user might block the standard port.
+     * As long as it isn't a parameter coming from the commandline,
+     * try a few ports after it, to see if we can find a "free" one.
      *
-     * if we go on without binding, the first sendto() automatically binds to
-     * a free port chosen by the system (i.e. anything from 1024 to 65535)
+     * If we go on without binding, the first sendto() automatically binds to
+     * a free port chosen by the system (i.e. anything from 1024 to 65535).
      *
-     * returning NULL after bind fails has both advantages and disadvantages:
+     * Returning NULL after bind fails has both advantages and disadvantages:
      * advantage:
      *   we can rely on getting the port in the range 33445..33450, which
      *   enables us to tell joe user to open their firewall to a small range
@@ -1062,7 +1091,7 @@ void ip_copy(IP *target, const IP *source)
         return;
     }
 
-    memcpy(target, source, sizeof(IP));
+    *target = *source;
 }
 
 /* copies an ip_port structure (careful about direction!) */
@@ -1072,7 +1101,7 @@ void ipport_copy(IP_Port *target, const IP_Port *source)
         return;
     }
 
-    memcpy(target, source, sizeof(IP_Port));
+    *target = *source;
 }
 
 /* ip_ntoa
@@ -1092,23 +1121,23 @@ const char *ip_ntoa(const IP *ip, char *ip_str, size_t length)
     }
 
     if (ip) {
-        const int family = make_family(ip->family);
-
         if (net_family_is_ipv4(ip->family)) {
             /* returns standard quad-dotted notation */
             struct in_addr addr;
             fill_addr4(ip->ip.v4, &addr);
 
             ip_str[0] = 0;
-            inet_ntop(family, &addr, ip_str, length);
+            assert(make_family(ip->family) == AF_INET);
+            inet_ntop4(&addr, ip_str, length);
         } else if (net_family_is_ipv6(ip->family)) {
             /* returns hex-groups enclosed into square brackets */
             struct in6_addr addr;
             fill_addr6(ip->ip.v6, &addr);
 
             ip_str[0] = '[';
-            inet_ntop(family, &addr, &ip_str[1], length - 3);
-            size_t len = strlen(ip_str);
+            assert(make_family(ip->family) == AF_INET6);
+            inet_ntop6(&addr, &ip_str[1], length - 3);
+            const size_t len = strlen(ip_str);
             ip_str[len] = ']';
             ip_str[len + 1] = 0;
         } else {
@@ -1131,12 +1160,14 @@ bool ip_parse_addr(const IP *ip, char *address, size_t length)
 
     if (net_family_is_ipv4(ip->family)) {
         const struct in_addr *addr = (const struct in_addr *)&ip->ip.v4;
-        return inet_ntop(make_family(ip->family), addr, address, length) != nullptr;
+        assert(make_family(ip->family) == AF_INET);
+        return inet_ntop4(addr, address, length) != nullptr;
     }
 
     if (net_family_is_ipv6(ip->family)) {
         const struct in6_addr *addr = (const struct in6_addr *)&ip->ip.v6;
-        return inet_ntop(make_family(ip->family), addr, address, length) != nullptr;
+        assert(make_family(ip->family) == AF_INET6);
+        return inet_ntop6(addr, address, length) != nullptr;
     }
 
     return false;
@@ -1150,7 +1181,7 @@ bool addr_parse_ip(const char *address, IP *to)
 
     struct in_addr addr4;
 
-    if (inet_pton(AF_INET, address, &addr4) == 1) {
+    if (inet_pton4(address, &addr4) == 1) {
         to->family = net_family_ipv4;
         get_ip4(&to->ip.v4, &addr4);
         return true;
@@ -1158,7 +1189,7 @@ bool addr_parse_ip(const char *address, IP *to)
 
     struct in6_addr addr6;
 
-    if (inet_pton(AF_INET6, address, &addr6) == 1) {
+    if (inet_pton6(address, &addr6) == 1) {
         to->family = net_family_ipv6;
         get_ip6(&to->ip.v6, &addr6);
         return true;
@@ -1207,12 +1238,12 @@ int addr_resolve(const char *address, IP *to, IP *extra)
         switch (walker->ai_family) {
             case AF_INET:
                 if (walker->ai_family == family) { /* AF_INET requested, done */
-                    struct sockaddr_in *addr = (struct sockaddr_in *)walker->ai_addr;
+                    struct sockaddr_in *addr = (struct sockaddr_in *)(void *)walker->ai_addr;
                     get_ip4(&to->ip.v4, &addr->sin_addr);
                     result = TOX_ADDR_RESOLVE_INET;
                     done = 1;
                 } else if (!(result & TOX_ADDR_RESOLVE_INET)) { /* AF_UNSPEC requested, store away */
-                    struct sockaddr_in *addr = (struct sockaddr_in *)walker->ai_addr;
+                    struct sockaddr_in *addr = (struct sockaddr_in *)(void *)walker->ai_addr;
                     get_ip4(&ip4.ip.v4, &addr->sin_addr);
                     result |= TOX_ADDR_RESOLVE_INET;
                 }
@@ -1222,14 +1253,14 @@ int addr_resolve(const char *address, IP *to, IP *extra)
             case AF_INET6:
                 if (walker->ai_family == family) { /* AF_INET6 requested, done */
                     if (walker->ai_addrlen == sizeof(struct sockaddr_in6)) {
-                        struct sockaddr_in6 *addr = (struct sockaddr_in6 *)walker->ai_addr;
+                        struct sockaddr_in6 *addr = (struct sockaddr_in6 *)(void *)walker->ai_addr;
                         get_ip6(&to->ip.v6, &addr->sin6_addr);
                         result = TOX_ADDR_RESOLVE_INET6;
                         done = 1;
                     }
                 } else if (!(result & TOX_ADDR_RESOLVE_INET6)) { /* AF_UNSPEC requested, store away */
                     if (walker->ai_addrlen == sizeof(struct sockaddr_in6)) {
-                        struct sockaddr_in6 *addr = (struct sockaddr_in6 *)walker->ai_addr;
+                        struct sockaddr_in6 *addr = (struct sockaddr_in6 *)(void *)walker->ai_addr;
                         get_ip6(&ip6.ip.v6, &addr->sin6_addr);
                         result |= TOX_ADDR_RESOLVE_INET6;
                     }
@@ -1344,10 +1375,10 @@ int32_t net_getipport(const char *node, IP_Port **res, int tox_type)
         }
 
         if (cur->ai_family == AF_INET) {
-            struct sockaddr_in *addr = (struct sockaddr_in *)cur->ai_addr;
+            struct sockaddr_in *addr = (struct sockaddr_in *)(void *)cur->ai_addr;
             memcpy(&ip_port->ip.ip.v4, &addr->sin_addr, sizeof(IP4));
         } else if (cur->ai_family == AF_INET6) {
-            struct sockaddr_in6 *addr = (struct sockaddr_in6 *)cur->ai_addr;
+            struct sockaddr_in6 *addr = (struct sockaddr_in6 *)(void *)cur->ai_addr;
             memcpy(&ip_port->ip.ip.v6, &addr->sin6_addr, sizeof(IP6));
         } else {
             continue;
@@ -1398,34 +1429,6 @@ bool bind_to_port(Socket sock, Family family, uint16_t port)
     }
 
     return bind(sock.socket, (struct sockaddr *)&addr, addrsize) == 0;
-}
-
-static int make_socktype(int type)
-{
-    switch (type) {
-        case TOX_SOCK_STREAM:
-            return SOCK_STREAM;
-
-        case TOX_SOCK_DGRAM:
-            return SOCK_DGRAM;
-
-        default:
-            return type;
-    }
-}
-
-static int make_proto(int proto)
-{
-    switch (proto) {
-        case TOX_PROTO_TCP:
-            return IPPROTO_TCP;
-
-        case TOX_PROTO_UDP:
-            return IPPROTO_UDP;
-
-        default:
-            return proto;
-    }
 }
 
 Socket net_socket(Family domain, int type, int protocol)

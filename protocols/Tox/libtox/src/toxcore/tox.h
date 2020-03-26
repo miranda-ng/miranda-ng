@@ -1,25 +1,10 @@
-/*
- * The Tox public API.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2013 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2013 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * The Tox public API.
  */
 #ifndef C_TOXCORE_TOXCORE_TOX_H
 #define C_TOXCORE_TOXCORE_TOX_H
@@ -183,7 +168,7 @@ uint32_t tox_version_minor(void);
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-#define TOX_VERSION_PATCH              10
+#define TOX_VERSION_PATCH              11
 
 uint32_t tox_version_patch(void);
 
@@ -690,6 +675,20 @@ struct Tox_Options {
      */
     void *log_user_data;
 
+
+    /**
+     * These options are experimental, so avoid writing code that depends on
+     * them. Options marked "experimental" may change their behaviour or go away
+     * entirely in the future, or may be renamed to something non-experimental
+     * if they become part of the supported API.
+     */
+    /**
+     * Make public API functions thread-safe using a per-instance lock.
+     *
+     * Default: false.
+     */
+    bool experimental_thread_safety;
+
 };
 
 
@@ -752,6 +751,10 @@ void tox_options_set_log_callback(struct Tox_Options *options, tox_log_cb *callb
 void *tox_options_get_log_user_data(const struct Tox_Options *options);
 
 void tox_options_set_log_user_data(struct Tox_Options *options, void *user_data);
+
+bool tox_options_get_experimental_thread_safety(const struct Tox_Options *options);
+
+void tox_options_set_experimental_thread_safety(struct Tox_Options *options, bool thread_safety);
 
 /**
  * Initialises a Tox_Options object with the default options.
@@ -2538,7 +2541,7 @@ typedef enum TOX_ERR_CONFERENCE_NEW {
 /**
  * Creates a new conference.
  *
- * This function creates a new text conference.
+ * This function creates and connects to a new text conference.
  *
  * @return conference number on success, or an unspecified value on failure.
  */
@@ -2597,7 +2600,10 @@ typedef enum TOX_ERR_CONFERENCE_PEER_QUERY {
 
 
 /**
- * Return the number of peers in the conference. Return value is unspecified on failure.
+ * Return the number of online peers in the conference. The unsigned
+ * integers less than this number are the valid values of peer_number for
+ * the functions querying these peers. Return value is unspecified on
+ * failure.
  */
 uint32_t tox_conference_peer_count(const Tox *tox, uint32_t conference_number, TOX_ERR_CONFERENCE_PEER_QUERY *error);
 
@@ -2635,7 +2641,9 @@ bool tox_conference_peer_number_is_ours(const Tox *tox, uint32_t conference_numb
                                         TOX_ERR_CONFERENCE_PEER_QUERY *error);
 
 /**
- * Return the number of offline peers in the conference. Return value is unspecified on failure.
+ * Return the number of offline peers in the conference. The unsigned
+ * integers less than this number are the valid values of offline_peer_number for
+ * the functions querying these peers. Return value is unspecified on failure.
  */
 uint32_t tox_conference_offline_peer_count(const Tox *tox, uint32_t conference_number,
         TOX_ERR_CONFERENCE_PEER_QUERY *error);
@@ -2722,10 +2730,6 @@ typedef enum TOX_ERR_CONFERENCE_INVITE {
 /**
  * Invites a friend to a conference.
  *
- * We must be connected to the conference, meaning that the conference has not
- * been deleted, and either we created the conference with the tox_conference_new function,
- * or a `conference_connected` event has occurred for the conference.
- *
  * @param friend_number The friend number of the friend we want to invite.
  * @param conference_number The conference number of the conference we want to invite the friend to.
  *
@@ -2776,6 +2780,14 @@ typedef enum TOX_ERR_CONFERENCE_JOIN {
 
 /**
  * Joins a conference that the client has been invited to.
+ *
+ * After successfully joining the conference, the client will not be "connected"
+ * to it until a handshaking procedure has been completed. A
+ * `conference_connected` event will then occur for the conference. The client
+ * will then remain connected to the conference until the conference is deleted,
+ * even across core restarts. Many operations on a conference will fail with a
+ * corresponding error if attempted on a conference to which the client is not
+ * yet connected.
  *
  * @param friend_number The friend number of the friend who sent the invite.
  * @param cookie Received via the `conference_invite` event.
@@ -2903,8 +2915,16 @@ bool tox_conference_set_title(Tox *tox, uint32_t conference_number, const uint8_
 size_t tox_conference_get_chatlist_size(const Tox *tox);
 
 /**
- * Copy a list of valid conference IDs into the array chatlist. Determine how much space
- * to allocate for the array with the `tox_conference_get_chatlist_size` function.
+ * Copy a list of valid conference numbers into the array chatlist. Determine
+ * how much space to allocate for the array with the `tox_conference_get_chatlist_size` function.
+ *
+ * Note that `tox_get_savedata` saves all connected conferences;
+ * when toxcore is created from savedata in which conferences were saved, those
+ * conferences will be connected at startup, and will be listed by
+ * `tox_conference_get_chatlist`.
+ *
+ * The conference number of a loaded conference may differ from the conference
+ * number it had when it was saved.
  */
 void tox_conference_get_chatlist(const Tox *tox, uint32_t *chatlist);
 

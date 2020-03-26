@@ -1,25 +1,10 @@
-/*
- * Datatypes, functions and includes for the core networking.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2013 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2013 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * Datatypes, functions and includes for the core networking.
  */
 #ifndef C_TOXCORE_TOXCORE_NETWORK_H
 #define C_TOXCORE_TOXCORE_NETWORK_H
@@ -110,7 +95,7 @@ typedef enum Net_Packet_Type {
     NET_PACKET_CRYPTO               = 0x20, /* Encrypted data packet ID. */
     NET_PACKET_LAN_DISCOVERY        = 0x21, /* LAN discovery packet ID. */
 
-    /* See: docs/Prevent_Tracking.txt and onion.{c,h} */
+    /* See: `docs/Prevent_Tracking.txt` and `onion.{c,h}` */
     NET_PACKET_ONION_SEND_INITIAL   = 0x80,
     NET_PACKET_ONION_SEND_1         = 0x81,
     NET_PACKET_ONION_SEND_2         = 0x82,
@@ -303,11 +288,11 @@ void ipport_copy(IP_Port *target, const IP_Port *source);
  *     IP versions are acceptable
  * @param extra can be NULL and is only set in special circumstances, see returns
  *
- * returns in *to a valid IPAny (v4/v6),
- *     prefers v6 if ip.family was TOX_AF_UNSPEC and both available
- * returns in *extra an IPv4 address, if family was TOX_AF_UNSPEC and *to is TOX_AF_INET6
+ * returns in `*to` a valid IPAny (v4/v6),
+ *     prefers v6 if `ip.family` was TOX_AF_UNSPEC and both available
+ * returns in `*extra` an IPv4 address, if family was TOX_AF_UNSPEC and `*to` is TOX_AF_INET6
  *
- * @return 0 on failure, TOX_ADDR_RESOLVE_* on success.
+ * @return 0 on failure, `TOX_ADDR_RESOLVE_*` on success.
  */
 int addr_resolve(const char *address, IP *to, IP *extra);
 
@@ -320,8 +305,8 @@ int addr_resolve(const char *address, IP *to, IP *extra);
  *     IP versions are acceptable
  * @param extra can be NULL and is only set in special circumstances, see returns
  *
- * returns in *tro a matching address (IPv6 or IPv4)
- * returns in *extra, if not NULL, an IPv4 address, if to->family was TOX_AF_UNSPEC
+ * returns in `*to` a matching address (IPv6 or IPv4)
+ * returns in `*extra`, if not NULL, an IPv4 address, if `to->family` was TOX_AF_UNSPEC
  *
  * @return true on success, false on failure
  */

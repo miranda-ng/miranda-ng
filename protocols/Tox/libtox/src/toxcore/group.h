@@ -1,25 +1,10 @@
-/*
- * Slightly better groupchats implementation.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2014 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2014 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * Slightly better groupchats implementation.
  */
 #ifndef C_TOXCORE_TOXCORE_GROUP_H
 #define C_TOXCORE_TOXCORE_GROUP_H
@@ -29,12 +14,12 @@
 typedef enum Groupchat_Status {
     GROUPCHAT_STATUS_NONE,
     GROUPCHAT_STATUS_VALID,
-    GROUPCHAT_STATUS_CONNECTED
+    GROUPCHAT_STATUS_CONNECTED,
 } Groupchat_Status;
 
 typedef enum Groupchat_Type {
     GROUPCHAT_TYPE_TEXT,
-    GROUPCHAT_TYPE_AV
+    GROUPCHAT_TYPE_AV,
 } Groupchat_Type;
 
 #define MAX_LOSSY_COUNT 256
@@ -71,37 +56,37 @@ typedef struct Group_Peer {
     void *object;
 } Group_Peer;
 
-#define DESIRED_CLOSE_CONNECTIONS 4
+#define DESIRED_CLOSEST 4
 #define MAX_GROUP_CONNECTIONS 16
 #define GROUP_ID_LENGTH CRYPTO_SYMMETRIC_KEY_SIZE
 
-typedef enum Groupchat_Close_Type {
-    GROUPCHAT_CLOSE_NONE,
-    GROUPCHAT_CLOSE_CONNECTION,
-    GROUPCHAT_CLOSE_ONLINE
-} Groupchat_Close_Type;
+typedef enum Groupchat_Connection_Type {
+    GROUPCHAT_CONNECTION_NONE,
+    GROUPCHAT_CONNECTION_CONNECTING,
+    GROUPCHAT_CONNECTION_ONLINE,
+} Groupchat_Connection_Type;
 
-/* Connection is to one of the closest DESIRED_CLOSE_CONNECTIONS peers */
-#define GROUPCHAT_CLOSE_REASON_CLOSEST     (1 << 0)
+/* Connection is to one of the closest DESIRED_CLOSEST peers */
+#define GROUPCHAT_CONNECTION_REASON_CLOSEST     (1 << 0)
 
 /* Connection is to a peer we are introducing to the conference */
-#define GROUPCHAT_CLOSE_REASON_INTRODUCING (1 << 1)
+#define GROUPCHAT_CONNECTION_REASON_INTRODUCING (1 << 1)
 
 /* Connection is to a peer who is introducing us to the conference */
-#define GROUPCHAT_CLOSE_REASON_INTRODUCER  (1 << 2)
+#define GROUPCHAT_CONNECTION_REASON_INTRODUCER  (1 << 2)
 
-typedef struct Groupchat_Close {
-    uint8_t type; /* GROUPCHAT_CLOSE_* */
-    uint8_t reasons; /* bit field with flags GROUPCHAT_CLOSE_REASON_* */
+typedef struct Groupchat_Connection {
+    uint8_t type; /* `GROUPCHAT_CONNECTION_*` */
+    uint8_t reasons; /* bit field with flags `GROUPCHAT_CONNECTION_REASON_*` */
     uint32_t number;
     uint16_t group_number;
-} Groupchat_Close;
+} Groupchat_Connection;
 
-typedef struct Groupchat_Close_Connection {
+typedef struct Groupchat_Closest {
     uint8_t entry;
     uint8_t real_pk[CRYPTO_PUBLIC_KEY_SIZE];
     uint8_t temp_pk[CRYPTO_PUBLIC_KEY_SIZE];
-} Groupchat_Close_Connection;
+} Groupchat_Closest;
 
 typedef void peer_on_join_cb(void *object, uint32_t conference_number, uint32_t peer_number);
 typedef void peer_on_leave_cb(void *object, uint32_t conference_number, void *peer_object);
@@ -124,11 +109,10 @@ typedef struct Group_c {
 
     uint32_t maxfrozen;
 
-    /* TODO(zugz) rename close to something more accurate - "connected"? */
-    Groupchat_Close close[MAX_GROUP_CONNECTIONS];
+    Groupchat_Connection connections[MAX_GROUP_CONNECTIONS];
 
     uint8_t real_pk[CRYPTO_PUBLIC_KEY_SIZE];
-    Groupchat_Close_Connection closest_peers[DESIRED_CLOSE_CONNECTIONS];
+    Groupchat_Closest closest_peers[DESIRED_CLOSEST];
     uint8_t changed;
 
     uint8_t type;
@@ -237,7 +221,7 @@ void g_callback_peer_list_changed(Group_Chats *g_c, peer_list_changed_cb *functi
 
 /* Creates a new groupchat and puts it in the chats array.
  *
- * type is one of GROUPCHAT_TYPE_*
+ * type is one of `GROUPCHAT_TYPE_*`
  *
  * return group number on success.
  * return -1 on failure.
@@ -260,7 +244,7 @@ int del_groupchat(Group_Chats *g_c, uint32_t groupnumber, bool leave_permanently
  * return -1 if groupnumber is invalid.
  * return -2 if peernumber is invalid.
  */
-int group_peer_pubkey(const Group_Chats *g_c, uint32_t groupnumber, int peernumber, uint8_t *pk, bool frozen);
+int group_peer_pubkey(const Group_Chats *g_c, uint32_t groupnumber, uint32_t peernumber, uint8_t *pk, bool frozen);
 
 /*
  * Return the size of (frozen, if frozen is true) peernumber's name.
@@ -268,7 +252,7 @@ int group_peer_pubkey(const Group_Chats *g_c, uint32_t groupnumber, int peernumb
  * return -1 if groupnumber is invalid.
  * return -2 if peernumber is invalid.
  */
-int group_peername_size(const Group_Chats *g_c, uint32_t groupnumber, int32_t peernumber, bool frozen);
+int group_peername_size(const Group_Chats *g_c, uint32_t groupnumber, uint32_t peernumber, bool frozen);
 
 /* Copy the name of (frozen, if frozen is true) peernumber who is in
  * groupnumber to name.
@@ -278,7 +262,7 @@ int group_peername_size(const Group_Chats *g_c, uint32_t groupnumber, int32_t pe
  * return -1 if groupnumber is invalid.
  * return -2 if peernumber is invalid.
  */
-int group_peername(const Group_Chats *g_c, uint32_t groupnumber, int peernumber, uint8_t *name, bool frozen);
+int group_peername(const Group_Chats *g_c, uint32_t groupnumber, uint32_t peernumber, uint8_t *name, bool frozen);
 
 /* Copy last active timestamp of frozen peernumber who is in groupnumber to
  * last_active.
@@ -287,7 +271,7 @@ int group_peername(const Group_Chats *g_c, uint32_t groupnumber, int peernumber,
  * return -1 if groupnumber is invalid.
  * return -2 if peernumber is invalid.
  */
-int group_frozen_last_active(const Group_Chats *g_c, uint32_t groupnumber, int peernumber,
+int group_frozen_last_active(const Group_Chats *g_c, uint32_t groupnumber, uint32_t peernumber,
                              uint64_t *last_active);
 
 /* Set maximum number of frozen peers.
@@ -307,7 +291,8 @@ int invite_friend(Group_Chats *g_c, uint32_t friendnumber, uint32_t groupnumber)
 
 /* Join a group (you need to have been invited first.)
  *
- * expected_type is the groupchat type we expect the chat we are joining is.
+ * expected_type is the groupchat type we expect the chat we are joining to
+ * have.
  *
  * return group number on success.
  * return -1 if data length is invalid.
@@ -368,13 +353,13 @@ int group_number_peers(const Group_Chats *g_c, uint32_t groupnumber, bool frozen
  * return -2 if peernumber is invalid.
  * return -3 if we are not connected to the group chat.
  */
-int group_peernumber_is_ours(const Group_Chats *g_c, uint32_t groupnumber, int peernumber);
+int group_peernumber_is_ours(const Group_Chats *g_c, uint32_t groupnumber, uint32_t peernumber);
 
 /* List all the (frozen, if frozen is true) peers in the group chat.
  *
- * Copies the names of the peers to the name[length][MAX_NAME_LENGTH] array.
+ * Copies the names of the peers to the `name[length][MAX_NAME_LENGTH]` array.
  *
- * Copies the lengths of the names to lengths[length]
+ * Copies the lengths of the names to `lengths[length]`
  *
  * returns the number of peers on success.
  *
@@ -413,11 +398,11 @@ uint32_t copy_chatlist(const Group_Chats *g_c, uint32_t *out_list, uint32_t list
  */
 int group_get_type(const Group_Chats *g_c, uint32_t groupnumber);
 
-/* Copies the unique id of group_chat[groupnumber] into id.
-*
-* return false on failure.
-* return true on success.
-*/
+/* Copies the unique id of `group_chat[groupnumber]` into id.
+ *
+ * return false on failure.
+ * return true on success.
+ */
 bool conference_get_id(const Group_Chats *g_c, uint32_t groupnumber, uint8_t *id);
 
 int32_t conference_by_id(const Group_Chats *g_c, const uint8_t *id);
@@ -438,7 +423,7 @@ int group_set_object(const Group_Chats *g_c, uint32_t groupnumber, void *object)
  * return 0 on success.
  * return -1 on failure
  */
-int group_peer_set_object(const Group_Chats *g_c, uint32_t groupnumber, int peernumber, void *object);
+int group_peer_set_object(const Group_Chats *g_c, uint32_t groupnumber, uint32_t peernumber, void *object);
 
 /* Return the object tied to the group chat previously set by group_set_object.
  *
@@ -452,7 +437,7 @@ void *group_get_object(const Group_Chats *g_c, uint32_t groupnumber);
  * return NULL on failure.
  * return object on success.
  */
-void *group_peer_get_object(const Group_Chats *g_c, uint32_t groupnumber, int peernumber);
+void *group_peer_get_object(const Group_Chats *g_c, uint32_t groupnumber, uint32_t peernumber);
 
 /* Set a function to be called when a new peer joins a group chat.
  *
@@ -486,7 +471,7 @@ uint8_t *conferences_save(const Group_Chats *g_c, uint8_t *data);
  *
  * @param data Data to load
  * @param length Length of data
- * @param type Type of section (STATE_TYPE_*)
+ * @param type Type of section (`STATE_TYPE_*`)
  * @param status Result of loading section is stored here if the section is handled.
  * @return true iff section handled.
  */

@@ -1,25 +1,10 @@
-/*
- * Functions for the core network crypto.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2013 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2013 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * Functions for the core network crypto.
  */
 #ifndef C_TOXCORE_TOXCORE_NET_CRYPTO_H
 #define C_TOXCORE_TOXCORE_NET_CRYPTO_H
@@ -31,9 +16,9 @@
 
 #include <pthread.h>
 
-/*** Crypto payloads. ***/
+/** Crypto payloads. */
 
-/** Ranges. **/
+/** Ranges. */
 
 /* Packets in this range are reserved for net_crypto internal use. */
 #define PACKET_ID_RANGE_RESERVED_START 0
@@ -56,7 +41,7 @@
 #define PACKET_ID_RANGE_LOSSY_CUSTOM_END 254
 #define PACKET_ID_RANGE_LOSSY_END 254
 
-/** Messages. **/
+/** Messages. */
 
 #define PACKET_ID_PADDING 0 // Denotes padding
 #define PACKET_ID_REQUEST 1 // Used to request unreceived packets
@@ -80,16 +65,6 @@
 #define PACKET_ID_MESSAGE_CONFERENCE 99
 #define PACKET_ID_REJOIN_CONFERENCE 100
 #define PACKET_ID_LOSSY_CONFERENCE 199
-
-/*** Crypto connections. ***/
-
-typedef enum Crypto_Conn_State {
-    CRYPTO_CONN_NO_CONNECTION = 0,
-    CRYPTO_CONN_COOKIE_REQUESTING = 1,  // send cookie request packets
-    CRYPTO_CONN_HANDSHAKE_SENT = 2,     // send handshake packets
-    CRYPTO_CONN_NOT_CONFIRMED = 3,      // send handshake packets, we have received one from the other
-    CRYPTO_CONN_ESTABLISHED = 4,
-} Crypto_Conn_State;
 
 /* Maximum size of receiving and sending packet buffers. */
 #define CRYPTO_PACKET_BUFFER_SIZE 32768 // Must be a power of 2
@@ -319,13 +294,13 @@ unsigned int copy_connected_tcp_relays(Net_Crypto *c, Node_format *tcp_relays, u
  */
 int crypto_kill(Net_Crypto *c, int crypt_connection_id);
 
-/* return one of CRYPTO_CONN_* values indicating the state of the connection.
+/* return true if connection is valid, false otherwise
  *
  * sets direct_connected to 1 if connection connects directly to other, 0 if it isn't.
  * sets online_tcp_relays to the number of connected tcp relays this connection has.
  */
-Crypto_Conn_State crypto_connection_status(const Net_Crypto *c, int crypt_connection_id, bool *direct_connected,
-        unsigned int *online_tcp_relays);
+bool crypto_connection_status(const Net_Crypto *c, int crypt_connection_id, bool *direct_connected,
+                              unsigned int *online_tcp_relays);
 
 /* Generate our public and private keys.
  *  Only call this function the first time the program starts.

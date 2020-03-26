@@ -1,26 +1,11 @@
 %{
-/*
- * The Tox public API.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2013 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2013 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * The Tox public API.
  */
 #ifndef C_TOXCORE_TOXCORE_TOX_H
 #define C_TOXCORE_TOXCORE_TOX_H
@@ -182,7 +167,7 @@ const VERSION_MINOR                = 2;
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-const VERSION_PATCH                = 10;
+const VERSION_PATCH                = 11;
 
 /**
  * A macro to check at preprocessing time whether the client code is compatible
@@ -622,6 +607,21 @@ static class options {
        * User data pointer passed to the logging callback.
        */
       any user_data;
+    }
+
+    /**
+     * These options are experimental, so avoid writing code that depends on
+     * them. Options marked "experimental" may change their behaviour or go away
+     * entirely in the future, or may be renamed to something non-experimental
+     * if they become part of the supported API.
+     */
+    namespace experimental {
+      /**
+       * Make public API functions thread-safe using a per-instance lock.
+       *
+       * Default: false.
+       */
+      bool thread_safety;
     }
   }
 
@@ -2232,7 +2232,7 @@ namespace conference {
   /**
    * Creates a new conference.
    *
-   * This function creates a new text conference.
+   * This function creates and connects to a new text conference.
    *
    * @return conference number on success, or an unspecified value on failure.
    */
@@ -2279,7 +2279,10 @@ namespace conference {
   namespace peer {
 
     /**
-     * Return the number of peers in the conference. Return value is unspecified on failure.
+     * Return the number of online peers in the conference. The unsigned 
+     * integers less than this number are the valid values of peer_number for 
+     * the functions querying these peers. Return value is unspecified on 
+     * failure.
      */
     const uint32_t count(uint32_t conference_number)
         with error for peer_query;
@@ -2327,7 +2330,9 @@ namespace conference {
   namespace offline_peer {
 
     /**
-     * Return the number of offline peers in the conference. Return value is unspecified on failure.
+     * Return the number of offline peers in the conference. The unsigned 
+     * integers less than this number are the valid values of offline_peer_number for 
+     * the functions querying these peers. Return value is unspecified on failure.
      */
     const uint32_t count(uint32_t conference_number)
         with error for peer_query;
@@ -2388,10 +2393,6 @@ namespace conference {
   /**
    * Invites a friend to a conference.
    *
-   * We must be connected to the conference, meaning that the conference has not
-   * been deleted, and either we created the conference with the $new function,
-   * or a `${event connected}` event has occurred for the conference.
-   *
    * @param friend_number The friend number of the friend we want to invite.
    * @param conference_number The conference number of the conference we want to invite the friend to.
    *
@@ -2415,6 +2416,14 @@ namespace conference {
 
   /**
    * Joins a conference that the client has been invited to.
+   *
+   * After successfully joining the conference, the client will not be "connected"
+   * to it until a handshaking procedure has been completed. A
+   * `${event connected}` event will then occur for the conference. The client
+   * will then remain connected to the conference until the conference is deleted,
+   * even across core restarts. Many operations on a conference will fail with a
+   * corresponding error if attempted on a conference to which the client is not
+   * yet connected.
    *
    * @param friend_number The friend number of the friend who sent the invite.
    * @param cookie Received via the `${event invite}` event.
@@ -2552,8 +2561,16 @@ namespace conference {
     size();
 
     /**
-     * Copy a list of valid conference IDs into the array chatlist. Determine how much space
-     * to allocate for the array with the `$size` function.
+     * Copy a list of valid conference numbers into the array chatlist. Determine
+     * how much space to allocate for the array with the `$size` function.
+     *
+     * Note that `${savedata.get}` saves all connected conferences;
+     * when toxcore is created from savedata in which conferences were saved, those
+     * conferences will be connected at startup, and will be listed by
+     * `$get`.
+     *
+     * The conference number of a loaded conference may differ from the conference
+     * number it had when it was saved.
      */
     get();
   }

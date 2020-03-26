@@ -1,27 +1,11 @@
-/*
- * Utilities.
- */
-
-/*
+/* SPDX-License-Identifier: GPL-3.0-or-later
  * Copyright © 2016-2018 The TokTok team.
  * Copyright © 2013 Tox project.
  * Copyright © 2013 plutooo
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- * This file is donated to the Tox Project.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Utilities.
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -50,25 +34,6 @@ uint32_t id_copy(uint8_t *dest, const uint8_t *src)
 {
     memcpy(dest, src, CRYPTO_PUBLIC_KEY_SIZE);
     return CRYPTO_PUBLIC_KEY_SIZE;
-}
-
-void host_to_net(uint8_t *num, uint16_t numbytes)
-{
-#ifndef WORDS_BIGENDIAN
-    uint32_t i;
-    VLA(uint8_t, buff, numbytes);
-
-    for (i = 0; i < numbytes; ++i) {
-        buff[i] = num[numbytes - i - 1];
-    }
-
-    memcpy(num, buff, numbytes);
-#endif
-}
-
-void net_to_host(uint8_t *num, uint16_t numbytes)
-{
-    host_to_net(num, numbytes);
 }
 
 int create_recursive_mutex(pthread_mutex_t *mutex)

@@ -1,25 +1,10 @@
-/*
- * An implementation of a simple text chat only messenger on the tox network core.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2013 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2013 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * An implementation of a simple text chat only messenger on the tox network core.
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -140,7 +125,7 @@ static uint16_t address_checksum(const uint8_t *address, uint32_t len)
     return check;
 }
 
-/* Format: [real_pk (32 bytes)][nospam number (4 bytes)][checksum (2 bytes)]
+/* Format: `[real_pk (32 bytes)][nospam number (4 bytes)][checksum (2 bytes)]`
  *
  *  return FRIEND_ADDRESS_SIZE byte address to give to others.
  */
@@ -458,6 +443,8 @@ int m_get_friend_connectionstatus(const Messenger *m, int32_t friendnumber)
         bool direct_connected = 0;
         unsigned int num_online_relays = 0;
         int crypt_conn_id = friend_connection_crypt_connection_id(m->fr_c, m->friendlist[friendnumber].friendcon_id);
+
+        // FIXME(sudden6): handle return value
         crypto_connection_status(m->net_crypto, crypt_conn_id, &direct_connected, &num_online_relays);
 
         if (direct_connected) {
@@ -984,12 +971,10 @@ static int write_cryptpacket_id(const Messenger *m, int32_t friendnumber, uint8_
                              m->friendlist[friendnumber].friendcon_id), packet, length + 1, congestion_control) != -1;
 }
 
-/**********CONFERENCES************/
+/** CONFERENCES */
 
 
 /* Set the callback for conference invites.
- *
- *  Function(Messenger *m, uint32_t friendnumber, uint8_t *data, uint16_t length, void *userdata)
  */
 void m_callback_conference_invite(Messenger *m, m_conference_invite_cb *function)
 {
@@ -1007,12 +992,10 @@ int send_conference_invite_packet(const Messenger *m, int32_t friendnumber, cons
     return write_cryptpacket_id(m, friendnumber, PACKET_ID_INVITE_CONFERENCE, data, length, 0);
 }
 
-/****************FILE SENDING*****************/
+/** FILE SENDING */
 
 
 /* Set the callback for file send requests.
- *
- *  Function(Tox *tox, uint32_t friendnumber, uint32_t filenumber, uint32_t filetype, uint64_t filesize, uint8_t *filename, size_t filename_length, void *userdata)
  */
 void callback_file_sendrequest(Messenger *m, m_file_recv_cb *function)
 {
@@ -1020,9 +1003,6 @@ void callback_file_sendrequest(Messenger *m, m_file_recv_cb *function)
 }
 
 /* Set the callback for file control requests.
- *
- *  Function(Tox *tox, uint32_t friendnumber, uint32_t filenumber, unsigned int control_type, void *userdata)
- *
  */
 void callback_file_control(Messenger *m, m_file_recv_control_cb *function)
 {
@@ -1030,9 +1010,6 @@ void callback_file_control(Messenger *m, m_file_recv_control_cb *function)
 }
 
 /* Set the callback for file data.
- *
- *  Function(Tox *tox, uint32_t friendnumber, uint32_t filenumber, uint64_t position, uint8_t *data, size_t length, void *userdata)
- *
  */
 void callback_file_data(Messenger *m, m_file_recv_chunk_cb *function)
 {
@@ -1040,9 +1017,6 @@ void callback_file_data(Messenger *m, m_file_recv_chunk_cb *function)
 }
 
 /* Set the callback for file request chunk.
- *
- *  Function(Tox *tox, uint32_t friendnumber, uint32_t filenumber, uint64_t position, size_t length, void *userdata)
- *
  */
 void callback_file_reqchunk(Messenger *m, m_file_chunk_request_cb *function)
 {
@@ -1120,8 +1094,7 @@ static int file_sendrequest(const Messenger *m, int32_t friendnumber, uint8_t fi
     packet[0] = filenumber;
     file_type = net_htonl(file_type);
     memcpy(packet + 1, &file_type, sizeof(file_type));
-    host_to_net((uint8_t *)&filesize, sizeof(filesize));
-    memcpy(packet + 1 + sizeof(file_type), &filesize, sizeof(filesize));
+    net_pack_u64(packet + 1 + sizeof(file_type), filesize);
     memcpy(packet + 1 + sizeof(file_type) + sizeof(filesize), file_id, FILE_ID_LENGTH);
 
     if (filename_length) {
@@ -1360,10 +1333,10 @@ int file_seek(const Messenger *m, int32_t friendnumber, uint32_t filenumber, uin
         return -6;
     }
 
-    uint64_t sending_pos = position;
-    host_to_net((uint8_t *)&sending_pos, sizeof(sending_pos));
+    uint8_t sending_pos[sizeof(uint64_t)];
+    net_pack_u64(sending_pos, position);
 
-    if (send_file_control_packet(m, friendnumber, 1, file_number, FILECONTROL_SEEK, (uint8_t *)&sending_pos,
+    if (send_file_control_packet(m, friendnumber, 1, file_number, FILECONTROL_SEEK, sending_pos,
                                  sizeof(sending_pos))) {
         ft->transferred = position;
     } else {
@@ -1758,8 +1731,7 @@ static int handle_filecontrol(Messenger *m, int32_t friendnumber, uint8_t receiv
                 return -1;
             }
 
-            memcpy(&position, data, sizeof(position));
-            net_to_host((uint8_t *) &position, sizeof(position));
+            net_unpack_u64(data, &position);
 
             if (position >= ft->size) {
                 LOGGER_DEBUG(m->log,
@@ -1781,11 +1753,7 @@ static int handle_filecontrol(Messenger *m, int32_t friendnumber, uint8_t receiv
     }
 }
 
-/**************************************/
-
 /* Set the callback for msi packets.
- *
- *  Function(Messenger *m, int friendnumber, uint8_t *data, uint16_t length, void *userdata)
  */
 void m_callback_msi_packet(Messenger *m, m_msi_packet_cb *function, void *userdata)
 {
@@ -1824,7 +1792,7 @@ static int m_handle_lossy_packet(void *object, int friend_num, const uint8_t *pa
     }
 
     if (m->lossy_packethandler) {
-        m->lossy_packethandler(m, friend_num, packet, length, userdata);
+        m->lossy_packethandler(m, friend_num, packet[0], packet, length, userdata);
     }
 
     return 1;
@@ -1900,7 +1868,7 @@ static int handle_custom_lossless_packet(void *object, int friend_num, const uin
     }
 
     if (m->lossless_packethandler) {
-        m->lossless_packethandler(m, friend_num, packet, length, userdata);
+        m->lossless_packethandler(m, friend_num, packet[0], packet, length, userdata);
     }
 
     return 1;
@@ -2325,8 +2293,7 @@ static int m_handle_packet(void *object, int i, const uint8_t *temp, uint16_t le
             memcpy(&file_type, data + 1, sizeof(file_type));
             file_type = net_ntohl(file_type);
 
-            memcpy(&filesize, data + 1 + sizeof(uint32_t), sizeof(filesize));
-            net_to_host((uint8_t *) &filesize, sizeof(filesize));
+            net_unpack_u64(data + 1 + sizeof(uint32_t), &filesize);
             struct File_Transfers *ft = &m->friendlist[i].file_receiving[filenumber];
 
             if (ft->status != FILESTATUS_NONE) {
@@ -2753,7 +2720,7 @@ struct Saved_Friend {
     uint16_t statusmessage_length;
     uint8_t userstatus;
     uint32_t friendrequest_nospam;
-    uint64_t last_seen_time;
+    uint8_t last_seen_time[sizeof(uint64_t)];
 };
 
 static uint32_t friend_size(void)
@@ -2778,7 +2745,7 @@ static uint32_t friend_size(void)
     VALUE_MEMBER(userstatus);
     data += 3; // padding
     VALUE_MEMBER(friendrequest_nospam);
-    VALUE_MEMBER(last_seen_time);
+    ARRAY_MEMBER(last_seen_time);
 
 #undef VALUE_MEMBER
 #undef ARRAY_MEMBER
@@ -2812,7 +2779,7 @@ static uint8_t *friend_save(const struct Saved_Friend *temp, uint8_t *data)
     VALUE_MEMBER(userstatus);
     data += 3; // padding
     VALUE_MEMBER(friendrequest_nospam);
-    VALUE_MEMBER(last_seen_time);
+    ARRAY_MEMBER(last_seen_time);
 
 #undef VALUE_MEMBER
 #undef ARRAY_MEMBER
@@ -2847,7 +2814,7 @@ static const uint8_t *friend_load(struct Saved_Friend *temp, const uint8_t *data
     VALUE_MEMBER(userstatus);
     data += 3; // padding
     VALUE_MEMBER(friendrequest_nospam);
-    VALUE_MEMBER(last_seen_time);
+    ARRAY_MEMBER(last_seen_time);
 
 #undef VALUE_MEMBER
 #undef ARRAY_MEMBER
@@ -3026,10 +2993,7 @@ static uint8_t *friends_list_save(const Messenger *m, uint8_t *data)
                 temp.statusmessage_length = net_htons(m->friendlist[i].statusmessage_length);
                 temp.userstatus = m->friendlist[i].userstatus;
 
-                uint8_t last_seen_time[sizeof(uint64_t)];
-                memcpy(last_seen_time, &m->friendlist[i].last_seen_time, sizeof(uint64_t));
-                host_to_net(last_seen_time, sizeof(uint64_t));
-                memcpy(&temp.last_seen_time, last_seen_time, sizeof(uint64_t));
+                net_pack_u64(temp.last_seen_time, m->friendlist[i].last_seen_time);
             }
 
             uint8_t *next_data = friend_save(&temp, cur_data);
@@ -3077,10 +3041,7 @@ static State_Load_Status friends_list_load(Messenger *m, const uint8_t *data, ui
             setfriendname(m, fnum, temp.name, net_ntohs(temp.name_length));
             set_friend_statusmessage(m, fnum, temp.statusmessage, net_ntohs(temp.statusmessage_length));
             set_friend_userstatus(m, fnum, temp.userstatus);
-            uint8_t last_seen_time[sizeof(uint64_t)];
-            memcpy(last_seen_time, &temp.last_seen_time, sizeof(uint64_t));
-            net_to_host(last_seen_time, sizeof(uint64_t));
-            memcpy(&m->friendlist[fnum].last_seen_time, last_seen_time, sizeof(uint64_t));
+            net_unpack_u64(temp.last_seen_time, &m->friendlist[fnum].last_seen_time);
         } else if (temp.status != 0) {
             /* TODO(irungentoo): This is not a good way to do this. */
             uint8_t address[FRIEND_ADDRESS_SIZE];

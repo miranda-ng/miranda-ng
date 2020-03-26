@@ -1,25 +1,10 @@
-/*
- * Implementation of the TCP relay client part of Tox.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2014 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2014 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * Implementation of the TCP relay client part of Tox.
  */
 #ifndef C_TOXCORE_TOXCORE_TCP_CLIENT_H
 #define C_TOXCORE_TOXCORE_TCP_CLIENT_H
@@ -32,7 +17,7 @@
 typedef enum TCP_Proxy_Type {
     TCP_PROXY_NONE,
     TCP_PROXY_HTTP,
-    TCP_PROXY_SOCKS5
+    TCP_PROXY_SOCKS5,
 } TCP_Proxy_Type;
 
 typedef struct TCP_Proxy_Info {
@@ -103,7 +88,7 @@ int send_disconnect_request(TCP_Client_Connection *con, uint8_t con_id);
 
 /* Set the number that will be used as an argument in the callbacks related to con_id.
  *
- * When not set by this function, the number is ~0.
+ * When not set by this function, the number is -1.
  *
  * return 0 on success.
  * return -1 on failure.

@@ -1,25 +1,10 @@
-/*
- * Implementation of the onion part of docs/Prevent_Tracking.txt
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2013 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2013 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * Implementation of the onion part of docs/Prevent_Tracking.txt
  */
 #ifndef C_TOXCORE_TOXCORE_ONION_H
 #define C_TOXCORE_TOXCORE_ONION_H
@@ -155,8 +140,6 @@ int send_onion_response(Networking_Core *net, IP_Port dest, const uint8_t *data,
 int onion_send_1(const Onion *onion, const uint8_t *plain, uint16_t len, IP_Port source, const uint8_t *nonce);
 
 /* Set the callback to be called when the dest ip_port doesn't have TOX_AF_INET6 or TOX_AF_INET as the family.
- *
- * Format: function(void *object, IP_Port dest, uint8_t *data, uint16_t length)
  */
 void set_callback_handle_recv_1(Onion *onion, onion_recv_1_cb *function, void *object);
 

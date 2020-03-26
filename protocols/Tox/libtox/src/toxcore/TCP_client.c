@@ -1,25 +1,10 @@
-/*
- * Implementation of the TCP relay client part of Tox.
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2014 Tox project.
  */
 
 /*
- * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2014 Tox project.
- *
- * This file is part of Tox, the free peer to peer instant messenger.
- *
- * Tox is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Tox is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Tox.  If not, see <http://www.gnu.org/licenses/>.
+ * Implementation of the TCP relay client part of Tox.
  */
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -555,7 +540,7 @@ int send_oob_packet(TCP_Client_Connection *con, const uint8_t *public_key, const
 
 /* Set the number that will be used as an argument in the callbacks related to con_id.
  *
- * When not set by this function, the number is ~0.
+ * When not set by this function, the number is -1.
  *
  * return 0 on success.
  * return -1 on failure.
@@ -785,7 +770,7 @@ static int handle_TCP_client_packet(TCP_Client_Connection *conn, const uint8_t *
             }
 
             conn->connections[con_id].status = 1;
-            conn->connections[con_id].number = ~0;
+            conn->connections[con_id].number = -1;
             memcpy(conn->connections[con_id].public_key, data + 2, CRYPTO_PUBLIC_KEY_SIZE);
 
             if (conn->response_callback) {
@@ -1038,7 +1023,7 @@ void do_TCP_connection(Mono_Time *mono_time, TCP_Client_Connection *tcp_connecti
 
         if (sizeof(data) == len) {
             if (handle_handshake(tcp_connection, data) == 0) {
-                tcp_connection->kill_at = ~0;
+                tcp_connection->kill_at = -1;
                 tcp_connection->status = TCP_CLIENT_CONFIRMED;
             } else {
                 tcp_connection->kill_at = 0;
