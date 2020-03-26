@@ -130,7 +130,7 @@ bool CMsgDialog::OnInitDialog()
 	m_iSplitterY = g_plugin.getDword(g_dat.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
 	UpdateSizeBar();
 
-	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_CHANGE);
+	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_CHANGE);
 
 	if (isChat()) {
 		m_avatar.Hide();
@@ -876,8 +876,15 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					if ((si.nPos + (int)si.nPage + 5) >= si.nMax)
 						StopFlash();
 				}
-				break;
 			}
+			break;
+
+		case IDC_SRMM_MESSAGE:
+			if (((LPNMHDR)lParam)->code == EN_MSGFILTER && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
+				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+				return TRUE;
+			}
+			break;
 		}
 		break;
 
