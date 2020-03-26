@@ -25,7 +25,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_OutMessages(3, PtrKeySortT),
 	m_bThreadsTerminated(false),
 	m_TrouterConnection(nullptr),
-	m_pollingConnection(nullptr),
 	m_opts(this),
 	Contacts(this),
 	m_szServer(mir_strdup(SKYPE_ENDPOINTS_HOST))

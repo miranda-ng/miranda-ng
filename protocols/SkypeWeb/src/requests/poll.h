@@ -25,10 +25,13 @@ public:
 	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions/0/poll", ppro->m_szServer)
 	{
 		timeout = 60000;
-		flags |= NLHRF_PERSISTENT;
 		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
+			<< CHAR_VALUE("Referer", "https://web.skype.com/main")
+			<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
+			<< CHAR_VALUE("ClientInfo", "os=Windows; osVer=8.1; proc=Win32; lcid=en-us; deviceType=1; country=n/a; clientName=swx-skype.com; clientVer=908/1.85.0.29")
+			<< CHAR_VALUE("Accept", "application/json; ver=1.0")
+			<< CHAR_VALUE("Accept-Language", "en, C");
 	}
 };
 #endif //_SKYPE_POLL_H_

@@ -31,12 +31,9 @@ void CSkypeProto::PollingThread(void*)
 		PollRequest *request = new PollRequest(this);
 
 		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE) {
-			request->nlc = m_pollingConnection;
 			NLHR_PTR response(request->Send(m_hNetlibUser));
-
-			if (response == NULL) {
+			if (response == nullptr) {
 				nErrors++;
-				m_pollingConnection = nullptr;
 				continue;
 			}
 
@@ -55,7 +52,6 @@ void CSkypeProto::PollingThread(void*)
 						break;
 				}
 			}
-			m_pollingConnection = response->nlc;
 		}
 		delete request;
 
@@ -65,7 +61,6 @@ void CSkypeProto::PollingThread(void*)
 		}
 	}
 	m_hPollingThread = nullptr;
-	m_pollingConnection = nullptr;
 	debugLogA(__FUNCTION__ ": leaving");
 }
 
