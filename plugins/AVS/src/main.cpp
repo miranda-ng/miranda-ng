@@ -122,11 +122,10 @@ static int MetaChanged(WPARAM hMeta, LPARAM hSubContact)
 
 static void LoadDefaultInfo()
 {
-	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_GLOBAL);
+	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_GLOBAL, AVS_DEFAULT);
 	if (CreateAvatarInCache(0, pce, AVS_DEFAULT) != 1)
 		db_unset(0, PPICT_MODULE, AVS_DEFAULT);
 
-	pce->szProtoname = mir_strdup(AVS_DEFAULT);
 	g_ProtoPictures.insert(pce);
 }
 
@@ -138,28 +137,25 @@ static void LoadProtoInfo(PROTOCOLDESCRIPTOR *proto)
 	char protoName[MAX_PATH];
 	mir_snprintf(protoName, "Global avatar for %s accounts", proto->szName);
 
-	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_PROTO);
+	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_PROTO, protoName);
 	if (CreateAvatarInCache(0, pce, protoName) != 1)
 		db_unset(0, PPICT_MODULE, protoName);
 
 	pce->pd = proto;
-	pce->szProtoname = mir_strdup(protoName);
 	g_ProtoPictures.insert(pce);
 }
 
 static void LoadAccountInfo(PROTOACCOUNT *acc)
 {
-	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_ACCOUNT);
+	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_ACCOUNT, acc->szModuleName);
 	if (CreateAvatarInCache(0, pce, acc->szModuleName) != 1)
 		db_unset(0, PPICT_MODULE, acc->szModuleName);
 
 	pce->pa = acc;
-	pce->szProtoname = mir_strdup(acc->szModuleName);
 	g_ProtoPictures.insert(pce);
 
-	pce = new protoPicCacheEntry(PCE_TYPE_ACCOUNT);
+	pce = new protoPicCacheEntry(PCE_TYPE_ACCOUNT, acc->szModuleName);
 	CreateAvatarInCache(INVALID_CONTACT_ID, pce, acc->szModuleName);
-	pce->szProtoname = mir_strdup(acc->szModuleName);
 	g_MyAvatars.insert(pce);
 }
 
@@ -340,9 +336,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		LoadAccountInfo(it);
 
 	// Load global avatar
-	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_GLOBAL);
+	protoPicCacheEntry *pce = new protoPicCacheEntry(PCE_TYPE_GLOBAL, "");
 	CreateAvatarInCache(INVALID_CONTACT_ID, pce, "");
-	pce->szProtoname = mir_strdup("");
 	g_MyAvatars.insert(pce);
 
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);

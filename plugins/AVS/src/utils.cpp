@@ -100,7 +100,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 					MyPathToAbsolute(tszValue, tszFilename);
 
 				if (!strstr(szProto, "Global avatar for")) {
-					PROTOACCOUNT* pdescr = Proto_GetAccount(szProto);
+					PROTOACCOUNT *pdescr = Proto_GetAccount(szProto);
 					if (pdescr == nullptr)
 						return -1;
 					char key[MAX_PATH];
@@ -230,7 +230,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 #define TOPBIT (1 << (WIDTH - 1)) /* MSB */
 #define WIDTH 32
 
-int GetFileHash(wchar_t* filename)
+int GetFileHash(wchar_t *filename)
 {
 	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 0, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -257,8 +257,7 @@ int GetFileHash(wchar_t* filename)
 					remainder = (remainder << 1);
 			}
 		}
-	}
-		while (dwRead == 1024);
+	} while (dwRead == 1024);
 
 	CloseHandle(hFile);
 
@@ -271,7 +270,6 @@ protoPicCacheEntry::~protoPicCacheEntry()
 {
 	if (hbmPic != nullptr)
 		DeleteObject(hbmPic);
-	mir_free(szProtoname);
 }
 
 void protoPicCacheEntry::clear()
@@ -377,7 +375,7 @@ BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-protoPicCacheEntry* GetProtoDefaultAvatar(MCONTACT hContact)
+protoPicCacheEntry *GetProtoDefaultAvatar(MCONTACT hContact)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto)
@@ -420,21 +418,19 @@ int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist, int pa_format)
 		PushAvatarRequest(node);
 		SetEvent(hLoaderEvent);
 	}
-	else
-		node->wipeInfo();
+	else node->wipeInfo();
 
 	return 0;
 }
 
 void DeleteGlobalUserAvatar()
 {
-	DBVARIANT dbv = { 0 };
-	if (g_plugin.getWString("GlobalUserAvatarFile", &dbv))
+	ptrW wszPath(g_plugin.getWStringA("GlobalUserAvatarFile"));
+	if (!wszPath)
 		return;
 
 	wchar_t szFilename[MAX_PATH];
-	MyPathToAbsolute(dbv.pwszVal, szFilename);
-	db_free(&dbv);
+	MyPathToAbsolute(wszPath, szFilename);
 
 	DeleteFile(szFilename);
 	g_plugin.delSetting("GlobalUserAvatarFile");

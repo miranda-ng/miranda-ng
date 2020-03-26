@@ -311,8 +311,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				item.lParam = (LPARAM)p;
 				int newItem = ListView_InsertItem(hwndList, &item);
 				if (newItem >= 0)
-					ListView_SetCheckState(hwndList, newItem,
-						g_plugin.getByte(p->szProtoname, 1) ? TRUE : FALSE);
+					ListView_SetCheckState(hwndList, newItem, g_plugin.getByte(p->szProtoname, 1) ? TRUE : FALSE);
 			}
 			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
@@ -347,7 +346,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				AVATARDRAWREQUEST avdrq = { 0 };
 				avdrq.hTargetDC = dis->hDC;
 				avdrq.dwFlags |= AVDRQ_PROTOPICT;
-				avdrq.szProto = (g_selectedProto) ? g_selectedProto->szProtoname : 0;
+				avdrq.szProto = (g_selectedProto) ? g_selectedProto->szProtoname.get() : nullptr;
 				GetClientRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), &avdrq.rcDraw);
 				CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq);
 			}
