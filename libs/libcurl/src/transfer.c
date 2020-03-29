@@ -890,7 +890,7 @@ static CURLcode readwrite_data(struct Curl_easy *data,
 
     } /* if(!header and data to read) */
 
-    if(conn->handler->readwrite && excess && !conn->bits.stream_was_rewound) {
+    if(conn->handler->readwrite && excess) {
       /* Parse the excess data */
       k->str += nread;
 
@@ -1217,8 +1217,7 @@ CURLcode Curl_readwrite(struct connectdata *conn,
   else
     fd_write = CURL_SOCKET_BAD;
 
-  if(data->state.drain) {
-    data->state.drain--;
+  if(conn->data->state.drain) {
     select_res |= CURL_CSELECT_IN;
     DEBUGF(infof(data, "Curl_readwrite: forcibly told to drain data\n"));
   }
@@ -1235,9 +1234,7 @@ CURLcode Curl_readwrite(struct connectdata *conn,
   /* We go ahead and do a read if we have a readable socket or if
      the stream was rewound (in which case we have data in a
      buffer) */
-  if((k->keepon & KEEP_RECV) &&
-     ((select_res & CURL_CSELECT_IN) || conn->bits.stream_was_rewound)) {
-
+  if((k->keepon & KEEP_RECV) && (select_res & CURL_CSELECT_IN)) {
     result = readwrite_data(data, conn, k, &didwhat, done, comeback);
     if(result || *done)
       return result;

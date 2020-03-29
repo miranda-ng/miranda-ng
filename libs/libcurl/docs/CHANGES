@@ -6,6 +6,358 @@
 
                                   Changelog
 
+Version 7.69.1 (11 Mar 2020)
+
+Daniel Stenberg (11 Mar 2020)
+- RELEASE-NOTES: 7.69.1
+
+- THANKS: from the 7.69.1 release
+
+- [Marc Hoersken brought this change]
+
+  test1129: fix invalid case of closing XML-tag and Content-Length
+  
+  Fixes #5070
+  Closes #5072
+
+Marc Hoersken (10 Mar 2020)
+- tests/data: fix static ip instead of dynamic value being used
+  
+  Follow up to 94ced8e
+
+- tests/data: fix static ip:port instead of dynamic values being used
+  
+  Closes #5065
+
+- tests/server: fix missing use of exe_ext helper function
+  
+  Follow up to 9819984 and 3dce984
+  Reviewed-By: Daniel Stenberg
+  Closes #5064
+
+- runtests: log minimal and maximal used port numbers
+
+Daniel Stenberg (9 Mar 2020)
+- [Jim Fuller brought this change]
+
+  sftp: fix segfault regression introduced by #4747
+  
+  This fix adds a defensive check for the case where the char *name in
+  struct libssh2_knownhost is NULL
+  
+  Fixes #5041
+  Closes #5062
+
+- RELEASE-NOTES: synced
+
+- socks4: fix host resolve regression
+  
+  1. The socks4 state machine was broken in the host resolving phase
+  
+  2. The code now insists on IPv4-only when using SOCKS4 as the protocol
+  only supports that.
+  
+  Regression from #4907 and 4a4b63d, shipped in 7.69.0
+  
+  Reported-by: amishmm on github
+  Bug: https://github.com/curl/curl/issues/5053#issuecomment-596191594
+  Closes #5061
+
+- [Patrick Monnerat brought this change]
+
+  silly web server: silent a compilation warning
+  
+  Recent gcc warns when byte count of strncpy() equals the destination
+  buffer size. Since the destination buffer is previously cleared and
+  the source string is always shorter, reducing the byte count by one
+  silents the warning without affecting the result.
+  
+  Closes #5059
+
+- [Patrick Monnerat brought this change]
+
+  cookie: get_top_domain() sets zero length for null domains
+  
+  This silents a compilation warning with gcc -O3.
+
+- [Patrick Monnerat brought this change]
+
+  test 1560: avoid valgrind false positives
+  
+  When using maximum code optimization level (-O3), valgrind wrongly
+  detects uses of uninitialized values in strcmp().
+  
+  Preset buffers with all zeroes to avoid that.
+
+Steve Holme (8 Mar 2020)
+- sha256: Added WinCrypt implementation
+  
+  Closed #5030
+
+- sha256: Added SecureTransport implementation
+
+Daniel Stenberg (7 Mar 2020)
+- lib1564: reduce number of mid-wait wakeup calls
+  
+  This test does A LOT of *wakeup() calls and then calls curl_multi_poll()
+  twice. The first *poll() is then expected to return early and the second
+  not - as the first is supposed to drain the socketpair pipe.
+  
+  It turns out however that when given "excessive" amounts of writes to
+  the pipe, some operating systems (the Solaris based are known) will
+  return EAGAIN before the pipe is drained, which in our test case causes
+  the second *poll() call to also abort early.
+  
+  This change attempts to avoid the OS-specific behaviors in the test by
+  reducing the amount of wakeup calls from 1234567 to 10.
+  
+  Reported-by: Andy Fiddaman
+  Fixes #5037
+  Closes #5058
+
+- [Patrick Monnerat brought this change]
+
+  mime: fix the binary encoder to handle large data properly
+  
+  New test 666 checks this is effective.
+  As upload buffer size is significant in this kind of tests, shorten it
+  in similar test 652.
+  
+  Fixes #4860
+  Closes #4833
+  Reported-by: RuurdBeerstra on github
+
+- [Patrick Monnerat brought this change]
+
+  mime: do not perform more than one read in a row
+  
+  Input buffer filling may delay the data sending if data reads are slow.
+  To overcome this problem, file and callback data reads do not accumulate
+  in buffer anymore. All other data (memory data and mime framing) are
+  considered as fast and still concatenated in buffer.
+  As this may highly impact performance in terms of data overhead, an early
+  end of part data check is added to spare a read call.
+  When encoding a part's data, an encoder may require more bytes than made
+  available by a single read. In this case, the above rule does not apply
+  and reads are performed until the encoder is able to deliver some data.
+  
+  Tests 643, 644, 645, 650 and 654 have been adapted to the output data
+  changes, with test data size reduced to avoid the boredom of long lists of
+  1-byte chunks in verification data.
+  New test 667 checks mimepost using single-byte read callback with encoder.
+  New test 668 checks the end of part data early detection.
+  
+  Fixes #4826
+  Reported-by: MrdUkk on github
+
+- [Patrick Monnerat brought this change]
+
+  mime: latch last read callback status.
+  
+  In case a read callback returns a status (pause, abort, eof,
+  error) instead of a byte count, drain the bytes read so far but
+  remember this status for further processing.
+  Takes care of not losing data when pausing, and properly resume a
+  paused mime structure when requested.
+  New tests 670-673 check unpausing cases, with easy or multi
+  interface and mime or form api.
+  
+  Fixes #4813
+  Reported-by: MrdUkk on github
+
+Marc Hoersken (7 Mar 2020)
+- runtests: fix missing use of exe_ext helper function
+
+Daniel Stenberg (7 Mar 2020)
+- [Ernst Sjöstrand brought this change]
+
+  ares: store dns parameters for duphandle
+  
+  With c-ares the dns parameters lives in ares_channel. Store them in the
+  curl handle and set them again in easy_duphandle.
+  
+  Regression introduced in #3228 (6765e6d), shipped in curl 7.63.0.
+  
+  Fixes #4893
+  Closes #5020
+  Signed-off-by: Ernst Sjöstrand <ernst.sjostrand@verisure.com>
+
+- version: make curl_version* thread-safe without using global context
+  
+  Closes #5010
+
+- RELEASE-NOTES: synced
+
+Marc Hoersken (7 Mar 2020)
+- tests: use native Sleep function as fallback on Windows
+  
+  Reviewed-By: Daniel Stenberg
+  Closes #5054
+
+- perl: align order and completeness of Windows OS checks
+
+Daniel Stenberg (7 Mar 2020)
+- tool_cb_see: set correct copyright year range
+  
+  Follow-up to a39e5bfb9
+
+Marc Hoersken (7 Mar 2020)
+- seek: fix fallback for missing ftruncate on Windows
+  
+  This fixes test 198 on versions of MinGW-w64 without ftruncate
+  
+  Reviewed-By: Daniel Stenberg
+  Reviewed-By: Marcel Raad
+  Closes #5055
+
+- config-win32: Windows does not have ftruncate
+
+Daniel Stenberg (7 Mar 2020)
+- pause: force a connection (re-)check after unpausing
+  
+  There might be data available that was already read off the socket, for
+  example in the TLS layer.
+  
+  Reported-by: Anders Berg
+  Fixes #4966
+  Closes #5049
+
+- socks5: switch state properly when the resolve is done
+  
+  Regression from 4a4b63d (and #4907)
+  Reported-by: vitaha85 on github
+  Fixes #5053
+  Closes #5056
+
+Jay Satiro (7 Mar 2020)
+- libssh: Fix matching user-specified MD5 hex key
+  
+  Prior to this change a match would never be successful because it
+  was mistakenly coded to compare binary data from libssh to a
+  user-specified hex string (ie CURLOPT_SSH_HOST_PUBLIC_KEY_MD5).
+  
+  Reported-by: fds242@users.noreply.github.com
+  
+  Fixes https://github.com/curl/curl/issues/4971
+  Closes https://github.com/curl/curl/pull/4974
+
+Daniel Stenberg (6 Mar 2020)
+- pause: bail out on bad input
+  
+  A NULL easy handle or an easy handle without an associated connection
+  cannot be paused or unpaused.
+  
+  Closes #5050
+
+Steve Holme (6 Mar 2020)
+- unit1612: fixed the inclusion and compilation of the HMAC unit test
+  
+  Follow up to 3f74e5e6 to fix:
+  
+  - A typo in Makefile.inc where unit1611 was used instead
+  - Some compilation issues in unit1612.c
+  
+  Closes #5024
+
+Daniel Stenberg (6 Mar 2020)
+- pause: return early for calls that don't change pause state
+  
+  Reviewed-by: Patrick Monnerat
+  Ref: #4833
+  Closes #5026
+
+Jay Satiro (6 Mar 2020)
+- curl_share_setopt.3: Note sharing cookies doesn't enable the engine
+  
+  Follow-up to d0a7ee3 which fixed a bug in 7.66.0 that caused
+  CURL_LOCK_DATA_COOKIE to enable the easy handle's cookie engine.
+  
+  Bug: https://curl.haxx.se/mail/lib-2020-03/0019.html
+  Reported-by: Felipe Gasper
+  
+  Closes https://github.com/curl/curl/pull/5048
+
+- multi: skip EINTR check on wakeup socket if it was closed
+  
+  - Don't check errno on wakeup socket if sread returned 0 since sread
+    doesn't set errno in that case.
+  
+  This is a follow-up to cf7760a from several days ago which fixed
+  Curl_multi_wait to stop busy looping sread on the non-blocking wakeup
+  socket if it was closed (ie sread returns 0). Due to a logic error it
+  was still possible to busy loop in that case if errno == EINTR.
+  
+  Closes https://github.com/curl/curl/pull/5047
+
+Daniel Stenberg (6 Mar 2020)
+- transfer: set correct copyright year range
+
+- urldata: remove the 'stream_was_rewound' connectdata struct member
+  
+  ... as it is never set anywhere.
+  
+  Follow-up to 2f44e94ef
+  Closes #5046
+
+- Revert "pause: force-drain the transfer on unpause"
+  
+  This reverts commit fa0216b294af4c7113a9040ca65eefc7fc18ac1c (from #5000)
+  
+  Clearly that didn't solve the problem correctly.
+  
+  Reported-by: Christopher Reid
+  Reopens #4966
+  Fixes #5044
+
+- RELEASE-NOTES: synced
+  
+  and bumped curlver.h
+
+- MANUAL: update a dict-using command line
+  
+  The 'web1913' database is now invalid, use 'gcide' instead.
+
+- KNOWN_BUGS: configure --with-gssapi with Heimdal is ignored on macOS
+  
+  Closes #3841
+
+- polarssl: remove more references and mentions
+  
+  Assisted-by: Jay Satiro
+  Follow-up to 6357a19ff29dac04
+  Closes #5036
+
+Marc Hoersken (4 Mar 2020)
+- tests: wrap ignored test failures in braces
+
+- tests: align some Windows sleep defines with each other
+
+- tests: try to make sleeping portable by avoiding select
+  
+  select does not support just waiting on Windows:
+  https://perldoc.perl.org/perlport.html#select
+  
+  Reviewed-By: Daniel Stenberg
+  Closes #5035
+
+Daniel Stenberg (4 Mar 2020)
+- runtests.1: rephrase how to specify what tests to run
+  
+  Also mention the new tilde-prefixed way to ignore test results.
+  
+  Reviewed-By: Marc Hoersken
+  Closes #5033
+
+- cirrus-ci: disable the FreeBSD 13 builds
+  
+  FreeBSD 13.0 is apparently close to a year away from a stable release
+  and has proven to cause intermittent builds failures recently.
+  
+  Assisted-by: Dan Fandrich
+  Assisted-by: Fedor Korotkov
+  Fixes #5028
+  Closes #5029
+
 Version 7.69.0 (4 Mar 2020)
 
 Daniel Stenberg (4 Mar 2020)
@@ -6849,391 +7201,3 @@ Daniel Stenberg (11 Jun 2019)
 - wolfssl: fix key pinning build error
   
   follow-up from deb9462ff2de8
-
-- CURLMOPT_SOCKETFUNCTION.3: clarified
-  
-  Moved away the callback explanation from curl_multi_socket_action.3 and
-  expanded it somewhat.
-  
-  Closes #4006
-
-- wolfssl: fixup for SNI use
-  
-  follow-up from deb9462ff2de8
-  
-  Closes #4007
-
-- CURLOPT_CAINFO.3: polished wording
-  
-  Clarify the functionality when built to use Schannel and Secure
-  Transport and stop calling it the "recommended" or "preferred" way and
-  instead rather call it the default.
-  
-  Removed the reference to the ssl comparison table as it isn't necessary.
-  
-  Reported-by: Richard Alcock
-  Bug: https://curl.haxx.se/mail/lib-2019-06/0019.html
-  Closes #4005
-
-GitHub (10 Jun 2019)
-- [Daniel Stenberg brought this change]
-
-  SECURITY.md: created
-  
-  Brief security policy description for use/display on github.
-
-Daniel Gustafsson (10 Jun 2019)
-- tool_cb_prg: Fix integer overflow in progress bar
-  
-  Commit 61faa0b420c236480bc9ef6fd52b4ecc1e0f8d17 fixed the progress bar
-  width calculation to avoid integer overflow, but failed to account for
-  the fact that initial_size is initialized to -1 when the file size is
-  retrieved from the remote on an upload, causing another signed integer
-  overflow.  Fix by separately checking for this case before the width
-  calculation.
-  
-  Closes #3984
-  Reported-by: Brian Carpenter (Geeknik Labs)
-  Reviewed-by: Daniel Stenberg <daniel@haxx.se>
-
-Daniel Stenberg (10 Jun 2019)
-- wolfssl: refer to it as wolfSSL only
-  
-  Remove support for, references to and use of "cyaSSL" from the source
-  and docs. wolfSSL is the current name and there's no point in keeping
-  references to ancient history.
-  
-  Assisted-by: Daniel Gustafsson
-  
-  Closes #3903
-
-- RELEASE-NOTES: synced
-
-- bindlocal: detect and avoid IP version mismatches in bind()
-  
-  Reported-by: Alex Grebenschikov
-  Fixes #3993
-  Closes #4002
-
-- multi: make sure 'data' can present in several sockhash entries
-  
-  Since more than one socket can be used by each transfer at a given time,
-  each sockhash entry how has its own hash table with transfers using that
-  socket.
-  
-  In addition, the sockhash entry can now be marked 'blocked = TRUE'"
-  which then makes the delete function just set 'removed = TRUE' instead
-  of removing it "for real", as a way to not rip out the carpet under the
-  feet of a parent function that iterates over the transfers of that same
-  sockhash entry.
-  
-  Reported-by: Tom van der Woerdt
-  Fixes #3961
-  Fixes #3986
-  Fixes #3995
-  Fixes #4004
-  Closes #3997
-
-- [Sorcus brought this change]
-
-  libcurl-tutorial.3: Fix small typo (mutipart -> multipart)
-  
-  Fixed-by: MrSorcus on github
-  Closes #4000
-
-- unpause: trigger a timeout for event-based transfers
-  
-  ... so that timeouts or other state machine actions get going again
-  after a changing pause state. For example, if the last delivery was
-  paused there's no pending socket activity.
-  
-  Reported-by: sstruchtrup on github
-  Fixes #3994
-  Closes #4001
-
-Marcel Raad (9 Jun 2019)
-- travis: use xenial LLVM package for scan-build
-  
-  I missed that in commit 99a49d6.
-
-- travis: update scan-build job to xenial
-  
-  Closes https://github.com/curl/curl/pull/3999
-
-Daniel Stenberg (8 Jun 2019)
-- bump: start working on 7.65.2
-
-Marcel Raad (5 Jun 2019)
-- examples/htmltitle: use C++ casts between pointer types
-  
-  Compilers and static analyzers warn about using C-style casts here.
-  
-  Closes https://github.com/curl/curl/pull/3975
-
-- examples/fopen: fix comparison
-  
-  As want is size_t, (file->buffer_pos - want) is unsigned, so checking
-  if it's less than zero makes no sense.
-  Check if file->buffer_pos is less than want instead to avoid the
-  unsigned integer wraparound.
-  
-  Closes https://github.com/curl/curl/pull/3975
-
-- build: fix Codacy warnings
-  
-  Reduce variable scopes and remove redundant variable stores.
-  
-  Closes https://github.com/curl/curl/pull/3975
-
-- sws: remove unused variables
-  
-  Unused since commit 2f44e94.
-  
-  Closes https://github.com/curl/curl/pull/3975
-
-Version 7.65.1 (4 Jun 2019)
-
-Daniel Stenberg (4 Jun 2019)
-- RELEASE-NOTES: 7.65.1
-
-- THANKS: new contributors from 7.65.1
-
-Steve Holme (4 Jun 2019)
-- [Frank Gevaerts brought this change]
-
-  ssl: Update outdated "openssl-only" comments for supported backends
-  
-  These are for features that used to be openssl-only but were expanded
-  over time to support other SSL backends.
-  
-  Closes #3985
-
-Daniel Stenberg (4 Jun 2019)
-- curl_share_setopt.3: improve wording [ci ship]
-  
-  Reported-by: Carlos ORyan
-
-Steve Holme (4 Jun 2019)
-- tool_parsecfg: Use correct return type for GetModuleFileName()
-  
-  GetModuleFileName() returns a DWORD which is a typedef of an unsigned
-  long and not an int.
-  
-  Closes #3980
-
-Daniel Stenberg (3 Jun 2019)
-- TODO: "at least N milliseconds between requests" [ci skip]
-  
-  Suggested-by: dkwolfe4 on github
-  Closes #3920
-
-Steve Holme (2 Jun 2019)
-- tests/server/.gitignore: Add socksd to the ignore list
-  
-  Missed in 04fd6755.
-  
-  Closes #3978
-
-- tool_parsecfg: Fix control flow issue (DEADCODE)
-  
-  Follow-up to 8144ba38.
-  
-  Detected by Coverity CID 1445663
-  Closes #3976
-
-Daniel Stenberg (2 Jun 2019)
-- [Sergey Ogryzkov brought this change]
-
-  NTLM: reset proxy "multipass" state when CONNECT request is done
-  
-  Closes #3972
-
-- test334: verify HTTP 204 response with chunked coding header
-  
-  Verifies that a bodyless response don't parse this content-related
-  header.
-
-- [Michael Kaufmann brought this change]
-
-  http: don't parse body-related headers bodyless responses
-  
-  Responses with status codes 1xx, 204 or 304 don't have a response body. For
-  these, don't parse these headers:
-  
-  - Content-Encoding
-  - Content-Length
-  - Content-Range
-  - Last-Modified
-  - Transfer-Encoding
-  
-  This change ensures that HTTP/2 upgrades work even if a
-  "Content-Length: 0" or a "Transfer-Encoding: chunked" header is present.
-  
-  Co-authored-by: Daniel Stenberg
-  Closes #3702
-  Fixes #3968
-  Closes #3977
-
-- tls13-docs: mention it is only for OpenSSL >= 1.1.1
-  
-  Reported-by: Jay Satiro
-  Co-authored-by: Jay Satiro
-  Fixes #3938
-  Closes #3946
-
-- dump-header.d: spell out that no headers == empty file [ci skip]
-  
-  Reported-by: wesinator at github
-  Fixes #3964
-  Closes #3974
-
-- singlesocket: use separate variable for inner loop
-  
-  An inner loop within the singlesocket() function wrongly re-used the
-  variable for the outer loop which then could cause an infinite
-  loop. Change to using a separate variable!
-  
-  Reported-by: Eric Wu
-  Fixes #3970
-  Closes #3973
-
-- RELEASE-NOTES: synced
-
-- [Josie Huddleston brought this change]
-
-  http2: Stop drain from being permanently set on
-  
-  Various functions called within Curl_http2_done() can have the
-  side-effect of setting the Easy connection into drain mode (by calling
-  drain_this()).  However, the last time we unset this for a transfer (by
-  calling drained_transfer()) is at the beginning of Curl_http2_done().
-  If the Curl_easy is reused for another transfer, it is then stuck in
-  drain mode permanently, which in practice makes it unable to write any
-  data in the new transfer.
-  
-  This fix moves the last call to drained_transfer() to later in
-  Curl_http2_done(), after the functions that could potentially call for a
-  drain.
-  
-  Fixes #3966
-  Closes #3967
-  Reported-by: Josie-H
-
-Steve Holme (29 May 2019)
-- conncache: Remove the DEBUGASSERT on length check
-  
-  We trust the calling code as this is an internal function.
-  
-  Closes #3962
-
-Jay Satiro (29 May 2019)
-- [Gisle Vanem brought this change]
-
-  system_win32: fix function prototype
-  
-  - Change if_nametoindex parameter type from char * to const char *.
-  
-  Follow-up to 09eef8af from this morning.
-  
-  Bug: https://github.com/curl/curl/commit/09eef8af#r33716067
-
-Marcel Raad (29 May 2019)
-- appveyor: add Visual Studio solution build
-  
-  Closes https://github.com/curl/curl/pull/3941
-
-- appveyor: add support for other build systems
-  
-  Introduce BUILD_SYSTEM variable, which is currently always CMake.
-  
-  Closes https://github.com/curl/curl/pull/3941
-
-Steve Holme (29 May 2019)
-- url: Load if_nametoindex() dynamically from iphlpapi.dll on Windows
-  
-  This fixes the static dependency on iphlpapi.lib and allows curl to
-  build for targets prior to Windows Vista.
-  
-  This partially reverts 170bd047.
-  
-  Fixes #3960
-  Closes #3958
-
-Daniel Stenberg (29 May 2019)
-- http: fix "error: equality comparison with extraneous parentheses"
-
-- parse_proxy: make sure portptr is initialized
-  
-  Reported-by: Benbuck Nason
-  
-  fixes #3959
-
-- url: default conn->port to the same as conn->remote_port
-  
-  ... so that it has a sensible value when ConnectionExists() is called which
-  needs it set to differentiate host "bundles" correctly on port number!
-  
-  Also, make conncache:hashkey() use correct port for bundles that are proxy vs
-  host connections.
-  
-  Probably a regression from 7.62.0
-  
-  Reported-by: Tom van der Woerdt
-  Fixes #3956
-  Closes #3957
-
-- conncache: make "bundles" per host name when doing proxy tunnels
-  
-  Only HTTP proxy use where multiple host names can be used over the same
-  connection should use the proxy host name for bundles.
-  
-  Reported-by: Tom van der Woerdt
-  Fixes #3951
-  Closes #3955
-
-- multi: track users of a socket better
-  
-  They need to be removed from the socket hash linked list with more care.
-  
-  When sh_delentry() is called to remove a sockethash entry, remove all
-  individual transfers from the list first. To enable this, each Curl_easy struct
-  now stores a pointer to the sockethash entry to know how to remove itself.
-  
-  Reported-by: Tom van der Woerdt and Kunal Ekawde
-  
-  Fixes #3952
-  Fixes #3904
-  Closes #3953
-
-Steve Holme (28 May 2019)
-- curl-win32.h: Enable Unix Domain Sockets based on the Windows SDK version
-  
-  Microsoft added support for Unix Domain Sockets in Windows 10 1803
-  (RS4). Rather than expect the user to enable Unix Domain Sockets by
-  uncommenting the #define that was added in 0fd6221f we use the RS4
-  pre-processor variable that is present in newer versions of the
-  Windows SDK.
-  
-  Closes #3939
-
-Daniel Stenberg (28 May 2019)
-- [Jonas Vautherin brought this change]
-
-  cmake: support CMAKE_OSX_ARCHITECTURES when detecting SIZEOF variables
-  
-  Closes #3945
-
-Marcel Raad (27 May 2019)
-- HAProxy tests: add keywords
-  
-  Add the proxy and haproxy keywords in order to be able to exclude or
-  run these specific tests.
-  
-  Closes https://github.com/curl/curl/pull/3949
-
-Daniel Stenberg (27 May 2019)
-- [Maksim Stsepanenka brought this change]
-
-  tests: make test 1420 and 1406 work with rtsp-disabled libcurl
-  
-  Closes #3948

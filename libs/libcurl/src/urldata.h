@@ -464,8 +464,6 @@ struct ConnectBits {
 #endif
   BIT(netrc);         /* name+password provided by netrc */
   BIT(userpwd_in_url); /* name+password found in url */
-  BIT(stream_was_rewound); /* The stream was rewound after a request read
-                              past the end of its response byte boundary */
   BIT(proxy_connect_closed); /* TRUE if a proxy disconnected the connection
                                 in a CONNECT request with auth, so that
                                 libcurl should reconnect and continue. */
@@ -1579,6 +1577,11 @@ enum dupstring {
 
   STRING_TEMP_URL,              /* temp URL storage for proxy use */
 
+  STRING_DNS_SERVERS,
+  STRING_DNS_INTERFACE,
+  STRING_DNS_LOCAL_IP4,
+  STRING_DNS_LOCAL_IP6,
+
   /* -- end of zero-terminated strings -- */
 
   STRING_LASTZEROTERMINATED,
@@ -1586,6 +1589,7 @@ enum dupstring {
   /* -- below this are pointers to binary data that cannot be strdup'ed. --- */
 
   STRING_COPYPOSTFIELDS,  /* if POST, set the fields' values here */
+
 
   STRING_LAST /* not used, just an end-of-list marker */
 };
