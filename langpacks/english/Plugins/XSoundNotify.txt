@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.0.1.3
+;  Version: 1.1.0.4
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]
@@ -22,7 +22,6 @@
 [WAV files]
 ;file \plugins\XSoundNotify\src\options.cpp
 [All contacts]
-[(Unknown contact)]
 [Sounds]
 [XSound Notify]
 ;file \plugins\XSoundNotify\src\xsn_main.cpp

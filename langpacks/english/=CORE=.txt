@@ -36,10 +36,6 @@
 [Use Options -> Contacts -> Ignore to unhide contacts.]
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
-[Hide offline users]
-[Hide empty groups]
-[Disable groups]
-[Ask before deleting contacts]
 [Sort contacts by name]
 [Sort contacts by status]
 [Sort contacts by protocol]
@@ -53,7 +49,6 @@
 [seconds, when statuses differ]
 [Show multiple icons]
 [Only when statuses differ]
-[Contact list]
 [System tray icon]
 [System tray icon when using multiple protocols]
 [Contact list sorting]
@@ -558,6 +553,7 @@
 [Set default and open message window]
 [Show subcontact context menu]
 [Show user information]
+[Contact list]
 [Display subcontact nickname]
 [Display subcontact display name]
 [Lock name to first contact]
@@ -582,6 +578,11 @@
 [&Close]
 [About Miranda NG]
 [Credits >]
+[Hide offline users]
+[Hide empty groups]
+[Enable groups]
+[Ask before deleting contacts]
+[Remove temporary contacts on exit]
 [Hidden window]
 [Tray]
 [&Hide/Show]
@@ -1100,6 +1101,8 @@
 ;file \src\mir_app\src\clistmod.cpp
 [Connecting]
 [Connecting (attempt %d)]
+;file \src\mir_app\src\clistopts.cpp
+[Common]
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 ;file \src\mir_app\src\clui.cpp

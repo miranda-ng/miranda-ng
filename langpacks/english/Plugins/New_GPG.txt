@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.1.0.3
-;  Authors: sss
+;  Version: 0.2.0.2
+;  Authors: sss, Miranda NG Team
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 ;file \plugins\New_GPG\res\new_gpg.rc
