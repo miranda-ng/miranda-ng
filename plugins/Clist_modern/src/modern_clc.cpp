@@ -1646,9 +1646,9 @@ HRESULT ClcLoadModule()
 int ClcUnloadModule()
 {
 	if (g_CluiData.bOldUseGroups != (BYTE)-1)
-		g_plugin.setByte("UseGroups", (BYTE)g_CluiData.bOldUseGroups);
+		Clist::UseGroups = g_CluiData.bOldUseGroups;
 	if (g_CluiData.boldHideOffline != (BYTE)-1)
-		g_plugin.setByte("HideOffline", (BYTE)g_CluiData.boldHideOffline);
+		Clist::HideOffline = g_CluiData.boldHideOffline;
 
 	return 0;
 }

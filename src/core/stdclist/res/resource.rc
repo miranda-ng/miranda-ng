@@ -15,13 +15,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -48,10 +46,6 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Hide offline users",IDC_HIDEOFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,17,124,10
-    CONTROL         "Hide empty groups",IDC_HIDEEMPTYGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,33,124,10
-    CONTROL         "Disable groups",IDC_DISABLEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,50,124,10
-    CONTROL         "Ask before deleting contacts",IDC_CONFIRMDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,67,124,10
     CONTROL         "Sort contacts by name",IDC_SORTBYNAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,153,14,144,10
     CONTROL         "Sort contacts by status",IDC_SORTBYSTATUS,"Button",BS_AUTORADIOBUTTON,153,26,149,10
     CONTROL         "Sort contacts by protocol",IDC_SORTBYPROTO,"Button",BS_AUTORADIOBUTTON,153,38,151,10
@@ -74,7 +68,7 @@ BEGIN
     GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,2,131,310,66
     GROUPBOX        "Contact list sorting",IDC_STATIC,143,2,169,54,WS_GROUP
     CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,173,97,11,21
-    CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,84,97,10
+    CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,15,97,10
 END
 
 IDD_OPT_CLUI DIALOGEX 0, 0, 313, 245
@@ -222,7 +216,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_DELETECONTACT, DIALOG
     BEGIN
@@ -344,10 +338,23 @@ END
 //
 
 IDC_HYPERLINKHAND       CURSOR                  "hyperlin.cur"
+
 IDC_DROP                CURSOR                  "dragcopy.cur"
+
 IDC_DROPUSER            CURSOR                  "dropuser.cur"
 
-#endif    // English (U.S.) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_CLIST AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

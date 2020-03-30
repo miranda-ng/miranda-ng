@@ -200,10 +200,7 @@ static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful n
 	if (szProto == nullptr)
 		return;
 
-	if (db_get_b(0, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
-		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, TRUE, 0);
-	else
-		SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, FALSE, 0);
+	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, Clist::HideEmptyGroups, 0);
 
 	MCONTACT hItem, hContact = FindFirstClistContact(hwndList, &hItem);
 	while (hContact) {

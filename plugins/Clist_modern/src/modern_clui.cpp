@@ -270,10 +270,10 @@ m_hDwmapiDll(nullptr)
 	LoadCLUIFramesModule();
 
 	g_CluiData.boldHideOffline = -1;
-	bOldHideOffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	bOldHideOffline = Clist::HideOffline;
 
 	g_CluiData.bOldUseGroups = -1;
-	bOldUseGroups = g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT);
+	bOldUseGroups = Clist::UseGroups;
 }
 
 CLUI::~CLUI()
@@ -332,11 +332,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {
 	g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
-		WS_CHILD | WS_CLIPCHILDREN | CLS_CONTACTLIST
-		| (g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-		| (g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-		| (g_plugin.getByte("HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0
-		| CLS_MULTICOLUMN),
+		WS_CHILD | WS_CLIPCHILDREN | CLS_CONTACTLIST | (Clist::UseGroups ? CLS_USEGROUPS : 0) | (Clist::HideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::HideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0 | CLS_MULTICOLUMN),
 		0, 0, 0, 0, hwndClui, nullptr, g_plugin.getInst(), nullptr);
 
 	return S_OK;
@@ -2494,7 +2490,6 @@ LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)
 	if (state == SETTING_STATE_NORMAL)
 		CLUI_ShowWindowMod(m_hWnd, SW_HIDE);
 	UnLoadContactListModule();
-	ClcUnloadModule();
 
 	RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);
 	RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);

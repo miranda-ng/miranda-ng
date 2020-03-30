@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by w:\miranda-ng\plugins\Clist_modern\res\resource.rc
 //
 #define IDC_ALWAYS_VISIBLEICON          0
 #define IDC_APPLY                       3
@@ -114,14 +114,10 @@
 #define IDC_TOOLWND                     1097
 #define IDC_ONECLK                      1098
 #define IDC_SHOWCAPTION                 1098
-#define IDC_HIDEOFFLINE                 1099
-#define IDC_HIDEEMPTYGROUPS             1100
 #define IDC_FADEINOUT                   1101
 #define IDC_AUTOSIZE                    1102
-#define IDC_DISABLEGROUPS               1102
 #define IDC_AUTOSIZEUPWARD              1103
 #define IDC_ALWAYSSTATUS                1103
-#define IDC_CONFIRMDELETE               1104
 #define IDC_LOCKSIZING                  1111
 #define IDC_TRANSPARENT                 1124
 #define IDC_TRANSINACTIVE               1126
@@ -496,7 +492,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        511
+#define _APS_NEXT_RESOURCE_VALUE        512
 #define _APS_NEXT_COMMAND_VALUE         40022
 #define _APS_NEXT_CONTROL_VALUE         2025
 #define _APS_NEXT_SYMED_VALUE           101

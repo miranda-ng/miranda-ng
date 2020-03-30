@@ -913,7 +913,6 @@ int CListOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -200000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ITEMS);
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.szTitle.a = LPGEN("Row items");
 	odp.flags = ODPF_BOLDGROUPS;

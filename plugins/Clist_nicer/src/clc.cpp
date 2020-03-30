@@ -133,7 +133,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 				if (!__strcmp(cws->szSetting, "Status")) {
 					if (!Contact_IsHidden(hContact))
 						if (cws->value.wVal == ID_STATUS_OFFLINE)
-							if (g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+							if (Clist::HideOffline)
 								return 0;
 
 					SendMessage(g_clistApi.hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);
@@ -161,7 +161,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 		SetButtonStates();
 	}
 	else if (!__strcmp(cws->szModule, "CList") && !__strcmp(cws->szSetting, "UseGroups")) {
-		ClcSetButtonState(IDC_TBHIDEGROUPS, db_get_b(0, cws->szModule, cws->szSetting, SETTING_USEGROUPS_DEFAULT));
+		ClcSetButtonState(IDC_TBHIDEGROUPS, cws->value.bVal);
 		SetButtonStates();
 	}
 	else if (!__strcmp(cws->szModule, "TopToolBar") && !__strcmp(cws->szSetting, "UseFlatButton")) {

@@ -1312,7 +1312,7 @@ void ApplyViewMode(const char *szName, bool onlySelector)
 
 			if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
 				if (g_CluiData.boldHideOffline == (BYTE)-1)
-					g_CluiData.boldHideOffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+					g_CluiData.boldHideOffline = Clist::HideOffline;
 
 				g_clistApi.pfnSetHideOffline(false);
 			}
@@ -1329,7 +1329,7 @@ void ApplyViewMode(const char *szName, bool onlySelector)
 
 			if (bUseGroups != -1) {
 				if (g_CluiData.bOldUseGroups == (BYTE)-1)
-					g_CluiData.bOldUseGroups = g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT);
+					g_CluiData.bOldUseGroups = Clist::UseGroups;
 
 				CallService(MS_CLIST_SETUSEGROUPS, bUseGroups, 0);
 			}

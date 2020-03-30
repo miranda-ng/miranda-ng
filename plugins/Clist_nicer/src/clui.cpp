@@ -160,11 +160,7 @@ static int FS_FontsChanged(WPARAM, LPARAM)
 static HWND PreCreateCLC(HWND parent)
 {
 	g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
-		WS_CHILD | CLS_CONTACTLIST
-		| (g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-		| (g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-		| (g_plugin.getByte("HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
-		| CLS_MULTICOLUMN,
+		WS_CHILD | CLS_CONTACTLIST | (Clist::UseGroups ? CLS_USEGROUPS : 0) | (Clist::HideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::HideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0) | CLS_MULTICOLUMN,
 		0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), (LPVOID)0xff00ff00);
 
 	cfg::clcdat = (struct ClcData *)GetWindowLongPtr(g_clistApi.hwndContactTree, 0);
@@ -450,10 +446,10 @@ void SetButtonStates()
 					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEOFFLINE:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, g_plugin.getByte("HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::HideOffline, 0);
 					break;
 				case IDC_STBHIDEGROUPS:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, g_plugin.getByte("UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::UseGroups, 0);
 					break;
 				}
 			}
@@ -1816,7 +1812,7 @@ void LoadCLUIModule(void)
 	wndclass.lpszClassName = L"EventAreaClass";
 	RegisterClass(&wndclass);
 
-	oldhideoffline = g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	oldhideoffline = Clist::HideOffline;
 	cluiPos.left = g_plugin.getDword("x", 600);
 	cluiPos.top = g_plugin.getDword("y", 200);
 	cluiPos.right = g_plugin.getDword("Width", 150);

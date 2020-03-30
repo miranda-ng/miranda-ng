@@ -435,7 +435,7 @@ public:
 
 	void ResetCList(CCtrlClc::TEventInfo* = nullptr)
 	{
-		clist.SetUseGroups(db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+		clist.SetUseGroups(Clist::UseGroups);
 		clist.SetHideEmptyGroups(1);
 	}
 

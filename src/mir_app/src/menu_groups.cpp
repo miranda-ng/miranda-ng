@@ -114,7 +114,7 @@ static INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 static INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-	db_set_b(0, "CList", "UseGroups", (BYTE)newVal);
+	Clist::UseGroups = newVal;
 	SendMessage(g_clistApi.hwndContactTree, CLM_SETUSEGROUPS, newVal,0);
 	return newVal;
 }
@@ -141,7 +141,7 @@ static INT_PTR CreateGroupHelper(WPARAM, LPARAM)
 
 static int OnBuildGroupMenu(WPARAM, LPARAM)
 {
-	bool bChecked = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) != 0;
+	bool bChecked = Clist::HideOffline;
 	Menu_SetChecked(hHideOfflineUsersMenuItem, bChecked);
 
 	bChecked = SendMessage(g_clistApi.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) != 0;

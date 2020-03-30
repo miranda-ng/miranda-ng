@@ -195,7 +195,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 	//see notes about deleting contacts on PF1_SERVERCLIST servers in m_protosvc.h
 	UINT_PTR action;
 
-	if (db_get_b(0, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) && !(GetKeyState(VK_SHIFT) & 0x8000))
+	if (Clist::ConfirmDelete && !(GetKeyState(VK_SHIFT) & 0x8000))
 		// Ask user for confirmation, and if the contact should be archived (hidden, not deleted)
 		action = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND)lParam, AskForConfirmationDlgProc, wParam);
 	else
@@ -476,12 +476,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case M_CREATECLC:
 		g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
-													  WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
-													  | CLS_CONTACTLIST
-													  | (db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
-													  | (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CLS_HIDEOFFLINE : 0)
-													  | (db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0), 
-													  0, 0, 0, 0, hwnd, nullptr, g_clistApi.hInst, nullptr);
+			WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | CLS_CONTACTLIST | (Clist::UseGroups ? CLS_USEGROUPS : 0) | (Clist::HideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::HideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0),
+			0, 0, 0, 0, hwnd, nullptr, g_clistApi.hInst, nullptr);
 		SendMessage(hwnd, WM_SIZE, 0, 0);
 		break;
 

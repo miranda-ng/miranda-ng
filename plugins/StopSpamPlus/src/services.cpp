@@ -51,7 +51,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 	do {
 		group_name = Clist_GroupGetName(hGroup, nullptr);
 		if (group_name != nullptr && wcsstr(group_name, TranslateT("Not In List"))) {
-			BYTE ConfirmDelete = db_get_b(0, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
+			BYTE ConfirmDelete = Clist::ConfirmDelete;
 			if (ConfirmDelete)
 				db_set_b(0, "CList", "ConfirmDelete", 0);
 

@@ -34,6 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_system.h>
 #include <m_protocols.h>
 #include <m_clc.h>
+#include <m_gui.h>
 
 #define HCONTACT_ISGROUP    0x80000000
 #define HCONTACT_ISINFO     0xFFFF0000
@@ -441,5 +442,15 @@ struct CLIST_INTERFACE
 EXTERN_C MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void);
 
 extern MIR_APP_EXPORT CLIST_INTERFACE g_clistApi;
+
+namespace Clist
+{
+	extern MIR_APP_EXPORT CMOption<bool> 
+		HideOffline,
+		UseGroups,
+		HideEmptyGroups, 
+		ConfirmDelete, 
+		RemoveTempContacts;
+};
 
 #endif // M_CLISTINT_H__

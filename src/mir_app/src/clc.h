@@ -91,7 +91,7 @@ int  fnRowHitTest(ClcData *dat, int y);
 int  GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt);
 
 /* clcopts.c */
-int ClcOptInit(WPARAM wParam, LPARAM lParam);
+int ClcOptInit(WPARAM, LPARAM);
 
 /* clistmenus.c */
 void RebuildMenuOrder(void);
@@ -107,45 +107,58 @@ void fnCheckCacheItem(ClcCacheEntry *p);
 void fnFreeCacheItem(ClcCacheEntry *p);
 
 /* clcfiledrop.c */
-void   RegisterFileDropping(HWND hwnd);
-void   UnregisterFileDropping(HWND hwnd);
+void RegisterFileDropping(HWND hwnd);
+void UnregisterFileDropping(HWND hwnd);
 
 /* clistevents.c */
 struct CListEvent* fnAddEvent(CLISTEVENT *cle);
 CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx);
 
-int    fnGetImlIconIndex(HICON hIcon);
-int    fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent);
+int  fnGetImlIconIndex(HICON hIcon);
+int  fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent);
 
-int    EventsProcessContactDoubleClick(MCONTACT hContact);
+int  EventsProcessContactDoubleClick(MCONTACT hContact);
+
+int  InitCListEvents(void);
+void UninitCListEvents(void);
+
+/* clistgroups.c */
+int  InitGroupServices(void);
+void UninitGroupServices(void);
 
 /* clistmod.c */
-int    fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);
-int    fnShowHide(void);
-HICON  fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);
-int    fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
+int   fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);
+int   fnShowHide(void);
+HICON fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);
+int   fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
+
+/* clistsettings.cpp */
+int ContactAdded(WPARAM, LPARAM);
+int ContactDeleted(WPARAM, LPARAM);
 
 /* clisttray.c */
 extern mir_cs trayLockCS;
 
-int    fnTrayIconInit(HWND hwnd);
-int    fnTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
-INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
-int    fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
+int     fnTrayIconInit(HWND hwnd);
+int     fnTrayIconPauseAutoHide(WPARAM, LPARAM);
+INT_PTR fnTrayIconProcessMessage(WPARAM, LPARAM);
+int     fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
 
-void   InitTray(void);
-void   TrayIconSetToBase(char *szPreferredProto);
-void   TrayIconTaskbarCreated(HWND hwnd);
-int    TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
-void   TrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, const char *szPreferredProto);
+void    InitTray(void);
+void    TrayIconSetToBase(char *szPreferredProto);
+void    TrayIconTaskbarCreated(HWND hwnd);
+int     TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
+void    TrayIconUpdateWithImageList(int iImage, const wchar_t *szNewTip, const char *szPreferredProto);
 
 /* clui.c */
-LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK fnContactListWndProc(HWND, UINT, WPARAM, LPARAM);
 void fnLoadCluiGlobalOpts(void);
 void fnCluiProtocolStatusChanged(int, const char*);
 
+int LoadCLUIModule(void);
+
 /* contact.c */
-int  fnSetHideOffline(int iValue);
+int fnSetHideOffline(int iValue);
 
 /* docking.c */
 int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);

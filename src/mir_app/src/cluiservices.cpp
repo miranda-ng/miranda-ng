@@ -48,24 +48,24 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 	LONG_PTR dwStyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
 
 	// CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
-	if ((db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
-		if (db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+	if ((Clist::HideOffline == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
+		if (Clist::HideOffline)
 			dwStyle |= CLS_HIDEOFFLINE;
 		else
 			dwStyle &= ~CLS_HIDEOFFLINE;
 		bRebuild = true;
 	}
 
-	if ((db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((dwStyle & CLS_HIDEEMPTYGROUPS) == 0)) {
-		if (db_get_b(0, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
+	if ((Clist::HideEmptyGroups == 0) != ((dwStyle & CLS_HIDEEMPTYGROUPS) == 0)) {
+		if (Clist::HideEmptyGroups)
 			dwStyle |= CLS_HIDEEMPTYGROUPS;
 		else
 			dwStyle &= ~CLS_HIDEEMPTYGROUPS;
 		bRebuild = true;
 	}
 
-	if ((db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((dwStyle & CLS_USEGROUPS) == 0)) {
-		if (db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+	if ((Clist::UseGroups == 0) != ((dwStyle & CLS_USEGROUPS) == 0)) {
+		if (Clist::UseGroups)
 			dwStyle |= CLS_USEGROUPS;
 		else
 			dwStyle &= ~CLS_USEGROUPS;

@@ -32,7 +32,7 @@ struct CluiTopButton BTNS[] =
 	{ IDC_TBFINDANDADD,        "CLN_findadd",      nullptr, LPGEN("Find and add contacts"),      1, 1, 0 },
 	{ IDC_TBACCOUNTS,          "CLN_accounts",     nullptr, LPGEN("Accounts"),                   1, 1, 0 },
 	{ IDC_TBOPTIONS,           "CLN_options",      nullptr, LPGEN("Open preferences"),           1, 1, 0 },
-	{ IDC_TBSOUND,         "CLN_sound", "CLN_soundsoff", LPGEN("Enable/Disable sounds"),      0, 1, 0 },
+	{ IDC_TBSOUND,            "CLN_sound", "CLN_soundsoff", LPGEN("Enable/Disable sounds"),      0, 1, 0 },
 	{ IDC_TBMINIMIZE,          "CLN_minimize",     nullptr, LPGEN("Minimize contact list"),      1, 0, 0 },
 	{ IDC_TBTOPSTATUS,         "CLN_topstatus",    nullptr, LPGEN("Status menu"),                1, 0, 1 },
 
@@ -65,8 +65,8 @@ static void InitDefaultButtons()
 	}
 	g_index = -1;
 
-	ClcSetButtonState(IDC_TBHIDEOFFLINE, g_plugin.getByte("HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
-	ClcSetButtonState(IDC_TBHIDEGROUPS, g_plugin.getByte("UseGroups", SETTING_USEGROUPS_DEFAULT));
+	ClcSetButtonState(IDC_TBHIDEOFFLINE, Clist::HideOffline);
+	ClcSetButtonState(IDC_TBHIDEGROUPS, Clist::UseGroups);
 	ClcSetButtonState(IDC_TBSOUND, db_get_b(0, "Skin", "UseSound", 1) ? BST_UNCHECKED : BST_CHECKED);
 }
 

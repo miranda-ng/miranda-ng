@@ -18,6 +18,40 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\src\mir_app\res\_blank.ico" />
+    <Image Include="res\accounts.ico" />
+    <Image Include="res\arrow-down.ico" />
+    <Image Include="res\clist.ico" />
+    <Image Include="res\connecting.ico" />
+    <Image Include="res\delete.ico" />
+    <Image Include="res\find.ico" />
+    <Image Include="res\groups.ico" />
+    <Image Include="res\menu.ico" />
+    <Image Include="res\minimize.ico" />
+    <Image Include="res\online.ico" />
+    <Image Include="res\options.ico" />
+    <Image Include="res\options_clvm.ico" />
+    <Image Include="res\overlay\away.ico" />
+    <Image Include="res\overlay\dnd.ico" />
+    <Image Include="res\overlay\invisible.ico" />
+    <Image Include="res\overlay\na.ico" />
+    <Image Include="res\overlay\occupied.ico" />
+    <Image Include="res\overlay\offline.ico" />
+    <Image Include="res\overlay\online.ico" />
+    <Image Include="res\slist.ico" />
+    <Image Include="res\sounds_off.ico" />
+    <Image Include="res\sounds_on.ico" />
+    <Image Include="res\tabsrmm_menu.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\mir_app\res\cursor_drag_copy.cur" />
+    <None Include="..\..\src\mir_app\res\cursor_drop_user.cur" />
+    <None Include="..\..\src\mir_app\res\cursor_hyperlink.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\include\resource.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Clist_nicer</ProjectName>
     <ProjectGuid>{3C42510C-A29E-4A53-899C-203BFA874E0B}</ProjectGuid>

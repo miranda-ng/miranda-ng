@@ -1100,7 +1100,7 @@ void ApplyViewMode(const char *name)
 		cfg::dat.bFilterEffective |= CLVM_STICKY_CONTACTS;
 
 	if (cfg::dat.boldHideOffline == (BYTE)-1)
-		cfg::dat.boldHideOffline = g_plugin.getByte("HideOffline", 0);
+		cfg::dat.boldHideOffline = Clist::HideOffline;
 
 	g_clistApi.pfnSetHideOffline(false);
 	if (name == nullptr) {

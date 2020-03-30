@@ -746,10 +746,7 @@ class COptTypingDlg : public CDlgBase
 
 	void ResetCList()
 	{
-		if (!db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETUSEGROUPS, FALSE, 0);
-		else
-			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETUSEGROUPS, TRUE, 0);
+		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETUSEGROUPS, Clist::UseGroups, 0);
 		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 	}
 

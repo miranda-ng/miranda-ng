@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by w:\miranda-ng\src\mir_app\res\resource.rc
 //
 #define IDC_AUTHICON                    1
 #define IDC_NOTOALL                     3
@@ -18,13 +18,14 @@
 #define IDD_OPT_PROTOCOLORDER           109
 #define IDD_OPT_ICOLIB                  110
 #define IDD_ICOLIB_IMPORT               111
-#define IDD_OPT_SRMMLOG						 112
+#define IDD_OPT_SRMMLOG                 112
 #define IDI_LOADED_GRAY                 113
 #define IDI_NOTLOADED_GRAY              114
 #define IDD_ADDED                       115
 #define IDD_ENTER_STRING                116
 #define IDI_ADDGROUP                    117
 #define IDD_EMPTY                       118
+#define IDD_OPT_CLIST                   119
 #define IDD_AUTHREQ                     121
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
@@ -208,6 +209,7 @@
 #define IDC_CHK_FORCEDEFAULT            1027
 #define IDC_ED_NAME                     1028
 #define IDC_ED_DEFAULT                  1029
+#define IDC_REMOVETEMP                  1030
 #define IDC_SHOWNAMES                   1031
 #define IDC_ABOUT                       1032
 #define IDC_MYNOTES                     1033
@@ -255,6 +257,10 @@
 #define IDC_TIMEZONESELECT              1071
 #define IDC_MOREOPTIONS                 1071
 #define IDC_USERMENU                    1071
+#define IDC_HIDEOFFLINE                 1072
+#define IDC_HIDEEMPTYGROUPS             1073
+#define IDC_USEGROUPS                   1074
+#define IDC_CONFIRMDELETE               1075
 #define IDC_SLOT_L                      1075
 #define IDC_SLOT                        1076
 #define IDC_MAX_ICONS_L                 1077
@@ -596,9 +602,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        330
+#define _APS_NEXT_RESOURCE_VALUE        331
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1748
+#define _APS_NEXT_CONTROL_VALUE         1749
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

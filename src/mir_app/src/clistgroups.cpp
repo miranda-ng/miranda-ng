@@ -197,7 +197,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	if (pGroup == nullptr)
 		return 1;
 
-	if (db_get_b(0, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT)) {
+	if (Clist::ConfirmDelete) {
 		wchar_t szQuestion[256 + 100];
 		mir_snwprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), pGroup->groupName+1);
 		if (MessageBox(g_clistApi.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)

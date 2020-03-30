@@ -806,7 +806,7 @@ public:
 
 	void onResetClist(CCtrlClc *)
 	{
-		m_list.SetUseGroups(db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+		m_list.SetUseGroups(Clist::UseGroups);
 		m_list.SetHideEmptyGroups(true);
 	}
 };

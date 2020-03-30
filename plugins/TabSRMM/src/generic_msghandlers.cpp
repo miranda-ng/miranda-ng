@@ -712,8 +712,8 @@ HWND CMsgDialog::DM_CreateClist()
 	if (hItem)
 		SendMessage(hwndClist, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 
-	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, db_get_b(0, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT), 0);
-	SendMessage(hwndClist, CLM_SETUSEGROUPS, db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
+	SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, Clist::HideEmptyGroups, 0);
+	SendMessage(hwndClist, CLM_SETUSEGROUPS, Clist::UseGroups, 0);
 	SendMessage(hwndClist, CLM_FIRST + 106, 0, 1);
 	SendMessage(hwndClist, CLM_AUTOREBUILD, 0, 0);
 	if (hwndClist)

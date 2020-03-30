@@ -14,7 +14,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -64,17 +64,13 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Hide offline users",IDC_HIDEOFFLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,17,124,10
-    CONTROL         "Hide empty groups",IDC_HIDEEMPTYGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,33,124,10
-    CONTROL         "Disable groups",IDC_DISABLEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,50,124,10
-    CONTROL         "Ask before deleting contacts",IDC_CONFIRMDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,67,124,10
-    CONTROL         "Sort contacts by name",IDC_SORTBYNAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,153,14,144,10
-    CONTROL         "Sort contacts by status",IDC_SORTBYSTATUS,"Button",BS_AUTORADIOBUTTON,153,26,149,10
-    CONTROL         "Sort contacts by protocol",IDC_SORTBYPROTO,"Button",BS_AUTORADIOBUTTON,153,38,151,10
-    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,68,150,10
-    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,152,81,151,11
-    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,95,86,9
-    EDITTEXT        IDC_BLINKTIME,153,109,35,12,ES_NUMBER
+    CONTROL         "Sort contacts by name",IDC_SORTBYNAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,14,246,10
+    CONTROL         "Sort contacts by status",IDC_SORTBYSTATUS,"Button",BS_AUTORADIOBUTTON,10,26,246,10
+    CONTROL         "Sort contacts by protocol",IDC_SORTBYPROTO,"Button",BS_AUTORADIOBUTTON,10,38,246,10
+    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,68,265,10
+    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,81,274,11
+    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,95,86,9
+    EDITTEXT        IDC_BLINKTIME,11,109,35,12,ES_NUMBER
     LTEXT           "ms delay",IDC_STMSDELAY,192,110,113,8
     CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,143,97,10
     COMBOBOX        IDC_PRIMARYSTATUS,107,142,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -85,10 +81,9 @@ BEGIN
     LTEXT           "seconds, when statuses differ",IDC_STATIC,140,161,165,8,NOT WS_GROUP
     CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,177,98,10
     CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,177,198,10
-    GROUPBOX        "Contact list",IDC_STCLISTGROUP,2,2,135,126
-    GROUPBOX        "System tray icon",IDC_STATIC,143,57,169,70
+    GROUPBOX        "System tray icon",IDC_STATIC,2,57,310,70
     GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,2,131,310,66
-    GROUPBOX        "Contact list sorting",IDC_STATIC,143,2,169,54,WS_GROUP
+    GROUPBOX        "Contact list sorting",IDC_STATIC,2,2,310,54,WS_GROUP
     CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,173,97,11,21
 END
 
@@ -299,8 +294,11 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_RENAME              ICON                    "rename.ico"
+
 IDI_BLANK               ICON                    "..\\..\\..\\src\\mir_app\\res\\_blank.ico"
+
 IDI_DELETE              ICON                    "delete.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -308,10 +306,23 @@ IDI_DELETE              ICON                    "delete.ico"
 //
 
 IDC_HYPERLINKHAND       CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_hyperlink.cur"
+
 IDC_DROP                CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drag_copy.cur"
+
 IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drop_user.cur"
 
-#endif    // Русский (Россия) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_CLIST AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

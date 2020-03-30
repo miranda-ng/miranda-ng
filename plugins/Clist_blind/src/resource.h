@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by W:\miranda-ng\plugins\Clist_blind\res\resource.rc
 //
 #define IDD_OPT_CLIST                   126
 #define IDC_DROP                        183
@@ -20,18 +20,14 @@
 #define IDC_TOOLWND                     1097
 #define IDC_ONECLK                      1098
 #define IDC_SHOWCAPTION                 1098
-#define IDC_HIDEOFFLINE                 1099
 #define IDC_SHOWHIDE                    1100
-#define IDC_HIDEEMPTYGROUPS             1100
 #define IDC_SORTBYSTATUS                1101
 #define IDC_FADEINOUT                   1101
 #define IDC_READMSG                     1102
 #define IDC_AUTOSIZE                    1102
-#define IDC_DISABLEGROUPS               1102
 #define IDC_AUTOSIZEUPWARD              1103
 #define IDC_ALWAYSSTATUS                1103
 #define IDC_NETSEARCH                   1104
-#define IDC_CONFIRMDELETE               1104
 #define IDC_SORTBYPROTO                 1105
 #define IDC_SHOWOPTIONS                 1105
 #define IDC_SEARCHURL                   1106
@@ -138,7 +134,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        292
+#define _APS_NEXT_RESOURCE_VALUE        293
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1662
 #define _APS_NEXT_SYMED_VALUE           101

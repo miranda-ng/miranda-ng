@@ -29,7 +29,7 @@ extern HANDLE hGroupChangeEvent;
 
 MIR_APP_DLL(void) Clist_LoadContactTree(void)
 {
-	int hideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	bool hideOffline = Clist::HideOffline;
 	for (auto &hContact : Contacts()) {
 		int status = Contact_GetStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !Contact_IsHidden(hContact))
@@ -56,12 +56,12 @@ MIR_APP_DLL(int) Clist_ContactChangeGroup(MCONTACT hContact, MGROUP hGroup)
 int fnSetHideOffline(int iValue)
 {
 	if (iValue == -1) // invert the current value
-		iValue = !db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+		iValue = !Clist::HideOffline;
 
 	switch (iValue) {
 	case 0:
 	case 1:
-		db_set_b(0, "CList", "HideOffline", iValue);
+		Clist::HideOffline = iValue;
 		break;
 
 	default:

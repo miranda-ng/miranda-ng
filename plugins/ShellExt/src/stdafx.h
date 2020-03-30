@@ -9,6 +9,7 @@
 #include <stddef.h>
 
 #include <newpluginapi.h>
+#include <m_clistint.h>
 #include <m_contacts.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>

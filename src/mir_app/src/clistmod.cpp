@@ -27,22 +27,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "clc.h"
 #include "genmenu.h"
 
-int InitCListEvents(void);
-void UninitCListEvents(void);
-void UninitGroupServices(void);
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
-int ContactAdded(WPARAM hContact, LPARAM);
-int ContactDeleted(WPARAM hContact, LPARAM);
-int InitGroupServices(void);
-INT_PTR Docking_IsDocked(WPARAM wParam, LPARAM lParam);
-int LoadCLUIModule(void);
 int InitClistHotKeys(void);
 void ScheduleMenuUpdate(void);
 
 HANDLE hContactDoubleClicked, hContactIconChangedEvent;
 HIMAGELIST hCListImages;
 
-extern BYTE nameOrder[];
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int mode, int flags)
 {
@@ -95,6 +87,41 @@ MIR_APP_DLL(wchar_t*) Clist_GetStatusModeDescription(int mode, int flags)
 	return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateW(descr);
 }
 
+MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact)
+{
+	// Try to process event myself
+	if (EventsProcessContactDoubleClick(hContact) == 0)
+		return;
+
+	// Allow third-party plugins to process a dblclick
+	if (NotifyEventHooks(hContactDoubleClicked, hContact, 0))
+		return;
+
+	// Otherwise try to execute the default action
+	TIntMenuObject *pmo = GetMenuObjbyId(hContactMenuObject);
+	if (pmo != nullptr) {
+		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
+
+		TMO_IntMenuItem *pimi = Menu_GetDefaultItem(pmo->m_items.first);
+		if (pimi != nullptr)
+			Menu_ProcessCommand(pimi, hContact);
+	}
+}
+
+MIR_APP_DLL(HIMAGELIST) Clist_GetImageList(void)
+{
+	return hCListImages;
+}
+
+MIR_APP_DLL(int) Clist_GetContactIcon(MCONTACT hContact)
+{
+	char *szProto = Proto_GetBaseAccountName(hContact);
+	return g_clistApi.pfnIconFromStatusMode(szProto,
+		szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 HICON fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status)
 {
 	return ImageList_GetIcon(hCListImages, g_clistApi.pfnIconFromStatusMode(szProto, status, hContact), ILD_NORMAL);
@@ -119,12 +146,7 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 	return 1;
 }
 
-MIR_APP_DLL(int) Clist_GetContactIcon(MCONTACT hContact)
-{
-	char *szProto = Proto_GetBaseAccountName(hContact);
-	return g_clistApi.pfnIconFromStatusMode(szProto,
-		szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static void AddProtoIconIndex(PROTOACCOUNT *pa)
 {
@@ -133,11 +155,6 @@ static void AddProtoIconIndex(PROTOACCOUNT *pa)
 		if (it.iStatus == ID_STATUS_OFFLINE)
 			pa->iIconBase = iImg;
 	}
-}
-
-static void RemoveProtoIconIndex(PROTOACCOUNT *pa)
-{
-	pa->iIconBase = -1;
 }
 
 static int ContactListModulesLoaded(WPARAM, LPARAM)
@@ -179,32 +196,6 @@ static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 	Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 	return 0;
-}
-
-MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact)
-{
-	// Try to process event myself
-	if (EventsProcessContactDoubleClick(hContact) == 0)
-		return;
-
-	// Allow third-party plugins to process a dblclick
-	if (NotifyEventHooks(hContactDoubleClicked, hContact, 0))
-		return;
-
-	// Otherwise try to execute the default action
-	TIntMenuObject *pmo = GetMenuObjbyId(hContactMenuObject);
-	if (pmo != nullptr) {
-		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
-
-		TMO_IntMenuItem *pimi = Menu_GetDefaultItem(pmo->m_items.first);
-		if (pimi != nullptr)
-			Menu_ProcessCommand(pimi, hContact);
-	}
-}
-
-MIR_APP_DLL(HIMAGELIST) Clist_GetImageList(void)
-{
-	return hCListImages;
 }
 
 static int CListIconsChanged(WPARAM, LPARAM)
@@ -385,6 +376,7 @@ int LoadContactListModule2(void)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
+	HookEvent(ME_OPT_INITIALISE, ClcOptInit);
 
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);
 	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
@@ -403,12 +395,15 @@ void UnloadContactListModule()
 		return;
 
 	// remove transitory contacts
-	for (MCONTACT hContact = db_find_first(); hContact != 0; ) {
-		MCONTACT hNext = db_find_next(hContact);
-		if (!Contact_OnList(hContact))
-			db_delete_contact(hContact);
-		hContact = hNext;
+	if (Clist::RemoveTempContacts) {
+		for (MCONTACT hContact = db_find_first(); hContact != 0; ) {
+			MCONTACT hNext = db_find_next(hContact);
+			if (!Contact_OnList(hContact))
+				db_delete_contact(hContact);
+			hContact = hNext;
+		}
 	}
+	
 	ImageList_Destroy(hCListImages);
 	UninitCListEvents();
 	UninitGroupServices();

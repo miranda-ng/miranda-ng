@@ -235,7 +235,7 @@ void ipcGetSkinIcons(THeaderIPC * ipch)
 bool ipcGetSortedContacts(THeaderIPC * ipch, int* pSlot, bool bGroupMode)
 {
 	// hide offliners?
-	bool bHideOffline = db_get_b(0, "CList", "HideOffline", 0) == 1;
+	bool bHideOffline = Clist::HideOffline;
 	// do they wanna hide the offline people anyway?
 	if (g_plugin.getByte(SHLExt_ShowNoOffline, 0) == 1)
 		// hide offline people
@@ -412,7 +412,7 @@ void __stdcall ipcService(ULONG_PTR)
 		// if the group mode is on, check if they want the CList setting
 		bool bGroupMode = (BST_CHECKED == g_plugin.getByte(SHLExt_UseGroups, BST_UNCHECKED));
 		if (bGroupMode && BST_CHECKED == g_plugin.getByte(SHLExt_UseCListSetting, BST_UNCHECKED))
-			bGroupMode = db_get_b(0, "CList", "UseGroups", true) != 0;
+			bGroupMode = Clist::UseGroups;
 
 		TSlotIPC * pct = nullptr;
 		int iSlot = 0;

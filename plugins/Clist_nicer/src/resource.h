@@ -50,12 +50,10 @@
 #define IDC_LASTMSG                     1023
 #define IDC_IGN_AUTH                    1023
 #define IDC_IGN_ADD                     1024
-#define IDC_CONFIRMDELETE               1025
 #define IDC_IGN_ONLINE                  1025
 #define IDC_IGN_ALWAYSONLINE            1026
 #define IDC_IGN_ALWAYSOFFLINE           1027
 #define IDC_IGN_PRIORITY                1028
-#define IDC_DISABLEGROUPS               1030
 #define IDC_DROPSHADOW                  1035
 #define IDC_EQUALSELECTION              1040
 #define IDC_USEPERPROTO                 1041
@@ -79,12 +77,10 @@
 #define IDC_ONTOP                       1074
 #define IDC_SHOWMAINMENU                1075
 #define IDC_CLIENTDRAG                  1076
-#define IDC_HIDEEMPTYGROUPS             1077
 #define IDC_CTOPSPIN                    1077
 #define IDC_CBOTTOM                     1078
 #define IDC_CBOTTOMSPIN                 1079
 #define IDC_CRIGHT                      1080
-#define IDC_HIDEOFFLINE                 1081
 #define IDC_CRIGHTSPIN                  1081
 #define IDC_HIDEOFFLINEOPTS             1082
 #define IDC_LEFTMARGINSPIN              1092
