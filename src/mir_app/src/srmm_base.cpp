@@ -459,6 +459,7 @@ bool CSrmmBaseDialog::OnInitDialog()
 	SetWindowLongPtr(m_message.GetHwnd(), GWLP_USERDATA, LPARAM(this));
 	mir_subclassWindow(m_message.GetHwnd(), stubMessageProc);
 	m_message.SetReadOnly(false);
+	::DragAcceptFiles(m_message.GetHwnd(), TRUE);
 
 	if (isChat()) {
 		SetWindowLongPtr(m_nickList.GetHwnd(), GWLP_USERDATA, LPARAM(this));

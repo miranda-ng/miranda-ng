@@ -259,8 +259,6 @@ bool CMsgDialog::OnInitDialog()
 			m_message.SendMsg(EM_EXLIMITTEXT, 0, nMax);
 	}
 
-	// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
-	::DragAcceptFiles(m_message.GetHwnd(), TRUE);
 	CreateInfobar();
 	
 	if (isChat()) {
