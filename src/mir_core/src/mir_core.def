@@ -960,21 +960,21 @@ db_delete_module @1161
 ?SetMaxLength@CCtrlEdit@@QAEXI@Z @1167 NONAME
 db_get_current @1169
 CallFunctionSync @1170
-??0CProgress@@QAE@PAVCDlgBase@@H@Z @1172 NONAME
+??0CCtrlProgress@@QAE@PAVCDlgBase@@H@Z @1172 NONAME
 ??0CTimer@@QAE@ABV0@@Z @1173 NONAME
 ??0CTimer@@QAE@PAVCDlgBase@@I@Z @1174 NONAME
-??1CProgress@@UAE@XZ @1175 NONAME
+??1CCtrlProgress@@UAE@XZ @1175 NONAME
 ??4CTimer@@QAEAAV0@ABV0@@Z @1177 NONAME
-??_7CProgress@@6B@ @1178 NONAME
+??_7CCtrlProgress@@6B@ @1178 NONAME
 ??_7CTimer@@6B@ @1179 NONAME
 ?FindTimer@CDlgBase@@AAEPAVCTimer@@H@Z @1180 NONAME
 ?GetEventId@CTimer@@QBEIXZ @1181 NONAME
-?Move@CProgress@@QAEGG@Z @1182 NONAME
+?Move@CCtrlProgress@@QAEGG@Z @1182 NONAME
 ?OnTimer@CDlgBase@@MAEXPAVCTimer@@@Z @1183 NONAME
 ?OnTimer@CTimer@@UAEHXZ @1184 NONAME
-?SetPosition@CProgress@@QAEXG@Z @1185 NONAME
-?SetRange@CProgress@@QAEXGG@Z @1186 NONAME
-?SetStep@CProgress@@QAEXG@Z @1187 NONAME
+?SetPosition@CCtrlProgress@@QAEXG@Z @1185 NONAME
+?SetRange@CCtrlProgress@@QAEXGG@Z @1186 NONAME
+?SetStep@CCtrlProgress@@QAEXG@Z @1187 NONAME
 ?Start@CTimer@@QAEXH@Z @1188 NONAME
 ?Stop@CTimer@@QAEXXZ @1189 NONAME
 ?AddTimer@CDlgBase@@IAEXPAVCTimer@@@Z @1190 NONAME

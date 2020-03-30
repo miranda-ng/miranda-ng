@@ -680,10 +680,10 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CProgress
 
-class MIR_CORE_EXPORT CProgress : public CCtrlBase
+class MIR_CORE_EXPORT CCtrlProgress : public CCtrlBase
 {
 public:
-	CProgress(CDlgBase *dlg, int ctrlId);
+	CCtrlProgress(CDlgBase *dlg, int ctrlId);
 
 	void SetRange(WORD max, WORD min = 0);
 	void SetPosition(WORD value);

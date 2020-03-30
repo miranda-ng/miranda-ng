@@ -212,7 +212,7 @@ class CWaitRestartDlg : public CDlgBase
 {
 	HANDLE m_hProcess;
 	CTimer m_timer;
-	CProgress m_progress;
+	CCtrlProgress m_progress;
 	CCtrlButton m_cancel;
 
 protected:

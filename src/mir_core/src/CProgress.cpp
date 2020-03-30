@@ -23,29 +23,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// CProgress
+// CCtrlProgress
 
-CProgress::CProgress(CDlgBase *wnd, int idCtrl)
+CCtrlProgress::CCtrlProgress(CDlgBase *wnd, int idCtrl)
 	: CCtrlBase(wnd, idCtrl)
 {
 }
 
-void CProgress::SetRange(WORD max, WORD min)
+void CCtrlProgress::SetRange(WORD max, WORD min)
 {
 	SendMsg(PBM_SETRANGE, 0, MAKELPARAM(min, max));
 }
 
-void CProgress::SetPosition(WORD value)
+void CCtrlProgress::SetPosition(WORD value)
 {
 	SendMsg(PBM_SETPOS, value, 0);
 }
 
-void CProgress::SetStep(WORD value)
+void CCtrlProgress::SetStep(WORD value)
 {
 	SendMsg(PBM_SETSTEP, value, 0);
 }
 
-WORD CProgress::Move(WORD delta)
+WORD CCtrlProgress::Move(WORD delta)
 {
 	return delta == 0
 		? SendMsg(PBM_STEPIT, 0, 0)
