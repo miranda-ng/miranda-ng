@@ -24,7 +24,7 @@ public:
 	PollRequest(CSkypeProto *ppro) :
 	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions/0/poll", ppro->m_szServer)
 	{
-		timeout = 60000;
+		timeout = 120000;
 		Headers
 			<< CHAR_VALUE("Referer", "https://web.skype.com/main")
 			<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded")
