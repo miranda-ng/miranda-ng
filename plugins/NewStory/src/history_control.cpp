@@ -101,28 +101,22 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	switch (msg) {
 	case WM_CREATE:
-		{
-			data = new NewstoryListData;
-			SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
-			RecalcScrollBar(hwnd, data);
-			break;
-		}
+		data = new NewstoryListData;
+		SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
+		RecalcScrollBar(hwnd, data);
+		break;
 
 	case WM_USER:
-		{
-			data->items.addHistory((MCONTACT)wParam);
-			RecalcScrollBar(hwnd, data);
-			data->scrollTopItem = data->items.getCount();
-			FixScrollPosition(hwnd, data);
-			InvalidateRect(hwnd, 0, FALSE);
-			break;
-		}
+		data->items.addHistory((MCONTACT)wParam);
+		RecalcScrollBar(hwnd, data);
+		data->scrollTopItem = data->items.getCount();
+		FixScrollPosition(hwnd, data);
+		InvalidateRect(hwnd, 0, FALSE);
+		break;
 
 		// History list control messages
 	case NSM_GETCOUNT:
-		{
-			return data->items.getCount();
-		}
+		return data->items.getCount();
 
 	case NSM_SELECTITEMS:
 		{
@@ -198,10 +192,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 	case NSM_ENSUREVISIBLE:
-		{
-			EnsureVisible(hwnd, data, wParam);
-			return 0;
-		}
+		EnsureVisible(hwnd, data, wParam);
+		return 0;
 
 	case NSM_GETITEMFROMPIXEL:
 		{
@@ -266,7 +258,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
 				HistoryArray::ItemData *item = data->items.get(i, ELM_NOTHING);
-				if (item->flags&HIF_SELECTED) {
+				if (item->flags & HIF_SELECTED) {
 					buf = TplFormatString(TPL_COPY_MESSAGE, item->hContact, item);
 					res = appendString(res, buf);
 					free(buf);
@@ -366,99 +358,82 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			EndPaint(hwnd, &ps);
-			break;
 		}
+		break;
 
 	case WM_SETFOCUS:
-		{
-			return 0;
-		}
+		return 0;
 
 	case WM_GETDLGCODE:
-		{
-			if (lParam) {
-				MSG *msg2 = (MSG *)lParam;
-				if (msg2->message == WM_KEYDOWN) {
-					if (msg2->wParam == VK_TAB)
-						return 0;
-					if (msg2->wParam == VK_ESCAPE && !data->hwndEditBox)
-						return 0;
-				}
-				else
-					if (msg2->message == WM_CHAR) {
-						if (msg2->wParam == '\t')
-							return 0;
-						if (msg2->wParam == 27 && !data->hwndEditBox)
-							return 0;
-					}
+		if (lParam) {
+			MSG *msg2 = (MSG *)lParam;
+			if (msg2->message == WM_KEYDOWN) {
+				if (msg2->wParam == VK_TAB)
+					return 0;
+				if (msg2->wParam == VK_ESCAPE && !data->hwndEditBox)
+					return 0;
 			}
-			return DLGC_WANTMESSAGE;
+			else if (msg2->message == WM_CHAR) {
+				if (msg2->wParam == '\t')
+					return 0;
+				if (msg2->wParam == 27 && !data->hwndEditBox)
+					return 0;
+			}
 		}
-
+		return DLGC_WANTMESSAGE;
 
 	case WM_KEYDOWN:
 		{
 			switch (wParam) {
 			case VK_UP:
-				{
-					SendMessage(hwnd, NSM_SELECTITEMS2, data->caret - 1, data->caret - 1);
-					SendMessage(hwnd, NSM_SETCARET, data->caret - 1, TRUE);
-					break;
-				}
+				SendMessage(hwnd, NSM_SELECTITEMS2, data->caret - 1, data->caret - 1);
+				SendMessage(hwnd, NSM_SETCARET, data->caret - 1, TRUE);
+				break;
+
 			case VK_DOWN:
-				{
-					SendMessage(hwnd, NSM_SELECTITEMS2, data->caret + 1, data->caret + 1);
-					SendMessage(hwnd, NSM_SETCARET, data->caret + 1, TRUE);
-					break;
-				}
+				SendMessage(hwnd, NSM_SELECTITEMS2, data->caret + 1, data->caret + 1);
+				SendMessage(hwnd, NSM_SETCARET, data->caret + 1, TRUE);
+				break;
+
 			case VK_PRIOR:
-				{
-					break;
-				}
+				break;
+
 			case VK_NEXT:
-				{
-					break;
-				}
+				break;
+
 			case VK_HOME:
-				{
-					break;
-				}
+				break;
+
 			case VK_END:
-				{
-					break;
-				}
+				break;
+
 			case VK_F2:
-				{
-					BeginEditItem(hwnd, data, data->caret);
-					break;
-				}
+				BeginEditItem(hwnd, data, data->caret);
+				break;
 			}
 			break;
 		}
 
 	case WM_SYSCHAR:
 	case WM_CHAR:
-		{
-			if (wParam == 27) {
-				if (data->hwndEditBox)
-					EndEditItem(hwnd, data);
-			}
-			else {
-				char ch = MapVirtualKey((lParam >> 16) & 0xff, 1);
-				if (((ch == 'C') || (ch == VK_INSERT)) && (GetKeyState(VK_CONTROL) & 0x80)) {
-					PostMessage(hwnd, NSM_COPY, 0, 0);
-				}
-				else
-					if ((ch == 'A') && (GetKeyState(VK_CONTROL) & 0x80)) {
-						SendMessage(hwnd, NSM_SELECTITEMS, 0, data->items.getCount());
-						//				} else
-						//				if (ch == VK_ESCAPE)
-						//				{
-						//					PostMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
-					}
-			}
-			break;
+		if (wParam == 27) {
+			if (data->hwndEditBox)
+				EndEditItem(hwnd, data);
 		}
+		else {
+			char ch = MapVirtualKey((lParam >> 16) & 0xff, 1);
+			if (((ch == 'C') || (ch == VK_INSERT)) && (GetKeyState(VK_CONTROL) & 0x80)) {
+				PostMessage(hwnd, NSM_COPY, 0, 0);
+			}
+			else if ((ch == 'A') && (GetKeyState(VK_CONTROL) & 0x80)) {
+				SendMessage(hwnd, NSM_SELECTITEMS, 0, data->items.getCount());
+				//				} else
+				//				if (ch == VK_ESCAPE)
+				//				{
+				//					PostMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
+			}
+		}
+		break;
 
 	case WM_LBUTTONDOWN:
 		{
@@ -486,9 +461,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						}
 					}
 			}
-			SetFocus(hwnd);
-			return 0;
 		}
+		SetFocus(hwnd);
+		return 0;
 
 	case WM_MOUSEWHEEL:
 		{
@@ -550,8 +525,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						data->scrollTopPixel = -pos % AVERAGE_ITEM_HEIGHT * itemHeight / AVERAGE_ITEM_HEIGHT;
 					}
 					FixScrollPosition(hwnd, data);
-					break;
 				}
+				break;
 
 			default:
 				return 0;
@@ -563,11 +538,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 	case WM_DESTROY:
-		{
-			delete data;
-			SetWindowLongPtr(hwnd, 0, 0);
-			break;
-		}
+		delete data;
+		SetWindowLongPtr(hwnd, 0, 0);
+		break;
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -581,31 +554,30 @@ static void ScrollListBy(HWND hwnd, NewstoryListData *data, int scrollItems, int
 		data->scrollTopItem += scrollItems;
 		data->scrollTopPixel = 0;
 	}
-	else
-		if (scrollPixels) {
-			data->scrollTopPixel += scrollPixels;
-			if (data->scrollTopPixel > 0) {
-				while ((data->scrollTopPixel > 0) && data->scrollTopItem) {
-					data->scrollTopItem--;
-					int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
-					data->scrollTopPixel -= itemHeight;
-				}
-
-				if (data->scrollTopPixel > 0) {
-					data->scrollTopPixel = 0;
-				}
+	else if (scrollPixels) {
+		data->scrollTopPixel += scrollPixels;
+		if (data->scrollTopPixel > 0) {
+			while ((data->scrollTopPixel > 0) && data->scrollTopItem) {
+				data->scrollTopItem--;
+				int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
+				data->scrollTopPixel -= itemHeight;
 			}
-			else
-				if (data->scrollTopPixel < 0) {
-					int maxItem = data->items.getCount();
-					int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
-					while ((-data->scrollTopPixel > itemHeight) && (data->scrollTopItem < maxItem)) {
-						data->scrollTopPixel += itemHeight;
-						data->scrollTopItem++;
-						itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
-					}
-				}
+
+			if (data->scrollTopPixel > 0) {
+				data->scrollTopPixel = 0;
+			}
 		}
+		else if (data->scrollTopPixel < 0) {
+			int maxItem = data->items.getCount();
+			int itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
+			while ((-data->scrollTopPixel > itemHeight) && (data->scrollTopItem < maxItem)) {
+				data->scrollTopPixel += itemHeight;
+				data->scrollTopItem++;
+				itemHeight = LayoutItem(hwnd, &data->items, data->scrollTopItem);
+			}
+		}
+	}
+	
 	FixScrollPosition(hwnd, data);
 }
 
@@ -710,14 +682,14 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 			switch (item->dbe.eventType) {
 			case EVENTTYPE_MESSAGE:
 				tpl = TPL_COPY_MESSAGE;
-				fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
-				colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
+				fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
+				colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
 				break;
 
 			case EVENTTYPE_FILE:
 				tpl = TPL_COPY_FILE;
-				fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
-				colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
+				fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
+				colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
 				break;
 
 			case EVENTTYPE_STATUSCHANGE:
@@ -740,8 +712,8 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 
 			default:
 				tpl = TPL_COPY_OTHER;
-				fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-				colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+				fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+				colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
 				break;
 			}
 
@@ -782,12 +754,12 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 	switch (item->dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
 		tpl = TPL_MESSAGE;
-		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
+		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
 		break;
 
 	case EVENTTYPE_FILE:
 		tpl = TPL_FILE;
-		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
+		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
 		break;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -807,7 +779,7 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 
 	default:
 		tpl = TPL_OTHER;
-		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
 		break;
 	}
 
@@ -841,14 +813,14 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 	switch (item->dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
 		tpl = TPL_MESSAGE;
-		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
-		colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
+		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
+		colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
 		break;
 
 	case EVENTTYPE_FILE:
 		tpl = TPL_FILE;
-		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
-		colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
+		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
+		colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
 		break;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -871,8 +843,8 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 
 	default:
 		tpl = TPL_OTHER;
-		fontid = !(item->dbe.flags&DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-		colorid = !(item->dbe.flags&DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+		colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
 		break;
 	}
 	clText = fonts[fontid].cl;

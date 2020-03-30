@@ -46,7 +46,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 					mir_snprintf(atext, 512, ("%s requested authorization"), dbe.pBlob + 8);
 				}
 				else {
-					mir_snprintf(atext, 512, ("%d requested authorization"), *(DWORD*)(dbe.pBlob));
+					mir_snprintf(atext, 512, ("%d requested authorization"), *(DWORD *)(dbe.pBlob));
 				}
 				aLength = lstrlenA(atext);
 				break;
@@ -60,7 +60,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 					mir_snprintf(atext, 512, ("%s added you to the contact list"), dbe.pBlob + 8);
 				}
 				else {
-					mir_snprintf(atext, 512, ("%d added you to the contact list"), *(DWORD*)(dbe.pBlob));
+					mir_snprintf(atext, 512, ("%d added you to the contact list"), *(DWORD *)(dbe.pBlob));
 				}
 				aLength = lstrlenA(atext);
 				break;
@@ -68,15 +68,15 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 		}
 
 		if (atext && !wtext) {
-			#ifdef UNICODE
+#ifdef UNICODE
 			int bufSize = MultiByteToWideChar(CP_ACP, 0, atext, aLength + 1, 0, 0);
 			wtext = new WCHAR[bufSize + 1];
 			MultiByteToWideChar(CP_ACP, 0, atext, aLength + 1, wtext, bufSize);
 			wtext_del = true;
-			#else
+#else
 			this->wtext = 0;
 			wtext_del = false;
-			#endif
+#endif
 		}
 		else
 			if (!atext && wtext) {
@@ -110,7 +110,6 @@ HistoryArray::ItemData::~ItemData()
 // Array
 HistoryArray::HistoryArray()
 {
-	head = tail = 0;
 }
 
 HistoryArray::~HistoryArray()
@@ -164,7 +163,7 @@ bool HistoryArray::addHistory(MCONTACT hContact, EventLoadMode)
 		tail->items[i].hEvent = hEvent;
 
 		++i;
-		hEvent = db_event_next(hEvent, 0);
+		hEvent = db_event_next(hEvent, hContact);
 	}
 	return true;
 }

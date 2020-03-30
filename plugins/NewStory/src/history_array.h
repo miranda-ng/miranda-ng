@@ -32,22 +32,23 @@ class HistoryArray
 public:
 	struct ItemData
 	{
-		BYTE flags;
+		BYTE flags = 0;
 
-		MCONTACT hContact;
-		MEVENT hEvent;
+		MCONTACT hContact = 0;
+		MEVENT hEvent = 0;
 
-		bool dbeOk;
+		bool dbeOk = false;
 		DBEVENTINFO dbe;
 
-		bool atext_del, wtext_del;
-		char *atext;
-		WCHAR *wtext;
+		bool atext_del = false, wtext_del = false;
+		char *atext = 0;
+		WCHAR *wtext = 0;
 
-		HANDLE data;
+		HANDLE data = 0;
 
-		ItemData() : flags(0), hContact(0), hEvent(0), atext(0), wtext(0), atext_del(false), wtext_del(false), data(0), dbeOk(false) {}
+		ItemData() { memset(&dbe, 0, sizeof(dbe)); }
 		~ItemData();
+
 		bool load(EventLoadMode mode);
 		inline bool loadInline(EventLoadMode mode)
 		{
@@ -169,9 +170,9 @@ public:
 	};
 
 private:
-	ItemBlock *head, *tail;
-	ItemBlock *preBlock;
-	int preIndex;
+	ItemBlock *head = 0, *tail = 0;
+	ItemBlock *preBlock = 0;
+	int preIndex = 0;
 	bool allocateBlock(int count);
 
 public:
