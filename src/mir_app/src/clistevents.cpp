@@ -350,7 +350,7 @@ int InitCListEvents(void)
 	g_clistApi.events = &g_cliEvents;
 
 	disableTrayFlash = db_get_b(0, "CList", "DisableTrayFlash", 0);
-	disableIconFlash = db_get_b(0, "CList", "NoIconBlink", 0);
+	disableIconFlash = Clist::DisableIconBlink;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, CListEventSettingsChanged);
 	return 0;

@@ -31,11 +31,12 @@ CMOption<bool> Clist::UseGroups(MODULENAME, "UseGroups", true);
 CMOption<bool> Clist::HideOffline(MODULENAME, "HideOffline", false);
 CMOption<bool> Clist::ConfirmDelete(MODULENAME, "ConfirmDelete", true);
 CMOption<bool> Clist::HideEmptyGroups(MODULENAME, "HideEmptyGroups", false);
+CMOption<bool> Clist::DisableIconBlink(MODULENAME, "NoIconBlink", false);
 CMOption<bool> Clist::RemoveTempContacts(MODULENAME, "RemoveTempContacts", true);
 
 class ClistCommonOptsDlg : public CDlgBase
 {
-	CCtrlCheck chkUseGroups, chkHideOffline, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts;
+	CCtrlCheck chkUseGroups, chkHideOffline, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts, chkDisableIconBlink;
 
 public:
 	ClistCommonOptsDlg() :
@@ -44,12 +45,14 @@ public:
 		chkHideOffline(this, IDC_HIDEOFFLINE),
 		chkConfirmDelete(this, IDC_CONFIRMDELETE), 
 		chkHideEmptyGroups(this, IDC_HIDEEMPTYGROUPS), 
-		chkRemoveTempContacts(this, IDC_REMOVETEMP)
+		chkDisableIconBlink(this, IDC_DISABLEICONBLINK),
+		chkRemoveTempContacts(this, IDC_REMOVETEMP)		
 	{
 		CreateLink(chkUseGroups, Clist::UseGroups);
 		CreateLink(chkHideOffline, Clist::HideOffline);
 		CreateLink(chkConfirmDelete, Clist::ConfirmDelete);
 		CreateLink(chkHideEmptyGroups, Clist::HideEmptyGroups);
+		CreateLink(chkDisableIconBlink, Clist::DisableIconBlink);
 		CreateLink(chkRemoveTempContacts, Clist::RemoveTempContacts);
 	}
 

@@ -415,7 +415,6 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, g_plugin.getByte("IconHideOnAvatar", SETTING_HIDEICONONAVATAR_DEFAULT) == 1);
 		CheckDlgButton(hwndDlg, IDC_DRAW_ON_AVATAR_SPACE, g_plugin.getByte("IconDrawOnAvatarSpace", SETTING_ICONONAVATARPLACE_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_ICONBLINK, g_plugin.getByte("NoIconBlink", SETTING_NOICONBLINF_DEFAULT) == 1);
 		CheckDlgButton(hwndDlg, IDC_HIDE_GROUPSICON, g_plugin.getByte("HideGroupsIcon", SETTING_HIDEGROUPSICON_DEFAULT) == 1);
 		CheckDlgButton(hwndDlg, IDC_NOTCHECKICONSIZE, g_plugin.getByte("IconIgnoreSizeForRownHeight", SETTING_ICONIGNORESIZE_DEFAULT) == 1);
 		CheckDlgButton(hwndDlg, IDC_ALWAYS_VISIBLEICON, g_plugin.getByte("AlwaysShowAlwaysVisIcon", SETTING_ALWAYSVISICON_DEFAULT) == 1);
@@ -448,7 +447,6 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 				g_plugin.setByte("IconHideOnAvatar", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_ICON_ON_AVATAR));
 				g_plugin.setByte("IconDrawOnAvatarSpace", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAW_ON_AVATAR_SPACE));
 				g_plugin.setByte("HideGroupsIcon", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_GROUPSICON));
-				g_plugin.setByte("NoIconBlink", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ICONBLINK));
 				g_plugin.setByte("IconIgnoreSizeForRownHeight", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOTCHECKICONSIZE));
 				g_plugin.setByte("AlwaysShowAlwaysVisIcon", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_VISIBLEICON));
 				{

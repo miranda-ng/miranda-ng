@@ -93,6 +93,11 @@ int  GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt);
 /* clcopts.c */
 int ClcOptInit(WPARAM, LPARAM);
 
+namespace Clist
+{
+	extern CMOption<bool> RemoveTempContacts, DisableIconBlink;
+};
+
 /* clistmenus.c */
 void RebuildMenuOrder(void);
 

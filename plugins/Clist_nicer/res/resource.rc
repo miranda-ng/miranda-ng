@@ -53,41 +53,40 @@ BEGIN
     LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,16
 END
 
-IDD_OPT_CLIST DIALOGEX 0, 0, 305, 209
+IDD_OPT_CLIST DIALOGEX 0, 0, 305, 193
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Contact list",IDC_STCLISTGROUP,1,0,301,67
-    CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,38,147,10
+    GROUPBOX        "Contact list",IDC_STCLISTGROUP,1,0,301,53
     CONTROL         "Apply last active view mode",IDC_APPLYLASTVIEWMODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,51,147,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,38,147,10
     CONTROL         "Show menu and status buttons",IDC_SHOWBOTTOMBUTTONS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,12,121,10
     CONTROL         "Draw sunken edge",IDC_CLISTSUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,121,10
-    GROUPBOX        "System tray icon",IDC_STATIC,1,69,163,63
-    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,79,147,10
-    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,91,147,10
-    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,103,147,10
-    EDITTEXT        IDC_BLINKTIME,69,114,57,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,119,113,11,16
-    LTEXT           "ms",IDC_STATIC,131,116,24,8
-    GROUPBOX        "Event area",IDC_STATIC,169,69,133,63
-    LTEXT           "Set base visibility on the frames menu",IDC_STATIC,176,80,121,20
-    CONTROL         "Auto mode",IDC_EVENTAREAAUTOHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,103,121,10
-    CONTROL         "Draw sunken edge",IDC_EVENTAREASUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,116,121,10
-    GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,1,135,302,71
-    CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,147,92,10
-    COMBOBOX        IDC_PRIMARYSTATUS,107,146,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "icon when statuses differ",IDC_STATIC,189,148,113,8,NOT WS_GROUP
-    CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,161,92,10
-    EDITTEXT        IDC_CYCLETIME,107,161,30,12,ES_RIGHT | ES_NUMBER
+    GROUPBOX        "System tray icon",IDC_STATIC,1,54,163,63
+    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,64,147,10
+    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,76,147,10
+    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,88,147,10
+    EDITTEXT        IDC_BLINKTIME,69,99,57,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,116,97,11,16
+    LTEXT           "ms",IDC_STATIC,131,101,24,8
+    GROUPBOX        "Event area",IDC_STATIC,169,54,133,63
+    LTEXT           "Set base visibility on the frames menu",IDC_STATIC,176,65,121,20
+    CONTROL         "Auto mode",IDC_EVENTAREAAUTOHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,88,121,10
+    CONTROL         "Draw sunken edge",IDC_EVENTAREASUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,101,121,10
+    GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,1,118,302,71
+    CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,130,92,10
+    COMBOBOX        IDC_PRIMARYSTATUS,107,129,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "icon when statuses differ",IDC_STATIC,189,131,113,8,NOT WS_GROUP
+    CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,144,92,10
+    EDITTEXT        IDC_CYCLETIME,107,144,30,12,ES_RIGHT | ES_NUMBER
     CONTROL         "Spin1",IDC_CYCLETIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,128,162,11,14
-    LTEXT           "seconds, when statuses differ",IDC_STATIC,140,163,155,8,NOT WS_GROUP
-    CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,175,92,10
-    CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,107,175,186,10
+    LTEXT           "seconds, when statuses differ",IDC_STATIC,140,146,155,8,NOT WS_GROUP
+    CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,158,92,10
+    CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,107,158,186,10
     CONTROL         "Do not show system tray icon tooltips on mouse over",IDC_NOTRAYINFOTIPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,189,284,12
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,172,284,12
 END
 
 IDD_OPT_DSPGROUPS DIALOGEX 0, 0, 305, 205

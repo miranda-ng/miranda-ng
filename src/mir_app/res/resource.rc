@@ -783,8 +783,10 @@ BEGIN
     CONTROL         "Hide empty groups",IDC_HIDEEMPTYGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,29,124,10
     CONTROL         "Enable groups",IDC_USEGROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,41,124,10
     CONTROL         "Ask before deleting contacts",IDC_CONFIRMDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,53,124,10
-    GROUPBOX        "Contact list",IDC_STATIC,6,5,289,77
-    CONTROL         "Remove temporary contacts on exit",IDC_REMOVETEMP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,65,276,10
+    GROUPBOX        "Contact list",IDC_STATIC,6,5,289,90
+    CONTROL         "Remove temporary contacts on exit",IDC_REMOVETEMP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,65,276,10
+    CONTROL         "Disable icon blinking",IDC_DISABLEICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,78,276,10
 END
 
 IDD_EMPTY DIALOGEX 0, 0, 212, 131
@@ -792,6 +794,7 @@ STYLE DS_FIXEDSYS | WS_POPUP
 CAPTION "Hidden window"
 BEGIN
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1101,8 +1104,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "#include ""../src/resource.h""\r\n"
-    "\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

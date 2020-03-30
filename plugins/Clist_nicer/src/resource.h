@@ -201,7 +201,6 @@
 #define IDC_DSP_LOADDEFAULT             1636
 #define IDC_ONDESKTOP                   1657
 #define IDC_WINCOLOUR                   1659
-#define IDC_ICONBLINK                   1660
 #define IDC_APPLYLASTVIEWMODE           1661
 #define IDC_IGNORESELFORGROUPS          1722
 #define IDC_CLISTAVATARS                1729

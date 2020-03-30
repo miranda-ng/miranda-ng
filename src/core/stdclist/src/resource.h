@@ -123,7 +123,6 @@
 #define IDC_ONDESKTOP                   1657
 #define IDC_DISABLEDOCKING              1658
 #define IDC_WINCOLOUR                   1659
-#define IDC_ICONBLINK                   1660
 #define IDC_STMSDELAY                   1661
 
 // Next default values for new objects

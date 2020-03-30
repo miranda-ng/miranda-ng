@@ -434,7 +434,6 @@
 #define IDC_CLSORT1                     6666
 #define IDC_CLSORT2                     6667
 #define IDC_CLSORT3                     6668
-#define IDC_ICONBLINK                   11720
 #define IDC_SHOW_AVATARS                11721
 #define IDC_SHOW_ANIAVATARS             11722
 #define IDC_HIDE_ICON_ON_AVATAR         11723

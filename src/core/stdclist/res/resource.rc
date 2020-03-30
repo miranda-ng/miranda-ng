@@ -9,7 +9,6 @@
 //
 #include <windows.h>
 #include <winres.h>
-#include <statusmodes.h>
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -46,29 +45,27 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Sort contacts by name",IDC_SORTBYNAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,153,14,144,10
-    CONTROL         "Sort contacts by status",IDC_SORTBYSTATUS,"Button",BS_AUTORADIOBUTTON,153,26,149,10
-    CONTROL         "Sort contacts by protocol",IDC_SORTBYPROTO,"Button",BS_AUTORADIOBUTTON,153,38,151,10
-    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,68,150,10
-    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,152,81,151,11
-    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,95,86,9
-    EDITTEXT        IDC_BLINKTIME,153,109,35,12,ES_NUMBER
-    LTEXT           "ms delay",IDC_STMSDELAY,192,110,113,8
-    CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,143,97,10
-    COMBOBOX        IDC_PRIMARYSTATUS,107,142,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Sort contacts by name",IDC_SORTBYNAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,14,287,10
+    CONTROL         "Sort contacts by status",IDC_SORTBYSTATUS,"Button",BS_AUTORADIOBUTTON,10,26,287,10
+    CONTROL         "Sort contacts by protocol",IDC_SORTBYPROTO,"Button",BS_AUTORADIOBUTTON,10,38,287,10
+    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,68,298,10
+    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,81,151,11
+    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,95,86,9
+    EDITTEXT        IDC_BLINKTIME,12,108,35,12,ES_NUMBER
+    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,39,107,11,14
+    LTEXT           "ms delay",IDC_STMSDELAY,52,111,113,8
+    CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,143,90,10
+    COMBOBOX        IDC_PRIMARYSTATUS,104,142,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "icon when statuses differ",IDC_STATIC,189,144,116,8,NOT WS_GROUP
-    CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,160,97,10
-    EDITTEXT        IDC_CYCLETIME,107,159,30,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,160,89,10
+    EDITTEXT        IDC_CYCLETIME,103,159,30,12,ES_RIGHT | ES_NUMBER
     CONTROL         "Spin1",IDC_CYCLETIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,127,158,10,14
-    LTEXT           "seconds, when statuses differ",IDC_STATIC,140,161,165,8,NOT WS_GROUP
-    CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,177,98,10
+    LTEXT           "seconds, when statuses differ",IDC_STATIC,141,161,165,8,NOT WS_GROUP
+    CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,177,91,10
     CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,177,198,10
-    GROUPBOX        "Contact list",IDC_STCLISTGROUP,2,2,135,126
-    GROUPBOX        "System tray icon",IDC_STATIC,143,57,169,70
+    GROUPBOX        "System tray icon",IDC_STATIC,2,57,310,70
     GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,2,131,310,66
-    GROUPBOX        "Contact list sorting",IDC_STATIC,143,2,169,54,WS_GROUP
-    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,173,97,11,21
-    CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,15,97,10
+    GROUPBOX        "Contact list sorting",IDC_STATIC,2,2,310,54,WS_GROUP
 END
 
 IDD_OPT_CLUI DIALOGEX 0, 0, 313, 245
@@ -230,8 +227,8 @@ BEGIN
     BEGIN
         LEFTMARGIN, 2
         RIGHTMARGIN, 312
-        VERTGUIDE, 10
-        VERTGUIDE, 107
+        VERTGUIDE, 2
+        VERTGUIDE, 308
         TOPMARGIN, 2
         BOTTOMMARGIN, 202
         HORZGUIDE, 179
@@ -319,7 +316,6 @@ END
 BEGIN
     "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
-    "#include <statusmodes.h>\r\n"
     "\0"
 END
 

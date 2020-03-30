@@ -449,8 +449,7 @@ namespace Clist
 		HideOffline,
 		UseGroups,
 		HideEmptyGroups, 
-		ConfirmDelete, 
-		RemoveTempContacts;
+		ConfirmDelete;
 };
 
 #endif // M_CLISTINT_H__

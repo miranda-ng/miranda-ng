@@ -608,17 +608,16 @@ BEGIN
     CONTROL         "Hide icon when showing avatar",IDC_HIDE_ICON_ON_AVATAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,24,246,8
     CONTROL         "Ignore size for row height calcs",IDC_NOTCHECKICONSIZE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,61,246,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,246,8
     CONTROL         "Draw icon in avatar space",IDC_DRAW_ON_AVATAR_SPACE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,36,234,8
-    CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,47,246,10
-    CONTROL         "Hide groups icon",IDC_HIDE_GROUPSICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,75,127,8
+    CONTROL         "Hide groups icon",IDC_HIDE_GROUPSICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,64,127,8
     CONTROL         "Always show ""Always visible"" icon",IDC_ALWAYS_VISIBLEICON,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,88,127,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,77,127,8
     CONTROL         "Use extra status icon instead protocol",IDC_USEXSTATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,101,236,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,90,236,8
     CONTROL         "Draw normal status as overlay",IDC_DRAWSTATUSOVERLAY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,114,222,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,103,222,8
 END
 
 IDD_OPT_ITEM_TEXT DIALOGEX 0, 0, 260, 160
@@ -833,6 +832,18 @@ BEGIN
         VERTGUIDE, 268
         VERTGUIDE, 276
     END
+
+    IDD_OPT_CLC, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_CLUI, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_ITEM_ICON, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -848,6 +859,11 @@ BEGIN
 END
 
 IDD_OPT_CLIST AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_ITEM_ICON AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
