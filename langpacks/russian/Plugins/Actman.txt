@@ -85,7 +85,7 @@
 Значение
 [Use LastResult]
 Использовать последний результат
-[UTF8 encoding]
+[UTF-8 encoding]
 В кодировке UTF-8
 [Function call]
 Вызов функции

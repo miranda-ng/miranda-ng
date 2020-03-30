@@ -36,14 +36,6 @@ URL:
 Открыть в новом окне
 [Show options]
 Настройки
-[Hide offline users]
-Скрыть отключённых
-[Hide empty groups]
-Скрыть пустые группы
-[Disable groups]
-Отключить группы
-[Ask before deleting contacts]
-Подтверждение удаления
 [Sort contacts by name]
 Сортировка по имени
 [Sort contacts by status]
@@ -70,8 +62,6 @@ URL:
 Несколько значков
 [Only when statuses differ]
 При разных статусах
-[Contact list]
-Список контактов
 [System tray icon]
 Значок в трее
 [System tray icon when using multiple protocols]
@@ -191,6 +181,8 @@ URL:
 Разделитель: %s
 [Info: %s]
 Инфо: %s
+[Contact list]
+Список контактов
 [List]
 Список
 ;file \plugins\Clist_blind\src\clistopts.cpp

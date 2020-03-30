@@ -40,8 +40,8 @@
 дней
 [Reset All]
 Сброс
-[Protocols]
-Протоколы
+[Accounts]
+Учётные записи
 [Split Messages]
 Разделять сообщения
 [Online:]
@@ -50,12 +50,12 @@
 Не в сети:
 [RSA Key]
 Ключ RSA
-[SHA1:]
-SHA1:
+[SHA-1:]
+SHA-1:
 [Public]
 Публичный
-[&Copy SHA1]
-&Копия SHA1
+[&Copy SHA-1]
+&Копировать SHA-1
 [E&xport]
 Э&кспорт
 [Private]
@@ -222,9 +222,9 @@ SecureIM не может отправить шифрованное сообще�
 [Can't change mode! Secure connection established!]
 Не могу изменить режим! Защищённое соединение установлено!
 [Can't export RSA private key!]
-Невозможно экспортировать частный ключ RSA!
+Невозможно экспортировать приватный ключ RSA!
 [Can't import RSA private key!]
-Невозможно импортировать частный ключ RSA!
+Невозможно импортировать приватный ключ RSA!
 [Can't export RSA public key!]
 Невозможно экспортировать публичный ключ RSA!
 [Can't import RSA public key!]
@@ -233,6 +233,8 @@ SecureIM не может отправить шифрованное сообще�
 Общее
 [Nickname]
 Ник
+[User ID]
+ID пользователя
 [Name]
 Имя
 [Password is too short!]
@@ -241,6 +243,8 @@ SecureIM не может отправить шифрованное сообще�
 Вкл.
 [Off]
 Откл.
+[Key ID]
+ID ключа
 [Keyrings loaded.]
 Keyrings загружены.
 [Keyrings not loaded!]
@@ -319,14 +323,14 @@ SecureIM: получено зашифрованное сообщение:\n
 Сессия закрыта другой стороной, статус "отключён"
 [Session closed on error: %02x]
 Сессия закрыта с ошибкой: %02x
-[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
-Получен публичный ключ RSA от "%s"\n\nSHA1: %s\n\nПринять?
-[SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
-Автоматически принят публичный ключ RSA от: %s UID: %s SHA1: %s
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?]
-Получен публичный ключ RSA от "%s"\n\nНовый SHA1: %s\n\nСтарый SHA1: %s\n\nЗаменить ключ?
-[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
-Автоматически принят публичный ключ RSA от: %s uin: %s Новый SHA1: %s Старый SHA1: %s
+[SecureIM received RSA Public Key from "%s"\n\nSHA-1: %s\n\nDo you Accept this Key?]
+Получен публичный ключ RSA от "%s"\n\nSHA-1: %s\n\nПринять?
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA-1: %s]
+Автоматически принят публичный ключ RSA от: %s UID: %s SHA-1: %s
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA-1: %s\n\nOld SHA-1: %s\n\nDo you Replace this Key?]
+Получен публичный ключ RSA от "%s"\n\nНовый SHA-1: %s\n\nСтарый SHA-1: %s\n\nЗаменить ключ?
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA-1: %s Old SHA-1: %s]
+Автоматически принят публичный ключ RSA от: %s uin: %s Новый SHA-1: %s Старый SHA-1: %s
 ;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 Список контактов

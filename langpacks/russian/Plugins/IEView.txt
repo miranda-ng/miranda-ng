@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.2
+;  Version: 1.6.0.3
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -81,6 +81,8 @@
 [ was added.]
  был добавлен.
 ;file \plugins\IEView\src\ieview_main.cpp
+[Code]
+Код	
 [RTL On]
 Вкл. RTL
 [RTL Off]
@@ -89,6 +91,8 @@
 Вкл. группировку
 [Group Off]
 Откл. группировку
+[Format text as code]
+Форматировать текст как код
 ;file \plugins\IEView\src\Options.cpp
 [Default]
 По умолчанию

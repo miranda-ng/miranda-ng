@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -200,8 +200,6 @@
 Только актуальная история
 [Use private splitter position]
 Собственный разделитель
-[Contact is a favorite contact]
-Контакт находится в избранном
 [Always trim message log to]
 Всегда ограничивать журнал до
 [events]
@@ -664,28 +662,6 @@ BBCode ([b][i][u])
 Глобальные настройки
 [Force off]
 Выключить
-[Recent sessions]
-Последние сессии
-[Favorites]
-Избранные
-[Show the tray icon]
-Показывать значок в трее
-[Disable all event notifications]
-Выключить все уведомления
-[Don't create windows automatically]
-Не создавать окна автоматически
-[Hide all message containers]
-Скрыть все контейнеры
-[Restore all message containers]
-Восстановить все контейнеры
-[Don't play sounds]
-Выключить звуки
-[Be "super quiet"]
-Быть "очень тихим"
-[Add contact to favorites]
-Добавить контакт к избранным
-[Remove contact from favorites]
-Удалить контакт из избранных
 [Set position for this session]
 Установить положение для этой сессии
 [Set and save for all sessions]
@@ -1233,8 +1209,6 @@ ID текущего контакта (если определён). Наприм
 Не уведомлять, если открыто окно сообщений
 [Don't announce events from RSS protocols]
 Не уведомлять о событиях в протоколе RSS
-[Enable the system tray icon]
-Включить значок в трее
 [Merge new events for the same contact into existing popup]
 Добавлять новые события в уже существующее всплывающее окно
 [Show headers]
@@ -1309,10 +1283,6 @@ ID текущего контакта (если определён). Наприм
 Другое
 [TabSRMM: typing]
 TabSRMM: набор текста
-[TabSRMM session list]
-Список сессий TabSRMM
-[TabSRMM menu]
-Меню TabSRMM
 [&Messaging settings...]
 Настройки &бесед...
 [&Send later job list...]
@@ -1806,8 +1776,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Стрелка вправо
 [Up Arrow]
 Стрелка вверх
-[Session List]
-Список сессий
 [Frame 1]
 Кадр 1
 [Frame 2]
@@ -1952,7 +1920,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Перед сменой скина нужно закрыть все контейнеры\nПродолжить?
 [Change skin]
 Изменение скина
-;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 Выключить уведомления о &наборе текста
@@ -1972,6 +1939,8 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 TabSRMM: %s
+[Save file|Unable to save temporary file]
+Сохранение файла|Не удалось сохранить временный файл
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редактирование заметок о пользователе|Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячую клавишу (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим набора ообщений
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]

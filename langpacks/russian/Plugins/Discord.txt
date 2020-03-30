@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.3
+;  Version: 0.6.2.5
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -27,10 +27,6 @@
 [Nick:]
 Ник:
 ;file \protocols\Discord\src\dispatch.cpp
-[Incoming call]
-Входящий звонок
-[Call ended, %d seconds long]
-Звонок завершён, длительность - %d секунд
 [edited at]
 изменено в
 ;file \protocols\Discord\src\groupchat.cpp
@@ -92,14 +88,21 @@
 [Account]
 Учётная запись
 ;file \protocols\Discord\src\proto.cpp
+[Incoming call]
+Входящий звонок
 [%s server connection]
 %s подключение к серверу
 [%s gateway connection]
 %s подключение к шлюзу
+[Discord voice call]
+Голосовой вызов Discord
 [User ID]
 ID пользователя
 [Protocol is offline or user isn't authorized yet]
 Протокол не в сети или пользователь ещё не авторизовался
+;file \protocols\Discord\src\server.cpp
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+Сервер требует ввести капчу. Сейчас Миранда перенаправит вас в браузер
 ;file \protocols\Discord\src\utils.cpp
 [Owners]
 Владельцы
@@ -111,3 +114,6 @@ ID пользователя
 Встроенное изображение
 [Preview]
 Предварительный просмотр
+;file \protocols\Discord\src\voice.cpp
+[Call ended, %d seconds long]
+Звонок завершён, длительность - %d секунд

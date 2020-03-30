@@ -2,15 +2,25 @@
 ;============================================================
 ;  File: MessageState.dll
 ;  Plugin: Message state
-;  Version: 0.0.1.0
+;  Version: 0.1.0.2
 ;  Authors: MikalaiR
 ;============================================================
 [Displays icons in message window showing whether your last outgoing message was read / is still unread.]
 Отображает значок в окне сообщений, показывающий, когда ваше последнее исходящее сообщение было прочитано / ещё не прочитано.
-;file \plugins\MessageState\src\clist_extra.cpp
+;file \plugins\MessageState\src\messagestate.cpp
+[Last message read at %X %x]
+Последнее сообщение прочитано %X %x
+[Last message read]
+Последнее сообщение прочитано
+[Last message is not read]
+Последнее сообщение не прочитано
+[Last message was not sent]
+Последнее сообщение не отправлено
+[Sending...]
+Передача...
 [MessageState unread extra icon]
 Непрочитанное сообщение
-;file \plugins\MessageState\src\messagestate.cpp
+;file \plugins\MessageState\src\services.cpp
 [Unread message icon]
 Значок непрочитанного сообщения
 [Read message icon]
@@ -21,15 +31,3 @@
 Значок отправки сообщения
 [Unread clist extra icon]
 Значок непрочитанного сообщения в списке контактов
-[Last message is not read]
-Последнее сообщение не прочитано
-[Last message read]
-Последнее сообщение прочитано
-[Last message was not sent]
-Последнее сообщение не отправлено
-[Sending...]
-Передача...
-[Last message read at %X %x]
-Последнее сообщение прочитано %X %x
-[Last message read (unknown time)]
-Последнее сообщение прочитано (неизвестно)

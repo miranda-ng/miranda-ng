@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.5
+;  Version: 0.12.3.6
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -121,6 +121,8 @@ URI объект
 Передача файла:\n\tИмя файла: %s \n\tРазмер: %lld байт \n
 [Preview]
 Тест
+[Full image]
+Полноформатное изображение
 [Unknown event, please send this text for developer: "%s"]
 Неизвестное событие, пожалуйста, отправьте этот текст разработчику: "%s"
 ;file \protocols\SkypeWeb\src\skype_icons.cpp

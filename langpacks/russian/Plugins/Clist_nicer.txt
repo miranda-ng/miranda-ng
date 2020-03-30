@@ -34,20 +34,8 @@
 Будет удалена вся история и все настройки для данного контакта!
 [Contact list]
 Список контактов
-[Hide offline users]
-Скрыть отключённых
-[Hide empty groups]
-Скрыть пустые группы
-[Disable groups]
-Отключить группы
-[Ask before deleting contacts]
-Подтверждение удаления
-[Disable icon blinking]
-Выключить мигание
 [Apply last active view mode]
 Применить последний активный режим
-[Contact list layout]
-Отображение списка контактов
 [Show menu and status buttons]
 Показ. кнопки меню и статуса
 [Draw sunken edge]
@@ -58,6 +46,8 @@
 Один щелчок
 [Always show status in tooltip]
 Всегда показывать статус в подсказке
+[Disable icon blinking]
+Выключить мигание
 [ms]
 мс
 [Event area]

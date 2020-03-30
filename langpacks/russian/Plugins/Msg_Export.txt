@@ -30,8 +30,8 @@
 Формат времени
 [Use JSON format for export]
 Экспортировать в формат JSON
-[Use UTF8 in new files]
-UTF8 в новых файлах
+[Use UTF-8 in new files]
+UTF-8 в новых файлах
 [Append extra new line]
 Дополнительный перевод строки
 [Use << and >>]
@@ -117,14 +117,14 @@ UTF8 в новых файлах
 Файл
 [Nick]
 Псевдоним
-[Proto]
-Протокол
-[UIN]
-Номер
+[Account]
+Учётная запись
+[User ID]
+ID пользователя
 [No contacts found to export]
 Нет контактов для экспорта
-[Export Protocols]
-Экспорт протоколов
+[Export accounts]
+Экспорт учётных записей
 [Message export]
 Экспорт сообщений
 [History]
@@ -179,8 +179,6 @@ UTF8 в новых файлах
       История переписки с
 [User]
 Контакт
-[Protocol]
-Протокол
 [File: ]
 Файл:\s
 [Description: ]

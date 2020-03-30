@@ -373,8 +373,6 @@ VBR или пусто
 Выводить "Variables" в ANSI
 [FPS (Frames per second)]
 FPS (кадров в секунду)
-[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-Если используется плагин Variables, возвращаемые значения будут в кодировке ANSI (по умолчанию - UTF8)
 [Save settings in INI-file]
 Сохранять настройки в файле
 [VBR or not]

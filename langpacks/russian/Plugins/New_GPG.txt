@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.1.0.1
-;  Authors: sss
+;  Version: 0.2.0.2
+;  Authors: sss, Miranda NG Team
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Плагин шифрования GPG, основанный на исходных кодах старого плагина GPG и SecureIM.
@@ -155,7 +155,7 @@ ID ключа:
 [Strip all tags in outgoing messages]
 Удалять все метки из исходящих сообщений
 [Turn on presence signing (Jabber) (required by XEP-0027)]
-Сообщать о возможности использования подписи (Jabber) (требуется XEP-0027)
+Сообщать о возможности использования подписи (Jabber) (требуется для XEP-0027)
 [Export keys]
 Экспорт ключей
 [Import keys]
@@ -230,8 +230,8 @@ ID ключа:
 Имя
 [Email]
 Почта
-[Protocol]
-Протокол
+[Account]
+Учётная запись
 [Default private key ID]
 Основной приватный ключ
 [not set]
@@ -363,6 +363,8 @@ ID ключа:
 
 [Failed to export public key.]
 Не удалось экспортировать открытый ключ.
+[Please enter password for key with ID: ]
+Введите пароль от ключа с ID:\s
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 
@@ -400,4 +402,3 @@ ID ключа:
 Выберите директорию c GnuPG
 [Please set keyring's home directory]
 Выберите директорию с ключами GnuPG
-;file \plugins\New_GPG\src\utilities.h

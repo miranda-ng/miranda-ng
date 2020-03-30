@@ -11,7 +11,7 @@
 [OTR Generating Private Key]
 OTR Создание личного ключа
 [Generating new private key - please wait.]
-Генерация нового частного ключа - подождите.
+Генерация нового приватного ключа, подождите.
 [Default Policy]
 Политика по умолчанию:
 [Always]
@@ -40,12 +40,12 @@ OTR Создание личного ключа
 Показывать системные сообщения во всплывающем окне
 [Show verification dialog when receiving unverified fingerprint]
 Диалог подтверждения при получении непроверенного отпечатка
-[Set OTR policy per protocol]
-Установить политику OTR попротокольно
+[Set OTR policy per account]
+Задать политику OTR индивидуально для каждой учётной записи
 [Current policy:]
 Текущая политика:
 [Generate new private key]
-Генерация нового частного ключа
+Генерация нового приватного ключа
 [Forget private key]
 Забыть частный ключ
 [Set OTR policy per contact]
@@ -140,12 +140,12 @@ OTR не может шифровать во время отправки сооб
 Шифрованная сессия с '%s' теперь использует ПРОВЕРЕННЫЙ отпечаток.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Шифрованная сессия с '%s' теперь использует НЕПРОВЕРЕННЫЙ отпечаток.
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Создание нового частного ключа для протокола '%s'.\nПодождите...
+[Generating new private key for account '%s'.\nPlease Wait...]
+Создание нового приватного ключа для учётной записи '%s'.\nПодождите...
 [General]
 Общее
-[Protocols]
-Протоколы
+[Accounts]
+Учётные записи
 [Contacts]
 Контакты
 [Fingerprints]

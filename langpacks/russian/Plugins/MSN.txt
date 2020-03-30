@@ -241,10 +241,10 @@ MSN уведомление
 Протокол не в сети
 [You cannot send message to yourself]
 Вы не можете отправлять сообщения самому себе
-[Message is too long: SMS page limited to 133 UTF8 chars]
-Слишком большое сообщение, максимум 133 символа UTF8
-[Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Сообщения MSN ограничены 1202 символами UTF-8
+[Message is too long: SMS page limited to 133 UTF-8 chars]
+Слишком большое сообщение: максимум 133 символа UTF-8
+[Message is too long: MSN messages are limited by 1202 UTF-8 chars]
+Слишком большое сообщение максимум 1202 символа UTF-8
 [Offline messaging is not allowed for LCS contacts]
 Сообщения отключённым LCS контактам невозможны
 ;file \protocols\MSN\src\msn_svcs.cpp
