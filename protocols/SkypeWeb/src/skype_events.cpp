@@ -103,8 +103,13 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 			if (auto *pRoot = doc.FirstChildElement("URIObject")) {
 				if (auto *xmlA = pRoot->FirstChildElement("a"))
 					szText += xmlA->Attribute("href");
-				if (auto *xmlThumb = pRoot->Attribute("url_thumbnail"))
+				if (auto *xmlThumb = pRoot->Attribute("url_thumbnail")) {
 					szText.AppendFormat("\r\n%s: %s", TranslateU("Preview"), xmlThumb);
+					
+					CMStringA szUrl(xmlThumb);
+					szUrl.Replace("/views/imgt1_anim", "/views/imgpsh_fullsize_anim");
+					szText.AppendFormat("\r\n%s: %s", TranslateU("Full image"), szUrl.c_str());
+				}
 			}
 		}
 		break;
