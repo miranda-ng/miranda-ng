@@ -491,7 +491,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       GroupchatJoinRoomByJid(HWND hwndParent, char *jid);
 			     
 	void       RenameParticipantNick(JABBER_LIST_ITEM *item, const char *oldNick, const TiXmlElement *itemNode);
-	void       AcceptGroupchatInvite(const char *roomJid, const char *reason, const char *password);
 
 	//---- jabber_ft.c -------------------------------------------------------------------
 
@@ -499,13 +498,13 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       __cdecl FileServerThread(filetransfer *ft);
 			     
 	void       FtCancel(filetransfer *ft);
-	void       FtInitiate(const char* jid, filetransfer *ft);
+	void       FtInitiate(filetransfer *ft);
 	void       FtHandleSiRequest(const TiXmlElement *iqNode);
 	void       FtAcceptSiRequest(filetransfer *ft);
 	void       FtAcceptIbbRequest(filetransfer *ft);
 	bool       FtHandleBytestreamRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	bool       FtHandleIbbRequest(const TiXmlElement *iqNode, bool bOpen);
-	bool       FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileName);
+	bool       FtTryInlineFile(filetransfer *ft);
 	bool       FtHandleCidRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_groupchat.c ------------------------------------------------------------
@@ -515,10 +514,12 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR    __cdecl OnJoinChat(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnLeaveChat(WPARAM wParam, LPARAM lParam);
 
+	void       AcceptGroupchatInvite(const char *roomJid, const char *reason, const char *password);
 	void       GroupchatJoinRoom(const char *server, const char *room, const char *nick, const char *password, bool autojoin = false);
 	void       GroupchatProcessPresence(const TiXmlElement *node);
 	void       GroupchatProcessMessage(const TiXmlElement *node);
 	void       GroupchatProcessInvite(const char *roomJid, const char *from, const char *reason, const char *password);
+	void       GroupchatSendMsg(JABBER_LIST_ITEM *pItem, const char *msg);
 	void       OnIqResultDiscovery(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_icolib.cpp -------------------------------------------------------------
@@ -599,9 +600,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	bool       FtIbbSend(int blocksize, filetransfer *ft);
 	bool       FtSend(HNETLIBCONN hConn, filetransfer *ft);
-	void       FtSendFinal(BOOL success, filetransfer *ft);
+	void       FtSendFinal(bool success, filetransfer *ft);
 	int        FtReceive(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
-	void       FtReceiveFinal(BOOL success, filetransfer *ft);
+	void       FtReceiveFinal(bool success, filetransfer *ft);
 
 	//---- jabber_iqid.cpp ---------------------------------------------------------------
 

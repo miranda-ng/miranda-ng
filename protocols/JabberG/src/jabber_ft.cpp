@@ -84,7 +84,7 @@ static void __cdecl FakeAckThread(void *param)
 	delete ft;
 }
 
-void CJabberProto::FtInitiate(const char* jid, filetransfer *ft)
+void CJabberProto::FtInitiate(filetransfer *ft)
 {
 	if (ft == nullptr)
 		return;
@@ -104,8 +104,8 @@ LBL_Error:
 
 	// if we enabled XEP-0231, try to inline a picture
 	if (m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w)) {
-		if (FtTryInlineFile(ft->std.hContact, ft->std.szCurrentFile.w)) {
-			mir_forkthread(FakeAckThread, ft);
+		if (FtTryInlineFile(ft)) {
+			FtSendFinal(true, ft);
 			return;
 		}
 	}
@@ -148,41 +148,66 @@ LBL_Error:
 		goto LBL_Error;
 	}
 
-	char *rs = ListGetBestClientResourceNamePtr(jid);
-	if (rs == nullptr) {
+	auto r = ft->pItem->getBestResource();
+	if (r == nullptr) {
 		debugLogA("%S has no current resource available, file transfer failed", Clist_GetContactDisplayName(ft->std.hContact));
 		goto LBL_Error;
 	}
 
+	JabberCapsBits jcb = GetResourceCapabilities(ft->pItem->jid, r);
+	if (jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS) {
+		Sleep(600);
+		jcb = GetResourceCapabilities(ft->pItem->jid);
+	}
+
+	// fix for very smart clients, like gajim
+	if (!m_bBsDirect && !m_bBsProxyManual) {
+		// disable bytestreams
+		jcb &= ~JABBER_CAPS_BYTESTREAMS;
+	}
+
+	// if only JABBER_CAPS_SI_FT feature set (without BS or IBB), disable JABBER_CAPS_SI_FT
+	if ((jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_IBB | JABBER_CAPS_BYTESTREAMS)) == JABBER_CAPS_SI_FT)
+		jcb &= ~JABBER_CAPS_SI_FT;
+
+	if ((jcb & JABBER_RESOURCE_CAPS_ERROR) // can't get caps
+		|| (jcb == JABBER_RESOURCE_CAPS_NONE) // caps not already received
+		|| !(jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_OOB))) // XEP-0096 and OOB not supported?
+	{
+		MsgPopup(ft->std.hContact, TranslateT("No compatible file transfer mechanism exists"), Utf2T(ft->pItem->jid));
+		goto LBL_Error;
+	}
+
 	// no cloud services enabled, try to initiate a p2p file transfer
-	ft->type = FT_SI;
-	char sid[9];
-	for (int i = 0; i < 8; i++)
-		sid[i] = (rand() % 10) + '0';
-	sid[8] = '\0';
-	replaceStr(ft->sid, sid);
+	if (jcb & JABBER_CAPS_SI_FT) {
+		ft->type = FT_SI;
+		char sid[9];
+		for (int i = 0; i < 8; i++)
+			sid[i] = (rand() % 10) + '0';
+		sid[8] = '\0';
+		replaceStr(ft->sid, sid);
 
-	auto *pIq = AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, MakeJid(jid, rs), ft);
-	pIq->SetParamsToParse(JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO);
-	XmlNodeIq iq(pIq);
-	TiXmlElement *si = iq << XCHILDNS("si", JABBER_FEAT_SI) << XATTR("id", sid)
-		<< XATTR("mime-type", "binary/octet-stream") << XATTR("profile", JABBER_FEAT_SI_FT);
-	si << XCHILDNS("file", JABBER_FEAT_SI_FT) << XATTR("name", T2Utf(filename))
-		<< XATTRI64("size", ft->fileSize[ft->std.currentFileNumber]) << XCHILD("desc", T2Utf(ft->szDescription));
+		auto *pIq = AddIQ(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, MakeJid(ft->pItem->jid, r->m_szResourceName), ft);
+		pIq->SetParamsToParse(JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO);
+		XmlNodeIq iq(pIq);
+		TiXmlElement *si = iq << XCHILDNS("si", JABBER_FEAT_SI) << XATTR("id", sid)
+			<< XATTR("mime-type", "binary/octet-stream") << XATTR("profile", JABBER_FEAT_SI_FT);
+		si << XCHILDNS("file", JABBER_FEAT_SI_FT) << XATTR("name", T2Utf(filename))
+			<< XATTRI64("size", ft->fileSize[ft->std.currentFileNumber]) << XCHILD("desc", T2Utf(ft->szDescription));
 
-	TiXmlElement *field = si << XCHILDNS("feature", JABBER_FEAT_FEATURE_NEG)
-		<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "form")
-		<< XCHILD("field") << XATTR("var", "stream-method") << XATTR("type", "list-single");
+		TiXmlElement *field = si << XCHILDNS("feature", JABBER_FEAT_FEATURE_NEG)
+			<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "form")
+			<< XCHILD("field") << XATTR("var", "stream-method") << XATTR("type", "list-single");
 
-	BOOL bDirect = m_bBsDirect;
-	BOOL bProxy = m_bBsProxyManual;
+		// bytestreams support?
+		if (m_bBsDirect || m_bBsProxyManual)
+			field << XCHILD("option") << XCHILD("value", JABBER_FEAT_BYTESTREAMS);
 
-	// bytestreams support?
-	if (bDirect || bProxy)
-		field << XCHILD("option") << XCHILD("value", JABBER_FEAT_BYTESTREAMS);
-
-	field << XCHILD("option") << XCHILD("value", JABBER_FEAT_IBB);
-	m_ThreadInfo->send(iq);
+		field << XCHILD("option") << XCHILD("value", JABBER_FEAT_IBB);
+		m_ThreadInfo->send(iq);
+	}
+	else // OOB then
+		ForkThread((MyThreadFunc)&CJabberProto::FileServerThread, ft);
 }
 
 void CJabberProto::OnFtSiResult(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
@@ -330,7 +355,7 @@ bool CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 	return true;
 }
 
-void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
+void CJabberProto::FtSendFinal(bool success, filetransfer *ft)
 {
 	if (!success) {
 		debugLogA("File transfer complete with error");
@@ -341,7 +366,7 @@ void CJabberProto::FtSendFinal(BOOL success, filetransfer *ft)
 			ft->std.currentFileNumber++;
 			replaceStrW(ft->std.szCurrentFile.w, ft->std.pszFiles.w[ft->std.currentFileNumber]);
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft);
-			FtInitiate(ft->jid, ft);
+			FtInitiate(ft);
 			return;
 		}
 
@@ -402,7 +427,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 
 			if (optionNode != nullptr) {
 				// Found known stream mechanism
-				filetransfer *ft = new filetransfer(this);
+				filetransfer *ft = new filetransfer(this, 0);
 				ft->dwExpectedRecvFileSize = filesize;
 				ft->jid = mir_strdup(from);
 				ft->std.hContact = HContactFromJID(from);
@@ -582,13 +607,13 @@ int CJabberProto::FtReceive(HNETLIBCONN, filetransfer *ft, char* buffer, int dat
 	return 0;
 }
 
-void CJabberProto::FtReceiveFinal(BOOL success, filetransfer *ft)
+void CJabberProto::FtReceiveFinal(bool success, filetransfer *ft)
 {
 	if (success) {
-		debugLogA("File transfer complete successfully");
+		debugLogA("File transfer completed successfully");
 		ft->complete();
 	}
-	else debugLogA("File transfer complete with error");
+	else debugLogA("File transfer completed with error");
 
 	delete ft;
 }
@@ -679,16 +704,17 @@ LBL_Fail:
 				if (szGetUrl == nullptr)
 					szGetUrl = szUrl;
 
-				if (ProtoChainSend(ft->std.hContact, PSS_MESSAGE, 0, (LPARAM)szGetUrl) != -1) {
+				if (isChatRoom(ft->std.hContact))
+					GroupchatSendMsg(ft->pItem, ptrA(mir_utf8encode(szGetUrl)));
+				else if (ProtoChainSend(ft->std.hContact, PSS_MESSAGE, 0, (LPARAM)szGetUrl) != -1) {
 					PROTORECVEVENT recv = {};
 					recv.flags = PREF_CREATEREAD | PREF_SENT;
-					recv.szMessage = (char*)szGetUrl;
+					recv.szMessage = (char *)szGetUrl;
 					recv.timestamp = time(0);
 					ProtoChainRecvMsg(ft->std.hContact, &recv);
 				}
 
-				ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
-				delete ft;
+				FtSendFinal(true, ft);
 				return;
 			}
 		}
@@ -700,23 +726,23 @@ LBL_Fail:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CJabberProto::FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileName)
+bool CJabberProto::FtTryInlineFile(filetransfer *ft)
 {
-	int fileFormat = ProtoGetAvatarFormat(pwszFileName);
+	int fileFormat = ProtoGetAvatarFormat(ft->std.szCurrentFile.w);
 	if (fileFormat == PA_FORMAT_UNKNOWN) {
 		debugLogA("Unknown picture format");
 		return false;
 	}
 
 	char szClientJid[JABBER_MAX_JID_LEN];
-	if (!m_bJabberOnline || !GetClientJID(hContact, szClientJid, _countof(szClientJid))) {
-		debugLogA("Protocol is offline or no contact %d", hContact);
+	if (!m_bJabberOnline || !GetClientJID(ft->std.hContact, szClientJid, _countof(szClientJid))) {
+		debugLogA("Protocol is offline or no contact %d", ft->std.hContact);
 		return false;
 	}
 
-	int fileId = _wopen(pwszFileName, _O_BINARY | _O_RDONLY);
+	int fileId = _wopen(ft->std.szCurrentFile.w, _O_BINARY | _O_RDONLY);
 	if (fileId < 0) {
-		debugLogW(L"File %s cannot be opened for inlining", pwszFileName);
+		debugLogW(L"File %s cannot be opened for inlining", ft->std.szCurrentFile.w);
 		return false;
 	}
 
@@ -739,9 +765,9 @@ bool CJabberProto::FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileNam
 
 	CMStringW wszFileName(FORMAT, L"%s\\%S%s", wszTempPath.get(), szHash, ProtoGetAvatarExtension(fileFormat));
 	if (_waccess(wszFileName, 0))
-		if (!CopyFileW(pwszFileName, wszFileName, FALSE)) {
+		if (!CopyFileW(ft->std.szCurrentFile.w, wszFileName, FALSE)) {
 			DWORD dwError = GetLastError();
-			debugLogW(L"File <%s> cannot be copied to <%s>: error %d", pwszFileName, wszFileName.c_str(), dwError);
+			debugLogW(L"File <%s> cannot be copied to <%s>: error %d", ft->std.szCurrentFile.w, wszFileName.c_str(), dwError);
 			return false;
 		}
 
@@ -770,7 +796,7 @@ bool CJabberProto::FtTryInlineFile(MCONTACT hContact, const wchar_t *pwszFileNam
 	recv.flags = PREF_CREATEREAD | PREF_SENT;
 	recv.szMessage = szMsg.GetBuffer();
 	recv.timestamp = time(0);
-	ProtoChainRecvMsg(hContact, &recv);
+	ProtoChainRecvMsg(ft->std.hContact, &recv);
 	return true;
 }
 

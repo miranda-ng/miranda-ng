@@ -436,11 +436,10 @@ int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, i
 /////////////////////////////////////////////////////////////////////////////////////////
 // filetransfer class members
 
-filetransfer::filetransfer(CJabberProto *proto)
+filetransfer::filetransfer(CJabberProto *_proto, JABBER_LIST_ITEM *_item) :
+	ppro(_proto),
+	pItem(_item)
 {
-	memset(this, 0, sizeof(filetransfer));
-	ppro = proto;
-	fileId = -1;
 	std.flags = PFTS_UNICODE;
 }
 

@@ -176,7 +176,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 				debugLogA("Bytestream proxy failure");
 				MsgPopup(pInfo->GetHContact(), TranslateT("Bytestream Proxy not available"), _A2T(proxyJid));
 				jbt->ft->state = FT_DENIED;
-				(this->*jbt->pfnFinal)(FALSE, jbt->ft);
+				(this->*jbt->pfnFinal)(false, jbt->ft);
 				jbt->ft = nullptr;
 				delete jbt;
 				return;
@@ -256,7 +256,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			jbt->hConn = nullptr;
 			ListRemove(LIST_BYTE, szPort);
 		}
-		(this->*jbt->pfnFinal)((jbt->state == JBT_DONE) ? TRUE : FALSE, jbt->ft);
+		(this->*jbt->pfnFinal)(jbt->state == JBT_DONE, jbt->ft);
 		jbt->ft = nullptr;
 		// stupid fix: wait for listening thread exit
 		Sleep(100);
@@ -284,7 +284,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 		CloseHandle(hEvent);
 		CloseHandle(jbt->hSendEvent);
 		jbt->hEvent = nullptr;
-		(this->*jbt->pfnFinal)((jbt->state == JBT_DONE) ? TRUE : FALSE, jbt->ft);
+		(this->*jbt->pfnFinal)(jbt->state == JBT_DONE, jbt->ft);
 		jbt->ft = nullptr;
 		if (jbt->hConn != nullptr)
 			Netlib_CloseHandle(jbt->hConn);
@@ -472,7 +472,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 		Netlib_CloseHandle(hConn);
 	}
 	mir_free(buffer);
-	(this->*jbt->pfnFinal)((jbt->state == JBT_DONE) ? TRUE : FALSE, jbt->ft);
+	(this->*jbt->pfnFinal)(jbt->state == JBT_DONE, jbt->ft);
 	jbt->ft = nullptr;
 	if (!validStreamhost)
 		m_ThreadInfo->send(XmlNodeIq("error", jbt->iqId, jbt->srcJID)
@@ -653,7 +653,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 		}
 	}
 
-	(this->*jbt->pfnFinal)((jbt->state == JBT_DONE) ? TRUE : FALSE, jbt->ft);
+	(this->*jbt->pfnFinal)(jbt->state == JBT_DONE, jbt->ft);
 	jbt->ft = nullptr;
 	if (!validStreamhost && szId && from) {
 		debugLogA("bytestream_recv_connection session not completed");

@@ -1374,18 +1374,8 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_MESSAGE:
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
-
-			if (m_bJabberOnline) {
-				char szId[100];
-				int64_t id = (_time64(nullptr) << 16) + (GetTickCount() & 0xFFFF);
-				_i64toa(id, szId, 36);
-
-				wchar_t *buf = NEWWSTR_ALLOCA(gch->ptszText);
-				Chat_UnescapeTags(buf);
-				m_ThreadInfo->send(
-					XmlNode("message") << XATTR("id", szId) << XATTR("to", item->jid) << XATTR("type", "groupchat")
-					<< XCHILD("body", T2Utf(buf)));
-			}
+			Chat_UnescapeTags(gch->ptszText);
+			GroupchatSendMsg(item, T2Utf(gch->ptszText));
 		}
 		break;
 

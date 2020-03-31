@@ -1105,10 +1105,9 @@ lbl_return:
 		for (auto &hContact : Contacts()) {
 			hItem = m_clcClist.FindContact(hContact);
 
-			ptrW jid(m_proto->getWStringA(hContact, "jid"));
+			ptrA jid(m_proto->ContactToJID(hContact));
 			if (jid == nullptr)
-				if ((jid = m_proto->getWStringA(hContact, "ChatRoomID")) == nullptr)
-					continue;
+				continue;
 
 			if (dwPackets = CListGetPackets(hItem, true))
 				pList->AddRule(Jid, szJid, TRUE, dwOrder++, dwPackets);

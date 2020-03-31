@@ -285,7 +285,7 @@ bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 		return true;
 	}
 
-	filetransfer *ft = new filetransfer(this);
+	filetransfer *ft = new filetransfer(this, 0);
 	ft->std.totalFiles = 1;
 	ft->jid = mir_strdup(pInfo->GetFrom());
 	ft->std.hContact = pInfo->GetHContact();

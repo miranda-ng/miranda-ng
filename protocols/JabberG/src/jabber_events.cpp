@@ -36,7 +36,7 @@ void CJabberProto::OnContactDeleted(MCONTACT hContact)
 	if (!m_bJabberOnline)	// should never happen
 		return;
 
-	ptrA jid(getUStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
+	ptrA jid(ContactToJID(hContact));
 	if (jid == nullptr)
 		return;
 

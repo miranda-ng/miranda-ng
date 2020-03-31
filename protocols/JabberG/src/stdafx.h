@@ -411,9 +411,9 @@ struct JABBER_MODEMSGS
 enum JABBER_FT_TYPE { FT_SI, FT_OOB, FT_BYTESTREAM, FT_IBB, FT_HTTP };
 enum JABBER_FILE_STATE { FT_CONNECTING, FT_INITIALIZING, FT_RECEIVING, FT_DONE, FT_ERROR, FT_DENIED };
 
-struct filetransfer
+struct filetransfer : public MZeroedObject
 {
-	filetransfer(CJabberProto *proto);
+	filetransfer(CJabberProto *proto, struct JABBER_LIST_ITEM *item);
 	~filetransfer();
 
 	void close();
@@ -425,8 +425,9 @@ struct filetransfer
 	JABBER_FT_TYPE type;
 	HNETLIBCONN s;
 	JABBER_FILE_STATE state;
+	JABBER_LIST_ITEM *pItem;
 	char*  jid;
-	int    fileId;
+	int    fileId = -1;
 	char*  szId;
 	char*  sid;
 	int    bCompleted;

@@ -128,7 +128,7 @@ void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 		else jibb->state = JIBB_ERROR;
 	}
 
-	(this->*jibb->pfnFinal)((jibb->state == JIBB_DONE) ? TRUE : FALSE, jibb->ft);
+	(this->*jibb->pfnFinal)(jibb->state == JIBB_DONE, jibb->ft);
 	jibb->ft = nullptr;
 	JabberIbbFreeJibb(jibb);
 }
@@ -157,7 +157,7 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 	if (jibb->bStreamClosed && jibb->dwTransferredSize == ft->dwExpectedRecvFileSize)
 		jibb->state = JIBB_DONE;
 
-	(this->*jibb->pfnFinal)((jibb->state == JIBB_DONE) ? TRUE : FALSE, jibb->ft);
+	(this->*jibb->pfnFinal)(jibb->state == JIBB_DONE, jibb->ft);
 	jibb->ft = nullptr;
 
 	ListRemove(LIST_FTRECV, jibb->sid);

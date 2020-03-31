@@ -830,46 +830,26 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 	if (!m_bJabberOnline)
 		return nullptr;
 
-	ptrA jid(getUStringA(hContact, "jid"));
-	if (jid == nullptr)
+	ptrA jid(ContactToJID(hContact));
+	if (jid == nullptr) {
+		debugLogA("invalid contact passed for a file transfer: %d", hContact);
 		return nullptr;
+	}
 
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item == nullptr)
-		return nullptr;
-
-	// Check if another file transfer session request is pending (waiting for disco result)
-	if (item->ft != nullptr)
-		return nullptr;
-
-	JabberCapsBits jcb = 0;
-	if (!m_bUseHttpUpload) {
-		jcb = GetResourceCapabilities(item->jid);
-		if (jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS) {
-			Sleep(600);
-			jcb = GetResourceCapabilities(item->jid);
-		}
-
-		// fix for very smart clients, like gajim
-		if (!m_bBsDirect && !m_bBsProxyManual) {
-			// disable bytestreams
-			jcb &= ~JABBER_CAPS_BYTESTREAMS;
-		}
-
-		// if only JABBER_CAPS_SI_FT feature set (without BS or IBB), disable JABBER_CAPS_SI_FT
-		if ((jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_IBB | JABBER_CAPS_BYTESTREAMS)) == JABBER_CAPS_SI_FT)
-			jcb &= ~JABBER_CAPS_SI_FT;
-
-		if ((jcb & JABBER_RESOURCE_CAPS_ERROR) // can't get caps
-			|| (jcb == JABBER_RESOURCE_CAPS_NONE) // caps not already received
-			|| !(jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_OOB))) // XEP-0096 and OOB not supported?
-		{
-			MsgPopup(hContact, TranslateT("No compatible file transfer mechanism exists"), Utf2T(item->jid));
+		if ((item = ListGetItemPtr(LIST_CHATROOM, jid)) == nullptr) {
+			debugLogA("invalid jid passed for a file transfer: %s", jid);
 			return nullptr;
 		}
+
+	// Check if another file transfer session request is pending (waiting for disco result)
+	if (item->ft != nullptr) {
+		debugLogA("another file transfer is active for %s, exiting", item->jid);
+		return nullptr;
 	}
 
-	filetransfer *ft = new filetransfer(this);
+	filetransfer *ft = new filetransfer(this, item);
 	ft->std.hContact = hContact;
 	while (ppszFiles[ft->std.totalFiles] != nullptr)
 		ft->std.totalFiles++;
@@ -890,6 +870,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 		}
 	}
 	if (j == 0) {
+		debugLogA("no valid files to send, exiting");
 		delete ft;
 		return nullptr;
 	}
@@ -897,12 +878,7 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 	ft->std.szCurrentFile.w = mir_wstrdup(ppszFiles[0]);
 	ft->szDescription = mir_wstrdup(szDescription);
 	ft->jid = mir_strdup(jid);
-
-	if ((m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w)) || m_bUseHttpUpload || (jcb & JABBER_CAPS_SI_FT))
-		FtInitiate(item->jid, ft);
-	else if (jcb & JABBER_CAPS_OOB)
-		ForkThread((MyThreadFunc)&CJabberProto::FileServerThread, ft);
-
+	FtInitiate(ft);
 	return ft;
 }
 

@@ -47,7 +47,7 @@ struct JABBER_BYTE_TRANSFER : public MZeroedObject
 	TiXmlElement *iqNode;
 	bool (CJabberProto::*pfnSend)(HNETLIBCONN hConn, filetransfer *ft);
 	int  (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
-	void (CJabberProto::*pfnFinal)(BOOL success, filetransfer *ft);
+	void (CJabberProto::*pfnFinal)(bool success, filetransfer *ft);
 	filetransfer *ft;
 
 	// XEP-0065 proxy support

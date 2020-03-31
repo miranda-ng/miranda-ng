@@ -355,10 +355,10 @@ pResourceStatus JABBER_LIST_ITEM::getBestResource() const
 	if (arResources.getCount() == 1)
 		return arResources[0];
 
-	if (resourceMode == RSMODE_LASTSEEN)
+	if (resourceMode == RSMODE_LASTSEEN && m_pLastSeenResource)
 		return m_pLastSeenResource;
 
-	if (resourceMode == RSMODE_MANUAL)
+	if (resourceMode == RSMODE_MANUAL && m_pManualResource)
 		return m_pManualResource;
 
 	int nBestPos = -1, nBestPri = -200;
@@ -390,36 +390,5 @@ char* CJabberProto::ListGetBestClientResourceNamePtr(const char *jid)
 	if (r != nullptr)
 		return r->m_szResourceName;
 
-	int status = ID_STATUS_OFFLINE;
-	char *res = nullptr;
-	for (auto &it : LI->arResources) {
-		bool foundBetter = false;
-		switch (it->m_iStatus) {
-		case ID_STATUS_FREECHAT:
-			foundBetter = true;
-			break;
-		case ID_STATUS_ONLINE:
-			if (status != ID_STATUS_FREECHAT)
-				foundBetter = true;
-			break;
-		case ID_STATUS_DND:
-			if (status != ID_STATUS_FREECHAT && status != ID_STATUS_ONLINE)
-				foundBetter = true;
-			break;
-		case ID_STATUS_AWAY:
-			if (status != ID_STATUS_FREECHAT && status != ID_STATUS_ONLINE && status != ID_STATUS_DND)
-				foundBetter = true;
-			break;
-		case ID_STATUS_NA:
-			if (status != ID_STATUS_FREECHAT && status != ID_STATUS_ONLINE && status != ID_STATUS_DND && status != ID_STATUS_AWAY)
-				foundBetter = true;
-			break;
-		}
-		if (foundBetter) {
-			res = it->m_szResourceName;
-			status = it->m_iStatus;
-		}
-	}
-
-	return res;
+	return nullptr;
 }
