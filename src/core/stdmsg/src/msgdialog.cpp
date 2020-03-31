@@ -1681,6 +1681,28 @@ void CMsgDialog::UpdateTitle()
 		if (mir_wstrcmp(newtitle, oldtitle)) //swt() flickers even if the title hasn't actually changed
 			SetWindowText(m_pOwner->GetHwnd(), newtitle);
 	}
+
+	if (!isChat()) {
+		int idx = m_pOwner->m_tab.GetDlgIndex(this);
+		if (idx == -1)
+			return;
+
+		auto *pwszName = Clist_GetContactDisplayName(m_hContact);
+		wchar_t oldtitle[256];
+
+		TCITEM ti;
+		ti.mask = TCIF_TEXT;
+		ti.pszText = oldtitle;
+		ti.cchTextMax = _countof(oldtitle);
+		TabCtrl_GetItem(m_pOwner->m_tab.GetHwnd(), idx, &ti);
+
+		// change text only if it was changed
+		if (mir_wstrcmp(pwszName, oldtitle)) {
+			ti.pszText = pwszName;
+			ti.cchTextMax = 0;
+			TabCtrl_SetItem(m_pOwner->m_tab.GetHwnd(), idx, &ti);
+		}
+	}
 }
 
 void CMsgDialog::UserTyping(int nSecs)
