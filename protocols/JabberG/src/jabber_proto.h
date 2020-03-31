@@ -477,7 +477,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool       IsNodeRegistered(CJabberSDNode *pNode);
 	void       ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode);
 	bool       SyncTree(HTREELISTITEM hIndex, CJabberSDNode *pNode);
-	void       ServiceDiscoveryShowMenu(CJabberSDNode *node, HTREELISTITEM hItem, POINT pt);
 			     
 	void       OnIqResultCapsDiscoInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 			     

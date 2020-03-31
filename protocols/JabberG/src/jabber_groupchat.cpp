@@ -698,12 +698,13 @@ public:
 	}
 };
 
-void CJabberProto::GroupchatJoinRoomByJid(HWND, char *jid)
+void CJabberProto::GroupchatJoinRoomByJid(HWND parent, char *jid)
 {
 	if (m_pDlgJabberJoinGroupchat)
 		SetForegroundWindow(m_pDlgJabberJoinGroupchat->GetHwnd());
 	else {
 		m_pDlgJabberJoinGroupchat = new CJabberDlgGcJoin(this, jid);
+		m_pDlgJabberJoinGroupchat->SetParent(parent);
 		m_pDlgJabberJoinGroupchat->Show();
 	}
 }
