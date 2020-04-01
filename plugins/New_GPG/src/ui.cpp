@@ -174,7 +174,7 @@ CDlgFirstRun::CDlgFirstRun() :
 bool CDlgFirstRun::OnInitDialog()
 {
 	Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "FirstrunWindow");
-	SetCaption(TranslateT("Set own key"));
+	SetCaption(TranslateT("Bind own keys to accounts"));
 	btn_COPY_PUBKEY.Disable();
 	btn_EXPORT_PRIVATE.Disable();
 	btn_CHANGE_PASSWD.Disable();
