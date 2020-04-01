@@ -1,21 +1,6 @@
 #ifndef __LANGUAGE_H__
 #define __LANGUAGE_H__
 
-//Popup Messages
-extern LPCSTR sim001;
-extern LPCSTR sim002;
-extern LPCSTR sim003;
-extern LPCSTR sim004;
-extern LPCSTR sim005;
-extern LPCSTR sim006;
-extern LPCSTR sim007;
-extern LPCSTR sim008;
-extern LPCSTR sim009;
-extern LPCSTR sim010;
-extern LPCSTR sim011;
-extern LPCSTR sim012;
-extern LPCSTR sim013;
-
 //Error Messages
 extern LPCSTR sim101;
 extern LPCSTR sim102;
@@ -34,17 +19,13 @@ extern LPCSTR sim114;
 extern LPCSTR sim115;
 
 //Options
-extern LPCSTR sim201;
-extern LPCSTR sim202;
 extern LPCSTR sim203;
 extern LPCSTR sim204;
 extern LPCSTR sim205;
 extern LPCSTR sim206;
-extern LPCSTR sim210;
 extern LPCSTR sim211;
 extern LPCSTR sim212;
 extern LPCSTR sim213;
-extern LPCSTR sim214;
 extern LPCSTR sim215;
 extern LPCSTR sim216;
 extern LPCSTR sim217;
@@ -56,7 +37,6 @@ extern LPCSTR sim222;
 extern LPCSTR sim223;
 extern LPCSTR sim224;
 extern LPCSTR sim225;
-extern LPCSTR sim226;
 extern LPCSTR sim227;
 extern LPCSTR sim228;
 extern LPCSTR sim229;

@@ -184,18 +184,14 @@ void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 	ptrMessage->Message = mir_strdup(szMsg);
 }
 
-void getContactNameA(MCONTACT hContact, LPSTR szName)
-{
-	ptrA dn(mir_u2a(Clist_GetContactDisplayName(hContact)));
-	mir_strcpy(szName, dn);
-}
-
-void getContactName(MCONTACT hContact, LPSTR szName)
-{
-	mir_wstrcpy((LPWSTR)szName, Clist_GetContactDisplayName(hContact));
-}
-
 void getContactUinA(MCONTACT hContact, LPSTR szUIN)
+{
+	wchar_t buf[NAMSIZE];
+	getContactUin(hContact, buf);
+	strncpy_s(szUIN, NAMSIZE, _T2A(buf), _TRUNCATE);
+}
+
+void getContactUin(MCONTACT hContact, LPWSTR szUIN)
 {
 	*szUIN = 0;
 
@@ -203,29 +199,10 @@ void getContactUinA(MCONTACT hContact, LPSTR szUIN)
 	if (!ptr)
 		return;
 
-	DBVARIANT dbv_uniqueid;
-	LPCSTR uID = Proto_GetUniqueId(ptr->name);
-	if (uID && db_get(hContact, ptr->name, uID, &dbv_uniqueid) == 0) {
-		if (dbv_uniqueid.type == DBVT_WORD)
-			sprintf(szUIN, "%u [%s]", dbv_uniqueid.wVal, ptr->name); //!!!!!!!!!!!
-		else if (dbv_uniqueid.type == DBVT_DWORD)
-			sprintf(szUIN, "%u [%s]", (UINT)dbv_uniqueid.dVal, ptr->name); //!!!!!!!!!!!
-		else if (dbv_uniqueid.type == DBVT_BLOB)
-			sprintf(szUIN, "%s [%s]", dbv_uniqueid.pbVal, ptr->name); //!!!!!!!!!!!
-		else
-			sprintf(szUIN, "%s [%s]", dbv_uniqueid.pszVal, ptr->name); //!!!!!!!!!!!
-	}
-	else mir_strcpy(szUIN, " == =  unknown   == =");
+	auto *pa = Proto_GetAccount(ptr->name);
+	if (pa == nullptr)
+		return;
 
-	db_free(&dbv_uniqueid);
-}
-
-void getContactUin(MCONTACT hContact, LPSTR szUIN)
-{
-	getContactUinA(hContact, szUIN);
-	if (*szUIN) {
-		LPWSTR tmp = mir_a2u(szUIN);
-		mir_wstrcpy((LPWSTR)szUIN, tmp);
-		mir_free(tmp);
-	}
+	ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
+	mir_snwprintf(szUIN, NAMSIZE, L"%s [%s]", uid.get(), pa->tszAccountName);
 }

@@ -98,9 +98,7 @@ pUinKey getUinKey(MCONTACT hContact);
 pUinKey getUinCtx(HANDLE);
 void addMsg2Queue(pUinKey,WPARAM,LPSTR);
 
-void getContactName(MCONTACT hContact, LPSTR szName);
-void getContactNameA(MCONTACT hContact, LPSTR szName);
-void getContactUin(MCONTACT hContact, LPSTR szUIN);
+void getContactUin(MCONTACT hContact, LPWSTR szUIN);
 void getContactUinA(MCONTACT hContact, LPSTR szUIN);
 
 // crypt_check.cpp

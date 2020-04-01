@@ -1,25 +1,7 @@
 #include "commonheaders.h"
 
-//Popup Messages
-LPCSTR sim001 = LPGEN("SecureIM established...");
-LPCSTR sim002 = LPGEN("Key exchange failed...");
-LPCSTR sim003 = LPGEN("Key from disabled...");
-LPCSTR sim004 = LPGEN("Sent back message received...");
-LPCSTR sim005 = LPGEN("Sending back secure message...");
-LPCSTR sim006 = LPGEN("SecureIM disabled...");
-LPCSTR sim007 = LPGEN("Sending key...");
-LPCSTR sim008 = LPGEN("Key received...");
-LPCSTR sim009 = LPGEN("Sending message...");
-LPCSTR sim010 = LPGEN("Message received...");
-LPCSTR sim011 = LPGEN("Encrypting file:");
-LPCSTR sim012 = LPGEN("Decrypting file:");
-LPCSTR sim013 = LPGEN("Bad key received...");
-
 //Error Messages
-LPCSTR sim101 = LPGEN("SecureIM: Error while decrypting the message.");
-LPCSTR sim102 = LPGEN("SecureIM: Error while decrypting the message, bad message length.");
-LPCSTR sim103 = LPGEN("SecureIM: Error while decrypting the message, bad message CRC.");
-LPCSTR sim104 = LPGEN("User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?");
+LPCSTR sim104 = LPGEN();
 LPCSTR sim105 = LPGEN("SecureIM not enabled! You must enable SecureIM with this user...");
 LPCSTR sim106 = LPGEN("Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!");
 LPCSTR sim107 = LPGEN("SecureIM won't be loaded because cryptopp.dll is missing or wrong version!");
@@ -33,17 +15,14 @@ LPCSTR sim114 = LPGEN("Can't export RSA public key!");
 LPCSTR sim115 = LPGEN("Can't import RSA public key!");
 
 //Options
-LPCSTR sim201 = LPGEN("General");
-LPCSTR sim202 = LPGEN("Accounts");
+
 LPCSTR sim203 = LPGEN("Nickname");
 LPCSTR sim204 = LPGEN("User ID");
 LPCSTR sim205 = LPGEN("Status");
 LPCSTR sim206 = "PSK";
-LPCSTR sim210 = LPGEN("Name");
 LPCSTR sim211 = LPGEN("Password is too short!");
 LPCSTR sim212 = LPGEN("ON");
 LPCSTR sim213 = LPGEN("Off");
-LPCSTR sim214 = "PGP";
 LPCSTR sim215 = LPGEN("Key ID");
 LPCSTR sim216 = LPGEN("Keyrings loaded.");
 LPCSTR sim217 = LPGEN("Keyrings not loaded!");
@@ -55,7 +34,6 @@ LPCSTR sim222 = LPGEN("Private key loaded.");
 LPCSTR sim223 = LPGEN("Private key not loaded!");
 LPCSTR sim224 = LPGEN("The new settings will become valid when you restart Miranda NG!");
 LPCSTR sim225 = LPGEN("Keyrings disabled!");
-LPCSTR sim226 = "GPG";
 LPCSTR sim227 = "CP";
 LPCSTR sim228 = "ANSI";
 LPCSTR sim229 = "UTF-8";

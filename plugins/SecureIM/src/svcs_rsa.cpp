@@ -32,7 +32,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 {
 	int v = 0, k = 0;
 	pUinKey ptr = getUinCtx(context); if (!ptr) return 0;
-	LPSTR cnm = (LPSTR)mir_alloc(NAMSIZE); getContactNameA(ptr->hContact, cnm);
+	LPSTR cnm = (LPSTR)mir_alloc(NAMSIZE); strncpy_s(cnm, NAMSIZE, _T2A(Clist_GetContactDisplayName(ptr->hContact)), _TRUNCATE);
 	LPSTR uin = (LPSTR)mir_alloc(KEYSIZE); getContactUinA(ptr->hContact, uin);
 	LPSTR msg = (LPSTR)mir_alloc(MSGSIZE);
 	LPSTR sha = mir_strdup(to_hex(sig, sigLen));
@@ -50,8 +50,10 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 		db_free(&dbv);
 	}
 	if (bAAK) {
-		if (k)	mir_snprintf(msg, MSGSIZE, Translate(sim523), cnm, uin, sha, sha_old);
-		else	mir_snprintf(msg, MSGSIZE, Translate(sim521), cnm, uin, sha);
+		if (k)
+			mir_snprintf(msg, MSGSIZE, Translate(sim523), cnm, uin, sha, sha_old);
+		else
+			mir_snprintf(msg, MSGSIZE, Translate(sim521), cnm, uin, sha);
 		showPopupKRmsg(ptr->hContact, msg);
 		HistoryLog(ptr->hContact, msg);
 		v = 1;
@@ -60,8 +62,10 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 #endif
 	}
 	else {
-		if (k) mir_snprintf(msg, MSGSIZE, Translate(sim522), cnm, sha, sha_old);
-		else	mir_snprintf(msg, MSGSIZE, Translate(sim520), cnm, sha);
+		if (k)
+			mir_snprintf(msg, MSGSIZE, Translate(sim522), cnm, sha, sha_old);
+		else
+			mir_snprintf(msg, MSGSIZE, Translate(sim520), cnm, sha);
 		v = (msgbox(nullptr, msg, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("rsa_check_pub: manual accepted %d", v);
