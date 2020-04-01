@@ -44,7 +44,7 @@ void SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort);
 // external functions
 
 void InitCustomMenus(void);
-void PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT * rcPaint);
+void PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *rcPaint);
 
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
 int CluiOptInit(WPARAM wParam, LPARAM lParam);
@@ -68,7 +68,8 @@ PLUGININFOEX pluginInfoEx = {
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("CList", pluginInfoEx)
-{}
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's interfaces information
@@ -228,7 +229,7 @@ int CopyData(StringHelper *str, const wchar_t *text, size_t len)
 }
 
 
-wchar_t * ParseText(const wchar_t *text,
+wchar_t *ParseText(const wchar_t *text,
 	const wchar_t **variables, size_t variablesSize,
 	const wchar_t **data, size_t dataSize)
 {
@@ -303,6 +304,18 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	return coreCli.pfnContactListWndProc(hwnd, msg, wParam, lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CALLBACK ContactListControlSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_CHAR) {
+		coreCli.pfnContactListControlWndProc(GetParent(hwnd), msg, wParam, lParam);
+		return 0;
+	}
+
+	return mir_callNextSubclass(hwnd, ContactListControlSubclass, msg, wParam, lParam);
+}
+
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
@@ -317,6 +330,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL),
 			0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
 		dat->need_rebuild = FALSE;
+		mir_subclassWindow(dat->hwnd_list, ContactListControlSubclass);
 
 		GetClientRect(hwnd, &r);
 		SetWindowPos(dat->hwnd_list, nullptr, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
@@ -330,11 +344,11 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case WM_PRINTCLIENT:
 	case WM_PAINT:
 		if (dat->need_rebuild)
-			RebuildEntireListInternal(hwnd, (ClcData*)dat, FALSE);
-		// no break
+			RebuildEntireListInternal(hwnd, (ClcData *)dat, FALSE);
+		__fallthrough;
+
 	case WM_VSCROLL:
 	case WM_MOUSEWHEEL:
-	case WM_KEYDOWN:
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case INTM_SCROLLBARCHANGED:
@@ -342,7 +356,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	case WM_VKEYTOITEM:
 		{
-			int key = LOWORD(wParam);
+			WORD key = LOWORD(wParam);
 			if (key == VK_LEFT || key == VK_RIGHT || key == VK_RETURN || key == VK_DELETE || key == VK_F2) {
 				coreCli.pfnContactListControlWndProc(hwnd, WM_KEYDOWN, key, 0);
 				return dat->selection;
@@ -354,7 +368,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			nmkey.hdr.code = NM_KEYDOWN;
 			nmkey.nVKey = key;
 			nmkey.uFlags = 0;
-			if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)& nmkey))
+			if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nmkey))
 				return -2;
 		}
 		return -1;
@@ -381,6 +395,8 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	return coreCli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 wchar_t status_name[128];
 wchar_t* GetStatusName(struct ClcContact *item)
@@ -482,7 +498,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	// Add all items to the list
 	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
-	
+
 	wchar_t *text = tmp;
 	size_t size = _countof(tmp);
 	while (true) {
