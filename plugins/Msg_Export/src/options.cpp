@@ -495,12 +495,12 @@ public:
 			sItem.pszText = pa->tszAccountName;
 			listUsers.SetItem(&sItem);
 
-			DWORD dwUIN = db_get_dw(hContact, pa->szModuleName, "UIN", 0);
-			wchar_t szTmp[50];
-			mir_snwprintf(szTmp, L"%d", dwUIN);
-			sItem.iSubItem = 3;
-			sItem.pszText = szTmp;
-			listUsers.SetItem(&sItem);
+			ptrW wszUin(Contact_GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
+			if (wszUin) {
+				sItem.iSubItem = 3;
+				sItem.pszText = wszUin;
+				listUsers.SetItem(&sItem);
+			}
 
 			listUsers.SetCheckState(sItem.iItem, g_plugin.getByte(hContact, "EnableLog", 1));
 		}
