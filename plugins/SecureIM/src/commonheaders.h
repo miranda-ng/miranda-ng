@@ -42,11 +42,9 @@
 #include "version.h"
 #include "resource.h"
 #include "../SecureIM_icons/src/resource.h"
-#include "language.h"
 #include "mmi.h"
 #include "crypt.h"
 #include "gettime.h"
-#include "language.h"
 #include "options.h"
 #include "popupoptions.h"
 #include "loadicons.h"
@@ -107,8 +105,6 @@ void SetFlags();
 
 int msgbox(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType);
 void CopyToClipboard(HWND hwnd,LPSTR msg);
-#define msgbox0(a,b,c,d) msgbox(a,b,c,d)
-#define msgbox1(a,b,c,d) msgbox(a,b,c,d)
 
 #endif
 

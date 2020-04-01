@@ -17,7 +17,7 @@ static void sttWaitForExchange(LPVOID param)
 
 	// if keyexchange failed or timeout
 	if (ptr->waitForExchange == 1 || ptr->waitForExchange == 3) { // протухло - отправляем незашифрованно, если надо
-		if (ptr->msgQueue && msgbox1(nullptr, sim104, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
+		if (ptr->msgQueue && msgbox(nullptr, LPGEN("User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?"), MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
 			mir_cslock lck(localQueueMutex);
 			ptr->sendQueue = true;
 			pWM ptrMessage = ptr->msgQueue;

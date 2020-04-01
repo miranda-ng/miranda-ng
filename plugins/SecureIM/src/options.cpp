@@ -102,6 +102,7 @@ static void setListViewIcon(HWND hLV, UINT iItem, pUinKey ptr)
 
 static void setListViewMode(HWND hLV, UINT iItem, UINT iMode)
 {
+	extern LPCSTR sim231[];
 	char tmp[256];
 	strncpy(tmp, Translate(sim231[iMode]), sizeof(tmp) - 1);
 	LV_SetItemTextA(hLV, iItem, 2, tmp);
@@ -109,6 +110,7 @@ static void setListViewMode(HWND hLV, UINT iItem, UINT iMode)
 
 static void setListViewStatus(HWND hLV, UINT iItem, UINT iStatus)
 {
+	extern LPCSTR sim232[];
 	char tmp[128];
 	strncpy(tmp, Translate(sim232[iStatus]), sizeof(tmp) - 1);
 	LV_SetItemTextA(hLV, iItem, 3, tmp);
@@ -118,13 +120,13 @@ static UINT getListViewPSK(HWND hLV, UINT iItem)
 {
 	char str[128];
 	LV_GetItemTextA(hLV, iItem, 4, str, _countof(str));
-	return strncmp(str, Translate(sim206), sizeof(str)) == 0;
+	return strncmp(str, Translate("PSK"), sizeof(str)) == 0;
 }
 
 static void setListViewPSK(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char str[128];
-	strncpy(str, (iStatus) ? Translate(sim206) : "-", sizeof(str) - 1);
+	strncpy(str, (iStatus) ? Translate("PSK") : "-", sizeof(str) - 1);
 	LV_SetItemTextA(hLV, iItem, 4, str);
 }
 
@@ -132,13 +134,13 @@ static UINT getListViewPUB(HWND hLV, UINT iItem)
 {
 	char str[128];
 	LV_GetItemTextA(hLV, iItem, 4, str, _countof(str));
-	return strncmp(str, Translate(sim233), sizeof(str)) == 0;
+	return strncmp(str, Translate("PUB"), sizeof(str)) == 0;
 }
 
 static void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char str[128];
-	strncpy(str, (iStatus) ? Translate(sim233) : "-", sizeof(str) - 1);
+	strncpy(str, (iStatus) ? Translate("PUB") : "-", sizeof(str) - 1);
 	LV_SetItemTextA(hLV, iItem, 4, str);
 
 	LPSTR sha = nullptr;
@@ -157,7 +159,7 @@ static void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 		LV_SetItemTextA(hLV, iItem, 5, sha);
 		mir_free(sha);
 	}
-	else	LV_SetItemTextA(hLV, iItem, 5, "");
+	else LV_SetItemTextA(hLV, iItem, 5, "");
 }
 
 static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
@@ -527,7 +529,7 @@ static INT_PTR CALLBACK DlgProcSetPSK(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			if (GetDlgItemTextA(hDlg, IDC_EDIT1, buffer, PSKSIZE) < 8) {
-				msgbox1(hDlg, sim211, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
+				msgbox(hDlg, LPGEN("Password is too short!"), MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 				return TRUE;
 			}
 			EndDialog(hDlg, IDOK);
@@ -591,7 +593,7 @@ static void ApplyGeneralSettings(HWND hDlg)
 		g_plugin.setByte("gpg", bGPG);
 	}
 	if (tmp)
-		msgbox1(hDlg, sim224, MODULENAME, MB_OK | MB_ICONINFORMATION);
+		msgbox(hDlg, LPGEN("The new settings will become valid when you restart Miranda NG!"), MODULENAME, MB_OK | MB_ICONINFORMATION);
 
 	HWND hLV = GetDlgItem(hDlg, IDC_STD_USERLIST);
 	i = ListView_GetNextItem(hLV, (UINT)-1, LVNI_ALL);
@@ -650,13 +652,13 @@ static INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wPara
 		ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
 		ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
 		{
-			static const char *szColHdr[] = { sim203, sim204, sim230, sim205, "", sim234, nullptr };
+			static const char *szColHdr[] = { LPGEN("Nickname"), LPGEN("User ID"), LPGEN("Mode"), LPGEN("Status"), "", "SHA-1" };
 			static int iColWidth[] = { 150, 110, 60, 55, 35, 330 };
 
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 			lvc.fmt = LVCFMT_LEFT;
-			for (i = 0; szColHdr[i]; i++) {
+			for (i = 0; i < _countof(szColHdr); i++) {
 				lvc.iSubItem = i;
 				lvc.pszText = (LPSTR)szColHdr[i];
 				lvc.cx = iColWidth[i];
@@ -751,7 +753,7 @@ static INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wPara
 					LPSTR buffer = (LPSTR)alloca(RSASIZE);
 					mir_exp->rsa_export_pubkey(ptr->cntx, buffer);
 					if (!SaveExportRSAKeyDlg(hDlg, buffer, 0))
-						msgbox(hDlg, sim114, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
+						msgbox(hDlg, LPGEN("Can't export RSA public key!"), MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 				}
 			}
 			return TRUE;
@@ -770,7 +772,7 @@ static INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wPara
 
 					setListViewPUB(hLV, idx, 1);
 				}
-				else msgbox(hDlg, sim115, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
+				else msgbox(hDlg, LPGEN("Can't import RSA public key!"), MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 			}
 			return TRUE;
 
@@ -1043,7 +1045,7 @@ static INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam,
 				LPSTR pub = (LPSTR)alloca(RSASIZE);
 				mir_exp->rsa_export_keypair(CPP_MODE_RSA, nullptr, pub, nullptr);
 				if (!SaveExportRSAKeyDlg(hDlg, pub, 0))
-					msgbox(hDlg, sim114, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
+					msgbox(hDlg, LPGEN("Can't export RSA public key!"), MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 			}
 			return TRUE;
 
@@ -1055,7 +1057,7 @@ static INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam,
 					LPSTR priv = (LPSTR)alloca(RSASIZE);
 					mir_exp->rsa_export_keypair(CPP_MODE_RSA, priv, nullptr, passphrase);
 					if (!SaveExportRSAKeyDlg(hDlg, priv, 1))
-						msgbox(hDlg, sim112, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
+						msgbox(hDlg, LPGEN("Can't export RSA private key!"), MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 				}
 			}
 			return TRUE;
@@ -1070,7 +1072,7 @@ static INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam,
 				int res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PASSPHRASE), nullptr, DlgProcSetPassphrase, (LPARAM)passphrase);
 				if (res == IDOK) {
 					if (!mir_exp->rsa_import_keypair(CPP_MODE_RSA, priv, passphrase))
-						msgbox(hDlg, sim113, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
+						msgbox(hDlg, LPGEN("Can't import RSA private key!"), MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 					else // обновить SHA-1 значение
 						RefreshProtoDlg(hDlg);
 				}
@@ -1138,26 +1140,36 @@ static INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam,
 
 static BOOL bPGP9;
 
+static void OnChange_KeyRings(HWND hDlg)
+{
+	BOOL bNoKR = (IsDlgButtonChecked(hDlg, IDC_NO_KEYRINGS) == BST_CHECKED);
+	EnableWindow(GetDlgItem(hDlg, IDC_SET_KEYRINGS), !bNoKR);
+	EnableWindow(GetDlgItem(hDlg, IDC_LOAD_PRIVKEY), bNoKR);
+	if (bNoKR)
+		SetDlgItemTextW(hDlg, IDC_KEYRING_STATUS, TranslateT("Keyrings disabled!"));
+	else if (bPGP9)
+		SetDlgItemTextW(hDlg, IDC_KEYRING_STATUS, TranslateT("This version not supported!"));
+	else
+		SetDlgItemTextW(hDlg, IDC_KEYRING_STATUS, bPGPkeyrings ? TranslateT("Keyrings loaded.") : TranslateT("Keyrings not loaded!"));
+}
+
 static void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 {
 	int ver = pgp_get_version();
 	bPGP9 = (ver >= 0x03050000);
 
-	EnableWindow(GetDlgItem(hDlg, IDC_SET_KEYRINGS), bUseKeyrings && !bPGP9);
-	EnableWindow(GetDlgItem(hDlg, IDC_LOAD_PRIVKEY), !bUseKeyrings);
-	SetDlgItemText(hDlg, IDC_PGP_PRIVKEY, bPGPprivkey ? Translate(sim222) : Translate(sim223));
+	SetDlgItemTextW(hDlg, IDC_PGP_PRIVKEY, bPGPprivkey ? TranslateT("Private key loaded.") : TranslateT("Private key not loaded!"));
 
 	if (bPGPloaded && ver) {
-		char pgpVerStr[64];
-		mir_snprintf(pgpVerStr, Translate(sim218), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
-		SetDlgItemText(hDlg, IDC_PGP_SDK, pgpVerStr);
+		wchar_t pgpVerStr[64];
+		mir_snwprintf(pgpVerStr, TranslateT("PGP SDK v%i.%i.%i found."), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
+		SetDlgItemTextW(hDlg, IDC_PGP_SDK, pgpVerStr);
 	}
-	else SetDlgItemText(hDlg, IDC_PGP_SDK, Translate(sim219));
-
-	SetDlgItemText(hDlg, IDC_KEYRING_STATUS, !bUseKeyrings ? Translate(sim225) : ((bPGP9) ? Translate(sim220) : (bPGPkeyrings ? Translate(sim216) : Translate(sim217))));
+	else SetDlgItemTextW(hDlg, IDC_PGP_SDK, TranslateT("PGP SDK not found!"));
 
 	// Disable keyrings use
 	CheckDlgButton(hDlg, IDC_NO_KEYRINGS, (bUseKeyrings) ? BST_UNCHECKED : BST_CHECKED);
+	OnChange_KeyRings(hDlg);
 
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg, IDC_PGP_USERLIST);
@@ -1182,7 +1194,7 @@ static void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 			getContactUin(hContact, tmp);
 			LV_SetItemText(hLV, itemNum, 1, tmp);
 
-			LV_SetItemTextA(hLV, itemNum, 2, (szKeyID) ? szKeyID : Translate(sim221));
+			LV_SetItemTextA(hLV, itemNum, 2, (szKeyID) ? szKeyID : Translate("(none)"));
 			SAFE_FREE(szKeyID);
 		}
 	}
@@ -1229,12 +1241,12 @@ static INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, L
 		ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
 		ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
 		{
-			static const char *szColHdr[] = { sim203, sim204, sim215, nullptr };
+			static const char *szColHdr[] = { LPGEN("Nickname"), LPGEN("User ID"), LPGEN("Key ID") };
 			static int iColWidth[] = { 160, 150, 80 };
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 			lvc.fmt = LVCFMT_LEFT;
-			for (i = 0; szColHdr[i]; i++) {
+			for (i = 0; _countof(szColHdr); i++) {
 				lvc.iSubItem = i;
 				lvc.pszText = (LPSTR)szColHdr[i];
 				lvc.cx = iColWidth[i];
@@ -1266,17 +1278,12 @@ static INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, L
 					g_plugin.setString("pgpPubRing", PubRingPath);
 					g_plugin.setString("pgpSecRing", SecRingPath);
 				}
-				SetDlgItemText(hDlg, IDC_KEYRING_STATUS, bPGPkeyrings ? Translate(sim216) : Translate(sim217));
+				SetDlgItemText(hDlg, IDC_KEYRING_STATUS, bPGPkeyrings ? Translate("Keyrings loaded.") : Translate("Keyrings not loaded!"));
 			}
 			return FALSE;
 
 		case IDC_NO_KEYRINGS:
-			{
-				BOOL bNoKR = (IsDlgButtonChecked(hDlg, IDC_NO_KEYRINGS) == BST_CHECKED);
-				EnableWindow(GetDlgItem(hDlg, IDC_SET_KEYRINGS), !bNoKR);
-				EnableWindow(GetDlgItem(hDlg, IDC_LOAD_PRIVKEY), bNoKR);
-				SetDlgItemText(hDlg, IDC_KEYRING_STATUS, bNoKR ? Translate(sim225) : ((bPGP9) ? Translate(sim220) : (bPGPkeyrings ? Translate(sim216) : Translate(sim217))));
-			}
+			OnChange_KeyRings(hDlg);
 			break;
 
 		case IDC_LOAD_PRIVKEY:
@@ -1376,7 +1383,7 @@ static void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 			if (iInit)
 				ptr->tgpgMode = ptr->gpgMode;
 
-			LPSTR szKeyID = g_plugin.getStringA(hContact, "gpg");
+			ptrW szKeyID(g_plugin.getWStringA(hContact, "gpg"));
 
 			lvi.iItem++;
 			lvi.iImage = (szKeyID != nullptr);
@@ -1387,8 +1394,8 @@ static void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 			getContactUin(hContact, tmp);
 			LV_SetItemText(hLV, itemNum, 1, tmp);
 
-			LV_SetItemTextA(hLV, itemNum, 2, (szKeyID) ? szKeyID : Translate(sim221));
-			LV_SetItemTextA(hLV, itemNum, 3, (ptr->tgpgMode) ? Translate(sim228) : Translate(sim229));
+			LV_SetItemText(hLV, itemNum, 2, (szKeyID) ? szKeyID : TranslateT("(none)"));
+			LV_SetItemText(hLV, itemNum, 3, (ptr->tgpgMode) ? TranslateT("ANSI") : TranslateT("UTF-8"));
 			SAFE_FREE(szKeyID);
 		}
 	}
@@ -1461,12 +1468,12 @@ static INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, L
 		ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
 		ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
 		{
-			static const char *szColHdr[] = { sim203, sim204, sim215, sim227, nullptr };
+			static const char *szColHdr[] = { LPGEN("Nickname"), LPGEN("User ID"), LPGEN("Key ID"), "CP" };
 			static int iColWidth[] = { 140, 120, 120, 40 };
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 			lvc.fmt = LVCFMT_LEFT;
-			for (i = 0; szColHdr[i]; i++) {
+			for (i = 0; i < _countof(szColHdr); i++) {
 				lvc.iSubItem = i;
 				lvc.pszText = (LPSTR)szColHdr[i];
 				lvc.cx = iColWidth[i];
@@ -1542,7 +1549,7 @@ static INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, L
 					ptr = (pUinKey)getListViewParam(hLV, idx);
 					if (!ptr) break;
 					ptr->tgpgMode++; ptr->tgpgMode &= 1;
-					LV_SetItemTextA(hLV, LPNMLISTVIEW(lParam)->iItem, LPNMLISTVIEW(lParam)->iSubItem, (ptr->tgpgMode) ? Translate(sim228) : Translate(sim229));
+					LV_SetItemText(hLV, LPNMLISTVIEW(lParam)->iItem, LPNMLISTVIEW(lParam)->iSubItem, (ptr->tgpgMode) ? TranslateT("ANSI") : TranslateT("UTF-8"));
 					SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 				}
 				break;

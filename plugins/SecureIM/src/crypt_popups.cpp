@@ -59,19 +59,19 @@ void showPopupDCmsg(MCONTACT hContact, LPCSTR msg)
 void showPopupDC(MCONTACT hContact)
 {
 	if (g_plugin.getByte("dc", 1))
-		showPopup(sim006, hContact, g_hPOP[POP_PU_DIS], 1);
+		showPopup(LPGEN("SecureIM disabled..."), hContact, g_hPOP[POP_PU_DIS], 1);
 }
 
 void showPopupEC(MCONTACT hContact)
 {
 	if (g_plugin.getByte("ec", 1))
-		showPopup(sim001, hContact, g_hPOP[POP_PU_EST], 1);
+		showPopup(LPGEN("SecureIM established..."), hContact, g_hPOP[POP_PU_EST], 1);
 }
 
 void showPopupKS(MCONTACT hContact)
 {
 	if (g_plugin.getByte("ks", 1))
-		showPopup(sim007, hContact, g_hPOP[POP_PU_PRC], 0);
+		showPopup(LPGEN("Sending key..."), hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
 void showPopupKRmsg(MCONTACT hContact, LPCSTR msg)
@@ -83,19 +83,19 @@ void showPopupKRmsg(MCONTACT hContact, LPCSTR msg)
 void showPopupKR(MCONTACT hContact)
 {
 	if (g_plugin.getByte("kr", 1))
-		showPopup(sim008, hContact, g_hPOP[POP_PU_PRC], 0);
+		showPopup(LPGEN("Key received..."), hContact, g_hPOP[POP_PU_PRC], 0);
 }
 
 void showPopupSM(MCONTACT hContact)
 {
 	if (g_plugin.getByte("ss", 0))
-		showPopup(sim009, hContact, g_hPOP[POP_PU_MSS], 2);
+		showPopup(LPGEN("Sending message..."), hContact, g_hPOP[POP_PU_MSS], 2);
 	Skin_PlaySound("OutgoingSecureMessage");
 }
 
 void showPopupRM(MCONTACT hContact)
 {
 	if (g_plugin.getByte("sr", 0))
-		showPopup(sim010, hContact, g_hPOP[POP_PU_MSR], 2);
+		showPopup(LPGEN("Message received..."), hContact, g_hPOP[POP_PU_MSR], 2);
 	Skin_PlaySound("IncomingSecureMessage");
 }

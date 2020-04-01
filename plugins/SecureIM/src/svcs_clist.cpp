@@ -102,6 +102,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM)
 
 		// set status menu
 		if (bSCM && !bMC && (!isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
+			extern LPCWSTR sim312[];
 			Menu_ModifyItem(g_hMenu[2], sim312[ptr->status], g_hICO[ICO_ST_DIS + ptr->status], 0);
 
 			for (int i = 0; i <= (ptr->mode == MODE_RSAAES ? 1 : 2); i++)
@@ -121,6 +122,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM)
 	if (isSecureProto && !isChat && isMiranda) {
 		// set mode menu
 		if (bMCM && !bMC && (!isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
+			extern LPCWSTR sim311[];
 			Menu_ModifyItem(g_hMenu[10], sim311[ptr->mode], g_hICO[ICO_OV_NAT + ptr->mode], 0);
 
 			for (int i = 0; i < MODE_CNT; i++) {

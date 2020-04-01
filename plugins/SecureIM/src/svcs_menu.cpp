@@ -150,7 +150,7 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 	case MODE_NATIVE:
 	case MODE_RSAAES:
 		if (isContactSecured(wParam)&SECURED) {
-			msgbox(nullptr, sim111, MODULENAME, MB_OK);
+			msgbox(nullptr, LPGEN("Can't change mode! Secure connection established!"), MODULENAME, MB_OK);
 			return 0;
 		}
 		if (lParam != MODE_NATIVE && ptr->status > STATUS_ENABLED)

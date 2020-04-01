@@ -76,7 +76,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	if (ssig == SiG_NONE && !ptr->msgSplitted) {
 		Sent_NetLog("onRecvMsg: non-secure message");
 
-		ptrA szPlainMsg(m_aastrcat(Translate(sim402), szEncMsg));
+		ptrA szPlainMsg(m_aastrcat(Translate("SecureIM received unencrypted message:\n"), szEncMsg));
 		ppre->szMessage = szPlainMsg;
 		ccs->wParam |= PREF_SIMNOMETA;
 		return Proto_ChainRecv(wParam, ccs);
@@ -93,7 +93,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			ccs->szProtoService = PSS_MESSAGE;
 			Proto_ChainSend(wParam, ccs);
 
-			showPopup(sim003, ccs->hContact, g_hPOP[POP_PU_DIS], 0);
+			showPopup(LPGEN("Key from disabled..."), ccs->hContact, g_hPOP[POP_PU_DIS], 0);
 		}
 		else {
 			createRSAcntx(ptr);
@@ -150,13 +150,13 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		if (!szOldMsg) { // error while decrypting message, send error
 			SAFE_FREE(ptr->msgSplitted);
-			ppre->szMessage = Translate(sim401);
+			ppre->szMessage = Translate("SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.");
 			return Proto_ChainRecv(wParam, ccs);
 		}
 
 		// receive encrypted message in non-encrypted mode
 		if (!isContactPGP(ccs->hContact) && !isContactGPG(ccs->hContact)) {
-			szNewMsg = m_ustrcat(Translate(sim403), szOldMsg);
+			szNewMsg = m_ustrcat(Translate("SecureIM received encrypted message:\n"), szOldMsg);
 			szOldMsg = szNewMsg;
 		}
 		ptrA szMsgUtf(utf8_to_miranda(szOldMsg, ppre->flags));
@@ -235,7 +235,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			ccs->lParam = keyToSend;
 			Proto_ChainSend(wParam, ccs); // send new key
 
-			showPopup(sim005, NULL, g_hPOP[POP_PU_DIS], 0);
+			showPopup(LPGEN("Sending back secure message..."), NULL, g_hPOP[POP_PU_DIS], 0);
 			showPopupKS(ptr->hContact);
 			return 1;
 		}
@@ -273,7 +273,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			// decrypt sended back message and save message for future sending with a new secret key
 			addMsg2Queue(ptr, ccs->wParam, ptrA(decodeMsg(ptr, (LPARAM)ccs, szEncMsg)));
 			showPopupRM(ptr->hContact);
-			showPopup(sim004, NULL, g_hPOP[POP_PU_DIS], 0);
+			showPopup(LPGEN("Sent back message received..."), NULL, g_hPOP[POP_PU_DIS], 0);
 		}
 		return 1; // don't display it ...
 
@@ -317,7 +317,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				Sent_NetLog("onRecvMsg: SiG_KEYR InitKeyB error");
 
 				// tell to the other side that we have the plugin disabled with him
-				showPopup(sim013, ptr->hContact, g_hPOP[POP_PU_DIS], 0);
+				showPopup(LPGEN("Bad key received..."), ptr->hContact, g_hPOP[POP_PU_DIS], 0);
 				ShowStatusIconNotify(ptr->hContact);
 
 				waitForExchange(ptr, 3); // дослать нешифрованно
@@ -381,7 +381,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				Sent_NetLog("onRecvMsg: SiG_KEYA InitKeyB error");
 
 				// tell to the other side that we have the plugin disabled with him
-				showPopup(sim013, ptr->hContact, g_hPOP[POP_PU_DIS], 0);
+				showPopup(LPGEN("Bad key received..."), ptr->hContact, g_hPOP[POP_PU_DIS], 0);
 				ShowStatusIconNotify(ptr->hContact);
 
 				waitForExchange(ptr, 3); // дослать нешифрованно
@@ -409,7 +409,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				Sent_NetLog("onRecvMsg: SiG_KEYB InitKeyB error");
 
 				// tell to the other side that we have the plugin disabled with him
-				showPopup(sim013, ptr->hContact, g_hPOP[POP_PU_DIS], 0);
+				showPopup(LPGEN("Bad key received..."), ptr->hContact, g_hPOP[POP_PU_DIS], 0);
 				ShowStatusIconNotify(ptr->hContact);
 
 				cpp_reset_context(ptr->cntx);
@@ -477,7 +477,8 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			}
 			if (!ptr->keyLoaded && bPGPloaded) ptr->keyLoaded = LoadKeyPGP(ptr);
 			if (!ptr->keyLoaded && bGPGloaded) ptr->keyLoaded = LoadKeyGPG(ptr);
-			if (!ptr->keyLoaded) return returnError(ccs->hContact, Translate(sim108));
+			if (!ptr->keyLoaded)
+				return returnError(ccs->hContact, Translate("SecureIM can't load PGP/GPG key! Check PGP/GPG settings!"));
 
 			LPSTR szNewMsg = nullptr;
 			ptrA szUtfMsg(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam));
@@ -487,7 +488,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 				szNewMsg = gpg_encode(ptr->cntx, szUtfMsg);
 
 			if (!szNewMsg)
-				return returnError(ccs->hContact, Translate(sim109));
+				return returnError(ccs->hContact, Translate("SecureIM can't encrypt message! Check trust of PGP/GPG key!"));
 
 			// отправляем зашифрованное сообщение
 			splitMessageSend(ptr, szNewMsg);
@@ -601,7 +602,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 		// if user try initialize connection
 		if (ssig == SiG_INIT) // secure IM is disabled ...
-			return returnError(ccs->hContact, Translate(sim105));
+			return returnError(ccs->hContact, Translate("SecureIM not enabled! You must enable SecureIM with this user..."));
 
 		if (ptr->cntx) { // if secure context exists
 			cpp_delete_context(ptr->cntx); ptr->cntx = nullptr;
@@ -649,7 +650,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			else {
 				db_unset(ptr->hContact, MODULENAME, "offlineKey");
 				db_unset(ptr->hContact, MODULENAME, "offlineKeyTimeout");
-				if (msgbox1(nullptr, sim106, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDNO)
+				if (IDNO == msgbox(nullptr, LPGEN("Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!"), MODULENAME, MB_YESNO | MB_ICONQUESTION))
 					return returnNoError(ccs->hContact);
 
 				// exit and send unencrypted message

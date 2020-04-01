@@ -95,7 +95,7 @@ BOOL CalculateKeyX(pUinKey ptr, MCONTACT hContact)
 		showPopupEC(ptr->hContact);
 	}
 	else // agree value problem
-		showPopup(sim002, hContact, g_hPOP[POP_PU_DIS], 0);
+		showPopup(LPGEN("Key exchange failed..."), hContact, g_hPOP[POP_PU_DIS], 0);
 
 	return agr != 0;
 }
@@ -138,14 +138,14 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg)
 		ptr->decoded = false;
 		switch (cpp_get_error(ptr->cntx)) {
 		case CPP_ERROR_BAD_LEN:
-			szNewMsg = mir_strdup(Translate(sim102));
+			szNewMsg = mir_strdup(Translate("SecureIM: Error while decrypting the message, bad message length."));
 			break;
 		case CPP_ERROR_BAD_CRC:
-			szNewMsg = mir_strdup(Translate(sim103));
+			szNewMsg = mir_strdup(Translate("SecureIM: Error while decrypting the message, bad message CRC."));
 			break;
 		default:
 			ptr->decoded = true;
-			szNewMsg = mir_strdup(Translate(sim101));
+			szNewMsg = mir_strdup(Translate("SecureIM: Error while decrypting the message."));
 			break;
 		}
 	}

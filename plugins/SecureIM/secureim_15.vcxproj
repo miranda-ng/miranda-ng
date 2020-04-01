@@ -227,7 +227,6 @@
     <ClCompile Include="src\dbevent.cpp" />
     <ClCompile Include="src\gettime.cpp" />
     <ClCompile Include="src\images.cpp" />
-    <ClCompile Include="src\language.cpp" />
     <ClCompile Include="src\loadicons.cpp" />
     <ClCompile Include="src\loadlib.cpp" />
     <ClCompile Include="src\main.cpp" />

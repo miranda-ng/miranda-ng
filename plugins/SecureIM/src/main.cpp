@@ -24,6 +24,23 @@ CMPlugin::CMPlugin() :
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic events: onModuleLoad, onModulesLoad, onShutdown
 
+LPCWSTR sim311[] = {
+	LPGENW("SecureIM mode (Native)"),
+	LPGENW("SecureIM mode (PGP)"),
+	LPGENW("SecureIM mode (GPG)"),
+	LPGENW("SecureIM mode (RSA/AES)"),
+	LPGENW("SecureIM mode (RSA)")
+};
+
+LPCWSTR sim312[] = {
+	LPGENW("SecureIM status (disabled)"),
+	LPGENW("SecureIM status (enabled)"),
+	LPGENW("SecureIM status (always try)")
+};
+
+LPCSTR sim231[] = { LPGEN("Native"), "PGP", "GPG", "RSA/AES", "RSA" };
+LPCSTR sim232[] = { LPGEN("Disabled"), LPGEN("Enabled"), LPGEN("Always try") };
+
 static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, LPCSTR szUid, HICON hicon, LPCSTR service, int flags = 0, WPARAM wParam = 0)
 {
 	CMenuItem mi(&g_plugin);
@@ -208,8 +225,8 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, onSendMsg);
 
 	// create a menu item for creating a secure im connection to the user.
-	g_hMenu[0] = MyAddMenuItem(sim301, 110000, "5A8C2F35-4699-43A4-A820-516DEB83FCA1", g_hICO[ICO_CM_EST], MODULENAME"/SIM_EST", CMIF_NOTOFFLINE);
-	g_hMenu[1] = MyAddMenuItem(sim302, 110001, "0B092254-DA91-42D6-A89D-365981BB3D91", g_hICO[ICO_CM_DIS], MODULENAME"/SIM_DIS", CMIF_NOTOFFLINE);
+	g_hMenu[0] = MyAddMenuItem(LPGENW("Create SecureIM connection"), 110000, "5A8C2F35-4699-43A4-A820-516DEB83FCA1", g_hICO[ICO_CM_EST], MODULENAME"/SIM_EST", CMIF_NOTOFFLINE);
+	g_hMenu[1] = MyAddMenuItem(LPGENW("Disable SecureIM connection"), 110001, "0B092254-DA91-42D6-A89D-365981BB3D91", g_hICO[ICO_CM_DIS], MODULENAME"/SIM_DIS", CMIF_NOTOFFLINE);
 
 	g_hMenu[2] = MyAddMenuItem(sim312[0], 110002, "635576BB-A927-4F64-B205-DD464F57CC99", nullptr, nullptr);
 	g_hMenu[3] = MyAddSubItem(g_hMenu[2], sim232[0], 110003, 110002, MODULENAME"/SIM_ST_DIS");
@@ -217,13 +234,13 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	g_hMenu[5] = MyAddSubItem(g_hMenu[2], sim232[2], 110005, 110002, MODULENAME"/SIM_ST_TRY");
 
 	if (bPGPloaded) {
-		g_hMenu[6] = MyAddMenuItem(sim306, 110006, "33829541-85B9-499E-9605-4DDADE1A4B33", mode2icon(MODE_PGP | SECURED, 2), MODULENAME"/PGP_SET", 0);
-		g_hMenu[7] = MyAddMenuItem(sim307, 110007, "25530E70-8349-419D-9F4F-FA748E485E2B", mode2icon(MODE_PGP, 2), MODULENAME"/PGP_DEL", 0);
+		g_hMenu[6] = MyAddMenuItem(LPGENW("Load PGP Key"), 110006, "33829541-85B9-499E-9605-4DDADE1A4B33", mode2icon(MODE_PGP | SECURED, 2), MODULENAME"/PGP_SET", 0);
+		g_hMenu[7] = MyAddMenuItem(LPGENW("Unload PGP Key"), 110007, "25530E70-8349-419D-9F4F-FA748E485E2B", mode2icon(MODE_PGP, 2), MODULENAME"/PGP_DEL", 0);
 	}
 
 	if (bGPGloaded) {
-		g_hMenu[8] = MyAddMenuItem(sim308, 110008, "D8BD7B70-3E6C-4A09-9612-4E4E2FCBBB8A", mode2icon(MODE_GPG | SECURED, 2), MODULENAME"/GPG_SET", 0);
-		g_hMenu[9] = MyAddMenuItem(sim309, 110009, "5C60AD6F-6B1B-4758-BB68-C008168BF32B", mode2icon(MODE_GPG, 2), MODULENAME"/GPG_DEL", 0);
+		g_hMenu[8] = MyAddMenuItem(LPGENW("Load GPG Key"), 110008, "D8BD7B70-3E6C-4A09-9612-4E4E2FCBBB8A", mode2icon(MODE_GPG | SECURED, 2), MODULENAME"/GPG_SET", 0);
+		g_hMenu[9] = MyAddMenuItem(LPGENW("Unload GPG Key"), 110009, "5C60AD6F-6B1B-4758-BB68-C008168BF32B", mode2icon(MODE_GPG, 2), MODULENAME"/GPG_DEL", 0);
 	}
 
 	g_hMenu[10] = MyAddMenuItem(sim311[0], 110010, "D56DD118-863B-4069-9A6A-C0057BA99CC6", nullptr, nullptr);
@@ -299,7 +316,7 @@ int CMPlugin::Load(void)
 
 	// load crypo++ dll
 	if (!loadlib()) {
-		msgbox1(nullptr, sim107, MODULENAME, MB_OK | MB_ICONSTOP);
+		msgbox(nullptr, LPGEN("SecureIM won't be loaded because cryptopp.dll is missing or wrong version!"), MODULENAME, MB_OK | MB_ICONSTOP);
 		return 1;
 	}
 

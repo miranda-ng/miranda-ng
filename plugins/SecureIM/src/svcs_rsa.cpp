@@ -51,9 +51,9 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	}
 	if (bAAK) {
 		if (k)
-			mir_snprintf(msg, MSGSIZE, Translate(sim523), cnm, uin, sha, sha_old);
+			mir_snprintf(msg, MSGSIZE, Translate("SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA-1: %s Old SHA-1: %s"), cnm, uin, sha, sha_old);
 		else
-			mir_snprintf(msg, MSGSIZE, Translate(sim521), cnm, uin, sha);
+			mir_snprintf(msg, MSGSIZE, Translate("SecureIM auto accepted RSA Public key from: %s uin: %s SHA-1: %s"), cnm, uin, sha);
 		showPopupKRmsg(ptr->hContact, msg);
 		HistoryLog(ptr->hContact, msg);
 		v = 1;
@@ -63,9 +63,9 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	}
 	else {
 		if (k)
-			mir_snprintf(msg, MSGSIZE, Translate(sim522), cnm, sha, sha_old);
+			mir_snprintf(msg, MSGSIZE, Translate("SecureIM received NEW RSA Public Key from \"%s\"\n\nNew SHA-1: %s\n\nOld SHA-1: %s\n\nDo you Replace this Key?"), cnm, sha, sha_old);
 		else
-			mir_snprintf(msg, MSGSIZE, Translate(sim520), cnm, sha);
+			mir_snprintf(msg, MSGSIZE, Translate("SecureIM received RSA Public Key from \"%s\"\n\nSHA-1: %s\n\nDo you Accept this Key?"), cnm, sha);
 		v = (msgbox(nullptr, msg, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("rsa_check_pub: manual accepted %d", v);
@@ -98,17 +98,17 @@ void __cdecl rsa_notify(HANDLE context, int state)
 		return;
 
 	case -1: // сессия разорвана по ошибке, неверный тип сообщения
-		msg = sim501; break;
+		msg = LPGEN("Session closed by receiving incorrect message type"); break;
 	case -2: // сессия разорвана по ошибке другой стороной
-		msg = sim502; break;
+		msg = LPGEN("Session closed by other side on error"); break;
 	case -5: // ошибка декодирования AES сообщения
-		msg = sim505; break;
+		msg = LPGEN("Error while decoding AES message"); break;
 	case -6: // ошибка декодирования RSA сообщения
-		msg = sim506; break;
+		msg = LPGEN("Error while decoding RSA message"); break;
 	case -7: // таймаут установки соединения (10 секунд)
-		msg = sim507; break;
+		msg = LPGEN("Session closed on timeout"); break;
 	case -8: // сессия разорвана по причине "disabled"
-		msg = sim508; break;
+		msg = LPGEN("Session closed by other side when status \"disabled\""); break;
 	case -0x10: // сессия разорвана по ошибке
 	case -0x21:
 	case -0x22:
@@ -122,7 +122,7 @@ void __cdecl rsa_notify(HANDLE context, int state)
 	case -0x60:
 	{
 		char buf[1024];
-		mir_snprintf(buf, sim510, -state);
+		mir_snprintf(buf, LPGEN("Session closed on error: %02x"), -state);
 		showPopupDCmsg(ptr->hContact, buf);
 		ShowStatusIconNotify(ptr->hContact);
 		if (ptr->cntx) deleteRSAcntx(ptr);
