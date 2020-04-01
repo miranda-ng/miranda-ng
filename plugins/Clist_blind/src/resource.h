@@ -58,10 +58,8 @@
 #define IDC_SELCOLOUR                   1281
 #define IDC_SMOOTHTIME                  1283
 #define IDC_SMOOTHTIMESPIN              1284
-#define IDC_GREYOUT                     1285
 #define IDC_ROWHEIGHT                   1286
 #define IDC_ROWHEIGHTSPIN               1287
-#define IDC_GREYOUTOPTS                 1288
 #define IDC_GROUPINDENT                 1289
 #define IDC_GROUPINDENTSPIN             1290
 #define IDC_LEFTMARGIN                  1291
