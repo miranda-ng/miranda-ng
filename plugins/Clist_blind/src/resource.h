@@ -116,7 +116,6 @@
 #define IDC_SBPANELBEVEL                1611
 #define IDC_DROPSHADOW                  1612
 #define IDC_SHOWGRIP                    1612
-#define IDC_NOSCROLLBAR                 1613
 #define IDC_TXT_TITLE1                  1617
 #define IDC_TXT_TITLE2                  1618
 #define IDC_ONDESKTOP                   1657
