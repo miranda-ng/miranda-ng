@@ -1917,11 +1917,17 @@ char* XMLElement::ParseAttributes( char* p, int* curLineNumPtr )
             const int attrLineNum = attrib->_parseLineNum;
 
             p = attrib->ParseDeep( p, _document->ProcessEntities(), curLineNumPtr );
-            if ( !p || Attribute( attrib->Name() ) ) {
+            if ( !p ) {
                 DeleteAttribute( attrib );
                 _document->SetError( XML_ERROR_PARSING_ATTRIBUTE, attrLineNum, "XMLElement name=%s", Name() );
                 return 0;
             }
+
+				if (Attribute(attrib->Name())) {
+				    DeleteAttribute(attrib);
+                continue;
+            }
+
             // There is a minor bug here: if the attribute in the source xml
             // document is duplicated, it will not be detected and the
             // attribute will be doubly added. However, tracking the 'prevAttribute'
