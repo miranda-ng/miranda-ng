@@ -306,7 +306,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK ContactListControlSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK ContactListControlSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CHAR) {
 		coreCli.pfnContactListControlWndProc(GetParent(hwnd), msg, wParam, lParam);
