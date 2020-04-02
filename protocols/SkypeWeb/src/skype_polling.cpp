@@ -69,12 +69,10 @@ void CSkypeProto::ParsePollData(const char *szData)
 	debugLogA(__FUNCTION__);
 
 	JSONNode data = JSONNode::parse(szData);
-	if (!data) return;
+	if (!data)
+		return;
 
-	const JSONNode &node = data["eventMessages"];
-	if (!node) return;
-
-	for (auto &message : node) {
+	for (auto &message : data["eventMessages"]) {
 		const JSONNode &resType = message["resourceType"];
 		const JSONNode &resource = message["resource"];
 
