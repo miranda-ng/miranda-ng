@@ -2,13 +2,13 @@
 
 MyColourID colors[] =
 {
-	{ "Incoming Messages",     "ColorMsgIn",   RGB(0xff, 0xff, 0xff) },
-	{ "Outgoing Messages",     "ColorMsgOut",  RGB(0xff, 0xff, 0xff) },
+	{ "Incoming Messages",     "ColorMsgIn",   RGB(0xd6, 0xf5, 0xc0) },
+	{ "Outgoing Messages",     "ColorMsgOut",  RGB(0xf5, 0xe7, 0xd8) },
 
-	{ "Incoming Files",        "ColorFileIn",  RGB(0xff, 0xff, 0xff) },
-	{ "Outgoing Files",        "ColorFileOut", RGB(0xff, 0xff, 0xff) },
+	{ "Incoming Files",        "ColorFileIn",  RGB(0xe3, 0xee, 0x9b) },
+	{ "Outgoing Files",        "ColorFileOut", RGB(0xe3, 0xee, 0x9b) },
 
-	{ "Status changes",        "ColorStatus",  RGB(0xff, 0xff, 0xff) },
+	{ "Status changes",        "ColorStatus",  RGB(0xf0, 0xf0, 0xf0) },
 
 	{ "Other Outgoing Events", "ColorOut",     RGB(0xff, 0xff, 0xff) },
 	{ "Other Incoming Events", "ColorIn",      RGB(0xff, 0xff, 0xff) },
