@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>mTextControl</ProjectName>
+    <ProjectName>libTextControl</ProjectName>
     <ProjectGuid>{E26D2311-C164-48CF-BA24-5CEDA873D1B2}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
