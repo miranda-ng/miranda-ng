@@ -75,10 +75,10 @@ static INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 		case IDC_UPDATEPREVIEW:
 			if (templates[CurrentTemplate].tmpValue)
-				free(templates[CurrentTemplate].tmpValue);
+				mir_free(templates[CurrentTemplate].tmpValue);
 			{
 				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_EDITTEMPLATE)) + 1;
-				templates[CurrentTemplate].tmpValue = (TCHAR *)malloc(length * sizeof(TCHAR));
+				templates[CurrentTemplate].tmpValue = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
 				GetWindowText(GetDlgItem(hwnd, IDC_EDITTEMPLATE), templates[CurrentTemplate].tmpValue, length);
 
 				HistoryArray::ItemData item;
@@ -95,7 +95,7 @@ static INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					SetWindowText(GetDlgItem(hwnd, IDC_PREVIEW), preview);
 					//						SetWindowText(GetDlgItem(hwnd, IDC_GPREVIEW), preview);
 					SetWindowText(GetDlgItem(hwnd, IDC_GPREVIEW), _T("$hit :)"));
-					free(preview);
+					mir_free(preview);
 				}
 				else {
 					SetWindowText(GetDlgItem(hwnd, IDC_PREVIEW), _T(""));
@@ -106,7 +106,7 @@ static INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 		case IDC_DISCARD:
 			if (templates[CurrentTemplate].tmpValue)
-				free(templates[CurrentTemplate].tmpValue);
+				mir_free(templates[CurrentTemplate].tmpValue);
 			templates[CurrentTemplate].tmpValue = 0;
 			if (templates[CurrentTemplate].value)
 				SetWindowText(GetDlgItem(hwnd, IDC_EDITTEMPLATE), templates[CurrentTemplate].value);
@@ -126,7 +126,7 @@ static INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				for (int i = 0; i < TPL_COUNT; i++) {
 					if (templates[i].tmpValue) {
 						if (templates[i].tmpValue)
-							free(templates[i].tmpValue);
+							mir_free(templates[i].tmpValue);
 					}
 				}
 				return TRUE;
@@ -135,7 +135,7 @@ static INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				for (int i = 0; i < TPL_COUNT; i++) {
 					if (templates[i].tmpValue) {
 						if (templates[i].value)
-							free(templates[i].value);
+							mir_free(templates[i].value);
 						templates[i].value = templates[i].tmpValue;
 						templates[i].tmpValue = 0;
 					}
@@ -183,9 +183,9 @@ static INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 					if ((lpnmtv->itemOld.mask & TVIF_HANDLE) && lpnmtv->itemOld.hItem && (lpnmtv->itemOld.hItem != lpnmtv->itemNew.hItem) && (lpnmtv->itemOld.lParam >= 0) && (lpnmtv->itemOld.lParam < TPL_COUNT)) {
 						if (templates[lpnmtv->itemOld.lParam].tmpValue)
-							free(templates[lpnmtv->itemOld.lParam].tmpValue);
+							mir_free(templates[lpnmtv->itemOld.lParam].tmpValue);
 						int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_EDITTEMPLATE)) + 1;
-						templates[lpnmtv->itemOld.lParam].tmpValue = (TCHAR *)malloc(length * sizeof(TCHAR));
+						templates[lpnmtv->itemOld.lParam].tmpValue = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
 						GetWindowText(GetDlgItem(hwnd, IDC_EDITTEMPLATE), templates[lpnmtv->itemOld.lParam].tmpValue, length);
 					}
 

@@ -261,12 +261,12 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				if (item->flags & HIF_SELECTED) {
 					buf = TplFormatString(TPL_COPY_MESSAGE, item->hContact, item);
 					res = appendString(res, buf);
-					free(buf);
+					mir_free(buf);
 				}
 			}
 
 			CopyText(hwnd, res);
-			free(res);
+			mir_free(res);
 		}
 		// End of history list control messages
 	case WM_SIZE:
@@ -725,7 +725,7 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 			SendMessage(data->hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
 			ShowWindow(data->hwndEditBox, SW_SHOW);
 			SetFocus(data->hwndEditBox);
-			free(text);
+			mir_free(text);
 			break;
 		}
 		top += itemHeight;
@@ -787,7 +787,7 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 	if (!item->data) {
 		TCHAR *buf = TplFormatString(tpl, item->hContact, item);
 		item->data = MTextCreateW(htuLog, buf);
-		free(buf);
+		mir_free(buf);
 	}
 
 	SIZE sz;
@@ -863,7 +863,7 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 	if (!item->data) {
 		TCHAR *buf = TplFormatString(tpl, item->hContact, item);
 		item->data = MTextCreateW(htuLog, buf);
-		free(buf);
+		mir_free(buf);
 		if (!item->data)
 			return 0;
 	}

@@ -10,15 +10,9 @@ enum
 struct TemplateVars
 {
 	bool del[256];
-	TCHAR *val[256];
+	wchar_t *val[256];
 };
-/*
-struct VFArgs
-{
-	HANDLE hContact;
-	DBEVENTINFO *event;
-};
-*/
+
 typedef void(*VarFunc)(int mode, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *item);
 
 struct TemplateInfo
@@ -26,12 +20,12 @@ struct TemplateInfo
 	enum { VF_COUNT = 5 };
 
 	char *setting;
-	TCHAR *group;
+	wchar_t *group;
 	int  icon;
-	TCHAR *title;
-	TCHAR *defvalue;
-	TCHAR *value;
-	TCHAR *tmpValue;
+	wchar_t *title;
+	wchar_t *defvalue;
+	wchar_t *value;
+	wchar_t *tmpValue;
 	VarFunc vf[VF_COUNT];
 };
 
@@ -66,7 +60,7 @@ extern TemplateInfo templates[TPL_COUNT];
 void LoadTemplates();
 void SaveTemplates();
 
-TCHAR *TplFormatString(int tpl, MCONTACT hContact, HistoryArray::ItemData *args);
-TCHAR *TplFormatStringEx(int tpl, TCHAR *sztpl, MCONTACT hContact, HistoryArray::ItemData *args);
+wchar_t *TplFormatString(int tpl, MCONTACT hContact, HistoryArray::ItemData *args);
+wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, HistoryArray::ItemData *args);
 
 #endif // __templates_h__

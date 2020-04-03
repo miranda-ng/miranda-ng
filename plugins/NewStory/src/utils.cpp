@@ -210,13 +210,13 @@ char *appendString(char *s1, char *s2)
 	if (s1) {
 		int l1 = lstrlenA(s1);
 		int l2 = lstrlenA(s2);
-		char *buf = (char *)malloc(l1 + l2 + 1);
-		_snprintf(buf, l1 + l2 + 1, "%s%s", s1, s2);
-		free(s1);
+		char *buf = (char *)mir_alloc(l1 + l2 + 1);
+		mir_snprintf(buf, l1 + l2 + 1, "%s%s", s1, s2);
+		mir_free(s1);
 		return buf;
 	}
 	else {
-		char *buf = (char *)malloc(lstrlenA(s2) + 1);
+		char *buf = (char *)mir_alloc(lstrlenA(s2) + 1);
 		lstrcpyA(buf, s2);
 		return buf;
 	}
@@ -227,13 +227,13 @@ WCHAR *appendString(WCHAR *s1, WCHAR *s2)
 	if (s1) {
 		int l1 = lstrlenW(s1);
 		int l2 = lstrlenW(s2);
-		WCHAR *buf = (WCHAR *)malloc(sizeof(WCHAR)*(l1 + l2 + 1));
-		_snwprintf(buf, l1 + l2 + 1, L"%s%s", s1, s2);
-		free(s1);
+		WCHAR *buf = (WCHAR *)mir_alloc(sizeof(WCHAR)*(l1 + l2 + 1));
+		mir_snwprintf(buf, l1 + l2 + 1, L"%s%s", s1, s2);
+		mir_free(s1);
 		return buf;
 	}
 	else {
-		WCHAR *buf = (WCHAR *)malloc(sizeof(WCHAR)*(lstrlenW(s2) + 1));
+		WCHAR *buf = (WCHAR *)mir_alloc(sizeof(WCHAR)*(lstrlenW(s2) + 1));
 		lstrcpyW(buf, s2);
 		return buf;
 	}

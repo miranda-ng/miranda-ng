@@ -570,9 +570,9 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			WindowList_Add(hNewstoryWindows, hwnd, data->hContact);
 
 			if (data->hContact && (data->hContact != INVALID_CONTACT_ID)) {
-				TCHAR *title = TplFormatString(TPL_TITLE, data->hContact, 0);
+				wchar_t *title = TplFormatString(TPL_TITLE, data->hContact, 0);
 				SetWindowText(hwnd, title);
-				free(title);
+				mir_free(title);
 			}
 			else {
 				if (data->hContact == INVALID_CONTACT_ID)
@@ -676,7 +676,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_CHARTOITEM:
 		if (!((GetKeyState(VK_CONTROL) & 0x80) || (GetKeyState(VK_MENU) & 0x80))) {
-			TCHAR s[] = { LOWORD(wParam), 0 };
+			wchar_t s[] = { LOWORD(wParam), 0 };
 			SetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), s);
 			SendMessage(GetDlgItem(hwnd, IDC_SEARCHTEXT), EM_SETSEL, 1, 1);
 			SetFocus(GetDlgItem(hwnd, IDC_SEARCHTEXT));
@@ -923,7 +923,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		case IDC_FINDPREV:
 			{
 				int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1;
-				TCHAR *buf = new TCHAR[bufSize];
+				wchar_t *buf = new wchar_t[bufSize];
 				GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1);
 				SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDPREV, (WPARAM)buf, 0);
 				delete[] buf;
@@ -934,7 +934,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		case IDC_FINDNEXT:
 			{
 				int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1;
-				TCHAR *buf = new TCHAR[bufSize];
+				wchar_t *buf = new wchar_t[bufSize];
 				GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1);
 				SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDNEXT, (WPARAM)buf, 0);
 				delete[] buf;

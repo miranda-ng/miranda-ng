@@ -17,7 +17,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 	if ((mode == ELM_DATA) && (!dbeOk || !dbe.cbBlob)) {
 		dbeOk = true;
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)calloc(dbe.cbBlob + 1, 1);
+		dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob + 1);
 		db_event_get(hEvent, &dbe);
 
 		int aLength = 0;
@@ -30,9 +30,9 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 			{
 				atext = (char *)dbe.pBlob;
 				atext_del = false;
-				aLength = lstrlenA(atext);
+				aLength = mir_strlen(atext);
 				if (dbe.cbBlob > (DWORD)aLength + 1) {
-					wtext = (WCHAR *)(dbe.pBlob + aLength + 1);
+					wtext = (wchar_t *)(dbe.pBlob + aLength + 1);
 					wtext_del = false;
 				}
 				break;
@@ -48,7 +48,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 				else {
 					mir_snprintf(atext, 512, ("%d requested authorization"), *(DWORD *)(dbe.pBlob));
 				}
-				aLength = lstrlenA(atext);
+				aLength = mir_strlen(atext);
 				break;
 			}
 
@@ -62,7 +62,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 				else {
 					mir_snprintf(atext, 512, ("%d added you to the contact list"), *(DWORD *)(dbe.pBlob));
 				}
-				aLength = lstrlenA(atext);
+				aLength = mir_strlen(atext);
 				break;
 			}
 		}
@@ -99,7 +99,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 HistoryArray::ItemData::~ItemData()
 {
 	if (dbeOk && dbe.pBlob) {
-		free(dbe.pBlob);
+		mir_free(dbe.pBlob);
 		dbe.pBlob = 0;
 	}
 	if (wtext && wtext_del) delete[] wtext;
