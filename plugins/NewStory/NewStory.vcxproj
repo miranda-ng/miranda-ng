@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mTextControl\mtextcontrol.vcxproj">
+    <ProjectReference Include="..\..\libs\mTextControl\mtextcontrol.vcxproj">
       <Project>{e26d2311-c164-48cf-ba24-5ceda873d1b2}</Project>
     </ProjectReference>
   </ItemGroup>
