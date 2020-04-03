@@ -132,9 +132,6 @@ PopupWnd2::~PopupWnd2()
 	delete m_bmpAnimate;
 	delete m_avatar;
 	delete[]m_actions;
-
-	if (m_mtText) MText.Destroy(m_mtText);
-	if (m_mtTitle) MText.Destroy(m_mtTitle);
 }
 
 void PopupWnd2::startThread()
@@ -683,8 +680,6 @@ void PopupWnd2::updateData(POPUPDATAW *ppd)
 
 	fixDefaults();
 	fixActions(ppd->lpActions, ppd->actionCount);
-
-	if (m_textType == TT_MTEXT) buildMText();
 }
 
 void PopupWnd2::updateData(POPUPDATA2 *ppd)
@@ -726,43 +721,20 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 
 	fixDefaults();
 	fixActions(ppd->lpActions, ppd->actionCount);
-
-	if (m_textType == TT_MTEXT) buildMText();
-}
-
-void PopupWnd2::buildMText()
-{
-	if (!(htuText && htuTitle && PopupOptions.UseMText))
-		return;
-
-	if (m_mtText) MText.Destroy(m_mtText);
-	if (m_mtTitle)MText.Destroy(m_mtTitle);
-	m_mtText = m_mtTitle = nullptr;
-
-	if (m_lptzText && m_lptzTitle) {
-		m_textType = TT_MTEXT;
-		m_mtText = MText.Create(htuText, m_lptzText);
-		m_mtTitle = MText.Create(htuTitle, m_lptzTitle);
-	}
 }
 
 void PopupWnd2::updateText(wchar_t *text)
 {
-	if (m_lptzText) {
+	if (m_lptzText)
 		replaceStrW(m_lptzText, text);
-		if (m_textType == TT_MTEXT)
-			buildMText();
-	}
+
 	m_bTextEmpty = ::isTextEmpty(m_lptzText);
 }
 
 void PopupWnd2::updateTitle(wchar_t *title)
 {
-	if (m_lptzTitle) {
+	if (m_lptzTitle)
 		replaceStrW(m_lptzTitle, title);
-		if (m_textType == TT_MTEXT)
-			buildMText();
-	}
 }
 
 void PopupWnd2::updateTimer()
@@ -1237,7 +1209,6 @@ void	WindowThread(void *arg)
 	CoInitialize(nullptr); // we may need OLE in this thread for smiley substitution
 
 	PopupWnd2 *wnd = (PopupWnd2 *)arg;
-	wnd->buildMText();
 	wnd->create();
 	PostMessage(wnd->getHwnd(), UM_INITPOPUP, 0, 0);
 

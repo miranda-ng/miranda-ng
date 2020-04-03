@@ -88,10 +88,6 @@ https://miranda-ng.org/distr/
 #include <m_folders.h>
 #include <m_ieview.h>
 #include <m_smileyadd.h>
-#ifndef MTEXT_NOHELPERS
-#define MTEXT_NOHELPERS
-#endif // MTEXT_NOHELPERS
-#include <m_text.h>
 #include <m_toptoolbar.h>
 #include <m_hpp.h>
 

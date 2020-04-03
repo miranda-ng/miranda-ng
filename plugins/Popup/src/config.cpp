@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // ===== General Plugin =====
 HANDLE hSemaphore;
 BOOL closing = FALSE;
-MTEXT_INTERFACE		MText = { 0 };
 HANDLE folderId;
 BOOL gbPopupLoaded = FALSE;
 BOOL gbHppInstalled = FALSE;

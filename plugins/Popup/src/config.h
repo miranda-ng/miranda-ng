@@ -51,6 +51,7 @@ typedef struct tagPOPUPOPTIONS {
 	BYTE DisableWhenFullscreen;
 	//others
 	BYTE debug;
+
 	//==Page Skins====
 	LPTSTR SkinPack;
 	BYTE DisplayTime;
@@ -58,7 +59,7 @@ typedef struct tagPOPUPOPTIONS {
 	BYTE EnableFreeformShadows;
 	BYTE EnableAeroGlass;
 	BYTE UseWinColors;
-	BYTE UseMText;
+
 	//==Page Actions====
 	DWORD actions;
 	//Mouse Override
@@ -128,10 +129,6 @@ extern HANDLE hEventNotify;
 extern HANDLE hSemaphore;
 extern BOOL closing;
 extern HANDLE folderId;
-
-extern MTEXT_INTERFACE MText;
-extern HANDLE htuText;
-extern HANDLE htuTitle;
 
 extern BOOL gbPopupLoaded;
 extern BOOL gbHppInstalled;
