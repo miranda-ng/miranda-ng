@@ -255,13 +255,17 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	HICON hIcon;
 	TCHAR *s;
+	wchar_t* nick;
 
 	//  %U: UIN (contextual, own uin for sent, buddys UIN for received messages)
 
 	//  %N: Nickname
-	char* proto = Proto_GetBaseAccountName(item->hContact);
-	wchar_t *buff = Contact_GetInfo(CNF_NICK, item->dbe.flags & DBEF_SENT ? 0 : (WPARAM)item->hContact, proto);
-	TplSetVar(vars, 'N', buff, false);
+	if (item->dbe.flags & DBEF_SENT) {
+		char* proto = Proto_GetBaseAccountName(item->hContact);
+		nick = Contact_GetInfo(CNF_DISPLAY, 0, proto);
+	} else
+		nick = Clist_GetContactDisplayName(item->hContact, 0);
+	TplSetVar(vars, 'N', nick, false);
 
 	//  %I: Icon
 	switch (item->dbe.eventType) {
