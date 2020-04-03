@@ -20,7 +20,7 @@ static INT_PTR CALLBACK OptTemplatesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			ImageList_AddIcon(himgTree, g_plugin.getIcon(ICO_TPLGROUP));
 
 			for (int i = 0; i < TPL_COUNT; i++) {
-				if (!i || lstrcmp(templates[i].group, templates[i - 1].group)) {
+				if (!i || mir_wstrcmp(templates[i].group, templates[i - 1].group)) {
 					if (hGroup)
 						TreeView_Expand(GetDlgItem(hwnd, IDC_TEMPLATES), hGroup, TVE_EXPAND);
 
