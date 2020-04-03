@@ -41,11 +41,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "version.h"
 #include "services.h"
 #include "textusers.h"
-#include "richeditutils.h"
-#include "ImageDataObjectHlp.h"
-#include "FormattedTextDraw.h"
-#include "fancy_rtf.h"
-#include "textcontrol.h"
+
+extern PCreateTextServices MyCreateTextServices;
+
+void InitRichEdit(ITextServices *ts);
+HWND CreateProxyWindow(ITextServices *ts);
 
 #define MODULTITLE "Text Display"
 

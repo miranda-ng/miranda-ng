@@ -36,19 +36,20 @@
 	#define DLL_CALLCONV __stdcall
 #endif 
 
-typedef struct _tagMTEXT_interface {
+struct MTEXT_INTERFACE
+{
 	size_t	cbSize;
-	DWORD	version;
-	HANDLE	(DLL_CALLCONV *Register)	(const char *userTitle, DWORD options);
-	HANDLE	(DLL_CALLCONV *Create)		(HANDLE userHandle, TCHAR *text);
-	HANDLE	(DLL_CALLCONV *CreateEx)	(HANDLE userHandle, void *text, DWORD flags);
-	int		(DLL_CALLCONV *Measure)		(HDC dc, SIZE *sz, HANDLE text);
-	int		(DLL_CALLCONV *Display)		(HDC dc, POINT pos, SIZE sz, HANDLE text);
-	int		(DLL_CALLCONV *SetParent)	(HANDLE text, HWND hwnd, RECT rect);
-	int		(DLL_CALLCONV *SendMsg)		(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lParam);
-	HWND	(DLL_CALLCONV *CreateProxy)	(HANDLE text);
+	DWORD    version;
+	HANDLE   (DLL_CALLCONV *Register)	(const char *userTitle, DWORD options);
+	HANDLE   (DLL_CALLCONV *Create)		(HANDLE userHandle, TCHAR *text);
+	HANDLE   (DLL_CALLCONV *CreateEx)	(HANDLE userHandle, void *text, DWORD flags);
+	int      (DLL_CALLCONV *Measure)		(HDC dc, SIZE *sz, HANDLE text);
+	int      (DLL_CALLCONV *Display)		(HDC dc, POINT pos, SIZE sz, HANDLE text);
+	int      (DLL_CALLCONV *SetParent)	(HANDLE text, HWND hwnd, RECT rect);
+	int      (DLL_CALLCONV *SendMsg)		(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lParam);
+	HWND     (DLL_CALLCONV *CreateProxy)	(HANDLE text);
 	int		(DLL_CALLCONV *Destroy)		(HANDLE text);
-} MTEXT_INTERFACE;
+};
 
 // get access to the interface
 // wParam = 0
@@ -56,7 +57,7 @@ typedef struct _tagMTEXT_interface {
 // dont vorget to set cbSize before call service
 #define MS_TEXT_GETINTERFACE "MText/GetInterface"
 
-__forceinline INT_PTR mir_getMTI( MTEXT_INTERFACE* dest )
+__forceinline INT_PTR mir_getMTI(MTEXT_INTERFACE *dest)
 {
 	dest->cbSize = sizeof(*dest);
 	INT_PTR result = CallService(MS_TEXT_GETINTERFACE, 0, (LPARAM)dest);

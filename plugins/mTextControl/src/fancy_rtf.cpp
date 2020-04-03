@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "ImageDataObjectHlp.h"
+#include "FormattedTextDraw.h"
 
 struct BBCodeInfo
 {

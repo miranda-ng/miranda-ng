@@ -18,20 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "stdafx.h"
-
-static HANDLE hService[11] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
-
-INT_PTR MText_Register(WPARAM, LPARAM);
-INT_PTR MText_Create(WPARAM, LPARAM);
-INT_PTR MText_CreateW(WPARAM, LPARAM);
-INT_PTR MText_CreateEx(WPARAM, LPARAM);
-INT_PTR MText_Measure(WPARAM, LPARAM);
-INT_PTR MText_Display(WPARAM, LPARAM);
-INT_PTR MText_SetParent(WPARAM, LPARAM);
-INT_PTR MText_SendMessage(WPARAM, LPARAM);
-INT_PTR MText_CreateProxy(WPARAM, LPARAM);
-INT_PTR MText_Destroy(WPARAM, LPARAM);
-INT_PTR MText_GetInterface(WPARAM, LPARAM);
+#include "FormattedTextDraw.h"
 
 struct TextObject
 {

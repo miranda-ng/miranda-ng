@@ -25,8 +25,7 @@ CMPlugin g_plugin;
 
 HMODULE hMsfteditDll = nullptr;
 
-typedef HRESULT(WINAPI *pfnMyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
-pfnMyCreateTextServices MyCreateTextServices = nullptr;
+PCreateTextServices MyCreateTextServices = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -50,14 +49,15 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void MTextControl_RegisterClass();
+
 int CMPlugin::Load()
 {
 	MyCreateTextServices = nullptr;
 	hMsfteditDll = LoadLibrary(L"msftedit.dll");
 	if (hMsfteditDll)
-		MyCreateTextServices = (pfnMyCreateTextServices)GetProcAddress(hMsfteditDll, "CreateTextServices");
+		MyCreateTextServices = (PCreateTextServices)GetProcAddress(hMsfteditDll, "CreateTextServices");
 
-	LoadRichEdit();
 	LoadTextUsers();
 	LoadServices();
 
@@ -67,10 +67,11 @@ int CMPlugin::Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void UnloadEmfCache();
+
 int CMPlugin::Unload()
 {
 	UnloadTextUsers();
-	UnloadRichEdit();
 	UnloadEmfCache();
 	FreeLibrary(hMsfteditDll);
 	return 0;

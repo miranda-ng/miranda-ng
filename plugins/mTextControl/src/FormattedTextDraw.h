@@ -22,8 +22,6 @@ struct COOKIE
 	size_t cbSize, cbCount;
 };
 
-extern HRESULT(WINAPI *MyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
-
 /////////////////////////////////////////////////////////////////////////////
 // IFormatttedTextDraw
 interface IFormattedTextDraw
@@ -187,5 +185,7 @@ public:
 	ITextServices	*m_spTextServices;
 	ITextDocument	*m_spTextDocument;
 };
+
+void bbCodeParse(IFormattedTextDraw *ts);
 
 #endif //__FORMATTEDTEXTDRAW_H_

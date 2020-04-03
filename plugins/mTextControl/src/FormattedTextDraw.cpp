@@ -5,7 +5,7 @@
 // FormattedTextDraw.cpp : Implementation of CFormattedTextDraw
 
 #include "stdafx.h"
-
+#include "FormattedTextDraw.h"
 
 const IID IID_ITextServices = { // 8d33f740-cf58-11ce-a89d-00aa006cadc5
 	0x8d33f740,

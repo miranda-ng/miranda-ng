@@ -3,16 +3,12 @@
 class CREOleCallback : public IRichEditOleCallback
 {
 private:
-	unsigned refCount;
-	IStorage *pictStg;
-	int nextStgId;
+	unsigned refCount = 1;
+	IStorage *pictStg = nullptr;
+	int nextStgId = 0;
+
 public:
-	CREOleCallback()
-	{
-		refCount = 1;
-		pictStg = nullptr;
-		nextStgId = 0;
-	}
+	CREOleCallback() {}
 
 	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, LPVOID * ppvObj)
 	{
@@ -101,15 +97,19 @@ public:
 	}
 };
 
-IRichEditOleCallback *reOleCallback = nullptr;
+static CREOleCallback reOleCallback;
 
 void InitRichEdit(ITextServices *ts)
 {
 	LRESULT lResult;
-	ts->TxSendMessage(EM_SETOLECALLBACK, 0, (LPARAM)reOleCallback, &lResult);
+	ts->TxSendMessage(EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback, &lResult);
 }
 
-LRESULT CALLBACK RichEditProxyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static ATOM winClass = 0;
+
+static LRESULT CALLBACK RichEditProxyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ITextServices *ts = (ITextServices *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (ts && (msg != WM_DESTROY)) {
@@ -120,33 +120,20 @@ LRESULT CALLBACK RichEditProxyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	return 1;
 }
 
-void LoadRichEdit()
-{
-	reOleCallback = new CREOleCallback;
-
-	WNDCLASSEX wcl;
-	wcl.cbSize = sizeof(wcl);
-	wcl.lpfnWndProc = RichEditProxyWndProc;
-	wcl.style = CS_GLOBALCLASS;
-	wcl.cbClsExtra = 0;
-	wcl.cbWndExtra = 0;
-	wcl.hInstance = g_plugin.getInst();
-	wcl.hIcon = nullptr;
-	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = nullptr;
-	wcl.lpszClassName = L"NBRichEditProxyWndClass";
-	wcl.hIconSm = nullptr;
-	RegisterClassEx(&wcl);
-}
-
-void UnloadRichEdit()
-{
-	delete reOleCallback;
-}
-
 HWND CreateProxyWindow(ITextServices *ts)
 {
+	if (winClass == 0) {
+		WNDCLASSEX wcl = {};
+		wcl.cbSize = sizeof(wcl);
+		wcl.lpfnWndProc = RichEditProxyWndProc;
+		wcl.style = CS_GLOBALCLASS;
+		wcl.hInstance = g_plugin.getInst();
+		wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
+		wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+		wcl.lpszClassName = L"NBRichEditProxyWndClass";
+		winClass = RegisterClassEx(&wcl);
+	}
+
 	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ts);
 	return hwnd;
