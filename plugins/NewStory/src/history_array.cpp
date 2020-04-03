@@ -27,50 +27,50 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 		switch (dbe.eventType) {
 		case EVENTTYPE_STATUSCHANGE:
 		case EVENTTYPE_MESSAGE:
-			{
-				atext = (char *)dbe.pBlob;
-				atext_del = false;
-				aLength = mir_strlen(atext);
-				if (dbe.cbBlob > (DWORD)aLength + 1) {
-					wtext = (wchar_t *)(dbe.pBlob + aLength + 1);
-					wtext_del = false;
-				}
-				break;
+		{
+			atext = (char*)dbe.pBlob;
+			atext_del = false;
+			aLength = mir_strlen(atext);
+			if (dbe.cbBlob > (DWORD)aLength + 1) {
+				wtext = (wchar_t*)(dbe.pBlob + aLength + 1);
+				wtext_del = false;
 			}
+			break;
+		}
 
 		case EVENTTYPE_AUTHREQUEST:
-			{
-				atext = new char[512];
-				atext_del = true;
-				if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
-					mir_snprintf(atext, 512, ("%s requested authorization"), dbe.pBlob + 8);
-				}
-				else {
-					mir_snprintf(atext, 512, ("%d requested authorization"), *(DWORD *)(dbe.pBlob));
-				}
-				aLength = mir_strlen(atext);
-				break;
+		{
+			atext = new char[512];
+			atext_del = true;
+			if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
+				mir_snprintf(atext, 512, ("%s requested authorization"), dbe.pBlob + 8);
 			}
+			else {
+				mir_snprintf(atext, 512, ("%d requested authorization"), *(DWORD*)(dbe.pBlob));
+			}
+			aLength = mir_strlen(atext);
+			break;
+		}
 
 		case EVENTTYPE_ADDED:
-			{
-				atext = new char[512];
-				atext_del = true;
-				if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
-					mir_snprintf(atext, 512, ("%s added you to the contact list"), dbe.pBlob + 8);
-				}
-				else {
-					mir_snprintf(atext, 512, ("%d added you to the contact list"), *(DWORD *)(dbe.pBlob));
-				}
-				aLength = mir_strlen(atext);
-				break;
+		{
+			atext = new char[512];
+			atext_del = true;
+			if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
+				mir_snprintf(atext, 512, ("%s added you to the contact list"), dbe.pBlob + 8);
 			}
+			else {
+				mir_snprintf(atext, 512, ("%d added you to the contact list"), *(DWORD*)(dbe.pBlob));
+			}
+			aLength = mir_strlen(atext);
+			break;
+		}
 		}
 
 		if (atext && !wtext) {
 #ifdef UNICODE
 			int bufSize = MultiByteToWideChar(CP_ACP, 0, atext, aLength + 1, 0, 0);
-			wtext = new WCHAR[bufSize + 1];
+			wtext = new wchar_t[bufSize + 1];
 			MultiByteToWideChar(CP_ACP, 0, atext, aLength + 1, wtext, bufSize);
 			wtext_del = true;
 #else
@@ -119,7 +119,7 @@ HistoryArray::~HistoryArray()
 
 bool HistoryArray::allocateBlock(int count)
 {
-	ItemBlock *newBlock = new ItemBlock;
+	ItemBlock* newBlock = new ItemBlock;
 	newBlock->items = new ItemData[count];
 	newBlock->count = count;
 	newBlock->prev = tail;
@@ -139,7 +139,7 @@ bool HistoryArray::allocateBlock(int count)
 void HistoryArray::clear()
 {
 	while (head) {
-		ItemBlock *next = head->next;
+		ItemBlock* next = head->next;
 		//		for (int i = 0; i < head->count; ++i)
 		//			destroyEvent(head->items[i]);
 		delete[] head->items;
@@ -195,10 +195,10 @@ bool HistoryArray::preloadEvents(int count)
 	return true;
 }
 */
-HistoryArray::ItemData *HistoryArray::get(int id, EventLoadMode mode)
+HistoryArray::ItemData* HistoryArray::get(int id, EventLoadMode mode)
 {
 	int offset = 0;
-	for (ItemBlock *p = head; p; p = p->next) {
+	for (ItemBlock* p = head; p; p = p->next) {
 		if (id < offset + p->count) {
 			if (mode != ELM_NOTHING)
 				p->items[id - offset].load(mode);

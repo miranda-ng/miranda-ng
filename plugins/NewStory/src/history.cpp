@@ -6,9 +6,9 @@
 
 /*
 for the date picker:
-    case WM_ACTIVATE:
-        if (wParam == WA_INACTIVE) PostMessage(m_hwndDialog, WM_CLOSE, 0, 0);
-        break;
+	case WM_ACTIVATE:
+		if (wParam == WA_INACTIVE) PostMessage(m_hwndDialog, WM_CLOSE, 0, 0);
+		break;
 */
 
 #include "stdafx.h"
@@ -122,7 +122,7 @@ struct WindowData
 	InfoBarEvents ibMessages, ibFiles, ibUrls, ibTotal;
 };
 
-void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
+void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents* ib)
 {
 	hDwp = DeferWindowPos(hDwp, ib->hwndIco, 0,
 		x, y, 16, 16, SWP_NOZORDER);
@@ -141,7 +141,7 @@ void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 
 }
 
-void ShowHideControls(HWND hwnd, WindowData *data)
+void ShowHideControls(HWND hwnd, WindowData* data)
 {
 	int cmd;
 
@@ -183,7 +183,7 @@ void ShowHideControls(HWND hwnd, WindowData *data)
 	ShowWindow(data->hwndSearchText, cmd);
 }
 
-void LayoutHistoryWnd(HWND hwnd, WindowData *data)
+void LayoutHistoryWnd(HWND hwnd, WindowData* data)
 {
 	int i;
 	RECT rc;
@@ -413,7 +413,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	//CallSnappingWindowProc(hwnd, msg, wParam, lParam);
 
-	WindowData *data = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	WindowData* data = (WindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	if ((msg >= NSM_FIRST) && (msg < NSM_LAST)) {
 		int result = SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), msg, wParam, lParam);
@@ -423,182 +423,182 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			data = new WindowData;
-			data->hContact = (MCONTACT)lParam;
-			data->disableTimeTreeChange = false;
-			data->showFlags = db_get_w(data->hContact, MODULENAME, "showFlags", 0x7f);
-			data->lastYear = data->lastMonth = data->lastDay = -1;
-			data->hLastYear = data->hLastMonth = data->hLastDay = 0;
+	{
+		data = new WindowData;
+		data->hContact = (MCONTACT)lParam;
+		data->disableTimeTreeChange = false;
+		data->showFlags = db_get_w(data->hContact, MODULENAME, "showFlags", 0x7f);
+		data->lastYear = data->lastMonth = data->lastDay = -1;
+		data->hLastYear = data->hLastMonth = data->hLastDay = 0;
 
-			data->wndOptions = 0;
+		data->wndOptions = 0;
 
-			// get handles
-			data->hwndBtnToolbar[TBTN_USERINFO] = GetDlgItem(hwnd, IDC_USERINFO);
-			data->hwndBtnToolbar[TBTN_USERMENU] = GetDlgItem(hwnd, IDC_USERMENU);
-			data->hwndBtnToolbar[TBTN_MESSAGE] = GetDlgItem(hwnd, IDC_MESSAGE);
-			data->hwndBtnToolbar[TBTN_SEARCH] = GetDlgItem(hwnd, IDC_SEARCH);
-			data->hwndBtnToolbar[TBTN_COPY] = GetDlgItem(hwnd, IDC_COPY);
-			data->hwndBtnToolbar[TBTN_EXPORT] = GetDlgItem(hwnd, IDC_EXPORT);
-			data->hwndBtnToolbar[TBTN_LOGOPTIONS] = GetDlgItem(hwnd, IDC_LOGOPTIONS);
-			data->hwndBtnToolbar[TBTN_FILTER] = GetDlgItem(hwnd, IDC_FILTER);
-			data->hwndBtnToolbar[TBTN_DATEPOPUP] = GetDlgItem(hwnd, IDC_DATEPOPUP);
-			data->hwndBtnToolbar[TBTN_CLOSE] = GetDlgItem(hwnd, IDC_CLOSE);
-			data->hwndLog = GetDlgItem(hwnd, IDC_ITEMS2);
-			data->hwndBtnCloseSearch = GetDlgItem(hwnd, IDC_SEARCHICON);
-			data->hwndBtnFindPrev = GetDlgItem(hwnd, IDC_FINDPREV);
-			data->hwndBtnFindNext = GetDlgItem(hwnd, IDC_FINDNEXT);
-			data->hwndSearchText = GetDlgItem(hwnd, IDC_SEARCHTEXT);
-			data->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwnd, NULL, g_plugin.getInst(), NULL);
-			SendMessage(data->hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
+		// get handles
+		data->hwndBtnToolbar[TBTN_USERINFO] = GetDlgItem(hwnd, IDC_USERINFO);
+		data->hwndBtnToolbar[TBTN_USERMENU] = GetDlgItem(hwnd, IDC_USERMENU);
+		data->hwndBtnToolbar[TBTN_MESSAGE] = GetDlgItem(hwnd, IDC_MESSAGE);
+		data->hwndBtnToolbar[TBTN_SEARCH] = GetDlgItem(hwnd, IDC_SEARCH);
+		data->hwndBtnToolbar[TBTN_COPY] = GetDlgItem(hwnd, IDC_COPY);
+		data->hwndBtnToolbar[TBTN_EXPORT] = GetDlgItem(hwnd, IDC_EXPORT);
+		data->hwndBtnToolbar[TBTN_LOGOPTIONS] = GetDlgItem(hwnd, IDC_LOGOPTIONS);
+		data->hwndBtnToolbar[TBTN_FILTER] = GetDlgItem(hwnd, IDC_FILTER);
+		data->hwndBtnToolbar[TBTN_DATEPOPUP] = GetDlgItem(hwnd, IDC_DATEPOPUP);
+		data->hwndBtnToolbar[TBTN_CLOSE] = GetDlgItem(hwnd, IDC_CLOSE);
+		data->hwndLog = GetDlgItem(hwnd, IDC_ITEMS2);
+		data->hwndBtnCloseSearch = GetDlgItem(hwnd, IDC_SEARCHICON);
+		data->hwndBtnFindPrev = GetDlgItem(hwnd, IDC_FINDPREV);
+		data->hwndBtnFindNext = GetDlgItem(hwnd, IDC_FINDNEXT);
+		data->hwndSearchText = GetDlgItem(hwnd, IDC_SEARCHTEXT);
+		data->hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, hwnd, NULL, g_plugin.getInst(), NULL);
+		SendMessage(data->hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
-			// filterbar
-			SendMessage(data->hwndBtnToolbar[TBTN_FILTER], BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->hwndBtnToolbar[TBTN_SEARCH], BUTTONSETASPUSHBTN, 0, 0);
+		// filterbar
+		SendMessage(data->hwndBtnToolbar[TBTN_FILTER], BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->hwndBtnToolbar[TBTN_SEARCH], BUTTONSETASPUSHBTN, 0, 0);
 
-			data->hwndChkDateFrom = GetDlgItem(hwnd, IDC_CHK_DATE_FROM);
-			data->hwndChkDateTo = GetDlgItem(hwnd, IDC_CHK_DATE_TO);
-			data->hwndDateFrom = GetDlgItem(hwnd, IDC_DATE_FROM);
-			data->hwndDateTo = GetDlgItem(hwnd, IDC_DATE_TO);
+		data->hwndChkDateFrom = GetDlgItem(hwnd, IDC_CHK_DATE_FROM);
+		data->hwndChkDateTo = GetDlgItem(hwnd, IDC_CHK_DATE_TO);
+		data->hwndDateFrom = GetDlgItem(hwnd, IDC_DATE_FROM);
+		data->hwndDateTo = GetDlgItem(hwnd, IDC_DATE_TO);
 
-			data->ibMessages.hwndIco = GetDlgItem(hwnd, IDC_ICO_MESSAGES);
-			data->ibMessages.hwndTxt = GetDlgItem(hwnd, IDC_TXT_MESSAGES);
-			data->ibMessages.hwndIcoIn = GetDlgItem(hwnd, IDC_ICO_MESSAGES_IN);
-			SendMessage(data->ibMessages.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(data->ibMessages.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->ibMessages.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
-			data->ibMessages.hwndTxtIn = GetDlgItem(hwnd, IDC_TXT_MESSAGES_IN);
-			data->ibMessages.hwndIcoOut = GetDlgItem(hwnd, IDC_ICO_MESSAGES_OUT);
-			SendMessage(data->ibMessages.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(data->ibMessages.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->ibMessages.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
-			data->ibMessages.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_MESSAGES_OUT);
+		data->ibMessages.hwndIco = GetDlgItem(hwnd, IDC_ICO_MESSAGES);
+		data->ibMessages.hwndTxt = GetDlgItem(hwnd, IDC_TXT_MESSAGES);
+		data->ibMessages.hwndIcoIn = GetDlgItem(hwnd, IDC_ICO_MESSAGES_IN);
+		SendMessage(data->ibMessages.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(data->ibMessages.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->ibMessages.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
+		data->ibMessages.hwndTxtIn = GetDlgItem(hwnd, IDC_TXT_MESSAGES_IN);
+		data->ibMessages.hwndIcoOut = GetDlgItem(hwnd, IDC_ICO_MESSAGES_OUT);
+		SendMessage(data->ibMessages.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(data->ibMessages.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->ibMessages.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
+		data->ibMessages.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_MESSAGES_OUT);
 
-			data->ibFiles.hwndIco = GetDlgItem(hwnd, IDC_ICO_FILES);
-			data->ibFiles.hwndTxt = GetDlgItem(hwnd, IDC_TXT_FILES);
-			data->ibFiles.hwndIcoIn = GetDlgItem(hwnd, IDC_ICO_FILES_IN);
-			SendMessage(data->ibFiles.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(data->ibFiles.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->ibFiles.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
-			data->ibFiles.hwndTxtIn = GetDlgItem(hwnd, IDC_TXT_FILES_IN);
-			data->ibFiles.hwndIcoOut = GetDlgItem(hwnd, IDC_ICO_FILES_OUT);
-			SendMessage(data->ibFiles.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(data->ibFiles.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->ibFiles.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
-			data->ibFiles.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_FILES_OUT);
+		data->ibFiles.hwndIco = GetDlgItem(hwnd, IDC_ICO_FILES);
+		data->ibFiles.hwndTxt = GetDlgItem(hwnd, IDC_TXT_FILES);
+		data->ibFiles.hwndIcoIn = GetDlgItem(hwnd, IDC_ICO_FILES_IN);
+		SendMessage(data->ibFiles.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(data->ibFiles.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->ibFiles.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
+		data->ibFiles.hwndTxtIn = GetDlgItem(hwnd, IDC_TXT_FILES_IN);
+		data->ibFiles.hwndIcoOut = GetDlgItem(hwnd, IDC_ICO_FILES_OUT);
+		SendMessage(data->ibFiles.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(data->ibFiles.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->ibFiles.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
+		data->ibFiles.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_FILES_OUT);
 
-			data->ibUrls.hwndIco = GetDlgItem(hwnd, IDC_ICO_URLS);
-			data->ibUrls.hwndTxt = GetDlgItem(hwnd, IDC_TXT_URLS);
-			data->ibUrls.hwndIcoIn = GetDlgItem(hwnd, IDC_ICO_URLS_IN);
-			SendMessage(data->ibUrls.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(data->ibUrls.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->ibUrls.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
-			data->ibUrls.hwndTxtIn = GetDlgItem(hwnd, IDC_TXT_URLS_IN);
-			data->ibUrls.hwndIcoOut = GetDlgItem(hwnd, IDC_ICO_URLS_OUT);
-			SendMessage(data->ibUrls.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(data->ibUrls.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->ibUrls.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
-			data->ibUrls.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_URLS_OUT);
+		data->ibUrls.hwndIco = GetDlgItem(hwnd, IDC_ICO_URLS);
+		data->ibUrls.hwndTxt = GetDlgItem(hwnd, IDC_TXT_URLS);
+		data->ibUrls.hwndIcoIn = GetDlgItem(hwnd, IDC_ICO_URLS_IN);
+		SendMessage(data->ibUrls.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(data->ibUrls.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->ibUrls.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
+		data->ibUrls.hwndTxtIn = GetDlgItem(hwnd, IDC_TXT_URLS_IN);
+		data->ibUrls.hwndIcoOut = GetDlgItem(hwnd, IDC_ICO_URLS_OUT);
+		SendMessage(data->ibUrls.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(data->ibUrls.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->ibUrls.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
+		data->ibUrls.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_URLS_OUT);
 
-			data->ibTotal.hwndIco = GetDlgItem(hwnd, IDC_ICO_TOTAL);
-			data->ibTotal.hwndTxt = GetDlgItem(hwnd, IDC_TXT_TOTAL);
-			data->ibTotal.hwndIcoIn = GetDlgItem(hwnd, IDC_ICO_TOTAL_IN);
-			SendMessage(data->ibTotal.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(data->ibTotal.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->ibTotal.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
-			data->ibTotal.hwndTxtIn = GetDlgItem(hwnd, IDC_TXT_TOTAL_IN);
-			data->ibTotal.hwndIcoOut = GetDlgItem(hwnd, IDC_ICO_TOTAL_OUT);
-			SendMessage(data->ibTotal.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(data->ibTotal.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(data->ibTotal.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
-			data->ibTotal.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_TOTAL_OUT);
+		data->ibTotal.hwndIco = GetDlgItem(hwnd, IDC_ICO_TOTAL);
+		data->ibTotal.hwndTxt = GetDlgItem(hwnd, IDC_TXT_TOTAL);
+		data->ibTotal.hwndIcoIn = GetDlgItem(hwnd, IDC_ICO_TOTAL_IN);
+		SendMessage(data->ibTotal.hwndIcoIn, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(data->ibTotal.hwndIcoIn, BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->ibTotal.hwndIcoIn, BM_SETCHECK, BST_CHECKED, 0);
+		data->ibTotal.hwndTxtIn = GetDlgItem(hwnd, IDC_TXT_TOTAL_IN);
+		data->ibTotal.hwndIcoOut = GetDlgItem(hwnd, IDC_ICO_TOTAL_OUT);
+		SendMessage(data->ibTotal.hwndIcoOut, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(data->ibTotal.hwndIcoOut, BUTTONSETASPUSHBTN, 0, 0);
+		SendMessage(data->ibTotal.hwndIcoOut, BM_SETCHECK, BST_CHECKED, 0);
+		data->ibTotal.hwndTxtOut = GetDlgItem(hwnd, IDC_TXT_TOTAL_OUT);
 
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
-			data->hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
-			//CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)data->hMenu, 0);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_INCOMING,
-				data->showFlags&HIST_SHOW_IN ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_OUTGOING,
-				data->showFlags&HIST_SHOW_OUT ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_MESSAGES,
-				data->showFlags&HIST_SHOW_MSGS ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_FILES,
-				data->showFlags&HIST_SHOW_FILES ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_URLS,
-				data->showFlags&HIST_SHOW_URLS ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_STATUS,
-				data->showFlags&HIST_SHOW_STATUS ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_OTHER,
-				data->showFlags&HIST_SHOW_OTHER ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_AUTO,
-				data->showFlags&HIST_AUTO_FILTER ? MF_CHECKED : MF_UNCHECKED);
+		data->hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
+		//CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)data->hMenu, 0);
+		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_INCOMING,
+			data->showFlags & HIST_SHOW_IN ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_OUTGOING,
+			data->showFlags & HIST_SHOW_OUT ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_MESSAGES,
+			data->showFlags & HIST_SHOW_MSGS ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_FILES,
+			data->showFlags & HIST_SHOW_FILES ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_URLS,
+			data->showFlags & HIST_SHOW_URLS ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_STATUS,
+			data->showFlags & HIST_SHOW_STATUS ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_OTHER,
+			data->showFlags & HIST_SHOW_OTHER ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_FILTER_AUTO,
+			data->showFlags & HIST_AUTO_FILTER ? MF_CHECKED : MF_UNCHECKED);
 
-			//			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
-			//				data->showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
-			//			ShowWindow(GetDlgItem(hwnd, IDC_TIMETREE), data->showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
+		//			CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
+		//				data->showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
+		//			ShowWindow(GetDlgItem(hwnd, IDC_TIMETREE), data->showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
 
-						// Ask for layout
-			PostMessage(hwnd, WM_SIZE, 0, 0);
+					// Ask for layout
+		PostMessage(hwnd, WM_SIZE, 0, 0);
 
-			SendMessage(GetDlgItem(hwnd, IDC_USERINFO), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_MESSAGE), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_USERMENU), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_COPY), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_LOGOPTIONS), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_FILTER), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_DATEPOPUP), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_SEARCH), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_EXPORT), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_CLOSE), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_FINDPREV), BUTTONSETASFLATBTN, 0, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_USERINFO), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_MESSAGE), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_USERMENU), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COPY), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_LOGOPTIONS), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_FILTER), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_DATEPOPUP), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_SEARCH), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_EXPORT), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_CLOSE), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_FINDPREV), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT), BUTTONSETASFLATBTN, 0, 0);
 
-			SendMessage(GetDlgItem(hwnd, IDC_USERINFO), BUTTONADDTOOLTIP, (WPARAM)Translate("User Info"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_MESSAGE), BUTTONADDTOOLTIP, (WPARAM)Translate("Send Message"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_USERMENU), BUTTONADDTOOLTIP, (WPARAM)Translate("User Menu"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_COPY), BUTTONADDTOOLTIP, (WPARAM)Translate("Copy"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_LOGOPTIONS), BUTTONADDTOOLTIP, (WPARAM)Translate("Options"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_FILTER), BUTTONADDTOOLTIP, (WPARAM)Translate("Filter"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_DATEPOPUP), BUTTONADDTOOLTIP, (WPARAM)Translate("Jump2Date"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_SEARCH), BUTTONADDTOOLTIP, (WPARAM)Translate("Search..."), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_EXPORT), BUTTONADDTOOLTIP, (WPARAM)Translate("Export..."), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_CLOSE), BUTTONADDTOOLTIP, (WPARAM)Translate("Close"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_FINDPREV), BUTTONADDTOOLTIP, (WPARAM)Translate("Find Previous"), 0);
-			SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT), BUTTONADDTOOLTIP, (WPARAM)Translate("Find Next"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_USERINFO), BUTTONADDTOOLTIP, (WPARAM)Translate("User Info"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_MESSAGE), BUTTONADDTOOLTIP, (WPARAM)Translate("Send Message"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_USERMENU), BUTTONADDTOOLTIP, (WPARAM)Translate("User Menu"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_COPY), BUTTONADDTOOLTIP, (WPARAM)Translate("Copy"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_LOGOPTIONS), BUTTONADDTOOLTIP, (WPARAM)Translate("Options"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_FILTER), BUTTONADDTOOLTIP, (WPARAM)Translate("Filter"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_DATEPOPUP), BUTTONADDTOOLTIP, (WPARAM)Translate("Jump2Date"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_SEARCH), BUTTONADDTOOLTIP, (WPARAM)Translate("Search..."), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_EXPORT), BUTTONADDTOOLTIP, (WPARAM)Translate("Export..."), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_CLOSE), BUTTONADDTOOLTIP, (WPARAM)Translate("Close"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_FINDPREV), BUTTONADDTOOLTIP, (WPARAM)Translate("Find Previous"), 0);
+		SendMessage(GetDlgItem(hwnd, IDC_FINDNEXT), BUTTONADDTOOLTIP, (WPARAM)Translate("Find Next"), 0);
 
-			WindowList_Add(hNewstoryWindows, hwnd, data->hContact);
+		WindowList_Add(hNewstoryWindows, hwnd, data->hContact);
 
-			if (data->hContact && (data->hContact != INVALID_CONTACT_ID)) {
-				wchar_t *title = TplFormatString(TPL_TITLE, data->hContact, 0);
-				SetWindowText(hwnd, title);
-				mir_free(title);
-			}
-			else {
-				if (data->hContact == INVALID_CONTACT_ID)
-					SetWindowText(hwnd, TranslateT("Newstory Search Results"));
-				else
-					SetWindowText(hwnd, TranslateT("System Newstory"));
-			}
-
-			if (data->hContact != INVALID_CONTACT_ID)
-				PostMessage(GetDlgItem(hwnd, IDC_ITEMS2), WM_USER, (WPARAM)data->hContact, 0);
-
-			SendMessage(hwnd, UM_UPDATEICONS, 0, 0);
-			SetFocus(GetDlgItem(hwnd, IDC_ITEMS2));
-
-			int left = db_get_dw(data->hContact, MODULENAME, "left"),
-				top = db_get_dw(data->hContact, MODULENAME, "top"),
-				right = db_get_dw(data->hContact, MODULENAME, "right"),
-				bottom = db_get_dw(data->hContact, MODULENAME, "bottom");
-
-			if (left - right && top - bottom)
-				MoveWindow(hwnd, left, top, right - left, bottom - top, TRUE);
-
-			ShowHideControls(hwnd, data);
-
-			return TRUE;
+		if (data->hContact && (data->hContact != INVALID_CONTACT_ID)) {
+			wchar_t* title = TplFormatString(TPL_TITLE, data->hContact, 0);
+			SetWindowText(hwnd, title);
+			mir_free(title);
 		}
+		else {
+			if (data->hContact == INVALID_CONTACT_ID)
+				SetWindowText(hwnd, TranslateT("Newstory Search Results"));
+			else
+				SetWindowText(hwnd, TranslateT("System Newstory"));
+		}
+
+		if (data->hContact != INVALID_CONTACT_ID)
+			PostMessage(GetDlgItem(hwnd, IDC_ITEMS2), WM_USER, (WPARAM)data->hContact, 0);
+
+		SendMessage(hwnd, UM_UPDATEICONS, 0, 0);
+		SetFocus(GetDlgItem(hwnd, IDC_ITEMS2));
+
+		int left = db_get_dw(data->hContact, MODULENAME, "left"),
+			top = db_get_dw(data->hContact, MODULENAME, "top"),
+			right = db_get_dw(data->hContact, MODULENAME, "right"),
+			bottom = db_get_dw(data->hContact, MODULENAME, "bottom");
+
+		if (left - right && top - bottom)
+			MoveWindow(hwnd, left, top, right - left, bottom - top, TRUE);
+
+		ShowHideControls(hwnd, data);
+
+		return TRUE;
+	}
 
 	case UM_UPDATEICONS:
 		SendMessage(hwnd, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)g_plugin.getIcon(ICO_NEWSTORY));
@@ -701,53 +701,53 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return TRUE;
 
 	case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT lpdis;
-			lpdis = (LPDRAWITEMSTRUCT)lParam;
+	{
+		LPDRAWITEMSTRUCT lpdis;
+		lpdis = (LPDRAWITEMSTRUCT)lParam;
 
-			if (lpdis->CtlType == ODT_MENU)
-				return Menu_DrawItem(lParam);
+		if (lpdis->CtlType == ODT_MENU)
+			return Menu_DrawItem(lParam);
 
-			if (lpdis->itemID == -1)
-				return FALSE;
+		if (lpdis->itemID == -1)
+			return FALSE;
 
-			return TRUE;
-		}
+		return TRUE;
+	}
 
 	case WM_NOTIFY:
+	{
+		LPNMHDR hdr = (LPNMHDR)lParam;
+		switch (hdr->idFrom) {
+		case IDC_TIMETREE:
 		{
-			LPNMHDR hdr = (LPNMHDR)lParam;
-			switch (hdr->idFrom) {
-			case IDC_TIMETREE:
-				{
-					switch (hdr->code) {
-					case TVN_SELCHANGED:
-						{
-							if (data->disableTimeTreeChange) {
-								data->disableTimeTreeChange = false;
-							}
-							else {
-								//								LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-								//								int id = pnmtv->itemNew.lParam;
-								//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
-								//								SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_ITEMS, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwnd, IDC_ITEMS));
-								//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
-								//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,data->eventCount));
-								//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
-							}
-							break;
-						}
-					}
-					break;
+			switch (hdr->code) {
+			case TVN_SELCHANGED:
+			{
+				if (data->disableTimeTreeChange) {
+					data->disableTimeTreeChange = false;
 				}
+				else {
+					//								LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
+					//								int id = pnmtv->itemNew.lParam;
+					//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
+					//								SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_ITEMS, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwnd, IDC_ITEMS));
+					//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
+					//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,data->eventCount));
+					//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
+				}
+				break;
 			}
+			}
+			break;
 		}
-		return TRUE;
+		}
+	}
+	return TRUE;
 
 	case WM_COMMAND:
 		// if (Menu_ProcessCommand(MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) data->hContact))
 		//    return TRUE;
-			
+
 		switch (LOWORD(wParam)) {
 		case IDCANCEL:
 		case IDC_CLOSE:
@@ -763,47 +763,47 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_DATEPOPUP:
-			{
-				GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-				time_t tm_jump = CalendarTool_Show(hwnd, rc.left, rc.bottom);
-				if (tm_jump) PostMessage(hwnd, UM_JUMP2TIME, tm_jump, 0);
-				break;
-			}
+		{
+			GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
+			time_t tm_jump = CalendarTool_Show(hwnd, rc.left, rc.bottom);
+			if (tm_jump) PostMessage(hwnd, UM_JUMP2TIME, tm_jump, 0);
+			break;
+		}
 
 		case IDC_USERMENU:
-			{
-				HMENU hMenu = Menu_BuildContactMenu(data->hContact);
-				GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwnd, NULL);
-				DestroyMenu(hMenu);
-				break;
-			}
+		{
+			HMENU hMenu = Menu_BuildContactMenu(data->hContact);
+			GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
+			TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwnd, NULL);
+			DestroyMenu(hMenu);
+			break;
+		}
 
 		case IDC_LOGOPTIONS:
-			{
-				GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-				//					DWORD itemID = 0;
-				switch (TrackPopupMenu(GetSubMenu(data->hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, hwnd, NULL)) {
-					//						case ID_LOGOPTIONS_SHOWTIMETREE:
-					//						{
-					//							data->showFlags = toggleBit(data->showFlags, HIST_TIMETREE);
-					//							CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
-					//								data->showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
-					//							ShowWindow(GetDlgItem(hwnd, IDC_TIMETREE), data->showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
-					//							break;
-					//						}
+		{
+			GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
+			//					DWORD itemID = 0;
+			switch (TrackPopupMenu(GetSubMenu(data->hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, hwnd, NULL)) {
+				//						case ID_LOGOPTIONS_SHOWTIMETREE:
+				//						{
+				//							data->showFlags = toggleBit(data->showFlags, HIST_TIMETREE);
+				//							CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
+				//								data->showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
+				//							ShowWindow(GetDlgItem(hwnd, IDC_TIMETREE), data->showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
+				//							break;
+				//						}
 
-				case ID_LOGOPTIONS_OPTIONS:
-					g_plugin.openOptions(nullptr, L"Newstory", L"General");
-					break;
+			case ID_LOGOPTIONS_OPTIONS:
+				g_plugin.openOptions(nullptr, L"Newstory", L"General");
+				break;
 
-				case ID_LOGOPTIONS_TEMPLATES:
-					g_plugin.openOptions(nullptr, L"Newstory", L"Templates");
-					break;
-				}
-				PostMessage(hwnd, WM_SIZE, 0, 0);
+			case ID_LOGOPTIONS_TEMPLATES:
+				g_plugin.openOptions(nullptr, L"Newstory", L"Templates");
 				break;
 			}
+			PostMessage(hwnd, WM_SIZE, 0, 0);
+			break;
+		}
 
 		case IDC_SEARCH:
 			if (data->wndOptions & WND_OPT_SEARCHBAR)
@@ -896,50 +896,50 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			if (doFilter)
 				PostMessage(hwnd, UM_REBUILDLIST, 0, 0);
 			break;*/
-	
+
 		case IDC_EXPORT:
 			// ExportHistoryDialog(data->hContact, hwnd);
 			// DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT), hwnd, ExportWndProc);
 			break;
 
 		case IDC_SEARCHTEXT:
-			if ((data->showFlags&HIST_AUTO_FILTER) && (HIWORD(wParam) == EN_CHANGE))
+			if ((data->showFlags & HIST_AUTO_FILTER) && (HIWORD(wParam) == EN_CHANGE))
 				PostMessage(hwnd, UM_REBUILDLIST, 0, 0);
 			break;
 
-		// case IDC_EXPORT:
-		//	GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-		//	TrackPopupMenu(GetSubMenu(data->hMenu, 0), TPM_RETURNCMD, rc.left, rc.bottom, 0, hwnd, NULL);
-		//	break;
-		
-		// case IDC_SEARCH:
-		// int id = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SEARCH), 0, SearchDlgProc, (LPARAM)GetDlgItem(hwnd, IDC_ITEMS));
-		// SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
-		// SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
-		// SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,data->eventCount));
-		// SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
-		// break;
+			// case IDC_EXPORT:
+			//	GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
+			//	TrackPopupMenu(GetSubMenu(data->hMenu, 0), TPM_RETURNCMD, rc.left, rc.bottom, 0, hwnd, NULL);
+			//	break;
+
+			// case IDC_SEARCH:
+			// int id = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SEARCH), 0, SearchDlgProc, (LPARAM)GetDlgItem(hwnd, IDC_ITEMS));
+			// SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
+			// SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
+			// SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,data->eventCount));
+			// SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
+			// break;
 
 		case IDC_FINDPREV:
-			{
-				int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1;
-				wchar_t *buf = new wchar_t[bufSize];
-				GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1);
-				SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDPREV, (WPARAM)buf, 0);
-				delete[] buf;
-			}
-			break;
+		{
+			int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1;
+			wchar_t* buf = new wchar_t[bufSize];
+			GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1);
+			SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDPREV, (WPARAM)buf, 0);
+			delete[] buf;
+		}
+		break;
 
 		case IDOK:
 		case IDC_FINDNEXT:
-			{
-				int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1;
-				wchar_t *buf = new wchar_t[bufSize];
-				GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1);
-				SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDNEXT, (WPARAM)buf, 0);
-				delete[] buf;
-			}
-			break;
+		{
+			int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1;
+			wchar_t* buf = new wchar_t[bufSize];
+			GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1);
+			SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDNEXT, (WPARAM)buf, 0);
+			delete[] buf;
+		}
+		break;
 
 		case IDC_COPY:
 			SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_COPY, 0, 0);

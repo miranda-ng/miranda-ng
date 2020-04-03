@@ -7,30 +7,30 @@ DWORD toggleBit(DWORD dw, DWORD bit)
 	return dw | bit;
 }
 
-bool CheckFilter(TCHAR *buf, TCHAR *filter)
+bool CheckFilter(wchar_t* buf, wchar_t* filter)
 {
 	//	MessageBox(0, buf, filter, MB_OK);
-	int l1 = lstrlen(buf);
-	int l2 = lstrlen(filter);
+	int l1 = mir_wstrlen(buf);
+	int l2 = mir_wstrlen(filter);
 	for (int i = 0; i < l1 - l2 + 1; i++)
 		if (CompareString(LOCALE_USER_DEFAULT, NORM_IGNORECASE, buf + i, l2, filter, l2) == CSTR_EQUAL)
 			return true;
 	return false;
 }
 
-void CopyText(HWND hwnd, TCHAR *text)
+void CopyText(HWND hwnd, wchar_t* text)
 {
 	OpenClipboard(hwnd);
 	EmptyClipboard();
-	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(text) + 1));
-	TCHAR *s = (TCHAR *)GlobalLock(hMem);
-	lstrcpy(s, text);
+	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t) * (mir_wstrlen(text) + 1));
+	wchar_t* s = (wchar_t*)GlobalLock(hMem);
+	mir_wstrcpy(s, text);
 	GlobalUnlock(hMem);
-	#ifdef UNICODE
+#ifdef UNICODE
 	SetClipboardData(CF_UNICODETEXT, hMem);
-	#else
+#else
 	SetClipboardData(CF_TEXT, hMem);
-	#endif
+#endif
 	CloseClipboard();
 	//	GlobalFree(hMem);
 }
@@ -205,36 +205,36 @@ void CopyText(HWND hwnd, TCHAR *text)
 
 }*/
 
-char *appendString(char *s1, char *s2)
+char* appendString(char* s1, char* s2)
 {
 	if (s1) {
-		int l1 = lstrlenA(s1);
-		int l2 = lstrlenA(s2);
-		char *buf = (char *)mir_alloc(l1 + l2 + 1);
+		int l1 = mir_strlen(s1);
+		int l2 = mir_strlen(s2);
+		char* buf = (char*)mir_alloc(l1 + l2 + 1);
 		mir_snprintf(buf, l1 + l2 + 1, "%s%s", s1, s2);
 		mir_free(s1);
 		return buf;
 	}
 	else {
-		char *buf = (char *)mir_alloc(lstrlenA(s2) + 1);
-		lstrcpyA(buf, s2);
+		char* buf = (char*)mir_alloc(mir_strlen(s2) + 1);
+		mir_strcpy(buf, s2);
 		return buf;
 	}
 }
 
-WCHAR *appendString(WCHAR *s1, WCHAR *s2)
+wchar_t* appendString(wchar_t* s1, wchar_t* s2)
 {
 	if (s1) {
-		int l1 = lstrlenW(s1);
-		int l2 = lstrlenW(s2);
-		WCHAR *buf = (WCHAR *)mir_alloc(sizeof(WCHAR)*(l1 + l2 + 1));
+		int l1 = mir_wstrlen(s1);
+		int l2 = mir_wstrlen(s2);
+		wchar_t* buf = (wchar_t*)mir_alloc(sizeof(wchar_t) * (l1 + l2 + 1));
 		mir_snwprintf(buf, l1 + l2 + 1, L"%s%s", s1, s2);
 		mir_free(s1);
 		return buf;
 	}
 	else {
-		WCHAR *buf = (WCHAR *)mir_alloc(sizeof(WCHAR)*(lstrlenW(s2) + 1));
-		lstrcpyW(buf, s2);
+		wchar_t* buf = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(s2) + 1));
+		mir_wstrcpy(buf, s2);
 		return buf;
 	}
 }

@@ -7,10 +7,10 @@ struct CalendarToolData
 
 INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CalendarToolData *data = (CalendarToolData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	CalendarToolData* data = (CalendarToolData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
-		data = (CalendarToolData *)lParam;
+		data = (CalendarToolData*)lParam;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
 		// This causes ALL miranda dialogs to have drop-shadow enabled. That's bad =(
@@ -36,20 +36,20 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		{
-			LPNMHDR hdr = (LPNMHDR)lParam;
-			if ((hdr->idFrom = IDC_MONTHCALENDAR1) && (hdr->code == MCN_SELECT)) {
-				LPNMSELCHANGE lpnmsc = (LPNMSELCHANGE)lParam;
-				struct tm tm_sel;
-				tm_sel.tm_hour = tm_sel.tm_min = tm_sel.tm_sec = 0;
-				tm_sel.tm_isdst = 1;
-				tm_sel.tm_mday = lpnmsc->stSelStart.wDay;
-				tm_sel.tm_mon = lpnmsc->stSelStart.wMonth - 1;
-				tm_sel.tm_year = lpnmsc->stSelStart.wYear - 1900;
-				EndDialog(hwnd, mktime(&tm_sel));
-			}
-			return TRUE;
+	{
+		LPNMHDR hdr = (LPNMHDR)lParam;
+		if ((hdr->idFrom = IDC_MONTHCALENDAR1) && (hdr->code == MCN_SELECT)) {
+			LPNMSELCHANGE lpnmsc = (LPNMSELCHANGE)lParam;
+			struct tm tm_sel;
+			tm_sel.tm_hour = tm_sel.tm_min = tm_sel.tm_sec = 0;
+			tm_sel.tm_isdst = 1;
+			tm_sel.tm_mday = lpnmsc->stSelStart.wDay;
+			tm_sel.tm_mon = lpnmsc->stSelStart.wMonth - 1;
+			tm_sel.tm_year = lpnmsc->stSelStart.wYear - 1900;
+			EndDialog(hwnd, mktime(&tm_sel));
 		}
+		return TRUE;
+	}
 
 	case WM_CLOSE:
 		DestroyWindow(hwnd);
@@ -65,7 +65,7 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 time_t CalendarTool_Show(HWND hwnd, int x, int y)
 {
-	CalendarToolData *data = new CalendarToolData;
+	CalendarToolData* data = new CalendarToolData;
 	data->x = x;
 	data->y = y;
 	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), hwnd, CalendarToolDlgProc, (LPARAM)data);

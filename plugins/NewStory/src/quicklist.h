@@ -5,17 +5,17 @@ private:
 	struct Item
 	{
 		T data;
-		Item *prev, *next;
+		Item* prev, * next;
 	};
 	struct CacheItem
 	{
 		CacheItem() : item(0), no(0) {}
-		Item *item;
+		Item* item;
 		int no;
 	};
-	Item *head, *tail;
+	Item* head, * tail;
 	int cacheSize, cacheStep, cacheUsed;
-	CacheItem *cache;
+	CacheItem* cache;
 	CacheItem last;
 
 public:

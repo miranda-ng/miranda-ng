@@ -19,7 +19,7 @@ enum
 
 struct MyColourID
 {
-	const char *szName, *szSetting;
+	const char* szName, * szSetting;
 	COLORREF defaultValue, cl;
 };
 
@@ -43,7 +43,7 @@ enum
 
 struct MyFontID
 {
-	const char *szName, *szSetting;
+	const char* szName, * szSetting;
 
 	COLORREF cl;
 	LOGFONTA lf;
