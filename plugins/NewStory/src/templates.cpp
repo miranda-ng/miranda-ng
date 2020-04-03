@@ -299,7 +299,7 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 
 	//  %t: timestamp
 	TCHAR *buf = (TCHAR *)calloc(100, sizeof(TCHAR));
-	_tcsftime(buf, 100, _T("%d.%m.%Y, %H:%M"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 100, _T("%d.%m.%Y, %H:%M"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 't', buf, true);
 
 	//	DBTIMETOSTRING tts;
@@ -316,52 +316,52 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 
 	//  %h: hour (24 hour format, 0-23)
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
-	_tcsftime(buf, 5, _T("%H"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 5, _T("%H"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'h', buf, true);
 
 	//  %a: hour (12 hour format)
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
-	_tcsftime(buf, 5, _T("%h"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 5, _T("%h"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'a', buf, true);
 
 	//  %m: minute
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
-	_tcsftime(buf, 5, _T("%M"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 5, _T("%M"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'm', buf, true);
 
 	//  %s: second
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
-	_tcsftime(buf, 5, _T("%S"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 5, _T("%S"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 's', buf, true);
 
 	//  %o: month
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
-	_tcsftime(buf, 5, _T("%m"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 5, _T("%m"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'o', buf, true);
 
 	//  %d: day of month
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
-	_tcsftime(buf, 5, _T("%d"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 5, _T("%d"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'd', buf, true);
 
 	//  %y: year
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
-	_tcsftime(buf, 5, _T("%Y"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 5, _T("%Y"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'y', buf, true);
 
 	//  %w: day of week (Sunday, Monday.. translateable)
 	buf = (TCHAR *)calloc(25, sizeof(TCHAR));
-	_tcsftime(buf, 25, _T("%A"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 25, _T("%A"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'w', TranslateW(buf), false);
 
 	//  %p: AM/PM symbol
 	buf = (TCHAR *)calloc(5, sizeof(TCHAR));
-	_tcsftime(buf, 5, _T("%p"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 5, _T("%p"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'p', buf, true);
 
 	//  %O: Name of month, translateable
 	buf = (TCHAR *)calloc(25, sizeof(TCHAR));
-	_tcsftime(buf, 25, _T("%B"), localtime((time_t *)&item->dbe.timestamp));
+	_tcsftime(buf, 25, _T("%B"), _localtime32((__time32_t*)&item->dbe.timestamp));
 	TplSetVar(vars, 'O', TranslateW(buf), false);
 }
 
