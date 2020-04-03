@@ -163,7 +163,7 @@ bool HistoryArray::addHistory(MCONTACT hContact, EventLoadMode)
 		tail->items[i].hEvent = hEvent;
 
 		++i;
-		hEvent = db_event_next(hEvent, hContact);
+		hEvent = db_event_next(hContact, hEvent);
 	}
 	return true;
 }
