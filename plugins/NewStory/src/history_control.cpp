@@ -786,7 +786,7 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 	HFONT hfnt = (HFONT)SelectObject(hdc, fonts[fontid].hfnt);
 	if (!item->data) {
 		TCHAR *buf = TplFormatString(tpl, item->hContact, item);
-		item->data = MTextCreateT(htuLog, buf);
+		item->data = MTextCreateW(htuLog, buf);
 		free(buf);
 	}
 
@@ -862,7 +862,7 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 
 	if (!item->data) {
 		TCHAR *buf = TplFormatString(tpl, item->hContact, item);
-		item->data = MTextCreateT(htuLog, buf);
+		item->data = MTextCreateW(htuLog, buf);
 		free(buf);
 		if (!item->data)
 			return 0;

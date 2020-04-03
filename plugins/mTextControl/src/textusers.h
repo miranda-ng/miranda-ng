@@ -29,15 +29,10 @@ struct TextUser : public MZeroedObject
 	TextUser *prev, *next;
 };
 
-extern TextUser *textUserFirst;
-extern TextUser *textUserLast;
-
 void LoadTextUsers();
 void UnloadTextUsers();
 
 extern HANDLE htuDefault;
-
-__declspec(dllexport) HANDLE	DLL_CALLCONV	MTI_TextUserAdd(const char *userTitle, DWORD options);
 
 DWORD TextUserGetOptions(HANDLE userHandle);
 void TextUserSetOptions(HANDLE userHandle, DWORD options);

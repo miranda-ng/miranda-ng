@@ -127,14 +127,14 @@ HWND CreateProxyWindow(ITextServices *ts)
 		wcl.cbSize = sizeof(wcl);
 		wcl.lpfnWndProc = RichEditProxyWndProc;
 		wcl.style = CS_GLOBALCLASS;
-		wcl.hInstance = g_plugin.getInst();
+		wcl.hInstance = g_hInst;
 		wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 		wcl.lpszClassName = L"NBRichEditProxyWndClass";
 		winClass = RegisterClassEx(&wcl);
 	}
 
-	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
+	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, g_hInst, nullptr);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ts);
 	return hwnd;
 }

@@ -18,6 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mTextControl\mtextcontrol.vcxproj">
+      <Project>{e26d2311-c164-48cf-ba24-5ceda873d1b2}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>NewStory</ProjectName>
     <ProjectGuid>{A7FAD273-8C71-4D72-A84F-2D160F2DC589}</ProjectGuid>

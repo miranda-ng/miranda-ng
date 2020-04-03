@@ -21,32 +21,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 HANDLE htuDefault = nullptr;
 
-TextUser *textUserFirst = nullptr;
-TextUser *textUserLast = nullptr;
+static TextUser *textUserFirst = nullptr;
+static TextUser *textUserLast = nullptr;
 
-void LoadTextUsers()
-{
-	htuDefault = MTI_TextUserAdd("Text Controls", MTEXT_FANCY_MASK);
-}
-
-void UnloadTextUsers()
-{
-	while (textUserFirst) {
-		delete[] textUserFirst->name;
-		TextUser *next = textUserFirst->next;
-		delete[] textUserFirst;
-		textUserFirst = next;
-	}
-}
-
-HANDLE DLL_CALLCONV MTI_TextUserAdd(const char *userTitle, DWORD options)
+MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, DWORD options)
 {
 	TextUser *textUserNew = new TextUser;
 	textUserNew->name = new char[mir_strlen(userTitle) + 1];
 	mir_strcpy(textUserNew->name, userTitle);
 	textUserNew->options =
-		(g_plugin.getDword(userTitle, options)&MTEXT_FANCY_MASK) | (textUserNew->options&MTEXT_SYSTEM_MASK);
-	g_plugin.setDword(userTitle, textUserNew->options);
+		(db_get_dw(0, MODULENAME, userTitle, options)&MTEXT_FANCY_MASK) | (textUserNew->options&MTEXT_SYSTEM_MASK);
+	db_set_dw(0, MODULENAME, userTitle, textUserNew->options);
 	textUserNew->prev = textUserLast;
 	textUserNew->next = nullptr;
 	if (textUserLast) {
@@ -55,7 +40,7 @@ HANDLE DLL_CALLCONV MTI_TextUserAdd(const char *userTitle, DWORD options)
 	}
 	else textUserFirst = textUserLast = textUserNew;
 
-	return (HANDLE)textUserNew;
+	return textUserNew;
 }
 
 DWORD TextUserGetOptions(HANDLE userHandle)
@@ -73,12 +58,28 @@ void TextUserSetOptions(HANDLE userHandle, DWORD options)
 void TextUsersSave()
 {
 	for (TextUser *textUser = textUserFirst; textUser; textUser = textUser->next)
-		g_plugin.setDword(textUser->name, textUser->options);
+		db_set_dw(0, MODULENAME, textUser->name, textUser->options);
 }
 
 void TextUsersReset()
 {
 	for (TextUser *textUser = textUserFirst; textUser; textUser = textUser->next)
-		textUser->options =
-		(g_plugin.getDword(textUser->name, 0)&MTEXT_FANCY_MASK) | (textUser->options&MTEXT_SYSTEM_MASK);
+		textUser->options = (db_get_dw(0, MODULENAME, textUser->name, 0) & MTEXT_FANCY_MASK) | (textUser->options&MTEXT_SYSTEM_MASK);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void LoadTextUsers()
+{
+	htuDefault = MTextRegister("Text Controls", MTEXT_FANCY_MASK);
+}
+
+void UnloadTextUsers()
+{
+	while (textUserFirst) {
+		delete[] textUserFirst->name;
+		TextUser *next = textUserFirst->next;
+		delete[] textUserFirst;
+		textUserFirst = next;
+	}
 }

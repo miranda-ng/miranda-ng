@@ -21,58 +21,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CMPlugin g_plugin;
-
 HMODULE hMsfteditDll = nullptr;
+HINSTANCE g_hInst = nullptr;
 
 PCreateTextServices MyCreateTextServices = nullptr;
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-PLUGININFOEX pluginInfoEx =
-{
-	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESCRIPTION,
-	__AUTHOR,
-	__COPYRIGHT,
-	__AUTHORWEB,
-	UNICODE_AWARE,
-	// {69B9443B-DC58-4876-AD39-E3F418A133C5}
-	{ 0x69b9443b, 0xdc58, 0x4876, { 0xad, 0x39, 0xe3, 0xf4, 0x18, 0xa1, 0x33, 0xc5 } }
-};
-
-CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("MTextControl", pluginInfoEx)
-{}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void MTextControl_RegisterClass();
-
-int CMPlugin::Load()
-{
-	MyCreateTextServices = nullptr;
-	hMsfteditDll = LoadLibrary(L"msftedit.dll");
-	if (hMsfteditDll)
-		MyCreateTextServices = (PCreateTextServices)GetProcAddress(hMsfteditDll, "CreateTextServices");
-
-	LoadTextUsers();
-	LoadServices();
-
-	MTextControl_RegisterClass();
-	return 0;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void UnloadEmfCache();
 
-int CMPlugin::Unload()
+BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD ul_reason_for_call, LPVOID)
 {
-	UnloadTextUsers();
-	UnloadEmfCache();
-	FreeLibrary(hMsfteditDll);
-	return 0;
+	switch (ul_reason_for_call) {
+	case DLL_PROCESS_ATTACH:
+		g_hInst = hInst;
+		MyCreateTextServices = nullptr;
+		hMsfteditDll = LoadLibrary(L"msftedit.dll");
+		if (hMsfteditDll)
+			MyCreateTextServices = (PCreateTextServices)GetProcAddress(hMsfteditDll, "CreateTextServices");
+
+		LoadTextUsers();
+
+		MTextControl_RegisterClass();
+		break;
+
+	case DLL_PROCESS_DETACH:
+		UnloadTextUsers();
+		UnloadEmfCache();
+		FreeLibrary(hMsfteditDll);
+		break;
+	}
+	
+	return TRUE;
 }

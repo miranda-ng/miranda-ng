@@ -36,7 +36,7 @@ void MTextControl_RegisterClass()
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = MTextControlWndProc;
 	wcl.style = CS_GLOBALCLASS;
-	wcl.hInstance = g_plugin.getInst();
+	wcl.hInstance = g_hInst;
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = L"MTextControl";
@@ -66,15 +66,15 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case MTM_UPDATE:
 		if (data->text) delete[] data->text;
-		if (data->mtext) MTI_MTextDestroy(data->mtext);
+		if (data->mtext) MTextDestroy(data->mtext);
 		{
 			int textLength = GetWindowTextLength(hwnd);
 			data->text = new wchar_t[textLength + 1];
 			GetWindowText(hwnd, data->text, textLength + 1);
-			data->mtext = MTI_MTextCreateW(data->htu, data->text);
+			data->mtext = MTextCreateW(data->htu, data->text);
 
 			RECT rc; GetClientRect(hwnd, &rc);
-			MTI_MTextSetParent(data->mtext, hwnd, rc);
+			MTextSetParent(data->mtext, hwnd, rc);
 
 			InvalidateRect(hwnd, nullptr, TRUE);
 		}
@@ -91,7 +91,7 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_MOUSEMOVE:
 		if (data && data->mtext)
-			return MTI_MTextSendMessage(hwnd, data->mtext, msg, wParam, lParam);
+			return MTextSendMessage(hwnd, data->mtext, msg, wParam, lParam);
 		break;
 	}
 
@@ -134,7 +134,7 @@ LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM, LPARAM)
 		SIZE sz;
 		sz.cx = rc.right - rc.left;
 		sz.cy = rc.bottom - rc.top - 4;
-		MTI_MTextDisplay(hdc, pos, sz, data->mtext);
+		MTextDisplay(hdc, pos, sz, data->mtext);
 
 		if (hfntSave)
 			SelectObject(hdc, hfntSave);
@@ -142,6 +142,5 @@ LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM, LPARAM)
 
 	// Release the device context
 	EndPaint(hwnd, &ps);
-
 	return 0;
 }

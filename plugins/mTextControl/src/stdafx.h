@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <tom.h>
 #include <textserv.h>
 
-#include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_utils.h>
@@ -39,24 +38,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <m_smileyadd.h>
 
 #include "version.h"
-#include "services.h"
 #include "textusers.h"
 
+extern HINSTANCE g_hInst;
 extern PCreateTextServices MyCreateTextServices;
 
 void InitRichEdit(ITextServices *ts);
 HWND CreateProxyWindow(ITextServices *ts);
 
 #define MODULTITLE "Text Display"
-
-// globals
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-
-	int Load() override;
-	int Unload() override;
-};
+#define MODULENAME "MTextControl"
 
 #endif // __headers_h__
