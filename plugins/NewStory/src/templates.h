@@ -28,7 +28,7 @@ typedef void(*VarFunc)(int mode, TemplateVars* vars, MCONTACT hContact, HistoryA
 
 struct TemplateInfo
 {
-	enum { VF_COUNT = 5 };
+	enum { VF_COUNT = 6 };
 
 	char* setting;
 	wchar_t* group;
@@ -47,12 +47,12 @@ enum
 	TPL_MESSAGE,
 	TPL_FILE,
 	TPL_SIGN,
+	TPL_PRESENCE,
 	TPL_OTHER,
 
 	TPL_AUTH,
 	TPL_ADDED,
 	TPL_DELETED,
-	TPL_PRESENCE,
 
 	TPL_COPY_MESSAGE,
 	TPL_COPY_FILE,

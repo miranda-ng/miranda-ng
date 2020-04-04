@@ -38,6 +38,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 
 		case EVENTTYPE_JABBER_PRESENCE:
 			wtext = DbEvent_GetTextW(&dbe, CP_ACP);
+			wtext_del = false;
 			break;
 
 		case EVENTTYPE_AUTHREQUEST:
