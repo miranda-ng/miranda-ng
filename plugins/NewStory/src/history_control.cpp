@@ -442,20 +442,19 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					SendMessage(hwnd, NSM_TOGGLEITEMS, item, item);
 					SendMessage(hwnd, NSM_SETCARET, item, TRUE);
 				}
-				else
-					if (wParam & MK_SHIFT) {
-						SendMessage(hwnd, NSM_SELECTITEMS, data->caret, item);
-						SendMessage(hwnd, NSM_SETCARET, item, TRUE);
+				else if (wParam & MK_SHIFT) {
+					SendMessage(hwnd, NSM_SELECTITEMS, data->caret, item);
+					SendMessage(hwnd, NSM_SETCARET, item, TRUE);
+				}
+				else {
+					if (data->caret == item) {
+						BeginEditItem(hwnd, data, item);
 					}
 					else {
-						if (data->caret == item) {
-							BeginEditItem(hwnd, data, item);
-						}
-						else {
-							SendMessage(hwnd, NSM_SELECTITEMS2, item, item);
-							SendMessage(hwnd, NSM_SETCARET, item, TRUE);
-						}
+						SendMessage(hwnd, NSM_SELECTITEMS2, item, item);
+						SendMessage(hwnd, NSM_SETCARET, item, TRUE);
 					}
+				}
 			}
 		}
 		SetFocus(hwnd);
@@ -473,9 +472,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			if ((s_scrollTopItem != data->scrollTopItem) || (s_scrollTopPixel != data->scrollTopPixel))
 				InvalidateRect(hwnd, 0, FALSE);
-
-			return TRUE;
 		}
+		return TRUE;
 
 	case WM_VSCROLL:
 		{

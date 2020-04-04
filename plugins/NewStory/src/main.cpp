@@ -105,9 +105,3 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
 	return 0;
 }
-
-int CMPlugin::Unload()
-{
-	FreeHistory();
-	return 0;
-}

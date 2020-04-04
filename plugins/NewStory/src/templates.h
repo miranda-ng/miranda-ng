@@ -11,6 +11,17 @@ struct TemplateVars
 {
 	bool del[256];
 	wchar_t* val[256];
+
+	__forceinline wchar_t* GetVar(uint8_t id) {
+		return val[id];
+	}
+
+	__forceinline void SetVar(uint8_t id, wchar_t *v, bool d) {
+		if (val[id] && del[id])
+			mir_free(val[id]);
+		val[id] = mir_wstrdup(v);
+		del[id] = d;
+	}
 };
 
 typedef void(*VarFunc)(int mode, TemplateVars* vars, MCONTACT hContact, HistoryArray::ItemData* item);

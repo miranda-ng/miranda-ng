@@ -1,18 +1,5 @@
 #include "stdafx.h"
 
-__forceinline wchar_t *TplGetVar(TemplateVars *vars, char id)
-{
-	return vars->val[id];
-}
-
-__forceinline void TplSetVar(TemplateVars *vars, char id, wchar_t *v, bool d)
-{
-	if (vars->val[id] && vars->del[id])
-		mir_free(vars->val[id]);
-	vars->val[id] = mir_wstrdup(v);
-	vars->del[id] = d;
-}
-
 int TplMeasureVars(TemplateVars* vars, wchar_t* str);
 
 wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, HistoryArray::ItemData *item)
@@ -20,14 +7,10 @@ wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, HistoryAr
 	if ((tpl < 0) || (tpl >= TPL_COUNT) || !sztpl)
 		return mir_wstrdup(L"");
 
-	int i;
 	TemplateVars vars;
-	for (i = 0; i < 256; i++) {
-		vars.del[i] = false;
-		vars.val[i] = 0;
-	}
+	memset(&vars, 0, sizeof(vars));
 
-	for (i = 0; i < TemplateInfo::VF_COUNT; i++)
+	for (int i = 0; i < TemplateInfo::VF_COUNT; i++)
 		if (templates[tpl].vf[i])
 			templates[tpl].vf[i](VFM_VARS, &vars, hContact, item);
 
@@ -35,7 +18,7 @@ wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, HistoryAr
 	wchar_t *bufptr = buf;
 	for (wchar_t *p = sztpl; *p; p++) {
 		if (*p == '%') {
-			wchar_t *var = TplGetVar(&vars, (char)(p[1] & 0xff));
+			wchar_t *var = vars.GetVar((p[1] & 0xff));
 			if (var) {
 				mir_wstrcpy(bufptr, var);
 				bufptr += mir_wstrlen(var);
@@ -71,7 +54,7 @@ wchar_t *TplFormatString(int tpl, MCONTACT hContact, HistoryArray::ItemData *ite
 	wchar_t *bufptr = buf;
 	for (wchar_t *p = templates[tpl].value; *p; p++) {
 		if (*p == '%') {
-			wchar_t *var = TplGetVar(&vars, (char)(p[1] & 0xff));
+			wchar_t *var = vars.GetVar((p[1] & 0xff));
 			if (var) {
 				mir_wstrcpy(bufptr, var);
 				bufptr += mir_wstrlen(var);
@@ -108,8 +91,9 @@ int TplMeasureVars(TemplateVars *vars, wchar_t *str)
 	int res = 0;
 	for (wchar_t *p = str; *p; p++) {
 		if (*p == '%') {
-			wchar_t *var = TplGetVar(vars, (char)(p[1] & 0xff));
-			if (var) res += mir_wstrlen(var);
+			wchar_t *var = vars->GetVar(p[1] & 0xff);
+			if (var)
+				res += (int)mir_wstrlen(var);
 			p++;
 		}
 		else res++;
@@ -121,38 +105,38 @@ int TplMeasureVars(TemplateVars *vars, wchar_t *str)
 void vfGlobal(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *)
 {
 	//  %%: simply % character
-	TplSetVar(vars, '%', L"%", false);
+	vars->SetVar('%', L"%", false);
 
 	//  %n: line break
-	TplSetVar(vars, 'n', L"\x0d\x0a", false);
+	vars->SetVar('n', L"\x0d\x0a", false);
 
 	// %M: my nick (not for messages)
 	//todo: not working now
 	wchar_t *buf = Clist_GetContactDisplayName(0, 0);
-	TplSetVar(vars, 'M', buf, false);
+	vars->SetVar('M', buf, false);
 }
 
 void vfContact(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *)
 {
 	// %N: buddy's nick (not for messages)
 	wchar_t *nick = Clist_GetContactDisplayName(hContact, 0);
-	TplSetVar(vars, 'N', nick, false);
+	vars->SetVar('N', nick, false);
 
 	wchar_t buf[20];
 	// %c: event count
 	mir_snwprintf(buf, L"%d", db_event_count(hContact));
-	TplSetVar(vars, 'c', buf, false);
+	vars->SetVar('c', buf, false);
 }
 
 void vfSystem(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *)
 {
 	// %N: buddy's nick (not for messages)
-	TplSetVar(vars, 'N', L"System Event", false);
+	vars->SetVar('N', L"System Event", false);
 
 	// %c: event count
 	wchar_t  buf[20];
 	mir_snwprintf(buf, L"%d", db_event_count(hContact));
-	TplSetVar(vars, 'c', buf, false);
+	vars->SetVar('c', buf, false);
 }
 
 void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
@@ -164,11 +148,11 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 	if (item->dbe.flags & DBEF_SENT) {
 		char *proto = Proto_GetBaseAccountName(item->hContact);
 		ptrW nick(Contact_GetInfo(CNF_DISPLAY, 0, proto));
-		TplSetVar(vars, 'N', nick, false);
+		vars->SetVar('N', nick, false);
 	}
 	else {
 		wchar_t *nick = Clist_GetContactDisplayName(item->hContact, 0);
-		TplSetVar(vars, 'N', nick, false);
+		vars->SetVar('N', nick, false);
 	}
 
 	//  %I: Icon
@@ -187,7 +171,7 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 		break;
 	}
 	mir_snwprintf(buf, L"[$hicon=%d$]", hIcon);
-	TplSetVar(vars, 'I', buf, true);
+	vars->SetVar('I', buf, true);
 
 	//  %i: Direction icon
 	if (item->dbe.flags & DBEF_SENT)
@@ -196,105 +180,105 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 		hIcon = g_plugin.getIcon(ICO_MSGIN);
 
 	mir_snwprintf(buf, L"[$hicon=%d$]", hIcon);
-	TplSetVar(vars, 'i', buf, true);
+	vars->SetVar('i', buf, true);
 
 	// %D: direction symbol
 	if (item->dbe.flags & DBEF_SENT)
-		TplSetVar(vars, 'D', L"<<", false);
+		vars->SetVar('D', L"<<", false);
 	else
-		TplSetVar(vars, 'D', L">>", false);
+		vars->SetVar('D', L">>", false);
 
 	//  %t: timestamp
 	_tcsftime(buf, _countof(buf), L"%d.%m.%Y, %H:%M", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 't', buf, true);
+	vars->SetVar('t', buf, true);
 
 	//  %h: hour (24 hour format, 0-23)
 	_tcsftime(buf, _countof(buf), L"%H", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'h', buf, true);
+	vars->SetVar('h', buf, true);
 
 	//  %a: hour (12 hour format)
 	_tcsftime(buf, _countof(buf), L"%h", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'a', buf, true);
+	vars->SetVar('a', buf, true);
 
 	//  %m: minute
 	_tcsftime(buf, _countof(buf), L"%M", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'm', buf, true);
+	vars->SetVar('m', buf, true);
 
 	//  %s: second
 	_tcsftime(buf, _countof(buf), L"%S", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 's', buf, true);
+	vars->SetVar('s', buf, true);
 
 	//  %o: month
 	_tcsftime(buf, _countof(buf), L"%m", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'o', buf, true);
+	vars->SetVar('o', buf, true);
 
 	//  %d: day of month
 	_tcsftime(buf, _countof(buf), L"%d", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'd', buf, true);
+	vars->SetVar('d', buf, true);
 
 	//  %y: year
 	_tcsftime(buf, _countof(buf), L"%Y", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'y', buf, true);
+	vars->SetVar('y', buf, true);
 
 	//  %w: day of week (Sunday, Monday.. translateable)
 	_tcsftime(buf, _countof(buf), L"%A", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'w', TranslateW(buf), false);
+	vars->SetVar('w', TranslateW(buf), false);
 
 	//  %p: AM/PM symbol
 	_tcsftime(buf, _countof(buf), L"%p", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'p', buf, true);
+	vars->SetVar('p', buf, true);
 
 	//  %O: Name of month, translateable
 	_tcsftime(buf, _countof(buf), L"%B", _localtime32((__time32_t *)&item->dbe.timestamp));
-	TplSetVar(vars, 'O', TranslateW(buf), false);
+	vars->SetVar('O', TranslateW(buf), false);
 }
 
 void vfMessage(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
+	vars->SetVar('M', item->getTBuf(), false);
 }
 
 void vfFile(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
+	vars->SetVar('M', item->getTBuf(), false);
 }
 
 void vfUrl(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
+	vars->SetVar('M', item->getTBuf(), false);
 }
 
 void vfSign(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
+	vars->SetVar('M', item->getTBuf(), false);
 }
 
 void vfAuth(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
+	vars->SetVar('M', item->getTBuf(), false);
 }
 
 void vfAdded(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
+	vars->SetVar('M', item->getTBuf(), false);
 }
 
 void vfDeleted(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
+	vars->SetVar('M', item->getTBuf(), false);
 }
 
 void vfOther(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', L"Unknown Event", false);
+	vars->SetVar('M', L"Unknown Event", false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

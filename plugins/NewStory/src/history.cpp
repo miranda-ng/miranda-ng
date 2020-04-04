@@ -38,10 +38,6 @@ void InitHistory()
 	HookEvent(ME_DB_EVENT_EDITED, evtEventEdited);
 }
 
-void FreeHistory()
-{
-}
-
 enum
 {
 	HIST_SHOW_IN = 0x001,
