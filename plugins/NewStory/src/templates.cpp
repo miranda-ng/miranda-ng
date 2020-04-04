@@ -269,6 +269,12 @@ void vfAdded(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 	vars->SetVar('M', item->getTBuf(), false);
 }
 
+void vfPresence(int, TemplateVars* vars, MCONTACT, HistoryArray::ItemData* item)
+{
+	//  %M: the message string itself
+	TplSetVar(vars, 'M', item->getTBuf(), false);
+}
+
 void vfDeleted(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
@@ -298,6 +304,9 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/msglog/status", L"Message Log", ICO_SIGNIN, L"Status Changes",
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
+	{ "tpl/msglog/presense", L"Message Log", ICO_UNKNOWN, L"'Presence Requests",
+		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
+		{ vfGlobal, vfContact, vfEvent, vfPresence, 0 } },
 	{ "tpl/msglog/other", L"Message Log", ICO_UNKNOWN, L"Other Events",
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfOther, 0 } },
@@ -324,6 +333,9 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/copy/status", L"Clipboard", ICO_SIGNIN, L"Status Changes",
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
+	{ "tpl/copy/presence", L"Clipboard", ICO_UNKNOWN, L"Presence Requests",
+		L"%N, %t:\x0d\x0a%M%n", 0, 0,
+		{ vfGlobal, vfContact, vfEvent, vfPresence, 0 } },
 	{ "tpl/copy/other", L"Clipboard", ICO_UNKNOWN, L"Other Events",
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfOther, 0 } },

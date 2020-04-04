@@ -2,6 +2,7 @@
 #define __history_h__
 
 #define EVENTTYPE_STATUSCHANGE 25368
+#define EVENTTYPE_JABBER_PRESENCE 2001
 
 enum
 {

@@ -704,6 +704,12 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 				colorid = COLOR_INOTHER;
 				break;
 
+			case EVENTTYPE_JABBER_PRESENCE:
+				tpl = TPL_COPY_PRESENCE;
+				fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+				colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+				break;
+
 			default:
 				tpl = TPL_COPY_OTHER;
 				fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
@@ -770,6 +776,11 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 		fontid = FONT_INOTHER;
 		break;
 
+	case EVENTTYPE_JABBER_PRESENCE:
+		tpl = TPL_PRESENCE;
+		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+		break;
+
 	default:
 		tpl = TPL_OTHER;
 		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
@@ -829,6 +840,12 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 		tpl = TPL_ADDED;
 		fontid = FONT_INOTHER;
 		colorid = COLOR_INOTHER;
+		break;
+
+	case EVENTTYPE_JABBER_PRESENCE:
+		tpl = TPL_PRESENCE;
+		fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+		colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
 		break;
 
 	default:
