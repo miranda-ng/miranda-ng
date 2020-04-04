@@ -4,13 +4,6 @@
 // Visit http://miranda-im.org/ for details on Miranda Instant Messenger
 ////////////////////////////////////////////////////////////////////////
 
-/*
-for the date picker:
-	case WM_ACTIVATE:
-		if (wParam == WA_INACTIVE) PostMessage(m_hwndDialog, WM_CLOSE, 0, 0);
-		break;
-*/
-
 #include "stdafx.h"
 
 MWindowList hNewstoryWindows = 0;
@@ -122,7 +115,7 @@ struct WindowData
 	InfoBarEvents ibMessages, ibFiles, ibUrls, ibTotal;
 };
 
-void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents* ib)
+void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 {
 	hDwp = DeferWindowPos(hDwp, ib->hwndIco, 0,
 		x, y, 16, 16, SWP_NOZORDER);
@@ -141,7 +134,7 @@ void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents* ib)
 
 }
 
-void ShowHideControls(HWND hwnd, WindowData* data)
+void ShowHideControls(HWND hwnd, WindowData *data)
 {
 	int cmd;
 
@@ -183,7 +176,7 @@ void ShowHideControls(HWND hwnd, WindowData* data)
 	ShowWindow(data->hwndSearchText, cmd);
 }
 
-void LayoutHistoryWnd(HWND hwnd, WindowData* data)
+void LayoutHistoryWnd(HWND hwnd, WindowData *data)
 {
 	int i;
 	RECT rc;
@@ -219,18 +212,18 @@ void LayoutHistoryWnd(HWND hwnd, WindowData* data)
 	}
 
 	// infobar
-//	hDwp = DeferWindowPos(hDwp, data->hwndIcoProtocol, 0,
-//		w-100+WND_SPACING, WND_SPACING,
-//		16, 16,
-//		SWP_NOZORDER);
-//	hDwp = DeferWindowPos(hDwp, data->hwndTxtNickname, 0,
-//		w-100+WND_SPACING*2+16, WND_SPACING,
-//		100, 16,
-//		SWP_NOZORDER);
-//	hDwp = DeferWindowPos(hDwp, data->hwndTxtUID, 0,
-//		w-100+WND_SPACING*2+16, WND_SPACING*2+16,
-//		100, 16,
-//		SWP_NOZORDER);
+	//	hDwp = DeferWindowPos(hDwp, data->hwndIcoProtocol, 0,
+	//		w-100+WND_SPACING, WND_SPACING,
+	//		16, 16,
+	//		SWP_NOZORDER);
+	//	hDwp = DeferWindowPos(hDwp, data->hwndTxtNickname, 0,
+	//		w-100+WND_SPACING*2+16, WND_SPACING,
+	//		100, 16,
+	//		SWP_NOZORDER);
+	//	hDwp = DeferWindowPos(hDwp, data->hwndTxtUID, 0,
+	//		w-100+WND_SPACING*2+16, WND_SPACING*2+16,
+	//		100, 16,
+	//		SWP_NOZORDER);
 
 	// filter bar
 	int hFilterBar = 0;
@@ -413,7 +406,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	//CallSnappingWindowProc(hwnd, msg, wParam, lParam);
 
-	WindowData* data = (WindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	WindowData *data = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	if ((msg >= NSM_FIRST) && (msg < NSM_LAST)) {
 		int result = SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), msg, wParam, lParam);
@@ -423,7 +416,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		data = new WindowData;
 		data->hContact = (MCONTACT)lParam;
 		data->disableTimeTreeChange = false;
@@ -570,7 +562,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		WindowList_Add(hNewstoryWindows, hwnd, data->hContact);
 
 		if (data->hContact && (data->hContact != INVALID_CONTACT_ID)) {
-			wchar_t* title = TplFormatString(TPL_TITLE, data->hContact, 0);
+			wchar_t *title = TplFormatString(TPL_TITLE, data->hContact, 0);
 			SetWindowText(hwnd, title);
 			mir_free(title);
 		}
@@ -586,19 +578,17 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 		SendMessage(hwnd, UM_UPDATEICONS, 0, 0);
 		SetFocus(GetDlgItem(hwnd, IDC_ITEMS2));
+		{
+			int left = db_get_dw(data->hContact, MODULENAME, "left"),
+				top = db_get_dw(data->hContact, MODULENAME, "top"),
+				right = db_get_dw(data->hContact, MODULENAME, "right"),
+				bottom = db_get_dw(data->hContact, MODULENAME, "bottom");
 
-		int left = db_get_dw(data->hContact, MODULENAME, "left"),
-			top = db_get_dw(data->hContact, MODULENAME, "top"),
-			right = db_get_dw(data->hContact, MODULENAME, "right"),
-			bottom = db_get_dw(data->hContact, MODULENAME, "bottom");
-
-		if (left - right && top - bottom)
-			MoveWindow(hwnd, left, top, right - left, bottom - top, TRUE);
-
+			if (left - right && top - bottom)
+				MoveWindow(hwnd, left, top, right - left, bottom - top, TRUE);
+		}
 		ShowHideControls(hwnd, data);
-
 		return TRUE;
-	}
 
 	case UM_UPDATEICONS:
 		SendMessage(hwnd, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)g_plugin.getIcon(ICO_NEWSTORY));
@@ -701,48 +691,44 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return TRUE;
 
 	case WM_DRAWITEM:
-	{
-		LPDRAWITEMSTRUCT lpdis;
-		lpdis = (LPDRAWITEMSTRUCT)lParam;
+		{
+			LPDRAWITEMSTRUCT lpdis;
+			lpdis = (LPDRAWITEMSTRUCT)lParam;
 
-		if (lpdis->CtlType == ODT_MENU)
-			return Menu_DrawItem(lParam);
+			if (lpdis->CtlType == ODT_MENU)
+				return Menu_DrawItem(lParam);
 
-		if (lpdis->itemID == -1)
-			return FALSE;
+			if (lpdis->itemID == -1)
+				return FALSE;
 
-		return TRUE;
-	}
+			return TRUE;
+		}
 
 	case WM_NOTIFY:
-	{
-		LPNMHDR hdr = (LPNMHDR)lParam;
-		switch (hdr->idFrom) {
-		case IDC_TIMETREE:
 		{
-			switch (hdr->code) {
-			case TVN_SELCHANGED:
-			{
-				if (data->disableTimeTreeChange) {
-					data->disableTimeTreeChange = false;
-				}
-				else {
-					//								LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-					//								int id = pnmtv->itemNew.lParam;
-					//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
-					//								SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_ITEMS, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwnd, IDC_ITEMS));
-					//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
-					//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,data->eventCount));
-					//								SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
+			LPNMHDR hdr = (LPNMHDR)lParam;
+			switch (hdr->idFrom) {
+			case IDC_TIMETREE:
+				switch (hdr->code) {
+				case TVN_SELCHANGED:
+					if (data->disableTimeTreeChange) {
+						data->disableTimeTreeChange = false;
+					}
+					else {
+						// LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
+						//	int id = pnmtv->itemNew.lParam;
+						//	SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
+						//	SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_ITEMS, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwnd, IDC_ITEMS));
+						//	SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
+						//	SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,data->eventCount));
+						//	SendMessage(GetDlgItem(hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
+					}
+					break;
 				}
 				break;
 			}
-			}
-			break;
 		}
-		}
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_COMMAND:
 		// if (Menu_ProcessCommand(MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) data->hContact))
@@ -763,35 +749,32 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_DATEPOPUP:
-		{
-			GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-			time_t tm_jump = CalendarTool_Show(hwnd, rc.left, rc.bottom);
-			if (tm_jump) PostMessage(hwnd, UM_JUMP2TIME, tm_jump, 0);
+			{
+				GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
+				time_t tm_jump = CalendarTool_Show(hwnd, rc.left, rc.bottom);
+				if (tm_jump) PostMessage(hwnd, UM_JUMP2TIME, tm_jump, 0);
+			}
 			break;
-		}
 
 		case IDC_USERMENU:
-		{
-			HMENU hMenu = Menu_BuildContactMenu(data->hContact);
-			GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-			TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwnd, NULL);
-			DestroyMenu(hMenu);
-			break;
-		}
+			{
+				HMENU hMenu = Menu_BuildContactMenu(data->hContact);
+				GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
+				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwnd, NULL);
+				DestroyMenu(hMenu);
+				break;
+			}
 
 		case IDC_LOGOPTIONS:
-		{
 			GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
-			//					DWORD itemID = 0;
+
 			switch (TrackPopupMenu(GetSubMenu(data->hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, hwnd, NULL)) {
-				//						case ID_LOGOPTIONS_SHOWTIMETREE:
-				//						{
-				//							data->showFlags = toggleBit(data->showFlags, HIST_TIMETREE);
-				//							CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
-				//								data->showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
-				//							ShowWindow(GetDlgItem(hwnd, IDC_TIMETREE), data->showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
-				//							break;
-				//						}
+			//	case ID_LOGOPTIONS_SHOWTIMETREE:
+			//		data->showFlags = toggleBit(data->showFlags, HIST_TIMETREE);
+			//		CheckMenuItem(GetSubMenu(data->hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
+			//		data->showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
+			//		ShowWindow(GetDlgItem(hwnd, IDC_TIMETREE), data->showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
+			//		break;
 
 			case ID_LOGOPTIONS_OPTIONS:
 				g_plugin.openOptions(nullptr, L"Newstory", L"General");
@@ -803,7 +786,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			}
 			PostMessage(hwnd, WM_SIZE, 0, 0);
 			break;
-		}
 
 		case IDC_SEARCH:
 			if (data->wndOptions & WND_OPT_SEARCHBAR)
@@ -921,25 +903,25 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			// break;
 
 		case IDC_FINDPREV:
-		{
-			int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1;
-			wchar_t* buf = new wchar_t[bufSize];
-			GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1);
-			SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDPREV, (WPARAM)buf, 0);
-			delete[] buf;
-		}
-		break;
+			{
+				int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT));
+				wchar_t *buf = new wchar_t[bufSize+1];
+				GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, bufSize);
+				SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDPREV, (WPARAM)buf, 0);
+				delete[] buf;
+			}
+			break;
 
 		case IDOK:
 		case IDC_FINDNEXT:
-		{
-			int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1;
-			wchar_t* buf = new wchar_t[bufSize];
-			GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT)) + 1);
-			SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDNEXT, (WPARAM)buf, 0);
-			delete[] buf;
-		}
-		break;
+			{
+				int bufSize = GetWindowTextLength(GetDlgItem(hwnd, IDC_SEARCHTEXT));
+				wchar_t *buf = new wchar_t[bufSize+1];
+				GetWindowText(GetDlgItem(hwnd, IDC_SEARCHTEXT), buf, bufSize);
+				SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_FINDNEXT, (WPARAM)buf, 0);
+				delete[] buf;
+			}
+			break;
 
 		case IDC_COPY:
 			SendMessage(GetDlgItem(hwnd, IDC_ITEMS2), NSM_COPY, 0, 0);
