@@ -90,7 +90,6 @@ Plugins\mradio.dll
 Plugins\msg_export.dll
 Plugins\msgpopup.dll
 Plugins\msn.dll
-Plugins\mtextcontrol.dll
 Plugins\mydetails.dll
 Plugins\new_gpg.dll
 Plugins\newawaysys.dll
