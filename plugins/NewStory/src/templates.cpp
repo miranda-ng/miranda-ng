@@ -272,7 +272,7 @@ void vfAdded(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 void vfPresence(int, TemplateVars* vars, MCONTACT, HistoryArray::ItemData* item)
 {
 	//  %M: the message string itself
-	TplSetVar(vars, 'M', item->getTBuf(), false);
+	vars->SetVar('M', item->getTBuf(), false);
 }
 
 void vfDeleted(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
