@@ -449,6 +449,10 @@ namespace Clist
 		UseGroups,
 		HideEmptyGroups, 
 		ConfirmDelete;
+
+	extern MIR_APP_EXPORT CMOption<DWORD>
+		OfflineModes;
+
 };
 
 #endif // M_CLISTINT_H__

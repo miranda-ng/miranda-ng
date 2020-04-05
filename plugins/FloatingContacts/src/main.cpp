@@ -285,7 +285,7 @@ static void LoadDBSettings()
 	fcOpt.bMoveTogether = (BOOL)g_plugin.getByte("MoveTogether", 0);
 	fcOpt.bFixedWidth = (BOOL)g_plugin.getByte("FixedWidth", 0);
 	fcOpt.nThumbWidth = (DWORD)g_plugin.getDword("Width", 0);
-	dwOfflineModes = db_get_dw(0, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
+	dwOfflineModes = Clist::OfflineModes;
 	fcOpt.bShowTip = (BOOL)g_plugin.getByte("ShowTip", 1);
 	fcOpt.TimeIn = g_plugin.getWord("TimeIn", 0);
 	fcOpt.bToTop = (BOOL)g_plugin.getByte("ToTop", 0);
