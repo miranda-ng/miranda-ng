@@ -105,7 +105,7 @@ static void setListViewMode(HWND hLV, UINT iItem, UINT iMode)
 	extern LPCSTR sim231[];
 	char tmp[256];
 	strncpy(tmp, Translate(sim231[iMode]), sizeof(tmp) - 1);
-	LV_SetItemTextA(hLV, iItem, 2, tmp);
+	LV_SetItemTextA(hLV, iItem, 3, tmp);
 }
 
 static void setListViewStatus(HWND hLV, UINT iItem, UINT iStatus)
@@ -113,13 +113,13 @@ static void setListViewStatus(HWND hLV, UINT iItem, UINT iStatus)
 	extern LPCSTR sim232[];
 	char tmp[128];
 	strncpy(tmp, Translate(sim232[iStatus]), sizeof(tmp) - 1);
-	LV_SetItemTextA(hLV, iItem, 3, tmp);
+	LV_SetItemTextA(hLV, iItem, 4, tmp);
 }
 
 static UINT getListViewPSK(HWND hLV, UINT iItem)
 {
 	char str[128];
-	LV_GetItemTextA(hLV, iItem, 4, str, _countof(str));
+	LV_GetItemTextA(hLV, iItem, 5, str, _countof(str));
 	return strncmp(str, Translate("PSK"), sizeof(str)) == 0;
 }
 
@@ -127,13 +127,13 @@ static void setListViewPSK(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char str[128];
 	strncpy(str, (iStatus) ? Translate("PSK") : "-", sizeof(str) - 1);
-	LV_SetItemTextA(hLV, iItem, 4, str);
+	LV_SetItemTextA(hLV, iItem, 5, str);
 }
 
 static UINT getListViewPUB(HWND hLV, UINT iItem)
 {
 	char str[128];
-	LV_GetItemTextA(hLV, iItem, 4, str, _countof(str));
+	LV_GetItemTextA(hLV, iItem, 5, str, _countof(str));
 	return strncmp(str, Translate("PUB"), sizeof(str)) == 0;
 }
 
@@ -141,7 +141,7 @@ static void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 {
 	char str[128];
 	strncpy(str, (iStatus) ? Translate("PUB") : "-", sizeof(str) - 1);
-	LV_SetItemTextA(hLV, iItem, 4, str);
+	LV_SetItemTextA(hLV, iItem, 5, str);
 
 	LPSTR sha = nullptr;
 	if (iStatus) {
@@ -156,10 +156,10 @@ static void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 		}
 	}
 	if (sha) {
-		LV_SetItemTextA(hLV, iItem, 5, sha);
+		LV_SetItemTextA(hLV, iItem, 6, sha);
 		mir_free(sha);
 	}
-	else LV_SetItemTextA(hLV, iItem, 5, "");
+	else LV_SetItemTextA(hLV, iItem, 6, "");
 }
 
 static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
@@ -412,6 +412,10 @@ static void ResetGeneralDlg(HWND hDlg)
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
 	for (auto &hContact : Contacts()) {
+		auto *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
+		if (!pa)
+			continue;
+
 		if (!isSecureProtocol(hContact) || isChatRoom(hContact))
 			continue;
 
@@ -428,9 +432,10 @@ static void ResetGeneralDlg(HWND hDlg)
 		lvi.pszText = Clist_GetContactDisplayName(hContact);
 		int itemNum = LV_InsertItem(hLV, &lvi);
 
-		wchar_t tmp[NAMSIZE];
-		getContactUin(hContact, tmp);
-		LV_SetItemText(hLV, itemNum, 1, tmp);
+		LV_SetItemText(hLV, itemNum, 1, pa->tszAccountName);
+
+		ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
+		LV_SetItemText(hLV, itemNum, 2, uid);
 
 		setListViewMode(hLV, itemNum, ptr->tmode);
 		setListViewStatus(hLV, itemNum, ptr->tstatus);
@@ -480,10 +485,9 @@ static void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 	LVITEMW lvi; memset(&lvi, 0, sizeof(lvi));
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
-	wchar_t tmp[NAMSIZE];
-
 	for (auto &hContact : Contacts()) {
-		if (!Proto_GetAccount(Proto_GetBaseAccountName(hContact)))
+		auto *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
+		if (!pa)
 			continue;
 
 		pUinKey ptr = getUinKey(hContact);
@@ -499,8 +503,10 @@ static void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 			lvi.pszText = Clist_GetContactDisplayName(hContact);
 			int itemNum = LV_InsertItem(hLV, &lvi);
 
-			getContactUin(hContact, tmp);
-			LV_SetItemText(hLV, itemNum, 1, tmp);
+			LV_SetItemText(hLV, itemNum, 1, pa->tszAccountName);
+
+			ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
+			LV_SetItemText(hLV, itemNum, 2, uid);
 
 			setListViewMode(hLV, itemNum, ptr->tmode);
 			setListViewStatus(hLV, itemNum, ptr->tstatus);
@@ -652,8 +658,8 @@ static INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wPara
 		ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
 		ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
 		{
-			static const char *szColHdr[] = { LPGEN("Nickname"), LPGEN("User ID"), LPGEN("Mode"), LPGEN("Status"), "", "SHA-1" };
-			static int iColWidth[] = { 150, 110, 60, 55, 35, 330 };
+			static const char *szColHdr[] = { LPGEN("Nickname"), LPGEN("Account"), LPGEN("User ID"), LPGEN("Mode"), LPGEN("Status"), "", "SHA-1" };
+			static int iColWidth[] = { 150, 70, 70, 60, 55, 35, 330 };
 
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
