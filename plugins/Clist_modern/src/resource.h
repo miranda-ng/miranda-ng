@@ -173,7 +173,6 @@
 #define IDC_TILEV                       1301
 #define IDC_GAMMACORRECT                1302
 #define IDC_TILEVROWH                   1302
-#define IDC_HIDEOFFLINEOPTS             1308
 #define IDC_CYCLETIME                   1318
 #define IDC_CYCLETIMESPIN               1319
 #define IDC_HIDETIMESPIN                1320

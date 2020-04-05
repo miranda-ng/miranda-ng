@@ -244,21 +244,9 @@ struct CheckBoxValues_t
 {
 	DWORD style;
 	wchar_t *szDescr;
-};
-
-static const struct CheckBoxValues_t greyoutValues[] = {
+}
+static const greyoutValues[] = {
 	{ GREYF_UNFOCUS, LPGENW("Not focused") },
-	{ MODEF_OFFLINE, LPGENW("Offline") },
-	{ PF2_ONLINE, LPGENW("Online") },
-	{ PF2_SHORTAWAY, LPGENW("Away") },
-	{ PF2_LONGAWAY, LPGENW("Not available") },
-	{ PF2_LIGHTDND, LPGENW("Occupied") },
-	{ PF2_HEAVYDND, LPGENW("Do not disturb") },
-	{ PF2_FREECHAT, LPGENW("Free for chat") },
-	{ PF2_INVISIBLE, LPGENW("Invisible") }
-};
-
-static const struct CheckBoxValues_t offlineValues[] = {
 	{ MODEF_OFFLINE, LPGENW("Offline") },
 	{ PF2_ONLINE, LPGENW("Online") },
 	{ PF2_SHORTAWAY, LPGENW("Away") },
@@ -373,7 +361,6 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
 			DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", GetDefaultExStyle());
 			for (auto &it : checkBoxToStyleEx)
@@ -393,7 +380,6 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SMOOTHTIME), IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
 		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), greyoutValues, _countof(greyoutValues), db_get_dw(0, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, _countof(offlineValues), db_get_dw(0, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
 		CheckDlgButton(hwndDlg, IDC_NOSCROLLBAR, db_get_b(0, "CLC", "NoVScrollBar", CLCDEFAULT_NOVSCROLL) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
@@ -413,7 +399,6 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_GREYOUTOPTS:
-		case IDC_HIDEOFFLINEOPTS:
 			if (((LPNMHDR)lParam)->code == NM_CLICK) {
 				TVHITTESTINFO hti;
 				hti.pt.x = (short)LOWORD(GetMessagePos());
@@ -450,7 +435,6 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					db_set_dw(0, "CLC", "GreyoutFlags", 0);
 
 				db_set_b(0, "CLC", "ShowIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
-				db_set_dw(0, "CLC", "OfflineModes", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS)));
 				db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
 				db_set_b(0, "CLC", "GroupIndent", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(0, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));

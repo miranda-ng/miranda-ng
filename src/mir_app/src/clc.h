@@ -96,6 +96,7 @@ int ClcOptInit(WPARAM, LPARAM);
 namespace Clist
 {
 	extern CMOption<bool> RemoveTempContacts, DisableIconBlink;
+	extern CMOption<DWORD> OfflineModes;
 };
 
 /* clistmenus.c */

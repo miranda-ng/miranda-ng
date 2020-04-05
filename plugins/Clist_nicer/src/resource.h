@@ -82,7 +82,6 @@
 #define IDC_CBOTTOMSPIN                 1079
 #define IDC_CRIGHT                      1080
 #define IDC_CRIGHTSPIN                  1081
-#define IDC_HIDEOFFLINEOPTS             1082
 #define IDC_LEFTMARGINSPIN              1092
 #define IDC_NOGROUPICON                 1102
 #define IDC_ONECLK                      1105

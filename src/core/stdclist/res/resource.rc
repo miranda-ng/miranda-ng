@@ -130,8 +130,6 @@ BEGIN
     CONTROL         "Make selection highlight translucent",IDC_NOTNOTRANSLUCENTSEL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,179,10
     CONTROL         "Dim idle contacts",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,96,153,10
-    LTEXT           "'Hide offline' means to hide:",IDC_STATIC,191,10,112,8
-    CONTROL         "Tree1",IDC_HIDEOFFLINEOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,191,20,112,84
     GROUPBOX        "Groups",IDC_STATIC,2,112,148,136
     CONTROL         "Draw a line alongside group names",IDC_LINEWITHGROUPS,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,11,129,131,16

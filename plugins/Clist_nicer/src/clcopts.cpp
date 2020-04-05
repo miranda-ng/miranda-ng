@@ -63,15 +63,17 @@ struct CheckBoxToGroupStyleEx_t {
 struct CheckBoxValues_t {
 	DWORD style;
 	wchar_t *szDescr;
-};
-
-static const struct CheckBoxValues_t greyoutValues[] = {
-	{ GREYF_UNFOCUS, LPGENW("Not focused") }, { MODEF_OFFLINE, LPGENW("Offline") }, { PF2_ONLINE, LPGENW("Online") }, { PF2_SHORTAWAY, LPGENW("Away") },
-	{ PF2_LONGAWAY, LPGENW("Not available") }, { PF2_LIGHTDND, LPGENW("Occupied") }, { PF2_HEAVYDND, LPGENW("Do not disturb") }, { PF2_FREECHAT, LPGENW("Free for chat") }, { PF2_INVISIBLE, LPGENW("Invisible") }, 
-};
-static const struct CheckBoxValues_t offlineValues[] = {
-	{ MODEF_OFFLINE, LPGENW("Offline") }, { PF2_ONLINE, LPGENW("Online") }, { PF2_SHORTAWAY, LPGENW("Away") }, { PF2_LONGAWAY, LPGENW("Not available") },
-	{ PF2_LIGHTDND, LPGENW("Occupied") }, { PF2_HEAVYDND, LPGENW("Do not disturb") }, { PF2_FREECHAT, LPGENW("Free for chat") }, { PF2_INVISIBLE, LPGENW("Invisible") }
+}
+static const greyoutValues[] = {
+	{ GREYF_UNFOCUS, LPGENW("Not focused") }, 
+	{ MODEF_OFFLINE, LPGENW("Offline") }, 
+	{ PF2_ONLINE,    LPGENW("Online") }, 
+	{ PF2_SHORTAWAY, LPGENW("Away") },
+	{ PF2_LONGAWAY,  LPGENW("Not available") }, 
+	{ PF2_LIGHTDND,  LPGENW("Occupied") }, 
+	{ PF2_HEAVYDND,  LPGENW("Do not disturb") }, 
+	{ PF2_FREECHAT,  LPGENW("Free for chat") }, 
+	{ PF2_INVISIBLE, LPGENW("Invisible") }, 
 };
 
 static UINT sortCtrlIDs[] = { IDC_SORTPRIMARY, IDC_SORTTHEN, IDC_SORTFINALLY, 0 };
@@ -238,8 +240,6 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-
 			for (int i = 0; sortCtrlIDs[i] != 0; i++) {
 				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_INSERTSTRING, -1, (LPARAM)TranslateT("Nothing"));
 				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_INSERTSTRING, -1, (LPARAM)TranslateT("Name"));
@@ -253,7 +253,6 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("For RTL only"));
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("RTL TEXT only"));
 
-			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, sizeof(offlineValues) / sizeof(offlineValues[0]), db_get_dw(0, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
 			CheckDlgButton(hwndDlg, IDC_EVENTSONTOP, (cfg::dat.dwFlags & CLUI_STICKYEVENTS) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DONTSEPARATE, cfg::dat.bDontSeparateOffline ? BST_CHECKED : BST_UNCHECKED);
 			for (int i = 0; sortCtrlIDs[i] != 0; i++)
@@ -272,25 +271,6 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_HIDEOFFLINEOPTS:
-			if (((LPNMHDR)lParam)->code == NM_CLICK) {
-				TVHITTESTINFO hti;
-				hti.pt.x = (short)LOWORD(GetMessagePos());
-				hti.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
-					if (hti.flags & TVHT_ONITEMSTATEICON) {
-						TVITEM tvi;
-						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-						tvi.hItem = hti.hItem;
-						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
-						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-			}
-			break;
-
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 				for (int i = 0; sortCtrlIDs[i] != 0; i++) {
@@ -304,8 +284,6 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				cfg::dat.bDontSeparateOffline = IsDlgButtonChecked(hwndDlg, IDC_DONTSEPARATE) ? 1 : 0;
 				g_plugin.setByte("DontSeparateOffline", (BYTE)cfg::dat.bDontSeparateOffline);
-
-				db_set_dw(0, "CLC", "OfflineModes", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS)));
 
 				cfgSetFlag(hwndDlg, IDC_EVENTSONTOP, CLUI_STICKYEVENTS);
 

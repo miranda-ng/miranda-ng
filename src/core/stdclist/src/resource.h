@@ -74,7 +74,6 @@
 #define IDC_SCRIPT                      1300
 #define IDC_TILEV                       1301
 #define IDC_GAMMACORRECT                1302
-#define IDC_HIDEOFFLINEOPTS             1308
 #define IDC_DONTCYCLE                   1315
 #define IDC_PRIMARYSTATUS               1316
 #define IDC_CYCLE                       1317

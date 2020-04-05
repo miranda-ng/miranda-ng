@@ -745,7 +745,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
 
 	dat->greyoutFlags = db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);
-	dat->offlineModes = db_get_dw(0, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
+	dat->offlineModes = Clist::OfflineModes;
 	dat->selBkColour = db_get_dw(0, "CLC", "SelBkColour", CLCDEFAULT_SELBKCOLOUR);
 	dat->selTextColour = db_get_dw(0, "CLC", "SelTextColour", CLCDEFAULT_SELTEXTCOLOUR);
 	dat->hotTextColour = db_get_dw(0, "CLC", "HotTextColour", CLCDEFAULT_HOTTEXTCOLOUR);

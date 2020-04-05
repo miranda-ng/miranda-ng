@@ -188,6 +188,7 @@
 #define IDC_LANGDATE                    1010
 #define IDC_LNK_ADDONS                  1011
 #define IDC_RELOAD                      1011
+#define IDC_HIDEOFFLINEOPTS             1012
 #define IDC_SPECIFYPORTS                1013
 #define IDC_ST_ENTERMSG                 1013
 #define IDC_ST_ENTERURL                 1014
