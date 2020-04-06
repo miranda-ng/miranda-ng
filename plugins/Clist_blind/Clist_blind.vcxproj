@@ -19,14 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\src\mir_app\res\_blank.ico" />
     <Image Include="res\delete.ico" />
     <Image Include="res\rename.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\src\mir_app\res\cursor_drag_copy.cur" />
-    <None Include="..\..\src\mir_app\res\cursor_drop_user.cur" />
-    <None Include="..\..\src\mir_app\res\cursor_hyperlink.cur" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Clist_blind</ProjectName>

@@ -3,10 +3,7 @@
 // Used by W:\miranda-ng\plugins\Clist_blind\res\resource.rc
 //
 #define IDD_OPT_CLIST                   126
-#define IDC_DROP                        183
 #define IDD_OPT_HOTKEY                  184
-#define IDC_HYPERLINKHAND               214
-#define IDC_DROPUSER                    215
 #define IDD_OPT_CLUI                    218
 #define IDD_OPT_CLC                     228
 #define IDD_OPT_CLCBKG                  230
