@@ -119,7 +119,6 @@ const
   CLBF_PROPORTIONAL = $4000;
   CLBF_SCROLL       = $8000;
 
-  CLM_SETBKBITMAP       = (CLM_FIRST+27); // wParam=mode, lParam=hBitmap (don't delete it), NULL for none
   CLM_SETBKCOLOR        = (CLM_FIRST+28); // wParam=a COLORREF, default is GetSysColor(COLOR_3DFACE)
   CLM_SETCHECKMARK      = (CLM_FIRST+29); // wParam=hItem, lParam=1 or 0
   CLM_SETEXTRACOLUMNS   = (CLM_FIRST+30); // wParam = number of extra columns (zero to EXTRA_ICON_COUNT from clc.h, currently 16)
@@ -140,7 +139,6 @@ const
   FONTID_MAX           = 18;
 
   CLM_SETFONT            = (CLM_FIRST+33); // wParam=hFont, lParam=MAKELPARAM(fRedraw,fontId)
-  CLM_SETINDENT          = (CLM_FIRST+34); // wParam=new indent, default is 3 pixels
   CLM_SETITEMTEXT        = (CLM_FIRST+35); // wParam=hItem, lParam=(AnsiChar*)pszNewText
   CLM_SETSCROLLTIME      = (CLM_FIRST+36); // wParam=time in ms, default 200
   CLM_SETHIDEEMPTYGROUPS = (CLM_FIRST+38); // wParam=TRUE/FALSE
@@ -149,15 +147,12 @@ const
   MODEF_OFFLINE = $40000000;
 
   // and use the PF2_ #defines from m_protosvc.inc
-  CLM_SETGREYOUTFLAGS    = (CLM_FIRST+39); // wParam=new flags
   CLM_GETHIDEOFFLINEROOT = (CLM_FIRST+40); // returns TRUE/FALSE
   CLM_SETHIDEOFFLINEROOT = (CLM_FIRST+41); // wParam=TRUE/FALSE
   CLM_SETUSEGROUPS       = (CLM_FIRST+42); // wParam=TRUE/FALSE
   CLM_SETOFFLINEMODES    = (CLM_FIRST+43); // for 'hide offline', wParam=PF2_ flags and MODEF_OFFLINE
   CLM_GETEXSTYLE         = (CLM_FIRST+44); // returns CLS_EX_ flags
   CLM_SETEXSTYLE         = (CLM_FIRST+45); // wParam=CLS_EX_ flags
-  CLM_GETLEFTMARGIN      = (CLM_FIRST+46); // returns count of pixels
-  CLM_SETLEFTMARGIN      = (CLM_FIRST+47); // wParam=pixels
 
 // the order of info items is never changed, so make sure you add them in the
 // order you want them to remain
