@@ -37,7 +37,6 @@ function FindContactHandle(Proto:PAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=
 
 //----- Another functions -----
 
-function SetCListSelContact(hContact:TMCONTACT):TMCONTACT;
 function GetCListSelContact:TMCONTACT;
 
 function WndToContact(wnd:HWND):TMCONTACT; overload;
@@ -384,15 +383,6 @@ begin
 end;
 
 //----- Another functions -----
-
-function SetCListSelContact(hContact:TMCONTACT):TMCONTACT;
-var
-  wnd:HWND;
-begin
-  wnd:=cli^.hwndContactTree;
-  result:=hContact;
-  SendMessage(wnd,CLM_SELECTITEM   ,hContact,0);
-end;
 
 function GetCListSelContact:TMCONTACT;
 begin
