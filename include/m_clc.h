@@ -140,7 +140,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define GREYF_UNFOCUS     0x80000000
 #define MODEF_OFFLINE     0x40000000
 //and use the PF2_ #defines from m_protosvc.h
-#define CLM_SETGREYOUTFLAGS   (CLM_FIRST+39)   //wParam = new flags
+
 #define CLM_GETHIDEOFFLINEROOT (CLM_FIRST+40)   //returns TRUE/FALSE
 #define CLM_SETHIDEOFFLINEROOT (CLM_FIRST+41)   //wParam = TRUE/FALSE
 #define CLM_SETUSEGROUPS      (CLM_FIRST+42)   //wParam = TRUE/FALSE
