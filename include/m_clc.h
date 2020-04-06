@@ -112,7 +112,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLBF_TILEV        0x2000
 #define CLBF_PROPORTIONAL 0x4000
 #define CLBF_SCROLL       0x8000
-#define CLM_SETBKBITMAP       (CLM_FIRST+27)   //wParam = mode, lParam = hBitmap (don't delete it), NULL for none
+
 #define CLM_SETBKCOLOR        (CLM_FIRST+28)   //wParam = a COLORREF, default is GetSysColor(COLOR_3DFACE)
 #define CLM_SETCHECKMARK      (CLM_FIRST+29)   //wParam = hItem, lParam = 1 or 0
 #define CLM_SETEXTRACOLUMNS   (CLM_FIRST+30)   //wParam = number of extra columns (zero to EXTRA_ICON_COUNT from clc.h, currently 16)
@@ -133,7 +133,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FONTID_MAX				18
 
 #define CLM_SETFONT           (CLM_FIRST+33)   //wParam = hFont, lParam = MAKELPARAM(fRedraw,fontId)
-#define CLM_SETINDENT         (CLM_FIRST+34)   //wParam = new indent, default is 3 pixels
 #define CLM_SETITEMTEXT       (CLM_FIRST+35)   //wParam = hItem, lParam = (char*)pszNewText
 #define CLM_SETSCROLLTIME     (CLM_FIRST+36)   //wParam = time in ms, default 200
 
@@ -148,8 +147,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLM_SETOFFLINEMODES   (CLM_FIRST+43)   //for 'hide offline', wParam = PF2_ flags and MODEF_OFFLINE
 #define CLM_GETEXSTYLE        (CLM_FIRST+44)   //returns CLS_EX_ flags
 #define CLM_SETEXSTYLE        (CLM_FIRST+45)   //wParam = CLS_EX_ flags
-#define CLM_GETLEFTMARGIN     (CLM_FIRST+46)   //returns count of pixels
-#define CLM_SETLEFTMARGIN     (CLM_FIRST+47)   //wParam = pixels
+
 typedef struct {
 	int cbSize;
 	const wchar_t *pszText;

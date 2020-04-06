@@ -933,15 +933,8 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 
 	void CListResetOptions()
 	{
-		m_clcClist.SetBkBitmap(0, nullptr);
-		m_clcClist.SetBkColor(GetSysColor(COLOR_WINDOW));
-		m_clcClist.SetGreyoutFlags(0);
-		m_clcClist.SetLeftMargin(4);
-		m_clcClist.SetIndent(10);
 		m_clcClist.SetHideEmptyGroups(false);
 		m_clcClist.SetHideOfflineRoot(false);
-		for (int i = 0; i <= FONTID_MAX; i++)
-			m_clcClist.SetTextColor(i, GetSysColor(COLOR_WINDOWTEXT));
 	}
 
 	void CListFilter()

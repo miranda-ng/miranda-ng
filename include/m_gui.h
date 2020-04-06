@@ -727,31 +727,24 @@ public:
 	HANDLE     GetSelection();
 	HANDLE     HitTest(int x, int y, DWORD *hitTest);
 	void       SelectItem(HANDLE hItem);
-	void       SetBkBitmap(DWORD mode, HBITMAP hBitmap);
 	void       SetBkColor(COLORREF clBack);
 	void       SetCheck(HANDLE hItem, bool check);
 	void       SetExtraColumns(int iColumns);
 	void       SetExtraImage(HANDLE hItem, int iColumn, int iImage);
 	void       SetExtraImageList(HIMAGELIST hImgList);
 	void       SetFont(int iFontId, HANDLE hFont, bool bRedraw);
-	void       SetIndent(int iIndent);
 	void       SetItemText(HANDLE hItem, char *szText);
 	void       SetHideEmptyGroups(bool state);
-	void       SetGreyoutFlags(DWORD flags);
 	bool       GetHideOfflineRoot();
 	void       SetHideOfflineRoot(bool state);
 	void       SetUseGroups(bool state);
 	void       SetOfflineModes(DWORD modes);
 	DWORD      GetExStyle();
 	void       SetExStyle(DWORD exStyle);
-	int        GetLefrMargin();
-	void       SetLeftMargin(int iMargin);
 	HANDLE     AddInfoItem(CLCINFOITEM *cii);
 	int        GetItemType(HANDLE hItem);
 	HANDLE     GetNextItem(HANDLE hItem, DWORD flags);
-	COLORREF   GetTextColor(int iFontId);
-	void       SetTextColor(int iFontId, COLORREF clText);
-
+	
 	struct TEventInfo
 	{
 		CCtrlClc *ctrl;

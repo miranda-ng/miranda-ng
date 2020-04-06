@@ -176,20 +176,20 @@ void CVkInviteChatForm::btnOk_OnOk(CCtrlButton*)
 CVkGCCreateForm::CVkGCCreateForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_GC_CREATE),
 	m_btnOk(this, IDOK),
-	m_clCList(this, IDC_CLIST),
+	m_clc(this, IDC_CLIST),
 	m_edtTitle(this, IDC_TITLE)
 {
 	m_btnOk.OnClick = Callback(this, &CVkGCCreateForm::btnOk_OnOk);
-	m_clCList.OnListRebuilt = Callback(this, &CVkGCCreateForm::FilterList);
+	m_clc.OnListRebuilt = Callback(this, &CVkGCCreateForm::FilterList);
 }
 
 bool CVkGCCreateForm::OnInitDialog()
 {
-	SetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clCList.GetHwnd(), GWL_STYLE)
+	SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE)
 		| CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
-	m_clCList.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
+	m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
-	ResetListOptions(&m_clCList);
+	ResetListOptions();
 	return true;
 }
 
@@ -200,8 +200,8 @@ void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
 		if (m_proto->isChatRoom(hContact))
 			continue;
 
-		HANDLE hItem = m_clCList.FindContact(hContact);
-		if (hItem && m_clCList.GetCheck(hItem)) {
+		HANDLE hItem = m_clc.FindContact(hContact);
+		if (hItem && m_clc.GetCheck(hItem)) {
 			int uid = m_proto->getDword(hContact, "ID");
 			if (uid != 0) {
 				if (!szUIds.IsEmpty())
@@ -223,25 +223,16 @@ void CVkGCCreateForm::FilterList(CCtrlClc*)
 	for (auto &hContact : Contacts()) {
 		char *proto = Proto_GetBaseAccountName(hContact);
 		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact) || m_proto->getDword(hContact, "ID") == VK_FEED_USER)
-			if (HANDLE hItem = m_clCList.FindContact(hContact))
-				m_clCList.DeleteItem(hItem);
+			if (HANDLE hItem = m_clc.FindContact(hContact))
+				m_clc.DeleteItem(hItem);
 	}
 }
 
-void CVkGCCreateForm::ResetListOptions(CCtrlClc *clCList)
+void CVkGCCreateForm::ResetListOptions()
 {
-	if (!clCList)
-		return;
-
-	clCList->SetBkBitmap(0, nullptr);
-	clCList->SetBkColor(GetSysColor(COLOR_WINDOW));
-	clCList->SetGreyoutFlags(0);
-	clCList->SetLeftMargin(4);
-	clCList->SetIndent(10);
-	clCList->SetHideEmptyGroups(true);
-	clCList->SetHideOfflineRoot(true);
-	for (int i = 0; i <= FONTID_MAX; i++)
-		clCList->SetTextColor(i, GetSysColor(COLOR_WINDOWTEXT));
+	m_clc.SetBkColor(GetSysColor(COLOR_WINDOW));
+	m_clc.SetHideEmptyGroups(true);
+	m_clc.SetHideOfflineRoot(true);
 }
 
 ////////////////////////////////// IDD_CONTACTDELETE //////////////////////////////////////

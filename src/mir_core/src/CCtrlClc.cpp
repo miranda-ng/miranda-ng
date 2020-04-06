@@ -138,10 +138,6 @@ void CCtrlClc::SelectItem(HANDLE hItem)
 {	SendMessage(m_hwnd, CLM_SELECTITEM, (WPARAM)hItem, 0);
 }
 
-void CCtrlClc::SetBkBitmap(DWORD mode, HBITMAP hBitmap)
-{	SendMessage(m_hwnd, CLM_SETBKBITMAP, mode, (LPARAM)hBitmap);
-}
-
 void CCtrlClc::SetBkColor(COLORREF clBack)
 {	SendMessage(m_hwnd, CLM_SETBKCOLOR, (WPARAM)clBack, 0);
 }
@@ -166,20 +162,12 @@ void CCtrlClc::SetFont(int iFontId, HANDLE hFont, bool bRedraw)
 {	SendMessage(m_hwnd, CLM_SETFONT, (WPARAM)hFont, MAKELPARAM(bRedraw ? 1 : 0, iFontId));
 }
 
-void CCtrlClc::SetIndent(int iIndent)
-{	SendMessage(m_hwnd, CLM_SETINDENT, (WPARAM)iIndent, 0);
-}
-
 void CCtrlClc::SetItemText(HANDLE hItem, char *szText)
 {	SendMessage(m_hwnd, CLM_SETITEMTEXT, (WPARAM)hItem, (LPARAM)szText);
 }
 
 void CCtrlClc::SetHideEmptyGroups(bool state)
 {	SendMessage(m_hwnd, CLM_SETHIDEEMPTYGROUPS, state ? 1 : 0, 0);
-}
-
-void CCtrlClc::SetGreyoutFlags(DWORD flags)
-{	SendMessage(m_hwnd, CLM_SETGREYOUTFLAGS, (WPARAM)flags, 0);
 }
 
 bool CCtrlClc::GetHideOfflineRoot()
@@ -206,14 +194,6 @@ void CCtrlClc::SetExStyle(DWORD exStyle)
 {	SendMessage(m_hwnd, CLM_SETEXSTYLE, (WPARAM)exStyle, 0);
 }
 
-int CCtrlClc::GetLefrMargin()
-{	return SendMessage(m_hwnd, CLM_GETLEFTMARGIN, 0, 0);
-}
-
-void CCtrlClc::SetLeftMargin(int iMargin)
-{	SendMessage(m_hwnd, CLM_SETLEFTMARGIN, (WPARAM)iMargin, 0);
-}
-
 HANDLE CCtrlClc::AddInfoItem(CLCINFOITEM *cii)
 {	return (HANDLE)SendMessage(m_hwnd, CLM_ADDINFOITEM, 0, (LPARAM)cii);
 }
@@ -224,12 +204,4 @@ int CCtrlClc::GetItemType(HANDLE hItem)
 
 HANDLE CCtrlClc::GetNextItem(HANDLE hItem, DWORD flags)
 {	return (HANDLE)SendMessage(m_hwnd, CLM_GETNEXTITEM, (WPARAM)flags, (LPARAM)hItem);
-}
-
-COLORREF CCtrlClc::GetTextColor(int iFontId)
-{	return (COLORREF)SendMessage(m_hwnd, CLM_GETTEXTCOLOR, (WPARAM)iFontId, 0);
-}
-
-void CCtrlClc::SetTextColor(int iFontId, COLORREF clText)
-{	SendMessage(m_hwnd, CLM_SETTEXTCOLOR, (WPARAM)iFontId, (LPARAM)clText);
 }

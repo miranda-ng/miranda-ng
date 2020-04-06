@@ -646,7 +646,6 @@ mir_wstrcmpi                  @280
 ?GetItemText@CCtrlListView@@QAEXHHPA_WH@Z @833 NONAME
 ?GetItemType@CCtrlClc@@QAEHPAX@Z @834 NONAME
 ?GetLastVisible@CCtrlTreeView@@QAEPAU_TREEITEM@@XZ @835 NONAME
-?GetLefrMargin@CCtrlClc@@QAEHXZ @836 NONAME
 ?GetLineColor@CCtrlTreeView@@QAEKXZ @837 NONAME
 ?GetNextItem@CCtrlClc@@QAEPAXPAXK@Z @838 NONAME
 ?GetNextItem@CCtrlListView@@QAEHHI@Z @839 NONAME
@@ -681,7 +680,6 @@ mir_wstrcmpi                  @280
 ?GetTextBkColor@CCtrlListView@@QAEKXZ @869 NONAME
 ?GetTextColor@CCtrlListView@@QAEKXZ @870 NONAME
 ?GetTextColor@CCtrlTreeView@@QAEKXZ @871 NONAME
-?GetTextColor@CCtrlClc@@QAEKH@Z @872 NONAME
 ?GetTileInfo@CCtrlListView@@QAEXPAUtagLVTILEINFO@@@Z @873 NONAME
 ?GetTileViewInfo@CCtrlListView@@QAEXPAUtagLVTILEVIEWINFO@@@Z @874 NONAME
 ?GetToolTips@CCtrlListView@@QAEPAUHWND__@@XZ @875 NONAME
@@ -776,7 +774,6 @@ mir_wstrcmpi                  @280
 ?SelectString@CCtrlCombo@@QAEHPB_W@Z @969 NONAME
 ?SelectString@CCtrlListBox@@QAEHPB_W@Z @970 NONAME
 ?SendMsg@CCtrlBase@@QBEJIIJ@Z @971 NONAME
-?SetBkBitmap@CCtrlClc@@QAEXKPAUHBITMAP__@@@Z @972 NONAME
 ?SetBkColor@CCtrlClc@@QAEXK@Z @973 NONAME
 ?SetBkColor@CCtrlListView@@QAEHK@Z @974 NONAME
 ?SetBkColor@CCtrlTreeView@@QAEKK@Z @975 NONAME
@@ -797,7 +794,6 @@ mir_wstrcmpi                  @280
 ?SetExtraImage@CCtrlClc@@QAEXPAXHH@Z @990 NONAME
 ?SetExtraImageList@CCtrlClc@@QAEXPAU_IMAGELIST@@@Z @991 NONAME
 ?SetFont@CCtrlClc@@QAEXHPAX_N@Z @992 NONAME
-?SetGreyoutFlags@CCtrlClc@@QAEXK@Z @993 NONAME
 ?SetGroupInfo@CCtrlListView@@QAEHHPAUtagLVGROUP@@@Z @994 NONAME
 ?SetGroupMetrics@CCtrlListView@@QAEXPAUtagLVGROUPMETRICS@@@Z @995 NONAME
 ?SetHideEmptyGroups@CCtrlClc@@QAEX_N@Z @996 NONAME
@@ -808,7 +804,6 @@ mir_wstrcmpi                  @280
 ?SetIconSpacing@CCtrlListView@@QAEKHH@Z @1001 NONAME
 ?SetImageList@CCtrlListView@@QAEPAU_IMAGELIST@@PAU2@H@Z @1002 NONAME
 ?SetImageList@CCtrlTreeView@@QAEXPAU_IMAGELIST@@H@Z @1003 NONAME
-?SetIndent@CCtrlClc@@QAEXH@Z @1004 NONAME
 ?SetIndent@CCtrlTreeView@@QAEXH@Z @1005 NONAME
 ?SetInfoTip@CCtrlListView@@QAEHPAUtagLVSETINFOTIP@@@Z @1006 NONAME
 ?SetInsertMark@CCtrlListView@@QAEHPAULVINSERTMARK@@@Z @1007 NONAME
@@ -830,7 +825,6 @@ mir_wstrcmpi                  @280
 ?SetItemState@CCtrlTreeView@@QAEXPAU_TREEITEM@@KK@Z @1023 NONAME
 ?SetItemText@CCtrlClc@@QAEXPAXPAD@Z @1024 NONAME
 ?SetItemText@CCtrlListView@@QAEXHHPB_W@Z @1025 NONAME
-?SetLeftMargin@CCtrlClc@@QAEXH@Z @1026 NONAME
 ?SetLineColor@CCtrlTreeView@@QAEKK@Z @1027 NONAME
 ?SetOfflineModes@CCtrlClc@@QAEXK@Z @1028 NONAME
 ?SetOutlineColor@CCtrlListView@@QAEKK@Z @1029 NONAME
@@ -842,7 +836,6 @@ mir_wstrcmpi                  @280
 ?SetText@CCtrlBase@@QAEXPB_W@Z @1036 NONAME
 ?SetTextA@CCtrlBase@@QAEXPBD@Z @1037 NONAME
 ?SetTextBkColor@CCtrlListView@@QAEHK@Z @1038 NONAME
-?SetTextColor@CCtrlClc@@QAEXHK@Z @1039 NONAME
 ?SetTextColor@CCtrlListView@@QAEHK@Z @1040 NONAME
 ?SetTextColor@CCtrlTreeView@@QAEKK@Z @1041 NONAME
 ?SetTileInfo@CCtrlListView@@QAEHPAUtagLVTILEINFO@@@Z @1042 NONAME

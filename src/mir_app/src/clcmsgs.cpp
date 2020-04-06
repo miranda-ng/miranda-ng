@@ -185,9 +185,6 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			return CLCIT_INVALID;
 		return contact->type;
 
-	case CLM_GETLEFTMARGIN:
-		return dat->leftMargin;
-
 	case CLM_GETEXSTYLE:
 		return dat->exStyle;
 
@@ -304,17 +301,6 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		break;
 
-	case CLM_SETBKBITMAP:
-		if (dat->hBmpBackground) {
-			DeleteObject(dat->hBmpBackground);
-			dat->hBmpBackground = nullptr;
-		}
-		dat->hBmpBackground = (HBITMAP)lParam;
-		dat->backgroundBmpUse = wParam;
-		dat->bkChanged = 1;
-		g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
-		break;
-
 	case CLM_SETBKCOLOR:
 		if (dat->hBmpBackground) {
 			DeleteObject(dat->hBmpBackground);
@@ -380,10 +366,6 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		break;
 
-	case CLM_SETGREYOUTFLAGS:
-		dat->greyoutFlags = wParam;
-		break;
-
 	case CLM_SETHIDEEMPTYGROUPS:
 		if (wParam)
 			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
@@ -397,21 +379,11 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		Clist_InitAutoRebuild(hwnd);
 		break;
 
-	case CLM_SETINDENT:
-		dat->groupIndent = wParam;
-		Clist_InitAutoRebuild(hwnd);
-		break;
-
 	case CLM_SETITEMTEXT:
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 			break;
 		mir_wstrncpy(contact->szText, (wchar_t*)lParam, _countof(contact->szText));
 		g_clistApi.pfnSortCLC(hwnd, dat, 1);
-		g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
-		break;
-
-	case CLM_SETLEFTMARGIN:
-		dat->leftMargin = wParam;
 		g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		break;
 

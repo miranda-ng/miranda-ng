@@ -116,7 +116,7 @@ public:
 class CVkGCCreateForm : public CVkDlgBase
 {
 	CCtrlButton m_btnOk;
-	CCtrlClc m_clCList;
+	CCtrlClc m_clc;
 	CCtrlEdit m_edtTitle;
 
 public:
@@ -125,7 +125,7 @@ public:
 	
 	void btnOk_OnOk(CCtrlButton*);
 	void FilterList(CCtrlClc*);
-	void ResetListOptions(CCtrlClc*);
+	void ResetListOptions();
 };
 
 ////////////////////////////////// IDD_CONTACTDELETE //////////////////////////////////////

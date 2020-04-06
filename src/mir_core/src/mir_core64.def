@@ -646,7 +646,6 @@ mir_wstrcmpi                  @280
 ?GetItemText@CCtrlListView@@QEAAXHHPEA_WH@Z @833 NONAME
 ?GetItemType@CCtrlClc@@QEAAHPEAX@Z @834 NONAME
 ?GetLastVisible@CCtrlTreeView@@QEAAPEAU_TREEITEM@@XZ @835 NONAME
-?GetLefrMargin@CCtrlClc@@QEAAHXZ @836 NONAME
 ?GetLineColor@CCtrlTreeView@@QEAAKXZ @837 NONAME
 ?GetNextItem@CCtrlClc@@QEAAPEAXPEAXK@Z @838 NONAME
 ?GetNextItem@CCtrlListView@@QEAAHHI@Z @839 NONAME
@@ -681,7 +680,6 @@ mir_wstrcmpi                  @280
 ?GetTextBkColor@CCtrlListView@@QEAAKXZ @869 NONAME
 ?GetTextColor@CCtrlListView@@QEAAKXZ @870 NONAME
 ?GetTextColor@CCtrlTreeView@@QEAAKXZ @871 NONAME
-?GetTextColor@CCtrlClc@@QEAAKH@Z @872 NONAME
 ?GetTileInfo@CCtrlListView@@QEAAXPEAUtagLVTILEINFO@@@Z @873 NONAME
 ?GetTileViewInfo@CCtrlListView@@QEAAXPEAUtagLVTILEVIEWINFO@@@Z @874 NONAME
 ?GetToolTips@CCtrlListView@@QEAAPEAUHWND__@@XZ @875 NONAME
@@ -776,7 +774,6 @@ mir_wstrcmpi                  @280
 ?SelectString@CCtrlCombo@@QEAAHPEB_W@Z @969 NONAME
 ?SelectString@CCtrlListBox@@QEAAHPEB_W@Z @970 NONAME
 ?SendMsg@CCtrlBase@@QEBA_JI_K_J@Z @971 NONAME
-?SetBkBitmap@CCtrlClc@@QEAAXKPEAUHBITMAP__@@@Z @972 NONAME
 ?SetBkColor@CCtrlClc@@QEAAXK@Z @973 NONAME
 ?SetBkColor@CCtrlListView@@QEAAHK@Z @974 NONAME
 ?SetBkColor@CCtrlTreeView@@QEAAKK@Z @975 NONAME
@@ -797,7 +794,6 @@ mir_wstrcmpi                  @280
 ?SetExtraImage@CCtrlClc@@QEAAXPEAXHH@Z @990 NONAME
 ?SetExtraImageList@CCtrlClc@@QEAAXPEAU_IMAGELIST@@@Z @991 NONAME
 ?SetFont@CCtrlClc@@QEAAXHPEAX_N@Z @992 NONAME
-?SetGreyoutFlags@CCtrlClc@@QEAAXK@Z @993 NONAME
 ?SetGroupInfo@CCtrlListView@@QEAAHHPEAUtagLVGROUP@@@Z @994 NONAME
 ?SetGroupMetrics@CCtrlListView@@QEAAXPEAUtagLVGROUPMETRICS@@@Z @995 NONAME
 ?SetHideEmptyGroups@CCtrlClc@@QEAAX_N@Z @996 NONAME
@@ -808,7 +804,6 @@ mir_wstrcmpi                  @280
 ?SetIconSpacing@CCtrlListView@@QEAAKHH@Z @1001 NONAME
 ?SetImageList@CCtrlListView@@QEAAPEAU_IMAGELIST@@PEAU2@H@Z @1002 NONAME
 ?SetImageList@CCtrlTreeView@@QEAAXPEAU_IMAGELIST@@H@Z @1003 NONAME
-?SetIndent@CCtrlClc@@QEAAXH@Z @1004 NONAME
 ?SetIndent@CCtrlTreeView@@QEAAXH@Z @1005 NONAME
 ?SetInfoTip@CCtrlListView@@QEAAHPEAUtagLVSETINFOTIP@@@Z @1006 NONAME
 ?SetInsertMark@CCtrlListView@@QEAAHPEAULVINSERTMARK@@@Z @1007 NONAME
@@ -830,7 +825,6 @@ mir_wstrcmpi                  @280
 ?SetItemState@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@KK@Z @1023 NONAME
 ?SetItemText@CCtrlClc@@QEAAXPEAXPEAD@Z @1024 NONAME
 ?SetItemText@CCtrlListView@@QEAAXHHPEB_W@Z @1025 NONAME
-?SetLeftMargin@CCtrlClc@@QEAAXH@Z @1026 NONAME
 ?SetLineColor@CCtrlTreeView@@QEAAKK@Z @1027 NONAME
 ?SetOfflineModes@CCtrlClc@@QEAAXK@Z @1028 NONAME
 ?SetOutlineColor@CCtrlListView@@QEAAKK@Z @1029 NONAME
@@ -842,7 +836,6 @@ mir_wstrcmpi                  @280
 ?SetText@CCtrlBase@@QEAAXPEB_W@Z @1036 NONAME
 ?SetTextA@CCtrlBase@@QEAAXPEBD@Z @1037 NONAME
 ?SetTextBkColor@CCtrlListView@@QEAAHK@Z @1038 NONAME
-?SetTextColor@CCtrlClc@@QEAAXHK@Z @1039 NONAME
 ?SetTextColor@CCtrlListView@@QEAAHK@Z @1040 NONAME
 ?SetTextColor@CCtrlTreeView@@QEAAKK@Z @1041 NONAME
 ?SetTileInfo@CCtrlListView@@QEAAHPEAUtagLVTILEINFO@@@Z @1042 NONAME
