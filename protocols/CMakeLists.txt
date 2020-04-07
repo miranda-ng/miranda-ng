@@ -1,7 +1,7 @@
 #add_subdirectory(Discord)
 #add_subdirectory(Dummy)
 #add_subdirectory(EmLanProto)
-add_subdirectory(FacebookRM)
+add_subdirectory(Facebook)
 #add_subdirectory(Gadu-Gadu)
 #add_subdirectory(ICQCorp)
 add_subdirectory(ICQ-WIM)
