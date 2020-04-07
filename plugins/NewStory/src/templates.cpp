@@ -236,49 +236,49 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 void vfMessage(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', item->getTBuf(), false);
+	vars->SetVar('M', item->getWBuf(), false);
 }
 
 void vfFile(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', item->getTBuf(), false);
+	vars->SetVar('M', item->getWBuf(), false);
 }
 
 void vfUrl(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', item->getTBuf(), false);
+	vars->SetVar('M', item->getWBuf(), false);
 }
 
 void vfSign(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', item->getTBuf(), false);
+	vars->SetVar('M', item->getWBuf(), false);
 }
 
 void vfAuth(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', item->getTBuf(), false);
+	vars->SetVar('M', item->getWBuf(), false);
 }
 
 void vfAdded(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', item->getTBuf(), false);
+	vars->SetVar('M', item->getWBuf(), false);
 }
 
 void vfPresence(int, TemplateVars* vars, MCONTACT, HistoryArray::ItemData* item)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', item->getTBuf(), false);
+	vars->SetVar('M', item->getWBuf(), false);
 }
 
 void vfDeleted(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', item->getTBuf(), false);
+	vars->SetVar('M', item->getWBuf(), false);
 }
 
 void vfOther(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *)

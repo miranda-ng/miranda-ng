@@ -40,8 +40,7 @@ public:
 		bool dbeOk = false;
 		DBEVENTINFO dbe;
 
-		bool atext_del = false, wtext_del = false;
-		char* atext = 0;
+		bool wtext_del = false;
 		wchar_t* wtext = 0;
 
 		HANDLE data = 0;
@@ -55,20 +54,6 @@ public:
 			if (((mode >= ELM_INFO) && !dbeOk) || ((mode == ELM_DATA) && !dbe.pBlob))
 				return load(mode);
 			return true;
-		}
-		inline wchar_t* getTBuf()
-		{
-			loadInline(ELM_DATA);
-#ifdef UNICODE
-			return wtext;
-#else
-			return atext;
-#endif
-		}
-		inline char* getBuf()
-		{
-			loadInline(ELM_DATA);
-			return atext;
 		}
 		inline wchar_t* getWBuf()
 		{
@@ -98,12 +83,12 @@ public:
 			EVENTTEXT = 0x080,
 			EVENTONLY = 0x100,
 		};
-		Filter(WORD aFlags, wchar_t* aText)
+		Filter(WORD aFlags, wchar_t* wText)
 		{
 			refCount = new int(0);
 			flags = aFlags;
-			text = new wchar_t[mir_wstrlen(aText) + 1];
-			mir_wstrcpy(text, aText);
+			text = new wchar_t[mir_wstrlen(wText) + 1];
+			mir_wstrcpy(text, wText);
 		}
 		Filter(const Filter& other)
 		{
@@ -158,7 +143,7 @@ public:
 			}
 			if (flags & (EVENTTEXT | EVENTONLY)) {
 				item->loadInline(ELM_DATA);
-				return CheckFilter(item->getTBuf(), text);
+				return CheckFilter(item->getWBuf(), text);
 			}
 			return true;
 		};

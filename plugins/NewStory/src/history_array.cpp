@@ -20,20 +20,13 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 		dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob + 1);
 		db_event_get(hEvent, &dbe);
 
-		int aLength = 0;
-		atext = 0;
 		wtext = 0;
 
 		switch (dbe.eventType) {
 		case EVENTTYPE_STATUSCHANGE:
 		case EVENTTYPE_MESSAGE:
-			atext = (char *)dbe.pBlob;
-			atext_del = false;
-			aLength = (int)mir_strlen(atext);
-			if (dbe.cbBlob > (DWORD)aLength + 1) {
-				wtext = (wchar_t *)(dbe.pBlob + aLength + 1);
-				wtext_del = false;
-			}
+			wtext = mir_utf8decodeW((char*)dbe.pBlob);
+			wtext_del = false;
 			break;
 
 		case EVENTTYPE_JABBER_PRESENCE:
@@ -42,49 +35,26 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 			break;
 
 		case EVENTTYPE_AUTHREQUEST:
-			atext = new char[512];
-			atext_del = true;
+			wtext = new wchar_t[512];
+			wtext_del = true;
 			if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
-				mir_snprintf(atext, 512, ("%s requested authorization"), dbe.pBlob + 8);
+				mir_snwprintf(wtext, 512, L"%s requested authorization", dbe.pBlob + 8);
 			}
 			else {
-				mir_snprintf(atext, 512, ("%d requested authorization"), *(DWORD *)(dbe.pBlob));
+				mir_snwprintf(wtext, 512, L"%d requested authorization", *(DWORD *)(dbe.pBlob));
 			}
-			aLength = (int)mir_strlen(atext);
 			break;
 
 		case EVENTTYPE_ADDED:
-			atext = new char[512];
-			atext_del = true;
+			wtext = new wchar_t[512];
+			wtext_del = true;
 			if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
-				mir_snprintf(atext, 512, ("%s added you to the contact list"), dbe.pBlob + 8);
+				mir_snwprintf(wtext, 512, L"%s added you to the contact list", dbe.pBlob + 8);
 			}
 			else {
-				mir_snprintf(atext, 512, ("%d added you to the contact list"), *(DWORD *)(dbe.pBlob));
+				mir_snwprintf(wtext, 512, L"%d added you to the contact list", *(DWORD *)(dbe.pBlob));
 			}
-			aLength = (int)mir_strlen(atext);
 			break;
-		}
-
-		if (atext && !wtext) {
-#ifdef UNICODE
-			int bufSize = MultiByteToWideChar(CP_ACP, 0, atext, aLength + 1, 0, 0);
-			wtext = new wchar_t[bufSize + 1];
-			MultiByteToWideChar(CP_ACP, 0, atext, aLength + 1, wtext, bufSize);
-			wtext_del = true;
-#else
-			this->wtext = 0;
-			wtext_del = false;
-#endif
-		}
-		else if (!atext && wtext) {
-			// strange situation, really :) I'll fix this later
-		}
-		else if (!atext && !wtext) {
-			atext = "";
-			atext_del = false;
-			wtext = L"";
-			wtext_del = false;
 		}
 
 		return true;
@@ -100,7 +70,6 @@ HistoryArray::ItemData::~ItemData()
 		dbe.pBlob = 0;
 	}
 	if (wtext && wtext_del) delete[] wtext;
-	if (atext && atext_del) delete[] atext;
 	if (data) MTextDestroy(data);
 }
 

@@ -26,11 +26,7 @@ void CopyText(HWND hwnd, const wchar_t *text)
 	wchar_t *s = (wchar_t *)GlobalLock(hMem);
 	mir_wstrcpy(s, text);
 	GlobalUnlock(hMem);
-#ifdef UNICODE
 	SetClipboardData(CF_UNICODETEXT, hMem);
-#else
-	SetClipboardData(CF_TEXT, hMem);
-#endif
 	CloseClipboard();
 	//	GlobalFree(hMem);
 }
