@@ -773,11 +773,11 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			//		break;
 
 			case ID_LOGOPTIONS_OPTIONS:
-				g_plugin.openOptions(nullptr, L"Newstory", L"General");
+				g_plugin.openOptions(L"History", L"Newstory" /*, L"General" */);
 				break;
 
 			case ID_LOGOPTIONS_TEMPLATES:
-				g_plugin.openOptions(nullptr, L"Newstory", L"Templates");
+				g_plugin.openOptions(L"History", L"Newstory" /* , L"Templates" */ );
 				break;
 			}
 			PostMessage(hwnd, WM_SIZE, 0, 0);
