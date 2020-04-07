@@ -207,7 +207,7 @@ class CHistoryDlg : public CDlgBase
 	WORD showFlags;
 	bool gonnaRedraw;
 	bool isContactHistory;
-	MCONTACT hContact;
+	MCONTACT m_hContact;
 	int lastYear = -1, lastMonth = -1, lastDay = -1;
 	HTREEITEM hLastYear = 0, hLastMonth = 0, hLastDay = 0;
 	bool disableTimeTreeChange = false;
@@ -217,20 +217,18 @@ class CHistoryDlg : public CDlgBase
 
 	// toolbar buttons
 	HWND m_hwndBtnToolbar[TBTN_COUNT];
+
 	// main controls
 	HWND m_hwndTimeTree;
 	HWND m_hwndLog;
 	// searchbar
-	HWND m_hwndBtnCloseSearch, m_hwndBtnFindNext, m_hwndBtnFindPrev;
-	HWND m_hwndSearchText;
+	HWND m_hwndBtnCloseSearch;
 	// statusbar
 	HWND m_hwndStatus;
 	// filter bar
 	HWND m_hwndChkDateFrom, m_hwndChkDateTo;
 	HWND m_hwndDateFrom, m_hwndDateTo;
 	InfoBarEvents ibMessages, ibFiles, ibUrls, ibTotal;
-
-	CCtrlTreeView m_timeTree;
 
 	void ShowHideControls()
 	{
@@ -267,9 +265,9 @@ class CHistoryDlg : public CDlgBase
 
 		cmd = (m_dwOptions & WND_OPT_SEARCHBAR) ? SW_SHOW : SW_HIDE;
 		ShowWindow(m_hwndBtnCloseSearch, cmd);
-		ShowWindow(m_hwndBtnFindNext, cmd);
-		ShowWindow(m_hwndBtnFindPrev, cmd);
-		ShowWindow(m_hwndSearchText, cmd);
+		ShowWindow(btnFindNext.GetHwnd(), cmd);
+		ShowWindow(btnFindPrev.GetHwnd(), cmd);
+		ShowWindow(edtSearchText.GetHwnd(), cmd);
 	}
 
 	void LayoutHistoryWnd()
@@ -368,20 +366,20 @@ class CHistoryDlg : public CDlgBase
 
 		int hSearch = 0;
 		if (m_dwOptions & WND_OPT_SEARCHBAR) {
-			GetWindowRect(m_hwndSearchText, &rc);
+			GetWindowRect(edtSearchText.GetHwnd(), &rc);
 			hSearch = rc.bottom - rc.top;
 			hDwp = DeferWindowPos(hDwp, m_hwndBtnCloseSearch, 0,
 				WND_SPACING, h - hSearch - hStatus - WND_SPACING,
 				TBTN_SIZE, hSearch, SWP_NOZORDER);
-			hDwp = DeferWindowPos(hDwp, m_hwndSearchText, 0,
+			hDwp = DeferWindowPos(hDwp, edtSearchText.GetHwnd(), 0,
 				TBTN_SIZE + WND_SPACING * 2, h - hSearch - hStatus - WND_SPACING,
 				w - WND_SPACING * 4 - TBTN_SIZE * 3, hSearch,
 				SWP_NOZORDER);
-			hDwp = DeferWindowPos(hDwp, m_hwndBtnFindPrev, 0,
+			hDwp = DeferWindowPos(hDwp, btnFindPrev.GetHwnd(), 0,
 				w - WND_SPACING - TBTN_SIZE * 2, h - hSearch - hStatus - WND_SPACING,
 				TBTN_SIZE, hSearch,
 				SWP_NOZORDER);
-			hDwp = DeferWindowPos(hDwp, m_hwndBtnFindNext, 0,
+			hDwp = DeferWindowPos(hDwp, btnFindNext.GetHwnd(), 0,
 				w - WND_SPACING - TBTN_SIZE * 1, h - hSearch - hStatus - WND_SPACING,
 				TBTN_SIZE, hSearch,
 				SWP_NOZORDER);
@@ -396,15 +394,48 @@ class CHistoryDlg : public CDlgBase
 		EndDeferWindowPos(hDwp);
 	}
 
+	CCtrlEdit edtSearchText;
+	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
+	CCtrlMButton btnCalendar, btnSearch, btnExport, btnClose, btnFindNext, btnFindPrev;
+	CCtrlTreeView m_timeTree;
+
 public:
 	CHistoryDlg(MCONTACT _hContact) :
 		CDlgBase(g_plugin, IDD_HISTORY),
-		hContact(_hContact),
-		m_timeTree(this, IDC_TIMETREE)
+		m_hContact(_hContact),
+		m_timeTree(this, IDC_TIMETREE),
+		edtSearchText(this, IDC_SEARCHTEXT),
+		btnCopy(this, IDC_COPY, g_plugin.getIcon(ICO_COPY), LPGEN("Copy")),
+		btnClose(this, IDC_CLOSE, g_plugin.getIcon(ICO_CLOSE), LPGEN("Close")),
+		btnExport(this, IDC_EXPORT, g_plugin.getIcon(ICO_EXPORT), LPGEN("Export...")),
+		btnFilter(this, IDC_FILTER, g_plugin.getIcon(ICO_FILTER), LPGEN("Filter")),
+		btnSearch(this, IDC_SEARCH, g_plugin.getIcon(ICO_SEARCH), LPGEN("Search...")),
+		btnOptions(this, IDC_LOGOPTIONS, g_plugin.getIcon(ICO_OPTIONS), LPGEN("Options")),
+		btnSendMsg(this, IDC_MESSAGE, g_plugin.getIcon(ICO_SENDMSG), LPGEN("Send Message")),
+		btnCalendar(this, IDC_DATEPOPUP, g_plugin.getIcon(ICO_CALENDAR), LPGEN("Jump2Date")),
+		btnUserInfo(this, IDC_USERINFO, g_plugin.getIcon(ICO_USERINFO), LPGEN("User Info")),
+		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(ICO_USERMENU), LPGEN("User Menu")),
+		btnFindNext(this, IDC_FINDNEXT, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find Previous")),
+		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find Next"))
 	{
-		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onChanged_TimeTree);
+		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
+		
+		edtSearchText.OnChange = Callback(this, &CHistoryDlg::onChange_SearchText);
 
-		showFlags = g_plugin.getDword(hContact, "showFlags", 0x7f);
+		btnCopy.OnClick = Callback(this, &CHistoryDlg::onClick_Copy);
+		btnClose.OnClick = Callback(this, &CHistoryDlg::onClick_Close);
+		btnExport.OnClick = Callback(this, &CHistoryDlg::onClick_Export);
+		btnFilter.OnClick = Callback(this, &CHistoryDlg::onClick_Filter);
+		btnSearch.OnClick = Callback(this, &CHistoryDlg::onClick_Search);
+		btnOptions.OnClick = Callback(this, &CHistoryDlg::onClick_Options);
+		btnSendMsg.OnClick = Callback(this, &CHistoryDlg::onClick_Message);
+		btnCalendar.OnClick = Callback(this, &CHistoryDlg::onClick_Calendar);
+		btnFindNext.OnClick = Callback(this, &CHistoryDlg::onClick_FindNext);
+		btnFindPrev.OnClick = Callback(this, &CHistoryDlg::onClick_FindPrev);
+		btnUserInfo.OnClick = Callback(this, &CHistoryDlg::onClick_UserInfo);
+		btnUserMenu.OnClick = Callback(this, &CHistoryDlg::onClick_UserMenu);
+
+		showFlags = g_plugin.getDword(m_hContact, "showFlags", 0x7f);
 
 		m_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 		HMENU hMenu = GetSubMenu(m_hMenu, 1);
@@ -433,21 +464,19 @@ public:
 	bool OnInitDialog() override
 	{
 		// get handles
-		m_hwndBtnToolbar[TBTN_USERINFO] = GetDlgItem(m_hwnd, IDC_USERINFO);
-		m_hwndBtnToolbar[TBTN_USERMENU] = GetDlgItem(m_hwnd, IDC_USERMENU);
-		m_hwndBtnToolbar[TBTN_MESSAGE] = GetDlgItem(m_hwnd, IDC_MESSAGE);
-		m_hwndBtnToolbar[TBTN_SEARCH] = GetDlgItem(m_hwnd, IDC_SEARCH);
-		m_hwndBtnToolbar[TBTN_COPY] = GetDlgItem(m_hwnd, IDC_COPY);
-		m_hwndBtnToolbar[TBTN_EXPORT] = GetDlgItem(m_hwnd, IDC_EXPORT);
-		m_hwndBtnToolbar[TBTN_LOGOPTIONS] = GetDlgItem(m_hwnd, IDC_LOGOPTIONS);
-		m_hwndBtnToolbar[TBTN_FILTER] = GetDlgItem(m_hwnd, IDC_FILTER);
-		m_hwndBtnToolbar[TBTN_DATEPOPUP] = GetDlgItem(m_hwnd, IDC_DATEPOPUP);
-		m_hwndBtnToolbar[TBTN_CLOSE] = GetDlgItem(m_hwnd, IDC_CLOSE);
+		m_hwndBtnToolbar[TBTN_USERINFO] = btnUserInfo.GetHwnd();
+		m_hwndBtnToolbar[TBTN_USERMENU] = btnUserMenu.GetHwnd();
+		m_hwndBtnToolbar[TBTN_MESSAGE] = btnSendMsg.GetHwnd();
+		m_hwndBtnToolbar[TBTN_SEARCH] = btnSearch.GetHwnd();
+		m_hwndBtnToolbar[TBTN_COPY] = btnCopy.GetHwnd();
+		m_hwndBtnToolbar[TBTN_EXPORT] = btnExport.GetHwnd();
+		m_hwndBtnToolbar[TBTN_LOGOPTIONS] = btnOptions.GetHwnd();
+		m_hwndBtnToolbar[TBTN_FILTER] = btnFilter.GetHwnd();
+		m_hwndBtnToolbar[TBTN_DATEPOPUP] = btnCalendar.GetHwnd();
+		m_hwndBtnToolbar[TBTN_CLOSE] = btnClose.GetHwnd();
+
 		m_hwndLog = GetDlgItem(m_hwnd, IDC_ITEMS2);
 		m_hwndBtnCloseSearch = GetDlgItem(m_hwnd, IDC_SEARCHICON);
-		m_hwndBtnFindPrev = GetDlgItem(m_hwnd, IDC_FINDPREV);
-		m_hwndBtnFindNext = GetDlgItem(m_hwnd, IDC_FINDNEXT);
-		m_hwndSearchText = GetDlgItem(m_hwnd, IDC_SEARCHTEXT);
 		m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, NULL, g_plugin.getInst(), NULL);
 		SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
 
@@ -513,68 +542,29 @@ public:
 		ibTotal.hwndTxtOut = GetDlgItem(m_hwnd, IDC_TXT_TOTAL_OUT);
 
 		// Ask for layout
-		Utils_RestoreWindowPosition(m_hwnd, hContact, MODULENAME, "wnd_");
+		Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 		PostMessage(m_hwnd, WM_SIZE, 0, 0);
 
-		SendMessage(GetDlgItem(m_hwnd, IDC_USERINFO), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_MESSAGE), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_USERMENU), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_COPY), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_FILTER), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_DATEPOPUP), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_SEARCH), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_EXPORT), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_CLOSE), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_FINDPREV), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_FINDNEXT), BUTTONSETASFLATBTN, 0, 0);
+		WindowList_Add(hNewstoryWindows, m_hwnd, m_hContact);
 
-		SendMessage(GetDlgItem(m_hwnd, IDC_USERINFO), BUTTONADDTOOLTIP, (WPARAM)Translate("User Info"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_MESSAGE), BUTTONADDTOOLTIP, (WPARAM)Translate("Send Message"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_USERMENU), BUTTONADDTOOLTIP, (WPARAM)Translate("User Menu"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_COPY), BUTTONADDTOOLTIP, (WPARAM)Translate("Copy"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), BUTTONADDTOOLTIP, (WPARAM)Translate("Options"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_FILTER), BUTTONADDTOOLTIP, (WPARAM)Translate("Filter"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_DATEPOPUP), BUTTONADDTOOLTIP, (WPARAM)Translate("Jump2Date"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_SEARCH), BUTTONADDTOOLTIP, (WPARAM)Translate("Search..."), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_EXPORT), BUTTONADDTOOLTIP, (WPARAM)Translate("Export..."), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_CLOSE), BUTTONADDTOOLTIP, (WPARAM)Translate("Close"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_FINDPREV), BUTTONADDTOOLTIP, (WPARAM)Translate("Find Previous"), 0);
-		SendMessage(GetDlgItem(m_hwnd, IDC_FINDNEXT), BUTTONADDTOOLTIP, (WPARAM)Translate("Find Next"), 0);
-
-		WindowList_Add(hNewstoryWindows, m_hwnd, hContact);
-
-		if (hContact && (hContact != INVALID_CONTACT_ID)) {
-			wchar_t *title = TplFormatString(TPL_TITLE, hContact, 0);
+		if (m_hContact && (m_hContact != INVALID_CONTACT_ID)) {
+			wchar_t *title = TplFormatString(TPL_TITLE, m_hContact, 0);
 			SetWindowText(m_hwnd, title);
 			mir_free(title);
 		}
 		else {
-			if (hContact == INVALID_CONTACT_ID)
+			if (m_hContact == INVALID_CONTACT_ID)
 				SetWindowText(m_hwnd, TranslateT("Newstory Search Results"));
 			else
 				SetWindowText(m_hwnd, TranslateT("System Newstory"));
 		}
 
-		if (hContact != INVALID_CONTACT_ID)
-			PostMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), WM_USER, (WPARAM)hContact, 0);
+		if (m_hContact != INVALID_CONTACT_ID)
+			PostMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), WM_USER, (WPARAM)m_hContact, 0);
 
 		SendMessage(m_hwnd, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)g_plugin.getIcon(ICO_NEWSTORY));
 
 		SendMessage(GetDlgItem(m_hwnd, IDC_SEARCHICON), STM_SETICON, (WPARAM)g_plugin.getIcon(ICO_SEARCH), 0);
-
-		SendMessage(GetDlgItem(m_hwnd, IDC_USERINFO), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_USERINFO));
-		SendMessage(GetDlgItem(m_hwnd, IDC_MESSAGE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_SENDMSG));
-		SendMessage(GetDlgItem(m_hwnd, IDC_USERMENU), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_USERMENU));
-		SendMessage(GetDlgItem(m_hwnd, IDC_COPY), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_COPY));
-		SendMessage(GetDlgItem(m_hwnd, IDC_LOGOPTIONS), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_OPTIONS));
-		SendMessage(GetDlgItem(m_hwnd, IDC_FILTER), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_FILTER));
-		SendMessage(GetDlgItem(m_hwnd, IDC_DATEPOPUP), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_CALENDAR));
-		SendMessage(GetDlgItem(m_hwnd, IDC_SEARCH), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_SEARCH));
-		SendMessage(GetDlgItem(m_hwnd, IDC_EXPORT), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_EXPORT));
-		SendMessage(GetDlgItem(m_hwnd, IDC_CLOSE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_CLOSE));
-		SendMessage(GetDlgItem(m_hwnd, IDC_FINDPREV), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_FINDPREV));
-		SendMessage(GetDlgItem(m_hwnd, IDC_FINDNEXT), BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_FINDNEXT));
 
 		SendMessage(ibMessages.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_SENDMSG), 0);
 		SendMessage(ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
@@ -602,9 +592,118 @@ public:
 	{
 		WindowList_Remove(hNewstoryWindows, m_hwnd);
 
-		g_plugin.setDword(hContact, "showFlags", showFlags);
+		g_plugin.setDword(m_hContact, "showFlags", showFlags);
 	
-		Utils_SaveWindowPosition(m_hwnd, hContact, MODULENAME, "wnd_");
+		Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
+	}
+
+	void onClick_Calendar(CCtrlButton *pButton)
+	{
+		RECT rc;
+		GetWindowRect(pButton->GetHwnd(), &rc);
+
+		time_t tm_jump = CalendarTool_Show(m_hwnd, rc.left, rc.bottom);
+		if (tm_jump)
+			PostMessage(m_hwnd, UM_JUMP2TIME, tm_jump, 0);
+	}
+
+	void onClick_Close(CCtrlButton *)
+	{
+		Close();
+	}
+	
+	void onClick_Copy(CCtrlButton *)
+	{
+		SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_COPY, 0, 0);
+	}
+
+	void onClick_Export(CCtrlButton *)
+	{
+		// ExportHistoryDialog(m_hContact, m_hwnd);
+		// DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT), m_hwnd, ExportWndProc);
+	}
+
+	void onClick_Filter(CCtrlButton *)
+	{
+		if (m_dwOptions & WND_OPT_FILTERBAR)
+			m_dwOptions &= ~WND_OPT_FILTERBAR;
+		else
+			m_dwOptions |= WND_OPT_FILTERBAR;
+
+		ShowHideControls();
+		LayoutHistoryWnd();
+	}
+
+	void onClick_FindNext(CCtrlButton *)
+	{
+		SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
+	}
+
+	void onClick_FindPrev(CCtrlButton *)
+	{
+		SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_FINDPREV, ptrW(edtSearchText.GetText()), 0);
+	}
+
+
+	void onClick_Message(CCtrlButton *)
+	{
+		CallService(MS_MSG_SENDMESSAGE, m_hContact, 0);
+	}
+
+	void onClick_Options(CCtrlButton *pButton)
+	{
+		RECT rc;
+		GetWindowRect(pButton->GetHwnd(), &rc);
+
+		switch (TrackPopupMenu(GetSubMenu(m_hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL)) {
+		//	case ID_LOGOPTIONS_SHOWTIMETREE:
+		//		showFlags = toggleBit(showFlags, HIST_TIMETREE);
+		//		CheckMenuItem(GetSubMenu(hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
+		//		showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
+		//		ShowWindow(GetDlgItem(m_hwnd, IDC_TIMETREE), showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
+		//		break;
+
+		case ID_LOGOPTIONS_OPTIONS:
+			g_plugin.openOptions(L"History", L"Newstory" /*, L"General" */);
+			break;
+
+		case ID_LOGOPTIONS_TEMPLATES:
+			g_plugin.openOptions(L"History", L"Newstory" /* , L"Templates" */);
+			break;
+		}
+		PostMessage(m_hwnd, WM_SIZE, 0, 0);
+	}
+
+	void onClick_Search(CCtrlButton *)
+	{
+		if (m_dwOptions & WND_OPT_SEARCHBAR)
+			m_dwOptions &= ~WND_OPT_SEARCHBAR;
+		else
+			m_dwOptions |= WND_OPT_SEARCHBAR;
+
+		ShowHideControls();
+		LayoutHistoryWnd();
+	}
+
+	void onClick_UserInfo(CCtrlButton *)
+	{
+		CallService(MS_USERINFO_SHOWDIALOG, m_hContact, 0);
+	}
+
+	void onClick_UserMenu(CCtrlButton *pButton)
+	{
+		RECT rc;
+		GetWindowRect(pButton->GetHwnd(), &rc);
+	
+		HMENU hMenu = Menu_BuildContactMenu(m_hContact);
+		TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, NULL);
+		DestroyMenu(hMenu);
+	}
+
+	void onChange_SearchText(CCtrlEdit*)
+	{
+		if (showFlags & HIST_AUTO_FILTER)
+			PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -615,7 +714,6 @@ public:
 			return result;
 		}
 
-		RECT rc;
 		switch (msg) {
 		case WM_MEASUREITEM:
 			LPMEASUREITEMSTRUCT lpmis;
@@ -652,82 +750,8 @@ public:
 
 			return TRUE;
 
-		case WM_COMMAND:
-			// if (Menu_ProcessCommand(MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) hContact))
+			// if (Menu_ProcessCommand(MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) m_hContact))
 			//    return TRUE;
-
-			switch (LOWORD(wParam)) {
-			case IDCANCEL:
-			case IDC_CLOSE:
-				SendMessage(m_hwnd, WM_CLOSE, 0, 0);
-				break;
-
-			case IDC_MESSAGE:
-				CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
-				break;
-
-			case IDC_USERINFO:
-				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
-				break;
-
-			case IDC_DATEPOPUP:
-				{
-					GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
-					time_t tm_jump = CalendarTool_Show(m_hwnd, rc.left, rc.bottom);
-					if (tm_jump) PostMessage(m_hwnd, UM_JUMP2TIME, tm_jump, 0);
-				}
-				break;
-
-			case IDC_USERMENU:
-				{
-					HMENU hMenu = Menu_BuildContactMenu(hContact);
-					GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
-					TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, m_hwnd, NULL);
-					DestroyMenu(hMenu);
-					break;
-				}
-
-			case IDC_LOGOPTIONS:
-				GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
-
-				switch (TrackPopupMenu(GetSubMenu(m_hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL)) {
-					//	case ID_LOGOPTIONS_SHOWTIMETREE:
-					//		showFlags = toggleBit(showFlags, HIST_TIMETREE);
-					//		CheckMenuItem(GetSubMenu(hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
-					//		showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
-					//		ShowWindow(GetDlgItem(m_hwnd, IDC_TIMETREE), showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
-					//		break;
-
-				case ID_LOGOPTIONS_OPTIONS:
-					g_plugin.openOptions(L"History", L"Newstory" /*, L"General" */);
-					break;
-
-				case ID_LOGOPTIONS_TEMPLATES:
-					g_plugin.openOptions(L"History", L"Newstory" /* , L"Templates" */);
-					break;
-				}
-				PostMessage(m_hwnd, WM_SIZE, 0, 0);
-				break;
-
-			case IDC_SEARCH:
-				if (m_dwOptions & WND_OPT_SEARCHBAR)
-					m_dwOptions &= ~WND_OPT_SEARCHBAR;
-				else
-					m_dwOptions |= WND_OPT_SEARCHBAR;
-
-				ShowHideControls();
-				LayoutHistoryWnd();
-				break;
-
-			case IDC_FILTER:
-				if (m_dwOptions & WND_OPT_FILTERBAR)
-					m_dwOptions &= ~WND_OPT_FILTERBAR;
-				else
-					m_dwOptions |= WND_OPT_FILTERBAR;
-
-				ShowHideControls();
-				LayoutHistoryWnd();
-				break;
 
 				/*
 				GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
@@ -801,21 +825,6 @@ public:
 					PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
 				break;*/
 
-			case IDC_EXPORT:
-				// ExportHistoryDialog(hContact, m_hwnd);
-				// DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT), m_hwnd, ExportWndProc);
-				break;
-
-			case IDC_SEARCHTEXT:
-				if ((showFlags & HIST_AUTO_FILTER) && (HIWORD(wParam) == EN_CHANGE))
-					PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
-				break;
-
-				// case IDC_EXPORT:
-				//	GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
-				//	TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL);
-				//	break;
-
 				// case IDC_SEARCH:
 				// int id = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SEARCH), 0, SearchDlgProc, (LPARAM)GetDlgItem(m_hwnd, IDC_ITEMS));
 				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
@@ -823,39 +832,12 @@ public:
 				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,eventCount));
 				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
 				// break;
-
-			case IDC_FINDPREV:
-				{
-					int bufSize = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_SEARCHTEXT));
-					wchar_t *buf = new wchar_t[bufSize + 1];
-					GetWindowText(GetDlgItem(m_hwnd, IDC_SEARCHTEXT), buf, bufSize);
-					SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_FINDPREV, (WPARAM)buf, 0);
-					delete[] buf;
-				}
-				break;
-
-			case IDOK:
-			case IDC_FINDNEXT:
-				{
-					int bufSize = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_SEARCHTEXT));
-					wchar_t *buf = new wchar_t[bufSize + 1];
-					GetWindowText(GetDlgItem(m_hwnd, IDC_SEARCHTEXT), buf, bufSize);
-					SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_FINDNEXT, (WPARAM)buf, 0);
-					delete[] buf;
-				}
-				break;
-
-			case IDC_COPY:
-				SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_COPY, 0, 0);
-				break;
-			}
-			return TRUE;
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	void onChanged_TimeTree(CCtrlTreeView::TEventInfo *)
+	void onSelChanged_TimeTree(CCtrlTreeView::TEventInfo *)
 	{
 		if (disableTimeTreeChange) {
 			disableTimeTreeChange = false;
