@@ -75,7 +75,7 @@ int evtModulesLoaded(WPARAM, LPARAM)
 	InitFonts();
 	InitNewstoryControl();
 	InitHistory();
-	InitOptions();
+
 	LoadTemplates();
 
 	CMenuItem mi(&g_plugin);
@@ -102,6 +102,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, svcShowNewstory);
 	CreateServiceFunction("Newstory/System", svcShowSystemNewstory);
 
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
 	return 0;
 }

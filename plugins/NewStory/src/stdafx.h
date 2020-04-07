@@ -62,13 +62,14 @@ Boston, MA 02111-1307, USA.
 #define MODULETITLE "NewStory"
 
 #include "utils.h"
-#include "options.h"
 #include "fonts.h"
 #include "calendartool.h"
 #include "history.h"
 #include "history_array.h"
 #include "history_control.h"
 #include "templates.h"
+
+int OptionsInitialize(WPARAM, LPARAM);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
