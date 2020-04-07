@@ -1,0 +1,254 @@
+#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN protocol
+;  Version: 0.95.11.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
+;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Support du protocole Microsoft Network (MSN) pour Miranda NG.
+;file \protocols\MSN\res\msn.rc
+[Live ID:]
+
+[Password:]
+Passe :
+[Nickname:]
+Pseudo :
+[Create a new Windows Live account]
+
+[Expert]
+Expert
+[Send message font color/size info inside messages]
+Envoyer les infos de couleur/taille dans les messages
+[Disable all contacts not included into my contact list]
+Désactiver tous les contacts non inclus dans ma liste
+[Manage server groups]
+Gestion des groupes sur le serveur
+[Allow people on my contact list send messages to mobile device]
+Autoriser les contacts de ma liste à m'envoyer des messages sur mon portable
+[Run the following application when new Hotmail arrives]
+Lancer l'application suivante quand un Hotmail arrive :
+[Connection settings]
+
+[Direct:]
+
+[Gateway:]
+Passage :
+[Reset]
+RAZ
+[Notify me when a message delivery has failed]
+
+[Incoming file transfers]
+Transferts de fichiers entrant
+[Your host (or router):]
+
+[Server List Manager]
+Gestion de la liste du serveur
+[Contact is on your local list]
+
+[Contact is included into your server list]
+Contact inclus dans ma liste du serveur
+[Allowed (active) contact]
+Contact autorisé
+[Blocked contact]
+Contact bloqué
+[Somebody included you in his/her server list]
+Vous êtes dans la liste de ce contact
+[Refresh]
+Actualiser
+[Enable Popup notifications]
+Activer les notifications par popup
+[Enable Contact List notifications]
+
+[Enable Tray notifications]
+
+[Ignore new messages not in Inbox folder]
+
+[Other]
+Autre
+[Display errors using popups]
+
+[Enable 'Chat Session Established' popup]
+Activer le popup "La connexion au salon est établie"
+[Enable 'Contact left channel' popup]
+Activer le popup "Le contact a quitter le salon"
+[Set Nickname]
+
+[Cancel]
+Annuler
+[Mobile Device (used for SMS)]
+
+[Spouse/Partner]
+
+[Middle Name]
+
+[First Name]
+Prénom
+[Last Name]
+Nom
+[Anniversary]
+
+[Birthday]
+
+[Nickname]
+Pseudo
+[Place:]
+
+[MSN Delete Contact]
+
+[Remove from Hotmail Address book]
+
+[Block Contact]
+
+[Invite Contact To Chat]
+
+[Live ID]
+
+[&Invite]
+&Inviter
+[&Cancel]
+&Annuler
+[Add]
+Ajouter
+;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+
+[User]
+Utilisateur
+[Chat #]
+
+[&Invite user...]
+&Inviter l'utilisateur...
+[&Leave chat session]
+
+[User &details]
+&Détails du contact
+[User &history]
+
+[&Kick user]
+
+[&Op user]
+
+[&Deop user]
+
+;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
+[MSN Alert]
+Alerte MSN
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+Contact non connecté
+;file \protocols\MSN\src\msn_lists.cpp
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+
+[%s protocol]
+%s protocole
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Sujet : %s
+[Hotmail from %s (%S)]
+Hotmail de %s (%S)
+[Hotmail from %s]
+Hotmail de %s
+[Unread mail is available: %d in Inbox and %d in other folders.]
+
+;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+
+[&Block]
+
+[Open &Hotmail Inbox]
+
+[Send &Hotmail E-mail]
+
+[Create &Chat]
+
+[Display &Hotmail Inbox]
+
+[View &Profile]
+
+[Setup Live &Alerts]
+
+;file \protocols\MSN\src\msn_misc.cpp
+[Custom Smileys]
+
+[Notifications]
+Notifications
+[Errors]
+Erreurs
+[MSN Protocol]
+Protocole MSN
+;file \protocols\MSN\src\msn_opts.cpp
+[Protocol icon]
+
+[Hotmail Inbox]
+
+[Profile]
+Profil
+[MSN Services]
+
+[Block user]
+
+[Invite to chat]
+
+[Start Netmeeting]
+
+[Contact list]
+Liste de contacts
+[Allowed list]
+
+[Blocked list]
+
+[Relative list]
+
+[Local list]
+
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+L'importation des groupes du serveur devrait changer l'apparence de votre liste de contacts à la prochaine connexion. Voulez-vous enregistrer vos groupes sur le serveur ?
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Ces changements ne prendront effet qu'à la prochaine connexion au réseau MSN Messenger.
+[MSN options]
+Options MSN
+[Automatically obtain host/port]
+Port et hôte automatique
+[Manually specify host/port]
+Port et hôte manuel
+[Disable]
+
+[IP info available only after login]
+
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+
+[Network]
+Réseau
+[Account]
+Compte
+[Connection]
+
+[Server list]
+Liste côté serveur
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+
+[Live Alert]
+
+[%s plugin connections]
+
+[Contact already in your contact list]
+
+[Protocol is offline]
+
+[You cannot send message to yourself]
+Vous ne pouvez vous envoyer de message à vous-même
+[Message is too long: SMS page limited to 133 UTF8 chars]
+Message trop long : les SMS sont limités à 133 caractères UTF-8
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Message trop long : MSN les limite à 1202 caractères en UTF8
+[Offline messaging is not allowed for LCS contacts]
+
+;file \protocols\MSN\src\msn_svcs.cpp
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+
+[Convert to Chat]
+

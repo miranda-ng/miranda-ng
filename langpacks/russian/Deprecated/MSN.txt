@@ -1,0 +1,254 @@
+#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN protocol
+;  Version: 0.95.11.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
+;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Поддержка протокола Microsoft Network (MSN) в Miranda NG.
+;file \protocols\MSN\res\msn.rc
+[Live ID:]
+Live ID:
+[Password:]
+Пароль:
+[Nickname:]
+Ник:
+[Create a new Windows Live account]
+Создать новую учётную запись Windows Live
+[Expert]
+Эксперт
+[Send message font color/size info inside messages]
+Отправлять информацию о шрифте/цвете в сообщении
+[Disable all contacts not included into my contact list]
+Отключить все контакты не в списке контактов
+[Manage server groups]
+Управлять группами на сервере
+[Allow people on my contact list send messages to mobile device]
+Разрешить контактам из списка отправлять сообщения на мобильный телефон
+[Run the following application when new Hotmail arrives]
+Запустить приложение при появлении новой почты
+[Connection settings]
+Настройки подключения
+[Direct:]
+Сервер:
+[Gateway:]
+Шлюз:
+[Reset]
+Сброс
+[Notify me when a message delivery has failed]
+Уведомлять о неудачной доставке сообщений
+[Incoming file transfers]
+Приём файлов
+[Your host (or router):]
+Ваш хост (или роутер):
+[Server List Manager]
+Управление списком на сервере
+[Contact is on your local list]
+Контакт в вашем локальном списке
+[Contact is included into your server list]
+Контакт в вашем списке на сервере
+[Allowed (active) contact]
+Разрешённый контакт
+[Blocked contact]
+Блокированный
+[Somebody included you in his/her server list]
+Вы в списке контакта на сервере
+[Refresh]
+Обновить
+[Enable Popup notifications]
+Включить уведомления всплывающими окнами
+[Enable Contact List notifications]
+Включить уведомления в списке контактов
+[Enable Tray notifications]
+Включить уведомления в трее
+[Ignore new messages not in Inbox folder]
+Игнорировать новые письма не из "Входящих"
+[Other]
+Другое
+[Display errors using popups]
+Показывать ошибки в окнах
+[Enable 'Chat Session Established' popup]
+Всплывающее окно 'Чат сессия установлена'
+[Enable 'Contact left channel' popup]
+Всплывающее окно 'Контакт покинул канал'
+[Set Nickname]
+Ввод ника
+[Cancel]
+Отмена
+[Mobile Device (used for SMS)]
+Мобильное устройство (SMS)
+[Spouse/Partner]
+Супруг(а)/Партнёр
+[Middle Name]
+Отчество
+[First Name]
+Имя
+[Last Name]
+Фамилия
+[Anniversary]
+Праздник
+[Birthday]
+День рождения
+[Nickname]
+Ник
+[Place:]
+Место:
+[MSN Delete Contact]
+Удаление MSN-контакта
+[Remove from Hotmail Address book]
+Удалить из адресной книги Hotmail
+[Block Contact]
+Заблокировать
+[Invite Contact To Chat]
+Пригласить контакт в чат
+[Live ID]
+Live ID
+[&Invite]
+&Пригласить
+[&Cancel]
+О&тмена
+[Add]
+Добавить
+;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+Админ
+[User]
+Пользователь
+[Chat #]
+Чат #
+[&Invite user...]
+П&ригласить пользователя...
+[&Leave chat session]
+&Покинуть чат
+[User &details]
+&Информация
+[User &history]
+&История пользователя
+[&Kick user]
+&Выкинуть пользователя
+[&Op user]
+&Сделать пользователя админом
+[&Deop user]
+&Снять с пользователя админ права
+;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+%I64u байт(а)
+[MSN Alert]
+MSN уведомление
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+Пользователь не в сети
+;file \protocols\MSN\src\msn_lists.cpp
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+Контакт %s был удалён с сервера.\nХотите ли вы оставить его в локальном списке, чтобы сохранить историю?
+[%s protocol]
+Протокол %s
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Тема: %s
+[Hotmail from %s (%S)]
+Почта от %s (%S)
+[Hotmail from %s]
+Почта Hotmail от %s
+[Unread mail is available: %d in Inbox and %d in other folders.]
+Имеется непрочитанная почта: %d входящих писем и %d в других папках.
+;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+&Разблокировать
+[&Block]
+&Блокировать
+[Open &Hotmail Inbox]
+Открыть ящик &Hotmail
+[Send &Hotmail E-mail]
+Отправить почту &Hotmail
+[Create &Chat]
+Создать &чат
+[Display &Hotmail Inbox]
+Показать ящик &Hotmail
+[View &Profile]
+Просмотреть &профиль
+[Setup Live &Alerts]
+Настройки Live &Alerts
+;file \protocols\MSN\src\msn_misc.cpp
+[Custom Smileys]
+Смайлы
+[Notifications]
+Уведомления
+[Errors]
+Ошибки
+[MSN Protocol]
+Протокол MSN
+;file \protocols\MSN\src\msn_opts.cpp
+[Protocol icon]
+Значок протокола
+[Hotmail Inbox]
+Входящие Hotmail
+[Profile]
+Профиль
+[MSN Services]
+Службы MSN
+[Block user]
+Заблокировать
+[Invite to chat]
+Пригласить в чат
+[Start Netmeeting]
+Запустить Netmeeting
+[Contact list]
+Список контактов
+[Allowed list]
+Список разрешённых
+[Blocked list]
+Список заблокированных
+[Relative list]
+Список "вы в списке"
+[Local list]
+Локальный список
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Импорт групп с сервера может изменить расположение контактов после следующего входа. Загрузить группы на сервер?
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Эти изменения вступят в силу при следующем подключении к сети MSN Messenger.
+[MSN options]
+Настройки MSN
+[Automatically obtain host/port]
+Автоматически получать хост/порт
+[Manually specify host/port]
+Указывать хост/порт
+[Disable]
+Выключить
+[IP info available only after login]
+Информация о IP доступна после входа
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+Протокол MSN требует таймаута отправки сообщения не менее 60 секунд. Исправьте настройки.
+[Network]
+Сеть
+[Account]
+Учётная запись
+[Connection]
+Подключение
+[Server list]
+Список на сервере
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+Почта
+[Live Alert]
+Уведомление
+[%s plugin connections]
+%s подключение к серверу
+[Contact already in your contact list]
+Контакт уже в вашем списке контактов
+[Protocol is offline]
+Протокол не в сети
+[You cannot send message to yourself]
+Вы не можете отправлять сообщения самому себе
+[Message is too long: SMS page limited to 133 UTF-8 chars]
+Слишком большое сообщение: максимум 133 символа UTF-8
+[Message is too long: MSN messages are limited by 1202 UTF-8 chars]
+Слишком большое сообщение: максимум 1202 символа UTF-8
+[Offline messaging is not allowed for LCS contacts]
+Сообщения отключённым LCS контактам невозможны
+;file \protocols\MSN\src\msn_svcs.cpp
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+Для сети MSN таймаут отправления сообщения должен быть не менее, чем 60 секунд. Пожалуйста, настройте свой плагин сообщений.
+[Convert to Chat]
+Конвертировать в чат

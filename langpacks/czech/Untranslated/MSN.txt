@@ -1,6 +1,0 @@
-[Enable Contact List notifications]
-[Enable Tray notifications]
-[&Kick user]
-[&Op user]
-[&Deop user]
-[%I64u bytes]

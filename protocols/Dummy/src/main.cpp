@@ -112,3 +112,12 @@ struct CMPluginWhatsapp : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 static g_pluginWhatsapp;
+
+struct CMPluginMsn : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginMsn() : ACCPROTOPLUGIN<CDummyProto>("MSN", pluginInfoEx)
+	{
+		SetUniqueId("wlid");
+	}
+}
+static g_pluginMsn;

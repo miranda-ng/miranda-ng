@@ -100,9 +100,9 @@ const
   PFLAGNUM_2     = 2;          // the status modes that the protocol supports
   PF2_ONLINE     = $00000001; // an unadorned online mode
   PF2_INVISIBLE  = $00000002;
-  PF2_SHORTAWAY  = $00000004; // Away on ICQ, BRB on MSN
-  PF2_LONGAWAY   = $00000008; // NA on ICQ, Away on MSN
-  PF2_LIGHTDND   = $00000010; // Occupied on ICQ, Busy on MSN
+  PF2_SHORTAWAY  = $00000004; // Away on ICQ
+  PF2_LONGAWAY   = $00000008; // NA on ICQ
+  PF2_LIGHTDND   = $00000010; // Occupied on ICQ
   PF2_HEAVYDND   = $00000020; // DND on ICQ
   PF2_FREECHAT   = $00000040;
   PF2_IDLE       = $00000200; //added during 0.3.4 (2004/09/13)

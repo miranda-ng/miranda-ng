@@ -1,0 +1,254 @@
+#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN protocol
+;  Version: 0.95.11.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
+;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Microsoft Netzwerk (MSN) Protokollunterstützung für Miranda NG.
+;file \protocols\MSN\res\msn.rc
+[Live ID:]
+Live-ID:
+[Password:]
+Passwort:
+[Nickname:]
+Nick:
+[Create a new Windows Live account]
+Ein neues Windows-Live-Konto erstellen
+[Expert]
+Experte
+[Send message font color/size info inside messages]
+Farbe und Größe der Nachrichtenschrift senden
+[Disable all contacts not included into my contact list]
+Alle Kontakte deaktivieren, die nicht in meiner Kontaktliste sind
+[Manage server groups]
+Serverseitige Gruppen verwalten
+[Allow people on my contact list send messages to mobile device]
+Kontakte auf meiner Kontaktliste dürfen Nachrichten auf mein mobiles Gerät senden
+[Run the following application when new Hotmail arrives]
+Führe folgendes Programm aus, sobald eine neue Hotmail eintrifft:
+[Connection settings]
+Verbindungseinstellungen
+[Direct:]
+Direkt:
+[Gateway:]
+Gateway:
+[Reset]
+Standard
+[Notify me when a message delivery has failed]
+Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
+[Incoming file transfers]
+Eingehende Dateiübertragungen
+[Your host (or router):]
+Ihr Host (oder Router):
+[Server List Manager]
+Serverliste verwalten
+[Contact is on your local list]
+Kontakt ist in Ihrer lokalen Liste
+[Contact is included into your server list]
+Kontakt ist in Ihrer Serverliste enthalten
+[Allowed (active) contact]
+Erlaubter Kontakt
+[Blocked contact]
+Blockierter Kontakt
+[Somebody included you in his/her server list]
+Jemand führt Sie in seiner/ihrer Serverliste
+[Refresh]
+Aktualisieren
+[Enable Popup notifications]
+Popup-Benachrichtigungen aktivieren
+[Enable Contact List notifications]
+Kontaktlisten-Benachrichtigungen aktivieren
+[Enable Tray notifications]
+Tray-Benachrichtigungen aktivieren
+[Ignore new messages not in Inbox folder]
+Neue Nachrichten außerhalb des Posteingangs ignorieren
+[Other]
+Sonstige
+[Display errors using popups]
+Fehler durch Popups anzeigen
+[Enable 'Chat Session Established' popup]
+Popup 'Chatsitzung eingeleitet' aktivieren
+[Enable 'Contact left channel' popup]
+Popup 'Benutzer hat Channel verlassen' aktivieren
+[Set Nickname]
+Nickname setzen
+[Cancel]
+Abbrechen
+[Mobile Device (used for SMS)]
+Mobiles Gerät (für SMS verwendet)
+[Spouse/Partner]
+Ehegatte/Partner
+[Middle Name]
+Zweiter Name
+[First Name]
+Vorname
+[Last Name]
+Nachname
+[Anniversary]
+Jahrestag
+[Birthday]
+Geburtstag
+[Nickname]
+Nickname
+[Place:]
+Ort:
+[MSN Delete Contact]
+MSN-Kontakt löschen
+[Remove from Hotmail Address book]
+Aus Hotmail-Adressbuch entfernen
+[Block Contact]
+Kontakt blockieren
+[Invite Contact To Chat]
+Kontakt zu Chat einladen
+[Live ID]
+Live-ID
+[&Invite]
+E&inladen
+[&Cancel]
+Abbre&chen
+[Add]
+Hinzufügen
+;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+Administrator
+[User]
+Benutzer
+[Chat #]
+Chat #
+[&Invite user...]
+Kontakt e&inladen...
+[&Leave chat session]
+Chat ver&lassen
+[User &details]
+Kontaktprofil
+[User &history]
+Kontakt&verlauf
+[&Kick user]
+Benutzer &kicken
+[&Op user]
+Benutzer &Op geben
+[&Deop user]
+Benutzer Op &entziehen
+;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+%I64u Bytes
+[MSN Alert]
+MSN Alert
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+Benutzer nicht online
+;file \protocols\MSN\src\msn_lists.cpp
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+Kontakt %s wurde vom Server entfernt.\nWollen Sie den Kontakt lokal behalten, um den Verlauf zu erhalten?
+[%s protocol]
+%s-Protokoll
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Betreff: %s
+[Hotmail from %s (%S)]
+Hotmail von %s (%S)
+[Hotmail from %s]
+Hotmail von %s
+[Unread mail is available: %d in Inbox and %d in other folders.]
+Ungelesene E-Mails sind verfügbar: %d im Posteingang und %d in anderen Verzeichnissen.
+;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+Blockieren a&ufheben
+[&Block]
+&Blockieren
+[Open &Hotmail Inbox]
+&Hotmail-Posteingang öffnen
+[Send &Hotmail E-mail]
+&Hotmail E-Mail senden
+[Create &Chat]
+&Chat erstellen
+[Display &Hotmail Inbox]
+&Hotmail-Posteingang anzeigen
+[View &Profile]
+&Profil ansehen
+[Setup Live &Alerts]
+Live &Alerts einstellen
+;file \protocols\MSN\src\msn_misc.cpp
+[Custom Smileys]
+Custom Smileys
+[Notifications]
+Benachrichtigungen
+[Errors]
+Fehler
+[MSN Protocol]
+MSN-Protokoll
+;file \protocols\MSN\src\msn_opts.cpp
+[Protocol icon]
+Protokollicon
+[Hotmail Inbox]
+Hotmail-Posteingang
+[Profile]
+Profil
+[MSN Services]
+MSN-Dienste
+[Block user]
+Blockiere Benutzer
+[Invite to chat]
+Zum Chat einladen
+[Start Netmeeting]
+Netmeeting starten
+[Contact list]
+Kontaktliste
+[Allowed list]
+Erlaubte Liste
+[Blocked list]
+Blockierliste
+[Relative list]
+Verwandte Liste
+[Local list]
+Lokale Liste
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Der Import von serverseitigen Gruppen wird Ihre Kontaktliste verändern. Wollen Sie Ihre Gruppen an den Server übermitteln?
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Die Änderungen werden erst nach einer Neueinwahl ins MSN-Netzwerk aktiv.
+[MSN options]
+MSN-Einstellungen
+[Automatically obtain host/port]
+Host/Port automatisch ermitteln
+[Manually specify host/port]
+Host/Port manuell angeben
+[Disable]
+Deaktivieren
+[IP info available only after login]
+IP-Info ist nur nach Login verfügbar
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+Das MSN-Protokoll benötigt ein Nachrichtentimeout kleiner als 60 Sek. Korrigieren Sie das Timeout.
+[Network]
+Netzwerk
+[Account]
+Konto
+[Connection]
+Verbindung
+[Server list]
+Serverliste
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+Live Mail
+[Live Alert]
+Live Alert
+[%s plugin connections]
+%s Pluginverbindungen
+[Contact already in your contact list]
+Der Kontakt ist bereits in Ihrer Kontaktliste
+[Protocol is offline]
+Protokoll ist offline
+[You cannot send message to yourself]
+Sie können keine Nachricht zu sich selbst schicken!
+[Message is too long: SMS page limited to 133 UTF8 chars]
+Die Nachricht ist zu lang: Die SMS-Seite ist begrenzt auf 133 UTF8-Zeichen!
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Nachricht ist zu lang: MSN-Nachrichten dürfen maximal 1202 UTF8-Zeichen lang sein.
+[Offline messaging is not allowed for LCS contacts]
+Offline-Nachrichten sind nicht für LCS-Kontakte erlaubt!
+;file \protocols\MSN\src\msn_svcs.cpp
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+MSN benötigt ein Timeout von weniger als 60 Sekunden in Ihrem Nachrichtenfensterplugin. Bitte korrigieren Sie das Timeout.
+[Convert to Chat]
+In Chat umwandeln

@@ -63,7 +63,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="MinecraftDynmap.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_MinecraftDynmap.dll")
 	if /I "%%a"=="MirLua.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Scripts\*.dll" "Libs\lua*.dll")
 	if /I "%%a"=="mRadio.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_mRadio.dll" "Plugins\BASS\*.dll")
-	if /I "%%a"=="MSN.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_MSN.dll")
 	if /I "%%a"=="NewsAggregator.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_NewsAggregator.dll")
 	if /I "%%a"=="NotifyAnything.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "SendLog*.exe")
 	if /I "%%a"=="Nudge.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Sounds\nudge.wav")

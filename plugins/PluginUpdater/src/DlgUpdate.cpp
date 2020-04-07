@@ -569,6 +569,7 @@ static renameTable[] =
 	{ L"metacontacts.dll",               nullptr },
 	{ L"mra.dll",                        nullptr },
 	{ L"modernopt.dll",                  nullptr },
+	{ L"msn.dll",                        nullptr },
 	{ L"msvcp100.dll",                   nullptr },
 	{ L"msvcr100.dll",                   nullptr },
 	{ L"mtextcontrol.dll",               nullptr },

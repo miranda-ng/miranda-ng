@@ -1,0 +1,254 @@
+#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN protocol
+;  Version: 0.95.11.1
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
+;============================================================
+[Microsoft Network (MSN) protocol support for Miranda NG.]
+Microsoft Network (MSN) protokol pro Mirandu NG.
+;file \protocols\MSN\res\msn.rc
+[Live ID:]
+Identifikátor:
+[Password:]
+Heslo:
+[Nickname:]
+Přezdívka:
+[Create a new Windows Live account]
+Zřídit nový účet v síti Windows Live
+[Expert]
+Pokročilé
+[Send message font color/size info inside messages]
+Ke zprávě přidat informaci o barvě a velikosti písma
+[Disable all contacts not included into my contact list]
+Vypnout všechny kontakty neuvedené v aktuálním seznamu
+[Manage server groups]
+Zapnout správu skupin na serveru
+[Allow people on my contact list send messages to mobile device]
+Lidem ze seznamu kontaktů povolit posílání zpráv na mobil
+[Run the following application when new Hotmail arrives]
+Spustit vybranou aplikaci (po příchodu nové pošty)
+[Connection settings]
+Možnosti připojení
+[Direct:]
+Přímé:
+[Gateway:]
+Brána:
+[Reset]
+Reset
+[Notify me when a message delivery has failed]
+Upozornit při nedoručení odeslané zprávy
+[Incoming file transfers]
+Přenos příchozích souborů
+[Your host (or router):]
+Počítač (nebo brána):
+[Server List Manager]
+Správa kontaktů na serveru
+[Contact is on your local list]
+Kontakt je ve vašem lokálním seznamu
+[Contact is included into your server list]
+Kontakt je umístěn v seznamu na serveru
+[Allowed (active) contact]
+Povolený kontakt
+[Blocked contact]
+Zablokovaný kontakt
+[Somebody included you in his/her server list]
+Kontakt vás má umístěn ve svém seznamu na serveru
+[Refresh]
+Aktualizovat
+[Enable Popup notifications]
+Povolit oznámení
+[Enable Contact List notifications]
+
+[Enable Tray notifications]
+
+[Ignore new messages not in Inbox folder]
+Ignorovat nové zprávy z jiné složky než Doručená pošta
+[Other]
+Ostatní
+[Display errors using popups]
+Zobrazit chybová hlášení jako oznámení
+[Enable 'Chat Session Established' popup]
+Zapnout oznámení typu 'Spojení navázáno'
+[Enable 'Contact left channel' popup]
+Zapnout oznámení typu 'Odchod z kanálu'
+[Set Nickname]
+Nastavit přezdívku
+[Cancel]
+Zrušit
+[Mobile Device (used for SMS)]
+Mobilní zařízení (použito pro SMS)
+[Spouse/Partner]
+Manžel(ka)/Partner
+[Middle Name]
+Prostřední jméno
+[First Name]
+Jméno
+[Last Name]
+Příjmení
+[Anniversary]
+Výročí
+[Birthday]
+Narozeniny
+[Nickname]
+Přezdívka
+[Place:]
+Místo:
+[MSN Delete Contact]
+Smazat kontakt (MSN)
+[Remove from Hotmail Address book]
+Odebrat z adresáře Hotmail
+[Block Contact]
+Zablokovat kontakt
+[Invite Contact To Chat]
+Pozvat k diskusi
+[Live ID]
+Identifikátor
+[&Invite]
+&Pozvat
+[&Cancel]
+&Zrušit
+[Add]
+Přidat
+;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+Admin
+[User]
+Uživatel
+[Chat #]
+Diskuse č.
+[&Invite user...]
+Pozvat k d&iskusi...
+[&Leave chat session]
+&Opustit diskusi
+[User &details]
+&Detaily uživatele
+[User &history]
+Zobrazit &historii
+[&Kick user]
+
+[&Op user]
+
+[&Deop user]
+
+;file \protocols\MSN\src\msn_commands.cpp
+[%I64u bytes]
+
+[MSN Alert]
+Upozornění MSN
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+Uživatel není online
+;file \protocols\MSN\src\msn_lists.cpp
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+Kontakt %s byl odebrán ze serveru.\nPřejete si kontakt ponechat uložený lokálně pro zachování historie?
+[%s protocol]
+%s protokol
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Předmět: %s
+[Hotmail from %s (%S)]
+Zpráva od %s (%S)
+[Hotmail from %s]
+Zpráva od: %s
+[Unread mail is available: %d in Inbox and %d in other folders.]
+Máte neprečtenou poštu. Příchozí: %d, ostatní: %d.
+;file \protocols\MSN\src\msn_menu.cpp
+[&Unblock]
+Od&blokovat
+[&Block]
+Za&blokovat
+[Open &Hotmail Inbox]
+Přečíst poštu &Hotmail
+[Send &Hotmail E-mail]
+E-mail přes &Hotmail
+[Create &Chat]
+Začít &diskusi
+[Display &Hotmail Inbox]
+Přečíst poštu &Hotmail
+[View &Profile]
+Zobrazit profil
+[Setup Live &Alerts]
+N&astavit upozornění
+;file \protocols\MSN\src\msn_misc.cpp
+[Custom Smileys]
+Vlastní smajlíky
+[Notifications]
+Upozornění
+[Errors]
+Chyby
+[MSN Protocol]
+Protokol MSN
+;file \protocols\MSN\src\msn_opts.cpp
+[Protocol icon]
+Ikona protokolu
+[Hotmail Inbox]
+Schránka Hotmail
+[Profile]
+Profil
+[MSN Services]
+Služby MSN
+[Block user]
+Zablokovat uživatele
+[Invite to chat]
+Pozvat k diskusi
+[Start Netmeeting]
+Spustit Netmeeting
+[Contact list]
+Seznam kontaktů
+[Allowed list]
+Seznam povolených
+[Blocked list]
+Seznam zablokovaných
+[Relative list]
+Seznam protistrany
+[Local list]
+Lokální seznam
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Import skupin ze serveru může při příštím přihlášení ovlivnit seznam\nkontaktů. Opravdu chcete zapnout správu skupin na serveru?
+[These changes will take effect the next time you connect to the MSN Messenger network.]
+Provedené změny se projeví až při dalším připojení k síti MSN Messenger.
+[MSN options]
+MSN - možnosti
+[Automatically obtain host/port]
+Automaticky zjistit kombinaci hostitel/port
+[Manually specify host/port]
+Ručně zadat kombinaci hostitel/port
+[Disable]
+Vypnout
+[IP info available only after login]
+Informace o IP jsou dostupné až po přihlášení
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+MSN protokol vyžaduje časový interval pro odeslání zprávy 60 sek. a vyšší. Opravte nastavenou hodnotu.
+[Network]
+Sítě
+[Account]
+Účet
+[Connection]
+Spojení
+[Server list]
+Seznamy
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+Nová pošta (Live)
+[Live Alert]
+Upozornění (Live)
+[%s plugin connections]
+%s - spojení se serverem
+[Contact already in your contact list]
+Kontakt je již ve vašem seznamu
+[Protocol is offline]
+Protokol je offline
+[You cannot send message to yourself]
+Nemůžete poslat zprávu sami sobě.
+[Message is too long: SMS page limited to 133 UTF8 chars]
+Příliš dlouhá zpráva: Max. počet znaků je 133 (s diakritikou)
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Zpráva je příliš dlouhá. Protokol MSN umožňuje napsat max. 1202 znaků (v kódování UTF8).
+[Offline messaging is not allowed for LCS contacts]
+Pro LCS kontakty není umožněna offline komunikace
+;file \protocols\MSN\src\msn_svcs.cpp
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+MSN protokol vyžaduje časový interval pro odeslání zprávy 60 sek. a vyšší. Opravte prosím nastavenou hodnotu.
+[Convert to Chat]
+Převést na chat

@@ -35,7 +35,7 @@ typedef struct
     const char* Protocolname;   //protocol to use... if you have defined a protocol, u can 
                                 //use your own protocol name. SmileyAdd will automatically 
                                 //select the smileypack that is defined for your protocol.
-                                //Or, use "Standard" for standard smiley set. Or "ICQ", "MSN"
+                                //Or, use "Standard" for standard smiley set. Or "ICQ" 
                                 //if you prefer those icons. 
                                 //If not found or NULL, "Standard" will be used
     unsigned flags;             //Flags (SAFLRE_*) that define the behaivior
@@ -56,8 +56,8 @@ typedef struct
     char* Protocolname;         //protocol to use... if you have defined a protocol, you can 
                                 //use your own protocol name. Smiley add will automatically 
                                 //select the smileypack that is defined for your protocol.
-                                //Or, use "Standard" for standard smiley set. Or "ICQ", "MSN"
-                                //if you prefer those icons. 
+                                //Or, use "Standard" for standard smiley set. Or "ICQ"
+                                //if you prefer those icons.
                                 //If not found or NULL: "Standard" will be used
     int xPosition;              //Postition to place the selectwindow
     int yPosition;              // "
@@ -120,7 +120,7 @@ typedef struct
     const char* Protocolname;   //protocol to use... if you have defined a protocol, u can 
                                 //use your own protocol name. Smiley add wil automatically 
                                 //select the smileypack that is defined for your protocol.
-                                //Or, use "Standard" for standard smiley set. Or "ICQ", "MSN"
+                                //Or, use "Standard" for standard smiley set. Or "ICQ"
                                 //if you prefer those icons. 
                                 //If not found or NULL: "Standard" will be used
     union {

@@ -181,7 +181,6 @@ END
 IDI_NUDGE               ICON                    "Nudge.ico"
 IDI_NUGDE_YAHOO         ICON                    "NudgeYahoo.ico"
 IDI_NUDGE_IRC           ICON                    "NudgeIRC.ico"
-IDI_NUDGE_MSN           ICON                    "NudgeMSN.ico"
 IDI_NUDGE_META          ICON                    "NudgeMeta.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

@@ -178,7 +178,7 @@ type
                            // u can use your own protocol name. Smiley add will
                            // automatically select the smileypack that is
                            // defined for your protocol. Or, use "Standard" for
-                           // standard smiley set. Or "ICQ", "MSN" if you
+                           // standard smiley set. Or "ICQ" if you
                            // prefer those icons. If not found or NULL:
                            // "Standard" will be used
     xPosition    : int;    // Postition to place the selectwindow

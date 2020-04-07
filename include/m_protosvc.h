@@ -90,9 +90,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define PF2_ONLINE        0x00000001 // an unadorned online mode
 #define PF2_INVISIBLE     0x00000002
-#define PF2_SHORTAWAY     0x00000004 // Away on ICQ, BRB on MSN
-#define PF2_LONGAWAY      0x00000008 // NA on ICQ, Away on MSN
-#define PF2_LIGHTDND      0x00000010 // Occupied on ICQ, Busy on MSN
+#define PF2_SHORTAWAY     0x00000004 // Away on ICQ
+#define PF2_LONGAWAY      0x00000008 // NA on ICQ
+#define PF2_LIGHTDND      0x00000010 // Occupied on ICQ
 #define PF2_HEAVYDND      0x00000020 // DND on ICQ
 #define PF2_FREECHAT      0x00000040
 #define PF2_IDLE          0x00000200

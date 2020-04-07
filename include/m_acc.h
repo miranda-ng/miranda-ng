@@ -37,7 +37,7 @@ Boston, MA 02111-1307, USA.
 // a previous call of AVATAR_SETCONTACT.
 // wParam = not used
 // lParam = (char *) protcol name
-// Usage: SendMessage(hwnd, AVATAR_SETPROTOCOL, 0, (LPARAM) "MSN");
+// Usage: SendMessage(hwnd, AVATAR_SETPROTOCOL, 0, (LPARAM) "ICQ");
 // Only works on AVATAR_CONTROL_CLASS controls
 #define AVATAR_SETPROTOCOL						(WM_USER+2)
 

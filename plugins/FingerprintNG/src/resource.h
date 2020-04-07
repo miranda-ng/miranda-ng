@@ -59,7 +59,6 @@
 #define IDI_IRC_OVERLAY                 82
 #define IDI_JABBER_OVERLAY              83
 #define IDI_JGTALK_OVERLAY              84
-#define IDI_MSN_OVERLAY                 86
 #define IDI_VK_OVERLAY                  90
 #define IDI_SKYPE_OVERLAY               91
 #define IDI_SECUREIM_OVERLAY            95
@@ -380,16 +379,6 @@
 #define IDI_GG9_OVERLAY                 726
 #define IDI_GG10_OVERLAY                727
 #define IDI_GG11_OVERLAY                728
-#define IDI_AMSN                        741
-#define IDI_MSN_MAC                     742
-#define IDI_MSN_45                      743
-#define IDI_MSN_6                       744
-#define IDI_MSN_7                       745
-#define IDI_MSN_8                       746
-#define IDI_MSN                         747
-#define IDI_WEBMESSENGER                748
-#define IDI_WLM_9                       749
-#define IDI_WLM_10                      750
 #define IDI_ATOM1                       761
 #define IDI_ATOM3                       762
 #define IDI_RSS09                       763
@@ -523,7 +512,6 @@
 #define IDC_GROUP_ICQ                   10032
 #define IDC_GROUP_IRC                   10033
 #define IDC_GROUP_JABBER                10034
-#define IDC_GROUP_MSN                   10035
 #define IDC_GROUP_RSS                   10038
 #define IDC_GROUP_WEATHER               10040
 #define IDC_GROUP_FACEBOOK              10042

@@ -1,6 +1,0 @@
-[Live ID:]
-[Live ID]
-[&Kick user]
-[&Op user]
-[&Deop user]
-[%I64u bytes]

@@ -475,21 +475,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_IRCUnknown", L"*IRC*", L"Unknown IRC client", IDI_IRC, IRC_CASE, TRUE },
 
 	//#########################################################################################################################################################################
-	//#################################   MSN   ###############################################################################################################################
-	//#########################################################################################################################################################################
-	{ "client_WLM11", L"WLM*2011*", L"Windows Live 11", IDI_WLM_10, MSN_CASE, TRUE },
-	{ "client_WLM10", L"WLM*2010*", L"Windows Live 10", IDI_WLM_10, MSN_CASE, TRUE },
-	{ "client_WLM9", L"WLM*9*", L"Windows Live v9.x", IDI_WLM_9, MSN_CASE, TRUE },
-	{ "client_MSN8", L"|WLM*8.*|MSN*8.*", L"Windows Live v8.x", IDI_MSN_8, MSN_CASE, TRUE },
-	{ "client_MSN7x", L"MSN*7.*", L"MSN Messenger v7.x", IDI_MSN_7, MSN_CASE, TRUE },
-	{ "client_MSN6x", L"MSN*6.*", L"MSN Messenger v6.x", IDI_MSN_6, MSN_CASE, TRUE },
-	{ "client_MSN45", L"MSN*4.x-5.x", L"MSN Messenger v4.x-5.x", IDI_MSN_45, MSN_CASE, TRUE },
-	{ "client_MSN4Mac", L"MSN*Mac*", L"MSN for Mac", IDI_MSN_MAC, MSN_CASE, TRUE },
-	{ "client_aMSN", L"*aMSN*", L"aMSN", IDI_AMSN, MSN_CASE, TRUE },
-	{ "client_MSN_Web", L"WebMessenger*", L"WebMessenger", IDI_WEBMESSENGER, MSN_CASE, TRUE },
-	{ "client_MSN", L"|WLM*|MSN*|Windows Live*", L"MSN", IDI_MSN, MSN_CASE, TRUE },
-
-	//#########################################################################################################################################################################
 	//#################################   WEATHER   ###########################################################################################################################
 	//#########################################################################################################################################################################
 	{ "client_accu", L"*accuweather*", L"AccuWeather", IDI_ACCU, WEATHER_CASE, TRUE },
@@ -628,7 +613,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_JGmail_overlay", L"*JGmail*", LPGENW("JGmail overlay"), IDI_GMAIL_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGTalk_overlay", L"*JGTalk*", LPGENW("JGTalk overlay"), IDI_JGTALK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Jabber_overlay", L"|^jabber*|Miranda*Jabber*|py*jabb*", LPGENW("Jabber overlay"), IDI_JABBER_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_MSN_overlay", L"|^MSN*|*Miranda*MSN*", LPGENW("MSN overlay"), IDI_MSN_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_VK_overlay", L"|Miranda*VKontakte*", LPGENW("VK overlay"), IDI_VK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Skype_overlay", L"|Miranda*Skype*", LPGENW("Skype overlay"), IDI_SKYPE_OVERLAY, OVERLAYS_PROTO_CASE },
 
