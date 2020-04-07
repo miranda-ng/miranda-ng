@@ -2225,6 +2225,80 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
+{
+	wchar_t szName[CONTAINER_NAMELEN + 1];
+	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
+
+	bool bAllowAutoCreate = false;
+	bool bAutoCreate = M.GetBool("autotabs", true);
+	bool bAutoPopup = M.GetBool(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
+	bool bAutoContainer = M.GetBool("autocontainer", true);
+
+	DWORD dwStatusMask = M.GetDword("autopopupmask", -1);
+	if (dwStatusMask == -1)
+		bAllowAutoCreate = true;
+	else {
+		char *szProto = Proto_GetBaseAccountName(hContact);
+		if (szProto && !mir_strcmp(szProto, META_PROTO))
+			szProto = Proto_GetBaseAccountName(db_mc_getSrmmSub(hContact));
+
+		if (szProto) {
+			int dwStatus = Proto_GetStatus(szProto);
+			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & dwStatusMask))           // should never happen, but...
+				bAllowAutoCreate = true;
+		}
+	}
+
+	if (bAllowAutoCreate && (bAutoPopup || bAutoCreate)) {
+		if (bAutoPopup) {
+			TContainerData *pContainer = FindContainerByName(szName);
+			if (pContainer == nullptr)
+				pContainer = CreateContainer(szName, 0, hContact);
+			if (pContainer)
+				CreateNewTabForContact(pContainer, hContact, true, true, false);
+			return;
+		}
+
+		bool bPopup = M.GetByte("cpopup", 0) != 0;
+		TContainerData *pContainer = FindContainerByName(szName);
+		if (pContainer != nullptr)
+			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
+				pContainer = FindMatchingContainer(L"default");
+
+		if (pContainer == nullptr && bAutoContainer)
+			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact);
+
+		if (pContainer != nullptr)
+			CreateNewTabForContact(pContainer, hContact, false, bPopup, true, hDbEvent);
+		return;
+	}
+
+	// no window created, simply add an unread event to contact list
+	DBEVENTINFO dbei = {};
+	db_event_get(hDbEvent, &dbei);
+
+	if (!(dbei.flags & DBEF_READ)) {
+		AddUnreadContact(hContact);
+
+		wchar_t toolTip[256];
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));
+
+		CLISTEVENT cle = {};
+		cle.hContact = hContact;
+		cle.hDbEvent = hDbEvent;
+		cle.flags = CLEF_UNICODE;
+		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+		cle.pszService = MS_MSG_READMESSAGE;
+		cle.szTooltip.w = toolTip;
+		g_clistApi.pfnAddEvent(&cle);
+
+		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, nullptr, nullptr, dbei.szModule);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 HMENU TSAPI BuildContainerMenu()
 {
 	if (PluginConfig.g_hMenuContainer != nullptr) {

@@ -70,6 +70,7 @@ int   TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt);
 void  TSAPI CloseOtherTabs(HWND hwndTab, CMsgDialog &dat);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 
+void  TSAPI AutoCreateWindow(MCONTACT, MEVENT);
 void  TSAPI CloseAllContainers();
 void  TSAPI DeleteContainer(int iIndex);
 void  TSAPI RenameContainer(int iIndex, const wchar_t *newName);

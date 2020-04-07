@@ -232,6 +232,10 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		break;
 
+	case DM_CREATECONTAINER:
+		AutoCreateWindow(wParam, lParam);
+		break;
+
 	case DM_DOCREATETAB:
 		{
 			HWND hWnd = Srmm_FindWindow(lParam);

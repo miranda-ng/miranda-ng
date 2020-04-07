@@ -391,8 +391,6 @@ int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM hDbEvent)
 
 int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
-	wchar_t szName[CONTAINER_NAMELEN + 1];
-
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 
@@ -407,11 +405,9 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 
 	g_clistApi.pfnRemoveEvent(hContact, 1);
 
-	bool bAllowAutoCreate = false;
 	bool bAutoPopup = M.GetBool(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
 	bool bAutoCreate = M.GetBool("autotabs", true);
 	bool bAutoContainer = M.GetBool("autocontainer", true);
-	DWORD dwStatusMask = M.GetDword("autopopupmask", -1);
 
 	if (hwnd) {
 		TContainerData *pTargetContainer = nullptr;
@@ -422,6 +418,8 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pTargetContainer->m_hwnd, &wp);
+
+		wchar_t szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
 		if (bAutoPopup || bAutoCreate) {
@@ -467,54 +465,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (nen_options.iNoAutoPopup)
 		goto nowindowcreate;
 
-	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
-
-	if (dwStatusMask == -1)
-		bAllowAutoCreate = true;
-	else {
-		char *szProto = Proto_GetBaseAccountName(hContact);
-		if (szProto && !mir_strcmp(szProto, META_PROTO))
-			szProto = Proto_GetBaseAccountName(db_mc_getSrmmSub(hContact));
-
-		if (szProto) {
-			int dwStatus = Proto_GetStatus(szProto);
-			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & dwStatusMask))           // should never happen, but...
-				bAllowAutoCreate = true;
-		}
-	}
-
-	if (bAllowAutoCreate && (bAutoPopup || bAutoCreate)) {
-		if (bAutoPopup) {
-			TContainerData *pContainer = FindContainerByName(szName);
-			if (pContainer == nullptr)
-				pContainer = CreateContainer(szName, FALSE, hContact);
-			if (pContainer)
-				CreateNewTabForContact(pContainer, hContact, true, true, false);
-			return 0;
-		}
-
-		bool bActivate = false, bPopup = M.GetByte("cpopup", 0) != 0;
-		TContainerData *pContainer = FindContainerByName(szName);
-		if (pContainer != nullptr) {
-			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6)) {
-				if ((pContainer = FindMatchingContainer(L"default")) != nullptr) {
-					CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
-					return 0;
-				}
-			}
-			else {
-				CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
-				return 0;
-			}
-		}
-		if (bAutoContainer) {
-			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact)) != nullptr) { // 2 means create minimized, don't popup...
-				CreateNewTabForContact(pContainer, hContact, bActivate, bPopup, true, hDbEvent);
-				SendMessageW(pContainer->m_hwnd, WM_SIZE, 0, 0);
-			}
-			return 0;
-		}
-	}
+	PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_CREATECONTAINER, hContact, hDbEvent);
 
 nowindowcreate:
 	// for tray support, we add the event to the tray menu. otherwise we send it back to
