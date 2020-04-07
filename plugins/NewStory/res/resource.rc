@@ -81,13 +81,13 @@ BEGIN
     DEFPUSHBUTTON   "Close",IDCANCEL,167,149,50,17
     EDITTEXT        IDC_USERNICK,28,9,189,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     ICON            "",IDC_MSGICON,7,7,16,14
-    CONTROL         "Sample text. With smileys: :) :D and hyperlinks: http://www.miranda-ng.org/",IDC_TEXT,
+    CONTROL         "Sample text. With smileys: :) :D and hyperlinks: https://www.miranda-ng.org/",IDC_TEXT,
                     "MTextControl",WS_TABSTOP,7,26,210,118
 END
 
 IDD_HISTORY DIALOGEX 0, 0, 380, 319
 STYLE DS_SETFONT | DS_NOIDLEMSG | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "NewStory - New History for Miranda IM"
+CAPTION "NewStory - New History for Miranda NG"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_MESSAGE,"MButtonClass",WS_TABSTOP,37,99,16,14
