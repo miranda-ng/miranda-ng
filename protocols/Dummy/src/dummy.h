@@ -44,7 +44,7 @@ static const ttemplate templates[] =
 	{ "Jabber", "jid", LPGEN("JID") },
 	{ "MinecraftDynmap", "Nick", LPGEN("Visible name") },
 	{ "MRA", "e-mail", LPGEN("E-mail address") },
-	{ "MSN", "e-mail", LPGEN("Live ID") },
+	{ "MSN", "wlid", LPGEN("Live ID") },
 	{ "Omegle", "nick", LPGEN("Visible name") },
 	{ "Sametime", "stid", LPGEN("ID") },
 	{ "Skype (SkypeKit)", "sid", LPGEN("Skype name") },
