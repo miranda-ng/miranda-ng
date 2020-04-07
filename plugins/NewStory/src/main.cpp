@@ -51,7 +51,6 @@ static IconItem icons[] =
 	{ LPGEN("Export"),            "export",    ICO_EXPORT     },
 	{ LPGEN("Copy"),              "copy",      ICO_COPY       },
 	{ LPGEN("Send Message"),      "message",   ICO_SENDMSG    },
-	{ LPGEN("Close"),             "close",     ICO_CLOSE      },
 
 	{ LPGEN("Incoming Message"),  "msgin",     ICO_MSGIN      },
 	{ LPGEN("Outgoing Message"),  "msgout",    ICO_MSGOUT     },

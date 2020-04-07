@@ -19,7 +19,6 @@
 #define ICO_EXPORT                      133
 #define ICO_COPY                        134
 #define ICO_SENDMSG                     135
-#define ICO_CLOSE                       136
 #define ICO_MSGIN                       137
 #define ICO_MSGOUT                      138
 #define ICO_SIGNIN                      139
@@ -38,7 +37,6 @@
 #define IDC_PROGRESS                    1002 //!!!
 #define IDC_EDIT1                       1003 //!!!
 #define IDC_SEARCHTEXT                  1004
-#define IDC_CLOSE                       1009
 #define IDC_MESSAGE                     1010
 #define IDC_USERINFO                    1011
 #define IDC_USERMENU                    1012

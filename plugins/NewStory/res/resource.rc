@@ -35,7 +35,6 @@ ICO_FILTER                       ICON         "06 filter.ico"
 ICO_EXPORT                       ICON         "07 export.ico"
 ICO_COPY                       ICON         "09 copy.ico"
 ICO_SENDMSG                       ICON         "10 sendmsg.ico"
-ICO_CLOSE                      ICON         "11 close.ico"
 ICO_MSGIN                      ICON         "12 msgin.ico"
 ICO_MSGOUT                      ICON         "13 msgout.ico"
 ICO_SIGNIN                      ICON         "14 signin.ico"
@@ -91,7 +90,6 @@ STYLE DS_SETFONT | DS_NOIDLEMSG | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | 
 CAPTION "NewStory - New History for Miranda IM"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_CLOSE,"MButtonClass",WS_TABSTOP,364,99,16,14
     CONTROL         "",IDC_MESSAGE,"MButtonClass",WS_TABSTOP,37,99,16,14
     CONTROL         "",IDC_USERINFO,"MButtonClass",WS_TABSTOP,0,99,16,14
     CONTROL         "",IDC_USERMENU,"MButtonClass",WS_TABSTOP,21,99,16,14

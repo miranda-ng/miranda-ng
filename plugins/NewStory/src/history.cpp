@@ -171,11 +171,11 @@ enum
 	TBTN_USERINFO, TBTN_USERMENU, TBTN_MESSAGE,
 	TBTN_SEARCH, TBTN_FILTER, TBTN_DATEPOPUP,
 	TBTN_COPY, TBTN_EXPORT,
-	TBTN_LOGOPTIONS, TBTN_CLOSE,
+	TBTN_LOGOPTIONS,
 	TBTN_COUNT
 };
 
-int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, TBTN_SPACER, 0, -1, 0, 0 };
+int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, TBTN_SPACER, 0, -1, 0 };
 
 struct InfoBarEvents
 {
@@ -397,7 +397,7 @@ class CHistoryDlg : public CDlgBase
 	CCtrlBase m_histControl;
 	CCtrlEdit edtSearchText;
 	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
-	CCtrlMButton btnCalendar, btnSearch, btnExport, btnClose, btnFindNext, btnFindPrev;
+	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev;
 	CCtrlTreeView m_timeTree;
 
 public:
@@ -408,7 +408,6 @@ public:
 		m_histControl(this, IDC_ITEMS2),
 		edtSearchText(this, IDC_SEARCHTEXT),
 		btnCopy(this, IDC_COPY, g_plugin.getIcon(ICO_COPY), LPGEN("Copy")),
-		btnClose(this, IDC_CLOSE, g_plugin.getIcon(ICO_CLOSE), LPGEN("Close")),
 		btnExport(this, IDC_EXPORT, g_plugin.getIcon(ICO_EXPORT), LPGEN("Export...")),
 		btnFilter(this, IDC_FILTER, g_plugin.getIcon(ICO_FILTER), LPGEN("Filter")),
 		btnSearch(this, IDC_SEARCH, g_plugin.getIcon(ICO_SEARCH), LPGEN("Search...")),
@@ -425,7 +424,6 @@ public:
 		edtSearchText.OnChange = Callback(this, &CHistoryDlg::onChange_SearchText);
 
 		btnCopy.OnClick = Callback(this, &CHistoryDlg::onClick_Copy);
-		btnClose.OnClick = Callback(this, &CHistoryDlg::onClick_Close);
 		btnExport.OnClick = Callback(this, &CHistoryDlg::onClick_Export);
 		btnFilter.OnClick = Callback(this, &CHistoryDlg::onClick_Filter);
 		btnSearch.OnClick = Callback(this, &CHistoryDlg::onClick_Search);
@@ -475,7 +473,6 @@ public:
 		m_hwndBtnToolbar[TBTN_LOGOPTIONS] = btnOptions.GetHwnd();
 		m_hwndBtnToolbar[TBTN_FILTER] = btnFilter.GetHwnd();
 		m_hwndBtnToolbar[TBTN_DATEPOPUP] = btnCalendar.GetHwnd();
-		m_hwndBtnToolbar[TBTN_CLOSE] = btnClose.GetHwnd();
 
 		m_hwndBtnCloseSearch = GetDlgItem(m_hwnd, IDC_SEARCHICON);
 		m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, NULL, g_plugin.getInst(), NULL);
@@ -608,11 +605,6 @@ public:
 			m_histControl.SendMsg(NSM_SEEKTIME, tm_jump, 0);
 	}
 
-	void onClick_Close(CCtrlButton *)
-	{
-		Close();
-	}
-	
 	void onClick_Copy(CCtrlButton *)
 	{
 		m_histControl.SendMsg(NSM_COPY, 0, 0);
