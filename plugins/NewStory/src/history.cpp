@@ -220,7 +220,7 @@ class CHistoryDlg : public CDlgBase
 
 	// main controls
 	HWND m_hwndTimeTree;
-	HWND m_hwndLog;
+
 	// searchbar
 	HWND m_hwndBtnCloseSearch;
 	// statusbar
@@ -386,7 +386,7 @@ class CHistoryDlg : public CDlgBase
 			hSearch += WND_SPACING;
 		}
 
-		hDwp = DeferWindowPos(hDwp, m_hwndLog, 0,
+		hDwp = DeferWindowPos(hDwp, m_histControl.GetHwnd(), 0,
 			WND_SPACING, hToolBar + hFilterBar + WND_SPACING,
 			w - WND_SPACING * 2, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
 			SWP_NOZORDER);
@@ -394,6 +394,7 @@ class CHistoryDlg : public CDlgBase
 		EndDeferWindowPos(hDwp);
 	}
 
+	CCtrlBase m_histControl;
 	CCtrlEdit edtSearchText;
 	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
 	CCtrlMButton btnCalendar, btnSearch, btnExport, btnClose, btnFindNext, btnFindPrev;
@@ -404,6 +405,7 @@ public:
 		CDlgBase(g_plugin, IDD_HISTORY),
 		m_hContact(_hContact),
 		m_timeTree(this, IDC_TIMETREE),
+		m_histControl(this, IDC_ITEMS2),
 		edtSearchText(this, IDC_SEARCHTEXT),
 		btnCopy(this, IDC_COPY, g_plugin.getIcon(ICO_COPY), LPGEN("Copy")),
 		btnClose(this, IDC_CLOSE, g_plugin.getIcon(ICO_CLOSE), LPGEN("Close")),
@@ -475,7 +477,6 @@ public:
 		m_hwndBtnToolbar[TBTN_DATEPOPUP] = btnCalendar.GetHwnd();
 		m_hwndBtnToolbar[TBTN_CLOSE] = btnClose.GetHwnd();
 
-		m_hwndLog = GetDlgItem(m_hwnd, IDC_ITEMS2);
 		m_hwndBtnCloseSearch = GetDlgItem(m_hwnd, IDC_SEARCHICON);
 		m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, NULL, g_plugin.getInst(), NULL);
 		SendMessage(m_hwndStatus, SB_SETMINHEIGHT, GetSystemMetrics(SM_CYSMICON), 0);
@@ -560,9 +561,9 @@ public:
 		}
 
 		if (m_hContact != INVALID_CONTACT_ID)
-			PostMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), WM_USER, (WPARAM)m_hContact, 0);
+			PostMessage(m_histControl.GetHwnd(), WM_USER, m_hContact, 0);
 
-		SendMessage(m_hwnd, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)g_plugin.getIcon(ICO_NEWSTORY));
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(ICO_NEWSTORY));
 
 		SendMessage(GetDlgItem(m_hwnd, IDC_SEARCHICON), STM_SETICON, (WPARAM)g_plugin.getIcon(ICO_SEARCH), 0);
 
@@ -582,7 +583,7 @@ public:
 		SendMessage(ibTotal.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
 		SendMessage(ibTotal.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
 
-		SetFocus(GetDlgItem(m_hwnd, IDC_ITEMS2));
+		SetFocus(m_histControl.GetHwnd());
 
 		ShowHideControls();
 		return true;
@@ -590,11 +591,11 @@ public:
 
 	void OnDestroy() override
 	{
-		WindowList_Remove(hNewstoryWindows, m_hwnd);
-
 		g_plugin.setDword(m_hContact, "showFlags", showFlags);
 	
 		Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
+		Window_FreeIcon_IcoLib(m_hwnd);
+		WindowList_Remove(hNewstoryWindows, m_hwnd);
 	}
 
 	void onClick_Calendar(CCtrlButton *pButton)
@@ -604,7 +605,7 @@ public:
 
 		time_t tm_jump = CalendarTool_Show(m_hwnd, rc.left, rc.bottom);
 		if (tm_jump)
-			PostMessage(m_hwnd, UM_JUMP2TIME, tm_jump, 0);
+			m_histControl.SendMsg(NSM_SEEKTIME, tm_jump, 0);
 	}
 
 	void onClick_Close(CCtrlButton *)
@@ -614,7 +615,7 @@ public:
 	
 	void onClick_Copy(CCtrlButton *)
 	{
-		SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_COPY, 0, 0);
+		m_histControl.SendMsg(NSM_COPY, 0, 0);
 	}
 
 	void onClick_Export(CCtrlButton *)
@@ -636,12 +637,12 @@ public:
 
 	void onClick_FindNext(CCtrlButton *)
 	{
-		SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
+		m_histControl.SendMsg(NSM_FINDNEXT, ptrW(edtSearchText.GetText()), 0);
 	}
 
 	void onClick_FindPrev(CCtrlButton *)
 	{
-		SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), NSM_FINDPREV, ptrW(edtSearchText.GetText()), 0);
+		m_histControl.SendMsg(NSM_FINDPREV, ptrW(edtSearchText.GetText()), 0);
 	}
 
 
@@ -709,7 +710,7 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if ((msg >= NSM_FIRST) && (msg < NSM_LAST)) {
-			LPARAM result = SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS2), msg, wParam, lParam);
+			LPARAM result = m_histControl.SendMsg(msg, wParam, lParam);
 			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, result);
 			return result;
 		}
@@ -858,25 +859,6 @@ public:
 	//				ShowWindow(GetDlgItem(m_hwnd, IDC_TIMETREE), SW_SHOW);
 	//			ShowWindow(GetDlgItem(m_hwnd, IDC_ITEMS2), SW_SHOW);
 	//			ShowWindow(GetDlgItem(m_hwnd, IDC_SEARCHICON), SW_SHOW);
-
-		/*
-				case UM_JUMP2TIME:
-				{
-					for (int i = 0; i < eventCount; i++)
-					{
-						ItemData *idata = (ItemData *)SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_GETITEMDATA, i, 0);
-						if (idbe->timestamp >= wParam)
-						{
-							SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SETCARETINDEX, i, 0);
-							SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SETTOPINDEX, i, 0);
-							SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,eventCount));
-							SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(i,i));
-							break;
-						}
-					}
-					return TRUE;
-				}
-		*/
 };
 
 INT_PTR svcShowNewstory(WPARAM hContact, LPARAM)
