@@ -102,7 +102,7 @@ int TplMeasureVars(TemplateVars *vars, wchar_t *str)
 }
 
 // Loading variables
-void vfGlobal(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *)
+void vfGlobal(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 {
 	//  %%: simply % character
 	vars->SetVar('%', L"%", false);
@@ -110,10 +110,10 @@ void vfGlobal(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *)
 	//  %n: line break
 	vars->SetVar('n', L"\x0d\x0a", false);
 
-	// %M: my nick (not for messages)
-	//todo: not working now
-	wchar_t *buf = Clist_GetContactDisplayName(0, 0);
-	vars->SetVar('M', buf, false);
+	// %S: my nick (not for messages)
+	char* proto = Proto_GetBaseAccountName(item->hContact);
+	ptrW nick(Contact_GetInfo(CNF_DISPLAY, 0, proto));
+	vars->SetVar('S', nick, false);
 }
 
 void vfContact(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *)

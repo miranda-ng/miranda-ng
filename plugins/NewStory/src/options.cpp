@@ -49,6 +49,7 @@ public:
 	{
 		btnDiscard.OnClick = Callback(this, &COptionsDlg::onClick_Discard);
 		btnPreview.OnClick = Callback(this, &COptionsDlg::UpdatePreview);
+		bthVarHelp.OnClick = Callback(this, &COptionsDlg::onVarHelp);
 
 		m_tree.OnSelChanged = Callback(this, &COptionsDlg::onSelChanged);
 	}
@@ -127,6 +128,33 @@ public:
 			m_edit.SetText(m_curr->defvalue);
 
 		UpdatePreview(0);
+	}
+
+	void onVarHelp(CCtrlButton*)
+	{
+		CMStringW wszVarHelp;
+		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+			L"%", TranslateT("simply % character"),
+			L"%n", TranslateT("line break"),
+			L"%S", TranslateT("my nick"),
+			L"%N", TranslateT("buddy\'s nick"),
+			L"%c", TranslateT("event count"),
+			L"%I", TranslateT("icon"),
+			L"%i", TranslateT("direction icon"),
+			L"%D", TranslateT("direction symbol"),
+			L"%t", TranslateT("timestamp"),
+			L"%h", TranslateT("hour (24 hour format, 0-23)"),
+			L"%a", TranslateT("hour (12 hour format)"),
+			L"%m", TranslateT("minute"),
+			L"%s", TranslateT("second"),
+			L"%o", TranslateT("month"),
+			L"%d", TranslateT("day of month"),
+			L"%y", TranslateT("year"),
+			L"%w", TranslateT("day of week (Sunday, Monday.. translateable)"),
+			L"%p", TranslateT("am/pm symbol"),
+			L"%O", TranslateT("name of month, translateable"),
+			L"%M", TranslateT("the message string itself"));
+		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables Help"), MB_OK);
 	}
 
 	void onSelChanged(CCtrlTreeView::TEventInfo*)
