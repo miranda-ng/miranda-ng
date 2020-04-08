@@ -4,7 +4,6 @@
 //
 #define IDD_DIALOG1                     101
 #define IDI_NUDGE                       102
-#define IDI_NUGDE_YAHOO                 107
 #define IDI_NUDGE_IRC                   109
 #define IDI_NUDGE_META                  113
 #define IDD_SHAKEOPT                    126

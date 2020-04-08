@@ -46,10 +46,7 @@ struct CTransportProtoTableItem
 static CTransportProtoTableItem TransportProtoTable[] =
 {
 	{ "|*icq*|jit*",     "ICQ" },
-	{ "msn*",            "MSN" },
-	{ "yahoo*",          "YAHOO" },
 	{ "mrim*",           "MRA" },
-	{ "aim*",            "AIM" },
 	//request #3094
 	{ "|gg*|gadu*",      "GaduGadu" },
 	{ "tv*",             "TV" },

@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
-Spravuje asociace souborů a URL jako jsou gg, mirpu, wpmsg, xmpp, ymsgr.
+[Handles file type associations and URLs like gg, mirpu, xmpp.]
+Spravuje asociace souborů a URL jako jsou gg, mirpu, xmpp.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Asociace registrované pro Mirandu NG:

@@ -900,10 +900,6 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 		const char *packname = nullptr;
 		if (strstr(trsp, "icq") != nullptr)
 			packname = "icq";
-		else if (strstr(trsp, "yahoo") != nullptr)
-			packname = "yahoo";
-		else if (strstr(trsp, "aim") != nullptr)
-			packname = "aim";
 
 		mir_free(trsp);
 

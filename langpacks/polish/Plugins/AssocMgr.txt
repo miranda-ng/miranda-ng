@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
-Obsługuje skojarzenia rozszerzeń plików i linków protokołów Gadu-Gadu, Jabber, MSN, PluginUpdater, Yahoo.
+[Handles file type associations and URLs like gg, mirpu, xmpp.]
+Obsługuje skojarzenia rozszerzeń plików i linków protokołów Gadu-Gadu, Jabber, PluginUpdater.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Zarejestrowane powiązania dla Mirandy NG

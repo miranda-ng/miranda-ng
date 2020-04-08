@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
-Permet de gérer les associations de fichier et d'ULR comme Gadu-Gadu, Jabber, MSN messenger, PluginUpdater et Yahoo messenger.
+[Handles file type associations and URLs like gg, mirpu, xmpp.]
+Permet de gérer les associations de fichier et d'ULR comme Gadu-Gadu, Jabber et PluginUpdater.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Associations enregistrées pour Miranda-NG :

@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
-Verwaltet Verknüpfungen mit Dateien und URLs wie gg, mirpu, wpmsg, xmpp, ymsgr.
+[Handles file type associations and URLs like gg, mirpu, xmpp.]
+Verwaltet Verknüpfungen mit Dateien und URLs wie gg, mirpu, xmpp.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Mit Miranda NG registrierte Verknüpfungen:
