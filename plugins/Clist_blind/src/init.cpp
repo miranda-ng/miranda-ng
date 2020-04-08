@@ -441,9 +441,7 @@ wchar_t* GetStatusMessage(struct ClcContact *item)
 wchar_t proto_name[128];
 wchar_t* GetProtoName(struct ClcContact *item)
 {
-	#ifdef UNICODE
 	char description[128];
-	#endif
 
 	proto_name[0] = '\0';
 	if (item->hContact == NULL || item->pce->szProto == nullptr) {
@@ -453,12 +451,8 @@ wchar_t* GetProtoName(struct ClcContact *item)
 
 	PROTOACCOUNT *acc = Proto_GetAccount(item->pce->szProto);
 	if (acc == nullptr) {
-		#ifdef UNICODE
 		CallProtoService(item->pce->szProto, PS_GETNAME, sizeof(description), (LPARAM)description);
 		mir_snwprintf(proto_name, L"%S", description);
-		#else
-		CallProtoService(item->proto, PS_GETNAME, sizeof(proto_name), (LPARAM)proto_name);
-		#endif
 		return proto_name;
 	}
 

@@ -755,17 +755,6 @@ EXTERN_C MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, _Printf_format_string_
 
 EXTERN_C MIR_APP_DLL(void) Netlib_Dump(HNETLIBCONN nlc, const void *buf, size_t len, bool bIsSent, int flags);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Security providers (0.6+)
-
-#define NNR_UNICODE 1
-
-#ifdef UNICODE
-	#define NNR_TCHAR NNR_UNICODE
-#else
-	#define NNR_TCHAR 0
-#endif
-
 // Inits a required security provider. Right now only NTLM is supported
 // Returns HANDLE = NULL on error or non-null value on success
 // Known providers: Basic, NTLM, Negotiate, Kerberos, GSSAPI - (Kerberos SASL)
