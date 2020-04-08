@@ -331,6 +331,8 @@ void CMsgDialog::OnActivate()
 		UpdateLastMessage();
 		FixTabIcons();
 	}
+	
+	SetFocus(m_message.GetHwnd());
 }
 
 void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
@@ -921,7 +923,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
-		SetFocus(m_message.GetHwnd());
 		__fallthrough;
 
 	case WM_MOUSEACTIVATE:
