@@ -466,6 +466,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		goto nowindowcreate;
 
 	PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_CREATECONTAINER, hContact, hDbEvent);
+	return 0;
 
 nowindowcreate:
 	// for tray support, we add the event to the tray menu. otherwise we send it back to
