@@ -67,44 +67,12 @@ int IsWatchedProtocol(const char* szProto)
 	return arWatchedProtos.find((char*)szProto) != nullptr;
 }
 
-BOOL isYahoo(char *protoname)
+bool isJabber(const char *protoname)
 {
-	if (protoname) {
-		const char *pszUniqueSetting = Proto_GetUniqueId(protoname);
-		if (pszUniqueSetting)
-			return !mir_strcmp(pszUniqueSetting, "yahoo_id");
-	}
-	return FALSE;
-}
+	if (protoname)
+		return !mir_strcmp(Proto_GetUniqueId(protoname), "jid");
 
-BOOL isJabber(char *protoname)
-{
-	if (protoname) {
-		const char *pszUniqueSetting = Proto_GetUniqueId(protoname);
-		if (pszUniqueSetting)
-			return !mir_strcmp(pszUniqueSetting, "jid");
-	}
-	return FALSE;
-}
-
-BOOL isICQ(char *protoname)
-{
-	if (protoname) {
-		const char *pszUniqueSetting = Proto_GetUniqueId(protoname);
-		if (pszUniqueSetting)
-			return !mir_strcmp(pszUniqueSetting, "UIN");
-	}
-	return FALSE;
-}
-
-BOOL isMSN(char *protoname)
-{
-	if (protoname) {
-		const char *pszUniqueSetting = Proto_GetUniqueId(protoname);
-		if (pszUniqueSetting)
-			return !mir_strcmp(pszUniqueSetting, "e-mail");
-	}
-	return FALSE;
+	return false;
 }
 
 DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
