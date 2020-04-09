@@ -52,18 +52,17 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 
 			setWString(hContact, "IcqGroup", pGroup->wszName);
 
+			if (!bCreated) {
+				Clist_GroupCreate(0, pGroup->wszName);
+				bCreated = true;
+			}
+
 			ptrW mirGroup(Clist_GetGroup(hContact));
 			if (mir_wstrcmp(mirGroup, pGroup->wszName))
 				bEnableMenu = true;
 
-			if (!mirGroup) {
-				if (!bCreated) {
-					Clist_GroupCreate(0, pGroup->wszName);
-					bCreated = true;
-				}
-
+			if (!mirGroup)
 				Clist_SetGroup(hContact, pGroup->wszName);
-			}
 		}
 	}
 
@@ -115,15 +114,14 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 
 				setWString(hContact, "IcqGroup", pGroup->wszName);
 
-				ptrW wszGroup(Clist_GetGroup(hContact));
-				if (!wszGroup) {
-					if (!bCreated) {
-						Clist_GroupCreate(0, pGroup->wszName);
-						bCreated = true;
-					}
-
-					Clist_SetGroup(hContact, pGroup->wszName);
+				if (!bCreated) {
+					Clist_GroupCreate(0, pGroup->wszName);
+					bCreated = true;
 				}
+
+				ptrW wszGroup(Clist_GetGroup(hContact));
+				if (!wszGroup)
+					Clist_SetGroup(hContact, pGroup->wszName);
 			}
 
 			if (bDeleted)
