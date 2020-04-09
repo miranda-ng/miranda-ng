@@ -243,11 +243,7 @@ int FacebookProto::SetStatus(int iNewStatus)
 
 		ForkThread(&FacebookProto::ServerThread);
 	}
-	else {
-		// SetServerStatus(iNewStatus);
-
-		m_iStatus = iNewStatus;
-	}
+	else m_iStatus = iNewStatus;
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	return 0;
