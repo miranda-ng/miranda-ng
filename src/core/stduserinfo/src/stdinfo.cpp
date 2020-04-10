@@ -38,8 +38,8 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
 {
-	char str[80], *pstr = nullptr;
-	wchar_t *ptstr = nullptr;
+	char *pstr = nullptr;
+	wchar_t *pwstr = nullptr, wstr[80];
 
 	DBVARIANT dbv = { DBVT_DELETED };
 
@@ -53,61 +53,61 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 		switch (dbv.type) {
 		case DBVT_BYTE:
 			if (special == SVS_GENDER) {
-				if (dbv.cVal == 'M') ptstr = TranslateT("Male");
-				else if (dbv.cVal == 'F') ptstr = TranslateT("Female");
+				if (dbv.cVal == 'M') pwstr = TranslateT("Male");
+				else if (dbv.cVal == 'F') pwstr = TranslateT("Female");
 				else unspecified = 1;
 			}
 			else if (special == SVS_MONTH) {
 				if (dbv.bVal > 0 && dbv.bVal <= 12) {
-					pstr = str;
-					GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1 - 1 + dbv.bVal, str, _countof(str));
+					pwstr = wstr;
+					GetLocaleInfoW(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1 - 1 + dbv.bVal, wstr, _countof(wstr));
 				}
 				else unspecified = 1;
 			}
 			else if (special == SVS_TIMEZONE) {
 				if (dbv.cVal == -100) unspecified = 1;
 				else {
-					pstr = str;
-					mir_snprintf(str, dbv.cVal ? "UTC%+d:%02d" : "UTC", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
+					pwstr = wstr;
+					mir_snwprintf(wstr, dbv.cVal ? L"UTC%+d:%02d" : L"UTC", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
 				}
 			}
 			else if (special == SVS_MARITAL) {
 				switch (dbv.cVal) {
 				case 0:
-					ptstr = TranslateT("<not specified>");
+					pwstr = TranslateT("<not specified>");
 					break;
 				case 10:
-					ptstr = TranslateT("Single");
+					pwstr = TranslateT("Single");
 					break;
 				case 11:
-					ptstr = TranslateT("Close relationships");
+					pwstr = TranslateT("Close relationships");
 					break;
 				case 12:
-					ptstr = TranslateT("Engaged");
+					pwstr = TranslateT("Engaged");
 					break;
 				case 20:
-					ptstr = TranslateT("Married");
+					pwstr = TranslateT("Married");
 					break;
 				case 30:
-					ptstr = TranslateT("Divorced");
+					pwstr = TranslateT("Divorced");
 					break;
 				case 31:
-					ptstr = TranslateT("Separated");
+					pwstr = TranslateT("Separated");
 					break;
 				case 40:
-					ptstr = TranslateT("Widowed");
+					pwstr = TranslateT("Widowed");
 					break;
 				case 50:
-					ptstr = TranslateT("Actively searching");
+					pwstr = TranslateT("Actively searching");
 					break;
 				case 60:
-					ptstr = TranslateT("In love");
+					pwstr = TranslateT("In love");
 					break;
 				case 70:
-					ptstr = TranslateT("It's complicated");
+					pwstr = TranslateT("It's complicated");
 					break;
 				case 80:
-					ptstr = TranslateT("In a civil union");
+					pwstr = TranslateT("In a civil union");
 					break;
 				default:
 					unspecified = 1;
@@ -115,7 +115,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			}
 			else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
-				pstr = _itoa(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, str, 10);
+				pwstr = _itow(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, wstr, 10);
 			}
 			break;
 
@@ -126,18 +126,18 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 					char szSettingName[100];
 					mir_snprintf(szSettingName, "%sName", szSetting);
 					if (!db_get_ws(hContact, szModule, szSettingName, &dbv)) {
-						ptstr = dbv.pwszVal;
+						pwstr = dbv.pwszVal;
 						unspecified = false;
 						break;
 					}
 				}
 
-				pstr = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, wSave, 0));
-				unspecified = pstr == nullptr;
+				pwstr = TranslateW(_A2T((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, wSave, 0)));
+				unspecified = pwstr == nullptr;
 			}
 			else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
-				pstr = _itoa(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, str, 10);
+				pwstr = _itow(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, wstr, 10);
 			}
 			break;
 
@@ -146,10 +146,12 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			if (special == SVS_IP) {
 				struct in_addr ia;
 				ia.S_un.S_addr = htonl(dbv.dVal);
-				pstr = inet_ntoa(ia);
-				if (dbv.dVal == 0) unspecified = 1;
+				mir_wstrncpy(wstr, _A2T(inet_ntoa(ia)), _countof(wstr));
+				pwstr = wstr;
+				if (dbv.dVal == 0)
+					unspecified = 1;
 			}
-			else pstr = _itoa(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, str, 10);
+			else pwstr = _itow(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, wstr, 10);
 			break;
 
 		case DBVT_ASCIIZ:
@@ -160,10 +162,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 		case DBVT_UTF8:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			if (!unspecified) {
-				WCHAR *wszStr;
-				mir_utf8decode(dbv.pszVal, &wszStr);
-				SetDlgItemTextW(hwndDlg, idCtrl, TranslateW(wszStr));
-				mir_free(wszStr);
+				SetDlgItemTextW(hwndDlg, idCtrl, TranslateW(ptrW(mir_utf8decodeW(dbv.pszVal))));
 				goto LBL_Exit;
 			}
 
@@ -172,16 +171,16 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			break;
 
 		default:
-			pstr = str;
-			mir_strcpy(str, "???");
+			pwstr = wstr;
+			mir_wstrcpy(wstr, L"???");
 			break;
 		}
 	}
 
 	if (unspecified)
 		SetDlgItemText(hwndDlg, idCtrl, TranslateT("<not specified>"));
-	else if (ptstr != nullptr)
-		SetDlgItemText(hwndDlg, idCtrl, ptstr);
+	else if (pwstr != nullptr)
+		SetDlgItemText(hwndDlg, idCtrl, pwstr);
 	else
 		SetDlgItemTextA(hwndDlg, idCtrl, pstr);
 

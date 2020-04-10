@@ -40,15 +40,15 @@ struct DetailsPageInit
 struct DetailsPageData : public MNonCopyable
 {
 	DLGTEMPLATE *pTemplate;
-	HINSTANCE hInst;
-	DLGPROC dlgProc;
-	LPARAM  dlgParam;
-	HWND hwnd;
-	HTREEITEM hItem;
-	HPLUGIN pPlugin;
-	int changed;
-	DWORD dwFlags;
-	wchar_t *pwszTitle, *pwszTab;
+	HINSTANCE    hInst;
+	DLGPROC      dlgProc;
+	LPARAM       dlgParam;
+	HWND         hwnd;
+	HTREEITEM    hItem;
+	HPLUGIN      pPlugin;
+	int          changed;
+	DWORD        dwFlags;
+	wchar_t     *pwszTitle, *pwszTab;
 
 	~DetailsPageData()
 	{
@@ -92,12 +92,12 @@ class CUserInfoDlg : public CDlgBase
 	RECT      m_rcDisplay, m_rcDisplayTab;
 	int       m_updateAnimFrame = 0;
 	wchar_t   m_szUpdating[64];
-	int *m_infosUpdated = 0;
+	int      *m_infosUpdated = 0;
 
 	HANDLE    m_hProtoAckEvent = 0;
 	HANDLE    m_hDllUnloadEvent = 0;
 
-	HWND m_tabs;
+	HWND      m_tabs;
 	OBJLIST<DetailsPageData> m_pages;
 
 	void BuildTree()
