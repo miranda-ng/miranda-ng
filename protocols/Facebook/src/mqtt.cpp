@@ -218,7 +218,7 @@ void FacebookProto::MqttLogin()
 	thrift.writeInt32(1);
 
 	thrift.writeBool(true);
-	thrift.writeBool(!m_invisible); // visibility
+	thrift.writeBool(!m_bLoginInvisible); // visibility
 
 	thrift.writeField(FB_THRIFT_TYPE_STRING); // device id
 	thrift << m_szDeviceID;

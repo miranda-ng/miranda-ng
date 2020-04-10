@@ -15,6 +15,7 @@
 #define IDC_HIDECHATS                   1006
 #define IDC_CLIST                       1007
 #define IDC_KEEP_UNREAD                 1008
+#define IDC_INVIS_LOGIN                 1009
 
 // Next default values for new objects
 // 

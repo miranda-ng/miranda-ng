@@ -448,7 +448,6 @@ class FacebookProto : public PROTO<FacebookProto>
    __int64   m_sid;          // stored, Facebook sequence id
 
    int       m_iUnread;
-	bool      m_invisible;
 	bool      m_bOnline;
    bool      m_QueueCreated;
 
@@ -495,9 +494,10 @@ public:
     // options
 
     CMOption<wchar_t *> m_wszDefaultGroup; // clist group to store contacts
-    CMOption<BYTE>      m_bUseBigAvatars;  // use big or small avatars by default
-    CMOption<BYTE>      m_bUseGroupchats;  // do we need group chats at all?
-    CMOption<BYTE>      m_bHideGroupchats; // do not open chat windows on creation
+    CMOption<bool>      m_bUseBigAvatars;  // use big or small avatars by default
+    CMOption<bool>      m_bUseGroupchats;  // do we need group chats at all?
+    CMOption<bool>      m_bHideGroupchats; // do not open chat windows on creation
+    CMOption<bool>      m_bLoginInvisible; // login in the invisible mode
     CMOption<bool>      m_bKeepUnread;     // do not mark incoming messages as read
 
 	////////////////////////////////////////////////////////////////////////////////////////

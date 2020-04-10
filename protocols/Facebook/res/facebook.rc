@@ -72,7 +72,7 @@ BEGIN
                     "Hyperlink",WS_TABSTOP,6,40,172,12
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 305, 166
+IDD_OPTIONS DIALOGEX 0, 0, 305, 184
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -84,15 +84,16 @@ BEGIN
     EDITTEXT        IDC_PW,84,34,123,13,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Create a new Facebook account",IDC_NEWACCOUNTLINK,
                     "Hyperlink",WS_TABSTOP,84,53,189,10
-    GROUPBOX        "Contacts",IDC_STATIC,7,70,291,45
+    GROUPBOX        "Contacts",IDC_STATIC,7,70,291,56
     LTEXT           "Default group:",IDC_STATIC,17,84,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_GROUP,84,82,123,13,ES_AUTOHSCROLL
     CONTROL         "Keep messages as unread on server",IDC_KEEP_UNREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,99,277,10
-    GROUPBOX        "Group chats",IDC_STATIC,7,116,291,44
-    CONTROL         "Enable group chats",IDC_ENABLECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,130,277,10
+    CONTROL         "Use invisible mode after login",IDC_INVIS_LOGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,112,277,10
+    GROUPBOX        "Group chats",IDC_STATIC,7,136,291,44
+    CONTROL         "Enable group chats",IDC_ENABLECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,150,277,10
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,143,277,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,163,277,10
 END
 
 IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 263
@@ -120,6 +121,7 @@ BEGIN
 
     IDD_OPTIONS, DIALOG
     BEGIN
+        BOTTOMMARGIN, 166
     END
 END
 #endif    // APSTUDIO_INVOKED

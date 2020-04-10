@@ -45,6 +45,7 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	m_bUseBigAvatars(this, "UseBigAvatars", true),
 	m_bUseGroupchats(this, "UseGroupChats", true),
 	m_bHideGroupchats(this, "HideGroupChats", true),
+	m_bLoginInvisible(this, "LoginInvisible", false),
 	m_wszDefaultGroup(this, "DefaultGroup", L"Facebook")
 {
 	for (auto &cc : AccContacts()) {
@@ -207,16 +208,11 @@ int FacebookProto::SetStatus(int iNewStatus)
 	// Routing statuses not supported by Facebook
 	switch (iNewStatus) {
 	case ID_STATUS_ONLINE:
-	case ID_STATUS_AWAY:
-	case ID_STATUS_INVISIBLE:
 	case ID_STATUS_OFFLINE:
 		break;
 
-	case ID_STATUS_NA:
-		iNewStatus = ID_STATUS_AWAY;
-		break;
 	default:
-		iNewStatus = getByte(DBKEY_MAP_STATUSES) ? ID_STATUS_INVISIBLE : ID_STATUS_AWAY;
+		iNewStatus = ID_STATUS_AWAY;
 		break;
 	}
 
@@ -225,7 +221,6 @@ int FacebookProto::SetStatus(int iNewStatus)
 		return 0;
 	}
 
-	m_invisible = (iNewStatus == ID_STATUS_INVISIBLE);
 	m_iDesiredStatus = iNewStatus;
 
 	int iOldStatus = m_iStatus;

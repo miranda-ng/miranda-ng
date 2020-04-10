@@ -38,7 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DBKEY_SYNC_TOKEN         "SyncToken"
 
 // Account DB keys
-#define DBKEY_MAP_STATUSES       "MapStatuses"
 #define DBKEY_SET_MIRANDA_STATUS "SetMirandaStatus"
 
 // Hidden account DB keys (can't be changed through GUI)
