@@ -123,6 +123,8 @@
 #define IDC_DISABLEDOCKING              1658
 #define IDC_WINCOLOUR                   1659
 #define IDC_STMSDELAY                   1661
+#define IDC_CHECK1                      1662
+#define IDC_NOOFFLINEMOVE               1662
 
 // Next default values for new objects
 // 
@@ -130,7 +132,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        293
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1662
+#define _APS_NEXT_CONTROL_VALUE         1663
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

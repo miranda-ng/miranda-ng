@@ -28,7 +28,7 @@ class ClistOptsDlg : public CDlgBase
 {
 	CCtrlSpin cycleTime, blink;
 	CCtrlCombo status;
-	CCtrlCheck sortByName, sortByStatus, sortByProto;
+	CCtrlCheck sortByName, sortByStatus, sortByProto, chkOfflineBottom;
 	CCtrlCheck chkDisableBlink, chkCycle, chkDontCycle, chkMulti;
 
 public:
@@ -43,7 +43,8 @@ public:
 		sortByName(this, IDC_SORTBYNAME),
 		sortByProto(this, IDC_SORTBYPROTO),
 		sortByStatus(this, IDC_SORTBYSTATUS),
-		chkDisableBlink(this, IDC_DISABLEBLINK)
+		chkDisableBlink(this, IDC_DISABLEBLINK),
+		chkOfflineBottom(this, IDC_NOOFFLINEMOVE)
 	{
 		chkDisableBlink.OnChange = Callback(this, &ClistOptsDlg::onChange_DisableBlink);
 		chkCycle.OnChange = chkDontCycle.OnChange = chkMulti.OnChange = Callback(this, &ClistOptsDlg::onChange_Tray);
@@ -54,6 +55,7 @@ public:
 		sortByName.SetState(!g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT) && !g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT));
 		sortByProto.SetState(g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT));
 		sortByStatus.SetState(g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT));
+		chkOfflineBottom.SetState(g_plugin.getByte("NoOfflineBottom"));
 
 		CheckDlgButton(m_hwnd, IDC_ONECLK, g_plugin.getByte("Tray1Click", SETTING_TRAY1CLICK_DEFAULT));
 		CheckDlgButton(m_hwnd, IDC_ALWAYSSTATUS, g_plugin.getByte("AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT));
@@ -91,6 +93,7 @@ public:
 	{
 		g_plugin.setByte("SortByStatus", g_bSortByStatus = sortByStatus.GetState());
 		g_plugin.setByte("SortByProto", g_bSortByProto = sortByProto.GetState());
+		g_plugin.getByte("NoOfflineBottom", g_bNoOfflineBottom = chkOfflineBottom.GetState());
 		g_plugin.setByte("Tray1Click", IsDlgButtonChecked(m_hwnd, IDC_ONECLK));
 		g_plugin.setByte("AlwaysStatus", IsDlgButtonChecked(m_hwnd, IDC_ALWAYSSTATUS));
 		g_plugin.setByte("AlwaysMulti", !IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));

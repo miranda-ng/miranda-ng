@@ -40,7 +40,7 @@ BEGIN
     LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,16
 END
 
-IDD_OPT_CLIST DIALOGEX 0, 0, 314, 204
+IDD_OPT_CLIST DIALOGEX 0, 0, 314, 219
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -48,24 +48,26 @@ BEGIN
     CONTROL         "Sort contacts by name",IDC_SORTBYNAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,14,287,10
     CONTROL         "Sort contacts by status",IDC_SORTBYSTATUS,"Button",BS_AUTORADIOBUTTON,10,26,287,10
     CONTROL         "Sort contacts by protocol",IDC_SORTBYPROTO,"Button",BS_AUTORADIOBUTTON,10,38,287,10
-    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,68,298,10
-    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,81,151,11
-    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,95,86,9
-    EDITTEXT        IDC_BLINKTIME,12,108,35,12,ES_NUMBER
-    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,39,107,11,14
-    LTEXT           "ms delay",IDC_STMSDELAY,52,111,113,8
-    CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,143,90,10
-    COMBOBOX        IDC_PRIMARYSTATUS,104,142,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "icon when statuses differ",IDC_STATIC,189,144,116,8,NOT WS_GROUP
-    CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,160,89,10
-    EDITTEXT        IDC_CYCLETIME,103,159,30,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,83,298,10
+    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,96,151,11
+    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,110,86,9
+    EDITTEXT        IDC_BLINKTIME,12,123,35,12,ES_NUMBER
+    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,39,123,11,14
+    LTEXT           "ms delay",IDC_STMSDELAY,52,126,113,8
+    CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,158,90,10
+    COMBOBOX        IDC_PRIMARYSTATUS,104,157,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "icon when statuses differ",IDC_STATIC,189,159,116,8,NOT WS_GROUP
+    CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,175,89,10
+    EDITTEXT        IDC_CYCLETIME,103,174,30,12,ES_RIGHT | ES_NUMBER
     CONTROL         "Spin1",IDC_CYCLETIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,127,158,10,14
-    LTEXT           "seconds, when statuses differ",IDC_STATIC,141,161,165,8,NOT WS_GROUP
-    CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,177,91,10
-    CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,177,198,10
-    GROUPBOX        "System tray icon",IDC_STATIC,2,57,310,70
-    GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,2,131,310,66
-    GROUPBOX        "Contact list sorting",IDC_STATIC,2,2,310,54,WS_GROUP
+    LTEXT           "seconds, when statuses differ",IDC_STATIC,141,176,165,8,NOT WS_GROUP
+    CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,192,91,10
+    CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,108,192,198,10
+    GROUPBOX        "System tray icon",IDC_STATIC,2,72,310,70
+    GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,2,146,310,66
+    GROUPBOX        "Contact list sorting",IDC_STATIC,2,2,310,68,WS_GROUP
+    CONTROL         "Don't move offline user to bottom",IDC_NOOFFLINEMOVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,53,287,10
 END
 
 IDD_OPT_CLUI DIALOGEX 0, 0, 313, 233
@@ -228,7 +230,7 @@ BEGIN
         VERTGUIDE, 2
         VERTGUIDE, 308
         TOPMARGIN, 2
-        BOTTOMMARGIN, 202
+        BOTTOMMARGIN, 217
         HORZGUIDE, 179
         HORZGUIDE, 196
     END
