@@ -133,8 +133,8 @@ public:
 int CListOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.position = -1000000000;
 	odp.szTitle.a = LPGEN("Contact list");
+	odp.szTab.a = LPGEN("General");
 	odp.pDialog = new ClistOptsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);

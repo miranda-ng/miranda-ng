@@ -88,9 +88,9 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 static int OnOptsInit(WPARAM wParam, LPARAM lParam)
 {
+	CListOptInit(wParam, lParam);
 	ClcOptInit(wParam, lParam);
 	CluiOptInit(wParam, lParam);
-	CListOptInit(wParam, lParam);
 	return 0;
 }
 

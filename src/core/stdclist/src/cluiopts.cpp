@@ -311,17 +311,17 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 int CluiOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
-	odp.szTitle.a = LPGEN("Window");
-	odp.szGroup.a = LPGEN("Contact list");
-	odp.pfnDlgProc = DlgProcCluiOpts;
+	odp.szTitle.a = LPGEN("Contact list");
 	odp.flags = ODPF_BOLDGROUPS;
+
+	odp.szTab.a = LPGEN("Window");
+	odp.pfnDlgProc = DlgProcCluiOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
-	odp.szTitle.a = LPGEN("Status bar");
+	odp.szTab.a = LPGEN("Status bar");
 	odp.pfnDlgProc = DlgProcSBarOpts;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

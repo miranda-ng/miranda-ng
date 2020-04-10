@@ -401,17 +401,17 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 int ClcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.szGroup.a = LPGEN("Contact list");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
-	odp.szTitle.a = LPGEN("List");
-	odp.pfnDlgProc = DlgProcClcMainOpts;
+	odp.szTitle.a = LPGEN("Contact list");
 	odp.flags = ODPF_BOLDGROUPS;
+
+	odp.szTab.a = LPGEN("List");
+	odp.pfnDlgProc = DlgProcClcMainOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
-	odp.szTitle.a = LPGEN("List background");
+	odp.szTab.a = LPGEN("List background");
 	odp.pfnDlgProc = DlgProcClcBkgOpts;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
