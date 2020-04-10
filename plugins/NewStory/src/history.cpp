@@ -738,13 +738,12 @@ public:
 			if (lpdis->CtlType == ODT_MENU)
 				return Menu_DrawItem(lParam);
 
-			if (lpdis->itemID == -1)
-				return FALSE;
+			return (lpdis->itemID != -1);
 
-			return TRUE;
-
-			// if (Menu_ProcessCommand(MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) m_hContact))
-			//    return TRUE;
+		case WM_COMMAND:
+			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
+				return true;
+			break;
 
 				/*
 				GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
