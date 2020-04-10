@@ -50,43 +50,44 @@ static INT_PTR hkOpts(WPARAM, LPARAM)
 
 int InitClistHotKeys(void)
 {
-	CreateServiceFunction("CLIST/HK/SHOWHIDE", hkHideShow);
-	CreateServiceFunction("CLIST/HK/Opts", hkOpts);
-	CreateServiceFunction("CLIST/HK/Read", hkRead);
-
 	HOTKEYDESC shk = {};
-	shk.dwFlags = HKD_UNICODE;
-	shk.szDescription.w = LPGENW("Show/Hide contact list");
+	shk.szSection.a = "Main";
+
+	shk.szDescription.a = LPGEN("Show/Hide contact list");
 	shk.pszName = "ShowHide";
-	shk.szSection.w = L"Main";
 	shk.pszService = "CLIST/HK/SHOWHIDE";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'A');
 	g_plugin.addHotkey(&shk);
+	CreateServiceFunction(shk.pszService, hkHideShow);
 
-	shk.szDescription.w = LPGENW("Read message");
+	shk.szDescription.a = LPGEN("Read message");
 	shk.pszName = "ReadMessage";
-	shk.szSection.w = L"Main";
 	shk.pszService = "CLIST/HK/Read";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'I');
 	g_plugin.addHotkey(&shk);
+	CreateServiceFunction(shk.pszService, hkRead);
 
-	shk.szDescription.w = LPGENW("Open Options page");
+	shk.szDescription.a = LPGEN("Open Options page");
 	shk.pszName = "ShowOptions";
-	shk.szSection.w = L"Main";
 	shk.pszService = "CLIST/HK/Opts";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'O') | HKF_MIRANDA_LOCAL;
 	g_plugin.addHotkey(&shk);
+	CreateServiceFunction(shk.pszService, hkOpts);
 
-	shk.szDescription.w = LPGENW("Open logging options");
+	shk.szDescription.a = LPGEN("Toggle groups");
+	shk.pszName = "Togglegroups";
+	shk.pszService = MS_CLIST_TOGGLEGROUPS;
+	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'G');
+	g_plugin.addHotkey(&shk);
+
+	shk.szDescription.a = LPGEN("Open logging options");
 	shk.pszName = "ShowLogOptions";
-	shk.szSection.w = L"Main";
 	shk.pszService = "Netlib/Log/Win";
 	shk.DefHotKey = 0;
 	g_plugin.addHotkey(&shk);
 
-	shk.szDescription.w = LPGENW("Open 'Find user' dialog");
+	shk.szDescription.a = LPGEN("Open 'Find user' dialog");
 	shk.pszName = "FindUsers";
-	shk.szSection.w = L"Main";
 	shk.pszService = "FindAdd/FindAddCommand";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'F') | HKF_MIRANDA_LOCAL;
 	g_plugin.addHotkey(&shk);
