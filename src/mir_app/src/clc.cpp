@@ -715,19 +715,27 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (hit == -1)
 					return 0;
 
-				if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
-					if (group == &dat->list)
-						return 0;
-					dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, -1);
-					selMoved = 1;
+				if (changeGroupExpand == 1) {
+					switch (contact->type) {
+					case CLCIT_GROUP:
+						if (contact->group->expanded)
+							break;
+						__fallthrough;
+					case CLCIT_CONTACT:
+						if (group == &dat->list)
+							return 0;
+						dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, -1);
+						goto LBL_MoveSelection;
+					}
 				}
-				else {
-					if (contact->type == CLCIT_GROUP)
-						g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, changeGroupExpand == 2);
-					return 0;
-				}
+
+				if (contact->type == CLCIT_GROUP)
+					g_clistApi.pfnSetGroupExpand(hwnd, dat, contact->group, changeGroupExpand == 2);
+				return 0;
 			}
+			
 			if (selMoved) {
+LBL_MoveSelection:
 				if (!dat->bFilterSearch)
 					dat->szQuickSearch[0] = 0;
 				if (dat->selection >= g_clistApi.pfnGetGroupContentsCount(&dat->list, 1))
