@@ -98,6 +98,8 @@ int CMPlugin::Load()
 {
 	g_plugin.registerIcon(MODULETITLE, icons);
 
+	m_log = RegisterSrmmLog(MODULETITLE, _T(MODULENAME), NewStory_Stub);
+
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, svcShowNewstory);
 	CreateServiceFunction("Newstory/System", svcShowSystemNewstory);
 
@@ -108,6 +110,7 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	UnregisterSrmmLog(m_log);
 	UnregisterClass(_T(NEWSTORYLIST_CLASS), g_plugin.getInst());
 	DestroyFonts();
 

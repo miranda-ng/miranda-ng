@@ -73,6 +73,8 @@ int OptionsInitialize(WPARAM, LPARAM);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	HANDLE m_log;
+
 	CMPlugin();
 
 	int Load() override;

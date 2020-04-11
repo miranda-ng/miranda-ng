@@ -34,4 +34,6 @@ void InitHistory();
 INT_PTR svcShowNewstory(WPARAM wParam, LPARAM lParam);
 INT_PTR svcShowSystemNewstory(WPARAM wParam, LPARAM lParam);
 
+CSrmmLogWindow* __cdecl NewStory_Stub(CMsgDialog &pDlg);
+
 #endif // __history_h__
