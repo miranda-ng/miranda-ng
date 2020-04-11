@@ -105,3 +105,11 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
 	return 0;
 }
+
+int CMPlugin::Unload()
+{
+	UnregisterClass(_T(NEWSTORYLIST_CLASS), g_plugin.getInst());
+	DestroyFonts();
+
+	return 0;
+}
