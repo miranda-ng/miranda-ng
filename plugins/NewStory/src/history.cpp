@@ -268,6 +268,8 @@ class CHistoryDlg : public CDlgBase
 		ShowWindow(btnFindNext.GetHwnd(), cmd);
 		ShowWindow(btnFindPrev.GetHwnd(), cmd);
 		ShowWindow(edtSearchText.GetHwnd(), cmd);
+		if (cmd)
+			SetFocus(edtSearchText.GetHwnd());
 	}
 
 	void LayoutHistoryWnd()
@@ -593,6 +595,11 @@ public:
 		Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 		Window_FreeIcon_IcoLib(m_hwnd);
 		WindowList_Remove(hNewstoryWindows, m_hwnd);
+		if (m_hwndStatus != nullptr) {
+			DestroyWindow(m_hwndStatus);
+			m_hwndStatus = nullptr;
+		}
+
 	}
 
 	void onClick_Calendar(CCtrlButton *pButton)
