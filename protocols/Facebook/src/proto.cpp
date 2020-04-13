@@ -192,7 +192,7 @@ int FacebookProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 	JSONNode root; root << CHAR_PARAM("body", pszSrc) << INT64_PARAM("msgid", msgId) << INT64_PARAM("sender_fbid", m_uid) << CHAR_PARAM("to", userId);
 	MqttPublish("/send_message2", root);
 
-	arOwnMessages.insert(new COwnMessage(msgId, m_mid));
+	arOwnMessages.insert(new COwnMessage(msgId, m_mid, hContact));
 	return m_mid;
 }
 

@@ -362,11 +362,13 @@ struct COwnMessage
 {
    __int64 msgId;
    int reqId;
+   MCONTACT hContact;
    CMStringW wszText;
 
-   COwnMessage(__int64 _id, int _reqId) :
+   COwnMessage(__int64 _id, int _reqId, MCONTACT _hContact) :
       msgId(_id),
-      reqId(_reqId)
+      reqId(_reqId),
+      hContact(_hContact)
    {
    }
 };
@@ -431,6 +433,7 @@ class FacebookProto : public PROTO<FacebookProto>
    void MqttQueueConnect();
 
    void OnPublish(const char *str, const uint8_t *payLoad, size_t cbLen);
+   void OnPublishDelivery(FbThriftReader &rdr);
    void OnPublishMessage(FbThriftReader &rdr);
    void OnPublishPresence(FbThriftReader &rdr);
    void OnPublishUtn(FbThriftReader &rdr);
@@ -464,6 +467,7 @@ class FacebookProto : public PROTO<FacebookProto>
    FacebookUser* UserFromJson(const JSONNode &root, CMStringW &wszId, bool &bIsChat);
 
    void FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody);
+   void NotifyDelivery(const CMStringA &msgid);
 
    void OnLoggedIn();
    void OnLoggedOut();

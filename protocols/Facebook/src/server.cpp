@@ -30,6 +30,19 @@ void FacebookProto::ConnectionFailed()
 	OnShutdown();
 }
 
+void FacebookProto::NotifyDelivery(const CMStringA &szId)
+{
+	__int64 msgid = _atoi64(szId);
+	for (auto &it : arOwnMessages) {
+		if (it->msgId == msgid) {
+			ProtoBroadcastAck(it->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
+			if (g_bMessageState)
+				CallService(MS_MESSAGESTATE_UPDATE, it->hContact, MRD_TYPE_DELIVERED);
+			arOwnMessages.removeItem(&it);
+		}
+	}
+}
+
 void FacebookProto::OnLoggedIn()
 {
 	m_mid = 0;
@@ -439,6 +452,17 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 		OnPublishMessage(rdr);
 	else if (!strcmp(topic, "/orca_typing_notifications"))
 		OnPublishUtn(rdr);
+	else if (!strcmp(topic, "/send_message_response"))
+		OnPublishDelivery(rdr);
+}
+
+void FacebookProto::OnPublishDelivery(FbThriftReader &rdr)
+{
+	JSONNode root = JSONNode::parse((const char *)rdr.data());
+	if (root["succeeded"].as_bool()) {
+		CMStringA msgId(root["msgid"].as_mstring());
+		NotifyDelivery(msgId);
+	}
 }
 
 void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
@@ -646,19 +670,12 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	}
 
 	CMStringW wszActorFbId(metadata["actorFbId"].as_mstring());
-	CMStringA szId(metadata["messageId"].as_string().c_str());
+	CMStringA szId(metadata["messageId"].as_mstring());
 
 	// messages sent with attachments are returning as deltaNewMessage, not deltaSentMessage
 	__int64 actorFbId = _wtoi64(wszActorFbId);
-	if (m_uid == actorFbId) {
-		for (auto& it : arOwnMessages) {
-			if (it->msgId == offlineId) {
-				ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
-				arOwnMessages.removeItem(&it);
-				break;
-			}
-		}
-	}
+	if (m_uid == actorFbId)
+		NotifyDelivery(szId);
 
 	// parse message body
 	CMStringA szBody(root["body"].as_string().c_str());
