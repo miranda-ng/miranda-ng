@@ -145,6 +145,7 @@ function Load():Integer; cdecl;
 begin
 
   Langpack_Register();
+  RegisterHppLogger;
 
   // Getting langpack codepage for ansi translation
   hppCodepage := Langpack_GetDefaultCodePage;
@@ -165,6 +166,7 @@ end;
 // unload
 function Unload:Integer; cdecl;
 begin
+  UnregisterHppLogger;
   Result:=0;
 
   // unhook events
@@ -500,7 +502,6 @@ function OnPreshutdown(wParam: WPARAM; lParam: LPARAM): Integer; cdecl;
 begin
   Result := 0;
   NotifyAllForms(HM_MIEV_PRESHUTDOWN,0,0);
-  UnregisterHppLogger;
 end;
 
 exports
@@ -510,8 +511,6 @@ exports
 
 begin
   DisableThreadLibraryCalls(hInstance);
-
-  RegisterHppLogger;
 
   PluginInfo.cbSize:= SizeOf(TPLUGININFOEX);
   PluginInfo.shortName:= hppShortNameV;
