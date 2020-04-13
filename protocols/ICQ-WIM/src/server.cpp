@@ -559,7 +559,7 @@ void CIcqProto::SetServerStatus(int iStatus)
 		<< AIMSID(this) << CHAR_PARAM("view", szStatus) << INT_PARAM("invisible", invisible));
 
 	if (iStatus == ID_STATUS_OFFLINE)
-		Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/aim/endSession") << AIMSID(this));
+		Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/aim/endSession", &CIcqProto::OnSessionEnd) << AIMSID(this));
 
 	int iOldStatus = m_iStatus; m_iStatus = iStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
@@ -1061,4 +1061,16 @@ void CIcqProto::OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	CMStringA msgId(data["histMsgId"].as_mstring());
 	CheckOwnMessage(reqId, msgId, false);
 	CheckLastId(ownMsg->m_hContact, data);
+}
+
+void CIcqProto::OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
+{
+	JsonReply root(pReply);
+	if (root.error() == 200) {
+		m_szAToken.Empty();
+		delSetting(DB_KEY_ATOKEN);
+		
+		m_szSessionKey.Empty();
+		delSetting(DB_KEY_SESSIONKEY);
+	}
 }

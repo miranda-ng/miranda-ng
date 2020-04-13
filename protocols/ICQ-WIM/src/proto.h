@@ -287,6 +287,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnSendMessage(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnValidateSms(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 
