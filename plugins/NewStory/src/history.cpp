@@ -418,8 +418,8 @@ public:
 		btnCalendar(this, IDC_DATEPOPUP, g_plugin.getIcon(ICO_CALENDAR), LPGEN("Jump2Date")),
 		btnUserInfo(this, IDC_USERINFO, g_plugin.getIcon(ICO_USERINFO), LPGEN("User Info")),
 		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(ICO_USERMENU), LPGEN("User Menu")),
-		btnFindNext(this, IDC_FINDNEXT, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find Previous")),
-		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find Next"))
+		btnFindNext(this, IDC_FINDNEXT, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find Next")),
+		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find Previous"))
 	{
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
 		
