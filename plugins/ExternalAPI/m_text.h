@@ -71,9 +71,6 @@ MTEXTCONTROL_DLL(int) MTextSetParent(HANDLE text, HWND hwnd, RECT rect);
 // send message to an object
 MTEXTCONTROL_DLL(int) MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lParam);
 
-// creates a proxy window
-MTEXTCONTROL_DLL(HWND) MTextCreateProxy(HANDLE text);
-
 #ifdef __cplusplus
 }
 #endif

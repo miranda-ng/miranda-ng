@@ -186,17 +186,6 @@ MTEXTCONTROL_DLL(int) MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// create a proxy window
-
-MTEXTCONTROL_DLL(HWND) MTextCreateProxy(HANDLE text)
-{
-	if (!text)
-		return nullptr;
-	
-	return CreateProxyWindow(((TextObject *)text)->ftd->getTextService());
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // destroy text object
 
 MTEXTCONTROL_DLL(int) MTextDestroy(HANDLE text)
