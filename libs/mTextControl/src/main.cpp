@@ -27,6 +27,9 @@ HINSTANCE g_hInst = nullptr;
 PCreateTextServices MyCreateTextServices = nullptr;
 
 void MTextControl_RegisterClass();
+void MTextControl_UnregisterClass();
+
+void DestroyProxyWindow();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,6 +51,9 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD ul_reason_for_call, LPVOID)
 		break;
 
 	case DLL_PROCESS_DETACH:
+		DestroyProxyWindow();
+		MTextControl_UnregisterClass();
+
 		UnloadTextUsers();
 		UnloadEmfCache();
 		FreeLibrary(hMsfteditDll);

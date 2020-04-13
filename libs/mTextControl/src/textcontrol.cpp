@@ -40,7 +40,12 @@ void MTextControl_RegisterClass()
 	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = L"MTextControl";
-	RegisterClassEx(&wcl);
+	RegisterClassExW(&wcl);
+}
+
+void MTextControl_UnregisterClass()
+{
+	UnregisterClassW(L"MTextControl", g_hInst);
 }
 
 LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

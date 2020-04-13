@@ -131,10 +131,16 @@ HWND CreateProxyWindow(ITextServices *ts)
 		wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 		wcl.lpszClassName = L"NBRichEditProxyWndClass";
-		winClass = RegisterClassEx(&wcl);
+		winClass = RegisterClassExW(&wcl);
 	}
 
 	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, g_hInst, nullptr);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ts);
 	return hwnd;
+}
+
+void DestroyProxyWindow()
+{
+	if (winClass != 0)
+		UnregisterClassW(L"NBRichEditProxyWndClass", g_hInst);
 }
