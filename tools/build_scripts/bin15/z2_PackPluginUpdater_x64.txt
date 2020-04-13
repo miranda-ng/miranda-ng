@@ -93,6 +93,7 @@ Plugins\new_gpg.dll
 Plugins\newawaysys.dll
 Plugins\neweventnotify.dll
 Plugins\newsaggregator.dll
+Plugins\newstory.dll
 Plugins\newxstatusnotify.dll
 Plugins\nimcontact.dll
 Plugins\nohistory.dll
