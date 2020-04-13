@@ -69,7 +69,7 @@ static IconItem icons[] =
 	{ LPGEN("Help"),              "varhelp",   ICO_VARHELP    }
 };
 
-int evtModulesLoaded(WPARAM, LPARAM)
+static int evtModulesLoaded(WPARAM, LPARAM)
 {
 	InitFonts();
 	InitNewstoryControl();
@@ -94,6 +94,12 @@ int evtModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+static int evtPreShutdown(WPARAM, LPARAM)
+{
+	WindowList_Broadcast(hNewstoryWindows, WM_CLOSE, 0, 0);
+	return 0;
+}
+
 int CMPlugin::Load()
 {
 	g_plugin.registerIcon(MODULETITLE, icons);
@@ -105,6 +111,7 @@ int CMPlugin::Load()
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, evtPreShutdown);
 	return 0;
 }
 

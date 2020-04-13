@@ -43,7 +43,7 @@ int evtFontsChanged(WPARAM, LPARAM)
 		it.hfnt = CreateFontIndirectA(&it.lf);
 	}
 
-	//	WindowList_Broadcast(hNewstoryWindows, UM_REDRAWLISTH, 0, 0);
+	WindowList_Broadcast(hNewstoryWindows, UM_REDRAWLISTH, 0, 0);
 	return 0;
 }
 
