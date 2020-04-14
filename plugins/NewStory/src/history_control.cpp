@@ -39,33 +39,30 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 {
 	switch (msg) {
 	case WM_KEYDOWN:
-		{
-			switch (wParam) {
-			case VK_ESCAPE:
-				{
-					EndEditItem(GetParent(hwnd), (NewstoryListData *)GetWindowLongPtr(GetParent(hwnd), 0));
-					return 0;
-				}
+		switch (wParam) {
+		case VK_ESCAPE:
+			{
+				EndEditItem(GetParent(hwnd), (NewstoryListData *)GetWindowLongPtr(GetParent(hwnd), 0));
+				return 0;
 			}
-			break;
 		}
+		break;
+
 	case WM_GETDLGCODE:
-		{
-			if (lParam) {
-				MSG *msg2 = (MSG *)lParam;
-				if (msg2->message == WM_KEYDOWN && msg2->wParam == VK_TAB)
-					return 0;
-				if (msg2->message == WM_CHAR && msg2->wParam == '\t')
-					return 0;
-			}
-			return DLGC_WANTMESSAGE;
+		if (lParam) {
+			MSG *msg2 = (MSG *)lParam;
+			if (msg2->message == WM_KEYDOWN && msg2->wParam == VK_TAB)
+				return 0;
+			if (msg2->message == WM_CHAR && msg2->wParam == '\t')
+				return 0;
 		}
-		//	case WM_KILLFOCUS:
-		//	{
-		//		EndEditItem(GetParent(hwnd), (NewstoryListData *)GetWindowLong(GetParent(hwnd), 0));
-		//		return 0;
-		//	}
+		return DLGC_WANTMESSAGE;
+
+	case WM_KILLFOCUS:
+		EndEditItem(GetParent(hwnd), (NewstoryListData *)GetWindowLong(GetParent(hwnd), 0));
+		return 0;
 	}
+
 	return CallWindowProc(OldEditWndProc, hwnd, msg, wParam, lParam);
 }
 
@@ -453,7 +450,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		RecalcScrollBar(hwnd, data);
 		break;
 
-	case WM_USER:
+	// History list control messages
+	case NSM_ADDHISTORY:
 		data->items.addHistory((MCONTACT)wParam);
 		RecalcScrollBar(hwnd, data);
 		data->scrollTopItem = data->items.getCount();
@@ -461,7 +459,17 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
-	// History list control messages
+	case NSM_ADDEVENTS:
+		{
+			auto *p = (ADDEVENTS *)wParam;
+			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
+		}
+		RecalcScrollBar(hwnd, data);
+		data->scrollTopItem = data->items.getCount();
+		FixScrollPosition(hwnd, data);
+		InvalidateRect(hwnd, 0, FALSE);
+		break;
+
 	case NSM_GETCOUNT:
 		return data->items.getCount();
 

@@ -12,7 +12,7 @@ public:
 
 	void Attach() override
 	{
-		m_hwnd = ::CreateWindowW(_T(NEWSTORYLIST_CLASS), L"", WS_TABSTOP, 0, 0, 300, 150, m_pDlg.GetHwnd(), (HMENU)IDC_SRMM_LOG, m_pDlg.GetInst(), 0);
+		m_hwnd = ::CreateWindow(_T(NEWSTORYLIST_CLASS), L"NewStory", WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 300, 150, m_pDlg.GetHwnd(), 0, m_pDlg.GetInst(), 0);
 	}
 
 	void Detach() override
@@ -48,6 +48,11 @@ public:
 
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override
 	{
+		if (count != -1) {
+			ADDEVENTS tmp = { m_pDlg.m_hContact, hDbEventFirst, count };
+			SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
+		}
+		else SendMessage(m_hwnd, NSM_ADDHISTORY, m_pDlg.m_hContact, 0);
 	}
 
 	void LogEvents(DBEVENTINFO *dbei_s, bool bAppend)
@@ -60,6 +65,10 @@ public:
 
 	void Resize() override
 	{
+		RECT rc;
+		GetClientRect(GetDlgItem(m_pDlg.GetHwnd(), IDC_SRMM_LOG), &rc);
+
+		::SetWindowPos(m_hwnd, 0, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
 	}
 
 	void ScrollToBottom() override

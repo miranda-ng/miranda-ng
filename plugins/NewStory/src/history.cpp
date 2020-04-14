@@ -560,7 +560,7 @@ public:
 		}
 
 		if (m_hContact != INVALID_CONTACT_ID)
-			PostMessage(m_histControl.GetHwnd(), WM_USER, m_hContact, 0);
+			PostMessage(m_histControl.GetHwnd(), NSM_ADDHISTORY, m_hContact, 0);
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(ICO_NEWSTORY));
 

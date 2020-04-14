@@ -166,7 +166,7 @@ public:
 
 	void clear();
 	bool addHistory(MCONTACT hContact, EventLoadMode mode = ELM_NOTHING);
-	bool addEvent(MCONTACT hContact, MEVENT hEvent, EventLoadMode mode = ELM_NOTHING);
+	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count, EventLoadMode mode = ELM_NOTHING);
 
 	//	bool preloadEvents(int count = 10);
 

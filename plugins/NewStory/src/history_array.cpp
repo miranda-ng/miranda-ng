@@ -134,13 +134,17 @@ bool HistoryArray::addHistory(MCONTACT hContact, EventLoadMode)
 	return true;
 }
 
-bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, EventLoadMode mode)
+bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count, EventLoadMode mode)
 {
-	allocateBlock(1);
-	tail->items[0].hContact = hContact;
-	tail->items[0].hEvent = hEvent;
-	if (mode != ELM_NOTHING)
-		tail->items[0].load(mode);
+	allocateBlock(count);
+
+	for (int i = 0; i < count; i++) {
+		tail->items[i].hContact = hContact;
+		tail->items[i].hEvent = hEvent;
+		if (mode != ELM_NOTHING)
+			tail->items[i].load(mode);
+		hEvent = db_event_next(hContact, hEvent);
+	}
 
 	return true;
 }
