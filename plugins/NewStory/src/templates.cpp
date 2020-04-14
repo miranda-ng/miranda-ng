@@ -292,7 +292,7 @@ void vfOther(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *)
 TemplateInfo templates[TPL_COUNT] =
 {
 	{ "tpl/interface/title", L"Interface", ICO_NEWSTORY, L"Window Title",
-		L"%N's Newstory [%c messages total]", 0, 0,
+		L"%N - History [%c messages total]", 0, 0,
 		{ vfGlobal, vfContact, 0, 0, 0 } },
 
 	{ "tpl/msglog/msg", L"Message Log", ICO_SENDMSG, L"Messages",
