@@ -234,6 +234,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 
 				POPUPDATA2 *ppd = arPopupHistory[lpdis->itemID];
 				wndPreview = new PopupWnd2(ppd, &customOptions, true);
+				wndPreview->buildMText();
 				wndPreview->update();
 
 				ListBox_SetItemData(hwndLog, lpdis->itemID, wndPreview);

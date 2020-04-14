@@ -34,7 +34,7 @@ class PopupWnd2 : public MZeroedObject
 {
 public:
 	typedef		LRESULT(PopupWnd2::*MethodPtr)(LPARAM lParam);
-	enum		TextType { TT_NONE, TT_UNICODE };
+	enum		TextType { TT_NONE, TT_UNICODE, TT_MTEXT };
 
 	struct		ActionInfo
 	{
@@ -55,6 +55,7 @@ private:
 	// content
 	TextType    m_textType;
 	wchar_t      *m_lptzTitle, *m_lptzText;
+	HANDLE      m_mtTitle, m_mtText;
 	bool        m_bTextEmpty, m_bIcoLib;
 	HFONT       m_hfnTitle, m_hfnText;
 	HICON       m_hIcon;
@@ -129,6 +130,7 @@ public:
 
 	void	updateData(POPUPDATAW *ppd);
 	void	updateData(POPUPDATA2 *ppd);
+	void	buildMText();
 	void	updateText(wchar_t *text);
 	void	updateTitle(wchar_t *title);
 
@@ -144,13 +146,15 @@ public:
 	bool     isTextEmpty()      { return m_bTextEmpty; }
 	bool     isIcolib()         { return m_bIcoLib; }
 	TextType getTextType()      { return m_textType; }
-	wchar_t *getText()          { return m_lptzText; }
-	wchar_t *getTitle()         { return m_lptzTitle; }
+	wchar_t   *getText()          { return m_lptzText; }
+	HANDLE   getTextM()         { return m_mtText; }
+	wchar_t   *getTitle()         { return m_lptzTitle; }
+	HANDLE   getTitleM()        { return m_mtTitle; }
 
 	int      getActionCount()   { return m_actionCount; }
 	ActionInfo *getActions()    { return m_actions; }
 
-	wchar_t *getTime()          { return m_time; }
+	wchar_t   *getTime()          { return m_time; }
 	HICON    getIcon()          { return m_hIcon; }
 	MCONTACT getContact()       { return m_hContact; }
 	MCONTACT getContactPassed() { return m_hContactPassed; }

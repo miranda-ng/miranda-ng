@@ -48,6 +48,9 @@ HMODULE  hDwmapiDll = nullptr;
 
 GLOBAL_WND_CLASSES g_wndClass = { 0 };
 
+HANDLE   htuText;
+HANDLE   htuTitle;
+
 HGENMENU hMenuRoot;
 HGENMENU hMenuItem;
 HGENMENU hMenuItemHistory;
@@ -217,6 +220,10 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	// check if History++ is installed
 	gbHppInstalled = ServiceExists(MS_HPP_GETVERSION) && ServiceExists(MS_HPP_EG_WINDOW) &&
 		(CallService(MS_HPP_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(1, 5, 0, 112));
+
+	// check if MText plugin is installed
+	htuText = MTextRegister("Popup Plus/Text", MTEXT_FANCY_DEFAULT);
+	htuTitle = MTextRegister("Popup Plus/Title", MTEXT_FANCY_DEFAULT);
 
 	// check if OptionLoaded
 	if (!OptionLoaded)

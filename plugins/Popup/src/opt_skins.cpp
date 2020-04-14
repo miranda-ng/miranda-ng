@@ -72,6 +72,7 @@ static void updatePreviewImage(HWND hwndBox)
 
 	if (wndPreview) delete wndPreview;
 	wndPreview = new PopupWnd2(&ppd, &customOptions, true);
+	wndPreview->buildMText();
 	wndPreview->update();
 	gPreviewOk = true;
 
@@ -191,7 +192,8 @@ static LPTSTR mainOption[] = {
 	LPGENW("Drop shadow effect"),
 	LPGENW("Drop shadow effect") L"/" LPGENW("non rectangular"),
 	LPGENW("Enable Aero Glass (Vista+)"),
-	LPGENW("Use Windows colors") };
+	LPGENW("Use Windows colors"),
+	LPGENW("Use advanced text render") };
 
 int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions)
 {
@@ -218,6 +220,11 @@ int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos,
 		case 4:
 			*dwGlobalOptions |= PopupOptions.UseWinColors ? (1 << i) : 0;
 			bCheck = PopupOptions.UseWinColors;
+			break;
+		case 5:
+			if (!(htuText&&htuTitle)) continue;
+			*dwGlobalOptions |= PopupOptions.UseMText ? (1 << i) : 0;
+			bCheck = PopupOptions.UseMText;
 			break;
 		}
 		*OptionsCount += 1;
@@ -280,6 +287,7 @@ void LoadOption_Skins() {
 	PopupOptions.EnableFreeformShadows = g_plugin.getByte("EnableShadowRegion", 1);
 	PopupOptions.EnableAeroGlass = g_plugin.getByte("EnableAeroGlass", 1);
 	PopupOptions.UseWinColors = g_plugin.getByte("UseWinColors", FALSE);
+	PopupOptions.UseMText = g_plugin.getByte("UseMText", TRUE);
 }
 
 INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -315,6 +323,9 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 				case (1 << 4) :
 					PopupOptions.UseWinColors = skinOptions[index].bState;
+					break;
+				case (1 << 5) :
+					PopupOptions.UseMText = skinOptions[index].bState;
 					break;
 				}
 			}
@@ -465,6 +476,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					g_plugin.setByte("EnableShadowRegion", PopupOptions.EnableFreeformShadows);
 					g_plugin.setByte("EnableAeroGlass", PopupOptions.EnableAeroGlass);
 					g_plugin.setByte("UseWinColors", PopupOptions.UseWinColors);
+					g_plugin.setByte("UseMText", PopupOptions.UseMText);
 				}// end PSN_APPLY:
 				return TRUE;
 			}// switch (((LPNMHDR)lParam)->code)

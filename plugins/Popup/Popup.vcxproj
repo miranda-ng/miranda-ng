@@ -18,6 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\mTextControl\mtextcontrol.vcxproj">
+      <Project>{e26d2311-c164-48cf-ba24-5ceda873d1b2}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>PopupPlus</ProjectName>
     <ProjectGuid>{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}</ProjectGuid>

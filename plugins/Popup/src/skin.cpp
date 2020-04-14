@@ -235,13 +235,19 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 					szNew.cx = szNew.cy = 0;
 				else {
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.text);
-					if (wnd->getTextType() == PopupWnd2::TT_UNICODE) {
-						RECT rc;
-						SetRect(&rc, 0, 0, szNew.cx, 0);
-						DrawTextEx(hdc, wnd->getText(), (int)mir_wstrlen(wnd->getText()), &rc,
-							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
-						szNew.cx = rc.right;
-						szNew.cy = rc.bottom;
+					switch (wnd->getTextType()) {
+					case PopupWnd2::TT_UNICODE:
+						{
+							RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
+							DrawTextEx(hdc, wnd->getText(), (int)mir_wstrlen(wnd->getText()), &rc,
+								DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
+							szNew.cx = rc.right;
+							szNew.cy = rc.bottom;
+						}
+						break;
+					case PopupWnd2::TT_MTEXT:
+						MTextMeasure(hdc, &szNew, wnd->getTextM());
+						break;
 					}
 					SelectObject(hdc, hFntSave);
 				}
@@ -272,12 +278,19 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 				wnd->getRenderInfo()->titlew = tmp ? tmp : (maxw - head->fx.eval(wnd->getArgs()) - STYLE_SZ_CLOCK);
 				szNew.cx = wnd->getRenderInfo()->titlew;
 				HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
-				if (wnd->getTextType() == PopupWnd2::TT_UNICODE) {
-					RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-					DrawTextEx(hdc, wnd->getTitle(), (int)mir_wstrlen(wnd->getTitle()), &rc,
-						DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
-					szNew.cx = rc.right;
-					szNew.cy = rc.bottom;
+				switch (wnd->getTextType()) {
+				case PopupWnd2::TT_UNICODE:
+					{
+						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
+						DrawTextEx(hdc, wnd->getTitle(), (int)mir_wstrlen(wnd->getTitle()), &rc,
+							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
+						szNew.cx = rc.right;
+						szNew.cy = rc.bottom;
+					}
+					break;
+				case PopupWnd2::TT_MTEXT:
+					MTextMeasure(hdc, &szNew, wnd->getTitleM());
+					break;
 				}
 
 				SelectObject(hdc, hFntSave);
@@ -487,19 +500,26 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 					pt.x + wnd->getRenderInfo()->realtextw,
 					pt.y + wnd->getRenderInfo()->texth);
 
-				if ((drawFlags & DF_STATIC) && !wnd->isTextEmpty()) {
+				if ((drawFlags&DF_STATIC) && !wnd->isTextEmpty()) {
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.text);
 					bmp->saveAlpha();
-					if (wnd->getTextType() == PopupWnd2::TT_UNICODE) {
-						RECT rc; SetRect(&rc, pt.x, pt.y, pt.x + sz.cx, pt.y + sz.cy);
-						DrawTextEx(hdc, wnd->getText(), (int)mir_wstrlen(wnd->getText()), &rc,
-							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
+					switch (wnd->getTextType()) {
+					case PopupWnd2::TT_UNICODE:
+						{
+							RECT rc; SetRect(&rc, pt.x, pt.y, pt.x + sz.cx, pt.y + sz.cy);
+							DrawTextEx(hdc, wnd->getText(), (int)mir_wstrlen(wnd->getText()), &rc,
+								DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
+						}
+						break;
+					case PopupWnd2::TT_MTEXT:
+						MTextDisplay(hdc, pt, sz, wnd->getTextM());
+						break;
 					}
 					SelectObject(hdc, hFntSave);
 					bmp->restoreAlpha();
 				}
 
-				if (!actionsRendered && (drawFlags & DF_ANIMATE)) {
+				if (!actionsRendered && (drawFlags&DF_ANIMATE)) {
 					int textAreaWidth = head->fw.eval(wnd->getArgs());
 					if (textAreaWidth <= 0) textAreaWidth = wnd->getRenderInfo()->realtextw;
 
@@ -522,23 +542,33 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 				SetTextColor(hdc, head->textColor);
 			else
 				SetTextColor(hdc, wnd->getTitleColor());
+			{
+				bmp->saveAlpha();
+				POINT pt;
+				pt.x = head->fx.eval(wnd->getArgs());
+				pt.y = head->fy.eval(wnd->getArgs());
+				sz.cx = wnd->getRenderInfo()->titlew;
+				sz.cy = 1000;
 
-			bmp->saveAlpha();
-			POINT pt;
-			pt.x = head->fx.eval(wnd->getArgs());
-			pt.y = head->fy.eval(wnd->getArgs());
-			sz.cx = wnd->getRenderInfo()->titlew;
-			sz.cy = 1000;
+				switch (wnd->getTextType()) {
+				case PopupWnd2::TT_UNICODE:
+					{
+						HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
+						RECT rc; SetRect(&rc, pt.x, pt.y, pt.x + sz.cx, pt.y + sz.cy);
+						DrawTextEx(hdc, wnd->getTitle(), (int)mir_wstrlen(wnd->getTitle()), &rc,
+							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
+						SelectObject(hdc, hFntSave);
+					}
+					break;
+				case PopupWnd2::TT_MTEXT:
+					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
+					MTextDisplay(hdc, pt, sz, wnd->getTitleM());
+					SelectObject(hdc, hFntSave);
+					break;
+				}
 
-			if (wnd->getTextType() == PopupWnd2::TT_UNICODE) {
-				HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
-				RECT rc; SetRect(&rc, pt.x, pt.y, pt.x + sz.cx, pt.y + sz.cy);
-				DrawTextEx(hdc, wnd->getTitle(), (int)mir_wstrlen(wnd->getTitle()), &rc,
-					DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
-				SelectObject(hdc, hFntSave);
+				bmp->restoreAlpha();
 			}
-
-			bmp->restoreAlpha();
 			break;
 
 		case ST_ICON:
