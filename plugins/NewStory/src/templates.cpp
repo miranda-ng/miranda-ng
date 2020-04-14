@@ -220,7 +220,7 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 	_tcsftime(buf, _countof(buf), L"%Y", _localtime32((__time32_t *)&item->dbe.timestamp));
 	vars->SetVar('y', buf, true);
 
-	//  %w: day of week (Sunday, Monday.. translateable)
+	//  %w: day of week (Sunday, Monday... translatable)
 	_tcsftime(buf, _countof(buf), L"%A", _localtime32((__time32_t *)&item->dbe.timestamp));
 	vars->SetVar('w', TranslateW(buf), false);
 
@@ -228,7 +228,7 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 	_tcsftime(buf, _countof(buf), L"%p", _localtime32((__time32_t *)&item->dbe.timestamp));
 	vars->SetVar('p', buf, true);
 
-	//  %O: Name of month, translateable
+	//  %O: Name of month, translatable
 	_tcsftime(buf, _countof(buf), L"%B", _localtime32((__time32_t *)&item->dbe.timestamp));
 	vars->SetVar('O', TranslateW(buf), false);
 }

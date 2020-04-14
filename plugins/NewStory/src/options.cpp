@@ -43,9 +43,9 @@ public:
 		m_tree(this, IDC_TEMPLATES),
 		preview(this, IDC_PREVIEW),
 		gpreview(this, IDC_GPREVIEW),
-		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(ICO_RESET), LPGEN("Cancel Edit")),
-		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(ICO_VARHELP), LPGEN("Help on Variables")),
-		btnPreview(this, IDC_UPDATEPREVIEW, g_plugin.getIcon(ICO_PREVIEW), LPGEN("Update Preview"))
+		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(ICO_RESET), LPGEN("Cancel edit")),
+		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(ICO_VARHELP), LPGEN("Help on variables")),
+		btnPreview(this, IDC_UPDATEPREVIEW, g_plugin.getIcon(ICO_PREVIEW), LPGEN("Update preview"))
 	{
 		btnDiscard.OnClick = Callback(this, &COptionsDlg::onClick_Discard);
 		btnPreview.OnClick = Callback(this, &COptionsDlg::UpdatePreview);
@@ -150,11 +150,11 @@ public:
 			L"%o", TranslateT("month"),
 			L"%d", TranslateT("day of month"),
 			L"%y", TranslateT("year"),
-			L"%w", TranslateT("day of week (Sunday, Monday.. translateable)"),
+			L"%w", TranslateT("day of week (Sunday, Monday... translatable)"),
 			L"%p", TranslateT("am/pm symbol"),
-			L"%O", TranslateT("name of month, translateable"),
+			L"%O", TranslateT("name of month, translatable"),
 			L"%M", TranslateT("the message string itself"));
-		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables Help"), MB_OK);
+		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables help"), MB_OK);
 	}
 
 	void onSelChanged(CCtrlTreeView::TEventInfo*)
@@ -208,7 +208,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
 	odp.szGroup.a = LPGEN("History");
-	odp.szTitle.a = LPGEN("Newstory");
+	odp.szTitle.a = LPGEN("NewStory");
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.szTab.a = LPGEN("Templates");

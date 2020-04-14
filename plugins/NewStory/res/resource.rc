@@ -58,7 +58,7 @@ ICO_TPLGROUP                      ICON         "folder.ico"
 
 IDD_SEARCH DIALOGEX 0, 0, 264, 132
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Search Newstory"
+CAPTION "Search history"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,152,111,51,15
@@ -75,7 +75,7 @@ END
 
 IDD_MESSAGE DIALOGEX 0, 0, 224, 173
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "View Single Message"
+CAPTION "View single message"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "Close",IDCANCEL,167,149,50,17
@@ -87,7 +87,7 @@ END
 
 IDD_HISTORY DIALOGEX 0, 0, 380, 319
 STYLE DS_SETFONT | DS_NOIDLEMSG | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "NewStory - New History for Miranda NG"
+CAPTION "NewStory - new history for Miranda NG"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_MESSAGE,"MButtonClass",WS_TABSTOP,37,99,16,14
@@ -164,26 +164,26 @@ END
 IDD_FILTERMODE DIALOGEX 0, 0, 219, 171
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_NOPARENTNOTIFY
-CAPTION "Message Filter"
+CAPTION "Message filter"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,107,150,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,161,150,50,14
-    LTEXT           "By Direction",IDC_STATIC,7,7,100,8
+    LTEXT           "By direction",IDC_STATIC,7,7,100,8
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,15,100,1
-    CONTROL         "Incoming Events",IDC_CHK_IN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,21,95,10
-    CONTROL         "Outgoing Events",IDC_CHK_OUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,31,95,10
-    LTEXT           "By Type",IDC_STATIC,7,46,100,8
+    CONTROL         "Incoming events",IDC_CHK_IN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,21,95,10
+    CONTROL         "Outgoing events",IDC_CHK_OUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,31,95,10
+    LTEXT           "By type",IDC_STATIC,7,46,100,8
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,54,100,1
     CONTROL         "Messages",IDC_CHK_MESSAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,60,95,10
-    CONTROL         "File Transfers",IDC_CHK_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,70,95,10
-    CONTROL         "URL Events",IDC_CHK_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,80,95,10
-    CONTROL         "Status Changes",IDC_CHK_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,90,95,10
-    CONTROL         "Other Events",IDC_CHK_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,100,95,10
+    CONTROL         "File transfers",IDC_CHK_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,70,95,10
+    CONTROL         "URL events",IDC_CHK_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,80,95,10
+    CONTROL         "Status changes",IDC_CHK_STATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,90,95,10
+    CONTROL         "Other events",IDC_CHK_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,100,95,10
     CONTROL         "Other",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,7,115,100,8
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,123,100,1
     CONTROL         "Search-Filter",IDC_CHK_AUTOFILTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,129,95,10
-    LTEXT           "By Date",IDC_STATIC,112,7,100,8,WS_DISABLED
+    LTEXT           "By date",IDC_STATIC,112,7,100,8,WS_DISABLED
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,112,15,99,1
     CONTROL         "DateTimePicker1",IDC_DATETIMEPICKER1,"SysDateTimePick32",DTS_RIGHTALIGN | DTS_UPDOWN | DTS_LONGDATEFORMAT | WS_DISABLED | WS_TABSTOP,117,29,95,15
     LTEXT           "Since",IDC_STATIC,112,21,100,8,WS_DISABLED
@@ -315,30 +315,30 @@ IDR_POPUPS MENU
 BEGIN
     POPUP "Export"
     BEGIN
-        MENUITEM "Save As...",                  ID_EXPORT_SAVEAS
-        MENUITEM "Save Selected As...",         ID_EXPORT_SAVESELECTEDAS
+        MENUITEM "Save as...",                  ID_EXPORT_SAVEAS
+        MENUITEM "Save selected as...",         ID_EXPORT_SAVESELECTEDAS
     END
     POPUP "Filter"
     BEGIN
-        MENUITEM "Show All Events",             ID_FILTER_SHOWALLEVENTS, GRAYED
-        MENUITEM "Show Incoming Events Only",   ID_FILTER_SHOWINCOMINGEVENTSONLY, GRAYED
-        MENUITEM "Show Outgoing Events Only",   ID_FILTER_SHOWOUTGOINGEVENTSONLY, GRAYED
-        MENUITEM "Use Custom Filter...",        ID_FILTER_USECUSTOMFILTER, GRAYED
+        MENUITEM "Show all events",             ID_FILTER_SHOWALLEVENTS, GRAYED
+        MENUITEM "Show incoming events only",   ID_FILTER_SHOWINCOMINGEVENTSONLY, GRAYED
+        MENUITEM "Show outgoing events only",   ID_FILTER_SHOWOUTGOINGEVENTSONLY, GRAYED
+        MENUITEM "Use custom filter...",        ID_FILTER_USECUSTOMFILTER, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Incoming Events",             ID_FILTER_INCOMING, CHECKED
-        MENUITEM "Outgoing Events",             ID_FILTER_OUTGOING, CHECKED
+        MENUITEM "Incoming events",             ID_FILTER_INCOMING, CHECKED
+        MENUITEM "Outgoing events",             ID_FILTER_OUTGOING, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Show Messages",               ID_FILTER_MESSAGES, CHECKED
-        MENUITEM "Show File Transfers",         ID_FILTER_FILES, CHECKED
+        MENUITEM "Show messages",               ID_FILTER_MESSAGES, CHECKED
+        MENUITEM "Show file transfers",         ID_FILTER_FILES, CHECKED
         MENUITEM "Show URLs",                   ID_FILTER_URLS, CHECKED
-        MENUITEM "Show Sign In/Out Events",     ID_FILTER_STATUS, CHECKED
-        MENUITEM "Show Other Events",           ID_FILTER_OTHER, CHECKED
+        MENUITEM "Show sign in/out events",     ID_FILTER_STATUS, CHECKED
+        MENUITEM "Show other events",           ID_FILTER_OTHER, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Auto Search",                 ID_FILTER_AUTO
+        MENUITEM "Auto search",                 ID_FILTER_AUTO
     END
-    POPUP "Log Options"
+    POPUP "Log options"
     BEGIN
-        MENUITEM "Show Time Tree",              ID_LOGOPTIONS_SHOWTIMETREE
+        MENUITEM "Show time tree",              ID_LOGOPTIONS_SHOWTIMETREE
         MENUITEM SEPARATOR
         MENUITEM "Options...",                  ID_LOGOPTIONS_OPTIONS
         MENUITEM "Templates...",                ID_LOGOPTIONS_TEMPLATES
@@ -351,7 +351,7 @@ BEGIN
         MENUITEM "Export",                      65535
         MENUITEM "Delete",                      ID_CONTEXT_DELETE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "Select All",                  ID_CONTEXT_SELECTALL
+        MENUITEM "Select all",                  ID_CONTEXT_SELECTALL
     END
 END
 

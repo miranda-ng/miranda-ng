@@ -414,12 +414,12 @@ public:
 		btnFilter(this, IDC_FILTER, g_plugin.getIcon(ICO_FILTER), LPGEN("Filter")),
 		btnSearch(this, IDC_SEARCH, g_plugin.getIcon(ICO_SEARCH), LPGEN("Search...")),
 		btnOptions(this, IDC_LOGOPTIONS, g_plugin.getIcon(ICO_OPTIONS), LPGEN("Options")),
-		btnSendMsg(this, IDC_MESSAGE, g_plugin.getIcon(ICO_SENDMSG), LPGEN("Send Message")),
-		btnCalendar(this, IDC_DATEPOPUP, g_plugin.getIcon(ICO_CALENDAR), LPGEN("Jump2Date")),
-		btnUserInfo(this, IDC_USERINFO, g_plugin.getIcon(ICO_USERINFO), LPGEN("User Info")),
-		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(ICO_USERMENU), LPGEN("User Menu")),
-		btnFindNext(this, IDC_FINDNEXT, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find Next")),
-		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find Previous"))
+		btnSendMsg(this, IDC_MESSAGE, g_plugin.getIcon(ICO_SENDMSG), LPGEN("Send message")),
+		btnCalendar(this, IDC_DATEPOPUP, g_plugin.getIcon(ICO_CALENDAR), LPGEN("Jump to date")),
+		btnUserInfo(this, IDC_USERINFO, g_plugin.getIcon(ICO_USERINFO), LPGEN("User info")),
+		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(ICO_USERMENU), LPGEN("User menu")),
+		btnFindNext(this, IDC_FINDNEXT, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find next")),
+		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find previous"))
 	{
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
 		
@@ -554,9 +554,9 @@ public:
 		}
 		else {
 			if (m_hContact == INVALID_CONTACT_ID)
-				SetWindowText(m_hwnd, TranslateT("Newstory Search Results"));
+				SetWindowText(m_hwnd, TranslateT("History search results"));
 			else
-				SetWindowText(m_hwnd, TranslateT("System Newstory"));
+				SetWindowText(m_hwnd, TranslateT("System history"));
 		}
 
 		if (m_hContact != INVALID_CONTACT_ID)
