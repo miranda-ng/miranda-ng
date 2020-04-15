@@ -13,6 +13,9 @@ ToxHexAddress ResolveToxAddressFromToxme(HNETLIBUSER hNetlib, const char *query)
 	request.SetData(data.c_str(), data.length());
 
 	NLHR_PTR response(request.Send(hNetlib));
+	if (response == nullptr)
+		return ToxHexAddress::Empty();
+
 	if (response->resultCode != HTTP_CODE_OK || !response->pData)
 		return ToxHexAddress::Empty();
 
