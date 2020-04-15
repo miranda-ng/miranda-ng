@@ -105,7 +105,7 @@ LBL_Error:
 	// if we enabled XEP-0231, try to inline a picture
 	if (m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w)) {
 		if (FtTryInlineFile(ft)) {
-			FtSendFinal(true, ft);
+			mir_forkthread(FakeAckThread, ft);
 			return;
 		}
 	}
