@@ -131,7 +131,7 @@ void vfContact(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemDat
 void vfSystem(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *)
 {
 	// %N: buddy's nick (not for messages)
-	vars->SetVar('N', L"System Event", false);
+	vars->SetVar('N', LPGEN("System event"), false);
 
 	// %c: event count
 	wchar_t  buf[20];
@@ -284,69 +284,69 @@ void vfDeleted(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 void vfOther(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', L"Unknown Event", false);
+	vars->SetVar('M', LPGEN("Unknown event"), false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 TemplateInfo templates[TPL_COUNT] =
 {
-	{ "tpl/interface/title", L"Interface", ICO_NEWSTORY, L"Window Title",
+	{ "tpl/interface/title", LPGEN("Interface"), ICO_NEWSTORY, LPGEN("Window title"),
 		L"%N - History [%c messages total]", 0, 0,
 		{ vfGlobal, vfContact, 0, 0, 0 } },
 
-	{ "tpl/msglog/msg", L"Message Log", ICO_SENDMSG, L"Messages",
+	{ "tpl/msglog/msg", LPGEN("Message log"), ICO_SENDMSG, LPGEN("Messages"),
 		L"%I%i[b]%N, %t:[/b]\x0d\x0a%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
-	{ "tpl/msglog/file", L"Message Log", ICO_FILE, L"Files",
+	{ "tpl/msglog/file", LPGEN("Message log"), ICO_FILE, LPGEN("Files"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
-	{ "tpl/msglog/status", L"Message Log", ICO_SIGNIN, L"Status Changes",
+	{ "tpl/msglog/status", LPGEN("Message log"), ICO_SIGNIN, LPGEN("Status changes"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
-	{ "tpl/msglog/presense", L"Message Log", ICO_UNKNOWN, L"'Presence Requests",
+	{ "tpl/msglog/presense", LPGEN("Message log"), ICO_UNKNOWN, LPGEN("Presence requests"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfPresence, 0 } },
-	{ "tpl/msglog/other", L"Message Log", ICO_UNKNOWN, L"Other Events",
+	{ "tpl/msglog/other", LPGEN("Message log"), ICO_UNKNOWN, LPGEN("Other events"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfOther, 0 } },
 
-	{ "tpl/msglog/authrq", L"Message Log", ICO_UNKNOWN, L"Authorization Requests",
+	{ "tpl/msglog/authrq", LPGEN("Message log"), ICO_UNKNOWN, LPGEN("Authorization requests"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAuth, 0 } },
-	{ "tpl/msglog/added", L"Message Log", ICO_UNKNOWN, L"'You were added' events",
+	{ "tpl/msglog/added", LPGEN("Message log"), ICO_UNKNOWN, LPGEN("'You were added' events"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAdded, 0 } },
-	{ "tpl/msglog/deleted", L"Message Log", ICO_UNKNOWN, L"'You were deleted' events",
+	{ "tpl/msglog/deleted", LPGEN("Message log"), ICO_UNKNOWN, LPGEN("'You were deleted' events"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfDeleted, 0 } },
 
-	{ "tpl/copy/msg", L"Clipboard", ICO_SENDMSG, L"Messages",
+	{ "tpl/copy/msg", LPGEN("Clipboard"), ICO_SENDMSG, LPGEN("Messages"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
-	{ "tpl/copy/file", L"Clipboard", ICO_FILE, L"Files",
+	{ "tpl/copy/file", LPGEN("Clipboard"), ICO_FILE, LPGEN("Files"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
-	{ "tpl/copy/url", L"Clipboard", ICO_URL, L"URLs",
+	{ "tpl/copy/url", LPGEN("Clipboard"), ICO_URL, LPGEN("URLs"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfUrl, 0 } },
-	{ "tpl/copy/status", L"Clipboard", ICO_SIGNIN, L"Status Changes",
+	{ "tpl/copy/status", LPGEN("Clipboard"), ICO_SIGNIN, LPGEN("Status changes"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfSign, 0 } },
-	{ "tpl/copy/presence", L"Clipboard", ICO_UNKNOWN, L"Presence Requests",
+	{ "tpl/copy/presence", LPGEN("Clipboard"), ICO_UNKNOWN, LPGEN("Presence requests"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfPresence, 0 } },
-	{ "tpl/copy/other", L"Clipboard", ICO_UNKNOWN, L"Other Events",
+	{ "tpl/copy/other", LPGEN("Clipboard"), ICO_UNKNOWN, LPGEN("Other events"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfOther, 0 } },
 
-	{ "tpl/copy/authrq", L"Clipboard", ICO_UNKNOWN, L"Authorization Requests",
+	{ "tpl/copy/authrq", LPGEN("Clipboard"), ICO_UNKNOWN, LPGEN("Authorization requests"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAuth, 0 } },
-	{ "tpl/copy/added", L"Clipboard", ICO_UNKNOWN, L"'You were added' events",
+	{ "tpl/copy/added", LPGEN("Clipboard"), ICO_UNKNOWN, LPGEN("'You were added' events"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfAdded, 0 } },
-	{ "tpl/copy/deleted", L"Clipboard", ICO_UNKNOWN, L"'You were deleted' events",
+	{ "tpl/copy/deleted", LPGEN("Clipboard"), ICO_UNKNOWN, LPGEN("'You were deleted' events"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfEvent, vfSystem, vfDeleted, 0 } }
 };
