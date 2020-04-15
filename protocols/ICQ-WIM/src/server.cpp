@@ -416,8 +416,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 		// ignore duplicates
 		MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
-		if (hDbEvent != 0)
+		if (hDbEvent != 0) {
+			debugLogA("Message %s already exists", szMsgId.c_str());
 			return;
+		}
 
 		bool bIsOutgoing = it["outgoing"].as_bool();
 		if (!bFromHistory && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
@@ -437,6 +439,8 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			MarkAsRead(hContact);
 			return;
 		}
+
+		debugLogA("Adding message %d:%s (%d)", hContact, szMsgId.c_str(), bFromHistory);
 
 		ptrA szUtf(mir_utf8encodeW(wszText));
 

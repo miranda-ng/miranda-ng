@@ -202,8 +202,10 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	// we load history in the very beginning or if the previous message 
 	if (m_bFirstBos) {
 		__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
-		if (srvLastId > lastMsgId)
+		if (srvLastId > lastMsgId) {
+			debugLogA("We need to retrieve history for %S: %lld > %lld", wszId.c_str(), srvLastId, lastMsgId);
 			RetrieveUserHistory(hContact, lastMsgId, false);
+		}
 	}
 	else {
 		for (auto &it : ev["tail"]["messages"])
