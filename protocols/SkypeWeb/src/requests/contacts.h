@@ -35,21 +35,6 @@ public:
 	}
 };
 
-class GetContactsInfoRequest : public HttpRequest
-{
-public:
-	GetContactsInfoRequest(CSkypeProto *ppro, const LIST<char> &skypenames, const char *skypename = "self") :
-		HttpRequest(REQUEST_POST, FORMAT, "api.skype.com/users/%s/contacts/profiles", skypename)
-	{
-		Headers
-			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
-			<< CHAR_VALUE("Accept", "application/json");
-
-		for (auto &it : skypenames)
-			Body << CHAR_VALUE("contacts[]", it);
-	}
-};
-
 class GetContactsAuthRequest : public HttpRequest
 {
 public:

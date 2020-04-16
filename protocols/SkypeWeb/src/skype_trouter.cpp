@@ -17,6 +17,63 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+void CSkypeProto::ProcessTimer()
+{
+	if (!IsOnline())
+		return;
+
+	PushRequest(new GetContactListRequest(this, nullptr), &CSkypeProto::LoadContactList);
+	SendPresence(false);
+
+	RefreshStatuses();
+}
+
+void CSkypeProto::OnReceiveStatus(const NETLIBHTTPREQUEST *response)
+{
+	JsonReply reply(response);
+	if (reply.error())
+		return;
+
+	auto &root = reply.data();
+	for (auto &it : root["Responses"]) {
+		std::string id = it["Contact"].as_string();
+		id.erase(0, 2);
+		MCONTACT hContact = AddContact(id.c_str());
+		if (hContact) {
+			int status = SkypeToMirandaStatus(it["Payload"]["status"].as_string().c_str());
+			setWord(hContact, "Status", status);
+		}
+	}
+}
+
+void CSkypeProto::RefreshStatuses(void)
+{
+	int nRecs = 0;
+	GetStatusRequest *pReq = nullptr;
+
+	for (auto &it : AccContacts()) {
+		CMStringA id(getId(it));
+		if (id.IsEmpty())
+			continue;
+
+		if (pReq == nullptr) {
+			pReq = new GetStatusRequest(this);
+			nRecs = 0;
+		}
+
+		pReq->Url << CHAR_VALUE("cMri", "8:" + id);
+		nRecs++;
+
+		if (nRecs >= 10) {
+			PushRequest(pReq, &CSkypeProto::OnReceiveStatus);
+			pReq = nullptr;
+		}
+	}
+
+	if (pReq)
+		PushRequest(pReq, &CSkypeProto::OnReceiveStatus);
+}
+
 void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
 	JsonReply reply(response);

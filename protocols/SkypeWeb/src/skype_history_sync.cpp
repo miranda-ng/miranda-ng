@@ -105,7 +105,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(Contacts[hContact], 100, false, 0, this), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(getId(hContact), 100, false, 0, this), &CSkypeProto::OnGetServerHistory);
 	return 0;
 }
 

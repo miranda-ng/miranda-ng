@@ -17,8 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-UINT_PTR CSkypeProto::m_timer;
-
 void CSkypeProto::Login()
 {
 	// login
@@ -113,6 +111,8 @@ void CSkypeProto::OnLoginSuccess()
 
 	m_szApiToken = getStringA("TokenSecret");
 
+	m_impl.m_heartBeat.StartSafe(600 * 1000);
+
 	SendRequest(new CreateEndpointRequest(this), &CSkypeProto::OnEndpointCreated);
 }
 
@@ -177,6 +177,8 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		SendRequest(new CreateEndpointRequest(this), &CSkypeProto::OnEndpointCreated);
 		return;
 	}
+
+	RefreshStatuses();
 
 	SendRequest(new CreateSubscriptionsRequest(this), &CSkypeProto::OnSubscriptionsCreated);
 }

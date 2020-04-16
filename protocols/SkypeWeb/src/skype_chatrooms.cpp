@@ -127,7 +127,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 
 				MCONTACT hContact = dlg.m_hContact;
 				if (hContact != NULL)
-					SendRequest(new InviteUserToChatRequest(chat_id, Contacts[hContact], "User", this));
+					SendRequest(new InviteUserToChatRequest(chat_id, getId(hContact), "User", this));
 
 				mir_cslock lck(m_InviteDialogsLock);
 				m_InviteDialogs.remove(&dlg);

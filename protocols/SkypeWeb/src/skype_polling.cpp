@@ -27,10 +27,10 @@ void CSkypeProto::PollingThread(void*)
 			break;
 
 		int nErrors = 0;
-
-		PollRequest *request = new PollRequest(this);
+		m_iPollingId = -1;
 
 		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE) {
+			std::unique_ptr<PollRequest> request(new PollRequest(this));
 			NLHR_PTR response(request->Send(m_hNetlibUser));
 			if (response == nullptr) {
 				nErrors++;
@@ -53,7 +53,6 @@ void CSkypeProto::PollingThread(void*)
 				}
 			}
 		}
-		delete request;
 
 		if (m_iStatus != ID_STATUS_OFFLINE) {
 			debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
@@ -73,6 +72,10 @@ void CSkypeProto::ParsePollData(const char *szData)
 		return;
 
 	for (auto &message : data["eventMessages"]) {
+		int eventId = message["id"].as_int();
+		if (eventId > m_iPollingId)
+			m_iPollingId = eventId;
+
 		const JSONNode &resType = message["resourceType"];
 		const JSONNode &resource = message["resource"];
 

@@ -26,7 +26,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_bThreadsTerminated(false),
 	m_TrouterConnection(nullptr),
 	m_opts(this),
-	Contacts(this),
+	m_impl(*this),
 	m_szServer(mir_strdup(SKYPE_ENDPOINTS_HOST))
 {
 	InitNetwork();
@@ -55,8 +55,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	g_plugin.addSound("skype_inc_call", L"SkypeWeb", LPGENW("Incoming call"));
 	g_plugin.addSound("skype_call_canceled", L"SkypeWeb", LPGENW("Incoming call canceled"));
 
-	SkypeSetTimer();
-
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, NULL, NULL);
 	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, NULL, NULL);
 }
@@ -78,8 +76,6 @@ CSkypeProto::~CSkypeProto()
 		WaitForSingleObject(m_hTrouterThread, INFINITE);
 		m_hTrouterThread = nullptr;
 	}
-
-	SkypeUnsetTimer();
 }
 
 void CSkypeProto::OnModulesLoaded()
@@ -130,7 +126,7 @@ int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
 
 HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
 {
-	PushRequest(new GetProfileRequest(this, Contacts[hContact]), [this, hContact](const NETLIBHTTPREQUEST *response) {
+	PushRequest(new GetProfileRequest(this, getId(hContact)), [this, hContact](const NETLIBHTTPREQUEST *response) {
 		JsonReply reply(response);
 		if (reply.error())
 			return;
@@ -190,7 +186,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(this, Contacts[hContact]));
+	PushRequest(new AuthAcceptRequest(this, getId(hContact)));
 	return 0;
 }
 
@@ -200,7 +196,7 @@ int CSkypeProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthDeclineRequest(this, Contacts[hContact]));
+	PushRequest(new AuthDeclineRequest(this, getId(hContact)));
 	return 0;
 }
 
@@ -214,7 +210,7 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AddContactRequest(this, Contacts[hContact], T2Utf(szMessage)));
+	PushRequest(new AddContactRequest(this, getId(hContact), T2Utf(szMessage)));
 	return 0;
 }
 
@@ -223,7 +219,7 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 	if (isChatRoom(hContact))
 		return 1;
 
-	PushRequest(new GetProfileRequest(this, Contacts[hContact]), &CSkypeProto::LoadProfile, (void*)hContact);
+	PushRequest(new GetProfileRequest(this, getId(hContact)), &CSkypeProto::LoadProfile, (void*)hContact);
 	return 0;
 }
 
@@ -269,6 +265,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		CloseDialogs();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
 
+		m_impl.m_heartBeat.StopSafe();
+
 		if (!Miranda_IsTerminated())
 			setAllContactStatuses(ID_STATUS_OFFLINE, true);
 		return 0;
@@ -291,7 +289,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	SendRequest(new SendTypingRequest(Contacts[hContact], type, this));
+	SendRequest(new SendTypingRequest(getId(hContact), type, this));
 	return 0;
 }
 

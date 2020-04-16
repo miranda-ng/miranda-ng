@@ -18,6 +18,19 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_STATUS_H_
 #define _SKYPE_REQUEST_STATUS_H_
 
+class GetStatusRequest : public HttpRequest
+{
+public:
+	GetStatusRequest(CSkypeProto *ppro) :
+		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/contacts/ALL/presenceDocs/messagingService", ppro->m_szServer)
+	{
+		Headers
+			<< CHAR_VALUE("Accept", "application/json, text/javascript")
+			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
+			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+	}
+};
+
 class SetStatusRequest : public HttpRequest
 {
 public:

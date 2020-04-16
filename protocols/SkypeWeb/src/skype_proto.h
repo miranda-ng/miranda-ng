@@ -26,6 +26,25 @@ struct CSkypeProto : public PROTO < CSkypeProto >
 	friend CSkypeOptionsMain;
 	friend CSkypeGCCreateDlg;
 
+	class CSkypeProtoImpl
+	{
+		friend struct CSkypeProto;
+		CSkypeProto &m_proto;
+
+		CTimer m_heartBeat;
+		void OnHeartBeat(CTimer *)
+		{
+			m_proto.ProcessTimer();
+		}
+
+		CSkypeProtoImpl(CSkypeProto &pro) :
+			m_proto(pro),
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+		{
+			m_heartBeat.OnEvent = Callback(this, &CSkypeProtoImpl::OnHeartBeat);
+		}
+	} m_impl;
+
 public:
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -85,42 +104,15 @@ public:
 
 	CSkypeOptions m_opts;
 
+	int m_iPollingId;
 	ptrA m_szApiToken, m_szToken, m_szId, m_szServer;
 	CMStringA m_szSkypename, m_szMyname;
 
+	__forceinline CMStringA getId(MCONTACT hContact) {
+		return getMStringA(hContact, SKYPE_SETTINGS_ID);
+	}
+
 private:
-	struct contacts_list
-	{
-		CSkypeProto *m_proto;
-		std::map<MCONTACT, char*> m_cache;
-
-		contacts_list(CSkypeProto *ppro) : m_proto(ppro)
-		{}
-
-		~contacts_list()
-		{
-			for (auto &it : m_cache)
-				mir_free(it.second);
-		}
-
-		const char* operator[](MCONTACT hContact)
-		{
-			try
-			{
-				return m_cache.at(hContact);
-			}
-			catch (std::out_of_range&)
-			{
-				char *id = m_proto->getStringA(hContact, SKYPE_SETTINGS_ID);
-				m_cache[hContact] = id;
-				return id;
-			}
-		}
-
-	} Contacts;
-
-	static UINT_PTR m_timer;
-
 	class RequestQueue *requestQueue;
 
 	bool m_bHistorySynced;
@@ -147,8 +139,6 @@ private:
 	mir_cs messageSyncLock;
 	mir_cs m_StatusLock;
 	mir_cs m_AppendMessageLock;
-	static mir_cs accountsLock;
-	static mir_cs timerLock;
 
 	bool m_bThreadsTerminated;
 
@@ -220,6 +210,7 @@ private:
 	void OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response);
 	void OnCapabilitiesSended(const NETLIBHTTPREQUEST *response);
 	void OnStatusChanged(const NETLIBHTTPREQUEST *response);
+	void OnReceiveStatus(const NETLIBHTTPREQUEST *response);
 
 	//TRouter
 
@@ -274,7 +265,6 @@ private:
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
 	void LoadContactsAuth(const NETLIBHTTPREQUEST *response);
-	void LoadContactsInfo(const NETLIBHTTPREQUEST *response);
 	void LoadContactList(const NETLIBHTTPREQUEST *response);
 
 	void OnBlockContact(const NETLIBHTTPREQUEST *response, void *p);
@@ -328,13 +318,17 @@ private:
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
 	// polling
-	void __cdecl PollingThread     (void*);
-	void __cdecl ParsePollData     (const char*);
-	void ProcessEndpointPresence   (const JSONNode &node);
-	void ProcessUserPresence       (const JSONNode &node);
-	void ProcessNewMessage         (const JSONNode &node);
-	void ProcessConversationUpdate (const JSONNode &node);
-	void ProcessThreadUpdate       (const JSONNode &node);
+	void __cdecl PollingThread(void*);
+
+	void ParsePollData(const char*);
+
+	void ProcessNewMessage(const JSONNode &node);
+	void ProcessUserPresence(const JSONNode &node);
+	void ProcessThreadUpdate(const JSONNode &node);
+	void ProcessEndpointPresence(const JSONNode &node);
+	void ProcessConversationUpdate(const JSONNode &node);
+
+	void RefreshStatuses(void);
 
 	// utils
 	template <typename T>
@@ -371,12 +365,7 @@ private:
 	static CMStringA UrlToSkypename(const char *url);
 	static CMStringA GetServerFromUrl(const char *url);
 
-	//---Timers
-	void CALLBACK SkypeUnsetTimer();
-	void CALLBACK SkypeSetTimer();
 	void ProcessTimer();
-	static void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
-	//---/
 
 	CMStringW RunConfirmationCode();
 	CMStringW ChangeTopicForm();
