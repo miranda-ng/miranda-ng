@@ -5,7 +5,7 @@ wchar_t *ptszLayStrings[20];
 HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
 HICON hPopupIcon, hCopyIcon;
 HKL hklLayouts[20];
-BYTE bLayNum;
+int bLayNum;
 HHOOK kbHook_All;
 MainOptions moOptions;
 PopupOptions poOptions;

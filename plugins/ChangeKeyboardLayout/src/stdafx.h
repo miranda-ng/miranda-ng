@@ -101,7 +101,7 @@ extern HICON hPopupIcon, hCopyIcon;
 extern LPCTSTR ptszKeybEng;
 extern HKL hklEng;
 
-extern BYTE bLayNum;
+extern int bLayNum;
 extern HKL hklLayouts[20];
 extern wchar_t *ptszLayStrings[20];
 

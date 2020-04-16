@@ -12,7 +12,7 @@ struct EditStreamData
 
 static DWORD CALLBACK EditStreamOutRtf(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	EditStreamData *esd = (EditStreamData*)dwCookie;
+	EditStreamData *esd = (EditStreamData *)dwCookie;
 	esd->cbBuff += cb;
 	esd->pbBuff = (PBYTE)realloc(esd->pbBuff, esd->cbBuff + sizeof(wchar_t));
 	memcpy(esd->pbBuff + esd->iCurrent, pbBuff, cb);
@@ -24,13 +24,13 @@ static DWORD CALLBACK EditStreamOutRtf(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG c
 	return 0;
 }
 
-wchar_t *GeTStringFromStreamData(EditStreamData *esd)
+wchar_t* GeTStringFromStreamData(EditStreamData *esd)
 {
 	DWORD i, k;
 
-	wchar_t *ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
-	wchar_t *ptszTemp = (wchar_t*)esd->pbBuff;
-	
+	wchar_t *ptszOutText = (LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t));
+	wchar_t *ptszTemp = (wchar_t *)esd->pbBuff;
+
 	for (i = k = 0; i < mir_wstrlen(ptszTemp); i++) {
 		if ((ptszTemp[i] == 0x0A) || (ptszTemp[i] == 0x2028))
 			ptszOutText[k++] = 0x0D;
@@ -51,9 +51,9 @@ BOOL CopyTextToClipboard(wchar_t *ptszText)
 	if (!OpenClipboard(nullptr))
 		return FALSE;
 
-	EmptyClipboard(); 
-	HGLOBAL hCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(ptszText) + 1)*sizeof(wchar_t));
-	mir_wstrcpy((wchar_t*)GlobalLock(hCopy), ptszText);
+	EmptyClipboard();
+	HGLOBAL hCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(ptszText) + 1) * sizeof(wchar_t));
+	mir_wstrcpy((wchar_t *)GlobalLock(hCopy), ptszText);
 	GlobalUnlock(hCopy);
 	SetClipboardData(CF_UNICODETEXT, hCopy);
 	CloseClipboard();
@@ -67,12 +67,12 @@ LPSTR GetNameOfLayout(HKL hklLayout)
 	return ptszLayName;
 }
 
-wchar_t *GetShortNameOfLayout(HKL hklLayout)
+wchar_t* GetShortNameOfLayout(HKL hklLayout)
 {
 	wchar_t szLI[20];
-	wchar_t *ptszLiShort = (LPTSTR)mir_alloc(3*sizeof(wchar_t));
+	wchar_t *ptszLiShort = (LPTSTR)mir_alloc(3 * sizeof(wchar_t));
 	DWORD dwLcid = MAKELCID(LOWORD(hklLayout), 0);
-	GetLocaleInfo(dwLcid, LOCALE_SISO639LANGNAME, szLI, 10);
+	GetLocaleInfoW(dwLcid, LOCALE_SISO639LANGNAME, szLI, 10);
 	ptszLiShort[0] = toupper(szLI[0]);
 	ptszLiShort[1] = toupper(szLI[1]);
 	ptszLiShort[2] = 0;
@@ -81,28 +81,26 @@ wchar_t *GetShortNameOfLayout(HKL hklLayout)
 
 HKL GetNextLayout(HKL hklCurLay)
 {
-	for (DWORD i = 0; i < bLayNum; i++)
+	for (int i = 0; i < bLayNum; i++)
 		if (hklLayouts[i] == hklCurLay)
-			return hklLayouts[(i+1)%(bLayNum)];
-	
+			return hklLayouts[(i + 1) % (bLayNum)];
+
 	return nullptr;
 }
 
-wchar_t *GenerateLayoutString(HKL hklLayout)
+wchar_t* GenerateLayoutString(HKL hklLayout)
 {
-	BYTE bState[256] = {0};
+	BYTE bState[256] = { 0 };
 
-	wchar_t *ptszLayStr = (LPTSTR)mir_alloc(100 * sizeof(wchar_t));
-	wchar_t *ptszTemp = (LPTSTR)mir_alloc(3 * sizeof(wchar_t));
-	ptszTemp[0] = 0;
+	wchar_t ptszTemp[3]; ptszTemp[0] = 0;
+	CMStringW res;
 
-	DWORD i;
+	size_t i;
 	for (i = 0; i < mir_wstrlen(ptszKeybEng); i++) {
 		SHORT shVirtualKey = VkKeyScanEx(ptszKeybEng[i], hklEng);
 		UINT iScanCode = MapVirtualKeyEx(shVirtualKey & 0x00FF, 0, hklEng);
 
-		for (DWORD j = 0; j < 256; j++)
-			bState[j] = 0;
+		memset(bState, 0, sizeof(bState));
 
 		if (shVirtualKey & 0x0100) bState[VK_SHIFT] = 0x80;
 		if (shVirtualKey & 0x0200) bState[VK_CONTROL] = 0x80;
@@ -118,31 +116,29 @@ wchar_t *GenerateLayoutString(HKL hklLayout)
 
 		// Если нам вернули нулевой символ, или не вернули ничего, то присвоим "звоночек"
 		if (ptszTemp[0] == 0)
-			ptszLayStr[i] = 3;
+			res.AppendChar(3);
 		else
-			ptszLayStr[i] = ptszTemp[0];
+			res.AppendChar(ptszTemp[0]);
 	}
-	ptszLayStr[i] = 0;
 
-	mir_free(ptszTemp);
-	return ptszLayStr;
+	return res.Detach();
 }
 
 wchar_t* GetLayoutString(HKL hklLayout)
 {
-	for (DWORD i = 0; i < bLayNum; i++)
+	for (int i = 0; i < bLayNum; i++)
 		if (hklLayouts[i] == hklLayout)
 			return ptszLayStrings[i];
-	
+
 	return nullptr;
 }
 
 wchar_t* ChangeTextCase(LPCTSTR ptszInText)
 {
-	wchar_t *ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
+	wchar_t *ptszOutText = (LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t));
 	mir_wstrcpy(ptszOutText, ptszInText);
 
-	for (DWORD i = 0; i < mir_wstrlen(ptszInText); i++) {
+	for (size_t i = 0; i < mir_wstrlen(ptszInText); i++) {
 		CharUpperBuff(&ptszOutText[i], 1);
 		if (ptszOutText[i] == ptszInText[i])
 			CharLowerBuff(&ptszOutText[i], 1);
@@ -152,7 +148,7 @@ wchar_t* ChangeTextCase(LPCTSTR ptszInText)
 
 wchar_t* ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL TwoWay)
 {
-	wchar_t *ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
+	wchar_t *ptszOutText = (LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t));
 	mir_wstrcpy(ptszOutText, ptszInText);
 
 	if (hklCurLay == nullptr || hklToLay == nullptr)
@@ -166,19 +162,19 @@ wchar_t* ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL 
 	for (DWORD i = 0; i < mir_wstrlen(ptszInText); i++) {
 		BOOL Found = FALSE;
 		for (DWORD j = 0; j < mir_wstrlen(ptszKeybCur) && !Found; j++)
-		if (ptszKeybCur[j] == ptszInText[i]) {
-			Found = TRUE;
-			if (mir_wstrlen(ptszKeybNext) >= j)
-				ptszOutText[i] = ptszKeybNext[j];
-		}
+			if (ptszKeybCur[j] == ptszInText[i]) {
+				Found = TRUE;
+				if (mir_wstrlen(ptszKeybNext) >= j)
+					ptszOutText[i] = ptszKeybNext[j];
+			}
 
 		if (TwoWay && !Found)
-		for (DWORD j = 0; j < mir_wstrlen(ptszKeybNext) && !Found; j++)
-		if (ptszKeybNext[j] == ptszInText[i]) {
-			Found = TRUE;
-			if (mir_wstrlen(ptszKeybCur) >= j)
-				ptszOutText[i] = ptszKeybCur[j];
-		}
+			for (DWORD j = 0; j < mir_wstrlen(ptszKeybNext) && !Found; j++)
+				if (ptszKeybNext[j] == ptszInText[i]) {
+					Found = TRUE;
+					if (mir_wstrlen(ptszKeybCur) >= j)
+						ptszOutText[i] = ptszKeybCur[j];
+				}
 	}
 	return ptszOutText;
 }
@@ -193,17 +189,17 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 		if (wcschr(ptszKeybBuff, ptszInText[j]) != nullptr)
 			++dwMaxSymbols;
 
-	for (DWORD i = 1; i < bLayNum; i++) {
+	for (int i = 1; i < bLayNum; i++) {
 		ptszKeybBuff = ptszLayStrings[i];
 		DWORD dwCountSymbols = 0;
-			
-		for (DWORD j = 0; j<mir_wstrlen(ptszInText); j++)
+
+		for (DWORD j = 0; j < mir_wstrlen(ptszInText); j++)
 			if (wcschr(ptszKeybBuff, ptszInText[j]) != nullptr)
 				++dwCountSymbols;
-		
+
 		if (dwCountSymbols == dwMaxSymbols)
 			dwTemp = dwCountSymbols;
-		else if (dwCountSymbols>dwMaxSymbols) {
+		else if (dwCountSymbols > dwMaxSymbols) {
 			dwMaxSymbols = dwCountSymbols;
 			hklCurLay = hklLayouts[i];
 		}
@@ -211,7 +207,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 
 	if (dwMaxSymbols == dwTemp)
 		hklCurLay = GetKeyboardLayout(0);
-	
+
 	return hklCurLay;
 }
 
@@ -222,7 +218,6 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	ptrW ptszInText;
 	CHARRANGE crSelection = { 0 }, crTemp = { 0 };
 	DWORD dwStartWord, dwEndWord;
-	int i, iRes;
 
 	BYTE WindowType = WTYPE_Unknown;
 	BOOL WindowIsReadOnly, TwoWay;
@@ -240,7 +235,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	if (ServiceExists(MS_HPP_EG_EVENT)) {
 		// То же самое для History++
 		ieEvent.hwnd = hTextWnd;
-		ptszInText = (wchar_t*)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&ieEvent);
+		ptszInText = (wchar_t *)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&ieEvent);
 
 		if (!IsBadStringPtr(ptszInText, MaxTextSize))
 			WindowType = WTYPE_HistoryPP;
@@ -250,14 +245,14 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		// Извращенное определение хэндла IEView
 		ieEvent.hwnd = GetParent(GetParent(hTextWnd));
 
-		ptszInText = (wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&ieEvent);
+		ptszInText = (wchar_t *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&ieEvent);
 		if (!IsBadStringPtr(ptszInText, MaxTextSize))
 			WindowType = WTYPE_IEView;
 	}
 
 	if (WindowType == WTYPE_Unknown) {
 		ptrW ptszTemp((LPTSTR)mir_alloc(255 * sizeof(wchar_t)));
-		i = GetClassName(hTextWnd, ptszTemp, 255);
+		int i = GetClassName(hTextWnd, ptszTemp, 255);
 		ptszTemp[i] = 0;
 
 		if (wcsstr(CharUpper(ptszTemp), L"RICHEDIT") != nullptr) {
@@ -268,7 +263,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 	if (WindowType == WTYPE_Unknown) {
 		SendMessage(hTextWnd, EM_GETSEL, (WPARAM)&crSelection.cpMin, (LPARAM)&crSelection.cpMax);
-		if ((SendMessage(hTextWnd, WM_GETDLGCODE, 0, 0)&(DLGC_HASSETSEL)) && (crSelection.cpMin >= 0))
+		if ((SendMessage(hTextWnd, WM_GETDLGCODE, 0, 0) & (DLGC_HASSETSEL)) && (crSelection.cpMin >= 0))
 			WindowType = WTYPE_Edit;
 	}
 
@@ -297,9 +292,9 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				}
 			}
 			if (WindowType == WTYPE_Edit) {
-				ptrW ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
-				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
-				iRes = GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
+				ptrW ptszTemp((LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t)));
+				ptszInText = (LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t));
+				int iRes = GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
 				if (!IsBadStringPtr(ptszInText, MaxTextSize) && (iRes > 0)) {
 					wcsncpy(ptszInText, &ptszTemp[crSelection.cpMin], crSelection.cpMax - crSelection.cpMin);
 					ptszInText[crSelection.cpMax - crSelection.cpMin] = 0;
@@ -334,8 +329,8 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				}
 			}
 			if (WindowType == WTYPE_Edit) {
-				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
-				iRes = GetWindowText(hTextWnd, ptszInText, MaxTextSize);
+				ptszInText = (LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t));
+				int iRes = GetWindowText(hTextWnd, ptszInText, MaxTextSize);
 
 				if (!IsBadStringPtr(ptszInText, MaxTextSize) && (iRes > 0)) {
 					crTemp.cpMin = 0;
@@ -374,7 +369,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				}
 
 				if (WindowType == WTYPE_Edit) {
-					ptrW ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
+					ptrW ptszTemp((LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t)));
 					wcsncpy(ptszTemp, &ptszInText[crTemp.cpMin], crTemp.cpMax - crTemp.cpMin);
 					ptszTemp[crTemp.cpMax - crTemp.cpMin] = 0;
 					mir_wstrcpy(ptszInText, ptszTemp);
@@ -397,151 +392,152 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 	// if ((SendMessage(hTextWnd, EM_GETOPTIONS, 0, 0)&ECO_READONLY))
 	if (WindowType == WTYPE_RichEdit || WindowType == WTYPE_Edit)
-	if (GetWindowLongPtr(hTextWnd, GWL_STYLE) & ES_READONLY)
-		WindowIsReadOnly = TRUE;
+		if (GetWindowLongPtr(hTextWnd, GWL_STYLE) & ES_READONLY)
+			WindowIsReadOnly = TRUE;
 
 	// Лог Иевью и ХисториПП в режиме эмуляции Иевью  и поля только для чтения.
-	if (WindowType != WTYPE_Unknown && !IsBadStringPtr(ptszInText, MaxTextSize))
-	if (WindowIsReadOnly) {
-		ptrW ptszMBox((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
-		ptszMBox[0] = 0;
+	if (WindowType != WTYPE_Unknown && !IsBadStringPtr(ptszInText, MaxTextSize)) {
+		if (WindowIsReadOnly) {
+			ptrW ptszMBox((LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t)));
+			ptszMBox[0] = 0;
 
-		if (TextOperation == TOT_Layout) {
-			hklCurLay = GetLayoutOfText(ptszInText);
-			hklToLay = GetNextLayout(hklCurLay);
-			TwoWay = (moOptions.TwoWay) && (bLayNum == 2);
+			if (TextOperation == TOT_Layout) {
+				hklCurLay = GetLayoutOfText(ptszInText);
+				hklToLay = GetNextLayout(hklCurLay);
+				TwoWay = (moOptions.TwoWay) && (bLayNum == 2);
 
-			if (bLayNum == 2)
-				ptszMBox = ChangeTextLayout(ptszInText, hklCurLay, hklToLay, TwoWay);
-			else {
-				for (i = 0; i < bLayNum; i++)
-					if (hklLayouts[i] != hklCurLay) {
-						if (mir_wstrlen(ptszMBox) != 0)
-							mir_wstrcat(ptszMBox, L"\n\n");
-						ptrW ptszTemp(GetShortNameOfLayout(hklLayouts[i]));
-						mir_wstrcat(ptszMBox, ptszTemp);
-						mir_wstrcat(ptszMBox, L":\n");
-						ptrW ptszOutText(ChangeTextLayout(ptszInText, hklCurLay, hklLayouts[i], FALSE));
-						mir_wstrcat(ptszMBox, ptszOutText);
-					}
+				if (bLayNum == 2)
+					ptszMBox = ChangeTextLayout(ptszInText, hklCurLay, hklToLay, TwoWay);
+				else {
+					for (int i = 0; i < bLayNum; i++)
+						if (hklLayouts[i] != hklCurLay) {
+							if (mir_wstrlen(ptszMBox) != 0)
+								mir_wstrcat(ptszMBox, L"\n\n");
+							ptrW ptszTemp(GetShortNameOfLayout(hklLayouts[i]));
+							mir_wstrcat(ptszMBox, ptszTemp);
+							mir_wstrcat(ptszMBox, L":\n");
+							ptrW ptszOutText(ChangeTextLayout(ptszInText, hklCurLay, hklLayouts[i], FALSE));
+							mir_wstrcat(ptszMBox, ptszOutText);
+						}
+				}
 			}
-		}
-		else if (TextOperation == TOT_Case)
-			ptszMBox = ChangeTextCase(ptszInText);
+			else if (TextOperation == TOT_Case)
+				ptszMBox = ChangeTextCase(ptszInText);
 
-		if ((WindowType == WTYPE_Edit) || (WindowType == WTYPE_RichEdit)) {
-			SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
-			SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-			InvalidateRect(hTextWnd, nullptr, FALSE);
-		}
-
-		if (TextOperation == TOT_Layout)
-			Skin_PlaySound(SND_ChangeLayout);
-		else if (TextOperation == TOT_Case)
-			Skin_PlaySound(SND_ChangeCase);
-
-		if (moOptions.CopyToClipboard)
-			CopyTextToClipboard(ptszMBox);
-
-		//-------------------------------Покажем попапы------------------------------------------ 			
-		if (moOptions.ShowPopup) {
-			wchar_t *ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
-			mir_wstrcpy(ptszPopupText, ptszMBox);
-
-			POPUPDATAW ppd;
-			wcsncpy(ppd.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
-			wcsncpy(ppd.lpwzText, ptszPopupText, MAX_SECONDLINE);
-
-			switch (poOptions.bColourType) {
-			case PPC_POPUP:
-				ppd.colorBack = ppd.colorText = 0;
-				break;
-			case PPC_WINDOWS:
-				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-				break;
-			case PPC_CUSTOM:
-				ppd.colorBack = poOptions.crBackColour;
-				ppd.colorText = poOptions.crTextColour;
-				break;
+			if ((WindowType == WTYPE_Edit) || (WindowType == WTYPE_RichEdit)) {
+				SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
+				SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
+				InvalidateRect(hTextWnd, nullptr, FALSE);
 			}
 
-			switch (poOptions.bTimeoutType) {
-			case PPT_POPUP:
-				ppd.iSeconds = 0;
-				break;
-			case PPT_PERMANENT:
-				ppd.iSeconds = -1;
-				break;
-			case PPC_CUSTOM:
-				ppd.iSeconds = poOptions.bTimeout;
-				break;
-			}
-			ppd.PluginData = ptszPopupText;
-			ppd.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
+			if (TextOperation == TOT_Layout)
+				Skin_PlaySound(SND_ChangeLayout);
+			else if (TextOperation == TOT_Case)
+				Skin_PlaySound(SND_ChangeCase);
 
-			ppd.lchIcon = hPopupIcon;
-			poOptions.paActions[0].lchIcon = hCopyIcon;
-			ppd.lpActions = poOptions.paActions;
-			ppd.actionCount = 1;
+			if (moOptions.CopyToClipboard)
+				CopyTextToClipboard(ptszMBox);
 
-			if (PUAddPopupW(&ppd) < 0) {
-				mir_free(ptszPopupText);
-				MessageBox(nullptr, ptszMBox, TranslateT(MODULENAME), MB_ICONINFORMATION);
-			}
-		}
-	}
-	//------------------Редактируемые поля ----------------------------
-	else {
-		ptrW ptszOutText;
-		if (TextOperation == TOT_Layout) {
-			hklCurLay = GetLayoutOfText(ptszInText);
-			hklToLay = GetNextLayout(hklCurLay);
-			TwoWay = (moOptions.TwoWay) && (bLayNum == 2);
-			ptszOutText = ChangeTextLayout(ptszInText, hklCurLay, hklToLay, TwoWay);
-		}
-		else if (TextOperation == TOT_Case)
-			ptszOutText = ChangeTextCase(ptszInText);
+			//-------------------------------Покажем попапы------------------------------------------ 			
+			if (moOptions.ShowPopup) {
+				wchar_t *ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t));
+				mir_wstrcpy(ptszPopupText, ptszMBox);
 
-		if (WindowType == WTYPE_RichEdit) {
-			SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crTemp);
-			SendMessage(hTextWnd, EM_REPLACESEL, FALSE, (LPARAM)ptszOutText);
-			SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
-		}
-		else {
-			ptrW ptszTemp((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
-			GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
-			for (i = crTemp.cpMin; i < crTemp.cpMax; i++)
-				ptszTemp[i] = ptszOutText[i - crTemp.cpMin];
-			SetWindowText(hTextWnd, ptszTemp);
-			SendMessage(hTextWnd, EM_SETSEL, crSelection.cpMin, crSelection.cpMax);
-		}
+				POPUPDATAW ppd;
+				wcsncpy(ppd.lpwzContactName, TranslateT(MODULENAME), MAX_CONTACTNAME);
+				wcsncpy(ppd.lpwzText, ptszPopupText, MAX_SECONDLINE);
 
-		// Переключим раскладку или изменим состояние Caps Lock
-		if (TextOperation == TOT_Layout && hklToLay != nullptr && moOptions.ChangeSystemLayout)
-			ActivateKeyboardLayout(hklToLay, KLF_SETFORPROCESS);
-		else if (TextOperation == TOT_Case) {
-			// Если нужно инвертнуть
-			if (moOptions.bCaseOperations == 0) {
-				keybd_event(VK_CAPITAL, 0x45, 0, 0);
-				keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, 0);
-			}
-			// Если нужно отключить
-			else if (moOptions.bCaseOperations == 1) {
-				if (GetKeyState(VK_CAPITAL) & 0x0001) {
-					keybd_event(VK_CAPITAL, 0x45, 0, 0);
-					keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, 0);
+				switch (poOptions.bColourType) {
+				case PPC_POPUP:
+					ppd.colorBack = ppd.colorText = 0;
+					break;
+				case PPC_WINDOWS:
+					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+					break;
+				case PPC_CUSTOM:
+					ppd.colorBack = poOptions.crBackColour;
+					ppd.colorText = poOptions.crTextColour;
+					break;
+				}
+
+				switch (poOptions.bTimeoutType) {
+				case PPT_POPUP:
+					ppd.iSeconds = 0;
+					break;
+				case PPT_PERMANENT:
+					ppd.iSeconds = -1;
+					break;
+				case PPC_CUSTOM:
+					ppd.iSeconds = poOptions.bTimeout;
+					break;
+				}
+				ppd.PluginData = ptszPopupText;
+				ppd.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
+
+				ppd.lchIcon = hPopupIcon;
+				poOptions.paActions[0].lchIcon = hCopyIcon;
+				ppd.lpActions = poOptions.paActions;
+				ppd.actionCount = 1;
+
+				if (PUAddPopupW(&ppd) < 0) {
+					mir_free(ptszPopupText);
+					MessageBox(nullptr, ptszMBox, TranslateT(MODULENAME), MB_ICONINFORMATION);
 				}
 			}
 		}
+		//------------------Редактируемые поля ----------------------------
+		else {
+			ptrW ptszOutText;
+			if (TextOperation == TOT_Layout) {
+				hklCurLay = GetLayoutOfText(ptszInText);
+				hklToLay = GetNextLayout(hklCurLay);
+				TwoWay = (moOptions.TwoWay) && (bLayNum == 2);
+				ptszOutText = ChangeTextLayout(ptszInText, hklCurLay, hklToLay, TwoWay);
+			}
+			else if (TextOperation == TOT_Case)
+				ptszOutText = ChangeTextCase(ptszInText);
 
-		SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hTextWnd, nullptr, FALSE);
+			if (WindowType == WTYPE_RichEdit) {
+				SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crTemp);
+				SendMessage(hTextWnd, EM_REPLACESEL, FALSE, (LPARAM)ptszOutText);
+				SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
+			}
+			else {
+				ptrW ptszTemp((LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t)));
+				GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
+				for (int i = crTemp.cpMin; i < crTemp.cpMax; i++)
+					ptszTemp[i] = ptszOutText[i - crTemp.cpMin];
+				SetWindowText(hTextWnd, ptszTemp);
+				SendMessage(hTextWnd, EM_SETSEL, crSelection.cpMin, crSelection.cpMax);
+			}
 
-		if (TextOperation == TOT_Layout)
-			Skin_PlaySound(SND_ChangeLayout);
-		else if (TextOperation == TOT_Case)
-			Skin_PlaySound(SND_ChangeCase);
+			// Переключим раскладку или изменим состояние Caps Lock
+			if (TextOperation == TOT_Layout && hklToLay != nullptr && moOptions.ChangeSystemLayout)
+				ActivateKeyboardLayout(hklToLay, KLF_SETFORPROCESS);
+			else if (TextOperation == TOT_Case) {
+				// Если нужно инвертнуть
+				if (moOptions.bCaseOperations == 0) {
+					keybd_event(VK_CAPITAL, 0x45, 0, 0);
+					keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, 0);
+				}
+				// Если нужно отключить
+				else if (moOptions.bCaseOperations == 1) {
+					if (GetKeyState(VK_CAPITAL) & 0x0001) {
+						keybd_event(VK_CAPITAL, 0x45, 0, 0);
+						keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, 0);
+					}
+				}
+			}
+
+			SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
+			InvalidateRect(hTextWnd, nullptr, FALSE);
+
+			if (TextOperation == TOT_Layout)
+				Skin_PlaySound(SND_ChangeLayout);
+			else if (TextOperation == TOT_Case)
+				Skin_PlaySound(SND_ChangeCase);
+		}
 	}
 
 	return 0;
