@@ -276,9 +276,9 @@ void CDiscordProto::SearchThread(void *param)
 	psr.firstName.w = L"";
 	psr.lastName.w = L"";
 	psr.id.w = L"";
-	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param, (LPARAM)&psr);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 
-	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)param, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	mir_free(param);
 }
 
@@ -296,9 +296,24 @@ HWND CDiscordProto::SearchAdvanced(HWND hwndDlg)
 	if (p == nullptr) // wrong user id
 		return nullptr;
 
-	p = mir_wstrdup(wszNick);
-	ForkThread(&CDiscordProto::SearchThread, p);
-	return (HWND)p;
+	ForkThread(&CDiscordProto::SearchThread, mir_wstrdup(wszNick));
+	return (HWND)1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Basic search - by SnowFlake
+
+void CDiscordProto::OnReceiveUserinfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
+{
+	JsonReply root(pReply);
+	if (!root) {
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
+		return;
+	}
+
+	auto &data = root.data();
+	CMStringW wszUserId(data["username"].as_mstring() + L"#" + data["discriminator"].as_mstring());
+	ForkThread(&CDiscordProto::SearchThread, wszUserId.Detach());
 }
 
 HANDLE CDiscordProto::SearchBasic(const wchar_t *wszId)
@@ -308,9 +323,7 @@ HANDLE CDiscordProto::SearchBasic(const wchar_t *wszId)
 
 	CMStringA szUrl = "/users/";
 	szUrl.AppendFormat(ptrA(mir_utf8encodeW(wszId)));
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveMyInfo);
-	pReq->pUserInfo = (void*)-1;
-	Push(pReq);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveUserinfo));
 	return (HANDLE)1; // Success
 }
 
