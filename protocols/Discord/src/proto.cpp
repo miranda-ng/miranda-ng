@@ -338,9 +338,7 @@ int CDiscordProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 		return 1; // error
 
 	JSONNode root; root << WCHAR_PARAM("username", wszUsername) << INT_PARAM("discriminator", iDiscriminator);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/users/@me/relationships", nullptr, &root);
-	pReq->pUserInfo = (void*)hContact;
-	Push(pReq);
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/users/@me/relationships", nullptr, &root));
 	return 0;
 }
 
@@ -358,9 +356,10 @@ int CDiscordProto::Authorize(MEVENT hDbEvent)
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return 1;
 	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
 
+	JSONNode root;
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);
 	CMStringA szUrl(FORMAT, "/users/@me/relationships/%lld", getId(hContact, DB_KEY_ID));
-	Push(new AsyncHttpRequest(this, REQUEST_PUT, szUrl, nullptr));
+	Push(new AsyncHttpRequest(this, REQUEST_PUT, szUrl, nullptr, &root));
 	return 0;
 }
 
