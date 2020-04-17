@@ -2269,9 +2269,10 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 		if (pContainer == nullptr && bAutoContainer)
 			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact);
 
-		if (pContainer != nullptr)
+		if (pContainer != nullptr) {
 			CreateNewTabForContact(pContainer, hContact, false, bPopup, true, hDbEvent);
-		return;
+			return;
+		}
 	}
 
 	// no window created, simply add an unread event to contact list
