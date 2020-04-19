@@ -118,7 +118,8 @@ void CSkypeProto::OnLoginSuccess()
 
 void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 {
-	if (!IsStatusConnecting(m_iStatus)) return;
+	if (!IsStatusConnecting(m_iStatus))
+		return;
 
 	m_iStatus++;
 
@@ -129,40 +130,11 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	for (int i = 0; i < response->headersCount; i++) {
-		if (!mir_strcmpi(response->headers[i].szName, "Set-RegistrationToken")) {
-			CMStringA szValue = response->headers[i].szValue, szCookieName, szCookieVal;
-			int iStart = 0;
-			while (true) {
-				CMStringA szToken = szValue.Tokenize(";", iStart).Trim();
-				if (iStart == -1)
-					break;
-				int iStart2 = 0;
-				szCookieName = szToken.Tokenize("=", iStart2);
-				szCookieVal = szToken.Mid(iStart2);
-				setString(szCookieName, szCookieVal);
-
-				if (szCookieName == "registrationToken")
-					m_szToken = szCookieVal.Detach();
-				else if (szCookieName == "endpointId")
-					m_szId = szCookieVal.Detach();
-			}
-		}
-		else if (!mir_strcmpi(response->headers[i].szName, "Location")) {
-			CMStringA szValue = response->headers[i].szValue;
-			m_szServer = GetServerFromUrl(szValue).Detach();
-		}
-	}
-
-	if (m_iStatus++ > SKYPE_MAX_CONNECT_RETRIES) {
-		debugLogA(__FUNCTION__ ": failed to create endpoint (too many connect retries)");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
 	if (response->resultCode != 201) {
 		if (response->resultCode == 401) {
+			if (auto *szStatus = Netlib_GetHeader(response, "StatusText"))
+				if (!strstr(szStatus, "SkypeTokenExpired"))
+					delSetting("TokenSecret");
 			delSetting("TokenExpiresIn");
 			SendRequest(new LoginOAuthRequest(m_szSkypename, pass_ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
 			return;
@@ -178,6 +150,36 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
+	if (m_iStatus++ > SKYPE_MAX_CONNECT_RETRIES) {
+		debugLogA(__FUNCTION__ ": failed to create endpoint (too many connect retries)");
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	if (auto *hdr = Netlib_GetHeader(response, "Set-RegistrationToken")) {
+		CMStringA szValue = hdr;
+		int iStart = 0;
+		while (true) {
+			CMStringA szToken = szValue.Tokenize(";", iStart).Trim();
+			if (iStart == -1)
+				break;
+			
+			int iStart2 = 0;
+			CMStringA name = szToken.Tokenize("=", iStart2);
+			CMStringA val = szToken.Mid(iStart2);
+			setString(name, val);
+
+			if (name == "registrationToken")
+				m_szToken = val.Detach();
+			else if (name == "endpointId")
+				m_szId = val.Detach();
+		}
+	}
+	
+	if (auto *hdr = Netlib_GetHeader(response, "Location"))
+		m_szServer = GetServerFromUrl(hdr).Detach();
+	
 	RefreshStatuses();
 
 	SendRequest(new CreateSubscriptionsRequest(this), &CSkypeProto::OnSubscriptionsCreated);
