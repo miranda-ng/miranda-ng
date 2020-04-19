@@ -130,7 +130,13 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 		return;
 	}
 
-	if (response->resultCode != 201) {
+	switch (response->resultCode) {
+	case 200:
+	case 201: // ok, endpoint created
+	case 301: // redirect
+		break;
+
+	default:
 		if (response->resultCode == 401) {
 			if (auto *szStatus = Netlib_GetHeader(response, "StatusText"))
 				if (!strstr(szStatus, "SkypeTokenExpired"))
