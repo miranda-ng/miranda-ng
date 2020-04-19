@@ -85,8 +85,8 @@ BEGIN
     CONTROL         "",IDC_LV_PROTO_PROTOS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,0,18,296,170
     LTEXT           "Current policy:",IDC_STC_PROTO2,3,193,152,9,SS_NOPREFIX | NOT WS_GROUP
     COMBOBOX        IDC_CMB_PROTO_POLICY,3,206,152,12,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_TABSTOP
-    PUSHBUTTON      "Generate new private key",IDC_BTN_PROTO_NEWKEY,162,190,123,18
-    PUSHBUTTON      "Forget private key",IDC_BTN_PROTO_FORGET,162,211,123,12
+    PUSHBUTTON      "Generate new private key",IDC_BTN_PROTO_NEWKEY,162,192,123,14
+    PUSHBUTTON      "Forget private key",IDC_BTN_PROTO_FORGET,162,208,123,14
 END
 
 IDD_OPT_CONTACTS DIALOGEX 0, 0, 296, 223
@@ -238,6 +238,17 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_PROTO AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
