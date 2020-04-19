@@ -133,25 +133,25 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 	switch (response->resultCode) {
 	case 200:
 	case 201: // ok, endpoint created
-	case 301: // redirect
+	case 301:
+	case 302: // redirect
 		break;
 
-	default:
-		if (response->resultCode == 401) {
-			if (auto *szStatus = Netlib_GetHeader(response, "StatusText"))
-				if (!strstr(szStatus, "SkypeTokenExpired"))
-					delSetting("TokenSecret");
-			delSetting("TokenExpiresIn");
-			SendRequest(new LoginOAuthRequest(m_szSkypename, pass_ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
-			return;
-		}
-		if (response->resultCode == 400) {
-			delSetting("TokenExpiresIn");
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-			SetStatus(ID_STATUS_OFFLINE);
-			return;
-		}
-		// it should be rewritten
+	case 401: // unauthorized
+		if (auto *szStatus = Netlib_GetHeader(response, "StatusText"))
+			if (!strstr(szStatus, "SkypeTokenExpired"))
+				delSetting("TokenSecret");
+		delSetting("TokenExpiresIn");
+		SendRequest(new LoginOAuthRequest(m_szSkypename, pass_ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))), &CSkypeProto::OnLoginOAuth);
+		return;
+
+	case 400:
+		delSetting("TokenExpiresIn");
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+
+	default: // it should be rewritten
 		SendRequest(new CreateEndpointRequest(this), &CSkypeProto::OnEndpointCreated);
 		return;
 	}
