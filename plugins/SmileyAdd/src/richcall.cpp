@@ -35,6 +35,7 @@ struct RichEditOwnerData
 	HWND hwndLog;
 };
 
+static mir_cs csLists;
 static LIST<RichEditData> g_RichEditList(10, HandleKeySortT);
 static LIST<RichEditOwnerData> g_RichEditOwnerList(5, HandleKeySortT);
 
@@ -203,6 +204,10 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 			ReplaceContactSmileysWithText(rdt, sel, true);
 		}
 		break;
+
+	case WM_DESTROY:
+		CloseRichCallback(hwnd);
+		break;
 	}
 
 	LRESULT result = mir_callNextSubclass(hwnd, RichEditSubclass, uMsg, wParam, lParam);
@@ -304,8 +309,10 @@ bool SetRichCallback(HWND hwnd, MCONTACT hContact, bool subany, bool subnew)
 		rdt->hContact = hContact;
 		rdt->inputarea = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) == 0;
 		rdt->tipActive = -1;
-		g_RichEditList.insert(rdt);
-
+		{
+			mir_cslock lck(csLists);
+			g_RichEditList.insert(rdt);
+		}
 		if (subnew)
 			mir_subclassWindow(hwnd, RichEditSubclass);
 	}
@@ -321,15 +328,20 @@ bool SetRichCallback(HWND hwnd, MCONTACT hContact, bool subany, bool subnew)
 
 void CloseRichCallback(HWND hwnd)
 {
-	int ind = g_RichEditList.getIndex((RichEditData*)&hwnd);
-	if (ind == -1)
-		return;
+	RichEditData *rdt;
+	{
+		mir_cslock lck(csLists);
+		int ind = g_RichEditList.getIndex((RichEditData *)&hwnd);
+		if (ind == -1)
+			return;
 
-	RichEditData *rdt = g_RichEditList[ind];
+		rdt = g_RichEditList[ind];
+		g_RichEditList.remove(ind);
+	}
+
 	if (rdt->hToolTip)
 		DestroyWindow(rdt->hToolTip);
 	delete rdt;
-	g_RichEditList.remove(ind);
 	mir_unsubclassWindow(hwnd, RichEditSubclass);
 }
 
