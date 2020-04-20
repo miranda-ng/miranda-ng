@@ -260,6 +260,45 @@ StatusItems_t *GetProtocolStatusItem(const char *szProto)
 	return nullptr;
 }
 
+int CoolSB_SetupScrollBar()
+{
+	/*
+	* a skinned scrollbar is only valid when ALL items are skinned with image items
+	* and no item is set to ignored
+	*/
+
+	cfg::dat.bSkinnedScrollbar = !arStatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLTHUMBPRESSED - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLBUTTON - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE]->IGNORED;
+
+	if (!arStatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLTHUMBPRESSED - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLBUTTON - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE]->imageItem)
+		cfg::dat.bSkinnedScrollbar = FALSE;
+
+	if (db_get_b(0, "CLC", "NoVScrollBar", 0)) {
+		UninitializeCoolSB(g_clistApi.hwndContactTree);
+		return 0;
+	}
+
+	if (cfg::dat.bSkinnedScrollbar) {
+		InitializeCoolSB(g_clistApi.hwndContactTree);
+		CoolSB_SetStyle(g_clistApi.hwndContactTree, SB_VERT, CSBS_HOTTRACKED);
+	}
+	else UninitializeCoolSB(g_clistApi.hwndContactTree);
+	return 0;
+}
+
 // fills the struct with the settings in the database
 void LoadExtBkSettingsFromDB()
 {
@@ -1611,7 +1650,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	return FALSE;
 }
 
-INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int iInit = TRUE;
 	static HWND hwndSkinEdit = nullptr;
@@ -1753,41 +1792,13 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	return FALSE;
 }
 
-int CoolSB_SetupScrollBar()
+void InitSkinOptions(WPARAM wParam)
 {
-	/*
-	* a skinned scrollbar is only valid when ALL items are skinned with image items
-	* and no item is set to ignored
-	*/
-
-	cfg::dat.bSkinnedScrollbar = !arStatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE]->IGNORED &&
-		!arStatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE]->IGNORED &&
-		!arStatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE]->IGNORED &&
-		!arStatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE]->IGNORED &&
-		!arStatusItems[ID_EXTBKSCROLLTHUMBPRESSED - ID_STATUS_OFFLINE]->IGNORED &&
-		!arStatusItems[ID_EXTBKSCROLLBUTTON - ID_STATUS_OFFLINE]->IGNORED &&
-		!arStatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE]->IGNORED &&
-		!arStatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE]->IGNORED;
-
-	if (!arStatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE]->imageItem ||
-		 !arStatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE]->imageItem ||
-		 !arStatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE]->imageItem ||
-		 !arStatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE]->imageItem ||
-		 !arStatusItems[ID_EXTBKSCROLLTHUMBPRESSED - ID_STATUS_OFFLINE]->imageItem ||
-		 !arStatusItems[ID_EXTBKSCROLLBUTTON - ID_STATUS_OFFLINE]->imageItem ||
-		 !arStatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE]->imageItem ||
-		 !arStatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE]->imageItem)
-		cfg::dat.bSkinnedScrollbar = FALSE;
-
-	if (db_get_b(0, "CLC", "NoVScrollBar", 0)) {
-		UninitializeCoolSB(g_clistApi.hwndContactTree);
-		return 0;
-	}
-
-	if (cfg::dat.bSkinnedScrollbar) {
-		InitializeCoolSB(g_clistApi.hwndContactTree);
-		CoolSB_SetStyle(g_clistApi.hwndContactTree, SB_VERT, CSBS_HOTTRACKED);
-	}
-	else UninitializeCoolSB(g_clistApi.hwndContactTree);
-	return 0;
+	OPTIONSDIALOGPAGE odp = {};
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.szGroup.a = LPGEN("Skins");
+	odp.szTitle.a = LPGEN("Contact list");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
+	odp.pfnDlgProc = OptionsDlgProc;
+	g_plugin.addOptions(wParam, &odp);
 }

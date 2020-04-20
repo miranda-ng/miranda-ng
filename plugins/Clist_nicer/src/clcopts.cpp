@@ -31,85 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DBFONTF_ITALIC		2
 #define DBFONTF_UNDERLINE	4
 
-static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-struct CheckBoxToStyleEx_t {
-	int id;
-	DWORD flag;
-	int not_t;
-} static const checkBoxToStyleEx[] = {
-	{ IDC_DISABLEDRAGDROP, CLS_EX_DISABLEDRAGDROP, 0 }, { IDC_NOTEDITLABELS, CLS_EX_EDITLABELS, 1 },
-	{ IDC_SHOWSELALWAYS, CLS_EX_SHOWSELALWAYS, 0 }, { IDC_TRACKSELECT, CLS_EX_TRACKSELECT, 0 },
-	{ IDC_DIVIDERONOFF, CLS_EX_DIVIDERONOFF, 0 }, { IDC_NOTNOTRANSLUCENTSEL, CLS_EX_NOTRANSLUCENTSEL, 1 },
-	{ IDC_NOTNOSMOOTHSCROLLING, CLS_EX_NOSMOOTHSCROLLING, 1 }
-};
-
-struct CheckBoxToGroupStyleEx_t {
-	int id;
-	DWORD flag;
-	int not_t;
-} static const checkBoxToGroupStyleEx[] = {
-	{ IDC_SHOWGROUPCOUNTS, CLS_EX_SHOWGROUPCOUNTS, 0 }, { IDC_HIDECOUNTSWHENEMPTY, CLS_EX_HIDECOUNTSWHENEMPTY, 0 },
-	{ IDC_LINEWITHGROUPS, CLS_EX_LINEWITHGROUPS, 0 }, { IDC_QUICKSEARCHVISONLY, CLS_EX_QUICKSEARCHVISONLY, 0 },
-	{ IDC_SORTGROUPSALPHA, CLS_EX_SORTGROUPSALPHA, 0 }
-};
-
-struct CheckBoxValues_t {
-	DWORD style;
-	wchar_t *szDescr;
-}
-static const greyoutValues[] = {
-	{ GREYF_UNFOCUS, LPGENW("Not focused") }, 
-	{ MODEF_OFFLINE, LPGENW("Offline") }, 
-	{ PF2_ONLINE,    LPGENW("Online") }, 
-	{ PF2_SHORTAWAY, LPGENW("Away") },
-	{ PF2_LONGAWAY,  LPGENW("Not available") }, 
-	{ PF2_LIGHTDND,  LPGENW("Occupied") }, 
-	{ PF2_HEAVYDND,  LPGENW("Do not disturb") }, 
-	{ PF2_FREECHAT,  LPGENW("Free for chat") }, 
-	{ PF2_INVISIBLE, LPGENW("Invisible") }, 
-};
-
-static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
-{
-	TVINSERTSTRUCT tvis;
-	int i;
-
-	tvis.hParent = nullptr;
-	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-	for (i = 0; i < nValues; i++) {
-		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateW(values[i].szDescr);
-		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
-		TreeView_InsertItem(hwndTree, &tvis);
-	}
-}
-
-static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
-{
-	DWORD flags = 0;
-	TVITEM tvi;
-
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
-	tvi.hItem = TreeView_GetRoot(hwndTree);
-	while (tvi.hItem) {
-		TreeView_GetItem(hwndTree, &tvi);
-		if ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2)
-			flags |= tvi.lParam;
-		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
-	}
-	return flags;
-}
-
-static void cfgSetFlag(HWND hwndDlg, int ctrlId, DWORD dwMask)
+void cfgSetFlag(HWND hwndDlg, int ctrlId, DWORD dwMask)
 {
 	if (IsDlgButtonChecked(hwndDlg, ctrlId))
 		cfg::dat.dwFlags |= dwMask;
@@ -142,24 +64,6 @@ void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 		break;
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-class CRowItemsBaseDlg : public CDlgBase
-{
-	void OnFinish(CDlgBase*)
-	{
-		Clist_ClcOptionsChanged();
-		PostMessage(g_clistApi.hwndContactList, CLUIINTM_REDRAW, 0, 0);
-	}
-
-public:
-	CRowItemsBaseDlg(int iDlg) :
-		CDlgBase(g_plugin, iDlg)
-	{
-		m_OnFinishWizard = Callback(this, &CRowItemsBaseDlg::OnFinish);
-	}
-};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -224,6 +128,21 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+struct CheckBoxToGroupStyleEx_t
+{
+	int id;
+	DWORD flag;
+	int not_t;
+}
+static const checkBoxToGroupStyleEx[] =
+{
+	{ IDC_SHOWGROUPCOUNTS, CLS_EX_SHOWGROUPCOUNTS, 0 },
+	{ IDC_HIDECOUNTSWHENEMPTY, CLS_EX_HIDECOUNTSWHENEMPTY, 0 },
+	{ IDC_LINEWITHGROUPS, CLS_EX_LINEWITHGROUPS, 0 },
+	{ IDC_QUICKSEARCHVISONLY, CLS_EX_QUICKSEARCHVISONLY, 0 },
+	{ IDC_SORTGROUPSALPHA, CLS_EX_SORTGROUPSALPHA, 0 }
+};
 
 class CDspGroupsDlg : public CRowItemsBaseDlg
 {
@@ -318,6 +237,8 @@ public:
 		chkAvaBorder(this, IDC_AVATARSBORDER),
 		chkLocalTime(this, IDC_SHOWLOCALTIME)
 	{
+		chkAvaRound.OnChange = Callback(this, &CDspAdvancedDlg::onChange_AvatarsRounded);
+		chkAvaBorder.OnChange = Callback(this, &CDspAdvancedDlg::onChange_AvatarsBorder);
 		chkLocalTime.OnChange = Callback(this, &CDspAdvancedDlg::onChange_LocalTime);
 	}
 
@@ -367,7 +288,6 @@ public:
 		onChange_AvatarsRounded(0);
 
 		chkLocalTime.SetState(cfg::dat.bShowLocalTime);
-		CheckDlgButton(m_hwnd, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, cfg::dat.bShowLocalTimeSelective ? BST_CHECKED : BST_UNCHECKED);
 		onChange_LocalTime(0);
 
 		if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT)
@@ -491,296 +411,22 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
 
-static int opt_clc_main_changed = 0;
-
-static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		opt_clc_main_changed = 0;
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-		{
-			DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
-			UDACCEL accel[2] = { { 0, 10 }, { 2, 50 } };
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)&accel);
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
-
-			for (auto &it : checkBoxToStyleEx)
-				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not_t) ? BST_CHECKED : BST_UNCHECKED);
-		}
-		CheckDlgButton(hwndDlg, IDC_FULLROWSELECT, (cfg::dat.dwFlags & CLUI_FULLROWSELECT) ? BST_CHECKED : BST_UNCHECKED);
-
-		CheckDlgButton(hwndDlg, IDC_DBLCLKAVATARS, cfg::dat.bDblClkAvatars ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_GREYOUT, db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS) ? BST_CHECKED : BST_UNCHECKED);
-		Utils::enableDlgControl(hwndDlg, IDC_SMOOTHTIME, IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
-		Utils::enableDlgControl(hwndDlg, IDC_GREYOUTOPTS, IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
-		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), greyoutValues, sizeof(greyoutValues) / sizeof(greyoutValues[0]), db_get_dw(0, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS));
-		CheckDlgButton(hwndDlg, IDC_NOSCROLLBAR, db_get_b(0, "CLC", "NoVScrollBar", 0) ? BST_CHECKED : BST_UNCHECKED);
-		return TRUE;
-
-	case WM_VSCROLL:
-		opt_clc_main_changed = 1;
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_NOTNOSMOOTHSCROLLING)
-			Utils::enableDlgControl(hwndDlg, IDC_SMOOTHTIME, IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
-		if (LOWORD(wParam) == IDC_GREYOUT)
-			Utils::enableDlgControl(hwndDlg, IDC_GREYOUTOPTS, IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
-		if (LOWORD(wParam) == IDC_SMOOTHTIME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		opt_clc_main_changed = 1;
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_GREYOUTOPTS:
-			if (((LPNMHDR)lParam)->code == NM_CLICK) {
-				TVHITTESTINFO hti;
-				hti.pt.x = (short)LOWORD(GetMessagePos());
-				hti.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
-					if (hti.flags & TVHT_ONITEMSTATEICON) {
-						TVITEM tvi;
-						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-						tvi.hItem = hti.hItem;
-						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
-						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						opt_clc_main_changed = 1;
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-			}
-			break;
-
-		case 0:
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				if (!opt_clc_main_changed)
-					return TRUE;
-
-				DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
-
-				for (auto &it : checkBoxToStyleEx)
-					exStyle &= ~(it.flag);
-
-				for (auto &it : checkBoxToStyleEx)
-					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.not_t)
-						exStyle |= it.flag;
-
-				db_set_dw(0, "CLC", "ExStyle", exStyle);
-
-				DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
-				db_set_dw(0, "CLC", "FullGreyoutFlags", fullGreyoutFlags);
-				if (IsDlgButtonChecked(hwndDlg, IDC_GREYOUT))
-					db_set_dw(0, "CLC", "GreyoutFlags", fullGreyoutFlags);
-				else
-					db_set_dw(0, "CLC", "GreyoutFlags", 0);
-
-				cfgSetFlag(hwndDlg, IDC_FULLROWSELECT, CLUI_FULLROWSELECT);
-
-				db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
-				cfg::dat.bDblClkAvatars = IsDlgButtonChecked(hwndDlg, IDC_DBLCLKAVATARS) ? TRUE : FALSE;
-				db_set_b(0, "CLC", "dblclkav", (BYTE)cfg::dat.bDblClkAvatars);
-
-				Clist_ClcOptionsChanged();
-				CoolSB_SetupScrollBar();
-				PostMessage(g_clistApi.hwndContactList, CLUIINTM_REDRAW, 0, 0);
-				opt_clc_main_changed = 0;
-				return TRUE;
-			}
-		}
-		break;
-	}
-	return FALSE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static int opt_clc_bkg_changed = 0;
-
-static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		opt_clc_bkg_changed = 0;
-		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_BITMAP, db_get_b(0, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
-		SendMessage(hwndDlg, WM_USER + 10, 0, 0);
-		CheckDlgButton(hwndDlg, IDC_WINCOLOUR, db_get_b(0, "CLC", "UseWinColours", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SKINMODE, cfg::dat.bWallpaperMode ? BST_CHECKED : BST_UNCHECKED);
-		{
-			DBVARIANT dbv;
-			if (!db_get_ws(0, "CLC", "BkBitmap", &dbv)) {
-				wchar_t szPath[MAX_PATH];
-				if (PathToAbsoluteW(dbv.pwszVal, szPath))
-					SetDlgItemText(hwndDlg, IDC_FILENAME, szPath);
-
-				db_free(&dbv);
-			}
-
-			WORD bmpUse = db_get_w(0, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
-			CheckDlgButton(hwndDlg, IDC_STRETCHH, bmpUse & CLB_STRETCHH ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_STRETCHV, bmpUse & CLB_STRETCHV ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEH, bmpUse & CLBF_TILEH ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEV, bmpUse & CLBF_TILEV ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SCROLL, bmpUse & CLBF_SCROLL ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, bmpUse & CLBF_PROPORTIONAL ? BST_CHECKED : BST_UNCHECKED);
-
-			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
-		}
-		return TRUE;
-
-	case WM_USER + 10:
-		Utils::enableDlgControl(hwndDlg, IDC_FILENAME, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		Utils::enableDlgControl(hwndDlg, IDC_BROWSE, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		Utils::enableDlgControl(hwndDlg, IDC_STRETCHH, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		Utils::enableDlgControl(hwndDlg, IDC_STRETCHV, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		Utils::enableDlgControl(hwndDlg, IDC_TILEH, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		Utils::enableDlgControl(hwndDlg, IDC_TILEV, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		Utils::enableDlgControl(hwndDlg, IDC_SCROLL, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		Utils::enableDlgControl(hwndDlg, IDC_PROPORTIONAL, IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_BROWSE) {
-			wchar_t str[MAX_PATH], filter[512];
-			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
-			Bitmap_GetFilter(filter, _countof(filter));
-
-			OPENFILENAME ofn = { 0 };
-			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-			ofn.hwndOwner = hwndDlg;
-			ofn.hInstance = nullptr;
-			ofn.lpstrFilter = filter;
-			ofn.lpstrFile = str;
-			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-			ofn.nMaxFile = _countof(str);
-			ofn.nMaxFileTitle = MAX_PATH;
-			ofn.lpstrDefExt = L"bmp";
-			if (!GetOpenFileName(&ofn))
-				break;
-			SetDlgItemText(hwndDlg, IDC_FILENAME, str);
-		}
-		else if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE)
-			break;
-
-		if (LOWORD(wParam) == IDC_BITMAP)
-			SendMessage(hwndDlg, WM_USER + 10, 0, 0);
-		if (LOWORD(wParam) == IDC_WINCOLOUR)
-			SendMessage(hwndDlg, WM_USER + 11, 0, 0);
-		if (LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		opt_clc_bkg_changed = 1;
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				if (!opt_clc_bkg_changed)
-					return TRUE;
-
-				db_set_b(0, "CLC", "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-				db_set_b(0, "CLC", "UseWinColours", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR));
-
-				char str[MAX_PATH], strrel[MAX_PATH];
-				GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, _countof(str));
-				if (PathToRelative(str, strrel))
-					db_set_s(0, "CLC", "BkBitmap", strrel);
-				else
-					db_set_s(0, "CLC", "BkBitmap", str);
-
-				WORD flags = 0;
-				if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH))
-					flags |= CLB_STRETCHH;
-				if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHV))
-					flags |= CLB_STRETCHV;
-				if (IsDlgButtonChecked(hwndDlg, IDC_TILEH))
-					flags |= CLBF_TILEH;
-				if (IsDlgButtonChecked(hwndDlg, IDC_TILEV))
-					flags |= CLBF_TILEV;
-				if (IsDlgButtonChecked(hwndDlg, IDC_SCROLL))
-					flags |= CLBF_SCROLL;
-				if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL))
-					flags |= CLBF_PROPORTIONAL;
-				db_set_w(0, "CLC", "BkBmpUse", flags);
-				cfg::dat.bWallpaperMode = IsDlgButtonChecked(hwndDlg, IDC_SKINMODE) ? 1 : 0;
-				db_set_b(0, "CLUI", "UseBkSkin", (BYTE)cfg::dat.bWallpaperMode);
-
-				Clist_ClcOptionsChanged();
-				PostMessage(g_clistApi.hwndContactList, CLUIINTM_REDRAW, 0, 0);
-				opt_clc_bkg_changed = 0;
-				return TRUE;
-			}
-			break;
-		}
-		break;
-	}
-	return FALSE;
-}
+void InitClistOptions(WPARAM);
+void InitSkinOptions(WPARAM);
 
 int ClcOptInit(WPARAM wParam, LPARAM)
 {
-	////////////////////////////////////////////////////////////////////////////
-	// Main options tabs
+	InitClistOptions(wParam);
+	InitSkinOptions(wParam);
 
-	OPTIONSDIALOGPAGE odp = {};
-	odp.position = -1000000000;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.szTitle.a = LPGEN("Contact list");
-	odp.szTab.a = LPGEN("General");
-	odp.pfnDlgProc = DlgProcGenOpts;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST);
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.szTab.a = LPGEN("List layout");
-	odp.pfnDlgProc = DlgProcClcMainOpts;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.szTab.a = LPGEN("Window");
-	odp.pfnDlgProc = DlgProcCluiOpts;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.szTab.a = LPGEN("Background");
-	odp.pfnDlgProc = DlgProcClcBkgOpts;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.szTab.a = LPGEN("Status bar");
-	odp.pfnDlgProc = DlgProcSBarOpts;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
-	g_plugin.addOptions(wParam, &odp);
-
-	////////////////////////////////////////////////////////////////////////////
-	// Other options
-
-	odp.position = 0;
-	odp.szGroup.a = LPGEN("Skins");
-	odp.szTitle.a = LPGEN("Contact list");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.pfnDlgProc = OptionsDlgProc;
-	g_plugin.addOptions(wParam, &odp);
-
-	////////////////////////////////////////////////////////////////////////////
 	// Contact rows tabs
-
+	OPTIONSDIALOGPAGE odp = {};
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.szGroup.a = LPGEN("Contact list");
 	odp.szTitle.a = LPGEN("Row items");
 
-	odp.pfnDlgProc = 0;
-	odp.pszTemplate = 0;
 	odp.szTab.a = LPGEN("Contacts");
 	odp.pDialog = new CDspItemsDlg();
 	g_plugin.addOptions(wParam, &odp);
