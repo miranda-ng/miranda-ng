@@ -191,14 +191,17 @@ static void HideProgressControls(HWND hwndDlg)
 	PostMessage(GetParent(hwndDlg), WM_FT_RESIZE, 0, (LPARAM)hwndDlg);
 }
 
-static int FileTransferDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
+static int FileTransferDlgResizer(HWND, LPARAM param, UTILRESIZECONTROL *urc)
 {
+	auto *dat = (FileDlgData *)param;
+
 	switch (urc->wId) {
 	case IDC_CONTACTNAME:
 	case IDC_STATUS:
 	case IDC_ALLFILESPROGRESS:
 	case IDC_TRANSFERCOMPLETED:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+
 	case IDC_FRAME:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 	case IDC_ALLPRECENTS:
@@ -208,13 +211,19 @@ static int FileTransferDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
 
 	case IDC_ALLTRANSFERRED:
+		if (dat->waitingForAcceptance)
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+
 		urc->rcItem.right = urc->rcItem.left + (urc->rcItem.right - urc->rcItem.left - urc->dlgOriginalSize.cx + urc->dlgNewSize.cx) / 3;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_TOP;
 
 	case IDC_ALLSPEED:
+		if (dat->waitingForAcceptance)
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
+
 		urc->rcItem.right = urc->rcItem.right - urc->dlgOriginalSize.cx + urc->dlgNewSize.cx;
 		urc->rcItem.left = urc->rcItem.left + (urc->rcItem.right - urc->rcItem.left) / 3;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_TOP;
 	}
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
@@ -290,7 +299,8 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		SetDlgItemText(hwndDlg, IDC_CONTACTNAME, Clist_GetContactDisplayName(dat->hContact));
 
-		if (!dat->waitingForAcceptance) SetTimer(hwndDlg, 1, 1000, nullptr);
+		if (!dat->waitingForAcceptance)
+			SetTimer(hwndDlg, 1, 1000, nullptr);
 		return TRUE;
 
 	case WM_TIMER:
@@ -708,7 +718,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_SIZE:
-		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_FILETRANSFERINFO), FileTransferDlgResizer);
+		Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_FILETRANSFERINFO), FileTransferDlgResizer, LPARAM(dat));
 
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_ALLTRANSFERRED), NULL, NULL, RDW_INVALIDATE | RDW_NOERASE);
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_ALLSPEED), NULL, NULL, RDW_INVALIDATE | RDW_NOERASE);
