@@ -93,16 +93,12 @@ int OnIconsChanged(WPARAM, LPARAM)
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	LPCTSTR ptszEmptySting = L"";
-
 	// Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
 	for (int i = 0; i < bLayNum; i++) {
 		wchar_t *ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
 		LPSTR ptszTemp = GetNameOfLayout(hklLayouts[i]);
-		ptrW tszValue(g_plugin.getWStringA(ptszTemp));
-		if (tszValue == 0)
-			ptszLayStrings[i] = ptszCurrLayout;
-		else if (!mir_wstrcmp(tszValue, ptszEmptySting))
+		ptrW tszValue(g_plugin.getWStringA(ptszTemp, ptszCurrLayout));
+		if (!mir_wstrlen(tszValue))
 			ptszLayStrings[i] = ptszCurrLayout;
 		else {
 			ptszLayStrings[i] = tszValue.detach();

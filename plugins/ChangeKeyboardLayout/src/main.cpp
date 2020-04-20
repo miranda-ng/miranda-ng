@@ -10,9 +10,6 @@ HHOOK kbHook_All;
 MainOptions moOptions;
 PopupOptions poOptions;
 
-LPCTSTR ptszKeybEng = L"`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?";
-HKL hklEng = (HKL)0x04090409;
-
 LPCTSTR ptszSeparators = L" \t\n\r";
 
 HANDLE hOptionsInitialize;
@@ -49,6 +46,10 @@ int CMPlugin::Load()
 	bLayNum = GetKeyboardLayoutList(20, hklLayouts);
 	if (bLayNum < 2)
 		return 1;
+
+	for (int i = 0; i < bLayNum; i++)
+		if ((UINT_PTR(hklLayouts[i]) & 0xFFFF) == 0x409)
+			hklEng = hklLayouts[i];
 
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

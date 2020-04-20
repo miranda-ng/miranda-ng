@@ -45,6 +45,7 @@ wchar_t* GeTStringFromStreamData(EditStreamData *esd)
 	return ptszOutText;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL CopyTextToClipboard(wchar_t *ptszText)
 {
@@ -88,27 +89,28 @@ HKL GetNextLayout(HKL hklCurLay)
 	return nullptr;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static wchar_t ptszKeybEng[] = L"`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?";
+
 wchar_t* GenerateLayoutString(HKL hklLayout)
 {
-	BYTE bState[256] = { 0 };
-
-	wchar_t ptszTemp[3]; ptszTemp[0] = 0;
 	CMStringW res;
 
-	size_t i;
-	for (i = 0; i < mir_wstrlen(ptszKeybEng); i++) {
-		SHORT shVirtualKey = VkKeyScanEx(ptszKeybEng[i], hklEng);
-		UINT iScanCode = MapVirtualKeyEx(shVirtualKey & 0x00FF, 0, hklEng);
+	for (size_t i = 0; i < _countof(ptszKeybEng)-1; i++) {
+		SHORT shVirtualKey = VkKeyScanExW(ptszKeybEng[i], g_plugin.hklEng);
+		UINT iScanCode = MapVirtualKeyExW(shVirtualKey & 0x00FF, 0, g_plugin.hklEng);
 
-		memset(bState, 0, sizeof(bState));
+		BYTE bState[256] = {};
 
 		if (shVirtualKey & 0x0100) bState[VK_SHIFT] = 0x80;
 		if (shVirtualKey & 0x0200) bState[VK_CONTROL] = 0x80;
 		if (shVirtualKey & 0x0400) bState[VK_MENU] = 0x80;
 
-		shVirtualKey = MapVirtualKeyEx(iScanCode, 1, hklLayout);
+		shVirtualKey = MapVirtualKeyExW(iScanCode, 1, hklLayout);
 		bState[shVirtualKey & 0x00FF] = 0x80;
 
+		wchar_t ptszTemp[3]; ptszTemp[0] = 0;
 		int iRes = ToUnicodeEx(shVirtualKey, iScanCode, bState, ptszTemp, 3, 0, hklLayout);
 		// Защита от дэд-кеев
 		if (iRes < 0)
