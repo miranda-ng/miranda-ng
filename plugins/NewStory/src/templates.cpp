@@ -370,7 +370,12 @@ void LoadTemplates()
 
 void SaveTemplates()
 {
-	for (auto &it : templates)
-		if (it.value)
-			db_set_ws(0, MODULENAME, it.setting, it.value);
+	for (auto &it : templates) {
+		if (it.value) {
+			if (mir_wstrcmp(it.value, it.defvalue))
+				g_plugin.setWString(it.setting, it.value);
+			else
+				g_plugin.delSetting(it.setting);
+		}
+	}
 }
