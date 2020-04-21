@@ -102,6 +102,9 @@ public:
 
 	bool OnApply() override
 	{
+		if (m_curr != nullptr)
+			replaceStrW(m_curr->tmpValue, m_edit.GetText());
+
 		for (auto &it : templates) {
 			if (it.tmpValue) {
 				replaceStrW(it.value, it.tmpValue);
