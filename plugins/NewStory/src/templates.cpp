@@ -353,19 +353,8 @@ TemplateInfo templates[TPL_COUNT] =
 
 void LoadTemplates()
 {
-	for (int i = 0; i < TPL_COUNT; i++) {
-		DBVARIANT dbv = { 0 };
-		db_get_ws(0, MODULENAME, templates[i].setting, &dbv);
-		if (templates[i].value)
-			mir_free(templates[i].value);
-		if (dbv.pwszVal) {
-			templates[i].value = mir_wstrdup(dbv.pwszVal);
-		}
-		else {
-			templates[i].value = 0;
-		}
-		db_free(&dbv);
-	}
+	for (auto &it : templates)
+		replaceStrW(it.value, g_plugin.getWStringA(it.setting));
 }
 
 void SaveTemplates()
@@ -377,5 +366,6 @@ void SaveTemplates()
 			else
 				g_plugin.delSetting(it.setting);
 		}
+		else g_plugin.delSetting(it.setting);
 	}
 }
