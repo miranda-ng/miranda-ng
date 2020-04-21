@@ -27,68 +27,38 @@ LIST<CMsgDialog> g_arDialogs(10, PtrKeySortT);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static wchar_t* GetQuotedTextW(wchar_t *text)
+static CMStringW GetQuotedTextW(wchar_t *text)
 {
-	size_t i, j, l = mir_wstrlen(text);
-	int newLine = 1;
-	int wasCR = 0;
-	for (i = j = 0; i < l; i++) {
-		if (text[i] == '\r') {
-			wasCR = 1;
-			newLine = 1;
-			j += text[i + 1] != '\n' ? 2 : 1;
+	CMStringW res;
+	bool newLine = true;
+	bool wasCR = false;
+	for (; *text; text++) {
+		if (*text == '\r') {
+			wasCR = newLine = true;
+			res.AppendChar('\r');
+			if (text[1] != '\n')
+				res.AppendChar('\n');
 		}
-		else if (text[i] == '\n') {
-			newLine = 1;
-			j += wasCR ? 1 : 2;
-			wasCR = 0;
-		}
-		else {
-			j++;
-			if (newLine) {
-				//for (;i<l && text[i]=='>';i++) j--;
-				j += 2;
-			}
-			newLine = 0;
-			wasCR = 0;
-		}
-	}
-	j += 3;
-
-	wchar_t *out = (wchar_t*)mir_alloc(sizeof(wchar_t)* j);
-	newLine = 1;
-	wasCR = 0;
-	for (i = j = 0; i < l; i++) {
-		if (text[i] == '\r') {
-			wasCR = 1;
-			newLine = 1;
-			out[j++] = '\r';
-			if (text[i + 1] != '\n')
-				out[j++] = '\n';
-		}
-		else if (text[i] == '\n') {
-			newLine = 1;
+		else if (*text == '\n') {
+			newLine = true;
 			if (!wasCR)
-				out[j++] = '\r';
+				res.AppendChar('\r');
 
-			out[j++] = '\n';
-			wasCR = 0;
+			res.AppendChar('\n');
+			wasCR = false;
 		}
 		else {
 			if (newLine) {
-				out[j++] = '>';
-				out[j++] = ' ';
-				//for (;i<l && text[i]=='>';i++) j--;
+				res.AppendChar('>');
+				res.AppendChar(' ');
 			}
-			newLine = 0;
-			wasCR = 0;
-			out[j++] = text[i];
+			wasCR = newLine = false;
+			res.AppendChar(*text);
 		}
 	}
-	out[j++] = '\r';
-	out[j++] = '\n';
-	out[j++] = '\0';
-	return out;
+	res.AppendChar('\r');
+	res.AppendChar('\n');
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -523,9 +493,8 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 
 	wchar_t *buffer = m_pLog->GetSelection();
 	if (buffer != nullptr) {
-		wchar_t *quotedBuffer = GetQuotedTextW(buffer);
-		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
-		mir_free(quotedBuffer);
+		CMStringW quotedBuffer(GetQuotedTextW(buffer));
+		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer.c_str());
 		mir_free(buffer);
 	}
 	else {
@@ -538,9 +507,8 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		if (DbEventIsMessageOrCustom(&dbei)) {
 			buffer = DbEvent_GetTextW(&dbei, CP_ACP);
 			if (buffer != nullptr) {
-				wchar_t *quotedBuffer = GetQuotedTextW(buffer);
-				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
-				mir_free(quotedBuffer);
+				CMStringW quotedBuffer(GetQuotedTextW(buffer));
+				m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer.c_str());
 				mir_free(buffer);
 			}
 		}
