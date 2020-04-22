@@ -33,7 +33,7 @@ class COptionsDlg : public CDlgBase
 
 	CCtrlBase preview, gpreview;
 	CCtrlEdit m_edit;
-	CCtrlMButton btnDiscard, btnPreview, bthVarHelp;
+	CCtrlMButton btnDiscard, btnPreview, bthVarHelp, btnReset;
 	CCtrlTreeView m_tree;
 
 public:
@@ -43,10 +43,12 @@ public:
 		m_tree(this, IDC_TEMPLATES),
 		preview(this, IDC_PREVIEW),
 		gpreview(this, IDC_GPREVIEW),
+		btnReset(this, IDC_RESET, Skin_LoadIcon(SKINICON_OTHER_UNDO), LPGEN("Reset to default")),
 		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(ICO_RESET), LPGEN("Cancel edit")),
 		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(ICO_VARHELP), LPGEN("Help on variables")),
 		btnPreview(this, IDC_UPDATEPREVIEW, g_plugin.getIcon(ICO_PREVIEW), LPGEN("Update preview"))
 	{
+		btnReset.OnClick = Callback(this, &COptionsDlg::onClick_Reset);
 		btnDiscard.OnClick = Callback(this, &COptionsDlg::onClick_Discard);
 		btnPreview.OnClick = Callback(this, &COptionsDlg::UpdatePreview);
 		bthVarHelp.OnClick = Callback(this, &COptionsDlg::onVarHelp);
@@ -119,6 +121,18 @@ public:
 	{
 		for (auto &it : templates)
 			replaceStrW(it.tmpValue, nullptr);
+	}
+
+	void onClick_Reset(CCtrlButton *)
+	{
+		for (auto &it : templates) {
+			replaceStrW(it.tmpValue, nullptr);
+			replaceStrW(it.value, nullptr);
+		}
+
+		if (m_curr)
+			m_edit.SetText(m_curr->defvalue);
+		UpdatePreview(0);
 	}
 
 	void onClick_Discard(CCtrlButton *)

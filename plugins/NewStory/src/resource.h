@@ -37,6 +37,7 @@
 #define IDC_PROGRESS                    1002 //!!!
 #define IDC_EDIT1                       1003 //!!!
 #define IDC_SEARCHTEXT                  1004
+#define IDC_RESET                       1005
 #define IDC_MESSAGE                     1010
 #define IDC_USERINFO                    1011
 #define IDC_USERMENU                    1012
