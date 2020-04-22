@@ -38,7 +38,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 			wtext = new wchar_t[512];
 			wtext_del = true;
 			if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
-				mir_snwprintf(wtext, 512, L"%s requested authorization", dbe.pBlob + 8);
+				mir_snwprintf(wtext, 512, L"%s requested authorization", Utf2T((char*)dbe.pBlob + 8).get());
 			}
 			else {
 				mir_snwprintf(wtext, 512, L"%d requested authorization", *(DWORD *)(dbe.pBlob));
@@ -49,7 +49,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 			wtext = new wchar_t[512];
 			wtext_del = true;
 			if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
-				mir_snwprintf(wtext, 512, L"%s added you to the contact list", dbe.pBlob + 8);
+				mir_snwprintf(wtext, 512, L"%s added you to the contact list", Utf2T((char *)dbe.pBlob + 8).get());
 			}
 			else {
 				mir_snwprintf(wtext, 512, L"%d added you to the contact list", *(DWORD *)(dbe.pBlob));
