@@ -84,6 +84,15 @@ static void __cdecl FakeAckThread(void *param)
 	delete ft;
 }
 
+static void __cdecl FailedAckThread(void *param)
+{
+	Sleep(100);
+
+	auto *ft = (filetransfer *)param;
+	ft->ppro->ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft);
+	delete ft;
+}
+
 void CJabberProto::FtInitiate(filetransfer *ft)
 {
 	if (ft == nullptr)
@@ -92,9 +101,8 @@ void CJabberProto::FtInitiate(filetransfer *ft)
 	if (!m_bJabberOnline) {
 		debugLogA("Protocol is offline, file transfer failed");
 
-LBL_Error:
-		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft);
-		delete ft;
+	LBL_Error:
+		mir_forkthread(FailedAckThread, ft);
 		return;
 	}
 
