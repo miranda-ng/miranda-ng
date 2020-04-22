@@ -550,7 +550,7 @@ void CImportFeed::OnOk(CCtrlBase*)
 			if (auto *pszText = node->Attribute("htmlUrl"))
 				siteurl = mir_utf8decodeW(pszText);
 
-			if (bNeedToImport && text && url && siteurl) {
+			if (bNeedToImport && text && url) {
 				CMStringW wszGroup;
 				auto *parent = node->Parent()->ToElement();
 				while (mir_strcmpi(parent->Name(), "body")) {
@@ -566,7 +566,8 @@ void CImportFeed::OnOk(CCtrlBase*)
 				Proto_AddToContact(hContact, MODULENAME);
 				g_plugin.setWString(hContact, "Nick", text);
 				g_plugin.setWString(hContact, "URL", url);
-				g_plugin.setWString(hContact, "Homepage", siteurl);
+				if (siteurl)
+					g_plugin.setWString(hContact, "Homepage", siteurl);
 				g_plugin.setByte(hContact, "CheckState", 1);
 				g_plugin.setDword(hContact, "UpdateTime", DEFAULT_UPDATE_TIME);
 				g_plugin.setWString(hContact, "MsgFormat", TAGSDEFAULT);
