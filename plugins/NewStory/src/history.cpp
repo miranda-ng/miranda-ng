@@ -607,9 +607,7 @@ public:
 		RECT rc;
 		GetWindowRect(pButton->GetHwnd(), &rc);
 
-		time_t tm_jump = CalendarTool_Show(m_hwnd, rc.left, rc.bottom);
-		if (tm_jump)
-			m_histControl.SendMsg(NSM_SEEKTIME, tm_jump, 0);
+		CalendarTool_Show(m_hwnd, rc.left, rc.bottom);
 	}
 
 	void onClick_Copy(CCtrlButton *)
@@ -831,6 +829,13 @@ public:
 				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,eventCount));
 				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
 				// break;
+
+		case WM_USER + 0x600:
+		{
+			time_t tm_jump = (time_t)wParam;
+			if (tm_jump)
+				m_histControl.SendMsg(NSM_SEEKTIME, tm_jump, 0);
+		}
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);

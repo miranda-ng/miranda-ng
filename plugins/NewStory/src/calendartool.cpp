@@ -37,7 +37,8 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				tm_sel.tm_mday = lpnmsc->stSelStart.wDay;
 				tm_sel.tm_mon = lpnmsc->stSelStart.wMonth - 1;
 				tm_sel.tm_year = lpnmsc->stSelStart.wYear - 1900;
-				EndDialog(hwnd, mktime(&tm_sel));
+				//EndDialog(hwnd, mktime(&tm_sel));
+				PostMessage(GetParent(hwnd), WM_USER + 0x600, mktime(&tm_sel), 0);
 			}
 		}
 		return TRUE;
@@ -51,5 +52,6 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 time_t CalendarTool_Show(HWND hwnd, int x, int y)
 {
-	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), hwnd, CalendarToolDlgProc, MAKELONG(x, y));
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), hwnd, CalendarToolDlgProc, MAKELONG(x, y));
+	return 0;
 }
