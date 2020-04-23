@@ -94,10 +94,12 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	/* new message */
 	Skin_PlaySound("AlertMsg");
 
-	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))) {
-		GetContainer()->AddPage(hContact);
-		return 0;
+	if (!g_dat.bDoNotStealFocus) {
+		char *szProto = Proto_GetBaseAccountName(hContact);
+		if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))) {
+			GetContainer()->AddPage(hContact);
+			return 0;
+		}
 	}
 
 	wchar_t toolTip[256];

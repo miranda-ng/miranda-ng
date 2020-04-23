@@ -391,9 +391,10 @@ void CTabbedWindow::SetWindowPosition()
 		return;
 	}
 
-	if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_pEmbed->m_hContact : 0, CHAT_MODULE, "room")) {
+	int flag = m_pEmbed->m_bNoActivate ? RWPF_HIDDEN : 0;
+	if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_pEmbed->m_hContact : 0, CHAT_MODULE, "room", flag)) {
 		if (g_dat.bSavePerContact) {
-			if (Utils_RestoreWindowPosition(m_hwnd, 0, CHAT_MODULE, "room", RWPF_NOMOVE))
+			if (Utils_RestoreWindowPosition(m_hwnd, 0, CHAT_MODULE, "room", flag | RWPF_NOMOVE))
 				SetWindowPos(m_hwnd, nullptr, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
 		}
 		else SetWindowPos(m_hwnd, nullptr, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);

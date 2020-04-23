@@ -228,15 +228,6 @@ bool CMsgDialog::OnInitDialog()
 			}
 		}
 
-		int flag = m_bNoActivate ? RWPF_HIDDEN : 0;
-		if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_hContact : 0, SRMMMOD, "", flag)) {
-			if (g_dat.bSavePerContact) {
-				if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMMMOD, "", flag | RWPF_NOMOVE))
-					SetWindowPos(m_hwnd, nullptr, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
-			}
-			else SetWindowPos(m_hwnd, nullptr, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
-		}
-
 		if (m_bNoActivate) {
 			SetWindowPos(m_hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
 			StartFlash();
