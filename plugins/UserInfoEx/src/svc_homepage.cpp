@@ -118,17 +118,6 @@ void SvcHomepageRebuildMenu()
 		mi.name.a = LPGEN("&Homepage");	
 		mi.pszService = MS_USERINFO_HOMEPAGE_OPENURL;	
 		ghMenuItem = Menu_AddContactMenuItem(&mi);	
-	}	
-}	
-
-/**	
-* This function initially loads the module upon startup.	
-*	
-* @param	not used	
-* @return	nothing	
-**/	
-
-void SvcHomepageLoadModule()	
-{	
-	CreateServiceFunction(MS_USERINFO_HOMEPAGE_OPENURL, MenuCommand);	
+		CreateServiceFunction(mi.pszService, MenuCommand);
+	}
 }	
