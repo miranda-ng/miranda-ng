@@ -52,6 +52,7 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 time_t CalendarTool_Show(HWND hwnd, int x, int y)
 {
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), hwnd, CalendarToolDlgProc, MAKELONG(x, y));
+	HWND hwndCalendar = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALENDARTOOL), hwnd, CalendarToolDlgProc, MAKELONG(x, y));
+	ShowWindow(hwndCalendar, SW_SHOW);
 	return 0;
 }

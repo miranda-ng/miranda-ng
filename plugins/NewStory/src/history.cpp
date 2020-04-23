@@ -831,11 +831,8 @@ public:
 				// break;
 
 		case WM_USER + 0x600:
-		{
-			time_t tm_jump = (time_t)wParam;
-			if (tm_jump)
-				m_histControl.SendMsg(NSM_SEEKTIME, tm_jump, 0);
-		}
+			if (wParam)
+				m_histControl.SendMsg(NSM_SEEKTIME, wParam, 0);
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
