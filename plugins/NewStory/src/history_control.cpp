@@ -153,15 +153,15 @@ static void FixScrollPosition(HWND hwnd, NewstoryListData *data)
 		data->cachedMaxTopPixel = (windowHeight < tmp) ? windowHeight - tmp : 0;
 	}
 
-	if (data->scrollTopItem < 0) {
+	if (data->scrollTopItem < 0)
 		data->scrollTopItem = 0;
-	}
 
 	if ((data->scrollTopItem > data->cachedMaxTopItem) ||
 		((data->scrollTopItem == data->cachedMaxTopItem) && (data->scrollTopPixel < data->cachedMaxTopPixel))) {
 		data->scrollTopItem = data->cachedMaxTopItem;
 		data->scrollTopPixel = data->cachedMaxTopPixel;
 	}
+	
 	RecalcScrollBar(hwnd, data);
 }
 
@@ -612,6 +612,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 		}
 		return TRUE;
+
+	case NSM_SEEKEND:
+		SendMessage(hwnd, NSM_SETCARET, data->items.getCount() - 1, 1);
+		break;
 
 	case NSM_COPY:
 		{

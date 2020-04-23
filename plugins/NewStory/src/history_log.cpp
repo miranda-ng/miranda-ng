@@ -73,6 +73,7 @@ public:
 
 	void ScrollToBottom() override
 	{
+		::SendMessage(m_hwnd, NSM_SEEKEND, 0, 0);
 	}
 };
 

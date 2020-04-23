@@ -71,6 +71,7 @@ enum
 	NSM_GETCOUNT,
 
 	//
+	NSM_SEEKEND,
 	NSM_SEEKTIME,
 
 	NSM_LAST
