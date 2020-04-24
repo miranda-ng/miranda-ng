@@ -133,6 +133,7 @@ public:
 		if (m_curr)
 			m_edit.SetText(m_curr->defvalue);
 		UpdatePreview(0);
+		NotifyChange();
 	}
 
 	void onClick_Discard(CCtrlButton *)
