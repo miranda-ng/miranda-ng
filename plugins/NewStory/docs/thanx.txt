@@ -1,5 +1,0 @@
-Special thaks to:
- - Deathdemon for useful tips, ideas and samples
- - Faith Healer for base idea of plugin and future ideas of improvements :)
- - Angeli-Ka for useful ideas
- - And many other people whom I'm unable to remember :(
