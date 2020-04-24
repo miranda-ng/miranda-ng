@@ -606,8 +606,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			for (int i = 0; i < eventCount; i++) {
 				auto *item = data->items.get(i, ELM_NOTHING);
 				if (item->dbe.timestamp >= wParam) {
+					SendMessage(hwnd, NSM_SELECTITEMS2, i, i);
 					SendMessage(hwnd, NSM_SETCARET, i, TRUE);
 					break;
+				}
+				if (i == eventCount - 1)
+				{
+					SendMessage(hwnd, NSM_SELECTITEMS2, i, i);
+					SendMessage(hwnd, NSM_SETCARET, i, TRUE);
 				}
 			}
 		}
