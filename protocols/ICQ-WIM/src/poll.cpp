@@ -204,7 +204,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 		__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
 		if (srvLastId > lastMsgId) {
 			debugLogA("We need to retrieve history for %S: %lld > %lld", wszId.c_str(), srvLastId, lastMsgId);
-			RetrieveUserHistory(hContact, lastMsgId, false);
+			RetrieveUserHistory(hContact, lastMsgId);
 		}
 	}
 	else {

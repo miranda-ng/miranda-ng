@@ -521,7 +521,7 @@ AsyncHttpRequest* CIcqProto::UserInfoRequest(MCONTACT hContact)
 	return pReq;
 }
 
-void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool bFromHistory)
+void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId)
 {
 	if (startMsgId == 0)
 		startMsgId = -1;
@@ -531,7 +531,6 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool 
 		pReq->flags |= NLHRF_NODUMPSEND;
 	#endif
 	pReq->hContact = hContact;
-	pReq->pUserInfo = (bFromHistory) ? pReq : nullptr;
 
 	__int64 patchVer = getId(hContact, DB_KEY_PATCHVER);
 	if (patchVer == 0)
@@ -910,7 +909,7 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 	auto &results = root.results();
 	for (auto &it : results["messages"])
-		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr);
+		ParseMessage(pReq->hContact, lastMsgId, it, true);
 
 	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
 }

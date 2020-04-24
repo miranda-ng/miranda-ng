@@ -243,7 +243,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      MarkAsRead(MCONTACT hContact);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	bool      RetrievePassword();
-	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bFromHistory);
+	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId);
 	void      RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
 	void      SetServerStatus(int iNewStatus);
 	void      ShutdownSession(void);
