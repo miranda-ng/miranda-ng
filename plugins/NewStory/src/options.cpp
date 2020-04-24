@@ -151,7 +151,7 @@ public:
 	{
 		CMStringW wszVarHelp;
 		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
-			L"%", TranslateT("simply % character"),
+			L"%%", TranslateT("simply % character"),
 			L"%n", TranslateT("line break"),
 			L"%S", TranslateT("my nick"),
 			L"%N", TranslateT("buddy\'s nick"),
@@ -168,7 +168,7 @@ public:
 			L"%d", TranslateT("day of month"),
 			L"%y", TranslateT("year"),
 			L"%w", TranslateT("day of week (Sunday, Monday... translatable)"),
-			L"%p", TranslateT("am/pm symbol"),
+			L"%p", TranslateT("AM/PM symbol"),
 			L"%O", TranslateT("name of month, translatable"),
 			L"%M", TranslateT("the message string itself"));
 		MessageBox(m_hwnd, wszVarHelp, TranslateT("Variables help"), MB_OK);
