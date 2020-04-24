@@ -37,8 +37,8 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				tm_sel.tm_mday = lpnmsc->stSelStart.wDay;
 				tm_sel.tm_mon = lpnmsc->stSelStart.wMonth - 1;
 				tm_sel.tm_year = lpnmsc->stSelStart.wYear - 1900;
-				//EndDialog(hwnd, mktime(&tm_sel));
 				PostMessage(GetParent(hwnd), WM_USER + 0x600, mktime(&tm_sel), 0);
+				EndDialog(hwnd, 0);
 			}
 		}
 		return TRUE;
