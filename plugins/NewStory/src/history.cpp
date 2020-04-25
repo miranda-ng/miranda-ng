@@ -697,30 +697,30 @@ public:
 					SetFilePointer(hFile, -3, nullptr, FILE_END);
 					WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
 				}
-
-				pRoot.push_back(JSONNode("type", dbei.eventType));
+				JSONNode pRoot2;
+				pRoot2.push_back(JSONNode("type", dbei.eventType));
 
 				if (mir_strcmp(dbei.szModule, proto))
-					pRoot.push_back(JSONNode("module", dbei.szModule));
+					pRoot2.push_back(JSONNode("module", dbei.szModule));
 
-				pRoot.push_back(JSONNode("timestamp", dbei.timestamp));
+				pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
 
 				wchar_t szTemp[500];
 				TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-				pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
+				pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
 
 				std::string flags;
 				if (dbei.flags & DBEF_SENT)
 					flags += "m";
 				if (dbei.flags & DBEF_READ)
 					flags += "r";
-				pRoot.push_back(JSONNode("flags", flags));
+				pRoot2.push_back(JSONNode("flags", flags));
 
 				ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
 				if (msg)
-					pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
+					pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
 
-				output = pRoot.write_formatted();
+				output = pRoot2.write_formatted();
 				output += "\n]}";
 
 				WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
