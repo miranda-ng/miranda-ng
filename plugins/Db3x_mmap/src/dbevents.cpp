@@ -30,7 +30,7 @@ LONG CDb3Mmap::GetEventCount(MCONTACT contactID)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? -1 : dbc->eventCount;
 }
 
-MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
+MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 0;
 	if (dbei->timestamp == 0) return 0;
@@ -260,7 +260,7 @@ BOOL CDb3Mmap::DeleteEvent(MEVENT hDbEvent)
 	return 0;
 }
 
-BOOL CDb3Mmap::EditEvent(MCONTACT, MEVENT, DBEVENTINFO*)
+BOOL CDb3Mmap::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
 {
 	return 1;
 }

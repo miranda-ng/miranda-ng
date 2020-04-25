@@ -66,7 +66,7 @@ LONG MDatabaseReadonly::GetContactSize(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MEVENT MDatabaseReadonly::AddEvent(MCONTACT, DBEVENTINFO*)
+MEVENT MDatabaseReadonly::AddEvent(MCONTACT, const DBEVENTINFO*)
 {
 	return 0;
 }
@@ -76,7 +76,7 @@ BOOL MDatabaseReadonly::DeleteEvent(MEVENT)
 	return 1;
 }
 
-BOOL MDatabaseReadonly::EditEvent(MCONTACT, MEVENT, DBEVENTINFO*)
+BOOL MDatabaseReadonly::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
 {
 	return 1;
 }

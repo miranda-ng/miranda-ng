@@ -34,7 +34,7 @@ STDMETHODIMP_(LONG) CDbxSQLite::GetEventCount(MCONTACT contactID)
 	return res;
 }
 
-STDMETHODIMP_(MEVENT) CDbxSQLite::AddEvent(MCONTACT, DBEVENTINFO*)
+STDMETHODIMP_(MEVENT) CDbxSQLite::AddEvent(MCONTACT, const DBEVENTINFO*)
 {
 	return 0;
 }
@@ -44,7 +44,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::DeleteEvent(MEVENT)
 	return FALSE;
 }
 
-BOOL CDbxSQLite::EditEvent(MCONTACT, MEVENT, DBEVENTINFO*)
+BOOL CDbxSQLite::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
 {
 	return 1;
 }

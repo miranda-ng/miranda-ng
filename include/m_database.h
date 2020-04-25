@@ -277,7 +277,7 @@ public:
 #define EVENTTYPE_AUTHREQUEST   1001  //specific codes, hence the module-
 #define EVENTTYPE_FILE          1002  //specific limit has been raised to 2000
 
-EXTERN_C MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei);
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, const DBEVENTINFO *dbei);
 
 // Gets the number of events in the chain belonging to a contact in the database.
 // Returns the number of events in the chain owned by hContact or -1 if hContact
@@ -295,7 +295,7 @@ EXTERN_C MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent);
 // Edits an event in the database
 // Returns 0 on success, or nonzero on error
 
-EXTERN_C MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei);
+EXTERN_C MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbei);
 
 // Retrieves a handle to the first event in the chain for hContact
 // Returns the handle, or NULL if hContact is invalid or has no events

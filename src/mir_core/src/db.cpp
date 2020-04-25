@@ -361,7 +361,7 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(MCONTACT hContact, const char *szModule, const
 /////////////////////////////////////////////////////////////////////////////////////////
 // events
 
-MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei)
+MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, const DBEVENTINFO *dbei)
 {
 	return (currDb == nullptr) ? 0 : currDb->AddEvent(hContact, dbei);
 }
@@ -376,7 +376,7 @@ MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent)
 	return (currDb == nullptr) ? 0 : currDb->DeleteEvent(hDbEvent);
 }
 
-MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, DBEVENTINFO *dbei)
+MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbei)
 {
 	return (currDb == nullptr) ? 0 : currDb->EditEvent(hContact, hDbEvent, dbei);
 }

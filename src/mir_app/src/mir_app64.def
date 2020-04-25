@@ -575,7 +575,7 @@ Menu_SetVisible @662
 Miranda_WaitOnHandleEx @663
 ??1MDatabaseReadonly@@UEAA@XZ @664 NONAME
 ?AddContact@MDatabaseReadonly@@UEAAIXZ @665 NONAME
-?AddEvent@MDatabaseReadonly@@UEAAIIPEAUDBEVENTINFO@@@Z @666 NONAME
+?AddEvent@MDatabaseReadonly@@UEAAIIPEBUDBEVENTINFO@@@Z @666 NONAME
 ?DeleteContact@MDatabaseReadonly@@UEAAJI@Z @667 NONAME
 ?DeleteContactSetting@MDatabaseReadonly@@UEAAHIPEBD0@Z @668 NONAME
 ?DeleteEvent@MDatabaseReadonly@@UEAAHI@Z @669 NONAME
@@ -597,7 +597,7 @@ Miranda_WaitOnHandleEx @663
 ??_7MDatabaseReadonly@@6B@ @685 NONAME
 ?GetEventById@MDatabaseReadonly@@UEAAIPEBD0@Z @686 NONAME
 ?SetEventId@MDatabaseReadonly@@UEAAHPEBDI0@Z @687 NONAME
-?EditEvent@MDatabaseReadonly@@UEAAHIIPEAUDBEVENTINFO@@@Z @688 NONAME
+?EditEvent@MDatabaseReadonly@@UEAAHIIPEBUDBEVENTINFO@@@Z @688 NONAME
 g_hevContactAdded @689 NONAME
 g_hevContactDeleted @690 NONAME
 g_hevEventAdded @691 NONAME
