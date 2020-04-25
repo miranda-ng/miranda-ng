@@ -714,7 +714,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 
 				int age = db_get_w(hContact, szProto, "Age", 0);
 				if (age != 0)
-					pInfo.push_back(JSONNode("gender", age));
+					pInfo.push_back(JSONNode("age", age));
 
 				for (auto &it : pSettings) {
 					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
