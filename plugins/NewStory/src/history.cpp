@@ -631,24 +631,44 @@ public:
 
 	void onClick_Export(CCtrlButton *)
 	{
-		//get folder
-		CMStringW tszRoot;
+		wchar_t FileName[MAX_PATH];
+		VARSW tszMirDir(L"%miranda_userdata%\\NewStoryExport");
+
 		MCONTACT hContact = m_hContact;
 		if (db_mc_isMeta(m_hContact))
 			hContact = db_event_getContact(m_hContact);
 		char* proto = Proto_GetBaseAccountName(hContact);
 		ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
-		tszRoot.AppendFormat(VARSW(L"%miranda_userdata%\\NewStoryExport\\%s.json"), id);
+		ptrW nick(Contact_GetInfo(CNF_DISPLAY, hContact, proto));
+		const char* uid = Proto_GetUniqueId(proto);
+
+		OPENFILENAME ofn = { 0 };
+		ofn.lStructSize = sizeof(ofn);
+		CMStringW tszFilter, tszTitle, tszFileName;
+		tszFilter.AppendFormat(L"%s (*.json)%c*.json%c%c", TranslateT("JSON files"), 0, 0, 0);
+		tszTitle.AppendFormat(TranslateT("Export %s history"), nick);
+		ofn.lpstrFilter = tszFilter;
+		ofn.hwndOwner = nullptr;
+		ofn.lpstrTitle = tszTitle;
+		ofn.lpstrFile = FileName;
+		ofn.nMaxFile = MAX_PATH;
+		ofn.nMaxFileTitle = MAX_PATH;
+		ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+		ofn.lpstrInitialDir = tszMirDir;
+		*FileName = '\0';
+		ofn.lpstrDefExt = L"";
+		if (!GetSaveFileName(&ofn))
+			return;
 
 		//create file
-		if (PathFileExistsW(tszRoot))
-			DeleteFile(tszRoot);
-		HANDLE hFile = CreateFile(tszRoot, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (PathFileExistsW(FileName))
+			DeleteFile(FileName);
+		HANDLE hFile = CreateFile(FileName, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hFile == INVALID_HANDLE_VALUE) {
 			// this might be because the path isent created 
 			// so we will try to create it 
-			if (!CreatePathToFileW(tszRoot))
-				hFile = CreateFile(tszRoot, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+			if (!CreatePathToFileW(FileName))
+				hFile = CreateFile(FileName, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		}
 
 		//export contact info
@@ -657,7 +677,7 @@ public:
 		pInfo.push_back(JSONNode("proto", proto));
 
 		if (id != NULL)
-			pInfo.push_back(JSONNode("uid", T2Utf(id).get()));
+			pInfo.push_back(JSONNode(uid, T2Utf(id).get()));
 
 		for (auto& it : pSettings) {
 			wchar_t *szValue = db_get_wsa(hContact, proto, it);
