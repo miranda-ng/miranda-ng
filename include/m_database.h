@@ -160,6 +160,7 @@ struct DBVARIANT
 	};
 };
 
+#define DBEF_TEMPORARY  1  // disable notifications about temporary database events
 #define DBEF_SENT       2  // this event was sent by the user. If not set this event was received.
 #define DBEF_READ       4  // event has been read by the user. It does not need to be processed any more except for history.
 #define DBEF_RTL        8  // event contains the right-to-left aligned text

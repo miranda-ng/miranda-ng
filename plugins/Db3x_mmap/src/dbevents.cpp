@@ -140,6 +140,9 @@ MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 		}
 		neednotify = true;
 	}
+	else if (dbe.flags & DBEF_TEMPORARY) {
+		neednotify = false;
+	}
 	else neednotify = m_safetyMode;
 
 	if (ccSub != nullptr) {

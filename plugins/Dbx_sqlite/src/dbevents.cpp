@@ -201,7 +201,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 			m_modules.insert(mir_strdup(dbei->szModule));
 	}
 
-	if (m_safetyMode)
+	if (m_safetyMode && !(dbei->flags & DBEF_TEMPORARY))
 		NotifyEventHooks(g_hevEventAdded, hNotifyContact, (LPARAM)hDbEvent);
 
 	return hDbEvent;
