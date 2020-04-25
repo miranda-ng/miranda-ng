@@ -151,7 +151,7 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 		vars->SetVar('N', nick, false);
 	}
 	else {
-		wchar_t *nick = Clist_GetContactDisplayName(item->hContact, 0);
+		wchar_t *nick = (item->wszNick) ? item->wszNick : Clist_GetContactDisplayName(item->hContact, 0);
 		vars->SetVar('N', nick, false);
 	}
 

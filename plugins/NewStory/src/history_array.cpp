@@ -112,7 +112,8 @@ ItemData::~ItemData()
 
 // Array
 HistoryArray::HistoryArray() :
-	pages(50)
+	pages(50),
+	strings(50, wcscmp)
 {
 	pages.insert(new ItemBlock());
 }
@@ -124,6 +125,10 @@ HistoryArray::~HistoryArray()
 
 void HistoryArray::clear()
 {
+	for (auto &str : strings)
+		mir_free(str);
+	strings.destroy();
+
 	pages.destroy();
 	iLastPageCounter = 0;
 }
@@ -134,9 +139,18 @@ void HistoryArray::addChatEvent(MCONTACT hContact, LOGINFO *pEvent)
 	p.hContact = hContact;
 	p.wtext = mir_wstrdup(pEvent->ptszText);
 	p.dbeOk = true;
+	p.dbe.cbBlob = 1;
 	p.dbe.pBlob = (BYTE *)p.wtext;
 	p.dbe.eventType = EVENTTYPE_MESSAGE;
 	p.dbe.timestamp = pEvent->time;
+
+	if (pEvent->ptszNick) {
+		p.wszNick = strings.find(pEvent->ptszNick);
+		if (p.wszNick == nullptr) {
+			p.wszNick = mir_wstrdup(pEvent->ptszNick);
+			strings.insert(p.wszNick);
+		}
+	}
 }
 
 bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count, ItemData::EventLoadMode mode)

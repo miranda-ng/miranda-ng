@@ -21,6 +21,8 @@ struct ItemData
 	bool wtext_del = false;
 	wchar_t *wtext = 0;
 
+	wchar_t *wszNick = 0;
+
 	HANDLE data = 0;
 
 	ItemData() { memset(&dbe, 0, sizeof(dbe)); }
@@ -119,6 +121,7 @@ struct ItemBlock : public MZeroedObject
 
 class HistoryArray
 {
+	LIST<wchar_t> strings;
 	OBJLIST<ItemBlock> pages;
 	int iLastPageCounter = 0;
 
