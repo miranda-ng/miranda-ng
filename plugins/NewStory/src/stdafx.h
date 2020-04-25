@@ -25,6 +25,7 @@ Boston, MA 02111-1307, USA.
 #include <tchar.h>
 #include <commctrl.h>
 #include <time.h>
+#include <Shlwapi.h>
 
 //Miranda headers
 #include "newpluginapi.h"
@@ -48,6 +49,9 @@ Boston, MA 02111-1307, USA.
 #include "m_text.h"
 #include "m_contacts.h"
 #include "m_srmm_int.h"
+#include <m_json.h>
+#include <m_metacontacts.h>
+#include <m_timezones.h>
 
 #include "m_smileyadd.h"
 #ifndef MTEXT_NOHELPERS

@@ -38,60 +38,59 @@ void InitHistory()
 	HookEvent(ME_DB_EVENT_EDITED, evtEventEdited);
 }
 
-/*
-bool ExportHistoryDialog(HANDLE hContact, HWND hwndHistory)
+/*bool ExportHistoryDialog(HANDLE hContact, HWND hwndHistory)
 {
 	int filterIndex = 0;
-	char *filter = 0;
+	wchar_t *filter = 0;
 	char filterSize = 0;
 
-	char *templates[100] = {0};
+	wchar_t *templates[100] = {0};
 	int nTemplates = 0;
 
 	WIN32_FIND_DATA ffd;
-	HANDLE hFind = FindFirstFile("plugins\\newstory\\x_*.txt", &ffd);
+	HANDLE hFind = FindFirstFile(L"plugins\\newstory\\x_*.txt", &ffd);
 	while (hFind != INVALID_HANDLE_VALUE)
 	{
-		char *fn = (char *)malloc(MAX_PATH);
-		wsprintf(fn, "plugins\\newstory\\%s", ffd.cFileName);
+		wchar_t *fn = (wchar_t*)mir_alloc(MAX_PATH);
+		wsprintf(fn, L"plugins\\newstory\\%s", ffd.cFileName);
 
-		char *szSignature = "newstory export template";
-		char line[1024];
-		FILE *f = fopen(fn, "r");
-		fgets(line, 1024, f);
-		if (*line) line[lstrlen(line)-1] = 0;
-		if (!lstrcmp(line, szSignature))
+		wchar_t *szSignature = L"newstory export template";
+		wchar_t line[1024];
+		FILE *f = _wfopen(fn, L"r");
+		fgetws(line, 1024, f);
+		if (*line) line[mir_wstrlen(line)-1] = 0;
+		if (!mir_wstrcmp(line, szSignature))
 		{
-			fgets(line, 1024, f);
-			if (*line) line[lstrlen(line)-1] = 0;
+			fgetws(line, 1024, f);
+			if (*line) line[mir_wstrlen(line)-1] = 0;
 
-			char *title = strdup(Translate(line));
+			wchar_t *title = mir_wstrdup(TranslateW(line));
 
-			fgets(line, 1024, f);
-			if (*line) line[lstrlen(line)-1] = 0;
-			char *ext = line;
+			fgetws(line, 1024, f);
+			if (*line) line[mir_wstrlen(line)-1] = 0;
+			wchar_t *ext = line;
 
 			// <title> (*.<ext>)\0*.<ext>\0
-			int newFilterSize = filterSize + lstrlen(title) + 2*lstrlen(ext) + 9;
-			char *newFilter = (char *)calloc(newFilterSize+1, 1);
+			int newFilterSize = filterSize + mir_wstrlen(title) + 2*mir_wstrlen(ext) + 9;
+			wchar_t *newFilter = (wchar_t *)mir_calloc(newFilterSize+1);
 
 			if (filterSize)
 				memcpy(newFilter, filter, filterSize);
 
-			char buf[1024];
-			wsprintf(buf, "%s (*.%s)%c*.%s%c", title, ext, '\0', ext, '\0');
+			wchar_t buf[1024];
+			wsprintf(buf, L"%s (*.%s)%c*.%s%c", title, ext, '\0', ext, '\0');
 			memcpy(newFilter+filterSize, buf, newFilterSize-filterSize);
 
-			free(filter);
+			mir_free(filter);
 			filter = newFilter;
 			filterSize = newFilterSize;
 
 			templates[nTemplates++] = fn;
 
-			free(title);
+			mir_free(title);
 		} else
 		{
-			free(fn);
+			mir_free(fn);
 		}
 		fclose(f);
 
@@ -100,12 +99,12 @@ bool ExportHistoryDialog(HANDLE hContact, HWND hwndHistory)
 	}
 
 
-	char filename[MAX_PATH] = {0};
+	wchar_t filename[MAX_PATH] = {0};
 
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hwndHistory;
-	ofn.hInstance = hInst;
+	ofn.hInstance = g_plugin.getInst();
 	ofn.lpstrFilter = filter;
 	ofn.lpstrCustomFilter = 0;
 	ofn.nMaxCustFilter = 0;
@@ -115,7 +114,7 @@ bool ExportHistoryDialog(HANDLE hContact, HWND hwndHistory)
 	ofn.lpstrFileTitle = 0;
 	ofn.nMaxFileTitle = 0;
 	ofn.lpstrInitialDir = 0;
-	ofn.lpstrTitle = Translate("Export History...");
+	ofn.lpstrTitle = TranslateT("Export History...");
 	ofn.Flags = OFN_ENABLESIZING|OFN_LONGNAMES|OFN_NOCHANGEDIR|OFN_NOREADONLYRETURN|OFN_OVERWRITEPROMPT|OFN_PATHMUSTEXIST;
 	ofn.lpstrDefExt = 0;
 	ofn.lCustData = 0;
@@ -131,11 +130,11 @@ bool ExportHistoryDialog(HANDLE hContact, HWND hwndHistory)
 
 	for (int i = 0; i < 100; i++)
 		if (templates[i])
-			free(templates[i]);
+			mir_free(templates[i]);
 
 	return false;
-}
-*/
+}*/
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Main history dialog
@@ -200,6 +199,21 @@ void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 	hDwp = DeferWindowPos(hDwp, ib->hwndTxtOut, 0,
 		x + 32 + WND_SPACING, y + (16 + WND_SPACING) * 2, w - WND_SPACING - 32, 16, SWP_NOZORDER);
 }
+
+const char* pSettings[] =
+{
+	LPGEN("FirstName"),
+	LPGEN("LastName"),
+	LPGEN("e-mail"),
+	LPGEN("Nick"),
+	LPGEN("Age"),
+	LPGEN("Gender"),
+	LPGEN("City"),
+	LPGEN("State"),
+	LPGEN("Phone"),
+	LPGEN("Homepage"),
+	LPGEN("About")
+};
 
 class CHistoryDlg : public CDlgBase
 {
@@ -617,8 +631,110 @@ public:
 
 	void onClick_Export(CCtrlButton *)
 	{
-		// ExportHistoryDialog(m_hContact, m_hwnd);
-		// DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT), m_hwnd, ExportWndProc);
+		//get folder
+		CMStringW tszRoot;
+		MCONTACT hContact = m_hContact;
+		if (db_mc_isMeta(m_hContact))
+			hContact = db_event_getContact(m_hContact);
+		char* proto = Proto_GetBaseAccountName(hContact);
+		ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
+		tszRoot.AppendFormat(VARSW(L"%miranda_userdata%\\NewStoryExport\\%s.json"), id);
+
+		//create file
+		if (PathFileExistsW(tszRoot))
+			DeleteFile(tszRoot);
+		HANDLE hFile = CreateFile(tszRoot, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			// this might be because the path isent created 
+			// so we will try to create it 
+			if (!CreatePathToFileW(tszRoot))
+				hFile = CreateFile(tszRoot, GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		}
+
+		//export contact info
+		JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
+		pInfo.set_name("info");
+		pInfo.push_back(JSONNode("proto", proto));
+
+		if (id != NULL)
+			pInfo.push_back(JSONNode("uid", T2Utf(id).get()));
+
+		for (auto& it : pSettings) {
+			wchar_t *szValue = db_get_wsa(hContact, proto, it);
+			if (szValue)
+				pInfo.push_back(JSONNode(it, T2Utf(szValue).get()));
+			mir_free(szValue);
+		}
+		
+		pRoot.push_back(pInfo);
+
+		pHist.set_name("history");
+		pRoot.push_back(pHist);
+
+		std::string output = pRoot.write_formatted();
+		DWORD dwBytesWritten;
+		WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
+
+		SetFilePointer(hFile, -3, nullptr, FILE_CURRENT);
+
+		//export events
+		MEVENT hDbEvent = db_event_first(hContact);
+		bool bAppendOnly = false;
+		while (hDbEvent != NULL) {
+			DBEVENTINFO dbei = {};
+			int nSize = db_event_getBlobSize(hDbEvent);
+			if (nSize > 0) {
+				dbei.cbBlob = nSize;
+				dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 2);
+				dbei.pBlob[dbei.cbBlob] = 0;
+				dbei.pBlob[dbei.cbBlob + 1] = 0;
+				// Double null terminate, this should prevent most errors 
+				// where the blob received has an invalid format
+			}
+
+			if (!db_event_get(hDbEvent, &dbei)) {
+				if (bAppendOnly) {
+					SetFilePointer(hFile, -3, nullptr, FILE_END);
+					WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
+				}
+
+				pRoot.push_back(JSONNode("type", dbei.eventType));
+
+				if (mir_strcmp(dbei.szModule, proto))
+					pRoot.push_back(JSONNode("module", dbei.szModule));
+
+				pRoot.push_back(JSONNode("timestamp", dbei.timestamp));
+
+				wchar_t szTemp[500];
+				TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+				pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
+
+				std::string flags;
+				if (dbei.flags & DBEF_SENT)
+					flags += "m";
+				if (dbei.flags & DBEF_READ)
+					flags += "r";
+				pRoot.push_back(JSONNode("flags", flags));
+
+				ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+				if (msg)
+					pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
+
+				output = pRoot.write_formatted();
+				output += "\n]}";
+
+				WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
+				if (dbei.pBlob)
+					mir_free(dbei.pBlob);
+			}
+
+			bAppendOnly = true;
+			hDbEvent = db_event_next(hContact, hDbEvent);
+		}
+
+		// Close the file
+		CloseHandle(hFile);
+		MessageBox(m_hwnd, TranslateT("Complete"), TranslateT("History export"), MB_OK | MB_ICONINFORMATION);
 	}
 
 	void onClick_Filter(CCtrlButton *)
