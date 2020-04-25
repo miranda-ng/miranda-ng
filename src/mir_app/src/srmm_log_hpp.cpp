@@ -109,38 +109,6 @@ public:
 		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	}
 
-	void LogEvents(DBEVENTINFO *dbei, bool bAppend) override
-	{
-		if (!bAppend)
-			Clear();
-
-		IEVIEWEVENT event = {};
-		event.hwnd = m_hwnd;
-		event.iType = IEE_LOG_MEM_EVENTS;
-
-		IEVIEWEVENTDATA evData = {};
-		if (dbei->flags & DBEF_SENT) {
-			evData.dwFlags = IEEDF_SENT;
-			evData.bIsMe = true;
-		}
-		else {
-			evData.dwFlags = IEEDF_UNICODE_NICK;
-			evData.szNick.w = Clist_GetContactDisplayName(m_pDlg.m_hContact);
-		}
-		switch (dbei->eventType) {
-		case EVENTTYPE_STATUSCHANGE: evData.iType = IEED_EVENT_STATUSCHANGE; break;
-		case EVENTTYPE_FILE: evData.iType = IEED_EVENT_FILE; break;
-		case EVENTTYPE_ERRMSG: evData.iType = IEED_EVENT_ERRMSG; break;
-		default: evData.iType = IEED_EVENT_MESSAGE; break;
-		}
-		evData.szText.a = (char *)dbei->pBlob;
-		evData.time = dbei->timestamp;
-		event.eventData = &evData;
-		event.codepage = CP_UTF8;
-		event.count = 1;
-		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
-	}
-
 	void CHppLogWindow::LogEvents(LOGINFO *pLog, bool)
 	{
 		IEVIEWEVENTDATA ied = {};

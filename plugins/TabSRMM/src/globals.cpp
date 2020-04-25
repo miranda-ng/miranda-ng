@@ -536,5 +536,5 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(0);
 	dbei.szModule = (char*)c->getProto();
-	dat->LogEvent(&dbei);
+	dat->LogEvent(dbei);
 }

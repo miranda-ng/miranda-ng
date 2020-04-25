@@ -1207,11 +1207,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend)
 	LogEvents(hDbEventFirst, count, fAppend, nullptr);
 }
 
-void CLogWindow::LogEvents(DBEVENTINFO *dbei, bool bAppend)
-{
-	LogEvents(0, 1, bAppend, dbei);
-}
-
 void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVENTINFO *dbei_s)
 {
 	CHARRANGE oldSel, sel;

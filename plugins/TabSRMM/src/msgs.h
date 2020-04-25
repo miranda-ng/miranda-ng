@@ -311,7 +311,6 @@ public:
 
 	void Attach() override;
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
-	void LogEvents(DBEVENTINFO *dbei, bool bAppend) override;
 	void LogEvents(struct LOGINFO *, bool) override;
 	void ScrollToBottom() override;
 	void UpdateOptions() override;
@@ -577,9 +576,7 @@ public:
 		return ((CLogWindow *)m_pLog);
 	}
 
-	__forceinline void LogEvent(DBEVENTINFO *dbei) {
-		m_pLog->LogEvents(dbei, 1);
-	}
+	void LogEvent(DBEVENTINFO &dbei);
 
 	bool IsActive() const override
 	{

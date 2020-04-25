@@ -262,7 +262,7 @@ void CTemplateEditDlg::onClick_Preview(CCtrlButton*)
 	m_dwFlags = (iIndex == 0 || iIndex == 1) ? m_dwFlags & ~MWF_LOG_GROUPMODE : m_dwFlags | MWF_LOG_GROUPMODE;
 	mir_snwprintf(m_wszMyNickname, L"My Nickname");
 	m_pLog->Clear();
-	LogEvent(&dbei);
+	LogEvent(dbei);
 	if (changed)
 		memcpy(tSet->szTemplates[inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));
 }

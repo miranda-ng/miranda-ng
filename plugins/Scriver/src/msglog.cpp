@@ -828,10 +828,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 }
 
-void CLogWindow::LogEvents(DBEVENTINFO*, bool)
-{
-}
-
 void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 {
 	auto *si = m_pDlg.m_si;

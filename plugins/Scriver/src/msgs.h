@@ -38,7 +38,6 @@ public:
 
 	void Attach() override;
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
-	void LogEvents(DBEVENTINFO *dbei, bool bAppend) override;
 	void LogEvents(struct LOGINFO *, bool) override;
 	void ScrollToBottom() override;
 	void UpdateOptions() override;
