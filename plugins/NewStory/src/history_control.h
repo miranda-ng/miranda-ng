@@ -45,6 +45,7 @@ enum
 
 	// add one or more events
 	NSM_ADDEVENTS,
+	NSM_ADDCHATEVENT,
 
 	// wParam = id
 	NSM_SETCARET,

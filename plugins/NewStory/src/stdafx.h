@@ -30,7 +30,7 @@ Boston, MA 02111-1307, USA.
 //Miranda headers
 #include "newpluginapi.h"
 #include "win2k.h"
-#include "m_system.h"
+#include "m_chat_int.h"
 #include "m_clc.h"
 #include "m_clist.h"
 #include "m_options.h"

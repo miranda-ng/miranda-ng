@@ -52,12 +52,12 @@ public:
 		SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
 	}
 
-	void LogEvents(DBEVENTINFO *dbei_s, bool bAppend)
-	{
-	}
-
 	void LogEvents(LOGINFO *pLog, bool) override
 	{
+		while (pLog) {
+			SendMessage(m_hwnd, NSM_ADDCHATEVENT, m_pDlg.m_hContact, (LPARAM)pLog);
+			pLog = pLog->prev;
+		}
 	}
 
 	void Resize() override

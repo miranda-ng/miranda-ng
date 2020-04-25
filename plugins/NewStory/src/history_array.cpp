@@ -128,6 +128,17 @@ void HistoryArray::clear()
 	iLastPageCounter = 0;
 }
 
+void HistoryArray::addChatEvent(MCONTACT hContact, LOGINFO *pEvent)
+{
+	auto &p = allocateItem();
+	p.hContact = hContact;
+	p.wtext = mir_wstrdup(pEvent->ptszText);
+	p.dbeOk = true;
+	p.dbe.pBlob = (BYTE *)p.wtext;
+	p.dbe.eventType = EVENTTYPE_MESSAGE;
+	p.dbe.timestamp = pEvent->time;
+}
+
 bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count, ItemData::EventLoadMode mode)
 {
 	if (count == -1)

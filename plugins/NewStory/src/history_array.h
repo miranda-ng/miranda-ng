@@ -129,6 +129,7 @@ public:
 	~HistoryArray();
 
 	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count, ItemData::EventLoadMode mode = ItemData::ELM_NOTHING);
+	void addChatEvent(MCONTACT hContact, LOGINFO *pEvent);
 	void clear();
 	int  getCount() const;
 
