@@ -273,7 +273,8 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 	int width = rc.right - rc.left;
 
 	ItemData *item = items->get(index, ItemData::ELM_DATA);
-	if (!item) return 0;
+	if (!item)
+		return 0;
 
 	int tpl;
 	int fontid;

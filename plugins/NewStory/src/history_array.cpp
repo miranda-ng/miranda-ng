@@ -193,7 +193,10 @@ ItemData* HistoryArray::get(int id, ItemData::EventLoadMode mode)
 	if (pageNo >= pages.getCount())
 		return nullptr;
 
-	return &pages[pageNo].data[id % HIST_BLOCK_SIZE];
+	auto *p = &pages[pageNo].data[id % HIST_BLOCK_SIZE];
+	if (mode != ItemData::ELM_NOTHING)
+		p->load(mode);
+	return p;
 }
 
 int HistoryArray::getCount() const
