@@ -451,17 +451,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	// History list control messages
-	case NSM_ADDHISTORY:
-		data->items.addEvent((MCONTACT)wParam, db_event_first((MCONTACT)wParam), -1);
-		RecalcScrollBar(hwnd, data);
-		data->scrollTopItem = data->items.getCount();
-		FixScrollPosition(hwnd, data);
-		InvalidateRect(hwnd, 0, FALSE);
-		break;
-
 	case NSM_ADDEVENTS:
 		{
 			auto *p = (ADDEVENTS *)wParam;
+			if (p->eventCount == -1)
+				p->hFirstEVent = db_event_first(p->hContact);
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
 		}
 		RecalcScrollBar(hwnd, data);

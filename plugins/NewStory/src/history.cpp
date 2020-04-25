@@ -559,8 +559,8 @@ public:
 				SetWindowText(m_hwnd, TranslateT("System history"));
 		}
 
-		if (m_hContact != INVALID_CONTACT_ID)
-			PostMessage(m_histControl.GetHwnd(), NSM_ADDHISTORY, m_hContact, 0);
+		ADDEVENTS tmp = { m_hContact, 0, -1 };
+		SendMessage(m_histControl.GetHwnd(), NSM_ADDEVENTS, WPARAM(&tmp), 0);
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(ICO_NEWSTORY));
 

@@ -43,9 +43,6 @@ enum
 	// result = id
 	NSM_GETITEMFROMPIXEL,
 
-	// add history for a contact
-	NSM_ADDHISTORY,
-
 	// add one or more events
 	NSM_ADDEVENTS,
 

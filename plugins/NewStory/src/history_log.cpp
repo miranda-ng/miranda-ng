@@ -48,11 +48,8 @@ public:
 
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override
 	{
-		if (count != -1) {
-			ADDEVENTS tmp = { m_pDlg.m_hContact, hDbEventFirst, count };
-			SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
-		}
-		else SendMessage(m_hwnd, NSM_ADDHISTORY, m_pDlg.m_hContact, 0);
+		ADDEVENTS tmp = { m_pDlg.m_hContact, hDbEventFirst, count };
+		SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
 	}
 
 	void LogEvents(DBEVENTINFO *dbei_s, bool bAppend)
