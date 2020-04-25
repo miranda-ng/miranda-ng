@@ -105,41 +105,6 @@ public:
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM) & event);
 	}
 
-	void CIeviewLogWindow::LogEvents(DBEVENTINFO *dbei_s, bool bAppend)
-	{
-		if (dbei_s == nullptr)
-			return;
-
-		if (!bAppend)
-			Clear();
-
-		IEVIEWEVENT event = {};
-		event.hwnd = m_hwnd;
-		event.iType = IEE_LOG_MEM_EVENTS;
-		event.count = 1;
-
-		IEVIEWEVENTDATA evData = {};
-		if (dbei_s->flags & DBEF_SENT) {
-			evData.dwFlags = IEEDF_SENT;
-			evData.bIsMe = true;
-		}
-		else {
-			evData.dwFlags = IEEDF_UNICODE_NICK;
-			evData.szNick.w = Clist_GetContactDisplayName(m_pDlg.m_hContact);
-		}
-		switch (dbei_s->eventType) {
-		case EVENTTYPE_STATUSCHANGE: evData.iType = IEED_EVENT_STATUSCHANGE; break;
-		case EVENTTYPE_FILE: evData.iType = IEED_EVENT_FILE; break;
-		case EVENTTYPE_ERRMSG: evData.iType = IEED_EVENT_ERRMSG; break;
-		default: evData.iType = IEED_EVENT_MESSAGE; break;
-		}
-		evData.szText.a = (char *)dbei_s->pBlob;
-		evData.time = dbei_s->timestamp;
-		event.eventData = &evData;
-		event.codepage = CP_UTF8;
-		CallService(MS_IEVIEW_EVENT, 0, (LPARAM) & event);
-	}
-
 	void LogEvents(LOGINFO *pLog, bool) override
 	{
 		IEVIEWEVENTDATA ied = {};
