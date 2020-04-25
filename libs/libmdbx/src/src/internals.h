@@ -13,7 +13,7 @@
 
 #pragma once
 #ifdef MDBX_CONFIG_H
-#include MDBX_CONFIG_H
+#include "../config.h"
 #endif
 
 /* *INDENT-OFF* */
@@ -90,7 +90,7 @@
 #pragma warning(disable : 4200) /* nonstandard extension used: zero-sized array in struct/union */
 #endif                          /* _MSC_VER (warnings) */
 
-#include "../../mdbx.h"
+#include "../mdbx.h"
 #include "defs.h"
 
 #if defined(__GNUC__) && !__GNUC_PREREQ(4,2)
@@ -862,15 +862,7 @@ typedef struct MDBX_cursor_couple {
 /* The database environment. */
 struct MDBX_env {
 #define MDBX_ME_SIGNATURE UINT32_C(0x9A899641)
-  size_t me_signature;
-  mdbx_mmap_t me_dxb_mmap; /*  The main data file */
-#define me_map me_dxb_mmap.dxb
-#define me_lazy_fd me_dxb_mmap.fd
-  mdbx_filehandle_t me_dsync_fd;
-  mdbx_mmap_t me_lck_mmap; /*  The lock file */
-#define me_lfd me_lck_mmap.fd
-#define me_lck me_lck_mmap.lck
-
+  uint32_t me_signature;
   /* Failed to update the meta page. Probably an I/O error. */
 #define MDBX_FATAL_ERROR UINT32_C(0x80000000)
   /* Additional flag for mdbx_sync_locked() */
@@ -879,7 +871,15 @@ struct MDBX_env {
 #define MDBX_ENV_ACTIVE UINT32_C(0x20000000)
   /* me_txkey is set */
 #define MDBX_ENV_TXKEY UINT32_C(0x10000000)
-  uint32_t me_flags;      /* see mdbx_env */
+  uint32_t me_flags;
+  mdbx_mmap_t me_dxb_mmap; /*  The main data file */
+#define me_map me_dxb_mmap.dxb
+#define me_lazy_fd me_dxb_mmap.fd
+  mdbx_filehandle_t me_dsync_fd;
+  mdbx_mmap_t me_lck_mmap; /*  The lock file */
+#define me_lfd me_lck_mmap.fd
+#define me_lck me_lck_mmap.lck
+
   unsigned me_psize;      /* DB page size, inited from me_os_psize */
   unsigned me_psize2log;  /* log2 of DB page size */
   unsigned me_os_psize;   /* OS page size, from mdbx_syspagesize() */
@@ -991,8 +991,6 @@ MDBX_INTERNAL_FUNC void mdbx_debug_log(int type, const char *function, int line,
                                        const char *fmt, ...)
     __printf_args(4, 5);
 
-MDBX_INTERNAL_FUNC void mdbx_panic(const char *fmt, ...) __printf_args(1, 2);
-
 #if MDBX_DEBUG
 
 #define mdbx_assert_enabled() unlikely(mdbx_runtime_flags &MDBX_DBG_ASSERT)
@@ -1024,8 +1022,20 @@ MDBX_INTERNAL_FUNC void mdbx_panic(const char *fmt, ...) __printf_args(1, 2);
 
 #endif /* MDBX_DEBUG */
 
+#if defined(__ANDROID_API__)
+#define mdbx_panic(fmt, ...)                                                   \
+  __android_log_assert("panic", "mdbx", fmt, __VA_ARGS__)
+#else
+MDBX_INTERNAL_FUNC void mdbx_panic(const char *fmt, ...) __printf_args(1, 2);
+#endif
+
+#if !MDBX_DEBUG && defined(__ANDROID_API__)
+#define mdbx_assert_fail(env, msg, func, line)                                 \
+  __android_log_assert(msg, "mdbx", "%s:%u", func, line)
+#else
 MDBX_INTERNAL_FUNC void mdbx_assert_fail(const MDBX_env *env, const char *msg,
                                          const char *func, int line);
+#endif
 
 #define mdbx_debug_extra(fmt, ...)                                             \
   do {                                                                         \
@@ -1325,7 +1335,12 @@ is_powerof2(size_t x) {
 }
 
 static __pure_function __always_inline __maybe_unused size_t
-roundup_powerof2(size_t value, size_t granularity) {
+floor_powerof2(size_t value, size_t granularity) {
   assert(is_powerof2(granularity));
-  return (value + granularity - 1) & ~(granularity - 1);
+  return value & ~(granularity - 1);
+}
+
+static __pure_function __always_inline __maybe_unused size_t
+ceil_powerof2(size_t value, size_t granularity) {
+  return floor_powerof2(value + granularity - 1, granularity);
 }

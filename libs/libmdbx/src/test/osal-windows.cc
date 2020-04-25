@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2017-2020 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -13,6 +13,8 @@
  */
 
 #include "test.h"
+
+#if defined(_WIN32) || defined(_WIN64)
 
 static std::unordered_map<unsigned, HANDLE> events;
 static HANDLE hBarrierSemaphore, hBarrierEvent;
@@ -422,16 +424,10 @@ void osal_udelay(unsigned us) {
 
   static unsigned threshold_us;
   if (threshold_us == 0) {
-#if 1
     unsigned timeslice_ms = 1;
     while (timeBeginPeriod(timeslice_ms) == TIMERR_NOCANDO)
       ++timeslice_ms;
     threshold_us = timeslice_ms * 1500u;
-#else
-    ULONGLONG InterruptTimePrecise_100ns;
-    QueryInterruptTimePrecise(&InterruptTimePrecise_100ns);
-    threshold_us = InterruptTimePrecise_100ns / 5;
-#endif
     assert(threshold_us > 0);
   }
 
@@ -459,3 +455,5 @@ std::string osal_tempdir(void) {
 int osal_removefile(const std::string &pathname) {
   return DeleteFileA(pathname.c_str()) ? MDBX_SUCCESS : GetLastError();
 }
+
+#endif /* Windows */

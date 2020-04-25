@@ -76,6 +76,10 @@ extern "C" {
 /*----------------------------------------------------------------------------*/
 /* Systems includes */
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif /* Apple OSX & iOS */
+
 #if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) ||     \
     defined(__BSD__) || defined(__bsdi__) || defined(__DragonFly__) ||         \
     defined(__APPLE__) || defined(__MACH__)
@@ -90,7 +94,9 @@ extern "C" {
 #else
 #define SYSCTL_LEGACY_NONCONST_MIB
 #endif
+#ifndef __MACH__
 #include <sys/vmmeter.h>
+#endif
 #else
 #include <malloc.h>
 #if !(defined(__sun) || defined(__SVR4) || defined(__svr4__) ||                \
@@ -238,6 +244,13 @@ typedef pthread_mutex_t mdbx_fastmutex_t;
 #define malloc_usable_size(ptr) _msize(ptr)
 #endif /* malloc_usable_size */
 
+#ifdef __ANDROID_API__
+#include <android/log.h>
+#if __ANDROID_API__ >= 21
+#include <sys/sendfile.h>
+#endif
+#endif /* Android */
+
 /* *INDENT-OFF* */
 /* clang-format off */
 #if defined(HAVE_SYS_STAT_H) || __has_include(<sys/stat.h>)
@@ -338,7 +351,7 @@ typedef pthread_mutex_t mdbx_fastmutex_t;
 
 /* *INDENT-OFF* */
 /* clang-format off */
-#if defined(__GLIBC__) || defined(__GNU_LIBRARY__) || defined(__ANDROID__) ||  \
+#if defined(__GLIBC__) || defined(__GNU_LIBRARY__) || defined(__ANDROID_API__) ||  \
     defined(HAVE_ENDIAN_H) || __has_include(<endian.h>)
 #include <endian.h>
 #elif defined(__APPLE__) || defined(__MACH__) || defined(__OpenBSD__) ||       \
@@ -495,6 +508,8 @@ MDBX_INTERNAL_FUNC int mdbx_vasprintf(char **strp, const char *fmt, va_list ap);
 
 #if defined(__linux__) || defined(__gnu_linux__)
 MDBX_INTERNAL_VAR uint32_t mdbx_linux_kernel_version;
+MDBX_INTERNAL_VAR bool
+    mdbx_RunningOnWSL /* Windows Subsystem for Linux is mad and trouble-full */;
 #endif /* Linux */
 
 /* Get the size of a memory page for the system.
@@ -636,13 +651,15 @@ static __maybe_unused __inline uint32_t mdbx_getpid(void) {
 #endif
 }
 
-static __maybe_unused __inline size_t mdbx_thread_self(void) {
-  STATIC_ASSERT(sizeof(mdbx_tid_t) <= sizeof(size_t));
+static __maybe_unused __inline uintptr_t mdbx_thread_self(void) {
+  mdbx_tid_t thunk;
+  STATIC_ASSERT(sizeof(uintptr_t) >= sizeof(thunk));
 #if defined(_WIN32) || defined(_WIN64)
-  return GetCurrentThreadId();
+  thunk = GetCurrentThreadId();
 #else
-  return (size_t)pthread_self();
+  thunk = pthread_self();
 #endif
+  return (uintptr_t)thunk;
 }
 
 MDBX_INTERNAL_FUNC void __maybe_unused mdbx_osal_jitter(bool tiny);

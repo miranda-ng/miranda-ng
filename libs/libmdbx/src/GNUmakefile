@@ -9,7 +9,7 @@
 SHELL   := env bash
 
 # install sandbox
-SANDBOX ?=
+DESTDIR ?=
 
 # install prefixes (inside sandbox)
 prefix  ?= /usr/local
@@ -19,9 +19,10 @@ mandir  ?= $(prefix)/man
 suffix  ?=
 
 CC      ?= gcc
+CFLAGS_EXTRA ?=
 LD      ?= ld
 MDBX_OPTIONS ?= -DNDEBUG=1
-CFLAGS  ?= -O2 -g -Wall -Werror -Wextra -Wpedantic -ffunction-sections -fPIC -fvisibility=hidden -std=gnu11 -pthread -Wno-error=attributes
+CFLAGS  ?= -O2 -g -Wall -Werror -Wextra -Wpedantic -ffunction-sections -fPIC -fvisibility=hidden -std=gnu11 -pthread -Wno-error=attributes $(CFLAGS_EXTRA)
 # -Wno-tautological-compare
 
 # HINT: Try append '--no-as-needed,-lrt' for ability to built with modern glibc, but then run with the old.
@@ -61,7 +62,7 @@ strip: all
 clean:
 	rm -rf $(TOOLS) mdbx_test @* *.[ao] *.[ls]o *~ tmp.db/* \
 		*.gcov *.log *.err src/*.o test/*.o mdbx_example dist \
-		config.h src/elements/config.h src/elements/version.c *.tar*
+		config.h src/config.h src/version.c *.tar*
 
 libmdbx.a: mdbx-static.o
 	$(AR) rs $@ $?
@@ -112,7 +113,8 @@ define uname2titer
   esac
 endef
 
-DIST_EXTRA := LICENSE README.md CMakeLists.txt GNUmakefile Makefile $(addprefix man1/, $(MANPAGES))
+DIST_EXTRA := LICENSE README.md CMakeLists.txt GNUmakefile Makefile VERSION config.h.in \
+	$(addprefix man1/, $(MANPAGES)) cmake/compiler.cmake cmake/profile.cmake cmake/utils.cmake
 DIST_SRC   := mdbx.h mdbx.c $(addsuffix .c, $(TOOLS))
 
 TEST_DB    ?= $(shell [ -d /dev/shm ] && echo /dev/shm || echo /tmp)/mdbx-test.db
@@ -125,14 +127,16 @@ TEST_OBJ   := $(patsubst %.cc,%.o,$(TEST_SRC))
 CXX        ?= g++
 CXXSTD     ?= $(shell $(CXX) -std=c++27 -c test/test.cc -o /dev/null 2>/dev/null && echo -std=c++17 || echo -std=c++11)
 CXXFLAGS   := $(CXXSTD) $(filter-out -std=gnu11,$(CFLAGS))
+TAR        ?= $(shell which gnu-tar || echo tar)
 
 MAN_SRCDIR := src/man1/
-ALLOY_DEPS := $(wildcard src/elements/*)
+ALLOY_DEPS := $(wildcard src/*)
 MDBX_VERSION_GIT = ${shell set -o pipefail; git describe --tags | sed -n 's|^v*\([0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\)\(.*\)|\1|p' || echo 'Please fetch tags and/or install latest git version'}
+MDBX_REVISION_GIT = $(shell git rev-list --count --no-merges HEAD || echo 'Please fetch tags and/or install latest git version')
 MDBX_GIT_TIMESTAMP = $(shell git show --no-patch --format=%cI HEAD || echo 'Please install latest get version')
 MDBX_GIT_DESCRIBE = $(shell git describe --tags --long --dirty=-dirty || echo 'Please fetch tags and/or install latest git version')
 MDBX_VERSION_SUFFIX = $(shell set -o pipefail; echo -n '$(MDBX_GIT_DESCRIBE)' | tr -c -s '[a-zA-Z0-9]' _)
-MDBX_BUILD_SOURCERY = $(shell set -o pipefail; $(MAKE) -s src/elements/version.c && (openssl dgst -r -sha256 src/elements/version.c || sha256sum src/elements/version.c || shasum -a 256 src/elements/version.c) 2>/dev/null | cut -d ' ' -f 1 || echo 'Please install openssl or sha256sum or shasum')_$(MDBX_VERSION_SUFFIX)
+MDBX_BUILD_SOURCERY = $(shell set -o pipefail; $(MAKE) -s src/version.c && (openssl dgst -r -sha256 src/version.c || sha256sum src/version.c || shasum -a 256 src/version.c) 2>/dev/null | cut -d ' ' -f 1 || echo 'Please install openssl or sha256sum or shasum')_$(MDBX_VERSION_SUFFIX)
 
 check: test mdbx_example dist
 
@@ -175,7 +179,7 @@ $(patsubst %.cc,%.o,$(1)): $(1) $(TEST_INC) mdbx.h $(lastword $(MAKEFILE_LIST))
 endef
 $(foreach file,$(TEST_SRC),$(eval $(call test-rule,$(file))))
 
-mdbx_%:	src/tools/mdbx_%.c libmdbx.a
+mdbx_%:	src/mdbx_%.c libmdbx.a
 	$(CC) $(CFLAGS) $(MDBX_OPTIONS) '-DMDBX_CONFIG_H="config.h"' $^ $(EXE_LDFLAGS) $(LIBS) -o $@
 
 mdbx_test: $(TEST_OBJ) libmdbx.$(SO_SUFFIX)
@@ -183,7 +187,7 @@ mdbx_test: $(TEST_OBJ) libmdbx.$(SO_SUFFIX)
 
 git_DIR := $(shell if [ -d .git ]; then echo .git; elif [ -s .git -a -f .git ]; then grep '^gitdir: ' .git | cut -d ':' -f 2; else echo "Please use libmdbx as a git-submodule or the amalgamated source code" >&2 && echo git_directory; fi)
 
-src/elements/version.c: src/elements/version.c.in $(lastword $(MAKEFILE_LIST)) $(git_DIR)/HEAD $(git_DIR)/index $(git_DIR)/refs/tags
+src/version.c: src/version.c.in $(lastword $(MAKEFILE_LIST)) $(git_DIR)/HEAD $(git_DIR)/index $(git_DIR)/refs/tags
 	sed \
 		-e "s|@MDBX_GIT_TIMESTAMP@|$(MDBX_GIT_TIMESTAMP)|" \
 		-e "s|@MDBX_GIT_TREE@|$(shell git show --no-patch --format=%T HEAD || echo 'Please install latest get version')|" \
@@ -192,10 +196,10 @@ src/elements/version.c: src/elements/version.c.in $(lastword $(MAKEFILE_LIST)) $
 		-e "s|\$${MDBX_VERSION_MAJOR}|$(shell echo '$(MDBX_VERSION_GIT)' | cut -d . -f 1)|" \
 		-e "s|\$${MDBX_VERSION_MINOR}|$(shell echo '$(MDBX_VERSION_GIT)' | cut -d . -f 2)|" \
 		-e "s|\$${MDBX_VERSION_RELEASE}|$(shell echo '$(MDBX_VERSION_GIT)' | cut -d . -f 3)|" \
-		-e "s|\$${MDBX_VERSION_REVISION}|$(shell git rev-list --count --no-merges HEAD || echo 'Please fetch tags and/or install latest git version')|" \
-	src/elements/version.c.in > $@
+		-e "s|\$${MDBX_VERSION_REVISION}|$(MDBX_REVISION_GIT)|" \
+	src/version.c.in > $@
 
-src/elements/config.h: src/elements/version.c $(lastword $(MAKEFILE_LIST))
+src/config.h: src/version.c $(lastword $(MAKEFILE_LIST))
 	(echo '#define MDBX_BUILD_TIMESTAMP "$(shell date +%Y-%m-%dT%H:%M:%S%z)"' \
 	&& echo '#define MDBX_BUILD_FLAGS "$(CFLAGS) $(LDFLAGS) $(LIBS)"' \
 	&& echo '#define MDBX_BUILD_COMPILER "$(shell set -o pipefail; $(CC) --version | head -1 || echo 'Please use GCC or CLANG compatible compiler')"' \
@@ -203,63 +207,65 @@ src/elements/config.h: src/elements/version.c $(lastword $(MAKEFILE_LIST))
 	&& echo '#define MDBX_BUILD_SOURCERY $(MDBX_BUILD_SOURCERY)' \
 	) > $@
 
-mdbx-dylib.o: src/elements/config.h src/elements/version.c src/alloy.c $(ALLOY_DEPS) $(lastword $(MAKEFILE_LIST))
+mdbx-dylib.o: src/config.h src/version.c src/alloy.c $(ALLOY_DEPS) $(lastword $(MAKEFILE_LIST))
 	$(CC) $(CFLAGS) $(MDBX_OPTIONS) '-DMDBX_CONFIG_H="config.h"' -DLIBMDBX_EXPORTS=1 -c src/alloy.c -o $@
 
-mdbx-static.o: src/elements/config.h src/elements/version.c src/alloy.c $(ALLOY_DEPS) $(lastword $(MAKEFILE_LIST))
+mdbx-static.o: src/config.h src/version.c src/alloy.c $(ALLOY_DEPS) $(lastword $(MAKEFILE_LIST))
 	$(CC) $(CFLAGS) $(MDBX_OPTIONS) '-DMDBX_CONFIG_H="config.h"' -ULIBMDBX_EXPORTS -c src/alloy.c -o $@
 
 .PHONY: dist
 dist: libmdbx-sources-$(MDBX_VERSION_SUFFIX).tar.gz $(lastword $(MAKEFILE_LIST))
 
 libmdbx-sources-$(MDBX_VERSION_SUFFIX).tar.gz: $(addprefix dist/, $(DIST_SRC) $(DIST_EXTRA)) $(addprefix dist/man1/,$(MANPAGES))
-	tar -c --owner=0 --group=0 -C dist $(DIST_SRC) $(DIST_EXTRA) -f - | gzip -c > $@ \
+	$(TAR) -c $(shell LC_ALL=C $(TAR) --help | grep -q -- '--owner' && echo '--owner=0 --group=0') -f - -C dist $(DIST_SRC) $(DIST_EXTRA) | gzip -c > $@ \
 	&& rm dist/@tmp-shared_internals.inc
 
-dist/mdbx.h: mdbx.h src/elements/version.c $(lastword $(MAKEFILE_LIST))
+dist/mdbx.h: mdbx.h src/version.c $(lastword $(MAKEFILE_LIST))
 	mkdir -p dist && cp $< $@
 
-dist/Makefile: Makefile
-	mkdir -p dist && cp $< $@
-
-dist/GNUmakefile: GNUmakefile
-	mkdir -p dist && sed -e '/^#> dist-cutoff-begin/,/^#< dist-cutoff-end/d' $< > $@
-
-dist/@tmp-shared_internals.inc: src/elements/version.c $(ALLOY_DEPS) $(lastword $(MAKEFILE_LIST))
+dist/@tmp-shared_internals.inc: src/version.c $(ALLOY_DEPS) $(lastword $(MAKEFILE_LIST))
 	mkdir -p dist && sed \
 		-e 's|#pragma once|#define MDBX_ALLOY 1\n#define MDBX_BUILD_SOURCERY $(MDBX_BUILD_SOURCERY)|' \
-		-e 's|#include "../../mdbx.h"|@INCLUDE "mdbx.h"|' \
-		-e '/#include "defs.h"/r src/elements/defs.h' \
-		-e '/#include "osal.h"/r src/elements/osal.h' \
-		-e '/#include "options.h"/r src/elements/options.h' \
-		src/elements/internals.h > $@
+		-e 's|#include "../mdbx.h"|@INCLUDE "mdbx.h"|' \
+		-e '/#include "defs.h"/r src/defs.h' \
+		-e '/#include "osal.h"/r src/osal.h' \
+		-e '/#include "options.h"/r src/options.h' \
+		src/internals.h > $@
 
 dist/mdbx.c: dist/@tmp-shared_internals.inc $(lastword $(MAKEFILE_LIST))
 	mkdir -p dist && (cat dist/@tmp-shared_internals.inc \
-	&& cat src/elements/core.c src/elements/osal.c src/elements/version.c src/elements/lck-windows.c src/elements/lck-posix.c \
+	&& cat src/core.c src/osal.c src/version.c src/lck-windows.c src/lck-posix.c \
 	) | grep -v -e '#include "' -e '#pragma once' | sed 's|@INCLUDE|#include|' > $@
 
 define dist-tool-rule
-dist/$(1).c: src/tools/$(1).c src/tools/wingetopt.h src/tools/wingetopt.c \
+dist/$(1).c: src/$(1).c src/wingetopt.h src/wingetopt.c \
 		dist/@tmp-shared_internals.inc $(lastword $(MAKEFILE_LIST))
 	mkdir -p dist && sed \
-		-e '/#include "..\/elements\/internals.h"/r dist/@tmp-shared_internals.inc' \
-		-e '/#include "wingetopt.h"/r src/tools/wingetopt.c' \
-		src/tools/$(1).c \
+		-e '/#include "internals.h"/r dist/@tmp-shared_internals.inc' \
+		-e '/#include "wingetopt.h"/r src/wingetopt.c' \
+		src/$(1).c \
 	| grep -v -e '#include "' -e '#pragma once' -e '#define MDBX_ALLOY' \
 	| sed 's|@INCLUDE|#include|' > $$@
 
 endef
 $(foreach file,$(TOOLS),$(eval $(call dist-tool-rule,$(file))))
 
+define dist-extra-rule
+dist/$(1): $(1)
+	mkdir -p $$(dir $$@) && sed -e '/^#> dist-cutoff-begin/,/^#< dist-cutoff-end/d' $$< > $$@
+
+endef
+$(foreach file,$(filter-out man1/% VERSION %.in,$(DIST_EXTRA)),$(eval $(call dist-extra-rule,$(file))))
+
+dist/VERSION: src/version.c
+	mkdir -p dist/ && echo "$(MDBX_VERSION_GIT).$(MDBX_REVISION_GIT)" > $@
+
+dist/config.h.in: src/config.h.in
+	mkdir -p dist/cmake/ && cp $< $@
+
 dist/man1/mdbx_%.1: src/man1/mdbx_%.1
 	mkdir -p dist/man1/ && cp $< $@
-dist/LICENSE: LICENSE
-	mkdir -p dist/man1/ && cp $< $@
-dist/README.md: README.md
-	mkdir -p dist/man1/ && cp $< $@
-dist/CMakeLists.txt: CMakeLists.dist-minimal
-	mkdir -p dist/man1/ && cp $< $@
+
 endif
 
 ################################################################################
@@ -302,14 +308,17 @@ cross-qemu:
 
 #< dist-cutoff-end
 install: $(LIBRARIES) $(TOOLS) $(HEADERS)
-	mkdir -p $(SANDBOX)$(prefix)/bin$(suffix) \
-		&& cp -t $(SANDBOX)$(prefix)/bin$(suffix) $(TOOLS) && \
-	mkdir -p $(SANDBOX)$(prefix)/lib$(suffix) \
-		&& cp -t $(SANDBOX)$(prefix)/lib$(suffix) $(LIBRARIES) && \
-	mkdir -p $(SANDBOX)$(prefix)/include \
-		&& cp -t $(SANDBOX)$(prefix)/include $(HEADERS) && \
-	mkdir -p $(SANDBOX)$(mandir)/man1 \
-		&& cp -t $(SANDBOX)$(mandir)/man1 $(addprefix $(MAN_SRCDIR), $(MANPAGES))
+	install -D -p -s -t $(DESTDIR)$(prefix)/bin$(suffix) $(TOOLS) && \
+	install -D -p -s -t $(DESTDIR)$(prefix)/lib$(suffix) $(filter-out libmdbx.a,$(LIBRARIES)) && \
+	install -D -p -t $(DESTDIR)$(prefix)/lib$(suffix) libmdbx.a && \
+	install -D -p -m 444 -t $(DESTDIR)$(prefix)/include $(HEADERS) && \
+	install -D -p -m 444 -t $(DESTDIR)$(mandir)/man1 $(addprefix $(MAN_SRCDIR), $(MANPAGES))
+
+uninstall:
+	rm -f $(addprefix $(DESTDIR)$(prefix)/bin$(suffix)/,$(TOOLS)) \
+		$(addprefix $(DESTDIR)$(prefix)/lib$(suffix)/,$(LIBRARIES)) \
+		$(addprefix $(DESTDIR)$(prefix)/include/,$(HEADERS)) \
+		$(addprefix $(DESTDIR)$(mandir)/man1/,$(MANPAGES))
 
 ################################################################################
 # Benchmarking by ioarena

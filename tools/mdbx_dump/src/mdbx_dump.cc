@@ -23,7 +23,7 @@
 #endif                          /* _MSC_VER (warnings) */
 
 #define MDBX_TOOLS /* Avoid using internal mdbx_assert() */
-#include "../../libs/libmdbx/src/src/elements/internals.h"
+#include "../../libs/libmdbx/src/src/internals.h"
 
 #include <ctype.h>
 
@@ -44,8 +44,8 @@ flagbit dbflags[] = {{MDBX_REVERSEKEY, "reversekey"},
                      {0, NULL}};
 
 #if defined(_WIN32) || defined(_WIN64)
-#include "../../libs/libmdbx/src/src/tools/wingetopt.h"
-#include "../../libs/libmdbx/src/src/tools/wingetopt.c"
+#include "../../libs/libmdbx/src/src/wingetopt.h"
+#include "../../libs/libmdbx/src/src/wingetopt.c"
 
 static volatile BOOL user_break;
 static BOOL WINAPI ConsoleBreakHandlerRoutine(DWORD dwCtrlType) {

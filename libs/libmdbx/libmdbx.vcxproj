@@ -26,23 +26,20 @@
   <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>MDBX_CONFIG_MANUAL_TLS_CALLBACK=1;MDBX_DEBUG=1;LIBMDBX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MDBX_CONFIG_MANUAL_TLS_CALLBACK=1;MDBX_DEBUG=1;LIBMDBX_EXPORTS;__STDC_FORMAT_MACROS=1;__STDC_LIMIT_MACROS=1;__STDC_CONSTANT_MACROS=1;_HAS_EXCEPTIONS=1;MDBX_CONFIG_H=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\src\elements\lck-windows.c">
+    <ClCompile Include="src\src\lck-windows.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\src\elements\core.c">
+    <ClCompile Include="src\src\core.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\src\elements\osal.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\src\elements\version.c">
+    <ClCompile Include="src\src\osal.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>

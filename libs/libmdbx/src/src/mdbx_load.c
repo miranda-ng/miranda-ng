@@ -21,7 +21,7 @@
 #endif                          /* _MSC_VER (warnings) */
 
 #define MDBX_TOOLS /* Avoid using internal mdbx_assert() */
-#include "../elements/internals.h"
+#include "internals.h"
 
 #include <ctype.h>
 
@@ -339,7 +339,8 @@ static void usage(void) {
           "dbpath\n"
           "  -V\t\tprint version and exit\n"
           "  -q\t\tbe quiet\n"
-          "  -a\t\tappend records in input order\n"
+          "  -a\t\tappend records in input order (required for custom "
+          "comparators)\n"
           "  -f file\tread from file instead of stdin\n"
           "  -s name\tload into named subDB\n"
           "  -N\t\tuse NOOVERWRITE on puts\n"

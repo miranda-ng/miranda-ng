@@ -9,15 +9,25 @@ database, with [permissive license](LICENSE).
 _MDBX_ has a specific set of properties and capabilities,
 focused on creating unique lightweight solutions with extraordinary performance.
 
-1. Allows **swarm of multi-threaded processes to [ACID]((https://en.wikipedia.org/wiki/ACID))ly read and update** several key-value [maps](https://en.wikipedia.org/wiki/Associative_array) and [multimaps](https://en.wikipedia.org/wiki/Multimap) in a localy-shared database.
+1. Allows **swarm of multi-threaded processes to
+[ACID]((https://en.wikipedia.org/wiki/ACID))ly read and update** several
+key-value [maps](https://en.wikipedia.org/wiki/Associative_array) and
+[multimaps](https://en.wikipedia.org/wiki/Multimap) in a localy-shared
+database.
 
-2. Provides **extraordinary performance**, minimal overhead through [Memory-Mapping](https://en.wikipedia.org/wiki/Memory-mapped_file) and `Olog(N)` operations costs by virtue of [B+ tree](https://en.wikipedia.org/wiki/B%2B_tree).
+2. Provides **extraordinary performance**, minimal overhead through
+[Memory-Mapping](https://en.wikipedia.org/wiki/Memory-mapped_file) and
+`Olog(N)` operations costs by virtue of [B+
+tree](https://en.wikipedia.org/wiki/B%2B_tree).
 
-3. Requires **no maintenance and no crash recovery** since doesn't use [WAL](https://en.wikipedia.org/wiki/Write-ahead_logging), but that might be a caveat for write-intensive workloads.
+3. Requires **no maintenance and no crash recovery** since doesn't use
+[WAL](https://en.wikipedia.org/wiki/Write-ahead_logging), but that might
+be a caveat for write-intensive workloads with durability requirements.
 
-4. **Compact and friendly for fully embeddeding**. Only 25KLOC of `C11`, 64K x86 binary code,
-no internal threads neither processes, but implements a simplified variant of the
-[Berkeley DB](https://en.wikipedia.org/wiki/Berkeley_DB) and
+4. **Compact and friendly for fully embeddeding**. Only 25KLOC of `C11`,
+64K x86 binary code, no internal threads neither processes, but
+implements a simplified variant of the [Berkeley
+DB](https://en.wikipedia.org/wiki/Berkeley_DB) and
 [dbm](https://en.wikipedia.org/wiki/DBM_(computing)) API.
 
 5. Enforces [serializability](https://en.wikipedia.org/wiki/Serializability) for
@@ -30,7 +40,7 @@ for parallel readers without atomic/interlocked operations, while
 6. **Guarantee data integrity** after crash unless this was explicitly
 neglected in favour of write performance.
 
-7. Supports Linux, Windows, MacOS, FreeBSD, DragonFly, Solaris,
+7. Supports Linux, Windows, MacOS, Android, iOS, FreeBSD, DragonFly, Solaris,
 OpenSolaris, OpenIndiana, NetBSD, OpenBSD and other systems compliant with
 **POSIX.1-2008**.
 
@@ -49,6 +59,7 @@ _MithrilDB_ is rightly relevant name.
   > revolution is to provide a clearer and robust API, add more features and
   > new valuable properties of database.
 
+[![https://t.me/libmdbx](https://raw.githubusercontent.com/wiki/erthink/libmdbx/img/telegram.png)](https://t.me/libmdbx)
 [![Build Status](https://travis-ci.org/erthink/libmdbx.svg?branch=master)](https://travis-ci.org/erthink/libmdbx)
 [![Build status](https://ci.appveyor.com/api/projects/status/ue94mlopn50dqiqg/branch/master?svg=true)](https://ci.appveyor.com/project/erthink/libmdbx/branch/master)
 [![Coverity Scan Status](https://scan.coverity.com/projects/12915/badge.svg)](https://scan.coverity.com/projects/reopen-libmdbx)
@@ -185,6 +196,9 @@ the user's point of view.
   > _libmdbx_ manage the database size according to parameters specified
   > by `mdbx_env_set_geometry()` function,
   > ones include the growth step and the truncation threshold.
+  >
+  > Unfortunately, on-the-fly database size adjustment doesn't work under [Wine](https://en.wikipedia.org/wiki/Wine_(software))
+  > due to its internal limitations and unimplemented functions, i.e. the `MDBX_UNABLE_EXTEND_MAPSIZE` error will be returned.
 
 4. Automatic continuous zero-overhead database compactification.
   > During each commit _libmdbx_ merges suitable freeing pages into unallocated area
@@ -402,16 +416,34 @@ will need to install the current (not outdated) version of
 recommend that you install [Homebrew](https://brew.sh/) and then execute
 `brew install bash`.
 
+### Android
+We recommend using CMake to build _libmdbx_ for Android.
+Please refer to the [official guide](https://developer.android.com/studio/projects/add-native-code).
+
+### iOS
+To build _libmdbx_ for iOS, we recommend using CMake with the
+"[toolchain file](https://cmake.org/cmake/help/latest/variable/CMAKE_TOOLCHAIN_FILE.html)"
+from the [ios-cmake](https://github.com/leetal/ios-cmake) project.
+
+### Windows Subsystem for Linux
+_libmdbx_ could be using in [WSL2](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux#WSL_2)
+but NOT in [WSL1](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux#WSL_1) environment.
+This is a consequence of the fundamental shortcomings of _WSL1_ and cannot be fixed.
+To avoid data loss, _libmdbx_ returns the `ENOLCK` (37, "No record locks available")
+error when opening the database in a _WSL1_ environment.
+
 ## API description
 For more information and API description see the [mdbx.h](mdbx.h) header.
+Please do not hesitate to point out errors in the documentation,
+including creating [PR](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/proposing-changes-to-your-work-with-pull-requests) with corrections and improvements.
 
 ## Bindings
 
   | Runtime  | GitHub | Author |
   | -------- | ------ | ------ |
+  | Rust     | [mdbx-rs](https://github.com/Kerollmops/mdbx-rs)   | [@Kerollmops](https://github.com/Kerollmops) |
   | Java     | [mdbxjni](https://github.com/castortech/mdbxjni)   | [Castor Technologies](https://castortech.com/) |
   | .NET     | [mdbx.NET](https://github.com/wangjia184/mdbx.NET) | [Jerry Wang](https://github.com/wangjia184) |
-  | Rust     | [mdbx-rs](https://github.com/Kerollmops/mdbx-rs)   | [Clément Renault](https://github.com/Kerollmops) |
 
 --------------------------------------------------------------------------------
 

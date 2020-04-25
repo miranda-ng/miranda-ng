@@ -21,7 +21,7 @@
 #endif                          /* _MSC_VER (warnings) */
 
 #define MDBX_TOOLS /* Avoid using internal mdbx_assert() */
-#include "../elements/internals.h"
+#include "internals.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 #include "wingetopt.h"
@@ -77,8 +77,8 @@ static int reader_list_func(void *ctx, int num, int slot, mdbx_pid_t pid,
            "pid", (int)sizeof(size_t) * 2, "thread", "txnid", "lag", "used",
            "retained");
 
-  printf(" %3d)\t[%d]\t%6" PRIdSIZE " %*" PRIxSIZE, num, slot, (size_t)pid,
-         (int)sizeof(size_t) * 2, (size_t)thread);
+  printf(" %3d)\t[%d]\t%6" PRIdSIZE " %*" PRIxPTR, num, slot, (size_t)pid,
+         (int)sizeof(size_t) * 2, (uintptr_t)thread);
   if (txnid)
     printf(" %20" PRIu64 " %10" PRIu64 " %12.1fM %12.1fM\n", txnid, lag,
            bytes_used / 1048576.0, bytes_retained / 1048576.0);
@@ -294,7 +294,7 @@ int main(int argc, char *argv[]) {
       const pgno_t number = *iptr++;
 
       pages += number;
-      if (envinfo && mei.mi_latter_reader_txnid > *(size_t *)key.iov_base)
+      if (envinfo && mei.mi_latter_reader_txnid > *(txnid_t *)key.iov_base)
         reclaimable += number;
 
       if (freinfo > 1) {

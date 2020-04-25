@@ -1,10 +1,10 @@
 /* This is CMake-template for libmdbx's version.c
  ******************************************************************************/
 
-#include "internals.h"
+#include "src/internals.h"
 
 #if MDBX_VERSION_MAJOR != 0 ||                             \
-    MDBX_VERSION_MINOR != 6
+    MDBX_VERSION_MINOR != 7
 #error "API version mismatch! Had `git fetch --tags` done?"
 #endif
 
@@ -24,11 +24,11 @@ __dll_export
 #endif
     const mdbx_version_info mdbx_version = {
         0,
-        6,
+        7,
         0,
-        1935,
-        {"2020-03-20T17:45:36+03:00", "e01a07c814dffd0b1433ad536da16ab95344615a", "c20ba1e84f51ca9dd10603fe461b1bcc171aa075",
-         "v0.6.0-45-gc20ba1e"},
+        1981,
+        {"2020-04-25T11:12:23+03:00", "5c78012e38f306d9601e1f43109c8aecbacb2e14", "ca8fa31c3fe1b4d92278d7a54364f6fb73dbae04",
+         "v0.7.0-39-gca8fa31"},
         sourcery};
 
 __dll_export
