@@ -24,7 +24,7 @@ struct TemplateVars
 	}
 };
 
-typedef void(*VarFunc)(int mode, TemplateVars* vars, MCONTACT hContact, HistoryArray::ItemData* item);
+typedef void(*VarFunc)(int mode, TemplateVars* vars, MCONTACT hContact, ItemData* item);
 
 struct TemplateInfo
 {
@@ -73,7 +73,7 @@ extern TemplateInfo templates[TPL_COUNT];
 void LoadTemplates();
 void SaveTemplates();
 
-wchar_t* TplFormatString(int tpl, MCONTACT hContact, HistoryArray::ItemData* args);
-wchar_t* TplFormatStringEx(int tpl, wchar_t* sztpl, MCONTACT hContact, HistoryArray::ItemData* args);
+wchar_t* TplFormatString(int tpl, MCONTACT hContact, ItemData *args);
+wchar_t* TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData *args);
 
 #endif // __templates_h__

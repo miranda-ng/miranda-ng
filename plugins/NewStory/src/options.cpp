@@ -10,7 +10,7 @@ class COptionsDlg : public CDlgBase
 	{
 		replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
-		HistoryArray::ItemData item;
+		ItemData item;
 		item.hContact = db_find_first();
 		while (item.hContact && !item.hEvent) {
 			item.hEvent = db_event_first(item.hContact);
@@ -19,7 +19,7 @@ class COptionsDlg : public CDlgBase
 		}
 
 		if (item.hContact && item.hEvent) {
-			item.load(ELM_DATA);
+			item.load(ItemData::ELM_DATA);
 			
 			ptrW wszText(TplFormatStringEx(int(m_curr-templates), m_curr->tmpValue, item.hContact, &item));
 			preview.SetText(wszText);

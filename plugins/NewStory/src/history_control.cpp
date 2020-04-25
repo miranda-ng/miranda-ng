@@ -195,7 +195,7 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 	int itemHeight = LayoutItem(hwnd, &data->items, idx);
 	while (top < height) {
 		if (idx == index) {
-			HistoryArray::ItemData *item = data->items.get(index, ELM_DATA);
+			ItemData *item = data->items.get(index, ItemData::ELM_DATA);
 
 			int tpl;
 			int fontid;
@@ -272,7 +272,7 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 	RECT rc; GetClientRect(hwnd, &rc);
 	int width = rc.right - rc.left;
 
-	HistoryArray::ItemData *item = items->get(index, ELM_DATA);
+	ItemData *item = items->get(index, ItemData::ELM_DATA);
 	if (!item) return 0;
 
 	int tpl;
@@ -331,7 +331,7 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width)
 {
 	if (!items) return 0;
-	HistoryArray::ItemData *item = items->get(index, ELM_DATA);
+	ItemData *item = items->get(index, ItemData::ELM_DATA);
 
 	//	LOGFONT lfText;
 	COLORREF clText, clBack, clLine;
@@ -452,7 +452,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	// History list control messages
 	case NSM_ADDHISTORY:
-		data->items.addHistory((MCONTACT)wParam);
+		data->items.addEvent((MCONTACT)wParam, db_event_first((MCONTACT)wParam), -1);
 		RecalcScrollBar(hwnd, data);
 		data->scrollTopItem = data->items.getCount();
 		FixScrollPosition(hwnd, data);
@@ -483,7 +483,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				start ^= end;
 			}
 			for (int i = start; i <= end; ++i)
-				data->items.get(i, ELM_NOTHING)->flags |= HIF_SELECTED;
+				data->items.get(i, ItemData::ELM_NOTHING)->flags |= HIF_SELECTED;
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -498,11 +498,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				start ^= end;
 			}
 			for (int i = start; i <= end; ++i) {
-				if (data->items.get(i, ELM_NOTHING)->flags & HIF_SELECTED) {
-					data->items.get(i, ELM_NOTHING)->flags &= ~HIF_SELECTED;
+				if (data->items.get(i, ItemData::ELM_NOTHING)->flags & HIF_SELECTED) {
+					data->items.get(i, ItemData::ELM_NOTHING)->flags &= ~HIF_SELECTED;
 				}
 				else {
-					data->items.get(i, ELM_NOTHING)->flags |= HIF_SELECTED;
+					data->items.get(i, ItemData::ELM_NOTHING)->flags |= HIF_SELECTED;
 				}
 			}
 			InvalidateRect(hwnd, 0, FALSE);
@@ -521,10 +521,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int count = data->items.getCount();
 			for (int i = 0; i < count; ++i) {
 				if ((i >= start) && (i <= end)) {
-					data->items.get(i, ELM_NOTHING)->flags |= HIF_SELECTED;
+					data->items.get(i, ItemData::ELM_NOTHING)->flags |= HIF_SELECTED;
 				}
 				else {
-					data->items.get(i, ELM_NOTHING)->flags &= ~((DWORD)HIF_SELECTED);
+					data->items.get(i, ItemData::ELM_NOTHING)->flags &= ~((DWORD)HIF_SELECTED);
 				}
 			}
 			InvalidateRect(hwnd, 0, FALSE);
@@ -541,7 +541,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				start ^= end;
 			}
 			for (int i = start; i <= end; ++i)
-				data->items.get(i, ELM_NOTHING)->flags &= ~((DWORD)HIF_SELECTED);
+				data->items.get(i, ItemData::ELM_NOTHING)->flags &= ~((DWORD)HIF_SELECTED);
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -582,7 +582,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_FINDNEXT:
 		{
-			int id = data->items.FindNext(SendMessage(hwnd, NSM_GETCARET, 0, 0), HistoryArray::Filter(HistoryArray::Filter::EVENTONLY, (wchar_t *)wParam));
+			int id = data->items.FindNext(SendMessage(hwnd, NSM_GETCARET, 0, 0), Filter(Filter::EVENTONLY, (wchar_t *)wParam));
 			if (id >= 0) {
 				SendMessage(hwnd, NSM_SELECTITEMS2, id, id);
 				SendMessage(hwnd, NSM_SETCARET, id, TRUE);
@@ -592,7 +592,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_FINDPREV:
 		{
-			int id = data->items.FindPrev(SendMessage(hwnd, NSM_GETCARET, 0, 0), HistoryArray::Filter(HistoryArray::Filter::EVENTONLY, (wchar_t *)wParam));
+			int id = data->items.FindPrev(SendMessage(hwnd, NSM_GETCARET, 0, 0), Filter(Filter::EVENTONLY, (wchar_t *)wParam));
 			if (id >= 0) {
 				SendMessage(hwnd, NSM_SELECTITEMS2, id, id);
 				SendMessage(hwnd, NSM_SETCARET, id, TRUE);
@@ -604,7 +604,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
-				auto *item = data->items.get(i, ELM_NOTHING);
+				auto *item = data->items.get(i, ItemData::ELM_NOTHING);
 				if (item->dbe.timestamp >= wParam) {
 					SendMessage(hwnd, NSM_SELECTITEMS2, i, i);
 					SendMessage(hwnd, NSM_SETCARET, i, TRUE);
@@ -629,7 +629,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
-				HistoryArray::ItemData *item = data->items.get(i, ELM_NOTHING);
+				ItemData *item = data->items.get(i, ItemData::ELM_NOTHING);
 				if (item->flags & HIF_SELECTED)
 					res.Append(ptrW(TplFormatString(TPL_COPY_MESSAGE, item->hContact, item)));
 			}

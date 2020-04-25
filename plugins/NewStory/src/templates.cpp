@@ -2,7 +2,7 @@
 
 int TplMeasureVars(TemplateVars* vars, wchar_t* str);
 
-wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, HistoryArray::ItemData *item)
+wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData *item)
 {
 	if ((tpl < 0) || (tpl >= TPL_COUNT) || !sztpl)
 		return mir_wstrdup(L"");
@@ -31,7 +31,7 @@ wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, HistoryAr
 	return buf;
 }
 
-wchar_t *TplFormatString(int tpl, MCONTACT hContact, HistoryArray::ItemData *item)
+wchar_t *TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 {
 	if ((tpl < 0) || (tpl >= TPL_COUNT))
 		return mir_wstrdup(L"");
@@ -102,7 +102,7 @@ int TplMeasureVars(TemplateVars *vars, wchar_t *str)
 }
 
 // Loading variables
-void vfGlobal(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *)
+void vfGlobal(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	//  %%: simply % character
 	vars->SetVar('%', L"%", false);
@@ -116,7 +116,7 @@ void vfGlobal(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData
 	vars->SetVar('S', nick, false);
 }
 
-void vfContact(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *)
+void vfContact(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	// %N: buddy's nick (not for messages)
 	wchar_t *nick = Clist_GetContactDisplayName(hContact, 0);
@@ -128,7 +128,7 @@ void vfContact(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemDat
 	vars->SetVar('c', buf, false);
 }
 
-void vfSystem(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData *)
+void vfSystem(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	// %N: buddy's nick (not for messages)
 	vars->SetVar('N', LPGENW("System event"), false);
@@ -139,7 +139,7 @@ void vfSystem(int, TemplateVars *vars, MCONTACT hContact, HistoryArray::ItemData
 	vars->SetVar('c', buf, false);
 }
 
-void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	HICON hIcon;
 	wchar_t buf[100];
@@ -233,55 +233,55 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
 	vars->SetVar('O', TranslateW(buf), false);
 }
 
-void vfMessage(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+void vfMessage(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfFile(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+void vfFile(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfUrl(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+void vfUrl(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfSign(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+void vfSign(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfAuth(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+void vfAuth(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfAdded(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+void vfAdded(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfPresence(int, TemplateVars* vars, MCONTACT, HistoryArray::ItemData* item)
+void vfPresence(int, TemplateVars* vars, MCONTACT, ItemData* item)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfDeleted(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *item)
+void vfDeleted(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', item->getWBuf(), false);
 }
 
-void vfOther(int, TemplateVars *vars, MCONTACT, HistoryArray::ItemData *)
+void vfOther(int, TemplateVars *vars, MCONTACT, ItemData *)
 {
 	//  %M: the message string itself
 	vars->SetVar('M', LPGENW("Unknown event"), false);

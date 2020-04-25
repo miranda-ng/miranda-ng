@@ -1,12 +1,49 @@
 #include "stdafx.h"
 
-// Event
-bool HistoryArray::ItemData::load(EventLoadMode mode)
+bool Filter::check(ItemData *item)
 {
-	if (mode == ELM_NOTHING)
+	if (!item) return false;
+	if (!(flags & EVENTONLY)) {
+		if (item->dbe.flags & DBEF_SENT) {
+			if (!(flags & OUTGOING))
+				return false;
+		}
+		else {
+			if (!(flags & INCOMING))
+				return false;
+		}
+		switch (item->dbe.eventType) {
+		case EVENTTYPE_MESSAGE:
+			if (!(flags & MESSAGES))
+				return false;
+			break;
+		case EVENTTYPE_FILE:
+			if (!(flags & FILES))
+				return false;
+			break;
+		case EVENTTYPE_STATUSCHANGE:
+			if (!(flags & STATUS))
+				return false;
+			break;
+		default:
+			if (!(flags & OTHER))
+				return false;
+		}
+	}
+	if (flags & (EVENTTEXT | EVENTONLY)) {
+		item->loadInline(ItemData::ELM_DATA);
+		return CheckFilter(item->getWBuf(), text);
+	}
+	return true;
+};
+
+// Event
+bool ItemData::load(EventLoadMode mode)
+{
+	if (mode == ItemData::ELM_NOTHING)
 		return true;
 
-	if ((mode == ELM_INFO) && !dbeOk) {
+	if ((mode == ItemData::ELM_INFO) && !dbeOk) {
 		dbeOk = true;
 		dbe.cbBlob = 0;
 		dbe.pBlob = 0;
@@ -14,7 +51,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 		return true;
 	}
 
-	if ((mode == ELM_DATA) && (!dbeOk || !dbe.cbBlob)) {
+	if ((mode == ItemData::ELM_DATA) && (!dbeOk || !dbe.cbBlob)) {
 		dbeOk = true;
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
 		dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob + 1);
@@ -63,7 +100,7 @@ bool HistoryArray::ItemData::load(EventLoadMode mode)
 	return false;
 }
 
-HistoryArray::ItemData::~ItemData()
+ItemData::~ItemData()
 {
 	if (dbeOk && dbe.pBlob) {
 		mir_free(dbe.pBlob);
@@ -74,8 +111,10 @@ HistoryArray::ItemData::~ItemData()
 }
 
 // Array
-HistoryArray::HistoryArray()
+HistoryArray::HistoryArray() :
+	pages(50)
 {
+	pages.insert(new ItemBlock());
 }
 
 HistoryArray::~HistoryArray()
@@ -83,77 +122,48 @@ HistoryArray::~HistoryArray()
 	clear();
 }
 
-bool HistoryArray::allocateBlock(int count)
-{
-	ItemBlock *newBlock = new ItemBlock;
-	newBlock->items = new ItemData[count];
-	newBlock->count = count;
-	newBlock->prev = tail;
-	newBlock->next = 0;
-
-	if (tail) {
-		tail->next = newBlock;
-	}
-	else {
-		head = newBlock;
-	}
-	tail = newBlock;
-
-	return true;
-}
-
 void HistoryArray::clear()
 {
-	while (head) {
-		ItemBlock *next = head->next;
-		//		for (int i = 0; i < head->count; ++i)
-		//			destroyEvent(head->items[i]);
-		delete[] head->items;
-		head = next;
-	}
-
-	head = tail = 0;
-	preBlock = 0;
-	preIndex = 0;
+	pages.destroy();
+	iLastPageCounter = 0;
 }
 
-bool HistoryArray::addHistory(MCONTACT hContact, EventLoadMode)
+bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count, ItemData::EventLoadMode mode)
 {
-	int count = db_event_count(hContact);
-	allocateBlock(count);
+	if (count == -1)
+		count = MAXINT;
 
-	int i = 0;
-	MEVENT hEvent = db_event_first(hContact);
-	while (hEvent) {
-		tail->items[i].hContact = hContact;
-		tail->items[i].hEvent = hEvent;
+	for (int i = 0; hEvent && i < count; i++) {
+		auto &p = allocateItem();
+		p.hContact = hContact;
+		p.hEvent = hEvent;
 
-		++i;
-		hEvent = db_event_next(hContact, hEvent);
-	}
-	return true;
-}
-
-bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count, EventLoadMode mode)
-{
-	allocateBlock(count);
-
-	for (int i = 0; i < count; i++) {
-		tail->items[i].hContact = hContact;
-		tail->items[i].hEvent = hEvent;
-		if (mode != ELM_NOTHING)
-			tail->items[i].load(mode);
+		if (mode != ItemData::ELM_NOTHING)
+			p.load(mode);
+		
 		hEvent = db_event_next(hContact, hEvent);
 	}
 
 	return true;
 }
+
+ItemData& HistoryArray::allocateItem()
+{
+	if (iLastPageCounter == HIST_BLOCK_SIZE - 1) {
+		pages.insert(new ItemBlock());
+		iLastPageCounter = 0;
+	}
+
+	auto &p = pages[pages.getCount() - 1];
+	return p.data[iLastPageCounter++];
+}
+
 /*
 bool HistoryArray::preloadEvents(int count)
 {
 	for (int i = 0; i < count; ++i)
 	{
-		preBlock->items[preIndex].load(ELM_DATA);
+		preBlock->items[preIndex].load(ItemData::ELM_DATA);
 		if (++preIndex == preBlock->count)
 		{
 			preBlock = preBlock->next;
@@ -165,17 +175,17 @@ bool HistoryArray::preloadEvents(int count)
 	return true;
 }
 */
-HistoryArray::ItemData *HistoryArray::get(int id, EventLoadMode mode)
-{
-	int offset = 0;
-	for (ItemBlock *p = head; p; p = p->next) {
-		if (id < offset + p->count) {
-			if (mode != ELM_NOTHING)
-				p->items[id - offset].load(mode);
 
-			return p->items + id - offset;
-		}
-		offset += p->count;
-	}
-	return 0;
+ItemData* HistoryArray::get(int id, ItemData::EventLoadMode mode)
+{
+	int pageNo = id / HIST_BLOCK_SIZE;
+	if (pageNo >= pages.getCount())
+		return nullptr;
+
+	return &pages[pageNo].data[id % HIST_BLOCK_SIZE];
+}
+
+int HistoryArray::getCount() const
+{
+	return (pages.getCount() - 1) * HIST_BLOCK_SIZE + iLastPageCounter;
 }

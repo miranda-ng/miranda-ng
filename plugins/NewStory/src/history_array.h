@@ -1,11 +1,94 @@
 #ifndef __history_array__
 #define __history_array__
 
-enum EventLoadMode
+struct ItemData
 {
-	ELM_NOTHING,
-	ELM_INFO,
-	ELM_DATA
+	enum EventLoadMode
+	{
+		ELM_NOTHING,
+		ELM_INFO,
+		ELM_DATA
+	};
+
+	BYTE flags = 0;
+
+	MCONTACT hContact = 0;
+	MEVENT hEvent = 0;
+
+	bool dbeOk = false;
+	DBEVENTINFO dbe;
+
+	bool wtext_del = false;
+	wchar_t *wtext = 0;
+
+	HANDLE data = 0;
+
+	ItemData() { memset(&dbe, 0, sizeof(dbe)); }
+	~ItemData();
+
+	bool load(EventLoadMode mode);
+	inline bool loadInline(EventLoadMode mode)
+	{
+		if (((mode >= ItemData::ELM_INFO) && !dbeOk) || ((mode == ItemData::ELM_DATA) && !dbe.pBlob))
+			return load(mode);
+		return true;
+	}
+	inline wchar_t *getWBuf()
+	{
+		loadInline(ItemData::ELM_DATA);
+		return wtext;
+	}
+};
+
+class Filter
+{
+	WORD flags;
+	int *refCount;
+	wchar_t *text;
+
+public:
+	enum
+	{
+		INCOMING = 0x001,
+		OUTGOING = 0x002,
+		MESSAGES = 0x004,
+		FILES = 0x008,
+		STATUS = 0x020,
+		OTHER = 0x040,
+		EVENTTEXT = 0x080,
+		EVENTONLY = 0x100,
+	};
+
+	Filter(WORD aFlags, wchar_t *wText)
+	{
+		refCount = new int(0);
+		flags = aFlags;
+		text = new wchar_t[mir_wstrlen(wText) + 1];
+		mir_wstrcpy(text, wText);
+	}
+	Filter(const Filter &other)
+	{
+		flags = other.flags;
+		refCount = other.refCount;
+		text = other.text;
+		++ *refCount;
+	}
+	Filter &operator=(const Filter &other)
+	{
+		flags = other.flags;
+		refCount = other.refCount;
+		text = other.text;
+		++ *refCount;
+	}
+	~Filter()
+	{
+		if (!-- * refCount) {
+			delete refCount;
+			if (text) delete[] text;
+		}
+	}
+	
+	bool check(ItemData *item);
 };
 
 enum
@@ -27,152 +110,33 @@ enum
 	FTYPE_OUTGOING = 0x40
 };
 
+#define HIST_BLOCK_SIZE 1000
+
+struct ItemBlock : public MZeroedObject
+{
+	ItemData data[HIST_BLOCK_SIZE];
+};
+
 class HistoryArray
 {
-public:
-	struct ItemData
-	{
-		BYTE flags = 0;
+	OBJLIST<ItemBlock> pages;
+	int iLastPageCounter = 0;
 
-		MCONTACT hContact = 0;
-		MEVENT hEvent = 0;
-
-		bool dbeOk = false;
-		DBEVENTINFO dbe;
-
-		bool wtext_del = false;
-		wchar_t* wtext = 0;
-
-		HANDLE data = 0;
-
-		ItemData() { memset(&dbe, 0, sizeof(dbe)); }
-		~ItemData();
-
-		bool load(EventLoadMode mode);
-		inline bool loadInline(EventLoadMode mode)
-		{
-			if (((mode >= ELM_INFO) && !dbeOk) || ((mode == ELM_DATA) && !dbe.pBlob))
-				return load(mode);
-			return true;
-		}
-		inline wchar_t* getWBuf()
-		{
-			loadInline(ELM_DATA);
-			return wtext;
-		}
-	};
-
-	struct ItemBlock
-	{
-		ItemData* items;
-		int count;
-		ItemBlock* prev, * next;
-	};
-
-	class Filter
-	{
-	public:
-		enum
-		{
-			INCOMING = 0x001,
-			OUTGOING = 0x002,
-			MESSAGES = 0x004,
-			FILES = 0x008,
-			STATUS = 0x020,
-			OTHER = 0x040,
-			EVENTTEXT = 0x080,
-			EVENTONLY = 0x100,
-		};
-		Filter(WORD aFlags, wchar_t* wText)
-		{
-			refCount = new int(0);
-			flags = aFlags;
-			text = new wchar_t[mir_wstrlen(wText) + 1];
-			mir_wstrcpy(text, wText);
-		}
-		Filter(const Filter& other)
-		{
-			flags = other.flags;
-			refCount = other.refCount;
-			text = other.text;
-			++* refCount;
-		}
-		Filter& operator=(const Filter& other)
-		{
-			flags = other.flags;
-			refCount = other.refCount;
-			text = other.text;
-			++* refCount;
-		}
-		~Filter()
-		{
-			if (!-- * refCount) {
-				delete refCount;
-				if (text) delete[] text;
-			}
-		}
-		inline bool check(ItemData* item)
-		{
-			if (!item) return false;
-			if (!(flags & EVENTONLY)) {
-				if (item->dbe.flags & DBEF_SENT) {
-					if (!(flags & OUTGOING))
-						return false;
-				}
-				else {
-					if (!(flags & INCOMING))
-						return false;
-				}
-				switch (item->dbe.eventType) {
-				case EVENTTYPE_MESSAGE:
-					if (!(flags & MESSAGES))
-						return false;
-					break;
-				case EVENTTYPE_FILE:
-					if (!(flags & FILES))
-						return false;
-					break;
-				case EVENTTYPE_STATUSCHANGE:
-					if (!(flags & STATUS))
-						return false;
-					break;
-				default:
-					if (!(flags & OTHER))
-						return false;
-				}
-			}
-			if (flags & (EVENTTEXT | EVENTONLY)) {
-				item->loadInline(ELM_DATA);
-				return CheckFilter(item->getWBuf(), text);
-			}
-			return true;
-		};
-
-	private:
-		WORD flags;
-		int* refCount;
-		wchar_t* text;
-	};
-
-private:
-	ItemBlock* head = 0, * tail = 0;
-	ItemBlock* preBlock = 0;
-	int preIndex = 0;
-	bool allocateBlock(int count);
+	ItemData& allocateItem(void);
 
 public:
 	HistoryArray();
 	~HistoryArray();
 
+	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count, ItemData::EventLoadMode mode = ItemData::ELM_NOTHING);
 	void clear();
-	bool addHistory(MCONTACT hContact, EventLoadMode mode = ELM_NOTHING);
-	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count, EventLoadMode mode = ELM_NOTHING);
+	int  getCount() const;
 
 	//	bool preloadEvents(int count = 10);
 
-	ItemData* get(int id, EventLoadMode mode = ELM_NOTHING);
-	ItemData* operator[] (int id) { return get(id, ELM_DATA); }
-	ItemData* operator() (int id) { return get(id, ELM_INFO); }
+	ItemData* get(int id, ItemData::EventLoadMode mode = ItemData::ELM_NOTHING);
+	ItemData* operator[] (int id) { return get(id, ItemData::ELM_DATA); }
+	ItemData* operator() (int id) { return get(id, ItemData::ELM_INFO); }
 
 	int FindRel(int id, int dir, Filter filter)
 	{
@@ -184,14 +148,6 @@ public:
 	}
 	int FindNext(int id, Filter filter) { return FindRel(id, +1, filter); }
 	int FindPrev(int id, Filter filter) { return FindRel(id, -1, filter); }
-
-	int getCount()
-	{
-		int res = 0;
-		for (ItemBlock* p = head; p; p = p->next)
-			res += p->count;
-		return res;
-	}
 };
 
 #endif // __history_array__
