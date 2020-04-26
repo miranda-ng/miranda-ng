@@ -731,3 +731,4 @@ ProtoBroadcastAsync @814 NONAME
 ?HideOffline@Clist@@3V?$CMOption@_N@@A @818 NONAME
 ?UseGroups@Clist@@3V?$CMOption@_N@@A @819 NONAME
 ?OfflineModes@Clist@@3V?$CMOption@K@@A @820 NONAME
+?getChat@CSrmmBaseDialog@@QEBAPEAUSESSION_INFO@@XZ @821 NONAME
