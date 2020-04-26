@@ -66,9 +66,12 @@ public:
 	void Resize() override
 	{
 		RECT rc;
-		GetClientRect(GetDlgItem(m_pDlg.GetHwnd(), IDC_SRMM_LOG), &rc);
+		GetWindowRect(GetDlgItem(m_pDlg.GetHwnd(), IDC_SRMM_LOG), &rc);
 
-		::SetWindowPos(m_hwnd, 0, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
+		POINT pt = { rc.left, rc.top };
+		ScreenToClient(GetParent(m_hwnd), &pt);
+
+		::SetWindowPos(m_hwnd, 0, pt.x, pt.y, rc.right - rc.left, rc.bottom - rc.top, SWP_NOACTIVATE | SWP_NOZORDER);
 	}
 
 	void ScrollToBottom() override
