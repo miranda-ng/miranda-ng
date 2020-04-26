@@ -248,6 +248,7 @@ public:
 	virtual LRESULT WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	__forceinline bool isChat() const { return m_si != nullptr; }
+	__forceinline SESSION_INFO *getChat() const { return m_si; }
 	__forceinline CSrmmLogWindow *log() const { return m_pLog; }
 
 	__inline void *operator new(size_t size) { return calloc(1, size); }

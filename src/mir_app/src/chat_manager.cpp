@@ -846,6 +846,22 @@ BOOL UM_RemoveAll(SESSION_INFO *si)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void CreateNick(const SESSION_INFO *, const LOGINFO *lin, CMStringW &wszNick)
+{
+	if (lin->ptszNick) {
+		wszNick = lin->ptszNick;
+		if (g_Settings->bLogLimitNames && mir_wstrlen(lin->ptszNick) > 20) {
+			wszNick.Truncate(20);
+			wszNick.Append(L"...");
+		}
+
+		if (lin->ptszUserInfo && lin->iType != GC_EVENT_TOPIC)
+			wszNick.AppendFormat(L" (%s)", lin->ptszUserInfo);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static void ResetApi()
 {
 	g_chatApi.SetActiveSession = ::SetActiveSession;
@@ -898,6 +914,7 @@ static void ResetApi()
 	g_chatApi.GetChatLogsFilename = ::GetChatLogsFilename;
 	g_chatApi.Log_SetStyle = ::Log_SetStyle;
 
+	g_chatApi.CreateNick = ::CreateNick;
 	g_chatApi.IsHighlighted = ::IsHighlighted;
 	g_chatApi.RemoveFormatting = ::RemoveFormatting;
 	g_chatApi.ReloadSettings = ::LoadGlobalSettings;

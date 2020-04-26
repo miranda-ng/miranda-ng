@@ -118,6 +118,8 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 
 BOOL SM_ReconfigureFilters();
 
+void OnCreateNick(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &wszNick);
+
 int UM_CompareItem(const USERINFO *u1, const USERINFO *u2);
 
 // tools.c

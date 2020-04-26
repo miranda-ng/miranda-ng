@@ -351,9 +351,9 @@ EXTERN_C MIR_APP_DLL(struct SESSION_INFO*) Chat_NewSession(
 
 struct GCEVENT
 {
-	LPCSTR      pszModule;         // Name of the protocol (same as you registered with)
+	LPCSTR       pszModule;        // Name of the protocol (same as you registered with)
 	MAllCStrings pszID;            // Unique identifier of the session, or NULL to broadcast to all sessions as specified above
-	int         iType;             // Use GC_EVENT_* as defined above. Only one event per service call.
+	int          iType;            // Use GC_EVENT_* as defined above. Only one event per service call.
 			   
 	MAllCStrings pszText;          //
 	MAllCStrings pszNick;          //
@@ -361,11 +361,11 @@ struct GCEVENT
 	MAllCStrings pszStatus;        //
 	MAllCStrings pszUserInfo;      //
 
-	BOOL    bIsMe;                 // Is this event from the Miranda user?
-	DWORD   dwFlags;               // event flags: GCEF_*
+	BOOL         bIsMe;            // Is this event from the Miranda user?
+	DWORD        dwFlags;          // event flags: GCEF_*
 
-	INT_PTR dwItemData;            // User specified data.
-	DWORD   time;                  // Timestamp of the event
+	INT_PTR      dwItemData;       // User specified data.
+	DWORD        time;             // Timestamp of the event
 };
 
 EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT*);

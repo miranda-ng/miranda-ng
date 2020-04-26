@@ -86,19 +86,9 @@ char* Log_SetStyle(int style)
 	return "";
 }
 
-static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &buf, const wchar_t *fmt, ...)
+static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &buf, const wchar_t *line)
 {
-	va_list va;
-	int lineLen, textCharsCount = 0;
-	wchar_t *line = (wchar_t*)alloca(8001 * sizeof(wchar_t));
-
-	va_start(va, fmt);
-	lineLen = mir_vsnwprintf(line, 8000, fmt, va);
-	if (lineLen < 0) lineLen = 8000;
-	line[lineLen] = 0;
-	va_end(va);
-
-	lineLen = lineLen * 20 + 8;
+	int textCharsCount = 0;
 
 	for (; *line; line++, textCharsCount++) {
 		if (*line == '\r' && line[1] == '\n') {
@@ -189,97 +179,89 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &
 	return textCharsCount;
 }
 
-static void AddEventToBuffer(CMStringA &buf, LOGSTREAMDATA *streamData)
+MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &res)
 {
-	LOGINFO *lin = streamData->lin;
-
-	wchar_t szTemp[512], szTemp2[512];
-	wchar_t* pszNick = nullptr;
-	if (lin->ptszNick) {
-		if (g_Settings->bLogLimitNames && mir_wstrlen(lin->ptszNick) > 20) {
-			mir_wstrncpy(szTemp2, lin->ptszNick, 20);
-			mir_wstrncpy(szTemp2 + 20, L"...", 4);
-		}
-		else mir_wstrncpy(szTemp2, lin->ptszNick, 511);
-
-		if (lin->ptszUserInfo)
-			mir_snwprintf(szTemp, L"%s (%s)", szTemp2, lin->ptszUserInfo);
-		else
-			wcsncpy_s(szTemp, szTemp2, _TRUNCATE);
-		pszNick = szTemp;
-	}
+	CMStringW wszNick;
+	g_chatApi.CreateNick(si, lin, wszNick);
 
 	switch (lin->iType) {
-	case GC_EVENT_MESSAGE:
-		if (lin->ptszText)
-			Log_AppendRTF(streamData, false, buf, L"%s", lin->ptszText);
-		break;
 	case GC_EVENT_ACTION:
-		if (lin->ptszNick && lin->ptszText) {
-			Log_AppendRTF(streamData, true, buf, L"%s ", lin->ptszNick);
-			Log_AppendRTF(streamData, false, buf, L"%s", lin->ptszText);
-		}
+		if (lin->ptszNick)
+			res = lin->ptszNick;
 		break;
+
 	case GC_EVENT_JOIN:
-		if (pszNick) {
-			if (!lin->bIsMe)
-				Log_AppendRTF(streamData, true, buf, TranslateT("%s has joined"), pszNick);
-			else
-				Log_AppendRTF(streamData, false, buf, TranslateT("You have joined %s"), streamData->si->ptszName);
+		if (!lin->bIsMe) {
+			if (!wszNick.IsEmpty())
+				res.AppendFormat(TranslateT("%s has joined"), wszNick.c_str());
 		}
+		else res.AppendFormat(TranslateT("You have joined %s"), si->ptszName);
 		break;
+
 	case GC_EVENT_PART:
-		if (pszNick)
-			Log_AppendRTF(streamData, true, buf, TranslateT("%s has left"), pszNick);
-		if (lin->ptszText)
-			Log_AppendRTF(streamData, true, buf, L": %s", lin->ptszText);
+		if (!wszNick.IsEmpty())
+			res.AppendFormat(TranslateT("%s has left"), wszNick.c_str());
 		break;
+
 	case GC_EVENT_QUIT:
-		if (pszNick)
-			Log_AppendRTF(streamData, true, buf, TranslateT("%s has disconnected"), pszNick);
-		if (lin->ptszText)
-			Log_AppendRTF(streamData, false, buf, L": %s", lin->ptszText);
+		if (!wszNick.IsEmpty())
+			res.AppendFormat(TranslateT("%s has disconnected"), wszNick.c_str());
 		break;
+
 	case GC_EVENT_NICK:
-		if (pszNick && lin->ptszText) {
-			if (!lin->bIsMe)
-				Log_AppendRTF(streamData, true, buf, TranslateT("%s is now known as %s"), pszNick, lin->ptszText);
-			else
-				Log_AppendRTF(streamData, true, buf, TranslateT("You are now known as %s"), lin->ptszText);
+		if (!lin->bIsMe) {
+			if (!wszNick.IsEmpty())
+				res.AppendFormat(TranslateT("%s is now known as %s"), wszNick.c_str(), lin->ptszText);
 		}
-		break;
+		else res.AppendFormat(TranslateT("You are now known as %s"), lin->ptszText);
+		return true;
+
 	case GC_EVENT_KICK:
 		if (lin->ptszNick && lin->ptszStatus)
-			Log_AppendRTF(streamData, true, buf, TranslateT("%s kicked %s"), lin->ptszStatus, lin->ptszNick);
-		if (lin->ptszText)
-			Log_AppendRTF(streamData, false, buf, L": %s", lin->ptszText);
+			res.AppendFormat(TranslateT("%s kicked %s"), lin->ptszStatus, lin->ptszNick);
 		break;
+
 	case GC_EVENT_NOTICE:
-		if (pszNick && lin->ptszText) {
-			Log_AppendRTF(streamData, true, buf, TranslateT("Notice from %s: "), pszNick);
-			Log_AppendRTF(streamData, false, buf, L"%s", lin->ptszText);
-		}
+		if (!wszNick.IsEmpty())
+			res.AppendFormat(TranslateT("Notice from %s"), wszNick.c_str());
 		break;
+
 	case GC_EVENT_TOPIC:
 		if (lin->ptszText)
-			Log_AppendRTF(streamData, false, buf, TranslateT("The topic is '%s%s'"), lin->ptszText, L"%r");
+			res.AppendFormat(TranslateT("The topic is '%s'"), lin->ptszText);
 		if (lin->ptszNick)
-			Log_AppendRTF(streamData, true, buf,
-			lin->ptszUserInfo ? TranslateT(" (set by %s on %s)") : TranslateT(" (set by %s)"),
-			lin->ptszNick, lin->ptszUserInfo);
-		break;
+			res.AppendFormat((lin->ptszUserInfo) ? TranslateT(" (set by %s on %s)") : TranslateT(" (set by %s)"), lin->ptszNick, lin->ptszUserInfo);
+		return true;
+
 	case GC_EVENT_INFORMATION:
 		if (lin->ptszText)
-			Log_AppendRTF(streamData, false, buf, (lin->bIsMe) ? L"--> %s" : L"%s", lin->ptszText);
-		break;
+			res.AppendFormat((lin->bIsMe) ? L"--> %s" : L"%s", lin->ptszText);
+		return true;
+
 	case GC_EVENT_ADDSTATUS:
 		if (lin->ptszNick && lin->ptszText && lin->ptszStatus)
-			Log_AppendRTF(streamData, true, buf, TranslateT("%s enables '%s' status for %s"), lin->ptszText, lin->ptszStatus, lin->ptszNick);
-		break;
+			res.AppendFormat(TranslateT("%s enables '%s' status for %s"), lin->ptszText, lin->ptszStatus, lin->ptszNick);
+		return true;
+
 	case GC_EVENT_REMOVESTATUS:
 		if (lin->ptszNick && lin->ptszText && lin->ptszStatus)
-			Log_AppendRTF(streamData, TRUE, buf, TranslateT("%s disables '%s' status for %s"), lin->ptszText, lin->ptszStatus, lin->ptszNick);
-		break;
+			res.AppendFormat(TranslateT("%s disables '%s' status for %s"), lin->ptszText, lin->ptszStatus, lin->ptszNick);
+		return true;
+	}
+
+	return false;
+}
+
+static void AddEventToBuffer(CMStringA &buf, LOGSTREAMDATA *streamData)
+{
+	CMStringW wszCaption;
+	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, streamData->lin, wszCaption);
+	if (!wszCaption.IsEmpty())
+		Log_AppendRTF(streamData, !bTextUsed, buf, wszCaption);
+	if (!bTextUsed && streamData->lin->ptszText) {
+		if (!wszCaption.IsEmpty())
+			Log_AppendRTF(streamData, false, buf, L": ");
+		Log_AppendRTF(streamData, false, buf, streamData->lin->ptszText);
 	}
 }
 
@@ -349,22 +331,18 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			wcsncpy_s(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, si->LastTime), _TRUNCATE);
 			if (!g_Settings->bShowTimeIfChanged || si->LastTime == 0 || mir_wstrcmp(szTimeStamp, szOldTimeStamp)) {
 				si->LastTime = lin->time;
-				Log_AppendRTF(streamData, TRUE, buf, L"%s", szTimeStamp);
+				Log_AppendRTF(streamData, true, buf, szTimeStamp);
 			}
 			buf.Append("\\tab ");
 		}
 
 		// Insert the nick
 		if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
-			wchar_t pszTemp[300], *p1;
-
 			buf.AppendFormat("%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
-			mir_wstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
-			p1 = wcsstr(pszTemp, L"%n");
-			if (p1)
-				p1[1] = 's';
 
-			Log_AppendRTF(streamData, TRUE, buf, pszTemp, lin->ptszNick);
+			CMStringW tmp((lin->bIsMe) ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick);
+			tmp.Replace(L"%n", lin->ptszNick);
+			Log_AppendRTF(streamData, TRUE, buf, tmp);
 			buf.AppendChar(' ');
 		}
 

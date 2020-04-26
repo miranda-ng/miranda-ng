@@ -118,3 +118,23 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 
 	return pResult;
 }
+
+void OnCreateNick(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &wszNick)
+{
+	if (lin->ptszNick) {
+		if (g_Settings.bLogLimitNames && mir_wstrlen(lin->ptszNick) > 20) {
+			wszNick.Append(lin->ptszNick, 20);
+			wszNick.Append(L"...");
+		}
+		else wszNick.Append(lin->ptszNick);
+
+		int logMode = (si->pDlg) ? si->pDlg->m_iLogMode : 1;
+		if (g_Settings.bClickableNicks && !logMode && !lin->bSimple) {
+			wszNick.Insert(0, CLICKNICK_BEGIN);
+			wszNick.Append(CLICKNICK_END);
+		}
+
+		if (lin->ptszUserInfo && lin->iType != GC_EVENT_TOPIC)
+			wszNick.AppendFormat(L" (%s)", lin->ptszUserInfo);
+	}
+}

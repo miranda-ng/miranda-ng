@@ -409,7 +409,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	int     m_originalSplitterY;
 	SIZE    m_minEditBoxSize;
 	int     m_nTypeMode;
-	int     m_iLogMode;
 	DWORD   m_nLastTyping;
 	DWORD   m_lastMessage;
 	DWORD   m_dwTickLastEvent;
@@ -460,6 +459,7 @@ protected:
 public:
 	char   *m_szProto;
 	int     m_iTabID;
+	int     m_iLogMode;
 	BYTE    m_bShowTyping;
 	bool    m_bIsHistory, m_bNotOnList, m_bIsIdle;
 	bool    m_bActualHistory;

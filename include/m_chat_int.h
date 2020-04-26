@@ -121,11 +121,11 @@ struct LOGINFO
 	wchar_t *ptszUID;
 	wchar_t *ptszStatus;
 	wchar_t *ptszUserInfo;
-	BOOL     bIsMe;
-	BOOL     bIsHighlighted;
+	bool     bIsMe;
+	bool     bIsHighlighted;
+	bool     bSimple;
 	time_t   time;
 	int      iType;
-	DWORD    dwFlags;
 	LOGINFO *next, *prev;
 };
 
@@ -334,6 +334,7 @@ struct CHAT_MANAGER
 	void          (*ReloadSettings)(void);
 
 	int           (*DoRtfToTags)(CMStringW &pszText, int iNumColors, COLORREF *pColors);
+	void          (*CreateNick)(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &dest);
 
 	int logPixelSY, logPixelSX;
 	char *szActiveWndModule;
@@ -396,5 +397,9 @@ EXTERN_C MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const U
 
 // calculates width or height of a string
 EXTERN_C MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth);
+
+// creates a default description of a groupchat event
+// returns true if lin->ptszText is already utilized, you need to add it manually then otherwise
+EXTERN_C MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &res);
 
 #endif // M_CHAT_INT_H__
