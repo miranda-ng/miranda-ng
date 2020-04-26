@@ -24,7 +24,9 @@ public:
 
 	bool AtBottom() override
 	{
-		return false;
+		int totalCount = SendMessage(m_hwnd, NSM_GETCOUNT, 0, 0);
+		int caret = SendMessage(m_hwnd, NSM_GETCARET, 0, 0);
+		return caret >= totalCount - 1;
 	}
 
 	void Clear() override
@@ -55,8 +57,11 @@ public:
 		SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
 	}
 
-	void LogEvents(LOGINFO *pLog, bool) override
+	void LogEvents(LOGINFO *pLog, bool bAppend) override
 	{
+		if (!bAppend)
+			Clear();
+
 		while (pLog) {
 			SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)pLog);
 			pLog = pLog->prev;
