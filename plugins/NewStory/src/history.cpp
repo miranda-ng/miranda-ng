@@ -51,6 +51,7 @@ enum
 	HIST_SHOW_STATUS = 0x020,
 	HIST_SHOW_OTHER = 0x040,
 	HIST_AUTO_FILTER = 0x080,
+	HIST_TIMETREE = 0x100,
 };
 
 enum
@@ -536,12 +537,27 @@ public:
 		wchar_t FileName[MAX_PATH];
 		VARSW tszMirDir(L"%miranda_userdata%\\NewStoryExport");
 
-		MCONTACT hContact = m_hContact;
-		if (db_mc_isMeta(m_hContact))
-			hContact = db_event_getContact(m_hContact);
-		char* proto = Proto_GetBaseAccountName(hContact);
-		ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
-		ptrW nick(Contact_GetInfo(CNF_DISPLAY, hContact, proto));
+		if (db_mc_isMeta(m_hContact)) {
+			CMStringW SubContactsList, MessageText;
+			bool FirstTime = true;
+			int subcount = db_mc_getSubCount(m_hContact);
+			for (int i = 0; i < subcount; i++) {
+				MCONTACT hSubContact = db_mc_getSub(m_hContact, i);
+				char *subproto = Proto_GetBaseAccountName(hSubContact);
+				ptrW subid(Contact_GetInfo(CNF_UNIQUEID, hSubContact, subproto));
+				if (FirstTime)
+					SubContactsList.Append(subid);
+				else
+					SubContactsList.AppendFormat(L"\r\n%s", subid);
+				FirstTime = false;
+			}
+			MessageText.AppendFormat(TranslateT("It is MetaContact. For export use one of this subcontacts:\r\n%s"), SubContactsList);
+			MessageBox(m_hwnd, MessageText, TranslateT("Export warning"), MB_OK | MB_ICONWARNING);
+			return;
+		}
+		char* proto = Proto_GetBaseAccountName(m_hContact);
+		ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, proto));
+		ptrW nick(Contact_GetInfo(CNF_DISPLAY, m_hContact, proto));
 		const char* uid = Proto_GetUniqueId(proto);
 
 		OPENFILENAME ofn = { 0 };
@@ -582,7 +598,7 @@ public:
 			pInfo.push_back(JSONNode(uid, T2Utf(id).get()));
 
 		for (auto& it : pSettings) {
-			wchar_t *szValue = db_get_wsa(hContact, proto, it);
+			wchar_t *szValue = db_get_wsa(m_hContact, proto, it);
 			if (szValue)
 				pInfo.push_back(JSONNode(it, T2Utf(szValue).get()));
 			mir_free(szValue);
@@ -600,7 +616,7 @@ public:
 		SetFilePointer(hFile, -3, nullptr, FILE_CURRENT);
 
 		//export events
-		MEVENT hDbEvent = db_event_first(hContact);
+		MEVENT hDbEvent = db_event_first(m_hContact);
 		bool bAppendOnly = false;
 		while (hDbEvent != NULL) {
 			DBEVENTINFO dbei = {};
@@ -651,7 +667,7 @@ public:
 			}
 
 			bAppendOnly = true;
-			hDbEvent = db_event_next(hContact, hDbEvent);
+			hDbEvent = db_event_next(m_hContact, hDbEvent);
 		}
 
 		// Close the file
