@@ -133,21 +133,32 @@ void HistoryArray::clear()
 	iLastPageCounter = 0;
 }
 
-void HistoryArray::addChatEvent(MCONTACT hContact, LOGINFO *pEvent)
+void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
 {
+	if (si == nullptr)
+		return;
+
+	CMStringW wszText;
+	bool bTextUsed = Chat_GetDefaultEventDescr(si, lin, wszText);
+	if (!bTextUsed && lin->ptszText) {
+		if (!wszText.IsEmpty())
+			wszText.Append(L": ");
+		wszText.Append(g_chatApi.RemoveFormatting(lin->ptszText));
+	}
+
 	auto &p = allocateItem();
-	p.hContact = hContact;
-	p.wtext = mir_wstrdup(pEvent->ptszText);
+	p.hContact = si->hContact;
+	p.wtext = wszText.Detach();
 	p.dbeOk = true;
 	p.dbe.cbBlob = 1;
 	p.dbe.pBlob = (BYTE *)p.wtext;
 	p.dbe.eventType = EVENTTYPE_MESSAGE;
-	p.dbe.timestamp = pEvent->time;
+	p.dbe.timestamp = lin->time;
 
-	if (pEvent->ptszNick) {
-		p.wszNick = strings.find(pEvent->ptszNick);
+	if (lin->ptszNick) {
+		p.wszNick = strings.find(lin->ptszNick);
 		if (p.wszNick == nullptr) {
-			p.wszNick = mir_wstrdup(pEvent->ptszNick);
+			p.wszNick = mir_wstrdup(lin->ptszNick);
 			strings.insert(p.wszNick);
 		}
 	}

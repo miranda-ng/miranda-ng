@@ -48,6 +48,9 @@ public:
 
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override
 	{
+		if (!bAppend)
+			Clear();
+
 		ADDEVENTS tmp = { m_pDlg.m_hContact, hDbEventFirst, count };
 		SendMessage(m_hwnd, NSM_ADDEVENTS, (LPARAM)&tmp, 0);
 	}
@@ -55,7 +58,7 @@ public:
 	void LogEvents(LOGINFO *pLog, bool) override
 	{
 		while (pLog) {
-			SendMessage(m_hwnd, NSM_ADDCHATEVENT, m_pDlg.m_hContact, (LPARAM)pLog);
+			SendMessage(m_hwnd, NSM_ADDCHATEVENT, (WPARAM)m_pDlg.getChat(), (LPARAM)pLog);
 			pLog = pLog->prev;
 		}
 	}

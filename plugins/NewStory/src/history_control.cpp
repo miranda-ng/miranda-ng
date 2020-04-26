@@ -466,7 +466,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case NSM_ADDCHATEVENT:
-		data->items.addChatEvent((MCONTACT)wParam, (LOGINFO*)lParam);
+		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO*)lParam);
 		RecalcScrollBar(hwnd, data);
 		data->scrollTopItem = data->items.getCount();
 		FixScrollPosition(hwnd, data);
