@@ -222,7 +222,7 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CMsgDialog *dat)
 	WritePrivateProfileStringA("Message Log", "VGrid", _itoa(M.GetByte("wantvgrid", 0), szBuf, 10), szIniFilename);
 	WritePrivateProfileStringA("Message Log", "ExtraMicroLF", _itoa(M.GetByte("extramicrolf", 0), szBuf, 10), szIniFilename);
 
-	for (i = 0; i <= TMPL_ERRMSG; i++) {
+	for (i = 0; i < TMPL_MAX; i++) {
 		T2Utf szLTR((dat == nullptr) ? LTR_Active.szTemplates[i] : dat->m_pContainer->m_ltr_templates->szTemplates[i]);
 		WritePrivateProfileStringA("Templates", TemplateNames[i], szLTR, szIniFilename);
 
@@ -368,7 +368,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 
 	if (version >= 3) {
 		if (!noAdvanced && dwFlags & THEME_READ_TEMPLATES) {
-			for (i = 0; i <= TMPL_ERRMSG; i++) {
+			for (i = 0; i < TMPL_MAX; i++) {
 				wchar_t *decoded = nullptr;
 
 				GetPrivateProfileStringA("Templates", TemplateNames[i], "[undef]", szTemplateBuffer, TEMPLATE_LENGTH * 3, szIniFilename);

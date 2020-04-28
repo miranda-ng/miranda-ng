@@ -72,21 +72,25 @@
 #define MSGDLGFONTCOUNT 22
 #define CHATFONTCOUNT 19
 
-#define TMPL_MSGIN 0
-#define TMPL_MSGOUT 1
-#define TMPL_GRPSTARTIN 2
-#define TMPL_GRPSTARTOUT 3
-#define TMPL_GRPINNERIN 4
-#define TMPL_GRPINNEROUT 5
-#define TMPL_STATUSCHG 6
-#define TMPL_ERRMSG 7
+enum
+{
+	TMPL_MSGIN = 0,
+	TMPL_MSGOUT,
+	TMPL_GRPSTARTIN,
+	TMPL_GRPSTARTOUT,
+	TMPL_GRPINNERIN,
+	TMPL_GRPINNEROUT,
+	TMPL_STATUSCHG,
+	TMPL_ERRMSG,
+	TMPL_MAX
+};
 
 #define TEMPLATE_LENGTH 150
 #define CUSTOM_COLORS 5
 
 struct TTemplateSet {
 	BOOL valid;             // all templates populated (may still contain crap.. so it's only half-assed safety :)
-	wchar_t szTemplates[TMPL_ERRMSG + 1][TEMPLATE_LENGTH];      // the template strings
+	wchar_t szTemplates[TMPL_MAX][TEMPLATE_LENGTH];      // the template strings
 	char szSetName[20];     // everything in this world needs a name. so does this poor template set.
 };
 
@@ -618,43 +622,6 @@ public:
 
 	void  RenderToolbarBG(HDC hdc, const RECT &rcWindow) const;
 	void  UpdateToolbarBG(void);
-};
-
-class CTemplateEditDlg : public CMsgDialog
-{
-	typedef CMsgDialog CSuper;
-
-	BOOL rtl;
-	BOOL changed;           // template in edit field is changed
-	BOOL selchanging;
-	int  inEdit;            // template currently in editor
-	BOOL updateInfo[TMPL_ERRMSG + 1];  // item states...
-
-	TTemplateSet *tSet;
-
-	CCtrlEdit edtText;
-	CCtrlButton btnResetAll, btnSave, btnForget, btnRevert, btnPreview;
-	CCtrlListBox listTemplates;
-	CCtrlHyperlink urlHelp;
-
-public:
-	CTemplateEditDlg(BOOL rtl, HWND hwndParent);
-
-	bool OnInitDialog() override;
-	void OnDestroy() override;
-
-	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
-
-	void onChange_Text(CCtrlEdit*);
-
-	void onClick_Forget(CCtrlButton*);
-	void onClick_Preview(CCtrlButton*);
-	void onClick_Reset(CCtrlButton*);
-	void onClick_Revert(CCtrlButton*);
-	void onClick_Save(CCtrlButton*);
-
-	void onDblClick_List(CCtrlListBox*);
-	void onSelChange_List(CCtrlListBox*);
 };
 
 extern LIST<void> g_arUnreadWindows;
