@@ -2,6 +2,14 @@
 
 int TplMeasureVars(TemplateVars* vars, wchar_t* str);
 
+wchar_t *weekDays[7] = { LPGENW("Sunday"), LPGENW("Monday"), LPGENW("Tuesday"), LPGENW("Wednesday"), LPGENW("Thursday"), LPGENW("Friday"), LPGENW("Saturday") };
+
+wchar_t *months[12] =
+{
+	LPGENW("January"), LPGENW("February"), LPGENW("March"), LPGENW("April"), LPGENW("May"), LPGENW("June"),
+	LPGENW("July"), LPGENW("August"), LPGENW("September"), LPGENW("October"), LPGENW("November"), LPGENW("December")
+};
+
 wchar_t *TplFormatStringEx(int tpl, wchar_t *sztpl, MCONTACT hContact, ItemData *item)
 {
 	if ((tpl < 0) || (tpl >= TPL_COUNT) || !sztpl)
@@ -191,50 +199,50 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 	//  %t: timestamp
 	SYSTEMTIME st;
 	if (!TimeZone_GetSystemTime(nullptr, item->dbe.timestamp, &st, 0)) {
+		int iLocale = Langpack_GetDefaultLocale();
+
 		CMStringW tmp;
-		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"dd.MM.yyyy, ", buf, _countof(buf)); tmp += buf;
-		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"HH:mm", buf, _countof(buf)); tmp += buf;
+		GetDateFormatW(iLocale, 0, &st, L"dd.MM.yyyy, ", buf, _countof(buf)); tmp += buf;
+		GetTimeFormatW(iLocale, 0, &st, L"HH:mm", buf, _countof(buf)); tmp += buf;
 		vars->SetVar('t', tmp, true);
 
 		//  %h: hour (24 hour format, 0-23)
-		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"HH", buf, _countof(buf));
+		GetTimeFormatW(iLocale, 0, &st, L"HH", buf, _countof(buf));
 		vars->SetVar('h', buf, true);
 
 		//  %a: hour (12 hour format)
-		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"hh", buf, _countof(buf));
+		GetTimeFormatW(iLocale, 0, &st, L"hh", buf, _countof(buf));
 		vars->SetVar('a', buf, true);
 
 		//  %m: minute
-		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"mm", buf, _countof(buf));
+		GetTimeFormatW(iLocale, 0, &st, L"mm", buf, _countof(buf));
 		vars->SetVar('m', buf, true);
 
 		//  %s: second
-		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"ss", buf, _countof(buf));
+		GetTimeFormatW(iLocale, 0, &st, L"ss", buf, _countof(buf));
 		vars->SetVar('s', buf, true);
 
 		//  %o: month
-		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"MM", buf, _countof(buf));
+		GetDateFormatW(iLocale, 0, &st, L"MM", buf, _countof(buf));
 		vars->SetVar('o', buf, true);
 
 		//  %d: day of month
-		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"dd", buf, _countof(buf));
+		GetDateFormatW(iLocale, 0, &st, L"dd", buf, _countof(buf));
 		vars->SetVar('d', buf, true);
 
 		//  %y: year
-		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"yyyy", buf, _countof(buf));
+		GetDateFormatW(iLocale, 0, &st, L"yyyy", buf, _countof(buf));
 		vars->SetVar('y', buf, true);
 
 		//  %w: day of week (Sunday, Monday... translatable)
-		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"dddd", buf, _countof(buf));
-		vars->SetVar('w', TranslateW(buf), false);
+		vars->SetVar('w', TranslateW(weekDays[st.wDayOfWeek]), false);
 
 		//  %p: AM/PM symbol
-		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"tt", buf, _countof(buf));
+		GetTimeFormatW(iLocale, 0, &st, L"tt", buf, _countof(buf));
 		vars->SetVar('p', buf, true);
 
 		//  %O: Name of month, translatable
-		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"MMMM", buf, _countof(buf));
-		vars->SetVar('O', TranslateW(buf), false);
+		vars->SetVar('O', TranslateW(months[st.wMonth-1]), false);
 	}
 }
 
