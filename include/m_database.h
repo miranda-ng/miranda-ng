@@ -710,6 +710,7 @@ protected:
 	DBEVENTINFO &dbei;
 	MCONTACT hContact;
 
+	virtual ~EventCursorBase();
 	virtual MEVENT FetchNext() = 0;
 
 public:
