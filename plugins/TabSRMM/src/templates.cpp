@@ -175,9 +175,11 @@ bool CTemplateEditDlg::OnInitDialog()
 	Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, FALSE);
 	Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
 	Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
-	for (int i = 0; i <= TMPL_ERRMSG; i++) {
-		SendDlgItemMessageA(m_hwnd, IDC_TEMPLATELIST, LB_ADDSTRING, 0, (LPARAM)Translate(TemplateNames[i]));
-		SendDlgItemMessage(m_hwnd, IDC_TEMPLATELIST, LB_SETITEMDATA, i, (LPARAM)i);
+
+	HWND hwndList = GetDlgItem(m_hwnd, IDC_TEMPLATELIST);
+	for (auto &it : TemplateNames) {
+		int idx = ListBox_AddString(hwndList, TranslateW(_A2T(it)));
+		ListBox_SetItemData(hwndList, idx, idx);
 	}
 	Utils::enableDlgControl(m_hwndParent, IDC_MODIFY, FALSE);
 	Utils::enableDlgControl(m_hwndParent, IDC_RTLMODIFY, FALSE);
