@@ -436,6 +436,16 @@ MIR_CORE_DLL(MEVENT) db_event_setId(const char *szModule, MEVENT hDbEvent, const
 	return (currDb == nullptr) ? 0 : currDb->SetEventId(szModule, hDbEvent, szId);
 }
 
+MIR_CORE_DLL(DB::EventCursor*) DB::Events(MCONTACT hContact, DBEVENTINFO &dbei)
+{
+	return (currDb == nullptr) ? 0 : currDb->EventCursor(hContact, dbei);
+}
+
+MIR_CORE_DLL(DB::EventCursor*) DB::EventsRev(MCONTACT hContact, DBEVENTINFO &dbei)
+{
+	return (currDb == nullptr) ? 0 : currDb->EventCursorRev(hContact, dbei);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // misc functions
 

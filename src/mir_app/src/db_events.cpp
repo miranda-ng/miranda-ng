@@ -111,7 +111,7 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 		return 0;
 
 	if (dbei->eventType == EVENTTYPE_AUTHREQUEST || dbei->eventType == EVENTTYPE_ADDED) {
-		DB_AUTH_BLOB blob(dbei->pBlob);
+		DB::AUTH_BLOB blob(dbei->pBlob);
 
 		ptrW tszNick(dbei->getString(blob.get_nick()));
 		ptrW tszFirst(dbei->getString(blob.get_firstName()));
@@ -263,7 +263,7 @@ MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DB_AUTH_BLOB::DB_AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR lname, LPCSTR email, LPCSTR reason) :
+DB::AUTH_BLOB::AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR lname, LPCSTR email, LPCSTR reason) :
 	m_dwUin(0),
 	m_hContact(hContact),
 	m_szNick(mir_strdup(nick)),
@@ -275,7 +275,7 @@ DB_AUTH_BLOB::DB_AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR 
 	m_size = DWORD(sizeof(DWORD) * 2 + 5 + mir_strlen(m_szNick) + mir_strlen(m_szFirstName) + mir_strlen(m_szLastName) + mir_strlen(m_szEmail) + mir_strlen(m_szReason));
 }
 
-DB_AUTH_BLOB::DB_AUTH_BLOB(PBYTE blob)
+DB::AUTH_BLOB::AUTH_BLOB(PBYTE blob)
 {
 	PBYTE pCurBlob = blob;
 	m_dwUin = *(PDWORD)pCurBlob;
@@ -290,11 +290,11 @@ DB_AUTH_BLOB::DB_AUTH_BLOB(PBYTE blob)
 	m_size = DWORD(pCurBlob - blob);
 }
 
-DB_AUTH_BLOB::~DB_AUTH_BLOB()
+DB::AUTH_BLOB::~AUTH_BLOB()
 {
 }
 
-PBYTE DB_AUTH_BLOB::makeBlob()
+PBYTE DB::AUTH_BLOB::makeBlob()
 {
 	PBYTE pBlob, pCurBlob;
 	pCurBlob = pBlob = (PBYTE)mir_alloc(m_size + 1);

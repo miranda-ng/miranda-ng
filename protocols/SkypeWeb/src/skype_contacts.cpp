@@ -111,7 +111,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 				db_set_dw(hContact, m_szModuleName, "LastAuthRequestTime", eventTime);
 				delSetting(hContact, "Auth");
 
-				DB_AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, skypename.c_str(), reason.c_str());
+				DB::AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, skypename.c_str(), reason.c_str());
 
 				PROTORECVEVENT pre = { 0 };
 				pre.timestamp = time(0);

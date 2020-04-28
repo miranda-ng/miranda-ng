@@ -230,7 +230,7 @@ void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *mess
 
 	proto->delSetting(hContact, "Auth");
 
-	DB_AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, (LPCSTR)address, (LPCSTR)message);
+	DB::AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, (LPCSTR)address, (LPCSTR)message);
 
 	PROTORECVEVENT pre = { 0 };
 	pre.timestamp = now();

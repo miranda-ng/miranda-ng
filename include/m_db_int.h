@@ -133,6 +133,9 @@ interface MIR_APP_EXPORT MIDatabase
 
 	STDMETHOD_(MEVENT, GetEventById)(LPCSTR szModule, LPCSTR szId) PURE;
 	STDMETHOD_(BOOL, SetEventId)(LPCSTR szModule, MEVENT, LPCSTR szId) PURE;
+
+	STDMETHOD_(DB::EventCursor*, EventCursor)(MCONTACT hContact, DBEVENTINFO &dbei) PURE;
+	STDMETHOD_(DB::EventCursor*, EventCursorRev)(MCONTACT hContact, DBEVENTINFO &dbei) PURE;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -184,6 +187,9 @@ public:
 	
 	STDMETHODIMP_(BOOL) Compact(void) override;
 	STDMETHODIMP_(BOOL) Backup(LPCWSTR) override;
+
+	STDMETHODIMP_(DB::EventCursor*) EventCursor(MCONTACT hContact, DBEVENTINFO &dbei) override;
+	STDMETHODIMP_(DB::EventCursor*) EventCursorRev(MCONTACT hContact, DBEVENTINFO &dbei) override;
 };
 
 #pragma warning(pop)

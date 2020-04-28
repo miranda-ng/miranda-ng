@@ -272,7 +272,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 
 	case EVENTTYPE_AUTHREQUEST:
 		if (dbei->pBlob) {
-			DB_AUTH_BLOB blob(dbei->pBlob);
+			DB::AUTH_BLOB blob(dbei->pBlob);
 
 			wchar_t *szNick = nullptr;
 			if (blob.get_nick())

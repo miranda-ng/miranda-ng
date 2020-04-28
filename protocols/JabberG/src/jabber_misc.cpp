@@ -48,7 +48,7 @@ void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
 	MCONTACT hContact = DBCreateContact(jid, nick, true, true);
 	Contact_Hide(hContact, false);
 
-	DB_AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
+	DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 
 	PROTORECVEVENT pre = {};
 	pre.timestamp = (DWORD)time(0);

@@ -388,7 +388,7 @@ MCONTACT CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbE
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 0;
 
-	DB_AUTH_BLOB blob(dbei.pBlob);
+	DB::AUTH_BLOB blob(dbei.pBlob);
 	return AddToListByJID(blob.get_email(), flags);
 }
 
@@ -412,7 +412,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
-	DB_AUTH_BLOB blob(dbei.pBlob);
+	DB::AUTH_BLOB blob(dbei.pBlob);
 	debugLogA("Send 'authorization allowed' to %s", blob.get_email());
 
 	m_ThreadInfo->send(XmlNode("presence") << XATTR("to", blob.get_email()) << XATTR("type", "subscribed"));

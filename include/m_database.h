@@ -173,27 +173,22 @@ struct DBEVENTINFO
 	DWORD timestamp;        // seconds since 00:00, 01/01/1970. Gives us times until 2106 
 									// unless you use the standard C library which is
 									// signed and can only do until 2038. In GMT.
-	DWORD flags;            // the omnipresent flags
+	DWORD flags;            // combination of DBEF_* flags
 	WORD  eventType;        // module-defined event type field
 	DWORD cbBlob;           // size of pBlob in bytes
 	PBYTE pBlob;            // pointer to buffer containing module-defined event data
 
-#if defined(__cplusplus)
-	bool __forceinline markedRead() const
-	{
+	bool __forceinline markedRead() const {
 		return (flags & (DBEF_SENT | DBEF_READ)) != 0;
 	}
 
-	wchar_t* getString(const char *str) const
-	{
+	wchar_t* getString(const char *str) const {
 		return (flags & DBEF_UTF) ? mir_utf8decodeW(str) : mir_a2u(str);
 	}
 
-	bool __forceinline operator==(const DBEVENTINFO &e)
-	{
+	bool __forceinline operator==(const DBEVENTINFO &e) {
 		return (timestamp == e.timestamp && eventType == e.eventType && cbBlob == e.cbBlob && (flags & DBEF_SENT) == (e.flags & DBEF_SENT));
 	}
-	#endif
 };
 
 EXTERN_C MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
@@ -207,11 +202,7 @@ EXTERN_C MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
 // Returns a handle to the first contact in the db on success, or NULL if there
 // are no contacts in the db.
 
-#if defined(__cplusplus)
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto = nullptr);
-#else
-EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto);
-#endif
 
 // Gets the handle of the next contact after hContact in the database. This handle
 // can be used with loads of functions. It does not need to be closed.
@@ -219,13 +210,8 @@ EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto);
 // Returns a handle to the contact after hContact in the db on success or NULL if
 // hContact was the last contact in the db or hContact was invalid.
 
-#if defined(__cplusplus)
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto = nullptr);
-#else
-EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto);
-#endif
 
-#if defined(__cplusplus)
 class Contacts
 {
 	const char *m_szModule;
@@ -254,7 +240,6 @@ public:
 	__inline iterator begin() const { return iterator(m_szModule, ::db_find_first(m_szModule)); }
 	__inline iterator end() const { return iterator(m_szModule, 0); }
 };
-#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database events
@@ -452,19 +437,19 @@ bool Profile_GetSetting(const wchar_t *pwszSetting, wchar_t(&pwszBuf)[_Size], co
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact services
 
-typedef struct {
-	const char *szModule;   // pointer to name of the module that wrote the
-	                        // setting to get
+struct DBCONTACTGETSETTING
+{
+	const char *szModule;   // pointer to name of the module that wrote the setting to get
 	const char *szSetting;  // pointer to name of the setting to get
 	DBVARIANT *pValue;      // pointer to variant to receive the value
-} DBCONTACTGETSETTING;
+};
 
-typedef struct {
-	const char *szModule;   // pointer to name of the module that wrote the
-	                        // setting to get
+struct DBCONTACTWRITESETTING
+{
+	const char *szModule;   // pointer to name of the module that wrote the setting to get
 	const char *szSetting;  // pointer to name of the setting to get
 	DBVARIANT value;        // variant containing the value to set
-} DBCONTACTWRITESETTING;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event services
@@ -675,14 +660,16 @@ __inline DWORD DBGetContactSettingRangedDword(MCONTACT hContact, const char *szM
 
 #endif
 
+namespace DB
+{
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Helper to process the auth req body
-
-///////////////////////////////////////////////////////////////////////////////////////// blob is: 0(DWORD), hContact(DWORD), nick(UTF8), firstName(UTF8), lastName(UTF8), email(UTF8), reason(UTF8) */
+// blob is: 0(DWORD), hContact(DWORD), nick(UTF8), firstName(UTF8), lastName(UTF8), email(UTF8), reason(UTF8)
 
 #pragma warning(disable : 4251)
 
-class MIR_APP_EXPORT DB_AUTH_BLOB
+class MIR_APP_EXPORT AUTH_BLOB
 {
 	MCONTACT m_hContact;
 	DWORD m_dwUin;
@@ -692,9 +679,9 @@ class MIR_APP_EXPORT DB_AUTH_BLOB
 	PBYTE makeBlob();
 
 public:
-	explicit DB_AUTH_BLOB(MCONTACT hContact, const char *nick, const char *fname, const char *lname, const char *id, const char *reason);
-	explicit DB_AUTH_BLOB(PBYTE blob);
-	~DB_AUTH_BLOB();
+	explicit AUTH_BLOB(MCONTACT hContact, const char *nick, const char *fname, const char *lname, const char *id, const char *reason);
+	explicit AUTH_BLOB(PBYTE blob);
+	~AUTH_BLOB();
 
 	__forceinline operator char*() { return (char*)makeBlob(); }
 	__forceinline operator BYTE*() { return makeBlob(); }
@@ -710,6 +697,67 @@ public:
 	
 	__forceinline DWORD get_uin() const { return m_dwUin; }
 	__forceinline void set_uin(DWORD dwValue) { m_dwUin = dwValue; }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Event cursors
+
+class MIR_CORE_EXPORT EventCursorBase : public MZeroedObject
+{
+	friend class EventIterator;
+
+protected:
+	DBEVENTINFO &dbei;
+	MCONTACT hContact;
+
+	virtual MEVENT FetchNext() = 0;
+
+public:
+	EventCursorBase(MCONTACT _1, DBEVENTINFO &_2) :
+		hContact(_1),
+		dbei(_2)
+	{ }
+
+	__forceinline MEVENT begin() {
+		return FetchNext();
+	}
+
+	__forceinline MEVENT end() {
+		return 0;
+	}
+};
+
+#if !defined(CUSTOM_EVENT_CURSOR)
+typedef class EventCursorBase EventCursor;
+#endif
+
+class EventIterator
+{
+	EventCursorBase *cursor;
+	MEVENT hCurr;
+
+public:
+	EventIterator(EventCursorBase *_1) :
+		cursor(_1)
+	{}
+
+	EventIterator operator++() { 
+		hCurr = cursor->FetchNext();
+		return *this;
+	}
+
+	bool operator!=(const EventIterator &p) { 
+		return hCurr != p.hCurr;
+	}
+
+	operator MEVENT() const {
+		return hCurr;
+	}
+};
+
+MIR_CORE_DLL(EventCursor*) Events(MCONTACT, DBEVENTINFO &);
+MIR_CORE_DLL(EventCursor*) EventsRev(MCONTACT, DBEVENTINFO &);
+
 };
 
 #endif // M_DATABASE_H__

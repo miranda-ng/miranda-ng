@@ -338,7 +338,7 @@ template<class T> struct LIST
 	};
 
 	__inline void destroy(void) { List_Destroy((SortedList *)this); }
-	__inline T *find(T *p) const { return (T *)List_Find((SortedList *)this, p); }
+	__inline T*   find(T *p) const { return (T *)List_Find((SortedList *)this, p); }
 	__inline int  indexOf(T *p) const { return List_IndexOf((SortedList *)this, p); }
 	__inline int  insert(T *p, int idx) { return List_Insert((SortedList *)this, p, idx); }
 	__inline int  remove(int idx) { return List_Remove((SortedList *)this, idx); }
@@ -347,7 +347,8 @@ template<class T> struct LIST
 	__inline int  remove(T *p) { return List_RemovePtr((SortedList *)this, p); }
 
 	__inline int  indexOf(T **p) const { return int(p - items); }
-	__inline T *removeItem(T **p)
+	
+	__inline T* removeItem(T **p)
 	{
 		T *savePtr = *p;
 		List_Remove((SortedList *)this, int(p - items));

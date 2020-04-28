@@ -308,7 +308,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 	char reason[MAX_PATH];
 	mir_snprintf(reason, Translate("%s has added you to contact list"), nickName.get());
 
-	DB_AUTH_BLOB blob(hContact, nickName, firstName, lastName, steamId, reason);
+	DB::AUTH_BLOB blob(hContact, nickName, firstName, lastName, steamId, reason);
 
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = now();

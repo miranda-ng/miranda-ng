@@ -589,7 +589,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
 
-	DB_AUTH_BLOB blob(hContact,
+	DB::AUTH_BLOB blob(hContact,
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"))),
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "FirstName"))),
 		T2Utf(ptrW(db_get_wsa(hContact, m_szModuleName, "LastName"))), nullptr, nullptr);
