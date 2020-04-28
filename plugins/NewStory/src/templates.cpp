@@ -238,8 +238,7 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 		vars->SetVar('w', TranslateW(weekDays[st.wDayOfWeek]), false);
 
 		//  %p: AM/PM symbol
-		GetTimeFormatW(iLocale, 0, &st, L"tt", buf, _countof(buf));
-		vars->SetVar('p', buf, true);
+		vars->SetVar('p', (st.wHour > 11) ? L"PM" : L"AM", true);
 
 		//  %O: Name of month, translatable
 		vars->SetVar('O', TranslateW(months[st.wMonth-1]), false);
