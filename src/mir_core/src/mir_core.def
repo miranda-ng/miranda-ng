@@ -1465,3 +1465,4 @@ XmlGetChildText @1645
 ?EventsRev@DB@@YGPAVEventCursorBase@1@IAAUDBEVENTINFO@@@Z @1689 NONAME
 ?begin@EventCursorBase@DB@@QAEIXZ @1690 NONAME
 ?end@EventCursorBase@DB@@QAEIXZ @1691 NONAME
+TimeZone_GetSystemTime @1692

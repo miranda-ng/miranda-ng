@@ -16,7 +16,7 @@ struct TemplateVars
 		return val[id];
 	}
 
-	__forceinline void SetVar(uint8_t id, wchar_t *v, bool d) {
+	__forceinline void SetVar(uint8_t id, const wchar_t *v, bool d) {
 		if (val[id] && del[id])
 			mir_free(val[id]);
 		val[id] = mir_wstrdup(v);

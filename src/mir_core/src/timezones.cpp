@@ -317,15 +317,20 @@ MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR sz
 	return 0;
 }
 
-MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags)
+MIR_CORE_DLL(int) TimeZone_GetSystemTime(HANDLE hTZ, mir_time ts, SYSTEMTIME *dest, DWORD dwFlags)
 {
-	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
-	if (tz == nullptr && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
+	if (dest == nullptr)
+		return 2;
+
+	MIM_TIMEZONE *tz = (MIM_TIMEZONE *)hTZ;
+	if (tz == nullptr && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY))) {
+		memset(dest, 0, sizeof(SYSTEMTIME));
 		return 1;
+	}
 
 	if (tz == nullptr)
 		tz = &myInfo.myTZ;
-	
+
 	FILETIME ft;
 	if (tz == UTC_TIME_HANDLE)
 		UnixTimeToFileTime(ts, &ft);
@@ -336,10 +341,15 @@ MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFor
 		UnixTimeToFileTime(ts + tz->offset, &ft);
 	}
 
-	SYSTEMTIME st;
-	FileTimeToSystemTime(&ft, &st);
+	FileTimeToSystemTime(&ft, dest);
+	return 0;
+}
 
-	FormatTime(&st, szFormat, szDest, cbDest);
+MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags)
+{
+	SYSTEMTIME st;
+	if (!TimeZone_GetSystemTime(hTZ, ts, &st, dwFlags))
+		FormatTime(&st, szFormat, szDest, cbDest);
 	return 0;
 }
 

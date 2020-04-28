@@ -189,48 +189,53 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 		vars->SetVar('D', L">>", false);
 
 	//  %t: timestamp
-	_tcsftime(buf, _countof(buf), L"%d.%m.%Y, %H:%M", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('t', buf, true);
+	SYSTEMTIME st;
+	if (!TimeZone_GetSystemTime(nullptr, item->dbe.timestamp, &st, 0)) {
+		CMStringW tmp;
+		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"dd.MM.yyyy, ", buf, _countof(buf)); tmp += buf;
+		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"HH:mm", buf, _countof(buf)); tmp += buf;
+		vars->SetVar('t', tmp, true);
 
-	//  %h: hour (24 hour format, 0-23)
-	_tcsftime(buf, _countof(buf), L"%H", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('h', buf, true);
+		//  %h: hour (24 hour format, 0-23)
+		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"HH", buf, _countof(buf));
+		vars->SetVar('h', buf, true);
 
-	//  %a: hour (12 hour format)
-	_tcsftime(buf, _countof(buf), L"%h", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('a', buf, true);
+		//  %a: hour (12 hour format)
+		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"hh", buf, _countof(buf));
+		vars->SetVar('a', buf, true);
 
-	//  %m: minute
-	_tcsftime(buf, _countof(buf), L"%M", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('m', buf, true);
+		//  %m: minute
+		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"mm", buf, _countof(buf));
+		vars->SetVar('m', buf, true);
 
-	//  %s: second
-	_tcsftime(buf, _countof(buf), L"%S", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('s', buf, true);
+		//  %s: second
+		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"ss", buf, _countof(buf));
+		vars->SetVar('s', buf, true);
 
-	//  %o: month
-	_tcsftime(buf, _countof(buf), L"%m", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('o', buf, true);
+		//  %o: month
+		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"MM", buf, _countof(buf));
+		vars->SetVar('o', buf, true);
 
-	//  %d: day of month
-	_tcsftime(buf, _countof(buf), L"%d", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('d', buf, true);
+		//  %d: day of month
+		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"dd", buf, _countof(buf));
+		vars->SetVar('d', buf, true);
 
-	//  %y: year
-	_tcsftime(buf, _countof(buf), L"%Y", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('y', buf, true);
+		//  %y: year
+		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"yyyy", buf, _countof(buf));
+		vars->SetVar('y', buf, true);
 
-	//  %w: day of week (Sunday, Monday... translatable)
-	_tcsftime(buf, _countof(buf), L"%A", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('w', TranslateW(buf), false);
+		//  %w: day of week (Sunday, Monday... translatable)
+		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"dddd", buf, _countof(buf));
+		vars->SetVar('w', TranslateW(buf), false);
 
-	//  %p: AM/PM symbol
-	_tcsftime(buf, _countof(buf), L"%p", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('p', buf, true);
+		//  %p: AM/PM symbol
+		GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, L"tt", buf, _countof(buf));
+		vars->SetVar('p', buf, true);
 
-	//  %O: Name of month, translatable
-	_tcsftime(buf, _countof(buf), L"%B", _localtime32((__time32_t *)&item->dbe.timestamp));
-	vars->SetVar('O', TranslateW(buf), false);
+		//  %O: Name of month, translatable
+		GetDateFormatW(LOCALE_USER_DEFAULT, 0, &st, L"MMMM", buf, _countof(buf));
+		vars->SetVar('O', TranslateW(buf), false);
+	}
 }
 
 void vfMessage(int, TemplateVars *vars, MCONTACT, ItemData *item)

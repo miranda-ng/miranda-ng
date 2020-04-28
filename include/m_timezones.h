@@ -54,6 +54,7 @@ EXTERN_C MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModu
 EXTERN_C MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
 
 EXTERN_C MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_GetSystemTime(HANDLE hTZ, mir_time src, SYSTEMTIME *dest, DWORD dwFlags);
 EXTERN_C MIR_CORE_DLL(mir_time) TimeZone_UtcToLocal(HANDLE hTZ, mir_time ts);
 
 EXTERN_C MIR_CORE_DLL(LPTIME_ZONE_INFORMATION) TimeZone_GetInfo(HANDLE hTZ);
