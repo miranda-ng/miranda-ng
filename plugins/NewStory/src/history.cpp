@@ -72,12 +72,12 @@ enum
 {
 	TBTN_USERINFO, TBTN_USERMENU, TBTN_MESSAGE,
 	TBTN_SEARCH, TBTN_FILTER, TBTN_DATEPOPUP,
-	TBTN_COPY, TBTN_EXPORT,
+	TBTN_COPY, TBTN_DELETE, TBTN_EXPORT,
 	TBTN_LOGOPTIONS,
 	TBTN_COUNT
 };
 
-int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, TBTN_SPACER, 0, -1, 0 };
+int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, TBTN_SPACER, 0, 0, -1, 0 };
 
 struct InfoBarEvents
 {
@@ -198,7 +198,7 @@ class CHistoryDlg : public CDlgBase
 		int w = rc.right - rc.left;
 		int h = rc.bottom - rc.top;
 
-		HDWP hDwp = BeginDeferWindowPos(50);
+		HDWP hDwp = BeginDeferWindowPos(51);
 
 		// toolbar
 		int hToolBar = TBTN_SIZE + WND_SPACING;
@@ -313,10 +313,20 @@ class CHistoryDlg : public CDlgBase
 		EndDeferWindowPos(hDwp);
 	}
 
+	void UpdateTitle()
+	{
+		if (m_hContact && m_hContact != INVALID_CONTACT_ID)
+			SetWindowText(m_hwnd, ptrW(TplFormatString(TPL_TITLE, m_hContact, 0)));
+		else if (m_hContact == INVALID_CONTACT_ID)
+			SetWindowText(m_hwnd, TranslateT("History search results"));
+		else
+			SetWindowText(m_hwnd, TranslateT("System history"));
+	}
+
 	CCtrlBase m_histControl;
 	CCtrlEdit edtSearchText;
 	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
-	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev;
+	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev, btnDelete;
 	CCtrlTreeView m_timeTree;
 
 public:
@@ -328,6 +338,7 @@ public:
 		edtSearchText(this, IDC_SEARCHTEXT),
 		btnCopy(this, IDC_COPY, g_plugin.getIcon(ICO_COPY), LPGEN("Copy")),
 		btnExport(this, IDC_EXPORT, g_plugin.getIcon(ICO_EXPORT), LPGEN("Export...")),
+		btnDelete(this, IDC_DELETE, Skin_LoadIcon(SKINICON_OTHER_DELETE), LPGEN("Delete...")),
 		btnFilter(this, IDC_FILTER, g_plugin.getIcon(ICO_FILTER), LPGEN("Filter")),
 		btnSearch(this, IDC_SEARCH, g_plugin.getIcon(ICO_SEARCH), LPGEN("Search...")),
 		btnOptions(this, IDC_LOGOPTIONS, g_plugin.getIcon(ICO_OPTIONS), LPGEN("Options")),
@@ -344,6 +355,7 @@ public:
 
 		btnCopy.OnClick = Callback(this, &CHistoryDlg::onClick_Copy);
 		btnExport.OnClick = Callback(this, &CHistoryDlg::onClick_Export);
+		btnDelete.OnClick = Callback(this, &CHistoryDlg::onClick_Delete);
 		btnFilter.OnClick = Callback(this, &CHistoryDlg::onClick_Filter);
 		btnSearch.OnClick = Callback(this, &CHistoryDlg::onClick_Search);
 		btnOptions.OnClick = Callback(this, &CHistoryDlg::onClick_Options);
@@ -389,6 +401,7 @@ public:
 		m_hwndBtnToolbar[TBTN_SEARCH] = btnSearch.GetHwnd();
 		m_hwndBtnToolbar[TBTN_COPY] = btnCopy.GetHwnd();
 		m_hwndBtnToolbar[TBTN_EXPORT] = btnExport.GetHwnd();
+		m_hwndBtnToolbar[TBTN_DELETE] = btnDelete.GetHwnd();
 		m_hwndBtnToolbar[TBTN_LOGOPTIONS] = btnOptions.GetHwnd();
 		m_hwndBtnToolbar[TBTN_FILTER] = btnFilter.GetHwnd();
 		m_hwndBtnToolbar[TBTN_DATEPOPUP] = btnCalendar.GetHwnd();
@@ -464,17 +477,7 @@ public:
 
 		WindowList_Add(hNewstoryWindows, m_hwnd, m_hContact);
 
-		if (m_hContact && (m_hContact != INVALID_CONTACT_ID)) {
-			wchar_t *title = TplFormatString(TPL_TITLE, m_hContact, 0);
-			SetWindowText(m_hwnd, title);
-			mir_free(title);
-		}
-		else {
-			if (m_hContact == INVALID_CONTACT_ID)
-				SetWindowText(m_hwnd, TranslateT("History search results"));
-			else
-				SetWindowText(m_hwnd, TranslateT("System history"));
-		}
+		UpdateTitle();
 
 		ADDEVENTS tmp = { m_hContact, 0, -1 };
 		SendMessage(m_histControl.GetHwnd(), NSM_ADDEVENTS, WPARAM(&tmp), 0);
@@ -530,6 +533,12 @@ public:
 	void onClick_Copy(CCtrlButton *)
 	{
 		m_histControl.SendMsg(NSM_COPY, 0, 0);
+	}
+
+	void onClick_Delete(CCtrlButton *)
+	{
+		m_histControl.SendMsg(NSM_DELETE, 0, 0);
+		UpdateTitle();
 	}
 
 	void onClick_Export(CCtrlButton *)

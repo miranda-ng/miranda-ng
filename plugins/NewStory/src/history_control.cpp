@@ -2,6 +2,8 @@
 
 HANDLE htuLog = 0;
 
+static wchar_t wszDelete[] = LPGENW("Are you sure to remove all events from history?");
+
 /////////////////////////////////////////////////////////////////////////
 // Control utilities, types and constants
 
@@ -480,13 +482,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			int start = min(data->items.getCount() - 1, max(0, wParam));
 			int end = min(data->items.getCount() - 1, max(0, lParam));
-			if (start > end) {
-				start ^= end;
-				end ^= start;
-				start ^= end;
+			if (start > end)
+				std::swap(start, end);
+
+			for (int i = start; i <= end; ++i) {
+				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				p->flags |= HIF_SELECTED;
 			}
-			for (int i = start; i <= end; ++i)
-				data->items.get(i, ItemData::ELM_NOTHING)->flags |= HIF_SELECTED;
+			
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -495,19 +498,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			int start = min(data->items.getCount() - 1, max(0, wParam));
 			int end = min(data->items.getCount() - 1, max(0, lParam));
-			if (start > end) {
-				start ^= end;
-				end ^= start;
-				start ^= end;
-			}
+			if (start > end)
+				std::swap(start, end);
+
 			for (int i = start; i <= end; ++i) {
-				if (data->items.get(i, ItemData::ELM_NOTHING)->flags & HIF_SELECTED) {
-					data->items.get(i, ItemData::ELM_NOTHING)->flags &= ~HIF_SELECTED;
-				}
-				else {
-					data->items.get(i, ItemData::ELM_NOTHING)->flags |= HIF_SELECTED;
-				}
+				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				p->flags ^= HIF_SELECTED;
 			}
+			
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -516,20 +514,18 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			int start = min(data->items.getCount() - 1, max(0, wParam));
 			int end = min(data->items.getCount() - 1, max(0, lParam));
-			if (start > end) {
-				start ^= end;
-				end ^= start;
-				start ^= end;
-			}
+			if (start > end)
+				std::swap(start, end);
+
 			int count = data->items.getCount();
 			for (int i = 0; i < count; ++i) {
-				if ((i >= start) && (i <= end)) {
-					data->items.get(i, ItemData::ELM_NOTHING)->flags |= HIF_SELECTED;
-				}
-				else {
-					data->items.get(i, ItemData::ELM_NOTHING)->flags &= ~((DWORD)HIF_SELECTED);
-				}
+				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				if ((i >= start) && (i <= end)) 
+					p->flags |= HIF_SELECTED;
+				else
+					p->flags &= ~((DWORD)HIF_SELECTED);
 			}
+			
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -543,8 +539,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				end ^= start;
 				start ^= end;
 			}
-			for (int i = start; i <= end; ++i)
-				data->items.get(i, ItemData::ELM_NOTHING)->flags &= ~((DWORD)HIF_SELECTED);
+			for (int i = start; i <= end; ++i) {
+				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				p->flags &= ~((DWORD)HIF_SELECTED);
+			}
+			
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -558,8 +557,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			RECT rc;
 			GetClientRect(hwnd, &rc);
 			int height = rc.bottom - rc.top;
-			DWORD count = data->items.getCount();
-			DWORD current = data->scrollTopItem;
+			int count = data->items.getCount();
+			int current = data->scrollTopItem;
 			int top = data->scrollTopPixel;
 			int bottom = top + LayoutItem(hwnd, &data->items, current);
 			while (top <= height) {
@@ -607,14 +606,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
-				auto *item = data->items.get(i, ItemData::ELM_NOTHING);
-				if (item->dbe.timestamp >= wParam) {
+				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				if (p->dbe.timestamp >= wParam) {
 					SendMessage(hwnd, NSM_SELECTITEMS2, i, i);
 					SendMessage(hwnd, NSM_SETCARET, i, TRUE);
 					break;
 				}
-				if (i == eventCount - 1)
-				{
+
+				if (i == eventCount - 1) {
 					SendMessage(hwnd, NSM_SELECTITEMS2, i, i);
 					SendMessage(hwnd, NSM_SETCARET, i, TRUE);
 				}
@@ -624,6 +623,24 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SEEKEND:
 		SendMessage(hwnd, NSM_SETCARET, data->items.getCount() - 1, 1);
+		break;
+
+	case NSM_DELETE:
+		if (IDYES == MessageBoxW(hwnd, TranslateW(wszDelete), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION)) {
+			db_set_safety_mode(false);
+
+			int eventCount = data->items.getCount();
+			for (int i = eventCount - 1; i >= 0; i--) {
+				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				if (p->hEvent && p->hContact)
+					db_event_delete(p->hEvent);
+			}
+			db_set_safety_mode(true);
+
+			data->items.reset();
+
+			InvalidateRect(hwnd, 0, FALSE);
+		}
 		break;
 
 	case NSM_COPY:

@@ -62,6 +62,7 @@
 #define IDC_ICO_URLS_IN                 1031
 #define IDC_ICO_URLS_OUT                1032
 #define IDC_PREVIEW                     1033
+#define IDC_DELETE                      1034
 #define IDC_TIMETREE                    1035
 #define IDC_PROGRESS1                   1037  //!!!
 #define IDC_COMBO1                      1038  //!!!

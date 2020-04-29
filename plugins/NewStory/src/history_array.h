@@ -135,6 +135,11 @@ public:
 	void addChatEvent(SESSION_INFO *si, LOGINFO *pEvent);
 	void clear();
 	int  getCount() const;
+	void reset()
+	{
+		clear();
+		pages.insert(new ItemBlock());
+	}
 
 	//	bool preloadEvents(int count = 10);
 
