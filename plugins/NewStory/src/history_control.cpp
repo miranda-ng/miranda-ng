@@ -275,8 +275,10 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 	int width = rc.right - rc.left;
 
 	ItemData *item = items->get(index, ItemData::ELM_DATA);
-	if (!item)
+	if (!item) {
+		DeleteDC(hdc);
 		return 0;
+	}
 
 	int tpl;
 	int fontid;
@@ -480,7 +482,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SELECTITEMS:
 		{
-			int start = min(data->items.getCount() - 1, max(0, wParam));
+			int start = min(data->items.getCount() - 1, wParam);
 			int end = min(data->items.getCount() - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
@@ -496,7 +498,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_TOGGLEITEMS:
 		{
-			int start = min(data->items.getCount() - 1, max(0, wParam));
+			int start = min(data->items.getCount() - 1, wParam);
 			int end = min(data->items.getCount() - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
@@ -512,7 +514,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SELECTITEMS2:
 		{
-			int start = min(data->items.getCount() - 1, max(0, wParam));
+			int start = min(data->items.getCount() - 1, wParam);
 			int end = min(data->items.getCount() - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
@@ -532,7 +534,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_DESELECTITEMS:
 		{
-			int start = min(data->items.getCount() - 1, max(0, wParam));
+			int start = min(data->items.getCount() - 1, wParam);
 			int end = min(data->items.getCount() - 1, max(0, lParam));
 			if (start > end) {
 				start ^= end;
@@ -573,7 +575,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 	case NSM_SETCARET:
-		if ((wParam >= 0) && (wParam < data->items.getCount())) {
+		if (wParam < data->items.getCount()) {
 			data->caret = wParam;
 			if (lParam)
 				SendMessage(hwnd, NSM_ENSUREVISIBLE, data->caret, 0);

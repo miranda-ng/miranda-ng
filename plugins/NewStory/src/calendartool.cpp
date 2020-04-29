@@ -14,18 +14,6 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			PostMessage(hwnd, WM_CLOSE, 0, 0);
 		break;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			EndDialog(hwnd, 0);
-			return TRUE;
-
-		case IDCANCEL:
-			EndDialog(hwnd, 0);
-			return TRUE;
-		}
-		break;
-
 	case WM_NOTIFY:
 		{
 			LPNMHDR hdr = (LPNMHDR)lParam;

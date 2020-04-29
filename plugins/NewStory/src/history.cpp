@@ -99,7 +99,7 @@ void LayoutFilterBar(HDWP hDwp, int x, int y, int w, InfoBarEvents *ib)
 
 	hDwp = DeferWindowPos(hDwp, ib->hwndIcoOut, 0,
 		x + 16, y + (16 + WND_SPACING) * 2, 16, 16, SWP_NOZORDER);
-	hDwp = DeferWindowPos(hDwp, ib->hwndTxtOut, 0,
+	DeferWindowPos(hDwp, ib->hwndTxtOut, 0,
 		x + 32 + WND_SPACING, y + (16 + WND_SPACING) * 2, w - WND_SPACING - 32, 16, SWP_NOZORDER);
 }
 
@@ -810,7 +810,7 @@ public:
 
 		case WM_COMMAND:
 			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, m_hContact))
-				return true;
+				return TRUE;
 			break;
 
 				/*

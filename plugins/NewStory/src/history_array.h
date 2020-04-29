@@ -86,7 +86,7 @@ public:
 	{
 		if (!-- * refCount) {
 			delete refCount;
-			if (text) delete[] text;
+			delete[] text;
 		}
 	}
 	
