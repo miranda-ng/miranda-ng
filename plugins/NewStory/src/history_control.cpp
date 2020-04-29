@@ -247,7 +247,7 @@ static void BeginEditItem(HWND hwnd, NewstoryListData *data, int index)
 			ptrW text(TplFormatString(tpl, item->hContact, item));
 			data->hwndEditBox = CreateWindow(L"EDIT", text, WS_CHILD | WS_BORDER | ES_READONLY | ES_MULTILINE | ES_AUTOVSCROLL, 0, top, rc.right - rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
 			OldEditWndProc = (WNDPROC)SetWindowLongPtr(data->hwndEditBox, GWLP_WNDPROC, (LONG_PTR)HistoryEditWndProc);
-			SendMessage(data->hwndEditBox, WM_SETFONT, (WPARAM)fonts[fontid].hfnt, 0);
+			SendMessage(data->hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 			SendMessage(data->hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
 			SendMessage(data->hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
 			ShowWindow(data->hwndEditBox, SW_SHOW);
@@ -315,7 +315,7 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 		break;
 	}
 
-	HFONT hfnt = (HFONT)SelectObject(hdc, fonts[fontid].hfnt);
+	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 	if (!item->data)
 		item->data = MTextCreateW(htuLog, ptrW(TplFormatString(tpl, item->hContact, item)));
 
@@ -382,17 +382,17 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 		colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
 		break;
 	}
-	clText = fonts[fontid].cl;
+	clText = g_fontTable[fontid].cl;
 	if (item->flags & HIF_SELECTED) {
 		MTextSendMessage(0, item->data, EM_SETSEL, 0, -1);
-		clText = colors[COLOR_SELTEXT].cl;
+		clText = g_colorTable[COLOR_SELTEXT].cl;
 		clLine = GetSysColor(COLOR_HIGHLIGHTTEXT);
 		clBack = GetSysColor(COLOR_HIGHLIGHT);
 	}
 	else {
 		MTextSendMessage(0, item->data, EM_SETSEL, 0, 0);
-		clLine = colors[COLOR_SELECTED].cl;
-		clBack = colors[colorid].cl;
+		clLine = g_colorTable[COLOR_SELECTED].cl;
+		clBack = g_colorTable[colorid].cl;
 	}
 
 	if (!item->data) {
@@ -405,7 +405,7 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 
 	SIZE sz;
 	sz.cx = width - 6;
-	HFONT hfnt = (HFONT)SelectObject(hdc, fonts[fontid].hfnt);
+	HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 	MTextMeasure(hdc, &sz, (HANDLE)item->data);
 	SelectObject(hdc, hfnt);
 	int height = sz.cy + 5;
@@ -423,7 +423,7 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 	POINT pos;
 	pos.x = 3;
 	pos.y = top + 2;
-	hfnt = (HFONT)SelectObject(hdc, fonts[fontid].hfnt);
+	hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 	MTextDisplay(hdc, pos, sz, (HANDLE)item->data);
 	SelectObject(hdc, hfnt);
 

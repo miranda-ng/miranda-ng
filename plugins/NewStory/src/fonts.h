@@ -1,14 +1,14 @@
 #ifndef __fonts_h__
 #define __fonts_h__
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 enum
 {
 	COLOR_INMSG,
 	COLOR_OUTMSG,
 	COLOR_INFILE,
 	COLOR_OUTFILE,
-	COLOR_INURL,
-	COLOR_OUTURL,
 	COLOR_STATUS,
 	COLOR_INOTHER,
 	COLOR_OUTOTHER,
@@ -19,13 +19,13 @@ enum
 
 struct MyColourID
 {
-	const char* szName, * szSetting;
+	const char *szName, *szSetting;
 	COLORREF defaultValue, cl;
 };
 
+extern MyColourID g_colorTable[COLOR_COUNT];
 
-
-extern MyColourID colors[];
+/////////////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
@@ -33,8 +33,6 @@ enum
 	FONT_OUTMSG,
 	FONT_INFILE,
 	FONT_OUTFILE,
-	FONT_INURL,
-	FONT_OUTURL,
 	FONT_STATUS,
 	FONT_INOTHER,
 	FONT_OUTOTHER,
@@ -43,14 +41,16 @@ enum
 
 struct MyFontID
 {
-	const char* szName, * szSetting;
+	const char *szName, *szSetting;
 
 	COLORREF cl;
 	LOGFONTA lf;
 	HFONT    hfnt;
 };
 
-extern MyFontID fonts[];
+extern MyFontID g_fontTable[FONT_COUNT];
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void InitFonts();
 void DestroyFonts();

@@ -551,7 +551,7 @@ public:
 					SubContactsList.AppendFormat(L"\r\n%s", subid);
 				FirstTime = false;
 			}
-			MessageText.AppendFormat(TranslateT("It is MetaContact. For export use one of this subcontacts:\r\n%s"), SubContactsList);
+			MessageText.AppendFormat(TranslateT("It is MetaContact. For export use one of this subcontacts:\r\n%s"), SubContactsList.c_str());
 			MessageBox(m_hwnd, MessageText, TranslateT("Export warning"), MB_OK | MB_ICONWARNING);
 			return;
 		}
