@@ -32,6 +32,7 @@
 #define ICO_RESET                       149
 #define ICO_PREVIEW                     150
 #define ICO_VARHELP                     151
+#define ICO_TIMETREE                    152
 #define IDC_GPREVIEW                    1000
 #define IDC_ITEMS2                      1001
 #define IDC_PROGRESS                    1002 //!!!
@@ -63,9 +64,10 @@
 #define IDC_ICO_URLS_OUT                1032
 #define IDC_PREVIEW                     1033
 #define IDC_DELETE                      1034
-#define IDC_TIMETREE                    1035
+#define IDC_TIMETREEVIEW                1035
 #define IDC_PROGRESS1                   1037  //!!!
 #define IDC_COMBO1                      1038  //!!!
+#define IDC_TIMETREE                    1039
 #define IDC_CHECK2                      1040  //!!!
 #define IDC_CHECK3                      1041  //!!!
 #define IDC_MONTHCALENDAR1              1044
@@ -123,7 +125,6 @@
 #define ID_CONTEXT_CANCEL               40028  //!!!
 #define ID_EXPORT_SAVEAS                40029  //!!!
 #define ID_EXPORT_SAVESELECTEDAS        40031  //!!!
-#define ID_LOGOPTIONS_SHOWTIMETREE      40032
 #define ID_FILTER_SHOWALLEVENTS         40036  //!!!
 #define ID_FILTER_SHOWINCOMINGEVENTSONLY 40037  //!!!
 #define ID_FILTER_SHOWOUTGOINGEVENTSONLY 40038  //!!!

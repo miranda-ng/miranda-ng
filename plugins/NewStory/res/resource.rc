@@ -26,28 +26,29 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-ICO_NEWSTORY                       ICON         "01 newstory.ico"
-ICO_USERINFO                       ICON         "02 userinfo.ico"
-ICO_USERMENU                       ICON         "03 usermenu.ico"
-ICO_SEARCH                       ICON         "04 search.ico"
-ICO_OPTIONS                       ICON         "05 options.ico"
-ICO_FILTER                       ICON         "06 filter.ico"
-ICO_EXPORT                       ICON         "07 export.ico"
-ICO_COPY                       ICON         "09 copy.ico"
-ICO_SENDMSG                       ICON         "10 sendmsg.ico"
-ICO_MSGIN                      ICON         "12 msgin.ico"
-ICO_MSGOUT                      ICON         "13 msgout.ico"
-ICO_SIGNIN                      ICON         "14 signin.ico"
-ICO_FILE                      ICON         "16 file.ico"
-ICO_URL                      ICON         "17 url.ico"
-ICO_UNKNOWN                      ICON         "18 unknown.ico"
-ICO_FINDPREV                      ICON         "19 findprev.ico"
-ICO_FINDNEXT                      ICON         "20 findnext.ico"
-ICO_CALENDAR                      ICON         "Calendar.ico"
-ICO_RESET                      ICON         "reset.ico"
-ICO_PREVIEW                      ICON         "reload.ico"
-ICO_VARHELP                      ICON         "vars.ico"
-ICO_TPLGROUP                      ICON         "folder.ico"
+ICO_NEWSTORY                       ICON         "newstory.ico"
+ICO_USERINFO                       ICON         "userinfo.ico"
+ICO_USERMENU                       ICON         "usermenu.ico"
+ICO_SEARCH                         ICON         "search.ico"
+ICO_OPTIONS                        ICON         "options.ico"
+ICO_FILTER                         ICON         "filter.ico"
+ICO_EXPORT                         ICON         "export.ico"
+ICO_COPY                           ICON         "copy.ico"
+ICO_SENDMSG                        ICON         "sendmsg.ico"
+ICO_MSGIN                          ICON         "msgin.ico"
+ICO_MSGOUT                         ICON         "msgout.ico"
+ICO_SIGNIN                         ICON         "signin.ico"
+ICO_FILE                           ICON         "file.ico"
+ICO_URL                            ICON         "url.ico"
+ICO_UNKNOWN                        ICON         "unknown.ico"
+ICO_FINDPREV                       ICON         "findprev.ico"
+ICO_FINDNEXT                       ICON         "findnext.ico"
+ICO_CALENDAR                       ICON         "calendar.ico"
+ICO_RESET                          ICON         "reset.ico"
+ICO_PREVIEW                        ICON         "reload.ico"
+ICO_VARHELP                        ICON         "vars.ico"
+ICO_TPLGROUP                       ICON         "folder.ico"
+ICO_TIMETREE                       ICON         "timetree.ico"
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -97,13 +98,14 @@ BEGIN
     CONTROL         "",IDC_COPY,"MButtonClass",WS_TABSTOP,74,99,16,14
     CONTROL         "",IDC_EXPORT,"MButtonClass",WS_TABSTOP,90,99,16,14
     CONTROL         "",IDC_DELETE,"MButtonClass",WS_TABSTOP,104,99,16,14
+    CONTROL         "",IDC_TIMETREE,"MButtonClass",WS_TABSTOP,118,99,16,14
     CONTROL         "",IDC_FILTER,"MButtonClass",WS_TABSTOP,132,99,16,14
     CONTROL         "",IDC_FINDPREV,"MButtonClass",WS_TABSTOP,364,305,16,14
     CONTROL         "",IDC_FINDNEXT,"MButtonClass",WS_TABSTOP,337,305,16,14
     EDITTEXT        IDC_SEARCHTEXT,19,305,305,14,ES_AUTOHSCROLL
     ICON            "",IDC_SEARCHICON,1,298,20,20,SS_CENTERIMAGE
     CONTROL         "",IDC_LOGOPTIONS,"MButtonClass",WS_TABSTOP,116,99,16,14
-    CONTROL         "Tree1",IDC_TIMETREE,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_TRACKSELECT | TVS_FULLROWSELECT | TVS_SINGLEEXPAND | NOT WS_VISIBLE | WS_TABSTOP,0,134,84,160,WS_EX_STATICEDGE
+    CONTROL         "Tree1",IDC_TIMETREEVIEW,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_TRACKSELECT | TVS_FULLROWSELECT | TVS_SINGLEEXPAND | NOT WS_VISIBLE | WS_TABSTOP,0,134,84,160,WS_EX_STATICEDGE
     CONTROL         "",IDC_DATEPOPUP,"MButtonClass",WS_TABSTOP,148,99,16,14
     CONTROL         "",IDC_ITEMS2,"NewstoryList",WS_TABSTOP,90,132,290,166
     CONTROL         "",IDC_IB_SEPARATOR,"Static",SS_ETCHEDHORZ,21,76,124,1
@@ -340,8 +342,6 @@ BEGIN
     END
     POPUP "Log options"
     BEGIN
-        MENUITEM "Show time tree",              ID_LOGOPTIONS_SHOWTIMETREE
-        MENUITEM SEPARATOR
         MENUITEM "Options...",                  ID_LOGOPTIONS_OPTIONS
         MENUITEM "Templates...",                ID_LOGOPTIONS_TEMPLATES
     END

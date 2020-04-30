@@ -71,13 +71,13 @@ enum
 enum
 {
 	TBTN_USERINFO, TBTN_USERMENU, TBTN_MESSAGE,
-	TBTN_SEARCH, TBTN_FILTER, TBTN_DATEPOPUP,
+	TBTN_TIMEREE, TBTN_SEARCH, TBTN_FILTER, TBTN_DATEPOPUP,
 	TBTN_COPY, TBTN_DELETE, TBTN_EXPORT,
 	TBTN_LOGOPTIONS,
 	TBTN_COUNT
 };
 
-int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, TBTN_SPACER, 0, 0, -1, 0 };
+int tbtnSpacing[TBTN_COUNT] = { 0, 0, TBTN_SPACER, 0, 0, 0, TBTN_SPACER, 0, 0, -1, 0 };
 
 struct InfoBarEvents
 {
@@ -326,7 +326,7 @@ class CHistoryDlg : public CDlgBase
 	CCtrlBase m_histControl;
 	CCtrlEdit edtSearchText;
 	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
-	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev, btnDelete;
+	CCtrlMButton btnCalendar, btnSearch, btnExport, btnFindNext, btnFindPrev, btnDelete, btnTimeTree;
 	CCtrlTreeView m_timeTree;
 
 public:
@@ -347,7 +347,8 @@ public:
 		btnUserInfo(this, IDC_USERINFO, g_plugin.getIcon(ICO_USERINFO), LPGEN("User info")),
 		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(ICO_USERMENU), LPGEN("User menu")),
 		btnFindNext(this, IDC_FINDNEXT, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find next")),
-		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find previous"))
+		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find previous")),
+		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(ICO_TIMETREE), LPGEN("Time tree"))
 	{
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
 		
@@ -365,6 +366,7 @@ public:
 		btnFindPrev.OnClick = Callback(this, &CHistoryDlg::onClick_FindPrev);
 		btnUserInfo.OnClick = Callback(this, &CHistoryDlg::onClick_UserInfo);
 		btnUserMenu.OnClick = Callback(this, &CHistoryDlg::onClick_UserMenu);
+		btnTimeTree.OnClick = Callback(this, &CHistoryDlg::onClick_TimeTree);
 
 		showFlags = g_plugin.getDword(m_hContact, "showFlags", 0x7f);
 
@@ -405,6 +407,7 @@ public:
 		m_hwndBtnToolbar[TBTN_LOGOPTIONS] = btnOptions.GetHwnd();
 		m_hwndBtnToolbar[TBTN_FILTER] = btnFilter.GetHwnd();
 		m_hwndBtnToolbar[TBTN_DATEPOPUP] = btnCalendar.GetHwnd();
+		m_hwndBtnToolbar[TBTN_TIMEREE] = btnTimeTree.GetHwnd();
 
 		m_hwndBtnCloseSearch = GetDlgItem(m_hwnd, IDC_SEARCHICON);
 		m_hwndStatus = CreateWindowEx(0, STATUSCLASSNAME, NULL, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, NULL, g_plugin.getInst(), NULL);
@@ -539,6 +542,11 @@ public:
 	{
 		m_histControl.SendMsg(NSM_DELETE, 0, 0);
 		UpdateTitle();
+	}
+
+	void onClick_TimeTree(CCtrlButton*)
+	{
+
 	}
 
 	void onClick_Export(CCtrlButton *)
