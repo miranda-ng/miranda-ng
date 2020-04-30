@@ -648,11 +648,9 @@ public:
 		Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
 		Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
 
-		HWND hwndList = GetDlgItem(m_hwnd, IDC_TEMPLATELIST);
-		for (auto &it : TemplateNames) {
-			int idx = ListBox_AddString(hwndList, TranslateW(_A2T(it)));
-			ListBox_SetItemData(hwndList, idx, idx);
-		}
+		for (auto &it : TemplateNames)
+			listTemplates.AddString(TranslateW(_A2T(it)), int(&it - TemplateNames));
+
 		Utils::enableDlgControl(m_hwndParent, IDC_MODIFY, FALSE);
 		Utils::enableDlgControl(m_hwndParent, IDC_RTLMODIFY, FALSE);
 
@@ -718,10 +716,10 @@ public:
 			updateInfo[inEdit] = TRUE;
 			Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, TRUE);
 			Utils::enableDlgControl(m_hwnd, IDC_FORGET, TRUE);
-			Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, FALSE);
+			listTemplates.Disable();
 			Utils::enableDlgControl(m_hwnd, IDC_REVERT, TRUE);
 		}
-		InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
+		InvalidateRect(listTemplates.GetHwnd(), nullptr, FALSE);
 	}
 
 	void onClick_Forget(CCtrlButton *)
@@ -731,10 +729,10 @@ public:
 		selchanging = TRUE;
 		edtText.SetText(tSet->szTemplates[inEdit]);
 		SetFocus(edtText.GetHwnd());
-		InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
+		InvalidateRect(listTemplates.GetHwnd(), nullptr, FALSE);
 		Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, FALSE);
 		Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
-		Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, TRUE);
+		listTemplates.Enable();
 		Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
 		selchanging = FALSE;
 		edtText.SendMsg(EM_SETREADONLY, TRUE, 0);
@@ -742,7 +740,7 @@ public:
 
 	void onClick_Preview(CCtrlButton *)
 	{
-		int iIndex = SendDlgItemMessage(m_hwnd, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
+		int iIndex = listTemplates.GetCurSel();
 		wchar_t szTemp[TEMPLATE_LENGTH + 2];
 
 		if (changed) {
@@ -795,12 +793,12 @@ public:
 		edtText.SetText(tSet->szTemplates[inEdit]);
 		db_unset(0, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[inEdit]);
 		SetFocus(edtText.GetHwnd());
-		InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
+		InvalidateRect(listTemplates.GetHwnd(), nullptr, FALSE);
 		selchanging = FALSE;
 		Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, FALSE);
 		Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
 		Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
-		Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, TRUE);
+		listTemplates.Enable();
 		edtText.SendMsg(EM_SETREADONLY, TRUE, 0);
 	}
 
@@ -813,16 +811,16 @@ public:
 		updateInfo[inEdit] = FALSE;
 		Utils::enableDlgControl(m_hwnd, IDC_SAVETEMPLATE, FALSE);
 		Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
-		Utils::enableDlgControl(m_hwnd, IDC_TEMPLATELIST, TRUE);
+		listTemplates.Enable();
 		Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
-		InvalidateRect(GetDlgItem(m_hwnd, IDC_TEMPLATELIST), nullptr, FALSE);
+		InvalidateRect(listTemplates.GetHwnd(), nullptr, FALSE);
 		db_set_ws(0, rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[inEdit], newTemplate);
 		edtText.SendMsg(EM_SETREADONLY, TRUE, 0);
 	}
 
 	void onDblClick_List(CCtrlListBox *)
 	{
-		LRESULT iIndex = SendDlgItemMessage(m_hwnd, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
+		LRESULT iIndex = listTemplates.GetCurSel();
 		if (iIndex != LB_ERR) {
 			edtText.SetText(tSet->szTemplates[iIndex]);
 			inEdit = iIndex;
@@ -835,7 +833,7 @@ public:
 
 	void onSelChange_List(CCtrlListBox *)
 	{
-		LRESULT iIndex = SendDlgItemMessage(m_hwnd, IDC_TEMPLATELIST, LB_GETCURSEL, 0, 0);
+		LRESULT iIndex = listTemplates.GetCurSel();
 		selchanging = TRUE;
 		if (iIndex != LB_ERR) {
 			edtText.SetText(tSet->szTemplates[iIndex]);
