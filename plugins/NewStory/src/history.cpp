@@ -286,6 +286,7 @@ class CHistoryDlg : public CDlgBase
 			w, hStatus,
 			SWP_NOZORDER);
 
+		// search bar
 		int hSearch = 0;
 		if (m_dwOptions & WND_OPT_SEARCHBAR) {
 			GetWindowRect(edtSearchText.GetHwnd(), &rc);
@@ -308,9 +309,19 @@ class CHistoryDlg : public CDlgBase
 			hSearch += WND_SPACING;
 		}
 
+		// time tree bar
+		int hTimeTree = 0;
+		if (m_dwOptions & WND_OPT_TIMETREE) {
+			hTimeTree = 80; // need to calculate correctly
+			hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0,
+				WND_SPACING, WND_SPACING + hToolBar + hFilterBar,
+				hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
+				SWP_NOZORDER);
+		}
+
 		hDwp = DeferWindowPos(hDwp, m_histControl.GetHwnd(), 0,
-			WND_SPACING, hToolBar + hFilterBar + WND_SPACING,
-			w - WND_SPACING * 2, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
+			WND_SPACING + hTimeTree, WND_SPACING + hToolBar + hFilterBar,
+			w - WND_SPACING * 2 - hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
 			SWP_NOZORDER);
 
 		EndDeferWindowPos(hDwp);
