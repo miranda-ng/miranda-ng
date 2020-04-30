@@ -51,7 +51,7 @@ enum
 	HIST_SHOW_STATUS = 0x020,
 	HIST_SHOW_OTHER = 0x040,
 	HIST_AUTO_FILTER = 0x080,
-	HIST_TIMETREE = 0x100,
+	//HIST_TIMETREE = 0x100,
 };
 
 enum
@@ -187,6 +187,9 @@ class CHistoryDlg : public CDlgBase
 		ShowWindow(edtSearchText.GetHwnd(), cmd);
 		if (cmd)
 			SetFocus(edtSearchText.GetHwnd());
+
+		cmd = (m_dwOptions & WND_OPT_TIMETREE) ? SW_SHOW : SW_HIDE;
+		ShowWindow(m_timeTree.GetHwnd(), cmd);
 	}
 
 	void LayoutHistoryWnd()
@@ -333,7 +336,7 @@ public:
 	CHistoryDlg(MCONTACT _hContact) :
 		CDlgBase(g_plugin, IDD_HISTORY),
 		m_hContact(_hContact),
-		m_timeTree(this, IDC_TIMETREE),
+		m_timeTree(this, IDC_TIMETREEVIEW),
 		m_histControl(this, IDC_ITEMS2),
 		edtSearchText(this, IDC_SEARCHTEXT),
 		btnCopy(this, IDC_COPY, g_plugin.getIcon(ICO_COPY), LPGEN("Copy")),
@@ -546,7 +549,13 @@ public:
 
 	void onClick_TimeTree(CCtrlButton*)
 	{
+		if (m_dwOptions & WND_OPT_TIMETREE)
+			m_dwOptions &= ~WND_OPT_TIMETREE;
+		else
+			m_dwOptions |= WND_OPT_TIMETREE;
 
+		ShowHideControls();
+		LayoutHistoryWnd();
 	}
 
 	void onClick_Export(CCtrlButton *)
