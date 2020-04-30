@@ -335,7 +335,9 @@ static int LayoutItem(HWND hwnd, HistoryArray *items, int index)
 
 static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width)
 {
-	if (!items) return 0;
+	if (!items)
+		return 0;
+	
 	ItemData *item = items->get(index, ItemData::ELM_DATA);
 
 	//	LOGFONT lfText;
@@ -400,9 +402,7 @@ static int PaintItem(HDC hdc, HistoryArray *items, int index, int top, int width
 	}
 
 	if (!item->data) {
-		wchar_t *buf = TplFormatString(tpl, item->hContact, item);
-		item->data = MTextCreateW(htuLog, buf);
-		mir_free(buf);
+		item->data = MTextCreateW(htuLog, ptrW(TplFormatString(tpl, item->hContact, item)));
 		if (!item->data)
 			return 0;
 	}
