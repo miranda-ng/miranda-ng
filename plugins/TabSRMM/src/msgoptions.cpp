@@ -702,8 +702,9 @@ public:
 				else
 					SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 			}
-			char *pszName = Translate(TemplateNames[iItem]);
-			TextOutA(dis->hDC, dis->rcItem.left, dis->rcItem.top, pszName, (int)mir_strlen(pszName));
+			
+			auto *pwszName = TranslateW(_A2T(TemplateNames[iItem]));
+			TextOutW(dis->hDC, dis->rcItem.left, dis->rcItem.top, pwszName, (int)mir_wstrlen(pwszName));
 		}
 
 		return CSrmmBaseDialog::DlgProc(uMsg, wParam, lParam);
