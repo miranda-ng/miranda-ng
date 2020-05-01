@@ -743,11 +743,11 @@ public:
 
 		switch (TrackPopupMenu(GetSubMenu(m_hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL)) {
 		case ID_LOGOPTIONS_OPTIONS:
-			g_plugin.openOptions(L"History", L"Newstory" /*, L"General" */);
+			g_plugin.openOptions(L"History", L"NewStory", L"Advanced");
 			break;
 
 		case ID_LOGOPTIONS_TEMPLATES:
-			g_plugin.openOptions(L"History", L"Newstory" /* , L"Templates" */);
+			g_plugin.openOptions(L"History", L"NewStory", L"Templates");
 			break;
 		}
 		PostMessage(m_hwnd, WM_SIZE, 0, 0);
