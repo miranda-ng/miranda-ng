@@ -26,30 +26,51 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-ICO_NEWSTORY                       ICON         "newstory.ico"
-ICO_USERINFO                       ICON         "userinfo.ico"
-ICO_USERMENU                       ICON         "usermenu.ico"
-ICO_SEARCH                         ICON         "search.ico"
-ICO_OPTIONS                        ICON         "options.ico"
-ICO_FILTER                         ICON         "filter.ico"
-ICO_EXPORT                         ICON         "export.ico"
-ICO_COPY                           ICON         "copy.ico"
-ICO_SENDMSG                        ICON         "sendmsg.ico"
-ICO_MSGIN                          ICON         "msgin.ico"
-ICO_MSGOUT                         ICON         "msgout.ico"
-ICO_SIGNIN                         ICON         "signin.ico"
-ICO_FILE                           ICON         "file.ico"
-ICO_URL                            ICON         "url.ico"
-ICO_UNKNOWN                        ICON         "unknown.ico"
-ICO_FINDPREV                       ICON         "findprev.ico"
-ICO_FINDNEXT                       ICON         "findnext.ico"
-ICO_CALENDAR                       ICON         "calendar.ico"
-ICO_RESET                          ICON         "reset.ico"
-ICO_PREVIEW                        ICON         "reload.ico"
-ICO_VARHELP                        ICON         "vars.ico"
-ICO_TPLGROUP                       ICON         "folder.ico"
-ICO_TIMETREE                       ICON         "timetree.ico"
-/////////////////////////////////////////////////////////////////////////////
+ICO_NEWSTORY            ICON                    "newstory.ico"
+
+ICO_USERINFO            ICON                    "userinfo.ico"
+
+ICO_USERMENU            ICON                    "usermenu.ico"
+
+ICO_SEARCH              ICON                    "search.ico"
+
+ICO_OPTIONS             ICON                    "options.ico"
+
+ICO_FILTER              ICON                    "filter.ico"
+
+ICO_EXPORT              ICON                    "export.ico"
+
+ICO_COPY                ICON                    "copy.ico"
+
+ICO_SENDMSG             ICON                    "sendmsg.ico"
+
+ICO_MSGIN               ICON                    "msgin.ico"
+
+ICO_MSGOUT              ICON                    "msgout.ico"
+
+ICO_SIGNIN              ICON                    "signin.ico"
+
+ICO_FILE                ICON                    "file.ico"
+
+ICO_URL                 ICON                    "url.ico"
+
+ICO_UNKNOWN             ICON                    "unknown.ico"
+
+ICO_FINDPREV            ICON                    "findprev.ico"
+
+ICO_FINDNEXT            ICON                    "findnext.ico"
+
+ICO_CALENDAR            ICON                    "calendar.ico"
+
+ICO_RESET               ICON                    "reset.ico"
+
+ICO_PREVIEW             ICON                    "reload.ico"
+
+ICO_VARHELP             ICON                    "vars.ico"
+
+ICO_TPLGROUP            ICON                    "folder.ico"
+
+ICO_TIMETREE            ICON                    "timetree.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -145,6 +166,14 @@ EXSTYLE WS_EX_TOOLWINDOW
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_MONTHCALENDAR1,"SysMonthCal32",MCS_NOTODAYCIRCLE | WS_TABSTOP,0,0,98,85
+END
+
+IDD_OPT_ADVANCED DIALOGEX 0, 0, 307, 223
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Group messages",IDC_GROUPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,9,289,14
+    GROUPBOX        "Log window",IDC_STATIC,0,0,307,29
 END
 
 IDD_OPT_TEMPLATES DIALOGEX 0, 0, 307, 223
@@ -245,6 +274,10 @@ BEGIN
     END
 
     IDD_CALENDARTOOL, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_ADVANCED, DIALOG
     BEGIN
     END
 
@@ -402,6 +435,11 @@ END
 //
 
 IDD_SEARCH AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_ADVANCED AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

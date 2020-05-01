@@ -79,9 +79,12 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	HANDLE m_log;
 
+	bool bMsgGrouping;
+
 	CMPlugin();
 
 	int Load() override;
 	int Unload() override;
 };
 
+extern CMOption<bool> g_bOptGrouping;

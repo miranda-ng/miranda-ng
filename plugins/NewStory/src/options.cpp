@@ -1,8 +1,31 @@
 #include "stdafx.h"
 
-// Option dialog
+/////////////////////////////////////////////////////////////////////////////////////////
+// General options dialog
 
-class COptionsDlg : public CDlgBase
+class CGeneralOptsDlg : public CDlgBase
+{
+	CCtrlCheck chkGrouping;
+
+public:
+	CGeneralOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_ADVANCED),
+		chkGrouping(this, IDC_GROUPING)
+	{
+		CreateLink(chkGrouping, g_bOptGrouping);
+	}
+
+	bool OnApply() override
+	{
+		g_plugin.bMsgGrouping = g_bOptGrouping;
+		return true;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Template options dialog
+
+class CTemplateOptsDlg : public CDlgBase
 {
 	TemplateInfo *m_curr = 0;
 
@@ -37,7 +60,7 @@ class COptionsDlg : public CDlgBase
 	CCtrlTreeView m_tree;
 
 public:
-	COptionsDlg() :
+	CTemplateOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_TEMPLATES),
 		m_edit(this, IDC_EDITTEMPLATE),
 		m_tree(this, IDC_TEMPLATES),
@@ -48,12 +71,12 @@ public:
 		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(ICO_VARHELP), LPGEN("Help on variables")),
 		btnPreview(this, IDC_UPDATEPREVIEW, g_plugin.getIcon(ICO_PREVIEW), LPGEN("Update preview"))
 	{
-		btnReset.OnClick = Callback(this, &COptionsDlg::onClick_Reset);
-		btnDiscard.OnClick = Callback(this, &COptionsDlg::onClick_Discard);
-		btnPreview.OnClick = Callback(this, &COptionsDlg::UpdatePreview);
-		bthVarHelp.OnClick = Callback(this, &COptionsDlg::onVarHelp);
+		btnReset.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Reset);
+		btnDiscard.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Discard);
+		btnPreview.OnClick = Callback(this, &CTemplateOptsDlg::UpdatePreview);
+		bthVarHelp.OnClick = Callback(this, &CTemplateOptsDlg::onVarHelp);
 
-		m_tree.OnSelChanged = Callback(this, &COptionsDlg::onSelChanged);
+		m_tree.OnSelChanged = Callback(this, &CTemplateOptsDlg::onSelChanged);
 	}
 
 	bool OnInitDialog() override
@@ -230,7 +253,11 @@ int OptionsInitialize(WPARAM wParam, LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.szTab.a = LPGEN("Templates");
-	odp.pDialog = new COptionsDlg();
+	odp.pDialog = new CTemplateOptsDlg();
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szTab.a = LPGEN("Advanced");
+	odp.pDialog = new CGeneralOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

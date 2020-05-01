@@ -13,6 +13,8 @@
 
 CMPlugin g_plugin;
 
+CMOption<bool> g_bOptGrouping(MODULENAME, "MessageGrouping", false);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx =
@@ -102,7 +104,8 @@ static int evtPreShutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_plugin.registerIcon(MODULETITLE, icons);
+	registerIcon(MODULETITLE, icons);
+	bMsgGrouping = g_bOptGrouping;
 
 	m_log = RegisterSrmmLog(MODULETITLE, _T(MODULENAME), NewStory_Stub);
 

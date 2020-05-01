@@ -30,6 +30,7 @@ bool Filter::check(ItemData *item)
 				return false;
 		}
 	}
+
 	if (flags & (EVENTTEXT | EVENTONLY)) {
 		item->loadInline(ItemData::ELM_DATA);
 		return CheckFilter(item->getWBuf(), text);
@@ -100,6 +101,18 @@ bool ItemData::load(EventLoadMode mode)
 	return false;
 }
 
+bool ItemData::isGrouped() const
+{
+	if (pPrev && g_plugin.bMsgGrouping) {
+		if (!pPrev->dbeOk)
+			pPrev->load(EventLoadMode::ELM_DATA);
+
+		if (pPrev->hContact == hContact && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT))
+			return true;
+	}
+	return false;
+}
+
 ItemData::~ItemData()
 {
 	if (dbeOk && dbe.pBlob) {
@@ -164,19 +177,20 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
 	}
 }
 
-bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count, ItemData::EventLoadMode mode)
+bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 {
 	if (count == -1)
 		count = MAXINT;
+
+	int numItems = getCount();
+	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
 
 	for (int i = 0; hEvent && i < count; i++) {
 		auto &p = allocateItem();
 		p.hContact = hContact;
 		p.hEvent = hEvent;
+		p.pPrev = pPrev; pPrev = &p;
 
-		if (mode != ItemData::ELM_NOTHING)
-			p.load(mode);
-		
 		hEvent = db_event_next(hContact, hEvent);
 	}
 

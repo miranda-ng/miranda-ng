@@ -10,25 +10,26 @@ struct ItemData
 		ELM_DATA
 	};
 
-	BYTE flags = 0;
-
 	MCONTACT hContact = 0;
 	MEVENT hEvent = 0;
 
-	bool dbeOk = false;
-	DBEVENTINFO dbe;
-
 	bool wtext_del = false;
-	wchar_t *wtext = 0;
+	bool bSelected = false;
+	bool dbeOk = false;
 
+	DBEVENTINFO dbe;
+	wchar_t *wtext = 0;
 	wchar_t *wszNick = 0;
 
 	HANDLE data = 0;
+	ItemData *pPrev = 0;
 
 	ItemData() { memset(&dbe, 0, sizeof(dbe)); }
 	~ItemData();
 
 	bool load(EventLoadMode mode);
+	bool isGrouped() const;
+
 	inline bool loadInline(EventLoadMode mode)
 	{
 		if (((mode >= ItemData::ELM_INFO) && !dbeOk) || ((mode == ItemData::ELM_DATA) && !dbe.pBlob))
@@ -95,8 +96,6 @@ public:
 
 enum
 {
-	HIF_SELECTED = 0x01,
-
 	FILTER_TIME = 0x01,
 	FILTER_TYPE = 0x02,
 	FILTER_DIRECTION = 0x04,
@@ -131,7 +130,7 @@ public:
 	HistoryArray();
 	~HistoryArray();
 
-	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count, ItemData::EventLoadMode mode = ItemData::ELM_NOTHING);
+	bool addEvent(MCONTACT hContact, MEVENT hEvent, int count);
 	void addChatEvent(SESSION_INFO *si, LOGINFO *pEvent);
 	void clear();
 	int  getCount() const;

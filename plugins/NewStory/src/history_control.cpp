@@ -200,7 +200,7 @@ struct NewstoryListData : public MZeroedObject
 		int fontid;
 		switch (item->dbe.eventType) {
 		case EVENTTYPE_MESSAGE:
-			tpl = TPL_MESSAGE;
+			tpl = item->isGrouped() ? TPL_MSG_GRP : TPL_MESSAGE;
 			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
 			break;
 
@@ -251,7 +251,7 @@ struct NewstoryListData : public MZeroedObject
 
 	int PaintItem(HDC hdc, int index, int top, int width)
 	{
-		ItemData *item = items.get(index, ItemData::ELM_DATA);
+		auto *item = items.get(index, ItemData::ELM_DATA);
 
 		//	LOGFONT lfText;
 		COLORREF clText, clBack, clLine;
@@ -260,7 +260,7 @@ struct NewstoryListData : public MZeroedObject
 		int colorid;
 		switch (item->dbe.eventType) {
 		case EVENTTYPE_MESSAGE:
-			tpl = TPL_MESSAGE;
+			tpl = item->isGrouped() ? TPL_MSG_GRP : TPL_MESSAGE;
 			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
 			colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
 			break;
@@ -302,7 +302,7 @@ struct NewstoryListData : public MZeroedObject
 			break;
 		}
 		clText = g_fontTable[fontid].cl;
-		if (item->flags & HIF_SELECTED) {
+		if (item->bSelected) {
 			MTextSendMessage(0, item->data, EM_SETSEL, 0, -1);
 			clText = g_colorTable[COLOR_SELTEXT].cl;
 			clLine = GetSysColor(COLOR_HIGHLIGHTTEXT);
@@ -481,7 +481,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			for (int i = start; i <= end; ++i) {
 				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
-				p->flags |= HIF_SELECTED;
+				p->bSelected = true;
 			}
 			
 			InvalidateRect(hwnd, 0, FALSE);
@@ -497,7 +497,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			for (int i = start; i <= end; ++i) {
 				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
-				p->flags ^= HIF_SELECTED;
+				p->bSelected = !p->bSelected;
 			}
 			
 			InvalidateRect(hwnd, 0, FALSE);
@@ -515,9 +515,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			for (int i = 0; i < count; ++i) {
 				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
 				if ((i >= start) && (i <= end)) 
-					p->flags |= HIF_SELECTED;
+					p->bSelected = true;
 				else
-					p->flags &= ~((DWORD)HIF_SELECTED);
+					p->bSelected = false;
 			}
 			
 			InvalidateRect(hwnd, 0, FALSE);
@@ -535,7 +535,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 			for (int i = start; i <= end; ++i) {
 				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
-				p->flags &= ~((DWORD)HIF_SELECTED);
+				p->bSelected = false;
 			}
 			
 			InvalidateRect(hwnd, 0, FALSE);
@@ -643,9 +643,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
-				ItemData *item = data->items.get(i, ItemData::ELM_NOTHING);
-				if (item->flags & HIF_SELECTED)
-					res.Append(ptrW(TplFormatString(TPL_COPY_MESSAGE, item->hContact, item)));
+				ItemData *p = data->items.get(i, ItemData::ELM_NOTHING);
+				if (p->bSelected)
+					res.Append(ptrW(TplFormatString(TPL_COPY_MESSAGE, p->hContact, p)));
 			}
 
 			CopyText(hwnd, res);
