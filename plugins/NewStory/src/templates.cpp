@@ -308,7 +308,7 @@ TemplateInfo templates[TPL_COUNT] =
 		{ vfGlobal, vfContact, 0, 0, 0 } },
 
 	{ "tpl/msglog/msg", LPGENW("Message log"), ICO_SENDMSG, LPGENW("Messages"),
-		L"%I%i[b]%N, %t:[/b]\x0d\x0a%M", 0, 0,
+	L"%I%i[b][color=red]%N[/color], %t:[/b]\x0d\x0a%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
 	{ "tpl/msglog/file", LPGENW("Message log"), ICO_FILE, LPGENW("Files"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,

@@ -49,6 +49,13 @@ static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *
 	case BBS_STRIKEOUT_E:
 		cf.dwMask = CFM_STRIKEOUT;
 		break;
+	case BBS_COLOR_S:
+		cf.dwMask = CFM_COLOR;
+		cf.dwEffects = CFE_AUTOCOLOR;
+		break;
+	case BBS_COLOR_E:
+		cf.dwMask = CFM_COLOR;
+		break;
 	}
 
 	ITextServices *ts = ftd->getTextService();
@@ -96,8 +103,8 @@ static BBCodeInfo bbCodes[] =
 	{ L"[s]", nullptr, bbCodeSimpleFunc, BBS_STRIKEOUT_S },
 	{ L"[/s]", nullptr, bbCodeSimpleFunc, BBS_STRIKEOUT_E },
 
-	//	{ L"[color=",  L"]",     bbCodeSimpleFunc, BBS_COLOR_S },
-	//	{ L"[/color]", 0,           bbCodeSimpleFunc, BBS_COLOR_E }
+	{ L"[color=",  L"]",     bbCodeSimpleFunc, BBS_COLOR_S },
+	{ L"[/color]", 0,           bbCodeSimpleFunc, BBS_COLOR_E },
 
 	{ L"[$hicon=", L"$]", bbCodeImageFunc, 0 }
 
