@@ -39,16 +39,12 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		pReq->AddHeader("Cookie", m_szCookie);
 	}
 
+	bool bRetryable = pReq->nlc != nullptr;
 	debugLogA("Executing request #%d:\n%s", pReq->m_iReqNum, pReq->szUrl);
-	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
-	if (reply != nullptr) {
-		if (pReq->m_pFunc != nullptr)
-			(this->*(pReq->m_pFunc))(reply, pReq);
 
-		if (pReq->m_bMainSite)
-			m_hAPIConnection = reply->nlc;
-	}
-	else {
+LBL_Retry:
+	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
+	if (reply == nullptr) {
 		debugLogA("Request %d failed", pReq->m_iReqNum);
 
 		if (pReq->m_bMainSite) {
@@ -56,6 +52,20 @@ void CDiscordProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				ConnectionFailed(LOGINERR_NONETWORK);
 			m_hAPIConnection = nullptr;
 		}
+
+		if (bRetryable) {
+			debugLogA("Attempt to retry request #%d", pReq->m_iReqNum);
+			pReq->nlc = nullptr;
+			bRetryable = false;
+			goto LBL_Retry;
+		}
+	}
+	else {
+		if (pReq->m_pFunc != nullptr)
+			(this->*(pReq->m_pFunc))(reply, pReq);
+
+		if (pReq->m_bMainSite)
+			m_hAPIConnection = reply->nlc;
 	}
 	delete pReq;
 }
