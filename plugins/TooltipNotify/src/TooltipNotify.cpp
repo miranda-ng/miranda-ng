@@ -86,7 +86,6 @@ void CTooltipNotify::RegisterFonts()
 	ColourIDW colorId = {};
 	wcsncpy(colorId.group, FONTSERV_GROUP, _countof(colorId.group) - 1);
 	strncpy(colorId.dbSettingsGroup, MODULENAME, _countof(colorId.dbSettingsGroup) - 1);
-	colorId.flags = 0;
 	colorId.defcolour = DEF_SETTING_BGCOLOR;
 	colorId.order = 0;
 

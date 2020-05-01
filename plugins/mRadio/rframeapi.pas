@@ -236,7 +236,6 @@ begin
       tmp:=SendMessage(wnd,CLM_GETEXSTYLE,0,0);
       SendMessage(wnd,CLM_SETEXSTYLE,tmp or CLS_EX_SHOWSELALWAYS,0);
 
-      cid.flags :=0;
       StrCopy(cid.group,cPluginName);
       StrCopy(cid.dbSettingsGroup,cPluginName);
 

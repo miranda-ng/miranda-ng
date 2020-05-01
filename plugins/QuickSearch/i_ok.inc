@@ -44,7 +44,6 @@ var
   cid:TColourID;
   i:tqscolor;
 begin
-  cid.flags :=0;
   StrCopy(cid.group,qs_module);
   StrCopy(cid.dbSettingsGroup,qs_module);
 

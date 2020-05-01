@@ -166,7 +166,6 @@ void RegisterFontServiceFonts()
 	ColourID colorid = {};
 	strncpy_s(colorid.group, SECTIONNAME, _TRUNCATE);
 	strncpy_s(colorid.dbSettingsGroup, MODULENAME, _TRUNCATE);
-	colorid.flags = 0;
 
 	for (int i = 0; i < _countof(colourOptionsList); i++) {
 		colorid.order = i;

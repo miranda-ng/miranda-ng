@@ -372,7 +372,6 @@ int AlarmWinModulesLoaded(WPARAM, LPARAM)
 	wcsncpy_s(bk_colour_id.name, LPGENW("Background"), _TRUNCATE);
 	strncpy_s(bk_colour_id.setting, "BkColour", _TRUNCATE);
 	bk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
-	bk_colour_id.flags = 0;
 	bk_colour_id.order = 0;
 
 	g_plugin.addColor(&bk_colour_id);

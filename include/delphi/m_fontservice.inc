@@ -71,8 +71,8 @@ type
     name           : array[0..63] of AnsiChar;
     dbSettingsGroup: array[0..31] of AnsiChar;
     prefix         : array[0..31] of AnsiChar;
-    flags          : dword;
     deffontsettings: TFontSettings; // defaults, if flags & FIDF_DEFAULTVALID
+    flags          : dword;
     order          : int;
     backgroundGroup:array [0..63] of AnsiChar;
     backgroundName: array [0..63] of AnsiChar;
@@ -86,8 +86,8 @@ type
     name           : array[0..63] of WideChar;
     dbSettingsGroup: array[0..31] of AnsiChar;
     prefix         : array[0..31] of AnsiChar;
-    flags          : dword;
     deffontsettings: TFontSettingsW; // defaults, if flags & FIDF_DEFAULTVALID
+    flags          : dword;
     order          : int;
     backgroundGroup:array [0..63] of WideChar;
     backgroundName: array [0..63] of WideChar;
@@ -109,7 +109,6 @@ type
     name            : array[0..63] of AnsiChar;
     dbSettingsGroup : array[0..31] of AnsiChar;
     setting         : array[0..31] of AnsiChar;
-    flags           : dword;     // not used
     defcolour       : TCOLORREF; // default value
     order           : int;
   end;
@@ -122,7 +121,6 @@ type
     name            : array[0..63] of WideChar;
     dbSettingsGroup : array[0..31] of AnsiChar;
     setting         : array[0..31] of AnsiChar;
-    flags           : dword;     // not used
     defcolour       : TCOLORREF; // default value
     order           : int;
   end;

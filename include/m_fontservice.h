@@ -15,7 +15,6 @@ struct MBaseFontObject
 	char     name[64];	// [TRANSLATED-BY-CORE]
 	char     dbSettingsGroup[32];
 	char     setting[32];
-	DWORD    flags;
 };
 
 struct MBaseFontObjectW
@@ -24,7 +23,6 @@ struct MBaseFontObjectW
 	wchar_t    name[64];
 	char       dbSettingsGroup[32];
 	char       setting[32];
-	DWORD      flags;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -87,6 +85,7 @@ struct FontSettingsW
 struct FontID : public MBaseFontObject
 {
 	FontSettings deffontsettings;  // defaults, valid if flags & FIDF_DEFAULTVALID
+	DWORD flags;                   // FIDF_* combination
 	int   order;                   // controls the order in the font group in which the fonts are listed in the UI (if order fields are equal,
 											 // they will be ordered alphabetically by name)
 	char  backgroundGroup[64];
@@ -96,6 +95,7 @@ struct FontID : public MBaseFontObject
 struct FontIDW : public MBaseFontObjectW
 {
 	FontSettingsW deffontsettings; // defaults, valid if flags & FIDF_DEFAULTVALID
+	DWORD   flags;                 // FIDF_* combination
 	int     order;                 // controls the order in the font group in which the fonts are listed in the UI (if order fields are equal,
 											 // they will be ordered alphabetically by name)
 	wchar_t backgroundGroup[64];

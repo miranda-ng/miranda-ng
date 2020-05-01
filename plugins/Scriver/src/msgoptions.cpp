@@ -105,7 +105,6 @@ void RegisterFontServiceFonts()
 	ColourIDW cid = {};
 	wcsncpy_s(cid.group, LPGENW("Messaging"), _TRUNCATE);
 	strncpy(cid.dbSettingsGroup, SRMM_MODULE, _countof(fid.dbSettingsGroup));
-	cid.flags = 0;
 	for (int i = 0; i < _countof(colourOptionsList); i++) {
 		cid.order = i;
 		wcsncpy(cid.name, colourOptionsList[i].szName, _countof(cid.name));

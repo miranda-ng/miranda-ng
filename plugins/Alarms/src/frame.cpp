@@ -567,7 +567,6 @@ int CreateFrame()
 	strncpy_s(framebk_colour_id.name, LPGEN("Alarm reminders"), _TRUNCATE);
 	strncpy_s(framebk_colour_id.setting, "clFrameBack", _TRUNCATE);
 	framebk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
-	framebk_colour_id.flags = 0;
 	framebk_colour_id.order = 0;
 	g_plugin.addColor(&framebk_colour_id);
 

@@ -63,7 +63,6 @@ bool ConvertColourID(ColourID *cid, ColourIDW *cidw)
 {
 	strncpy_s(cidw->dbSettingsGroup, cid->dbSettingsGroup, _TRUNCATE);
 	strncpy_s(cidw->setting, cid->setting, _TRUNCATE);
-	cidw->flags = cid->flags;
 	cidw->defcolour = cid->defcolour;
 	cidw->order = cid->order;
 
@@ -76,7 +75,6 @@ bool ConvertEffectID(EffectID *eid, EffectIDW *eidw)
 {
 	strncpy_s(eidw->dbSettingsGroup, eid->dbSettingsGroup, _TRUNCATE);
 	strncpy_s(eidw->setting, eid->setting, _TRUNCATE);
-	eidw->flags = eid->flags;
 	eidw->defeffect.effectIndex = eid->defeffect.effectIndex;
 	eidw->defeffect.baseColour = eid->defeffect.baseColour;
 	eidw->defeffect.secondaryColour = eid->defeffect.secondaryColour;
