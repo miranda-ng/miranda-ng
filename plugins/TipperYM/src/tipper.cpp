@@ -155,7 +155,7 @@ static void InitFonts()
 	colourSidebar.order = 0;
 	g_plugin.addColor(&colourSidebar);
 
-	fontTitle.flags = FIDF_ALLOWEFFECTS;
+	fontTitle.flags = FIDF_ALLOWEFFECTS | FIDF_DEFAULTVALID;
 	mir_wstrcpy(fontTitle.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTitle.name, LPGENW("Title"));
 	mir_strcpy(fontTitle.dbSettingsGroup, MODULENAME);
@@ -163,14 +163,12 @@ static void InitFonts()
 	mir_wstrcpy(fontTitle.backgroundGroup, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTitle.backgroundName, LPGENW("Background"));
 	fontTitle.order = 0;
-
 	fontTitle.deffontsettings.charset = DEFAULT_CHARSET;
 	fontTitle.deffontsettings.size = -14;
 	fontTitle.deffontsettings.style = DBFONTF_BOLD;
 	fontTitle.deffontsettings.colour = RGB(255, 0, 0);
-	fontTitle.flags |= FIDF_DEFAULTVALID;
 
-	fontLabels.flags = FIDF_ALLOWEFFECTS;
+	fontLabels.flags = FIDF_ALLOWEFFECTS | FIDF_DEFAULTVALID;
 	mir_wstrcpy(fontLabels.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontLabels.name, LPGENW("Labels"));
 	mir_strcpy(fontLabels.dbSettingsGroup, MODULENAME);
@@ -178,14 +176,12 @@ static void InitFonts()
 	mir_wstrcpy(fontLabels.backgroundGroup, LPGENW("Tooltips"));
 	mir_wstrcpy(fontLabels.backgroundName, LPGENW("Background"));
 	fontLabels.order = 1;
-
 	fontLabels.deffontsettings.charset = DEFAULT_CHARSET;
 	fontLabels.deffontsettings.size = -12;
 	fontLabels.deffontsettings.style = DBFONTF_ITALIC;
 	fontLabels.deffontsettings.colour = RGB(128, 128, 128);
-	fontLabels.flags |= FIDF_DEFAULTVALID;
 
-	fontValues.flags = FIDF_ALLOWEFFECTS;
+	fontValues.flags = FIDF_ALLOWEFFECTS | FIDF_DEFAULTVALID;
 	mir_wstrcpy(fontValues.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontValues.name, LPGENW("Values"));
 	mir_strcpy(fontValues.dbSettingsGroup, MODULENAME);
@@ -193,14 +189,12 @@ static void InitFonts()
 	mir_wstrcpy(fontValues.backgroundGroup, LPGENW("Tooltips"));
 	mir_wstrcpy(fontValues.backgroundName, LPGENW("Background"));
 	fontValues.order = 2;
-
 	fontValues.deffontsettings.charset = DEFAULT_CHARSET;
 	fontValues.deffontsettings.size = -12;
 	fontValues.deffontsettings.style = 0;
 	fontValues.deffontsettings.colour = RGB(0, 0, 0);
-	fontValues.flags |= FIDF_DEFAULTVALID;
 
-	fontTrayTitle.flags = FIDF_ALLOWEFFECTS;
+	fontTrayTitle.flags = FIDF_ALLOWEFFECTS | FIDF_DEFAULTVALID;
 	mir_wstrcpy(fontTrayTitle.group, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTrayTitle.name, LPGENW("Tray title"));
 	mir_strcpy(fontTrayTitle.dbSettingsGroup, MODULENAME);
@@ -208,12 +202,10 @@ static void InitFonts()
 	mir_wstrcpy(fontTrayTitle.backgroundGroup, LPGENW("Tooltips"));
 	mir_wstrcpy(fontTrayTitle.backgroundName, LPGENW("Background"));
 	fontTrayTitle.order = 0;
-
 	fontTrayTitle.deffontsettings.charset = DEFAULT_CHARSET;
 	fontTrayTitle.deffontsettings.size = -14;
 	fontTrayTitle.deffontsettings.style = DBFONTF_BOLD;
 	fontTrayTitle.deffontsettings.colour = RGB(0, 0, 0);
-	fontTrayTitle.flags |= FIDF_DEFAULTVALID;
 
 	g_plugin.addFont(&fontTitle);
 	g_plugin.addFont(&fontLabels);

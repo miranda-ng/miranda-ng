@@ -19,8 +19,8 @@ MyColourID g_colorTable[COLOR_COUNT] =
 
 MyFontID g_fontTable[FONT_COUNT] =
 {
-	{ "Incoming nick",     "FontNickIn", RGB(0xc8, 0x3f, 0x6b)    },
-	{ "Outgoing nick",     "FontNickOut", RGB(0x08, 0x60, 0xbd)  },
+	{ "Incoming nick",         "FontNickIn",   RGB(0xc8, 0x3f, 0x6b) },
+	{ "Outgoing nick",         "FontNickOut",  RGB(0x08, 0x60, 0xbd) },
 
 	{ "Incoming messages",     "FontMsgIn"   },
 	{ "Outgoing messages",     "FontMsgOut"  },
@@ -71,6 +71,7 @@ void InitFonts()
 	}
 
 	FontID fontid = {};
+	fontid.flags = FIDF_DEFAULTVALID;
 	strncpy_s(fontid.group, MODULENAME, _TRUNCATE);
 	strncpy_s(fontid.dbSettingsGroup, MODULENAME, _TRUNCATE);
 

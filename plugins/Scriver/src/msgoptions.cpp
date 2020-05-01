@@ -85,7 +85,7 @@ void RegisterFontServiceFonts()
 	wcsncpy_s(fid.group, LPGENW("Messaging"), _TRUNCATE);
 	wcsncpy_s(fid.backgroundGroup, LPGENW("Messaging"), _TRUNCATE);
 	strncpy(fid.dbSettingsGroup, SRMM_MODULE, _countof(fid.dbSettingsGroup));
-	fid.flags = FIDF_DEFAULTVALID | FIDF_DEFAULTVALID;
+	fid.flags = FIDF_DEFAULTVALID;
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		fid.order = i;
 
