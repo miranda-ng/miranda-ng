@@ -55,21 +55,10 @@ void FacebookProto::OnLoggedIn()
 
 	// if sequence is not initialized, request SID from the server
 	if (m_sid == 0) {
-		auto *pReq = CreateRequestGQL(FB_API_QUERY_SEQ_ID);
-		pReq << CHAR_PARAM("query_params", "{\"1\":\"0\"}");
-		pReq->CalcSig();
-
-		JsonReply reply(ExecuteRequest(pReq));
-		if (reply.error()) {
+		if (!RefreshSid()) {
 			ConnectionFailed();
 			return;
 		}
-
-		auto &n = reply.data()["viewer"]["message_threads"];
-		CMStringW wszSid(n["sync_sequence_id"].as_mstring());
-		setWString(DBKEY_SID, wszSid);
-		m_sid = _wtoi64(wszSid);
-		m_iUnread = n["unread_count"].as_int();
 	}
 
 	// point of no return;
@@ -197,6 +186,24 @@ int FacebookProto::RefreshContacts()
 	if (bNeedUpdate)
 		ForkThread(&FacebookProto::AvatarsUpdate);
 	return 0;
+}
+
+bool FacebookProto::RefreshSid()
+{
+	auto *pReq = CreateRequestGQL(FB_API_QUERY_SEQ_ID);
+	pReq << CHAR_PARAM("query_params", "{\"1\":\"0\"}");
+	pReq->CalcSig();
+
+	JsonReply reply(ExecuteRequest(pReq));
+	if (reply.error())
+		return false;
+
+	auto &n = reply.data()["viewer"]["message_threads"];
+	CMStringW wszSid(n["sync_sequence_id"].as_mstring());
+	setWString(DBKEY_SID, wszSid);
+	m_sid = _wtoi64(wszSid);
+	m_iUnread = n["unread_count"].as_int();
+	return true;
 }
 
 FacebookUser* FacebookProto::RefreshThread(JSONNode& n) {
@@ -563,14 +570,17 @@ void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
 
 	CMStringA errorCode = root["errorCode"].as_mstring();
 	if (!errorCode.IsEmpty()) {
-		if (!m_QueueCreated && (errorCode == "ERROR_QUEUE_OVERFLOW" || errorCode == "ERROR_QUEUE_NOT_FOUND" || errorCode == "ERROR_QUEUE_LOST" )) {
+		if (!m_QueueCreated && (errorCode == "ERROR_QUEUE_OVERFLOW" || errorCode == "ERROR_QUEUE_NOT_FOUND" || errorCode == "ERROR_QUEUE_LOST")) {
 			m_QueueCreated = true; // prevent queue creation request from being sent twice
-			m_szSyncToken.Empty();
-			delSetting(DBKEY_SYNC_TOKEN);
+			m_sid = 0;
+			delSetting(DBKEY_SID);
+			if (!RefreshSid()) {
+				ConnectionFailed();
+				return;
+			}
+
 			MqttQueueConnect();
 		}
-
-		return;
 	}
 
 	CMStringW str = root["lastIssuedSeqId"].as_mstring();

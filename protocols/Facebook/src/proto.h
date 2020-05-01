@@ -472,6 +472,7 @@ class FacebookProto : public PROTO<FacebookProto>
    void OnLoggedIn();
    void OnLoggedOut();
 
+   bool RefreshSid();
    bool RefreshToken();
    FacebookUser* RefreshThread(JSONNode& n);
    FacebookUser* RefreshThread(CMStringW& wszId);
