@@ -367,8 +367,6 @@ public:
 		
 		edtSearchText.OnChange = Callback(this, &CHistoryDlg::onChange_SearchText);
 
-		m_histControl.OnBuildMenu = Callback(this, &CHistoryDlg::OnContextMenu);
-
 		btnCopy.OnClick = Callback(this, &CHistoryDlg::onClick_Copy);
 		btnExport.OnClick = Callback(this, &CHistoryDlg::onClick_Export);
 		btnDelete.OnClick = Callback(this, &CHistoryDlg::onClick_Delete);
@@ -787,12 +785,6 @@ public:
 			PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
 	}
 
-	void OnContextMenu(CCtrlBase*)
-	{
-		RECT rc;
-		GetWindowRect(m_histControl.GetHwnd(), &rc);
-	}
-	
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if ((msg >= NSM_FIRST) && (msg < NSM_LAST)) {

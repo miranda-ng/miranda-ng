@@ -921,6 +921,14 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		delete data;
 		SetWindowLongPtr(hwnd, 0, 0);
 		break;
+
+	case WM_CONTEXTMENU:
+		{
+			HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
+			HMENU submenu = GetSubMenu(menu, 2);
+			TranslateMenu(submenu);
+		}
+		break;
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
