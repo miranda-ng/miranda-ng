@@ -51,7 +51,6 @@ enum
 	HIST_SHOW_STATUS = 0x020,
 	HIST_SHOW_OTHER = 0x040,
 	HIST_AUTO_FILTER = 0x080,
-	//HIST_TIMETREE = 0x100,
 };
 
 enum
@@ -382,7 +381,8 @@ public:
 		btnUserMenu.OnClick = Callback(this, &CHistoryDlg::onClick_UserMenu);
 		btnTimeTree.OnClick = Callback(this, &CHistoryDlg::onClick_TimeTree);
 
-		showFlags = g_plugin.getDword(m_hContact, "showFlags", 0x7f);
+		showFlags = g_plugin.getWord(m_hContact, "showFlags", 0x7f);
+		m_dwOptions = g_plugin.getDword(0, "dwOptions");
 
 		m_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 		HMENU hMenu = GetSubMenu(m_hMenu, 1);
@@ -402,10 +402,6 @@ public:
 			showFlags & HIST_SHOW_OTHER ? MF_CHECKED : MF_UNCHECKED);
 		CheckMenuItem(hMenu, ID_FILTER_AUTO,
 			showFlags & HIST_AUTO_FILTER ? MF_CHECKED : MF_UNCHECKED);
-
-		//			CheckMenuItem(hMenu, ID_LOGOPTIONS_SHOWTIMETREE,
-		//				showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
-		//			ShowWindow(GetDlgItem(m_hwnd, IDC_TIMETREE), showFlags & HIST_TIMETREE ? SW_SHOW : SW_HIDE);
 	}
 
 	bool OnInitDialog() override
@@ -527,7 +523,8 @@ public:
 
 	void OnDestroy() override
 	{
-		g_plugin.setDword(m_hContact, "showFlags", showFlags);
+		g_plugin.setWord(m_hContact, "showFlags", showFlags);
+		g_plugin.setDword(0, "dwOptions", m_dwOptions);
 	
 		Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 		Window_FreeIcon_IcoLib(m_hwnd);
@@ -745,13 +742,6 @@ public:
 		GetWindowRect(pButton->GetHwnd(), &rc);
 
 		switch (TrackPopupMenu(GetSubMenu(m_hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL)) {
-		//	case ID_LOGOPTIONS_SHOWTIMETREE:
-		//		showFlags = toggleBit(showFlags, HIST_TIMETREE);
-		//		CheckMenuItem(GetSubMenu(hMenu, 1), ID_LOGOPTIONS_SHOWTIMETREE,
-		//		showFlags&HIST_TIMETREE ? MF_CHECKED : MF_UNCHECKED);
-		//		ShowWindow(GetDlgItem(m_hwnd, IDC_TIMETREE), showFlags&HIST_TIMETREE ? SW_SHOW : SW_HIDE);
-		//		break;
-
 		case ID_LOGOPTIONS_OPTIONS:
 			g_plugin.openOptions(L"History", L"Newstory" /*, L"General" */);
 			break;
