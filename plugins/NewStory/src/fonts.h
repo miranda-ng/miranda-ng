@@ -9,9 +9,9 @@ enum
 	COLOR_OUTMSG,
 	COLOR_INFILE,
 	COLOR_OUTFILE,
-	COLOR_STATUS,
 	COLOR_INOTHER,
 	COLOR_OUTOTHER,
+	COLOR_STATUS,
 	COLOR_SELECTED,
 	COLOR_SELTEXT,
 	COLOR_COUNT
@@ -29,6 +29,8 @@ extern MyColourID g_colorTable[COLOR_COUNT];
 
 enum
 {
+	FONT_INNICK,
+	FONT_OUTNICK,
 	FONT_INMSG,
 	FONT_OUTMSG,
 	FONT_INFILE,
@@ -43,7 +45,7 @@ struct MyFontID
 {
 	const char *szName, *szSetting;
 
-	COLORREF cl;
+	COLORREF defaultValue, cl;
 	LOGFONTA lf;
 	HFONT    hfnt;
 };
