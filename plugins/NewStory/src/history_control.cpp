@@ -33,6 +33,11 @@ struct NewstoryListData : public MZeroedObject
 	HWND hwnd;
 	HWND hwndEditBox;
 
+	void OnContextMenu(int index)
+	{
+		ItemData* item = items.get(index, ItemData::ELM_DATA);
+	}
+
 	void BeginEditItem(int index)
 	{
 		if (hwndEditBox)
@@ -924,9 +929,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_CONTEXTMENU:
 		{
-			HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
-			HMENU submenu = GetSubMenu(menu, 2);
-			TranslateMenu(submenu);
+			int index = SendMessage(hwnd, NSM_GETITEMFROMPIXEL, LOWORD(lParam), HIWORD(lParam));
+			data->OnContextMenu(index);
 		}
 		break;
 	}
