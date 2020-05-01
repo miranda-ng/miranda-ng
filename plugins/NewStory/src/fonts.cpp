@@ -70,10 +70,15 @@ void InitFonts()
 		it.cl = Colour_Get(cid.group, cid.name);
 	}
 
+	LOGFONT lfDefault;
+	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
+
 	FontID fontid = {};
 	fontid.flags = FIDF_DEFAULTVALID;
 	strncpy_s(fontid.group, MODULENAME, _TRUNCATE);
 	strncpy_s(fontid.dbSettingsGroup, MODULENAME, _TRUNCATE);
+	strncpy_s(fontid.deffontsettings.szFace, _T2A(lfDefault.lfFaceName), _TRUNCATE);
+	fontid.deffontsettings.size = -12;
 
 	for (auto &it : g_fontTable) {
 		fontid.order = int(&it - g_fontTable);
