@@ -964,6 +964,10 @@ public:
 
 		opd->bInsideTab = IsInsideTab(m_currentPage);
 		if (opd->bInsideTab) {
+			// if called inside OnInitDialog, we use tab setting passed for positioning
+			// or the first tab of the current tree item
+			auto *pwszTab = (IsInitialized()) ? opd->ptszTab : m_szTab;
+
 			// Make tabbed pane
 			int pages = 0, sel = 0;
 			HWND hwndTab = GetDlgItem(m_hwnd, IDC_TAB);
@@ -983,7 +987,7 @@ public:
 				tie.pszText = TranslateW_LP(p->ptszTab, p->pPlugin);
 				tie.lParam = i;
 				TabCtrl_InsertItem(hwndTab, pages, &tie);
-				if (!mir_wstrcmp(opd->ptszTab, p->ptszTab))
+				if (!mir_wstrcmp(pwszTab, p->ptszTab))
 					sel = pages;
 				pages++;
 			}
