@@ -333,15 +333,9 @@ void CDbxMDBX::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSo
 
 bool CDbxMDBX::CheckEvent(DBCachedContact *cc, const DBEvent *cdbe, DBCachedContact *&cc2)
 {
-	// event's owner matches contactID passed? ok, nothing to care about
-	if (cdbe->dwContactID == cc->contactID) {
-		cc2 = nullptr;
-		return true;
-	}
-
-	// if cc is a sub, cdbe should be its meta
+	// if cc is a sub, cdbe should contain its id
 	if (cc->IsSub()) {
-		if (cc->parentID != cdbe->dwContactID)
+		if (cc->contactID != cdbe->dwContactID)
 			return false;
 		
 		cc2 = m_cache->GetCachedContact(cc->parentID);
@@ -357,8 +351,9 @@ bool CDbxMDBX::CheckEvent(DBCachedContact *cc, const DBEvent *cdbe, DBCachedCont
 		return (cc2->parentID == cc->contactID);
 	}
 
-	// the contactID is invalid 
-	return false;
+	// neither a sub, nor a meta. a usual contact. Contact IDs must match one another
+	cc2 = nullptr;
+	return cc->contactID == cdbe->dwContactID;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
