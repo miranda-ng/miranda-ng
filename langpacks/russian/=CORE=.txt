@@ -98,6 +98,8 @@
 Значки протоколов в системном трее
 [Contact list sorting]
 Сортировка списка контактов
+[Don't move offline user to bottom]
+Не перемещать отключённых вниз
 [Window]
 Окно
 [Always on top]
@@ -160,8 +162,6 @@
 Полупрозрачное выделение
 [Dim idle contacts]
 Затемнить неактивных пользователей
-['Hide offline' means to hide:]
-'Скрыть отключённых' - скрыть:
 [Groups]
 Группы
 [Draw a line alongside group names]
@@ -186,10 +186,10 @@
 Время:
 [milliseconds]
 мс
-[Left margin:]
-Левое поле:
 [Hide vertical scroll bar]
 Скрыть полосу прокрутки
+[Left margin:]
+Левое поле:
 [Row height:]
 Высота строки:
 [Gamma correction]
@@ -1154,6 +1154,8 @@ UIN, E-mail и т.д.
 Подтверждение удаления
 [Remove temporary contacts on exit]
 Удалять временные контакты при выходе
+['Hide offline' means to hide:]
+'Скрыть отключённых' - скрыть:
 [Hidden window]
 Скрытое окно
 [Tray]
@@ -1312,6 +1314,8 @@ Google Карты
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Глобальные
+[General]
+Общее
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
@@ -1656,8 +1660,6 @@ Google Карты
 Значки в трее
 [Popups to display]
 Всплывающие окна
-[General]
-Общее
 [Chat log]
 Журнал чата
 [Chat]
@@ -2014,10 +2016,10 @@ Miranda не смогла загрузить встроенную систему
 Вы сменили имя на %s
 [%s kicked %s]
 %s выкинул %s
-[Notice from %s: ]
-Уведомление от %s:\s
-[The topic is '%s%s']
-Тема '%s%s'
+[Notice from %s]
+Уведомление от %s
+[The topic is '%s']
+Тема '%s'
 [ (set by %s on %s)]
  (установлена %s %s)
 [ (set by %s)]
@@ -2093,8 +2095,6 @@ Miranda не смогла загрузить встроенную систему
 %s вышел из %s
 [%s kicked %s from %s]
 %s выкинул %s из %s
-[Notice from %s]
-Уведомление от %s
 [Topic change in %s]
 Смена темы в %s
 [Information in %s]
@@ -2103,20 +2103,8 @@ Miranda не смогла загрузить встроенную систему
 %s включает статус '%s' для %s в %s
 [%s disables '%s' status for %s in %s]
 %s выключает статус '%s' для %s в %s
-[%s says: %s]
-%s говорит: %s
-[%s has left (%s)]
-%s вышел (%s)
-[%s has disconnected (%s)]
-%s отключился (%s)
-[%s kicked %s (%s)]
-%s выкинул %s (%s)
-[Notice from %s: %s]
-Уведомление от %s: %s
-[The topic is '%s']
-Тема '%s'
-[The topic is '%s' (set by %s)]
-Тема '%s' (установлена %s)
+[%s says]
+%s говорит
 [Chat rooms]
 Чаты
 [Look up '%s':]
@@ -2376,6 +2364,8 @@ Win +\s
 Прочитать сообщение
 [Open Options page]
 Открыть настройки
+[Toggle groups]
+Вкл/Выкл группы
 [Open logging options]
 Настройки журналирования сети
 [Open 'Find user' dialog]

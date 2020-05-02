@@ -18,12 +18,14 @@
 Включить шифрование
 [Import key from keyserver]
 Импорт ключа с сервера ключей
-[Set own key]
-Выбор собственного ключа
+[Bind own keys to accounts]
+Привязать свои ключи к учётным записям
+[Bind]
+Привязать
 [Generate key]
 Сгенерировать
-[Select key to use]
-Выбрать ключ
+[Select own key to bind to account]
+Выберите свой ключ для привязки к учётной записи
 [Key password:]
 Пароль ключа:
 [Load other]
@@ -140,8 +142,8 @@ ID ключа:
 Автообмен ключами
 [Copy own key]
 Копир. свой ключ
-[Select own key]
-Выбрать свой ключ
+[Bind keys to accounts]
+Привязать ключи к учётным записям
 [Add tags to encoded and decoded messages]
 Добавлять метки к сообщениям
 [Incoming message tags:]

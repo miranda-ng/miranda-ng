@@ -38,8 +38,6 @@ Fingerprint NG отображает значки клиентов, исполь�
 Клиенты IRC
 [Jabber clients]
 Клиенты Jabber
-[MSN clients]
-Клиенты MSN
 [RSS clients]
 Клиенты RSS
 [VKontakte clients]
@@ -111,8 +109,6 @@ XMPP клиент
 Оверлей JGTalk
 [Jabber overlay]
 Оверлей Jabber
-[MSN overlay]
-Оверлей MSN
 [VK overlay]
 Оверлей VK
 [Skype overlay]

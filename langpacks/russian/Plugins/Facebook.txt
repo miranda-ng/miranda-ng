@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.4
+;  Version: 0.1.0.6
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -22,6 +22,8 @@
 Группа:
 [Keep messages as unread on server]
 Не помечать сообщения на сервере как прочитанные
+[Use invisible mode after login]
+Быть невидимым после входа
 [Group chats]
 Чаты
 [Enable group chats]

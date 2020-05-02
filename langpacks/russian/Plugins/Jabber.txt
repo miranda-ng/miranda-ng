@@ -688,22 +688,6 @@ Jabber ошибка
 ;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 таймаут запроса.
-[Node hierarchy]
-Иерархия узла
-[Node]
-Узел
-[Navigate]
-Переход
-[Browse all favorites]
-Обзор избранного
-[Remove all favorites]
-Удалить всё избранное
-[Registered transports]
-Транспорты
-[Browse local transports]
-Обзор локальных транспортов
-[Browse chatrooms]
-Обзор комнат чата
 [Contact Menu...]
 Меню контакта...
 [View vCard]
@@ -738,6 +722,22 @@ Jabber ошибка
 Скопировать имя
 [Copy node information]
 Скопировать информацию
+[Node hierarchy]
+Иерархия узла
+[Node]
+Узел
+[Navigate]
+Переход
+[Browse all favorites]
+Обзор избранного
+[Remove all favorites]
+Удалить всё избранное
+[Registered transports]
+Транспорты
+[Browse local transports]
+Обзор локальных транспортов
+[Browse chatrooms]
+Обзор комнат чата
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Идентификаторы
@@ -755,6 +755,9 @@ Jabber ошибка
 
 [Items request error]
 
+;file \protocols\JabberG\src\jabber_ft.cpp
+[No compatible file transfer mechanism exists]
+Не найдено ни одного совместимого механизма передачи файлов
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Ошибка запроса списка комнат с сервера.
@@ -1623,8 +1626,6 @@ S.ms
 [List Editor...]
 Редактор списков...
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer mechanism exists]
-Не найдено ни одного совместимого механизма передачи файлов
 [Protocol is offline or no JID]
 Протокол не в сети или нет JID
 [No valid OMEMO session exists]

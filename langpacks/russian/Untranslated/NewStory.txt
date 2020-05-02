@@ -1,0 +1,6 @@
+[Tokenize search string]
+[View single message]
+[Search-Filter]
+[Use custom filter...]
+[Auto search]
+[History search results]

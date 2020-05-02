@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
-;  Version: 1.0.12.4
+;  Version: 1.0.12.6
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [SecureIM plugin for Miranda NG.]
@@ -172,19 +172,23 @@ Secure IM Выключен
 Импорт открытого ключа
 [Delete public key]
 Удаление открытого ключа
-;file \plugins\SecureIM\src\language.cpp
-[SecureIM established...]
-Безопасное соединение установлено...
+;file \plugins\SecureIM\src\crypt_dll.cpp
 [Key exchange failed...]
 Обмен ключами не состоялся...
-[Key from disabled...]
-Ключ был отвергнут...
-[Sent back message received...]
-Обратное сообщение принято...
-[Sending back secure message...]
-Отправка обратного сообщения...
+[SecureIM: Error while decrypting the message, bad message length.]
+SecureIM: Ошибка при расшифровки сообщения, неправильная длина сообщения.
+[SecureIM: Error while decrypting the message, bad message CRC.]
+SecureIM: Ошибка при расшифровки сообщения, неправильная контрольная сумма сообщения.
+[SecureIM: Error while decrypting the message.]
+SecureIM: Ошибка расшифровки сообщения.
+;file \plugins\SecureIM\src\crypt_misc.cpp
+[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
+Пользователь не ответил на обмен ключами!\nВаше сообщение находится в очереди SecureIM, хотите отправить его незашифрованным?
+;file \plugins\SecureIM\src\crypt_popups.cpp
 [SecureIM disabled...]
 SecureIM выключен...
+[SecureIM established...]
+Безопасное соединение установлено...
 [Sending key...]
 Отправка ключа...
 [Key received...]
@@ -193,144 +197,6 @@ SecureIM выключен...
 Отправка сообщения...
 [Message received...]
 Сообщение принято...
-[Encrypting file:]
-Шифрование файла:
-[Decrypting file:]
-Расшифровка файла:
-[Bad key received...]
-Принят плохой ключ...
-[SecureIM: Error while decrypting the message.]
-SecureIM: Ошибка расшифровки сообщения.
-[SecureIM: Error while decrypting the message, bad message length.]
-SecureIM: Ошибка при расшифровки сообщения, неправильная длина сообщения.
-[SecureIM: Error while decrypting the message, bad message CRC.]
-SecureIM: Ошибка при расшифровки сообщения, неправильная контрольная сумма сообщения.
-[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
-Пользователь не ответил на обмен ключами!\nВаше сообщение находится в очереди SecureIM, хотите отправить его незашифрованным?
-[SecureIM not enabled! You must enable SecureIM with this user...]
-SecureIM выключен! Вы должны включить его для этого пользователя...
-[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
-Невозможно отправить шифрованное сообщение!\nПользователь сейчас не в сети, и его ключ шифрования устарел. Вы хотите отправить сообщение?\nОно будет отправлено незашифрованным!
-[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
-Плагин SecureIM не может быть загружен, потому что библиотека cryptopp.dll не найдена или неправильной версии!
-[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-SecureIM не может загрузить ключ PGP/GPG! Проверьте настройки PGP/GPG!
-[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
-SecureIM не может отправить шифрованное сообщение! Проверьте доверие к PGP/GPG ключу!
-[Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
-Невозможно отправить шифрованное сообщение!\nВы хотите отправить его?\nОно будет отправлено незашифрованным!
-[Can't change mode! Secure connection established!]
-Не могу изменить режим! Защищённое соединение установлено!
-[Can't export RSA private key!]
-Невозможно экспортировать приватный ключ RSA!
-[Can't import RSA private key!]
-Невозможно импортировать приватный ключ RSA!
-[Can't export RSA public key!]
-Невозможно экспортировать публичный ключ RSA!
-[Can't import RSA public key!]
-Невозможно импортировать публичный ключ RSA!
-[General]
-Общее
-[Nickname]
-Ник
-[User ID]
-ID пользователя
-[Name]
-Имя
-[Password is too short!]
-Слишком короткий пароль!
-[ON]
-Вкл.
-[Off]
-Откл.
-[Key ID]
-ID ключа
-[Keyrings loaded.]
-Keyrings загружены.
-[Keyrings not loaded!]
-Keyrings не загружены!
-[PGP SDK v%i.%i.%i found.]
-PGP SDK v%i.%i.%i найден.
-[PGP SDK not found!]
-PGP SDK не найден!
-[This version not supported!]
-Эта версия не поддерживается!
-[(none)]
-(нет)
-[Private key loaded.]
-Секретный ключ загружен.
-[Private key not loaded!]
-Секретный ключ не загружен!
-[The new settings will become valid when you restart Miranda NG!]
-Изменения вступят в силу после перезагрузки Miranda NG!
-[Keyrings disabled!]
-Keyrings отключены!
-[Native]
-Встроенный
-[Disabled]
-Выключен
-[Enabled]
-Включён
-[Always try]
-Всегда пытаться
-[Create SecureIM connection]
-Создать SecureIM соединение
-[Disable SecureIM connection]
-Отменить SecureIM соединение
-[Load PGP Key]
-Загрузить ключ PGP
-[Unload PGP Key]
-Выгрузить ключ PGP
-[Load GPG Key]
-Загрузить ключ GPG
-[Unload GPG Key]
-Выгрузить ключ GPG
-[Delete RSA Key]
-Удалить ключ RSA
-[SecureIM mode (Native)]
-SecureIM (по умолчанию)
-[SecureIM mode (PGP)]
-SecureIM (PGP)
-[SecureIM mode (GPG)]
-SecureIM (GPG)
-[SecureIM mode (RSA/AES)]
-SecureIM (RSA/AES)
-[SecureIM mode (RSA)]
-SecureIM (RSA)
-[SecureIM status (disabled)]
-SecureIM (выключен)
-[SecureIM status (enabled)]
-SecureIM (включён)
-[SecureIM status (always try)]
-SecureIM (всегда пытаться)
-[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
-SecureIM: Извините, невозможно расшифровать сообщение, потому что PGP/GPG не установлен. Посетите www.pgp.com или www.gnupg.org для получения подробных сведений.
-[SecureIM received unencrypted message:\n]
-SecureIM: получено незашифрованное сообщение:\n
-[SecureIM received encrypted message:\n]
-SecureIM: получено зашифрованное сообщение:\n
-[Session closed by receiving incorrect message type]
-Сессия закрыта, получен неправильный тип сообщения
-[Session closed by other side on error]
-Сессия закрыта с той стороны с ошибкой
-[Error while decoding AES message]
-Ошибка при расшифровке AES сообщения
-[Error while decoding RSA message]
-Ошибка при расшифровке RSA сообщения
-[Session closed on timeout]
-Сессия закрыта по истечению времени
-[Session closed by other side when status "disabled"]
-Сессия закрыта другой стороной, статус "отключён"
-[Session closed on error: %02x]
-Сессия закрыта с ошибкой: %02x
-[SecureIM received RSA Public Key from "%s"\n\nSHA-1: %s\n\nDo you Accept this Key?]
-Получен публичный ключ RSA от "%s"\n\nSHA-1: %s\n\nПринять?
-[SecureIM auto accepted RSA Public key from: %s uin: %s SHA-1: %s]
-Автоматически принят публичный ключ RSA от: %s UID: %s SHA-1: %s
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA-1: %s\n\nOld SHA-1: %s\n\nDo you Replace this Key?]
-Получен публичный ключ RSA от "%s"\n\nНовый SHA-1: %s\n\nСтарый SHA-1: %s\n\nЗаменить ключ?
-[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA-1: %s Old SHA-1: %s]
-Автоматически принят публичный ключ RSA от: %s uin: %s Новый SHA-1: %s Старый SHA-1: %s
 ;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 Список контактов
@@ -360,6 +226,10 @@ SecureIM: получено зашифрованное сообщение:\n
 Отправленное защищённое сообщение
 [Menu State]
 Статус в меню
+[Disabled]
+Выключен
+[Enabled]
+Включён
 [Always Try]
 Всегда пытаться
 [Overlays]
@@ -373,6 +243,26 @@ SecureIM: получено зашифрованное сообщение:\n
 [RSA/AES mode]
 Режим RSA/AES
 ;file \plugins\SecureIM\src\main.cpp
+[SecureIM mode (Native)]
+SecureIM (по умолчанию)
+[SecureIM mode (PGP)]
+SecureIM (PGP)
+[SecureIM mode (GPG)]
+SecureIM (GPG)
+[SecureIM mode (RSA/AES)]
+SecureIM (RSA/AES)
+[SecureIM mode (RSA)]
+SecureIM (RSA)
+[SecureIM status (disabled)]
+SecureIM (выключен)
+[SecureIM status (enabled)]
+SecureIM (включён)
+[SecureIM status (always try)]
+SecureIM (всегда пытаться)
+[Native]
+Встроенный
+[Always try]
+Всегда пытаться
 [SecureIM]
 SecureIM
 [Icons]
@@ -381,13 +271,23 @@ SecureIM
 Входящее шифрованное сообщение
 [Outgoing Secure Message]
 Исходящее шифрованное сообщение
+[Create SecureIM connection]
+Создать SecureIM соединение
+[Disable SecureIM connection]
+Отменить SecureIM соединение
+[Load PGP Key]
+Загрузить ключ PGP
+[Unload PGP Key]
+Выгрузить ключ PGP
+[Load GPG Key]
+Загрузить ключ GPG
+[Unload GPG Key]
+Выгрузить ключ GPG
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
+Плагин SecureIM не может быть загружен, потому что библиотека cryptopp.dll не найдена или неправильной версии!
 [SecureIM status]
 Статус шифрования
 ;file \plugins\SecureIM\src\options.cpp
-[Executable Files]
-Исполняемые файлы
-[Select GnuPG Executable]
-Выбор GnuPG выполняемых
 [ASC files]
 Файлы ASC
 [All files]
@@ -402,8 +302,54 @@ SecureIM
 Загрузка приватного ключа
 [Load Public Key File]
 Загрузка публичного ключа
+[Password is too short!]
+Слишком короткий пароль!
+[The new settings will become valid when you restart Miranda NG!]
+Изменения вступят в силу после перезагрузки Miranda NG!
+[Nickname]
+Ник
+[Account]
+Учётная запись
+[User ID]
+ID пользователя
+[Can't export RSA public key!]
+Невозможно экспортировать публичный ключ RSA!
+[Can't import RSA public key!]
+Невозможно импортировать публичный ключ RSA!
+[Name]
+Имя
+[Can't export RSA private key!]
+Невозможно экспортировать приватный ключ RSA!
+[Can't import RSA private key!]
+Невозможно импортировать приватный ключ RSA!
+[Keyrings disabled!]
+Keyrings отключены!
+[This version not supported!]
+Эта версия не поддерживается!
+[Keyrings loaded.]
+Keyrings загружены.
+[Keyrings not loaded!]
+Keyrings не загружены!
+[Private key loaded.]
+Секретный ключ загружен.
+[Private key not loaded!]
+Секретный ключ не загружен!
+[PGP SDK v%i.%i.%i found.]
+PGP SDK v%i.%i.%i найден.
+[PGP SDK not found!]
+PGP SDK не найден!
+[(none)]
+(нет)
+[Key ID]
+ID ключа
+[Executable Files]
+Исполняемые файлы
+[Select GnuPG Executable]
+Выбор GnuPG выполняемых
 [Services]
 Службы
+[General]
+Общее
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [Key Popup]
 Всплывающее окно ключа
@@ -411,6 +357,55 @@ SecureIM
 Всплывающее окно безопасности
 [Message Popup]
 Всплывающее окно сообщения
+;file \plugins\SecureIM\src\svcs_menu.cpp
+[Can't change mode! Secure connection established!]
+Не могу изменить режим! Защищённое соединение установлено!
+;file \plugins\SecureIM\src\svcs_proto.cpp
+[SecureIM received unencrypted message:\n]
+SecureIM: получено незашифрованное сообщение:\n
+[Key from disabled...]
+Ключ был отвергнут...
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+SecureIM: Извините, невозможно расшифровать сообщение, потому что PGP/GPG не установлен. Посетите www.pgp.com или www.gnupg.org для получения подробных сведений.
+[SecureIM received encrypted message:\n]
+SecureIM: получено зашифрованное сообщение:\n
+[Sending back secure message...]
+Отправка обратного сообщения...
+[Sent back message received...]
+Обратное сообщение принято...
+[Bad key received...]
+Принят плохой ключ...
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+SecureIM не может загрузить ключ PGP/GPG! Проверьте настройки PGP/GPG!
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+SecureIM не может отправить шифрованное сообщение! Проверьте доверие к PGP/GPG ключу!
+[SecureIM not enabled! You must enable SecureIM with this user...]
+SecureIM выключен! Вы должны включить его для этого пользователя...
+[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
+Невозможно отправить шифрованное сообщение!\nПользователь сейчас не в сети, и его ключ шифрования устарел. Вы хотите отправить сообщение?\nОно будет отправлено незашифрованным!
+;file \plugins\SecureIM\src\svcs_rsa.cpp
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA-1: %s Old SHA-1: %s]
+Автоматически принят публичный ключ RSA от: %s uin: %s Новый SHA-1: %s Старый SHA-1: %s
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA-1: %s]
+Автоматически принят публичный ключ RSA от: %s UID: %s SHA-1: %s
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA-1: %s\n\nOld SHA-1: %s\n\nDo you Replace this Key?]
+Получен публичный ключ RSA от "%s"\n\nНовый SHA-1: %s\n\nСтарый SHA-1: %s\n\nЗаменить ключ?
+[SecureIM received RSA Public Key from "%s"\n\nSHA-1: %s\n\nDo you Accept this Key?]
+Получен публичный ключ RSA от "%s"\n\nSHA-1: %s\n\nПринять?
+[Session closed by receiving incorrect message type]
+Сессия закрыта, получен неправильный тип сообщения
+[Session closed by other side on error]
+Сессия закрыта с той стороны с ошибкой
+[Error while decoding AES message]
+Ошибка при расшифровке AES сообщения
+[Error while decoding RSA message]
+Ошибка при расшифровке RSA сообщения
+[Session closed on timeout]
+Сессия закрыта по истечению времени
+[Session closed by other side when status "disabled"]
+Сессия закрыта другой стороной, статус "отключён"
+[Session closed on error: %02x]
+Сессия закрыта с ошибкой: %02x
 ;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
 SecureIM(по умолчанию)

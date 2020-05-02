@@ -769,33 +769,6 @@ BBCode ([b][i][u])
 Фильтр событий - щелчок правой кнопкой для настройки, левой - вкл/выкл
 [Channel manager]
 Управление каналом
-;file \plugins\TabSRMM\src\chat_log.cpp
-[%s has joined]
-%s вошёл
-[You have joined %s]
-Вы пришли на '%s'
-[%s has left]
-%s вышел
-[%s has disconnected]
-%s отключился
-[%s is now known as %s]
-%s сменил имя на %s
-[You are now known as %s]
-Вы сменили имя на %s
-[%s kicked %s]
-%s выкинул %s
-[Notice from %s: ]
-Уведомление от %s:\s
-[The topic is '%s%s']
-Тема '%s%s'
-[ (set by %s on %s)]
- (установлено %s %s)
-[ (set by %s)]
- (установлена %s)
-[%s enables '%s' status for %s]
-%s включает статус '%s' для %s
-[%s disables '%s' status for %s]
-%s выключает статус '%s' для %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Беседы
@@ -1122,6 +1095,8 @@ ID текущего контакта (если определён). Наприм
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Беседа...
+[Message from %s]
+Сообщение от %s
 [Default container]
 Контейнер по умолчанию
 [Attach to]
@@ -1287,8 +1262,6 @@ TabSRMM: набор текста
 Настройки &бесед...
 [&Send later job list...]
 Задачи для &отправки с задержкой...
-[Message from %s]
-Сообщение от %s
 [signed off.]
 отключён(а).
 [signed on and is now %s.]
@@ -1611,6 +1584,12 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Использовать одно и то же положение разделителя для всех сессий
 [Automatically copy selected text]
 Автоматически копировать выделенный текст
+[Template set editor]
+Редактор шаблонов
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Удаление всех шаблонов и сброс на шаблоны по умолчанию. Вы уверены, что хотите этого?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Шаблоны сброшены. Пожалуйста, закройте и откройте снова все окна сообщений. Это окно сейчас будет закрыто.
 [Message log appearance]
 Внешний вид журнала
 [Support for external plugins]
@@ -1894,12 +1873,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Отправленное сгруппированное (середина)
 [Error message]
 Сообщение об ошибке
-[Template set editor]
-Редактор шаблонов
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Удаление всех шаблонов и сброс на шаблоны по умолчанию. Вы уверены, что хотите этого?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Шаблоны сброшены. Пожалуйста, закройте и откройте снова все окна сообщений. Это окно сейчас будет закрыто.
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 Темы TabSRMM

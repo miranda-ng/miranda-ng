@@ -1,0 +1,327 @@
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.0.0.4
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Просмотрщик истории для Miranda NG.
+;file \plugins\NewStory\res\resource.rc
+[Search history]
+Поиск в истории
+[Cancel]
+Отмена
+[Search for:]
+Найти:
+[Search in:]
+Найти в:
+[Match case]
+Учитывать регистр
+[Tokenize search string]
+
+[View single message]
+
+[Close]
+Закрыть
+[Sample text. With smileys: :) :D and hyperlinks: https://www.miranda-ng.org]
+Пример текста. Со смайлами: :) D: и ссылками: https://www.miranda-ng.org
+[Messages]
+Сообщения
+[Files]
+Файлы
+[Total]
+Всего
+[Incoming]
+Входящие
+[Outgoing]
+Исходящие
+[URLs]
+Ссылки
+[since]
+с
+[till]
+по
+[Group messages]
+Группировать сообщения
+[Log window]
+Окно журнала
+[Template list:]
+Список шаблонов:
+[Edit template:]
+Изменить шаблон:
+[Text preview:]
+Текстовый предпросмотр:
+[Graphic preview:]
+Графический предпросмотр:
+[Message filter]
+Фильтр сообщений
+[By direction]
+По направлению
+[Incoming events]
+Входящие события
+[Outgoing events]
+Исходящие события
+[By type]
+По типу
+[File transfers]
+Передача файлов
+[URL events]
+Ссылки
+[Status changes]
+Смены статуса
+[Other events]
+Прочие события
+[Other]
+Другое
+[Search-Filter]
+
+[By date]
+По дате
+[Since]
+С
+[Until]
+По
+[Export]
+Экспортировать
+[Save as...]
+Сохранить как...
+[Save selected as...]
+Сохранить выделенное как...
+[Filter]
+Фильтр
+[Show all events]
+Показать все события
+[Show incoming events only]
+Показать только входящие события
+[Show outgoing events only]
+Показать только исходящие события
+[Use custom filter...]
+
+[Show messages]
+Сообщения
+[Show file transfers]
+Показать передачу файлов
+[Show URLs]
+Показать ссылки
+[Show sign in/out events]
+Показать события входа/выхода
+[Show other events]
+Показать прочие события
+[Auto search]
+
+[Log options]
+Настройки журнала
+[Options...]
+Настройки...
+[Templates...]
+Шаблоны...
+[Copy]
+Копировать
+[Delete]
+Удалить
+[Select all]
+Выделить всё
+;file \plugins\NewStory\src\history.cpp
+[FirstName]
+Имя
+[LastName]
+Фамилия
+[e-mail]
+Почта
+[Nick]
+Ник
+[Age]
+Возраст
+[Gender]
+Пол
+[City]
+Город
+[State]
+Штат
+[Phone]
+Телефон
+[Homepage]
+Сайт
+[About]
+Информация
+[History search results]
+Результаты поиска в истории
+[System history]
+Системная история
+[Export...]
+Экспортировать...
+[Delete...]
+Удалить...
+[Search...]
+Найти...
+[Options]
+Настройки
+[Send message]
+Отправить сообщение
+[Jump to date]
+Перейти к дате
+[User info]
+О пользователе
+[User menu]
+Меню пользователя
+[Find next]
+Найти дальше
+[Find previous]
+Найти предыдущее
+[Conversations]
+Беседы
+[It is metacontact. For export use one of this subcontacts:\r\n%s]
+Это метаконтакт. Для экспорта выберите один из его субконтактов:\r\n%s
+[Export warning]
+Предупреждение экспорта
+[JSON files]
+Файлы JSON
+[Export %s history]
+Экспорт истории %s
+[Complete]
+Готово
+[History export]
+Экспорт истории
+;file \plugins\NewStory\src\history_control.cpp
+[Are you sure to remove all events from history?]
+Уверены, что хотите удалить все события из истории?
+;file \plugins\NewStory\src\main.cpp
+[Main icon]
+Основной значок
+[Search]
+Найти
+[Incoming message]
+Входящее сообщение
+[Outgoing message]
+Исходящее сообщение
+[User signed in]
+Пользователь вошёл
+[File]
+Файл
+[URL]
+Ссылка
+[Unknown event]
+Неизвестное событие
+[Template group]
+Группа шаблонов
+[Reset]
+Сброс
+[Update preview]
+Обновить предпросмотр
+[Help]
+Помощь
+[User history]
+История пользователя
+;file \plugins\NewStory\src\options.cpp
+[Reset to default]
+Сбросить к состоянию по умолчанию
+[Cancel edit]
+Отменить текущие изменения
+[Variables help]
+Помощь по переменным
+[simply % character]
+символ %
+[a "hard" line break (cr/lf - will break indent)]
+"жёсткий" перенос строки (cr/lf - сломает отступ)
+[my nickname]
+собственное имя
+[buddy\'s nickname]
+имя собеседника
+[event count]
+количество событий
+[icon]
+значок
+[direction icon]
+значок направления
+[direction symbol]
+символ направления
+[timestamp]
+отметка времени
+[hour (24 hour format, 0-23)]
+часы (24-часовой формат, 0-23)
+[hour (12 hour format)]
+часы (12-часовой формат)
+[minute]
+минуты
+[second]
+секунды
+[month]
+месяц
+[day of month]
+день месяца
+[year (4 digits)]
+год (4 цифры)
+[day of week (Sunday, Monday... translatable)]
+день недели (воскресенье, понедельник...)
+[AM/PM symbol]
+AM/PM symbol
+[name of month, translatable]
+название месяца
+[the message string itself]
+текст сообщения
+[History]
+История
+[Templates]
+Шаблоны
+[Advanced]
+Дополнительно
+;file \plugins\NewStory\src\templates.cpp
+[Sunday]
+Воскресенье
+[Monday]
+Понедельник
+[Tuesday]
+Вторник
+[Wednesday]
+Среда
+[Thursday]
+Четверг
+[Friday]
+Пятница
+[Saturday]
+Суббота
+[January]
+Январь
+[February]
+Февраль
+[March]
+Март
+[April]
+Апрель
+[May]
+Май
+[June]
+Июнь
+[July]
+Июль
+[August]
+Август
+[September]
+Сентябрь
+[October]
+Октябрь
+[November]
+Ноябрь
+[December]
+Декабрь
+[System event]
+Системное событие
+[Interface]
+Интерфейс
+[Window title]
+Заголовок окна
+[Message log]
+Журнал
+[Grouped messages]
+Сгруппированные сообщения
+[Presence requests]
+Запросы присутствия
+[Authorization requests]
+Запросы авторизации
+['You were added' events]
+События 'Вас добавили'
+['You were deleted' events]
+События 'Вас удалили'
+[Clipboard]
+Буфер обмена
