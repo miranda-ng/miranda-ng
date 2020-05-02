@@ -68,7 +68,7 @@ public:
 		gpreview(this, IDC_GPREVIEW),
 		btnReset(this, IDC_RESET, Skin_LoadIcon(SKINICON_OTHER_UNDO), LPGEN("Reset to default")),
 		btnDiscard(this, IDC_DISCARD, g_plugin.getIcon(ICO_RESET), LPGEN("Cancel edit")),
-		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(ICO_VARHELP), LPGEN("Help on variables")),
+		bthVarHelp(this, IDC_VARHELP, g_plugin.getIcon(ICO_VARHELP), LPGEN("Variables help")),
 		btnPreview(this, IDC_UPDATEPREVIEW, g_plugin.getIcon(ICO_PREVIEW), LPGEN("Update preview"))
 	{
 		btnReset.OnClick = Callback(this, &CTemplateOptsDlg::onClick_Reset);
@@ -176,9 +176,9 @@ public:
 		CMStringW wszVarHelp;
 		wszVarHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
 			L"%%", TranslateT("simply % character"),
-			L"%n", TranslateT("line break"),
-			L"%S", TranslateT("my nick"),
-			L"%N", TranslateT("buddy\'s nick"),
+			L"%n", TranslateT("a \"hard\" line break (cr/lf - will break indent)"),
+			L"%S", TranslateT("my nickname"),
+			L"%N", TranslateT("buddy\'s nickname"),
 			L"%c", TranslateT("event count"),
 			L"%I", TranslateT("icon"),
 			L"%i", TranslateT("direction icon"),
@@ -190,7 +190,7 @@ public:
 			L"%s", TranslateT("second"),
 			L"%o", TranslateT("month"),
 			L"%d", TranslateT("day of month"),
-			L"%y", TranslateT("year"),
+			L"%y", TranslateT("year (4 digits)"),
 			L"%w", TranslateT("day of week (Sunday, Monday... translatable)"),
 			L"%p", TranslateT("AM/PM symbol"),
 			L"%O", TranslateT("name of month, translatable"),

@@ -109,7 +109,7 @@ END
 
 IDD_HISTORY DIALOGEX 0, 0, 380, 319
 STYLE DS_SETFONT | DS_NOIDLEMSG | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "NewStory - new history for Miranda NG"
+CAPTION ""
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_USERINFO,"MButtonClass",WS_TABSTOP,0,99,16,14
@@ -378,7 +378,7 @@ BEGIN
         MENUITEM "Options...",                  ID_LOGOPTIONS_OPTIONS
         MENUITEM "Templates...",                ID_LOGOPTIONS_TEMPLATES
     END
-    POPUP "Context"
+    POPUP ""
     BEGIN
         MENUITEM "Cancel",                      ID_CONTEXT_CANCEL
         MENUITEM SEPARATOR

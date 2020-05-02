@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "NewStory"
 #define __FILENAME               "NewStory.dll"
-#define __DESCRIPTION            "New history plugin for Miranda NG."
+#define __DESCRIPTION            "History viewer for Miranda NG."
 #define __AUTHOR                 "nullbie"
 #define __AUTHORWEB              "https://miranda-ng.org/p/NewStory/"
 #define __COPYRIGHT              "© 2005 Victor Pavlychko, 2018-20 Miranda NG team"

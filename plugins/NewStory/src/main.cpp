@@ -64,7 +64,7 @@ static IconItem icons[] =
 	{ LPGEN("Find previous"),     "findprev",  ICO_FINDPREV   },
 	{ LPGEN("Find next"),         "findnext",  ICO_FINDNEXT   },
 	{ LPGEN("Jump to date"),      "calendar",  ICO_CALENDAR   },
-	{ LPGEN("Time tree"),         "timetree",  ICO_TIMETREE   },
+	{ LPGEN("Conversations"),     "timetree",  ICO_TIMETREE   },
 
 	{ LPGEN("Template group"),    "tplgroup",  ICO_TPLGROUP   },
 	{ LPGEN("Reset"),             "reset",     ICO_RESET      },

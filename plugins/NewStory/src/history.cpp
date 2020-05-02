@@ -361,7 +361,7 @@ public:
 		btnUserMenu(this, IDC_USERMENU, g_plugin.getIcon(ICO_USERMENU), LPGEN("User menu")),
 		btnFindNext(this, IDC_FINDNEXT, g_plugin.getIcon(ICO_FINDNEXT), LPGEN("Find next")),
 		btnFindPrev(this, IDC_FINDPREV, g_plugin.getIcon(ICO_FINDPREV), LPGEN("Find previous")),
-		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(ICO_TIMETREE), LPGEN("Time tree"))
+		btnTimeTree(this, IDC_TIMETREE, g_plugin.getIcon(ICO_TIMETREE), LPGEN("Conversations"))
 	{
 		m_timeTree.OnSelChanged = Callback(this, &CHistoryDlg::onSelChanged_TimeTree);
 		
@@ -585,7 +585,7 @@ public:
 					SubContactsList.AppendFormat(L"\r\n%s", subid);
 				FirstTime = false;
 			}
-			MessageText.AppendFormat(TranslateT("It is MetaContact. For export use one of this subcontacts:\r\n%s"), SubContactsList.c_str());
+			MessageText.AppendFormat(TranslateT("It is metacontact. For export use one of this subcontacts:\r\n%s"), SubContactsList.c_str());
 			MessageBox(m_hwnd, MessageText, TranslateT("Export warning"), MB_OK | MB_ICONWARNING);
 			return;
 		}
