@@ -103,7 +103,7 @@ BEGIN
     DEFPUSHBUTTON   "Close",IDCANCEL,167,149,50,17
     EDITTEXT        IDC_USERNICK,28,9,189,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     ICON            "",IDC_MSGICON,7,7,16,14
-    CONTROL         "Sample text. With smileys: :) :D and hyperlinks: https://www.miranda-ng.org/",IDC_TEXT,
+    CONTROL         "Sample text. With smileys: :) :D and hyperlinks: https://www.miranda-ng.org",IDC_TEXT,
                     "MTextControl",WS_TABSTOP,7,26,210,118
 END
 
