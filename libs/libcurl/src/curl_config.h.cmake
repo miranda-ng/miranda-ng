@@ -1,3 +1,24 @@
+/***************************************************************************
+ *                                  _   _ ____  _
+ *  Project                     ___| | | |  _ \| |
+ *                             / __| | | | |_) | |
+ *                            | (__| |_| |  _ <| |___
+ *                             \___|\___/|_| \_\_____|
+ *
+ * Copyright (C) 1998 - 2020, Daniel Stenberg, <daniel@haxx.se>, et al.
+ *
+ * This software is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution. The terms
+ * are also available at https://curl.haxx.se/docs/copyright.html.
+ *
+ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+ * copies of the Software, and permit persons to whom the Software is
+ * furnished to do so, under the terms of the COPYING file.
+ *
+ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+ * KIND, either express or implied.
+ *
+ ***************************************************************************/
 /* lib/curl_config.h.in.  Generated somehow by cmake.  */
 
 /* when building libcurl itself */
@@ -41,6 +62,9 @@
 
 /* to disable LDAPS */
 #cmakedefine CURL_DISABLE_LDAPS 1
+
+/* to enable MQTT */
+#undef CURL_ENABLE_MQTT
 
 /* to disable POP3 */
 #cmakedefine CURL_DISABLE_POP3 1
@@ -144,9 +168,6 @@
 
 /* Define to 1 if you have the <crypto.h> header file. */
 #cmakedefine HAVE_CRYPTO_H 1
-
-/* Define to 1 if you have the <des.h> header file. */
-#cmakedefine HAVE_DES_H 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #cmakedefine HAVE_DLFCN_H 1
@@ -944,6 +965,9 @@ ${SIZEOF_TIME_T_CODE}
 
 /* if BearSSL is enabled */
 #cmakedefine USE_BEARSSL 1
+
+/* if WolfSSL is enabled */
+#cmakedefine USE_WOLFSSL 1
 
 /* if libSSH2 is in use */
 #cmakedefine USE_LIBSSH2 1

@@ -7,7 +7,7 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 2018 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 2018 - 2020, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
@@ -99,7 +99,7 @@ DOHcode doh_encode(const char *host,
                    unsigned char *dnsp, /* buffer */
                    size_t len,  /* buffer size */
                    size_t *olen); /* output length */
-DOHcode doh_decode(unsigned char *doh,
+DOHcode doh_decode(const unsigned char *doh,
                    size_t dohlen,
                    DNStype dnstype,
                    struct dohentry *d);

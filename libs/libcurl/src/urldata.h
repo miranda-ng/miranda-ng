@@ -49,6 +49,7 @@
 #define PORT_RTMPT PORT_HTTP
 #define PORT_RTMPS PORT_HTTPS
 #define PORT_GOPHER 70
+#define PORT_MQTT 1883
 
 #define DICT_MATCH "/MATCH:"
 #define DICT_MATCH2 "/M:"
@@ -128,6 +129,7 @@ typedef ssize_t (Curl_recv)(struct connectdata *conn, /* connection data */
 #include "http.h"
 #include "rtsp.h"
 #include "smb.h"
+#include "mqtt.h"
 #include "wildcard.h"
 #include "multihandle.h"
 #include "quic.h"
@@ -258,6 +260,8 @@ struct ssl_config_data {
   BIT(enable_beast); /* allow this flaw for interoperability's sake*/
   BIT(no_revoke);    /* disable SSL certificate revocation checks */
   BIT(no_partialchain); /* don't accept partial certificate chains */
+  BIT(revoke_best_effort); /* ignore SSL revocation offline/missing revocation
+                              list errors */
 };
 
 struct ssl_general_config {
@@ -957,6 +961,7 @@ struct connectdata {
   curl_socket_t sock[2]; /* two sockets, the second is used for the data
                             transfer when doing FTP */
   curl_socket_t tempsock[2]; /* temporary sockets for happy eyeballs */
+  int tempfamily[2]; /* family used for the temp sockets */
   Curl_recv *recv[2];
   Curl_send *send[2];
 
@@ -1078,6 +1083,7 @@ struct connectdata {
     struct smb_conn smbc;
     void *rtmp;
     struct ldapconninfo *ldapc;
+    struct mqtt_conn mqtt;
   } proto;
 
   int cselect_bits; /* bitmask of socket events */
@@ -1098,7 +1104,7 @@ struct connectdata {
   struct http_connect_state *connect_state; /* for HTTP CONNECT */
   struct connectbundle *bundle; /* The bundle we are member of */
   int negnpn; /* APLN or NPN TLS negotiated protocol, CURL_HTTP_VERSION* */
-
+  int retrycount; /* number of retries on a new connection */
 #ifdef USE_UNIX_SOCKETS
   char *unix_domain_socket;
   BIT(abstract_unix_socket);
@@ -1113,6 +1119,8 @@ struct connectdata {
                               handle */
   BIT(sock_accepted); /* TRUE if the SECONDARYSOCKET was created with
                          accept() */
+  BIT(parallel_connect); /* set TRUE when a parallel connect attempt has
+                            started (happy eyeballs) */
 };
 
 /* The end of connectdata. */
@@ -1325,7 +1333,6 @@ struct urlpieces {
 };
 
 struct UrlState {
-
   /* Points to the connection cache */
   struct conncache *conn_cache;
 

@@ -246,10 +246,6 @@
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
 
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
-
 /* Define if you have the strcasecmp function. */
 /* #define HAVE_STRCASECMP 1 */
 
@@ -717,21 +713,21 @@ Vista
 #  define CURL_DISABLE_LDAP 1
 #endif
 
-/* if SSL is enabled */
-#define USE_OPENSSL 1
-
 /* Define to use the Windows crypto library. */
 #if !defined(CURL_WINDOWS_APP)
 #define USE_WIN32_CRYPTO
 #endif
 
 /* Define to use Unix sockets. */
-#if defined(_MSC_VER) && (_MSC_VER >= 1500)
-/* sdkddkver.h first shipped with Platform SDK v6.0A included with VS2008 */
-#include <sdkddkver.h>
-#if defined(NTDDI_WIN10_RS4)
 #define USE_UNIX_SOCKETS
-#endif
+#if !defined(UNIX_PATH_MAX)
+  /* Replicating logic present in afunix.h of newer Windows 10 SDK versions */
+# define UNIX_PATH_MAX 108
+# include <ws2tcpip.h>
+  typedef struct sockaddr_un {
+    ADDRESS_FAMILY sun_family;
+    char sun_path[UNIX_PATH_MAX];
+  } SOCKADDR_UN, *PSOCKADDR_UN;
 #endif
 
 /* ---------------------------------------------------------------- */

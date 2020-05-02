@@ -48,6 +48,8 @@
 
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
+#elif defined(HAVE_UNISTD_H)
+#include <unistd.h>
 #endif
 
 #ifndef HAVE_SOCKET
@@ -568,17 +570,20 @@ static CURLcode readwrite_data(struct Curl_easy *data,
     bool is_empty_data = FALSE;
     size_t buffersize = data->set.buffer_size;
     size_t bytestoread = buffersize;
+#ifdef USE_NGHTTP2
+    bool is_http2 = ((conn->handler->protocol & PROTO_FAMILY_HTTP) &&
+                     (conn->httpversion == 20));
+#endif
 
     if(
-#if defined(USE_NGHTTP2)
+#ifdef USE_NGHTTP2
        /* For HTTP/2, read data without caring about the content
           length. This is safe because body in HTTP/2 is always
           segmented thanks to its framing layer. Meanwhile, we have to
           call Curl_read to ensure that http2_handle_stream_close is
           called when we read all incoming bytes for a particular
           stream. */
-       !((conn->handler->protocol & PROTO_FAMILY_HTTP) &&
-         conn->httpversion == 20) &&
+       !is_http2 &&
 #endif
        k->size != -1 && !k->header) {
       /* make sure we don't read too much */
@@ -621,9 +626,14 @@ static CURLcode readwrite_data(struct Curl_easy *data,
       k->buf[nread] = 0;
     }
     else {
-      /* if we receive 0 or less here, the server closed the connection
-         and we bail out from this! */
-      DEBUGF(infof(data, "nread <= 0, server closed connection, bailing\n"));
+      /* if we receive 0 or less here, either the http2 stream is closed or the
+         server closed the connection and we bail out from this! */
+#ifdef USE_NGHTTP2
+      if(is_http2 && !nread)
+        DEBUGF(infof(data, "nread == 0, stream closed, bailing\n"));
+      else
+#endif
+        DEBUGF(infof(data, "nread <= 0, server closed connection, bailing\n"));
       k->keepon &= ~KEEP_RECV;
       break;
     }
@@ -1707,12 +1717,19 @@ CURLcode Curl_follow(struct Curl_easy *data,
     break;
 
   case 303: /* See Other */
-    /* Disable both types of POSTs, unless the user explicitly
-       asks for POST after POST */
-    if(data->set.httpreq != HTTPREQ_GET
-      && !(data->set.keep_post & CURL_REDIR_POST_303)) {
-      data->set.httpreq = HTTPREQ_GET; /* enforce GET request */
-      infof(data, "Disables POST, goes with %s\n",
+    /* 'See Other' location is not the resource but a substitute for the
+     * resource. In this case we switch the method to GET/HEAD, unless the
+     * method is POST and the user specified to keep it as POST.
+     * https://github.com/curl/curl/issues/5237#issuecomment-614641049
+     */
+    if(data->set.httpreq != HTTPREQ_GET &&
+       ((data->set.httpreq != HTTPREQ_POST &&
+         data->set.httpreq != HTTPREQ_POST_FORM &&
+         data->set.httpreq != HTTPREQ_POST_MIME) ||
+        !(data->set.keep_post & CURL_REDIR_POST_303))) {
+      data->set.httpreq = HTTPREQ_GET;
+      data->set.upload = false;
+      infof(data, "Switch to %s\n",
             data->set.opt_no_body?"HEAD":"GET");
     }
     break;
@@ -1779,6 +1796,12 @@ CURLcode Curl_retry_request(struct connectdata *conn,
     retry = TRUE;
   }
   if(retry) {
+#define CONN_MAX_RETRIES 5
+    if(conn->retrycount++ >= CONN_MAX_RETRIES) {
+      failf(data, "Connection died, tried %d times before giving up",
+            CONN_MAX_RETRIES);
+      return CURLE_SEND_ERROR;
+    }
     infof(conn->data, "Connection died, retrying a fresh connect\n");
     *url = strdup(conn->data->change.url);
     if(!*url)
@@ -1821,15 +1844,21 @@ Curl_setup_transfer(
 {
   struct SingleRequest *k = &data->req;
   struct connectdata *conn = data->conn;
+  struct HTTP *http = data->req.protop;
+  bool httpsending = ((conn->handler->protocol&PROTO_FAMILY_HTTP) &&
+                      (http->sending == HTTPSEND_REQUEST));
   DEBUGASSERT(conn != NULL);
   DEBUGASSERT((sockindex <= 1) && (sockindex >= -1));
 
-  if(conn->bits.multiplex || conn->httpversion == 20) {
+  if(conn->bits.multiplex || conn->httpversion == 20 || httpsending) {
     /* when multiplexing, the read/write sockets need to be the same! */
     conn->sockfd = sockindex == -1 ?
       ((writesockindex == -1 ? CURL_SOCKET_BAD : conn->sock[writesockindex])) :
       conn->sock[sockindex];
     conn->writesockfd = conn->sockfd;
+    if(httpsending)
+      /* special and very HTTP-specific */
+      writesockindex = FIRSTSOCKET;
   }
   else {
     conn->sockfd = sockindex == -1 ?
@@ -1857,7 +1886,6 @@ Curl_setup_transfer(
       k->keepon |= KEEP_RECV;
 
     if(writesockindex != -1) {
-      struct HTTP *http = data->req.protop;
       /* HTTP 1.1 magic:
 
          Even if we require a 100-return code before uploading data, we might
