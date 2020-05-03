@@ -112,16 +112,37 @@
 
 [Log options]
 Настройки журнала
-[Options...]
-Настройки...
-[Templates...]
-Шаблоны...
+[Options]
+Настройки
+[Templates]
+Шаблоны
 [Copy]
 Копировать
 [Delete]
 Удалить
 [Select all]
 Выделить всё
+;file \plugins\NewStory\src\fonts.cpp
+[Incoming messages]
+Входящие сообщения
+[Outgoing messages]
+Исходящие сообщения
+[Incoming files]
+Входящие файлы
+[Outgoing files]
+Исходящие файлы
+[Other incoming events]
+Прочие входящие события
+[Other outgoing events]
+Прочие исходящие события
+[Selected items]
+Выделенные элементы
+[Selected items (text)]
+Выделенные элементы (текст)
+[Incoming nick]
+Входящий ник
+[Outgoing nick]
+Исходящий ник
 ;file \plugins\NewStory\src\history.cpp
 [FirstName]
 Имя
@@ -155,8 +176,6 @@
 Удалить...
 [Search...]
 Найти...
-[Options]
-Настройки
 [Send message]
 Отправить сообщение
 [Jump to date]
@@ -262,8 +281,6 @@ AM/PM symbol
 текст сообщения
 [History]
 История
-[Templates]
-Шаблоны
 [Advanced]
 Дополнительно
 ;file \plugins\NewStory\src\templates.cpp
