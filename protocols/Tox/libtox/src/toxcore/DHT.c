@@ -2721,6 +2721,11 @@ DHT *new_dht(const Logger *log, Mono_Time *mono_time, Networking_Core *net, bool
     dht->dht_ping_array = ping_array_new(DHT_PING_ARRAY_SIZE, PING_TIMEOUT);
     dht->dht_harden_ping_array = ping_array_new(DHT_PING_ARRAY_SIZE, PING_TIMEOUT);
 
+    if (dht->dht_ping_array == nullptr || dht->dht_harden_ping_array == nullptr) {
+        kill_dht(dht);
+        return nullptr;
+    }
+
     for (uint32_t i = 0; i < DHT_FAKE_FRIEND_NUMBER; ++i) {
         uint8_t random_public_key_bytes[CRYPTO_PUBLIC_KEY_SIZE];
         uint8_t random_secret_key_bytes[CRYPTO_SECRET_KEY_SIZE];
@@ -2924,7 +2929,7 @@ static State_Load_Status dht_load_state_callback(void *outer, const uint8_t *dat
         }
 
         default:
-            LOGGER_ERROR(dht->log, "Load state (DHT): contains unrecognized part (len %u, type %u)\n",
+            LOGGER_ERROR(dht->log, "Load state (DHT): contains unrecognized part (len %u, type %u)",
                          length, type);
             break;
     }

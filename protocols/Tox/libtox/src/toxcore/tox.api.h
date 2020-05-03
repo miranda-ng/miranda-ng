@@ -14,6 +14,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+//!TOKSTYLE-
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -167,7 +169,7 @@ const VERSION_MINOR                = 2;
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-const VERSION_PATCH                = 11;
+const VERSION_PATCH                = 12;
 
 /**
  * A macro to check at preprocessing time whether the client code is compatible
@@ -854,7 +856,7 @@ enum class CONNECTION {
 }
 
 
-inline namespace self {
+namespace self {
 
   CONNECTION connection_status {
     /**
@@ -908,7 +910,7 @@ void iterate(any user_data);
  ******************************************************************************/
 
 
-inline namespace self {
+namespace self {
 
   uint8_t[ADDRESS_SIZE] address {
     /**
@@ -986,7 +988,7 @@ error for set_info {
 }
 
 
-inline namespace self {
+namespace self {
 
   uint8_t[length <= MAX_NAME_LENGTH] name {
     /**
@@ -1226,7 +1228,7 @@ namespace friend {
 
 }
 
-inline namespace self {
+namespace self {
 
   uint32_t[size] friend_list {
     /**
@@ -1514,8 +1516,14 @@ namespace friend {
  *
  ******************************************************************************/
 
+error for set_typing {
+  /**
+   * The friend number did not designate a valid friend.
+   */
+  FRIEND_NOT_FOUND,
+}
 
-inline namespace self {
+namespace self {
 
   bool typing {
     /**
@@ -1528,12 +1536,7 @@ inline namespace self {
      *
      * @return true on success.
      */
-    set(uint32_t friend_number) {
-      /**
-       * The friend number did not designate a valid friend.
-       */
-      FRIEND_NOT_FOUND,
-    }
+    set(uint32_t friend_number) with error for set_typing;
   }
 
 }
@@ -2279,9 +2282,9 @@ namespace conference {
   namespace peer {
 
     /**
-     * Return the number of online peers in the conference. The unsigned 
-     * integers less than this number are the valid values of peer_number for 
-     * the functions querying these peers. Return value is unspecified on 
+     * Return the number of online peers in the conference. The unsigned
+     * integers less than this number are the valid values of peer_number for
+     * the functions querying these peers. Return value is unspecified on
      * failure.
      */
     const uint32_t count(uint32_t conference_number)
@@ -2330,8 +2333,8 @@ namespace conference {
   namespace offline_peer {
 
     /**
-     * Return the number of offline peers in the conference. The unsigned 
-     * integers less than this number are the valid values of offline_peer_number for 
+     * Return the number of offline peers in the conference. The unsigned
+     * integers less than this number are the valid values of offline_peer_number for
      * the functions querying these peers. Return value is unspecified on failure.
      */
     const uint32_t count(uint32_t conference_number)
@@ -2655,41 +2658,41 @@ namespace conference {
 
 namespace friend {
 
-  inline namespace send {
+  error for custom_packet {
+    NULL,
+    /**
+     * The friend number did not designate a valid friend.
+     */
+    FRIEND_NOT_FOUND,
+    /**
+     * This client is currently not connected to the friend.
+     */
+    FRIEND_NOT_CONNECTED,
+    /**
+     * The first byte of data was not in the specified range for the packet type.
+     * This range is 192-254 for lossy, and 69, 160-191 for lossless packets.
+     */
+    INVALID,
+    /**
+     * Attempted to send an empty packet.
+     */
+    EMPTY,
+    /**
+     * Packet data length exceeded $MAX_CUSTOM_PACKET_SIZE.
+     */
+    TOO_LONG,
+    /**
+     * Packet queue is full.
+     */
+    SENDQ,
+  }
 
-    error for custom_packet {
-      NULL,
-      /**
-       * The friend number did not designate a valid friend.
-       */
-      FRIEND_NOT_FOUND,
-      /**
-       * This client is currently not connected to the friend.
-       */
-      FRIEND_NOT_CONNECTED,
-      /**
-       * The first byte of data was not in the specified range for the packet type.
-       * This range is 200-254 for lossy, and 160-191 for lossless packets.
-       */
-      INVALID,
-      /**
-       * Attempted to send an empty packet.
-       */
-      EMPTY,
-      /**
-       * Packet data length exceeded $MAX_CUSTOM_PACKET_SIZE.
-       */
-      TOO_LONG,
-      /**
-       * Packet queue is full.
-       */
-      SENDQ,
-    }
+  namespace send {
 
     /**
      * Send a custom lossy packet to a friend.
      *
-     * The first byte of data must be in the range 200-254. Maximum length of a
+     * The first byte of data must be in the range 192-254. Maximum length of a
      * custom packet is $MAX_CUSTOM_PACKET_SIZE.
      *
      * Lossy packets behave like UDP packets, meaning they might never reach the
@@ -2713,7 +2716,7 @@ namespace friend {
     /**
      * Send a custom lossless packet to a friend.
      *
-     * The first byte of data must be in the range 160-191. Maximum length of a
+     * The first byte of data must be in the range 69, 160-191. Maximum length of a
      * custom packet is $MAX_CUSTOM_PACKET_SIZE.
      *
      * Lossless packet behaviour is comparable to TCP (reliability, arrive in order)
@@ -2762,7 +2765,14 @@ namespace friend {
  ******************************************************************************/
 
 
-inline namespace self {
+error for get_port {
+  /**
+   * The instance was not bound to any port.
+   */
+  NOT_BOUND,
+}
+
+namespace self {
 
   uint8_t[PUBLIC_KEY_SIZE] dht_id {
     /**
@@ -2780,13 +2790,6 @@ inline namespace self {
     get();
   }
 
-
-  error for get_port {
-    /**
-     * The instance was not bound to any port.
-     */
-    NOT_BOUND,
-  }
 
 
   uint16_t udp_port {
@@ -2852,6 +2855,8 @@ typedef TOX_LOG_LEVEL Tox_Log_Level;
 typedef TOX_CONNECTION Tox_Connection;
 typedef TOX_FILE_CONTROL Tox_File_Control;
 typedef TOX_CONFERENCE_TYPE Tox_Conference_Type;
+
+//!TOKSTYLE+
 
 #endif // C_TOXCORE_TOXCORE_TOX_H
 %}
