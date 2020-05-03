@@ -274,7 +274,7 @@
 [day of week (Sunday, Monday... translatable)]
 день недели (воскресенье, понедельник...)
 [AM/PM symbol]
-AM/PM symbol
+символ AM/PM
 [name of month, translatable]
 название месяца
 [the message string itself]
