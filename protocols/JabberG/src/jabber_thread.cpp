@@ -1571,14 +1571,24 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			else if (!mir_strcmp(show, "chat")) status = ID_STATUS_FREECHAT;
 		}
 
+		int idleTime = 0;
+		if (auto *idle = XmlGetChildByTag(node, "idle", "xmlns", JABBER_FEAT_IDLE)) {
+			status = ID_STATUS_IDLE;
+			if (auto *szSince = XmlGetAttr(idle, "since"))
+				idleTime = str2time(szSince);
+		}
+
 		int priority = XmlGetChildInt(node, "priority");
 		const char *pszStatus = XmlGetChildText(node, "status");
 		ListAddResource(LIST_ROSTER, from, status, pszStatus, priority);
 
 		// XEP-0115: Entity Capabilities
 		pResourceStatus r(ResourceInfoFromJID(from));
-		if (r != nullptr)
+		if (r != nullptr) {
+			if (idleTime)
+				r->m_dwIdleStartTime = idleTime;
 			OnProcessPresenceCapabilites(node, r);
+		}
 
 		UpdateJidDbSettings(from);
 

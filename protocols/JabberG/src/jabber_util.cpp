@@ -439,8 +439,12 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 		}
 	}
 
-	if (m_tmJabberIdleStartTime)
-		p << XQUERY(JABBER_FEAT_LAST_ACTIVITY) << XATTRI("seconds", time(0) - m_tmJabberIdleStartTime);
+	if (m_tmJabberIdleStartTime) {
+		// XEP-0319 support
+		char szSince[100];
+		time2str(m_tmJabberIdleStartTime, szSince, _countof(szSince));
+		p << XCHILDNS("idle", JABBER_FEAT_IDLE) << XATTR("since", szSince);
+	}
 
 	if (m_bEnableAvatars) {
 		TiXmlElement *x = p << XCHILDNS("x", "vcard-temp:x:update");
