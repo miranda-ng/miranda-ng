@@ -368,8 +368,7 @@ class CHistoryDlg : public CDlgBase
 					wchar_t buf[50];
 					TVINSERTSTRUCT tvi;
 					tvi.hParent = nullptr;
-					tvi.hInsertAfter = TVI_SORT;
-					tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+					tvi.item.mask = TVIF_TEXT;
 					if (CurYear != PrevYear)
 					{
 						_itow(CurYear, buf, 10);
