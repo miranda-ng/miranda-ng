@@ -15,8 +15,11 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND, UINT, WPARAM, LPARAM);
 struct NewstoryListData : public MZeroedObject
 {
 	NewstoryListData(HWND _1) :
-		hwnd(_1)
-	{}
+		hwnd(_1),
+		redrawTimer(Miranda_GetSystemWindow(), (LPARAM)this)
+	{
+		redrawTimer.OnEvent = Callback(this, &NewstoryListData::OnTimer);
+	}
 
 	HistoryArray items;
 
@@ -33,9 +36,21 @@ struct NewstoryListData : public MZeroedObject
 	HWND hwnd;
 	HWND hwndEditBox;
 
+	CTimer redrawTimer;
+
 	void OnContextMenu(int index)
 	{
 		ItemData* item = items.get(index, ItemData::ELM_DATA);
+	}
+
+	void OnTimer(CTimer *pTimer)
+	{
+		pTimer->Stop();
+
+		RecalcScrollBar();
+		scrollTopItem = items.getCount();
+		FixScrollPosition();
+		InvalidateRect(hwnd, 0, FALSE);
 	}
 
 	void BeginEditItem(int index)
@@ -460,18 +475,16 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				p->hFirstEVent = db_event_first(p->hContact);
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
 		}
-		data->RecalcScrollBar();
-		data->scrollTopItem = data->items.getCount();
-		data->FixScrollPosition();
-		InvalidateRect(hwnd, 0, FALSE);
+
+		data->redrawTimer.Stop();
+		data->redrawTimer.Start(100);
 		break;
 
 	case NSM_ADDCHATEVENT:
 		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO*)lParam);
-		data->RecalcScrollBar();
-		data->scrollTopItem = data->items.getCount();
-		data->FixScrollPosition();
-		InvalidateRect(hwnd, 0, FALSE);
+
+		data->redrawTimer.Stop();
+		data->redrawTimer.Start(100);
 		break;
 
 	case NSM_GETCOUNT:
