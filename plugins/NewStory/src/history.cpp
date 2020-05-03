@@ -126,7 +126,6 @@ class CHistoryDlg : public CDlgBase
 	MCONTACT m_hContact;
 	int lastYear = -1, lastMonth = -1, lastDay = -1;
 	HTREEITEM hLastYear = 0, hLastMonth = 0, hLastDay = 0;
-	bool disableTimeTreeChange = false;
 
 	// window flags
 	DWORD m_dwOptions = 0;
@@ -342,7 +341,7 @@ class CHistoryDlg : public CDlgBase
 		{
 			MEVENT hDbEvent = db_event_first(m_hContact);
 			int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
-			HTREEITEM hCurYear, hCurMonth, hCurDay;
+			HTREEITEM hCurYear = 0, hCurMonth = 0, hCurDay = 0;
 			while (hDbEvent != NULL) {
 				DBEVENTINFO dbei = {};
 				int nSize = db_event_getBlobSize(hDbEvent);
@@ -988,18 +987,20 @@ public:
 
 	void onSelChanged_TimeTree(CCtrlTreeView::TEventInfo *)
 	{
-		if (disableTimeTreeChange) {
-			disableTimeTreeChange = false;
-		}
-		else {
-			// LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-			//	int id = pnmtv->itemNew.lParam;
-			//	SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
-			//	SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_ITEMS, LBN_SELCHANGE), (LPARAM)GetDlgItem(m_hwnd, IDC_ITEMS));
-			//	SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
-			//	SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,eventCount));
-			//	SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
-		}
+		TVITEM tvi = { 0 };
+		tvi.hItem = TreeView_GetSelection(m_timeTree.GetHwnd());
+		tvi.mask = TVIF_HANDLE | TVIF_TEXT;
+		TreeView_GetItem(m_timeTree.GetHwnd(), &tvi);
+		wchar_t* tmp, * tmp2;
+		tmp = tvi.pszText;
+		/*HTREEITEM hti2 = TreeView_GetParent(m_timeTree.GetHwnd(), hti);
+		if (hti2) {
+			tvi.hItem = hti2;
+			tvi.mask = TVIF_HANDLE;
+			TreeView_GetItem(m_timeTree.GetHwnd(), &tvi);
+			tmp = tvi.pszText;
+			HTREEITEM hti3 = TreeView_GetParent(m_timeTree.GetHwnd(), hti2);
+		}*/
 	}
 
 	// case UM_REBUILDLIST:
