@@ -336,6 +336,70 @@ class CHistoryDlg : public CDlgBase
 			SetWindowText(m_hwnd, TranslateT("System history"));
 	}
 
+	void TimeTreeBuild()
+	{
+		if (m_dwOptions & WND_OPT_TIMETREE)
+		{
+			MEVENT hDbEvent = db_event_first(m_hContact);
+			int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
+			HTREEITEM hCurYear, hCurMonth, hCurDay;
+			while (hDbEvent != NULL) {
+				DBEVENTINFO dbei = {};
+				int nSize = db_event_getBlobSize(hDbEvent);
+				if (nSize > 0) {
+					dbei.cbBlob = nSize;
+					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 2);
+					dbei.pBlob[dbei.cbBlob] = 0;
+					dbei.pBlob[dbei.cbBlob + 1] = 0;
+					// Double null terminate, this should prevent most errors 
+					// where the blob received has an invalid format
+				}
+
+				if (!db_event_get(hDbEvent, &dbei)) {
+					struct tm ts = { 0 };
+					time_t timestamp = dbei.timestamp;
+					errno_t err = localtime_s(&ts, &timestamp);  /* statically alloced, local time correction */
+					if (err != 0)
+						return;
+
+					CurYear = ts.tm_year + 1900;
+					CurMonth = ts.tm_mon + 1;
+					CurDay = ts.tm_mday;
+					wchar_t buf[50];
+					TVINSERTSTRUCT tvi;
+					tvi.hParent = nullptr;
+					tvi.hInsertAfter = TVI_SORT;
+					tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+					if (CurYear != PrevYear)
+					{
+						_itow(CurYear, buf, 10);
+						tvi.item.pszText = buf;
+						hCurYear = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
+						PrevYear = CurYear;
+					}
+					if (CurMonth != PrevMonth)
+					{
+						tvi.hParent = hCurYear;
+						tvi.item.pszText = TranslateW(months[CurMonth - 1]);
+						hCurMonth = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
+						PrevMonth = CurMonth;
+					}
+					if (CurDay != PrevDay)
+					{
+						_itow(CurDay, buf, 10);
+						tvi.hParent = hCurMonth;
+						tvi.item.pszText = buf;
+						hCurDay = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
+						PrevDay = CurDay;
+					}
+					if (dbei.pBlob)
+						mir_free(dbei.pBlob);
+				}
+				hDbEvent = db_event_next(m_hContact, hDbEvent);
+			}
+		}
+	}
+
 	CCtrlBase m_histControl;
 	CCtrlEdit edtSearchText;
 	CCtrlMButton btnUserInfo, btnSendMsg, btnUserMenu, btnCopy, btnOptions, btnFilter;
@@ -520,6 +584,7 @@ public:
 		SetFocus(m_histControl.GetHwnd());
 
 		ShowHideControls();
+		TimeTreeBuild();
 		return true;
 	}
 
@@ -566,6 +631,7 @@ public:
 
 		ShowHideControls();
 		LayoutHistoryWnd();
+		TimeTreeBuild();
 	}
 
 	void onClick_Export(CCtrlButton *)

@@ -88,3 +88,4 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 extern CMOption<bool> g_bOptGrouping;
+extern wchar_t* months[12];
