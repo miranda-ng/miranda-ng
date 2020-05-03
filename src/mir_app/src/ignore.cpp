@@ -38,7 +38,7 @@ static DWORD GetMask(MCONTACT hContact)
 		if (hContact == 0)
 			mask = 0;
 		else {
-			if (Contact_IsHidden(hContact) || !Contact_OnList(hContact))
+			if ((Contact_IsHidden(hContact) && !db_mc_isSub(hContact)) || !Contact_OnList(hContact))
 				mask = db_get_dw(0, "Ignore", "Mask1", 0);
 			else
 				mask = db_get_dw(0, "Ignore", "Default1", 0);
