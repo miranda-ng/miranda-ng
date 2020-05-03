@@ -311,7 +311,7 @@ class CHistoryDlg : public CDlgBase
 		// time tree bar
 		int hTimeTree = 0;
 		if (m_dwOptions & WND_OPT_TIMETREE) {
-			hTimeTree = 80; // need to calculate correctly
+			hTimeTree = 100; // need to calculate correctly
 			hDwp = DeferWindowPos(hDwp, m_timeTree.GetHwnd(), 0,
 				WND_SPACING, WND_SPACING + hToolBar + hFilterBar,
 				hTimeTree, h - WND_SPACING * 2 - hFilterBar - hToolBar - hSearch - hStatus,
