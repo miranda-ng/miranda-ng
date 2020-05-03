@@ -375,8 +375,8 @@ BEGIN
     END
     POPUP "Log options"
     BEGIN
-        MENUITEM "Options...",                  ID_LOGOPTIONS_OPTIONS
-        MENUITEM "Templates...",                ID_LOGOPTIONS_TEMPLATES
+        MENUITEM "Options",                     ID_LOGOPTIONS_OPTIONS
+        MENUITEM "Templates",                   ID_LOGOPTIONS_TEMPLATES
     END
     POPUP ""
     BEGIN

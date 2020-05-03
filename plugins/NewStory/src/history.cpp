@@ -385,6 +385,8 @@ public:
 		m_dwOptions = g_plugin.getDword(0, "dwOptions");
 
 		m_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
+		TranslateMenu(m_hMenu);
+
 		HMENU hMenu = GetSubMenu(m_hMenu, 1);
 		CheckMenuItem(hMenu, ID_FILTER_INCOMING,
 			showFlags & HIST_SHOW_IN ? MF_CHECKED : MF_UNCHECKED);
