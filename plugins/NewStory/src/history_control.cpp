@@ -47,7 +47,6 @@ struct NewstoryListData : public MZeroedObject
 	{
 		pTimer->Stop();
 
-		RecalcScrollBar();
 		scrollTopItem = items.getCount();
 		FixScrollPosition();
 		InvalidateRect(hwnd, 0, FALSE);
@@ -182,7 +181,7 @@ struct NewstoryListData : public MZeroedObject
 		GetWindowRect(hwnd, &rc);
 		int windowHeight = rc.bottom - rc.top;
 
-		if (windowHeight != cachedWindowHeight) {
+		if (windowHeight != cachedWindowHeight || cachedMaxTopItem != scrollTopItem) {
 			int maxTopItem = 0;
 			int tmp = 0;
 			for (maxTopItem = items.getCount(); (maxTopItem > 0) && (tmp < windowHeight); maxTopItem--)
