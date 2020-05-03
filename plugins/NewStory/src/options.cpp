@@ -97,7 +97,7 @@ public:
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 				tvis.item.state = tvis.item.stateMask = TVIS_BOLD;
-				tvis.item.pszText = it.group;
+				tvis.item.pszText = TranslateW(it.group);
 				tvis.item.lParam = 0;
 				hGroup = m_tree.InsertItem(&tvis);
 
@@ -109,7 +109,7 @@ public:
 			tvis.hParent = hGroup;
 			tvis.hInsertAfter = TVI_LAST;
 			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-			tvis.item.pszText = it.title;
+			tvis.item.pszText = TranslateW(it.title);
 			tvis.item.iSelectedImage = tvis.item.iImage = ImageList_AddIcon(himgTree, g_plugin.getIcon(it.icon));
 			tvis.item.lParam = (LPARAM)&it;
 			m_tree.InsertItem(&tvis);
