@@ -27,6 +27,8 @@ public:
 
 class CTemplateOptsDlg : public CDlgBase
 {
+	MCONTACT m_hContact;
+	MEVENT m_hDbEVent;
 	TemplateInfo *m_curr = 0;
 
 	void UpdatePreview(CCtrlButton*)
@@ -34,24 +36,13 @@ class CTemplateOptsDlg : public CDlgBase
 		replaceStrW(m_curr->tmpValue, m_edit.GetText());
 
 		ItemData item;
-		item.hContact = db_find_first();
-		while (item.hContact && !item.hEvent) {
-			item.hEvent = db_event_first(item.hContact);
-			if (!item.hEvent)
-				item.hContact = db_find_next(item.hContact);
-		}
-
-		if (item.hContact && item.hEvent) {
-			item.load(ItemData::ELM_DATA);
+		item.hContact = m_hContact;
+		item.hEvent = m_hDbEVent;
+		item.load(ItemData::ELM_DATA);
 			
-			ptrW wszText(TplFormatStringEx(int(m_curr-templates), m_curr->tmpValue, item.hContact, &item));
-			preview.SetText(wszText);
-			gpreview.SetText(wszText);
-		}
-		else {
-			preview.SetText(L"");
-			gpreview.SetText(L"");
-		}
+		ptrW wszText(TplFormatStringEx(int(m_curr-templates), m_curr->tmpValue, item.hContact, &item));
+		preview.SetText(wszText);
+		gpreview.SetText(wszText);
 	}
 
 	CCtrlBase preview, gpreview;
@@ -77,6 +68,20 @@ public:
 		bthVarHelp.OnClick = Callback(this, &CTemplateOptsDlg::onVarHelp);
 
 		m_tree.OnSelChanged = Callback(this, &CTemplateOptsDlg::onSelChanged);
+
+		m_hContact = db_add_contact();
+		Proto_AddToContact(m_hContact, META_PROTO);
+		Contact_Hide(m_hContact);
+		Contact_RemoveFromList(m_hContact);
+		db_set_ws(m_hContact, META_PROTO, "Nick", TranslateT("Test contact"));
+
+		DBEVENTINFO dbei = {};
+		dbei.pBlob = (BYTE *)"The quick brown fox jumps over the lazy dog";
+		dbei.cbBlob = strlen((char*)dbei.pBlob);
+		dbei.flags = DBEF_TEMPORARY;
+		dbei.eventType = EVENTTYPE_MESSAGE;
+		dbei.timestamp = time(0);
+		m_hDbEVent = db_event_add(m_hContact, &dbei);
 	}
 
 	bool OnInitDialog() override
@@ -142,6 +147,9 @@ public:
 
 	void OnDestroy() override
 	{
+		db_event_delete(m_hDbEVent);
+		db_delete_contact(m_hContact);
+
 		for (auto &it : templates)
 			replaceStrW(it.tmpValue, nullptr);
 	}
