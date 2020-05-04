@@ -278,7 +278,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			pt.y = GET_Y_LPARAM(lParam);
 		}
 		ptl = pt;
-		ScreenToClient(m_rtf.GetHwnd(), (LPPOINT)&ptl);
+		ScreenToClient(m_rtf.GetHwnd(), &ptl);
 		{
 			wchar_t *pszWord = (wchar_t *)_alloca(8192);
 			pszWord[0] = '\0';
@@ -316,8 +316,22 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			HMENU hSubMenu = GetSubMenu(hMenu, 0);
 			TranslateMenu(hSubMenu);
 			m_pDlg.m_bInMenu = true;
-			UINT uID = CreateGCMenu(m_rtf.GetHwnd(), hSubMenu, pt, m_pDlg.m_si, nullptr, pszWord);
+
+			int flags = MF_BYPOSITION | (GetRichTextLength(m_rtf.GetHwnd()) == 0 ? MF_GRAYED : MF_ENABLED);
+			EnableMenuItem(hSubMenu, 0, flags);
+			EnableMenuItem(hSubMenu, 2, flags);
+
+			if (pszWord && pszWord[0]) {
+				wchar_t szMenuText[4096];
+				mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWord);
+				ModifyMenu(hSubMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
+			}
+			else ModifyMenu(hSubMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
+
+			UINT uID = Chat_CreateMenu(m_rtf.GetHwnd(), hSubMenu, pt, m_pDlg.m_si, nullptr);
 			m_pDlg.m_bInMenu = false;
+			DestroyMenu(hMenu);
+
 			switch (uID) {
 			case 0:
 				PostMessage(m_pDlg.m_hwnd, WM_MOUSEACTIVATE, 0, 0);
@@ -387,7 +401,6 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				Chat_DoEventHook(m_pDlg.m_si, GC_USER_LOGMENU, nullptr, nullptr, uID);
 				break;
 			}
-			DestroyMenu(hMenu);
 		}
 		return 0;
 	}

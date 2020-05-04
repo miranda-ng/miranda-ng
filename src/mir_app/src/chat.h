@@ -109,7 +109,6 @@ int           LoadChatModule(void);
 void          UnloadChatModule(void);
 
 // tools.c
-UINT          CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText);
 int           DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors);
 wchar_t*      RemoveFormatting(const wchar_t* pszText);
 BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);

@@ -13,6 +13,8 @@ public:
 	void Attach() override
 	{
 		m_hwnd = ::CreateWindow(_T(NEWSTORYLIST_CLASS), L"NewStory", WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 300, 150, m_pDlg.GetHwnd(), 0, m_pDlg.GetInst(), 0);
+
+		SendMessage(m_hwnd, NSM_SET_SRMM, 0, (LPARAM)&m_pDlg);
 	}
 
 	void Detach() override

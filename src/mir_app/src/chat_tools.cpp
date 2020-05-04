@@ -753,44 +753,17 @@ MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-UINT CreateGCMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszWordText)
+MIR_APP_DLL(UINT) Chat_CreateMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID)
 {
-	GCMENUITEMS gcmi = {};
 	if (si) {
+		GCMENUITEMS gcmi = {};
 		gcmi.pszID = si->ptszID;
 		gcmi.pszModule = si->pszModule;
-	}
-	gcmi.pszUID = (wchar_t*)pszUID;
-	gcmi.hMenu = hMenu;
-
-	if (pszUID == nullptr) {
-		int flags = MF_BYPOSITION | (GetRichTextLength(hwnd) == 0 ? MF_GRAYED : MF_ENABLED);
-		EnableMenuItem(hMenu, 0, flags);
-		EnableMenuItem(hMenu, 2, flags);
-
-		if (pszWordText && pszWordText[0]) {
-			wchar_t szMenuText[4096];
-			mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWordText);
-			ModifyMenu(hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
-		}
-		else ModifyMenu(hMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
-		gcmi.Type = MENU_ON_LOG;
-	}
-	else {
-		wchar_t szTemp[50];
-		if (pszWordText)
-			mir_snwprintf(szTemp, TranslateT("&Message %s"), pszWordText);
-		else
-			mir_wstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
-
-		if (mir_wstrlen(szTemp) > 40)
-			mir_wstrncpy(szTemp + 40, L"...", 4);
-		ModifyMenu(hMenu, 0, MF_STRING | MF_BYPOSITION, IDM_SENDMESSAGE, szTemp);
-		gcmi.Type = MENU_ON_NICKLIST;
-	}
-
-	if (si)
+		gcmi.pszUID = (wchar_t *)pszUID;
+		gcmi.hMenu = hMenu;
+		gcmi.Type = (pszUID == nullptr) ? MENU_ON_LOG : MENU_ON_NICKLIST;
 		NotifyEventHooks(hevBuildMenuEvent, 0, (WPARAM)&gcmi);
+	}
 
 	return TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
 }

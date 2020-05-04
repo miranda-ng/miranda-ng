@@ -395,6 +395,9 @@ EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
 // runs ME_GC_EVENT with the parameters passed
 EXTERN_C MIR_APP_DLL(BOOL) Chat_DoEventHook(SESSION_INFO *si, int iType, const USERINFO *pUser, const wchar_t* pszText, INT_PTR dwItem);
 
+// creates custom popup menu for a group chat
+EXTERN_C MIR_APP_DLL(UINT) Chat_CreateMenu(HWND hwnd, HMENU hMenu, POINT pt, SESSION_INFO *si, const wchar_t *pszUID);
+
 // calculates width or height of a string
 EXTERN_C MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth);
 

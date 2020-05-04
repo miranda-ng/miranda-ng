@@ -147,8 +147,6 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
 	p.hContact = si->hContact;
 	p.wtext = wszText.Detach();
 	p.bLoaded = true;
-	p.dbe.cbBlob = 1;
-	p.dbe.pBlob = (BYTE *)p.wtext;
 	p.dbe.eventType = EVENTTYPE_MESSAGE;
 	p.dbe.timestamp = lin->time;
 

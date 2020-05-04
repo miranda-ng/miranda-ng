@@ -37,6 +37,7 @@ struct NewstoryListData : public MZeroedObject
 	HWND hwndEditBox;
 
 	CTimer redrawTimer;
+	CSrmmBaseDialog *pMsgDlg = nullptr;
 
 	void OnContextMenu(int index, POINT pt)
 	{
@@ -46,8 +47,18 @@ struct NewstoryListData : public MZeroedObject
 		
 		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
 		TranslateMenu(hMenu);
-		
-		int ret = TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
+
+		HMENU hSubMenu = GetSubMenu(hMenu, 0);
+		UINT ret;
+		if (pMsgDlg != nullptr && pMsgDlg->isChat()) {
+			EnableMenuItem(hSubMenu, 2, MF_BYPOSITION | MF_GRAYED);
+
+			pMsgDlg->m_bInMenu = true;
+			ret = Chat_CreateMenu(hwnd, hSubMenu, pt, pMsgDlg->getChat(), nullptr);
+			pMsgDlg->m_bInMenu = false;
+		}
+		else ret = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
+
 		switch(ret) {
 		case ID_CONTEXT_COPY:
 			SendMessage(hwnd, NSM_COPY, 0, 0);
@@ -63,6 +74,12 @@ struct NewstoryListData : public MZeroedObject
 		case ID_CONTEXT_SELECTALL:
 			SendMessage(hwnd, NSM_SELECTITEMS, 0, items.getCount() - 1);
 			break;
+
+		default:
+			if (pMsgDlg != nullptr) {
+				PostMessage(pMsgDlg->GetHwnd(), WM_MOUSEACTIVATE, 0, 0);
+				Chat_DoEventHook(pMsgDlg->getChat(), GC_USER_LOGMENU, nullptr, nullptr, ret);
+			}
 		}
 
 		DestroyMenu(hMenu);
@@ -658,6 +675,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SEEKEND:
 		SendMessage(hwnd, NSM_SETCARET, data->items.getCount() - 1, 1);
+		break;
+
+	case NSM_SET_SRMM:
+		data->pMsgDlg = (CSrmmBaseDialog *)lParam;
 		break;
 
 	case NSM_DELETE:

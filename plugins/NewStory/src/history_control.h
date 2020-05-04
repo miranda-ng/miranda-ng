@@ -74,6 +74,9 @@ enum
 	NSM_SEEKEND,
 	NSM_SEEKTIME,
 
+	// 
+	NSM_SET_SRMM, // act inside SRMM dialog
+
 	NSM_LAST
 };
 

@@ -84,7 +84,18 @@ void CSrmmBaseDialog::RunUserMenu(HWND hwndOwner, USERINFO *ui, const POINT &pt)
 
 	USERINFO uinew;
 	memcpy(&uinew, ui, sizeof(USERINFO));
-	UINT uID = CreateGCMenu(hwndOwner, hSubMenu, pt, m_si, uinew.pszUID, uinew.pszNick);
+
+	wchar_t szTemp[50];
+	if (uinew.pszNick)
+		mir_snwprintf(szTemp, TranslateT("&Message %s"), uinew.pszNick);
+	else
+		mir_wstrncpy(szTemp, TranslateT("&Message"), _countof(szTemp) - 1);
+
+	if (mir_wstrlen(szTemp) > 40)
+		mir_wstrncpy(szTemp + 40, L"...", 4);
+	ModifyMenu(hMenu, 0, MF_STRING | MF_BYPOSITION, IDM_SENDMESSAGE, szTemp);
+
+	UINT uID = Chat_CreateMenu(hwndOwner, hSubMenu, pt, m_si, uinew.pszUID);
 	switch (uID) {
 	case 0:
 		break;

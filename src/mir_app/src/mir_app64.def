@@ -734,3 +734,4 @@ ProtoBroadcastAsync @814 NONAME
 ?getChat@CSrmmBaseDialog@@QEBAPEAUSESSION_INFO@@XZ @821 NONAME
 ?EventCursor@MDatabaseCommon@@UEAAPEAVEventCursorBase@DB@@IAEAUDBEVENTINFO@@@Z @822 NONAME
 ?EventCursorRev@MDatabaseCommon@@UEAAPEAVEventCursorBase@DB@@IAEAUDBEVENTINFO@@@Z @823 NONAME
+Chat_CreateMenu @824 NONAME
