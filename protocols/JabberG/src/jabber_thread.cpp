@@ -1572,11 +1572,9 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 		}
 
 		int idleTime = 0;
-		if (auto *idle = XmlGetChildByTag(node, "idle", "xmlns", JABBER_FEAT_IDLE)) {
-			status = ID_STATUS_IDLE;
+		if (auto *idle = XmlGetChildByTag(node, "idle", "xmlns", JABBER_FEAT_IDLE))
 			if (auto *szSince = XmlGetAttr(idle, "since"))
 				idleTime = str2time(szSince);
-		}
 
 		int priority = XmlGetChildInt(node, "priority");
 		const char *pszStatus = XmlGetChildText(node, "status");
