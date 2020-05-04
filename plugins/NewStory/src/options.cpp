@@ -156,13 +156,12 @@ public:
 
 	void onClick_Reset(CCtrlButton *)
 	{
-		for (auto &it : templates) {
-			replaceStrW(it.tmpValue, nullptr);
-			replaceStrW(it.value, nullptr);
+		if (m_curr) {
+			replaceStrW(m_curr->tmpValue, nullptr);
+			replaceStrW(m_curr->value, nullptr);
+			m_edit.SetText(m_curr->defvalue);
 		}
 
-		if (m_curr)
-			m_edit.SetText(m_curr->defvalue);
 		UpdatePreview(0);
 		NotifyChange();
 	}
