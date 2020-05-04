@@ -1048,7 +1048,6 @@ public:
 				tm_sel.tm_mon = 0;
 			tm_sel.tm_year = yearsel - 1900;
 			PostMessage(m_hwnd, WM_USER + 0x600, mktime(&tm_sel), 0);
-
 		}
 	}
 
