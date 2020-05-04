@@ -463,7 +463,7 @@ void TContainerData::LoadOverrideTheme()
 				memcpy(m_rtl_templates, &RTL_Active, sizeof(TTemplateSet));
 			}
 
-			m_theme.logFonts = (LOGFONTA *)mir_alloc(sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));
+			m_theme.logFonts = (LOGFONTW *)mir_alloc(sizeof(LOGFONTW) * (MSGDLGFONTCOUNT + 2));
 			m_theme.fontColors = (COLORREF *)mir_alloc(sizeof(COLORREF) * (MSGDLGFONTCOUNT + 2));
 			m_theme.rtfFonts = (char *)mir_alloc((MSGDLGFONTCOUNT + 2) * RTFCACHELINESIZE);
 
@@ -2155,7 +2155,7 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 		return nullptr;
 
 	TContainerData *pContainer = new TContainerData();
-	wcsncpy(pContainer->m_wszName, name, CONTAINER_NAMELEN + 1);
+	wcsncpy_s(pContainer->m_wszName, name, _TRUNCATE);
 	AppendToContainerList(pContainer);
 
 	if (M.GetByte("limittabs", 0) && !mir_wstrcmp(name, L"default"))

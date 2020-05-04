@@ -278,6 +278,9 @@ char* Log_CreateRtfHeader(void)
 		szString[1] = 0;
 		szString[0] = 0x28;
 		g_chatApi.LoadMsgDlgFont(17, &lf, nullptr);
+		lf.lfCharSet = SYMBOL_CHARSET;
+		wcsncpy_s(lf.lfFaceName, L"Webdings", _TRUNCATE);
+
 		HFONT hFont = CreateFontIndirect(&lf);
 		int iText = Chat_GetTextPixelSize(szString, hFont, true) + 3;
 		DeleteObject(hFont);

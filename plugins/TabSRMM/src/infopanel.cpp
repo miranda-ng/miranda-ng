@@ -657,7 +657,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 	COLORREF clr = m_ipConfig.clrs[IPFONTID_UIN];
 
 	SIZE szTitle;
-	wchar_t	szPrefix[100];
+	wchar_t szPrefix[100];
 	mir_snwprintf(szPrefix, TranslateT("Topic is: %s"), L"");
 	::GetTextExtentPoint32(hdc, szPrefix, (int)mir_wstrlen(szPrefix), &szTitle);
 	mapRealRect(rcItem, m_rcUIN, szTitle);

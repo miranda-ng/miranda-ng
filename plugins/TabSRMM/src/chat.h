@@ -102,8 +102,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData);
 
 // options.c
 enum { FONTSECTION_AUTO, FONTSECTION_IM, FONTSECTION_IP };
-void  LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF *colour, char *szModule);
-void  LoadLogfont(int section, int i, LOGFONTA *lf, COLORREF *colour, char *szModule);
+void  LoadMsgDlgFont(int section, int i, LOGFONTW *lf, COLORREF *colour = nullptr);
 
 void  AddIcons(void);
 HICON LoadIconEx(char *pszIcoLibName);

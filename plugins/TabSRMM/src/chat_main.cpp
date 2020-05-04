@@ -224,7 +224,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 	if (pContainer == nullptr) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
 		if (!g_Settings.bOpenInDefault && !mir_wstrcmp(szName, L"default"))
-			wcsncpy(szName, L"Chat Rooms", CONTAINER_NAMELEN);
+			wcsncpy_s(szName, L"Chat Rooms", _TRUNCATE);
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);
 	}

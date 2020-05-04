@@ -30,28 +30,6 @@
 
 #define DM_GETSTATUSMASK (WM_USER + 10)
 
-void LoadLogfont(int section, int i, LOGFONTA * lf, COLORREF * colour, char *szModule)
-{
-	LOGFONT lfResult;
-	LoadMsgDlgFont(section, i, &lfResult, colour, szModule);
-	if (lf) {
-		lf->lfHeight = lfResult.lfHeight;
-		lf->lfWidth = lfResult.lfWidth;
-		lf->lfEscapement = lfResult.lfEscapement;
-		lf->lfOrientation = lfResult.lfOrientation;
-		lf->lfWeight = lfResult.lfWeight;
-		lf->lfItalic = lfResult.lfItalic;
-		lf->lfUnderline = lfResult.lfUnderline;
-		lf->lfStrikeOut = lfResult.lfStrikeOut;
-		lf->lfCharSet = lfResult.lfCharSet;
-		lf->lfOutPrecision = lfResult.lfOutPrecision;
-		lf->lfClipPrecision = lfResult.lfClipPrecision;
-		lf->lfQuality = lfResult.lfQuality;
-		lf->lfPitchAndFamily = lfResult.lfPitchAndFamily;
-		mir_snprintf(lf->lfFaceName, "%S", lfResult.lfFaceName);
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void TreeViewInit(CCtrlTreeView &ctrl, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, DWORD dwFlags, bool bFromMem)

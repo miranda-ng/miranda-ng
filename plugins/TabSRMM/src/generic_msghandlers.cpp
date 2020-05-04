@@ -497,11 +497,8 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 void CMsgDialog::DM_InitRichEdit()
 {
-	bool fIsChat = isChat();
-	COLORREF inputcharcolor;
-
 	char *szStreamOut = nullptr;
-	if (!fIsChat && GetWindowTextLength(m_message.GetHwnd()) > 0)
+	if (!isChat() && GetWindowTextLength(m_message.GetHwnd()) > 0)
 		szStreamOut = m_message.GetRichTextRtf();
 	SetWindowText(m_message.GetHwnd(), L"");
 
@@ -509,27 +506,27 @@ void CMsgDialog::DM_InitRichEdit()
 
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_pContainer->m_theme.inputbg);
 
-	CHARFORMAT2A cf2;
-	memset(&cf2, 0, sizeof(CHARFORMAT2A));
+	CHARFORMAT2 cf2 = {};
 	cf2.cbSize = sizeof(cf2);
 
-	if (fIsChat) {
-		LOGFONTA lf;
-		LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor, FONTMODULE);
+	if (isChat()) {
+		LOGFONTW lf;
+		COLORREF inputcharcolor;
+		LoadMsgDlgFont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor);
 
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
 		cf2.crTextColor = inputcharcolor;
 		cf2.bCharSet = lf.lfCharSet;
 		cf2.crBackColor = m_pContainer->m_theme.inputbg;
-		strncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+		wcsncpy_s(cf2.szFaceName, lf.lfFaceName, _TRUNCATE);
 		cf2.dwEffects = 0;
 		cf2.wWeight = (WORD)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 		cf2.yHeight = abs(lf.lfHeight) * 15;
 	}
 	else {
-		LOGFONTA lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
-		inputcharcolor = m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA];
+		LOGFONTW lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
+		COLORREF inputcharcolor = m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA];
 
 		for (auto &it : Utils::rtf_clrs)
 			if (it->clr == inputcharcolor)
@@ -538,7 +535,7 @@ void CMsgDialog::DM_InitRichEdit()
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
 		cf2.crTextColor = inputcharcolor;
 		cf2.bCharSet = lf.lfCharSet;
-		strncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE - 1);
+		wcsncpy_s(cf2.szFaceName, lf.lfFaceName, _TRUNCATE);
 		cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0) | (lf.lfUnderline ? CFE_UNDERLINE : 0) | (lf.lfStrikeOut ? CFE_STRIKEOUT : 0);
 		cf2.wWeight = (WORD)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;

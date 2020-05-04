@@ -304,7 +304,7 @@ int CSendLater::addJob(const char *szSetting, void *lParam)
 
 	CSendLaterJob *job = new CSendLaterJob;
 
-	strncpy(job->szId, szSetting, 20);
+	strncpy_s(job->szId, szSetting, _TRUNCATE);
 	job->szId[19] = 0;
 	job->hContact = hContact;
 	job->created = atol(&szSetting[1]);

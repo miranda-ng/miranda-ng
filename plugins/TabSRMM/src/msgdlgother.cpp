@@ -235,7 +235,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 		return FALSE;
 
 	// used to filter out attributes which are already set for the default message input area font
-	LOGFONTA lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
+	auto &lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
@@ -825,7 +825,7 @@ void CMsgDialog::LoadOwnAvatar()
 void CMsgDialog::LoadSettings()
 {
 	m_clrInputBG = m_pContainer->m_theme.inputbg;
-	LoadLogfont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG, FONTMODULE);
+	LoadMsgDlgFont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

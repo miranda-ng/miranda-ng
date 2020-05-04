@@ -815,8 +815,6 @@ wchar_t* CImageItem::Read(const wchar_t *szFilename)
 	GetPrivateProfileString(m_szName, L"Image", L"None", buffer, 500, szFilename);
 	if (mir_wstrcmp(buffer, L"None") || m_dwFlags & IMAGE_GLYPH) {
 		szFinalName = new wchar_t[MAX_PATH];
-		//strncpy(m_szName, &m_szName[1], sizeof(m_szName));
-		//m_szName[sizeof(m_szName) - 1] = 0;
 		_wsplitpath(szFilename, szDrive, szPath, nullptr, nullptr);
 		mir_snwprintf(szFinalName, MAX_PATH, L"%s\\%s%s", szDrive, szPath, buffer);
 		if (!PathFileExists(szFinalName)) {

@@ -124,7 +124,7 @@ struct TLogTheme
 	COLORREF  custom_colors[5];
 	DWORD     dwFlags;
 	DWORD     left_indent, right_indent;
-	LOGFONTA *logFonts;
+	LOGFONTW *logFonts;
 	COLORREF *fontColors;
 	char     *rtfFonts;
 	bool      isPrivate;
