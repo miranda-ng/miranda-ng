@@ -19,8 +19,8 @@ MyColourID g_colorTable[COLOR_COUNT] =
 
 MyFontID g_fontTable[FONT_COUNT] =
 {
-	{ LPGEN("Incoming nick"),         "FontNickIn",   RGB(0xc8, 0x3f, 0x6b) },
-	{ LPGEN("Outgoing nick"),         "FontNickOut",  RGB(0x08, 0x60, 0xbd) },
+	{ LPGEN("Incoming name"),         "FontNickIn",   RGB(0xc8, 0x3f, 0x6b) },
+	{ LPGEN("Outgoing name"),         "FontNickOut",  RGB(0x08, 0x60, 0xbd) },
 
 	{ LPGEN("Incoming messages"),     "FontMsgIn"   },
 	{ LPGEN("Outgoing messages"),     "FontMsgOut"  },

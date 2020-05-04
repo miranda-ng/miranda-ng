@@ -304,7 +304,7 @@ void vfOther(int, TemplateVars *vars, MCONTACT, ItemData *)
 TemplateInfo templates[TPL_COUNT] =
 {
 	{ "tpl/interface/title", LPGENW("Interface"), ICO_NEWSTORY, LPGENW("Window title"),
-		L"%N - History [%c messages total]", 0, 0,
+		L"%N - history [%c messages total]", 0, 0,
 		{ vfGlobal, vfContact, 0, 0, 0 } },
 
 	{ "tpl/msglog/msg", LPGENW("Message log"), ICO_SENDMSG, LPGENW("Messages"),
