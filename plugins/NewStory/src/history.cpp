@@ -346,8 +346,10 @@ class CHistoryDlg : public CDlgBase
 
 		int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
 		HTREEITEM hCurYear = 0, hCurMonth = 0, hCurDay = 0;
-		for (int i=0; i < numItems; i++) {
+		for (int i = 0; i < numItems; i++) {
 			auto *pItem = pArray->get(i, true);
+			if (pItem->dbe.timestamp == 0)
+				continue;
 
 			struct tm ts = { 0 };
 			time_t timestamp = pItem->dbe.timestamp;
@@ -362,24 +364,21 @@ class CHistoryDlg : public CDlgBase
 			TVINSERTSTRUCT tvi;
 			tvi.hParent = nullptr;
 			tvi.item.mask = TVIF_TEXT | TVIF_PARAM;
-			if (CurYear != PrevYear)
-			{
+			if (CurYear != PrevYear) {
 				_itow(CurYear, buf, 10);
 				tvi.item.pszText = buf;
 				tvi.item.lParam = 0;
 				hCurYear = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 				PrevYear = CurYear;
 			}
-			if (CurMonth != PrevMonth)
-			{
+			if (CurMonth != PrevMonth) {
 				tvi.hParent = hCurYear;
 				tvi.item.pszText = TranslateW(months[CurMonth - 1]);
 				tvi.item.lParam = CurMonth;
 				hCurMonth = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 				PrevMonth = CurMonth;
 			}
-			if (CurDay != PrevDay)
-			{
+			if (CurDay != PrevDay) {
 				_itow(CurDay, buf, 10);
 				tvi.hParent = hCurMonth;
 				tvi.item.pszText = buf;
