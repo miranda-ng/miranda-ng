@@ -403,7 +403,7 @@ public:
 		CDlgBase(g_plugin, IDD_HISTORY),
 		m_hContact(_hContact),
 		m_timeTree(this, IDC_TIMETREEVIEW),
-		m_histControl(this, IDC_ITEMS2),
+		m_histControl(this, IDC_HISTORYCONTROL),
 		edtSearchText(this, IDC_SEARCHTEXT),
 		btnCopy(this, IDC_COPY, g_plugin.getIcon(ICO_COPY), LPGEN("Copy")),
 		btnExport(this, IDC_EXPORT, g_plugin.getIcon(ICO_EXPORT), LPGEN("Export...")),
@@ -1031,7 +1031,7 @@ public:
 	// case UM_REBUILDLIST:
 	//			if (showFlags & HIST_TIMETREE)
 	//				ShowWindow(GetDlgItem(m_hwnd, IDC_TIMETREE), SW_SHOW);
-	//			ShowWindow(GetDlgItem(m_hwnd, IDC_ITEMS2), SW_SHOW);
+	//			ShowWindow(GetDlgItem(m_hwnd, IDC_HISTORYCONTROL), SW_SHOW);
 	//			ShowWindow(GetDlgItem(m_hwnd, IDC_SEARCHICON), SW_SHOW);
 };
 

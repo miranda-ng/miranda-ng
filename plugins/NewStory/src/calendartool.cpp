@@ -17,7 +17,7 @@ INT_PTR CALLBACK CalendarToolDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_NOTIFY:
 		{
 			LPNMHDR hdr = (LPNMHDR)lParam;
-			if ((hdr->idFrom == IDC_MONTHCALENDAR1) && (hdr->code == MCN_SELECT)) {
+			if ((hdr->idFrom == IDC_MONTHCALENDAR) && (hdr->code == MCN_SELECT)) {
 				LPNMSELCHANGE lpnmsc = (LPNMSELCHANGE)lParam;
 				struct tm tm_sel;
 				tm_sel.tm_hour = tm_sel.tm_min = tm_sel.tm_sec = 0;
