@@ -962,14 +962,6 @@ public:
 					PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
 				break;*/
 
-				// case IDC_SEARCH:
-				// int id = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SEARCH), 0, SearchDlgProc, (LPARAM)GetDlgItem(m_hwnd, IDC_ITEMS));
-				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SETCARETINDEX, id, 0);
-				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SETTOPINDEX, id, 0);
-				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, FALSE, MAKELPARAM(0,eventCount));
-				// SendMessage(GetDlgItem(m_hwnd, IDC_ITEMS), LB_SELITEMRANGE, TRUE, MAKELPARAM(id,id));
-				// break;
-
 		case WM_USER + 0x600:
 			if (wParam)
 				m_histControl.SendMsg(NSM_SEEKTIME, wParam, 0);
