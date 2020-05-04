@@ -551,7 +551,7 @@ public:
 
 		UpdateTitle();
 
-		ADDEVENTS tmp = { m_hContact, 0, -1 };
+		ADDEVENTS tmp = { m_hContact, db_event_first(m_hContact), -1 };
 		SendMessage(m_histControl.GetHwnd(), NSM_ADDEVENTS, WPARAM(&tmp), 0);
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(ICO_NEWSTORY));

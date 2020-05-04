@@ -493,12 +493,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	// History list control messages
 	case NSM_ADDEVENTS:
-		{
-			auto *p = (ADDEVENTS *)wParam;
-			if (p->eventCount == -1)
-				p->hFirstEVent = db_event_first(p->hContact);
+		if (auto *p = (ADDEVENTS *)wParam)
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
-		}
 
 		data->redrawTimer.Stop();
 		data->redrawTimer.Start(100);
