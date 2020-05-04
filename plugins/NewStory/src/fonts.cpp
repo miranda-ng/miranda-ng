@@ -14,7 +14,9 @@ MyColourID g_colorTable[COLOR_COUNT] =
 	{ LPGEN("Other outgoing events"), "ColorOut",     RGB(0xff, 0xff, 0xff) },
 
 	{ LPGEN("Selected items"),        "ColorSel",     RGB(0x60, 0x60, 0x60) },
-	{ LPGEN("Selected items (text)"), "ColorSelTxt",  RGB(0xff, 0xff, 0xff) }
+	{ LPGEN("Selected items (text)"), "ColorSelTxt",  RGB(0xff, 0xff, 0xff) },
+
+	{ LPGEN("Background"),            "Background",   RGB(0xff, 0xff, 0xff) },
 };
 
 MyFontID g_fontTable[FONT_COUNT] =

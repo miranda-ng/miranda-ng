@@ -750,7 +750,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					SetRect(&rc2, 0, top, width, height);
 
 					HBRUSH hbr;
-					hbr = CreateSolidBrush(RGB(0xff, 0xff, 0xff));
+					hbr = CreateSolidBrush(g_colorTable[COLOR_BACK].cl);
 					FillRect(hdc, &rc2, hbr);
 					DeleteObject(hbr);
 				}
