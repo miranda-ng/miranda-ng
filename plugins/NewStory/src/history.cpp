@@ -338,71 +338,59 @@ class CHistoryDlg : public CDlgBase
 
 	void TimeTreeBuild()
 	{
-		if (m_dwOptions & WND_OPT_TIMETREE)
-		{
-			MEVENT hDbEvent = db_event_first(m_hContact);
-			int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
-			HTREEITEM hCurYear = 0, hCurMonth = 0, hCurDay = 0;
-			while (hDbEvent != NULL) {
-				DBEVENTINFO dbei = {};
-				int nSize = db_event_getBlobSize(hDbEvent);
-				if (nSize > 0) {
-					dbei.cbBlob = nSize;
-					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 2);
-					dbei.pBlob[dbei.cbBlob] = 0;
-					dbei.pBlob[dbei.cbBlob + 1] = 0;
-					// Double null terminate, this should prevent most errors 
-					// where the blob received has an invalid format
-				}
+		if (!(m_dwOptions & WND_OPT_TIMETREE))
+			return;
 
-				if (!db_event_get(hDbEvent, &dbei)) {
-					struct tm ts = { 0 };
-					time_t timestamp = dbei.timestamp;
-					errno_t err = localtime_s(&ts, &timestamp);  /* statically alloced, local time correction */
-					if (err != 0)
-						return;
+		auto *pArray = (HistoryArray *)m_histControl.SendMsg(NSM_GETARRAY, 0, 0);
+		int numItems = pArray->getCount();
 
-					CurYear = ts.tm_year + 1900;
-					CurMonth = ts.tm_mon + 1;
-					CurDay = ts.tm_mday;
-					wchar_t buf[50];
-					TVINSERTSTRUCT tvi;
-					tvi.hParent = nullptr;
-					tvi.item.mask = TVIF_TEXT | TVIF_PARAM;
-					if (CurYear != PrevYear)
-					{
-						_itow(CurYear, buf, 10);
-						tvi.item.pszText = buf;
-						tvi.item.lParam = 0;
-						hCurYear = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
-						PrevYear = CurYear;
-					}
-					if (CurMonth != PrevMonth)
-					{
-						tvi.hParent = hCurYear;
-						tvi.item.pszText = TranslateW(months[CurMonth - 1]);
-						tvi.item.lParam = CurMonth;
-						hCurMonth = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
-						PrevMonth = CurMonth;
-					}
-					if (CurDay != PrevDay)
-					{
-						_itow(CurDay, buf, 10);
-						tvi.hParent = hCurMonth;
-						tvi.item.pszText = buf;
-						tvi.item.lParam = 0;
-						hCurDay = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
-						PrevDay = CurDay;
-					}
-					if (dbei.pBlob)
-						mir_free(dbei.pBlob);
-				}
-				hDbEvent = db_event_next(m_hContact, hDbEvent);
+		int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
+		HTREEITEM hCurYear = 0, hCurMonth = 0, hCurDay = 0;
+		for (int i=0; i < numItems; i++) {
+			auto *pItem = pArray->get(i, true);
+
+			struct tm ts = { 0 };
+			time_t timestamp = pItem->dbe.timestamp;
+			errno_t err = localtime_s(&ts, &timestamp);  /* statically alloced, local time correction */
+			if (err != 0)
+				return;
+
+			CurYear = ts.tm_year + 1900;
+			CurMonth = ts.tm_mon + 1;
+			CurDay = ts.tm_mday;
+			wchar_t buf[50];
+			TVINSERTSTRUCT tvi;
+			tvi.hParent = nullptr;
+			tvi.item.mask = TVIF_TEXT | TVIF_PARAM;
+			if (CurYear != PrevYear)
+			{
+				_itow(CurYear, buf, 10);
+				tvi.item.pszText = buf;
+				tvi.item.lParam = 0;
+				hCurYear = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
+				PrevYear = CurYear;
 			}
-			disableTimeTreeChange = true;
-			HTREEITEM root = m_timeTree.GetRoot();
-			m_timeTree.SelectItem(root);
+			if (CurMonth != PrevMonth)
+			{
+				tvi.hParent = hCurYear;
+				tvi.item.pszText = TranslateW(months[CurMonth - 1]);
+				tvi.item.lParam = CurMonth;
+				hCurMonth = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
+				PrevMonth = CurMonth;
+			}
+			if (CurDay != PrevDay)
+			{
+				_itow(CurDay, buf, 10);
+				tvi.hParent = hCurMonth;
+				tvi.item.pszText = buf;
+				tvi.item.lParam = 0;
+				hCurDay = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
+				PrevDay = CurDay;
+			}
 		}
+		disableTimeTreeChange = true;
+		HTREEITEM root = m_timeTree.GetRoot();
+		m_timeTree.SelectItem(root);
 	}
 
 	CCtrlBase m_histControl;

@@ -68,6 +68,7 @@ enum
 
 	//
 	NSM_GETCOUNT,
+	NSM_GETARRAY,
 
 	//
 	NSM_SEEKEND,

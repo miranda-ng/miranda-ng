@@ -506,6 +506,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		data->redrawTimer.Start(100);
 		break;
 
+	case NSM_GETARRAY:
+		return (LRESULT)&data->items;
+
 	case NSM_GETCOUNT:
 		return data->items.getCount();
 
