@@ -67,7 +67,7 @@ static IconItem icons[] =
 	{ LPGEN("Conversations"),     "timetree",  ICO_TIMETREE   },
 
 	{ LPGEN("Template group"),    "tplgroup",  ICO_TPLGROUP   },
-	{ LPGEN("Reset"),             "reset",     ICO_RESET      },
+	{ LPGEN("Cancer edit"),       "reset",     ICO_RESET      },
 	{ LPGEN("Update preview"),    "preview",   ICO_PREVIEW    },
 	{ LPGEN("Help"),              "varhelp",   ICO_VARHELP    }
 };
