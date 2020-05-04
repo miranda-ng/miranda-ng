@@ -621,8 +621,8 @@ public:
 		else
 			m_dwOptions |= WND_OPT_TIMETREE;
 
-		ShowHideControls();
 		LayoutHistoryWnd();
+		ShowHideControls();
 		TimeTreeBuild();
 	}
 
