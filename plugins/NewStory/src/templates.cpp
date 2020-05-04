@@ -296,7 +296,7 @@ void vfDeleted(int, TemplateVars *vars, MCONTACT, ItemData *item)
 void vfOther(int, TemplateVars *vars, MCONTACT, ItemData *)
 {
 	//  %M: the message string itself
-	vars->SetVar('M', LPGENW("Unknown event"), false);
+	vars->SetVar('M', TranslateT("Unknown event"), false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
