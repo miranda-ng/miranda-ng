@@ -575,22 +575,11 @@ public:
 	{
 		SetParent(hwndParent);
 
-		// set hContact to the first found contact so that we can use the Preview window properly
-		// also, set other parameters needed by the streaming function to display events
-		for (auto &cc : Contacts()) {
-			if (m_szProto = Proto_GetBaseAccountName(m_hContact)) {
-				m_hContact = cc;
-				break;
-			}
-		}
-
-		// empty contact list? create a temportary one, that will be automatically removed 
-		if (m_hContact == 0) {
-			m_hContact = db_add_contact();
-			Proto_AddToContact(m_hContact, m_szProto = META_PROTO);
-			Contact_Hide(m_hContact);
-			Contact_RemoveFromList(m_hContact);
-		}
+		m_hContact = db_add_contact();
+		Proto_AddToContact(m_hContact, m_szProto = META_PROTO);
+		Contact_Hide(m_hContact);
+		Contact_RemoveFromList(m_hContact);
+		db_set_ws(m_hContact, META_PROTO, "Nick", TranslateT("Test contact"));
 
 		m_pContainer = new TContainerData();
 		m_pContainer->LoadOverrideTheme();
@@ -614,7 +603,7 @@ public:
 
 		m_dwFlags = m_pContainer->m_theme.dwFlags;
 
-		m_cache = CContactCache::getContactCache(m_hContact);
+		m_cache = new CContactCache(m_hContact);
 		m_cache->updateNick();
 		m_cache->updateUIN();
 		m_cache->updateStats(TSessionStats::INIT_TIMER);
@@ -643,10 +632,13 @@ public:
 
 	void OnDestroy() override
 	{
+		db_delete_contact(m_hContact);
+
 		Utils::enableDlgControl(m_hwndParent, IDC_MODIFY, TRUE);
 		Utils::enableDlgControl(m_hwndParent, IDC_RTLMODIFY, TRUE);
 
 		delete m_pContainer;
+		delete m_cache;
 
 		db_set_dw(0, SRMSGMOD_T, "cc1", SendDlgItemMessage(m_hwnd, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));
 		db_set_dw(0, SRMSGMOD_T, "cc2", SendDlgItemMessage(m_hwnd, IDC_COLOR2, CPM_GETCOLOUR, 0, 0));
