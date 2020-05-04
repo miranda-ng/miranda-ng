@@ -443,7 +443,7 @@ public:
 		m_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 		TranslateMenu(m_hMenu);
 
-		HMENU hMenu = GetSubMenu(m_hMenu, 1);
+		HMENU hMenu = GetSubMenu(m_hMenu, 0);
 		CheckMenuItem(hMenu, ID_FILTER_INCOMING,
 			showFlags & HIST_SHOW_IN ? MF_CHECKED : MF_UNCHECKED);
 		CheckMenuItem(hMenu, ID_FILTER_OUTGOING,
@@ -799,7 +799,7 @@ public:
 		RECT rc;
 		GetWindowRect(pButton->GetHwnd(), &rc);
 
-		switch (TrackPopupMenu(GetSubMenu(m_hMenu, 2), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL)) {
+		switch (TrackPopupMenu(GetSubMenu(m_hMenu, 1), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL)) {
 		case ID_LOGOPTIONS_OPTIONS:
 			g_plugin.openOptions(L"History", L"NewStory", L"Advanced");
 			break;
