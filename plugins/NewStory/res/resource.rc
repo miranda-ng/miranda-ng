@@ -385,24 +385,13 @@ BEGIN
     POPUP ""
     BEGIN
         MENUITEM "Copy",                        ID_CONTEXT_COPY
+        MENUITEM SEPARATOR
+        MENUITEM "Edit",                        ID_CONTEXT_EDIT
         MENUITEM "Delete",                      ID_CONTEXT_DELETE, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "Select all",                  ID_CONTEXT_SELECTALL
     END
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Accelerator
-//
-
-IDR_ACCEL ACCELERATORS
-BEGIN
-    "C",            IDA_COPY,               VIRTKEY, CONTROL, NOINVERT
-    "F",            IDA_SEARCH,             VIRTKEY, CONTROL, NOINVERT
-END
-
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

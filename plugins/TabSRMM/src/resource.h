@@ -46,7 +46,6 @@
 #define IDD_MSGCONTAINER                276
 #define IDD_OPT_TABBEDMSG               277
 #define IDD_POPUP_OPT                   278
-#define IDR_ACCEL                       283
 #define IDR_TABCONTEXT                  286
 #define IDD_SELECTCONTAINER             299
 #define IDD_CONTAINEROPTIONS            300

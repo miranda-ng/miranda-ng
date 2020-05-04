@@ -9,7 +9,6 @@
 #define IDR_CONTEXTMENU                 106
 #define IDD_MESSAGE                     112
 #define IDR_POPUPS                      113
-#define IDR_ACCEL                       114
 #define IDD_CALENDARTOOL                118
 #define IDD_FILTERMODE                  123
 #define ICO_NEWSTORY                    127
@@ -124,6 +123,7 @@
 #define ID_FILTER_AUTO                  40022
 #define ID_LOGOPTIONS_TEMPLATES         40023
 #define ID_LOGOPTIONS_OPTIONS           40024
+#define ID_CONTEXT_EDIT                 40025
 #define ID_CONTEXT_DELETE               40026
 #define ID_CONTEXT_SELECTALL            40027
 #define ID_CONTEXT_CANCEL               40028

@@ -50,8 +50,13 @@ struct NewstoryListData : public MZeroedObject
 		int ret = TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 		switch(ret) {
 		case ID_CONTEXT_COPY:
+			SendMessage(hwnd, NSM_COPY, 0, 0);
 			break;
-			
+
+		case ID_CONTEXT_EDIT:
+			BeginEditItem(index);
+			break;
+
 		case ID_CONTEXT_DELETE:
 			break;
 
