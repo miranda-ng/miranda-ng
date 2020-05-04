@@ -3,19 +3,11 @@
 
 struct ItemData
 {
-	enum EventLoadMode
-	{
-		ELM_NOTHING,
-		ELM_INFO,
-		ELM_DATA
-	};
-
 	MCONTACT hContact = 0;
 	MEVENT hEvent = 0;
 
-	bool wtext_del = false;
 	bool bSelected = false;
-	bool dbeOk = false;
+	bool bLoaded = false;
 
 	DBEVENTINFO dbe;
 	wchar_t *wtext = 0;
@@ -27,18 +19,12 @@ struct ItemData
 	ItemData() { memset(&dbe, 0, sizeof(dbe)); }
 	~ItemData();
 
-	bool load(EventLoadMode mode);
+	void load(bool bFullLoad);
 	bool isGrouped() const;
 
-	inline bool loadInline(EventLoadMode mode)
-	{
-		if (((mode >= ItemData::ELM_INFO) && !dbeOk) || ((mode == ItemData::ELM_DATA) && !dbe.pBlob))
-			return load(mode);
-		return true;
-	}
 	inline wchar_t *getWBuf()
 	{
-		loadInline(ItemData::ELM_DATA);
+		load(true);
 		return wtext;
 	}
 };
@@ -142,9 +128,8 @@ public:
 
 	//	bool preloadEvents(int count = 10);
 
-	ItemData* get(int id, ItemData::EventLoadMode mode = ItemData::ELM_NOTHING);
-	ItemData* operator[] (int id) { return get(id, ItemData::ELM_DATA); }
-	ItemData* operator() (int id) { return get(id, ItemData::ELM_INFO); }
+	ItemData* get(int id, bool bLoad = false);
+	ItemData* operator[] (int id) { return get(id, true); }
 
 	int FindRel(int id, int dir, Filter filter)
 	{

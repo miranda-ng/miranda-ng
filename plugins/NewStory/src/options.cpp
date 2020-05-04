@@ -38,7 +38,7 @@ class CTemplateOptsDlg : public CDlgBase
 		ItemData item;
 		item.hContact = m_hContact;
 		item.hEvent = m_hDbEVent;
-		item.load(ItemData::ELM_DATA);
+		item.load(true);
 			
 		ptrW wszText(TplFormatStringEx(int(m_curr-templates), m_curr->tmpValue, item.hContact, &item));
 		preview.SetText(wszText);
@@ -77,7 +77,7 @@ public:
 
 		DBEVENTINFO dbei = {};
 		dbei.pBlob = (BYTE *)"The quick brown fox jumps over the lazy dog";
-		dbei.cbBlob = strlen((char*)dbei.pBlob);
+		dbei.cbBlob = (DWORD)strlen((char*)dbei.pBlob);
 		dbei.flags = DBEF_TEMPORARY;
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.timestamp = time(0);

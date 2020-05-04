@@ -190,6 +190,6 @@ MTEXTCONTROL_DLL(int) MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM 
 
 MTEXTCONTROL_DLL(int) MTextDestroy(HANDLE text)
 {
-	if (text) delete (TextObject *)text;
+	delete (TextObject *)text;
 	return 0;
 }

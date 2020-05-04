@@ -32,80 +32,65 @@ bool Filter::check(ItemData *item)
 	}
 
 	if (flags & (EVENTTEXT | EVENTONLY)) {
-		item->loadInline(ItemData::ELM_DATA);
+		item->load(true);
 		return CheckFilter(item->getWBuf(), text);
 	}
 	return true;
 };
 
 // Event
-bool ItemData::load(EventLoadMode mode)
+void ItemData::load(bool bFullLoad)
 {
-	if (mode == ItemData::ELM_NOTHING)
-		return true;
+	if (!bFullLoad || bLoaded)
+		return;
 
-	if ((mode == ItemData::ELM_INFO) && !dbeOk) {
-		dbeOk = true;
-		dbe.cbBlob = 0;
-		dbe.pBlob = 0;
-		db_event_get(hEvent, &dbe);
-		return true;
-	}
+	dbe.cbBlob = db_event_getBlobSize(hEvent);
+	dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob + 1);
+	if (db_event_get(hEvent, &dbe))
+		return;
 
-	if ((mode == ItemData::ELM_DATA) && (!dbeOk || !dbe.cbBlob)) {
-		dbeOk = true;
-		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob + 1);
-		db_event_get(hEvent, &dbe);
+	bLoaded = true;
 
-		wtext = 0;
+	switch (dbe.eventType) {
+	case EVENTTYPE_STATUSCHANGE:
+		wtext = mir_utf8decodeW((char*)dbe.pBlob);
+		break;
 
-		switch (dbe.eventType) {
-		case EVENTTYPE_STATUSCHANGE:
-		case EVENTTYPE_MESSAGE:
-			wtext = mir_utf8decodeW((char*)dbe.pBlob);
-			wtext_del = false;
-			break;
+	case EVENTTYPE_MESSAGE:
+		wtext = mir_utf8decodeW((char *)dbe.pBlob);
 
-		case EVENTTYPE_JABBER_PRESENCE:
-			wtext = DbEvent_GetTextW(&dbe, CP_ACP);
-			wtext_del = false;
-			break;
-
-		case EVENTTYPE_AUTHREQUEST:
-			wtext = new wchar_t[512];
-			wtext_del = true;
-			if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
-				mir_snwprintf(wtext, 512, L"%s requested authorization", Utf2T((char*)dbe.pBlob + 8).get());
-			}
-			else {
-				mir_snwprintf(wtext, 512, L"%d requested authorization", *(DWORD *)(dbe.pBlob));
-			}
-			break;
-
-		case EVENTTYPE_ADDED:
-			wtext = new wchar_t[512];
-			wtext_del = true;
-			if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8)) {
-				mir_snwprintf(wtext, 512, L"%s added you to the contact list", Utf2T((char *)dbe.pBlob + 8).get());
-			}
-			else {
-				mir_snwprintf(wtext, 512, L"%d added you to the contact list", *(DWORD *)(dbe.pBlob));
-			}
-			break;
+		if (!(dbe.flags & DBEF_SENT)) {
+			if (!dbe.markedRead())
+				db_event_markRead(hContact, hEvent);
+			g_clistApi.pfnRemoveEvent(hContact, hEvent);
 		}
+		break;
 
-		return true;
+	case EVENTTYPE_JABBER_PRESENCE:
+		wtext = DbEvent_GetTextW(&dbe, CP_ACP);
+		break;
+
+	case EVENTTYPE_AUTHREQUEST:
+		if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8))
+			wtext = CMStringW(FORMAT, L"%s requested authorization", Utf2T((char*)dbe.pBlob + 8).get()).Detach();
+		else
+			wtext = CMStringW(FORMAT, L"%d requested authorization", *(DWORD *)(dbe.pBlob)).Detach();
+		break;
+
+	case EVENTTYPE_ADDED:
+		if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8))
+			wtext = CMStringW(FORMAT, L"%s added you to the contact list", Utf2T((char *)dbe.pBlob + 8).get()).Detach();
+		else
+			wtext = CMStringW(FORMAT, L"%d added you to the contact list", *(DWORD *)(dbe.pBlob)).Detach();
+		break;
 	}
-
-	return false;
 }
 
 bool ItemData::isGrouped() const
 {
 	if (pPrev && g_plugin.bMsgGrouping) {
-		if (!pPrev->dbeOk)
-			pPrev->load(EventLoadMode::ELM_DATA);
+		if (!pPrev->bLoaded)
+			pPrev->load(true);
 
 		if (pPrev->hContact == hContact && (pPrev->dbe.flags & DBEF_SENT) == (dbe.flags & DBEF_SENT))
 			return true;
@@ -115,12 +100,11 @@ bool ItemData::isGrouped() const
 
 ItemData::~ItemData()
 {
-	if (dbeOk && dbe.pBlob) {
+	if (bLoaded)
 		mir_free(dbe.pBlob);
-		dbe.pBlob = 0;
-	}
-	if (wtext && wtext_del) delete[] wtext;
-	if (data) MTextDestroy(data);
+	mir_free(wtext);
+	if (data)
+		MTextDestroy(data);
 }
 
 // Array
@@ -162,7 +146,7 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
 	auto &p = allocateItem();
 	p.hContact = si->hContact;
 	p.wtext = wszText.Detach();
-	p.dbeOk = true;
+	p.bLoaded = true;
 	p.dbe.cbBlob = 1;
 	p.dbe.pBlob = (BYTE *)p.wtext;
 	p.dbe.eventType = EVENTTYPE_MESSAGE;
@@ -208,33 +192,15 @@ ItemData& HistoryArray::allocateItem()
 	return p.data[iLastPageCounter++];
 }
 
-/*
-bool HistoryArray::preloadEvents(int count)
-{
-	for (int i = 0; i < count; ++i)
-	{
-		preBlock->items[preIndex].load(ItemData::ELM_DATA);
-		if (++preIndex == preBlock->count)
-		{
-			preBlock = preBlock->next;
-			if (!preBlock)
-				return false;
-			preIndex = 0;
-		}
-	}
-	return true;
-}
-*/
-
-ItemData* HistoryArray::get(int id, ItemData::EventLoadMode mode)
+ItemData* HistoryArray::get(int id, bool bLoad)
 {
 	int pageNo = id / HIST_BLOCK_SIZE;
 	if (pageNo >= pages.getCount())
 		return nullptr;
 
 	auto *p = &pages[pageNo].data[id % HIST_BLOCK_SIZE];
-	if (mode != ItemData::ELM_NOTHING)
-		p->load(mode);
+	if (bLoad && !p->bLoaded)
+		p->load(true);
 	return p;
 }
 

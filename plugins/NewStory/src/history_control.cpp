@@ -40,7 +40,7 @@ struct NewstoryListData : public MZeroedObject
 
 	void OnContextMenu(int index)
 	{
-		ItemData* item = items.get(index, ItemData::ELM_DATA);
+		ItemData* item = items[index];
 	}
 
 	void OnTimer(CTimer *pTimer)
@@ -68,7 +68,7 @@ struct NewstoryListData : public MZeroedObject
 		int itemHeight = LayoutItem(idx);
 		while (top < height) {
 			if (idx == index) {
-				ItemData *item = items.get(index, ItemData::ELM_DATA);
+				ItemData *item = items[index];
 
 				int tpl;
 				int fontid;
@@ -209,7 +209,7 @@ struct NewstoryListData : public MZeroedObject
 		RECT rc; GetClientRect(hwnd, &rc);
 		int width = rc.right - rc.left;
 
-		ItemData *item = items.get(index, ItemData::ELM_DATA);
+		ItemData *item = items[index];
 		if (!item) {
 			DeleteDC(hdc);
 			return 0;
@@ -270,7 +270,7 @@ struct NewstoryListData : public MZeroedObject
 
 	int PaintItem(HDC hdc, int index, int top, int width)
 	{
-		auto *item = items.get(index, ItemData::ELM_DATA);
+		auto *item = items[index];
 
 		//	LOGFONT lfText;
 		COLORREF clText, clBack, clLine;
@@ -497,7 +497,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				std::swap(start, end);
 
 			for (int i = start; i <= end; ++i) {
-				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				auto *p = data->items.get(i, false);
 				p->bSelected = true;
 			}
 			
@@ -513,7 +513,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				std::swap(start, end);
 
 			for (int i = start; i <= end; ++i) {
-				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				auto *p = data->items.get(i, false);
 				p->bSelected = !p->bSelected;
 			}
 			
@@ -530,7 +530,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			int count = data->items.getCount();
 			for (int i = 0; i < count; ++i) {
-				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				auto *p = data->items.get(i, false);
 				if ((i >= start) && (i <= end)) 
 					p->bSelected = true;
 				else
@@ -551,7 +551,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				start ^= end;
 			}
 			for (int i = start; i <= end; ++i) {
-				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				auto *p = data->items.get(i, false);
 				p->bSelected = false;
 			}
 			
@@ -617,7 +617,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		{
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
-				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				auto *p = data->items.get(i, false);
 				if (p->dbe.timestamp >= wParam) {
 					SendMessage(hwnd, NSM_SELECTITEMS2, i, i);
 					SendMessage(hwnd, NSM_SETCARET, i, TRUE);
@@ -642,7 +642,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			int eventCount = data->items.getCount();
 			for (int i = eventCount - 1; i >= 0; i--) {
-				auto *p = data->items.get(i, ItemData::ELM_NOTHING);
+				auto *p = data->items.get(i, false);
 				if (p->hEvent && p->hContact)
 					db_event_delete(p->hEvent);
 			}
@@ -660,7 +660,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			int eventCount = data->items.getCount();
 			for (int i = 0; i < eventCount; i++) {
-				ItemData *p = data->items.get(i, ItemData::ELM_NOTHING);
+				ItemData *p = data->items.get(i, false);
 				if (p->bSelected)
 					res.Append(ptrW(TplFormatString(TPL_COPY_MESSAGE, p->hContact, p)));
 			}

@@ -991,8 +991,7 @@ public:
 		tvi.hItem = TreeView_GetSelection(m_timeTree.GetHwnd());
 		tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 		TreeView_GetItem(m_timeTree.GetHwnd(), &tvi);
-		wchar_t* tmp, * tmp2;
-		tmp = tvi.pszText;
+
 		/*HTREEITEM hti2 = TreeView_GetParent(m_timeTree.GetHwnd(), hti);
 		if (hti2) {
 			tvi.hItem = hti2;
