@@ -605,7 +605,6 @@ public:
 			DestroyWindow(m_hwndStatus);
 			m_hwndStatus = nullptr;
 		}
-
 	}
 
 	void onClick_Calendar(CCtrlButton *pButton)
@@ -722,7 +721,7 @@ public:
 
 		SetFilePointer(hFile, -3, nullptr, FILE_CURRENT);
 
-		//export events
+		// export events
 		MEVENT hDbEvent = db_event_first(m_hContact);
 		bool bAppendOnly = false;
 		while (hDbEvent != NULL) {
@@ -802,7 +801,6 @@ public:
 	{
 		m_histControl.SendMsg(NSM_FINDPREV, ptrW(edtSearchText.GetText()), 0);
 	}
-
 
 	void onClick_Message(CCtrlButton *)
 	{

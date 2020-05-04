@@ -21,6 +21,7 @@ Boston, MA 02111-1307, USA.
 
 //Windows headers
 #include <windows.h>
+#include <windowsx.h>
 #include <process.h>
 #include <tchar.h>
 #include <commctrl.h>

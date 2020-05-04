@@ -6,6 +6,7 @@
 #define IDD_OPT_TEMPLATES               102
 #define IDD_OPT_ADVANCED                103
 #define IDD_SEARCH                      105
+#define IDR_CONTEXTMENU                 106
 #define IDD_MESSAGE                     112
 #define IDR_POPUPS                      113
 #define IDR_ACCEL                       114

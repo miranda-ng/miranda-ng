@@ -38,9 +38,29 @@ struct NewstoryListData : public MZeroedObject
 
 	CTimer redrawTimer;
 
-	void OnContextMenu(int index)
+	void OnContextMenu(int index, POINT pt)
 	{
 		ItemData* item = items[index];
+		if (item == nullptr)
+			return;
+		
+		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
+		TranslateMenu(hMenu);
+		
+		int ret = TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
+		switch(ret) {
+		case ID_CONTEXT_COPY:
+			break;
+			
+		case ID_CONTEXT_DELETE:
+			break;
+
+		case ID_CONTEXT_SELECTALL:
+			SendMessage(hwnd, NSM_SELECTITEMS, 0, items.getCount() - 1);
+			break;
+		}
+
+		DestroyMenu(hMenu);
 	}
 
 	void OnTimer(CTimer *pTimer)
@@ -677,47 +697,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_ERASEBKGND:
 		return 1;
 
-	case WM_PRINTCLIENT:
-		{
-			//			PaintClc(hwnd, dat, (HDC) wParam, NULL);
-			break;
-		}
-		/*
-				case WM_NCPAINT:
-				{
-					RECT rc;
-					GetWindowRect(hwnd, &rc);
-
-					HDC hdc;
-					hdc = GetDCEx(hwnd, (HRGN)wParam, DCX_WINDOW|DCX_INTERSECTRGN);
-					FrameRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
-					ReleaseDC(hwnd, hdc);
-				}
-		*/
-		/*
-				case WM_NCPAINT:
-				{
-					if (wParam == 1)
-						break;
-					{
-						POINT ptTopLeft = { 0, 0 };
-						HRGN hClientRgn;
-						ClientToScreen(hwnd, &ptTopLeft);
-						hClientRgn = CreateRectRgn(0, 0, 1, 1);
-						CombineRgn(hClientRgn, (HRGN) wParam, NULL, RGN_COPY);
-						OffsetRgn(hClientRgn, -ptTopLeft.x, -ptTopLeft.y);
-						InvalidateRgn(hwnd, hClientRgn, FALSE);
-						DeleteObject(hClientRgn);
-						UpdateWindow(hwnd);
-					}
-					break;
-				}
-		*/
 	case WM_PAINT:
 		{
-			HDC hdcWindow;
 			PAINTSTRUCT ps;
-			hdcWindow = BeginPaint(hwnd, &ps);
+			HDC hdcWindow = BeginPaint(hwnd, &ps);
 
 			/* we get so many InvalidateRect()'s that there is no point painting,
 			Windows in theory shouldn't queue up WM_PAINTs in this case but it does so
@@ -758,6 +741,22 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			EndPaint(hwnd, &ps);
+		}
+		break;
+
+
+	case WM_CONTEXTMENU:
+		{
+			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+			if (pt.x == -1 && pt.y == -1)
+				GetCursorPos(&pt);
+
+			POINT pt2 = pt;
+			ScreenToClient(hwnd, &pt2);
+
+			int index = SendMessage(hwnd, NSM_GETITEMFROMPIXEL, pt2.x, pt2.y);
+			if (index != -1)
+				data->OnContextMenu(index, pt);
 		}
 		break;
 
@@ -827,10 +826,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 			else if ((ch == 'A') && (GetKeyState(VK_CONTROL) & 0x80)) {
 				SendMessage(hwnd, NSM_SELECTITEMS, 0, data->items.getCount());
-				//				} else
-				//				if (ch == VK_ESCAPE)
-				//				{
-				//					PostMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
 			}
 		}
 		break;
@@ -937,13 +932,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_DESTROY:
 		delete data;
 		SetWindowLongPtr(hwnd, 0, 0);
-		break;
-
-	case WM_CONTEXTMENU:
-		{
-			int index = SendMessage(hwnd, NSM_GETITEMFROMPIXEL, LOWORD(lParam), HIWORD(lParam));
-			data->OnContextMenu(index);
-		}
 		break;
 	}
 

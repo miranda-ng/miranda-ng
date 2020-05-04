@@ -378,12 +378,13 @@ BEGIN
         MENUITEM "Options",                     ID_LOGOPTIONS_OPTIONS
         MENUITEM "Templates",                   ID_LOGOPTIONS_TEMPLATES
     END
+END
+
+IDR_CONTEXTMENU MENU
+BEGIN
     POPUP ""
     BEGIN
-        MENUITEM "Cancel",                      ID_CONTEXT_CANCEL
-        MENUITEM SEPARATOR
         MENUITEM "Copy",                        ID_CONTEXT_COPY
-        MENUITEM "Export",                      65535
         MENUITEM "Delete",                      ID_CONTEXT_DELETE, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "Select all",                  ID_CONTEXT_SELECTALL
