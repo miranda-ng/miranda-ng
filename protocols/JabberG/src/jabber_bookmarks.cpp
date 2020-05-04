@@ -179,6 +179,8 @@ public:
 		SetMinSize(451, 320);
 
 		m_lvBookmarks.OnItemActivate = Callback(this, &CJabberDlgBookmarks::lvBookmarks_OnDoubleClick);
+		m_lvBookmarks.OnDoubleClick = Callback(this, &CJabberDlgBookmarks::btnEdit_OnClick);
+
 		m_btnAdd.OnClick = Callback(this, &CJabberDlgBookmarks::btnAdd_OnClick);
 		m_btnEdit.OnClick = Callback(this, &CJabberDlgBookmarks::btnEdit_OnClick);
 		m_btnRemove.OnClick = Callback(this, &CJabberDlgBookmarks::btnRemove_OnClick);
