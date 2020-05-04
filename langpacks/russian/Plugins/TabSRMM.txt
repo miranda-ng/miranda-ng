@@ -1584,6 +1584,8 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Использовать одно и то же положение разделителя для всех сессий
 [Automatically copy selected text]
 Автоматически копировать выделенный текст
+[Test contact]
+Тестовый контакт
 [Template set editor]
 Редактор шаблонов
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]

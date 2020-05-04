@@ -8,24 +8,6 @@
 [History viewer for Miranda NG.]
 Просмотрщик истории для Miranda NG.
 ;file \plugins\NewStory\res\resource.rc
-[Search history]
-Поиск в истории
-[Cancel]
-Отмена
-[Search for:]
-Найти:
-[Search in:]
-Найти в:
-[Match case]
-Учитывать регистр
-[Tokenize search string]
-
-[View single message]
-
-[Close]
-Закрыть
-[Sample text. With smileys: :) :D and hyperlinks: https://www.miranda-ng.org]
-Пример текста. Со смайлами: :) D: и ссылками: https://www.miranda-ng.org
 [Messages]
 Сообщения
 [Files]
@@ -54,40 +36,6 @@
 Текстовый предпросмотр:
 [Graphic preview:]
 Графический предпросмотр:
-[Message filter]
-Фильтр сообщений
-[By direction]
-По направлению
-[Incoming events]
-Входящие события
-[Outgoing events]
-Исходящие события
-[By type]
-По типу
-[File transfers]
-Передача файлов
-[URL events]
-Ссылки
-[Status changes]
-Смены статуса
-[Other events]
-Прочие события
-[Other]
-Другое
-[Search-Filter]
-
-[By date]
-По дате
-[Since]
-С
-[Until]
-По
-[Export]
-Экспортировать
-[Save as...]
-Сохранить как...
-[Save selected as...]
-Сохранить выделенное как...
 [Filter]
 Фильтр
 [Show all events]
@@ -98,6 +46,10 @@
 Показать только исходящие события
 [Use custom filter...]
 
+[Incoming events]
+Входящие события
+[Outgoing events]
+Исходящие события
 [Show messages]
 Сообщения
 [Show file transfers]
@@ -118,6 +70,8 @@
 Шаблоны
 [Copy]
 Копировать
+[Edit]
+Изменить
 [Delete]
 Удалить
 [Select all]
@@ -131,6 +85,8 @@
 Входящие файлы
 [Outgoing files]
 Исходящие файлы
+[Status changes]
+Смены статуса
 [Other incoming events]
 Прочие входящие события
 [Other outgoing events]
@@ -139,10 +95,10 @@
 Выделенные элементы
 [Selected items (text)]
 Выделенные элементы (текст)
-[Incoming nick]
-Входящий ник
-[Outgoing nick]
-Исходящий ник
+[Incoming name]
+Имя собеседника
+[Outgoing name]
+Моё имя
 ;file \plugins\NewStory\src\history.cpp
 [FirstName]
 Имя
@@ -210,6 +166,8 @@
 Основной значок
 [Search]
 Найти
+[Export]
+Экспортировать
 [Incoming message]
 Входящее сообщение
 [Outgoing message]
@@ -239,6 +197,8 @@
 Отменить текущие изменения
 [Variables help]
 Помощь по переменным
+[Test contact]
+Тестовый контакт
 [simply % character]
 символ %
 [a "hard" line break (cr/lf - will break indent)]
@@ -334,6 +294,8 @@
 Сгруппированные сообщения
 [Presence requests]
 Запросы присутствия
+[Other events]
+Прочие события
 [Authorization requests]
 Запросы авторизации
 ['You were added' events]
