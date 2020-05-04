@@ -126,6 +126,7 @@ class CHistoryDlg : public CDlgBase
 	MCONTACT m_hContact;
 	int lastYear = -1, lastMonth = -1, lastDay = -1;
 	HTREEITEM hLastYear = 0, hLastMonth = 0, hLastDay = 0;
+	bool disableTimeTreeChange = false;
 
 	// window flags
 	DWORD m_dwOptions = 0;
@@ -367,11 +368,12 @@ class CHistoryDlg : public CDlgBase
 					wchar_t buf[50];
 					TVINSERTSTRUCT tvi;
 					tvi.hParent = nullptr;
-					tvi.item.mask = TVIF_TEXT;
+					tvi.item.mask = TVIF_TEXT | TVIF_PARAM;
 					if (CurYear != PrevYear)
 					{
 						_itow(CurYear, buf, 10);
 						tvi.item.pszText = buf;
+						tvi.item.lParam = 0;
 						hCurYear = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 						PrevYear = CurYear;
 					}
@@ -379,6 +381,7 @@ class CHistoryDlg : public CDlgBase
 					{
 						tvi.hParent = hCurYear;
 						tvi.item.pszText = TranslateW(months[CurMonth - 1]);
+						tvi.item.lParam = CurMonth;
 						hCurMonth = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 						PrevMonth = CurMonth;
 					}
@@ -387,6 +390,7 @@ class CHistoryDlg : public CDlgBase
 						_itow(CurDay, buf, 10);
 						tvi.hParent = hCurMonth;
 						tvi.item.pszText = buf;
+						tvi.item.lParam = 0;
 						hCurDay = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 						PrevDay = CurDay;
 					}
@@ -395,6 +399,9 @@ class CHistoryDlg : public CDlgBase
 				}
 				hDbEvent = db_event_next(m_hContact, hDbEvent);
 			}
+			disableTimeTreeChange = true;
+			HTREEITEM root = m_timeTree.GetRoot();
+			m_timeTree.SelectItem(root);
 		}
 	}
 
@@ -987,19 +994,62 @@ public:
 
 	void onSelChanged_TimeTree(CCtrlTreeView::TEventInfo *)
 	{
-		TVITEM tvi = { 0 };
-		tvi.hItem = TreeView_GetSelection(m_timeTree.GetHwnd());
-		tvi.mask = TVIF_HANDLE | TVIF_TEXT;
-		TreeView_GetItem(m_timeTree.GetHwnd(), &tvi);
+		wchar_t* val1, *val2, *val3;
+		int yearsel = 0, monthsel = 0, daysel = 1;
+		bool monthfound = false;
+		if (disableTimeTreeChange)
+			disableTimeTreeChange = false;
+		else {
+			HTREEITEM hti1 = m_timeTree.GetSelection();
+			TVITEMEX tvi = { 0 };
+			tvi.hItem = hti1;
+			tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
+			tvi.cchTextMax = MAX_PATH;
+			tvi.lParam = 0;
+			tvi.pszText = (wchar_t*)_alloca(MAX_PATH * sizeof(wchar_t));
 
-		/*HTREEITEM hti2 = TreeView_GetParent(m_timeTree.GetHwnd(), hti);
-		if (hti2) {
-			tvi.hItem = hti2;
-			tvi.mask = TVIF_HANDLE;
-			TreeView_GetItem(m_timeTree.GetHwnd(), &tvi);
-			tmp = tvi.pszText;
-			HTREEITEM hti3 = TreeView_GetParent(m_timeTree.GetHwnd(), hti2);
-		}*/
+			m_timeTree.GetItem(&tvi);
+			val1 = tvi.pszText;
+			if (tvi.lParam) {
+				monthsel = tvi.lParam;
+				monthfound = true;
+			}
+			HTREEITEM hti2 = m_timeTree.GetParent(hti1);
+			if ((!monthfound) && (!hti2))
+				yearsel = _wtoi(val1);
+			if ((!monthfound) && (hti2))
+				daysel = _wtoi(val1);
+			if (hti2) {
+				tvi.hItem = hti2;
+				tvi.lParam = 0;
+				m_timeTree.GetItem(&tvi);
+				val2 = tvi.pszText;
+				if (tvi.lParam) {
+					monthsel = tvi.lParam;
+					monthfound = true;
+				} else
+					yearsel = _wtoi(val2);
+				HTREEITEM hti3 = m_timeTree.GetParent(hti2);
+				if (hti3) {
+					tvi.hItem = hti3;
+					tvi.lParam = 0;
+					m_timeTree.GetItem(&tvi);
+					val3 = tvi.pszText;
+					yearsel = _wtoi(val3);
+				}
+			}
+			struct tm tm_sel;
+			tm_sel.tm_hour = tm_sel.tm_min = tm_sel.tm_sec = 0;
+			tm_sel.tm_isdst = 1;
+			tm_sel.tm_mday = daysel;
+			if (monthsel)
+				tm_sel.tm_mon = monthsel - 1;
+			else
+				tm_sel.tm_mon = 0;
+			tm_sel.tm_year = yearsel - 1900;
+			PostMessage(m_hwnd, WM_USER + 0x600, mktime(&tm_sel), 0);
+
+		}
 	}
 
 	// case UM_REBUILDLIST:

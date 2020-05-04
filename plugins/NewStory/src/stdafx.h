@@ -26,6 +26,7 @@ Boston, MA 02111-1307, USA.
 #include <commctrl.h>
 #include <time.h>
 #include <Shlwapi.h>
+#include <malloc.h>
 
 //Miranda headers
 #include "newpluginapi.h"
