@@ -80,6 +80,7 @@
 #define IDC_MONTHCALENDAR               1046
 #define IDC_GROUPING                    1047
 #define IDC_TEMPLATES                   1048
+#define IDC_VSCROLL                     1048
 #define IDC_EDITTEMPLATE                1049
 #define IDC_PREVIEW                     1050
 #define IDC_GPREVIEW                    1051

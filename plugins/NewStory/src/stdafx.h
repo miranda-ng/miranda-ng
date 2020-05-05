@@ -81,7 +81,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	HANDLE m_log;
 
-	bool bMsgGrouping;
+	CMOption<bool> bOptVScroll;
+	bool bMsgGrouping; // this option is a copy of static CMOption to keep performance high
 
 	CMPlugin();
 

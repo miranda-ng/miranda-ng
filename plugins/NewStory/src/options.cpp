@@ -5,13 +5,15 @@
 
 class CGeneralOptsDlg : public CDlgBase
 {
-	CCtrlCheck chkGrouping;
+	CCtrlCheck chkGrouping, chkVScroll;
 
 public:
 	CGeneralOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_ADVANCED),
+		chkVScroll(this, IDC_VSCROLL),
 		chkGrouping(this, IDC_GROUPING)
 	{
+		CreateLink(chkVScroll, g_plugin.bOptVScroll);
 		CreateLink(chkGrouping, g_bOptGrouping);
 	}
 

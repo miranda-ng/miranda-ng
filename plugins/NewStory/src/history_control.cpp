@@ -242,7 +242,8 @@ struct NewstoryListData : public MZeroedObject
 			scrollTopPixel = cachedMaxTopPixel;
 		}
 
-		RecalcScrollBar();
+		if (g_plugin.bOptVScroll)
+			RecalcScrollBar();
 	}
 
 	int LayoutItem(int index)
@@ -505,7 +506,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_CREATE:
 		data = new NewstoryListData(hwnd);
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
-		data->RecalcScrollBar();
+		if (!g_plugin.bOptVScroll)
+			SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_VSCROLL);
+		else 
+			data->RecalcScrollBar();
 		break;
 
 	// History list control messages
