@@ -1843,7 +1843,7 @@ Miranda не смогла загрузить встроенную систему
 Классы
 ;file \src\core\stdpopup\src\services.cpp
 [Disable popups]
-Отключить всплывающие окна
+Выключить всплывающие окна
 [Enable popups]
 Включить всплывающие окна
 ;file \src\core\stdpopup\src\yapp.cpp

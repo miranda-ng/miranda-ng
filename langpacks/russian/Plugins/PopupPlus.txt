@@ -310,7 +310,7 @@ History++ для истории окон
 [Enable popups]
 Включить всплывающие окна
 [Disable popups]
-Отключить всплывающие окна
+Выключить всплывающие окна
 [Popup Plus]
 Всплывающие окна
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
