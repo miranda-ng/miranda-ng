@@ -13,10 +13,12 @@ MyColourID g_colorTable[COLOR_COUNT] =
 	{ LPGEN("Other incoming events"), "ColorIn",      RGB(0xff, 0xff, 0xff) },
 	{ LPGEN("Other outgoing events"), "ColorOut",     RGB(0xff, 0xff, 0xff) },
 
-	{ LPGEN("Selected items"),        "ColorSel",     RGB(0x60, 0x60, 0x60) },
-	{ LPGEN("Selected items (text)"), "ColorSelTxt",  RGB(0xff, 0xff, 0xff) },
+	{ LPGEN("Selected item's text"),  "ColorSelTxt",  RGB(0xff, 0xff, 0xff) },
+	{ LPGEN("Selected item's back"),  "ColorSel",     GetSysColor(COLOR_HIGHLIGHT) },
+	{ LPGEN("Selected item's frame"), "ColorSelFrm",  GetSysColor(COLOR_HIGHLIGHTTEXT) },
 
 	{ LPGEN("Background"),            "Background",   RGB(0xff, 0xff, 0xff) },
+	{ LPGEN("Separator"),             "Separator",    RGB(0x60, 0x60, 0x60) },
 };
 
 MyFontID g_fontTable[FONT_COUNT] =

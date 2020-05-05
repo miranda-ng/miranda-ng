@@ -366,12 +366,12 @@ struct NewstoryListData : public MZeroedObject
 		if (item->bSelected) {
 			MTextSendMessage(0, item->data, EM_SETSEL, 0, -1);
 			clText = g_colorTable[COLOR_SELTEXT].cl;
-			clLine = GetSysColor(COLOR_HIGHLIGHTTEXT);
-			clBack = GetSysColor(COLOR_HIGHLIGHT);
+			clBack = g_colorTable[COLOR_SELBACK].cl;
+			clLine = g_colorTable[COLOR_SELFRAME].cl;
 		}
 		else {
 			MTextSendMessage(0, item->data, EM_SETSEL, 0, 0);
-			clLine = g_colorTable[COLOR_SELECTED].cl;
+			clLine = g_colorTable[COLOR_FRAME].cl;
 			clBack = g_colorTable[colorid].cl;
 		}
 
