@@ -431,6 +431,19 @@ int CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	return 0;
 }
 
+int CIcqProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
+{
+	auto *ft = (IcqFileTransfer *)hTransfer;
+	if (!m_bOnline || ft == nullptr)
+		return 1;
+
+	if (*action == FILERESUME_RENAME) {
+		ft->m_wszFileName = *szFilename;
+		ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
+	}
+	return 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetCaps - return protocol capabilities bits
 

@@ -431,7 +431,7 @@ struct filetransfer : public MZeroedObject
 	char*  szId;
 	char*  sid;
 	int    bCompleted;
-	HANDLE hWaitEvent;
+	HANDLE hWaitEvent = INVALID_HANDLE_VALUE;
 
 	// For type == FT_BYTESTREAM
 	JABBER_BYTE_TRANSFER *jbt;

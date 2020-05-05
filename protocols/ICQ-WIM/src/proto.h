@@ -171,6 +171,7 @@ struct IcqFileTransfer : public MZeroedObject
 	CMStringW m_wszFileName, m_wszDescr;
 	const wchar_t *m_wszShortName;
 	PROTOFILETRANSFERSTATUS pfts;
+	HANDLE hWaitEvent;
 
 	void FillHeaders(AsyncHttpRequest *pReq)
 	{
@@ -412,6 +413,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	HANDLE    FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
 	int       FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int       FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
 
 	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int       SendMsg(MCONTACT hContact, int flags, const char *msg) override;
