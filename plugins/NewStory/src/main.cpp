@@ -14,6 +14,7 @@
 CMPlugin g_plugin;
 
 CMOption<bool> g_bOptGrouping(MODULENAME, "MessageGrouping", false);
+CMOption<bool> g_bOptDrawEdge(MODULENAME, "DrawEdge", true);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -106,6 +107,8 @@ static int evtPreShutdown(WPARAM, LPARAM)
 int CMPlugin::Load()
 {
 	registerIcon(MODULETITLE, icons);
+
+	bDrawEdge = g_bOptDrawEdge;
 	bMsgGrouping = g_bOptGrouping;
 
 	m_log = RegisterSrmmLog(MODULETITLE, _T(MODULENAME), NewStory_Stub);

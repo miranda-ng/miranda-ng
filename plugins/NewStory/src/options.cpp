@@ -5,20 +5,23 @@
 
 class CGeneralOptsDlg : public CDlgBase
 {
-	CCtrlCheck chkGrouping, chkVScroll;
+	CCtrlCheck chkGrouping, chkVScroll, chkDrawEdge;
 
 public:
 	CGeneralOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_ADVANCED),
 		chkVScroll(this, IDC_VSCROLL),
+		chkDrawEdge(this, IDC_DRAWEDGE),
 		chkGrouping(this, IDC_GROUPING)
 	{
 		CreateLink(chkVScroll, g_plugin.bOptVScroll);
 		CreateLink(chkGrouping, g_bOptGrouping);
+		CreateLink(chkDrawEdge, g_bOptDrawEdge);
 	}
 
 	bool OnApply() override
 	{
+		g_plugin.bDrawEdge = g_bOptDrawEdge;
 		g_plugin.bMsgGrouping = g_bOptGrouping;
 		return true;
 	}

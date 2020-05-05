@@ -741,7 +741,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				HDC hdc = CreateCompatibleDC(hdcWindow);
 				HBITMAP hbmSave = (HBITMAP)SelectObject(hdc, CreateCompatibleBitmap(hdcWindow, rc.right - rc.left, rc.bottom - rc.top));
 
-				GetClientRect(hwnd, &rc);
 				int height = rc.bottom - rc.top;
 				int width = rc.right - rc.left;
 				int top = data->scrollTopPixel;
@@ -759,10 +758,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					DeleteObject(hbr);
 				}
 
-				GetWindowRect(hwnd, &rc);
-				rc.right -= rc.left; rc.left = 0;
-				rc.bottom -= rc.top; rc.top = 0;
-				DrawEdge(hdc, &rc, BDR_SUNKENOUTER, BF_RECT);
+				if (g_plugin.bDrawEdge)
+					DrawEdge(hdc, &rc, BDR_SUNKENOUTER, BF_RECT);
 
 				BitBlt(hdcWindow, 0, 0, rc.right, rc.bottom, hdc, 0, 0, SRCCOPY);
 				DeleteObject(SelectObject(hdc, hbmSave));

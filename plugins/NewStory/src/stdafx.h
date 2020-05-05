@@ -82,7 +82,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	HANDLE m_log;
 
 	CMOption<bool> bOptVScroll;
-	bool bMsgGrouping; // this option is a copy of static CMOption to keep performance high
+	bool bMsgGrouping, bDrawEdge; // thesw options are a copy of static CMOption to keep performance high
 
 	CMPlugin();
 
@@ -90,5 +90,5 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 };
 
-extern CMOption<bool> g_bOptGrouping;
+extern CMOption<bool> g_bOptGrouping, g_bOptDrawEdge;
 extern wchar_t* months[12];

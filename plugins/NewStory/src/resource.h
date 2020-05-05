@@ -80,7 +80,6 @@
 #define IDC_MONTHCALENDAR               1046
 #define IDC_GROUPING                    1047
 #define IDC_TEMPLATES                   1048
-#define IDC_VSCROLL                     1048
 #define IDC_EDITTEMPLATE                1049
 #define IDC_PREVIEW                     1050
 #define IDC_GPREVIEW                    1051
@@ -88,6 +87,8 @@
 #define IDC_DISCARD                     1053
 #define IDC_UPDATEPREVIEW               1054
 #define IDC_VARHELP                     1055
+#define IDC_VSCROLL                     1056
+#define IDC_DRAWEDGE                    1057
 #define ID_FILTER_SHOWALLEVENTS         40001
 #define ID_FILTER_SHOWINCOMINGEVENTSONLY 40002
 #define ID_FILTER_SHOWOUTGOINGEVENTSONLY 40003
@@ -113,7 +114,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        130
 #define _APS_NEXT_COMMAND_VALUE         40019
-#define _APS_NEXT_CONTROL_VALUE         1056
+#define _APS_NEXT_CONTROL_VALUE         1058
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
