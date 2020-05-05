@@ -871,12 +871,13 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					SendMessage(hwnd, NSM_SETCARET, item, TRUE);
 				}
 				else {
-					if (data->caret == item)
+					if (data->caret == item) {
 						data->BeginEditItem(item);
-					else {
-						SendMessage(hwnd, NSM_SELECTITEMS2, item, item);
-						SendMessage(hwnd, NSM_SETCARET, item, TRUE);
+						return 0;
 					}
+
+					SendMessage(hwnd, NSM_SELECTITEMS2, item, item);
+					SendMessage(hwnd, NSM_SETCARET, item, TRUE);
 				}
 			}
 		}
