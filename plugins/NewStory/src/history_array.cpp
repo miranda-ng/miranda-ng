@@ -52,36 +52,20 @@ void ItemData::load(bool bFullLoad)
 	bLoaded = true;
 
 	switch (dbe.eventType) {
-	case EVENTTYPE_STATUSCHANGE:
-		wtext = mir_utf8decodeW((char*)dbe.pBlob);
-		break;
-
 	case EVENTTYPE_MESSAGE:
-		wtext = mir_utf8decodeW((char *)dbe.pBlob);
-
 		if (!(dbe.flags & DBEF_SENT)) {
 			if (!dbe.markedRead())
 				db_event_markRead(hContact, hEvent);
 			g_clistApi.pfnRemoveEvent(hContact, hEvent);
 		}
+		__fallthrough;
+
+	case EVENTTYPE_STATUSCHANGE:
+		wtext = mir_utf8decodeW((char *)dbe.pBlob);
 		break;
 
-	case EVENTTYPE_JABBER_PRESENCE:
+	default:
 		wtext = DbEvent_GetTextW(&dbe, CP_ACP);
-		break;
-
-	case EVENTTYPE_AUTHREQUEST:
-		if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8))
-			wtext = CMStringW(FORMAT, L"%s requested authorization", Utf2T((char*)dbe.pBlob + 8).get()).Detach();
-		else
-			wtext = CMStringW(FORMAT, L"%d requested authorization", *(DWORD *)(dbe.pBlob)).Detach();
-		break;
-
-	case EVENTTYPE_ADDED:
-		if ((dbe.cbBlob > 8) && *(dbe.pBlob + 8))
-			wtext = CMStringW(FORMAT, L"%s added you to the contact list", Utf2T((char *)dbe.pBlob + 8).get()).Detach();
-		else
-			wtext = CMStringW(FORMAT, L"%d added you to the contact list", *(DWORD *)(dbe.pBlob)).Detach();
 		break;
 	}
 }
