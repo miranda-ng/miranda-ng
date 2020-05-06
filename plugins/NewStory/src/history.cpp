@@ -611,6 +611,7 @@ public:
 	{
 		m_histControl.SendMsg(NSM_DELETE, 0, 0);
 		UpdateTitle();
+		TimeTreeBuild();
 	}
 
 	void onClick_TimeTree(CCtrlButton*)
