@@ -139,7 +139,7 @@ void vfContact(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 void vfSystem(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	// %N: buddy's nick (not for messages)
-	vars->SetVar('N', LPGENW("System event"), false);
+	vars->SetVar('N', TranslateT("System event"), false);
 
 	// %c: event count
 	wchar_t  buf[20];
