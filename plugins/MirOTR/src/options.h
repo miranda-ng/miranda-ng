@@ -38,8 +38,6 @@ typedef struct {
 
 extern Options options;
 
-#define WMU_REFRESHLIST			(WM_USER + 241)
-#define WMU_REFRESHPROTOLIST	(WM_USER + 242)
 #define CONTACT_DEFAULT_POLICY 	0xFFFF
 
 #include <map>
@@ -51,7 +49,7 @@ struct CONTACT_DATA {
 	OtrlPolicy policy;
 	int htmlconv;
 };
-typedef std::map<MCONTACT, CONTACT_DATA> ContactPolicyMap;
+
 typedef enum {FPM_VERIFY, FPM_NOTRUST, FPM_DELETE } FPModify;
 
 int OptInit(WPARAM wParam, LPARAM lParam);

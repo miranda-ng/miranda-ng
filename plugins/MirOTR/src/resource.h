@@ -16,6 +16,7 @@
 #define IDI_UNVERIFIED                  112
 #define IDI_PRIVATE                     113
 #define IDI_FINISHED                    114
+#define IDR_OPT_ACCOUNT                 115
 
 #define IDC_GRP_POLICY                  1051
 #define IDC_RAD_ALWAYS                  1052
@@ -32,9 +33,7 @@
 #define IDC_CHK_ENDCLOSE                1064
 #define IDC_CHK_PREVENTSYSSAVE          1065
 #define IDC_LV_PROTO_PROTOS             1101
-#define IDC_BTN_PROTO_NEWKEY            1102
 #define IDC_CMB_PROTO_POLICY            1103
-#define IDC_BTN_PROTO_FORGET            1104
 #define IDC_STC_PROTO1                  1151
 #define IDC_STC_PROTO2                  1152
 #define IDC_LV_CONT_CONTACTS            1201
@@ -67,6 +66,8 @@
 #define IDM_OPT_FINGER_FORGET           10007
 #define IDM_OPT_FINGER_TRUST            10008
 #define IDM_OPT_FINGER_DONTTRUST        10009
+#define IDM_OPT_PROTO_NEWKEY            10010
+#define IDM_OPT_PROTO_FORGET            10011
 
 
 // Next default values for new objects
