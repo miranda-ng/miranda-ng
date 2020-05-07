@@ -81,32 +81,26 @@ HANDLE CToxProto::OnFileAllow(Tox *tox, MCONTACT hContact, HANDLE hTransfer, con
 	mir_snwprintf(fullPath, L"%s\\%s", transfer->pfts.szWorkingDir.w, transfer->pfts.szCurrentFile.w);
 	transfer->ChangeName(fullPath);
 
-	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts)) {
-		int action = FILERESUME_OVERWRITE;
-		const wchar_t **szFilename = (const wchar_t**)mir_alloc(sizeof(wchar_t*) * 2);
-		szFilename[0] = fullPath;
-		szFilename[1] = nullptr;
-		OnFileResume(tox, hTransfer, &action, szFilename);
-		mir_free(szFilename);
-	}
+	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))
+		OnFileResume(tox, hTransfer, FILERESUME_OVERWRITE, fullPath);
 
 	return hTransfer;
 }
 
 // if file is exists
-int CToxProto::OnFileResume(Tox *tox, HANDLE hTransfer, int *action, const wchar_t **szFilename)
+int CToxProto::OnFileResume(Tox *tox, HANDLE hTransfer, int action, const wchar_t *szFilename)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 
-	if (*action == FILERESUME_SKIP) {
+	if (action == FILERESUME_SKIP) {
 		tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
 		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
 		transfers.Remove(transfer);
 		return 0;
 	}
 
-	if (*action == FILERESUME_RENAME)
-		transfer->ChangeName(*szFilename);
+	if (action == FILERESUME_RENAME)
+		transfer->ChangeName(szFilename);
 
 	ToxHexAddress pubKey = GetContactPublicKey(tox, transfer->friendNumber);
 

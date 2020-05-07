@@ -123,16 +123,15 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return res;
 	}
 
-	virtual int FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename) override
+	virtual int FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename) override
 	{
-		PROTOFILERESUME pfr = { *action, *szFilename };
+		PROTOFILERESUME pfr = { action, szFilename };
 		if (m_iVersion > 1)
 			return (int)ProtoCallService(m_szModuleName, PS_FILERESUME, (WPARAM)hTransfer, (LPARAM)&pfr);
 
 		pfr.szFilename = (wchar_t*)mir_u2a(pfr.szFilename);
 		int res = (int)ProtoCallService(m_szModuleName, PS_FILERESUME, (WPARAM)hTransfer, (LPARAM)&pfr);
-		mir_free((wchar_t*)*szFilename);
-		*action = pfr.action; *szFilename = (wchar_t*)pfr.szFilename;
+		mir_free((wchar_t*)pfr.szFilename);
 
 		return res;
 	}

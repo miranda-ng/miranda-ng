@@ -241,7 +241,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_COMMAND:
 		{
-			PROTOFILERESUME pfr = { 0 };
+			PROTOFILERESUME pfr = {};
 			switch (LOWORD(wParam)) {
 			case IDC_OPENFILE:
 				ShellExecute(hwndDlg, NULL, fts->szCurrentFile.w, NULL, NULL, SW_SHOW);
@@ -278,21 +278,16 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				break;
 
 			case IDC_SAVEAS:
-				{
-					OPENFILENAME ofn = { 0 };
-					wchar_t filter[512], *pfilter;
-					wchar_t str[MAX_PATH];
+				wchar_t str[MAX_PATH];
+				mir_wstrncpy(str, fts->szCurrentFile.w, _countof(str));
 
-					mir_wstrncpy(str, fts->szCurrentFile.w, _countof(str));
+				wchar_t filter[512];
+				mir_snwprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
+				{
+					OPENFILENAME ofn = {};
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
-					wcsncpy(filter, TranslateT("All files"),_countof(filter)-1);
-					mir_wstrcat(filter, L" (*)");
-					pfilter = filter + mir_wstrlen(filter) + 1;
-					mir_wstrcpy(pfilter, L"*");
-					pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-					*pfilter = '\0';
 					ofn.lpstrFilter = filter;
 					ofn.lpstrFile = str;
 					ofn.nMaxFile = _countof(str);
@@ -317,9 +312,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				return FALSE;
 			}
 
-			PROTOFILERESUME *pfrCopy = (PROTOFILERESUME*)mir_alloc(sizeof(pfr));
-			memcpy(pfrCopy, &pfr, sizeof(pfr));
-			PostMessage((HWND)GetPropA(hwndDlg, "Miranda.ParentWnd"), M_FILEEXISTSDLGREPLY, (WPARAM)mir_wstrdup(fts->szCurrentFile.w), (LPARAM)pfrCopy);
+			PostMessage((HWND)GetPropA(hwndDlg, "Miranda.ParentWnd"), M_FILEEXISTSDLGREPLY, (WPARAM)mir_wstrdup(fts->szCurrentFile.w), (LPARAM)new PROTOFILERESUME(pfr));
 			DestroyWindow(hwndDlg);
 		}
 		break;

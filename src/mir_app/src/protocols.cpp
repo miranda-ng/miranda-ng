@@ -407,7 +407,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 				case 10: return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (wchar_t*)lParam);
 				case 11: {
 						PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
-						return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const wchar_t**)&pfr->szFilename);
+						return (INT_PTR)ppi->FileResume((HANDLE)wParam, pfr->action, (const wchar_t*)pfr->szFilename);
 					}
 
 				case 12: return (INT_PTR)ppi->GetCaps(wParam, lParam);

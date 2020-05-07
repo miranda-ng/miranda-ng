@@ -126,7 +126,7 @@ int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*)
 	return FileCancel(hContact, hTransfer);
 }
 
-int CToxProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
+int CToxProto::FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename)
 {
 	if (hTransfer == nullptr) // file resume canceled
 		return 1;

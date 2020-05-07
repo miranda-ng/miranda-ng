@@ -105,7 +105,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override;
 
 	int      Authorize(MEVENT hDbEvent) override;
@@ -115,7 +115,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
 	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
 	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
-	int      FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename) override;
+	int      FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename) override;
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact = 0) override;
 	int      GetInfo(MCONTACT hContact, int infoType) override;

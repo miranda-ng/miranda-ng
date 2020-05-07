@@ -413,7 +413,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	HANDLE    FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
 	int       FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
-	int       FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename) override;
+	int       FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename) override;
 
 	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int       SendMsg(MCONTACT hContact, int flags, const char *msg) override;

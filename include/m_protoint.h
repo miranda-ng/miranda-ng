@@ -195,43 +195,43 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
-	virtual	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr);
 	virtual	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
-						   
+
 	virtual	int      Authorize(MEVENT hDbEvent);
-	virtual	int      AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
-	virtual	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int      AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
-						   
-	virtual	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
+	virtual	int      AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
+	virtual	int      AuthRecv(MCONTACT hContact, PROTORECVEVENT *);
+	virtual	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
+
+	virtual	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath);
 	virtual	int      FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
-	virtual	int      FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename);
-						   
+	virtual	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason);
+	virtual	int      FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename);
+
 	virtual	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL);
 	virtual	int      GetInfo(MCONTACT hContact, int infoType);
-						   
-	virtual	HANDLE   SearchBasic(const wchar_t* id);
-	virtual	HANDLE   SearchByEmail(const wchar_t* email);
-	virtual	HANDLE   SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
+
+	virtual	HANDLE   SearchBasic(const wchar_t *id);
+	virtual	HANDLE   SearchByEmail(const wchar_t *email);
+	virtual	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
 	virtual	HWND     SearchAdvanced(HWND owner);
 	virtual	HWND     CreateExtendedSearchUI(HWND owner);
-						   
-	virtual	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int      RecvFile(MCONTACT hContact, PROTORECVFILE*);
-	virtual	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-						   
+
+	virtual	int      RecvContacts(MCONTACT hContact, PROTORECVEVENT *);
+	virtual	int      RecvFile(MCONTACT hContact, PROTORECVFILE *);
+	virtual	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT *);
+
 	virtual	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 	virtual	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int      SendMsg(MCONTACT hContact, int flags, const char *msg);
-						   
+
 	virtual	int      SetApparentMode(MCONTACT hContact, int mode);
 	virtual	int      SetStatus(int iNewStatus);
-						   
+
 	virtual	HANDLE   GetAwayMsg(MCONTACT hContact);
-	virtual	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt);
-	virtual	int      SetAwayMsg(int iStatus, const wchar_t* msg);
-						   
+	virtual	int      RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt);
+	virtual	int      SetAwayMsg(int iStatus, const wchar_t *msg);
+
 	virtual	int      UserIsTyping(MCONTACT hContact, int type);
 						   
 	//////////////////////////////////////////////////////////////////////////////////////

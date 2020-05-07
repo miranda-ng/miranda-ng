@@ -465,7 +465,7 @@ int PROTO_INTERFACE::FileDeny(MCONTACT, HANDLE, const wchar_t*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::FileResume(HANDLE, int*, const wchar_t**)
+int PROTO_INTERFACE::FileResume(HANDLE, int, const wchar_t*)
 {
 	return 1; // error
 }

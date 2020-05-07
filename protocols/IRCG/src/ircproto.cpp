@@ -381,21 +381,20 @@ int CIrcProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // FileResume - processes file renaming etc
 
-int CIrcProto::FileResume(HANDLE hTransfer, int* action, const wchar_t** szFilename)
+int CIrcProto::FileResume(HANDLE hTransfer, int action, const wchar_t *szFilename)
 {
 	DCCINFO* di = (DCCINFO*)hTransfer;
 
-	long i = (long)*action;
-
+	long i = action;
 	CDccSession *dcc = FindDCCSession(di);
 	if (dcc) {
 		InterlockedExchange(&dcc->dwWhatNeedsDoing, i);
-		if (*action == FILERESUME_RENAME) {
-			wchar_t* szTemp = wcsdup(*szFilename);
+		if (action == FILERESUME_RENAME) {
+			wchar_t* szTemp = wcsdup(szFilename);
 			InterlockedExchangePointer((PVOID*)&dcc->NewFileName, szTemp);
 		}
 
-		if (*action == FILERESUME_RESUME) {
+		if (action == FILERESUME_RESUME) {
 			unsigned __int64 dwPos = 0;
 
 			struct _stati64 statbuf;

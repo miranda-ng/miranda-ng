@@ -501,8 +501,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			mir_free(szOriginalFilename);
 			CallProtoService(szProto, PS_FILERESUME, (WPARAM)dat->fs, (LPARAM)pfr);
-			if (pfr->szFilename) mir_free((char*)pfr->szFilename);
-			mir_free(pfr);
+			delete pfr;
 		}
 		break;
 
@@ -559,7 +558,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						EnableWindow(hwndDlg, FALSE);
 					}
 					else {
-						PROTOFILERESUME *pfr = (PROTOFILERESUME*)mir_alloc(sizeof(PROTOFILERESUME));
+						PROTOFILERESUME *pfr = new PROTOFILERESUME();
 						pfr->action = dat->resumeBehaviour;
 						pfr->szFilename = nullptr;
 						PostMessage(hwndDlg, M_FILEEXISTSDLGREPLY, (WPARAM)mir_wstrdup(fts->szCurrentFile.w), (LPARAM)pfr);

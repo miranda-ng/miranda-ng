@@ -567,14 +567,14 @@ int CJabberProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileResume - processes file renaming etc
 
-int CJabberProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
+int CJabberProto::FileResume(HANDLE hTransfer, int, const wchar_t *szFilename)
 {
 	filetransfer *ft = (filetransfer*)hTransfer;
 	if (!m_bJabberOnline || ft == nullptr)
 		return 1;
 
-	if (*action == FILERESUME_RENAME)
-		replaceStrW(ft->std.szCurrentFile.w, *szFilename);
+	if (szFilename != nullptr)
+		replaceStrW(ft->std.szCurrentFile.w, szFilename);
 
 	SetEvent(ft->hWaitEvent);
 	return 0;
