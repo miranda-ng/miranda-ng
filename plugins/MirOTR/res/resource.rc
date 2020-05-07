@@ -27,11 +27,17 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_OTR                 ICON                    "otr.ico"
+
 IDI_REFRESH             ICON                    "refresh.ico"
+
 IDI_INSECURE            ICON                    "insecure.ico"
+
 IDI_UNVERIFIED          ICON                    "unverified.ico"
+
 IDI_PRIVATE             ICON                    "private.ico"
+
 IDI_FINISHED            ICON                    "finished.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -98,7 +104,7 @@ BEGIN
     COMBOBOX        IDC_CMB_CONT_POLICY,137,207,153,12,CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_TABSTOP
 END
 
-IDD_OPT_FINGER DIALOGEX 0, 0, 296, 226
+IDD_OPT_FINGER DIALOGEX 0, 0, 296, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -184,6 +190,7 @@ BEGIN
     END
 END
 
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -239,7 +246,7 @@ BEGIN
 
     IDD_OPT_FINGER, DIALOG
     BEGIN
-        BOTTOMMARGIN, 220
+        BOTTOMMARGIN, 228
     END
 
     IDD_SMP_INPUT, DIALOG
@@ -255,6 +262,11 @@ END
 //
 
 IDD_OPT_PROTO AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_FINGER AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
