@@ -341,12 +341,9 @@ class CHistoryDlg : public CDlgBase
 		if (!(m_dwOptions & WND_OPT_TIMETREE))
 			return;
 
+		m_timeTree.DeleteAllItems();
 		auto *pArray = (HistoryArray *)m_histControl.SendMsg(NSM_GETARRAY, 0, 0);
 		int numItems = pArray->getCount();
-		if (!numItems) {
-			m_timeTree.DeleteAllItems();
-			return;
-		}
 
 		int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
 		HTREEITEM hCurYear = 0, hCurMonth = 0, hCurDay = 0;
