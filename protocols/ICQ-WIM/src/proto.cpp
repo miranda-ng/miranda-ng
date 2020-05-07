@@ -441,6 +441,8 @@ int CIcqProto::FileResume(HANDLE hTransfer, int, const wchar_t *szFilename)
 		ft->m_wszFileName = szFilename;
 		ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
 	}
+
+	::SetEvent(ft->hWaitEvent);
 	return 0;
 }
 
