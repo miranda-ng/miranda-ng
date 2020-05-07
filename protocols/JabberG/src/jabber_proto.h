@@ -830,8 +830,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 		        
 	bool       ProcessCaptcha(const TiXmlElement *node, const TiXmlElement *parentNode, ThreadData *info);
 		        
-	void       EnableCarbons(bool bEnable);
-
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const char *jid);
 

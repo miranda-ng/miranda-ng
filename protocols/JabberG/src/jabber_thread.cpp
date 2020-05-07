@@ -1924,15 +1924,6 @@ void CJabberProto::OnProcessRegIq(const TiXmlElement *node, ThreadData *info)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Carbons -- this might need to go into its own module
-
-void CJabberProto::EnableCarbons(bool bEnable)
-{
-	m_ThreadInfo->send(XmlNodeIq("set", SerialNext())
-		<< XCHILDNS((bEnable) ? "enable" : "disable", JABBER_FEAT_CARBONS));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // ThreadData constructor & destructor
 
 ThreadData::ThreadData(CJabberProto *_pro, JABBER_CONN_DATA *param)

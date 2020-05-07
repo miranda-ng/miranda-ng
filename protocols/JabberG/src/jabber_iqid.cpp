@@ -129,8 +129,10 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 		if (info->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO)
 			EnableArchive(m_bEnableMsgArchive != 0);
 
-		if (info->jabberServerCaps & JABBER_CAPS_CARBONS)
-			EnableCarbons(m_bEnableCarbons != 0);
+		if (info->jabberServerCaps & JABBER_CAPS_CARBONS) {
+			// Server seems to support carbon copies, let's enable/disable them
+			m_ThreadInfo->send(XmlNodeIq("set", SerialNext()) << XCHILDNS((m_bEnableCarbons) ? "enable" : "disable", JABBER_FEAT_CARBONS));
+		}
 
 		if (m_bAutoJoinBookmarks) {
 			LIST<JABBER_LIST_ITEM> ll(10);
