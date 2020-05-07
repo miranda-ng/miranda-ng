@@ -35,11 +35,6 @@
 
 #define LANG_GENERATE_KEY					LPGENW("Generating new private key for account '%s'.\nPlease Wait...")
 
-#define LANG_OPT_GENERAL					LPGENW("General")
-#define LANG_OPT_PROTO						LPGENW("Accounts")
-#define LANG_OPT_CONTACTS					LPGENW("Contacts")
-#define LANG_OPT_FINGER						LPGENW("Fingerprints")
-
 #define LANG_CONTACT						LPGENW("Contact")
 #define LANG_PROTO							LPGENW("Account")
 #define LANG_POLICY							LPGENW("Policy")

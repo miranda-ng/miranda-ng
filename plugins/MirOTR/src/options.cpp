@@ -624,203 +624,198 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 	return FALSE;
 }
 
-static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CFingerOptionsDlg : public CDlgBase
 {
-	HWND hwndList = GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST);
+	CCtrlListView m_list;
+	std::map<Fingerprint *, FPModify> m_map;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) new FPModifyMap());
-
-		SendDlgItemMessage(hwndDlg, IDC_LV_FINGER_LIST, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);// | LVS_EX_CHECKBOXES);
-		{
-			// add list columns
-			LVCOLUMN lvc;
-			// Initialize the LVCOLUMN structure.
-			// The mask specifies that the format, width, text, and
-			// subitem members of the structure are valid.
-			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-			lvc.fmt = LVCFMT_LEFT;
-
-			lvc.iSubItem = 0;
-			lvc.pszText = TranslateW(LANG_CONTACT);
-			lvc.cx = 100;     // width of column in pixels
-			ListView_InsertColumn(hwndList, 0, &lvc);
-
-			lvc.iSubItem = 1;
-			lvc.pszText = TranslateW(LANG_PROTO);
-			lvc.cx = 90;     // width of column in pixels
-			ListView_InsertColumn(hwndList, 1, &lvc);
-
-			lvc.iSubItem = 2;
-			lvc.pszText = TranslateW(LANG_ACTIVE);
-			lvc.cx = 50;     // width of column in pixels
-			ListView_InsertColumn(hwndList, 2, &lvc);
-
-			lvc.iSubItem = 3;
-			lvc.pszText = TranslateW(LANG_VERIFIED);
-			lvc.cx = 50;     // width of column in pixels
-			ListView_InsertColumn(hwndList, 3, &lvc);
-
-			lvc.iSubItem = 4;
-			lvc.pszText = TranslateW(LANG_FINGERPRINT);
-			lvc.cx = 300;     // width of column in pixels
-			ListView_InsertColumn(hwndList, 4, &lvc);
-		}
-		SendMessage(hwndDlg, WMU_REFRESHLIST, 0, 0);
-		return TRUE;
-
-	case WMU_REFRESHLIST:
+	void RefreshList()
+	{
 		// enumerate contacts, fill in list
-		ListView_DeleteAllItems(hwndList);
-		{
-			LVITEM lvI = { 0 };
+		m_list.DeleteAllItems();
 
-			// Some code to create the list-view control.
-			// Initialize LVITEM members that are common to all
-			// items.
-			lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
+		// Some code to create the list-view control.
+		// Initialize LVITEM members that are common to all
+		// items.
+		LVITEM lvI = { };
+		lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
-			for (ConnContext *context = otr_user_state->context_root; context; context = context->next) {
-				if (context->app_data) {
-					wchar_t *user = (wchar_t*)contact_get_nameT((UINT_PTR)context->app_data);
-					if (user) {
-						PROTOACCOUNT *pa = Proto_GetAccount(context->protocol);
+		for (ConnContext *context = otr_user_state->context_root; context; context = context->next) {
+			if (!context->app_data)
+				continue;
 
-						wchar_t hash[45];
-						for (Fingerprint *fp = context->fingerprint_root.next; fp; fp = fp->next) {
-							otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-							lvI.iSubItem = 0;
-							lvI.lParam = (LPARAM)fp;
-							lvI.pszText = user;
-							int d = ListView_InsertItem(hwndList, &lvI);
+			wchar_t *user = (wchar_t *)contact_get_nameT((UINT_PTR)context->app_data);
+			if (!user)
+				continue;
 
-							ListView_SetItemText(hwndList, d, 1, pa->tszAccountName);
-							ListView_SetItemText(hwndList, d, 2, (context->active_fingerprint == fp) ? TranslateW(LANG_YES) : TranslateW(LANG_NO));
-							ListView_SetItemText(hwndList, d, 3, (fp->trust && fp->trust[0] != '\0') ? TranslateW(LANG_YES) : TranslateW(LANG_NO));
-							ListView_SetItemText(hwndList, d, 4, hash);
-						}
-					}
-				}
+			PROTOACCOUNT *pa = Proto_GetAccount(context->protocol);
+
+			wchar_t hash[45];
+			for (auto *fp = context->fingerprint_root.next; fp; fp = fp->next) {
+				otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
+				lvI.iSubItem = 0;
+				lvI.lParam = (LPARAM)fp;
+				lvI.pszText = user;
+				int d = m_list.InsertItem(&lvI);
+
+				m_list.SetItemText(d, 1, pa->tszAccountName);
+				m_list.SetItemText(d, 2, (context->active_fingerprint == fp) ? TranslateW(LANG_YES) : TranslateW(LANG_NO));
+				m_list.SetItemText(d, 3, (fp->trust && fp->trust[0] != '\0') ? TranslateW(LANG_YES) : TranslateW(LANG_NO));
+				m_list.SetItemText(d, 4, hash);
 			}
 		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (HIWORD(wParam)) {
-		int sel;
-		case BN_CLICKED:
-			switch (LOWORD(wParam)) {
-			case IDC_BTN_FINGER_DONTTRUST:
-				sel = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST));
-				if (sel != -1) {
-					LVITEM lvi = { 0 };
-					lvi.mask = LVIF_PARAM;
-					lvi.iItem = sel;
-					ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), &lvi);
-					Fingerprint *fp = (Fingerprint*)lvi.lParam;
-					FPModifyMap* fpm = (FPModifyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					(*fpm)[fp] = FPM_NOTRUST;
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), sel, 3, TranslateW(LANG_NO));
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-			case IDC_BTN_FINGER_TRUST:
-				sel = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST));
-				if (sel != -1) {
-					LVITEM lvi = { 0 };
-					lvi.mask = LVIF_PARAM;
-					lvi.iItem = sel;
-					ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), &lvi);
-					Fingerprint *fp = (Fingerprint*)lvi.lParam;
-					FPModifyMap* fpm = (FPModifyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					(*fpm)[fp] = FPM_VERIFY;
-					ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), sel, 3, TranslateW(LANG_YES));
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-			
-			case IDC_BTN_FINGER_FORGET:
-				sel = ListView_GetSelectionMark(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST));
-				if (sel != -1) {
-					LVITEM lvi = { 0 };
-					lvi.mask = LVIF_PARAM;
-					lvi.iItem = sel;
-					ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), &lvi);
-					Fingerprint *fp = (Fingerprint*)lvi.lParam;
-					if (fp->context->active_fingerprint == fp) {
-						MCONTACT hContact = (UINT_PTR)fp->context->app_data;
-						wchar_t buff[1024], hash[45];
-						otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-						PROTOACCOUNT *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
-						mir_snwprintf(buff, TranslateW(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
-						ShowError(buff);
-					}
-					else {
-						FPModifyMap* fpm = (FPModifyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-						(*fpm)[fp] = FPM_DELETE;
-						ListView_DeleteItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), sel);
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-				}
-				break;
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY) {
-			// handle apply
-			FPModifyMap *fpm = (FPModifyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			// Iterate over the map and print out all key/value pairs.
-			// Using a const_iterator since we are not going to change the values.
-			for (FPModifyMap::const_iterator it = fpm->begin(); it != fpm->end(); ++it) {
-				if (!it->first) continue;
-				switch (it->second) {
-				case FPM_DELETE:
-					if (it->first->context->active_fingerprint == it->first) {
-						MCONTACT hContact = (UINT_PTR)it->first->context->app_data;
-						wchar_t buff[1024], hash[45];
-						otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
-						PROTOACCOUNT *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
-						mir_snwprintf(buff, TranslateW(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
-						ShowError(buff);
-					}
-					else otrl_context_forget_fingerprint(it->first, 1);
-					break;
-
-				case FPM_VERIFY:
-					otrl_context_set_trust(it->first, "verified");
-					if (it->first == it->first->context->active_fingerprint)
-						VerifyFingerprint(it->first->context, true);
-					break;
-
-				case FPM_NOTRUST:
-					otrl_context_set_trust(it->first, nullptr);
-					if (it->first == it->first->context->active_fingerprint)
-						VerifyFingerprint(it->first->context, false);
-					break;
-				}
-			}
-
-			if (!fpm->empty())
-				otr_gui_write_fingerprints(nullptr);
-			fpm->clear();
-			SendMessage(hwndDlg, WMU_REFRESHLIST, 0, 0);
-			return TRUE;
-		}
-		break;
-
-	case WM_DESTROY:
-		FPModifyMap *fpm = (FPModifyMap*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		fpm->clear();
-		delete fpm;
-		break;
 	}
 
-	return FALSE;
-}
+public:
+	CFingerOptionsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_FINGER),
+		m_list(this, IDC_LV_FINGER_LIST)
+	{
+		m_list.OnBuildMenu = Callback(this, &CFingerOptionsDlg::OnContextMenu);
+	}
+
+	bool OnInitDialog() override
+	{
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
+
+		// add list columns
+		LVCOLUMN lvc;
+		// Initialize the LVCOLUMN structure.
+		// The mask specifies that the format, width, text, and
+		// subitem members of the structure are valid.
+		lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
+		lvc.fmt = LVCFMT_LEFT;
+
+		lvc.iSubItem = 0;
+		lvc.pszText = TranslateW(LANG_CONTACT);
+		lvc.cx = 100;     // width of column in pixels
+		m_list.InsertColumn(0, &lvc);
+
+		lvc.iSubItem = 1;
+		lvc.pszText = TranslateW(LANG_PROTO);
+		lvc.cx = 90;     // width of column in pixels
+		m_list.InsertColumn(1, &lvc);
+
+		lvc.iSubItem = 2;
+		lvc.pszText = TranslateW(LANG_ACTIVE);
+		lvc.cx = 50;     // width of column in pixels
+		m_list.InsertColumn(2, &lvc);
+
+		lvc.iSubItem = 3;
+		lvc.pszText = TranslateW(LANG_VERIFIED);
+		lvc.cx = 50;     // width of column in pixels
+		m_list.InsertColumn(3, &lvc);
+
+		lvc.iSubItem = 4;
+		lvc.pszText = TranslateW(LANG_FINGERPRINT);
+		lvc.cx = 300;     // width of column in pixels
+		m_list.InsertColumn(4, &lvc);
+
+		RefreshList();
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		// Iterate over the map and print out all key/value pairs.
+		// Using a const_iterator since we are not going to change the values.
+		for (auto &it : m_map) {
+			if (!it.first) continue;
+			switch (it.second) {
+			case FPM_DELETE:
+				if (it.first->context->active_fingerprint == it.first) {
+					MCONTACT hContact = (UINT_PTR)it.first->context->app_data;
+					wchar_t buff[1024], hash[45];
+					otrl_privkey_hash_to_humanT(hash, it.first->fingerprint);
+					PROTOACCOUNT *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
+					mir_snwprintf(buff, TranslateW(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT(hContact), pa->tszAccountName);
+					ShowError(buff);
+				}
+				else otrl_context_forget_fingerprint(it.first, 1);
+				break;
+
+			case FPM_VERIFY:
+				otrl_context_set_trust(it.first, "verified");
+				if (it.first == it.first->context->active_fingerprint)
+					VerifyFingerprint(it.first->context, true);
+				break;
+
+			case FPM_NOTRUST:
+				otrl_context_set_trust(it.first, nullptr);
+				if (it.first == it.first->context->active_fingerprint)
+					VerifyFingerprint(it.first->context, false);
+				break;
+			}
+		}
+
+		if (!m_map.empty())
+			otr_gui_write_fingerprints(nullptr);
+
+		m_map.clear();
+		RefreshList();
+		return true;
+	}
+
+	void OnContextMenu(CCtrlListView *)
+	{
+		int sel = m_list.GetSelectionMark();
+		if (sel == -1)
+			return;
+
+		POINT pt;
+		GetCursorPos(&pt);
+
+		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_OPT_FINGER));
+		TranslateMenu(hMenu);
+
+		LVITEM lvi = {};
+		lvi.mask = LVIF_PARAM;
+		lvi.iItem = sel;
+		m_list.GetItem(&lvi);
+
+		auto *fp = (Fingerprint *)lvi.lParam;
+
+		switch (TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, 0)) {
+		case IDM_OPT_FINGER_DONTTRUST:
+			m_map[fp] = FPM_NOTRUST;
+			m_list.SetItemText(sel, 3, TranslateW(LANG_NO));
+			NotifyChange();
+			break;
+
+		case IDM_OPT_FINGER_TRUST:
+			m_map[fp] = FPM_VERIFY;
+			m_list.SetItemText(sel, 3, TranslateW(LANG_YES));
+			NotifyChange();
+			break;
+
+		case IDM_OPT_COPY:
+			wchar_t hash[45];
+			otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
+			CopyToClipboard(hash);
+			break;
+
+		case IDM_OPT_FINGER_FORGET:
+			if (fp->context->active_fingerprint == fp) {
+				MCONTACT hContact = (UINT_PTR)fp->context->app_data;
+				wchar_t buff[1024];
+				otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
+				PROTOACCOUNT *pa = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
+				mir_snwprintf(buff, TranslateW(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT(hContact), pa->tszAccountName);
+				ShowError(buff);
+			}
+			else {
+				m_map[fp] = FPM_DELETE;
+				m_list.DeleteItem(sel);
+				NotifyChange();
+			}
+			break;
+		}
+
+		DestroyMenu(hMenu);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -828,28 +823,29 @@ static int OpenOptions(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100;
-	odp.szGroup.w = LPGENW("Services");
-	odp.szTitle.w = L"OTR";
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	odp.szGroup.a = LPGEN("Services");
+	odp.szTitle.a = "OTR";
+	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.szTab.w = LANG_OPT_GENERAL;
+	odp.szTab.a = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
 	odp.pfnDlgProc = DlgProcMirOTROpts;
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.szTab.w = LANG_OPT_PROTO;
+	odp.szTab.a = LPGEN("Accounts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTO);
 	odp.pfnDlgProc = DlgProcMirOTROptsProto;
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.szTab.w = LANG_OPT_CONTACTS;
+	odp.szTab.a = LPGEN("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
 	odp.pfnDlgProc = DlgProcMirOTROptsContacts;
 	g_plugin.addOptions(wParam, &odp);
 
-	odp.szTab.w = LANG_OPT_FINGER;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FINGER);
-	odp.pfnDlgProc = DlgProcMirOTROptsFinger;
+	odp.szTab.a = LPGEN("Fingerprints");
+	odp.pszTemplate = 0;
+	odp.pfnDlgProc = 0;
+	odp.pDialog = new CFingerOptionsDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

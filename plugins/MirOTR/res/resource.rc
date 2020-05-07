@@ -105,11 +105,8 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "View & Modify status of known fingerprints",IDC_STC_FINGER1,3,3,291,12,SS_NOPREFIX | NOT WS_GROUP
-    CONTROL         "",IDC_LV_FINGER_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,0,18,296,179
-    PUSHBUTTON      "Set verified",IDC_BTN_FINGER_TRUST,4,202,66,18
-    PUSHBUTTON      "Set unknown",IDC_BTN_FINGER_DONTTRUST,72,202,66,18
-    PUSHBUTTON      "Forget",IDC_BTN_FINGER_FORGET,225,202,66,18
+    LTEXT           "View & Modify status of known fingerprints",IDC_STATIC,3,3,291,12,SS_NOPREFIX | NOT WS_GROUP
+    CONTROL         "",IDC_LV_FINGER_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,0,18,296,210
 END
 
 IDD_SMP_PROGRESS DIALOGEX 10, 10, 200, 100
@@ -164,6 +161,18 @@ BEGIN
     END
 END
 
+IDR_OPT_FINGER MENU
+BEGIN
+    POPUP ""
+    BEGIN
+        MENUITEM "Set verified",                IDM_OPT_FINGER_TRUST
+        MENUITEM "Set unknown",                 IDM_OPT_FINGER_DONTTRUST
+        MENUITEM SEPARATOR
+        MENUITEM "Copy",                        IDM_OPT_COPY
+        MENUITEM SEPARATOR
+        MENUITEM "Forget",                      IDM_OPT_FINGER_FORGET
+    END
+END
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -206,19 +215,10 @@ BEGIN
     IDD_OPT_GENERAL, DIALOG
     BEGIN
         RIGHTMARGIN, 296
-        VERTGUIDE, 12
-        VERTGUIDE, 23
-        VERTGUIDE, 138
-        VERTGUIDE, 144
-        VERTGUIDE, 290
     END
 
     IDD_OPT_PROTO, DIALOG
     BEGIN
-        VERTGUIDE, 3
-        VERTGUIDE, 155
-        VERTGUIDE, 162
-        VERTGUIDE, 285
         BOTTOMMARGIN, 220
     END
 
@@ -230,7 +230,6 @@ BEGIN
     IDD_OPT_FINGER, DIALOG
     BEGIN
         BOTTOMMARGIN, 220
-        HORZGUIDE, 203
     END
 
     IDD_SMP_INPUT, DIALOG
