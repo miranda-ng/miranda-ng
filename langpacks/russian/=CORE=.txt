@@ -298,9 +298,9 @@
 [Save as...]
 Сохранить как...
 [Auto rename]
-Автопереименование
+Автоименование
 [Skip]
-Пропуск
+Пропустить
 [Cancel transfer]
 Отмена
 [You are about to receive the file]
@@ -2107,12 +2107,6 @@ Miranda не смогла загрузить встроенную систему
 %s говорит
 [Chat rooms]
 Чаты
-[Look up '%s':]
-Искать '%s':
-[No word to look up]
-Нет слов для просмотра
-[&Message %s]
-&Сообщение %s
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2783,6 +2777,8 @@ ANSI плагин
 [Unselect all]
 Снять выбор
 ;file \src\mir_app\src\srmm_base.cpp
+[&Message %s]
+&Сообщение %s
 [Nickname]
 Ник
 [Unique ID]
@@ -2790,6 +2786,11 @@ ANSI плагин
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 Просмотрщик журнала сообщений
+;file \src\mir_app\src\srmm_log_rtf.cpp
+[Look up '%s':]
+Искать '%s':
+[No word to look up]
+Нет слов для просмотра
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделитель>
