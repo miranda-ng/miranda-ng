@@ -38,7 +38,9 @@ bool Filter::check(ItemData *item)
 	return true;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Event
+
 void ItemData::load(bool bFullLoad)
 {
 	if (!bFullLoad || bLoaded)
@@ -89,6 +91,60 @@ ItemData::~ItemData()
 	mir_free(wtext);
 	if (data)
 		MTextDestroy(data);
+}
+
+int ItemData::getTemplate() const
+{
+	switch (dbe.eventType) {
+	case EVENTTYPE_MESSAGE:         return isGrouped() ? TPL_MSG_GRP : TPL_MESSAGE;
+	case EVENTTYPE_FILE:            return TPL_FILE;
+	case EVENTTYPE_STATUSCHANGE:    return TPL_SIGN;
+	case EVENTTYPE_AUTHREQUEST:     return TPL_AUTH;
+	case EVENTTYPE_ADDED:           return TPL_ADDED;
+	case EVENTTYPE_JABBER_PRESENCE: return TPL_PRESENCE;
+	default:
+		return TPL_OTHER;
+	}
+}
+
+void ItemData::getFontColor(int &fontId, int &colorId) const
+{
+	switch (dbe.eventType) {
+	case EVENTTYPE_MESSAGE:
+		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
+		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
+		break;
+
+	case EVENTTYPE_FILE:
+		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
+		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
+		break;
+
+	case EVENTTYPE_STATUSCHANGE:
+		fontId = FONT_STATUS;
+		colorId = COLOR_STATUS;
+		break;
+
+	case EVENTTYPE_AUTHREQUEST:
+		fontId = FONT_INOTHER;
+		colorId = COLOR_INOTHER;
+		break;
+
+	case EVENTTYPE_ADDED:
+		fontId = FONT_INOTHER;
+		colorId = COLOR_INOTHER;
+		break;
+
+	case EVENTTYPE_JABBER_PRESENCE:
+		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+		break;
+
+	default:
+		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
+		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+		break;
+	}
 }
 
 // Array

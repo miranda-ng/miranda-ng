@@ -73,6 +73,14 @@ public:
 		bthVarHelp.OnClick = Callback(this, &CTemplateOptsDlg::onVarHelp);
 
 		m_tree.OnSelChanged = Callback(this, &CTemplateOptsDlg::onSelChanged);
+	}
+
+	bool OnInitDialog() override
+	{
+		HIMAGELIST himgTree = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 1, 1);
+		m_tree.SetImageList(himgTree, TVSIL_NORMAL);
+
+		ImageList_AddIcon(himgTree, g_plugin.getIcon(ICO_TPLGROUP));
 
 		m_hContact = db_add_contact();
 		Proto_AddToContact(m_hContact, META_PROTO);
@@ -82,19 +90,11 @@ public:
 
 		DBEVENTINFO dbei = {};
 		dbei.pBlob = (BYTE *)"The quick brown fox jumps over the lazy dog";
-		dbei.cbBlob = (DWORD)strlen((char*)dbei.pBlob);
+		dbei.cbBlob = (DWORD)strlen((char *)dbei.pBlob);
 		dbei.flags = DBEF_TEMPORARY;
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.timestamp = time(0);
 		m_hDbEVent = db_event_add(m_hContact, &dbei);
-	}
-
-	bool OnInitDialog() override
-	{
-		HIMAGELIST himgTree = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 1, 1);
-		m_tree.SetImageList(himgTree, TVSIL_NORMAL);
-
-		ImageList_AddIcon(himgTree, g_plugin.getIcon(ICO_TPLGROUP));
 
 		HTREEITEM hGroup = 0, hFirst = 0;
 		const wchar_t *pwszPrevGroup = nullptr;

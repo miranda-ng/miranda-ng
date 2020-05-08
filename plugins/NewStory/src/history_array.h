@@ -22,6 +22,9 @@ struct ItemData
 	void load(bool bFullLoad);
 	bool isGrouped() const;
 
+	int getTemplate() const;
+	void getFontColor(int &fontId, int &colorId) const;
+
 	inline wchar_t *getWBuf()
 	{
 		load(true);

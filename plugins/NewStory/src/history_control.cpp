@@ -258,48 +258,12 @@ struct NewstoryListData : public MZeroedObject
 			return 0;
 		}
 
-		int tpl;
-		int fontid;
-		switch (item->dbe.eventType) {
-		case EVENTTYPE_MESSAGE:
-			tpl = item->isGrouped() ? TPL_MSG_GRP : TPL_MESSAGE;
-			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
-			break;
-
-		case EVENTTYPE_FILE:
-			tpl = TPL_FILE;
-			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
-			break;
-
-		case EVENTTYPE_STATUSCHANGE:
-			tpl = TPL_SIGN;
-			fontid = FONT_STATUS;
-			break;
-
-		case EVENTTYPE_AUTHREQUEST:
-			tpl = TPL_AUTH;
-			fontid = FONT_INOTHER;
-			break;
-
-		case EVENTTYPE_ADDED:
-			tpl = TPL_ADDED;
-			fontid = FONT_INOTHER;
-			break;
-
-		case EVENTTYPE_JABBER_PRESENCE:
-			tpl = TPL_PRESENCE;
-			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-			break;
-
-		default:
-			tpl = TPL_OTHER;
-			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-			break;
-		}
+		int fontid, colorid;
+		item->getFontColor(fontid, colorid);
 
 		HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
 		if (!item->data)
-			item->data = MTextCreateW(htuLog, ptrW(TplFormatString(tpl, item->hContact, item)));
+			item->data = MTextCreateW(htuLog, ptrW(TplFormatString(item->getTemplate(), item->hContact, item)));
 
 		SIZE sz;
 		sz.cx = width - 6;
@@ -317,52 +281,9 @@ struct NewstoryListData : public MZeroedObject
 
 		//	LOGFONT lfText;
 		COLORREF clText, clBack, clLine;
-		int tpl;
-		int fontid;
-		int colorid;
-		switch (item->dbe.eventType) {
-		case EVENTTYPE_MESSAGE:
-			tpl = item->isGrouped() ? TPL_MSG_GRP : TPL_MESSAGE;
-			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
-			colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
-			break;
+		int fontid, colorid;
+		item->getFontColor(fontid, colorid);
 
-		case EVENTTYPE_FILE:
-			tpl = TPL_FILE;
-			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
-			colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
-			break;
-
-		case EVENTTYPE_STATUSCHANGE:
-			tpl = TPL_SIGN;
-			fontid = FONT_STATUS;
-			colorid = COLOR_STATUS;
-			break;
-
-		case EVENTTYPE_AUTHREQUEST:
-			tpl = TPL_AUTH;
-			fontid = FONT_INOTHER;
-			colorid = COLOR_INOTHER;
-			break;
-
-		case EVENTTYPE_ADDED:
-			tpl = TPL_ADDED;
-			fontid = FONT_INOTHER;
-			colorid = COLOR_INOTHER;
-			break;
-
-		case EVENTTYPE_JABBER_PRESENCE:
-			tpl = TPL_PRESENCE;
-			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-			colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
-			break;
-
-		default:
-			tpl = TPL_OTHER;
-			fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-			colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
-			break;
-		}
 		clText = g_fontTable[fontid].cl;
 		if (item->bSelected) {
 			MTextSendMessage(0, item->data, EM_SETSEL, 0, -1);
@@ -377,7 +298,7 @@ struct NewstoryListData : public MZeroedObject
 		}
 
 		if (!item->data) {
-			item->data = MTextCreateW(htuLog, ptrW(TplFormatString(tpl, item->hContact, item)));
+			item->data = MTextCreateW(htuLog, ptrW(TplFormatString(item->getTemplate(), item->hContact, item)));
 			if (!item->data)
 				return 0;
 		}
