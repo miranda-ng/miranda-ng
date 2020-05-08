@@ -20,8 +20,6 @@
 #define ICO_MSGIN                       116
 #define ICO_MSGOUT                      117
 #define ICO_SIGNIN                      118
-#define ICO_FILE                        119
-#define ICO_URL                         120
 #define ICO_UNKNOWN                     121
 #define ICO_FINDPREV                    122
 #define ICO_FINDNEXT                    123

@@ -385,7 +385,7 @@ struct NewstoryListData : public MZeroedObject
 		SIZE sz;
 		sz.cx = width - 6;
 		HFONT hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-		MTextMeasure(hdc, &sz, (HANDLE)item->data);
+		MTextMeasure(hdc, &sz, item->data);
 		SelectObject(hdc, hfnt);
 		int height = sz.cy + 5;
 
@@ -403,7 +403,7 @@ struct NewstoryListData : public MZeroedObject
 		pos.x = 3;
 		pos.y = top + 2;
 		hfnt = (HFONT)SelectObject(hdc, g_fontTable[fontid].hfnt);
-		MTextDisplay(hdc, pos, sz, (HANDLE)item->data);
+		MTextDisplay(hdc, pos, sz, item->data);
 		SelectObject(hdc, hfnt);
 
 		DeleteObject(hbr);
@@ -752,8 +752,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					RECT rc2;
 					SetRect(&rc2, 0, top, width, height);
 
-					HBRUSH hbr;
-					hbr = CreateSolidBrush(g_colorTable[COLOR_BACK].cl);
+					HBRUSH hbr = CreateSolidBrush(g_colorTable[COLOR_BACK].cl);
 					FillRect(hdc, &rc2, hbr);
 					DeleteObject(hbr);
 				}

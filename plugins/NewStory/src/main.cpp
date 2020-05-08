@@ -59,8 +59,6 @@ static IconItem icons[] =
 	{ LPGEN("Incoming message"),  "msgin",     ICO_MSGIN      },
 	{ LPGEN("Outgoing message"),  "msgout",    ICO_MSGOUT     },
 	{ LPGEN("User signed in"),    "signin",    ICO_SIGNIN     },
-	{ LPGEN("File"),              "file",      ICO_FILE       },
-	{ LPGEN("URL"),               "url",       ICO_URL        },
 	{ LPGEN("Unknown event"),     "unknown",   ICO_UNKNOWN    },
 
 	{ LPGEN("Find previous"),     "findprev",  ICO_FINDPREV   },

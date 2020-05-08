@@ -30,14 +30,16 @@ struct TemplateInfo
 {
 	enum { VF_COUNT = 6 };
 
-	char* setting;
+	char*    setting;
 	wchar_t* group;
-	int  icon;
+	int      iIcon;
 	wchar_t* title;
 	wchar_t* defvalue;
 	wchar_t* value;
 	wchar_t* tmpValue;
 	VarFunc vf[VF_COUNT];
+
+	HICON getIcon() const;
 };
 
 enum

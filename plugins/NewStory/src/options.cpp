@@ -120,7 +120,7 @@ public:
 			tvis.hInsertAfter = TVI_LAST;
 			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 			tvis.item.pszText = TranslateW(it.title);
-			tvis.item.iSelectedImage = tvis.item.iImage = ImageList_AddIcon(himgTree, g_plugin.getIcon(it.icon));
+			tvis.item.iSelectedImage = tvis.item.iImage = ImageList_AddIcon(himgTree, it.getIcon());
 			tvis.item.lParam = (LPARAM)&it;
 			m_tree.InsertItem(&tvis);
 

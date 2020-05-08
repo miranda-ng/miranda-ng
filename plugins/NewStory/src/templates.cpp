@@ -169,7 +169,7 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 		hIcon = g_plugin.getIcon(ICO_SENDMSG);
 		break;
 	case EVENTTYPE_FILE:
-		hIcon = g_plugin.getIcon(ICO_FILE);
+		hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
 		break;
 	case EVENTTYPE_STATUSCHANGE:
 		hIcon = g_plugin.getIcon(ICO_SIGNIN);
@@ -301,6 +301,11 @@ void vfOther(int, TemplateVars *vars, MCONTACT, ItemData *)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+HICON TemplateInfo::getIcon() const
+{
+	return (iIcon < 0) ? Skin_LoadIcon(-iIcon) : g_plugin.getIcon(iIcon);
+}
+
 TemplateInfo templates[TPL_COUNT] =
 {
 	{ "tpl/interface/title", LPGENW("Interface"), ICO_NEWSTORY, LPGENW("Window title"),
@@ -313,7 +318,7 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/msglog/msg_grp", LPGENW("Message log"), ICO_SENDMSG, LPGENW("Grouped messages"),
 		L"%I%i[b]%t:[/b] %M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
-	{ "tpl/msglog/file", LPGENW("Message log"), ICO_FILE, LPGENW("Files"),
+	{ "tpl/msglog/file", LPGENW("Message log"), -SKINICON_EVENT_FILE, LPGENW("Files"),
 		L"%I%i[b]%N, %t:[/b]%n%M", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
 	{ "tpl/msglog/status", LPGENW("Message log"), ICO_SIGNIN, LPGENW("Status changes"),
@@ -339,10 +344,10 @@ TemplateInfo templates[TPL_COUNT] =
 	{ "tpl/copy/msg", LPGENW("Clipboard"), ICO_SENDMSG, LPGENW("Messages"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfMessage, 0 } },
-	{ "tpl/copy/file", LPGENW("Clipboard"), ICO_FILE, LPGENW("Files"),
+	{ "tpl/copy/file", LPGENW("Clipboard"), -SKINICON_EVENT_FILE, LPGENW("Files"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfFile, 0 } },
-	{ "tpl/copy/url", LPGENW("Clipboard"), ICO_URL, LPGENW("URLs"),
+	{ "tpl/copy/url", LPGENW("Clipboard"), -SKINICON_EVENT_URL, LPGENW("URLs"),
 		L"%N, %t:\x0d\x0a%M%n", 0, 0,
 		{ vfGlobal, vfContact, vfEvent, vfUrl, 0 } },
 	{ "tpl/copy/status", LPGENW("Clipboard"), ICO_SIGNIN, LPGENW("Status changes"),

@@ -552,7 +552,7 @@ public:
 		UpdateTitle();
 
 		ADDEVENTS tmp = { m_hContact, db_event_first(m_hContact), -1 };
-		SendMessage(m_histControl.GetHwnd(), NSM_ADDEVENTS, WPARAM(&tmp), 0);
+		m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(ICO_NEWSTORY));
 
@@ -562,11 +562,11 @@ public:
 		SendMessage(ibMessages.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
 		SendMessage(ibMessages.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
 		
-		SendMessage(ibFiles.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_FILE), 0);
+		SendMessage(ibFiles.hwndIco, STM_SETICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_FILE), 0);
 		SendMessage(ibFiles.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
 		SendMessage(ibFiles.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
 		
-		SendMessage(ibUrls.hwndIco, STM_SETICON, (LPARAM)g_plugin.getIcon(ICO_URL), 0);
+		SendMessage(ibUrls.hwndIco, STM_SETICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_URL), 0);
 		SendMessage(ibUrls.hwndIcoIn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGIN));
 		SendMessage(ibUrls.hwndIcoOut, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(ICO_MSGOUT));
 		

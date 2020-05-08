@@ -50,10 +50,6 @@ ICO_MSGOUT              ICON                    "msgout.ico"
 
 ICO_SIGNIN              ICON                    "signin.ico"
 
-ICO_FILE                ICON                    "file.ico"
-
-ICO_URL                 ICON                    "url.ico"
-
 ICO_UNKNOWN             ICON                    "unknown.ico"
 
 ICO_FINDPREV            ICON                    "findprev.ico"
