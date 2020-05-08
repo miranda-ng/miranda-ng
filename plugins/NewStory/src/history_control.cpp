@@ -112,51 +112,16 @@ struct NewstoryListData : public MZeroedObject
 			if (idx == index) {
 				ItemData *item = items[index];
 
-				int tpl;
-				int fontid;
-				int colorid;
+				int tpl, fontid, colorid;
+				item->getFontColor(fontid, colorid);
 				switch (item->dbe.eventType) {
-				case EVENTTYPE_MESSAGE:
-					tpl = TPL_COPY_MESSAGE;
-					fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
-					colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
-					break;
-
-				case EVENTTYPE_FILE:
-					tpl = TPL_COPY_FILE;
-					fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
-					colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
-					break;
-
-				case EVENTTYPE_STATUSCHANGE:
-					tpl = TPL_COPY_SIGN;
-					fontid = FONT_STATUS;
-					colorid = COLOR_STATUS;
-					break;
-
-				case EVENTTYPE_AUTHREQUEST:
-					tpl = TPL_COPY_AUTH;
-					fontid = FONT_INOTHER;
-					colorid = COLOR_INOTHER;
-					break;
-
-				case EVENTTYPE_ADDED:
-					tpl = TPL_COPY_ADDED;
-					fontid = FONT_INOTHER;
-					colorid = COLOR_INOTHER;
-					break;
-
-				case EVENTTYPE_JABBER_PRESENCE:
-					tpl = TPL_COPY_PRESENCE;
-					fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-					colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
-					break;
-
-				default:
-					tpl = TPL_COPY_OTHER;
-					fontid = !(item->dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-					colorid = !(item->dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
-					break;
+				case EVENTTYPE_MESSAGE:         tpl = TPL_COPY_MESSAGE;  break;
+				case EVENTTYPE_FILE:            tpl = TPL_COPY_FILE;     break;
+				case EVENTTYPE_STATUSCHANGE:    tpl = TPL_COPY_SIGN;     break;
+				case EVENTTYPE_AUTHREQUEST:     tpl = TPL_COPY_AUTH;     break;
+				case EVENTTYPE_ADDED:           tpl = TPL_COPY_ADDED;    break;
+				case EVENTTYPE_JABBER_PRESENCE: tpl = TPL_COPY_PRESENCE; break;
+				default:                        tpl = TPL_COPY_OTHER;    break;
 				}
 
 				ptrW text(TplFormatString(tpl, item->hContact, item));
