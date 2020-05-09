@@ -414,6 +414,13 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		data->redrawTimer.Start(100);
 		break;
 
+	case NSM_CLEAR:
+		data->items.clear();
+
+		data->redrawTimer.Stop();
+		data->redrawTimer.Start(100);
+		break;
+
 	case NSM_GETARRAY:
 		return (LRESULT)&data->items;
 

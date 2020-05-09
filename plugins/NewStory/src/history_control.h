@@ -47,6 +47,9 @@ enum
 	NSM_ADDEVENTS,
 	NSM_ADDCHATEVENT,
 
+	// clear log
+	NSM_CLEAR,
+
 	// wParam = id
 	NSM_SETCARET,
 

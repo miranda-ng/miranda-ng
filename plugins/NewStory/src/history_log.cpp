@@ -33,6 +33,7 @@ public:
 
 	void Clear() override
 	{
+		SendMessage(m_hwnd, NSM_CLEAR, 0, 0);
 	}
 
 	HWND GetHwnd() override
