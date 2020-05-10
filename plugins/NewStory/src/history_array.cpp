@@ -195,7 +195,6 @@ HistoryArray::HistoryArray() :
 	pages(50),
 	strings(50, wcscmp)
 {
-	pages.insert(new ItemBlock());
 }
 
 HistoryArray::~HistoryArray()
@@ -268,6 +267,8 @@ ItemData& HistoryArray::allocateItem()
 		pages.insert(new ItemBlock());
 		iLastPageCounter = 0;
 	}
+	else if (pages.getCount() == 0)
+		pages.insert(new ItemBlock);
 
 	auto &p = pages[pages.getCount() - 1];
 	return p.data[iLastPageCounter++];
@@ -287,5 +288,6 @@ ItemData* HistoryArray::get(int id, bool bLoad)
 
 int HistoryArray::getCount() const
 {
-	return (pages.getCount() - 1) * HIST_BLOCK_SIZE + iLastPageCounter;
+	int nPages = pages.getCount();
+	return (nPages == 0) ? 0 : (nPages - 1) * HIST_BLOCK_SIZE + iLastPageCounter;
 }
