@@ -1,5 +1,10 @@
 #include "stdafx.h"
 
+extern HANDLE htuLog;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Filters
+
 bool Filter::check(ItemData *item)
 {
 	if (!item) return false;
@@ -40,6 +45,30 @@ bool Filter::check(ItemData *item)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event
+
+void ItemData::checkCreate(HWND hwnd)
+{
+	if (data == nullptr) {
+		data = MTextCreateW(htuLog, ptrW(TplFormatString(getTemplate(), hContact, this)));
+		MTextSetParent(data, hwnd);
+	}
+}
+
+bool ItemData::isLink(POINT pt) const
+{
+	int cp = MTextSendMessage(0, data, EM_CHARFROMPOS, 0, LPARAM(&pt));
+	if (cp == -1)
+		return false;
+	
+	CHARRANGE cr = { cp, cp + 1 };
+	MTextSendMessage(0, data, EM_EXSETSEL, 0, LPARAM(&cr));
+	
+	CHARFORMAT2 cf = {};
+	cf.cbSize = sizeof(cf);
+	cf.dwMask = CFM_LINK;
+	DWORD res = MTextSendMessage(0, data, EM_GETCHARFORMAT, SCF_SELECTION, LPARAM(&cf));
+	return ((res & CFM_LINK) && (cf.dwEffects & CFE_LINK)) || ((res & CFM_REVISED) && (cf.dwEffects & CFE_REVISED));
+}
 
 void ItemData::load(bool bFullLoad)
 {
@@ -104,6 +133,20 @@ int ItemData::getTemplate() const
 	case EVENTTYPE_JABBER_PRESENCE: return TPL_PRESENCE;
 	default:
 		return TPL_OTHER;
+	}
+}
+
+int ItemData::getCopyTemplate() const
+{
+	switch (dbe.eventType) {
+	case EVENTTYPE_MESSAGE:         return TPL_COPY_MESSAGE;
+	case EVENTTYPE_FILE:            return TPL_COPY_FILE;
+	case EVENTTYPE_STATUSCHANGE:    return TPL_COPY_SIGN;
+	case EVENTTYPE_AUTHREQUEST:     return TPL_COPY_AUTH;
+	case EVENTTYPE_ADDED:           return TPL_COPY_ADDED;
+	case EVENTTYPE_JABBER_PRESENCE: return TPL_COPY_PRESENCE;
+	default:
+		return TPL_COPY_OTHER;
 	}
 }
 

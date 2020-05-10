@@ -66,7 +66,7 @@ MTEXTCONTROL_DLL(int) MTextMeasure(HDC dc, SIZE *sz, HANDLE text);
 MTEXTCONTROL_DLL(int) MTextDisplay(HDC dc, POINT pos, SIZE sz, HANDLE text);
 
 // set parent window for text object (this is required for mouse handling, etc)
-MTEXTCONTROL_DLL(int) MTextSetParent(HANDLE text, HWND hwnd, RECT rect);
+MTEXTCONTROL_DLL(int) MTextSetParent(HANDLE text, HWND hwnd);
 
 // send message to an object
 MTEXTCONTROL_DLL(int) MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lParam);

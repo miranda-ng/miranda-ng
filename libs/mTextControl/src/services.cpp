@@ -158,10 +158,14 @@ MTEXTCONTROL_DLL(int) MTextDisplay(HDC dc, POINT pos, SIZE sz, HANDLE text)
 /////////////////////////////////////////////////////////////////////////////////////////
 // set parent window for text object (this is required for mouse handling, etc)
 
-MTEXTCONTROL_DLL(int) MTextSetParent(HANDLE text, HWND hwnd, RECT rect)
+MTEXTCONTROL_DLL(int) MTextSetParent(HANDLE text, HWND hwnd)
 {
-	if (text)
-		((TextObject *)text)->ftd->setParentWnd(hwnd, rect);
+	if (text) {
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+
+		((TextObject *)text)->ftd->setParentWnd(hwnd, rc);
+	}
 	return 0;
 }
 
@@ -178,7 +182,7 @@ MTEXTCONTROL_DLL(int) MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM 
 
 	if (hwnd && (msg == WM_MOUSEMOVE)) {
 		HDC hdc = GetDC(hwnd);
-		((TextObject *)text)->ftd->getTextService()->OnTxSetCursor(DVASPECT_CONTENT, 0, nullptr, nullptr, hdc, nullptr, nullptr, LOWORD(0), HIWORD(0));
+		((TextObject *)text)->ftd->getTextService()->OnTxSetCursor(DVASPECT_CONTENT, 0, nullptr, nullptr, hdc, nullptr, nullptr, LOWORD(lParam), HIWORD(lParam));
 		ReleaseDC(hwnd, hdc);
 	}
 

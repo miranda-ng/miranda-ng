@@ -3,26 +3,31 @@
 
 struct ItemData
 {
-	MCONTACT hContact = 0;
-	MEVENT hEvent = 0;
+	MCONTACT hContact;
+	MEVENT hEvent;
 
-	bool bSelected = false;
-	bool bLoaded = false;
+	bool bSelected;
+	bool bLoaded;
+	int savedTop;
 
 	DBEVENTINFO dbe;
-	wchar_t *wtext = 0;
-	wchar_t *wszNick = 0;
+	wchar_t *wtext;
+	wchar_t *wszNick;
 
-	HANDLE data = 0;
-	ItemData *pPrev = 0;
+	HANDLE data;
+	ItemData *pPrev;
 
-	ItemData() { memset(&dbe, 0, sizeof(dbe)); }
+	ItemData() { memset(this, 0, sizeof(*this)); }
 	~ItemData();
+
+	void checkCreate(HWND hwnd);
 
 	void load(bool bFullLoad);
 	bool isGrouped() const;
+	bool isLink(POINT pt) const;
 
 	int getTemplate() const;
+	int getCopyTemplate() const;
 	void getFontColor(int &fontId, int &colorId) const;
 
 	inline wchar_t *getWBuf()

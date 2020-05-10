@@ -78,8 +78,7 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			GetWindowText(hwnd, data->text, textLength + 1);
 			data->mtext = MTextCreateW(data->htu, data->text);
 
-			RECT rc; GetClientRect(hwnd, &rc);
-			MTextSetParent(data->mtext, hwnd, rc);
+			MTextSetParent(data->mtext, hwnd);
 
 			InvalidateRect(hwnd, nullptr, TRUE);
 		}
