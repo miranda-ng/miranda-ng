@@ -745,13 +745,15 @@ CDbxSQLiteEventCursor::~CDbxSQLiteEventCursor()
 }
 MEVENT CDbxSQLiteEventCursor::FetchNext()
 {
+	if (!cursor)
+		return 0;
 	int rc = sqlite3_step(cursor);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
 		//empty response
 		//reset sql cursor
 		sqlite3_reset(cursor);
-		cursor = 0;
+		cursor = nullptr;
 		return 0;
 	}
 	return sqlite3_column_int64(cursor, 0);
