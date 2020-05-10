@@ -22,6 +22,16 @@ struct DBCachedContact : public DBCachedContactBase
 	void MarkRead(MEVENT hDbEvent);
 };
 
+struct CDbxSQLiteEventCursor : public DB::EventCursorBase
+{
+	CDbxSQLiteEventCursor(MCONTACT _1, DBEVENTINFO& _2, sqlite3* m_db, bool reverse = false);
+	~CDbxSQLiteEventCursor() override;
+	MEVENT FetchNext() override;
+private:
+	sqlite3* m_db;
+	sqlite3_stmt* cursor;
+};
+
 struct CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 {
 private:
@@ -91,4 +101,7 @@ public:
 
 	STDMETHODIMP_(BOOL)     Compact() override;
 	STDMETHODIMP_(BOOL)     Backup(LPCWSTR) override;
+
+	STDMETHODIMP_(DB::EventCursor*) EventCursor(MCONTACT hContact, DBEVENTINFO& dbei) override;
+	STDMETHODIMP_(DB::EventCursor*) EventCursorRev(MCONTACT hContact, DBEVENTINFO& dbei) override;
 };

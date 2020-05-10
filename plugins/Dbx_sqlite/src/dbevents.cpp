@@ -22,7 +22,14 @@ enum {
 	SQL_EVT_STMT_NUM
 };
 
-static char *evt_stmts[SQL_EVT_STMT_NUM] = {
+//TODO: hide it inside cursor class
+static const char* normal_order_query =
+"select id from events_srt where contact_id = ? order by timestamp;";
+static const char* reverse_order_query =
+"select id from events_srt where contact_id = ? order by timestamp desc, id desc;";
+
+
+static const char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select count(1) from events where contact_id = ? limit 1;",
 	"insert into events(contact_id, module, timestamp, type, flags, data) values (?, ?, ?, ?, ?, ?);",
 	"delete from events where id = ?;",
@@ -32,9 +39,9 @@ static char *evt_stmts[SQL_EVT_STMT_NUM] = {
 	"select flags from events where id = ? limit 1;",
 	"update events set flags = ? where id = ?;",
 	"select contact_id from events where id = ? limit 1;",
-	"select id from events_srt where contact_id = ? order by timestamp;",
+	normal_order_query,
 	"select id, timestamp from events where contact_id = ? and (flags & ?) = 0 order by timestamp, id limit 1;",
-	"select id from events_srt where contact_id = ? order by timestamp desc, id desc;",
+	reverse_order_query,
 	"select id, timestamp from events where module = ? and server_id = ? limit 1;",
 	"update events set server_id = ? where id = ?;",
 	"insert into events_srt(id, contact_id, timestamp) values (?, ?, ?);",
@@ -710,3 +717,43 @@ BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact*)
 
 	return TRUE;
 }
+
+STDMETHODIMP_(DB::EventCursor*) CDbxSQLite::EventCursor(MCONTACT hContact, DBEVENTINFO& dbei)
+{
+	return new CDbxSQLiteEventCursor(hContact, dbei, m_db);
+}
+
+STDMETHODIMP_(DB::EventCursor*) CDbxSQLite::EventCursorRev(MCONTACT hContact, DBEVENTINFO& dbei)
+{
+	return new CDbxSQLiteEventCursor(hContact, dbei, m_db, true);
+}
+
+CDbxSQLiteEventCursor::CDbxSQLiteEventCursor(MCONTACT _1, DBEVENTINFO& _2, sqlite3* _db, bool reverse)
+	: EventCursorBase(_1, _2), m_db(_db)
+{
+	if (reverse)
+		sqlite3_prepare_v2(m_db, reverse_order_query, -1, &cursor, nullptr);
+	else
+		sqlite3_prepare_v2(m_db, normal_order_query, -1, &cursor, nullptr);
+	sqlite3_bind_int64(cursor, 1, hContact);
+}
+
+CDbxSQLiteEventCursor::~CDbxSQLiteEventCursor()
+{
+	if (cursor)
+		sqlite3_reset(cursor);
+}
+MEVENT CDbxSQLiteEventCursor::FetchNext()
+{
+	int rc = sqlite3_step(cursor);
+	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+	if (rc != SQLITE_ROW) {
+		//empty response
+		//reset sql cursor
+		sqlite3_reset(cursor);
+		cursor = 0;
+		return 0;
+	}
+	return sqlite3_column_int64(cursor, 0);
+}
+
