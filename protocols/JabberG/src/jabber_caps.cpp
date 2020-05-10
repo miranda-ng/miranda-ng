@@ -370,7 +370,12 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 	if (szNode)
 		query << XATTR("node", szNode);
 
-	CMStringA szName(FORMAT, "Miranda %d.%d.%d.%d", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
+	CMStringA szName(getMStringA("Identity")); // hidden setting to be entered from dbeditor++
+	if (szName.IsEmpty()) {
+		szName.Append("Miranda");
+		if (m_bAllowVersionRequests)
+			szName.AppendFormat(" %d.%d.%d.%d", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
+	}
 	query << XCHILD("identity") << XATTR("category", "client") << XATTR("type", "pc") << XATTR("name", szName);
 
 	for (auto &it : g_JabberFeatCapPairs)
