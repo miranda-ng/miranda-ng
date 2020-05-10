@@ -26,27 +26,28 @@ typedef struct
 {
 	BYTE Typ;
 	union {
-		MCONTACT hContact;	
-		LPSTR pszName;	
+		MCONTACT hContact;
+		LPSTR pszName;
 		LPTSTR ptszName;
 	};
 }
-	ExImParam,*lpExImParam;
+ExImParam, *lpExImParam;
 
-enum ExImType {
-	EXIM_ALL		= 1,
-	EXIM_CONTACT	= 2,
-	EXIM_GROUP		= 4,
-	EXIM_SUBGROUP	= 8,
-	EXIM_ACCOUNT	= 16
+enum ExImType
+{
+	EXIM_ALL = 1,
+	EXIM_CONTACT = 2,
+	EXIM_GROUP = 4,
+	EXIM_SUBGROUP = 8,
+	EXIM_ACCOUNT = 16
 };
 
 INT_PTR svcExIm_MainExport_Service(WPARAM wParam, LPARAM lParam);
 INT_PTR svcExIm_MainImport_Service(WPARAM wParam, LPARAM lParam);
 INT_PTR svcExIm_ContactExport_Service(WPARAM wParam, LPARAM lParam);
 INT_PTR svcExIm_ContactImport_Service(WPARAM wParam, LPARAM lParam);
-INT_PTR svcExIm_Group_Service(WPARAM wParam,LPARAM lParam);
-INT_PTR svcExIm_Account_Service(WPARAM wParam,LPARAM lParam);
+INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM lParam);
+INT_PTR svcExIm_Account_Service(WPARAM wParam, LPARAM lParam);
 
 void SvcExImport_LoadModule();
 

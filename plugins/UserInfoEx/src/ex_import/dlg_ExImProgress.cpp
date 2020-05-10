@@ -31,50 +31,50 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * params:	none
  * return:	nothing
  **/
+
+static const ICONCTRL idIcon[] = {
+	{ IDI_IMPORT,    WM_SETICON,   NULL        },
+	{ IDI_IMPORT,    STM_SETIMAGE, ICO_DLGLOGO },
+	{ IDI_BTN_CLOSE, BM_SETIMAGE,  IDCANCEL    }
+};
+
 INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
-	{
-		case WM_INITDIALOG:
-		{
-			const ICONCTRL idIcon[] = {
-				{ IDI_IMPORT,    WM_SETICON,   NULL        },
-				{ IDI_IMPORT,    STM_SETIMAGE, ICO_DLGLOGO },
-				{ IDI_BTN_CLOSE, BM_SETIMAGE,  IDCANCEL    }
-			};
-			const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
-			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
+	switch (msg) {
+	case WM_INITDIALOG:
+		IcoLib_SetCtrlIcons(hDlg, idIcon, g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2);
 
-			TranslateDialogDefault(hDlg);
-			SendDlgItemMessage(hDlg, IDCANCEL, BUTTONTRANSLATE, NULL, NULL);
-			SendDlgItemMessage(hDlg, IDC_PROGRESS, PBM_SETPOS, 0, 0);
-			SendDlgItemMessage(hDlg, IDC_PROGRESS2, PBM_SETPOS, 0, 0);
-			SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
-			UpdateWindow(hDlg);
-			break;
+		TranslateDialogDefault(hDlg);
+		SendDlgItemMessage(hDlg, IDCANCEL, BUTTONTRANSLATE, NULL, NULL);
+		SendDlgItemMessage(hDlg, IDC_PROGRESS, PBM_SETPOS, 0, 0);
+		SendDlgItemMessage(hDlg, IDC_PROGRESS2, PBM_SETPOS, 0, 0);
+		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
+		UpdateWindow(hDlg);
+		break;
+
+	case WM_CTLCOLORSTATIC:
+		switch (GetWindowLongPtr((HWND)lParam, GWLP_ID)) {
+		case STATIC_WHITERECT:
+		case TXT_SETTING:
+		case IDC_PROGRESS:
+		case TXT_CONTACT:
+		case IDC_PROGRESS2:
+			SetBkColor((HDC)wParam, RGB(255, 255, 255));
+			return (INT_PTR)GetStockObject(WHITE_BRUSH);
 		}
-		case WM_CTLCOLORSTATIC:
-			switch (GetWindowLongPtr((HWND)lParam, GWLP_ID)) {
-				case STATIC_WHITERECT:
-				case TXT_SETTING:
-				case IDC_PROGRESS:
-				case TXT_CONTACT:
-				case IDC_PROGRESS2:
-					SetBkColor((HDC)wParam, RGB(255, 255, 255));
-					return (INT_PTR)GetStockObject(WHITE_BRUSH);
+		return FALSE;
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED) {
+			switch (LOWORD(wParam)) {
+			case IDCANCEL:
+				// in the progress dialog, use the user data to indicate that the user has pressed cancel
+				ShowWindow(hDlg, SW_HIDE);
+				SetWindowLongPtr(hDlg, GWLP_USERDATA, 1);
+				return TRUE;
 			}
-			return FALSE;
-		case WM_COMMAND:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				switch (LOWORD(wParam)) {
-					case IDCANCEL:
-					// in the progress dialog, use the user data to indicate that the user has pressed cancel
-					ShowWindow(hDlg, SW_HIDE);
-					SetWindowLongPtr(hDlg, GWLP_USERDATA, 1);
-					return TRUE;
-				}
-			}
-			break;
+		}
+		break;
 	}
 	return FALSE;
 }
@@ -86,6 +86,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
  * params:	none
  * return:	nothing
  **/
+
 CProgress::CProgress()
 {
 	_dwStartTime = GetTickCount();
@@ -99,6 +100,7 @@ CProgress::CProgress()
  * params:	none
  * return:	nothing
  **/
+
 CProgress::~CProgress()
 {
 	if (IsWindow(_hDlg)) DestroyWindow(_hDlg);
@@ -111,12 +113,13 @@ CProgress::~CProgress()
  * params:	numContacts	- the number of contacts
  * return:	nothing
  **/
+
 void CProgress::SetContactCount(DWORD numContacts)
 {
 	if (_hDlg) {
 		HWND hProgress = GetDlgItem(_hDlg, IDC_PROGRESS2);
-		SendMessage(hProgress, PBM_SETRANGE32, 0, numContacts);	 
-		SendMessage(hProgress, PBM_SETPOS, 0,	0);	 
+		SendMessage(hProgress, PBM_SETRANGE32, 0, numContacts);
+		SendMessage(hProgress, PBM_SETPOS, 0, 0);
 	}
 }
 
@@ -127,12 +130,13 @@ void CProgress::SetContactCount(DWORD numContacts)
  * params:	numSettings	- the number of settings & events
  * return:	nothing
  **/
+
 void CProgress::SetSettingsCount(DWORD numSettings)
 {
 	if (_hDlg) {
 		HWND hProgress = GetDlgItem(_hDlg, IDC_PROGRESS);
-		SendMessage(hProgress, PBM_SETRANGE32, 0, numSettings);	 
-		SendMessage(hProgress, PBM_SETPOS, 0,	0);	 
+		SendMessage(hProgress, PBM_SETRANGE32, 0, numSettings);
+		SendMessage(hProgress, PBM_SETPOS, 0, 0);
 	}
 }
 
@@ -143,6 +147,7 @@ void CProgress::SetSettingsCount(DWORD numSettings)
  * params:	none
  * return:	nothing
  **/
+
 void CProgress::Hide()
 {
 	ShowWindow(_hDlg, SW_HIDE);
@@ -155,10 +160,11 @@ void CProgress::Hide()
  * params:	nothing
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
+
 BYTE CProgress::Update()
 {
 	MSG msg;
-	
+
 	// show dialog after one second
 	if (GetTickCount() > _dwStartTime + 1000) {
 		ShowWindow(_hDlg, SW_SHOW);
@@ -167,10 +173,10 @@ BYTE CProgress::Update()
 	UpdateWindow(_hDlg);
 
 	while (PeekMessage(&msg, _hDlg, 0, 0, PM_REMOVE) != 0) {
-		 if (_hDlg == nullptr || !IsDialogMessage(_hDlg, &msg)) { /* Wine fix. */
+		if (_hDlg == nullptr || !IsDialogMessage(_hDlg, &msg)) { /* Wine fix. */
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-		 }
+		}
 	}
 	return GetWindowLongPtr(_hDlg, GWLP_USERDATA) == 0;
 }
@@ -182,6 +188,7 @@ BYTE CProgress::Update()
  * params:	pszFormat	- the text to display for the contact
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
+
 BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 {
 	if (_hDlg != nullptr) {
@@ -193,9 +200,9 @@ BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 			va_start(vl, pszFormat);
 			mir_vsnwprintf(buf, _countof(buf), TranslateW(pszFormat), vl);
 			va_end(vl);
-			SetDlgItemText(_hDlg, TXT_CONTACT, buf);	 
+			SetDlgItemText(_hDlg, TXT_CONTACT, buf);
 		}
-		SendMessage(hProg, PBM_SETPOS, (int)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1,	0);
+		SendMessage(hProg, PBM_SETPOS, (int)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1, 0);
 		return Update();
 	}
 	return TRUE;
@@ -208,6 +215,7 @@ BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
  * params:	pszFormat	- the text to display for the setting
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
+
 BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 {
 	if (_hDlg != nullptr) {
@@ -221,7 +229,7 @@ BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 			mir_vsnwprintf(buf, _countof(buf), TranslateW(pszFormat), vl);
 			va_end(vl);
 			GetDlgItemText(_hDlg, TXT_SETTING, tmp, _countof(tmp));
-			if (mir_wstrcmpi(tmp,buf))
+			if (mir_wstrcmpi(tmp, buf))
 				SetDlgItemText(_hDlg, TXT_SETTING, buf);
 		}
 		SendMessage(hProg, PBM_SETPOS, (int)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1, 0);

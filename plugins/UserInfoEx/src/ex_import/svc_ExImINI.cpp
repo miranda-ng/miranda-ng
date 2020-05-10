@@ -37,7 +37,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *			file		- file to write the settings to
  * return	nothing
  **/
-static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE* file)
+
+static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE *file)
 {
 	DB::CEnumList Settings;
 
@@ -75,7 +76,7 @@ static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE* file)
 							*here = 3;
 						}
 					}
-					
+
 					if (dbv.type == DBVT_UTF8)
 						fprintf(file, "%s=u%s\n", it, dbv.pszVal);
 					else
@@ -102,13 +103,14 @@ static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE* file)
  *			pModules	- module to export, NULL to export all modules of a contact
  *			file		- ini file to write the contact to
  **/
-static BYTE ExportContact(MCONTACT hContact, DB::CEnumList* pModules, FILE* file)
+
+static BYTE ExportContact(MCONTACT hContact, DB::CEnumList *pModules, FILE *file)
 {
 	CExImContactBase vcc;
 
 	if (pModules) {
 		if ((vcc = hContact) >= NULL) {
-			vcc.toIni(file, pModules->getCount()-1);
+			vcc.toIni(file, pModules->getCount() - 1);
 
 			for (auto &it : *pModules)
 				ExportModule(hContact, it, file);
@@ -125,51 +127,43 @@ static BYTE ExportContact(MCONTACT hContact, DB::CEnumList* pModules, FILE* file
  * param:	hContact	- contact to export or -1 to export all contacts
  *			pszFileName	- ini-filename to write the contact to
  **/
-int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
+
+int SvcExImINI_Export(lpExImParam ExImContact, const wchar_t *pszFileName)
 {
 	DB::CEnumList Modules;
 
-	if (!DlgExImModules_SelectModulesToExport(ExImContact, &Modules, nullptr))
-	{
+	if (!DlgExImModules_SelectModulesToExport(ExImContact, &Modules, nullptr)) {
 		FILE *file;
-		errno_t err = fopen_s(&file, pszFileName, "wt");
-		if (err != NULL)
-		{
-			MsgErr(nullptr, 
+		errno_t err = _wfopen_s(&file, pszFileName, L"wt");
+		if (err != NULL) {
+			MsgErr(nullptr,
 				LPGENW("The ini-file \"%s\"\nfor saving contact information could not be opened."),
 				pszFileName);
 			return 1;
 		}
-		
+
 		SetCursor(LoadCursor(nullptr, IDC_WAIT));
 
 		// write header
 		SYSTEMTIME now;
 		GetLocalTime(&now);
-		fprintf(file, ";DATE = %04d-%02d-%02d %02d:%02d:%02d\n\n",
-			now.wYear, now.wMonth, now.wDay, now.wHour, now.wMinute, now.wSecond);
+		fprintf(file, ";DATE = %04d-%02d-%02d %02d:%02d:%02d\n\n", now.wYear, now.wMonth, now.wDay, now.wHour, now.wMinute, now.wSecond);
 
 		if (Modules.getCount() == 0)
-		{
 			Modules.EnumModules();
-		}
-		
+
 		//	hContact == -1 export entire db.
-		if (ExImContact->Typ != EXIM_CONTACT)
-		{
+		if (ExImContact->Typ != EXIM_CONTACT) {
 			// Owner
 			ExportContact(NULL, &Modules, file);
 			fprintf(file, "\n\n");
 			// Contacts
-			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-			{
+			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 				ExportContact(hContact, &Modules, file);
 				fprintf(file, "\n\n");
 			}
 		}
-		// export only one contact
-		else 
-			ExportContact(ExImContact->hContact, &Modules, file);
+		else ExportContact(ExImContact->hContact, &Modules, file); // export only one contact
 
 		fclose(file);
 		SetCursor(LoadCursor(nullptr, IDC_ARROW));
@@ -184,12 +178,12 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 LPSTR strnrchr(LPSTR string, int ch, DWORD len)
 {
 	LPSTR start = (LPSTR)string;
-
-	string += len;		/* find end of string */
+	string += len; /* find end of string */
 						/* search towards front */
-	while (--string != start && *string != (CHAR)ch);
-		if (*string == (CHAR)ch)		/* char found ? */
-			return ((LPSTR)string);
+	while (--string != start && *string != (CHAR)ch)
+		;
+	if (*string == (CHAR)ch) /* char found ? */
+		return ((LPSTR)string);
 	return(nullptr);
 }
 
@@ -200,7 +194,8 @@ LPSTR strnrchr(LPSTR string, int ch, DWORD len)
  *			string	- the string to write the read line to
  * return:	pointer to the buffer on success or NULL on error
  **/
-static DWORD ImportreadLine(FILE* file, LPSTR &str)
+
+static DWORD ImportreadLine(FILE *file, LPSTR &str)
 {
 	DWORD l = 0;
 	bool bComment = false;
@@ -209,41 +204,41 @@ static DWORD ImportreadLine(FILE* file, LPSTR &str)
 	while (!feof(file)) {
 		int c = fgetc(file);
 		switch (c) {
-			case EOF:
-				// reading error
-				if (ferror(file)) {
-					MIR_FREE(str);
-					return 0;
-				}
-				// end of line & file
-				return l;
+		case EOF:
+			// reading error
+			if (ferror(file)) {
+				MIR_FREE(str);
+				return 0;
+			}
+			// end of line & file
+			return l;
 
-			case '\r':
-			case '\n':
-				// ignore empty lines
-				if (l == 0) { 
-					bComment = false;
-					continue;
-				}
-				return l;
-			
-			case ';':
-				// found a comment line
-				bComment |= (l == 0);
-				__fallthrough;
+		case '\r':
+		case '\n':
+			// ignore empty lines
+			if (l == 0) {
+				bComment = false;
+				continue;
+			}
+			return l;
 
-			case '\t':
-			case ' ':
-				// ignore space and tab at the beginning of the line
-				if (l == 0)
-					break;
-				__fallthrough;
+		case ';':
+			// found a comment line
+			bComment |= (l == 0);
+			__fallthrough;
 
-			default:
-				if (!bComment) {
-					str = mir_strncat_c(str, c);
-					l++;
-				}
+		case '\t':
+		case ' ':
+			// ignore space and tab at the beginning of the line
+			if (l == 0)
+				break;
+			__fallthrough;
+
+		default:
+			if (!bComment) {
+				str = mir_strncat_c(str, c);
+				l++;
+			}
 		}
 	}
 	return 0;
@@ -259,6 +254,7 @@ static DWORD ImportreadLine(FILE* file, LPSTR &str)
  *			cchBuf		- character count of the buffer
  * return:	handle to the contact that matches the information or NULL if no match
  **/
+
 static MCONTACT ImportFindContact(MCONTACT, LPSTR &strBuf, BYTE bCanCreate)
 {
 	CExImContactBase vcc;
@@ -283,16 +279,14 @@ static MCONTACT ImportFindContact(MCONTACT, LPSTR &strBuf, BYTE bCanCreate)
  *			strLine		- string with the setting and its value to write to db
  * return:	0 if writing was ok, 1 otherwise
  **/
+
 int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 {
-	DBVARIANT dbv;
-	LPSTR end, value;
-	size_t brk;
-	LPSTR pszLine = strLine;
-
 	// check Module and filter "Protocol"
 	if (!pszModule || !*pszModule || mir_strncmp(pszModule, "Protocol", 8) == 0)
 		return 1;
+
+	LPSTR end, value, pszLine = strLine;
 	if ((end = value = mir_strchr(pszLine, '=')) == nullptr)
 		return 1;
 
@@ -301,8 +295,7 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 		if (end == pszLine)
 			return 1;
 		*(end--) = 0;
-	}
-		while (*end == '\t' || *end == ' ' || *end < 27);
+	} while (*end == '\t' || *end == ' ' || *end < 27);
 
 	// skip spaces from the beginning of the value
 	do {
@@ -313,74 +306,79 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 	} while (*value == '\t' || *value == ' ');
 
 	// decode database type and value
+	DBVARIANT dbv;
 	switch (*(value++)) {
-		case 'b':
-		case 'B':
-			if (brk = strspn(value, "0123456789-"))
-				*(value + brk) = 0;
-			dbv.type = DBVT_BYTE;
-			dbv.bVal = (BYTE)atoi(value);
-			break;
-		case 'w':
-		case 'W':
-			if (brk = strspn(value, "0123456789-"))
-				*(value + brk) = 0;
-			dbv.type = DBVT_WORD;
-			dbv.wVal = (WORD)atoi(value);
-			break;
-		case 'd':
-		case 'D':
-			if (brk = strspn(value, "0123456789-"))
-				*(value + brk) = 0;
-			dbv.type = DBVT_DWORD;
-			dbv.dVal = (DWORD)_atoi64(value);
-			break;
+	case 'b':
+	case 'B':
+		if (size_t brk = strspn(value, "0123456789-"))
+			*(value + brk) = 0;
+		dbv.type = DBVT_BYTE;
+		dbv.bVal = (BYTE)atoi(value);
+		break;
+
+	case 'w':
+	case 'W':
+		if (size_t brk = strspn(value, "0123456789-"))
+			*(value + brk) = 0;
+		dbv.type = DBVT_WORD;
+		dbv.wVal = (WORD)atoi(value);
+		break;
+
+	case 'd':
+	case 'D':
+		if (size_t brk = strspn(value, "0123456789-"))
+			*(value + brk) = 0;
+		dbv.type = DBVT_DWORD;
+		dbv.dVal = (DWORD)_atoi64(value);
+		break;
+
+	case 's':
+	case 'S':
+	case 'u':
+	case 'U':
+		for (end = value; end && *end; end++) {
+			switch (*end) {
+				// convert STX back to \r
+			case 2:
+				*end = '\r';
+				break;
+				// convert ETX back to \n
+			case 3:
+				*end = '\n';
+				break;
+			}
+		}
+
+		switch (*(value - 1)) {
 		case 's':
 		case 'S':
+			dbv.type = DBVT_ASCIIZ;
+			dbv.pszVal = value;
+			break;
 		case 'u':
 		case 'U':
-			for (end = value; end && *end; end++) {
-				switch (*end) {
-					// convert STX back to \r
-					case 2:
-						*end = '\r';
-						break;
-					// convert ETX back to \n
-					case 3:
-						*end = '\n';
-						break;
-				}
-			}
-			switch (*(value - 1)) {
-				case 's':
-				case 'S':
-					dbv.type = DBVT_ASCIIZ;
-					dbv.pszVal = value;
-					break;
-				case 'u':
-				case 'U':
-					dbv.type = DBVT_UTF8;
-					dbv.pszVal = value;
-					break;
-			}
-			break;
-		case 'n':
-		case 'N':
-		{
-			PBYTE dest;
-			dbv.type = DBVT_BLOB;
-			dbv.cpbVal = (WORD)mir_strlen(value) / 3;
-			dbv.pbVal = (PBYTE)value;
-			for ( dest = dbv.pbVal, value = strtok(value, " ");
-					value && *value;
-					value = strtok(nullptr, " "))
-				*(dest++) = (BYTE)strtol(value, nullptr, 16);
-			*dest = 0;
+			dbv.type = DBVT_UTF8;
+			dbv.pszVal = value;
 			break;
 		}
-		default:
-			dbv.type = DBVT_DELETED;
-			//return 1;
+		break;
+
+	case 'n':
+	case 'N':
+		PBYTE dest;
+		dbv.type = DBVT_BLOB;
+		dbv.cpbVal = (WORD)mir_strlen(value) / 3;
+		dbv.pbVal = (PBYTE)value;
+		for (dest = dbv.pbVal, value = strtok(value, " ");
+			value && *value;
+			value = strtok(nullptr, " "))
+			*(dest++) = (BYTE)strtol(value, nullptr, 16);
+		*dest = 0;
+		break;
+
+	default:
+		dbv.type = DBVT_DELETED;
+		//return 1;
 	}
 	return db_set(hContact, pszModule, pszLine, &dbv);
 }
@@ -393,92 +391,93 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
  *			strLine		- string with the setting and its value to write to db
  * return:	0 if writing was ok, 1 otherwise
  **/
-int SvcExImINI_Import(MCONTACT hContact, LPCSTR pszFileName)
+
+int SvcExImINI_Import(MCONTACT hContact, const wchar_t *pszFileName)
 {
-	FILE *file = fopen(pszFileName, "rt");
-	if (file) {
-		MCONTACT hNewContact = INVALID_CONTACT_ID;
-		DWORD	end,
-				numLines				= 0;
-		CHAR	szModule[MAXSETTING]	= {0};
-		WORD	numContactsInFile		= 0,		// number of contacts in the inifile
-				numContactsAdded		= 0;		// number of contacts, that were added to the database
-		CHAR	*strBuf					= (CHAR *) mir_alloc(1);
-				*strBuf					= 0;
-		SetCursor(LoadCursor(nullptr, IDC_WAIT));
-
-		while (ImportreadLine(file, strBuf)) {
-			numLines++;
-
-			// contact was found and imported
-			if (hContact != INVALID_CONTACT_ID && hNewContact != INVALID_CONTACT_ID)
-				break;
-
-			// importing settings is only valid vor the main menu item
-			if (hContact == INVALID_CONTACT_ID) {
-				if (!strncmp(strBuf, "SETTINGS:", 9)) {
-					*szModule = 0;
-					hNewContact = NULL;
-					continue;
-				}
-			}
-
-			// there are some modules of a contact (import only if contact exist)
-			if (!strncmp(strBuf, "FROM CONTACT:", 13)) {
-				strBuf = mir_strnerase(strBuf, 0, 13);
-				while (strBuf[0] == ' ' || strBuf[0] == '\t')
-					strBuf = mir_strnerase(strBuf, 0, 1);
-
-				numContactsInFile++;
-				if ((hNewContact = ImportFindContact(hContact, strBuf, FALSE)) != INVALID_CONTACT_ID)
-					numContactsAdded++;
-				continue;
-			}
-
-			// there is a contact to import / add
-			if (!strncmp(strBuf, "CONTACT:", 8)) {
-				strBuf = mir_strnerase(strBuf, 0, 8);
-				while (strBuf[0] == ' ' || strBuf[0] == '\t')
-					strBuf = mir_strnerase(strBuf, 0, 1);
-
-				*szModule = 0;
-				numContactsInFile++;
-				if ((hNewContact = ImportFindContact(hContact, strBuf, TRUE)) != INVALID_CONTACT_ID)
-					numContactsAdded++;
-				continue;
-			}
-
-			// read modules and settings only for valid contacts
-			if (hNewContact != INVALID_CONTACT_ID) {
-				// found a module line
-				if (strBuf[0] == '[' && (end = (strchr(strBuf, ']') - strBuf)) > 0) {
-					mir_strncpy(szModule, &strBuf[1], end);
-					continue;
-				}
-				// try to import a setting
-				ImportSetting(hNewContact, szModule, strBuf);
-			}
-		} //end while
-		fclose(file);
-		mir_free(strBuf);
-		SetCursor(LoadCursor(nullptr, IDC_ARROW));
-
-		// the contact was not found in the file
-		if (numContactsInFile > 0 && !numContactsAdded) {
-			MsgErr(nullptr,
-				LPGENW("None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported"),
-				numContactsInFile);
-		}
-		// Import complete
-		else{
-			MsgBox(nullptr, MB_ICON_INFO, LPGENW("Import complete"), LPGENW("Some basic statistics"),
-				LPGENW("Added %d of %d contacts stored in the ini-file."),
-				numContactsAdded, numContactsInFile);
-		}
-		return 0;
+	FILE *file = _wfopen(pszFileName, L"rt");
+	if (file == nullptr) {
+		MsgErr(nullptr,
+			LPGENW("The ini-file \"%s\"\nfor reading contact information could not be opened."),
+			pszFileName);
+		return 1;
 	}
-	MsgErr(nullptr, 
-		LPGENW("The ini-file \"%s\"\nfor reading contact information could not be opened."),
-		pszFileName);
-	return 1;
+
+	MCONTACT hNewContact = INVALID_CONTACT_ID;
+	DWORD	end, numLines = 0;
+	CHAR szModule[MAXSETTING] = { 0 };
+	int numContactsInFile = 0; // number of contacts in the inifile
+	int numContactsAdded = 0;  // number of contacts, that were added to the database
+	CHAR *strBuf = (CHAR *)mir_alloc(1);
+	*strBuf = 0;
+	SetCursor(LoadCursor(nullptr, IDC_WAIT));
+
+	while (ImportreadLine(file, strBuf)) {
+		numLines++;
+
+		// contact was found and imported
+		if (hContact != INVALID_CONTACT_ID && hNewContact != INVALID_CONTACT_ID)
+			break;
+
+		// importing settings is only valid vor the main menu item
+		if (hContact == INVALID_CONTACT_ID) {
+			if (!strncmp(strBuf, "SETTINGS:", 9)) {
+				*szModule = 0;
+				hNewContact = NULL;
+				continue;
+			}
+		}
+
+		// there are some modules of a contact (import only if contact exist)
+		if (!strncmp(strBuf, "FROM CONTACT:", 13)) {
+			strBuf = mir_strnerase(strBuf, 0, 13);
+			while (strBuf[0] == ' ' || strBuf[0] == '\t')
+				strBuf = mir_strnerase(strBuf, 0, 1);
+
+			numContactsInFile++;
+			if ((hNewContact = ImportFindContact(hContact, strBuf, FALSE)) != INVALID_CONTACT_ID)
+				numContactsAdded++;
+			continue;
+		}
+
+		// there is a contact to import / add
+		if (!strncmp(strBuf, "CONTACT:", 8)) {
+			strBuf = mir_strnerase(strBuf, 0, 8);
+			while (strBuf[0] == ' ' || strBuf[0] == '\t')
+				strBuf = mir_strnerase(strBuf, 0, 1);
+
+			*szModule = 0;
+			numContactsInFile++;
+			if ((hNewContact = ImportFindContact(hContact, strBuf, TRUE)) != INVALID_CONTACT_ID)
+				numContactsAdded++;
+			continue;
+		}
+
+		// read modules and settings only for valid contacts
+		if (hNewContact != INVALID_CONTACT_ID) {
+			// found a module line
+			if (strBuf[0] == '[' && (end = (strchr(strBuf, ']') - strBuf)) > 0) {
+				mir_strncpy(szModule, &strBuf[1], end);
+				continue;
+			}
+			// try to import a setting
+			ImportSetting(hNewContact, szModule, strBuf);
+		}
+	} //end while
+	fclose(file);
+	mir_free(strBuf);
+	SetCursor(LoadCursor(nullptr, IDC_ARROW));
+
+	// the contact was not found in the file
+	if (numContactsInFile > 0 && !numContactsAdded) {
+		MsgErr(nullptr,
+			LPGENW("None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported"),
+			numContactsInFile);
+	}
+	// Import complete
+	else {
+		MsgBox(nullptr, MB_ICON_INFO, LPGENW("Import complete"), LPGENW("Some basic statistics"),
+			LPGENW("Added %d of %d contacts stored in the ini-file."),
+			numContactsAdded, numContactsInFile);
+	}
+	return 0;
 }

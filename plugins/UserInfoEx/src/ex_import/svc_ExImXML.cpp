@@ -86,7 +86,8 @@ INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
   *			pszFileName	- full qualified path to the xml file which is destination for the export process
   * return:	0 on success, 1 otherwise
   **/
-int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
+
+int CFileXml::Export(lpExImParam ExImContact, const wchar_t *pszFileName)
 {
 	DB::CEnumList Modules;
 
@@ -100,7 +101,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 	if (!(_wExport & EXPORT_DATA) ||
 		!DlgExImModules_SelectModulesToExport(ExImContact, &Modules, nullptr)) {
 
-		FILE *xmlfile = fopen(pszFileName, "wt");
+		FILE *xmlfile = _wfopen(pszFileName, L"wt");
 		if (!xmlfile) {
 			MsgErr(nullptr, LPGENW("Can't create xml file!\n%S"), pszFileName);
 			return 1;
@@ -173,7 +174,7 @@ int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 		// nothing exported?
 		if (cbHeader == ftell(xmlfile)) {
 			fclose(xmlfile);
-			DeleteFileA(pszFileName);
+			DeleteFileW(pszFileName);
 			return 1;
 		}
 		fputs("</XMLCard>\n", xmlfile);
@@ -208,7 +209,7 @@ CFileXml::CFileXml()
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
 
-int CFileXml::ImportOwner(const TiXmlElement* xContact)
+int CFileXml::ImportOwner(const TiXmlElement *xContact)
 {
 	CExImContactXML vContact(this);
 	if (vContact.LoadXmlElement(xContact) == ERROR_OK) {
@@ -282,6 +283,7 @@ int CFileXml::ImportContacts(const TiXmlElement *xmlParent)
  * params:	xContact	- the contact, who is the owner of the keys to count
  * return:	nothing
  **/
+
 DWORD CFileXml::CountContacts(const TiXmlElement *xmlParent)
 {
 	DWORD dwCount = 0;
@@ -301,14 +303,25 @@ DWORD CFileXml::CountContacts(const TiXmlElement *xmlParent)
  *			pszFileName	- full qualified path to the xml file which is to import
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-int CFileXml::Import(MCONTACT hContact, LPCSTR pszFileName)
+
+int CFileXml::Import(MCONTACT hContact, const wchar_t *pszFileName)
 {
 	_hContactToWorkOn = hContact;
+
+	FILE *in = _wfopen(pszFileName, L"rb");
+	if (in == nullptr) {
+		MsgErr(nullptr, LPGENW("Parser is unable to load XMLCard \"%s\"\nError: %d\nDescription: %s"),
+			pszFileName, 2, TranslateT("File not found"));
+		return 1;
+	}
+
 	// load xml file
 	TiXmlDocument doc;
-	if (!doc.LoadFile(pszFileName)) {
+	int errorCode = doc.LoadFile(in);
+	fclose(in);
+	if (errorCode) {
 		MsgErr(nullptr, LPGENW("Parser is unable to load XMLCard \"%s\"\nError: %d\nDescription: %s"),
-			pszFileName, doc.ErrorID(), doc.Error());
+			pszFileName, errorCode, doc.Error());
 		return 1;
 	}
 	// is xmlfile a XMLCard ?

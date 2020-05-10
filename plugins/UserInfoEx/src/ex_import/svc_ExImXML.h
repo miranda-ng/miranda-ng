@@ -56,8 +56,8 @@ class CFileXml {
 
 public:
 	CFileXml();
-	int Import(MCONTACT hContact, LPCSTR pszFileName);
-	int Export(lpExImParam ExImContact, LPCSTR pszFileName);
+	int Import(MCONTACT hContact, const wchar_t *pszFileName);
+	int Export(lpExImParam ExImContact, const wchar_t *pszFileName);
 };
 
 #endif /* _SVC_FILEXML_INCLUDED_ */

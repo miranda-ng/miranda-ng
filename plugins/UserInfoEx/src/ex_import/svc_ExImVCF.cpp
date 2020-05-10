@@ -36,20 +36,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * return	TRUE or FALSE
  **/
-BYTE IsUSASCII(LPCSTR pBuffer, LPDWORD pcbBuffer) 
-{
-	 BYTE c;
-	 PBYTE s = (PBYTE)pBuffer;
-	 BYTE bIsUTF = 0;
 
-	 if (s == nullptr) return 1;
-	 while ((c = *s++) != 0) {
-			if (c < 0x80) continue;
-			if (!pcbBuffer) return 0;
-			bIsUTF = 1;
-	 }
-	 if (pcbBuffer) *pcbBuffer = s - (PBYTE)pBuffer;
-	 return !bIsUTF;
+BYTE IsUSASCII(LPCSTR pBuffer, LPDWORD pcbBuffer)
+{
+	BYTE c;
+	PBYTE s = (PBYTE)pBuffer;
+	BYTE bIsUTF = 0;
+
+	if (s == nullptr) return 1;
+	while ((c = *s++) != 0) {
+		if (c < 0x80) continue;
+		if (!pcbBuffer) return 0;
+		bIsUTF = 1;
+	}
+	if (pcbBuffer) *pcbBuffer = s - (PBYTE)pBuffer;
+	return !bIsUTF;
 }
 
 /*
@@ -66,12 +67,13 @@ BYTE IsUSASCII(LPCSTR pBuffer, LPDWORD pcbBuffer)
  *
  * return:	nothing
  **/
+
 CLineBuffer::CLineBuffer()
 {
-	_pVal	= nullptr;
-	_pTok	= nullptr;
-	_cbVal	= 0;
-	_cbUsed	= 0;
+	_pVal = nullptr;
+	_pTok = nullptr;
+	_cbVal = 0;
+	_cbUsed = 0;
 }
 
 /**
@@ -81,6 +83,7 @@ CLineBuffer::CLineBuffer()
  *
  * return:	nothing
  **/
+
 CLineBuffer::~CLineBuffer()
 {
 	if (_pVal) mir_free(_pVal);
@@ -93,6 +96,7 @@ CLineBuffer::~CLineBuffer()
  *
  * return:	TRUE if reallocation successful or memoryblock is large enough, FALSE otherwise
  **/
+
 BYTE CLineBuffer::_resizeBuf(const size_t cbReq)
 {
 	if (cbReq > _cbVal - _cbUsed) {
@@ -113,6 +117,7 @@ BYTE CLineBuffer::_resizeBuf(const size_t cbReq)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator=(const CHAR *szVal)
 {
 	if (szVal) {
@@ -135,6 +140,7 @@ size_t CLineBuffer::operator=(const CHAR *szVal)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator + (const CHAR *szVal)
 {
 	if (szVal) {
@@ -156,10 +162,11 @@ size_t CLineBuffer::operator + (const CHAR *szVal)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator + (const WCHAR *wszVal)
 {
 	if (wszVal) {
-		CHAR* szVal = mir_u2a(wszVal);
+		CHAR *szVal = mir_u2a(wszVal);
 		if (szVal) {
 			size_t cbLength = mir_strlen(szVal);
 
@@ -180,6 +187,7 @@ size_t CLineBuffer::operator + (const WCHAR *wszVal)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator + (const CHAR cVal)
 {
 	if (_resizeBuf(1)) {
@@ -196,10 +204,11 @@ size_t CLineBuffer::operator + (const CHAR cVal)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator + (const BYTE bVal)
 {
 	size_t cbLength = 3;
-	
+
 	if (_resizeBuf(cbLength)) {
 		cbLength = mir_strlen(_itoa(bVal, (LPSTR)(_pVal + _cbUsed), 10));
 		_cbUsed += cbLength;
@@ -215,10 +224,11 @@ size_t CLineBuffer::operator + (const BYTE bVal)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator + (const SHORT sVal)
 {
 	size_t cbLength = 6;
-	
+
 	if (_resizeBuf(cbLength)) {
 		cbLength = mir_strlen(_itoa(sVal, (LPSTR)(_pVal + _cbUsed), 10));
 		_cbUsed += cbLength;
@@ -234,10 +244,11 @@ size_t CLineBuffer::operator + (const SHORT sVal)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator + (const WORD wVal)
 {
 	size_t cbLength = 5;
-	
+
 	if (_resizeBuf(cbLength)) {
 		cbLength = mir_strlen(_itoa(wVal, (LPSTR)(_pVal + _cbUsed), 10));
 		_cbUsed += cbLength;
@@ -253,10 +264,11 @@ size_t CLineBuffer::operator + (const WORD wVal)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator + (const LONG lVal)
 {
 	size_t cbLength = 11;
-	
+
 	if (_resizeBuf(cbLength)) {
 		cbLength = mir_strlen(_ltoa(lVal, (LPSTR)(_pVal + _cbUsed), 10));
 		_cbUsed += cbLength;
@@ -272,10 +284,11 @@ size_t CLineBuffer::operator + (const LONG lVal)
  *
  * return:	length of the string, added
  **/
+
 size_t CLineBuffer::operator + (const DWORD dVal)
 {
 	size_t cbLength = 10;
-	
+
 	if (_resizeBuf(cbLength)) {
 		cbLength = mir_strlen(_ltoa(dVal, (LPSTR)(_pVal + _cbUsed), 10));
 		_cbUsed += cbLength;
@@ -291,6 +304,7 @@ size_t CLineBuffer::operator + (const DWORD dVal)
  *
  * return:	length of the string
  **/
+
 size_t CLineBuffer::GetLength()
 {
 	return _cbUsed;
@@ -304,7 +318,8 @@ size_t CLineBuffer::GetLength()
  *
  * return:	pointer to _pVal
  **/
-LPCSTR CLineBuffer::GetBuffer() 
+
+LPCSTR CLineBuffer::GetBuffer()
 {
 	return (LPCSTR)_pVal;
 }
@@ -316,6 +331,7 @@ LPCSTR CLineBuffer::GetBuffer()
  *
  * return:	nothing
  **/
+
 void CLineBuffer::TruncToLength(size_t cbLength)
 {
 	if (cbLength < _cbUsed) {
@@ -331,6 +347,7 @@ void CLineBuffer::TruncToLength(size_t cbLength)
  *
  * return:	nothing
  **/
+
 void CLineBuffer::Truncate(size_t count)
 {
 	if (_cbUsed <= count) {
@@ -350,6 +367,7 @@ void CLineBuffer::Truncate(size_t count)
  *
  * return:	nothing
  **/
+
 void CLineBuffer::TruncateSMS()
 {
 	if (!strncmp((LPSTR)(_pVal + _cbUsed - 4), " SMS", 4)) {
@@ -365,6 +383,7 @@ void CLineBuffer::TruncateSMS()
  *
  * return:	nothing
  **/
+
 void CLineBuffer::fput(FILE *outfile)
 {
 	if (_pVal) {
@@ -382,6 +401,7 @@ void CLineBuffer::fput(FILE *outfile)
  *
  * return:	nothing
  **/
+
 void CLineBuffer::fputEncoded(FILE *outFile)
 {
 	PBYTE pVal = _pVal;
@@ -391,35 +411,35 @@ void CLineBuffer::fputEncoded(FILE *outFile)
 		while (_cbUsed > 0 && *pVal) {
 			switch (*pVal) {
 				// translate special characters
-				case ':':
-				case ';':
-				case '\r':
-				case '\n':
-				case '\t':
-					fprintf(outFile, "=%02X", *pVal);
-					break;
+			case ':':
+			case ';':
+			case '\r':
+			case '\n':
+			case '\t':
+				fprintf(outFile, "=%02X", *pVal);
+				break;
 				// Some database texts may contain encoded escapes, that have to be translated too.
-				case '\\':
-					if (*(pVal+1) == 'r') {
-						fprintf(outFile, "=%02X", '\r');
-						pVal++;
-						break;
-					}
-					if (*(pVal+1) == 't') {
-						fprintf(outFile, "=%02X", '\t');
-						pVal++;
-						break;
-					}
-					if (*(pVal+1) == 'n') {
-						fprintf(outFile, "=%02X", '\n');
-						pVal++;
-						break;
-					}
-				// translate all characters which are not contained in the USASCII code
-				default:
-					if (*pVal > 127)	fprintf(outFile, "=%02X", *pVal);
-					else fputc(*pVal, outFile);
+			case '\\':
+				if (*(pVal + 1) == 'r') {
+					fprintf(outFile, "=%02X", '\r');
+					pVal++;
 					break;
+				}
+				if (*(pVal + 1) == 't') {
+					fprintf(outFile, "=%02X", '\t');
+					pVal++;
+					break;
+				}
+				if (*(pVal + 1) == 'n') {
+					fprintf(outFile, "=%02X", '\n');
+					pVal++;
+					break;
+				}
+				// translate all characters which are not contained in the USASCII code
+			default:
+				if (*pVal > 127)	fprintf(outFile, "=%02X", *pVal);
+				else fputc(*pVal, outFile);
+				break;
 			}
 			pVal++;
 			(_cbUsed)--;
@@ -435,6 +455,7 @@ void CLineBuffer::fputEncoded(FILE *outFile)
  *
  * return:	nothing
  **/
+
 int CLineBuffer::fgetEncoded(FILE *inFile)
 {
 	int c;
@@ -447,27 +468,27 @@ int CLineBuffer::fgetEncoded(FILE *inFile)
 
 	while (EOF != (c = fgetc(inFile))) {
 		switch (c) {
-			case '\n':
-				if (_cbUsed > 0 && _pVal[_cbUsed - 1] == '\r') {
-					_pVal[--_cbUsed] = 0;
-					wAdd--;
-				}
-				else
-					_pVal[_cbUsed] = 0;
-				return wAdd;
-			case '=':
-				if (_resizeBuf(1)) {
-					fread(hex, 2, 1, inFile);
-					*(_pVal + _cbUsed++) = (BYTE)strtol(hex, nullptr, 16);
-					wAdd++;
-				}
-				break;
-			default:
-				if (_resizeBuf(1)) {
-					*(_pVal + _cbUsed++) = c;
-					wAdd++;
-				}
-				break;
+		case '\n':
+			if (_cbUsed > 0 && _pVal[_cbUsed - 1] == '\r') {
+				_pVal[--_cbUsed] = 0;
+				wAdd--;
+			}
+			else
+				_pVal[_cbUsed] = 0;
+			return wAdd;
+		case '=':
+			if (_resizeBuf(1)) {
+				fread(hex, 2, 1, inFile);
+				*(_pVal + _cbUsed++) = (BYTE)strtol(hex, nullptr, 16);
+				wAdd++;
+			}
+			break;
+		default:
+			if (_resizeBuf(1)) {
+				*(_pVal + _cbUsed++) = c;
+				wAdd++;
+			}
+			break;
 		}
 	}
 	_pVal[_cbUsed] = 0;
@@ -483,7 +504,8 @@ int CLineBuffer::fgetEncoded(FILE *inFile)
  *
  * return:	length of the found string value
  **/
-size_t CLineBuffer::GetTokenFirst(const CHAR delim, CLineBuffer * pBuf)
+
+size_t CLineBuffer::GetTokenFirst(const CHAR delim, CLineBuffer *pBuf)
 {
 	PBYTE here;
 	size_t wLength;
@@ -502,7 +524,7 @@ size_t CLineBuffer::GetTokenFirst(const CHAR delim, CLineBuffer * pBuf)
 				*pBuf = (LPCSTR)_pTok;
 				*here = c;
 			}
-			_pTok = (*here == 0	|| *here == '\n') ? nullptr : ++here;
+			_pTok = (*here == 0 || *here == '\n') ? nullptr : ++here;
 			break;
 		}
 	}
@@ -518,7 +540,8 @@ size_t CLineBuffer::GetTokenFirst(const CHAR delim, CLineBuffer * pBuf)
  *
  * return:	length of the found string value
  **/
-size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer * pBuf)
+
+size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer *pBuf)
 {
 	PBYTE here;
 	size_t wLength;
@@ -532,12 +555,12 @@ size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer * pBuf)
 
 			if (pBuf) {
 				CHAR c = *here;
-				
+
 				*here = 0;
 				*pBuf = (LPCSTR)_pTok;
 				*here = c;
 			}
-			_pTok = (*here == 0	|| *here == '\n') ? nullptr : ++here;
+			_pTok = (*here == 0 || *here == '\n') ? nullptr : ++here;
 			break;
 		}
 	}
@@ -555,7 +578,8 @@ size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer * pBuf)
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteTokenFirst(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
+
+int CLineBuffer::DBWriteTokenFirst(MCONTACT hContact, const CHAR *pszModule, const CHAR *pszSetting, const CHAR delim)
 {
 	PBYTE here;
 	int iRet = 1;
@@ -564,15 +588,15 @@ int CLineBuffer::DBWriteTokenFirst(MCONTACT hContact, const CHAR* pszModule, con
 	if (_pTok && *_pTok) {
 		for (here = _pTok;; here++) {
 			if (*here == 0 || *here == '\n' || *here == delim) {
-				
+
 				if (here - _pTok > 0) {
 					CHAR c = *here;
-				
+
 					*here = 0;
 					iRet = db_set_s(hContact, pszModule, pszSetting, (LPSTR)_pTok);
 					*here = c;
 				}
-				_pTok = (*here == 0	|| *here == '\n') ? nullptr : ++here;
+				_pTok = (*here == 0 || *here == '\n') ? nullptr : ++here;
 				break;
 			}
 		}
@@ -592,7 +616,8 @@ int CLineBuffer::DBWriteTokenFirst(MCONTACT hContact, const CHAR* pszModule, con
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteTokenNext(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
+
+int CLineBuffer::DBWriteTokenNext(MCONTACT hContact, const CHAR *pszModule, const CHAR *pszSetting, const CHAR delim)
 {
 	PBYTE here;
 	int iRet = 1;
@@ -600,15 +625,15 @@ int CLineBuffer::DBWriteTokenNext(MCONTACT hContact, const CHAR* pszModule, cons
 	if (_pTok && *_pTok) {
 		for (here = _pTok;; here++) {
 			if (*here == 0 || *here == '\n' || *here == delim) {
-				
+
 				if (here - _pTok > 0) {
 					CHAR c = *here;
-				
+
 					*here = 0;
 					iRet = db_set_s(hContact, pszModule, pszSetting, (LPSTR)_pTok);
 					*here = c;
 				}
-				_pTok = (*here == 0	|| *here == '\n') ? nullptr : ++here;
+				_pTok = (*here == 0 || *here == '\n') ? nullptr : ++here;
 				break;
 			}
 		}
@@ -626,7 +651,8 @@ int CLineBuffer::DBWriteTokenNext(MCONTACT hContact, const CHAR* pszModule, cons
  *
  * return:	0 if successful, 1 otherwise
  **/
-int CLineBuffer::DBWriteSettingString(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting)
+
+int CLineBuffer::DBWriteSettingString(MCONTACT hContact, const CHAR *pszModule, const CHAR *pszSetting)
 {
 	if (_pVal && _cbUsed > 0)
 		return db_set_s(hContact, pszModule, pszSetting, (LPSTR)_pVal);
@@ -645,6 +671,7 @@ int CLineBuffer::DBWriteSettingString(MCONTACT hContact, const CHAR* pszModule, 
  * param:	none
  * return	none
  **/
+
 CVCardFileVCF::CVCardFileVCF()
 {
 	_pFile = nullptr;
@@ -657,7 +684,7 @@ CVCardFileVCF::CVCardFileVCF()
 
 /**
  * name:	CVCardFileVCF::CVCardFileVCF
- * desc:	searches a static stringlist for the occureance of iID and adds 
+ * desc:	searches a static stringlist for the occureance of iID and adds
  *			the translated string value to the line buffer
  * param:	pList	-	pointer to the list to search in
  *			nList	-	number of items in the list
@@ -666,6 +693,7 @@ CVCardFileVCF::CVCardFileVCF()
  *
  * return	number of the added bytes
  **/
+
 size_t CVCardFileVCF::packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew)
 {
 	for (UINT i = 0; i < nList; i++) {
@@ -687,6 +715,7 @@ size_t CVCardFileVCF::packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *c
  *
  * return	value type
  **/
+
 BYTE CVCardFileVCF::GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv)
 {
 	int type = _useUtf8 ? DBVT_UTF8 : DBVT_ASCIIZ;
@@ -708,31 +737,32 @@ BYTE CVCardFileVCF::GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DB
  *
  * return	number of bytes, added to the linebuffer
  **/
+
 size_t CVCardFileVCF::packDB(const CHAR *pszModule, const CHAR *pszSetting, size_t *cbRew)
 {
 	DBVARIANT dbv;
 
 	switch (GetSetting(pszModule, pszSetting, &dbv)) {
-		case DBVT_DELETED:
-			if (cbRew) (*cbRew)++;
-			break;
-		case DBVT_BYTE:
-			return _clVal + dbv.bVal;
-		case DBVT_WORD:
-			return _clVal + dbv.wVal;
-		case DBVT_DWORD:
-			return _clVal + dbv.dVal;
-		case DBVT_UTF8:
-		case DBVT_ASCIIZ:
+	case DBVT_DELETED:
+		if (cbRew) (*cbRew)++;
+		break;
+	case DBVT_BYTE:
+		return _clVal + dbv.bVal;
+	case DBVT_WORD:
+		return _clVal + dbv.wVal;
+	case DBVT_DWORD:
+		return _clVal + dbv.dVal;
+	case DBVT_UTF8:
+	case DBVT_ASCIIZ:
 		{
 			size_t wAdd = _clVal + dbv.pszVal;
 			db_free(&dbv);
 			return wAdd;
 		}
-		default:
-			if (cbRew) (*cbRew)++;
-			db_free(&dbv);
-			break;
+	default:
+		if (cbRew) (*cbRew)++;
+		db_free(&dbv);
+		break;
 	}
 	return 0;
 }
@@ -748,6 +778,7 @@ size_t CVCardFileVCF::packDB(const CHAR *pszModule, const CHAR *pszSetting, size
  *
  * return	number of bytes, added to the linebuffer
  **/
+
 size_t CVCardFileVCF::packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, BYTE bSigned, size_t *cbRew)
 {
 	DBVARIANT dbv;
@@ -757,27 +788,27 @@ size_t CVCardFileVCF::packDBList(const CHAR *pszModule, const CHAR *pszSetting, 
 
 	GetList((WPARAM)&nList, (LPARAM)&pList);
 	switch (GetSetting(pszModule, pszSetting, &dbv)) {
-		case DBVT_BYTE:
-			wAdd = packList(pList, nList, (int)(bSigned ? dbv.cVal : dbv.bVal), cbRew);
-			break;
-		case DBVT_WORD:
-			wAdd = packList(pList, nList, (int)(bSigned ? dbv.sVal : dbv.wVal), cbRew);
-			break;
-		case DBVT_DWORD:
-			wAdd = packList(pList, nList, (int)(bSigned ? dbv.lVal : dbv.dVal), cbRew);
-			break;
-		case DBVT_UTF8:
-		case DBVT_ASCIIZ:
-			wAdd = _clVal + Translate(dbv.pszVal);
-			db_free(&dbv);
-			break;
-		case DBVT_DELETED:
-			wAdd = 0;
-			break;
-		default:
-			wAdd = 0;
-			db_free(&dbv);
-			break;
+	case DBVT_BYTE:
+		wAdd = packList(pList, nList, (int)(bSigned ? dbv.cVal : dbv.bVal), cbRew);
+		break;
+	case DBVT_WORD:
+		wAdd = packList(pList, nList, (int)(bSigned ? dbv.sVal : dbv.wVal), cbRew);
+		break;
+	case DBVT_DWORD:
+		wAdd = packList(pList, nList, (int)(bSigned ? dbv.lVal : dbv.dVal), cbRew);
+		break;
+	case DBVT_UTF8:
+	case DBVT_ASCIIZ:
+		wAdd = _clVal + Translate(dbv.pszVal);
+		db_free(&dbv);
+		break;
+	case DBVT_DELETED:
+		wAdd = 0;
+		break;
+	default:
+		wAdd = 0;
+		db_free(&dbv);
+		break;
 	}
 	if (cbRew) *cbRew = wAdd ? 0 : *cbRew + 1;
 	return wAdd;
@@ -791,6 +822,7 @@ size_t CVCardFileVCF::packDBList(const CHAR *pszModule, const CHAR *pszSetting, 
  *
  * return	number of bytes, added to the linebuffer
  **/
+
 void CVCardFileVCF::writeLine(const CHAR *szSet, size_t *cbRew)
 {
 	if (cbRew) {
@@ -820,6 +852,7 @@ void CVCardFileVCF::writeLine(const CHAR *szSet, size_t *cbRew)
  *
  * return	number of bytes, added to the linebuffer
  **/
+
 void CVCardFileVCF::writeLineEncoded(const CHAR *szSet, size_t *cbRew)
 {
 	if (cbRew) {
@@ -846,9 +879,10 @@ void CVCardFileVCF::writeLineEncoded(const CHAR *szSet, size_t *cbRew)
  *			pszMode		- the mode the file should be opened with
  * return	TRUE or FALSE
  **/
-BYTE CVCardFileVCF::Open(MCONTACT hContact,	LPCSTR pszFileName, LPCSTR pszMode)
+
+BYTE CVCardFileVCF::Open(MCONTACT hContact, const wchar_t *pszFileName, const wchar_t *pszMode)
 {
-	if (!(_pFile = fopen(pszFileName, pszMode)))
+	if (!(_pFile = _wfopen(pszFileName, pszMode)))
 		return FALSE;
 	if ((_hContact = hContact) == INVALID_CONTACT_ID)
 		return FALSE;
@@ -865,9 +899,10 @@ BYTE CVCardFileVCF::Open(MCONTACT hContact,	LPCSTR pszFileName, LPCSTR pszMode)
  *			pszMode		- the mode the file should be opened with
  * return	TRUE or FALSE
  **/
+
 void CVCardFileVCF::Close(void)
 {
-	if (_pFile) 
+	if (_pFile)
 		fclose(_pFile);
 	_pFile = nullptr;
 	_hContact = INVALID_CONTACT_ID;
@@ -880,6 +915,7 @@ void CVCardFileVCF::Close(void)
  * param:	none
  * return	TRUE or FALSE
  **/
+
 BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 {
 	size_t cbRew = 0;
@@ -969,7 +1005,7 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 	//
 	// private address
 	//
-	_clVal + ";;"; 
+	_clVal + ";;";
 	cbRew = 1;
 	packDB(USERINFO, SET_CONTACT_STREET, &cbRew);
 	_clVal + DELIM;
@@ -1040,12 +1076,12 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 		BYTE gender = db_get_b(_hContact, USERINFO, SET_CONTACT_GENDER, 0);
 		if (!gender) gender = db_get_b(_hContact, _pszBaseProto, SET_CONTACT_GENDER, 0);
 		switch (gender) {
-			case 'F':
-				fputs("X-WAB-GENDER:1\n", _pFile);
-				break;
-			case 'M':
-				fputs("X-WAB-GENDER:2\n", _pFile);
-				break;
+		case 'F':
+			fputs("X-WAB-GENDER:1\n", _pFile);
+			break;
+		case 'M':
+			fputs("X-WAB-GENDER:2\n", _pFile);
+			break;
 		}
 	}
 
@@ -1058,7 +1094,7 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 		if (!mdb.DBGetBirthDate(_hContact, nullptr))
 			fprintf(_pFile, "BDAY:%d%02d%02d\n", mdb.Year(), mdb.Month(), mdb.Day());
 	}
-	
+
 	//
 	// notes
 	//
@@ -1101,6 +1137,7 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
  *
  * return:	number of characters read from the file or EOF
  **/
+
 int CVCardFileVCF::readLine(LPSTR szVCFSetting, WORD cchSetting)
 {
 	LPSTR here;
@@ -1121,7 +1158,7 @@ int CVCardFileVCF::readLine(LPSTR szVCFSetting, WORD cchSetting)
 	// ignore line if setting was not read correctly
 	if (here - szVCFSetting == cchSetting)
 		return 0;
-	
+
 	// read the value to the linebuffer, because its length may be very large
 	return _clVal.fgetEncoded(_pFile);
 }
@@ -1133,6 +1170,7 @@ int CVCardFileVCF::readLine(LPSTR szVCFSetting, WORD cchSetting)
  *
  * return:	number of characters read from the file or EOF
  **/
+
 BYTE CVCardFileVCF::Import()
 {
 	CHAR szEnt[MAX_PATH];
@@ -1150,181 +1188,171 @@ BYTE CVCardFileVCF::Import()
 			*(pszParam++) = 0;
 		}
 		switch (*szEnt) {
-			case 'A':
-				if (!mir_strcmp(szEnt, "ABOUT")) {
-					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_ABOUT);
+		case 'A':
+			if (!mir_strcmp(szEnt, "ABOUT")) {
+				_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_ABOUT);
+				continue;
+			}
+			if (!mir_strcmp(szEnt, "ADR")) {
+				if (!pszParam) continue;
+				if (!mir_strcmp(pszParam, "HOME")) {
+					_clVal.GetTokenFirst(';', nullptr);
+					_clVal.GetTokenNext(';', nullptr);
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_STREET, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_CITY, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_STATE, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ZIP, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COUNTRY, ';');
 					continue;
 				}
-				if (!mir_strcmp(szEnt, "ADR")) {
-					if (!pszParam) continue;
-					if (!mir_strcmp(pszParam, "HOME")) {
-						_clVal.GetTokenFirst(';', nullptr);
-						_clVal.GetTokenNext(';', nullptr);
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_STREET, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_CITY, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_STATE, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ZIP, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COUNTRY, ';');
-						continue;
-					}
-					if (!mir_strcmp(pszParam, "WORK")) {
-						_clVal.GetTokenFirst(';', nullptr);
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_OFFICE, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_STREET, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_CITY, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_STATE, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_ZIP, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_COUNTRY, ';');
-						continue;
-					}
-					if (!mir_strcmp(pszParam, "POSTAL")) {
-						_clVal.GetTokenFirst(';', nullptr);
-						_clVal.GetTokenNext(';', nullptr);
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_STREET, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_CITY, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_STATE, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_ZIP, ';');
-						_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_COUNTRY, ';');
-					}
-				}
-				continue;
-
-			case 'B':
-				if (!mir_strcmp(szEnt, "BDAY")) {
-					if (_clVal.GetLength() == 8) {
-						CHAR buf[5];
-
-						memcpy(buf, _clVal.GetBuffer(), 4);
-						buf[4] = 0;
-						db_set_w(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHYEAR, (WORD)strtol(buf, nullptr, 10));
-						memcpy(buf, _clVal.GetBuffer() + 4, 2);
-						buf[2] = 0;
-						db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHMONTH, (BYTE)strtol(buf, nullptr, 10));
-						memcpy(buf, _clVal.GetBuffer() + 6, 2);
-						buf[2] = 0;
-						db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, (BYTE)strtol(buf, nullptr, 10));
-					}
-				}
-				continue;
-
-			case 'E':
-				if (!mir_strcmp(szEnt, "EMAIL")) {
-					if (!pszParam || !strstr(pszParam, "intERNET"))
-						continue;
-					if (strstr(pszParam, "PREF")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_EMAIL);
-						continue;
-					}
-					switch (numEmails++) {
-						case 0:
-							_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_EMAIL0);
-							break;
-						case 1:
-							_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_EMAIL1);
-							break;
-					}
-				}
-				continue;
-			/*
-			case 'I':
-				if (!mir_strcmp(szEnt, "IM")) {
-					LPSTR	pszModule, pszSetting;
-
-					if (pszParam && (pszModule = strtok(pszParam, DELIM)) && (pszSetting = strtok(NULL, DELIM)))
-						_clVal.DBWriteSettingString(_hContact, pszModule, pszSetting);
-				}
-				continue;
-			*/
-			case 'N':
-				if (!mir_strcmp(szEnt, "N")) {
-					_clVal.DBWriteTokenFirst(_hContact, USERINFO, SET_CONTACT_LASTNAME, ';');
-					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_FIRSTNAME, ';');
-					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_SECONDNAME, ';');
-					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_TITLE, ';');
-					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_PREFIX, ';');
+				if (!mir_strcmp(pszParam, "WORK")) {
+					_clVal.GetTokenFirst(';', nullptr);
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_OFFICE, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_STREET, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_CITY, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_STATE, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_ZIP, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_COUNTRY, ';');
 					continue;
 				}
-				if (!mir_strcmp(szEnt, "NICKNAME")) {
-					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_NICK);
+				if (!mir_strcmp(pszParam, "POSTAL")) {
+					_clVal.GetTokenFirst(';', nullptr);
+					_clVal.GetTokenNext(';', nullptr);
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_STREET, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_CITY, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_STATE, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_ZIP, ';');
+					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_ORIGIN_COUNTRY, ';');
+				}
+			}
+			continue;
+
+		case 'B':
+			if (!mir_strcmp(szEnt, "BDAY")) {
+				if (_clVal.GetLength() == 8) {
+					CHAR buf[5];
+
+					memcpy(buf, _clVal.GetBuffer(), 4);
+					buf[4] = 0;
+					db_set_w(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHYEAR, (WORD)strtol(buf, nullptr, 10));
+					memcpy(buf, _clVal.GetBuffer() + 4, 2);
+					buf[2] = 0;
+					db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHMONTH, (BYTE)strtol(buf, nullptr, 10));
+					memcpy(buf, _clVal.GetBuffer() + 6, 2);
+					buf[2] = 0;
+					db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, (BYTE)strtol(buf, nullptr, 10));
+				}
+			}
+			continue;
+
+		case 'E':
+			if (!mir_strcmp(szEnt, "EMAIL")) {
+				if (!pszParam || !strstr(pszParam, "intERNET"))
+					continue;
+				if (strstr(pszParam, "PREF")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_EMAIL);
 					continue;
 				}
-				if (!mir_strcmp(szEnt, "NOTE")) {
-					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_MYNOTES);
+				switch (numEmails++) {
+				case 0:
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_EMAIL0);
+					break;
+				case 1:
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_EMAIL1);
+					break;
 				}
-				continue;
+			}
+			continue;
 
-			case 'O':
-				if (!mir_strcmp(szEnt, "ORG")) {
-					_clVal.DBWriteTokenFirst(_hContact, USERINFO, SET_CONTACT_COMPANY, ';');
-					_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_DEPARTMENT, ';');
-				}
+		case 'N':
+			if (!mir_strcmp(szEnt, "N")) {
+				_clVal.DBWriteTokenFirst(_hContact, USERINFO, SET_CONTACT_LASTNAME, ';');
+				_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_FIRSTNAME, ';');
+				_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_SECONDNAME, ';');
+				_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_TITLE, ';');
+				_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_PREFIX, ';');
 				continue;
-
-			case 'R':
-				if (!mir_strcmp(szEnt, "ROLE")) {
-					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_OCCUPATION);
-				}
+			}
+			if (!mir_strcmp(szEnt, "NICKNAME")) {
+				_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_NICK);
 				continue;
+			}
+			if (!mir_strcmp(szEnt, "NOTE")) {
+				_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_MYNOTES);
+			}
+			continue;
 
-			case 'T':
-				if (!mir_strcmp(szEnt, "TITLE")) {
-					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_POSITION);
+		case 'O':
+			if (!mir_strcmp(szEnt, "ORG")) {
+				_clVal.DBWriteTokenFirst(_hContact, USERINFO, SET_CONTACT_COMPANY, ';');
+				_clVal.DBWriteTokenNext(_hContact, USERINFO, SET_CONTACT_COMPANY_DEPARTMENT, ';');
+			}
+			continue;
+
+		case 'R':
+			if (!mir_strcmp(szEnt, "ROLE")) {
+				_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_OCCUPATION);
+			}
+			continue;
+
+		case 'T':
+			if (!mir_strcmp(szEnt, "TITLE")) {
+				_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_POSITION);
+				continue;
+			}
+
+			if (!mir_strcmp(szEnt, "TEL")) {
+				if (!pszParam) continue;
+
+				if (!mir_strcmp(pszParam, "HOME;VOICE")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_PHONE);
 					continue;
 				}
-				if (!mir_strcmp(szEnt, "TEL")) {
-
-					if (!pszParam) continue;
-					
-					if (!mir_strcmp(pszParam, "HOME;VOICE")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_PHONE);
-						continue;
-					}
-					if (!mir_strcmp(pszParam, "HOME;FAX")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_FAX);
-						continue;
-					}
-					if (!mir_strcmp(pszParam, "CELL;VOICE")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_CELLULAR);
-						continue;
-					}
-					if (!mir_strcmp(pszParam, "WORK;VOICE")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_PHONE);
-						continue;
-					}
-					if (!mir_strcmp(pszParam, "WORK;FAX")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_FAX);
-						continue;
-					}
-					if (!mir_strcmp(pszParam, "PAGER;VOICE")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_CELLULAR);
-						continue;
-					}
+				if (!mir_strcmp(pszParam, "HOME;FAX")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_FAX);
+					continue;
 				}
-				continue;
-		
-			case 'U':
-				if (!mir_strcmp(szEnt, "URL")) {
-
-					if (!pszParam) continue;
-
-					if (!mir_strcmp(pszParam, "HOME")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_HOMEPAGE);
-						continue;
-					}
-					if (!mir_strcmp(pszParam, "WORK")) {
-						_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_HOMEPAGE);
-					}
+				if (!mir_strcmp(pszParam, "CELL;VOICE")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_CELLULAR);
+					continue;
 				}
-				continue;
-
-			case 'X':
-				if (!mir_strcmp(szEnt, "X-WAB-GENDER")) {
-					if (!mir_strcmp(_clVal.GetBuffer(), "1"))
-						db_set_b(_hContact, USERINFO, SET_CONTACT_GENDER, 'F');
-					else if (!mir_strcmp(_clVal.GetBuffer(), "2"))
-						db_set_b(_hContact, USERINFO, SET_CONTACT_GENDER, 'M');
+				if (!mir_strcmp(pszParam, "WORK;VOICE")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_PHONE);
+					continue;
 				}
-				continue;
+				if (!mir_strcmp(pszParam, "WORK;FAX")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_FAX);
+					continue;
+				}
+				if (!mir_strcmp(pszParam, "PAGER;VOICE")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_CELLULAR);
+					continue;
+				}
+			}
+			continue;
+
+		case 'U':
+			if (!mir_strcmp(szEnt, "URL")) {
+				if (!pszParam) continue;
+
+				if (!mir_strcmp(pszParam, "HOME")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_HOMEPAGE);
+					continue;
+				}
+				if (!mir_strcmp(pszParam, "WORK")) {
+					_clVal.DBWriteSettingString(_hContact, USERINFO, SET_CONTACT_COMPANY_HOMEPAGE);
+				}
+			}
+			continue;
+
+		case 'X':
+			if (!mir_strcmp(szEnt, "X-WAB-GENDER")) {
+				if (!mir_strcmp(_clVal.GetBuffer(), "1"))
+					db_set_b(_hContact, USERINFO, SET_CONTACT_GENDER, 'F');
+				else if (!mir_strcmp(_clVal.GetBuffer(), "2"))
+					db_set_b(_hContact, USERINFO, SET_CONTACT_GENDER, 'M');
+			}
+			continue;
 		}
 	}
 	return TRUE;

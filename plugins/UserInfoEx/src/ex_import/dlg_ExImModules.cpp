@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 typedef struct
 {
 	lpExImParam		ExImContact;
-	DB::CEnumList*	pModules;
+	DB::CEnumList *pModules;
 } EXPORTDATA, *LPEXPORTDATA;
 
 /***********************************************************************************************************
@@ -43,7 +43,8 @@ typedef struct
   *			pModules	- module list to fill
   * return:	nothing
   **/
-void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList* pModules)
+
+void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList *pModules)
 {
 	TVITEMA tvi;
 
@@ -58,17 +59,12 @@ void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList* p
 		tvi.cchTextMax = _countof(szModule);
 
 		do {
-			if (
-				SendMessageA(hTree, TVM_GETITEMA, 0, (LPARAM)&tvi) &&
-				(
-					tvi.state == INDEXTOSTATEIMAGEMASK(0) ||
-					tvi.state == INDEXTOSTATEIMAGEMASK(2)
-					)
-				) {
+			if (SendMessageA(hTree, TVM_GETITEMA, 0, (LPARAM)&tvi) &&
+				(tvi.state == INDEXTOSTATEIMAGEMASK(0) || tvi.state == INDEXTOSTATEIMAGEMASK(2))) {
 				pModules->Insert(tvi.pszText);
 			}
 		}
-		while (tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem));
+			while (tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem));
 	}
 }
 
@@ -80,6 +76,7 @@ void ExportTree_AppendModuleList(HWND hTree, HTREEITEM hParent, DB::CEnumList* p
  *			pszText		- text to match the label against
  * return:	a handle to the found treeitem or NULL
  **/
+
 HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
 {
 	TVITEMA tvi;
@@ -110,6 +107,7 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
  *			bState		- 0-hide checkbox/1-unchecked/2-checked
  * return:	return handle to added treeitem
  **/
+
 HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, BYTE bUseImages, BYTE bState)
 {
 	TVINSERTSTRUCTA	tvii;
@@ -137,6 +135,7 @@ HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, BYTE 
  *			lParam		- message specific parameter
  * return:	message specific
  **/
+
 INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	LPEXPORTDATA pDat = (LPEXPORTDATA)GetUserData(hDlg);
@@ -207,7 +206,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 					name = (LPCTSTR)pDat->ExImContact->ptszName;
 					break;
 				case EXIM_ACCOUNT:
-					PROTOACCOUNT* acc = Proto_GetAccount(pDat->ExImContact->pszName);
+					PROTOACCOUNT *acc = Proto_GetAccount(pDat->ExImContact->pszName);
 					name = (LPCTSTR)acc->tszAccountName;
 					break;
 				}
@@ -408,10 +407,10 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
  *			hParent		- handle to a window which should act as the parent of the created dialog
  * return:	0 if user pressed ok, 1 on cancel
  **/
-int DlgExImModules_SelectModulesToExport(lpExImParam ExImContact, DB::CEnumList* pModules, HWND hParent)
+
+int DlgExImModules_SelectModulesToExport(lpExImParam ExImContact, DB::CEnumList *pModules, HWND hParent)
 {
 	EXPORTDATA dat;
-
 	dat.ExImContact = ExImContact;
 	dat.pModules = pModules;
 	return (IDOK != DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT), hParent, SelectModulesToExport_DlgProc, (LPARAM)&dat));

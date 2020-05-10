@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * @param		nothing
  * @return		nothing
  **/
+
 static void InitAlteredPlacesBar()
 {
 	HKEY hkMiranda;
@@ -39,8 +40,7 @@ static void InitAlteredPlacesBar()
 
 	// create or open temporary hive for miranda specific places
 	result = RegCreateKey(HKEY_CURRENT_USER, HKEY_MIRANDA_PLACESBAR, &hkMiranda);
-	if (SUCCEEDED(result)) 
-	{
+	if (SUCCEEDED(result)) {
 		HKEY hkPlacesBar;
 
 		// map the current users registry
@@ -48,8 +48,7 @@ static void InitAlteredPlacesBar()
 		// open the policy key
 		result = RegCreateKey(HKEY_CURRENT_USER, HKEY_WINPOL_PLACESBAR, &hkPlacesBar);
 		// install the places bar
-		if (SUCCEEDED(result)) 
-		{
+		if (SUCCEEDED(result)) {
 			DWORD dwFolderID;
 			LPSTR p;
 			CHAR szMirandaPath[MAX_PATH];
@@ -63,14 +62,11 @@ static void InitAlteredPlacesBar()
 			// Miranda's installation path
 			GetModuleFileNameA(GetModuleHandleA("mir_app.mir"), szMirandaPath, _countof(szMirandaPath));
 			p = mir_strrchr(szMirandaPath, '\\');
-			if (p) 
-			{
+			if (p)
 				RegSetValueExA(hkPlacesBar, "Place3", 0, REG_SZ, (PBYTE)szMirandaPath, (p - szMirandaPath) + 1);
-			}
 
 			// Miranda's profile path
-			if (!Profile_GetPathA(_countof(szProfilePath), szProfilePath))
-			{
+			if (!Profile_GetPathA(_countof(szProfilePath), szProfilePath)) {
 				// only add if different from profile path
 				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (PBYTE)szProfilePath, (DWORD)mir_strlen(szProfilePath) + 1);
 			}
@@ -88,6 +84,7 @@ static void InitAlteredPlacesBar()
  * params:		nothing
  * return:		nothing
  **/
+
 static void ResetAlteredPlaceBars()
 {
 	RegOverridePredefKey(HKEY_CURRENT_USER, nullptr);
@@ -102,6 +99,7 @@ static void ResetAlteredPlaceBars()
  *				lParam	- message dependend parameter
  * return:		depends on message
  **/
+
 static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == TB_ADDBUTTONS) {
@@ -133,7 +131,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 				// profile button
 			case 41064:
 				// set button text
-				iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM) TranslateT("Profile"));
+				iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM)TranslateT("Profile"));
 				if (iString != -1) tbb->iString = iString;
 
 				// set tooltip
@@ -154,7 +152,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 			}
 		}
 	}
-	return mir_callNextSubclass(hWnd, PlacesBarSubclassProc, uMsg, wParam,lParam);
+	return mir_callNextSubclass(hWnd, PlacesBarSubclassProc, uMsg, wParam, lParam);
 }
 
 /**
@@ -166,6 +164,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
  *				lParam	- message dependend parameter
  * return:		depends on message
  **/
+
 static UINT_PTR CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	switch (uMsg) {
@@ -190,23 +189,22 @@ static UINT_PTR CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM, LP
 	return FALSE;
 }
 
-
-
 /**
  * name:		GetInitialDir
  * desc:		read the last vCard directory from database
  * pszInitialDir	- buffer to store the initial dir to (size must be MAX_PATH)
  * return:		nothing
  **/
-static void GetInitialDir(LPSTR pszInitialDir)
-{
-	char szRelative[MAX_PATH];
 
-	szRelative[0] = 0;
+static void GetInitialDir(wchar_t *pszInitialDir)
+{
+	wchar_t szRelative[MAX_PATH]; szRelative[0] = 0;
+
 	// is some standard path defined
-	if (!db_get_static(0, MODULENAME, "vCardPath", szRelative, _countof(szRelative))) {
-		if (!PathToAbsolute(szRelative, pszInitialDir))
-			mir_strcpy(pszInitialDir, szRelative);
+	CMStringW wszPath(g_plugin.getMStringW("vCardPath"));
+	if (!wszPath.IsEmpty()) {
+		if (!PathToAbsoluteW(szRelative, pszInitialDir))
+			mir_wstrcpy(pszInitialDir, szRelative);
 	}
 	else *pszInitialDir = 0;
 }
@@ -217,19 +215,19 @@ static void GetInitialDir(LPSTR pszInitialDir)
  *				pszInitialDir	- buffer to store the initial dir to (size must be MAX_PATH)
  * return:		nothing
  **/
-static void SaveInitialDir(LPSTR pszInitialDir)
-{
-	CHAR szRelative[MAX_PATH];
-	LPSTR p;
 
-	if (p = mir_strrchr(pszInitialDir, '\\')) {
+static void SaveInitialDir(wchar_t *pszInitialDir)
+{
+	if (wchar_t *p = wcsrchr(pszInitialDir, '\\')) {
 		*p = 0;
-		if ( PathToRelative(pszInitialDir, szRelative))
-			g_plugin.setString("vCardPath", szRelative);
+
+		wchar_t szRelative[MAX_PATH];
+		if (PathToRelativeW(pszInitialDir, szRelative))
+			g_plugin.setWString("vCardPath", szRelative);
 		else
-			g_plugin.setString("vCardPath", pszInitialDir);
+			g_plugin.setWString("vCardPath", pszInitialDir);
 		*p = '\\';
-	}	
+	}
 }
 
 /**
@@ -243,24 +241,24 @@ static void SaveInitialDir(LPSTR pszInitialDir)
  *				pszFile			- this is the buffer to store the file to (size must be MAX_PATH)
  * return:		nothing
  **/
-static void InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszInitialDir, LPSTR pszFile)
+
+static void InitOpenFileNameStruct(OPENFILENAME *pofn, HWND hWndParent, const wchar_t *pszTitle, const wchar_t *pszFilter, wchar_t *pszInitialDir, wchar_t *pszFile)
 {
 	memset(pofn, 0, sizeof(OPENFILENAME));
 
-	pofn->hwndOwner			= hWndParent;
-	pofn->lpstrTitle		= pszTitle;
-	pofn->lpstrFilter		= pszFilter;
-	pofn->lpstrFile			= pszFile;
-	pofn->nMaxFile			= MAX_PATH;
-	pofn->lpstrDefExt		= "xml";
+	pofn->hwndOwner = hWndParent;
+	pofn->lpstrTitle = pszTitle;
+	pofn->lpstrFilter = pszFilter;
+	pofn->lpstrFile = pszFile;
+	pofn->nMaxFile = MAX_PATH;
+	pofn->lpstrDefExt = L"xml";
 
 	GetInitialDir(pszInitialDir);
 	pofn->lpstrInitialDir = pszInitialDir;
-	pofn->lStructSize = sizeof (OPENFILENAME);
-	pofn->Flags = OFN_NONETWORKBUTTON|OFN_ENABLESIZING|OFN_ENABLEHOOK|OFN_EXPLORER;
+	pofn->lStructSize = sizeof(OPENFILENAME);
+	pofn->Flags = OFN_NONETWORKBUTTON | OFN_ENABLESIZING | OFN_ENABLEHOOK | OFN_EXPLORER;
 	pofn->lpfnHook = OpenSaveFileDialogHook;
 }
-
 
 /**
  * name:		DlgExIm_OpenFileName
@@ -271,14 +269,15 @@ static void InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR 
  *				pszFile			- this is the buffer to store the file to (size must be MAX_PATH)
  * return:		-1 on error/abort or filter index otherwise
  **/
-int DlgExIm_OpenFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszFile)
+
+int DlgExIm_OpenFileName(HWND hWndParent, const wchar_t *pszTitle, const wchar_t *pszFilter, wchar_t *pszFile)
 {
-	OPENFILENAMEA ofn;
-	CHAR szInitialDir[MAX_PATH];
+	OPENFILENAMEW ofn;
+	wchar_t szInitialDir[MAX_PATH];
 
 	InitOpenFileNameStruct(&ofn, hWndParent, pszTitle, pszFilter, szInitialDir, pszFile);
 	ofn.Flags |= OFN_PATHMUSTEXIST;
-	if (!GetOpenFileNameA(&ofn)) {
+	if (!GetOpenFileNameW(&ofn)) {
 		DWORD dwError = CommDlgExtendedError();
 		if (dwError) MsgErr(ofn.hwndOwner, LPGENW("The OpenFileDialog returned an error: %d!"), dwError);
 		return -1;
@@ -296,18 +295,18 @@ int DlgExIm_OpenFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPS
  *				pszFile			- this is the buffer to store the file to (size must be MAX_PATH)
  * return:		-1 on error/abort or filter index otherwise
  **/
-int DlgExIm_SaveFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszFile)
-{
-	OPENFILENAMEA ofn;
-	CHAR szInitialDir[MAX_PATH];
 
+int DlgExIm_SaveFileName(HWND hWndParent, const wchar_t *pszTitle, const wchar_t *pszFilter, wchar_t *pszFile)
+{
+	OPENFILENAMEW ofn;
+	wchar_t szInitialDir[MAX_PATH];
 	InitOpenFileNameStruct(&ofn, hWndParent, pszTitle, pszFilter, szInitialDir, pszFile);
 	ofn.Flags |= OFN_OVERWRITEPROMPT;
 
-	if (!GetSaveFileNameA(&ofn)) {
+	if (!GetSaveFileNameW(&ofn)) {
 		DWORD dwError = CommDlgExtendedError();
-
-		if (dwError) MsgErr(ofn.hwndOwner, LPGENW("The SaveFileDialog returned an error: %d!"), dwError);
+		if (dwError)
+			MsgErr(ofn.hwndOwner, LPGENW("The SaveFileDialog returned an error: %d!"), dwError);
 		return -1;
 	}
 	SaveInitialDir(pszFile);

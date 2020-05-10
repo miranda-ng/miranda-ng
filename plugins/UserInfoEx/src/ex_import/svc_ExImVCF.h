@@ -34,7 +34,7 @@ private:
 public:
 	CLineBuffer();
 	~CLineBuffer();
-	
+
 	size_t operator=(const CHAR *szVal);
 
 	size_t operator + (const CHAR *szVal);
@@ -49,46 +49,46 @@ public:
 	size_t GetLength();
 	LPCSTR GetBuffer();
 
-	void TruncToLength(size_t cbLength);
-	void Truncate(size_t count);
-	void TruncateSMS();
-	
-	void fput(FILE *outfile);
-	void fputEncoded(FILE *outFile);
-	int	fgetEncoded(FILE *inFile);
+	void   TruncToLength(size_t cbLength);
+	void   Truncate(size_t count);
+	void   TruncateSMS();
 
-	size_t GetTokenFirst(const CHAR delim, CLineBuffer * pBuf);
-	size_t GetTokenNext(const CHAR delim, CLineBuffer * pBuf);
-	int	 DBWriteTokenFirst(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim);
-	int	 DBWriteTokenNext(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim);
-	int	 DBWriteSettingString(MCONTACT hContact, const CHAR* pszModule, const CHAR* pszSetting);
+	void   fput(FILE *outfile);
+	void   fputEncoded(FILE *outFile);
+	int    fgetEncoded(FILE *inFile);
+
+	size_t GetTokenFirst(const CHAR delim, CLineBuffer *pBuf);
+	size_t GetTokenNext(const CHAR delim, CLineBuffer *pBuf);
+	int	 DBWriteTokenFirst(MCONTACT hContact, const CHAR *pszModule, const CHAR *pszSetting, const CHAR delim);
+	int	 DBWriteTokenNext(MCONTACT hContact, const CHAR *pszModule, const CHAR *pszSetting, const CHAR delim);
+	int	 DBWriteSettingString(MCONTACT hContact, const CHAR *pszModule, const CHAR *pszSetting);
 };
 
 class CVCardFileVCF
 {
 private:
-	CLineBuffer		 _clVal;
-	FILE			*_pFile;
-	MCONTACT		 _hContact;
-	const CHAR		*_pszBaseProto;
-	WORD			 _cbRew;
-	BYTE			 _useUtf8;
-	WORD			 _hasUtf8;
+	CLineBuffer _clVal;
+	FILE*       _pFile;
+	MCONTACT    _hContact;
+	const CHAR* _pszBaseProto;
+	WORD        _cbRew;
+	BYTE        _useUtf8;
+	WORD        _hasUtf8;
 
-	size_t	packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew = nullptr);
-	BYTE GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv);
-	size_t	packDB(const CHAR *pszModule, const CHAR *pszSetting, size_t *cbRew = nullptr);
-	size_t	packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, BYTE bSigned = FALSE, size_t *cbRew = nullptr);
-	
-	void	writeLine(const CHAR *szSet, size_t *cbRew = nullptr);
-	void	writeLineEncoded(const CHAR *szSet, size_t *cbRew = nullptr);
-	int		readLine(LPSTR szVCFSetting, WORD cchSetting);
+	size_t packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew = nullptr);
+	BYTE   GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv);
+	size_t packDB(const CHAR *pszModule, const CHAR *pszSetting, size_t *cbRew = nullptr);
+	size_t packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, BYTE bSigned = FALSE, size_t *cbRew = nullptr);
+
+	void writeLine(const CHAR *szSet, size_t *cbRew = nullptr);
+	void writeLineEncoded(const CHAR *szSet, size_t *cbRew = nullptr);
+	int  readLine(LPSTR szVCFSetting, WORD cchSetting);
 
 public:
 	CVCardFileVCF();
 
-	BYTE Open(MCONTACT hContact, LPCSTR pszFileName, LPCSTR pszMode);
-	void	Close(void);
+	BYTE Open(MCONTACT hContact, const wchar_t *pszFileName, const wchar_t *pszMode);
+	void Close(void);
 	BYTE Export(BYTE bExportUtf);
 	BYTE Import();
 };

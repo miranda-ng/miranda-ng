@@ -44,29 +44,29 @@ public:
 	CExImContactBase();
 	~CExImContactBase();
 
-	__inline DBVARIANT& uid()		{ return _dbvUID;	}
+	__inline DBVARIANT &uid() { return _dbvUID; }
 	__inline MCONTACT handle() const { return _hContact; }
-	
-	__inline void	disp(LPCSTR val)			{ _pszDisp		=	val ? mir_strdup(val): nullptr; }
-	__inline void	group(LPCSTR val)			{ _pszGroup		=	val ? mir_strdup(val): nullptr; }
-	__inline void	nick(LPCSTR val)			{ _pszNick		=	val ? mir_strdup(val): nullptr; }
-	__inline void	proto(LPCSTR val)			{ _pszProto		=	val ? mir_strdup(val): nullptr; }
-	__inline void	ampro(LPCSTR val)			{ _pszAMPro		=	val ? mir_strdup(val): nullptr; }
-	__inline void	uidk(LPCSTR val)			{ _pszUIDKey	=	val ? mir_strdup(val): nullptr; }
-	__inline void	uid(BYTE val)				{ _dbvUID.type	= DBVT_BYTE;  _dbvUID.bVal = val; }
-	__inline void	uid(WORD val)				{ _dbvUID.type	= DBVT_WORD;  _dbvUID.wVal = val; }
-	__inline void	uid(DWORD val)				{ _dbvUID.type	= DBVT_DWORD; _dbvUID.dVal = val; }
-	__inline void	uidn(PBYTE val, DWORD len)	{ _dbvUID.type	= DBVT_BLOB;  _dbvUID.pbVal= val; _dbvUID.cpbVal = (WORD)len; }
+
+	__inline void	disp(LPCSTR val) { _pszDisp = val ? mir_strdup(val) : nullptr; }
+	__inline void	group(LPCSTR val) { _pszGroup = val ? mir_strdup(val) : nullptr; }
+	__inline void	nick(LPCSTR val) { _pszNick = val ? mir_strdup(val) : nullptr; }
+	__inline void	proto(LPCSTR val) { _pszProto = val ? mir_strdup(val) : nullptr; }
+	__inline void	ampro(LPCSTR val) { _pszAMPro = val ? mir_strdup(val) : nullptr; }
+	__inline void	uidk(LPCSTR val) { _pszUIDKey = val ? mir_strdup(val) : nullptr; }
+	__inline void	uid(BYTE val) { _dbvUID.type = DBVT_BYTE;  _dbvUID.bVal = val; }
+	__inline void	uid(WORD val) { _dbvUID.type = DBVT_WORD;  _dbvUID.wVal = val; }
+	__inline void	uid(DWORD val) { _dbvUID.type = DBVT_DWORD; _dbvUID.dVal = val; }
+	__inline void	uidn(PBYTE val, DWORD len) { _dbvUID.type = DBVT_BLOB;  _dbvUID.pbVal = val; _dbvUID.cpbVal = (WORD)len; }
 	__inline void	uida(LPCSTR val)
 	{
-		_dbvUID.type = (_dbvUID.pszVal = mir_utf8decodeA(val))? DBVT_ASCIIZ : DBVT_DELETED;
-		_dbvUIDHash  = mir_hashstr(_dbvUID.pszVal);
+		_dbvUID.type = (_dbvUID.pszVal = mir_utf8decodeA(val)) ? DBVT_ASCIIZ : DBVT_DELETED;
+		_dbvUIDHash = mir_hashstr(_dbvUID.pszVal);
 	}
 	__inline void	uidu(LPCSTR val)
 	{
-		_dbvUID.type = (_dbvUID.pszVal = mir_strdup(val))? DBVT_UTF8 : DBVT_DELETED;
-		LPWSTR temp  = mir_utf8decodeW(val);
-		_dbvUIDHash  = mir_hashstrW(temp);
+		_dbvUID.type = (_dbvUID.pszVal = mir_strdup(val)) ? DBVT_UTF8 : DBVT_DELETED;
+		LPWSTR temp = mir_utf8decodeW(val);
+		_dbvUIDHash = mir_hashstrW(temp);
 		mir_free(temp);
 	}
 
@@ -76,10 +76,10 @@ public:
 	LPSTR uid2String(BYTE bPrependType);
 
 	BYTE fromDB(MCONTACT hContact);
-	BYTE fromIni(LPSTR& row);
+	BYTE fromIni(LPSTR &row);
 
 	MCONTACT toDB();
-	void toIni(FILE* file, int modCount);
+	void toIni(FILE *file, int modCount);
 
-	BYTE operator=(MCONTACT hContact)	{ return fromDB(hContact);	}
+	BYTE operator=(MCONTACT hContact) { return fromDB(hContact); }
 };

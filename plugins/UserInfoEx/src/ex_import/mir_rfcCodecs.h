@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //NOTE: For BASE64 and UUENCODE, this actually
 //represents the amount of unencoded characters
 //per line
+
 #define TSSMTPMAX_QP_LINE_LENGTH			 76
 #define TSSMTPMAX_BASE64_LINE_LENGTH	 57
 #define TSSMTPMAX_UUENCODE_LINE_LENGTH 45
@@ -48,19 +49,18 @@ inline INT_PTR QPDecodeGetRequiredLength(INT_PTR nSrcLen)
 	return nSrcLen;
 }
 
-inline BOOL QPEncode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pnDestLen, BYTE *bEncoded, DWORD dwFlags = 0)
+inline BOOL QPEncode(BYTE *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, BYTE *bEncoded, DWORD dwFlags = 0)
 {
 	//The hexadecimal character set
-	static const CHAR s_chHexChars[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-											'A', 'B', 'C', 'D', 'E', 'F'};
+	static const CHAR s_chHexChars[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+											'A', 'B', 'C', 'D', 'E', 'F' };
 	INT_PTR nRead = 0, nWritten = 0, nLineLen = 0;
 	CHAR ch;
 	BYTE bChanged = FALSE;
 
 
-	if (!pbSrcData || !szDest || !pnDestLen) {
+	if (!pbSrcData || !szDest || !pnDestLen)
 		return FALSE;
-	}
 
 	while (nRead < nSrcLen) {
 		ch = *pbSrcData++;
@@ -77,19 +77,19 @@ inline BOOL QPEncode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pn
 			nLineLen++;
 		}
 		else
-		if ((ch == ' ' || ch == '\t') && (nLineLen < (TSSMTPMAX_QP_LINE_LENGTH - 12))) {
-			*szDest++ = ch;
-			nWritten++;
-			nLineLen++;
-		}
-		else {
-			*szDest++ = '=';
-			*szDest++ = s_chHexChars[(ch >> 4) & 0x0F];
-			*szDest++ = s_chHexChars[ch & 0x0F];
-			nWritten += 3;
-			nLineLen += 3;
-			bChanged = TRUE;
-		}
+			if ((ch == ' ' || ch == '\t') && (nLineLen < (TSSMTPMAX_QP_LINE_LENGTH - 12))) {
+				*szDest++ = ch;
+				nWritten++;
+				nLineLen++;
+			}
+			else {
+				*szDest++ = '=';
+				*szDest++ = s_chHexChars[(ch >> 4) & 0x0F];
+				*szDest++ = s_chHexChars[ch & 0x0F];
+				nWritten += 3;
+				nLineLen += 3;
+				bChanged = TRUE;
+			}
 		if (nLineLen >= (TSSMTPMAX_QP_LINE_LENGTH - 11)) {
 			*szDest++ = '=';
 			*szDest++ = '\r';
@@ -111,39 +111,34 @@ inline BOOL QPEncode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pn
 	return TRUE;
 }
 
-
-inline BOOL QPDecode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pnDestLen, DWORD dwFlags = 0)
+inline BOOL QPDecode(BYTE *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, DWORD dwFlags = 0)
 {
-	if (!pbSrcData || !szDest || !pnDestLen)
-	{
+	if (!pbSrcData || !szDest || !pnDestLen) {
 		return FALSE;
 	}
 
 	INT_PTR nRead = 0, nWritten = 0, nLineLen = -1;
 	char ch;
-	while (nRead <= nSrcLen)
-	{
+	while (nRead <= nSrcLen) {
 		ch = *pbSrcData++;
 		nRead++;
 		nLineLen++;
-		if (ch == '=')
-		{
-			//if the next character is a digit or a character, convert
-			if (nRead < nSrcLen && (isdigit(*pbSrcData) || isalpha(*pbSrcData)))
-			{
+		if (ch == '=') {
+			// if the next character is a digit or a character, convert
+			if (nRead < nSrcLen && (isdigit(*pbSrcData) || isalpha(*pbSrcData))) {
 				char szBuf[5];
 				szBuf[0] = *pbSrcData++;
 				szBuf[1] = *pbSrcData++;
 				szBuf[2] = '\0';
-				char* tmp = '\0';
+				char *tmp = '\0';
 				*szDest++ = (BYTE)strtoul(szBuf, &tmp, 16);
 				nWritten++;
 				nRead += 2;
 				continue;
 			}
-			//if the next character is a carriage return or line break, eat it
-			if (nRead < nSrcLen && *pbSrcData == '\r' && (nRead+1 < nSrcLen) && *(pbSrcData+1)=='\n')
-			{
+
+			// if the next character is a carriage return or line break, eat it
+			if (nRead < nSrcLen && *pbSrcData == '\r' && (nRead + 1 < nSrcLen) && *(pbSrcData + 1) == '\n') {
 				pbSrcData++;
 				nRead++;
 				nLineLen = -1;
@@ -151,19 +146,17 @@ inline BOOL QPDecode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pn
 			}
 			return FALSE;
 		}
-		if (ch == '\r' || ch == '\n')
-		{
+		if (ch == '\r' || ch == '\n') {
 			nLineLen = -1;
 			continue;
 		}
-		if ((dwFlags & TSSMTPQPENCODE_DOT) && ch == '.' && nLineLen == 0)
-		{
+		if ((dwFlags & TSSMTPQPENCODE_DOT) && ch == '.' && nLineLen == 0) {
 			continue;
 		}
 		*szDest++ = ch;
 		nWritten++;
 	}
 
-	*pnDestLen = nWritten-1;
+	*pnDestLen = nWritten - 1;
 	return TRUE;
 }

@@ -39,7 +39,7 @@ public:
 
 	void SetContactCount(DWORD numContacts);
 	void SetSettingsCount(DWORD numSettings);
-	
+
 	BYTE UpdateContact(LPCTSTR pszFormat, ...);
 	BYTE UpdateSetting(LPCTSTR pszFormat, ...);
 };

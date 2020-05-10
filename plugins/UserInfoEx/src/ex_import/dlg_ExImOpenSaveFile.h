@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #pragma once
 
-int DlgExIm_OpenFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszFile);
-int DlgExIm_SaveFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszFile);
+int DlgExIm_OpenFileName(HWND hWndParent, const wchar_t *pszTitle, const wchar_t *pszFilter, wchar_t *pszFile);
+int DlgExIm_SaveFileName(HWND hWndParent, const wchar_t *pszTitle, const wchar_t *pszFilter, wchar_t *pszFile);
 
 #endif /* _DLG_EXIMOPENSAVEFFILE_H_ */

@@ -84,7 +84,7 @@ BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
 		char buf[MAXSETTING];
 		// convert to hash and make bsearch as it is much faster then working with strings
 		const DWORD dwHash = mir_hashstr(_strlwr(mir_strncpy(buf, pszKey, _countof(buf))));
-		return bsearch(&dwHash, dwCiHash, _countof(dwCiHash), sizeof(dwCiHash[0]), (int(*)(const void*, const void*))SortProc) != nullptr;
+		return bsearch(&dwHash, dwCiHash, _countof(dwCiHash), sizeof(dwCiHash[0]), (int(*)(const void *, const void *))SortProc) != nullptr;
 	}
 	return FALSE;
 }
@@ -102,7 +102,7 @@ BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
 * return:	pointer to the newly created TiXmlElement
 **/
 
-TiXmlElement* CExImContactXML::CreateXmlElement()
+TiXmlElement *CExImContactXML::CreateXmlElement()
 {
 	if (_hContact) {
 		if (_pszProto) {
@@ -143,7 +143,7 @@ TiXmlElement* CExImContactXML::CreateXmlElement()
 * return:	ERROR_OK on success or any other on failure
 **/
 
-int CExImContactXML::ExportContact(DB::CEnumList* pModules)
+int CExImContactXML::ExportContact(DB::CEnumList *pModules)
 {
 	if (_pXmlFile->_wExport & EXPORT_DATA) {
 		if (pModules) {
@@ -171,7 +171,7 @@ int CExImContactXML::ExportContact(DB::CEnumList* pModules)
 * return:	ERROR_OK on success or any other on failure
 **/
 
-int CExImContactXML::ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList* pModules)
+int CExImContactXML::ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList *pModules)
 {
 	// create xmlNode
 	if (!CreateXmlElement())
@@ -193,7 +193,7 @@ int CExImContactXML::ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumLi
 * return:	ERROR_OK on success or any other on failure
 **/
 
-int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
+int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList *pModules)
 {
 	if (!xmlfile)
 		return ERROR_INVALID_PARAMS;
@@ -286,7 +286,7 @@ int CExImContactXML::ExportModule(LPCSTR pszModule)
 int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	TiXmlElement *xmlEntry = nullptr;
-	TiXmlText    *xmlValue = nullptr;
+	TiXmlText *xmlValue = nullptr;
 	CHAR          buf[32];
 	LPSTR         str = nullptr;
 
@@ -411,7 +411,7 @@ BYTE CExImContactXML::ExportEvents()
 				TiXmlElement *xmlModule = nullptr;
 				for (auto *it : TiXmlEnum(xmlModule))
 					if (!mir_strcmpi(it->Attribute("key"), dbei.szModule)) {
-						xmlModule = (TiXmlElement*)it;
+						xmlModule = (TiXmlElement *)it;
 						break;
 					}
 
@@ -436,12 +436,12 @@ BYTE CExImContactXML::ExportEvents()
  * importing stuff
  ***********************************************************************************************************/
 
-/**
-* name:	CountKeys
-* desc:	Counts the number of events and settings stored for a contact
-* params:	xmlContact	- the contact, who is the owner of the keys to count
-* return:	nothing
-**/
+ /**
+ * name:	CountKeys
+ * desc:	Counts the number of events and settings stored for a contact
+ * params:	xmlContact	- the contact, who is the owner of the keys to count
+ * return:	nothing
+ **/
 
 void CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 {
@@ -684,8 +684,7 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 							return ERROR_ABORTED;
 						_pXmlFile->_numContactsDone++;
 					}
-				}
-				while (xContact = xContact->NextSiblingElement("CONTACT"));
+				} while (xContact = xContact->NextSiblingElement("CONTACT"));
 			}
 			// load metacontact information (after subcontact for faster import)
 			return ImportContact();
@@ -712,7 +711,7 @@ int CExImContactXML::Import(BYTE keepMetaSubContact)
 * return:
 **/
 
-int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
+int CExImContactXML::ImportMetaSubContact(CExImContactXML *pMetaContact)
 {
 	// abort here if contact was not imported correctly
 	int err = ImportContact();

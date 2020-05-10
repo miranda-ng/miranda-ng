@@ -22,6 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _DLG_EXIMMODULES_H_
 #define _DLG_EXIMMODULES_H_
 
-int DlgExImModules_SelectModulesToExport(lpExImParam ExImContact, DB::CEnumList* pModules, HWND hParent);
+int DlgExImModules_SelectModulesToExport(lpExImParam ExImContact, DB::CEnumList *pModules, HWND hParent);
 
 #endif /* _DLG_EXIMMODULES_H_ */
