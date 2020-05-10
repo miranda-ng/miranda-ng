@@ -20,25 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 typedef CProtoDlgBase<CVkProto> CVkDlgBase;
 
-////////////////////// Account manager dialog ////////////////////////////////
-
-class CVkAccMgrForm : public CVkDlgBase
-{
-	typedef CVkDlgBase CSuper;
-
-	CCtrlEdit m_edtLogin;
-	CCtrlEdit m_edtPassword;
-	CCtrlHyperlink m_hlLink;
-
-	pass_ptrW m_pwszOldPass;
-	ptrW m_pwszOldLogin;
-
-public:
-	CVkAccMgrForm(CVkProto *proto, HWND hwndParent);
-	bool OnInitDialog() override;
-	bool OnApply() override;
-};
-
 ////////////////////// Account page //////////////////////////////////////////
 
 class CVkOptionAccountForm : public CVkDlgBase

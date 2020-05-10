@@ -19,55 +19,66 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ////////////////////// Account manager dialog ////////////////////////////////
 
+class CVkAccMgrForm : public CVkDlgBase
+{
+	typedef CVkDlgBase CSuper;
+
+	CCtrlEdit m_edtLogin;
+	CCtrlEdit m_edtPassword;
+	CCtrlHyperlink m_hlLink;
+
+	pass_ptrW m_pwszOldPass;
+	ptrW m_pwszOldLogin;
+
+public:
+	CVkAccMgrForm(CVkProto *proto, HWND hwndParent) :
+		CVkDlgBase(proto, IDD_ACCMGRUI),
+		m_edtLogin(this, IDC_LOGIN),
+		m_edtPassword(this, IDC_PASSWORD),
+		m_hlLink(this, IDC_URL, "https://vk.com/")
+	{
+		SetParent(hwndParent);
+
+		CreateLink(m_edtLogin, "Login", L"");
+	}
+
+	bool OnInitDialog() override
+	{
+		CSuper::OnInitDialog();
+
+		m_pwszOldLogin = m_edtLogin.GetText();
+		m_edtLogin.SendMsg(EM_LIMITTEXT, 1024, 0);
+
+		m_pwszOldPass = m_proto->GetUserStoredPassword();
+		m_edtPassword.SetText(m_pwszOldPass);
+		m_edtPassword.SendMsg(EM_LIMITTEXT, 1024, 0);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		pass_ptrW pwszNewPass(m_edtPassword.GetText());
+		bool bPassChanged = mir_wstrcmp(m_pwszOldPass, pwszNewPass) != 0;
+		if (bPassChanged) {
+			T2Utf szRawPasswd(pwszNewPass);
+			m_proto->setString("Password", szRawPasswd);
+			pass_ptrA pszPass(szRawPasswd.detach());
+			m_pwszOldPass = pwszNewPass.detach();
+		}
+
+		ptrW pwszNewLogin(m_edtLogin.GetText());
+		if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
+			m_proto->ClearAccessToken();
+		m_pwszOldLogin = pwszNewLogin.detach();
+		return true;
+	}
+};
+
 INT_PTR CVkProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	CVkAccMgrForm *dlg = new CVkAccMgrForm(this, (HWND)lParam);
 	dlg->Show();
 	return (INT_PTR)dlg->GetHwnd();
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-CVkAccMgrForm::CVkAccMgrForm(CVkProto *proto, HWND hwndParent) :
-	CVkDlgBase(proto, IDD_ACCMGRUI),
-	m_edtLogin(this, IDC_LOGIN),
-	m_edtPassword(this, IDC_PASSWORD),
-	m_hlLink(this, IDC_URL, "https://vk.com/")
-{
-	SetParent(hwndParent);
-
-	CreateLink(m_edtLogin, "Login", L"");
-}
-
-bool CVkAccMgrForm::OnInitDialog()
-{
-	CSuper::OnInitDialog();
-
-	m_pwszOldLogin = m_edtLogin.GetText();
-	m_edtLogin.SendMsg(EM_LIMITTEXT, 1024, 0);
-
-	m_pwszOldPass = m_proto->GetUserStoredPassword();
-	m_edtPassword.SetText(m_pwszOldPass);
-	m_edtPassword.SendMsg(EM_LIMITTEXT, 1024, 0);
-	return true;
-}
-
-bool CVkAccMgrForm::OnApply()
-{
-	pass_ptrW pwszNewPass(m_edtPassword.GetText());
-	bool bPassChanged = mir_wstrcmp(m_pwszOldPass, pwszNewPass) != 0;
-	if (bPassChanged) {
-		T2Utf szRawPasswd(pwszNewPass);
-		m_proto->setString("Password", szRawPasswd);
-		pass_ptrA pszPass(szRawPasswd.detach());
-		m_pwszOldPass = pwszNewPass;
-	}
-
-	ptrW pwszNewLogin(m_edtLogin.GetText());
-	if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
-		m_proto->ClearAccessToken();
-	m_pwszOldLogin = pwszNewLogin;
-	return true;
 }
 
 ////////////////////// Options ///////////////////////////////////////////////
