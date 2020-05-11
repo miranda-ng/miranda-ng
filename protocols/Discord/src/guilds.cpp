@@ -48,6 +48,29 @@ CDiscordUser::~CDiscordUser()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// reads a presence block from json
+
+void CDiscordProto::ProcessPresence(const JSONNode &root)
+{
+	auto userId = ::getId(root["user"]["id"]);
+	CDiscordUser *pUser = FindUser(userId);
+	if (pUser == nullptr) {
+		debugLogA("Presence from unknown user id %lld ignored", userId);
+		return;
+	}
+
+	setWord(pUser->hContact, "Status", StrToStatus(root["status"].as_mstring()));
+
+	CheckAvatarChange(pUser->hContact, root["user"]["avatar"].as_mstring());
+
+	for (auto &act : root["activities"]) {
+		CMStringW wszStatus(act["state"].as_mstring());
+		if (!wszStatus.IsEmpty())
+			db_set_ws(pUser->hContact, "CList", "StatusMsg", wszStatus);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // reads a role from json
 
 void CDiscordProto::ProcessRole(CDiscordGuild *guild, const JSONNode &role)

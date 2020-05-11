@@ -302,6 +302,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void ProcessGuild(const JSONNode &json);
 	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode &json);
+	void ProcessPresence(const JSONNode &json);
 	void ProcessRole(CDiscordGuild *guild, const JSONNode &json);
 	void ProcessType(CDiscordUser *pUser, const JSONNode &json);
 
