@@ -22,6 +22,17 @@
 
 #pragma comment(lib, "Rpcrt4.lib")
 
+void CIcqProto::DropQueue()
+{
+	mir_cslock lck(m_csHttpQueue);
+
+	while (m_arHttpQueue.getCount()) {
+		auto *pReq = m_arHttpQueue[0];
+		m_arHttpQueue.remove(0);
+		delete pReq;
+	}
+}
+
 bool CIcqProto::IsQueueEmpty()
 {
 	mir_cslock lck(m_csHttpQueue);
