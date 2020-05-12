@@ -70,22 +70,14 @@ int SmileyAddOptionsChanged(WPARAM, LPARAM)
 // 0 if there is none (or the popup mode of the target container was configured to "hide"
 // the window..
 
-int TSAPI MessageWindowOpened(MCONTACT hContact, HWND _hwnd)
+int TSAPI MessageWindowOpened(MCONTACT hContact, CMsgDialog *pDlg)
 {
-	HWND hwnd = nullptr;
-	TContainerData *pContainer = nullptr;
-
 	if (hContact)
-		hwnd = Srmm_FindWindow(hContact);
-	else if (_hwnd)
-		hwnd = _hwnd;
-	else
+		pDlg = Srmm_FindDialog(hContact);
+	else if (!pDlg)
 		return 0;
 
-	if (!hwnd)
-		return 0;
-
-	SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+	TContainerData *pContainer = pDlg->m_pContainer;
 	if (pContainer) {
 		if (pContainer->m_flags.m_bDontReport) {
 			if (IsIconic(pContainer->m_hwnd))
@@ -99,7 +91,7 @@ int TSAPI MessageWindowOpened(MCONTACT hContact, HWND _hwnd)
 			if (pContainer->m_flags.m_bDontReportFocused)
 				return 0;
 
-			return pContainer->m_hwndActive == hwnd;
+			return pContainer->m_hwndActive == pDlg->GetHwnd();
 		}
 	}
 	return 1;

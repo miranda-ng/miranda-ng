@@ -45,7 +45,7 @@ void CMsgDialog::AddLog()
 {
 	if (PluginConfig.m_bUseDividers) {
 		if (PluginConfig.m_bDividersUsePopupConfig) {
-			if (!MessageWindowOpened(0, m_hwnd))
+			if (!MessageWindowOpened(0, this))
 				DM_AddDivider();
 		}
 		else {
@@ -1089,11 +1089,10 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 	if (menuId == MENU_PICMENU || menuId == MENU_PANELPICMENU || menuId == MENU_TABCONTEXT) {
 		switch (selection) {
 		case ID_TABMENU_ATTACHTOCONTAINER:
-			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SELECTCONTAINER), m_hwnd, SelectContainerDlgProc, (LPARAM)m_hwnd);
+			SelectContainer();
 			return 1;
 		case ID_TABMENU_CONTAINEROPTIONS:
-			if (m_pContainer->m_hWndOptions == nullptr)
-				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
+			m_pContainer->OptionsDialog();
 			return 1;
 		case ID_TABMENU_CLOSECONTAINER:
 			SendMessage(m_pContainer->m_hwnd, WM_CLOSE, 0, 0);
@@ -1711,6 +1710,31 @@ void CMsgDialog::StreamEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// sent by the select container dialog box when a container was selected...
+
+void CMsgDialog::SwitchToContainer(const wchar_t *szNewName)
+{
+	if (!mir_wstrcmp(szNewName, TranslateT("Default container")))
+		szNewName = CGlobals::m_default_container_name;
+
+	int iOldItems = TabCtrl_GetItemCount(m_hwndParent);
+	if (!wcsncmp(m_pContainer->m_wszName, szNewName, CONTAINER_NAMELEN))
+		return;
+
+	TContainerData *pNewContainer = FindContainerByName(szNewName);
+	if (pNewContainer == nullptr)
+		if ((pNewContainer = CreateContainer(szNewName, FALSE, m_hContact)) == nullptr)
+			return;
+
+	db_set_ws(m_hContact, SRMSGMOD_T, "containerW", szNewName);
+	PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, m_hContact);
+	if (iOldItems > 1)                // there were more than 1 tab, container is still valid
+		SendMessage(m_pContainer->m_hwndActive, WM_SIZE, 0, 0);
+	SetForegroundWindow(pNewContainer->m_hwnd);
+	SetActiveWindow(pNewContainer->m_hwnd);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 bool CMsgDialog::TabAutoComplete()
 {
@@ -1858,6 +1882,20 @@ void CMsgDialog::tabUpdateStatusBar() const
 		InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 		SendMessage(m_pContainer->m_hwndStatus, WM_USER + 101, 0, (LPARAM)this);
 	}
+}
+
+int CMsgDialog::Typing(int secs)
+{
+	if (m_si != nullptr && m_si->iType != GCW_PRIVMESS)
+		return 0;
+
+	int preTyping = m_nTypeSecs != 0;
+
+	m_nTypeSecs = (secs > 0) ? secs : 0;
+	if (m_nTypeSecs)
+		m_bShowTyping = 0;
+
+	return preTyping;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

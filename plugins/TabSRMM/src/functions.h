@@ -77,7 +77,7 @@ void  TSAPI RenameContainer(int iIndex, const wchar_t *newName);
 void  TSAPI GetContainerNameForContact(MCONTACT hContact, wchar_t *szName, int iNameLen);
 HMENU TSAPI BuildContainerMenu();
 
-int TSAPI MessageWindowOpened(MCONTACT hContact, HWND hwnd);
+int TSAPI MessageWindowOpened(MCONTACT hContact, CMsgDialog *pDlg);
 
 LRESULT CALLBACK IEViewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -126,12 +126,5 @@ int   TN_ModuleDeInit();
 void  TN_TypingMessage(MCONTACT hContact, int iMode);
 
 void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle);
-
-/*
- * dialog procedures
- */
-
-INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif /* _TABSRMM_FUNCTIONS_H */

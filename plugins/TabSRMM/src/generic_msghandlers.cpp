@@ -132,8 +132,7 @@ bool CMsgDialog::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_CONTAINEROPTIONS:
-		if (m_pContainer->m_hWndOptions == nullptr)
-			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_pContainer->m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
+		m_pContainer->OptionsDialog();
 		return true;
 
 	case TABSRMM_HK_SEND:

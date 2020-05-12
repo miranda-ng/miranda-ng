@@ -1369,7 +1369,7 @@ panel_found:
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					ptrW tszName(db_get_wsa(0, CONTAINER_KEY, szIndex));
 					if (hDlg && tszName != nullptr)
-						SendMessage(hDlg, DM_CONTAINERSELECTED, 0, tszName);
+						dat->SwitchToContainer(tszName);
 				}
 				return 1;
 			}
@@ -1403,11 +1403,10 @@ panel_found:
 			case ID_TABMENU_ATTACHTOCONTAINER:
 				hDlg = GetTabWindow(pContainer->m_hwndTabs, GetTabItemFromMouse(pContainer->m_hwndTabs, &pt));
 				if (hDlg)
-					CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)hDlg);
+					((CMsgDialog *)GetWindowLongPtr(hDlg, GWLP_USERDATA))->SelectContainer();
 				break;
 			case ID_TABMENU_CONTAINEROPTIONS:
-				if (pContainer->m_hWndOptions == nullptr)
-					CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM)pContainer);
+				pContainer->OptionsDialog();
 				break;
 			case ID_TABMENU_CLOSECONTAINER:
 				SendMessage(hwndDlg, WM_CLOSE, 0, 0);
@@ -1750,8 +1749,7 @@ panel_found:
 		case IDM_MOREOPTIONS:
 			if (IsIconic(pContainer->m_hwnd))
 				SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-			if (pContainer->m_hWndOptions == nullptr)
-				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM)pContainer);
+			pContainer->OptionsDialog();
 			break;
 		case SC_MAXIMIZE:
 			pContainer->m_oldSize.cx = pContainer->m_oldSize.cy = 0;

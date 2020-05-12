@@ -107,7 +107,7 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 		Utils::showDlgControl(hwndDlg, IDC_AVATARSONTASKBAR, SW_HIDE);
 }
 
-INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndTree = GetDlgItem(hwndDlg, IDC_SECTIONTREE);
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -517,4 +517,10 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 		break;
 	}
 	return FALSE;
+}
+
+void TContainerData::OptionsDialog()
+{
+	if (m_hWndOptions == nullptr)
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_hwnd, DlgProcContainerOptions, (LPARAM)this);
 }

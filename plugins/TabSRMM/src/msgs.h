@@ -281,7 +281,8 @@ struct TContainerData : public MZeroedObject
 	void InitRedraw(void);
 	void LoadOverrideTheme(void);
 	void LoadThemeDefaults(void);
-	void QueryPending();
+	void OptionsDialog(void);
+	void QueryPending(void);
 	void ReflashContainer(void);
 	void Resize(bool, int newWidth);
 	void RestoreWindowPos(void);
@@ -610,9 +611,12 @@ public:
 	void  NotifyDeliveryFailure(void) const;
 	void  RemakeLog(void);
 	void  SaveSplitter(void);
+	void  SelectContainer(void);
 	void  SetDialogToType(void);
 	void  ShowPicture(bool showNewPic);
 	void  SplitterMoved(int x, HWND hwnd);
+	void  SwitchToContainer(const wchar_t *szNewName);
+	int   Typing(int secs);
 	void  UpdateReadChars(void) const;
 	void  UpdateSaveAndSendButton(void);
 
@@ -709,7 +713,6 @@ struct TIconDescW
 #define DM_SETINFOPANEL          (TM_USER+13)
 #define DM_OPTIONSAPPLIED        (TM_USER+14)
 #define DM_SPLITSENDACK          (TM_USER+19)
-#define DM_TYPING                (TM_USER+20)
 #define DM_UPDATEWINICON         (TM_USER+21)
 #define DM_UPDATELASTMESSAGE     (TM_USER+22)
 
@@ -717,14 +720,12 @@ struct TIconDescW
 #define DM_CREATECONTAINER       (TM_USER+26)
 #define DM_QUERYLASTUNREAD       (TM_USER+28)
 #define DM_UPDATEPICLAYOUT       (TM_USER+30)
-#define DM_QUERYCONTAINER        (TM_USER+31)
 #define DM_MUCFLASHWORKER        (TM_USER+32)
 #define DM_APPENDMCEVENT         (TM_USER+34)
-#define DM_CHECKINFOTIP		      (TM_USER+35)
+#define DM_CHECKINFOTIP          (TM_USER+35)
 #define DM_SAVESIZE              (TM_USER+36)
 #define DM_CHECKSIZE             (TM_USER+37)
 #define DM_FORCEREDRAW           (TM_USER+38)
-#define DM_CONTAINERSELECTED     (TM_USER+39)
 #define DM_QUERYHCONTACT         (TM_USER+41)
 #define DM_QUERYCLIENTAREA       (TM_USER+45)
 #define DM_ACTIVATEME            (TM_USER+46)

@@ -238,16 +238,15 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case DM_DOCREATETAB:
 		{
-			HWND hWnd = Srmm_FindWindow(lParam);
-			if (hWnd && IsWindow(hWnd)) {
-				TContainerData *pContainer = nullptr;
-				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+			auto *pDlg = Srmm_FindDialog(lParam);
+			if (pDlg) {
+				TContainerData *pContainer = pDlg->m_pContainer;
 				if (pContainer) {
 					int iTabs = TabCtrl_GetItemCount(pContainer->m_hwndTabs);
 					if (iTabs == 1)
 						SendMessage(pContainer->m_hwnd, WM_CLOSE, 0, 1);
 					else
-						SendMessage(hWnd, WM_CLOSE, 0, 1);
+						SendMessage(pDlg->GetHwnd(), WM_CLOSE, 0, 1);
 
 					char *szProto = Proto_GetBaseAccountName(lParam);
 					if (szProto != nullptr && db_get_b(lParam, szProto, "ChatRoom", 0))

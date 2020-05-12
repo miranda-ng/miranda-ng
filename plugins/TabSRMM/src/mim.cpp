@@ -216,44 +216,44 @@ void CMimAPI::InitAPI()
 /////////////////////////////////////////////////////////////////////////////////////////
 // hook subscriber function for incoming message typing events
 
-int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
+int CMimAPI::TypingMessage(WPARAM hContact, LPARAM nSecs)
 {
 	int foundWin = 0, preTyping = 0;
 	BOOL fShowOnClist = TRUE;
 
-	HWND hwnd = Srmm_FindWindow(hContact);
+	auto *pDlg = Srmm_FindDialog(hContact);
 	MCONTACT hMeta = db_mc_getMeta(hContact);
 	if (hMeta) {
-		if (!hwnd)
-			hwnd = Srmm_FindWindow(hMeta);
+		if (!pDlg)
+			pDlg = Srmm_FindDialog(hMeta);
 		hContact = hMeta;
 	}
 
-	if (hwnd && g_plugin.getByte(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
-		preTyping = SendMessage(hwnd, DM_TYPING, 0, mode);
+	if (pDlg && g_plugin.getByte(SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
+		preTyping = pDlg->Typing(nSecs);
 
-	if (hwnd && IsWindowVisible(hwnd))
-		foundWin = MessageWindowOpened(0, hwnd);
+	if (pDlg && IsWindowVisible(pDlg->GetHwnd()))
+		foundWin = MessageWindowOpened(0, pDlg);
 	else
 		foundWin = 0;
 
 	TContainerData *pContainer = nullptr;
-	if (hwnd) {
-		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+	if (pDlg) {
+		pContainer = pDlg->m_pContainer;
 		if (pContainer == nullptr) // should never happen
 			return 0;
 	}
 
 	if (g_plugin.getByte(SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
-		if (!hwnd && !g_plugin.getByte(SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
+		if (!pDlg && !g_plugin.getByte(SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
 			fShowOnClist = false;
-		if (hwnd && !g_plugin.getByte(SRMSGSET_SHOWTYPINGWINOPEN, 1))
+		if (pDlg && !g_plugin.getByte(SRMSGSET_SHOWTYPINGWINOPEN, 1))
 			fShowOnClist = false;
 	}
 	else fShowOnClist = false;
 
-	if ((!foundWin || !pContainer->m_flags.m_bNoSound) && preTyping != (mode != 0))
-		Skin_PlaySound(mode ? "TNStart" : "TNStop");
+	if ((!foundWin || !pContainer->m_flags.m_bNoSound) && preTyping != (nSecs != 0))
+		Skin_PlaySound(nSecs ? "TNStart" : "TNStop");
 
 	if (g_plugin.getByte("ShowTypingPopup", 0)) {
 		BOOL fShow = false;
@@ -264,16 +264,15 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			fShow = true;
 			break;
 		case 1:
-			if (!foundWin || !(pContainer && pContainer->m_hwndActive == hwnd && GetForegroundWindow() == pContainer->m_hwnd))
+			if (!foundWin || !(pContainer && pContainer->m_hwndActive == pDlg->GetHwnd() && GetForegroundWindow() == pContainer->m_hwnd))
 				fShow = true;
 			break;
 		case 2:
-			if (hwnd == nullptr)
+			if (pDlg == nullptr)
 				fShow = true;
 			else {
 				if (PluginConfig.m_bHideOnClose) {
-					TContainerData *pCont = nullptr;
-					SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pCont);
+					TContainerData *pCont = pDlg->m_pContainer;
 					if (pCont && pCont->m_bHidden)
 						fShow = true;
 				}
@@ -281,10 +280,10 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			break;
 		}
 		if (fShow)
-			TN_TypingMessage(hContact, mode);
+			TN_TypingMessage(hContact, nSecs);
 	}
 
-	if (mode) {
+	if (nSecs) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
 		if (fShowOnClist && g_plugin.getByte("ShowTypingBalloon", 0))
@@ -394,9 +393,9 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd == nullptr)
-		hwnd = Srmm_FindWindow(db_event_getContact(hDbEvent));
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg == nullptr)
+		pDlg = Srmm_FindDialog(db_event_getContact(hDbEvent));
 
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	BOOL isShownCustomEvent = DbEventIsForMsgWindow(&dbei);
@@ -409,9 +408,8 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	bool bAutoCreate = M.GetBool("autotabs", true);
 	bool bAutoContainer = M.GetBool("autocontainer", true);
 
-	if (hwnd) {
-		TContainerData *pTargetContainer = nullptr;
-		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);
+	if (pDlg) {
+		TContainerData *pTargetContainer = pDlg->m_pContainer;
 		if (pTargetContainer == nullptr || !PluginConfig.m_bHideOnClose || IsWindowVisible(pTargetContainer->m_hwnd))
 			return 0;
 

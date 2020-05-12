@@ -2636,18 +2636,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetBkColor((HDC)wParam, g_Settings.crUserListBGColor);
 		return (INT_PTR)g_chatApi.hListBkgBrush;
 
-	case DM_TYPING:
-		if (m_si == nullptr || m_si->iType == GCW_PRIVMESS) {
-			int preTyping = m_nTypeSecs != 0;
-			m_nTypeSecs = (int)lParam > 0 ? (int)lParam : 0;
-
-			if (m_nTypeSecs)
-				m_bShowTyping = 0;
-
-			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, preTyping);
-		}
-		return TRUE;
-
 	case DM_UPDATEWINICON:
 		UpdateWindowIcon();
 		return 0;
@@ -2884,7 +2872,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					ptrW val(db_get_wsa(0, szKey, szIndex));
 					if (val)
-						SendMessage(m_hwnd, DM_CONTAINERSELECTED, 0, (LPARAM)val);
+						SwitchToContainer(val);
 				}
 				break;
 			}
@@ -3217,11 +3205,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ActivateTab();
 		return 0;
 
-	case DM_QUERYCONTAINER: // container API support functions
-		if (lParam)
-			*(TContainerData **)lParam = m_pContainer;
-		return 0;
-
 	case DM_QUERYHCONTACT:
 		if (lParam)
 			*(MCONTACT *)lParam = m_hContact;
@@ -3229,32 +3212,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case DM_CHECKSIZE:
 		m_bNeedCheckSize = true;
-		return 0;
-
-	case DM_CONTAINERSELECTED:
-		// sent by the select container dialog box when a container was selected...
-		// lParam = (wchar_t*)selected name...
-		{
-			wchar_t *szNewName = (wchar_t *)lParam;
-			if (!mir_wstrcmp(szNewName, TranslateT("Default container")))
-				szNewName = CGlobals::m_default_container_name;
-
-			int iOldItems = TabCtrl_GetItemCount(m_hwndParent);
-			if (!wcsncmp(m_pContainer->m_wszName, szNewName, CONTAINER_NAMELEN))
-				break;
-
-			TContainerData *pNewContainer = FindContainerByName(szNewName);
-			if (pNewContainer == nullptr)
-				if ((pNewContainer = CreateContainer(szNewName, FALSE, m_hContact)) == nullptr)
-					break;
-
-			db_set_ws(m_hContact, SRMSGMOD_T, "containerW", szNewName);
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_DOCREATETAB, (WPARAM)pNewContainer, m_hContact);
-			if (iOldItems > 1)                // there were more than 1 tab, container is still valid
-				SendMessage(m_pContainer->m_hwndActive, WM_SIZE, 0, 0);
-			SetForegroundWindow(pNewContainer->m_hwnd);
-			SetActiveWindow(pNewContainer->m_hwnd);
-		}
 		return 0;
 
 	case DM_STATUSBARCHANGED:
