@@ -710,14 +710,14 @@ protected:
 	DBEVENTINFO &dbei;
 	MCONTACT hContact;
 
-	virtual ~EventCursor();
-	virtual MEVENT FetchNext() = 0;
-
 public:
 	EventCursor(MCONTACT _1, DBEVENTINFO &_2) :
 		hContact(_1),
 		dbei(_2)
 	{ }
+
+	virtual ~EventCursor();
+	virtual MEVENT FetchNext() = 0;
 
 	__forceinline MEVENT begin() {
 		return FetchNext();

@@ -1457,7 +1457,7 @@ XmlGetChildText @1645
 ?InsertNewDeclaration@XMLElement@tinyxml2@@QAEPAVXMLDeclaration@2@PBD@Z @1679 NONAME
 ?InsertNewText@XMLElement@tinyxml2@@QAEPAVXMLText@2@PBD@Z @1680 NONAME
 ?InsertNewUnknown@XMLElement@tinyxml2@@QAEPAVXMLUnknown@2@PBD@Z @1681 NONAME
-??1EventCursor@DB@@MAE@XZ @1684 NONAME
+??1EventCursor@DB@@UAE@XZ @1684 NONAME
 ??0EventCursor@DB@@QAE@ABV01@@Z @1685 NONAME
 ??0EventCursor@DB@@QAE@IAAUDBEVENTINFO@@@Z @1686 NONAME
 ??_7EventCursor@DB@@6B@ @1687 NONAME
