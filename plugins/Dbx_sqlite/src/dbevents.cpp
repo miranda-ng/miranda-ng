@@ -718,18 +718,18 @@ BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact*)
 	return TRUE;
 }
 
-STDMETHODIMP_(DB::EventCursor*) CDbxSQLite::EventCursor(MCONTACT hContact, DBEVENTINFO& dbei)
+STDMETHODIMP_(DB::EventCursor*) CDbxSQLite::EventCursor(MCONTACT hContact, DBEVENTINFO &dbei)
 {
 	return new CDbxSQLiteEventCursor(hContact, dbei, m_db);
 }
 
-STDMETHODIMP_(DB::EventCursor*) CDbxSQLite::EventCursorRev(MCONTACT hContact, DBEVENTINFO& dbei)
+STDMETHODIMP_(DB::EventCursor*) CDbxSQLite::EventCursorRev(MCONTACT hContact, DBEVENTINFO &dbei)
 {
 	return new CDbxSQLiteEventCursor(hContact, dbei, m_db, true);
 }
 
 CDbxSQLiteEventCursor::CDbxSQLiteEventCursor(MCONTACT _1, DBEVENTINFO& _2, sqlite3* _db, bool reverse)
-	: EventCursorBase(_1, _2), m_db(_db)
+	: EventCursor(_1, _2), m_db(_db)
 {
 	if (reverse)
 		sqlite3_prepare_v2(m_db, reverse_order_query, -1, &cursor, nullptr);
@@ -743,6 +743,7 @@ CDbxSQLiteEventCursor::~CDbxSQLiteEventCursor()
 	if (cursor)
 		sqlite3_reset(cursor);
 }
+
 MEVENT CDbxSQLiteEventCursor::FetchNext()
 {
 	if (!cursor)
@@ -758,4 +759,3 @@ MEVENT CDbxSQLiteEventCursor::FetchNext()
 	}
 	return sqlite3_column_int64(cursor, 0);
 }
-

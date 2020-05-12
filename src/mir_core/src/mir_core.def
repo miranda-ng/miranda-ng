@@ -1457,12 +1457,12 @@ XmlGetChildText @1645
 ?InsertNewDeclaration@XMLElement@tinyxml2@@QAEPAVXMLDeclaration@2@PBD@Z @1679 NONAME
 ?InsertNewText@XMLElement@tinyxml2@@QAEPAVXMLText@2@PBD@Z @1680 NONAME
 ?InsertNewUnknown@XMLElement@tinyxml2@@QAEPAVXMLUnknown@2@PBD@Z @1681 NONAME
-??1EventCursorBase@DB@@MAE@XZ @1684 NONAME
-??0EventCursorBase@DB@@QAE@ABV01@@Z @1685 NONAME
-??0EventCursorBase@DB@@QAE@IAAUDBEVENTINFO@@@Z @1686 NONAME
-??_7EventCursorBase@DB@@6B@ @1687 NONAME
-?Events@DB@@YGPAVEventCursorBase@1@IAAUDBEVENTINFO@@@Z @1688 NONAME
-?EventsRev@DB@@YGPAVEventCursorBase@1@IAAUDBEVENTINFO@@@Z @1689 NONAME
-?begin@EventCursorBase@DB@@QAEIXZ @1690 NONAME
-?end@EventCursorBase@DB@@QAEIXZ @1691 NONAME
+??1EventCursor@DB@@MAE@XZ @1684 NONAME
+??0EventCursor@DB@@QAE@ABV01@@Z @1685 NONAME
+??0EventCursor@DB@@QAE@IAAUDBEVENTINFO@@@Z @1686 NONAME
+??_7EventCursor@DB@@6B@ @1687 NONAME
+?Events@DB@@YGPAVEventCursor@1@IAAUDBEVENTINFO@@@Z @1688 NONAME
+?EventsRev@DB@@YGPAVEventCursor@1@IAAUDBEVENTINFO@@@Z @1689 NONAME
+?begin@EventCursor@DB@@QAEIXZ @1690 NONAME
+?end@EventCursor@DB@@QAEIXZ @1691 NONAME
 TimeZone_GetSystemTime @1692

@@ -22,7 +22,7 @@ struct DBCachedContact : public DBCachedContactBase
 	void MarkRead(MEVENT hDbEvent);
 };
 
-struct CDbxSQLiteEventCursor : public DB::EventCursorBase
+struct CDbxSQLiteEventCursor : public DB::EventCursor
 {
 	CDbxSQLiteEventCursor(MCONTACT _1, DBEVENTINFO& _2, sqlite3* m_db, bool reverse = false);
 	~CDbxSQLiteEventCursor() override;

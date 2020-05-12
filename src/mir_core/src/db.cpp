@@ -439,7 +439,7 @@ MIR_CORE_DLL(MEVENT) db_event_setId(const char *szModule, MEVENT hDbEvent, const
 /////////////////////////////////////////////////////////////////////////////////////////
 // event cursors
 
-DB::EventCursorBase::~EventCursorBase()
+DB::EventCursor::~EventCursor()
 {
 }
 
