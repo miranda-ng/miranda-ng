@@ -357,12 +357,12 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::SetSettingResident(BOOL bIsResident, const 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event cursors
 
-STDMETHODIMP_(DB::EventCursor *) MDatabaseCommon::EventCursor(MCONTACT, DBEVENTINFO &)
+STDMETHODIMP_(DB::EventCursor *) MDatabaseCommon::EventCursor(MCONTACT, MEVENT)
 {
 	return nullptr;
 }
 
-STDMETHODIMP_(DB::EventCursor *) MDatabaseCommon::EventCursorRev(MCONTACT, DBEVENTINFO &) 
+STDMETHODIMP_(DB::EventCursor *) MDatabaseCommon::EventCursorRev(MCONTACT, MEVENT)
 {
 	return nullptr;
 }

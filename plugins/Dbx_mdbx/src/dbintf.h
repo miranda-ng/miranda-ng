@@ -136,23 +136,6 @@ struct EventItem
 	MEVENT eventId;
 };
 
-class CMdbxEventCursor : public DB::EventCursor
-{
-	CMDBX_txn_ro m_txn_ro;
-	MDBX_cursor* m_cursor = nullptr;
-	bool m_bForward;
-
-public:
-	CMdbxEventCursor(class CDbxMDBX *pOdb, MCONTACT hContact, DBEVENTINFO &dbei, bool bForward);
-	~CMdbxEventCursor() override;
-
-	MEVENT FetchNext() override;
-
-	DBEventSortingKey m_key;
-
-	__forceinline operator MDBX_cursor*() const { return m_cursor; }
-};
-
 class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 {
 	friend class CMdbxEventCursor;
@@ -315,8 +298,8 @@ public:
 	STDMETHODIMP_(MEVENT)   GetEventById(LPCSTR szModule, LPCSTR szId) override;
 	STDMETHODIMP_(BOOL)     SetEventId(LPCSTR szModule, MEVENT, LPCSTR szId) override;
 
-	STDMETHODIMP_(DB::EventCursor *) EventCursor(MCONTACT hContact, DBEVENTINFO &dbei) override;
-	STDMETHODIMP_(DB::EventCursor *) EventCursorRev(MCONTACT hContact, DBEVENTINFO &dbei) override;
+	STDMETHODIMP_(DB::EventCursor *) EventCursor(MCONTACT hContact, MEVENT hDbEvent) override;
+	STDMETHODIMP_(DB::EventCursor *) EventCursorRev(MCONTACT hContact, MEVENT hDbEvent) override;
 
 public:
 	MICryptoEngine *m_crypto;

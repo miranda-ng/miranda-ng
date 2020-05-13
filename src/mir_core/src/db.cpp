@@ -443,14 +443,14 @@ DB::EventCursor::~EventCursor()
 {
 }
 
-MIR_CORE_DLL(DB::EventCursor*) DB::Events(MCONTACT hContact, DBEVENTINFO &dbei)
+MIR_CORE_DLL(DB::EventCursor*) DB::Events(MCONTACT hContact, MEVENT iStartEvent)
 {
-	return (currDb == nullptr) ? 0 : currDb->EventCursor(hContact, dbei);
+	return (currDb == nullptr) ? 0 : currDb->EventCursor(hContact, iStartEvent);
 }
 
-MIR_CORE_DLL(DB::EventCursor*) DB::EventsRev(MCONTACT hContact, DBEVENTINFO &dbei)
+MIR_CORE_DLL(DB::EventCursor*) DB::EventsRev(MCONTACT hContact, MEVENT iStartEvent)
 {
-	return (currDb == nullptr) ? 0 : currDb->EventCursorRev(hContact, dbei);
+	return (currDb == nullptr) ? 0 : currDb->EventCursorRev(hContact, iStartEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -707,13 +707,11 @@ class MIR_CORE_EXPORT EventCursor : public MZeroedObject
 	friend class EventIterator;
 
 protected:
-	DBEVENTINFO &dbei;
 	MCONTACT hContact;
 
 public:
-	EventCursor(MCONTACT _1, DBEVENTINFO &_2) :
-		hContact(_1),
-		dbei(_2)
+	EventCursor(MCONTACT _1) :
+		hContact(_1)
 	{ }
 
 	virtual ~EventCursor();
@@ -752,8 +750,8 @@ public:
 	}
 };
 
-MIR_CORE_DLL(EventCursor*) Events(MCONTACT, DBEVENTINFO &);
-MIR_CORE_DLL(EventCursor*) EventsRev(MCONTACT, DBEVENTINFO &);
+MIR_CORE_DLL(EventCursor*) Events(MCONTACT, MEVENT iStartEvent = 0);
+MIR_CORE_DLL(EventCursor*) EventsRev(MCONTACT, MEVENT iStartEvent = 0);
 
 };
 

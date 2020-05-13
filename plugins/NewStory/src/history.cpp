@@ -711,58 +711,60 @@ public:
 		SetFilePointer(hFile, -3, nullptr, FILE_CURRENT);
 
 		// export events
-		MEVENT hDbEvent = db_event_first(m_hContact);
 		bool bAppendOnly = false;
-		while (hDbEvent != NULL) {
-			DBEVENTINFO dbei = {};
-			int nSize = db_event_getBlobSize(hDbEvent);
-			if (nSize > 0) {
-				dbei.cbBlob = nSize;
-				dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 2);
-				dbei.pBlob[dbei.cbBlob] = 0;
-				dbei.pBlob[dbei.cbBlob + 1] = 0;
-				// Double null terminate, this should prevent most errors 
-				// where the blob received has an invalid format
-			}
-
-			if (!db_event_get(hDbEvent, &dbei)) {
-				if (bAppendOnly) {
-					SetFilePointer(hFile, -3, nullptr, FILE_END);
-					WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
+		if (auto *pCursor = DB::Events(m_hContact)) {
+			while (MEVENT hDbEvent = pCursor->FetchNext()) {
+				DBEVENTINFO dbei = {};
+				int nSize = db_event_getBlobSize(hDbEvent);
+				if (nSize > 0) {
+					dbei.cbBlob = nSize;
+					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 2);
+					dbei.pBlob[dbei.cbBlob] = 0;
+					dbei.pBlob[dbei.cbBlob + 1] = 0;
+					// Double null terminate, this should prevent most errors 
+					// where the blob received has an invalid format
 				}
-				JSONNode pRoot2;
-				pRoot2.push_back(JSONNode("type", dbei.eventType));
 
-				if (mir_strcmp(dbei.szModule, proto))
-					pRoot2.push_back(JSONNode("module", dbei.szModule));
+				if (!db_event_get(hDbEvent, &dbei)) {
+					if (bAppendOnly) {
+						SetFilePointer(hFile, -3, nullptr, FILE_END);
+						WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
+					}
 
-				pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
+					JSONNode pRoot2;
+					pRoot2.push_back(JSONNode("type", dbei.eventType));
 
-				wchar_t szTemp[500];
-				TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-				pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
+					if (mir_strcmp(dbei.szModule, proto))
+						pRoot2.push_back(JSONNode("module", dbei.szModule));
 
-				std::string flags;
-				if (dbei.flags & DBEF_SENT)
-					flags += "m";
-				if (dbei.flags & DBEF_READ)
-					flags += "r";
-				pRoot2.push_back(JSONNode("flags", flags));
+					pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
 
-				ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
-				if (msg)
-					pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
+					wchar_t szTemp[500];
+					TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+					pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
 
-				output = pRoot2.write_formatted();
-				output += "\n]}";
+					std::string flags;
+					if (dbei.flags & DBEF_SENT)
+						flags += "m";
+					if (dbei.flags & DBEF_READ)
+						flags += "r";
+					pRoot2.push_back(JSONNode("flags", flags));
 
-				WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
-				if (dbei.pBlob)
-					mir_free(dbei.pBlob);
+					ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+					if (msg)
+						pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
+
+					output = pRoot2.write_formatted();
+					output += "\n]}";
+
+					WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
+					if (dbei.pBlob)
+						mir_free(dbei.pBlob);
+				}
+
+				bAppendOnly = true;
 			}
-
-			bAppendOnly = true;
-			hDbEvent = db_event_next(m_hContact, hDbEvent);
+			delete pCursor;
 		}
 
 		// Close the file

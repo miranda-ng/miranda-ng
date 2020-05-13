@@ -732,6 +732,6 @@ ProtoBroadcastAsync @814 NONAME
 ?UseGroups@Clist@@3V?$CMOption@_N@@A @819 NONAME
 ?OfflineModes@Clist@@3V?$CMOption@K@@A @820 NONAME
 ?getChat@CSrmmBaseDialog@@QEBAPEAUSESSION_INFO@@XZ @821 NONAME
-?EventCursor@MDatabaseCommon@@UEAAPEAV0DB@@IAEAUDBEVENTINFO@@@Z @822 NONAME
-?EventCursorRev@MDatabaseCommon@@UEAAPEAVEventCursor@DB@@IAEAUDBEVENTINFO@@@Z @823 NONAME
+?EventCursor@MDatabaseCommon@@UEAAPEAV0DB@@II@Z @822 NONAME
+?EventCursorRev@MDatabaseCommon@@UEAAPEAVEventCursor@DB@@II@Z @823 NONAME
 Chat_CreateMenu @824 NONAME

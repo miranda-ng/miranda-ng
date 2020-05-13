@@ -623,41 +623,66 @@ MEVENT CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event cursors
 
-CMdbxEventCursor::CMdbxEventCursor(CDbxMDBX *pDb, MCONTACT hContact, DBEVENTINFO &dbei, bool bForward) :
-	EventCursor(hContact, dbei),
-	m_bForward(bForward)
+class CMdbxEventCursor : public DB::EventCursor
 {
-	mdbx_txn_begin(pDb->m_env, nullptr, MDBX_RDONLY, &m_txn_ro);
-	mdbx_cursor_open(m_txn_ro, pDb->m_dbEventsSort, &m_cursor);
+	friend class CDbxMDBX;
+	CDbxMDBX *m_pOwner;
 
-	m_key.hContact = hContact;
-	if (bForward) {
-		m_key.hEvent = 0;
-		m_key.ts = 0;
+	bool m_bForward, m_bFirst = true;
+	DBCachedContact *m_cc;
+	DBEventSortingKey m_key;
+
+public:
+	CMdbxEventCursor(class CDbxMDBX *pDb, DBCachedContact *cc, bool bForward) :
+		EventCursor(cc->contactID),
+		m_pOwner(pDb),
+		m_bForward(bForward),
+		m_cc(cc)
+	{
+		m_key.hContact = hContact;
+		if (bForward) {
+			m_key.hEvent = 0;
+			m_key.ts = 0;
+		}
+		else {
+			m_key.hEvent = 0xFFFFFFFF;
+			m_key.ts = 0xFFFFFFFFFFFFFFFF;
+		}
 	}
-	else {
-		m_key.hEvent = 0xFFFFFFFF;
-		m_key.ts = 0xFFFFFFFFFFFFFFFF;
+
+	MEVENT FetchNext() override
+	{
+		MDBX_cursor_op op;
+		if (m_bFirst) {
+			op = MDBX_SET_RANGE;
+			m_bFirst = false;
+		}
+		else {
+			op = (m_bForward) ? MDBX_NEXT : MDBX_PREV;
+			if (m_key.hEvent != m_cc->t_evLast)
+				return 0;
+		}
+
+		txn_ptr_ro txn(m_pOwner->m_txn_ro);
+
+		MDBX_val key = { &m_key, sizeof(m_key) }, data;
+		if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, op) != MDBX_SUCCESS)
+			return 0;
+
+		const DBEventSortingKey *pKey = (const DBEventSortingKey *)key.iov_base;
+		if (pKey->hContact != hContact) {
+			m_cc->t_tsLast = 0;
+			return m_cc->t_evLast = 0;
+		}
+		
+		m_key = *pKey;
+		m_cc->t_evLast = pKey->hEvent;
+		m_cc->t_tsLast = pKey->ts;
+		return pKey->hEvent;
 	}
-}
+};
 
-CMdbxEventCursor::~CMdbxEventCursor()
-{
-	if (m_cursor)
-		mdbx_cursor_close(m_cursor);
-}
-
-MEVENT CMdbxEventCursor::FetchNext()
-{
-	MDBX_val key = { &m_key, sizeof(m_key) }, data;
-	if (mdbx_cursor_get(*this, &key, &data, m_bForward ? MDBX_NEXT : MDBX_PREV) != MDBX_SUCCESS)
-		return 0;
-
-	const DBEventSortingKey *pKey = (const DBEventSortingKey *)key.iov_base;
-	return (pKey->hContact == hContact) ? pKey->hEvent : 0;
-}
-
-DB::EventCursor* CDbxMDBX::EventCursor(MCONTACT hContact, DBEVENTINFO &dbei)
+DB::EventCursor* CDbxMDBX::EventCursor(MCONTACT hContact, MEVENT)
 {
 	DBCachedContact *cc;
 	if (hContact != 0) {
@@ -667,18 +692,10 @@ DB::EventCursor* CDbxMDBX::EventCursor(MCONTACT hContact, DBEVENTINFO &dbei)
 	}
 	else cc = &m_ccDummy;
 
-	auto *pCursor = new CMdbxEventCursor(this, hContact, dbei, true);
-
-	MDBX_val key = { &pCursor->m_key, sizeof(pCursor->m_key) }, data;
-	if (mdbx_cursor_get(*pCursor, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS) {
-		delete pCursor;
-		return nullptr;
-	}
-
-	return pCursor;
+	return new CMdbxEventCursor(this, cc, true);
 }
 
-DB::EventCursor* CDbxMDBX::EventCursorRev(MCONTACT hContact, DBEVENTINFO &dbei)
+DB::EventCursor* CDbxMDBX::EventCursorRev(MCONTACT hContact, MEVENT)
 {
 	DBCachedContact *cc;
 	if (hContact != 0) {
@@ -688,13 +705,5 @@ DB::EventCursor* CDbxMDBX::EventCursorRev(MCONTACT hContact, DBEVENTINFO &dbei)
 	}
 	else cc = &m_ccDummy;
 
-	auto *pCursor = new CMdbxEventCursor(this, hContact, dbei, false);
-
-	MDBX_val key = { &pCursor->m_key, sizeof(pCursor->m_key) }, data;
-	if (mdbx_cursor_get(*pCursor, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS) {
-		delete pCursor;
-		return nullptr;
-	}
-
-	return pCursor;
+	return new CMdbxEventCursor(this, cc, false);
 }

@@ -24,7 +24,7 @@ struct DBCachedContact : public DBCachedContactBase
 
 struct CDbxSQLiteEventCursor : public DB::EventCursor
 {
-	CDbxSQLiteEventCursor(MCONTACT _1, DBEVENTINFO& _2, sqlite3* m_db, bool reverse = false);
+	CDbxSQLiteEventCursor(MCONTACT _1, sqlite3* m_db, bool reverse = false);
 	~CDbxSQLiteEventCursor() override;
 	MEVENT FetchNext() override;
 private:
@@ -102,6 +102,6 @@ public:
 	STDMETHODIMP_(BOOL)     Compact() override;
 	STDMETHODIMP_(BOOL)     Backup(LPCWSTR) override;
 
-	STDMETHODIMP_(DB::EventCursor*) EventCursor(MCONTACT hContact, DBEVENTINFO& dbei) override;
-	STDMETHODIMP_(DB::EventCursor*) EventCursorRev(MCONTACT hContact, DBEVENTINFO& dbei) override;
+	STDMETHODIMP_(DB::EventCursor*) EventCursor(MCONTACT hContact, MEVENT hDbEvent) override;
+	STDMETHODIMP_(DB::EventCursor*) EventCursorRev(MCONTACT hContact, MEVENT hDbEvent) override;
 };
