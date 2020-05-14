@@ -226,7 +226,8 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char *pszProtoNa
 BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 {
 	fakeLOGINFO lin(gce);
-	CMStringW wszText;
+	CMStringW wszText, wszNick;
+	g_chatApi.CreateNick(si, &lin, wszNick);
 	bool bTextUsed = Chat_GetDefaultEventDescr(si, &lin, wszText);
 
 	HICON hIcon = nullptr;
@@ -234,13 +235,13 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
-		hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE); dwColor = g_chatApi.aFonts[16].color; wszText = TranslateT("%s says");
+		hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE); dwColor = g_chatApi.aFonts[16].color; wszText.Format(TranslateT("%s says"), wszNick.c_str());
 		break;
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
 		hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE); dwColor = g_chatApi.aFonts[16].color;
 		break;
 	case GC_EVENT_MESSAGE:
-		hIcon = g_chatApi.hIcons[ICON_MESSAGE]; dwColor = g_chatApi.aFonts[9].color; wszText = TranslateT("%s says");
+		hIcon = g_chatApi.hIcons[ICON_MESSAGE]; dwColor = g_chatApi.aFonts[9].color; wszText.Format(TranslateT("%s says"), wszNick.c_str());
 		break;
 	case GC_EVENT_ACTION:
 		hIcon = g_chatApi.hIcons[ICON_ACTION]; dwColor = g_chatApi.aFonts[15].color;
