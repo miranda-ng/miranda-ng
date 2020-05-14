@@ -726,6 +726,19 @@ public:
 	}
 };
 
+class MIR_CORE_EXPORT ECPTR : public MNonCopyable
+{
+	EventCursor *m_cursor;
+	MEVENT m_prevFetched, m_currEvent;
+
+public:
+	ECPTR(EventCursor *_1);
+	~ECPTR();
+
+	void   DeleteEvent();
+	MEVENT FetchNext();
+};
+
 class EventIterator
 {
 	EventCursor *cursor;

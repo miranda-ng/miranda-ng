@@ -140,7 +140,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 	if (eventsCnt == 0)
 		return;
 
-	BOOL doDelete, unsafe = g_plugin.getByte("UnsafeMode", 0);
+	BOOL unsafe = g_plugin.getByte("UnsafeMode", 0);
 	BEventData *books, *item, ev = { 0 };
 	size_t bookcnt, btshift;
 
@@ -153,7 +153,8 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 	GetBookmarks(hContact, &books, &bookcnt);
 
 	// Get first event
-	for (MEVENT hDBEvent = db_event_first(hContact); hDBEvent != NULL; ) {
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (MEVENT hDBEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDBEvent, &dbei);
 
@@ -161,9 +162,9 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 		// lPolicy == 1 - for time criterion, lPolicy == 2 - keep N last events, lPolicy == 3 - delete all events
 		if ((lPolicy == 1 && (unsigned)Criteria.time < dbei.timestamp) || (lPolicy == 2 && Criteria.keep > --eventsCnt)) break;
 
-		doDelete = TRUE;
-
-		if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && keepUnread) doDelete = FALSE;	// keep unread events
+		bool doDelete = true;
+		if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && keepUnread)
+			doDelete = false;	// keep unread events
 
 		if (bookcnt != 0) { // keep bookmarks
 			ev.hDBEvent = hDBEvent;
@@ -176,12 +177,8 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 			}
 		}
 
-		// find next event
-		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
 		if (doDelete)
-			db_event_delete(hDBEvent);
-
-		hDBEvent = hDBEventNext;
+			pCursor.DeleteEvent();
 	}
 
 	mir_free(books);

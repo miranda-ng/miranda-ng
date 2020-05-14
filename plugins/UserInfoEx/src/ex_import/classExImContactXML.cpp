@@ -390,7 +390,8 @@ BYTE CExImContactXML::ExportEvents()
 	int dwNumEventsAdded = 0;
 
 	// read out all events for the current contact
-	for (MEVENT hDbEvent = db_event_first(_hContact); hDbEvent != NULL; hDbEvent = db_event_next(_hContact, hDbEvent)) {
+	DB::ECPTR pCursor(DB::Events(_hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		if (DB::Event::GetInfoWithData(hDbEvent, &dbei))
 			continue;

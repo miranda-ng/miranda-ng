@@ -722,19 +722,13 @@ int CVkProto::IsHystoryMessageExist(MCONTACT hContact)
 	if (!hContact)
 		return 0;
 
-	MEVENT hDBEvent = db_event_first(hContact);
-
-	if (!hDBEvent)
-		return 0;
-
-	do {
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
-		db_event_get(hDBEvent, &dbei);
+		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType != VK_USER_DEACTIVATE_ACTION)
 			return 1;
-
-		hDBEvent = db_event_next(hContact, hDBEvent);
-	} while (hDBEvent);
+	}
 
 	return -1;
 }

@@ -410,9 +410,10 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 {
 	int max_pos = 0;
-	BYTE blob[2048];
-	for (MEVENT hDbEvent = db_event_first(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
+		BYTE blob[2048];
 		dbei.cbBlob = sizeof(blob);
 		dbei.pBlob = blob;
 		if (db_event_get(hDbEvent, &dbei) != 0) continue;

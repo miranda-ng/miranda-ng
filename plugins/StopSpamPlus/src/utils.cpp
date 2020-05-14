@@ -14,8 +14,8 @@ tstring& GetDlgItemString(HWND hwnd, int id)
 
 bool IsExistMyMessage(MCONTACT hContact)
 {
-	MEVENT hDbEvent = db_event_first(hContact);
-	while (hDbEvent) {
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		if (db_event_get(hDbEvent, &dbei))
 			break;
@@ -26,7 +26,6 @@ bool IsExistMyMessage(MCONTACT hContact)
 			// ...let the event go its way
 			return true;
 		}
-		hDbEvent = db_event_next(hContact, hDbEvent);
 	}
 	return false;
 }

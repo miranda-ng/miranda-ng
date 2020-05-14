@@ -194,8 +194,9 @@ void HistoryEventList::GetTempList(std::list<EventTempIndex>& tempList, bool noF
 	EventIndex ei;
 	ti.isExternal = false;
 	ei.isExternal = false;
-	MEVENT hDbEvent = db_event_first(hContact);
-	while (hDbEvent != NULL) {
+
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		if (isWndLocal && !IsWindow(m_hWnd))
 			break;
 
@@ -207,7 +208,6 @@ void HistoryEventList::GetTempList(std::list<EventTempIndex>& tempList, bool noF
 				tempList.push_back(ti);
 			}
 		}
-		hDbEvent = db_event_next(hContact, hDbEvent);
 	}
 
 	if (!noExt) {

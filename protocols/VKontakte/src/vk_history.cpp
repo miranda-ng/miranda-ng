@@ -38,12 +38,9 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPAR
 
 	setByte(hContact, "ActiveHistoryTask", 1);
 
-	MEVENT hDBEvent = db_event_first(hContact);
-	while (hDBEvent) {
-		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
-		db_event_delete(hDBEvent);
-		hDBEvent = hDBEventNext;
-	}
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (pCursor.FetchNext())
+		pCursor.DeleteEvent();
 
 	m_bNotifyForEndLoadingHistory = true;
 
@@ -70,12 +67,9 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 			break;
 		setByte(hContact, "ActiveHistoryTask", 1);
 
-		MEVENT hDBEvent = db_event_first(hContact);
-		while (hDBEvent) {
-			MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
-			db_event_delete(hDBEvent);
-			hDBEvent = hDBEventNext;
-		}
+		DB::ECPTR pCursor(DB::Events(hContact));
+		while (pCursor.FetchNext())
+			pCursor.DeleteEvent();
 
 		{
 			mir_cslock lck(m_csLoadHistoryTask);
@@ -86,7 +80,6 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 
 		db_unset(hContact, m_szModuleName, "lastmsgid");
 		GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, 0, 0);
-
 	}
 
 	return 1;
@@ -105,14 +98,12 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 	time_t tTime = time(0) - 60 * 60 * 24 * NDay;
 
 	if (NDay > 3) {
-		MEVENT hDBEvent = db_event_first(hContact);
-		while (hDBEvent) {
-			MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
+		DB::ECPTR pCursor(DB::Events(hContact));
+		while (MEVENT hDbEvent = pCursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
-			db_event_get(hDBEvent, &dbei);
+			db_event_get(hDbEvent, &dbei);
 			if (dbei.timestamp > tTime && dbei.eventType != VK_USER_DEACTIVATE_ACTION)
-				db_event_delete(hDBEvent);
-			hDBEvent = hDBEventNext;
+				pCursor.DeleteEvent();
 		}
 
 		{

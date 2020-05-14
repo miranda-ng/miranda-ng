@@ -34,7 +34,8 @@ namespace Contact {
 DWORD	WhenAdded(DWORD dwUIN, LPCSTR)
 {
 	DBEVENTINFO	dbei = {};
-	for (MEVENT edbe = db_event_first(NULL); edbe != NULL; edbe = db_event_next(NULL, edbe)) {
+	DB::ECPTR pCursor(DB::Events(0));
+	while (MEVENT edbe = pCursor.FetchNext()) {
 		// get eventtype and compare
 		if (!DB::Event::GetInfo(edbe, &dbei) && dbei.eventType == EVENTTYPE_ADDED) {
 			if (!DB::Event::GetInfoWithData(edbe, &dbei)) {

@@ -453,6 +453,35 @@ MIR_CORE_DLL(DB::EventCursor*) DB::EventsRev(MCONTACT hContact, MEVENT iStartEve
 	return (currDb == nullptr) ? 0 : currDb->EventCursorRev(hContact, iStartEvent);
 }
 
+DB::ECPTR::ECPTR(EventCursor *_pCursor) :
+	m_cursor(_pCursor),
+	m_prevFetched(-1),
+	m_currEvent(0)
+{
+}
+
+DB::ECPTR::~ECPTR()
+{
+	delete m_cursor;
+}
+
+void DB::ECPTR::DeleteEvent()
+{
+	m_prevFetched = m_cursor->FetchNext();
+	db_event_delete(m_currEvent);
+}
+
+MEVENT DB::ECPTR::FetchNext()
+{
+	if (m_prevFetched != -1) {
+		m_currEvent = m_prevFetched;
+		m_prevFetched = -1;
+	}
+	else m_currEvent = m_cursor->FetchNext();
+
+	return m_currEvent;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // misc functions
 

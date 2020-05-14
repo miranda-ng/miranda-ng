@@ -65,7 +65,8 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 		return 0;
 	}
 
-	MEVENT hEvent = db_event_first(hContact);
+	DB::ECPTR pCursor(DB::Events(hContact));
+	MEVENT hEvent = pCursor.FetchNext();
 	if (hEvent == NULL) {
 		MessageBox(nullptr, TXT_EMPTYHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
 		return 0;
@@ -73,28 +74,28 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 
 	int histCount = db_event_count(hContact), actCount = 0;
 
-	DBEVENTINFO dbe = {};
-	dbe.cbBlob = db_event_getBlobSize(hEvent);
-	dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
-	db_event_get(hEvent, &dbe);
-	dbe.pBlob[dbe.cbBlob] = 0;
-
 	RECT DesktopRect;
 	GetWindowRect(GetDesktopWindow(), &DesktopRect);
 	HWND hWndProgress = CreateWindow(L"Progressbar", TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, nullptr, nullptr, g_plugin.getInst(), nullptr);
 	if (hWndProgress == nullptr) {
-		mir_free(dbe.pBlob);
 		MessageBox(nullptr, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION);
 		return -1;
 	}
+
 	SetWindowPos(hWndProgress, HWND_TOP, (int)((DesktopRect.right / 2) - 175), (int)((DesktopRect.bottom / 2) - 22), 0, 0, SWP_NOSIZE);
 	ShowWindow(hWndProgress, SW_SHOW);
 	SetForegroundWindow(hWndProgress);
 
-	LISTELEMENT *listStart = (LISTELEMENT*)mir_alloc(sizeof(LISTELEMENT));
+	LISTELEMENT *listStart = (LISTELEMENT *)mir_alloc(sizeof(LISTELEMENT));
 	memset(listStart, 0, sizeof(LISTELEMENT));
 
-	for (;;) {
+	do {
+		DBEVENTINFO dbe = {};
+		dbe.cbBlob = db_event_getBlobSize(hEvent);
+		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
+		db_event_get(hEvent, &dbe);
+		dbe.pBlob[dbe.cbBlob] = 0;
+
 		if (dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
 			if (ExtractURI(&dbe, hEvent, listStart) < 0) {
@@ -108,17 +109,10 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 		actCount++;
 		if (((int)(((float)actCount / histCount) * 100.00)) % 10 == 0)
 			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount / histCount) * 100.00)));
-
-		hEvent = db_event_next(hContact, hEvent);
-		if (hEvent == NULL)
-			break;
 		mir_free(dbe.pBlob);
-		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
-		db_event_get(hEvent, &dbe);
-		dbe.pBlob[dbe.cbBlob] = 0;
 	}
-	mir_free(dbe.pBlob);
+		while (hEvent = pCursor.FetchNext());
+
 	SendMessage(hWndProgress, WM_CLOSE, 0, 0);
 	if (ListCount(listStart) <= 0) {
 		RemoveList(listStart);

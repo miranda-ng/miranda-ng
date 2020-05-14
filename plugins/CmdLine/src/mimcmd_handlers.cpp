@@ -1348,12 +1348,13 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 							int count = stop - start + 1;
 							if (count > 0) {
 								int index = 0;
-								MEVENT hEvent = db_event_first(hContact);
+
 								DBEVENTINFO dbEvent = {};
 								char message[4096];
 								dbEvent.pBlob = (PBYTE)message;
 
-								while (hEvent) {
+								DB::ECPTR pCursor(DB::Events(hContact));
+								while (MEVENT hEvent = pCursor.FetchNext()) {
 									dbEvent.cbBlob = _countof(message);
 									if (!db_event_get(hEvent, &dbEvent)) { // if successful call
 										dbEvent.pBlob[dbEvent.cbBlob] = 0;
@@ -1364,7 +1365,6 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 									if (index > stop)
 										break;
 
-									hEvent = db_event_next(hContact, hEvent);
 									index++;
 								}
 							}

@@ -860,13 +860,12 @@ void CVkProto::NewsClearHistory()
 		return;
 
 	time_t tTime = time(0) - m_vkOptions.iNewsAutoClearHistoryInterval;
-	MEVENT hDBEvent = db_event_first(hContact);
-	while (hDBEvent) {
-		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
+
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
-		db_event_get(hDBEvent, &dbei);
+		db_event_get(hDbEvent, &dbei);
 		if (dbei.timestamp < tTime)
-			db_event_delete(hDBEvent);
-		hDBEvent = hDBEventNext;
+			pCursor.DeleteEvent();
 	}
 }

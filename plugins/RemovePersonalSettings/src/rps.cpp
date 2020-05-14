@@ -363,17 +363,13 @@ void RemoveUsers()
 		hContact = db_find_first();
 		while (hContact != NULL) {
 			db_delete_contact(hContact);
-
 			hContact = db_find_first();
 		}
 
-		// Delete events for contacts not in list
-		MEVENT hDbEvent = db_event_first(0);
-
-		while (hDbEvent != NULL) {
-			db_event_delete(hDbEvent);
-			hDbEvent = db_event_first(0);
-		}
+		// Delete events from system history
+		DB::ECPTR pCursor(DB::Events(0));
+		while (pCursor.FetchNext())
+			pCursor.DeleteEvent();
 
 		// Now delete groups
 		DeleteSettingEx("CListGroups", nullptr);

@@ -89,12 +89,9 @@ void RemoveReadEvents(MCONTACT hContact = 0)
 
 void RemoveAllEvents(MCONTACT hContact)
 {
-	MEVENT hDBEvent = db_event_first(hContact);
-	while(hDBEvent) {
-		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
-		db_event_delete(hDBEvent);
-		hDBEvent = hDBEventNext;
-	}
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (pCursor.FetchNext())
+		pCursor.DeleteEvent();
 }
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)

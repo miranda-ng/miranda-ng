@@ -146,11 +146,9 @@ void __cdecl exportContactsMessages(ExportDialogData *data)
 
 			list<CLDBEvent> &rclCurList = AllEvents[GetFilePathFromUser(hContact)];
 
-			MEVENT hDbEvent = db_event_first(hContact);
-			while (hDbEvent) {
+			DB::ECPTR pCursor(DB::Events(hContact));
+			while (MEVENT hDbEvent = pCursor.FetchNext())
 				rclCurList.push_back(CLDBEvent(hContact, hDbEvent));
-				hDbEvent = db_event_next(hContact, hDbEvent);
-			}
 
 			SendMessage(hProg, PBM_SETPOS, nCur, 0);
 			RedrawWindow(hDlg, nullptr, nullptr, RDW_ALLCHILDREN | RDW_UPDATENOW);
