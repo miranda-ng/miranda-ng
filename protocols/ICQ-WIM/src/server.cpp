@@ -1082,5 +1082,7 @@ void CIcqProto::OnSessionEnd(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 		
 		m_szSessionKey.Empty();
 		delSetting(DB_KEY_SESSIONKEY);
+
+		ShutdownSession();
 	}
 }
