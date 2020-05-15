@@ -90,12 +90,12 @@ BEGIN
     CONTROL         "Keep messages as unread on server",IDC_KEEP_UNREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,99,277,10
     CONTROL         "Use invisible mode after login",IDC_INVIS_LOGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,112,277,10
+    CONTROL         "Load also Messenger contacts at login (not only Facebook friends)",IDC_LOADALL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,125,277,10
     GROUPBOX        "Group chats",IDC_STATIC,7,142,291,42
     CONTROL         "Enable group chats",IDC_ENABLECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,155,277,10
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,168,277,10
-    CONTROL         "Load also Messenger contacts at login (not only Facebook friends)",IDC_LOADALL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,125,277,10
 END
 
 IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 263
