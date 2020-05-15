@@ -41,6 +41,7 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	m_impl(*this),
 	m_users(50, CompareUsers),
 	arOwnMessages(1, CompareMessages),
+	m_bLoadAll(this, "LoadAllContacts", false),
 	m_bKeepUnread(this, "KeepUnread", false),
 	m_bUseBigAvatars(this, "UseBigAvatars", true),
 	m_bUseGroupchats(this, "UseGroupChats", true),

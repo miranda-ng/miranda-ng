@@ -498,12 +498,13 @@ public:
     //////////////////////////////////////////////////////////////////////////////////////
     // options
 
-    CMOption<wchar_t *> m_wszDefaultGroup; // clist group to store contacts
-    CMOption<bool>      m_bUseBigAvatars;  // use big or small avatars by default
-    CMOption<bool>      m_bUseGroupchats;  // do we need group chats at all?
-    CMOption<bool>      m_bHideGroupchats; // do not open chat windows on creation
-    CMOption<bool>      m_bLoginInvisible; // login in the invisible mode
-    CMOption<bool>      m_bKeepUnread;     // do not mark incoming messages as read
+    CMOption<wchar_t *> m_wszDefaultGroup;  // clist group to store contacts
+    CMOption<bool>      m_bUseBigAvatars;   // use big or small avatars by default
+    CMOption<bool>      m_bUseGroupchats;   // do we need group chats at all?
+    CMOption<bool>      m_bHideGroupchats;  // do not open chat windows on creation
+    CMOption<bool>      m_bLoginInvisible;  // login in the invisible mode
+    CMOption<bool>      m_bKeepUnread;      // do not mark incoming messages as read
+    CMOption<bool>      m_bLoadAll;         // load all contacts, not only those who have ARE_FRIENDS status
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE

@@ -137,6 +137,7 @@ int FacebookProto::RefreshContacts()
 		return iErrorCode;  // unknown error
 
 	bool bNeedUpdate = false;
+	bool bLoadAll = m_bLoadAll;
 
 	for (auto &it : reply.data()["viewer"]["messenger_contacts"]["nodes"]) {
 		auto &n = it["represented_profile"];
@@ -145,7 +146,7 @@ int FacebookProto::RefreshContacts()
 
 		MCONTACT hContact;
 		if (id != m_uid) {
-			bool bIsFriend = n["friendship_status"].as_mstring() == L"ARE_FRIENDS";
+			bool bIsFriend = bLoadAll || n["friendship_status"].as_mstring() == L"ARE_FRIENDS";
 
 			auto *pUser = FindUser(id);
 			if (pUser == nullptr) {
