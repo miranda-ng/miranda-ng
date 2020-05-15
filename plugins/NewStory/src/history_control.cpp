@@ -202,6 +202,31 @@ struct NewstoryListData : public MZeroedObject
 			RecalcScrollBar();
 	}
 
+	int GetItemFromPixel(int yPos)
+	{
+		int count = items.getCount();
+		if (!count)
+			return -1;
+		
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+
+		int height = rc.bottom - rc.top;
+		int current = scrollTopItem;
+		int top = scrollTopPixel;
+		int bottom = top + LayoutItem(current);
+		while (top <= height) {
+			if (yPos >= top && yPos <= bottom)
+				return current;
+			if (++current >= count)
+				break;
+			top = bottom;
+			bottom = top + LayoutItem(current);
+		}
+
+		return -1;
+	}
+
 	int LayoutItem(int index)
 	{
 		HDC hdc = GetDC(hwnd);
@@ -490,24 +515,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		return 0;
 
 	case NSM_GETITEMFROMPIXEL:
-		RECT rc;
-		GetClientRect(hwnd, &rc);
-		{
-			int height = rc.bottom - rc.top;
-			int count = data->items.getCount();
-			int current = data->scrollTopItem;
-			int top = data->scrollTopPixel;
-			int bottom = top + data->LayoutItem(current);
-			while (top <= height) {
-				if ((lParam >= top) && (lParam <= bottom))
-					return current;
-				if (++current >= count)
-					return -1;
-				top = bottom;
-				bottom = top + data->LayoutItem(current);
-			}
-		}
-		return -1;
+		return data->GetItemFromPixel(lParam);
 
 	case NSM_SETCARET:
 		if (wParam < data->items.getCount()) {
@@ -612,6 +620,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			Windows in theory shouldn't queue up WM_PAINTs in this case but it does so
 			we'll just ignore them */
 			if (IsWindowVisible(hwnd)) {
+				RECT rc;
 				GetClientRect(hwnd, &rc);
 
 				HDC hdc = CreateCompatibleDC(hdcWindow);
@@ -653,7 +662,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			POINT pt2 = pt;
 			ScreenToClient(hwnd, &pt2);
 
-			int index = SendMessage(hwnd, NSM_GETITEMFROMPIXEL, pt2.x, pt2.y);
+			int index = data->GetItemFromPixel(pt2.y);
 			if (index != -1)
 				data->OnContextMenu(index, pt);
 		}
@@ -730,7 +739,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_LBUTTONDOWN:
 		{
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			int item = SendMessage(hwnd, NSM_GETITEMFROMPIXEL, pt.x, pt.y);
+			int item = data->GetItemFromPixel(pt.y);
 			if (item >= 0) {
 				if (data->caret != item)
 					data->EndEditItem();
@@ -767,7 +776,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_MOUSEMOVE:
 		{
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			int item = SendMessage(hwnd, NSM_GETITEMFROMPIXEL, pt.x, pt.y);
+			int item = data->GetItemFromPixel(pt.y);
 			if (item >= 0) {
 				auto *pItem = data->items[item];
 				MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
