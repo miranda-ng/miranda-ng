@@ -145,9 +145,17 @@ int FacebookProto::RefreshContacts()
 
 		MCONTACT hContact;
 		if (id != m_uid) {
+			bool bIsFriend = n["friendship_status"].as_mstring() == L"ARE_FRIENDS";
+
 			auto *pUser = FindUser(id);
-			if (pUser == nullptr)
+			if (pUser == nullptr) {
+				if (!bIsFriend)
+					continue;
 				pUser = AddContact(wszId, false);
+			}
+			else if (!bIsFriend)
+				Contact_RemoveFromList(pUser->hContact); // adios!
+
 			hContact = pUser->hContact;
 		}
 		else hContact = 0;
