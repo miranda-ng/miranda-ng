@@ -156,7 +156,7 @@ INT_PTR CIcqProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
 {
 	delSetting(hContact, DB_KEY_LASTMSGID);
 
-	RetrieveUserHistory(hContact, 1);
+	RetrieveUserHistory(hContact, 1, true);
 	return 0;
 }
 

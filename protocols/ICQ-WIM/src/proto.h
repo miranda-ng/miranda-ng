@@ -244,7 +244,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      MarkAsRead(MCONTACT hContact);
 	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	bool      RetrievePassword();
-	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId);
+	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
 	void      RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
 	void      SetServerStatus(int iNewStatus);
 	void      ShutdownSession(void);
@@ -255,7 +255,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
 	void      Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
 	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
-	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bFromHistory);
+	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead);
 
 	void      OnLoggedIn(void);
 	void      OnLoggedOut(void);

@@ -367,7 +367,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	return hContact;
 }
 
-void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bFromHistory)
+void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bCreateRead)
 {
 	CMStringA szMsgId(it["msgId"].as_mstring());
 	__int64 msgId = _atoi64(szMsgId);
@@ -390,7 +390,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		wszText.TrimRight();
 	}
 
-	int iMsgTime = (bFromHistory) ? it["time"].as_int() : time(0);
+	int iMsgTime = (bCreateRead) ? it["time"].as_int() : time(0);
 
 	if (isChatRoom(hContact)) {
 		CMStringA reqId(it["reqId"].as_mstring());
@@ -422,7 +422,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		}
 
 		bool bIsOutgoing = it["outgoing"].as_bool();
-		if (!bFromHistory && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
+		if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
 			CMStringW wszUrl(wszText.Mid(26));
 			int idx = wszUrl.Find(' ');
 			if (idx != -1)
@@ -440,13 +440,13 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			return;
 		}
 
-		debugLogA("Adding message %d:%s (%d)", hContact, szMsgId.c_str(), bFromHistory);
+		debugLogA("Adding message %d:%s (CR=%d)", hContact, szMsgId.c_str(), bCreateRead);
 
 		ptrA szUtf(mir_utf8encodeW(wszText));
 
 		PROTORECVEVENT pre = {};
 		if (bIsOutgoing) pre.flags |= PREF_SENT;
-		if (bFromHistory) pre.flags |= PREF_CREATEREAD;
+		if (bCreateRead) pre.flags |= PREF_CREATEREAD;
 		pre.szMsgId = szMsgId;
 		pre.timestamp = iMsgTime;
 		pre.szMessage = szUtf;
@@ -521,7 +521,7 @@ AsyncHttpRequest* CIcqProto::UserInfoRequest(MCONTACT hContact)
 	return pReq;
 }
 
-void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId)
+void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool bCreateRead)
 {
 	if (startMsgId == 0)
 		startMsgId = -1;
@@ -531,6 +531,7 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId)
 		pReq->flags |= NLHRF_NODUMPSEND;
 	#endif
 	pReq->hContact = hContact;
+	pReq->pUserInfo = (bCreateRead) ? pReq : 0;
 
 	__int64 patchVer = getId(hContact, DB_KEY_PATCHVER);
 	if (patchVer == 0)
@@ -913,7 +914,7 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 	auto &results = root.results();
 	for (auto &it : results["messages"])
-		ParseMessage(pReq->hContact, lastMsgId, it, true);
+		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr);
 
 	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
