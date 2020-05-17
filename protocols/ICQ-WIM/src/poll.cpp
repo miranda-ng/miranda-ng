@@ -209,7 +209,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	}
 	else {
 		for (auto &it : ev["tail"]["messages"])
-			ParseMessage(hContact, lastMsgId, it, false);
+			ParseMessage(hContact, lastMsgId, it, false, true);
 		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 	}
 

@@ -367,7 +367,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	return hContact;
 }
 
-void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bCreateRead)
+void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bCreateRead, bool bLocalTime)
 {
 	CMStringA szMsgId(it["msgId"].as_mstring());
 	__int64 msgId = _atoi64(szMsgId);
@@ -390,7 +390,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		wszText.TrimRight();
 	}
 
-	int iMsgTime = (bCreateRead) ? it["time"].as_int() : time(0);
+	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
 
 	if (isChatRoom(hContact)) {
 		CMStringA reqId(it["reqId"].as_mstring());
@@ -914,7 +914,7 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 	auto &results = root.results();
 	for (auto &it : results["messages"])
-		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr);
+		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr, false);
 
 	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
 }
