@@ -18,7 +18,7 @@ static IconItem iconList[] =
 
 void CurrencyRates_IconsInit()
 {
-	::g_plugin.registerIcon(CURRENCYRATES_PROTOCOL_NAME, iconList, CURRENCYRATES_PROTOCOL_NAME);
+	::g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
 }
 
 HICON CurrencyRates_LoadIconEx(int iconId, bool bBig /*= false*/)

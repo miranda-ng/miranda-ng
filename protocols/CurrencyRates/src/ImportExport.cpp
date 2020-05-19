@@ -220,7 +220,7 @@ INT_PTR CurrencyRates_Export(WPARAM wp, LPARAM lp)
 		}
 	}
 	else {
-		for (auto &cc : Contacts(CURRENCYRATES_MODULE_NAME)) {
+		for (auto &cc : Contacts(MODULENAME)) {
 			auto pProvider = GetContactProviderPtr(cc);
 			if (pProvider) {
 				auto *pNode = export_contact(cc, doc);
@@ -376,7 +376,7 @@ struct CContactState
 const TiXmlNode* find_currencyrates_module(const TiXmlNode *pXmlContact)
 {
 	for (auto *pNode : TiXmlEnum(pXmlContact))
-		if ((!mir_strcmpi(g_szXmlModule, pNode->Name())) && (!mir_strcmpi(CURRENCYRATES_MODULE_NAME, pNode->GetText())))
+		if ((!mir_strcmpi(g_szXmlModule, pNode->Name())) && (!mir_strcmpi(MODULENAME, pNode->GetText())))
 			return pNode;
 
 	return nullptr;

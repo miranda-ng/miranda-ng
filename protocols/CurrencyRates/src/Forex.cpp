@@ -45,7 +45,7 @@ INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
 INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 {
 	g_bAutoUpdate = (g_bAutoUpdate) ? false : true;
-	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_STR_AUTO_UPDATE, g_bAutoUpdate);
+	g_plugin.setByte(DB_STR_AUTO_UPDATE, g_bAutoUpdate);
 
 	for (auto &pProvider : g_apProviders) {
 		pProvider->RefreshSettings();
@@ -112,7 +112,7 @@ void InitMenu()
 	mi.name.w = LPGENW("Refresh");
 	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_REFRESH);
 	mi.pszService = "CurrencyRates/RefreshContact";
-	g_hMenuRefresh = Menu_AddContactMenuItem(&mi, CURRENCYRATES_PROTOCOL_NAME);
+	g_hMenuRefresh = Menu_AddContactMenuItem(&mi, MODULENAME);
 	Menu_ConfigureItem(g_hMenuRefresh, MCI_OPT_EXECPARAM, INT_PTR(0));
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_RefreshContact);
 
@@ -120,7 +120,7 @@ void InitMenu()
 	mi.name.w = LPGENW("Open Log File...");
 	mi.hIcolibItem = nullptr;
 	mi.pszService = "CurrencyRates/OpenLogFile";
-	g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi, CURRENCYRATES_PROTOCOL_NAME);
+	g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi, MODULENAME);
 	Menu_ConfigureItem(g_hMenuOpenLogFile, MCI_OPT_EXECPARAM, 1);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_OpenLogFile);
 
@@ -129,7 +129,7 @@ void InitMenu()
 	mi.name.w = LPGENW("Chart...");
 	mi.hIcolibItem = nullptr;
 	mi.pszService = "CurrencyRates/Chart";
-	g_hMenuChart = Menu_AddContactMenuItem(&mi, CURRENCYRATES_PROTOCOL_NAME);
+	g_hMenuChart = Menu_AddContactMenuItem(&mi, MODULENAME);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_Chart);
 	#endif
 
@@ -137,7 +137,7 @@ void InitMenu()
 	mi.name.w = LPGENW("Edit Settings...");
 	mi.hIcolibItem = nullptr;
 	mi.pszService = "CurrencyRates/EditSettings";
-	g_hMenuEditSettings = Menu_AddContactMenuItem(&mi, CURRENCYRATES_PROTOCOL_NAME);
+	g_hMenuEditSettings = Menu_AddContactMenuItem(&mi, MODULENAME);
 	#ifdef CHART_IMPLEMENT
 	Menu_ConfigureItem(g_hMenuEditSettings, MCI_OPT_EXECPARAM, 3);
 	#else
@@ -190,7 +190,7 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_TTB_MODULELOADED, CurrencyRates_OnToolbarLoaded);
 
-	g_bAutoUpdate = 1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_STR_AUTO_UPDATE, 1);
+	g_bAutoUpdate = 1 == g_plugin.getByte(DB_STR_AUTO_UPDATE, 1);
 
 	InitMenu();
 
@@ -281,7 +281,7 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(CURRENCYRATES_PROTOCOL_NAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {
 	RegisterProtocol(PROTOTYPE_VIRTUAL);
 	SetUniqueId(DB_STR_CURRENCYRATE_SYMBOL);
@@ -299,8 +299,8 @@ int CMPlugin::Load(void)
 
 	InitProviders();
 
-	CreateProtoServiceFunction(CURRENCYRATES_PROTOCOL_NAME, PS_GETCAPS, CurrencyRateProtoFunc_GetCaps);
-	CreateProtoServiceFunction(CURRENCYRATES_PROTOCOL_NAME, PS_GETSTATUS, CurrencyRateProtoFunc_GetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, CurrencyRateProtoFunc_GetCaps);
+	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, CurrencyRateProtoFunc_GetStatus);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CurrencyRatesEventFunc_OnModulesLoaded);
 	HookEvent(ME_DB_CONTACT_DELETED, CurrencyRatesEventFunc_OnContactDeleted);

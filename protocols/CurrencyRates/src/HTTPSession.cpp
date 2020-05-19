@@ -6,7 +6,7 @@ HNETLIBUSER CHTTPSession::g_hNetLib = nullptr;
 
 void CALLBACK waitStub()
 {
-	if (IDYES == MessageBox(0, TranslateW(ERROR_MSG), _A2W(CURRENCYRATES_MODULE_NAME), MB_YESNOCANCEL))
+	if (IDYES == MessageBox(0, TranslateW(ERROR_MSG), _A2W(MODULENAME), MB_YESNOCANCEL))
 		Utils_OpenUrl("https://free.currencyconverterapi.com/free-api-key");
 }
 
@@ -82,7 +82,7 @@ bool CHTTPSession::Init()
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
-	nlu.szSettingsModule = CURRENCYRATES_PROTOCOL_NAME;
+	nlu.szSettingsModule = MODULENAME;
 	nlu.szDescriptiveName.w = TranslateT("CurrencyRates HTTP connections");
 	g_hNetLib = Netlib_RegisterUser(&nlu);
 	return (nullptr != g_hNetLib);

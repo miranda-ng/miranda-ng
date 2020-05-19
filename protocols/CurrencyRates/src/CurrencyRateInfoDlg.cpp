@@ -24,7 +24,7 @@ inline MCONTACT get_contact(HWND hWnd)
 
 static bool get_fetch_time(time_t& rTime, MCONTACT hContact)
 {
-	rTime = db_get_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FETCH_TIME, -1);
+	rTime = g_plugin.getDword(hContact, DB_STR_CURRENCYRATE_FETCH_TIME, -1);
 	return (rTime != -1);
 }
 
@@ -40,7 +40,7 @@ INT_PTR CALLBACK CurrencyRateInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT 
 			::SetDlgItemText(hdlg, IDC_STATIC_CURRENCYRATE_NAME, sDescription.c_str());
 
 			double dRate = 0.0;
-			if (true == CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PREV_VALUE, dRate)) {
+			if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, dRate)) {
 				tostringstream o;
 				o.imbue(GetSystemLocale());
 				o << dRate;
@@ -49,7 +49,7 @@ INT_PTR CALLBACK CurrencyRateInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT 
 			}
 
 			dRate = 0.0;
-			if (true == CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate)) {
+			if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate)) {
 				tostringstream o;
 				o.imbue(GetSystemLocale());
 				o << dRate;
@@ -168,7 +168,7 @@ static INT_PTR CALLBACK CurrencyRateInfoDlgProc1(HWND hdlg, UINT msg, WPARAM wPa
 		WindowList_Add(hWL, hdlg, hContact);
 
 		::SetWindowLongPtr(hdlg, GWLP_USERDATA, hContact);
-		Utils_RestoreWindowPositionNoSize(hdlg, hContact, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX_INFO);
+		Utils_RestoreWindowPositionNoSize(hdlg, hContact, MODULENAME, WINDOW_PREFIX_INFO);
 		::ShowWindow(hdlg, SW_SHOW);
 		break;
 
@@ -184,7 +184,7 @@ static INT_PTR CALLBACK CurrencyRateInfoDlgProc1(HWND hdlg, UINT msg, WPARAM wPa
 			hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, false);
 			assert(hWL);
 			WindowList_Remove(hWL, hdlg);
-			Utils_SaveWindowPosition(hdlg, hContact, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX_INFO);
+			Utils_SaveWindowPosition(hdlg, hContact, MODULENAME, WINDOW_PREFIX_INFO);
 		}
 		return FALSE;
 
@@ -233,7 +233,7 @@ int CurrencyRates_PrebuildContactMenu(WPARAM wp, LPARAM)
 
 	MCONTACT hContact = MCONTACT(wp);
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (mir_strcmp(szProto, CURRENCYRATES_PROTOCOL_NAME)) {
+	if (mir_strcmp(szProto, MODULENAME)) {
 		Menu_ShowItem(g_hMenuRoot, false);
 		return 0;
 	}

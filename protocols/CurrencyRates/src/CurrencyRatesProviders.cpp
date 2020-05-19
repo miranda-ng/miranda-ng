@@ -30,9 +30,9 @@ void ClearProviders()
 
 void convert_contact_settings(MCONTACT hContact)
 {
-	WORD dwLogMode = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG, static_cast<WORD>(lmDisabled));
+	WORD dwLogMode = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, static_cast<WORD>(lmDisabled));
 	if ((dwLogMode&lmInternalHistory) || (dwLogMode&lmExternalFile))
-		db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 1);
+		g_plugin.setByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 1);
 }
 
 void InitProviders()
@@ -40,9 +40,9 @@ void InitProviders()
 	CreateProviders();
 
 	const WORD nCurrentVersion = 17;
-	WORD nVersion = db_get_w(0, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, 1);
+	WORD nVersion = g_plugin.getWord(LAST_RUN_VERSION, 1);
 
-	for (auto &hContact : Contacts(CURRENCYRATES_MODULE_NAME)) {
+	for (auto &hContact : Contacts(MODULENAME)) {
 		ICurrencyRatesProvider *pProvider = GetContactProviderPtr(hContact);
 		if (pProvider) {
 			pProvider->AddContact(hContact);
@@ -51,7 +51,7 @@ void InitProviders()
 		}
 	}
 
-	db_set_w(0, CURRENCYRATES_MODULE_NAME, LAST_RUN_VERSION, nCurrentVersion);
+	g_plugin.setWord(LAST_RUN_VERSION, nCurrentVersion);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -59,10 +59,10 @@ void InitProviders()
 ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact)
 {
 	char* szProto = Proto_GetBaseAccountName(hContact);
-	if (nullptr == szProto || 0 != ::_stricmp(szProto, CURRENCYRATES_PROTOCOL_NAME))
+	if (nullptr == szProto || 0 != ::_stricmp(szProto, MODULENAME))
 		return nullptr;
 
-	tstring sProvider = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER);
+	tstring sProvider = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_PROVIDER);
 	if (true == sProvider.empty())
 		return nullptr;
 

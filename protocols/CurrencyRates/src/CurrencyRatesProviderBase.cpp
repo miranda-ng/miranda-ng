@@ -185,15 +185,15 @@ void CCurrencyRatesProviderBase::DeleteContact(MCONTACT hContact)
 
 void CCurrencyRatesProviderBase::SetContactStatus(MCONTACT hContact, int nNewStatus)
 {
-	int nStatus = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_STATUS, ID_STATUS_OFFLINE);
+	int nStatus = g_plugin.getWord(hContact, DB_STR_STATUS, ID_STATUS_OFFLINE);
 	if (nNewStatus != nStatus) {
-		db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_STATUS, nNewStatus);
+		g_plugin.setWord(hContact, DB_STR_STATUS, nNewStatus);
 
 		if (ID_STATUS_ONLINE != nNewStatus) {
 			db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
-			tstring sSymbol = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
-			if (false == sSymbol.empty())
-				db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, sSymbol.c_str());
+			CMStringW sSymbol = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_SYMBOL);
+			if (!sSymbol.IsEmpty())
+				db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, sSymbol);
 
 			SetContactExtraImage(hContact, eiEmpty);
 		}
@@ -412,7 +412,7 @@ void log_to_history(const ICurrencyRatesProvider *pProvider,
 	T2Utf psz(s.c_str());
 
 	DBEVENTINFO dbei = {};
-	dbei.szModule = CURRENCYRATES_MODULE_NAME;
+	dbei.szModule = MODULENAME;
 	dbei.timestamp = static_cast<DWORD>(nTime);
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
@@ -499,15 +499,15 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	time_t nTime = ::time(0);
 
 	if (false == rsSymbol.empty())
-		db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL, rsSymbol.c_str());
+		g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_SYMBOL, rsSymbol.c_str());
 
 	double dPrev = 0.0;
-	bool bValidPrev = CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, dPrev);
+	bool bValidPrev = CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, dPrev);
 	if (true == bValidPrev)
-		CurrencyRates_DBWriteDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PREV_VALUE, dPrev);
+		CurrencyRates_DBWriteDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, dPrev);
 
-	CurrencyRates_DBWriteDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate);
-	db_set_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FETCH_TIME, nTime);
+	CurrencyRates_DBWriteDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate);
+	g_plugin.setDword(hContact, DB_STR_CURRENCYRATE_FETCH_TIME, nTime);
 
 	tstring sSymbol = rsSymbol;
 
@@ -519,7 +519,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	}
 	else {
 		if (true == sSymbol.empty())
-			sSymbol = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+			sSymbol = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL);
 
 		oNick << std::setfill(L' ') << std::setw(10) << std::left << sSymbol << std::setw(6) << std::right << dRate;
 	}
@@ -536,35 +536,35 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	else
 		db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
 
-	bool bUseContactSpecific = (db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
+	bool bUseContactSpecific = g_plugin.getBool(hContact, DB_STR_CONTACT_SPEC_SETTINGS);
 
 	CAdvProviderSettings global_settings(this);
 
 	WORD dwMode = (bUseContactSpecific)
-		? db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG, static_cast<WORD>(lmDisabled))
+		? g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, static_cast<WORD>(lmDisabled))
 		: global_settings.GetLogMode();
 	if (dwMode&lmExternalFile) {
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
-			? (db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, 1) > 0)
+			? (g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, 1) > 0)
 			: global_settings.GetLogOnlyChangedFlag();
 		if (true == bOnlyIfChanged) {
 			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate, dPrev)));
 		}
 		if (true == bAdd) {
 			tstring sLogFileName = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE, global_settings.GetLogFileName().c_str())
+				? CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_LOG_FILE, global_settings.GetLogFileName().c_str())
 				: global_settings.GetLogFileName();
 
 			if (true == sSymbol.empty()) {
-				sSymbol = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+				sSymbol = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL);
 			}
 
 			sLogFileName = GenerateLogFileName(sLogFileName, sSymbol);
 
 			tstring sFormat = global_settings.GetLogFormat();
 			if (bUseContactSpecific)
-				sFormat = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, DB_DEF_LogFormat);
+				sFormat = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, DB_DEF_LogFormat);
 
 			log_to_file(this, hContact, sLogFileName, sFormat);
 		}
@@ -572,7 +572,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	if (dwMode&lmInternalHistory) {
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
-			? (db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_HISTORY_CONDITION, 1) > 0)
+			? (g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_HISTORY_CONDITION, 1) > 0)
 			: global_settings.GetHistoryOnlyChangedFlag();
 
 		if (true == bOnlyIfChanged) {
@@ -580,7 +580,7 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 		}
 		if (true == bAdd) {
 			tstring sFormat = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
+				? CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
 				: global_settings.GetHistoryFormat();
 
 			log_to_history(this, hContact, nTime, sFormat);
@@ -589,12 +589,12 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 
 	if (dwMode&lmPopup) {
 		bool bOnlyIfChanged = (bUseContactSpecific)
-			? (1 == db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_CONDITION, 1) > 0)
+			? (1 == g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_CONDITION, 1) > 0)
 			: global_settings.GetShowPopupIfValueChangedFlag();
 		if ((false == bOnlyIfChanged)
 			|| ((true == bOnlyIfChanged) && (true == bValidPrev) && (false == IsWithinAccuracy(dRate, dPrev)))) {
 			tstring sFormat = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
+				? CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
 				: global_settings.GetPopupFormat();
 
 			CPopupSettings ps = *(global_settings.GetPopupSettingsPtr());
@@ -609,11 +609,11 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const tstring& rsName)
 {
 	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, CURRENCYRATES_PROTOCOL_NAME);
+	Proto_AddToContact(hContact, MODULENAME);
 
 	tstring sProvName = GetInfo().m_sName;
-	db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER, sProvName.c_str());
-	db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL, rsName.c_str());
+	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_PROVIDER, sProvName.c_str());
+	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_SYMBOL, rsName.c_str());
 	db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
 
 	mir_cslock lck(m_cs);
@@ -626,11 +626,11 @@ DWORD get_refresh_timeout_miliseconds()
 	if (!g_bAutoUpdate)
 		return INFINITE;
 
-	int nRefreshRateType = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_RefreshRateType, RRT_MINUTES);
+	int nRefreshRateType = g_plugin.getWord(DB_KEY_RefreshRateType, RRT_MINUTES);
 	if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 		nRefreshRateType = RRT_MINUTES;
 
-	DWORD nTimeout = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_RefreshRateValue, 1);
+	DWORD nTimeout = g_plugin.getWord(DB_KEY_RefreshRateValue, 1);
 	switch (nRefreshRateType) {
 	default:
 	case RRT_SECONDS:
@@ -669,9 +669,9 @@ private:
 void CCurrencyRatesProviderBase::Run()
 {
 	DWORD nTimeout = get_refresh_timeout_miliseconds();
-	m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
-	m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
-	m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
+	m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
+	m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
+	m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
 
 	enum
 	{
@@ -721,9 +721,9 @@ void CCurrencyRatesProviderBase::Run()
 
 		case WAIT_OBJECT_0 + SETTINGS_CHANGED:
 			nTimeout = get_refresh_timeout_miliseconds();
-			m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
-			m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
-			m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
+			m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
+			m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
+			m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
 			{
 				mir_cslock lck(m_cs);
 				anContacts = m_aContacts;
@@ -824,11 +824,11 @@ bool CCurrencyRatesProviderBase::ParseSymbol(MCONTACT hContact, wchar_t c, doubl
 	switch (c) {
 	case 'r':
 	case 'R':
-		return CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, d);
+		return CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, d);
 	
 	case 'p':
 	case 'P':
-		return CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PREV_VALUE, d);
+		return CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, d);
 	}
 
 	return false;
@@ -839,7 +839,7 @@ bool CCurrencyRatesProviderBase::ParseSymbol(MCONTACT hContact, wchar_t c, doubl
 static bool get_fetch_time(MCONTACT hContact, time_t &rTime)
 {
 	DBVARIANT dbv;
-	if (db_get(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FETCH_TIME, &dbv) || (DBVT_DWORD != dbv.type))
+	if (db_get(hContact, MODULENAME, DB_STR_CURRENCYRATE_FETCH_TIME, &dbv) || (DBVT_DWORD != dbv.type))
 		return false;
 
 	rTime = dbv.dVal;
@@ -885,10 +885,10 @@ tstring CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c, i
 		ret = c;
 		break;
 	case 'S':
-		ret = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PROVIDER);
+		ret = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_PROVIDER);
 		break;
 	case 's':
-		ret = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+		ret = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL);
 		break;
 	case 'X':
 		ret = format_fetch_time(hContact, CurrencyRates_GetTimeFormat(true));
@@ -906,7 +906,7 @@ tstring CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c, i
 		break;
 	case 'r':
 	case 'R':
-		if (true == CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_CURR_VALUE, d))
+		if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, d))
 			ret = format_double(d, nWidth);
 		else
 			ret = L"-";
@@ -914,7 +914,7 @@ tstring CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c, i
 
 	case 'p':
 	case 'P':
-		if (true == CurrencyRates_DBReadDouble(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_PREV_VALUE, d))
+		if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, d))
 			ret = format_double(d, nWidth);
 		else
 			ret = L"-";

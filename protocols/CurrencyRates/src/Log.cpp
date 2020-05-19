@@ -14,7 +14,7 @@ namespace
 #ifdef _DEBUG
 		return true;
 #else
-		return (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_STR_ENABLE_LOG, false));
+		return (1 == g_plugin.getByte(DB_STR_ENABLE_LOG, false));
 #endif
 	}
 

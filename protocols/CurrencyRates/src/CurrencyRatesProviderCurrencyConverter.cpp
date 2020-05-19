@@ -15,8 +15,8 @@ tstring build_url(const tstring &rsURL, const tstring &from, const tstring &to)
 
 tstring build_url(MCONTACT hContact, const tstring &rsURL)
 {
-	tstring sFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
-	tstring sTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+	tstring sFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
+	tstring sTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
 	return build_url(rsURL, sFrom, sTo);
 }
 
@@ -314,10 +314,10 @@ bool CCurrencyRatesProviderCurrencyConverter::GetWatchedRateInfo(size_t nIndex, 
 		return false;
 
 	MCONTACT hContact = m_aContacts[nIndex];
-	tstring sSymbolFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
-	tstring sSymbolTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
-	tstring sDescFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
-	tstring sDescTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
+	tstring sSymbolFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
+	tstring sSymbolTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
+	tstring sDescFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_DESCRIPTION);
+	tstring sDescTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_DESCRIPTION);
 
 	rRateInfo.first = CCurrencyRate(sSymbolFrom, sSymbolFrom, sDescFrom);
 	rRateInfo.second = CCurrencyRate(sSymbolTo, sSymbolTo, sDescTo);
@@ -328,8 +328,8 @@ bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo &ri, 
 {
 	auto i = std::find_if(m_aContacts.begin(), m_aContacts.end(), [&ri](auto hContact)->bool
 	{
-		tstring sFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
-		tstring sTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+		tstring sFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
+		tstring sTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
 		return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), sFrom.c_str()))
 			&& (0 == mir_wstrcmpi(ri.second.GetID().c_str(), sTo.c_str())));
 	});
@@ -346,13 +346,13 @@ bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo &ri, 
 		tstring sName = make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
 		MCONTACT hContact = CreateNewContact(sName);
 		if (hContact) {
-			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID, ri.first.GetID().c_str());
-			db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID, ri.second.GetID().c_str());
+			g_plugin.setWString(hContact, DB_STR_FROM_ID, ri.first.GetID().c_str());
+			g_plugin.setWString(hContact, DB_STR_TO_ID, ri.second.GetID().c_str());
 			if (false == ri.first.GetName().empty()) {
-				db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION, ri.first.GetName().c_str());
+				g_plugin.setWString(hContact, DB_STR_FROM_DESCRIPTION, ri.first.GetName().c_str());
 			}
 			if (false == ri.second.GetName().empty()) {
-				db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION, ri.second.GetName().c_str());
+				g_plugin.setWString(hContact, DB_STR_TO_DESCRIPTION, ri.second.GetName().c_str());
 			}
 
 			return true;
@@ -378,8 +378,8 @@ MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const tstring& 
 
 	auto i = std::find_if(m_aContacts.begin(), m_aContacts.end(), [rsFromID, rsToID](MCONTACT hContact)->bool
 	{
-		tstring sFrom = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
-		tstring sTo = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+		tstring sFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
+		tstring sTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
 		return ((0 == mir_wstrcmpi(rsFromID.c_str(), sFrom.c_str())) && (0 == mir_wstrcmpi(rsToID.c_str(), sTo.c_str())));
 	});
 
@@ -404,16 +404,16 @@ tstring CCurrencyRatesProviderCurrencyConverter::FormatSymbol(MCONTACT hContact,
 {
 	switch (c) {
 	case 'F':
-		return CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_DESCRIPTION);
+		return CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_DESCRIPTION);
 
 	case 'f':
-		return CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_FROM_ID);
+		return CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
 
 	case 'I':
-		return CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_DESCRIPTION);
+		return CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_DESCRIPTION);
 
 	case 'i':
-		return CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_TO_ID);
+		return CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
 	}
 
 	return CSuper::FormatSymbol(hContact, c, nWidth);

@@ -1,9 +1,8 @@
 #ifndef __87d726e0_26c6_485d_8016_1fba819b037d_EconomicRateInfo__
 #define __87d726e0_26c6_485d_8016_1fba819b037d_EconomicRateInfo__
 
-#define CURRENCYRATES_PROTOCOL_NAME "CurrencyRates"// protocol name
-
-#define CURRENCYRATES_MODULE_NAME "CurrencyRates"          // db settings module path
+// db settings module path
+#define MODULENAME "CurrencyRates" 
 
 enum ERefreshRateType
 {

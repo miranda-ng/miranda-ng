@@ -90,8 +90,8 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			HWND hcbxFrom = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_FROM);
 			HWND hcbxTo = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_INTO);
 
-			tstring sFromCurrencyRateID = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_FROM_ID);
-			tstring sToCurrencyRateID = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_TO_ID);
+			tstring sFromCurrencyRateID = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_STR_CC_CURRENCYRATE_FROM_ID);
+			tstring sToCurrencyRateID = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_STR_CC_CURRENCYRATE_TO_ID);
 
 			const auto pProvider = get_currency_converter_provider();
 			const auto& rSection = get_currencyrates(pProvider);
@@ -113,7 +113,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			}
 
 			double dAmount = 1.0;
-			CurrencyRates_DBReadDouble(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_AMOUNT, dAmount);
+			CurrencyRates_DBReadDouble(NULL, MODULENAME, DB_STR_CC_AMOUNT, dAmount);
 			::SetDlgItemText(hDlg, IDC_EDIT_VALUE, double2str(dAmount).c_str());
 
 			const ICurrencyRatesProvider::CProviderInfo& pi = pProvider->GetInfo();
@@ -127,7 +127,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			update_convert_button(hDlg);
 			update_swap_button(hDlg);
 
-			Utils_RestoreWindowPositionNoSize(hDlg, NULL, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX);
+			Utils_RestoreWindowPositionNoSize(hDlg, NULL, MODULENAME, WINDOW_PREFIX);
 			::ShowWindow(hDlg, SW_SHOW);
 		}
 		return TRUE;
@@ -137,7 +137,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX, false);
 			assert(hWL);
 			WindowList_Remove(hWL, hDlg);
-			Utils_SaveWindowPosition(hDlg, NULL, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX);
+			Utils_SaveWindowPosition(hDlg, NULL, MODULENAME, WINDOW_PREFIX);
 			EndDialog(hDlg, 0);
 		}
 		return TRUE;
@@ -184,7 +184,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 
 				double dAmount = 1.0;
 				if ((true == str2double(sText, dAmount)) && (dAmount > 0.0)) {
-					CurrencyRates_DBWriteDouble(NULL, CURRENCYRATES_MODULE_NAME, DB_STR_CC_AMOUNT, dAmount);
+					CurrencyRates_DBWriteDouble(NULL, MODULENAME, DB_STR_CC_AMOUNT, dAmount);
 
 					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
 					size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
@@ -195,8 +195,8 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 							auto from = rSection.GetCurrencyRate(nFrom);
 							auto to = rSection.GetCurrencyRate(nTo);
 
-							db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_FROM_ID, from.GetID().c_str());
-							db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_STR_CC_CURRENCYRATE_TO_ID, to.GetID().c_str());
+							g_plugin.setWString(DB_STR_CC_CURRENCYRATE_FROM_ID, from.GetID().c_str());
+							g_plugin.setWString(DB_STR_CC_CURRENCYRATE_TO_ID, to.GetID().c_str());
 
 							const auto pProvider = get_currency_converter_provider();
 							assert(pProvider);

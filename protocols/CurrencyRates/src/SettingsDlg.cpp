@@ -61,7 +61,7 @@ void update_all_controls(HWND hDlg)
 
 	bool bIsCheckedShowPopup = (1 == ::IsDlgButtonChecked(hDlg, IDC_CHECK_SHOW_POPUP));
 	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP), (bIsCheckedContactSpec));
-	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), (bIsCheckedContactSpec  && bIsCheckedShowPopup));
+	::EnableWindow(::GetDlgItem(hDlg, IDC_EDIT_POPUP_FORMAT), (bIsCheckedContactSpec && bIsCheckedShowPopup));
 	::EnableWindow(::GetDlgItem(hDlg, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED), (bIsCheckedContactSpec && bIsCheckedShowPopup));
 	::EnableWindow(::GetDlgItem(hDlg, IDC_STATIC_POPUP_FORMAT), (bIsCheckedContactSpec && bIsCheckedShowPopup));
 	::EnableWindow(::GetDlgItem(hDlg, IDC_BUTTON_POPUP_FORMAT_DESCRIPTION), (bIsCheckedContactSpec && bIsCheckedShowPopup));
@@ -112,12 +112,12 @@ struct CSettingWindowParam
 	~CSettingWindowParam() { delete m_pPopupSettings; }
 
 	MCONTACT m_hContact;
-	CPopupSettings* m_pPopupSettings;
+	CPopupSettings *m_pPopupSettings;
 };
 
-inline CSettingWindowParam* get_param(HWND hWnd)
+inline CSettingWindowParam *get_param(HWND hWnd)
 {
-	return reinterpret_cast<CSettingWindowParam*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+	return reinterpret_cast<CSettingWindowParam *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 }
 
 void update_popup_controls_settings(HWND hDlg)
@@ -136,7 +136,7 @@ INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			CPopupSettings* pSettings = reinterpret_cast<CPopupSettings*>(lp);
+			CPopupSettings *pSettings = reinterpret_cast<CPopupSettings *>(lp);
 			TranslateDialogDefault(hWnd);
 			::SendDlgItemMessage(hWnd, IDC_BGCOLOR, CPM_SETCOLOUR, 0, pSettings->GetColourBk());
 			::SendDlgItemMessage(hWnd, IDC_TEXTCOLOR, CPM_SETCOLOUR, 0, pSettings->GetColourText());
@@ -184,7 +184,7 @@ INT_PTR CALLBACK EditPopupSettingsDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM
 
 		case IDOK:
 			{
-				CPopupSettings* pSettings = reinterpret_cast<CPopupSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+				CPopupSettings *pSettings = reinterpret_cast<CPopupSettings *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
 				bool bError = false;
 				BOOL bOk = FALSE;
@@ -245,51 +245,51 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			tstring sName = GetContactName(hContact);
 			::SetDlgItemText(hWnd, IDC_EDIT_NAME, sName.c_str());
 
-			BYTE bUseContactSpecific = db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0);
+			BYTE bUseContactSpecific = g_plugin.getByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 0);
 			::CheckDlgButton(hWnd, IDC_CHECK_CONTACT_SPECIFIC, bUseContactSpecific ? BST_CHECKED : BST_UNCHECKED);
 
 			auto pProvider = GetContactProviderPtr(hContact);
 			CAdvProviderSettings setGlobal(pProvider);
 			// log to history
-			WORD dwLogMode = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG, setGlobal.GetLogMode());
-			UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
+			WORD dwLogMode = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, setGlobal.GetLogMode());
+			UINT nCheck = (dwLogMode & lmInternalHistory) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
-			tstring sHistoryFrmt = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, setGlobal.GetHistoryFormat().c_str());
+			tstring sHistoryFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, setGlobal.GetHistoryFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_HISTORY_FORMAT, sHistoryFrmt.c_str());
 
-			WORD wOnlyIfChanged = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_HISTORY_CONDITION, setGlobal.GetHistoryOnlyChangedFlag());
+			WORD wOnlyIfChanged = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_HISTORY_CONDITION, setGlobal.GetHistoryOnlyChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_HISTORY_CONDITION, (1 == wOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 			// log to file
-			nCheck = (dwLogMode&lmExternalFile) ? 1 : 0;
+			nCheck = (dwLogMode & lmExternalFile) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_EXTERNAL_FILE, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
-			tstring sLogFileName = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
+			tstring sLogFileName = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_LOG_FILE);
 			if (true == sLogFileName.empty()) {
-				sLogFileName = GenerateLogFileName(setGlobal.GetLogFileName(), CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL), glfnResolveCurrencyRateName);
+				sLogFileName = GenerateLogFileName(setGlobal.GetLogFileName(), CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL), glfnResolveCurrencyRateName);
 			}
 			::SetDlgItemText(hWnd, IDC_EDIT_FILE_NAME, sLogFileName.c_str());
 
-			tstring sLogFileFrmt = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, setGlobal.GetLogFormat().c_str());
+			tstring sLogFileFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, setGlobal.GetLogFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_LOG_FILE_FORMAT, sLogFileFrmt.c_str());
 
-			wOnlyIfChanged = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, setGlobal.GetLogOnlyChangedFlag());
+			wOnlyIfChanged = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, setGlobal.GetLogOnlyChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_LOG_FILE_CONDITION, (1 == wOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 			// popup
-			nCheck = (dwLogMode&lmPopup) ? 1 : 0;
+			nCheck = (dwLogMode & lmPopup) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP, nCheck ? BST_CHECKED : BST_UNCHECKED);
-			tstring sPopupFrmt = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, setGlobal.GetPopupFormat().c_str());
+			tstring sPopupFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, setGlobal.GetPopupFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_POPUP_FORMAT, sPopupFrmt.c_str());
-			bool bOnlyIfChanged = 1 == db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_CONDITION, setGlobal.GetShowPopupIfValueChangedFlag());
+			bool bOnlyIfChanged = 1 == g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_CONDITION, setGlobal.GetShowPopupIfValueChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED, (bOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 			update_all_controls(hWnd);
 
-			CSettingWindowParam* pParam = new CSettingWindowParam(hContact);
+			CSettingWindowParam *pParam = new CSettingWindowParam(hContact);
 			::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pParam));
-			Utils_RestoreWindowPositionNoSize(hWnd, hContact, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
+			Utils_RestoreWindowPositionNoSize(hWnd, hContact, MODULENAME, WINDOW_PREFIX_SETTINGS);
 			::ShowWindow(hWnd, SW_SHOW);
 		}
 		break;
@@ -326,7 +326,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 
 		case IDC_BUTTON_POPUP_SETTINGS:
 			if (BN_CLICKED == HIWORD(wp)) {
-				CSettingWindowParam* pParam = get_param(hWnd);
+				CSettingWindowParam *pParam = get_param(hWnd);
 				if (!pParam->m_pPopupSettings) {
 					pParam->m_pPopupSettings = new CPopupSettings();
 					pParam->m_pPopupSettings->InitForContact(pParam->m_hContact);
@@ -341,7 +341,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 
 		case IDOK:
 			{
-				CSettingWindowParam* pParam = get_param(hWnd);
+				CSettingWindowParam *pParam = get_param(hWnd);
 				MCONTACT hContact = pParam->m_hContact;
 
 				bool bUseContactSpec = 1 == ::IsDlgButtonChecked(hWnd, IDC_CHECK_CONTACT_SPECIFIC);
@@ -366,7 +366,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 				tstring sLogFile = get_window_text(hwndLogFile);
 				tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
 				tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
-				if ((nLogMode&lmExternalFile)) {
+				if ((nLogMode & lmExternalFile)) {
 					if (true == sLogFile.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFile);
 						CurrencyRates_MessageBox(hWnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
@@ -379,7 +379,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 					}
 				}
 
-				if ((true == bOk)  &&  (nLogMode&lmInternalHistory)  &&  (true == sHistoryFormat.empty())) {
+				if ((true == bOk) && (nLogMode & lmInternalHistory) && (true == sHistoryFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndHistoryFrmt);
 					CurrencyRates_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
 					bOk = false;
@@ -387,7 +387,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 
 				HWND hwndPopupFrmt = ::GetDlgItem(hWnd, IDC_EDIT_POPUP_FORMAT);
 				tstring sPopupFormat = get_window_text(hwndPopupFrmt);
-				if ((true == bOk)  &&  (nLogMode&lmPopup)  &&  (true == sPopupFormat.empty())) {
+				if ((true == bOk) && (nLogMode & lmPopup) && (true == sPopupFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndPopupFrmt);
 					CurrencyRates_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
 					bOk = false;
@@ -398,15 +398,15 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 					UINT nIfChangedFile = IsDlgButtonChecked(hWnd, IDC_CHECK_LOG_FILE_CONDITION);
 					bool bIfChangedPopup = (1 == IsDlgButtonChecked(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED));
 
-					db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, bUseContactSpec);
-					db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG, nLogMode);
-					db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, nIfChangedFile);
-					db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_HISTORY_CONDITION, nIfChangedHistory);
-					db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_CONDITION, bIfChangedPopup);
-					db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE, sLogFile.c_str());
-					db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, sLogFileFormat.c_str());
-					db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, sHistoryFormat.c_str());
-					db_set_ws(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, sPopupFormat.c_str());
+					g_plugin.setByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, bUseContactSpec);
+					g_plugin.setWord(hContact, DB_STR_CURRENCYRATE_LOG, nLogMode);
+					g_plugin.setWord(hContact, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, nIfChangedFile);
+					g_plugin.setWord(hContact, DB_STR_CURRENCYRATE_HISTORY_CONDITION, nIfChangedHistory);
+					g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_CONDITION, bIfChangedPopup);
+					g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_LOG_FILE, sLogFile.c_str());
+					g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, sLogFileFormat.c_str());
+					g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_FORMAT_HISTORY, sHistoryFormat.c_str());
+					g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_FORMAT_POPUP, sPopupFormat.c_str());
 
 					if (pParam->m_pPopupSettings) {
 						pParam->m_pPopupSettings->SaveForContact(hContact);
@@ -428,13 +428,13 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 		break;
 
 	case WM_DESTROY:
-		CSettingWindowParam* pParam = get_param(hWnd);
+		CSettingWindowParam *pParam = get_param(hWnd);
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
 
 		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_SETTINGS, false);
 		assert(hWL);
 		WindowList_Remove(hWL, hWnd);
-		Utils_SaveWindowPosition(hWnd, pParam->m_hContact, CURRENCYRATES_MODULE_NAME, WINDOW_PREFIX_SETTINGS);
+		Utils_SaveWindowPosition(hWnd, pParam->m_hContact, MODULENAME, WINDOW_PREFIX_SETTINGS);
 		delete pParam;
 		break;
 	}
@@ -462,19 +462,19 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hWnd);
-			CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(lp);
+			CAdvProviderSettings *pAdvSettings = reinterpret_cast<CAdvProviderSettings *>(lp);
 
 			::SetDlgItemText(hWnd, IDC_EDIT_NAME, pAdvSettings->GetProviderPtr()->GetInfo().m_sName.c_str());
 
 			// log to history
 			WORD dwLogMode = pAdvSettings->GetLogMode();
-			UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
+			UINT nCheck = (dwLogMode & lmInternalHistory) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 			::SetDlgItemText(hWnd, IDC_EDIT_HISTORY_FORMAT, pAdvSettings->GetHistoryFormat().c_str());
 			::CheckDlgButton(hWnd, IDC_CHECK_HISTORY_CONDITION, (pAdvSettings->GetHistoryOnlyChangedFlag()) ? BST_CHECKED : BST_UNCHECKED);
 
 			// log to file
-			nCheck = (dwLogMode&lmExternalFile) ? 1 : 0;
+			nCheck = (dwLogMode & lmExternalFile) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_EXTERNAL_FILE, nCheck ? BST_CHECKED : BST_UNCHECKED);
 			::SetDlgItemText(hWnd, IDC_EDIT_FILE_NAME, pAdvSettings->GetLogFileName().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_LOG_FILE_FORMAT, pAdvSettings->GetLogFormat().c_str());
@@ -484,17 +484,17 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 			update_history_controls(hWnd);
 
 			// popup
-			nCheck = (dwLogMode&lmPopup) ? 1 : 0;
+			nCheck = (dwLogMode & lmPopup) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP, nCheck ? BST_CHECKED : BST_UNCHECKED);
 			::SetDlgItemText(hWnd, IDC_EDIT_POPUP_FORMAT, pAdvSettings->GetPopupFormat().c_str());
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED, (pAdvSettings->GetShowPopupIfValueChangedFlag()) ? BST_CHECKED : BST_UNCHECKED);
 
 			update_popup_controls(hWnd);
-	
+
 			::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pAdvSettings));
 		}
 		return TRUE;
-	
+
 	case WM_COMMAND:
 		switch (LOWORD(wp)) {
 		case IDOK:
@@ -522,7 +522,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 				tstring sLogFile = get_window_text(hwndLogFile);
 				tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
 
-				if ((nLogMode&lmExternalFile)) {
+				if ((nLogMode & lmExternalFile)) {
 					if (true == sLogFile.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFile);
 						CurrencyRates_MessageBox(hWnd, TranslateT("Enter log file name."), MB_OK | MB_ICONERROR);
@@ -537,7 +537,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 
 				HWND hwndHistoryFrmt = ::GetDlgItem(hWnd, IDC_EDIT_HISTORY_FORMAT);
 				tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
-				if ((true == bOk)  &&  (nLogMode&lmInternalHistory)  &&  (true == sHistoryFormat.empty())) {
+				if ((true == bOk) && (nLogMode & lmInternalHistory) && (true == sHistoryFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndHistoryFrmt);
 					CurrencyRates_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
 					bOk = false;
@@ -545,14 +545,14 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 
 				HWND hwndPopupFrmt = ::GetDlgItem(hWnd, IDC_EDIT_POPUP_FORMAT);
 				tstring sPopupFormat = get_window_text(hwndPopupFrmt);
-				if ((true == bOk)  &&  (nLogMode&lmPopup)  &&  (true == sPopupFormat.empty())) {
+				if ((true == bOk) && (nLogMode & lmPopup) && (true == sPopupFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndPopupFrmt);
 					CurrencyRates_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
 					bOk = false;
 				}
 
 				if (true == bOk) {
-					CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+					CAdvProviderSettings *pAdvSettings = reinterpret_cast<CAdvProviderSettings *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
 					pAdvSettings->SetLogMode(nLogMode);
 					pAdvSettings->SetHistoryOnlyChangedFlag(1 == IsDlgButtonChecked(hWnd, IDC_CHECK_HISTORY_CONDITION));
@@ -567,20 +567,20 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 				}
 			}
 			break;
-		
+
 		case IDCANCEL:
 			::EndDialog(hWnd, IDCANCEL);
 			break;
-		
+
 		case IDC_BUTTON_HISTORY_DESCRIPTION:
 		case IDC_BUTTON_LOG_FILE_DESCRIPTION:
 		case IDC_BUTTON_POPUP_FORMAT_DESCRIPTION:
 			if (BN_CLICKED == HIWORD(wp)) {
-				const CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+				const CAdvProviderSettings *pAdvSettings = reinterpret_cast<CAdvProviderSettings *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 				show_variable_list(hWnd, pAdvSettings->GetProviderPtr());
 			}
 			break;
-		
+
 		case IDC_CHECK_EXTERNAL_FILE:
 			if (BN_CLICKED == HIWORD(wp))
 				update_file_controls(hWnd);
@@ -600,9 +600,9 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 			if (BN_CLICKED == HIWORD(wp))
 				select_log_file(hWnd);
 			break;
-		
+
 		case IDC_BUTTON_POPUP_SETTINGS:
-			const CAdvProviderSettings* pAdvSettings = reinterpret_cast<CAdvProviderSettings*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+			const CAdvProviderSettings *pAdvSettings = reinterpret_cast<CAdvProviderSettings *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 			DialogBoxParam(g_plugin.getInst(),
 				MAKEINTRESOURCE(IDD_DIALOG_POPUP),
 				hWnd,
@@ -614,8 +614,8 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 	return FALSE;
 }
 
-CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider *pCurrencyRatesProvider)
-	: m_pCurrencyRatesProvider(pCurrencyRatesProvider),
+CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider *pCurrencyRatesProvider) :
+	m_pCurrencyRatesProvider(pCurrencyRatesProvider),
 	m_wLogMode(lmDisabled),
 	m_bIsOnlyChangedHistory(false),
 	m_bIsOnlyChangedLogFile(false),
@@ -624,11 +624,11 @@ CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider *pCurren
 {
 	assert(m_pCurrencyRatesProvider);
 
-	m_wLogMode = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogMode, static_cast<WORD>(lmDisabled));
-	m_sFormatHistory = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryFormat, DB_DEF_HistoryFormat);
-	m_bIsOnlyChangedHistory = 1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryCondition, 0);
+	m_wLogMode = g_plugin.getWord(DB_KEY_LogMode, static_cast<WORD>(lmDisabled));
+	m_sFormatHistory = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_HistoryFormat, DB_DEF_HistoryFormat);
+	m_bIsOnlyChangedHistory = 1 == g_plugin.getByte(DB_KEY_HistoryCondition, 0);
 
-	m_sLogFileName = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_LogFile);
+	m_sLogFileName = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_LogFile);
 	if (true == m_sLogFileName.empty()) {
 		m_sLogFileName = g_pszVariableUserProfile;
 		m_sLogFileName += L"\\CurrencyRates\\";
@@ -636,11 +636,11 @@ CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider *pCurren
 		m_sLogFileName += L".log";
 	}
 
-	m_sFormatLogFile = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_LogFormat, DB_DEF_LogFormat);
-	m_bIsOnlyChangedLogFile = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogCondition, 0));
+	m_sFormatLogFile = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_LogFormat, DB_DEF_LogFormat);
+	m_bIsOnlyChangedLogFile = (1 == g_plugin.getByte(DB_KEY_LogCondition, 0));
 
-	m_sPopupFormat = CurrencyRates_DBGetStringW(NULL, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupFormat, DB_DEF_PopupFormat);
-	m_bShowPopupIfValueChanged = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupCondition, 0));
+	m_sPopupFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_PopupFormat, DB_DEF_PopupFormat);
+	m_bShowPopupIfValueChanged = (1 == g_plugin.getByte(DB_KEY_PopupCondition, 0));
 }
 
 CAdvProviderSettings::~CAdvProviderSettings()
@@ -648,29 +648,29 @@ CAdvProviderSettings::~CAdvProviderSettings()
 	delete m_pPopupSettings;
 }
 
-const ICurrencyRatesProvider* CAdvProviderSettings::GetProviderPtr() const
+const ICurrencyRatesProvider *CAdvProviderSettings::GetProviderPtr() const
 {
 	return m_pCurrencyRatesProvider;
 }
 
 void CAdvProviderSettings::SaveToDb() const
 {
-	db_set_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogMode, m_wLogMode);
-	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryFormat, m_sFormatHistory.c_str());
-	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_HistoryCondition, m_bIsOnlyChangedHistory);
-	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogFile, m_sLogFileName.c_str());
-	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogFormat, m_sFormatLogFile.c_str());
-	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_LogCondition, m_bIsOnlyChangedLogFile);
-	db_set_ws(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupFormat, m_sPopupFormat.c_str());
-	db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupCondition, m_bShowPopupIfValueChanged);
+	g_plugin.setWord(DB_KEY_LogMode, m_wLogMode);
+	g_plugin.setWString(DB_KEY_HistoryFormat, m_sFormatHistory.c_str());
+	g_plugin.setByte(DB_KEY_HistoryCondition, m_bIsOnlyChangedHistory);
+	g_plugin.setWString(DB_KEY_LogFile, m_sLogFileName.c_str());
+	g_plugin.setWString(DB_KEY_LogFormat, m_sFormatLogFile.c_str());
+	g_plugin.setByte(DB_KEY_LogCondition, m_bIsOnlyChangedLogFile);
+	g_plugin.setWString(DB_KEY_PopupFormat, m_sPopupFormat.c_str());
+	g_plugin.setByte(DB_KEY_PopupCondition, m_bShowPopupIfValueChanged);
 
 	if (nullptr != m_pPopupSettings) {
-		db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupColourMode, static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
-		db_set_dw(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupBkColour, m_pPopupSettings->GetColourBk());
-		db_set_dw(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupTextColour, m_pPopupSettings->GetColourText());
-		db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupDelayMode, static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
-		db_set_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupDelayTimeout, m_pPopupSettings->GetDelayTimeout());
-		db_set_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupHistoryFlag, m_pPopupSettings->GetHistoryFlag());
+		g_plugin.setByte(DB_KEY_PopupColourMode, static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
+		g_plugin.setDword(DB_KEY_PopupBkColour, m_pPopupSettings->GetColourBk());
+		g_plugin.setDword(DB_KEY_PopupTextColour, m_pPopupSettings->GetColourText());
+		g_plugin.setByte(DB_KEY_PopupDelayMode, static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
+		g_plugin.setWord(DB_KEY_PopupDelayTimeout, m_pPopupSettings->GetDelayTimeout());
+		g_plugin.setByte(DB_KEY_PopupHistoryFlag, m_pPopupSettings->GetHistoryFlag());
 	}
 }
 
@@ -689,7 +689,7 @@ tstring CAdvProviderSettings::GetHistoryFormat() const
 	return m_sFormatHistory;
 }
 
-void CAdvProviderSettings::SetHistoryFormat(const tstring& rsFormat)
+void CAdvProviderSettings::SetHistoryFormat(const tstring &rsFormat)
 {
 	m_sFormatHistory = rsFormat;
 }
@@ -709,7 +709,7 @@ tstring CAdvProviderSettings::GetLogFileName() const
 	return m_sLogFileName;
 }
 
-void CAdvProviderSettings::SetLogFileName(const tstring& rsFile)
+void CAdvProviderSettings::SetLogFileName(const tstring &rsFile)
 {
 	m_sLogFileName = rsFile;
 }
@@ -719,7 +719,7 @@ tstring CAdvProviderSettings::GetLogFormat() const
 	return m_sFormatLogFile;
 }
 
-void CAdvProviderSettings::SetLogFormat(const tstring& rsFormat)
+void CAdvProviderSettings::SetLogFormat(const tstring &rsFormat)
 {
 	m_sFormatLogFile = rsFormat;
 }
@@ -734,12 +734,12 @@ void CAdvProviderSettings::SetLogOnlyChangedFlag(bool bMode)
 	m_bIsOnlyChangedLogFile = bMode;
 }
 
-const tstring& CAdvProviderSettings::GetPopupFormat() const
+const tstring &CAdvProviderSettings::GetPopupFormat() const
 {
 	return m_sPopupFormat;
 }
 
-void CAdvProviderSettings::SetPopupFormat(const tstring& val)
+void CAdvProviderSettings::SetPopupFormat(const tstring &val)
 {
 	m_sPopupFormat = val;
 }
@@ -754,7 +754,7 @@ void CAdvProviderSettings::SetShowPopupIfValueChangedFlag(bool val)
 	m_bShowPopupIfValueChanged = val;
 }
 
-CPopupSettings* CAdvProviderSettings::GetPopupSettingsPtr() const
+CPopupSettings *CAdvProviderSettings::GetPopupSettingsPtr() const
 {
 	if (nullptr == m_pPopupSettings)
 		m_pPopupSettings = new CPopupSettings();
@@ -774,19 +774,19 @@ CPopupSettings::CPopupSettings() :
 	m_bUseHistory(false)
 
 {
-	BYTE m = db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupColourMode, static_cast<BYTE>(m_modeColour));
-	if (m >= colourDefault  &&  m <= colourUserDefined)
+	BYTE m = g_plugin.getByte(DB_KEY_PopupColourMode, static_cast<BYTE>(m_modeColour));
+	if (m >= colourDefault && m <= colourUserDefined)
 		m_modeColour = static_cast<EColourMode>(m);
 
-	m_rgbBkg = db_get_dw(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupBkColour, m_rgbBkg);
-	m_rgbText = db_get_dw(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupTextColour, m_rgbText);
+	m_rgbBkg = g_plugin.getDword(DB_KEY_PopupBkColour, m_rgbBkg);
+	m_rgbText = g_plugin.getDword(DB_KEY_PopupTextColour, m_rgbText);
 
-	m = db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupDelayMode, static_cast<BYTE>(m_modeDelay));
-	if (m >= delayFromPopup  &&  m <= delayPermanent) {
+	m = g_plugin.getByte(DB_KEY_PopupDelayMode, static_cast<BYTE>(m_modeDelay));
+	if (m >= delayFromPopup && m <= delayPermanent)
 		m_modeDelay = static_cast<EDelayMode>(m);
-	}
-	m_wDelay = db_get_w(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupDelayTimeout, m_wDelay);
-	m_bUseHistory = (1 == db_get_b(0, CURRENCYRATES_MODULE_NAME, DB_KEY_PopupHistoryFlag, m_bUseHistory));
+
+	m_wDelay = g_plugin.getWord(DB_KEY_PopupDelayTimeout, m_wDelay);
+	m_bUseHistory = (1 == g_plugin.getByte(DB_KEY_PopupHistoryFlag, m_bUseHistory));
 }
 
 /*static */
@@ -803,30 +803,30 @@ COLORREF CPopupSettings::GetDefColourText()
 
 void CPopupSettings::InitForContact(MCONTACT hContact)
 {
-	BYTE m = db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
-	if (m >= CPopupSettings::colourDefault  &&  m <= CPopupSettings::colourUserDefined) {
+	BYTE m = g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
+	if (m >= CPopupSettings::colourDefault && m <= CPopupSettings::colourUserDefined) {
 		m_modeColour = static_cast<CPopupSettings::EColourMode>(m);
 	}
 
-	m_rgbBkg = db_get_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
-	m_rgbText = db_get_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT, m_rgbText);
+	m_rgbBkg = g_plugin.getDword(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
+	m_rgbText = g_plugin.getDword(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT, m_rgbText);
 
-	m = db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
-	if (m >= CPopupSettings::delayFromPopup  &&  m <= CPopupSettings::delayPermanent) {
+	m = g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
+	if (m >= CPopupSettings::delayFromPopup && m <= CPopupSettings::delayPermanent) {
 		m_modeDelay = static_cast<CPopupSettings::EDelayMode>(m);
 	}
-	m_wDelay = db_get_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_DELAY_TIMEOUT, m_wDelay);
-	m_bUseHistory = 1 == db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
+	m_wDelay = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_TIMEOUT, m_wDelay);
+	m_bUseHistory = 1 == g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
 }
 
 void CPopupSettings::SaveForContact(MCONTACT hContact) const
 {
-	db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
-	db_set_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
-	db_set_dw(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT, m_rgbText);
-	db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
-	db_set_w(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_DELAY_TIMEOUT, m_wDelay);
-	db_set_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
+	g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
+	g_plugin.setDword(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
+	g_plugin.setDword(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT, m_rgbText);
+	g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
+	g_plugin.setWord(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_TIMEOUT, m_wDelay);
+	g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
 }
 
 CPopupSettings::EColourMode CPopupSettings::GetColourMode() const
@@ -889,7 +889,7 @@ void CPopupSettings::SetHistoryFlag(bool flag)
 	m_bUseHistory = flag;
 }
 
-bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings* pAdvSettings)
+bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings *pAdvSettings)
 {
 	assert(pAdvSettings);
 
@@ -903,14 +903,14 @@ bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings* pAdvSettings)
 tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsCurrencyRateSymbol, int nFlags)
 {
 	tstring sPath = rsLogFilePattern;
-	if (nFlags&glfnResolveCurrencyRateName) {
+	if (nFlags & glfnResolveCurrencyRateName) {
 		assert(false == rsCurrencyRateSymbol.empty());
 
 		tstring::size_type n = sPath.find(g_pszVariableCurrencyRateName);
 		if (tstring::npos != n) {
 			tstring s = rsCurrencyRateSymbol;
 			FixInvalidChars(s);
-			sPath.replace(n, _countof(g_pszVariableCurrencyRateName)-1, s.c_str());
+			sPath.replace(n, _countof(g_pszVariableCurrencyRateName) - 1, s.c_str());
 		}
 	}
 
@@ -932,15 +932,15 @@ tstring GetContactLogFileName(MCONTACT hContact)
 	auto pProvider = GetContactProviderPtr(hContact);
 	if (pProvider) {
 		tstring sPattern;
-		bool bUseContactSpecific = (db_get_b(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
+		bool bUseContactSpecific = (g_plugin.getByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 		if (bUseContactSpecific)
-			sPattern = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_LOG_FILE);
+			sPattern = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_LOG_FILE);
 		else {
 			CAdvProviderSettings global_settings(pProvider);
 			sPattern = global_settings.GetLogFileName();
 		}
 
-		result = GenerateLogFileName(sPattern, CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL));
+		result = GenerateLogFileName(sPattern, CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL));
 	}
 
 	return result;
@@ -948,9 +948,9 @@ tstring GetContactLogFileName(MCONTACT hContact)
 
 tstring GetContactName(MCONTACT hContact)
 {
-	tstring sDescription = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_DESCRIPTION);
+	tstring sDescription = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_DESCRIPTION);
 	if (sDescription.empty())
-		sDescription = CurrencyRates_DBGetStringW(hContact, CURRENCYRATES_MODULE_NAME, DB_STR_CURRENCYRATE_SYMBOL);
+		sDescription = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL);
 
 	return sDescription;
 }

@@ -4,7 +4,7 @@ static HANDLE hExtraIcon;
 
 void CurrencyRates_InitExtraIcons()
 {
-	hExtraIcon = ExtraIcon_RegisterIcolib(ICON_STR_CURRENCYRATE, CURRENCYRATES_PROTOCOL_NAME, CURRENCYRATES_PROTOCOL_NAME "_" ICON_STR_MAIN);
+	hExtraIcon = ExtraIcon_RegisterIcolib(ICON_STR_CURRENCYRATE, MODULENAME, MODULENAME "_" ICON_STR_MAIN);
 }
 
 bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex)
