@@ -25,6 +25,101 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\avatar.cpp" />
+    <ClCompile Include="src\core.cpp" />
+    <ClCompile Include="src\dialogs.cpp" />
+    <ClCompile Include="src\dynstuff.cpp" />
+    <ClCompile Include="src\filetransfer.cpp" />
+    <ClCompile Include="src\gg.cpp" />
+    <ClCompile Include="src\gg_proto.cpp" />
+    <ClCompile Include="src\groupchat.cpp" />
+    <ClCompile Include="src\icolib.cpp" />
+    <ClCompile Include="src\image.cpp" />
+    <ClCompile Include="src\import.cpp" />
+    <ClCompile Include="src\keepalive.cpp" />
+    <ClCompile Include="src\libgadu\common.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\dcc.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\dcc7.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\debug.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\deflate.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\encoding.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\events.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\handlers.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\http.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\libgadu.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\message.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\obsolete.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\pthread.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\pubdir.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\pubdir50.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\resolver.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\sha1.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\win32.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\links.cpp" />
+    <ClCompile Include="src\oauth.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\ownerinfo.cpp" />
+    <ClCompile Include="src\popups.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\sessions.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\token.cpp" />
+    <ClCompile Include="src\userutils.cpp" />
+    <ClInclude Include="src\libgadu\compat.h" />
+    <ClInclude Include="src\libgadu\debug.h" />
+    <ClInclude Include="src\libgadu\deflate.h" />
+    <ClInclude Include="src\libgadu\encoding.h" />
+    <ClInclude Include="src\libgadu\internal.h" />
+    <ClInclude Include="src\libgadu\libgadu.h" />
+    <ClInclude Include="src\libgadu\message.h" />
+    <ClInclude Include="src\libgadu\protocol.h" />
+    <ClInclude Include="src\libgadu\pthread.h" />
+    <ClInclude Include="src\libgadu\resolver.h" />
+    <ClInclude Include="src\libgadu\session.h" />
+    <ClInclude Include="src\libgadu\win32.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>src\libgadu;$(ProjectDir)..\..\libs\zlib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -33,15 +128,18 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\libgadu\*.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClInclude Include="src\libgadu\*.h" />
+    <ClInclude Include="src\dynstuff.h" />
+    <ClInclude Include="src\gg.h" />
+    <ClInclude Include="src\gg_proto.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

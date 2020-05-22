@@ -17,4 +17,22 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\debug.cpp" />
+    <ClCompile Include="src\lotusnotes.cpp" />
+    <ClCompile Include="src\LotusNotify.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\debug.h" />
+    <ClInclude Include="src\lotusnotes.h" />
+    <ClInclude Include="src\LotusNotify.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\LotusNotify.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
 </Project>

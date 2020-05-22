@@ -25,6 +25,25 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\init.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\stopspam.cpp" />
+    <ClCompile Include="src\utilities.cpp" />
+    <ClInclude Include="src\globals.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\stopspam.h" />
+    <ClInclude Include="src\utilities.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\stopspam.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>

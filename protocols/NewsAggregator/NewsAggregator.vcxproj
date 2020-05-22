@@ -25,4 +25,26 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Authentication.cpp" />
+    <ClCompile Include="src\CheckFeed.cpp" />
+    <ClCompile Include="src\Icons.cpp" />
+    <ClCompile Include="src\Menus.cpp" />
+    <ClCompile Include="src\NewsAggregator.cpp" />
+    <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="src\Services.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Update.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
+    <ClInclude Include="src\Options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
 </Project>

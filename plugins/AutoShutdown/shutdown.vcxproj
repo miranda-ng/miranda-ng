@@ -26,9 +26,36 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\cpuusage.cpp" />
+    <ClCompile Include="src\frame.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\settingsdlg.cpp" />
+    <ClCompile Include="src\shutdownsvc.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\watcher.cpp" />
+    <ClInclude Include="src\cpuusage.h" />
+    <ClInclude Include="src\frame.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\settingsdlg.h" />
+    <ClInclude Include="src\shutdownsvc.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\watcher.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\utils\mir_fonts.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <Link>

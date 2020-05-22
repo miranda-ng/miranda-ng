@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
   <ItemGroup>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClCompile Include="src\clc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,202 +95,17 @@
     <ClCompile Include="src\stdafx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ResourceCompile Include="res\*.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <None Include="res\arrow-down.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\clist.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\connecting.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\delete.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\find.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\groups.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\menu.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\minimize.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\online.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\options.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\options_clvm.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\rename.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\slist.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\sounds_off.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\sounds_on.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\tabsrmm_menu.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClCompile Include="src\alphablend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="res\*.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\clist.ico">
@@ -379,5 +191,57 @@
     <None Include="..\..\src\mir_app\res\cursor_drop_user.cur">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\alphablend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\clc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\clist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cluiframes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\coolsblib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\coolsb_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\coolscroll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\extBackg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rowheight_funcs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\userdefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

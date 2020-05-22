@@ -25,29 +25,67 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\account.cpp" />
+    <ClCompile Include="src\browser\badconnect.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\browser\mailbrowser.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\debug.cpp" />
+    <ClCompile Include="src\filterplugin.cpp" />
+    <ClCompile Include="src\mails\decode.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\mails\mails.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\mails\mime.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\protoplugin.cpp" />
+    <ClCompile Include="src\proto\netlib.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\pop3\pop3.cpp">
+      <PrecompiledHeaderFile>..\..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\pop3\pop3comm.cpp">
+      <PrecompiledHeaderFile>..\..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\pop3\pop3opt.cpp">
+      <PrecompiledHeaderFile>..\..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\synchro.cpp" />
+    <ClCompile Include="src\yamn.cpp" />
+    <ClInclude Include="src\browser\browser.h" />
+    <ClInclude Include="src\mails\decode.h" />
+    <ClInclude Include="src\proto\netclient.h" />
+    <ClInclude Include="src\proto\netlib.h" />
+    <ClInclude Include="src\proto\pop3\pop3.h" />
+    <ClInclude Include="src\proto\pop3\pop3comm.h" />
+    <ClInclude Include="src\proto\pop3\pop3opt.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\browser\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\mails\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\proto\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\proto\pop3\*.cpp">
-      <PrecompiledHeaderFile>..\..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
+    <ClInclude Include="src\debug.h" />
+    <ClInclude Include="src\main.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\browser\*.h" />
-    <ClInclude Include="src\mails\*.h" />
-    <ClInclude Include="src\proto\*.h" />
-    <ClInclude Include="src\proto\pop3\*.h" />
+    <ResourceCompile Include="res\Version.rc" />
+    <ResourceCompile Include="res\YAMN.rc" />
   </ItemGroup>
 </Project>

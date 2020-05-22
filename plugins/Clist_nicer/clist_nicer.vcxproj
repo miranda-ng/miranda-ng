@@ -50,7 +50,21 @@
     <None Include="..\..\src\mir_app\res\cursor_hyperlink.cur" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\alphablend.h" />
+    <ClInclude Include="src\clc.h" />
+    <ClInclude Include="src\clist.h" />
+    <ClInclude Include="src\cluiframes.h" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\coolsblib.h" />
+    <ClInclude Include="src\coolsb_internal.h" />
+    <ClInclude Include="src\coolscroll.h" />
+    <ClInclude Include="src\extBackg.h" />
     <ClInclude Include="src\include\resource.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\rowheight_funcs.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\userdefs.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Clist_nicer</ProjectName>
@@ -59,4 +73,44 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\alphablend.cpp" />
+    <ClCompile Include="src\clc.cpp" />
+    <ClCompile Include="src\CLCButton.cpp" />
+    <ClCompile Include="src\clcitems.cpp" />
+    <ClCompile Include="src\clcmsgs.cpp" />
+    <ClCompile Include="src\clcopts.cpp" />
+    <ClCompile Include="src\clcpaint.cpp" />
+    <ClCompile Include="src\clcutils.cpp" />
+    <ClCompile Include="src\clistevents.cpp" />
+    <ClCompile Include="src\clistmenus.cpp" />
+    <ClCompile Include="src\clistmod.cpp" />
+    <ClCompile Include="src\clistopts.cpp" />
+    <ClCompile Include="src\clistsettings.cpp" />
+    <ClCompile Include="src\clisttray.cpp" />
+    <ClCompile Include="src\clnplus.cpp" />
+    <ClCompile Include="src\clui.cpp" />
+    <ClCompile Include="src\cluiframes.cpp" />
+    <ClCompile Include="src\cluiopts.cpp" />
+    <ClCompile Include="src\cluiservices.cpp" />
+    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\contact.cpp" />
+    <ClCompile Include="src\coolsblib.cpp" />
+    <ClCompile Include="src\coolscroll.cpp" />
+    <ClCompile Include="src\Docking.cpp" />
+    <ClCompile Include="src\extBackg.cpp" />
+    <ClCompile Include="src\groupmenu.cpp" />
+    <ClCompile Include="src\init.cpp" />
+    <ClCompile Include="src\rowheight_funcs.cpp" />
+    <ClCompile Include="src\statusbar.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\viewmodes.cpp" />
+    <ClCompile Include="src\wallpaper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

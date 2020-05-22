@@ -26,6 +26,13 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\sqlite3.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\sqlite3.h" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>_HAVE_SQLITE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>

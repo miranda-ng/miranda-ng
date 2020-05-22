@@ -28,6 +28,29 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ardialog.cpp" />
+    <ClCompile Include="src\autoreplace.cpp" />
+    <ClCompile Include="src\dictionary.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\RichEdit.cpp" />
+    <ClCompile Include="src\spellchecker.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\ardialog.h" />
+    <ClInclude Include="src\autoreplace.h" />
+    <ClInclude Include="src\dictionary.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\RichEdit.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <None Include="res\no_spellcheck.ico" />
+    <None Include="res\spellcheck.ico" />
+    <None Include="res\unknown.ico" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -38,9 +61,10 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="res\*.ico" />
+    <ClCompile Include="..\..\utils\mir_options.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\utils\mir_options.cpp" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
 </Project>

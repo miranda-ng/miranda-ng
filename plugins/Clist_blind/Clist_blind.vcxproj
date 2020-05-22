@@ -29,4 +29,24 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\clcopts.cpp" />
+    <ClCompile Include="src\clcpaint.cpp" />
+    <ClCompile Include="src\clistmenus.cpp" />
+    <ClCompile Include="src\clistopts.cpp" />
+    <ClCompile Include="src\cluiopts.cpp" />
+    <ClCompile Include="src\contact.cpp" />
+    <ClCompile Include="src\init.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\clc.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
 </Project>

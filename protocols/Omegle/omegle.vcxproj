@@ -26,8 +26,36 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\chat.cpp" />
+    <ClCompile Include="src\communication.cpp" />
+    <ClCompile Include="src\connection.cpp" />
+    <ClCompile Include="src\dialogs.cpp" />
+    <ClCompile Include="src\http.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\messages.cpp" />
+    <ClCompile Include="src\proto.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\theme.cpp" />
+    <ClInclude Include="src\client.h" />
+    <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\db.h" />
+    <ClInclude Include="src\dialogs.h" />
+    <ClInclude Include="src\http.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\theme.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\utils\std_string_utils.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\omegle.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

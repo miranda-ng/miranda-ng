@@ -26,9 +26,13 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\app.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\*.cc">
+    <ClCompile Include="src\mdbx_chk.cc">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\libmdbx\libmdbx.vcxproj">

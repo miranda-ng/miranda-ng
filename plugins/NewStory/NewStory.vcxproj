@@ -30,4 +30,34 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\calendartool.cpp" />
+    <ClCompile Include="src\fonts.cpp" />
+    <ClCompile Include="src\history.cpp" />
+    <ClCompile Include="src\history_array.cpp" />
+    <ClCompile Include="src\history_control.cpp" />
+    <ClCompile Include="src\history_log.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\templates.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\calendartool.h" />
+    <ClInclude Include="src\fonts.h" />
+    <ClInclude Include="src\history.h" />
+    <ClInclude Include="src\history_array.h" />
+    <ClInclude Include="src\history_control.h" />
+    <ClInclude Include="src\quicklist.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\templates.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
 </Project>

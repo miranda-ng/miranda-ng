@@ -26,7 +26,67 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClInclude Include="src\requests\*.h" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\request_queue.cpp" />
+    <ClCompile Include="src\skype_accounts.cpp" />
+    <ClCompile Include="src\skype_avatars.cpp" />
+    <ClCompile Include="src\skype_chatrooms.cpp" />
+    <ClCompile Include="src\skype_contacts.cpp" />
+    <ClCompile Include="src\skype_db.cpp" />
+    <ClCompile Include="src\skype_dialogs.cpp" />
+    <ClCompile Include="src\skype_events.cpp" />
+    <ClCompile Include="src\skype_files.cpp" />
+    <ClCompile Include="src\skype_history_sync.cpp" />
+    <ClCompile Include="src\skype_icons.cpp" />
+    <ClCompile Include="src\skype_login.cpp" />
+    <ClCompile Include="src\skype_menus.cpp" />
+    <ClCompile Include="src\skype_messages.cpp" />
+    <ClCompile Include="src\skype_mslogin.cpp" />
+    <ClCompile Include="src\skype_network.cpp" />
+    <ClCompile Include="src\skype_oauth.cpp" />
+    <ClCompile Include="src\skype_options.cpp" />
+    <ClCompile Include="src\skype_polling.cpp" />
+    <ClCompile Include="src\skype_popups.cpp" />
+    <ClCompile Include="src\skype_profile.cpp" />
+    <ClCompile Include="src\skype_proto.cpp" />
+    <ClCompile Include="src\skype_request.cpp" />
+    <ClCompile Include="src\skype_search.cpp" />
+    <ClCompile Include="src\skype_trouter.cpp" />
+    <ClCompile Include="src\skype_utils.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\requests\avatars.h" />
+    <ClInclude Include="src\requests\capabilities.h" />
+    <ClInclude Include="src\requests\chatrooms.h" />
+    <ClInclude Include="src\requests\contacts.h" />
+    <ClInclude Include="src\requests\endpoint.h" />
+    <ClInclude Include="src\requests\files.h" />
+    <ClInclude Include="src\requests\history.h" />
+    <ClInclude Include="src\requests\login.h" />
+    <ClInclude Include="src\requests\messages.h" />
+    <ClInclude Include="src\requests\mslogin.h" />
+    <ClInclude Include="src\requests\oauth.h" />
+    <ClInclude Include="src\requests\poll.h" />
+    <ClInclude Include="src\requests\profile.h" />
+    <ClInclude Include="src\requests\search.h" />
+    <ClInclude Include="src\requests\status.h" />
+    <ClInclude Include="src\requests\subscriptions.h" />
+    <ClInclude Include="src\requests\trouter.h" />
+    <ClInclude Include="src\request_queue.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\skype_db.h" />
+    <ClInclude Include="src\skype_dialogs.h" />
+    <ClInclude Include="src\skype_menus.h" />
+    <ClInclude Include="src\skype_options.h" />
+    <ClInclude Include="src\skype_proto.h" />
+    <ClInclude Include="src\skype_trouter.h" />
+    <ClInclude Include="src\skype_utils.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\http_request.h" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -42,5 +102,9 @@
     <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
       <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

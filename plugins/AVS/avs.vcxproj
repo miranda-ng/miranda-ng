@@ -26,8 +26,31 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\acc.cpp" />
+    <ClCompile Include="src\cache.cpp" />
+    <ClCompile Include="src\image_utils.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\poll.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\acc.h" />
+    <ClInclude Include="src\image_utils.h" />
+    <ClInclude Include="src\poll.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
       <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\avs.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

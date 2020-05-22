@@ -26,10 +26,71 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\*.c++">
+    <ClCompile Include="src\affentry.c++">
       <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="src\*.hxx" />
+    <ClCompile Include="src\affixmgr.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\csutil.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\filemgr.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\hashmgr.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\hunspell.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\hunzip.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\phonet.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\replist.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\suggestmgr.c++">
+      <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\affentry.hxx" />
+    <ClInclude Include="src\affixmgr.hxx" />
+    <ClInclude Include="src\atypes.hxx" />
+    <ClInclude Include="src\baseaffix.hxx" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\csutil.hxx" />
+    <ClInclude Include="src\filemgr.hxx" />
+    <ClInclude Include="src\hashmgr.hxx" />
+    <ClInclude Include="src\htypes.hxx" />
+    <ClInclude Include="src\hunspell.h" />
+    <ClInclude Include="src\hunspell.hxx" />
+    <ClInclude Include="src\hunvisapi.h" />
+    <ClInclude Include="src\hunzip.hxx" />
+    <ClInclude Include="src\langnum.hxx" />
+    <ClInclude Include="src\phonet.hxx" />
+    <ClInclude Include="src\replist.hxx" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\suggestmgr.hxx" />
+    <ClInclude Include="src\utf_info.hxx" />
+    <ClInclude Include="src\w_char.hxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Hunspell.rc" />
   </ItemGroup>
 </Project>

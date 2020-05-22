@@ -26,6 +26,21 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\listeningto.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\music.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\variables.cpp" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\music.h" />
+    <ClInclude Include="src\options.h" />
     <ClInclude Include="src\players\foobar.h" />
     <ClInclude Include="src\players\generic.h" />
     <ClInclude Include="src\players\itunes.h" />
@@ -63,5 +78,9 @@
     <ClCompile Include="src\players\wmp.cpp">
       <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
 </Project>

@@ -26,8 +26,25 @@
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\core.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\encrypt.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Rijndael.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\Rijndael.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\stdcrypt.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

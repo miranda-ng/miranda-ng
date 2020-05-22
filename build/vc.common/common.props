@@ -90,18 +90,6 @@
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\libs\win64;$(ProjectDir)..\..\..\boost\stage64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\stdafx.cxx">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\*.cpp" />
-    <ClCompile Include="src\*.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClInclude Include="src\*.hpp" />
-    <ClInclude Include="src\*.h" />
-    <ResourceCompile Include="res\*.rc" />
-    <None Include="src\*.def" />
-  </ItemGroup>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

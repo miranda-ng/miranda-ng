@@ -25,6 +25,30 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\assoclist.cpp" />
+    <ClCompile Include="src\dde.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\reg.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\assoclist.h" />
+    <ClInclude Include="src\dde.h" />
+    <ClInclude Include="src\reg.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\assocmgr.def" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <Link>
       <DelayLoadDLLs>api-ms-win-crt-convert-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-string-l1-1-0.dll;mir_app.mir;mir_core.mir;VCRUNTIME140.dll</DelayLoadDLLs>

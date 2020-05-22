@@ -25,9 +25,61 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AnnounceDatabase.cpp" />
+    <ClCompile Include="src\AnnounceDialog.cpp" />
+    <ClCompile Include="src\ConfigDatabase.cpp" />
+    <ClCompile Include="src\DialogConfigActive.cpp" />
+    <ClCompile Include="src\DialogConfigEngine.cpp" />
+    <ClCompile Include="src\EventInformation.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MirandaDialog.cpp" />
+    <ClCompile Include="src\Observer.cpp" />
+    <ClCompile Include="src\ProtocolInformation.cpp" />
+    <ClCompile Include="src\SpeakAnnounce.cpp" />
+    <ClCompile Include="src\SpeakConfig.cpp" />
+    <ClCompile Include="src\SpeechApi40a.cpp" />
+    <ClCompile Include="src\SpeechApi40aLexicon.cpp" />
+    <ClCompile Include="src\SpeechApi51.cpp" />
+    <ClCompile Include="src\SpeechApi51Lexicon.cpp" />
+    <ClCompile Include="src\SpeechInterface.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Subject.cpp" />
+    <ClCompile Include="src\TextToSpeech.cpp" />
+    <ClCompile Include="src\UserInformation.cpp" />
+    <ClInclude Include="src\AnnounceDatabase.h" />
+    <ClInclude Include="src\AnnounceDialog.h" />
+    <ClInclude Include="src\ConfigDatabase.h" />
+    <ClInclude Include="src\DialogConfigActive.h" />
+    <ClInclude Include="src\DialogConfigEngine.h" />
+    <ClInclude Include="src\EventInformation.h" />
+    <ClInclude Include="src\MirandaDialog.h" />
+    <ClInclude Include="src\Observer.h" />
+    <ClInclude Include="src\ProtocolInformation.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\SpeakAnnounce.h" />
+    <ClInclude Include="src\SpeakConfig.h" />
+    <ClInclude Include="src\SpeechApi40a.h" />
+    <ClInclude Include="src\SpeechApi40aLexicon.h" />
+    <ClInclude Include="src\SpeechApi51.h" />
+    <ClInclude Include="src\SpeechApi51Lexicon.h" />
+    <ClInclude Include="src\SpeechInterface.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\Subject.h" />
+    <ClInclude Include="src\TextToSpeech.h" />
+    <ClInclude Include="src\UserInformation.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\voice_desc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Speak.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>spchwrap.lib;%(AdditionalDependencies)</AdditionalDependencies> 
+      <AdditionalDependencies>spchwrap.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>src\SAPI 4.0\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

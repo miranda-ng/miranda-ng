@@ -25,4 +25,30 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\copymodule.cpp" />
+    <ClCompile Include="src\deletemodule.cpp" />
+    <ClCompile Include="src\exportimport.cpp" />
+    <ClCompile Include="src\findwindow.cpp" />
+    <ClCompile Include="src\icons.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\main_window.cpp" />
+    <ClCompile Include="src\modsettingenum.cpp" />
+    <ClCompile Include="src\moduletree.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\renamemodule.cpp" />
+    <ClCompile Include="src\settinglist.cpp" />
+    <ClCompile Include="src\settingsdlg.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\watchedvars.cpp" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
 </Project>

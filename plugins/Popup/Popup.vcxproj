@@ -30,6 +30,69 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\actions.cpp" />
+    <ClCompile Include="src\avatars.cpp" />
+    <ClCompile Include="src\avatars_gif.cpp" />
+    <ClCompile Include="src\avatars_simple.cpp" />
+    <ClCompile Include="src\bitmap_funcs.cpp" />
+    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\effects.cpp" />
+    <ClCompile Include="src\font.cpp" />
+    <ClCompile Include="src\formula.cpp" />
+    <ClCompile Include="src\history.cpp" />
+    <ClCompile Include="src\icons.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\notifications.cpp" />
+    <ClCompile Include="src\opttree.cpp" />
+    <ClCompile Include="src\opt_adv.cpp" />
+    <ClCompile Include="src\opt_class.cpp" />
+    <ClCompile Include="src\opt_contacts.cpp" />
+    <ClCompile Include="src\opt_gen.cpp" />
+    <ClCompile Include="src\opt_skins.cpp" />
+    <ClCompile Include="src\popup_gdiplus.cpp" />
+    <ClCompile Include="src\popup_thread.cpp" />
+    <ClCompile Include="src\popup_wnd2.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\skin.cpp" />
+    <ClCompile Include="src\srmm_menu.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\actions.h" />
+    <ClInclude Include="src\avatars.h" />
+    <ClInclude Include="src\avatars_flash.h" />
+    <ClInclude Include="src\avatars_gif.h" />
+    <ClInclude Include="src\avatars_simple.h" />
+    <ClInclude Include="src\bitmap_funcs.h" />
+    <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\def_settings.h" />
+    <ClInclude Include="src\effects.h" />
+    <ClInclude Include="src\font.h" />
+    <ClInclude Include="src\formula.h" />
+    <ClInclude Include="src\history.h" />
+    <ClInclude Include="src\notifications.h" />
+    <ClInclude Include="src\opttree.h" />
+    <ClInclude Include="src\opt_adv.h" />
+    <ClInclude Include="src\opt_class.h" />
+    <ClInclude Include="src\opt_contacts.h" />
+    <ClInclude Include="src\opt_gen.h" />
+    <ClInclude Include="src\opt_skins.h" />
+    <ClInclude Include="src\popup_gdiplus.h" />
+    <ClInclude Include="src\popup_thread.h" />
+    <ClInclude Include="src\popup_wnd2.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\services.h" />
+    <ClInclude Include="src\skin.h" />
+    <ClInclude Include="src\srmm_menu.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <DisableSpecificWarnings>4458;%(DisableSpecificWarnings)</DisableSpecificWarnings>

@@ -25,4 +25,32 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\corp.cpp" />
+    <ClCompile Include="src\event.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\packet.cpp" />
+    <ClCompile Include="src\protocol.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\socket.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\transfer.cpp" />
+    <ClCompile Include="src\user.cpp" />
+    <ClInclude Include="src\event.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\packet.h" />
+    <ClInclude Include="src\protocol.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\socket.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\transfer.h" />
+    <ClInclude Include="src\user.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

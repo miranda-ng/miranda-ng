@@ -26,6 +26,39 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\dbentry.cpp" />
+    <ClCompile Include="src\deletetimer.cpp" />
+    <ClCompile Include="src\dialog.cpp" />
+    <ClCompile Include="src\ftpfile.cpp" />
+    <ClCompile Include="src\job_delete.cpp" />
+    <ClCompile Include="src\job_generic.cpp" />
+    <ClCompile Include="src\job_packer.cpp" />
+    <ClCompile Include="src\job_upload.cpp" />
+    <ClCompile Include="src\manager.cpp" />
+    <ClCompile Include="src\mir_db.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\serverlist.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\dbentry.h" />
+    <ClInclude Include="src\deletetimer.h" />
+    <ClInclude Include="src\dialog.h" />
+    <ClInclude Include="src\job_delete.h" />
+    <ClInclude Include="src\job_generic.h" />
+    <ClInclude Include="src\job_packer.h" />
+    <ClInclude Include="src\job_upload.h" />
+    <ClInclude Include="src\manager.h" />
+    <ClInclude Include="src\mir_db.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\serverlist.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\libs\libcurl\libcurl.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -34,6 +67,10 @@
       <Project>{01F9E227-06F5-4BED-907F-402CA7DFAFE6}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\ftpfile.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

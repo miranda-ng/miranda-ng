@@ -25,4 +25,22 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\MagneticWindows.cpp" />
+    <ClCompile Include="src\MagneticWindowsCore.cpp" />
+    <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="src\SnapToListService.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\Options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\SnapToListService.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\Version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Options.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
 </Project>

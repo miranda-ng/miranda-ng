@@ -25,4 +25,26 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ConnectionNotify.cpp" />
+    <ClCompile Include="src\debug.cpp" />
+    <ClCompile Include="src\filter.cpp" />
+    <ClCompile Include="src\netstat.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\pid2name.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\debug.h" />
+    <ClInclude Include="src\filter.h" />
+    <ClInclude Include="src\netstat.h" />
+    <ClInclude Include="src\pid2name.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\ConnectionNotify.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

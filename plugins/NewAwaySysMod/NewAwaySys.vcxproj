@@ -25,4 +25,39 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AwayOpt.cpp" />
+    <ClCompile Include="src\AwaySys.cpp" />
+    <ClCompile Include="src\Client.cpp" />
+    <ClCompile Include="src\ContactList.cpp" />
+    <ClCompile Include="src\CString.cpp" />
+    <ClCompile Include="src\GroupCheckbox.cpp" />
+    <ClCompile Include="src\MsgEventAdded.cpp" />
+    <ClCompile Include="src\MsgTree.cpp" />
+    <ClCompile Include="src\Notification.cpp" />
+    <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="src\Properties.cpp" />
+    <ClCompile Include="src\ReadAwayMsg.cpp" />
+    <ClCompile Include="src\Services.cpp" />
+    <ClCompile Include="src\SetAwayMsg.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\ContactList.h" />
+    <ClInclude Include="src\CString.h" />
+    <ClInclude Include="src\GroupCheckbox.h" />
+    <ClInclude Include="src\MsgTree.h" />
+    <ClInclude Include="src\Options.h" />
+    <ClInclude Include="src\Path.h" />
+    <ClInclude Include="src\Properties.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Services.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\TMyArray.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\NewAwaySys.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

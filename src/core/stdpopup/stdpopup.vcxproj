@@ -25,4 +25,30 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\core.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\icons.cpp" />
+    <ClCompile Include="src\message_pump.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\popwin.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\yapp.cpp" />
+    <ClCompile Include="src\yapp_history.cpp" />
+    <ClCompile Include="src\yapp_history_dlg.cpp" />
+    <ClInclude Include="src\icons.h" />
+    <ClInclude Include="src\message_pump.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\popwin.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\services.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\yapp_history.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

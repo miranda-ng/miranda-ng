@@ -25,4 +25,9 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\module.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
 </Project>

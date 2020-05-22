@@ -26,9 +26,49 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\CSend.cpp" />
+    <ClCompile Include="src\CSendCloudFile.cpp" />
+    <ClCompile Include="src\CSendEmail.cpp" />
+    <ClCompile Include="src\CSendFile.cpp" />
+    <ClCompile Include="src\CSendFTPFile.cpp" />
+    <ClCompile Include="src\CSendHost_ImageShack.cpp" />
+    <ClCompile Include="src\CSendHost_imgur.cpp" />
+    <ClCompile Include="src\CSendHost_uploadpie.cpp" />
+    <ClCompile Include="src\CSendHTTPServer.cpp" />
+    <ClCompile Include="src\ctrl_button.cpp" />
+    <ClCompile Include="src\dlg_msgbox.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\UMainForm.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
+    <ClInclude Include="src\CSend.h" />
+    <ClInclude Include="src\CSendCloduFile.h" />
+    <ClInclude Include="src\CSendEmail.h" />
+    <ClInclude Include="src\CSendFile.h" />
+    <ClInclude Include="src\CSendFTPFile.h" />
+    <ClInclude Include="src\CSendHost_ImageShack.h" />
+    <ClInclude Include="src\CSendHost_imgur.h" />
+    <ClInclude Include="src\CSendHost_uploadpie.h" />
+    <ClInclude Include="src\CSendHTTPServer.h" />
+    <ClInclude Include="src\ctrl_button.h" />
+    <ClInclude Include="src\DevKey.h" />
+    <ClInclude Include="src\dlg_msgbox.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\UMainForm.h" />
+    <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
       <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

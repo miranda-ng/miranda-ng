@@ -25,4 +25,25 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="src\PasteIt.cpp" />
+    <ClCompile Include="src\PasteToWeb.cpp" />
+    <ClCompile Include="src\PasteToWeb1.cpp" />
+    <ClCompile Include="src\PasteToWeb2.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\Options.h" />
+    <ClInclude Include="src\PasteToWeb.h" />
+    <ClInclude Include="src\PasteToWeb1.h" />
+    <ClInclude Include="src\PasteToWeb2.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\PasteIt.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

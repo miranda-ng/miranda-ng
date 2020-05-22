@@ -26,9 +26,51 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\BasicHistory.cpp" />
+    <ClCompile Include="src\BinaryExport.cpp" />
+    <ClCompile Include="src\DatExport.cpp" />
+    <ClCompile Include="src\EventList.cpp" />
+    <ClCompile Include="src\ExportManager.cpp" />
+    <ClCompile Include="src\HistoryWindow.cpp" />
+    <ClCompile Include="src\HotkeyHelper.cpp" />
+    <ClCompile Include="src\ImageDataObject.cpp" />
+    <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="src\PlainHtmlExport.cpp" />
+    <ClCompile Include="src\RichHtmlExport.cpp" />
+    <ClCompile Include="src\Scheduler.cpp" />
+    <ClCompile Include="src\Searcher.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\TxtExport.cpp" />
+    <ClInclude Include="src\BinaryExport.h" />
+    <ClInclude Include="src\codecvt_CodePage.h" />
+    <ClInclude Include="src\DatExport.h" />
+    <ClInclude Include="src\EventList.h" />
+    <ClInclude Include="src\ExportManager.h" />
+    <ClInclude Include="src\HistoryWindow.h" />
+    <ClInclude Include="src\HotkeyHelper.h" />
+    <ClInclude Include="src\IExport.h" />
+    <ClInclude Include="src\IImport.h" />
+    <ClInclude Include="src\ImageDataObject.h" />
+    <ClInclude Include="src\Options.h" />
+    <ClInclude Include="src\PlainHtmlExport.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\RichHtmlExport.h" />
+    <ClInclude Include="src\SearchContext.h" />
+    <ClInclude Include="src\Searcher.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\TxtExport.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\BasicHistory.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

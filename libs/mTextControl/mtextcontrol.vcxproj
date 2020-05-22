@@ -25,6 +25,26 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dataobject.cpp" />
+    <ClCompile Include="src\enumformat.cpp" />
+    <ClCompile Include="src\fancy_rtf.cpp" />
+    <ClCompile Include="src\FormattedTextDraw.cpp" />
+    <ClCompile Include="src\ImageDataObjectHlp.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\richeditutils.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\textcontrol.cpp" />
+    <ClCompile Include="src\textusers.cpp" />
+    <ClInclude Include="src\FormattedTextDraw.h" />
+    <ClInclude Include="src\ImageDataObjectHlp.h" />
+    <ClInclude Include="src\services.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\textusers.h" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>MTEXTCONTROL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>

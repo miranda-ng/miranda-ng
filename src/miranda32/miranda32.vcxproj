@@ -35,6 +35,17 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\app.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\miranda.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <Manifest>
       <AdditionalManifestFiles>res/miranda32.exe.manifest</AdditionalManifestFiles>

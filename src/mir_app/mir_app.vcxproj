@@ -25,6 +25,157 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\addcontact.cpp" />
+    <ClCompile Include="src\auth.cpp" />
+    <ClCompile Include="src\button.cpp" />
+    <ClCompile Include="src\chat_clist.cpp" />
+    <ClCompile Include="src\chat_log.cpp" />
+    <ClCompile Include="src\chat_manager.cpp" />
+    <ClCompile Include="src\chat_opts.cpp" />
+    <ClCompile Include="src\chat_rtf.cpp" />
+    <ClCompile Include="src\chat_svc.cpp" />
+    <ClCompile Include="src\chat_tools.cpp" />
+    <ClCompile Include="src\clc.cpp" />
+    <ClCompile Include="src\clcfiledrop.cpp" />
+    <ClCompile Include="src\clcidents.cpp" />
+    <ClCompile Include="src\clcitems.cpp" />
+    <ClCompile Include="src\clcmsgs.cpp" />
+    <ClCompile Include="src\clcutils.cpp" />
+    <ClCompile Include="src\clistcore.cpp" />
+    <ClCompile Include="src\clistevents.cpp" />
+    <ClCompile Include="src\clistgroups.cpp" />
+    <ClCompile Include="src\clistmod.cpp" />
+    <ClCompile Include="src\clistopts.cpp" />
+    <ClCompile Include="src\clistsettings.cpp" />
+    <ClCompile Include="src\clisttray.cpp" />
+    <ClCompile Include="src\clui.cpp" />
+    <ClCompile Include="src\cluiservices.cpp" />
+    <ClCompile Include="src\CMPluginBase.cpp" />
+    <ClCompile Include="src\colorchooser.cpp" />
+    <ClCompile Include="src\contact.cpp" />
+    <ClCompile Include="src\contacts.cpp" />
+    <ClCompile Include="src\database.cpp" />
+    <ClCompile Include="src\db_events.cpp" />
+    <ClCompile Include="src\db_ini.cpp" />
+    <ClCompile Include="src\db_intf.cpp" />
+    <ClCompile Include="src\db_util.cpp" />
+    <ClCompile Include="src\descbutton.cpp" />
+    <ClCompile Include="src\dll_sniffer.cpp" />
+    <ClCompile Include="src\Docking.cpp" />
+    <ClCompile Include="src\ei_baseIcon.cpp" />
+    <ClCompile Include="src\ei_callbackIcon.cpp" />
+    <ClCompile Include="src\ei_defaulticons.cpp" />
+    <ClCompile Include="src\ei_extraIcon.cpp" />
+    <ClCompile Include="src\ei_groupIcon.cpp" />
+    <ClCompile Include="src\ei_icolibIcon.cpp" />
+    <ClCompile Include="src\ei_options.cpp" />
+    <ClCompile Include="src\ei_services.cpp" />
+    <ClCompile Include="src\encrypt.cpp" />
+    <ClCompile Include="src\enterstring.cpp" />
+    <ClCompile Include="src\extracticon.cpp" />
+    <ClCompile Include="src\filter.cpp" />
+    <ClCompile Include="src\findadd.cpp" />
+    <ClCompile Include="src\FontOptions.cpp" />
+    <ClCompile Include="src\FontService.cpp" />
+    <ClCompile Include="src\headerbar.cpp" />
+    <ClCompile Include="src\help.cpp" />
+    <ClCompile Include="src\hotkeys.cpp" />
+    <ClCompile Include="src\hotkey_opts.cpp" />
+    <ClCompile Include="src\icolib.cpp" />
+    <ClCompile Include="src\idle.cpp" />
+    <ClCompile Include="src\ignore.cpp" />
+    <ClCompile Include="src\image_utils.cpp" />
+    <ClCompile Include="src\imgconv.cpp" />
+    <ClCompile Include="src\keyboard.cpp" />
+    <ClCompile Include="src\lpopts.cpp" />
+    <ClCompile Include="src\mdatabasecache.cpp" />
+    <ClCompile Include="src\MDatabaseCommon.cpp" />
+    <ClCompile Include="src\MDatabaseReadonly.cpp" />
+    <ClCompile Include="src\menu_clist.cpp" />
+    <ClCompile Include="src\menu_frames.cpp" />
+    <ClCompile Include="src\menu_groups.cpp" />
+    <ClCompile Include="src\menu_options.cpp" />
+    <ClCompile Include="src\menu_tray.cpp" />
+    <ClCompile Include="src\menu_utils.cpp" />
+    <ClCompile Include="src\meta_addto.cpp" />
+    <ClCompile Include="src\meta_api.cpp" />
+    <ClCompile Include="src\meta_edit.cpp" />
+    <ClCompile Include="src\meta_main.cpp" />
+    <ClCompile Include="src\meta_menu.cpp" />
+    <ClCompile Include="src\meta_options.cpp" />
+    <ClCompile Include="src\meta_services.cpp" />
+    <ClCompile Include="src\meta_utils.cpp" />
+    <ClCompile Include="src\MHttpRequest.cpp" />
+    <ClCompile Include="src\miranda.cpp" />
+    <ClCompile Include="src\modules.cpp" />
+    <ClCompile Include="src\movetogroup.cpp" />
+    <ClCompile Include="src\netlib.cpp" />
+    <ClCompile Include="src\netlib_autoproxy.cpp" />
+    <ClCompile Include="src\netlib_bind.cpp" />
+    <ClCompile Include="src\netlib_http.cpp" />
+    <ClCompile Include="src\netlib_httpproxy.cpp" />
+    <ClCompile Include="src\netlib_log.cpp" />
+    <ClCompile Include="src\netlib_openconn.cpp" />
+    <ClCompile Include="src\netlib_opts.cpp" />
+    <ClCompile Include="src\netlib_pktrecver.cpp" />
+    <ClCompile Include="src\netlib_security.cpp" />
+    <ClCompile Include="src\netlib_sock.cpp" />
+    <ClCompile Include="src\netlib_upnp.cpp" />
+    <ClCompile Include="src\netlib_websocket.cpp" />
+    <ClCompile Include="src\newplugins.cpp" />
+    <ClCompile Include="src\openssl.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\path.cpp" />
+    <ClCompile Include="src\pluginopts.cpp" />
+    <ClCompile Include="src\popups.cpp" />
+    <ClCompile Include="src\profilemanager.cpp" />
+    <ClCompile Include="src\protocols.cpp" />
+    <ClCompile Include="src\proto_accs.cpp" />
+    <ClCompile Include="src\proto_chains.cpp" />
+    <ClCompile Include="src\proto_internal.cpp" />
+    <ClCompile Include="src\proto_opts.cpp" />
+    <ClCompile Include="src\proto_order.cpp" />
+    <ClCompile Include="src\proto_ui.cpp" />
+    <ClCompile Include="src\proto_utils.cpp" />
+    <ClCompile Include="src\searchresults.cpp" />
+    <ClCompile Include="src\skin2opts.cpp" />
+    <ClCompile Include="src\skinicons.cpp" />
+    <ClCompile Include="src\sounds.cpp" />
+    <ClCompile Include="src\srmm_base.cpp" />
+    <ClCompile Include="src\srmm_log.cpp" />
+    <ClCompile Include="src\srmm_log_hpp.cpp" />
+    <ClCompile Include="src\srmm_log_rtf.cpp" />
+    <ClCompile Include="src\srmm_statusicon.cpp" />
+    <ClCompile Include="src\srmm_toolbar.cpp" />
+    <ClCompile Include="src\srmm_util.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\usedIcons.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\visibility.cpp" />
+    <ClInclude Include="src\chat.h" />
+    <ClInclude Include="src\clc.h" />
+    <ClInclude Include="src\database.h" />
+    <ClInclude Include="src\extraicons.h" />
+    <ClInclude Include="src\filter.h" />
+    <ClInclude Include="src\findadd.h" />
+    <ClInclude Include="src\FontService.h" />
+    <ClInclude Include="src\genmenu.h" />
+    <ClInclude Include="src\IcoLib.h" />
+    <ClInclude Include="src\langpack.h" />
+    <ClInclude Include="src\metacontacts.h" />
+    <ClInclude Include="src\miranda.h" />
+    <ClInclude Include="src\netlib.h" />
+    <ClInclude Include="src\openssl.h" />
+    <ClInclude Include="src\plugins.h" />
+    <ClInclude Include="src\profilemanager.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\skin.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\usedIcons.h" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">MIR_APP_EXPORTS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -49,5 +200,13 @@
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\mir_app.def" />
+    <None Include="src\mir_app64.def" />
   </ItemGroup>
 </Project>

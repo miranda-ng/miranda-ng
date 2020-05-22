@@ -26,8 +26,81 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\buttonsbar.cpp" />
+    <ClCompile Include="src\chat_log.cpp" />
+    <ClCompile Include="src\chat_main.cpp" />
+    <ClCompile Include="src\chat_manager.cpp" />
+    <ClCompile Include="src\chat_options.cpp" />
+    <ClCompile Include="src\chat_tools.cpp" />
+    <ClCompile Include="src\contactcache.cpp" />
+    <ClCompile Include="src\container.cpp" />
+    <ClCompile Include="src\containeroptions.cpp" />
+    <ClCompile Include="src\controls.cpp" />
+    <ClCompile Include="src\eventpopups.cpp" />
+    <ClCompile Include="src\generic_msghandlers.cpp" />
+    <ClCompile Include="src\globals.cpp" />
+    <ClCompile Include="src\hotkeyhandler.cpp" />
+    <ClCompile Include="src\ImageDataObject.cpp" />
+    <ClCompile Include="src\infopanel.cpp" />
+    <ClCompile Include="src\mim.cpp" />
+    <ClCompile Include="src\modplus.cpp" />
+    <ClCompile Include="src\msgdialog.cpp" />
+    <ClCompile Include="src\msgdlgother.cpp" />
+    <ClCompile Include="src\msgdlgutils.cpp" />
+    <ClCompile Include="src\msglog.cpp" />
+    <ClCompile Include="src\msgoptions.cpp" />
+    <ClCompile Include="src\msgs.cpp" />
+    <ClCompile Include="src\muchighlight.cpp" />
+    <ClCompile Include="src\selectcontainer.cpp" />
+    <ClCompile Include="src\sendlater.cpp" />
+    <ClCompile Include="src\sendqueue.cpp" />
+    <ClCompile Include="src\sidebar.cpp" />
+    <ClCompile Include="src\srmm.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\tabctrl.cpp" />
+    <ClCompile Include="src\taskbar.cpp" />
+    <ClCompile Include="src\templates.cpp" />
+    <ClCompile Include="src\themeio.cpp" />
+    <ClCompile Include="src\themes.cpp" />
+    <ClCompile Include="src\TSButton.cpp" />
+    <ClCompile Include="src\typingnotify.cpp" />
+    <ClCompile Include="src\userprefs.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\chat.h" />
+    <ClInclude Include="src\chat_resource.h" />
+    <ClInclude Include="src\contactcache.h" />
+    <ClInclude Include="src\controls.h" />
+    <ClInclude Include="src\functions.h" />
+    <ClInclude Include="src\globals.h" />
+    <ClInclude Include="src\ImageDataObject.h" />
+    <ClInclude Include="src\infopanel.h" />
+    <ClInclude Include="src\mim.h" />
+    <ClInclude Include="src\msgdlgutils.h" />
+    <ClInclude Include="src\msgs.h" />
+    <ClInclude Include="src\muchighlight.h" />
+    <ClInclude Include="src\nen.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\sendlater.h" />
+    <ClInclude Include="src\sendqueue.h" />
+    <ClInclude Include="src\sidebar.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\taskbar.h" />
+    <ClInclude Include="src\themes.h" />
+    <ClInclude Include="src\typingnotify.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
       <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\chat.rc" />
+    <ResourceCompile Include="res\msgwindow.rc" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
 </Project>

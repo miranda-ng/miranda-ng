@@ -26,8 +26,29 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\bitmap_funcs.cpp" />
+    <ClCompile Include="src\filedrop.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\thumbs.cpp" />
+    <ClInclude Include="src\bitmap_funcs.h" />
+    <ClInclude Include="src\filedrop.h" />
+    <ClInclude Include="src\fltcont.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\thumbs.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\utils\mir_fonts.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\fltcnt.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

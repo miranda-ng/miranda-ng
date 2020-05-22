@@ -33,6 +33,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\version.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\mdbx.h" />
+    <ClInclude Include="src\stdafx.h" />
     <ClCompile Include="src\src\lck-windows.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

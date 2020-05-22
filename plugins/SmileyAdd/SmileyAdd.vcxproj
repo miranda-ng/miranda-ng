@@ -31,9 +31,46 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\anim.cpp" />
+    <ClCompile Include="src\AniSmileyObject.cpp" />
+    <ClCompile Include="src\customsmiley.cpp" />
+    <ClCompile Include="src\dlgboxsubclass.cpp" />
+    <ClCompile Include="src\download.cpp" />
+    <ClCompile Include="src\general.cpp" />
+    <ClCompile Include="src\imagecache.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\richcall.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\SmileyBase.cpp" />
+    <ClCompile Include="src\smileyroutines.cpp" />
+    <ClCompile Include="src\smileys.cpp" />
+    <ClCompile Include="src\smltool.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\anim.h" />
+    <ClInclude Include="src\customsmiley.h" />
+    <ClInclude Include="src\download.h" />
+    <ClInclude Include="src\imagecache.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\services.h" />
+    <ClInclude Include="src\SmileyBase.h" />
+    <ClInclude Include="src\smileyroutines.h" />
+    <ClInclude Include="src\smileys.h" />
+    <ClInclude Include="src\smltool.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
       <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

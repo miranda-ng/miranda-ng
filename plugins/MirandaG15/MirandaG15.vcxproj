@@ -31,9 +31,78 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\LCDFramework\*.cpp" />
+    <ClCompile Include="src\CAppletManager.cpp" />
+    <ClCompile Include="src\CChatScreen.cpp" />
+    <ClCompile Include="src\CConfig.cpp" />
+    <ClCompile Include="src\CContactList.cpp" />
+    <ClCompile Include="src\CContactlistScreen.cpp" />
+    <ClCompile Include="src\CCreditsScreen.cpp" />
+    <ClCompile Include="src\CEventLog.cpp" />
+    <ClCompile Include="src\CEventScreen.cpp" />
+    <ClCompile Include="src\CNotificationScreen.cpp" />
+    <ClCompile Include="src\CScreen.cpp" />
+    <ClCompile Include="src\CScreensaverScreen.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDBar.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDBitmap.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDConnection.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDConnectionLogitech.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDGfx.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDInput.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDLabel.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDOutputManager.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDScreen.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDTextLog.cpp" />
+    <ClCompile Include="src\LCDFramework\CLCDTextObject.cpp" />
+    <ClCompile Include="src\LCDFramework\ConStream.cpp" />
+    <ClCompile Include="src\LCDFramework\debug.cpp" />
+    <ClCompile Include="src\LCDFramework\LCDObject.cpp" />
+    <ClCompile Include="src\LCDFramework\misc.cpp" />
+    <ClCompile Include="src\Miranda.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\LCDFramework\CLCDBar.h" />
+    <ClInclude Include="src\LCDFramework\CLCDBitmap.h" />
+    <ClInclude Include="src\LCDFramework\CLCDConnection.h" />
+    <ClInclude Include="src\LCDFramework\CLCDConnectionLogitech.h" />
+    <ClInclude Include="src\LCDFramework\CLCDDevice.h" />
+    <ClInclude Include="src\LCDFramework\CLCDGfx.h" />
+    <ClInclude Include="src\LCDFramework\CLCDInput.h" />
+    <ClInclude Include="src\LCDFramework\CLCDLabel.h" />
+    <ClInclude Include="src\LCDFramework\CLCDList.h" />
+    <ClInclude Include="src\LCDFramework\CLCDObject.h" />
+    <ClInclude Include="src\LCDFramework\CLCDOutputManager.h" />
+    <ClInclude Include="src\LCDFramework\CLCDScreen.h" />
+    <ClInclude Include="src\LCDFramework\CLCDTextLog.h" />
+    <ClInclude Include="src\LCDFramework\CLCDTextObject.h" />
+    <ClInclude Include="src\LCDFramework\ConStream.h" />
+    <ClInclude Include="src\LCDFramework\debug.h" />
+    <ClInclude Include="src\LCDFramework\LCDFramework.h" />
+    <ClInclude Include="src\LCDFramework\misc.h" />
+    <ClInclude Include="src\LCDFramework\stdafx.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\StdAfx.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\LCDFramework\*.h" />
+    <ClInclude Include="src\CAppletManager.h" />
+    <ClInclude Include="src\CChatScreen.h" />
+    <ClInclude Include="src\CConfig.h" />
+    <ClInclude Include="src\CContactList.h" />
+    <ClInclude Include="src\CContactlistScreen.h" />
+    <ClInclude Include="src\CCreditsScreen.h" />
+    <ClInclude Include="src\CEvent.h" />
+    <ClInclude Include="src\CEventLog.h" />
+    <ClInclude Include="src\CEventScreen.h" />
+    <ClInclude Include="src\CIRCConnection.h" />
+    <ClInclude Include="src\CIRCHistory.h" />
+    <ClInclude Include="src\CNotificationScreen.h" />
+    <ClInclude Include="src\CProtocolData.h" />
+    <ClInclude Include="src\CScreen.h" />
+    <ClInclude Include="src\CScreensaverScreen.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\MirandaG15.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
 </Project>

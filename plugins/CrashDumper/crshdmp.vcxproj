@@ -25,6 +25,26 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\crshdmp.cpp" />
+    <ClCompile Include="src\crshdmp_icons.cpp" />
+    <ClCompile Include="src\dumper.cpp" />
+    <ClCompile Include="src\exhndlr.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\ui.cpp" />
+    <ClCompile Include="src\upload.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\sdkstuff.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\crshdmp.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>dbghelp.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>

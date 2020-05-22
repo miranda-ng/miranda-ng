@@ -25,4 +25,28 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\CmdLine.cpp" />
+    <ClCompile Include="src\hooked_events.cpp" />
+    <ClCompile Include="src\mimcmd_data.cpp" />
+    <ClCompile Include="src\mimcmd_handlers.cpp" />
+    <ClCompile Include="src\mimcmd_ipc.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\hooked_events.h" />
+    <ClInclude Include="src\mimcmd_data.h" />
+    <ClInclude Include="src\mimcmd_handlers.h" />
+    <ClInclude Include="src\mimcmd_ipc.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\services.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

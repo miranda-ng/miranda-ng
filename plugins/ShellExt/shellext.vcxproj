@@ -25,6 +25,31 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\shlcom.cpp" />
+    <ClCompile Include="src\shlext.cpp" />
+    <ClCompile Include="src\shlfactory.cpp" />
+    <ClCompile Include="src\shlicons.cpp" />
+    <ClCompile Include="src\shlipc.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\shlcom.h" />
+    <ClInclude Include="src\shlicons.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\shldlgs.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ShellExt.def" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>

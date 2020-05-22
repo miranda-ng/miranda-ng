@@ -25,4 +25,32 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\clist.cpp" />
+    <ClCompile Include="src\commandmonitor.cpp" />
+    <ClCompile Include="src\input.cpp" />
+    <ClCompile Include="src\irclib.cpp" />
+    <ClCompile Include="src\ircproto.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\output.cpp" />
+    <ClCompile Include="src\scripting.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\tools.cpp" />
+    <ClCompile Include="src\userinfo.cpp" />
+    <ClCompile Include="src\windows.cpp" />
+    <ClInclude Include="src\irclib.h" />
+    <ClInclude Include="src\ircproto.h" />
+    <ClInclude Include="src\irc_dlg.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\IRC.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>

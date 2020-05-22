@@ -26,10 +26,39 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\aaa_main.cpp" />
+    <ClCompile Include="src\aaa_options.cpp" />
+    <ClCompile Include="src\commonstatus.cpp" />
+    <ClCompile Include="src\confirmdialog.cpp" />
+    <ClCompile Include="src\ks_main.cpp" />
+    <ClCompile Include="src\ks_options.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\ss_main.cpp" />
+    <ClCompile Include="src\ss_options.cpp" />
+    <ClCompile Include="src\ss_profiles.cpp" />
+    <ClCompile Include="src\ss_toolbars.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\advancedautoaway.h" />
+    <ClInclude Include="src\commonstatus.h" />
+    <ClInclude Include="src\keepstatus.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\startupstatus.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <None Include="res\ttbDown.ico" />
+    <None Include="res\ttbUp.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\helpers\gen_helpers.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <None Include="res\*.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <Link>

@@ -25,4 +25,44 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\chat_main.cpp" />
+    <ClCompile Include="src\chat_manager.cpp" />
+    <ClCompile Include="src\chat_options.cpp" />
+    <ClCompile Include="src\chat_tools.cpp" />
+    <ClCompile Include="src\cmdlist.cpp" />
+    <ClCompile Include="src\globals.cpp" />
+    <ClCompile Include="src\infobar.cpp" />
+    <ClCompile Include="src\input.cpp" />
+    <ClCompile Include="src\msgdialog.cpp" />
+    <ClCompile Include="src\msglog.cpp" />
+    <ClCompile Include="src\msgoptions.cpp" />
+    <ClCompile Include="src\msgs.cpp" />
+    <ClCompile Include="src\msgtimedout.cpp" />
+    <ClCompile Include="src\msgutils.cpp" />
+    <ClCompile Include="src\sendqueue.cpp" />
+    <ClCompile Include="src\srmm.cpp" />
+    <ClCompile Include="src\statusicon.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\tabs.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="src\chat.h" />
+    <ClInclude Include="src\cmdlist.h" />
+    <ClInclude Include="src\globals.h" />
+    <ClInclude Include="src\input.h" />
+    <ClInclude Include="src\msgs.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\sendqueue.h" />
+    <ClInclude Include="src\statusicon.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\tabs.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
 </Project>

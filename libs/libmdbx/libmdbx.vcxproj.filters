@@ -8,18 +8,24 @@
     <ClCompile Include="src\src\lck-windows.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\src\mdbx.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\src\osal.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\src\version.c">
+    <ClCompile Include="src\version.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\src\core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\*.h">
+    <ClInclude Include="src\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mdbx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

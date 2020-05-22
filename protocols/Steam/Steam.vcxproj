@@ -26,13 +26,58 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClInclude Include="src\api\*.h" />
-    <None Include="res\*.ico" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\steam_avatars.cpp" />
+    <ClCompile Include="src\steam_contacts.cpp" />
+    <ClCompile Include="src\steam_crypt.cpp" />
+    <ClCompile Include="src\steam_dialogs.cpp" />
+    <ClCompile Include="src\steam_events.cpp" />
+    <ClCompile Include="src\steam_history.cpp" />
+    <ClCompile Include="src\steam_login.cpp" />
+    <ClCompile Include="src\steam_menus.cpp" />
+    <ClCompile Include="src\steam_messages.cpp" />
+    <ClCompile Include="src\steam_options.cpp" />
+    <ClCompile Include="src\steam_polling.cpp" />
+    <ClCompile Include="src\steam_proto.cpp" />
+    <ClCompile Include="src\steam_request.cpp" />
+    <ClCompile Include="src\steam_utils.cpp" />
+    <ClCompile Include="src\steam_xstatus.cpp" />
+    <ClInclude Include="src\api\app_info.h" />
+    <ClInclude Include="src\api\authorization.h" />
+    <ClInclude Include="src\api\avatar.h" />
+    <ClInclude Include="src\api\captcha.h" />
+    <ClInclude Include="src\api\enums.h" />
+    <ClInclude Include="src\api\friend.h" />
+    <ClInclude Include="src\api\friend_list.h" />
+    <ClInclude Include="src\api\history.h" />
+    <ClInclude Include="src\api\login.h" />
+    <ClInclude Include="src\api\message.h" />
+    <ClInclude Include="src\api\pending.h" />
+    <ClInclude Include="src\api\poll.h" />
+    <ClInclude Include="src\api\rsa_key.h" />
+    <ClInclude Include="src\api\search.h" />
+    <ClInclude Include="src\api\session.h" />
+    <ClInclude Include="src\http_request.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\steam_dialogs.h" />
+    <ClInclude Include="src\steam_options.h" />
+    <ClInclude Include="src\steam_proto.h" />
+    <ClInclude Include="src\version.h" />
+    <None Include="res\gaming.ico" />
+    <None Include="res\steam.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
       <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

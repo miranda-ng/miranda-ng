@@ -1,18 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
   <ItemGroup>
-    <ClInclude Include="src\*.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClCompile Include="src\*.cpp;src\*.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ResourceCompile Include="res\*.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <None Include="res\*.ico;res\*.bmp;res\*.cur">
-      <Filter>Resource Files</Filter>
-    </None>
+    <ClCompile Include="src\icons.cpp" />
+    <ClCompile Include="src\message_pump.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\popwin.cpp" />
+    <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\stdafx.cxx" />
+    <ClCompile Include="src\yapp.cpp" />
+    <ClCompile Include="src\yapp_history.cpp" />
+    <ClCompile Include="src\yapp_history_dlg.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\icons.h" />
+    <ClInclude Include="src\message_pump.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\popwin.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\services.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\yapp_history.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

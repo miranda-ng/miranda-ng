@@ -39,4 +39,73 @@
       <Command>..\..\build\make_ver.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\binbuffer.cpp" />
+    <ClCompile Include="src\bitmaps.cpp" />
+    <ClCompile Include="src\CCtrlBase.cpp" />
+    <ClCompile Include="src\CCtrlButton.cpp" />
+    <ClCompile Include="src\CCtrlCheck.cpp" />
+    <ClCompile Include="src\CCtrlClc.cpp" />
+    <ClCompile Include="src\CCtrlCombo.cpp" />
+    <ClCompile Include="src\CCtrlData.cpp" />
+    <ClCompile Include="src\cctrldate.cpp" />
+    <ClCompile Include="src\CCtrlEdit.cpp" />
+    <ClCompile Include="src\CCtrlHyperlink.cpp" />
+    <ClCompile Include="src\CCtrlLabel.cpp" />
+    <ClCompile Include="src\CCtrlListBox.cpp" />
+    <ClCompile Include="src\CCtrlListView.cpp" />
+    <ClCompile Include="src\CCtrlMButton.cpp" />
+    <ClCompile Include="src\CCtrlPages.cpp" />
+    <ClCompile Include="src\CCtrlRichEdit.cpp" />
+    <ClCompile Include="src\CCtrlSpin.cpp" />
+    <ClCompile Include="src\CCtrlTreeView.cpp" />
+    <ClCompile Include="src\CDbLink.cpp" />
+    <ClCompile Include="src\CDlgBase.cpp" />
+    <ClCompile Include="src\cmdline.cpp" />
+    <ClCompile Include="src\colourpicker.cpp" />
+    <ClCompile Include="src\CProgress.cpp" />
+    <ClCompile Include="src\CSplitter.cpp" />
+    <ClCompile Include="src\CTimer.cpp" />
+    <ClCompile Include="src\db.cpp" />
+    <ClCompile Include="src\http.cpp" />
+    <ClCompile Include="src\hyperlink.cpp" />
+    <ClCompile Include="src\icons.cpp" />
+    <ClCompile Include="src\langpack.cpp" />
+    <ClCompile Include="src\lists.cpp" />
+    <ClCompile Include="src\locks.cpp" />
+    <ClCompile Include="src\logger.cpp" />
+    <ClCompile Include="src\md5.cpp" />
+    <ClCompile Include="src\memory.cpp" />
+    <ClCompile Include="src\miranda.cpp" />
+    <ClCompile Include="src\modules.cpp" />
+    <ClCompile Include="src\mstring.cpp" />
+    <ClCompile Include="src\openurl.cpp" />
+    <ClCompile Include="src\path.cpp" />
+    <ClCompile Include="src\resizer.cpp" />
+    <ClCompile Include="src\sha1.cpp" />
+    <ClCompile Include="src\sha256.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\subclass.cpp" />
+    <ClCompile Include="src\threads.cpp" />
+    <ClCompile Include="src\timezones.cpp" />
+    <ClCompile Include="src\tinyxml2.cpp" />
+    <ClCompile Include="src\tinyxml2_utils.cpp" />
+    <ClCompile Include="src\utf.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\windowlist.cpp" />
+    <ClCompile Include="src\winutil.cpp" />
+    <ClCompile Include="src\winver.cpp" />
+    <ClInclude Include="src\miranda.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\tinyxml2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\mir_core.def" />
+    <None Include="src\mir_core64.def" />
+  </ItemGroup>
 </Project>

@@ -34,6 +34,26 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\import.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mcontacts.cpp" />
+    <ClCompile Include="src\miranda.cpp" />
+    <ClCompile Include="src\patterns.cpp" />
+    <ClCompile Include="src\progress.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\textjson.cpp" />
+    <ClCompile Include="src\ui.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\wizard.cpp" />
+    <ClInclude Include="src\dbrw\dbintf.h" />
+    <ClInclude Include="src\dbrw\dbrw.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\dbrw\dbcontacts.cpp">
       <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -54,10 +74,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\dbrw\*.h" />
+    <Image Include="res\import.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\import.ico" />
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

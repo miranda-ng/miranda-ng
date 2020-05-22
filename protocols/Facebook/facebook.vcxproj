@@ -26,6 +26,28 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\avatars.cpp" />
+    <ClCompile Include="src\dialogs.cpp" />
+    <ClCompile Include="src\groupchats.cpp" />
+    <ClCompile Include="src\http.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mqtt.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\proto.cpp" />
+    <ClCompile Include="src\server.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\thrift.cpp" />
+    <ClInclude Include="src\db.h" />
+    <ClInclude Include="src\dialogs.h" />
+    <ClInclude Include="src\mqtt.h" />
+    <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
       <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
     </ProjectReference>
@@ -35,5 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\facebook.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\facebook.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

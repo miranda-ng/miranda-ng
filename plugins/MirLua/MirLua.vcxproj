@@ -28,6 +28,83 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\environment.cpp" />
+    <ClCompile Include="src\function_loader.cpp" />
+    <ClCompile Include="src\icons.cpp" />
+    <ClCompile Include="src\Modules\m_chat.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_clist.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_core.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_database.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_extraIcon.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_genmenu.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_hotkeys.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_http.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_icolib.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_json.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_message.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_options.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_protocols.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_sounds.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Modules\m_srmm.cpp">
+      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\module_loader.cpp" />
+    <ClCompile Include="src\netlib.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\plugin.cpp" />
+    <ClCompile Include="src\script.cpp" />
+    <ClCompile Include="src\script_loader.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\variables_loader.cpp" />
+    <ClInclude Include="include\mirlua.h" />
+    <ClInclude Include="src\module_loader.h" />
+    <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\plugin.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\script.h" />
+    <ClInclude Include="src\script_loader.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\variables_loader.h" />
+    <ClInclude Include="src\version.h" />
+    <None Include="res\compile.ico" />
+    <None Include="res\failed.ico" />
+    <None Include="res\loaded.ico" />
+    <None Include="res\open.ico" />
+    <None Include="res\reload.ico" />
+    <None Include="res\script.ico" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <Link>
       <AdditionalDependencies>comctl32.lib;rpcrt4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -37,11 +114,13 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\*.h" />
-    <ClInclude Include="src\Modules\*.h" />
-    <ClCompile Include="src\Modules\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <None Include="res\*.ico" />
+    <ClInclude Include="src\environment.h" />
+    <ClInclude Include="src\function_loader.h" />
+    <ClInclude Include="src\metatable.h" />
+    <ClInclude Include="src\modules.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

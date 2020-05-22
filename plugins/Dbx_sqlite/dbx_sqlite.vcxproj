@@ -30,6 +30,24 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dbcontacts.cpp" />
+    <ClCompile Include="src\dbevents.cpp" />
+    <ClCompile Include="src\dbintf.cpp" />
+    <ClCompile Include="src\dbsettings.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\dbintf.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\dbx_sqlite.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\sqlite3\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

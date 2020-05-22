@@ -26,6 +26,24 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\actionQueue.cpp" />
+    <ClCompile Include="src\boltun.cpp" />
+    <ClCompile Include="src\config.cpp" />
+    <ClCompile Include="src\stdafx.cxx">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\Engine\Mind.h" />
+    <ClInclude Include="src\Engine\MyCodeCvt.h" />
+    <ClInclude Include="src\Engine\PerContactData.h" />
+    <ClInclude Include="src\Engine\TalkEngine.h" />
+    <ClInclude Include="src\Engine\UnrecentChooser.h" />
+    <ClInclude Include="src\Engine\ValueChooser.h" />
+    <ClInclude Include="src\Engine\WordsList.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\Engine\Mind.cpp">
       <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -43,10 +61,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Engine\*.h" />
+    <ClInclude Include="src\actionQueue.h" />
+    <ClInclude Include="src\config.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Engine\boltun.mindw" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Boltun.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
