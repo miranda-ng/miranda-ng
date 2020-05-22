@@ -26,8 +26,9 @@
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\stdafx.cxx">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
+    <ClInclude Include="src\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Proto_IRC.rc" />
   </ItemGroup>
 </Project>

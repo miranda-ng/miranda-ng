@@ -27,8 +27,10 @@
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\stdafx.cxx">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
+    <ClInclude Include="src\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\flags.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
 </Project>

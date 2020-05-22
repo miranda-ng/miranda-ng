@@ -33,4 +33,47 @@
       <ModuleDefinitionFile>src/qrencode.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\bitstream.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\mask.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\mmask.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\mqrspec.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\qrencode.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\qrinput.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\qrspec.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\rsecc.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\split.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\bitstream.h" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\mask.h" />
+    <ClInclude Include="src\mmask.h" />
+    <ClInclude Include="src\mqrspec.h" />
+    <ClInclude Include="src\qrencode.h" />
+    <ClInclude Include="src\qrencode_inner.h" />
+    <ClInclude Include="src\qrinput.h" />
+    <ClInclude Include="src\qrspec.h" />
+    <ClInclude Include="src\rsecc.h" />
+    <ClInclude Include="src\split.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\qrencode.def" />
+  </ItemGroup>
 </Project>

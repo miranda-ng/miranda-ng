@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\bitstream.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mask.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mmask.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mqrspec.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\qrencode.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\qrinput.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\qrspec.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rsecc.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\split.c" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bitstream.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mask.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mmask.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mqrspec.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\qrencode.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\qrencode_inner.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\qrinput.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\qrspec.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rsecc.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\split.h" >
+      <Filter>Include Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\qrencode.def" />
+  </ItemGroup>
+</Project>

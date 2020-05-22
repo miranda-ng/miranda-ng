@@ -18,6 +18,9 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}</ProjectGuid>
     <ProjectName>HistoryPP_icons</ProjectName>
@@ -25,9 +28,4 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />
   </ImportGroup>
-  <ItemGroup>
-    <ClCompile Include="src\stdafx.cxx">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
 </Project>

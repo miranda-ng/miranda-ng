@@ -26,8 +26,6 @@
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\stdafx.cxx">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
+    <ResourceCompile Include="res\proto_CurrencyRates.rc" />
   </ItemGroup>
 </Project>

@@ -102,13 +102,6 @@
     <Link>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\*.cpp" />
-    <ClCompile Include="src\*.c" />
-    <ClInclude Include="src\*.hpp" />
-    <ClInclude Include="src\*.h" />
-    <ResourceCompile Include="res\*.rc" />
-    <None Include="src\*.def" />
-  </ItemGroup>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

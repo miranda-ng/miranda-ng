@@ -18,6 +18,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\icon_resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\ICONS.rc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Toolbar_icons</ProjectName>
     <ProjectGuid>{796B43EF-DACE-4145-8571-31886F45A2C0}</ProjectGuid>
