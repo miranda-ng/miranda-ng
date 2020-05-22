@@ -565,6 +565,7 @@ static renameTable[] =
 	{ L"gtalkext.dll",                   nullptr },
 	{ L"importtxt.dll",                  nullptr },
 	{ L"langman.dll",                    nullptr },
+	{ L"libmdbx.mir",                    nullptr },
 	{ L"libtox.dll",                     nullptr },
 	{ L"metacontacts.dll",               nullptr },
 	{ L"mra.dll",                        nullptr },

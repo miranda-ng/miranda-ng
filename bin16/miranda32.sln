@@ -125,9 +125,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmdbx", "..\libs\libmdbx\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite3", "..\libs\sqlite3\sqlite3.vcxproj", "{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_dump", "..\tools\mdbx_dump\mdbx_dump.vcxproj", "{EE383404-7976-4E87-BD13-A9B7B47C0C10}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_dump", "..\libs\libmdbx\mdbx_dump.vcxproj", "{EE383404-7976-4E87-BD13-A9B7B47C0C10}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_load", "..\tools\mdbx_load\mdbx_load.vcxproj", "{63BA600E-86BF-4502-9EF0-8C090292E161}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_load", "..\libs\libmdbx\mdbx_load.vcxproj", "{63BA600E-86BF-4502-9EF0-8C090292E161}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{30B05A85-FD7F-49CD-BBA9-0B7CE5825D52}"
 EndProject
@@ -141,7 +141,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdPopup", "..\src\core\std
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsignal", "..\libs\libsignal\libsignal.vcxproj", "{620E0BE7-3763-4F35-9DBD-4770104E269C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_chk", "..\tools\mdbx_chk\mdbx_chk.vcxproj", "{EE383404-4E87-7976-BD13-A9B7B47C0C10}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdbx_chk", "..\libs\libmdbx\mdbx_chk.vcxproj", "{EE383404-4E87-7976-BD13-A9B7B47C0C10}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Facebook", "..\protocols\Facebook\facebook.vcxproj", "{86033E58-A1E3-43AD-AE8E-305E15E72A91}"
 EndProject

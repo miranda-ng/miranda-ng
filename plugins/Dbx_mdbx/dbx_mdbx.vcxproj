@@ -53,4 +53,9 @@
     <ResourceCompile Include="res\dbx_mdbx.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>

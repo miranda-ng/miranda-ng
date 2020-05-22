@@ -22,30 +22,33 @@
     <ProjectGuid>{6D19209B-ECE7-4B9C-941C-0AA2B484F199}</ProjectGuid>
     <ProjectName>libmdbx</ProjectName>
     <TargetName>libmdbx</TargetName>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-  <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
+  <Import Project="$(ProjectDir)..\..\build\vc.common\slib.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>MDBX_DEBUG=1;LIBMDBX_EXPORTS;__STDC_FORMAT_MACROS=1;__STDC_LIMIT_MACROS=1;__STDC_CONSTANT_MACROS=1;_HAS_EXCEPTIONS=1;MDBX_CONFIG_H=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MDBX_DEBUG=1;__STDC_FORMAT_MACROS=1;__STDC_LIMIT_MACROS=1;__STDC_CONSTANT_MACROS=1;_HAS_EXCEPTIONS=1;MDBX_CONFIG_H=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\version.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\mdbx.h" />
-    <ClInclude Include="src\stdafx.h" />
-    <ClCompile Include="src\src\lck-windows.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\src\core.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\src\lck-windows.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\src\osal.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\version.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>

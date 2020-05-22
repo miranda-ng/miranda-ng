@@ -25,23 +25,31 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\app.props" />
   </ImportGroup>
-  <ItemGroup>
-    <ClCompile Include="src\mdbx_load.cc" />
-    <ClCompile Include="src\stdafx.cxx">
-      <PrecompiledHeader>Create</PrecompiledHeader>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>MDBX_DEBUG=1;__STDC_FORMAT_MACROS=1;__STDC_LIMIT_MACROS=1;__STDC_CONSTANT_MACROS=1;_HAS_EXCEPTIONS=1;MDBX_CONFIG_H=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <ClInclude Include="src\stdafx.h" />
+    <Link>
+      <AdditionalDependencies>ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">ucrtbased.dll;vcruntime140d.dll</DelayLoadDLLs>
+      <DelayLoadDLLs Condition="'$(Configuration)'=='Release'">api-ms-win-crt-string-l1-1-0.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;VCRUNTIME140.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\src\mdbx_load.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\src\wingetopt.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\build\appstub\appstub.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\libmdbx\libmdbx.vcxproj">
+    <ProjectReference Include="libmdbx.vcxproj">
       <Project>{6d19209b-ece7-4b9c-941c-0aa2b484f199}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemDefinitionGroup>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <DelayLoadDLLs Condition="'$(Configuration)'=='Debug'">libmdbx.mir;ucrtbased.dll;vcruntime140d.dll</DelayLoadDLLs>
-      <DelayLoadDLLs Condition="'$(Configuration)'=='Release'">libmdbx.mir;ucrtbase.dll;api-ms-win-crt-string-l1-1-0.dll;api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;VCRUNTIME140.dll</DelayLoadDLLs>
-    </Link>
-  </ItemDefinitionGroup>
 </Project>
