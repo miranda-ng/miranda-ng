@@ -27,7 +27,6 @@
 #endif
 
 /* Windows */
-#define MDBX_CONFIG_MANUAL_TLS_CALLBACK 1
 #define MDBX_AVOID_CRT 0
 
 /* MacOS & iOS */
