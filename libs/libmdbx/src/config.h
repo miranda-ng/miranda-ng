@@ -28,6 +28,7 @@
 
 /* Windows */
 #define MDBX_AVOID_CRT 0
+#define MDBX_CONFIG_MANUAL_TLS_CALLBACK 1
 
 /* MacOS & iOS */
 #define MDBX_OSX_SPEED_INSTEADOF_DURABILITY 0

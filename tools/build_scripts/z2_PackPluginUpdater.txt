@@ -61,6 +61,7 @@ Plugins\Import.dll
 Icons\Proto_Dummy.dll
 Icons\Proto_MetaContacts.dll
 fixme.cmd
+libmdbx.mir
 mdbx_chk.exe
 mdbx_load.exe
 mdbx_dump.exe

@@ -22,13 +22,21 @@
     <ProjectGuid>{6D19209B-ECE7-4B9C-941C-0AA2B484F199}</ProjectGuid>
     <ProjectName>libmdbx</ProjectName>
     <TargetName>libmdbx</TargetName>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\</OutDir>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <GenerateManifest>false</GenerateManifest>
+    <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
-  <Import Project="$(ProjectDir)..\..\build\vc.common\slib.props" />
+  <Import Project="$(ProjectDir)..\..\build\vc.common\common.props" />
+  <PropertyGroup>
+    <TargetExt>.mir</TargetExt>
+    <TargetPath>$(OutDir)$(TargetName)$(TargetExt)</TargetPath>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>MDBX_DEBUG=1;__STDC_FORMAT_MACROS=1;__STDC_LIMIT_MACROS=1;__STDC_CONSTANT_MACROS=1;_HAS_EXCEPTIONS=1;MDBX_CONFIG_H=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LIBMDBX_EXPORTS;MDBX_DEBUG=1;__STDC_FORMAT_MACROS=1;__STDC_LIMIT_MACROS=1;__STDC_CONSTANT_MACROS=1;_HAS_EXCEPTIONS=1;MDBX_CONFIG_H=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -43,6 +51,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\src\lck-windows.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\src\miranda.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\src\osal.c">

@@ -565,7 +565,6 @@ static renameTable[] =
 	{ L"gtalkext.dll",                   nullptr },
 	{ L"importtxt.dll",                  nullptr },
 	{ L"langman.dll",                    nullptr },
-	{ L"libmdbx.mir",                    nullptr },
 	{ L"libtox.dll",                     nullptr },
 	{ L"metacontacts.dll",               nullptr },
 	{ L"mra.dll",                        nullptr },
@@ -582,6 +581,8 @@ static renameTable[] =
 	{ L"yahoogroups.dll",                nullptr },
 	{ L"yapp.dll",                       nullptr },
 	{ L"WART-*.exe",                     nullptr },
+
+	{ L"Libs\\libmdbx.mir",              nullptr },
 };
 
 // Checks if file needs to be renamed and copies it in pNewName

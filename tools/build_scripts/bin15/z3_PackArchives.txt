@@ -42,6 +42,7 @@ Libs\msvcp140.dll
 Libs\ucrtbase.dll
 Libs\vcruntime140.dll
 fixme.cmd
+libmdbx.mir
 mirandaboot.ini
 mdbx_chk.exe
 mdbx_load.exe

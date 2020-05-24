@@ -65,6 +65,7 @@ Source: "Files\Icons\Toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: cli
 
 ; Core and core modules
 Source: "Files\{#MirName}"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\libmdbx.mir"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\*.dll"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\FreeImage.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libeay32.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
