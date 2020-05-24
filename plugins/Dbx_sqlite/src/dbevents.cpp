@@ -25,8 +25,14 @@ enum {
 //TODO: hide it inside cursor class
 static const char* normal_order_query =
 "select id from events_srt where contact_id = ? order by timestamp;";
+static const char* normal_order_pos_query =
+"select id from events_srt where contact_id = ? and id >= ? order by timestamp;";
+
 static const char* reverse_order_query =
 "select id from events_srt where contact_id = ? order by timestamp desc, id desc;";
+
+static const char* reverse_order_pos_query =
+"select id from events_srt where contact_id = ? and id <= ? order by timestamp desc, id desc;";
 
 
 static const char *evt_stmts[SQL_EVT_STMT_NUM] = {
@@ -720,22 +726,34 @@ BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact*)
 
 STDMETHODIMP_(DB::EventCursor*) CDbxSQLite::EventCursor(MCONTACT hContact, MEVENT hDbEvent)
 {
-	return new CDbxSQLiteEventCursor(hContact, m_db);
+	return new CDbxSQLiteEventCursor(hContact, m_db, hDbEvent);
 }
 
 STDMETHODIMP_(DB::EventCursor*) CDbxSQLite::EventCursorRev(MCONTACT hContact, MEVENT hDbEvent)
 {
-	return new CDbxSQLiteEventCursor(hContact, m_db, true);
+	return new CDbxSQLiteEventCursor(hContact, m_db, hDbEvent, true);
 }
 
-CDbxSQLiteEventCursor::CDbxSQLiteEventCursor(MCONTACT _1, sqlite3* _db, bool reverse)
+CDbxSQLiteEventCursor::CDbxSQLiteEventCursor(MCONTACT _1, sqlite3* _db, MEVENT hDbEvent, bool reverse)
 	: EventCursor(_1), m_db(_db)
 {
 	if (reverse)
-		sqlite3_prepare_v2(m_db, reverse_order_query, -1, &cursor, nullptr);
+	{
+		if (!hDbEvent)
+			sqlite3_prepare_v2(m_db, reverse_order_query, -1, &cursor, nullptr);
+		else
+			sqlite3_prepare_v2(m_db, reverse_order_pos_query, -1, &cursor, nullptr);
+	}
 	else
-		sqlite3_prepare_v2(m_db, normal_order_query, -1, &cursor, nullptr);
+	{
+		if (!hDbEvent)
+			sqlite3_prepare_v2(m_db, normal_order_query, -1, &cursor, nullptr);
+		else
+			sqlite3_prepare_v2(m_db, normal_order_pos_query, -1, &cursor, nullptr);
+	}
 	sqlite3_bind_int64(cursor, 1, hContact);
+	if (hDbEvent)
+		sqlite3_bind_int64(cursor, 2, hDbEvent);
 }
 
 CDbxSQLiteEventCursor::~CDbxSQLiteEventCursor()
