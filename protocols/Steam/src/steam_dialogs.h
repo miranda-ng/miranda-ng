@@ -9,17 +9,13 @@ typedef CProtoDlgBase<CSteamProto> CSteamDlgBase;
 
 class CSteamPasswordEditor : public CSteamDlgBase
 {
-private:
 	CCtrlEdit m_password;
 	CCtrlCheck m_savePermanently;
 
-	CCtrlButton m_ok;
-
 protected:
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	bool OnClose() override;
-
-	void OnOk(CCtrlButton*);
 
 public:
 	CSteamPasswordEditor(CSteamProto *proto);
@@ -29,53 +25,50 @@ public:
 
 class CSteamGuardDialog : public CSteamDlgBase
 {
-private:
 	char m_domain[32];
 	char m_guardCode[6];
 
 	CCtrlEdit m_text;
-	CCtrlButton m_ok;
 	CCtrlHyperlink m_link;
 
 protected:
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	bool OnClose() override;
-
-	void OnOk(CCtrlButton*);
 
 public:
 	CSteamGuardDialog(CSteamProto *proto, const char *domain);
 
-	const char *GetGuardCode();
+	const char *GetGuardCode() {
+		return m_guardCode;
+	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////
 
 class CSteamTwoFactorDialog : public CSteamDlgBase
 {
-private:
 	char m_twoFactorCode[6];
 
 	CCtrlEdit m_text;
-	CCtrlButton m_ok;
 
 protected:
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	bool OnClose() override;
-
-	void OnOk(CCtrlButton*);
 
 public:
 	CSteamTwoFactorDialog(CSteamProto *proto);
 
-	const char *GetTwoFactorCode();
+	const char *GetTwoFactorCode() {
+		return m_twoFactorCode;
+	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////
 
 class CSteamCaptchaDialog : public CSteamDlgBase
 {
-private:
 	char m_captchaText[7];
 
 	uint8_t *m_captchaImage;
@@ -95,7 +88,9 @@ public:
 	CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, size_t captchaImageSize);
 	~CSteamCaptchaDialog();
 
-	const char *GetCaptchaText();
+	const char* GetCaptchaText() {
+		return m_captchaText;
+	}
 };
 
 #endif //_STEAM_DIALOGS_H_

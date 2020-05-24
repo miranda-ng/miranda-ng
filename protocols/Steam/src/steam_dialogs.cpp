@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto)
-	: CSteamDlgBase(proto, IDD_PASSWORD_EDITOR), m_ok(this, IDOK),
-	m_password(this, IDC_PASSWORD), m_savePermanently(this, IDC_SAVEPERMANENTLY)
+CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto) :
+	CSteamDlgBase(proto, IDD_PASSWORD_EDITOR),
+	m_password(this, IDC_PASSWORD),
+	m_savePermanently(this, IDC_SAVEPERMANENTLY)
 {
-	m_ok.OnClick = Callback(this, &CSteamPasswordEditor::OnOk);
 }
 
 bool CSteamPasswordEditor::OnInitDialog()
@@ -19,13 +19,13 @@ bool CSteamPasswordEditor::OnInitDialog()
 	return true;
 }
 
-void CSteamPasswordEditor::OnOk(CCtrlButton*)
+bool CSteamPasswordEditor::OnApply()
 {
 	m_proto->m_password = m_password.GetText();
 	if (m_savePermanently.Enabled())
 		m_proto->setWString("Password", m_proto->m_password);
 
-	EndDialog(m_hwnd, DIALOG_RESULT_OK);
+	return true;
 }
 
 bool CSteamPasswordEditor::OnClose()
@@ -36,15 +36,13 @@ bool CSteamPasswordEditor::OnClose()
 
 /////////////////////////////////////////////////////////////////////////////////
 
-CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, const char *domain)
-	: CSteamDlgBase(proto, IDD_GUARD),
-	m_ok(this, IDOK),
+CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, const char *domain) :
+	CSteamDlgBase(proto, IDD_GUARD),
 	m_text(this, IDC_TEXT),
 	m_link(this, IDC_GETDOMAIN, domain)
 {
 	memset(m_guardCode, 0, sizeof(m_guardCode));
 	mir_strcpy(m_domain, domain);
-	m_ok.OnClick = Callback(this, &CSteamGuardDialog::OnOk);
 }
 
 bool CSteamGuardDialog::OnInitDialog()
@@ -59,10 +57,10 @@ bool CSteamGuardDialog::OnInitDialog()
 	return true;
 }
 
-void CSteamGuardDialog::OnOk(CCtrlButton*)
+bool CSteamGuardDialog::OnApply()
 {
 	mir_strncpy(m_guardCode, ptrA(m_text.GetTextA()), _countof(m_guardCode));
-	EndDialog(m_hwnd, DIALOG_RESULT_OK);
+	return true;
 }
 
 bool CSteamGuardDialog::OnClose()
@@ -71,20 +69,13 @@ bool CSteamGuardDialog::OnClose()
 	return true;
 }
 
-const char* CSteamGuardDialog::GetGuardCode()
-{
-	return m_guardCode;
-}
-
 /////////////////////////////////////////////////////////////////////////////////
 
-CSteamTwoFactorDialog::CSteamTwoFactorDialog(CSteamProto *proto)
-: CSteamDlgBase(proto, IDD_TWOFACTOR),
-m_ok(this, IDOK),
-m_text(this, IDC_TEXT)
+CSteamTwoFactorDialog::CSteamTwoFactorDialog(CSteamProto *proto) :
+	CSteamDlgBase(proto, IDD_TWOFACTOR),
+	m_text(this, IDC_TEXT)
 {
 	memset(m_twoFactorCode, 0, sizeof(m_twoFactorCode));
-	m_ok.OnClick = Callback(this, &CSteamTwoFactorDialog::OnOk);
 }
 
 bool CSteamTwoFactorDialog::OnInitDialog()
@@ -99,21 +90,17 @@ bool CSteamTwoFactorDialog::OnInitDialog()
 	return true;
 }
 
-void CSteamTwoFactorDialog::OnOk(CCtrlButton*)
+bool CSteamTwoFactorDialog::OnApply()
 {
 	mir_strncpy(m_twoFactorCode, ptrA(m_text.GetTextA()), _countof(m_twoFactorCode));
-	EndDialog(m_hwnd, DIALOG_RESULT_OK);
+	EndModal(DIALOG_RESULT_OK);
+	return true;
 }
 
 bool CSteamTwoFactorDialog::OnClose()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "TwoFactorWindow");
 	return true;
-}
-
-const char* CSteamTwoFactorDialog::GetTwoFactorCode()
-{
-	return m_twoFactorCode;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -191,9 +178,4 @@ INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	CSteamDlgBase::DlgProc(msg, wParam, lParam);
 	return FALSE;
-}
-
-const char* CSteamCaptchaDialog::GetCaptchaText()
-{
-	return m_captchaText;
 }
