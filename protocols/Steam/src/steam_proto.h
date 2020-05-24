@@ -51,9 +51,38 @@ struct RequestQueueItem
 
 class CSteamProto : public PROTO<CSteamProto>
 {
-	friend CSteamPasswordEditor;
-	friend CSteamOptionsMain;
-	friend CSteamOptionsBlockList;
+	friend class CSteamGuardDialog;
+	friend class CSteamPasswordEditor;
+	friend class CSteamOptionsMain;
+	friend class CSteamOptionsBlockList;
+
+	ptrW m_password;
+	ptrW m_defaultGroup;
+	bool isLoginAgain;
+	time_t m_idleTS;
+	HWND m_hwndGuard;
+
+	// requests
+	bool m_isTerminated;
+	mir_cs m_requestQueueLock;
+	HANDLE m_hRequestsQueueEvent;
+	HANDLE m_hRequestQueueThread;
+	LIST<RequestQueueItem> m_requestQueue;
+
+	// pooling
+	HANDLE m_hPollingThread;
+	ULONG hAuthProcess;
+	ULONG hMessageProcess;
+	mir_cs m_addContactLock;
+	mir_cs m_setStatusLock;
+	std::map<HANDLE, time_t> m_mpOutMessages;
+	std::map<std::string, time_t> m_typingTimestamps;
+
+	/**
+	 * Used only to compare in steam_history.cpp, others should write such value directly to db profile, because PollingThread
+	 * may start sooner than steam_history requests so it could possibly break getting history messages from server
+	 */
+	time_t m_lastMessageTS;
 
 public:
 	// PROTO_INTERFACE
@@ -87,31 +116,6 @@ public:
 	static void InitMenus();
 
 protected:
-	ptrW m_password;
-	ptrW m_defaultGroup;
-	bool isLoginAgain;
-	time_t m_idleTS;
-	// requests
-	bool m_isTerminated;
-	mir_cs m_requestQueueLock;
-	HANDLE m_hRequestsQueueEvent;
-	HANDLE m_hRequestQueueThread;
-	LIST<RequestQueueItem> m_requestQueue;
-	// pooling
-	HANDLE m_hPollingThread;
-	ULONG hAuthProcess;
-	ULONG hMessageProcess;
-	mir_cs m_addContactLock;
-	mir_cs m_setStatusLock;
-	std::map<HANDLE, time_t> m_mpOutMessages;
-	std::map<std::string, time_t> m_typingTimestamps;
-
-	/**
-	 * Used only to compare in steam_history.cpp, others should write such value directly to db profile, because PollingThread
-	 * may start sooner than steam_history requests so it could possibly break getting history messages from server
-	 */
-	time_t m_lastMessageTS;
-
 	// requests
 	void SendRequest(HttpRequest *request);
 	void SendRequest(HttpRequest *request, HttpCallback callback, void *param = nullptr);

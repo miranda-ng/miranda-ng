@@ -217,6 +217,9 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 		if (domain.find("://") == std::string::npos)
 			domain = "http://" + domain;
 
+		if (m_hwndGuard != nullptr)
+			return;
+
 		CSteamGuardDialog guardDialog(this, domain.c_str());
 		if (guardDialog.DoModal() != DIALOG_RESULT_OK) {
 			DeleteAuthSettings();

@@ -47,6 +47,8 @@ CSteamGuardDialog::CSteamGuardDialog(CSteamProto *proto, const char *domain) :
 
 bool CSteamGuardDialog::OnInitDialog()
 {
+	m_proto->m_hwndGuard = m_hwnd;
+
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "main");
 	Window_SetIcon_IcoLib(m_hwnd, IcoLib_GetIconHandle(iconName));
@@ -65,6 +67,7 @@ bool CSteamGuardDialog::OnApply()
 
 bool CSteamGuardDialog::OnClose()
 {
+	m_proto->m_hwndGuard = nullptr;
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
 	return true;
 }
