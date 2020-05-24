@@ -389,6 +389,14 @@ MCONTACT CIcqProto::AddToList(int, PROTOSEARCHRESULT *psr)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
+// PSR_AUTH
+
+int CIcqProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
+{
+	return Proto_AuthRecv(m_szModuleName, pre);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
 // PSS_AUTHREQUEST
 
 int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)

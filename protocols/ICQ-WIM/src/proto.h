@@ -405,6 +405,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	MCONTACT  AddToList( int flags, PROTOSEARCHRESULT *psr) override;
 			    
+	int       AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
 	int       AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
 	INT_PTR   GetCaps(int type, MCONTACT hContact = NULL) override;

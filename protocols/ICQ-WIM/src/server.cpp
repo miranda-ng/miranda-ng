@@ -388,6 +388,22 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	else {
 		wszText = it["text"].as_mstring();
 		wszText.TrimRight();
+
+		// user added you
+		if (it["class"].as_mstring() == L"event" && it["eventTypeId"].as_mstring() == L"27:33000") {
+			CMStringA id = getMStringA(hContact, DB_KEY_ID);
+			int pos = id.Find('@');
+			CMStringA nick = (pos == -1) ? id : id.Left(pos);
+
+			DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, id, nullptr);
+
+			PROTORECVEVENT pre = {};
+			pre.timestamp = (DWORD)time(0);
+			pre.lParam = blob.size();
+			pre.szMessage = blob;
+			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+			return;
+		}
 	}
 
 	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
