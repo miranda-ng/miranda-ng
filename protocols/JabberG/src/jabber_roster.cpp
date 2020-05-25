@@ -326,11 +326,6 @@ public:
 			if (!queryRoster)
 				return;
 
-			XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_SET));
-
-			TiXmlElement *query = iq << XCHILDNS("query", JABBER_FEAT_IQ_ROSTER);
-
-			int itemCount = 0;
 			int ListItemCount = m_list.GetItemCount();
 			for (int index = 0; index < ListItemCount; index++) {
 				wchar_t jid[JABBER_MAX_JID_LEN] = L"";
@@ -347,42 +342,42 @@ public:
 				BOOL bRemove = !m_list.GetCheckState(index);
 				if (itemRoster && bRemove) {
 					//delete item
-					query << XCHILD("item") << XATTR("jid", szJid) << XATTR("subscription", "remove");
-					itemCount++;
+					XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_SET));
+					iq << XCHILDNS("query", JABBER_FEAT_IQ_ROSTER) << XCHILD("item") << XATTR("jid", szJid) << XATTR("subscription", "remove");
+					m_proto->m_ThreadInfo->send(iq);
 				}
 				else if (!bRemove) {
 					bool bPushed = itemRoster != 0;
+					const char *rosterName = 0, *rosterGroup = 0;
 					if (!bPushed) {
-						const char *rosterName = XmlGetAttr(itemRoster, "name");
+						rosterName = XmlGetAttr(itemRoster, "name");
 						if ((rosterName != nullptr || name[0] != 0) && mir_strcmpi(rosterName, szName))
 							bPushed = true;
 						if (!bPushed) {
-							rosterName = XmlGetAttr(itemRoster, "subscription");
-							if ((rosterName != nullptr || subscr[0] != 0) && mir_strcmpi(rosterName, T2Utf(subscr)))
+							auto *szSub = XmlGetAttr(itemRoster, "subscription");
+							if ((szSub != nullptr || subscr[0] != 0) && mir_strcmpi(szSub, szSubscr))
 								bPushed = true;
 						}
 						if (!bPushed) {
-							auto *rosterGroup = XmlGetChildText(itemRoster, "group");
+							rosterGroup = XmlGetChildText(itemRoster, "group");
 							if (rosterGroup != nullptr && mir_strcmpi(rosterGroup, szGroup))
 								bPushed = true;
 						}
 					}
 					if (bPushed) {
-						TiXmlElement *item = query << XCHILD("item");
-						if (mir_wstrlen(group))
+						XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::_RosterHandleGetRequest, JABBER_IQ_TYPE_SET));
+						auto *item = iq << XCHILDNS("query", JABBER_FEAT_IQ_ROSTER) << XCHILD("item");
+						if (rosterGroup || mir_strlen(szGroup))
 							item << XCHILD("group", szGroup);
-						if (mir_wstrlen(name))
+						if (rosterName || mir_strlen(szName))
 							item << XATTR("name", szName);
 						item << XATTR("jid", szJid) << XATTR("subscription", subscr[0] ? szSubscr : "none");
-						itemCount++;
+						m_proto->m_ThreadInfo->send(iq);
 					}
 				}
 			}
 			m_bRRAction = RRA_SYNCDONE;
-			if (itemCount)
-				m_proto->m_ThreadInfo->send(iq);
-			else
-				_RosterSendRequest(RRA_FILLLIST);
+			_RosterSendRequest(RRA_FILLLIST);
 			return;
 		}
 
