@@ -784,7 +784,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
 		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Disable frame"), m_proto->m_bDisableFrame);
 		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Keep contacts assigned to local groups (ignore roster group)"), m_proto->m_bIgnoreRosterGroups);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);
 
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_bAllowVersionRequests);
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Show information about operating system in version replies"), m_proto->m_bShowOSVersion);
@@ -1150,7 +1150,7 @@ protected:
 			break;
 
 		case ACC_OK:
-			m_proto->m_bIgnoreRosterGroups = true;
+			m_proto->m_bIgnoreRoster = true;
 			m_proto->m_bUseSSL = false;
 			m_proto->m_bUseTLS = true;
 

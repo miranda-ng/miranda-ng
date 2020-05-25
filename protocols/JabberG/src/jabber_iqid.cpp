@@ -442,7 +442,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 		}
 		else UpdateSubscriptionInfo(hContact, item);
 
-		if (!m_bIgnoreRosterGroups) {
+		if (!m_bIgnoreRoster) {
 			if (item->group != nullptr) {
 				Clist_GroupCreate(0, Utf2T(item->group));
 

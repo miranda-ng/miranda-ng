@@ -34,7 +34,9 @@ void CJabberProto::AddContactToRoster(const char *jid, const char *nick, const c
 {
 	XmlNodeIq iq("set", SerialNext());
 	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_IQ_ROSTER)
-		<< XCHILD("item") << XATTR("jid", jid) << XATTR("name", nick);
+		<< XCHILD("item") << XATTR("jid", jid);
+	if (nick && !m_bIgnoreRoster) 
+		query << XATTR("name", nick);
 	if (grpName)
 		query << XCHILD("group", grpName);
 	m_ThreadInfo->send(iq);

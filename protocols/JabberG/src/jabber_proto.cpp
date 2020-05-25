@@ -108,7 +108,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bGcLogStatuses(this, "GcLogStatuses", false),
 	m_bHostNameAsResource(this, "HostNameAsResource", false),
 	m_bIgnoreMUCInvites(this, "IgnoreMUCInvites", false),
-	m_bIgnoreRosterGroups(this, "IgnoreRosterGroups", false),
+	m_bIgnoreRoster(this, "IgnoreRosterGroups", false),
 	m_bInlinePictures(this, "InlinePictures", false),
 	m_bKeepAlive(this, "KeepAlive", true),
 	m_bLogChatstates(this, "LogChatstates", false),

@@ -205,7 +205,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bGcLogStatuses;
 	CMOption<bool> m_bHostNameAsResource;
 	CMOption<bool> m_bIgnoreMUCInvites;
-	CMOption<bool> m_bIgnoreRosterGroups;
+	CMOption<bool> m_bIgnoreRoster;
 	CMOption<bool> m_bInlinePictures;
 	CMOption<bool> m_bKeepAlive;
 	CMOption<bool> m_bLogChatstates;

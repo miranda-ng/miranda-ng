@@ -145,7 +145,7 @@ void __cdecl CJabberProto::OnAddContactForever(MCONTACT hContact)
 
 	XmlNode xPresence("presence"); xPresence << XATTR("to", jid) << XATTR("type", "subscribe");
 	ptrA myNick(getUStringA("Nick"));
-	if (myNick != nullptr)
+	if (myNick != nullptr && !m_bIgnoreRoster)
 		xPresence << XCHILD("nick", myNick) << XATTR("xmlns", JABBER_FEAT_NICK);
 	m_ThreadInfo->send(xPresence);
 

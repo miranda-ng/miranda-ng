@@ -227,7 +227,7 @@ bool CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 				}
 				else db_unset(hContact, "CList", "MyHandle");
 
-				if (!m_bIgnoreRosterGroups) {
+				if (!m_bIgnoreRoster) {
 					if (item->group != nullptr) {
 						Clist_GroupCreate(0, Utf2T(item->group));
 						db_set_utf(hContact, "CList", "Group", item->group);
