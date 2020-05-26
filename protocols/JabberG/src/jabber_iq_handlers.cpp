@@ -218,10 +218,12 @@ bool CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 				if (name != nullptr) {
 					ptrA tszNick(getUStringA(hContact, "Nick"));
 					if (tszNick != nullptr) {
-						if (mir_strcmp(nick, tszNick) != 0)
-							db_set_utf(hContact, "CList", "MyHandle", nick);
-						else
-							db_unset(hContact, "CList", "MyHandle");
+						if (!m_bIgnoreRoster) {
+							if (mir_strcmp(nick, tszNick) != 0)
+								db_set_utf(hContact, "CList", "MyHandle", nick);
+							else
+								db_unset(hContact, "CList", "MyHandle");
+						}
 					}
 					else db_set_utf(hContact, "CList", "MyHandle", nick);
 				}
