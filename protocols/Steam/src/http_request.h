@@ -277,57 +277,7 @@ enum HttpMethod
 	HttpPost
 };
 
-class HttpResponse
-{
-	friend class HttpRequest;
-
-private:
-	NETLIBHTTPREQUEST *m_response;
-
-public:
-	HttpRequest *Request;
-	HttpHeaders Headers;
-	HttpContent Content;
-
-	HttpResponse(HttpRequest *request, NETLIBHTTPREQUEST *response) :
-		Request(request),
-		m_response(response),
-		Headers(response),
-		Content(response)
-	{
-	}
-
-	~HttpResponse()
-	{
-		Netlib_FreeHttpRequest(m_response);
-	}
-
-	bool operator!() const
-	{
-		return !m_response || !m_response->pData;
-	}
-
-	operator bool() const
-	{
-		return m_response && m_response->pData;
-	}
-
-	bool IsSuccess() const
-	{
-		return m_response &&
-			m_response->resultCode >= HTTP_CODE_OK &&
-			m_response->resultCode <= HTTP_CODE_MULTI_STATUS;
-	}
-
-	int GetStatusCode() const
-	{
-		return m_response
-			? m_response->resultCode
-			: 0;
-	}
-};
-
-class HttpRequest : protected NETLIBHTTPREQUEST, public MZeroedObject
+class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 	friend class HttpUri;
 	friend class HttpHeaders;
@@ -379,6 +329,56 @@ public:
 	operator NETLIBHTTPREQUEST*()
 	{
 		return this;
+	}
+};
+
+class HttpResponse
+{
+	friend class HttpRequest;
+
+private:
+	NETLIBHTTPREQUEST *m_response;
+
+public:
+	HttpRequest *Request;
+	HttpHeaders Headers;
+	HttpContent Content;
+
+	HttpResponse(HttpRequest *request, NETLIBHTTPREQUEST *response) :
+		Request(request),
+		m_response(response),
+		Headers(response),
+		Content(response)
+	{
+	}
+
+	~HttpResponse()
+	{
+		Netlib_FreeHttpRequest(m_response);
+	}
+
+	bool operator!() const
+	{
+		return !m_response || !m_response->pData;
+	}
+
+	operator bool() const
+	{
+		return m_response && m_response->pData;
+	}
+
+	bool IsSuccess() const
+	{
+		return m_response &&
+			m_response->resultCode >= HTTP_CODE_OK &&
+			m_response->resultCode <= HTTP_CODE_MULTI_STATUS;
+	}
+
+	int GetStatusCode() const
+	{
+		if (m_response)
+			return m_response->resultCode;
+		return Request ? Request->resultCode : 0;
 	}
 };
 

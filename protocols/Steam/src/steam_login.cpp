@@ -38,6 +38,8 @@ void CSteamProto::Logout()
 		ptrA umqid(getStringA("UMQID"));
 		SendRequest(new LogoffRequest(token, umqid));
 	}
+
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iStatus);
 }
 
 void CSteamProto::OnGotRsaKey(const JSONNode &root, void *)
@@ -315,7 +317,6 @@ void CSteamProto::HandleTokenExpired()
 	isLoginAgain = true;
 
 	Login();
-	return;
 }
 
 void CSteamProto::OnLoggedOn(const HttpResponse &response, void *)

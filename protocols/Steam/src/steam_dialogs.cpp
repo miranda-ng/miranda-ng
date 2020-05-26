@@ -25,6 +25,7 @@ bool CSteamPasswordEditor::OnApply()
 	if (m_savePermanently.Enabled())
 		m_proto->setWString("Password", m_proto->m_password);
 
+	EndModal(DIALOG_RESULT_OK);
 	return true;
 }
 
@@ -62,6 +63,7 @@ bool CSteamGuardDialog::OnInitDialog()
 bool CSteamGuardDialog::OnApply()
 {
 	mir_strncpy(m_guardCode, ptrA(m_text.GetTextA()), _countof(m_guardCode));
+	EndModal(DIALOG_RESULT_OK);
 	return true;
 }
 
@@ -141,7 +143,7 @@ bool CSteamCaptchaDialog::OnInitDialog()
 void CSteamCaptchaDialog::OnOk(CCtrlButton*)
 {
 	mir_strncpy(m_captchaText, ptrA(m_text.GetTextA()), _countof(m_captchaText));
-	EndDialog(m_hwnd, DIALOG_RESULT_OK);
+	EndModal(DIALOG_RESULT_OK);
 }
 
 bool CSteamCaptchaDialog::OnClose()

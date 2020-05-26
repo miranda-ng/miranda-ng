@@ -266,17 +266,16 @@ int CSteamProto::SetStatus(int new_status)
 		break;
 	}
 
-	int old_status;
 	{
 		mir_cslock lock(m_setStatusLock);
 		if (new_status == m_iDesiredStatus)
 			return 0;
-
-		debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, new_status);
-
-		old_status = m_iStatus;
-		m_iDesiredStatus = new_status;
 	}
+
+	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, new_status);
+
+	int old_status = m_iStatus;
+	m_iDesiredStatus = new_status;
 
 	if (new_status == ID_STATUS_OFFLINE) {
 		// Reset relogin flag
@@ -289,7 +288,7 @@ int CSteamProto::SetStatus(int new_status)
 
 		Logout();
 	}
-	else if (old_status == ID_STATUS_OFFLINE) {
+	else if (m_hRequestQueueThread == nullptr && !IsStatusConnecting(m_iStatus)) {
 		// Load last message timestamp for correct loading of messages history
 		m_lastMessageTS = getDword("LastMessageTS", 0);
 
@@ -300,11 +299,12 @@ int CSteamProto::SetStatus(int new_status)
 		m_hRequestQueueThread = ForkThreadEx(&CSteamProto::RequestQueueThread, nullptr, nullptr);
 
 		Login();
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
-	else m_iStatus = new_status;
-
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
+	else if (IsOnline()) {
+		m_iStatus = new_status;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+	}
 	return 0;
 }
 
