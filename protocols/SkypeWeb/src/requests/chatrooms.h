@@ -18,56 +18,51 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_CHATS_H_
 #define _SKYPE_REQUEST_CHATS_H_
 
-class LoadChatsRequest : public HttpRequest
+struct LoadChatsRequest : public AsyncHttpRequest
 {
-public:
 	LoadChatsRequest(CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/conversations", ppro->m_szServer)
+	  AsyncHttpRequest(REQUEST_GET, "/users/ME/conversations", &CSkypeProto::OnLoadChats)
 	{
-		Url
-			<< INT_VALUE("startTime", 0)
-			<< INT_VALUE("pageSize", 100)
-			<< CHAR_VALUE("view", "msnp24Equivalent")
-			<< CHAR_VALUE("targetType", "Thread");
+		this << INT_PARAM("startTime", 0) << INT_PARAM("pageSize", 100) 
+			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Thread");
 
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
-			<< CHAR_VALUE("Content-Type", "application/json; charset = UTF-8");
+		AddHeader("Accept", "application/json, text/javascript");
+		AddRegistrationToken(ppro);
+		AddHeader("Content-Type", "application/json; charset = UTF-8");
 	}
 };
 
-class SendChatMessageRequest : public HttpRequest
+struct SendChatMessageRequest : public AsyncHttpRequest
 {
-public:
 	SendChatMessageRequest(const char *to, time_t timestamp, const char *message, CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/19:%s/messages", ppro->m_szServer, to)
+	  AsyncHttpRequest(REQUEST_POST)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+		m_szUrl.Format("/users/ME/conversations/19:%s/messages", to);
+
+		AddHeader("Accept", "application/json, text/javascript");
+		AddRegistrationToken(ppro);
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+
 		JSONNode node;
 		node 
 			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp)) 
 			<< JSONNode("messagetype", "RichText") 
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", message);
-
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 
-class SendChatActionRequest : public HttpRequest
+struct SendChatActionRequest : public AsyncHttpRequest
 {
-public:
 	SendChatActionRequest(const char *to, time_t timestamp, const char *message, CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/conversations/19:%s/messages", ppro->m_szServer, to)
+	  AsyncHttpRequest(REQUEST_POST)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+		m_szUrl.Format("/users/ME/conversations/19:%s/messages", to);
+
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 
 		JSONNode node(JSON_NODE);
 		node 
@@ -76,23 +71,19 @@ public:
 			<< JSONNode("contenttype", "text")
 			<< JSONNode("content", message)
 			<< JSONNode("skypeemoteoffset", 4);
-
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 
-class CreateChatroomRequest : public HttpRequest
+struct CreateChatroomRequest : public AsyncHttpRequest
 {
-public:
 	CreateChatroomRequest(const LIST<char> &skypenames, CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/threads", ppro->m_szServer)
+	  AsyncHttpRequest(REQUEST_POST, "/threads")
 	{
 		//{"members":[{"id":"8:user3","role":"User"},{"id":"8:user2","role":"User"},{"id":"8:user1","role":"Admin"}]}
-
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 
 		JSONNode node;
 		JSONNode members(JSON_ARRAY); members.set_name("members");
@@ -106,73 +97,70 @@ public:
 			members << member;
 		}
 		node << members;
-
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 
-class GetChatInfoRequest : public HttpRequest
+struct GetChatInfoRequest : public AsyncHttpRequest
 {
-public:
-	GetChatInfoRequest(const char *chatId, CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_GET, FORMAT, "%s/v1/threads/%s%s", ppro->m_szServer, strstr(chatId, "19:") == chatId ? "" : "19:", chatId)
+	GetChatInfoRequest(const char *chatId, const CMStringW topic, CSkypeProto *ppro) :
+	  AsyncHttpRequest(REQUEST_GET, 0, &CSkypeProto::OnGetChatInfo)
 	{
-		Url << CHAR_VALUE("view", "msnp24Equivalent");
+		m_szUrl.Format("/threads/%s%s", ppro->m_szServer, strstr(chatId, "19:") == chatId ? "" : "19:", chatId);
+		pUserInfo = topic.Detach();
 
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
+		this << CHAR_PARAM("view", "msnp24Equivalent");
+
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 	}
 };
 
-class InviteUserToChatRequest : public HttpRequest
+struct InviteUserToChatRequest : public AsyncHttpRequest
 {
-public:
 	InviteUserToChatRequest(const char *chatId, const char *skypename, const char* role, CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/threads/19:%s/members/8:%s", ppro->m_szServer, chatId, skypename)
+	  AsyncHttpRequest(REQUEST_PUT)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
+		m_szUrl.Format("/threads/19:%s/members/8:%s", chatId, skypename);
+
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 
 		JSONNode node;
-
 		node << JSONNode("role", role);
-
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 
-class KickUserRequest : public HttpRequest
+struct KickUserRequest : public AsyncHttpRequest
 {
-public:
 	KickUserRequest(const char *chatId, const char *skypename, CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/threads/19:%s/members/8:%s", ppro->m_szServer, chatId, skypename)
+	  AsyncHttpRequest(REQUEST_DELETE)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
+		m_szUrl.Format("/threads/19:%s/members/8:%s", chatId, skypename);
+
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 	}
 };
 
-class SetChatPropertiesRequest : public HttpRequest
+struct SetChatPropertiesRequest : public AsyncHttpRequest
 {
-public:
 	SetChatPropertiesRequest(const char *chatId, const char *propname, const char *value, CSkypeProto *ppro) :
-		HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/threads/19:%s/properties?name=%s", ppro->m_szServer, chatId, propname)
+		AsyncHttpRequest(REQUEST_PUT)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
+		m_szUrl.Format("/threads/19:%s/properties?name=%s", chatId, propname);
+
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 
 		JSONNode node;
 		node << JSONNode(propname, value);
-
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 

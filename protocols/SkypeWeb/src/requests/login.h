@@ -18,11 +18,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_LOGIN_H_
 #define _SKYPE_REQUEST_LOGIN_H_
 
-class LoginOAuthRequest : public HttpRequest
+struct LoginOAuthRequest : public AsyncHttpRequest
 {
-public:
 	LoginOAuthRequest(CMStringA username, const char *password) :
-		HttpRequest(REQUEST_POST, "api.skype.com/login/skypetoken")
+		AsyncHttpRequest(REQUEST_POST, "api.skype.com/login/skypetoken", &CSkypeProto::OnLoginOAuth)
 	{
 		username.MakeLower();
 		CMStringA hashStr(::FORMAT, "%s\nskyper\n%s", username.c_str(), password);
@@ -30,11 +29,10 @@ public:
 		BYTE digest[16];
 		mir_md5_hash((const BYTE*)hashStr.GetString(), hashStr.GetLength(), digest);
 
-		Body
-			<< CHAR_VALUE("scopes", "client")
-			<< CHAR_VALUE("clientVersion", mir_urlEncode("0/7.4.85.102/259/").c_str())
-			<< CHAR_VALUE("username", mir_urlEncode(username).c_str())
-			<< CHAR_VALUE("passwordHash", mir_urlEncode(ptrA(mir_base64_encode(digest, sizeof(digest)))).c_str());
+		this << CHAR_PARAM("scopes", "client")
+			<< CHAR_PARAM("clientVersion", mir_urlEncode("0/7.4.85.102/259/").c_str())
+			<< CHAR_PARAM("username", mir_urlEncode(username).c_str())
+			<< CHAR_PARAM("passwordHash", mir_urlEncode(ptrA(mir_base64_encode(digest, sizeof(digest)))).c_str());
 	}
 };
 

@@ -18,23 +18,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_SEARCH_H_
 #define _SKYPE_REQUEST_SEARCH_H_
 
-class GetSearchRequest : public HttpRequest
+struct GetSearchRequest : public AsyncHttpRequest
 {
-public:
 	GetSearchRequest(const char *string, CSkypeProto *ppro) :
-		HttpRequest(REQUEST_GET, "skypegraph.skype.com/search/v1.1/namesearch/swx/")
+		AsyncHttpRequest(REQUEST_GET, "skypegraph.skype.com/search/v1.1/namesearch/swx/", &CSkypeProto::OnSearch)
 	{
+		this << CHAR_PARAM("requestid", "skype.com-1.48.78-00000000-0000-0000-0000-000000000000")
+			<< CHAR_PARAM("locale", "en-US") << CHAR_PARAM("searchstring", string);
 
-		wchar_t locale[LOCALE_NAME_MAX_LENGTH] = L"en-US";
-		//LCIDToLocaleName(Langpack_GetDefaultLocale(), locale, _countof(locale), 0); //FIXME: xp support
-
-		Url
-			<< CHAR_VALUE("requestid", "skype.com-1.48.78-00000000-0000-0000-0000-000000000000")
-			<< CHAR_VALUE("locale", T2Utf(locale))
-			<< CHAR_VALUE("searchstring", string);
-		Headers
-			<< CHAR_VALUE("Accept", "application/json")
-			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken);
+		AddHeader("Accept", "application/json");
+		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 	}
 };
 

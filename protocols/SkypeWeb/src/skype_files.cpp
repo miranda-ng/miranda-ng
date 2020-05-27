@@ -25,13 +25,12 @@ void CSkypeProto::SendFileThread(void *p)
 	}
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
-	T2Utf uszFileName(fup->tszFileName);
-	SendRequest(new ASMObjectCreateRequest(this, CMStringA(FORMAT, "%d:%s", isChatRoom(fup->hContact) ? 19 : 8, getId(fup->hContact).c_str()), strrchr((const char*)uszFileName + 1, '\\')), &CSkypeProto::OnASMObjectCreated, fup);
+	SendRequest(new ASMObjectCreateRequest(this, fup));
 }
 
-void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *arg)
+void CSkypeProto::OnASMObjectCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
-	CFileUploadParam *fup = (CFileUploadParam*)arg;
+	auto *fup = (CFileUploadParam*)pRequest->pUserInfo;
 	if (response == nullptr || response->pData == nullptr) {
 LBL_Error:
 		FILETRANSFER_FAILED(fup);
@@ -71,13 +70,13 @@ LBL_Error:
 	}
 	fup->size = lBytes;
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
-	SendRequest(new ASMObjectUploadRequest(this, strObjectId.c_str(), pData, lBytes), &CSkypeProto::OnASMObjectUploaded, fup);
+	SendRequest(new ASMObjectUploadRequest(this, strObjectId.c_str(), pData, lBytes, fup));
 	fclose(pFile);
 }
 
-void CSkypeProto::OnASMObjectUploaded(const NETLIBHTTPREQUEST *response, void *arg)
+void CSkypeProto::OnASMObjectUploaded(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
-	CFileUploadParam *fup = (CFileUploadParam*)arg;
+	auto *fup = (CFileUploadParam*)pRequest->pUserInfo;
 	if (response == nullptr) {
 		FILETRANSFER_FAILED(fup);
 		return;

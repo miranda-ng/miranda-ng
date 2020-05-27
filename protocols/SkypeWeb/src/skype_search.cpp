@@ -17,23 +17,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CSkypeProto::SearchBasic(const wchar_t* id)
+HANDLE CSkypeProto::SearchBasic(const wchar_t *id)
 {
 	ForkThread(&CSkypeProto::SearchBasicThread, (void *)id);
 	return (HANDLE)1;
 }
 
-void CSkypeProto::SearchBasicThread(void* id)
+void CSkypeProto::SearchBasicThread(void *id)
 {
 	debugLogA("CSkypeProto::OnSearchBasicThread");
 	if (IsOnline())
-		SendRequest(new GetSearchRequest(mir_urlEncode(T2Utf((wchar_t*)id)), this), &CSkypeProto::OnSearch);
+		SendRequest(new GetSearchRequest(mir_urlEncode(T2Utf((wchar_t *)id)), this));
 }
 
-void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnSearch(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	debugLogA(__FUNCTION__);
-	
+
 	JsonReply reply(response);
 	if (reply.error()) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
@@ -50,8 +50,8 @@ void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_UTF8;
-		psr.id.a = const_cast<char*>(skypeId.c_str());
-		psr.nick.a = const_cast<char*>(name.c_str());
+		psr.id.a = const_cast<char *>(skypeId.c_str());
+		psr.nick.a = const_cast<char *>(name.c_str());
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 	}
 

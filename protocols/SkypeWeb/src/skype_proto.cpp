@@ -27,11 +27,10 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_TrouterConnection(nullptr),
 	m_opts(this),
 	m_impl(*this),
-	m_szServer(mir_strdup(SKYPE_ENDPOINTS_HOST))
+	m_requests(1),
+	m_szServer(mir_strdup("azeus1-client-s.gateway.messenger.live.com"))
 {
 	InitNetwork();
-
-	requestQueue = new RequestQueue(m_hNetlibUser);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 	CreateProtoService(PS_GETAVATARINFO, &CSkypeProto::SvcGetAvatarInfo);
@@ -61,8 +60,11 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 
 CSkypeProto::~CSkypeProto()
 {
-	requestQueue->Stop();
-	delete requestQueue; requestQueue = nullptr;
+	StopQueue();
+	if (m_hRequestQueueThread) {
+		WaitForSingleObject(m_hRequestQueueThread, INFINITE);
+		m_hRequestQueueThread = nullptr;
+	}
 
 	UnInitNetwork();
 	UninitPopups();
@@ -93,7 +95,7 @@ void CSkypeProto::OnShutdown()
 {
 	debugLogA(__FUNCTION__);
 
-	requestQueue->Stop();
+	StopQueue();
 
 	m_bThreadsTerminated = true;
 
@@ -120,26 +122,34 @@ INT_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 
 int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
 {
-	PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : "", this));
+	if (IsOnline())
+		PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : "", this));
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSkypeProto::OnReceiveAwayMsg(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+{
+	JsonReply reply(response);
+	if (reply.error())
+		return;
+
+	MCONTACT hContact = DWORD_PTR(pRequest->pUserInfo);
+	auto &root = reply.data();
+	if (JSONNode &mood = root["mood"]) {
+		CMStringW str = mood.as_mstring();
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
+	}
+	else {
+		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	}
 }
 
 HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
 {
-	PushRequest(new GetProfileRequest(this, getId(hContact)), [this, hContact](const NETLIBHTTPREQUEST *response) {
-		JsonReply reply(response);
-		if (reply.error())
-			return;
-
-		auto &root = reply.data();
-		if (JSONNode &mood = root["mood"]) {
-			CMStringW str = mood.as_mstring();
-			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
-		}
-		else {
-			this->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-		}
-	});
+	auto *pReq = new GetProfileRequest(this, hContact);
+	pReq->m_pFunc = &CSkypeProto::OnReceiveAwayMsg;
 	return (HANDLE)1;
 }
 
@@ -219,7 +229,7 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 	if (isChatRoom(hContact))
 		return 1;
 
-	PushRequest(new GetProfileRequest(this, getId(hContact)), &CSkypeProto::LoadProfile, (void*)hContact);
+	PushRequest(new GetProfileRequest(this, hContact));
 	return 0;
 }
 
@@ -260,7 +270,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		}
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		// logout
-		requestQueue->Stop();
+		StopQueue();
 
 		CloseDialogs();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
@@ -279,7 +289,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			Login();
 		}
 		else {
-			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), this), &CSkypeProto::OnStatusChanged);
+			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), this));
 		}
 	}
 

@@ -18,32 +18,29 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_ENDPOINT_H_
 #define _SKYPE_REQUEST_ENDPOINT_H_
 
-class CreateEndpointRequest : public HttpRequest
+struct CreateEndpointRequest : public AsyncHttpRequest
 {
-public:
 	CreateEndpointRequest(CSkypeProto *ppro) :
-		HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints", ppro->m_szServer)
+		AsyncHttpRequest(REQUEST_POST, "/users/ME/endpoints", &CSkypeProto::OnEndpointCreated)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("Authentication", "skypetoken=%s", ppro->m_szApiToken.get());
+		m_szParam = "{}";
 
-		Body << VALUE("{}");
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddHeader("Authentication", CMStringA(FORMAT, "skypetoken=%s", ppro->m_szApiToken.get()));
 	}
 };
 
-class DeleteEndpointRequest : public HttpRequest
+struct DeleteEndpointRequest : public AsyncHttpRequest
 {
-public:
 	DeleteEndpointRequest(CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_DELETE, FORMAT, "%s/v1/users/ME/endpoints/%s", ppro->m_szServer, mir_urlEncode(ppro->m_szId).c_str())
+	  AsyncHttpRequest(REQUEST_DELETE)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
+		m_szUrl.Format("/users/ME/endpoints/%s", mir_urlEncode(ppro->m_szId).c_str());
+
+		AddHeader("Accept", "application/json, text/javascript");
+		AddRegistrationToken(ppro);
 	}
 };
-
 
 #endif //_SKYPE_REQUEST_ENDPOINT_H_

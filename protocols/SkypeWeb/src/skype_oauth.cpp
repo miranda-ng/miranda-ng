@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -53,10 +53,10 @@ void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
 	ptrA password(getStringA(SKYPE_SETTINGS_PASSWORD));
 	CMStringA mscookies(FORMAT, "MSPRequ=%s;MSPOK=%s;CkTst=G%lld;", scookies["MSPRequ"].c_str(), scookies["MSPOK"].c_str(), time(NULL));
 
-	PushRequest(new OAuthRequest(login, password, mscookies.c_str(), PPTF.c_str()), &CSkypeProto::OnOAuthAuthorize);
+	PushRequest(new OAuthRequest(login, password, mscookies.c_str(), PPTF.c_str()));
 }
 
-void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -75,10 +75,10 @@ void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 	}
 	std::string t = match[1];
 
-	PushRequest(new OAuthRequest(t.c_str()), &CSkypeProto::OnOAuthEnd);
+	PushRequest(new OAuthRequest(t.c_str()));
 }
 
-void CSkypeProto::OnOAuthEnd(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnOAuthEnd(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);

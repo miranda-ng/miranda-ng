@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CSkypeProto::PollingThread(void*)
+void CSkypeProto::PollingThread(void *)
 {
 	debugLogA(__FUNCTION__ ": entering");
 
@@ -31,7 +31,7 @@ void CSkypeProto::PollingThread(void*)
 
 		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE) {
 			std::unique_ptr<PollRequest> request(new PollRequest(this));
-			NLHR_PTR response(request->Send(m_hNetlibUser));
+			NLHR_PTR response(DoSend(request.get()));
 			if (response == nullptr) {
 				nErrors++;
 				continue;
@@ -100,7 +100,7 @@ void CSkypeProto::ParsePollData(const char *szData)
 
 void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 {
-	debugLogA("CSkypeProto::ProcessEndpointPresenceRes");
+	debugLogA(__FUNCTION__);
 	std::string selfLink = node["selfLink"].as_string();
 	CMStringA skypename(UrlToSkypename(selfLink.c_str()));
 
@@ -163,7 +163,7 @@ void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 
 void CSkypeProto::ProcessUserPresence(const JSONNode &node)
 {
-	debugLogA("CSkypeProto::ProcessUserPresenceRes");
+	debugLogA(__FUNCTION__);
 
 	std::string selfLink = node["selfLink"].as_string();
 	std::string status = node["status"].as_string();
@@ -199,5 +199,5 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		OnChatEvent(node);
 }
 
-void CSkypeProto::ProcessConversationUpdate(const JSONNode&) {}
-void CSkypeProto::ProcessThreadUpdate(const JSONNode&) {}
+void CSkypeProto::ProcessConversationUpdate(const JSONNode &) {}
+void CSkypeProto::ProcessThreadUpdate(const JSONNode &) {}

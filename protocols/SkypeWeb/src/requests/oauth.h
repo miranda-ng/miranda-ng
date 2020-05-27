@@ -18,50 +18,39 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_OAUTH_H_
 #define _SKYPE_REQUEST_OAUTH_H_
 
-class OAuthRequest : public HttpRequest
+struct OAuthRequest : public AsyncHttpRequest
 {
-public:
 	OAuthRequest() :
-		HttpRequest(REQUEST_GET, "login.live.com/login.srf")
+		AsyncHttpRequest(REQUEST_GET, "login.live.com/login.srf", &CSkypeProto::OnOAuthStart)
 	{
 		flags |= NLHRF_REDIRECT;
 
-		Url
-			<< CHAR_VALUE("wa", "wsignin1.0")
-			<< CHAR_VALUE("wp", "MBI_SSL")
-			<< CHAR_VALUE("wreply", "https%3A%2F%2Flw.skype.com%2Flogin%2Foauth%2Fproxy%3Fsite_name%3Dlw.skype.com")
-			<< CHAR_VALUE("cobrandid", "90010");
+		this << CHAR_PARAM("wa", "wsignin1.0") << CHAR_PARAM("wp", "MBI_SSL")
+			<< CHAR_PARAM("wreply", "https://lw.skype.com/login/oauth/proxy?site_name=lw.skype.com")
+			<< CHAR_PARAM("cobrandid", "90010");
 	}
 
 	OAuthRequest(const char *login, const char *password, const char *cookies, const char *ppft) :
-		HttpRequest(REQUEST_POST, "login.live.com/ppsecure/post.srf")
+		AsyncHttpRequest(REQUEST_POST, "login.live.com/ppsecure/post.srf", &CSkypeProto::OnOAuthAuthorize)
 	{
-		Url
-			<< CHAR_VALUE("wa", "wsignin1.0")
-			<< CHAR_VALUE("wp", "MBI_SSL")
-			<< CHAR_VALUE("wreply", "https%3A%2F%2Flw.skype.com%2Flogin%2Foauth%2Fproxy%3Fsite_name%3Dlw.skype.com")
-			<< CHAR_VALUE("cobrandid", "90010");
+		this << CHAR_PARAM("wa", "wsignin1.0") << CHAR_PARAM("wp", "MBI_SSL")
+			<< CHAR_PARAM("wreply", "https://lw.skype.com/login/oauth/proxy?site_name=lw.skype.com")
+			<< CHAR_PARAM("cobrandid", "90010");
+		m_szUrl.AppendFormat("?%s", m_szParam.c_str());
+		m_szParam.Empty();
 
-		Headers
-			<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded")
-			<< CHAR_VALUE("Cookie", cookies);
+		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Cookie", cookies);
 
-		Body
-			<< CHAR_VALUE("login", mir_urlEncode(login))
-			<< CHAR_VALUE("passwd", mir_urlEncode(password))
-			<< CHAR_VALUE("PPFT", ppft);
+		this << CHAR_PARAM("login", login) << CHAR_PARAM("passwd", password) << CHAR_PARAM("PPFT", ppft);
 	}
 
 	OAuthRequest(const char *t) :
-		HttpRequest(REQUEST_POST, "login.skype.com/login/microsoft")
+		AsyncHttpRequest(REQUEST_POST, "login.skype.com/login/microsoft", &CSkypeProto::OnOAuthEnd)
 	{
-		Headers
-			<< CHAR_VALUE ("Content-Type", "application/x-www-form-urlencoded");
+		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-		Body
-			<< CHAR_VALUE ("t", mir_urlEncode(t))
-			<< CHAR_VALUE("site_name", "lw.skype.com")
-			<< INT_VALUE ("oauthPartner", 999);
+		this << CHAR_PARAM ("t", t) << CHAR_PARAM("site_name", "lw.skype.com") << INT_PARAM ("oauthPartner", 999);
 	}
 };
 

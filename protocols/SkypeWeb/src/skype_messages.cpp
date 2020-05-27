@@ -19,12 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* MESSAGE SENDING */
 
-struct SendMessageParam
-{
-	MCONTACT hContact;
-	DWORD hMessage;
-};
-
 // outcoming message flow
 int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 {
@@ -40,11 +34,13 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 
 	ptrA username(getStringA(hContact, "Skypename"));
 
+	AsyncHttpRequest *pReq;
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendActionRequest(username, param->hMessage, &szMessage[4], this), &CSkypeProto::OnMessageSent, param);
+		pReq = new SendActionRequest(username, param->hMessage, &szMessage[4], this);
 	else
-		SendRequest(new SendMessageRequest(username, param->hMessage, szMessage, this), &CSkypeProto::OnMessageSent, param);
-
+		pReq = new SendMessageRequest(username, param->hMessage, szMessage, this);
+	pReq->pUserInfo = param;
+	SendRequest(pReq);
 	{
 		mir_cslock lck(m_lckOutMessagesList);
 		m_OutMessages.insert((void*)param->hMessage);
@@ -52,9 +48,9 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	return param->hMessage;
 }
 
-void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
+void CSkypeProto::OnMessageSent(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
-	SendMessageParam *param = (SendMessageParam*)arg;
+	auto *param = (SendMessageParam*)pRequest->pUserInfo;
 	MCONTACT hContact = param->hContact;
 	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
@@ -102,7 +98,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 	std::string strMessageType = node["messagetype"].as_string();
 	std::string strContent = node["content"].as_string();
-	ptrA szClearedContent(strMessageType == "RichText" ? RemoveHtml(strContent.c_str()) : mir_strdup(strContent.c_str()));
+	std::string szClearedContent(strMessageType == "RichText" ? RemoveHtml(strContent) : strContent);
 
 	bool bEdited = node["skypeeditedid"];
 	time_t timestamp = time(0); // fuck the server time, we need to place events in the order of our local time
@@ -125,26 +121,22 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 			HANDLE hMessage = (HANDLE)atoi(szMessageId);
 			if (m_OutMessages.getIndex(hMessage) != -1) {
 				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, (LPARAM)szMessageId.c_str());
-				{
-					mir_cslock lck(m_lckOutMessagesList);
-					m_OutMessages.remove(hMessage);
-				}
+
+				mir_cslock lck(m_lckOutMessagesList);
+				m_OutMessages.remove(hMessage);
 			}
-			else {
-				AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact,
-					timestamp, DBEF_UTF | DBEF_SENT, &szClearedContent[nEmoteOffset], szMessageId);
-			}
+			else AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, DBEF_UTF | DBEF_SENT, &szClearedContent[nEmoteOffset], szMessageId);
 		}
 		else {
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 			MEVENT hDbEvent = GetMessageFromDb(szMessageId);
 			if (bEdited && hDbEvent != NULL)
-				EditEvent(hContact, hDbEvent, szClearedContent, timestamp);
+				EditEvent(hContact, hDbEvent, szClearedContent.c_str(), timestamp);
 			else {
 				PROTORECVEVENT recv = {};
 				recv.timestamp = timestamp;
-				recv.szMessage = mir_strdup(szClearedContent);
+				recv.szMessage = (char*)szClearedContent.c_str();
 				recv.lParam = nEmoteOffset;
 				recv.szMsgId = szMessageId;
 				ProtoChainRecvMsg(hContact, &recv);

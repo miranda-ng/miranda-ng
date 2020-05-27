@@ -17,102 +17,81 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-RequestQueue::RequestQueue(HNETLIBUSER _nlu) :
-	nlu(_nlu), requests(1)
+void CSkypeProto::StartQueue()
 {
-	isTerminated = true;
-	hRequestQueueThread = nullptr;
-}
-
-RequestQueue::~RequestQueue()
-{
-	if (hRequestQueueThread) {
-		WaitForSingleObject(hRequestQueueThread, INFINITE);
-		hRequestQueueThread = nullptr;
-	}
-
-	requests.destroy();
-}
-
-void RequestQueue::Start()
-{
-	if (!isTerminated)
+	if (!m_isTerminated)
 		return;
 
-	isTerminated = false;
-	if (hRequestQueueThread == nullptr)
-		hRequestQueueThread = mir_forkThread<RequestQueue>(&RequestQueue::WorkerThread, this);
+	m_isTerminated = false;
+	if (m_hRequestQueueThread == nullptr)
+		m_hRequestQueueThread = ForkThreadEx(&CSkypeProto::WorkerThread, 0, 0);
 }
 
-void RequestQueue::Stop()
+void CSkypeProto::StopQueue()
 {
-	if (isTerminated)
+	if (m_isTerminated)
 		return;
 
-	isTerminated = true;
-	hRequestQueueEvent.Set();
+	m_isTerminated = true;
+	m_hRequestQueueEvent.Set();
 }
 
-void RequestQueue::Push(HttpRequest *request, HttpResponseCallback response, void *arg)
+void CSkypeProto::PushRequest(AsyncHttpRequest *request)
 {
-	if (isTerminated)
+	if (m_isTerminated)
 		return;
-
-	RequestQueueItem *item = new RequestQueueItem(request, response, arg);
 	{
-		mir_cslock lock(requestQueueLock);
-
-		requests.insert(item);
+		mir_cslock lock(m_requestQueueLock);
+		m_requests.insert(request);
 	}
-	hRequestQueueEvent.Set();
+	m_hRequestQueueEvent.Set();
 }
 
-void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, void *arg)
+void CSkypeProto::SendRequest(AsyncHttpRequest *request)
 {
-	RequestQueueItem *item = new RequestQueueItem(request, response, arg);
-	mir_forkthreadowner(&RequestQueue::AsyncSendThread, this, item, nullptr);
+	mir_forkthreadowner(&CSkypeProto::AsyncSendThread, this, request, nullptr);
 }
 
-void RequestQueue::Execute(RequestQueueItem *item)
+void CSkypeProto::Execute(AsyncHttpRequest *item)
 {
-	NLHR_PTR response(item->request->Send(nlu));
-	if (item->responseCallback != nullptr)
-		item->responseCallback(response, item->arg);
-	requests.remove(item);
+	NLHR_PTR response(DoSend(item));
+	if (item->m_pFunc != nullptr)
+		(this->*item->m_pFunc)(response, item);
+	m_requests.remove(item);
 	delete item;
 }
 
-unsigned RequestQueue::AsyncSendThread(void *owner, void *arg)
+unsigned CSkypeProto::AsyncSendThread(void *owner, void *arg)
 {
-	RequestQueue *that = (RequestQueue*)owner;
-	RequestQueueItem *item = (RequestQueueItem*)arg;
+	CSkypeProto *that = (CSkypeProto*)owner;
+	AsyncHttpRequest *item = (AsyncHttpRequest*)arg;
 
 	that->Execute(item);
 	return 0;
 }
 
-void RequestQueue::WorkerThread(RequestQueue *queue)
+void CSkypeProto::WorkerThread(void*)
 {
 	while (true) {
-		queue->hRequestQueueEvent.Wait();
-		if (queue->isTerminated)
+		m_hRequestQueueEvent.Wait();
+		if (m_isTerminated)
 			break;
 
 		while (true) {
-			RequestQueueItem *item = nullptr;
+			AsyncHttpRequest *item = nullptr;
 			{
-				mir_cslock lock(queue->requestQueueLock);
+				mir_cslock lock(m_requestQueueLock);
 
-				if (queue->requests.getCount() == 0)
+				if (m_requests.getCount() == 0)
 					break;
 
-				item = queue->requests[0];
-				queue->requests.remove(0);
+				item = m_requests[0];
+				m_requests.remove(0);
 			}
 			if (item != nullptr)
-				queue->Execute(item);
+				Execute(item);
 		}
 	}
 
-	queue->hRequestQueueThread = nullptr;
+	m_hRequestQueueThread = nullptr;
 }

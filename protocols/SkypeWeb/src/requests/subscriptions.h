@@ -18,58 +18,52 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_SUBSCIPTIONS_H_
 #define _SKYPE_REQUEST_SUBSCIPTIONS_H_
 
-class CreateSubscriptionsRequest : public HttpRequest
+struct CreateSubscriptionsRequest : public AsyncHttpRequest
 {
-public:
 	CreateSubscriptionsRequest(CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/endpoints/SELF/subscriptions", ppro->m_szServer)
+		AsyncHttpRequest(REQUEST_POST, "/users/ME/endpoints/SELF/subscriptions", &CSkypeProto::OnSubscriptionsCreated)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get())
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8");
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 
 		JSONNode interestedResources(JSON_ARRAY); interestedResources.set_name("interestedResources");
-		interestedResources 
+		interestedResources
 			<< JSONNode("", "/v1/users/ME/conversations/ALL/properties")
 			<< JSONNode("", "/v1/users/ME/conversations/ALL/messages")
 			<< JSONNode("", "/v1/users/ME/contacts/ALL")
 			<< JSONNode("", "/v1/threads/ALL");
 
 		JSONNode node;
-		node 
+		node
 			<< JSONNode("channelType", "httpLongPoll")
 			<< JSONNode("template", "raw")
 			<< interestedResources;
 
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 
-class CreateContactsSubscriptionRequest : public HttpRequest
+struct CreateContactsSubscriptionRequest : public AsyncHttpRequest
 {
-public:
 	CreateContactsSubscriptionRequest(const LIST<char> &skypenames, CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_POST, FORMAT, "%s/v1/users/ME/contacts", ppro->m_szServer)
+		AsyncHttpRequest(REQUEST_POST, "/users/ME/contacts")
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
-
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 
 		JSONNode node;
 		JSONNode contacts(JSON_ARRAY); contacts.set_name("contacts");
 
-		for (auto &it : skypenames)
-		{
+		for (auto &it : skypenames) {
 			JSONNode contact;
 			contact << JSONNode("id", CMStringA(::FORMAT, "8:%s", it));
 			contacts << contact;
 		}
 		node << contacts;
 
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 

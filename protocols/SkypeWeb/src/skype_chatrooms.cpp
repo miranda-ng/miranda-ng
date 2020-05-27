@@ -54,7 +54,7 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 	Chat_Control(m_szModuleName, tid, SESSION_ONLINE);
 }
 
-void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -68,7 +68,7 @@ void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 	std::string syncState = metadata["syncState"].as_string();
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), this), &CSkypeProto::OnSyncHistory);
+		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), this));
 
 	for (auto &conversation : conversations) {
 		if (!conversation["lastMessage"])
@@ -77,7 +77,7 @@ void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 		const JSONNode &id = conversation["id"];
 		const JSONNode &threadProperties = conversation["threadProperties"];
 		CMStringW topic(threadProperties["topic"].as_mstring());
-		SendRequest(new GetChatInfoRequest(id.as_string().c_str(), this), &CSkypeProto::OnGetChatInfo, topic.Detach());
+		SendRequest(new GetChatInfoRequest(id.as_string().c_str(), topic, this));
 	}
 }
 
@@ -243,12 +243,12 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
 	if (FindChatRoom(szConversationName) == NULL)
-		SendRequest(new GetChatInfoRequest(szConversationName, this), &CSkypeProto::OnGetChatInfo, szTopic.Detach());
+		SendRequest(new GetChatInfoRequest(szConversationName, szTopic, this));
 
 	std::string messageType = node["messagetype"].as_string();
 	if (messageType == "Text" || messageType == "RichText") {
-		ptrA szClearedContent(messageType == "RichText" ? RemoveHtml(strContent.c_str()) : mir_strdup(strContent.c_str()));
-		AddMessageToChat(szConversationName, szFromSkypename, szClearedContent, nEmoteOffset != NULL, nEmoteOffset, timestamp);
+		std::string szClearedContent(messageType == "RichText" ? RemoveHtml(strContent) : strContent);
+		AddMessageToChat(szConversationName, szFromSkypename, szClearedContent.c_str(), nEmoteOffset != NULL, nEmoteOffset, timestamp);
 	}
 	else if (messageType == "ThreadActivity/AddMember") {
 		// <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
@@ -359,9 +359,9 @@ void CSkypeProto::AddMessageToChat(const char *chat_id, const char *from, const 
 	Chat_Event(&gce);
 }
 
-void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
+void CSkypeProto::OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
-	ptrW topic((wchar_t*)p); // memory must be freed in any case
+	ptrW topic((wchar_t*)pRequest->pUserInfo); // memory must be freed in any case
 
 	JsonReply reply(response);
 	if (reply.error())
@@ -380,7 +380,7 @@ void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 		std::string role = member["role"].as_string();
 		AddChatContact(chatId, username, username, role.c_str(), true);
 	}
-	PushRequest(new GetHistoryRequest(chatId, 15, true, 0, this), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(chatId, 15, true, 0, this));
 }
 
 void CSkypeProto::RenameChat(const char *chat_id, const char *name)

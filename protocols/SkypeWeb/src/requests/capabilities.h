@@ -18,16 +18,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_CAPS_H_
 #define _SKYPE_REQUEST_CAPS_H_
 
-class SendCapabilitiesRequest : public HttpRequest
+struct SendCapabilitiesRequest : public AsyncHttpRequest
 {
-public:
 	SendCapabilitiesRequest(const char *hostname, CSkypeProto *ppro) :
-	  HttpRequest(REQUEST_PUT, FORMAT, "%s/v1/users/ME/endpoints/%s/presenceDocs/messagingService", ppro->m_szServer, mir_urlEncode(ppro->m_szId).c_str())
+		AsyncHttpRequest(REQUEST_PUT, 0, &CSkypeProto::OnCapabilitiesSended)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", ppro->m_szToken.get());
+		m_szUrl.Format("/users/ME/endpoints/%s/presenceDocs/messagingService", mir_urlEncode(ppro->m_szId).c_str());
+
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddRegistrationToken(ppro);
 
 		JSONNode privateInfo; privateInfo.set_name("privateInfo");
 		privateInfo << JSONNode("epname", hostname);
@@ -48,7 +48,7 @@ public:
 			<< privateInfo 
 			<< publicInfo;
 
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 #endif //_SKYPE_REQUEST_CAPS_H_

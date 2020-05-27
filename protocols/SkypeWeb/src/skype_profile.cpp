@@ -397,9 +397,9 @@ void CSkypeProto::UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact)
 }
 
 //{"firstname":"Echo \/ Sound Test Service", "lastname" : null, "birthday" : null, "gender" : null, "country" : null, "city" : null, "language" : null, "homepage" : null, "about" : null, "province" : null, "jobtitle" : null, "emails" : [], "phoneMobile" : null, "phoneHome" : null, "phoneOffice" : null, "mood" : null, "richMood" : null, "avatarUrl" : null, "username" : "echo123"}
-void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response, void *arg)
+void CSkypeProto::LoadProfile(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
-	MCONTACT hContact = (DWORD_PTR)arg;
+	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 
 	JsonReply reply(response);
 	if (reply.error()) {

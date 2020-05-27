@@ -342,10 +342,9 @@ const HtmlEntity htmlEntities[] =
 	{ "zwnj", "\xE2\x80\x8C" }
 };
 
-char *CSkypeProto::RemoveHtml(const char *text)
+std::string RemoveHtml(const std::string &data)
 {
-	std::string new_string = "";
-	std::string data = text;
+	std::string new_string;
 
 	for (std::string::size_type i = 0; i < data.length(); i++) {
 		if (data.at(i) == '<') {
@@ -424,10 +423,10 @@ char *CSkypeProto::RemoveHtml(const char *text)
 		new_string += data.at(i);
 	}
 
-	return mir_strdup(new_string.c_str());
+	return new_string;
 }
 
-const char *CSkypeProto::MirandaToSkypeStatus(int status)
+const char* CSkypeProto::MirandaToSkypeStatus(int status)
 {
 	switch (status) {
 	case ID_STATUS_AWAY:
@@ -558,16 +557,16 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, NULL);
 		return 0;
 	}
-	
+
 	if (!mir_wstrcmpi(szCommand, L"call")) {
 		MCONTACT hContact = AddContact(_T2A(szJid), true);
 		NotifyEventHooks(g_hCallEvent, (WPARAM)hContact, (LPARAM)0);
 		return 0;
 	}
-	
-	if (!mir_wstrcmpi(szCommand, L"userinfo")) 
+
+	if (!mir_wstrcmpi(szCommand, L"userinfo"))
 		return 0;
-	
+
 	if (!mir_wstrcmpi(szCommand, L"add")) {
 		MCONTACT hContact = FindContact(_T2A(szJid));
 		if (hContact == NULL) {
@@ -604,7 +603,53 @@ INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-JsonReply::JsonReply(const NETLIBHTTPREQUEST *pReply)
+AsyncHttpRequest::AsyncHttpRequest(int type, LPCSTR url, MTHttpRequestHandler pFunc)
+{
+	if (url)
+		m_szUrl = url;
+	m_pFunc = pFunc;
+	flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
+	requestType = type;
+}
+
+void AsyncHttpRequest::AddRegistrationToken(CSkypeProto *ppro)
+{
+	AddHeader("RegistrationToken", CMStringA(FORMAT, "registrationToken=%s", ppro->m_szToken.get()));
+}
+
+NETLIBHTTPREQUEST* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
+{
+	if (pReq->m_szUrl[0] == '/') {
+		pReq->m_szUrl.Insert(0, "/v1"); // current API version
+		pReq->m_szUrl.Insert(0, m_szServer);
+	}
+
+	if (pReq->m_szUrl.Find("://") == -1)
+		pReq->m_szUrl.Insert(0, ((pReq->flags & NLHRF_SSL) ? "https://" : "http://"));
+
+	if (!pReq->m_szParam.IsEmpty()) {
+		switch (pReq->requestType) {
+		case REQUEST_GET:
+		case REQUEST_DELETE:
+			pReq->m_szUrl.AppendChar('?');
+			pReq->m_szUrl.Append(pReq->m_szParam.c_str());
+			break;
+
+		default:
+			pReq->pData = pReq->m_szParam.Detach();
+			pReq->dataLength = (int)mir_strlen(pReq->pData);
+		}
+	}
+
+	pReq->szUrl = pReq->m_szUrl.GetBuffer();
+	debugLogA("Send request to %s", pReq->szUrl);
+
+	return Netlib_HttpTransaction(m_hNetlibUser, pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 {
 	if (pReply == nullptr) {
 		m_errorCode = 500;

@@ -61,8 +61,6 @@ struct CSkypeProto;
 extern char g_szMirVer[];
 extern HANDLE g_hCallEvent;
 
-#define SKYPE_ENDPOINTS_HOST "client-s.gateway.messenger.live.com"
-
 struct TRInfo
 {
 	std::string socketIo,
@@ -92,7 +90,6 @@ struct MessageId
 #include "skype_trouter.h"
 #include "skype_utils.h"
 #include "skype_db.h"
-#include "http_request.h"
 #include "skype_proto.h"
 
 #include "requests/avatars.h"
@@ -104,7 +101,6 @@ struct MessageId
 #include "requests/history.h"
 #include "requests/login.h"
 #include "requests/messages.h"
-#include "requests/mslogin.h"
 #include "requests/oauth.h"
 #include "requests/poll.h"
 #include "requests/profile.h"
@@ -112,62 +108,6 @@ struct MessageId
 #include "requests/status.h"
 #include "requests/subscriptions.h"
 #include "requests/trouter.h"
-#include "request_queue.h"
-
-void SkypeHttpResponse(const NETLIBHTTPREQUEST *response, void *arg);
-
-class SkypeResponseDelegateBase
-{
-protected:
-	CSkypeProto *proto;
-public:
-	SkypeResponseDelegateBase(CSkypeProto *ppro) : proto(ppro) {}
-	virtual void Invoke(const NETLIBHTTPREQUEST *) = 0;
-	virtual ~SkypeResponseDelegateBase(){};
-};
-
-class SkypeResponseDelegate : public SkypeResponseDelegateBase
-{
-	SkypeResponseCallback pfnResponseCallback;
-public:
-	SkypeResponseDelegate(CSkypeProto *ppro, SkypeResponseCallback callback) : SkypeResponseDelegateBase(ppro), pfnResponseCallback(callback) {}
-
-	virtual void Invoke(const NETLIBHTTPREQUEST *response) override
-	{
-		(proto->*(pfnResponseCallback))(response);
-	}
-};
-
-class SkypeResponseDelegateWithArg : public SkypeResponseDelegateBase
-{
-	SkypeResponseWithArgCallback pfnResponseCallback;
-	void *arg;
-public:
-	SkypeResponseDelegateWithArg(CSkypeProto *ppro, SkypeResponseWithArgCallback callback, void *p) :
-		SkypeResponseDelegateBase(ppro),
-		pfnResponseCallback(callback),
-		arg(p)
-	{}
-
-	virtual void Invoke(const NETLIBHTTPREQUEST *response) override
-	{
-		(proto->*(pfnResponseCallback))(response, arg);
-	}
-};
-
-template <typename F>
-class SkypeResponseDelegateLambda : public SkypeResponseDelegateBase
-{
-	F lCallback;
-public:
-	SkypeResponseDelegateLambda(CSkypeProto *ppro, F &callback) : SkypeResponseDelegateBase(ppro), lCallback(callback) {}
-
-	virtual void Invoke(const NETLIBHTTPREQUEST *response) override
-	{
-		lCallback(response);
-	}
-};
-
 
 #define MODULE "Skype"
 

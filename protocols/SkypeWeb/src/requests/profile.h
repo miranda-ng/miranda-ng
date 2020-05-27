@@ -18,15 +18,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_PROFILE_H_
 #define _SKYPE_REQUEST_PROFILE_H_
 
-class GetProfileRequest : public HttpRequest
+struct GetProfileRequest : public AsyncHttpRequest
 {
-public:
-	GetProfileRequest(CSkypeProto *ppro, const char *skypename = "self") :
-		HttpRequest(REQUEST_GET, FORMAT, "api.skype.com/users/%s/profile", skypename)
+	GetProfileRequest(CSkypeProto *ppro, MCONTACT hContact) :
+		AsyncHttpRequest(REQUEST_GET, 0, &CSkypeProto::LoadProfile)
 	{
-		Headers
-			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
-			<< CHAR_VALUE("Accept", "application/json");
+		m_szUrl.Format("api.skype.com/users/%s/profile", (hContact == 0) ? "self" : ppro->getId(hContact).c_str());
+		pUserInfo = (void *)hContact;
+
+		AddHeader("X-Skypetoken", ppro->m_szApiToken);
+		AddHeader("Accept", "application/json");
 	}
 };
 

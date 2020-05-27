@@ -17,53 +17,48 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-class CreateTrouterRequest : public HttpRequest
+struct CreateTrouterRequest : public AsyncHttpRequest
 {
-public:
 	CreateTrouterRequest() :
-		HttpRequest(REQUEST_POST, "go.trouter.io/v2/a")
+		AsyncHttpRequest(REQUEST_POST, "go.trouter.io/v2/a", &CSkypeProto::OnCreateTrouter)
 	{
-		Headers << CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
+		AddHeader("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
 	}
 };
 
-class CreateTrouterPoliciesRequest : public HttpRequest
+struct CreateTrouterPoliciesRequest : public AsyncHttpRequest
 {
-public:
 	CreateTrouterPoliciesRequest(CSkypeProto *ppro, const char *sr) :
-		HttpRequest(REQUEST_POST, FORMAT, "prod.tpc.skype.com/v1/policies")
+		AsyncHttpRequest(REQUEST_POST, "prod.tpc.skype.com/v1/policies", &CSkypeProto::OnTrouterPoliciesCreated)
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< CHAR_VALUE("Content-Type", "application/json; charset=UTF-8")
-			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken);
+		AddHeader("Accept", "application/json, text/javascript");
+		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 
 		JSONNode node;
 		node << JSONNode("sr", sr);
 
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 
-class RegisterTrouterRequest : public HttpRequest
+struct RegisterTrouterRequest : public AsyncHttpRequest
 {
-public:
 	RegisterTrouterRequest(CSkypeProto *ppro, const char *trouterUrl, const char *id) :
-		HttpRequest(REQUEST_POST, "prod.registrar.skype.com/v2/registrations")
+		AsyncHttpRequest(REQUEST_POST, "prod.registrar.skype.com/v2/registrations")
 	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml")
-			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken);
+		AddHeader("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
+		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 
 		JSONNode clientDescription; clientDescription.set_name("clientDescription");
-		clientDescription 
+		clientDescription
 			<< JSONNode("aesKey", "")
 			<< JSONNode("languageId", "en-US")
 			<< JSONNode("platform", "SWX")
 			<< JSONNode("templateKey", "SkypeWeb_1.0");
 
 		JSONNode TRouter;
-		TRouter 
+		TRouter
 			<< JSONNode("context", "")
 			<< JSONNode("path", trouterUrl)
 			<< JSONNode("ttl", 3600);
@@ -75,82 +70,77 @@ public:
 		transports << TRouters;
 
 		JSONNode node;
-		node 
+		node
 			<< JSONNode("registrationId", id)
 			<< JSONNode("nodeId", "")
 			<< clientDescription
 			<< transports;
 
-		Body << VALUE(node.write().c_str());
+		m_szParam = node.write().c_str();
 	}
 };
 
-class HealthTrouterRequest : public HttpRequest
+struct HealthTrouterRequest : public AsyncHttpRequest
 {
-public:
 	HealthTrouterRequest(const char *ccid) :
-		HttpRequest(REQUEST_POST, "go.trouter.io/v2/h")
+		AsyncHttpRequest(REQUEST_POST, "go.trouter.io/v2/h", &CSkypeProto::OnHealth)
 	{
-		Url
-			<< CHAR_VALUE("ccid", ccid);
+		this << CHAR_PARAM("ccid", ccid);
 
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
+		AddHeader("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
 
 	}
 };
 
-class GetTrouterRequest : public HttpRequest
+struct GetTrouterRequest : public AsyncHttpRequest
 {
-public:
 	GetTrouterRequest(const std::string &socketio, const std::string &sr, const std::string &st, const std::string &se, const std::string &sig,
 		const std::string &instance, const std::string &ccid) :
-		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/", socketio.c_str())
+		AsyncHttpRequest(REQUEST_GET, 0, &CSkypeProto::OnGetTrouter)
 	{
-		Url
-			<< CHAR_VALUE("sr", sr.c_str())
-			<< CHAR_VALUE("issuer", "edf")
-			<< CHAR_VALUE("sp", "connect")
-			<< CHAR_VALUE("st", st.c_str())
-			<< CHAR_VALUE("se", se.c_str())
-			<< CHAR_VALUE("sig", sig.c_str())
-			<< CHAR_VALUE("r", instance.c_str())
-			<< CHAR_VALUE("v", "v2")
-			<< INT_VALUE("p", 443)
-			<< CHAR_VALUE("ccid", ccid.c_str())
-			<< CHAR_VALUE("tc", mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}"))
-			<< LONG_VALUE("t", time(NULL) * 1000);
+		m_szUrl.Format("%ssocket.io/1/", socketio.c_str());
 
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
+		this << CHAR_PARAM("sr", sr.c_str())
+			<< CHAR_PARAM("issuer", "edf")
+			<< CHAR_PARAM("sp", "connect")
+			<< CHAR_PARAM("st", st.c_str())
+			<< CHAR_PARAM("se", se.c_str())
+			<< CHAR_PARAM("sig", sig.c_str())
+			<< CHAR_PARAM("r", instance.c_str())
+			<< CHAR_PARAM("v", "v2")
+			<< INT_PARAM("p", 443)
+			<< CHAR_PARAM("ccid", ccid.c_str())
+			<< CHAR_PARAM("tc", mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}"))
+			<< INT_PARAM("t", time(NULL) * 1000);
+
+		AddHeader("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
 	}
 };
 
-class TrouterPollRequest : public HttpRequest
+struct TrouterPollRequest : public AsyncHttpRequest
 {
-public:
 	TrouterPollRequest(const std::string &socketio, const std::string &sr, const std::string &st, const std::string &se, const std::string &sig,
 		const std::string &instance, const std::string &ccid, const std::string &sessId) :
-		HttpRequest(REQUEST_GET, FORMAT, "%ssocket.io/1/xhr-polling/%s", socketio.c_str(), sessId.c_str())
+		AsyncHttpRequest(REQUEST_GET)
 	{
+		m_szUrl.Format("%ssocket.io/1/xhr-polling/%s", socketio.c_str(), sessId.c_str());
+
 		timeout = 60000;
 		flags |= NLHRF_PERSISTENT;
-		Url
-			<< CHAR_VALUE("sr", sr.c_str())
-			<< CHAR_VALUE("issuer", "edf")
-			<< CHAR_VALUE("sp", "connect")
-			<< CHAR_VALUE("st", st.c_str())
-			<< CHAR_VALUE("se", se.c_str())
-			<< CHAR_VALUE("sig", sig.c_str())
-			<< CHAR_VALUE("r", instance.c_str())
-			<< CHAR_VALUE("v", "v2")
-			<< INT_VALUE("p", 443)
-			<< CHAR_VALUE("ccid", ccid.c_str())
-			<< CHAR_VALUE("tc", mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}"))
-			<< LONG_VALUE("t", time(NULL) * 1000);
+		this
+			<< CHAR_PARAM("sr", sr.c_str())
+			<< CHAR_PARAM("issuer", "edf")
+			<< CHAR_PARAM("sp", "connect")
+			<< CHAR_PARAM("st", st.c_str())
+			<< CHAR_PARAM("se", se.c_str())
+			<< CHAR_PARAM("sig", sig.c_str())
+			<< CHAR_PARAM("r", instance.c_str())
+			<< CHAR_PARAM("v", "v2")
+			<< INT_PARAM("p", 443)
+			<< CHAR_PARAM("ccid", ccid.c_str())
+			<< CHAR_PARAM("tc", mir_urlEncode("{\"cv\":\"2014.8.26\",\"hr\":\"\",\"ua\":\"Miranda_NG\",\"v\":\"\"}"))
+			<< INT_PARAM("t", time(NULL) * 1000);
 
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
+		AddHeader("Accept", "application/json, text/javascript, text/html,application/xhtml+xml, application/xml");
 	}
 };
-

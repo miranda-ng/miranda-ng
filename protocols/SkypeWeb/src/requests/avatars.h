@@ -18,26 +18,27 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_AVATAR_H_
 #define _SKYPE_REQUEST_AVATAR_H_
 
-class GetAvatarRequest : public HttpRequest
+struct GetAvatarRequest : public AsyncHttpRequest
 {
-public:
-	GetAvatarRequest(const char *url) : HttpRequest(REQUEST_GET, url)
+	GetAvatarRequest(const char *url, MCONTACT hContact) :
+		AsyncHttpRequest(REQUEST_GET, url, &CSkypeProto::OnReceiveAvatar)
 	{
 		flags |= NLHRF_REDIRECT;
+		pUserInfo = (void *)hContact;
 	}
 };
 
-class SetAvatarRequest : public HttpRequest
+struct SetAvatarRequest : public AsyncHttpRequest
 {
-public:
 	SetAvatarRequest(const PBYTE data, size_t dataSize, const char *szMime, CSkypeProto *ppro) :
-		HttpRequest(REQUEST_PUT, FORMAT, "api.skype.com/users/%s/profile/avatar", ppro->m_szSkypename.MakeLower().c_str())
+		AsyncHttpRequest(REQUEST_PUT, 0, &CSkypeProto::OnSentAvatar)
 	{
-		Headers
-			<< CHAR_VALUE("X-Skypetoken", ppro->m_szApiToken)
-			<< CHAR_VALUE("Content-Type", szMime);
+		m_szUrl.Format("api.skype.com/users/%s/profile/avatar", ppro->m_szSkypename.MakeLower().c_str());
 
-		pData = (char*)mir_alloc(dataSize);
+		AddHeader("X-Skypetoken", ppro->m_szApiToken);
+		AddHeader("Content-Type", szMime);
+
+		pData = (char *)mir_alloc(dataSize);
 		memcpy(pData, data, dataSize);
 		dataLength = (int)dataSize;
 	}
@@ -47,6 +48,5 @@ public:
 		mir_free(pData);
 	}
 };
-
 
 #endif //_SKYPE_REQUEST_AVATAR_H_

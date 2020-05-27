@@ -52,12 +52,12 @@ void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 	SvcGetAvatarInfo(0, (LPARAM)&ai);
 }
 
-void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
+void CSkypeProto::OnReceiveAvatar(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
 	if (response == nullptr || response->pData == nullptr)
 		return;
 	
-	MCONTACT hContact = (DWORD_PTR)arg;
+	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 	if (response->resultCode != 200)
 		return;
 
@@ -78,7 +78,7 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 }
 
-void CSkypeProto::OnSentAvatar(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnSentAvatar(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply root(response);
 	if (root.error())
@@ -103,7 +103,7 @@ INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 		return GAIR_SUCCESS;
 
 	if (IsOnline()) {
-		PushRequest(new GetAvatarRequest(szUrl), &CSkypeProto::OnReceiveAvatar, (void*)pai->hContact);
+		PushRequest(new GetAvatarRequest(szUrl, pai->hContact));
 		debugLogA("Requested to read an avatar from '%s'", szUrl.get());
 		return GAIR_WAITFOR;
 	}
@@ -174,7 +174,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 					if (data != NULL && fread(data, sizeof(BYTE), length, hFile) == length) {
 						const char *szMime = FreeImage_GetFIFMimeType(FreeImage_GetFIFFromFilenameU(path));
 
-						PushRequest(new SetAvatarRequest(data, length, szMime, this), &CSkypeProto::OnSentAvatar);
+						PushRequest(new SetAvatarRequest(data, length, szMime, this));
 						fclose(hFile);
 						return 0;
 					}

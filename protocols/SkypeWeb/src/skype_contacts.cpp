@@ -90,7 +90,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 	return hContact;
 }
 
-void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -127,7 +127,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 //[{"skypename":"echo123", "authorized" : true, "blocked" : false, ...},...]
 // other properties is exists but empty
 
-void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -178,7 +178,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 					setWString(hContact, "LastName", last_name);
 
 				if (item["mood"])
-					db_set_utf(hContact, "CList", "StatusMsg", ptrA(RemoveHtml(item["mood"].as_string().c_str())));
+					db_set_utf(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_string()).c_str());
 
 				SetAvatarUrl(hContact, avatar_url);
 				ReloadAvatarInfo(hContact);
@@ -199,7 +199,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		}
 	}
 
-	PushRequest(new GetContactsAuthRequest(this), &CSkypeProto::LoadContactsAuth);
+	PushRequest(new GetContactsAuthRequest(this));
 }
 
 INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
@@ -232,29 +232,29 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 	if (!IsOnline()) return 1;
 
 	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
-		SendRequest(new BlockContactRequest(this, getId(hContact)), &CSkypeProto::OnBlockContact, (void *)hContact);
+		SendRequest(new BlockContactRequest(this, hContact));
 	return 0;
 }
 
-void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
+void CSkypeProto::OnBlockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
-	MCONTACT hContact = (DWORD_PTR)p;
+	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 	if (response != nullptr)
 		Contact_Hide(hContact);
 }
 
 INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 {
-	SendRequest(new UnblockContactRequest(this, getId(hContact)), &CSkypeProto::OnUnblockContact, (void *)hContact);
+	SendRequest(new UnblockContactRequest(this, hContact));
 	return 0;
 }
 
-void CSkypeProto::OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p)
+void CSkypeProto::OnUnblockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
 	if (response == nullptr)
 		return;
 
-	MCONTACT hContact = (DWORD_PTR)p;
+	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 	Contact_Hide(hContact, false);
 	delSetting(hContact, "IsBlocked");
 }

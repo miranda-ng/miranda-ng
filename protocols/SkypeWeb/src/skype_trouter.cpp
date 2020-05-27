@@ -22,13 +22,13 @@ void CSkypeProto::ProcessTimer()
 	if (!IsOnline())
 		return;
 
-	PushRequest(new GetContactListRequest(this, nullptr), &CSkypeProto::LoadContactList);
+	PushRequest(new GetContactListRequest(this, nullptr));
 	SendPresence(false);
 
 	RefreshStatuses();
 }
 
-void CSkypeProto::OnReceiveStatus(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnReceiveStatus(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -61,20 +61,20 @@ void CSkypeProto::RefreshStatuses(void)
 			nRecs = 0;
 		}
 
-		pReq->Url << CHAR_VALUE("cMri", "8:" + id);
+		pReq << CHAR_PARAM("cMri", "8:" + id);
 		nRecs++;
 
 		if (nRecs >= 10) {
-			PushRequest(pReq, &CSkypeProto::OnReceiveStatus);
+			PushRequest(pReq);
 			pReq = nullptr;
 		}
 	}
 
 	if (pReq)
-		PushRequest(pReq, &CSkypeProto::OnReceiveStatus);
+		PushRequest(pReq);
 }
 
-void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnCreateTrouter(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error()) {
@@ -99,10 +99,10 @@ LBL_Error:
 	TRouter.socketIo = socketio.as_string();
 	TRouter.url = url.as_string();
 
-	SendRequest(new CreateTrouterPoliciesRequest(this, TRouter.connId.c_str()), &CSkypeProto::OnTrouterPoliciesCreated);
+	SendRequest(new CreateTrouterPoliciesRequest(this, TRouter.connId.c_str()));
 }
 
-void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnTrouterPoliciesCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error()) {
@@ -122,18 +122,10 @@ LBL_Error:
 	TRouter.st = st.as_string();
 	TRouter.se = se.as_string();
 	TRouter.sig = sig.as_string();
-
-	SendRequest(new GetTrouterRequest(
-		TRouter.socketIo,
-		TRouter.connId,
-		TRouter.st,
-		TRouter.se,
-		TRouter.sig,
-		TRouter.instance,
-		TRouter.ccid), &CSkypeProto::OnGetTrouter);
+	SendRequest(new GetTrouterRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid));
 }
 
-void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnGetTrouter(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	if (response == nullptr || response->pData == nullptr) {
 		debugLogA("Failed to establish a TRouter connection.");
@@ -154,17 +146,9 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	}
 }
 
-void CSkypeProto::OnHealth(const NETLIBHTTPREQUEST*)
+void CSkypeProto::OnHealth(NETLIBHTTPREQUEST *, AsyncHttpRequest *)
 {
-	SendRequest(new GetTrouterRequest(
-		TRouter.socketIo,
-		TRouter.connId,
-		TRouter.st,
-		TRouter.se,
-		TRouter.sig,
-		TRouter.instance,
-		TRouter.ccid),
-		&CSkypeProto::OnGetTrouter);
+	SendRequest(new GetTrouterRequest(TRouter.socketIo, TRouter.connId, TRouter.st, TRouter.se, TRouter.sig, TRouter.instance, TRouter.ccid));
 }
 
 void CSkypeProto::TRouterThread(void*)
@@ -182,7 +166,7 @@ void CSkypeProto::TRouterThread(void*)
 
 		while (errors < POLLING_ERRORS_LIMIT && m_iStatus > ID_STATUS_OFFLINE) {
 			request->nlc = m_TrouterConnection;
-			NLHR_PTR response(request->Send(m_hNetlibUser));
+			NLHR_PTR response(DoSend(request));
 
 			if (response == NULL) {
 				m_TrouterConnection = nullptr;
@@ -207,7 +191,7 @@ void CSkypeProto::TRouterThread(void*)
 			else {
 				errors++;
 
-				SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()), &CSkypeProto::OnHealth);
+				SendRequest(new HealthTrouterRequest(TRouter.ccid.c_str()));
 				m_hTrouterHealthEvent.Wait();
 			}
 			m_TrouterConnection = response->nlc;

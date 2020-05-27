@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* HISTORY SYNC */
 
-void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -35,7 +35,7 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 	bool markAllAsUnread = getBool("MarkMesUnread", true);
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str(), this), &CSkypeProto::OnGetServerHistory);
+		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str(), this));
 
 	for (int i = (int)conversations.size(); i >= 0; i--) {
 		const JSONNode &message = conversations.at(i);
@@ -67,10 +67,10 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 
 		if (strstr(conversationLink.c_str(), "/8:")) {
 			if (messageType == "Text" || messageType == "RichText") {
-				ptrA szMessage(messageType == "RichText" ? RemoveHtml(content.c_str()) : mir_strdup(content.c_str()));
+				std::string szMessage(messageType == "RichText" ? RemoveHtml(content) : content);
 				MEVENT dbevent = GetMessageFromDb(szMessageId);
 				if (isEdited && dbevent != NULL)
-					EditEvent(hContact, dbevent, szMessage, timestamp);
+					EditEvent(hContact, dbevent, szMessage.c_str(), timestamp);
 				else
 					AddDbEvent(emoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, iFlags, &szMessage[emoteOffset], szMessageId);
 			}
@@ -95,21 +95,20 @@ void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 		}
 		else if (conversationLink.find("/19:") != -1) {
 			CMStringA chatname(UrlToSkypename(conversationLink.c_str()));
-			ptrA szMessage(messageType == "RichText" ? RemoveHtml(content.c_str()) : mir_strdup(content.c_str()));
-			if (messageType == "Text" || messageType == "RichText") {
-				AddMessageToChat(chatname, skypename, szMessage, emoteOffset != NULL, emoteOffset, timestamp, true);
-			}
+			std::string szMessage(messageType == "RichText" ? RemoveHtml(content) : content);
+			if (messageType == "Text" || messageType == "RichText")
+				AddMessageToChat(chatname, skypename, szMessage.c_str(), emoteOffset != NULL, emoteOffset, timestamp, true);
 		}
 	}
 }
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(getId(hContact), 100, false, 0, this), &CSkypeProto::OnGetServerHistory);
+	PushRequest(new GetHistoryRequest(getId(hContact), 100, false, 0, this));
 	return 0;
 }
 
-void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::OnSyncHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -123,7 +122,7 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 	std::string syncState = metadata["syncState"].as_string();
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), this), &CSkypeProto::OnSyncHistory);
+		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), this));
 
 	for (auto &conversation : conversations) {
 		const JSONNode &lastMessage = conversation["lastMessage"];
@@ -135,11 +134,9 @@ void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 				time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string().c_str()));
 
 				MCONTACT hContact = FindContact(szSkypename);
-				if (hContact != NULL) {
-					if (getDword(hContact, "LastMsgTime", 0) < composeTime) {
-						PushRequest(new GetHistoryRequest(szSkypename, 100, false, 0, this), &CSkypeProto::OnGetServerHistory);
-					}
-				}
+				if (hContact != NULL)
+					if (getDword(hContact, "LastMsgTime", 0) < composeTime)
+						PushRequest(new GetHistoryRequest(szSkypename, 100, false, 0, this));
 			}
 		}
 	}

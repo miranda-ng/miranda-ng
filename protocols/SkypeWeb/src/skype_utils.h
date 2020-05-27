@@ -18,6 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
+std::string RemoveHtml(const std::string &src);
+
 class EventHandle
 {
 	HANDLE _hEvent;
@@ -49,7 +51,7 @@ class JsonReply
 	int m_errorCode = 0;
 
 public:
-	JsonReply(const NETLIBHTTPREQUEST *response);
+	JsonReply(NETLIBHTTPREQUEST *response);
 	~JsonReply();
 
 	__forceinline JSONNode &data() const { return *m_root; }
