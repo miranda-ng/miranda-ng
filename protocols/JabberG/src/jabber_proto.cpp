@@ -236,7 +236,7 @@ CJabberProto::~CJabberProto()
 	ListWipe();
 
 	mir_free(m_tszSelectedLang);
-	mir_free(m_AuthMechs.m_gssapiHostName);
+	mir_free(m_gssapiHostName);
 
 	mir_free(m_modeMsgs.szOnline);
 	mir_free(m_modeMsgs.szAway);

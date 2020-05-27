@@ -76,6 +76,37 @@ CMStringA MakeJid(const char *jid, const char *resource)
 	return ret;
 }
 
+void CJabberProto::UpdateItem(JABBER_LIST_ITEM *pItem, const char *name)
+{
+	if (name != nullptr) {
+		ptrA tszNick(getUStringA(pItem->hContact, "Nick"));
+		if (tszNick != nullptr) {
+			if (!m_bIgnoreRoster) {
+				if (mir_strcmp(pItem->nick, tszNick) != 0)
+					db_set_utf(pItem->hContact, "CList", "MyHandle", pItem->nick);
+				else
+					db_unset(pItem->hContact, "CList", "MyHandle");
+			}
+		}
+		else db_set_utf(pItem->hContact, "CList", "MyHandle", pItem->nick);
+	}
+	else db_unset(pItem->hContact, "CList", "MyHandle");
+
+	// check group delimiters
+	if (pItem->group && m_szGroupDelimiter) {
+		CMStringA szNewGroup(pItem->group);
+		szNewGroup.Replace(m_szGroupDelimiter, "\\");
+		replaceStr(pItem->group, szNewGroup.Detach());
+	}
+
+	if (!m_bIgnoreRoster) {
+		if (pItem->group != nullptr) {
+			Clist_GroupCreate(0, Utf2T(pItem->group));
+			db_set_utf(pItem->hContact, "CList", "Group", pItem->group);
+		}
+		else db_unset(pItem->hContact, "CList", "Group");
+	}
+}
 
 char* JabberNickFromJID(const char *jid)
 {

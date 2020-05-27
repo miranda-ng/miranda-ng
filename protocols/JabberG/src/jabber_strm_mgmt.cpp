@@ -275,7 +275,7 @@ void strm_mgmt::FinishLoginProcess(ThreadData *info)
 			<< XCHILDNS("bind", JABBER_FEAT_BIND)
 			<< XCHILD("resource", info->resource));
 
-		if (proto->m_AuthMechs.isSessionAvailable)
+		if (proto->m_isSessionAvailable)
 			info->bIsSessionAvailable = true;
 
 		return;

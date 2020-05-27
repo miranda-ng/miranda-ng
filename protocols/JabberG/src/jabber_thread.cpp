@@ -593,8 +593,8 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		info->auth = nullptr;
 	}
 
-	if (m_AuthMechs.isSpnegoAvailable) {
-		m_AuthMechs.isSpnegoAvailable = false;
+	if (m_isSpnegoAvailable) {
+		m_isSpnegoAvailable = false;
 		auth = new TNtlmAuth(info, "GSS-SPNEGO");
 		if (!auth->isValid()) {
 			delete auth;
@@ -602,9 +602,9 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		}
 	}
 
-	if (auth == nullptr && m_AuthMechs.isKerberosAvailable) {
-		m_AuthMechs.isKerberosAvailable = false;
-		auth = new TNtlmAuth(info, "GSSAPI", m_AuthMechs.m_gssapiHostName);
+	if (auth == nullptr && m_isKerberosAvailable) {
+		m_isKerberosAvailable = false;
+		auth = new TNtlmAuth(info, "GSSAPI", m_gssapiHostName);
 		if (!auth->isValid()) {
 			delete auth;
 			auth = nullptr;
@@ -618,8 +618,8 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		}
 	}
 
-	if (auth == nullptr && m_AuthMechs.isNtlmAvailable) {
-		m_AuthMechs.isNtlmAvailable = false;
+	if (auth == nullptr && m_isNtlmAvailable) {
+		m_isNtlmAvailable = false;
 		auth = new TNtlmAuth(info, "NTLM");
 		if (!auth->isValid()) {
 			delete auth;
@@ -627,29 +627,29 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		}
 	}
 
-	if (auth == nullptr && m_AuthMechs.isScramAvailable) {
-		m_AuthMechs.isScramAvailable = false;
+	if (auth == nullptr && m_isScramAvailable) {
+		m_isScramAvailable = false;
 		auth = new TScramAuth(info);
 	}
 
-	if (auth == nullptr && m_AuthMechs.isMd5Available) {
-		m_AuthMechs.isMd5Available = false;
+	if (auth == nullptr && m_isMd5Available) {
+		m_isMd5Available = false;
 		auth = new TMD5Auth(info);
 	}
 
-	if (auth == nullptr && m_AuthMechs.isPlainAvailable) {
-		m_AuthMechs.isPlainAvailable = false;
+	if (auth == nullptr && m_isPlainAvailable) {
+		m_isPlainAvailable = false;
 		auth = new TPlainAuth(info, false);
 	}
 
-	if (auth == nullptr && m_AuthMechs.isPlainOldAvailable) {
-		m_AuthMechs.isPlainOldAvailable = false;
+	if (auth == nullptr && m_isPlainOldAvailable) {
+		m_isPlainOldAvailable = false;
 		auth = new TPlainAuth(info, true);
 	}
 
 	if (auth == nullptr) {
-		if (m_AuthMechs.isAuthAvailable) { // no known mechanisms but iq_auth is available
-			m_AuthMechs.isAuthAvailable = false;
+		if (m_isAuthAvailable) { // no known mechanisms but iq_auth is available
+			m_isAuthAvailable = false;
 			PerformIqAuth(info);
 			return;
 		}
@@ -702,37 +702,37 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 		}
 
 		if (!mir_strcmp(pszName, "mechanisms")) {
-			m_AuthMechs.isPlainAvailable = false;
-			m_AuthMechs.isPlainOldAvailable = false;
-			m_AuthMechs.isMd5Available = false;
-			m_AuthMechs.isScramAvailable = false;
-			m_AuthMechs.isNtlmAvailable = false;
-			m_AuthMechs.isSpnegoAvailable = false;
-			m_AuthMechs.isKerberosAvailable = false;
-			mir_free(m_AuthMechs.m_gssapiHostName); m_AuthMechs.m_gssapiHostName = nullptr;
+			m_isPlainAvailable = false;
+			m_isPlainOldAvailable = false;
+			m_isMd5Available = false;
+			m_isScramAvailable = false;
+			m_isNtlmAvailable = false;
+			m_isSpnegoAvailable = false;
+			m_isKerberosAvailable = false;
+			mir_free(m_gssapiHostName); m_gssapiHostName = nullptr;
 
 			areMechanismsDefined = true;
 			//JabberLog("%d mechanisms\n",n->numChild);
 			for (auto *c : TiXmlEnum(n)) {
 				if (!mir_strcmp(c->Name(), "mechanism")) {
 					const char *szMechanism = c->GetText();
-					if (!mir_strcmp(szMechanism, "PLAIN"))        m_AuthMechs.isPlainOldAvailable = m_AuthMechs.isPlainAvailable = true;
-					else if (!mir_strcmp(szMechanism, "DIGEST-MD5"))   m_AuthMechs.isMd5Available = true;
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))  m_AuthMechs.isScramAvailable = true;
-					else if (!mir_strcmp(szMechanism, "NTLM"))         m_AuthMechs.isNtlmAvailable = true;
-					else if (!mir_strcmp(szMechanism, "GSS-SPNEGO"))   m_AuthMechs.isSpnegoAvailable = true;
-					else if (!mir_strcmp(szMechanism, "GSSAPI"))       m_AuthMechs.isKerberosAvailable = true;
+					if (!mir_strcmp(szMechanism, "PLAIN"))        m_isPlainOldAvailable = m_isPlainAvailable = true;
+					else if (!mir_strcmp(szMechanism, "DIGEST-MD5"))   m_isMd5Available = true;
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))  m_isScramAvailable = true;
+					else if (!mir_strcmp(szMechanism, "NTLM"))         m_isNtlmAvailable = true;
+					else if (!mir_strcmp(szMechanism, "GSS-SPNEGO"))   m_isSpnegoAvailable = true;
+					else if (!mir_strcmp(szMechanism, "GSSAPI"))       m_isKerberosAvailable = true;
 				}
 				else if (!mir_strcmp(c->Name(), "hostname")) {
 					const char *mech = XmlGetAttr(c, "mechanism");
 					if (mech && mir_strcmpi(mech, "GSSAPI") == 0)
-						m_AuthMechs.m_gssapiHostName = mir_strdup(c->GetText());
+						m_gssapiHostName = mir_strdup(c->GetText());
 				}
 			}
 		}
 		else if (!mir_strcmp(pszName, "register")) isRegisterAvailable = true;
-		else if (!mir_strcmp(pszName, "auth")) m_AuthMechs.isAuthAvailable = true;
-		else if (!mir_strcmp(pszName, "session")) m_AuthMechs.isSessionAvailable = true;
+		else if (!mir_strcmp(pszName, "auth")) m_isAuthAvailable = true;
+		else if (!mir_strcmp(pszName, "session")) m_isSessionAvailable = true;
 		else if (m_bEnableStreamMgmt && !mir_strcmp(pszName, "sm"))
 			m_StrmMgmt.CheckStreamFeatures(n);
 		else if (!mir_strcmp(pszName, "csi") && n->Attribute("xmlns", JABBER_FEAT_CSI))
@@ -757,7 +757,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 				<< XCHILDNS("bind", JABBER_FEAT_BIND)
 				<< XCHILD("resource", info->resource));
 
-			if (m_AuthMechs.isSessionAvailable)
+			if (m_isSessionAvailable)
 				info->bIsSessionAvailable = true;
 
 			return;

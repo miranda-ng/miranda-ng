@@ -647,6 +647,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hContact, bool &hasPhoto);
 	void       SetBookmarkRequest(XmlNodeIq &iqId);
+	void       UpdateItem(JABBER_LIST_ITEM *pItem, const char *name);
 
 	//---- jabber_menu.cpp ---------------------------------------------------------------
 
@@ -775,23 +776,19 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool       SendHttpAuthReply(CJabberHttpAuthParams *pParams, bool bAuthorized);
 
 	//---- jabber_thread.c ----------------------------------------------
-
+	ptrA       m_szGroupDelimiter;
 	ptrW       m_savedPassword;
 
-	typedef struct {
-		bool    isPlainAvailable;
-		bool    isPlainOldAvailable;
-		bool    isMd5Available;
-		bool    isScramAvailable;
-		bool    isNtlmAvailable;
-		bool    isSpnegoAvailable;
-		bool    isKerberosAvailable;
-		bool    isAuthAvailable;
-		bool    isSessionAvailable;
-		char   *m_gssapiHostName;
-	} AUTHMECHS;
-
-	AUTHMECHS  m_AuthMechs;
+	bool       m_isPlainAvailable;
+	bool       m_isPlainOldAvailable;
+	bool       m_isMd5Available;
+	bool       m_isScramAvailable;
+	bool       m_isNtlmAvailable;
+	bool       m_isSpnegoAvailable;
+	bool       m_isKerberosAvailable;
+	bool       m_isAuthAvailable;
+	bool       m_isSessionAvailable;
+	char*      m_gssapiHostName;
 
 	void       __cdecl ServerThread(JABBER_CONN_DATA *info);
 		        
@@ -843,7 +840,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 			     
 	void       RebuildInfoFrame(void);
 	void       InitInfoFrame(void);
-
+	
 	// returns buf or nullptr on error
 	char*      GetClientJID(MCONTACT hContact, char *dest, size_t destLen);
 	char*      GetClientJID(const char *jid, char *dest, size_t destLen);
