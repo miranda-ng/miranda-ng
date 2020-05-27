@@ -483,22 +483,18 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	const int colsz = GetRowSize();
 	const int heightn = m_WindowSizeY;
 
-	SCROLLINFO si;
-
+	SCROLLINFO si = {};
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
-	si.nMin = 0;
 	si.nMax = height / colsz - 1;
 	si.nPage = heightn / colsz;
-	si.nPos = 0;
 	SetScrollInfo(m_hwndDialog, SB_VERT, &si, TRUE);
 
 	if (GetWindowLongPtr(m_hwndDialog, GWL_STYLE) & WS_VSCROLL)
 		width += GetSystemMetrics(SM_CXVSCROLL);
 
 	RECT rc = { 0, 0, width, heightn };
-	AdjustWindowRectEx(&rc, GetWindowLongPtr(m_hwndDialog, GWL_STYLE),
-		FALSE, GetWindowLongPtr(m_hwndDialog, GWL_EXSTYLE));
+	AdjustWindowRectEx(&rc, GetWindowLongPtr(m_hwndDialog, GWL_STYLE), FALSE, GetWindowLongPtr(m_hwndDialog, GWL_EXSTYLE));
 
 	width = rc.right - rc.left;
 	height = rc.bottom - rc.top;
@@ -536,23 +532,22 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	if (m_XPosition < xoScreen) m_XPosition = xoScreen;
 
 	// Move window to desired location
-	SetWindowPos(m_hwndDialog, nullptr, m_XPosition, m_YPosition,
-		width, height, SWP_NOZORDER);
+	SetWindowPos(m_hwndDialog, nullptr, m_XPosition, m_YPosition, width, height, SWP_NOZORDER);
 
 	m_AniPack = new AnimatedPack(m_hwndDialog, height, m_ButtonSize, opt.SelWndBkgClr);
 
-	SmileyPackType::SmileyVectorType &sml = m_pSmileyPack->GetSmileyList();
-	for (unsigned i = 0; i < m_NumberOfButtons; i++)
-		if (!sml[i].IsHidden())
-			m_AniPack->Add(&sml[i], CalculateButtonToCoordinates(i, 0), opt.IEViewStyle);
+	int i = 0;
+	for (auto &it : m_pSmileyPack->GetSmileyList())
+		if (!it->IsHidden())
+			m_AniPack->Add(it, CalculateButtonToCoordinates(i++, 0), opt.IEViewStyle);
 
 	m_AniPack->SetOffset(0);
 
 	if (opt.AnimateSel) SetTimer(m_hwndDialog, 1, 100, nullptr);
 
 	//add tooltips
-	m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"",
-		TTS_NOPREFIX | WS_POPUP, 0, 0, 0, 0, m_hwndDialog, nullptr, g_plugin.getInst(), nullptr);
+	m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", TTS_NOPREFIX | WS_POPUP, 0, 0, 0, 0, m_hwndDialog, nullptr, g_plugin.getInst(), nullptr);
+	
 	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(ti);
 	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
