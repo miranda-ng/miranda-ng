@@ -238,6 +238,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		SetWindowTextW(m_hwnd, CMStringW(FORMAT, L"%s: %s", TranslateT("Roster Editor"), m_proto->m_tszUserName));
+
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_AGENTS));
 
 		Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "rosterCtrlWnd_");
@@ -406,7 +408,7 @@ public:
 		wchar_t filename[MAX_PATH] = { 0 };
 
 		wchar_t filter[MAX_PATH];
-		mir_snwprintf(filter, L"%s (*.xml)%c*.xml%c%c", TranslateT("XML for MS Excel (UTF-8 encoded)"), 0, 0, 0);
+		mir_snwprintf(filter, L"%s (*.xml)%c*.xml%c%c", TranslateT("XML (UTF-8 encoded)"), 0, 0, 0);
 		OPENFILENAME ofn = {};
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 		ofn.hwndOwner = m_hwnd;
@@ -446,16 +448,15 @@ public:
 
 	void onClick_Import(CCtrlButton*)
 	{
-		wchar_t filename[MAX_PATH] = { 0 };
-		wchar_t *filter = L"XML for MS Excel (UTF-8 encoded)(*.xml)\0*.xml\0\0";
+		wchar_t filename[MAX_PATH] = {};
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 		ofn.hwndOwner = m_hwnd;
 		ofn.hInstance = nullptr;
-		ofn.lpstrFilter = filter;
-		ofn.lpstrFile = filename;
+		ofn.lpstrFilter = L"XML (UTF-8 encoded)(*.xml)\0*.xml\0\0";
 		ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+		ofn.lpstrFile = filename;
 		ofn.nMaxFile = _countof(filename);
 		ofn.nMaxFileTitle = MAX_PATH;
 		ofn.lpstrDefExt = L"xml";
