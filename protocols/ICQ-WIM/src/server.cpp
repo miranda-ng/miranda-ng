@@ -1000,8 +1000,7 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	for (auto &it : data["events"])
 		ProcessEvent(it);
 
-	if (m_hPollThread == nullptr)
-		m_hPollThread = ForkThreadEx(&CIcqProto::PollThread, 0, 0);
+	ForkThread(&CIcqProto::PollThread);
 }
 
 void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)

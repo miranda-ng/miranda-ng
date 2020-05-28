@@ -372,8 +372,6 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	HANDLE    m_hWorkerThread;
 	void      __cdecl ServerThread(void*);
-
-	HANDLE    m_hPollThread;
 	void      __cdecl PollThread(void*);
 
 	////////////////////////////////////////////////////////////////////////////////////////

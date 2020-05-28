@@ -314,7 +314,7 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	}
 }
 
-void CIcqProto::ProcessSessionEnd(const JSONNode&)
+void CIcqProto::ProcessSessionEnd(const JSONNode &/*ev*/)
 {
 	m_szRToken.Empty();
 	m_iRClientId = 0;
@@ -332,7 +332,7 @@ void CIcqProto::ProcessTyping(const JSONNode &ev)
 	if (pCache) {
 		if (wszStatus == "typing")
 			CallService(MS_PROTO_CONTACTISTYPING, pCache->m_hContact, 60);
-		else 
+		else
 			CallService(MS_PROTO_CONTACTISTYPING, pCache->m_hContact, PROTOTYPE_CONTACTTYPING_OFF);
 	}
 }
@@ -367,7 +367,7 @@ void __cdecl CIcqProto::PollThread(void*)
 		auto *pReq = new AsyncHttpRequest(CONN_FETCH, REQUEST_GET, szUrl, &CIcqProto::OnFetchEvents);
 		if (!m_bFirstBos)
 			pReq->timeout = 62000;
-		
+
 		if (!ExecuteRequest(pReq)) {
 			ShutdownSession();
 			break;
@@ -377,5 +377,4 @@ void __cdecl CIcqProto::PollThread(void*)
 	}
 
 	debugLogA("Polling thread ended");
-	m_hPollThread = nullptr;
 }
