@@ -104,7 +104,7 @@ void CSkypeProto::OnASMObjectUploaded(NETLIBHTTPREQUEST *response, AsyncHttpRequ
 
 	tinyxml2::XMLPrinter printer(0, true);
 	doc.Print(&printer);
-	SendRequest(new SendMessageRequest(getId(fup->hContact), time(NULL), printer.CStr(), this, "RichText/Media_GenericFile"));
+	SendRequest(new SendMessageRequest(getId(fup->hContact), time(NULL), printer.CStr(), "RichText/Media_GenericFile"));
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
 	delete fup;

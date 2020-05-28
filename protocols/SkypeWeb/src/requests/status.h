@@ -20,42 +20,30 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct GetStatusRequest : public AsyncHttpRequest
 {
-	GetStatusRequest(CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_GET, "/users/ME/contacts/ALL/presenceDocs/messagingService", &CSkypeProto::OnReceiveStatus)
-	{
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
-	}
+	GetStatusRequest() :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/contacts/ALL/presenceDocs/messagingService", &CSkypeProto::OnReceiveStatus)
+	{}
 };
 
 struct SetStatusRequest : public AsyncHttpRequest
 {
-	SetStatusRequest(const char *status, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_PUT, "/users/ME/presenceDocs/messagingService", &CSkypeProto::OnStatusChanged)
+	SetStatusRequest(const char *status) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/presenceDocs/messagingService", &CSkypeProto::OnStatusChanged)
 	{
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
-
 		JSONNode node(JSON_NODE);
-		node << JSONNode("status", status);
+		node << CHAR_PARAM("status", status);
 		m_szParam = node.write().c_str();
 	}
 };
 
 struct SetStatusMsgRequest : public AsyncHttpRequest
 {
-	SetStatusMsgRequest(const char *status, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_POST, "api.skype.com/users/self/profile/partial")
+	SetStatusMsgRequest(const char *status) :
+		AsyncHttpRequest(REQUEST_POST, HOST_API, "/users/self/profile/partial")
 	{
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-
 		JSONNode node, payload;
 		payload.set_name("payload");
-		node << (payload << JSONNode("mood", status));
+		node << (payload << CHAR_PARAM("mood", status));
 		m_szParam = node.write().c_str();
 	}
 };

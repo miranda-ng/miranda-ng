@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct OAuthRequest : public AsyncHttpRequest
 {
 	OAuthRequest() :
-		AsyncHttpRequest(REQUEST_GET, "login.live.com/login.srf", &CSkypeProto::OnOAuthStart)
+		AsyncHttpRequest(REQUEST_GET, HOST_OTHER, "https://login.live.com/login.srf", &CSkypeProto::OnOAuthStart)
 	{
 		flags |= NLHRF_REDIRECT;
 
@@ -31,7 +31,7 @@ struct OAuthRequest : public AsyncHttpRequest
 	}
 
 	OAuthRequest(const char *login, const char *password, const char *cookies, const char *ppft) :
-		AsyncHttpRequest(REQUEST_POST, "login.live.com/ppsecure/post.srf", &CSkypeProto::OnOAuthAuthorize)
+		AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://login.live.com/ppsecure/post.srf", &CSkypeProto::OnOAuthAuthorize)
 	{
 		this << CHAR_PARAM("wa", "wsignin1.0") << CHAR_PARAM("wp", "MBI_SSL")
 			<< CHAR_PARAM("wreply", "https://lw.skype.com/login/oauth/proxy?site_name=lw.skype.com")
@@ -39,17 +39,14 @@ struct OAuthRequest : public AsyncHttpRequest
 		m_szUrl.AppendFormat("?%s", m_szParam.c_str());
 		m_szParam.Empty();
 
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 		AddHeader("Cookie", cookies);
 
 		this << CHAR_PARAM("login", login) << CHAR_PARAM("passwd", password) << CHAR_PARAM("PPFT", ppft);
 	}
 
 	OAuthRequest(const char *t) :
-		AsyncHttpRequest(REQUEST_POST, "login.skype.com/login/microsoft", &CSkypeProto::OnOAuthEnd)
+		AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/login/microsoft", &CSkypeProto::OnOAuthEnd)
 	{
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
-
 		this << CHAR_PARAM ("t", t) << CHAR_PARAM("site_name", "lw.skype.com") << INT_PARAM ("oauthPartner", 999);
 	}
 };

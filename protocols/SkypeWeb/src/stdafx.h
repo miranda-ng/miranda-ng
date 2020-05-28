@@ -61,36 +61,52 @@ struct CSkypeProto;
 extern char g_szMirVer[];
 extern HANDLE g_hCallEvent;
 
-struct TRInfo
-{
-	std::string socketIo,
-		connId,
-		st,
-		se,
-		instance,
-		ccid,
-		sessId,
-		sig,
-		url;
-	time_t lastRegistrationTime;
-};
-
 struct MessageId
 {
 	ULONGLONG id;
 	HANDLE handle;
 };
 
+struct CMPlugin : public ACCPROTOPLUGIN<CSkypeProto>
+{
+	CMPlugin();
+
+	CMStringA szDefaultServer;
+
+	int Load() override;
+	int Unload() override;
+};
 
 #include "version.h"
 #include "resource.h"
 #include "skype_menus.h"
 #include "skype_dialogs.h"
 #include "skype_options.h"
-#include "skype_trouter.h"
 #include "skype_utils.h"
 #include "skype_db.h"
 #include "skype_proto.h"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#define SKYPEWEB_CLIENTINFO_NAME "swx-skype.com"
+#define SKYPEWEB_CLIENTINFO_VERSION "908/1.85.0.29"
+
+enum SkypeHost
+{
+	HOST_API,
+	HOST_CONTACTS,
+	HOST_DEFAULT,
+	HOST_GRAPH,
+	HOST_LOGIN,
+	HOST_OTHER
+};
+
+struct AsyncHttpRequest : public MTHttpRequest<CSkypeProto>
+{
+	SkypeHost m_host;
+
+	AsyncHttpRequest(int type, SkypeHost host, LPCSTR url = nullptr, MTHttpRequestHandler pFunc = nullptr);
+};
 
 #include "requests/avatars.h"
 #include "requests/capabilities.h"
@@ -107,7 +123,6 @@ struct MessageId
 #include "requests/search.h"
 #include "requests/status.h"
 #include "requests/subscriptions.h"
-#include "requests/trouter.h"
 
 #define MODULE "Skype"
 

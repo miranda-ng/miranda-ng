@@ -14,55 +14,42 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef _SKYPE_REQUEST_HISTORY_H_
 #define _SKYPE_REQUEST_HISTORY_H_
 
 struct SyncHistoryFirstRequest : public AsyncHttpRequest
 {
-	SyncHistoryFirstRequest(int pageSize, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_GET, "/users/ME/conversations", &CSkypeProto::OnSyncHistory)
+	SyncHistoryFirstRequest(int pageSize) :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CSkypeProto::OnSyncHistory)
 	{
 		this << INT_PARAM("startTime", 0) << INT_PARAM("pageSize", pageSize)
 			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync");
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset = UTF-8");
-		AddRegistrationToken(ppro);
 	}
 
-	SyncHistoryFirstRequest(const char *url, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_GET, url, &CSkypeProto::OnSyncHistory)
+	SyncHistoryFirstRequest(const char *url) :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, url, &CSkypeProto::OnSyncHistory)
 	{
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset = UTF-8");
-		AddRegistrationToken(ppro);
 	}
 };
 
 struct GetHistoryRequest : public AsyncHttpRequest
 {
-	GetHistoryRequest(const char *username, int pageSize, bool isChat, LONGLONG timestamp, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_GET, 0, &CSkypeProto::OnGetServerHistory)
+	GetHistoryRequest(const char *username, int pageSize, bool isChat, LONGLONG timestamp) :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CSkypeProto::OnGetServerHistory)
 	{
-		m_szUrl.Format("/users/ME/conversations/%d:%s/messages", isChat ? 19 : 8, mir_urlEncode(username).c_str());
+		m_szUrl.AppendFormat("/users/ME/conversations/%d:%s/messages", isChat ? 19 : 8, mir_urlEncode(username).c_str());
 
 		this << INT_PARAM("startTime", timestamp) << INT_PARAM("pageSize", pageSize)
 			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread");
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset = UTF-8");
-		AddRegistrationToken(ppro);
 	}
 };
 
 struct GetHistoryOnUrlRequest : public AsyncHttpRequest
 {
-	GetHistoryOnUrlRequest(const char *url, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_GET, url, &CSkypeProto::OnGetServerHistory)
+	GetHistoryOnUrlRequest(const char *url) :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, url, &CSkypeProto::OnGetServerHistory)
 	{
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset = UTF-8");
-		AddRegistrationToken(ppro);
 	}
 };
 

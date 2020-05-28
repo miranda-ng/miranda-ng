@@ -39,7 +39,8 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	ACCPROTOPLUGIN<CSkypeProto>("SKYPE", pluginInfoEx)
+	ACCPROTOPLUGIN<CSkypeProto>("SKYPE", pluginInfoEx),
+	szDefaultServer("azeus1-client-s.gateway.messenger.live.com")
 {
 	SetUniqueId(SKYPE_SETTINGS_ID);
 }

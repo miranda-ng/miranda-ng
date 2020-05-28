@@ -38,7 +38,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		pReq = new SendActionRequest(username, param->hMessage, &szMessage[4], this);
 	else
-		pReq = new SendMessageRequest(username, param->hMessage, szMessage, this);
+		pReq = new SendMessageRequest(username, param->hMessage, szMessage);
 	pReq->pUserInfo = param;
 	SendRequest(pReq);
 	{
@@ -185,7 +185,7 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 	time_t timestamp = dbei.timestamp;
 
 	if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) > (timestamp - 300))
-		PushRequest(new MarkMessageReadRequest(getId(hContact), timestamp, timestamp, false, this));
+		PushRequest(new MarkMessageReadRequest(getId(hContact), timestamp, timestamp, false));
 }
 
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)

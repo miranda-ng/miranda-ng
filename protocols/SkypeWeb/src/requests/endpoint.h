@@ -21,12 +21,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct CreateEndpointRequest : public AsyncHttpRequest
 {
 	CreateEndpointRequest(CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_POST, "/users/ME/endpoints", &CSkypeProto::OnEndpointCreated)
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints", &CSkypeProto::OnEndpointCreated)
 	{
 		m_szParam = "{}";
 
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
 		AddHeader("Authentication", CMStringA(FORMAT, "skypetoken=%s", ppro->m_szApiToken.get()));
 	}
 };
@@ -34,12 +32,9 @@ struct CreateEndpointRequest : public AsyncHttpRequest
 struct DeleteEndpointRequest : public AsyncHttpRequest
 {
 	DeleteEndpointRequest(CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_DELETE)
+	  AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT)
 	{
-		m_szUrl.Format("/users/ME/endpoints/%s", mir_urlEncode(ppro->m_szId).c_str());
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/users/ME/endpoints/%s", mir_urlEncode(ppro->m_szId).c_str());
 	}
 };
 

@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct LoginOAuthRequest : public AsyncHttpRequest
 {
 	LoginOAuthRequest(CMStringA username, const char *password) :
-		AsyncHttpRequest(REQUEST_POST, "api.skype.com/login/skypetoken", &CSkypeProto::OnLoginOAuth)
+		AsyncHttpRequest(REQUEST_POST, HOST_API, "/login/skypetoken", &CSkypeProto::OnLoginOAuth)
 	{
 		username.MakeLower();
 		CMStringA hashStr(::FORMAT, "%s\nskyper\n%s", username.c_str(), password);

@@ -27,14 +27,3 @@ void CSkypeProto::InitNetwork()
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 }
-
-void CSkypeProto::UnInitNetwork()
-{
-	ShutdownConnections();
-}
-
-void CSkypeProto::ShutdownConnections()
-{
-	Netlib_CloseHandle(m_TrouterConnection);
-	m_TrouterConnection = nullptr;
-}

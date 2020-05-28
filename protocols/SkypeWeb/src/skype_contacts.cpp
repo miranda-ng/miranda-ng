@@ -199,7 +199,7 @@ void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 		}
 	}
 
-	PushRequest(new GetContactsAuthRequest(this));
+	PushRequest(new GetContactsAuthRequest());
 }
 
 INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
@@ -207,7 +207,7 @@ INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AddContactRequest(this, getId(hContact)));
+	PushRequest(new AddContactRequest(getId(hContact)));
 	return 0;
 }
 
@@ -216,7 +216,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(this, getId(hContact)));
+	PushRequest(new AuthAcceptRequest(getId(hContact)));
 	return 0;
 }
 
@@ -224,7 +224,7 @@ void CSkypeProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (IsOnline())
 		if (hContact && !isChatRoom(hContact))
-			PushRequest(new DeleteContactRequest(this, getId(hContact)));
+			PushRequest(new DeleteContactRequest(getId(hContact)));
 }
 
 INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)

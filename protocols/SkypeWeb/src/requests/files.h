@@ -3,7 +3,7 @@
 struct ASMObjectCreateRequest : public AsyncHttpRequest
 {
 	ASMObjectCreateRequest(CSkypeProto *ppro, CFileUploadParam *fup) :
-		AsyncHttpRequest(REQUEST_POST, "api.asm.skype.com/v1/objects", &CSkypeProto::OnASMObjectCreated)
+		AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://api.asm.skype.com/v1/objects", &CSkypeProto::OnASMObjectCreated)
 	{
 		flags &= (~NLHRF_DUMPASTEXT);
 		pUserInfo = fup;
@@ -19,9 +19,9 @@ struct ASMObjectCreateRequest : public AsyncHttpRequest
 		JSONNode node, jPermissions, jPermission(JSON_ARRAY);
 		jPermissions.set_name("permissions");
 		jPermission.set_name(szContact.c_str());
-		jPermission << JSONNode("", "read");
+		jPermission << CHAR_PARAM("", "read");
 		jPermissions << jPermission;
-		node << JSONNode("type", "sharing/file") << JSONNode("filename", szFileName) << jPermissions;
+		node << CHAR_PARAM("type", "sharing/file") << CHAR_PARAM("filename", szFileName) << jPermissions;
 		m_szParam = node.write().c_str();
 	}
 };
@@ -29,9 +29,9 @@ struct ASMObjectCreateRequest : public AsyncHttpRequest
 struct ASMObjectUploadRequest : public AsyncHttpRequest
 {
 	ASMObjectUploadRequest(CSkypeProto *ppro, const char *szObject, const PBYTE data, const size_t size, CFileUploadParam *fup) :
-		AsyncHttpRequest(REQUEST_PUT, 0, &CSkypeProto::OnASMObjectUploaded)
+		AsyncHttpRequest(REQUEST_PUT, HOST_OTHER, 0, &CSkypeProto::OnASMObjectUploaded)
 	{
-		m_szUrl.Format("api.asm.skype.com/v1/objects/%s/content/original", szObject);
+		m_szUrl.AppendFormat("https://api.asm.skype.com/v1/objects/%s/content/original", szObject);
 		pUserInfo = fup;
 
 		AddHeader("Authorization", CMStringA(FORMAT, "skype_token %s", ppro->m_szApiToken.get()));

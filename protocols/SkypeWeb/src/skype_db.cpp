@@ -67,29 +67,21 @@ void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szCont
 					return;
 
 			JSONNode jEdit;
-			jEdit
-				<< JSONNode("time", (long)edit_time)
-				<< JSONNode("text", szContent);
-
+			jEdit << INT_PARAM("time", (long)edit_time) << CHAR_PARAM("text", szContent);
 			jEdits << jEdit;
 		}
 	}
 	else {
-		jMsg = JSONNode();
 		JSONNode jOriginalMsg; jOriginalMsg.set_name("original_message");
-		JSONNode jEdits(JSON_ARRAY); jEdits.set_name("edits");
-		JSONNode jEdit;
+		jOriginalMsg << INT_PARAM("time", (long)dbei.timestamp) << CHAR_PARAM("text", (char *)dbei.pBlob);
 
-		jOriginalMsg
-			<< JSONNode("time", (long)dbei.timestamp)
-			<< JSONNode("text", (char*)dbei.pBlob);
-
+		jMsg = JSONNode();
 		jMsg << jOriginalMsg;
 
-		jEdit
-			<< JSONNode("time", (long)edit_time)
-			<< JSONNode("text", szContent);
+		JSONNode jEdit;
+		jEdit << INT_PARAM("time", (long)edit_time) << CHAR_PARAM("text", szContent);
 
+		JSONNode jEdits(JSON_ARRAY); jEdits.set_name("edits");
 		jEdits << jEdit;
 		jMsg << jEdits;
 	}

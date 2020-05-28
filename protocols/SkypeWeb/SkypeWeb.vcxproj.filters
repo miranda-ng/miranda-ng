@@ -132,9 +132,6 @@
     <ClInclude Include="src\requests\subscriptions.h">
       <Filter>Header Files\Requests</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\trouter.h">
-      <Filter>Header Files\Requests</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,9 +145,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\skype_options.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\skype_trouter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">

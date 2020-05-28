@@ -20,14 +20,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct GetSearchRequest : public AsyncHttpRequest
 {
-	GetSearchRequest(const char *string, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_GET, "skypegraph.skype.com/search/v1.1/namesearch/swx/", &CSkypeProto::OnSearch)
+	GetSearchRequest(const char *string) :
+		AsyncHttpRequest(REQUEST_GET, HOST_GRAPH, "/search/v1.1/namesearch/swx/", &CSkypeProto::OnSearch)
 	{
 		this << CHAR_PARAM("requestid", "skype.com-1.48.78-00000000-0000-0000-0000-000000000000")
 			<< CHAR_PARAM("locale", "en-US") << CHAR_PARAM("searchstring", string);
 
 		AddHeader("Accept", "application/json");
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 	}
 };
 

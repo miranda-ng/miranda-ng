@@ -184,11 +184,11 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 	}
 	
 	if (auto *hdr = Netlib_GetHeader(response, "Location"))
-		m_szServer = GetServerFromUrl(hdr).Detach();
+		g_plugin.szDefaultServer = GetServerFromUrl(hdr);
 	
 	RefreshStatuses();
 
-	SendRequest(new CreateSubscriptionsRequest(this));
+	SendRequest(new CreateSubscriptionsRequest());
 }
 
 void CSkypeProto::OnSubscriptionsCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
@@ -236,26 +236,25 @@ void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpReq
 		return;
 	}
 
-	SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), this));
+	SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
 
 	LIST<char> skypenames(1);
 	for (auto &hContact : AccContacts())
 		if (!isChatRoom(hContact))
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 
-	SendRequest(new CreateContactsSubscriptionRequest(skypenames, this));
+	SendRequest(new CreateContactsSubscriptionRequest(skypenames));
 	FreeList(skypenames);
 	skypenames.destroy();
 
 	m_hPollingEvent.Set();
 
-	SendRequest(new LoadChatsRequest(this));
-	SendRequest(new CreateTrouterRequest());
+	SendRequest(new LoadChatsRequest());
 	PushRequest(new GetContactListRequest(this, nullptr));
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl")), 0));
 
 	if (m_opts.bAutoHistorySync)
-		PushRequest(new SyncHistoryFirstRequest(100, this));
+		PushRequest(new SyncHistoryFirstRequest(100));
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root)

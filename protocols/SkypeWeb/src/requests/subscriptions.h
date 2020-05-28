@@ -20,49 +20,35 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CreateSubscriptionsRequest : public AsyncHttpRequest
 {
-	CreateSubscriptionsRequest(CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_POST, "/users/ME/endpoints/SELF/subscriptions", &CSkypeProto::OnSubscriptionsCreated)
+	CreateSubscriptionsRequest() :
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints/SELF/subscriptions", &CSkypeProto::OnSubscriptionsCreated)
 	{
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
-
 		JSONNode interestedResources(JSON_ARRAY); interestedResources.set_name("interestedResources");
-		interestedResources
-			<< JSONNode("", "/v1/users/ME/conversations/ALL/properties")
-			<< JSONNode("", "/v1/users/ME/conversations/ALL/messages")
-			<< JSONNode("", "/v1/users/ME/contacts/ALL")
-			<< JSONNode("", "/v1/threads/ALL");
+		interestedResources << CHAR_PARAM("", "/v1/users/ME/conversations/ALL/properties")
+			<< CHAR_PARAM("", "/v1/users/ME/conversations/ALL/messages")
+			<< CHAR_PARAM("", "/v1/users/ME/contacts/ALL")
+			<< CHAR_PARAM("", "/v1/threads/ALL");
 
 		JSONNode node;
-		node
-			<< JSONNode("channelType", "httpLongPoll")
-			<< JSONNode("template", "raw")
-			<< interestedResources;
-
+		node << CHAR_PARAM("channelType", "httpLongPoll") << CHAR_PARAM("template", "raw") << interestedResources;
 		m_szParam = node.write().c_str();
 	}
 };
 
 struct CreateContactsSubscriptionRequest : public AsyncHttpRequest
 {
-	CreateContactsSubscriptionRequest(const LIST<char> &skypenames, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_POST, "/users/ME/contacts")
+	CreateContactsSubscriptionRequest(const LIST<char> &skypenames) :
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/contacts")
 	{
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
-
-		JSONNode node;
 		JSONNode contacts(JSON_ARRAY); contacts.set_name("contacts");
-
 		for (auto &it : skypenames) {
 			JSONNode contact;
-			contact << JSONNode("id", CMStringA(::FORMAT, "8:%s", it));
+			contact << CHAR_PARAM("id", CMStringA(::FORMAT, "8:%s", it));
 			contacts << contact;
 		}
-		node << contacts;
 
+		JSONNode node;
+		node << contacts;
 		m_szParam = node.write().c_str();
 	}
 };

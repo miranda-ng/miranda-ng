@@ -68,7 +68,7 @@ void CSkypeProto::OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 	std::string syncState = metadata["syncState"].as_string();
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new SyncHistoryFirstRequest(syncState.c_str(), this));
+		ReadHistoryRest(syncState.c_str());
 
 	for (auto &conversation : conversations) {
 		if (!conversation["lastMessage"])
@@ -77,7 +77,7 @@ void CSkypeProto::OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 		const JSONNode &id = conversation["id"];
 		const JSONNode &threadProperties = conversation["threadProperties"];
 		CMStringW topic(threadProperties["topic"].as_mstring());
-		SendRequest(new GetChatInfoRequest(id.as_string().c_str(), topic, this));
+		SendRequest(new GetChatInfoRequest(id.as_string().c_str(), topic));
 	}
 }
 
@@ -127,7 +127,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 
 				MCONTACT hContact = dlg.m_hContact;
 				if (hContact != NULL)
-					SendRequest(new InviteUserToChatRequest(chat_id, getId(hContact), "User", this));
+					SendRequest(new InviteUserToChatRequest(chat_id, getId(hContact), "User"));
 
 				mir_cslock lck(m_InviteDialogsLock);
 				m_InviteDialogs.remove(&dlg);
@@ -141,7 +141,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case 30:
 			CMStringW newTopic = ChangeTopicForm();
 			if (!newTopic.IsEmpty())
-				SendRequest(new SetChatPropertiesRequest(chat_id, "topic", T2Utf(newTopic.GetBuffer()), this));
+				SendRequest(new SetChatPropertiesRequest(chat_id, "topic", T2Utf(newTopic.GetBuffer())));
 			break;
 		}
 		break;
@@ -149,13 +149,13 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_NICKLISTMENU:
 		switch (gch->dwData) {
 		case 10:
-			SendRequest(new KickUserRequest(chat_id, user_id, this));
+			SendRequest(new KickUserRequest(chat_id, user_id));
 			break;
 		case 30:
-			SendRequest(new InviteUserToChatRequest(chat_id, user_id, "Admin", this));
+			SendRequest(new InviteUserToChatRequest(chat_id, user_id, "Admin"));
 			break;
 		case 40:
-			SendRequest(new InviteUserToChatRequest(chat_id, user_id, "User", this));
+			SendRequest(new InviteUserToChatRequest(chat_id, user_id, "User"));
 			break;
 		case 50:
 			ptrA tnick_old(GetChatContactNick(chat_id, user_id, T2Utf(gch->ptszText)));
@@ -221,7 +221,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 		Chat_Control(m_szModuleName, idT, SESSION_OFFLINE);
 		Chat_Terminate(m_szModuleName, idT);
 
-		SendRequest(new KickUserRequest(_T2A(idT), m_szSkypename, this));
+		SendRequest(new KickUserRequest(_T2A(idT), m_szSkypename));
 
 		db_delete_contact(hContact);
 	}
@@ -243,7 +243,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
 	if (FindChatRoom(szConversationName) == NULL)
-		SendRequest(new GetChatInfoRequest(szConversationName, szTopic, this));
+		SendRequest(new GetChatInfoRequest(szConversationName, szTopic));
 
 	std::string messageType = node["messagetype"].as_string();
 	if (messageType == "Text" || messageType == "RichText") {
@@ -328,9 +328,9 @@ void CSkypeProto::OnSendChatMessage(const char *chat_id, const wchar_t *tszMessa
 	ptrA szMessage(mir_utf8encodeW(buf));
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendChatActionRequest(chat_id, time(0), szMessage, this));
+		SendRequest(new SendChatActionRequest(chat_id, time(0), szMessage));
 	else
-		SendRequest(new SendChatMessageRequest(chat_id, time(0), szMessage, this));
+		SendRequest(new SendChatMessageRequest(chat_id, time(0), szMessage));
 }
 
 void CSkypeProto::AddMessageToChat(const char *chat_id, const char *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
@@ -380,7 +380,7 @@ void CSkypeProto::OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest *p
 		std::string role = member["role"].as_string();
 		AddChatContact(chatId, username, username, role.c_str(), true);
 	}
-	PushRequest(new GetHistoryRequest(chatId, 15, true, 0, this));
+	PushRequest(new GetHistoryRequest(chatId, 15, true, 0));
 }
 
 void CSkypeProto::RenameChat(const char *chat_id, const char *name)

@@ -603,48 +603,24 @@ INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncHttpRequest::AsyncHttpRequest(int type, LPCSTR url, MTHttpRequestHandler pFunc)
+AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpRequestHandler pFunc) :
+	m_host(host)
 {
+	switch (host) {
+	case HOST_API:       m_szUrl = "https://api.skype.com"; break;
+	case HOST_CONTACTS:  m_szUrl = "https://contacts.skype.com"; break;
+	case HOST_GRAPH:     m_szUrl = "https://skypegraph.skype.com"; break;
+	case HOST_LOGIN:     m_szUrl = "https://login.skype.com"; break;
+	case HOST_DEFAULT:
+		m_szUrl.Format("https://%s/v1", g_plugin.szDefaultServer.c_str());
+		break;
+	}
+
 	if (url)
-		m_szUrl = url;
+		m_szUrl.Append(url);
 	m_pFunc = pFunc;
 	flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 	requestType = type;
-}
-
-void AsyncHttpRequest::AddRegistrationToken(CSkypeProto *ppro)
-{
-	AddHeader("RegistrationToken", CMStringA(FORMAT, "registrationToken=%s", ppro->m_szToken.get()));
-}
-
-NETLIBHTTPREQUEST* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
-{
-	if (pReq->m_szUrl[0] == '/') {
-		pReq->m_szUrl.Insert(0, "/v1"); // current API version
-		pReq->m_szUrl.Insert(0, m_szServer);
-	}
-
-	if (pReq->m_szUrl.Find("://") == -1)
-		pReq->m_szUrl.Insert(0, ((pReq->flags & NLHRF_SSL) ? "https://" : "http://"));
-
-	if (!pReq->m_szParam.IsEmpty()) {
-		switch (pReq->requestType) {
-		case REQUEST_GET:
-		case REQUEST_DELETE:
-			pReq->m_szUrl.AppendChar('?');
-			pReq->m_szUrl.Append(pReq->m_szParam.c_str());
-			break;
-
-		default:
-			pReq->pData = pReq->m_szParam.Detach();
-			pReq->dataLength = (int)mir_strlen(pReq->pData);
-		}
-	}
-
-	pReq->szUrl = pReq->m_szUrl.GetBuffer();
-	debugLogA("Send request to %s", pReq->szUrl);
-
-	return Netlib_HttpTransaction(m_hNetlibUser, pReq);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

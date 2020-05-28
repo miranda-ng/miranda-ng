@@ -21,9 +21,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct GetContactListRequest : public AsyncHttpRequest
 {
 	GetContactListRequest(CSkypeProto *ppro, const char *filter) :
-	  AsyncHttpRequest(REQUEST_GET, 0, &CSkypeProto::LoadContactList)
+	  AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, 0, &CSkypeProto::LoadContactList)
 	{
-		m_szUrl.Format("contacts.skype.com/contacts/v1/users/%s/contacts", ppro->m_szSkypename.MakeLower().GetBuffer());
+		m_szUrl.AppendFormat("/contacts/v1/users/%s/contacts", ppro->m_szSkypename.MakeLower().GetBuffer());
 
 		// ?filter=contacts[?(@.type="skype" or @.type="msn")]
 		if (filter != NULL)
@@ -35,63 +35,55 @@ struct GetContactListRequest : public AsyncHttpRequest
 
 struct GetContactsAuthRequest : public AsyncHttpRequest
 {
-	GetContactsAuthRequest(CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_GET, "contacts.skype.com/contacts/v2/users/SELF/invites", &CSkypeProto::LoadContactsAuth)
+	GetContactsAuthRequest() :
+		AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/contacts/v2/users/SELF/invites", &CSkypeProto::LoadContactsAuth)
 	{
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 		AddHeader("Accept", "application/json");
 	}
 };
 
 struct AddContactRequest : public AsyncHttpRequest
 {
-	AddContactRequest(CSkypeProto *ppro, const char *who, const char *greeting = "") :
-		AsyncHttpRequest(REQUEST_PUT, "contacts.skype.com/contacts/v2/users/SELF/contacts")
+	AddContactRequest(const char *who, const char *greeting = "") :
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, "/contacts/v2/users/SELF/contacts")
 	{
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 		AddHeader("Accept", "application/json");
-		AddHeader("Content-type", "application/x-www-form-urlencoded");
 
 		JSONNode node;
-		node << JSONNode("mri", CMStringA(::FORMAT, "8:", who).GetString())
-			<< JSONNode("greeting", greeting);
-
+		node << CHAR_PARAM("mri", CMStringA(::FORMAT, "8:", who).GetString()) << CHAR_PARAM("greeting", greeting);
 		m_szParam = node.write().c_str();
 	}
 };
 
 struct DeleteContactRequest : public AsyncHttpRequest
 {
-	DeleteContactRequest(CSkypeProto *ppro, const char *who) :
-		AsyncHttpRequest(REQUEST_DELETE)
+	DeleteContactRequest(const char *who) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS)
 	{
-		m_szUrl.Format("contacts.skype.com/contacts/v2/users/SELF/contacts/8:%s", who);
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/contacts/8:%s", who);
 
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 		AddHeader("Accept", "application/json");
 	}
 };
 
 struct AuthAcceptRequest : public AsyncHttpRequest
 {
-	AuthAcceptRequest(CSkypeProto *ppro, const char *who) :
-		AsyncHttpRequest(REQUEST_PUT)
+	AuthAcceptRequest(const char *who) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS)
 	{
-		m_szUrl.Format("contacts.skype.com/contacts/v2/users/SELF/invites/8:%s/accept", who);
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/invites/8:%s/accept", who);
 
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 		AddHeader("Accept", "application/json");
 	}
 };
 
 struct AuthDeclineRequest : public AsyncHttpRequest
 {
-	AuthDeclineRequest(CSkypeProto *ppro, const char *who) :
-		AsyncHttpRequest(REQUEST_PUT)
+	AuthDeclineRequest(const char *who) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS)
 	{
-		m_szUrl.Format("contacts.skype.com/contacts/v2/users/SELF/invites/8:%s/decline", who);
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/invites/8:%s/decline", who);
 
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 		AddHeader("Accept", "application/json");
 	}
 };
@@ -99,32 +91,28 @@ struct AuthDeclineRequest : public AsyncHttpRequest
 struct BlockContactRequest : public AsyncHttpRequest
 {
 	BlockContactRequest(CSkypeProto *ppro, MCONTACT hContact) :
-		AsyncHttpRequest(REQUEST_PUT, 0, &CSkypeProto::OnBlockContact)
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, 0, &CSkypeProto::OnBlockContact)
 	{
-		m_szUrl.Format("contacts.skype.com/contacts/v2/users/SELF/contacts/blocklist/8:%s", ppro->getId(hContact).c_str());
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/contacts/blocklist/8:%s", ppro->getId(hContact).c_str());
 		m_szParam = "{\"report_abuse\":\"false\",\"ui_version\":\"skype.com\"}";
 		pUserInfo = (void *)hContact;
 
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 		AddHeader("Accept", "application/json");
-		AddHeader("Content-type", "application/x-www-form-urlencoded");
 	}
 };
 
 struct UnblockContactRequest : public AsyncHttpRequest
 {
 	UnblockContactRequest(CSkypeProto *ppro, MCONTACT hContact) :
-		AsyncHttpRequest(REQUEST_DELETE, 0, &CSkypeProto::OnUnblockContact)
+		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, 0, &CSkypeProto::OnUnblockContact)
 	{
-		m_szUrl.Format("contacts.skype.com/contacts/v2/users/SELF/contacts/blocklist/8:%s", ppro->getId(hContact).c_str());
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/contacts/blocklist/8:%s", ppro->getId(hContact).c_str());
 		pUserInfo = (void *)hContact;
 
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 		AddHeader("Accept", "application/json");
-		AddHeader("Content-type", "application/x-www-form-urlencoded");
 
-		this << CHAR_PARAM("reporterIp", "123.123.123.123") // TODO: user ip address
-			<< CHAR_PARAM("uiVersion", g_szMirVer);
+		// TODO: user ip address
+		this << CHAR_PARAM("reporterIp", "123.123.123.123") << CHAR_PARAM("uiVersion", g_szMirVer);
 	}
 };
 

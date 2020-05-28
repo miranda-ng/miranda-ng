@@ -26,20 +26,14 @@ struct SendMessageParam
 
 struct SendMessageRequest : public AsyncHttpRequest
 {
-	SendMessageRequest(const char *username, time_t timestamp, const char *message, CSkypeProto *ppro, const char *MessageType = nullptr) :
-	  AsyncHttpRequest(REQUEST_POST, 0, &CSkypeProto::OnMessageSent)
+	SendMessageRequest(const char *username, time_t timestamp, const char *message, const char *MessageType = nullptr) :
+	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
 	{
-		m_szUrl.Format("/users/ME/conversations/8:%s/messages", username);
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/users/ME/conversations/8:%s/messages", username);
 
 		JSONNode node;
-		node  << JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu", (ULONGLONG)timestamp))
-			<< JSONNode("messagetype", MessageType ? MessageType : "Text")
-			<< JSONNode("contenttype", "text")
-			<< JSONNode("content", message);
+		node  << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", MessageType ? MessageType : "Text")
+			<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message);
 		m_szParam = node.write().c_str();
 	}
 };
@@ -47,66 +41,45 @@ struct SendMessageRequest : public AsyncHttpRequest
 struct SendActionRequest : public AsyncHttpRequest
 {
 	SendActionRequest(const char *username, time_t timestamp, const char *message, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_POST, 0, &CSkypeProto::OnMessageSent)
+	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
 	{
-		m_szUrl.Format("/users/ME/conversations/8:%s/messages", username);
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/users/ME/conversations/8:%s/messages", username);
 
 		CMStringA content;
 		content.AppendFormat("%s %s", ppro->m_szSkypename.c_str(), message);
 
 		JSONNode node;
-		node 
-			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu", (ULONGLONG)timestamp))
-			<< JSONNode("messagetype", "RichText")
-			<< JSONNode("contenttype", "text")
-			<< JSONNode("content", content)
-			<< JSONNode("skypeemoteoffset", ppro->m_szSkypename.GetLength() + 1);
+		node << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", "RichText") << CHAR_PARAM("contenttype", "text")
+			<< CHAR_PARAM("content", content) << INT_PARAM("skypeemoteoffset", ppro->m_szSkypename.GetLength() + 1);
 		m_szParam = node.write().c_str();
 	}
 };
 
 struct SendTypingRequest : public AsyncHttpRequest
 {
-	SendTypingRequest(const char *username, int iState, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_POST)
+	SendTypingRequest(const char *username, int iState) :
+	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
 	{
-		m_szUrl.Format("/users/ME/conversations/8:%s/messages", mir_urlEncode(username).c_str());
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/users/ME/conversations/8:%s/messages", mir_urlEncode(username).c_str());
 
 		const char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
 
 		JSONNode node;
-		node
-			<< JSONNode("clientmessageid", (long)time(NULL))
-			<< JSONNode("messagetype", state)
-			<< JSONNode("contenttype", "text")
-			<< JSONNode("content", "");
+		node << INT_PARAM("clientmessageid", (long)time(NULL)) << CHAR_PARAM("messagetype", state)
+			<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", "");
 		m_szParam = node.write().c_str();
 	}
 };
 
 struct MarkMessageReadRequest : public AsyncHttpRequest
 {
-	MarkMessageReadRequest(const char *username, LONGLONG /*msgId*/, LONGLONG msgTimestamp, bool isChat, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_PUT)
+	MarkMessageReadRequest(const char *username, LONGLONG /*msgId*/, LONGLONG msgTimestamp, bool isChat) :
+	  AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT)
 	{
-		m_szUrl.Format("/users/ME/conversations/%d:%s/properties?name=consumptionhorizon", !isChat ? 8 : 19, username);
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
-
-		//"lastReadMessageTimestamp;modificationTime;lastReadMessageId"
+		m_szUrl.AppendFormat("/users/ME/conversations/%d:%s/properties?name=consumptionhorizon", !isChat ? 8 : 19, username);
 
 		JSONNode node(JSON_NODE);
-		node << JSONNode("consumptionhorizon", CMStringA(::FORMAT, "%lld000;%lld000;%lld000", msgTimestamp, time(NULL), msgTimestamp));
+		node << CHAR_PARAM("consumptionhorizon", CMStringA(::FORMAT, "%lld000;%lld000;%lld000", msgTimestamp, time(NULL), msgTimestamp));
 		m_szParam = node.write().c_str();
 	}
 };

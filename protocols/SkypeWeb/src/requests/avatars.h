@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct GetAvatarRequest : public AsyncHttpRequest
 {
 	GetAvatarRequest(const char *url, MCONTACT hContact) :
-		AsyncHttpRequest(REQUEST_GET, url, &CSkypeProto::OnReceiveAvatar)
+		AsyncHttpRequest(REQUEST_GET, HOST_OTHER, url, &CSkypeProto::OnReceiveAvatar)
 	{
 		flags |= NLHRF_REDIRECT;
 		pUserInfo = (void *)hContact;
@@ -31,11 +31,10 @@ struct GetAvatarRequest : public AsyncHttpRequest
 struct SetAvatarRequest : public AsyncHttpRequest
 {
 	SetAvatarRequest(const PBYTE data, size_t dataSize, const char *szMime, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_PUT, 0, &CSkypeProto::OnSentAvatar)
+		AsyncHttpRequest(REQUEST_PUT, HOST_API, 0, &CSkypeProto::OnSentAvatar)
 	{
-		m_szUrl.Format("api.skype.com/users/%s/profile/avatar", ppro->m_szSkypename.MakeLower().c_str());
+		m_szUrl.AppendFormat("/users/%s/profile/avatar", ppro->m_szSkypename.MakeLower().c_str());
 
-		AddHeader("X-Skypetoken", ppro->m_szApiToken);
 		AddHeader("Content-Type", szMime);
 
 		pData = (char *)mir_alloc(dataSize);

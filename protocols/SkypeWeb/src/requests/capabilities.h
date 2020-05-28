@@ -21,34 +21,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct SendCapabilitiesRequest : public AsyncHttpRequest
 {
 	SendCapabilitiesRequest(const char *hostname, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_PUT, 0, &CSkypeProto::OnCapabilitiesSended)
+		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, 0, &CSkypeProto::OnCapabilitiesSended)
 	{
-		m_szUrl.Format("/users/ME/endpoints/%s/presenceDocs/messagingService", mir_urlEncode(ppro->m_szId).c_str());
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/users/ME/endpoints/%s/presenceDocs/messagingService", mir_urlEncode(ppro->m_szId).c_str());
 
 		JSONNode privateInfo; privateInfo.set_name("privateInfo");
-		privateInfo << JSONNode("epname", hostname);
+		privateInfo << CHAR_PARAM("epname", hostname);
 
 		JSONNode publicInfo; publicInfo.set_name("publicInfo");
-		publicInfo 
-			<< JSONNode("capabilities", "Audio|Video")
-			<< JSONNode("typ", 125)
-			<< JSONNode("skypeNameVersion", "Miranda NG Skype")
-			<< JSONNode("nodeInfo", "xx")
-			<< JSONNode("version", g_szMirVer);
+		publicInfo << CHAR_PARAM("capabilities", "Audio|Video") << INT_PARAM("typ", 125)
+			<< CHAR_PARAM("skypeNameVersion", "Miranda NG Skype") << CHAR_PARAM("nodeInfo", "xx") << CHAR_PARAM("version", g_szMirVer);
 
 		JSONNode node;
-		node
-			<< JSONNode("id", "messagingService") 
-			<< JSONNode("type", "EndpointPresenceDoc")
-			<< JSONNode("selfLink", "uri")
-			<< privateInfo 
-			<< publicInfo;
+		node << CHAR_PARAM("id", "messagingService")  << CHAR_PARAM("type", "EndpointPresenceDoc")
+			<< CHAR_PARAM("selfLink", "uri") << privateInfo  << publicInfo;
 
 		m_szParam = node.write().c_str();
 	}
 };
+
 #endif //_SKYPE_REQUEST_CAPS_H_

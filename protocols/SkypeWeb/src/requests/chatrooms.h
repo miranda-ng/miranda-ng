@@ -20,57 +20,39 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct LoadChatsRequest : public AsyncHttpRequest
 {
-	LoadChatsRequest(CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_GET, "/users/ME/conversations", &CSkypeProto::OnLoadChats)
+	LoadChatsRequest() :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CSkypeProto::OnLoadChats)
 	{
-		this << INT_PARAM("startTime", 0) << INT_PARAM("pageSize", 100) 
+		this << INT_PARAM("startTime", 0) << INT_PARAM("pageSize", 100)
 			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Thread");
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddRegistrationToken(ppro);
-		AddHeader("Content-Type", "application/json; charset = UTF-8");
 	}
 };
 
 struct SendChatMessageRequest : public AsyncHttpRequest
 {
-	SendChatMessageRequest(const char *to, time_t timestamp, const char *message, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_POST)
+	SendChatMessageRequest(const char *to, time_t timestamp, const char *message) :
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
 	{
-		m_szUrl.Format("/users/ME/conversations/19:%s/messages", to);
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddRegistrationToken(ppro);
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
+		m_szUrl.AppendFormat("/users/ME/conversations/19:%s/messages", to);
 
 		JSONNode node;
-		node 
-			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp)) 
-			<< JSONNode("messagetype", "RichText") 
-			<< JSONNode("contenttype", "text")
-			<< JSONNode("content", message);
+		node << CHAR_PARAM("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
+			<< CHAR_PARAM("messagetype", "RichText") << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message);
 		m_szParam = node.write().c_str();
 	}
 };
 
 struct SendChatActionRequest : public AsyncHttpRequest
 {
-	SendChatActionRequest(const char *to, time_t timestamp, const char *message, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_POST)
+	SendChatActionRequest(const char *to, time_t timestamp, const char *message) :
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
 	{
-		m_szUrl.Format("/users/ME/conversations/19:%s/messages", to);
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/users/ME/conversations/19:%s/messages", to);
 
 		JSONNode node(JSON_NODE);
-		node 
-			<< JSONNode("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
-			<< JSONNode("messagetype", "RichText")
-			<< JSONNode("contenttype", "text")
-			<< JSONNode("content", message)
-			<< JSONNode("skypeemoteoffset", 4);
+		node << CHAR_PARAM("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
+			<< CHAR_PARAM("messagetype", "RichText") << CHAR_PARAM("contenttype", "text")
+			<< CHAR_PARAM("content", message) << INT_PARAM("skypeemoteoffset", 4);
 		m_szParam = node.write().c_str();
 	}
 };
@@ -78,22 +60,16 @@ struct SendChatActionRequest : public AsyncHttpRequest
 struct CreateChatroomRequest : public AsyncHttpRequest
 {
 	CreateChatroomRequest(const LIST<char> &skypenames, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_POST, "/threads")
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/threads")
 	{
 		//{"members":[{"id":"8:user3","role":"User"},{"id":"8:user2","role":"User"},{"id":"8:user1","role":"Admin"}]}
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
-
 		JSONNode node;
 		JSONNode members(JSON_ARRAY); members.set_name("members");
 
-		for (auto &it : skypenames)
-		{
+		for (auto &it : skypenames) {
 			JSONNode member;
-			member 
-				<< JSONNode("id", CMStringA(::FORMAT, "8:%s", it).GetBuffer())
-				<< JSONNode("role", !mir_strcmpi(it, ppro->m_szSkypename) ? "Admin" : "User");
+			member << CHAR_PARAM("id", CMStringA(::FORMAT, "8:%s", it).GetBuffer())
+				<< CHAR_PARAM("role", !mir_strcmpi(it, ppro->m_szSkypename) ? "Admin" : "User");
 			members << member;
 		}
 		node << members;
@@ -103,63 +79,47 @@ struct CreateChatroomRequest : public AsyncHttpRequest
 
 struct GetChatInfoRequest : public AsyncHttpRequest
 {
-	GetChatInfoRequest(const char *chatId, const CMStringW topic, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_GET, 0, &CSkypeProto::OnGetChatInfo)
+	GetChatInfoRequest(const char *chatId, const CMStringW topic) :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CSkypeProto::OnGetChatInfo)
 	{
-		m_szUrl.Format("/threads/%s%s", ppro->m_szServer, strstr(chatId, "19:") == chatId ? "" : "19:", chatId);
+		m_szUrl.AppendFormat("/threads/%s%s", strstr(chatId, "19:") == chatId ? "" : "19:", chatId);
 		pUserInfo = topic.Detach();
 
 		this << CHAR_PARAM("view", "msnp24Equivalent");
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
 	}
 };
 
 struct InviteUserToChatRequest : public AsyncHttpRequest
 {
-	InviteUserToChatRequest(const char *chatId, const char *skypename, const char* role, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_PUT)
+	InviteUserToChatRequest(const char *chatId, const char *skypename, const char *role) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT)
 	{
-		m_szUrl.Format("/threads/19:%s/members/8:%s", chatId, skypename);
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/threads/19:%s/members/8:%s", chatId, skypename);
 
 		JSONNode node;
-		node << JSONNode("role", role);
+		node << CHAR_PARAM("role", role);
 		m_szParam = node.write().c_str();
 	}
 };
 
 struct KickUserRequest : public AsyncHttpRequest
 {
-	KickUserRequest(const char *chatId, const char *skypename, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_DELETE)
+	KickUserRequest(const char *chatId, const char *skypename) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT)
 	{
-		m_szUrl.Format("/threads/19:%s/members/8:%s", chatId, skypename);
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/threads/19:%s/members/8:%s", chatId, skypename);
 	}
 };
 
 struct SetChatPropertiesRequest : public AsyncHttpRequest
 {
-	SetChatPropertiesRequest(const char *chatId, const char *propname, const char *value, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_PUT)
+	SetChatPropertiesRequest(const char *chatId, const char *propname, const char *value) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT)
 	{
-		m_szUrl.Format("/threads/19:%s/properties?name=%s", chatId, propname);
-
-		AddHeader("Accept", "application/json, text/javascript");
-		AddHeader("Content-Type", "application/json; charset=UTF-8");
-		AddRegistrationToken(ppro);
+		m_szUrl.AppendFormat("/threads/19:%s/properties?name=%s", chatId, propname);
 
 		JSONNode node;
-		node << JSONNode(propname, value);
+		node << CHAR_PARAM(propname, value);
 		m_szParam = node.write().c_str();
 	}
 };

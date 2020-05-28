@@ -43,10 +43,6 @@ struct CSkypeProto : public PROTO <CSkypeProto>
 	} m_impl;
 
 public:
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	//Ctors
-
 	CSkypeProto(const char *protoName, const wchar_t *userName);
 	~CSkypeProto();
 
@@ -102,7 +98,7 @@ public:
 	CSkypeOptions m_opts;
 
 	int m_iPollingId;
-	ptrA m_szApiToken, m_szToken, m_szId, m_szServer;
+	ptrA m_szApiToken, m_szToken, m_szId;
 	CMStringA m_szSkypename, m_szMyname;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {
@@ -126,14 +122,8 @@ public:
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnOAuthEnd(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 
-	void OnCreateTrouter(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnTrouterPoliciesCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnGetTrouter(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnHealth(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-
 	void OnASMObjectCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnASMObjectUploaded(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-
 
 	void LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
@@ -158,10 +148,7 @@ private:
 	std::map<std::string, std::string> cookies;
 	static std::map<std::wstring, std::wstring> languages;
 
-	HNETLIBCONN m_TrouterConnection;
-	HANDLE m_hPollingThread, m_hTrouterThread;
-
-	TRInfo TRouter;
+	HANDLE m_hPollingThread;
 
 	LIST<void> m_PopupClasses;
 	LIST<void> m_OutMessages;
@@ -195,11 +182,8 @@ private:
 	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
 	// requests
-
 	void InitNetwork();
-	void UnInitNetwork();
-	void ShutdownConnections();
-
+	
 	bool m_isTerminated = true;
 	mir_cs m_requestQueueLock;
 	LIST<AsyncHttpRequest> m_requests;
@@ -231,10 +215,6 @@ private:
 	void OnLoginSuccess();
 	void SendPresence(bool isLogin = false);
 	
-	// TRouter
-	void OnTrouterEvent(const JSONNode &body, const JSONNode &headers);
-	void __cdecl TRouterThread(void*);
-
 	// profile
 	void UpdateProfileFirstName(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileLastName(const JSONNode &root, MCONTACT hContact = NULL);
@@ -321,6 +301,7 @@ private:
 	void ProcessConversationUpdate(const JSONNode &node);
 
 	void RefreshStatuses(void);
+	void ReadHistoryRest(const char *url);
 
 	// utils
 	template <typename T>
@@ -365,8 +346,6 @@ private:
 	void InitDBEvents();
 
 	//services
-	INT_PTR __cdecl OnIncomingCallCLE(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl OnIncomingCallPP(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl BlockContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl UnblockContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
@@ -382,21 +361,6 @@ private:
 		CSkypeProto *proto = CMPlugin::getInstance((MCONTACT)wParam);
 		return proto ? (proto->*Service)(wParam, lParam) : 0;
 	}
-};
-
-struct AsyncHttpRequest : public MTHttpRequest<CSkypeProto>
-{
-	AsyncHttpRequest(int type, LPCSTR url = nullptr, MTHttpRequestHandler pFunc = nullptr);
-
-	void AddRegistrationToken(CSkypeProto *ppro);
-};
-
-struct CMPlugin : public ACCPROTOPLUGIN<CSkypeProto>
-{
-	CMPlugin();
-
-	int Load() override;
-	int Unload() override;
 };
 
 #endif //_SKYPE_PROTO_H_

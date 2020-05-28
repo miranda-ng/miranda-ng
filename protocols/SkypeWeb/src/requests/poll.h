@@ -21,19 +21,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct PollRequest : public AsyncHttpRequest
 {
 	PollRequest(CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_POST, "/users/ME/endpoints/SELF/subscriptions/0/poll")
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints/SELF/subscriptions/0/poll")
 	{
 		timeout = 120000;
 
 		if (ppro->m_iPollingId != -1)
-			this << INT_PARAM("ackId", ppro->m_iPollingId);
+			m_szUrl.AppendFormat("?ackId=%d", ppro->m_iPollingId);
 
 		AddHeader("Referer", "https://web.skype.com/main");
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 		AddHeader("ClientInfo", "os=Windows; osVer=8.1; proc=Win32; lcid=en-us; deviceType=1; country=n/a; clientName=swx-skype.com; clientVer=908/1.85.0.29");
 		AddHeader("Accept", "application/json; ver=1.0");
 		AddHeader("Accept-Language", "en, C");
-		AddRegistrationToken(ppro);
 	}
 };
 #endif //_SKYPE_POLL_H_

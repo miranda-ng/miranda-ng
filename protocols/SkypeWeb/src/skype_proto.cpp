@@ -24,11 +24,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_GCCreateDialogs(1),
 	m_OutMessages(3, PtrKeySortT),
 	m_bThreadsTerminated(false),
-	m_TrouterConnection(nullptr),
 	m_opts(this),
 	m_impl(*this),
-	m_requests(1),
-	m_szServer(mir_strdup("azeus1-client-s.gateway.messenger.live.com"))
+	m_requests(1)
 {
 	InitNetwork();
 
@@ -41,9 +39,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_MENU_REQAUTH, &CSkypeProto::OnRequestAuth);
 	CreateProtoService(PS_MENU_GRANTAUTH, &CSkypeProto::OnGrantAuth);
 
-	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
-	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
-
 	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CSkypeProto::OnDbEventRead);
 
@@ -55,7 +50,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	g_plugin.addSound("skype_call_canceled", L"SkypeWeb", LPGENW("Incoming call canceled"));
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, NULL, NULL);
-	m_hTrouterThread = ForkThreadEx(&CSkypeProto::TRouterThread, NULL, NULL);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -66,17 +60,11 @@ CSkypeProto::~CSkypeProto()
 		m_hRequestQueueThread = nullptr;
 	}
 
-	UnInitNetwork();
 	UninitPopups();
 
 	if (m_hPollingThread) {
 		WaitForSingleObject(m_hPollingThread, INFINITE);
 		m_hPollingThread = nullptr;
-	}
-
-	if (m_hTrouterThread) {
-		WaitForSingleObject(m_hTrouterThread, INFINITE);
-		m_hTrouterThread = nullptr;
 	}
 }
 
@@ -123,7 +111,7 @@ INT_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
 {
 	if (IsOnline())
-		PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : "", this));
+		PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : ""));
 	return 0;
 }
 
@@ -196,7 +184,7 @@ int CSkypeProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(this, getId(hContact)));
+	PushRequest(new AuthAcceptRequest(getId(hContact)));
 	return 0;
 }
 
@@ -206,7 +194,7 @@ int CSkypeProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthDeclineRequest(this, getId(hContact)));
+	PushRequest(new AuthDeclineRequest(getId(hContact)));
 	return 0;
 }
 
@@ -220,7 +208,7 @@ int CSkypeProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AddContactRequest(this, getId(hContact), T2Utf(szMessage)));
+	PushRequest(new AddContactRequest(getId(hContact), T2Utf(szMessage)));
 	return 0;
 }
 
@@ -289,7 +277,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			Login();
 		}
 		else {
-			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), this));
+			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
 		}
 	}
 
@@ -299,7 +287,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	SendRequest(new SendTypingRequest(getId(hContact), type, this));
+	SendRequest(new SendTypingRequest(getId(hContact), type));
 	return 0;
 }
 

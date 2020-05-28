@@ -27,7 +27,7 @@ void CSkypeProto::SearchBasicThread(void *id)
 {
 	debugLogA("CSkypeProto::OnSearchBasicThread");
 	if (IsOnline())
-		SendRequest(new GetSearchRequest(mir_urlEncode(T2Utf((wchar_t *)id)), this));
+		SendRequest(new GetSearchRequest(mir_urlEncode(T2Utf((wchar_t *)id))));
 }
 
 void CSkypeProto::OnSearch(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
