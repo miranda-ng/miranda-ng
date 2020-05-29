@@ -41,33 +41,53 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 	if (contactID == 0) // global contact cannot be removed
 		return 1;
 
+	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
+	if (cc == nullptr)
+		return 1;
+
 	NotifyEventHooks(g_hevContactDeleted, contactID, 0);
 
-	// remove events owned by contact
+	// remove event sorting keys owned by contact
 	{
-		OBJLIST<EventItem> events(50);
-		GatherContactHistory(contactID, events);
-		while (events.getCount()) {
-			DeleteEvent(events[0].eventId);
-			events.remove(0);
+		DBEventSortingKey keyS = { contactID, 0, 0 };
+		MDBX_val key = { &keyS, sizeof(keyS) }, data;
+
+		txn_ptr trnlck(StartTran());
+		cursor_ptr cursor(trnlck, m_dbEventsSort);
+
+		for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
+			auto *pKey = (DBEventSortingKey *)key.iov_base;
+			if (pKey->hContact != contactID)
+				break;
+
+			if (mdbx_cursor_del(cursor, 0) != MDBX_SUCCESS)
+				return 1;
+
+			if (!cc->IsMeta() && !cc->IsSub()) {
+				MDBX_val key2 = { &pKey->hEvent, sizeof(MEVENT) };
+				mdbx_del(trnlck, m_dbEvents, &key2, nullptr);
+			}
 		}
+
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
 	}
 
 	// remove all contact's settings
 	{
-		MDBX_val key, data;
 		DBSettingKey keyS = { contactID, 0, 0 };
+		MDBX_val key = { &keyS, sizeof(keyS) }, data;
 
 		txn_ptr trnlck(StartTran());
 		cursor_ptr cursor(trnlck, m_dbSettings);
-
-		key.iov_len = sizeof(keyS); key.iov_base = &keyS;
 
 		for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
 			const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
 			if (pKey->hContact != contactID)
 				break;
-			mdbx_cursor_del(cursor, 0);
+
+			if (mdbx_cursor_del(cursor, 0) != MDBX_SUCCESS)
+				return 1;
 		}
 
 		if (trnlck.commit() != MDBX_SUCCESS)
