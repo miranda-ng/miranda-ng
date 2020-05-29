@@ -54,18 +54,16 @@
 #define IDC_USE_HTTPS                   1051
 #define IDC_CHANGE_PLATFORM             1052
 #define IDC_SEARCH                      1053
-#define IDC_MSG_BOXES                   40071
-#define IDC_ERRORS                      40072
-#define IDC_INFO_MESSAGES               40073
-#define IDC_PROGR_DLG                   40074
-#define IDC_MSG_BOXES_TX                41071
-#define IDC_ERR_TX                      41072
-#define IDC_INFO_MESSAGES_TX            41073
-#define IDC_PROGR_DLG_TX                41074
-#define IDC_MSG_BOXES_BG                42071
-#define IDC_ERR_BG                      42072
-#define IDC_INFO_MESSAGES_BG            42073
-#define IDC_PROGR_DLG_BG                42074
+#define IDC_MSG_BOXES                   1054
+#define IDC_ERRORS                      1055
+#define IDC_INFO_MESSAGES               1056
+#define IDC_MSG_BOXES_TX                1057
+#define IDC_ERR_TX                      1058
+#define IDC_INFO_MESSAGES_TX            1059
+#define IDC_MSG_BOXES_BG                1060
+#define IDC_ERR_BG                      1061
+#define IDC_INFO_MESSAGES_BG            1062
+#define IDC_AUTORESTART                 1063
 
 // Next default values for new objects
 // 
@@ -73,7 +71,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40075
-#define _APS_NEXT_CONTROL_VALUE         1054
+#define _APS_NEXT_CONTROL_VALUE         1064
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

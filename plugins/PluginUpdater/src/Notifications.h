@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 
 struct aPopups
 {
-	int ID;
+	int ctrl1, ctrl2, ctrl3;
 	COLORREF colorBack;
 	COLORREF colorText;
 };

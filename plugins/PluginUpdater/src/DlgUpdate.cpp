@@ -146,22 +146,24 @@ static void ApplyUpdates(void *param)
 	}
 
 	// 5) Prepare Restart
-	int rc = MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
-	PostMessage(hDlg, WM_CLOSE, 0, 0);
-	if (rc == IDYES) {
-		BOOL bRestartCurrentProfile = g_plugin.getByte("RestartCurrentProfile", 1) ? 1 : 0;
-		if (g_plugin.bChangePlatform) {
-			wchar_t mirstartpath[MAX_PATH];
-
-#ifdef _WIN64
-			mir_snwprintf(mirstartpath, L"%s\\miranda32.exe", tszMirandaPath.get());
-#else
-			mir_snwprintf(mirstartpath, L"%s\\miranda64.exe", tszMirandaPath.get());
-#endif
-			CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath);
+	if (!g_plugin.bAutoRestart)
+		if (IDYES != MessageBox(hDlg, TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION)) {
+			PostMessage(hDlg, WM_CLOSE, 0, 0);
+			return;
 		}
-		else CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
+
+	PostMessage(hDlg, WM_CLOSE, 0, 0);
+	BOOL bRestartCurrentProfile = g_plugin.getBool("RestartCurrentProfile", true);
+	if (g_plugin.bChangePlatform) {
+		wchar_t mirstartpath[MAX_PATH];
+#ifdef _WIN64
+		mir_snwprintf(mirstartpath, L"%s\\miranda32.exe", tszMirandaPath.get());
+#else
+		mir_snwprintf(mirstartpath, L"%s\\miranda64.exe", tszMirandaPath.get());
+#endif
+		CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath);
 	}
+	else CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
 }
 
 static void ResizeVert(HWND hDlg, int yy)
@@ -466,14 +468,9 @@ static void DlgUpdateSilent(void *param)
 	if (Popup_Enabled())
 		ShowPopup(tszTitle, TranslateT("You need to restart your Miranda to apply installed updates."), POPUP_TYPE_MSG);
 	else {
-		if (Clist_TrayNotifyW(MODULEA, tszTitle, TranslateT("You need to restart your Miranda to apply installed updates."), NIIF_INFO, 30000)) {
+		if (Clist_TrayNotifyW(MODULEA, tszTitle, TranslateT("You need to restart your Miranda to apply installed updates."), NIIF_INFO, 30000))
 			// Error, let's try to show MessageBox as last way to inform user about successful update
-			wchar_t tszText[200];
-			mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
-
-			if (MessageBox(nullptr, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
-				CallServiceSync(MS_SYSTEM_RESTART, g_plugin.getByte("RestartCurrentProfile", 1) ? 1 : 0, 0);
-		}
+			RestartPrompt(0);
 	}
 }
 
@@ -867,7 +864,7 @@ static void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
 	DoCheck();
 }
 
-static LONGLONG PeriodToMilliseconds(const int period, int &periodMeasure)
+static LONGLONG PeriodToMilliseconds(const int period, CMOption<int> &periodMeasure)
 {
 	LONGLONG result = period * 1000LL;
 	switch (periodMeasure) {

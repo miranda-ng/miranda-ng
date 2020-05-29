@@ -19,35 +19,32 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-aPopups PopupsList[POPUPS];
+aPopups PopupsList[POPUPS] =
+{
+	{ IDC_MSG_BOXES,     IDC_MSG_BOXES_TX,     IDC_MSG_BOXES_BG, 0, 0 },
+	{ IDC_ERRORS,        IDC_ERR_TX,           IDC_ERR_BG, 0, 0 },
+	{ IDC_INFO_MESSAGES, IDC_INFO_MESSAGES_TX, IDC_INFO_MESSAGES_BG, 0, 0 }
+};
 
 void InitPopupList()
 {
-	int index = 0;
-	PopupsList[index].ID = index;
-	PopupsList[index].colorBack = g_plugin.getDword("Popups0Bg", COLOR_BG_FIRSTDEFAULT);
-	PopupsList[index].colorText = g_plugin.getDword("Popups0Tx", COLOR_TX_DEFAULT);
+	PopupsList[0].colorBack = g_plugin.getDword("Popups0Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[0].colorText = g_plugin.getDword("Popups0Tx", COLOR_TX_DEFAULT);
 
-	index = 1;
-	PopupsList[index].ID = index;
-	PopupsList[index].colorBack = g_plugin.getDword("Popups1Bg", COLOR_BG_SECONDDEFAULT);
-	PopupsList[index].colorText = g_plugin.getDword("Popups1Tx", COLOR_TX_DEFAULT);
+	PopupsList[1].colorBack = g_plugin.getDword("Popups1Bg", COLOR_BG_SECONDDEFAULT);
+	PopupsList[1].colorText = g_plugin.getDword("Popups1Tx", COLOR_TX_DEFAULT);
 
-	index = 2;
-	PopupsList[index].ID = index;
-	PopupsList[index].colorBack = g_plugin.getDword("Popups2Bg", COLOR_BG_FIRSTDEFAULT);
-	PopupsList[index].colorText = g_plugin.getDword("Popups2Tx", COLOR_TX_DEFAULT);
+	PopupsList[2].colorBack = g_plugin.getDword("Popups2Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[2].colorText = g_plugin.getDword("Popups2Tx", COLOR_TX_DEFAULT);
 }
 
-void PopupAction(HWND hPopup, BYTE action)
+static void PopupAction(HWND hPopup, BYTE action)
 {
 	switch (action) {
 	case PCA_CLOSEPOPUP:
+		PUDeletePopup(hPopup);
 		break;
-	case PCA_DONOTHING:
-		return;
 	}
-	PUDeletePopup(hPopup);
 }
 
 static LRESULT CALLBACK PopupDlgProc(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -68,13 +65,16 @@ static LRESULT CALLBACK PopupDlgProc(HWND hPopup, UINT uMsg, WPARAM wParam, LPAR
 	return DefWindowProc(hPopup, uMsg, wParam, lParam);
 }
 
-static void _stdcall RestartPrompt(void *)
+void CALLBACK RestartPrompt(void *)
 {
-	wchar_t tszText[200];
-	mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+	if (!g_plugin.bAutoRestart) {
+		wchar_t tszText[200];
+		mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+		if (MessageBox(nullptr, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) != IDYES)
+			return;
+	}
 
-	if (MessageBox(nullptr, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) == IDYES)
-		CallService(MS_SYSTEM_RESTART, g_plugin.getByte("RestartCurrentProfile", 1) ? 1 : 0, 0);
+	CallService(MS_SYSTEM_RESTART, g_plugin.getBool("RestartCurrentProfile", true), 0);
 }
 
 static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -83,6 +83,7 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hPopup);
 		break;
+
 	case WM_COMMAND:
 		PUDeletePopup(hPopup);
 		CallFunctionAsync(RestartPrompt, nullptr);
@@ -137,3 +138,4 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 	if (Number == POPUP_TYPE_ERROR)
 		MessageBox(nullptr, ptszText, ptszTitle, MB_ICONINFORMATION);
 }
+

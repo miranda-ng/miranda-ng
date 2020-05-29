@@ -39,8 +39,29 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+
+	// popup options
+	PopupTimeout(MODULENAME, "Timeout", DEFAULT_TIMEOUT_VALUE),
+	PopupDefColors(MODULENAME, "DefColors", DEFAULT_COLORS),
+	PopupLeftClickAction(MODULENAME, "LeftClickAction", DEFAULT_POPUP_LCLICK),
+	PopupRightClickAction(MODULENAME, "RightClickAction", DEFAULT_POPUP_RCLICK),
+
+	// common settings
+	bBackup(MODULENAME, "Backup", false),
+	bUseHttps(MODULENAME, "UseHttps", IsWinVerVistaPlus()),
+	bSilentMode(MODULENAME, "SilentMode", false),
+	bAutoRestart(MODULENAME, "AutoRestart", false),
+	bOnlyOnceADay(MODULENAME, "OnlyOnceADay", true),
+	bUpdateOnPeriod(MODULENAME, "UpdateOnPeriod", false),
+	bChangePlatform(MODULENAME, DB_SETTING_CHANGEPLATFORM, false),
+	bUpdateOnStartup(MODULENAME, "UpdateOnStartup", true),
+
+	// other settings
+	iPeriod(MODULENAME, "Period", 1),
+	iPeriodMeasure(MODULENAME, "PeriodMeasure", 1)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,7 +75,6 @@ int CMPlugin::Load()
 	if (g_tszTempPath[dwLen-1] == '\\')
 		g_tszTempPath[dwLen-1] = 0;
 
-	LoadOptions();
 	InitPopupList();
 	InitNetlib();
 	InitIcoLib();

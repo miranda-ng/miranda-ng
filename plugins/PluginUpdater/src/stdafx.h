@@ -162,14 +162,15 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Load() override;
 	int Unload() override;
 
+	bool bForceRedownload = false, bSilent; // not a db options
+
 	// common options
-	bool bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bSilent, bUseHttps;
-	bool bForceRedownload = false; // not a db option
-	int  iPeriod, iPeriodMeasure;
+	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bUseHttps, bAutoRestart;
+	CMOption<int>  iPeriod, iPeriodMeasure;
 
 	// popup options
-	BYTE PopupDefColors, PopupLeftClickAction, PopupRightClickAction;
-	int  PopupTimeout;
+	CMOption<BYTE> PopupDefColors, PopupLeftClickAction, PopupRightClickAction;
+	CMOption<DWORD> PopupTimeout;
 };
 
 void UninitCheck(void);
@@ -218,7 +219,6 @@ typedef OBJLIST<ServListEntry> SERVLIST;
 ///////////////////////////////////////////////////////////////////////////////
 
 void  InitPopupList();
-void  LoadOptions();
 void  InitNetlib();
 void  InitIcoLib();
 void  InitServices();
@@ -230,6 +230,8 @@ void  CreateTimer();
 void  UnloadCheck();
 void  UnloadListNew();
 void  UnloadNetlib();
+
+void  CALLBACK RestartPrompt(void *);
 
 void  BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName);
 
