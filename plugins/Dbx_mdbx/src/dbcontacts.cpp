@@ -48,6 +48,7 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 	NotifyEventHooks(g_hevContactDeleted, contactID, 0);
 
 	// remove event sorting keys owned by contact
+	Netlib_Log(0, "Started wipe history");
 	{
 		DBEventSortingKey keyS = { contactID, 0, 0 };
 		MDBX_val key = { &keyS, sizeof(keyS) }, data;
@@ -74,6 +75,7 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 	}
 
 	// remove all contact's settings
+	Netlib_Log(0, "Started wipe settings");
 	{
 		DBSettingKey keyS = { contactID, 0, 0 };
 		MDBX_val key = { &keyS, sizeof(keyS) }, data;
@@ -95,6 +97,7 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 	}
 
 	// finally remove the contact itself
+	Netlib_Log(0, "Started wipe contact itself");
 	MDBX_val key = { &contactID, sizeof(MCONTACT) };
 	{
 		txn_ptr trnlck(StartTran());
