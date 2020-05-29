@@ -341,7 +341,7 @@ static void AddToFileList(wchar_t **&pppFiles, int &totalCount, const wchar_t *s
 	}
 }
 
-MIR_APP_DLL(bool) ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
+bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 {
 	if (hDrop == nullptr || hContact == 0)
 		return false;

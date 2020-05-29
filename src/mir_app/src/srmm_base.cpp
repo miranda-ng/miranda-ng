@@ -733,6 +733,15 @@ int CSrmmBaseDialog::NotifyEvent(int code)
 	return ::NotifyEventHooks(hHookSrmmEvent, 0, (LPARAM)&mwe);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool CSrmmBaseDialog::ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
+{
+	return ::ProcessFileDrop(hDrop, hContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool isAlt)
 {
 	// Esc (close tab)

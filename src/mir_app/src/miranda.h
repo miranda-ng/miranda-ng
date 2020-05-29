@@ -195,6 +195,7 @@ INT_PTR stubChainRecv(WPARAM, LPARAM);
 
 /**** utils.cpp ************************************************************************/
 
+bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
 void RegisterModule(CMPluginBase*);
 
 void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key);

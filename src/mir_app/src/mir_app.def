@@ -725,7 +725,7 @@ _WebSocket_Connect@12 @810 NONAME
 Netlib_Dump @812 NONAME
 ?ProtoBroadcastAsync@PROTO_INTERFACE@@QAEXIHHPAXJ@Z @813 NONAME
 ProtoBroadcastAsync @814 NONAME
-?ProcessFileDrop@@YG_NPAUHDROP__@@I@Z @815 NONAME
+?ProcessFileDrop@CSrmmBaseDialog@@IAE_NPAUHDROP__@@I@Z @815 NONAME
 ?ConfirmDelete@Clist@@3V?$CMOption@_N@@A @816 NONAME
 ?HideEmptyGroups@Clist@@3V?$CMOption@_N@@A @817 NONAME
 ?HideOffline@Clist@@3V?$CMOption@_N@@A @818 NONAME
