@@ -455,11 +455,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\mir_app.def">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="src\mir_app64.def">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="src\mir_app.def" />
+    <None Include="src\mir_app64.def" />
   </ItemGroup>
 </Project>

@@ -185,11 +185,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\mir_core.def">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="src\mir_core64.def">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="src\mir_core64.def" />
+    <None Include="src\mir_core.def" />
   </ItemGroup>
 </Project>
