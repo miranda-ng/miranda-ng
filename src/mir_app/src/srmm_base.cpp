@@ -737,7 +737,49 @@ int CSrmmBaseDialog::NotifyEvent(int code)
 
 bool CSrmmBaseDialog::ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 {
+	if (PasteFilesAsURL(hDrop, hContact)) {
+		return true;
+	}
 	return ::ProcessFileDrop(hDrop, hContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+If enabled pastes droped files as list of URL of file:/// type
+	Can be enabled/disabled by Chat/ShiftDropFilePasteURL database parameter
+@param hDrop Drop handle
+@param hContact Contact handle
+@return Returns true if processed here, returns false if should be processed elsewhere
+*/
+bool CSrmmBaseDialog::PasteFilesAsURL(HDROP hDrop, MCONTACT hContact)
+{
+	bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+	if (db_get_b(0, CHAT_MODULE, "ShiftDropFilePasteURL", 1) == 0 || !isShift) {
+		return false;
+	}
+	int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0;
+	CMStringW pasteString;
+	for (size_t i = 0; i < fileCount; i++) {
+		wchar_t szFilename[MAX_PATH];
+		if (DragQueryFileW(hDrop, i, szFilename, _countof(szFilename))) {
+			CMStringW fileString(L"file:///");
+			fileString.Append(szFilename);
+			fileString.Replace(L"%", L"%25");
+			fileString.Replace(L" ", L"%20");
+			if (i == 0)
+				fileString.Insert(0, L" ");
+			if (i != fileCount - 1)
+				fileString.Append(L"\r\n");
+			if (i == fileCount - 1)
+				fileString.Append(L" ");
+			pasteString += fileString;
+		}
+	}
+	if (pasteString.GetLength()) {
+		SendMessageW(m_message.GetHwnd(), EM_REPLACESEL, TRUE, (LPARAM)pasteString.c_str());
+	}
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

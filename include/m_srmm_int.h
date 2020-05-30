@@ -197,6 +197,7 @@ protected:
 
 	int  NotifyEvent(int code);
 	bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
+	bool PasteFilesAsURL(HDROP hDrop, MCONTACT hContact);
 	bool ProcessHotkeys(int key, bool bShift, bool bCtrl, bool bAlt);
 	void RefreshButtonStatus(void);
 	void RunUserMenu(HWND hwndOwner, struct USERINFO *ui, const POINT &pt);
