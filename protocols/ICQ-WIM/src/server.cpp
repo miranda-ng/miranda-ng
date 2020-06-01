@@ -447,6 +447,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszUrl.c_str());
 			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
 			pReq->hContact = hContact;
+			pReq->pUserInfo = (void*)iMsgTime;
 			pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
 			Push(pReq);
 
@@ -864,7 +865,7 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	PROTORECVFILE pre = { 0 };
 	pre.dwFlags = PRFF_UNICODE;
 	pre.fileCount = 1;
-	pre.timestamp = time(0);
+	pre.timestamp = DWORD_PTR(pReq->pUserInfo);
 	pre.files.w = &ft->m_wszShortName;
 	pre.descr.w = wszDescr;
 	pre.lParam = (LPARAM)ft;
