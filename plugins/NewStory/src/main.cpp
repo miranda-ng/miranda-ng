@@ -82,12 +82,14 @@ static int evtModulesLoaded(WPARAM, LPARAM)
 
 	CMenuItem mi(&g_plugin);
 
+	SET_UID(mi, 0xc20d7a69, 0x7607, 0x4aad, 0xa7, 0x42, 0x10, 0x86, 0xfb, 0x32, 0x49, 0x21);
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	mi.name.a = LPGEN("User history");
 	mi.position = 1999990000;
 	mi.hIcon = g_plugin.getIcon(ICO_NEWSTORY);
 	Menu_AddContactMenuItem(&mi);
 
+	SET_UID(mi, 0xc20d7a69, 0x7607, 0x4aad, 0xa7, 0x42, 0x10, 0x86, 0xfb, 0x32, 0x49, 0x22);
 	mi.pszService = "Newstory/System";
 	mi.name.a = LPGEN("System history");
 	mi.position = 1999990000;
