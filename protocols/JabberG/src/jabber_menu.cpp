@@ -147,7 +147,6 @@ void g_MenuInit(void)
 	// Contact menu initialization
 
 	CMenuItem mi(&g_plugin);
-	mi.flags = CMIF_UNMOVABLE;
 
 	// "Add to Bookmarks"
 	SET_UID(mi, 0x7d06d00b, 0x3a3e, 0x4d65, 0xac, 0xc5, 0x63, 0xe2, 0x60, 0xbe, 0xc6, 0x6);
