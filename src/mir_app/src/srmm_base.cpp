@@ -764,7 +764,9 @@ bool CSrmmBaseDialog::PasteFilesAsURL(HDROP hDrop)
 		wchar_t szFilename[MAX_PATH];
 		if (DragQueryFileW(hDrop, i, szFilename, _countof(szFilename))) {
 			CMStringW fileString(L"file:///");
-			fileString.Append(_A2T(mir_urlEncode(T2Utf(szFilename))));
+			fileString.Append(szFilename);
+			fileString.Replace(L"%", L"%25");
+			fileString.Replace(L" ", L"%20");
 			if (i == 0)
 				fileString.Insert(0, L" ");
 			fileString.Append((i != fileCount - 1) ? L"\r\n" : L" ");
