@@ -95,18 +95,18 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 
 	DeleteFile(pFileUrl.tszDiskPath);
 
-	wchar_t tszTmpIni[MAX_PATH] = {0};
+	wchar_t tszTmpIni[MAX_PATH];
 	mir_snwprintf(tszTmpIni, L"%s\\hashes.txt", g_tszTempPath);
 	FILE *fp = _wfopen(tszTmpIni, L"r");
 	if (!fp) {
-		Netlib_LogfW(hNetlibUser,L"Opening %s failed", g_tszTempPath);
+		Netlib_LogfW(hNetlibUser, L"Opening %s failed", g_tszTempPath);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		return false;
 	}
 
 	bool bDoNotSwitchToStable = false;
 	char str[200];
-	while(fgets(str, _countof(str), fp) != nullptr) {
+	while (fgets(str, _countof(str), fp) != nullptr) {
 		rtrim(str);
 		// Do not allow the user to switch back to stable
 		if (!strcmp(str, "DoNotSwitchToStable")) {
@@ -167,44 +167,43 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	#endif
 	szUserAgent.Append(")");
 
+	NETLIBHTTPHEADER headers[4] = {
+		{ "User-Agent", szUserAgent.GetBuffer() },
+		{ "Connection", "close" },
+		{ "Cache-Control", "no-cache" },
+		{ "Pragma", "no-cache" }
+	};
+
+	ptrA szUrl(mir_u2a(pFileURL->tszDownloadURL));
+
 	NETLIBHTTPREQUEST nlhr = {};
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 	nlhr.requestType = REQUEST_GET;
 	nlhr.nlc = nlc;
-	char *szUrl = mir_u2a(pFileURL->tszDownloadURL);
 	nlhr.szUrl = szUrl;
-	nlhr.headersCount = 4;
-	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[0].szName   = "User-Agent";
-	nlhr.headers[0].szValue = szUserAgent.GetBuffer();
-	nlhr.headers[1].szName  = "Connection";
-	nlhr.headers[1].szValue = "close";
-	nlhr.headers[2].szName  = "Cache-Control";
-	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName  = "Pragma";
-	nlhr.headers[3].szValue = "no-cache";
+	nlhr.headersCount = _countof(headers);
+	nlhr.headers = headers;
 
-	bool ret = false;
-	for (int i = 0; !ret && i < MAX_RETRIES; i++) {
-		Netlib_LogfW(hNetlibUser,L"Downloading file %s to %s (attempt %d)",pFileURL->tszDownloadURL,pFileURL->tszDiskPath, i+1);
+	for (int i = 0; i < MAX_RETRIES; i++) {
+		Netlib_LogfW(hNetlibUser, L"Downloading file %s to %s (attempt %d)", pFileURL->tszDownloadURL, pFileURL->tszDiskPath, i + 1);
 		NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 		if (pReply) {
 			nlc = pReply->nlc;
 			if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
 				// Check CRC sum
 				if (pFileURL->CRCsum) {
-					int crc = crc32(0, (unsigned char*)pReply->pData, pReply->dataLength);
+					int crc = crc32(0, (unsigned char *)pReply->pData, pReply->dataLength);
 					if (crc != pFileURL->CRCsum) {
 						// crc check failed, try again
-						Netlib_LogfW(hNetlibUser,L"crc check failed for file %s",pFileURL->tszDiskPath);
+						Netlib_LogfW(hNetlibUser, L"crc check failed for file %s", pFileURL->tszDiskPath);
 						continue;
 					}
 				}
 
+				DWORD dwBytes;
 				HANDLE hFile = CreateFile(pFileURL->tszDiskPath, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 				if (hFile != INVALID_HANDLE_VALUE) {
-					DWORD dwBytes;
 					// write the downloaded file directly
 					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
 					CloseHandle(hFile);
@@ -215,28 +214,23 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 					mir_snwprintf(tszTempFile, L"%s\\pulocal.tmp", g_tszTempPath);
 					hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 					if (hFile != INVALID_HANDLE_VALUE) {
-						DWORD dwBytes;
 						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
 						CloseHandle(hFile);
 						SafeMoveFile(tszTempFile, pFileURL->tszDiskPath);
 					}
 				}
-				ret = true;
+				return true;
 			}
-			else Netlib_LogfW(hNetlibUser,L"Downloading file %s failed with error %d",pFileURL->tszDownloadURL,pReply->resultCode);
+			Netlib_LogfW(hNetlibUser, L"Downloading file %s failed with error %d", pFileURL->tszDownloadURL, pReply->resultCode);
 		}
 		else {
-			Netlib_LogfW(hNetlibUser,L"Downloading file %s failed, host is propably temporary down.",pFileURL->tszDownloadURL);
+			Netlib_LogfW(hNetlibUser, L"Downloading file %s failed, host is propably temporary down.", pFileURL->tszDownloadURL);
 			nlc = nullptr;
 		}
 	}
-	if(!ret)
-		Netlib_LogfW(hNetlibUser,L"Downloading file %s failed, giving up",pFileURL->tszDownloadURL);
 
-	mir_free(szUrl);
-	mir_free(nlhr.headers);
-
-	return ret;
+	Netlib_LogfW(hNetlibUser, L"Downloading file %s failed, giving up", pFileURL->tszDownloadURL);
+	return false;
 }
 
 void __stdcall OpenPluginOptions(void*)
@@ -279,37 +273,27 @@ BOOL IsRunAsAdmin()
 
 	// Allocate and initialize a SID of the administrators group.
 	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
-	if (!AllocateAndInitializeSid(
-		&NtAuthority,
-		2,
-		SECURITY_BUILTIN_DOMAIN_RID,
-		DOMAIN_ALIAS_RID_ADMINS,
-		0, 0, 0, 0, 0, 0,
-		&pAdministratorsGroup))
-	{
+	if (!AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &pAdministratorsGroup)) {
 		dwError = GetLastError();
 		goto Cleanup;
 	}
 
 	// Determine whether the SID of administrators group is bEnabled in
 	// the primary access token of the process.
-	if (!CheckTokenMembership(nullptr, pAdministratorsGroup, &fIsRunAsAdmin))
-	{
+	if (!CheckTokenMembership(nullptr, pAdministratorsGroup, &fIsRunAsAdmin)) {
 		dwError = GetLastError();
 		goto Cleanup;
 	}
 
 Cleanup:
 	// Centralized cleanup for all allocated resources.
-	if (pAdministratorsGroup)
-	{
+	if (pAdministratorsGroup) {
 		FreeSid(pAdministratorsGroup);
 		pAdministratorsGroup = nullptr;
 	}
 
 	// Throw the error if something failed in the function.
-	if (ERROR_SUCCESS != dwError)
-	{
+	if (ERROR_SUCCESS != dwError) {
 		throw dwError;
 	}
 
@@ -363,8 +347,7 @@ BOOL IsProcessElevated()
 	HANDLE hToken = nullptr;
 
 	// Open the primary access token of the process with TOKEN_QUERY.
-	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken))
-	{
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
 		dwError = GetLastError();
 		goto Cleanup;
 	}
@@ -372,8 +355,7 @@ BOOL IsProcessElevated()
 	// Retrieve token elevation information.
 	TOKEN_ELEVATION elevation;
 	DWORD dwSize;
-	if (!GetTokenInformation(hToken, TokenElevation, &elevation, sizeof(elevation), &dwSize))
-	{
+	if (!GetTokenInformation(hToken, TokenElevation, &elevation, sizeof(elevation), &dwSize)) {
 		// When the process is run on operating systems prior to Windows
 		// Vista, GetTokenInformation returns FALSE with the
 		// ERROR_INVALID_PARAMETER error code because TokenElevation is
@@ -386,15 +368,13 @@ BOOL IsProcessElevated()
 
 Cleanup:
 	// Centralized cleanup for all allocated resources.
-	if (hToken)
-	{
+	if (hToken) {
 		CloseHandle(hToken);
 		hToken = nullptr;
 	}
 
 	// Throw the error if something failed in the function.
-	if (ERROR_SUCCESS != dwError)
-	{
+	if (ERROR_SUCCESS != dwError) {
 		throw dwError;
 	}
 
@@ -433,7 +413,7 @@ bool PrepareEscalation()
 			wchar_t cmdLine[100], *p;
 			GetModuleFileName(nullptr, szPath, ARRAYSIZE(szPath));
 			if ((p = wcsrchr(szPath, '\\')) != nullptr)
-				wcscpy(p+1, L"pu_stub.exe");
+				wcscpy(p + 1, L"pu_stub.exe");
 			mir_snwprintf(cmdLine, L"%d", GetCurrentProcessId());
 
 			// Launch a stub
@@ -450,8 +430,7 @@ bool PrepareEscalation()
 			}
 
 			DWORD dwError = GetLastError();
-			if (dwError == ERROR_CANCELLED)
-			{
+			if (dwError == ERROR_CANCELLED) {
 				// The user refused to allow privileges elevation.
 				// Do nothing ...
 			}
@@ -469,22 +448,22 @@ int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 	if (l1 > MAX_PATH || l2 > MAX_PATH)
 		return 0;
 
-	*(DWORD*)buf = opcode;
-	wchar_t *dst = (wchar_t*)&buf[sizeof(DWORD)];
+	*(DWORD *)buf = opcode;
+	wchar_t *dst = (wchar_t *)&buf[sizeof(DWORD)];
 	lstrcpy(dst, p1);
-	dst += l1+1;
+	dst += l1 + 1;
 	if (p2) {
 		lstrcpy(dst, p2);
-		dst += l2+1;
+		dst += l2 + 1;
 	}
 	else *dst++ = 0;
 
 	DWORD dwBytes = 0, dwError;
-	if ( WriteFile(hPipe, buf, (DWORD)((BYTE*)dst - buf), &dwBytes, nullptr) == 0)
+	if (WriteFile(hPipe, buf, (DWORD)((BYTE *)dst - buf), &dwBytes, nullptr) == 0)
 		return 0;
 
 	dwError = 0;
-	if ( ReadFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr) == 0) return 0;
+	if (ReadFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr) == 0) return 0;
 	if (dwBytes != sizeof(DWORD)) return 0;
 
 	return dwError == ERROR_SUCCESS;
@@ -502,7 +481,7 @@ int SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 {
 	if (hPipe == nullptr) {
 		DeleteFile(pDst);
-		if ( MoveFile(pSrc, pDst) == 0) // use copy on error
+		if (MoveFile(pSrc, pDst) == 0) // use copy on error
 			CopyFile(pSrc, pDst, FALSE);
 		DeleteFile(pSrc);
 	}
@@ -544,7 +523,7 @@ void BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* StrToLower(char *str)
+char *StrToLower(char *str)
 {
 	for (int i = 0; str[i]; i++)
 		str[i] = tolower(str[i]);
