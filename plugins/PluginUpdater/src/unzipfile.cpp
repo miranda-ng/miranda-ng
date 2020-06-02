@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+#define DATA_BUF_SIZE 65536
+
 static void PrepareFileName(wchar_t *dest, size_t destSize, const wchar_t *ptszPath, const wchar_t *ptszFileName)
 {
 	mir_snwprintf(dest, destSize, L"%s\\%s", ptszPath, ptszFileName);
@@ -31,9 +33,10 @@ static void PrepareFileName(wchar_t *dest, size_t destSize, const wchar_t *ptszP
 bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath, bool ch)
 {
 	unz_file_info64 file_info;
-	char filename[MAX_PATH], buf[8192];
+	char filename[MAX_PATH];
+	mir_ptr<char> buf((char *)mir_alloc(DATA_BUF_SIZE+1));
 
-	int err = unzGetCurrentFileInfo64(uf, &file_info, filename, sizeof(filename), buf, sizeof(buf), nullptr, 0);
+	int err = unzGetCurrentFileInfo64(uf, &file_info, filename, sizeof(filename), buf, DATA_BUF_SIZE, nullptr, 0);
 	if (err != UNZ_OK)
 		return false;
 
@@ -82,7 +85,7 @@ bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath
 			return false;
 		}
 		while (true) {
-			err = unzReadCurrentFile(uf, buf, sizeof(buf));
+			err = unzReadCurrentFile(uf, buf, DATA_BUF_SIZE);
 			if (err <= 0)
 				break;
 
