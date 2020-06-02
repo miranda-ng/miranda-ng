@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-#define DATA_BUF_SIZE 65536
+#define DATA_BUF_SIZE (4 * 1024 * 1024)
 
 static void PrepareFileName(wchar_t *dest, size_t destSize, const wchar_t *ptszPath, const wchar_t *ptszFileName)
 {
