@@ -595,25 +595,6 @@ bool CMsgDialog::OnInitDialog()
 
 		DM_OptionsApplied();
 
-		// restore saved msg if any...
-		ptrW wszSavedMsg(g_plugin.getWStringA(m_hContact, "SavedMsg"));
-		if (wszSavedMsg != 0) {
-			SETTEXTEX stx = { ST_DEFAULT, 1200 };
-			m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, wszSavedMsg);
-			UpdateSaveAndSendButton();
-			if (m_pContainer->m_hwndActive == m_hwnd)
-				UpdateReadChars();
-		}
-
-		if (wszInitialText) {
-			m_message.SetText(wszInitialText);
-			int len = GetWindowTextLength(m_message.GetHwnd());
-			PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
-			if (len)
-				EnableSendButton(true);
-			mir_free(wszInitialText);
-		}
-
 		for (MEVENT hdbEvent = db_event_last(m_hContact); hdbEvent; hdbEvent = db_event_prev(m_hContact, hdbEvent)) {
 			DBEVENTINFO dbei = {};
 			db_event_get(hdbEvent, &dbei);
@@ -623,6 +604,25 @@ bool CMsgDialog::OnInitDialog()
 				break;
 			}
 		}
+	}
+
+	// restore saved msg if any...
+	ptrW wszSavedMsg(g_plugin.getWStringA(m_hContact, "SavedMsg"));
+	if (wszSavedMsg != 0) {
+		SETTEXTEX stx = { ST_DEFAULT, 1200 };
+		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, wszSavedMsg);
+		UpdateSaveAndSendButton();
+		if (m_pContainer->m_hwndActive == m_hwnd)
+			UpdateReadChars();
+	}
+
+	if (wszInitialText) {
+		m_message.SetText(wszInitialText);
+		int len = GetWindowTextLength(m_message.GetHwnd());
+		PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
+		if (len)
+			EnableSendButton(true);
+		mir_free(wszInitialText);
 	}
 
 	SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
