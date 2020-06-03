@@ -50,7 +50,7 @@ struct AddContactRequest : public AsyncHttpRequest
 		AddHeader("Accept", "application/json");
 
 		JSONNode node;
-		node << CHAR_PARAM("mri", CMStringA(::FORMAT, "8:", who).GetString()) << CHAR_PARAM("greeting", greeting);
+		node << CHAR_PARAM("mri", CMStringA(::FORMAT, "8:%s", who)) << CHAR_PARAM("greeting", greeting);
 		m_szParam = node.write().c_str();
 	}
 };
@@ -58,10 +58,8 @@ struct AddContactRequest : public AsyncHttpRequest
 struct DeleteContactRequest : public AsyncHttpRequest
 {
 	DeleteContactRequest(const char *who) :
-		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS)
+		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/contacts/v2/users/SELF/contacts/8%3A" + mir_urlEncode(who))
 	{
-		m_szUrl.AppendFormat("/contacts/v2/users/SELF/contacts/8:%s", who);
-
 		AddHeader("Accept", "application/json");
 	}
 };

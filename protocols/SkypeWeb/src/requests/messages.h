@@ -58,10 +58,8 @@ struct SendActionRequest : public AsyncHttpRequest
 struct SendTypingRequest : public AsyncHttpRequest
 {
 	SendTypingRequest(const char *username, int iState) :
-	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
+	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/8:" + mir_urlEncode(username) + "/messages")
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/8:%s/messages", mir_urlEncode(username).c_str());
-
 		const char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
 
 		JSONNode node;

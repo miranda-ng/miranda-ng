@@ -21,10 +21,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct SendCapabilitiesRequest : public AsyncHttpRequest
 {
 	SendCapabilitiesRequest(const char *hostname, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, 0, &CSkypeProto::OnCapabilitiesSended)
+		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(ppro->m_szId) + "/presenceDocs/messagingService", &CSkypeProto::OnCapabilitiesSended)
 	{
-		m_szUrl.AppendFormat("/users/ME/endpoints/%s/presenceDocs/messagingService", mir_urlEncode(ppro->m_szId).c_str());
-
 		JSONNode privateInfo; privateInfo.set_name("privateInfo");
 		privateInfo << CHAR_PARAM("epname", hostname);
 
