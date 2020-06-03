@@ -115,8 +115,7 @@ public:
 	void OnSubscriptionsCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnStatusChanged(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnReceiveStatus(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-
+	
 	// oauth
 	void OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
@@ -300,7 +299,6 @@ private:
 	void ProcessEndpointPresence(const JSONNode &node);
 	void ProcessConversationUpdate(const JSONNode &node);
 
-	void RefreshStatuses(void);
 	void ReadHistoryRest(const char *url);
 
 	// utils

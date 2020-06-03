@@ -186,8 +186,6 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 	if (auto *hdr = Netlib_GetHeader(response, "Location"))
 		g_plugin.szDefaultServer = GetServerFromUrl(hdr);
 	
-	RefreshStatuses();
-
 	SendRequest(new CreateSubscriptionsRequest());
 }
 

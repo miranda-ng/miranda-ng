@@ -21,8 +21,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct PollRequest : public AsyncHttpRequest
 {
 	PollRequest(CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints/SELF/subscriptions/0/poll")
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
 	{
+		m_szUrl.AppendFormat("/users/ME/endpoints/%s/subscriptions/0/poll", mir_urlEncode(ppro->m_szId).c_str());
 		timeout = 120000;
 
 		if (ppro->m_iPollingId != -1)

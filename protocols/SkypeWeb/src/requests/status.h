@@ -18,13 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_STATUS_H_
 #define _SKYPE_REQUEST_STATUS_H_
 
-struct GetStatusRequest : public AsyncHttpRequest
-{
-	GetStatusRequest() :
-		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/contacts/ALL/presenceDocs/messagingService", &CSkypeProto::OnReceiveStatus)
-	{}
-};
-
 struct SetStatusRequest : public AsyncHttpRequest
 {
 	SetStatusRequest(const char *status) :
