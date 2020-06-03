@@ -925,13 +925,9 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 		if (hContact != 0)
 			setWord(hContact, "Status", status);
 
-		// Check <created/>
-		if (bRoomCreated) {
-			if (XmlGetChildByTag(node, "created", "xmlns", JABBER_FEAT_MUC_OWNER))
-				// A new room just created by me
-				// Request room config
-				m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid)) << XQUERY(JABBER_FEAT_MUC_OWNER));
-		}
+		// A new room just created by me. Request room config
+		if (bRoomCreated)
+			m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid)) << XQUERY(JABBER_FEAT_MUC_OWNER));
 	}
 
 	// leaving room
