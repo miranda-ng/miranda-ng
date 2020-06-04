@@ -181,6 +181,9 @@ public:
 	void UpdateStatusBar() override;
 	void UpdateTitle() override;
 
+	void HandleError(bool bRetry, MessageSendQueueItem *pItem);
+	void ShowError(const wchar_t *pwszMsg, MessageSendQueueItem *pItem);
+
 	void FixTabIcons();
 	void GetAvatar();
 	void SwitchTyping(void);
@@ -220,7 +223,6 @@ public:
 #define DM_REMAKELOG           (WM_USER+12)
 #define DM_CASCADENEWWINDOW    (WM_USER+13)
 #define DM_OPTIONSAPPLIED      (WM_USER+14)
-#define DM_ERRORDECIDED        (WM_USER+18)
 #define DM_CHANGEICONS         (WM_USER+24)
 
 #define DM_STATUSICONCHANGE    (WM_USER+56)
@@ -232,24 +234,6 @@ public:
 
 #define EVENTTYPE_JABBER_CHATSTATES	2000
 #define EVENTTYPE_JABBER_PRESENCE	2001
-
-class CErrorDlg : public CDlgBase
-{
-	ptrW m_wszText;
-	CMStringW m_wszName, m_wszDescr;
-	MessageSendQueueItem *m_queueItem;
-
-	CCtrlButton m_btnOk, m_btnCancel;
-
-protected:
-	bool OnInitDialog() override;
-
-public:
-	CErrorDlg(const wchar_t *pwszDescr, CMsgDialog *pDlg, MessageSendQueueItem*);
-
-	void onOk(CCtrlButton*);
-	void onCancel(CCtrlButton*);
-};
 
 int DbEventIsShown(DBEVENTINFO &dbei);
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei);

@@ -1320,23 +1320,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case DM_ERRORDECIDED:
-		{
-			MessageSendQueueItem *item = (MessageSendQueueItem *)lParam;
-			item->hwndErrorDlg = nullptr;
-			switch (wParam) {
-			case MSGERROR_CANCEL:
-				RemoveSendQueueItem(item);
-				SetFocus(m_message.GetHwnd());
-				break;
-			case MSGERROR_RETRY:
-				StartMessageSending();
-				SendSendQueueItem(item);
-				break;
-			}
-		}
-		break;
-
 	case WM_MEASUREITEM:
 		if (!MeasureMenuItem(wParam, lParam)) {
 			MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;

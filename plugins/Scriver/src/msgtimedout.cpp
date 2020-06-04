@@ -23,52 +23,82 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CErrorDlg::CErrorDlg(const wchar_t *pwszDescr, CMsgDialog *pDlg, MessageSendQueueItem *pItem) :
-	CDlgBase(g_plugin, IDD_MSGSENDERROR),
-	m_wszText(mir_utf8decodeW(pItem->sendBuffer)),
-	m_wszDescr(pwszDescr != nullptr ? pwszDescr : TranslateT("An unknown error has occurred.")),
-	m_queueItem(pItem),
-
-	m_btnOk(this, IDOK),
-	m_btnCancel(this, IDCANCEL)
+class CErrorDlg : public CDlgBase
 {
-	SetParent(pDlg->GetHwnd());
+	bool m_bRetry = false;
+	ptrW m_wszText;
+	CMStringW m_wszName, m_wszDescr;
+	CMsgDialog *m_pOwner;
+	MessageSendQueueItem *m_queueItem;
 
-	const wchar_t *pwszName = Clist_GetContactDisplayName(pItem->hContact);
-	if (pwszName)
-		m_wszName.Format(L"%s - %s", TranslateT("Send error"), pwszName);
-	else
-		m_wszName = TranslateT("Send error");
+	CCtrlBase m_errorText, m_msgText;
 
-	m_btnOk.OnClick = Callback(this, &CErrorDlg::onOk);
-	m_btnCancel.OnClick = Callback(this, &CErrorDlg::onCancel);
+public:
+	CErrorDlg(CMsgDialog *pOwner, const wchar_t *pwszDescr, MessageSendQueueItem *pItem) :
+		CDlgBase(g_plugin, IDD_MSGSENDERROR),
+		m_pOwner(pOwner),
+		m_wszText(mir_utf8decodeW(pItem->sendBuffer)),
+		m_wszDescr(pwszDescr != nullptr ? pwszDescr : TranslateT("An unknown error has occurred.")),
+		m_queueItem(pItem),
+
+		m_msgText(this, IDC_MSGTEXT),
+		m_errorText(this, IDC_ERRORTEXT)
+	{
+		const wchar_t *pwszName = Clist_GetContactDisplayName(pItem->hContact);
+		if (pwszName)
+			m_wszName.Format(L"%s - %s", TranslateT("Send error"), pwszName);
+		else
+			m_wszName = TranslateT("Send error");
+	}
+
+	bool OnInitDialog() override
+	{
+		m_queueItem->hwndErrorDlg = m_hwnd;
+		ShowWindow(GetParent(m_hwndParent), SW_RESTORE);
+
+		m_errorText.SetText(m_wszDescr);
+		SetWindowText(m_hwnd, m_wszName);
+
+		SETTEXTEX st = { 0 };
+		st.flags = ST_DEFAULT;
+		st.codepage = 1200;
+		m_msgText.SendMsg(EM_SETTEXTEX, (WPARAM)&st, (LPARAM)m_wszText.get());
+
+		RECT rc, rcParent;
+		GetWindowRect(m_hwnd, &rc);
+		GetWindowRect(GetParent(m_hwndParent), &rcParent);
+		SetWindowPos(m_hwnd, HWND_TOP, rcParent.left + (rcParent.right - rcParent.left - rc.right + rc.left) / 2, rcParent.top + (rcParent.bottom - rcParent.top - rc.bottom + rc.top) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		m_bRetry = true;
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		m_queueItem->hwndErrorDlg = nullptr;
+		m_pOwner->HandleError(m_bRetry, m_queueItem);
+	}
+};
+
+void CMsgDialog::ShowError(const wchar_t *pwszMsg, MessageSendQueueItem *pItem)
+{
+	auto *pDlg = new CErrorDlg(this, pwszMsg, pItem);
+	pDlg->SetParent(m_hwnd);
+	pDlg->Show();
 }
 
-bool CErrorDlg::OnInitDialog()
+void CMsgDialog::HandleError(bool bRetry, MessageSendQueueItem *pItem)
 {
-	ShowWindow(GetParent(m_hwndParent), SW_RESTORE);
-	
-	SetDlgItemText(m_hwnd, IDC_ERRORTEXT, m_wszDescr);
-	SetWindowText(m_hwnd, m_wszName);
-
-	SETTEXTEX st = { 0 };
-	st.flags = ST_DEFAULT;
-	st.codepage = 1200;
-	SendDlgItemMessage(m_hwnd, IDC_MSGTEXT, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)m_wszText.get());
-
-	RECT rc, rcParent;
-	GetWindowRect(m_hwnd, &rc);
-	GetWindowRect(GetParent(m_hwndParent), &rcParent);
-	SetWindowPos(m_hwnd, HWND_TOP, rcParent.left + (rcParent.right - rcParent.left - rc.right + rc.left) / 2, rcParent.top + (rcParent.bottom - rcParent.top - rc.bottom + rc.top) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-	return true;
-}
-
-void CErrorDlg::onOk(CCtrlButton*)
-{
-	SendMessage(m_hwndParent, DM_ERRORDECIDED, MSGERROR_RETRY, (LPARAM)m_queueItem);
-}
-
-void CErrorDlg::onCancel(CCtrlButton*)
-{
-	SendMessage(m_hwndParent, DM_ERRORDECIDED, MSGERROR_CANCEL, (LPARAM)m_queueItem);
+	if (bRetry) {
+		StartMessageSending();
+		SendSendQueueItem(pItem);
+	}
+	else {
+		RemoveSendQueueItem(pItem);
+		SetFocus(m_message.GetHwnd());
+	}
 }

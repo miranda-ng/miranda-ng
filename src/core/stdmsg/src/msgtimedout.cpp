@@ -26,11 +26,14 @@ class CErrorDlg : public CDlgBase
 {
 	TMsgQueue *m_item;
 	CMStringW  m_wszErr;
+	CCtrlBase  m_errorText, m_msgText;
 
 public:
 	CErrorDlg(TMsgQueue *item, const wchar_t *err, HWND hwndParent) :
 		CDlgBase(g_plugin, IDD_MSGSENDERROR),
-		m_item(item)
+		m_item(item),
+		m_msgText(this, IDC_MSGTEXT),
+		m_errorText(this, IDC_ERRORTEXT)
 	{
 		if (err)
 			m_wszErr = err;
@@ -41,11 +44,11 @@ public:
 	bool OnInitDialog() override
 	{
 		if (m_wszErr.IsEmpty())
-			SetCaption(TranslateT("An unknown error has occurred."));
+			m_errorText.SetText(TranslateT("An unknown error has occurred."));
 		else
-			SetCaption(m_wszErr);
+			m_errorText.SetText(m_wszErr);
 
-		SetDlgItemText(m_hwnd, IDC_MSGTEXT, ptrW(mir_utf8decodeW(m_item->szMsg)));
+		m_msgText.SetText(ptrW(mir_utf8decodeW(m_item->szMsg)));
 
 		if (m_hwndParent != nullptr) {
 			RECT rc, rcParent;

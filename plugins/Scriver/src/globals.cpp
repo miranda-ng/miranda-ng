@@ -133,7 +133,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 		if (item != nullptr && item->hwndErrorDlg == nullptr) {
 			if (pSender != nullptr) {
 				pSender->StopMessageSending();
-				(new CErrorDlg((wchar_t *)pAck->lParam, pSender, item))->Create();
+				pSender->ShowError((wchar_t *)pAck->lParam, item);
 			}
 			else RemoveSendQueueItem(item);
 		}
