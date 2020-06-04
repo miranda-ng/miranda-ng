@@ -32,7 +32,7 @@ struct CreateEndpointRequest : public AsyncHttpRequest
 struct DeleteEndpointRequest : public AsyncHttpRequest
 {
 	DeleteEndpointRequest(CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(ppro->m_szId))
+	  AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(ppro->m_szId), &CSkypeProto::OnEndpointDeleted)
 	{
 	}
 };

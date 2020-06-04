@@ -40,7 +40,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	else
 		pReq = new SendMessageRequest(username, param->hMessage, szMessage);
 	pReq->pUserInfo = param;
-	SendRequest(pReq);
+	PushRequest(pReq);
 	{
 		mir_cslock lck(m_lckOutMessagesList);
 		m_OutMessages.insert((void*)param->hMessage);

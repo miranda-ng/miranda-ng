@@ -25,7 +25,7 @@ void CSkypeProto::SendFileThread(void *p)
 	}
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
-	SendRequest(new ASMObjectCreateRequest(this, fup));
+	PushRequest(new ASMObjectCreateRequest(this, fup));
 }
 
 void CSkypeProto::OnASMObjectCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
@@ -70,7 +70,7 @@ LBL_Error:
 	}
 	fup->size = lBytes;
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
-	SendRequest(new ASMObjectUploadRequest(this, strObjectId.c_str(), pData, lBytes, fup));
+	PushRequest(new ASMObjectUploadRequest(this, strObjectId.c_str(), pData, lBytes, fup));
 	fclose(pFile);
 }
 
@@ -104,7 +104,7 @@ void CSkypeProto::OnASMObjectUploaded(NETLIBHTTPREQUEST *response, AsyncHttpRequ
 
 	tinyxml2::XMLPrinter printer(0, true);
 	doc.Print(&printer);
-	SendRequest(new SendMessageRequest(getId(fup->hContact), time(NULL), printer.CStr(), "RichText/Media_GenericFile"));
+	PushRequest(new SendMessageRequest(getId(fup->hContact), time(NULL), printer.CStr(), "RichText/Media_GenericFile"));
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
 	delete fup;

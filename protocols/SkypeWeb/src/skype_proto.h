@@ -112,11 +112,13 @@ public:
 
 	// login
 	void OnLoginOAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnSubscriptionsCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnStatusChanged(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	
+
+	void OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnEndpointDeleted(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+
 	// oauth
 	void OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
@@ -211,7 +213,7 @@ private:
 	// login
 	void Login();
 	void OnLoginSuccess();
-	void SendPresence(bool isLogin = false);
+	void SendPresence();
 	
 	// profile
 	void UpdateProfileFirstName(const JSONNode &root, MCONTACT hContact = NULL);

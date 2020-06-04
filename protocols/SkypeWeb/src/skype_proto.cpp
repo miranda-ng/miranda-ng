@@ -253,9 +253,9 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	m_iDesiredStatus = iNewStatus;
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		if (m_iStatus > ID_STATUS_CONNECTING + 1) {
-			SendRequest(new DeleteEndpointRequest(this));
-		}
+		if (m_iStatus > ID_STATUS_CONNECTING + 1 && m_szId)
+			PushRequest(new DeleteEndpointRequest(this));
+
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		// logout
 		StopQueue();
@@ -273,12 +273,10 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		if (old_status == ID_STATUS_CONNECTING)
 			return 0;
 
-		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE) {
+		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 			Login();
-		}
-		else {
-			SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
-		}
+		else
+			PushRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -287,7 +285,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	SendRequest(new SendTypingRequest(getId(hContact), type));
+	PushRequest(new SendTypingRequest(getId(hContact), type));
 	return 0;
 }
 

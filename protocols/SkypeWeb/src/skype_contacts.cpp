@@ -232,7 +232,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 	if (!IsOnline()) return 1;
 
 	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
-		SendRequest(new BlockContactRequest(this, hContact));
+		PushRequest(new BlockContactRequest(this, hContact));
 	return 0;
 }
 
@@ -245,7 +245,7 @@ void CSkypeProto::OnBlockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 
 INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 {
-	SendRequest(new UnblockContactRequest(this, hContact));
+	PushRequest(new UnblockContactRequest(this, hContact));
 	return 0;
 }
 

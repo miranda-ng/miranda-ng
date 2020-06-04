@@ -22,7 +22,7 @@ void CSkypeProto::Login()
 	// login
 	m_iStatus = ID_STATUS_CONNECTING;
 	StartQueue();
-	int tokenExpires(getDword("TokenExpiresIn", 0));
+	int tokenExpires = getDword("TokenExpiresIn");
 
 	m_szSkypename = getMStringA(SKYPE_SETTINGS_ID);
 
@@ -35,8 +35,8 @@ void CSkypeProto::Login()
 	m_bHistorySynced = m_bThreadsTerminated = false;
 	if ((tokenExpires - 1800) > time(0))
 		OnLoginSuccess();
-
-	PushRequest(new OAuthRequest());
+	else
+		PushRequest(new OAuthRequest());
 }
 
 void CSkypeProto::OnLoginOAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
@@ -113,7 +113,7 @@ void CSkypeProto::OnLoginSuccess()
 
 	m_impl.m_heartBeat.StartSafe(600 * 1000);
 
-	SendRequest(new CreateEndpointRequest(this));
+	PushRequest(new CreateEndpointRequest(this));
 }
 
 void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
@@ -132,9 +132,14 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 
 	switch (response->resultCode) {
 	case 200:
-	case 201: // ok, endpoint created
+	case 201: // okay, endpoint created
+		break;
+
 	case 301:
-	case 302: // redirect
+	case 302: // redirect to the closest data center
+		if (auto *hdr = Netlib_GetHeader(response, "Location"))
+			g_plugin.szDefaultServer = GetServerFromUrl(hdr);
+		PushRequest(new CreateEndpointRequest(this));
 		break;
 
 	case 401: // unauthorized
@@ -142,17 +147,13 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 			if (!strstr(szStatus, "SkypeTokenExpired"))
 				delSetting("TokenSecret");
 		delSetting("TokenExpiresIn");
-		SendRequest(new LoginOAuthRequest(m_szSkypename, pass_ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))));
+		PushRequest(new LoginOAuthRequest(m_szSkypename, pass_ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))));
 		return;
 
-	case 400:
+	default:
 		delSetting("TokenExpiresIn");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
-		return;
-
-	default: // it should be rewritten
-		SendRequest(new CreateEndpointRequest(this));
 		return;
 	}
 
@@ -174,7 +175,6 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 			int iStart2 = 0;
 			CMStringA name = szToken.Tokenize("=", iStart2);
 			CMStringA val = szToken.Mid(iStart2);
-			setString(name, val);
 
 			if (name == "registrationToken")
 				m_szToken = val.Detach();
@@ -183,10 +183,13 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 		}
 	}
 	
-	if (auto *hdr = Netlib_GetHeader(response, "Location"))
-		g_plugin.szDefaultServer = GetServerFromUrl(hdr);
-	
-	SendRequest(new CreateSubscriptionsRequest());
+	PushRequest(new CreateSubscriptionsRequest());
+}
+
+void CSkypeProto::OnEndpointDeleted(NETLIBHTTPREQUEST *, AsyncHttpRequest *)
+{
+	m_szId = nullptr;
+	m_szToken = nullptr;
 }
 
 void CSkypeProto::OnSubscriptionsCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
@@ -201,10 +204,10 @@ void CSkypeProto::OnSubscriptionsCreated(NETLIBHTTPREQUEST *response, AsyncHttpR
 		return;
 	}
 
-	SendPresence(true);
+	SendPresence();
 }
 
-void CSkypeProto::SendPresence(bool isLogin)
+void CSkypeProto::SendPresence()
 {
 	ptrA epname;
 
@@ -217,10 +220,7 @@ void CSkypeProto::SendPresence(bool isLogin)
 		epname = mir_utf8encodeW(compName);
 	}
 
-	if (isLogin)
-		SendRequest(new SendCapabilitiesRequest(epname, this));
-	else
-		PushRequest(new SendCapabilitiesRequest(epname, this));
+	PushRequest(new SendCapabilitiesRequest(epname, this));
 }
 
 void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
@@ -234,20 +234,20 @@ void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpReq
 		return;
 	}
 
-	SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
+	PushRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
 
 	LIST<char> skypenames(1);
 	for (auto &hContact : AccContacts())
 		if (!isChatRoom(hContact))
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 
-	SendRequest(new CreateContactsSubscriptionRequest(skypenames));
+	PushRequest(new CreateContactsSubscriptionRequest(skypenames));
 	FreeList(skypenames);
 	skypenames.destroy();
 
 	m_hPollingEvent.Set();
 
-	SendRequest(new LoadChatsRequest());
+	PushRequest(new LoadChatsRequest());
 	PushRequest(new GetContactListRequest(this, nullptr));
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl")), 0));
 

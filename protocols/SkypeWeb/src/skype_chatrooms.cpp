@@ -119,7 +119,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				CSkypeInviteDlg dlg(this);
 				if (dlg.DoModal()) {
 					if (dlg.m_hContact != NULL)
-						SendRequest(new InviteUserToChatRequest(chat_id, getId(dlg.m_hContact), "User"));
+						PushRequest(new InviteUserToChatRequest(chat_id, getId(dlg.m_hContact), "User"));
 				}
 			}
 			break;
@@ -131,7 +131,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case 30:
 			CMStringW newTopic = ChangeTopicForm();
 			if (!newTopic.IsEmpty())
-				SendRequest(new SetChatPropertiesRequest(chat_id, "topic", T2Utf(newTopic.GetBuffer())));
+				PushRequest(new SetChatPropertiesRequest(chat_id, "topic", T2Utf(newTopic.GetBuffer())));
 			break;
 		}
 		break;
@@ -139,13 +139,13 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_NICKLISTMENU:
 		switch (gch->dwData) {
 		case 10:
-			SendRequest(new KickUserRequest(chat_id, user_id));
+			PushRequest(new KickUserRequest(chat_id, user_id));
 			break;
 		case 30:
-			SendRequest(new InviteUserToChatRequest(chat_id, user_id, "Admin"));
+			PushRequest(new InviteUserToChatRequest(chat_id, user_id, "Admin"));
 			break;
 		case 40:
-			SendRequest(new InviteUserToChatRequest(chat_id, user_id, "User"));
+			PushRequest(new InviteUserToChatRequest(chat_id, user_id, "User"));
 			break;
 		case 50:
 			ptrA tnick_old(GetChatContactNick(chat_id, user_id, T2Utf(gch->ptszText)));
@@ -211,7 +211,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 		Chat_Control(m_szModuleName, idT, SESSION_OFFLINE);
 		Chat_Terminate(m_szModuleName, idT);
 
-		SendRequest(new KickUserRequest(_T2A(idT), m_szSkypename));
+		PushRequest(new KickUserRequest(_T2A(idT), m_szSkypename));
 
 		db_delete_contact(hContact);
 	}
@@ -233,7 +233,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
 	if (FindChatRoom(szConversationName) == NULL)
-		SendRequest(new GetChatInfoRequest(szConversationName, szTopic));
+		PushRequest(new GetChatInfoRequest(szConversationName, szTopic));
 
 	std::string messageType = node["messagetype"].as_string();
 	if (messageType == "Text" || messageType == "RichText") {
@@ -318,9 +318,9 @@ void CSkypeProto::OnSendChatMessage(const char *chat_id, const wchar_t *tszMessa
 	ptrA szMessage(mir_utf8encodeW(buf));
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendChatActionRequest(chat_id, time(0), szMessage));
+		PushRequest(new SendChatActionRequest(chat_id, time(0), szMessage));
 	else
-		SendRequest(new SendChatMessageRequest(chat_id, time(0), szMessage));
+		PushRequest(new SendChatMessageRequest(chat_id, time(0), szMessage));
 }
 
 void CSkypeProto::AddMessageToChat(const char *chat_id, const char *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
@@ -466,7 +466,7 @@ INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)
 	if (IsOnline()) {
 		CSkypeGCCreateDlg dlg(this);
 		if (dlg.DoModal()) {
-			SendRequest(new CreateChatroomRequest(dlg.m_ContactsList, this));
+			PushRequest(new CreateChatroomRequest(dlg.m_ContactsList, this));
 			return 0;
 		}
 	}

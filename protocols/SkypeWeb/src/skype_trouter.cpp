@@ -22,6 +22,6 @@ void CSkypeProto::ProcessTimer()
 	if (!IsOnline())
 		return;
 
-	PushRequest(new GetContactListRequest(this, nullptr));
-	SendPresence(false);
+	SendRequest(new GetContactListRequest(this, nullptr));
+	SendPresence();
 }
