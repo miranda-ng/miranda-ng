@@ -382,15 +382,11 @@ class CJabberDlgGcJoin : public CJabberDlgBase
 
 	char *m_jid;
 
-	CCtrlButton btnOk;
-
 public:
 	CJabberDlgGcJoin(CJabberProto *proto, char *jid) :
 		CSuper(proto, IDD_GROUPCHAT_JOIN),
-		btnOk(this, IDOK),
 		m_jid(mir_strdup(jid))
 	{
-		btnOk.OnClick = Callback(this, &CJabberDlgGcJoin::OnBtnOk);
 	}
 	
 	~CJabberDlgGcJoin()
@@ -463,18 +459,7 @@ public:
 		return true;
 	}
 
-	void OnDestroy() override
-	{
-		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, 0));
-		m_proto->m_pDlgJabberJoinGroupchat = nullptr;
-		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_GETFONT, 0, 0));
-
-		CSuper::OnDestroy();
-
-		mir_free(m_jid); m_jid = nullptr;
-	}
-
-	void OnBtnOk(CCtrlButton*)
+	bool OnApply() override
 	{
 		wchar_t text[128];
 		GetDlgItemText(m_hwnd, IDC_SERVER, text, _countof(text));
@@ -491,6 +476,18 @@ public:
 		GetDlgItemText(m_hwnd, IDC_PASSWORD, text, _countof(text));
 		T2Utf password(text);
 		m_proto->GroupchatJoinRoom(server, room, nick, password);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, 0));
+		m_proto->m_pDlgJabberJoinGroupchat = nullptr;
+		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_GETFONT, 0, 0));
+
+		CSuper::OnDestroy();
+
+		mir_free(m_jid); m_jid = nullptr;
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -683,7 +680,7 @@ public:
 				if (GetAsyncKeyState(VK_CONTROL))
 					break;
 
-				OnBtnOk(nullptr);
+				UIEmulateBtnClick(m_hwnd, IDOK);
 				Close();
 			}
 			break;

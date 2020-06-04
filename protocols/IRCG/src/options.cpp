@@ -267,7 +267,6 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 	CConnectPrefsDlg *m_owner;
 	int m_action;
 
-	CCtrlButton m_OK;
 	CCtrlEdit m_server, m_address, m_port, m_port2;
 	CCtrlCombo m_groupCombo;
 
@@ -275,7 +274,6 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDSERVER),
 		m_owner(_owner),
 		m_action(_action),
-		m_OK(this, IDOK),
 		m_groupCombo(this, IDC_ADD_COMBO),
 		m_address(this, IDC_ADD_ADDRESS),
 		m_server(this, IDC_ADD_SERVER),
@@ -283,8 +281,6 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		m_port2(this, IDC_ADD_PORT2)
 	{
 		m_hwndParent = _owner->GetHwnd();
-		m_OK.OnClick = Callback(this, &CServerDlg::OnOk);
-		m_autoClose = CLOSE_ON_CANCEL;
 	}
 
 	bool OnInitDialog() override
@@ -330,21 +326,12 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		return true;
 	}
 
-	bool OnClose() override
-	{
-		m_owner->m_serverCombo.Enable();
-		m_owner->m_add.Enable();
-		m_owner->m_edit.Enable();
-		m_owner->m_del.Enable();
-		return true;
-	}
-
-	void OnOk(CCtrlButton*)
+	bool OnApply() override
 	{
 		for (auto &it : sttRequiredFields)
 			if (!GetWindowTextLength(GetDlgItem(m_hwnd, it))) {
 				MessageBox(m_hwnd, TranslateT("Please complete all fields"), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
-				return;
+				return false;
 			}
 
 		if (m_action == 2) {
@@ -375,7 +362,16 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		m_owner->OnServerCombo(nullptr);
 
 		m_owner->m_serverlistModified = true;
-		::PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+		return true;
+	}
+
+	bool OnClose() override
+	{
+		m_owner->m_serverCombo.Enable();
+		m_owner->m_add.Enable();
+		m_owner->m_edit.Enable();
+		m_owner->m_del.Enable();
+		return true;
 	}
 };
 
@@ -1171,7 +1167,6 @@ void COtherPrefsDlg::addPerformComboValue(int idx, const char* szValueName)
 
 CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const wchar_t* mask, CIgnorePrefsDlg* _owner)
 	: CProtoDlgBase<CIrcProto>(_pro, IDD_ADDIGNORE),
-	m_Ok(this, IDOK),
 	m_owner(_owner)
 {
 	m_hwndParent = _owner->GetHwnd();
@@ -1180,8 +1175,6 @@ CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const wchar_t* mask, CIgnorePrefsD
 		szOldMask[0] = 0;
 	else
 		wcsncpy(szOldMask, mask, _countof(szOldMask));
-
-	m_Ok.OnClick = Callback(this, &CAddIgnoreDlg::OnOk);
 }
 
 bool CAddIgnoreDlg::OnInitDialog()
@@ -1198,7 +1191,7 @@ bool CAddIgnoreDlg::OnInitDialog()
 	return true;
 }
 
-void CAddIgnoreDlg::OnOk(CCtrlButton*)
+bool CAddIgnoreDlg::OnApply()
 {
 	wchar_t szMask[500];
 	wchar_t szNetwork[500];
@@ -1224,6 +1217,7 @@ void CAddIgnoreDlg::OnOk(CCtrlButton*)
 			m_proto->AddIgnore(Mask.c_str(), flags.c_str(), szNetwork);
 		}
 	}
+	return true;
 }
 
 bool CAddIgnoreDlg::OnClose()

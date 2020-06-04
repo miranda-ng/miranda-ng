@@ -30,7 +30,6 @@ CExportFeed::CExportFeed()
 	m_removefeed.OnClick = Callback(this, &CExportFeed::OnRemoveFeed);
 	m_addallfeeds.OnClick = Callback(this, &CExportFeed::OnAddAllFeeds);
 	m_removeallfeeds.OnClick = Callback(this, &CExportFeed::OnRemoveAllFeeds);
-	m_ok.OnClick = Callback(this, &CExportFeed::OnOk);
 
 	m_feedslist.OnDblClick = Callback(this, &CExportFeed::OnFeedsList);
 	m_feedsexportlist.OnDblClick = Callback(this, &CExportFeed::OnFeedsExportList);
@@ -190,7 +189,7 @@ static const TiXmlElement* AdviceNode(const TiXmlElement *node)
 	return nullptr;
 }
 
-void CExportFeed::OnOk(CCtrlBase*)
+bool CExportFeed::OnApply()
 {
 	wchar_t FileName[MAX_PATH];
 	VARSW tszMirDir(L"%miranda_path%");
@@ -209,7 +208,7 @@ void CExportFeed::OnOk(CCtrlBase*)
 	*FileName = '\0';
 	ofn.lpstrDefExt = L"";
 	if (!GetSaveFileName(&ofn))
-		return;
+		return false;
 
 	TiXmlDocument doc;
 	auto *hXml = doc.NewElement("opml"); doc.InsertEndChild(hXml);
@@ -274,14 +273,14 @@ void CExportFeed::OnOk(CCtrlBase*)
 		doc.Print(&printer);
 		fclose(out);
 	}
+	return true;
 }
 
-bool CExportFeed::OnClose()
+void CExportFeed::OnDestroy()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ExportDlg");
 	if (pExportDialog)
 		pExportDialog = nullptr;
-	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -300,7 +299,6 @@ CImportFeed::CImportFeed(CCtrlListView *m_feeds)
 	m_removefeed.OnClick = Callback(this, &CImportFeed::OnRemoveFeed);
 	m_addallfeeds.OnClick = Callback(this, &CImportFeed::OnAddAllFeeds);
 	m_removeallfeeds.OnClick = Callback(this, &CImportFeed::OnRemoveAllFeeds);
-	m_ok.OnClick = Callback(this, &CImportFeed::OnOk);
 
 	m_feedslist.OnDblClick = Callback(this, &CImportFeed::OnFeedsList);
 	m_feedsimportlist.OnDblClick = Callback(this, &CImportFeed::OnFeedsImportList);
@@ -492,26 +490,26 @@ void CImportFeed::OnFeedsImportList(CCtrlBase*)
 	}
 }
 
-void CImportFeed::OnOk(CCtrlBase*)
+bool CImportFeed::OnApply()
 {
 	wchar_t FileName[MAX_PATH];
 	m_importfile.GetText(FileName, _countof(FileName));
 
 	FILE *in = _wfopen(FileName, L"rb");
 	if (in == nullptr)
-		return;
+		return false;
 
 	TiXmlDocument doc;
 	int res = doc.LoadFile(in);
 	fclose(in);
 	if (res != 0)
-		return;
+		return false;
 
 	auto *node = TiXmlConst(&doc)["opml"]["body"]["outline"].ToElement();
 	if (!node)
 		node = TiXmlConst(&doc)["body"]["outline"].ToElement();
 	if (node == nullptr)
-		return;
+		return false;
 
 	int count = m_feedsimportlist.GetCount();
 	int DUPES = 0;
@@ -598,14 +596,14 @@ void CImportFeed::OnOk(CCtrlBase*)
 	else
 		mir_snwprintf(mes, TranslateT("Imported %d feed(s)."), count);
 	MessageBox(m_hwnd, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
+	return true;
 }
 
-bool CImportFeed::OnClose()
+void CImportFeed::OnDestroy()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ImportDlg");
 	if (pImportDialog)
 		pImportDialog = nullptr;
-	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -617,7 +615,8 @@ CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact)
 	m_checkfeed(this, IDC_DISCOVERY), m_useauth(this, IDC_USEAUTH),
 	m_login(this, IDC_LOGIN), m_password(this, IDC_PASSWORD),
 	m_tagedit(this, IDC_TAGSEDIT), m_reset(this, IDC_RESET),
-	m_help(this, IDC_TAGHELP), m_ok(this, IDOK), m_iItem(iItem)
+	m_help(this, IDC_TAGHELP),
+	m_iItem(iItem)
 {
 	m_list = m_feeds;
 	m_hContact = Contact;
@@ -625,7 +624,6 @@ CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact)
 	m_useauth.OnChange = Callback(this, &CFeedEditor::OnUseAuth);
 	m_reset.OnClick = Callback(this, &CFeedEditor::OnReset);
 	m_help.OnClick = Callback(this, &CFeedEditor::OnHelp);
-	m_ok.OnClick = Callback(this, &CFeedEditor::OnOk);
 }
 
 bool CFeedEditor::OnInitDialog()
@@ -748,24 +746,24 @@ void CFeedEditor::OnHelp(CCtrlBase*)
 	MessageBox(m_hwnd, wszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
 }
 
-void CFeedEditor::OnOk(CCtrlBase*)
+bool CFeedEditor::OnApply()
 {
 	ptrW strfeedtitle(m_feedtitle.GetText());
 	if (!strfeedtitle || mir_wstrcmp(strfeedtitle, L"") == 0) {
 		MessageBox(m_hwnd, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
-		return;
+		return false;
 	}
 
 	ptrW strfeedurl(m_feedurl.GetText());
 	if (!strfeedurl || mir_wstrcmp(strfeedurl, L"http://") == 0 || mir_wstrcmp(strfeedurl, L"") == 0) {
 		MessageBox(m_hwnd, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-		return;
+		return false;
 	}
 
 	ptrW strtagedit(m_tagedit.GetText());
 	if (!strtagedit || mir_wstrcmp(strtagedit, L"") == 0) {
 		MessageBox(m_hwnd, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
-		return;
+		return false;
 	}
 
 	MCONTACT hContact;
@@ -801,15 +799,15 @@ void CFeedEditor::OnOk(CCtrlBase*)
 		m_list->SetItem(m_iItem, 0, strfeedtitle);
 		m_list->SetItem(m_iItem, 1, strfeedurl);
 	}
+	return true;
 }
 
-bool CFeedEditor::OnClose()
+void CFeedEditor::OnDestroy()
 {
 	g_arFeeds.remove(this);
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, m_iItem == -1 ? "AddDlg" : "ChangeDlg");
 	if (pAddFeedDialog == this)
 		pAddFeedDialog = nullptr;
-	return true;
 }
 
 void CFeedEditor::OnUseAuth(CCtrlBase*)

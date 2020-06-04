@@ -159,7 +159,7 @@ public:
 
 	void list_OnItemChanged(CCtrlListView::TEventInfo*)
 	{
-		if (m_initialized)
+		if (m_bInitialized)
 			NotifyChange();
 	}
 };

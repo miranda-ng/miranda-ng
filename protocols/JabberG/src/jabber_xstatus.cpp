@@ -34,84 +34,65 @@ static CIconPool g_MoodIcons, g_ActivityIcons;
 class CJabberDlgPepBase : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
-public:
-	CJabberDlgPepBase(CJabberProto *proto, int id);
+
+	int m_time = 5;
+	CTimer timer;
 
 protected:
 	CPepService *m_pepService;
 
-	CCtrlButton m_btnOk;
-	CCtrlButton m_btnCancel;
+	CCtrlButton btnOk;
 
-	bool OnInitDialog() override;
-	int Resizer(UTILRESIZECONTROL *urc) override;
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void StopTimer();
-
-private:
-	int m_time;
-};
-
-CJabberDlgPepBase::CJabberDlgPepBase(CJabberProto *proto, int id) :
-	CJabberDlgBase(proto, id),
-	m_btnOk(this, IDOK),
-	m_btnCancel(this, IDCANCEL),
-	m_time(5)
-{
-}
-
-bool CJabberDlgPepBase::OnInitDialog()
-{
-	CSuper::OnInitDialog();
-
-	SetTimer(m_hwnd, 1, 1000, nullptr);
-
-	wchar_t buf[128];
-	mir_snwprintf(buf, TranslateT("OK (%d)"), m_time);
-	m_btnOk.SetText(buf);
-	return true;
-}
-
-int CJabberDlgPepBase::Resizer(UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDOK:
-	case IDCANCEL:
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+public:
+	CJabberDlgPepBase(CJabberProto *proto, int id) :
+		CJabberDlgBase(proto, id),
+		timer(this, 1),
+		btnOk(this, IDOK)
+	{
+		timer.OnEvent = Callback(this, &CJabberDlgPepBase::OnTimer);
 	}
 
-	return CSuper::Resizer(urc);
-}
+	bool OnInitDialog() override
+	{
+		CSuper::OnInitDialog();
 
-INT_PTR CJabberDlgPepBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_TIMER:
-		if (wParam == 1) {
-			wchar_t buf[128];
-			mir_snwprintf(buf, TranslateT("OK (%d)"), --m_time);
-			m_btnOk.SetText(buf);
+		timer.Start(1000);
 
-			if (m_time < 0) {
-				KillTimer(m_hwnd, 1);
-				UIEmulateBtnClick(m_hwnd, IDOK);
-			}
+		wchar_t buf[128];
+		mir_snwprintf(buf, TranslateT("OK (%d)"), m_time);
+		btnOk.SetText(buf);
+		return true;
+	}
 
-			return TRUE;
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDOK:
+		case IDCANCEL:
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 		}
 
-		break;
+		return CSuper::Resizer(urc);
 	}
 
-	return CSuper::DlgProc(msg, wParam, lParam);
-}
+	void OnTimer(CTimer *)
+	{
+		wchar_t buf[128];
+		mir_snwprintf(buf, TranslateT("OK (%d)"), --m_time);
+		btnOk.SetText(buf);
 
-void CJabberDlgPepBase::StopTimer()
-{
-	KillTimer(m_hwnd, 1);
-	m_btnOk.SetText(TranslateT("OK"));
-}
+		if (m_time < 0) {
+			timer.Stop();
+			UIEmulateBtnClick(m_hwnd, IDOK);
+		}
+	}
+
+	void StopTimer()
+	{
+		timer.Stop();
+		btnOk.SetText(TranslateT("OK"));
+	}
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 // Simple PEP status
@@ -119,32 +100,7 @@ void CJabberDlgPepBase::StopTimer()
 class CJabberDlgPepSimple : public CJabberDlgPepBase
 {
 	typedef CJabberDlgPepBase CSuper;
-public:
-	CJabberDlgPepSimple(CJabberProto *proto, wchar_t *title);
-	~CJabberDlgPepSimple();
 
-	bool OkClicked() { return m_bOkClicked; }
-	void AddStatusMode(LPARAM id, char *name, HICON hIcon, wchar_t *title, bool subitem = false);
-	void SetActiveStatus(LPARAM id, wchar_t *text);
-	LPARAM GetStatusMode();
-	wchar_t *GetStatusText();
-
-protected:
-	CCtrlCombo m_cbModes;
-	CCtrlEdit m_txtDescription;
-
-	bool OnInitDialog() override;
-		int Resizer(UTILRESIZECONTROL *urc);
-
-	UI_MESSAGE_MAP(CJabberDlgPepSimple, CSuper);
-		UI_MESSAGE(WM_MEASUREITEM, OnWmMeasureItem);
-		UI_MESSAGE(WM_DRAWITEM, OnWmDrawItem);
-	UI_MESSAGE_MAP_END();
-
-	BOOL OnWmMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam);
-	BOOL OnWmDrawItem(UINT msg, WPARAM wParam, LPARAM lParam);
-
-private:
 	struct CStatusMode
 	{
 		LPARAM m_id;
@@ -163,207 +119,209 @@ private:
 	int m_time;
 	int m_prevSelected;
 	int m_selected;
-	bool m_bOkClicked;
 
 	LPARAM m_active;
 	wchar_t *m_activeText;
 
-	void btnOk_OnClick(CCtrlButton*btn);
-	void global_OnChange(CCtrlData *);
-	void cbModes_OnChange(CCtrlData *);
-};
+	void global_OnChange(CCtrlData *)
+	{
+		StopTimer();
+	}
 
-CJabberDlgPepSimple::CJabberDlgPepSimple(CJabberProto *proto, wchar_t *title) :
-	CJabberDlgPepBase(proto, IDD_PEP_SIMPLE),
-	m_cbModes(this, IDC_CB_MODES),
-	m_txtDescription(this, IDC_TXT_DESCRIPTION),
-	m_modes(10),
-	m_text(nullptr),
-	m_selected(0),
-	m_prevSelected(-1),
-	m_active(-1),
-	m_bOkClicked(false),
-	m_title(title)
-{
-	SetMinSize(200, 200);
+	void cbModes_OnChange(CCtrlData *)
+	{
+		StopTimer();
 
-	m_btnOk.OnClick = Callback(this, &CJabberDlgPepSimple::btnOk_OnClick);
-	m_cbModes.OnChange = Callback(this, &CJabberDlgPepSimple::cbModes_OnChange);
-	m_cbModes.OnDropdown =
-		m_txtDescription.OnChange = Callback(this, &CJabberDlgPepSimple::global_OnChange);
+		if (m_prevSelected == m_cbModes.GetCurSel())
+			return;
 
-	m_modes.insert(new CStatusMode(-1, "<none>", Skin_LoadIcon(SKINICON_OTHER_SMALLDOT), TranslateT("None"), false));
-}
+		char szSetting[128];
 
-CJabberDlgPepSimple::~CJabberDlgPepSimple()
-{
-	mir_free(m_text);
-}
+		CStatusMode *pMode = (CStatusMode *)m_cbModes.GetItemData(m_prevSelected);
+		if (m_prevSelected >= 0 && pMode->m_id >= 0) {
+			wchar_t *txt = m_txtDescription.GetText();
+			mir_snprintf(szSetting, "PepMsg_%s", pMode->m_name);
+			m_proto->setWString(szSetting, txt);
+			mir_free(txt);
+		}
 
-void CJabberDlgPepSimple::AddStatusMode(LPARAM id, char *name, HICON hIcon, wchar_t *title, bool subitem)
-{
-	m_modes.insert(new CStatusMode(id, name, hIcon, title, subitem));
-}
+		m_prevSelected = m_cbModes.GetCurSel();
+		pMode = (CStatusMode *)m_cbModes.GetItemData(m_prevSelected);
+		if (m_prevSelected >= 0 && pMode->m_id >= 0) {
+			mir_snprintf(szSetting, "PepMsg_%s", pMode->m_name);
 
-void CJabberDlgPepSimple::SetActiveStatus(LPARAM id, wchar_t *text)
-{
-	m_active = id;
-	m_activeText = text;
-}
-
-LPARAM CJabberDlgPepSimple::GetStatusMode()
-{
-	return m_modes[m_selected].m_id;
-}
-
-wchar_t* CJabberDlgPepSimple::GetStatusText()
-{
-	return m_text;
-}
-
-bool CJabberDlgPepSimple::OnInitDialog()
-{
-	CSuper::OnInitDialog();
-
-	Window_SetIcon_IcoLib(m_hwnd, m_proto->m_hProtoIcon);
-	SetWindowText(m_hwnd, m_title);
-
-	m_txtDescription.Enable(false);
-	for (auto &it : m_modes) {
-		int idx = m_cbModes.AddString(it->m_title, (LPARAM)it);
-		if (it->m_id == m_active || !idx) {
-			m_prevSelected = idx;
-			m_cbModes.SetCurSel(idx);
-			if (idx)
-				m_txtDescription.Enable();
+			ptrW szDescr(m_proto->getWStringA(szSetting));
+			m_txtDescription.SetText((szDescr != nullptr) ? szDescr : L"");
+			m_txtDescription.Enable(true);
+		}
+		else {
+			m_txtDescription.SetTextA("");
+			m_txtDescription.Enable(false);
 		}
 	}
 
-	if (m_activeText)
-		m_txtDescription.SetText(m_activeText);
-	return true;
-}
+	CCtrlCombo m_cbModes;
+	CCtrlEdit m_txtDescription;
 
-int CJabberDlgPepSimple::Resizer(UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDC_CB_MODES:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
-	case IDC_TXT_DESCRIPTION:
-		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	UI_MESSAGE_MAP(CJabberDlgPepSimple, CSuper);
+		UI_MESSAGE(WM_MEASUREITEM, OnWmMeasureItem);
+		UI_MESSAGE(WM_DRAWITEM, OnWmDrawItem);
+	UI_MESSAGE_MAP_END();
+
+public:
+	CJabberDlgPepSimple(CJabberProto *proto, wchar_t *title) :
+		CJabberDlgPepBase(proto, IDD_PEP_SIMPLE),
+		m_cbModes(this, IDC_CB_MODES),
+		m_txtDescription(this, IDC_TXT_DESCRIPTION),
+		m_modes(10),
+		m_text(nullptr),
+		m_selected(0),
+		m_prevSelected(-1),
+		m_active(-1),
+		m_title(title)
+	{
+		SetMinSize(200, 200);
+
+		m_cbModes.OnChange = Callback(this, &CJabberDlgPepSimple::cbModes_OnChange);
+		m_cbModes.OnDropdown =
+			m_txtDescription.OnChange = Callback(this, &CJabberDlgPepSimple::global_OnChange);
+
+		m_modes.insert(new CStatusMode(-1, "<none>", Skin_LoadIcon(SKINICON_OTHER_SMALLDOT), TranslateT("None"), false));
 	}
 
-	return CSuper::Resizer(urc);
-}
-
-void CJabberDlgPepSimple::btnOk_OnClick(CCtrlButton*)
-{
-	m_text = m_txtDescription.GetText();
-	m_selected = m_cbModes.GetCurSel();
-	m_bOkClicked = true;
-}
-
-void CJabberDlgPepSimple::global_OnChange(CCtrlData *)
-{
-	StopTimer();
-}
-
-void CJabberDlgPepSimple::cbModes_OnChange(CCtrlData *)
-{
-	StopTimer();
-
-	if (m_prevSelected == m_cbModes.GetCurSel())
-		return;
-
-	char szSetting[128];
-
-	CStatusMode *pMode = (CStatusMode*)m_cbModes.GetItemData(m_prevSelected);
-	if (m_prevSelected >= 0 && pMode->m_id >= 0) {
-		wchar_t *txt = m_txtDescription.GetText();
-		mir_snprintf(szSetting, "PepMsg_%s", pMode->m_name);
-		m_proto->setWString(szSetting, txt);
-		mir_free(txt);
+	~CJabberDlgPepSimple()
+	{
+		mir_free(m_text);
 	}
 
-	m_prevSelected = m_cbModes.GetCurSel();
-	pMode = (CStatusMode*)m_cbModes.GetItemData(m_prevSelected);
-	if (m_prevSelected >= 0 && pMode->m_id >= 0) {
-		mir_snprintf(szSetting, "PepMsg_%s", pMode->m_name);
+	bool OnInitDialog() override
+	{
+		CSuper::OnInitDialog();
 
-		ptrW szDescr(m_proto->getWStringA(szSetting));
-		m_txtDescription.SetText((szDescr != nullptr) ? szDescr : L"");
-		m_txtDescription.Enable(true);
-	}
-	else {
-		m_txtDescription.SetTextA("");
+		Window_SetIcon_IcoLib(m_hwnd, m_proto->m_hProtoIcon);
+		SetWindowText(m_hwnd, m_title);
+
 		m_txtDescription.Enable(false);
-	}
-}
-
-BOOL CJabberDlgPepSimple::OnWmMeasureItem(UINT, WPARAM, LPARAM lParam)
-{
-	LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
-	if (lpmis->CtlID != IDC_CB_MODES)
-		return FALSE;
-
-	HDC hdc = GetDC(m_cbModes.GetHwnd());
-	TEXTMETRIC tm = {};
-	GetTextMetrics(hdc, &tm);
-	ReleaseDC(m_cbModes.GetHwnd(), hdc);
-
-	lpmis->itemHeight = max(tm.tmHeight, 18);
-	if (lpmis->itemHeight < 18)
-		lpmis->itemHeight = 18;
-	return TRUE;
-}
-
-BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
-{
-	LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
-	if (lpdis->CtlID != IDC_CB_MODES)
-		return FALSE;
-
-	if (lpdis->itemData == -1)
-		return FALSE;
-
-	CStatusMode *mode = (CStatusMode *)lpdis->itemData;
-
-	TEXTMETRIC tm = { 0 };
-	GetTextMetrics(lpdis->hDC, &tm);
-
-	SetBkMode(lpdis->hDC, TRANSPARENT);
-	if (lpdis->itemState & ODS_SELECTED) {
-		SetTextColor(lpdis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
-		FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
-	}
-	else {
-		SetTextColor(lpdis->hDC, GetSysColor(COLOR_WINDOWTEXT));
-		FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_WINDOW));
-	}
-
-	if (!mode->m_subitem || (lpdis->itemState & ODS_COMBOBOXEDIT)) {
-		wchar_t text[128];
-		if (mode->m_subitem) {
-			for (int i = mode->m_id; i >= 0; --i)
-				if (!m_modes[i].m_subitem) {
-					mir_snwprintf(text, L"%s [%s]", m_modes[i].m_title, mode->m_title);
-					break;
-				}
+		for (auto &it : m_modes) {
+			int idx = m_cbModes.AddString(it->m_title, (LPARAM)it);
+			if (it->m_id == m_active || !idx) {
+				m_prevSelected = idx;
+				m_cbModes.SetCurSel(idx);
+				if (idx)
+					m_txtDescription.Enable();
+			}
 		}
-		else mir_wstrncpy(text, mode->m_title, _countof(text));
 
-		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 2, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, nullptr, DI_NORMAL);
-		TextOut(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_wstrlen(text));
-	}
-	else {
-		wchar_t text[128];
-		mir_snwprintf(text, L"...%s", mode->m_title);
-		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, nullptr, DI_NORMAL);
-		TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_wstrlen(text));
+		if (m_activeText)
+			m_txtDescription.SetText(m_activeText);
+		return true;
 	}
 
-	return TRUE;
-}
+	bool OnApply() override
+	{
+		m_text = m_txtDescription.GetText();
+		m_selected = m_cbModes.GetCurSel();
+		return true;
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_CB_MODES:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+		case IDC_TXT_DESCRIPTION:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+		}
+
+		return CSuper::Resizer(urc);
+	}
+
+	void AddStatusMode(LPARAM id, char *name, HICON hIcon, wchar_t *title, bool subitem = false)
+	{
+		m_modes.insert(new CStatusMode(id, name, hIcon, title, subitem));
+	}
+
+	void SetActiveStatus(LPARAM id, wchar_t *text)
+	{
+		m_active = id;
+		m_activeText = text;
+	}
+
+	LPARAM GetStatusMode()
+	{
+		return m_modes[m_selected].m_id;
+	}
+
+	wchar_t *GetStatusText()
+	{
+		return m_text;
+	}
+
+	BOOL OnWmMeasureItem(UINT, WPARAM, LPARAM lParam)
+	{
+		LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
+		if (lpmis->CtlID != IDC_CB_MODES)
+			return FALSE;
+
+		HDC hdc = GetDC(m_cbModes.GetHwnd());
+		TEXTMETRIC tm = {};
+		GetTextMetrics(hdc, &tm);
+		ReleaseDC(m_cbModes.GetHwnd(), hdc);
+
+		lpmis->itemHeight = max(tm.tmHeight, 18);
+		if (lpmis->itemHeight < 18)
+			lpmis->itemHeight = 18;
+		return TRUE;
+	}
+
+	BOOL OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
+	{
+		LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
+		if (lpdis->CtlID != IDC_CB_MODES)
+			return FALSE;
+
+		if (lpdis->itemData == -1)
+			return FALSE;
+
+		CStatusMode *mode = (CStatusMode *)lpdis->itemData;
+
+		TEXTMETRIC tm = { 0 };
+		GetTextMetrics(lpdis->hDC, &tm);
+
+		SetBkMode(lpdis->hDC, TRANSPARENT);
+		if (lpdis->itemState & ODS_SELECTED) {
+			SetTextColor(lpdis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
+		}
+		else {
+			SetTextColor(lpdis->hDC, GetSysColor(COLOR_WINDOWTEXT));
+			FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_WINDOW));
+		}
+
+		if (!mode->m_subitem || (lpdis->itemState & ODS_COMBOBOXEDIT)) {
+			wchar_t text[128];
+			if (mode->m_subitem) {
+				for (int i = mode->m_id; i >= 0; --i)
+					if (!m_modes[i].m_subitem) {
+						mir_snwprintf(text, L"%s [%s]", m_modes[i].m_title, mode->m_title);
+						break;
+					}
+			}
+			else mir_wstrncpy(text, mode->m_title, _countof(text));
+
+			DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 2, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, nullptr, DI_NORMAL);
+			TextOut(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_wstrlen(text));
+		}
+		else {
+			wchar_t text[128];
+			mir_snwprintf(text, L"...%s", mode->m_title);
+			DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, nullptr, DI_NORMAL);
+			TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_wstrlen(text));
+		}
+
+		return TRUE;
+	}
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 // CPepService base class
@@ -719,8 +677,7 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 			dlg.AddStatusMode(i, g_arrMoods[i].szTag, g_MoodIcons.GetIcon(g_arrMoods[i].szTag), TranslateW(g_arrMoods[i].szName));
 
 		dlg.SetActiveStatus(m_mode, m_text);
-		dlg.DoModal();
-		if (!dlg.OkClicked())
+		if (!dlg.DoModal())
 			return;
 
 		m_mode = dlg.GetStatusMode();
@@ -1078,9 +1035,8 @@ void CPepActivity::ShowSetDialog(BYTE)
 			dlg.AddStatusMode(i, ActivityGetId(i), g_ActivityIcons.GetIcon(returnActivity(i)), TranslateW(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != nullptr));
 
 	dlg.SetActiveStatus(m_mode, m_text);
-	dlg.DoModal();
-
-	if (!dlg.OkClicked()) return;
+	if (!dlg.DoModal())
+		return;
 
 	m_mode = dlg.GetStatusMode();
 	if (m_mode >= 0) {

@@ -353,7 +353,7 @@ void CVkUserItem::LoadFromGroup(const JSONNode & jnNode)
 	Set(m_wszDomain, jnNode["screen_name"].as_mstring());
 }
 
-MCONTACT CVkUserItem::WriteToDB(bool bForce, VKContactType vkContactType)
+MCONTACT CVkUserItem::WriteToDB(bool bForce, VKContactType /*vkContactType*/)
 {
 	if (!bForce && !m_bIsUpdated)
 		return m_hContact;

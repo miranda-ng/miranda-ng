@@ -75,14 +75,12 @@ class CSteamCaptchaDialog : public CSteamDlgBase
 	size_t m_captchaImageSize;
 
 	CCtrlEdit m_text;
-	CCtrlButton m_ok;
 
 protected:
 	bool OnInitDialog() override;
-	bool OnClose() override;
+	bool OnApply() override;
+	void OnDestroy() override;
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void OnOk(CCtrlButton*);
 
 public:
 	CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, size_t captchaImageSize);

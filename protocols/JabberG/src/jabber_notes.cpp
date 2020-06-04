@@ -147,7 +147,6 @@ class CJabberDlgNoteItem : public CJabberDlgBase
 	CCtrlEdit m_txtTitle;
 	CCtrlEdit m_txtText;
 	CCtrlEdit m_txtTags;
-	CCtrlButton m_btnOk;
 
 public:
 	CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote) :
@@ -156,11 +155,9 @@ public:
 		m_fnProcess(nullptr),
 		m_txtTitle(this, IDC_TXT_TITLE),
 		m_txtText(this, IDC_TXT_TEXT),
-		m_txtTags(this, IDC_TXT_TAGS),
-		m_btnOk(this, IDOK)
+		m_txtTags(this, IDC_TXT_TAGS)
 	{
 		SetParent(parent->GetHwnd());
-		m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
 	}
 
 	CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess) :
@@ -169,10 +166,8 @@ public:
 		m_fnProcess(fnProcess),
 		m_txtTitle(this, IDC_TXT_TITLE),
 		m_txtText(this, IDC_TXT_TEXT),
-		m_txtTags(this, IDC_TXT_TAGS),
-		m_btnOk(this, IDOK)
+		m_txtTags(this, IDC_TXT_TAGS)
 	{
-		m_btnOk.OnClick = Callback(this, &CJabberDlgNoteItem::btnOk_OnClick);
 	}
 
 	bool OnInitDialog() override
@@ -196,6 +191,18 @@ public:
 		return true;
 	}
 
+	bool OnApply() override
+	{
+		T2Utf szTitle(ptrW(m_txtTitle.GetText()));
+		T2Utf szTags(ptrW(m_txtTags.GetText()));
+		m_pNote->SetData(szTitle, m_pNote->GetFrom(), ptrW(m_txtText.GetText()), szTags);
+
+		m_autoClose = false;
+		if (m_fnProcess)
+			(m_proto->*m_fnProcess)(m_pNote, true);
+		return true;
+	}
+
 	int Resizer(UTILRESIZECONTROL *urc) override
 	{
 		switch (urc->wId) {
@@ -213,17 +220,6 @@ public:
 		}
 
 		return CSuper::Resizer(urc);
-	}
-
-	void btnOk_OnClick(CCtrlButton*)
-	{
-		T2Utf szTitle(ptrW(m_txtTitle.GetText()));
-		T2Utf szTags(ptrW(m_txtTags.GetText()));
-		m_pNote->SetData(szTitle, m_pNote->GetFrom(), ptrW(m_txtText.GetText()), szTags);
-
-		m_autoClose = false;
-		if (m_fnProcess) (m_proto->*m_fnProcess)(m_pNote, true);
-		EndDialog(m_hwnd, TRUE);
 	}
 
 	bool OnClose() override

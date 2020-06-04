@@ -22,13 +22,12 @@ class CViewVersionInfo : public CDlgBase
 {
 	DWORD m_flags;
 
-	CCtrlButton m_btnCancel, m_btnCopyClip, m_btnCopyFile;
+	CCtrlButton m_btnCopyClip, m_btnCopyFile;
 	CCtrlRichEdit m_redtViewVersionInfo;
 
 public:
 	CViewVersionInfo(DWORD flags) :
 		CDlgBase(g_plugin, IDD_VIEWVERSION),
-		m_btnCancel(this, IDCANCEL),
 		m_btnCopyClip(this, IDC_CLIPVER),
 		m_btnCopyFile(this, IDC_FILEVER),
 		m_redtViewVersionInfo(this, IDC_VIEWVERSIONINFO)
@@ -38,7 +37,6 @@ public:
 		m_flags = flags;
 		m_forceResizable = true;
 
-		m_btnCancel.OnClick = Callback(this, &CViewVersionInfo::OnCancelClick);
 		m_btnCopyClip.OnClick = Callback(this, &CViewVersionInfo::OnCopyClipClick);
 		m_btnCopyFile.OnClick = Callback(this, &CViewVersionInfo::OnCopyFileClick);
 		m_redtViewVersionInfo.OnBuildMenu = Callback(this, &CViewVersionInfo::OnViewVersionInfoBuildMenu);
@@ -78,7 +76,7 @@ public:
 		return true;
 	}
 
-	int Resizer(UTILRESIZECONTROL * urc) override
+	int Resizer(UTILRESIZECONTROL *urc) override
 	{
 		switch (urc->wId) {
 		case IDC_VIEWVERSIONINFO:
@@ -95,11 +93,6 @@ public:
 		}
 
 		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
-	}
-
-	void OnCancelClick(CCtrlBase*)
-	{
-		Close();
 	}
 
 	void OnCopyClipClick(CCtrlBase*)
@@ -286,7 +279,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void ShowMessage(int type, const wchar_t *format, ...)
 {
-	switch(type) {
+	switch (type) {
 	case 1:
 	case 3:
 		if (!g_plugin.bSuccessPopups)

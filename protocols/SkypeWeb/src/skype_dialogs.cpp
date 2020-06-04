@@ -19,43 +19,51 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::CloseDialogs()
 {
-	{	mir_cslock lck(m_GCCreateDialogsLock);
-		for (auto &it : m_GCCreateDialogs)
-			it->Close();
-	}
+	for (auto &it : m_GCCreateDialogs)
+		it->Close();
 
-	{	mir_cslock lck(m_InviteDialogsLock);
-		for (auto &it : m_InviteDialogs)
-			it->Close();
-	}
+	for (auto &it : m_InviteDialogs)
+		it->Close();
 }
 
-//CSkypeInvideDlg
+/////////////////////////////////////////////////////////////////////////////////////////
+// CSkypeInvideDlg
+
 CSkypeInviteDlg::CSkypeInviteDlg(CSkypeProto *proto) :
-	CSkypeDlgBase(proto, IDD_GC_INVITE), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_combo(this, IDC_CONTACT), m_hContact(NULL)
+	CSkypeDlgBase(proto, IDD_GC_INVITE), 
+	m_combo(this, IDC_CONTACT)
 {
-	m_ok.OnClick = Callback(this, &CSkypeInviteDlg::btnOk_OnOk);
 }
 
 bool CSkypeInviteDlg::OnInitDialog()
 {
+	m_proto->m_InviteDialogs.insert(this);
+
 	for (auto &hContact : m_proto->AccContacts())
 		if (!m_proto->isChatRoom(hContact))
 			m_combo.AddString(Clist_GetContactDisplayName(hContact), hContact);
 	return true;
 }
 
-void CSkypeInviteDlg::btnOk_OnOk(CCtrlButton*)
+bool CSkypeInviteDlg::OnApply()
 {
 	m_hContact = m_combo.GetItemData(m_combo.GetCurSel());
-	EndDialog(m_hwnd, 1);
+	return true;
 }
 
-//CSkypeGCCreateDlg
-CSkypeGCCreateDlg::CSkypeGCCreateDlg(CSkypeProto *proto) :
-	CSkypeDlgBase(proto, IDD_GC_CREATE), m_ok(this, IDOK), m_cancel(this, IDCANCEL), m_clc(this, IDC_CLIST), m_ContactsList(1)
+void CSkypeInviteDlg::OnDestroy()
 {
-	m_ok.OnClick = Callback(this, &CSkypeGCCreateDlg::btnOk_OnOk);
+	m_proto->m_InviteDialogs.remove(this);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CSkypeGCCreateDlg
+
+CSkypeGCCreateDlg::CSkypeGCCreateDlg(CSkypeProto *proto) :
+	CSkypeDlgBase(proto, IDD_GC_CREATE),
+	m_clc(this, IDC_CLIST),
+	m_ContactsList(1)
+{
 	m_clc.OnListRebuilt = Callback(this, &CSkypeGCCreateDlg::FilterList);
 }
 
@@ -67,6 +75,8 @@ CSkypeGCCreateDlg::~CSkypeGCCreateDlg()
 
 bool CSkypeGCCreateDlg::OnInitDialog()
 {
+	m_proto->m_GCCreateDialogs.insert(this);
+
 	SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE,
 		GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
 	m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
@@ -75,7 +85,7 @@ bool CSkypeGCCreateDlg::OnInitDialog()
 	return true;
 }
 
-void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
+bool CSkypeGCCreateDlg::OnApply()
 {
 	for (auto &hContact : m_proto->AccContacts()) {
 		if (!m_proto->isChatRoom(hContact))
@@ -85,7 +95,12 @@ void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 	}
 	
 	m_ContactsList.insert(m_proto->m_szSkypename.GetBuffer());
-	EndDialog(m_hwnd, m_ContactsList.getCount());
+	return true;
+}
+
+void CSkypeGCCreateDlg::OnDestroy()
+{
+	m_proto->m_GCCreateDialogs.remove(this);
 }
 
 void CSkypeGCCreateDlg::FilterList(CCtrlClc *)

@@ -653,10 +653,6 @@ class CJabberFormDlg : public CJabberDlgBase
 	int m_formHeight;		// Actual height of the form
 	int m_curPos;			// Current scroll position
 
-	CCtrlButton btnSubmit, btnCancel;
-	void onClick_Submit(CCtrlButton*);
-	void onClick_Cancel(CCtrlButton*);
-
 public:
 	CJabberFormDlg(CJabberProto *ppro, const TiXmlElement *xNode, char *defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata);
 
@@ -668,6 +664,7 @@ public:
 	}
 
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	void OnDestroy() override;
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 };

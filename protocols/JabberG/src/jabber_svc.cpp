@@ -553,18 +553,17 @@ class CJabberDlgHttpAuth : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
+	CCtrlEdit	m_txtInfo;
+
+	CJabberHttpAuthParams *m_pParams;
+
 public:
 	CJabberDlgHttpAuth(CJabberProto *proto, HWND hwndParent, CJabberHttpAuthParams *pParams) :
 		CSuper(proto, IDD_HTTP_AUTH),
 		m_txtInfo(this, IDC_EDIT_HTTP_AUTH_INFO),
-		m_btnAuth(this, IDOK),
-		m_btnDeny(this, IDCANCEL),
 		m_pParams(pParams)
 	{
 		SetParent(hwndParent);
-
-		m_btnAuth.OnClick = Callback(this, &CJabberDlgHttpAuth::btnAuth_OnClick);
-		m_btnDeny.OnClick = Callback(this, &CJabberDlgHttpAuth::btnDeny_OnClick);
 	}
 
 	bool OnInitDialog() override
@@ -580,24 +579,12 @@ public:
 		return true;
 	}
 
-	BOOL SendReply(BOOL bAuthorized)
+	bool OnClose() override
 	{
-		BOOL bRetVal = m_proto->SendHttpAuthReply(m_pParams, bAuthorized);
+		m_proto->SendHttpAuthReply(m_pParams, m_bSucceeded);
 		m_pParams->Free();
 		mir_free(m_pParams);
-		m_pParams = nullptr;
-		return bRetVal;
-	}
-
-	void btnAuth_OnClick(CCtrlButton*)
-	{
-		SendReply(TRUE);
-		Close();
-	}
-	void btnDeny_OnClick(CCtrlButton*)
-	{
-		SendReply(FALSE);
-		Close();
+		return true;
 	}
 
 	UI_MESSAGE_MAP(CJabberDlgHttpAuth, CSuper);
@@ -608,13 +595,6 @@ public:
 	{
 		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
 	}
-
-private:
-	CCtrlEdit	m_txtInfo;
-	CCtrlButton	m_btnAuth;
-	CCtrlButton	m_btnDeny;
-
-	CJabberHttpAuthParams *m_pParams;
 };
 
 // XEP-0070 support (http auth)

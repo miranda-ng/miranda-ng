@@ -92,7 +92,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EndDialog(hwndDlg, 0);
 			return TRUE;
 
-		case IDC_SUBMIT:
+		case IDOK:
 			GetDlgItemText(hwndDlg, IDC_VALUE, params->Result, _countof(params->Result));
 			EndDialog(hwndDlg, 1);
 			return TRUE;

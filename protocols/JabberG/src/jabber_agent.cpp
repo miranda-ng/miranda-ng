@@ -39,7 +39,6 @@ public:
 		m_ok(this, IDOK)
 	{
 		SetParent(_owner);
-		m_ok.OnClick = Callback(this, &CAgentRegProgressDlg::OnOk);
 	}
 
 	bool OnInitDialog() override
@@ -48,6 +47,11 @@ public:
 		SetWindowText(m_hwnd, TranslateT("Jabber Agent Registration"));
 		TranslateDialogDefault(m_hwnd);
 		return true;
+	}
+
+	void OnDestroy() override
+	{
+		m_proto->m_hwndRegProgress = nullptr;
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -66,12 +70,6 @@ public:
 
 		return CJabberDlgBase::DlgProc(msg, wParam, lParam);
 	}
-
-	void OnOk(CCtrlButton*)
-	{
-		m_proto->m_hwndRegProgress = nullptr;
-		EndDialog(m_hwnd, 0);
-	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -86,17 +84,14 @@ class CAgentRegDlg : public CJabberDlgBase
 	TiXmlElement *m_agentRegIqNode;
 	char *m_jid;
 
-	CCtrlButton m_submit;
 	HWND m_statusBar;
 
 public:
 	CAgentRegDlg(CJabberProto *_ppro, char *_jid) :
 		CJabberDlgBase(_ppro, IDD_FORM),
-		m_submit(this, IDC_SUBMIT),
 		m_jid(_jid),
 		m_agentRegIqNode(nullptr)
 	{
-		m_submit.OnClick = Callback(this, &CAgentRegDlg::OnSubmit);
 	}
 
 	bool OnInitDialog() override
@@ -104,7 +99,7 @@ public:
 		EnableWindow(GetParent(m_hwnd), FALSE);
 		m_proto->m_hwndAgentRegInput = m_hwnd;
 		SetWindowText(m_hwnd, TranslateT("Jabber Agent Registration"));
-		SetDlgItemText(m_hwnd, IDC_SUBMIT, TranslateT("Register"));
+		SetDlgItemText(m_hwnd, IDOK, TranslateT("Register"));
 
 		m_statusBar = CreateWindowExW(0, STATUSCLASSNAME, nullptr, WS_CHILD | WS_VISIBLE | SBARS_SIZEGRIP, 0, 0, 0, 0, m_hwnd, nullptr, g_plugin.getInst(), nullptr);
 		SendMessage(m_statusBar, WM_SIZE, 0, 0);
@@ -118,6 +113,57 @@ public:
 		LONG_PTR frameExStyle = GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE);
 		frameExStyle |= WS_EX_CONTROLPARENT;
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE, frameExStyle);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (m_agentRegIqNode == nullptr)
+			return true;
+
+		auto *queryNode = XmlFirstChild(m_agentRegIqNode, "query");
+		const char *from = XmlGetAttr(m_agentRegIqNode, "from");
+		if (from == nullptr || queryNode == nullptr)
+			return true;
+
+		HWND hwndFrame = GetDlgItem(m_hwnd, IDC_FRAME);
+		wchar_t *str2 = (wchar_t *)alloca(sizeof(wchar_t) * 128);
+		int id = 0;
+
+		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
+		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_REGISTER);
+
+		if (auto *xNode = XmlFirstChild(queryNode, "x")) {
+			// use new jabber:x:data form
+			JabberFormGetData(hwndFrame, query, xNode);
+		}
+		else {
+			// use old registration information form
+			for (auto *n : TiXmlEnum(queryNode)) {
+				const char *pszName = n->Name();
+				if (pszName) {
+					if (!mir_strcmp(pszName, "key")) {
+						// field that must be passed along with the registration
+						if (n->GetText())
+							XmlAddChildA(query, pszName, n->GetText());
+						else
+							XmlAddChild(query, pszName);
+					}
+					else if (!mir_strcmp(pszName, "registered") || !mir_strcmp(pszName, "instructions")) {
+						// do nothing, we will skip these
+					}
+					else {
+						GetDlgItemText(hwndFrame, id, str2, 128);
+						XmlAddChildA(query, pszName, T2Utf(str2).get());
+						id++;
+					}
+				}
+			}
+		}
+
+		m_proto->m_ThreadInfo->send(iq);
+
+		CAgentRegProgressDlg(m_proto, m_hwnd).DoModal();
 		return true;
 	}
 
@@ -200,7 +246,7 @@ public:
 					m_curPos = 0;
 				}
 
-				EnableWindow(GetDlgItem(m_hwnd, IDC_SUBMIT), TRUE);
+				EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
 			}
 			else if (wParam == 0) {
 				// lParam = error message
@@ -229,58 +275,6 @@ public:
 		}
 
 		return CJabberDlgBase::DlgProc(msg, wParam, lParam);
-	}
-
-	void OnSubmit(CCtrlButton*)
-	{
-		if (m_agentRegIqNode == nullptr)
-			return;
-
-		auto *queryNode = XmlFirstChild(m_agentRegIqNode, "query");
-		const char *from = XmlGetAttr(m_agentRegIqNode, "from");
-		if (from == nullptr || queryNode == nullptr)
-			return;
-		
-		HWND hwndFrame = GetDlgItem(m_hwnd, IDC_FRAME);
-		wchar_t *str2 = (wchar_t*)alloca(sizeof(wchar_t) * 128);
-		int id = 0;
-
-		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
-		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_REGISTER);
-
-		if (auto *xNode = XmlFirstChild(queryNode, "x")) {
-			// use new jabber:x:data form
-			JabberFormGetData(hwndFrame, query, xNode);
-		}
-		else {
-			// use old registration information form
-			for (auto *n : TiXmlEnum(queryNode)) {
-				const char *pszName = n->Name();
-				if (pszName) {
-					if (!mir_strcmp(pszName, "key")) {
-						// field that must be passed along with the registration
-						if (n->GetText())
-							XmlAddChildA(query, pszName, n->GetText());
-						else
-							XmlAddChild(query, pszName);
-					}
-					else if (!mir_strcmp(pszName, "registered") || !mir_strcmp(pszName, "instructions")) {
-						// do nothing, we will skip these
-					}
-					else {
-						GetDlgItemText(hwndFrame, id, str2, 128);
-						XmlAddChildA(query, pszName, T2Utf(str2).get());
-						id++;
-					}
-				}
-			}
-		}
-
-		m_proto->m_ThreadInfo->send(iq);
-
-		CAgentRegProgressDlg(m_proto, m_hwnd).DoModal();
-
-		Close();
 	}
 };
 

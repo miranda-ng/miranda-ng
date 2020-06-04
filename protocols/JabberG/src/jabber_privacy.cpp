@@ -287,40 +287,32 @@ void CJabberProto::OnIqResultPrivacyLists(const TiXmlElement *iqNode, CJabberIqI
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Add privacy list box
+
 class CJabberDlgPrivacyAddList : public CJabberDlgBase
 {
-	typedef CJabberDlgBase CSuper;
+	CCtrlEdit m_txtName;
 
 public:
 	char szLine[512];
 
 	CJabberDlgPrivacyAddList(CJabberProto *proto, HWND hwndParent) :
 		CJabberDlgBase(proto, IDD_PRIVACY_ADD_LIST),
-		m_txtName(this, IDC_EDIT_NAME),
-		m_btnOk(this, IDOK),
-		m_btnCancel(this, IDCANCEL)
+		m_txtName(this, IDC_EDIT_NAME)
 	{
 		SetParent(hwndParent);
-
-		m_btnOk.OnClick = Callback(this, &CJabberDlgPrivacyAddList::btnOk_OnClick);
-		m_btnCancel.OnClick = Callback(this, &CJabberDlgPrivacyAddList::btnCancel_OnClick);
 	}
 
-	void btnOk_OnClick(CCtrlButton*)
+	bool OnApply() override
 	{
 		m_txtName.GetTextU(szLine, _countof(szLine));
-		EndDialog(m_hwnd, 1);
+		return true;
 	}
-	void btnCancel_OnClick(CCtrlButton*)
+	
+	bool OnClose() override
 	{
-		szLine[0] = 0;
-		EndDialog(m_hwnd, 0);
+		EndModal(m_bSucceeded);
+		return true;
 	}
-
-private:
-	CCtrlEdit	m_txtName;
-	CCtrlButton	m_btnOk;
-	CCtrlButton	m_btnCancel;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -329,8 +321,6 @@ class CJabberDlgPrivacyRule : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
-	CCtrlButton	m_btnOk;
-	CCtrlButton	m_btnCancel;
 	CCtrlCombo	m_cbType;
 
 public:
@@ -338,16 +328,12 @@ public:
 
 	CJabberDlgPrivacyRule(CJabberProto *proto, HWND hwndParent, CPrivacyListRule *pRule) :
 		CJabberDlgBase(proto, IDD_PRIVACY_RULE),
-		m_btnOk(this, IDOK),
-		m_btnCancel(this, IDCANCEL),
 		m_cbType(this, IDC_COMBO_TYPE)
 	{
 		SetParent(hwndParent);
 
 		m_pRule = pRule;
 		m_cbType.OnChange = Callback(this, &CJabberDlgPrivacyRule::cbType_OnChange);
-		m_btnOk.OnClick = Callback(this, &CJabberDlgPrivacyRule::btnOk_OnClick);
-		m_btnCancel.OnClick = Callback(this, &CJabberDlgPrivacyRule::btnCancel_OnClick);
 	}
 
 	bool OnInitDialog() override
@@ -398,6 +384,56 @@ public:
 
 		if (m_pRule->GetValue() && (m_pRule->GetType() == Jid || m_pRule->GetType() == Group))
 			SetDlgItemTextUtf(m_hwnd, IDC_EDIT_VALUE, m_pRule->GetValue());
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		LRESULT nItemData = -1;
+		LRESULT nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETCURSEL, 0, 0);
+		if (nCurSel != CB_ERR)
+			nItemData = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETITEMDATA, nCurSel, 0);
+
+		switch (nItemData) {
+		case Jid:
+		case Group:
+			wchar_t szText[512];
+			GetDlgItemText(m_hwnd, IDC_COMBO_VALUES, szText, _countof(szText));
+			m_pRule->SetValue(T2Utf(szText));
+			break;
+
+		case Subscription:
+			nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_GETCURSEL, 0, 0);
+			if (nCurSel != CB_ERR)
+				m_pRule->SetValue((char *)SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_GETITEMDATA, nCurSel, 0));
+			else
+				m_pRule->SetValue("none");
+			break;
+
+		default:
+			m_pRule->SetValue(nullptr);
+			break;
+		}
+
+		m_pRule->SetType((PrivacyListRuleType)nItemData);
+		nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_GETCURSEL, 0, 0);
+		if (nCurSel == CB_ERR)
+			nCurSel = 1;
+		m_pRule->SetAction(nCurSel ? TRUE : FALSE);
+
+		DWORD dwPackets = 0;
+		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_MESSAGES))
+			dwPackets |= JABBER_PL_RULE_TYPE_MESSAGE;
+		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_PRESENCE_IN))
+			dwPackets |= JABBER_PL_RULE_TYPE_PRESENCE_IN;
+		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_PRESENCE_OUT))
+			dwPackets |= JABBER_PL_RULE_TYPE_PRESENCE_OUT;
+		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_QUERIES))
+			dwPackets |= JABBER_PL_RULE_TYPE_IQ;
+		if (!dwPackets)
+			dwPackets = JABBER_PL_RULE_TYPE_ALL;
+
+		m_pRule->SetPackets(dwPackets);
 		return true;
 	}
 
@@ -487,62 +523,6 @@ public:
 			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_HIDE);
 			break;
 		}
-	}
-
-	void btnOk_OnClick(CCtrlButton*)
-	{
-		LRESULT nItemData = -1;
-		LRESULT nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETCURSEL, 0, 0);
-		if (nCurSel != CB_ERR)
-			nItemData = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETITEMDATA, nCurSel, 0);
-
-		switch (nItemData) {
-		case Jid:
-		case Group:
-			wchar_t szText[512];
-			GetDlgItemText(m_hwnd, IDC_COMBO_VALUES, szText, _countof(szText));
-			m_pRule->SetValue(T2Utf(szText));
-			break;
-
-		case Subscription:
-			nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_GETCURSEL, 0, 0);
-			if (nCurSel != CB_ERR)
-				m_pRule->SetValue((char*)SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_GETITEMDATA, nCurSel, 0));
-			else
-				m_pRule->SetValue("none");
-			break;
-
-		default:
-			m_pRule->SetValue(nullptr);
-			break;
-		}
-
-		m_pRule->SetType((PrivacyListRuleType)nItemData);
-		nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_GETCURSEL, 0, 0);
-		if (nCurSel == CB_ERR)
-			nCurSel = 1;
-		m_pRule->SetAction(nCurSel ? TRUE : FALSE);
-
-		DWORD dwPackets = 0;
-		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_MESSAGES))
-			dwPackets |= JABBER_PL_RULE_TYPE_MESSAGE;
-		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_PRESENCE_IN))
-			dwPackets |= JABBER_PL_RULE_TYPE_PRESENCE_IN;
-		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_PRESENCE_OUT))
-			dwPackets |= JABBER_PL_RULE_TYPE_PRESENCE_OUT;
-		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_QUERIES))
-			dwPackets |= JABBER_PL_RULE_TYPE_IQ;
-		if (!dwPackets)
-			dwPackets = JABBER_PL_RULE_TYPE_ALL;
-
-		m_pRule->SetPackets(dwPackets);
-
-		EndDialog(m_hwnd, 1);
-	}
-
-	void btnCancel_OnClick(CCtrlButton*)
-	{
-		EndDialog(m_hwnd, 0);
 	}
 };
 

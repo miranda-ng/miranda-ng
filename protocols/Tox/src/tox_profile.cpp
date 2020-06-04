@@ -16,6 +16,42 @@ wchar_t* CToxProto::GetToxProfilePath(const wchar_t *accountName)
 	return profilePath;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// ENTER PASSWORD 
+
+class CToxEnterPasswordDlg : public CToxDlgBase
+{
+	CCtrlEdit m_password;
+
+	CCtrlButton m_ok;
+
+public:
+	CToxEnterPasswordDlg(CToxProto *proto) :
+		CToxDlgBase(proto, IDD_PASSWORD_ENTER),
+		m_password(this, IDC_PASSWORD),
+		m_ok(this, IDOK)
+	{
+		m_password.OnChange = Callback(this, &CToxEnterPasswordDlg::Password_OnChange);
+	}
+
+	bool OnInitDialog() override
+	{
+		m_ok.Disable();
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		m_proto->setWString(TOX_SETTINGS_PASSWORD, pass_ptrW(m_password.GetText()));
+		return true;
+	}
+
+	void Password_OnChange(CCtrlBase *)
+	{
+		m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()) != 0);
+	}
+};
+
 static INT_PTR CALLBACK EnterPassword(void *param)
 {
 	CToxProto *proto = (CToxProto*)param;
@@ -163,13 +199,150 @@ INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// CREATE PASSWORD
+
+class CToxCreatePasswordDlg : public CToxDlgBase
+{
+	CCtrlEdit m_newPassword;
+	CCtrlEdit m_confirmPassword;
+	CCtrlBase m_passwordValidation;
+	CCtrlButton m_ok;
+
+public:
+	CToxCreatePasswordDlg(CToxProto *proto) :
+		CToxDlgBase(proto, IDD_PASSWORD_CREATE),
+		m_ok(this, IDOK),
+		m_newPassword(this, IDC_PASSWORD_NEW),
+		m_confirmPassword(this, IDC_PASSWORD_CONFIRM),
+		m_passwordValidation(this, IDC_PASSWORD_VALIDATION)
+	{
+		m_newPassword.OnChange = Callback(this, &CToxCreatePasswordDlg::Password_OnChange);
+		m_confirmPassword.OnChange = Callback(this, &CToxCreatePasswordDlg::Password_OnChange);
+	}
+
+	bool OnInitDialog() override
+	{
+		LOGFONT lf;
+		HFONT hFont = (HFONT)m_passwordValidation.SendMsg(WM_GETFONT, 0, 0);
+		GetObject(hFont, sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		m_passwordValidation.SendMsg(WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
+
+		m_ok.Disable();
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		m_proto->setWString(TOX_SETTINGS_PASSWORD, pass_ptrW(m_newPassword.GetText()));
+		m_proto->SaveToxProfile(m_proto->m_tox);
+		return true;
+	}
+
+	void Password_OnChange(CCtrlBase *)
+	{
+		pass_ptrW newPassword(m_newPassword.GetText());
+		if (mir_wstrlen(newPassword) == 0) {
+			m_ok.Disable();
+			m_passwordValidation.SetText(TranslateT("New password is empty"));
+			return;
+		}
+
+		pass_ptrW confirmPassword(m_confirmPassword.GetText());
+		if (mir_wstrcmp(newPassword, confirmPassword) != 0) {
+			m_ok.Disable();
+			m_passwordValidation.SetText(TranslateT("New password is not equal to confirmation"));
+			return;
+		}
+
+		m_passwordValidation.SetText(L"");
+		m_ok.Enable();
+	}
+};
+
 INT_PTR CToxProto::OnCreatePassword(WPARAM, LPARAM)
 {
 	pass_ptrW password(getWStringA(TOX_SETTINGS_PASSWORD));
-	CToxCreatePasswordDlg passwordDlg(this);
-	passwordDlg.DoModal();
+	CToxCreatePasswordDlg(this).DoModal();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CHANGE PASSWORD
+
+class CToxChangePasswordDlg : public CToxDlgBase
+{
+	CCtrlEdit m_oldPassword;
+
+	CCtrlEdit m_newPassword;
+	CCtrlEdit m_confirmPassword;
+
+	CCtrlBase m_passwordValidation;
+
+	CCtrlButton m_ok;
+
+public:
+	CToxChangePasswordDlg(CToxProto *proto) :
+		CToxDlgBase(proto, IDD_PASSWORD_CHANGE),
+		m_oldPassword(this, IDC_PASSWORD),
+		m_newPassword(this, IDC_PASSWORD_NEW),
+		m_confirmPassword(this, IDC_PASSWORD_CONFIRM),
+		m_passwordValidation(this, IDC_PASSWORD_VALIDATION),
+		m_ok(this, IDOK)
+	{
+		m_oldPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
+		m_newPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
+		m_confirmPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
+	}
+
+	bool OnInitDialog() override
+	{
+		LOGFONT lf;
+		HFONT hFont = (HFONT)m_passwordValidation.SendMsg(WM_GETFONT, 0, 0);
+		GetObject(hFont, sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		m_passwordValidation.SendMsg(WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
+
+		m_ok.Disable();
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		m_proto->setWString(TOX_SETTINGS_PASSWORD, pass_ptrW(m_newPassword.GetText()));
+		m_proto->SaveToxProfile(m_proto->m_tox);
+		return true;
+	}
+
+	void Password_OnChange(CCtrlBase *)
+	{
+		pass_ptrW dbPassword(m_proto->getWStringA(TOX_SETTINGS_PASSWORD));
+		pass_ptrW oldPassword(m_oldPassword.GetText());
+		if (mir_wstrlen(dbPassword) > 0 && mir_wstrcmp(dbPassword, oldPassword) != 0) {
+			m_ok.Disable();
+			m_passwordValidation.SetText(TranslateT("Old password is not valid"));
+			return;
+		}
+
+		pass_ptrW newPassword(m_newPassword.GetText());
+		if (mir_wstrlen(newPassword) == 0) {
+			m_ok.Disable();
+			m_passwordValidation.SetText(TranslateT("New password is empty"));
+			return;
+		}
+
+		pass_ptrW confirmPassword(m_confirmPassword.GetText());
+		if (mir_wstrcmp(newPassword, confirmPassword) != 0) {
+			m_ok.Disable();
+			m_passwordValidation.SetText(TranslateT("New password is not equal to confirmation"));
+			return;
+		}
+
+		m_passwordValidation.SetText(L"");
+		m_ok.Enable();
+	}
+};
 
 INT_PTR CToxProto::OnChangePassword(WPARAM, LPARAM)
 {
@@ -177,6 +350,8 @@ INT_PTR CToxProto::OnChangePassword(WPARAM, LPARAM)
 	passwordDlg.DoModal();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CToxProto::OnRemovePassword(WPARAM, LPARAM)
 {
@@ -187,148 +362,4 @@ INT_PTR CToxProto::OnRemovePassword(WPARAM, LPARAM)
 		SaveToxProfile(m_tox);
 	}
 	return 0;
-}
-
-/* ENTER PASSWORD */
-
-CToxEnterPasswordDlg::CToxEnterPasswordDlg(CToxProto *proto)
-	: CToxDlgBase(proto, IDD_PASSWORD_ENTER),
-	m_password(this, IDC_PASSWORD),
-	m_ok(this, IDOK)
-{
-	m_password.OnChange = Callback(this, &CToxEnterPasswordDlg::Password_OnChange);
-	m_ok.OnClick = Callback(this, &CToxEnterPasswordDlg::OnOk);
-}
-
-bool CToxEnterPasswordDlg::OnInitDialog()
-{
-	m_ok.Disable();
-	return true;
-}
-
-void CToxEnterPasswordDlg::Password_OnChange(CCtrlBase*)
-{
-	m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()) != 0);
-}
-
-void CToxEnterPasswordDlg::OnOk(CCtrlButton*)
-{
-	m_proto->setWString(TOX_SETTINGS_PASSWORD, pass_ptrW(m_password.GetText()));
-	EndDialog(m_hwnd, 1);
-}
-
-/* CREATE PASSWORD */
-
-CToxCreatePasswordDlg::CToxCreatePasswordDlg(CToxProto *proto)
-	: CToxDlgBase(proto, IDD_PASSWORD_CREATE),
-	m_newPassword(this, IDC_PASSWORD_NEW),
-	m_confirmPassword(this, IDC_PASSWORD_CONFIRM),
-	m_passwordValidation(this, IDC_PASSWORD_VALIDATION),
-	m_ok(this, IDOK)
-{
-	m_newPassword.OnChange = Callback(this, &CToxCreatePasswordDlg::Password_OnChange);
-	m_confirmPassword.OnChange = Callback(this, &CToxCreatePasswordDlg::Password_OnChange);
-	m_ok.OnClick = Callback(this, &CToxCreatePasswordDlg::OnOk);
-}
-
-bool CToxCreatePasswordDlg::OnInitDialog()
-{
-	LOGFONT lf;
-	HFONT hFont = (HFONT)m_passwordValidation.SendMsg(WM_GETFONT, 0, 0);
-	GetObject(hFont, sizeof(lf), &lf);
-	lf.lfWeight = FW_BOLD;
-	m_passwordValidation.SendMsg(WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
-
-	m_ok.Disable();
-	return true;
-}
-
-void CToxCreatePasswordDlg::Password_OnChange(CCtrlBase*)
-{
-	pass_ptrW newPassword(m_newPassword.GetText());
-	if (mir_wstrlen(newPassword) == 0) {
-		m_ok.Disable();
-		m_passwordValidation.SetText(TranslateT("New password is empty"));
-		return;
-	}
-
-	pass_ptrW confirmPassword(m_confirmPassword.GetText());
-	if (mir_wstrcmp(newPassword, confirmPassword) != 0) {
-		m_ok.Disable();
-		m_passwordValidation.SetText(TranslateT("New password is not equal to confirmation"));
-		return;
-	}
-
-	m_passwordValidation.SetText(L"");
-	m_ok.Enable();
-}
-
-void CToxCreatePasswordDlg::OnOk(CCtrlButton*)
-{
-	m_proto->setWString(TOX_SETTINGS_PASSWORD, pass_ptrW(m_newPassword.GetText()));
-	m_proto->SaveToxProfile(m_proto->m_tox);
-	EndDialog(m_hwnd, 1);
-}
-
-/* CHANGE PASSWORD */
-
-CToxChangePasswordDlg::CToxChangePasswordDlg(CToxProto *proto)
-	: CToxDlgBase(proto, IDD_PASSWORD_CHANGE),
-	m_oldPassword(this, IDC_PASSWORD),
-	m_newPassword(this, IDC_PASSWORD_NEW),
-	m_confirmPassword(this, IDC_PASSWORD_CONFIRM),
-	m_passwordValidation(this, IDC_PASSWORD_VALIDATION),
-	m_ok(this, IDOK)
-{
-	m_oldPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
-	m_newPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
-	m_confirmPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
-	m_ok.OnClick = Callback(this, &CToxChangePasswordDlg::OnOk);
-}
-
-bool CToxChangePasswordDlg::OnInitDialog()
-{
-	LOGFONT lf;
-	HFONT hFont = (HFONT)m_passwordValidation.SendMsg(WM_GETFONT, 0, 0);
-	GetObject(hFont, sizeof(lf), &lf);
-	lf.lfWeight = FW_BOLD;
-	m_passwordValidation.SendMsg(WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
-
-	m_ok.Disable();
-	return true;
-}
-
-void CToxChangePasswordDlg::Password_OnChange(CCtrlBase*)
-{
-	pass_ptrW dbPassword(m_proto->getWStringA(TOX_SETTINGS_PASSWORD));
-	pass_ptrW oldPassword(m_oldPassword.GetText());
-	if (mir_wstrlen(dbPassword) > 0 && mir_wstrcmp(dbPassword, oldPassword) != 0) {
-		m_ok.Disable();
-		m_passwordValidation.SetText(TranslateT("Old password is not valid"));
-		return;
-	}
-
-	pass_ptrW newPassword(m_newPassword.GetText());
-	if (mir_wstrlen(newPassword) == 0) {
-		m_ok.Disable();
-		m_passwordValidation.SetText(TranslateT("New password is empty"));
-		return;
-	}
-
-	pass_ptrW confirmPassword(m_confirmPassword.GetText());
-	if (mir_wstrcmp(newPassword, confirmPassword) != 0) {
-		m_ok.Disable();
-		m_passwordValidation.SetText(TranslateT("New password is not equal to confirmation"));
-		return;
-	}
-
-	m_passwordValidation.SetText(L"");
-	m_ok.Enable();
-}
-
-void CToxChangePasswordDlg::OnOk(CCtrlButton*)
-{
-	m_proto->setWString(TOX_SETTINGS_PASSWORD, pass_ptrW(m_newPassword.GetText()));
-	m_proto->SaveToxProfile(m_proto->m_tox);
-	EndDialog(m_hwnd, 1);
 }

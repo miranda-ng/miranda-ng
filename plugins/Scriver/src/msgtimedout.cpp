@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CErrorDlg : public CDlgBase
 {
-	bool m_bRetry = false;
 	ptrW m_wszText;
 	CMStringW m_wszName, m_wszDescr;
 	CMsgDialog *m_pOwner;
@@ -71,16 +70,10 @@ public:
 		return true;
 	}
 
-	bool OnApply() override
-	{
-		m_bRetry = true;
-		return true;
-	}
-
 	void OnDestroy() override
 	{
 		m_queueItem->hwndErrorDlg = nullptr;
-		m_pOwner->HandleError(m_bRetry, m_queueItem);
+		m_pOwner->HandleError(m_bSucceeded, m_queueItem);
 	}
 };
 

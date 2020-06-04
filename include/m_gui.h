@@ -399,7 +399,7 @@ public:
 	__forceinline HINSTANCE GetInst() const { return m_pPlugin.getInst(); }
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline void Hide() { Show(SW_HIDE); }
-	__forceinline bool IsInitialized() const { return m_initialized; }
+	__forceinline bool IsInitialized() const { return m_bInitialized; }
 	__forceinline void SetMinSize(int x, int y) { m_iMinWidth = x, m_iMinHeight = y; }
 	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
 
@@ -411,15 +411,17 @@ protected:
 	HWND    m_hwnd = nullptr;  // must be the first data item
 	HWND    m_hwndParent = nullptr;
 	int     m_idDialog;
-	bool    m_isModal = false;
-	bool    m_initialized = false;
-	bool    m_forceResizable = false;
-	bool    m_bExiting = false; // window received WM_CLOSE and gonna die soon
 
-	CMPluginBase &m_pPlugin;
+	bool    m_isModal = false;
+	bool    m_bInitialized = false;
+	bool    m_forceResizable = false;
+	bool    m_bSucceeded = false; // was IDOK pressed or not
+	bool    m_bExiting = false; // window received WM_CLOSE and gonna die soon
 
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
 	BYTE    m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
+
+	CMPluginBase &m_pPlugin;
 
 	// override this handlers to provide custom functionality
 	// general messages
@@ -1464,11 +1466,11 @@ class MIR_APP_EXPORT CProtoIntDlgBase : public CDlgBase
 public:
 	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog);
 
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
+	void CreateLink(CCtrlData &ctrl, const char *szSetting, BYTE type, DWORD iValue);
+	void CreateLink(CCtrlData &ctrl, const char *szSetting, wchar_t *szValue);
 
 	template<class T>
-	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
+	__inline void CreateLink(CCtrlData &ctrl, CMOption<T> &option)
 	{
 		ctrl.CreateDbLink(new CMOptionLink<T>(option));
 	}

@@ -121,8 +121,8 @@ void CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, char*, JabberAdHocData *da
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, hwndDlg))
 				<< XCHILDNS("command", JABBER_FEAT_COMMANDS) << XATTR("node", node) << XATTR("action", "execute"));
 
-			EnableDlgItem(hwndDlg, IDC_SUBMIT, FALSE);
-			SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("OK"));
+			EnableDlgItem(hwndDlg, IDOK, FALSE);
+			SetDlgItemText(hwndDlg, IDOK, TranslateT("OK"));
 		}
 	}
 }
@@ -174,7 +174,7 @@ void CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, TiXmlElement *iqN
 			JabberFormSetInstruction(hwndDlg, TranslateU("Select Command"));
 			ShowDlgItem(hwndDlg, IDC_FRAME, SW_SHOW);
 			ShowDlgItem(hwndDlg, IDC_VSCROLL, SW_SHOW);
-			EnableDlgItem(hwndDlg, IDC_SUBMIT, TRUE);
+			EnableDlgItem(hwndDlg, IDOK, TRUE);
 		}
 		else JabberFormSetInstruction(hwndDlg, TranslateU("Not supported"));
 	}
@@ -235,7 +235,7 @@ void CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNod
 			ShowDlgItem(hwndDlg, IDC_PREV, (XmlFirstChild(actionsNode, "prev") != nullptr) ? SW_SHOW : SW_HIDE);
 			ShowDlgItem(hwndDlg, IDC_NEXT, (XmlFirstChild(actionsNode, "next") != nullptr) ? SW_SHOW : SW_HIDE);
 			ShowDlgItem(hwndDlg, IDC_COMPLETE, (XmlFirstChild(actionsNode, "complete") != nullptr) ? SW_SHOW : SW_HIDE);
-			ShowDlgItem(hwndDlg, IDC_SUBMIT, SW_HIDE);
+			ShowDlgItem(hwndDlg, IDOK, SW_HIDE);
 
 			int toEnable[] = { IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
 			sttEnableControls(hwndDlg, TRUE, toEnable);
@@ -244,18 +244,18 @@ void CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNod
 			int toHide[] = { IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
 			sttShowControls(hwndDlg, FALSE, toHide);
 
-			ShowDlgItem(hwndDlg, IDC_SUBMIT, SW_SHOW);
-			EnableDlgItem(hwndDlg, IDC_SUBMIT, TRUE);
+			ShowDlgItem(hwndDlg, IDOK, SW_SHOW);
+			EnableDlgItem(hwndDlg, IDOK, TRUE);
 		}
 
 		if (!status || mir_strcmp(status, "executing")) {
-			ShowDlgItem(hwndDlg, IDC_SUBMIT, SW_HIDE);
+			ShowDlgItem(hwndDlg, IDOK, SW_HIDE);
 			SetDlgItemText(hwndDlg, IDCANCEL, TranslateT("Done"));
 		}
 	}
 	else if (!mir_strcmp(type, "error")) {
 		// error occurred here
-		int toHide[] = { IDC_FRAME, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_SUBMIT, 0 };
+		int toHide[] = { IDC_FRAME, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDOK, 0 };
 		sttShowControls(hwndDlg, FALSE, toHide);
 
 		const char *code = "";
@@ -296,7 +296,7 @@ void CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData *dat, c
 
 	JabberFormSetInstruction(hwndDlg, TranslateU("In progress. Please Wait..."));
 
-	static const int toDisable[] = { IDC_SUBMIT, IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
+	static const int toDisable[] = { IDOK, IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
 	sttEnableControls(hwndDlg, FALSE, toDisable);
 }
 
@@ -350,14 +350,14 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 			int toHide[] = { IDC_FRAME, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, 0 };
 			sttShowControls(hwndDlg, FALSE, toHide);
 
-			int toShow[] = { IDC_INSTRUCTION, IDC_SUBMIT, IDCANCEL, 0 };
+			int toShow[] = { IDC_INSTRUCTION, IDOK, IDCANCEL, 0 };
 			sttShowControls(hwndDlg, TRUE, toShow);
 
 			EnableDlgItem(hwndDlg, IDC_VSCROLL, TRUE);
 
 			SetWindowPos(GetDlgItem(hwndDlg, IDC_VSCROLL), HWND_BOTTOM, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
-			SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("Execute"));
+			SetDlgItemText(hwndDlg, IDOK, TranslateT("Execute"));
 			JabberFormSetInstruction(hwndDlg, TranslateU("Requesting command list. Please wait..."));
 
 			char Caption[512];
@@ -372,8 +372,8 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 					<< XCHILDNS("command", JABBER_FEAT_COMMANDS)
 					<< XATTR("node", pStartupParams->m_szNode) << XATTR("action", "execute"));
 
-				EnableDlgItem(hwndDlg, IDC_SUBMIT, FALSE);
-				SetDlgItemText(hwndDlg, IDC_SUBMIT, TranslateT("OK"));
+				EnableDlgItem(hwndDlg, IDOK, FALSE);
+				SetDlgItemText(hwndDlg, IDOK, TranslateT("OK"));
 
 				mir_snprintf(Caption, TranslateU("Sending Ad-Hoc command to %s"), dat->ResponderJID);
 			}
@@ -401,8 +401,8 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 		case IDC_COMPLETE:
 			dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, "complete");
 			return TRUE;
-		case IDC_SUBMIT:
-			if (!dat->AdHocNode && dat->CommandsNode && LOWORD(wParam) == IDC_SUBMIT)
+		case IDOK:
+			if (!dat->AdHocNode && dat->CommandsNode && LOWORD(wParam) == IDOK)
 				dat->proto->AdHoc_ExecuteCommand(hwndDlg, dat->ResponderJID, dat);
 			else
 				dat->proto->AdHoc_SubmitCommandForm(hwndDlg, dat, nullptr);

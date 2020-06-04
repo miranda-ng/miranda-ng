@@ -26,13 +26,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CMessageBoxDlg::CMessageBoxDlg(CIrcProto *_pro, DCCINFO *_dci)
 	: CProtoDlgBase<CIrcProto>(_pro, IDD_MESSAGEBOX),
-	pdci(_dci),
-	m_Ok(this, IDOK)
+	pdci(_dci)
 {
-	m_Ok.OnClick = Callback(this, &CMessageBoxDlg::OnOk);
 }
 
-void CMessageBoxDlg::OnOk(CCtrlButton*)
+bool CMessageBoxDlg::OnApply()
 {
 	CDccSession *dcc = new CDccSession(m_proto, pdci);
 
@@ -42,6 +40,7 @@ void CMessageBoxDlg::OnOk(CCtrlButton*)
 	m_proto->AddDCCSession(pdci->hContact, dcc);
 
 	dcc->Connect();
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -199,12 +198,10 @@ void CWhoisDlg::ShowMessageNoUser(const CIrcMessage *pmsg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'Change nickname' dialog
 
-CNickDlg::CNickDlg(CIrcProto *_pro)
-	: CCoolIrcDlg(_pro, IDD_NICK),
-	m_Ok(this, IDOK),
+CNickDlg::CNickDlg(CIrcProto *_pro) :
+	CCoolIrcDlg(_pro, IDD_NICK),
 	m_Enick(this, IDC_ENICK)
 {
-	m_Ok.OnClick = Callback(this, &CNickDlg::OnOk);
 }
 
 bool CNickDlg::OnInitDialog()
@@ -229,7 +226,7 @@ void CNickDlg::OnDestroy()
 	m_proto->m_nickDlg = nullptr;
 }
 
-void CNickDlg::OnOk(CCtrlButton*)
+bool CNickDlg::OnApply()
 {
 	wchar_t szTemp[255];
 	m_Enick.GetText(szTemp, _countof(szTemp));
@@ -246,6 +243,7 @@ void CNickDlg::OnOk(CCtrlButton*)
 		db_free(&dbv);
 	}
 	m_proto->setWString("RecentNicks", S.c_str());
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -499,11 +497,9 @@ void CListDlg::UpdateList()
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'Join' dialog
 
-CJoinDlg::CJoinDlg(CIrcProto *_pro)
-	: CCoolIrcDlg(_pro, IDD_NICK),
-	m_Ok(this, IDOK)
+CJoinDlg::CJoinDlg(CIrcProto *_pro) :
+	CCoolIrcDlg(_pro, IDD_NICK)
 {
-	m_Ok.OnClick = Callback(this, &CJoinDlg::OnOk);
 }
 
 bool CJoinDlg::OnInitDialog()
@@ -530,7 +526,7 @@ void CJoinDlg::OnDestroy()
 	m_proto->m_joinDlg = nullptr;
 }
 
-void CJoinDlg::OnOk(CCtrlButton*)
+bool CJoinDlg::OnApply()
 {
 	wchar_t szTemp[255];
 	GetDlgItemText(m_hwnd, IDC_ENICK, szTemp, _countof(szTemp));
@@ -553,6 +549,7 @@ void CJoinDlg::OnOk(CCtrlButton*)
 		db_free(&dbv);
 	}
 	m_proto->setWString("RecentChannels", S.c_str());
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -560,10 +557,8 @@ void CJoinDlg::OnOk(CCtrlButton*)
 
 CQuickDlg::CQuickDlg(CIrcProto *_pro)
 	: CCoolIrcDlg(_pro, IDD_QUICKCONN),
-	m_Ok(this, IDOK),
 	m_serverCombo(this, IDC_SERVERCOMBO)
 {
-	m_Ok.OnClick = Callback(this, &CQuickDlg::OnOk);
 	m_serverCombo.OnChange = Callback(this, &CQuickDlg::OnServerCombo);
 }
 
@@ -621,7 +616,7 @@ void CQuickDlg::OnDestroy()
 	m_proto->m_quickDlg = nullptr;
 }
 
-void CQuickDlg::OnOk(CCtrlButton*)
+bool CQuickDlg::OnApply()
 {
 	GetDlgItemTextA(m_hwnd, IDC_SERVER, m_proto->m_serverName, _countof(m_proto->m_serverName));
 	GetDlgItemTextA(m_hwnd, IDC_PORT, m_proto->m_portStart, _countof(m_proto->m_portStart));
@@ -656,6 +651,7 @@ void CQuickDlg::OnOk(CCtrlButton*)
 	m_proto->setDword("QuickComboSelection", m_proto->m_quickComboSelection);
 	m_proto->DisconnectFromServer();
 	m_proto->ConnectToServer();
+	return true;
 }
 
 void CQuickDlg::OnServerCombo(CCtrlData*)
@@ -710,14 +706,12 @@ void CQuickDlg::OnServerCombo(CCtrlData*)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'Question' dialog
 
-CQuestionDlg::CQuestionDlg(CIrcProto *_pro, CManagerDlg *owner)
-	: CCoolIrcDlg(_pro, IDD_QUESTION),
-	m_Ok(this, IDOK),
+CQuestionDlg::CQuestionDlg(CIrcProto *_pro, CManagerDlg *owner) :
+	CCoolIrcDlg(_pro, IDD_QUESTION),
 	m_owner(owner)
 {
 	if (owner != nullptr)
 		m_hwndParent = owner->GetHwnd();
-	m_Ok.OnClick = Callback(this, &CQuestionDlg::OnOk);
 }
 
 bool CQuestionDlg::OnInitDialog()
@@ -735,7 +729,7 @@ bool CQuestionDlg::OnClose()
 	return true;
 }
 
-void CQuestionDlg::OnOk(CCtrlButton*)
+bool CQuestionDlg::OnApply()
 {
 	int i = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_EDIT));
 	if (i > 0) {
@@ -779,6 +773,7 @@ void CQuestionDlg::OnOk(CCtrlButton*)
 		if (m_owner)
 			m_owner->ApplyQuestion();
 	}
+	return true;
 }
 
 void CQuestionDlg::Activate()

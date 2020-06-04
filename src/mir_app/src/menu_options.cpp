@@ -485,9 +485,9 @@ public:
 
 	void onMenuObjectChanged(void*)
 	{
-		m_initialized = false;
+		m_bInitialized = false;
 		RebuildCurrent();
-		m_initialized = true;
+		m_bInitialized = true;
 	}
 
 	void onMenuItemChanged(void*)

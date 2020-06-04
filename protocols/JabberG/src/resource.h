@@ -97,7 +97,6 @@
 #define IDC_LINK_PUBLIC_SERVER          1009
 #define IDC_NAME                        1009
 #define IDC_PROGRESS_REG                1011
-#define IDC_SUBMIT                      1023
 #define IDC_NEXT                        1025
 #define IDC_PREV                        1026
 #define IDC_COMPLETE                    1027

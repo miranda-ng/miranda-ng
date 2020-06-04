@@ -22,43 +22,34 @@ typedef CProtoDlgBase<CSkypeProto> CSkypeDlgBase;
 
 class CSkypeInviteDlg : public CSkypeDlgBase
 {
-private:
-	typedef CSkypeDlgBase CSuper;
-	CCtrlButton m_ok;
-	CCtrlButton m_cancel;
-	CCtrlCombo  m_combo;
-
-protected:
-	bool OnInitDialog() override;
-	
-	void btnOk_OnOk(CCtrlButton*);
+	CCtrlCombo m_combo;
 
 public:
-	MCONTACT m_hContact;
-
 	CSkypeInviteDlg(CSkypeProto *proto);
+
+	bool OnInitDialog() override;
+	bool OnApply() override;
+	void OnDestroy() override;
+
+	MCONTACT m_hContact = 0;
 };
 
 class CSkypeGCCreateDlg : public CSkypeDlgBase
 {
-private:
-	typedef CSkypeDlgBase CSuper;
-	CCtrlButton m_ok;
-	CCtrlButton m_cancel;
-	CCtrlClc    m_clc;
+	CCtrlClc m_clc;
 
-protected:
+public:
+	CSkypeGCCreateDlg(CSkypeProto *proto);
+	~CSkypeGCCreateDlg();
+
 	bool OnInitDialog() override;
+	bool OnApply() override;
+	void OnDestroy() override;
 
-	void btnOk_OnOk(CCtrlButton*);
 	void FilterList(CCtrlClc*);
 	void ResetListOptions(CCtrlClc*);
 
-public:
 	LIST<char> m_ContactsList;
-
-	CSkypeGCCreateDlg(CSkypeProto *proto);
-	~CSkypeGCCreateDlg();
 };
 
 

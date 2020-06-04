@@ -253,91 +253,102 @@ bool CToxOptionsMain::OnApply()
 
 /////////////////////////////////////////////////////////////////////////////////
 
-CToxNodeEditor::CToxNodeEditor(int iItem, CCtrlListView *m_nodes)
-	: CSuper(g_plugin, IDD_NODE_EDITOR),
-	m_ipv4(this, IDC_IPV4), m_ipv6(this, IDC_IPV6),
-	m_port(this, IDC_PORT), m_pkey(this, IDC_PKEY),
-	m_ok(this, IDOK), m_iItem(iItem)
+class CToxNodeEditor : public CDlgBase
 {
-	m_autoClose = CLOSE_ON_CANCEL;
-	m_list = m_nodes;
-	m_ok.OnClick = Callback(this, &CToxNodeEditor::OnOk);
-}
+	typedef CDlgBase CSuper;
 
-bool CToxNodeEditor::OnInitDialog()
-{
-	SetWindowText(m_hwnd, m_iItem == -1 ? TranslateT("Add node") : TranslateT("Change node"));
+	int m_iItem;
+	CCtrlListView *m_list;
 
-	if (m_iItem > -1) {
-		LVITEM lvi = { 0 };
-		lvi.mask = LVIF_TEXT;
-		lvi.iItem = m_iItem;
-		lvi.cchTextMax = MAX_PATH;
-		lvi.pszText = (wchar_t*)alloca(MAX_PATH * sizeof(wchar_t));
+	CCtrlEdit m_ipv4;
+	CCtrlEdit m_ipv6;
+	CCtrlEdit m_port;
+	CCtrlEdit m_pkey;
 
-		lvi.iSubItem = 0;
-		m_list->GetItem(&lvi);
-		m_ipv4.SetText(lvi.pszText);
-
-		lvi.iSubItem = 1;
-		m_list->GetItem(&lvi);
-		m_ipv6.SetText(lvi.pszText);
-
-		lvi.iSubItem = 2;
-		m_list->GetItem(&lvi);
-		m_port.SetText(lvi.pszText);
-
-		lvi.iSubItem = 3;
-		m_list->GetItem(&lvi);
-		m_pkey.SetText(lvi.pszText);
+public:
+	CToxNodeEditor(int iItem, CCtrlListView *m_nodes) :
+		CSuper(g_plugin, IDD_NODE_EDITOR),
+		m_ipv4(this, IDC_IPV4), m_ipv6(this, IDC_IPV6),
+		m_port(this, IDC_PORT), m_pkey(this, IDC_PKEY),
+		m_iItem(iItem)
+	{
+		m_autoClose = CLOSE_ON_CANCEL;
+		m_list = m_nodes;
 	}
 
-	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULE, "EditNodeDlg");
-	return true;
-}
+	bool OnInitDialog() override
+	{
+		SetWindowText(m_hwnd, m_iItem == -1 ? TranslateT("Add node") : TranslateT("Change node"));
 
-void CToxNodeEditor::OnOk(CCtrlBase*)
-{
-	ptrW ipv4(m_ipv4.GetText());
-	if (!ipv4) {
-		MessageBox(m_hwnd, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
-		return;
+		if (m_iItem > -1) {
+			LVITEM lvi = { 0 };
+			lvi.mask = LVIF_TEXT;
+			lvi.iItem = m_iItem;
+			lvi.cchTextMax = MAX_PATH;
+			lvi.pszText = (wchar_t *)alloca(MAX_PATH * sizeof(wchar_t));
+
+			lvi.iSubItem = 0;
+			m_list->GetItem(&lvi);
+			m_ipv4.SetText(lvi.pszText);
+
+			lvi.iSubItem = 1;
+			m_list->GetItem(&lvi);
+			m_ipv6.SetText(lvi.pszText);
+
+			lvi.iSubItem = 2;
+			m_list->GetItem(&lvi);
+			m_port.SetText(lvi.pszText);
+
+			lvi.iSubItem = 3;
+			m_list->GetItem(&lvi);
+			m_pkey.SetText(lvi.pszText);
+		}
+
+		Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULE, "EditNodeDlg");
+		return true;
 	}
 
-	ptrW port(m_port.GetText());
-	if (!port) {
-		MessageBox(m_hwnd, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
-		return;
+	bool OnApply() override
+	{
+		ptrW ipv4(m_ipv4.GetText());
+		if (!ipv4) {
+			MessageBox(m_hwnd, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
+			return false;
+		}
+
+		ptrW port(m_port.GetText());
+		if (!port) {
+			MessageBox(m_hwnd, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
+			return false;
+		}
+
+		ptrW pubKey(m_pkey.GetText());
+		if (!pubKey) {
+			MessageBox(m_hwnd, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
+			return false;
+		}
+
+		if (m_iItem == -1) {
+			m_iItem = m_list->AddItem(ipv4, -1, NULL, 1);
+			m_list->SetItemState(m_iItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
+			m_list->EnsureVisible(m_iItem, TRUE);
+		}
+		else
+			m_list->SetItem(m_iItem, 0, ipv4);
+		m_list->SetItem(m_iItem, 2, port);
+		m_list->SetItem(m_iItem, 3, pubKey);
+		m_list->SetItem(m_iItem, 4, L"", 0);
+		m_list->SetItem(m_iItem, 5, L"", 1);
+
+		SendMessage(GetParent(GetParent(m_list->GetHwnd())), PSM_CHANGED, 0, 0);
+		return true;
 	}
 
-	ptrW pubKey(m_pkey.GetText());
-	if (!pubKey) {
-		MessageBox(m_hwnd, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
-		return;
+	void OnDestroy() override
+	{
+		Utils_SaveWindowPosition(m_hwnd, NULL, MODULE, "EditNodeDlg");
 	}
-
-	if (m_iItem == -1) {
-		m_iItem = m_list->AddItem(ipv4, -1, NULL, 1);
-		m_list->SetItemState(m_iItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
-		m_list->EnsureVisible(m_iItem, TRUE);
-	}
-	else
-		m_list->SetItem(m_iItem, 0, ipv4);
-	m_list->SetItem(m_iItem, 2, port);
-	m_list->SetItem(m_iItem, 3, pubKey);
-	m_list->SetItem(m_iItem, 4, L"", 0);
-	m_list->SetItem(m_iItem, 5, L"", 1);
-
-	SendMessage(GetParent(GetParent(m_list->GetHwnd())), PSM_CHANGED, 0, 0);
-
-	EndDialog(m_hwnd, 1);
-}
-
-bool CToxNodeEditor::OnClose()
-{
-	Utils_SaveWindowPosition(m_hwnd, NULL, MODULE, "EditNodeDlg");
-	return true;
-}
+};
 
 /****************************************/
 

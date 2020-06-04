@@ -28,17 +28,13 @@ class CSetNickDialog : public CDlgBase
 	int m_protonum;
 
 	CCtrlEdit m_edtNickname;
-	CCtrlButton m_btnOk, m_btnCancel;
+
 public:
 	CSetNickDialog(int protoparam) :
 		CDlgBase(g_plugin, IDD_SETNICKNAME),
-		m_edtNickname(this, IDC_NICKNAME),
-		m_btnOk(this, IDOK),
-		m_btnCancel(this, IDCANCEL)
+		m_edtNickname(this, IDC_NICKNAME)
 	{
 		m_protonum = protoparam;
-		m_btnOk.OnClick = Callback(this, &CSetNickDialog::OnOkClick);
-		m_btnCancel.OnClick = Callback(this, &CSetNickDialog::OnCancelClick);
 	}
 
 	bool OnInitDialog() override
@@ -88,7 +84,7 @@ public:
 		return true;
 	}
 
-	void OnOkClick(CCtrlBase*)
+	bool OnApply() override
 	{
 		wchar_t tmp[MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE];
 		m_edtNickname.GetText(tmp, _countof(tmp));
@@ -97,11 +93,7 @@ public:
 			protocols->SetNicks(tmp);
 		else
 			protocols->Get(m_protonum)->SetNick(tmp);
-	}
-
-	void OnCancelClick(CCtrlBase*)
-	{
-		Close();
+		return true;
 	}
 
 	bool OnClose() override
@@ -298,20 +290,15 @@ class CSetStatusMessageDialog : public CDlgBase
 	SetStatusMessageData *m_data;
 
 	CCtrlEdit m_edtStatusMessage;
-	CCtrlButton m_btnOk, m_btnCancel;
+
 public:
 	CSetStatusMessageDialog(int protoparam, int statusparam) :
 		CDlgBase(g_plugin, IDD_SETSTATUSMESSAGE),
-		m_edtStatusMessage(this, IDC_STATUSMESSAGE),
-		m_btnOk(this, IDOK),
-		m_btnCancel(this, IDCANCEL)
+		m_edtStatusMessage(this, IDC_STATUSMESSAGE)
 	{
 		m_data = (SetStatusMessageData *)mir_alloc(sizeof(SetStatusMessageData));
 		m_data->proto_num = protoparam;
 		m_data->status = statusparam;
-
-		m_btnOk.OnClick = Callback(this, &CSetStatusMessageDialog::OnOkClick);
-		m_btnCancel.OnClick = Callback(this, &CSetStatusMessageDialog::OnCancelClick);
 	}
 
 	bool OnInitDialog() override
@@ -351,7 +338,7 @@ public:
 		return true;
 	}
 
-	void OnOkClick(CCtrlBase*)
+	bool OnApply() override
 	{
 		wchar_t tmp[MS_MYDETAILS_GETMYSTATUSMESSAGE_BUFFER_SIZE];
 		m_edtStatusMessage.GetText(tmp, _countof(tmp));
@@ -362,20 +349,15 @@ public:
 			protocols->SetStatusMsgs(tmp);
 		else
 			protocols->SetStatusMsgs(m_data->status, tmp);
+		return true;
 	}
 
-	void OnCancelClick(CCtrlBase*)
-	{
-		Close();
-	}
-
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		mir_free(m_data);
 		Window_FreeIcon_IcoLib(m_hwnd);
 		if (pSetStatusMessageDialog == this)
 			pSetStatusMessageDialog = nullptr;
-		return true;
 	}
 };
 

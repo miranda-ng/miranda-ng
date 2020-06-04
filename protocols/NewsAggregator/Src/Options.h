@@ -50,16 +50,15 @@ private:
 	CCtrlEdit m_tagedit;
 	CCtrlButton m_reset;
 	CCtrlButton m_help;
-	CCtrlButton m_ok;
 
 protected:
 	bool OnInitDialog() override;
-	bool OnClose() override;
+	bool OnApply() override;
+	void OnDestroy() override;
 
 	void OnCheckFeed(CCtrlBase*);
 	void OnReset(CCtrlBase*);
 	void OnHelp(CCtrlBase*);
-	void OnOk(CCtrlBase*);
 	void OnUseAuth(CCtrlBase*);
 
 public:
@@ -91,14 +90,14 @@ private:
 
 protected:
 	bool OnInitDialog() override;
-	bool OnClose() override;
+	bool OnApply() override;
+	void OnDestroy() override;
 
 	void OnBrowseFile(CCtrlBase*);
 	void OnAddFeed(CCtrlBase*);
 	void OnRemoveFeed(CCtrlBase*);
 	void OnAddAllFeeds(CCtrlBase*);
 	void OnRemoveAllFeeds(CCtrlBase*);
-	void OnOk(CCtrlBase*);
 
 	void OnFeedsList(CCtrlBase*);
 	void OnFeedsImportList(CCtrlBase*);
@@ -122,13 +121,13 @@ private:
 
 protected:
 	bool OnInitDialog() override;
-	bool OnClose() override;
+	bool OnApply() override;
+	void OnDestroy() override;
 
 	void OnAddFeed(CCtrlBase*);
 	void OnRemoveFeed(CCtrlBase*);
 	void OnAddAllFeeds(CCtrlBase*);
 	void OnRemoveAllFeeds(CCtrlBase*);
-	void OnOk(CCtrlBase*);
 	
 	void OnFeedsList(CCtrlBase*);
 	void OnFeedsExportList(CCtrlBase*);
@@ -139,24 +138,18 @@ public:
 
 class CAuthRequest : public CDlgBase
 {
-private:
-	typedef CDlgBase CSuper;
-
 	CFeedEditor *m_pDlg;
 	MCONTACT m_hContact;
 
 	CCtrlBase m_feedname;
 	CCtrlEdit m_username;
 	CCtrlEdit m_password;
-	CCtrlButton m_ok;
-
-protected:
-	bool OnInitDialog() override;
-
-	void OnOk(CCtrlBase*);
 
 public:
 	CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact);
+
+	bool OnInitDialog() override;
+	bool OnApply() override;
 };
 
 #endif //_OPTIONS_H_

@@ -57,34 +57,6 @@ public:
 	static CDlgBase *CreateOptionsPage(void *param) { return new CToxOptionsMain((CToxProto*)param, IDD_OPTIONS_MAIN); }
 };
 
-/////////////////////////////////////////////////////////////////////////////////
-
-class CToxNodeEditor : public CDlgBase
-{
-private:
-	typedef CDlgBase CSuper;
-
-	int m_iItem;
-	CCtrlListView *m_list;
-
-	CCtrlEdit m_ipv4;
-	CCtrlEdit m_ipv6;
-	CCtrlEdit m_port;
-	CCtrlEdit m_pkey;
-
-	CCtrlButton m_ok;
-
-protected:
-	bool OnInitDialog() override;
-	bool OnClose() override;
-
-	void OnOk(CCtrlBase*);
-
-public:
-	CToxNodeEditor(int iItem, CCtrlListView *m_list);
-};
-
-
 /****************************************/
 
 class CToxOptionsNodeList : public CToxDlgBase

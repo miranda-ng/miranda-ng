@@ -588,7 +588,6 @@ public:
 		m_servicePlugs(this, IDC_SM_COMBO),
 		m_chkSmEnabled(this, IDC_SM_ENABLED)
 	{
-		m_btnOk.OnClick = Callback(this, &CProfileManager::onOk);
 		m_chkSmEnabled.OnChange = Callback(this, &CProfileManager::onChanged);
 
 		m_tab.AddPage(LPGENW("My profiles"), nullptr, new CChooseProfileDlg(m_btnOk, m_pd));
@@ -635,11 +634,6 @@ public:
 
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
-	}
-
-	void onOk(CCtrlButton*)
-	{
-		EndDialog(m_hwnd, 1);
 	}
 
 	void onChanged(CCtrlCheck*)

@@ -128,11 +128,9 @@ public:
 		m_list(this, IDC_LIST_UPDATES),
 		m_filter(this, IDC_SEARCH)
 	{
-		m_autoClose = CLOSE_ON_CANCEL;
 		SetParent(GetDesktopWindow());
 		SetMinSize(370, 300);
 
-		btnOk.OnClick = Callback(this, &CMissingPLuginsDlg::onClick_Ok);
 		btnNone.OnClick = Callback(this, &CMissingPLuginsDlg::onClick_None);
 
 		m_filter.OnChange = Callback(this, &CMissingPLuginsDlg::onChange_Filter);
@@ -211,6 +209,14 @@ public:
 		return true;
 	}
 
+	bool OnApply() override
+	{
+		btnOk.Disable();
+		btnNone.Disable();
+		mir_forkthread(ApplyDownloads, this);
+		return false; // do not allow a dialog to close
+	}
+
 	void OnDestroy() override
 	{
 		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ListWindow");
@@ -258,13 +264,6 @@ public:
 
 			btnOk.Enable(enableOk);
 		}
-	}
-
-	void onClick_Ok(CCtrlButton *)
-	{
-		btnOk.Disable();
-		btnNone.Disable();
-		mir_forkthread(ApplyDownloads, this);
 	}
 
 	void onClick_None(CCtrlButton *)

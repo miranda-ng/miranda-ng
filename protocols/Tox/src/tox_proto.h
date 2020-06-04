@@ -3,11 +3,11 @@
 
 struct CToxProto : public PROTO<CToxProto>
 {
-	friend CToxEnterPasswordDlg;
-	friend CToxCreatePasswordDlg;
-	friend CToxChangePasswordDlg;
-	friend CToxOptionsMain;
-	friend CToxOptionsNodeList;
+	friend class CToxEnterPasswordDlg;
+	friend class CToxCreatePasswordDlg;
+	friend class CToxChangePasswordDlg;
+	friend class CToxOptionsMain;
+	friend class CToxOptionsNodeList;
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////

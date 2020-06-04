@@ -41,12 +41,12 @@ public:
 	CVkCaptchaForm(CVkProto *proto, CAPTCHA_FORM_PARAMS *param);
 
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	void OnDestroy() override;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	
 	void On_btnOpenInBrowser_Click(CCtrlButton*);
-	void On_btnOk_Click(CCtrlButton*);
 	void On_edtValue_Change(CCtrlEdit*);
 
 };
@@ -88,9 +88,9 @@ public:
 	CVkWallPostForm(CVkProto *proto, WALLPOST_FORM_PARAMS *param);
 
 	bool OnInitDialog() override;
-	void OnDestroy();
+	bool OnApply() override;
+	void OnDestroy() override;
 
-	void On_btnShare_Click(CCtrlButton*);
 	void On_edtValue_Change(CCtrlEdit*);
 };
 
@@ -98,7 +98,6 @@ public:
 
 class CVkInviteChatForm : public CVkDlgBase
 {
-	CCtrlButton m_btnOk;
 	CCtrlCombo m_cbxCombo;
 
 public:
@@ -107,23 +106,21 @@ public:
 	CVkInviteChatForm(CVkProto *proto);
 
 	bool OnInitDialog() override;
-
-	void btnOk_OnOk(CCtrlButton*);
+	bool OnApply() override;
 };
 
 ////////////////////////////////// IDD_GC_CREATE //////////////////////////////////////////
 
 class CVkGCCreateForm : public CVkDlgBase
 {
-	CCtrlButton m_btnOk;
 	CCtrlClc m_clc;
 	CCtrlEdit m_edtTitle;
 
 public:
 	CVkGCCreateForm(CVkProto *proto);
 	bool OnInitDialog() override;
-	
-	void btnOk_OnOk(CCtrlButton*);
+	bool OnApply() override;
+
 	void FilterList(CCtrlClc*);
 	void ResetListOptions();
 };
@@ -152,13 +149,11 @@ class CVkContactDeleteForm : public CVkDlgBase
 	CCtrlBase m_stText;
 	CCtrlCheck m_cbDeleteFromFriendlist;
 	CCtrlCheck m_cbDeleteDialog;
-	CCtrlButton m_btnOk;
 
 	CONTACTDELETE_FORM_PARAMS *m_param;
 
 public:
 	CVkContactDeleteForm(CVkProto *proto, CONTACTDELETE_FORM_PARAMS *param);
 	bool OnInitDialog() override;
-	
-	void btnOk_OnOk(CCtrlButton*);
+	bool OnApply() override;
 };

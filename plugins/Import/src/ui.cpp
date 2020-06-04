@@ -31,7 +31,7 @@ class CContactImportDlg : public CDlgBase
 	CImportPattern *m_pPattern = 0;
 	wchar_t m_wszFileName[MAX_PATH];
 
-	CCtrlButton m_btnOpenFile, m_btnOk;
+	CCtrlButton m_btnOpenFile;
 	CCtrlCombo m_cmbFileType;
 	CCtrlEdit edtFileName;
 
@@ -41,12 +41,10 @@ public:
 		m_hContact(hContact),
 		edtFileName(this, IDC_FILENAME),
 		m_cmbFileType(this, IDC_FILETYPE),
-		m_btnOk(this, IDOK),
 		m_btnOpenFile(this, IDC_OPEN_FILE)
 	{
 		m_wszFileName[0] = 0;
 
-		m_btnOk.OnClick = Callback(this, &CContactImportDlg::onClick_Ok);
 		m_btnOpenFile.OnClick = Callback(this, &CContactImportDlg::onClick_OpenFile);
 	}
 
@@ -74,11 +72,6 @@ public:
 		if (IsDlgButtonChecked(m_hwnd, IDC_CHECK_DUPS))
 			m_flags = IOPT_CHECKDUPS;	
 		return true;
-	}
-
-	void onClick_Ok(CCtrlButton*)
-	{
-		EndModal(1);
 	}
 
 	void onClick_OpenFile(CCtrlButton*)

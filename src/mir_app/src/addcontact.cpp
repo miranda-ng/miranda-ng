@@ -39,7 +39,6 @@ class CAddContactDlg : public CDlgBase
 {
 	CCtrlEdit   m_authReq, m_myHandle;
 	CCtrlCheck  m_chkAuth, m_chkOpen;
-	CCtrlButton m_btnOk;
 	CCtrlCombo  m_group;
 
 protected:
@@ -54,14 +53,12 @@ public:
 		CDlgBase(g_plugin, IDD_ADDCONTACT),
 		m_chkAuth(this, IDC_AUTH),
 		m_chkOpen(this, IDC_OPEN_WINDOW),
-		m_btnOk(this, IDOK),
 		m_group(this, IDC_GROUP),
 		m_authReq(this, IDC_AUTHREQ),
 		m_myHandle(this, IDC_MYHANDLE)
 	{
 		m_chkAuth.OnChange = Callback(this, &CAddContactDlg::OnAuthClicked);
 		m_chkOpen.OnChange = Callback(this, &CAddContactDlg::OnOpenClicked);
-		m_btnOk.OnClick = Callback(this, &CAddContactDlg::OnOk);
 	}
 
 	bool OnInitDialog() override
@@ -105,27 +102,7 @@ public:
 		return true;
 	}
 
-	void OnDestroy()
-	{
-		Window_FreeIcon_IcoLib(m_hwnd);
-	}
-
-	void OnAuthClicked(CCtrlButton*)
-	{
-		DWORD flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-		if (flags & PF4_NOCUSTOMAUTH)
-			m_authReq.Enable(false);
-		else
-			m_authReq.Enable(m_chkAuth.Enabled());
-	}
-
-	void OnOpenClicked(CCtrlButton*)
-	{
-		// Remember this choice
-		db_set_b(0, "Miranda", "AuthOpenWindow", m_chkOpen.Enabled());
-	}
-
-	void OnOk(CCtrlButton*)
+	bool OnApply() override
 	{
 		MCONTACT hContact = 0;
 		if (m_hDbEvent)
@@ -136,7 +113,7 @@ public:
 			hContact = m_hContact;
 
 		if (hContact == 0) // something went wrong
-			return;
+			return false;
 
 		ptrW szHandle(m_myHandle.GetText());
 		if (mir_wstrlen(szHandle))
@@ -158,6 +135,27 @@ public:
 
 		if (m_chkOpen.GetState())
 			Clist_ContactDoubleClicked(hContact);
+		return true;
+	}
+
+	void OnDestroy()
+	{
+		Window_FreeIcon_IcoLib(m_hwnd);
+	}
+
+	void OnAuthClicked(CCtrlButton*)
+	{
+		DWORD flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		if (flags & PF4_NOCUSTOMAUTH)
+			m_authReq.Enable(false);
+		else
+			m_authReq.Enable(m_chkAuth.Enabled());
+	}
+
+	void OnOpenClicked(CCtrlButton*)
+	{
+		// Remember this choice
+		db_set_b(0, "Miranda", "AuthOpenWindow", m_chkOpen.Enabled());
 	}
 };
 

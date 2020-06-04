@@ -30,8 +30,7 @@ struct CMessageBoxDlg : public CProtoDlgBase < CIrcProto >
 
 	CMessageBoxDlg(CIrcProto* _pro, DCCINFO* _dci);
 
-	CCtrlButton m_Ok;
-	void OnOk(CCtrlButton*);
+	bool OnApply() override;
 };
 
 struct CCoolIrcDlg : public CProtoDlgBase < CIrcProto >
@@ -74,13 +73,11 @@ struct CNickDlg : public CCoolIrcDlg
 {
 	CNickDlg(CIrcProto* _pro);
 
-	CCtrlCombo   m_Enick;
-	CCtrlButton  m_Ok;
+	CCtrlCombo m_Enick;
 
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	void OnDestroy() override;
-
-	void OnOk(CCtrlButton*);
 };
 
 struct CListDlg : public CProtoDlgBase < CIrcProto >
@@ -111,10 +108,8 @@ struct CJoinDlg : public CCoolIrcDlg
 	CJoinDlg(CIrcProto* _pro);
 
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	void OnDestroy() override;
-
-	CCtrlButton  m_Ok;
-	void OnOk(CCtrlButton*);
 };
 
 struct CQuickDlg : public CCoolIrcDlg
@@ -122,13 +117,11 @@ struct CQuickDlg : public CCoolIrcDlg
 	CQuickDlg(CIrcProto* _pro);
 
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	void OnDestroy() override;
 
 	CCtrlCombo m_serverCombo;
 	void OnServerCombo(CCtrlData*);
-
-	CCtrlButton  m_Ok;
-	void OnOk(CCtrlButton*);
 
 private:
 	struct SERVER_INFO* m_si;
@@ -176,10 +169,8 @@ struct CQuestionDlg : public CCoolIrcDlg
 	CQuestionDlg(CIrcProto* _pro, CManagerDlg* owner = nullptr);
 
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	bool OnClose() override;
-
-	CCtrlButton  m_Ok;
-	void OnOk(CCtrlButton*);
 
 	void Activate();
 
@@ -282,8 +273,8 @@ struct CIgnorePrefsDlg : public CProtoDlgBase < CIrcProto >
 	CIgnorePrefsDlg(CIrcProto* _pro);
 
 	bool OnInitDialog() override;
-	void OnDestroy() override;
 	bool OnApply() override;
+	void OnDestroy() override;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
@@ -301,7 +292,6 @@ struct CIgnorePrefsDlg : public CProtoDlgBase < CIrcProto >
 
 struct CAddIgnoreDlg : public CProtoDlgBase < CIrcProto >
 {
-	CCtrlButton m_Ok;
 	CIgnorePrefsDlg* m_owner;
 
 	wchar_t szOldMask[500];
@@ -309,7 +299,6 @@ struct CAddIgnoreDlg : public CProtoDlgBase < CIrcProto >
 	CAddIgnoreDlg(CIrcProto* _pro, const wchar_t* mask, CIgnorePrefsDlg* parent);
 
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	bool OnClose() override;
-
-	void OnOk(CCtrlButton*);
 };

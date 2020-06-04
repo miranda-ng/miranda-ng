@@ -56,7 +56,7 @@ CDlgBase::CDlgBase(CMPluginBase &pPlug, int idDialog)
 
 CDlgBase::~CDlgBase()
 {
-	m_initialized = false; // prevent double call of destructor 
+	m_bInitialized = false; // prevent double call of destructor 
 	if (m_hwnd)
 		DestroyWindow(m_hwnd);
 }
@@ -117,7 +117,7 @@ void CDlgBase::EndModal(INT_PTR nResult)
 
 void CDlgBase::NotifyChange(void)
 {
-	if (!m_initialized)
+	if (!m_bInitialized)
 		return;
 
 	OnChange();
@@ -202,7 +202,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		m_initialized = false;
+		m_bInitialized = false;
 		TranslateDialog_LP(m_hwnd, &m_pPlugin);
 
 		::EnumChildWindows(m_hwnd, &GlobalFieldEnum, LPARAM(this));
@@ -211,7 +211,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (!OnInitDialog())
 			return FALSE;
 
-		m_initialized = true;
+		m_bInitialized = true;
 		return TRUE;
 
 	case WM_CTLCOLOREDIT:
@@ -285,10 +285,11 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						m_bExiting = true;
 
 						// everything ok? good, let's close it
-						if (OnApply())
+						if (OnApply()) {
+							m_bSucceeded = true;
 							PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-						else
-							m_bExiting = false;
+						}
+						else m_bExiting = false;
 					}
 				}
 			}
@@ -328,7 +329,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	case PSM_CHANGED:
-		if (m_initialized)
+		if (m_bInitialized)
 			OnChange();
 		break;
 
@@ -351,7 +352,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (OnClose()) {
 			m_bExiting = true;
 			if (m_isModal)
-				EndModal(0);
+				EndModal(m_bSucceeded ? IDOK : IDCANCEL);
 			else
 				DestroyWindow(m_hwnd);
 		}
@@ -368,7 +369,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				arDialogs.remove(idx);
 		}
 		m_hwnd = nullptr;
-		if (m_initialized) {
+		if (m_bInitialized) {
 			if (m_isModal)
 				m_isModal = false;
 			else // modeless dialogs MUST be allocated with 'new'

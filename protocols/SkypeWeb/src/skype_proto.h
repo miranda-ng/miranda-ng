@@ -20,8 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CSkypeProto : public PROTO <CSkypeProto>
 {
-	friend CSkypeOptionsMain;
-	friend CSkypeGCCreateDlg;
+	friend class CSkypeOptionsMain;
+	friend class CSkypeGCCreateDlg;
+	friend class CSkypeInviteDlg;
 
 	class CSkypeProtoImpl
 	{
@@ -158,8 +159,6 @@ private:
 
 	// locks
 	mir_cs m_lckOutMessagesList;
-	mir_cs m_InviteDialogsLock;
-	mir_cs m_GCCreateDialogsLock;
 	mir_cs messageSyncLock;
 	mir_cs m_StatusLock;
 	mir_cs m_AppendMessageLock;

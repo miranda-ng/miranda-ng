@@ -123,7 +123,6 @@ class CWarnIniChangeDlg : public CDlgBase
 
 	CCtrlButton m_yes;
 	CCtrlButton m_no;
-	CCtrlButton m_cancel;
 
 	CCtrlCheck m_noWarn;
 
@@ -153,23 +152,23 @@ protected:
 		return true;
 	}
 
-	void YesNo_OnClick(CCtrlBase*)
+	bool OnClose() override
 	{
+		m_warnInfo->cancel = !m_bSucceeded;
 		m_warnInfo->warnNoMore = m_noWarn.GetState();
-		Close();
+		return true;
 	}
 
-	void Cancel_OnClick(CCtrlBase*)
+	void YesNo_OnClick(CCtrlBase*)
 	{
-		m_warnInfo->cancel = 1;
-		m_warnInfo->warnNoMore = m_noWarn.GetState();
+		Close();
 	}
 
 public:
 	CWarnIniChangeDlg(warnSettingChangeInfo_t *warnInfo) :
 		CDlgBase(g_plugin, IDD_WARNINICHANGE),
 		m_yes(this, IDYES), m_no(this, IDNO),
-		m_cancel(this, IDCANCEL), m_noWarn(this, IDC_WARNNOMORE),
+		m_noWarn(this, IDC_WARNNOMORE),
 		m_iniName(this, IDC_ININAME), m_settingName(this, IDC_SETTINGNAME),
 		m_newValue(this, IDC_NEWVALUE), m_securityInfo(this, IDC_SECURITYINFO)
 	{
@@ -177,7 +176,6 @@ public:
 
 		m_yes.OnClick = Callback(this, &CWarnIniChangeDlg::YesNo_OnClick);
 		m_no.OnClick = Callback(this, &CWarnIniChangeDlg::YesNo_OnClick);
-		m_cancel.OnClick = Callback(this, &CWarnIniChangeDlg::Cancel_OnClick);
 	}
 };
 

@@ -239,8 +239,6 @@ public:
 		m_btnOk(this, IDOK)
 	{
 		SetParent(hwndParent);
-		m_autoClose = CLOSE_ON_CANCEL;
-		m_btnOk.OnClick = Callback(this, &CJabberDlgRegister::btnOk_OnClick);
 	}
 
 	bool OnInitDialog() override
@@ -248,6 +246,23 @@ public:
 		CMStringA text(FORMAT, "%s %s@%s:%d?", TranslateU("Register"), m_regInfo->username, m_regInfo->server, m_regInfo->port);
 		SetDlgItemTextUtf(m_hwnd, IDC_REG_STATUS, text);
 		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (m_bProcessStarted) {
+			Close();
+			return true;
+		}
+
+		ShowWindow(GetDlgItem(m_hwnd, IDC_PROGRESS_REG), SW_SHOW);
+
+		m_regInfo->reg_hwndDlg = m_hwnd;
+		m_proto->ForkThread((CJabberProto::MyThreadFunc) & CJabberProto::ServerThread, m_regInfo);
+
+		m_btnOk.SetText(TranslateT("Cancel"));
+		m_bProcessStarted = true;
+		return false;
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -269,22 +284,6 @@ public:
 		}
 
 		return CSuper::DlgProc(msg, wParam, lParam);
-	}
-
-	void btnOk_OnClick(CCtrlButton*)
-	{
-		if (m_bProcessStarted) {
-			Close();
-			return;
-		}
-
-		ShowWindow(GetDlgItem(m_hwnd, IDC_PROGRESS_REG), SW_SHOW);
-
-		m_regInfo->reg_hwndDlg = m_hwnd;
-		m_proto->ForkThread((CJabberProto::MyThreadFunc)&CJabberProto::ServerThread, m_regInfo);
-
-		m_btnOk.SetText(TranslateT("Cancel"));
-		m_bProcessStarted = true;
 	}
 };
 
@@ -507,7 +506,7 @@ protected:
 
 	void OnChange(CCtrlBase*)
 	{
-		if (m_initialized)
+		if (m_bInitialized)
 			CheckRegistration();
 	}
 
@@ -1213,7 +1212,7 @@ protected:
 
 	void OnChange(CCtrlBase*)
 	{
-		if (m_initialized)
+		if (m_bInitialized)
 			CheckRegistration();
 	}
 

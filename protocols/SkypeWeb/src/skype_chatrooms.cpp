@@ -117,20 +117,10 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case 10:
 			{
 				CSkypeInviteDlg dlg(this);
-				{
-					mir_cslock lck(m_InviteDialogsLock);
-					m_InviteDialogs.insert(&dlg);
+				if (dlg.DoModal()) {
+					if (dlg.m_hContact != NULL)
+						SendRequest(new InviteUserToChatRequest(chat_id, getId(dlg.m_hContact), "User"));
 				}
-
-				if (!dlg.DoModal())
-					break;
-
-				MCONTACT hContact = dlg.m_hContact;
-				if (hContact != NULL)
-					SendRequest(new InviteUserToChatRequest(chat_id, getId(hContact), "User"));
-
-				mir_cslock lck(m_InviteDialogsLock);
-				m_InviteDialogs.remove(&dlg);
 			}
 			break;
 
@@ -475,15 +465,10 @@ INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)
 {
 	if (IsOnline()) {
 		CSkypeGCCreateDlg dlg(this);
-
-		{ mir_cslock lck(m_GCCreateDialogsLock); m_GCCreateDialogs.insert(&dlg); }
-
-		if (!dlg.DoModal()) { return 1; }
-
-		SendRequest(new CreateChatroomRequest(dlg.m_ContactsList, this));
-
-		{ mir_cslock lck(m_GCCreateDialogsLock); m_GCCreateDialogs.remove(&dlg); }
-		return 0;
+		if (dlg.DoModal()) {
+			SendRequest(new CreateChatroomRequest(dlg.m_ContactsList, this));
+			return 0;
+		}
 	}
 	return 1;
 }

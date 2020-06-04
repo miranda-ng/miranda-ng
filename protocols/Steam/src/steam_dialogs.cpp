@@ -110,16 +110,15 @@ bool CSteamTwoFactorDialog::OnClose()
 
 /////////////////////////////////////////////////////////////////////////////////
 
-CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, size_t captchaImageSize)
-	: CSteamDlgBase(proto, IDD_CAPTCHA),
-	m_ok(this, IDOK), m_text(this, IDC_TEXT),
+CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, size_t captchaImageSize) :
+	CSteamDlgBase(proto, IDD_CAPTCHA),
+	m_text(this, IDC_TEXT),
 	m_captchaImage(nullptr)
 {
 	memset(m_captchaText, 0, sizeof(m_captchaText));
 	m_captchaImageSize = captchaImageSize;
 	m_captchaImage = (uint8_t*)mir_alloc(captchaImageSize);
 	memcpy(m_captchaImage, captchaImage, captchaImageSize);
-	m_ok.OnClick = Callback(this, &CSteamCaptchaDialog::OnOk);
 }
 
 CSteamCaptchaDialog::~CSteamCaptchaDialog()
@@ -140,16 +139,15 @@ bool CSteamCaptchaDialog::OnInitDialog()
 	return true;
 }
 
-void CSteamCaptchaDialog::OnOk(CCtrlButton*)
+bool CSteamCaptchaDialog::OnApply()
 {
 	mir_strncpy(m_captchaText, ptrA(m_text.GetTextA()), _countof(m_captchaText));
-	EndModal(DIALOG_RESULT_OK);
+	return true;
 }
 
-bool CSteamCaptchaDialog::OnClose()
+void CSteamCaptchaDialog::OnDestroy()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "CaptchaWindow");
-	return true;
 }
 
 INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

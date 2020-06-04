@@ -34,20 +34,16 @@ class CAuthReqDlg : public CDlgBase
 	const char *m_szProto;
 
 	CCtrlCheck chkAdd;
-	CCtrlButton btnDetails, btnLater, btnOk, btnCancel;
+	CCtrlButton btnDetails, btnLater;
 
 public:
 	CAuthReqDlg(MEVENT hEvent) :
 		CDlgBase(g_plugin, IDD_AUTHREQ),
 		m_hDbEvent(hEvent),
-		btnOk(this, IDOK),
-		btnCancel(this, IDCANCEL),
 		btnLater(this, IDC_DECIDELATER),
 		btnDetails(this, IDC_DETAILS),
 		chkAdd(this, IDC_ADDCHECK)
 	{
-		btnOk.OnClick = Callback(this, &CAuthReqDlg::onClick_OK);
-		btnCancel.OnClick = Callback(this, &CAuthReqDlg::onClick_Cancel);
 		btnLater.OnClick = Callback(this, &CAuthReqDlg::onClick_Later);
 		btnDetails.OnClick = Callback(this, &CAuthReqDlg::onClick_Details);
 	}
@@ -134,30 +130,30 @@ public:
 		return true;
 	}
 
-	void OnDestroy() override
-	{
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_ADD);
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_DETAILS);
-		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
-		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
-	}
-
-	void onClick_OK(CCtrlButton*)
+	bool OnApply() override
 	{
 		CallProtoService(m_szProto, PS_AUTHALLOW, m_hDbEvent, 0);
 
 		if (chkAdd.GetState())
 			Contact_AddByEvent(m_hDbEvent, m_hwnd);
+		return true;
 	}
 
-	void onClick_Cancel(CCtrlButton*)
+	void OnDestroy() override
 	{
-		if (IsWindowEnabled(GetDlgItem(m_hwnd, IDC_DENYREASON))) {
-			wchar_t tszReason[256];
-			GetDlgItemText(m_hwnd, IDC_DENYREASON, tszReason, _countof(tszReason));
-			CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, (LPARAM)tszReason);
+		if (!m_bSucceeded) {
+			if (IsWindowEnabled(GetDlgItem(m_hwnd, IDC_DENYREASON))) {
+				wchar_t tszReason[256];
+				GetDlgItemText(m_hwnd, IDC_DENYREASON, tszReason, _countof(tszReason));
+				CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, (LPARAM)tszReason);
+			}
+			else CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, 0);
 		}
-		else CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, 0);
+
+		Button_FreeIcon_IcoLib(m_hwnd, IDC_ADD);
+		Button_FreeIcon_IcoLib(m_hwnd, IDC_DETAILS);
+		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
+		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
 	}
 
 	void onClick_Later(CCtrlButton*)
@@ -184,17 +180,15 @@ class CAddedDlg : public CDlgBase
 	MEVENT m_hDbEvent;
 	MCONTACT m_hContact;
 
-	CCtrlButton btnDetails, btnAdd, btnOk;
+	CCtrlButton btnDetails, btnAdd;
 
 public:
 	CAddedDlg(MEVENT hEvent) :
 		CDlgBase(g_plugin, IDD_ADDED),
 		m_hDbEvent(hEvent),
-		btnOk(this, IDOK),
 		btnAdd(this, IDC_ADD),
 		btnDetails(this, IDC_DETAILS)
 	{
-		btnOk.OnClick = Callback(this, &CAddedDlg::onClick_OK);
 		btnAdd.OnClick = Callback(this, &CAddedDlg::onClick_Add);
 		btnDetails.OnClick = Callback(this, &CAddedDlg::onClick_Details);
 	}
@@ -258,18 +252,19 @@ public:
 			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
 		return true;
 	}
-			
+
+	bool OnApply()
+	{
+		Contact_AddByEvent(m_hDbEvent, m_hwnd);
+		return true;
+	}
+
 	void OnDestroy() override
 	{
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_ADD);
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_DETAILS);
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
-	}
-
-	void onClick_OK(CCtrlButton*)
-	{
-		Contact_AddByEvent(m_hDbEvent, m_hwnd);
 	}
 
 	void onClick_Add(CCtrlButton*)

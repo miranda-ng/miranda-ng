@@ -8,7 +8,6 @@ COAuthDlg::COAuthDlg(CCloudService *service, const char *authUrl, CCloudService:
 {
 	m_autoClose = CLOSE_ON_CANCEL;
 	m_code.OnChange = Callback(this, &COAuthDlg::Code_OnChange);
-	m_ok.OnClick = Callback(this, &COAuthDlg::Ok_OnClick);
 }
 
 bool COAuthDlg::OnInitDialog()
@@ -21,13 +20,14 @@ bool COAuthDlg::OnInitDialog()
 	return true;
 }
 
+bool COAuthDlg::OnApply()
+{
+	m_service->ForkThread(m_requestAccessTokenThread, m_hwnd);
+	return true;
+}
+
 void COAuthDlg::Code_OnChange(CCtrlBase*)
 {
 	ptrA requestToken(m_code.GetTextA());
 	m_ok.Enable(mir_strlen(requestToken) != 0);
-}
-
-void COAuthDlg::Ok_OnClick(CCtrlButton*)
-{
-	m_service->ForkThread(m_requestAccessTokenThread, m_hwnd);
 }

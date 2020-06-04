@@ -43,13 +43,13 @@ void CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg)
 }
 
 CAuthRequest::CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact) :
-	CSuper(g_plugin, IDD_AUTHENTICATION),
-	m_feedname(this, IDC_FEEDNAME), m_username(this, IDC_FEEDUSERNAME),
-	m_password(this, IDC_FEEDPASSWORD), m_ok(this, IDOK)
+	CDlgBase(g_plugin, IDD_AUTHENTICATION),
+	m_feedname(this, IDC_FEEDNAME),
+	m_username(this, IDC_FEEDUSERNAME),
+	m_password(this, IDC_FEEDPASSWORD)
 {
 	m_pDlg = pDlg;
 	m_hContact = hContact;
-	m_ok.OnClick = Callback(this, &CAuthRequest::OnOk);
 }
 
 bool CAuthRequest::OnInitDialog()
@@ -74,18 +74,19 @@ bool CAuthRequest::OnInitDialog()
 	return true;
 }
 
-void CAuthRequest::OnOk(CCtrlBase*)
+bool CAuthRequest::OnApply()
 {
 	ptrW strfeedusername(m_username.GetText());
 	if (!strfeedusername || mir_wstrcmp(strfeedusername, L"") == 0) {
 		MessageBox(m_hwnd, TranslateT("Enter your username"), TranslateT("Error"), MB_OK | MB_ICONERROR);
-		return;
+		return false;
 	}
 	ptrA strfeedpassword(m_password.GetTextA());
 	if (!strfeedpassword || mir_strcmp(strfeedpassword, "") == 0) {
 		MessageBox(m_hwnd, TranslateT("Enter your password"), TranslateT("Error"), MB_OK | MB_ICONERROR);
-		return;
+		return false;
 	}
+
 	if (m_pDlg) {
 		m_pDlg->m_useauth.SetState(1);
 		m_pDlg->m_login.Enable(1);
@@ -98,4 +99,5 @@ void CAuthRequest::OnOk(CCtrlBase*)
 		g_plugin.setWString(m_hContact, "Login", strfeedusername);
 		g_plugin.setString(m_hContact, "Password", strfeedpassword);
 	}
+	return true;
 }

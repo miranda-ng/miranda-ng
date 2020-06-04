@@ -1192,13 +1192,9 @@ CDlgKeyPasswordMsgBox::CDlgKeyPasswordMsgBox(MCONTACT _hContact) :
 	lbl_KEYID(this, IDC_KEYID),
 	edit_KEY_PASSWORD(this, IDC_KEY_PASSWORD),
 	chk_DEFAULT_PASSWORD(this, IDC_DEFAULT_PASSWORD),
-	chk_SAVE_PASSWORD(this, IDC_SAVE_PASSWORD),
-	btn_OK(this, IDOK),
-	btn_CANCEL(this, IDCANCEL)
+	chk_SAVE_PASSWORD(this, IDC_SAVE_PASSWORD)
 {
 	hContact = _hContact;
-	btn_OK.OnClick = Callback(this, &CDlgKeyPasswordMsgBox::onClick_OK);
-	btn_CANCEL.OnClick = Callback(this, &CDlgKeyPasswordMsgBox::onClick_CANCEL);
 }
 
 bool CDlgKeyPasswordMsgBox::OnInitDialog()
@@ -1213,13 +1209,7 @@ bool CDlgKeyPasswordMsgBox::OnInitDialog()
 	return true;
 }
 
-void CDlgKeyPasswordMsgBox::OnDestroy()
-{
-	mir_free(inkeyid);
-	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "PasswordWindow");
-}
-
-void CDlgKeyPasswordMsgBox::onClick_OK(CCtrlButton*)
+bool CDlgKeyPasswordMsgBox::OnApply()
 {
 	ptrW tmp(edit_KEY_PASSWORD.GetText());
 	if (tmp && tmp[0]) {
@@ -1236,11 +1226,14 @@ void CDlgKeyPasswordMsgBox::onClick_OK(CCtrlButton*)
 		globals.wszPassword = tmp;
 	}
 	mir_free(inkeyid);
-	DestroyWindow(m_hwnd);
+	return true;
 }
 
-void CDlgKeyPasswordMsgBox::onClick_CANCEL(CCtrlButton*)
+void CDlgKeyPasswordMsgBox::OnDestroy()
 {
-	globals._terminate = true;
-	DestroyWindow(m_hwnd);
+	if (!m_bSucceeded)
+		globals._terminate = true;
+
+	mir_free(inkeyid);
+	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "PasswordWindow");
 }

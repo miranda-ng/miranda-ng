@@ -569,16 +569,11 @@ void JabberFormGetData(HWND hwndStatic, TiXmlElement *xRoot, const TiXmlElement 
 
 CJabberFormDlg::CJabberFormDlg(CJabberProto *ppro, const TiXmlElement *xNode, char *defTitle, JABBER_FORM_SUBMIT_FUNC pfnSubmit, void *userdata) :
 	CSuper(ppro, IDD_FORM),
-	btnSubmit(this, IDC_SUBMIT),
-	btnCancel(this, IDCANCEL),
 	m_pfnSubmit(pfnSubmit),
 	m_pUserdata(userdata),
 	m_defTitle(mir_strdup(defTitle))
 {
 	m_xNode = xNode->DeepClone(&m_doc)->ToElement();
-
-	btnSubmit.OnClick = Callback(this, &CJabberFormDlg::onClick_Submit);
-	btnCancel.OnClick = Callback(this, &CJabberFormDlg::onClick_Cancel);
 }
 
 bool CJabberFormDlg::OnInitDialog()
@@ -625,12 +620,21 @@ bool CJabberFormDlg::OnInitDialog()
 	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE, frameExStyle);
 
 	if (m_pfnSubmit != nullptr)
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SUBMIT), TRUE);
+		EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
+	return true;
+}
+
+bool CJabberFormDlg::OnApply()
+{
+	(m_proto->*(m_pfnSubmit))(this, m_pUserdata);
 	return true;
 }
 
 void CJabberFormDlg::OnDestroy()
 {
+	if (!m_bSucceeded && m_pfnCancel)
+		(m_proto->*(m_pfnCancel))(this, m_pUserdata);
+
 	JabberFormDestroyUI(GetDlgItem(m_hwnd, IDC_FRAME));
 	mir_free(m_pUserdata);
 }
@@ -689,18 +693,6 @@ INT_PTR CJabberFormDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return CSuper::DlgProc(msg, wParam, lParam);
-}
-
-void CJabberFormDlg::onClick_Submit(CCtrlButton*)
-{
-	(m_proto->*(m_pfnSubmit))(this, m_pUserdata);
-	Close();
-}
-
-void CJabberFormDlg::onClick_Cancel(CCtrlButton*)
-{
-	if (m_pfnCancel)
-		(m_proto->*(m_pfnCancel))(this, m_pUserdata);
 }
 
 static void CALLBACK JabberFormCreateDialogApcProc(void *param)

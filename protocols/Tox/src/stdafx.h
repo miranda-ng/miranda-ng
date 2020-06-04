@@ -83,7 +83,6 @@ struct CToxProto;
 #include "tox_menus.h"
 #include "tox_address.h"
 #include "tox_dialogs.h"
-#include "tox_profile.h"
 #include "tox_options.h"
 #include "tox_transfer.h"
 #include "tox_proto.h"

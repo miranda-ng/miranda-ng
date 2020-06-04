@@ -164,15 +164,13 @@ class CDlgKeyPasswordMsgBox : public CDlgBase //always modal
 	CCtrlData lbl_KEYID;
 	CCtrlEdit edit_KEY_PASSWORD;
 	CCtrlCheck chk_DEFAULT_PASSWORD, chk_SAVE_PASSWORD;
-	CCtrlButton btn_OK, btn_CANCEL;
 
 public:
 	CDlgKeyPasswordMsgBox(MCONTACT _hContact);
+
 	bool OnInitDialog() override;
+	bool OnApply() override;
 	void OnDestroy() override;
-	
-	void onClick_OK(CCtrlButton*);
-	void onClick_CANCEL(CCtrlButton*);
 };
 
 #endif // UI_H
