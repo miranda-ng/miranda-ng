@@ -44,20 +44,10 @@ OTR Создание личного ключа
 Задать политику OTR индивидуально для каждой учётной записи
 [Current policy:]
 Текущая политика:
-[Generate new private key]
-Генерация нового приватного ключа
-[Forget private key]
-Забыть частный ключ
 [Set OTR policy per contact]
 Установить политику OTR поконтактно
 [View & Modify status of known fingerprints]
 Просмотр и редактирование статусов известных отпечатков
-[Set verified]
-Проверено
-[Set unknown]
-Неизвестно
-[Forget]
-Забыть
 [Socialist Millionaires Protocol]
 Протокол социалистических миллионеров
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -80,6 +70,18 @@ OTR Создание личного ключа
 Остановить& OTR-сессию
 [&Verify Fingerprint]
 &Проверка отпечатков
+[Set verified]
+Проверено
+[Set unknown]
+Неизвестно
+[Copy]
+Копировать
+[Forget]
+Забыть
+[Generate new private key]
+Генерация нового приватного ключа
+[Forget private key]
+Забыть частный ключ
 ;file \plugins\MirOTR\src\icons.cpp
 [OTR private]
 Частный OTR
@@ -142,14 +144,6 @@ OTR не может шифровать во время отправки сооб
 Шифрованная сессия с '%s' теперь использует НЕПРОВЕРЕННЫЙ отпечаток.
 [Generating new private key for account '%s'.\nPlease Wait...]
 Создание нового приватного ключа для учётной записи '%s'.\nПодождите...
-[General]
-Общее
-[Accounts]
-Учётные записи
-[Contacts]
-Контакты
-[Fingerprints]
-Отпечатки
 [Contact]
 Контакт
 [Account]
@@ -242,6 +236,14 @@ OTR: установлен SecureIM
 Личные данные
 [Services]
 Службы
+[General]
+Общее
+[Accounts]
+Учётные записи
+[Contacts]
+Контакты
+[Fingerprints]
+Отпечатки
 ;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
 \nиспользуя старый протокол версии %i

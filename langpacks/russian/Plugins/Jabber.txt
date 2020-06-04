@@ -1397,8 +1397,8 @@ OMEMO: Новая сессия
 Вставлять изображения в сообщения (XEP-0231)
 [Enable server-side history (XEP-0136)]
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
-[Receive conversations from other devices (XEP-0280)]
-Синхронизировать сообщения между включёнными устройствами (XEP-0280)
+[Enable carbon copies (XEP-0280)]
+Включить копирование сообщений на все ресурсы (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (Testing)]
 Включить Stream Management (XEP-0198), если возможно (Тестируется)
 [Server options]
@@ -1423,8 +1423,8 @@ OMEMO: Новая сессия
 Выключить фрейм
 [Enable XMPP link processing (requires AssocMgr)]
 Обрабатывать XMPP ссылки (требуется плагин AssocMgr)
-[Keep contacts assigned to local groups (ignore roster group)]
-Использовать локальные группы (игнорировать группы ростера)
+[Ignore server roster (groups and nick names)]
+Игнорировать серверный ростер (группы и имена контактов)
 [Security]
 Безопасность
 [Allow servers to request version (XEP-0092)]
@@ -1708,8 +1708,8 @@ S.ms
 Получение...
 [Connecting...]
 Подключение...
-[XML for MS Excel (UTF-8 encoded)]
-XML для MS Excel (кодировка UTF-8)
+[XML (UTF-8 encoded)]
+XML (кодировка UTF-8)
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Ошибка %s %s\r\nПожалуйста, выберите другой сервер

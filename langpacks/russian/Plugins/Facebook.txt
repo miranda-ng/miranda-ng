@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -24,6 +24,8 @@
 Не помечать сообщения на сервере как прочитанные
 [Use invisible mode after login]
 Быть невидимым после входа
+[Load also Messenger contacts at login (not only Facebook friends)]
+При входе загружать также контакты из Messenger (а не только друзей)
 [Group chats]
 Чаты
 [Enable group chats]

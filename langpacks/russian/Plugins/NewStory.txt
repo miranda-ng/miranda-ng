@@ -12,14 +12,14 @@
 Сообщения
 [Files]
 Файлы
+[URLs]
+Ссылки
 [Total]
 Всего
 [Incoming]
 Входящие
 [Outgoing]
 Исходящие
-[URLs]
-Ссылки
 [since]
 с
 [till]
@@ -28,6 +28,10 @@
 Группировать сообщения
 [Log window]
 Окно журнала
+[Enable vertical scroll bar]
+Включить вертикальную полосу прокрутки
+[Draw window edge]
+Отрисовывать границу окна
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -91,10 +95,16 @@
 Прочие входящие события
 [Other outgoing events]
 Прочие исходящие события
-[Selected items]
-Выделенные элементы
-[Selected items (text)]
-Выделенные элементы (текст)
+[Selected item's text]
+Выделенный текст
+[Selected item's background]
+Фон выделения
+[Selected item's frame]
+Граница выделения
+[Grid background]
+Фон сетки
+[Separator]
+Разделитель
 [Incoming name]
 Имя собеседника
 [Outgoing name]
@@ -174,16 +184,12 @@
 Исходящее сообщение
 [User signed in]
 Пользователь вошёл
-[File]
-Файл
-[URL]
-Ссылка
 [Unknown event]
 Неизвестное событие
 [Template group]
 Группа шаблонов
-[Reset]
-Сброс
+[Cancel edit]
+Отменить текущие изменения
 [Update preview]
 Обновить предпросмотр
 [Help]
@@ -193,8 +199,6 @@
 ;file \plugins\NewStory\src\options.cpp
 [Reset to default]
 Сбросить к состоянию по умолчанию
-[Cancel edit]
-Отменить текущие изменения
 [Variables help]
 Помощь по переменным
 [Test contact]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.7
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -171,9 +171,6 @@ URI объект
 Неизвестная ошибка!
 [Network error!]
 Ошибка сети!
-;file \protocols\SkypeWeb\src\skype_mslogin.cpp
-[Enter confirmation code]
-Введите код подтверждения
 ;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 %s подключение
@@ -192,6 +189,3 @@ URI объект
 Отмена входящего звонка
 [Skypename]
 Логин Skype
-;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call from %s]
-Входящий звонок от %s

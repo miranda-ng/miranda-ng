@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.6
+;  Version: 0.2.0.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -22,10 +22,6 @@
 Выбрать &всё
 [Select &none]
 &Снять выбор
-[Hotkey]
-Горячая клавиша
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Перейти в раздел "Тонкая настройка -> Горячие клавиши"
 [Update options]
 Настройки обновления
 [On startup]
@@ -36,6 +32,8 @@
 Каждые
 [Silent mode]
 Тихое обновление
+[Restart Miranda automatically]
+Автоматический перезапуск
 [Backup database before update (requires Db_autobackups plugin)]
 Резервировать базу перед обновлением (требуется плагин Db_autobackups)
 [Files source]
@@ -52,10 +50,10 @@
 Заданная пользователем версия
 [Change platform to 32-bit]
 Перейти на 32-битную версию
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
 [Use HTTPS]
 Использовать HTTPS
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
 [Notifications]
 Уведомления
 [Restart]
@@ -152,8 +150,6 @@
 %d компонент(ов) было обновлено
 [You need to restart your Miranda to apply installed updates.]
 Применение обновлений произойдёт после перезапуска программы.
-[Would you like to restart it now?]
-Перезагрузить программу сейчас?
 [Checking for new updates...]
 Проверка обновлений...
 [No updates found.]
@@ -164,6 +160,8 @@
 [Plugin updater URI scheme]
 Установка компонентов
 ;file \plugins\PluginUpdater\src\Notifications.cpp
+[Would you like to restart it now?]
+Перезагрузить программу сейчас?
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 Резервировать базу перед обновлением
