@@ -178,7 +178,7 @@ public:
 	}
 
 	bool OnInitDialog() override;
-	bool OnClose() override;
+	void OnDestroy() override;
 
 	virtual int Resizer(UTILRESIZECONTROL *urc) override
 	{
@@ -834,10 +834,9 @@ bool CIconImportDlg::OnInitDialog()
 	return true;
 }
 
-bool CIconImportDlg::OnClose()
+void CIconImportDlg::OnDestroy()
 {
 	m_pParent->m_btnImport.Enable();
-	return true;
 }
 
 INT_PTR CIconImportDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

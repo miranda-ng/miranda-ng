@@ -65,7 +65,6 @@ struct CWhoisDlg : public CCoolIrcDlg
 	void OnVersion(CCtrlButton*);
 
 	bool OnInitDialog() override;
-	bool OnClose() override;
 	void OnDestroy() override;
 };
 
@@ -170,7 +169,7 @@ struct CQuestionDlg : public CCoolIrcDlg
 
 	bool OnInitDialog() override;
 	bool OnApply() override;
-	bool OnClose() override;
+	void OnDestroy() override;
 
 	void Activate();
 
@@ -300,5 +299,5 @@ struct CAddIgnoreDlg : public CProtoDlgBase < CIrcProto >
 
 	bool OnInitDialog() override;
 	bool OnApply() override;
-	bool OnClose() override;
+	void OnDestroy() override;
 };

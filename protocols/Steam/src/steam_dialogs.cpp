@@ -29,10 +29,9 @@ bool CSteamPasswordEditor::OnApply()
 	return true;
 }
 
-bool CSteamPasswordEditor::OnClose()
+void CSteamPasswordEditor::OnDestroy()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "PasswordWindow");
-	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -67,11 +66,10 @@ bool CSteamGuardDialog::OnApply()
 	return true;
 }
 
-bool CSteamGuardDialog::OnClose()
+void CSteamGuardDialog::OnDestroy()
 {
 	m_proto->m_hwndGuard = nullptr;
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
-	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -102,10 +100,9 @@ bool CSteamTwoFactorDialog::OnApply()
 	return true;
 }
 
-bool CSteamTwoFactorDialog::OnClose()
+void CSteamTwoFactorDialog::OnDestroy()
 {
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "TwoFactorWindow");
-	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////

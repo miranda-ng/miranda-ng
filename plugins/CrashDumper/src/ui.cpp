@@ -65,7 +65,7 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		Window_FreeIcon_IcoLib(m_hwnd);
 		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "ViewInfo_");
@@ -73,7 +73,6 @@ public:
 			pViewDialog = nullptr;
 		if (g_plugin.bServiceMode)
 			PostQuitMessage(0);
-		return true;
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override

@@ -1114,12 +1114,11 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	bool OnApply() override
 	{
 		if (m_pReminder)
 			DeleteReminder(m_pReminder);
 		JustSaveReminders();
-		NotifyList();
 		return true;
 	}
 
@@ -1419,12 +1418,11 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		bNewReminderVisible = false;
 		if (m_pReminder)
 			m_pReminder->bVisible = false;
-		return true;
 	}
 
 	void onClick_Add(CCtrlButton*)

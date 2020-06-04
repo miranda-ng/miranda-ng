@@ -90,13 +90,6 @@ bool CWhoisDlg::OnInitDialog()
 	return true;
 }
 
-bool CWhoisDlg::OnClose()
-{
-	ShowWindow(m_hwnd, SW_HIDE);
-	SendMessage(m_hwnd, WM_SETREDRAW, FALSE, 0);
-	return true;
-}
-
 void CWhoisDlg::OnDestroy()
 {
 	CCoolIrcDlg::OnDestroy();
@@ -722,13 +715,6 @@ bool CQuestionDlg::OnInitDialog()
 	return true;
 }
 
-bool CQuestionDlg::OnClose()
-{
-	if (m_owner)
-		m_owner->CloseQuestion();
-	return true;
-}
-
 bool CQuestionDlg::OnApply()
 {
 	int i = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_EDIT));
@@ -774,6 +760,12 @@ bool CQuestionDlg::OnApply()
 			m_owner->ApplyQuestion();
 	}
 	return true;
+}
+
+void CQuestionDlg::OnDestroy()
+{
+	if (m_owner)
+		m_owner->CloseQuestion();
 }
 
 void CQuestionDlg::Activate()
@@ -934,7 +926,7 @@ bool CManagerDlg::OnClose()
 		m_proto->setWString(p, S.c_str());
 		mir_free(p);
 	}
-	DestroyWindow(m_hwnd);
+
 	return true;
 }
 

@@ -263,10 +263,9 @@ public:
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		SetFocus(m_hwndTarget);
-		return true;
 	}
 };
 

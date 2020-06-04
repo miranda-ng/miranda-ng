@@ -667,13 +667,12 @@ public:
 		if ((GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_NODE) || (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_JID))
 			PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
 
+		m_proto->setByte("discoWnd_useTree", IsDlgButtonChecked(m_hwnd, IDC_BTN_VIEWTREE));
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
-		m_proto->setByte("discoWnd_useTree", IsDlgButtonChecked(m_hwnd, IDC_BTN_VIEWTREE));
-
 		LVCOLUMN lvc = { 0 };
 		lvc.mask = LVCF_WIDTH;
 		m_lstDiscoTree.GetColumn(0, &lvc);
@@ -684,13 +683,7 @@ public:
 		m_proto->setWord("discoWnd_cx2", lvc.cx);
 
 		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "discoWnd_");
-		DestroyWindow(m_hwnd);
 
-		return CSuper::OnClose();
-	}
-
-	void OnDestroy() override
-	{
 		m_proto->m_pDlgServiceDiscovery = nullptr;
 		{
 			mir_cslock lck(m_proto->m_SDManager.cs());

@@ -152,11 +152,10 @@ protected:
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		m_warnInfo->cancel = !m_bSucceeded;
 		m_warnInfo->warnNoMore = m_noWarn.GetState();
-		return true;
 	}
 
 	void YesNo_OnClick(CCtrlBase*)

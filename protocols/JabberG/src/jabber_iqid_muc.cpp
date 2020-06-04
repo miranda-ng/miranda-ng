@@ -210,16 +210,12 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
-	{
-		FreeList();
-		m_proto->GetMucDlg(m_info->type) = nullptr;
-		return true;
-	}
-
 	void OnDestroy() override
 	{
 		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "jidListWnd_");
+
+		FreeList();
+		m_proto->GetMucDlg(m_info->type) = nullptr;
 	}
 
 	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override

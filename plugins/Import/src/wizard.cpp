@@ -147,16 +147,12 @@ public:
 		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		Utils_SaveWindowPosition(m_hwnd, 0, IMPORT_MODULE, "wiz");
 		if (hwndPage)
 			DestroyWindow(hwndPage);
-		return true;
-	}
 
-	void OnDestroy() override
-	{
 		g_hwndWizard = nullptr;
 		delete g_pBatch; g_pBatch = nullptr;
 

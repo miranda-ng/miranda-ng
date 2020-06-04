@@ -222,11 +222,10 @@ public:
 		return CSuper::Resizer(urc);
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		if (m_fnProcess)
 			(m_proto->*m_fnProcess)(m_pNote, false);
-		return CSuper::OnClose();
 	}
 };
 
@@ -524,14 +523,16 @@ public:
 			if (IDYES != MessageBox(m_hwnd, TranslateT("Notes are not saved, close this window without uploading data to server?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2))
 				return false;
 
-		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
-		DeleteObject(m_hfntSmall);
-		DeleteObject(m_hfntBold);
-		return CSuper::OnClose();
+		return true;
 	}
 
 	void OnDestroy() override
 	{
+		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "notesWnd_");
+
+		DeleteObject(m_hfntSmall);
+		DeleteObject(m_hfntBold);
+
 		m_tvFilter.DeleteAllItems();
 		m_proto->m_pDlgNotes = nullptr;
 		CSuper::OnDestroy();

@@ -214,7 +214,7 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		LVCOLUMN lvc = { 0 };
 		lvc.mask = LVCF_WIDTH;
@@ -227,28 +227,7 @@ public:
 
 		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "bookmarksWnd_");
 
-		return CSuper::OnClose();
-	}
-
-	void OnDestroy() override
-	{
 		m_proto->m_pDlgBookmarks = nullptr;
-		CSuper::OnDestroy();
-	}
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		switch (msg) {
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-			case IDOK:
-				OpenBookmark();
-				return TRUE;
-			}
-			break;
-		}
-
-		return CSuper::DlgProc(msg, wParam, lParam);
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override

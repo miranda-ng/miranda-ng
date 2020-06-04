@@ -96,11 +96,10 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		if (pSetNickDialog == this)
 			pSetNickDialog = nullptr;
-		return true;
 	}
 };
 

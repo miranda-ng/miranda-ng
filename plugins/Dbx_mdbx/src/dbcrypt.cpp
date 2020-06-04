@@ -44,7 +44,7 @@ class CSelectCryptoDialog : public CDlgBase
 		return true;
 	}
 
-	bool OnClose() override
+	bool OnApply() override
 	{
 		m_selected = m_provs[m_combo.GetItemData(m_combo.GetCurSel())];
 		m_bTotalEncryption = m_chkTotalCrypt.GetState() != 0;

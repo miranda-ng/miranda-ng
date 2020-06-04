@@ -7,6 +7,7 @@ class CSelectCryptoDialog : public CDlgBase
 	CRYPTO_PROVIDER **m_provs;
 	size_t m_provscount;
 	CRYPTO_PROVIDER *m_selected;
+
 public:
 	CSelectCryptoDialog(CRYPTO_PROVIDER **provs, size_t count) : 
 		CDlgBase(g_plugin, IDD_SELECT_CRYPTOPROVIDER), 
@@ -31,7 +32,7 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	bool OnApply() override
 	{
 		m_selected = m_provs[ m_combo.GetItemData(m_combo.GetCurSel()) ];
 		return true;

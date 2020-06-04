@@ -365,13 +365,12 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		m_owner->m_serverCombo.Enable();
 		m_owner->m_add.Enable();
 		m_owner->m_edit.Enable();
 		m_owner->m_del.Enable();
-		return true;
 	}
 };
 
@@ -1220,10 +1219,9 @@ bool CAddIgnoreDlg::OnApply()
 	return true;
 }
 
-bool CAddIgnoreDlg::OnClose()
+void CAddIgnoreDlg::OnDestroy()
 {
 	m_owner->FixButtons();
-	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

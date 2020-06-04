@@ -307,12 +307,6 @@ public:
 		m_txtName.GetTextU(szLine, _countof(szLine));
 		return true;
 	}
-	
-	bool OnClose() override
-	{
-		EndModal(m_bSucceeded);
-		return true;
-	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1369,11 +1363,7 @@ public:
 
 	bool OnClose() override
 	{
-		if (!CanExit())
-			return false;
-
-		DestroyWindow(m_hwnd);
-		return CSuper::OnClose();
+		return CanExit();
 	}
 
 	void OnDestroy() override

@@ -579,12 +579,11 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		m_proto->SendHttpAuthReply(m_pParams, m_bSucceeded);
 		m_pParams->Free();
 		mir_free(m_pParams);
-		return true;
 	}
 
 	UI_MESSAGE_MAP(CJabberDlgHttpAuth, CSuper);

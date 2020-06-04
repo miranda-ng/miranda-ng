@@ -377,21 +377,20 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	bool OnApply() override
 	{
 		m_proto->setByte("consoleWnd_msg", m_proto->m_filterInfo.msg);
 		m_proto->setByte("consoleWnd_presence", m_proto->m_filterInfo.presence);
 		m_proto->setByte("consoleWnd_iq", m_proto->m_filterInfo.iq);
 		m_proto->setByte("consoleWnd_ftype", m_proto->m_filterInfo.type);
 		m_proto->setWString("consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
-
-		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
-		DestroyWindow(m_hwnd);
-		return CSuper::OnClose();
+		return true;
 	}
 
 	void OnDestroy() override
 	{
+		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "consoleWnd_");
+
 		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_MSG, BM_SETIMAGE, IMAGE_ICON, 0));
 		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_PRESENCE, BM_SETIMAGE, IMAGE_ICON, 0));
 		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_IQ, BM_SETIMAGE, IMAGE_ICON, 0));

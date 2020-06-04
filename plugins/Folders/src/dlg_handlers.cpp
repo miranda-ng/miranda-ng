@@ -52,11 +52,10 @@ public:
 		return true;
 	}
 
-	bool OnClose() override
+	void OnDestroy() override
 	{
 		if (pHelpDialog == this)
 			pHelpDialog = nullptr;
-		return true;
 	}
 
 	void OnCloseClick(CCtrlBase*)

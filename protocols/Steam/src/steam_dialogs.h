@@ -15,7 +15,7 @@ class CSteamPasswordEditor : public CSteamDlgBase
 protected:
 	bool OnInitDialog() override;
 	bool OnApply() override;
-	bool OnClose() override;
+	void OnDestroy() override;
 
 public:
 	CSteamPasswordEditor(CSteamProto *proto);
@@ -34,7 +34,7 @@ class CSteamGuardDialog : public CSteamDlgBase
 protected:
 	bool OnInitDialog() override;
 	bool OnApply() override;
-	bool OnClose() override;
+	void OnDestroy() override;
 
 public:
 	CSteamGuardDialog(CSteamProto *proto, const char *domain);
@@ -55,7 +55,7 @@ class CSteamTwoFactorDialog : public CSteamDlgBase
 protected:
 	bool OnInitDialog() override;
 	bool OnApply() override;
-	bool OnClose() override;
+	void OnDestroy() override;
 
 public:
 	CSteamTwoFactorDialog(CSteamProto *proto);
