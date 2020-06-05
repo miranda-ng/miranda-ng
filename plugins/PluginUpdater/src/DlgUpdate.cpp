@@ -23,17 +23,6 @@ static bool bShowDetails;
 static HWND hwndDialog;
 static HANDLE hCheckThread, hTimer;
 
-static void SelectAll(HWND hDlg, bool bEnable)
-{
-	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
-
-	for (auto &it : todo) {
-		ListView_SetCheckState(hwndList, todo.indexOf(&it), bEnable);
-		db_set_b(0, DB_MODULE_FILES, StrToLower(_T2A(it->tszOldName)), it->bEnabled = bEnable);
-	}
-}
-
 class CUpdateDLg : public CDlgBase
 {
 	bool bThreadActive = false;
@@ -167,6 +156,16 @@ class CUpdateDLg : public CDlgBase
 		MapDialogRect(m_hwnd, &r);
 		r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
 		SetWindowPos(m_hwnd, nullptr, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
+	}
+
+	void SelectAll(bool bEnable)
+	{
+		for (auto &it : *m_todo) {
+			m_list.SetCheckState(m_todo->indexOf(&it), bEnable);
+
+			CMStringA szSetting(it->tszOldName);
+			db_set_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), it->bEnabled = bEnable);
+		}
 	}
 
 public:
@@ -314,7 +313,8 @@ public:
 			m_list.GetItem(&lvI);
 
 			FILEINFO *p = (FILEINFO *)lvI.lParam;
-			db_set_b(0, DB_MODULE_FILES, StrToLower(_T2A(p->tszOldName)), p->bEnabled = m_list.GetCheckState(nmlv->iItem));
+			CMStringA szSetting(p->tszOldName);
+			db_set_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), p->bEnabled = m_list.GetCheckState(nmlv->iItem));
 
 			// Toggle the Download button
 			bool enableOk = false;
@@ -345,12 +345,12 @@ public:
 
 	void onClick_SelAll(CCtrlButton *)
 	{
-		SelectAll(m_hwnd, true);
+		SelectAll(true);
 	}
 
 	void onClick_SelNone(CCtrlButton *)
 	{
-		SelectAll(m_hwnd, false);
+		SelectAll(false);
 	}
 
 	void ShowError()
@@ -712,7 +712,8 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 				MyCRC = 0;
 			}
 
-			int bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(_T2A(tszBuf + cbBaseLen)), 1);
+			CMStringA szSetting(tszBuf + cbBaseLen);
+			int bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), 1);
 			if (bEnabled == 2)  // hidden database setting to exclude a plugin from list
 				continue;
 
@@ -806,7 +807,6 @@ static void DoCheck(bool bSilent = true)
 	}
 	else {
 		g_plugin.bSilent = bSilent;
-
 		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
 
 		hCheckThread = mir_forkthread(CheckUpdates);
