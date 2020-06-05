@@ -25,3 +25,49 @@ void CSkypeProto::ProcessTimer()
 	SendRequest(new GetContactListRequest(this, nullptr));
 	SendPresence();
 }
+
+void CSkypeProto::OnReceiveStatus(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+{
+	JsonReply reply(response);
+	if (reply.error())
+		return;
+
+	auto &root = reply.data();
+	for (auto &it : root["Responses"]) {
+		std::string id = it["Contact"].as_string();
+		id.erase(0, 2);
+		MCONTACT hContact = AddContact(id.c_str());
+		if (hContact) {
+			int status = SkypeToMirandaStatus(it["Payload"]["status"].as_string().c_str());
+			setWord(hContact, "Status", status);
+		}
+	}
+}
+
+void CSkypeProto::RefreshStatuses(void)
+{
+	int nRecs = 0;
+	GetStatusRequest *pReq = nullptr;
+
+	for (auto &it : AccContacts()) {
+		CMStringA id(getId(it));
+		if (id.IsEmpty())
+			continue;
+
+		if (pReq == nullptr) {
+			pReq = new GetStatusRequest();
+			nRecs = 0;
+		}
+
+		pReq << CHAR_PARAM("cMri", "8:" + id);
+		nRecs++;
+
+		if (nRecs >= 10) {
+			PushRequest(pReq);
+			pReq = nullptr;
+		}
+	}
+
+	if (pReq)
+		PushRequest(pReq);
+}

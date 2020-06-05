@@ -182,7 +182,9 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 				m_szId = val.Detach();
 		}
 	}
-	
+
+	RefreshStatuses();
+
 	PushRequest(new CreateSubscriptionsRequest());
 }
 
