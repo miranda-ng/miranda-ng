@@ -193,6 +193,23 @@ public:
 	}
 };
 
+class ThreadWatch
+{
+	DWORD &pId;
+
+public:
+	ThreadWatch(DWORD &_1) :
+		pId(_1)
+	{
+		pId = ::GetCurrentThreadId();
+	}
+
+	~ThreadWatch()
+	{
+		pId = 0;
+	}
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 
 struct ServListEntry
@@ -227,7 +244,6 @@ void  InitListNew();
 void  InitCheck();
 void  CreateTimer();
 
-void  UnloadCheck();
 void  UnloadListNew();
 void  UnloadNetlib();
 

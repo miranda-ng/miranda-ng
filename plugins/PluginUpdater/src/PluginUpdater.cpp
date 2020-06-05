@@ -146,7 +146,6 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	UnloadCheck();
 	UnloadListNew();
 	UnloadNetlib();
 	return 0;

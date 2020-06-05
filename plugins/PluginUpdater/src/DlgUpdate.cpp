@@ -21,11 +21,12 @@ Boston, MA 02111-1307, USA.
 
 static bool bShowDetails;
 static HWND hwndDialog;
-static HANDLE hCheckThread, hTimer;
+static DWORD dwCheckThreadId;
+static HANDLE hTimer;
 
 class CUpdateDLg : public CDlgBase
 {
-	bool bThreadActive = false;
+	DWORD dwThreadId = 0;
 	CCtrlButton btnDetails, btnSelAll, btnSelNone, btnOk;
 	CCtrlListView m_list;
 	OBJLIST<FILEINFO> *m_todo;
@@ -43,7 +44,7 @@ class CUpdateDLg : public CDlgBase
 			return;
 		}
 
-		pDlg->bThreadActive = true;
+		ThreadWatch threadId(pDlg->dwThreadId);
 		AutoHandle pipe(hPipe);
 		//create needed folders after escalating priviledges. Folders creates when we actually install updates
 		wchar_t tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
@@ -129,7 +130,6 @@ class CUpdateDLg : public CDlgBase
 		}
 
 		// 5) Prepare Restart
-		pDlg->bThreadActive = false;
 		if (!g_plugin.bAutoRestart)
 			if (IDYES != MessageBox(pDlg->GetHwnd(), TranslateT("Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit."), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION)) {
 				pDlg->Close();
@@ -292,7 +292,7 @@ public:
 
 	bool OnClose() override
 	{
-		return !bThreadActive; // allow to close window only when thread is inactive
+		return dwThreadId == 0; // allow to close window only when thread is inactive
 	}
 
 	void OnDestroy() override
@@ -355,7 +355,6 @@ public:
 
 	void ShowError()
 	{
-		bThreadActive = false;
 		MessageBox(m_hwnd, TranslateT("Update failed! One of the components wasn't downloaded correctly. Try it again later."), TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
 		Close();
 	}
@@ -760,6 +759,7 @@ static void CheckUpdates(void *)
 {
 	Netlib_LogfW(hNetlibUser, L"Checking for updates");
 	Thread_SetName("PluginUpdater: CheckUpdates");
+	ThreadWatch threadId(dwCheckThreadId);
 
 	wchar_t tszTempPath[MAX_PATH];
 	DWORD dwLen = GetTempPath(_countof(tszTempPath), tszTempPath);
@@ -793,12 +793,11 @@ static void CheckUpdates(void *)
 	CallFunctionAsync(InitTimer, (success ? nullptr : (void*)2));
 
 	hashes.destroy();
-	hCheckThread = nullptr;
 }
 
 static void DoCheck(bool bSilent = true)
 {
-	if (hCheckThread)
+	if (dwCheckThreadId)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Update checking already started!"), POPUP_TYPE_INFO);
 	else if (hwndDialog) {
 		ShowWindow(hwndDialog, SW_SHOW);
@@ -809,7 +808,7 @@ static void DoCheck(bool bSilent = true)
 		g_plugin.bSilent = bSilent;
 		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
 
-		hCheckThread = mir_forkthread(CheckUpdates);
+		mir_forkthread(CheckUpdates);
 	}
 }
 
@@ -832,12 +831,6 @@ static INT_PTR MenuCommand(WPARAM, LPARAM)
 void InitCheck()
 {
 	CreateServiceFunction(MS_PU_CHECKUPDATES, MenuCommand);
-}
-
-void UnloadCheck()
-{
-	if (hCheckThread)
-		hCheckThread = nullptr;
 }
 
 void CheckUpdateOnStartup()
