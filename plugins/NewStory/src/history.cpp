@@ -440,6 +440,7 @@ public:
 
 		showFlags = g_plugin.getWord(m_hContact, "showFlags", 0x7f);
 		m_dwOptions = g_plugin.getDword(0, "dwOptions");
+		m_autoClose = CLOSE_ON_CANCEL;
 
 		m_hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_POPUPS));
 		TranslateMenu(m_hMenu);
