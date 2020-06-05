@@ -127,7 +127,7 @@ void vfGlobal(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 void vfContact(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	// %N: buddy's nick (not for messages)
-	wchar_t *nick = Clist_GetContactDisplayName(hContact, 0);
+	wchar_t *nick = (hContact == 0) ? TranslateT("System history") : Clist_GetContactDisplayName(hContact, 0);
 	vars->SetVar('N', nick, false);
 
 	wchar_t buf[20];
