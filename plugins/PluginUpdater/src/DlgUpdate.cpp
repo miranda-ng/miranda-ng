@@ -178,6 +178,8 @@ public:
 		btnDetails(this, IDC_DETAILS),
 		m_todo(param)
 	{
+		m_list.OnItemChanged = Callback(this, &CUpdateDLg::onItemCHanged_List);
+
 		btnSelAll.OnClick = Callback(this, &CUpdateDLg::onClick_SelAll);
 		btnSelNone.OnClick = Callback(this, &CUpdateDLg::onClick_SelNone);
 		btnDetails.OnClick = Callback(this, &CUpdateDLg::onClick_Details);
@@ -318,8 +320,7 @@ public:
 
 			// Toggle the Download button
 			bool enableOk = false;
-			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
-			for (auto &it : todo) {
+			for (auto &it : *m_todo) {
 				if (it->bEnabled) {
 					enableOk = true;
 					break;
@@ -402,7 +403,9 @@ static void DlgUpdateSilent(void *param)
 	// Count all updates that have been enabled
 	int count = 0;
 	for (auto &it : UpdateFiles) {
-		if (it->bEnabled && !it->bDeleteOnly) {
+		if (it->bDeleteOnly)
+			count++;
+		else if (it->bEnabled) {
 			// download update
 			if (!DownloadFile(&it->File, nlc)) {
 				// interrupt update as we require all components to be updated
@@ -413,7 +416,6 @@ static void DlgUpdateSilent(void *param)
 			}
 			count++;
 		}
-
 	}
 	Netlib_CloseHandle(nlc);
 
@@ -568,8 +570,6 @@ static renameTable[] =
 	{ L"yahoogroups.dll",                nullptr },
 	{ L"yapp.dll",                       nullptr },
 	{ L"WART-*.exe",                     nullptr },
-
-	{ L"Libs\\libmdbx.mir",              nullptr },
 };
 
 // Checks if file needs to be renamed and copies it in pNewName
@@ -627,16 +627,19 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 
 	int count = 0;
 	do {
+		wchar_t tszNewName[MAX_PATH];
+
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			// Scan recursively all subfolders
 			if (isValidDirectory(ffd.cFileName)) {
 				mir_snwprintf(tszBuf, L"%s\\%s", tszFolder, ffd.cFileName);
 				count += ScanFolder(tszBuf, cbBaseLen, tszBaseUrl, hashes, UpdateFiles, level + 1);
 			}
+			continue;
 		}
-		else if (isValidExtension(ffd.cFileName)) {
+		
+		if (isValidExtension(ffd.cFileName)) {
 			// calculate the current file's relative name and store it into tszNewName
-			wchar_t tszNewName[MAX_PATH];
 			if (CheckFileRename(ffd.cFileName, tszNewName)) {
 				Netlib_LogfW(hNetlibUser, L"File %s will be renamed to %s.", ffd.cFileName, tszNewName);
 				// Yes, we need the old file name, because this will be hashed later
@@ -653,102 +656,111 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 					mir_snwprintf(tszBuf, L"%s\\%s", tszFolder, ffd.cFileName);
 				}
 			}
-
-			wchar_t *ptszUrl;
-			int MyCRC;
-
-			bool bDeleteOnly = (tszNewName[0] == 0);
-			// this file is not marked for deletion
-			if (!bDeleteOnly) {
-				wchar_t *pName = tszNewName;
-				ServListEntry *item = hashes.find((ServListEntry*)&pName);
-				// Not in list? Check for trailing 'W' or 'w'
-				if (item == nullptr) {
-					wchar_t *p = wcsrchr(tszNewName, '.');
-					if (p[-1] != 'w' && p[-1] != 'W') {
-						Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
-						continue;
-					}
-
-					// remove trailing w or W and try again
-					int iPos = int(p - tszNewName) - 1;
-					strdelw(p - 1, 1);
-					if ((item = hashes.find((ServListEntry*)&pName)) == nullptr) {
-						Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
-						continue;
-					}
-
-					strdelw(tszNewName + iPos, 1);
-				}
-
-				// No need to hash a file if we are forcing a redownload anyway
-				if (!g_plugin.bForceRedownload) {
-					// try to hash the file
-					char szMyHash[33];
-					__try {
-						CalculateModuleHash(tszBuf, szMyHash);
-						// hashes are the same, skipping
-						if (strcmp(szMyHash, item->m_szHash) == 0) {
-							Netlib_LogfW(hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
-							continue;
-						}
-						else Netlib_LogfW(hNetlibUser, L"File %s: Update available", ffd.cFileName);
-					}
-					__except (EXCEPTION_EXECUTE_HANDLER)
-					{
-						// smth went wrong, reload a file from scratch
-					}
-				}
-				else Netlib_LogfW(hNetlibUser, L"File %s: Forcing redownload", ffd.cFileName);
-
-				ptszUrl = item->m_name;
-				MyCRC = item->m_crc;
-			}
-			else {
-				// file was marked for deletion, add it to the list anyway
-				Netlib_LogfW(hNetlibUser, L"File %s: Marked for deletion", ffd.cFileName);
-				ptszUrl = L"";
-				MyCRC = 0;
-			}
-
-			CMStringA szSetting(tszBuf + cbBaseLen);
-			int bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), 1);
-			if (bEnabled == 2)  // hidden database setting to exclude a plugin from list
-				continue;
-
-			// Yeah, we've got new version.
-			FILEINFO *FileInfo = new FILEINFO;
-			// copy the relative old name
-			wcsncpy_s(FileInfo->tszOldName, tszBuf + cbBaseLen, _TRUNCATE);
-			FileInfo->bDeleteOnly = bDeleteOnly;
-			if (FileInfo->bDeleteOnly) // save the full old name for deletion
-				wcsncpy_s(FileInfo->tszNewName, tszBuf, _TRUNCATE);
-			else
-				wcsncpy_s(FileInfo->tszNewName, ptszUrl, _TRUNCATE);
-
-			wcsncpy_s(tszBuf, ptszUrl, _TRUNCATE);
-			wchar_t *p = wcsrchr(tszBuf, '.');
-			if (p) *p = 0;
-			p = wcsrchr(tszBuf, '\\');
-			p = (p) ? p + 1 : tszBuf;
-			_wcslwr(p);
-
-			mir_snwprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, p);
-			mir_snwprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszBuf);
-			for (p = wcschr(FileInfo->File.tszDownloadURL, '\\'); p != nullptr; p = wcschr(p, '\\'))
-				*p++ = '/';
-
-			// remember whether the user has decided not to update this component with this particular new version
-			FileInfo->bEnabled = bEnabled;
-
-			FileInfo->File.CRCsum = MyCRC;
-			UpdateFiles->insert(FileInfo);
-
-			// If we are in the silent mode, only count enabled plugins, otherwise count all
-			if (!g_plugin.bSilent || FileInfo->bEnabled)
-				count++;
 		}
-	} while (FindNextFile(hFind, &ffd) != 0);
+		else {
+			// the only exclusion is Libs\\libmdbx.mir
+			if (level == 1 && !wcsicmp(ffd.cFileName, L"libmdbx.mir")) {
+				tszNewName[0] = 0;
+				mir_snwprintf(tszBuf, L"%s\\%s", tszFolder, ffd.cFileName);
+			}
+			else continue; // skip all another filea
+		}
+
+		wchar_t *ptszUrl;
+		int MyCRC;
+
+		bool bDeleteOnly = (tszNewName[0] == 0);
+		// this file is not marked for deletion
+		if (!bDeleteOnly) {
+			wchar_t *pName = tszNewName;
+			ServListEntry *item = hashes.find((ServListEntry*)&pName);
+			// Not in list? Check for trailing 'W' or 'w'
+			if (item == nullptr) {
+				wchar_t *p = wcsrchr(tszNewName, '.');
+				if (p[-1] != 'w' && p[-1] != 'W') {
+					Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
+					continue;
+				}
+
+				// remove trailing w or W and try again
+				int iPos = int(p - tszNewName) - 1;
+				strdelw(p - 1, 1);
+				if ((item = hashes.find((ServListEntry*)&pName)) == nullptr) {
+					Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
+					continue;
+				}
+
+				strdelw(tszNewName + iPos, 1);
+			}
+
+			// No need to hash a file if we are forcing a redownload anyway
+			if (!g_plugin.bForceRedownload) {
+				// try to hash the file
+				char szMyHash[33];
+				__try {
+					CalculateModuleHash(tszBuf, szMyHash);
+					// hashes are the same, skipping
+					if (strcmp(szMyHash, item->m_szHash) == 0) {
+						Netlib_LogfW(hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
+						continue;
+					}
+					else Netlib_LogfW(hNetlibUser, L"File %s: Update available", ffd.cFileName);
+				}
+				__except (EXCEPTION_EXECUTE_HANDLER)
+				{
+					// smth went wrong, reload a file from scratch
+				}
+			}
+			else Netlib_LogfW(hNetlibUser, L"File %s: Forcing redownload", ffd.cFileName);
+
+			ptszUrl = item->m_name;
+			MyCRC = item->m_crc;
+		}
+		else {
+			// file was marked for deletion, add it to the list anyway
+			Netlib_LogfW(hNetlibUser, L"File %s: Marked for deletion", ffd.cFileName);
+			ptszUrl = L"";
+			MyCRC = 0;
+		}
+
+		CMStringA szSetting(tszBuf + cbBaseLen);
+		int bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), 1);
+		if (bEnabled == 2)  // hidden database setting to exclude a plugin from list
+			continue;
+
+		// Yeah, we've got new version.
+		FILEINFO *FileInfo = new FILEINFO;
+		// copy the relative old name
+		wcsncpy_s(FileInfo->tszOldName, tszBuf + cbBaseLen, _TRUNCATE);
+		FileInfo->bDeleteOnly = bDeleteOnly;
+		if (FileInfo->bDeleteOnly) // save the full old name for deletion
+			wcsncpy_s(FileInfo->tszNewName, tszBuf, _TRUNCATE);
+		else
+			wcsncpy_s(FileInfo->tszNewName, ptszUrl, _TRUNCATE);
+
+		wcsncpy_s(tszBuf, ptszUrl, _TRUNCATE);
+		wchar_t *p = wcsrchr(tszBuf, '.');
+		if (p) *p = 0;
+		p = wcsrchr(tszBuf, '\\');
+		p = (p) ? p + 1 : tszBuf;
+		_wcslwr(p);
+
+		mir_snwprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, p);
+		mir_snwprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszBuf);
+		for (p = wcschr(FileInfo->File.tszDownloadURL, '\\'); p != nullptr; p = wcschr(p, '\\'))
+			*p++ = '/';
+
+		// remember whether the user has decided not to update this component with this particular new version
+		FileInfo->bEnabled = bEnabled;
+
+		FileInfo->File.CRCsum = MyCRC;
+		UpdateFiles->insert(FileInfo);
+
+		// If we are in the silent mode, only count enabled plugins, otherwise count all
+		if (!g_plugin.bSilent || FileInfo->bEnabled)
+			count++;
+	}
+		while (FindNextFile(hFind, &ffd) != 0);
 
 	FindClose(hFind);
 	return count;
