@@ -189,6 +189,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bDisableFrame;
 	CMOption<bool> m_bEnableAvatars;
 	CMOption<bool> m_bEnableCarbons;
+	CMOption<bool> m_bEnableChatStates;
 	CMOption<bool> m_bEnableMsgArchive;
 	CMOption<bool> m_bEnableRemoteControl;
 	CMOption<bool> m_bEnableStreamMgmt;

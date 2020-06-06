@@ -92,6 +92,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bDisableFrame(this, "DisableFrame", true),
 	m_bEnableAvatars(this, "EnableAvatars", true),
 	m_bEnableCarbons(this, "EnableCarbons", true),
+	m_bEnableChatStates(this, "EnableChatStates", true),
 	m_bEnableMsgArchive(this, "EnableMsgArchive", false),
 	m_bEnableRemoteControl(this, "EnableRemoteControl", false),
 	m_bEnableStreamMgmt(this, "UseStreamMgmt", false),
@@ -963,7 +964,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		jcb = JABBER_RESOURCE_CAPS_NONE;
 
-	if (jcb & JABBER_CAPS_CHATSTATES)
+	if (m_bEnableChatStates && (jcb & JABBER_CAPS_CHATSTATES))
 		m << XCHILDNS("active", JABBER_FEAT_CHATSTATES);
 
 	m << XATTR("to", szClientJid);
@@ -1207,7 +1208,7 @@ int CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 
 	XmlNode m("message"); XmlAddAttr(m, "to", szClientJid);
 
-	if (jcb & JABBER_CAPS_CHATSTATES) {
+	if (m_bEnableChatStates && (jcb & JABBER_CAPS_CHATSTATES)) {
 		m << XATTR("type", "chat") << XATTRID(SerialNext());
 		switch (type) {
 		case PROTOTYPE_SELFTYPING_OFF:

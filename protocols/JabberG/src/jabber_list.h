@@ -110,7 +110,7 @@ public:
 	JabberCapsBits m_jcbManualDiscoveredCaps;
 
 	// XEP-0085 gone event support
-	BOOL m_bMessageSessionActive;
+	bool m_bMessageSessionActive;
 };
 
 class pResourceStatus

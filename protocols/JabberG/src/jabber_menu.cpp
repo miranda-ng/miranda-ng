@@ -831,7 +831,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			if (r && r->m_bMessageSessionActive) {
 				r->m_bMessageSessionActive = false;
 
-				if (GetResourceCapabilities(jid) & JABBER_CAPS_CHATSTATES)
+				if (m_bEnableChatStates && (GetResourceCapabilities(jid, r) & JABBER_CAPS_CHATSTATES))
 					m_ThreadInfo->send(XmlNode("message") << XATTR("to", jid) << XATTR("type", "chat") << XATTRID(SerialNext()) << XCHILDNS("gone", JABBER_FEAT_CHATSTATES));
 			}
 		}
