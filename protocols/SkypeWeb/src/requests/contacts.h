@@ -28,8 +28,6 @@ struct GetContactListRequest : public AsyncHttpRequest
 		// ?filter=contacts[?(@.type="skype" or @.type="msn")]
 		if (filter != NULL)
 			this << CHAR_PARAM("filter", filter);
-
-		AddHeader("X-SkypeToken", ppro->m_szApiToken);
 	}
 };
 

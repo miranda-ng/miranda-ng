@@ -87,10 +87,9 @@ NETLIBHTTPREQUEST* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
 	case HOST_API:
 	case HOST_CONTACTS:
 		if (m_szApiToken)
-			pReq->AddHeader("X-Skypetoken", m_szApiToken);
+			pReq->AddHeader((pReq->m_host == HOST_CONTACTS) ? "X-SkypeToken" : "X-Skypetoken", m_szApiToken);
+
 		pReq->AddHeader("Accept", "application/json; ver=1.0;");
-		pReq->AddHeader("X-Stratus-Caller", SKYPEWEB_CLIENTINFO_NAME);
-		pReq->AddHeader("X-Stratus-Request", "abcd1234");
 		pReq->AddHeader("Origin", "https://web.skype.com");
 		pReq->AddHeader("Referer", "https://web.skype.com/main");
 		break;
