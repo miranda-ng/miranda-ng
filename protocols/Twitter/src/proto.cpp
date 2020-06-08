@@ -118,14 +118,6 @@ INT_PTR CTwitterProto::GetCaps(int type, MCONTACT)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MEVENT CTwitterProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	MEVENT res = CSuper::RecvMsg(hContact, pre);
-	if (pre->szMsgId)
-		m_arChatMarks.insert(new CChatMark(res, pre->szMsgId));
-
-	return res;
-}
 int CTwitterProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	if (m_iStatus != ID_STATUS_ONLINE)

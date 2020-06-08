@@ -582,7 +582,10 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 		recv.szMessage = const_cast<char*>(text.c_str());
 		recv.timestamp = static_cast<DWORD>(time);
 		recv.szMsgId = msgid.c_str();
-		ProtoChainRecvMsg(hContact, &recv);
+		
+		MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, &recv);
+		if (!msgid.empty())
+			m_arChatMarks.insert(new CChatMark(hDbEVent, msgid.c_str()));
 	}
 
 	db_pod_set(0, m_szModuleName, TWITTER_KEY_DMSINCEID, dm_since_id_);

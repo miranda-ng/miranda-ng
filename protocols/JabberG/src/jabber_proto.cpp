@@ -884,18 +884,6 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// receives a message
-
-MEVENT CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	MEVENT res = CSuper::RecvMsg(hContact, pre);
-	if (pre->szMsgId)
-		m_arChatMarks.insert(new CChatMark(res, pre->szMsgId, (const char*)pre->lParam));
-	
-	return res;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // JabberSendMessage - sends a message
 
 static char PGP_PROLOG[] = "-----BEGIN PGP MESSAGE-----\r\n\r\n";

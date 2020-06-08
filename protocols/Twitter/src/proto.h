@@ -161,7 +161,6 @@ public:
 	HANDLE   SearchBasic(const wchar_t *) override;
 	HANDLE   SearchByEmail(const wchar_t *) override;
 
-	MEVENT   RecvMsg(MCONTACT hContact, PROTORECVEVENT *) override;
 	int      SendMsg(MCONTACT, int, const char *) override;
 
 	int      SetStatus(int) override;

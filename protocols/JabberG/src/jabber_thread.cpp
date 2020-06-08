@@ -1165,6 +1165,11 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	if (bodyNode != nullptr)
 		szMessage.Append(bodyNode->GetText());
 
+	// check MAM support
+	const char *szMsgId = nullptr;
+	if (auto *n = XmlGetChildByTag(node, "stanza-id", "xmlns", JABBER_FEAT_SID))
+		szMsgId = n->GetText();
+
 	// If message is from a stranger (not in roster), item is nullptr
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, from);
 	if (item == nullptr)
@@ -1398,11 +1403,11 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	}
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = szMessage.GetBuffer();
-	if (bSendMark) {
-		recv.szMsgId = idStr;
-		recv.lParam = (LPARAM)from;
-	}
-	ProtoChainRecvMsg(hContact, &recv);
+	recv.szMsgId = szMsgId;
+
+	MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, &recv);
+	if (idStr)
+		m_arChatMarks.insert(new CChatMark(hDbEVent, idStr, from));
 }
 
 // XEP-0115: Entity Capabilities
