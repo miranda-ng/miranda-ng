@@ -357,13 +357,13 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	if (tszNick != nullptr)
 		szNickOut = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
 
-	IEVIEWEVENTDATA* eventData = event->eventData;
+	IEVIEWEVENTDATA *eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_SYSTEM) {
 			CMStringA str;
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) && tmpm->isRTL();
-			bool isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
+			bool isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags &IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
 			bool isGroupBreak = true;
 			if ((getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES) && eventData->dwFlags == LOWORD(getLastEventType())
 				&& eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE
@@ -395,6 +395,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 				szText = encodeUTF8(event->hContact, eventData->szText.w, ENF_ALL, isSent);
 			else
 				szText = encodeUTF8(event->hContact, eventData->szText.a, event->codepage, ENF_ALL, isSent);
+
 			if (eventData->dwFlags & IEEDF_UNICODE_TEXT2)
 				szFileDesc = encodeUTF8(event->hContact, eventData->szText2.w, 0, isSent);
 			else

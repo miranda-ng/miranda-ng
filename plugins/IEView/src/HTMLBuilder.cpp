@@ -251,7 +251,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			char* descr = filename + mir_strlen(filename) + 1;
 			eventData->szText.w = DbEvent_GetString(&dbei, filename);
 			if (*descr != '\0')
-				eventData->szText.w = DbEvent_GetString(&dbei, descr);
+				eventData->szText2.w = DbEvent_GetString(&dbei, descr);
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
