@@ -26,12 +26,14 @@ struct NewstoryListData : public MZeroedObject
 	int scrollTopItem; // topmost item
 	int scrollTopPixel; // y coord of topmost item, this should be negative or zero
 	int caret;
+	int selStart = -1;
 	int cachedWindowHeight;
 	int cachedMaxTopItem; // the largest ID of top item to avoid empty space
 	int cachedMaxTopPixel;
 
 	RECT rcLastPaint;
-	bool repaint;
+	
+	bool bWasShift;
 
 	HWND hwnd;
 	HWND hwndEditBox;
@@ -359,6 +361,13 @@ struct NewstoryListData : public MZeroedObject
 
 		FixScrollPosition();
 	}
+
+	void SetPos(int pos)
+	{
+		caret = pos;
+		SendMessage(hwnd, NSM_SELECTITEMS2, (selStart == -1) ? pos : selStart, pos);
+		SendMessage(hwnd, NSM_SETCARET, pos, TRUE);
+	}
 };
 
 // Edit box
@@ -407,11 +416,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
 		if (!g_plugin.bOptVScroll)
 			SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_VSCROLL);
-		else 
+		else
 			data->RecalcScrollBar();
 		break;
 
-	// History list control messages
+		// History list control messages
 	case NSM_ADDEVENTS:
 		if (auto *p = (ADDEVENTS *)wParam)
 			data->items.addEvent(p->hContact, p->hFirstEVent, p->eventCount);
@@ -421,7 +430,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case NSM_ADDCHATEVENT:
-		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO*)lParam);
+		data->items.addChatEvent((SESSION_INFO *)wParam, (LOGINFO *)lParam);
 
 		data->redrawTimer.Stop();
 		data->redrawTimer.Start(100);
@@ -451,7 +460,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				auto *p = data->items.get(i, false);
 				p->bSelected = true;
 			}
-			
+
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -467,7 +476,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				auto *p = data->items.get(i, false);
 				p->bSelected = !p->bSelected;
 			}
-			
+
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -482,12 +491,12 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int count = data->items.getCount();
 			for (int i = 0; i < count; ++i) {
 				auto *p = data->items.get(i, false);
-				if ((i >= start) && (i <= end)) 
+				if ((i >= start) && (i <= end))
 					p->bSelected = true;
 				else
 					p->bSelected = false;
 			}
-			
+
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -505,7 +514,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				auto *p = data->items.get(i, false);
 				p->bSelected = false;
 			}
-			
+
 			InvalidateRect(hwnd, 0, FALSE);
 			return 0;
 		}
@@ -690,48 +699,71 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		return DLGC_WANTMESSAGE;
 
 	case WM_KEYDOWN:
-		switch (wParam) {
-		case VK_UP:
-			SendMessage(hwnd, NSM_SELECTITEMS2, data->caret - 1, data->caret - 1);
-			SendMessage(hwnd, NSM_SETCARET, data->caret - 1, TRUE);
-			break;
+		{
+			bool isShift = (GetKeyState(VK_SHIFT) & 0x80) != 0;
+			bool isCtrl = (GetKeyState(VK_CONTROL) & 0x80) != 0;
 
-		case VK_DOWN:
-			SendMessage(hwnd, NSM_SELECTITEMS2, data->caret + 1, data->caret + 1);
-			SendMessage(hwnd, NSM_SETCARET, data->caret + 1, TRUE);
-			break;
+			if (!data->bWasShift && isShift)
+				data->selStart = data->caret;
+			else if (data->bWasShift && !isShift)
+				data->selStart = -1;
+			data->bWasShift = isShift;
 
-		case VK_PRIOR:
-			break;
+			switch (wParam) {
+			case VK_UP:
+				if (data->caret > 0)
+					data->SetPos(data->caret - 1);
+				break;
 
-		case VK_NEXT:
-			break;
+			case VK_DOWN:
+				if (data->caret < data->items.getCount()-1)
+					data->SetPos(data->caret + 1);
+				break;
 
-		case VK_HOME:
-			break;
+			case VK_PRIOR:
+				if (!isCtrl && data->caret > 10)
+					data->SetPos(data->caret - 10);
+				else
+					data->SetPos(0);
+				break;
 
-		case VK_END:
-			break;
+			case VK_NEXT:
+				if (int count = data->items.getCount()) {
+					if (!isCtrl && data->caret + 10 < count-1)
+						data->SetPos(data->caret + 10);
+					else
+						data->SetPos(count - 1);
+				}
+				break;
 
-		case VK_F2:
-			data->BeginEditItem(data->caret);
-			break;
-		}
-		break;
+			case VK_HOME:
+				data->SetPos(0);
+				break;
 
-	case WM_SYSCHAR:
-	case WM_CHAR:
-		if (wParam == 27) {
-			if (data->hwndEditBox)
-				data->EndEditItem();
-		}
-		else {
-			char ch = MapVirtualKey((lParam >> 16) & 0xff, 1);
-			if (((ch == 'C') || (ch == VK_INSERT)) && (GetKeyState(VK_CONTROL) & 0x80)) {
-				PostMessage(hwnd, NSM_COPY, 0, 0);
-			}
-			else if ((ch == 'A') && (GetKeyState(VK_CONTROL) & 0x80)) {
-				SendMessage(hwnd, NSM_SELECTITEMS, 0, data->items.getCount());
+			case VK_END:
+				if (int count = data->items.getCount())
+					data->SetPos(count - 1);
+				break;
+
+			case VK_F2:
+				data->BeginEditItem(data->caret);
+				break;
+
+			case VK_ESCAPE:
+				if (data->hwndEditBox)
+					data->EndEditItem();
+				break;
+
+			case VK_INSERT:
+			case 'C':
+				if (isCtrl)
+					PostMessage(hwnd, NSM_COPY, 0, 0);
+				break;
+
+			case 'A':
+				if (isCtrl)
+					SendMessage(hwnd, NSM_SELECTITEMS, 0, data->items.getCount());
+				break;
 			}
 		}
 		break;
@@ -806,10 +838,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			switch (LOWORD(wParam)) {
 			case SB_LINEUP:
-				data->ScrollListBy(0, 10);
+				data->ScrollListBy(0, -10);
 				break;
 			case SB_LINEDOWN:
-				data->ScrollListBy(0, -10);
+				data->ScrollListBy(0, 10);
 				break;
 			case SB_PAGEUP:
 				data->ScrollListBy(-10, 0);
