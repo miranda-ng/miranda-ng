@@ -130,8 +130,7 @@ static INT_PTR MetaFilter_RecvMessage(WPARAM wParam, LPARAM lParam)
 	if (cc && cc->IsSub())
 		Meta_SetSrmmSub(cc->parentID, cc->contactID);
 
-	Proto_ChainRecv(wParam, ccs);
-	return 0;
+	return Proto_ChainRecv(wParam, ccs);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
