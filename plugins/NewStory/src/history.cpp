@@ -544,6 +544,7 @@ public:
 
 		ADDEVENTS tmp = { m_hContact, db_event_first(m_hContact), -1 };
 		m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
+		m_histControl.SendMsg(WM_KEYDOWN, VK_END, 0);
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(ICO_NEWSTORY));
 
