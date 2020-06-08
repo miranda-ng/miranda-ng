@@ -9,22 +9,26 @@ enum
 
 struct TemplateVars
 {
-	bool del[256];
-	wchar_t* val[256];
+	struct {
+		wchar_t *val;
+		bool del;
+	}
+		vars[256];
 
 	__forceinline wchar_t* GetVar(uint8_t id) {
-		return val[id];
+		return vars[id].val;
 	}
 
 	__forceinline void SetVar(uint8_t id, const wchar_t *v, bool d) {
-		if (val[id] && del[id])
-			mir_free(val[id]);
-		val[id] = mir_wstrdup(v);
-		del[id] = d;
+		auto &V = vars[id];
+		if (V.val && V.del)
+			mir_free(V.val);
+		V.val = mir_wstrdup(v);
+		V.del = d;
 	}
 };
 
-typedef void(*VarFunc)(int mode, TemplateVars* vars, MCONTACT hContact, ItemData* item);
+typedef void (*VarFunc)(int mode, TemplateVars *vars, MCONTACT hContact, ItemData *item);
 
 struct TemplateInfo
 {
