@@ -233,8 +233,9 @@ int CDbxMDBX::InitCrypt()
 		if (!m_crypto->setKey((const BYTE*)value.iov_base, value.iov_len)) {
 			CEnterPasswordDialog dlg(this);
 			while (true) {
-				if (!dlg.DoModal())
+				if (dlg.DoModal() != IDOK)
 					return 4;
+				
 				m_crypto->setPassword(pass_ptrA(mir_utf8encodeW(dlg.m_newPass)));
 				if (m_crypto->setKey((const BYTE*)value.iov_base, value.iov_len)) {
 					m_bUsesPassword = true;
