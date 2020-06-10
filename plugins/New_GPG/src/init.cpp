@@ -191,9 +191,12 @@ int CMPlugin::Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void RemoveHandlers();
 extern list<wstring> transfers;
 int CMPlugin::Unload()
 {
+	RemoveHandlers();
+
 	for (auto p : transfers)
 		if (!p.empty())
 			boost::filesystem::remove(p);

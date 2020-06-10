@@ -506,39 +506,6 @@ int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, DWORD data)
 }
 
 
-int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, options later
-{
-	void AddHandlers();
-
-	list <JabberAccount*>::iterator p;
-	globals.Accounts.clear();
-	globals.Accounts.push_back(new JabberAccount);
-	p = globals.Accounts.begin();
-	(*p)->setAccountNumber(0);
-	for (auto &pa : Accounts()) {
-		IJabberInterface *JIftmp = getJabberApi(pa->szModuleName);
-		int a = 0;
-		if (JIftmp) {
-			(*p)->setJabberInterface(JIftmp);
-			if (pa->tszAccountName) {
-				wchar_t* tmp = mir_wstrdup(pa->tszAccountName);
-				(*p)->setAccountName(tmp);
-			}
-			else {
-				wchar_t *tmp = mir_a2u(pa->szModuleName);
-				(*p)->setAccountName(tmp);
-			}
-			(*p)->setAccountNumber(a);
-			a++;
-			globals.Accounts.push_back(new JabberAccount);
-			p++;
-		}
-	}
-	globals.Accounts.pop_back();
-	AddHandlers();
-	return 0;
-}
-
 static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node, void*)
 {
 	TiXmlDocument *pDoc = node->GetDocument();
@@ -773,25 +740,54 @@ static JABBER_HANDLER_FUNC MessageHandler(IJabberInterface*, TiXmlElement*, void
 	return FALSE;
 }
 
-void AddHandlers()
+int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, options later
 {
-	for (auto p : globals.Accounts) {
-		/*if (p)
-			break;*/
-		if (p->getSendHandler() == INVALID_HANDLE_VALUE)
-			p->setSendHandler(p->getJabberInterface()->AddSendHandler((JABBER_HANDLER_FUNC)SendHandler));
-		
-		if (p->getPresenceHandler() == INVALID_HANDLE_VALUE)
-			p->setPresenceHandler(p->getJabberInterface()->AddPresenceHandler((JABBER_HANDLER_FUNC)PresenceHandler));
+	list <JabberAccount *>::iterator p;
+	globals.Accounts.clear();
+
+	int accNum = 0;
+	for (auto &pa : Accounts()) {
+		IJabberInterface *pApi = getJabberApi(pa->szModuleName);
+		if (pApi == nullptr)
+			continue;
+
+		auto *pAcc = new JabberAccount();
+		pAcc->setJabberInterface(pApi);
+		if (pa->tszAccountName)
+			pAcc->setAccountName(mir_wstrdup(pa->tszAccountName));
+		else
+			pAcc->setAccountName(mir_a2u(pa->szModuleName));
+
+		pAcc->setAccountNumber(accNum++);
+		pAcc->setSendHandler(pApi->AddSendHandler((JABBER_HANDLER_FUNC)SendHandler));
+		pAcc->setPresenceHandler(pApi->AddPresenceHandler((JABBER_HANDLER_FUNC)PresenceHandler));
 
 		if (g_plugin.bAutoExchange) {
-			p->getJabberInterface()->RegisterFeature("GPG_Key_Auto_Exchange:0", "Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
-			p->getJabberInterface()->AddFeatures("GPG_Key_Auto_Exchange:0\0\0");
+			pApi->RegisterFeature("GPG_Key_Auto_Exchange:0", "Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
+			pApi->AddFeatures("GPG_Key_Auto_Exchange:0\0\0");
 		}
 		if (g_plugin.bFileTransfers) {
-			p->getJabberInterface()->RegisterFeature("GPG_Encrypted_FileTransfers:0", "Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
-			p->getJabberInterface()->AddFeatures("GPG_Encrypted_FileTransfers:0\0\0");
+			pApi->RegisterFeature("GPG_Encrypted_FileTransfers:0", "Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
+			pApi->AddFeatures("GPG_Encrypted_FileTransfers:0\0\0");
 		}
+
+		globals.Accounts.push_back(pAcc);
+	}
+
+	return 0;
+}
+
+void RemoveHandlers()
+{
+	for (auto &it : globals.Accounts) {
+		auto *pApi = it->getJabberInterface();
+		if (pApi == nullptr)
+			continue;
+
+		pApi->RemoveHandler(it->getMessageHandler());
+		pApi->RemoveHandler(it->getPresenceHandler());
+		pApi->RemoveFeatures("GPG_Encrypted_FileTransfers:0\0\0");
+		pApi->RemoveFeatures("GPG_Key_Auto_Exchange:0\0\0");
 	}
 }
 
