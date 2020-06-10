@@ -1101,7 +1101,7 @@ void ExportGpGKeysFunc(int type)
 	if (type == 1 || type == 2) {
 		gpg_execution_params params;
 		params.addParam(L"--batch");
-		params.addParam(L"-export-secret-keys");
+		params.addParam(L"--export-secret-keys");
 		params.addParam(L"-a");
 		gpg_launcher(params); //TODO: handle errors
 
