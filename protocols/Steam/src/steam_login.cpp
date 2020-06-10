@@ -119,7 +119,7 @@ void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
 	}
 
 	CSteamCaptchaDialog captchaDialog(this, response.Content, response.Content.size());
-	if (captchaDialog.DoModal() != DIALOG_RESULT_OK) {
+	if (!captchaDialog.DoModal()) {
 		DeleteAuthSettings();
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -191,7 +191,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 		delSetting("TwoFactorCode");
 
 		CSteamTwoFactorDialog twoFactorDialog(this);
-		if (twoFactorDialog.DoModal() != DIALOG_RESULT_OK) {
+		if (!twoFactorDialog.DoModal()) {
 			DeleteAuthSettings();
 			SetStatus(ID_STATUS_OFFLINE);
 			return;
@@ -223,7 +223,7 @@ void CSteamProto::OnAuthorizationError(const JSONNode &root)
 			return;
 
 		CSteamGuardDialog guardDialog(this, domain.c_str());
-		if (guardDialog.DoModal() != DIALOG_RESULT_OK) {
+		if (!guardDialog.DoModal()) {
 			DeleteAuthSettings();
 			SetStatus(ID_STATUS_OFFLINE);
 			return;

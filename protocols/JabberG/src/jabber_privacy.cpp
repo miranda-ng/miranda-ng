@@ -1666,8 +1666,7 @@ public:
 		CPrivacyList *pList = GetSelectedList(m_hwnd);
 		if (pList && pRule) {
 			CJabberDlgPrivacyRule dlgPrivacyRule(m_proto, m_hwnd, pRule);
-			int nResult = dlgPrivacyRule.DoModal();
-			if (nResult) {
+			if (dlgPrivacyRule.DoModal()) {
 				pList->SetModified();
 				::PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 			}
@@ -1683,8 +1682,7 @@ public:
 		if (pList) {
 			CPrivacyListRule* pRule = new CPrivacyListRule(m_proto, Jid, "", FALSE);
 			CJabberDlgPrivacyRule dlgPrivacyRule(m_proto, m_hwnd, pRule);
-			int nResult = dlgPrivacyRule.DoModal();
-			if (nResult) {
+			if (dlgPrivacyRule.DoModal()) {
 				pList->AddRule(pRule);
 				pList->Reorder();
 				pList->SetModified();
@@ -1752,35 +1750,36 @@ public:
 		// FIXME: line length is hard coded in dialog procedure
 		CJabberDlgPrivacyAddList dlgPrivacyAddList(m_proto, m_hwnd);
 		int nRetVal = dlgPrivacyAddList.DoModal();
-		if (nRetVal && mir_strlen(dlgPrivacyAddList.szLine)) {
-			mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
+		if (!nRetVal || !mir_strlen(dlgPrivacyAddList.szLine))
+			return;
 
-			CPrivacyList *pList = m_proto->m_privacyListManager.FindList(dlgPrivacyAddList.szLine);
-			if (pList == nullptr) {
-				m_proto->m_privacyListManager.AddList(dlgPrivacyAddList.szLine);
-				pList = m_proto->m_privacyListManager.FindList(dlgPrivacyAddList.szLine);
-				if (pList) {
-					pList->SetModified(TRUE);
-					pList->SetLoaded(TRUE);
-				}
-			}
-			if (pList)
-				pList->SetDeleted(FALSE);
-			int nSelected = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SELECTSTRING, -1, (LPARAM)dlgPrivacyAddList.szLine);
-			if (nSelected == CB_ERR) {
-				nSelected = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_ADDSTRING, 0, (LPARAM)dlgPrivacyAddList.szLine);
-				SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETITEMDATA, nSelected, (LPARAM)pList);
-				SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETCURSEL, nSelected, 0);
-			}
+		mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 
-			lck.unlock();
-			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
+		CPrivacyList *pList = m_proto->m_privacyListManager.FindList(dlgPrivacyAddList.szLine);
+		if (pList == nullptr) {
+			m_proto->m_privacyListManager.AddList(dlgPrivacyAddList.szLine);
+			pList = m_proto->m_privacyListManager.FindList(dlgPrivacyAddList.szLine);
+			if (pList) {
+				pList->SetModified(TRUE);
+				pList->SetLoaded(TRUE);
+			}
 		}
+		if (pList)
+			pList->SetDeleted(FALSE);
+
+		int nSelected = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SELECTSTRING, -1, (LPARAM)dlgPrivacyAddList.szLine);
+		if (nSelected == CB_ERR) {
+			nSelected = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_ADDSTRING, 0, (LPARAM)dlgPrivacyAddList.szLine);
+			SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETITEMDATA, nSelected, (LPARAM)pList);
+			SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETCURSEL, nSelected, 0);
+		}
+
+		PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 
 	void btnRemoveList_OnClick(CCtrlButton*)
 	{
-		mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
+		mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 
 		CPrivacyList *pList = GetSelectedList(m_hwnd);
 		if (pList) {
@@ -1795,7 +1794,6 @@ public:
 			pList->SetModified();
 		}
 
-		lck.unlock();
 		PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 

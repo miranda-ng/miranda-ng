@@ -489,7 +489,7 @@ public:
 
 	void OnAdd(CCtrlButton*)
 	{
-		if (IDOK == CAccountFormDlg(this, PRAC_ADDED, nullptr).DoModal()) {
+		if (CAccountFormDlg(this, PRAC_ADDED, nullptr).DoModal()) {
 			m_iPrevSel = -1;
 			Refresh();
 		}

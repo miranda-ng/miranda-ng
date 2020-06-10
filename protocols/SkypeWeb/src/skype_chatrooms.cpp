@@ -117,10 +117,9 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case 10:
 			{
 				CSkypeInviteDlg dlg(this);
-				if (dlg.DoModal()) {
+				if (dlg.DoModal())
 					if (dlg.m_hContact != NULL)
 						PushRequest(new InviteUserToChatRequest(chat_id, getId(dlg.m_hContact), "User"));
-				}
 			}
 			break;
 
