@@ -1779,7 +1779,7 @@ public:
 
 	void btnRemoveList_OnClick(CCtrlButton*)
 	{
-		mir_cslock lck(m_proto->m_privacyListManager.m_cs);
+		mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
 
 		CPrivacyList *pList = GetSelectedList(m_hwnd);
 		if (pList) {
