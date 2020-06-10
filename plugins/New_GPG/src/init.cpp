@@ -31,6 +31,7 @@ int onIconPressed(WPARAM, LPARAM);
 
 void InitCheck();
 void FirstRun();
+void RemoveHandlers();
 
 // global variables
 CMPlugin g_plugin;
@@ -124,6 +125,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+static int OnShutdown(WPARAM, LPARAM)
+{
+	RemoveHandlers();
+	return 0;
+}
+
 int CMPlugin::Load()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
@@ -131,6 +138,7 @@ int CMPlugin::Load()
 	HookEvent(ME_OPT_INITIALISE, GpgOptInit);
 	HookEvent(ME_PROTO_ACK, onProtoAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 
 	InitIconLib();
 	init_vars();
@@ -191,12 +199,9 @@ int CMPlugin::Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void RemoveHandlers();
 extern list<wstring> transfers;
 int CMPlugin::Unload()
 {
-	RemoveHandlers();
-
 	for (auto p : transfers)
 		if (!p.empty())
 			boost::filesystem::remove(p);

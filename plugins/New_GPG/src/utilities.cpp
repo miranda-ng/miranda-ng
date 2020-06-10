@@ -784,8 +784,10 @@ void RemoveHandlers()
 		if (pApi == nullptr)
 			continue;
 
-		pApi->RemoveHandler(it->getMessageHandler());
-		pApi->RemoveHandler(it->getPresenceHandler());
+		if (it->getMessageHandler() != INVALID_HANDLE_VALUE)
+			pApi->RemoveHandler(it->getMessageHandler());
+		if (it->getPresenceHandler() != INVALID_HANDLE_VALUE)
+			pApi->RemoveHandler(it->getPresenceHandler());
 		pApi->RemoveFeatures("GPG_Encrypted_FileTransfers:0\0\0");
 		pApi->RemoveFeatures("GPG_Key_Auto_Exchange:0\0\0");
 	}
