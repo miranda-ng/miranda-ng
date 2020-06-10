@@ -352,7 +352,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (OnClose()) {
 			m_bExiting = true;
 			if (m_isModal)
-				EndModal(m_bSucceeded ? IDOK : IDCANCEL);
+				EndModal(m_bSucceeded ? IDOK : FALSE);
 			else
 				DestroyWindow(m_hwnd);
 		}
