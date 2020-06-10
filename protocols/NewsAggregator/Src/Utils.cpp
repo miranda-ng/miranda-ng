@@ -94,7 +94,7 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 		else if (nlhrReply->resultCode == 401) {
 			Netlib_LogfW(hNetlibUser, L"Code 401: feed %s needs auth data.", tszUrl);
 
-			if (CAuthRequest(pEditDlg, hContact).DoModal() == IDOK)
+			if (CAuthRequest(pEditDlg, hContact).DoModal())
 				GetNewsData(tszUrl, szData, hContact, pEditDlg);
 		}
 		else Netlib_LogfW(hNetlibUser, L"Code %d: Failed getting feed data %s.", nlhrReply->resultCode, tszUrl);
