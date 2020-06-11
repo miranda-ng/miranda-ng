@@ -438,6 +438,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			return;
 		}
 
+		// filter out file transfers
 		bool bIsOutgoing = it["outgoing"].as_bool();
 		if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
 			CMStringW wszUrl(wszText.Mid(26));
@@ -458,7 +459,14 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			return;
 		}
 
-		debugLogA("Adding message %d:%s (CR=%d)", hContact, szMsgId.c_str(), bCreateRead);
+		// suppress notifications for already loaded/processed messages
+		__int64 storedLastId = getId(hContact, DB_KEY_LASTMSGID);
+		if (msgId <= storedLastId) {
+			debugLogA("Parsing old/processed message with id %lld < %lld, setting CR to true", msgId, storedLastId);
+			bCreateRead = true;
+		}
+
+		debugLogA("Adding message %d:%lld (CR=%d)", hContact, msgId, bCreateRead);
 
 		ptrA szUtf(mir_utf8encodeW(wszText));
 
