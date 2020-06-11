@@ -129,6 +129,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bUseSSL(this, "UseSSL", false),
 	m_bUseTLS(this, "UseTLS", true),
 
+	m_iMamMode(this, "MamMode", 0),
 	m_iConnectionKeepAliveInterval(this, "ConnectionKeepAliveInterval", 60000),
 	m_iConnectionKeepAliveTimeout(this, "ConnectionKeepAliveTimeout", 50000)
 {

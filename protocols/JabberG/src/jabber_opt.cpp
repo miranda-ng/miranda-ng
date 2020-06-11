@@ -348,7 +348,7 @@ class CDlgOptAccount : public CJabberDlgBase
 	CCtrlEdit		m_txtManualPort;
 	CCtrlCheck		m_chkKeepAlive;
 	CCtrlCheck		m_chkAutoDeleteContacts;
-	CCtrlCombo		m_cbLocale;
+	CCtrlCombo		m_cbLocale, m_cbMam;
 	CCtrlButton		m_btnRegister;
 	CCtrlButton		m_btnUnregister;
 	CCtrlButton		m_btnChangePassword;
@@ -364,6 +364,7 @@ public:
 		m_cbResource(this, IDC_COMBO_RESOURCE),
 		m_chkUseHostnameAsResource(this, IDC_HOSTNAME_AS_RESOURCE),
 		m_chkUseDomainLogin(this, IDC_USEDOMAINLOGIN),
+		m_cbMam(this, IDC_MAM_MODE),
 		m_cbServer(this, IDC_EDIT_LOGIN_SERVER),
 		m_txtPort(this, IDC_PORT),
 		m_chkUseSsl(this, IDC_USE_SSL),
@@ -429,6 +430,14 @@ protected:
 		for (auto &it : szResources)
 			m_cbResource.AddString(it);
 
+
+		// fill MAM modes
+		wchar_t *szMamModes[] = { LPGENW("Never"), LPGENW("Roster"), LPGENW("Always") };
+		for (auto &it : szMamModes)
+			m_cbMam.AddString(it, int(&it - szMamModes));
+		m_cbMam.SetCurSel(m_proto->m_iMamMode);
+		m_cbMam.Enable(m_proto->m_ThreadInfo && (m_proto->m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MAM));
+
 		// append computer name to the resource list
 		wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
@@ -487,6 +496,9 @@ protected:
 				replaceStr(m_proto->m_tszSelectedLang, szLanguageCode);
 			}
 		}
+
+		if (m_cbMam.Enabled() && m_cbMam.GetCurSel() != m_proto->m_iMamMode)
+			m_proto->MamSetMode(m_cbMam.GetCurSel());
 
 		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
 

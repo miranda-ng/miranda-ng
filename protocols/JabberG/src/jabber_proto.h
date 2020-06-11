@@ -224,6 +224,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bUseSSL;
 	CMOption<bool> m_bUseTLS;
 
+	CMOption<int>   m_iMamMode;
 	CMOption<DWORD> m_iConnectionKeepAliveInterval;
 	CMOption<DWORD> m_iConnectionKeepAliveTimeout;
 
@@ -418,24 +419,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char *str);
 	void       AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char *str, const char *reason);
 	void       DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char* jid);
-
-	//---- jabber_omemo.cpp --------------------------------------------------------------
-	
-	bool       OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime);
-	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int, const char* pszSrc);
-	void       OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime);
-	void       OmemoHandleMessageQueue();
-	void       OmemoHandleDeviceList(const TiXmlElement *node);
-	void       OmemoInitDevice();
-	void       OmemoAnnounceDevice();
-	void       OmemoSendBundle();
-	void       OmemoPublishNodes();
-	bool       OmemoCheckSession(MCONTACT hContact);
-	int        OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact);
-	bool       OmemoIsEnabled(MCONTACT hContact);
-	void       OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
-
-	omemo::omemo_impl m_omemo;
 
 	//---- jabber_console.cpp ------------------------------------------------------------
 
@@ -639,6 +622,13 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       SetBookmarkRequest(XmlNodeIq &iqId);
 	void       UpdateItem(JABBER_LIST_ITEM *pItem, const char *name);
 
+	//---- jabber_mam.cpp ----------------------------------------------------------------
+
+	void       OnIqResultMamInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+
+	void       MamRetrieveMissingMessages(void);
+	void       MamSetMode(int iNewMode);
+
 	//---- jabber_menu.cpp ---------------------------------------------------------------
 
 	INT_PTR    __cdecl OnMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam);
@@ -685,6 +675,24 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle);
 	CMStringA  ExtractImage(const TiXmlElement *node);
 	const char* GetSoftName(const char *wszName);
+
+	//---- jabber_omemo.cpp --------------------------------------------------------------
+
+	bool       OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime);
+	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int, const char *pszSrc);
+	void       OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime);
+	void       OmemoHandleMessageQueue();
+	void       OmemoHandleDeviceList(const TiXmlElement *node);
+	void       OmemoInitDevice();
+	void       OmemoAnnounceDevice();
+	void       OmemoSendBundle();
+	void       OmemoPublishNodes();
+	bool       OmemoCheckSession(MCONTACT hContact);
+	int        OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact);
+	bool       OmemoIsEnabled(MCONTACT hContact);
+	void       OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+
+	omemo::omemo_impl m_omemo;
 
 	//---- jabber_password.cpp --------------------------------------------------------------
 

@@ -123,10 +123,14 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 
 	DWORD dwMask = JABBER_LOGIN_ROSTER | JABBER_LOGIN_BOOKMARKS | JABBER_LOGIN_SERVERINFO;
 	if ((info->dwLoginRqs & dwMask) == dwMask && !(info->dwLoginRqs & JABBER_LOGIN_BOOKMARKS_AJ)) {
-		if (info->jabberServerCaps & JABBER_CAPS_CARBONS) {
-			// Server seems to support carbon copies, let's enable/disable them
+
+		// Server seems to support carbon copies, let's enable/disable them
+		if (info->jabberServerCaps & JABBER_CAPS_CARBONS)
 			m_ThreadInfo->send(XmlNodeIq("set", SerialNext()) << XCHILDNS((m_bEnableCarbons) ? "enable" : "disable", JABBER_FEAT_CARBONS));
-		}
+
+		// Server seems to support MAM, let's retrieve MAM settings
+		if (info->jabberServerCaps & JABBER_CAPS_MAM)
+			m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultMamInfo, JABBER_IQ_TYPE_GET, 0, this)) << XCHILDNS("prefs", JABBER_FEAT_MAM));
 
 		if (m_bAutoJoinBookmarks) {
 			LIST<JABBER_LIST_ITEM> ll(10);

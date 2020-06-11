@@ -114,9 +114,10 @@
 #define IDC_MSGLANG                     1049
 #define IDC_PASSWORD                    1050
 #define IDC_JID                         1051
-#define IDC_NEWPASSWD2                  1052
 #define IDC_ROSTER_SYNC                 1052
 #define IDC_OLDPASSWD                   1053
+#define IDC_MAM_MODE                    1054
+#define IDC_NEWPASSWD2                  1055
 #define IDC_ADDRESS1                    1056
 #define IDC_ADDRESS2                    1057
 #define IDC_CITY                        1058

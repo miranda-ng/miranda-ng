@@ -1078,6 +1078,8 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		return;
 	}
 
+	time_t msgTime = 0;
+
 	// Handle carbons. The message MUST be coming from our bare JID.
 	const TiXmlElement *carbon = nullptr;
 	bool carbonSent = false; //2 cases: received or sent.
@@ -1121,6 +1123,20 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				if (from == nullptr) {
 					debugLogA("no 'to' attribute in carbons, returning");
 					return;
+				}
+			}
+		}
+		else { // check for MAM response
+			if (auto *mamResult = XmlGetChildByTag(node, "result", "xmlns", JABBER_FEAT_MAM)) {
+				auto *xmlForwarded = XmlGetChildByTag(mamResult, "forwarded", "xmlns", JABBER_XMLNS_FORWARD);
+				if (auto *xmlMessage = XmlFirstChild(xmlForwarded, "message")) {
+					node = xmlMessage;
+					type = XmlGetAttr(node, "type");
+					from = XmlGetAttr(node, "from");
+				}
+				if (auto *xmlDelay = XmlGetChildByTag(xmlForwarded, "delay", "xmlns", JABBER_FEAT_DELAY)) {
+					if (auto *ptszTimeStamp = XmlGetAttr(xmlDelay, "stamp"))
+						msgTime = JabberIsoToUnixTime(ptszTimeStamp);
 				}
 			}
 		}
@@ -1168,14 +1184,13 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	// check MAM support
 	const char *szMsgId = nullptr;
 	if (auto *n = XmlGetChildByTag(node, "stanza-id", "xmlns", JABBER_FEAT_SID))
-		szMsgId = n->GetText();
+		if (szMsgId = n->Attribute("id"))
+			setString("LastMamId", szMsgId);
 
 	// If message is from a stranger (not in roster), item is nullptr
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, from);
 	if (item == nullptr)
 		item = ListGetItemPtr(LIST_VCARD_TEMP, from);
-
-	time_t msgTime = 0;
 
 	// check chatstates availability
 	if (pFromResource && XmlGetChildByTag(node, "active", "xmlns", JABBER_FEAT_CHATSTATES))
@@ -1367,6 +1382,12 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	// all service info was already processed
 	if (szMessage.IsEmpty()) {
 		debugLogA("empty message, returning");
+		return;
+	}
+
+	// we ignore messages without server id either if MAM is enabled
+	if ((info->jabberServerCaps & JABBER_CAPS_MAM) && m_iMamMode != 0 && szMsgId == nullptr) {
+		debugLogA("MAM is enabled, but there's no stanza-id: ignoting a message");
 		return;
 	}
 
