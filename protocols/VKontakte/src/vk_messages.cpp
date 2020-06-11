@@ -199,7 +199,11 @@ void CVkProto::RetrieveUnreadMessages()
 	if (!IsOnline())
 		return;
 
+#if (VK_NEW_API == 1)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveUnreadConversations", true, &CVkProto::OnReceiveDlgs, AsyncHttpRequest::rpHigh));
+#else
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.RetrieveUnreadMessages", true, &CVkProto::OnReceiveDlgs, AsyncHttpRequest::rpHigh));
+#endif
 }
 
 void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

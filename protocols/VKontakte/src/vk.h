@@ -88,7 +88,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define VK_USER_DEACTIVATE_ACTION	9321
 
-#define VK_API_VER "5.76"
+#define VK_NEW_API 0
+
+#if (VK_NEW_API == 0)
+	#define VK_API_VER "5.76"
+#else
+	#define VK_API_VER "5.110"
+#endif
+
 #define VER_API CHAR_PARAM("v", VK_API_VER)
 
 #define VK_FEED_USER 2147483647L

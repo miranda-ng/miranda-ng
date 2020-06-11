@@ -134,6 +134,16 @@ var groups = API.groups.get();
 return { "dialogs": dlg, "users": users, "groups": groups.items };
 // Stored procedure name: RetrieveUnreadMessages = End
 
+// Stored procedure name: RetrieveUnreadConversations = Begin
+// Arguments: no
+
+var dlg = API.messages.getConversations({ "count": 200 });
+var users = API.friends.areFriends({ "user_ids": dlg.items@.conversation@.peer@.local_id});
+var groups = API.groups.get();
+return { "dialogs": dlg, "users": users, "groups": groups.items };
+// Stored procedure name: RetrieveUnreadConversations = End
+
+
 // Stored procedure name: RetrieveStatusMusic = Begin
 // Arguments: 
 // Args.statusmsg
