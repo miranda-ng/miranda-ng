@@ -30,7 +30,6 @@
     <ClCompile Include="src\jabber_adhoc.cpp" />
     <ClCompile Include="src\jabber_agent.cpp" />
     <ClCompile Include="src\jabber_api.cpp" />
-    <ClCompile Include="src\jabber_archive.cpp" />
     <ClCompile Include="src\jabber_bookmarks.cpp" />
     <ClCompile Include="src\jabber_byte.cpp" />
     <ClCompile Include="src\jabber_caps.cpp" />

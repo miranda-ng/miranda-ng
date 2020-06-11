@@ -188,7 +188,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bEnableAvatars;
 	CMOption<bool> m_bEnableCarbons;
 	CMOption<bool> m_bEnableChatStates;
-	CMOption<bool> m_bEnableMsgArchive;
 	CMOption<bool> m_bEnableRemoteControl;
 	CMOption<bool> m_bEnableStreamMgmt;
 	CMOption<bool> m_bEnableUserActivity;
@@ -357,14 +356,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       AdHoc_OnJAHMProcessResult(HWND hwndDlg, TiXmlElement *workNode, JabberAdHocData *dat);
 
 	void       ContactMenuAdhocCommands(struct CJabberAdhocStartupParams *param);
-
-	//---- jabber_archive.c --------------------------------------------------------------
-
-	void       EnableArchive(bool bEnable);
-	void       RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *pItem);
-			    
-	void       OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIqInfo*);
-	void       OnIqResultGetCollectionList(const TiXmlElement *iqNode, CJabberIqInfo*);
 
 	//---- jabber_bookmarks.c ------------------------------------------------------------
 

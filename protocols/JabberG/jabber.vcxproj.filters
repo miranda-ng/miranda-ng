@@ -14,9 +14,6 @@
     <ClCompile Include="src\jabber_api.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_archive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\jabber_bookmarks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -803,8 +803,8 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		ptrA jid(getUStringA(event->hContact, "jid"));
 		if (jid != nullptr) {
 			JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, jid);
-			if (pItem && m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_bEnableMsgArchive)
-				RetrieveMessageArchive(event->hContact, pItem);
+			// if (pItem)
+			//	RetrieveMessageArchive(event->hContact, pItem);
 		}
 	}
 	else if (event->uType == MSG_WINDOW_EVT_CLOSING) {

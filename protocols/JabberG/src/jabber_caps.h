@@ -144,12 +144,6 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_PRIVATE_STORAGE             "jabber:iq:private"
 #define JABBER_CAPS_PRIVATE_STORAGE             ((JabberCapsBits)1<<33)
 
-#define JABBER_FEAT_ARCHIVE_AUTO                "urn:xmpp:archive:auto"
-#define JABBER_CAPS_ARCHIVE_AUTO                ((JabberCapsBits)1<<34)
-
-#define JABBER_FEAT_ARCHIVE_MANAGE              "urn:xmpp:archive:manage"
-#define JABBER_CAPS_ARCHIVE_MANAGE              ((JabberCapsBits)1<<35)
-
 #define JABBER_FEAT_ATTENTION                   "urn:xmpp:attention:0"
 #define JABBER_CAPS_ATTENTION                   ((JabberCapsBits)1<<36)
 
