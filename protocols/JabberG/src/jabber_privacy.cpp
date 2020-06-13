@@ -311,18 +311,30 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Privacy rule editor
+
+struct
+{
+	const wchar_t *name;
+	PrivacyListRuleType value;
+}
+static initTypes[] =
+{
+	{ L"JID", Jid }, { L"Group", Group }, { L"Subscription", Subscription }, { L"Any", Else }
+};
+
 class CJabberDlgPrivacyRule : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
-	CCtrlCombo	m_cbType;
+	CCtrlCombo	m_cbType, m_cbAction;
 
 public:
 	CPrivacyListRule *m_pRule;
 
 	CJabberDlgPrivacyRule(CJabberProto *proto, HWND hwndParent, CPrivacyListRule *pRule) :
 		CJabberDlgBase(proto, IDD_PRIVACY_RULE),
-		m_cbType(this, IDC_COMBO_TYPE)
+		m_cbType(this, IDC_COMBO_TYPE),
+		m_cbAction(this, IDC_COMBO_ACTION)
 	{
 		SetParent(hwndParent);
 
@@ -341,14 +353,12 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEIN, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_PL_PRIN_ALLOW), 0);
 		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEOUT, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_PL_PROUT_ALLOW), 0);
 
-		wchar_t *szTypes[] = { L"JID", L"Group", L"Subscription", L"Any" };
-		int i, nTypes[] = { Jid, Group, Subscription, Else };
-		for (i = 0; i < _countof(szTypes); i++) {
-			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(szTypes[i]));
-			SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_SETITEMDATA, nItem, nTypes[i]);
-			if (m_pRule->GetType() == nTypes[i])
-				SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_SETCURSEL, nItem, 0);
+		for (auto &it : initTypes) {
+			int iItem = m_cbType.AddString(it.name, it.value);
+			if (m_pRule->GetType() == it.value)
+				m_cbType.SetCurSel(iItem);
 		}
+		cbType_OnChange(0);
 
 		SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_RESETCONTENT, 0, 0);
 		wchar_t *szSubscriptions[] = { L"none", L"from", L"to", L"both" };
@@ -357,12 +367,9 @@ public:
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETITEMDATA, nItem, (LPARAM)it);
 		}
 
-		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_COMBO_TYPE, CBN_SELCHANGE), 0);
-
-		SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Deny"));
-		SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Allow"));
-
-		SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_SETCURSEL, m_pRule->GetAction() ? 1 : 0, 0);
+		m_cbAction.AddString(TranslateT("Deny"));
+		m_cbAction.AddString(TranslateT("Allow"));
+		m_cbAction.SetCurSel(m_pRule->GetAction() ? 1 : 0);
 
 		DWORD dwPackets = m_pRule->GetPackets();
 		if (!dwPackets)
@@ -383,10 +390,7 @@ public:
 
 	bool OnApply() override
 	{
-		LRESULT nItemData = -1;
-		LRESULT nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETCURSEL, 0, 0);
-		if (nCurSel != CB_ERR)
-			nItemData = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETITEMDATA, nCurSel, 0);
+		int nCurSel, nItemData = m_cbType.GetItemData(m_cbType.GetCurSel());
 
 		switch (nItemData) {
 		case Jid:
@@ -410,10 +414,7 @@ public:
 		}
 
 		m_pRule->SetType((PrivacyListRuleType)nItemData);
-		nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_ACTION, CB_GETCURSEL, 0, 0);
-		if (nCurSel == CB_ERR)
-			nCurSel = 1;
-		m_pRule->SetAction(nCurSel ? TRUE : FALSE);
+		m_pRule->SetAction(m_cbAction.GetCurSel());
 
 		DWORD dwPackets = 0;
 		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_MESSAGES))
@@ -444,12 +445,7 @@ public:
 	{
 		if (!m_pRule) return;
 
-		LRESULT nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETCURSEL, 0, 0);
-		if (nCurSel == CB_ERR)
-			return;
-
-		LRESULT nItemData = SendDlgItemMessage(m_hwnd, IDC_COMBO_TYPE, CB_GETITEMDATA, nCurSel, 0);
-		switch (nItemData) {
+		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
 		case Jid:
 			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUES), SW_SHOW);
 			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_HIDE);
@@ -907,7 +903,7 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 
 	void CListResetOptions()
 	{
-		m_clcClist.SetHideEmptyGroups(false);
+		m_clcClist.SetHideEmptyGroups(true);
 		m_clcClist.SetHideOfflineRoot(false);
 	}
 
@@ -1054,78 +1050,72 @@ lbl_return:
 		DWORD dwOrder = 0;
 		DWORD dwPackets = 0;
 
-		HANDLE hItem;
-		char *szJid = nullptr;
-
 		pList->RemoveAllRules();
 
 		for (auto &it : clc_info.newJids) {
-			hItem = it->hItem;
-			szJid = it->jid;
-
-			if (dwPackets = CListGetPackets(hItem, true))
-				pList->AddRule(Jid, szJid, TRUE, dwOrder++, dwPackets);
-			if (dwPackets = CListGetPackets(hItem, false))
-				pList->AddRule(Jid, szJid, FALSE, dwOrder++, dwPackets);
+			if (dwPackets = CListGetPackets(it->hItem, true))
+				pList->AddRule(Jid, it->jid, TRUE, dwOrder++, dwPackets);
+			if (dwPackets = CListGetPackets(it->hItem, false))
+				pList->AddRule(Jid, it->jid, FALSE, dwOrder++, dwPackets);
 		}
 
-		for (auto &hContact : Contacts()) {
-			hItem = m_clcClist.FindContact(hContact);
+		for (auto &hContact : m_proto->AccContacts()) {
+			HANDLE hItem = m_clcClist.FindContact(hContact);
+			if (hItem == nullptr)
+				continue;
 
 			ptrA jid(m_proto->ContactToJID(hContact));
 			if (jid == nullptr)
 				continue;
 
 			if (dwPackets = CListGetPackets(hItem, true))
-				pList->AddRule(Jid, szJid, TRUE, dwOrder++, dwPackets);
+				pList->AddRule(Jid, jid, TRUE, dwOrder++, dwPackets);
 			if (dwPackets = CListGetPackets(hItem, false))
-				pList->AddRule(Jid, szJid, FALSE, dwOrder++, dwPackets);
+				pList->AddRule(Jid, jid, FALSE, dwOrder++, dwPackets);
 		}
 
 		// group handles start with 1 (0 is "root")
 		wchar_t *grpName;
 		for (MGROUP iGroup = 1; (grpName = Clist_GroupGetName(iGroup, nullptr)) != nullptr; iGroup++) {
-			hItem = m_clcClist.FindGroup(iGroup);
+			HANDLE hItem = m_clcClist.FindGroup(iGroup);
+			if (hItem == nullptr)
+				continue;
+
 			if (dwPackets = CListGetPackets(hItem, true))
 				pList->AddRule(Group, T2Utf(grpName), TRUE, dwOrder++, dwPackets);
 			if (dwPackets = CListGetPackets(hItem, false))
 				pList->AddRule(Group, T2Utf(grpName), FALSE, dwOrder++, dwPackets);
 		}
 
-		hItem = clc_info.hItemSubBoth;
-		szJid = "both";
+		HANDLE hItem = clc_info.hItemSubBoth;
 		if (dwPackets = CListGetPackets(hItem, true))
-			pList->AddRule(Subscription, szJid, TRUE, dwOrder++, dwPackets);
+			pList->AddRule(Subscription, "both", TRUE, dwOrder++, dwPackets);
 		if (dwPackets = CListGetPackets(hItem, false))
-			pList->AddRule(Subscription, szJid, FALSE, dwOrder++, dwPackets);
+			pList->AddRule(Subscription, "both", FALSE, dwOrder++, dwPackets);
 
 		hItem = clc_info.hItemSubFrom;
-		szJid = "from";
 		if (dwPackets = CListGetPackets(hItem, true))
-			pList->AddRule(Subscription, szJid, TRUE, dwOrder++, dwPackets);
+			pList->AddRule(Subscription, "from", TRUE, dwOrder++, dwPackets);
 		if (dwPackets = CListGetPackets(hItem, false))
-			pList->AddRule(Subscription, szJid, FALSE, dwOrder++, dwPackets);
+			pList->AddRule(Subscription, "from", FALSE, dwOrder++, dwPackets);
 
 		hItem = clc_info.hItemSubNone;
-		szJid = "none";
 		if (dwPackets = CListGetPackets(hItem, true))
-			pList->AddRule(Subscription, szJid, TRUE, dwOrder++, dwPackets);
+			pList->AddRule(Subscription, "none", TRUE, dwOrder++, dwPackets);
 		if (dwPackets = CListGetPackets(hItem, false))
-			pList->AddRule(Subscription, szJid, FALSE, dwOrder++, dwPackets);
+			pList->AddRule(Subscription, "none", FALSE, dwOrder++, dwPackets);
 
 		hItem = clc_info.hItemSubTo;
-		szJid = "to";
 		if (dwPackets = CListGetPackets(hItem, true))
-			pList->AddRule(Subscription, szJid, TRUE, dwOrder++, dwPackets);
+			pList->AddRule(Subscription, "to", TRUE, dwOrder++, dwPackets);
 		if (dwPackets = CListGetPackets(hItem, false))
-			pList->AddRule(Subscription, szJid, FALSE, dwOrder++, dwPackets);
+			pList->AddRule(Subscription, "to", FALSE, dwOrder++, dwPackets);
 
 		hItem = clc_info.hItemDefault;
-		szJid = nullptr;
 		if (dwPackets = CListGetPackets(hItem, true))
-			pList->AddRule(Else, szJid, TRUE, dwOrder++, dwPackets);
+			pList->AddRule(Else, nullptr, TRUE, dwOrder++, dwPackets);
 		if (dwPackets = CListGetPackets(hItem, false))
-			pList->AddRule(Else, szJid, FALSE, dwOrder++, dwPackets);
+			pList->AddRule(Else, nullptr, FALSE, dwOrder++, dwPackets);
 
 		pList->Reorder();
 		pList->SetModified();
