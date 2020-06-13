@@ -436,7 +436,7 @@ protected:
 		for (auto &it : szMamModes)
 			m_cbMam.AddString(it, int(&it - szMamModes));
 		m_cbMam.SetCurSel(m_proto->m_iMamMode);
-		m_cbMam.Enable(m_proto->m_ThreadInfo && (m_proto->m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MAM));
+		m_cbMam.Enable(m_proto->m_bMamPrefsAvailable);
 
 		// append computer name to the resource list
 		wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1];

@@ -29,17 +29,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CJabberProto::OnIqResultMamInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	if (pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT)
-		return;
+	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
+		if (auto *n = XmlFirstChild(iqNode, "prefs")) {
+			m_bMamPrefsAvailable = true;
 
-	if (auto *n = XmlFirstChild(iqNode, "prefs")) {
-		if (auto *type = n->Attribute("default")) {
-			if (!strcmp(type, "never"))
-				m_iMamMode = 0;
-			else if (!strcmp(type, "roster"))
-				m_iMamMode = 1;
-			else
-				m_iMamMode = 2;
+			if (auto *type = n->Attribute("default")) {
+				if (!strcmp(type, "never"))
+					m_iMamMode = 0;
+				else if (!strcmp(type, "roster"))
+					m_iMamMode = 1;
+				else
+					m_iMamMode = 2;
+			}
 		}
 	}
 

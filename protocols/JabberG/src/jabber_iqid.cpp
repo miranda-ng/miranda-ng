@@ -169,6 +169,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 
 void CJabberProto::OnLoggedIn()
 {
+	m_bMamPrefsAvailable = false;
 	m_bJabberOnline = true;
 	m_tmJabberLoggedInTime = time(0);
 
