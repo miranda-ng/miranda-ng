@@ -68,11 +68,12 @@ void CJabberProto::MamSetMode(int iNewMode)
 void CJabberProto::MamRetrieveMissingMessages()
 {
 	CMStringA szLastId = getMStringA("LastMamId");
+	if (szLastId.IsEmpty())
+		return;
 
 	XmlNodeIq iq("set", SerialNext());
 	auto *set = iq << XCHILDNS("query", JABBER_FEAT_MAM) << XCHILDNS("set", "http://jabber.org/protocol/rsm");
 	set << XCHILD("max", "100");
-	if (!szLastId.IsEmpty())
-		set << XCHILD("after", szLastId);
+	set << XCHILD("after", szLastId);
 	m_ThreadInfo->send(iq);
 }
