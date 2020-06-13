@@ -407,10 +407,9 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	if (Ignore_IsIgnored(hcontact, IGNOREEVENT_USERONLINE))
 		return;
 
-	if (!g_plugin.getByte("UsePopups", 0) || !Contact_IsHidden(hcontact))
+	if (!g_plugin.bUsePopups || Contact_IsHidden(hcontact))
 		return;
 
-	DBVARIANT dbv;
 	char szSetting[10];
 	mir_snprintf(szSetting, "Col_%d", newStatus - ID_STATUS_OFFLINE);
 	DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
@@ -418,20 +417,11 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	POPUPDATAW ppd;
 	GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, sett);
 
+	wcsncpy_s(ppd.lpwzContactName, ParseString(g_plugin.getMStringW("PopupStamp", DEFAULT_POPUPSTAMP), hcontact), _TRUNCATE);
+	wcsncpy_s(ppd.lpwzText, ParseString(g_plugin.getMStringW("PopupStampText", DEFAULT_POPUPSTAMPTEXT), hcontact), _TRUNCATE);
+
 	ppd.lchContact = hcontact;
 	ppd.lchIcon = Skin_LoadProtoIcon(lpzProto, newStatus);
-
-	if (!g_plugin.getWString("PopupStamp", &dbv)) {
-		wcsncpy(ppd.lpwzContactName, ParseString(dbv.pwszVal, hcontact), MAX_CONTACTNAME);
-		db_free(&dbv);
-	}
-	else wcsncpy(ppd.lpwzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact), MAX_CONTACTNAME);
-
-	if (!g_plugin.getWString("PopupStampText", &dbv)) {
-		wcsncpy(ppd.lpwzText, ParseString(dbv.pwszVal, hcontact), MAX_SECONDLINE);
-		db_free(&dbv);
-	}
-	else wcsncpy(ppd.lpwzText, ParseString(DEFAULT_POPUPSTAMPTEXT, hcontact), MAX_SECONDLINE);
 	ppd.PluginWindowProc = PopupDlgProc;
 	PUAddPopupW(&ppd);
 }
@@ -534,7 +524,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 				char *sProto = Proto_GetBaseAccountName(hContact);
 				if (Proto_GetStatus(sProto) > ID_STATUS_OFFLINE) {
 					myPlaySound(hContact, ID_STATUS_OFFLINE, prevStatus);
-					if (g_plugin.getByte("UsePopups", 0))
+					if (g_plugin.bUsePopups)
 						ShowPopup(hContact, sProto, ID_STATUS_OFFLINE);
 				}
 
@@ -554,7 +544,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 
 			if (g_bFileActive) FileWrite(hContact);
 			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
-			if (g_plugin.getByte("UsePopups", 0))
+			if (g_plugin.bUsePopups)
 				if (prevStatus != cws->value.wVal)
 					ShowPopup(hContact, Proto_GetBaseAccountName(hContact), cws->value.wVal | 0x8000);
 

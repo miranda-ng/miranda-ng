@@ -63,6 +63,8 @@ wchar_t *any_to_Idle(MCONTACT hContact, const char *module_name, const char *set
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<bool> bUsePopups;
+
 	CMPlugin();
 
 	int Load() override;
@@ -135,7 +137,7 @@ extern MWindowList g_pUserInfo;
 extern HGENMENU hmenuitem;
 extern DWORD dwmirver;
 
-extern BOOL g_bFileActive;
+extern bool g_bFileActive;
 
 void   LoadWatchedProtos();
 void   UnloadWatchedProtos();

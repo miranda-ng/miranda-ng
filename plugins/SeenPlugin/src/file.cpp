@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-BOOL g_bFileActive;
+bool g_bFileActive;
 static wchar_t *g_ptszFileStamp, *g_ptszFileName;
 
 /////////////////////////////////////////////////////////////////////////////////////////

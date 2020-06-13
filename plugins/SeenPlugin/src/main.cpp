@@ -43,7 +43,8 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bUsePopups(MODULENAME, "UsePopups", false)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

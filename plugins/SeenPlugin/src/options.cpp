@@ -79,398 +79,299 @@ static void addSection(CMStringW &str, const wchar_t *pwszTitle, const helpstrin
 	str.AppendChar('\n');
 }
 
-INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+class CPopupOptsDlg : public CDlgBase
 {
-	DBVARIANT dbv;
-	wchar_t szstamp[256];
-	BYTE bchecked;
+	UI_MESSAGE_MAP(CPopupOptsDlg, CDlgBase);
+		UI_MESSAGE(WM_COMMAND, OnCommand);
+	UI_MESSAGE_MAP_END();
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		{
-			int hasPopups = Popup_Enabled();
-			ShowWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(hdlg, IDC_LABTEXT), hasPopups ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(hdlg, IDC_LABTTITLE), hasPopups ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups ? SW_SHOW : SW_HIDE);
-			CheckDlgButton(hdlg, IDC_POPUPS, (g_plugin.getByte("UsePopups", 0) & hasPopups) ? BST_CHECKED : BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups);
-			hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
-			EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
-			EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
+	CCtrlCheck chkPopups;
+	CCtrlButton btnReset;
 
-			for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
-				char szSetting[100];
-				mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
-				DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[i - ID_STATUS_OFFLINE]);
+public:
+	CPopupOptsDlg() :
+		CDlgBase(g_plugin, IDD_POPUPS),
+		btnReset(this, IDC_DEFAULTCOL),
+		chkPopups(this, IDC_POPUPS)
+	{
+		CreateLink(chkPopups, g_plugin.bUsePopups);
 
-				COLORREF back, text;
-				GetColorsFromDWord(&back, &text, sett);
-				SendDlgItemMessage(hdlg, i, CPM_SETCOLOUR, 0, back);
-				SendDlgItemMessage(hdlg, i + 20, CPM_SETCOLOUR, 0, text);
-				EnableWindow(GetDlgItem(hdlg, i), hasPopups);
-				EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
-			}
+		btnReset.OnClick = Callback(this, &CPopupOptsDlg::onClick_Reset);
+		chkPopups.OnChange = Callback(this, &CPopupOptsDlg::onChange_Popups);
+	}
+
+	bool OnInitDialog() override
+	{
+		int hasPopups = Popup_Enabled();
+		ShowWindow(GetDlgItem(m_hwnd, IDC_POPUPSTAMP), hasPopups ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_LABTEXT), hasPopups ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_LABTTITLE), hasPopups ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_POPUPSTAMPTEXT), hasPopups ? SW_SHOW : SW_HIDE);
+		chkPopups.Enable(hasPopups);
+
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
+			char szSetting[100];
+			mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
+			DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[i - ID_STATUS_OFFLINE]);
+
+			COLORREF back, text;
+			GetColorsFromDWord(&back, &text, sett);
+			SendDlgItemMessage(m_hwnd, i, CPM_SETCOLOUR, 0, back);
+			SendDlgItemMessage(m_hwnd, i + 20, CPM_SETCOLOUR, 0, text);
 		}
+		onChange_Popups(0);
 
-		if (!g_plugin.getWString("PopupStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_POPUPSTAMP, dbv.pwszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemText(hdlg, IDC_POPUPSTAMP, DEFAULT_POPUPSTAMP);
+		SetDlgItemText(m_hwnd, IDC_POPUPSTAMP, g_plugin.getMStringW("PopupStamp", DEFAULT_POPUPSTAMP));
+		SetDlgItemText(m_hwnd, IDC_POPUPSTAMPTEXT, g_plugin.getMStringW("PopupStampText", DEFAULT_POPUPSTAMPTEXT));
+		return true;
+	}
 
-		if (!g_plugin.getWString("PopupStampText", &dbv)) {
-			SetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, dbv.pwszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, DEFAULT_POPUPSTAMPTEXT);
-		break;
+	bool OnApply() override
+	{
+		wchar_t szstamp[256];
+		GetDlgItemText(m_hwnd, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
+		g_plugin.setWString("PopupStamp", szstamp);
 
-	case WM_COMMAND:
-		if ((HIWORD(wparam) == BN_CLICKED || HIWORD(wparam) == EN_CHANGE) && GetFocus() == (HWND)lparam)
-			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-		else if (HIWORD(wparam) == CPN_COLOURCHANGED) {
-			WORD idText, idBack;
-			if (LOWORD(wparam) > ID_STATUS_MAX) // we have clicked a text color
-				idText = wparam, idBack = wparam - 20;
+		GetDlgItemText(m_hwnd, IDC_POPUPSTAMPTEXT, szstamp, _countof(szstamp));
+		g_plugin.setWString("PopupStampText", szstamp);
+
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
+			COLORREF back = SendDlgItemMessage(m_hwnd, i, CPM_GETCOLOUR, 0, 0);
+			COLORREF text = SendDlgItemMessage(m_hwnd, i + 20, CPM_GETCOLOUR, 0, 0);
+			DWORD sett = GetDWordFromColors(back, text);
+
+			char szSetting[100];
+			mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
+			if (sett != StatusColors15bits[i - ID_STATUS_OFFLINE])
+				g_plugin.setDword(szSetting, sett);
 			else
-				idText = wparam + 20, idBack = wparam;
+				g_plugin.delSetting(szSetting);
+		}
+		return true;
+	}
+
+	LRESULT OnCommand(UINT, WPARAM wParam, LPARAM)
+	{
+		if (HIWORD(wParam) == CPN_COLOURCHANGED) {
+			WORD idText, idBack;
+			if (LOWORD(wParam) > ID_STATUS_MAX) // we have clicked a text color
+				idText = wParam, idBack = wParam - 20;
+			else
+				idText = wParam + 20, idBack = wParam;
 
 			POPUPDATAW ppd;
-			ppd.colorBack = SendDlgItemMessage(hdlg, idBack, CPM_GETCOLOUR, 0, 0);
-			ppd.colorText = SendDlgItemMessage(hdlg, idText, CPM_GETCOLOUR, 0, 0);
+			ppd.colorBack = SendDlgItemMessage(m_hwnd, idBack, CPM_GETCOLOUR, 0, 0);
+			ppd.colorText = SendDlgItemMessage(m_hwnd, idText, CPM_GETCOLOUR, 0, 0);
 			DWORD temp = GetDWordFromColors(ppd.colorBack, ppd.colorText);
 			GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, temp);
-			SendDlgItemMessage(hdlg, idBack, CPM_SETCOLOUR, 0, ppd.colorBack);
-			SendDlgItemMessage(hdlg, idText, CPM_SETCOLOUR, 0, ppd.colorText);
+			SendDlgItemMessage(m_hwnd, idBack, CPM_SETCOLOUR, 0, ppd.colorBack);
+			SendDlgItemMessage(m_hwnd, idText, CPM_SETCOLOUR, 0, ppd.colorText);
 			ppd.lchIcon = Skin_LoadProtoIcon(nullptr, idBack);
 
-			GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
+			wchar_t szstamp[256];
+			GetDlgItemText(m_hwnd, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
 			wcsncpy(ppd.lpwzContactName, ParseString(szstamp, NULL), MAX_CONTACTNAME);
 
-			GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, _countof(szstamp));
+			GetDlgItemText(m_hwnd, IDC_POPUPSTAMPTEXT, szstamp, _countof(szstamp));
 			wcsncpy(ppd.lpwzText, ParseString(szstamp, NULL), MAX_SECONDLINE);
 
 			PUAddPopupW(&ppd);
-			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			NotifyChange();
 		}
-
-		if (HIWORD(wparam) == BN_CLICKED) {
-			switch (LOWORD(wparam)) {
-			case IDC_POPUPS:
-				{
-					int hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
-					EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
-					EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
-					for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
-						EnableWindow(GetDlgItem(hdlg, i), hasPopups);
-						EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
-					}
-				}
-				break;
-
-			case IDC_DEFAULTCOL:
-				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
-					DWORD sett = StatusColors15bits[i - ID_STATUS_OFFLINE];
-					COLORREF back, text;
-					GetColorsFromDWord(&back, &text, sett);
-					SendDlgItemMessage(hdlg, i, CPM_SETCOLOUR, 0, back);
-					SendDlgItemMessage(hdlg, i + 20, CPM_SETCOLOUR, 0, text);
-				}
-				break;
-			}
-		}
-		break; //case WM_COMMAND
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lparam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lparam)->code) {
-			case PSN_APPLY:
-				GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
-				g_plugin.setWString("PopupStamp", szstamp);
-
-				GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, _countof(szstamp));
-				g_plugin.setWString("PopupStampText", szstamp);
-
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_POPUPS);
-				if (g_plugin.getByte("UsePopups", 0) != bchecked)
-					g_plugin.setByte("UsePopups", bchecked);
-
-				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
-					COLORREF back = SendDlgItemMessage(hdlg, i, CPM_GETCOLOUR, 0, 0);
-					COLORREF text = SendDlgItemMessage(hdlg, i + 20, CPM_GETCOLOUR, 0, 0);
-					DWORD sett = GetDWordFromColors(back, text);
-
-					char szSetting[100];
-					mir_snprintf(szSetting, "Col_%d", i - ID_STATUS_OFFLINE);
-					if (sett != StatusColors15bits[i - ID_STATUS_OFFLINE])
-						g_plugin.setDword(szSetting, sett);
-					else
-						g_plugin.delSetting(szSetting);
-				}
-				break; //case PSN_APPLY
-			}
-			break; //case 0
-		}
-		break;//case WM_NOTIFY
+		return FALSE;
 	}
 
-	return 0;
-}
+	void onChange_Popups(CCtrlCheck *)
+	{
+		bool hasPopups = chkPopups.GetState();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_POPUPSTAMP), hasPopups);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_POPUPSTAMPTEXT), hasPopups);
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
+			EnableWindow(GetDlgItem(m_hwnd, i), hasPopups);
+			EnableWindow(GetDlgItem(m_hwnd, i + 20), hasPopups);
+		}
+	}
 
-INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+	void onClick_Reset(CCtrlButton *)
+	{
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++) {
+			DWORD sett = StatusColors15bits[i - ID_STATUS_OFFLINE];
+			COLORREF back, text;
+			GetColorsFromDWord(&back, &text, sett);
+			SendDlgItemMessage(m_hwnd, i, CPM_SETCOLOUR, 0, back);
+			SendDlgItemMessage(m_hwnd, i + 20, CPM_SETCOLOUR, 0, text);
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CMainOptsDlg : public CDlgBase
 {
-	DBVARIANT dbv;
-	wchar_t szstamp[256];
+	CCtrlCheck chkFile, chkMissed, chkHistory, chkMenuItem, chkUserInfo;
+	CCtrlButton btnVariables;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
+public:
+	CMainOptsDlg() :
+		CDlgBase(g_plugin, IDD_SETTINGS),
+		chkFile(this, IDC_FILE),
+		chkMissed(this, IDC_MISSEDONES),
+		chkHistory(this, IDC_HISTORY),
+		chkMenuItem(this, IDC_MENUITEM),
+		chkUserInfo(this, IDC_USERINFO),
+		btnVariables(this, IDC_VARIABLES)
+	{
+		btnVariables.OnClick = Callback(this, &CMainOptsDlg::onClick_Variables);
 
-		CheckDlgButton(hdlg, IDC_MENUITEM, g_plugin.getByte("MenuItem", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_USERINFO, g_plugin.getByte("UserinfoTab", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_FILE, g_bFileActive ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_HISTORY, g_plugin.getByte("KeepHistory", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_IGNOREOFFLINE, g_plugin.getByte("IgnoreOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_MISSEDONES, g_plugin.getByte("MissedOnes", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_SHOWICON, g_plugin.getByte("ShowIcon", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_COUNT, g_plugin.getByte("MissedOnes_Count", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_IDLESUPPORT, g_plugin.getByte("IdleSupport", 1) ? BST_CHECKED : BST_UNCHECKED);
+		chkFile.OnChange = Callback(this, &CMainOptsDlg::onChanged_File);
+		chkMissed.OnChange = Callback(this, &CMainOptsDlg::onChanged_Missed);
+		chkHistory.OnChange = Callback(this, &CMainOptsDlg::onChanged_History);
+		chkMenuItem.OnChange = Callback(this, &CMainOptsDlg::onChanged_MenuItem);
+		chkUserInfo.OnChange = Callback(this, &CMainOptsDlg::onChanged_UserInfo);		
+	}
 
-		EnableWindow(GetDlgItem(hdlg, IDC_MENUSTAMP), IsDlgButtonChecked(hdlg, IDC_MENUITEM));
-		EnableWindow(GetDlgItem(hdlg, IDC_SHOWICON), IsDlgButtonChecked(hdlg, IDC_MENUITEM));
-		EnableWindow(GetDlgItem(hdlg, IDC_USERSTAMP), IsDlgButtonChecked(hdlg, IDC_USERINFO));
-		EnableWindow(GetDlgItem(hdlg, IDC_FILESTAMP), IsDlgButtonChecked(hdlg, IDC_FILE));
-		EnableWindow(GetDlgItem(hdlg, IDC_FILENAME), IsDlgButtonChecked(hdlg, IDC_FILE));
-		EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSIZE), IsDlgButtonChecked(hdlg, IDC_HISTORY));
-		EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSTAMP), IsDlgButtonChecked(hdlg, IDC_HISTORY));
-		EnableWindow(GetDlgItem(hdlg, IDC_COUNT), IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
+	bool OnInitDialog() override
+	{
+		chkFile.SetState(g_bFileActive);                           onChanged_File(0);
+		chkMissed.SetState(g_plugin.getByte("MissedOnes", 0));     onChanged_Missed(0);
+		chkHistory.SetState(g_plugin.getByte("KeepHistory", 0));   onChanged_History(0);
+		chkMenuItem.SetState(g_plugin.getByte("MenuItem", 1));     onChanged_MenuItem(0);
+		chkUserInfo.SetState(g_plugin.getByte("UserinfoTab", 1));  onChanged_UserInfo(0);
 
-		if (!g_plugin.getWString("MenuStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_MENUSTAMP, dbv.pwszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemText(hdlg, IDC_MENUSTAMP, DEFAULT_MENUSTAMP);
+		CheckDlgButton(m_hwnd, IDC_IGNOREOFFLINE, g_plugin.getByte("IgnoreOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWICON, g_plugin.getByte("ShowIcon", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_COUNT, g_plugin.getByte("MissedOnes_Count", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_IDLESUPPORT, g_plugin.getByte("IdleSupport", 1) ? BST_CHECKED : BST_UNCHECKED);
 
-		if (!g_plugin.getWString("UserStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_USERSTAMP, dbv.pwszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemText(hdlg, IDC_USERSTAMP, DEFAULT_USERSTAMP);
+		SetDlgItemText(m_hwnd, IDC_MENUSTAMP, g_plugin.getMStringW("MenuStamp", DEFAULT_MENUSTAMP));
+		SetDlgItemText(m_hwnd, IDC_USERSTAMP, g_plugin.getMStringW("UserStamp", DEFAULT_USERSTAMP));
+		SetDlgItemText(m_hwnd, IDC_FILESTAMP, g_plugin.getMStringW("FileStamp", DEFAULT_FILESTAMP));
+		SetDlgItemText(m_hwnd, IDC_FILENAME, g_plugin.getMStringW("FileName", DEFAULT_FILENAME));
+		SetDlgItemText(m_hwnd, IDC_HISTORYSTAMP, g_plugin.getMStringW("HistoryStamp", DEFAULT_HISTORYSTAMP));
 
-		if (!g_plugin.getWString("FileStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_FILESTAMP, dbv.pwszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemText(hdlg, IDC_FILESTAMP, DEFAULT_FILESTAMP);
-
-		if (!g_plugin.getWString("FileName", &dbv)) {
-			SetDlgItemText(hdlg, IDC_FILENAME, dbv.pwszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemText(hdlg, IDC_FILENAME, DEFAULT_FILENAME);
-
-		if (!g_plugin.getWString("HistoryStamp", &dbv)) {
-			SetDlgItemText(hdlg, IDC_HISTORYSTAMP, dbv.pwszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemText(hdlg, IDC_HISTORYSTAMP, DEFAULT_HISTORYSTAMP);
-
-		SetDlgItemInt(hdlg, IDC_HISTORYSIZE, g_plugin.getWord("HistoryMax", 10 - 1) - 1, FALSE);
+		SetDlgItemInt(m_hwnd, IDC_HISTORYSIZE, g_plugin.getWord("HistoryMax", 10 - 1) - 1, FALSE);
 
 		// load protocol list
-		SetWindowLongPtr(GetDlgItem(hdlg, IDC_PROTOCOLLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_PROTOCOLLIST), GWL_STYLE) | TVS_CHECKBOXES);
-		{
-			TVINSERTSTRUCT tvis;
-			tvis.hParent = nullptr;
-			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
-			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PROTOCOLLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PROTOCOLLIST), GWL_STYLE) | TVS_CHECKBOXES);
 
-			for (auto &pa : Accounts()) {
-				if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
-					continue;
+		TVINSERTSTRUCT tvis;
+		tvis.hParent = nullptr;
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
+		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 
-				tvis.item.pszText = pa->tszAccountName;
-				tvis.item.lParam = (LPARAM)mir_strdup(pa->szModuleName);
-				tvis.item.state = INDEXTOSTATEIMAGEMASK(IsWatchedProtocol(pa->szModuleName) + 1);
-				TreeView_InsertItem(GetDlgItem(hdlg, IDC_PROTOCOLLIST), &tvis);
+		for (auto &pa : Accounts()) {
+			if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+				continue;
+
+			tvis.item.pszText = pa->tszAccountName;
+			tvis.item.lParam = (LPARAM)mir_strdup(pa->szModuleName);
+			tvis.item.state = INDEXTOSTATEIMAGEMASK(IsWatchedProtocol(pa->szModuleName) + 1);
+			TreeView_InsertItem(GetDlgItem(m_hwnd, IDC_PROTOCOLLIST), &tvis);
+		}
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		wchar_t szstamp[256];
+		GetDlgItemText(m_hwnd, IDC_MENUSTAMP, szstamp, _countof(szstamp));
+		g_plugin.setWString("MenuStamp", szstamp);
+
+		GetDlgItemText(m_hwnd, IDC_USERSTAMP, szstamp, _countof(szstamp));
+		g_plugin.setWString("UserStamp", szstamp);
+
+		GetDlgItemText(m_hwnd, IDC_FILESTAMP, szstamp, _countof(szstamp));
+		g_plugin.setWString("FileStamp", szstamp);
+
+		GetDlgItemText(m_hwnd, IDC_FILENAME, szstamp, _countof(szstamp));
+		g_plugin.setWString("FileName", szstamp);
+
+		GetDlgItemText(m_hwnd, IDC_HISTORYSTAMP, szstamp, _countof(szstamp));
+		g_plugin.setWString("HistoryStamp", szstamp);
+
+		g_plugin.setWord("HistoryMax", (WORD)(GetDlgItemInt(m_hwnd, IDC_HISTORYSIZE, nullptr, FALSE) + 1));
+
+		if (chkMenuItem.IsChanged()) {
+			bool bchecked = chkMenuItem.GetState();
+			g_plugin.setByte("MenuItem", bchecked);
+			if (hmenuitem == nullptr && bchecked)
+				InitMenuitem();
+		}
+		
+		if (chkUserInfo.IsChanged()) {
+			bool bchecked = chkUserInfo.GetState();
+			g_plugin.setByte("UserinfoTab", bchecked);
+			if (bchecked)
+				ehuserinfo = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
+			else
+				UnhookEvent(ehuserinfo);
+		}
+
+		if (chkFile.IsChanged()) {
+			bool bchecked = chkFile.GetState();
+			if (g_bFileActive != bchecked) {
+				g_bFileActive = bchecked;
+				g_plugin.setByte("FileOutput", bchecked);
+				if (bchecked)
+					InitFileOutput();
+				else
+					UninitFileOutput();
 			}
 		}
-		break;
 
-	case WM_COMMAND:
-		if ((HIWORD(wparam) == BN_CLICKED || HIWORD(wparam) == EN_CHANGE) && GetFocus() == (HWND)lparam)
-			if (LOWORD(wparam) != IDC_VARIABLES)
-				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+		g_plugin.setByte("KeepHistory", chkHistory.GetState());
+		g_plugin.setByte("IgnoreOffline", IsDlgButtonChecked(m_hwnd, IDC_IGNOREOFFLINE));
 
-		if (HIWORD(wparam) == BN_CLICKED) {
-			switch (LOWORD(wparam)) {
-			case IDC_MENUITEM:
-				EnableWindow(GetDlgItem(hdlg, IDC_MENUSTAMP), IsDlgButtonChecked(hdlg, IDC_MENUITEM));
-				EnableWindow(GetDlgItem(hdlg, IDC_SHOWICON), IsDlgButtonChecked(hdlg, IDC_MENUITEM));
-				break;
-			case IDC_USERINFO:
-				EnableWindow(GetDlgItem(hdlg, IDC_USERSTAMP), IsDlgButtonChecked(hdlg, IDC_USERINFO));
-				break;
-			case IDC_FILE:
-				EnableWindow(GetDlgItem(hdlg, IDC_FILESTAMP), IsDlgButtonChecked(hdlg, IDC_FILE));
-				EnableWindow(GetDlgItem(hdlg, IDC_FILENAME), IsDlgButtonChecked(hdlg, IDC_FILE));
-				break;
-			case IDC_HISTORY:
-				EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSTAMP), IsDlgButtonChecked(hdlg, IDC_HISTORY));
-				EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSIZE), IsDlgButtonChecked(hdlg, IDC_HISTORY));
-				break;
-			case IDC_MISSEDONES:
-				EnableWindow(GetDlgItem(hdlg, IDC_COUNT), IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
-				break;
+		if (chkMissed.IsChanged()) {
+			bool bchecked = chkMissed.GetState();
+			g_plugin.setByte("MissedOnes", bchecked);
+			if (bchecked)
+				ehmissed_proto = HookEvent(ME_PROTO_ACK, ModeChange_mo);
+			else {
+				UnhookEvent(ehmissed_proto);
+				ehmissed_proto = nullptr;
 			}
 		}
 
-		if (LOWORD(wparam) == IDC_VARIABLES) {
-			CMStringW str;
-			addSection(str, LPGENW("-- Date --"), section1, _countof(section1));
-			addSection(str, LPGENW("-- Time --"), section2, _countof(section2));
-			addSection(str, LPGENW("-- User --"), section3, _countof(section3));
-			addSection(str, LPGENW("-- Format --"), section4, _countof(section4));
-			str.AppendFormat(L"%s\t%s\n\t%s", TranslateT("Note:"), TranslateT("Use # for empty string"), TranslateT("instead of <unknown>"));
-			MessageBoxW(hdlg, str, TranslateT("Last Seen variables"), MB_OK | MB_TOPMOST);
-		}
-		break; //case WM_COMMAND
+		g_plugin.setByte("ShowIcon", IsDlgButtonChecked(m_hwnd, IDC_SHOWICON));
+		g_plugin.setByte("MissedOnes_Count", IsDlgButtonChecked(m_hwnd, IDC_COUNT));
+		g_plugin.setByte("IdleSupport", IsDlgButtonChecked(m_hwnd, IDC_IDLESUPPORT));
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lparam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lparam)->code) {
-			case PSN_APPLY:
-				GetDlgItemText(hdlg, IDC_MENUSTAMP, szstamp, _countof(szstamp));
-				g_plugin.setWString("MenuStamp", szstamp);
+		// save protocol list
+		HWND hwndTreeView = GetDlgItem(m_hwnd, IDC_PROTOCOLLIST);
+		int size = 1;
 
-				GetDlgItemText(hdlg, IDC_USERSTAMP, szstamp, _countof(szstamp));
-				g_plugin.setWString("UserStamp", szstamp);
+		CMStringA watchedProtocols;
+		HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
 
-				GetDlgItemText(hdlg, IDC_FILESTAMP, szstamp, _countof(szstamp));
-				g_plugin.setWString("FileStamp", szstamp);
+		TVITEM tvItem;
+		tvItem.mask = TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
+		tvItem.stateMask = TVIS_STATEIMAGEMASK;
 
-				GetDlgItemText(hdlg, IDC_FILENAME, szstamp, _countof(szstamp));
-				g_plugin.setWString("FileName", szstamp);
-
-				GetDlgItemText(hdlg, IDC_HISTORYSTAMP, szstamp, _countof(szstamp));
-				g_plugin.setWString("HistoryStamp", szstamp);
-
-				g_plugin.setWord("HistoryMax", (WORD)(GetDlgItemInt(hdlg, IDC_HISTORYSIZE, nullptr, FALSE) + 1));
-
-				BOOL bchecked = IsDlgButtonChecked(hdlg, IDC_MENUITEM);
-				if (g_plugin.getByte("MenuItem", 1) != bchecked) {
-					g_plugin.setByte("MenuItem", bchecked);
-					if (hmenuitem == nullptr && bchecked)
-						InitMenuitem();
-				}
-
-				bchecked = IsDlgButtonChecked(hdlg, IDC_USERINFO);
-				if (g_plugin.getByte("UserinfoTab", 1) != bchecked) {
-					g_plugin.setByte("UserinfoTab", bchecked);
-					if (bchecked)
-						ehuserinfo = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
-					else
-						UnhookEvent(ehuserinfo);
-				}
-
-				bchecked = IsDlgButtonChecked(hdlg, IDC_FILE);
-				if (g_bFileActive != bchecked) {
-					g_bFileActive = bchecked;
-					g_plugin.setByte("FileOutput", bchecked);
-					if (bchecked)
-						InitFileOutput();
-					else
-						UninitFileOutput();
-				}
-
-				bchecked = IsDlgButtonChecked(hdlg, IDC_HISTORY);
-				if (g_plugin.getByte("KeepHistory", 0) != bchecked)
-					g_plugin.setByte("KeepHistory", bchecked);
-
-				bchecked = IsDlgButtonChecked(hdlg, IDC_IGNOREOFFLINE);
-				if (g_plugin.getByte("IgnoreOffline", 1) != bchecked)
-					g_plugin.setByte("IgnoreOffline", bchecked);
-
-				bchecked = IsDlgButtonChecked(hdlg, IDC_MISSEDONES);
-				if (g_plugin.getByte("MissedOnes", 0) != bchecked) {
-					g_plugin.setByte("MissedOnes", bchecked);
-					if (bchecked)
-						ehmissed_proto = HookEvent(ME_PROTO_ACK, ModeChange_mo);
-					else
-						UnhookEvent(ehmissed_proto);
-				}
-
-				bchecked = IsDlgButtonChecked(hdlg, IDC_SHOWICON);
-				if (g_plugin.getByte("ShowIcon", 1) != bchecked)
-					g_plugin.setByte("ShowIcon", bchecked);
-
-				bchecked = IsDlgButtonChecked(hdlg, IDC_COUNT);
-				if (g_plugin.getByte("MissedOnes_Count", 0) != bchecked)
-					g_plugin.setByte("MissedOnes_Count", bchecked);
-
-				includeIdle = IsDlgButtonChecked(hdlg, IDC_IDLESUPPORT);
-				if (g_plugin.getByte("IdleSupport", 1) != includeIdle)
-					g_plugin.setByte("IdleSupport", (BYTE)includeIdle);
-
-				// save protocol list
-				HWND hwndTreeView = GetDlgItem(hdlg, IDC_PROTOCOLLIST);
-				char *protocol;
-				int size = 1;
-
-				CMStringA watchedProtocols;
-				HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
-
-				TVITEM tvItem;
-				tvItem.mask = TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
-				tvItem.stateMask = TVIS_STATEIMAGEMASK;
-
-				while (hItem != nullptr) {
-					tvItem.hItem = hItem;
-					TreeView_GetItem(hwndTreeView, &tvItem);
-					protocol = (char*)tvItem.lParam;
-					if ((BOOL)(tvItem.state >> 12) - 1) {
-						size += (int)mir_strlen(protocol) + 2;
-						if (!watchedProtocols.IsEmpty())
-							watchedProtocols.AppendChar('\n');
-						watchedProtocols.Append(protocol);
-					}
-					hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
-				}
-				g_plugin.setString("WatchedAccounts", watchedProtocols);
-
-				UnloadWatchedProtos();
-				LoadWatchedProtos();
+		while (hItem != nullptr) {
+			tvItem.hItem = hItem;
+			TreeView_GetItem(hwndTreeView, &tvItem);
+			char *protocol = (char *)tvItem.lParam;
+			if ((BOOL)(tvItem.state >> 12) - 1) {
+				size += (int)mir_strlen(protocol) + 2;
+				if (!watchedProtocols.IsEmpty())
+					watchedProtocols.AppendChar('\n');
+				watchedProtocols.Append(protocol);
 			}
-			break; //case 0
-
-		case IDC_PROTOCOLLIST:
-			if (((LPNMHDR)lparam)->code == NM_CLICK) {
-				HWND hTree = ((LPNMHDR)lparam)->hwndFrom;
-				HTREEITEM hItem;
-
-				TVHITTESTINFO hti;
-				hti.pt.x = (short)LOWORD(GetMessagePos());
-				hti.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(hTree, &hti.pt);
-				if (hItem = TreeView_HitTest(hTree, &hti)) {
-					if (hti.flags & TVHT_ONITEM)
-						TreeView_SelectItem(hTree, hItem);
-					if (hti.flags & TVHT_ONITEMSTATEICON)
-						SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-				}
-			}
+			hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
 		}
-		break;//case WM_NOTIFY
+		g_plugin.setString("WatchedAccounts", watchedProtocols);
 
-	case WM_DESTROY:
+		UnloadWatchedProtos();
+		LoadWatchedProtos();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
 		// free protocol list 
-		HWND hwndTreeView = GetDlgItem(hdlg, IDC_PROTOCOLLIST);
+		HWND hwndTreeView = GetDlgItem(m_hwnd, IDC_PROTOCOLLIST);
 		HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
 		TVITEM tvItem;
 		tvItem.mask = TVIF_HANDLE | TVIF_PARAM;
@@ -481,27 +382,64 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 			mir_free((void *)tvItem.lParam);
 			hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
 		}
-		break;
 	}
 
-	return 0;
-}
+	void onChanged_MenuItem(CCtrlCheck *)
+	{
+		bool bChecked = chkMenuItem.GetState();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_MENUSTAMP), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWICON), bChecked);
+	}
 
-int OptionsInit(WPARAM wparam, LPARAM)
+	void onChanged_UserInfo(CCtrlCheck *)
+	{
+		EnableWindow(GetDlgItem(m_hwnd, IDC_USERSTAMP), chkUserInfo.GetState());
+	}
+
+	void onChanged_File(CCtrlCheck *)
+	{
+		bool bChecked = chkFile.GetState();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_FILESTAMP), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_FILENAME), bChecked);
+	}
+
+	void onChanged_History(CCtrlCheck *)
+	{
+		bool bChecked = chkHistory.GetState();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_HISTORYSTAMP), bChecked);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_HISTORYSIZE), bChecked);
+	}
+
+	void onChanged_Missed(CCtrlCheck *)
+	{
+		EnableWindow(GetDlgItem(m_hwnd, IDC_COUNT), chkMissed.GetState());
+	}
+
+	void onClick_Variables(CCtrlButton*) {
+		CMStringW str;
+		addSection(str, LPGENW("-- Date --"), section1, _countof(section1));
+		addSection(str, LPGENW("-- Time --"), section2, _countof(section2));
+		addSection(str, LPGENW("-- User --"), section3, _countof(section3));
+		addSection(str, LPGENW("-- Format --"), section4, _countof(section4));
+		str.AppendFormat(L"%s\t%s\n\t%s", TranslateT("Note:"), TranslateT("Use # for empty string"), TranslateT("instead of <unknown>"));
+		MessageBoxW(m_hwnd, str, TranslateT("Last Seen variables"), MB_OK | MB_TOPMOST);
+	}
+};
+
+int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 100000000;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
-	odp.szGroup.w = LPGENW("Contacts");
-	odp.szTitle.w = LPGENW("Last seen");
-	odp.pfnDlgProc = OptsSettingsDlgProc;
-	g_plugin.addOptions(wparam, &odp);
+	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-	odp.szGroup.w = LPGENW("Popups");
-	odp.szTitle.w = LPGENW("Last seen");
-	odp.pfnDlgProc = OptsPopupsDlgProc;
-	g_plugin.addOptions(wparam, &odp);
+	odp.szGroup.a = LPGEN("Contacts");
+	odp.szTitle.a = LPGEN("Last seen");
+	odp.pDialog = new CMainOptsDlg();
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTitle.a = LPGEN("Last seen");
+	odp.pDialog = new CPopupOptsDlg();
+	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
