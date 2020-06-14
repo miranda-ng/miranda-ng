@@ -23,9 +23,8 @@ namespace keygen {
 
 /* Под "генерацией ключей" здесь понимается генерация обоих значений для
  * пар key-value, т.е. не только ключей, но и ассоциированных с ними данных.
- */
-
-/* Генерацию ключей нельзя отнести к простым задачам, так как требования
+ *
+ * Генерацию ключей нельзя отнести к простым задачам, так как требования
  * примерно следующие:
  *  - генерация разного количества уникальных ключей различной длины
  *    в задаваемом диапазоне;
@@ -67,7 +66,8 @@ namespace keygen {
  *      1) смещение (сложение) по модулю;
  *      2) циклический сдвиг;
  *      3) добавление абсолютного смещения (базы);
- */
+ *
+ * Также см. описание параметров генератора ключей и значений в config.h */
 
 typedef uint64_t serial_t;
 
@@ -103,13 +103,14 @@ buffer alloc(size_t limit);
 
 class maker {
   config::keygen_params_pod mapping;
-  serial_t base;
-  serial_t salt;
+  serial_t base{0};
+  serial_t salt{0};
 
   struct essentials {
-    uint16_t minlen;
-    uint16_t flags;
-    uint32_t maxlen;
+    uint16_t minlen{0};
+    enum { prng_fill_flag = 1 };
+    uint16_t flags{0};
+    uint32_t maxlen{0};
   } key_essentials, value_essentials;
 
   static void mk_begin(const serial_t serial, const essentials &params,
@@ -122,8 +123,6 @@ class maker {
   }
 
 public:
-  maker() { memset(this, 0, sizeof(*this)); }
-
   void pair(serial_t serial, const buffer &key, buffer &value,
             serial_t value_age, const bool keylen_changeable);
   void setup(const config::actor_params_pod &actor, unsigned actor_id,

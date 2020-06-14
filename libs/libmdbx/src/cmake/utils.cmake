@@ -61,7 +61,7 @@ macro(set_source_files_compile_flags)
   unset(_lang)
 endmacro(set_source_files_compile_flags)
 
-macro(fetch_version name version_file parent_scope)
+macro(fetch_version name source_root_directory parent_scope)
   set(${name}_VERSION "")
   set(${name}_GIT_DESCRIBE "")
   set(${name}_GIT_TIMESTAMP "")
@@ -69,11 +69,11 @@ macro(fetch_version name version_file parent_scope)
   set(${name}_GIT_COMMIT "")
   set(${name}_GIT_REVISION 0)
   set(${name}_GIT_VERSION "")
-  if(GIT AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
+  if(GIT AND EXISTS "${source_root_directory}/.git")
     execute_process(COMMAND ${GIT} describe --tags --long --dirty=-dirty
       OUTPUT_VARIABLE ${name}_GIT_DESCRIBE
       OUTPUT_STRIP_TRAILING_WHITESPACE
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      WORKING_DIRECTORY ${source_root_directory}
       RESULT_VARIABLE rc)
     if(rc OR "${name}_GIT_DESCRIBE" STREQUAL "")
       message(FATAL_ERROR "Please fetch tags and/or install latest version of git ('describe --tags --long --dirty' failed)")
@@ -82,13 +82,13 @@ macro(fetch_version name version_file parent_scope)
     execute_process(COMMAND ${GIT} show --no-patch --format=%cI HEAD
       OUTPUT_VARIABLE ${name}_GIT_TIMESTAMP
       OUTPUT_STRIP_TRAILING_WHITESPACE
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      WORKING_DIRECTORY ${source_root_directory}
       RESULT_VARIABLE rc)
     if(rc OR "${name}_GIT_TIMESTAMP" STREQUAL "%cI")
       execute_process(COMMAND ${GIT} show --no-patch --format=%ci HEAD
         OUTPUT_VARIABLE ${name}_GIT_TIMESTAMP
         OUTPUT_STRIP_TRAILING_WHITESPACE
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        WORKING_DIRECTORY ${source_root_directory}
         RESULT_VARIABLE rc)
       if(rc OR "${name}_GIT_TIMESTAMP" STREQUAL "%ci")
         message(FATAL_ERROR "Please install latest version of git ('show --no-patch --format=%cI HEAD' failed)")
@@ -98,7 +98,7 @@ macro(fetch_version name version_file parent_scope)
     execute_process(COMMAND ${GIT} show --no-patch --format=%T HEAD
       OUTPUT_VARIABLE ${name}_GIT_TREE
       OUTPUT_STRIP_TRAILING_WHITESPACE
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      WORKING_DIRECTORY ${source_root_directory}
       RESULT_VARIABLE rc)
     if(rc OR "${name}_GIT_TREE" STREQUAL "")
       message(FATAL_ERROR "Please install latest version of git ('show --no-patch --format=%T HEAD' failed)")
@@ -107,19 +107,36 @@ macro(fetch_version name version_file parent_scope)
     execute_process(COMMAND ${GIT} show --no-patch --format=%H HEAD
       OUTPUT_VARIABLE ${name}_GIT_COMMIT
       OUTPUT_STRIP_TRAILING_WHITESPACE
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      WORKING_DIRECTORY ${source_root_directory}
       RESULT_VARIABLE rc)
     if(rc OR "${name}_GIT_COMMIT" STREQUAL "")
       message(FATAL_ERROR "Please install latest version of git ('show --no-patch --format=%H HEAD' failed)")
     endif()
 
-    execute_process(COMMAND ${GIT} rev-list --count --no-merges HEAD
+    execute_process(COMMAND ${GIT} tag --sort=-version:refname
+      OUTPUT_VARIABLE tag_list
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      WORKING_DIRECTORY ${source_root_directory}
+      RESULT_VARIABLE rc)
+    if(rc)
+      message(FATAL_ERROR "Please install latest version of git ('tag --sort=-version:refname' failed)")
+    endif()
+    string(REGEX REPLACE "\n" ";" tag_list "${tag_list}")
+    set(last_release_tag "")
+    set(git_revlist_arg "HEAD")
+    foreach(tag IN LISTS tag_list)
+      if(NOT last_release_tag)
+        string(REGEX MATCH "^v[0-9]+(\.[0-9]+)+" last_release_tag "${tag}")
+        set(git_revlist_arg "${tag}..HEAD")
+      endif()
+    endforeach(tag)
+    execute_process(COMMAND ${GIT} rev-list --count "${git_revlist_arg}"
       OUTPUT_VARIABLE ${name}_GIT_REVISION
       OUTPUT_STRIP_TRAILING_WHITESPACE
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      WORKING_DIRECTORY ${source_root_directory}
       RESULT_VARIABLE rc)
     if(rc OR "${name}_GIT_REVISION" STREQUAL "")
-      message(FATAL_ERROR "Please install latest version of git ('rev-list --count --no-merges HEAD' failed)")
+      message(FATAL_ERROR "Please install latest version of git ('rev-list --count ${git_revlist_arg}' failed)")
     endif()
 
     string(REGEX MATCH "^(v)?([0-9]+)\\.([0-9]+)\\.([0-9]+)(.*)?" git_version_valid "${${name}_GIT_DESCRIBE}")
@@ -136,8 +153,8 @@ macro(fetch_version name version_file parent_scope)
     endif()
   endif()
 
-  if(NOT ${name}_GIT_VERSION OR NOT ${name}_GIT_TIMESTAMP OR NOT ${name}_GIT_REVISION)
-    if(GIT AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
+  if(NOT ${name}_GIT_VERSION OR NOT ${name}_GIT_TIMESTAMP OR ${name}_GIT_REVISION STREQUAL "")
+    if(GIT AND EXISTS "${source_root_directory}/.git")
       message(WARNING "Unable to retrive ${name} version from git.")
     endif()
     set(${name}_GIT_VERSION "0;0;0;0")
@@ -145,8 +162,9 @@ macro(fetch_version name version_file parent_scope)
     set(${name}_GIT_REVISION 0)
 
     # Try to get version from VERSION file
+    set(version_file "${source_root_directory}/VERSION")
     if(EXISTS "${version_file}")
-      file(STRINGS "${version_file}" ${name}_VERSION)
+      file(STRINGS "${version_file}" ${name}_VERSION LIMIT_COUNT 1 LIMIT_INPUT 42)
     endif()
 
     if(NOT ${name}_VERSION)
@@ -168,32 +186,19 @@ macro(fetch_version name version_file parent_scope)
   list(GET ${name}_VERSION_LIST 2 "${name}_VERSION_RELEASE")
   list(GET ${name}_VERSION_LIST 3 "${name}_VERSION_REVISION")
 
-  if(parent_scope)
-    set(${name}_VERSION_MAJOR ${${name}_VERSION_MAJOR} PARENT_SCOPE)
-    set(${name}_VERSION_MINOR ${${name}_VERSION_MINOR} PARENT_SCOPE)
-    set(${name}_VERSION_RELEASE ${${name}_VERSION_RELEASE} PARENT_SCOPE)
-    set(${name}_VERSION_REVISION ${${name}_VERSION_REVISION} PARENT_SCOPE)
-    set(${name}_VERSION ${${name}_VERSION} PARENT_SCOPE)
+  if(${parent_scope})
+    set(${name}_VERSION_MAJOR "${${name}_VERSION_MAJOR}" PARENT_SCOPE)
+    set(${name}_VERSION_MINOR "${${name}_VERSION_MINOR}" PARENT_SCOPE)
+    set(${name}_VERSION_RELEASE "${${name}_VERSION_RELEASE}" PARENT_SCOPE)
+    set(${name}_VERSION_REVISION "${${name}_VERSION_REVISION}" PARENT_SCOPE)
+    set(${name}_VERSION "${${name}_VERSION}" PARENT_SCOPE)
 
-    set(${name}_GIT_DESCRIBE ${${name}_GIT_DESCRIBE} PARENT_SCOPE)
-    set(${name}_GIT_TIMESTAMP ${${name}_GIT_TIMESTAMP} PARENT_SCOPE)
-    set(${name}_GIT_TREE ${${name}_GIT_TREE} PARENT_SCOPE)
-    set(${name}_GIT_COMMIT ${${name}_GIT_COMMIT} PARENT_SCOPE)
-    set(${name}_GIT_REVISION ${${name}_GIT_REVISION} PARENT_SCOPE)
-    set(${name}_GIT_VERSION ${${name}_GIT_VERSION} PARENT_SCOPE)
-  else()
-    set(${name}_VERSION_MAJOR ${${name}_VERSION_MAJOR})
-    set(${name}_VERSION_MINOR ${${name}_VERSION_MINOR})
-    set(${name}_VERSION_RELEASE ${${name}_VERSION_RELEASE})
-    set(${name}_VERSION_REVISION ${${name}_VERSION_REVISION})
-    set(${name}_VERSION ${${name}_VERSION})
-
-    set(${name}_GIT_DESCRIBE ${${name}_GIT_DESCRIBE})
-    set(${name}_GIT_TIMESTAMP ${${name}_GIT_TIMESTAMP})
-    set(${name}_GIT_TREE ${${name}_GIT_TREE})
-    set(${name}_GIT_COMMIT ${${name}_GIT_COMMIT})
-    set(${name}_GIT_REVISION ${${name}_GIT_REVISION})
-    set(${name}_GIT_VERSION ${${name}_GIT_VERSION})
+    set(${name}_GIT_DESCRIBE "${${name}_GIT_DESCRIBE}" PARENT_SCOPE)
+    set(${name}_GIT_TIMESTAMP "${${name}_GIT_TIMESTAMP}" PARENT_SCOPE)
+    set(${name}_GIT_TREE "${${name}_GIT_TREE}" PARENT_SCOPE)
+    set(${name}_GIT_COMMIT "${${name}_GIT_COMMIT}" PARENT_SCOPE)
+    set(${name}_GIT_REVISION "${${name}_GIT_REVISION}" PARENT_SCOPE)
+    set(${name}_GIT_VERSION "${${name}_GIT_VERSION}" PARENT_SCOPE)
   endif()
 endmacro(fetch_version)
 

@@ -61,8 +61,10 @@ _MithrilDB_ is rightly relevant name.
 
 [![https://t.me/libmdbx](https://raw.githubusercontent.com/wiki/erthink/libmdbx/img/telegram.png)](https://t.me/libmdbx)
 [![Build Status](https://travis-ci.org/erthink/libmdbx.svg?branch=master)](https://travis-ci.org/erthink/libmdbx)
-[![Build status](https://ci.appveyor.com/api/projects/status/ue94mlopn50dqiqg/branch/master?svg=true)](https://ci.appveyor.com/project/erthink/libmdbx/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/ue94mlopn50dqiqg/branch/master?svg=true)](https://ci.appveyor.com/project/leo-yuriev/libmdbx/branch/master)
+[![CircleCI](https://circleci.com/gh/erthink/libmdbx/tree/master.svg?style=svg)](https://circleci.com/gh/erthink/libmdbx/tree/master)
 [![Coverity Scan Status](https://scan.coverity.com/projects/12915/badge.svg)](https://scan.coverity.com/projects/reopen-libmdbx)
+[![Build Status](https://api.cirrus-ci.com/github/erthink/libmdbx.svg)](https://cirrus-ci.com/github/erthink/libmdbx)
 
 *The Future will (be) [Positive](https://www.ptsecurity.com). Всё будет хорошо.*
 
@@ -263,7 +265,7 @@ pre-opening is not needed.
   > contrary to LMDB. Nevertheless, the `MDBX_UTTERLY_NOSYNC` mode available to match LMDB behaviour,
   > and for a special use-cases.
 
-6. On **MacOS** the `fcntl(F_FULLFSYNC)` syscall is used _by
+6. On **MacOS & iOS** the `fcntl(F_FULLFSYNC)` syscall is used _by
 default_ to synchronize data with the disk, as this is [the only way to
 guarantee data
 durability](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/fsync.2.html)
@@ -384,8 +386,8 @@ the basic tests.
 
 ### Windows
 For build _libmdbx_ on Windows the _original_ CMake and [Microsoft Visual
-Studio](https://en.wikipedia.org/wiki/Microsoft_Visual_Studio) are
-recommended.
+Studio 2019](https://en.wikipedia.org/wiki/Microsoft_Visual_Studio) are
+recommended. Otherwise do not forget add `ntdll.lib` to linking.
 
 Building by MinGW, MSYS or Cygwin is potentially possible. However,
 these scripts are not tested and will probably require you to modify the
@@ -484,7 +486,7 @@ Here showed sum of performance metrics in 3 benchmarks:
 ## Read Scalability
 
 Summary performance with concurrent read/search queries in 1-2-4-8
-threads on 4 CPU cores machine.
+threads on machine with 4 logical CPU in HyperThreading mode (i.e. actually 2 physical CPU cores).
 
 ![Comparison #2: Read Scalability](https://raw.githubusercontent.com/wiki/erthink/libmdbx/img/perf-slide-2.png)
 

@@ -38,6 +38,9 @@ cmake_minimum_required(VERSION 3.8.2)
 
 cmake_policy(PUSH)
 cmake_policy(VERSION 3.8.2)
+if(NOT CMAKE_VERSION VERSION_LESS 3.15)
+  cmake_policy(SET CMP0091 NEW)
+endif()
 if(NOT CMAKE_VERSION VERSION_LESS 3.13)
   cmake_policy(SET CMP0077 NEW)
 endif()
@@ -253,17 +256,23 @@ else()
       add_custom_target(ctags DEPENDS tags)
     endif(CTAGS)
 
-    # Enable 'make reformat' target.
-    find_program(CLANG_FORMAT
-      NAMES clang-format-11.0 clang-format-10.0 clang-format-9.0 clang-format-8.0 clang-format)
-    if(CLANG_FORMAT AND UNIX)
-      add_custom_target(reformat
-        VERBATIM
-        COMMAND
-        git ls-files |
-        grep -E \\.\(c|cxx|cc|cpp|h|hxx|hpp\)\(\\.in\)?\$ |
-        xargs ${CLANG_FORMAT} -i --style=file
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    if(UNIX)
+      find_program(CLANG_FORMAT
+        NAMES clang-format-12 clang-format-11 clang-format-10 clang-format)
+      if(CLANG_FORMAT)
+        execute_process(COMMAND ${CLANG_FORMAT} "--version" OUTPUT_VARIABLE clang_format_version_info)
+        string(REGEX MATCH "version ([0-9]+)\\.([0-9]+)\\.([0-9]+)(.*)?" clang_format_version_info CLANG_FORMAT_VERSION)
+        if(clang_format_version_info AND NOT CLANG_FORMAT_VERSION VERSION_LESS 10.0)
+          # Enable 'make reformat' target.
+          add_custom_target(reformat
+            VERBATIM
+            COMMAND
+            git ls-files |
+            grep -E \\.\(c|cxx|cc|cpp|h|hxx|hpp\)\(\\.in\)?\$ |
+            xargs ${CLANG_FORMAT} -i --style=file
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+        endif()
+      endif()
     endif()
 
     if(NOT "${PROJECT_BINARY_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}")
@@ -369,6 +378,7 @@ add_mdbx_option(MDBX_BUILD_SHARED_LIBRARY "Build libmdbx as shared library (DLL)
 add_mdbx_option(MDBX_BUILD_TOOLS "Build MDBX tools (mdbx_chk/stat/dump/load/copy)" ${MDBX_BUILD_TOOLS_DEFAULT})
 add_mdbx_option(MDBX_TXN_CHECKOWNER "Checking transaction matches the calling thread inside libmdbx's API" ON)
 add_mdbx_option(MDBX_TXN_CHECKPID "Paranoid checking PID inside libmdbx's API" AUTO)
+add_mdbx_option(MDBX_HUGE_TRANSACTIONS "Support for huge write-transactions" OFF)
 mark_as_advanced(MDBX_TXN_CHECKPID)
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
   add_mdbx_option(MDBX_DISABLE_GNU_SOURCE "Don't use GNU/Linux libc extensions" OFF)
@@ -410,7 +420,7 @@ endif()
 ################################################################################
 
 # Get version
-fetch_version(MDBX "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" FALSE)
+fetch_version(MDBX "${CMAKE_CURRENT_SOURCE_DIR}" FALSE)
 message(STATUS "libmdbx version is ${MDBX_VERSION}")
 
 # sources list
@@ -459,7 +469,7 @@ macro(libmdbx_setup_libs TARGET MODE)
   target_link_libraries(${TARGET} ${MODE} ${CMAKE_THREAD_LIBS_INIT})
   if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     target_link_libraries(${TARGET} ${MODE} ntdll.lib)
-    if(MDBX_NTDLL_EXTRA_IMPLIB)
+    if(MDBX_NTDLL_EXTRA_IMPLIB AND MDBX_AVOID_CRT)
       target_link_libraries(${TARGET} ${MODE} ntdll_extra)
     endif()
   elseif(${CMAKE_SYSTEM_NAME} STREQUAL "SunOS" OR ${CMAKE_SYSTEM_NAME} STREQUAL "Solaris")
@@ -498,6 +508,13 @@ if(MDBX_BUILD_SHARED_LIBRARY)
   target_compile_definitions(mdbx PRIVATE LIBMDBX_EXPORTS MDBX_BUILD_SHARED_LIBRARY=1 INTERFACE LIBMDBX_IMPORTS)
   target_setup_options(mdbx)
   libmdbx_setup_libs(mdbx PRIVATE)
+  if(MSVC)
+    if(MDBX_NTDLL_EXTRA_IMPLIB AND MDBX_AVOID_CRT)
+      set_property(TARGET mdbx PROPERTY LINKER_FLAGS "/NODEFAULTLIB")
+    else()
+      set_property(TARGET mdbx PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    endif()
+  endif()
   if(CC_HAS_VISIBILITY AND (LTO_ENABLED OR INTERPROCEDURAL_OPTIMIZATION))
     set_target_properties(mdbx PROPERTIES LINK_FLAGS "-fvisibility=hidden")
   endif()
@@ -557,45 +574,21 @@ endif()
 if(MDBX_BUILD_SHARED_LIBRARY)
   if(CMAKE_VERSION VERSION_LESS 3.12)
     install(TARGETS mdbx EXPORT libmdbx
-      RUNTIME
-      DESTINATION bin
-      COMPONENT runtime
-      LIBRARY
-      DESTINATION lib
-      COMPONENT runtime
-      OBJECTS
-      DESTINATION lib
-      COMPONENT devel
-      ARCHIVE
-      DESTINATION lib
-      COMPONENT devel
-      PUBLIC_HEADER
-      DESTINATION include
-      COMPONENT devel
-      INCLUDES
-      DESTINATION include
-      COMPONENT devel)
+      RUNTIME DESTINATION bin COMPONENT runtime
+      LIBRARY DESTINATION bin COMPONENT runtime
+      OBJECTS DESTINATION lib COMPONENT devel
+      ARCHIVE DESTINATION lib COMPONENT devel
+      PUBLIC_HEADER DESTINATION include COMPONENT devel
+      INCLUDES DESTINATION include COMPONENT devel)
   else()
     install(TARGETS mdbx EXPORT libmdbx
-      RUNTIME
-      DESTINATION bin
-      COMPONENT runtime
-      LIBRARY
-      DESTINATION lib
-      COMPONENT runtime
+      RUNTIME DESTINATION bin COMPONENT runtime
+      LIBRARY DESTINATION bin COMPONENT runtime
       NAMELINK_COMPONENT devel
-      OBJECTS
-      DESTINATION lib
-      COMPONENT devel
-      ARCHIVE
-      DESTINATION lib
-      COMPONENT devel
-      PUBLIC_HEADER
-      DESTINATION include
-      COMPONENT devel
-      INCLUDES
-      DESTINATION include
-      COMPONENT devel)
+      OBJECTS DESTINATION lib COMPONENT devel
+      ARCHIVE DESTINATION lib COMPONENT devel
+      PUBLIC_HEADER DESTINATION include COMPONENT devel
+      INCLUDES DESTINATION include COMPONENT devel)
   endif()
 endif(MDBX_BUILD_SHARED_LIBRARY)
 
@@ -626,45 +619,21 @@ endif(MDBX_BUILD_TOOLS)
 if(MDBX_INSTALL_STATIC)
   if(CMAKE_VERSION VERSION_LESS 3.12)
     install(TARGETS mdbx-static EXPORT libmdbx
-      RUNTIME
-      DESTINATION bin
-      COMPONENT runtime
-      LIBRARY
-      DESTINATION lib
-      COMPONENT runtime
-      OBJECTS
-      DESTINATION lib
-      COMPONENT devel
-      ARCHIVE
-      DESTINATION lib
-      COMPONENT devel
-      PUBLIC_HEADER
-      DESTINATION include
-      COMPONENT devel
-      INCLUDES
-      DESTINATION include
-      COMPONENT devel)
+      RUNTIME DESTINATION bin COMPONENT runtime
+      LIBRARY DESTINATION bin COMPONENT runtime
+      OBJECTS DESTINATION lib COMPONENT devel
+      ARCHIVE DESTINATION lib COMPONENT devel
+      PUBLIC_HEADER DESTINATION include COMPONENT devel
+      INCLUDES DESTINATION include COMPONENT devel)
   else()
     install(TARGETS mdbx-static EXPORT libmdbx
-      RUNTIME
-      DESTINATION bin
-      COMPONENT runtime
-      LIBRARY
-      DESTINATION lib
-      COMPONENT runtime
+      RUNTIME DESTINATION bin COMPONENT runtime
+      LIBRARY DESTINATION bin COMPONENT runtime
       NAMELINK_COMPONENT devel
-      OBJECTS
-      DESTINATION lib
-      COMPONENT devel
-      ARCHIVE
-      DESTINATION lib
-      COMPONENT devel
-      PUBLIC_HEADER
-      DESTINATION include
-      COMPONENT devel
-      INCLUDES
-      DESTINATION include
-      COMPONENT devel)
+      OBJECTS DESTINATION lib COMPONENT devel
+      ARCHIVE DESTINATION lib COMPONENT devel
+      PUBLIC_HEADER DESTINATION include COMPONENT devel
+      INCLUDES DESTINATION include COMPONENT devel)
   endif()
 endif(MDBX_INSTALL_STATIC)
 

@@ -35,7 +35,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 #if !defined(_NO_CRT_STDIO_INLINE) && MDBX_BUILD_SHARED_LIBRARY &&             \
-    !defined(MDBX_TOOLS)
+    !defined(MDBX_TOOLS) && MDBX_AVOID_CRT
 #define _NO_CRT_STDIO_INLINE
 #endif
 #elif !defined(_POSIX_C_SOURCE)
@@ -164,8 +164,8 @@ typedef unsigned mdbx_thread_key_t;
 #define THREAD_RESULT DWORD
 typedef struct {
   HANDLE mutex;
-  HANDLE event;
-} mdbx_condmutex_t;
+  HANDLE event[2];
+} mdbx_condpair_t;
 typedef CRITICAL_SECTION mdbx_fastmutex_t;
 
 #if MDBX_AVOID_CRT
@@ -226,8 +226,8 @@ typedef pthread_key_t mdbx_thread_key_t;
 #define THREAD_RESULT void *
 typedef struct {
   pthread_mutex_t mutex;
-  pthread_cond_t cond;
-} mdbx_condmutex_t;
+  pthread_cond_t cond[2];
+} mdbx_condpair_t;
 typedef pthread_mutex_t mdbx_fastmutex_t;
 #define mdbx_malloc malloc
 #define mdbx_calloc calloc
@@ -546,12 +546,13 @@ MDBX_INTERNAL_FUNC int mdbx_memalign_alloc(size_t alignment, size_t bytes,
 MDBX_INTERNAL_FUNC void mdbx_memalign_free(void *ptr);
 #endif
 
-MDBX_INTERNAL_FUNC int mdbx_condmutex_init(mdbx_condmutex_t *condmutex);
-MDBX_INTERNAL_FUNC int mdbx_condmutex_lock(mdbx_condmutex_t *condmutex);
-MDBX_INTERNAL_FUNC int mdbx_condmutex_unlock(mdbx_condmutex_t *condmutex);
-MDBX_INTERNAL_FUNC int mdbx_condmutex_signal(mdbx_condmutex_t *condmutex);
-MDBX_INTERNAL_FUNC int mdbx_condmutex_wait(mdbx_condmutex_t *condmutex);
-MDBX_INTERNAL_FUNC int mdbx_condmutex_destroy(mdbx_condmutex_t *condmutex);
+MDBX_INTERNAL_FUNC int mdbx_condpair_init(mdbx_condpair_t *condpair);
+MDBX_INTERNAL_FUNC int mdbx_condpair_lock(mdbx_condpair_t *condpair);
+MDBX_INTERNAL_FUNC int mdbx_condpair_unlock(mdbx_condpair_t *condpair);
+MDBX_INTERNAL_FUNC int mdbx_condpair_signal(mdbx_condpair_t *condpair,
+                                            bool part);
+MDBX_INTERNAL_FUNC int mdbx_condpair_wait(mdbx_condpair_t *condpair, bool part);
+MDBX_INTERNAL_FUNC int mdbx_condpair_destroy(mdbx_condpair_t *condpair);
 
 MDBX_INTERNAL_FUNC int mdbx_fastmutex_init(mdbx_fastmutex_t *fastmutex);
 MDBX_INTERNAL_FUNC int mdbx_fastmutex_acquire(mdbx_fastmutex_t *fastmutex);

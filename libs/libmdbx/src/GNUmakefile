@@ -26,7 +26,7 @@ CFLAGS  ?= -O2 -g -Wall -Werror -Wextra -Wpedantic -ffunction-sections -fPIC -fv
 # -Wno-tautological-compare
 
 # HINT: Try append '--no-as-needed,-lrt' for ability to built with modern glibc, but then run with the old.
-LIBS    ?= $(shell uname | grep -qi SunOS && echo "-lkstat") $(shell uname | grep -qi -e Darwin -e OpenBSD || echo "-lrt")
+LIBS    ?= $(shell uname | grep -qi SunOS && echo "-lkstat") $(shell uname | grep -qi -e Darwin -e OpenBSD || echo "-lrt") $(shell uname | grep -qi Windows && echo "-lntdll")
 
 LDFLAGS ?= $(shell $(LD) --help 2>/dev/null | grep -q -- --gc-sections && echo '-Wl,--gc-sections,-z,relro,-O1')$(shell $(LD) --help 2>/dev/null | grep -q -- -dead_strip && echo '-Wl,-dead_strip')
 EXE_LDFLAGS ?= -pthread
@@ -113,64 +113,91 @@ define uname2titer
   esac
 endef
 
-DIST_EXTRA := LICENSE README.md CMakeLists.txt GNUmakefile Makefile VERSION config.h.in \
+DIST_EXTRA := LICENSE README.md CMakeLists.txt GNUmakefile Makefile ChangeLog.md VERSION config.h.in ntdll.def \
 	$(addprefix man1/, $(MANPAGES)) cmake/compiler.cmake cmake/profile.cmake cmake/utils.cmake
 DIST_SRC   := mdbx.h mdbx.c $(addsuffix .c, $(TOOLS))
 
 TEST_DB    ?= $(shell [ -d /dev/shm ] && echo /dev/shm || echo /tmp)/mdbx-test.db
-TEST_LOG   ?= $(shell [ -d /dev/shm ] && echo /dev/shm || echo /tmp)/mdbx-test.log
+TEST_LOG   ?= $(shell [ -d /dev/shm ] && echo /dev/shm || echo /tmp)/mdbx-test.log.gz
 TEST_OSAL  := $(shell $(uname2osal))
 TEST_ITER  := $(shell $(uname2titer))
 TEST_SRC   := test/osal-$(TEST_OSAL).cc $(filter-out $(wildcard test/osal-*.cc), $(wildcard test/*.cc))
 TEST_INC   := $(wildcard test/*.h)
 TEST_OBJ   := $(patsubst %.cc,%.o,$(TEST_SRC))
 CXX        ?= g++
-CXXSTD     ?= $(shell $(CXX) -std=c++27 -c test/test.cc -o /dev/null 2>/dev/null && echo -std=c++17 || echo -std=c++11)
+CXXSTD     ?= $(shell $(CXX) -std=c++17 -c test/test.cc -o /dev/null 2>/dev/null && echo -std=c++17 || echo -std=c++11)
 CXXFLAGS   := $(CXXSTD) $(filter-out -std=gnu11,$(CFLAGS))
 TAR        ?= $(shell which gnu-tar || echo tar)
+ZIP        ?= $(shell which zip || echo "echo 'Please install zip'")
+CLANG_FORMAT ?= $(shell (which clang-format-12 || which clang-format-11 || which clang-format-10 || which clang-format) 2>/dev/null)
+
+reformat:
+	@if [ -n "$(CLANG_FORMAT)" ]; then \
+		git ls-files | grep -E '\.(c|cxx|cc|cpp|h|hxx|hpp)(\.in)?$$' | xargs -r $(CLANG_FORMAT) -i --style=file; \
+	else \
+		echo "clang-format version 8..12 not found for 'reformat'"; \
+	fi
 
 MAN_SRCDIR := src/man1/
 ALLOY_DEPS := $(wildcard src/*)
-MDBX_VERSION_GIT = ${shell set -o pipefail; git describe --tags | sed -n 's|^v*\([0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\)\(.*\)|\1|p' || echo 'Please fetch tags and/or install latest git version'}
-MDBX_REVISION_GIT = $(shell git rev-list --count --no-merges HEAD || echo 'Please fetch tags and/or install latest git version')
+MDBX_GIT_VERSION = ${shell set -o pipefail; git describe --tags | sed -n 's|^v*\([0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\)\(.*\)|\1|p' || echo 'Please fetch tags and/or install latest git version'}
+MDBX_GIT_REVISION = $(shell git rev-list --count HEAD ^`git tag --sort=-version:refname | sed -n '/^\(v[0-9]\+\.[0-9]\+\.[0-9]\+\)*/p;q'`)
 MDBX_GIT_TIMESTAMP = $(shell git show --no-patch --format=%cI HEAD || echo 'Please install latest get version')
 MDBX_GIT_DESCRIBE = $(shell git describe --tags --long --dirty=-dirty || echo 'Please fetch tags and/or install latest git version')
 MDBX_VERSION_SUFFIX = $(shell set -o pipefail; echo -n '$(MDBX_GIT_DESCRIBE)' | tr -c -s '[a-zA-Z0-9]' _)
 MDBX_BUILD_SOURCERY = $(shell set -o pipefail; $(MAKE) -s src/version.c && (openssl dgst -r -sha256 src/version.c || sha256sum src/version.c || shasum -a 256 src/version.c) 2>/dev/null | cut -d ' ' -f 1 || echo 'Please install openssl or sha256sum or shasum')_$(MDBX_VERSION_SUFFIX)
+MDBX_DIST_DIR = libmdbx-$(MDBX_VERSION_SUFFIX)
 
-check: test mdbx_example dist
+check: test dist
 
-test: all mdbx_example mdbx_test
+test: build-test
 	rm -f $(TEST_DB) $(TEST_LOG) && (set -o pipefail; \
-		(./mdbx_test --progress --console=no --repeat=$(TEST_ITER) --pathname=$(TEST_DB) --dont-cleanup-after basic && \
+		(./mdbx_test --table=+data.integer --keygen.split=29 --datalen.min=min --datalen.max=max --progress --console=no --repeat=$(TEST_ITER) --pathname=$(TEST_DB) --dont-cleanup-after basic && \
 		./mdbx_test --mode=-writemap,-mapasync,-lifo --progress --console=no --repeat=12 --pathname=$(TEST_DB) --dont-cleanup-after basic) \
-		| tee -a $(TEST_LOG) | tail -n 42) \
+		| tee >(gzip --stdout > $(TEST_LOG)) | tail -n 42) \
 	&& ./mdbx_chk -vvn $(TEST_DB) && ./mdbx_chk -vvn $(TEST_DB)-copy
+
+test-singleprocess: all mdbx_test
+	rm -f $(TEST_DB) $(TEST_LOG) && (set -o pipefail; \
+		(./mdbx_test --table=+data.integer --keygen.split=29 --datalen.min=min --datalen.max=max --progress --console=no --repeat=42 --pathname=$(TEST_DB) --dont-cleanup-after --hill && \
+		./mdbx_test --progress --console=no --repeat=2 --pathname=$(TEST_DB) --dont-cleanup-before --dont-cleanup-after --copy && \
+		./mdbx_test --mode=-writemap,-mapasync,-lifo --progress --console=no --repeat=42 --pathname=$(TEST_DB) --dont-cleanup-after --nested) \
+		| tee >(gzip --stdout > $(TEST_LOG)) | tail -n 42) \
+	&& ./mdbx_chk -vvn $(TEST_DB) && ./mdbx_chk -vvn $(TEST_DB)-copy
+
+test-fault: all mdbx_test
+	rm -f $(TEST_DB) $(TEST_LOG) && (set -o pipefail; ./mdbx_test --progress --console=no --pathname=$(TEST_DB) --inject-writefault=42 --dump-config --dont-cleanup-after basic \
+		| tee >(gzip --stdout > $(TEST_LOG)) | tail -n 42) \
+	; ./mdbx_chk -vvnw $(TEST_DB) && ([ ! -e $(TEST_DB)-copy ] || ./mdbx_chk -vvn $(TEST_DB)-copy)
+
+VALGRIND=valgrind --trace-children=yes --log-file=valgrind-%p.log --leak-check=full --track-origins=yes --error-exitcode=42 --suppressions=test/valgrind_suppress.txt
+memcheck test-valgrind:
+	$(MAKE) clean && $(MAKE) CFLAGS_EXTRA="-Ofast -DMDBX_USE_VALGRIND" build-test && \
+	rm -f valgrind-*.log $(TEST_DB) $(TEST_LOG) && (set -o pipefail; ( \
+		$(VALGRIND) ./mdbx_test --table=+data.integer --keygen.split=29 --datalen.min=min --datalen.max=max --progress --console=no --repeat=2 --pathname=$(TEST_DB) --dont-cleanup-after basic && \
+		$(VALGRIND) ./mdbx_test --progress --console=no --pathname=$(TEST_DB) --dont-cleanup-before --dont-cleanup-after --copy && \
+		$(VALGRIND) ./mdbx_test --mode=-writemap,-mapasync,-lifo --progress --console=no --repeat=4 --pathname=$(TEST_DB) --dont-cleanup-after basic && \
+		$(VALGRIND) ./mdbx_chk -vvn $(TEST_DB) && \
+		$(VALGRIND) ./mdbx_chk -vvn $(TEST_DB)-copy \
+	) | tee >(gzip --stdout > $(TEST_LOG)) | tail -n 42)
+
+gcc-analyzer:
+	@echo "NOTE: There a lot of false-positive warnings at 2020-05-01 by pre-release GCC-10 (20200328, Red Hat 10.0.1-0.11)"
+	$(MAKE) --always-make CFLAGS_EXTRA="-Og -fanalyzer -Wno-error" build-test
+
+test-ubsan:
+	$(MAKE) clean && $(MAKE) CFLAGS_EXTRA="-Ofast -fsanitize=undefined -fsanitize-undefined-trap-on-error" check
+
+test-asan:
+	$(MAKE) clean && $(MAKE) CFLAGS_EXTRA="-Os -fsanitize=address" check
+
+test-leak:
+	$(MAKE) clean && $(MAKE) CFLAGS_EXTRA="-fsanitize=leak" check
 
 mdbx_example: mdbx.h example/example-mdbx.c libmdbx.$(SO_SUFFIX)
 	$(CC) $(CFLAGS) -I. example/example-mdbx.c ./libmdbx.$(SO_SUFFIX) -o $@
 
-test-singleprocess: all mdbx_test
-	rm -f $(TEST_DB) $(TEST_LOG) && (set -o pipefail; \
-		(./mdbx_test --progress --console=no --repeat=42 --pathname=$(TEST_DB) --dont-cleanup-after --hill && \
-		./mdbx_test --progress --console=no --repeat=2 --pathname=$(TEST_DB) --dont-cleanup-before --dont-cleanup-after --copy && \
-		./mdbx_test --mode=-writemap,-mapasync,-lifo --progress --console=no --repeat=42 --pathname=$(TEST_DB) --dont-cleanup-after --nested) \
-		| tee -a $(TEST_LOG) | tail -n 42) \
-	&& ./mdbx_chk -vvn $(TEST_DB) && ./mdbx_chk -vvn $(TEST_DB)-copy
-
-test-fault: all mdbx_test
-	rm -f $(TEST_DB) $(TEST_LOG) && (set -o pipefail; ./mdbx_test --progress --console=no --pathname=$(TEST_DB) --inject-writefault=42 --dump-config --dont-cleanup-after basic | tee -a $(TEST_LOG) | tail -n 42) \
-	; ./mdbx_chk -vvnw $(TEST_DB) && ([ ! -e $(TEST_DB)-copy ] || ./mdbx_chk -vvn $(TEST_DB)-copy)
-
-VALGRIND=valgrind --trace-children=yes --log-file=valgrind-%p.log --leak-check=full --track-origins=yes --error-exitcode=42 --suppressions=test/valgrind_suppress.txt
-memcheck test-valgrind: all mdbx_test
-	@echo "$(MDBX_OPTIONS)" | grep -q MDBX_USE_VALGRIND || echo "WARNING: Please build libmdbx with -DMDBX_USE_VALGRIND to avoid false-positives from Valgrind !!!" >&2
-	rm -f valgrind-*.log $(TEST_DB) $(TEST_LOG) && (set -o pipefail; \
-		($(VALGRIND) ./mdbx_test --mode=-writemap,-mapasync,-lifo --progress --console=no --repeat=4 --pathname=$(TEST_DB) --dont-cleanup-after basic && \
-		$(VALGRIND) ./mdbx_test --progress --console=no --pathname=$(TEST_DB) --dont-cleanup-before --dont-cleanup-after --copy && \
-		$(VALGRIND) ./mdbx_test --progress --console=no --repeat=2 --pathname=$(TEST_DB) --dont-cleanup-after basic) \
-		| tee -a $(TEST_LOG) | tail -n 42) \
-	&& $(VALGRIND) ./mdbx_chk -vvn $(TEST_DB) && ./mdbx_chk -vvn $(TEST_DB)-copy
+build-test: all mdbx_example mdbx_test
 
 define test-rule
 $(patsubst %.cc,%.o,$(1)): $(1) $(TEST_INC) mdbx.h $(lastword $(MAKEFILE_LIST))
@@ -193,10 +220,10 @@ src/version.c: src/version.c.in $(lastword $(MAKEFILE_LIST)) $(git_DIR)/HEAD $(g
 		-e "s|@MDBX_GIT_TREE@|$(shell git show --no-patch --format=%T HEAD || echo 'Please install latest get version')|" \
 		-e "s|@MDBX_GIT_COMMIT@|$(shell git show --no-patch --format=%H HEAD || echo 'Please install latest get version')|" \
 		-e "s|@MDBX_GIT_DESCRIBE@|$(MDBX_GIT_DESCRIBE)|" \
-		-e "s|\$${MDBX_VERSION_MAJOR}|$(shell echo '$(MDBX_VERSION_GIT)' | cut -d . -f 1)|" \
-		-e "s|\$${MDBX_VERSION_MINOR}|$(shell echo '$(MDBX_VERSION_GIT)' | cut -d . -f 2)|" \
-		-e "s|\$${MDBX_VERSION_RELEASE}|$(shell echo '$(MDBX_VERSION_GIT)' | cut -d . -f 3)|" \
-		-e "s|\$${MDBX_VERSION_REVISION}|$(MDBX_REVISION_GIT)|" \
+		-e "s|\$${MDBX_VERSION_MAJOR}|$(shell echo '$(MDBX_GIT_VERSION)' | cut -d . -f 1)|" \
+		-e "s|\$${MDBX_VERSION_MINOR}|$(shell echo '$(MDBX_GIT_VERSION)' | cut -d . -f 2)|" \
+		-e "s|\$${MDBX_VERSION_RELEASE}|$(shell echo '$(MDBX_GIT_VERSION)' | cut -d . -f 3)|" \
+		-e "s|\$${MDBX_VERSION_REVISION}|$(MDBX_GIT_REVISION)|" \
 	src/version.c.in > $@
 
 src/config.h: src/version.c $(lastword $(MAKEFILE_LIST))
@@ -213,12 +240,17 @@ mdbx-dylib.o: src/config.h src/version.c src/alloy.c $(ALLOY_DEPS) $(lastword $(
 mdbx-static.o: src/config.h src/version.c src/alloy.c $(ALLOY_DEPS) $(lastword $(MAKEFILE_LIST))
 	$(CC) $(CFLAGS) $(MDBX_OPTIONS) '-DMDBX_CONFIG_H="config.h"' -ULIBMDBX_EXPORTS -c src/alloy.c -o $@
 
-.PHONY: dist
+.PHONY: dist release-assets
 dist: libmdbx-sources-$(MDBX_VERSION_SUFFIX).tar.gz $(lastword $(MAKEFILE_LIST))
 
-libmdbx-sources-$(MDBX_VERSION_SUFFIX).tar.gz: $(addprefix dist/, $(DIST_SRC) $(DIST_EXTRA)) $(addprefix dist/man1/,$(MANPAGES))
-	$(TAR) -c $(shell LC_ALL=C $(TAR) --help | grep -q -- '--owner' && echo '--owner=0 --group=0') -f - -C dist $(DIST_SRC) $(DIST_EXTRA) | gzip -c > $@ \
+release-assets: libmdbx-sources-$(MDBX_VERSION_SUFFIX).tar.gz libmdbx-sources-$(MDBX_VERSION_SUFFIX).zip
+
+libmdbx-sources-$(MDBX_VERSION_SUFFIX).tar.gz: $(addprefix dist/, $(DIST_SRC) $(DIST_EXTRA))
+	$(TAR) -c $(shell LC_ALL=C $(TAR) --help | grep -q -- '--owner' && echo '--owner=0 --group=0') -f - -C dist $(DIST_SRC) $(DIST_EXTRA) | gzip -c -9 > $@ \
 	&& rm dist/@tmp-shared_internals.inc
+
+libmdbx-sources-$(MDBX_VERSION_SUFFIX).zip: $(addprefix dist/, $(DIST_SRC) $(DIST_EXTRA))
+	rm -rf $@ && (cd dist && $(ZIP) -9 ../$@ $(DIST_SRC) $(DIST_EXTRA)) || rm -rf $@
 
 dist/mdbx.h: mdbx.h src/version.c $(lastword $(MAKEFILE_LIST))
 	mkdir -p dist && cp $< $@
@@ -255,10 +287,13 @@ dist/$(1): $(1)
 	mkdir -p $$(dir $$@) && sed -e '/^#> dist-cutoff-begin/,/^#< dist-cutoff-end/d' $$< > $$@
 
 endef
-$(foreach file,$(filter-out man1/% VERSION %.in,$(DIST_EXTRA)),$(eval $(call dist-extra-rule,$(file))))
+$(foreach file,$(filter-out man1/% VERSION %.in ntdll.def,$(DIST_EXTRA)),$(eval $(call dist-extra-rule,$(file))))
 
 dist/VERSION: src/version.c
-	mkdir -p dist/ && echo "$(MDBX_VERSION_GIT).$(MDBX_REVISION_GIT)" > $@
+	mkdir -p dist/ && echo "$(MDBX_GIT_VERSION).$(MDBX_GIT_REVISION)" > $@
+
+dist/ntdll.def: src/ntdll.def
+	mkdir -p dist/cmake/ && cp $< $@
 
 dist/config.h.in: src/config.h.in
 	mkdir -p dist/cmake/ && cp $< $@

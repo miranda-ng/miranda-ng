@@ -133,10 +133,9 @@ static __inline BOOL funlock(mdbx_filehandle_t fd, uint64_t offset,
 
 #define LCK_MAXLEN (1u + (size_t)(MAXSSIZE_T))
 #define LCK_META_OFFSET 0
-#define LCK_META_LEN 0x10000u
+#define LCK_META_LEN (MAX_PAGESIZE * NUM_METAS)
 #define LCK_BODY_OFFSET LCK_META_LEN
 #define LCK_BODY_LEN (LCK_MAXLEN - LCK_BODY_OFFSET)
-#define LCK_META LCK_META_OFFSET, LCK_META_LEN
 #define LCK_BODY LCK_BODY_OFFSET, LCK_BODY_LEN
 #define LCK_WHOLE 0, LCK_MAXLEN
 
@@ -345,13 +344,6 @@ mdbx_resume_threads_after_remap(mdbx_handle_array_t *array) {
  *    i.e. free/shared/exclusive x free/shared/exclusive == 9.
  *    Only 6 states of FSM are used, which 2 of ones are transitive.
  *
- *  The mdbx_lck_seize() moves the locking-FSM from the initial free/unlocked
- *  state to the "exclusive write" (and returns MDBX_RESULT_TRUE) if possible,
- *  or to the "used" (and returns MDBX_RESULT_FALSE).
- *
- *  The mdbx_lck_downgrade() moves the locking-FSM from "exclusive write"
- *  state to the "used" (i.e. shared) state.
- *
  * States:
  *   ?-?  = free, i.e. unlocked
  *   S-?  = used, i.e. shared lock
@@ -362,6 +354,16 @@ mdbx_resume_threads_after_remap(mdbx_handle_array_t *array) {
  *   S-E  = locked (transitive state)
  *   E-S
  *   E-E  = exclusive-write, i.e. exclusive due (re)initialization
+ *
+ *  The mdbx_lck_seize() moves the locking-FSM from the initial free/unlocked
+ *  state to the "exclusive write" (and returns MDBX_RESULT_TRUE) if possible,
+ *  or to the "used" (and returns MDBX_RESULT_FALSE).
+ *
+ *  The mdbx_lck_downgrade() moves the locking-FSM from "exclusive write"
+ *  state to the "used" (i.e. shared) state.
+ *
+ *  The mdbx_lck_upgrade() moves the locking-FSM from "used" (i.e. shared)
+ *  state to the "exclusive write" state.
  */
 
 static void lck_unlock(MDBX_env *env) {
@@ -397,14 +399,6 @@ static void lck_unlock(MDBX_env *env) {
     (void)err;
     SetLastError(ERROR_SUCCESS);
 
-    while (funlock(env->me_lazy_fd, LCK_META))
-      ;
-    err = GetLastError();
-    assert(err == ERROR_NOT_LOCKED ||
-           (mdbx_RunningUnderWine() && err == ERROR_LOCK_VIOLATION));
-    (void)err;
-    SetLastError(ERROR_SUCCESS);
-
     while (funlock(env->me_lazy_fd, LCK_WHOLE))
       ;
     err = GetLastError();
@@ -413,30 +407,6 @@ static void lck_unlock(MDBX_env *env) {
     (void)err;
     SetLastError(ERROR_SUCCESS);
   }
-}
-
-MDBX_INTERNAL_FUNC int mdbx_lck_init(MDBX_env *env,
-                                     MDBX_env *inprocess_neighbor,
-                                     int global_uniqueness_flag) {
-  (void)env;
-  (void)inprocess_neighbor;
-  (void)global_uniqueness_flag;
-  return MDBX_SUCCESS;
-}
-
-MDBX_INTERNAL_FUNC int mdbx_lck_destroy(MDBX_env *env,
-                                        MDBX_env *inprocess_neighbor) {
-  (void)inprocess_neighbor;
-
-  /* LY: should unmap before releasing the locks to avoid race condition and
-   * STATUS_USER_MAPPED_FILE/ERROR_USER_MAPPED_FILE */
-  if (env->me_map)
-    mdbx_munmap(&env->me_dxb_mmap);
-  if (env->me_lck)
-    mdbx_munmap(&env->me_lck_mmap);
-
-  lck_unlock(env);
-  return MDBX_SUCCESS;
 }
 
 /* Seize state as 'exclusive-write' (E-E and returns MDBX_RESULT_TRUE)
@@ -535,43 +505,91 @@ MDBX_INTERNAL_FUNC int mdbx_lck_seize(MDBX_env *env) {
 }
 
 MDBX_INTERNAL_FUNC int mdbx_lck_downgrade(MDBX_env *env) {
-  /* Transite from exclusive state (E-?) to used (S-?) */
+  /* Transite from exclusive-write state (E-E) to used (S-?) */
   assert(env->me_lazy_fd != INVALID_HANDLE_VALUE);
   assert(env->me_lfd != INVALID_HANDLE_VALUE);
 
-#if 1
   if (env->me_flags & MDBX_EXCLUSIVE)
     return MDBX_SUCCESS /* nope since files were must be opened non-shareable */
         ;
-#else
-  /* 1) must be at E-E (exclusive-write) */
-  if (env->me_flags & MDBX_EXCLUSIVE) {
-    /* transite from E-E to E_? (exclusive-read) */
-    if (!funlock(env->me_lfd, LCK_UPPER))
-      mdbx_panic("%s(%s) failed: err %u", __func__,
-                 "E-E(exclusive-write) >> E-?(exclusive-read)", GetLastError());
-    return MDBX_SUCCESS /* 2) now at E-? (exclusive-read), done */;
-  }
-#endif
-
-  /* 3) now at E-E (exclusive-write), transite to ?_E (middle) */
+  /* 1) now at E-E (exclusive-write), transite to ?_E (middle) */
   if (!funlock(env->me_lfd, LCK_LOWER))
     mdbx_panic("%s(%s) failed: err %u", __func__,
                "E-E(exclusive-write) >> ?-E(middle)", GetLastError());
 
-  /* 4) now at ?-E (middle), transite to S-E (locked) */
+  /* 2) now at ?-E (middle), transite to S-E (locked) */
   if (!flock(env->me_lfd, LCK_SHARED | LCK_DONTWAIT, LCK_LOWER)) {
-    int rc = GetLastError() /* 5) something went wrong, give up */;
+    int rc = GetLastError() /* 3) something went wrong, give up */;
     mdbx_error("%s, err %u", "?-E(middle) >> S-E(locked)", rc);
     return rc;
   }
 
-  /* 6) got S-E (locked), continue transition to S-? (used) */
+  /* 4) got S-E (locked), continue transition to S-? (used) */
   if (!funlock(env->me_lfd, LCK_UPPER))
     mdbx_panic("%s(%s) failed: err %u", __func__, "S-E(locked) >> S-?(used)",
                GetLastError());
 
-  return MDBX_SUCCESS /* 7) now at S-? (used), done */;
+  return MDBX_SUCCESS /* 5) now at S-? (used), done */;
+}
+
+MDBX_INTERNAL_FUNC int mdbx_lck_upgrade(MDBX_env *env) {
+  /* Transite from used state (S-?) to exclusive-write (E-E) */
+  assert(env->me_lfd != INVALID_HANDLE_VALUE);
+
+  if (env->me_flags & MDBX_EXCLUSIVE)
+    return MDBX_SUCCESS /* nope since files were must be opened non-shareable */
+        ;
+
+  int rc;
+  /* 1) now on S-? (used), try S-E (locked) */
+  mdbx_jitter4testing(false);
+  if (!flock(env->me_lfd, LCK_EXCLUSIVE | LCK_DONTWAIT, LCK_UPPER)) {
+    rc = GetLastError() /* 2) something went wrong, give up */;
+    mdbx_verbose("%s, err %u", "S-?(used) >> S-E(locked)", rc);
+    return rc;
+  }
+
+  /* 3) now on S-E (locked), transite to ?-E (middle) */
+  if (!funlock(env->me_lfd, LCK_LOWER))
+    mdbx_panic("%s(%s) failed: err %u", __func__, "S-E(locked) >> ?-E(middle)",
+               GetLastError());
+
+  /* 4) now on ?-E (middle), try E-E (exclusive-write) */
+  mdbx_jitter4testing(false);
+  if (!flock(env->me_lfd, LCK_EXCLUSIVE | LCK_DONTWAIT, LCK_LOWER)) {
+    rc = GetLastError() /* 5) something went wrong, give up */;
+    mdbx_verbose("%s, err %u", "?-E(middle) >> E-E(exclusive-write)", rc);
+    return rc;
+  }
+
+  return MDBX_SUCCESS /* 6) now at E-E (exclusive-write), done */;
+}
+
+MDBX_INTERNAL_FUNC int mdbx_lck_init(MDBX_env *env,
+                                     MDBX_env *inprocess_neighbor,
+                                     int global_uniqueness_flag) {
+  (void)env;
+  (void)inprocess_neighbor;
+  (void)global_uniqueness_flag;
+  return MDBX_SUCCESS;
+}
+
+MDBX_INTERNAL_FUNC int mdbx_lck_destroy(MDBX_env *env,
+                                        MDBX_env *inprocess_neighbor) {
+  /* LY: should unmap before releasing the locks to avoid race condition and
+   * STATUS_USER_MAPPED_FILE/ERROR_USER_MAPPED_FILE */
+  if (env->me_map)
+    mdbx_munmap(&env->me_dxb_mmap);
+  if (env->me_lck) {
+    const bool synced = env->me_lck_mmap.lck->mti_unsynced_pages == 0;
+    mdbx_munmap(&env->me_lck_mmap);
+    if (synced && !inprocess_neighbor && env->me_lfd != INVALID_HANDLE_VALUE &&
+        mdbx_lck_upgrade(env) == MDBX_SUCCESS)
+      /* this will fail if LCK is used/mmapped by other process(es) */
+      mdbx_ftruncate(env->me_lfd, 0);
+  }
+  lck_unlock(env);
+  return MDBX_SUCCESS;
 }
 
 /*----------------------------------------------------------------------------*/

@@ -81,6 +81,7 @@ void __noreturn usage(void) {
       "  --keygen.width=N              TBD (see the source code)\n"
       "  --keygen.mesh=N               TBD (see the source code)\n"
       "  --keygen.seed=N               TBD (see the source code)\n"
+      "  --keygen.zerofill=yes|NO      TBD (see the source code)\n"
       "  --keygen.split=N              TBD (see the source code)\n"
       "  --keygen.rotate=N             TBD (see the source code)\n"
       "  --keygen.offset=N             TBD (see the source code)\n"
@@ -136,6 +137,7 @@ void actor_params::set_defaults(const std::string &tmpdir) {
   pagesize = -1;
 
   keygen.seed = 1;
+  keygen.zero_fill = false;
   keygen.keycase = kc_random;
   keygen.width = (table_flags & MDBX_DUPSORT) ? 32 : 64;
   keygen.mesh = keygen.width;
@@ -209,7 +211,11 @@ std::string thunk_param(const actor_config &config) {
 
 void cleanup() {
   log_trace(">> cleanup");
-  /* TODO: remove each database */
+  for (const auto &db_path : global::databases) {
+    int err = osal_removefile(db_path);
+    if (err != MDBX_SUCCESS && err != MDBX_ENOFILE)
+      failure_perror(db_path.c_str(), err);
+  }
   log_trace("<< cleanup");
 }
 
@@ -317,19 +323,22 @@ int main(int argc, char *const argv[]) {
       continue;
 
     if (config::parse_option(argc, argv, narg, "keygen.width",
-                             params.keygen.width, 1, 64))
+                             params.keygen.width, 8, 64))
       continue;
     if (config::parse_option(argc, argv, narg, "keygen.mesh",
-                             params.keygen.mesh, 1, 64))
+                             params.keygen.mesh, 0, 64))
       continue;
     if (config::parse_option(argc, argv, narg, "keygen.seed",
                              params.keygen.seed, config::no_scale))
       continue;
+    if (config::parse_option(argc, argv, narg, "keygen.zerofill",
+                             params.keygen.zero_fill))
+      continue;
     if (config::parse_option(argc, argv, narg, "keygen.split",
-                             params.keygen.split, 1, 64))
+                             params.keygen.split, 0, 63))
       continue;
     if (config::parse_option(argc, argv, narg, "keygen.rotate",
-                             params.keygen.rotate, 1, 64))
+                             params.keygen.rotate, 0, 63))
       continue;
     if (config::parse_option(argc, argv, narg, "keygen.offset",
                              params.keygen.offset, config::binary))
@@ -587,7 +596,7 @@ int main(int argc, char *const argv[]) {
   }
 
   log_notice("RESULT: %s\n", failed ? "Failed" : "Successful");
-  if (global::config::cleanup_before) {
+  if (global::config::cleanup_after) {
     if (failed)
       log_verbose("skip cleanup");
     else

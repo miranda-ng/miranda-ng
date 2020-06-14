@@ -104,7 +104,9 @@ protected:
   using data_view = std::string;
 #endif
   static inline data_view S(const MDBX_val &v) {
-    return data_view(static_cast<const char *>(v.iov_base), v.iov_len);
+    return (v.iov_base && v.iov_len)
+               ? data_view(static_cast<const char *>(v.iov_base), v.iov_len)
+               : data_view();
   }
   static inline data_view S(const keygen::buffer &b) { return S(b->value); }
 
@@ -131,18 +133,22 @@ protected:
       return cmp < 0;
     }
   };
+
+  // for simplify the set<pair<key,value>>
+  // is used instead of multimap<key,value>
   using SET = std::set<Item, ItemCompare>;
 
   const actor_config &config;
   const mdbx_pid_t pid;
 
-  MDBX_dbi dbi;
+  MDBX_dbi dbi{0};
   scoped_db_guard db_guard;
   scoped_txn_guard txn_guard;
   scoped_cursor_guard cursor_guard;
-  bool signalled;
+  bool signalled{false};
+  bool need_speculum_assign{false};
 
-  size_t nops_completed;
+  uint64_t nops_completed{0};
   chrono::time start_timestamp;
   keygen::buffer key;
   keygen::buffer data;
@@ -152,7 +158,7 @@ protected:
     mdbx_canary canary;
   } last;
 
-  SET speculum;
+  SET speculum{ItemCompare(this)}, speculum_commited{ItemCompare(this)};
   bool speculum_verify();
   int insert(const keygen::buffer &akey, const keygen::buffer &adata,
              unsigned flags);
@@ -211,8 +217,7 @@ protected:
 
 public:
   testcase(const actor_config &config, const mdbx_pid_t pid)
-      : config(config), pid(pid), signalled(false), nops_completed(0),
-        speculum(ItemCompare(this)) {
+      : config(config), pid(pid) {
     start_timestamp.reset();
     memset(&last, 0, sizeof(last));
   }
@@ -223,20 +228,10 @@ public:
   virtual ~testcase() {}
 };
 
-class testcase_ttl : public testcase {
-public:
-  testcase_ttl(const actor_config &config, const mdbx_pid_t pid)
-      : testcase(config, pid) {}
-  bool run() override;
-};
-
 class testcase_hill : public testcase {
-  using inherited = testcase;
-  SET speculum_commited;
-
 public:
   testcase_hill(const actor_config &config, const mdbx_pid_t pid)
-      : testcase(config, pid), speculum_commited(ItemCompare(this)) {}
+      : testcase(config, pid) {}
   bool run() override;
 };
 
@@ -286,11 +281,33 @@ public:
   bool run() override;
 };
 
-class testcase_nested : public testcase {
+class testcase_ttl : public testcase {
   using inherited = testcase;
+
+protected:
+  struct {
+    unsigned max_window_size{0};
+    unsigned max_step_size{0};
+  } sliding;
+  unsigned edge2window(uint64_t edge);
+  unsigned edge2count(uint64_t edge);
+
+public:
+  testcase_ttl(const actor_config &config, const mdbx_pid_t pid)
+      : inherited(config, pid) {}
+  bool setup() override;
+  bool run() override;
+};
+
+class testcase_nested : public testcase_ttl {
+  using inherited = testcase_ttl;
   using FIFO = std::deque<std::pair<uint64_t, unsigned>>;
 
-  uint64_t serial;
+  uint64_t serial{0};
+  unsigned clear_wholetable_passed{0};
+  unsigned clear_stepbystep_passed{0};
+  unsigned dbfull_passed{0};
+  bool keyspace_overflow{false};
   FIFO fifo;
   std::stack<std::tuple<scoped_txn_guard, uint64_t, FIFO, SET>> stack;
 
@@ -306,7 +323,7 @@ class testcase_nested : public testcase {
 
 public:
   testcase_nested(const actor_config &config, const mdbx_pid_t pid)
-      : testcase(config, pid) {}
+      : inherited(config, pid) {}
   bool setup() override;
   bool run() override;
   bool teardown() override;
