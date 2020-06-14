@@ -30,6 +30,7 @@ enum
 extern MWindowList hNewstoryWindows;
 
 void InitHistory();
+void InitMenus();
 
 INT_PTR svcShowNewstory(WPARAM wParam, LPARAM lParam);
 INT_PTR svcShowSystemNewstory(WPARAM wParam, LPARAM lParam);

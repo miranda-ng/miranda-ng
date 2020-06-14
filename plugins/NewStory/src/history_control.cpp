@@ -5,7 +5,7 @@
 HANDLE htuLog = 0;
 
 static WNDPROC OldEditWndProc;
-static wchar_t wszDelete[] = LPGENW("Are you sure to remove all events from history?");
+wchar_t wszDelete[] = LPGENW("Are you sure to remove all events from history?");
 
 static LRESULT CALLBACK HistoryEditWndProc(HWND, UINT, WPARAM, LPARAM);
 
