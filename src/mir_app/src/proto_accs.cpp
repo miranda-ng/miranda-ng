@@ -152,11 +152,8 @@ void WriteDbAccounts()
 
 static int OnContactDeleted(WPARAM hContact, LPARAM)
 {
-	if (hContact) {
-		PROTOACCOUNT *pa = Proto_GetAccount(hContact);
-		if (pa->IsEnabled() && pa->ppro)
-			pa->ppro->OnContactDeleted(hContact);
-	}
+	if (auto *ppro = Proto_GetInstance(hContact))
+		ppro->OnContactDeleted(hContact);
 	return 0;
 }
 
@@ -172,9 +169,10 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 
 		if (!pa->bOldProto)
 			count++;
-	}
 
-	BuildProtoMenus();
+		if (pa->IsVisible())
+			pa->ppro->OnBuildProtoMenu();
+	}
 
 	if (count == 0 && !db_get_b(0, "FirstRun", "AccManager", 0)) {
 		db_set_b(0, "FirstRun", "AccManager", 1);

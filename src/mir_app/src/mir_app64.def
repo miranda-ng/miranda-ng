@@ -735,3 +735,6 @@ ProtoBroadcastAsync @814 NONAME
 ?EventCursor@MDatabaseCommon@@UEAAPEAV0DB@@II@Z @822 NONAME
 ?EventCursorRev@MDatabaseCommon@@UEAAPEAVEventCursor@DB@@II@Z @823 NONAME
 Chat_CreateMenu @824 NONAME
+?PasteFilesAsURL@CSrmmBaseDialog@@IEAA_NPEAUHDROP__@@@Z @825 NONAME
+?Proto_GetInstance@@YAPEAUPROTO_INTERFACE@@I@Z @826 NONAME
+?Proto_GetInstance@@YAPEAUPROTO_INTERFACE@@PEBD@Z @827 NONAME

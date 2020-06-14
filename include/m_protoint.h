@@ -288,4 +288,10 @@ template<class T> struct PROTO : public PROTO_INTERFACE
 	__forceinline void CreateProtoServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param) {
 		::ProtoCreateServiceParam(this, name, (ProtoServiceFuncParam)pFunc, param); }
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(PROTO_INTERFACE *) Proto_GetInstance(const char *szModule);
+MIR_APP_DLL(PROTO_INTERFACE *) Proto_GetInstance(MCONTACT hContact);
+
 #endif // M_PROTOINT_H__

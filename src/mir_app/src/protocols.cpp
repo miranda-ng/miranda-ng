@@ -389,54 +389,51 @@ MIR_APP_DLL(INT_PTR) CallProtoService(const char* szModule, const char* szServic
 
 INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam)
 {
-	PROTOACCOUNT *pa = Proto_GetAccount(szModule);
-	if (pa && !pa->bOldProto) {
-		PROTO_INTERFACE *ppi = pa->ppro;
-		if (ppi != nullptr && ppi->m_iVersion > 1) {
-			TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
-			if (item) {
-				switch (item->id) {
-				case  1: return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
-				case  2: return (INT_PTR)ppi->AddToListByEvent(LOWORD(wParam), HIWORD(wParam), (MEVENT)lParam);
-				case  3: return (INT_PTR)ppi->Authorize((MEVENT)wParam);
-				case  4: return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (wchar_t*)lParam);
-				case  5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT*)lParam);
-				case  6: return (INT_PTR)ppi->AuthRequest(hContact, (wchar_t*)lParam);
-				case  8: return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (wchar_t*)lParam);
-				case  9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
-				case 10: return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (wchar_t*)lParam);
-				case 11: {
-						PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
-						return (INT_PTR)ppi->FileResume((HANDLE)wParam, pfr->action, (const wchar_t*)pfr->szFilename);
-					}
-
-				case 12: return (INT_PTR)ppi->GetCaps(wParam, lParam);
-				case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
-				case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);
-				case 15: return (INT_PTR)ppi->SearchBasic((wchar_t*)lParam);
-				case 16:	return (INT_PTR)ppi->SearchByEmail((wchar_t*)lParam);
-				case 17: {
-						PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME*)lParam;
-						return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
-					}
-				case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
-				case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
-				case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT*)lParam);
-				case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTORECVFILE*)lParam);
-				case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT*)lParam);
-				case 23: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT*)lParam);
-				case 24: return (INT_PTR)ppi->SendFile(hContact, (wchar_t*)wParam, (wchar_t**)lParam);
-				case 25: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char*)lParam);
-				case 26: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
-				case 27: return (INT_PTR)ppi->SetStatus(wParam);
-				case 28: return (INT_PTR)ppi->GetAwayMsg(hContact);
-				case 29: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT*)lParam);
-				case 30: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t*)lParam);
-				case 31: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
-				case 32: mir_strncpy((char*)lParam, ppi->m_szModuleName, wParam); return 0;
-				case 33:
-					return ppi->m_iStatus;
+	auto *ppi = Proto_GetInstance(szModule);
+	if (ppi != nullptr) {
+		TServiceListItem *item = (TServiceListItem*)bsearch(&szService, serviceItems, _countof(serviceItems), sizeof(serviceItems[0]), CompareServiceItems);
+		if (item) {
+			switch (item->id) {
+			case  1: return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT *)lParam);
+			case  2: return (INT_PTR)ppi->AddToListByEvent(LOWORD(wParam), HIWORD(wParam), (MEVENT)lParam);
+			case  3: return (INT_PTR)ppi->Authorize((MEVENT)wParam);
+			case  4: return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (wchar_t *)lParam);
+			case  5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT *)lParam);
+			case  6: return (INT_PTR)ppi->AuthRequest(hContact, (wchar_t *)lParam);
+			case  8: return (INT_PTR)ppi->FileAllow(hContact, (HANDLE)wParam, (wchar_t *)lParam);
+			case  9: return (INT_PTR)ppi->FileCancel(hContact, (HANDLE)wParam);
+			case 10: return (INT_PTR)ppi->FileDeny(hContact, (HANDLE)wParam, (wchar_t *)lParam);
+			case 11: {
+					PROTOFILERESUME *pfr = (PROTOFILERESUME *)lParam;
+					return (INT_PTR)ppi->FileResume((HANDLE)wParam, pfr->action, (const wchar_t *)pfr->szFilename);
 				}
+
+			case 12: return (INT_PTR)ppi->GetCaps(wParam, lParam);
+			case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
+			case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);
+			case 15: return (INT_PTR)ppi->SearchBasic((wchar_t *)lParam);
+			case 16:	return (INT_PTR)ppi->SearchByEmail((wchar_t *)lParam);
+			case 17: {
+					PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME *)lParam;
+					return (INT_PTR)ppi->SearchByName(psbn->pszNick, psbn->pszFirstName, psbn->pszLastName);
+				}
+			case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
+			case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
+			case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT *)lParam);
+			case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTORECVFILE *)lParam);
+			case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT *)lParam);
+			case 23: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT *)lParam);
+			case 24: return (INT_PTR)ppi->SendFile(hContact, (wchar_t *)wParam, (wchar_t **)lParam);
+			case 25: return (INT_PTR)ppi->SendMsg(hContact, wParam, (const char *)lParam);
+			case 26: return (INT_PTR)ppi->SetApparentMode(hContact, wParam);
+			case 27: return (INT_PTR)ppi->SetStatus(wParam);
+			case 28: return (INT_PTR)ppi->GetAwayMsg(hContact);
+			case 29: return (INT_PTR)ppi->RecvAwayMsg(hContact, wParam, (PROTORECVEVENT *)lParam);
+			case 30: return (INT_PTR)ppi->SetAwayMsg(wParam, (wchar_t *)lParam);
+			case 31: return (INT_PTR)ppi->UserIsTyping(wParam, lParam);
+			case 32: mir_strncpy((char *)lParam, ppi->m_szModuleName, wParam); return 0;
+			case 33:
+				return ppi->m_iStatus;
 			}
 		}
 	}

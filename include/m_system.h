@@ -559,6 +559,65 @@ struct WCHAR_PARAM : public PARAM
 	}
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Callbacks
+
+class CCallbackImp
+{
+	struct CDummy
+	{
+		int foo;
+	};
+
+	typedef void (CDummy:: *TFnCallback)(void *argument);
+
+	CDummy *m_object;
+	TFnCallback m_func;
+
+protected:
+	template<typename TClass, typename TArgument>
+	__inline CCallbackImp(TClass *object, void (TClass:: *func)(TArgument *argument)) :
+		m_object((CDummy *)object),
+		m_func((TFnCallback)func)
+	{
+	}
+
+	__inline void Invoke(void *argument) const { if (m_func && m_object) (m_object->*m_func)(argument); }
+
+public:
+	__inline CCallbackImp() : m_object(nullptr), m_func(nullptr) {}
+
+	__inline CCallbackImp(const CCallbackImp &other) : m_object(other.m_object), m_func(other.m_func) {}
+	__inline CCallbackImp &operator=(const CCallbackImp &other) { m_object = other.m_object; m_func = other.m_func; return *this; }
+
+	__inline bool operator==(const CCallbackImp &other) const { return (m_object == other.m_object) && (m_func == other.m_func); }
+	__inline bool operator!=(const CCallbackImp &other) const { return (m_object != other.m_object) || (m_func != other.m_func); }
+
+	__inline operator bool() const { return m_object && m_func; }
+};
+
+template<typename TArgument>
+struct CCallback : public CCallbackImp
+{
+	typedef CCallbackImp CSuper;
+
+public:
+	__inline CCallback() {}
+
+	template<typename TClass>
+	__inline CCallback(TClass *object, void (TClass:: *func)(TArgument *argument)) : CCallbackImp(object, func) {}
+
+	__inline CCallback &operator=(const CCallbackImp &x) { CSuper::operator =(x); return *this; }
+
+	__inline void operator()(TArgument *argument) const { Invoke((void *)argument); }
+};
+
+template<typename TClass, typename TArgument>
+__inline CCallback<TArgument> Callback(TClass *object, void (TClass:: *func)(TArgument *argument))
+{
+	return CCallback<TArgument>(object, func);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // http support
 

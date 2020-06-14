@@ -133,6 +133,7 @@
     <ClCompile Include="src\protocols.cpp" />
     <ClCompile Include="src\proto_accs.cpp" />
     <ClCompile Include="src\proto_chains.cpp" />
+    <ClCompile Include="src\proto_interface.cpp" />
     <ClCompile Include="src\proto_internal.cpp" />
     <ClCompile Include="src\proto_opts.cpp" />
     <ClCompile Include="src\proto_order.cpp" />
