@@ -76,29 +76,30 @@ void ItemData::load(bool bFullLoad)
 		return;
 
 	dbe.cbBlob = db_event_getBlobSize(hEvent);
-	dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob + 1);
-	if (db_event_get(hEvent, &dbe))
-		return;
+	mir_ptr<BYTE> pData((BYTE *)mir_calloc(dbe.cbBlob + 1));
+	dbe.pBlob = pData;
+	if (!db_event_get(hEvent, &dbe)) {
+		bLoaded = true;
 
-	bLoaded = true;
+		switch (dbe.eventType) {
+		case EVENTTYPE_MESSAGE:
+			if (!(dbe.flags & DBEF_SENT)) {
+				if (!dbe.markedRead())
+					db_event_markRead(hContact, hEvent);
+				g_clistApi.pfnRemoveEvent(hContact, hEvent);
+			}
+			__fallthrough;
 
-	switch (dbe.eventType) {
-	case EVENTTYPE_MESSAGE:
-		if (!(dbe.flags & DBEF_SENT)) {
-			if (!dbe.markedRead())
-				db_event_markRead(hContact, hEvent);
-			g_clistApi.pfnRemoveEvent(hContact, hEvent);
+		case EVENTTYPE_STATUSCHANGE:
+			wtext = mir_utf8decodeW((char *)dbe.pBlob);
+			break;
+
+		default:
+			wtext = DbEvent_GetTextW(&dbe, CP_ACP);
+			break;
 		}
-		__fallthrough;
-
-	case EVENTTYPE_STATUSCHANGE:
-		wtext = mir_utf8decodeW((char *)dbe.pBlob);
-		break;
-
-	default:
-		wtext = DbEvent_GetTextW(&dbe, CP_ACP);
-		break;
 	}
+	dbe.pBlob = nullptr;
 }
 
 bool ItemData::isGrouped() const
@@ -115,8 +116,6 @@ bool ItemData::isGrouped() const
 
 ItemData::~ItemData()
 {
-	if (bLoaded)
-		mir_free(dbe.pBlob);
 	mir_free(wtext);
 	if (data)
 		MTextDestroy(data);

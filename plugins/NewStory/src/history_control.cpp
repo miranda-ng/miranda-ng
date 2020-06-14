@@ -67,7 +67,7 @@ struct NewstoryListData : public MZeroedObject
 			break;
 
 		case ID_CONTEXT_EDIT:
-			BeginEditItem(index);
+			BeginEditItem(index, false);
 			break;
 
 		case ID_CONTEXT_DELETE:
@@ -96,10 +96,10 @@ struct NewstoryListData : public MZeroedObject
 		InvalidateRect(hwnd, 0, FALSE);
 	}
 
-	void BeginEditItem(int index)
+	void BeginEditItem(int index, bool bReadOnly)
 	{
 		if (hwndEditBox)
-			EndEditItem();
+			EndEditItem(false);
 
 		if (scrollTopItem > index)
 			return;
@@ -111,30 +111,58 @@ struct NewstoryListData : public MZeroedObject
 		int idx = scrollTopItem;
 		int itemHeight = LayoutItem(idx);
 		while (top < height) {
-			if (idx == index) {
-				ItemData *item = items[index];
-
-				int fontid, colorid;
-				item->getFontColor(fontid, colorid);
-
-				ptrW text(TplFormatString(item->getCopyTemplate(), item->hContact, item));
-				hwndEditBox = CreateWindow(L"EDIT", text, WS_CHILD | WS_BORDER | ES_READONLY | ES_MULTILINE | ES_AUTOVSCROLL, 0, top, rc.right - rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
-				OldEditWndProc = (WNDPROC)SetWindowLongPtr(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)HistoryEditWndProc);
-				SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
-				SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
-				SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
-				ShowWindow(hwndEditBox, SW_SHOW);
-				SetFocus(hwndEditBox);
+			if (idx == index)
 				break;
-			}
+
 			top += itemHeight;
 			idx++;
 			itemHeight = LayoutItem(idx);
 		}
+
+		ItemData *item = items[index];
+		int fontid, colorid;
+		item->getFontColor(fontid, colorid);
+
+		DWORD dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
+		if (bReadOnly) 
+			dwStyle |= ES_READONLY;
+
+		hwndEditBox = CreateWindow(L"EDIT", item->getWBuf(), dwStyle, 0, top, rc.right - rc.left, itemHeight, hwnd, NULL, g_plugin.getInst(), NULL);
+		SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LPARAM)item);
+		OldEditWndProc = (WNDPROC)SetWindowLongPtr(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)HistoryEditWndProc);
+		SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
+		SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
+		SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
+		ShowWindow(hwndEditBox, SW_SHOW);
+		SetFocus(hwndEditBox);
 	}
 
-	void EndEditItem()
+	void EndEditItem(bool bAccept)
 	{
+		if (hwndEditBox == nullptr)
+			return;
+
+		if (bAccept) {
+			if ((GetWindowLong(hwndEditBox, GWL_STYLE) & ES_READONLY) == 0) {
+				auto *pItem = (ItemData *)GetWindowLongPtrW(hwndEditBox, GWLP_USERDATA);
+
+				int iTextLen = GetWindowTextLengthW(hwndEditBox);
+				replaceStrW(pItem->wtext, (wchar_t *)mir_alloc((iTextLen + 1) * sizeof(wchar_t)));
+				GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen);
+				pItem->wtext[iTextLen] = 0;
+
+				if (pItem->hContact && pItem->hEvent) {
+					ptrA szUtf(mir_utf8encodeW(pItem->wtext));
+					pItem->dbe.cbBlob = mir_strlen(szUtf) + 1;
+					pItem->dbe.pBlob = (BYTE *)szUtf.get();
+					db_event_edit(pItem->hContact, pItem->hEvent, &pItem->dbe);
+				}
+
+				MTextDestroy(pItem->data); pItem->data = 0;
+				pItem->checkCreate(hwnd);
+			}
+		}
+
 		DestroyWindow(hwndEditBox);
 		hwndEditBox = 0;
 	}
@@ -175,7 +203,7 @@ struct NewstoryListData : public MZeroedObject
 
 	void FixScrollPosition()
 	{
-		EndEditItem();
+		EndEditItem(false);
 
 		RECT rc;
 		GetWindowRect(hwnd, &rc);
@@ -378,8 +406,11 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	switch (msg) {
 	case WM_KEYDOWN:
 		switch (wParam) {
+		case VK_RETURN:
+			pData->EndEditItem(true);
+			return 0;
 		case VK_ESCAPE:
-			pData->EndEditItem();
+			pData->EndEditItem(false);
 			return 0;
 		}
 		break;
@@ -395,7 +426,7 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		return DLGC_WANTMESSAGE;
 
 	case WM_KILLFOCUS:
-		pData->EndEditItem();
+		pData->EndEditItem(false);
 		return 0;
 	}
 
@@ -451,7 +482,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SELECTITEMS:
 		{
-			int start = min(data->items.getCount() - 1, wParam);
+			int start = min(data->items.getCount() - 1, (int)wParam);
 			int end = min(data->items.getCount() - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
@@ -467,7 +498,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_TOGGLEITEMS:
 		{
-			int start = min(data->items.getCount() - 1, wParam);
+			int start = min(data->items.getCount() - 1, (int)wParam);
 			int end = min(data->items.getCount() - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
@@ -483,7 +514,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_SELECTITEMS2:
 		{
-			int start = min(data->items.getCount() - 1, wParam);
+			int start = min(data->items.getCount() - 1, (int)wParam);
 			int end = min(data->items.getCount() - 1, max(0, lParam));
 			if (start > end)
 				std::swap(start, end);
@@ -503,13 +534,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case NSM_DESELECTITEMS:
 		{
-			int start = min(data->items.getCount() - 1, wParam);
+			int start = min(data->items.getCount() - 1, (int)wParam);
 			int end = min(data->items.getCount() - 1, max(0, lParam));
-			if (start > end) {
-				start ^= end;
-				end ^= start;
-				start ^= end;
-			}
+			if (start > end)
+				std::swap(start, end);
+				
 			for (int i = start; i <= end; ++i) {
 				auto *p = data->items.get(i, false);
 				p->bSelected = false;
@@ -527,7 +556,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		return data->GetItemFromPixel(lParam);
 
 	case NSM_SETCARET:
-		if (wParam < data->items.getCount()) {
+		if ((int)wParam < data->items.getCount()) {
 			data->caret = wParam;
 			if (lParam)
 				SendMessage(hwnd, NSM_ENSUREVISIBLE, data->caret, 0);
@@ -746,12 +775,12 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case VK_F2:
-				data->BeginEditItem(data->caret);
+				data->BeginEditItem(data->caret, false);
 				break;
 
 			case VK_ESCAPE:
 				if (data->hwndEditBox)
-					data->EndEditItem();
+					data->EndEditItem(false);
 				break;
 
 			case VK_INSERT:
@@ -774,7 +803,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int item = data->GetItemFromPixel(pt.y);
 			if (item >= 0) {
 				if (data->caret != item)
-					data->EndEditItem();
+					data->EndEditItem(false);
 
 				if (wParam & MK_CONTROL) {
 					SendMessage(hwnd, NSM_TOGGLEITEMS, item, item);
@@ -793,7 +822,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					}
 					
 					if (data->caret == item) {
-						data->BeginEditItem(item);
+						data->BeginEditItem(item, true);
 						return 0;
 					}
 
