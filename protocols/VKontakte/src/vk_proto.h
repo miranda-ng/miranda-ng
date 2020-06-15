@@ -388,6 +388,7 @@ private:
 	void __cdecl ChatContactTypingThread(void *p);
 	void StopChatContactTyping(int iChatId, LONG iUserId);
 	void OnCreateNewChat(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	CVkChatInfo* AppendConversationChat(int iChatId, const JSONNode& jnItem);
 	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
 	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
 	void AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory);

@@ -28,6 +28,89 @@ static LPCWSTR sttStatuses[] = { LPGENW("Participants"), LPGENW("Owners") };
 
 extern JSONNode nullNode;
 
+
+CVkChatInfo* CVkProto::AppendConversationChat(int iChatId, const JSONNode& jnItem)
+{
+	debugLogW(L"CVkProto::AppendConversationChat %d", iChatId);
+	if (iChatId == 0)
+		return nullptr;
+
+
+	if (!jnItem)
+		return nullptr;
+
+
+	const JSONNode& jnLastMessage = jnItem["last_message"];
+	const JSONNode& jnChatSettings = jnItem["chat_settings"];
+
+	if (jnLastMessage) {
+		const JSONNode& jnAction = jnLastMessage["action"];
+		if (jnAction) {
+			CMStringW wszActionType(jnAction["type"].as_mstring());
+			if ((wszActionType == L"chat_kick_user") && (jnAction["member_id"].as_int() == m_myUserId)) {
+				return nullptr;
+			}
+		}
+	}
+
+	MCONTACT hChatContact = FindChat(iChatId);
+	if (hChatContact && getBool(hChatContact, "kicked"))
+		return nullptr;
+
+
+
+	CVkChatInfo* vkChatInfo = m_chats.find((CVkChatInfo*)&iChatId);
+	if (vkChatInfo != nullptr)
+		return vkChatInfo;
+
+	CMStringW wszTitle, wszState;
+	vkChatInfo = new CVkChatInfo(iChatId);
+	if (jnChatSettings) {
+		wszTitle = jnChatSettings["title"].as_mstring();
+		vkChatInfo->m_wszTopic = mir_wstrdup(!wszTitle.IsEmpty() ? wszTitle : L"");
+		wszState = jnChatSettings["state"].as_mstring();
+	}
+
+	CMStringW sid;
+	sid.Format(L"%S_%d", m_szModuleName, iChatId);
+	vkChatInfo->m_wszId = mir_wstrdup(sid);
+
+
+	SESSION_INFO* si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sid, wszTitle);
+	if (si == nullptr) {
+		delete vkChatInfo;
+		return nullptr;
+	}
+
+	vkChatInfo->m_hContact = si->hContact;
+	setWString(si->hContact, "Nick", wszTitle);
+	m_chats.insert(vkChatInfo);
+
+	for (int i = _countof(sttStatuses) - 1; i >= 0; i--)
+		Chat_AddGroup(si, TranslateW(sttStatuses[i]));
+
+	setDword(si->hContact, "vk_chat_id", iChatId);
+
+	CMStringW wszHomepage(FORMAT, L"https://vk.com/im?sel=c%d", iChatId);
+	setWString(si->hContact, "Homepage", wszHomepage);
+
+	db_unset(si->hContact, m_szModuleName, "off");
+
+	if (wszState != L"in") {
+		setByte(si->hContact, "off", 1);
+		m_chats.remove(vkChatInfo);
+		return nullptr;
+	}
+
+	Chat_Control(m_szModuleName, sid, (m_vkOptions.bHideChats) ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(m_szModuleName, sid, SESSION_ONLINE);
+
+	RetrieveChatInfo(vkChatInfo);
+
+	return vkChatInfo;
+
+}
+
 CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 {
 	debugLogW(L"CVkProto::AppendChat");

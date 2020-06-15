@@ -104,6 +104,50 @@ if (index > 0) {
 };
 // Stored procedure name: GetServerHistory = End
 
+
+// Stored procedure name: GetServerConversationHistory = Begin
+// Arguments:
+// Args.userid
+// Args.offset
+// Args.reqcount
+// Args.time
+// Args.lastmid
+// Args.once
+
+var Hist = API.messages.getHistory({ "user_id": Args.userid, "count": Args.reqcount, "offset": Args.offset });
+var ext = Hist.items.length;
+var index = 0;
+while (ext != 0) {
+    if (Hist.items[index].date > Args.time) {
+        if (Hist.items[index].conversation_message_id > Args.lastmid) {
+            index = index + 1;
+            ext = ext - 1;
+        } else
+            ext = 0;
+    } else
+        ext = 0;
+};
+if (index > 0) {
+    var ret = Hist.items.slice(0, index);
+    var FMsgs = ret@.fwd_messages;
+    var Idx = 0;
+    var Uids = [];
+    while (Idx < FMsgs.length) {
+        var Jdx = 0;
+        var CFMsgs = parseInt(FMsgs[Idx].length);
+        while (Jdx < CFMsgs) {
+            Uids.unshift(FMsgs[Idx][Jdx].peer_id);
+            Jdx = Jdx + 1;
+        };
+        Idx = Idx + 1;
+    };
+    var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+    return { "count": index, "datetime": parseInt(Args.time), "items": ret, "fwd_users": FUsers, "once": parseInt(Args.once), "rcount": parseInt(Args.reqcount) };
+} else {
+    return{"count":0,"datetime":parseInt(Args.time),"items":[],"fwd_users":[],"once":parseInt(Args.once),"rcount":parseInt(Args.reqcount)};    
+};
+// Stored procedure name: GetServerConversationHistory = End
+
 // Stored procedure name: RetrieveMessagesByIds = Begin
 // Arguments:
 // Args.mids
