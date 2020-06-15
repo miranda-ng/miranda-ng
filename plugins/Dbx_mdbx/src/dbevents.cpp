@@ -52,6 +52,7 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 {
 	DBCachedContact *cc, *cc2;
 	DBEvent dbe;
+	char *szId = nullptr;
 	{
 		txn_ptr_ro txn(m_txn_ro);
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
@@ -59,6 +60,11 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 			return 1;
 
 		dbe = *(DBEvent*)data.iov_base;
+		if (dbe.flags & DBEF_HAS_ID) {
+			char *src = (char *)data.iov_base + sizeof(dbe) + dbe.cbBlob + 1;
+			szId = NEWSTR_ALLOCA(src);
+		}
+
 		cc = (dbe.dwContactID != 0) ? m_cache->GetCachedContact(dbe.dwContactID) : &m_ccDummy;
 		if (cc == nullptr || cc->dbc.dwEventCount == 0)
 			return 1;
@@ -109,6 +115,15 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 			data.iov_len = sizeof(DBContact); data.iov_base = &cc2->dbc;
 			if (mdbx_put(trnlck, m_dbContacts, &keyc, &data, 0) != MDBX_SUCCESS)
 				return 1;
+		}
+
+		if (szId) {
+			DBEventIdKey keyId;
+			keyId.iModuleId = dbe.iModuleId;
+			strncpy_s(keyId.szEventId, szId, _TRUNCATE);
+
+			MDBX_val keyid = { &keyId, sizeof(MEVENT) + strlen(keyId.szEventId) + 1 };
+			mdbx_del(trnlck, m_dbEventIds, &keyid, nullptr);
 		}
 
 		// remove an event
@@ -194,14 +209,25 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 		}
 	}
 
-	{
-		BYTE *recBuf = (BYTE*)_alloca(sizeof(DBEvent) + dbe.cbBlob);
-		DBEvent *pNewEvent = (DBEvent*)recBuf;
-		*pNewEvent = dbe;
-		memcpy(pNewEvent + 1, pBlob, dbe.cbBlob);
+	size_t cbSrvId = mir_strlen(dbei->szId);
+	if (cbSrvId > 0) {
+		cbSrvId++;
+		dbe.flags |= DBEF_HAS_ID;
+	}
 
+	BYTE *recBuf = (BYTE*)_alloca(sizeof(DBEvent) + dbe.cbBlob + cbSrvId + 1), *p = recBuf;
+	memcpy(p, &dbe, sizeof(dbe)); p += sizeof(dbe);
+	memcpy(p, pBlob, dbe.cbBlob); p += dbe.cbBlob;
+	if (*p != 0)
+		*p++ = 0;
+	if (cbSrvId) {
+		memcpy(p, dbei->szId, cbSrvId);
+		p += cbSrvId;
+	}
+
+	{
 		txn_ptr trnlck(StartTran());
-		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data = { recBuf, sizeof(DBEvent) + dbe.cbBlob };
+		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data = { recBuf, int(p - recBuf) };
 		if (mdbx_put(trnlck, m_dbEvents, &key, &data, 0) != MDBX_SUCCESS)
 			return false;
 
@@ -235,6 +261,16 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 			uint32_t keyVal = 2;
 			MDBX_val keyc = { &keyVal, sizeof(keyVal) }, datac = { &m_ccDummy.dbc, sizeof(m_ccDummy.dbc) };
 			if (mdbx_put(trnlck, m_dbGlobal, &keyc, &datac, 0) != MDBX_SUCCESS)
+				return false;
+		}
+
+		if (dbei->szId) {
+			DBEventIdKey keyId;
+			keyId.iModuleId = dbe.iModuleId;
+			strncpy_s(keyId.szEventId, dbei->szId, _TRUNCATE);
+
+			MDBX_val keyid = { &keyId, sizeof(MEVENT) + strlen(keyId.szEventId) + 1 }, dataid = { &hDbEvent, sizeof(hDbEvent) };
+			if (mdbx_put(trnlck, m_dbEventIds, &keyid, &dataid, 0) != MDBX_SUCCESS)
 				return false;
 		}
 
@@ -273,6 +309,7 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		return 1;
 	}
 
+	size_t cbBlob;
 	const DBEvent *dbe;
 	{
 		txn_ptr_ro txn(m_txn_ro);
@@ -282,13 +319,14 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 			return 1;
 
 		dbe = (const DBEvent*)data.iov_base;
+		cbBlob = data.iov_len - sizeof(DBEvent);
 	}
 
 	dbei->szModule = GetModuleName(dbe->iModuleId);
 	dbei->timestamp = dbe->timestamp;
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
-	size_t bytesToCopy = min(dbei->cbBlob, dbe->cbBlob);
+	size_t bytesToCopy = min(dbei->cbBlob, cbBlob);
 	dbei->cbBlob = dbe->cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
 		BYTE *pSrc = (BYTE*)dbe + sizeof(DBEvent);
@@ -302,9 +340,13 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 			memcpy(dbei->pBlob, pBlob, bytesToCopy);
 			if (bytesToCopy > len)
 				memset(dbei->pBlob + len, 0, bytesToCopy - len);
+
 			mir_free(pBlob);
 		}
 		else memcpy(dbei->pBlob, pSrc, bytesToCopy);
+
+		if (dbei->flags & DBEF_HAS_ID)
+			dbei->szId = (char *)pSrc + dbei->cbBlob + 1;
 	}
 	return 0;
 }
@@ -437,25 +479,6 @@ MEVENT CDbxMDBX::GetEventById(LPCSTR szModule, LPCSTR szId)
 		return 0;
 
 	return hDbEvent;
-}
-
-BOOL CDbxMDBX::SetEventId(LPCSTR szModule, MEVENT hDbEvent, LPCSTR szId)
-{
-	if (szModule == nullptr || szId == nullptr || !hDbEvent)
-		return 1;
-
-	DBEventIdKey keyId;
-	keyId.iModuleId = GetModuleID(szModule);
-	strncpy_s(keyId.szEventId, szId, _TRUNCATE);
-
-	txn_ptr trnlck(StartTran());
-	MDBX_val key = { &keyId, sizeof(MEVENT) + strlen(keyId.szEventId) + 1 }, data = { &hDbEvent, sizeof(hDbEvent) };
-	if (mdbx_put(trnlck, m_dbEventIds, &key, &data, 0) != MDBX_SUCCESS)
-		return 1;
-	if (trnlck.commit() != MDBX_SUCCESS)
-		return 1;
-
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

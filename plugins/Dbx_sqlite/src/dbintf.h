@@ -87,7 +87,6 @@ public:
 	STDMETHODIMP_(MEVENT)   FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent) override;
 
 	STDMETHODIMP_(MEVENT)   GetEventById(LPCSTR szModule, LPCSTR szId) override;
-	STDMETHODIMP_(BOOL)     SetEventId(LPCSTR szModule, MEVENT, LPCSTR szId) override;
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam) override;
 

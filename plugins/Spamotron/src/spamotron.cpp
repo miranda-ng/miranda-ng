@@ -227,23 +227,21 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			wchar_t AuthEventModule[100];
 			char* szAuthEventModule;
 			if (db_get(hContact, MODULENAME, "AuthEvent", &_dbv) == 0) {
-				DBEVENTINFO *_dbei = (DBEVENTINFO *)malloc(sizeof(DBEVENTINFO));
-				if (_dbei != nullptr) {
-					memcpy(&_dbei->cbBlob, _dbv.pbVal, sizeof(DWORD));
-					_dbei->eventType = EVENTTYPE_AUTHREQUEST;
-					_getCOptS(AuthEventModule, 100, hContact, "AuthEventModule", L"ICQ");
-					szAuthEventModule = mir_u2a(AuthEventModule);
-					_dbei->szModule = szAuthEventModule;
-					_dbei->timestamp = dbei->timestamp;
-					_dbei->flags = 0;
-					_dbei->pBlob = _dbv.pbVal + sizeof(DWORD);
-					db_event_add(hContact,_dbei);
-					g_plugin.delSetting(hContact, "AuthEvent");
-					g_plugin.delSetting(hContact, "AuthEventPending");
-					g_plugin.delSetting(hContact, "AuthEventModule");
-					mir_free(szAuthEventModule);
-					free(_dbei);
-				}
+				DBEVENTINFO dbei2 = {};
+				dbei2.cbBlob = *(DWORD *)_dbv.pbVal;
+				dbei2.eventType = EVENTTYPE_AUTHREQUEST;
+				_getCOptS(AuthEventModule, 100, hContact, "AuthEventModule", L"ICQ");
+				szAuthEventModule = mir_u2a(AuthEventModule);
+				dbei2.szModule = szAuthEventModule;
+				dbei2.timestamp = dbei->timestamp;
+				dbei2.pBlob = _dbv.pbVal + sizeof(DWORD);
+				db_event_add(hContact, &dbei2);
+
+				g_plugin.delSetting(hContact, "AuthEvent");
+				g_plugin.delSetting(hContact, "AuthEventPending");
+				g_plugin.delSetting(hContact, "AuthEventModule");
+				mir_free(szAuthEventModule);
+
 				db_free(&_dbv);
 			}
 		}

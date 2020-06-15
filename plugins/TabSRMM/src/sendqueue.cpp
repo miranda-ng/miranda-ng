@@ -472,14 +472,13 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 	if (job.dwFlags & PREF_RTL)
 		dbei.flags |= DBEF_RTL;
 	dbei.pBlob = (PBYTE)job.szSendBuffer;
+	dbei.szId = (char *)ack->lParam;
 
 	MessageWindowEvent evt = { job.iSendId, job.hContact, &dbei };
 	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
 
 	job.szSendBuffer = (char*)dbei.pBlob;
 	MEVENT hNewEvent = db_event_add(job.hContact, &dbei);
-	if (hNewEvent && ack->lParam)
-		db_event_setId(dbei.szModule, hNewEvent, (char*)ack->lParam);
 
 	if (m_pContainer)
 		if (!nen_options.iNoSounds && !m_pContainer->m_flags.m_bNoSound)

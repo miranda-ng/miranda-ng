@@ -327,10 +327,10 @@ static int db_AddEvent(lua_State *L)
 {
 	MCONTACT hContact = luaL_optinteger(L, 1, 0);
 
-	DBEVENTINFO dbei;
+	DBEVENTINFO dbei = {};
 	MakeDbEvent(L, dbei);
-	MEVENT hDbEvent = db_event_add(hContact, &dbei);
 
+	MEVENT hDbEvent = db_event_add(hContact, &dbei);
 	if (hDbEvent)
 		lua_pushnumber(L, hDbEvent);
 	else

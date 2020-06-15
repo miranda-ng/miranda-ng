@@ -95,15 +95,14 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, LPARAM lParam)
 	dbei.timestamp = time(0);
 	dbei.cbBlob = (DWORD)(mir_strlen(p->szMsg) + 1);
 	dbei.pBlob = (PBYTE)p->szMsg;
+	dbei.szId = (char *)lParam;
 
 	MessageWindowEvent evt = { id, hContact, &dbei };
 	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
 
 	p->szMsg = (char*)dbei.pBlob;
 
-	MEVENT hNewEvent = db_event_add(hContact, &dbei);
-	if (hNewEvent && lParam)
-		db_event_setId(dbei.szModule, hNewEvent, (char*)lParam);
+	db_event_add(hContact, &dbei);
 
 	mir_free(p->szMsg);
 	mir_free(p);

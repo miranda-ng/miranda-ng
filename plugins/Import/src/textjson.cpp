@@ -151,7 +151,7 @@ public:
 			dbei->szModule = m_modules.find((char*)szModule.c_str());
 			if (dbei->szModule == nullptr) {
 				dbei->szModule = mir_strdup(szModule.c_str());
-				m_modules.insert(dbei->szModule);
+				m_modules.insert((char*)dbei->szModule);
 			}
 		}
 

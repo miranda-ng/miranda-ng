@@ -75,11 +75,6 @@ MCONTACT CIcqProto::CheckOwnMessage(const CMStringA &reqId, const CMStringA &msg
 
 	MCONTACT ret = pOwn->m_hContact;
 	if (bRemove) {
-		// here we filter service messages for SecureIM, OTR etc, i.e. messages that 
-		// weren't initialized by SRMM (we identify it by missing server id)
-		if (db_event_getById(m_szModuleName, msgId) == 0)
-			db_event_setId(m_szModuleName, 1, msgId);
-
 		mir_cslock lck(m_csOwnIds);
 		m_arOwnIds.remove(pOwn);
 	}
@@ -452,8 +447,6 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			pReq->pUserInfo = (void*)iMsgTime;
 			pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
 			Push(pReq);
-
-			db_event_setId(m_szModuleName, 1, szMsgId);
 
 			MarkAsRead(hContact);
 			return;

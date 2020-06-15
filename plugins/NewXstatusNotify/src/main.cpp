@@ -275,11 +275,10 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt)
 	dbei.pBlob = (PBYTE)blob;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.flags = DBEF_READ | DBEF_UTF;
-
 	dbei.timestamp = (DWORD)time(0);
 	dbei.szModule = MODULENAME;
-	MEVENT hDBEvent = db_event_add(smi->hContact, &dbei);
 
+	MEVENT hDBEvent = db_event_add(smi->hContact, &dbei);
 	if (opt.SMsgLogToDB_WinOpen && opt.SMsgLogToDB_Remove) {
 		DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
 		dbevent->hContact = smi->hContact;
@@ -360,11 +359,10 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		dbei.pBlob = (PBYTE)blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
-
 		dbei.timestamp = (DWORD)time(0);
 		dbei.szModule = MODULENAME;
-		MEVENT hDBEvent = db_event_add(hContact, &dbei);
 
+		MEVENT hDBEvent = db_event_add(hContact, &dbei);
 		if (opt.LogToDB_WinOpen && opt.LogToDB_Remove) {
 			DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
 			dbevent->hContact = hContact;

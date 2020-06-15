@@ -266,6 +266,7 @@ begin
     if DBReadByte(hContact,p,'ChatRoom',0)<>1 then
     begin
       WidetoUTF8(last,blob);
+      FillChar(dbei,SizeOf(dbeo),0);
 
       ccs.hContact       := hContact;
       ccs.szProtoService := PSS_MESSAGE;

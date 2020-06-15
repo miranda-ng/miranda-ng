@@ -602,6 +602,8 @@ INT_PTR CJabberProto::GetCaps(int type, MCONTACT hContact)
 		dwFlags = PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_READNOTIFY;
 		if (m_bUseHttpUpload || m_bInlinePictures)
 			dwFlags |= PF4_OFFLINEFILES;
+		if (m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MAM))
+			dwFlags |= PF4_SERVERMSGID;
 		return dwFlags;		
 		
 	case PFLAG_UNIQUEIDTEXT:

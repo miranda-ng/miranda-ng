@@ -431,11 +431,6 @@ MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId)
 	return (currDb == nullptr) ? 0 : currDb->GetEventById(szModule, szId);
 }
 
-MIR_CORE_DLL(MEVENT) db_event_setId(const char *szModule, MEVENT hDbEvent, const char *szId)
-{
-	return (currDb == nullptr) ? 0 : currDb->SetEventId(szModule, hDbEvent, szId);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // event cursors
 

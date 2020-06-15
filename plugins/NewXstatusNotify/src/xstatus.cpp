@@ -294,8 +294,8 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 		dbei.flags = DBEF_READ | DBEF_UTF;
 		dbei.timestamp = (DWORD)time(0);
 		dbei.szModule = MODULENAME;
-		MEVENT hDBEvent = db_event_add(xsc->hContact, &dbei);
 
+		MEVENT hDBEvent = db_event_add(xsc->hContact, &dbei);
 		if (opt.XLogToDB_WinOpen && opt.XLogToDB_Remove) {
 			DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
 			dbevent->hContact = xsc->hContact;

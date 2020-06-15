@@ -64,17 +64,16 @@ void __cdecl AutoreplyDelayThread(CAutoreplyData *ad)
 	ProtoChainSend(ad->hContact, PSS_MESSAGE, 0, (LPARAM)pszReply);
 
 	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY)) { // store in the history
-		DBEVENTINFO dbeo = {};
-		dbeo.eventType = EVENTTYPE_MESSAGE;
-		dbeo.flags = DBEF_SENT | DBEF_UTF;
-		dbeo.szModule = szProto;
-		dbeo.timestamp = time(0);
-
-		dbeo.cbBlob = ReplyLen;
-		dbeo.pBlob = (PBYTE)(char*)pszReply;
-
 		SleepEx(1000, true); // delay before sending the reply, as we need it to be later than the message we're replying to (without this delay, srmm puts the messages in a wrong order)
-		db_event_add(ad->hContact, &dbeo);
+
+		DBEVENTINFO dbei = {};
+		dbei.eventType = EVENTTYPE_MESSAGE;
+		dbei.flags = DBEF_SENT | DBEF_UTF;
+		dbei.szModule = szProto;
+		dbei.timestamp = time(0);
+		dbei.cbBlob = ReplyLen;
+		dbei.pBlob = (PBYTE)(char*)pszReply;
+		db_event_add(ad->hContact, &dbei);
 	}
 
 	delete ad;

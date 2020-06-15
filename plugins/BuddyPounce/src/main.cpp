@@ -36,11 +36,12 @@ int MsgAck(WPARAM, LPARAM lParam)
 				CreateMessageAcknowlegedWindow(ack->hContact, ack->result == ACKRESULT_SUCCESS);
 			if (ack->result == ACKRESULT_SUCCESS) {
 				// wrtie it to the DB
-				DBEVENTINFO dbei = {};
 				DBVARIANT dbv;
 				int reuse = g_plugin.getByte(ack->hContact, "Reuse");
 				if (!g_plugin.getWString(ack->hContact, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
 					T2Utf pszUtf(dbv.pwszVal);
+
+					DBEVENTINFO dbei = {};
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_UTF | DBEF_SENT;
 					dbei.szModule = (char*)ack->szModule;

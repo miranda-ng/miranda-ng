@@ -488,21 +488,20 @@ void MarkUnread(MCONTACT hContact)
 	if (db_get(hContact, MODULENAME, "LastMsgEvents", &_dbv) == 0) {
 		pos = _dbv.pbVal;
 		while (pos - _dbv.pbVal < _dbv.cpbVal) {
-			DBEVENTINFO _dbei = {};
-			memcpy(&_dbei.eventType, pos, sizeof(WORD)); pos += sizeof(WORD);
-			memcpy(&_dbei.flags, pos, sizeof(DWORD)); pos += sizeof(DWORD);
-			memcpy(&_dbei.timestamp, pos, sizeof(DWORD)); pos += sizeof(DWORD);
+			DBEVENTINFO dbei = {};
+			memcpy(&dbei.eventType, pos, sizeof(WORD)); pos += sizeof(WORD);
+			memcpy(&dbei.flags, pos, sizeof(DWORD)); pos += sizeof(DWORD);
+			memcpy(&dbei.timestamp, pos, sizeof(DWORD)); pos += sizeof(DWORD);
 
-			_dbei.szModule = (char*)malloc(mir_strlen((const char*)pos)+1);
-			mir_strcpy(_dbei.szModule, (const char*)pos);
+			dbei.szModule = (char*)malloc(mir_strlen((const char*)pos)+1);
+			mir_strcpy((char*)dbei.szModule, (const char*)pos);
 			pos += mir_strlen((const char*)pos)+1;
 
-			memcpy(&_dbei.cbBlob, pos, sizeof(DWORD)); pos += sizeof(DWORD);
-			_dbei.pBlob = (PBYTE)malloc(_dbei.cbBlob);
-			memcpy(_dbei.pBlob, pos, _dbei.cbBlob);
-			pos += _dbei.cbBlob;
-
-			db_event_add(hContact,&_dbei);
+			memcpy(&dbei.cbBlob, pos, sizeof(DWORD)); pos += sizeof(DWORD);
+			dbei.pBlob = (PBYTE)malloc(dbei.cbBlob);
+			memcpy(dbei.pBlob, pos, dbei.cbBlob);
+			pos += dbei.cbBlob;
+			db_event_add(hContact,&dbei);
 		}
 		db_free(&_dbv);
 		g_plugin.delSetting(hContact, "LastMsgEvents");

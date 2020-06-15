@@ -160,23 +160,25 @@ struct DBVARIANT
 	};
 };
 
-#define DBEF_TEMPORARY  1  // disable notifications about temporary database events
-#define DBEF_SENT       2  // this event was sent by the user. If not set this event was received.
-#define DBEF_READ       4  // event has been read by the user. It does not need to be processed any more except for history.
-#define DBEF_RTL        8  // event contains the right-to-left aligned text
-#define DBEF_UTF       16  // event contains a text in utf-8
-#define DBEF_ENCRYPTED 32  // event is encrypted (never reported outside a driver)
+#define DBEF_TEMPORARY 0x0001  // disable notifications about temporary database events
+#define DBEF_SENT      0x0002  // this event was sent by the user. If not set this event was received.
+#define DBEF_READ      0x0004  // event has been read by the user. It does not need to be processed any more except for history.
+#define DBEF_RTL       0x0008  // event contains the right-to-left aligned text
+#define DBEF_UTF       0x0010  // event contains a text in utf-8
+#define DBEF_ENCRYPTED 0x0020  // event is encrypted (never reported outside a driver)
+#define DBEF_HAS_ID    0x0040  // event has unique server id 
 
 struct DBEVENTINFO
 {
-	char *szModule;         // pointer to name of the module that 'owns' this event
-	DWORD timestamp;        // seconds since 00:00, 01/01/1970. Gives us times until 2106 
-									// unless you use the standard C library which is
-									// signed and can only do until 2038. In GMT.
-	DWORD flags;            // combination of DBEF_* flags
-	WORD  eventType;        // module-defined event type field
-	DWORD cbBlob;           // size of pBlob in bytes
-	PBYTE pBlob;            // pointer to buffer containing module-defined event data
+	const char *szModule;       // pointer to name of the module that 'owns' this event
+	DWORD timestamp;            // seconds since 00:00, 01/01/1970. Gives us times until 2106 
+									    // unless you use the standard C library which is
+									    // signed and can only do until 2038. In GMT.
+	DWORD flags;                // combination of DBEF_* flags
+	WORD  eventType;            // module-defined event type field
+	DWORD cbBlob;               // size of pBlob in bytes
+	PBYTE pBlob;                // pointer to buffer containing module-defined event data
+	const char *szId;           // server id
 
 	bool __forceinline markedRead() const {
 		return (flags & (DBEF_SENT | DBEF_READ)) != 0;
@@ -356,10 +358,6 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
 // Retrieves a handle to the event identified by its module and unique identifier
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId);
-
-// Sets an identifier for an event identified by its module and handle
-
-EXTERN_C MIR_CORE_DLL(MEVENT) db_event_setId(const char *szModule, MEVENT hDbEvent, const char *szId);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database settings

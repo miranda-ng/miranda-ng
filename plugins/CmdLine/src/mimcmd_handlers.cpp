@@ -702,19 +702,14 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 						if (ack->szModule) {
 							szReply.AppendFormat(TranslateT("Message sent to '%s'."), contact);
 
-							DBEVENTINFO e = {};
-							char module[128];
-							e.eventType = EVENTTYPE_MESSAGE;
-							e.flags = DBEF_SENT | DBEF_UTF;
-
-							e.pBlob = (PBYTE)szMessage.get();
-							e.cbBlob = (DWORD)mir_strlen(szMessage) + 1;
-
-							strncpy_s(module, ack->szModule, _countof(module));
-							e.szModule = module;
-							e.timestamp = (DWORD)time(0);
-
-							db_event_add(ack->hContact, &e);
+							DBEVENTINFO dbei = {};
+							dbei.eventType = EVENTTYPE_MESSAGE;
+							dbei.flags = DBEF_SENT | DBEF_UTF;
+							dbei.pBlob = (PBYTE)szMessage.get();
+							dbei.cbBlob = (DWORD)mir_strlen(szMessage) + 1;
+							dbei.szModule = ack->szModule;
+							dbei.timestamp = (DWORD)time(0);
+							db_event_add(ack->hContact, &dbei);
 						}
 						else szReply.AppendFormat(TranslateT("Message to '%s' was marked as sent but the account seems to be offline"), contact);
 					}

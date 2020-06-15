@@ -296,8 +296,7 @@ public:
 	STDMETHODIMP_(BOOL)     Backup(const wchar_t*);
 
 	STDMETHODIMP_(MEVENT)   GetEventById(LPCSTR szModule, LPCSTR szId) override;
-	STDMETHODIMP_(BOOL)     SetEventId(LPCSTR szModule, MEVENT, LPCSTR szId) override;
-
+	
 	STDMETHODIMP_(DB::EventCursor *) EventCursor(MCONTACT hContact, MEVENT hDbEvent) override;
 	STDMETHODIMP_(DB::EventCursor *) EventCursorRev(MCONTACT hContact, MEVENT hDbEvent) override;
 

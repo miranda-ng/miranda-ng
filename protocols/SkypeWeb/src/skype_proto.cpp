@@ -317,9 +317,15 @@ int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 
 	// memcpy(pCurBlob + 1, szMessageId, mir_strlen(szMessageId));
 
-	AddEventToDb(hContact, EVENTTYPE_CONTACTS, pre->timestamp, (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0, cbBlob, pBlob);
+	DBEVENTINFO dbei = {};
+	dbei.szModule = m_szModuleName;
+	dbei.timestamp = pre->timestamp;
+	dbei.eventType = EVENTTYPE_CONTACTS;
+	dbei.cbBlob = cbBlob;
+	dbei.pBlob = pBlob;
+	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
+	db_event_add(hContact, &dbei);
 
 	mir_free(pBlob);
-
 	return 0;
 }

@@ -111,9 +111,8 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 				bSucceeded = 0 == db_event_edit(pUser->hContact, hDbEvent, &dbei);
 			
 			if (!bSucceeded) {
-				MEVENT hNew = db_event_add(pUser->hContact, &dbei);
-				if (hNew != 0)
-					db_event_setId(m_szModuleName, hNew, szMsgId);
+				dbei.szId = szMsgId;
+				db_event_add(pUser->hContact, &dbei);
 			}
 		}
 		else {

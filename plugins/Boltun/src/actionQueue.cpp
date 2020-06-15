@@ -93,8 +93,8 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = BOLTUN_NAME;
 	dbei.timestamp = (DWORD)time(0);
-
 	db_event_add(hContact, &dbei);
+
 	bot->AnswerGiven(hContact, *info);
 	delete info;
 

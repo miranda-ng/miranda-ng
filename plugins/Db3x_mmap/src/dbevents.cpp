@@ -542,8 +542,3 @@ MEVENT CDb3Mmap::GetEventById(LPCSTR, LPCSTR)
 {
 	return 0;
 }
-
-BOOL CDb3Mmap::SetEventId(LPCSTR, MEVENT, LPCSTR)
-{
-	return FALSE;
-}

@@ -1042,7 +1042,6 @@ CallObjectEventHook @1259
 ?CheckRowCount@CCtrlPages@@AEAAXXZ @1264 NONAME
 ?VerifyControls@CDlgBase@@AEAA_NP8CCtrlBase@@EAA_NXZ@Z @1265 NONAME
 db_event_getById @1266
-db_event_setId @1267
 db_event_edit @1268
 ??0StrPair@tinyxml2@@QEAA@XZ @1269 NONAME
 ??0XMLAttribute@tinyxml2@@AEAA@XZ @1270 NONAME

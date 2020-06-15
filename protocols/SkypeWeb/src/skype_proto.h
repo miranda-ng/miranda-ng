@@ -320,7 +320,6 @@ private:
 	{	return (!mir_strcmpi(str, m_szMyname) || !mir_strcmp(str, ptrA(getStringA("SelfEndpointName"))));
 	}
 
-	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	static time_t IsoToUnixTime(const char *stamp);
 	static CMStringA GetStringChunk(const char *haystack, const char *start, const char *end);
 

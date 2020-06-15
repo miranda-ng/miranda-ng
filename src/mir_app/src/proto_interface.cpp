@@ -199,11 +199,9 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	if ((GetCaps(PFLAGNUM_4) & PF4_SERVERMSGID) && pre->szMsgId != nullptr) {
 		MEVENT hDbEvent = db_event_getById(m_szModuleName, pre->szMsgId);
 		if (hDbEvent == 0 || db_event_edit(hContact, hDbEvent, &dbei)) {
+			dbei.szId = pre->szMsgId;
 			hDbEvent = db_event_add(hContact, &dbei);
-			if (hDbEvent)
-				db_event_setId(m_szModuleName, hDbEvent, pre->szMsgId);
 		}
-
 		return hDbEvent;
 	}
 
