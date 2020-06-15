@@ -243,6 +243,9 @@ public:
 	// called when an account's contact is deleted
 	virtual void OnContactDeleted(MCONTACT);
 
+	// called when an event is altered in database
+	virtual void OnEventEdited(MCONTACT, MEVENT);
+
 	// called when an account gets physically removed from the database
 	virtual void OnErase();
 

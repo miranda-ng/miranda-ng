@@ -58,6 +58,9 @@ void PROTO_INTERFACE::OnBuildProtoMenu()
 void PROTO_INTERFACE::OnContactDeleted(MCONTACT)
 {}
 
+void PROTO_INTERFACE::OnEventEdited(MCONTACT, MEVENT)
+{}
+
 void PROTO_INTERFACE::OnErase()
 {}
 

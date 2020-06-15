@@ -425,6 +425,7 @@ class CIcqProto : public PROTO<CIcqProto>
 			    
 	void      OnBuildProtoMenu(void) override;
 	void      OnContactDeleted(MCONTACT) override;
+	void      OnEventEdited(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;
 	void      OnShutdown() override;
 

@@ -152,6 +152,11 @@ void CIcqProto::OnContactDeleted(MCONTACT hContact)
 		<< AIMSID(this) << WCHAR_PARAM("buddy", szId) << INT_PARAM("allGroups", 1));
 }
 
+void CIcqProto::OnEventEdited(MCONTACT, MEVENT)
+{
+
+}
+
 INT_PTR CIcqProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
 {
 	delSetting(hContact, DB_KEY_LASTMSGID);

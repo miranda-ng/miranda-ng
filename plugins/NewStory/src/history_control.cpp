@@ -153,9 +153,12 @@ struct NewstoryListData : public MZeroedObject
 
 				if (pItem->hContact && pItem->hEvent) {
 					ptrA szUtf(mir_utf8encodeW(pItem->wtext));
-					pItem->dbe.cbBlob = mir_strlen(szUtf) + 1;
+					pItem->dbe.cbBlob = (int)mir_strlen(szUtf) + 1;
 					pItem->dbe.pBlob = (BYTE *)szUtf.get();
 					db_event_edit(pItem->hContact, pItem->hEvent, &pItem->dbe);
+
+					if (auto *ppro = Proto_GetInstance(pItem->hContact))
+						ppro->OnEventEdited(pItem->hContact, pItem->hEvent);
 				}
 
 				MTextDestroy(pItem->data); pItem->data = 0;
