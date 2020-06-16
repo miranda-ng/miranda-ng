@@ -162,8 +162,10 @@ static int clcHookDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) && !(dbei.flags & DBEF_SENT)) {
 			g_plugin.setDword(hContact, "mf_lastmsg", dbei.timestamp);
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
-			if (pdnce)
+			if (pdnce) {
 				pdnce->dwLastMsgTime = dbei.timestamp;
+				Clist_Broadcast(CLM_AUTOREBUILD, hContact, 0);
+			}
 		}
 	}
 	return 0;

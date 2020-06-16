@@ -119,7 +119,12 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 			break;
 
 		case SORTBY_LASTMSG: // last message
-			r = (int)CompareContacts2_getLMTime(contact2->hContact) - (int)CompareContacts2_getLMTime(contact1->hContact);
+			if (c1->dwLastMsgTime == -1) c1->dwLastMsgTime = CompareContacts2_getLMTime(contact1->hContact);
+			if (c2->dwLastMsgTime == -1) c2->dwLastMsgTime = CompareContacts2_getLMTime(contact2->hContact);
+			if (c1->dwLastMsgTime == c2->dwLastMsgTime)
+				continue;
+
+			r = (c1->dwLastMsgTime < c2->dwLastMsgTime) ? 1 : -1;  // reverse sort order
 			break;
 
 		case SORTBY_PROTO:
