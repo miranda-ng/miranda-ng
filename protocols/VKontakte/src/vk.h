@@ -88,6 +88,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define VK_USER_DEACTIVATE_ACTION	9321
 
+#define VK_CHAT_FLAG 2000000000
+
 #define VK_NEW_API 0
 
 #if (VK_NEW_API == 0)

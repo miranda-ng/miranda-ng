@@ -391,6 +391,7 @@ private:
 	CVkChatInfo* AppendConversationChat(int iChatId, const JSONNode& jnItem);
 	CVkChatInfo* AppendChat(int id, const JSONNode &jnNode);
 	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
+	void AppendChatConversationMessage(int id, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory);
 	void AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory);
 	void AppendChatMessage(CVkChatInfo *cc, LONG uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);

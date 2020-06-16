@@ -248,14 +248,20 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 #if (VK_NEW_API == 1)
 		CMStringW wszBody(jnMsg["text"].as_mstring());
 		int uid = jnMsg["peer_id"].as_int();
+
+		int iReadMsg = getDword(param->hContact, "in_read", 0);
+		int isRead = (uid <= iReadMsg);
+
+
 #else
 		CMStringW wszBody(jnMsg["body"].as_mstring());
 		int uid = jnMsg["user_id"].as_int();
+		int isRead = jnMsg["read_state"].as_int();
 #endif
 
 		int datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
-		int isRead = jnMsg["read_state"].as_int();
+
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages && !jnFwdMessages.empty()) {
@@ -279,7 +285,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			wszBody += wszAttachmentDescr;
 		}
 
-		if (m_vkOptions.bAddMessageLinkToMesWAtt && (jnAttachments || jnFwdMessages))
+		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty())))
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
 

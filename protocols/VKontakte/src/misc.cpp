@@ -1312,7 +1312,12 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 
 	for (auto &jnUser : jnFUsers) {
 		int iUserId = jnUser["id"].as_int();
-		CMStringW wszNick(FORMAT, L"%s %s", jnUser["first_name"].as_mstring().c_str(), jnUser["last_name"].as_mstring().c_str());
+		CMStringW wszNick(jnUser["name"].as_mstring());
+
+		if (!wszNick.IsEmpty())
+			iUserId *= -1;
+		else
+			wszNick.AppendFormat(L"%s %s", jnUser["first_name"].as_mstring().c_str(), jnUser["last_name"].as_mstring().c_str());
 
 		CVkUserInfo *vkUser = new CVkUserInfo(jnUser["id"].as_int(), false, wszNick, UserProfileUrl(iUserId), FindUser(iUserId));
 		vkUsers.insert(vkUser);
@@ -1320,7 +1325,11 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 
 
 	for (auto &jnMsg : jnMessages) {
+#if (VK_NEW_API == 1)
+		UINT uid = jnMsg["from_id"].as_int();
+#else
 		UINT uid = jnMsg["user_id"].as_int();
+#endif
 		CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&uid);
 		CMStringW wszNick, wszUrl;
 

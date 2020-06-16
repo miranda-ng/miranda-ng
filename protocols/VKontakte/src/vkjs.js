@@ -169,6 +169,27 @@ var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 return { "Msgs": Msgs, "fwd_users": FUsers };
 // Stored procedure name: RetrieveMessagesByIds = End
 
+// Stored procedure name: RetrieveMessagesConversationByIds = Begin
+// Arguments:
+// Args.mids
+
+var Msgs = API.messages.getById({ "message_ids": Args.mids });
+var FMsgs = Msgs.items@.fwd_messages;
+var Idx = 0;
+var Uids = [];
+while (Idx < FMsgs.length) {
+    var Jdx = 0;
+    var CFMsgs = parseInt(FMsgs[Idx].length);
+    while (Jdx < CFMsgs) {
+        Uids.unshift(FMsgs[Idx][Jdx].from_id);
+        Jdx = Jdx + 1;
+    };
+    Idx = Idx + 1;
+};
+var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+return { "Msgs": Msgs, "fwd_users": FUsers };
+// Stored procedure name: RetrieveMessagesConversationByIds = End
+
 // Stored procedure name: RetrieveUnreadMessages = Begin
 // Arguments: no
 
@@ -310,6 +331,40 @@ var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var MsgUsers = API.users.get({ "user_ids": ChatMsg.items@.user_id, "fields":"id,first_name,last_name"});
 
 return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers, "msgs_users": MsgUsers };
+
+
+// ver 3
+var Info = API.messages.getChat({ "chat_id": Args.chatid });
+var ChatUsers = API.messages.getConversationMembers({ "peer_id": 2000000000 + parseInt(Args.chatid), "fields": "id,first_name,last_name" });
+var ChatMsg = API.messages.getHistory({ "chat_id": Args.chatid, "count": 20, "rev": 0 });
+var UR = parseInt(ChatMsg.unread);
+if (UR > 20) {
+    if (UR > 200)
+        UR = 200;
+    ChatMsg = API.messages.getHistory({ "chat_id": Args.chatid, "count": UR, "rev": 0 });
+};
+var FMsgs = ChatMsg.items@.fwd_messages;
+var Idx = 0;
+var Uids = [];
+var GUids =[];
+while (Idx < FMsgs.length) {
+    var Jdx = 0;
+    var CFMsgs = parseInt(FMsgs[Idx].length);
+    while (Jdx < CFMsgs) {
+        if (FMsgs[Idx][Jdx].from_id>0) {
+			Uids.unshift(FMsgs[Idx][Jdx].from_id);
+		} else {
+			GUids.unshift(-1*FMsgs[Idx][Jdx].from_id);
+		};
+        Jdx = Jdx + 1;
+    };
+    Idx = Idx + 1;
+};
+var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var GUsers = API.groups.getById({ "group_ids": GUids });
+var MsgUsers = API.users.get({ "user_ids": ChatMsg.items@.from_id, "fields":"id,first_name,last_name"});
+
+return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers + GUsers, "msgs_users": MsgUsers};
 // Stored procedure name: RetrieveChatInfo = End
 
 // Stored procedure name: DestroyKickChat = Begin
