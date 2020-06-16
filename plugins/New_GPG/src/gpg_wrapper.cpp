@@ -71,12 +71,12 @@ void pxEexcute_thread(gpg_execution_params *params)
 	PathToAbsoluteW(L"\\", mir_path);
 
 	bp::child *c;
-	std::future<std::string> pout;
+	std::future<std::string> pout, perr;
 	boost::asio::io_context ios;
 	if (params->bNoOutput)
 		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide, bp::std_in.close(), ios);
 	else 
-		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide, bp::std_in.close(), bp::std_out > pout, bp::std_err > pout, ios);
+		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide, bp::std_in.close(), bp::std_out > pout, bp::std_err > perr, ios);
 
 	params->child = c;
 
@@ -84,6 +84,8 @@ void pxEexcute_thread(gpg_execution_params *params)
 	
 	if (!params->bNoOutput) {
 		params->out.Append(pout.get().c_str());
+		params->out.Append("\n");
+		params->out.Append(perr.get().c_str());
 		params->out.Append("\n");
 		params->out.Replace("\r\r", "");
 
