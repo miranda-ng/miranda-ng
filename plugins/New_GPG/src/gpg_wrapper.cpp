@@ -71,29 +71,20 @@ void pxEexcute_thread(gpg_execution_params *params)
 	PathToAbsoluteW(L"\\", mir_path);
 
 	bp::child *c;
-	bp::ipstream perr, pout;
+	std::future<std::string> pout;
+	boost::asio::io_context ios;
 	if (params->bNoOutput)
-		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide);
+		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide, bp::std_in.close(), ios);
 	else 
-		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide, bp::std_out > pout, bp::std_err > perr);
+		c = new bp::child(bin_path.c_str(), argv, bp::windows::hide, bp::std_in.close(), bp::std_out > pout, bp::std_err > pout, ios);
 
 	params->child = c;
-	c->wait();
 
+	ios.run();
+	
 	if (!params->bNoOutput) {
-		std::string s;
-		while (!pout.eof()) {
-			std::getline(pout, s);
-			params->out.Append(s.c_str());
-			params->out.Append("\n");
-		}
-
-		while (!perr.eof()) {
-			std::getline(perr, s);
-			params->out.Append(s.c_str());
-			params->out.Append("\n");
-		}
-
+		params->out.Append(pout.get().c_str());
+		params->out.Append("\n");
 		params->out.Replace("\r\r", "");
 
 		if (globals.debuglog)
