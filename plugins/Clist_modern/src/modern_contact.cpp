@@ -58,13 +58,16 @@ static int GetStatusModeOrdering(int statusMode)
 
 DWORD CompareContacts2_getLMTime(MCONTACT hContact)
 {
-	MEVENT hDbEvent = db_event_last(hContact);
-	while (hDbEvent) {
+	DWORD ret = g_plugin.getDword(hContact, "mf_lastmsg");
+	if (ret != 0)
+		return ret;
+
+	DB::ECPTR pCursor(DB::EventsRev(hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
+		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) && !(dbei.flags & DBEF_SENT))
 			return dbei.timestamp;
-		hDbEvent = db_event_prev(hContact, hDbEvent);
 	}
 	return 0;
 }

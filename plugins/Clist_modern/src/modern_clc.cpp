@@ -164,7 +164,8 @@ static int clcHookDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			if (pdnce) {
 				pdnce->dwLastMsgTime = dbei.timestamp;
-				Clist_Broadcast(CLM_AUTOREBUILD, hContact, 0);
+				if (g_CluiData.hasSort(SORTBY_LASTMSG))
+					Clist_Broadcast(CLM_AUTOREBUILD, hContact, 0);
 			}
 		}
 	}

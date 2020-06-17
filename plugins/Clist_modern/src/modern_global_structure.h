@@ -3,7 +3,7 @@
 #ifndef modern_global_structure_h__
 #define modern_global_structure_h__
 
-typedef struct tagCLUIDATA
+struct CLUIDATA
 {
 	/************************************
 	**         Global variables       **
@@ -75,7 +75,16 @@ typedef struct tagCLUIDATA
 	HANDLE  hEventSkinServicesCreated;
 
 	int     nGapBetweenTitlebar;
-} CLUIDATA;
+
+	__inline bool hasSort(int order) const
+	{
+		for (auto &it : bSortByOrder)
+			if (it == order)
+				return true;
+
+		return false;
+	}
+};
 
 EXTERN_C CLUIDATA g_CluiData;
 

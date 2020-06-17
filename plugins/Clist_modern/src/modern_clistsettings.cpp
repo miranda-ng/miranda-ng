@@ -63,11 +63,8 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		pdnce->m_iStatus = GetStatusForContact(pdnce->hContact, pdnce->szProto);
 
 	// this variable isn't filled inside cliCreateCacheItem() because the filter could be changed dynamically
-	if (pdnce->dwLastMsgTime == -1 && g_CluiData.bFilterEffective & (CLVM_FILTER_LASTMSG | CLVM_FILTER_LASTMSG_NEWERTHAN | CLVM_FILTER_LASTMSG_OLDERTHAN)) {
-		pdnce->dwLastMsgTime = g_plugin.getDword(pdnce->hContact, "mf_lastmsg");
-		if (pdnce->dwLastMsgTime == 0)
-			pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
-	}
+	if (pdnce->dwLastMsgTime == -1 && g_CluiData.bFilterEffective & (CLVM_FILTER_LASTMSG | CLVM_FILTER_LASTMSG_NEWERTHAN | CLVM_FILTER_LASTMSG_OLDERTHAN))
+		pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
 
 	corecli.pfnCheckCacheItem(pdnce);
 }
