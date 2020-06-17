@@ -175,6 +175,7 @@ return { "Msgs": Msgs, "fwd_users": FUsers };
 
 var Msgs = API.messages.getById({ "message_ids": Args.mids });
 var FMsgs = Msgs.items@.fwd_messages;
+var ConvIds = Msgs.items@.peer_id;
 var Idx = 0;
 var Uids = [];
 while (Idx < FMsgs.length) {
@@ -187,7 +188,8 @@ while (Idx < FMsgs.length) {
     Idx = Idx + 1;
 };
 var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
-return { "Msgs": Msgs, "fwd_users": FUsers };
+var Conv = API.messages.getConversationsById({"peer_ids": ConvIds});
+return { "Msgs": Msgs, "fwd_users": FUsers, "conv":Conv };
 // Stored procedure name: RetrieveMessagesConversationByIds = End
 
 // Stored procedure name: RetrieveUnreadMessages = Begin
@@ -352,16 +354,19 @@ while (Idx < FMsgs.length) {
     var CFMsgs = parseInt(FMsgs[Idx].length);
     while (Jdx < CFMsgs) {
         if (FMsgs[Idx][Jdx].from_id>0) {
-			Uids.unshift(FMsgs[Idx][Jdx].from_id);
-		} else {
-			GUids.unshift(-1*FMsgs[Idx][Jdx].from_id);
-		};
+   Uids.unshift(FMsgs[Idx][Jdx].from_id);
+  } else {
+   GUids.unshift(-1*FMsgs[Idx][Jdx].from_id);
+  };
         Jdx = Jdx + 1;
     };
     Idx = Idx + 1;
 };
 var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
-var GUsers = API.groups.getById({ "group_ids": GUids });
+var GUsers = [];
+if(GUids.length>0){
+	GUsers = API.groups.getById({ "group_ids": GUids });
+};
 var MsgUsers = API.users.get({ "user_ids": ChatMsg.items@.from_id, "fields":"id,first_name,last_name"});
 
 return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers + GUsers, "msgs_users": MsgUsers};

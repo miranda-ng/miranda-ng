@@ -93,7 +93,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VK_NEW_API 0
 
 #if (VK_NEW_API == 0)
-	#define VK_API_VER "5.76"
+	#define VK_API_VER "5.78"
 #else
 	#define VK_API_VER "5.110"
 #endif

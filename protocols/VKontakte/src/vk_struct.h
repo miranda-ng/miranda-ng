@@ -334,6 +334,16 @@ struct CVKDeactivateEvent {
 enum VKContactType : BYTE { vkContactNormal, vkContactSelf, vkContactMUCUser };
 enum VKMesType : BYTE { vkALL, vkIN, vkOUT };
 
+struct CVKImageSizeItem {
+	CMStringW wszUrl;
+	int iSizeH, iSizeW;
+
+	CVKImageSizeItem() :
+		iSizeH(0),
+		iSizeW(0)
+	{}
+};
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 enum vkJSONNodeType { vkJSONTypeProfile = 0, vkJSONTypeGroup, vkJSONTypeConversation };

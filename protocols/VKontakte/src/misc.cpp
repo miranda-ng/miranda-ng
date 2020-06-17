@@ -17,10 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static const char *szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64", "preview" };
-
 static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
-
 static const char *szVKUrls[] = { "http://vk.com/", "https://vk.com/", "http://new.vk.com/", "https://new.vk.com/", "http://m.vk.com/", "https://m.vk.com/" };
 static const char *szAttachmentMasks[] = { "wall%d_%d",  "video%d_%d",  "photo%d_%d", "audio%d_%d", "doc%d_%d", "market%d_%d" };
 static const char *szVKLinkParam[] = { "?z=", "?w=", "&z=", "&w=" };
@@ -968,13 +965,21 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 	if (!jnPhoto)
 		return wszRes;
 
-	CMStringW wszLink, wszPreviewLink;
-	for (auto &it : szImageTypes) {
-		const JSONNode &n = jnPhoto[it];
-		if (n) {
-			wszLink = n.as_mstring();
-			break;
-		}
+	CVKImageSizeItem vkSizes[6];
+	CMStringW wszPriorSize = L"smxyzw", wszPreviewLink;
+	int iMaxSize = 0;
+
+	for (auto& it : jnPhoto["sizes"]) {
+		int iIndex = wszPriorSize.Find(it["type"].as_mstring());
+		if (iIndex < 0)
+			continue;
+
+		if (iIndex > iMaxSize)
+			iMaxSize = iIndex;
+
+		vkSizes[iIndex].wszUrl = it["url"].as_mstring();
+		vkSizes[iIndex].iSizeH = it["height"].as_int();
+		vkSizes[iIndex].iSizeW = it["width"].as_int();
 	}
 
 	switch (m_vkOptions.iIMGBBCSupport) {
@@ -982,20 +987,27 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 		wszPreviewLink = L"";
 		break;
 	case imgFullSize:
-		wszPreviewLink = wszLink;
+		wszPreviewLink = vkSizes[iMaxSize].wszUrl;
 		break;
 	case imgPreview130:
+		wszPreviewLink = vkSizes[wszPriorSize.Find(L"m")].wszUrl;
+		break;
 	case imgPreview604:
-		wszPreviewLink = jnPhoto[m_vkOptions.iIMGBBCSupport == imgPreview130 ? "photo_130" : "photo_604"].as_mstring();
+		wszPreviewLink = vkSizes[wszPriorSize.Find(L"x")].wszUrl.IsEmpty() ? vkSizes[wszPriorSize.Find(L"m")].wszUrl : vkSizes[wszPriorSize.Find(L"x")].wszUrl;
 		break;
 	}
 
-	int iWidth = jnPhoto["width"].as_int();
-	int iHeight = jnPhoto["height"].as_int();
-
-	wszRes.AppendFormat(L"%s (%dx%d)", SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, wszLink).c_str(), iWidth, iHeight);
+	wszRes.AppendFormat(L"%s (%dx%d)",
+		SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, vkSizes[iMaxSize].wszUrl).c_str(),
+		vkSizes[iMaxSize].iSizeW,
+		vkSizes[iMaxSize].iSizeH
+	);
 	if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
-		wszRes.AppendFormat(L"\n\t%s", SetBBCString(!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!wszLink.IsEmpty() ? wszLink : L""), bbcBasic, vkbbcImg).c_str());
+		wszRes.AppendFormat(L"\n\t%s",
+			SetBBCString((!wszPreviewLink.IsEmpty() ? wszPreviewLink : (!vkSizes[iMaxSize].wszUrl.IsEmpty() ? vkSizes[iMaxSize].wszUrl : L"")),
+				bbcBasic,
+				vkbbcImg).c_str()
+		);
 	CMStringW wszText(jnPhoto["text"].as_mstring());
 	if (!wszText.IsEmpty())
 		wszRes += L"\n" + wszText;
@@ -1113,6 +1125,30 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Audio"), iBBC, vkbbcB).c_str(),
 				SetBBCString(wszAudio, iBBC, vkbbcUrl, wszUrl).c_str());
+		}
+		else if (wszType == L"audio_message") {
+			const JSONNode& jnAudioMessage = jnAttach["audio_message"];
+			if (!jnAudioMessage)
+				continue;
+
+			CMStringW wszUrl(jnAudioMessage["link_mp3"].as_mstring());
+			CMStringW wszTranscriptText(jnAudioMessage["transcript"].as_mstring());
+
+			res.AppendFormat(L"%s",	SetBBCString(TranslateT("Audio message"), iBBC, vkbbcUrl, wszUrl).c_str());
+			if(!wszTranscriptText.IsEmpty())
+				res.AppendFormat(L"\n%s: %s", SetBBCString(TranslateT("Transcription"), iBBC, vkbbcB).c_str(), wszTranscriptText.c_str());
+		}
+		else if (wszType == L"graffiti") {
+			const JSONNode& jnGraffiti = jnAttach["graffiti"];
+			if (!jnGraffiti)
+				continue;
+
+			CMStringW wszUrl(jnGraffiti["url"].as_mstring());
+
+			res.AppendFormat(L"%s\n\t%s",
+				SetBBCString(TranslateT("Graffiti"), iBBC, vkbbcUrl, wszUrl).c_str(),
+				SetBBCString(wszUrl, bbcBasic, vkbbcImg).c_str()
+			);
 		}
 		else if (wszType == L"video") {
 			const JSONNode &jnVideo = jnAttach["video"];
@@ -1299,6 +1335,66 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 	return res;
 }
 
+CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC)
+{
+	UINT uid = jnMsg["from_id"].as_int();
+	CMStringW wszBody(jnMsg["text"].as_mstring());
+
+	CVkUserInfo* vkUser = vkUsers.find((CVkUserInfo*)&uid);
+	CMStringW wszNick, wszUrl;
+
+	if (vkUser) {
+		wszNick = vkUser->m_wszUserNick;
+		wszUrl = vkUser->m_wszLink;
+	}
+	else {
+		MCONTACT hContact = FindUser(uid);
+		if (hContact || uid == m_msgId)
+			wszNick = ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"));
+		else
+			wszNick = TranslateT("(Unknown contact)");
+		wszUrl = UserProfileUrl(uid);
+	}
+
+	time_t datetime = (time_t)jnMsg["date"].as_int();
+	wchar_t ttime[64];
+	_locale_t locale = _create_locale(LC_ALL, "");
+	_wcsftime_l(ttime, _countof(ttime), L"%x %X", localtime(&datetime), locale);
+	_free_locale(locale);
+
+	const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
+	if (jnFwdMessages && !jnFwdMessages.empty()) {
+		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
+		if (!wszBody.IsEmpty())
+			wszFwdMessages = L"\n" + wszFwdMessages;
+		wszBody += wszFwdMessages;
+	}
+
+	const JSONNode& jnAttachments = jnMsg["attachments"];
+	if (jnAttachments && !jnAttachments.empty()) {
+		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
+		if (wszAttachmentDescr != L"== FilterAudioMessages ==") {
+			if (!wszBody.IsEmpty())
+				wszAttachmentDescr = L"\n" + wszAttachmentDescr;
+
+			wszBody += wszAttachmentDescr;
+		}
+	}
+
+	wszBody.Replace(L"\n", L"\n\t");
+	wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
+	CMStringW wszMes(FORMAT, L"%s %s%c%s %s:\n\n%s\n",
+		SetBBCString(TranslateT("Message from"), iBBC, vkbbcB).c_str(),
+		SetBBCString(wszNick, iBBC, vkbbcUrl, wszUrl).c_str(),
+		tcSplit,
+		SetBBCString(TranslateT("at"), iBBC, vkbbcB).c_str(),
+		ttime,
+		SetBBCString(wszBody, iBBC, vkbbcCode).c_str());
+
+	return wszMes;
+
+}
+
 CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC)
 {
 	CMStringW res;
@@ -1323,13 +1419,20 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 		vkUsers.insert(vkUser);
 	}
 
-
-	for (auto &jnMsg : jnMessages) {
 #if (VK_NEW_API == 1)
-		UINT uid = jnMsg["from_id"].as_int();
+	if (jnMessages.type() == JSON_ARRAY)
+		for (auto& jnMsg : jnMessages.as_array()) {
+			if (!res.IsEmpty())
+				res.AppendChar('\n');
+			res += GetFwdMessage(jnMsg, jnFUsers, vkUsers, iBBC);
+		}
+	else
+		res = GetFwdMessage(jnMessages,  jnFUsers, vkUsers, iBBC);
+
 #else
+	for (auto &jnMsg : jnMessages.as_array()) {
 		UINT uid = jnMsg["user_id"].as_int();
-#endif
+		CMStringW wszBody(jnMsg["body"].as_mstring());
 		CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&uid);
 		CMStringW wszNick, wszUrl;
 
@@ -1351,8 +1454,6 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 		_locale_t locale = _create_locale(LC_ALL, "");
 		_wcsftime_l(ttime, _countof(ttime), L"%x %X", localtime(&datetime), locale);
 		_free_locale(locale);
-
-		CMStringW wszBody(jnMsg["body"].as_mstring());
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages) {
@@ -1387,6 +1488,7 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 			res.AppendChar('\n');
 		res += wszMes;
 	}
+#endif
 	res.AppendChar('\n');
 
 	vkUsers.destroy();

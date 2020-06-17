@@ -233,13 +233,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 	for (auto it = jnMsgs.rbegin(); it != jnMsgs.rend(); ++it) {
 		const JSONNode &jnMsg = (*it);
-
-#if (VK_NEW_API == 1)
-		int mid = jnMsg["conversation_message_id"].as_int();
-#else
 		int mid = jnMsg["id"].as_int();
-#endif
-
 		if (iLastMsgId < mid)
 			iLastMsgId = mid;
 
@@ -250,9 +244,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		int uid = jnMsg["peer_id"].as_int();
 
 		int iReadMsg = getDword(param->hContact, "in_read", 0);
-		int isRead = (uid <= iReadMsg);
-
-
+		int isRead = (mid <= iReadMsg);
 #else
 		CMStringW wszBody(jnMsg["body"].as_mstring());
 		int uid = jnMsg["user_id"].as_int();
@@ -271,6 +263,14 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			wszBody += wszFwdMessages;
 		}
 
+		const JSONNode& jnReplyMessages = jnMsg["reply_message"];
+		if (jnReplyMessages && !jnReplyMessages.empty()) {
+			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszReplyMessages = L"\n" + wszReplyMessages;
+			wszBody += wszReplyMessages;
+		}
+
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments && !jnAttachments.empty()) {
 			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
@@ -285,7 +285,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			wszBody += wszAttachmentDescr;
 		}
 
-		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty())))
+		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty())))
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
 

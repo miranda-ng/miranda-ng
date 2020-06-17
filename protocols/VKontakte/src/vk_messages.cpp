@@ -232,18 +232,34 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	debugLogA("CVkProto::OnReceiveMessages numMessages = %d", numMessages);
 
 #if (VK_NEW_API == 1)
+	if (jnResponse["conv"]) {
+		const JSONNode& jnConversation = jnResponse["conv"]["items"];
+		for (auto& jnItem : jnConversation) {
+			const JSONNode& jnPeer = jnItem["peer"];
+			if (!jnPeer)
+				break;
+
+			CMStringW wszPeerType(jnPeer["type"].as_mstring());
+
+			if (wszPeerType == L"user" || wszPeerType == L"group") {
+				int iUserId = jnPeer["id"].as_int();
+				MCONTACT hContact = FindUser(iUserId, true);
+				setDword(hContact, "in_read", jnItem["in_read"].as_int());
+				setDword(hContact, "out_read", jnItem["out_read"].as_int());
+			}
+		}
+	}
+
 	for (auto& jnMsg : jnMsgs) {
 		if (!jnMsg) {
 			debugLogA("CVkProto::OnReceiveMessages pMsg == nullptr");
 			break;
 		}
 
-
 		UINT mid = jnMsg["id"].as_int();
 		CMStringW wszBody(jnMsg["text"].as_mstring());
 		UINT datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
-		int isRead = jnMsg["read_state"].as_int();
 		int uid = jnMsg["peer_id"].as_int();
 
 		MCONTACT hContact = 0;
@@ -285,8 +301,15 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			wszBody += wszFwdMessages;
 		}
 
-		CMStringW wszBodyNoAttachments = wszBody;
+		const JSONNode& jnReplyMessages = jnMsg["reply_message"];
+		if (jnReplyMessages && !jnReplyMessages.empty()) {
+			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			if (!wszBody.IsEmpty())
+				wszReplyMessages = L"\n" + wszReplyMessages;
+			wszBody += wszReplyMessages;
+		}
 
+		CMStringW wszBodyNoAttachments = wszBody;
 
 		CMStringW wszAttachmentDescr;
 		const JSONNode& jnAttachments = jnMsg["attachments"];
@@ -304,9 +327,12 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			wszBody += wszAttachmentDescr;
 		}
 
-		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty())))
+		if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty())))
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
+
+		int iReadMsg = getDword(hContact, "in_read", 0);
+		int isRead = (mid <= iReadMsg);
 
 		time_t update_time = (time_t)jnMsg["update_time"].as_int();
 		bool bEdited = (update_time != 0);
@@ -600,15 +626,13 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			setDword(hContact, "in_read", jnConversation["in_read"].as_int());
 			setDword(hContact, "out_read", jnConversation["out_read"].as_int());
 
-/*
 			if (g_bMessageState) {
 				bool bIsOut = jnLastMessage["out"].as_bool();
-				bool bIsRead = jnLastMessage["read_state"].as_bool();
+				bool bIsRead = (jnLastMessage["id"].as_int() <= jnConversation["in_read"].as_int());
 
 				if (bIsRead && bIsOut)
 					CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_DELIVERED);
 			}
-*/
 		}
 
 		if (wszPeerType == L"chat") {
@@ -708,7 +732,6 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 	}
-
 #endif
 	lufUsers.destroy();
 	RetrieveUsersInfo();
