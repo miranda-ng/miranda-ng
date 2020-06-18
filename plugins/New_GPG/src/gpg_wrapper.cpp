@@ -81,7 +81,8 @@ void pxEexcute_thread(gpg_execution_params *params)
 	params->child = c;
 
 	ios.run();
-	
+	c->wait();
+
 	if (!params->bNoOutput) {
 		params->out.Append(pout.get().c_str());
 		params->out.Append("\n");
