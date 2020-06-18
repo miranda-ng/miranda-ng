@@ -84,10 +84,15 @@ void pxEexcute_thread(gpg_execution_params *params)
 	c->wait();
 
 	if (!params->bNoOutput) {
-		params->out.Append(pout.get().c_str());
-		params->out.Append("\n");
-		params->out.Append(perr.get().c_str());
-		params->out.Append("\n");
+		std::string s = pout.get();
+		if (!s.empty())
+			params->out.Append(s.c_str());
+
+		s = perr.get();
+		if (!s.empty())
+			params->out.Append(s.c_str());
+
+		params->out.Replace("\r\n", "\n");
 		params->out.Replace("\r\r", "");
 
 		if (globals.debuglog)

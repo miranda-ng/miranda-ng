@@ -567,6 +567,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 		strip_tags(str);
 	}
 
+LBL_Relaunch:
 	wstring file = toUTF16(get_random(10));
 	gpg_execution_params params;
 	{
@@ -630,18 +631,8 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 			return;
 
 		g_plugin.setByte(hContact, "bAlwaysTrust", 1);
-
-		params.addParam(L"--trust-model");
-		params.addParam(L"always");
-		if (!gpg_launcher(params)) {
-			ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
-			return;
-		}
-		if (params.result == pxNotFound) {
-			ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
-			return;
-		}
-		//TODO: check gpg output for errors
+		params.aargv.clear();
+		goto LBL_Relaunch;
 	}
 
 	if (params.out.Find("usage: ") != -1) {
