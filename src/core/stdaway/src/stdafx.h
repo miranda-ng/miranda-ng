@@ -69,9 +69,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MODULENAME "SRAway"
 
+extern DWORD protoModeMsgFlags;
+
+int AwayMsgOptInitialise(WPARAM wParam, LPARAM);
+
+const wchar_t *GetDefaultMessage(int status);
+const char *StatusModeToDbSetting(int status, const char *suffix);
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
 	int Load() override;
+
+	bool GetStatusModeByte(int status, const char *suffix, bool bDefault = false)
+	{
+		return getByte(StatusModeToDbSetting(status, suffix), bDefault) != 0;
+	}
+
+	void SetStatusModeByte(int status, const char *suffix, BYTE value)
+	{
+		setByte(StatusModeToDbSetting(status, suffix), value);
+	}
 };

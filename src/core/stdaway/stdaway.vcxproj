@@ -28,6 +28,7 @@
   <ItemGroup>
     <ClCompile Include="src\awaymsg.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\sendmsg.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>

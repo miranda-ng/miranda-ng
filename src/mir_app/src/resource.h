@@ -537,7 +537,6 @@
 #define IDC_TXT_INFO                    1722
 #define IDC_CONTACTNAME                 1724
 #define IDC_FRAME                       1725
-#define IDC_LST_STATUS                  1726
 #define IDC_ALLPRECENTS                 1727
 #define IDC_ENABLE_KEYWORDFILTERING     1729
 #define IDC_BKGCOLOUR_STATIC            1730
