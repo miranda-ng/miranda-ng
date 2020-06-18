@@ -977,118 +977,24 @@ void ExportGpGKeysFunc(int type)
 	if (!type || type == 2) {
 		for (auto &hContact : Contacts()) {
 			CMStringA key = g_plugin.getMStringA(hContact, "GPGPubKey");
+			if (key.IsEmpty())
+				continue;
 
-			const char *proto = Proto_GetBaseAccountName(hContact);
+			ptrW wszLogin(Contact_GetInfo(CNF_UNIQUEID, 0, Proto_GetBaseAccountName(hContact))), wszContact(Contact_GetInfo(CNF_UNIQUEID, hContact));
+			if (wszLogin == nullptr || wszContact == nullptr)
+				continue;
+
 			std::string id = "Comment: login ";
-			const char *uid = Proto_GetUniqueId(proto);
-			DBVARIANT dbv = { 0 };
-			db_get(0, proto, uid, &dbv);
-			switch (dbv.type) {
-			case DBVT_DELETED:
-				continue;
-
-			case DBVT_BYTE:
-				{
-					char _id[64];
-					mir_snprintf(_id, "%d", dbv.bVal);
-					id += _id;
-				}
-				break;
-			case DBVT_WORD:
-				{
-					char _id[64];
-					mir_snprintf(_id, "%d", dbv.wVal);
-					id += _id;
-				}
-				break;
-			case DBVT_DWORD:
-				{
-					char _id[64];
-					mir_snprintf(_id, "%d", dbv.dVal);
-					id += _id;
-				}
-				break;
-			case DBVT_ASCIIZ:
-				{
-					id += dbv.pszVal;
-					db_free(&dbv);
-				}
-				break;
-			case DBVT_UTF8:
-				{
-					char *tmp = mir_utf8decodeA(dbv.pszVal);
-					if (tmp[0])
-						id += tmp;
-					mir_free(tmp);
-					db_free(&dbv);
-				}
-				break;
-			case DBVT_BLOB:
-				//TODO
-				db_free(&dbv);
-				break;
-			case DBVT_WCHAR:
-				//TODO
-				db_free(&dbv);
-				break;
-			}
+			id += T2Utf(wszLogin).get();
 			id += " contact_id ";
-			memset(&dbv, 0, sizeof(dbv));
-			db_get(hContact, proto, uid, &dbv);
-			switch (dbv.type) {
-			case DBVT_DELETED:
-				continue;
-			case DBVT_BYTE:
-				{
-					char _id[64];
-					mir_snprintf(_id, "%d", dbv.bVal);
-					id += _id;
-				}
-				break;
-			case DBVT_WORD:
-				{
-					char _id[64];
-					mir_snprintf(_id, "%d", dbv.wVal);
-					id += _id;
-				}
-				break;
-			case DBVT_DWORD:
-				{
-					char _id[64];
-					mir_snprintf(_id, "%d", dbv.dVal);
-					id += _id;
-				}
-				break;
-			case DBVT_ASCIIZ:
-				{
-					id += dbv.pszVal;
-					db_free(&dbv);
-				}
-				break;
-			case DBVT_UTF8:
-				{
-					char *tmp = mir_utf8decodeA(dbv.pszVal);
-					if (tmp[0])
-						id += tmp;
-					mir_free(tmp);
-					db_free(&dbv);
-				}
-				break;
-			case DBVT_BLOB:
-				//TODO
-				db_free(&dbv);
-				break;
-			case DBVT_WCHAR:
-				//TODO
-				db_free(&dbv);
-				break;
-			}
+			id += T2Utf(wszContact).get();
+			id += '\n';
+
 			int p1 = key.Find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
 			if (p1 == -1)
 				continue;
 			p1 += mir_strlen("-----BEGIN PGP PUBLIC KEY BLOCK-----");
 			p1++;
-			id += '\n';
 			key.Insert(p1, id.c_str());
 			file << key;
 			file << std::endl;
@@ -1166,232 +1072,120 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 			p2 = key.find("\n", p1);
 			p2++;
 			key.erase(p1, p2 - p1);
-			std::string acc;
-
+			
+			PROTOACCOUNT *pFoundAcc = nullptr;
 			for (auto &pa : Accounts()) {
-				if (acc.length())
-					break;
-				const char *uid = Proto_GetUniqueId(pa->szModuleName);
-				DBVARIANT dbv = { 0 };
-				db_get(0, pa->szModuleName, uid, &dbv);
-				std::string id;
-				switch (dbv.type) {
-				case DBVT_DELETED:
+				ptrW wszUniqueId(Contact_GetInfo(CNF_UNIQUEID, 0, pa->szModuleName));
+				if (wszUniqueId == nullptr)
 					continue;
-					break;
 
-				case DBVT_BYTE:
-					char _id[64];
-					mir_snprintf(_id, "%d", dbv.bVal);
-					id += _id;
-					if (id == login)
-						acc = pa->szModuleName;
-					break;
-
-				case DBVT_WORD:
-					mir_snprintf(_id, "%d", dbv.wVal);
-					id += _id;
-					if (id == login)
-						acc = pa->szModuleName;
-					break;
-
-				case DBVT_DWORD:
-					mir_snprintf(_id, "%d", dbv.dVal);
-					id += _id;
-					if (id == login)
-						acc = pa->szModuleName;
-					break;
-
-				case DBVT_ASCIIZ:
-					id += dbv.pszVal;
-					db_free(&dbv);
-					if (id == login)
-						acc = pa->szModuleName;
-					break;
-
-				case DBVT_UTF8:
-					{
-						char *tmp = mir_utf8decodeA(dbv.pszVal);
-						if (tmp[0])
-							id += tmp;
-						mir_free(tmp);
-						db_free(&dbv);
-						if (id == login)
-							acc = pa->szModuleName;
-					}
-					break;
-
-				case DBVT_BLOB:
-					//TODO
-					db_free(&dbv);
-					break;
-
-				case DBVT_WCHAR:
-					//TODO
-					db_free(&dbv);
+				if (login == T2Utf(wszUniqueId).get()) {
+					pFoundAcc = pa;
 					break;
 				}
 			}
 
-			if (acc.length()) {
-				const char *uid = Proto_GetUniqueId(acc.c_str());
-				for (auto &hContact : Contacts(acc.c_str())) {
-					DBVARIANT dbv = { 0 };
-					db_get(hContact, acc.c_str(), uid, &dbv);
-					std::string id;
-					bool found = false;
-					switch (dbv.type) {
-					case DBVT_DELETED:
-						continue;
-						break;
-					case DBVT_BYTE:
-						{
-							char _id[64];
-							mir_snprintf(_id, "%d", dbv.bVal);
-							id += _id;
-							if (id == contact_id)
-								found = true;
-						}
-						break;
-					case DBVT_WORD:
-						{
-							char _id[64];
-							mir_snprintf(_id, "%d", dbv.wVal);
-							id += _id;
-							if (id == contact_id)
-								found = true;
-						}
-						break;
-					case DBVT_DWORD:
-						{
-							char _id[64];
-							mir_snprintf(_id, "%d", dbv.dVal);
-							id += _id;
-							if (id == contact_id)
-								found = true;
-						}
-						break;
-					case DBVT_ASCIIZ:
-						{
-							id += dbv.pszVal;
-							db_free(&dbv);
-							if (id == contact_id)
-								found = true;
-						}
-						break;
-					case DBVT_UTF8:
-						{
-							char *tmp = mir_utf8decodeA(dbv.pszVal);
-							if (tmp[0])
-								id += tmp;
-							mir_free(tmp);
-							db_free(&dbv);
-							if (id == contact_id)
-								found = true;
-						}
-						break;
-					case DBVT_BLOB:
-						//TODO
-						db_free(&dbv);
-						break;
-					case DBVT_WCHAR:
-						//TODO
-						db_free(&dbv);
-						break;
-					}
-					if (found) {
-						CMStringW path = g_plugin.getMStringW("szHomePath");
+			if (pFoundAcc == nullptr)
+				continue;
 
-						gpg_execution_params params;
-						{
-							wstring rand = toUTF16(get_random(10));
-							path += L"\\";
-							path += rand.c_str();
-							boost::filesystem::remove(path.c_str());
-							wfstream f(path, std::ios::out);
-							f << toUTF16(key).c_str();
-							f.close();
-							params.addParam(L"--batch");
-							params.addParam(L"--import");
-							params.addParam(path.c_str());
-						}
-						if (!gpg_launcher(params))
-							break;
-						if (params.result == pxNotFound)
-							break;
-						if (params.result == pxSuccess)
-							processed_keys++;
-						{
-							string output(params.out);
-							if (output.find("already in secret keyring") != string::npos) {
-								MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
-								boost::filesystem::remove(path.c_str());
-								break;
-							}
-							char *tmp2;
-							string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
-							string::size_type s2 = output.find(":", s);
-							tmp2 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
-							mir_strcpy(tmp2, output.substr(s, s2 - s).c_str());
-							mir_utf8decode(tmp2, nullptr);
-							g_plugin.setString(hContact, "KeyID", tmp2);
-							mir_free(tmp2);
-							s = output.find("“", s2);
-							if (s == string::npos) {
-								s = output.find("\"", s2);
-								s += 1;
-							}
-							else
-								s += 3;
-							if ((s2 = output.find("(", s)) == string::npos)
-								s2 = output.find("<", s);
-							else if (s2 > output.find("<", s))
-								s2 = output.find("<", s);
-							if (s2 != string::npos) {
-								tmp2 = (char*)mir_alloc((output.substr(s, s2 - s - 1).length() + 1) * sizeof(char));
-								mir_strcpy(tmp2, output.substr(s, s2 - s - 1).c_str());
-								mir_utf8decode(tmp2, nullptr);
-								if (hContact) {
-									g_plugin.setString(hContact, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
-								}
-								mir_free(tmp2);
-								if ((s = output.find(")", s2)) == string::npos)
-									s = output.find(">", s2);
-								else if (s > output.find(">", s2))
-									s = output.find(">", s2);
-								s2++;
-								if (output[s] == ')') {
-									tmp2 = (char*)mir_alloc((output.substr(s2, s - s2).length() + 1) * sizeof(char));
-									mir_strcpy(tmp2, output.substr(s2, s - s2).c_str());
-									mir_utf8decode(tmp2, nullptr);
-									if (hContact)
-										g_plugin.setString(hContact, "KeyComment", output.substr(s2, s - s2).c_str());
-									mir_free(tmp2);
-									s += 3;
-									s2 = output.find(">", s);
-									tmp2 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
-									mir_strcpy(tmp2, output.substr(s, s2 - s).c_str());
-									mir_utf8decode(tmp2, nullptr);
-									if (hContact)
-										g_plugin.setString(hContact, "KeyMainEmail", output.substr(s, s2 - s).c_str());
-									mir_free(tmp2);
-								}
-								else {
-									tmp2 = (char*)mir_alloc((output.substr(s2, s - s2).length() + 1) * sizeof(char));
-									mir_strcpy(tmp2, output.substr(s2, s - s2).c_str());
-									mir_utf8decode(tmp2, nullptr);
-									if (hContact)
-										g_plugin.setString(hContact, "KeyMainEmail", output.substr(s2, s - s2).c_str());
-									mir_free(tmp2);
-								}
-							}
-							g_plugin.setByte(hContact, "GPGEncryption", 1);
-							g_plugin.setWString(hContact, "GPGPubKey", toUTF16(key).c_str());
-						}
-						boost::filesystem::remove(path.c_str());
-						break;
+			for (auto &hContact : Contacts(pFoundAcc->szModuleName)) {
+				ptrW wszUniqueId(Contact_GetInfo(CNF_UNIQUEID, hContact, pFoundAcc->szModuleName));
+				if (wszUniqueId == nullptr)
+					continue;
+
+				if (contact_id != T2Utf(wszUniqueId).get())
+					continue;
+
+				CMStringW path = g_plugin.getMStringW("szHomePath");
+
+				gpg_execution_params params;
+				{
+					wstring rand = toUTF16(get_random(10));
+					path += L"\\";
+					path += rand.c_str();
+					boost::filesystem::remove(path.c_str());
+					wfstream f(path, std::ios::out);
+					f << toUTF16(key).c_str();
+					f.close();
+					params.addParam(L"--batch");
+					params.addParam(L"--import");
+					params.addParam(path.c_str());
+				}
+				if (!gpg_launcher(params))
+					break;
+				if (params.result == pxNotFound)
+					break;
+				if (params.result == pxSuccess)
+					processed_keys++;
+
+				string output(params.out);
+				if (output.find("already in secret keyring") != string::npos) {
+					MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
+					boost::filesystem::remove(path.c_str());
+					break;
+				}
+				char *tmp2;
+				string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
+				string::size_type s2 = output.find(":", s);
+				tmp2 = (char *)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
+				mir_strcpy(tmp2, output.substr(s, s2 - s).c_str());
+				mir_utf8decode(tmp2, nullptr);
+				g_plugin.setString(hContact, "KeyID", tmp2);
+				mir_free(tmp2);
+				s = output.find("“", s2);
+				if (s == string::npos) {
+					s = output.find("\"", s2);
+					s += 1;
+				}
+				else
+					s += 3;
+				if ((s2 = output.find("(", s)) == string::npos)
+					s2 = output.find("<", s);
+				else if (s2 > output.find("<", s))
+					s2 = output.find("<", s);
+				if (s2 != string::npos) {
+					tmp2 = (char *)mir_alloc((output.substr(s, s2 - s - 1).length() + 1) * sizeof(char));
+					mir_strcpy(tmp2, output.substr(s, s2 - s - 1).c_str());
+					mir_utf8decode(tmp2, nullptr);
+					if (hContact) {
+						g_plugin.setString(hContact, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
+					}
+					mir_free(tmp2);
+					if ((s = output.find(")", s2)) == string::npos)
+						s = output.find(">", s2);
+					else if (s > output.find(">", s2))
+						s = output.find(">", s2);
+					s2++;
+					if (output[s] == ')') {
+						tmp2 = (char *)mir_alloc((output.substr(s2, s - s2).length() + 1) * sizeof(char));
+						mir_strcpy(tmp2, output.substr(s2, s - s2).c_str());
+						mir_utf8decode(tmp2, nullptr);
+						if (hContact)
+							g_plugin.setString(hContact, "KeyComment", output.substr(s2, s - s2).c_str());
+						mir_free(tmp2);
+						s += 3;
+						s2 = output.find(">", s);
+						tmp2 = (char *)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
+						mir_strcpy(tmp2, output.substr(s, s2 - s).c_str());
+						mir_utf8decode(tmp2, nullptr);
+						if (hContact)
+							g_plugin.setString(hContact, "KeyMainEmail", output.substr(s, s2 - s).c_str());
+						mir_free(tmp2);
+					}
+					else {
+						tmp2 = (char *)mir_alloc((output.substr(s2, s - s2).length() + 1) * sizeof(char));
+						mir_strcpy(tmp2, output.substr(s2, s - s2).c_str());
+						mir_utf8decode(tmp2, nullptr);
+						if (hContact)
+							g_plugin.setString(hContact, "KeyMainEmail", output.substr(s2, s - s2).c_str());
+						mir_free(tmp2);
 					}
 				}
+				g_plugin.setByte(hContact, "GPGEncryption", 1);
+				g_plugin.setWString(hContact, "GPGPubKey", toUTF16(key).c_str());
+
+				boost::filesystem::remove(path.c_str());
+				break;
 			}
 			key.clear();
 		}
