@@ -316,7 +316,9 @@ struct CVKOptions {
 	CMOption<DWORD> iStickerSize;
 
 	CMOption<wchar_t*> pwszDefaultGroup;
+#if (VK_NEW_API == 0)
 	CMOption<wchar_t*> pwszReturnChatMessage;
+#endif
 	CMOption<wchar_t*> pwszVKLang;
 
 	CVKOptions(PROTO_INTERFACE *proto);
@@ -345,7 +347,7 @@ struct CVKImageSizeItem {
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
+#if (VK_NEW_API == 0)
 enum vkJSONNodeType { vkJSONTypeProfile = 0, vkJSONTypeGroup, vkJSONTypeConversation };
 
 class CVkUserItem : public MZeroedObject {
@@ -425,4 +427,4 @@ class CVkUserItem : public MZeroedObject {
 
 
 };
-
+#endif

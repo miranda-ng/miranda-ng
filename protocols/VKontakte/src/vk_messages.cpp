@@ -154,6 +154,7 @@ INT_PTR CVkProto::SvcMarkMessagesAsRead(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+#if (VK_NEW_API == 0)
 void CVkProto::MarkMessagesRead(const CMStringA &mids)
 {
 	debugLogA("CVkProto::MarkMessagesRead (mids)");
@@ -163,6 +164,7 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
 		<< CHAR_PARAM("message_ids", mids));
 }
+#endif
 
 void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 {
@@ -240,12 +242,18 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				break;
 
 			CMStringW wszPeerType(jnPeer["type"].as_mstring());
+			int iUserId = jnPeer["id"].as_int();
 
 			if (wszPeerType == L"user" || wszPeerType == L"group") {
-				int iUserId = jnPeer["id"].as_int();
 				MCONTACT hContact = FindUser(iUserId, true);
 				setDword(hContact, "in_read", jnItem["in_read"].as_int());
 				setDword(hContact, "out_read", jnItem["out_read"].as_int());
+				if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive)
+					MarkMessagesRead(hContact);
+			}
+			else {
+				MCONTACT hContact = FindChat(iUserId % VK_CHAT_FLAG);
+				MarkMessagesRead(hContact);
 			}
 		}
 	}
@@ -270,11 +278,6 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		char szMid[40];
 		_itoa(mid, szMid, 10);
-		if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive || chat_id != 0) {
-			if (!mids.IsEmpty())
-				mids.AppendChar(',');
-			mids.Append(szMid);
-		}
 
 		bool bUseServerReadFlag = m_vkOptions.bSyncReadMessageStatusFromServer ? true : !m_vkOptions.bMesAsUnread;
 
@@ -533,10 +536,10 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			ProtoChainRecvMsg(hContact, &recv);
 		}
 	}
-#endif
 
 	if (!mids.IsEmpty())
 		MarkMessagesRead(mids);
+#endif
 }
 
 void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

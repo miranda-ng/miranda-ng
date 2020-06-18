@@ -106,6 +106,7 @@ CVkChatInfo* CVkProto::AppendConversationChat(int iChatId, const JSONNode& jnIte
 
 }
 
+#if (VK_NEW_API == 0)
 CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 {
 	debugLogW(L"CVkProto::AppendChat");
@@ -170,6 +171,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, const JSONNode &jnDlg)
 	RetrieveChatInfo(c);
 	return c;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -485,6 +487,14 @@ void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, cons
 		wszBody += wszFwdMessages;
 	}
 
+	const JSONNode& jnReplyMessages = jnMsg["reply_message"];
+	if (jnReplyMessages && !jnReplyMessages.empty()) {
+		CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo);
+		if (!wszBody.IsEmpty())
+			wszReplyMessages = L"\n" + wszReplyMessages;
+		wszBody += wszReplyMessages;
+	}
+
 	const JSONNode& jnAttachments = jnMsg["attachments"];
 	if (jnAttachments && !jnAttachments.empty()) {
 		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
@@ -497,7 +507,7 @@ void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, cons
 		wszBody += wszAttachmentDescr;
 	}
 
-	if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty())||(jnFwdMessages && !jnFwdMessages.empty())))
+	if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty())))
 		wszBody += SetBBCString(TranslateT("Message link"), bbcNo, vkbbcUrl,
 			CMStringW(FORMAT, L"https://vk.com/im?sel=c%d&msgid=%d", cc->m_iChatId, mid));
 
@@ -593,7 +603,7 @@ void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, cons
 	}
 }
 
-
+#if (VK_NEW_API == 0)
 void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory)
 {
 	debugLogA("CVkProto::AppendChatMessage");
@@ -729,6 +739,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 		cm->m_bIsAction = bIsAction;
 	}
 }
+#endif
 
 void CVkProto::AppendChatMessage(CVkChatInfo *cc, LONG uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction)
 {
@@ -919,9 +930,16 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (chat_id == VK_INVALID_USER)
 		return 1;
 
+#if (VK_NEW_API == 1)
+	AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.addChatUser.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpHigh);
+	pReq << INT_PARAM("user_id", m_myUserId);
+	pReq<< INT_PARAM("chat_id", chat_id);
+#else
+#define VK_API_VER "5.110"
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh);
 	pReq << INT_PARAM("chat_id", chat_id) << WCHAR_PARAM("message", m_vkOptions.pwszReturnChatMessage);
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+#endif
 	Push(pReq);
 	db_unset(hContact, m_szModuleName, "off");
 	return 0;
@@ -983,7 +1001,12 @@ void CVkProto::KickFromChat(int chat_id, LONG user_id, const JSONNode &jnMsg, co
 		return;
 
 	MCONTACT hContact = FindUser(user_id, false);
+
+#if (VK_NEW_API == 1)
+	CMStringW msg(jnMsg["text"].as_mstring());
+#else
 	CMStringW msg(jnMsg["body"].as_mstring());
+#endif
 	if (msg.IsEmpty()) {
 		msg = TranslateT("You've been kicked by ");
 		if (hContact != 0)
@@ -992,8 +1015,11 @@ void CVkProto::KickFromChat(int chat_id, LONG user_id, const JSONNode &jnMsg, co
 			msg += TranslateT("(Unknown contact)");
 	}
 	else
+#if (VK_NEW_API == 1)
+		AppendChatConversationMessage(chat_id, jnMsg, jnFUsers, false);
+#else
 		AppendChatMessage(chat_id, jnMsg, jnFUsers, false);
-
+#endif
 	MsgPopup(hContact, msg, TranslateT("Chat"));
 	setByte(cc->m_hContact, "kicked", 1);
 	LeaveChat(chat_id);
@@ -1251,5 +1277,9 @@ void CVkProto::OnCreateNewChat(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	int chat_id = jnResponse.as_int();
 	if (chat_id != 0)
+#if (VK_NEW_API == 1)
+		AppendConversationChat(chat_id, nullNode);
+#else
 		AppendChat(chat_id, nullNode);
+#endif
 }

@@ -221,7 +221,9 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	iStickerSize(proto, "StickerSize", 128),
 
 	pwszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
+#if (VK_NEW_API == 0)
 	pwszReturnChatMessage(proto, "ReturnChatMessage", TranslateT("I'm back")),
+#endif
 	pwszVKLang(proto, "VKLang", nullptr)
 
 {
@@ -234,9 +236,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	}
 	// Note
 }
-
-
-
+#if (VK_NEW_API == 0)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkUserItem::LoadFromUserProfile(const JSONNode &jnNode)
@@ -420,3 +420,5 @@ CVkUserItem::CVkUserItem(CVkProto* vkProto, const JSONNode &jnNode, vkJSONNodeTy
 	m_hContact = m_bIsMUChat ? m_VK->FindChat(m_iChatId) : m_VK->FindUser(m_iUserId);
 	m_hContact = m_hContact ? m_hContact : INVALID_CONTACT_ID;
 }
+
+#endif

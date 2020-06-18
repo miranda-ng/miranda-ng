@@ -90,7 +90,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define VK_CHAT_FLAG 2000000000
 
-#define VK_NEW_API 0
+#define VK_NEW_API 1
 
 #if (VK_NEW_API == 0)
 	#define VK_API_VER "5.78"

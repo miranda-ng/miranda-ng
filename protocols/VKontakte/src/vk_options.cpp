@@ -270,7 +270,9 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
 	CreateLink(m_cbClearServerHistory, m_proto->m_vkOptions.bClearServerHistory);
 	CreateLink(m_cbRemoveFromFrendlist, m_proto->m_vkOptions.bRemoveFromFrendlist);
 	CreateLink(m_cbRemoveFromCList, m_proto->m_vkOptions.bRemoveFromCList);
+#if (VK_NEW_API == 0)
 	CreateLink(m_edtReturnChatMessage, m_proto->m_vkOptions.pwszReturnChatMessage);
+#endif
 
 	m_cbForceInvisibleStatus.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange);
 	m_cbSendVKLinksAsAttachments.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbSendVKLinksAsAttachmentsChange);
