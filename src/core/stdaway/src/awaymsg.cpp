@@ -29,104 +29,101 @@ int LoadAwayMessageSending(void);
 static HGENMENU hAwayMsgMenuItem;
 static MWindowList hWindowList;
 
-struct AwayMsgDlgData {
-	MCONTACT hContact;
-	HANDLE hSeq;
-	HANDLE hAwayMsgEvent;
-};
-
 #define HM_AWAYMSG (WM_USER+10)
 
-static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+class CReadAwayMsgDlg : public CDlgBase
 {
-	AwayMsgDlgData *dat = (AwayMsgDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT m_hContact;
+	HANDLE m_hSeq;
+	HANDLE m_hAwayMsgEvent;
 
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
+	UI_MESSAGE_MAP(CReadAwayMsgDlg, CDlgBase);
+	UI_MESSAGE(HM_AWAYMSG, OnProtoAck);
+	UI_MESSAGE_MAP_END();
 
-		dat->hContact = db_mc_getMostOnline(lParam);
-		if (dat->hContact == NULL)
-			dat->hContact = lParam;
-		dat->hAwayMsgEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG);
-		dat->hSeq = (HANDLE)ProtoChainSend(dat->hContact, PSS_GETAWAYMSG, 0, 0);
-		WindowList_Add(hWindowList, hwndDlg, dat->hContact);
-		{
-			wchar_t str[256], format[128];
-			wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
-			char *szProto = Proto_GetBaseAccountName(dat->hContact);
-			WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);
+	INT_PTR OnProtoAck(UINT, WPARAM, LPARAM lParam)
+	{
+		ACKDATA *ack = (ACKDATA *)lParam;
+		if (ack->hContact != m_hContact || ack->type != ACKTYPE_AWAYMSG || ack->result != ACKRESULT_SUCCESS)
+			return 0;
 
-			GetWindowText(hwndDlg, format, _countof(format));
-			mir_snwprintf(str, format, status, contactName);
-			SetWindowText(hwndDlg, str);
-
-			GetDlgItemText(hwndDlg, IDC_RETRIEVING, format, _countof(format));
-			mir_snwprintf(str, format, status);
-			SetDlgItemText(hwndDlg, IDC_RETRIEVING, str);
-
-			Window_SetProtoIcon_IcoLib(hwndDlg, szProto, dwStatus);
+		if (m_hAwayMsgEvent && ack->hProcess == m_hSeq) {
+			UnhookEvent(m_hAwayMsgEvent);
+			m_hAwayMsgEvent = nullptr;
 		}
 
-		if (dat->hSeq == nullptr) {
-			ACKDATA ack = { 0 };
-			ack.hContact = dat->hContact;
+		m_msg.SetText((const wchar_t *)ack->lParam);
+
+		m_retr.Hide();
+		m_msg.Show();
+		SetDlgItemText(m_hwnd, IDOK, TranslateT("&Close"));
+		return 0;
+	}
+
+	CCtrlBase m_retr, m_msg;
+
+public:
+	CReadAwayMsgDlg(MCONTACT hContact) :
+		CDlgBase(g_plugin, IDD_READAWAYMSG),
+		m_msg(this, IDC_MSG),
+		m_retr(this, IDC_RETRIEVING)
+	{
+		m_hContact = db_mc_getMostOnline(hContact);
+		if (m_hContact == 0)
+			m_hContact = hContact;
+	}
+
+	bool OnInitDialog() override
+	{
+		m_hSeq = (HANDLE)ProtoChainSend(m_hContact, PSS_GETAWAYMSG, 0, 0);
+		if (m_hSeq == nullptr) {
+			ACKDATA ack = {};
+			ack.hContact = m_hContact;
 			ack.type = ACKTYPE_AWAYMSG;
 			ack.result = ACKRESULT_SUCCESS;
-			SendMessage(hwndDlg, HM_AWAYMSG, 0, (LPARAM)&ack);
+			SendMessage(m_hwnd, HM_AWAYMSG, 0, (LPARAM)&ack);
+			return false;
 		}
-		Utils_RestoreWindowPosition(hwndDlg, lParam, MODULENAME, "AwayMsgDlg");
-		return TRUE;
 
-	case HM_AWAYMSG:
-		{
-			ACKDATA *ack = (ACKDATA*)lParam;
-			if (ack->hContact != dat->hContact || ack->type != ACKTYPE_AWAYMSG) break;
-			if (ack->result != ACKRESULT_SUCCESS) break;
-			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = nullptr; }
+		m_hAwayMsgEvent = HookEventMessage(ME_PROTO_ACK, m_hwnd, HM_AWAYMSG);
+		WindowList_Add(hWindowList, m_hwnd, m_hContact);
 
-			SetDlgItemText(hwndDlg, IDC_MSG, (const wchar_t*)ack->lParam);
+		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		WORD dwStatus = db_get_w(m_hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);
 
-			ShowWindow(GetDlgItem(hwndDlg, IDC_RETRIEVING), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG), SW_SHOW);
-			SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
-		}
-		break;
+		wchar_t str[256], format[128];
+		GetWindowText(m_hwnd, format, _countof(format));
+		mir_snwprintf(str, format, status, contactName);
+		SetWindowText(m_hwnd, str);
+				
+		mir_snwprintf(str, ptrW(m_retr.GetText()).get(), status);
+		m_retr.SetText(str);
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-		case IDOK:
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
+		Window_SetProtoIcon_IcoLib(m_hwnd, szProto, dwStatus);
 
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		if (dat->hAwayMsgEvent) UnhookEvent(dat->hAwayMsgEvent);
-		Utils_SaveWindowPosition(hwndDlg, dat->hContact, MODULENAME, "AwayMsgDlg");
-		WindowList_Remove(hWindowList, hwndDlg);
-		Window_FreeIcon_IcoLib(hwndDlg);
-		mir_free(dat);
-		break;
+		Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "AwayMsgDlg");
+		return true;
 	}
-	return FALSE;
-}
 
-static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
+	void OnDestroy()
+	{
+		if (m_hAwayMsgEvent)
+			UnhookEvent(m_hAwayMsgEvent);
+		Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, "AwayMsgDlg");
+		WindowList_Remove(hWindowList, m_hwnd);
+		Window_FreeIcon_IcoLib(m_hwnd);
+	}
+};
+
+static INT_PTR GetMessageCommand(WPARAM hContact, LPARAM)
 {
-	if (HWND hwnd = WindowList_Find(hWindowList, wParam)) {
+	if (HWND hwnd = WindowList_Find(hWindowList, hContact)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
-	else CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
+	else (new CReadAwayMsgDlg(hContact))->Show();
 	return 0;
 }
 
