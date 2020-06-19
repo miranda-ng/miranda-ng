@@ -119,7 +119,7 @@ var ext = Hist.items.length;
 var index = 0;
 while (ext != 0) {
     if (Hist.items[index].date > Args.time) {
-        if (Hist.items[index].conversation_message_id > Args.lastmid) {
+        if (Hist.items[index].id > Args.lastmid) {
             index = index + 1;
             ext = ext - 1;
         } else
