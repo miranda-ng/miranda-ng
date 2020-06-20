@@ -581,8 +581,8 @@ void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
 	if (!errorCode.IsEmpty()) {
 		if (!m_QueueCreated && (errorCode == "ERROR_QUEUE_OVERFLOW" || errorCode == "ERROR_QUEUE_NOT_FOUND" || errorCode == "ERROR_QUEUE_LOST")) {
 			m_QueueCreated = true; // prevent queue creation request from being sent twice
-			m_sid = 0;
-			delSetting(DBKEY_SID);
+			delSetting(DBKEY_SYNC_TOKEN); m_szSyncToken.Empty();
+			delSetting(DBKEY_SID);        m_sid = 0;
 			if (!RefreshSid()) {
 				ConnectionFailed();
 				return;
