@@ -11,19 +11,19 @@
 [Show in protocol menu ]
 
 [Create new chat]
-
+Създаване на нов чат
 [Status message]
 Текст за състояние
 [Send message to my wall]
-
+Публикуване на моята стена
 [Load news from VK]
-
+Зареждане на новините от VK
 [Load history for all contacts from VK]
-
+Зареждане от сайта на историята на всички контакти
 [Wipe contacts missing in friend list]
-
+Изтриване на контаките, които не са в приятели
 [Visit profile]
-
+Профил на сайта
 [[img] BBCode support for image]
 
 [off]
@@ -111,11 +111,11 @@
 [Accepted friend requests]
 
 [E-mail or phone number:]
-
+Имейл или телефонен номер:
 [Password:]
 Парола:
 [Open VKontakte site]
-
+Отваряне на страницата VKontakte
 [Advanced]
 Разширени
 [Do not open chat windows on creation]
@@ -137,7 +137,7 @@
 [When I ban user...]
 
 [Report abuse]
-
+Докладване на нередност
 [Clear server history]
 
 [Remove from friend list]
@@ -157,25 +157,25 @@
 [Message for return to group chat:]
 
 [Login settings]
-
+Настройки за вписване
 [Local settings]
-
+Местни настройки
 [Contact list group:]
-
+Група в списъка с контакти:
 [Language for names and titles:]
-
+Език за имената и наименованията:
 [Mark message as read:]
-
+Отбелязване на съобщ. като прочетени:
 [Sync history on protocol online:]
-
+При вписване се синхронизира историята:
 [Load last messages when message window open and local history is empty]
 
 [Use local time for received messages]
-
+Местно време за получените съобщения
 [Load only friends to local contact list]
 
 [Server-side delivery confirmation]
-
+Потвърждаване на доставката от страна на сървъра
 [Bots challenge test]
 Тест за ботове
 [Instruction:]
@@ -505,7 +505,7 @@ URL:
 [Menu]
 Меню
 [Account language]
-
+Език на акаунта
 [English]
 Английски
 [Russian]
@@ -523,19 +523,19 @@ URL:
 [Italian]
 Италиански
 [automatically]
-
+автоматично
 [for last 1 day]
-
+за последния 1 ден
 [for last 3 days]
-
+за последните 3 дена
 [on read]
-
+при прочитане
 [on receive]
-
+при получаване
 [on reply]
-
+при отговор
 [on typing]
-
+при въвеждане на текст
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
 
 [VKontakte protocol]
@@ -555,23 +555,23 @@ URL:
 [Add as friend]
 
 [Delete from friend list]
-
+Изтриване от списъка с приятели
 [Ban user]
-
+Блокиране на потребителя
 [Destroy room]
 
 [Open broadcast]
 
 [Reload messages from vk.com...]
-
+Зареждане на историята от сайта...
 [for last week]
-
+за последната седмица
 [for last 30 days]
-
+за последните 30 дни
 [for last 90 days]
-
+за последните 90 дни
 [for all time]
-
+от самото начало
 [Errors]
 Грешки
 [Notifications]
