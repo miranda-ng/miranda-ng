@@ -1086,8 +1086,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	if (IsMyOwnJID(from)) {
 		carbon = XmlGetChildByTag(node, "received", "xmlns", JABBER_FEAT_CARBONS);
 		if (!carbon) {
-			carbon = XmlGetChildByTag(node, "sent", "xmlns", JABBER_FEAT_CARBONS);
-			if (carbon)
+			if (carbon = XmlGetChildByTag(node, "sent", "xmlns", JABBER_FEAT_CARBONS))
 				carbonSent = true;
 		}
 		if (carbon) {
@@ -1133,6 +1132,10 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 					node = xmlMessage;
 					type = XmlGetAttr(node, "type");
 					from = XmlGetAttr(node, "from");
+					if (!mir_strcmpi(from, info->fullJID)) {
+						debugLogA("MAM: outgoing message from this machine (%s), ignored", from);
+						return;
+					}
 				}
 				if (auto *xmlDelay = XmlGetChildByTag(xmlForwarded, "delay", "xmlns", JABBER_FEAT_DELAY)) {
 					if (auto *ptszTimeStamp = XmlGetAttr(xmlDelay, "stamp"))
