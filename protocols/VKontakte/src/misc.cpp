@@ -1233,9 +1233,6 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			int iStoryId = jnStory["id"].as_int();
 			int iOwnerID = jnStory["owner_id"].as_int();
 			CMStringW wszUrl(FORMAT, L"https://vk.com/story%d_%d", iOwnerID, iStoryId);
-			CMStringW wszAccessKey(jnStory["access_key"].as_mstring());
-			if (!wszAccessKey.IsEmpty())
-				wszUrl += L"_" + wszAccessKey;
 
 			res.AppendFormat(L"%s",
 				SetBBCString(TranslateT("Story"), iBBC, vkbbcUrl, wszUrl).c_str());
