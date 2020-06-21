@@ -241,37 +241,6 @@ BOOL isMetaContact(MCONTACT hContact)
 	return FALSE;
 }
 
-void GetID(MCONTACT hContact, LPSTR szProto, LPWSTR szID, size_t dwIDSize)
-{
-	DBVARIANT dbv_uniqueid;
-	LPCSTR uID = Proto_GetUniqueId(szProto);
-
-	szID[0] = 0;
-	if (uID && db_get(hContact, szProto, uID, &dbv_uniqueid) == 0) {
-		switch (dbv_uniqueid.type) {
-		case DBVT_DWORD:
-			mir_snwprintf(szID, dwIDSize, L"%u", dbv_uniqueid.dVal);
-			break;
-		case DBVT_WORD:
-			mir_snwprintf(szID, dwIDSize, L"%u", dbv_uniqueid.wVal);
-			break;
-		case DBVT_ASCIIZ:
-			wcsncpy_s(szID, dwIDSize, _A2T(dbv_uniqueid.pszVal), _TRUNCATE);
-			break;
-		case DBVT_WCHAR:
-			wcsncpy_s(szID, dwIDSize, dbv_uniqueid.pwszVal, _TRUNCATE);
-			break;
-		case DBVT_BLOB:
-			CMStringW tmp(' ', dbv_uniqueid.cpbVal * 2 + 1);
-			bin2hexW(dbv_uniqueid.pbVal, dbv_uniqueid.cpbVal, tmp.GetBuffer());
-			wcsncpy_s(szID, dwIDSize, tmp, _TRUNCATE);
-			break;
-		}
-
-		db_free(&dbv_uniqueid);
-	}
-}
-
 int StatusMsgExists(MCONTACT hContact)
 {
 	char par[32];
@@ -413,16 +382,16 @@ static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 		hIconCID = hIcon;
 	}
 
-	wchar_t buffer[256], szID[256];
-	GetID(hContact, szProto, szID, _countof(szID));
-	if (szID[0]) {
+	ptrW wszId(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+	if (wszId) {
 		if (bShowID) {
-			if (bTrimID && (mir_wstrlen(szID) > MAX_IDLEN)) {
-				szID[MAX_IDLEN - 2] = szID[MAX_IDLEN - 1] = szID[MAX_IDLEN] = '.';
-				szID[MAX_IDLEN + 1] = 0;
+			if (bTrimID && (mir_wstrlen(wszId) > MAX_IDLEN)) {
+				wszId[MAX_IDLEN - 2] = wszId[MAX_IDLEN - 1] = wszId[MAX_IDLEN] = '.';
+				wszId[MAX_IDLEN + 1] = 0;
 			}
 
-			mir_snwprintf(buffer, L"%s [%s]", TranslateT("Copy ID"), szID);
+			wchar_t buffer[256];
+			mir_snwprintf(buffer, L"%s [%s]", TranslateT("Copy ID"), wszId.get());
 			Menu_ModifyItem(hmenuCopyID, buffer, hIconCID);
 		}
 		else Menu_ModifyItem(hmenuCopyID, LPGENW("Copy ID"), hIconCID);
@@ -498,21 +467,21 @@ static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 	if (szProto == nullptr)
 		return 0;
 
-	wchar_t szID[256], buffer[256];
-	GetID(hContact, szProto, szID, _countof(szID));
+	CMStringW buf;
+	ptrW wszId(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
 
 	if (g_plugin.getDword("flags", vf_default) & VF_CIDN) {
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (!pa->bOldProto)
-			mir_snwprintf(buffer, L"%s: %s", pa->tszAccountName, szID);
+			buf.Format(L"%s: %s", pa->tszAccountName, wszId.get());
 		else
-			mir_snwprintf(buffer, L"%S: %s", szProto, szID);
+			buf.Format(L"%S: %s", szProto, wszId.get());
 	}
-	else wcsncpy_s(buffer, szID, _TRUNCATE);
+	else buf = wszId;
 
-	CopyToClipboard(buffer);
+	CopyToClipboard(buf);
 	if (CTRL_IS_PRESSED)
-		ShowPopup(buffer, hContact);
+		ShowPopup(buf, hContact);
 
 	return 0;
 }
