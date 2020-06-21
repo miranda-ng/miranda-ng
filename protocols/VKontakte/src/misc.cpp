@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
 static const char *szVKUrls[] = { "http://vk.com/", "https://vk.com/", "http://new.vk.com/", "https://new.vk.com/", "http://m.vk.com/", "https://m.vk.com/" };
-static const char *szAttachmentMasks[] = { "wall%d_%d",  "video%d_%d",  "photo%d_%d", "audio%d_%d", "doc%d_%d", "market%d_%d" };
+static const char *szAttachmentMasks[] = { "wall%d_%d",  "video%d_%d",  "photo%d_%d", "audio%d_%d", "doc%d_%d", "market%d_%d", "story%d_%d" };
 static const char *szVKLinkParam[] = { "?z=", "?w=", "&z=", "&w=" };
 
 JSONNode nullNode(JSON_NULL);
