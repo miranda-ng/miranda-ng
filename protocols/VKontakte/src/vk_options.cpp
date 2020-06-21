@@ -255,8 +255,7 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
 	m_cbMusicSendOff(this, IDC_SEND_MUSIC_NONE),
 	m_cbMusicSendBroadcastAndStatus(this, IDC_SEND_MUSIC_BROADCAST_AND_STATUS),
 	m_cbSendMetodBroadcast(this, IDC_SEND_MUSIC_BROADCAST),
-	m_cbMusicSendStatus(this, IDC_SEND_MUSIC_STATUS),
-	m_edtReturnChatMessage(this, IDC_RET_CHAT_MES)
+	m_cbMusicSendStatus(this, IDC_SEND_MUSIC_STATUS)
 {
 	CreateLink(m_cbHideChats, m_proto->m_vkOptions.bHideChats);
 	CreateLink(m_cbSyncReadMessageStatusFromServer, m_proto->m_vkOptions.bSyncReadMessageStatusFromServer);
@@ -270,9 +269,6 @@ CVkOptionAdvancedForm::CVkOptionAdvancedForm(CVkProto *proto) :
 	CreateLink(m_cbClearServerHistory, m_proto->m_vkOptions.bClearServerHistory);
 	CreateLink(m_cbRemoveFromFrendlist, m_proto->m_vkOptions.bRemoveFromFrendlist);
 	CreateLink(m_cbRemoveFromCList, m_proto->m_vkOptions.bRemoveFromCList);
-#if (VK_NEW_API == 0)
-	CreateLink(m_edtReturnChatMessage, m_proto->m_vkOptions.pwszReturnChatMessage);
-#endif
 
 	m_cbForceInvisibleStatus.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbForceInvisibleStatusChange);
 	m_cbSendVKLinksAsAttachments.OnChange = Callback(this, &CVkOptionAdvancedForm::On_cbSendVKLinksAsAttachmentsChange);

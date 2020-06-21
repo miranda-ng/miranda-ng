@@ -1098,18 +1098,18 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 	res += SetBBCString(TranslateT("Attachments:"), iBBC, vkbbcB);
 	res.AppendChar('\n');
 
-	for (auto &jnAttach : jnAttachments) {
+	for (auto& jnAttach : jnAttachments) {
 		res.AppendChar('\t');
 		CMStringW wszType(jnAttach["type"].as_mstring());
 		if (wszType == L"photo") {
-			const JSONNode &jnPhoto = jnAttach["photo"];
+			const JSONNode& jnPhoto = jnAttach["photo"];
 			if (!jnPhoto)
 				continue;
 
 			res += GetVkPhotoItem(jnPhoto, iBBC);
 		}
 		else if (wszType == L"audio") {
-			const JSONNode &jnAudio = jnAttach["audio"];
+			const JSONNode& jnAudio = jnAttach["audio"];
 			if (!jnAudio)
 				continue;
 
@@ -1119,7 +1119,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			CMStringW wszAudio(FORMAT, L"%s - %s", wszArtist.c_str(), wszTitle.c_str());
 
 			int iParamPos = wszUrl.Find(L"?");
-			if (m_vkOptions.bShortenLinksForAudio &&  iParamPos != -1)
+			if (m_vkOptions.bShortenLinksForAudio && iParamPos != -1)
 				wszUrl = wszUrl.Left(iParamPos);
 
 			res.AppendFormat(L"%s: %s",
@@ -1131,11 +1131,14 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			if (!jnAudioMessage)
 				continue;
 
+			if (m_vkOptions.bFilterAudioMessages)
+				return L"== FilterAudioMessages ==";
+
 			CMStringW wszUrl(jnAudioMessage["link_mp3"].as_mstring());
 			CMStringW wszTranscriptText(jnAudioMessage["transcript"].as_mstring());
 
-			res.AppendFormat(L"%s",	SetBBCString(TranslateT("Audio message"), iBBC, vkbbcUrl, wszUrl).c_str());
-			if(!wszTranscriptText.IsEmpty())
+			res.AppendFormat(L"%s", SetBBCString(TranslateT("Audio message"), iBBC, vkbbcUrl, wszUrl).c_str());
+			if (!wszTranscriptText.IsEmpty())
 				res.AppendFormat(L"\n%s: %s", SetBBCString(TranslateT("Transcription"), iBBC, vkbbcB).c_str(), wszTranscriptText.c_str());
 		}
 		else if (wszType == L"graffiti") {
@@ -1151,20 +1154,21 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			);
 		}
 		else if (wszType == L"video") {
-			const JSONNode &jnVideo = jnAttach["video"];
+			const JSONNode& jnVideo = jnAttach["video"];
 			if (!jnVideo)
 				continue;
 
 			CMStringW wszTitle(jnVideo["title"].as_mstring());
-			int vid = jnVideo["id"].as_int();
-			int ownerID = jnVideo["owner_id"].as_int();
-			CMStringW wszUrl(FORMAT, L"https://vk.com/video%d_%d", ownerID, vid);
+			int iVideoId = jnVideo["id"].as_int();
+			int iOwnerId = jnVideo["owner_id"].as_int();
+			CMStringW wszUrl(FORMAT, L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
+
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Video"), iBBC, vkbbcB).c_str(),
 				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl).c_str());
 		}
 		else if (wszType == L"doc") {
-			const JSONNode &jnDoc = jnAttach["doc"];
+			const JSONNode& jnDoc = jnAttach["doc"];
 			if (!jnDoc)
 				continue;
 
@@ -1178,21 +1182,21 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl).c_str());
 		}
 		else if (wszType == L"wall") {
-			const JSONNode &jnWall = jnAttach["wall"];
+			const JSONNode& jnWall = jnAttach["wall"];
 			if (!jnWall)
 				continue;
 
 			CMStringW wszText(jnWall["text"].as_mstring());
-			int id = jnWall["id"].as_int();
-			int fromID = jnWall["from_id"].as_int();
-			CMStringW wszUrl(FORMAT, L"https://vk.com/wall%d_%d", fromID, id);
+			int iWallId = jnWall["id"].as_int();
+			int iFromId = jnWall["from_id"].as_int();
+			CMStringW wszUrl(FORMAT, L"https://vk.com/wall%d_%d", iFromId, iWallId);
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszUrl).c_str(),
 				wszText.IsEmpty() ? L" " : wszText.c_str());
 
-			const JSONNode &jnCopyHystory = jnWall["copy_history"];
+			const JSONNode& jnCopyHystory = jnWall["copy_history"];
 			if (jnCopyHystory) {
-				for (auto &jnCopyHystoryItem : jnCopyHystory) {
+				for (auto& jnCopyHystoryItem : jnCopyHystory) {
 					CMStringW wszCHText(jnCopyHystoryItem["text"].as_mstring());
 					int iCHid = jnCopyHystoryItem["id"].as_int();
 					int iCHfromID = jnCopyHystoryItem["from_id"].as_int();
@@ -1202,7 +1206,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 						SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszCHUrl).c_str(),
 						wszCHText.IsEmpty() ? L" " : wszCHText.c_str());
 
-					const JSONNode &jnSubAttachments = jnCopyHystoryItem["attachments"];
+					const JSONNode& jnSubAttachments = jnCopyHystoryItem["attachments"];
 					if (jnSubAttachments) {
 						debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
 						CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
@@ -1213,7 +1217,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				}
 			}
 
-			const JSONNode &jnSubAttachments = jnWall["attachments"];
+			const JSONNode& jnSubAttachments = jnWall["attachments"];
 			if (jnSubAttachments) {
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
 				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
@@ -1222,8 +1226,49 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				res += L"\n\t" + wszAttachmentDescr;
 			}
 		}
+		else if (wszType == L"story") {
+			const JSONNode& jnStory = jnAttach["story"];
+			if (!jnStory)
+				continue;
+			int iStoryId = jnStory["id"].as_int();
+			int iOwnerID = jnStory["owner_id"].as_int();
+			CMStringW wszUrl(FORMAT, L"https://vk.com/story%d_%d", iOwnerID, iStoryId);
+			CMStringW wszAccessKey(jnStory["access_key"].as_mstring());
+			if (!wszAccessKey.IsEmpty())
+				wszUrl += L"_" + wszAccessKey;
+
+			res.AppendFormat(L"%s",
+				SetBBCString(TranslateT("Story"), iBBC, vkbbcUrl, wszUrl).c_str());
+
+			CMStringW wszStoryType(jnStory["type"].as_mstring());
+
+			if (wszStoryType == L"photo") {
+				const JSONNode& jnPhoto = jnStory["photo"];
+				if (!jnPhoto)
+					continue;
+
+				res += L"\n\t";
+				res += GetVkPhotoItem(jnPhoto, iBBC);
+			}
+			else if (wszStoryType == L"video") {
+				const JSONNode& jnVideo = jnStory["video"];
+				if (!jnVideo)
+					continue;
+
+				CMStringW wszTitle(jnVideo["title"].as_mstring());
+				int iVideoId = jnVideo["id"].as_int();
+				int iOwnerId = jnVideo["owner_id"].as_int();
+				CMStringW wszVideoUrl(FORMAT, L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
+
+				res.AppendFormat(L"\n\t%s: %s",
+					SetBBCString(TranslateT("Video"), iBBC, vkbbcB).c_str(),
+					SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszVideoUrl).c_str());
+
+			}
+
+		}
 		else if (wszType == L"sticker") {
-			const JSONNode &jnSticker = jnAttach["sticker"];
+			const JSONNode& jnSticker = jnAttach["sticker"];
 			if (!jnSticker)
 				continue;
 			res.Empty(); // sticker is not really an attachment, so we don't want all that heading info
@@ -1234,9 +1279,9 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			}
 			else {
 				CMStringW wszLink, wszLink128, wszLinkLast;
-				const JSONNode &jnImages = jnSticker[m_vkOptions.bStickerBackground ? "images_with_background" : "images"];
-				for (auto & jnImage : jnImages) {
-					if (jnImage["width"].as_int() == (int) m_vkOptions.iStickerSize) {
+				const JSONNode& jnImages = jnSticker[m_vkOptions.bStickerBackground ? "images_with_background" : "images"];
+				for (auto& jnImage : jnImages) {
+					if (jnImage["width"].as_int() == (int)m_vkOptions.iStickerSize) {
 						wszLink = jnImage["url"].as_mstring();
 						break;
 					}
@@ -1253,7 +1298,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 		}
 		else if (wszType == L"link") {
-			const JSONNode &jnLink = jnAttach["link"];
+			const JSONNode& jnLink = jnAttach["link"];
 			if (!jnLink)
 				continue;
 
@@ -1276,7 +1321,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				res.AppendFormat(L"\n\t%s", wszDescription.c_str());
 		}
 		else if (wszType == L"market") {
-			const JSONNode &jnMarket = jnAttach["market"];
+			const JSONNode& jnMarket = jnAttach["market"];
 
 			int id = jnMarket["id"].as_int();
 			int ownerID = jnMarket["owner_id"].as_int();
@@ -1285,7 +1330,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			CMStringW wszPhoto(jnMarket["thumb_photo"].as_mstring());
 			CMStringW wszUrl(FORMAT, L"https://vk.com/%s%d?w=product%d_%d",
 				ownerID > 0 ? L"id" : L"club",
-				ownerID > 0 ? ownerID : (-1)*ownerID,
+				ownerID > 0 ? ownerID : (-1) * ownerID,
 				ownerID,
 				id);
 
@@ -1307,13 +1352,13 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				res.AppendFormat(L"\n\t%s", wszDescription.c_str());
 		}
 		else if (wszType == L"gift") {
-			const JSONNode &jnGift = jnAttach["gift"];
+			const JSONNode& jnGift = jnAttach["gift"];
 			if (!jnGift)
 				continue;
 
 			CMStringW wszLink;
-			for (auto &it : szGiftTypes) {
-				const JSONNode &n = jnGift[it];
+			for (auto& it : szGiftTypes) {
+				const JSONNode& n = jnGift[it];
 				if (n) {
 					wszLink = n.as_mstring();
 					break;
@@ -1419,7 +1464,6 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 		vkUsers.insert(vkUser);
 	}
 
-#if (VK_NEW_API == 1)
 	if (jnMessages.type() == JSON_ARRAY)
 		for (auto& jnMsg : jnMessages.as_array()) {
 			if (!res.IsEmpty())
@@ -1429,68 +1473,7 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 	else
 		res = GetFwdMessage(jnMessages,  jnFUsers, vkUsers, iBBC);
 
-#else
-	for (auto &jnMsg : jnMessages.as_array()) {
-		UINT uid = jnMsg["user_id"].as_int();
-		CMStringW wszBody(jnMsg["body"].as_mstring());
-		CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&uid);
-		CMStringW wszNick, wszUrl;
-
-		if (vkUser) {
-			wszNick = vkUser->m_wszUserNick;
-			wszUrl = vkUser->m_wszLink;
-		}
-		else {
-			MCONTACT hContact = FindUser(uid);
-			if (hContact || uid == m_msgId)
-				wszNick = ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"));
-			else
-				wszNick = TranslateT("(Unknown contact)");
-			wszUrl = UserProfileUrl(uid);
-		}
-
-		time_t datetime = (time_t)jnMsg["date"].as_int();
-		wchar_t ttime[64];
-		_locale_t locale = _create_locale(LC_ALL, "");
-		_wcsftime_l(ttime, _countof(ttime), L"%x %X", localtime(&datetime), locale);
-		_free_locale(locale);
-
-		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
-		if (jnFwdMessages) {
-			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
-			if (!wszBody.IsEmpty())
-				wszFwdMessages = L"\n" + wszFwdMessages;
-			wszBody += wszFwdMessages;
-		}
-
-		const JSONNode &jnAttachments = jnMsg["attachments"];
-		if (jnAttachments) {
-			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
-			if (wszAttachmentDescr != L"== FilterAudioMessages ==") {
-				if (!wszBody.IsEmpty())
-					wszAttachmentDescr = L"\n" + wszAttachmentDescr;
-
-				wszBody += wszAttachmentDescr;
-			}
-		}
-
-		wszBody.Replace(L"\n", L"\n\t");
-		wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
-		CMStringW wszMes(FORMAT, L"%s %s%c%s %s:\n\n%s\n",
-			SetBBCString(TranslateT("Message from"), iBBC, vkbbcB).c_str(),
-			SetBBCString(wszNick, iBBC, vkbbcUrl, wszUrl).c_str(),
-			tcSplit,
-			SetBBCString(TranslateT("at"), iBBC, vkbbcB).c_str(),
-			ttime,
-			SetBBCString(wszBody, iBBC, vkbbcCode).c_str());
-
-		if (!res.IsEmpty())
-			res.AppendChar('\n');
-		res += wszMes;
-	}
-#endif
 	res.AppendChar('\n');
-
 	vkUsers.destroy();
 	return res;
 }

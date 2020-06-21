@@ -321,7 +321,6 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 	}
 
-#if (VK_NEW_API == 1)
 	int id, owner_id;
 	if (fup->GetType() == CVkFileUploadParam::typeDoc) {
 		CMStringA wszType(jnResponse["type"].as_mstring());
@@ -338,14 +337,6 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
 		return;
 	}
-#else
-	int id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["id"].as_int() : (*jnResponse.begin())["id"].as_int();
-	int owner_id = fup->GetType() == CVkFileUploadParam::typeAudio ? jnResponse["owner_id"].as_int() : (*jnResponse.begin())["owner_id"].as_int();
-	if ((id == 0) || (owner_id == 0)) {
-		SendFileFiled(fup, VKERR_INVALID_PARAMETERS);
-		return;
-	}
-#endif
 
 	CMStringW Attachment;
 

@@ -308,9 +308,6 @@ private:
 	void OnReceiveGroupInfo(NETLIBHTTPREQUEST * reply, AsyncHttpRequest * pReq);
 	void RetrieveFriends(bool bCleanNonFriendContacts = false);
 	void OnReceiveFriends(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-#if (VK_NEW_API == 0)
-	void MarkMessagesRead(const CMStringA &mids);
-#endif
 	void MarkMessagesRead(const MCONTACT hContact);
 	void RetrieveMessagesByIds(const CMStringA &mids);
 	void RetrieveUnreadMessages();
@@ -394,10 +391,6 @@ private:
 	CVkChatInfo* AppendConversationChat(int iChatId, const JSONNode& jnItem);
 	void SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic);
 	void AppendChatConversationMessage(int id, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory);
-#if (VK_NEW_API == 0)
-	CVkChatInfo* AppendChat(int id, const JSONNode& jnNode);
-	void AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &jnFUsers, bool bIsHistory);
-#endif
 	void AppendChatMessage(CVkChatInfo *cc, LONG uid, int msgTime, LPCWSTR pwszBody, bool bIsHistory, bool bIsAction = false);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

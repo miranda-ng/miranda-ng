@@ -72,8 +72,6 @@ class CVkOptionAdvancedForm : public CVkDlgBase
 	CCtrlCheck m_cbSendMetodBroadcast;
 	CCtrlCheck m_cbMusicSendStatus;
 
-	CCtrlEdit m_edtReturnChatMessage;
-
 public:
 	CVkOptionAdvancedForm(CVkProto  *proto);
 	bool OnInitDialog() override;

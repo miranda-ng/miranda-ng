@@ -12,7 +12,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// –ê–Ω–≥–ª–∏–π—Å–∫–∏–π (–°–®–ê) resources
+// ¿Ì„ÎËÈÒÍËÈ (—ÿ¿) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -267,7 +267,8 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Advanced",IDC_STATIC,4,8,293,101
-    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,17,278,10
+    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,17,278,10
     CONTROL         "Sync read message status from server",IDC_SYNC_MSG_STATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,28,268,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
@@ -294,9 +295,6 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,164,278,10
     CONTROL         "as audio status only",IDC_SEND_MUSIC_BROADCAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,175,278,10
     CONTROL         "as regular status only",IDC_SEND_MUSIC_STATUS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,186,278,10
-    GROUPBOX        "Group chats",IDC_STATIC_CHATS,4,199,293,27,WS_GROUP
-    LTEXT           "Message for return to group chat:",IDC_STATIC,12,210,120,8
-    EDITTEXT        IDC_RET_CHAT_MES,134,208,157,12,ES_AUTOHSCROLL
 END
 
 IDD_OPT_MAIN DIALOGEX 0, 0, 304, 187
@@ -389,10 +387,8 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,117,66,50,14
     CTEXT           "",IDC_STATIC_TXT,7,7,275,18
-    CONTROL         "",IDC_CH_REMOVE_FROM_FRIEND,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,29,33,254,10
-    CONTROL         "",IDC_CH_CLEARHISTORY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,29,45,253,10
+    CONTROL         "",IDC_CH_REMOVE_FROM_FRIEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,29,33,254,10
+    CONTROL         "",IDC_CH_CLEARHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,29,45,253,10
 END
 
 
@@ -421,7 +417,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // –ê–Ω–≥–ª–∏–π—Å–∫–∏–π (–°–®–ê) resources
+#endif    // ¿Ì„ÎËÈÒÍËÈ (—ÿ¿) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

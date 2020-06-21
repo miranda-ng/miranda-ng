@@ -130,16 +130,6 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 	if (VK_INVALID_USER == userID || userID == VK_FEED_USER)
 		return;
 
-#if (VK_NEW_API == 0)
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.GetServerHistory", true, &CVkProto::OnReceiveHistoryMessages, AsyncHttpRequest::rpLow)
-		<< INT_PARAM("reqcount", iCount)
-		<< INT_PARAM("offset", iOffset)
-		<< INT_PARAM("userid", userID)
-		<< INT_PARAM("time", iTime)
-		<< INT_PARAM("lastmid", iLastMsgId)
-		<< INT_PARAM("once", (int)once)
-	)->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);
-#else
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.GetServerConversationHistory", true, &CVkProto::OnReceiveHistoryMessages, AsyncHttpRequest::rpLow)
 		<< INT_PARAM("reqcount", iCount)
 		<< INT_PARAM("offset", iOffset)
@@ -148,7 +138,6 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 		<< INT_PARAM("lastmid", iLastMsgId)
 		<< INT_PARAM("once", (int)once)
 	)->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);
-#endif
 }
 
 void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
@@ -239,18 +228,11 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		char szMid[40];
 		_itoa(mid, szMid, 10);
-#if (VK_NEW_API == 1)
+
 		CMStringW wszBody(jnMsg["text"].as_mstring());
 		int uid = jnMsg["peer_id"].as_int();
-
 		int iReadMsg = getDword(param->hContact, "in_read", 0);
 		int isRead = (mid <= iReadMsg);
-#else
-		CMStringW wszBody(jnMsg["body"].as_mstring());
-		int uid = jnMsg["user_id"].as_int();
-		int isRead = jnMsg["read_state"].as_int();
-#endif
-
 		int datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
 

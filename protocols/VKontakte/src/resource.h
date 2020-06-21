@@ -113,7 +113,6 @@
 #define IDC_NOTIF_MARK_VIEWED           1096
 #define IDC_N_INVITES                   1097
 #define IDC_USENOSTDPOPUPS              1098
-#define IDC_RET_CHAT_MES                1099
 #define IDC_COMBO_LANGUAGE              1100
 #define IDC_SHOW_MENU0                  1101
 #define IDC_SHOW_MENU1                  1102
@@ -133,7 +132,7 @@
 #define IDC_CH_CLEARHISTORY             1116
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
