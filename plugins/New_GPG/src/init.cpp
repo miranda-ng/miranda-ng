@@ -138,7 +138,7 @@ int CMPlugin::Load()
 	HookEvent(ME_OPT_INITIALISE, GpgOptInit);
 	HookEvent(ME_PROTO_ACK, onProtoAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 
 	InitIconLib();
 	init_vars();

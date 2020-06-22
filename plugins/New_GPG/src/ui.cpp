@@ -364,7 +364,7 @@ void CDlgFirstRun::onClick_DELETE_KEY(CCtrlButton*)
 		s += mir_strlen("Key fingerprint = ");
 		int s2 = params.out.Find("\n", s);
 
-		CMStringW tmp = params.out.Mid(s, s2 - s - 1);
+		CMStringW tmp = params.out.Mid(s, s2 - s);
 		tmp.Remove(' ');
 
 		gpg_execution_params params2;
