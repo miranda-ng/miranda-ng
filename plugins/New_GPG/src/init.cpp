@@ -60,7 +60,8 @@ CMPlugin::CMPlugin() :
 	bSameAction(MODULENAME, "bSameAction", false),
 	bAutoExchange(MODULENAME, "bAutoExchange", false),
 	bFileTransfers(MODULENAME, "bFileTransfers", false),
-	bPresenceSigning(MODULENAME, "bPresenceSigning", false)
+	bPresenceSigning(MODULENAME, "bPresenceSigning", false),
+	bSendErrorMessages(MODULENAME, "bSendErrorMessages", false)
 {
 }
 

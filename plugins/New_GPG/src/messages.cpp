@@ -155,11 +155,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						boost::filesystem::remove(path, e);
 					}
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
-					g_plugin.setByte(hContact, "GPGEncryption", 0);
-					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
-					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					g_plugin.setByte(hContact, "GPGEncryption", enc);
+					SendErrorMessage(hContact);
 					delete param;
 					return;
 				}
@@ -182,11 +178,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 					if (globals.debuglog)
 						globals.debuglog << "info: failed to decrypt messaage from " + szScreenName + " password needed, trying to get one";
 					if (globals._terminate) {
-						BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
-						g_plugin.setByte(hContact, "GPGEncryption", 0);
-						ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
-						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-						g_plugin.setByte(hContact, "GPGEncryption", enc);
+						SendErrorMessage(hContact);
 						break;
 					}
 					{ //save inkey id
@@ -216,11 +208,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						}
 
 						HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-						BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
-						g_plugin.setByte(hContact, "GPGEncryption", 0);
-						ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
-						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-						g_plugin.setByte(hContact, "GPGEncryption", enc);
+						SendErrorMessage(hContact);
 						delete param;
 						return;
 					}
@@ -243,11 +231,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 					}
 
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
-					g_plugin.setByte(hContact, "GPGEncryption", 0);
-					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
-					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					g_plugin.setByte(hContact, "GPGEncryption", enc);
+					SendErrorMessage(hContact);
 					delete param;
 					return;
 				}
@@ -275,11 +259,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 					ptrA tmp4((char*)mir_alloc(sizeof(char)*(str1.length() + 1)));
 					mir_strcpy(tmp4, str1.c_str());
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
-					g_plugin.setByte(hContact, "GPGEncryption", 0);
-					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
-					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					g_plugin.setByte(hContact, "GPGEncryption", enc);
+					SendErrorMessage(hContact);
 					delete param;
 					return;
 				}
@@ -315,11 +295,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
 
 					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
-					BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
-					g_plugin.setByte(hContact, "GPGEncryption", 0);
-					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
-					HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-					g_plugin.setByte(hContact, "GPGEncryption", enc);
+					SendErrorMessage(hContact);
 					delete param;
 					return;
 				}

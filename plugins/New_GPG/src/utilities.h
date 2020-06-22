@@ -35,6 +35,8 @@ bool isGPGValid();
 void ExportGpGKeysFunc(int type);
 void ImportKey(MCONTACT hContact, std::wstring new_key);
 
+void SendErrorMessage(MCONTACT hContact);
+
 const bool StriStr(const char *str, const char *substr);
 string toUTF8(wstring str);
 wstring toUTF16(string str);

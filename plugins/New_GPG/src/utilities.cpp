@@ -474,7 +474,6 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 	return Proto_ChainSend(w, ccs);
 }
 
-
 void HistoryLog(MCONTACT hContact, db_event evt)
 {
 	DBEVENTINFO Event = {};
@@ -504,7 +503,6 @@ int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, DWORD data)
 
 	return item;
 }
-
 
 static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, TiXmlElement *node, void*)
 {
@@ -1220,6 +1218,18 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 		mir_snwprintf(msg, TranslateT("We have successfully processed %d public keys."), processed_keys);
 	MessageBox(nullptr, msg, TranslateT("Keys import result"), MB_OK);
 	return 0;
+}
+
+void SendErrorMessage(MCONTACT hContact)
+{
+	if (!g_plugin.bSendErrorMessages)
+		return;
+
+	BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+	g_plugin.setByte(hContact, "GPGEncryption", 0);
+	ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
+	HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
+	g_plugin.setByte(hContact, "GPGEncryption", enc);
 }
 
 void fix_line_term(std::string &s)
