@@ -1,0 +1,267 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <winres.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WELCOME DIALOGEX 0, 0, 262, 143
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_WATERMARK,"Static",SS_ENHMETAFILE,0,0,63,143
+    LTEXT           "whiterect",IDC_STATIC,63,0,199,143
+    LTEXT           "Welcome to the Miranda Database Wizard",IDC_TITLE,77,12,178,24,0,WS_EX_TRANSPARENT
+    LTEXT           "Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.",IDC_STATIC,77,46,178,32,0,WS_EX_TRANSPARENT
+    LTEXT           "To continue, click Next.",IDC_STATIC,77,85,178,8,0,WS_EX_TRANSPARENT
+    LTEXT           "This program is licensed under the terms of the GNU General Public License.",IDC_STATIC,77,122,178,16,WS_DISABLED
+END
+
+IDD_WIZARD DIALOGEX 0, 0, 262, 174
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Miranda Database Tool"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "< &Back",IDC_BACK,96,153,50,14
+    DEFPUSHBUTTON   "&Next >",IDOK,146,153,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,205,153,50,14
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-5,143,269,1
+END
+
+IDD_SELECTDB DIALOGEX 0, 0, 262, 143
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
+    LTEXT           "Select Miranda Profile",IDC_STATIC,11,6,206,8,WS_BORDER
+    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
+    LTEXT           "You can choose the Miranda profile database to compact or repair.",IDC_STATIC,20,14,197,16
+    LTEXT           "Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.",IDC_STATIC,10,35,242,16
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    CONTROL         "List1",IDC_DBLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_AUTOARRANGE | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,10,53,242,72
+    RTEXT           "&File:",IDC_STATIC,10,130,22,8
+    EDITTEXT        IDC_FILE,31,128,177,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Other...",IDC_OTHER,212,128,40,12
+END
+
+IDD_OPENERROR DIALOGEX 0, 0, 262, 143
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
+    LTEXT           "Error Opening Database",IDC_STATIC,11,6,206,8,WS_BORDER
+    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
+    LTEXT           "There was an error opening the profile database given.",IDC_STATIC,20,14,197,16
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    LTEXT           "",IDC_ERRORTEXT,23,38,226,16,SS_NOPREFIX | WS_BORDER
+    LTEXT           "Click Next to try opening the file again, or click Back to select a new profile database to manipulate.",IDC_STATIC,23,67,226,16
+    LTEXT           "The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.",IDC_INUSE,23,87,226,16,NOT WS_VISIBLE
+    LTEXT           "",IDC_FILE,23,57,226,8,SS_NOPREFIX
+END
+
+IDD_FILEACCESS DIALOGEX 0, 0, 262, 143
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
+    LTEXT           "File Access Options",IDC_STATIC,11,6,206,8,WS_BORDER
+    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
+    LTEXT           "You can select low level options to determine how the database is processed.",IDC_STATIC,20,14,197,16
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    CONTROL         "Create backup",IDC_BACKUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,69,226,10,WS_EX_CLIENTEDGE
+    LTEXT           "Creates a backup copy of the database before any of the requested changes are made.",IDC_STBACKUP,37,80,212,16
+    CONTROL         "Aggressively find corruption",IDC_AGGRESSIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,100,226,10,WS_EX_CLIENTEDGE
+    LTEXT           "Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.",IDC_STATIC,37,111,212,24
+    CONTROL         "Check consistency only",IDC_CHECKONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,38,226,10,WS_EX_CLIENTEDGE
+    LTEXT           "Just checks that the database is valid, without writing anything to the disk.",IDC_STATIC,37,49,212,16
+END
+
+IDD_CLEANING DIALOGEX 0, 0, 262, 143
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
+    LTEXT           "Cleaning Options",IDC_STATIC,11,6,206,8,WS_BORDER
+    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
+    LTEXT           "You can choose to remove information from the database while it is being processed.",IDC_STATIC,20,14,197,16
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    CONTROL         "Erase all histories",IDC_ERASEHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,38,226,10,WS_EX_CLIENTEDGE
+    LTEXT           "Removes all the saved history for all contacts in the database.",IDC_STATIC,37,49,212,8
+    CONTROL         "Mark all events read",IDC_MARKREAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,62,226,10,WS_EX_CLIENTEDGE
+    LTEXT           "Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.",IDC_STATIC,37,73,212,24
+    CONTROL         "Convert old Unicode messages to UTF8",IDC_CONVERTUTF,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,101,226,10,WS_EX_CLIENTEDGE
+    LTEXT           "Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).",IDC_STATIC,37,111,212,25
+END
+
+IDD_PROGRESS DIALOGEX 0, 0, 262, 143
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "whiterect",-1,0,0,262,32
+    LTEXT           "Working...",-1,11,6,206,8,WS_BORDER
+    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
+    LTEXT           "Please wait while the requested operations are being performed.",-1,20,14,197,16
+    CONTROL         "",-1,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | WS_BORDER,20,38,222,11
+    LISTBOX         IDC_STATUS,20,52,222,84,NOT LBS_NOTIFY | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_DISABLENOSCROLL | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_FINISHED DIALOGEX 0, 0, 262, 143
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
+    LTEXT           "Finished!",IDC_STATIC,11,6,206,8,WS_BORDER
+    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
+    LTEXT           "All tasks have been completed.",IDC_STATIC,20,14,197,16
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    CONTROL         "Launch Miranda with this profile",IDC_LAUNCHMIRANDA,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,87,226,10,WS_EX_CLIENTEDGE
+    LTEXT           "Launches Miranda with the profile that was just worked on.",IDC_STATIC,37,98,212,16
+    LTEXT           "",IDC_DBFILE,23,68,226,8,SS_NOPREFIX | WS_BORDER
+    RTEXT           "Backup:",IDC_STBACKUP,23,76,30,8
+    LTEXT           "",IDC_BACKUPFILE,56,76,193,8,SS_NOPREFIX
+    LTEXT           "The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.",IDC_STATIC,23,38,226,24
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_WELCOME, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 255
+        VERTGUIDE, 77
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 138
+    END
+
+    IDD_WIZARD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 255
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 167
+    END
+
+    IDD_SELECTDB, DIALOG
+    BEGIN
+        LEFTMARGIN, 23
+        RIGHTMARGIN, 249
+        TOPMARGIN, 38
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_OPENERROR, DIALOG
+    BEGIN
+        LEFTMARGIN, 23
+        RIGHTMARGIN, 249
+        TOPMARGIN, 38
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_FILEACCESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 23
+        RIGHTMARGIN, 249
+        VERTGUIDE, 37
+        TOPMARGIN, 38
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_CLEANING, DIALOG
+    BEGIN
+        LEFTMARGIN, 23
+        RIGHTMARGIN, 249
+        VERTGUIDE, 37
+        TOPMARGIN, 38
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 20
+        RIGHTMARGIN, 242
+        TOPMARGIN, 38
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_FINISHED, DIALOG
+    BEGIN
+        LEFTMARGIN, 23
+        RIGHTMARGIN, 249
+        VERTGUIDE, 37
+        TOPMARGIN, 38
+        BOTTOMMARGIN, 136
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// EMF
+//
+
+IDE_WATERMARK           EMF                     "dbtool.emf"
+IDE_HDRLOGO             EMF                     "dbthdr.emf"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_DBTOOL              ICON                    "dbtool.ico"
+IDI_PROFILEGREEN        ICON                    "profileg.ico"
+IDI_BAD                 ICON                    "delete.ico"
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

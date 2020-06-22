@@ -289,3 +289,32 @@ void CDbxMDBX::DBFlush(bool bForce)
 	else if (m_safetyMode)
 		m_impl.m_timer.Start(50);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// MIDatabaseChecker
+
+typedef int (CDbxMDBX::*CheckWorker)(void);
+
+int CDbxMDBX::Start(DBCHeckCallback *callback)
+{
+	cb = callback;
+	return ERROR_SUCCESS;
+}
+
+static CheckWorker Workers[] =
+{
+	&CDbxMDBX::CheckEvents1
+};
+
+int CDbxMDBX::CheckDb(int phase, int)
+{
+	if (phase >= _countof(Workers))
+		return ERROR_OUT_OF_PAPER;
+
+	return (this->*Workers[phase])();
+}
+
+void CDbxMDBX::Destroy()
+{
+	delete this;
+}

@@ -28,6 +28,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#include <m_core.h>
 #endif
 
+///////////////////////////////////////////////////////////////////////////////
+// basic database checker interface
+
+#define STATUS_MESSAGE    0
+#define STATUS_WARNING    1
+#define STATUS_ERROR      2
+#define STATUS_FATAL      3
+#define STATUS_SUCCESS    4
+
+struct DBCHeckCallback
+{
+	int    cbSize;
+	DWORD  spaceProcessed, spaceUsed;
+	HANDLE hOutFile;
+	bool   bCheckOnly, bBackup, bAggressive, bEraseHistory, bMarkRead, bConvertUtf;
+
+	void (*pfnAddLogMessage)(int type, const wchar_t *ptszFormat, ...);
+};
+
+interface MIDatabaseChecker
+{
+	STDMETHOD_(BOOL, Start)(DBCHeckCallback *callback) PURE;
+	STDMETHOD_(BOOL, CheckDb)(int phase, int firstTime) PURE;
+	STDMETHOD_(VOID, Destroy)() PURE;
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic database interface
 
@@ -130,6 +156,8 @@ interface MIR_APP_EXPORT MIDatabase
 
 	STDMETHOD_(BOOL, Compact)(void) PURE;
 	STDMETHOD_(BOOL, Backup)(LPCWSTR) PURE;
+	
+	STDMETHOD_(MIDatabaseChecker*, GetChecker)(void) PURE;
 
 	STDMETHOD_(MEVENT, GetEventById)(LPCSTR szModule, LPCSTR szId) PURE;
 
@@ -186,6 +214,8 @@ public:
 	
 	STDMETHODIMP_(BOOL) Compact(void) override;
 	STDMETHODIMP_(BOOL) Backup(LPCWSTR) override;
+
+	STDMETHODIMP_(MIDatabaseChecker*) GetChecker(void) override;
 
 	STDMETHODIMP_(DB::EventCursor*) EventCursor(MCONTACT hContact, MEVENT hDbEvent) override;
 	STDMETHODIMP_(DB::EventCursor*) EventCursorRev(MCONTACT hContact, MEVENT hDbEvent) override;

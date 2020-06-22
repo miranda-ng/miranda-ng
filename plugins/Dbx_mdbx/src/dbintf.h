@@ -136,7 +136,7 @@ struct EventItem
 	MEVENT eventId;
 };
 
-class CDbxMDBX : public MDatabaseCommon, public MZeroedObject
+class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
 {
 	friend class CMdbxEventCursor;
 
@@ -251,6 +251,8 @@ public:
 	void StoreKey(void);
 	void SetPassword(const wchar_t *ptszPassword);
 
+	int  CheckEvents1(void);
+
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
 
 	__forceinline bool isEncrypted() const { return m_bEncrypted; }
@@ -299,6 +301,18 @@ public:
 	
 	STDMETHODIMP_(DB::EventCursor *) EventCursor(MCONTACT hContact, MEVENT hDbEvent) override;
 	STDMETHODIMP_(DB::EventCursor *) EventCursorRev(MCONTACT hContact, MEVENT hDbEvent) override;
+
+protected:
+	STDMETHODIMP_(MIDatabaseChecker *) GetChecker() override
+	{
+		return this;
+	}
+
+	STDMETHODIMP_(BOOL)     Start(DBCHeckCallback *callback);
+	STDMETHODIMP_(BOOL)     CheckDb(int phase, int firstTime);
+	STDMETHODIMP_(VOID)     Destroy();
+
+	DBCHeckCallback *cb;
 
 public:
 	MICryptoEngine *m_crypto;
