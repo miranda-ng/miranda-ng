@@ -298,12 +298,7 @@ public:
 		check_JABBER_API.Enable();
 		check_AUTO_EXCHANGE.Enable(g_plugin.bJabberAPI);
 
-		CMStringW keyinfo = TranslateT("Default private key ID");
-		keyinfo += L": ";
-			
-		ptrW keyid(g_plugin.getWStringA("KeyID"));
-		keyinfo += (mir_wstrlen(keyid) > 0) ? keyid : TranslateT("not set");
-		lbl_CURRENT_KEY.SetText(keyinfo);
+		lbl_CURRENT_KEY.SetText(CMStringW(FORMAT, L"%s: %s", TranslateT("Default private key ID"), ptrW(g_plugin.getWStringA("KeyID", TranslateT("not set"))).get()));
 
 		check_JABBER_API.SetState(g_plugin.getByte("bJabberAPI", 1));
 		check_FILE_TRANSFERS.SetState(g_plugin.getByte("bFileTransfers", 0));

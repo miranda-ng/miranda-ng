@@ -28,6 +28,7 @@ int GetJabberInterface(WPARAM, LPARAM);
 int onProtoAck(WPARAM, LPARAM);
 int onWindowEvent(WPARAM, LPARAM);
 int onIconPressed(WPARAM, LPARAM);
+int onExtraIconPressed(WPARAM, LPARAM, LPARAM);
 
 void InitCheck();
 void FirstRun();
@@ -217,7 +218,11 @@ int CMPlugin::Load()
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Extra icon
 
-	globals.g_hCLIcon = ExtraIcon_RegisterIcolib(MODULENAME, Translate("GPG encryption status"), "secured");
+	hCLIcon = ExtraIcon_RegisterIcolib(MODULENAME, Translate("GPG encryption status"), "secured", &onExtraIconPressed);
+	for (auto &cc : Contacts())
+		if (isContactHaveKey(cc))
+			ExtraIcon_SetIconByName(hCLIcon, cc, "unsecured");
+
 	return 0;
 }
 

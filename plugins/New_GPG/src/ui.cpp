@@ -523,10 +523,7 @@ public:
 		}
 		combo_ACCOUNT.SetCurSel(0);
 
-		CMStringW keyinfo = TranslateT("key ID");
-		keyinfo += L": ";
-		keyinfo += g_plugin.getMStringW("KeyID", TranslateT("not set"));
-		lbl_KEY_ID.SetText(keyinfo);
+		lbl_KEY_ID.SetText(CMStringW(FORMAT, L"%s: %s", TranslateT("key ID"), ptrW(g_plugin.getWStringA("KeyID", TranslateT("not set"))).get()));
 		return true;
 	}
 

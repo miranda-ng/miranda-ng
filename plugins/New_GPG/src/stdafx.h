@@ -74,6 +74,7 @@ using std::fstream;
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<bool> bJabberAPI, bPresenceSigning, bFileTransfers, bAutoExchange, bSameAction, bAppendTags, bStripTags, bDebugLog, bSendErrorMessages;
+	HANDLE hCLIcon = nullptr;
 
 	CMPlugin();
 

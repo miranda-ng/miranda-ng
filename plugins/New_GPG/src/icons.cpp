@@ -48,8 +48,8 @@ void setSrmmIcon(MCONTACT h)
 	if (hMC != hContact)
 		Srmm_SetIconFlags(hMC, MODULENAME, 2, flags);
 
-	const char *szIconId = (enabled) ? "secured" : nullptr;
-	ExtraIcon_SetIconByName(globals.g_hCLIcon, hContact, szIconId);
+	const char *szIconId = (enabled) ? "secured" : "unsecured";
+	ExtraIcon_SetIconByName(g_plugin.hCLIcon, hContact, szIconId);
 	if (hMC != hContact)
-		ExtraIcon_SetIconByName(globals.g_hCLIcon, hMC, szIconId);
+		ExtraIcon_SetIconByName(g_plugin.hCLIcon, hMC, szIconId);
 }
