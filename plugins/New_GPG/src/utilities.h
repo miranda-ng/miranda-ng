@@ -22,7 +22,6 @@ wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, 
 void GetFolderPath(wchar_t *WindowTittle);
 
 void setSrmmIcon(MCONTACT);
-void setClistIcon(MCONTACT);
 
 void send_encrypted_msgs_thread(void*);
 
@@ -42,66 +41,7 @@ string toUTF8(wstring str);
 wstring toUTF16(string str);
 string get_random(int length);
 
-struct db_event : public DBEVENTINFO
-{
-public:
-	db_event(char* msg)
-	{
-		eventType = EVENTTYPE_MESSAGE;
-		flags = 0;
-		timestamp = time(0);
-		szModule = 0;
-		cbBlob = DWORD(mir_strlen(msg)+1);
-		pBlob = (PBYTE)msg;
-	}
-	db_event(char* msg, DWORD time)
-	{
-		cbBlob = DWORD(mir_strlen(msg)+1);
-		pBlob = (PBYTE)msg;
-		eventType = EVENTTYPE_MESSAGE;
-		flags = 0;
-		timestamp = time;
-		szModule = 0;
-	}
-	db_event(char* msg, DWORD time, int type)
-	{
-		cbBlob = DWORD(mir_strlen(msg)+1);
-		pBlob = (PBYTE)msg;
-		if(type)
-			eventType = type;
-		else
-			eventType = EVENTTYPE_MESSAGE;
-		flags = 0;
-		timestamp = time;
-		szModule = 0;
-	}
-	db_event(char* msg, int type)
-	{
-		cbBlob = DWORD(mir_strlen(msg)+1);
-		pBlob = (PBYTE)msg;
-		flags = 0;
-		if(type)
-			eventType = type;
-		else
-			eventType = EVENTTYPE_MESSAGE;
-		timestamp = time(0);
-		szModule = 0;
-	}
-	db_event(char* msg, DWORD time, int type, DWORD _flags)
-	{
-		cbBlob = DWORD(mir_strlen(msg)+1);
-		pBlob = (PBYTE)msg;
-		if(type)
-			eventType = type;
-		else
-			eventType = EVENTTYPE_MESSAGE;
-		flags = _flags;
-		timestamp = time;
-		szModule = 0;
-	}
-};
-
-void HistoryLog(MCONTACT, db_event);
+void HistoryLog(MCONTACT, const char *msg, DWORD _time = 0, DWORD _flags = 0);
 void fix_line_term(std::string &s);
 void fix_line_term(std::wstring &s);
 void strip_line_term(std::wstring &s);

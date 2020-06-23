@@ -73,9 +73,6 @@ INT_PTR ExportGpGKeys(WPARAM, LPARAM);
 INT_PTR ImportGpGKeys(WPARAM, LPARAM);
 INT_PTR ToggleEncryption(WPARAM, LPARAM);
 
-int onExtraImageApplying(WPARAM, LPARAM);
-int onExtraImageListRebuilding(WPARAM, LPARAM);
-
 void InitIconLib();
 
 void init_vars()
@@ -132,8 +129,31 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
+static INT_PTR EventGetIcon(WPARAM flags, LPARAM)
+{
+	HICON hIcon = g_plugin.getIcon(IDI_SECURED);
+	return (INT_PTR)((flags & LR_SHARED) ? hIcon : CopyIcon(hIcon));
+}
+
+static INT_PTR GetEventText(WPARAM pEvent, LPARAM datatype)
+{
+	DBEVENTINFO *dbei = (DBEVENTINFO *)pEvent;
+	ptrW wszText(mir_utf8decodeW((char *)dbei->pBlob));
+	return (datatype != DBVT_WCHAR) ? (INT_PTR)mir_u2a(wszText) : (INT_PTR)wszText.detach();
+}
+
 int CMPlugin::Load()
 {
+	DBEVENTTYPEDESCR dbEventType = {};
+	dbEventType.module = MODULENAME;
+	dbEventType.descr = "GPG service event";
+	dbEventType.iconService = MODULENAME "/GetEventIcon";
+	dbEventType.textService = MODULENAME "/GetEventText";
+	DbEvent_RegisterType(&dbEventType);
+
+	CreateServiceFunction(dbEventType.iconService, &EventGetIcon);
+	CreateServiceFunction(dbEventType.textService, &GetEventText);
+
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, HookSendMsg);
 	HookEvent(ME_OPT_INITIALISE, GpgOptInit);
@@ -194,13 +214,17 @@ int CMPlugin::Load()
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, ImportGpGKeys);
 
-	globals.g_hCLIcon = ExtraIcon_RegisterCallback(MODULENAME, Translate("GPG encryption status"), "secured", onExtraImageListRebuilding, onExtraImageApplying);
+	////////////////////////////////////////////////////////////////////////////////////////
+	// Extra icon
+
+	globals.g_hCLIcon = ExtraIcon_RegisterIcolib(MODULENAME, Translate("GPG encryption status"), "secured");
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 extern list<wstring> transfers;
+
 int CMPlugin::Unload()
 {
 	for (auto p : transfers)

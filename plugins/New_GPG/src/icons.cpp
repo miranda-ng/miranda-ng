@@ -32,16 +32,6 @@ HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)
 	return HookEvent(ME_SKIN_ICONSCHANGED, hook);
 }
 
-void setClistIcon(MCONTACT hContact)
-{
-	bool enabled = isContactSecured(hContact);
-	MCONTACT hMC = db_mc_tryMeta(hContact);
-	const char *szIconId = (enabled) ? "secured" : nullptr;
-	ExtraIcon_SetIconByName(globals.g_hCLIcon, hContact, szIconId);
-	if (hMC != hContact)
-		ExtraIcon_SetIconByName(globals.g_hCLIcon, hMC, szIconId);
-}
-
 void setSrmmIcon(MCONTACT h)
 {
 	MCONTACT hContact = db_mc_isMeta(h) ? metaGetMostOnline(h) : h;
@@ -57,12 +47,9 @@ void setSrmmIcon(MCONTACT h)
 	Srmm_SetIconFlags(hContact, MODULENAME, 2, flags);
 	if (hMC != hContact)
 		Srmm_SetIconFlags(hMC, MODULENAME, 2, flags);
-}
 
-void RefreshContactListIcons()
-{
-	for (auto &hContact : Contacts())
-		setClistIcon(hContact);
-
-	Clist_EndRebuild();
+	const char *szIconId = (enabled) ? "secured" : nullptr;
+	ExtraIcon_SetIconByName(globals.g_hCLIcon, hContact, szIconId);
+	if (hMC != hContact)
+		ExtraIcon_SetIconByName(globals.g_hCLIcon, hMC, szIconId);
 }

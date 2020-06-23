@@ -26,7 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\clist.cpp" />
     <ClCompile Include="src\gpg_wrapper.cpp" />
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\init.cpp" />

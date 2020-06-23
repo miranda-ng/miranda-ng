@@ -201,7 +201,6 @@ public:
 						g_plugin.delSetting(hcnt, "KeyType");
 						g_plugin.delSetting(hcnt, "KeyMainEmail");
 						g_plugin.delSetting(hcnt, "KeyComment");
-						setClistIcon(hcnt);
 						setSrmmIcon(hcnt);
 					}
 				}
@@ -213,7 +212,6 @@ public:
 				g_plugin.delSetting(hContact, "KeyType");
 				g_plugin.delSetting(hContact, "KeyMainEmail");
 				g_plugin.delSetting(hContact, "KeyComment");
-				setClistIcon(hContact);
 				setSrmmIcon(hContact);
 			}
 		}
@@ -224,7 +222,6 @@ public:
 			g_plugin.delSetting(hContact, "KeyType");
 			g_plugin.delSetting(hContact, "KeyMainEmail");
 			g_plugin.delSetting(hContact, "KeyComment");
-			setClistIcon(hContact);
 			setSrmmIcon(hContact);
 		}
 
@@ -314,15 +311,11 @@ public:
 		if (hdr->iItem == -1)
 			return;
 
-		void setClistIcon(MCONTACT hContact);
-		void setSrmmIcon(MCONTACT hContact);
-
 		MCONTACT hContact = list_USERLIST.GetItemData(hdr->iItem);
 		if (list_USERLIST.GetCheckState(hdr->iItem))
 			g_plugin.setByte(hContact, "GPGEncryption", 1);
 		else
 			g_plugin.setByte(hContact, "GPGEncryption", 0);
-		setClistIcon(hContact);
 		setSrmmIcon(hContact);
 	}
 
@@ -904,7 +897,6 @@ public:
 							if (hcnt) {
 								g_plugin.setByte(hcnt, "GPGEncryption", !isContactSecured(hcnt));
 								setSrmmIcon(hContact);
-								setClistIcon(hContact);
 							}
 						}
 					}

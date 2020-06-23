@@ -20,7 +20,7 @@ std::list<HANDLE> sent_msgs;
 
 struct RecvParams
 {
-	RecvParams(MCONTACT _p1, std::wstring _p2, char *_p3, DWORD _p4) :
+	RecvParams(MCONTACT _p1, std::wstring _p2, const char *_p3, DWORD _p4) :
 		hContact(_p1),
 		str(_p2),
 		msg(_p3),
@@ -29,13 +29,12 @@ struct RecvParams
 
 	MCONTACT hContact;
 	std::wstring str;
-	char *msg;
+	std::string msg;
 	DWORD timestamp;
 };
 
 static void RecvMsgSvc_func(RecvParams *param)
 {
-	DWORD dbflags = DBEF_UTF;
 	MCONTACT hContact = param->hContact;
 	std::string szScreenName(toUTF8(Clist_GetContactDisplayName(hContact)));
 	{
@@ -52,17 +51,15 @@ static void RecvMsgSvc_func(RecvParams *param)
 					else {
 						g_plugin.setByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption", 1);
 						setSrmmIcon(hContact);
-						setClistIcon(hContact);
 					}
 
 					if (isContactHaveKey(hContact)) {
 						g_plugin.setByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption", 1);
 						setSrmmIcon(hContact);
-						setClistIcon(hContact);
 					}
 				}
 				else if (MessageBox(nullptr, TranslateT("Do you want to try to decrypt encrypted message?"), TranslateT("Warning"), MB_YESNO) == IDNO) {
-					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 					delete param;
 					return;
 				}
@@ -93,7 +90,6 @@ static void RecvMsgSvc_func(RecvParams *param)
 						if (count >= timeout) {
 							g_plugin.setByte(hContact, "GPGEncryption", 0);
 							setSrmmIcon(hContact);
-							setClistIcon(hContact);
 							globals.debuglog << "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock";
 							delete param;
 							return;
@@ -154,7 +150,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						boost::system::error_code e;
 						boost::filesystem::remove(path, e);
 					}
-					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 					SendErrorMessage(hContact);
 					delete param;
 					return;
@@ -165,7 +161,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						boost::filesystem::remove(path, e);
 					}
 
-					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 					delete param;
 					return;
 				}
@@ -207,7 +203,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 							boost::filesystem::remove(path, e);
 						}
 
-						HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+						HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 						SendErrorMessage(hContact);
 						delete param;
 						return;
@@ -218,7 +214,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 							boost::filesystem::remove(path, e);
 						}
 
-						HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+						HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 						delete param;
 						return;
 					}
@@ -230,7 +226,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						boost::filesystem::remove(path, e);
 					}
 
-					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 					SendErrorMessage(hContact);
 					delete param;
 					return;
@@ -242,7 +238,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						boost::filesystem::remove(path, e);
 					}
 
-					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 				}
 
 				if (!globals.debuglog) {
@@ -258,7 +254,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 
 					ptrA tmp4((char*)mir_alloc(sizeof(char)*(str1.length() + 1)));
 					mir_strcpy(tmp4, str1.c_str());
-					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 					SendErrorMessage(hContact);
 					delete param;
 					return;
@@ -294,7 +290,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 					if (globals.debuglog)
 						globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
 
-					HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 					SendErrorMessage(hContact);
 					delete param;
 					return;
@@ -307,7 +303,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 				}
 
 				char *tmp = mir_strdup(toUTF8(param->str).c_str());
-				HistoryLog(hContact, db_event(tmp, param->timestamp, 0, dbflags));
+				HistoryLog(hContact, tmp, param->timestamp);
 				mir_free(tmp);
 				delete param;
 				return;
@@ -316,12 +312,12 @@ static void RecvMsgSvc_func(RecvParams *param)
 	}
 	
 	if (g_plugin.getByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption")) {
-		HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags | DBEF_READ));
+		HistoryLog(hContact, param->msg.c_str(), param->timestamp, DBEF_READ);
 		delete param;
 		return;
 	}
 
-	HistoryLog(hContact, db_event(param->msg, param->timestamp, 0, dbflags));
+	HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 	delete param;
 }
 
@@ -337,7 +333,6 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	if (!msg)
 		return Proto_ChainRecv(w, ccs);
 	
-	DWORD dbflags = DBEF_UTF;
 	if (db_mc_isMeta(ccs->hContact)) {
 		if (!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
 			return Proto_ChainRecv(w, ccs);
@@ -380,7 +375,6 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 						if (count >= timeout) {
 							g_plugin.setByte(ccs->hContact, "GPGEncryption", 0);
 							setSrmmIcon(ccs->hContact);
-							setClistIcon(ccs->hContact);
 							globals.debuglog << "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock";
 							return 1;
 						}
@@ -455,11 +449,9 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 				g_plugin.setByte(ccs->hContact, "GPGEncryption", 1);
 				g_plugin.setByte(ccs->hContact, "bAlwatsTrust", 1);
 				setSrmmIcon(ccs->hContact);
-				setClistIcon(ccs->hContact);
-				if (db_mc_isSub(ccs->hContact)) {
+				if (db_mc_isSub(ccs->hContact))
 					setSrmmIcon(db_mc_getMeta(ccs->hContact));
-					setClistIcon(db_mc_getMeta(ccs->hContact));
-				}
+
 				HistoryLog(ccs->hContact, "PGP Encryption turned on by key autoexchange feature");
 			}
 			return 1;
@@ -481,7 +473,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			s2 += mir_wstrlen(L"-----END PGP PRIVATE KEY BLOCK-----");
 		CDlgNewKey *d = new CDlgNewKey(ccs->hContact, str.substr(s1, s2 - s1));
 		d->Show();
-		HistoryLog(ccs->hContact, db_event(msg, 0, 0, dbflags));
+		HistoryLog(ccs->hContact, msg);
 		return 0;
 	}
 
@@ -549,7 +541,7 @@ LBL_Relaunch:
 	{
 		CMStringA tmp(g_plugin.getMStringA(hContact, "KeyID"));
 		if (tmp.IsEmpty()) {
-			HistoryLog(hContact, db_event("Failed to encrypt message with GPG (not found key for encryption in db)", 0, 0, DBEF_SENT));
+			HistoryLog(hContact, "Failed to encrypt message with GPG (not found key for encryption in db", DBEF_SENT);
 			ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
 			return;
 		}
@@ -579,7 +571,6 @@ LBL_Relaunch:
 			if (count >= timeout) {
 				g_plugin.setByte(hContact, "GPGEncryption", 0); //disable encryption
 				setSrmmIcon(hContact);
-				setClistIcon(hContact);
 				globals.debuglog << "info: failed to create temporary file for encryption, disabling encryption to avoid deadlock";
 				break;
 			}
@@ -637,7 +628,6 @@ LBL_Relaunch:
 		if (count >= timeout) {
 			g_plugin.setByte(hContact, "GPGEncryption", 0); //disable encryption
 			setSrmmIcon(hContact);
-			setClistIcon(hContact);
 			globals.debuglog << "info: gpg failed to encrypt message, disabling encryption to avoid deadlock";
 			break;
 		}
@@ -660,7 +650,7 @@ LBL_Relaunch:
 	}
 
 	if (str.empty()) {
-		HistoryLog(hContact, db_event("Failed to encrypt message with GPG", 0, 0, DBEF_SENT));
+		HistoryLog(hContact, "Failed to encrypt message with GPG", DBEF_SENT);
 		if (globals.debuglog)
 			globals.debuglog << "info: Failed to encrypt message with GPG";
 		ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)msg);

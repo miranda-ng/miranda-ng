@@ -128,7 +128,7 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 		msg += keyid;
 		msg += " sent";
 
-		HistoryLog(hContact, db_event((char*)msg.c_str(), 0, 0, DBEF_SENT));
+		HistoryLog(hContact, msg.c_str(), DBEF_SENT);
 		g_plugin.setByte(hContact, "GPGEncryption", enc);
 	}
 
@@ -155,10 +155,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM)
 		enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 		g_plugin.setByte(hContact, "GPGEncryption", enc ? 0 : 1);
 	}
-	void setSrmmIcon(MCONTACT hContact);
-	void setClistIcon(MCONTACT hContact);
 	setSrmmIcon(hContact);
-	setClistIcon(hContact);
 
 	Menu_ModifyItem(globals.hToggleEncryption, enc ? LPGENW("Turn off GPG encryption") : LPGENW("Turn on GPG encryption"));
 	return 0;
@@ -240,7 +237,7 @@ int onProtoAck(WPARAM, LPARAM l)
 							return 0;
 						if (!globals.bDecryptFiles)
 							return 0;
-						HistoryLog(ack->hContact, db_event("Received encrypted file, trying to decrypt", 0, 0, 0));
+						HistoryLog(ack->hContact, "Received encrypted file, trying to decrypt");
 						if (!boost::filesystem::exists(f->szCurrentFile.w))
 							return 0;
 
@@ -337,7 +334,7 @@ int onProtoAck(WPARAM, LPARAM l)
 			if (ack->result == ACKRESULT_FAILED) {
 				std::list<HANDLE>::iterator it = std::find(sent_msgs.begin(), sent_msgs.end(), ack->hProcess);
 				if (it != sent_msgs.end())
-					HistoryLog(ack->hContact, db_event("Failed to send encrypted message", 0, 0, 0));
+					HistoryLog(ack->hContact, "Failed to send encrypted message");
 			}
 			else if (ack->result == ACKRESULT_SUCCESS) {
 				std::list<HANDLE>::iterator it = std::find(sent_msgs.begin(), sent_msgs.end(), ack->hProcess);
@@ -439,7 +436,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 			if (MessageBox(nullptr, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
 				return Proto_ChainSend(w, ccs);
 		}
-		HistoryLog(ccs->hContact, db_event(Translate("encrypting file for transfer"), 0, 0, DBEF_SENT));
+		HistoryLog(ccs->hContact, TranslateU("encrypting file for transfer"), DBEF_SENT);
 		if (StriStr(ccs->szProtoService, "/sendfilew")) {
 			wchar_t **file = (wchar_t **)ccs->lParam;
 			for (int i = 0; file[i]; i++) {
@@ -474,19 +471,15 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 	return Proto_ChainSend(w, ccs);
 }
 
-void HistoryLog(MCONTACT hContact, db_event evt)
+void HistoryLog(MCONTACT hContact, const char *msg, DWORD _time, DWORD flags)
 {
-	DBEVENTINFO Event = {};
-	Event.szModule = MODULENAME;
-	Event.eventType = evt.eventType;
-	Event.flags = evt.flags;
-	if (!evt.timestamp)
-		Event.timestamp = (DWORD)time(0);
-	else
-		Event.timestamp = evt.timestamp;
-	Event.cbBlob = (DWORD)mir_strlen((char*)evt.pBlob) + 1;
-	Event.pBlob = (PBYTE)_strdup((char*)evt.pBlob);
-	db_event_add(hContact, &Event);
+	DBEVENTINFO dbei = {};
+	dbei.szModule = MODULENAME;
+	dbei.flags = DBEF_UTF | flags;
+	dbei.timestamp = (_time) ? _time : (DWORD)time(0);
+	dbei.cbBlob = (DWORD)mir_strlen(msg) + 1;
+	dbei.pBlob = (PBYTE)msg;
+	db_event_add(hContact, &dbei);
 }
 
 static int ControlAddStringUtf(HWND ctrl, DWORD msg, const wchar_t *szString)
@@ -949,7 +942,7 @@ void send_encrypted_msgs_thread(void *param)
 			extern std::list<HANDLE> sent_msgs;
 			for (list<string>::iterator p = globals.hcontact_data[hContact].msgs_to_send.begin(); p != end; ++p) {
 				sent_msgs.push_back((HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)p->c_str()));
-				HistoryLog(hContact, db_event((char*)p->c_str(), 0, 0, DBEF_SENT));
+				HistoryLog(hContact, p->c_str(), DBEF_SENT);
 				Sleep(1000);
 			}
 			globals.hcontact_data[hContact].msgs_to_send.clear();
@@ -1228,7 +1221,7 @@ void SendErrorMessage(MCONTACT hContact)
 	BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 	g_plugin.setByte(hContact, "GPGEncryption", 0);
 	ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
-	HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
+	HistoryLog(hContact, "Error message sent", DBEF_SENT);
 	g_plugin.setByte(hContact, "GPGEncryption", enc);
 }
 

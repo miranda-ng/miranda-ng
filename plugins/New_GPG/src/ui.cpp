@@ -837,10 +837,7 @@ void CDlgNewKey::onClick_IMPORT_AND_USE(CCtrlButton*)
 {
 	ImportKey(hContact, new_key);
 	g_plugin.setByte(hContact, "GPGEncryption", 1);
-	void setSrmmIcon(MCONTACT hContact);
-	void setClistIcon(MCONTACT hContact);
 	setSrmmIcon(hContact);
-	setClistIcon(hContact);
 	this->Close();
 }
 

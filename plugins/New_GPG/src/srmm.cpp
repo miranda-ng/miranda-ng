@@ -47,7 +47,6 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 		if (hMeta)
 			g_plugin.setByte(hMeta, "GPGEncryption", 0);
 		setSrmmIcon(hContact);
-		setClistIcon(hContact);
 	}
 	else if (!enc) {
 		if (!isContactHaveKey(hContact))
@@ -57,7 +56,6 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 			if (hMeta)
 				g_plugin.setByte(hMeta, "GPGEncryption", 1);
 			setSrmmIcon(hContact);
-			setClistIcon(hContact);
 			return 0;
 		}
 
@@ -66,7 +64,6 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 			if (hMeta)
 				g_plugin.setByte(hMeta, "GPGEncryption", 1);
 			setSrmmIcon(hContact);
-			setClistIcon(hContact);
 		}
 	}
 	return 0;
