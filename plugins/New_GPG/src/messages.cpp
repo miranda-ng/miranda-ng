@@ -37,287 +37,259 @@ static void RecvMsgSvc_func(RecvParams *param)
 {
 	MCONTACT hContact = param->hContact;
 	std::string szScreenName(toUTF8(Clist_GetContactDisplayName(hContact)));
-	{
-		// check for gpg related data
-		wstring::size_type s1 = param->str.find(L"-----BEGIN PGP MESSAGE-----");
-		wstring::size_type s2 = param->str.find(L"-----END PGP MESSAGE-----");
-		if (s2 != wstring::npos && s1 != wstring::npos) { //this is generic encrypted data block
-			if (!isContactSecured(hContact)) {
-				if (globals.debuglog)
-					globals.debuglog << "info: received encrypted message from: " + szScreenName + " with turned off encryption";
-				if (MessageBox(nullptr, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
-					if (!isContactHaveKey(hContact))
-						ShowLoadPublicKeyDialog(hContact, true);
-					else {
-						g_plugin.setByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption", 1);
-						setSrmmIcon(hContact);
-					}
 
-					if (isContactHaveKey(hContact)) {
-						g_plugin.setByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption", 1);
-						setSrmmIcon(hContact);
-					}
+	// check for gpg related data
+	wstring::size_type s1 = param->str.find(L"-----BEGIN PGP MESSAGE-----");
+	wstring::size_type s2 = param->str.find(L"-----END PGP MESSAGE-----");
+	if (s2 != wstring::npos && s1 != wstring::npos) { //this is generic encrypted data block
+		if (!isContactSecured(hContact)) {
+			if (globals.debuglog)
+				globals.debuglog << "info: received encrypted message from: " + szScreenName + " with turned off encryption";
+			if (MessageBox(nullptr, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
+				if (!isContactHaveKey(hContact))
+					ShowLoadPublicKeyDialog(hContact, true);
+				else {
+					g_plugin.setByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption", 1);
+					setSrmmIcon(hContact);
 				}
-				else if (MessageBox(nullptr, TranslateT("Do you want to try to decrypt encrypted message?"), TranslateT("Warning"), MB_YESNO) == IDNO) {
-					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-					delete param;
-					return;
+
+				if (isContactHaveKey(hContact)) {
+					g_plugin.setByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption", 1);
+					setSrmmIcon(hContact);
 				}
 			}
-			else if (globals.debuglog)
-				globals.debuglog << "info: received encrypted message from: " + szScreenName;
-			boost::algorithm::erase_all(param->str, "\r");
-			s2 += mir_wstrlen(L"-----END PGP MESSAGE-----");
+			else if (MessageBox(nullptr, TranslateT("Do you want to try to decrypt encrypted message?"), TranslateT("Warning"), MB_YESNO) == IDNO) {
+				HistoryLog(hContact, param->msg.c_str(), param->timestamp);
+				delete param;
+				return;
+			}
+		}
+		else if (globals.debuglog)
+			globals.debuglog << "info: received encrypted message from: " + szScreenName;
+		boost::algorithm::erase_all(param->str, "\r");
+		s2 += mir_wstrlen(L"-----END PGP MESSAGE-----");
 
-			ptrW ptszHomePath(g_plugin.getWStringA("szHomePath", L""));
-			wstring encfile = toUTF16(get_random(10));
-			wstring decfile = toUTF16(get_random(10));
+		ptrW ptszHomePath(g_plugin.getWStringA("szHomePath", L""));
+		wstring encfile = toUTF16(get_random(10));
+		wstring decfile = toUTF16(get_random(10));
+		{
+			wstring path = wstring(ptszHomePath) + L"\\tmp\\" + encfile;
+			if (!globals.debuglog) {
+				boost::system::error_code e;
+				boost::filesystem::remove(path, e);
+			}
+
 			{
-				wstring path = wstring(ptszHomePath) + L"\\tmp\\" + encfile;
+				const int timeout = 5000, step = 100;
+				int count = 0;
+
+				fstream f(path.c_str(), std::ios::out);
+				while (!f.is_open()) {
+					::Sleep(step);
+					count += step;
+					if (count >= timeout) {
+						g_plugin.setByte(hContact, "GPGEncryption", 0);
+						setSrmmIcon(hContact);
+						globals.debuglog << "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock";
+						delete param;
+						return;
+					}
+					f.open(path.c_str(), std::ios::out);
+				}
+				char *tmp = mir_u2a(param->str.substr(s1, s2 - s1).c_str());
+				f << tmp;
+				mir_free(tmp);
+				f.close();
+			}
+
+			gpg_execution_params params;
+			params.addParam(L"--batch");
+			{
+				CMStringA inkeyid = g_plugin.getMStringA(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "InKeyID");
+				CMStringW pass;
+				if (!inkeyid.IsEmpty()) {
+					string dbsetting = "szKey_";
+					dbsetting += inkeyid;
+					dbsetting += "_Password";
+					pass = g_plugin.getMStringW(dbsetting.c_str());
+					if (!pass.IsEmpty() && globals.debuglog)
+						globals.debuglog << "info: found password in database for key ID: " + string(inkeyid.c_str()) + ", trying to decrypt message from " + szScreenName + " with password";
+				}
+				else {
+					pass = g_plugin.getMStringW("szKeyPassword");
+					if (!pass.IsEmpty() && globals.debuglog)
+						globals.debuglog << "info: found password for all keys in database, trying to decrypt message from " + szScreenName + " with password";
+				}
+				if (!pass.IsEmpty()) {
+					params.addParam(L"--passphrase");
+					params.addParam(pass.c_str());
+				}
+				else if (!globals.wszPassword.IsEmpty()) {
+					if (globals.debuglog)
+						globals.debuglog << "info: found password in memory, trying to decrypt message from " + szScreenName + " with password";
+					params.addParam(L"--passphrase");
+					params.addParam(globals.wszPassword.c_str());
+				}
+				else if (globals.debuglog)
+					globals.debuglog << "info: passwords not found in database or memory, trying to decrypt message from " + szScreenName + " without password";
+			}
+
+			if (!globals.debuglog) {
+				boost::system::error_code e;
+				boost::filesystem::remove(wstring(ptszHomePath) + L"\\tmp\\" + decfile, e);
+			}
+
+			params.addParam(L"--output");
+			params.addParam(std::wstring(ptszHomePath) + L"\\tmp\\" + decfile);
+			params.addParam(L"-d");
+			params.addParam(L"-a");
+			params.addParam(path);
+				
+			bool bRes = gpg_launcher(params);
+			if (!bRes || params.result == pxNotFound) {
 				if (!globals.debuglog) {
 					boost::system::error_code e;
 					boost::filesystem::remove(path, e);
 				}
 
-				{
-					const int timeout = 5000, step = 100;
-					int count = 0;
-
-					fstream f(path.c_str(), std::ios::out);
-					while (!f.is_open()) {
-						::Sleep(step);
-						count += step;
-						if (count >= timeout) {
-							g_plugin.setByte(hContact, "GPGEncryption", 0);
-							setSrmmIcon(hContact);
-							globals.debuglog << "info: failed to create temporary file for decryption, disabling gpg for contact to avoid deadlock";
-							delete param;
-							return;
-						}
-						f.open(path.c_str(), std::ios::out);
-					}
-					char *tmp = mir_u2a(param->str.substr(s1, s2 - s1).c_str());
-					f << tmp;
-					mir_free(tmp);
-					f.close();
-				}
-
-				gpg_execution_params params;
-				params.addParam(L"--batch");
-				{
-					CMStringA inkeyid = g_plugin.getMStringA(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "InKeyID");
-					CMStringW pass;
-					if (!inkeyid.IsEmpty()) {
-						string dbsetting = "szKey_";
-						dbsetting += inkeyid;
-						dbsetting += "_Password";
-						pass = g_plugin.getMStringW(dbsetting.c_str());
-						if (!pass.IsEmpty() && globals.debuglog)
-							globals.debuglog << "info: found password in database for key ID: " + string(inkeyid.c_str()) + ", trying to decrypt message from " + szScreenName + " with password";
-					}
-					else {
-						pass = g_plugin.getMStringW("szKeyPassword");
-						if (!pass.IsEmpty() && globals.debuglog)
-							globals.debuglog << "info: found password for all keys in database, trying to decrypt message from " + szScreenName + " with password";
-					}
-					if (!pass.IsEmpty()) {
-						params.addParam(L"--passphrase");
-						params.addParam(pass.c_str());
-					}
-					else if (!globals.wszPassword.IsEmpty()) {
-						if (globals.debuglog)
-							globals.debuglog << "info: found password in memory, trying to decrypt message from " + szScreenName + " with password";
-						params.addParam(L"--passphrase");
-						params.addParam(globals.wszPassword.c_str());
-					}
-					else if (globals.debuglog)
-						globals.debuglog << "info: passwords not found in database or memory, trying to decrypt message from " + szScreenName + " without password";
-				}
-
-				if (!globals.debuglog) {
-					boost::system::error_code e;
-					boost::filesystem::remove(wstring(ptszHomePath) + L"\\tmp\\" + decfile, e);
-				}
-
-				params.addParam(L"--output");
-				params.addParam(std::wstring(ptszHomePath) + L"\\tmp\\" + decfile);
-				params.addParam(L"-d");
-				params.addParam(L"-a");
-				params.addParam(path);
-				
-				if (!gpg_launcher(params)) {
-					if (!globals.debuglog) {
-						boost::system::error_code e;
-						boost::filesystem::remove(path, e);
-					}
-					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-					SendErrorMessage(hContact);
-					delete param;
-					return;
-				}
-				if (params.result == pxNotFound) {
-					if (!globals.debuglog) {
-						boost::system::error_code e;
-						boost::filesystem::remove(path, e);
-					}
-
-					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-					delete param;
-					return;
-				}
-
-				// TODO: check gpg output for errors
-				globals._terminate = false;
-
-				string out(params.out);
-				while (out.find("public key decryption failed: bad passphrase") != string::npos) {
-					if (globals.debuglog)
-						globals.debuglog << "info: failed to decrypt messaage from " + szScreenName + " password needed, trying to get one";
-					if (globals._terminate) {
-						SendErrorMessage(hContact);
-						break;
-					}
-					{ //save inkey id
-						string::size_type s = out.find(" encrypted with ");
-						s = out.find(" ID ", s);
-						s += mir_strlen(" ID ");
-						g_plugin.setString(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "InKeyID", out.substr(s, out.find(",", s) - s).c_str());
-					}
-
-					CDlgKeyPasswordMsgBox *d = new CDlgKeyPasswordMsgBox(hContact);
-					d->DoModal();
-
-					gpg_execution_params params2;
-					params2.aargv = params.aargv;
-					if (!globals.wszPassword.IsEmpty()) {
-						if (globals.debuglog)
-							globals.debuglog << "info: found password in memory, trying to decrypt message from " + szScreenName;
-
-						params2.addParam(L"--passphrase");
-						params2.addParam(globals.wszPassword.c_str());
-					}
-
-					if (!gpg_launcher(params2)) {
-						if (!globals.debuglog) {
-							boost::system::error_code e;
-							boost::filesystem::remove(path, e);
-						}
-
-						HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-						SendErrorMessage(hContact);
-						delete param;
-						return;
-					}
-					if (params2.result == pxNotFound) {
-						if (!globals.debuglog) {
-							boost::system::error_code e;
-							boost::filesystem::remove(path, e);
-						}
-
-						HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-						delete param;
-						return;
-					}
-				}
-				out.clear();
-				if (!gpg_launcher(params)) {
-					if (!globals.debuglog) {
-						boost::system::error_code e;
-						boost::filesystem::remove(path, e);
-					}
-
-					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-					SendErrorMessage(hContact);
-					delete param;
-					return;
-				}
-
-				if (params.result == pxNotFound) {
-					if (!globals.debuglog) {
-						boost::system::error_code e;
-						boost::filesystem::remove(path, e);
-					}
-
-					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-				}
-
-				if (!globals.debuglog) {
-					boost::system::error_code e;
-					boost::filesystem::remove(wstring(ptszHomePath) + L"\\tmp\\" + encfile, e);
-				}
-
-				if (!boost::filesystem::exists(wstring(ptszHomePath) + L"\\tmp\\" + decfile)) {
-					string str1 = param->msg;
-					str1.insert(0, "Received unencrypted message:\n");
-					if (globals.debuglog)
-						globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
-
-					ptrA tmp4((char*)mir_alloc(sizeof(char)*(str1.length() + 1)));
-					mir_strcpy(tmp4, str1.c_str());
-					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-					SendErrorMessage(hContact);
-					delete param;
-					return;
-				}
-
-				param->str.clear();
-
-				wstring tszDecPath = wstring(ptszHomePath) + L"\\tmp\\" + decfile;
-				{
-					fstream f(tszDecPath.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
-					if (f.is_open()) {
-						size_t size = f.tellg();
-						char *tmp = new char[size + 1];
-						f.seekg(0, std::ios::beg);
-						f.read(tmp, size);
-						tmp[size] = '\0';
-						toUTF16(tmp);
-						param->str.append(toUTF16(tmp));
-						delete[] tmp;
-						f.close();
-						if (!globals.debuglog) {
-							boost::system::error_code ec;
-							boost::filesystem::remove(tszDecPath, ec);
-							if (ec) {
-								//TODO: handle error
-							}
-						}
-					}
-				}
-				if (param->str.empty()) {
-					string szMsg = param->msg;
-					szMsg.insert(0, "Failed to decrypt GPG encrypted message.\nMessage body for manual decryption:\n");
-					if (globals.debuglog)
-						globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
-
-					HistoryLog(hContact, param->msg.c_str(), param->timestamp);
-					SendErrorMessage(hContact);
-					delete param;
-					return;
-				}
-
-				fix_line_term(param->str);
-				if (g_plugin.bAppendTags) {
-					param->str.insert(0, globals.wszInopentag);
-					param->str.append(globals.wszInclosetag);
-				}
-
-				char *tmp = mir_strdup(toUTF8(param->str).c_str());
-				HistoryLog(hContact, tmp, param->timestamp);
-				mir_free(tmp);
+				SendErrorMessage(hContact);
+				HistoryLog(hContact, TranslateU("GPG cannot decrypt imcoming message"), param->timestamp);
 				delete param;
 				return;
 			}
+
+			// TODO: check gpg output for errors
+			globals._terminate = false;
+
+			string out(params.out);
+			while (out.find("public key decryption failed: bad passphrase") != string::npos) {
+				if (globals.debuglog)
+					globals.debuglog << "info: failed to decrypt messaage from " + szScreenName + " password needed, trying to get one";
+				if (globals._terminate) {
+					SendErrorMessage(hContact);
+					break;
+				}
+				{
+					// save inkey id
+					string::size_type s = out.find(" encrypted with ");
+					s = out.find(" ID ", s);
+					s += mir_strlen(" ID ");
+					g_plugin.setString(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "InKeyID", out.substr(s, out.find(",", s) - s).c_str());
+				}
+
+				CDlgKeyPasswordMsgBox(hContact).DoModal();
+
+				gpg_execution_params params2;
+				params2.aargv = params.aargv;
+				if (!globals.wszPassword.IsEmpty()) {
+					if (globals.debuglog)
+						globals.debuglog << "info: found password in memory, trying to decrypt message from " + szScreenName;
+
+					params2.addParam(L"--passphrase");
+					params2.addParam(globals.wszPassword.c_str());
+				}
+
+				bRes = gpg_launcher(params2);
+				if (!bRes || params2.result == pxNotFound) {
+					if (!globals.debuglog) {
+						boost::system::error_code e;
+						boost::filesystem::remove(path, e);
+					}
+
+					HistoryLog(hContact, TranslateU("GPG cannot decrypt imcoming message"), param->timestamp);
+					SendErrorMessage(hContact);
+					delete param;
+					return;
+				}
+			}
+				
+			out.clear();
+			bRes = gpg_launcher(params);
+			if (!bRes || params.result == pxNotFound) {
+				if (!globals.debuglog) {
+					boost::system::error_code e;
+					boost::filesystem::remove(path, e);
+				}
+
+				HistoryLog(hContact, TranslateU("GPG cannot decrypt imcoming message"), param->timestamp);
+				SendErrorMessage(hContact);
+				delete param;
+				return;
+			}
+
+			if (!globals.debuglog) {
+				boost::system::error_code e;
+				boost::filesystem::remove(wstring(ptszHomePath) + L"\\tmp\\" + encfile, e);
+			}
+
+			if (!boost::filesystem::exists(wstring(ptszHomePath) + L"\\tmp\\" + decfile)) {
+				if (globals.debuglog)
+					globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
+
+				string str1 = param->msg;
+				str1.insert(0, "\n");
+				str1.insert(0, TranslateU("Received unencrypted message:"));
+
+				HistoryLog(hContact, str1.c_str(), param->timestamp);
+				SendErrorMessage(hContact);
+				delete param;
+				return;
+			}
+
+			param->str.clear();
+
+			wstring tszDecPath = wstring(ptszHomePath) + L"\\tmp\\" + decfile;
+
+			fstream f(tszDecPath.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
+			if (f.is_open()) {
+				size_t size = f.tellg();
+				char *tmp = new char[size + 1];
+				f.seekg(0, std::ios::beg);
+				f.read(tmp, size);
+				tmp[size] = '\0';
+				
+				param->str.append(toUTF16(tmp));
+				delete[] tmp;
+				f.close();
+				if (!globals.debuglog) {
+					boost::system::error_code ec;
+					boost::filesystem::remove(tszDecPath, ec);
+					if (ec) {
+						//TODO: handle error
+					}
+				}
+			}
+
+			if (param->str.empty()) {
+				if (globals.debuglog)
+					globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
+
+				string szMsg = param->msg;
+				szMsg.insert(0, TranslateU("Failed to decrypt GPG encrypted message.\nMessage body for manual decryption:\n"));
+
+				HistoryLog(hContact, param->msg.c_str(), param->timestamp);
+				SendErrorMessage(hContact);
+				delete param;
+				return;
+			}
+
+			fix_line_term(param->str);
+			if (g_plugin.bAppendTags) {
+				param->str.insert(0, globals.wszInopentag);
+				param->str.append(globals.wszInclosetag);
+			}
+
+			HistoryLog(hContact, toUTF8(param->str).c_str(), param->timestamp);
+			delete param;
+			return;
 		}
 	}
 	
-	if (g_plugin.getByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption")) {
+	if (g_plugin.getByte(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, "GPGEncryption"))
 		HistoryLog(hContact, param->msg.c_str(), param->timestamp, DBEF_READ);
-		delete param;
-		return;
-	}
+	else
+		HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 
-	HistoryLog(hContact, param->msg.c_str(), param->timestamp);
 	delete param;
 }
 
@@ -326,9 +298,11 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	CCSDATA *ccs = (CCSDATA*)l;
 	if (!ccs)
 		return Proto_ChainRecv(w, ccs);
+
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)(ccs->lParam);
 	if (!pre)
 		return Proto_ChainRecv(w, ccs);
+
 	char *msg = pre->szMessage;
 	if (!msg)
 		return Proto_ChainRecv(w, ccs);
@@ -342,6 +316,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 			return 0;
 		}
 	}
+	
 	wstring str = toUTF16(msg);
 	size_t s1, s2;
 	if (g_plugin.bAutoExchange && (str.find(L"-----PGP KEY RESPONSE-----") != wstring::npos)) {

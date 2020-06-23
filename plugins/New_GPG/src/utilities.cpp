@@ -303,8 +303,8 @@ int onProtoAck(WPARAM, LPARAM l)
 								else
 									g_plugin.setString(ack->hContact, "InKeyID", out.substr(s, s2 - s).c_str());
 							}
-							CDlgKeyPasswordMsgBox *d = new CDlgKeyPasswordMsgBox(ack->hContact);
-							d->DoModal();
+							
+							CDlgKeyPasswordMsgBox(ack->hContact).DoModal();
 
 							if (!globals.wszPassword.IsEmpty()) {
 								if (globals.debuglog)
@@ -1015,12 +1015,6 @@ void ExportGpGKeysFunc(int type)
 	MessageBox(nullptr, msg, TranslateT("Keys export result"), MB_OK);
 }
 
-INT_PTR ExportGpGKeys(WPARAM, LPARAM)
-{
-	(new CDlgExportKeysMsgBox())->Show();
-	return 0;
-}
-
 INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 {
 	ptrW p(GetFilePath(L"Choose file to import keys from", L"*", L"Any file"));
@@ -1269,12 +1263,6 @@ void strip_tags(std::wstring &str)
 void ShowEncryptedFileMsgBox()
 {
 	CDlgEncryptedFileMsgBox *d = new CDlgEncryptedFileMsgBox;
-	d->DoModal();
-}
-
-void ShowChangePasswdDlg()
-{
-	CDlgChangePasswdMsgBox *d = new CDlgChangePasswdMsgBox;
 	d->DoModal();
 }
 

@@ -21,6 +21,201 @@ globals_s globals;
 HWND hwndCurKey_p = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Load existing key dialog
+
+class CDlgLoadExistingKey : public CDlgBase
+{
+	wchar_t id[16];
+	CCtrlListView list_EXISTING_KEY_LIST;
+
+public:
+	CDlgLoadExistingKey() :
+		CDlgBase(g_plugin, IDD_LOAD_EXISTING_KEY),
+		list_EXISTING_KEY_LIST(this, IDC_EXISTING_KEY_LIST)
+	{
+		id[0] = 0;
+	}
+
+	bool OnInitDialog() override
+	{
+		Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "LoadKeyWindow");
+
+		list_EXISTING_KEY_LIST.AddColumn(0, TranslateT("Key ID"), 50);
+		list_EXISTING_KEY_LIST.AddColumn(1, TranslateT("Email"), 30);
+		list_EXISTING_KEY_LIST.AddColumn(2, TranslateT("Name"), 250);
+		list_EXISTING_KEY_LIST.AddColumn(3, TranslateT("Creation date"), 30);
+		list_EXISTING_KEY_LIST.AddColumn(4, TranslateT("Expiration date"), 30);
+		list_EXISTING_KEY_LIST.AddColumn(5, TranslateT("Key length"), 30);
+		list_EXISTING_KEY_LIST.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_SINGLEROW);
+		int i = 1;
+
+		// parse gpg output
+		gpg_execution_params params;
+		params.addParam(L"--batch");
+		params.addParam(L"--list-keys");
+		if (!gpg_launcher(params))
+			return false;
+		if (params.result == pxNotFound)
+			return false;
+
+		string out(params.out);
+		string::size_type p = 0, p2 = 0, stop = 0;
+		while (p != string::npos) {
+			if ((p = out.find("pub  ", p)) == string::npos)
+				break;
+			p += 5;
+			if (p < stop)
+				break;
+			stop = p;
+			p2 = out.find("/", p) - 1;
+
+			int row = list_EXISTING_KEY_LIST.AddItem(L"", 0);
+			list_EXISTING_KEY_LIST.SetItemText(row, 5, toUTF16(out.substr(p, p2 - p)).c_str());
+
+			p2 += 2;
+			p = out.find(" ", p2);
+			list_EXISTING_KEY_LIST.SetItemText(row, 0, toUTF16(out.substr(p2, p - p2)).c_str());
+
+			p++;
+			p2 = out.find("\n", p);
+			string::size_type p3 = out.substr(p, p2 - p).find("[");
+			if (p3 != string::npos) {
+				p3 += p;
+				p2 = p3;
+				p2--;
+				p3++;
+				p3 += mir_strlen("expires: ");
+				string::size_type p4 = out.find("]", p3);
+				list_EXISTING_KEY_LIST.SetItemText(row, 4, toUTF16(out.substr(p3, p4 - p3)).c_str());
+			}
+			else p2--;
+
+			list_EXISTING_KEY_LIST.SetItemText(row, 3, toUTF16(out.substr(p, p2 - p)).c_str());
+
+			p = out.find("uid  ", p);
+			p += mir_strlen("uid ");
+			p2 = out.find("\n", p);
+			p3 = out.substr(p, p2 - p).find("<");
+			if (p3 != string::npos) {
+				p3 += p;
+				p2 = p3;
+				p2--;
+				p3++;
+				string::size_type p4 = out.find(">", p3);
+				list_EXISTING_KEY_LIST.SetItemText(row, 1, toUTF16(out.substr(p3, p4 - p3)).c_str());
+			}
+			else p2--;
+
+			p = out.find_first_not_of(" ", p);
+			list_EXISTING_KEY_LIST.SetItemText(row, 2, toUTF16(out.substr(p, p2 - p)).c_str());
+
+			list_EXISTING_KEY_LIST.SetColumnWidth(0, LVSCW_AUTOSIZE);// not sure about this
+			list_EXISTING_KEY_LIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
+			list_EXISTING_KEY_LIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
+			list_EXISTING_KEY_LIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
+			list_EXISTING_KEY_LIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
+			list_EXISTING_KEY_LIST.SetColumnWidth(5, LVSCW_AUTOSIZE);
+			i++;
+		}
+
+		list_EXISTING_KEY_LIST.OnClick = Callback(this, &CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		int i = list_EXISTING_KEY_LIST.GetSelectionMark();
+		if (i == -1)
+			return false; //TODO: error message
+
+		list_EXISTING_KEY_LIST.GetItemText(i, 0, id, _countof(id));
+		extern CCtrlEdit *edit_p_PubKeyEdit;
+
+		gpg_execution_params params;
+		params.addParam(L"--batch");
+		params.addParam(L"-a");
+		params.addParam(L"--export");
+		params.addParam(id);
+		if (!gpg_launcher(params))
+			return false;
+		if (params.result == pxNotFound)
+			return false;
+
+		string out(params.out);
+		size_t p1 = out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
+		if (p1 != std::string::npos) {
+			size_t p2 = out.find("-----END PGP PUBLIC KEY BLOCK-----", p1);
+			if (p2 != std::string::npos) {
+				p2 += mir_strlen("-----END PGP PUBLIC KEY BLOCK-----");
+				out = out.substr(p1, p2 - p1);
+				if (edit_p_PubKeyEdit)
+					edit_p_PubKeyEdit->SetText(_A2T(out.c_str()));
+			}
+			else MessageBox(nullptr, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
+		}
+		else MessageBox(nullptr, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
+
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "LoadKeyWindow");
+	}
+
+	void onChange_EXISTING_KEY_LIST(CCtrlListView::TEventInfo *)
+	{
+		EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Import key dialog
+
+class CDlgImportKey : public CDlgBase
+{
+	MCONTACT hContact;
+	CCtrlCombo combo_KEYSERVER;
+	CCtrlButton btn_IMPORT;
+
+public:
+	CDlgImportKey(MCONTACT _hContact) :
+		CDlgBase(g_plugin, IDD_IMPORT_KEY),
+		combo_KEYSERVER(this, IDC_KEYSERVER),
+		btn_IMPORT(this, IDC_IMPORT)
+	{
+		hContact = _hContact;
+		btn_IMPORT.OnClick = Callback(this, &CDlgImportKey::onClick_IMPORT);
+	}
+
+	bool OnInitDialog() override
+	{
+		Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "ImportKeyWindow");
+
+		combo_KEYSERVER.AddString(L"subkeys.pgp.net");
+		combo_KEYSERVER.AddString(L"keys.gnupg.net");
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "ImportKeyWindow");
+	}
+
+	void onClick_IMPORT(CCtrlButton *)
+	{
+		gpg_execution_params params;
+		params.addParam(L"--keyserver");
+		params.addParam(combo_KEYSERVER.GetText());
+		params.addParam(L"--recv-keys");
+		params.addParam(toUTF16(globals.hcontact_data[hContact].key_in_prescense));
+		gpg_launcher(params);
+
+		MessageBoxA(nullptr, params.out.c_str(), "GPG output", MB_OK);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // COptGpgMainDlg class
 
 static class COptGpgMainDlg *g_pMainDlg;
@@ -232,8 +427,7 @@ public:
 
 	void onClick_SELECT_KEY(CCtrlButton*)
 	{
-		CDlgFirstRun *d = new CDlgFirstRun;
-		d->Show();
+		ShowFirstRunDialog();
 	}
 
 	void onClick_SAVE_KEY_BUTTON(CCtrlButton*)
@@ -626,8 +820,7 @@ public:
 
 	void onClick_SELECT_EXISTING(CCtrlButton*)
 	{
-		CDlgLoadExistingKey *d = new CDlgLoadExistingKey;
-		d->Show();
+		(new CDlgLoadExistingKey())->Show();
 	}
 
 	void onClick_OK(CCtrlButton*)

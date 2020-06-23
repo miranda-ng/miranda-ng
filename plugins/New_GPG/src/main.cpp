@@ -18,6 +18,179 @@
 
 #pragma comment(lib, "shlwapi.lib")
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// GPG binaries options
+
+class CDlgGpgBinOpts : public CDlgBase
+{
+	CCtrlButton btn_SET_BIN_PATH, btn_SET_HOME_DIR, btn_OK, btn_GENERATE_RANDOM;
+	CCtrlEdit edit_BIN_PATH, edit_HOME_DIR;
+	CCtrlCheck chk_AUTO_EXCHANGE;
+
+public:
+	CDlgGpgBinOpts() :
+		CDlgBase(g_plugin, IDD_BIN_PATH),
+		btn_SET_BIN_PATH(this, IDC_SET_BIN_PATH),
+		btn_SET_HOME_DIR(this, IDC_SET_HOME_DIR),
+		btn_OK(this, ID_OK),
+		btn_GENERATE_RANDOM(this, IDC_GENERATE_RANDOM),
+		edit_BIN_PATH(this, IDC_BIN_PATH),
+		edit_HOME_DIR(this, IDC_HOME_DIR),
+		chk_AUTO_EXCHANGE(this, IDC_AUTO_EXCHANGE)
+	{
+		btn_SET_BIN_PATH.OnClick = Callback(this, &CDlgGpgBinOpts::onClick_SET_BIN_PATH);
+		btn_SET_HOME_DIR.OnClick = Callback(this, &CDlgGpgBinOpts::onClick_SET_HOME_DIR);
+		btn_OK.OnClick = Callback(this, &CDlgGpgBinOpts::onClick_OK);
+		btn_GENERATE_RANDOM.OnClick = Callback(this, &CDlgGpgBinOpts::onClick_GENERATE_RANDOM);
+	}
+
+	bool OnInitDialog() override
+	{
+		CMStringW path;
+		bool gpg_exists = false, lang_exists = false;
+
+		wchar_t mir_path[MAX_PATH];
+		PathToAbsoluteW(L"\\", mir_path);
+		SetCurrentDirectoryW(mir_path);
+
+		CMStringW gpg_path(mir_path); gpg_path.Append(L"\\GnuPG\\gpg.exe");
+		CMStringW gpg_lang_path(mir_path); gpg_lang_path.Append(L"\\GnuPG\\gnupg.nls\\en@quot.mo");
+
+		if (boost::filesystem::exists(gpg_path.c_str())) {
+			gpg_exists = true;
+			path = L"GnuPG\\gpg.exe";
+		}
+		else path = gpg_path;
+
+		if (boost::filesystem::exists(gpg_lang_path.c_str()))
+			lang_exists = true;
+		if (gpg_exists && !lang_exists)
+			MessageBox(nullptr, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned."), TranslateT("Warning"), MB_OK);
+
+		DWORD len = MAX_PATH;
+		bool bad_version = false;
+		{
+			ptrW tmp;
+			if (!gpg_exists) {
+				tmp = g_plugin.getWStringA("szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void *)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
+				if (tmp[0])
+					if (!boost::filesystem::exists((wchar_t *)tmp))
+						MessageBoxW(nullptr, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
+			}
+			else tmp = mir_wstrdup(path.c_str());
+
+			edit_BIN_PATH.SetText(tmp);
+			if (gpg_exists/* && lang_exists*/) {
+				g_plugin.setWString("szGpgBinPath", tmp);
+
+				gpg_execution_params params;
+				params.addParam(L"--version");
+				bool _gpg_valid = globals.gpg_valid;
+				globals.gpg_valid = true;
+				gpg_launcher(params);
+				globals.gpg_valid = _gpg_valid; //TODO: check this
+				g_plugin.delSetting("szGpgBinPath");
+				int p1 = params.out.Find("(GnuPG) ");
+				if (p1 != -1) {
+					p1 += mir_strlen("(GnuPG) ");
+					if (params.out[p1] != '1')
+						bad_version = true;
+				}
+				else {
+					bad_version = false;
+					MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Error"), MB_OK);
+				}
+				if (bad_version)
+					MessageBox(nullptr, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+			}
+		}
+
+		CMStringW tmp(g_plugin.getMStringW("szHomePath"));
+		if (tmp.IsEmpty()) {
+			mir_wstrcat(mir_path, L"\\gpg");
+			if (_waccess(mir_path, 0) != -1) {
+				tmp = mir_path;
+				MessageBoxW(nullptr, TranslateT("\"GPG\" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set."), TranslateT("Info"), MB_OK);
+			}
+			else {
+				wstring path_ = _wgetenv(L"APPDATA");
+				path_ += L"\\GnuPG";
+				tmp = path_.c_str();
+			}
+		}
+		edit_HOME_DIR.SetText(!gpg_exists ? tmp : L"gpg");
+
+		// TODO: additional check for write access
+		if (gpg_exists && lang_exists && !bad_version)
+			MessageBox(nullptr, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
+		chk_AUTO_EXCHANGE.Enable();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		void InitCheck();
+		InitCheck();
+	}
+
+	void onClick_SET_BIN_PATH(CCtrlButton *)
+	{
+		GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
+		CMStringW tmp(g_plugin.getMStringW("szGpgBinPath", L"gpg.exe"));
+		edit_BIN_PATH.SetText(tmp);
+
+		wchar_t mir_path[MAX_PATH];
+		PathToAbsoluteW(L"\\", mir_path);
+		if (tmp.Find(mir_path, 0) == 0) {
+			CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
+			edit_BIN_PATH.SetText(path);
+		}
+	}
+
+	void onClick_SET_HOME_DIR(CCtrlButton *)
+	{
+		GetFolderPath(L"Set home directory");
+		CMStringW tmp(g_plugin.getMStringW("szHomePath"));
+		edit_HOME_DIR.SetText(tmp);
+
+		wchar_t mir_path[MAX_PATH];
+		PathToAbsoluteW(L"\\", mir_path);
+		PathToAbsoluteW(L"\\", mir_path);
+		if (tmp.Find(mir_path, 0) == 0) {
+			CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
+			edit_HOME_DIR.SetText(path);
+		}
+	}
+
+	void onClick_OK(CCtrlButton *)
+	{
+		if (gpg_validate_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText())) {
+			gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
+			globals.gpg_valid = true;
+			g_plugin.setByte("FirstRun", 0);
+			this->Hide();
+			this->Close();
+			ShowFirstRunDialog();
+		}
+	}
+
+	void onClick_GENERATE_RANDOM(CCtrlButton *)
+	{
+		if (gpg_validate_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText())) {
+			gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
+			globals.gpg_valid = true;
+			if (gpg_use_new_random_key(nullptr)) {
+				g_plugin.bAutoExchange = chk_AUTO_EXCHANGE.GetState();
+				globals.gpg_valid = true;
+				g_plugin.setByte("FirstRun", 0);
+				this->Close();
+			}
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int EnumProc(const char *szSetting, void *param)
 {
 	auto *list = (OBJLIST<CMStringA> *)param;
@@ -49,10 +222,8 @@ void FirstRun()
 		g_plugin.setByte("CompatLevel", 1);
 	}
 
-	if (!g_plugin.getByte("FirstRun", 1))
-		return;
-	CDlgGpgBinOpts *d = new CDlgGpgBinOpts;
-	d->Show();
+	if (g_plugin.getByte("FirstRun", 1))
+		(new CDlgGpgBinOpts())->Show();
 }
 
 void InitCheck()
@@ -134,10 +305,8 @@ void InitCheck()
 					wszQuestion += TranslateT(" for account ");
 					wszQuestion += pa->tszAccountName;
 					wszQuestion += TranslateT(" deleted from GPG secret keyring.\nDo you want to set another key?");
-					if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES) {
-						CDlgFirstRun *d = new CDlgFirstRun;
-						d->DoModal();
-					}
+					if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES)
+						ShowFirstRunDialog();
 				}
 				p2 = p;
 				p = out.find("[", p);
@@ -174,10 +343,8 @@ void InitCheck()
 						wszQuestion += TranslateT(" for account ");
 						wszQuestion += pa->tszAccountName;
 						wszQuestion += TranslateT(" expired and will not work.\nDo you want to set another key?");
-						if (MessageBoxW(nullptr, wszQuestion.c_str(), TranslateT("Own secret key warning"), MB_YESNO) == IDYES) {
-							CDlgFirstRun *d = new CDlgFirstRun;
-							d->DoModal();
-						}
+						if (MessageBoxW(nullptr, wszQuestion.c_str(), TranslateT("Own secret key warning"), MB_YESNO) == IDYES)
+							ShowFirstRunDialog();
 					}
 					mir_free(expire_date);
 				}
@@ -189,18 +356,14 @@ void InitCheck()
 		CMStringA key(g_plugin.getMStringA("GPGPubKey"));
 		if (!g_plugin.getByte("FirstRun", 1) && (keyid.IsEmpty() || key.IsEmpty())) {
 			wszQuestion = TranslateT("You didn't set a private key.\nWould you like to set it now?");
-			if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own private key warning"), MB_YESNO) == IDYES) {
-				CDlgFirstRun *d = new CDlgFirstRun;
-				d->DoModal();
-			}
+			if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own private key warning"), MB_YESNO) == IDYES)
+				ShowFirstRunDialog();
 		}
 		if ((p = out.find(keyid)) == string::npos) {
 			wszQuestion += keyid;
 			wszQuestion += TranslateT(" deleted from GPG secret keyring.\nDo you want to set another key?");
-			if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES) {
-				CDlgFirstRun *d = new CDlgFirstRun;
-				d->DoModal();
-			}
+			if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES)
+				ShowFirstRunDialog();
 		}
 		p2 = p;
 		p = out.find("[", p);
@@ -235,10 +398,8 @@ void InitCheck()
 			if (expired) {
 				wszQuestion += keyid;
 				wszQuestion += TranslateT(" expired and will not work.\nDo you want to set another key?");
-				if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES) {
-					CDlgFirstRun *d = new CDlgFirstRun;
-					d->DoModal();
-				}
+				if (MessageBoxW(nullptr, wszQuestion, TranslateT("Own secret key warning"), MB_YESNO) == IDYES)
+					ShowFirstRunDialog();
 			}
 			mir_free(expire_date);
 		}
