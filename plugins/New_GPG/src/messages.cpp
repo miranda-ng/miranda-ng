@@ -689,8 +689,8 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	if (!l)
 		return 0;
 
-	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
-	if (dbei->eventType != EVENTTYPE_MESSAGE)
+	DBEVENTINFO *dbei = (DBEVENTINFO*)l;
+	if (dbei->eventType != EVENTTYPE_MESSAGE || (dbei->flags & DBEF_READ))
 		return 0;
 
 	MCONTACT hContact = (MCONTACT)w;

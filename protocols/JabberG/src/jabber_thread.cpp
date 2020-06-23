@@ -1310,19 +1310,23 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				return;
 			}
 
-			// XEP-0027 is not strict enough, different clients have different implementations
-			// additional validation is required
-			char *prolog = "-----BEGIN PGP MESSAGE-----";
-			char *prolog_newline = "\r\n\r\n";
-			char *epilog = "\r\n-----END PGP MESSAGE-----\r\n";
+			if (carbon && carbonSent)
+				szMessage = TranslateU("Unable to decrypt a carbon copy of the encrypted outgoing message");
+			else {
+				// XEP-0027 is not strict enough, different clients have different implementations
+				// additional validation is required
+				char *prolog = "-----BEGIN PGP MESSAGE-----";
+				char *prolog_newline = "\r\n\r\n";
+				char *epilog = "\r\n-----END PGP MESSAGE-----\r\n";
 
-			CMStringA tempstring;
-			if (!strstr(ptszText, prolog))
-				tempstring.Format("%s%s%s%s", prolog, prolog_newline, ptszText, epilog);
-			else
-				tempstring = ptszText;
+				CMStringA tempstring;
+				if (!strstr(ptszText, prolog))
+					tempstring.Format("%s%s%s%s", prolog, prolog_newline, ptszText, epilog);
+				else
+					tempstring = ptszText;
 
-			szMessage += tempstring;
+				szMessage += tempstring;
+			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_DELAY) && msgTime == 0) {
 			const char *ptszTimeStamp = XmlGetAttr(xNode, "stamp");
