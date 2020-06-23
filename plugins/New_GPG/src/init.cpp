@@ -182,14 +182,14 @@ int CMPlugin::Load()
 	mi.position = -0x7FFFFFFe;
 	mi.name.a = LPGEN("Toggle GPG encryption");
 	mi.pszService = "/ToggleEncryption";
-	globals.hToggleEncryption = Menu_AddContactMenuItem(&mi);
+	g_plugin.hToggleEncryption = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, ToggleEncryption);
 
 	SET_UID(mi, 0x42bb535f, 0xd58e, 0x4edb, 0xbf, 0x2c, 0xfa, 0x9a, 0xbf, 0x1e, 0xb8, 0x69);
 	mi.position = -0x7FFFFFFd;
 	mi.name.a = LPGEN("Send public key");
 	mi.pszService = "/SendKey";
-	globals.hSendKey = Menu_AddContactMenuItem(&mi);
+	g_plugin.hSendKey = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, SendKey);
 
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -221,7 +221,7 @@ int CMPlugin::Load()
 	hCLIcon = ExtraIcon_RegisterIcolib(MODULENAME, Translate("GPG encryption status"), "secured", &onExtraIconPressed);
 	for (auto &cc : Contacts())
 		if (isContactHaveKey(cc))
-			ExtraIcon_SetIconByName(hCLIcon, cc, "unsecured");
+			setSrmmIcon(cc);
 
 	return 0;
 }

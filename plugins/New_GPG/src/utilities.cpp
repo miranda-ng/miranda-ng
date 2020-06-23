@@ -156,8 +156,6 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM)
 		g_plugin.setByte(hContact, "GPGEncryption", enc ? 0 : 1);
 	}
 	setSrmmIcon(hContact);
-
-	Menu_ModifyItem(globals.hToggleEncryption, enc ? LPGENW("Turn off GPG encryption") : LPGENW("Turn on GPG encryption"));
 	return 0;
 }
 
@@ -180,7 +178,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 
 		wchar_t buf[128] = { 0 };
 		mir_snwprintf(buf, L"%s: %S", TranslateT("Send public key"), keyid.c_str());
-		Menu_ModifyItem(globals.hSendKey, buf);
+		Menu_ModifyItem(g_plugin.hSendKey, buf);
 	}
 
 	int flags;
@@ -191,12 +189,12 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 	}
 	else flags = 0;
 
-	Menu_ModifyItem(globals.hToggleEncryption,
-		g_plugin.getByte(hContact, "GPGEncryption", 0) ? L"Turn off GPG encryption" : L"Turn on GPG encryption",
-		INVALID_HANDLE_VALUE, flags);
+	if (g_plugin.getByte(hContact, "GPGEncryption"))
+		Menu_ModifyItem(g_plugin.hToggleEncryption, LPGENW("Turn off GPG encryption"), g_plugin.getIconHandle(IDI_SECURED), flags);
+	else
+		Menu_ModifyItem(g_plugin.hToggleEncryption, LPGENW("Turn on GPG encryption"), g_plugin.getIconHandle(IDI_UNSECURED), flags);
 	return 0;
 }
-
 
 list<wstring> transfers;
 

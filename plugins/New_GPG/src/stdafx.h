@@ -75,6 +75,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<bool> bJabberAPI, bPresenceSigning, bFileTransfers, bAutoExchange, bSameAction, bAppendTags, bStripTags, bDebugLog, bSendErrorMessages;
 	HANDLE hCLIcon = nullptr;
+	HGENMENU hToggleEncryption = nullptr, hSendKey = nullptr;
 
 	CMPlugin();
 

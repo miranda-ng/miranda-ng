@@ -30,7 +30,6 @@ struct globals_s
 	wchar_t key_id_global[17] = { 0 };
 	list <JabberAccount*> Accounts;
 	HFONT bold_font = nullptr;
-	HGENMENU hSendKey = nullptr, hToggleEncryption = nullptr;
 	logtofile debuglog;
 	bool gpg_valid = false, gpg_keyexist = false;
 	std::map<MCONTACT, contact_data> hcontact_data;
