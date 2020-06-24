@@ -799,6 +799,13 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		if (!hDialogsList)
 			hDialogsList = WindowList_Create();
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
+
+		ptrA jid(getUStringA(event->hContact, "jid"));
+		if (jid != nullptr) {
+			JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, jid);
+			// if (pItem)
+			//	RetrieveMessageArchive(event->hContact, pItem);
+		}
 	}
 	else if (event->uType == MSG_WINDOW_EVT_CLOSING) {
 		if (hDialogsList)

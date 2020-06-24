@@ -76,13 +76,6 @@ CMStringA MakeJid(const char *jid, const char *resource)
 	return ret;
 }
 
-CMStringA EncodeJid(const char *jid)
-{
-	CMStringA ret(jid);
-	ret.Replace(" ", "\20");
-	return ret;
-}
-
 void CJabberProto::UpdateItem(JABBER_LIST_ITEM *pItem, const char *name)
 {
 	if (!m_bIgnoreRoster || db_get_wsm(pItem->hContact, "CList", "MyHandle").IsEmpty()) {

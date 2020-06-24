@@ -239,7 +239,7 @@ void CJabberProto::OnIqResultGetAuth(const TiXmlElement *iqNode, CJabberIqInfo*)
 	if (!mir_strcmp(type, "result")) {
 		XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultSetAuth, JABBER_IQ_TYPE_SET));
 		auto *query = iq << XQUERY("jabber:iq:auth");
-		query << XCHILD("username", EncodeJid(m_ThreadInfo->conn.username));
+		query << XCHILD("username", m_ThreadInfo->conn.username);
 		if (XmlFirstChild(queryNode, "digest") != nullptr && m_ThreadInfo->szStreamId) {
 			JabberShaStrBuf buf;
 			char text[200];
