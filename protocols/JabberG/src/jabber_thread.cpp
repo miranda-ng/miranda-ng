@@ -561,7 +561,7 @@ void CJabberProto::PerformIqAuth(ThreadData *info)
 {
 	if (!info->bIsReg) {
 		info->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetAuth, JABBER_IQ_TYPE_GET))
-			<< XQUERY("jabber:iq:auth") << XCHILD("username", info->conn.username));
+			<< XQUERY("jabber:iq:auth") << XCHILD("username", EncodeJid(info->conn.username)));
 	}
 	else PerformRegistration(info);
 }
