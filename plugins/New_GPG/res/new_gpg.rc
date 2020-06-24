@@ -7,13 +7,13 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <winres.h>
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -27,7 +27,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\src\resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -268,15 +268,16 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,76,233,10
 END
 
-IDD_OPT_GPG_ADVANCED DIALOGEX 0, 0, 286, 50
+IDD_OPT_GPG_ADVANCED DIALOGEX 0, 0, 286, 64
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Turn on presence signing (Jabber) (required by XEP-0027)",IDC_PRESCENSE_SUBSCRIPTION,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,9,268,20
-    PUSHBUTTON      "Export keys",IDC_EXPORT,12,36,100,14
-    PUSHBUTTON      "Import keys",IDC_IMPORT,122,36,100,14
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,9,268,10
+    PUSHBUTTON      "Export keys",IDC_EXPORT,12,44,100,14
+    PUSHBUTTON      "Import keys",IDC_IMPORT,122,44,100,14
+    CONTROL         "Send error messages",IDC_SEND_ERRORS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,23,268,10
 END
 
 
@@ -386,7 +387,7 @@ BEGIN
     IDD_OPT_GPG_ADVANCED, DIALOG
     BEGIN
         VERTGUIDE, 12
-        BOTTOMMARGIN, 40
+        BOTTOMMARGIN, 58
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -400,10 +401,21 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_SECURED             ICON                    "secured.ico"
+
 IDI_UNSECURED           ICON                    "unsecured.ico"
 
 
-#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_GPG_ADVANCED AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

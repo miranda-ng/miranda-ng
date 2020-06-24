@@ -665,22 +665,25 @@ public:
 class COptGpgAdvDlg : public CDlgBase
 {
 	CCtrlButton btn_EXPORT, btn_IMPORT;
-	CCtrlCheck check_PRESCENSE_SUBSCRIPTION;
+	CCtrlCheck chkPresenceSub, chkSendErrors;
 
 public:
 	COptGpgAdvDlg() : CDlgBase(g_plugin, IDD_OPT_GPG_ADVANCED),
-		btn_EXPORT(this, IDC_EXPORT), btn_IMPORT(this, IDC_IMPORT),
-		check_PRESCENSE_SUBSCRIPTION(this, IDC_PRESCENSE_SUBSCRIPTION)
+		btn_EXPORT(this, IDC_EXPORT),
+		btn_IMPORT(this, IDC_IMPORT),
+		chkSendErrors(this, IDC_SEND_ERRORS),
+		chkPresenceSub(this, IDC_PRESCENSE_SUBSCRIPTION)
 	{
 		btn_EXPORT.OnClick = Callback(this, &COptGpgAdvDlg::onClick_EXPORT);
 		btn_IMPORT.OnClick = Callback(this, &COptGpgAdvDlg::onClick_IMPORT);
 
-		CreateLink(check_PRESCENSE_SUBSCRIPTION, g_plugin.bPresenceSigning);
+		CreateLink(chkSendErrors, g_plugin.bSendErrorMessages);
+		CreateLink(chkPresenceSub, g_plugin.bPresenceSigning);
 	}
 
 	bool OnInitDialog() override
 	{
-		check_PRESCENSE_SUBSCRIPTION.Enable(g_plugin.bJabberAPI);
+		chkPresenceSub.Enable(g_plugin.bJabberAPI);
 		return true;
 	}
 
