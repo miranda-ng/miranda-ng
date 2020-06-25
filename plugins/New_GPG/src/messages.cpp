@@ -236,7 +236,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 				return;
 			}
 
-			param->str.clear();
+			std::string str;
 
 			wstring tszDecPath = wstring(ptszHomePath) + L"\\tmp\\" + decfile;
 
@@ -248,7 +248,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 				f.read(tmp, size);
 				tmp[size] = '\0';
 				
-				param->str.append(toUTF16(tmp));
+				str.append(tmp);
 				delete[] tmp;
 				f.close();
 				if (!globals.debuglog) {
@@ -260,7 +260,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 				}
 			}
 
-			if (param->str.empty()) {
+			if (str.empty()) {
 				if (globals.debuglog)
 					globals.debuglog << "info: Failed to decrypt GPG encrypted message.";
 
@@ -273,13 +273,13 @@ static void RecvMsgSvc_func(RecvParams *param)
 				return;
 			}
 
-			fix_line_term(param->str);
+			fix_line_term(str);
 			if (g_plugin.bAppendTags) {
-				param->str.insert(0, globals.wszInopentag);
-				param->str.append(globals.wszInclosetag);
+				str.insert(0, toUTF8(globals.wszInopentag.c_str()));
+				str.append(toUTF8(globals.wszInclosetag.c_str()));
 			}
 
-			HistoryLog(hContact, toUTF8(param->str).c_str(), param->timestamp);
+			HistoryLog(hContact, str.c_str(), param->timestamp);
 			delete param;
 			return;
 		}
@@ -503,7 +503,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 
 void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 {
-	wstring str = toUTF16(msg);
+	string str = msg;
 	if (g_plugin.bStripTags && g_plugin.bAppendTags) {
 		if (globals.debuglog)
 			globals.debuglog << "info: stripping tags in outgoing message, name: " + toUTF8(Clist_GetContactDisplayName(hContact));
@@ -552,8 +552,7 @@ LBL_Relaunch:
 			f.open(path.c_str(), std::ios::out);
 		}
 		if (count < timeout) {
-			std::string tmp = toUTF8(str);
-			f.write(tmp.c_str(), tmp.size());
+			f.write(str.c_str(), str.size());
 			f.close();
 		}
 	}
@@ -594,7 +593,7 @@ LBL_Relaunch:
 	}
 
 	path += L".asc";
-	wfstream f(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
+	fstream f(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
 	count = 0;
 	while (!f.is_open()) {
 		::Sleep(step);
@@ -610,8 +609,8 @@ LBL_Relaunch:
 
 	str.clear();
 	if (f.is_open()) {
-		std::wifstream::pos_type size = f.tellg();
-		wchar_t *tmp = new wchar_t[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
+		size_t size = f.tellg();
+		char *tmp = new char[size + 1];
 		f.seekg(0, std::ios::beg);
 		f.read(tmp, size);
 		tmp[size] = '\0';
@@ -642,7 +641,7 @@ LBL_Relaunch:
 		globals.debuglog << "adding event to contact: " + toUTF8(Clist_GetContactDisplayName(hContact)) + " on send message.";
 
 	fix_line_term(str);
-	sent_msgs.push_back((HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)toUTF8(str).c_str()));
+	sent_msgs.push_back((HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)str.c_str()));
 }
 
 INT_PTR SendMsgSvc(WPARAM w, LPARAM l)

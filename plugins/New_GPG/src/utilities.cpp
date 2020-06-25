@@ -1221,14 +1221,12 @@ void fix_line_term(std::string &s)
 {
 	if (s.empty())
 		return;
-	boost::algorithm::erase_all(s, "\r\r");
-}
 
-void fix_line_term(std::wstring &s)
-{
-	if (s.empty())
-		return;
-	boost::algorithm::erase_all(s, L"\r\r");
+	boost::algorithm::erase_all(s, "\r\r");
+
+	// unified line endings for unix & windows port
+	boost::algorithm::replace_all(s, "\r\n", "\n");
+	boost::algorithm::replace_all(s, "\n", "\r\n");
 }
 
 void strip_line_term(std::wstring &s)
@@ -1247,7 +1245,7 @@ void strip_line_term(std::string &s)
 	boost::algorithm::erase_all(s, "\n");
 }
 
-void strip_tags(std::wstring &str)
+void strip_tags(std::string &str)
 {
 	if (str.empty())
 		return;

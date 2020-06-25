@@ -43,10 +43,9 @@ string get_random(int length);
 
 void HistoryLog(MCONTACT, const char *msg, DWORD _time = 0, DWORD _flags = 0);
 void fix_line_term(std::string &s);
-void fix_line_term(std::wstring &s);
 void strip_line_term(std::wstring &s);
 void strip_line_term(std::string &s);
-void strip_tags(std::wstring &s);
+void strip_tags(std::string &s);
 void clean_temp_dir();
 bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path);
 void gpg_save_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path);
