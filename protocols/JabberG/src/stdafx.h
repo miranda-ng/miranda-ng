@@ -163,6 +163,9 @@ protected:
 #define JABBER_GC_MSG_SLAP				LPGEN("/me slaps %s around a bit with a large trout")
 #define JABBER_SERVER_URL				"https://xmpp.net/services.php"
 
+#define PGP_PROLOG "-----BEGIN PGP MESSAGE-----\r\n\r\n"
+#define PGP_EPILOG "\r\n-----END PGP MESSAGE-----\r\n"
+
 // registered db event types
 #define EVENTTYPE_JABBER_CHATSTATES          2000
 #define JS_DB_GETEVENTTEXT_CHATSTATES            "/GetEventText2000"

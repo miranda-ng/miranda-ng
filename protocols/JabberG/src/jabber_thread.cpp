@@ -1315,13 +1315,10 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			else {
 				// XEP-0027 is not strict enough, different clients have different implementations
 				// additional validation is required
-				char *prolog = "-----BEGIN PGP MESSAGE-----";
-				char *prolog_newline = "\r\n\r\n";
-				char *epilog = "\r\n-----END PGP MESSAGE-----\r\n";
 
 				CMStringA tempstring;
-				if (!strstr(ptszText, prolog))
-					tempstring.Format("%s%s%s%s", prolog, prolog_newline, ptszText, epilog);
+				if (!strstr(ptszText, PGP_PROLOG))
+					tempstring.Format("%s%s%s", PGP_PROLOG, ptszText, PGP_EPILOG);
 				else
 					tempstring = ptszText;
 

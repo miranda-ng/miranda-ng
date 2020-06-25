@@ -888,9 +888,6 @@ HANDLE CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, w
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberSendMessage - sends a message
 
-static char PGP_PROLOG[] = "-----BEGIN PGP MESSAGE-----\r\n\r\n";
-static char PGP_EPILOG[] = "\r\n-----END PGP MESSAGE-----\r\n";
-
 int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *pszSrc)
 {
 	char szClientJid[JABBER_MAX_JID_LEN];
