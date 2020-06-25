@@ -116,6 +116,9 @@
     <ClCompile Include="src\dotdot.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\dynbuf.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\easy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -377,6 +380,9 @@
     <ClCompile Include="src\vtls\gtls.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vtls\keylog.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vtls\mbedtls.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -468,6 +474,7 @@
     <ClInclude Include="src\dict.h" />
     <ClInclude Include="src\doh.h" />
     <ClInclude Include="src\dotdot.h" />
+    <ClInclude Include="src\dynbuf.h" />
     <ClInclude Include="src\easyif.h" />
     <ClInclude Include="src\escape.h" />
     <ClInclude Include="src\file.h" />
@@ -595,7 +602,7 @@
       <DisableSpecificWarnings>4005;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libeay32.lib;ssleay32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>crypt32.lib;libeay32.lib;ssleay32.lib;wldap32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 </Project>

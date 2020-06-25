@@ -431,6 +431,9 @@
     <ClCompile Include="src\version.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\dynbuf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\altsvc.h">
@@ -806,6 +809,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\x509asn1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dynbuf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
