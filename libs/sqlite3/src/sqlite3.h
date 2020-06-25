@@ -49,7 +49,7 @@ extern "C" {
 # define SQLITE_EXTERN extern
 #endif
 #ifndef SQLITE_API
-# define SQLITE_API __declspec(dllimport)
+# define SQLITE_API
 #endif
 #ifndef SQLITE_CDECL
 # define SQLITE_CDECL
@@ -123,9 +123,9 @@ extern "C" {
 ** [sqlite3_libversion_number()], [sqlite3_sourceid()],
 ** [sqlite_version()] and [sqlite_source_id()].
 */
-#define SQLITE_VERSION        "3.32.2"
-#define SQLITE_VERSION_NUMBER 3032002
-#define SQLITE_SOURCE_ID      "2020-06-04 12:58:43 ec02243ea6ce33b090870ae55ab8aa2534b54d216d45c4aa2fdbb00e86861e8c"
+#define SQLITE_VERSION        "3.32.3"
+#define SQLITE_VERSION_NUMBER 3032003
+#define SQLITE_SOURCE_ID      "2020-06-18 14:00:33 7ebdfa80be8e8e73324b8d66b3460222eb74c7e9dfd655b48d6ca7e1933cc8fd"
 
 /*
 ** CAPI3REF: Run-Time Library Version Numbers
