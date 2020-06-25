@@ -108,13 +108,13 @@ struct ssl_backend_data {
 #define BACKEND connssl->backend
 
 /* Supported ciphers. */
-typedef struct {
+struct gskit_cipher {
   const char *name;            /* Cipher name. */
   const char *gsktoken;        /* Corresponding token for GSKit String. */
   unsigned int versions;       /* SSL version flags. */
-}  gskit_cipher;
+};
 
-static const gskit_cipher  ciphertable[] = {
+static const struct gskit_cipher  ciphertable[] = {
   { "null-md5",         "01",
       CURL_GSKPROTO_SSLV3_MASK | CURL_GSKPROTO_TLSV10_MASK |
       CURL_GSKPROTO_TLSV11_MASK | CURL_GSKPROTO_TLSV12_MASK },
@@ -307,7 +307,7 @@ static CURLcode set_ciphers(struct connectdata *conn,
   struct Curl_easy *data = conn->data;
   const char *cipherlist = SSL_CONN_CONFIG(cipher_list);
   const char *clp;
-  const gskit_cipher *ctp;
+  const struct gskit_cipher *ctp;
   int i;
   int l;
   bool unsupported;
@@ -819,7 +819,7 @@ static CURLcode gskit_connect_step1(struct connectdata *conn, int sockindex)
   if(!result) {
     /* Compute the handshake timeout. Since GSKit granularity is 1 second,
        we round up the required value. */
-    long timeout = Curl_timeleft(data, NULL, TRUE);
+    timediff_t timeout = Curl_timeleft(data, NULL, TRUE);
     if(timeout < 0)
       result = CURLE_OPERATION_TIMEDOUT;
     else
@@ -932,7 +932,7 @@ static CURLcode gskit_connect_step2(struct connectdata *conn, int sockindex,
   /* Poll or wait for end of SSL asynchronous handshake. */
 
   for(;;) {
-    long timeout_ms = nonblocking? 0: Curl_timeleft(data, NULL, TRUE);
+    timediff_t timeout_ms = nonblocking? 0: Curl_timeleft(data, NULL, TRUE);
     if(timeout_ms < 0)
       timeout_ms = 0;
     stmv.tv_sec = timeout_ms / 1000;

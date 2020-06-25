@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_HTTP_PROXY_H
-#define HEADER_CURL_HTTP_PROXY_H
+#ifndef HEADER_CURL_KEYLOG_H
+#define HEADER_CURL_KEYLOG_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -21,32 +21,36 @@
  * KIND, either express or implied.
  *
  ***************************************************************************/
-
 #include "curl_setup.h"
-#include "urldata.h"
 
-#if !defined(CURL_DISABLE_PROXY) && !defined(CURL_DISABLE_HTTP)
-/* ftp can use this as well */
-CURLcode Curl_proxyCONNECT(struct connectdata *conn,
-                           int tunnelsocket,
-                           const char *hostname, int remote_port);
+/*
+ * Opens the TLS key log file if requested by the user. The SSLKEYLOGFILE
+ * environment variable specifies the output file.
+ */
+void Curl_tls_keylog_open(void);
 
-/* Default proxy timeout in milliseconds */
-#define PROXY_TIMEOUT (3600*1000)
+/*
+ * Closes the TLS key log file if not already.
+ */
+void Curl_tls_keylog_close(void);
 
-CURLcode Curl_proxy_connect(struct connectdata *conn, int sockindex);
+/*
+ * Returns true if the user successfully enabled the TLS key log file.
+ */
+bool Curl_tls_keylog_enabled(void);
 
-bool Curl_connect_complete(struct connectdata *conn);
-bool Curl_connect_ongoing(struct connectdata *conn);
+/*
+ * Appends a key log file entry.
+ * Returns true iff the key log file is open and a valid entry was provided.
+ */
+bool Curl_tls_keylog_write(const char *label,
+                           const unsigned char client_random[32],
+                           const unsigned char *secret, size_t secretlen);
 
-#else
-#define Curl_proxyCONNECT(x,y,z,w) CURLE_NOT_BUILT_IN
-#define Curl_proxy_connect(x,y) CURLE_OK
-#define Curl_connect_complete(x) CURLE_OK
-#define Curl_connect_ongoing(x) FALSE
-#endif
+/*
+ * Appends a line to the key log file, ensure it is terminated by a LF.
+ * Returns true iff the key log file is open and a valid line was provided.
+ */
+bool Curl_tls_keylog_write_line(const char *line);
 
-void Curl_connect_free(struct Curl_easy *data);
-void Curl_connect_done(struct Curl_easy *data);
-
-#endif /* HEADER_CURL_HTTP_PROXY_H */
+#endif /* HEADER_CURL_KEYLOG_H */

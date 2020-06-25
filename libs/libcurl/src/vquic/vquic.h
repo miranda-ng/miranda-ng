@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_HTTP_PROXY_H
-#define HEADER_CURL_HTTP_PROXY_H
+#ifndef HEADER_CURL_VQUIC_QUIC_H
+#define HEADER_CURL_VQUIC_QUIC_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -23,30 +23,12 @@
  ***************************************************************************/
 
 #include "curl_setup.h"
-#include "urldata.h"
 
-#if !defined(CURL_DISABLE_PROXY) && !defined(CURL_DISABLE_HTTP)
-/* ftp can use this as well */
-CURLcode Curl_proxyCONNECT(struct connectdata *conn,
-                           int tunnelsocket,
-                           const char *hostname, int remote_port);
-
-/* Default proxy timeout in milliseconds */
-#define PROXY_TIMEOUT (3600*1000)
-
-CURLcode Curl_proxy_connect(struct connectdata *conn, int sockindex);
-
-bool Curl_connect_complete(struct connectdata *conn);
-bool Curl_connect_ongoing(struct connectdata *conn);
-
-#else
-#define Curl_proxyCONNECT(x,y,z,w) CURLE_NOT_BUILT_IN
-#define Curl_proxy_connect(x,y) CURLE_OK
-#define Curl_connect_complete(x) CURLE_OK
-#define Curl_connect_ongoing(x) FALSE
+#ifdef ENABLE_QUIC
+CURLcode Curl_qlogdir(struct Curl_easy *data,
+                      unsigned char *scid,
+                      size_t scidlen,
+                      int *qlogfdp);
 #endif
 
-void Curl_connect_free(struct Curl_easy *data);
-void Curl_connect_done(struct Curl_easy *data);
-
-#endif /* HEADER_CURL_HTTP_PROXY_H */
+#endif /* HEADER_CURL_VQUIC_QUIC_H */
