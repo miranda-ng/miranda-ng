@@ -158,6 +158,7 @@ public:
 
 	void onClick_Later(CCtrlButton*)
 	{
+		m_bSucceeded = true;
 		Close();
 	}
 
