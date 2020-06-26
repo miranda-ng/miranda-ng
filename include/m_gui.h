@@ -851,26 +851,26 @@ class MIR_CORE_EXPORT CCtrlListBox : public CCtrlBase
 public:
 	CCtrlListBox(CDlgBase *dlg, int ctrlId);
 
-	int    AddString(const wchar_t *text, LPARAM data=0);
-	void   DeleteString(int index);
-	int    FindString(const wchar_t *str, int index = -1, bool exact = false);
-	int    GetCount();
-	int    GetCurSel();
-	LPARAM GetItemData(int index);
-	int    GetItemRect(int index, RECT *pResult);
+	int      AddString(const wchar_t *text, LPARAM data=0);
+	void     DeleteString(int index);
+	int      FindString(const wchar_t *str, int index = -1, bool exact = false);
+	int      GetCount();
+	int      GetCurSel();
+	LPARAM   GetItemData(int index);
+	int      GetItemRect(int index, RECT *pResult);
 	wchar_t* GetItemText(int index);
 	wchar_t* GetItemText(int index, wchar_t *buf, int size);
-	bool   GetSel(int index);
-	int    GetSelCount();
-	int*   GetSelItems(int *items, int count);
-	int*   GetSelItems();
-	int    InsertString(const wchar_t *text, int pos, LPARAM data=0);
-	void   ResetContent();
-	int    SelectString(const wchar_t *str);
-	int    SetCurSel(int index);
-	void   SetItemData(int index, LPARAM data);
-	void   SetItemHeight(int index, int iHeight);
-	void   SetSel(int index, bool sel = true);
+	bool     GetSel(int index);
+	int      GetSelCount();
+	int*     GetSelItems(int *items, int count);
+	int*     GetSelItems();
+	int      InsertString(const wchar_t *text, int pos, LPARAM data=0);
+	void     ResetContent();
+	int      SelectString(const wchar_t *str);
+	int      SetCurSel(int index);
+	void     SetItemData(int index, LPARAM data);
+	void     SetItemHeight(int index, int iHeight);
+	void     SetSel(int index, bool sel = true);
 
 	// Events
 	CCallback<CCtrlListBox>	OnDblClick;
@@ -897,23 +897,23 @@ public:
 	void OnReset() override;
 
 	// Control interface
-	int    AddString(const wchar_t *text, LPARAM data = 0);
-	int    AddStringA(const char *text, LPARAM data = 0);
-	void   DeleteString(int index);
-	int    FindString(const wchar_t *str, int index = -1, bool exact = false);
-	int    FindStringA(const char *str, int index = -1, bool exact = false);
-	int    GetCount();
-	int    GetCurSel();
-	bool   GetDroppedState();
-	LPARAM GetItemData(int index);
+	int      AddString(const wchar_t *text, LPARAM data = 0);
+	int      AddStringA(const char *text, LPARAM data = 0);
+	void     DeleteString(int index);
+	int      FindString(const wchar_t *str, int index = -1, bool exact = false);
+	int      FindStringA(const char *str, int index = -1, bool exact = false);
+	int      GetCount();
+	int      GetCurSel();
+	bool     GetDroppedState();
+	LPARAM   GetItemData(int index);
 	wchar_t* GetItemText(int index);
 	wchar_t* GetItemText(int index, wchar_t *buf, int size);
-	int    InsertString(const wchar_t *text, int pos, LPARAM data=0);
-	void   ResetContent();
-	int    SelectString(const wchar_t *str);
-	int    SetCurSel(int index);
-	void   SetItemData(int index, LPARAM data);
-	void   ShowDropdown(bool show = true);
+	int      InsertString(const wchar_t *text, int pos, LPARAM data=0);
+	void     ResetContent();
+	int      SelectString(const wchar_t *str);
+	int      SetCurSel(int index);
+	void     SetItemData(int index, LPARAM data);
+	void     ShowDropdown(bool show = true);
 
 	// Events
 	CCallback<CCtrlCombo>	OnCloseup;

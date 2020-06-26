@@ -346,47 +346,110 @@ void CJabberProto::OnIqResultDiscovery(const TiXmlElement *iqNode, CJabberIqInfo
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void sttJoinDlgShowRecentItems(HWND hwndDlg, int newCount)
-{
-	RECT rcTitle, rcLastItem;
-	GetWindowRect(GetDlgItem(hwndDlg, IDC_TXT_RECENT), &rcTitle);
-	GetWindowRect(GetDlgItem(hwndDlg, IDC_RECENT5), &rcLastItem);
-
-	ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_RECENT), newCount ? SW_SHOW : SW_HIDE);
-
-	int oldCount = 5;
-	for (int idc = IDC_RECENT1; idc <= IDC_RECENT5; ++idc)
-		ShowWindow(GetDlgItem(hwndDlg, idc), (idc - IDC_RECENT1 < newCount) ? SW_SHOW : SW_HIDE);
-
-	int curRecentHeight = rcLastItem.bottom - rcTitle.top - (5 - oldCount) * (rcLastItem.bottom - rcLastItem.top);
-	int newRecentHeight = rcLastItem.bottom - rcTitle.top - (5 - newCount) * (rcLastItem.bottom - rcLastItem.top);
-	if (!newCount)
-		newRecentHeight = 0;
-	int offset = newRecentHeight - curRecentHeight;
-
-	RECT rc;
-	int ctrls[] = { IDC_BOOKMARKS, IDOK, IDCANCEL };
-	for (auto &it : ctrls) {
-		GetWindowRect(GetDlgItem(hwndDlg, it), &rc);
-		MapWindowPoints(nullptr, hwndDlg, (LPPOINT)&rc, 2);
-		SetWindowPos(GetDlgItem(hwndDlg, it), nullptr, rc.left, rc.top + offset, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-	}
-
-	GetWindowRect(hwndDlg, &rc);
-	SetWindowPos(hwndDlg, nullptr, 0, 0, rc.right - rc.left, rc.bottom - rc.top + offset, SWP_NOMOVE | SWP_NOZORDER);
-}
-
 class CJabberDlgGcJoin : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
 	char *m_jid;
+	int m_iqid = 0;
+
+	struct CRoomCombo : public CCtrlCombo
+	{
+		CRoomCombo(CDlgBase *pDlg, int id) :
+			CCtrlCombo(pDlg, id)
+		{}
+
+		BOOL OnMeasureItem(MEASUREITEMSTRUCT *lpmis) override
+		{
+			lpmis->itemHeight = 2 * sttTextLineHeight;
+			if (lpmis->itemID == -1)
+				lpmis->itemHeight = sttTextLineHeight - 1;
+			return FALSE;
+		}
+
+		BOOL OnDrawItem(DRAWITEMSTRUCT *lpdis) override
+		{
+			RoomInfo *info = (RoomInfo *)GetItemData(lpdis->itemID);
+			COLORREF clLine1, clBack;
+
+			if (lpdis->itemState & ODS_SELECTED) {
+				FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
+				clBack = GetSysColor(COLOR_HIGHLIGHT);
+				clLine1 = GetSysColor(COLOR_HIGHLIGHTTEXT);
+			}
+			else {
+				FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_WINDOW));
+				clBack = GetSysColor(COLOR_WINDOW);
+				clLine1 = GetSysColor(COLOR_WINDOWTEXT);
+			}
+			COLORREF clLine2 = RGB(
+				GetRValue(clLine1) * 0.66 + GetRValue(clBack) * 0.34,
+				GetGValue(clLine1) * 0.66 + GetGValue(clBack) * 0.34,
+				GetBValue(clLine1) * 0.66 + GetBValue(clBack) * 0.34);
+
+			SetBkMode(lpdis->hDC, TRANSPARENT);
+
+			RECT rc = lpdis->rcItem;
+			rc.bottom -= (rc.bottom - rc.top) / 2;
+			rc.left += 20;
+			SetTextColor(lpdis->hDC, clLine1);
+			DrawText(lpdis->hDC, info->line1, -1, &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
+
+			rc = lpdis->rcItem;
+			rc.top += (rc.bottom - rc.top) / 2;
+			rc.left += 20;
+			SetTextColor(lpdis->hDC, clLine2);
+			DrawText(lpdis->hDC, info->line2, -1, &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
+
+			DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_GROUP), 16, 16, 0, nullptr, DI_NORMAL);
+			switch (info->overlay) {
+			case RoomInfo::ROOM_WAIT:
+				DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_PROGRESS), 16, 16, 0, nullptr, DI_NORMAL);
+				break;
+			case RoomInfo::ROOM_FAIL:
+				DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_FAIL), 16, 16, 0, nullptr, DI_NORMAL);
+				break;
+			case RoomInfo::ROOM_BOOKMARK:
+				DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_OK), 16, 16, 0, nullptr, DI_NORMAL);
+				break;
+			}
+			return FALSE;
+		}
+
+		BOOL OnDeleteItem(DELETEITEMSTRUCT *lpdis) override
+		{
+			RoomInfo *info = (RoomInfo *)lpdis->itemData;
+			mir_free(info->line1);
+			mir_free(info->line2);
+			mir_free(info);
+			return FALSE;
+		}
+	};
+
+	CRoomCombo cmbRoom;
+	CCtrlCombo cmbServer;
+	CCtrlMButton btnBookmarks;
+	CCtrlHyperlink h1, h2, h3, h4, h5;
 
 public:
 	CJabberDlgGcJoin(CJabberProto *proto, char *jid) :
 		CSuper(proto, IDD_GROUPCHAT_JOIN),
-		m_jid(mir_strdup(jid))
+		m_jid(mir_strdup(jid)),
+		h1(this, IDC_RECENT1),
+		h2(this, IDC_RECENT2),
+		h3(this, IDC_RECENT3),
+		h4(this, IDC_RECENT4),
+		h5(this, IDC_RECENT5),
+		cmbRoom(this, IDC_ROOM),
+		cmbServer(this, IDC_SERVER),
+		btnBookmarks(this, IDC_BOOKMARKS, g_plugin.getIcon(IDI_BOOKMARKS), "Bookmarks")
 	{
+		btnBookmarks.OnClick = Callback(this, &CJabberDlgGcJoin::onClick_Bookmarks);
+
+		cmbRoom.OnDropdown = Callback(this, &CJabberDlgGcJoin::onDrop_Room);
+		cmbServer.OnChange = cmbServer.OnSelChanged = Callback(this, &CJabberDlgGcJoin::onChange_Server);
+
+		h1.OnClick = h2.OnClick = h3.OnClick = h4.OnClick = h5.OnClick = Callback(this, &CJabberDlgGcJoin::onClick_Link);
 	}
 	
 	~CJabberDlgGcJoin()
@@ -430,7 +493,7 @@ public:
 		GetTextMetrics(hdc, &tm);
 		ReleaseDC(m_hwnd, hdc);
 		sttTextLineHeight = tm.tmHeight;
-		SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_SETITEMHEIGHT, -1, sttTextLineHeight - 1);
+		cmbRoom.SendMsg(CB_SETITEMHEIGHT, -1, sttTextLineHeight - 1);
 
 		LOGFONT lf = { 0 };
 		HFONT hfnt = (HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_GETFONT, 0, 0);
@@ -438,36 +501,63 @@ public:
 		lf.lfWeight = FW_BOLD;
 		SendDlgItemMessage(m_hwnd, IDC_TXT_RECENT, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), TRUE);
 
-		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BOOKMARKS));
-		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BUTTONADDTOOLTIP, (WPARAM)"Bookmarks", 0);
-		SendDlgItemMessage(m_hwnd, IDC_BOOKMARKS, BUTTONSETASPUSHBTN, TRUE, 0);
+		btnBookmarks.MakeFlat();
+		btnBookmarks.MakePush();
 
 		m_proto->ComboLoadRecentStrings(m_hwnd, IDC_SERVER, "joinWnd_rcSvr");
 
-		int i;
-		for (i = 0; i < 5; i++) {
+		CCtrlHyperlink *links[] = { &h1, &h2, &h3, &h4, &h5 };
+		for (auto *it : links)
+			it->Hide();
+
+		int newCount = 0;
+		for (auto *it : links) {
 			JabberGcRecentInfo info(m_proto);
-			if (!info.loadRecent(i))
+			if (!info.loadRecent(newCount))
 				break;
 
 			char jid[JABBER_MAX_JID_LEN];
 			mir_snprintf(jid, "%s@%s (%s)", info.m_room.get(), info.m_server.get(), info.m_nick ? info.m_nick.get() : TranslateU("<no nick>"));
-			SetDlgItemTextUtf(m_hwnd, IDC_RECENT1 + i, jid);
+			SetDlgItemTextUtf(m_hwnd, it->GetCtrlId(), jid);
+
+			it->Show();
+			newCount++;
 		}
-		sttJoinDlgShowRecentItems(m_hwnd, i);
+
+		RECT rcTitle, rcLastItem;
+		GetWindowRect(GetDlgItem(m_hwnd, IDC_TXT_RECENT), &rcTitle);
+		GetWindowRect(h5.GetHwnd(), &rcLastItem);
+
+		ShowWindow(GetDlgItem(m_hwnd, IDC_TXT_RECENT), newCount ? SW_SHOW : SW_HIDE);
+
+		int curRecentHeight = rcLastItem.bottom - rcTitle.top;
+		int newRecentHeight = rcLastItem.bottom - rcTitle.top - (5 - newCount) * (rcLastItem.bottom - rcLastItem.top);
+		if (!newCount)
+			newRecentHeight = 0;
+		int offset = newRecentHeight - curRecentHeight;
+
+		RECT rc;
+		int ctrls[] = { IDC_BOOKMARKS, IDOK, IDCANCEL };
+		for (auto &it : ctrls) {
+			GetWindowRect(GetDlgItem(m_hwnd, it), &rc);
+			MapWindowPoints(nullptr, m_hwnd, (LPPOINT)&rc, 2);
+			SetWindowPos(GetDlgItem(m_hwnd, it), nullptr, rc.left, rc.top + offset, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		}
+
+		GetWindowRect(m_hwnd, &rc);
+		SetWindowPos(m_hwnd, nullptr, 0, 0, rc.right - rc.left, rc.bottom - rc.top + offset, SWP_NOMOVE | SWP_NOZORDER);
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		wchar_t text[128];
-		GetDlgItemText(m_hwnd, IDC_SERVER, text, _countof(text));
+		cmbServer.GetText(text, _countof(text));
 		T2Utf server(text);
 
 		m_proto->ComboAddRecentString(m_hwnd, IDC_SERVER, "joinWnd_rcSvr", text);
 
-		GetDlgItemText(m_hwnd, IDC_ROOM, text, _countof(text));
+		cmbRoom.GetText(text, _countof(text));
 		T2Utf room(text);
 
 		GetDlgItemText(m_hwnd, IDC_NICK, text, _countof(text));
@@ -490,208 +580,101 @@ public:
 		mir_free(m_jid); m_jid = nullptr;
 	}
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	void OnProtoCheckOnline(WPARAM, LPARAM) override
 	{
-		switch (msg) {
-		case WM_DELETEITEM:
-			{
-				LPDELETEITEMSTRUCT lpdis = (LPDELETEITEMSTRUCT)lParam;
-				if (lpdis->CtlID != IDC_ROOM)
-					break;
+		if (!m_proto->m_bJabberOnline)
+			EndModal(0);
+	}
 
-				RoomInfo *info = (RoomInfo *)lpdis->itemData;
-				mir_free(info->line1);
-				mir_free(info->line2);
-				mir_free(info);
-			}
-			break;
+	void onDrop_Room(CCtrlCombo*)
+	{
+		if (cmbRoom.GetCount())
+			return;
 
-		case WM_MEASUREITEM:
-			{
-				LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
-				if (lpmis->CtlID != IDC_ROOM)
-					break;
-
-				lpmis->itemHeight = 2 * sttTextLineHeight;
-				if (lpmis->itemID == -1)
-					lpmis->itemHeight = sttTextLineHeight - 1;
-
-			}
-			break;
-
-		case WM_DRAWITEM:
-			{
-				LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
-				if (lpdis->CtlID != IDC_ROOM)
-					break;
-
-				RoomInfo *info = (RoomInfo *)SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_GETITEMDATA, lpdis->itemID, 0);
-				COLORREF clLine1, clBack;
-
-				if (lpdis->itemState & ODS_SELECTED) {
-					FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
-					clBack = GetSysColor(COLOR_HIGHLIGHT);
-					clLine1 = GetSysColor(COLOR_HIGHLIGHTTEXT);
-				}
-				else {
-					FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(COLOR_WINDOW));
-					clBack = GetSysColor(COLOR_WINDOW);
-					clLine1 = GetSysColor(COLOR_WINDOWTEXT);
-				}
-				COLORREF clLine2 = RGB(
-					GetRValue(clLine1) * 0.66 + GetRValue(clBack) * 0.34,
-					GetGValue(clLine1) * 0.66 + GetGValue(clBack) * 0.34,
-					GetBValue(clLine1) * 0.66 + GetBValue(clBack) * 0.34);
-
-				SetBkMode(lpdis->hDC, TRANSPARENT);
-
-				RECT rc = lpdis->rcItem;
-				rc.bottom -= (rc.bottom - rc.top) / 2;
-				rc.left += 20;
-				SetTextColor(lpdis->hDC, clLine1);
-				DrawText(lpdis->hDC, info->line1, -1, &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
-
-				rc = lpdis->rcItem;
-				rc.top += (rc.bottom - rc.top) / 2;
-				rc.left += 20;
-				SetTextColor(lpdis->hDC, clLine2);
-				DrawText(lpdis->hDC, info->line2, -1, &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
-
-				DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_GROUP), 16, 16, 0, nullptr, DI_NORMAL);
-				switch (info->overlay) {
-				case RoomInfo::ROOM_WAIT:
-					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_PROGRESS), 16, 16, 0, nullptr, DI_NORMAL);
-					break;
-				case RoomInfo::ROOM_FAIL:
-					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_FAIL), 16, 16, 0, nullptr, DI_NORMAL);
-					break;
-				case RoomInfo::ROOM_BOOKMARK:
-					DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, g_plugin.getIcon(IDI_DISCO_OK), 16, 16, 0, nullptr, DI_NORMAL);
-					break;
-				}
-			}
-			break;
-
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-			case IDC_SERVER:
-				switch (HIWORD(wParam)) {
-				case CBN_EDITCHANGE:
-				case CBN_SELCHANGE:
-					{
-						int iqid = GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_ROOM), GWLP_USERDATA);
-						if (iqid) {
-							m_proto->m_iqManager.ExpireIq(iqid);
-							SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_ROOM), GWLP_USERDATA, 0);
-						}
-						SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_RESETCONTENT, 0, 0);
-					}
-					break;
-				}
-				break;
-
-			case IDC_ROOM:
-				switch (HIWORD(wParam)) {
-				case CBN_DROPDOWN:
-					if (!SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_GETCOUNT, 0, 0)) {
-						int iqid = GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_ROOM), GWLP_USERDATA);
-						if (iqid) {
-							m_proto->m_iqManager.ExpireIq(iqid);
-							SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_ROOM), GWLP_USERDATA, 0);
-						}
-
-						SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_RESETCONTENT, 0, 0);
-
-						int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_SERVER)) + 1;
-						wchar_t *server = (wchar_t*)_alloca(len * sizeof(wchar_t));
-						GetDlgItemText(m_hwnd, IDC_SERVER, server, len);
-
-						if (*server) {
-							sttRoomListAppend(GetDlgItem(m_hwnd, IDC_ROOM), RoomInfo::ROOM_WAIT, TranslateT("Loading..."), TranslateT("Please wait for room list to download."), L"");
-
-							CJabberIqInfo *pInfo = m_proto->AddIQ(&CJabberProto::OnIqResultDiscovery, JABBER_IQ_TYPE_GET, T2Utf(server), (void*)GetDlgItem(m_hwnd, IDC_ROOM));
-							pInfo->SetTimeout(30000);
-							XmlNodeIq iq(pInfo);
-							iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
-							m_proto->m_ThreadInfo->send(iq);
-
-							SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_ROOM), GWLP_USERDATA, pInfo->GetIqId());
-						}
-						else
-							sttRoomListAppend(GetDlgItem(m_hwnd, IDC_ROOM), RoomInfo::ROOM_FAIL,
-								TranslateT("Jabber Error"),
-								TranslateT("Please specify group chat directory first."),
-								L"");
-					}
-					break;
-				}
-				break;
-
-			case IDC_BOOKMARKS:
-				{
-					HMENU hMenu = CreatePopupMenu();
-
-					LISTFOREACH(i, m_proto, LIST_BOOKMARK)
-					{
-						JABBER_LIST_ITEM *item = nullptr;
-						if (item = m_proto->ListGetItemPtrFromIndex(i))
-							if (!mir_strcmp(item->type, "conference"))
-								AppendMenu(hMenu, MF_STRING, (UINT_PTR)item, item->name);
-					}
-					AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
-					AppendMenu(hMenu, MF_STRING, (UINT_PTR)-1, TranslateT("Bookmarks..."));
-					AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
-
-					RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BOOKMARKS), &rc);
-					CheckDlgButton(m_hwnd, IDC_BOOKMARKS, BST_CHECKED);
-					int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
-					CheckDlgButton(m_hwnd, IDC_BOOKMARKS, BST_UNCHECKED);
-					DestroyMenu(hMenu);
-
-					if (res == -1)
-						m_proto->OnMenuHandleBookmarks(0, 0);
-					else if (res) {
-						JABBER_LIST_ITEM *item = (JABBER_LIST_ITEM *)res;
-						char *room = NEWSTR_ALLOCA(item->jid);
-						if (room) {
-							char *server = strchr(room, '@');
-							if (server) {
-								*server++ = 0;
-
-								SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_SERVER, CBN_EDITCHANGE), (LPARAM)GetDlgItem(m_hwnd, IDC_SERVER));
-
-								SetDlgItemTextUtf(m_hwnd, IDC_SERVER, server);
-								SetDlgItemTextUtf(m_hwnd, IDC_ROOM, room);
-								SetDlgItemTextUtf(m_hwnd, IDC_NICK, item->nick);
-								SetDlgItemTextUtf(m_hwnd, IDC_PASSWORD, item->password);
-							}
-						}
-					}
-				}
-				break;
-
-			case IDC_RECENT1:
-			case IDC_RECENT2:
-			case IDC_RECENT3:
-			case IDC_RECENT4:
-			case IDC_RECENT5:
-				JabberGcRecentInfo info(m_proto, LOWORD(wParam) - IDC_RECENT1);
-				info.fillForm(m_hwnd);
-				if (GetAsyncKeyState(VK_CONTROL))
-					break;
-
-				UIEmulateBtnClick(m_hwnd, IDOK);
-				Close();
-			}
-			break;
-
-		case WM_PROTO_CHECK_ONLINE:
-			if (!m_proto->m_bJabberOnline)
-				EndDialog(m_hwnd, 0);
-			break;
+		if (m_iqid) {
+			m_proto->m_iqManager.ExpireIq(m_iqid);
+			m_iqid = 0;
 		}
 
-		return CSuper::DlgProc(msg, wParam, lParam);
+		cmbRoom.ResetContent();
+
+		int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_SERVER)) + 1;
+		wchar_t *server = (wchar_t *)_alloca(len * sizeof(wchar_t));
+		GetDlgItemText(m_hwnd, IDC_SERVER, server, len);
+
+		if (*server) {
+			sttRoomListAppend(cmbRoom.GetHwnd(), RoomInfo::ROOM_WAIT, TranslateT("Loading..."), TranslateT("Please wait for room list to download."), L"");
+
+			CJabberIqInfo *pInfo = m_proto->AddIQ(&CJabberProto::OnIqResultDiscovery, JABBER_IQ_TYPE_GET, T2Utf(server), (void *)cmbRoom.GetHwnd());
+			pInfo->SetTimeout(30000);
+			XmlNodeIq iq(pInfo);
+			iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
+			m_proto->m_ThreadInfo->send(iq);
+
+			m_iqid = pInfo->GetIqId();
+		}
+		else sttRoomListAppend(cmbRoom.GetHwnd(), RoomInfo::ROOM_FAIL, TranslateT("Jabber Error"), TranslateT("Please specify group chat directory first."), L"");
+	}
+
+	void onChange_Server(CCtrlCombo*)
+	{
+		if (m_iqid) {
+			m_proto->m_iqManager.ExpireIq(m_iqid);
+			m_iqid = 0;
+		}
+
+		cmbRoom.ResetContent();
+	}
+
+	void onClick_Bookmarks(CCtrlButton *pButton)
+	{
+		HMENU hMenu = CreatePopupMenu();
+
+		LISTFOREACH(i, m_proto, LIST_BOOKMARK)
+		{
+			JABBER_LIST_ITEM *item = nullptr;
+			if (item = m_proto->ListGetItemPtrFromIndex(i))
+				if (!mir_strcmp(item->type, "conference"))
+					AppendMenu(hMenu, MF_STRING, (UINT_PTR)item, item->name);
+		}
+		AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
+		AppendMenu(hMenu, MF_STRING, (UINT_PTR)-1, TranslateT("Bookmarks..."));
+		AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
+
+		RECT rc; 
+		GetWindowRect(pButton->GetHwnd(), &rc);
+		CheckDlgButton(m_hwnd, IDC_BOOKMARKS, BST_CHECKED);
+		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
+		CheckDlgButton(m_hwnd, IDC_BOOKMARKS, BST_UNCHECKED);
+		DestroyMenu(hMenu);
+
+		if (res == -1)
+			m_proto->OnMenuHandleBookmarks(0, 0);
+		else if (res) {
+			JABBER_LIST_ITEM *item = (JABBER_LIST_ITEM *)res;
+			if (char *room = NEWSTR_ALLOCA(item->jid)) {
+				if (char *server = strchr(room, '@')) {
+					*server++ = 0;
+
+					SendMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_SERVER, CBN_EDITCHANGE), (LPARAM)GetDlgItem(m_hwnd, IDC_SERVER));
+
+					SetDlgItemTextUtf(m_hwnd, IDC_SERVER, server);
+					SetDlgItemTextUtf(m_hwnd, IDC_ROOM, room);
+					SetDlgItemTextUtf(m_hwnd, IDC_NICK, item->nick);
+					SetDlgItemTextUtf(m_hwnd, IDC_PASSWORD, item->password);
+				}
+			}
+		}
+	}
+
+	void onClick_Link(CCtrlHyperlink *pLink)
+	{
+		JabberGcRecentInfo info(m_proto, pLink->GetCtrlId() - IDC_RECENT1);
+		info.fillForm(m_hwnd);
+		if (!GetAsyncKeyState(VK_CONTROL)) {
+			OnApply();
+			Close();
+		}
 	}
 };
 
