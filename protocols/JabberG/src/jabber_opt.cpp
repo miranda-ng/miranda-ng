@@ -257,7 +257,7 @@ public:
 
 		ShowWindow(GetDlgItem(m_hwnd, IDC_PROGRESS_REG), SW_SHOW);
 
-		m_regInfo->reg_hwndDlg = m_hwnd;
+		m_regInfo->pDlg = this;
 		m_proto->ForkThread((CJabberProto::MyThreadFunc) & CJabberProto::ServerThread, m_regInfo);
 
 		m_btnOk.SetText(TranslateT("Cancel"));
@@ -265,27 +265,28 @@ public:
 		return false;
 	}
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	void OnDestroy() override
 	{
-		switch (msg) {
-		case WM_JABBER_REGDLG_UPDATE:	// wParam=progress (0-100), lparam=status string
-			if ((wchar_t*)lParam == nullptr)
-				SetDlgItemTextW(m_hwnd, IDC_REG_STATUS, TranslateT("No message"));
-			else
-				SetDlgItemTextW(m_hwnd, IDC_REG_STATUS, (wchar_t*)lParam);
+		m_regInfo->pDlg = nullptr;
+	}
 
-			SendDlgItemMessage(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, wParam, 0);
-			if (wParam >= 100)
-				m_btnOk.SetText(TranslateT("Close"));
-			else
-				SetFocus(GetDlgItem(m_hwnd, IDC_PROGRESS_REG));
+	void Update(int progress, const wchar_t *pwszText)
+	{
+		SetDlgItemTextW(m_hwnd, IDC_REG_STATUS, pwszText);
+		SendDlgItemMessageW(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, progress, 0);
 
-			return TRUE;
-		}
-
-		return CSuper::DlgProc(msg, wParam, lParam);
+		if (progress >= 100)
+			m_btnOk.SetText(TranslateT("Close"));
+		else
+			SetFocus(GetDlgItem(m_hwnd, IDC_PROGRESS_REG));
 	}
 };
+
+void JABBER_CONN_DATA::SetProgress(int progress, const wchar_t *pwszText)
+{
+	if (pDlg)
+		pDlg->Update(progress, pwszText);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberOptDlgProc - main options dialog procedure

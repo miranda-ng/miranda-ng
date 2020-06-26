@@ -179,7 +179,6 @@ protected:
 #define JABBER_DB_EVENT_PRESENCE_ERROR           5
 
 // User-defined message
-#define WM_JABBER_REGDLG_UPDATE        (WM_PROTO_LAST + 100)
 #define WM_JABBER_AGENT_REFRESH        (WM_PROTO_LAST + 101)
 #define WM_JABBER_TRANSPORT_REFRESH    (WM_PROTO_LAST + 102)
 #define WM_JABBER_REGINPUT_ACTIVATE    (WM_PROTO_LAST + 103)
@@ -342,7 +341,8 @@ struct JABBER_CONN_DATA : public MZeroedObject
 	int  port;
 	BOOL useSSL;
 
-	HWND reg_hwndDlg;
+	class CJabberDlgRegister *pDlg;
+	void  SetProgress(int progress, const wchar_t *pwszText);
 };
 
 struct ThreadData

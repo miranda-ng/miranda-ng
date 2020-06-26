@@ -252,7 +252,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   m_bMamPrefsAvailable;
 
 	HWND   m_hwndAgentRegInput;
-	HWND   m_hwndRegProgress;
 	HWND   m_hwndJabberChangePassword;
 	HWND   m_hwndPrivacyRule;
 	HWND   m_hwndJabberAddBookmark;
@@ -360,13 +359,20 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void       ContactMenuAdhocCommands(struct CJabberAdhocStartupParams *param);
 
+	//---- jabber_agent.c ----------------------------------------------------------------
+
+	class      CAgentRegProgressDlg *m_pDlgReg;
+
+	void       AgentShutdown();
+	void       OnIqAgentRegister(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+
 	//---- jabber_archive.c --------------------------------------------------------------
 
 	void       EnableArchive(bool bEnable);
 	void       RetrieveMessageArchive(MCONTACT hContact, JABBER_LIST_ITEM *pItem);
 			    
-	void       OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIqInfo*);
-	void       OnIqResultGetCollectionList(const TiXmlElement *iqNode, CJabberIqInfo*);
+	void       OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+	void       OnIqResultGetCollectionList(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_bookmarks.c ------------------------------------------------------------
 
@@ -550,7 +556,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnIqResultSetAuth(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetBookmarks(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetPassword(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
-	void       OnIqResultSetRegister(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetVcard(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnProcessLoginRq(ThreadData *info, DWORD rq);

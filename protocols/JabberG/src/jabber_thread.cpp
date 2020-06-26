@@ -328,7 +328,7 @@ LBL_FatalError:
 		// Multiple thread allowed, although not possible :)
 		// thinking again.. multiple thread should not be allowed
 		info.reg_done = false;
-		SendMessage(info.conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 25, (LPARAM)TranslateT("Connecting..."));
+		info.conn.SetProgress(25, TranslateT("Connecting..."));
 		iqIdRegGetReg = -1;
 		iqIdRegSetReg = -1;
 	}
@@ -337,7 +337,7 @@ LBL_FatalError:
 	if ((info.buffer = (char*)mir_alloc(jabberNetworkBufferSize + 1)) == nullptr) {	// +1 is for '\0' when debug logging this buffer
 		debugLogA("Cannot allocate network buffer, thread ended");
 		if (info.bIsReg)
-			SendMessage(info.conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Not enough memory"));
+			info.conn.SetProgress(100, TranslateT("Error: Not enough memory"));
 		else
 			ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 
@@ -361,7 +361,7 @@ LBL_FatalError:
 			if (m_ThreadInfo == &info)
 				ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 		}
-		else SendMessage(info.conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Cannot connect to the server"));
+		else info.conn.SetProgress(100, TranslateT("Error: Cannot connect to the server"));
 
 		debugLogA("Thread ended, connection failed");
 		goto LBL_FatalError;
@@ -375,7 +375,7 @@ LBL_FatalError:
 			if (!info.bIsReg)
 				ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 			else
-				SendMessage(info.conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Cannot connect to the server"));
+				info.conn.SetProgress(100, TranslateT("Error: Cannot connect to the server"));
 
 			info.close();
 			debugLogA("Thread ended, SSL connection failed");
@@ -533,7 +533,7 @@ recvRest:
 		}
 		else {
 			if (!info.reg_done)
-				SendMessage(info.conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Connection lost"));
+				info.conn.SetProgress(100, TranslateT("Error: Connection lost"));
 			g_pRegInfo = nullptr;
 		}
 	}
@@ -554,7 +554,7 @@ void CJabberProto::PerformRegistration(ThreadData *info)
 	iqIdRegGetReg = SerialNext();
 	info->send(XmlNodeIq("get", iqIdRegGetReg, nullptr) << XQUERY(JABBER_FEAT_REGISTER));
 
-	SendMessage(info->conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 50, (LPARAM)TranslateT("Requesting registration instruction..."));
+	info->conn.SetProgress(50, TranslateT("Requesting registration instruction..."));
 }
 
 void CJabberProto::PerformIqAuth(ThreadData *info)
@@ -1878,7 +1878,7 @@ void CJabberProto::OnProcessIq(const TiXmlElement *node)
 void CJabberProto::CancelRegConfig(CJabberFormDlg*, void*)
 {
 	if (g_pRegInfo)
-		SendMessage(g_pRegInfo->conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Registration canceled"));
+		g_pRegInfo->conn.SetProgress(100, TranslateT("Registration canceled"));
 }
 
 void CJabberProto::SetRegConfig(CJabberFormDlg *pDlg, void *from)
@@ -1916,7 +1916,8 @@ void CJabberProto::OnProcessRegIq(const TiXmlElement *node, ThreadData *info)
 						g_pRegInfo = info;
 
 						auto *pDlg = new CJabberFormDlg(this, xNode, "Jabber register new user", &CJabberProto::SetRegConfig, mir_strdup(XmlGetAttr(node, "from")));
-						pDlg->SetParent(info->conn.reg_hwndDlg);
+						if (info->conn.pDlg)
+							pDlg->SetParent(((CDlgBase*)info->conn.pDlg)->GetHwnd());
 						pDlg->SetCancel(&CJabberProto::CancelRegConfig);
 						pDlg->Display();
 						return;
@@ -1936,18 +1937,18 @@ void CJabberProto::OnProcessRegIq(const TiXmlElement *node, ThreadData *info)
 			query << XCHILD("username", info->conn.username);
 			info->send(iq);
 
-			SendMessage(info->conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 75, (LPARAM)TranslateT("Sending registration information..."));
+			info->conn.SetProgress(75, TranslateT("Sending registration information..."));
 		}
 		// RECVED: result of the registration process
 		// ACTION: account registration successful
 		else if (id == iqIdRegSetReg) {
 			info->send("</stream:stream>");
-			SendMessage(info->conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Registration successful"));
+			info->conn.SetProgress(100, TranslateT("Registration successful"));
 			info->reg_done = true;
 		}
 	}
 	else if (!mir_strcmp(type, "error")) {
-		SendMessage(info->conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)JabberErrorMsg(node).c_str());
+		info->conn.SetProgress(100, JabberErrorMsg(node));
 		info->reg_done = true;
 		info->send("</stream:stream>");
 	}

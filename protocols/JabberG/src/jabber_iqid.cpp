@@ -490,30 +490,6 @@ void CJabberProto::OnIqResultGetRegister(const TiXmlElement *iqNode, CJabberIqIn
 	}
 }
 
-void CJabberProto::OnIqResultSetRegister(const TiXmlElement *iqNode, CJabberIqInfo*)
-{
-	// RECVED: result of registration process
-	// ACTION: notify of successful agent registration
-	debugLogA("<iq/> iqIdSetRegister");
-
-	const char *type, *from;
-	if ((type = XmlGetAttr(iqNode, "type")) == nullptr) return;
-	if ((from = XmlGetAttr(iqNode, "from")) == nullptr) return;
-
-	if (!mir_strcmp(type, "result")) {
-		MCONTACT hContact = HContactFromJID(from);
-		if (hContact != 0)
-			setByte(hContact, "IsTransport", true);
-
-		if (m_hwndRegProgress)
-			SendMessage(m_hwndRegProgress, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Registration successful"));
-	}
-	else if (!mir_strcmp(type, "error")) {
-		if (m_hwndRegProgress)
-			SendMessage(m_hwndRegProgress, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)JabberErrorMsg(iqNode).c_str());
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberIqResultGetVcard - processes the server-side v-card
 

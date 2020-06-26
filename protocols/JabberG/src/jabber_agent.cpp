@@ -43,7 +43,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		m_proto->m_hwndRegProgress = m_hwnd;
+		m_proto->m_pDlgReg = this;
 		SetWindowText(m_hwnd, TranslateT("Jabber Agent Registration"));
 		TranslateDialogDefault(m_hwnd);
 		return true;
@@ -51,26 +51,48 @@ public:
 
 	void OnDestroy() override
 	{
-		m_proto->m_hwndRegProgress = nullptr;
+		m_proto->m_pDlgReg = nullptr;
 	}
 
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	void Update(int progress, const wchar_t *pwszText)
 	{
-		if (msg == WM_JABBER_REGDLG_UPDATE) {
-			if ((wchar_t*)lParam == nullptr)
-				SetDlgItemText(m_hwnd, IDC_REG_STATUS, TranslateT("No message"));
-			else
-				SetDlgItemText(m_hwnd, IDC_REG_STATUS, (wchar_t*)lParam);
+		if (this == nullptr)
+			return;
 
-			SendDlgItemMessage(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, wParam, 0);
+		SetDlgItemText(m_hwnd, IDC_REG_STATUS, pwszText);
+		SendDlgItemMessage(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, progress, 0);
 
-			if (wParam >= 100)
-				m_ok.SetText(TranslateT("OK"));
-		}
-
-		return CJabberDlgBase::DlgProc(msg, wParam, lParam);
+		if (progress >= 100)
+			m_ok.SetText(TranslateT("OK"));
 	}
 };
+
+void CJabberProto::AgentShutdown()
+{
+	UI_SAFE_CLOSE(m_pDlgReg);
+}
+
+void CJabberProto::OnIqAgentRegister(const TiXmlElement *iqNode, CJabberIqInfo *)
+{
+	// RECVED: result of registration process
+	// ACTION: notify of successful agent registration
+	debugLogA("<iq/> iqIdSetRegister");
+
+	const char *type, *from;
+	if ((type = XmlGetAttr(iqNode, "type")) == nullptr) return;
+	if ((from = XmlGetAttr(iqNode, "from")) == nullptr) return;
+
+	if (!mir_strcmp(type, "result")) {
+		MCONTACT hContact = HContactFromJID(from);
+		if (hContact != 0)
+			setByte(hContact, "IsTransport", true);
+
+		m_pDlgReg->Update(100, TranslateT("Registration successful"));
+	}
+	else if (!mir_strcmp(type, "error")) {
+		m_pDlgReg->Update(100, JabberErrorMsg(iqNode).c_str());
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Transport registration form
@@ -127,10 +149,9 @@ public:
 			return true;
 
 		HWND hwndFrame = GetDlgItem(m_hwnd, IDC_FRAME);
-		wchar_t *str2 = (wchar_t *)alloca(sizeof(wchar_t) * 128);
 		int id = 0;
 
-		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultSetRegister, JABBER_IQ_TYPE_SET, from));
+		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqAgentRegister, JABBER_IQ_TYPE_SET, from));
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_REGISTER);
 
 		if (auto *xNode = XmlFirstChild(queryNode, "x")) {
@@ -153,8 +174,9 @@ public:
 						// do nothing, we will skip these
 					}
 					else {
-						GetDlgItemText(hwndFrame, id, str2, 128);
-						XmlAddChildA(query, pszName, T2Utf(str2).get());
+						wchar_t str[128];
+						GetDlgItemText(hwndFrame, id, str, _countof(str));
+						XmlAddChildA(query, pszName, T2Utf(str).get());
 						id++;
 					}
 				}

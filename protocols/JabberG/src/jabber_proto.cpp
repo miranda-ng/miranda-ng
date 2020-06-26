@@ -332,7 +332,6 @@ void CJabberProto::OnShutdown()
 	m_bShutdown = true;
 
 	UI_SAFE_CLOSE_HWND(m_hwndAgentRegInput);
-	UI_SAFE_CLOSE_HWND(m_hwndRegProgress);
 	UI_SAFE_CLOSE_HWND(m_hwndJabberChangePassword);
 	UI_SAFE_CLOSE_HWND(m_hwndJabberAddBookmark);
 	UI_SAFE_CLOSE_HWND(m_hwndPrivacyRule);
@@ -343,6 +342,7 @@ void CJabberProto::OnShutdown()
 	UI_SAFE_CLOSE(m_pDlgJabberJoinGroupchat);
 	UI_SAFE_CLOSE(m_pDlgNotes);
 
+	AgentShutdown();
 	MucShutdown();
 
 	m_iqManager.ExpireAll();
