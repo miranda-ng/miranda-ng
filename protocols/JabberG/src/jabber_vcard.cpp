@@ -320,10 +320,6 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		UpdateWindow(hwndDlg);
 		break;
 
-	case WM_JABBER_CHANGED:
-		dat->ppro->SetServerVcard(dat->ppro->m_bPhotoChanged, dat->ppro->m_szPhotoFileName);
-		break;
-
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_DELETE:

@@ -180,16 +180,6 @@ protected:
 
 // User-defined message
 #define WM_JABBER_TRANSPORT_REFRESH    (WM_PROTO_LAST + 102)
-#define WM_JABBER_CHANGED              (WM_PROTO_LAST + 106)
-#define WM_JABBER_SET_FONT             (WM_PROTO_LAST + 108)
-#define WM_JABBER_FLASHWND             (WM_PROTO_LAST + 109)
-#define WM_JABBER_GC_MEMBER_ADD        (WM_PROTO_LAST + 110)
-#define WM_JABBER_GC_FORCE_QUIT        (WM_PROTO_LAST + 111)
-#define WM_JABBER_SHUTDOWN             (WM_PROTO_LAST + 112)
-#define WM_JABBER_SMILEY               (WM_PROTO_LAST + 113)
-#define WM_JABBER_JOIN                 (WM_PROTO_LAST + 114)
-#define WM_JABBER_ADD_TO_ROSTER        (WM_PROTO_LAST + 115)
-#define WM_JABBER_ADD_TO_BOOKMARKS     (WM_PROTO_LAST + 116)
 #define WM_JABBER_REFRESH_VCARD        (WM_PROTO_LAST + 117)
 
 #define STATUS_TITLE_MAX 16
