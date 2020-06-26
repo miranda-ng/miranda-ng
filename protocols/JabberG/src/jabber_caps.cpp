@@ -69,6 +69,8 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] =
 	{ JABBER_FEAT_PRIVATE_STORAGE,         JABBER_CAPS_PRIVATE_STORAGE,         LPGEN("Supports private XML Storage (for bookmarks and other)") },
 	{ JABBER_FEAT_ATTENTION,               JABBER_CAPS_ATTENTION,               LPGEN("Supports attention requests ('nudge')") },
 	{ JABBER_FEAT_MAM,                     JABBER_CAPS_MAM,                     LPGEN("Support Message Archive Management (XEP-0313)") },
+	{ JABBER_FEAT_ARCHIVE_AUTO,            JABBER_CAPS_ARCHIVE_AUTO,            LPGEN("Supports chat history retrieving") },
+	{ JABBER_FEAT_ARCHIVE_MANAGE,          JABBER_CAPS_ARCHIVE_MANAGE,          LPGEN("Supports chat history management") },
 	{ JABBER_FEAT_USER_ACTIVITY,           JABBER_CAPS_USER_ACTIVITY,           LPGEN("Can report information about user activity") },
 	{ JABBER_FEAT_USER_ACTIVITY_NOTIFY,    JABBER_CAPS_USER_ACTIVITY_NOTIFY,    LPGEN("Receives information about user activity") },
 	{ JABBER_FEAT_MIRANDA_NOTES,           JABBER_CAPS_MIRANDA_NOTES,           LPGEN("Supports Miranda NG notes extension") },

@@ -123,9 +123,11 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 
 	DWORD dwMask = JABBER_LOGIN_ROSTER | JABBER_LOGIN_BOOKMARKS | JABBER_LOGIN_SERVERINFO;
 	if ((info->dwLoginRqs & dwMask) == dwMask && !(info->dwLoginRqs & JABBER_LOGIN_BOOKMARKS_AJ)) {
+		if (info->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO)
+			EnableArchive(m_bEnableMsgArchive != 0);
 
-		// Server seems to support carbon copies, let's enable/disable them
 		if (info->jabberServerCaps & JABBER_CAPS_CARBONS)
+			// Server seems to support carbon copies, let's enable/disable them
 			m_ThreadInfo->send(XmlNodeIq("set", SerialNext()) << XCHILDNS((m_bEnableCarbons) ? "enable" : "disable", JABBER_FEAT_CARBONS));
 
 		// Server seems to support MAM, let's retrieve MAM settings
