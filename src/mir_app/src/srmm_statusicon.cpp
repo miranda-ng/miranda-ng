@@ -27,6 +27,7 @@ HCURSOR g_hCurHyperlinkHand;
 HANDLE hHookSrmmEvent;
 
 static HANDLE hHookIconsChanged, hHookIconPressedEvt;
+static mir_cs csIcons;
 
 void LoadSrmmToolbarModule();
 void UnloadSrmmToolbarModule();
@@ -40,6 +41,10 @@ void SafeDestroyIcon(HICON hIcon)
 
 struct StatusIconChild : public MZeroedObject
 {
+	StatusIconChild(MCONTACT _1) :
+		hContact(_1)
+	{}
+
 	~StatusIconChild()
 	{
 		SafeDestroyIcon(hIcon);
@@ -58,7 +63,8 @@ struct StatusIconMain : public MZeroedObject
 {
 	StatusIconMain() :
 		arChildren(3, NumericKeySortT)
-		{}
+	{
+	}
 
 	~StatusIconMain()
 	{
@@ -66,11 +72,11 @@ struct StatusIconMain : public MZeroedObject
 		mir_free(pwszTooltip);
 	}
 
-	char* szModule;
+	char *szModule;
 	DWORD dwId;
 	HICON hIcon, hIconDisabled;
 	int   flags;
-	wchar_t* pwszTooltip;
+	wchar_t *pwszTooltip;
 
 	HANDLE hIcolibOn, hIcolibOff;
 	HPLUGIN pPlugin;
@@ -82,7 +88,7 @@ static int CompareIcons(const StatusIconMain *p1, const StatusIconMain *p2)
 	int res = mir_strcmp(p1->szModule, p2->szModule);
 	if (res)
 		return res;
-	
+
 	return p1->dwId - p2->dwId;
 }
 
@@ -95,7 +101,7 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin)
 	if (sid == nullptr)
 		return 1;
 
-	StatusIconMain *p = arIcons.find((StatusIconMain*)sid);
+	StatusIconMain *p = arIcons.find((StatusIconMain *)sid);
 	if (p != nullptr)
 		return 2;
 
@@ -128,7 +134,8 @@ MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, DWORD
 	sid.szModule = szModule;
 	sid.dwId = iconId;
 
-	StatusIconMain *p = arIcons.find((StatusIconMain*)&sid);
+	mir_cslockfull lck(csIcons);
+	StatusIconMain *p = arIcons.find((StatusIconMain *)&sid);
 	if (p == nullptr)
 		return;
 
@@ -140,20 +147,18 @@ MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, DWORD
 		replaceStrW(p->pwszTooltip, pwszToolTip);
 	}
 	else {
-		StatusIconChild *pc = p->arChildren.find((StatusIconChild*)&hContact);
-		if (pc == nullptr) {
-			pc = new StatusIconChild();
-			pc->hContact = hContact;
-			p->arChildren.insert(pc);
-		}
+		StatusIconChild *pc = p->arChildren.find((StatusIconChild *)&hContact);
+		if (pc == nullptr)
+			p->arChildren.insert(pc = new StatusIconChild(hContact));
 
 		if (hIcon)
 			if ((pc->hIcolibOn = IcoLib_IsManaged(hIcon)) == nullptr)
 				pc->hIcon = hIcon;
-		
+
 		replaceStrW(pc->pwszTooltip, pwszToolTip);
 	}
 
+	lck.unlock();
 	NotifyEventHooks(hHookIconsChanged, hContact, (LPARAM)p);
 }
 
@@ -163,23 +168,22 @@ MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, DWO
 	sid.szModule = szModule;
 	sid.dwId = iconId;
 
-	StatusIconMain *p = arIcons.find((StatusIconMain*)&sid);
+	mir_cslockfull lck(csIcons);
+	StatusIconMain *p = arIcons.find((StatusIconMain *)&sid);
 	if (p == nullptr)
 		return;
 
 	if (hContact == 0)
 		p->flags = flags;
 	else {
-		StatusIconChild *pc = p->arChildren.find((StatusIconChild*)&hContact);
-		if (pc == nullptr) {
-			pc = new StatusIconChild();
-			pc->hContact = hContact;
-			p->arChildren.insert(pc);
-		}
+		StatusIconChild *pc = p->arChildren.find((StatusIconChild *)&hContact);
+		if (pc == nullptr)
+			p->arChildren.insert(pc = new StatusIconChild(hContact));
 
 		pc->flags = flags;
 	}
 
+	lck.unlock();
 	NotifyEventHooks(hHookIconsChanged, hContact, (LPARAM)p);
 }
 
@@ -187,8 +191,9 @@ MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, DWO
 
 MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId)
 {
-	StatusIconData tmp = { (char*)szProto, iconId };
-	StatusIconMain *p = arIcons.find((StatusIconMain*)&tmp);
+	mir_cslock lck(csIcons);
+	StatusIconData tmp = { (char *)szProto, iconId };
+	StatusIconMain *p = arIcons.find((StatusIconMain *)&tmp);
 	if (p != nullptr)
 		arIcons.remove(p);
 }
@@ -205,13 +210,13 @@ static void tryIcolib(HANDLE hIcolib, HICON hIcon, HICON &dest)
 		IcoLib_ReleaseIcon(hIcon);
 }
 
-MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
+MIR_APP_DLL(StatusIconData *) Srmm_GetNthIcon(MCONTACT hContact, int index)
 {
 	static StatusIconData res;
 
 	int nVis = 0;
 	for (auto &it : arIcons.rev_iter()) {
-		StatusIconChild *pc = it->arChildren.find((StatusIconChild*)&hContact);
+		StatusIconChild *pc = it->arChildren.find((StatusIconChild *)&hContact);
 		if (pc) {
 			if (pc->flags & MBF_HIDDEN)
 				continue;
