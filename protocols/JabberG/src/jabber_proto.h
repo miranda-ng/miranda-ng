@@ -251,7 +251,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   m_bStreamSent;
 	bool   m_bMamPrefsAvailable;
 
-	HWND   m_hwndAgentRegInput;
 	HWND   m_hwndJabberChangePassword;
 	HWND   m_hwndPrivacyRule;
 	HWND   m_hwndJabberAddBookmark;
@@ -362,9 +361,11 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_agent.c ----------------------------------------------------------------
 
 	class      CAgentRegProgressDlg *m_pDlgReg;
+	class      CAgentRegDlg *m_pDlgAgentReg;
 
 	void       AgentShutdown();
-	void       OnIqAgentRegister(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+	void       OnIqAgentGetRegister(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+	void       OnIqAgentSetRegister(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_archive.c --------------------------------------------------------------
 
@@ -540,7 +541,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnIqResultGetServerAvatar(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultGotAvatar(MCONTACT hContact, const char *pszText, const char *mimeType);
 	void       OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
-	void       OnIqResultGetRegister(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultLastActivity(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);

@@ -67,12 +67,7 @@ public:
 	}
 };
 
-void CJabberProto::AgentShutdown()
-{
-	UI_SAFE_CLOSE(m_pDlgReg);
-}
-
-void CJabberProto::OnIqAgentRegister(const TiXmlElement *iqNode, CJabberIqInfo *)
+void CJabberProto::OnIqAgentSetRegister(const TiXmlElement *iqNode, CJabberIqInfo *)
 {
 	// RECVED: result of registration process
 	// ACTION: notify of successful agent registration
@@ -118,8 +113,9 @@ public:
 
 	bool OnInitDialog() override
 	{
+		m_proto->m_pDlgAgentReg = this;
+
 		EnableWindow(GetParent(m_hwnd), FALSE);
-		m_proto->m_hwndAgentRegInput = m_hwnd;
 		SetWindowText(m_hwnd, TranslateT("Jabber Agent Registration"));
 		SetDlgItemText(m_hwnd, IDOK, TranslateT("Register"));
 
@@ -128,8 +124,7 @@ public:
 		SetWindowTextW(m_statusBar, TranslateT("Please wait..."));
 
 		m_proto->m_ThreadInfo->send(
-			XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqResultGetRegister, JABBER_IQ_TYPE_GET, m_jid))
-			<< XQUERY(JABBER_FEAT_REGISTER));
+			XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqAgentGetRegister, JABBER_IQ_TYPE_GET, m_jid)) << XQUERY(JABBER_FEAT_REGISTER));
 
 		// Enable WS_EX_CONTROLPARENT on IDC_FRAME (so tab stop goes through all its children)
 		LONG_PTR frameExStyle = GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FRAME), GWL_EXSTYLE);
@@ -151,7 +146,7 @@ public:
 		HWND hwndFrame = GetDlgItem(m_hwnd, IDC_FRAME);
 		int id = 0;
 
-		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqAgentRegister, JABBER_IQ_TYPE_SET, from));
+		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqAgentSetRegister, JABBER_IQ_TYPE_SET, from));
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_REGISTER);
 
 		if (auto *xNode = XmlFirstChild(queryNode, "x")) {
@@ -192,9 +187,76 @@ public:
 	void OnDestroy() override
 	{
 		JabberFormDestroyUI(GetDlgItem(m_hwnd, IDC_FRAME));
-		m_proto->m_hwndAgentRegInput = nullptr;
+		m_proto->m_pDlgAgentReg = nullptr;
 		EnableWindow(GetParent(m_hwnd), TRUE);
 		SetActiveWindow(GetParent(m_hwnd));
+	}
+
+	void Success(const TiXmlElement *pNode)
+	{
+		HWND hwndFrame = GetDlgItem(m_hwnd, IDC_FRAME);
+		SetWindowTextW(m_statusBar, L"");
+
+		if (pNode == nullptr)
+			return;
+
+		m_agentRegIqNode = pNode->DeepClone(&m_doc)->ToElement();
+		auto *queryNode = XmlFirstChild(m_agentRegIqNode, "query");
+		if (queryNode == nullptr)
+			return;
+
+		m_curPos = 0;
+		GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &m_frameRect);
+
+		RECT rect;
+		GetClientRect(GetDlgItem(m_hwnd, IDC_VSCROLL), &rect);
+		m_frameRect.right -= (rect.right - rect.left);
+		GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &rect);
+		m_frameHeight = rect.bottom - rect.top;
+
+		if (auto *xNode = XmlFirstChild(queryNode, "x")) {
+			// use new jabber:x:data form
+			if (const char *pszText = XmlGetChildText(xNode, "instructions"))
+				JabberFormSetInstruction(m_hwnd, pszText);
+
+			JabberFormCreateUI(hwndFrame, xNode, &m_formHeight);
+		}
+		else {
+			// use old registration information form
+			TJabberFormLayoutInfo layout_info(hwndFrame, false);
+			for (auto *n : TiXmlEnum(queryNode)) {
+				const char *pszName = n->Name();
+				if (pszName) {
+					if (!mir_strcmp(pszName, "instructions")) {
+						JabberFormSetInstruction(m_hwnd, n->GetText());
+					}
+					else if (!mir_strcmp(pszName, "key") || !mir_strcmp(pszName, "registered")) {
+						// do nothing
+					}
+					else if (!mir_strcmp(pszName, "password"))
+						layout_info.AppendControl(JFORM_CTYPE_TEXT_PRIVATE, pszName, n->GetText());
+					else 	// everything else is a normal text field
+						layout_info.AppendControl(JFORM_CTYPE_TEXT_SINGLE, pszName, n->GetText());
+				}
+			}
+			layout_info.OrderControls(&m_formHeight);
+		}
+
+		if (m_formHeight > m_frameHeight) {
+			HWND hwndScroll;
+
+			hwndScroll = GetDlgItem(m_hwnd, IDC_VSCROLL);
+			EnableWindow(hwndScroll, TRUE);
+			SetScrollRange(hwndScroll, SB_CTL, 0, m_formHeight - m_frameHeight, FALSE);
+			m_curPos = 0;
+		}
+
+		EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
+	}
+
+	void Fail(const CMStringW &wszErrMsg)
+	{
+		SetWindowText(m_statusBar, wszErrMsg);
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -207,74 +269,6 @@ public:
 			default:
 				return 0;
 			}
-
-		case WM_JABBER_REGINPUT_ACTIVATE:
-			if (wParam == 1) { // success
-				// lParam = <iq/> node from agent JID as a result of "get jabber:iq:register"
-				HWND hwndFrame = GetDlgItem(m_hwnd, IDC_FRAME);
-				SetWindowTextW(m_statusBar, L"");
-
-				if ((m_agentRegIqNode = (TiXmlElement*)lParam) == nullptr)
-					return TRUE;
-				
-				m_agentRegIqNode = m_agentRegIqNode->DeepClone(&m_doc)->ToElement();
-				auto *queryNode = XmlFirstChild(m_agentRegIqNode, "query");
-				if (queryNode == nullptr)
-					return TRUE;
-
-				m_curPos = 0;
-				GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &m_frameRect);
-
-				RECT rect;
-				GetClientRect(GetDlgItem(m_hwnd, IDC_VSCROLL), &rect);
-				m_frameRect.right -= (rect.right - rect.left);
-				GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &rect);
-				m_frameHeight = rect.bottom - rect.top;
-
-				if (auto *xNode = XmlFirstChild(queryNode, "x")) {
-					// use new jabber:x:data form
-					if (const char *pszText = XmlGetChildText(xNode, "instructions"))
-						JabberFormSetInstruction(m_hwnd, pszText);
-
-					JabberFormCreateUI(hwndFrame, xNode, &m_formHeight);
-				}
-				else {
-					// use old registration information form
-					TJabberFormLayoutInfo layout_info(hwndFrame, false);
-					for (auto *n : TiXmlEnum(queryNode)) {
-						const char *pszName = n->Name();
-						if (pszName) {
-							if (!mir_strcmp(pszName, "instructions")) {
-								JabberFormSetInstruction(m_hwnd, n->GetText());
-							}
-							else if (!mir_strcmp(pszName, "key") || !mir_strcmp(pszName, "registered")) {
-								// do nothing
-							}
-							else if (!mir_strcmp(pszName, "password"))
-								layout_info.AppendControl(JFORM_CTYPE_TEXT_PRIVATE, pszName, n->GetText());
-							else 	// everything else is a normal text field
-								layout_info.AppendControl(JFORM_CTYPE_TEXT_SINGLE, pszName, n->GetText());
-						}
-					}
-					layout_info.OrderControls(&m_formHeight);
-				}
-
-				if (m_formHeight > m_frameHeight) {
-					HWND hwndScroll;
-
-					hwndScroll = GetDlgItem(m_hwnd, IDC_VSCROLL);
-					EnableWindow(hwndScroll, TRUE);
-					SetScrollRange(hwndScroll, SB_CTL, 0, m_formHeight - m_frameHeight, FALSE);
-					m_curPos = 0;
-				}
-
-				EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
-			}
-			else if (wParam == 0) {
-				// lParam = error message
-				SetWindowText(m_statusBar, (const wchar_t *)lParam);
-			}
-			return TRUE;
 
 		case WM_VSCROLL:
 			int pos = m_curPos;
@@ -303,4 +297,31 @@ public:
 void CJabberProto::RegisterAgent(HWND, char *jid)
 {
 	(new CAgentRegDlg(this, jid))->Show();
+}
+
+void CJabberProto::OnIqAgentGetRegister(const TiXmlElement *iqNode, CJabberIqInfo *)
+{
+	// RECVED: result of the request for (agent) registration mechanism
+	// ACTION: activate (agent) registration input dialog
+	debugLogA("<iq/> iqIdGetRegister");
+
+	const TiXmlElement *queryNode;
+	const char *type;
+	if ((type = XmlGetAttr(iqNode, "type")) == nullptr) return;
+	if ((queryNode = XmlFirstChild(iqNode, "query")) == nullptr) return;
+
+	if (!mir_strcmp(type, "result")) {
+		if (m_pDlgAgentReg)
+			m_pDlgAgentReg->Success(iqNode);
+	}
+	else if (!mir_strcmp(type, "error")) {
+		if (m_pDlgAgentReg)
+			m_pDlgAgentReg->Fail(JabberErrorMsg(iqNode));
+	}
+}
+
+void CJabberProto::AgentShutdown()
+{
+	UI_SAFE_CLOSE(m_pDlgReg);
+	UI_SAFE_CLOSE(m_pDlgAgentReg);
 }

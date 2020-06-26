@@ -331,7 +331,6 @@ void CJabberProto::OnShutdown()
 {
 	m_bShutdown = true;
 
-	UI_SAFE_CLOSE_HWND(m_hwndAgentRegInput);
 	UI_SAFE_CLOSE_HWND(m_hwndJabberChangePassword);
 	UI_SAFE_CLOSE_HWND(m_hwndJabberAddBookmark);
 	UI_SAFE_CLOSE_HWND(m_hwndPrivacyRule);
