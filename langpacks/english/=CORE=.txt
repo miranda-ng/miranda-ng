@@ -52,6 +52,7 @@
 [System tray icon]
 [System tray icon when using multiple protocols]
 [Contact list sorting]
+[Don't move offline user to bottom]
 [Window]
 [Always on top]
 [Tool style main window]
@@ -83,7 +84,6 @@
 [Show selection even when list is not focused]
 [Make selection highlight translucent]
 [Dim idle contacts]
-['Hide offline' means to hide:]
 [Groups]
 [Draw a line alongside group names]
 [Show counts of number of contacts in a group]
@@ -96,8 +96,8 @@
 [Scroll list smoothly]
 [Time:]
 [milliseconds]
-[Left margin:]
 [Hide vertical scroll bar]
+[Left margin:]
 [Row height:]
 [Gamma correction]
 [Gray out entire list when:]
@@ -583,6 +583,7 @@
 [Enable groups]
 [Ask before deleting contacts]
 [Remove temporary contacts on exit]
+['Hide offline' means to hide:]
 [Hidden window]
 [Tray]
 [&Hide/Show]
@@ -631,6 +632,7 @@
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 [Re&ad status message]
+;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 [Give it up, I'm not in!]
@@ -665,6 +667,7 @@
 [List background]
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
+[General]
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
@@ -843,7 +846,6 @@
 [Icons to display in the message log]
 [Icons to display in the tray]
 [Popups to display]
-[General]
 [Chat log]
 [Chat]
 [Popups]
@@ -1033,8 +1035,8 @@
 [%s is now known as %s]
 [You are now known as %s]
 [%s kicked %s]
-[Notice from %s: ]
-[The topic is '%s%s']
+[Notice from %s]
+[The topic is '%s']
 [ (set by %s on %s)]
 [ (set by %s)]
 [%s enables '%s' status for %s]
@@ -1074,22 +1076,12 @@
 [%s has joined %s]
 [%s has left %s]
 [%s kicked %s from %s]
-[Notice from %s]
 [Topic change in %s]
 [Information in %s]
 [%s enables '%s' status for %s in %s]
 [%s disables '%s' status for %s in %s]
-[%s says: %s]
-[%s has left (%s)]
-[%s has disconnected (%s)]
-[%s kicked %s (%s)]
-[Notice from %s: %s]
-[The topic is '%s']
-[The topic is '%s' (set by %s)]
+[%s says]
 [Chat rooms]
-[Look up '%s':]
-[No word to look up]
-[&Message %s]
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -1226,6 +1218,7 @@
 [Show/Hide contact list]
 [Read message]
 [Open Options page]
+[Toggle groups]
 [Open logging options]
 [Open 'Find user' dialog]
 ;file \src\mir_app\src\lpopts.cpp
@@ -1366,6 +1359,10 @@
 [Modified]
 [My profiles]
 [New profile]
+;file \src\mir_app\src\proto_interface.cpp
+[Request authorization]
+[Grant authorization]
+[Revoke authorization]
 ;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -1394,10 +1391,6 @@
 [Account name has to be unique. Please enter unique name.]
 [&Accounts...]
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_utils.cpp
-[Request authorization]
-[Grant authorization]
-[Revoke authorization]
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 [Could not search on any of the protocols, are you online?]
@@ -1450,10 +1443,14 @@
 [WAV files]
 [Unselect all]
 ;file \src\mir_app\src\srmm_base.cpp
+[&Message %s]
 [Nickname]
 [Unique ID]
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
+;file \src\mir_app\src\srmm_log_rtf.cpp
+[Look up '%s':]
+[No word to look up]
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 [Toolbar]

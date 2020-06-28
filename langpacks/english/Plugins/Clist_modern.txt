@@ -127,7 +127,6 @@
 [Show selection even when list is not focused]
 [Make selection highlight translucent]
 [Dim idle contacts]
-['Hide offline' means to hide:]
 [Groups]
 [Draw a line alongside group names]
 [Show counts of number of contacts in a group]

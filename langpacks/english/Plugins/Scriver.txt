@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.1
+;  Version: 3.0.2.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]

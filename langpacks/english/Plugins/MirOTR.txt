@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -25,13 +25,8 @@
 [Show verification dialog when receiving unverified fingerprint]
 [Set OTR policy per account]
 [Current policy:]
-[Generate new private key]
-[Forget private key]
 [Set OTR policy per contact]
 [View & Modify status of known fingerprints]
-[Set verified]
-[Set unknown]
-[Forget]
 [Socialist Millionaires Protocol]
 [Socialist Millionaires Protocol\r\nVerification progress]
 [&Cancel]
@@ -43,6 +38,12 @@
 [&Refresh OTR session]
 [Sto&p OTR session]
 [&Verify Fingerprint]
+[Set verified]
+[Set unknown]
+[Copy]
+[Forget]
+[Generate new private key]
+[Forget private key]
 ;file \plugins\MirOTR\src\icons.cpp
 [OTR private]
 [OTR unverified]
@@ -75,10 +76,6 @@
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 [Generating new private key for account '%s'.\nPlease Wait...]
-[General]
-[Accounts]
-[Contacts]
-[Fingerprints]
 [Contact]
 [Account]
 [Policy]
@@ -126,6 +123,10 @@
 ;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 [Services]
+[General]
+[Accounts]
+[Contacts]
+[Fingerprints]
 ;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
 [Attempting to start a private conversation...]

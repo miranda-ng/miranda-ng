@@ -389,20 +389,6 @@
 [Toggle nick list]
 [Event filter - right click to setup, left click to activate/deactivate]
 [Channel manager]
-;file \plugins\TabSRMM\src\chat_log.cpp
-[%s has joined]
-[You have joined %s]
-[%s has left]
-[%s has disconnected]
-[%s is now known as %s]
-[You are now known as %s]
-[%s kicked %s]
-[Notice from %s: ]
-[The topic is '%s%s']
-[ (set by %s on %s)]
-[ (set by %s)]
-[%s enables '%s' status for %s]
-[%s disables '%s' status for %s]
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 ;file \plugins\TabSRMM\src\chat_options.cpp
@@ -568,6 +554,7 @@
 [%s%s says:%s %s]
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
+[Message from %s]
 [Default container]
 [Attach to]
 ;file \plugins\TabSRMM\src\containeroptions.cpp
@@ -653,7 +640,6 @@
 [TabSRMM: typing]
 [&Messaging settings...]
 [&Send later job list...]
-[Message from %s]
 [signed off.]
 [signed on and is now %s.]
 [changed status from %s to %s.]
@@ -819,6 +805,10 @@
 [Log status changes]
 [Use the same splitter height for all sessions]
 [Automatically copy selected text]
+[Test contact]
+[Template set editor]
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 [Message log appearance]
 [Support for external plugins]
 [Timestamp settings (note: timestamps also depend on your templates)]
@@ -965,9 +955,6 @@
 [Group In (Inner)]
 [Group Out (Inner)]
 [Error message]
-[Template set editor]
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 ;file \plugins\TabSRMM\src\themes.cpp
