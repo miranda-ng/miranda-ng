@@ -303,11 +303,6 @@ public:
 				LVFINDINFO lvfi = { 0 };
 				lvfi.flags = LVFI_STRING;
 				lvfi.psz = tszJid;
-				wchar_t *p = wcschr(tszJid, '@');
-				if (p) {
-					p = wcschr(tszJid, '/');
-					if (p) *p = 0;
-				}
 				if (m_list.FindItem(-1, &lvfi) == -1) {
 					ptrA tszName(db_get_utfa(hContact, "CList", "MyHandle"));
 					ptrA tszGroup(db_get_utfa(hContact, "CList", "Group"));
