@@ -50,11 +50,11 @@ struct JabberPasswordDlgParam
 {
 	CJabberProto *pro;
 
-	BOOL   saveOnlinePassword;
-	WORD   dlgResult;
-	wchar_t  onlinePassword[128];
-	HANDLE hEventPasswdDlg;
-	char  *pszJid;
+	BOOL    saveOnlinePassword;
+	WORD    dlgResult;
+	wchar_t onlinePassword[128];
+	HANDLE  hEventPasswdDlg;
+	char   *pszJid;
 };
 
 static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -627,9 +627,14 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		}
 	}
 
+	if (auth == nullptr && m_isScramPlusAvailable) {
+		m_isScramPlusAvailable = false;
+		auth = new TScramAuth(info, true);
+	}
+
 	if (auth == nullptr && m_isScramAvailable) {
 		m_isScramAvailable = false;
-		auth = new TScramAuth(info);
+		auth = new TScramAuth(info, false);
 	}
 
 	if (auth == nullptr && m_isMd5Available) {
@@ -702,26 +707,28 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 		}
 
 		if (!mir_strcmp(pszName, "mechanisms")) {
-			m_isPlainAvailable = false;
-			m_isPlainOldAvailable = false;
-			m_isMd5Available = false;
-			m_isScramAvailable = false;
-			m_isNtlmAvailable = false;
-			m_isSpnegoAvailable = false;
-			m_isKerberosAvailable = false;
-			mir_free(m_gssapiHostName); m_gssapiHostName = nullptr;
+			m_dwAuthMechs = 0;
+			replaceStr(m_gssapiHostName, nullptr);
 
 			areMechanismsDefined = true;
-			//JabberLog("%d mechanisms\n",n->numChild);
+
 			for (auto *c : TiXmlEnum(n)) {
 				if (!mir_strcmp(c->Name(), "mechanism")) {
 					const char *szMechanism = c->GetText();
-					if (!mir_strcmp(szMechanism, "PLAIN"))        m_isPlainOldAvailable = m_isPlainAvailable = true;
-					else if (!mir_strcmp(szMechanism, "DIGEST-MD5"))   m_isMd5Available = true;
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))  m_isScramAvailable = true;
-					else if (!mir_strcmp(szMechanism, "NTLM"))         m_isNtlmAvailable = true;
-					else if (!mir_strcmp(szMechanism, "GSS-SPNEGO"))   m_isSpnegoAvailable = true;
-					else if (!mir_strcmp(szMechanism, "GSSAPI"))       m_isKerberosAvailable = true;
+					if (!mir_strcmp(szMechanism, "PLAIN"))
+						m_isPlainOldAvailable = m_isPlainAvailable = true;
+					else if (!mir_strcmp(szMechanism, "DIGEST-MD5"))
+						m_isMd5Available = true;
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))
+						m_isScramAvailable = true;
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1-PLUS"))
+						m_isScramPlusAvailable = true;
+					else if (!mir_strcmp(szMechanism, "NTLM"))
+						m_isNtlmAvailable = true;
+					else if (!mir_strcmp(szMechanism, "GSS-SPNEGO"))
+						m_isSpnegoAvailable = true;
+					else if (!mir_strcmp(szMechanism, "GSSAPI"))
+						m_isKerberosAvailable = true;
 				}
 				else if (!mir_strcmp(c->Name(), "hostname")) {
 					const char *mech = XmlGetAttr(c, "mechanism");
@@ -730,9 +737,12 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 				}
 			}
 		}
-		else if (!mir_strcmp(pszName, "register")) isRegisterAvailable = true;
-		else if (!mir_strcmp(pszName, "auth")) m_isAuthAvailable = true;
-		else if (!mir_strcmp(pszName, "session")) m_isSessionAvailable = true;
+		else if (!mir_strcmp(pszName, "register"))
+			isRegisterAvailable = true;
+		else if (!mir_strcmp(pszName, "auth"))
+			m_isAuthAvailable = true;
+		else if (!mir_strcmp(pszName, "session"))
+			m_isSessionAvailable = true;
 		else if (m_bEnableStreamMgmt && !mir_strcmp(pszName, "sm"))
 			m_StrmMgmt.CheckStreamFeatures(n);
 		else if (!mir_strcmp(pszName, "csi") && n->Attribute("xmlns", JABBER_FEAT_CSI))
@@ -747,11 +757,11 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 		return;
 	}
 
-	if (m_bEnableStreamMgmt && m_StrmMgmt.IsResumeIdPresent()) //resume should be done here
+	// mechanisms are not defined.
+	if (m_bEnableStreamMgmt && m_StrmMgmt.IsResumeIdPresent()) // resume should be done here
 		m_StrmMgmt.CheckState();
 	else {
-		// mechanisms are not defined.
-		if (info->auth) { //We are already logged-in
+		if (info->auth) { // we are already logged-in
 			info->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS("bind", JABBER_FEAT_BIND)
@@ -759,12 +769,9 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 
 			if (m_isSessionAvailable)
 				info->bIsSessionAvailable = true;
-
-			return;
 		}
-
-		//mechanisms not available and we are not logged in
-		PerformIqAuth(info);
+		else // mechanisms are not available and we are not logged in
+			PerformIqAuth(info);
 	}
 }
 

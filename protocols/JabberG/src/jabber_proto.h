@@ -792,15 +792,22 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	ptrA       m_szGroupDelimiter;
 	ptrW       m_savedPassword;
 
-	bool       m_isPlainAvailable;
-	bool       m_isPlainOldAvailable;
-	bool       m_isMd5Available;
-	bool       m_isScramAvailable;
-	bool       m_isNtlmAvailable;
-	bool       m_isSpnegoAvailable;
-	bool       m_isKerberosAvailable;
-	bool       m_isAuthAvailable;
-	bool       m_isSessionAvailable;
+	union {
+		int     m_dwAuthMechs;
+		struct {
+			bool m_isPlainAvailable : 1;
+			bool m_isPlainOldAvailable : 1;
+			bool m_isMd5Available : 1;
+			bool m_isScramAvailable : 1;
+			bool m_isScramPlusAvailable : 1;
+			bool m_isNtlmAvailable : 1;
+			bool m_isSpnegoAvailable : 1;
+			bool m_isKerberosAvailable : 1;
+			bool m_isAuthAvailable : 1;
+			bool m_isSessionAvailable : 1;
+		};
+	};
+	
 	char*      m_gssapiHostName;
 
 	void       __cdecl ServerThread(JABBER_CONN_DATA *info);
