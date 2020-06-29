@@ -14,10 +14,10 @@ int CToxProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	bool isCtrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
 	bool isAuthNeed = getByte(hContact, "Auth", 0) > 0;
-	Menu_ShowItem(m_hmiReqAuth, isCtrlPressed || isAuthNeed);
+	Menu_ShowItem(GetMenuItem(PROTO_MENU_REQ_AUTH), isCtrlPressed || isAuthNeed);
 
 	bool isGrantNeed = getByte(hContact, "Grant", 0) > 0;
-	Menu_ShowItem(m_hmiGrantAuth, isCtrlPressed || isGrantNeed);
+	Menu_ShowItem(GetMenuItem(PROTO_MENU_GRANT_AUTH), isCtrlPressed || isGrantNeed);
 
 	return 0;
 }

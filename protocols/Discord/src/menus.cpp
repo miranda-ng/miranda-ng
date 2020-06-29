@@ -110,7 +110,7 @@ int CDiscordProto::OnMenuPrebuild(WPARAM hContact, LPARAM)
 	Menu_ShowItem(m_hMenuToggleSync, bIsGuild);
 
 	if (!bIsGuild && getWord(hContact, "ApparentMode") != 0)
-		Menu_ShowItem(m_hmiReqAuth, true);
+		Menu_ShowItem(GetMenuItem(PROTO_MENU_REQ_AUTH), true);
 
 	if (getByte(hContact, "EnableSync"))
 		Menu_ModifyItem(m_hMenuToggleSync, LPGENW("Disable sync"), Skin_GetIconHandle(SKINICON_CHAT_LEAVE));

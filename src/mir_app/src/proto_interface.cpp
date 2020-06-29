@@ -35,10 +35,6 @@ PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszU
 	m_szModuleName = mir_strdup(pszModuleName);
 	m_tszUserName = mir_wstrdup(ptszUserName);
 	db_set_resident(m_szModuleName, "Status");
-
-	m_hmiReqAuth = hReqAuth;
-	m_hmiGrantAuth = hGrantAuth;
-	m_hmiRevokeAuth = hRevokeAuth;
 }
 
 PROTO_INTERFACE::~PROTO_INTERFACE()
@@ -50,6 +46,18 @@ PROTO_INTERFACE::~PROTO_INTERFACE()
 	mir_free(m_tszUserName);
 
 	WindowList_Destroy(m_hWindowList);
+}
+
+HGENMENU PROTO_INTERFACE::GetMenuItem(ProtoMenuItemType aType)
+{
+	switch (aType) {
+	case PROTO_MENU_REQ_AUTH: return hReqAuth;
+	case PROTO_MENU_GRANT_AUTH: return hGrantAuth;
+	case PROTO_MENU_REVOKE_AUTH: return hRevokeAuth;
+	case PROTO_MENU_LOAD_HISTORY: return hServerHist;
+	}
+
+	return nullptr;
 }
 
 void PROTO_INTERFACE::OnBuildProtoMenu()

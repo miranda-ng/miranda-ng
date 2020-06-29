@@ -63,6 +63,14 @@ EXTERN_C MIR_APP_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const
 /////////////////////////////////////////////////////////////////////////////////////////
 // interface declaration
 
+enum ProtoMenuItemType
+{
+	PROTO_MENU_REQ_AUTH,
+	PROTO_MENU_GRANT_AUTH,
+	PROTO_MENU_REVOKE_AUTH,
+	PROTO_MENU_LOAD_HISTORY
+};
+
 struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 {
 
@@ -79,9 +87,6 @@ public:
 	HANDLE      m_hProtoIcon = 0;  // icon to be displayed in the account manager
 	HNETLIBUSER m_hNetlibUser = 0; // network agent
 	HGENMENU    m_hmiMainMenu = 0; // if protocol menus are displayed in the main menu, this is the root
-	HGENMENU    m_hmiReqAuth;      // a menu item for /RequestAuth service
-	HGENMENU    m_hmiGrantAuth;    // a menu item for /GrantAuth service
-	HGENMENU    m_hmiRevokeAuth;   // a menu item for /RevokeAuth service
 
 	PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName);
 	~PROTO_INTERFACE();
@@ -191,6 +196,8 @@ public:
 
 	void WindowSubscribe(HWND hwnd);
 	void WindowUnsubscribe(HWND hwnd);
+
+	HGENMENU GetMenuItem(ProtoMenuItemType);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions

@@ -35,8 +35,8 @@ int CSkypeProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	bool isGrantNeed = getByte(hContact, "Grant", 0) > 0;
 	bool isBlocked = getBool(hContact, "IsBlocked", false);
 
-	Menu_ShowItem(m_hmiReqAuth, isCtrlPressed || isAuthNeed);
-	Menu_ShowItem(m_hmiGrantAuth, isCtrlPressed || isGrantNeed);
+	Menu_ShowItem(GetMenuItem(PROTO_MENU_REQ_AUTH), isCtrlPressed || isAuthNeed);
+	Menu_ShowItem(GetMenuItem(PROTO_MENU_GRANT_AUTH), isCtrlPressed || isGrantNeed);
 	
 	Menu_ShowItem(ContactMenuItems[CMI_BLOCK], true);
 	Menu_ShowItem(ContactMenuItems[CMI_UNBLOCK], isCtrlPressed || isBlocked);

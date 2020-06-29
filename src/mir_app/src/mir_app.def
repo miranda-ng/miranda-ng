@@ -739,3 +739,4 @@ Chat_CreateMenu @824 NONAME
 ?Proto_GetInstance@@YGPAUPROTO_INTERFACE@@PBD@Z @827 NONAME
 ?OnEventEdited@PROTO_INTERFACE@@UAEXII@Z @828 NONAME
 ?GetChecker@MDatabaseCommon@@UAGPAUMIDatabaseChecker@@XZ @829 NONAME
+?GetMenuItem@PROTO_INTERFACE@@QAEPAUTMO_IntMenuItem@@W4ProtoMenuItemType@@@Z @830 NONAME
