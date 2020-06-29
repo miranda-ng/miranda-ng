@@ -22,7 +22,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 enum
 {
-	CMI_GETSERVERHISTORY,
 	CMI_BLOCK,
 	CMI_UNBLOCK,
 	CMI_MAX // this item shall be the last one

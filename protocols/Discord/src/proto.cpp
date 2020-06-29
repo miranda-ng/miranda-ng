@@ -63,6 +63,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	CreateProtoService(PS_SETMYAVATAR, &CDiscordProto::SetMyAvatar);
 
 	CreateProtoService(PS_MENU_REQAUTH, &CDiscordProto::RequestFriendship);
+	CreateProtoService(PS_MENU_LOADHISTORY, &CDiscordProto::OnMenuLoadHistory);
 
 	CreateProtoService(PS_VOICE_CAPS, &CDiscordProto::VoiceCaps);
 

@@ -21,7 +21,6 @@ static IconItem iconList[] =
 {
 	{ LPGEN("Protocol icon"),        "main",             IDI_SKYPE         },
 	{ LPGEN("Create new chat icon"), "conference",       IDI_CONFERENCE    },
-	{ LPGEN("Sync history icon"),    "synchistory",      IDI_SYNCHISTORY   },
 	{ LPGEN("Block user icon"),      "user_block",       IDI_BLOCKUSER     },
 	{ LPGEN("Unblock user icon"),    "user_unblock",     IDI_UNBLOCKUSER   },
 	{ LPGEN("Incoming call icon"),   "inc_call",         IDI_CALL          },

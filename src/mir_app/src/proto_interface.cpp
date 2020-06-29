@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr;
+static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr, hServerHist = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol constructor & destructor
@@ -281,11 +281,22 @@ static INT_PTR __cdecl stubRevokeAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-static int __cdecl ProtoPrebuildContactMenu(WPARAM, LPARAM)
+static INT_PTR __cdecl stubLoadHistory(WPARAM hContact, LPARAM)
+{
+	const char *szProto = Proto_GetBaseAccountName(hContact);
+	if (szProto)
+		ProtoCallService(szProto, PS_MENU_LOADHISTORY, hContact, 0);
+	return 0;
+}
+
+static int __cdecl ProtoPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	Menu_ShowItem(hReqAuth, false);
 	Menu_ShowItem(hGrantAuth, false);
 	Menu_ShowItem(hRevokeAuth, false);
+	
+	const char *szProto = Proto_GetBaseAccountName(hContact);
+	Menu_ShowItem(hRevokeAuth, ProtoServiceExists(szProto, PS_MENU_LOADHISTORY));
 	return 0;
 }
 
@@ -316,6 +327,14 @@ void InitProtoMenus(void)
 	mi.position = -2000001000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	hRevokeAuth = Menu_AddContactMenuItem(&mi);
+
+	SET_UID(mi, 0xd15b841d, 0xb0fc, 0x4ab5, 0x96, 0x94, 0xcf, 0x6c, 0x6e, 0x99, 0x4b, 0x3c); // {D15B841D-B0FC-4AB5-9694-CF6C6E994B3C}
+	mi.pszService = "Proto/Menu/LoadHistory";
+	mi.name.a = LPGEN("Load server history");
+	mi.position = -200001004;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
+	hServerHist = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, stubLoadHistory);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, ProtoPrebuildContactMenu);
 }

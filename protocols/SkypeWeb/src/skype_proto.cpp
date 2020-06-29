@@ -38,6 +38,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 
 	CreateProtoService(PS_MENU_REQAUTH, &CSkypeProto::OnRequestAuth);
 	CreateProtoService(PS_MENU_GRANTAUTH, &CSkypeProto::OnGrantAuth);
+	CreateProtoService(PS_MENU_LOADHISTORY, &CSkypeProto::GetContactHistory);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CSkypeProto::OnDbEventRead);

@@ -13,7 +13,6 @@
 #define IDD_GC_CREATE                   111
 #define IDD_GC_INVITE                   112
 #define IDI_CONFERENCE                  114
-#define IDI_SYNCHISTORY                 117
 #define IDI_BLOCKUSER                   118
 #define IDI_UNBLOCKUSER                 119
 #define IDI_CALL                        120

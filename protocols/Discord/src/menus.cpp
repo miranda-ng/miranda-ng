@@ -180,13 +180,5 @@ void CDiscordProto::InitMenus()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
 	m_hMenuToggleSync = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-	mi.pszService = "/LoadHistory";
-	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuLoadHistory);
-	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x90);
-	mi.name.a = LPGEN("Load server history");
-	mi.position = -200001004;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	Menu_AddContactMenuItem(&mi, m_szModuleName);
-
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDiscordProto::OnMenuPrebuild);
 }

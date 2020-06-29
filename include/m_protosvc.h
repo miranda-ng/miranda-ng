@@ -565,6 +565,13 @@ struct PROTOFILERESUME
 #define PS_MENU_REVOKEAUTH "/RevokeAuth"
 
 ///////////////////////////////////////////////////////////////////////////////
+// Gets called when a user clicks the "Load server history" menu item
+// wParam = hContact
+// lParam = 0
+
+#define PS_MENU_LOADHISTORY "/LoadServerHistory"
+
+///////////////////////////////////////////////////////////////////////////////
 //                            SENDING SERVICES
 // these should be called with CallContactService()
 
