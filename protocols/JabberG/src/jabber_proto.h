@@ -640,22 +640,24 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_mam.cpp ----------------------------------------------------------------
 
 	void       OnIqResultMamInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+	void       OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 	void       MamRetrieveMissingMessages(void);
 	void       MamSetMode(int iNewMode);
 
 	//---- jabber_menu.cpp ---------------------------------------------------------------
 
-	INT_PTR    __cdecl OnMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam);
-	INT_PTR    __cdecl OnMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam);
-	INT_PTR    __cdecl OnMenuOptions(WPARAM wParam, LPARAM lParam);
-	INT_PTR    __cdecl OnMenuTransportLogin(WPARAM wParam, LPARAM lParam);
-	INT_PTR    __cdecl OnMenuTransportResolve(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuBookmarkAdd(WPARAM wParam, LPARAM lParam);
+	INT_PTR    __cdecl OnMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam);
+	INT_PTR    __cdecl OnMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuHandleRevokeAuth(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuHandleResource(WPARAM wParam, LPARAM lParam, LPARAM res);
 	INT_PTR    __cdecl OnMenuHandleDirectPresence(WPARAM wParam, LPARAM lParam, LPARAM res);
+	INT_PTR    __cdecl OnMenuLoadHistory(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuSetPriority(WPARAM wParam, LPARAM lParam, LPARAM dwDelta);
+	INT_PTR    __cdecl OnMenuOptions(WPARAM wParam, LPARAM lParam);
+	INT_PTR    __cdecl OnMenuTransportLogin(WPARAM wParam, LPARAM lParam);
+	INT_PTR    __cdecl OnMenuTransportResolve(WPARAM wParam, LPARAM lParam);
 
 	void       GlobalMenuInit(void);
 	void       GlobalMenuUninit(void);

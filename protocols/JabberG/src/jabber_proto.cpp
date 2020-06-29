@@ -167,6 +167,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_MENU_REQAUTH, &CJabberProto::OnMenuHandleRequestAuth);
 	CreateProtoService(PS_MENU_GRANTAUTH, &CJabberProto::OnMenuHandleGrantAuth);
 	CreateProtoService(PS_MENU_REVOKEAUTH, &CJabberProto::OnMenuHandleRevokeAuth);
+	CreateProtoService(PS_MENU_LOADHISTORY, &CJabberProto::OnMenuLoadHistory);
 
 	CreateProtoService(JS_DB_GETEVENTTEXT_CHATSTATES, &CJabberProto::OnGetEventTextChatStates);
 	CreateProtoService(JS_DB_GETEVENTTEXT_PRESENCE, &CJabberProto::OnGetEventTextPresence);

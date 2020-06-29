@@ -78,3 +78,62 @@ void CJabberProto::MamRetrieveMissingMessages()
 	set << XCHILD("after", szLastId);
 	m_ThreadInfo->send(iq);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Contact's history loader
+
+void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+{
+	if (auto *fin = XmlGetChildByTag(iqNode, "fin", "xmlns", JABBER_FEAT_MAM)) {
+		// if dataset is complete, there's nothing more to do
+		if (!mir_strcmp(XmlGetAttr(fin, "complete"), "true"))
+			return;
+
+		auto *lastId = XmlGetChildText(fin, "last");
+		if (lastId) {
+			ptrA jid(getUStringA(pInfo->GetHContact(), "jid"));
+
+			auto *pReq = AddIQ(&CJabberProto::OnIqResultRsm, JABBER_IQ_TYPE_SET);
+			pReq->SetParamsToParse(JABBER_IQ_PARSE_FROM);
+
+			XmlNodeIq iq(pReq);
+			auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
+			auto *x = query << XCHILDNS("x", "jabber:x:data") << XATTR("type", "submit");
+			x << XCHILD("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
+			x << XCHILD("var", "with") << XCHILD("value", jid);
+			auto *rsm = query << XCHILDNS("set", "http://jabber.org/protocol/rsm");
+			rsm << XCHILD("max", "100");
+			rsm << XCHILD("after", lastId);
+			m_ThreadInfo->send(iq);
+		}
+	}
+}
+
+INT_PTR __cdecl CJabberProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
+{
+	if (hContact == 0)
+		return 0;
+
+	// wipe out old history first
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (pCursor.FetchNext())
+		pCursor.DeleteEvent();
+
+	// load remaining items from server
+	if (m_bJabberOnline) {
+		ptrA jid(getUStringA(hContact, "jid"));
+		if (jid != nullptr) {
+			auto *pReq = AddIQ(&CJabberProto::OnIqResultRsm, JABBER_IQ_TYPE_SET);
+			pReq->SetParamsToParse(JABBER_IQ_PARSE_FROM);
+
+			XmlNodeIq iq(pReq);
+			auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
+			auto *x = query << XCHILDNS("x", "jabber:x:data") << XATTR("type", "submit");
+			x << XCHILD("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
+			x << XCHILD("var", "with") << XCHILD("value", jid);
+			query << XCHILDNS("set", "http://jabber.org/protocol/rsm") << XCHILD("max", "100");
+			m_ThreadInfo->send(iq);
+		}
+	}
+	return 0;
+}
