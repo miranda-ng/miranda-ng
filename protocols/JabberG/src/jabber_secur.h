@@ -84,8 +84,8 @@ class TScramAuth : public TJabberAuth
 {
 	typedef TJabberAuth CSuper;
 
-	char *cnonce, *msg1, *serverSignature;
-	bool bPlus;
+	const char *bindingData;
+	char *cnonce = 0, *msg1 = 0, *serverSignature = 0;
 
 public:
 	TScramAuth(ThreadData*, bool);

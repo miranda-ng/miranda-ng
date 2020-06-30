@@ -206,12 +206,11 @@ char* TMD5Auth::getChallenge(const char *challenge)
 /////////////////////////////////////////////////////////////////////////////////////////
 // SCRAM-SHA-1 authorization
 
-TScramAuth::TScramAuth(ThreadData *info, bool bPlusAvailable) :
+TScramAuth::TScramAuth(ThreadData *info, bool bPlus) :
 	TJabberAuth(info),
-	bPlus(bPlusAvailable)
+	bindingData(bPlus ? "p=tls-unique,," : "n,,")
 {
-	szName = (bPlusAvailable) ? "SCRAM-SHA-1-PLUS" : "SCRAM-SHA-1";
-	cnonce = msg1 = serverSignature = nullptr;
+	szName = (bPlus) ? "SCRAM-SHA-1-PLUS" : "SCRAM-SHA-1";
 }
 
 TScramAuth::~TScramAuth()
@@ -245,8 +244,10 @@ char* TScramAuth::getInitialRequest()
 	Utils_GetRandom(nonce, sizeof(nonce));
 	cnonce = mir_base64_encode(nonce, sizeof(nonce));
 
-	CMStringA buf(FORMAT, "%c,,n=%s,r=%s", (bPlus) ? 'p' : 'n', info->conn.username, cnonce);
-	msg1 = mir_strdup(buf.c_str() + 3);
+	CMStringA buf(FORMAT, "n=%s,r=%s", info->conn.username, cnonce);
+	msg1 = mir_strdup(buf);
+
+	buf.Insert(0, bindingData);
 	return mir_base64_encode(buf, buf.GetLength());
 }
 
@@ -257,6 +258,7 @@ char* TScramAuth::getChallenge(const char *challenge)
 	int ind = -1;
 
 	ptrA chl((char*)mir_base64_decode(challenge, &chlLen));
+	ptrA cbd(mir_base64_encode(bindingData, mir_strlen(bindingData)));
 
 	for (char *p = strtok(NEWSTR_ALLOCA(chl), ","); p != nullptr; p = strtok(nullptr, ",")) {
 		if (*p == 'r' && p[1] == '=') { // snonce
@@ -287,11 +289,10 @@ char* TScramAuth::getChallenge(const char *challenge)
 	mir_sha1_append(&ctx, clientKey, MIR_SHA1_HASH_SIZE);
 	mir_sha1_finish(&ctx, storedKey);
 
-	char authmsg[4096];
-	int authmsgLen = mir_snprintf(authmsg, "%s,%s,c=biws,r=%s", msg1, chl.get(), snonce.get());
+	CMStringA authmsg(FORMAT, "%s,%s,c=%s,r=%s", msg1, chl.get(), cbd.get(), snonce.get());
 
 	BYTE clientSig[MIR_SHA1_HASH_SIZE];
-	HMAC(EVP_sha1(), storedKey, sizeof(storedKey), (BYTE*)authmsg, authmsgLen, clientSig, &len);
+	HMAC(EVP_sha1(), storedKey, sizeof(storedKey), (BYTE*)authmsg.c_str(), authmsg.GetLength(), clientSig, &len);
 
 	BYTE clientProof[MIR_SHA1_HASH_SIZE];
 	for (unsigned j = 0; j < sizeof(clientKey); j++)
@@ -302,13 +303,12 @@ char* TScramAuth::getChallenge(const char *challenge)
 	HMAC(EVP_sha1(), saltedPassw, sizeof(saltedPassw), (BYTE*)"Server Key", 10, serverKey, &len);
 
 	BYTE srvSig[MIR_SHA1_HASH_SIZE];
-	HMAC(EVP_sha1(), serverKey, sizeof(serverKey), (BYTE*)authmsg, authmsgLen, srvSig, &len);
+	HMAC(EVP_sha1(), serverKey, sizeof(serverKey), (BYTE*)authmsg.c_str(), authmsg.GetLength(), srvSig, &len);
 	serverSignature = mir_base64_encode(srvSig, sizeof(srvSig));
 
-	char buf[4096];
 	ptrA encproof(mir_base64_encode(clientProof, sizeof(clientProof)));
-	int cbLen = mir_snprintf(buf, "c=biws,r=%s,p=%s", snonce.get(), encproof.get());
-	return mir_base64_encode(buf, cbLen);
+	CMStringA buf(FORMAT, "c=%s,r=%s,p=%s", cbd.get(), snonce.get(), encproof.get());
+	return mir_base64_encode(buf, buf.GetLength());
 }
 
 bool TScramAuth::validateLogin(const char *challenge)
