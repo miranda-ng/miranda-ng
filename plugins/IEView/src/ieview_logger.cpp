@@ -45,7 +45,7 @@ public:
 		ieWindow.parent = m_pDlg.GetHwnd();
 		ieWindow.cx = 200;
 		ieWindow.cy = 200;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
+		HandleIEWindow(0, LPARAM(&ieWindow));
 		m_hwnd = ieWindow.hwnd;
 	}
 
@@ -54,7 +54,7 @@ public:
 		IEVIEWWINDOW ieWindow = {};
 		ieWindow.iType = IEW_DESTROY;
 		ieWindow.hwnd = m_hwnd;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
+		HandleIEWindow(0, LPARAM(&ieWindow));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ public:
 		IEVIEWEVENT event = {};
 		event.iType = IEE_CLEAR_LOG;
 		event.hwnd = m_hwnd;
-		CallService(MS_IEVIEW_EVENT, 0, (LPARAM) & event);
+		HandleIEEvent(0, LPARAM(&event));
 	}
 
 	HWND GetHwnd() override
@@ -83,7 +83,7 @@ public:
 		event.hwnd = m_hwnd;
 		event.iType = IEE_GET_SELECTION;
 		event.hContact = m_pDlg.m_hContact;
-		return (wchar_t *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM) & event);
+		return (wchar_t *)HandleIEEvent(0, LPARAM(&event));
 	}
 
 	int GetType() override
@@ -102,7 +102,7 @@ public:
 		event.hDbEventFirst = hDbEventFirst;
 		event.hContact = m_pDlg.m_hContact;
 		event.count = count;
-		CallService(MS_IEVIEW_EVENT, 0, (LPARAM) & event);
+		HandleIEEvent(0, LPARAM(&event));
 	}
 
 	void LogEvents(LOGINFO *pLog, bool) override
@@ -119,9 +119,8 @@ public:
 		event.count = 1;
 
 		while (pLog) {
-			T2Utf szText(pLog->ptszText);
 			ied.szNick.w = pLog->ptszNick;
-			ied.szText.a = szText;
+			ied.szText.w = pLog->ptszText;
 			ied.time = pLog->time;
 			ied.bIsMe = pLog->bIsMe;
 
@@ -167,7 +166,7 @@ public:
 
 			ied.dwData |= IEEDD_GC_SHOW_TIME | IEEDD_GC_SHOW_ICON;
 			ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
-			CallService(MS_IEVIEW_EVENT, 0, (LPARAM) & event);
+			HandleIEEvent(0, LPARAM(&event));
 
 			pLog = pLog->prev;
 		}
@@ -190,15 +189,15 @@ public:
 		ieWindow.cx = rcRichEdit.right - rcRichEdit.left;
 		ieWindow.cy = rcRichEdit.bottom - rcRichEdit.top;
 		if (ieWindow.cx != 0 && ieWindow.cy != 0)
-			CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
+			HandleIEWindow(0, LPARAM(&ieWindow));
 	}
 
 	void ScrollToBottom() override
 	{
-		IEVIEWWINDOW iew = { sizeof(iew) };
-		iew.iType = IEW_SCROLLBOTTOM;
-		iew.hwnd = m_hwnd;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&iew);
+		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
+		ieWindow.iType = IEW_SCROLLBOTTOM;
+		ieWindow.hwnd = m_hwnd;
+		HandleIEWindow(0, LPARAM(&ieWindow));
 	}
 };
 
