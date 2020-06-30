@@ -210,7 +210,7 @@ TScramAuth::TScramAuth(ThreadData *info, bool bPlusAvailable) :
 	TJabberAuth(info),
 	bPlus(bPlusAvailable)
 {
-	szName = "SCRAM-SHA-1";
+	szName = (bPlusAvailable) ? "SCRAM-SHA-1-PLUS" : "SCRAM-SHA-1";
 	cnonce = msg1 = serverSignature = nullptr;
 }
 
