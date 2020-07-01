@@ -740,3 +740,4 @@ Chat_CreateMenu @824 NONAME
 ?OnEventEdited@PROTO_INTERFACE@@UEAAXII@Z @828 NONAME
 ?GetChecker@MDatabaseCommon@@UEAAPEAUMIDatabaseChecker@@XZ @829 NONAME
 ?GetMenuItem@PROTO_INTERFACE@@QEAAPEAUTMO_IntMenuItem@@W4ProtoMenuItemType@@@Z @830 NONAME
+Netlib_GetTlsUnique @831 NONAME

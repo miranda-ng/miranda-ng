@@ -629,12 +629,16 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 
 	if (auth == nullptr && m_isScramPlusAvailable) {
 		m_isScramPlusAvailable = false;
-		auth = new TScramAuth(info, true);
+		
+		int len = 0;
+		void *pBuf = Netlib_GetTlsUnique(info->s, len);
+		if (pBuf)
+			auth = new TScramAuth(info, pBuf, len);
 	}
 
 	if (auth == nullptr && m_isScramAvailable) {
 		m_isScramAvailable = false;
-		auth = new TScramAuth(info, false);
+		auth = new TScramAuth(info);
 	}
 
 	if (auth == nullptr && m_isMd5Available) {

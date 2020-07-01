@@ -206,11 +206,18 @@ char* TMD5Auth::getChallenge(const char *challenge)
 /////////////////////////////////////////////////////////////////////////////////////////
 // SCRAM-SHA-1 authorization
 
-TScramAuth::TScramAuth(ThreadData *info, bool bPlus) :
-	TJabberAuth(info),
-	bindingData(bPlus ? "p=tls-unique,," : "n,,")
+TScramAuth::TScramAuth(ThreadData *info, void *pData, size_t cbLen) :
+	TJabberAuth(info)
 {
-	szName = (bPlus) ? "SCRAM-SHA-1-PLUS" : "SCRAM-SHA-1";
+	if (pData) {
+		szName = "SCRAM-SHA-1-PLUS";
+		bindFlag = "p=tls-unique,,";
+		bindData.append(pData, cbLen);
+	}
+	else {
+		szName = "SCRAM-SHA-1";
+		bindFlag = "n,,";
+	}	
 }
 
 TScramAuth::~TScramAuth()
@@ -247,7 +254,7 @@ char* TScramAuth::getInitialRequest()
 	CMStringA buf(FORMAT, "n=%s,r=%s", info->conn.username, cnonce);
 	msg1 = mir_strdup(buf);
 
-	buf.Insert(0, bindingData);
+	buf.Insert(0, bindFlag);
 	return mir_base64_encode(buf, buf.GetLength());
 }
 
@@ -257,8 +264,13 @@ char* TScramAuth::getChallenge(const char *challenge)
 	ptrA snonce, salt;
 	int ind = -1;
 
-	ptrA chl((char*)mir_base64_decode(challenge, &chlLen));
-	ptrA cbd(mir_base64_encode(bindingData, mir_strlen(bindingData)));
+	ptrA chl((char *)mir_base64_decode(challenge, &chlLen)), cbd;
+	if (bindData.isEmpty())
+		cbd = mir_base64_encode(bindFlag, mir_strlen(bindFlag));
+	else {
+		bindData.appendBefore((void*)bindFlag, mir_strlen(bindFlag));
+		cbd = mir_base64_encode(bindData.data(), bindData.length());
+	}
 
 	for (char *p = strtok(NEWSTR_ALLOCA(chl), ","); p != nullptr; p = strtok(nullptr, ",")) {
 		if (*p == 'r' && p[1] == '=') { // snonce

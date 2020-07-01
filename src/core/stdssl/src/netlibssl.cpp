@@ -751,6 +751,28 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 	return scRet == SEC_E_OK ? num : SOCKET_ERROR;
 }
 
+static void* NetlibSslUnique(SslHandle *ssl, int *cbLen)
+{
+	*cbLen = 0;
+
+	SEC_CHANNEL_BINDINGS bindings;
+	SECURITY_STATUS scRet = g_pSSPI->QueryContextAttributesW(&ssl->hContext, SECPKG_ATTR_UNIQUE_BINDINGS, &bindings);
+	if (scRet != SEC_E_OK)
+		return nullptr;
+
+	LPBYTE pBuf = LPBYTE(bindings.dwInitiatorOffset);
+	bindings = *(SEC_CHANNEL_BINDINGS *)bindings.dwInitiatorOffset;
+	pBuf += bindings.dwApplicationDataOffset;
+	if (memcmp(pBuf, "tls-unique:", 11))
+		return nullptr;
+
+	pBuf += 11; bindings.cbApplicationDataLength -= 11;
+	*cbLen = bindings.cbApplicationDataLength;
+	void *res = mir_alloc(bindings.cbApplicationDataLength);
+	memcpy(res, pBuf, bindings.cbApplicationDataLength);
+	return res;
+}
+
 static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 {
 	SSL_API *si = (SSL_API*)lParam;
@@ -766,6 +788,7 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 	si->write = NetlibSslWrite;
 	si->shutdown = NetlibSslShutdown;
 	si->sfree = NetlibSslFree;
+	si->unique = NetlibSslUnique;
 	return TRUE;
 }
 

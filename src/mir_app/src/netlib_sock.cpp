@@ -210,9 +210,8 @@ MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN hConnection, NETLIBCONNINFO *connInfo)
+MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN nlc, NETLIBCONNINFO *connInfo)
 {
-	NetlibConnection *nlc = (NetlibConnection*)hConnection;
 	if (!nlc || !connInfo)
 		return 1;
 
@@ -224,6 +223,20 @@ MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN hConnection, NETLIBCONNINF
 		strncpy_s(connInfo->szIpPort, ptrA(Netlib_AddressToString(&sin)), _TRUNCATE);
 	}
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen)
+{
+	if (nlc == nullptr || nlc->hSsl == nullptr || sslApi.unique == nullptr)
+		return nullptr;
+
+	void *pBuf = sslApi.unique(nlc->hSsl, &cbLen);
+	if (pBuf == nullptr || !cbLen)
+		return nullptr;
+
+	return pBuf;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

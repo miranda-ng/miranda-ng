@@ -389,7 +389,7 @@ EXTERN_C MIR_APP_DLL(char*) Netlib_AddressToString(sockaddr_in *addr);
 EXTERN_C MIR_APP_DLL(bool)  Netlib_StringToAddress(const char *str, sockaddr_in *addr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Get connection Information
+// Gets connection Information
 // IPv4 will be supplied in formats address:port or address
 // IPv6 will be supplied in formats [address]:port or [address]
 // Returns 0 if successful
@@ -402,6 +402,12 @@ struct NETLIBCONNINFO
 };
 
 EXTERN_C MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN hConnection, NETLIBCONNINFO *connInfo);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Gets TLS channel binging data for a socket
+// Returns true if successful
+
+EXTERN_C MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Gets connection Information

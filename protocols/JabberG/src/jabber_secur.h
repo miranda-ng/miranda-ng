@@ -84,11 +84,11 @@ class TScramAuth : public TJabberAuth
 {
 	typedef TJabberAuth CSuper;
 
-	const char *bindingData;
-	char *cnonce = 0, *msg1 = 0, *serverSignature = 0;
+	char *bindFlag, *cnonce = 0, *msg1 = 0, *serverSignature = 0;
+	MBinBuffer bindData;
 
 public:
-	TScramAuth(ThreadData*, bool);
+	TScramAuth(ThreadData*, void *pData = nullptr, size_t cbLen = 0);
 	~TScramAuth();
 
 	char* getInitialRequest() override;

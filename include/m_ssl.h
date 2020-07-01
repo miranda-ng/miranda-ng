@@ -31,12 +31,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	DECLARE_HANDLE(HSSL);
 #endif
 
-typedef HSSL (__cdecl *pfnConnect)(SOCKET s, const char* host, int verify);
-typedef BOOL (__cdecl *pfnPending)(HSSL ssl);
-typedef int  (__cdecl *pfnRead)(HSSL ssl, char *buf, int num, int peek);
-typedef int  (__cdecl *pfnWrite)(HSSL ssl, const char *buf, int num);
-typedef void (__cdecl *pfnShutdown)(HSSL ssl);
-typedef void (__cdecl *pfnSfree)(HSSL ssl);
+typedef HSSL  (__cdecl *pfnConnect)(SOCKET s, const char* host, int verify);
+typedef BOOL  (__cdecl *pfnPending)(HSSL ssl);
+typedef int   (__cdecl *pfnRead)(HSSL ssl, char *buf, int num, int peek);
+typedef int   (__cdecl *pfnWrite)(HSSL ssl, const char *buf, int num);
+typedef void  (__cdecl *pfnShutdown)(HSSL ssl);
+typedef void  (__cdecl *pfnSfree)(HSSL ssl);
+typedef void *(__cdecl *pfnUnique)(HSSL ssl, int *cbLen);
 
 struct SSL_API
 {
@@ -48,6 +49,7 @@ struct SSL_API
 	pfnWrite    write;
 	pfnShutdown shutdown;
 	pfnSfree    sfree;
+	pfnUnique   unique;
 };
 
 /*
