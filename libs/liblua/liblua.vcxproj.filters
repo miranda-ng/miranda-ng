@@ -11,9 +11,6 @@
     <ClCompile Include="src\lbaselib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lbitlib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\lcode.c">
       <Filter>Source Files</Filter>
     </ClCompile>

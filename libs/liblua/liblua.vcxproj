@@ -51,9 +51,6 @@
     <ClCompile Include="src\lbaselib.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\lbitlib.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\lcode.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
