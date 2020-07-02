@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BD291BF0-D804-4818-8311-DE871E6BCEAA}</ProjectGuid>
     <ProjectName>liblua</ProjectName>
-    <TargetName>lua53</TargetName>
+    <TargetName>lua54</TargetName>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifest>false</GenerateManifest>
