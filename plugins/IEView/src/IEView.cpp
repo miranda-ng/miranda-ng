@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #define WM_WAITWHILEBUSY (WM_USER+600)
-//#define GECKO
+
 #define DISPID_BEFORENAVIGATE2      250   // hyperlink clicked on
 #define DISPID_NAVIGATECOMPLETE2    252   // UIActivate new document
 #define DISPID_DOCUMENTCOMPLETE     259   // new document goes ReadyState_Complete
@@ -167,13 +167,10 @@ void IEViewSink::TitleChange(BSTR) {}
 void IEViewSink::PropertyChange(BSTR) {}
 void IEViewSink::BeforeNavigate2(IDispatch*, VARIANT* url, VARIANT*, VARIANT*, VARIANT*, VARIANT*, VARIANT_BOOL* cancel)
 {
-#ifndef GECKO
-	if (mir_wstrcmp(url->bstrVal, L"about:blank"))
-	{
+	if (mir_wstrcmp(url->bstrVal, L"about:blank")) {
 		Utils_OpenUrlW(url->bstrVal);
 		*cancel = VARIANT_TRUE;
 	}
-#endif
 }
 
 void IEViewSink::NewWindow2(IDispatch**, VARIANT_BOOL*) {}
@@ -196,17 +193,6 @@ void IEViewSink::ClientToHostWindow(long *, long *) {}
 void IEViewSink::SetSecureLockIcon(long) {}
 void IEViewSink::FileDownload(VARIANT_BOOL*) {}
 
-
-#ifdef GECKO
-
-static void __cdecl StartThread(void *vptr)
-{
-	IEView *iev = (IEView *)vptr;
-	iev->waitWhileBusy();
-	return;
-}
-#endif
-
 void IEView::waitWhileBusy()
 {
 	VARIANT_BOOL busy;
@@ -222,12 +208,10 @@ void IEView::setBorder()
 {
 	LONG style = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 	LONG oldStyle = style;
-	if (Options::generalFlags & Options::GENERAL_NO_BORDER) {
-#ifndef GECKO
+	if (Options::generalFlags & Options::GENERAL_NO_BORDER)
 		style &= ~(WS_EX_STATICEDGE);
-#endif
-	}
-	else style |= (WS_EX_STATICEDGE);
+	else
+		style |= (WS_EX_STATICEDGE);
 
 	if (oldStyle != style) {
 		SetWindowLongPtr(hwnd, GWL_EXSTYLE, style);
@@ -582,39 +566,6 @@ STDMETHODIMP IEView::RequestNewObjectLayout(void)
 // IDocHostUIHandler
 STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarget, IDispatch *)
 {
-#ifdef GECKO
-	{
-		return E_NOTIMPL;
-		/*
-				HMENU hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)),0);
-				TranslateMenu(hMenu);
-				if (dwID == 6) { // anchor
-				EnableMenuItem(hMenu, ID_MENU_COPYLINK, MF_BYCOMMAND | MF_ENABLED);
-				} else if (dwID == 5) { // text select
-				EnableMenuItem(hMenu, ID_MENU_COPY, MF_BYCOMMAND | MF_ENABLED);
-				} else if (dwID == 1) { // control (image)
-				EnableMenuItem(hMenu, ID_MENU_SAVEIMAGE, MF_BYCOMMAND | MF_ENABLED);
-				}
-				if (builder!=NULL) {
-
-				}
-				int iSelection = TrackPopupMenu(hMenu,
-				TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD,
-				ppt->x,
-				ppt->y,
-				0,
-				hwnd,
-				(RECT*)NULL);
-				DestroyMenu(hMenu);
-				if (iSelection == ID_MENU_CLEARLOG) {
-				clear(NULL);
-				} else {
-				SendMessage(hSPWnd, WM_COMMAND, iSelection, 0);
-				}
-				*/
-	}
-#else
-
 	CComPtr<IOleCommandTarget> pOleCommandTarget;
 	if (SUCCEEDED(pcmdTarget->QueryInterface(IID_IOleCommandTarget, (void**)&pOleCommandTarget))) {
 		CComPtr<IOleWindow> pOleWindow;
@@ -647,7 +598,7 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 				SendMessage(hSPWnd, WM_COMMAND, iSelection, 0);
 		}
 	}
-#endif
+
 	return S_OK;
 }
 STDMETHODIMP IEView::GetHostInfo(DOCHOSTUIINFO *pInfo)
@@ -900,17 +851,6 @@ void IEView::navigate(const wchar_t *url)
 
 void IEView::documentClose()
 {
-
-#ifdef GECKO
-	/*
-	IHTMLDocument2 *document = getDocument();
-	if (document != NULL) {
-	//write("</body></html>");
-	document->close();
-	document->Release();
-	}
-	*/
-#endif
 }
 
 void IEView::appendEventOld(IEVIEWEVENT *event)
