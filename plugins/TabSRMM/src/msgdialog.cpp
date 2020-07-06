@@ -583,6 +583,7 @@ bool CMsgDialog::OnInitDialog()
 	LoadOwnAvatar();
 
 	if (isChat()) {
+		m_pLog->Clear();
 		UpdateOptions();
 		UpdateStatusBar();
 		UpdateTitle();

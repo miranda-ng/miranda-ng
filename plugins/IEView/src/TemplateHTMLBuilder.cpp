@@ -175,13 +175,13 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 
 	ptrW tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szRealProto));
 	if (tszNick != nullptr)
-		szNickIn = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
+		szNickIn = encodeUTF8(event->hContact, tszNick, ENF_NAMESMILEYS, true);
 
 	tszNick = Contact_GetInfo(CNF_CUSTOMNICK, 0, szRealProto);
 	if (tszNick == nullptr)
 		Contact_GetInfo(CNF_NICK, 0, szRealProto);
 	if (tszNick != nullptr)
-		szNickOut = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
+		szNickOut = encodeUTF8(event->hContact, tszNick, ENF_NAMESMILEYS, true);
 
 	Template *tmplt = nullptr;
 	if (tmpm) {
@@ -349,13 +349,13 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 
 	ptrW tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szProto));
 	if (tszNick != nullptr)
-		szNickIn = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
+		szNickIn = encodeUTF8(event->hContact, tszNick, ENF_NAMESMILEYS, true);
 
 	tszNick = Contact_GetInfo(CNF_CUSTOMNICK, 0, szProto);
 	if (tszNick == nullptr)
 		tszNick = Contact_GetInfo(CNF_NICK, 0, szProto);
 	if (tszNick != nullptr)
-		szNickOut = encodeUTF8(event->hContact, szRealProto, tszNick, ENF_NAMESMILEYS, true);
+		szNickOut = encodeUTF8(event->hContact, tszNick, ENF_NAMESMILEYS, true);
 
 	IEVIEWEVENTDATA *eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
