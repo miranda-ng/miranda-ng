@@ -44,88 +44,90 @@ class CUpdateDLg : public CDlgBase
 			return;
 		}
 
-		ThreadWatch threadId(pDlg->dwThreadId);
-		AutoHandle pipe(hPipe);
-		//create needed folders after escalating priviledges. Folders creates when we actually install updates
-		wchar_t tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
-		mir_snwprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
-		SafeCreateDirectory(tszFileBack);
-		mir_snwprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
-		SafeCreateDirectory(tszFileTemp);
-
-		// 2) Download all plugins
-		HNETLIBCONN nlc = nullptr;
-		for (int i = 0; i < todo.getCount(); i++) {
-			pDlg->m_list.EnsureVisible(i, false);
-			if (!todo[i].bEnabled) {
-				pDlg->m_list.SetItemText(i, 1, TranslateT("Skipped."));
-			}
-			else if (todo[i].bDeleteOnly) {
-				pDlg->m_list.SetItemText(i, 1, TranslateT("Will be deleted!"));
-			}
-			else {
-				// download update
-				pDlg->m_list.SetItemText(i, 1, TranslateT("Downloading..."));
-
-				FILEURL *pFileUrl = &todo[i].File;
-				if (!DownloadFile(pFileUrl, nlc)) {
-					pDlg->m_list.SetItemText(i, 1, TranslateT("Failed!"));
-
-					// interrupt update as we require all components to be updated
-					Netlib_CloseHandle(nlc);
-					pDlg->ShowError();
-					Skin_PlaySound("updatefailed");
-					return;
-				}
-				pDlg->m_list.SetItemText(i, 1, TranslateT("Succeeded."));
-			}
-		}
-		Netlib_CloseHandle(nlc);
-
-		// 3) Unpack all zips
 		VARSW tszMirandaPath(L"%miranda_path%");
-		for (auto &it : todo) {
-			if (it->bEnabled) {
-				if (it->bDeleteOnly) {
-					// we need only to backup the old file
-					wchar_t *ptszRelPath = it->tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
-					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
-					BackupFile(it->tszNewName, tszBackFile);
+		{
+			ThreadWatch threadId(pDlg->dwThreadId);
+			AutoHandle pipe(hPipe);
+			//create needed folders after escalating priviledges. Folders creates when we actually install updates
+			wchar_t tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+			mir_snwprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
+			SafeCreateDirectory(tszFileBack);
+			mir_snwprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
+			SafeCreateDirectory(tszFileTemp);
+
+			// 2) Download all plugins
+			HNETLIBCONN nlc = nullptr;
+			for (int i = 0; i < todo.getCount(); i++) {
+				pDlg->m_list.EnsureVisible(i, false);
+				if (!todo[i].bEnabled) {
+					pDlg->m_list.SetItemText(i, 1, TranslateT("Skipped."));
+				}
+				else if (todo[i].bDeleteOnly) {
+					pDlg->m_list.SetItemText(i, 1, TranslateT("Will be deleted!"));
 				}
 				else {
-					// if file name differs, we also need to backup the old file here
-					// otherwise it would be replaced by unzip
-					if (_wcsicmp(it->tszOldName, it->tszNewName)) {
-						wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-						mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath.get(), it->tszOldName);
-						mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, it->tszOldName);
-						BackupFile(tszSrcPath, tszBackFile);
-					}
+					// download update
+					pDlg->m_list.SetItemText(i, 1, TranslateT("Downloading..."));
 
-					if (unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
-						SafeDeleteFile(it->File.tszDiskPath);  // remove .zip after successful update
+					FILEURL *pFileUrl = &todo[i].File;
+					if (!DownloadFile(pFileUrl, nlc)) {
+						pDlg->m_list.SetItemText(i, 1, TranslateT("Failed!"));
+
+						// interrupt update as we require all components to be updated
+						Netlib_CloseHandle(nlc);
+						pDlg->ShowError();
+						Skin_PlaySound("updatefailed");
+						return;
+					}
+					pDlg->m_list.SetItemText(i, 1, TranslateT("Succeeded."));
 				}
 			}
-		}
-		Skin_PlaySound("updatecompleted");
+			Netlib_CloseHandle(nlc);
 
-		g_plugin.setByte(DB_SETTING_RESTART_COUNT, 5);
+			// 3) Unpack all zips
+			for (auto &it : todo) {
+				if (it->bEnabled) {
+					if (it->bDeleteOnly) {
+						// we need only to backup the old file
+						wchar_t *ptszRelPath = it->tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
+						mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
+						BackupFile(it->tszNewName, tszBackFile);
+					}
+					else {
+						// if file name differs, we also need to backup the old file here
+						// otherwise it would be replaced by unzip
+						if (_wcsicmp(it->tszOldName, it->tszNewName)) {
+							wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
+							mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath.get(), it->tszOldName);
+							mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, it->tszOldName);
+							BackupFile(tszSrcPath, tszBackFile);
+						}
 
-		if (g_plugin.bBackup)
-			CallService(MS_AB_BACKUP, 0, 0);
+						if (unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
+							SafeDeleteFile(it->File.tszDiskPath);  // remove .zip after successful update
+					}
+				}
+			}
+			Skin_PlaySound("updatecompleted");
 
-		if (g_plugin.bChangePlatform) {
-			wchar_t mirandaPath[MAX_PATH];
-			GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
-			g_plugin.setWString("OldBin2", mirandaPath);
+			g_plugin.setByte(DB_SETTING_RESTART_COUNT, 5);
 
-			g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
-		}
-		else {
-			ptrW oldbin(g_plugin.getWStringA("OldBin2"));
-			if (oldbin) {
-				SafeDeleteFile(oldbin);
-				g_plugin.delSetting("OldBin2");
+			if (g_plugin.bBackup)
+				CallService(MS_AB_BACKUP, 0, 0);
+
+			if (g_plugin.bChangePlatform) {
+				wchar_t mirandaPath[MAX_PATH];
+				GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
+				g_plugin.setWString("OldBin2", mirandaPath);
+
+				g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
+			}
+			else {
+				ptrW oldbin(g_plugin.getWStringA("OldBin2"));
+				if (oldbin) {
+					SafeDeleteFile(oldbin);
+					g_plugin.delSetting("OldBin2");
+				}
 			}
 		}
 
