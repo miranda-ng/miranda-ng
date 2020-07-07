@@ -1083,7 +1083,7 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	}
 	m_cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
-	if (hDbEvent != m_hDbEventFirst) {
+	if (hDbEvent != m_hDbEventFirst || isChat()) {
 		if (!m_bScrollingDisabled)
 			StreamEvents(hDbEvent, 1, 1);
 		else {
