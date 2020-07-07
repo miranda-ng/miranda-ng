@@ -422,9 +422,9 @@ public:
 
 class IEView :public IDispatch, public IOleClientSite, public IOleInPlaceSite, public IDocHostUIHandler, public IInternetSecurityManager, public IServiceProvider, public MZeroedObject
 {
-private:
 	static IEView *list;
 	static mir_cs mutex;
+
 	HWND parent;
 	HWND hwnd;
 	IEView *prev, *next;
@@ -440,7 +440,7 @@ private:
 	WNDPROC  mainWndProc, docWndProc, serverWndProc;
 	bool     getFocus;
 	bool     clearRequired;
-	WCHAR*   selectedText;
+	ptrW     wszSelectedText;
 	bool     isContactSet;
 	MCONTACT hContact;
 
@@ -509,52 +509,52 @@ private:
 	STDMETHOD(GetZoneMappings)(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags);
 
 	IHTMLDocument2 *getDocument();
-	WCHAR*  getHrefFromAnchor(CComPtr<IHTMLElement> element);
 	WCHAR*  getSelection();
-	void    setBorder();
+	wchar_t* getHrefFromAnchor(CComPtr<IHTMLElement> element);
+	void     setBorder();
 protected:
-	void    navigate(const char *);
-	void    navigate(const wchar_t *);
+	void     navigate(const char *);
+	void     navigate(const wchar_t *);
 public:
 	IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy);
-	virtual ~IEView();
-
-	void    waitWhileBusy();
-	HWND    getHWND();
-	void    translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam);
-	bool    mouseClick(POINT pt);
-	bool    mouseActivate();
-	bool    setFocus(HWND prevFocus);
-	void    setWindowPos(int x, int y, int cx, int cy);
-
-	void    write(const wchar_t *text);
-	void    write(const char *text);
-	void    writef(const char *fmt, ...);
-	void    documentClose();
-	void    scrollToBottom();
-	void    scrollToBottomSoft();
-	void    scrollToTop();
-
-	void    setMainWndProc(WNDPROC);
-	WNDPROC getMainWndProc();
-	void    setDocWndProc(WNDPROC);
-	WNDPROC getDocWndProc();
-	void    setServerWndProc(WNDPROC);
-	WNDPROC getServerWndProc();
-
-	void    appendEventOld(IEVIEWEVENT * event);
-	void    appendEvent(IEVIEWEVENT * event);
-	void    clear(IEVIEWEVENT * event);
-	void*   getSelection(IEVIEWEVENT * event);
-	void    navigate(IEVIEWNAVIGATE * nav);
-	void    saveDocument();
-
-	void    setContact(MCONTACT hContact);
-
-	static IEView*	get(HWND);
-	static void		release();
-
-	inline MCONTACT Get_CurrentContact()
+	virtual  ~IEView();
+			  
+	void     waitWhileBusy();
+	HWND     getHWND();
+	void     translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	bool     mouseClick(POINT pt);
+	bool     mouseActivate();
+	bool     setFocus(HWND prevFocus);
+	void     setWindowPos(int x, int y, int cx, int cy);
+			  
+	void     write(const wchar_t *text);
+	void     write(const char *text);
+	void     writef(const char *fmt, ...);
+	void     documentClose();
+	void     scrollToBottom();
+	void     scrollToBottomSoft();
+	void     scrollToTop();
+			  
+	void     setMainWndProc(WNDPROC);
+	WNDPROC  getMainWndProc();
+	void     setDocWndProc(WNDPROC);
+	WNDPROC  getDocWndProc();
+	void     setServerWndProc(WNDPROC);
+	WNDPROC  getServerWndProc();
+			  
+	void     appendEventOld(IEVIEWEVENT * event);
+	void     appendEvent(IEVIEWEVENT * event);
+	void     clear(IEVIEWEVENT * event);
+	wchar_t* selection();
+	void     navigate(IEVIEWNAVIGATE * nav);
+	void     saveDocument();
+			  
+	void     setContact(MCONTACT hContact);
+			  
+	static   IEView*	get(HWND);
+	static   void		release();
+			  
+	inline   MCONTACT Get_CurrentContact()
 	{
 		return hContact;
 	}

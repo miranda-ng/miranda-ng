@@ -77,13 +77,10 @@ public:
 		return m_hwnd;
 	}
 	
-	wchar_t *GetSelection() override
+	wchar_t* GetSelection() override
 	{
-		IEVIEWEVENT event = {};
-		event.hwnd = m_hwnd;
-		event.iType = IEE_GET_SELECTION;
-		event.hContact = m_pDlg.m_hContact;
-		return (wchar_t *)HandleIEEvent(0, LPARAM(&event));
+		auto *view = IEView::get(m_hwnd);
+		return (view != nullptr) ? view->selection() : nullptr;
 	}
 
 	int GetType() override
@@ -105,7 +102,7 @@ public:
 		HandleIEEvent(0, LPARAM(&event));
 	}
 
-	void LogEvents(LOGINFO *pLog, bool) override
+	void LogEvents(LOGINFO *pLog, bool bRedraw) override
 	{
 		IEVIEWEVENTDATA ied = {};
 		ied.dwFlags = IEEDF_UNICODE_NICK;
@@ -170,6 +167,9 @@ public:
 
 			pLog = pLog->prev;
 		}
+
+		if (bRedraw)
+			ScrollToBottom();
 	}
 
 	void Resize() override
@@ -194,10 +194,9 @@ public:
 
 	void ScrollToBottom() override
 	{
-		IEVIEWWINDOW ieWindow = { sizeof(ieWindow) };
-		ieWindow.iType = IEW_SCROLLBOTTOM;
-		ieWindow.hwnd = m_hwnd;
-		HandleIEWindow(0, LPARAM(&ieWindow));
+		auto *view = IEView::get(m_hwnd);
+		if (view != nullptr)
+			view->scrollToBottom();
 	}
 };
 

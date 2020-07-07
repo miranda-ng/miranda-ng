@@ -293,8 +293,6 @@ IEView::~IEView()
 	if (m_pConnectionPoint != nullptr)
 		m_pConnectionPoint->Unadvise(m_dwCookie);
 
-	mir_free(selectedText);
-
 	if (sink != nullptr)
 		delete sink;
 	DestroyWindow(hwnd);
@@ -913,19 +911,10 @@ void IEView::clear(IEVIEWEVENT *event)
 	setBorder();
 }
 
-void* IEView::getSelection(IEVIEWEVENT *event)
+wchar_t* IEView::selection()
 {
-	mir_free(selectedText);
-	selectedText = getSelection();
-	if (mir_wstrlen(selectedText) == 0)
-		return nullptr;
-
-	if (event->dwFlags & IEEF_NO_UNICODE) {
-		char *str = mir_u2a_cp(selectedText, event->codepage);
-		mir_free(selectedText);
-		selectedText = (BSTR)str;
-	}
-	return (void*)selectedText;
+	wszSelectedText = getSelection();
+	return (mir_wstrlen(wszSelectedText) == 0) ? nullptr : wszSelectedText.get();
 }
 
 HWND IEView::getHWND()
@@ -954,7 +943,7 @@ void IEView::translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam)
 /**
  * Returns the selected text within the active document
  **/
-WCHAR* IEView::getSelection()
+wchar_t* IEView::getSelection()
 {
 	CComPtr<IHTMLDocument2> document = getDocument();
 	if (document == nullptr)
@@ -976,7 +965,7 @@ WCHAR* IEView::getSelection()
 	if (FAILED(pRange->get_text(&text)))
 		return nullptr;
 
-	WCHAR *res = mir_wstrdup(text);
+	wchar_t *res = mir_wstrdup(text);
 	::SysFreeString(text);
 	return res;
 }

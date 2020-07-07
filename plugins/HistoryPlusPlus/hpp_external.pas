@@ -203,7 +203,7 @@ begin
         ExtGrid.EndUpdate;
       end;
       IEE_GET_SELECTION: begin
-        Result := uint_ptr(ExtGrid.GetSelection(boolean(event.dwFlags and IEEF_NO_UNICODE)));
+        Result := uint_ptr(ExtGrid.GetSelection());
       end;
       IEE_SAVE_DOCUMENT: begin
         ExtGrid.SaveSelected;

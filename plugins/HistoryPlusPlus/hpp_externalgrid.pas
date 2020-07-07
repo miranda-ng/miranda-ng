@@ -145,7 +145,7 @@ type
       Codepage: Integer; RTL: Boolean; DoScroll: Boolean);
     procedure SetPosition(x, y, cx, cy: Integer);
     procedure ScrollToBottom;
-    function GetSelection(NoUnicode: Boolean): PAnsiChar;
+    function GetSelection(): PAnsiChar;
     procedure SaveSelected;
     procedure Clear;
     property ParentWindow: HWND read FParentWindow;
@@ -623,10 +623,9 @@ begin
     SetWindowPos(Grid.Handle, 0, x, y, cx, cy, SWP_SHOWWINDOW);
 end;
 
-function TExternalGrid.GetSelection(NoUnicode: Boolean): PAnsiChar;
+function TExternalGrid.GetSelection(): PAnsiChar;
 var
-  TextW: String;
-  TextA: AnsiString;
+  TextW: WideString;
   Source: Pointer;
   Size: Integer;
 begin
@@ -634,17 +633,8 @@ begin
   if Length(TextW) > 0 then
   begin
     TextW := TextW + #0;
-    if NoUnicode then
-    begin
-      TextA := WideToAnsiString(TextW, CP_ACP);
-      Source := @TextA[1];
-      Size := Length(TextA);
-    end
-    else
-    begin
-      Source := @TextW[1];
-      Size := Length(TextW) * SizeOf(Char);
-    end;
+    Source := @TextW[1];
+    Size := Length(TextW) * SizeOf(WideChar);
     ReallocMem(FSelection, Size);
     Move(Source^, FSelection^, Size);
     Result := FSelection;
