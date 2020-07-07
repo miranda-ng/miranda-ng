@@ -6,6 +6,205 @@
 
                                   Changelog
 
+Version 7.71.1 (30 Jun 2020)
+
+Daniel Stenberg (30 Jun 2020)
+- RELEASE-NOTES: curl 7.71.1
+
+- THANKS: add contributors to 7.71.1
+
+- scripts/copyright.pl: skip .dcignore
+
+- Revert "multi: implement wait using winsock events"
+  
+  This reverts commit 8bc25c590e530de87595d1bb3577f699eb1309b9.
+  
+  That commit (from #5397) introduced a regression in 7.71.0.
+  
+  Reported-by: tmkk on github
+  Fixes #5631
+  Closes #5632
+
+- TODO: Add flag to specify download directory
+
+- TODO: return code to CURLMOPT_PUSHFUNCTION to fail connection
+
+- cirrus-ci: disable FreeBSD 13 (again)
+  
+  It has been failing for a good while again. This time we better leave it
+  disabled until we have more reason to believe it behaves.
+  
+  Closes #5628
+
+- ngtcp2: sync with current master
+  
+  ngtcp2 added two new callbacks
+  
+  Reported-by: Lucien Zürcher
+  Fixes #5624
+  Closes #5627
+
+- examples/multithread.c: call curl_global_cleanup()
+  
+  Reported-by: qiandu2006 on github
+  Fixes #5622
+  Closes #5623
+
+- vtls: compare cert blob when finding a connection to reuse
+  
+  Reported-by: Gergely Nagy
+  Fixes #5617
+  Closes #5619
+
+- RELEASE-NOTES: synced
+
+- terminology: call them null-terminated strings
+  
+  Updated terminology in docs, comments and phrases to refer to C strings
+  as "null-terminated". Done to unify with how most other C oriented docs
+  refer of them and what users in general seem to prefer (based on a
+  single highly unscientific poll on twitter).
+  
+  Reported-by: coinhubs on github
+  Fixes #5598
+  Closes #5608
+
+- http: fix proxy auth with blank password
+  
+  Regression in 7.71.0
+  
+  Added test case 346 to verify.
+  
+  Reported-by: Kristoffer Gleditsch
+  Fixes #5613
+  Closes #5616
+
+- .dcignore: ignore tests and docs directories
+  
+  This is a config file for deepcode.ai, a static code analyzer.
+
+Jay Satiro (26 Jun 2020)
+- tool_cb_hdr: Fix etag warning output and return code
+  
+  - Return 'failure' on failure, to follow the existing style.
+  
+  - Put Warning: and the warning message on the same line.
+  
+  Ref: https://github.com/curl/curl/issues/5610
+  
+  Closes https://github.com/curl/curl/pull/5612
+
+Daniel Stenberg (26 Jun 2020)
+- CURLOPT_READFUNCTION.3: provide the upload data size up front
+  
+  Assisted-by: Jay Satiro
+  Closes #5607
+
+- test1539: do a HTTP 1.0 POST without a set size (fails)
+  
+  Attempt to reproduce #5593. Test case 1514 is very similar but uses
+  HTTP/1.1 and thus switches to chunked.
+  
+  Closes #5595
+
+- [Baruch Siach brought this change]
+
+  mbedtls: fix build with disabled proxy support
+  
+  Don't reference fields that do not exist. Fixes build failure:
+  
+  vtls/mbedtls.c: In function 'mbed_connect_step1':
+  vtls/mbedtls.c:249:54: error: 'struct connectdata' has no member named 'http_proxy'
+  
+  Closes #5615
+
+- codeql-analysis.yml: fix the 'languages' setting
+  
+  It needs a 'with:' in front of it.
+
+GitHub (26 Jun 2020)
+- [Daniel Stenberg brought this change]
+
+  gtihub: codeql-analysis.yml
+  
+  enables code security scanning with github actions
+
+Daniel Stenberg (25 Jun 2020)
+- tests: verify newline in username and password for HTTP
+  
+  test 1296 is a simply command line test
+  
+  test 1910 is a libcurl test including a redirect
+
+- url: allow user + password to contain "control codes" for HTTP(S)
+  
+  Reported-by: Jon Johnson Jr
+  Fixes #5582
+  Closes #5592
+
+- escape: make the URL decode able to reject only %00 bytes
+  
+  ... or all "control codes" or nothing.
+  
+  Assisted-by: Nicolas Sterchele
+
+- http2: set the correct URL in pushed transfers
+  
+  ...previously CURLINFO_EFFECTIVE_URL would report the URL of the
+  original "mother transfer", not the actually pushed resource.
+  
+  Reported-by: Jonathan Cardoso Machado
+  Fixes #5589
+  Closes #5591
+
+Jay Satiro (25 Jun 2020)
+- [Javier Blazquez brought this change]
+
+  openssl: Fix compilation on Windows when ngtcp2 is enabled
+  
+  - Include wincrypt before OpenSSL includes so that the latter can
+    properly handle any conflicts between the two.
+  
+  Closes https://github.com/curl/curl/pull/5606
+
+Daniel Stenberg (25 Jun 2020)
+- test543: extended to verify zero length input
+  
+  As was reported in #5601
+
+- escape: zero length input should return a zero length output
+  
+  Regression added in 7.71.0.
+  
+  Fixes #5601
+  Reported-by: Kristoffer Gleditsch
+  Closes #5602
+
+- Curl_inet_ntop: always check the return code
+  
+  Reported-by: Siva Sivaraman
+  Fixes #5412
+  Closes #5597
+
+- sendf: improve the message on client write errors
+  
+  Replace "Failed writing body (X != Y)" with
+  "Failure writing output to destination". Possibly slightly less cryptic.
+  
+  Reported-by: coinhubs on github
+  Fixes #5594
+  Closes #5596
+
+- RELEASE-NOTES: synced
+
+- curlver: start working on 7.71.1
+
+- [Denis Baručić brought this change]
+
+  DYNBUF.md: fix a typo: trail => tail
+  
+  Closes #5599
+
 Version 7.71.0 (23 Jun 2020)
 
 Daniel Stenberg (23 Jun 2020)
@@ -7261,245 +7460,3 @@ Daniel Stenberg (8 Nov 2019)
 - TODO: Run web-platform-tests url tests
   
   Closes #4477
-
-- TODO: 1.4 alt-svc sharing
-  
-  Closes #4476
-
-- test1560: require IPv6 for IPv6 aware URL parsing
-  
-  The URL parser function can't reject a bad IPv6 address properly when
-  curl was built without IPv6 support.
-  
-  Reported-by: Marcel Raad
-  Fixes #4556
-  Closes #4572
-
-- checksrc: repair the copyrightyear check
-  
-  - Consider a modified file to be committed this year.
-  
-  - Make the travis CHECKSRC also do COPYRIGHTYEAR scan in examples and
-    includes
-  
-  - Ignore 0 parents when getting latest commit date of file.
-  
-  since in the CI we're dealing with a truncated repo of last 50 commits,
-  the file's most recent commit may not be available. when this happens
-  git log and rev-list show the initial commit (ie first commit not to be
-  truncated) but that's incorrect so ignore it.
-  
-  Ref: https://github.com/curl/curl/pull/4547
-  
-  Closes https://github.com/curl/curl/pull/4549
-  
-  Co-authored-by: Jay Satiro
-
-- copyrights: fix copyright year range
-  
-  .. because checksrc's copyright year check stopped working.
-  
-  Ref: https://github.com/curl/curl/pull/4547
-  
-  Closes https://github.com/curl/curl/pull/4549
-
-- RELEASE-NOTES: synced
-
-- curlver: bump to 7.67.1
-
-- mailmap: fixup Massimiliano Fantuzzi
-
-- scripts/contributors: make committers get included too
-  
-  in addition to authors
-
-Jay Satiro (8 Nov 2019)
-- [Massimiliano Fantuzzi brought this change]
-
-  configure: fix typo in help text
-  
-  Closes https://github.com/curl/curl/pull/4570
-
-Daniel Stenberg (7 Nov 2019)
-- [Christian Schmitz brought this change]
-
-  ntlm: USE_WIN32_CRYPTO check removed to get USE_NTLM2SESSION set
-  
-  Closes #3704
-
-Jay Satiro (6 Nov 2019)
-- [Wyatt O'Day brought this change]
-
-  build: fix for CURL_DISABLE_DOH
-  
-  Fixes https://github.com/curl/curl/issues/4565
-  Closes https://github.com/curl/curl/pull/4566
-
-- [Leonardo Taccari brought this change]
-
-  configure: avoid unportable `==' test(1) operator
-  
-  Closes https://github.com/curl/curl/pull/4567
-
-Version 7.67.0 (5 Nov 2019)
-
-Daniel Stenberg (5 Nov 2019)
-- RELEASE-NOTES: synced
-  
-  The 7.67.0 release
-
-- THANKS: add new names from 7.67.0
-
-- configure: only say ipv6 enabled when the variable is set
-  
-  Previously it could say "IPv6: enabled" at the end of the configure run
-  but the define wasn't set because of a missing getaddrinfo().
-  
-  Reported-by: Marcel Raad
-  Fixes #4555
-  Closes #4560
-
-Marcel Raad (2 Nov 2019)
-- certs/Server-localhost-lastSAN-sv: regenerate with sha256
-  
-  All other certificates were regenerated in commit ba782baac30, but
-  this one was missed.
-  Fixes test3001 on modern systems.
-  
-  Closes https://github.com/curl/curl/pull/4551
-
-Daniel Stenberg (2 Nov 2019)
-- [Vilhelm Prytz brought this change]
-
-  copyrights: update all copyright notices to 2019 on files changed this year
-  
-  Closes #4547
-
-- [Bastien Bouclet brought this change]
-
-  mbedtls: add error message for cert validity starting in the future
-  
-  Closes #4552
-
-Jay Satiro (1 Nov 2019)
-- schannel_verify: Fix concurrent openings of CA file
-  
-  - Open the CA file using FILE_SHARE_READ mode so that others can read
-    from it as well.
-  
-  Prior to this change our schannel code opened the CA file without
-  sharing which meant concurrent openings (eg an attempt from another
-  thread or process) would fail during the time it was open without
-  sharing, which in curl's case would cause error:
-  "schannel: failed to open CA file".
-  
-  Bug: https://curl.haxx.se/mail/lib-2019-10/0104.html
-  Reported-by: Richard Alcock
-
-Daniel Stenberg (31 Oct 2019)
-- gtls: make gnutls_bye() not wait for response on shutdown
-  
-  ... as it can make it wait there for a long time for no good purpose.
-  
-  Patched-by: Jay Satiro
-  Reported-by: Bylon2 on github
-  Adviced-by: Nikos Mavrogiannopoulos
-  
-  Fixes #4487
-  Closes #4541
-
-- [Michał Janiszewski brought this change]
-
-  appveyor: publish artifacts on appveyor
-  
-  This allows obtaining upstream builds of curl directly from appveyor for
-  all the available configurations
-  
-  Closes #4509
-
-- url: make Curl_close() NULLify the pointer too
-  
-  This is the common pattern used in the code and by a unified approach we
-  avoid mistakes.
-  
-  Closes #4534
-
-- [Trivikram Kamat brought this change]
-
-  INSTALL: add missing space for configure commands
-  
-  Closes #4539
-
-- url: Curl_free_request_state() should also free doh handles
-  
-  ... or risk DoH memory leaks.
-  
-  Reported-by: Paul Dreik
-  Fixes #4463
-  Closes #4527
-
-- examples: remove the "this exact code has not been verified"
-  
-  ... as really confuses the reader to not know what to believe!
-
-- [Trivikram Kamat brought this change]
-
-  HTTP3: fix typo somehere1 > somewhere1
-  
-  Closes #4535
-
-Jay Satiro (28 Oct 2019)
-- [Javier Blazquez brought this change]
-
-  HTTP3: fix invalid use of sendto for connected UDP socket
-  
-  On macOS/BSD, trying to call sendto on a connected UDP socket fails
-  with a EISCONN error. Because the singleipconnect has already called
-  connect on the socket when we're trying to use it for QUIC transfers
-  we need to use plain send instead.
-  
-  Fixes #4529
-  Closes https://github.com/curl/curl/pull/4533
-
-Daniel Stenberg (28 Oct 2019)
-- RELEASE-NOTES: synced
-
-- [Javier Blazquez brought this change]
-
-  HTTP3: fix Windows build
-  
-  The ngtcp2 QUIC backend was using the MSG_DONTWAIT flag for send/recv
-  in order to perform nonblocking operations. On Windows this flag does
-  not exist. Instead, the socket must be set to nonblocking mode via
-  ioctlsocket.
-  
-  This change sets the nonblocking flag on UDP sockets used for QUIC on
-  all platforms so the use of MSG_DONTWAIT is not needed.
-  
-  Fixes #4531
-  Closes #4532
-
-Marcel Raad (27 Oct 2019)
-- appveyor: add --disable-proxy autotools build
-  
-  This would have caught issue #3926.
-  
-  Also make formatting more consistent.
-  
-  Closes https://github.com/curl/curl/pull/4526
-
-Daniel Stenberg (25 Oct 2019)
-- appveyor: make winbuilds with DEBUG=no/yes and VS 2015/2017
-  
-  ... and invoke "curl -V" once done
-  
-  Co-Authored-By: Jay Satiro
-  
-  Closes #4523
-
-- [Francois Rivard brought this change]
-
-  schannel: reverse the order of certinfo insertions
-  
-  Fixes #4518
-  Closes #4519
