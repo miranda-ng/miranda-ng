@@ -572,7 +572,7 @@ char* CJabberProto::GetClientJID(MCONTACT hContact, char *dest, size_t destLen)
 	if (hContact == 0)
 		return nullptr;
 
-	ptrA jid(getUStringA(hContact, "jid"));
+	ptrA jid(getUStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
 	return GetClientJID(jid, dest, destLen);
 }
 
@@ -582,12 +582,11 @@ char* CJabberProto::GetClientJID(const char *jid, char *dest, size_t destLen)
 		return nullptr;
 
 	strncpy_s(dest, destLen, jid, _TRUNCATE);
-	char *p = strchr(dest, '/');
 
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != nullptr) {
-		if (p == nullptr) {
+		if (strchr(dest, '/')) {
 			pResourceStatus r(LI->getBestResource());
 			if (r != nullptr)
 				strncpy_s(dest, destLen, MakeJid(jid, r->m_szResourceName), _TRUNCATE);
