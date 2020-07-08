@@ -73,23 +73,6 @@ if(CMAKE_CXX_COMPILER_LOADED AND CMAKE_CXX_COMPILER_ID MATCHES ".*[Cc][Ll][Aa][N
   set(CMAKE_COMPILER_IS_GNUCXX OFF)
 endif()
 
-# Hard coding the compiler version is ugly from cmake POV, but
-# at least gives user a friendly error message. The most critical
-# demand for C++ compiler is support of C++11 lambdas, added
-# only in version 4.5 https://gcc.gnu.org/projects/cxx0x.html
-if(CMAKE_COMPILER_IS_GNUCC)
-  if(CMAKE_C_COMPILER_VERSION VERSION_LESS 4.5)
-    message(FATAL_ERROR "
-      Your GCC version is ${CMAKE_C_COMPILER_VERSION}, please update")
-  endif()
-endif()
-if(CMAKE_COMPILER_IS_GNUCXX)
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.5)
-    message(FATAL_ERROR "
-      Your G++ version is ${CMAKE_CXX_COMPILER_VERSION}, please update")
-  endif()
-endif()
-
 if(CMAKE_C_COMPILER_LOADED)
   # Check for Elbrus lcc
   execute_process(COMMAND ${CMAKE_C_COMPILER} --version
@@ -136,6 +119,25 @@ if(CMAKE_CXX_COMPILER_LOADED)
   endif()
   unset(tmp_lxx_probe_version)
   unset(tmp_lxx_probe_result)
+endif()
+
+# Hard coding the compiler version is ugly from cmake POV, but
+# at least gives user a friendly error message. The most critical
+# demand for C++ compiler is support of C++11 lambdas, added
+# only in version 4.5 https://gcc.gnu.org/projects/cxx0x.html
+if(CMAKE_COMPILER_IS_GNUCC)
+  if(CMAKE_C_COMPILER_VERSION VERSION_LESS 4.5
+      AND NOT CMAKE_COMPILER_IS_ELBRUSC)
+    message(FATAL_ERROR "
+      Your GCC version is ${CMAKE_C_COMPILER_VERSION}, please update")
+  endif()
+endif()
+if(CMAKE_COMPILER_IS_GNUCXX)
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.5
+      AND NOT CMAKE_COMPILER_IS_ELBRUSCXX)
+    message(FATAL_ERROR "
+      Your G++ version is ${CMAKE_CXX_COMPILER_VERSION}, please update")
+  endif()
 endif()
 
 if(CMAKE_CL_64)
@@ -250,6 +252,17 @@ else()
       }" HAVE_OPENMP)
   endif()
   set(CMAKE_REQUIRED_FLAGS "")
+endif()
+
+# Crutch for old C++ compilers and/or CMake to enabling C++11
+if(CMAKE_CXX_COMPILER_LOADED)
+  list(FIND CMAKE_CXX_COMPILE_FEATURES cxx_std_11 HAS_CXX11)
+  if(HAS_CXX11 LESS 0)
+    check_compiler_flag("-std=gnu++11" CXX_FALLBACK_STDGNU11)
+    if(NOT CXX_FALLBACK_STDGNU11)
+      check_compiler_flag("-std=c++11" CXX_FALLBACK_STD11)
+    endif()
+  endif()
 endif()
 
 # Check for LTO support by GCC
@@ -485,8 +498,12 @@ endif()
 macro(setup_compile_flags)
   # save initial C/CXX flags
   if(NOT INITIAL_CMAKE_FLAGS_SAVED)
-    set(INITIAL_CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "Initial CMake's flags" FORCE)
-    set(INITIAL_CMAKE_C_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "Initial CMake's flags" FORCE)
+    if(CMAKE_CXX_COMPILER_LOADED)
+      set(INITIAL_CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "Initial CMake's flags" FORCE)
+    endif()
+    if(CMAKE_C_COMPILER_LOADED)
+      set(INITIAL_CMAKE_C_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "Initial CMake's flags" FORCE)
+    endif()
     set(INITIAL_CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} CACHE STRING "Initial CMake's flags" FORCE)
     set(INITIAL_CMAKE_SHARED_LINKER_FLAGS ${CMAKE_SHARED_LINKER_FLAGS} CACHE STRING "Initial CMake's flags" FORCE)
     set(INITIAL_CMAKE_STATIC_LINKER_FLAGS ${CMAKE_STATIC_LINKER_FLAGS} CACHE STRING "Initial CMake's flags" FORCE)
@@ -495,8 +512,18 @@ macro(setup_compile_flags)
   endif()
 
   # reset C/CXX flags
-  set(CXX_FLAGS ${INITIAL_CMAKE_CXX_FLAGS})
-  set(C_FLAGS ${INITIAL_CMAKE_C_FLAGS})
+  if(CMAKE_CXX_COMPILER_LOADED)
+    set(CXX_FLAGS ${INITIAL_CMAKE_CXX_FLAGS})
+    # Crutch for old C++ compilers and/or CMake to enabling C++11
+    if(CXX_FALLBACK_STDGNU11)
+      add_compile_flags("CXX" "-std=gnu++11")
+    elseif(CXX_FALLBACK_STD11)
+      add_compile_flags("CXX" "-std=c++11")
+    endif()
+  endif()
+  if(CMAKE_C_COMPILER_LOADED)
+    set(C_FLAGS ${INITIAL_CMAKE_C_FLAGS})
+  endif()
   set(EXE_LINKER_FLAGS ${INITIAL_CMAKE_EXE_LINKER_FLAGS})
   set(SHARED_LINKER_FLAGS ${INITIAL_CMAKE_SHARED_LINKER_FLAGS})
   set(STATIC_LINKER_FLAGS ${INITIAL_CMAKE_STATIC_LINKER_FLAGS})
@@ -624,6 +651,10 @@ macro(setup_compile_flags)
     add_compile_flags("C;CXX" -fsanitize=address)
   endif()
 
+  if(ENABLE_UBSAN)
+    add_compile_flags("C;CXX" -fsanitize=undefined)
+  endif()
+
   if(ENABLE_GCOV)
     if(NOT HAVE_GCOV)
       message(FATAL_ERROR
@@ -719,31 +750,37 @@ macro(setup_compile_flags)
   endif()
 
   # push C/CXX flags into the cache
-  set(CMAKE_CXX_FLAGS ${CXX_FLAGS} CACHE STRING "Flags used by the C++ compiler during all build types" FORCE)
-  set(CMAKE_C_FLAGS ${C_FLAGS} CACHE STRING "Flags used by the C compiler during all build types" FORCE)
+  if(CMAKE_CXX_COMPILER_LOADED)
+    set(CMAKE_CXX_FLAGS ${CXX_FLAGS} CACHE STRING "Flags used by the C++ compiler during all build types" FORCE)
+    unset(CXX_FLAGS)
+  endif()
+  if(CMAKE_C_COMPILER_LOADED)
+    set(CMAKE_C_FLAGS ${C_FLAGS} CACHE STRING "Flags used by the C compiler during all build types" FORCE)
+    unset(C_FLAGS)
+  endif()
   set(CMAKE_EXE_LINKER_FLAGS ${EXE_LINKER_FLAGS} CACHE STRING "Flags used by the linker" FORCE)
   set(CMAKE_SHARED_LINKER_FLAGS ${SHARED_LINKER_FLAGS} CACHE STRING "Flags used by the linker during the creation of dll's" FORCE)
   set(CMAKE_STATIC_LINKER_FLAGS ${STATIC_LINKER_FLAGS} CACHE STRING "Flags used by the linker during the creation of static libraries" FORCE)
   set(CMAKE_MODULE_LINKER_FLAGS ${MODULE_LINKER_FLAGS} CACHE STRING "Flags used by the linker during the creation of modules" FORCE)
-  unset(CXX_FLAGS)
-  unset(C_FLAGS)
   unset(EXE_LINKER_FLAGS)
   unset(SHARED_LINKER_FLAGS)
   unset(STATIC_LINKER_FLAGS)
   unset(MODULE_LINKER_FLAGS)
 endmacro(setup_compile_flags)
 
-# determine library for for std::filesystem
-set(LIBCXX_FILESYSTEM "")
-if(CMAKE_COMPILER_IS_GNUCXX)
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
-    set(LIBCXX_FILESYSTEM "stdc++fs")
-  endif()
-elseif(CMAKE_COMPILER_IS_CLANG)
-  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
-    set(LIBCXX_FILESYSTEM "c++experimental")
-  else()
-    set(LIBCXX_FILESYSTEM "stdc++fs")
+if(CMAKE_CXX_COMPILER_LOADED)
+  # determine library for for std::filesystem
+  set(LIBCXX_FILESYSTEM "")
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
+      set(LIBCXX_FILESYSTEM "stdc++fs")
+    endif()
+  elseif(CMAKE_COMPILER_IS_CLANG)
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
+      set(LIBCXX_FILESYSTEM "c++experimental")
+    else()
+      set(LIBCXX_FILESYSTEM "stdc++fs")
+    endif()
   endif()
 endif()
 

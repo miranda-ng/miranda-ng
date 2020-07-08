@@ -67,6 +67,10 @@
 #   define __has_include(x) (0)
 #endif
 
+#ifndef __has_cpp_attribute
+#   define __has_cpp_attribute(x) (0)
+#endif
+
 #if __has_feature(thread_sanitizer)
 #   define __SANITIZE_THREAD__ 1
 #endif
@@ -144,11 +148,20 @@
 #endif /* __noop */
 
 #ifndef __fallthrough
-#   if __GNUC_PREREQ(7, 0) || __has_attribute(__fallthrough__)
-#       define __fallthrough __attribute__((__fallthrough__))
-#   else
-#       define __fallthrough __noop()
-#   endif
+#  if defined(__cplusplus) && __has_cpp_attribute(fallthrough)
+#    define __fallthrough [[fallthrough]]
+#  elif __GNUC_PREREQ(8, 0) && defined(__cplusplus) && __cplusplus >= 201103L
+#    define __fallthrough [[fallthrough]]
+#  elif __GNUC_PREREQ(7, 0) &&                                                 \
+    (!defined(__LCC__) || (__LCC__ == 124 && __LCC_MINOR__ >= 12) ||           \
+     (__LCC__ == 125 && __LCC_MINOR__ >= 5) || (__LCC__ >= 126))
+#    define __fallthrough __attribute__((__fallthrough__))
+#  elif defined(__clang__) && defined(__cplusplus) && __cplusplus >= 201103L &&\
+    __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
+#    define __fallthrough [[clang::fallthrough]]
+#  else
+#    define __fallthrough
+#  endif
 #endif /* __fallthrough */
 
 #ifndef __unreachable
@@ -201,7 +214,9 @@
      * Such a function can be subject to common subexpression elimination
      * and loop optimization just as an arithmetic operator would be.
      * These functions should be declared with the attribute pure. */
-#   if defined(__GNUC__) || __has_attribute(__pure__)
+#   if (defined(__GNUC__) || __has_attribute(__pure__)) &&                     \
+        (!defined(__clang__) /* https://bugs.llvm.org/show_bug.cgi?id=43275 */ \
+         || !defined(__cplusplus) || !__has_feature(cxx_exceptions))
 #       define __pure_function __attribute__((__pure__))
 #   else
 #       define __pure_function
@@ -218,7 +233,9 @@
      * data pointed to must not be declared const. Likewise, a function
      * that calls a non-const function usually must not be const.
      * It does not make sense for a const function to return void. */
-#   if defined(__GNUC__) || __has_attribute(__const__)
+#   if (defined(__GNUC__) || __has_attribute(__pure__)) &&                     \
+        (!defined(__clang__) /* https://bugs.llvm.org/show_bug.cgi?id=43275 */ \
+         || !defined(__cplusplus) || !__has_feature(cxx_exceptions))
 #       define __const_function __attribute__((__const__))
 #   else
 #       define __const_function

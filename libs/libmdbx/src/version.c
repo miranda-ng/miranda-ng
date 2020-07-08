@@ -25,10 +25,10 @@ __dll_export
     const mdbx_version_info mdbx_version = {
         0,
         8,
-        1,
-        1,
-        {"2020-06-14T13:32:46+03:00", "968e4f98dd38e2a4e5cdf12c8203aa7b7abb149e", "0c5496d4d50ccedf8a182c01a76a8fbc7430d469",
-         "v0.8.1-1-g0c5496d"},
+        2,
+        2,
+        {"2020-07-08T16:46:29+03:00", "91ba90ae5964c49852b2fe8ec5c6733e10d0414c", "4fffd033615ec45fd2669edcf26abd4134f76b94",
+         "v0.8.2-2-g4fffd03"},
         sourcery};
 
 __dll_export

@@ -27,7 +27,7 @@
   </ImportGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>LIBMDBX_IMPORTS;MDBX_DEBUG=1;__STDC_FORMAT_MACROS=1;__STDC_LIMIT_MACROS=1;__STDC_CONSTANT_MACROS=1;_HAS_EXCEPTIONS=1;MDBX_CONFIG_H=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LIBMDBX_IMPORTS;MDBX_DEBUG=1;__STDC_FORMAT_MACROS=1;__STDC_LIMIT_MACROS=1;__STDC_CONSTANT_MACROS=1;_HAS_EXCEPTIONS=1;MDBX_CONFIG_H="..\config.h";%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>

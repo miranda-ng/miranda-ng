@@ -658,7 +658,7 @@ typedef pthread_t mdbx_tid_t;
 
 /*----------------------------------------------------------------------------*/
 
-/* MDBX version 0.8.0, released 2020-06-05 */
+/* MDBX version 0.8.2, released 2020-07-06 */
 #define MDBX_VERSION_MAJOR 0
 #define MDBX_VERSION_MINOR 8
 
@@ -1003,9 +1003,6 @@ LIBMDBX_API const char *mdbx_dump_val(const MDBX_val *key, char *const buf,
  *       this is unreasonable. I.e. nested transactions requires mallocation of
  *       database pages and more work for tracking ones, which neuters a
  *       performance boost caused by the MDBX_WRITEMAP mode.
- *
- * NOTE: MDBX don't allow to mix processes with and without MDBX_WRITEMAP on
- *       the same environment. In such case MDBX_INCOMPATIBLE will be generated.
  *
  *  - with MDBX_WRITEMAP = all data will be mapped into memory in the read-write
  *    mode. This offers a significant performance benefit, since the data will
@@ -1616,9 +1613,9 @@ LIBMDBX_API int mdbx_env_create(MDBX_env **penv);
  * NOTE: MDB_NOLOCK flag don't supported by MDBX,
  *       try use MDBX_EXCLUSIVE as a replacement.
  *
- * NOTE: MDBX don't allow to mix processes with different MDBX_WRITEMAP,
- *       MDBX_SAFE_NOSYNC, MDBX_NOMETASYNC, MDBX_MAPASYNC flags on the same
- *       environment. In such case MDBX_INCOMPATIBLE will be returned.
+ * NOTE: MDBX don't allow to mix processes with different MDBX_SAFE_NOSYNC,
+ *       MDBX_NOMETASYNC, MDBX_MAPASYNC flags on the same environment.
+ *       In such case MDBX_INCOMPATIBLE will be returned.
  *
  * If the database is already exist and parameters specified early by
  * mdbx_env_set_geometry() are incompatible (i.e. for instance, different page
@@ -1642,9 +1639,8 @@ LIBMDBX_API int mdbx_env_create(MDBX_env **penv);
  *                             or the current process tries to open environment
  *                             more than once.
  *   - MDBX_INCOMPATIBLE     = Environment is already opened by another process,
- *                             but with different set of MDBX_WRITEMAP,
- *                             MDBX_SAFE_NOSYNC, MDBX_NOMETASYNC, MDBX_MAPASYNC
- *                             flags.
+ *                             but with different set of MDBX_SAFE_NOSYNC,
+ *                             MDBX_NOMETASYNC, MDBX_MAPASYNC flags.
  *                             Or if the database is already exist and
  *                             parameters specified early by
  *                             mdbx_env_set_geometry() are incompatible (i.e.
@@ -2690,7 +2686,7 @@ LIBMDBX_API int mdbx_dbi_open_ex(MDBX_txn *txn, const char *name,
 LIBMDBX_API int mdbx_dbi_open(MDBX_txn *txn, const char *name, unsigned flags,
                               MDBX_dbi *dbi);
 
-/* Key-making functions to avoid custom comparators.
+/* Key-making (value-to-key) functions to avoid custom comparators.
  *
  * The mdbx_key_from_jsonInteger() build key which are comparable with
  * keys created by mdbx_key_from_double(). So this allow mix int64 and IEEE754
@@ -2708,6 +2704,13 @@ __inline uint64_t mdbx_key_from_int64(const int64_t i64) {
 __inline uint32_t mdbx_key_from_int32(const int32_t i32) {
   return UINT32_C(0x80000000) + i32;
 }
+
+/* Key-reverse (key-to-value) functions to avoid custom comparators. */
+LIBMDBX_API int64_t mdbx_jsonInteger_from_key(const MDBX_val);
+LIBMDBX_API double mdbx_double_from_key(const MDBX_val);
+LIBMDBX_API float mdbx_float_from_key(const MDBX_val);
+LIBMDBX_API int32_t mdbx_int32_from_key(const MDBX_val);
+LIBMDBX_API int64_t mdbx_int64_from_key(const MDBX_val);
 
 /* Retrieve statistics for a database.
  *
@@ -2748,10 +2751,10 @@ LIBMDBX_API int mdbx_dbi_dupsort_depthmask(MDBX_txn *txn, MDBX_dbi dbi,
  * discarding result from the last argument.
  *
  * Returns A non-zero error value on failure and 0 on success. */
-#define MDBX_TBL_DIRTY 0x01 /* DB was written in this txn */
-#define MDBX_TBL_STALE 0x02 /* Named-DB record is older than txnID */
-#define MDBX_TBL_FRESH 0x04 /* Named-DB handle opened in this txn */
-#define MDBX_TBL_CREAT 0x08 /* Named-DB handle created in this txn */
+#define MDBX_DBI_DIRTY 0x01 /* DB was written in this txn */
+#define MDBX_DBI_STALE 0x02 /* Named-DB record is older than txnID */
+#define MDBX_DBI_FRESH 0x04 /* Named-DB handle opened in this txn */
+#define MDBX_DBI_CREAT 0x08 /* Named-DB handle created in this txn */
 LIBMDBX_API int mdbx_dbi_flags_ex(MDBX_txn *txn, MDBX_dbi dbi, unsigned *flags,
                                   unsigned *state);
 LIBMDBX_API int mdbx_dbi_flags(MDBX_txn *txn, MDBX_dbi dbi, unsigned *flags);
@@ -3376,6 +3379,7 @@ LIBMDBX_API int mdbx_dbi_sequence(MDBX_txn *txn, MDBX_dbi dbi, uint64_t *result,
  * Returns < 0 if a < b, 0 if a == b, > 0 if a > b */
 LIBMDBX_API int mdbx_cmp(const MDBX_txn *txn, MDBX_dbi dbi, const MDBX_val *a,
                          const MDBX_val *b);
+LIBMDBX_API MDBX_cmp_func *mdbx_get_keycmp(unsigned flags);
 
 /* Compare two data items according to a particular database.
  *
@@ -3390,6 +3394,7 @@ LIBMDBX_API int mdbx_cmp(const MDBX_txn *txn, MDBX_dbi dbi, const MDBX_val *a,
  * Returns < 0 if a < b, 0 if a == b, > 0 if a > b */
 LIBMDBX_API int mdbx_dcmp(const MDBX_txn *txn, MDBX_dbi dbi, const MDBX_val *a,
                           const MDBX_val *b);
+LIBMDBX_API MDBX_cmp_func *mdbx_get_datacmp(unsigned flags);
 
 /* A callback function used to enumerate the reader lock table.
  *
