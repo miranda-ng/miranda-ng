@@ -754,6 +754,8 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 static void* NetlibSslUnique(SslHandle *ssl, int *cbLen)
 {
 	*cbLen = 0;
+	if (!IsWinVer7Plus()) // XP doesn't support that functionality
+		return nullptr;
 
 	SEC_CHANNEL_BINDINGS bindings;
 	SECURITY_STATUS scRet = g_pSSPI->QueryContextAttributesW(&ssl->hContext, SECPKG_ATTR_UNIQUE_BINDINGS, &bindings);
