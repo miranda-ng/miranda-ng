@@ -243,9 +243,7 @@ public:
 		}
 
 		if (m_formHeight > m_frameHeight) {
-			HWND hwndScroll;
-
-			hwndScroll = GetDlgItem(m_hwnd, IDC_VSCROLL);
+			HWND hwndScroll = GetDlgItem(m_hwnd, IDC_VSCROLL);
 			EnableWindow(hwndScroll, TRUE);
 			SetScrollRange(hwndScroll, SB_CTL, 0, m_formHeight - m_frameHeight, FALSE);
 			m_curPos = 0;
@@ -294,9 +292,32 @@ public:
 	}
 };
 
-void CJabberProto::RegisterAgent(HWND, char *jid)
+void CJabberProto::RegisterAgent(HWND hwndParent, char *jid)
 {
-	(new CAgentRegDlg(this, jid))->Show();
+	auto *pDlg = new CAgentRegDlg(this, jid);
+	pDlg->SetParent(hwndParent);
+	pDlg->Show();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct TAgentParam
+{
+	CAgentRegDlg *pDlg;
+	bool bSuccess;
+	const TiXmlElement *iqNode;
+};
+
+static INT_PTR CALLBACK sttFinish(void *param)
+{
+	auto *p = (TAgentParam *)param;
+	if (p->pDlg) {
+		if (p->bSuccess)
+			p->pDlg->Success(p->iqNode);
+		else
+			p->pDlg->Fail(JabberErrorMsg(p->iqNode));
+	}
+	return 0;
 }
 
 void CJabberProto::OnIqAgentGetRegister(const TiXmlElement *iqNode, CJabberIqInfo *)
@@ -311,12 +332,12 @@ void CJabberProto::OnIqAgentGetRegister(const TiXmlElement *iqNode, CJabberIqInf
 	if ((queryNode = XmlFirstChild(iqNode, "query")) == nullptr) return;
 
 	if (!mir_strcmp(type, "result")) {
-		if (m_pDlgAgentReg)
-			m_pDlgAgentReg->Success(iqNode);
+		TAgentParam param = { m_pDlgAgentReg, true, iqNode };
+		CallFunctionSync(sttFinish, &param);
 	}
 	else if (!mir_strcmp(type, "error")) {
-		if (m_pDlgAgentReg)
-			m_pDlgAgentReg->Fail(JabberErrorMsg(iqNode));
+		TAgentParam param = { m_pDlgAgentReg, false, iqNode };
+		CallFunctionSync(sttFinish, &param);
 	}
 }
 
