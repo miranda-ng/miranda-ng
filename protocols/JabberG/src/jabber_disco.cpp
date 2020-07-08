@@ -664,8 +664,10 @@ public:
 		if (m_hwnd == (hwndFocus = GetParent(hwndFocus)))
 			return false;
 		
-		if ((GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_NODE) || (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_JID))
-			PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
+		if ((GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_NODE) || (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_JID)) {
+			m_btnBrowse.Click();
+			return false;
+		}
 
 		m_proto->setByte("discoWnd_useTree", IsDlgButtonChecked(m_hwnd, IDC_BTN_VIEWTREE));
 		return true;
