@@ -92,6 +92,13 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	dbEventType.eventIcon = g_plugin.getIconHandle(IDI_VOICE_ENDED);
 	DbEvent_RegisterType(&dbEventType);
 
+	// Groupchat initialization
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
+
 	// Network initialization
 	CMStringW descr;
 	NETLIBUSER nlu = {};
@@ -144,12 +151,6 @@ void CDiscordProto::OnModulesLoaded()
 		}
 		else pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
 	}
-
-	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.pszModule = m_szModuleName;
-	Chat_Register(&gcr);
 
 	// Clist
 	Clist_GroupCreate(0, m_wszDefaultGroup);

@@ -52,7 +52,6 @@ public:
 	int     UserIsTyping(MCONTACT hContact, int type) override;
 
 	void    OnContactDeleted(MCONTACT) override;
-	void    OnModulesLoaded() override;
 	void    OnShutdown() override;
 
 	// Services

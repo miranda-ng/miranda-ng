@@ -38,7 +38,6 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
 	// sametime.cpp

@@ -71,6 +71,16 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 
 	CList_SetAllOffline(true);
 
+	// group chats
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
+
+	HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
+
 	IRC_MAP_ENTRY("PING", PING)
 		IRC_MAP_ENTRY("JOIN", JOIN)
 		IRC_MAP_ENTRY("QUIT", QUIT)
@@ -194,15 +204,6 @@ void CIrcProto::OnModulesLoaded()
 	mir_snwprintf(name, TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.szDescriptiveName.w = name;
 	hNetlibDCC = Netlib_RegisterUser(&nlu);
-
-	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.pszModule = m_szModuleName;
-	Chat_Register(&gcr);
-
-	HookProtoEvent(ME_GC_EVENT, &CIrcProto::GCEventHook);
-	HookProtoEvent(ME_GC_BUILDMENU, &CIrcProto::GCMenuHook);
 
 	m_pServer = Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, _A2T(m_network));
 

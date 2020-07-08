@@ -55,6 +55,13 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserN
 
 	LoadOptions();
 
+	// register with chat module
+	GCREGISTER gcr = {};
+	gcr.pszModule = m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.iMaxText = MAX_MESSAGE_SIZE;
+	Chat_Register(&gcr);
+
 	debugLogW(L"CSametimeProto::CSametimeProto() end");
 }
 

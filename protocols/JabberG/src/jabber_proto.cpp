@@ -209,6 +209,17 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		OmemoInitDevice();
 	}
 
+	// group chats
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
+
+	HookProtoEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
+
+	// resident settings
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSID);
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSNAME);
 	db_set_resident(m_szModuleName, DBSETTING_XSTATUSMSG);
@@ -273,15 +284,6 @@ void CJabberProto::OnModulesLoaded()
 
 	ConsoleInit();
 	InitInfoFrame();
-
-	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.pszModule = m_szModuleName;
-	Chat_Register(&gcr);
-
-	HookProtoEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
-	HookProtoEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
 
 	StatusIconData sid = {};
 	sid.szModule = m_szModuleName;

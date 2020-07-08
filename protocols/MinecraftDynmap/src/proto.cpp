@@ -55,6 +55,13 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t
 		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
+	// Register group chat
+	GCREGISTER gcr = {};
+	gcr.pszModule = m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.iMaxText = MINECRAFTDYNMAP_MESSAGE_LIMIT;
+	Chat_Register(&gcr);
+
 	// Client instantiation
 	this->error_count_ = 0;
 	this->chatHandle_ = nullptr;
@@ -133,16 +140,6 @@ int MinecraftDynmapProto::SetStatus(int new_status)
 INT_PTR MinecraftDynmapProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(g_plugin.getInst(),MAKEINTRESOURCE(IDD_MinecraftDynmapACCOUNT), (HWND)lParam, MinecraftDynmapAccountProc, (LPARAM)this);
-}
-
-void MinecraftDynmapProto::OnModulesLoaded()
-{
-	// Register group chat
-	GCREGISTER gcr = {};
-	gcr.pszModule = m_szModuleName;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.iMaxText = MINECRAFTDYNMAP_MESSAGE_LIMIT;
-	Chat_Register(&gcr);
 }
 
 void MinecraftDynmapProto::OnShutdown()

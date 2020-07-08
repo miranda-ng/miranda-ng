@@ -69,8 +69,7 @@ INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM lParam)
 						GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
-
-//icolib stuff
+// icolib stuff
 static IconItem iconList[] =
 {
 	{ LPGEN("Protocol icon"), "protoicon", IDI_ICON_PROTO, 0 },
@@ -121,16 +120,6 @@ int CSametimeProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	}
 
 	return 0;
-}
-
-void CSametimeProto::OnModulesLoaded()
-{
-	// register with chat module
-	GCREGISTER gcr = {};
-	gcr.pszModule = m_szModuleName;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.iMaxText = MAX_MESSAGE_SIZE;
-	Chat_Register(&gcr);
 }
 
 void CSametimeProto::OnShutdown()

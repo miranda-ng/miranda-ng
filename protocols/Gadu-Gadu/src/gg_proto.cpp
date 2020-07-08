@@ -78,6 +78,7 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	if (pluginVersion < pluginInfoEx.version)
 		cleanuplastplugin(pluginVersion);
 
+	gc_init();
 	links_instance_init();
 	initavatarrequestthread();
 }
@@ -657,7 +658,6 @@ void GaduProto::OnModulesLoaded()
 	// Init misc stuff
 	gg_icolib_init();
 	initpopups();
-	gc_init();
 	keepalive_init();
 	img_init();
 	block_init();

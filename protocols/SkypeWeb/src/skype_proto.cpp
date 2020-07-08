@@ -51,6 +51,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	g_plugin.addSound("skype_call_canceled", L"SkypeWeb", LPGENW("Incoming call canceled"));
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, NULL, NULL);
+
+	InitGroupChatModule();
 }
 
 CSkypeProto::~CSkypeProto()
@@ -77,7 +79,6 @@ void CSkypeProto::OnModulesLoaded()
 
 	InitDBEvents();
 	InitPopups();
-	InitGroupChatModule();
 }
 
 void CSkypeProto::OnShutdown()

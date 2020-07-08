@@ -69,6 +69,13 @@ CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
+	// register group chats
+	GCREGISTER gcr = {};
+	gcr.pszModule = m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.iMaxText = 159;
+	Chat_Register(&gcr);
+
 	// Create avatar network connection (TODO: probably remove this)
 	char module[512];
 	mir_snprintf(module, "%sAv", m_szModuleName);
@@ -259,12 +266,6 @@ INT_PTR CTwitterProto::OnTweet(WPARAM, LPARAM)
 
 void CTwitterProto::OnModulesLoaded()
 {
-	GCREGISTER gcr = {};
-	gcr.pszModule = m_szModuleName;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.iMaxText = 159;
-	Chat_Register(&gcr);
-
 	DBEVENTTYPEDESCR evt = {};
 	evt.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 	evt.module = m_szModuleName;

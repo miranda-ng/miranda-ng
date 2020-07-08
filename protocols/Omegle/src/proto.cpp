@@ -61,6 +61,14 @@ OmegleProto::OmegleProto(const char* proto_name, const wchar_t* username) :
 	g_plugin.addSound("StrangerTypStop", m_tszUserName, LPGENW("Stranger stopped typing"));
 	g_plugin.addSound("StrangerChange", m_tszUserName, LPGENW("Changing stranger"));
 	g_plugin.addSound("StrangerMessage", m_tszUserName, LPGENW("Receive message"));
+
+	// Register group chat
+	GCREGISTER gcr = {};
+	gcr.dwFlags = 0; //GC_TYPNOTIF; //GC_ACKMSG;
+	gcr.pszModule = m_szModuleName;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.iMaxText = OMEGLE_MESSAGE_LIMIT;
+	Chat_Register(&gcr);
 }
 
 OmegleProto::~OmegleProto()
@@ -134,17 +142,6 @@ INT_PTR OmegleProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_OmegleACCOUNT),
 		(HWND)lParam, OmegleAccountProc, (LPARAM)this);
-}
-
-void OmegleProto::OnModulesLoaded()
-{
-	// Register group chat
-	GCREGISTER gcr = {};
-	gcr.dwFlags = 0; //GC_TYPNOTIF; //GC_ACKMSG;
-	gcr.pszModule = m_szModuleName;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.iMaxText = OMEGLE_MESSAGE_LIMIT;
-	Chat_Register(&gcr);
 }
 
 void OmegleProto::OnShutdown()

@@ -79,6 +79,13 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	HookProtoEvent(ME_GC_BUILDMENU, &CIcqProto::GroupchatMenuHook);
 	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
 
+	// group chats
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
+
 	// netlib handle
 	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
 
@@ -122,12 +129,6 @@ CIcqProto::~CIcqProto()
 
 void CIcqProto::OnModulesLoaded()
 {
-	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.pszModule = m_szModuleName;
-	Chat_Register(&gcr);
-
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 }
 

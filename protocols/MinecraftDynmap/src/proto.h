@@ -47,7 +47,6 @@ public:
 	int     SetStatus(int iNewStatus) override;
 
 	void    OnContactDeleted(MCONTACT) override;
-	void    OnModulesLoaded() override;
 	void    OnShutdown() override;
 
 	// Services

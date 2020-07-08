@@ -32,7 +32,7 @@ int GaduProto::gc_init()
 {
 	char service[64];
 
-	// Register Gadu-Gadu proto
+	// Register Gadu-Gadu groupchats
 	GCREGISTER gcr = {};
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;

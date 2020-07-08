@@ -71,6 +71,17 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
+
+	// Group chats
+	GCREGISTER gcr = {};
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
+
+	CreateProtoService(PS_LEAVECHAT, &CVkProto::OnLeaveChat);
+	CreateProtoService(PS_JOINCHAT, &CVkProto::OnJoinChat);
+	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
+	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
 }
 
 CVkProto::~CVkProto()
@@ -87,17 +98,6 @@ CVkProto::~CVkProto()
 void CVkProto::OnModulesLoaded()
 {
 	Clist_GroupCreate(0, m_vkOptions.pwszDefaultGroup);
-
-	// Chats
-	GCREGISTER gcr = {};
-	gcr.ptszDispName = m_tszUserName;
-	gcr.pszModule = m_szModuleName;
-	Chat_Register(&gcr);
-
-	CreateProtoService(PS_LEAVECHAT, &CVkProto::OnLeaveChat);
-	CreateProtoService(PS_JOINCHAT, &CVkProto::OnJoinChat);
-	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
-	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
 
 	// Other hooks
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CVkProto::OnProcessSrmmEvent);
