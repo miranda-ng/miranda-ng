@@ -556,6 +556,7 @@ static renameTable[] =
 	{ L"importtxt.dll",                  nullptr },
 	{ L"langman.dll",                    nullptr },
 	{ L"libtox.dll",                     nullptr },
+	{ L"lua53.dll",                      nullptr },
 	{ L"metacontacts.dll",               nullptr },
 	{ L"mra.dll",                        nullptr },
 	{ L"modernopt.dll",                  nullptr },
