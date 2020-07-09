@@ -1172,6 +1172,10 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 
 static void OpenOptionsNow(HPLUGIN pPlugin, const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, bool bSinglePage)
 {
+	// Hidden setting
+	if (!db_get_b(0, "Options", "Enable", true))
+		return;
+
 	if (pOptionsDlg == nullptr) {
 		OptionsPageList arPages(1);
 		NotifyEventHooks(hOptionsInitEvent, (WPARAM)&arPages, 0);
@@ -1184,16 +1188,14 @@ static void OpenOptionsNow(HPLUGIN pPlugin, const wchar_t *pszGroup, const wchar
 	else pOptionsDlg->Locate(pszGroup, pszPage, pPlugin);
 }
 
-MIR_APP_DLL(int) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN pPlugin)
+MIR_APP_DLL(void) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN pPlugin)
 {
 	OpenOptionsNow(pPlugin, pszGroup, pszPage, pszTab, false);
-	return 0;
 }
 
-MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN pPlugin)
+MIR_APP_DLL(void) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN pPlugin)
 {
 	OpenOptionsNow(pPlugin, pszGroup, pszPage, pszTab, true);
-	return pOptionsDlg->GetHwnd();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

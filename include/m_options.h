@@ -94,9 +94,9 @@ EXTERN_C MIR_APP_DLL(void) KillModuleOptions(HPLUGIN);
 
 // Opens the options dialog, optionally at the specified page
 // Returns 0 on success, nonzero on failure
-EXTERN_C MIR_APP_DLL(int) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN);
+EXTERN_C MIR_APP_DLL(void) Options_Open(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN);
 
 // Opens the options dialog, with only specified page
-EXTERN_C MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN);
+EXTERN_C MIR_APP_DLL(void) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, HPLUGIN);
 
 #endif  //M_OPTIONS_H__
