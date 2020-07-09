@@ -33,6 +33,8 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 	m_maxContactId(0),
 	m_impl(*this)
 {
+	m_ccDummy.nSubs = -1;
+
 	m_tszProfileName = mir_wstrdup(tszFileName);
 }
 

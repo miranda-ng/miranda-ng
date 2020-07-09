@@ -618,7 +618,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int eventCount = data->items.getCount();
 			for (int i = eventCount - 1; i >= 0; i--) {
 				auto *p = data->items.get(i, false);
-				if (p->hEvent && p->hContact)
+				if (p->hEvent)
 					db_event_delete(p->hEvent);
 			}
 			db_set_safety_mode(true);
