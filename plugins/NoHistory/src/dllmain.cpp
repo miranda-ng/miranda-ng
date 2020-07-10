@@ -41,7 +41,8 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bEnabledForNew(MODULENAME, "EnabledForNew", true)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -198,8 +199,18 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// add default setting for new contacts
 
+static int OnContactAdded(WPARAM hContact, LPARAM)
+{
+	g_plugin.setByte(hContact, DBSETTING_REMOVE, g_plugin.bEnabledForNew);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // add icon to srmm status icons
+
 void SrmmMenu_Load()
 {
 	StatusIconData sid = {};
@@ -256,6 +267,7 @@ int CMPlugin::Load()
 	InitIcons();
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	HookEvent(ME_DB_CONTACT_ADDED, OnContactAdded);
 	HookEvent(ME_DB_EVENT_ADDED, OnDatabaseEventAdd);
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

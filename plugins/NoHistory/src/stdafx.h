@@ -9,6 +9,7 @@
 #include <m_database.h>
 #include <m_clist.h>
 #include <m_clc.h>
+#include <m_gui.h>
 #include <m_langpack.h>
 #include <m_protocols.h>
 #include <m_options.h>
@@ -28,6 +29,8 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	CMOption<bool> bEnabledForNew;
 
 	int Load() override;
 	int Unload() override;
