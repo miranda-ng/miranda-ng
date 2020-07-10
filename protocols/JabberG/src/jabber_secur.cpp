@@ -206,16 +206,17 @@ char* TMD5Auth::getChallenge(const char *challenge)
 /////////////////////////////////////////////////////////////////////////////////////////
 // SCRAM-SHA-1 authorization
 
-TScramAuth::TScramAuth(ThreadData *info, void *pData, size_t cbLen) :
-	TJabberAuth(info)
+TScramAuth::TScramAuth(ThreadData *info, bool bSha1, void *pData, size_t cbLen) :
+	TJabberAuth(info),
+	hashMethod(bSha1 ? EVP_sha1() : EVP_sha256())
 {
 	if (pData) {
-		szName = "SCRAM-SHA-1-PLUS";
+		szName = bSha1 ? "SCRAM-SHA-1-PLUS" : "SCRAM-SHA-256-PLUS";
 		bindFlag = "p=tls-unique,,";
 		bindData.append(pData, cbLen);
 	}
 	else {
-		szName = "SCRAM-SHA-1";
+		szName = bSha1 ? "SCRAM-SHA-1" : "SCRAM-SHA-256";
 		bindFlag = "n,,";
 	}	
 }
@@ -237,7 +238,7 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 
 	for (int i = 0; i < ind; i++) {
 		unsigned int len;
-		HMAC(EVP_sha1(), (BYTE*)passw, (unsigned)passwLen, u, (unsigned)bufLen, u, &len);
+		HMAC(hashMethod, (BYTE*)passw, (unsigned)passwLen, u, (unsigned)bufLen, u, &len);
 		bufLen = MIR_SHA1_HASH_SIZE;
 
 		for (unsigned j = 0; j < MIR_SHA1_HASH_SIZE; j++)
@@ -292,7 +293,7 @@ char* TScramAuth::getChallenge(const char *challenge)
 
 	BYTE clientKey[MIR_SHA1_HASH_SIZE];
 	unsigned int len;
-	HMAC(EVP_sha1(), saltedPassw, sizeof(saltedPassw), (BYTE*)"Client Key", 10, clientKey, &len);
+	HMAC(hashMethod, saltedPassw, sizeof(saltedPassw), (BYTE*)"Client Key", 10, clientKey, &len);
 
 	BYTE storedKey[MIR_SHA1_HASH_SIZE];
 
@@ -304,7 +305,7 @@ char* TScramAuth::getChallenge(const char *challenge)
 	CMStringA authmsg(FORMAT, "%s,%s,c=%s,r=%s", msg1, chl.get(), cbd.get(), snonce.get());
 
 	BYTE clientSig[MIR_SHA1_HASH_SIZE];
-	HMAC(EVP_sha1(), storedKey, sizeof(storedKey), (BYTE*)authmsg.c_str(), authmsg.GetLength(), clientSig, &len);
+	HMAC(hashMethod, storedKey, sizeof(storedKey), (BYTE*)authmsg.c_str(), authmsg.GetLength(), clientSig, &len);
 
 	BYTE clientProof[MIR_SHA1_HASH_SIZE];
 	for (unsigned j = 0; j < sizeof(clientKey); j++)
@@ -312,10 +313,10 @@ char* TScramAuth::getChallenge(const char *challenge)
 
 	/* Calculate the server signature */
 	BYTE serverKey[MIR_SHA1_HASH_SIZE];
-	HMAC(EVP_sha1(), saltedPassw, sizeof(saltedPassw), (BYTE*)"Server Key", 10, serverKey, &len);
+	HMAC(hashMethod, saltedPassw, sizeof(saltedPassw), (BYTE*)"Server Key", 10, serverKey, &len);
 
 	BYTE srvSig[MIR_SHA1_HASH_SIZE];
-	HMAC(EVP_sha1(), serverKey, sizeof(serverKey), (BYTE*)authmsg.c_str(), authmsg.GetLength(), srvSig, &len);
+	HMAC(hashMethod, serverKey, sizeof(serverKey), (BYTE*)authmsg.c_str(), authmsg.GetLength(), srvSig, &len);
 	serverSignature = mir_base64_encode(srvSig, sizeof(srvSig));
 
 	ptrA encproof(mir_base64_encode(clientProof, sizeof(clientProof)));

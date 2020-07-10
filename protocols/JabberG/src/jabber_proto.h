@@ -800,8 +800,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 			bool m_isPlainAvailable : 1;
 			bool m_isPlainOldAvailable : 1;
 			bool m_isMd5Available : 1;
-			bool m_isScramAvailable : 1;
-			bool m_isScramPlusAvailable : 1;
+			bool m_isScramSha1Available : 1;
+			bool m_isScramSha1PlusAvailable : 1;
+			bool m_isScramSha256Available : 1;
+			bool m_isScramSha256PlusAvailable : 1;
 			bool m_isNtlmAvailable : 1;
 			bool m_isSpnegoAvailable : 1;
 			bool m_isKerberosAvailable : 1;

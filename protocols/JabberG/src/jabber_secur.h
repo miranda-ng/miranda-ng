@@ -86,9 +86,10 @@ class TScramAuth : public TJabberAuth
 
 	char *bindFlag, *cnonce = 0, *msg1 = 0, *serverSignature = 0;
 	MBinBuffer bindData;
+	const EVP_MD *hashMethod;
 
 public:
-	TScramAuth(ThreadData*, void *pData = nullptr, size_t cbLen = 0);
+	TScramAuth(ThreadData*, bool bSha1, void *pData = nullptr, size_t cbLen = 0);
 	~TScramAuth();
 
 	char* getInitialRequest() override;

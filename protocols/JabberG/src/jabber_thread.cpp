@@ -627,18 +627,32 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		}
 	}
 
-	if (auth == nullptr && m_isScramPlusAvailable) {
-		m_isScramPlusAvailable = false;
-		
+	if (auth == nullptr && m_isScramSha256PlusAvailable) {
+		m_isScramSha256PlusAvailable = false;
+
 		int len = 0;
 		void *pBuf = Netlib_GetTlsUnique(info->s, len);
 		if (pBuf)
-			auth = new TScramAuth(info, pBuf, len);
+			auth = new TScramAuth(info, EVP_sha256(), pBuf, len);
 	}
 
-	if (auth == nullptr && m_isScramAvailable) {
-		m_isScramAvailable = false;
-		auth = new TScramAuth(info);
+	if (auth == nullptr && m_isScramSha256Available) {
+		m_isScramSha256Available = false;
+		auth = new TScramAuth(info, EVP_sha256());
+	}
+
+	if (auth == nullptr && m_isScramSha1PlusAvailable) {
+		m_isScramSha1PlusAvailable = false;
+
+		int len = 0;
+		void *pBuf = Netlib_GetTlsUnique(info->s, len);
+		if (pBuf)
+			auth = new TScramAuth(info, EVP_sha1(), pBuf, len);
+	}
+
+	if (auth == nullptr && m_isScramSha1Available) {
+		m_isScramSha1Available = false;
+		auth = new TScramAuth(info, EVP_sha1());
 	}
 
 	if (auth == nullptr && m_isMd5Available) {
@@ -724,9 +738,13 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 					else if (!mir_strcmp(szMechanism, "DIGEST-MD5"))
 						m_isMd5Available = true;
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))
-						m_isScramAvailable = true;
+						m_isScramSha1Available = true;
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1-PLUS"))
-						m_isScramPlusAvailable = true;
+						m_isScramSha1PlusAvailable = true;
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256"))
+						m_isScramSha256Available = true;
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256-PLUS"))
+						m_isScramSha256PlusAvailable = true;
 					else if (!mir_strcmp(szMechanism, "NTLM"))
 						m_isNtlmAvailable = true;
 					else if (!mir_strcmp(szMechanism, "GSS-SPNEGO"))
