@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_iq.h"
 #include "jabber_caps.h"
 #include "jabber_disco.h"
+#include "jabber_secur.h"
 
 #pragma warning(disable:4355)
 
@@ -57,6 +58,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_impl(*this),
 	m_omemo(this),
 	m_arChatMarks(50, NumericKeySortT),
+	m_arAuthMechs(1, &TJabberAuth::compare),
 	m_lstTransports(50, compareTransports),
 	m_lstRoster(50, compareListItems),
 	m_iqManager(this),
@@ -250,7 +252,6 @@ CJabberProto::~CJabberProto()
 	ListWipe();
 
 	mir_free(m_tszSelectedLang);
-	mir_free(m_gssapiHostName);
 
 	mir_free(m_modeMsgs.szOnline);
 	mir_free(m_modeMsgs.szAway);

@@ -585,93 +585,10 @@ void CJabberProto::OnProcessStreamOpening(const TiXmlElement *node, ThreadData *
 
 void CJabberProto::PerformAuthentication(ThreadData *info)
 {
-	TJabberAuth* auth = nullptr;
-	char* request = nullptr;
-
-	if (info->auth) {
-		delete info->auth;
-		info->auth = nullptr;
-	}
-
-	if (m_isSpnegoAvailable) {
-		m_isSpnegoAvailable = false;
-		auth = new TNtlmAuth(info, "GSS-SPNEGO");
-		if (!auth->isValid()) {
-			delete auth;
-			auth = nullptr;
-		}
-	}
-
-	if (auth == nullptr && m_isKerberosAvailable) {
-		m_isKerberosAvailable = false;
-		auth = new TNtlmAuth(info, "GSSAPI", m_gssapiHostName);
-		if (!auth->isValid()) {
-			delete auth;
-			auth = nullptr;
-		}
-		else {
-			request = auth->getInitialRequest();
-			if (!request) {
-				delete auth;
-				auth = nullptr;
-			}
-		}
-	}
-
-	if (auth == nullptr && m_isNtlmAvailable) {
-		m_isNtlmAvailable = false;
-		auth = new TNtlmAuth(info, "NTLM");
-		if (!auth->isValid()) {
-			delete auth;
-			auth = nullptr;
-		}
-	}
-
-	if (auth == nullptr && m_isScramSha256PlusAvailable) {
-		m_isScramSha256PlusAvailable = false;
-
-		int len = 0;
-		void *pBuf = Netlib_GetTlsUnique(info->s, len);
-		if (pBuf)
-			auth = new TScramAuth(info, EVP_sha256(), pBuf, len);
-	}
-
-	if (auth == nullptr && m_isScramSha256Available) {
-		m_isScramSha256Available = false;
-		auth = new TScramAuth(info, EVP_sha256());
-	}
-
-	if (auth == nullptr && m_isScramSha1PlusAvailable) {
-		m_isScramSha1PlusAvailable = false;
-
-		int len = 0;
-		void *pBuf = Netlib_GetTlsUnique(info->s, len);
-		if (pBuf)
-			auth = new TScramAuth(info, EVP_sha1(), pBuf, len);
-	}
-
-	if (auth == nullptr && m_isScramSha1Available) {
-		m_isScramSha1Available = false;
-		auth = new TScramAuth(info, EVP_sha1());
-	}
-
-	if (auth == nullptr && m_isMd5Available) {
-		m_isMd5Available = false;
-		auth = new TMD5Auth(info);
-	}
-
-	if (auth == nullptr && m_isPlainAvailable) {
-		m_isPlainAvailable = false;
-		auth = new TPlainAuth(info, false);
-	}
-
-	if (auth == nullptr && m_isPlainOldAvailable) {
-		m_isPlainOldAvailable = false;
-		auth = new TPlainAuth(info, true);
-	}
-
-	if (auth == nullptr) {
-		if (m_isAuthAvailable) { // no known mechanisms but iq_auth is available
+	// no known mechanisms 
+	if (m_arAuthMechs.getCount() == 0) {
+		// if iq_auth is available, use it
+		if (m_isAuthAvailable) {
 			m_isAuthAvailable = false;
 			PerformIqAuth(info);
 			return;
@@ -687,12 +604,8 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		return;
 	}
 
-	info->auth = auth;
-
-	if (!request) request = auth->getInitialRequest();
-	info->send(XmlNode("auth", request) << XATTR("xmlns", "urn:ietf:params:xml:ns:xmpp-sasl")
-		<< XATTR("mechanism", auth->getName()));
-	mir_free(request);
+	auto &auth = m_arAuthMechs[0];
+	info->send(XmlNode("auth", ptrA(auth.getInitialRequest())) << XATTR("xmlns", "urn:ietf:params:xml:ns:xmpp-sasl") << XATTR("mechanism", auth.getName()));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -725,37 +638,57 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 		}
 
 		if (!mir_strcmp(pszName, "mechanisms")) {
-			m_dwAuthMechs = 0;
-			replaceStr(m_gssapiHostName, nullptr);
+			m_arAuthMechs.destroy();
+			replaceStr(info->gssapiHostName, nullptr);
 
 			areMechanismsDefined = true;
 
 			for (auto *c : TiXmlEnum(n)) {
 				if (!mir_strcmp(c->Name(), "mechanism")) {
+					TJabberAuth *pAuth = nullptr;
 					const char *szMechanism = c->GetText();
-					if (!mir_strcmp(szMechanism, "PLAIN"))
-						m_isPlainOldAvailable = m_isPlainAvailable = true;
+					if (!mir_strcmp(szMechanism, "PLAIN")) {
+						m_arAuthMechs.insert(new TPlainAuth(info, false));
+						pAuth = new TPlainAuth(info, true);
+					}
 					else if (!mir_strcmp(szMechanism, "DIGEST-MD5"))
-						m_isMd5Available = true;
+						pAuth = new TMD5Auth(info);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))
-						m_isScramSha1Available = true;
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 500);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1-PLUS"))
-						m_isScramSha1PlusAvailable = true;
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 501);
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-224"))
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 510);
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-224-PLUS"))
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 511);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256"))
-						m_isScramSha256Available = true;
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 520);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256-PLUS"))
-						m_isScramSha256PlusAvailable = true;
-					else if (!mir_strcmp(szMechanism, "NTLM"))
-						m_isNtlmAvailable = true;
-					else if (!mir_strcmp(szMechanism, "GSS-SPNEGO"))
-						m_isSpnegoAvailable = true;
-					else if (!mir_strcmp(szMechanism, "GSSAPI"))
-						m_isKerberosAvailable = true;
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 521);
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-384"))
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 530);
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-384-PLUS"))
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 531);
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-512"))
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 540);
+					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-512-PLUS"))
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 541);
+					else if (!mir_strcmp(szMechanism, "NTLM") || !mir_strcmp(szMechanism, "GSS-SPNEGO") || !mir_strcmp(szMechanism, "GSSAPI"))
+						pAuth = new TNtlmAuth(info, szMechanism);
+					else {
+						debugLogA("Unsupported auth mechanism: %s, skipping", szMechanism);
+						continue;
+					}
+
+					if (!pAuth->isValid())
+						delete pAuth;
+					else
+						m_arAuthMechs.insert(pAuth);
 				}
 				else if (!mir_strcmp(c->Name(), "hostname")) {
 					const char *mech = XmlGetAttr(c, "mechanism");
 					if (mech && mir_strcmpi(mech, "GSSAPI") == 0)
-						m_gssapiHostName = mir_strdup(c->GetText());
+						info->gssapiHostName = mir_strdup(c->GetText());
 				}
 			}
 		}
@@ -783,7 +716,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 	if (m_bEnableStreamMgmt && m_StrmMgmt.IsResumeIdPresent()) // resume should be done here
 		m_StrmMgmt.CheckState();
 	else {
-		if (info->auth) { // we are already logged-in
+		if (m_arAuthMechs.getCount()) { // we are already logged-in
 			info->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS("bind", JABBER_FEAT_BIND)
@@ -801,8 +734,10 @@ void CJabberProto::OnProcessFailure(const TiXmlElement *node, ThreadData *info)
 {
 	// failure xmlns=\"urn:ietf:params:xml:ns:xmpp-sasl\"
 	const char *type = XmlGetAttr(node, "xmlns");
-	if (!mir_strcmp(type, "urn:ietf:params:xml:ns:xmpp-sasl"))
+	if (!mir_strcmp(type, "urn:ietf:params:xml:ns:xmpp-sasl")) {
+		m_arAuthMechs.remove(0L);
 		PerformAuthentication(info);
+	}
 }
 
 void CJabberProto::OnProcessFailed(const TiXmlElement *node, ThreadData *info) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
@@ -810,13 +745,11 @@ void CJabberProto::OnProcessFailed(const TiXmlElement *node, ThreadData *info) /
 	m_StrmMgmt.OnProcessFailed(node, info);
 }
 
-
 void CJabberProto::OnProcessEnabled(const TiXmlElement *node, ThreadData * info)
 {
 	if (m_bEnableStreamMgmt && !mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
 		m_StrmMgmt.OnProcessEnabled(node, info);
 }
-
 
 void CJabberProto::OnProcessError(const TiXmlElement *node, ThreadData *info)
 {
@@ -858,7 +791,7 @@ void CJabberProto::OnProcessSuccess(const TiXmlElement *node, ThreadData *info)
 		return;
 
 	if (!mir_strcmp(type, "urn:ietf:params:xml:ns:xmpp-sasl")) {
-		if (!info->auth->validateLogin(node->GetText())) {
+		if (!m_arAuthMechs[0].validateLogin(node->GetText())) {
 			info->send("</stream:stream>");
 			return;
 		}
@@ -875,7 +808,7 @@ void CJabberProto::OnProcessSuccess(const TiXmlElement *node, ThreadData *info)
 
 void CJabberProto::OnProcessChallenge(const TiXmlElement *node, ThreadData *info)
 {
-	if (info->auth == nullptr) {
+	if (m_arAuthMechs.getCount() == 0) {
 		debugLogA("No previous auth have been made, exiting...");
 		return;
 	}
@@ -883,7 +816,7 @@ void CJabberProto::OnProcessChallenge(const TiXmlElement *node, ThreadData *info
 	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:ietf:params:xml:ns:xmpp-sasl"))
 		return;
 
-	char* challenge = info->auth->getChallenge(node->GetText());
+	char* challenge = m_arAuthMechs[0].getChallenge(node->GetText());
 	info->send(XmlNode("response", challenge) << XATTR("xmlns", "urn:ietf:params:xml:ns:xmpp-sasl"));
 	mir_free(challenge);
 }
@@ -2005,8 +1938,7 @@ ThreadData::~ThreadData()
 	if (!bIsReg && proto->m_ThreadInfo == this)
 		proto->m_ThreadInfo = nullptr;
 
-	delete auth;
-
+	mir_free(gssapiHostName);
 	mir_free(zRecvData);
 	mir_free(buffer);
 

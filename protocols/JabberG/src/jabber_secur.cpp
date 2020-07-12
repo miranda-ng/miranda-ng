@@ -28,33 +28,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // ntlm auth - LanServer based authorization
 
-TNtlmAuth::TNtlmAuth(ThreadData *info, const char *mechanism, const char *hostname) :
-	TJabberAuth(info)
+TNtlmAuth::TNtlmAuth(ThreadData *info, const char *mechanism) :
+	TJabberAuth(info, mechanism)
 {
-	szName = mechanism;
-	szHostName = hostname;
+	bIsValid = false;
 
 	const wchar_t *szProvider;
 	if (!mir_strcmp(mechanism, "GSS-SPNEGO"))
-		szProvider = L"Negotiate";
+		szProvider = L"Negotiate", priority = 703;
 	else if (!mir_strcmp(mechanism, "GSSAPI"))
-		szProvider = L"Kerberos";
+		szProvider = L"Kerberos", priority = 702;
 	else if (!mir_strcmp(mechanism, "NTLM"))
-		szProvider = L"NTLM";
-	else {
-LBL_Invalid:
-		bIsValid = false;
-		hProvider = nullptr;
+		szProvider = L"NTLM", priority = 701;
+	else
 		return;
-	}
 
 	wchar_t szSpn[1024]; szSpn[0] = 0;
 	if (!mir_strcmp(mechanism, "GSSAPI"))
 		if (!getSpn(szSpn, _countof(szSpn)))
-			goto LBL_Invalid;
+			return;
 
 	if ((hProvider = Netlib_InitSecurityProvider(szProvider, szSpn)) == nullptr)
-		bIsValid = false;
+		return;
+	
+	bIsValid = true;
 }
 
 TNtlmAuth::~TNtlmAuth()
@@ -77,9 +74,9 @@ bool TNtlmAuth::getSpn(wchar_t* szSpn, size_t dwSpnLen)
 	if (name) *name = 0;
 	else return false;
 
-	if (szHostName && szHostName[0]) {
+	if (info->gssapiHostName && info->gssapiHostName[0]) {
 		wchar_t *szFullUserNameU = wcsupr(mir_wstrdup(szFullUserName));
-		mir_snwprintf(szSpn, dwSpnLen, L"xmpp/%s/%s@%s", szHostName, szFullUserName, szFullUserNameU);
+		mir_snwprintf(szSpn, dwSpnLen, L"xmpp/%s/%s@%s", info->gssapiHostName, szFullUserName, szFullUserNameU);
 		mir_free(szFullUserNameU);
 	}
 	else {
@@ -127,10 +124,10 @@ char* TNtlmAuth::getChallenge(const char *challenge)
 // md5 auth - digest-based authorization
 
 TMD5Auth::TMD5Auth(ThreadData *info) :
-	TJabberAuth(info),
+	TJabberAuth(info, "DIGEST-MD5"),
 	iCallCount(0)
 {
-	szName = "DIGEST-MD5";
+	priority = 301;
 }
 
 TMD5Auth::~TMD5Auth()
@@ -206,19 +203,23 @@ char* TMD5Auth::getChallenge(const char *challenge)
 /////////////////////////////////////////////////////////////////////////////////////////
 // SCRAM-SHA-1 authorization
 
-TScramAuth::TScramAuth(ThreadData *info, bool bSha1, void *pData, size_t cbLen) :
-	TJabberAuth(info),
-	hashMethod(bSha1 ? EVP_sha1() : EVP_sha256())
+TScramAuth::TScramAuth(ThreadData *info, const char *pszMech, const EVP_MD *pMethod, int iPriority) :
+	TJabberAuth(info, pszMech),
+	hashMethod(pMethod)
 {
-	if (pData) {
-		szName = bSha1 ? "SCRAM-SHA-1-PLUS" : "SCRAM-SHA-256-PLUS";
+	priority = iPriority;
+
+	if ((iPriority % 10) == 1) {
 		bindFlag = "p=tls-unique,,";
-		bindData.append(pData, cbLen);
+
+		int cbLen;
+		void *pData = Netlib_GetTlsUnique(info->s, cbLen);
+		if (pData == nullptr)
+			bIsValid = false;
+		else
+			bindData.append(pData, cbLen);
 	}
-	else {
-		szName = bSha1 ? "SCRAM-SHA-1" : "SCRAM-SHA-256";
-		bindFlag = "n,,";
-	}	
+	else bindFlag = "n,,";
 }
 
 TScramAuth::~TScramAuth()
@@ -335,14 +336,10 @@ bool TScramAuth::validateLogin(const char *challenge)
 // plain auth - the most simple one
 
 TPlainAuth::TPlainAuth(ThreadData *info, bool old) :
-	TJabberAuth(info)
+	TJabberAuth(info, "PLAIN"),
+	bOld(old)
 {
-	szName = "PLAIN";
-	bOld = old;
-}
-
-TPlainAuth::~TPlainAuth()
-{
+	priority = (old) ? 100 : 101;
 }
 
 char* TPlainAuth::getInitialRequest()
@@ -359,11 +356,9 @@ char* TPlainAuth::getInitialRequest()
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic type
 
-TJabberAuth::TJabberAuth(ThreadData* pInfo) :
-	bIsValid(true),
-	complete(0),
-	szName(nullptr),
-	info(pInfo)
+TJabberAuth::TJabberAuth(ThreadData* pInfo, const char *pszMech) :
+	info(pInfo),
+	szName(mir_strdup(pszMech))
 {
 }
 

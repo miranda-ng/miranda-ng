@@ -28,19 +28,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // basic class - provides interface for various Jabber auth
 
-class TJabberAuth
+class TJabberAuth : public MZeroedObject
 {
-protected:  bool bIsValid;
-            const char* szName;
+protected:  bool bIsValid = true;
+            ptrA szName;
             unsigned complete;
+				int priority;
             ThreadData *info;
 public:
-            TJabberAuth(ThreadData*);
+            TJabberAuth(ThreadData *pInfo, const char *pszMech);
 	virtual ~TJabberAuth();
 
 	virtual	char* getInitialRequest();
 	virtual	char* getChallenge(const char *challenge);
-	virtual	bool validateLogin(const char *challenge);
+	virtual	bool  validateLogin(const char *challenge);
+
+	static   int compare(const TJabberAuth *p1, const TJabberAuth *p2)
+				{	return p2->priority - p1->priority; // reverse sorting order
+				}
 
 	inline   const char* getName() const
 				{	return szName;
@@ -59,11 +64,10 @@ class TPlainAuth : public TJabberAuth
 
 	bool bOld;
 
+public:
+	TPlainAuth(ThreadData*, bool);
 
-public:		TPlainAuth(ThreadData*, bool);
-	virtual ~TPlainAuth();
-
-	virtual	char* getInitialRequest();
+	char* getInitialRequest() override;
 };
 
 // md5 auth - digest-based authorization
@@ -89,7 +93,7 @@ class TScramAuth : public TJabberAuth
 	const EVP_MD *hashMethod;
 
 public:
-	TScramAuth(ThreadData*, bool bSha1, void *pData = nullptr, size_t cbLen = 0);
+	TScramAuth(ThreadData *pInfo, const char *pszMech, const EVP_MD *pMethod, int priority);
 	~TScramAuth();
 
 	char* getInitialRequest() override;
@@ -106,10 +110,9 @@ class TNtlmAuth : public TJabberAuth
 	typedef TJabberAuth CSuper;
 
 	HANDLE hProvider;
-	const char *szHostName;
 
 public:
-	TNtlmAuth(ThreadData*, const char* mechanism, const char *hostname = nullptr);
+	TNtlmAuth(ThreadData*, const char* mechanism);
 	~TNtlmAuth();
 
 	char* getInitialRequest() override;

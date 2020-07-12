@@ -794,26 +794,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	ptrA       m_szGroupDelimiter;
 	ptrW       m_savedPassword;
 
-	union {
-		int     m_dwAuthMechs;
-		struct {
-			bool m_isPlainAvailable : 1;
-			bool m_isPlainOldAvailable : 1;
-			bool m_isMd5Available : 1;
-			bool m_isScramSha1Available : 1;
-			bool m_isScramSha1PlusAvailable : 1;
-			bool m_isScramSha256Available : 1;
-			bool m_isScramSha256PlusAvailable : 1;
-			bool m_isNtlmAvailable : 1;
-			bool m_isSpnegoAvailable : 1;
-			bool m_isKerberosAvailable : 1;
-			bool m_isAuthAvailable : 1;
-			bool m_isSessionAvailable : 1;
-		};
-	};
+	OBJLIST<class TJabberAuth> m_arAuthMechs;
+	bool       m_isSessionAvailable, m_isAuthAvailable;
 	
-	char*      m_gssapiHostName;
-
 	void       __cdecl ServerThread(JABBER_CONN_DATA *info);
 		        
 	void       OnProcessFailure(const TiXmlElement *node, ThreadData *info);

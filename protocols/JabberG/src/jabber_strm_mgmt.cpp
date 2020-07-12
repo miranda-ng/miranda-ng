@@ -268,8 +268,7 @@ bool strm_mgmt::IsResumeIdPresent()
 
 void strm_mgmt::FinishLoginProcess(ThreadData *info)
 {
-
-	if (info->auth) { //We are already logged-in
+	if (proto->m_arAuthMechs.getCount()) { //We are already logged-in
 		info->send(
 			XmlNodeIq(proto->AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 			<< XCHILDNS("bind", JABBER_FEAT_BIND)
@@ -281,6 +280,6 @@ void strm_mgmt::FinishLoginProcess(ThreadData *info)
 		return;
 	}
 
-	//mechanisms not available and we are not logged in
+	// mechanisms not available and we are not logged in
 	proto->PerformIqAuth(info);
 }
