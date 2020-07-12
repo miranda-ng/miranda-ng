@@ -110,6 +110,7 @@ class TNtlmAuth : public TJabberAuth
 	typedef TJabberAuth CSuper;
 
 	HANDLE hProvider;
+	ptrA szInitRequest;
 
 public:
 	TNtlmAuth(ThreadData*, const char* mechanism);

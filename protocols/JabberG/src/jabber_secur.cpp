@@ -51,6 +51,14 @@ TNtlmAuth::TNtlmAuth(ThreadData *info, const char *mechanism) :
 	if ((hProvider = Netlib_InitSecurityProvider(szProvider, szSpn)) == nullptr)
 		return;
 	
+	// This generates login method advertisement packet
+	if (info->conn.password[0] != 0)
+		szInitRequest = Netlib_NtlmCreateResponse(hProvider, "", Utf2T(info->conn.username), Utf2T(info->conn.password), complete);
+	else
+		szInitRequest = Netlib_NtlmCreateResponse(hProvider, "", nullptr, nullptr, complete);
+	if (szInitRequest == nullptr)
+		return;
+
 	bIsValid = true;
 }
 
@@ -98,14 +106,7 @@ bool TNtlmAuth::getSpn(wchar_t* szSpn, size_t dwSpnLen)
 
 char* TNtlmAuth::getInitialRequest()
 {
-	if (!hProvider)
-		return nullptr;
-
-	// This generates login method advertisement packet
-	if (info->conn.password[0] != 0)
-		return Netlib_NtlmCreateResponse(hProvider, "", Utf2T(info->conn.username), Utf2T(info->conn.password), complete);
-
-	return Netlib_NtlmCreateResponse(hProvider, "", nullptr, nullptr, complete);
+	return szInitRequest.detach();
 }
 
 char* TNtlmAuth::getChallenge(const char *challenge)
