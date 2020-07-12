@@ -586,7 +586,7 @@ char* CJabberProto::GetClientJID(const char *jid, char *dest, size_t destLen)
 	mir_cslock lck(m_csLists);
 	JABBER_LIST_ITEM *LI = ListGetItemPtr(LIST_ROSTER, jid);
 	if (LI != nullptr) {
-		if (strchr(dest, '/')) {
+		if (strchr(dest, '/') == nullptr) {
 			pResourceStatus r(LI->getBestResource());
 			if (r != nullptr)
 				strncpy_s(dest, destLen, MakeJid(jid, r->m_szResourceName), _TRUNCATE);

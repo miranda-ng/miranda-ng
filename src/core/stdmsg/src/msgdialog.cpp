@@ -1473,7 +1473,7 @@ void CMsgDialog::NotifyTyping(int mode)
 
 void CMsgDialog::RemakeLog()
 {
-	m_pLog->LogEvents(m_hDbEventFirst, -1, 0);
+	m_pLog->LogEvents(m_hDbEventFirst, -1, false);
 }
 
 void CMsgDialog::ShowAvatar()
