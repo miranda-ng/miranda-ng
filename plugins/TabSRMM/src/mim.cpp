@@ -390,6 +390,9 @@ int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM hDbEvent)
 
 int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
+	if (hContact == 0)
+		return 0;
+
 	DBEVENTINFO dbei = {};
 	db_event_get(hDbEvent, &dbei);
 

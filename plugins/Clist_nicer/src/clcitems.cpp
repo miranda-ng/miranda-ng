@@ -403,7 +403,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 		mir_snprintf(szTemp, "%s|", szProto);
 		filterResult = strstr(cfg::dat.protoFilter, szTemp) ? 1 : 0;
 	}
-	
+
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
 		ptrW tszGroup(Clist_GetGroup(hContact));
 		if (tszGroup != NULL) {

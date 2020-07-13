@@ -348,6 +348,9 @@ int fnShowHide()
 
 MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon)
 {
+	if (hContact == 0)
+		return;
+
 	Clist_BroadcastAsync(INTM_ICONCHANGED, hContact, iIcon);
 
 	NotifyEventHooks(hContactIconChangedEvent, hContact, iIcon);
