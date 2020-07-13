@@ -401,8 +401,12 @@ int CIcqProto::AuthRecv(MCONTACT, PROTORECVEVENT *pre)
 
 int CIcqProto::AuthRequest(MCONTACT hContact, const wchar_t* szMessage)
 {
+	ptrW wszGroup(Clist_GetGroup(hContact));
+	if (!wszGroup)
+		wszGroup = mir_wstrdup(L"General");
+
 	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/buddylist/addBuddy", &CIcqProto::OnAddBuddy);
-	pReq << AIMSID(this) << WCHAR_PARAM("authorizationMsg", szMessage) << WCHAR_PARAM("buddy", GetUserId(hContact)) << CHAR_PARAM("group", "General") << INT_PARAM("preAuthorized", 1);
+	pReq << AIMSID(this) << WCHAR_PARAM("authorizationMsg", szMessage) << WCHAR_PARAM("buddy", GetUserId(hContact)) << WCHAR_PARAM("group", wszGroup) << INT_PARAM("preAuthorized", 1);
 	pReq->hContact = hContact;
 	Push(pReq);
 	return 0;
