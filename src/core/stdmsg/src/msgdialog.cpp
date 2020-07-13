@@ -947,12 +947,6 @@ static const CHARRANGE rangeAll = { 0, -1 };
 LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-	case WM_MOUSEWHEEL:
-		if (m_pLog->GetType() == 0)
-			LOG()->WndProc(msg, wParam, lParam);
-		m_iLastEnterTime = 0;
-		return TRUE;
-
 	case EM_REPLACESEL:
 		PostMessage(m_message.GetHwnd(), EM_ACTIVATE, 0, 0);
 		break;
@@ -965,6 +959,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		ProcessFileDrop((HDROP)wParam, m_hContact);
 		return FALSE;
 
+	case WM_MOUSEWHEEL:
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
