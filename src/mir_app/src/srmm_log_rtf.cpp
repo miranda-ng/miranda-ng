@@ -322,9 +322,12 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			EnableMenuItem(hSubMenu, 2, flags);
 
 			if (pszWord && pszWord[0]) {
-				wchar_t szMenuText[4096];
-				mir_snwprintf(szMenuText, TranslateT("Look up '%s':"), pszWord);
-				ModifyMenu(hSubMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
+				CMStringW wszText(FORMAT, TranslateT("Look up '%s':"), pszWord);
+				if (wszText.GetLength() > 30) {
+					wszText.Truncate(30);
+					wszText.AppendChar('\'');
+				}
+				ModifyMenu(hSubMenu, 4, MF_STRING | MF_BYPOSITION, 4, wszText);
 			}
 			else ModifyMenu(hSubMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
 
