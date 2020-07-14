@@ -25,12 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
+#define MAX_GROUPNAME_LEN 256
+
 struct CGroupInternal
 {
 	CGroupInternal(int _id, const wchar_t *_name) :
 		groupId(_id),
 		groupName(mir_wstrdup(_name))
-		{}
+	{}
 
 	~CGroupInternal()
 	{	mir_free(groupName);
@@ -103,7 +105,7 @@ MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName)
 
 static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 {
-	wchar_t newBaseName[127], newName[128];
+	wchar_t newBaseName[MAX_GROUPNAME_LEN-1], newName[MAX_GROUPNAME_LEN];
 
 	const wchar_t *grpName = ptszName ? ptszName : TranslateT("New group");
 	if (hParent) {
@@ -461,7 +463,7 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu()
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 
-		wchar_t szThisField[128], szThisMenuItem[128];
+		wchar_t szThisField[MAX_GROUPNAME_LEN], szThisMenuItem[MAX_GROUPNAME_LEN];
 		do {
 			const wchar_t *pBackslash = wcschr(pNextField, '\\');
 			if (pBackslash == nullptr) {
