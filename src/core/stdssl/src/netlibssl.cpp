@@ -773,9 +773,15 @@ static void* NetlibSslUnique(SslHandle *ssl, int *cbLen)
 	bindings = *(SEC_CHANNEL_BINDINGS *)bindings.dwInitiatorOffset;
 	pBuf += bindings.dwApplicationDataOffset;
 	if (memcmp(pBuf, "tls-unique:", 11)) {
-		CMStringA tmp(' ', bindings.cbApplicationDataLength * 2);
-		bin2hex(pBuf, bindings.cbApplicationDataLength, tmp.GetBuffer());
-		Netlib_Logf(nullptr, "NetlibSslUnique() failed: bad buffer: %s", tmp.c_str());
+		char tmp[sizeof(bindings) * 2 + 1];
+		bin2hex(&bindings, sizeof(bindings), tmp);
+		Netlib_Logf(nullptr, "NetlibSslUnique() failed: bad buffer: %s", tmp);
+
+		if (!IsBadReadPtr(pBuf, bindings.cbApplicationDataLength)) {
+			ptrA buf((char*)mir_alloc(bindings.cbApplicationDataLength*2 + 1));
+			bin2hex(pBuf, bindings.cbApplicationDataLength, buf);
+			Netlib_Logf(nullptr, "buffer: %s", buf.get());
+		}
 		return nullptr;
 	}
 
