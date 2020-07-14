@@ -1087,9 +1087,10 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_OPTIONSAPPLIED:
-		GetAvatar();
-		SetDialogToType();
-		{
+		if (!isChat()) {
+			GetAvatar();
+			SetDialogToType();
+
 			m_pLog->UpdateOptions();
 
 			COLORREF colour = g_plugin.getDword(SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
@@ -1112,14 +1113,14 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
 			m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf2);
 			m_message.SendMsg(EM_SETLANGOPTIONS, 0, (LPARAM)m_message.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-		}
 
-		SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-		UpdateTitle();
-		UpdateTabControl();
-		UpdateStatusBar();
-		m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
-		SetupInfobar();
+			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
+			UpdateTitle();
+			UpdateTabControl();
+			UpdateStatusBar();
+			m_message.SendMsg(EM_REQUESTRESIZE, 0, 0);
+			SetupInfobar();
+		}
 		break;
 
 	case DM_ACTIVATE:
