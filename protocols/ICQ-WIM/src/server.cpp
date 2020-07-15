@@ -215,7 +215,7 @@ void CIcqProto::MarkAsRead(MCONTACT hContact)
 
 	m_impl.m_markRead.Start(200);
 
-	IcqCacheItem *pCache = FindContactByUIN(GetUserId(hContact));
+	auto *pCache = FindContactByUIN(GetUserId(hContact));
 	if (pCache) {
 		mir_cslock lck(m_csMarkReadQueue);
 		if (m_arMarkReadQueue.indexOf(pCache) == -1)
