@@ -762,15 +762,19 @@ static void* NetlibSslUnique(SslHandle *ssl, int *cbLen)
 		return nullptr;
 	}
 
-	LPBYTE pBuf = LPBYTE(bindings.dwInitiatorOffset);
-	if (bindings.dwInitiatorOffset == 0) {
+	BYTE *pBuf;
+	if (!IsBadReadPtr((void*)bindings.cbInitiatorLength, sizeof(bindings)))
+		pBuf = (BYTE *)bindings.cbInitiatorLength;
+	else if(!IsBadReadPtr((void *)bindings.dwInitiatorOffset, sizeof(bindings)))
+		pBuf = (BYTE *)bindings.dwInitiatorOffset;
+	else {
 		char tmp[sizeof(bindings)*2 + 1];
 		bin2hex(&bindings, sizeof(bindings), tmp);
 		Netlib_Logf(nullptr, "Failed bindings: %s", tmp);
 		return nullptr;
 	}
 
-	bindings = *(SEC_CHANNEL_BINDINGS *)bindings.dwInitiatorOffset;
+	bindings = *(SEC_CHANNEL_BINDINGS *)pBuf;
 	pBuf += bindings.dwApplicationDataOffset;
 	if (memcmp(pBuf, "tls-unique:", 11)) {
 		char tmp[sizeof(bindings) * 2 + 1];
