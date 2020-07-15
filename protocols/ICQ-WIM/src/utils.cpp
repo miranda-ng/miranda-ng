@@ -42,7 +42,9 @@ void CIcqProto::InitContactCache()
 			}
 		}
 
-		m_arCache.insert(new IcqCacheItem(GetUserId(it), it));
+		auto *pCache = new IcqCacheItem(GetUserId(it), it);
+		pCache->m_iProcessedMsgId = getId(it, DB_KEY_LASTMSGID);
+		m_arCache.insert(pCache);
 	}
 }
 

@@ -199,18 +199,28 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	__int64 patchVersion = _wtoi64(ev["patchVersion"].as_mstring());
 	setId(hContact, DB_KEY_PATCHVER, patchVersion);
 
+	auto *pCache = FindContactByUIN(wszId); // might be NULL for groupchats
+	__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
+
 	// we load history in the very beginning or if the previous message 
 	if (m_bFirstBos) {
-		__int64 srvLastId = _wtoi64(ev["lastMsgId"].as_mstring());
+		if (pCache)
+			pCache->m_iProcessedMsgId = srvLastId;
+
 		if (srvLastId > lastMsgId) {
 			debugLogA("We need to retrieve history for %S: %lld > %lld", wszId.c_str(), srvLastId, lastMsgId);
 			RetrieveUserHistory(hContact, lastMsgId, false);
 		}
 	}
 	else {
-		for (auto &it : ev["tail"]["messages"])
-			ParseMessage(hContact, lastMsgId, it, false, true);
-		setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
+		if (!(pCache && pCache->m_iProcessedMsgId >= srvLastId)) {
+			for (auto &it : ev["tail"]["messages"])
+				ParseMessage(hContact, lastMsgId, it, false, true);
+
+			setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
+			if (pCache)
+				pCache->m_iProcessedMsgId = lastMsgId;
+		}
 	}
 
 	// check remote read
