@@ -56,7 +56,7 @@ struct AddContactRequest : public AsyncHttpRequest
 struct DeleteContactRequest : public AsyncHttpRequest
 {
 	DeleteContactRequest(const char *who) :
-		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/contacts/v2/users/SELF/contacts/8%3A" + mir_urlEncode(who))
+		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/contacts/v2/users/SELF/contacts/8:" + mir_urlEncode(who))
 	{
 		AddHeader("Accept", "application/json");
 	}
