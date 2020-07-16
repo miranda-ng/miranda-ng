@@ -335,7 +335,7 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	ofn.lpstrFilter = temp;
 	ofn.hwndOwner = hParent;
 	ofn.nMaxFile = MAX_PATH;
-	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
+	ofn.Flags = OFN_EXPLORER | OFN_NOREADONLYRETURN | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT;
 	ofn.lpstrFile = szFile;
 
 	ofn.lpstrTitle = (priv) ? Translate("Save Private Key File") : Translate("Save Public Key File");
@@ -361,7 +361,7 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hParent;
 	ofn.nMaxFile = MAX_PATH;
-	ofn.Flags = OFN_EXPLORER | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT | OFN_NOREADONLYRETURN;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
 	ofn.lpstrFile = szFile;
 	char temp[MAX_PATH];
 	mir_snprintf(temp, "%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c", Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
