@@ -45,7 +45,6 @@
 [Create new channel]
 [Copy Discord ID]
 [Enable guild sync]
-[Load server history]
 ;file \protocols\Discord\src\options.cpp
 [Network]
 [Account]

@@ -71,7 +71,6 @@
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 [Create new chat icon]
-[Sync history icon]
 [Block user icon]
 [Unblock user icon]
 [Incoming call icon]
@@ -85,7 +84,6 @@
 [Too many failed authentication attempts with given username or IP.]
 [Authentication failed. Unknown error.]
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Get server history]
 [Block contact]
 [Unblock contact]
 [Create new chat]
