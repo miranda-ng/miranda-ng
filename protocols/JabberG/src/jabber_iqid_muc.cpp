@@ -50,7 +50,7 @@ void CJabberProto::OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo*)
 	if (!mir_strcmp(type, "result"))
 		if (auto *queryNode = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_MUC_OWNER))
 			if (auto *xNode = XmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS))
-				(new CJabberFormDlg(this, xNode, LPGEN("Jabber Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_strdup(from)))->Display();
+				(new CJabberFormDlg(this, xNode, LPGEN("Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_strdup(from)))->Display();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
