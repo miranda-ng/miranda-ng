@@ -153,7 +153,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 				}
 
 				SendErrorMessage(hContact);
-				HistoryLog(hContact, TranslateU("GPG cannot decrypt imcoming message"), param->timestamp);
+				HistoryLog(hContact, TranslateU("GPG cannot decrypt incoming message"), param->timestamp);
 				delete param;
 				return;
 			}
@@ -164,7 +164,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 			string out(params.out);
 			while (out.find("public key decryption failed: bad passphrase") != string::npos) {
 				if (globals.debuglog)
-					globals.debuglog << "info: failed to decrypt messaage from " + szScreenName + " password needed, trying to get one";
+					globals.debuglog << "info: failed to decrypt message from " + szScreenName + " password needed, trying to get one";
 				if (globals._terminate) {
 					SendErrorMessage(hContact);
 					break;
@@ -196,7 +196,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 						boost::filesystem::remove(path, e);
 					}
 
-					HistoryLog(hContact, TranslateU("GPG cannot decrypt imcoming message"), param->timestamp);
+					HistoryLog(hContact, TranslateU("GPG cannot decrypt incoming message"), param->timestamp);
 					SendErrorMessage(hContact);
 					delete param;
 					return;
@@ -211,7 +211,7 @@ static void RecvMsgSvc_func(RecvParams *param)
 					boost::filesystem::remove(path, e);
 				}
 
-				HistoryLog(hContact, TranslateU("GPG cannot decrypt imcoming message"), param->timestamp);
+				HistoryLog(hContact, TranslateU("GPG cannot decrypt incoming message"), param->timestamp);
 				SendErrorMessage(hContact);
 				delete param;
 				return;

@@ -288,7 +288,7 @@ int onProtoAck(WPARAM, LPARAM l)
 						string out(params.out);
 						while (out.find("public key decryption failed: bad passphrase") != string::npos) {
 							if (globals.debuglog)
-								globals.debuglog << "info: failed to decrypt messaage from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " password needed, trying to get one";
+								globals.debuglog << "info: failed to decrypt message from " + toUTF8(Clist_GetContactDisplayName(ack->hContact)) + " password needed, trying to get one";
 							if (globals._terminate)
 								break;
 							{ //save inkey id
