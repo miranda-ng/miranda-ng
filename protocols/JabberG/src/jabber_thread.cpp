@@ -1877,7 +1877,7 @@ void CJabberProto::OnProcessRegIq(const TiXmlElement *node, ThreadData *info)
 					if (!mir_strcmp(XmlGetAttr(xNode, "xmlns"), JABBER_FEAT_DATA_FORMS)) {
 						g_pRegInfo = info;
 
-						auto *pDlg = new CJabberFormDlg(this, xNode, "Register new user", &CJabberProto::SetRegConfig, mir_strdup(XmlGetAttr(node, "from")));
+						auto *pDlg = new CJabberFormDlg(this, xNode, LPGEN("Register new user"), &CJabberProto::SetRegConfig, mir_strdup(XmlGetAttr(node, "from")));
 						if (info->conn.pDlg)
 							pDlg->SetParent(((CDlgBase*)info->conn.pDlg)->GetHwnd());
 						pDlg->SetCancel(&CJabberProto::CancelRegConfig);
