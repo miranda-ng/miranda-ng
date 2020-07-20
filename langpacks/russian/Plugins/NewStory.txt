@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.0.0.4
+;  Version: 0.1.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -134,8 +134,6 @@
 Информация
 [History search results]
 Результаты поиска в истории
-[System history]
-Системная история
 [Export...]
 Экспортировать...
 [Delete...]
@@ -171,6 +169,13 @@
 ;file \plugins\NewStory\src\history_control.cpp
 [Are you sure to remove all events from history?]
 Уверены, что хотите удалить все события из истории?
+;file \plugins\NewStory\src\history_menus.cpp
+[User history]
+История пользователя
+[Empty history]
+Очистить историю
+[System history]
+Системная история
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Основной значок
@@ -194,8 +199,6 @@
 Обновить предпросмотр
 [Help]
 Помощь
-[User history]
-История пользователя
 ;file \plugins\NewStory\src\options.cpp
 [Reset to default]
 Сбросить к состоянию по умолчанию

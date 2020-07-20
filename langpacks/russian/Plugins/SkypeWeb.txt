@@ -130,8 +130,6 @@ URI объект
 Значок протокола
 [Create new chat icon]
 Создать новый чат
-[Sync history icon]
-Синхронизировать историю
 [Block user icon]
 Заблокировать контакт
 [Unblock user icon]
@@ -156,8 +154,6 @@ URI объект
 [Authentication failed. Unknown error.]
 Не удалось авторизоваться из-за неизвестной ошибки.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Get server history]
-Синхронизировать историю
 [Block contact]
 Заблокировать контакт
 [Unblock contact]

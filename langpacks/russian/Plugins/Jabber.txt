@@ -76,6 +76,8 @@ TLS
 Поддерживать соединение
 [Automatically delete contacts not in my roster]
 Автоматически удалять контакты, которые не в списке
+[History recording mode]
+Хранить историю на сервере
 [Language for human-readable resources:]
 Язык для видимых человеку ресурсов:
 [File Transfer]
@@ -90,10 +92,8 @@ TLS
 Совет:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Отключите все настройки, если у вас проблемы с отправкой файлов. Могут возникнуть проблемы с передачей больших файлов.
-[Jabber account registration]
-Регистрация учётной записи Jabber
-[Jabber Form]
-Jabber форма
+[Account registration]
+
 [Instruction:]
 Инструкция:
 [Submit]
@@ -411,8 +411,8 @@ XML Консоль
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Регистрация агента Jabber
-[No message]
-Нет сообщения
+[Registration successful]
+Регистрация успешно пройдена
 [Register]
 Регистрация
 [Please wait...]
@@ -500,6 +500,8 @@ xHTML формат чат сообщений
 Хранение XML (для закладок и пр.)
 [Supports attention requests ('nudge')]
 Поддержка уведомлений внимания ('Встряска')
+[Support Message Archive Management (XEP-0313)]
+Поддержка управления историей (XEP-0313)
 [Supports chat history retrieving]
 Поддержка получения истории чата
 [Supports chat history management]
@@ -519,7 +521,7 @@ xHTML формат чат сообщений
 [Receives information about OMEMO devices]
 Получение сведений об устройствах OMEMO
 [Supports message carbons (XEP-0280)]
-Поддержка синхронизации между включёнными устройствами (XEP-0280)
+Поддержка копирования сообщений на все ресурсы (XEP-0280)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Введите текст, который видите
@@ -877,8 +879,6 @@ Jabber ошибка
 Аутентификация не прошла для %s.
 [Authentication]
 Аутентификация
-[Registration successful]
-Регистрация успешно пройдена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Пароль успешно изменён. Не забудьте обновить свой пароль в настройках учётной записи Jabber.
 [Password cannot be changed.]
@@ -886,6 +886,8 @@ Jabber ошибка
 [Jabber Bookmarks Error]
 Ошибка закладок Jabber
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Conference Room Configuration]
+
 [%s, %d items (%s)]
 %s, %d пункта(ов) (%s)
 [Reason to ban]
@@ -1359,6 +1361,12 @@ OMEMO: Новая сессия
 Чжуан
 [Zulu]
 Зулусский
+[Never]
+Никогда
+[Roster]
+Если собеседник в ростере
+[Always]
+Всегда
 [These changes will take effect the next time you connect to the Jabber network.]
 Эти изменения вступят в силу при следующем подключении к сети Jabber.
 [Jabber Protocol Option]
@@ -1395,6 +1403,8 @@ OMEMO: Новая сессия
 Автоматически сохранять принятые заметки
 [Inline pictures in messages (XEP-0231)]
 Вставлять изображения в сообщения (XEP-0231)
+[Enable chat states sending (XEP-0085)]
+Включить уведомления о состоянии чата (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
 [Enable carbon copies (XEP-0280)]
@@ -1759,6 +1769,8 @@ XML (кодировка UTF-8)
 Аутентификация не пройдена для %s@%s.
 [Message redirected from: %s\r\n]
 
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+Не удалось расшифровать копию зашифрованного входящего сообщения
 [Registration canceled]
 Регистрация отменена
 [Sending registration information...]

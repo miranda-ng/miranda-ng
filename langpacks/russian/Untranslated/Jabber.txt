@@ -1,3 +1,4 @@
+[Account registration]
 [Jabber Ad-Hoc commands at %s]
 [Sending Ad-Hoc command to %s]
 [User %s is now banned.]
@@ -9,6 +10,7 @@
 [Items request error]
 [<no nick>]
 [has set the subject to:]
+[Conference Room Configuration]
 [Set New Password for %s@%s]
 [Error occurred during processing command]
 [Leave group chats]

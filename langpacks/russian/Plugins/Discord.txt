@@ -80,8 +80,6 @@
 Копировать Discord ID
 [Enable guild sync]
 Вкл. синхронизацию для этого сервера
-[Load server history]
-Загрузить историю с сервера
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Сеть

@@ -1250,6 +1250,7 @@ Google Карты
 &Прочитать сообщение "%s"
 [Re&ad status message]
 Пр&очитать статусное сообщение
+;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Отсутствую с %time%.
@@ -2617,6 +2618,15 @@ xСтатус
 Мои профили
 [New profile]
 Создать профиль
+;file \src\mir_app\src\proto_interface.cpp
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[Revoke authorization]
+Отозвать авторизацию
+[Load server history]
+Загрузить историю с сервера
 ;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Учётная запись будет удалена. Это означает, что все настройки, контакты и история также будут удалены.\n\nВы точно уверены?
@@ -2671,13 +2681,6 @@ ID учётной записи
 [&Accounts...]
 &Учётные записи...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_utils.cpp
-[Request authorization]
-Запросить авторизацию
-[Grant authorization]
-Авторизовать
-[Revoke authorization]
-Отозвать авторизацию
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не могу запустить поиск в сети %s. Пожалуйста, проверьте подключение к сети %s.

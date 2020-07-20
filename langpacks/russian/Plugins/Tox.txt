@@ -149,14 +149,14 @@ IPv6 адрес (необязательно)
 Невозможно прочесть профиль
 [Unable to decrypt Tox profile]
 Невозможно расшифровать профиль
-[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
-Удаление пароля оставит профиль незашифрованным.\r\nПродолжить?
 [New password is empty]
 Новый пароль не может быть пустым
 [New password is not equal to confirmation]
 Пароли не совпадают
 [Old password is not valid]
 Старый пароль не совпадает
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+Удаление пароля оставит профиль незашифрованным.\r\nПродолжить?
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
