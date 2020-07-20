@@ -49,8 +49,7 @@
 [Miscellaneous]
 [Hint:]
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
-[Jabber account registration]
-[Jabber Form]
+[Account registration]
 [Instruction:]
 [Submit]
 [Next]
@@ -455,6 +454,7 @@
 [Password cannot be changed.]
 [Jabber Bookmarks Error]
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Conference Room Configuration]
 [%s, %d items (%s)]
 [Reason to ban]
 [Removing %s?]

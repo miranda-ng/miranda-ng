@@ -123,7 +123,7 @@
 ;file \plugins\New_GPG\src\messages.cpp
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 [Do you want to try to decrypt encrypted message?]
-[GPG cannot decrypt imcoming message]
+[GPG cannot decrypt incoming message]
 [Received unencrypted message:]
 [Failed to decrypt GPG encrypted message.\nMessage body for manual decryption:\n]
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
