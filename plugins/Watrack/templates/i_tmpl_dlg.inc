@@ -13,7 +13,7 @@ begin
           CallService(MS_VARS_GETSKINITEM,0,VSI_HELPICON));
 
       SendDlgItemMessage(Dialog,IDC_MACRO_HELP,BM_SETIMAGE,IMAGE_ICON,
-          CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
+          Skin_LoadIcon(SKINICON_OTHER_HELP,0));
 
       MakeHint(Dialog,IDC_REPLACESPC,
         'Replaces "_" (underscores) globally in pasted os status text,'+

@@ -389,8 +389,7 @@ begin
 {
   ti.uId     :=GetDlgItem(Dialog,IDC_EVENT_HELP);
   ti.lpszText:=TranslateW('Help');
-  SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,
-      CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
+  SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,Skin_LoadIcon(SKINICON_OTHER_HELP,0));
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
 }  
   ti.uId     :=GetDlgItem(Dialog,IDC_TASK_NEW);

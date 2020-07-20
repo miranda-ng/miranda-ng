@@ -437,7 +437,7 @@ begin
   else
     idx:=0;
   end;
-  result:=CallService(MS_SKIN_LOADICON,idx,0);
+  result:=Skin_LoadIcon(idx,0);
 end;
 
 end.

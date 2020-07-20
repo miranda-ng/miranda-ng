@@ -47,8 +47,7 @@ begin
         SetDlgItemTextW(Dialog,IDC_FRAME_TEXT,PWATFrameData(FrameCtrl.CustomData).Template);
       end;
 
-      SendDlgItemMessage(Dialog,IDC_MACRO_HELP,BM_SETIMAGE,IMAGE_ICON,
-          CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
+      SendDlgItemMessage(Dialog,IDC_MACRO_HELP,BM_SETIMAGE,IMAGE_ICON,Skin_LoadIcon(SKINICON_OTHER_HELP,0));
 
       TemplateChanged:=false;
       DlgInited:=true;

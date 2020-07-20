@@ -46,8 +46,7 @@ begin
       if PopupDelay<=0 then
         EnableWindow(GetDlgItem(Dialog,IDC_DELAY),false);
 
-      SendDlgItemMessage(Dialog,IDC_MACRO_HELP,BM_SETIMAGE,IMAGE_ICON,
-          CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
+      SendDlgItemMessage(Dialog,IDC_MACRO_HELP,BM_SETIMAGE,IMAGE_ICON,Skin_LoadIcon(SKINICON_OTHER_HELP,0));
 
       fore:=GetDlgItem(Dialog,IDC_FORE);
       back:=GetDlgItem(Dialog,IDC_BACK);

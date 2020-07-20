@@ -256,22 +256,23 @@ begin
 
   ti.lpszText:=TranslateW('Help');
   ti.uId     :=GetDlgItem(Dialog,IDC_EVENT_HELP);
-  SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,
-      CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
+  SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,Skin_LoadIcon(SKINICON_OTHER_HELP,0));
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
+
   ti.uId     :=GetDlgItem(Dialog,IDC_EVENT_CHELP);
-  SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,
-      CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
+  SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,Skin_LoadIcon(SKINICON_OTHER_HELP,0));
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
   
   ti.uId     :=GetDlgItem(Dialog,IDC_HOOK_NEW);
   ti.lpszText:=TranslateW('New');
   SetButtonIcon(ti.uId,ACI_NEW);
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
+
   ti.uId     :=GetDlgItem(Dialog,IDC_HOOK_APPLY);
   ti.lpszText:=TranslateW('Apply');
   SetButtonIcon(ti.uId,ACI_APPLY);
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
+
   ti.uId     :=GetDlgItem(Dialog,IDC_HOOK_DELETE);
   ti.lpszText:=TranslateW('Delete');
   SetButtonIcon(ti.uId,ACI_DELETE);

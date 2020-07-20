@@ -89,11 +89,9 @@ const
   SKINICON_AUTH_GRANT          = 249;
   SKINICON_AUTH_REVOKE         = 250;
 
-function Skin_LoadIcon(iconId:int; big:byte) : HICON; stdcall;
-                 external AppDLL name 'Skin_LoadIcon';
+function Skin_LoadIcon(iconId:int; big:byte) : HICON; stdcall; external AppDLL;
 
-function Skin_GetIconHandle(iconId:int) : THANDLE; stdcall;
-                 external AppDLL name 'Skin_GetIconHandle';
+function Skin_GetIconHandle(iconId:int) : THANDLE; stdcall; external AppDLL;
 
 // status mode icons. NOTE: These are deprecated in favour of LoadSkinnedProtoIcon()
 const
@@ -106,17 +104,6 @@ const
   SKINICON_STATUS_FREE4CHAT  = 6;
   SKINICON_STATUS_INVISIBLE  = 7;
 
-function Skin_LoadProtoIcon(protoName:PAnsiChar; iconId:int; big:byte) : HICON; stdcall;
-                 external AppDLL name 'Skin_LoadProtoIcon';
-
-const
-  {
-    Affect : Load an icon from the user's custom skin lib, or from the exe
-             if there isn't one loaded, see notes
-    Return : HICON for the new icon, do *not* DestroyIcon() the return value
-             returns NULL(0) if ICON_ID is invalid, but always success for a valid ID.
-  }
-  MS_SKIN_LOADICON:PAnsiChar = 'Skin/Icons/Load';
-
+function Skin_LoadProtoIcon(protoName:PAnsiChar; iconId:int; big:byte) : HICON; stdcall; external AppDLL;
 
 {$ENDIF}

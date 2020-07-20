@@ -47,7 +47,7 @@ begin
   begin
     if cnt=0 then
     begin
-      ImageList_AddIcon(il,CallService(MS_SKIN_LOADICON,SKINICON_OTHER_SMALLDOT,0));
+      ImageList_AddIcon(il,Skin_LoadIcon(SKINICON_OTHER_SMALLDOT,0));
       cbei.pszText:=TranslateW('None');
     end
     else
