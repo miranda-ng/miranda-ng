@@ -18,8 +18,6 @@
 #define IDC_EXPORT_TIMEFORMAT           1004
 #define IDC_EXPORT_DIR_BROWSE           1032
 #define IDC_MAP_USER_LIST               1034
-#define IDC_AUTO_FILENAME               1035
-#define IDC_CLEAR_ALL                   1036
 #define IDC_EXPORT_PROGRESS             1037
 #define IDC_EXP_ALL_STATUS              1039
 #define IDC_OPEN_HELP                   1041
@@ -44,17 +42,21 @@
 #define IDC_USE_UTF8_IN_NEW_FILES       1074
 #define IDC_USE_UTF8_IN_NEW_FILES2      1075
 #define IDC_USE_JSON                    1075
-#define ID_EXPORTSELECTED               40002
+#define ID_EXPORT                       40002
 #define ID_EDIT_COPY                    40003
 #define ID_SET_TO_DEFAULT               40004
 #define ID_USERLIST_USERDETAILS         40005
+#define ID_AUTO_FILENAME                40006
+#define ID_CLEAR_ALL                    40007
+#define ID_SELECT_ALL                   40008
+#define ID_SELECT_NONE                  40009
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        126
-#define _APS_NEXT_COMMAND_VALUE         40006
+#define _APS_NEXT_COMMAND_VALUE         40010
 #define _APS_NEXT_CONTROL_VALUE         1075
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

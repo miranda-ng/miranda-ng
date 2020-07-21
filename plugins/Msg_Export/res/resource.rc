@@ -90,10 +90,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "List1",IDC_MAP_USER_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,5,5,299,209
-    PUSHBUTTON      "Auto filename",IDC_AUTO_FILENAME,5,218,63,14
-    PUSHBUTTON      "Clear all",IDC_CLEAR_ALL,86,218,63,14
-    PUSHBUTTON      "Help",IDC_OPEN_HELP,161,218,63,14
-    PUSHBUTTON      "Export all history",IDC_EXPORTALL,235,218,63,14
+    PUSHBUTTON      "Help",IDC_OPEN_HELP,241,218,63,14
 END
 
 IDD_EXPORT_ALL_DLG DIALOGEX 0, 0, 252, 46
@@ -218,11 +215,14 @@ BEGIN
     POPUP "UserList"
     BEGIN
         MENUITEM "User &details",               ID_USERLIST_USERDETAILS
-        MENUITEM "Export selected",             ID_EXPORTSELECTED
+        MENUITEM "Export",                      ID_EXPORT
         MENUITEM "Set to default filename",     ID_SET_TO_DEFAULT
         MENUITEM SEPARATOR
-        MENUITEM "Auto filename",               IDC_AUTO_FILENAME
-        MENUITEM "Clear all",                   IDC_CLEAR_ALL
+        MENUITEM "Select all",                  ID_SELECT_ALL
+        MENUITEM "Select none",                 ID_SELECT_NONE
+        MENUITEM SEPARATOR
+        MENUITEM "Auto filename",               ID_AUTO_FILENAME
+        MENUITEM "Clear all",                   ID_CLEAR_ALL
     END
 END
 
