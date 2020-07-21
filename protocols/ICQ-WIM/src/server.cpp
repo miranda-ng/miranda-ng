@@ -931,11 +931,17 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 	__int64 lastMsgId = getId(pReq->hContact, DB_KEY_LASTMSGID);
 
+	int count = 0;
 	auto &results = root.results();
-	for (auto &it : results["messages"])
+	for (auto &it : results["messages"]) {
 		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr, false);
+		count++;
+	}
 
 	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
+
+	if (count >= 999)
+		RetrieveUserHistory(pReq->hContact, lastMsgId, pReq->pUserInfo != nullptr);
 }
 
 void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
