@@ -835,7 +835,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		UpdateStatusBar();
 		if (m_pContainer)
 			if (fSound && !nen_options.iNoSounds && !m_pContainer->m_flags.m_bNoSound)
-				Skin_PlaySound("ChatSent");
+				Skin_PlaySound("SendMsg");
 	}
 	else {
 		if (final_sendformat)

@@ -347,7 +347,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		case GC_EVENT_NOTICE:         szSound = "ChatNotice"; break;
 		case GC_EVENT_TOPIC:          szSound = "ChatTopic";  break;
 		case GC_EVENT_MESSAGE:
-			szSound = "ChatMessage";
+			szSound = (bInactive) ? "RecvMsgInactive" : "RecvMsgActive";
 
 			if (bInactive && !(si->wState & STATE_TALK)) {
 				si->wState |= STATE_TALK;

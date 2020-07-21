@@ -372,7 +372,11 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 					params->hNotifyIcon = g_chatApi.hIcons[ICON_KICK];
 				break;
 			case GC_EVENT_MESSAGE:
-				params->sound = "ChatMessage";
+				if (params->bInactive)
+					params->sound = "RecvMsgInactive";
+				else
+					params->sound = "RecvMsgActive";
+				
 				if (params->bInactive && !(si->wState & STATE_TALK)) {
 					si->wState |= STATE_TALK;
 					db_set_w(si->hContact, si->pszModule, "ApparentMode", ID_STATUS_OFFLINE);

@@ -773,7 +773,6 @@ int LoadChatModule(void)
 	g_chatApi.hevPreCreate = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 	g_chatApi.hevWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
 
-	g_plugin.addSound("ChatMessage", LPGENW("Group chats"), LPGENW("Incoming message"));
 	g_plugin.addSound("ChatHighlight", LPGENW("Group chats"), LPGENW("Message is highlighted"));
 	g_plugin.addSound("ChatAction", LPGENW("Group chats"), LPGENW("User has performed an action"));
 	g_plugin.addSound("ChatJoin", LPGENW("Group chats"), LPGENW("User has joined"));
