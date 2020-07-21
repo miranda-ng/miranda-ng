@@ -1083,23 +1083,10 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	}
 	m_cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
-	if (hDbEvent != m_hDbEventFirst || isChat()) {
-		if (!m_bScrollingDisabled)
-			StreamEvents(hDbEvent, 1, 1);
-		else {
-			if (m_iNextQueuedEvent >= m_iEventQueueSize) {
-				m_hQueuedEvents = (MEVENT*)mir_realloc(m_hQueuedEvents, (m_iEventQueueSize + 10) * sizeof(MEVENT));
-				m_iEventQueueSize += 10;
-			}
-			m_hQueuedEvents[m_iNextQueuedEvent++] = hDbEvent;
-
-			wchar_t szBuf[100];
-			mir_snwprintf(szBuf, TranslateT("Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)"), m_iNextQueuedEvent);
-			SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, szBuf);
-			RedrawWindow(GetDlgItem(m_hwnd, IDC_LOGFROZENTEXT), nullptr, nullptr, RDW_INVALIDATE);
-		}
-	}
-	else RemakeLog();
+	if (hDbEvent != m_hDbEventFirst || isChat())
+		StreamEvents(hDbEvent, 1, 1);
+	else
+		RemakeLog();
 
 	// handle tab flashing
 	if (!bDisableNotify && !bIsStatusChangeEvent)

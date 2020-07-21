@@ -1229,19 +1229,6 @@ void CMsgDialog::RemakeLog()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void CMsgDialog::ReplayQueue()
-{
-	for (int i = 0; i < m_iNextQueuedEvent; i++)
-		if (m_hQueuedEvents[i] != 0)
-			StreamEvents(m_hQueuedEvents[i], 1, 1);
-
-	m_iNextQueuedEvent = 0;
-	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
-		TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // saves a contact picture to disk
 // takes hbm (bitmap handle) and bool isOwnPic (1 == save the picture as your own avatar)
 // requires AVS service (Miranda 0.7+)

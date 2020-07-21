@@ -1269,10 +1269,8 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 
 	// begin to draw
 	m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
-
 	m_rtf.SendMsg(EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
-	m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
-	m_rtf.SendMsg(EM_HIDESELECTION, FALSE, 0);
+
 	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 
 	if (m_pDlg.m_isAutoRTL & 1)
@@ -1304,8 +1302,13 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	ReplaceIcons(startAt, fAppend, isSent);
 	m_pDlg.m_bClrAdded = false;
 
-	int len = GetWindowTextLength(m_rtf.GetHwnd())-1;
-	m_rtf.SendMsg(EM_SETSEL, len, len);
+ 	if (!m_pDlg.m_bScrollingDisabled) {
+		int len = GetWindowTextLength(m_rtf.GetHwnd()) - 1;
+		m_rtf.SendMsg(EM_SETSEL, len, len);
+	}
+	else m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldSel);
+	
+	m_rtf.SendMsg(EM_HIDESELECTION, FALSE, 0);
 
 	m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(m_rtf.GetHwnd(), nullptr, FALSE);

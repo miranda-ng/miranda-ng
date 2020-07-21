@@ -374,7 +374,6 @@ CMsgDialog::~CMsgDialog()
 {
 	mir_free(m_sendBuffer);
 	mir_free(m_hHistoryEvents);
-	mir_free(m_hQueuedEvents);
 
 	if (m_hClientIcon) DestroyIcon(m_hClientIcon);
 	if (m_hSmileyIcon) DestroyIcon(m_hSmileyIcon);
@@ -469,8 +468,6 @@ bool CMsgDialog::OnInitDialog()
 	if (M.GetByte(m_hContact, "no_ack", 0))
 		m_sendMode |= SMODE_NOACK;
 
-	m_hQueuedEvents = (MEVENT*)mir_calloc(sizeof(MEVENT)* EVENT_QUEUE_SIZE);
-	m_iEventQueueSize = EVENT_QUEUE_SIZE;
 	m_iCurrentQueueError = -1;
 
 	// message history limit
@@ -1573,8 +1570,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 	if (msg == WM_KEYDOWN && wp == VK_F12) {
 		if (isShift || isCtrl || isAlt)
 			return _dlgReturn(m_hwnd, 1);
-		if (m_bScrollingDisabled)
-			ReplayQueue();
+
 		m_bScrollingDisabled = !m_bScrollingDisabled;
 		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, (m_bNotOnList || m_bScrollingDisabled) ? SW_SHOW : SW_HIDE);
 		if (!m_bScrollingDisabled)

@@ -392,7 +392,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void    LoadSplitter(void);
 	void    PlayIncomingSound(void) const;
 	LRESULT ProcessHotkeysByMsgFilter(const CCtrlBase &pCtrl, UINT msg, WPARAM wParam, LPARAM lParam);
-	void    ReplayQueue(void);
 	void    SaveAvatarToFile(HBITMAP hbm, int isOwnPic);
 	void 	  SendHBitmapAsFile(HBITMAP hbmp) const;
 	void    ShowPopupMenu(const CCtrlBase&, POINT pt);
@@ -434,10 +433,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	bool    m_bInsertMode, m_bInitMode = true;
 	bool    m_bDeferredScroll, m_bDeferredRemakeLog;
 	bool    m_bWasBackgroundCreate;
-
-	MEVENT *m_hQueuedEvents;
-	int     m_iNextQueuedEvent;
-	int     m_iEventQueueSize;
 
 	int     m_iRealAvatarHeight;
 	int     m_iButtonBarReallyNeeds;
