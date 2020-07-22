@@ -55,6 +55,9 @@ void CJabberProto::OnContactDeleted(MCONTACT hContact)
 
 		ListRemove(LIST_ROSTER, jid);
 	}
+
+	if (isChatRoom(hContact))
+		ListRemove(LIST_CHATROOM, jid);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
