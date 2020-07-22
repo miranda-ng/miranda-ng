@@ -122,6 +122,8 @@ int           ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* 
 
 CSrmmLogWindow *Srmm_GetLogWindow(CMsgDialog *pDlg);
 
+void          Chat_RemoveContact(MCONTACT hContact);
+
 const wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2);
 
 #pragma comment(lib,"comctl32.lib")

@@ -978,6 +978,19 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void Chat_RemoveContact(MCONTACT hContact)
+{
+	for (auto &si : g_arSessions) {
+		if (si->hContact == hContact) {
+			SM_FreeSession(si);
+			g_arSessions.removeItem(&si);
+			break;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CHAT_MANAGER::CHAT_MANAGER() :
 	arSessions(g_arSessions)
 {

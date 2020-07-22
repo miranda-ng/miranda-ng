@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "clc.h"
+#include "chat.h"
 
 static LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
@@ -159,6 +160,7 @@ int ContactDeleted(WPARAM hContact, LPARAM)
 		if (it->hContact == hContact)
 			g_clistApi.pfnRemoveEvent(hContact, it->hDbEvent);
 
+	Chat_RemoveContact(hContact);
 	return 0;
 }
 
