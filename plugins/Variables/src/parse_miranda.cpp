@@ -344,14 +344,14 @@ static wchar_t* parseProtoInfo(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	const char *szRes = nullptr;
-	wchar_t *tszRes = nullptr;
+	wchar_t *wszRes = nullptr;
 	ptrA szProto(mir_u2a(ai->argv.w[1]));
 
 	if (!mir_wstrcmp(ai->argv.w[2], _A2W(STR_PINAME)))
-		tszRes = Hlp_GetProtocolName(szProto);
+		wszRes = Hlp_GetProtocolName(szProto);
 	else if (!mir_wstrcmp(ai->argv.w[2], _A2W(STR_PIUIDTEXT))) {
-		szRes = (const char *)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDTEXT, 0);
-		if (INT_PTR(szRes) == CALLSERVICE_NOTFOUND || szRes == nullptr)
+		wszRes = (wchar_t *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+		if (INT_PTR(wszRes) == CALLSERVICE_NOTFOUND || wszRes == nullptr)
 			return nullptr;
 	}
 	else if (!mir_wstrcmp(ai->argv.w[2], _A2W(STR_PIUIDSETTING))) {
@@ -360,15 +360,15 @@ static wchar_t* parseProtoInfo(ARGUMENTSINFO *ai)
 			return nullptr;
 	}
 	else if (!mir_wstrcmp(ai->argv.w[2], _A2W(STR_PINICK)))
-		tszRes = Contact_GetInfo(CNF_DISPLAY, NULL, szProto);
+		wszRes = Contact_GetInfo(CNF_DISPLAY, NULL, szProto);
 
-	if (szRes == nullptr && tszRes == nullptr)
+	if (szRes == nullptr && wszRes == nullptr)
 		return nullptr;
 
-	if (szRes != nullptr && tszRes == nullptr)
-		tszRes = mir_a2u(szRes);
+	if (szRes != nullptr && wszRes == nullptr)
+		wszRes = mir_a2u(szRes);
 
-	return tszRes;
+	return wszRes;
 }
 
 static wchar_t* parseSpecialContact(ARGUMENTSINFO *ai)

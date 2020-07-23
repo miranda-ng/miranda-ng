@@ -96,7 +96,7 @@ INT_PTR MinecraftDynmapProto::GetCaps(int type, MCONTACT)
 	case PFLAG_MAXLENOFMESSAGE:
 		return MINECRAFTDYNMAP_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR) Translate("Visible name");
+		return (INT_PTR) TranslateT("Visible name");
 	}
 	return 0;
 }

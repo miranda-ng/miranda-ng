@@ -153,9 +153,9 @@ bool Uid(MCONTACT hContact, char *szProto, wchar_t *buff, int bufflen)
 bool UidName(char *szProto, wchar_t *buff, int bufflen)
 {
 	if (szProto) {
-		char *szUidName = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+		wchar_t *szUidName = (wchar_t *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 		if (szUidName && (INT_PTR)szUidName != CALLSERVICE_NOTFOUND) {
-			a2t(szUidName, buff, bufflen);
+			wcsncpy_s(buff, bufflen, szUidName, _TRUNCATE);
 			return true;
 		}
 	}

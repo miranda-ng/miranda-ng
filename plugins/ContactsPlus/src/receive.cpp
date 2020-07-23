@@ -186,7 +186,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			HWND hLV = GetDlgItem(hwndDlg, IDC_CONTACTS);
 			ListView_SetExtendedListViewStyle(hLV, LVS_EX_CHECKBOXES|LVS_EX_FULLROWSELECT);
 			// add columns
-			RecvListView_AddColumn(hLV, 120, _A2T((char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0)), 0);
+			RecvListView_AddColumn(hLV, 120, (wchar_t*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0), 0);
 			RecvListView_AddColumn(hLV, 100, TranslateT("Nick"),       1);
 			RecvListView_AddColumn(hLV, 100, TranslateT("First Name"), 2);
 			RecvListView_AddColumn(hLV, 100, TranslateT("Last Name"),  3);

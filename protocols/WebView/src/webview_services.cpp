@@ -209,7 +209,7 @@ INT_PTR GetCaps(WPARAM wParam, LPARAM)
 	case PFLAGNUM_5:
 		return PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Site URL");
+		return (INT_PTR)TranslateT("Site URL");
 	default:
 		return 0;
 	}

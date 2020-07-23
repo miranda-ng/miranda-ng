@@ -119,7 +119,7 @@ INT_PTR CSametimeProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_4:
 		return PF4_SUPPORTTYPING;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("ID");
+		return (INT_PTR)TranslateT("ID");
 	case PFLAG_MAXLENOFMESSAGE:
 		return MAX_MESSAGE_SIZE;
 	default:

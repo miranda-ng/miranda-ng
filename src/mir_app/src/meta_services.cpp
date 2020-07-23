@@ -71,7 +71,7 @@ INT_PTR Meta_GetCaps(WPARAM wParam, LPARAM)
 		return 2000;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)"Metacontact";
+		return (INT_PTR)L"Metacontact";
 	}
 	return 0;
 }

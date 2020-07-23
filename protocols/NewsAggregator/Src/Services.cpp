@@ -82,7 +82,7 @@ INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM)
 	case PFLAGNUM_4:
 		return PF4_AVATARS;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR) "News Feed";
+		return (INT_PTR)L"News Feed";
 	default:
 		return 0;
 	}

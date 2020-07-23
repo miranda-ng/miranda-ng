@@ -170,7 +170,7 @@ INT_PTR FacebookProto::GetCaps(int type, MCONTACT)
 		return FACEBOOK_MESSAGE_LIMIT;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR) "Facebook ID";
+		return (INT_PTR) L"Facebook ID";
 	}
 	return 0;
 }

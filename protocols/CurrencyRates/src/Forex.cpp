@@ -213,7 +213,7 @@ INT_PTR CurrencyRateProtoFunc_GetCaps(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Currency Symbol");
+		return (INT_PTR)TranslateT("Currency Symbol");
 	}
 
 	return 0;

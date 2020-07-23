@@ -48,15 +48,11 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 
 	SetDlgItemText(hdlg, IDC_AUTHREQ, (flags & PF4_NOCUSTOMAUTH) ? L"" : TranslateT("Please authorize my request and add me to your contact list."));
 
-	char* szUniqueId = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
-	if (szUniqueId) {
-		size_t cbLen = mir_strlen(szUniqueId) + 2;
-		wchar_t* pszUniqueId = (wchar_t*)mir_alloc(cbLen * sizeof(wchar_t));
-		mir_snwprintf(pszUniqueId, cbLen, L"%S:", szUniqueId);
-		SetDlgItemText(hdlg, IDC_IDLABEL, pszUniqueId);
-		mir_free(pszUniqueId);
-	}
-	else SetDlgItemText(hdlg, IDC_IDLABEL, TranslateT("Contact ID:"));
+	wchar_t *wszUniqueId = (wchar_t *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+	if (wszUniqueId)
+		SetDlgItemText(hdlg, IDC_IDLABEL, CMStringW(wszUniqueId) + L":");
+	else
+		SetDlgItemText(hdlg, IDC_IDLABEL, TranslateT("Contact ID:"));
 
 	flags = (szProto) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : 0;
 	if (flags & PF1_NUMERICUSERID) {

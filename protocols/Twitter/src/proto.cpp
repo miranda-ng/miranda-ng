@@ -118,7 +118,7 @@ INT_PTR CTwitterProto::GetCaps(int type, MCONTACT)
 	case PFLAG_MAXLENOFMESSAGE:
 		return 159; // 140 + <max length of a users name (15 apparently)> + 4 ("RT @").  this allows for the new style retweets
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR) "Username";
+		return (INT_PTR)TranslateT("User name");
 	}
 	return 0;
 }

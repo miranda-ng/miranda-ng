@@ -5,7 +5,7 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
 	if (wParam == PFLAGNUM_4)
 		return PF4_NOCUSTOMAUTH;
 	if (wParam == PFLAG_UNIQUEIDTEXT)
-		return (INT_PTR)Translate("Nick");
+		return (INT_PTR)TranslateT("Nick");
 	if (wParam == PFLAG_MAXLENOFMESSAGE)
 		return 400;
 	if (wParam == PFLAGNUM_2)

@@ -700,13 +700,15 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 		lps->rcItem.top += sz.cy + 2;
 
 		if (acc->ppro && Proto_IsProtocolLoaded(acc->szProtoName)) {
-			char *szIdName = (char *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
-			ptrW tszIdName(szIdName ? mir_a2u(szIdName) : mir_wstrdup(TranslateT("Account ID")));
+			wchar_t *wszIdName = (wchar_t *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
+			if (wszIdName == nullptr)
+				wszIdName = TranslateT("Account ID");
+			
 			ptrW tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, 0, acc->szModuleName));
 			if (tszUniqueID != nullptr)
-				text.Format(L"%s: %s", tszIdName.get(), tszUniqueID.get());
+				text.Format(L"%s: %s", wszIdName, tszUniqueID.get());
 			else
-				text.Format(L"%s: %s", tszIdName.get(), TranslateT("<unknown>"));
+				text.Format(L"%s: %s", wszIdName, TranslateT("<unknown>"));
 		}
 		else text.Format(TranslateT("Protocol is not loaded."));
 

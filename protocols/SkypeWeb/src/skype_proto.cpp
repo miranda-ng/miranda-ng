@@ -105,7 +105,7 @@ INT_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_4:
 		return PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES | PF4_SERVERMSGID;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Skypename");
+		return (INT_PTR)TranslateT("Skypename");
 	}
 	return 0;
 }

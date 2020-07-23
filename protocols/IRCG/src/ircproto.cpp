@@ -443,7 +443,7 @@ INT_PTR CIrcProto::GetCaps(int type, MCONTACT)
 		return PF4_NOAUTHDENYREASON | PF4_NOCUSTOMAUTH;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Nickname");
+		return (INT_PTR)TranslateT("Nickname");
 
 	case PFLAG_MAXLENOFMESSAGE:
 		return 400;

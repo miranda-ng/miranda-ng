@@ -195,7 +195,7 @@ INT_PTR CSteamProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_5:
 		return PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("SteamID");
+		return (INT_PTR)TranslateT("SteamID");
 	default:
 		return 0;
 	}

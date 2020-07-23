@@ -70,7 +70,7 @@ static INT_PTR __cdecl EMPGetCaps(WPARAM wParam, LPARAM)
 	case PFLAGNUM_3:
 		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("User name, IP address or '*'");
+		return (INT_PTR)TranslateT("User name, IP address or '*'");
 	default:
 		return 0;
 	}

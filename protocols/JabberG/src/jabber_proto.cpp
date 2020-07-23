@@ -611,7 +611,7 @@ INT_PTR CJabberProto::GetCaps(int type, MCONTACT hContact)
 		return dwFlags;		
 		
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("JID");
+		return (INT_PTR)TranslateT("JID");
 	
 	case PFLAG_MAXCONTACTSPERPACKET:
 		char szClientJid[JABBER_MAX_JID_LEN];

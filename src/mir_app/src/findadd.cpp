@@ -491,11 +491,11 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (protoCaps & PF1_USERIDISEMAIL && dat->showProtoId) { dat->showProtoId = 0; dat->showEmail = 1; }
 				if (dat->showProtoId) {
-					char *szUniqueId = (char*)CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
-					if (szUniqueId)
-						SetDlgItemTextA(hwndDlg, IDC_BYPROTOID, szUniqueId);
+					wchar_t *wszUniqueId = (wchar_t *)CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+					if (wszUniqueId)
+						SetDlgItemTextW(hwndDlg, IDC_BYPROTOID, wszUniqueId);
 					else
-						SetDlgItemText(hwndDlg, IDC_BYPROTOID, TranslateT("Handle"));
+						SetDlgItemTextW(hwndDlg, IDC_BYPROTOID, TranslateT("Handle"));
 
 					if (protoCaps & PF1_NUMERICUSERID)
 						SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOID), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOID), GWL_STYLE) | ES_NUMBER);

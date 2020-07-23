@@ -66,8 +66,6 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 	int columnOrder[NUM_COLUMNID];
 	bool colOrdersValid = true;
 	for (int i = 0; i < NUM_COLUMNID; i++) {
-		bool bNeedsFree = false;
-
 		lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 		if (szColumnNames[i] != nullptr)
 			lvc.pszText = TranslateW(szColumnNames[i]);
@@ -76,10 +74,8 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 				lvc.pszText = L"ID";
 				if (szProto) {
 					INT_PTR ret = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
-					if (ret != CALLSERVICE_NOTFOUND) {
-						bNeedsFree = true;
-						lvc.pszText = mir_a2u((char*)ret);
-					}
+					if (ret != CALLSERVICE_NOTFOUND)
+						lvc.pszText = (wchar_t*)ret;
 				}
 			}
 			else lvc.mask &= ~LVCF_TEXT;
@@ -89,9 +85,6 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 		mir_snprintf(szSetting, "ColWidth%d", i);
 		lvc.cx = db_get_w(0, "FindAdd", szSetting, defaultColumnSizes[i]);
 		ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
-
-		if (bNeedsFree)
-			mir_free(lvc.pszText);
 
 		mir_snprintf(szSetting, "ColOrder%d", i);
 		columnOrder[i] = db_get_b(0, "FindAdd", szSetting, -1);

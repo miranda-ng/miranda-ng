@@ -156,7 +156,7 @@ INT_PTR GaduProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_5:
 		return PF2_LONGAWAY;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Gadu-Gadu Number");
+		return (INT_PTR)TranslateT("Gadu-Gadu Number");
 	}
 	return 0;
 }

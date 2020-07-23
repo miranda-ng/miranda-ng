@@ -12,7 +12,7 @@ begin
     PFLAGNUM_4:
       result:=PF4_NOCUSTOMAUTH or PF4_AVATARS;
     PFLAG_UNIQUEIDTEXT:
-      result:=int_ptr(Translate('Radio station URL'));
+      result:=int_ptr(TranslateW('Radio station URL'));
     else
       result:=0;
   end

@@ -99,7 +99,7 @@ INT_PTR OmegleProto::GetCaps(int type, MCONTACT)
 	case PFLAG_MAXLENOFMESSAGE:
 		return OMEGLE_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Visible name");
+		return (INT_PTR)TranslateT("Visible name");
 	}
 	return 0;
 }
