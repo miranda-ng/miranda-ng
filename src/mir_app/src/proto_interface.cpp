@@ -304,7 +304,7 @@ static int __cdecl ProtoPrebuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hRevokeAuth, false);
 	
 	const char *szProto = Proto_GetBaseAccountName(hContact);
-	Menu_ShowItem(hRevokeAuth, ProtoServiceExists(szProto, PS_MENU_LOADHISTORY));
+	Menu_ShowItem(hServerHist, ProtoServiceExists(szProto, PS_MENU_LOADHISTORY));
 	return 0;
 }
 
