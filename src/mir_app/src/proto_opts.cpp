@@ -166,12 +166,6 @@ class CAccountManagerDlg : public CDlgBase
 	CCtrlButton m_btnOk, m_btnCancel;
 	CCtrlBase m_name;
 
-	void ClickButton(CCtrlButton &btn)
-	{
-		if (btn.Enabled())
-			::PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(btn.GetCtrlId(), BN_CLICKED), (LPARAM)btn.GetHwnd());
-	}
-
 	void SelectItem(int iItem)
 	{
 		if ((m_iSelected != iItem) && (m_iSelected >= 0))
@@ -406,19 +400,19 @@ public:
 			break;
 
 		case 2:
-			ClickButton(m_btnEdit);
+			m_btnEdit.Click();
 			break;
 
 		case 3:
-			ClickButton(m_btnRemove);
+			m_btnRemove.Click();
 			break;
 
 		case 4:
-			ClickButton(m_btnOptions);
+			m_btnOptions.Click();
 			break;
 
 		case 5:
-			ClickButton(m_btnUpgrade);
+			m_btnUpgrade.Click();
 			break;
 		}
 		DestroyMenu(hMenu);
@@ -538,28 +532,34 @@ public:
 			MessageBox(m_hwnd, TranslateT("You need to disable plugin to delete this account"), buf, MB_ICONERROR | MB_OK);
 			return;
 		}
-		if (IDYES == MessageBox(m_hwnd, errMsg, buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO)) {
-			// lock controls to avoid changes during remove process
-			m_accList.SetCurSel(-1);
-			UpdateAccountInfo();
-			m_accList.Disable();
-			m_btnAdd.Disable();
+		
+		if (IDYES != MessageBox(m_hwnd, errMsg, buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO))
+			return;
 
-			m_accList.SetItemData(idx, 0);
+		// lock controls to avoid changes during remove process
+		m_accList.SetCurSel(-1);
+		UpdateAccountInfo();
+		m_accList.Disable();
+		m_btnAdd.Disable();
 
-			accounts.remove(pa);
+		m_accList.SetItemData(idx, 0);
 
-			CheckProtocolOrder();
+		accounts.remove(pa);
 
-			WriteDbAccounts();
-			NotifyEventHooks(hAccListChanged, PRAC_REMOVED, (LPARAM)pa);
+		CheckProtocolOrder();
 
-			UnloadAccount(pa, DAF_DYNAMIC | DAF_FORK | DAF_ERASE);
-			Refresh();
+		WriteDbAccounts();
+		NotifyEventHooks(hAccListChanged, PRAC_REMOVED, (LPARAM)pa);
 
-			m_accList.Enable();
-			m_btnAdd.Enable();
-		}
+		UnloadAccount(pa, DAF_DYNAMIC | DAF_FORK | DAF_ERASE);
+
+		Refresh();
+
+		m_accList.SetCurSel((idx >= m_accList.GetCount()) ? idx - 1 : idx);
+		UpdateAccountInfo();
+
+		m_accList.Enable();
+		m_btnAdd.Enable();
 	}
 
 	void OnUpgrade(CCtrlButton*)
@@ -785,18 +785,18 @@ LRESULT CAccountListCtrl::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		case VK_INSERT:
-			PARENT()->ClickButton(PARENT()->m_btnAdd);
+			PARENT()->m_btnAdd.Click();
 			return 0;
 
 		case VK_DELETE:
-			PARENT()->ClickButton(PARENT()->m_btnRemove);
+			PARENT()->m_btnRemove.Click();
 			return 0;
 
 		case VK_RETURN:
 			if (GetAsyncKeyState(VK_CONTROL))
-				PARENT()->ClickButton(PARENT()->m_btnEdit);
+				PARENT()->m_btnEdit.Click();
 			else
-				PARENT()->ClickButton(PARENT()->m_btnOk);
+				PARENT()->m_btnOk.Click();
 			return 0;
 		}
 		break;
