@@ -38,10 +38,11 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) WebSocket_Connect(HNETLIBUSER nlu, const char *s
 	auto *nlr = new MHttpRequest;
 	nlr->flags = NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	nlr->szUrl = tmpHost.GetBuffer();
+	nlr->AddHeader("Accept", "*/*");
 	nlr->AddHeader("Upgrade", "websocket");
 	nlr->AddHeader("Pragma", "no-cache");
 	nlr->AddHeader("Cache-Control", "no-cache");
-	nlr->AddHeader("Connection", "Upgrade");
+	nlr->AddHeader("Connection", "keep-alive, Upgrade");
 	nlr->AddHeader("Sec-WebSocket-Version", "13");
 	nlr->AddHeader("Sec-WebSocket-Extensions", "permessage-deflate; client_max_window_bits");
 	
