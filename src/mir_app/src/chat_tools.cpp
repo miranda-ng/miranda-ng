@@ -358,8 +358,9 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			break;
 		}
 
-		if (szSound && (bInactive || !g_Settings->bSoundsFocus))
-			Skin_PlaySound(szSound);
+		if (db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & iEvent)
+			if (szSound && (bInactive || !g_Settings->bSoundsFocus))
+				Skin_PlaySound(szSound);
 	}
 
 	return TRUE;

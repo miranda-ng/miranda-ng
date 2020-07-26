@@ -53,20 +53,6 @@ static branch_t branch2[] = {
 	{ LPGENW("Enable the 'event filter' for new rooms"), "FilterEnabled", 0, 0 }
 };
 
-static branch_t branch3[] = {
-	{ LPGENW("Show topic changes"), "FilterFlags", GC_EVENT_TOPIC, false },
-	{ LPGENW("Show users joining"), "FilterFlags", GC_EVENT_JOIN, false },
-	{ LPGENW("Show users disconnecting"), "FilterFlags", GC_EVENT_QUIT, false },
-	{ LPGENW("Show messages"), "FilterFlags", GC_EVENT_MESSAGE, true },
-	{ LPGENW("Show actions"), "FilterFlags", GC_EVENT_ACTION, true },
-	{ LPGENW("Show users leaving"), "FilterFlags", GC_EVENT_PART, false },
-	{ LPGENW("Show users being kicked"), "FilterFlags", GC_EVENT_KICK, true },
-	{ LPGENW("Show notices"), "FilterFlags", GC_EVENT_NOTICE, true },
-	{ LPGENW("Show users changing name"), "FilterFlags", GC_EVENT_NICK, false },
-	{ LPGENW("Show information messages"), "FilterFlags", GC_EVENT_INFORMATION, true },
-	{ LPGENW("Show status changes of users"), "FilterFlags", GC_EVENT_ADDSTATUS, false },
-};
-
 static branch_t branch4[] = {
 	{ LPGENW("Show icon for topic changes"), "IconFlags", GC_EVENT_TOPIC, false },
 	{ LPGENW("Show icon for users joining"), "IconFlags", GC_EVENT_JOIN, true },
@@ -80,38 +66,6 @@ static branch_t branch4[] = {
 	{ LPGENW("Show icon for name changes"), "IconFlags", GC_EVENT_NICK, false },
 	{ LPGENW("Show icon for information messages"), "IconFlags", GC_EVENT_INFORMATION, false },
 	{ LPGENW("Show icon for status changes"), "IconFlags", GC_EVENT_ADDSTATUS, false },
-};
-
-static branch_t branch5[] = {
-	{ LPGENW("Show icons in tray only when the chat room is not active"), "TrayIconInactiveOnly", 0, true },
-	{ LPGENW("Show icon in tray for topic changes"), "TrayIconFlags", GC_EVENT_TOPIC, false },
-	{ LPGENW("Show icon in tray for users joining"), "TrayIconFlags", GC_EVENT_JOIN, false },
-	{ LPGENW("Show icon in tray for users disconnecting"), "TrayIconFlags", GC_EVENT_QUIT, false },
-	{ LPGENW("Show icon in tray for messages"), "TrayIconFlags", GC_EVENT_MESSAGE, false },
-	{ LPGENW("Show icon in tray for actions"), "TrayIconFlags", GC_EVENT_ACTION, false },
-	{ LPGENW("Show icon in tray for highlights"), "TrayIconFlags", GC_EVENT_HIGHLIGHT, true },
-	{ LPGENW("Show icon in tray for users leaving"), "TrayIconFlags", GC_EVENT_PART, false },
-	{ LPGENW("Show icon in tray for users kicking other user"), "TrayIconFlags", GC_EVENT_KICK, false },
-	{ LPGENW("Show icon in tray for notices"), "TrayIconFlags", GC_EVENT_NOTICE, false },
-	{ LPGENW("Show icon in tray for name changes"), "TrayIconFlags", GC_EVENT_NICK, false },
-	{ LPGENW("Show icon in tray for information messages"), "TrayIconFlags", GC_EVENT_INFORMATION, false },
-	{ LPGENW("Show icon in tray for status changes"), "TrayIconFlags", GC_EVENT_ADDSTATUS, false },
-};
-
-static branch_t branch6[] = {
-	{ LPGENW("Show popups only when the chat room is not active"), "PopupInactiveOnly", 0, true },
-	{ LPGENW("Show popup for topic changes"), "PopupFlags", GC_EVENT_TOPIC, false },
-	{ LPGENW("Show popup for users joining"), "PopupFlags", GC_EVENT_JOIN, false },
-	{ LPGENW("Show popup for users disconnecting"), "PopupFlags", GC_EVENT_QUIT, false },
-	{ LPGENW("Show popup for messages"), "PopupFlags", GC_EVENT_MESSAGE, false },
-	{ LPGENW("Show popup for actions"), "PopupFlags", GC_EVENT_ACTION, false },
-	{ LPGENW("Show popup for highlights"), "PopupFlags", GC_EVENT_HIGHLIGHT, false },
-	{ LPGENW("Show popup for users leaving"), "PopupFlags", GC_EVENT_PART, false },
-	{ LPGENW("Show popup for users kicking other user"), "PopupFlags", GC_EVENT_KICK, false },
-	{ LPGENW("Show popup for notices"), "PopupFlags", GC_EVENT_NOTICE, false },
-	{ LPGENW("Show popup for name changes"), "PopupFlags", GC_EVENT_NICK, false },
-	{ LPGENW("Show popup for information messages"), "PopupFlags", GC_EVENT_INFORMATION, false },
-	{ LPGENW("Show popup for status changes"), "PopupFlags", GC_EVENT_ADDSTATUS, false },
 };
 
 static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
@@ -187,7 +141,7 @@ void AddIcons(void)
 
 class COptMainDlg : public CDlgBase
 {
-	HTREEITEM hListHeading1, hListHeading2, hListHeading3, hListHeading4, hListHeading5, hListHeading6 = 0;
+	HTREEITEM hListHeading1, hListHeading2, hListHeading4;
 
 	CCtrlTreeView checkBoxes;
 
@@ -299,10 +253,7 @@ class COptMainDlg : public CDlgBase
 	{
 		CheckHeading(hListHeading1);
 		CheckHeading(hListHeading2);
-		CheckHeading(hListHeading3);
 		CheckHeading(hListHeading4);
-		CheckHeading(hListHeading5);
-		CheckHeading(hListHeading6);
 	}
 
 public:
@@ -319,17 +270,11 @@ public:
 
 		hListHeading1 = InsertBranch(LPGEN("Appearance and functionality of chat room windows"), db_get_b(0, CHAT_MODULE, "Branch1Exp", 0) ? TRUE : FALSE);
 		hListHeading2 = InsertBranch(LPGEN("Appearance of the message log"), db_get_b(0, CHAT_MODULE, "Branch2Exp", 0) ? TRUE : FALSE);
-		hListHeading3 = InsertBranch(LPGEN("Default events to show in new chat rooms if the 'event filter' is enabled"), db_get_b(0, CHAT_MODULE, "Branch3Exp", 0) ? TRUE : FALSE);
 		hListHeading4 = InsertBranch(LPGEN("Icons to display in the message log"), db_get_b(0, CHAT_MODULE, "Branch4Exp", 0) ? TRUE : FALSE);
-		hListHeading5 = InsertBranch(LPGEN("Icons to display in the tray"), db_get_b(0, CHAT_MODULE, "Branch5Exp", 0) ? TRUE : FALSE);
-		hListHeading6 = InsertBranch(LPGEN("Popups to display"), db_get_b(0, CHAT_MODULE, "Branch6Exp", 0) ? TRUE : FALSE);
 
 		FillBranch(hListHeading1, branch1, _countof(branch1), 0);
 		FillBranch(hListHeading2, branch2, _countof(branch2), 0);
-		FillBranch(hListHeading3, branch3, _countof(branch3), 0x03E0);
 		FillBranch(hListHeading4, branch4, _countof(branch4), 0x0000);
-		FillBranch(hListHeading5, branch5, _countof(branch5), 0x1000);
-		FillBranch(hListHeading6, branch6, _countof(branch6), 0x0000);
 
 		FixHeadings();
 		return true;
@@ -339,10 +284,7 @@ public:
 	{
 		SaveBranch(branch1, _countof(branch1));
 		SaveBranch(branch2, _countof(branch2));
-		SaveBranch(branch3, _countof(branch3));
 		SaveBranch(branch4, _countof(branch4));
-		SaveBranch(branch5, _countof(branch5));
-		SaveBranch(branch6, _countof(branch6));
 
 		g_chatApi.ReloadSettings();
 		Chat_UpdateOptions();
@@ -355,14 +297,8 @@ public:
 		db_set_b(0, CHAT_MODULE, "Branch1Exp", b);
 		b = checkBoxes.GetItemState(hListHeading2, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch2Exp", b);
-		b = checkBoxes.GetItemState(hListHeading3, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
-		db_set_b(0, CHAT_MODULE, "Branch3Exp", b);
 		b = checkBoxes.GetItemState(hListHeading4, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch4Exp", b);
-		b = checkBoxes.GetItemState(hListHeading5, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
-		db_set_b(0, CHAT_MODULE, "Branch5Exp", b);
-		b = checkBoxes.GetItemState(hListHeading6, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
-		db_set_b(0, CHAT_MODULE, "Branch6Exp", b);
 	}
 
 	void onChange_Tree(CCtrlTreeView::TEventInfo *evt)
@@ -381,14 +317,8 @@ public:
 			CheckBranches(hListHeading1);
 		else if (tvi.hItem == hListHeading2)
 			CheckBranches(hListHeading2);
-		else if (tvi.hItem == hListHeading3)
-			CheckBranches(hListHeading3);
 		else if (tvi.hItem == hListHeading4)
 			CheckBranches(hListHeading4);
-		else if (tvi.hItem == hListHeading5)
-			CheckBranches(hListHeading5);
-		else if (tvi.hItem == hListHeading6)
-			CheckBranches(hListHeading6);
 		else
 			FixHeadings();
 	}

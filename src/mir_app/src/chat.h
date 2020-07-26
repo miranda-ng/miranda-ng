@@ -43,6 +43,8 @@ extern LIST<SESSION_INFO> g_arSessions;
 extern MWindowList g_hWindowList;
 extern HANDLE hevSendEvent, hevBuildMenuEvent;
 
+extern CMOption<bool> g_bChatTrayInactive, g_bChatPopupInactive;
+
 // log.c
 void          LoadMsgLogBitmaps(void);
 void          FreeMsgLogBitmaps(void);
@@ -94,6 +96,8 @@ INT_PTR       LeaveChat(WPARAM wParam, LPARAM lParam);
 int           PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 
 // options.c
+void          ChatOptionsInit(WPARAM wParam);
+
 int           OptionsInit(void);
 int           OptionsUnInit(void);
 void          LoadMsgDlgFont(int i, LOGFONT * lf, COLORREF * colour);

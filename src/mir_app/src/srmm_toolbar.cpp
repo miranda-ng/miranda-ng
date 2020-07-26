@@ -777,6 +777,7 @@ static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 	odp.pDialog = new CSrmmToolbarOptions();
 	g_plugin.addOptions(wParam, &odp);
 
+	ChatOptionsInit(wParam);
 	SrmmLogOptionsInit(wParam);
 	return 0;
 }
@@ -801,6 +802,8 @@ static void CALLBACK SrmmLoadToolbar()
 {
 	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
 	DestroyHookableEvent(hHookToolBarLoadedEvt);
+
+	HookEvent(ME_OPT_INITIALISE, SrmmOptionsInit);
 }
 
 static int ConvertToolbarData(const char *szSetting, void*)
@@ -816,8 +819,6 @@ static int ConvertToolbarData(const char *szSetting, void*)
 void LoadSrmmToolbarModule()
 {
 	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
-
-	HookEvent(ME_OPT_INITIALISE, SrmmOptionsInit);
 
 	Miranda_WaitOnHandle(SrmmLoadToolbar);
 

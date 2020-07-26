@@ -582,6 +582,7 @@ class CChatLogOptionDlg : public CChatBaseOptionDlg
 	CTimer m_timer;
 	CCtrlButton btnBaseDir, btnFontChoose;
 	CCtrlCheck chkLogging;
+	CCtrlCombo cmbIconType;
 	HWND hPathTip = nullptr;
 
 public:
@@ -590,7 +591,8 @@ public:
 		m_timer(this, 1),
 		btnBaseDir(this, IDC_MUC_OPENLOGBASEDIR),
 		chkLogging(this, IDC_LOGGING),
-		btnFontChoose(this, IDC_FONTCHOOSE)
+		btnFontChoose(this, IDC_FONTCHOOSE),
+		cmbIconType(this, IDC_LOGICONTYPE)
 	{
 		btnBaseDir.OnClick = Callback(this, &CChatLogOptionDlg::onClick_BaseDir);
 		btnFontChoose.OnClick = Callback(this, &CChatLogOptionDlg::onClick_FontChoose);
@@ -617,6 +619,11 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN4, UDM_SETRANGE, 0, MAKELONG(10000, 0));
 		SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN4, UDM_SETPOS, 0, MAKELONG(db_get_w(0, CHAT_MODULE, "LoggingLimit", 100), 0));
 		Utils::enableDlgControl(m_hwnd, IDC_LIMIT, g_Settings.bLoggingEnabled);
+
+		cmbIconType.AddString(TranslateT("No markers"));
+		cmbIconType.AddString(TranslateT("Show as icons"));
+		cmbIconType.AddString(TranslateT("Show as text symbols"));
+		cmbIconType.SetCurSel((g_Settings.bLogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)));
 
 		CMStringW tszTooltipText(FORMAT,
 			L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n"
@@ -715,6 +722,10 @@ public:
 			db_set_s(0, CHAT_MODULE, "HeaderOutgoing", pszText);
 		}
 		else db_unset(0, CHAT_MODULE, "HeaderOutgoing");
+
+		LRESULT lr = cmbIconType.GetCurSel();
+		db_set_dw(0, CHAT_MODULE, "IconFlags", lr == 1);
+		db_set_b(0, CHAT_MODULE, "LogSymbols", lr == 2);
 
 		iLen = SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
 		db_set_w(0, CHAT_MODULE, "LogLimit", (WORD)iLen);
@@ -818,89 +829,6 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Group chat - Events
-
-#define NR_GC_EVENTS 12
-
-static UINT _eventorder[] =
-{
-	GC_EVENT_ACTION,
-	GC_EVENT_MESSAGE,
-	GC_EVENT_NICK,
-	GC_EVENT_JOIN,
-	GC_EVENT_PART,
-	GC_EVENT_TOPIC,
-	GC_EVENT_ADDSTATUS,
-	GC_EVENT_INFORMATION,
-	GC_EVENT_QUIT,
-	GC_EVENT_KICK,
-	GC_EVENT_NOTICE,
-	GC_EVENT_HIGHLIGHT
-};
-
-class CChatEventOptionDlg : public CChatBaseOptionDlg
-{
-
-public:
-	CChatEventOptionDlg() :
-		CChatBaseOptionDlg(IDD_OPTIONS3)
-	{}
-
-	bool OnInitDialog() override
-	{
-		DWORD dwFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
-		DWORD dwTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
-		DWORD dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
-		DWORD dwLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
-
-		for (int i = 0; i < _countof(_eventorder); i++) {
-			if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
-				CheckDlgButton(m_hwnd, IDC_1 + i, dwFilterFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(m_hwnd, IDC_L1 + i, dwLogFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
-			}
-			CheckDlgButton(m_hwnd, IDC_P1 + i, dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(m_hwnd, IDC_T1 + i, dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
-		}
-
-		SendDlgItemMessage(m_hwnd, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("No markers"));
-		SendDlgItemMessage(m_hwnd, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("Show as icons"));
-		SendDlgItemMessage(m_hwnd, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("Show as text symbols"));
-
-		SendDlgItemMessage(m_hwnd, IDC_LOGICONTYPE, CB_SETCURSEL, (g_Settings.bLogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)), 0);
-
-		CheckDlgButton(m_hwnd, IDC_TRAYONLYFORINACTIVE, db_get_b(0, CHAT_MODULE, "TrayIconInactiveOnly", 0) ? BST_CHECKED : BST_UNCHECKED);
-		return true;
-	}
-
-	bool OnApply() override
-	{
-		DWORD dwFilterFlags = 0, dwTrayFlags = 0,
-			dwPopupFlags = 0, dwLogFlags = 0;
-
-		for (int i = 0; i < _countof(_eventorder); i++) {
-			if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
-				dwFilterFlags |= (IsDlgButtonChecked(m_hwnd, IDC_1 + i) ? _eventorder[i] : 0);
-				dwLogFlags |= (IsDlgButtonChecked(m_hwnd, IDC_L1 + i) ? _eventorder[i] : 0);
-			}
-			dwPopupFlags |= (IsDlgButtonChecked(m_hwnd, IDC_P1 + i) ? _eventorder[i] : 0);
-			dwTrayFlags |= (IsDlgButtonChecked(m_hwnd, IDC_T1 + i) ? _eventorder[i] : 0);
-		}
-		db_set_dw(0, CHAT_MODULE, "FilterFlags", dwFilterFlags);
-		db_set_dw(0, CHAT_MODULE, "PopupFlags", dwPopupFlags);
-		db_set_dw(0, CHAT_MODULE, "TrayIconFlags", dwTrayFlags);
-		db_set_dw(0, CHAT_MODULE, "DiskLogFlags", dwLogFlags);
-
-		LRESULT lr = SendDlgItemMessage(m_hwnd, IDC_LOGICONTYPE, CB_GETCURSEL, 0, 0);
-
-		db_set_dw(0, CHAT_MODULE, "IconFlags", lr == 1 ? 1 : 0);
-		db_set_b(0, CHAT_MODULE, "LogSymbols", lr == 2 ? 1 : 0);
-
-		db_set_b(0, CHAT_MODULE, "TrayIconInactiveOnly", IsDlgButtonChecked(m_hwnd, IDC_TRAYONLYFORINACTIVE) ? 1 : 0);
-		return true;
-	}
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Group chat - Highlight
 
 class CHighlighOptionDlg : public CChatBaseOptionDlg
@@ -986,10 +914,6 @@ void Chat_Options(WPARAM wParam)
 
 	odp.szTab.a = LPGEN("Log formatting");
 	odp.pDialog = new CChatLogOptionDlg();
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.szTab.a = LPGEN("Events and filters");
-	odp.pDialog = new CChatEventOptionDlg();
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.a = LPGEN("Highlighting");

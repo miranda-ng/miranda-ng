@@ -403,6 +403,9 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 					params->hNotifyIcon = g_chatApi.hIcons[ICON_TOPIC];
 				break;
 			}
+
+			if (!(db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & params->iEvent))
+				params->sound = nullptr;
 		}
 		else {
 			switch (params->iEvent) {

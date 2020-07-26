@@ -1,0 +1,119 @@
+/*
+Chat module plugin for Miranda IM
+
+Copyright 2000-12 Miranda IM, 2012-20 Miranda NG team,
+all portions of this codebase are copyrighted to the people
+listed in contributors.txt.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+#include "stdafx.h"
+
+#include "chat.h"
+
+CMOption<bool> g_bChatPopupInactive(CHAT_MODULE, "PopupInactiveOnly", true);
+CMOption<bool> g_bChatTrayInactive(CHAT_MODULE, "TrayIconInactiveOnly", true);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Group chat - Events
+
+#define NR_GC_EVENTS 12
+
+static UINT _eventorder[] =
+{
+	GC_EVENT_ACTION,
+	GC_EVENT_MESSAGE,
+	GC_EVENT_NICK,
+	GC_EVENT_JOIN,
+	GC_EVENT_PART,
+	GC_EVENT_TOPIC,
+	GC_EVENT_ADDSTATUS,
+	GC_EVENT_INFORMATION,
+	GC_EVENT_QUIT,
+	GC_EVENT_KICK,
+	GC_EVENT_NOTICE,
+	GC_EVENT_HIGHLIGHT
+};
+
+class CChatEventOptionDlg : public CDlgBase
+{
+	CCtrlCheck chkTray, chkPopup;
+
+public:
+	CChatEventOptionDlg() :
+		CDlgBase(g_plugin, IDD_OPT_CHAT_EVENTS),
+		chkTray(this, IDC_TRAYONLYFORINACTIVE),
+		chkPopup(this, IDC_POPUPONLYFORINACTIVE)
+	{
+		CreateLink(chkTray, g_bChatTrayInactive);
+		CreateLink(chkPopup, g_bChatPopupInactive);
+	}
+
+	bool OnInitDialog() override
+	{
+		DWORD dwFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
+		DWORD dwTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
+		DWORD dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
+		DWORD dwSoundFlags = db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT);
+		DWORD dwLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
+
+		for (int i = 0; i < _countof(_eventorder); i++) {
+			if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
+				CheckDlgButton(m_hwnd, IDC_1 + i, dwFilterFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(m_hwnd, IDC_L1 + i, dwLogFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+			}
+			CheckDlgButton(m_hwnd, IDC_P1 + i, dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(m_hwnd, IDC_T1 + i, dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(m_hwnd, IDC_S1 + i, dwSoundFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
+		}
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		DWORD dwFilterFlags = 0, dwTrayFlags = 0, dwPopupFlags = 0, dwSoundFlags = 0, dwLogFlags = 0;
+
+		for (int i = 0; i < _countof(_eventorder); i++) {
+			if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
+				dwFilterFlags |= (IsDlgButtonChecked(m_hwnd, IDC_1 + i) ? _eventorder[i] : 0);
+				dwLogFlags |= (IsDlgButtonChecked(m_hwnd, IDC_L1 + i) ? _eventorder[i] : 0);
+			}
+			dwSoundFlags |= (IsDlgButtonChecked(m_hwnd, IDC_S1 + i) ? _eventorder[i] : 0);
+			dwPopupFlags |= (IsDlgButtonChecked(m_hwnd, IDC_P1 + i) ? _eventorder[i] : 0);
+			dwTrayFlags |= (IsDlgButtonChecked(m_hwnd, IDC_T1 + i) ? _eventorder[i] : 0);
+		}
+		db_set_dw(0, CHAT_MODULE, "FilterFlags", dwFilterFlags);
+		db_set_dw(0, CHAT_MODULE, "PopupFlags", dwPopupFlags);
+		db_set_dw(0, CHAT_MODULE, "SoundFlags", dwSoundFlags);
+		db_set_dw(0, CHAT_MODULE, "TrayIconFlags", dwTrayFlags);
+		db_set_dw(0, CHAT_MODULE, "DiskLogFlags", dwLogFlags);
+
+		LoadGlobalSettings();
+		return true;
+	}
+};
+
+void ChatOptionsInit(WPARAM wParam)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.position = 910000000;
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Group chats");
+	odp.szTab.a = LPGEN("Events and filters");
+	odp.pDialog = new CChatEventOptionDlg();
+	g_plugin.addOptions(wParam, &odp);
+}

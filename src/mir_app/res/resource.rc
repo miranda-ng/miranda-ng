@@ -791,8 +791,84 @@ BEGIN
     CONTROL         "",IDC_HIDEOFFLINEOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,183,24,105,104
 END
 
+IDD_OPT_CHAT_EVENTS DIALOGEX 0, 0, 306, 194
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Default settings for known event types",IDC_STATIC,7,5,293,153
+    LTEXT           "Show when filter is active",IDC_STATIC,12,16,119,8,SS_CENTERIMAGE
+    CTEXT           "Log to file",IDC_STATIC,260,16,37,8,SS_CENTERIMAGE
+    CTEXT           "Popup",IDC_STATIC,142,16,31,8,SS_CENTERIMAGE
+    CTEXT           "Tray",IDC_STATIC,181,16,31,8,SS_CENTERIMAGE
+    CTEXT           "Sound",IDC_STATIC,221,16,31,8,SS_CENTERIMAGE
+    CONTROL         "Actions",IDC_1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,28,120,10
+    CONTROL         "Messages",IDC_2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,38,120,10
+    CONTROL         "Nick changes",IDC_3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,48,120,10
+    CONTROL         "Users joining",IDC_4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,58,120,10
+    CONTROL         "Users leaving",IDC_5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,68,120,10
+    CONTROL         "Topic changes",IDC_6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,78,120,10
+    CONTROL         "Status changes",IDC_7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,88,120,10
+    CONTROL         "Information",IDC_8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,98,120,10
+    CONTROL         "Disconnects",IDC_9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,108,120,10
+    CONTROL         "User kicks",IDC_10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,118,120,10
+    CONTROL         "Notices",IDC_11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,128,120,10
+    CONTROL         "",IDC_P1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,28,21,10
+    CONTROL         "",IDC_P2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,38,21,10
+    CONTROL         "",IDC_P3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,48,21,10
+    CONTROL         "",IDC_P4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,58,21,10
+    CONTROL         "",IDC_P5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,68,21,10
+    CONTROL         "",IDC_P6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,78,21,10
+    CONTROL         "",IDC_P7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,88,21,10
+    CONTROL         "",IDC_P8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,98,21,10
+    CONTROL         "",IDC_P9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,108,21,10
+    CONTROL         "",IDC_P10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,118,21,10
+    CONTROL         "",IDC_P11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,128,21,10
+    CONTROL         "",IDC_P12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,153,138,21,10
+    CONTROL         "",IDC_T1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,28,21,10
+    CONTROL         "",IDC_T2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,38,21,10
+    CONTROL         "",IDC_T3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,48,21,10
+    CONTROL         "",IDC_T4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,58,21,10
+    CONTROL         "",IDC_T5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,68,21,10
+    CONTROL         "",IDC_T6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,78,21,10
+    CONTROL         "",IDC_T7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,88,21,10
+    CONTROL         "",IDC_T8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,98,21,10
+    CONTROL         "",IDC_T9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,108,21,10
+    CONTROL         "",IDC_T10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,118,21,10
+    CONTROL         "",IDC_T11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,128,21,10
+    CONTROL         "",IDC_T12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,193,138,21,10
+    CONTROL         "",IDC_S1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,28,21,10
+    CONTROL         "",IDC_S2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,38,21,10
+    CONTROL         "",IDC_S3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,48,21,10
+    CONTROL         "",IDC_S4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,58,21,10
+    CONTROL         "",IDC_S5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,68,21,10
+    CONTROL         "",IDC_S6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,78,21,10
+    CONTROL         "",IDC_S7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,88,21,10
+    CONTROL         "",IDC_S8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,98,21,10
+    CONTROL         "",IDC_S9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,108,21,10
+    CONTROL         "",IDC_S10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,118,21,10
+    CONTROL         "",IDC_S11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,128,21,10
+    CONTROL         "",IDC_S12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,138,21,10
+    CONTROL         "",IDC_L1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,28,21,10
+    CONTROL         "",IDC_L2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,38,21,10
+    CONTROL         "",IDC_L3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,48,21,10
+    CONTROL         "",IDC_L4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,58,21,10
+    CONTROL         "",IDC_L5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,68,21,10
+    CONTROL         "",IDC_L6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,78,21,10
+    CONTROL         "",IDC_L7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,88,21,10
+    CONTROL         "",IDC_L8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,98,21,10
+    CONTROL         "",IDC_L9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,108,21,10
+    CONTROL         "",IDC_L10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,118,21,10
+    CONTROL         "",IDC_L11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,128,21,10
+    CONTROL         "Show icons in tray only when the chat room is not active",IDC_TRAYONLYFORINACTIVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,164,279,8
+    LTEXT           "Highlight event",IDC_STATIC,42,139,100,12
+    CONTROL         "Show popups only when the chat room is not active",IDC_POPUPONLYFORINACTIVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,176,279,8
+END
+
 IDD_EMPTY DIALOGEX 0, 0, 212, 131
-STYLE DS_FIXEDSYS | WS_POPUP
+STYLE DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 CAPTION "Hidden window"
 BEGIN
 END
@@ -1094,6 +1170,10 @@ BEGIN
     IDD_OPT_CLIST, DIALOG
     BEGIN
     END
+
+    IDD_OPT_CHAT_EVENTS, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -1133,6 +1213,7 @@ END
 
 IDR_CREDITS             TEXT                    "../../docs/contributors.txt"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -1141,87 +1222,169 @@ IDR_CREDITS             TEXT                    "../../docs/contributors.txt"
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_MIRANDA             ICON                    "miranda_logo.ico"
+
 IDI_MIRANDAWEBSITE      ICON                    "miranda_home.ico"
+
 IDI_DETAILSLOGO         ICON                    "miranda_manager.ico"
+
 IDI_USERDETAILS         ICON                    "contact_view_details.ico"
+
 IDI_ADDCONTACT          ICON                    "contact_add.ico"
+
 IDI_RENAME              ICON                    "contact_rename.ico"
+
 IDI_DELETE              ICON                    "contact_delete.ico"
+
 IDI_GROUPSHUT           ICON                    "group_closed.ico"
+
 IDI_GROUPOPEN           ICON                    "group_opened.ico"
+
 IDI_USERONLINE          ICON                    "status_user_online.ico"
+
 IDI_ONLINE              ICON                    "status_online.ico"
+
 IDI_AWAY                ICON                    "status_away.ico"
+
 IDI_NA                  ICON                    "status_NA.ico"
+
 IDI_OCCUPIED            ICON                    "status_occupied.ico"
+
 IDI_DND                 ICON                    "status_DND.ico"
+
 IDI_FREE4CHAT           ICON                    "status_free4chat.ico"
+
 IDI_INVISIBLE           ICON                    "status_invisible.ico"
+
 IDI_ONTHEPHONE          ICON                    "status_on_the_phone.ico"
+
 IDI_OUTTOLUNCH          ICON                    "status_out2lunch.ico"
+
 IDI_OFFLINE             ICON                    "status_offline.ico"
+
 IDI_LOAD                ICON                    "icon_connecting.ico"
+
 IDI_TYPING              ICON                    "icon_typing.ico"
+
 IDI_FINDUSER            ICON                    "icon_find_user.ico"
+
 IDI_SEARCHALL           ICON                    "icon_search_all.ico"
+
 IDI_OPTIONS             ICON                    "icon_options.ico"
+
 IDI_ACCMGR              ICON                    "icon_accmgr.ico"
+
 IDI_MAINMENU            ICON                    "icon_mainmenu.ico"
+
 IDI_HELP                ICON                    "icon_help.ico"
+
 IDI_RECVMSG             ICON                    "icon_message.ico"
+
 IDI_FILE                ICON                    "icon_file.ico"
+
 IDI_HISTORY             ICON                    "icon_history.ico"
+
 IDI_URL                 ICON                    "icon_url.ico"
+
 IDI_SMS                 ICON                    "icon_sms.ico"
+
 IDI_SENDEMAIL           ICON                    "icon_mail.ico"
+
 IDI_SMALLDOT            ICON                    "icon_small_dot.ico"
+
 IDI_FILLEDBLOB          ICON                    "icon_auth_request.ico"
+
 IDI_EMPTYBLOB           ICON                    "icon_all.ico"
+
 IDI_DOWNARROW           ICON                    "icon_down_arrow.ico"
+
 IDI_NOTICK              ICON                    "check_off.ico"
+
 IDI_TICK                ICON                    "check_on.ico"
+
 IDI_UNICODE             ICON                    "icon_unicode.ico"
+
 IDI_ANSI                ICON                    "icon_ansi.ico"
+
 IDI_LOADED_GRAY         ICON                    "icon_loaded_gray.ico"
+
 IDI_NOTLOADED           ICON                    "icon_notloaded.ico"
+
 IDI_NOTLOADED_GRAY      ICON                    "icon_notloaded_gray.ico"
+
 IDI_FRAME               ICON                    "icon_frame.ico"
+
 IDI_MFATAL              ICON                    "icon_fatal.ico"
+
 IDI_MERROR              ICON                    "icon_error.ico"
+
 IDI_MWARNING            ICON                    "icon_warning.ico"
+
 IDI_MINFO               ICON                    "icon_notify.ico"
+
 IDI_BLANK               ICON                    "_blank.ico"
+
 IDI_UNDO                ICON                    "icon_undo.ico"
+
 IDI_WINDOW              ICON                    "icon_window.ico"
+
 IDI_WINDOWS             ICON                    "icon_windows.ico"
+
 IDI_JOINCHAT            ICON                    "chat_join.ico"
+
 IDI_LEAVECHAT           ICON                    "chat_leave.ico"
+
 IDI_STATUS_LOCKED       ICON                    "status_locked.ico"
+
 IDI_SHOWHIDE            ICON                    "Icon_show_hide.ico"
+
 IDI_EXIT                ICON                    "Icon_exit.ico"
+
 IDI_MOVETOGROUP         ICON                    "contact_groups.ico"
+
 IDI_ON                  ICON                    "On.ico"
+
 IDI_OFF                 ICON                    "Off.ico"
+
 IDI_ALWAYSVIS           ICON                    "always_visible.ico"
+
 IDI_NEVERVIS            ICON                    "never_visible.ico"
+
 IDI_CHAT                ICON                    "chat_channel.ico"
+
 IDI_MALE                ICON                    "male.ico"
+
 IDI_FEMALE              ICON                    "female.ico"
+
 IDI_AUTH_ADD            ICON                    "auth_add.ico"
+
 IDI_AUTH_GRANT          ICON                    "auth_grant.ico"
+
 IDI_AUTH_REQUEST        ICON                    "auth_request.ico"
+
 IDI_AUTH_REVOKE         ICON                    "auth_revoke.ico"
+
 IDI_MCMENU              ICON                    "meta_menu.ico"
+
 IDI_MCMENUOFF           ICON                    "meta_menuof.ico"
+
 IDI_MCEDIT              ICON                    "meta_edit.ico"
+
 IDI_MCREMOVE            ICON                    "meta_remove2.ico"
+
 IDI_MCCONVERT           ICON                    "meta_convert.ico"
+
 IDI_MCADD               ICON                    "meta_add.ico"
+
 IDI_MCSETDEFAULT        ICON                    "meta_set_as_default.ico"
+
 IDI_ADDGROUP            ICON                    "addgroup.ico"
+
 IDI_POPUP               ICON                    "icon_popup.ico"
+
 IDI_NOPOPUP             ICON                    "icon_popup_no.ico"
+
 IDI_PASSWORD            ICON                    "icon_password.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1229,8 +1392,11 @@ IDI_PASSWORD            ICON                    "icon_password.ico"
 //
 
 IDC_HYPERLINKHAND       CURSOR                  "cursor_hyperlink.cur"
+
 IDC_DROP                CURSOR                  "cursor_drag_copy.cur"
+
 IDC_DROPUSER            CURSOR                  "cursor_drop_user.cur"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1375,6 +1541,11 @@ BEGIN
 END
 
 IDD_OPT_CLIST AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_CHAT_EVENTS AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
