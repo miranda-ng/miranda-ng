@@ -228,7 +228,7 @@ Quick Search
 [ users found (]
  Открити потребители (
 [) Online: ]
-) На линия: 
+) На линия:\s
 [Online]
 На линия
 [deleted]

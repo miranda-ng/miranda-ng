@@ -108,11 +108,11 @@ XML индекс
 [Speed]
 Скорост
 [Current IP Address: ]
-Текущ IP адрес: 
+Текущ IP адрес:\s
 [Current Address: ]
-Текущ адрес: 
+Текущ адрес:\s
 [IP Address: ]
-IP адрес: 
+IP адрес:\s
 [You are browsing from]
 Преглеждате от
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
