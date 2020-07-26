@@ -700,7 +700,7 @@ StdPopup или Popup plus
 [Show the dialog to select the contact]
 Показывает окно выбора контакта
 [filter text]
-
+текст фильтра
 [wParam is unicode]
 wParam в Unicode
 [wParam is Ansi]
@@ -708,7 +708,7 @@ wParam в ANSI
 [Reserved]
 Зарезервировано
 [Open main QuickSearch window with text filter]
-
+Открывает главное окно QuickSearch с заданным текстом в фильтре
 [Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
 Воспроизводит звук, добавленный с помощью Skin/Sounds/AddNew. Если звук не найден, будет воспроизведён стандартный звук Windows
 [Send Email to contact]
@@ -730,7 +730,7 @@ wParam в ANSI
 [Filename]
 Имя файла
 [Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
-
+Устанавливает (и опционально защищает) локальное изображение для указанного hContact. Если lParam = NIL, то служба откроет диалог выбора файла.
 [Shows contact property window.]
 Показывает окно со свойствами контакта
 [Open URL in current window]
@@ -746,7 +746,7 @@ wParam в ANSI
 [Returns a string containing the versioninfo post]
 Возвращает строку, содержащую сообщение с информацией о версии
 [Show or save (call default action) Modules version Info]
-
+Показывает или сохраняет (вызывает действие по умолчанию) информацию о версиях
 [Show popup or Info window with current music information.]
 Показывает всплывающее или информационное окно со сведениями о воспроизводимой музыке.
 [log filename]
@@ -757,8 +757,8 @@ wParam в ANSI
 целочисленный 0 в случае неудачи
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
 
-[display birthdays window]
-
+[Display birthdays window]
+Показывает список дней рождения
 [Manage Jabber Bookmarks]
 Управляет закладками Jabber
 [text]

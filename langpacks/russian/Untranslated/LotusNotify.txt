@@ -7,6 +7,5 @@
 [Unable to initialize Notes.]
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]
 [This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding "EXTMGR_ADDINS=PLUGINNAME")?]
-[LotusNotify plugin configuration]
 [notes.ini modified correctly. Miranda restart required.]
 [notes.ini seem to be set correctly.]

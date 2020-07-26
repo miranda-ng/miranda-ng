@@ -206,7 +206,7 @@ URL:
 [Visit profile icon]
 Профиль на сайте
 [Load server history icon]
-Загрузка истории с сайта
+Загрузка истории с сервера
 [Add to friend list icon]
 Добавить в список друзей
 [Delete from friend list icon]

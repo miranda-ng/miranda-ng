@@ -93,7 +93,7 @@ TLS
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Отключите все настройки, если у вас проблемы с отправкой файлов. Могут возникнуть проблемы с передачей больших файлов.
 [Account registration]
-
+Регистрация учётной записи
 [Instruction:]
 Инструкция:
 [Submit]
@@ -549,13 +549,13 @@ xHTML формат чат сообщений
 [Owners]
 Владельцы
 [User %s is now banned.]
-
+Пользователь %s забанен.
 [User %s changed status to %s with message: %s]
 %s изменил(а) статус на %s: %s
 [User %s changed status to %s]
 %s изменил(а) статус на %s.
 [Room configuration was changed.]
-
+Настройки комнаты чата были изменены.
 [Outcast]
 Изгнанные
 [Affiliation of %s was changed to '%s'.]
@@ -565,7 +565,7 @@ xHTML формат чат сообщений
 [because room is now members-only]
 
 [user banned]
-
+пользователь забанен
 [Change &nickname]
 Изменить &ник
 [&Invite a user]
@@ -655,7 +655,7 @@ xHTML формат чат сообщений
 [Copy &nickname]
 Копировать &ник
 [Copy real &JID]
-Копировать &JID
+Копировать реальный &JID
 [Copy in-room JID]
 Копировать JID с комнаты чата
 [Real &JID: %s]
@@ -667,7 +667,7 @@ xHTML формат чат сообщений
 [%s from\n%s]
 %s от\n%s
 [Real JID not available]
-
+Реальный JID недоступен
 [Reason to kick %s]
 Причина пинка %s
 [Reason to ban %s]
@@ -887,7 +887,7 @@ Jabber ошибка
 Ошибка закладок Jabber
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Conference Room Configuration]
-
+Настройки комнаты чата
 [%s, %d items (%s)]
 %s, %d пункта(ов) (%s)
 [Reason to ban]
@@ -1644,7 +1644,7 @@ S.ms
 [Command completed successfully]
 Команда выполнена успешно
 [Error occurred during processing command]
-
+Во время обработки команды произошла ошибка
 [Set status]
 Установить статус
 [Set options]
@@ -1700,7 +1700,7 @@ S.ms
 [Error %d occurred during workstation lock]
 
 [Confirmation needed]
-
+Требуется подтверждение
 [Please confirm Miranda NG shutdown]
 Подтвердите выключение программы
 [There is no group chats to leave]

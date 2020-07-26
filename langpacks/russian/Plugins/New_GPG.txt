@@ -215,9 +215,9 @@ ID ключа:
 [GPG plugin problems]
 Проблемы с плагином GPG
 [Your secret key with ID: ]
-
+Ваш приватный ключ с ID:\s
 [ for account ]
- для учётной записи 
+ для учётной записи\s
 [ deleted from GPG secret keyring.\nDo you want to set another key?]
  удаляется из секретного брелока GPG.\nХотите установить еще один ключ?
 [Own secret key warning]
