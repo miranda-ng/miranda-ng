@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.2
+;  Version: 3.6.1.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -64,20 +64,6 @@
 Высота пунктов списка пользователей (пикселей)
 [Open log file base folder]
 Открыть папку с журналами чатов
-[Default settings for known event types]
-Настройки для известных типов событий
-[Show when filter is active]
-Показывать при вкл. фильтре
-[Log to file]
-Запись в файл
-[Show popup]
-Вспл. окно
-[Notify in tray]
-В трее
-[Suppress tray notifications for focused channel windows]
-Выключить уведомления в трее при активном окне чата
-[Highlight event]
-Подсветка
 [Line markers in the message log]
 Маркеры строк в чате:
 [Highlight user names]
@@ -1021,6 +1007,12 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 Цветные ники в чате
 [Scale down icons to 10x10 pixels in the chat log]
 Менять разрешение значков на 10х10 в окне чата
+[No markers]
+Без маркеров
+[Show as icons]
+Значки
+[Show as text symbols]
+Текстовые символы
 [nick of current contact (if defined)]
 ник текущего контакта (если определён)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1075,18 +1067,10 @@ ID текущего контакта (если определён). Наприм
 Все файлы
 [Select folder]
 Выбрать папку
-[No markers]
-Без маркеров
-[Show as icons]
-Значки
-[Show as text symbols]
-Текстовые символы
 [Settings]
 Настройки
 [Log formatting]
 Формат журнала
-[Events and filters]
-События и фильтры
 [Highlighting]
 Подсветка
 ;file \plugins\TabSRMM\src\chat_tools.cpp
@@ -1237,8 +1221,6 @@ ID текущего контакта (если определён). Наприм
 %s ввел(а) текст.
 [%s is typing a message]
 %s набирает текст
-[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Автопрокрутка отключена, %d сообщений в очереди (нажмите F12 для включения)
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Сообщения IM

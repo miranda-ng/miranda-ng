@@ -1,5 +1,4 @@
 [Toggle GPG encryption]
-[Your secret key with ID: ]
 [ expired and will not work.\nDo you want to set another key?]
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 [Do you want to try to decrypt encrypted message?]

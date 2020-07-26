@@ -85,6 +85,8 @@
 %s подключение аватаров
 [Twitter (avatars)]
 Twitter (аватары)
+[User name]
+Имя пользователя
 [Send Tweet...]
 Отправить твит...
 [Network]

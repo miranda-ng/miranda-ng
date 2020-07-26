@@ -296,84 +296,8 @@
 Запретить цвета сообщений
 [Enable 'event filter' for new rooms]
 Включать "фильтр событий" для новых комнат
-[Show topic changes]
-Смена темы
-[Show users joining]
-Новые пользователи
-[Show users disconnecting]
-Пользователи, покинувшие сервер
-[Show messages]
-Сообщения
-[Show actions]
-Действия
-[Show users leaving]
-Пользователи, покинувшие комнату чата
-[Show users being kicked]
-Пинки из комнаты чата
-[Show notices]
-Уведомления
-[Show users changing name]
-Смена псевдонима
-[Show information messages]
-Информационные сообщения
-[Show status changes of users]
-Смена статуса
-[Show icons in tray only when the chat room is not active]
-Показывать значки в трее, когда окно чата неактивно
-[Show icon in tray for topic changes]
-Смена темы
-[Show icon in tray for users joining]
-Подключения участников
-[Show icon in tray for users disconnecting]
-Отключения участников
-[Show icon in tray for messages]
-Сообщения
-[Show icon in tray for actions]
-Действия
-[Show icon in tray for highlights]
-Подсвеченные сообщения
-[Show icon in tray for users leaving]
-Выходы участников
-[Show icon in tray for users kicking other user]
-Пинки
-[Show icon in tray for notices]
-Показывать значок уведомления в трее
-[Show icon in tray for name changes]
-Смены псевдонимов
-[Show icon in tray for information messages]
-Информационные сообщения
-[Show icon in tray for status changes]
-Смены статусов
-[Show popups only when the chat room is not active]
-Показывать всплывающие окна если окно чата не активно
-[Show popup for topic changes]
-Смена темы
-[Show popup for users joining]
-Подключения участников
-[Show popup for users disconnecting]
-Отключения участников
-[Show popup for messages]
-Сообщения
-[Show popup for actions]
-Действия
-[Show popup for highlights]
-Подсвеченные сообщения
-[Show popup for users leaving]
-Выходы участников
-[Show popup for users kicking other user]
-Пинки
-[Show popup for notices]
-Всплывающие окна уведомлений
-[Show popup for name changes]
-Смены псевдонимов
-[Show popup for information messages]
-Информационные сообщения
-[Show popup for status changes]
-Смены статусов
 [Appearance and functionality of chat windows]
 Интерфейс и функциональность окон чата
-[Icons to display in the tray]
-Значки в трее
 [nick of current contact (if defined)]
 ник текущего контакта (если определён)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -426,16 +350,14 @@ ID текущего контакта (если определён). Наприм
 Переменные
 [Appearance]
 Внешний вид
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Показать в новом окне, если 'Фильтр событий' включён
 [Select folder]
 Выбрать папку
 [Message sessions]
 Беседы
 [General]
 Общее
-[Event log]
-Журнал событий
+[Log formatting]
+Формат журнала
 [Popups]
 Всплывающие окна
 ;file \plugins\Scriver\src\globals.cpp
@@ -681,6 +603,8 @@ Shift+Enter
 ** Новые контакты **
 [** Unknown contacts **]
 ** Неизвестные контакты **
+[Event log]
+Журнал событий
 [Typing notify]
 Набирает текст
 ;file \plugins\Scriver\src\msgs.cpp

@@ -1156,10 +1156,26 @@ UIN, E-mail и т.д.
 Удалять временные контакты при выходе
 ['Hide offline' means to hide:]
 'Скрыть отключённых' - скрыть:
-[Hidden window]
-Скрытое окно
+[Default settings for known event types]
+Настройки для известных типов событий
+[Show when filter is active]
+Показывать при вкл. фильтре
+[Log to file]
+Запись в файл
+[Popup]
+Всплывающее окно
 [Tray]
 Трей
+[Sound]
+Звук
+[Show icons in tray only when the chat room is not active]
+Показывать значки в трее только когда окно чата не активно
+[Highlight event]
+Подсветка
+[Show popups only when the chat room is not active]
+Показывать всплывающие окна только когда окно чата не активно
+[Hidden window]
+Скрытое окно
 [&Hide/Show]
 С&крыть/Показать
 [E&xit]
@@ -1481,28 +1497,6 @@ Google Карты
 Запретить цвета в журнале
 [Enable the 'event filter' for new rooms]
 Включить 'фильтр событий' для новых комнат чата
-[Show topic changes]
-Смена темы
-[Show users joining]
-Новые пользователи
-[Show users disconnecting]
-Пользователи, покинувшие сервер
-[Show messages]
-Сообщения
-[Show actions]
-Действия
-[Show users leaving]
-Пользователи, покинувшие комнату чата
-[Show users being kicked]
-Пинки из комнаты чата
-[Show notices]
-Уведомления
-[Show users changing name]
-Смена псевдонима
-[Show information messages]
-Информационные сообщения
-[Show status changes of users]
-Смена статуса
 [Show icon for topic changes]
 Смены темы
 [Show icon for users joining]
@@ -1526,58 +1520,6 @@ Google Карты
 [Show icon for information messages]
 Информационные сообщения
 [Show icon for status changes]
-Смены статусов
-[Show icons in tray only when the chat room is not active]
-Показывать значки в трее, когда окно чата неактивно
-[Show icon in tray for topic changes]
-Смена темы
-[Show icon in tray for users joining]
-Подключения участников
-[Show icon in tray for users disconnecting]
-Отключения участников
-[Show icon in tray for messages]
-Сообщения
-[Show icon in tray for actions]
-Действия
-[Show icon in tray for highlights]
-Подсвеченные сообщения
-[Show icon in tray for users leaving]
-Выходы участников
-[Show icon in tray for users kicking other user]
-Пинки
-[Show icon in tray for notices]
-Показывать значок уведомления в трее
-[Show icon in tray for name changes]
-Смены псевдонимов
-[Show icon in tray for information messages]
-Информационные сообщения
-[Show icon in tray for status changes]
-Смены статусов
-[Show popups only when the chat room is not active]
-Смена темы
-[Show popup for topic changes]
-Смена темы
-[Show popup for users joining]
-Подключения участников
-[Show popup for users disconnecting]
-Отключения участников
-[Show popup for messages]
-Сообщения
-[Show popup for actions]
-Действия
-[Show popup for highlights]
-Подсвеченные сообщения
-[Show popup for users leaving]
-Выходы участников
-[Show popup for users kicking other user]
-Пинки
-[Show popup for notices]
-Всплывающие окна уведомлений
-[Show popup for name changes]
-Смены псевдонимов
-[Show popup for information messages]
-Информационные сообщения
-[Show popup for status changes]
 Смены статусов
 [Window icon]
 Значок окна
@@ -1653,14 +1595,8 @@ Google Карты
 Интерфейс и функциональность окон чата
 [Appearance of the message log]
 Внешний вид журнала сообщений
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Показать в новом окне, если 'Фильтр событий' включён
 [Icons to display in the message log]
 Значки журнала сообщений
-[Icons to display in the tray]
-Значки в трее
-[Popups to display]
-Всплывающие окна
 [Chat log]
 Журнал чата
 [Chat]
@@ -2108,6 +2044,9 @@ Miranda не смогла загрузить встроенную систему
 %s говорит
 [Chat rooms]
 Чаты
+;file \src\mir_app\src\chat_ui.cpp
+[Events and filters]
+События и фильтры
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
