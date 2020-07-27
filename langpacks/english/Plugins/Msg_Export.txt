@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.5
+;  Version: 3.1.2.6
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -21,10 +21,7 @@
 [Use UTF-8 in new files]
 [Append extra new line]
 [Use << and >>]
-[Auto filename]
-[Clear all]
 [Help]
-[Export all history]
 [Exporting old messages]
 [History file for %s (%s, format %s)]
 [&Find...]
@@ -38,8 +35,12 @@
 [Delete file]
 [Debug]
 [User &details]
-[Export selected]
+[Export]
 [Set to default filename]
+[Select all]
+[Select none]
+[Auto filename]
+[Clear all]
 [Copy]
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
