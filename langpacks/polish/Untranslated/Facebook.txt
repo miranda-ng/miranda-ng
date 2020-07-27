@@ -1,3 +1,4 @@
+[Use invisible mode after login]
 [Enable group chats]
 [&Leave/destroy chat]
 [Protocol is offline or user isn't authorized yet]

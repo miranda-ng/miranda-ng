@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -76,6 +76,8 @@ Host:
 Verbindung aufrechterhalten
 [Automatically delete contacts not in my roster]
 Kontakte außerhalb meiner Kontaktliste automatisch löschen
+[History recording mode]
+
 [Language for human-readable resources:]
 Sprache für menschenlesbare Dialoge:
 [File Transfer]
@@ -90,10 +92,8 @@ Sonstiges
 Hinweis:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Deaktivieren Sie obige Checkboxen, wenn Sie Probleme beim Versenden von Dateien haben. Dies kann Probleme beim Versand großer Dateien verursachen.
-[Jabber account registration]
-Jabber-Accountregistrierung
-[Jabber Form]
-Jabberformular
+[Account registration]
+Konto registrieren
 [Instruction:]
 Hinweis:
 [Submit]
@@ -411,8 +411,8 @@ Sende Ad-Hoc-Befehl an %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Registrierung an Jabberagenten
-[No message]
-Keine Nachricht
+[Registration successful]
+Registrierung erfolgreich
 [Register]
 Registrieren
 [Please wait...]
@@ -500,6 +500,8 @@ Empfängt Informationen über die Musik, die ein Nutzer hört
 Unterstützt private XML-Speicherung (Lesezeichen und anderes)
 [Supports attention requests ('nudge')]
 Unterstützt Aufmerksamkeitsanfragen ('nudge')
+[Support Message Archive Management (XEP-0313)]
+
 [Supports chat history retrieving]
 Unterstützt das Erhalten von Chatverläufen
 [Supports chat history management]
@@ -688,22 +690,6 @@ Verarbeitungsfehler bei ausgehendem XML
 ;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 Zeitüberschreitung der Anfrage.
-[Node hierarchy]
-Knotenstruktur
-[Node]
-Knoten
-[Navigate]
-Navigieren
-[Browse all favorites]
-Alle Favoriten durchsuchen
-[Remove all favorites]
-Alle Favoriten löschen
-[Registered transports]
-Registrierte Transporte
-[Browse local transports]
-Transporte des Anmeldeservers
-[Browse chatrooms]
-Konferenzräume durchsuchen
 [Contact Menu...]
 Kontaktmenü...
 [View vCard]
@@ -738,6 +724,22 @@ JID kopieren
 Knotennamen kopieren
 [Copy node information]
 Knoteninformationen kopieren
+[Node hierarchy]
+Knotenstruktur
+[Node]
+Knoten
+[Navigate]
+Navigieren
+[Browse all favorites]
+Alle Favoriten durchsuchen
+[Remove all favorites]
+Alle Favoriten löschen
+[Registered transports]
+Registrierte Transporte
+[Browse local transports]
+Transporte des Anmeldeservers
+[Browse chatrooms]
+Konferenzräume durchsuchen
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Identitäten
@@ -755,6 +757,9 @@ Unterstützte Funktionen
 Fehler beim Anfragen der Info
 [Items request error]
 Fehler beim Anfragen der Einträge
+;file \protocols\JabberG\src\jabber_ft.cpp
+[No compatible file transfer mechanism exists]
+Kein kompatibler Dateiübertragungsmechanismus vorhanden
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Fehler beim Abrufen der Raumliste vom Server.
@@ -874,8 +879,6 @@ Privatsphäre
 Authentifizierung für %s fehlgeschlagen.
 [Authentication]
 Authentifizierung
-[Registration successful]
-Registrierung erfolgreich
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Passwort wurde geändert, bitte das entsprechende Feld unter Einstellungen -> Protokolle -> Jabber ebenfalls ändern.
 [Password cannot be changed.]
@@ -883,6 +886,8 @@ Passwort kann nicht geändert werden
 [Jabber Bookmarks Error]
 Jabberlesezeichenfehler
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Conference Room Configuration]
+
 [%s, %d items (%s)]
 %s, %d Einträge (%s)
 [Reason to ban]
@@ -1356,6 +1361,12 @@ Yoruba
 Zhuang, Guangxi
 [Zulu]
 Zulu
+[Never]
+Niemals
+[Roster]
+
+[Always]
+Immer
 [These changes will take effect the next time you connect to the Jabber network.]
 Die Änderungen werden erst nach einer Neueinwahl ins Jabber-Netzwerk aktiv.
 [Jabber Protocol Option]
@@ -1390,10 +1401,14 @@ Empfang von Aktivität aktivieren
 Notizen empfangen
 [Automatically save received notes]
 Empfangene Notizen automatisch speichern
+[Inline pictures in messages (XEP-0231)]
+
+[Enable chat states sending (XEP-0085)]
+
 [Enable server-side history (XEP-0136)]
 Serverseitigen Verlauf aktivieren (XEP-0136)
-[Receive conversations from other devices (XEP-0280)]
-Unterhaltungen von anderen Geräten empfangen (XEP-0280)
+[Enable carbon copies (XEP-0280)]
+
 [Use Stream Management (XEP-0198) if possible (Testing)]
 Stream-Management verwenden wenn möglich (XEP-0198) (Testphase)
 [Server options]
@@ -1418,8 +1433,8 @@ Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 Frame deaktivieren
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
-[Keep contacts assigned to local groups (ignore roster group)]
-Kontakte in ihren lokalen Gruppen belassen (Gruppen auf Server ignorieren)
+[Ignore server roster (groups and nick names)]
+
 [Security]
 Sicherheit
 [Allow servers to request version (XEP-0092)]
@@ -1621,8 +1636,6 @@ Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 [List Editor...]
 Liste bearbeiten...
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer mechanism exists]
-Kein kompatibler Dateiübertragungsmechanismus vorhanden
 [Protocol is offline or no JID]
 Protokoll ist offline oder keine JID
 [No valid OMEMO session exists]
@@ -1705,8 +1718,8 @@ Hochladen...
 Herunterladen...
 [Connecting...]
 Verbinden...
-[XML for MS Excel (UTF-8 encoded)]
-XML für MS Excel (UTF-8-Kodierung)
+[XML (UTF-8 encoded)]
+XML (UTF-8-Kodierung)
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Fehler %s %s\r\nBitte den Server wechseln!
@@ -1756,6 +1769,8 @@ Registrierungsanweisung wird empfangen...
 Autorisierung fehlgeschlagen für %s@%s.
 [Message redirected from: %s\r\n]
 Nachricht weitergeleitet von: %s\r\n
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+
 [Registration canceled]
 Registrierung abgebrochen
 [Sending registration information...]

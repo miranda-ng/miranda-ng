@@ -8,42 +8,6 @@
 [A contact list for blind folks.]
 Списък за контакти предназначен за хора с увредено зрение.
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete contact]
-Изтриване на контакта
-[Are you sure you want to delete %s?]
-Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
-[This will erase all history and settings for this contact!]
-Ще бъде изтрита изтрита историята и настройките за контакта!
-[Yes]
-Да
-[No]
-Не
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Скриване (запазва историята и настройките за игнориране/видимост)
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Може да отмените скриването от "Настройки > Контакти > Игнориране".
-[Hotkeys]
-Клавишни комбинации
-[Show/Hide:]
-Показване/Скриване:
-[Read message:]
-Прочитане на съобщение:
-[Web search:]
-Уеб търсене:
-[URL:]
-URL:
-[Open in new browser window]
-Отваряне в нов прозорец
-[Show options]
-Показване на настройките
-[Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide empty groups]
-Скриване на празните групи
-[Disable groups]
-Без групи
-[Ask before deleting contacts]
-Запитване преди изтриване на контакт
 [Sort contacts by name]
 име
 [Sort contacts by status]
@@ -70,8 +34,6 @@ URL:
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
-[Contact list]
-Списък с контакти
 [System tray icon]
 Икона в трея
 [System tray icon when using multiple protocols]
@@ -122,10 +84,6 @@ URL:
 Сенки под менютата (изисква рестарт)
 [Pin to desktop]
 Прилепване към работния плот
-[Items]
-Елементи
-['Hide offline' means to hide:]
-Скриване като извън линия:
 [Groups]
 Групи
 [Show counts of number of contacts in a group]
@@ -167,30 +125,14 @@ URL:
 [Show resize grip indicator]
 Индикатор за ръчна промяна на размера
 ;file \plugins\Clist_blind\src\clcopts.cpp
-[Not focused]
-Дефокусирано
-[Offline]
-Извън линия
-[Online]
-На линия
-[Away]
-Отсъстващ
-[Not available]
-Недостъпен
-[Occupied]
-Зает
-[Do not disturb]
-Не безпокойте
-[Free for chat]
-Готов за чат
-[Invisible]
-Невидим
 [Group: %name% %count% [%mode%]]
 
 [Divider: %s]
 Разделител: %s
 [Info: %s]
 Информация: %s
+[Contact list]
+Списък с контакти
 [List]
 Списък
 ;file \plugins\Clist_blind\src\clistopts.cpp

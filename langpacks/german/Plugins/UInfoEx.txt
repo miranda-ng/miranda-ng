@@ -1172,6 +1172,8 @@ Der Datei-speichern-Dialog gab einen Fehler zurück: %d!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 Die .ini-Datei "%s"\nfür das Speichern der Kontaktinformationen konnte nicht geöffnet werden.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+Die .ini-Datei "%s"\nfür das Lesen der Kontaktinformationen konnte nicht geöffnet werden.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Keiner der %d Kontakte in der .ini-Datei passt zu dem gewählten Kontakt!\nNichts wird importiert
 [Import complete]
@@ -1180,8 +1182,6 @@ Import abgeschlossen
 Einige grundlegende Statistiken
 [Added %d of %d contacts stored in the ini-file.]
 %d von %d Kontakten aus der .ini-Datei hinzugefügt.
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-Die .ini-Datei "%s"\nfür das Lesen der Kontaktinformationen konnte nicht geöffnet werden.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 alle Kontakte
@@ -1196,6 +1196,8 @@ Kann XML-Datei nicht erzeugen!\n%S
 Kontakt: %s (%S)
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 Parser kann XMLCard "%s" nicht laden\nFehler: %d\nBeschreibung: %s
+[File not found]
+
 [The selected file is no valid XMLCard]
 Die gewählte Datei ist keine gültige XMLCard.
 [The version of the XMLCard is not supported by UserInfoEx]

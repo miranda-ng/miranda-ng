@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -76,6 +76,8 @@ Host:
 Utrzymuj połączenie
 [Automatically delete contacts not in my roster]
 Automatycznie usuwaj kontakty spoza mojej listy
+[History recording mode]
+
 [Language for human-readable resources:]
 Wybierz swój język:
 [File Transfer]
@@ -90,10 +92,8 @@ Różne
 Info:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Jeśli masz problemy z przesyłaniem plików, spróbuj odznaczyć powyższe opcje. Może to jednak spowodować kłopoty z transferem dużych plików.
-[Jabber account registration]
-Rejestracja konta Jabbera
-[Jabber Form]
-Formularz Jabbera
+[Account registration]
+Rejestracja konta
 [Instruction:]
 Instrukcja:
 [Submit]
@@ -411,8 +411,8 @@ Wykonaj
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Rejestracja agenta Jabbera
-[No message]
-Brak wiadomości
+[Registration successful]
+Rejestracja zakończona sukcesem.
 [Register]
 Zarejestruj
 [Please wait...]
@@ -500,6 +500,8 @@ Odbiera informacje o mediach, które odtwarza użytkownik
 Wsparcie dla prywatnej przestrzeni XML (zakładki i inne)
 [Supports attention requests ('nudge')]
 Wsparcie dla proszenia o uwagę ("nudge")
+[Support Message Archive Management (XEP-0313)]
+
 [Supports chat history retrieving]
 Wsparcie dla pobierania historii czatu
 [Supports chat history management]
@@ -688,22 +690,6 @@ Błąd parsowania XML wychodzącego
 ;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 czas zapytania minął.
-[Node hierarchy]
-Hierarchia węzłów
-[Node]
-Węzeł
-[Navigate]
-Przejdź
-[Browse all favorites]
-Przeglądaj wszystkie ulubione
-[Remove all favorites]
-Usuń wszystkie ulubione
-[Registered transports]
-Zarejestrowane transporty
-[Browse local transports]
-Przeglądaj lokalne transporty
-[Browse chatrooms]
-Przeglądaj pokoje
 [Contact Menu...]
 Menu kontaktu...
 [View vCard]
@@ -738,6 +724,22 @@ Kopiuj JID
 Kopiuj nazwę węzła
 [Copy node information]
 Kopiuj informację węzła
+[Node hierarchy]
+Hierarchia węzłów
+[Node]
+Węzeł
+[Navigate]
+Przejdź
+[Browse all favorites]
+Przeglądaj wszystkie ulubione
+[Remove all favorites]
+Usuń wszystkie ulubione
+[Registered transports]
+Zarejestrowane transporty
+[Browse local transports]
+Przeglądaj lokalne transporty
+[Browse chatrooms]
+Przeglądaj pokoje
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 
@@ -755,6 +757,9 @@ Typ
 
 [Items request error]
 
+;file \protocols\JabberG\src\jabber_ft.cpp
+[No compatible file transfer mechanism exists]
+Nie istnieje żaden kompatybilny mechanizm transferu plików
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Nie udało się pobrać listy pokoi z serwera.
@@ -874,8 +879,6 @@ Prywatność
 Autoryzacja nieudana dla %s.
 [Authentication]
 Autoryzacja
-[Registration successful]
-Rejestracja zakończona sukcesem.
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Hasło zostało pomyślnie zmienione. Nie zapomnij o zaktualizowaniu hasła w opcjach Jabbera.
 [Password cannot be changed.]
@@ -883,6 +886,8 @@ Hasło nie może być zmienione.
 [Jabber Bookmarks Error]
 Błąd zakładek Jabbera
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Conference Room Configuration]
+
 [%s, %d items (%s)]
 %s, %d osoby (%s)
 [Reason to ban]
@@ -1356,6 +1361,12 @@ Joruba
 Zhuang
 [Zulu]
 Zulu
+[Never]
+Nigdy
+[Roster]
+
+[Always]
+Zawsze
 [These changes will take effect the next time you connect to the Jabber network.]
 Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Jabber.
 [Jabber Protocol Option]
@@ -1390,10 +1401,14 @@ Włącz otrzymywanie aktywności użytkownika
 Odbieraj notatki
 [Automatically save received notes]
 Automatycznie zapisuj otrzymane notatki
+[Inline pictures in messages (XEP-0231)]
+
+[Enable chat states sending (XEP-0085)]
+
 [Enable server-side history (XEP-0136)]
 Włącz historię po stronie serwera
-[Receive conversations from other devices (XEP-0280)]
-Otrzymuj konwersacje z innych urządzeń (XEP-0280)
+[Enable carbon copies (XEP-0280)]
+
 [Use Stream Management (XEP-0198) if possible (Testing)]
 Użyj Stream Management (XEP-0198) gdy możliwe (Testowe)
 [Server options]
@@ -1418,8 +1433,8 @@ Naprawiaj błędne czasy przychodzących wiadomości
 Wyłącz ramkę
 [Enable XMPP link processing (requires AssocMgr)]
 Włącz powiązanie XMPP (wymagany wtyczka AssocMgr.dll)
-[Keep contacts assigned to local groups (ignore roster group)]
-Utrzymuj kontakty przypisane do grup lokalnych (ignoruj grupy rostera)
+[Ignore server roster (groups and nick names)]
+
 [Security]
 Bezpieczeństwo
 [Allow servers to request version (XEP-0092)]
@@ -1621,8 +1636,6 @@ Nie można zapisać listy, ponieważ jesteś rozłączony.
 [List Editor...]
 Edytuj listy...
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer mechanism exists]
-Nie istnieje żaden kompatybilny mechanizm transferu plików
 [Protocol is offline or no JID]
 Protokół jest Rozłączony lub brak JID
 [No valid OMEMO session exists]
@@ -1705,8 +1718,8 @@ Przesyłanie...
 Pobieranie...
 [Connecting...]
 Łączenie...
-[XML for MS Excel (UTF-8 encoded)]
-XML dla MS Excel (UTF-8 encoded)
+[XML (UTF-8 encoded)]
+XML (UTF-8 encoded)
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 
@@ -1755,6 +1768,8 @@ Błąd: Utracono połączenie
 [Authentication failed for %s@%s.]
 Autoryzacja nieudana dla %s@%s.
 [Message redirected from: %s\r\n]
+
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
 
 [Registration canceled]
 

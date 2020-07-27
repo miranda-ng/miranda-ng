@@ -8,42 +8,6 @@
 [A contact list for blind folks.]
 Seznam kontaktů pro nevidomé.
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete contact]
-Smazání kontaktu
-[Are you sure you want to delete %s?]
-Opravdu chcete smazat kontakt %s?
-[This will erase all history and settings for this contact!]
-Tímto odstraníte celou historii a nastavení kontaktu!
-[Yes]
-Ano
-[No]
-Ne
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-(Skrytí kontaktů zrušíte v Možnosti -> Kontakty -> Filtrování.)
-[Hotkeys]
-Klávesové zkratky
-[Show/Hide:]
-Zobrazit/Skrýt:
-[Read message:]
-Přečíst zprávu:
-[Web search:]
-Hledat na webu:
-[URL:]
-Odkaz:
-[Open in new browser window]
-Otevřít v novém okně prohlížeče
-[Show options]
-Možnosti nastav.
-[Hide offline users]
-Skrýt uživatele offline
-[Hide empty groups]
-Skrýt prázdné skupiny
-[Disable groups]
-Vypnout skupiny
-[Ask before deleting contacts]
-Potvrdit smazání kontaktů
 [Sort contacts by name]
 Řadit kontakty dle jména
 [Sort contacts by status]
@@ -70,8 +34,6 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[Contact list]
-Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
@@ -122,10 +84,6 @@ Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 Zobrazit stín (vyžaduje restart)
 [Pin to desktop]
 Připíchnout na plochu
-[Items]
-Položky
-['Hide offline' means to hide:]
-'Skrýt offline' znamená skrytí:
 [Groups]
 Skupiny
 [Show counts of number of contacts in a group]
@@ -167,30 +125,14 @@ Zobrazit efekt zkosení panelů
 [Show resize grip indicator]
 Zobrazit tlač. změny velik.
 ;file \plugins\Clist_blind\src\clcopts.cpp
-[Not focused]
-Neaktivní
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Na chvíli pryč
-[Not available]
-Nejsem tady
-[Occupied]
-Nemám čas
-[Do not disturb]
-Nerušit!
-[Free for chat]
-Mám volno
-[Invisible]
-Neviditelný
 [Group: %name% %count% [%mode%]]
 Skupina: %name% %count% [%mode%]
 [Divider: %s]
 Oddělovač: %s
 [Info: %s]
 Informace: %s
+[Contact list]
+Seznam kontaktů
 [List]
 Seznam
 ;file \plugins\Clist_blind\src\clistopts.cpp

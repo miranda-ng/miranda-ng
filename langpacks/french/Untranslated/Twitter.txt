@@ -3,7 +3,6 @@
 [Send Tweet]
 [Send]
 [Use group chat for Twitter feed]
-[Base URL:]
 [Polling rate:]
 [Once every]
 [Treat tweets as messages]

@@ -2,11 +2,9 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.5
+;  Version: 0.2.0.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Go to Options -> Customise -> Hotkeys to change the hotkey
 [Colors]
 Colours
 [Use cus&tom colors]

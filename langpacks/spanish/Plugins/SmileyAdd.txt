@@ -28,13 +28,13 @@ Previsualizar
 
 [Scale smiley to text height]
 
-[Disable custom smileys]
+[Disable stickers]
 
 [High quality smiley scaling]
 
 [Animate]
 
-[Maximum 'Custom smiley' height]
+[Maximum sticker height]
 
 [Minimum smiley height]
 

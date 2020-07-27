@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.5
+;  Version: 0.2.0.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -22,10 +22,6 @@ Abbrechen
 &Alle auswählen
 [Select &none]
 Kei&ne auswählen
-[Hotkey]
-Hotkey
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Unter Einstellungen -> Customize -> Hotkeys können Sie den Hotkey ändern
 [Update options]
 Aktualisierungseinstellungen
 [On startup]
@@ -36,6 +32,8 @@ Beim Start
 Alle
 [Silent mode]
 Stiller Modus
+[Restart Miranda automatically]
+
 [Backup database before update (requires Db_autobackups plugin)]
 Datenbank vor Aktualisierung sichern (benötigt Db_autobackups)
 [Files source]
@@ -52,10 +50,10 @@ Entwicklungsversion mit Debugsymbolen
 Eigene Version
 [Change platform to 32-bit]
 Plattform zu 32-Bit ändern
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Einige Komponenten wurden aktualisiert.\nSie müssen Miranda neu starten um die Aktualisierungen zu übernehmen.
 [Use HTTPS]
 HTTPS verwenden
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+Einige Komponenten wurden aktualisiert.\nSie müssen Miranda neu starten um die Aktualisierungen zu übernehmen.
 [Notifications]
 Benachrichtigungen
 [Restart]
@@ -152,8 +150,6 @@ Aktualisierung fehlgeschlagen! Eine der Komponenten wurde nicht richtig herunter
 %d Komponente(n) wurde(n) aktualisiert.
 [You need to restart your Miranda to apply installed updates.]
 Sie müssen Miranda NG neu starten um die installierten Aktualisierungen anzuwenden.
-[Would you like to restart it now?]
-Möchten Sie es jetzt neu starten?
 [Checking for new updates...]
 Prüfe auf neue Aktualisierungen...
 [No updates found.]
@@ -164,6 +160,8 @@ Die Prüfung auf Aktualisierungen wurde bereits gestartet!
 [Plugin updater URI scheme]
 PluginUpdater URI-Schema
 ;file \plugins\PluginUpdater\src\Notifications.cpp
+[Would you like to restart it now?]
+Möchten Sie es jetzt neu starten?
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 Datenbank vor Aktualisierung sichern

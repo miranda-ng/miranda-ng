@@ -66,14 +66,6 @@
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
 Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
-[Hide offline users]
-Схаваць адключаных
-[Hide empty groups]
-Схаваць пустыя гурты
-[Disable groups]
-Адключыць гурты
-[Ask before deleting contacts]
-Пацверджанне выдалення
 [Sort contacts by name]
 Сартаванне па імені
 [Sort contacts by status]
@@ -100,14 +92,14 @@
 Некалькі абразкоў
 [Only when statuses differ]
 Пры розных статусах
-[Contact list]
-Спіс кантактаў
 [System tray icon]
 Абразок у трэі
 [System tray icon when using multiple protocols]
 Абразкі пратаколаў у сістэмным лапку
 [Contact list sorting]
 Сартаванне спісу кантактаў
+[Don't move offline user to bottom]
+Не перасоўваць адключаных уніз
 [Window]
 Вакно
 [Always on top]
@@ -170,8 +162,6 @@
 Напаўпразрыстае вылучэнне
 [Dim idle contacts]
 Прыцьміць неактыўных
-['Hide offline' means to hide:]
-'Схаваць адключаных' - схаваць:
 [Groups]
 Гурты
 [Draw a line alongside group names]
@@ -196,10 +186,10 @@
 Час:
 [milliseconds]
 мс
-[Left margin:]
-Левае поле:
 [Hide vertical scroll bar]
 Схаваць паласу прагорткі
+[Left margin:]
+Левае поле:
 [Row height:]
 Вышыня радка:
 [Gamma correction]
@@ -1104,6 +1094,8 @@ UIN, E-mail і г.д.
 Паказваць кантэкстнае меню
 [Show user information]
 Пра кантакт
+[Contact list]
+Спіс кантактаў
 [Display subcontact nickname]
 Выкарыстоўваць мянушку субкантакту
 [Display subcontact display name]
@@ -1152,6 +1144,18 @@ UIN, E-mail і г.д.
 Аб праграме
 [Credits >]
 Аўтары >
+[Hide offline users]
+Схаваць адключаных
+[Hide empty groups]
+Схаваць пустыя гурты
+[Enable groups]
+Уключыць гурты
+[Ask before deleting contacts]
+Пацверджанне выдалення
+[Remove temporary contacts on exit]
+
+['Hide offline' means to hide:]
+'Схаваць адключаных' - схаваць:
 [Hidden window]
 
 [Tray]
@@ -1246,6 +1250,7 @@ UIN, E-mail і г.д.
 &Прачытаць паведамленне "%s"
 [Re&ad status message]
 Чытаць статуснае паведамленне
+;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Адышоў %time%. Хутка буду.
@@ -1310,6 +1315,8 @@ UIN, E-mail і г.д.
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Глабальныя
+[General]
+Агульнае
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
@@ -1654,8 +1661,6 @@ UIN, E-mail і г.д.
 Абразкі ў сістэмным латку
 [Popups to display]
 Усплывальныя вокны
-[General]
-Агульнае
 [Chat log]
 Лог чата
 [Chat]
@@ -2012,10 +2017,10 @@ Miranda не здолела загрузіць убудаваную сістэм
 Зараз вы вядомыя як %s
 [%s kicked %s]
 %s выкінуў %s
-[Notice from %s: ]
-Абвестка ад %s:\s
-[The topic is '%s%s']
-Тэма '%s%s'
+[Notice from %s]
+Абвестка ад %s
+[The topic is '%s']
+Тэма '%s'
 [ (set by %s on %s)]
  (усталявана %s %s)
 [ (set by %s)]
@@ -2091,8 +2096,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 %s выйшаў з %s
 [%s kicked %s from %s]
 %s выкінуў %s з %s
-[Notice from %s]
-Абвестка ад %s
 [Topic change in %s]
 Змена тэмы ў %s
 [Information in %s]
@@ -2101,28 +2104,10 @@ Miranda не здолела загрузіць убудаваную сістэм
 %s уключае статус '%s' для %s у %s
 [%s disables '%s' status for %s in %s]
 %s выключае статус '%s' для %s у %s
-[%s says: %s]
-%s кажа: %s
-[%s has left (%s)]
-%s выйшаў (%s)
-[%s has disconnected (%s)]
-%s адключыўся (%s)
-[%s kicked %s (%s)]
-%s выкінуў %s (%s)
-[Notice from %s: %s]
-Абвестка ад %s: %s
-[The topic is '%s']
-Тэма '%s'
-[The topic is '%s' (set by %s)]
-Тэма '%s' (усталявана %s)
+[%s says]
+%s кажа
 [Chat rooms]
 
-[Look up '%s':]
-Шукаць '%s':
-[No word to look up]
-Няма слоў для пошуку
-[&Message %s]
-&Паведамленне %s
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2142,6 +2127,9 @@ Miranda не здолела загрузіць убудаваную сістэм
 Далучэнне
 [Connecting (attempt %d)]
 Далучэнне (спроба %d)
+;file \src\mir_app\src\clistopts.cpp
+[Common]
+Агульныя
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
@@ -2371,6 +2359,8 @@ Ctrl+Шукаць дадае карыстальніка
 Прачытаць паведамленне
 [Open Options page]
 Адкрыць налады
+[Toggle groups]
+Укл/Выкл гурты
 [Open logging options]
 Налады лога сеціва
 [Open 'Find user' dialog]
@@ -2628,6 +2618,15 @@ xСтатус
 Мае профілі
 [New profile]
 Стварыць профіль
+;file \src\mir_app\src\proto_interface.cpp
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
+[Revoke authorization]
+Адазваць аўтарызацыю
+[Load server history]
+
 ;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 УВАГА! Конт будзе выдалены. Гэта азначае, што ўсе налады, кантакты і гісторыя таксама будуць выдаленыя.\n\nВы абсалютна ўпэўненыя?
@@ -2682,13 +2681,6 @@ ID конта
 [&Accounts...]
 Уліковыя запісы...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_utils.cpp
-[Request authorization]
-Запытаць аўтарызацыю
-[Grant authorization]
-Аўтарызаваць
-[Revoke authorization]
-Адазваць аўтарызацыю
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не магу запусціць пошук па %s. Калі ласка, праверце далучэнне да пратакола %s.
@@ -2788,6 +2780,8 @@ ANSI плагін
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[&Message %s]
+&Паведамленне %s
 [Nickname]
 Мянушка
 [Unique ID]
@@ -2795,6 +2789,11 @@ ANSI плагін
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 
+;file \src\mir_app\src\srmm_log_rtf.cpp
+[Look up '%s':]
+Шукаць '%s':
+[No word to look up]
+Няма слоў для пошуку
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Падзельнік>

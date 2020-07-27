@@ -126,7 +126,7 @@ Alias
 
 [Server code page:]
 
-[Enable UTF8 autodetection]
+[Enable UTF-8 autodetection]
 
 [Add server]
 
@@ -421,9 +421,9 @@ Apodo
 
 [DCC ERROR: Unable to bind local port]
 
-[The protocol is not online]
-
 [The dcc chat connection is not active]
+
+[The protocol is not online]
 
 [Please choose an IRC-network to go online. This network will be the default.]
 

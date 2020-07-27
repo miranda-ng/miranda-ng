@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.9
+;  Version: 0.9.1.10
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -160,20 +160,10 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 Справді видалити %s зі списку?
 [This will erase all history and settings for this contact!]
 Ця дія видалить усю історію і налаштування цього контакту!
-[Hide offline users]
-Сховати відключених
-[Hide empty groups]
-Сховати порожні групи
-[Disable groups]
-Вимкнути групи
-[Ask before deleting contacts]
-Запит перед видаленням
-[Don't move offline user to bottom]
-Не переміщати відключених униз
-[Contact list]
-Список контактів
 [Contact list sorting]
 Впорядкування списку
+[Don't move offline user to bottom]
+Не переміщати відключених униз
 [1st:]
 1-й:
 [2nd:]
@@ -182,8 +172,8 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 3-й:
 [Place offline users out of groups]
 Відключених показувати поза групами
-[Gamma correction]
-Корекція гамми
+[Selection mode]
+Тип виділення
 [Default]
 За замовчанням
 [Full selection]
@@ -192,8 +182,8 @@ Ctrl+ЛКМ - увімк. фільтр за протоколом, клік по 
 Тільки над текстом
 [No selection]
 Не виділяти
-[Selection mode]
-Тип виділення
+[Gamma correction]
+Корекція гамми
 [Bring to front if covered]
 Перемістити на передній план
 [Hide contact list after]
@@ -258,8 +248,6 @@ x100 мс
 Напівпрозоре виділення
 [Dim idle contacts]
 Затемняти неактивних користувачів
-['Hide offline' means to hide:]
-Сховати відключ. - сховати:
 [Groups]
 Групи
 [Draw a line alongside group names]
@@ -630,6 +618,8 @@ xСтатус: xПовідомлення
 Скіни
 [Modern contact list]
 Список контактів Modern
+[Contact list]
+Список контактів
 [Avatar overlay]
 Оверлеї аватарів
 [Status overlay]
@@ -893,6 +883,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 Увімк./вимк. групи
 [Use groups]
 Увімкнути сортування по групах
+[Disable groups]
+Вимкнути групи
 [Enable/Disable sounds]
 Увімк./вимк. звуки
 [Enable sounds]

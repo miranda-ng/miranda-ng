@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.5
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -121,6 +121,8 @@ Anruf beendet (%s)
 Dateiübertragung:\n\tDateiname: %s\n\tGröße: %lld Bytes\n
 [Preview]
 Vorschau
+[Full image]
+
 [Unknown event, please send this text for developer: "%s"]
 Unbekanntes Ereignis, bitte senden Sie diesen Text an den Entwickler: "%s"
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
@@ -128,8 +130,6 @@ Unbekanntes Ereignis, bitte senden Sie diesen Text an den Entwickler: "%s"
 Protokollicon
 [Create new chat icon]
 "Neuen Chat erstellen"-Icon
-[Sync history icon]
-"Verlauf synchronisieren"-Icon
 [Block user icon]
 "Benutzer blockieren"-Icon
 [Unblock user icon]
@@ -154,8 +154,6 @@ Zu viele fehlgeschlagene Autorisierungsversuche mit dem angegebenen Benutzername
 [Authentication failed. Unknown error.]
 Autorisierung fehlgeschlagen. Unbekannter Fehler.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Get server history]
-Serververlauf abrufen
 [Block contact]
 Kontakt blockieren
 [Unblock contact]
@@ -169,9 +167,6 @@ Sie können keine Nachricht versenden, so lange Sie offline sind.
 Unbekannter Fehler!
 [Network error!]
 Netzwerkfehler!
-;file \protocols\SkypeWeb\src\skype_mslogin.cpp
-[Enter confirmation code]
-Bestätigungscode eingeben
 ;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 %s-Verbindung
@@ -190,6 +185,3 @@ Aufrufe
 Eingehender Anruf abgebrochen
 [Skypename]
 Skypename
-;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call from %s]
-Eingehender Anruf von %s

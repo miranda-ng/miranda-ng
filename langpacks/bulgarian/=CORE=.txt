@@ -66,14 +66,6 @@
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
 Ще бъде изтрита изтрита историята и настройките за контакта!
-[Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide empty groups]
-Скриване на празните групи
-[Disable groups]
-Без групи
-[Ask before deleting contacts]
-Запитване преди изтриване на контакт
 [Sort contacts by name]
 име
 [Sort contacts by status]
@@ -100,14 +92,14 @@
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
-[Contact list]
-Списък с контакти
 [System tray icon]
 Икона в трея
 [System tray icon when using multiple protocols]
 Режим на иконата в трея, когато се използват няколко протокола
 [Contact list sorting]
 Сортиране на списъка с контакти по:
+[Don't move offline user to bottom]
+
 [Window]
 Прозорец
 [Always on top]
@@ -170,8 +162,6 @@
 Полупрозрачност на отличения текст
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
-['Hide offline' means to hide:]
-Скриване като извън линия:
 [Groups]
 Групи
 [Draw a line alongside group names]
@@ -196,10 +186,10 @@
 Време:
 [milliseconds]
 милисекунди
-[Left margin:]
-Ляв ръб:
 [Hide vertical scroll bar]
 Без вертикална лента за придвижване
+[Left margin:]
+Ляв ръб:
 [Row height:]
 Ред (височина):
 [Gamma correction]
@@ -1104,6 +1094,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Да се показва контекстното меню на подконтакта
 [Show user information]
 Информация за потребителя
+[Contact list]
+Списък с контакти
 [Display subcontact nickname]
 Показване прякора на подконтакта
 [Display subcontact display name]
@@ -1152,6 +1144,18 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Относно Miranda NG
 [Credits >]
 Заслуги >
+[Hide offline users]
+Скриване на контактите "Извън линия"
+[Hide empty groups]
+Скриване на празните групи
+[Enable groups]
+С групи
+[Ask before deleting contacts]
+Запитване преди изтриване на контакт
+[Remove temporary contacts on exit]
+
+['Hide offline' means to hide:]
+Скриване като извън линия:
 [Hidden window]
 
 [Tray]
@@ -1246,6 +1250,7 @@ Google Translate
 Показване на текста "%s"
 [Re&ad status message]
 Показване на текста за състояние
+;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Отсъствам от %time%.
@@ -1310,6 +1315,8 @@ Google Translate
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Общо
+[General]
+Основни
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
@@ -1654,8 +1661,6 @@ Google Translate
 Икони за изобразяване в трея
 [Popups to display]
 Popups за изобразяване
-[General]
-Основни
 [Chat log]
 Чат дневник
 [Chat]
@@ -2012,10 +2017,10 @@ Popups са изключени
 Сменихте името си на %s
 [%s kicked %s]
 %s изгони %s
-[Notice from %s: ]
-Известие от %s:\s
-[The topic is '%s%s']
-Темата е "%s%s"
+[Notice from %s]
+Известие от %s
+[The topic is '%s']
+Темата е "%s"
 [ (set by %s on %s)]
  (зададена от %s на %s)
 [ (set by %s)]
@@ -2091,8 +2096,6 @@ Popups са изключени
 %s излезе %s
 [%s kicked %s from %s]
 %s изгони %s от %s
-[Notice from %s]
-Известие от %s
 [Topic change in %s]
 Промяна на темата в %s
 [Information in %s]
@@ -2101,28 +2104,10 @@ Popups са изключени
 %s даде статут "%s" на %s в %s
 [%s disables '%s' status for %s in %s]
 %s отне статута "%s" на %s в %s
-[%s says: %s]
-%s каза: %s
-[%s has left (%s)]
-%s излезе (%s)
-[%s has disconnected (%s)]
-%s излезе от мрежата (%s)
-[%s kicked %s (%s)]
-%s изгони %s (%s)
-[Notice from %s: %s]
-Известие от %s: %s
-[The topic is '%s']
-Темата е "%s"
-[The topic is '%s' (set by %s)]
-Темата е "%s" (зададена от %s)
+[%s says]
+%s каза
 [Chat rooms]
 
-[Look up '%s':]
-Търсене за "%s":
-[No word to look up]
-Няма дума за търсене
-[&Message %s]
-Съобщение %s
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2142,6 +2127,9 @@ Popups са изключени
 Свързване
 [Connecting (attempt %d)]
 Свързване (опит %d)
+;file \src\mir_app\src\clistopts.cpp
+[Common]
+Общи
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Непознат контакт)
@@ -2371,6 +2359,8 @@ Win +\s
 Прочитане на съобщение
 [Open Options page]
 Отваря "Настройки"
+[Toggle groups]
+Включване/Изключване на групите
 [Open logging options]
 Отваря "Настройки на дневника на мрежовите връзки"
 [Open 'Find user' dialog]
@@ -2628,6 +2618,15 @@ Win +\s
 Моите профили
 [New profile]
 Нов профил
+;file \src\mir_app\src\proto_interface.cpp
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
+[Revoke authorization]
+Отнемане на пълномощното
+[Load server history]
+
 ;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Акаунтът ще бъде изтрит. Тоест всички негови настройки, контакти и историята ще бъдат изтрити.\n\nНаистина ли желаете това?
@@ -2682,13 +2681,6 @@ ID на акаунта
 [&Accounts...]
 Акаунти...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_utils.cpp
-[Request authorization]
-Молба за упълномощаване
-[Grant authorization]
-Даване на пълномощно
-[Revoke authorization]
-Отнемане на пълномощното
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
@@ -2788,6 +2780,8 @@ WAV файлове
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[&Message %s]
+Съобщение %s
 [Nickname]
 Прякор
 [Unique ID]
@@ -2795,6 +2789,11 @@ WAV файлове
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 
+;file \src\mir_app\src\srmm_log_rtf.cpp
+[Look up '%s':]
+Търсене за "%s":
+[No word to look up]
+Няма дума за търсене
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделител>

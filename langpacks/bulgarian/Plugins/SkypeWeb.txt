@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.5
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -121,14 +121,14 @@
 Прехвърляне на файл:\n\tИме на файла: %s \n\tРазмер: %lld байта \n
 [Preview]
 Образец
+[Full image]
+
 [Unknown event, please send this text for developer: "%s"]
 
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
 [Protocol icon]
 Икона на протокола
 [Create new chat icon]
-
-[Sync history icon]
 
 [Block user icon]
 
@@ -154,8 +154,6 @@
 [Authentication failed. Unknown error.]
 
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Get server history]
-
 [Block contact]
 Блокиране на контакта
 [Unblock contact]
@@ -168,9 +166,6 @@
 [Unknown error!]
 
 [Network error!]
-
-;file \protocols\SkypeWeb\src\skype_mslogin.cpp
-[Enter confirmation code]
 
 ;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
@@ -190,6 +185,3 @@
 
 [Skypename]
 
-;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call from %s]
-Входящо обаждане от %s

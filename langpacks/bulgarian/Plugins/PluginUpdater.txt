@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.5
+;  Version: 0.2.0.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -22,10 +22,6 @@
 Марк. всички
 [Select &none]
 Нищо
-[Hotkey]
-Клавишна комбинация
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-За промени отидете в "Персонализиране > Клавишни" комбинации
 [Update options]
 Настройки за актуализирането
 [On startup]
@@ -36,6 +32,8 @@
 Всеки
 [Silent mode]
 Тих режим
+[Restart Miranda automatically]
+
 [Backup database before update (requires Db_autobackups plugin)]
 
 [Files source]
@@ -52,10 +50,10 @@
 Персонализирана версия
 [Change platform to 32-bit]
 
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Някои компоненти са актуализирани.\nНеобхдимо е да рестартирате Miranda за да бъдат приложени актуализациите.
 [Use HTTPS]
 
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+Някои компоненти са актуализирани.\nНеобхдимо е да рестартирате Miranda за да бъдат приложени актуализациите.
 [Notifications]
 Уведомявания
 [Restart]
@@ -152,8 +150,6 @@ Plugin Updater
 %d компонента са актуализирани
 [You need to restart your Miranda to apply installed updates.]
 Необходимо е да рестартирате Miranda NG за да бъдат приложени актуализациите.
-[Would you like to restart it now?]
-Желаете ли да бъде рестартирана сега?
 [Checking for new updates...]
 Проверка за нови актуализации...
 [No updates found.]
@@ -164,6 +160,8 @@ Plugin Updater
 [Plugin updater URI scheme]
 
 ;file \plugins\PluginUpdater\src\Notifications.cpp
+[Would you like to restart it now?]
+Желаете ли да бъде рестартирана сега?
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 

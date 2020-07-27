@@ -28,13 +28,13 @@
 Замяна само на усмивки оградени от интервал
 [Scale smiley to text height]
 Мащабиране до големината на текста
-[Disable custom smileys]
-Без персонални усмивки
+[Disable stickers]
+
 [High quality smiley scaling]
 Висококачествено мащабиране
 [Animate]
 Анимиране
-[Maximum 'Custom smiley' height]
+[Maximum sticker height]
 
 [Minimum smiley height]
 Мин. височина на усмивките

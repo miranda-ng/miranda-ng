@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -200,8 +200,6 @@
 Тільки актуальна історія
 [Use private splitter position]
 Власний роздільник
-[Contact is a favorite contact]
-Контакт знаходиться в обраних
 [Always trim message log to]
 Завжди обмежувати журнал до
 [events]
@@ -664,28 +662,6 @@ BBCode ([b][i][u])
 Глобальні налаштування
 [Force off]
 Вимкнути
-[Recent sessions]
-Недавні сеанси
-[Favorites]
-Обрані
-[Show the tray icon]
-Показувати значок у треї
-[Disable all event notifications]
-Вимкнути всі сповіщення
-[Don't create windows automatically]
-Не створювати вікна автоматично
-[Hide all message containers]
-Сховати всі контейнери
-[Restore all message containers]
-Відновити всі контейнери
-[Don't play sounds]
-Вимкнути звуки
-[Be "super quiet"]
-Бути "дуже тихим"
-[Add contact to favorites]
-Додати контакт до обраних
-[Remove contact from favorites]
-Видалити контакт з обраних
 [Set position for this session]
 Встановити позицію для цієї сесії
 [Set and save for all sessions]
@@ -793,33 +769,6 @@ BBCode ([b][i][u])
 Фільтр подій - клацання правою кнопкою для налаштування, лівою - увімк./вимк.
 [Channel manager]
 Налаштування кімнати
-;file \plugins\TabSRMM\src\chat_log.cpp
-[%s has joined]
-%s увійшов
-[You have joined %s]
-Ви ввійшли до %s
-[%s has left]
-%s вийшов
-[%s has disconnected]
-%s відключився
-[%s is now known as %s]
-%s змінив ім'я на %s
-[You are now known as %s]
-Ви змінили ім'я на %s
-[%s kicked %s]
-%s вигнав %s
-[Notice from %s: ]
-Приватне повідомлення від %s:\s
-[The topic is '%s%s']
-Тема '%s%s'
-[ (set by %s on %s)]
- (встановив %s %s)
-[ (set by %s)]
- (встановив %s)
-[%s enables '%s' status for %s]
-%s вмикає статус '%s' для %s
-[%s disables '%s' status for %s]
-%s вимикає статус "%s" для %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Бесіди
@@ -1146,6 +1095,8 @@ ID поточного контакту (якщо визначено). Напри
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Бесіда...
+[Message from %s]
+Повідомлення від %s
 [Default container]
 Діалоги
 [Attach to]
@@ -1233,8 +1184,6 @@ ID поточного контакту (якщо визначено). Напри
 Не сповіщати, якщо вікно повідомлень відкрите
 [Don't announce events from RSS protocols]
 Не сповіщати про події в протоколі RSS
-[Enable the system tray icon]
-Показувати значок у треї
 [Merge new events for the same contact into existing popup]
 Додавати нові події в існуюче спливаюче вікно
 [Show headers]
@@ -1309,16 +1258,10 @@ ID поточного контакту (якщо визначено). Напри
 Інше
 [TabSRMM: typing]
 TabSRMM: Набирає
-[TabSRMM session list]
-Список сесій TabSRMM
-[TabSRMM menu]
-Меню TabSRMM
 [&Messaging settings...]
 &Налаштування бесід...
 [&Send later job list...]
 &Завдання для відправки з затримкою...
-[Message from %s]
-Повідомлення від %s
 [signed off.]
 відключений(а).
 [signed on and is now %s.]
@@ -1641,6 +1584,14 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 
 [Automatically copy selected text]
 Автоматично копіювати виділений текст
+[Test contact]
+Тестовий контакт
+[Template set editor]
+Редактор шаблонів
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Видалення всіх шаблонів і скидання на шаблони за замовчанням. Ви впевнені, що хочете цього?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Шаблони скинуті. Будь ласка, закрийте і знову відкрийте всі вікна повідомлень. Це вікно буде закрито.
 [Message log appearance]
 Зовнішній вигляд журналу
 [Support for external plugins]
@@ -1806,8 +1757,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Стрілка вправо
 [Up Arrow]
 Стрілка вгору
-[Session List]
-Список сесій
 [Frame 1]
 Кадр 1
 [Frame 2]
@@ -1926,12 +1875,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Надіслане (група, середина)
 [Error message]
 Повідомлення про помилку
-[Template set editor]
-Редактор шаблонів
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Видалення всіх шаблонів і скидання на шаблони за замовчанням. Ви впевнені, що хочете цього?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Шаблони скинуті. Будь ласка, закрийте і знову відкрийте всі вікна повідомлень. Це вікно буде закрито.
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 Теми TabSRMM
@@ -1952,7 +1895,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Перед зміною скіна потрібно закрити всі контейнери\nПродовжити?
 [Change skin]
 Зміна скіна
-;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 Вимкнути сповіщення про &друк
@@ -1972,6 +1914,8 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 TabSRMM: %s
+[Save file|Unable to save temporary file]
+
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редагування нотаток про користувача|Ви знаходитесь в режимі редагування нотаток про користувача. Натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень.
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]

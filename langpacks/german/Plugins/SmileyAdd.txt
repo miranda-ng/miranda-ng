@@ -28,14 +28,14 @@ Anzeige
 Nur von Leerzeichen umgebene Smileys ersetzen
 [Scale smiley to text height]
 Smileys an Texthöhe anpassen
-[Disable custom smileys]
-'Custom Smileys' deaktivieren
+[Disable stickers]
+
 [High quality smiley scaling]
 Hochwertige Skalierung von Smileys
 [Animate]
 Animieren
-[Maximum 'Custom smiley' height]
-Maximale 'Custom Smiley'-Höhe
+[Maximum sticker height]
+
 [Minimum smiley height]
 Minimale Smiley-Höhe
 [Smiley selector]

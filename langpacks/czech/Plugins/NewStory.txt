@@ -1,0 +1,313 @@
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.1.0.2
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Zobrazovač historie pro Mirandu NG.
+;file \plugins\NewStory\res\resource.rc
+[Messages]
+Zprávy
+[Files]
+Soubory
+[URLs]
+Odkazy
+[Total]
+Celkem
+[Incoming]
+Příchozí
+[Outgoing]
+Odchozí
+[since]
+
+[till]
+
+[Group messages]
+Seskupovat zprávy
+[Log window]
+
+[Enable vertical scroll bar]
+
+[Draw window edge]
+
+[Template list:]
+
+[Edit template:]
+
+[Text preview:]
+
+[Graphic preview:]
+
+[Filter]
+Filtr
+[Show all events]
+Zobrazit všechny události
+[Show incoming events only]
+
+[Show outgoing events only]
+
+[Use custom filter...]
+
+[Incoming events]
+Příchozí události
+[Outgoing events]
+Odchozí události
+[Show messages]
+Zobrazit zprávy
+[Show file transfers]
+
+[Show URLs]
+
+[Show sign in/out events]
+
+[Show other events]
+
+[Auto search]
+
+[Log options]
+Možnosti záznamu
+[Options]
+Možnosti
+[Templates]
+Šablony
+[Copy]
+Zkopírovat
+[Edit]
+Upravit
+[Delete]
+Smazat
+[Select all]
+Vybrat vše
+;file \plugins\NewStory\src\fonts.cpp
+[Incoming messages]
+Příchozí zprávy
+[Outgoing messages]
+Odchozí zprávy
+[Incoming files]
+Příchozí soubory
+[Outgoing files]
+Odchozí soubory
+[Status changes]
+Změny stavu
+[Other incoming events]
+
+[Other outgoing events]
+
+[Selected item's text]
+
+[Selected item's background]
+
+[Selected item's frame]
+
+[Grid background]
+Pozadí mřížky
+[Separator]
+Oddělovač
+[Incoming name]
+Příchozí jméno
+[Outgoing name]
+Odchozí jméno
+;file \plugins\NewStory\src\history.cpp
+[FirstName]
+Jméno
+[LastName]
+Příjmení
+[e-mail]
+e-mail
+[Nick]
+Přezdívka
+[Age]
+Věk
+[Gender]
+Pohlaví
+[City]
+Město
+[State]
+Stát
+[Phone]
+Telefon
+[Homepage]
+Dom. stránka
+[About]
+Informace
+[History search results]
+
+[Export...]
+Exportovat...
+[Delete...]
+
+[Search...]
+Hledat...
+[Send message]
+Poslat zprávu
+[Jump to date]
+
+[User info]
+Informace o uživateli
+[User menu]
+Nabídka kontaktu
+[Find next]
+Najít další
+[Find previous]
+Najít předchozí
+[Conversations]
+Konverzace
+[It is metacontact. For export use one of this subcontacts:\r\n%s]
+
+[Export warning]
+
+[JSON files]
+
+[Export %s history]
+
+[Complete]
+Dokončeno
+[History export]
+
+;file \plugins\NewStory\src\history_control.cpp
+[Are you sure to remove all events from history?]
+
+;file \plugins\NewStory\src\history_menus.cpp
+[User history]
+
+[Empty history]
+Vymazání historie
+[System history]
+Historie systému
+;file \plugins\NewStory\src\main.cpp
+[Main icon]
+Hlavní ikona
+[Search]
+Hledat
+[Export]
+Exportovat
+[Incoming message]
+Příchozí zpráva
+[Outgoing message]
+Odchozí zpráva
+[User signed in]
+
+[Unknown event]
+Neznámá událost
+[Template group]
+
+[Cancel edit]
+
+[Update preview]
+Obnovit náhled
+[Help]
+Nápověda
+;file \plugins\NewStory\src\options.cpp
+[Reset to default]
+Obnovit výchozí
+[Variables help]
+Proměnné
+[Test contact]
+Testovací kontakt
+[simply % character]
+
+[a "hard" line break (cr/lf - will break indent)]
+
+[my nickname]
+
+[buddy\'s nickname]
+
+[event count]
+Počet událostí
+[icon]
+Ikona
+[direction icon]
+
+[direction symbol]
+
+[timestamp]
+Časový údaj
+[hour (24 hour format, 0-23)]
+
+[hour (12 hour format)]
+
+[minute]
+Minuta
+[second]
+
+[month]
+měsíc
+[day of month]
+
+[year (4 digits)]
+rok (4 číslice)
+[day of week (Sunday, Monday... translatable)]
+
+[AM/PM symbol]
+
+[name of month, translatable]
+
+[the message string itself]
+
+[History]
+Historie
+[Advanced]
+Extra
+;file \plugins\NewStory\src\templates.cpp
+[Sunday]
+neděle
+[Monday]
+pondělí
+[Tuesday]
+úterý
+[Wednesday]
+středa
+[Thursday]
+čtvrtek
+[Friday]
+pátek
+[Saturday]
+sobota
+[January]
+leden
+[February]
+únor
+[March]
+březen
+[April]
+duben
+[May]
+květen
+[June]
+červen
+[July]
+červenec
+[August]
+srpen
+[September]
+září
+[October]
+říjen
+[November]
+listopad
+[December]
+prosinec
+[System event]
+
+[Interface]
+Rozhraní
+[Window title]
+
+[Message log]
+Záznam komunikace
+[Grouped messages]
+
+[Presence requests]
+
+[Other events]
+Jiné události
+[Authorization requests]
+
+['You were added' events]
+
+['You were deleted' events]
+
+[Clipboard]
+Schránka

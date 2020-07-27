@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.9
+;  Version: 0.9.1.10
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -160,20 +160,10 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 ¿Está seguro de que desea eliminar a %s?
 [This will erase all history and settings for this contact!]
 ¡Esto borrará toda el historial y los valores de este contacto!
-[Hide offline users]
-Ocultar usuarios fuera de línea
-[Hide empty groups]
-Ocultar grupos vacíos
-[Disable groups]
-Desactivar grupos
-[Ask before deleting contacts]
-Preguntar antes de eliminar
-[Don't move offline user to bottom]
-No mover usuario fuera de línea al final
-[Contact list]
-Lista de contactos
 [Contact list sorting]
 Clasificación de la lista de contacto
+[Don't move offline user to bottom]
+No mover usuario fuera de línea al final
 [1st:]
 1ro:
 [2nd:]
@@ -182,8 +172,8 @@ Clasificación de la lista de contacto
 3ro:
 [Place offline users out of groups]
 Coloca los usuarios sin conexión de grupos
-[Gamma correction]
-Corrección de gama
+[Selection mode]
+Modo de selección
 [Default]
 Por defecto
 [Full selection]
@@ -192,8 +182,8 @@ Selección completa
 Menos selección
 [No selection]
 Sin selección
-[Selection mode]
-Modo de selección
+[Gamma correction]
+Corrección de gama
 [Bring to front if covered]
 Traer al frente si está cubierto
 [Hide contact list after]
@@ -258,8 +248,6 @@ Mostrar selección aún si la lista no está enfocada
 Hacer selección resaltada translúcida
 [Dim idle contacts]
 Oscurecer contactos inactivos
-['Hide offline' means to hide:]
-'Ocultar fuera de línea' es:
 [Groups]
 Grupos
 [Draw a line alongside group names]
@@ -630,6 +618,8 @@ E&stado
 Pieles
 [Modern contact list]
 
+[Contact list]
+Lista de contactos
 [Avatar overlay]
 
 [Status overlay]
@@ -893,6 +883,8 @@ Buscar usuario
 Usar/Deshabilitar grupos
 [Use groups]
 Usar grupos
+[Disable groups]
+Desactivar grupos
 [Enable/Disable sounds]
 Habilitar/Desabilitar sonidos
 [Enable sounds]

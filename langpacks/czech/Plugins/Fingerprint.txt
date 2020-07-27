@@ -38,8 +38,6 @@ Klienti ICQ
 Klienti IRC
 [Jabber clients]
 Klienti Jabber
-[MSN clients]
-Klienti MSN
 [RSS clients]
 Klienti RSS
 [VKontakte clients]
@@ -110,8 +108,6 @@ Nezjištěný klient
 [JGTalk overlay]
 
 [Jabber overlay]
-
-[MSN overlay]
 
 [VK overlay]
 

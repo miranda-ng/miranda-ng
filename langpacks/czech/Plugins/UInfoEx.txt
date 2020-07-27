@@ -1172,6 +1172,8 @@ Dialog uložení souboru vrátil chybu: %d!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 INI soubor "%s"\nnemohl být otevřen pro uložení informací o kontaktu.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+INI soubor "%s"\nnemohl být otevřen pro načtení informací o kontaktu.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Žádný z %d kontaktů uložených v INI souboru neodpovídal vybranému kontaktu!\nNic nebude importováno.
 [Import complete]
@@ -1180,8 +1182,6 @@ Import hotov
 Základní statistiky
 [Added %d of %d contacts stored in the ini-file.]
 Přidáno %d z %d kontaktů uložených v INI souboru.
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-INI soubor "%s"\nnemohl být otevřen pro načtení informací o kontaktu.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 všechny kontakty
@@ -1196,6 +1196,8 @@ Nelze vytvořit xml soubor!\n%S
 Kontakt: %s (%S)
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 Parser nemůže načíst XMLCard "%s"\nChyba: %d\nPopis: %s
+[File not found]
+
 [The selected file is no valid XMLCard]
 Vybraný soubor není platný XMLCard
 [The version of the XMLCard is not supported by UserInfoEx]

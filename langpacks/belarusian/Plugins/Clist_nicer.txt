@@ -34,20 +34,8 @@
 Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
 [Contact list]
 Спіс кантактаў
-[Hide offline users]
-Схаваць адключаных
-[Hide empty groups]
-Схаваць пустыя гурты
-[Disable groups]
-Адключыць гурты
-[Ask before deleting contacts]
-Пацверджанне выдалення
-[Disable icon blinking]
-Выключыць мігценне
 [Apply last active view mode]
 Ужыць апошні актыўны рэжым
-[Contact list layout]
-Адлюстраванне спісу кантактаў
 [Show menu and status buttons]
 Паказваць кнопкі меню і статусу
 [Draw sunken edge]
@@ -58,6 +46,8 @@
 Адна пстрычка
 [Always show status in tooltip]
 Заўсёды паказваць статус у падказцы
+[Disable icon blinking]
+Выключыць мігценне
 [ms]
 мс
 [Event area]
@@ -126,8 +116,6 @@
 Перасоўваць падзеі наверх спісу ці гурта
 [Do not separate offline contacts]
 Не адлучаць адключаныя кантакты
-[Hide as offline]
-Хаваць як адключаных
 [Right align contacts]
 Выраўняць па правым краі
 [Avatars]
@@ -408,6 +396,54 @@
 [Clear view mode]
 Сцерці рэжым выгляду
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Nothing]
+Нічога
+[Name]
+Імя
+[Status]
+Статус
+[Message frequency]
+Па чашчыні паведамленняў
+[Never]
+Не выкарыстоўваць
+[Always]
+Заўсёды
+[For RTL only]
+Толькі для RTL
+[RTL TEXT only]
+Для RTL тэксту
+[Always left]
+Заўсёды злева
+[Always right]
+Заўсёды справа
+[Automatic (RTL)]
+Аўтаматычна (RTL)
+[When space allows it]
+Калі дазваляе памер
+[When needed]
+Калі неабходна
+[With nickname - left]
+Злева ад мянушкі
+[Far left]
+Па левым краі
+[Far right]
+Па правым краі
+[With nickname - right]
+Справа ад мянушкі
+[Row items]
+Радкі кантактаў
+[Contacts]
+Кантакты
+[Groups and layout]
+Гурты і размяшчэнне
+[Advanced]
+Дадаткова
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Падзей няма...
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Глабальныя
 [Not focused]
 Не ў фокусе
 [Offline]
@@ -426,62 +462,20 @@
 Вольны
 [Invisible]
 Нябачны
-[Always left]
-Заўсёды злева
-[Always right]
-Заўсёды справа
-[Automatic (RTL)]
-Аўтаматычна (RTL)
-[Nothing]
-Нічога
-[Name]
-Імя
-[Status]
-Статус
-[Message frequency]
-Па чашчыні паведамленняў
-[Never]
-Не выкарыстоўваць
-[Always]
-Заўсёды
-[For RTL only]
-Толькі для RTL
-[RTL TEXT only]
-Для RTL тэксту
-[When space allows it]
-Калі дазваляе памер
-[When needed]
-Калі неабходна
-[With nickname - left]
-Злева ад мянушкі
-[Far left]
-Па левым краі
-[Far right]
-Па правым краі
-[With nickname - right]
-Справа ад мянушкі
+[Title bar]
+Загаловак
+[Tool Window]
+Акно прылады
+[Thin border]
+Тонкая рамка
+[No border]
+Без рамкі
 [General]
 Агульнае
 [List layout]
 Размяшчэнне спісу
 [Background]
 Фон
-[Row items]
-Радкі кантактаў
-[Contacts]
-Кантакты
-[Groups and layout]
-Гурты і размяшчэнне
-[Advanced]
-Дадаткова
-[Skins]
-Скіны
-;file \plugins\Clist_nicer\src\clcpaint.cpp
-[No events...]
-Падзей няма...
-;file \plugins\Clist_nicer\src\clistopts.cpp
-[Global]
-Глабальныя
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Укл/Выкл адключаных карыстачоў
@@ -606,15 +600,6 @@
 Паказваць назвы
 [Hide all title bars]
 Схаваць назвы
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Загаловак
-[Tool Window]
-Акно прылады
-[Thin border]
-Тонкая рамка
-[No border]
-Без рамкі
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Немагчыма паркаваць спіс кантактаў пры выкарыстанні мяжы і загалоўка па змаўчанні. Выкарыстоўвайце стыль "Без меж" ці "Панэль"
@@ -623,6 +608,8 @@
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Загрузіць і ўжыць
+[Skins]
+Скіны
 ;file \plugins\Clist_nicer\src\groupmenu.cpp
 [Show metacontact protocol icons]
 Паказваць значкі метакантактаў

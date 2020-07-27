@@ -34,20 +34,8 @@ Voulez-vous vraiment supprimer %s?
 Ceci effacera tout l'historique et réglages de ce contact!
 [Contact list]
 Liste de contacts
-[Hide offline users]
-Cacher les contacts hors ligne
-[Hide empty groups]
-Cacher les groupes vides
-[Disable groups]
-Désactiver les groupes
-[Ask before deleting contacts]
-Demander avant de supprimer
-[Disable icon blinking]
-Sans clignotement
 [Apply last active view mode]
 Appliquer le dernier mode d'affichage actif
-[Contact list layout]
-Liste de contacts - Apparence
 [Show menu and status buttons]
 Afficher le menu et la barre d'état
 [Draw sunken edge]
@@ -58,6 +46,8 @@ Icône de la barre des tâches
 Clic simple
 [Always show status in tooltip]
 Afficher l'état dans la bulle
+[Disable icon blinking]
+Sans clignotement
 [ms]
 ms
 [Event area]
@@ -126,8 +116,6 @@ Finalement par
 Déplacer les évènements au début de la liste/groupe
 [Do not separate offline contacts]
 Ne pas séparer les contacts hors ligne
-[Hide as offline]
-Considérer hors ligne
 [Right align contacts]
 Contacts sur la droite
 [Avatars]
@@ -408,6 +396,54 @@ Configurer les modes d'affichages
 [Clear view mode]
 Réinitialiser le mode d'affichage
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Nothing]
+Rien
+[Name]
+Nom
+[Status]
+État
+[Message frequency]
+Fréquence des messages
+[Never]
+Jamais
+[Always]
+Toujours
+[For RTL only]
+Pour GàD uniquement
+[RTL TEXT only]
+Texte GàA uniquement
+[Always left]
+Toujours à gauche
+[Always right]
+Toujours à droite
+[Automatic (RTL)]
+Automatique (GàD)
+[When space allows it]
+Quand l'espace le permet
+[When needed]
+Quand nécessaire
+[With nickname - left]
+Avec le pseudo - gauche
+[Far left]
+Complètement à gauche
+[Far right]
+Complètement à droite
+[With nickname - right]
+Avec le pseudo - droite
+[Row items]
+Détail des lignes
+[Contacts]
+Contacts
+[Groups and layout]
+Groupes et arrangement
+[Advanced]
+Avancé
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Pas d'évènement
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Général
 [Not focused]
 Fenêtre inactive
 [Offline]
@@ -426,62 +462,20 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[Always left]
-Toujours à gauche
-[Always right]
-Toujours à droite
-[Automatic (RTL)]
-Automatique (GàD)
-[Nothing]
-Rien
-[Name]
-Nom
-[Status]
-État
-[Message frequency]
-Fréquence des messages
-[Never]
-Jamais
-[Always]
-Toujours
-[For RTL only]
-Pour GàD uniquement
-[RTL TEXT only]
-Texte GàA uniquement
-[When space allows it]
-Quand l'espace le permet
-[When needed]
-Quand nécessaire
-[With nickname - left]
-Avec le pseudo - gauche
-[Far left]
-Complètement à gauche
-[Far right]
-Complètement à droite
-[With nickname - right]
-Avec le pseudo - droite
+[Title bar]
+Barre de titre
+[Tool Window]
+Fenêtre outils
+[Thin border]
+Bords fins
+[No border]
+Sans bordure
 [General]
 Général
 [List layout]
 Arrangement de la liste
 [Background]
 Arrière-plan
-[Row items]
-Détail des lignes
-[Contacts]
-Contacts
-[Groups and layout]
-Groupes et arrangement
-[Advanced]
-Avancé
-[Skins]
-Skins
-;file \plugins\Clist_nicer\src\clcpaint.cpp
-[No events...]
-Pas d'évènement
-;file \plugins\Clist_nicer\src\clistopts.cpp
-[Global]
-Général
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Afficher En ligne/Hors ligne
@@ -606,15 +600,6 @@ Montrer tous les cadres
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Barre de titre
-[Tool Window]
-Fenêtre outils
-[Thin border]
-Bords fins
-[No border]
-Sans bordure
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 La CList ne peut être accouplé en utilisant la barre de titre et les bordures par défaut. Utilisez un toolwindow ou un modèle sans bordure à la place.
@@ -623,6 +608,8 @@ La CList ne peut être accouplé en utilisant la barre de titre et les bordures 
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Charger et appliquer
+[Skins]
+Skins
 ;file \plugins\Clist_nicer\src\groupmenu.cpp
 [Show metacontact protocol icons]
 Voir l'icône du metacontact

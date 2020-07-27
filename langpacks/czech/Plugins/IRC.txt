@@ -126,7 +126,7 @@ Skripty
 Při ukončení:
 [Server code page:]
 Kódování serveru:
-[Enable UTF8 autodetection]
+[Enable UTF-8 autodetection]
 Zapnout detekci UTF-8
 [Add server]
 Přidat server
@@ -421,10 +421,10 @@ Odeslána žádost o reverzní přenos souborů pomocí DCC -> %s [%s]
 Odeslána žádost o přenos souborů pomocí DCC -> %s [%s]
 [DCC ERROR: Unable to bind local port]
 Chyba DCC: Nelze navázat spojení na požadovaném lokálním portu
-[The protocol is not online]
-Protokol není ve stavu online
 [The dcc chat connection is not active]
 Privátní diskuse není aktivní
+[The protocol is not online]
+Protokol není ve stavu online
 [Please choose an IRC-network to go online. This network will be the default.]
 Do stavu online přejdete po výběru sítě serverů IRC. Tato síť bude nastavena jako výchozí.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]

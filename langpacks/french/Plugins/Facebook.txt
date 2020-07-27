@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.3
+;  Version: 0.1.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -22,6 +22,10 @@ Contacts
 Groupes :
 [Keep messages as unread on server]
 Conserver les messages comme non lus sur le serveur
+[Use invisible mode after login]
+
+[Load also Messenger contacts at login (not only Facebook friends)]
+
 [Group chats]
 Groupe chats
 [Enable group chats]

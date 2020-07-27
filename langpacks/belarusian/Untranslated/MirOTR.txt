@@ -1,4 +1,6 @@
 [don't rely on the prefix, always check the OTR status icon]
+[Set OTR policy per account]
+[Generating new private key for account '%s'.\nPlease Wait...]
 [\nusing older protocol version %i]
 [Attempting to start a private conversation...]
 [An error occurred when encrypting your message.\nThe message was not sent]

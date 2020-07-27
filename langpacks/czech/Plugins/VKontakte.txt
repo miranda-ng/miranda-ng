@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.10.0
+;  Version: 0.1.11.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -151,10 +151,6 @@ Vždy upozornit všechny příchozí zprávy jako nepřečtené
 [as audio status only]
 
 [as regular status only]
-
-[Group chats]
-Skupinové rozhovory
-[Message for return to group chat:]
 
 [Login settings]
 
@@ -307,16 +303,22 @@ Fotka
 Přílohy:
 [Audio]
 Audio
+[Audio message]
+
+[Transcription]
+
+[Graffiti]
+
 [Video]
 Video
 [Link]
 Adresa
-[Audio message]
-
 [Document]
 Dokument
 [Wall post]
 Příspěvek na zdi
+[Story]
+
 [Product]
 
 [Price]
@@ -592,9 +594,6 @@ Upozornění
 [Waiting...]
 ČEKÁNÍ...
 [Enter new status message]
-
-;file \protocols\VKontakte\src\vk_struct.cpp
-[I'm back]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]

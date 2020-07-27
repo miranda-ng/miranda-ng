@@ -126,8 +126,8 @@ ID користувача
 Повідомлення виходу:
 [Server code page:]
 Кодова сторінка сервера:
-[Enable UTF8 autodetection]
-Увімкнути автоматичне UTF8
+[Enable UTF-8 autodetection]
+Увімкнути автоматичне UTF-8
 [Add server]
 Додати сервер
 [Auto]
@@ -421,10 +421,10 @@ DCC-запит на реверсну передачу надісланий %s [%
 DCC-запит на передачу файлу надісланий %s [%s]
 [DCC ERROR: Unable to bind local port]
 Помилка DCC: Неможливо отримати порт
-[The protocol is not online]
-Протокол не в мережі
 [The dcc chat connection is not active]
 З'єднання DCC-чату неактивне
+[The protocol is not online]
+Протокол не в мережі
 [Please choose an IRC-network to go online. This network will be the default.]
 Виберіть мережу IRC. Ця мережа буде встановлена за замовчанням.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]

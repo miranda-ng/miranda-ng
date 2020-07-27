@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.9
+;  Version: 0.9.1.10
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -160,20 +160,10 @@ Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
 Tímto odstraníte celou historii a nastavení kontaktu!
-[Hide offline users]
-Skrýt uživatele offline
-[Hide empty groups]
-Skrýt prázdné skupiny
-[Disable groups]
-Vypnout skupiny
-[Ask before deleting contacts]
-Potvrdit smazání kontaktů
-[Don't move offline user to bottom]
-Kontakty offline nepřesouvat na konec
-[Contact list]
-Seznam kontaktů
 [Contact list sorting]
 Řazení seznamu kontaktů
+[Don't move offline user to bottom]
+Kontakty offline nepřesouvat na konec
 [1st:]
 1)
 [2nd:]
@@ -182,8 +172,8 @@ Seznam kontaktů
 3)
 [Place offline users out of groups]
 Kontakty offline umístit mimo skupiny
-[Gamma correction]
-Gama korekce
+[Selection mode]
+Způsob výběru
 [Default]
 Výchozí
 [Full selection]
@@ -192,8 +182,8 @@ Celý řádek
 Část řádku
 [No selection]
 Bez výběru
-[Selection mode]
-Způsob výběru
+[Gamma correction]
+Gama korekce
 [Bring to front if covered]
 Při překrytí přenést do popředí
 [Hide contact list after]
@@ -258,8 +248,6 @@ Zobrazit výběr i tehdy, není-li seznam aktivní
 Zobrazit vybrané položky průhledně
 [Dim idle contacts]
 Zešednout neaktivní kontakty
-['Hide offline' means to hide:]
-'Skrýt offline' znamená skrytí:
 [Groups]
 Skupiny
 [Draw a line alongside group names]
@@ -630,6 +618,8 @@ Změna metakontaktu (přesun)
 Skiny
 [Modern contact list]
 Moderní seznam kontaktů
+[Contact list]
+Seznam kontaktů
 [Avatar overlay]
 Překrytí avataru
 [Status overlay]
@@ -893,6 +883,8 @@ Vyhledat uživatele
 Zobrazit/skrýt skupiny
 [Use groups]
 Zapnout skupiny
+[Disable groups]
+Vypnout skupiny
 [Enable/Disable sounds]
 Povolit/zakázat zvuky
 [Enable sounds]

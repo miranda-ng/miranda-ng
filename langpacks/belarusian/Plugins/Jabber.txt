@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -76,6 +76,8 @@ TLS
 Падтрымліваць злучэнне
 [Automatically delete contacts not in my roster]
 Аўтаматычна выдаляць кантакты, якія не ў спісе
+[History recording mode]
+
 [Language for human-readable resources:]
 Мова для бачных чалавеку рэсурсаў:
 [File Transfer]
@@ -90,10 +92,8 @@ TLS
 Нататка:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Адключыце ўсе опцыі, калі ў вас праблемы з адпраўкай файлаў. Могуць з'явіцца праблемы з перадачай вялікіх файлаў.
-[Jabber account registration]
-Рэгістрацыя конту Jabber
-[Jabber Form]
-Jabber форма
+[Account registration]
+Рэгістрацыя конту
 [Instruction:]
 Інструкцыя:
 [Submit]
@@ -411,8 +411,8 @@ XML Кансоль
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Рэгістрацыя агента Jabber
-[No message]
-Няма паведамлення
+[Registration successful]
+Рэгістрацыя паспяхова пройдзена
 [Register]
 Рэгістрацыя
 [Please wait...]
@@ -500,6 +500,8 @@ xHTML фармат чат-паведамленняў
 Захоўванне XML (для закладак і інш.)
 [Supports attention requests ('nudge')]
 Падтрымка абестак увагі ('nudge')
+[Support Message Archive Management (XEP-0313)]
+
 [Supports chat history retrieving]
 
 [Supports chat history management]
@@ -688,22 +690,6 @@ Jabber памылка
 ;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 затрымка запыту.
-[Node hierarchy]
-Іерархія вузла
-[Node]
-Вузел
-[Navigate]
-пераход
-[Browse all favorites]
-Агляд абранага
-[Remove all favorites]
-Выдаліць усё абранае
-[Registered transports]
-Транспарты
-[Browse local transports]
-Агляд лакальных транспартаў
-[Browse chatrooms]
-Агляд чатаў
 [Contact Menu...]
 Меню кантакту...
 [View vCard]
@@ -738,6 +724,22 @@ Jabber памылка
 Скапіраваць імя
 [Copy node information]
 Скапіраваць інфармацыю
+[Node hierarchy]
+Іерархія вузла
+[Node]
+Вузел
+[Navigate]
+пераход
+[Browse all favorites]
+Агляд абранага
+[Remove all favorites]
+Выдаліць усё абранае
+[Registered transports]
+Транспарты
+[Browse local transports]
+Агляд лакальных транспартаў
+[Browse chatrooms]
+Агляд чатаў
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 
@@ -755,6 +757,9 @@ Jabber памылка
 
 [Items request error]
 
+;file \protocols\JabberG\src\jabber_ft.cpp
+[No compatible file transfer mechanism exists]
+Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Памылка запыту спісу чатаў.
@@ -874,8 +879,6 @@ Jabber памылка
 Аутэнтыфікацыя не прайшла для %s.
 [Authentication]
 Аўтэнтыфікацыя
-[Registration successful]
-Рэгістрацыя паспяхова пройдзена
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Пароль паспяхова зменены. Не забудзьцеся абнавіць Ваш пароль у наладах Конта Jabber.
 [Password cannot be changed.]
@@ -883,6 +886,8 @@ Jabber памылка
 [Jabber Bookmarks Error]
 Памылка закладак Jabber
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Conference Room Configuration]
+
 [%s, %d items (%s)]
 %s, %d пункта(ў) (%s)
 [Reason to ban]
@@ -1356,6 +1361,12 @@ Jabber Рэсурс
 Чжуан
 [Zulu]
 Зулускі
+[Never]
+Не выкарыстоўваць
+[Roster]
+
+[Always]
+Заўсёды
 [These changes will take effect the next time you connect to the Jabber network.]
 Змены будуць ужытыя пры наступным уваходзе ў Jabber.
 [Jabber Protocol Option]
@@ -1390,9 +1401,13 @@ Jabber Рэсурс
 Прымаць нататкі
 [Automatically save received notes]
 Аўтаматычна захоўваць прынятыя нататкі
+[Inline pictures in messages (XEP-0231)]
+
+[Enable chat states sending (XEP-0085)]
+
 [Enable server-side history (XEP-0136)]
 Уключыць гісторыю на серверы (XEP-0136)
-[Receive conversations from other devices (XEP-0280)]
+[Enable carbon copies (XEP-0280)]
 
 [Use Stream Management (XEP-0198) if possible (Testing)]
 
@@ -1418,8 +1433,8 @@ Jabber Рэсурс
 Выключыць фрэйм
 [Enable XMPP link processing (requires AssocMgr)]
 Апрацоўваць XMPP спасылкі (патрабуецца плагін "AssocMgr")
-[Keep contacts assigned to local groups (ignore roster group)]
-Выкарыстоўваць лакальныя гурты (ігнараваць гурты росцеру)
+[Ignore server roster (groups and nick names)]
+
 [Security]
 Бяспека
 [Allow servers to request version (XEP-0092)]
@@ -1621,8 +1636,6 @@ S.ms
 [List Editor...]
 Рэдактар спісаў...
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer mechanism exists]
-Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
 [Protocol is offline or no JID]
 Конт не далучаны ці няма JID.
 [No valid OMEMO session exists]
@@ -1705,8 +1718,8 @@ S.ms
 Загрузка...
 [Connecting...]
 Далучэнне...
-[XML for MS Excel (UTF-8 encoded)]
-XML для MS Excel (кадзіроўка UTF-8)
+[XML (UTF-8 encoded)]
+XML (кадзіроўка UTF-8)
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 
@@ -1755,6 +1768,8 @@ XML для MS Excel (кадзіроўка UTF-8)
 [Authentication failed for %s@%s.]
 
 [Message redirected from: %s\r\n]
+
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
 
 [Registration canceled]
 

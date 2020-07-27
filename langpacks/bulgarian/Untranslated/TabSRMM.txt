@@ -46,6 +46,7 @@
 [Group In (Inner)]
 [Group Out (Inner)]
 [Error message]
+[Save file|Unable to save temporary file]
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 [File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]

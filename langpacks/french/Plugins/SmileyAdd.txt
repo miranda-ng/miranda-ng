@@ -28,13 +28,13 @@ Aperçu
 Ne remplacer que les smileys entouré d'espace
 [Scale smiley to text height]
 Smileys à l'échelle du texte
-[Disable custom smileys]
-Désactiver les smileys personalisés
+[Disable stickers]
+
 [High quality smiley scaling]
 
 [Animate]
 Animés
-[Maximum 'Custom smiley' height]
+[Maximum sticker height]
 
 [Minimum smiley height]
 

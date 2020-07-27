@@ -38,8 +38,6 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Кліенты IRC
 [Jabber clients]
 Кліенты Jabber
-[MSN clients]
-Кліенты MSN
 [RSS clients]
 Кліенты RSS
 [VKontakte clients]
@@ -111,8 +109,6 @@ JGmail
 JGTalk
 [Jabber overlay]
 Jabber
-[MSN overlay]
-MSN
 [VK overlay]
 
 [Skype overlay]

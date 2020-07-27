@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.6.6
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -56,8 +56,8 @@ Steam hra
 Chci hrát
 [ (Non-Steam)]
  (Non-Steam)
-[ on server %s]
- na serveru %s
+[ on server %S]
+ na serveru %S
 [Playing]
 Hraje
 [%s is back in your contact list]

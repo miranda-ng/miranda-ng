@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.5
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -121,6 +121,8 @@ Hovor ukončen (%s)
 Přenos souboru:\n\tNázev souboru: %s \n\tVelikost: %lld bajtů \n
 [Preview]
 Náhled
+[Full image]
+
 [Unknown event, please send this text for developer: "%s"]
 Neznámá událost, odešlete prosím tento text vývojáři: "%s"
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
@@ -128,8 +130,6 @@ Neznámá událost, odešlete prosím tento text vývojáři: "%s"
 Ikona protokolu
 [Create new chat icon]
 Ikona vytvoření nového chatu
-[Sync history icon]
-Ikona synchronizace historie
 [Block user icon]
 Ikona blokování uživatele
 [Unblock user icon]
@@ -154,8 +154,6 @@ Příliš mnoho neúspěšných pokusů o ověření pro dané uživatelské jm�
 [Authentication failed. Unknown error.]
 Ověření selhalo. Neznámá chyba.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Get server history]
-Načíst historii ze serveru
 [Block contact]
 Zablokovat kontakt
 [Unblock contact]
@@ -169,9 +167,6 @@ Nemůžete odesílat zprávy ve stavu offline.
 Neznámá chyba!
 [Network error!]
 Chyba sítě!
-;file \protocols\SkypeWeb\src\skype_mslogin.cpp
-[Enter confirmation code]
-Zadejte potvrzovací kód
 ;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 %s - spojení se serverem
@@ -190,6 +185,3 @@ Hovory
 
 [Skypename]
 Skype jméno
-;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call from %s]
-Příchozí hovor (%s)

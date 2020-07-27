@@ -85,7 +85,7 @@
 Значення
 [Use LastResult]
 Використ. останній результат
-[UTF8 encoding]
+[UTF-8 encoding]
 В кодуванні UTF-8
 [Function call]
 Виклик функції
@@ -757,7 +757,7 @@ wParam в ANSI
 0 якщо невдало
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
 
-[display birthdays window]
+[Display birthdays window]
 
 [Manage Jabber Bookmarks]
 Керує закладками Jabber

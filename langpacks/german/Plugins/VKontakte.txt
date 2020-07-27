@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.10.0
+;  Version: 0.1.11.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -152,10 +152,6 @@ Als regulärer Status für unbekannte Musik, sonst Audiostatus
 Nur als Audiostatus
 [as regular status only]
 Nur als regulärer Status
-[Group chats]
-Gruppenchats
-[Message for return to group chat:]
-Nachricht beim Zurückkehren ins Gruppenchat:
 [Login settings]
 Anmeldeeinstellungen
 [Local settings]
@@ -307,16 +303,22 @@ Foto
 Anhänge:
 [Audio]
 Audio
+[Audio message]
+Audio-Nachricht
+[Transcription]
+
+[Graffiti]
+
 [Video]
 Video
 [Link]
 Link
-[Audio message]
-Audio-Nachricht
 [Document]
 Dokument
 [Wall post]
 Pinnwandeintrag
+[Story]
+
 [Product]
 Produkt
 [Price]
@@ -593,9 +595,6 @@ Lade Statusnachricht von vk.com.\nDies kann einige Zeit dauern.
 Warten...
 [Enter new status message]
 Neue Statusnachricht eingeben
-;file \protocols\VKontakte\src\vk_struct.cpp
-[I'm back]
-Ich bin zurück
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
 Dienstnachricht

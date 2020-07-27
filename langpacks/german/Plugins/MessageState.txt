@@ -2,15 +2,25 @@
 ;============================================================
 ;  File: MessageState.dll
 ;  Plugin: Message state
-;  Version: 0.0.1.0
+;  Version: 0.1.0.2
 ;  Authors: MikalaiR
 ;============================================================
 [Displays icons in message window showing whether your last outgoing message was read / is still unread.]
 Zeigt mit einem Icon im Nachrichtenfenster ob Ihre Nachricht schon gelesen wurde oder noch ungelesen ist
-;file \plugins\MessageState\src\clist_extra.cpp
+;file \plugins\MessageState\src\messagestate.cpp
+[Last message read at %X %x]
+Letzte Nachricht gelesen um %X %x
+[Last message read]
+Letzte Nachricht gelesen
+[Last message is not read]
+Letzte Nachricht ist ungelesen
+[Last message was not sent]
+Letzte Nachricht wurde nicht gesendet
+[Sending...]
+Sende...
 [MessageState unread extra icon]
 MessageState-Ungelesen-Icon
-;file \plugins\MessageState\src\messagestate.cpp
+;file \plugins\MessageState\src\services.cpp
 [Unread message icon]
 Nachricht-ungelesen-Icon
 [Read message icon]
@@ -21,15 +31,3 @@ Senden-fehlgeschlagen-Icon
 Nachricht-senden-Icon
 [Unread clist extra icon]
 Ungelesen-Kontaktlistenicon
-[Last message is not read]
-Letzte Nachricht ist ungelesen
-[Last message read]
-Letzte Nachricht gelesen
-[Last message was not sent]
-Letzte Nachricht wurde nicht gesendet
-[Sending...]
-Sende...
-[Last message read at %X %x]
-Letzte Nachricht gelesen um %X %x
-[Last message read (unknown time)]
-Letzte Nachricht gelesen (unbekannte Zeit)

@@ -1,4 +1,6 @@
 [Use per protocol global smiley packs]
+[Disable stickers]
+[Maximum sticker height]
 [Horizontal sorting]
 [Smiley packs' folder]
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]

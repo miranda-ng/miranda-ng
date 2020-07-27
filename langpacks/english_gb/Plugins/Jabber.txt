@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Favorites]
@@ -15,12 +15,12 @@ If you wish to confirm this request, please click authorise. Otherwise, press de
 Authorise
 [Supports stream initiation (e.g., for filetransfers)]
 Supports stream initiation (e.g. for filetransfers)
+[Add to favorites]
+Add to favourites
 [Browse all favorites]
 Browse all favourites
 [Remove all favorites]
 Remove all favourites
-[Add to favorites]
-Add to favourites
 [Automatically add contact when accept authorization]
 Automatically add contact when accept authorisation
 [Automatically accept authorization requests]

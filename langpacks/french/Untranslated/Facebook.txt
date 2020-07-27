@@ -1,3 +1,5 @@
+[Use invisible mode after login]
+[Load also Messenger contacts at login (not only Facebook friends)]
 [Enable group chats]
 [Do not open chat windows on creation]
 [&Invite a user]

@@ -6,7 +6,7 @@
 [INI file name]
 [Section]
 [Use LastResult]
-[UTF8 encoding]
+[UTF-8 encoding]
 [Argument]
 [Param type]
 [Ansi message]

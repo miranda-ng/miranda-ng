@@ -85,7 +85,7 @@ Notes
 Valeur
 [Use LastResult]
 
-[UTF8 encoding]
+[UTF-8 encoding]
 
 [Function call]
 
@@ -757,7 +757,7 @@ Vérifier la présence de mises à jour
 
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
 
-[display birthdays window]
+[Display birthdays window]
 
 [Manage Jabber Bookmarks]
 

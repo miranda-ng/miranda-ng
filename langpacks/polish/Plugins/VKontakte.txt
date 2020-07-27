@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.10.0
+;  Version: 0.1.11.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -152,10 +152,6 @@ Jako zwykły status dla muzyki nieznanej, w przeciwnym razie status audio
 Tylko jako status audio
 [as regular status only]
 Tylko jako zwykły status
-[Group chats]
-Rozmowy grupowe
-[Message for return to group chat:]
-Wiadomość po powrocie do czatu grupowego:
 [Login settings]
 Opcje logowania
 [Local settings]
@@ -307,16 +303,22 @@ Zdjęcie
 Załączniki:
 [Audio]
 Audio
+[Audio message]
+
+[Transcription]
+
+[Graffiti]
+
 [Video]
 Wideo
 [Link]
 Link
-[Audio message]
-
 [Document]
 Dokument
 [Wall post]
 Post na tablicy
+[Story]
+
 [Product]
 Produkt
 [Price]
@@ -593,9 +595,6 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na 
 Oczekiwanie...
 [Enter new status message]
 Wprowadź nowy opis
-;file \protocols\VKontakte\src\vk_struct.cpp
-[I'm back]
-Wróciłam(-łem)
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
 

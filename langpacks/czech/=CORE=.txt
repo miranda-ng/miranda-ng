@@ -66,14 +66,6 @@ Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
 Tímto odstraníte celou historii a nastavení kontaktu!
-[Hide offline users]
-Skrýt uživatele offline
-[Hide empty groups]
-Skrýt prázdné skupiny
-[Disable groups]
-Vypnout skupiny
-[Ask before deleting contacts]
-Potvrdit smazání kontaktů
 [Sort contacts by name]
 Řadit kontakty dle jména
 [Sort contacts by status]
@@ -100,14 +92,14 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[Contact list]
-Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovací oblasti při použití více protokolů
 [Contact list sorting]
 Řazení seznamu kontaktů
+[Don't move offline user to bottom]
+Kontakty offline nepřesouvat na konec
 [Window]
 Okno
 [Always on top]
@@ -170,8 +162,6 @@ Zobrazit výběr i tehdy, není-li seznam aktivní
 Zobrazit vybrané položky průhledně
 [Dim idle contacts]
 Zešednout neaktivní kontakty
-['Hide offline' means to hide:]
-'Skrýt offline' znamená skrytí:
 [Groups]
 Skupiny
 [Draw a line alongside group names]
@@ -196,10 +186,10 @@ Rolovat seznam kontaktů plynule
 Čas:
 [milliseconds]
 ms
-[Left margin:]
-Levý okraj:
 [Hide vertical scroll bar]
 Skrýt svislý posuvník
+[Left margin:]
+Levý okraj:
 [Row height:]
 Výška řádku:
 [Gamma correction]
@@ -1104,6 +1094,8 @@ Nastavit jako výchozí a otevřít kom. okno
 Zobrazit kontextovou nabídku kontaktu
 [Show user information]
 Zobrazit informace o uživateli
+[Contact list]
+Seznam kontaktů
 [Display subcontact nickname]
 Zobrazit přezdívku podkontaktu
 [Display subcontact display name]
@@ -1152,6 +1144,18 @@ Zpráva o zařazení mezi kontakty
 O programu Miranda NG
 [Credits >]
 Poděkování >
+[Hide offline users]
+Skrýt uživatele offline
+[Hide empty groups]
+Skrýt prázdné skupiny
+[Enable groups]
+Povolit skupiny
+[Ask before deleting contacts]
+Potvrdit smazání kontaktů
+[Remove temporary contacts on exit]
+
+['Hide offline' means to hide:]
+'Skrýt offline' znamená skrytí:
 [Hidden window]
 
 [Tray]
@@ -1246,6 +1250,7 @@ Nečinnost
 Přečíst &automatickou odpověď
 [Re&ad status message]
 Přečíst stavovou zprávu
+;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Jsem pryč od %time%
@@ -1310,6 +1315,8 @@ Pozadí seznamu
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Globální
+[General]
+Obecné
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
@@ -1654,8 +1661,6 @@ Možnosti zobrazení ikon v záznamu komunikace
 Možnosti zobrazení ikon v oznamovací oblasti
 [Popups to display]
 Zobrazit oznámení
-[General]
-Obecné
 [Chat log]
 Záznam diskuse
 [Chat]
@@ -2012,10 +2017,10 @@ Změna přezdívky: %s -> %s
 Změna vlastní přezdívky: %s
 [%s kicked %s]
 Vykopnutí: %s -> %s
-[Notice from %s: ]
-Poznámka od %s:\s
-[The topic is '%s%s']
-Aktuální téma: '%s%s'
+[Notice from %s]
+Poznámka od %s
+[The topic is '%s']
+Aktuální téma: %s
 [ (set by %s on %s)]
  (nastavil %s na %s)
 [ (set by %s)]
@@ -2091,8 +2096,6 @@ Změna tématu diskuse
 %s odešel (z %s)
 [%s kicked %s from %s]
 %s vykopnul %s (z %s)
-[Notice from %s]
-Poznámka (napsal: %s)
 [Topic change in %s]
 Změna tématu na %s
 [Information in %s]
@@ -2101,28 +2104,10 @@ Informace (na %s)
 %s aktivuje stav '%s' pro %s v %s
 [%s disables '%s' status for %s in %s]
 %s aktivuje stav '%s' pro %s v %s
-[%s says: %s]
-%s píše: %s
-[%s has left (%s)]
-%s odešel (%s)
-[%s has disconnected (%s)]
-%s se odpojil (%s)
-[%s kicked %s (%s)]
-%s vykopnul %s (%s)
-[Notice from %s: %s]
-Poznámka od %s: %s
-[The topic is '%s']
-Aktuální téma: %s
-[The topic is '%s' (set by %s)]
-Aktuální téma: %s (nastavil %s)
+[%s says]
+%s píše
 [Chat rooms]
 Místnosti chatu
-[Look up '%s':]
-Vyhledat '%s':
-[No word to look up]
-Není co vyhledat
-[&Message %s]
-&Zpráva pro '%s'
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2142,6 +2127,9 @@ Tato skupina
 Připojování
 [Connecting (attempt %d)]
 Připojování (pokus č.%d)
+;file \src\mir_app\src\clistopts.cpp
+[Common]
+Obecné
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
@@ -2371,6 +2359,8 @@ Zobrazit nebo skrýt kontakty
 Přečíst zprávu
 [Open Options page]
 Okno pro nastavení
+[Toggle groups]
+Přepnout skupiny
 [Open logging options]
 Otevřít záznam
 [Open 'Find user' dialog]
@@ -2628,6 +2618,15 @@ Změněno
 Seznam profilů
 [New profile]
 Nový profil
+;file \src\mir_app\src\proto_interface.cpp
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[Revoke authorization]
+Odvolat autorizaci
+[Load server history]
+
 ;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 POZOR!!! Vybraný účet bude smazán. V důsledku to znamená, že bude odstraněn seznam kontaktů daného protokolu, historie i nastavení.\n\nOpravdu chcete smazat vybraný účet?
@@ -2682,13 +2681,6 @@ Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
 [&Accounts...]
 Účt&y...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_utils.cpp
-[Request authorization]
-Požádat o autorizaci
-[Grant authorization]
-Udělit autorizaci
-[Revoke authorization]
-Odvolat autorizaci
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
@@ -2788,6 +2780,8 @@ Soubory WAV
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[&Message %s]
+&Zpráva pro '%s'
 [Nickname]
 Přezdívka
 [Unique ID]
@@ -2795,6 +2789,11 @@ Identifikátor
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 
+;file \src\mir_app\src\srmm_log_rtf.cpp
+[Look up '%s':]
+Vyhledat '%s':
+[No word to look up]
+Není co vyhledat
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <oddělovač>

@@ -8,42 +8,6 @@
 [A contact list for blind folks.]
 Kontaktliste für blinde oder sehbehinderte Menschen.
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete contact]
-Kontakt löschen
-[Are you sure you want to delete %s?]
-Soll Kontakt %s wirklich gelöscht werden ?
-[This will erase all history and settings for this contact!]
-Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
-[Yes]
-Ja
-[No]
-Nein
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
-[Hotkeys]
-Hotkeys
-[Show/Hide:]
-Zeigen/Verstecken:
-[Read message:]
-Nachricht lesen:
-[Web search:]
-Web-Suche:
-[URL:]
-URL:
-[Open in new browser window]
-In neuem Browserfenster öffnen
-[Show options]
-Einstellungen anzeigen
-[Hide offline users]
-Offline-Kontakte ausblenden
-[Hide empty groups]
-Leere Gruppen ausblenden
-[Disable groups]
-Gruppenfunktion ausschalten
-[Ask before deleting contacts]
-Vor Löschen von Kontakten fragen
 [Sort contacts by name]
 Kontakte nach Name sortieren
 [Sort contacts by status]
@@ -70,8 +34,6 @@ Sekunden, wenn Status unterschiedlich
 Mehrere Icons anzeigen
 [Only when statuses differ]
 Nur, wenn Status untersch.
-[Contact list]
-Kontaktliste
 [System tray icon]
 Systemtray-Icon
 [System tray icon when using multiple protocols]
@@ -122,10 +84,6 @@ Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
 Schatten werfen (erfordert Neustart)
 [Pin to desktop]
 An den Desktop anheften
-[Items]
-Objekte
-['Hide offline' means to hide:]
-'Offline-Kontakte verstecken':
 [Groups]
 Gruppen
 [Show counts of number of contacts in a group]
@@ -167,30 +125,14 @@ Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
 ;file \plugins\Clist_blind\src\clcopts.cpp
-[Not focused]
-nicht fokussiert
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Abwesend
-[Not available]
-Außer Haus
-[Occupied]
-Beschäftigt
-[Do not disturb]
-Bitte nicht stören
-[Free for chat]
-Für Chat bereit
-[Invisible]
-Unsichtbar
 [Group: %name% %count% [%mode%]]
 Gruppe: %name% %count% [%mode%]
 [Divider: %s]
 Trennlinie: %s
 [Info: %s]
 Info: %s
+[Contact list]
+Kontaktliste
 [List]
 Liste
 ;file \plugins\Clist_blind\src\clistopts.cpp

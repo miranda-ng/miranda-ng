@@ -126,7 +126,7 @@ Wsparcie skryptowania
 Wiadomość przy wyjściu:
 [Server code page:]
 Kodowanie znaków:
-[Enable UTF8 autodetection]
+[Enable UTF-8 autodetection]
 Włącz autowykrywanie UTF-8
 [Add server]
 Dodaj serwer
@@ -421,10 +421,10 @@ Odwrócone żądanie DCC transferu plików wysłano do %s [%s]
 Żądanie DCC transferu plików wysłano do %s [%s]
 [DCC ERROR: Unable to bind local port]
 BŁĄD DCC: Nie można przypisać lokalnego portu
-[The protocol is not online]
-Protokół jest rozłączony
 [The dcc chat connection is not active]
 Rozmowa DCC CHAT jest nieaktywna
+[The protocol is not online]
+Protokół jest rozłączony
 [Please choose an IRC-network to go online. This network will be the default.]
 Proszę wybierz sieć IRC do podłączenia się. Ta sieć będzie domyślną.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]

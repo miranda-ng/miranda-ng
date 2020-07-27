@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -76,6 +76,8 @@ TLS
 Підтримувати з'єднання
 [Automatically delete contacts not in my roster]
 Автоматично видаляти контакти поза списком
+[History recording mode]
+
 [Language for human-readable resources:]
 Мова для видимих людині ресурсів:
 [File Transfer]
@@ -90,10 +92,8 @@ TLS
 !!!
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Вимкніть усі опції, якщо у вас проблеми з відправкою файлів. Можуть виникнути проблеми з передачею великих файлів.
-[Jabber account registration]
-Реєстрація облікового запису Jabber
-[Jabber Form]
-Форма Jabber
+[Account registration]
+Реєстрація облікового запису
 [Instruction:]
 Інструкція:
 [Submit]
@@ -411,8 +411,8 @@ Jabber Ad-Hoc команди на %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Реєстрація агента Jabber
-[No message]
-Немає повідомлень
+[Registration successful]
+Реєстрація пройшла успішно
 [Register]
 Реєстрація
 [Please wait...]
@@ -500,6 +500,8 @@ xHTML-формат повідомлень чату
 Зберігання XML (для закладок тощо)
 [Supports attention requests ('nudge')]
 Підтримка повідомлень уваги ("Тряска")
+[Support Message Archive Management (XEP-0313)]
+
 [Supports chat history retrieving]
 Підтримує отримання історії чату
 [Supports chat history management]
@@ -688,22 +690,6 @@ xHTML-формат повідомлень чату
 ;file \protocols\JabberG\src\jabber_disco.cpp
 [request timeout.]
 таймаут запиту.
-[Node hierarchy]
-Ієрархія вузла
-[Node]
-Вузол
-[Navigate]
-Перехід
-[Browse all favorites]
-Перегляд обраного
-[Remove all favorites]
-Видалити все обране
-[Registered transports]
-Транспорти
-[Browse local transports]
-Огляд локальних транспортів
-[Browse chatrooms]
-Огляд чат-кімнат
 [Contact Menu...]
 Меню контакту...
 [View vCard]
@@ -738,6 +724,22 @@ xHTML-формат повідомлень чату
 Копіювати ім'я
 [Copy node information]
 Копіювати інформацію
+[Node hierarchy]
+Ієрархія вузла
+[Node]
+Вузол
+[Navigate]
+Перехід
+[Browse all favorites]
+Перегляд обраного
+[Remove all favorites]
+Видалити все обране
+[Registered transports]
+Транспорти
+[Browse local transports]
+Огляд локальних транспортів
+[Browse chatrooms]
+Огляд чат-кімнат
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Ідентифікатори
@@ -755,6 +757,9 @@ xHTML-формат повідомлень чату
 
 [Items request error]
 
+;file \protocols\JabberG\src\jabber_ft.cpp
+[No compatible file transfer mechanism exists]
+Не знайдено жодного сумісного механізму передачі файлів
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Помилка запиту списку кімнат на сервері.
@@ -874,8 +879,6 @@ xHTML-формат повідомлень чату
 Аутентифікація не пройшла для %s.
 [Authentication]
 Аутентифікація
-[Registration successful]
-Реєстрація пройшла успішно
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Пароль успішно змінено. Не забудьте оновити пароль у налаштуваннях облікового запису Jabber.
 [Password cannot be changed.]
@@ -883,6 +886,8 @@ xHTML-формат повідомлень чату
 [Jabber Bookmarks Error]
 Помилка закладок Jabber
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
+[Conference Room Configuration]
+
 [%s, %d items (%s)]
 %s, %d пунктів (%s)
 [Reason to ban]
@@ -1356,6 +1361,12 @@ xHTML-формат повідомлень чату
 Чжуанська
 [Zulu]
 Зулуська
+[Never]
+Ніколи
+[Roster]
+
+[Always]
+Завжди
 [These changes will take effect the next time you connect to the Jabber network.]
 Зміни наберуть чинності при наступному вході в мережу Jabber.
 [Jabber Protocol Option]
@@ -1390,9 +1401,13 @@ xHTML-формат повідомлень чату
 Приймати нотатки
 [Automatically save received notes]
 Автоматично зберігати прийняті нотатки
+[Inline pictures in messages (XEP-0231)]
+
+[Enable chat states sending (XEP-0085)]
+
 [Enable server-side history (XEP-0136)]
 Увімкнути історію на сервері (XEP-0136) (тільки при підтримці на стороні сервера)
-[Receive conversations from other devices (XEP-0280)]
+[Enable carbon copies (XEP-0280)]
 
 [Use Stream Management (XEP-0198) if possible (Testing)]
 
@@ -1418,8 +1433,8 @@ xHTML-формат повідомлень чату
 Вимкнути фрейм
 [Enable XMPP link processing (requires AssocMgr)]
 Обробляти XMPP-посилання (потрібен плагін AssocMgr)
-[Keep contacts assigned to local groups (ignore roster group)]
-Використовувати локальні групи (ігнорувати групи ростеру)
+[Ignore server roster (groups and nick names)]
+
 [Security]
 Безпека
 [Allow servers to request version (XEP-0092)]
@@ -1621,8 +1636,6 @@ Hipchat
 [List Editor...]
 Редактор списків...
 ;file \protocols\JabberG\src\jabber_proto.cpp
-[No compatible file transfer mechanism exists]
-Не знайдено жодного сумісного механізму передачі файлів
 [Protocol is offline or no JID]
 Протокол не в мережі або JID немає
 [No valid OMEMO session exists]
@@ -1705,8 +1718,8 @@ Hipchat
 Отримання...
 [Connecting...]
 З'єднання...
-[XML for MS Excel (UTF-8 encoded)]
-XML для MS Excel (кодування UTF-8)
+[XML (UTF-8 encoded)]
+XML (кодування UTF-8)
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Помилка %s %s\r\nбудь ласка виберіть інший сервер
@@ -1755,6 +1768,8 @@ XML для MS Excel (кодування UTF-8)
 [Authentication failed for %s@%s.]
 Аутентифікація не пройшла для %s@%s.
 [Message redirected from: %s\r\n]
+
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
 
 [Registration canceled]
 

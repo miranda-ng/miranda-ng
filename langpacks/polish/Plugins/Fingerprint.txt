@@ -38,8 +38,6 @@ Klienty ICQ
 Klienty IRC
 [Jabber clients]
 Klienty Jabber
-[MSN clients]
-Klienty MSN
 [RSS clients]
 Klienty RSS
 [VKontakte clients]
@@ -111,8 +109,6 @@ Nakładka JGmail
 Nakładka JGTalk
 [Jabber overlay]
 Nakładka Jabber
-[MSN overlay]
-Nakładka MSN
 [VK overlay]
 Nakładka VK
 [Skype overlay]

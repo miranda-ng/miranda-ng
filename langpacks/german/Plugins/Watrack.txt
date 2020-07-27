@@ -373,8 +373,6 @@ Player
 "Variables" ANSI-Ausgabe
 [FPS (Frames per second)]
 FPS (Frames pro Sekunde)
-[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-Wenn Variables verwendet wird, wird der Wert in ANSI zurückgegeben (Standard ist UTF8)
 [Save settings in INI-file]
 Einstellungen in INI-Datei speichern
 [VBR or not]

@@ -373,8 +373,6 @@ lecteur
 
 [FPS (Frames per second)]
 FPS (images par seconde)
-[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-
 [Save settings in INI-file]
 Sauver les réglages dans un INI
 [VBR or not]

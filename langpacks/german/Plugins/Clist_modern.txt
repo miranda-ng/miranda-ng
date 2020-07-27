@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.9
+;  Version: 0.9.1.10
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -160,20 +160,10 @@ Unter Einstellungen -> Kontakte -> Ignorieren Kontakt wieder einblenden.
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
 Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
-[Hide offline users]
-Offline-Kontakte ausblenden
-[Hide empty groups]
-Leere Gruppen ausblenden
-[Disable groups]
-Gruppen deaktivieren
-[Ask before deleting contacts]
-Vor Löschen von Kontakten fragen
-[Don't move offline user to bottom]
-Offline-Kontakte nicht nach unten setzen
-[Contact list]
-Kontaktliste
 [Contact list sorting]
 Sortierung der Kontaktliste
+[Don't move offline user to bottom]
+Offline-Kontakte nicht nach unten setzen
 [1st:]
 1.:
 [2nd:]
@@ -182,8 +172,8 @@ Sortierung der Kontaktliste
 3.:
 [Place offline users out of groups]
 Offline-Kontakte außerhalb der Gruppen
-[Gamma correction]
-Gammakorrektur
+[Selection mode]
+Auswahlmodus
 [Default]
 Standard
 [Full selection]
@@ -192,8 +182,8 @@ Ganze Zeile
 Teilweise Auswahl
 [No selection]
 Keine Auswahl
-[Selection mode]
-Auswahlmodus
+[Gamma correction]
+Gammakorrektur
 [Bring to front if covered]
 Nach vorne bringen, wenn verdeckt
 [Hide contact list after]
@@ -258,8 +248,6 @@ Markierung immer anzeigen
 Transparente Markierung
 [Dim idle contacts]
 Inaktive Kontakte abblenden
-['Hide offline' means to hide:]
-'Offline-Kontakte verstecken':
 [Groups]
 Gruppen
 [Draw a line alongside group names]
@@ -630,6 +618,8 @@ Soll Kontakt '%s' aus Metakontakt '%s' entfernt und zu '%s' hinzugefügt werden?
 Skins
 [Modern contact list]
 Modern contact list
+[Contact list]
+Kontaktliste
 [Avatar overlay]
 Avatar-Overlay
 [Status overlay]
@@ -893,6 +883,8 @@ Benutzer finden
 Gruppen verwenden/deaktivieren
 [Use groups]
 Gruppen verwenden
+[Disable groups]
+Gruppen deaktivieren
 [Enable/Disable sounds]
 Klänge aktivieren/deaktivieren
 [Enable sounds]

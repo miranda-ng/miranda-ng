@@ -126,8 +126,8 @@ Support des scripts
 Message de départ :
 [Server code page:]
 Page de code du serveur :
-[Enable UTF8 autodetection]
-Auto-détection de l'UTF8
+[Enable UTF-8 autodetection]
+Auto-détection de l'UTF-8
 [Add server]
 Ajouter serveur
 [Auto]
@@ -421,10 +421,10 @@ Requête de transfert de fichier DCC inversé à %s [%s]
 Requête de transfert DCC envoyée à %s [%s]
 [DCC ERROR: Unable to bind local port]
 Erreur DCC : Impossible de joindre le port local
-[The protocol is not online]
-Le protocole n'est pas en ligne
 [The dcc chat connection is not active]
 La connexion de chat DCC est inactive
+[The protocol is not online]
+Le protocole n'est pas en ligne
 [Please choose an IRC-network to go online. This network will be the default.]
 Veuillez choisir un réseau IRC pour vous connecter. Il deviendra celui par défaut.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]

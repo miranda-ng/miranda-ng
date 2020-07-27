@@ -1172,6 +1172,8 @@ Okno zapisywania pliku zwróciło błąd: %d!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 Plik ini "%s",\ndo którego miały zostać zapisane dane kontaktu, nie mógł zostać otwarty.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+Plik ini "%s",\nz którego miały zostać odczytane dane kontaktu, nie mógł zostać otwarty.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Żaden z %d kontaktów zapisanych w pliku ini nie pasuje do wybranego kontaktu!\nNic nie zostanie zaimportowane.
 [Import complete]
@@ -1180,8 +1182,6 @@ Import zakończony
 Pewne podstawowe statystyki
 [Added %d of %d contacts stored in the ini-file.]
 Dodano %d z %d kontaktów zapisanych w pliku ini.
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-Plik ini "%s",\nz którego miały zostać odczytane dane kontaktu, nie mógł zostać otwarty.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Wszystkie kontakty
@@ -1196,6 +1196,8 @@ Nie można utworzyć pliku xml!\n%S
 Kontakt: %s (%S)
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 Parser nie jest w stanie załadować wizytówki XML "%s"\nBłąd: %d\nOpis: %s
+[File not found]
+
 [The selected file is no valid XMLCard]
 Wybrany plik nie jest prawidłową wizytówką XML
 [The version of the XMLCard is not supported by UserInfoEx]

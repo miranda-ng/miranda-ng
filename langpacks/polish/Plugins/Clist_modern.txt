@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.9
+;  Version: 0.9.1.10
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -160,20 +160,10 @@ Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
 To usunie wszystkie ustawienia i historię tego kontaktu!
-[Hide offline users]
-Ukryj rozłączonych
-[Hide empty groups]
-Ukryj puste grupy
-[Disable groups]
-Wyłącz grupy
-[Ask before deleting contacts]
-Pytaj przed usunięciem kontaktów
-[Don't move offline user to bottom]
-Nie przesuwaj rozłączonych na dół
-[Contact list]
-Lista kontaktów
 [Contact list sorting]
 Sortowanie kontaktów
+[Don't move offline user to bottom]
+Nie przesuwaj rozłączonych na dół
 [1st:]
 1:
 [2nd:]
@@ -182,8 +172,8 @@ Sortowanie kontaktów
 3:
 [Place offline users out of groups]
 Umieść rozłączonych poza grupami
-[Gamma correction]
-Korekcja Gamma
+[Selection mode]
+Tryb wyboru
 [Default]
 Domyślny
 [Full selection]
@@ -192,8 +182,8 @@ Pełne zaznaczenie
 Częściowe zaznaczenie
 [No selection]
 Brak zaznaczenia
-[Selection mode]
-Tryb wyboru
+[Gamma correction]
+Korekcja Gamma
 [Bring to front if covered]
 Przesuń na wierzch, jeśli zakryty
 [Hide contact list after]
@@ -258,8 +248,6 @@ Pokazuj zaznaczenie na nieaktywnej liście
 Przezroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
-['Hide offline' means to hide:]
-"Ukryj rozłączonych" tzn.:
 [Groups]
 Grupy
 [Draw a line alongside group names]
@@ -630,6 +618,8 @@ Zmiana metakontaktów (przesuwanie)
 Skórki
 [Modern contact list]
 Modern contact list
+[Contact list]
+Lista kontaktów
 [Avatar overlay]
 Otoczka awatara
 [Status overlay]
@@ -893,6 +883,8 @@ Szukaj kontaktu
 Włącz/Wyłącz grupy
 [Use groups]
 Pokaż grupy
+[Disable groups]
+Wyłącz grupy
 [Enable/Disable sounds]
 Włącz/Wyłącz dźwięki
 [Enable sounds]

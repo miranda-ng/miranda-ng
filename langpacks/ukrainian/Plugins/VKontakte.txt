@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.10.0
+;  Version: 0.1.11.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -152,10 +152,6 @@
 тільки як аудіостатус
 [as regular status only]
 тільки як звичайний статус
-[Group chats]
-Групові чати
-[Message for return to group chat:]
-Повідомлення при поверненні в чат
 [Login settings]
 Налаштування входу
 [Local settings]
@@ -307,16 +303,22 @@
 Вкладення:
 [Audio]
 Аудіо
+[Audio message]
+
+[Transcription]
+
+[Graffiti]
+
 [Video]
 Відео
 [Link]
 Посилання
-[Audio message]
-
 [Document]
 Документ
 [Wall post]
 Запис на стіні
+[Story]
+
 [Product]
 Товар
 [Price]
@@ -593,9 +595,6 @@ ID отримувача помилковий або невідомий
 Очікування...
 [Enter new status message]
 Введіть нове статусне повідомлення
-;file \protocols\VKontakte\src\vk_struct.cpp
-[I'm back]
-Я повернувся
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
 Сервісне повідомлення

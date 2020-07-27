@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.4
+;  Version: 3.1.2.5
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -30,8 +30,8 @@ Hinweis: 0 = unbegrenzt
 Zeitformat
 [Use JSON format for export]
 JSON-Format zum Export verwenden
-[Use UTF8 in new files]
-UTF8 in neuen Dateien verwenden
+[Use UTF-8 in new files]
+UTF-8 in neuen Dateien verwenden
 [Append extra new line]
 Leere Zeile einfügen
 [Use << and >>]
@@ -117,14 +117,14 @@ Wähle Zielverzeichnis
 Datei
 [Nick]
 Nick
-[Proto]
-Proto
-[UIN]
-UIN
+[Account]
+Konto
+[User ID]
+Nutzer-ID
 [No contacts found to export]
 Keine Kontakte zum exportieren gefunden
-[Export Protocols]
-Exportiere Protokolle
+[Export accounts]
+
 [Message export]
 Message Export
 [History]
@@ -179,8 +179,6 @@ Homepage
       Verlauf für
 [User]
 Benutzer
-[Protocol]
-Protokoll
 [File: ]
 Datei:\s
 [Description: ]

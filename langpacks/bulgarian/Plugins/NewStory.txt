@@ -1,0 +1,313 @@
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.1.0.2
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Прегледайте историята на разговорите в Miranda NG.
+;file \plugins\NewStory\res\resource.rc
+[Messages]
+Съобщения
+[Files]
+Файлове
+[URLs]
+
+[Total]
+Тотален
+[Incoming]
+Входящи
+[Outgoing]
+Изходящи
+[since]
+
+[till]
+
+[Group messages]
+Групиране на съобщенията
+[Log window]
+
+[Enable vertical scroll bar]
+
+[Draw window edge]
+
+[Template list:]
+
+[Edit template:]
+
+[Text preview:]
+
+[Graphic preview:]
+
+[Filter]
+Филтър
+[Show all events]
+Показване на всички събития
+[Show incoming events only]
+
+[Show outgoing events only]
+
+[Use custom filter...]
+
+[Incoming events]
+Входящи събития
+[Outgoing events]
+Изходящи събития
+[Show messages]
+Съобщение
+[Show file transfers]
+
+[Show URLs]
+
+[Show sign in/out events]
+
+[Show other events]
+
+[Auto search]
+
+[Log options]
+Настройки на дневника
+[Options]
+Настройки
+[Templates]
+Шаблони
+[Copy]
+Копиране
+[Edit]
+Редактиране
+[Delete]
+Изтриване
+[Select all]
+Избор - всичко
+;file \plugins\NewStory\src\fonts.cpp
+[Incoming messages]
+Входящите съобщения
+[Outgoing messages]
+Изходящи съобщения
+[Incoming files]
+Входящи файлове
+[Outgoing files]
+Изходящи файлове
+[Status changes]
+Промяна на състояние
+[Other incoming events]
+
+[Other outgoing events]
+
+[Selected item's text]
+
+[Selected item's background]
+
+[Selected item's frame]
+
+[Grid background]
+Фон на мрежата
+[Separator]
+Разделител
+[Incoming name]
+Входящо име
+[Outgoing name]
+Изходящо име
+;file \plugins\NewStory\src\history.cpp
+[FirstName]
+Име
+[LastName]
+Фамилия
+[e-mail]
+Имейл
+[Nick]
+Прякор
+[Age]
+Възраст
+[Gender]
+Пол
+[City]
+Град
+[State]
+Област
+[Phone]
+Телефон
+[Homepage]
+Домашна страница
+[About]
+Относно
+[History search results]
+
+[Export...]
+Износ...
+[Delete...]
+
+[Search...]
+
+[Send message]
+Изпращане на съобщение
+[Jump to date]
+
+[User info]
+Подробности за потребителя
+[User menu]
+Потребителско меню
+[Find next]
+
+[Find previous]
+
+[Conversations]
+Разговори
+[It is metacontact. For export use one of this subcontacts:\r\n%s]
+
+[Export warning]
+
+[JSON files]
+
+[Export %s history]
+
+[Complete]
+Завършен
+[History export]
+
+;file \plugins\NewStory\src\history_control.cpp
+[Are you sure to remove all events from history?]
+
+;file \plugins\NewStory\src\history_menus.cpp
+[User history]
+
+[Empty history]
+Изтриване на историята
+[System history]
+Системна история
+;file \plugins\NewStory\src\main.cpp
+[Main icon]
+Главна икона
+[Search]
+Търсене
+[Export]
+Износ
+[Incoming message]
+Входящо съобщение
+[Outgoing message]
+Изходящо съобщение
+[User signed in]
+
+[Unknown event]
+Неизвестно събитие
+[Template group]
+
+[Cancel edit]
+
+[Update preview]
+Обновяване
+[Help]
+Помощ
+;file \plugins\NewStory\src\options.cpp
+[Reset to default]
+Стандарт
+[Variables help]
+За променливите
+[Test contact]
+Тестови контакт
+[simply % character]
+
+[a "hard" line break (cr/lf - will break indent)]
+
+[my nickname]
+
+[buddy\'s nickname]
+
+[event count]
+Брой събития
+[icon]
+Икона
+[direction icon]
+
+[direction symbol]
+
+[timestamp]
+Времева марка
+[hour (24 hour format, 0-23)]
+
+[hour (12 hour format)]
+
+[minute]
+минута
+[second]
+
+[month]
+месец
+[day of month]
+
+[year (4 digits)]
+година(4 знака)
+[day of week (Sunday, Monday... translatable)]
+
+[AM/PM symbol]
+
+[name of month, translatable]
+
+[the message string itself]
+
+[History]
+История
+[Advanced]
+Разширени
+;file \plugins\NewStory\src\templates.cpp
+[Sunday]
+неделя
+[Monday]
+понеделник
+[Tuesday]
+вторник
+[Wednesday]
+сряда
+[Thursday]
+четвъртък
+[Friday]
+петък
+[Saturday]
+събота
+[January]
+януари
+[February]
+февруари
+[March]
+март
+[April]
+април
+[May]
+май
+[June]
+юни
+[July]
+юли
+[August]
+август
+[September]
+септември
+[October]
+октомври
+[November]
+ноември
+[December]
+декември
+[System event]
+
+[Interface]
+Интерфейс
+[Window title]
+
+[Message log]
+Дневник за съобщения
+[Grouped messages]
+
+[Presence requests]
+
+[Other events]
+Други събития
+[Authorization requests]
+
+['You were added' events]
+
+['You were deleted' events]
+
+[Clipboard]
+Клипборд

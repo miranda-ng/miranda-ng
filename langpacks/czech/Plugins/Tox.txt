@@ -149,13 +149,13 @@ Nelze otevřít profil Tox
 Nelze číst profil Tox
 [Unable to decrypt Tox profile]
 Nelze dešifrovat profil Tox
-[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
-
 [New password is empty]
 
 [New password is not equal to confirmation]
 
 [Old password is not valid]
+
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
 
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]

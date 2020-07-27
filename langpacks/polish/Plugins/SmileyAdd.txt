@@ -28,14 +28,14 @@ Wyświetlanie
 Zamień tylko emotikony oddzielone spacjami
 [Scale smiley to text height]
 Skaluj emotikony do wysokości tekstu
-[Disable custom smileys]
-Wyłącz niestandardowe emotikony
+[Disable stickers]
+
 [High quality smiley scaling]
 Skalowanie emotikon HQ
 [Animate]
 Animowane
-[Maximum 'Custom smiley' height]
-Maksymalna wysokość emotikon
+[Maximum sticker height]
+
 [Minimum smiley height]
 Minimalna wysokość emotikon
 [Smiley selector]

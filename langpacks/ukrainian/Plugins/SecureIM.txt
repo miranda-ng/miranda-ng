@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
-;  Version: 1.0.12.4
+;  Version: 1.0.12.6
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [SecureIM plugin for Miranda NG.]
@@ -40,8 +40,8 @@
 днів
 [Reset All]
 Скинути все
-[Protocols]
-Протоколи
+[Accounts]
+Облікові записи
 [Split Messages]
 Розділяти повідомлення
 [Online:]
@@ -50,12 +50,12 @@
 Не в мережі:
 [RSA Key]
 Ключ RSA
-[SHA1:]
-
+[SHA-1:]
+SHA-1:
 [Public]
 Публічний
-[&Copy SHA1]
-&Копія SHA1
+[&Copy SHA-1]
+&Копія SHA-1
 [E&xport]
 Е&кспорт
 [Private]
@@ -172,19 +172,23 @@ Secure IM вимкнено
 Імпорт відкритого ключа
 [Delete public key]
 Видалення відкритого ключа
-;file \plugins\SecureIM\src\language.cpp
-[SecureIM established...]
-Безпечне з'єднання встановлено...
+;file \plugins\SecureIM\src\crypt_dll.cpp
 [Key exchange failed...]
 Обмін ключами не відбувся
-[Key from disabled...]
-Ключ був відкинутий...
-[Sent back message received...]
-Зворотне повідомлення отримано...
-[Sending back secure message...]
-Відправка зворотного повідомлення...
+[SecureIM: Error while decrypting the message, bad message length.]
+SecureIM: Помилка при розшифровці повідомлення, неправильна довжина повідомлення.
+[SecureIM: Error while decrypting the message, bad message CRC.]
+SecureIM: Помилка при розшифровці повідомлення, неправильна контрольна сума повідомлення.
+[SecureIM: Error while decrypting the message.]
+SecureIM: Помилка розшифрування повідомлення.
+;file \plugins\SecureIM\src\crypt_misc.cpp
+[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
+Користувач не відповів на обмін ключами!\nВаше повідомлення знаходиться в черзі SecureIM, хочете відправити його незашифрованим?
+;file \plugins\SecureIM\src\crypt_popups.cpp
 [SecureIM disabled...]
 SecureIM вимкнений...
+[SecureIM established...]
+Безпечне з'єднання встановлено...
 [Sending key...]
 Відправка ключа...
 [Key received...]
@@ -193,140 +197,6 @@ SecureIM вимкнений...
 Відправка повідомлення...
 [Message received...]
 Повідомлення прийнято...
-[Encrypting file:]
-Шифрування файлу:
-[Decrypting file:]
-Розшифровка файлу:
-[Bad key received...]
-Прийнятий поганий ключ...
-[SecureIM: Error while decrypting the message.]
-SecureIM: Помилка розшифрування повідомлення.
-[SecureIM: Error while decrypting the message, bad message length.]
-SecureIM: Помилка при розшифровці повідомлення, неправильна довжина повідомлення.
-[SecureIM: Error while decrypting the message, bad message CRC.]
-SecureIM: Помилка при розшифровці повідомлення, неправильна контрольна сума повідомлення.
-[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
-Користувач не відповів на обмін ключами!\nВаше повідомлення знаходиться в черзі SecureIM, хочете відправити його незашифрованим?
-[SecureIM not enabled! You must enable SecureIM with this user...]
-SecureIM вимкнений! Ви повинні ввімкнути його для цього користувача...
-[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
-Неможливо надіслати зашифроване повідомлення!\nКористувач зараз не в мережі, і ключ шифрування застарів. Ви хочете відправити повідомлення?\nВоно буде відправлено незашифрованим!
-[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
-Плагін SecureIM не може бути завантажений, тому що бібліотека cryptopp.dll не знайдена або неправильної версії!
-[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-SecureIM не може завантажити ключ PGP/GPG! Перевірте налаштування PGP/GPG!
-[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
-SecureIM не може надіслати зашифроване повідомлення! Перевірте довіру до PGP/GPG ключа!
-[Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
-Неможливо надіслати зашифроване повідомлення!\nВи хочете відправити його?\nВоно буде відправлено незашифрованим!
-[Can't change mode! Secure connection established!]
-Неможливо змінити режим! Захищене з'єднання встановлено!
-[Can't export RSA private key!]
-Неможливо експортувати приватний ключ RSA!
-[Can't import RSA private key!]
-Неможливо імпортувати приватний ключ RSA!
-[Can't export RSA public key!]
-Неможливо експортувати публічний ключ RSA!
-[Can't import RSA public key!]
-Неможливо імпортувати публічний ключ RSA!
-[General]
-Загальне
-[Nickname]
-Нік
-[Name]
-Ім'я
-[Password is too short!]
-Пароль занадто короткий!
-[ON]
-Увімкнено
-[Off]
-Вимкнено
-[Keyrings loaded.]
-Keyrings завантажені.
-[Keyrings not loaded!]
-Keyrings не завантажені!
-[PGP SDK v%i.%i.%i found.]
-PGP SDK v%i.%i.%i знайдений.
-[PGP SDK not found!]
-PGP SDK не знайдено!
-[This version not supported!]
-Ця версія не підтримується!
-[(none)]
-(нічого)
-[Private key loaded.]
-Секретний ключ завантажений.
-[Private key not loaded!]
-Секретний ключ не завантажений!
-[The new settings will become valid when you restart Miranda NG!]
-Зміни набудуть чинності після перезапуску Miranda NG!
-[Keyrings disabled!]
-Keyrings відключені!
-[Native]
-Вбудований
-[Disabled]
-Вимкнено
-[Enabled]
-Увімкнено
-[Always try]
-Завжди намагатися
-[Create SecureIM connection]
-Створити з'єднання SecureIM
-[Disable SecureIM connection]
-Скасувати з'єднання SecureIM
-[Load PGP Key]
-Завантажити ключ PGP
-[Unload PGP Key]
-Вивантажити ключ PGP
-[Load GPG Key]
-Завантажити ключ GPG
-[Unload GPG Key]
-Вивантажити ключ GPG
-[Delete RSA Key]
-Видалити ключ RSA
-[SecureIM mode (Native)]
-Шифрування (за замовчанням)
-[SecureIM mode (PGP)]
-Шифрування (PGP)
-[SecureIM mode (GPG)]
-Шифрування (GPG)
-[SecureIM mode (RSA/AES)]
-Шифрування (RSA/AES)
-[SecureIM mode (RSA)]
-Шифрування (RSA)
-[SecureIM status (disabled)]
-SecureIM (вимкнений)
-[SecureIM status (enabled)]
-SecureIM (увімкнений)
-[SecureIM status (always try)]
-SecureIM (завжди намагатися)
-[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
-SecureIM: Вибачте, неможливо розшифрувати повідомлення, тому що PGP/GPG не встановлено. Відвідайте www.pgp.com або www.gnupg.org для отримання докладної інформації.
-[SecureIM received unencrypted message:\n]
-SecureIM: отримано незашифроване повідомлення:\n
-[SecureIM received encrypted message:\n]
-SecureIM: отримано зашифроване повідомлення:\n
-[Session closed by receiving incorrect message type]
-Сесія закрита, отримано неправильний тип повідомлення
-[Session closed by other side on error]
-Сесія закрита з тієї сторони з помилкою
-[Error while decoding AES message]
-Помилка при розшифровці AES-повідомлення
-[Error while decoding RSA message]
-Помилка при розшифровці RSA-повідомлення
-[Session closed on timeout]
-Сесія закрита по таймауту
-[Session closed by other side when status "disabled"]
-Сесія закрита іншою стороною, статус "Відключений"
-[Session closed on error: %02x]
-Сесія закрита з помилкою: %02x
-[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
-Отримано публічний ключ RSA від "%s"\n\nSHA1: %s\n\nПрийняти?
-[SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
-Автоматично прийнятий публічний ключ RSA від: %s UID: %s SHA1: %s
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?]
-Отримано новий публічний ключ RSA від "%s"\n\nНовий SHA1: %s\n\nСтарий SHA1: %s\n\nЗамінити ключ?
-[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
-Автоматично прийнятий публічний ключ RSA від: %s UIN: %s Новий SHA1: %s Старий SHA1: %s
 ;file \plugins\SecureIM\src\loadicons.cpp
 [Contact List]
 Список контактів
@@ -356,6 +226,10 @@ SecureIM: отримано зашифроване повідомлення:\n
 Відправлене захищене повідомлення
 [Menu State]
 Статус у меню
+[Disabled]
+Вимкнено
+[Enabled]
+Увімкнено
 [Always Try]
 Завжди намагатися
 [Overlays]
@@ -369,6 +243,26 @@ SecureIM: отримано зашифроване повідомлення:\n
 [RSA/AES mode]
 Режим RSA/AES
 ;file \plugins\SecureIM\src\main.cpp
+[SecureIM mode (Native)]
+Шифрування (за замовчанням)
+[SecureIM mode (PGP)]
+Шифрування (PGP)
+[SecureIM mode (GPG)]
+Шифрування (GPG)
+[SecureIM mode (RSA/AES)]
+Шифрування (RSA/AES)
+[SecureIM mode (RSA)]
+Шифрування (RSA)
+[SecureIM status (disabled)]
+SecureIM (вимкнений)
+[SecureIM status (enabled)]
+SecureIM (увімкнений)
+[SecureIM status (always try)]
+SecureIM (завжди намагатися)
+[Native]
+Вбудований
+[Always try]
+Завжди намагатися
 [SecureIM]
 Шифрування
 [Icons]
@@ -377,13 +271,23 @@ SecureIM: отримано зашифроване повідомлення:\n
 Вхідне шифроване повідомлення
 [Outgoing Secure Message]
 Вихідне шифроване повідомлення
+[Create SecureIM connection]
+Створити з'єднання SecureIM
+[Disable SecureIM connection]
+Скасувати з'єднання SecureIM
+[Load PGP Key]
+Завантажити ключ PGP
+[Unload PGP Key]
+Вивантажити ключ PGP
+[Load GPG Key]
+Завантажити ключ GPG
+[Unload GPG Key]
+Вивантажити ключ GPG
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
+Плагін SecureIM не може бути завантажений, тому що бібліотека cryptopp.dll не знайдена або неправильної версії!
 [SecureIM status]
 Статус шифрування
 ;file \plugins\SecureIM\src\options.cpp
-[Executable Files]
-Виконувані файли
-[Select GnuPG Executable]
-Вибір виконуваних GnuPG
 [ASC files]
 Файли ASC
 [All files]
@@ -398,8 +302,54 @@ SecureIM: отримано зашифроване повідомлення:\n
 Завантаження приватного ключа
 [Load Public Key File]
 Завантаження публічного ключа
+[Password is too short!]
+Пароль занадто короткий!
+[The new settings will become valid when you restart Miranda NG!]
+Зміни набудуть чинності після перезапуску Miranda NG!
+[Nickname]
+Нік
+[Account]
+Обліковий запис
+[User ID]
+ID користувача
+[Can't export RSA public key!]
+Неможливо експортувати публічний ключ RSA!
+[Can't import RSA public key!]
+Неможливо імпортувати публічний ключ RSA!
+[Name]
+Ім'я
+[Can't export RSA private key!]
+Неможливо експортувати приватний ключ RSA!
+[Can't import RSA private key!]
+Неможливо імпортувати приватний ключ RSA!
+[Keyrings disabled!]
+Keyrings відключені!
+[This version not supported!]
+Ця версія не підтримується!
+[Keyrings loaded.]
+Keyrings завантажені.
+[Keyrings not loaded!]
+Keyrings не завантажені!
+[Private key loaded.]
+Секретний ключ завантажений.
+[Private key not loaded!]
+Секретний ключ не завантажений!
+[PGP SDK v%i.%i.%i found.]
+PGP SDK v%i.%i.%i знайдений.
+[PGP SDK not found!]
+PGP SDK не знайдено!
+[(none)]
+(нічого)
+[Key ID]
+Ключ
+[Executable Files]
+Виконувані файли
+[Select GnuPG Executable]
+Вибір виконуваних GnuPG
 [Services]
 Служби
+[General]
+Загальне
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [Key Popup]
 Спливаюче вікно ключа
@@ -407,6 +357,55 @@ SecureIM: отримано зашифроване повідомлення:\n
 Спливаюче вікно безпеки
 [Message Popup]
 Спливаюче вікно повідомлення
+;file \plugins\SecureIM\src\svcs_menu.cpp
+[Can't change mode! Secure connection established!]
+Неможливо змінити режим! Захищене з'єднання встановлено!
+;file \plugins\SecureIM\src\svcs_proto.cpp
+[SecureIM received unencrypted message:\n]
+SecureIM: отримано незашифроване повідомлення:\n
+[Key from disabled...]
+Ключ був відкинутий...
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+SecureIM: Вибачте, неможливо розшифрувати повідомлення, тому що PGP/GPG не встановлено. Відвідайте www.pgp.com або www.gnupg.org для отримання докладної інформації.
+[SecureIM received encrypted message:\n]
+SecureIM: отримано зашифроване повідомлення:\n
+[Sending back secure message...]
+Відправка зворотного повідомлення...
+[Sent back message received...]
+Зворотне повідомлення отримано...
+[Bad key received...]
+Прийнятий поганий ключ...
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+SecureIM не може завантажити ключ PGP/GPG! Перевірте налаштування PGP/GPG!
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+SecureIM не може надіслати зашифроване повідомлення! Перевірте довіру до PGP/GPG ключа!
+[SecureIM not enabled! You must enable SecureIM with this user...]
+SecureIM вимкнений! Ви повинні ввімкнути його для цього користувача...
+[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
+Неможливо надіслати зашифроване повідомлення!\nКористувач зараз не в мережі, і ключ шифрування застарів. Ви хочете відправити повідомлення?\nВоно буде відправлено незашифрованим!
+;file \plugins\SecureIM\src\svcs_rsa.cpp
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA-1: %s Old SHA-1: %s]
+Автоматично прийнятий публічний ключ RSA від: %s UIN: %s Новий SHA-1: %s Старий SHA-1: %s
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA-1: %s]
+Автоматично прийнятий публічний ключ RSA від: %s UID: %s SHA-1: %s
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA-1: %s\n\nOld SHA-1: %s\n\nDo you Replace this Key?]
+Отримано новий публічний ключ RSA від "%s"\n\nНовий SHA-1: %s\n\nСтарий SHA-1: %s\n\nЗамінити ключ?
+[SecureIM received RSA Public Key from "%s"\n\nSHA-1: %s\n\nDo you Accept this Key?]
+Отримано публічний ключ RSA від "%s"\n\nSHA-1: %s\n\nПрийняти?
+[Session closed by receiving incorrect message type]
+Сесія закрита, отримано неправильний тип повідомлення
+[Session closed by other side on error]
+Сесія закрита з тієї сторони з помилкою
+[Error while decoding AES message]
+Помилка при розшифровці AES-повідомлення
+[Error while decoding RSA message]
+Помилка при розшифровці RSA-повідомлення
+[Session closed on timeout]
+Сесія закрита по таймауту
+[Session closed by other side when status "disabled"]
+Сесія закрита іншою стороною, статус "Відключений"
+[Session closed on error: %02x]
+Сесія закрита з помилкою: %02x
 ;file \plugins\SecureIM\src\svcs_srmm.cpp
 [SecureIM [Native]]
 Шифрування (за замовчанням)

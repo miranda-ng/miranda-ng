@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.9
+;  Version: 0.9.1.10
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -160,20 +160,10 @@
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
 Ще бъде изтрита изтрита историята и настройките за контакта!
-[Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide empty groups]
-Скриване на празните групи
-[Disable groups]
-Без групи
-[Ask before deleting contacts]
-Запитване преди изтриване на контакт
-[Don't move offline user to bottom]
-
-[Contact list]
-Списък с контакти
 [Contact list sorting]
 Сортиране на списъка с контакти по:
+[Don't move offline user to bottom]
+
 [1st:]
 1ви:
 [2nd:]
@@ -182,8 +172,8 @@
 3ти:
 [Place offline users out of groups]
 
-[Gamma correction]
-Корекция на гамата
+[Selection mode]
+Режим на маркиране
 [Default]
 Стандарт
 [Full selection]
@@ -192,8 +182,8 @@
 Частично маркиране
 [No selection]
 Без маркиране
-[Selection mode]
-Режим на маркиране
+[Gamma correction]
+Корекция на гамата
 [Bring to front if covered]
 Извеждане отпред, ако е покрит
 [Hide contact list after]
@@ -258,8 +248,6 @@ x100 ms
 Полупрозрачност на отличения текст
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
-['Hide offline' means to hide:]
-Скриване като извън линия:
 [Groups]
 Групи
 [Draw a line alongside group names]
@@ -630,6 +618,8 @@ ms между две мигания
 Облици
 [Modern contact list]
 Modern contact list
+[Contact list]
+Списък с контакти
 [Avatar overlay]
 Насложени над аватара икони
 [Status overlay]
@@ -893,6 +883,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 Ползване на групи / Без групи
 [Use groups]
 Ползване на групи
+[Disable groups]
+Без групи
 [Enable/Disable sounds]
 Включване/Изключване на звука
 [Enable sounds]

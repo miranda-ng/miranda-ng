@@ -34,20 +34,8 @@ Soll Kontakt %s wirklich gelöscht werden ?
 Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
 [Contact list]
 Kontaktliste
-[Hide offline users]
-Offline-Kontakte ausblenden
-[Hide empty groups]
-Leere Gruppen ausblenden
-[Disable groups]
-Gruppen deaktivieren
-[Ask before deleting contacts]
-Vor Löschen von Kontakten fragen
-[Disable icon blinking]
-Iconblinken deaktivieren
 [Apply last active view mode]
 Zuletzt aktiven Kontaktfilter wiederherstellen
-[Contact list layout]
-Kontaktlistenaussehen
 [Show menu and status buttons]
 Menü- und Statusbutton anzeigen
 [Draw sunken edge]
@@ -58,6 +46,8 @@ Systemtray-Icon
 Kontaktliste mit Einfachklick öffnen
 [Always show status in tooltip]
 Immer Status als Tooltip anzeigen
+[Disable icon blinking]
+Iconblinken deaktivieren
 [ms]
 ms
 [Event area]
@@ -126,8 +116,6 @@ Zuletzt nach
 Ereignisse in Liste oder Gruppe nach oben schieben
 [Do not separate offline contacts]
 Offlinekontakte nicht trennen
-[Hide as offline]
-Als 'offline' verstecken
 [Right align contacts]
 Kontakte rechtsbündig
 [Avatars]
@@ -408,6 +396,54 @@ Kontaktfilter einstellen
 [Clear view mode]
 Kontaktfilter aufheben
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Nothing]
+Nichts
+[Name]
+Name
+[Status]
+Status
+[Message frequency]
+Nachrichtenhäufigkeit
+[Never]
+Niemals
+[Always]
+Immer
+[For RTL only]
+Nur für RTL
+[RTL TEXT only]
+Nur RTL-Text
+[Always left]
+Immer links
+[Always right]
+Immer rechts
+[Automatic (RTL)]
+Automatisch (RTL)
+[When space allows it]
+Falls Abstand verfügbar ist
+[When needed]
+Bei Bedarf
+[With nickname - left]
+Mit Nickname links
+[Far left]
+Ganz links
+[Far right]
+Ganz rechts
+[With nickname - right]
+Mit Nickname rechts
+[Row items]
+Kontaktzeilen
+[Contacts]
+Kontakte
+[Groups and layout]
+Gruppen und Aussehen
+[Advanced]
+Erweitert
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Keine Ereignisse...
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Global
 [Not focused]
 nicht fokussiert
 [Offline]
@@ -426,62 +462,20 @@ Bitte nicht stören
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[Always left]
-Immer links
-[Always right]
-Immer rechts
-[Automatic (RTL)]
-Automatisch (RTL)
-[Nothing]
-Nichts
-[Name]
-Name
-[Status]
-Status
-[Message frequency]
-Nachrichtenhäufigkeit
-[Never]
-Niemals
-[Always]
-Immer
-[For RTL only]
-Nur für RTL
-[RTL TEXT only]
-Nur RTL-Text
-[When space allows it]
-Falls Abstand verfügbar ist
-[When needed]
-Bei Bedarf
-[With nickname - left]
-Mit Nickname links
-[Far left]
-Ganz links
-[Far right]
-Ganz rechts
-[With nickname - right]
-Mit Nickname rechts
+[Title bar]
+Titelleiste
+[Tool Window]
+Normaler Rahmen
+[Thin border]
+Dünner Rahmen
+[No border]
+Kein Rahmen
 [General]
 Allgemein
 [List layout]
 Kontaktlistenaussehen
 [Background]
 Hintergrund
-[Row items]
-Kontaktzeilen
-[Contacts]
-Kontakte
-[Groups and layout]
-Gruppen und Aussehen
-[Advanced]
-Erweitert
-[Skins]
-Skins
-;file \plugins\Clist_nicer\src\clcpaint.cpp
-[No events...]
-Keine Ereignisse...
-;file \plugins\Clist_nicer\src\clistopts.cpp
-[Global]
-Global
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Offlinekontakte zeigen / ausblenden
@@ -606,15 +600,6 @@ Alle Frames anzeigen
 Alle Titelleisten anzeigen
 [Hide all title bars]
 Alle Titelleisten verstecken
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Titelleiste
-[Tool Window]
-Normaler Rahmen
-[Thin border]
-Dünner Rahmen
-[No border]
-Kein Rahmen
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
@@ -623,6 +608,8 @@ Kontaktliste andocken
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Skin laden
+[Skins]
+Skins
 ;file \plugins\Clist_nicer\src\groupmenu.cpp
 [Show metacontact protocol icons]
 Metakontaktprotokollicons zeigen

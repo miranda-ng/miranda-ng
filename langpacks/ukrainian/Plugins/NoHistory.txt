@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.0
+;  Version: 0.2.3.1
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -37,6 +37,8 @@
 ;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Усі контакти **
+[** New contacts **]
+** Нові контакти **
 [History]
 Історія
 [Logging]

@@ -38,8 +38,6 @@
 Клієнти IRC
 [Jabber clients]
 Клієнти Jabber
-[MSN clients]
-Клієнти MSN
 [RSS clients]
 Клієнти RSS
 [VKontakte clients]
@@ -111,8 +109,6 @@ MP3-скрипт для mIRC
 Оверлей JGTalk
 [Jabber overlay]
 Оверлей Jabber
-[MSN overlay]
-Оверлей MSN
 [VK overlay]
 Оверлей ВКонтакті
 [Skype overlay]

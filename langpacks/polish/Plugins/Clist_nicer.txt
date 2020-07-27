@@ -34,20 +34,8 @@ Czy na pewno chcesz usunąć %s?
 To usunie wszystkie ustawienia i historię tego kontaktu!
 [Contact list]
 Lista kontaktów
-[Hide offline users]
-Ukryj rozłączonych
-[Hide empty groups]
-Ukryj puste grupy
-[Disable groups]
-Wyłącz grupy
-[Ask before deleting contacts]
-Pytaj przed usunięciem kontaktów
-[Disable icon blinking]
-Wyłącz miganie ikony
 [Apply last active view mode]
 Zastosuj ostatni aktywny tryb widoku
-[Contact list layout]
-Układ listy
 [Show menu and status buttons]
 Pokaż przyciski menu i statusu
 [Draw sunken edge]
@@ -58,6 +46,8 @@ Ikona w zasobniku
 Pokaż/Ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
+[Disable icon blinking]
+Wyłącz miganie ikony
 [ms]
 ms
 [Event area]
@@ -126,8 +116,6 @@ Trzeci
 Przenieś zdarzenia na górę listy lub grupy
 [Do not separate offline contacts]
 Nie oddzielaj rozłączonych kontaktów
-[Hide as offline]
-Ukryj jako rozłączone:
 [Right align contacts]
 Wyrównanie do prawej
 [Avatars]
@@ -408,6 +396,54 @@ Ustaw tryby widoku
 [Clear view mode]
 Wyczyść tryb widoku
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Nothing]
+-Nic-
+[Name]
+Nazwa
+[Status]
+Status
+[Message frequency]
+Częstotliwość wiadomości
+[Never]
+Nigdy
+[Always]
+Zawsze
+[For RTL only]
+Tylko dla RTL
+[RTL TEXT only]
+Tylko TEKST RTL
+[Always left]
+Zawsze po lewej
+[Always right]
+Zawsze po prawej
+[Automatic (RTL)]
+automatycznie (RTL)
+[When space allows it]
+Gdy przestrzeń na to pozwala
+[When needed]
+Kiedy potrzebny
+[With nickname - left]
+Z nickiem z lewej strony
+[Far left]
+Daleko w lewo
+[Far right]
+Daleko w prawo
+[With nickname - right]
+Z nickiem z prawej strony
+[Row items]
+Elementy wiersza
+[Contacts]
+Kontakty
+[Groups and layout]
+Układ grup
+[Advanced]
+Zaawansowane
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+Brak zdarzeń...
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Globalne
 [Not focused]
 Nieaktywne
 [Offline]
@@ -426,62 +462,20 @@ Nie przeszkadzać
 Chętny do rozmowy
 [Invisible]
 Niewidoczny
-[Always left]
-Zawsze po lewej
-[Always right]
-Zawsze po prawej
-[Automatic (RTL)]
-automatycznie (RTL)
-[Nothing]
--Nic-
-[Name]
-Nazwa
-[Status]
-Status
-[Message frequency]
-Częstotliwość wiadomości
-[Never]
-Nigdy
-[Always]
-Zawsze
-[For RTL only]
-Tylko dla RTL
-[RTL TEXT only]
-Tylko TEKST RTL
-[When space allows it]
-Gdy przestrzeń na to pozwala
-[When needed]
-Kiedy potrzebny
-[With nickname - left]
-Z nickiem z lewej strony
-[Far left]
-Daleko w lewo
-[Far right]
-Daleko w prawo
-[With nickname - right]
-Z nickiem z prawej strony
+[Title bar]
+Nagłówek okna
+[Tool Window]
+Styl okna narzędziowego
+[Thin border]
+Wąskie obramowanie
+[No border]
+Bez obramowanie
 [General]
 Ogólne
 [List layout]
 Układ listy
 [Background]
 Tło
-[Row items]
-Elementy wiersza
-[Contacts]
-Kontakty
-[Groups and layout]
-Układ grup
-[Advanced]
-Zaawansowane
-[Skins]
-Skórki
-;file \plugins\Clist_nicer\src\clcpaint.cpp
-[No events...]
-Brak zdarzeń...
-;file \plugins\Clist_nicer\src\clistopts.cpp
-[Global]
-Globalne
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Pokaż/Ukryj rozłączonych
@@ -606,15 +600,6 @@ Pokaż wszystkie ramki
 Pokaż wszystkie paski tytułów
 [Hide all title bars]
 Ukryj wszystkie paski tytułów
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Nagłówek okna
-[Tool Window]
-Styl okna narzędziowego
-[Thin border]
-Wąskie obramowanie
-[No border]
-Bez obramowanie
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Lista nie może być dokowana, jeśli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
@@ -623,6 +608,8 @@ Dokowanie listy
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Wczytaj i zastosuj
+[Skins]
+Skórki
 ;file \plugins\Clist_nicer\src\groupmenu.cpp
 [Show metacontact protocol icons]
 Pokazuj ikony protokołu metakontaktów

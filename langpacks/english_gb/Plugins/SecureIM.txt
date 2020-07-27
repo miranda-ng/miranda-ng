@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
-;  Version: 1.0.12.4
+;  Version: 1.0.12.6
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [Key agreement colors]

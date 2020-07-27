@@ -1172,6 +1172,8 @@ Afficher le répertoire des profils de Miranda
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 
 [Import complete]
@@ -1179,8 +1181,6 @@ Afficher le répertoire des profils de Miranda
 [Some basic statistics]
 
 [Added %d of %d contacts stored in the ini-file.]
-
-[The ini-file "%s"\nfor reading contact information could not be opened.]
 
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
@@ -1195,6 +1195,8 @@ Importer les détails depuis un vCard
 [Contact: %s (%S)]
 Contact : %s (%S)
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
+
+[File not found]
 
 [The selected file is no valid XMLCard]
 

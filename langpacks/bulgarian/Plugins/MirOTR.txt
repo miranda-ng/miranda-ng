@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -40,24 +40,14 @@ OTR създаване на нов частен ключ
 Показване на OTR системните съобщения като Popup
 [Show verification dialog when receiving unverified fingerprint]
 Изискване на потвърждаване при получаване на непотвърден отпечатък
-[Set OTR policy per protocol]
-Задаване на политика за протоколите
+[Set OTR policy per account]
+
 [Current policy:]
 Текуща политика:
-[Generate new private key]
-Създаване на нов частен ключ
-[Forget private key]
-Забравяне на ключа
 [Set OTR policy per contact]
 Задаване на политика за контактите
 [View & Modify status of known fingerprints]
 Преглед и промяна състоянието на отпечатъците
-[Set verified]
-Потвърждаване
-[Set unknown]
-Задай непознат
-[Forget]
-Забравяне
 [Socialist Millionaires Protocol]
 
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -80,6 +70,18 @@ OTR състояние
 Прекратяване на OTR сесията
 [&Verify Fingerprint]
 Проверяване на отпечатъка
+[Set verified]
+Потвърждаване
+[Set unknown]
+Задай непознат
+[Copy]
+Копиране
+[Forget]
+Забравяне
+[Generate new private key]
+Създаване на нов частен ключ
+[Forget private key]
+Забравяне на ключа
 ;file \plugins\MirOTR\src\icons.cpp
 [OTR private]
 OTR частно
@@ -140,16 +142,8 @@ OTR информация
 Сега се използва ПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Сега се използва НЕПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Създаване на нов частен ключ за протокол "%s".\nМоля, изчакайте...
-[General]
-Основни
-[Protocols]
-Протоколи
-[Contacts]
-Контакти
-[Fingerprints]
-Отпечатъци
+[Generating new private key for account '%s'.\nPlease Wait...]
+
 [Contact]
 Контакт
 [Account]
@@ -242,6 +236,14 @@ OTR състояние
 
 [Services]
 Услуги
+[General]
+Основни
+[Accounts]
+Акаунти
+[Contacts]
+Контакти
+[Fingerprints]
+Отпечатъци
 ;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
 

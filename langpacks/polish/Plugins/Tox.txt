@@ -149,14 +149,14 @@ Nie można otworzyć profilu Tox
 Nie można odczytać profilu Tox
 [Unable to decrypt Tox profile]
 Nie można odszyfrować profilu Tox
-[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
-Usunięcie hasła spowoduje rozszyfrowanie profilu.\r\nCzy na pewno chcesz usunąć hasło?
 [New password is empty]
 Nowe hasło jest puste
 [New password is not equal to confirmation]
 Nowe hasło nie jest równe powtórzonemu
 [Old password is not valid]
 Stare hasło nie jest prawidłowe
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+Usunięcie hasła spowoduje rozszyfrowanie profilu.\r\nCzy na pewno chcesz usunąć hasło?
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Nie możesz dodać siebie samego do swojej listy kontaktów

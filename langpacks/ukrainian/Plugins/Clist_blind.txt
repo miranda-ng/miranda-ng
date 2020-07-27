@@ -8,42 +8,6 @@
 [A contact list for blind folks.]
 Список контактів для людей з проблемами зору.
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete contact]
-Видалити контакт
-[Are you sure you want to delete %s?]
-Справді видалити %s зі списку?
-[This will erase all history and settings for this contact!]
-Ця дія видалить усю історію і налаштування цього контакту!
-[Yes]
-Так
-[No]
-Ні
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Сховати зі списку, зберігши історію і параметри ігнорування та видимості
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Приховані контакти: Налаштування -> Контакти -> Ігнорувати.
-[Hotkeys]
-Гарячі клавіші
-[Show/Hide:]
-Показати/Сховати:
-[Read message:]
-Читати повідомлення:
-[Web search:]
-Знайти:
-[URL:]
-Посилання:
-[Open in new browser window]
-Відкрити в новому вікні
-[Show options]
-Налаштування
-[Hide offline users]
-Сховати відключених
-[Hide empty groups]
-Сховати порожні групи
-[Disable groups]
-Вимкнути групи
-[Ask before deleting contacts]
-Запит перед видаленням
 [Sort contacts by name]
 за ім'ям
 [Sort contacts by status]
@@ -70,8 +34,6 @@
 Декілька значків
 [Only when statuses differ]
 при різних статусах
-[Contact list]
-Список контактів
 [System tray icon]
 Значок у треї
 [System tray icon when using multiple protocols]
@@ -122,10 +84,6 @@
 Увімкнути тінь (потрібен перезапуск)
 [Pin to desktop]
 Прикріпити до столу
-[Items]
-Елементи
-['Hide offline' means to hide:]
-Сховати відключених - сховати:
 [Groups]
 Групи
 [Show counts of number of contacts in a group]
@@ -167,30 +125,14 @@
 [Show resize grip indicator]
 Індикатор зміни розміру
 ;file \plugins\Clist_blind\src\clcopts.cpp
-[Not focused]
-Список неактивний
-[Offline]
-Не в мережі
-[Online]
-В мережі
-[Away]
-Відсутній
-[Not available]
-Недоступний
-[Occupied]
-Зайнятий
-[Do not disturb]
-Не турбувати
-[Free for chat]
-Готовий до чату
-[Invisible]
-Невидимий
 [Group: %name% %count% [%mode%]]
 Група: %name% %count% [%mode%]
 [Divider: %s]
 Роздільник: %s
 [Info: %s]
 Інфо: %s
+[Contact list]
+Список контактів
 [List]
 Список
 ;file \plugins\Clist_blind\src\clistopts.cpp

@@ -1,0 +1,313 @@
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.1.0.2
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Праглядчык гісторыі для Miranda NG.
+;file \plugins\NewStory\res\resource.rc
+[Messages]
+Паведамленні
+[Files]
+Файлы
+[URLs]
+
+[Total]
+Агульна
+[Incoming]
+Уваходныя
+[Outgoing]
+Выходныя
+[since]
+
+[till]
+
+[Group messages]
+Гуртаваць паведамленні
+[Log window]
+
+[Enable vertical scroll bar]
+
+[Draw window edge]
+
+[Template list:]
+
+[Edit template:]
+
+[Text preview:]
+
+[Graphic preview:]
+
+[Filter]
+Фільтр
+[Show all events]
+Усе падзеі
+[Show incoming events only]
+
+[Show outgoing events only]
+
+[Use custom filter...]
+
+[Incoming events]
+Уваходныя падзеі
+[Outgoing events]
+Выходныя падзеі
+[Show messages]
+Паведамленні
+[Show file transfers]
+
+[Show URLs]
+
+[Show sign in/out events]
+
+[Show other events]
+
+[Auto search]
+
+[Log options]
+Налады лога
+[Options]
+Налады
+[Templates]
+Шаблоны
+[Copy]
+Капіяваць
+[Edit]
+Змяніць
+[Delete]
+Выдаліць
+[Select all]
+Вылучыць усё
+;file \plugins\NewStory\src\fonts.cpp
+[Incoming messages]
+Уваходныя паведамленні
+[Outgoing messages]
+Выходныя паведамленні
+[Incoming files]
+Уваходныя файлы
+[Outgoing files]
+
+[Status changes]
+Змены статусу
+[Other incoming events]
+
+[Other outgoing events]
+
+[Selected item's text]
+
+[Selected item's background]
+
+[Selected item's frame]
+
+[Grid background]
+Фон сеткі
+[Separator]
+Падзельнік
+[Incoming name]
+Імя суразмоўцы
+[Outgoing name]
+Маё імя
+;file \plugins\NewStory\src\history.cpp
+[FirstName]
+Імя
+[LastName]
+Прозвішча
+[e-mail]
+Пошта
+[Nick]
+Мянушка
+[Age]
+Узрост
+[Gender]
+Род
+[City]
+Горад 
+[State]
+Штат
+[Phone]
+Тэлефон
+[Homepage]
+Сайт
+[About]
+Інфармацыя
+[History search results]
+
+[Export...]
+Экспарт...
+[Delete...]
+
+[Search...]
+
+[Send message]
+Адправіць
+[Jump to date]
+
+[User info]
+Інфармацыя
+[User menu]
+Меню кантакта
+[Find next]
+Знайсці далей
+[Find previous]
+Знайсці раней
+[Conversations]
+Гутаркі
+[It is metacontact. For export use one of this subcontacts:\r\n%s]
+
+[Export warning]
+
+[JSON files]
+
+[Export %s history]
+
+[Complete]
+Зроблена
+[History export]
+
+;file \plugins\NewStory\src\history_control.cpp
+[Are you sure to remove all events from history?]
+
+;file \plugins\NewStory\src\history_menus.cpp
+[User history]
+
+[Empty history]
+Сцерці гісторыю
+[System history]
+Сістэмная гісторыя
+;file \plugins\NewStory\src\main.cpp
+[Main icon]
+Галоўны абразок
+[Search]
+Пошук
+[Export]
+Экспарт
+[Incoming message]
+Уваходнае паведамленне
+[Outgoing message]
+Выходнае паведамленне
+[User signed in]
+
+[Unknown event]
+Невядомая з'ява
+[Template group]
+
+[Cancel edit]
+
+[Update preview]
+Абнавіць прадпрагляд
+[Help]
+Даведка
+;file \plugins\NewStory\src\options.cpp
+[Reset to default]
+Скід на змаўчанні
+[Variables help]
+Зменныя...
+[Test contact]
+Тэставы кантакт
+[simply % character]
+
+[a "hard" line break (cr/lf - will break indent)]
+
+[my nickname]
+
+[buddy\'s nickname]
+
+[event count]
+Колькасць з'яў
+[icon]
+Абразок
+[direction icon]
+
+[direction symbol]
+
+[timestamp]
+Час
+[hour (24 hour format, 0-23)]
+
+[hour (12 hour format)]
+
+[minute]
+хвіліна(ы)
+[second]
+
+[month]
+месяц
+[day of month]
+
+[year (4 digits)]
+год (4 лічбы)
+[day of week (Sunday, Monday... translatable)]
+
+[AM/PM symbol]
+
+[name of month, translatable]
+
+[the message string itself]
+
+[History]
+Гісторыя
+[Advanced]
+Дадаткова
+;file \plugins\NewStory\src\templates.cpp
+[Sunday]
+Нядзеля
+[Monday]
+Панядзелак
+[Tuesday]
+Аўторак
+[Wednesday]
+Серада
+[Thursday]
+Чацвер
+[Friday]
+Пятніца
+[Saturday]
+Субота
+[January]
+Студзень
+[February]
+Люты
+[March]
+Сакавік
+[April]
+Красавік
+[May]
+Травень
+[June]
+Чэрвень
+[July]
+Ліпень
+[August]
+Жнівень
+[September]
+Верасень
+[October]
+Кастрычнік
+[November]
+Лістапад
+[December]
+Снежань
+[System event]
+
+[Interface]
+Выгляд
+[Window title]
+
+[Message log]
+Журнал
+[Grouped messages]
+
+[Presence requests]
+
+[Other events]
+Іншыя падзеі
+[Authorization requests]
+
+['You were added' events]
+
+['You were deleted' events]
+
+[Clipboard]
+Буфер абмену

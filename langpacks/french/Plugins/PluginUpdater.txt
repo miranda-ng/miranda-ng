@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.5
+;  Version: 0.2.0.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -22,10 +22,6 @@ Annuler
 &Tout sélectionner
 [Select &none]
 &Rien sélectionner
-[Hotkey]
-Raccourci clavier
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Aller à Apparence -> Raccourcis clavier pour changer les raccourcis.
 [Update options]
 
 [On startup]
@@ -35,6 +31,8 @@ Au démarrage
 [Every]
 Tous les
 [Silent mode]
+
+[Restart Miranda automatically]
 
 [Backup database before update (requires Db_autobackups plugin)]
 
@@ -52,9 +50,9 @@ Version de développement avec les symboles de debug
 Version personnalisée
 [Change platform to 32-bit]
 
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-
 [Use HTTPS]
+
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 
 [Notifications]
 Notifications
@@ -152,8 +150,6 @@ Mise à jour accomplie. Appuyer sur Oui pour redémarrer Miranda maintenant.
 
 [You need to restart your Miranda to apply installed updates.]
 
-[Would you like to restart it now?]
-
 [Checking for new updates...]
 Vérification de mises à jour...
 [No updates found.]
@@ -164,6 +160,8 @@ Vérification des mises à jour en cours!
 [Plugin updater URI scheme]
 
 ;file \plugins\PluginUpdater\src\Notifications.cpp
+[Would you like to restart it now?]
+
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 

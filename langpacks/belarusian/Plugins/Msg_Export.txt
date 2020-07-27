@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.4
+;  Version: 3.1.2.5
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -30,8 +30,8 @@
 Фармат часу
 [Use JSON format for export]
 
-[Use UTF8 in new files]
-UTF8 у новых файлах
+[Use UTF-8 in new files]
+UTF-8 у новых файлах
 [Append extra new line]
 Дад. пераклад радка
 [Use << and >>]
@@ -117,14 +117,14 @@ UTF8 у новых файлах
 Файл
 [Nick]
 Мянушка
-[Proto]
-Пратакол
-[UIN]
-Нумар
+[Account]
+Уліковы запіс
+[User ID]
+ID кантакта
 [No contacts found to export]
 Няма кантактаў для экспарту
-[Export Protocols]
-Экспарт пратаколаў
+[Export accounts]
+
 [Message export]
 Экспарт паведамленняў
 [History]
@@ -179,8 +179,6 @@ Miranda NG (Плагін экспарту паведамленняў)
      Гісторыя для
 [User]
 Кантакт
-[Protocol]
-Пратакол
 [File: ]
 Файл:\s
 [Description: ]

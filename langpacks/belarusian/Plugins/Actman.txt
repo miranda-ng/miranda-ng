@@ -85,7 +85,7 @@
 Значэнне
 [Use LastResult]
 
-[UTF8 encoding]
+[UTF-8 encoding]
 
 [Function call]
 Вызаў функцыі
@@ -757,8 +757,8 @@ UTF16+сігнатура
 
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
 
-[display birthdays window]
-паказвае вакно дзён нараджэння
+[Display birthdays window]
+Паказвае вакно дзён нараджэння
 [Manage Jabber Bookmarks]
 Упраўляе закладкамі Jabber
 [text]

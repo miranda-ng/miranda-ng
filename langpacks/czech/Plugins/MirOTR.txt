@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -40,24 +40,14 @@ Systémové zprávy OTR zobrazovat v okně
 Systémové zprávy OTR zobrazovat jako oznámení
 [Show verification dialog when receiving unverified fingerprint]
 Zobrazit ověřovací dialog při přijetí neověřeného klíče
-[Set OTR policy per protocol]
-Nastavit aktivaci šifrování (OTR) pro každý protokol zvlášť
+[Set OTR policy per account]
+
 [Current policy:]
 Zvolit aktivaci:
-[Generate new private key]
-Vygenerovat nový privátní klíč
-[Forget private key]
-Zapomenout privátní klíč
 [Set OTR policy per contact]
 Nastavit aktivaci šifrování (OTR) pro každý kontakt zvlášť
 [View & Modify status of known fingerprints]
 Zobrazit a spravovat známé otisky
-[Set verified]
-Je ověřený
-[Set unknown]
-Není ověřený
-[Forget]
-Zapomenout
 [Socialist Millionaires Protocol]
 Socialistický milionářský protokol
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -80,6 +70,18 @@ Obnovit šifrovanou relaci (OTR)
 Zrušit šifrovanou relaci (OTR)
 [&Verify Fingerprint]
 Ověřit otisk
+[Set verified]
+Je ověřený
+[Set unknown]
+Není ověřený
+[Copy]
+Zkopírovat
+[Forget]
+Zapomenout
+[Generate new private key]
+Vygenerovat nový privátní klíč
+[Forget private key]
+Zapomenout privátní klíč
 ;file \plugins\MirOTR\src\icons.cpp
 [OTR private]
 Privátní (OTR)
@@ -140,16 +142,8 @@ Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
 Šifrovaná relace (OTR) s '%s' nyní používá OVĚŘENÝ otisk
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Šifrovaná relace (OTR) s '%s' nyní používá NEOVĚŘENÝ otisk
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Generování nového privátního klíče pro protokol '%s'.\nProsím čekejte...
-[General]
-Obecné
-[Protocols]
-Protokoly
-[Contacts]
-Kontakty
-[Fingerprints]
-Otisky
+[Generating new private key for account '%s'.\nPlease Wait...]
+
 [Contact]
 Kontakt
 [Account]
@@ -242,6 +236,14 @@ Stav šifrování (OTR)
 Privátní data
 [Services]
 Služby
+[General]
+Obecné
+[Accounts]
+Účty
+[Contacts]
+Kontakty
+[Fingerprints]
+Otisky
 ;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
 

@@ -13,7 +13,6 @@
 [JGmail overlay]
 [JGTalk overlay]
 [Jabber overlay]
-[MSN overlay]
 [VK overlay]
 [Skype overlay]
 [ICQ v8.x overlay]

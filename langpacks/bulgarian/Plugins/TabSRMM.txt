@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -200,8 +200,6 @@ Popup настройки
 Зареди само актуална история
 [Use private splitter position]
 
-[Contact is a favorite contact]
-Контакта е любим контакт
 [Always trim message log to]
 Ограничаване на дневника до
 [events]
@@ -664,28 +662,6 @@ Mаксимална ширина за лента с бутони
 Общи настройки
 [Force off]
 
-[Recent sessions]
-Скорошни разговори
-[Favorites]
-Любими
-[Show the tray icon]
-Показване на трей иконата
-[Disable all event notifications]
-Изключване на всички уведомявания за събития
-[Don't create windows automatically]
-Без автоматично създаване на прозорци
-[Hide all message containers]
-Скриване на всички контейнери
-[Restore all message containers]
-Възстановяване на контейнерите
-[Don't play sounds]
-Без звук
-[Be "super quiet"]
-Супер тих режим
-[Add contact to favorites]
-Добавяне на контакта в любимите
-[Remove contact from favorites]
-Премахване на контакта от любимите
 [Set position for this session]
 Задаване на позицията за разговора
 [Set and save for all sessions]
@@ -793,33 +769,6 @@ Mаксимална ширина за лента с бутони
 Филтър на събития - десен бутон за настройки, ляв бутон за вкл./изкл.
 [Channel manager]
 Настройки на канала
-;file \plugins\TabSRMM\src\chat_log.cpp
-[%s has joined]
-%s влезе
-[You have joined %s]
-Вие влязохте в %s
-[%s has left]
-%s излезе
-[%s has disconnected]
-%s излезе от мрежата
-[%s is now known as %s]
-%s смени името си на %s
-[You are now known as %s]
-Сменихте името си на %s
-[%s kicked %s]
-%s изгони %s
-[Notice from %s: ]
-Известие от %s:\s
-[The topic is '%s%s']
-Темата е "%s%s"
-[ (set by %s on %s)]
- (зададена от %s на %s)
-[ (set by %s)]
- (зададена от %s)
-[%s enables '%s' status for %s]
-%s даде статут "%s" на "%s"
-[%s disables '%s' status for %s]
-%s отне статута "%s" на "%s"
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Разговори
@@ -1146,6 +1095,8 @@ UIN
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Разговор...
+[Message from %s]
+Съобщение от %s
 [Default container]
 Стандартен контейнер
 [Attach to]
@@ -1233,8 +1184,6 @@ TabSRMM предупреждение
 Без уведомяване за събития при отворен прозорец
 [Don't announce events from RSS protocols]
 Без уведомяване за събития от протокола RSS
-[Enable the system tray icon]
-Включване на икона в трея
 [Merge new events for the same contact into existing popup]
 Сливане на нови събития от един и същ контакт в съществуващ popup
 [Show headers]
@@ -1309,16 +1258,10 @@ TabSRMM предупреждение
 Друго
 [TabSRMM: typing]
 TabSRMM: Писане
-[TabSRMM session list]
-Списък на разговорите в TabSRMM
-[TabSRMM menu]
-Меню на TabSRMM
 [&Messaging settings...]
 Настройки на разговорите...
 [&Send later job list...]
 Съобщения за изпращане след време...
-[Message from %s]
-Съобщение от %s
 [signed off.]
 излезе.
 [signed on and is now %s.]
@@ -1641,6 +1584,14 @@ Latin I
 
 [Automatically copy selected text]
 Автокопиране на маркирания текст
+[Test contact]
+Тестови контакт
+[Template set editor]
+Редактор на шаблони
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Ще бъдат възстановени вградените стандартни шаблони. Наистина ли желаете това?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Наборът шаблони беше успешно възстановен, моля затворете всички разговори. Настоящият прозорец ще бъде затворен сега.
 [Message log appearance]
 Външен вид на дневника за съобщения
 [Support for external plugins]
@@ -1806,8 +1757,6 @@ Latin I
 Стрелка надясно
 [Up Arrow]
 Стрелка нагоре
-[Session List]
-Списък на разговорите
 [Frame 1]
 Рамка 1
 [Frame 2]
@@ -1926,12 +1875,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 
 [Error message]
 
-[Template set editor]
-Редактор на шаблони
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Ще бъдат възстановени вградените стандартни шаблони. Наистина ли желаете това?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Наборът шаблони беше успешно възстановен, моля затворете всички разговори. Настоящият прозорец ще бъде затворен сега.
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 Теми за TabSRMM
@@ -1952,7 +1895,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Всички контейнери трябва да се затворят, преди да бъде сменен обликът\nЖелаете ли да бъдат затворени сега?
 [Change skin]
 Смяна на облика
-;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 Изключване на уведомяванията при писане
@@ -1972,6 +1914,8 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 TabSRMM съобщение (%s)
+[Save file|Unable to save temporary file]
+
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редактиране на бележки за потребител|Редактирате бележките за потребителя. За запаметяване на промените и връщане към нормалния режим за писане/изпращане на съобщения натиснете отново бутона или клавишната комбинация, обикновено: Alt+N
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]

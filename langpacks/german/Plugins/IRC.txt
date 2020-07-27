@@ -126,8 +126,8 @@ Scriptunterstützung
 Quit-Nachricht:
 [Server code page:]
 Server-Codepage:
-[Enable UTF8 autodetection]
-Automatische UTF8-Erkennung
+[Enable UTF-8 autodetection]
+Automatische UTF-8-Erkennung
 [Add server]
 Server hinzufügen
 [Auto]
@@ -421,10 +421,10 @@ DCC-Anfrage für Reverse-Dateitransfer gesendet an %s (%s)
 DCC-Anfrage für Dateitransfer gesendet an %s (%s)
 [DCC ERROR: Unable to bind local port]
 DCC-FEHLER: Verbinden mit lokalem Port nicht möglich.
-[The protocol is not online]
-Protokoll ist nicht online
 [The dcc chat connection is not active]
 Die DCC-Chatverbindung ist nicht aktiv
+[The protocol is not online]
+Protokoll ist nicht online
 [Please choose an IRC-network to go online. This network will be the default.]
 Bitte ein IRC-Netzwerk zum Verbinden auswählen. Dieses wird dann das Standardnetzwerk.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]

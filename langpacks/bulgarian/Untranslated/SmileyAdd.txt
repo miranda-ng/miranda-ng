@@ -1,5 +1,6 @@
 [Use per protocol global smiley packs]
-[Maximum 'Custom smiley' height]
+[Disable stickers]
+[Maximum sticker height]
 [IEView style window]
 [Horizontal sorting]
 [Smiley packs' folder]

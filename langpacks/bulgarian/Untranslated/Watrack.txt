@@ -49,7 +49,6 @@
 [Try to use OLE interface]
 ["Variables" ANSI output]
 [FPS (Frames per second)]
-[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
 [Save settings in INI-file]
 [Get user's Music Info]
 [WATrack Macro Info]

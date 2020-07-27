@@ -1172,6 +1172,8 @@ SaveFileDialog повернув помилку: %d
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 Файл INI "%s"\nне можна відкрити для збереження контакту.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+Файл INI "%s"\nне можна відкрити для читання контакту.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Жоден з %d контактів у файлі не відповідає вибраному контакту.\nНічого імпортувати.
 [Import complete]
@@ -1180,8 +1182,6 @@ SaveFileDialog повернув помилку: %d
 Статистика
 [Added %d of %d contacts stored in the ini-file.]
 Додано %d з %d контактів з ini-файлу.
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-Файл INI "%s"\nне можна відкрити для читання контакту.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 Усі контакти
@@ -1196,6 +1196,8 @@ SaveFileDialog повернув помилку: %d
 Контакт: %s (%S)
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 Неможливо завантажити XML-картку "%s"\nПомилка: %d\nОпис: %s
+[File not found]
+
 [The selected file is no valid XMLCard]
 Вибраний файл не є XML-карткою
 [The version of the XMLCard is not supported by UserInfoEx]

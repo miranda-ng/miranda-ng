@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.4
+;  Version: 3.1.2.5
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -30,7 +30,7 @@ Pozn.: 0 = bez limitu
 Datum, čas
 [Use JSON format for export]
 
-[Use UTF8 in new files]
+[Use UTF-8 in new files]
 
 [Append extra new line]
 Přidat 1 nový řádek
@@ -117,13 +117,13 @@ Vyberte cílovou složku
 Soubor
 [Nick]
 Přezdívka
-[Proto]
-Protokol
-[UIN]
-UIN
+[Account]
+Účet
+[User ID]
+Identifikátor
 [No contacts found to export]
 Nenalezeny žádné kontakty
-[Export Protocols]
+[Export accounts]
 
 [Message export]
 Export zpráv
@@ -179,8 +179,6 @@ Informace
 
 [User]
 Uživatel
-[Protocol]
-Protokol
 [File: ]
 Soubor:\s
 [Description: ]

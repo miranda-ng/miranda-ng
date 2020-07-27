@@ -34,20 +34,8 @@ Opravdu chcete smazat kontakt %s?
 Tímto odstraníte celou historii a nastavení kontaktu!
 [Contact list]
 Seznam kontaktů
-[Hide offline users]
-Skrýt uživatele offline
-[Hide empty groups]
-Skrýt prázdné skupiny
-[Disable groups]
-Vypnout skupiny
-[Ask before deleting contacts]
-Potvrdit smazání kontaktů
-[Disable icon blinking]
-Vypnout blikání ikon
 [Apply last active view mode]
 Použít poslední aktivní režim zobrazení
-[Contact list layout]
-Vzhled seznamu kontaktů
 [Show menu and status buttons]
 Zobrazit tlačítka menu a stavu
 [Draw sunken edge]
@@ -58,6 +46,8 @@ Ikona v oznamovací oblasti
 Zařídit vše jedním kliknutím myši
 [Always show status in tooltip]
 Vždy zobrazit stav v tipu
+[Disable icon blinking]
+Vypnout blikání ikon
 [ms]
 ms
 [Event area]
@@ -126,8 +116,6 @@ A nakonec dle
 Posunovat události v seznamu nahoru
 [Do not separate offline contacts]
 Neoddělovat kontakty ve stavu offline
-[Hide as offline]
-Skrýt jako offline
 [Right align contacts]
 Zarovnat kontakt vpravo
 [Avatars]
@@ -408,6 +396,54 @@ Nastavení režimů zobrazení
 [Clear view mode]
 Zrušit režim zobrazení
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Nothing]
+Nic
+[Name]
+Jméno
+[Status]
+Stavy
+[Message frequency]
+Četnost zpráv
+[Never]
+Nikdy
+[Always]
+Vždy
+[For RTL only]
+Pouze pro RTL
+[RTL TEXT only]
+Pouze pro RTL TEXT
+[Always left]
+Vždy vlevo
+[Always right]
+Vždy vpravo
+[Automatic (RTL)]
+Automaticky (RTL)
+[When space allows it]
+Pokud to místo dovolí
+[When needed]
+Pokud je potřeba
+[With nickname - left]
+S přezdívkou - vlevo
+[Far left]
+Úplně vlevo
+[Far right]
+Úplně vpravo
+[With nickname - right]
+S přezdívkou - vpravo
+[Row items]
+Řádky
+[Contacts]
+Kontakty
+[Groups and layout]
+Skupiny a vzhled
+[Advanced]
+Extra
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+<žádné události>
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Globální
 [Not focused]
 Neaktivní
 [Offline]
@@ -426,62 +462,20 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[Always left]
-Vždy vlevo
-[Always right]
-Vždy vpravo
-[Automatic (RTL)]
-Automaticky (RTL)
-[Nothing]
-Nic
-[Name]
-Jméno
-[Status]
-Stavy
-[Message frequency]
-Četnost zpráv
-[Never]
-Nikdy
-[Always]
-Vždy
-[For RTL only]
-Pouze pro RTL
-[RTL TEXT only]
-Pouze pro RTL TEXT
-[When space allows it]
-Pokud to místo dovolí
-[When needed]
-Pokud je potřeba
-[With nickname - left]
-S přezdívkou - vlevo
-[Far left]
-Úplně vlevo
-[Far right]
-Úplně vpravo
-[With nickname - right]
-S přezdívkou - vpravo
+[Title bar]
+Záhlaví okna
+[Tool Window]
+S tenkým záhlavím
+[Thin border]
+Tenký okraj
+[No border]
+Bez okraje
 [General]
 Obecné
 [List layout]
 Vzhled seznamu
 [Background]
 Pozadí
-[Row items]
-Řádky
-[Contacts]
-Kontakty
-[Groups and layout]
-Skupiny a vzhled
-[Advanced]
-Extra
-[Skins]
-Skiny
-;file \plugins\Clist_nicer\src\clcpaint.cpp
-[No events...]
-<žádné události>
-;file \plugins\Clist_nicer\src\clistopts.cpp
-[Global]
-Globální
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Přepnout online/offline
@@ -606,15 +600,6 @@ Zobrazit všechny rámečky
 Zobrazit záhlaví rámečků
 [Hide all title bars]
 Skrýt záhlaví rámečků
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-Záhlaví okna
-[Tool Window]
-S tenkým záhlavím
-[Thin border]
-Tenký okraj
-[No border]
-Bez okraje
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Seznam kontaktů nemůže být ukotven při použití výchozího stylu záhlaví a okraje. Použijte tenký styl záhlaví nebo okno bez okraje.
@@ -623,6 +608,8 @@ Ukotvení seznamu kontaktů
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Použití
+[Skins]
+Skiny
 ;file \plugins\Clist_nicer\src\groupmenu.cpp
 [Show metacontact protocol icons]
 Zobrazit ikony protokolu subkontaktu

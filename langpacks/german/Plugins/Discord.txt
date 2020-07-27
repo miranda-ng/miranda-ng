@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.3
+;  Version: 0.6.2.5
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -27,10 +27,6 @@ Untergruppen für Server-Kanäle benutzen (Neustart erforderlich)
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
-[Incoming call]
-Eingehender Anruf
-[Call ended, %d seconds long]
-Anruf beendet, dauerte %d Sekunden
 [edited at]
 bearbeitet am
 ;file \protocols\Discord\src\groupchat.cpp
@@ -84,22 +80,27 @@ Neuen Channel erstellen
 Discord-ID kopieren
 [Enable guild sync]
 Gilden-Synchronisierung aktivieren
-[Load server history]
-Verlauf vom Server laden
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Netzwerk
 [Account]
 Konto
 ;file \protocols\Discord\src\proto.cpp
+[Incoming call]
+Eingehender Anruf
 [%s server connection]
 %s Serververbindung
 [%s gateway connection]
 %s Gatewayverbindung
+[Discord voice call]
+
 [User ID]
 Nutzer-ID
 [Protocol is offline or user isn't authorized yet]
 Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
+;file \protocols\Discord\src\server.cpp
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+
 ;file \protocols\Discord\src\utils.cpp
 [Owners]
 Besitzer
@@ -111,3 +112,6 @@ Anhang
 Eingebettet
 [Preview]
 Vorschau
+;file \protocols\Discord\src\voice.cpp
+[Call ended, %d seconds long]
+Anruf beendet, dauerte %d Sekunden

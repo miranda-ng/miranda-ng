@@ -1172,6 +1172,8 @@ Web дизайн
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Никой от %d контакта от .ini файла не съвпада с избрания контакта!\nНищо няма да бъде внесено
 [Import complete]
@@ -1180,8 +1182,6 @@ Web дизайн
 Основна статистика
 [Added %d of %d contacts stored in the ini-file.]
 Добавени са %d от %d контакта в .ini файла.
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 всички контакти
@@ -1195,6 +1195,8 @@ Web дизайн
 [Contact: %s (%S)]
 Контакт: %s (%S)
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
+
+[File not found]
 
 [The selected file is no valid XMLCard]
 Избраният файл (XMLCard) е невалиден

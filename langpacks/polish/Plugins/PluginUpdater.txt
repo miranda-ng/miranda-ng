@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.5
+;  Version: 0.2.0.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -22,10 +22,6 @@ Anuluj
 &Wszystkie
 [Select &none]
 Ż&adne
-[Hotkey]
-Skrót
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Przejdź do Opcje -> Personalizacja -> Skróty, aby je ustawić
 [Update options]
 Opcje aktualizacji
 [On startup]
@@ -36,6 +32,8 @@ Przy starcie
 Co
 [Silent mode]
 Tryb cichy
+[Restart Miranda automatically]
+
 [Backup database before update (requires Db_autobackups plugin)]
 Rób kopię bazy danych przed aktualizacją (wymaga wtyczki Db_autobackups)
 [Files source]
@@ -52,10 +50,10 @@ Wersja rozwojowa z symbolami debugowania
 Niestandardowa wersja
 [Change platform to 32-bit]
 Zmień platformę na 32-bit
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirandę, aby zainstalować pobrane aktualizacje.
 [Use HTTPS]
 
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirandę, aby zainstalować pobrane aktualizacje.
 [Notifications]
 Powiadomienia
 [Restart]
@@ -152,8 +150,6 @@ Aktualizacja nie powiodła się! Jeden z komponentów nie został prawidłowo po
 Zaktualizowano %d komponentów
 [You need to restart your Miranda to apply installed updates.]
 Musisz zrestartować Mirandę, aby zainstalować aktualizacje.
-[Would you like to restart it now?]
-Czy chcesz zrobić to teraz?
 [Checking for new updates...]
 Sprawdzanie aktualizacji...
 [No updates found.]
@@ -164,6 +160,8 @@ Sprawdzanie aktualizacji już rozpoczęte!
 [Plugin updater URI scheme]
 Schemat URI Plugin updater'a
 ;file \plugins\PluginUpdater\src\Notifications.cpp
+[Would you like to restart it now?]
+Czy chcesz zrobić to teraz?
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 Rób kopię bazy danych przed aktualizacją

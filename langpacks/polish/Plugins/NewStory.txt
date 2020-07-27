@@ -1,0 +1,313 @@
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.1.0.2
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Pokazuje historię wiadomości.
+;file \plugins\NewStory\res\resource.rc
+[Messages]
+Wiadomości
+[Files]
+Pliki
+[URLs]
+
+[Total]
+Całkowity
+[Incoming]
+Przychodzące
+[Outgoing]
+Wychodzące
+[since]
+
+[till]
+
+[Group messages]
+Grupuj wiadomości
+[Log window]
+
+[Enable vertical scroll bar]
+
+[Draw window edge]
+
+[Template list:]
+
+[Edit template:]
+
+[Text preview:]
+
+[Graphic preview:]
+
+[Filter]
+Filtr
+[Show all events]
+Pokaż wszystkie zdarzenia
+[Show incoming events only]
+
+[Show outgoing events only]
+
+[Use custom filter...]
+
+[Incoming events]
+Przychodzące zdarzenia
+[Outgoing events]
+Wychodzące zdarzenia
+[Show messages]
+Pokaż wiadomości
+[Show file transfers]
+
+[Show URLs]
+
+[Show sign in/out events]
+
+[Show other events]
+
+[Auto search]
+
+[Log options]
+Opcje dziennika
+[Options]
+Opcje
+[Templates]
+Szablony
+[Copy]
+Kopiuj
+[Edit]
+Edytuj
+[Delete]
+Usuń
+[Select all]
+Zaznacz wszystko
+;file \plugins\NewStory\src\fonts.cpp
+[Incoming messages]
+Przychodzące wiadomości
+[Outgoing messages]
+Wychodzące wiadomości
+[Incoming files]
+Przychodzące pliki
+[Outgoing files]
+Wychodzące pliki
+[Status changes]
+Zmiany statusu
+[Other incoming events]
+
+[Other outgoing events]
+
+[Selected item's text]
+
+[Selected item's background]
+
+[Selected item's frame]
+
+[Grid background]
+Kolor tła
+[Separator]
+Separator
+[Incoming name]
+Przychodząca nazwa
+[Outgoing name]
+Wychodząca nazwa
+;file \plugins\NewStory\src\history.cpp
+[FirstName]
+Imię
+[LastName]
+Nazwisko
+[e-mail]
+E-mail
+[Nick]
+Nick
+[Age]
+Wiek
+[Gender]
+Płeć
+[City]
+Miasto
+[State]
+Stan
+[Phone]
+Telefon
+[Homepage]
+Strona WWW
+[About]
+O wtyczce
+[History search results]
+
+[Export...]
+Eksportuj...
+[Delete...]
+
+[Search...]
+
+[Send message]
+Wyślij wiadomość
+[Jump to date]
+
+[User info]
+Informacje użytkownika
+[User menu]
+Menu użytkownika
+[Find next]
+Wyszukaj następny
+[Find previous]
+Wyszukaj poprzedni
+[Conversations]
+Rozmowy
+[It is metacontact. For export use one of this subcontacts:\r\n%s]
+
+[Export warning]
+
+[JSON files]
+
+[Export %s history]
+
+[Complete]
+Zakończone
+[History export]
+
+;file \plugins\NewStory\src\history_control.cpp
+[Are you sure to remove all events from history?]
+
+;file \plugins\NewStory\src\history_menus.cpp
+[User history]
+
+[Empty history]
+Pusta Historia
+[System history]
+Historia systemowa
+;file \plugins\NewStory\src\main.cpp
+[Main icon]
+Główna ikona
+[Search]
+Szukaj
+[Export]
+Eksportuj
+[Incoming message]
+Przychodząca wiadomość
+[Outgoing message]
+Wychodząca wiadomość
+[User signed in]
+
+[Unknown event]
+Nieznane zdarzenie
+[Template group]
+
+[Cancel edit]
+
+[Update preview]
+Uaktualnij podgląd
+[Help]
+Pomoc
+;file \plugins\NewStory\src\options.cpp
+[Reset to default]
+Przywróć domyślne
+[Variables help]
+Pomoc o zmiennych
+[Test contact]
+Testowy kontakt
+[simply % character]
+
+[a "hard" line break (cr/lf - will break indent)]
+
+[my nickname]
+
+[buddy\'s nickname]
+
+[event count]
+Liczba zdarzeń
+[icon]
+Ikona
+[direction icon]
+
+[direction symbol]
+
+[timestamp]
+Czas
+[hour (24 hour format, 0-23)]
+
+[hour (12 hour format)]
+
+[minute]
+minut
+[second]
+
+[month]
+miesiąc
+[day of month]
+
+[year (4 digits)]
+rok (4 znaki)
+[day of week (Sunday, Monday... translatable)]
+
+[AM/PM symbol]
+
+[name of month, translatable]
+
+[the message string itself]
+
+[History]
+Historia
+[Advanced]
+Zaawansowane
+;file \plugins\NewStory\src\templates.cpp
+[Sunday]
+Niedziela
+[Monday]
+Poniedziałek
+[Tuesday]
+Wtorek
+[Wednesday]
+Środa
+[Thursday]
+Czwartek
+[Friday]
+Piątek
+[Saturday]
+Sobota
+[January]
+Styczeń
+[February]
+Luty
+[March]
+Marzec
+[April]
+Kwiecień
+[May]
+Maj
+[June]
+Czerwiec
+[July]
+Lipiec
+[August]
+Sierpień
+[September]
+Wrzesień
+[October]
+Październik
+[November]
+Listopad
+[December]
+Grudzień
+[System event]
+
+[Interface]
+Interfejs
+[Window title]
+
+[Message log]
+Dziennik wiadomości
+[Grouped messages]
+
+[Presence requests]
+
+[Other events]
+Inne zdarzenia
+[Authorization requests]
+
+['You were added' events]
+
+['You were deleted' events]
+
+[Clipboard]
+Schowek

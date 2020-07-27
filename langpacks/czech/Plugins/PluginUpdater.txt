@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.5
+;  Version: 0.2.0.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -22,10 +22,6 @@ Zrušit
 Vybr&at vše
 [Select &none]
 Z&rušit výběr
-[Hotkey]
-Klávesy
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Zkratky změníte v sekci Vlastní úpravy -> Klávesové zkratky
 [Update options]
 Kontrola aktualizací
 [On startup]
@@ -36,6 +32,8 @@ Po spuštění
 Každých
 [Silent mode]
 Tichý režim
+[Restart Miranda automatically]
+
 [Backup database before update (requires Db_autobackups plugin)]
 Zálohovat databázi před aktualizací (vyžaduje doplněk Db_autobackups)
 [Files source]
@@ -52,10 +50,10 @@ Vývojová verze s debug symboly
 Vlastní verze
 [Change platform to 32-bit]
 Změnit platformu na 32-bit
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Některé komponenty byly aktualizovány.\nJe nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
 [Use HTTPS]
 
+[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
+Některé komponenty byly aktualizovány.\nJe nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
 [Notifications]
 Upozornění
 [Restart]
@@ -152,8 +150,6 @@ Aktualizace se nezdařila! Některá z komponent nebyla správně stažena. Zkus
 %d komponent bylo aktualizováno
 [You need to restart your Miranda to apply installed updates.]
 Je nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
-[Would you like to restart it now?]
-Přejete si ji nyní restartovat?
 [Checking for new updates...]
 Zjišťování aktualizací...
 [No updates found.]
@@ -164,6 +160,8 @@ Kontrola aktualizací již probíhá!
 [Plugin updater URI scheme]
 Schéma URI pro aktualizátor
 ;file \plugins\PluginUpdater\src\Notifications.cpp
+[Would you like to restart it now?]
+Přejete si ji nyní restartovat?
 ;file \plugins\PluginUpdater\src\Options.cpp
 [Backup database before update]
 Zálohovat databázi před aktualizací

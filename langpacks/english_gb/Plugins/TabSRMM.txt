@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
@@ -11,8 +11,6 @@ Customise the panel
 Use default colours
 [Use the message log color theme for group chat popups]
 Use the message log colour theme for group chat popups
-[Contact is a favorite contact]
-Contact is a favourite contact
 [Vertical maximize]
 Vertical maximise
 [Enable popups if minimized]
@@ -33,12 +31,6 @@ Define up to 5 colours which you can use with some variables
 Load fonts and colours provided by skin
 [You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
 You can export and import all your colour and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.
-[Favorites]
-Favourites
-[Add contact to favorites]
-Add contact to favourites
-[Remove contact from favorites]
-Remove contact from favourites
 [Show popups if window is minimized]
 Show popups if window is minimised
 [Select font color]

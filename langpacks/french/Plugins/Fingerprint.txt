@@ -38,8 +38,6 @@
 
 [Jabber clients]
 
-[MSN clients]
-
 [RSS clients]
 
 [VKontakte clients]
@@ -110,8 +108,6 @@ Protocole
 [JGTalk overlay]
 
 [Jabber overlay]
-
-[MSN overlay]
 
 [VK overlay]
 

@@ -66,14 +66,6 @@ Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
 To usunie wszystkie ustawienia i historię tego kontaktu!
-[Hide offline users]
-Ukryj rozłączonych
-[Hide empty groups]
-Ukryj puste grupy
-[Disable groups]
-Wyłącz grupy
-[Ask before deleting contacts]
-Pytaj przed usunięciem kontaktów
 [Sort contacts by name]
 Sortowanie po nazwie
 [Sort contacts by status]
@@ -100,14 +92,14 @@ sekund(y), jeśli statusy się różnią
 Pokaż ikony osobno
 [Only when statuses differ]
 Tylko, jeśli statusy się różnią
-[Contact list]
-Lista kontaktów
 [System tray icon]
 Ikona w zasobniku
 [System tray icon when using multiple protocols]
 Ikona w zasobniku systemowym podczas korzystania z wielu protokołów
 [Contact list sorting]
 Sortowanie kontaktów
+[Don't move offline user to bottom]
+Nie przesuwaj rozłączonych na dół
 [Window]
 Okno
 [Always on top]
@@ -170,8 +162,6 @@ Pokazuj zaznaczenie na nieaktywnej liście
 Przezroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
-['Hide offline' means to hide:]
-"Ukryj rozłączonych" tzn.:
 [Groups]
 Grupy
 [Draw a line alongside group names]
@@ -196,10 +186,10 @@ Płynne przewijanie listy
 Czas:
 [milliseconds]
 ms
-[Left margin:]
-Lewy margines:
 [Hide vertical scroll bar]
 Ukryj pionowy pasek przewijania
+[Left margin:]
+Lewy margines:
 [Row height:]
 Wysokość wiersza:
 [Gamma correction]
@@ -1104,6 +1094,8 @@ Ustaw domyślne i otwórz okno rozmowy
 Pokaż menu kontekstowe subkontaktu
 [Show user information]
 Pokaż dane użytkownika
+[Contact list]
+Lista kontaktów
 [Display subcontact nickname]
 Wyświetl nick subkontaktu
 [Display subcontact display name]
@@ -1152,6 +1144,18 @@ Zostałeś dodany
 O Mirandzie NG
 [Credits >]
 Autorzy >
+[Hide offline users]
+Ukryj rozłączonych
+[Hide empty groups]
+Ukryj puste grupy
+[Enable groups]
+Włącz grupy
+[Ask before deleting contacts]
+Pytaj przed usunięciem kontaktów
+[Remove temporary contacts on exit]
+
+['Hide offline' means to hide:]
+"Ukryj rozłączonych" tzn.:
 [Hidden window]
 
 [Tray]
@@ -1246,6 +1250,7 @@ Bezczynność
 Po&każ opis "%s"
 [Re&ad status message]
 Zo&bacz opis statusu
+;file \src\core\stdaway\src\options.cpp
 ;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Nie ma mnie od %time%
@@ -1310,6 +1315,8 @@ Tło listy
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Globalne
+[General]
+Ogólne
 ;file \src\core\stdclist\src\cluiopts.cpp
 ;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
@@ -1654,8 +1661,6 @@ Ikony wyświetlane w dzienniku wiadomości
 Ikony wyświetlane w zasobniku
 [Popups to display]
 Popupy do wyświetlenia
-[General]
-Ogólne
 [Chat log]
 Dziennik czatu
 [Chat]
@@ -2012,10 +2017,10 @@ Dołączyłeś do %s
 Jesteś teraz znany jako %s
 [%s kicked %s]
 %s wyrzucił uczestnika %s
-[Notice from %s: ]
-Powiadomienie od %s:\s
-[The topic is '%s%s']
-Temat to "%s%s"
+[Notice from %s]
+Powiadomienie od %s
+[The topic is '%s']
+Temat to "%s"
 [ (set by %s on %s)]
  (wybrany przez %s na %s)
 [ (set by %s)]
@@ -2091,8 +2096,6 @@ Temat został zmieniony
 %s opuścił(a) %s
 [%s kicked %s from %s]
 %s wyrzucony %s przez %s
-[Notice from %s]
-Powiadomienie od %s
 [Topic change in %s]
 Zmieniony temat w %s
 [Information in %s]
@@ -2101,28 +2104,10 @@ Informacja w %s
 %s włącza status "%s" dla %s w %s
 [%s disables '%s' status for %s in %s]
 %s wyłącza status "%s" dla %s w %s
-[%s says: %s]
-%s mówi: %s
-[%s has left (%s)]
-%s wyszedł (%s)
-[%s has disconnected (%s)]
-%s rozłączył się (%s)
-[%s kicked %s (%s)]
-%s wyrzucił %s z powodu (%s)
-[Notice from %s: %s]
-Powiadomienie od %s: %s
-[The topic is '%s']
-Temat to "%s"
-[The topic is '%s' (set by %s)]
-Temat to "%s" (ustawiony przez %s)
+[%s says]
+%s mówi
 [Chat rooms]
 Pokoje czatu
-[Look up '%s':]
-Zobacz "%s":
-[No word to look up]
-Nie podano słowa do wyszukania
-[&Message %s]
-&Wiadomość %s
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
@@ -2142,6 +2127,9 @@ Ta grupa
 Łączenie
 [Connecting (attempt %d)]
 Łączenie (próba %d)
+;file \src\mir_app\src\clistopts.cpp
+[Common]
+Wspólne
 ;file \src\mir_app\src\clistsettings.cpp
 [(Unknown contact)]
 (Nieznany kontakt)
@@ -2371,6 +2359,8 @@ Pokaż/Ukryj listę kontaktów
 Przeczytaj wiadomość
 [Open Options page]
 Otwórz okno opcji
+[Toggle groups]
+Włącz/Wyłącz grupy
 [Open logging options]
 Otwórz okno opcji logowania
 [Open 'Find user' dialog]
@@ -2628,6 +2618,15 @@ Zmodyfikowano
 Moje profile
 [New profile]
 Nowy profil
+;file \src\mir_app\src\proto_interface.cpp
+[Request authorization]
+Poproś o autoryzację
+[Grant authorization]
+Udziel autoryzacji
+[Revoke authorization]
+Cofnij autoryzację
+[Load server history]
+
 ;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i historia zostaną usunięte.\n\nCzy jesteś pewien?
@@ -2682,13 +2681,6 @@ Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
 [&Accounts...]
 &Konta...
 ;file \src\mir_app\src\proto_order.cpp
-;file \src\mir_app\src\proto_utils.cpp
-[Request authorization]
-Poproś o autoryzację
-[Grant authorization]
-Udziel autoryzacji
-[Revoke authorization]
-Cofnij autoryzację
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Nie można rozpocząć wyszukiwania w "%s", ponieważ wystąpił problem. Czy "%s" jest połączony?
@@ -2788,6 +2780,8 @@ Pliki WAV
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[&Message %s]
+&Wiadomość %s
 [Nickname]
 Nick
 [Unique ID]
@@ -2795,6 +2789,11 @@ Unikalne ID
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 
+;file \src\mir_app\src\srmm_log_rtf.cpp
+[Look up '%s':]
+Zobacz "%s":
+[No word to look up]
+Nie podano słowa do wyszukania
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Separator>

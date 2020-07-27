@@ -12,7 +12,7 @@
 [Steam game]
 [Looking to play]
 [ (Non-Steam)]
-[ on server %s]
+[ on server %S]
 [Playing]
 [%s is back in your contact list]
 [%s has been removed from your contact list]

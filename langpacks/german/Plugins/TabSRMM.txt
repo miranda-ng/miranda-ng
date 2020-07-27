@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -200,8 +200,6 @@ Zeitüberschreitungen ignorieren
 Lade nur aktuellen Nachrichtenverlauf
 [Use private splitter position]
 Private Splitterposition verwenden
-[Contact is a favorite contact]
-Kontakt in der Liste der Favoriten
 [Always trim message log to]
 Neue Nachrichten begrenzen auf
 [events]
@@ -664,28 +662,6 @@ Für diesen Kontakt
 Globale Einstellung
 [Force off]
 Niemals senden
-[Recent sessions]
-Letzte Sitzungen
-[Favorites]
-Favoriten
-[Show the tray icon]
-Systemtray-Icon anzeigen
-[Disable all event notifications]
-Alle Ereignisbenachrichtigungen deaktivieren
-[Don't create windows automatically]
-Fenster nicht automatisch erzeugen
-[Hide all message containers]
-Alle Nachrichtenfenster verbergen
-[Restore all message containers]
-Alle Nachrichtenfenster widerherstellen
-[Don't play sounds]
-Keine Klänge abspielen
-[Be "super quiet"]
-Alles unterdrücken
-[Add contact to favorites]
-Kontakt zu Favoriten hinzufügen
-[Remove contact from favorites]
-Kontakt aus Favoriten entfernen
 [Set position for this session]
 Position für diese Sitzung speichern
 [Set and save for all sessions]
@@ -793,33 +769,6 @@ Nickliste ein-/ausblenden
 Ereignisfilter - Rechtsklick zum Einrichten, Linksklick zum Aktivieren/Deaktivieren
 [Channel manager]
 Channelmanager
-;file \plugins\TabSRMM\src\chat_log.cpp
-[%s has joined]
-%s ist beigetreten
-[You have joined %s]
-Sie haben %s betreten
-[%s has left]
-%s ist gegangen
-[%s has disconnected]
-%s wurde getrennt
-[%s is now known as %s]
-%s ist nun bekannt als %s
-[You are now known as %s]
-Sie sind nun bekannt als %s
-[%s kicked %s]
-%s kickte %s
-[Notice from %s: ]
-Notiz von %s:\s
-[The topic is '%s%s']
-Das Thema ist '%s%s'
-[ (set by %s on %s)]
- (gesetzt von %s um %s)
-[ (set by %s)]
- (gesetzt von %s)
-[%s enables '%s' status for %s]
-%s aktiviert '%s' Status für %s
-[%s disables '%s' status for %s]
-%s deaktiviert '%s' Status für %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Nachrichtensitzungen
@@ -1146,6 +1095,8 @@ Hervorhebungen
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Nachrichtensitzung...
+[Message from %s]
+Nachricht von %s
 [Default container]
 Standardcontainer
 [Attach to]
@@ -1233,8 +1184,6 @@ Vorschau des Ereignisses zeigen
 Keine Benachrichtigung, wenn bereits ein Nachrichtenfenster geöffnet ist
 [Don't announce events from RSS protocols]
 Keine Benachrichtigung für Ereignisse von RSS-Protokollen
-[Enable the system tray icon]
-Systemtray-Icon aktivieren
 [Merge new events for the same contact into existing popup]
 Behandle neue Benachrichtigungen für den gleichen Kontakt in einem existierenden Popup
 [Show headers]
@@ -1309,16 +1258,10 @@ Nachricht
 Sonstige
 [TabSRMM: typing]
 TabSRMM: Tippen
-[TabSRMM session list]
-TabSRMM-Sitzungsliste
-[TabSRMM menu]
-TabSRMM-Menü
 [&Messaging settings...]
 Nachrichteneinstellungen...
 [&Send later job list...]
 &Später-senden-Aufgabenliste...
-[Message from %s]
-Nachricht von %s
 [signed off.]
 ist nun offline.
 [signed on and is now %s.]
@@ -1641,6 +1584,14 @@ Statuswechsel aufzeichnen
 Selbe Trennerhöhe für alle Sitzungen verwenden
 [Automatically copy selected text]
 Markierten Text automatisch kopieren
+[Test contact]
+Test-Kontakt
+[Template set editor]
+Bearbeiten des Nachrichtenverlaufs
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Dies wird alle Vorlagen auf die standardmäßig enthaltenen Vorlagen zurücksetzen, sind Sie sich sicher, dass Sie das tun wollen?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Alle Vorlagen wurden erfolgreich zurückgesetzt, bitte schließen Sie alle offenen Nachrichtenfenster und öffnen Sie sie erneut. Dieser Dialog wird nun geschlossen.
 [Message log appearance]
 Verlaufseinstellungen
 [Support for external plugins]
@@ -1806,8 +1757,6 @@ Pfeil nach links
 Pfeil nach rechts
 [Up Arrow]
 Pfeil nach oben
-[Session List]
-Sitzungsliste
 [Frame 1]
 Frame 1
 [Frame 2]
@@ -1926,12 +1875,6 @@ Gruppiert, Ein (Innen)
 Gruppiert, Aus (Innen)
 [Error message]
 Fehlernachricht
-[Template set editor]
-Bearbeiten des Nachrichtenverlaufs
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Dies wird alle Vorlagen auf die standardmäßig enthaltenen Vorlagen zurücksetzen, sind Sie sich sicher, dass Sie das tun wollen?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Alle Vorlagen wurden erfolgreich zurückgesetzt, bitte schließen Sie alle offenen Nachrichtenfenster und öffnen Sie sie erneut. Dieser Dialog wird nun geschlossen.
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 TabSRMM-Themes
@@ -1952,7 +1895,6 @@ Benutzerdefiniert (benutze eigenen Farbverl.)
 Alle Nachrichtenfenster müssen geschlossen werden, damit der Skin geändert werden kann.\nFortsetzen?
 [Change skin]
 Skin ändern
-;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 &Tipphinweis deaktivieren
@@ -1972,6 +1914,8 @@ Nachrichteneinstellungen für %s
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 TabSRMM-Nachricht (%s)
+[Save file|Unable to save temporary file]
+
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Editiere Benutzernachricht|Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]

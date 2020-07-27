@@ -28,14 +28,14 @@ Zobrazení
 Nahradit pouze smajlíky ohraničené mezerami
 [Scale smiley to text height]
 Sjednotit velikost smajlíků s textem
-[Disable custom smileys]
-Zakázat vlastní smajlíky
+[Disable stickers]
+
 [High quality smiley scaling]
 Zapnout kvalitní přepočet velikosti
 [Animate]
 Animovat
-[Maximum 'Custom smiley' height]
-Max. velikost vlastních smajlíků
+[Maximum sticker height]
+
 [Minimum smiley height]
 Min. velikost smajlíků
 [Smiley selector]

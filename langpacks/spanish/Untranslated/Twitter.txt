@@ -4,7 +4,6 @@
 [Send Tweet]
 [Miscellaneous options]
 [Use group chat for Twitter feed]
-[Base URL:]
 [Polling rate:]
 [Once every]
 [These changes will take effect the next time you connect to the Twitter network.]

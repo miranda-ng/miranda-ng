@@ -373,8 +373,6 @@ odtwarzacz
 "Variables" wyjście ANSI
 [FPS (Frames per second)]
 FPS (klatek na sekundę)
-[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-Jeśli używana jest usługa zmiennych, zwrócona wartość zostanie podana w kodowaniu ANSI (domyślnie w UTF8)
 [Save settings in INI-file]
 Zapisz ustawienia w INI
 [VBR or not]

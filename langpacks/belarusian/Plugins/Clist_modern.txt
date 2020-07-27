@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.9
+;  Version: 0.9.1.10
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -160,20 +160,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
 Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
-[Hide offline users]
-Схаваць адключаных
-[Hide empty groups]
-Схаваць пустыя гурты
-[Disable groups]
-Адключыць гурты
-[Ask before deleting contacts]
-Пацверджанне выдалення
-[Don't move offline user to bottom]
-Не перасоўваць адключаных уніз
-[Contact list]
-Спіс кантактаў
 [Contact list sorting]
 Сартаванне спісу кантактаў
+[Don't move offline user to bottom]
+Не перасоўваць адключаных уніз
 [1st:]
 1-шы:
 [2nd:]
@@ -182,8 +172,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 3-ці:
 [Place offline users out of groups]
 Адключаных паказваць па-за гуртамі
-[Gamma correction]
-Карэкцыя гамы
+[Selection mode]
+Тып вылучэння
 [Default]
 Змаўчанні
 [Full selection]
@@ -192,8 +182,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Толькі над тэкстам
 [No selection]
 Не вылучаць
-[Selection mode]
-Тып вылучэння
+[Gamma correction]
+Карэкцыя гамы
 [Bring to front if covered]
 Перасоўваць на пярэдні план
 [Hide contact list after]
@@ -258,8 +248,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Напаўпразрыстае вылучэнне
 [Dim idle contacts]
 Прыцьміць неактыўныя
-['Hide offline' means to hide:]
-'Схаваць адключаных' - схаваць:
 [Groups]
 Гурты
 [Draw a line alongside group names]
@@ -630,6 +618,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Скіны
 [Modern contact list]
 Прадвінуты спіс кантактаў
+[Contact list]
+Спіс кантактаў
 [Avatar overlay]
 Адбітак аватара
 [Status overlay]
@@ -893,6 +883,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 Уключыць/Выключыць гурты
 [Use groups]
 Уключыць гурты
+[Disable groups]
+Адключыць гурты
 [Enable/Disable sounds]
 Уключыць/Выключыць гукі
 [Enable sounds]

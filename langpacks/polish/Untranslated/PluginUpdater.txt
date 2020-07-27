@@ -1,1 +1,2 @@
+[Restart Miranda automatically]
 [Use HTTPS]

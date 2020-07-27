@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.5
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -121,6 +121,8 @@ Rozmowa zakończona (%s)
 Transfer pliku:\n\tNazwa pliku: %s \n\tRozmiar: %lld bajtów \n
 [Preview]
 Podgląd
+[Full image]
+
 [Unknown event, please send this text for developer: "%s"]
 Nieznane zdarzenie, proszę prześlij ten tekst programistom: "%s"
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
@@ -128,8 +130,6 @@ Nieznane zdarzenie, proszę prześlij ten tekst programistom: "%s"
 Ikona protokołu
 [Create new chat icon]
 Ikona tworzenia nowego czatu
-[Sync history icon]
-Ikona synchronizacji historii
 [Block user icon]
 Ikona blokowania użytkownika
 [Unblock user icon]
@@ -154,8 +154,6 @@ Zbyt wiele nieudanych prób autoryzacji z podaną nazwą użytkownika lub IP.
 [Authentication failed. Unknown error.]
 Autoryzacja nie powiodła się. Nieznany błąd.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Get server history]
-Pobieraj historię z serwera
 [Block contact]
 Zablokuj kontakt
 [Unblock contact]
@@ -169,9 +167,6 @@ Nie możesz wysyłać będąc rozłączonym.
 Nieznany błąd!
 [Network error!]
 Błąd sieciowy!
-;file \protocols\SkypeWeb\src\skype_mslogin.cpp
-[Enter confirmation code]
-Wprowadź kod weryfikacyjny
 ;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 Połączenie %s
@@ -190,6 +185,3 @@ Rozmowy
 
 [Skypename]
 Nazwa Skype
-;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call from %s]
-Przychodząca rozmowa od %s

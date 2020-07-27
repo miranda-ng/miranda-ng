@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -40,24 +40,14 @@ Pokazuj wiadomości systemowe OTR w linii
 Pokazuj wiadomości systemowe OTR jako popupy
 [Show verification dialog when receiving unverified fingerprint]
 Pokazuj okno weryfikacji po otrzymaniu niezweryfikowanego odcisku palca
-[Set OTR policy per protocol]
-Ustaw politykę OTR indywidualnie dla każdego protokołu
+[Set OTR policy per account]
+
 [Current policy:]
 Obecna polityka:
-[Generate new private key]
-Generuj nowy klucz prywatny
-[Forget private key]
-Zapomnij klucz prywatny
 [Set OTR policy per contact]
 Ustaw politykę OTR indywidualnie dla każdego kontaktu
 [View & Modify status of known fingerprints]
 Zobacz i modyfikuj status znanych odcisków palca
-[Set verified]
-Jako zweryfikowany
-[Set unknown]
-Jako nieznany
-[Forget]
-Porzuć
 [Socialist Millionaires Protocol]
 Protokół Socialist Millioneres
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -80,6 +70,18 @@ Status OTR
 Zatr&zymaj sesję OTR
 [&Verify Fingerprint]
 Z&weryfikuj Odcisk Palca
+[Set verified]
+Jako zweryfikowany
+[Set unknown]
+Jako nieznany
+[Copy]
+Kopiuj
+[Forget]
+Porzuć
+[Generate new private key]
+Generuj nowy klucz prywatny
+[Forget private key]
+Zapomnij klucz prywatny
 ;file \plugins\MirOTR\src\icons.cpp
 [OTR private]
 OTR prywatny
@@ -140,16 +142,8 @@ Informacje OTR
 Szyfrowana sesja OTR z "%s" używa teraz zweryfikowanego odcisku palca
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Szyfrowana sesja OTR z "%s" używa teraz niezweryfikowanego odcisku palca
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Generowanie nowego klucza prywatnego dla protokołu "%s".\nProszę czekać...
-[General]
-Ogólne
-[Protocols]
-Protokoły
-[Contacts]
-Kontakty
-[Fingerprints]
-Odciski palca
+[Generating new private key for account '%s'.\nPlease Wait...]
+
 [Contact]
 Kontakt
 [Account]
@@ -242,6 +236,14 @@ Status OTR
 Dane Prywatne
 [Services]
 Usługi
+[General]
+Ogólne
+[Accounts]
+Konta
+[Contacts]
+Kontakty
+[Fingerprints]
+Odciski palca
 ;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
 \nużywanie starszej wersji protokołu %i

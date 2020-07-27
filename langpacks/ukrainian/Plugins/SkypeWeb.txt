@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.5
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -121,6 +121,8 @@
 Передача файлу:\n\tНазва: %s \n\tРозмір: %lld байт \n
 [Preview]
 Тест
+[Full image]
+
 [Unknown event, please send this text for developer: "%s"]
 Невідома подія, будь ласка, надішліть авторові плагіна цей текст: "%s"
 ;file \protocols\SkypeWeb\src\skype_icons.cpp
@@ -128,8 +130,6 @@
 Значок протоколу
 [Create new chat icon]
 Створити новий чат
-[Sync history icon]
-Синхронізувати історію
 [Block user icon]
 Заблокувати контакт
 [Unblock user icon]
@@ -154,8 +154,6 @@
 [Authentication failed. Unknown error.]
 Не вдалося авторизуватися через невідому помилку.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Get server history]
-Синхронізувати історію
 [Block contact]
 Заблокувати контакт
 [Unblock contact]
@@ -169,9 +167,6 @@
 Невідома помилка!
 [Network error!]
 Помилка мережі!
-;file \protocols\SkypeWeb\src\skype_mslogin.cpp
-[Enter confirmation code]
-Введіть код підтвердження
 ;file \protocols\SkypeWeb\src\skype_network.cpp
 [%s connection]
 З'єднання %s
@@ -190,6 +185,3 @@
 Вхідний дзвінок скасовано
 [Skypename]
 Логін Skype
-;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Incoming call from %s]
-Вхідний дзвінок від %s

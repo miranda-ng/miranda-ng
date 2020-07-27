@@ -85,8 +85,8 @@ INI
 Стойност
 [Use LastResult]
 Ползване на последния резултат
-[UTF8 encoding]
-Кодиране UTF8
+[UTF-8 encoding]
+Кодиране UTF-8
 [Function call]
 
 [Function name]
@@ -757,7 +757,7 @@ Unicode текст
 
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
 
-[display birthdays window]
+[Display birthdays window]
 
 [Manage Jabber Bookmarks]
 Управление на Jabber отметки

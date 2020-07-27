@@ -28,14 +28,14 @@
 Замінювати тільки смайли, оточені пробілами
 [Scale smiley to text height]
 Масштабувати смайли під текст
-[Disable custom smileys]
-Вимкнути завантажувані смайли
+[Disable stickers]
+
 [High quality smiley scaling]
 Якісне масштабування
 [Animate]
 Анімація
-[Maximum 'Custom smiley' height]
-Макс. висота завант. смайлів
+[Maximum sticker height]
+
 [Minimum smiley height]
 Мінімальна висота смайлів
 [Smiley selector]

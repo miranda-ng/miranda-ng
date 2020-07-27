@@ -68,7 +68,6 @@
 [total song length (sec)]
 [player status (stopped, playing, paused)]
 ["Variables" ANSI output]
-[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
 [Get user's Music Info]
 [WATrack Macro Info]
 [Lyric from ID3v2 tag]

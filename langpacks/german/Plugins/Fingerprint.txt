@@ -38,8 +38,6 @@ ICQ-Clients
 IRC-Clients
 [Jabber clients]
 Jabber-Clients
-[MSN clients]
-MSN-Clients
 [RSS clients]
 RSS-Clients
 [VKontakte clients]
@@ -111,8 +109,6 @@ JGmail overlay
 JGTalk overlay
 [Jabber overlay]
 Jabber overlay
-[MSN overlay]
-MSN overlay
 [VK overlay]
 VK overlay
 [Skype overlay]

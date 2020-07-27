@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -200,8 +200,6 @@ Ignoruj limity czasu wysyłania
 Wczytaj tylko aktualną historię
 [Use private splitter position]
 Użyj prywatnej pozycji separatora
-[Contact is a favorite contact]
-Kontakt jest jednym z ulubionych
 [Always trim message log to]
 Zawsze skracaj dziennik wiadomości do
 [events]
@@ -664,28 +662,6 @@ Ten kontakt
 Ustawienie globalne
 [Force off]
 Wyłącz wymuszanie
-[Recent sessions]
-Ostatnie sesje
-[Favorites]
-Ulubione
-[Show the tray icon]
-Pokaż ikonę w zasobniku
-[Disable all event notifications]
-Wyłącz wszystkie powiadomienia o zdarzeniach
-[Don't create windows automatically]
-Nie twórz okien automatycznie
-[Hide all message containers]
-Ukryj wszystkie kontenery z wiadomościami
-[Restore all message containers]
-Przywróć wszystkie kontenery z wiadomościami
-[Don't play sounds]
-Nie odtwarzaj dźwięków
-[Be "super quiet"]
-Bądź "super cicho"
-[Add contact to favorites]
-Dodaj kontakt do ulubionych
-[Remove contact from favorites]
-Usuń kontakt z ulubionych
 [Set position for this session]
 Ustaw położenie dla tej sesji
 [Set and save for all sessions]
@@ -793,33 +769,6 @@ Pokaż/Ukryj listę nicków
 Filtr zdarzeń: PPM - ustawienia, LPM - aktywacja/dezaktywacja
 [Channel manager]
 Zarządzanie kanałem
-;file \plugins\TabSRMM\src\chat_log.cpp
-[%s has joined]
-%s dołączył(a)
-[You have joined %s]
-Dołączyłeś do %s
-[%s has left]
-%s opuścił(a) czat
-[%s has disconnected]
-%s został rozłączony
-[%s is now known as %s]
-%s jest obecnie znany jako %s
-[You are now known as %s]
-Jesteś teraz znany jako %s
-[%s kicked %s]
-%s wyrzucił uczestnika %s
-[Notice from %s: ]
-Powiadomienie od %s:\s
-[The topic is '%s%s']
-Temat to "%s%s"
-[ (set by %s on %s)]
- (wybrany przez %s na %s)
-[ (set by %s)]
- (wybrany przez %s)
-[%s enables '%s' status for %s]
-%s włącza status "%s" dla %s
-[%s disables '%s' status for %s]
-%s wyłącza status "%s" dla %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Okno rozmowy
@@ -1146,6 +1095,8 @@ Podświetlanie
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Sesja rozmowy...
+[Message from %s]
+Wiadomość od %s
 [Default container]
 Domyślny kontener
 [Attach to]
@@ -1233,8 +1184,6 @@ Pokaż podgląd zdarzenia
 Nie ogłaszaj zdarzenia, kiedy okno rozmowy jest otwarte
 [Don't announce events from RSS protocols]
 Nie ogłaszaj zdarzeń z protokołu RSS
-[Enable the system tray icon]
-Pokaż ikonę w zasobniku systemowym
 [Merge new events for the same contact into existing popup]
 Połącz nowe zdarzenia od tego samego w istniejącym popupie
 [Show headers]
@@ -1309,16 +1258,10 @@ Błąd wysyłania wiadomości
 Inne
 [TabSRMM: typing]
 TabSRMM: pisanie
-[TabSRMM session list]
-Lista sesji TabSRMM
-[TabSRMM menu]
-Menu TabSRMM
 [&Messaging settings...]
 Opcje &rozmowy...
 [&Send later job list...]
 Lista zadań "&wyślij później"...
-[Message from %s]
-Wiadomość od %s
 [signed off.]
 Rozłączony
 [signed on and is now %s.]
@@ -1641,6 +1584,14 @@ Pokazuj zmiany statusu
 
 [Automatically copy selected text]
 Automatycznie kopiuj zaznaczony tekst
+[Test contact]
+Testowy kontakt
+[Template set editor]
+Edytor zbioru szablonów
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno chcesz to zrobić?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Zbiór szablonów został zresetowany, zamknij i otwórz wszystkie okna rozmowy. Okno edytora szablonów zostanie teraz zamknięte.
 [Message log appearance]
 Wygląd dziennika wiadomości
 [Support for external plugins]
@@ -1806,8 +1757,6 @@ Strzałka w lewo
 Strzałka w prawo
 [Up Arrow]
 Strzałka w górę
-[Session List]
-Lista sesji
 [Frame 1]
 Ramka 1
 [Frame 2]
@@ -1926,12 +1875,6 @@ Wiadomość Przychodząca na Czacie
 Wiadomość Wychodząca na Czacie
 [Error message]
 Komunikat o błędzie
-[Template set editor]
-Edytor zbioru szablonów
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno chcesz to zrobić?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Zbiór szablonów został zresetowany, zamknij i otwórz wszystkie okna rozmowy. Okno edytora szablonów zostanie teraz zamknięte.
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 Skórka TabSRMM
@@ -1952,7 +1895,6 @@ Niestandardowy (użyj własnego koloru gradientu)
 Wszystkie kontenery muszą zostać zamknięte przed zmianą skórki\nKontynuować?
 [Change skin]
 Zmień skórkę
-;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 Wyłącz powiadomienie o &pisaniu
@@ -1972,6 +1914,8 @@ Ustawienia opcji rozmowy dla %s
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 Wiadomość TabSRMM (%s)
+[Save file|Unable to save temporary file]
+
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Edycja notatek kontaktu|Kliknij przycisk ponownie lub użyj skrótu klawiszowego (domyślnie: Alt+N) aby zapisać informacje i powrócić do normalnego trybu wiadomości.
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]

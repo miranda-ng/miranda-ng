@@ -8,42 +8,6 @@
 [A contact list for blind folks.]
 Спіс канатактаў для людзей з дрэнным зрокам.
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete contact]
-Выдаліць кантакт
-[Are you sure you want to delete %s?]
-Выдаліць %s са спісу?
-[This will erase all history and settings for this contact!]
-Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
-[Yes]
-Так
-[No]
-Не
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Схаваць са спісу (захаваецца гісторыя і налады бачнасці)
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-"Налады -> Кантакты -> Ігнараваць", каб адлюстраваць кантакты.
-[Hotkeys]
-Гарачыя клавішы
-[Show/Hide:]
-Паказаць/Схаваць:
-[Read message:]
-Паведамленне:
-[Web search:]
-Вэб пошук:
-[URL:]
-Спасылка:
-[Open in new browser window]
-Адчыніць у новым вакне
-[Show options]
-Паказаць налады
-[Hide offline users]
-Схаваць адключаных
-[Hide empty groups]
-Схаваць пустыя гурты
-[Disable groups]
-Адключыць гурты
-[Ask before deleting contacts]
-Пацверджанне выдалення
 [Sort contacts by name]
 Сартаванне па імені
 [Sort contacts by status]
@@ -70,8 +34,6 @@
 Некалькі абразкоў
 [Only when statuses differ]
 Пры розных статусах
-[Contact list]
-Спіс кантактаў
 [System tray icon]
 Абразок у трэі
 [System tray icon when using multiple protocols]
@@ -122,10 +84,6 @@
 Цень (патрэбен перазапуск)
 [Pin to desktop]
 Прымацаваць ды стала
-[Items]
-Элементы
-['Hide offline' means to hide:]
-'Схаваць адключаных' - схаваць:
 [Groups]
 Гурты
 [Show counts of number of contacts in a group]
@@ -167,30 +125,14 @@
 [Show resize grip indicator]
 Індыкатар зм. памеру
 ;file \plugins\Clist_blind\src\clcopts.cpp
-[Not focused]
-Не ў фокусе
-[Offline]
-Адключаны
-[Online]
-Далучаны
-[Away]
-Адсутнічаю
-[Not available]
-Недаступны
-[Occupied]
-Заняты
-[Do not disturb]
-Не турбаваць
-[Free for chat]
-Вольны
-[Invisible]
-Нябачны
 [Group: %name% %count% [%mode%]]
 Гурт: %name% %count% [%mode%]
 [Divider: %s]
 Драйвер: %s
 [Info: %s]
 Інфо: %s
+[Contact list]
+Спіс кантактаў
 [List]
 Спіс
 ;file \plugins\Clist_blind\src\clistopts.cpp

@@ -1,4 +1,5 @@
 [Installs and updates plugins and other Miranda NG components.]
+[Restart Miranda automatically]
 [Backup database before update (requires Db_autobackups plugin)]
 [Change platform to 32-bit]
 [Use HTTPS]

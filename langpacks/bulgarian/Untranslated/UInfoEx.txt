@@ -38,5 +38,6 @@
 [The ini-file "%s"\nfor reading contact information could not be opened.]
 [Select a destination file...]
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
+[File not found]
 [Owner contact successfully imported.]
 [Selected XMLCard does not contain an owner contact!]

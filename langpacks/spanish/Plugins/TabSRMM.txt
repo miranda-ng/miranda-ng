@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -199,8 +199,6 @@ Cancelar
 [Load only actual history]
 
 [Use private splitter position]
-
-[Contact is a favorite contact]
 
 [Always trim message log to]
 
@@ -664,28 +662,6 @@ Apagado
 
 [Force off]
 
-[Recent sessions]
-
-[Favorites]
-
-[Show the tray icon]
-
-[Disable all event notifications]
-
-[Don't create windows automatically]
-
-[Hide all message containers]
-
-[Restore all message containers]
-
-[Don't play sounds]
-
-[Be "super quiet"]
-
-[Add contact to favorites]
-
-[Remove contact from favorites]
-
 [Set position for this session]
 
 [Set and save for all sessions]
@@ -793,33 +769,6 @@ Ver historial del usuario
 
 [Channel manager]
 
-;file \plugins\TabSRMM\src\chat_log.cpp
-[%s has joined]
-%s se ha unido
-[You have joined %s]
-Te has unido a %s
-[%s has left]
-%s ha salido
-[%s has disconnected]
-%s se ha desconectado
-[%s is now known as %s]
-%s ahora se conoce como %s
-[You are now known as %s]
-Usted ahora se conoce como %s
-[%s kicked %s]
-%s sacado %s
-[Notice from %s: ]
-Aviso de %s:\s
-[The topic is '%s%s']
-El tema es '%s%s'
-[ (set by %s on %s)]
- (establecido por %s el %s)
-[ (set by %s)]
- (establecido por %s)
-[%s enables '%s' status for %s]
-%s habilitar '%s' de estado para %s
-[%s disables '%s' status for %s]
-%s deshabilitar '%s' de estado para %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Sesiones de mensaje
@@ -1146,6 +1095,8 @@ Ajustes
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 
+[Message from %s]
+Mensaje de
 [Default container]
 
 [Attach to]
@@ -1233,8 +1184,6 @@ Archivo entrante
 
 [Don't announce events from RSS protocols]
 
-[Enable the system tray icon]
-
 [Merge new events for the same contact into existing popup]
 
 [Show headers]
@@ -1309,16 +1258,10 @@ Enviar mensaje de error
 Otro
 [TabSRMM: typing]
 
-[TabSRMM session list]
-
-[TabSRMM menu]
-
 [&Messaging settings...]
 
 [&Send later job list...]
 
-[Message from %s]
-Mensaje de
 [signed off.]
 
 [signed on and is now %s.]
@@ -1641,6 +1584,14 @@ Cerrar la ventana de mensaje al enviar
 
 [Automatically copy selected text]
 
+[Test contact]
+
+[Template set editor]
+
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+
 [Message log appearance]
 
 [Support for external plugins]
@@ -1806,8 +1757,6 @@ Cambio de estado
 
 [Up Arrow]
 
-[Session List]
-
 [Frame 1]
 
 [Frame 2]
@@ -1926,12 +1875,6 @@ Contacto
 
 [Error message]
 
-[Template set editor]
-
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 
@@ -1952,7 +1895,6 @@ Contacto
 
 [Change skin]
 
-;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 
@@ -1971,6 +1913,8 @@ El contacto dejó de escribir
 
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
+
+[Save file|Unable to save temporary file]
 
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 

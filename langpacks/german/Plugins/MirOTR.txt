@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -40,24 +40,14 @@ OTR-System-Nachricht im Fenster anzeigen
 OTR-System-Nachricht als Popup anzeigen
 [Show verification dialog when receiving unverified fingerprint]
 Bestätigungs-Dialog beim Empfang ungeprüfter Fingerabdrücke anzeigen
-[Set OTR policy per protocol]
-OTR-Verhalten pro Protokoll setzen
+[Set OTR policy per account]
+
 [Current policy:]
 Aktuelles Verhalten:
-[Generate new private key]
-Neuen privaten Schlüssel generieren
-[Forget private key]
-Privaten Schlüssel verwerfen
 [Set OTR policy per contact]
 OTR-Verhalten pro Kontakt setzen
 [View & Modify status of known fingerprints]
 Status unbekannter Fingerabdrücke anzeigen & ändern
-[Set verified]
-Geprüft setzen
-[Set unknown]
-Unbekannt setzen
-[Forget]
-Verwerfen
 [Socialist Millionaires Protocol]
 Socialist Millionaire Protocol
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -80,6 +70,18 @@ OTR-Sitzung e&rneuern
 OTR-Sitzung stop&pen
 [&Verify Fingerprint]
 Fingerabdruck &verifizieren
+[Set verified]
+Geprüft setzen
+[Set unknown]
+Unbekannt setzen
+[Copy]
+Kopieren
+[Forget]
+Verwerfen
+[Generate new private key]
+Neuen privaten Schlüssel generieren
+[Forget private key]
+Privaten Schlüssel verwerfen
 ;file \plugins\MirOTR\src\icons.cpp
 [OTR private]
 OTR privat
@@ -140,16 +142,8 @@ OTR-Informationen
 OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen ÜBERPRÜFTEN Fingerabdruck
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen NICHT ÜBERPRÜFTEN Fingerabdruck
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Generiere neuen privaten Schlüssel für das Protokoll '%s'.\nBitte warten Sie...
-[General]
-Allgemein
-[Protocols]
-Protokolle
-[Contacts]
-Kontakte
-[Fingerprints]
-Fingerprints
+[Generating new private key for account '%s'.\nPlease Wait...]
+
 [Contact]
 Kontakt
 [Account]
@@ -242,6 +236,14 @@ HTML &konvertieren (für Pidgin)
 Private Daten
 [Services]
 Dienste
+[General]
+Allgemein
+[Accounts]
+Konten
+[Contacts]
+Kontakte
+[Fingerprints]
+Fingerprints
 ;file \plugins\MirOTR\src\otr.cpp
 [\nusing older protocol version %i]
 \nverwendet ältere Protokollversion %i

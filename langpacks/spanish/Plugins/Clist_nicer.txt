@@ -34,19 +34,7 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 ¡Esto borrará toda el historial y los valores de este contacto!
 [Contact list]
 Lista de contactos
-[Hide offline users]
-Ocultar usuarios fuera de línea
-[Hide empty groups]
-Ocultar grupos vacíos
-[Disable groups]
-Desactivar grupos
-[Ask before deleting contacts]
-Preguntar antes de eliminar
-[Disable icon blinking]
-Desactivar parpadeo de icono
 [Apply last active view mode]
-
-[Contact list layout]
 
 [Show menu and status buttons]
 
@@ -58,6 +46,8 @@ Icono de la bandeja de sistema
 Interfaz simple clic
 [Always show status in tooltip]
 Mostrar estado sobre herramientas
+[Disable icon blinking]
+Desactivar parpadeo de icono
 [ms]
 ms
 [Event area]
@@ -125,8 +115,6 @@ Clasificación de la lista de contacto
 [Move events to the top of list or group]
 
 [Do not separate offline contacts]
-
-[Hide as offline]
 
 [Right align contacts]
 
@@ -408,6 +396,54 @@ Configuración de modos de vista
 [Clear view mode]
 
 ;file \plugins\Clist_nicer\src\clcopts.cpp
+[Nothing]
+
+[Name]
+Nombre
+[Status]
+Estado
+[Message frequency]
+
+[Never]
+
+[Always]
+
+[For RTL only]
+
+[RTL TEXT only]
+
+[Always left]
+
+[Always right]
+
+[Automatic (RTL)]
+
+[When space allows it]
+
+[When needed]
+
+[With nickname - left]
+
+[Far left]
+
+[Far right]
+
+[With nickname - right]
+
+[Row items]
+
+[Contacts]
+Contactos
+[Groups and layout]
+
+[Advanced]
+Avanzado
+;file \plugins\Clist_nicer\src\clcpaint.cpp
+[No events...]
+
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Global
 [Not focused]
 No enfocado
 [Offline]
@@ -426,39 +462,13 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[Always left]
+[Title bar]
 
-[Always right]
+[Tool Window]
 
-[Automatic (RTL)]
+[Thin border]
 
-[Nothing]
-
-[Name]
-Nombre
-[Status]
-Estado
-[Message frequency]
-
-[Never]
-
-[Always]
-
-[For RTL only]
-
-[RTL TEXT only]
-
-[When space allows it]
-
-[When needed]
-
-[With nickname - left]
-
-[Far left]
-
-[Far right]
-
-[With nickname - right]
+[No border]
 
 [General]
 General
@@ -466,22 +476,6 @@ General
 
 [Background]
 Fondo
-[Row items]
-
-[Contacts]
-Contactos
-[Groups and layout]
-
-[Advanced]
-Avanzado
-[Skins]
-Pieles
-;file \plugins\Clist_nicer\src\clcpaint.cpp
-[No events...]
-
-;file \plugins\Clist_nicer\src\clistopts.cpp
-[Global]
-Global
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 
@@ -606,15 +600,6 @@ Marcos
 
 [Hide all title bars]
 
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-
-[Tool Window]
-
-[Thin border]
-
-[No border]
-
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 
@@ -623,6 +608,8 @@ Marcos
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 
+[Skins]
+Pieles
 ;file \plugins\Clist_nicer\src\groupmenu.cpp
 [Show metacontact protocol icons]
 
