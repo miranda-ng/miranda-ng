@@ -7,6 +7,8 @@
 ;============================================================
 [Paste played music info into message window or status text]
 Вставляет информацию о проигрываемой музыке в окно сообщений или в сообщение статуса.
+[Basic]
+Основные
 [Clear xStatus before set new one]
 Очищать xСтатус перед установкой нового
 [Emulate Multimedia keys]
@@ -186,9 +188,9 @@ FPS (кадров в секунду), только для видео
 [Sort]
 Сортировка
 [Sort log file]
-Сортировать логи
+Сортировать журнал
 [Statistic log file]
-Лог статистики
+Журнал статистики
 [Autosort period, days]
 Автосортировка, дни
 [Template file]
@@ -334,7 +336,7 @@ VBR или пусто
 [current song position (sec)]
 Текущая позиция (сек)
 [Disable Log]
-Отключить лог
+Отключить журнал
 [Error report]
 Показывать ошибки
 [Get Info from player]
@@ -654,3 +656,5 @@ VBR или нет
 Проверять неизвестные форматы
 [Check unknown file formats if player gives info.]
 Проверяет неизвестные форматы файлов, если проигрыватель предоставляет сведения
+[Oops, something wrong!]
+Ой, что-то пошло не так!

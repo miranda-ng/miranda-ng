@@ -252,7 +252,7 @@
 [Program args]
 Аргументы
 [Service]
-Вызвать службу
+Вызов службы
 [Miranda service help]
 Помощь по службам
 [Alias]
@@ -532,7 +532,7 @@ JUMP
 [will return Unicode instead of AnsiChar]
 вернёт Unicode вместо AnsiChar
 [will not use the cache]
-
+не станет использовать кэш
 [Gets the string that the contact list will use to represent a contact]
 
 [int hMenu handle]
@@ -691,10 +691,10 @@ StdPopup или Popup plus
 
 [Send a general request through the protocol chain for a contact]
 
-[str, account name]
-
+[account name (string)]
+имя учётной записи (строка)
 [Return account name associated to contact (no need to free it)]
-
+Возвращает имя учётной записи, которой принадлежит контакт (не нужно освобождать)
 [displays the Account Manager]
 Открывает менеджер учётных записей
 [Show the dialog to select the contact]
@@ -750,13 +750,13 @@ wParam в ANSI
 [Show popup or Info window with current music information.]
 Показывает всплывающее или информационное окно со сведениями о воспроизводимой музыке.
 [log filename]
-
+имя файла журнала статистики
 [report filename]
-
+имя файла отчёта
 [int 0, if unsuccessful]
 целочисленный 0 в случае неудачи
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
-
+Создаёт и открывает (если включена соответствующая настройка) отчёт на основе журнала статистики. Если wParam или lParam не указаны, то имя файла берётся из настроек.
 [Display birthdays window]
 Показывает список дней рождения
 [Manage Jabber Bookmarks]
