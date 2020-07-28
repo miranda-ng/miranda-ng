@@ -90,13 +90,10 @@ void CCtrlTreeOpts::OnInit()
 {
 	CCtrlTreeView::OnInit();
 
-	wchar_t itemName[1024];
-	HIMAGELIST hImgLst;
-
 	SelectItem(nullptr);
 	DeleteAllItems();
 
-	hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
+	HIMAGELIST hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
 	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_MIRANDA);
 	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_TICK);	// check on
 	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_NOTICK);	// check off
@@ -108,12 +105,12 @@ void CCtrlTreeOpts::OnInit()
 
 	/* build options tree. based on code from IcoLib */
 	for (auto &it : m_options) {
-		wchar_t *sectionName;
 		int sectionLevel = 0;
 
 		HTREEITEM hSection = nullptr;
+		wchar_t itemName[1024];
 		mir_wstrcpy(itemName, it->m_szOptionName);
-		sectionName = itemName;
+		wchar_t *sectionName = itemName;
 
 		while (sectionName) {
 			// allow multi-level tree

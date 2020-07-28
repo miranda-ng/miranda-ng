@@ -708,16 +708,23 @@ LBL_Fail:
 				Netlib_FreeHttpRequest(res);
 
 				// this parameter is optional, if not specified we simply use upload URL
-				auto *szGetUrl = XmlGetAttr(XmlFirstChild(slotNode, "get"), "url");
-				if (szGetUrl == nullptr)
-					szGetUrl = szUrl;
+				CMStringA szMessage;
+				if (auto *szGetUrl = XmlGetAttr(XmlFirstChild(slotNode, "get"), "url"))
+					szMessage = szGetUrl;
+				else
+					szMessage = szUrl;
+
+				if (m_bEmbraceUrls && ProtoGetAvatarFormat(_A2T(szMessage)) != PA_FORMAT_UNKNOWN) {
+					szMessage.Insert(0, "[img]");
+					szMessage.Append("[/img]");
+				}
 
 				if (isChatRoom(ft->std.hContact))
-					GroupchatSendMsg(ft->pItem, ptrA(mir_utf8encode(szGetUrl)));
-				else if (ProtoChainSend(ft->std.hContact, PSS_MESSAGE, 0, (LPARAM)szGetUrl) != -1) {
+					GroupchatSendMsg(ft->pItem, ptrA(mir_utf8encode(szMessage)));
+				else if (ProtoChainSend(ft->std.hContact, PSS_MESSAGE, 0, (LPARAM)szMessage.c_str()) != -1) {
 					PROTORECVEVENT recv = {};
 					recv.flags = PREF_CREATEREAD | PREF_SENT;
-					recv.szMessage = (char *)szGetUrl;
+					recv.szMessage = szMessage.GetBuffer();
 					recv.timestamp = time(0);
 					ProtoChainRecvMsg(ft->std.hContact, &recv);
 				}

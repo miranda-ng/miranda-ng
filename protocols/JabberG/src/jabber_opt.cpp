@@ -797,6 +797,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
 		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Disable frame"), m_proto->m_bDisableFrame);
 		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Embrace picture URLs with [img]"), m_proto->m_bEmbraceUrls);
 		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);
 
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_bAllowVersionRequests);

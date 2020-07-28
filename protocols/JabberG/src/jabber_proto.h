@@ -213,6 +213,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bManualConnect;
 	CMOption<bool> m_bMsgAck;
 	CMOption<bool> m_bProcessXMPPLinks;
+	CMOption<bool> m_bEmbraceUrls;
 	CMOption<bool> m_bRcMarkMessagesAsRead;
 	CMOption<bool> m_bRosterSync;
 	CMOption<bool> m_bSavePassword;
