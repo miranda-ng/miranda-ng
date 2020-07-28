@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.2
+;  Version: 3.6.1.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -63,20 +63,6 @@ Nombre maxi d'évènements dans la fenêtre de message
 [Group chat nick list row height (pixels)]
 
 [Open log file base folder]
-
-[Default settings for known event types]
-
-[Show when filter is active]
-
-[Log to file]
-
-[Show popup]
-
-[Notify in tray]
-
-[Suppress tray notifications for focused channel windows]
-
-[Highlight event]
 
 [Line markers in the message log]
 
@@ -1021,6 +1007,12 @@ Retirer la couleur des messages dans le journal
 
 [Scale down icons to 10x10 pixels in the chat log]
 Réduire les icônes à 10x10 pixels dans la fenêtre de chat
+[No markers]
+
+[Show as icons]
+
+[Show as text symbols]
+
 [nick of current contact (if defined)]
 
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1075,17 +1067,9 @@ Réduire les icônes à 10x10 pixels dans la fenêtre de chat
 Tous les fichiers
 [Select folder]
 Sélectionnez un répertoire
-[No markers]
-
-[Show as icons]
-
-[Show as text symbols]
-
 [Settings]
 Paramètres
 [Log formatting]
-
-[Events and filters]
 
 [Highlighting]
 
@@ -1237,8 +1221,6 @@ Dernière réception : le %s à %s
 
 [%s is typing a message]
 %s écrit un message
-[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
-
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Messages instantanés

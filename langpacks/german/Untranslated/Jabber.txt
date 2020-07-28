@@ -6,5 +6,4 @@
 [Enable chat states sending (XEP-0085)]
 [Enable carbon copies (XEP-0280)]
 [Ignore server roster (groups and nick names)]
-[XML (UTF-8 encoded)]
 [Unable to decrypt a carbon copy of the encrypted outgoing message]

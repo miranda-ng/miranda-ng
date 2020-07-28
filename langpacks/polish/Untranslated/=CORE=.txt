@@ -3,7 +3,6 @@
 [Remove temporary contacts on exit]
 [Hidden window]
 [&Open/close chat window]
-[%s says]
 [Load server history]
 [Unused]
 [Unselect all]

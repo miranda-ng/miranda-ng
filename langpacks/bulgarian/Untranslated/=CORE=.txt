@@ -33,7 +33,6 @@
 [In a civil union]
 [&Open/close chat window]
 [Chat log symbols (Webdings)]
-[%s says]
 [Chat rooms]
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
 [Phone/SMS]

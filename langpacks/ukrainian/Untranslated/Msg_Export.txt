@@ -1,4 +1,5 @@
 [Use JSON format for export]
+[Select none]
 [Miranda database contains %d events]
 [History was saved successfully in file\r\n]
 [Max line width must be at least %d. Or use 0 for no limit.]

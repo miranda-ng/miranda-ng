@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.2
+;  Version: 3.6.1.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -64,20 +64,6 @@ Maksymalna liczba zdarzeń w oknie rozmowy
 Wysokość wiersza nicków na czacie (px)
 [Open log file base folder]
 Otwórz folder dziennika
-[Default settings for known event types]
-Domyślne ustawienia dla zdarzeń
-[Show when filter is active]
-Pokaż kiedy filtr jest wł.
-[Log to file]
-Zapisuj w pliku
-[Show popup]
-Pokaż popup
-[Notify in tray]
-Zasobnik
-[Suppress tray notifications for focused channel windows]
-Usuwaj powiadomienie z zasobnika przy podświetleniu kanału
-[Highlight event]
-Podświetlenie
 [Line markers in the message log]
 Znaki w dzienniku wiadomości
 [Highlight user names]
@@ -1021,6 +1007,12 @@ Dodawaj nową linię po nazwie autora wiadomości
 Koloruj nicki w dzienniku wiadomości
 [Scale down icons to 10x10 pixels in the chat log]
 Skaluj ikony do 10x10 px w dzienniku rozmowy grupowej
+[No markers]
+Brak znaków
+[Show as icons]
+Pokaż ikony
+[Show as text symbols]
+Pokaż symbole tekstowe
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1075,18 +1067,10 @@ Zmienne
 Wszystkie pliki
 [Select folder]
 Wybierz folder
-[No markers]
-Brak znaków
-[Show as icons]
-Pokaż ikony
-[Show as text symbols]
-Pokaż symbole tekstowe
 [Settings]
 Ustawienia
 [Log formatting]
 Formatowanie dziennika
-[Events and filters]
-Zdarzenia i filtry
 [Highlighting]
 Podświetlanie
 ;file \plugins\TabSRMM\src\chat_tools.cpp
@@ -1237,8 +1221,6 @@ Ostatnia wiadomość: %s o %s
 %s wpisuje tekst.
 [%s is typing a message]
 %s pisze wiadomość...
-[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Automatyczne przewijanie jest wyłączone, %d wiadomości w kolejce (naciśnij F12, aby je włączyć).
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Wiadomości

@@ -5,6 +5,7 @@
 [Use << and >>]
 [History file for %s (%s, format %s)]
 [&External]
+[Select none]
 [Miranda database contains %d events]
 [Failed to open file]
 [Syntax highlight]

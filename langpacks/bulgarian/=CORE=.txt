@@ -1156,10 +1156,26 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 ['Hide offline' means to hide:]
 Скриване като извън линия:
-[Hidden window]
-
+[Default settings for known event types]
+Стандартни настройки за видовете събития
+[Show when filter is active]
+Показване при включен филтър
+[Log to file]
+Запис във файл
+[Popup]
+Рopup
 [Tray]
 Трей
+[Sound]
+Звук
+[Show icons in tray only when the chat room is not active]
+Показване на икони в трея само при неактивна чат стая
+[Highlight event]
+Отличаване на събитие
+[Show popups only when the chat room is not active]
+Показване на popups, когато чат стаята е активна
+[Hidden window]
+
 [&Hide/Show]
 Показване/Скриване
 [E&xit]
@@ -1481,28 +1497,6 @@ Google Translate
 Премахване на цветовете от съобщенията в дневника
 [Enable the 'event filter' for new rooms]
 Включване на филтъра за събития в нови стаи
-[Show topic changes]
-Промяна на тема
-[Show users joining]
-Влизане на потребител
-[Show users disconnecting]
-Излизане от мрежата на потребител
-[Show messages]
-Съобщение
-[Show actions]
-Действия
-[Show users leaving]
-Излизане на потребител
-[Show users being kicked]
-Изгонване на потребител
-[Show notices]
-Известия
-[Show users changing name]
-Промяна на прякор
-[Show information messages]
-Информационни съобщения
-[Show status changes of users]
-Промяна на състояние на потребител
 [Show icon for topic changes]
 Смяна на темата (topic)
 [Show icon for users joining]
@@ -1527,58 +1521,6 @@ Google Translate
 Информационни съобщения
 [Show icon for status changes]
 Промяна на състояние
-[Show icons in tray only when the chat room is not active]
-Показване на икони в трея само при неактивна чат стая
-[Show icon in tray for topic changes]
-Промяна на тема (topic)
-[Show icon in tray for users joining]
-Влизане на потребител
-[Show icon in tray for users disconnecting]
-Излизане от мрежата на потребители
-[Show icon in tray for messages]
-Съобщение
-[Show icon in tray for actions]
-Действия
-[Show icon in tray for highlights]
-Отличаване
-[Show icon in tray for users leaving]
-Излизане на потребител
-[Show icon in tray for users kicking other user]
-Потребител изгонва друг потребител
-[Show icon in tray for notices]
-Известие
-[Show icon in tray for name changes]
-Промяна на прякор
-[Show icon in tray for information messages]
-Информационни съобщения
-[Show icon in tray for status changes]
-Промяна на състояние
-[Show popups only when the chat room is not active]
-Показване на popups, когато чат стаята е активна
-[Show popup for topic changes]
-Показване на popups при промяна на тема
-[Show popup for users joining]
-Показване на popups при влизане на потребител
-[Show popup for users disconnecting]
-Показване на popups при излизане от мрежата на потребители
-[Show popup for messages]
-Показване на popups за ново съобщение
-[Show popup for actions]
-Показване на popups за действия
-[Show popup for highlights]
-Показване на popups при отличаване
-[Show popup for users leaving]
-Показване на popups при излизане на потребител
-[Show popup for users kicking other user]
-Показване на popups при изгонване на потребител
-[Show popup for notices]
-Показване на popup за известие
-[Show popup for name changes]
-Показване на popups при промяна на име
-[Show popup for information messages]
-Показване на popups за информационни съобщения
-[Show popup for status changes]
-Показване на popups при промяна на състояние
 [Window icon]
 Икона на прозореца
 [Bold]
@@ -1653,14 +1595,8 @@ Google Translate
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
 Външен вид на дневника за съобщения
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Стандартни събития за показване в чат стая при включен "филтър на събития"
 [Icons to display in the message log]
 Икони за изобразяване в дневника за съобщения
-[Icons to display in the tray]
-Икони за изобразяване в трея
-[Popups to display]
-Popups за изобразяване
 [Chat log]
 Чат дневник
 [Chat]
@@ -2108,6 +2044,9 @@ Popups са изключени
 %s каза
 [Chat rooms]
 
+;file \src\mir_app\src\chat_ui.cpp
+[Events and filters]
+Събития и филтри
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]

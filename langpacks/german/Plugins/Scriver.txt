@@ -296,84 +296,8 @@ Benutzernamen auf 20 Zeichen beschränken
 Farben aus Nachrichten entfernen
 [Enable 'event filter' for new rooms]
 Ereignisfilter für neue Räume aktivieren
-[Show topic changes]
-Themenänderungen anzeigen
-[Show users joining]
-Wenn Benutzer beitreten
-[Show users disconnecting]
-Wenn Benutzer Verbindung unterbricht
-[Show messages]
-Nachrichten anzeigen
-[Show actions]
-Aktionen anzeigen
-[Show users leaving]
-Wenn Benutzer verlassen
-[Show users being kicked]
-Wenn Benutzer gekickt wird
-[Show notices]
-Notizen anzeigen
-[Show users changing name]
-Nicknamenänderungen anzeigen
-[Show information messages]
-Informationsnachrichten anzeigen
-[Show status changes of users]
-Statusänderungen von Benutzern anzeigen
-[Show icons in tray only when the chat room is not active]
-Icon nur im Tray anzeigen, wenn Chatfenster nicht aktiv
-[Show icon in tray for topic changes]
-Trayicon für Themenänderungen anzeigen
-[Show icon in tray for users joining]
-Trayicon anzeigen, wenn Benutzer beitreten
-[Show icon in tray for users disconnecting]
-Trayicon anzeigen, wenn Benutzer Verbindung unterbricht
-[Show icon in tray for messages]
-Trayicon für Nachrichten anzeigen
-[Show icon in tray for actions]
-Trayicon für Aktionen anzeigen
-[Show icon in tray for highlights]
-Trayicon für Hervorhebungen anzeigen
-[Show icon in tray for users leaving]
-Trayicon anzeigen, wenn Benutzer verlassen
-[Show icon in tray for users kicking other user]
-Trayicon anzeigen, wenn Benutzer gekickt wird
-[Show icon in tray for notices]
-Trayicon für Notizen anzeigen
-[Show icon in tray for name changes]
-Trayicon bei Namensänderung anzeigen
-[Show icon in tray for information messages]
-Trayicon für Informationsnachrichten anzeigen
-[Show icon in tray for status changes]
-Trayicon für Statusänderungen anzeigen
-[Show popups only when the chat room is not active]
-Popup nur anzeigen wenn Chatfenster nicht aktiv
-[Show popup for topic changes]
-Popup für Titeländerungen
-[Show popup for users joining]
-Popup anzeigen, wenn Benutzer beitreten
-[Show popup for users disconnecting]
-Popup anzeigen, wenn Benutzer Verbindung unterbricht
-[Show popup for messages]
-Popup für Nachrichten anzeigen
-[Show popup for actions]
-Popup für Aktionen anzeigen
-[Show popup for highlights]
-Popup für Hervorhebungen anzeigen
-[Show popup for users leaving]
-Popup anzeigen, wenn Benutzer verlassen
-[Show popup for users kicking other user]
-Popup anzeigen, wenn Benutzer gekickt wird
-[Show popup for notices]
-Popup für Notizen anzeigen
-[Show popup for name changes]
-Popup für Namensänderungen anzeigen
-[Show popup for information messages]
-Popup für Informationsnachrichten anzeigen
-[Show popup for status changes]
-Popup für Statusänderungen anzeigen
 [Appearance and functionality of chat windows]
 Erscheinungsbild und Funktionen der Chatfenster
-[Icons to display in the tray]
-Folgende Icons im Tray anzeigen
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -426,16 +350,14 @@ voller Wochentag
 Variablen
 [Appearance]
 Erscheinungsbild
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Standard-Ereignisse in neuen Chaträumen, wenn Ereignisfilter aktiviert ist
 [Select folder]
 Ordner wählen
 [Message sessions]
 Nachrichtensitzungen
 [General]
 Allgemein
-[Event log]
-Ereignisverlauf
+[Log formatting]
+Verlaufsformatierung
 [Popups]
 Popups
 ;file \plugins\Scriver\src\globals.cpp
@@ -681,6 +603,8 @@ Umschalt+Eingabe
 ** Neue Kontakte **
 [** Unknown contacts **]
 ** Unbekannte Kontakte **
+[Event log]
+Ereignisverlauf
 [Typing notify]
 Tippbenachrichtigungen
 ;file \plugins\Scriver\src\msgs.cpp

@@ -85,6 +85,8 @@ Kann Netlib-Verbindung für %s nicht initialisieren.
 %s Avatarverbindung
 [Twitter (avatars)]
 Twitter (Avatare)
+[User name]
+Benutzername
 [Send Tweet...]
 Tweet senden...
 [Network]

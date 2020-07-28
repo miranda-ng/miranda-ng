@@ -2,12 +2,12 @@ Miranda Language Pack Version 1
 Language: Polski
 Locale: 0415
 Authors: bunnyhoney, Xantros, Goraf, Piciok
-Last-Modified-Using: Miranda NG 0.95.10.3
+Last-Modified-Using: Miranda NG 0.95.11
 
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.11
+;  Version: 0.95.12
 ;============================================================
 [Become idle if the following is left unattended:]
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
@@ -69,14 +69,6 @@ Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
 To usunie wszystkie ustawienia i historię tego kontaktu!
-[Hide offline users]
-Ukryj rozłączonych
-[Hide empty groups]
-Ukryj puste grupy
-[Disable groups]
-Wyłącz grupy
-[Ask before deleting contacts]
-Pytaj przed usunięciem kontaktów
 [Sort contacts by name]
 Sortowanie po nazwie
 [Sort contacts by status]
@@ -103,14 +95,14 @@ sekund(y), jeśli statusy się różnią
 Pokaż ikony osobno
 [Only when statuses differ]
 Tylko, jeśli statusy się różnią
-[Contact list]
-Lista kontaktów
 [System tray icon]
 Ikona w zasobniku
 [System tray icon when using multiple protocols]
 Ikona w zasobniku systemowym podczas korzystania z wielu protokołów
 [Contact list sorting]
 Sortowanie kontaktów
+[Don't move offline user to bottom]
+Nie przesuwaj rozłączonych na dół
 [Window]
 Okno
 [Always on top]
@@ -173,8 +165,6 @@ Pokazuj zaznaczenie na nieaktywnej liście
 Przezroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
-['Hide offline' means to hide:]
-"Ukryj rozłączonych" tzn.:
 [Groups]
 Grupy
 [Draw a line alongside group names]
@@ -199,10 +189,10 @@ Płynne przewijanie listy
 Czas:
 [milliseconds]
 ms
-[Left margin:]
-Lewy margines:
 [Hide vertical scroll bar]
 Ukryj pionowy pasek przewijania
+[Left margin:]
+Lewy margines:
 [Row height:]
 Wysokość wiersza:
 [Gamma correction]
@@ -1101,6 +1091,8 @@ Ustaw domyślne i otwórz okno rozmowy
 Pokaż menu kontekstowe subkontaktu
 [Show user information]
 Pokaż dane użytkownika
+[Contact list]
+Lista kontaktów
 [Display subcontact nickname]
 Wyświetl nick subkontaktu
 [Display subcontact display name]
@@ -1145,8 +1137,34 @@ Zostałeś dodany
 O Mirandzie NG
 [Credits >]
 Autorzy >
+[Hide offline users]
+Ukryj rozłączonych
+[Hide empty groups]
+Ukryj puste grupy
+[Enable groups]
+Włącz grupy
+[Ask before deleting contacts]
+Pytaj przed usunięciem kontaktów
+['Hide offline' means to hide:]
+"Ukryj rozłączonych" tzn.:
+[Default settings for known event types]
+Domyślne ustawienia dla zdarzeń
+[Show when filter is active]
+Pokaż kiedy filtr jest wł.
+[Log to file]
+Zapisuj w pliku
+[Popup]
+Popup
 [Tray]
 Zasobnik
+[Sound]
+Dźwięk
+[Show icons in tray only when the chat room is not active]
+Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
+[Highlight event]
+Podświetlenie
+[Show popups only when the chat room is not active]
+Pokazuj popupy tylko, gdy pokój nie jest aktywny
 [&Hide/Show]
 &Pokaż/Ukryj
 [E&xit]
@@ -1295,6 +1313,8 @@ Niewidoczny
 Tło listy
 [Global]
 Globalne
+[General]
+Ogólne
 [Standard crypto provider]
 Standardowe wsparcie szyfrowania
 [User has not registered an e-mail address]
@@ -1419,12 +1439,6 @@ Migaj oknem, gdy ktoś mówi
 Migaj oknem, gdy jakieś słowo jest podświetlone
 [Show list of users in the chat room]
 Pokaż listę użytkowników w pokoju
-[Show button for sending messages]
-Pokaż przycisk wysyłania wiadomości
-[Show buttons for controlling the chat room]
-Pokaż przyciski kontrolowania pokoju
-[Show buttons for formatting the text you are typing]
-Pokaż przyciski formatowania wpisywanego tekstu
 [Show button menus when right clicking the buttons]
 Pokaż menu przycisku po kliknięciu na nim PPM
 [Show the topic of the room on your contact list (if supported)]
@@ -1453,28 +1467,6 @@ Dodawaj ":" do automatycznie uzupełnianych nazw użytkownika
 Usuń kolory z wiadomości w dzienniku
 [Enable the 'event filter' for new rooms]
 Włącz "filtr zdarzeń" dla nowych pokoi
-[Show topic changes]
-Pokaż zmiany tematu
-[Show users joining]
-Pokaż dołączających użytkowników
-[Show users disconnecting]
-Pokaż rozłączonych użytkowników
-[Show messages]
-Pokaż wiadomości
-[Show actions]
-Pokaż zdarzenia
-[Show users leaving]
-Pokaż wychodzących użytkowników
-[Show users being kicked]
-Pokaż wyrzucanych użytkowników
-[Show notices]
-Pokaż powiadomienia
-[Show users changing name]
-Pokaż zmiany nazwy użytkowników
-[Show information messages]
-Pokaż wiadomości z informacjami
-[Show status changes of users]
-Pokaż zmiany statusu użytkowników
 [Show icon for topic changes]
 Pokaż ikony zmian tematu
 [Show icon for users joining]
@@ -1499,58 +1491,6 @@ Pokaż ikony zmian nazwy
 Pokaż ikony wiadomości informacyjnych
 [Show icon for status changes]
 Pokaż ikony zmian statusu
-[Show icons in tray only when the chat room is not active]
-Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
-[Show icon in tray for topic changes]
-Pokaż ikony w zasobniku dla zmian tematu
-[Show icon in tray for users joining]
-Pokaż ikony w zasobniku dla dołączających użytkowników
-[Show icon in tray for users disconnecting]
-Pokaż ikony w zasobniku dla rozłączonych użytkowników
-[Show icon in tray for messages]
-Pokaż ikony w zasobniku dla wiadomości
-[Show icon in tray for actions]
-Pokaż ikony w zasobniku dla zdarzeń
-[Show icon in tray for highlights]
-Pokaż ikony w zasobniku dla podświetleń
-[Show icon in tray for users leaving]
-Pokaż ikony w zasobniku dla wychodzących użytkowników
-[Show icon in tray for users kicking other user]
-Pokaż ikony w zasobniku dla wyrzucanych użytkowników
-[Show icon in tray for notices]
-Pokaż ikony w zasobniku dla powiadomień
-[Show icon in tray for name changes]
-Pokaż ikony w zasobniku dla zmian nazwy
-[Show icon in tray for information messages]
-Pokaż ikony w zasobniku dla wiadomości informacyjnych
-[Show icon in tray for status changes]
-Pokaż ikony w zasobniku dla zmian statusu
-[Show popups only when the chat room is not active]
-Pokazuj popupy tylko, gdy pokój nie jest aktywny
-[Show popup for topic changes]
-Pokaż popup zmiany tematu
-[Show popup for users joining]
-Pokaż popup dołączających użytkowników
-[Show popup for users disconnecting]
-Pokaż popup rozłączonych użytkowników
-[Show popup for messages]
-Pokaż popup wiadomości
-[Show popup for actions]
-Pokaż popup akcji
-[Show popup for highlights]
-Pokaż popup podświetleń
-[Show popup for users leaving]
-Pokaż popup wychodzących użytkowników
-[Show popup for users kicking other user]
-Pokaż popup wyrzuconych użytkowników
-[Show popup for notices]
-Pokaż popup powiadomień
-[Show popup for name changes]
-Pokaż popup zmian nicków
-[Show popup for information messages]
-Pokaż popup wiadomości informacyjnych
-[Show popup for status changes]
-Pokaż popup zmian statusu
 [Window icon]
 Ikona okna
 [Bold]
@@ -1625,22 +1565,24 @@ Dziennik czatu
 Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
 Wygląd dziennika wiadomości
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Domyślne zdarzenia pokazywane w nowych pokojach, gdy "filtr zdarzeń" jest aktywny
 [Icons to display in the message log]
 Ikony wyświetlane w dzienniku wiadomości
-[Icons to display in the tray]
-Ikony wyświetlane w zasobniku
-[Popups to display]
-Popupy do wyświetlenia
-[General]
-Ogólne
 [Chat log]
 Dziennik czatu
 [Chat]
 Czat
 [Popups]
 Popupy
+[The message send timed out.]
+Przekroczono czas wysyłania wiadomości.
+[Incoming message (10x10)]
+Przychodząca wiadomość (10x10)
+[Outgoing message (10x10)]
+Wychodząca wiadomość (10x10)
+[%s is typing a message...]
+%s pisze wiadomość...
+[Last message received on %s at %s.]
+Ostatnia wiadomość %s o %s.
 [%s: chat room (%u user)]
 %s: Konferencja (%u użytkownik)
 [%s: chat room (%u users)]
@@ -1649,22 +1591,8 @@ Popupy
 %s: Rozmowa
 [%s: message session (%u users)]
 %s: Rozmowa (%u użytkowników)
-[Nickname]
-Nick
-[Unique ID]
-Unikalne ID
-[The message send timed out.]
-Przekroczono czas wysyłania wiadomości.
-[Incoming message (10x10)]
-Przychodząca wiadomość (10x10)
-[Outgoing message (10x10)]
-Wychodząca wiadomość (10x10)
-[Last message received on %s at %s.]
-Ostatnia wiadomość %s o %s.
 [Message session]
 Sesja rozmowy
-[%s is typing a message...]
-%s pisze wiadomość...
 [Me]
 Ja
 [File sent]
@@ -1971,10 +1899,10 @@ Dołączyłeś do %s
 Jesteś teraz znany jako %s
 [%s kicked %s]
 %s wyrzucił uczestnika %s
-[Notice from %s: ]
-Powiadomienie od %s:\s
-[The topic is '%s%s']
-Temat to "%s%s"
+[Notice from %s]
+Powiadomienie od %s
+[The topic is '%s']
+Temat to "%s"
 [ (set by %s on %s)]
  (wybrany przez %s na %s)
 [ (set by %s)]
@@ -2047,8 +1975,6 @@ Temat został zmieniony
 %s opuścił(a) %s
 [%s kicked %s from %s]
 %s wyrzucony %s przez %s
-[Notice from %s]
-Powiadomienie od %s
 [Topic change in %s]
 Zmieniony temat w %s
 [Information in %s]
@@ -2057,28 +1983,12 @@ Informacja w %s
 %s włącza status "%s" dla %s w %s
 [%s disables '%s' status for %s in %s]
 %s wyłącza status "%s" dla %s w %s
-[%s says: %s]
-%s mówi: %s
-[%s has left (%s)]
-%s wyszedł (%s)
-[%s has disconnected (%s)]
-%s rozłączył się (%s)
-[%s kicked %s (%s)]
-%s wyrzucił %s z powodu (%s)
-[Notice from %s: %s]
-Powiadomienie od %s: %s
-[The topic is '%s']
-Temat to "%s"
-[The topic is '%s' (set by %s)]
-Temat to "%s" (ustawiony przez %s)
+[%s says]
+%s mówi
 [Chat rooms]
 Pokoje czatu
-[Look up '%s':]
-Zobacz "%s":
-[No word to look up]
-Nie podano słowa do wyszukania
-[&Message %s]
-&Wiadomość %s
+[Events and filters]
+Zdarzenia i filtry
 [New group]
 Nowa grupa
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2095,6 +2005,8 @@ Ta grupa
 Łączenie
 [Connecting (attempt %d)]
 Łączenie (próba %d)
+[Common]
+Wspólne
 [(Unknown contact)]
 (Nieznany kontakt)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2307,6 +2219,8 @@ Pokaż/Ukryj listę kontaktów
 Przeczytaj wiadomość
 [Open Options page]
 Otwórz okno opcji
+[Toggle groups]
+Włącz/Wyłącz grupy
 [Open logging options]
 Otwórz okno opcji logowania
 [Open 'Find user' dialog]
@@ -2541,6 +2455,12 @@ Zmodyfikowano
 Moje profile
 [New profile]
 Nowy profil
+[Request authorization]
+Poproś o autoryzację
+[Grant authorization]
+Udziel autoryzacji
+[Revoke authorization]
+Cofnij autoryzację
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i historia zostaną usunięte.\n\nCzy jesteś pewien?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2593,12 +2513,6 @@ Błąd konta
 Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
 [&Accounts...]
 &Konta...
-[Request authorization]
-Poproś o autoryzację
-[Grant authorization]
-Udziel autoryzacji
-[Revoke authorization]
-Cofnij autoryzację
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Nie można rozpocząć wyszukiwania w "%s", ponieważ wystąpił problem. Czy "%s" jest połączony?
 [Could not search on any of the protocols, are you online?]
@@ -2689,6 +2603,16 @@ Główne ikony
 Dźwięki
 [WAV files]
 Pliki WAV
+[&Message %s]
+&Wiadomość %s
+[Nickname]
+Nick
+[Unique ID]
+Unikalne ID
+[Look up '%s':]
+Zobacz "%s":
+[No word to look up]
+Nie podano słowa do wyszukania
 [<Separator>]
 <Separator>
 [Toolbar]
@@ -3294,8 +3218,8 @@ Parametr
 Wartość
 [Use LastResult]
 Użyj ostatniego wyniku
-[UTF8 encoding]
-Kodowanie UTF8
+[UTF-8 encoding]
+Kodowanie UTF-8
 [Function call]
 Wywołanie funkcji
 [Function name]
@@ -3966,7 +3890,7 @@ zgłoś nazwę pliku
 int 0, w przypadku niepowodzenia
 [Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
 Utwórz raport z dziennika i otwórz go (jeśli opcja jest ustawiona). Jeśli lParam lub wParam są puste, użyte zostaną nazwy plików określone w opcjach.
-[display birthdays window]
+[Display birthdays window]
 Wyświetl okno urodzin
 [Manage Jabber Bookmarks]
 Zarządzaj zakładkami Jabbera
@@ -4326,8 +4250,8 @@ Personalizacja
 ;  Version: 0.2.1.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
-Obsługuje skojarzenia rozszerzeń plików i linków protokołów Gadu-Gadu, Jabber, MSN, PluginUpdater, Yahoo.
+[Handles file type associations and URLs like gg, mirpu, xmpp.]
+Obsługuje skojarzenia rozszerzeń plików i linków protokołów Gadu-Gadu, Jabber, PluginUpdater.
 [Registered associations for Miranda NG:]
 Zarejestrowane powiązania dla Mirandy NG
 [Miscellaneous]
@@ -4776,7 +4700,7 @@ Avatar History: Nie można utworzyć skrótu
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.1
+;  Version: 0.98.1.2
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -6018,42 +5942,6 @@ Powiadomienia o zmianie klienta
 ;============================================================
 [A contact list for blind folks.]
 Lista kontaktów dla ludzi niewidomych.
-[Delete contact]
-Usuń kontakt
-[Are you sure you want to delete %s?]
-Czy na pewno chcesz usunąć %s?
-[This will erase all history and settings for this contact!]
-To usunie wszystkie ustawienia i historię tego kontaktu!
-[Yes]
-Tak
-[No]
-Nie
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Tylko ukryj na liście by zatrzymać historię i ustawienia ignorowania/widoczności.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
-[Hotkeys]
-Skróty
-[Show/Hide:]
-Pokaż/Ukryj:
-[Read message:]
-Czytaj wiadomość:
-[Web search:]
-Wyszukiwarka:
-[URL:]
-Link:
-[Open in new browser window]
-Otwórz w nowej karcie przeglądarki
-[Show options]
-Otwórz opcje
-[Hide offline users]
-Ukryj rozłączonych
-[Hide empty groups]
-Ukryj puste grupy
-[Disable groups]
-Wyłącz grupy
-[Ask before deleting contacts]
-Pytaj przed usunięciem kontaktów
 [Sort contacts by name]
 Sortowanie po nazwie
 [Sort contacts by status]
@@ -6080,8 +5968,6 @@ sekund(y), jeśli statusy się różnią
 Pokaż ikony osobno
 [Only when statuses differ]
 Tylko, jeśli statusy się różnią
-[Contact list]
-Lista kontaktów
 [System tray icon]
 Ikona w zasobniku
 [System tray icon when using multiple protocols]
@@ -6132,10 +6018,6 @@ Jeśli okno jest częściowo zakryte, przenieś na wierzch zamiast ukrywać
 Pokaż cień (wymagany restart)
 [Pin to desktop]
 Przypnij do pulpitu
-[Items]
-Obiekty
-['Hide offline' means to hide:]
-"Ukryj rozłączonych" tzn.:
 [Groups]
 Grupy
 [Show counts of number of contacts in a group]
@@ -6176,30 +6058,14 @@ Sekcje tej samej szerokości
 Pokaż separatory na panelach
 [Show resize grip indicator]
 Pokaż wskaźnik rozmiaru uchwytu
-[Not focused]
-Nieaktywne
-[Offline]
-Rozłączony
-[Online]
-Dostępny
-[Away]
-Zaraz wracam
-[Not available]
-Wrócę później
-[Occupied]
-Zajęty
-[Do not disturb]
-Nie przeszkadzać
-[Free for chat]
-Porozmawiajmy
-[Invisible]
-Niewidoczny
 [Group: %name% %count% [%mode%]]
 Grupa: %name% %count% [%mode%]
 [Divider: %s]
 Separator: %s
 [Info: %s]
 Info: %s
+[Contact list]
+Lista kontaktów
 [List]
 Lista
 [Global]
@@ -6214,7 +6080,7 @@ Zwinięta
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.8
+;  Version: 0.9.1.10
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -6371,20 +6237,10 @@ Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 Czy na pewno chcesz usunąć %s?
 [This will erase all history and settings for this contact!]
 To usunie wszystkie ustawienia i historię tego kontaktu!
-[Hide offline users]
-Ukryj rozłączonych
-[Hide empty groups]
-Ukryj puste grupy
-[Disable groups]
-Wyłącz grupy
-[Ask before deleting contacts]
-Pytaj przed usunięciem kontaktów
-[Don't move offline user to bottom]
-Nie przesuwaj rozłączonych na dół
-[Contact list]
-Lista kontaktów
 [Contact list sorting]
 Sortowanie kontaktów
+[Don't move offline user to bottom]
+Nie przesuwaj rozłączonych na dół
 [1st:]
 1:
 [2nd:]
@@ -6393,8 +6249,8 @@ Sortowanie kontaktów
 3:
 [Place offline users out of groups]
 Umieść rozłączonych poza grupami
-[Gamma correction]
-Korekcja Gamma
+[Selection mode]
+Tryb wyboru
 [Default]
 Domyślny
 [Full selection]
@@ -6403,8 +6259,8 @@ Pełne zaznaczenie
 Częściowe zaznaczenie
 [No selection]
 Brak zaznaczenia
-[Selection mode]
-Tryb wyboru
+[Gamma correction]
+Korekcja Gamma
 [Bring to front if covered]
 Przesuń na wierzch, jeśli zakryty
 [Hide contact list after]
@@ -6469,8 +6325,6 @@ Pokazuj zaznaczenie na nieaktywnej liście
 Przezroczyste podświetlenie zaznaczenia
 [Dim idle contacts]
 Przygaś bezczynne kontakty
-['Hide offline' means to hide:]
-"Ukryj rozłączonych" tzn.:
 [Groups]
 Grupy
 [Draw a line alongside group names]
@@ -6837,6 +6691,8 @@ Zmiana metakontaktów (przesuwanie)
 Skórki
 [Modern contact list]
 Modern contact list
+[Contact list]
+Lista kontaktów
 [Avatar overlay]
 Otoczka awatara
 [Status overlay]
@@ -7087,6 +6943,8 @@ Szukaj kontaktu
 Włącz/Wyłącz grupy
 [Use groups]
 Pokaż grupy
+[Disable groups]
+Wyłącz grupy
 [Enable/Disable sounds]
 Włącz/Wyłącz dźwięki
 [Enable sounds]
@@ -7184,20 +7042,8 @@ Czy na pewno chcesz usunąć %s?
 To usunie wszystkie ustawienia i historię tego kontaktu!
 [Contact list]
 Lista kontaktów
-[Hide offline users]
-Ukryj rozłączonych
-[Hide empty groups]
-Ukryj puste grupy
-[Disable groups]
-Wyłącz grupy
-[Ask before deleting contacts]
-Pytaj przed usunięciem kontaktów
-[Disable icon blinking]
-Wyłącz miganie ikony
 [Apply last active view mode]
 Zastosuj ostatni aktywny tryb widoku
-[Contact list layout]
-Układ listy
 [Show menu and status buttons]
 Pokaż przyciski menu i statusu
 [Draw sunken edge]
@@ -7208,6 +7054,8 @@ Ikona w zasobniku
 Pokaż/Ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
+[Disable icon blinking]
+Wyłącz miganie ikony
 [ms]
 ms
 [Event area]
@@ -7276,8 +7124,6 @@ Trzeci
 Przenieś zdarzenia na górę listy lub grupy
 [Do not separate offline contacts]
 Nie oddzielaj rozłączonych kontaktów
-[Hide as offline]
-Ukryj jako rozłączone:
 [Right align contacts]
 Wyrównanie do prawej
 [Avatars]
@@ -7556,6 +7402,52 @@ Wybierz tryb widoku
 Ustaw tryby widoku
 [Clear view mode]
 Wyczyść tryb widoku
+[Nothing]
+-Nic-
+[Name]
+Nazwa
+[Status]
+Status
+[Message frequency]
+Częstotliwość wiadomości
+[Never]
+Nigdy
+[Always]
+Zawsze
+[For RTL only]
+Tylko dla RTL
+[RTL TEXT only]
+Tylko TEKST RTL
+[Always left]
+Zawsze po lewej
+[Always right]
+Zawsze po prawej
+[Automatic (RTL)]
+automatycznie (RTL)
+[When space allows it]
+Gdy przestrzeń na to pozwala
+[When needed]
+Kiedy potrzebny
+[With nickname - left]
+Z nickiem z lewej strony
+[Far left]
+Daleko w lewo
+[Far right]
+Daleko w prawo
+[With nickname - right]
+Z nickiem z prawej strony
+[Row items]
+Elementy wiersza
+[Contacts]
+Kontakty
+[Groups and layout]
+Układ grup
+[Advanced]
+Zaawansowane
+[No events...]
+Brak zdarzeń...
+[Global]
+Globalne
 [Not focused]
 Nieaktywne
 [Offline]
@@ -7574,60 +7466,20 @@ Nie przeszkadzać
 Chętny do rozmowy
 [Invisible]
 Niewidoczny
-[Always left]
-Zawsze po lewej
-[Always right]
-Zawsze po prawej
-[Automatic (RTL)]
-automatycznie (RTL)
-[Nothing]
--Nic-
-[Name]
-Nazwa
-[Status]
-Status
-[Message frequency]
-Częstotliwość wiadomości
-[Never]
-Nigdy
-[Always]
-Zawsze
-[For RTL only]
-Tylko dla RTL
-[RTL TEXT only]
-Tylko TEKST RTL
-[When space allows it]
-Gdy przestrzeń na to pozwala
-[When needed]
-Kiedy potrzebny
-[With nickname - left]
-Z nickiem z lewej strony
-[Far left]
-Daleko w lewo
-[Far right]
-Daleko w prawo
-[With nickname - right]
-Z nickiem z prawej strony
+[Title bar]
+Nagłówek okna
+[Tool Window]
+Styl okna narzędziowego
+[Thin border]
+Wąskie obramowanie
+[No border]
+Bez obramowanie
 [General]
 Ogólne
 [List layout]
 Układ listy
 [Background]
 Tło
-[Row items]
-Elementy wiersza
-[Contacts]
-Kontakty
-[Groups and layout]
-Układ grup
-[Advanced]
-Zaawansowane
-[Skins]
-Skórki
-[No events...]
-Brak zdarzeń...
-[Global]
-Globalne
 [Toggle show online/offline]
 Pokaż/Ukryj rozłączonych
 [Toggle groups]
@@ -7750,20 +7602,14 @@ Pokaż wszystkie ramki
 Pokaż wszystkie paski tytułów
 [Hide all title bars]
 Ukryj wszystkie paski tytułów
-[Title bar]
-Nagłówek okna
-[Tool Window]
-Styl okna narzędziowego
-[Thin border]
-Wąskie obramowanie
-[No border]
-Bez obramowanie
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Lista nie może być dokowana, jeśli używany jest domyślny pasek tytułowy i obramowanie. Zamiast tego użyj stylu okna narzędziowego lub stylu bez obramowania.
 [Contact list docking]
 Dokowanie listy
 [Load and apply]
 Wczytaj i zastosuj
+[Skins]
+Skórki
 [Show metacontact protocol icons]
 Pokazuj ikony protokołu metakontaktów
 [Show additional buttons]
@@ -8382,7 +8228,7 @@ Wyślij kontakty do
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -8807,7 +8653,7 @@ Dokonaj &transliteracji
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.2
+;  Version: 4.0.1.3
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9181,6 +9027,8 @@ Zbyt wiele błędów!
 Nieprawidłowe hasło!
 [Please type in your password]
 Proszę wprowadzić hasło
+[Error]
+Błąd
 [Change/remove password]
 Zmień/Usuń hasło
 [Wrong old password entered!]
@@ -9319,7 +9167,7 @@ Ustaw/Zmień hasło
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -9422,7 +9270,7 @@ Miranda NG [%s] kopia zapasowa profilu
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.1
+;  Version: 0.6.2.5
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -9445,14 +9293,24 @@ Zmień &nick
 Główna ikona
 [Group chats]
 Rozmowy grupowe
+[Call]
+Zadzwoń
+[Call ended]
+Rozmowa zakończona
 [Network]
 Protokoły
 [Account]
 Konto
+[Incoming call]
+Połączenie przychodzące
 [%s server connection]
 Połączenie %s
 [User ID]
 ID użytkownika
+[Owners]
+Właściciel
+[Participants]
+Uczestnicy
 [Preview]
 Podgląd
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
@@ -9614,12 +9472,12 @@ Wtyczki
 Wymuszone ponowne łączenie z serwerem Exchange ...
 [Connecting to Exchange ...]
 Łączenie z Exchange ...
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.1.0.8
+;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Zapewnia obsługę protokołu Facebook w Mirandzie NG.
@@ -9629,388 +9487,44 @@ E-mail:
 Hasło:
 [Create a new Facebook account]
 Utwórz nowe konto na Facebooku
-[What's on your mind?]
-O czym teraz myślisz?
-[Wall:]
-Tablica:
-[Visibility:]
-Widoczność:
-[Text:]
-Tekst:
-[URL:]
-Link:
-[Place:]
-Miejsce:
-[Contacts >>]
-Kontakty >>
-[Attach contacts:]
-Dołącz kontakty:
-[Share]
-Wyślij
-[Cancel]
-Anuluj
 [User details]
 Dane kontaktu
 [Contacts]
 Kontakty
 [Default group:]
 Domyślna grupa:
-[Automatically set 'Ignore status change' flag]
-Automatycznie ustaw "Ignoruj zmiany statusu"
-[Use bigger avatars]
-Użyj większych awatarów
-[Prefer real names instead of nicknames]
-Preferuj prawdziwe imiona niż nicki
+[Keep messages as unread on server]
+Utrzymuj wiadomości na serwerze jako nieprzeczytane
 [Load also Messenger contacts at login (not only Facebook friends)]
 Pobieraj przy logowaniu także kontakty Messenger'a (a nie tylko znajomości Facebook'a)
-[Use Invisible status for Facebook Pages (instead of Offline)]
-Używaj statusu Niewidoczny dla Stron Facebook'a (zamiast Rozłączony)
-[Popup notifications]
-Popupy powiadomień
-[Show notifications]
-Pokazuj powiadomienia
-[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
-Pokazuj posty z tablicy (UWAGA: Powoduje nadmierne obciążenie łącza!) 
-[News feed types to notify:]
-Powiadamiaj o następujących typach aktualności:
-[Don't show advertising posts]
-Nie pokazuj proponowanych postów
-[Show friendships changes (when someone removes/approves you)]
-Pokazuj zmiany znajomości (gdy ktoś Cię doda/usunie)
-[Chatroom logging]
-Rejestrowanie w czacie
-[Log notifications into special chatroom]
-Zapisuj powiadomienia do specjalnego czatu
-[Extra]
-Dodatkowe
-[Use balloon notifications in system tray instead of popups]
-Użyj baloników systemowych w zasobniku zamiast popupów
-[Use this server for opening links:]
-Użyj tego serwera do otwierania linków:
-[Statuses]
-Statusy
-[Post Miranda statuses to Wall]
-Pokazuj statusy Mirandy jako posty na Tablicy
-[Turn off chat on Facebook when going to offline in Miranda]
-Wyłącz czat Facebooka gdy rozłączasz się z Mirandą
-[Map unsupported statuses to Invisible (instead of Away)]
-Mapuj nieznane statusy jako Niewidoczny zamiast Zaraz wracam
-[Allow posting statuses to my pages (may slow down login)]
-Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
-[Advanced]
-Zaawansowane
-[Send typing notifications even when Invisible]
-Wysyłaj powiadomienie o pisaniu nawet gdy Niewidoczny
-[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
-Pisanie jest jednym z czynników po którym użytkownik oznaczany jest jako aktywny. Jeżeli nie chcesz być widoczny na Facebook'u jako "aktywny 1 min temu", to odznacz tą opcję oraz nie wykonuj żadnych działań na FB w przeglądarce. Wysyłanie wiadomości z Mirandy powinno być bezpieczne, ale nie polegaj na tym w 100%.
-[Bots challenge test]
-Test sprawdzający obecność botów
-[Instruction:]
-Instrukcja:
-[Submit]
-Wyślij
-[Messages]
-Wiadomości
-[Keep messages as unread on server (don't send "seen" info)]
-Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o dostępności)
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
-[Multi user chats]
-Czaty grupowe
-[Enable multi user chats support]
-Włącz wsparcie dla czatów grupowych
+[Group chats]
+Rozmowy grupowe
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
-[Automatically join active chats that exist in contact list]
-Automatycznie dołączaj do aktywnych czatów z listy kontaktów
-[History synchronization]
-Synchronizacja historii
-[Load last messages on opening message window (EXPERIMENTAL)]
-Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
-[Number of messages to load:]
-Liczba wiadomości do załadowania:
-[Facebook Login Approval]
-Zatwierdzenie logowania Facebook
-[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
-Twoje ustawienia bezpieczeństwa wymagają podania kodu weryfikacyjnego aby zalogować się do swojego konta z nieznanej przeglądarki.\n\nKod możesz uzyskać z aplikacji Facebook na swoim telefonie lub otrzymać SMS-em klikając przycisk poniżej.
-[Send SMS]
-Wyślij SMS
-[Enter the text you see]
-Wprowadź tekst, który widzisz
-[&Invite user...]
-&Zaproś użytkownika
-[E&xit chat session]
-Opuść grupę
-[&Destroy chat session]
-&Usuń sesję czatu
-[User &details]
-&Dane użytkownika
-[User &history]
-&Historia użytkownika
-[Delete conversation]
-Usuń konwersację
-[This will permanently delete the conversation history]
-To nieodwracalnie usunie historię konwersacji
-[Myself]
-Ja
-[Friend]
-Znajomy
-[User]
-Użytkownik
-[Notifications]
-Powiadomienia
-[%s and more (%d)]
-%s i więcej (%d)
-[Login error: %s]
-Błąd logowania: %s
-[Unknown error]
-Nieznany błąd
-[Login error: Invalid request.]
-Błąd logowania: Nieprawidłowe żądanie.
-[You entered too many invalid verification codes. Plugin will disconnect.]
-Wprowadziłeś zbyt wiele nieprawidłowych kodów weryfikacyjnych. Nastąpi rozłączenie wtyczki.
-[You entered wrong verification code. Try it again.]
-Wprowadziłeś zły kod weryfikacyjny. Spróbuj ponownie.
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-Błąd logowania: twoje konto jest tymczasowo zablokowane. Musisz potwierdzić to urządzenie w przeglądarce.
-[Check last login]
-Sprawdź ostatnie logowanie
-[Do you recognize this activity?]
-Czy rozpoznajesz tą aktywność?
-[Login error: You need to confirm last unknown login or revoke it from web browser.]
-Błąd logowania: Musisz z poziomu przeglądarki potwierdzić ostatnie nieznane logowanie lub je unieważnić.
-[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
-Błąd logowania: Facebook uważa, że Twój komputer jest zainfekowany. Aby to naprawić, zaloguj się w trybie prywatnym swojej przeglądarki i uruchom ich kontrolę antywirusową.
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-Błąd logowania: wymagany jest kod CAPTCHA. Musisz potwierdzić to urządzenie w przeglądarce.
-[Login error, probably bad login credentials.]
-Błąd logowania, sprawdź login i hasło.
-[Could not load communication token. You should report this and wait for plugin update.]
-Nie udało się załadować tokenu komunikacji. Powinieneś to zgłosić i czekać na aktualizację wtyczki.
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-Nie udało się załadować wszystkich wymaganych danych. Wtyczka powinna działać poprawnie, ale powinieneś to zgłosić i czekać na jej aktualizację.
-[Contact doesn't have required data in database.]
-Kontakt nie posiada wymaganych danych w bazie.
-[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-Potrzebujesz potwierdzenia dla wysyłania wiadomości do innych klientów.\nOtwórz stronę Facebook i spróbuj wysłać wiadomość do kontaktu ponownie!
-[User cancel captcha challenge.]
-Użytkownik anulował zadanie captcha.
-[Timeout when sending message.]
-Upłynęło zbyt dużo czasu wysyłania wiadomości.
-[Status update was successful.]
-Aktualizacja statusu powiodła się.
-[Error occurred when requesting verification SMS code.]
-Wystąpił błąd w trakcie żądania SMS-a z kodem weryfikacyjnym.
-[Verification SMS code was sent to your mobile phone.]
-SMS z kodem weryfikacyjnym został wysłany na Twój telefon.
-[Please enter a username.]
-Wprowadź nazwę użytkownika.
-[Please enter a password.]
-Wprowadź hasło
-[Contact was removed from your server list.]
-Kontakt został usunięty z listy serwera.
-[Error occurred when removing contact from server.]
-Błąd podczas usuwania kontaktu z serwera.
-[Request for friendship was sent.]
-Zaproszenie zostało wysłane.
-[Error occurred when requesting friendship.]
-Błąd podczas zapraszania do grona znajomych.
-[Request for friendship was accepted.]
-Prośba o dodanie do znajomych została zaakceptowana.
-[Error occurred when accepting friendship request.]
-Wystąpił błąd podczas akceptowania prośby o dodanie do znajomych.
-[Request for friendship was canceled.]
-Zaproszenie zostało cofnięte.
-[Error occurred when canceling friendship request.]
-Wystąpił błąd podczas anulowania zaproszenia do grona znajomych
-[Request for friendship was ignored.]
-Prośba o dodanie do znajomych została zignorowana.
-[Error occurred when ignoring friendship request.]
-Wystąpił błąd podczas ignorowania prośby o dodanie do znajomych.
-[Top News]
-Najpopularniejsze
-[Most Recent]
-Najnowsze
-[Pages]
-Strony
-[Classic website]
-Klasyczna strona
-[Mobile website]
-Strona mobilna
-[Smartphone website]
-Strona dla ekranów dotykowych
-[Public]
-Publiczny
-[Friends of friends]
-Znajomi znajomych
-[Friends]
-Znajomi
-[Friends except acquaintances]
-Znajomi poza dalszymi znajomymi
-[Only me]
-Tylko ja
-[Default]
-Domyślny
-[<< Contacts]
-<< Kontakty
-[What's on your mind, %s?]
-O czym teraz myślisz, %s?
-[a sticker]
-naklejka
-[a GIF]
-GIF
-[a link]
-link
-[files]
-pliki
-[a file]
-plik
-[User sent %s:]
-Użytkownik wysłał %s:
-[User sent an unsupported attachment. Open your browser to see it.]
-Użytkownik wysłał plik niewspieranego typu. Otwórz przeglądarkę, aby go zobaczyć.
-[Reaction]
-Reakcje
-[%s is typing a message...]
-%s pisze wiadomość...
-[You cannot send messages when you are offline.]
-Nie można wysłać wiadomości, gdy jesteś offline.
-[Contact is back on server-list.]
-Kontakt powrócił na listę na serwerze.
-[Contact is no longer on server-list.]
-Kontakt nie jest już na liście serwera.
-[Loading history started.]
-Rozpoczęto pobieranie historii.
-[Loading messages: %d/%d]
-Pobieranie wiadomości: %d/%d
-[Loading history completed.]
-Zakończono pobieranie historii.
-[<attachment without text>]
-<załącznik bez tekstu>
-[Loading memories...]
-Sprawdzanie wspomnień...
-[On this day]
-Tego dnia
-[Found %d memories.]
-Znaleziono %d wspomnień.
-[Loading notifications...]
-Sprawdzanie powiadomień...
-[Found %d notifications.]
-Znaleziono powiadomienia: %d
-[Loading friendship requests...]
-Sprawdzanie zaproszeń do znajomych...
-[Found %d friendship requests (%d seen).]
-Znaleziono zaproszenia do znajomych: %d (widzianych: %d)
-[Found %d friendship requests.]
-Znaleziono zaproszenia do znajomych: %d
-[Loading wall posts...]
-Sprawdzanie postów...
-[Found %d wall posts.]
-Znaleziono posty: %d
-[%s server connection]
-Połączenie %s
-[Unable to initialize Netlib for %s.]
-Nie udało się zainicjować połączenia Netlib dla %s.
-[Video call]
-Rozmowa video
-[Facebook ID must be numeric value.]
-Facebook ID musi być wartością numeryczną.
+[Send group chat invitation]
+Wyślij zaproszenie do czatu
+[&Invite]
+&Zaproś
+[Cancel]
+Anuluj
+[&Invite a user]
+&Zaproś
+[&Kick user]
+&Wyrzuć użytkownika
 [Network]
 Protokoły
 [Account]
 Konto
-[Events]
-Zdarzenia
-[Messaging]
-Wiadomości
-[Share status...]
-Udostępnij status
-[Own wall]
-Własna tablica
-[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
-Pobieranie historii już trwa. Nie może już pobierać dla kolejnych kontaktów, proszę poczekaj aż skończy.
-[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
-Zostaną pobrane wszystkie wiadomości z serwera. Aby uniknąć zduplikowanych wiadomości w historii, usuń przed kontynuowaniem istniejące wiadomości.\nPobieranie może potrwać, zachowaj cierpliwość.\n\nCzy chcesz kontynuować?
-[Do you want to cancel your friendship with '%s'?]
-Czy chcesz anulować znajomość z "%s"?
-[Client errors]
-Błędy klienta
-[Wall posts]
-Posty na tablicy
-[Other events]
-Inne zdarzenia
-[Friendship events]
-Zdarzenia znajomości
-[Real-time friends activity]
-Aktywność znajomych w czasie rzeczywistym
-[Memories]
-Wspomnienia
-[Visit profile]
-Odwiedź profil
-[Visit notifications]
-Przejdź do powiadomień
-[Show 'Share status' window]
-Pokaż okno "Udostępnij status"
-[Notification]
-Powiadomienie
-[Newsfeed event]
-Aktualności
-[Other event]
-Inne zdarzenie
-[Friendship event]
-Zdarzenie Znajomości
-[Ticker event]
-Wydarzenie paska
-[Message read: %s by %s]
-Wiadomość odczytana: %s przez %s
-[Message read: %s]
-Wiadomość odczytana: %s
-[Facebook icon]
-Facebook
-[Mind]
-Status
-[Poke]
-Zaczep
-[Newsfeed]
-Aktualności
-[Friendship details]
-Dane znajomości
-[Conversation]
-Rozmowa
-[Message read]
-Wiadomość odczytana
-[Angry]
-Wrr
-[Haha]
-Ha ha
-[Like]
-Lubię to!
-[Love]
-Super
-[Sad]
-Przykro mi
-[Wow]
-Wow
-[Visit friendship details]
-Sprawdź dane znajomości
-[Visit conversation]
-Przejdź do historii rozmowy
-[Load history]
-Pobierz historię
-[Cancel friendship request]
-Cofnij zaproszenie
-[Deny friendship request]
-Odrzuć prośbę o dodanie do znajomych
-[Services...]
-Usługi...
-[Check friendship requests]
-Sprawdź zaproszenia do grona znajomych
-[Check newsfeeds]
-Sprawdź aktualności
-[Check memories]
-Sprawdź wspomnienia
-[Check notifications]
-Sprawdź powiadomienia
+[%s server connection]
+Połączenie %s
+[Participant]
+Uczestnik
+[URL]
+Link
+[Title]
+Nazwa
+[Description]
+Opis
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -10222,8 +9736,6 @@ Klienty ICQ
 Klienty IRC
 [Jabber clients]
 Klienty Jabber
-[MSN clients]
-Klienty MSN
 [RSS clients]
 Klienty RSS
 [VKontakte clients]
@@ -10292,8 +9804,6 @@ Nakładka JGmail
 Nakładka JGTalk
 [Jabber overlay]
 Nakładka Jabber
-[MSN overlay]
-Nakładka MSN
 [VK overlay]
 Nakładka VK
 [Skype overlay]
@@ -13265,7 +12775,7 @@ Sprzętowe skróty klawiszowe
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.5
+;  Version: 0.95.12.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -13312,6 +12822,12 @@ Ogólne
 Zaawansowane
 [%s server connection]
 Połączenie %s
+[Name]
+Nazwa
+[Rename]
+Zmień nazwę
+[Delete]
+Usuń
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Połączenie nieudane.\nTwój numer ICQ lub hasło zostały odrzucone (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
@@ -13452,7 +12968,7 @@ Historia &systemowa
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.2
+;  Version: 1.6.0.4
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -13535,14 +13051,6 @@ RTL wył.
 Grupowanie wł.
 [Group Off]
 Grupowanie wył.
-[%s has joined.]
-% dołączył.
-[%s has left.]
-%s opuścił czat
-[The topic is %s.]
-Temat: %s.
-[Error]
-Błąd
 [Default]
 Domyślny
 [Template]
@@ -13769,6 +13277,8 @@ Import Mirandy
 Wszystkie pliki
 [You cannot import your current profile into itself]
 Nie możesz zaimportować obecnego profilu do niego samego
+[Miranda NG database/mContacts]
+Profil Mirandy NG/mContacts
 [Skipping duplicate group %s.]
 Pomijanie zduplikowanej grupy %s.
 [Import...]
@@ -13902,7 +13412,7 @@ Wsparcie skryptowania
 Wiadomość przy wyjściu:
 [Server code page:]
 Kodowanie znaków:
-[Enable UTF8 autodetection]
+[Enable UTF-8 autodetection]
 Włącz autowykrywanie UTF-8
 [Add server]
 Dodaj serwer
@@ -14188,10 +13698,10 @@ Odwrócone żądanie DCC transferu plików wysłano do %s [%s]
 Żądanie DCC transferu plików wysłano do %s [%s]
 [DCC ERROR: Unable to bind local port]
 BŁĄD DCC: Nie można przypisać lokalnego portu
-[The protocol is not online]
-Protokół jest rozłączony
 [The dcc chat connection is not active]
 Rozmowa DCC CHAT jest nieaktywna
+[The protocol is not online]
+Protokół jest rozłączony
 [Please choose an IRC-network to go online. This network will be the default.]
 Proszę wybierz sieć IRC do podłączenia się. Ta sieć będzie domyślną.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
@@ -14566,7 +14076,7 @@ Usunąć wyjątek?
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -14639,8 +14149,6 @@ Host:
 Utrzymuj połączenie
 [Automatically delete contacts not in my roster]
 Automatycznie usuwaj kontakty spoza mojej listy
-[User directory:]
-Katalog użytkownika:
 [Language for human-readable resources:]
 Wybierz swój język:
 [File Transfer]
@@ -14649,18 +14157,14 @@ Transfer plików
 Pozwól na przesyłanie plików bezpośrednio za pomocą p2p
 [Specify external address:]
 Określ zewnętrzny adres:
-[Allow file sending through bytestream proxy server:]
-Pozwól na przesyłanie plików pośrednio poprzez serwer:
 [Miscellaneous]
 Różne
 [Hint:]
 Info:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Jeśli masz problemy z przesyłaniem plików, spróbuj odznaczyć powyższe opcje. Może to jednak spowodować kłopoty z transferem dużych plików.
-[Jabber account registration]
-Rejestracja konta Jabbera
-[Jabber Form]
-Formularz Jabbera
+[Account registration]
+Rejestracja konta
 [Instruction:]
 Instrukcja:
 [Submit]
@@ -14963,8 +14467,8 @@ Gotowe
 Wykonaj
 [Jabber Agent Registration]
 Rejestracja agenta Jabbera
-[No message]
-Brak wiadomości
+[Registration successful]
+Rejestracja zakończona sukcesem.
 [Register]
 Zarejestruj
 [Please wait...]
@@ -15015,8 +14519,6 @@ Możliwość raportowania czasu lokalnego użytkownika
 Możliwość wysyłania i odbierania żądań pingu
 [Supports data forms]
 Wsparcie dla formularzy danych
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Możliwość informowania o zdarzeniach związanych z dostarczaniem, wyświetlaniem i składem wiadomości
 [Supports vCard]
 Wsparcie dla vCard
 [Supports XHTML formatting of chat messages]
@@ -15087,14 +14589,14 @@ Gość
 Uczestnik
 [Moderator]
 Moderator
-[Owners]
-Właściciel
-[Moderators]
-Moderatorzy
-[Participants]
-Uczestnicy
 [Visitors]
 Goście
+[Participants]
+Uczestnicy
+[Moderators]
+Moderatorzy
+[Owners]
+Właściciel
 [Outcast]
 Wygnaniec
 [Role of %s was changed to '%s'.]
@@ -15217,22 +14719,6 @@ Błąd Jabbera
 Błąd parsowania XML wychodzącego
 [request timeout.]
 czas zapytania minął.
-[Node hierarchy]
-Hierarchia węzłów
-[Node]
-Węzeł
-[Navigate]
-Przejdź
-[Browse all favorites]
-Przeglądaj wszystkie ulubione
-[Remove all favorites]
-Usuń wszystkie ulubione
-[Registered transports]
-Zarejestrowane transporty
-[Browse local transports]
-Przeglądaj lokalne transporty
-[Browse chatrooms]
-Przeglądaj pokoje
 [Contact Menu...]
 Menu kontaktu...
 [View vCard]
@@ -15265,10 +14751,28 @@ Kopiuj JID
 Kopiuj nazwę węzła
 [Copy node information]
 Kopiuj informację węzła
+[Node hierarchy]
+Hierarchia węzłów
+[Node]
+Węzeł
+[Navigate]
+Przejdź
+[Browse all favorites]
+Przeglądaj wszystkie ulubione
+[Remove all favorites]
+Usuń wszystkie ulubione
+[Registered transports]
+Zarejestrowane transporty
+[Browse local transports]
+Przeglądaj lokalne transporty
+[Browse chatrooms]
+Przeglądaj pokoje
 [type]
 typ
 [Type]
 Typ
+[No compatible file transfer mechanism exists]
+Nie istnieje żaden kompatybilny mechanizm transferu plików
 [Failed to retrieve room list from server.]
 Nie udało się pobrać listy pokoi z serwera.
 [No rooms available on server.]
@@ -15381,8 +14885,6 @@ Prywatność
 Autoryzacja nieudana dla %s.
 [Authentication]
 Autoryzacja
-[Registration successful]
-Rejestracja zakończona sukcesem.
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Hasło zostało pomyślnie zmienione. Nie zapomnij o zaktualizowaniu hasła w opcjach Jabbera.
 [Password cannot be changed.]
@@ -15411,8 +14913,6 @@ Lista właścicieli
 Żądanie autoryzacji http przyjęte
 [Jabber account chooser]
 Wybór konta Jabber
-[Convert]
-Konwertuj
 [Add to Bookmarks]
 Dodaj do zakładek
 [Commands]
@@ -15427,10 +14927,6 @@ Zasób Jabbera
 Ostatnio aktywny
 [Server's Choice]
 Wybór serwera
-[&Convert to Contact]
-&Skonwertuj do kontaktu
-[&Convert to Chat Room]
-S&konwertuj na pokój
 [Services...]
 Usługi...
 [Registered Transports]
@@ -15861,6 +15357,10 @@ Joruba
 Zhuang
 [Zulu]
 Zulu
+[Never]
+Nigdy
+[Always]
+Zawsze
 [These changes will take effect the next time you connect to the Jabber network.]
 Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Jabber.
 [Jabber Protocol Option]
@@ -15875,8 +15375,6 @@ Ostrzeżenie o usuwaniu konta
 Musisz być połączony
 [Messaging]
 Wiadomości
-[Send messages slower, but with full acknowledgment]
-Wysyłaj wiadomości wolniej, ale z potwierdzeniem
 [Enable avatars]
 Włącz obsługę awatarów
 [Log chat state changes]
@@ -15897,8 +15395,6 @@ Odbieraj notatki
 Automatycznie zapisuj otrzymane notatki
 [Enable server-side history (XEP-0136)]
 Włącz historię po stronie serwera
-[Receive conversations from other devices (XEP-0280)]
-Otrzymuj konwersacje z innych urządzeń (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (Testing)]
 Użyj Stream Management (XEP-0198) gdy możliwe (Testowe)
 [Server options]
@@ -15923,8 +15419,6 @@ Naprawiaj błędne czasy przychodzących wiadomości
 Wyłącz ramkę
 [Enable XMPP link processing (requires AssocMgr)]
 Włącz powiązanie XMPP (wymagany wtyczka AssocMgr.dll)
-[Keep contacts assigned to local groups (ignore roster group)]
-Utrzymuj kontakty przypisane do grup lokalnych (ignoruj grupy rostera)
 [Security]
 Bezpieczeństwo
 [Allow servers to request version (XEP-0092)]
@@ -16121,8 +15615,6 @@ Przykro mi
 Nie można zapisać listy, ponieważ jesteś rozłączony.
 [List Editor...]
 Edytuj listy...
-[No compatible file transfer mechanism exists]
-Nie istnieje żaden kompatybilny mechanizm transferu plików
 [Protocol is offline or no JID]
 Protokół jest Rozłączony lub brak JID
 [No valid OMEMO session exists]
@@ -16153,8 +15645,8 @@ Przesyłanie...
 Pobieranie...
 [Connecting...]
 Łączenie...
-[XML for MS Excel (UTF-8 encoded)]
-XML dla MS Excel (UTF-8 encoded)
+[XML (UTF-8 encoded)]
+XML (UTF-8 encoded)
 [Error: unknown reply received\r\nPlease select other server]
 Błąd: otrzymano nieznaną odpowiedź\r\nProszę wybrać inny serwer
 [Search error]
@@ -16657,7 +16149,7 @@ Jestem szczęśliwym użytkownikiem Mirandy NG. Wypróbuj pobierając z https://
 ;============================================================
 ;  File: KeyboardNotify.dll
 ;  Plugin: Keyboard notify ext.
-;  Version: 1.5.7.7
+;  Version: 1.6.0.1
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
@@ -16710,10 +16202,10 @@ Tylko powiadomienie gdy
 Dostępny
 [Away]
 Zaraz wracam
-[Occupied]
-Zajęty
 [Not available]
 Wrócę później
+[Occupied]
+Zajęty
 [Do not disturb]
 Nie przeszkadzać
 [Free for chat]
@@ -16846,6 +16338,10 @@ Protokół
 Motyw Keyboard Notify
 [All Files]
 Wszystkie pliki
+[Keyboard Flash]
+Miganie klawiatury
+[Events]
+Zdarzenia
 [Accounts]
 Konta
 [Rules]
@@ -16854,10 +16350,6 @@ Zasady
 Miganie
 [Themes]
 Motywy
-[Keyboard Flash]
-Miganie klawiatury
-[Events]
-Zdarzenia
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -17369,11 +16861,21 @@ Personalizacja
 ;============================================================
 ;  File: MessageState.dll
 ;  Plugin: Message state
-;  Version: 0.0.1.0
+;  Version: 0.1.0.2
 ;  Authors: MikalaiR
 ;============================================================
 [Displays icons in message window showing whether your last outgoing message was read / is still unread.]
 Wyświetla ikonę w oknie rozmowy informującą o tym czy ostatnia wysłana wiadomość została już odczytana czy nie.
+[Last message read at %X %x]
+Ostatnią wiadomość odczytano o %X %x
+[Last message read]
+Ostatnią wiadomość odczytano
+[Last message is not read]
+Nie odczytano ostatniej wiadomości
+[Last message was not sent]
+Ostatnia wiadomość nie została wysłana
+[Sending...]
+Wysyłanie...
 [MessageState unread extra icon]
 Dodatkowa ikona nieodczytania MessageState
 [Unread message icon]
@@ -17386,18 +16888,6 @@ Ikona nieudanego wysyłania
 Ikona wysyłania wiadomości
 [Unread clist extra icon]
 Dodatkowa ikona nieodczytania, lista kontaktów
-[Last message is not read]
-Nie odczytano ostatniej wiadomości
-[Last message read]
-Ostatnią wiadomość odczytano
-[Last message was not sent]
-Ostatnia wiadomość nie została wysłana
-[Sending...]
-Wysyłanie...
-[Last message read at %X %x]
-Ostatnią wiadomość odczytano o %X %x
-[Last message read (unknown time)]
-Ostatnią wiadomość odczytano (nieznany czas)
 ;#muuid for MimCmd not found, please specify manually!
 ;============================================================
 ;  File: MimCmd.exe
@@ -17785,7 +17275,7 @@ Folder skryptów
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -17822,24 +17312,12 @@ Pokazuj wiadomości systemowe OTR w linii
 Pokazuj wiadomości systemowe OTR jako popupy
 [Show verification dialog when receiving unverified fingerprint]
 Pokazuj okno weryfikacji po otrzymaniu niezweryfikowanego odcisku palca
-[Set OTR policy per protocol]
-Ustaw politykę OTR indywidualnie dla każdego protokołu
 [Current policy:]
 Obecna polityka:
-[Generate new private key]
-Generuj nowy klucz prywatny
-[Forget private key]
-Zapomnij klucz prywatny
 [Set OTR policy per contact]
 Ustaw politykę OTR indywidualnie dla każdego kontaktu
 [View & Modify status of known fingerprints]
 Zobacz i modyfikuj status znanych odcisków palca
-[Set verified]
-Jako zweryfikowany
-[Set unknown]
-Jako nieznany
-[Forget]
-Porzuć
 [Socialist Millionaires Protocol]
 Protokół Socialist Millioneres
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -17862,6 +17340,18 @@ Status OTR
 Zatr&zymaj sesję OTR
 [&Verify Fingerprint]
 Z&weryfikuj Odcisk Palca
+[Set verified]
+Jako zweryfikowany
+[Set unknown]
+Jako nieznany
+[Copy]
+Kopiuj
+[Forget]
+Porzuć
+[Generate new private key]
+Generuj nowy klucz prywatny
+[Forget private key]
+Zapomnij klucz prywatny
 [OTR private]
 OTR prywatny
 [OTR unverified]
@@ -17920,16 +17410,6 @@ Informacje OTR
 Szyfrowana sesja OTR z "%s" używa teraz zweryfikowanego odcisku palca
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Szyfrowana sesja OTR z "%s" używa teraz niezweryfikowanego odcisku palca
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Generowanie nowego klucza prywatnego dla protokołu "%s".\nProszę czekać...
-[General]
-Ogólne
-[Protocols]
-Protokoły
-[Contacts]
-Kontakty
-[Fingerprints]
-Odciski palca
 [Contact]
 Kontakt
 [Account]
@@ -18020,6 +17500,14 @@ Status OTR
 Dane Prywatne
 [Services]
 Usługi
+[General]
+Ogólne
+[Accounts]
+Konta
+[Contacts]
+Kontakty
+[Fingerprints]
+Odciski palca
 [\nusing older protocol version %i]
 \nużywanie starszej wersji protokołu %i
 [Attempting to start a private conversation...]
@@ -18309,7 +17797,7 @@ Wiadomość z gwiazdką
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.3
+;  Version: 3.1.2.6
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18334,20 +17822,14 @@ Szerokość
 Notka: 0 = bez limitu
 [Time format]
 Format czasu
-[Use UTF8 in new files]
-UTF8 dla nowych wiadomości
+[Use UTF-8 in new files]
+UTF-8 dla nowych wiadomości
 [Append extra new line]
 Dodatkowa nowa linia
 [Use << and >>]
 Użyj << i >>
-[Auto filename]
-Autonazewnictwo
-[Clear all]
-Wyczyść wszystko
 [Help]
 Pomoc
-[Export all history]
-Eksportuj wszystko
 [Exporting old messages]
 Eksportowanie starych wiadomości
 [History file for %s (%s, format %s)]
@@ -18374,10 +17856,16 @@ Usuń plik
 Analizuj
 [User &details]
 &Dane kontaktu
-[Export selected]
-Eksportuj zaznaczony
+[Export]
+Eksportuj
 [Set to default filename]
 Ustaw domyślną nazwę pliku
+[Select all]
+Zaznacz wszystko
+[Auto filename]
+Autonazewnictwo
+[Clear all]
+Wyczyść wszystko
 [Copy]
 Kopiuj
 [Miranda database contains %d events]
@@ -18418,14 +17906,12 @@ Wybierz folder docelowy
 Plik
 [Nick]
 Nick
-[Proto]
-Protokół
-[UIN]
-UIN
+[Account]
+Konto
+[User ID]
+ID użytkownika
 [No contacts found to export]
 Nie znaleziono kontaktów do eksportu
-[Export Protocols]
-Eksportuj protokoły
 [Message export]
 Eksport wiadomości
 [History]
@@ -18478,8 +17964,6 @@ O kontakcie
       Historia dla
 [User]
 Użytkownik
-[Protocol]
-Protokół
 [File: ]
 Plik:\s
 [Description: ]
@@ -18510,256 +17994,6 @@ Użytkownik został usunięty. Czy chcesz usunąć plik?
 Błąd usuwania pliku
 [No_Nick]
 Brak nicku
-#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
-;============================================================
-;  File: MSN.dll
-;  Plugin: MSN protocol
-;  Version: 0.95.11.1
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
-;============================================================
-[Microsoft Network (MSN) protocol support for Miranda NG.]
-Zapewnia obsługę protokołu Microsoft Network (MSN).
-[Live ID:]
-Identyfikator Live:
-[Password:]
-Hasło:
-[Nickname:]
-Nick:
-[Create a new Windows Live account]
-Utwórz nowe konto Windows Live
-[Expert]
-Zaawansowane
-[Send message font color/size info inside messages]
-Wyślij informacje o kolorze/rozmiarze czcionki w wiadomościach
-[Disable all contacts not included into my contact list]
-Wyłącz wszystkie kontakty nieznajdujące się na mojej liście
-[Manage server groups]
-Zarządzaj grupami serwera
-[Allow people on my contact list send messages to mobile device]
-Zezwalaj osobom z mojej listy na wysyłanie wiadomości na urządzenie mobilne
-[Run the following application when new Hotmail arrives]
-Uruchom następującą aplikację po otrzymaniu Hotmaila
-[Connection settings]
-Ustawienia połączenia
-[Direct:]
-Bezpośrednie:
-[Gateway:]
-Bramka:
-[Reset]
-Domyślne
-[Notify me when a message delivery has failed]
-Powiadom mnie jeśli nie uda się dostarczyć wiadomości
-[Incoming file transfers]
-Przychodzące transfery
-[Your host (or router):]
-Twój host(lub router):
-[Server List Manager]
-Zarządzanie listą na serwerze
-[Contact is on your local list]
-Kontakt znajduje się na lokalnej liście
-[Contact is included into your server list]
-Kontakt znajduje się na twojej liście na serwerze
-[Allowed (active) contact]
-Dozwolony (aktywny) kontakt
-[Blocked contact]
-Zablokowany kontakt
-[Somebody included you in his/her server list]
-Ktoś dodał cię do swojej listy na serwerze
-[Refresh]
-Odśwież
-[Enable Popup notifications]
-Włącz powiadomienia
-[Enable Contact List notifications]
-Włącz powiadomienia listy kontaktów
-[Enable Tray notifications]
-Włącz powiadomienia w zasobniku
-[Ignore new messages not in Inbox folder]
-Ignoruj nowe wiadomości nie będące w skrzynce odbiorczej
-[Other]
-Inne
-[Display errors using popups]
-Wyświetlaj błędy za pomocą popupów
-[Enable 'Chat Session Established' popup]
-Włącz popup "nawiązano sesję czatu"
-[Enable 'Contact left channel' popup]
-Włącz popup "kontakt opuścił kanał"
-[Set Nickname]
-Edytuj nick
-[Cancel]
-Anuluj
-[Mobile Device (used for SMS)]
-Urządzenie przenośne (używane do SMS)
-[Spouse/Partner]
-Małżonek(ka)/Partner
-[Middle Name]
-Drugie imię
-[First Name]
-Imię
-[Last Name]
-Nazwisko
-[Anniversary]
-Rocznica
-[Birthday]
-Urodziny
-[Nickname]
-Nick
-[Place:]
-Miejsce:
-[MSN Delete Contact]
-MSN usuń kontakt
-[Remove from Hotmail Address book]
-Usuń z książki adresowej Hotmail
-[Block Contact]
-Zablokuj kontakt
-[Invite Contact To Chat]
-Zaproś kontakt do czatu
-[Live ID]
-Live ID
-[&Invite]
-&Zaproś
-[&Cancel]
-&Anuluj
-[Add]
-Dodaj
-[Admin]
-Admin
-[User]
-Użytkownik
-[Chat #]
-Czat #
-[&Invite user...]
-&Zaproś użytkownika...
-[&Leave chat session]
-&Opuść pokój
-[User &details]
-&Dane kontaktu
-[User &history]
-&Historia użytkownika
-[&Kick user]
-&Wyrzuć użytkownika
-[&Op user]
-&Mianuj opem
-[&Deop user]
-&zdejmij opa
-[MSN Alert]
-Alert MSN
-[User not online]
-Użytkownik jest rozłączony
-[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Kontakt %s został usunięty z serwera.\nCzy chciałbyś pozostawić go na liście jako kontakt lokalny w celu zachowania historii?
-[%s protocol]
-Protokół %s
-[Subject: %s]
-Temat: %s
-[Hotmail from %s (%S)]
-Hotmail od %s (%S)
-[Hotmail from %s]
-Hotmail od %s
-[Unread mail is available: %d in Inbox and %d in other folders.]
-Dostępna jest nieprzeczytana poczta (%d w skrzynce odbiorczej oraz %d w innych folderach)
-[&Unblock]
-&Odblokuj
-[&Block]
-&Zablokuj
-[Open &Hotmail Inbox]
-Otwórz skrzynkę &Hotmail
-[Send &Hotmail E-mail]
-Wyślij e-mail &Hotmail
-[Create &Chat]
-Utwórz &czat
-[Display &Hotmail Inbox]
-Wyświetl skrzynkę &Hotmail
-[View &Profile]
-Pokaż &profil
-[Setup Live &Alerts]
-Ustaw &alerty live
-[Custom Smileys]
-Własne uśmieszki
-[Notifications]
-Powiadomienia
-[Errors]
-Błędy
-[MSN Protocol]
-Protokół MSN
-[Protocol icon]
-Ikona protokołu
-[Hotmail Inbox]
-Skrzynka Hotmail
-[Profile]
-Profil
-[MSN Services]
-Usługi MSN
-[Block user]
-Zablokuj użytkownika
-[Invite to chat]
-Zaproś do czatu
-[Start Netmeeting]
-Uruchom Netmeeting
-[Contact list]
-Lista kontaktów
-[Allowed list]
-Dozwolona lista
-[Blocked list]
-Lista zablokowanych
-[Relative list]
-Powiązana lista
-[Local list]
-Lista lokalna
-[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Import grup z serwera może zmienić układ twojej listy kontaktów po następnym zalogowaniu. Chcesz wczytać grupy z serwera?
-[These changes will take effect the next time you connect to the MSN Messenger network.]
-Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią MSN Messenger.
-[MSN options]
-Opcje MSN
-[Automatically obtain host/port]
-Automatycznie ustaw host/port
-[Manually specify host/port]
-Ręcznie ustaw host/port
-[Disable]
-Wyłącz
-[IP info available only after login]
-Informacje o IP jest dostępne tylko po zalogowaniu
-[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-Protokół MSN wymaga, by czas oczekiwania wiadomości był większy niż 60 s. Popraw ustawienia.
-[Network]
-Protokoły
-[Account]
-Konto
-[Connection]
-Połączenie
-[Server list]
-Lista na serwerze
-[Live Mail]
-E-mail - MSN
-[Live Alert]
-Alarm - MSN
-[%s plugin connections]
-Połączenie %s
-[Contact already in your contact list]
-Kontakt jest już na liście kontaktów
-[Protocol is offline]
-Protokół jest rozłączony
-[You cannot send message to yourself]
-Nie możesz wysłać wiadomości do samego siebie
-[Message is too long: SMS page limited to 133 UTF8 chars]
-Wiadomość jest za długa: SMS-y są ograniczone do 133 znaków UTF-8
-[Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Wiadomość jest za długa: Wiadomości MSN są ograniczone do 1202 znaków UTF-8
-[Offline messaging is not allowed for LCS contacts]
-Wysyłanie wiadomości Offline nie jest dozwolone dla kontaktów LCS
-[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-MSN wymaga, aby limit czasu wysyłania wiadomości w opcjach wtyczki okna rozmowy nie był mniejszy niż 60 sekund. Proszę ustawić poprawną wartość.
-[Convert to Chat]
-Konwertuj do czatu
-#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
-;============================================================
-;  File: mTextControl.dll
-;  Plugin: Miranda text control
-;  Version: 0.8.0.1
-;  Authors: Merlin_de, Victor Pavlychko
-;============================================================
-[Provides text render API for different plugins.]
-Zapewnia obsługę API renderowania tekstów dla różnych wtyczek.
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: MyDetails.dll
@@ -19514,6 +18748,195 @@ Awatary
 Włącz/Wyłącz autoaktualizacje
 [NewsAggregator HTTP connections]
 Połączenie HTTP NewsAggregator
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.1.0.2
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Pokazuje historię wiadomości.
+[Messages]
+Wiadomości
+[Files]
+Pliki
+[Total]
+Całkowity
+[Incoming]
+Przychodzące
+[Outgoing]
+Wychodzące
+[Group messages]
+Grupuj wiadomości
+[Filter]
+Filtr
+[Show all events]
+Pokaż wszystkie zdarzenia
+[Incoming events]
+Przychodzące zdarzenia
+[Outgoing events]
+Wychodzące zdarzenia
+[Show messages]
+Pokaż wiadomości
+[Log options]
+Opcje dziennika
+[Options]
+Opcje
+[Templates]
+Szablony
+[Copy]
+Kopiuj
+[Edit]
+Edytuj
+[Delete]
+Usuń
+[Select all]
+Zaznacz wszystko
+[Incoming messages]
+Przychodzące wiadomości
+[Outgoing messages]
+Wychodzące wiadomości
+[Incoming files]
+Przychodzące pliki
+[Outgoing files]
+Wychodzące pliki
+[Status changes]
+Zmiany statusu
+[Grid background]
+Kolor tła
+[Separator]
+Separator
+[Incoming name]
+Przychodząca nazwa
+[Outgoing name]
+Wychodząca nazwa
+[FirstName]
+Imię
+[LastName]
+Nazwisko
+[e-mail]
+E-mail
+[Nick]
+Nick
+[Age]
+Wiek
+[Gender]
+Płeć
+[City]
+Miasto
+[State]
+Stan
+[Phone]
+Telefon
+[Homepage]
+Strona WWW
+[About]
+O wtyczce
+[Export...]
+Eksportuj...
+[Send message]
+Wyślij wiadomość
+[User info]
+Informacje użytkownika
+[User menu]
+Menu użytkownika
+[Find next]
+Wyszukaj następny
+[Find previous]
+Wyszukaj poprzedni
+[Conversations]
+Rozmowy
+[Complete]
+Zakończone
+[Empty history]
+Pusta Historia
+[System history]
+Historia systemowa
+[Main icon]
+Główna ikona
+[Search]
+Szukaj
+[Export]
+Eksportuj
+[Incoming message]
+Przychodząca wiadomość
+[Outgoing message]
+Wychodząca wiadomość
+[Unknown event]
+Nieznane zdarzenie
+[Update preview]
+Uaktualnij podgląd
+[Help]
+Pomoc
+[Reset to default]
+Przywróć domyślne
+[Variables help]
+Pomoc o zmiennych
+[Test contact]
+Testowy kontakt
+[event count]
+Liczba zdarzeń
+[icon]
+Ikona
+[timestamp]
+Czas
+[minute]
+minut
+[month]
+miesiąc
+[year (4 digits)]
+rok (4 znaki)
+[History]
+Historia
+[Advanced]
+Zaawansowane
+[Sunday]
+Niedziela
+[Monday]
+Poniedziałek
+[Tuesday]
+Wtorek
+[Wednesday]
+Środa
+[Thursday]
+Czwartek
+[Friday]
+Piątek
+[Saturday]
+Sobota
+[January]
+Styczeń
+[February]
+Luty
+[March]
+Marzec
+[April]
+Kwiecień
+[May]
+Maj
+[June]
+Czerwiec
+[July]
+Lipiec
+[August]
+Sierpień
+[September]
+Wrzesień
+[October]
+Październik
+[November]
+Listopad
+[December]
+Grudzień
+[Interface]
+Interfejs
+[Message log]
+Dziennik wiadomości
+[Other events]
+Inne zdarzenia
+[Clipboard]
+Schowek
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
@@ -19931,8 +19354,8 @@ Dostępne są następujące zmienne:\r\n\r\n%n\tnowy opis\r\n%o\tstary opis\r\n%
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.1.0.1
-;  Authors: sss
+;  Version: 0.2.0.4
+;  Authors: sss, Miranda NG Team
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 Zapewnia obsługę szyfrowania przez GPG.
@@ -19946,12 +19369,8 @@ Wybierz istniejący
 Włącz szyfrowanie
 [Import key from keyserver]
 Importuj klucz z serwera
-[Set own key]
-Ustaw własny klucz
 [Generate key]
 Generuj klucz
-[Select key to use]
-Wybierz klucz, którego chcesz używać
 [Key password:]
 Hasło:
 [Load other]
@@ -20068,8 +19487,6 @@ Szyfruj transfery pliku
 Automatyczna wymiana kluczy
 [Copy own key]
 Kopiuj własny klucz
-[Select own key]
-Wybierz własny klucz
 [Add tags to encoded and decoded messages]
 Dodaj tagi do zakodowanych i odkodowanych wiadomości
 [Incoming message tags:]
@@ -20102,6 +19519,24 @@ Eksportuj klucze publiczne GPG
 Importuj klucze publiczne GPG
 [GPG encryption status]
 Status szyfrowania GPG
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+Znaleziono plik binarny GPG w folderze Mirandy, ale angielskie ustawienia regionalne nie istnieją.\nWysoce zaleca się umieszczenie \\gnupg.nls\\en@quot.mo w folderze GnuPG w głównym folderze Mirandy.\nBez tego pliku możesz doświadczyć wielu problemów z wyjściem GPG w systemach innych niż angielski,\na wtyczka może w ogóle nie działać.\nZostałeś ostrzeżony.
+[Warning]
+Ostrzeżenie
+[Wrong GPG binary location found in system.\nPlease choose another location]
+Znaleziono niepoprawną lokalizację pliku binarnego GPG w systemie.\nProszę wybrać inną lokalizację
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+To nie jest plik binarny GnuPG !\nZalecana wersja to v1.x.x.
+[Error]
+Błąd
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Znaleziono niewspieraną wersję GnuPG. Używasz na własną odpowiedzialność!\nZaleca się używania gnupg v1.x.x w połączeniu z tą wtyczką.
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
+Znaleziono katalog "GPG" w folderze Mirandy.\nZakładam, że jest to katalog domowy "GPG".\nUstawiono katalog domowy GPG.
+[Info]
+Info
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+Twoja wersja GPG jest wspierana. Znaleziono plik językowy.\nWtyczka GPG powinna działać poprawnie.\nNaciśnij OK, aby kontynuować.
 [GPG binary is set and valid (this is good).\n]
 Plik binarny GPG został ustawiony i jest poprawny (to dobrze).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -20138,24 +19573,30 @@ Czy chcesz załadować klucz dla wszystkich subkontaktów?
 Wykryto metakontakt
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 Otrzymano zaszyfrowaną wiadomość od kontaktu, dla którego szyfrowanie jest wyłączone.\nCzy chcesz włączyć szyfrowanie dla tego kontaktu?
-[Warning]
-Ostrzeżenie
 [Do you want to try to decrypt encrypted message?]
 Czy chcesz spróbować odszyfrować zaszyfrowaną wiadomość?
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Próbujemy zaszyfrować niezaufanym kluczem. Czy chcesz na stałe zaufać temu kluczowi?
 [Something is wrong, GPG does not understand us, aborting encryption.]
 Coś jest nie tak, GPG nas nie rozumie, anulowanie szyfrowania.
-[Contact]
-Kontakt
 [Key ID]
 ID klucza
-[Name]
-Nazwa
 [Email]
 E-mail
-[Protocol]
-Protokół
+[Name]
+Nazwa
+[Creation date]
+Data utworzenia
+[Expiration date]
+Data wygaśnięcia
+[Key length]
+Długość klucza
+[Failed to export public key.]
+Błąd eksportu kluczu publicznego.
+[Contact]
+Kontakt
+[Account]
+Konto
 [Default private key ID]
 Domyślny prywatny ID klucza
 [not set]
@@ -20178,8 +19619,6 @@ Eksportuj klucz publiczny
 plik klucza publicznego .asc
 [Failed to allocate memory]
 Nie udało się przydzielić pamięci
-[Error]
-Błąd
 [Failed to lock memory with error %d]
 Nie udało się zablokować pamięci z błędem %d
 [Failed write to clipboard with error %d]
@@ -20192,8 +19631,6 @@ Ustaw plik dziennika
 Pliki LOG
 [Choose gpg.exe]
 Wybierz gpg.exe
-[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-To nie jest plik binarny GnuPG !\nZalecana wersja to v1.x.x.
 [Set home directory]
 Ustaw folder domowy
 [Load Public GPG Key for ]
@@ -20210,8 +19647,6 @@ Wczytaj klucz publiczny GPG (ID klucza:\s
 To nie jest prywatny, ani publiczny klucz
 [Key already in secret keyring.]
 Klucz znajduje się już w tajnym breloku.
-[Info]
-Info
 [Set file containing GPG public key]
 Ustaw plik zawierający publiczny klucz GPG
 [GPG public key file]
@@ -20234,40 +19669,6 @@ Zaawansowane
 Nowe hasła nie zgadzają się
 [Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
 Stare hasło nie zgadza się, możesz kontynuować, ale GPG odrzuci błędne hasło.\nCzy chcesz kontynuować?
-[Creation date]
-Data utworzenia
-[Expire date]
-Data wygaśnięcia
-[Key length]
-Długość klucza
-[Accounts]
-Konta
-[Default]
-Domyślny
-[key ID]
-ID klucza
-[Generating new random key, please wait]
-Generuj nowy losowy klucz, proszę czekać
-[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
-Znaleziono plik binarny GPG w folderze Mirandy, ale angielskie ustawienia regionalne nie istnieją.\nWysoce zaleca się umieszczenie \\gnupg.nls\\en@quot.mo w folderze GnuPG w głównym folderze Mirandy.\nBez tego pliku możesz doświadczyć wielu problemów z wyjściem GPG w systemach innych niż angielski,\na wtyczka może w ogóle nie działać.\nZostałeś ostrzeżony.
-[Wrong GPG binary location found in system.\nPlease choose another location]
-Znaleziono niepoprawną lokalizację pliku binarnego GPG w systemie.\nProszę wybrać inną lokalizację
-[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Znaleziono niewspieraną wersję GnuPG. Używasz na własną odpowiedzialność!\nZaleca się używania gnupg v1.x.x w połączeniu z tą wtyczką.
-["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
-Znaleziono katalog "GPG" w folderze Mirandy.\nZakładam, że jest to katalog domowy "GPG".\nUstawiono katalog domowy GPG.
-[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Twoja wersja GPG jest wspierana. Znaleziono plik językowy.\nWtyczka GPG powinna działać poprawnie.\nNaciśnij OK, aby kontynuować.
-[There is existing key for contact, would you like to replace it with new key?]
-Istnieje już klucz dla tego kontaktu. Czy chcesz zastąpić go nowym?
-[New public key was received, do you want to import it?]
-Otrzymano nowy klucz publiczny. Czy chcesz go zaimportować?
-[Replace]
-Zastąp
-[Accept]
-Akceptuj
-[Received key from %s]
-Otrzymano klucz od %s
 [You must set encryption algorithm first]
 Musisz najpierw ustawić algorytm szyfrujący
 [Key length must be of length from 1024 to 4096 bits]
@@ -20282,10 +19683,26 @@ Nazwa nie może zawierać "(", ani ")"
 Niepoprawny adres e-mail
 [Generating new key, please wait...]
 Generuj nowy klucz, proszę czekać...
-[Expiration date]
+[Expire date]
 Data wygaśnięcia
-[Failed to export public key.]
-Błąd eksportu kluczu publicznego.
+[Accounts]
+Konta
+[Default]
+Domyślny
+[key ID]
+ID klucza
+[Generating new random key, please wait]
+Generuj nowy losowy klucz, proszę czekać
+[There is existing key for contact, would you like to replace it with new key?]
+Istnieje już klucz dla tego kontaktu. Czy chcesz zastąpić go nowym?
+[New public key was received, do you want to import it?]
+Otrzymano nowy klucz publiczny. Czy chcesz go zaimportować?
+[Replace]
+Zastąp
+[Accept]
+Akceptuj
+[Received key from %s]
+Otrzymano klucz od %s
 [Do you want to toggle encryption for all subcontacts?]
 Czy chcesz przełączyć szyfrowanie dla wszystkich subkontaktów?
 [Turn off GPG encryption]
@@ -20491,7 +19908,7 @@ E&dytuj ustawienia kontaktu
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.0
+;  Version: 0.2.3.1
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -20522,6 +19939,8 @@ Wyczyść
 Wykluczone kontakty
 [** All contacts **]
 ** Wszystkie kontakty **
+[** New contacts **]
+** Nowe kontakty **
 [History]
 Historia
 [Logging]
@@ -20530,7 +19949,7 @@ Zapisywanie
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.4
+;  Version: 0.2.1.0
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -20681,6 +20100,8 @@ Przełącz widoczność notatek
 Pokaż wszystkie notatki na wierzchu
 [New Reminder]
 Nowe przypomnienie
+[View Reminders]
+Zobacz przypomnienia
 [Delete All Notes]
 Usuń wszystkie notatki
 [Show/Hide Notes]
@@ -20689,8 +20110,6 @@ Pokaż/Ukryj notatki
 Ikona nagłówkowa na wierzchu
 [Delete All Reminders]
 Usuń wszystkie przypomnienia
-[View Reminders]
-Zobacz przypomnienia
 [Not on Top Caption Icon]
 Ikona nagłówkowa nie na wierzchu
 [Hide Note Icon]
@@ -20713,16 +20132,6 @@ Dodaj nową notatkę
 Dodaj nowe przypomnienie
 [Notes && Reminders]
 Notatki i przypomnienia
-[New &Note]
-Nowa &notatka
-[Vie&w Notes]
-Po&każ notatki
-[&Delete All Notes]
-&Usuń wszystkie notatki
-[&Bring All to Front]
-&Pokaż wszystkie na wierzchu
-[Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda nie mogła załadować wtyczki Notes & Reminders, brak pliku Msftedit.dll. Jeśli używasz WINE, upewnij się, że posiadasz zainstalowaną bibliotekę Msftedit.dll. Naciśnij "Tak", aby kontynuować ładowanie Mirandy.
 [Alerts]
 Alarmy
 [Reminder triggered]
@@ -21603,7 +21012,7 @@ Nieznany
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.3
+;  Version: 0.2.0.7
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21622,10 +21031,6 @@ Anuluj
 &Wszystkie
 [Select &none]
 Ż&adne
-[Hotkey]
-Skrót
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Przejdź do Opcje -> Personalizacja -> Skróty, aby je ustawić
 [Update options]
 Opcje aktualizacji
 [On startup]
@@ -21700,6 +21105,18 @@ Lista komponentów
 Tutaj znajduje się kompletna lista brakujących komponentów Mirandy NG. Zaznacz komponenty które chcesz pobrać.\n\nKliknij w ikonę informacji aby przejść do wiki.
 [Download]
 Pobierz
+[Component Name]
+Komponent
+[State]
+Status
+[Plugins]
+Wtyczki
+[Icons]
+Ikony
+[Languages]
+Języki
+[Other]
+Inne
 [Downloading...]
 Pobieranie...
 [Succeeded.]
@@ -21714,18 +21131,6 @@ Aktualizacje
 Pobieranie zakończone
 [Download complete. Do you want to go to plugins option page?]
 Pobieranie zakończone. Czy chcesz otworzyć opcje wtyczek?
-[Component Name]
-Komponent
-[State]
-Status
-[Plugins]
-Wtyczki
-[Icons]
-Ikony
-[Languages]
-Języki
-[Other]
-Inne
 [List is empty.]
 Lista jest pusta.
 [List loading already started!]
@@ -21748,8 +21153,6 @@ Aktualizacja nie powiodła się! Jeden z komponentów nie został prawidłowo po
 Zaktualizowano %d komponentów
 [You need to restart your Miranda to apply installed updates.]
 Musisz zrestartować Mirandę, aby zainstalować aktualizacje.
-[Would you like to restart it now?]
-Czy chcesz zrobić to teraz?
 [Checking for new updates...]
 Sprawdzanie aktualizacji...
 [No updates found.]
@@ -21758,6 +21161,8 @@ Nie znaleziono aktualizacji.
 Sprawdzanie aktualizacji już rozpoczęte!
 [Plugin updater URI scheme]
 Schemat URI Plugin updater'a
+[Would you like to restart it now?]
+Czy chcesz zrobić to teraz?
 [Backup database before update]
 Rób kopię bazy danych przed aktualizacją
 [Stable version (incompatible with current development version)]
@@ -21813,7 +21218,7 @@ Profil
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.15
+;  Version: 2.1.1.17
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -23215,7 +22620,7 @@ Nieznany kod błędu
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -23246,8 +22651,8 @@ s
 Karty
 [Enable tabs]
 Włącz zakładki
-[Always show tab bar]
-Zawsze pokazuj pasek zakładek
+[Only show tab bar when it's needed]
+Pokaż pasek kart tylko, jeśli jest potrzebny
 [Tabs at the bottom]
 Zakładki na dole okna
 [Limit names on tabs to]
@@ -23290,8 +22695,6 @@ Wysokość okna wpisywania tekstu
 linie
 [Message window event log]
 Dziennik okna rozmowy
-[Enable IEView]
-Włącz IEView
 [Show icons]
 Pokaż ikony
 [Show time]
@@ -23304,8 +22707,8 @@ Pokaż datę
 Długi format daty
 [Relative date]
 Data względna
-[Show names]
-Pokaż nazwy
+[Hide names]
+Ukryj nazwy
 [Enable message grouping]
 Włącz grupowanie wiadomości
 [Mark follow-up messages with timestamp]
@@ -23442,30 +22845,6 @@ Tło
 Opóźnienie (s)
 [(0 means default setting, -1 means indefinite time)]
 (0 - domyślnie, -1 - nie chowaj)
-[Log]
-Dziennik
-[&Copy]
-&Kopiuj
-[Co&py all]
-Ko&piuj wszystko
-[Select &all]
-Zaznacz &wszystko
-[Word lookup]
-Wyszukaj słowo
-[Yandex]
-Yandex
-[Wikipedia (en)]
-Wikipedia
-[Google Maps]
-Google Maps
-[Google Translate]
-Google Translate
-[C&lear log]
-W&yczyść dziennik
-[&Open link]
-&Otwórz link
-[&Copy link]
-&Kopiuj link
 [Message]
 Wiadomość
 [Undo]
@@ -23482,6 +22861,8 @@ Wklej
 Wklej i wyślij
 [Delete]
 Usuń
+[Select &all]
+Zaznacz &wszystko
 [Clear]
 Wyczyść
 [Close other tabs]
@@ -23526,84 +22907,8 @@ Ogranicz długość nazwy użytkowników do 20 znaków
 Usuń kolor z wiadomości
 [Enable 'event filter' for new rooms]
 Włącz "filtr zdarzeń" dla nowych pokoi
-[Show topic changes]
-Pokaż zmiany tematu
-[Show users joining]
-Pokaż dołączających użytkowników
-[Show users disconnecting]
-Pokaż rozłączonych użytkowników
-[Show messages]
-Pokaż wiadomości
-[Show actions]
-Pokaż zdarzenia
-[Show users leaving]
-Pokaż wychodzących użytkowników
-[Show users being kicked]
-Pokaż wyrzucanych użytkowników
-[Show notices]
-Pokaż powiadomienia
-[Show users changing name]
-Pokaż zmiany nazwy użytkowników
-[Show information messages]
-Pokaż wiadomości z informacjami
-[Show status changes of users]
-Pokaż zmiany statusu użytkowników
-[Show icons in tray only when the chat room is not active]
-Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
-[Show icon in tray for topic changes]
-Pokaż ikony w zasobniku dla zmian tematu
-[Show icon in tray for users joining]
-Pokaż ikony w zasobniku dla dołączających użytkowników
-[Show icon in tray for users disconnecting]
-Pokaż ikony w zasobniku dla rozłączonych użytkowników
-[Show icon in tray for messages]
-Pokaż ikony w zasobniku dla wiadomości
-[Show icon in tray for actions]
-Pokaż ikony w zasobniku dla zdarzeń
-[Show icon in tray for highlights]
-Pokaż ikony w zasobniku dla podświetleń
-[Show icon in tray for users leaving]
-Pokaż ikony w zasobniku dla wychodzących użytkowników
-[Show icon in tray for users kicking other user]
-Pokaż ikony w zasobniku dla wyrzucanych użytkowników
-[Show icon in tray for notices]
-Pokaż ikony w zasobniku dla powiadomień
-[Show icon in tray for name changes]
-Pokaż ikony w zasobniku dla zmian nazwy
-[Show icon in tray for information messages]
-Pokaż ikony w zasobniku dla wiadomości informacyjnych
-[Show icon in tray for status changes]
-Pokaż ikony w zasobniku dla zmian statusu
-[Show popups only when the chat room is not active]
-Pokazuj popupy tylko, gdy pokój nie jest aktywny
-[Show popup for topic changes]
-Pokaż popup zmiany tematu
-[Show popup for users joining]
-Pokaż popup dołączających użytkowników
-[Show popup for users disconnecting]
-Pokaż popup rozłączonych użytkowników
-[Show popup for messages]
-Pokaż popup wiadomości
-[Show popup for actions]
-Pokaż popup akcji
-[Show popup for highlights]
-Pokaż popup podświetleń
-[Show popup for users leaving]
-Pokaż popup wychodzących użytkowników
-[Show popup for users kicking other user]
-Pokaż popup wyrzuconych użytkowników
-[Show popup for notices]
-Pokaż popup powiadomień
-[Show popup for name changes]
-Pokaż popup zmian nicków
-[Show popup for information messages]
-Pokaż popup wiadomości informacyjnych
-[Show popup for status changes]
-Pokaż popup zmian statusu
 [Appearance and functionality of chat windows]
 Wygląd i zachowanie okien rozmowy
-[Icons to display in the tray]
-Ikony wyświetlane w zasobniku
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -23656,24 +22961,16 @@ pełna nazwa dnia roboczego
 Zmienne
 [Appearance]
 Personalizacja
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Domyślne zdarzenia pokazywane w nowych pokojach, gdy "filtr zdarzeń" jest aktywny
 [Select folder]
 Wybierz folder
-[%s: chat room (%u user)]
-%s: Konferencja (%u użytkownik)
-[%s: chat room (%u users)]
-%s: Konferencja (%u użytkowników)
-[%s: message session]
-%s: Rozmowa
-[%s: message session (%u users)]
-%s: Rozmowa (%u użytkowników)
-[Nickname]
-Nick
-[Unique ID]
-Unikalne ID
-[Status]
-Status
+[Message sessions]
+Okno rozmowy
+[General]
+Ogólne
+[Log formatting]
+Formatowanie dziennika
+[Popups]
+Popupy
 [Add contact]
 Dodaj kontakt
 [User's details]
@@ -23822,18 +23119,14 @@ Akcja: Cytuj
 Akcja: Wyślij do wszystkich
 [Action: Paste and send]
 Akcja: Wklej i wyślij
-[Sending in progress: %d message(s) left...]
-Wysyłanie w toku: pozostało %d wiadomości
-[%s is typing a message...]
-%s pisze wiadomość...
-[Last message received on %s at %s.]
-Ostatnia wiadomość %s o %s.
-[Look up '%s':]
-Zobacz "%s":
-[No word to look up]
-Nie podano słowa do wyszukania
 [User menu - %s]
 Menu kontaktu - %s
+[Nickname]
+Nick
+[Unique ID]
+Unikalne ID
+[Status]
+Status
 [Me]
 Ja
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -23906,16 +23199,10 @@ Niewidoczny
 ** Nowe kontakty **
 [** Unknown contacts **]
 ** Nieznane kontakty **
-[Message sessions]
-Okno rozmowy
-[General]
-Ogólne
 [Event log]
 Dziennik zdarzeń
 [Typing notify]
 Powiadomienie o pisaniu
-[Popups]
-Popupy
 [Message from %s]
 Wiadomość od %s
 [%s is typing a message]
@@ -23994,6 +23281,20 @@ Kontakt pisze wiadomość
 Kontakt przestał pisać
 [An unknown error has occurred.]
 Nieznany błąd.
+[Sending in progress: %d message(s) left...]
+Wysyłanie w toku: pozostało %d wiadomości
+[%s is typing a message...]
+%s pisze wiadomość...
+[Last message received on %s at %s.]
+Ostatnia wiadomość %s o %s.
+[%s: chat room (%u user)]
+%s: Konferencja (%u użytkownik)
+[%s: chat room (%u users)]
+%s: Konferencja (%u użytkowników)
+[%s: message session]
+%s: Rozmowa
+[%s: message session (%u users)]
+%s: Rozmowa (%u użytkowników)
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
 [Always on top]
@@ -24002,7 +23303,7 @@ Zawsze na wierzchu
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
-;  Version: 1.0.12.4
+;  Version: 1.0.12.6
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [SecureIM plugin for Miranda NG.]
@@ -24039,8 +23340,8 @@ Wyłączenie klucza po:
 dni
 [Reset All]
 Domyślne
-[Protocols]
-Protokoły
+[Accounts]
+Konta
 [Split Messages]
 Dzielenie wiadomości
 [Online:]
@@ -24049,12 +23350,12 @@ Dostępne:
 Rozłączone:
 [RSA Key]
 Klucz RSA
-[SHA1:]
-SHA1:
+[SHA-1:]
+SHA-1:
 [Public]
 Publiczny
-[&Copy SHA1]
-&Kopiuj SHA1
+[&Copy SHA-1]
+&Kopiuj SHA-1
 [E&xport]
 Ek&sportuj
 [Private]
@@ -24171,18 +23472,20 @@ Eksportuj klucz publiczny
 Importuj klucz publiczny
 [Delete public key]
 Usuń klucz publiczny
-[SecureIM established...]
-Ustawiono SecureIM...
 [Key exchange failed...]
 Błąd wymiany klucza...
-[Key from disabled...]
-Klucz wyłączony...
-[Sent back message received...]
-Otrzymywanie odesłanej wiadomości...
-[Sending back secure message...]
-Odsyłanie bezpiecznej wiadomości...
+[SecureIM: Error while decrypting the message, bad message length.]
+SecureIM: Błąd podczas deszyfrowania wiadomości, zła długość wiadomości.
+[SecureIM: Error while decrypting the message, bad message CRC.]
+SecureIM: błąd podczas deszyfrowania wiadomości, błąd CRC wiadomości.
+[SecureIM: Error while decrypting the message.]
+SecureIM: Błąd podczas deszyfrowania wiadomości.
+[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
+Użytkownik nie odpowiedział na wymianę klucza!\nTwoje wiadomości są nadal w kolejce SecureIM, chcesz wysłać je nieszyfrowane teraz?
 [SecureIM disabled...]
 Wyłączono SecureIM...
+[SecureIM established...]
+Ustawiono SecureIM...
 [Sending key...]
 Wysyłanie klucza...
 [Key received...]
@@ -24191,140 +23494,6 @@ Otrzymywanie klucza...
 Wysyłanie wiadomości...
 [Message received...]
 Odbieranie wiadomości...
-[Encrypting file:]
-Szyfrowany plik:
-[Decrypting file:]
-Deszyfrowany plik:
-[Bad key received...]
-Otrzymano błędny klucz...
-[SecureIM: Error while decrypting the message.]
-SecureIM: Błąd podczas deszyfrowania wiadomości.
-[SecureIM: Error while decrypting the message, bad message length.]
-SecureIM: Błąd podczas deszyfrowania wiadomości, zła długość wiadomości.
-[SecureIM: Error while decrypting the message, bad message CRC.]
-SecureIM: błąd podczas deszyfrowania wiadomości, błąd CRC wiadomości.
-[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
-Użytkownik nie odpowiedział na wymianę klucza!\nTwoje wiadomości są nadal w kolejce SecureIM, chcesz wysłać je nieszyfrowane teraz?
-[SecureIM not enabled! You must enable SecureIM with this user...]
-SecureIM nie jest włączony! Musisz włączyć SecureIM z tym użytkownikiem...
-[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
-Nie można wysłać szyfrowanej wiadomości!\nUżytkownik jest rozłączony i jego klucz wygasł. Czy chcesz wysłać wiadomość?\nNie zostanie zaszyfrowana!
-[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
-SecureIM nie zostanie załadowany ponieważ cryptopp.dll nie został znaleziony lub zła wersja.
-[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-SecureIM nie może załadować klucza PGP/GPG! Sprawdź ustawienia PGP/GPG!
-[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
-SecureIM" nie można zaszyfrować wiadomości! Sprawdź klucz OGO/GPG!
-[Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
-Nie można wysłać szyfrowanej wiadomości!\nCzy chcesz wysłać wiadomość?\nNie zostanie zaszyfrowana!
-[Can't change mode! Secure connection established!]
-Nie można zmienić trybu! Bezpieczne połączenie ustawione!
-[Can't export RSA private key!]
-Nie można wyeksportować prywatnego klucza RSA!
-[Can't import RSA private key!]
-Nie można zaimportować prywatnego klucza RSA!
-[Can't export RSA public key!]
-Nie można wyeksportować publicznego klucza RSA!
-[Can't import RSA public key!]
-Nie można zaimportować publicznego klucza RSA!
-[General]
-Ogólne
-[Nickname]
-Nick
-[Name]
-Nazwa
-[Password is too short!]
-Hasło jest za krótkie!
-[ON]
-Wł.
-[Off]
-Wył.
-[Keyrings loaded.]
-Klucze załadowane.
-[Keyrings not loaded!]
-Klucze nie zostały załadowane!
-[PGP SDK v%i.%i.%i found.]
-Znaleziono SDK PGP v%i.%i.%i.
-[PGP SDK not found!]
-Nie znaleziono SDK PGP!
-[This version not supported!]
-Ta wersja nie jest wspierana!
-[(none)]
-(brak)
-[Private key loaded.]
-Prywatny klucz załadowany.
-[Private key not loaded!]
-Prywatny klucz nie został załadowany!
-[The new settings will become valid when you restart Miranda NG!]
-Nowe ustawienia zostaną zastosowane po ponownym uruchomieniu Mirandy NG!
-[Keyrings disabled!]
-Klucze wyłączone!
-[Native]
-Natywny
-[Disabled]
-Wyłączone
-[Enabled]
-Włączony
-[Always try]
-Zawsze próbuj
-[Create SecureIM connection]
-Utwórz połączenie SecureIM
-[Disable SecureIM connection]
-Wyłącz połączenie SecureIM
-[Load PGP Key]
-Załaduj klucz PGP
-[Unload PGP Key]
-Wyładuj klucz PGP
-[Load GPG Key]
-Załaduj klucz GPG
-[Unload GPG Key]
-Wyładuj klucz GPG
-[Delete RSA Key]
-Usuń klucz RSA
-[SecureIM mode (Native)]
-Tryb SecureIM (Natywny)
-[SecureIM mode (PGP)]
-Tryb SecureIM (PGP)
-[SecureIM mode (GPG)]
-Tryb SecureIM (GPG)
-[SecureIM mode (RSA/AES)]
-Tryb SecureIM (RSA/AES)
-[SecureIM mode (RSA)]
-Tryb SecureIM (RSA)
-[SecureIM status (disabled)]
-Status SecureIM (Wyłączony)
-[SecureIM status (enabled)]
-Status SecureIM (Włączony)
-[SecureIM status (always try)]
-Status SecureIM (Zawsze próbuj)
-[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
-SecureIM: Niestety, nie można odszyfrować tej wiadomości ponieważ nie posiadasz zainstalowanego PGP/GPG. Odwiedź www.pgp.com lub www.gnupg.org po więcej informacji.
-[SecureIM received unencrypted message:\n]
-SecureIM otrzymał niezaszyfrowaną wiadomość:\n
-[SecureIM received encrypted message:\n]
-SecureIM otrzymał zaszyfrowaną wiadomość:\n
-[Session closed by receiving incorrect message type]
-Sesja zamknięta przez otrzymanie nieprawidłowego typu wiadomości
-[Session closed by other side on error]
-Sesja zamknięta przez drugą strone w przypadku błędu
-[Error while decoding AES message]
-Błąd podczas deszyfrowania wiadomości AES
-[Error while decoding RSA message]
-Błąd podczas deszyfrowania wiadomości RSA
-[Session closed on timeout]
-Sezja została zamknięta lub przekroczono czas oczekiwania
-[Session closed by other side when status "disabled"]
-Sesja zamknięta przez drugą stronę, jeśli status "wyłączony"
-[Session closed on error: %02x]
-Sesja zamknięta z powodu błędu: %02x
-[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
-SecureIM otrzymał klucz publiczny RSA od "%s"\n\nSHA1: %s\n\nZaakceptować klucz?
-[SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
-Automatycznie przyjęty klucz publiczny RSA od: %s uin: %s SHA1: %s
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key?]
-SecureIM otrzymał nowy klucz publiczny RSA od "%s"\n\nNowy SHA1: %s\n\nStary SHA1: %s\n\nZastąpić klucz?
-[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
-Automatycznie przyjęty klucz publiczny RSA od: %s uin: %s Nowy SHA1: %s Stary SHA1: %s
 [Contact List]
 Lista kontaktów
 [Connection Disabled]
@@ -24353,6 +23522,10 @@ Odebrana bezpieczna wiadomość
 Wysłana bezpieczna wiadomość
 [Menu State]
 Stan menu
+[Disabled]
+Wyłączone
+[Enabled]
+Włączony
 [Always Try]
 Zawsze próbuj
 [Overlays]
@@ -24365,6 +23538,26 @@ Tryb PGP
 Tryb GPG
 [RSA/AES mode]
 Tryb RSA/AES
+[SecureIM mode (Native)]
+Tryb SecureIM (Natywny)
+[SecureIM mode (PGP)]
+Tryb SecureIM (PGP)
+[SecureIM mode (GPG)]
+Tryb SecureIM (GPG)
+[SecureIM mode (RSA/AES)]
+Tryb SecureIM (RSA/AES)
+[SecureIM mode (RSA)]
+Tryb SecureIM (RSA)
+[SecureIM status (disabled)]
+Status SecureIM (Wyłączony)
+[SecureIM status (enabled)]
+Status SecureIM (Włączony)
+[SecureIM status (always try)]
+Status SecureIM (Zawsze próbuj)
+[Native]
+Natywny
+[Always try]
+Zawsze próbuj
 [SecureIM]
 Bezpieczeństwo
 [Icons]
@@ -24373,12 +23566,22 @@ Ikony
 SecureIM: Przychodząca bezpieczna wiadomość
 [Outgoing Secure Message]
 SecureIM: Wychodząca bezpieczna wiadomość
+[Create SecureIM connection]
+Utwórz połączenie SecureIM
+[Disable SecureIM connection]
+Wyłącz połączenie SecureIM
+[Load PGP Key]
+Załaduj klucz PGP
+[Unload PGP Key]
+Wyładuj klucz PGP
+[Load GPG Key]
+Załaduj klucz GPG
+[Unload GPG Key]
+Wyładuj klucz GPG
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
+SecureIM nie zostanie załadowany ponieważ cryptopp.dll nie został znaleziony lub zła wersja.
 [SecureIM status]
 Stauts SecureIM
-[Executable Files]
-Pliki wykonywalne
-[Select GnuPG Executable]
-Wybierz Plik Wykonywalny GnuPG
 [ASC files]
 Plik ASC
 [All files]
@@ -24393,14 +23596,106 @@ Zapisz plik klucza publicznego
 Wczytaj plik klucza prywatnego
 [Load Public Key File]
 Wczytaj plik klucza publicznego
+[Password is too short!]
+Hasło jest za krótkie!
+[The new settings will become valid when you restart Miranda NG!]
+Nowe ustawienia zostaną zastosowane po ponownym uruchomieniu Mirandy NG!
+[Nickname]
+Nick
+[Account]
+Konto
+[User ID]
+ID użytkownika
+[Can't export RSA public key!]
+Nie można wyeksportować publicznego klucza RSA!
+[Can't import RSA public key!]
+Nie można zaimportować publicznego klucza RSA!
+[Name]
+Nazwa
+[Can't export RSA private key!]
+Nie można wyeksportować prywatnego klucza RSA!
+[Can't import RSA private key!]
+Nie można zaimportować prywatnego klucza RSA!
+[Keyrings disabled!]
+Klucze wyłączone!
+[This version not supported!]
+Ta wersja nie jest wspierana!
+[Keyrings loaded.]
+Klucze załadowane.
+[Keyrings not loaded!]
+Klucze nie zostały załadowane!
+[Private key loaded.]
+Prywatny klucz załadowany.
+[Private key not loaded!]
+Prywatny klucz nie został załadowany!
+[PGP SDK v%i.%i.%i found.]
+Znaleziono SDK PGP v%i.%i.%i.
+[PGP SDK not found!]
+Nie znaleziono SDK PGP!
+[(none)]
+(brak)
+[Key ID]
+ID klucza
+[Executable Files]
+Pliki wykonywalne
+[Select GnuPG Executable]
+Wybierz Plik Wykonywalny GnuPG
 [Services]
 Usługi
+[General]
+Ogólne
 [Key Popup]
 Popup z kluczem
 [Secure Popup]
 Bezpieczny popup
 [Message Popup]
 Popup z wiadomością
+[Can't change mode! Secure connection established!]
+Nie można zmienić trybu! Bezpieczne połączenie ustawione!
+[SecureIM received unencrypted message:\n]
+SecureIM otrzymał niezaszyfrowaną wiadomość:\n
+[Key from disabled...]
+Klucz wyłączony...
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+SecureIM: Niestety, nie można odszyfrować tej wiadomości ponieważ nie posiadasz zainstalowanego PGP/GPG. Odwiedź www.pgp.com lub www.gnupg.org po więcej informacji.
+[SecureIM received encrypted message:\n]
+SecureIM otrzymał zaszyfrowaną wiadomość:\n
+[Sending back secure message...]
+Odsyłanie bezpiecznej wiadomości...
+[Sent back message received...]
+Otrzymywanie odesłanej wiadomości...
+[Bad key received...]
+Otrzymano błędny klucz...
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+SecureIM nie może załadować klucza PGP/GPG! Sprawdź ustawienia PGP/GPG!
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+SecureIM" nie można zaszyfrować wiadomości! Sprawdź klucz OGO/GPG!
+[SecureIM not enabled! You must enable SecureIM with this user...]
+SecureIM nie jest włączony! Musisz włączyć SecureIM z tym użytkownikiem...
+[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
+Nie można wysłać szyfrowanej wiadomości!\nUżytkownik jest rozłączony i jego klucz wygasł. Czy chcesz wysłać wiadomość?\nNie zostanie zaszyfrowana!
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA-1: %s Old SHA-1: %s]
+Automatycznie przyjęty klucz publiczny RSA od: %s uin: %s Nowy SHA-1: %s Stary SHA-1: %s
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA-1: %s]
+Automatycznie przyjęty klucz publiczny RSA od: %s uin: %s SHA-1: %s
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA-1: %s\n\nOld SHA-1: %s\n\nDo you Replace this Key?]
+SecureIM otrzymał nowy klucz publiczny RSA od "%s"\n\nNowy SHA-1: %s\n\nStary SHA-1: %s\n\nZastąpić klucz?
+[SecureIM received RSA Public Key from "%s"\n\nSHA-1: %s\n\nDo you Accept this Key?]
+SecureIM otrzymał klucz publiczny RSA od "%s"\n\nSHA-1: %s\n\nZaakceptować klucz?
+[Session closed by receiving incorrect message type]
+Sesja zamknięta przez otrzymanie nieprawidłowego typu wiadomości
+[Session closed by other side on error]
+Sesja zamknięta przez drugą strone w przypadku błędu
+[Error while decoding AES message]
+Błąd podczas deszyfrowania wiadomości AES
+[Error while decoding RSA message]
+Błąd podczas deszyfrowania wiadomości RSA
+[Session closed on timeout]
+Sezja została zamknięta lub przekroczono czas oczekiwania
+[Session closed by other side when status "disabled"]
+Sesja zamknięta przez drugą stronę, jeśli status "wyłączony"
+[Session closed on error: %02x]
+Sesja zamknięta z powodu błędu: %02x
 [SecureIM [Native]]
 SecureIM [Natywny]
 [SecureIM [PGP]]
@@ -25434,7 +24729,7 @@ Wtyczki
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.4
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -25545,14 +24840,14 @@ Rozmowa nieodebrana
 Rozmowa zakończona (%s)
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Transfer pliku:\n\tNazwa pliku: %s \n\tRozmiar: %lld bajtów \n
+[Preview]
+Podgląd
 [Unknown event, please send this text for developer: "%s"]
 Nieznane zdarzenie, proszę prześlij ten tekst programistom: "%s"
 [Protocol icon]
 Ikona protokołu
 [Create new chat icon]
 Ikona tworzenia nowego czatu
-[Sync history icon]
-Ikona synchronizacji historii
 [Block user icon]
 Ikona blokowania użytkownika
 [Unblock user icon]
@@ -25575,8 +24870,6 @@ Autoryzacja nie powiodła się. Błędna nazwa użytkownika lub hasło.
 Zbyt wiele nieudanych prób autoryzacji z podaną nazwą użytkownika lub IP.
 [Authentication failed. Unknown error.]
 Autoryzacja nie powiodła się. Nieznany błąd.
-[Get server history]
-Pobieraj historię z serwera
 [Block contact]
 Zablokuj kontakt
 [Unblock contact]
@@ -25589,8 +24882,6 @@ Nie możesz wysyłać będąc rozłączonym.
 Nieznany błąd!
 [Network error!]
 Błąd sieciowy!
-[Enter confirmation code]
-Wprowadź kod weryfikacyjny
 [%s connection]
 Połączenie %s
 [Network]
@@ -25603,8 +24894,6 @@ Błędy
 Rozmowy
 [Skypename]
 Nazwa Skype
-[Incoming call from %s]
-Przychodząca rozmowa od %s
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
@@ -25634,14 +24923,10 @@ Wyświetlanie
 Zamień tylko emotikony oddzielone spacjami
 [Scale smiley to text height]
 Skaluj emotikony do wysokości tekstu
-[Disable custom smileys]
-Wyłącz niestandardowe emotikony
 [High quality smiley scaling]
 Skalowanie emotikon HQ
 [Animate]
 Animowane
-[Maximum 'Custom smiley' height]
-Maksymalna wysokość emotikon
 [Minimum smiley height]
 Minimalna wysokość emotikon
 [Smiley selector]
@@ -26214,7 +25499,7 @@ Status
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.5
+;  Version: 1.2.0.6
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -26569,7 +25854,7 @@ Pasek narzędzi
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.6.6
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -26620,8 +25905,8 @@ Gra Steam
 Szuka partnera do gry
 [ (Non-Steam)]
  (z poza Steam)
-[ on server %s]
- na serwerze %s
+[ on server %S]
+ na serwerze %S
 [Playing]
 Gra
 [%s is back in your contact list]
@@ -26826,7 +26111,7 @@ Zaawansowane
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.1.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -26887,20 +26172,6 @@ Maksymalna liczba zdarzeń w oknie rozmowy
 Wysokość wiersza nicków na czacie (px)
 [Open log file base folder]
 Otwórz folder dziennika
-[Default settings for known event types]
-Domyślne ustawienia dla zdarzeń
-[Show when filter is active]
-Pokaż kiedy filtr jest wł.
-[Log to file]
-Zapisuj w pliku
-[Show popup]
-Pokaż popup
-[Notify in tray]
-Zasobnik
-[Suppress tray notifications for focused channel windows]
-Usuwaj powiadomienie z zasobnika przy podświetleniu kanału
-[Highlight event]
-Podświetlenie
 [Line markers in the message log]
 Znaki w dzienniku wiadomości
 [Highlight user names]
@@ -27007,10 +26278,6 @@ Anuluj
 Wszystkie tryby
 [Choose modes]
 Wybierz tryby
-[Message log view mode (does not affect open windows)]
-Tryb widoku dziennika wiadomości (nie wpływa na otwarte okno)
-[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Wybierz sposób wyświetlania dziennika wiadomości. Te ustawiania mogą zostać zignorowane, jeśli nie masz jednej z podanych wtyczek.
 [Send text formatting method]
 Wyślij metodę formatowania tekstu
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
@@ -27019,14 +26286,12 @@ Tutaj możesz nadpisać globalne ustawienie formatowania tekstu. Użyj "Wyłącz
 Tryb panela informacyjnego
 [Show avatar in message window]
 Pokaż awatar w oknie rozmowy
-[Use private splitter position]
-Użyj prywatnej pozycji separatora
-[Contact is a favorite contact]
-Kontakt jest jednym z ulubionych
 [Ignore sending timeouts]
 Ignoruj limity czasu wysyłania
 [Load only actual history]
 Wczytaj tylko aktualną historię
+[Use private splitter position]
+Użyj prywatnej pozycji separatora
 [Always trim message log to]
 Zawsze skracaj dziennik wiadomości do
 [events]
@@ -27163,8 +26428,6 @@ Ilość zdarzeń do wczytania
 Wczytaj zdarzenia nowsze niż
 [minutes old]
 minut(y)
-[Global message log display]
-Globalny dziennik wiadomości
 [Typing notification options]
 Opcje powiadomień o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -27491,28 +26754,6 @@ Ten kontakt
 Ustawienie globalne
 [Force off]
 Wyłącz wymuszanie
-[Recent sessions]
-Ostatnie sesje
-[Favorites]
-Ulubione
-[Show the tray icon]
-Pokaż ikonę w zasobniku
-[Disable all event notifications]
-Wyłącz wszystkie powiadomienia o zdarzeniach
-[Don't create windows automatically]
-Nie twórz okien automatycznie
-[Hide all message containers]
-Ukryj wszystkie kontenery z wiadomościami
-[Restore all message containers]
-Przywróć wszystkie kontenery z wiadomościami
-[Don't play sounds]
-Nie odtwarzaj dźwięków
-[Be "super quiet"]
-Bądź "super cicho"
-[Add contact to favorites]
-Dodaj kontakt do ulubionych
-[Remove contact from favorites]
-Usuń kontakt z ulubionych
 [Set position for this session]
 Ustaw położenie dla tej sesji
 [Set and save for all sessions]
@@ -27537,8 +26778,6 @@ Anuluj wszystkie zadania wysyłania do wielu
 Skopiuj wiadomość do schowka
 [&File]
 &Plik
-[Save message log as...]
-Zapisz dziennik wiadomości jako...
 [Close message session\tCtrl+W]
 Zamknij sesję rozmowy\tCtrl+W
 [Close container\tAlt+F4]
@@ -27621,32 +26860,6 @@ Pokaż/Ukryj listę nicków
 Filtr zdarzeń: PPM - ustawienia, LPM - aktywacja/dezaktywacja
 [Channel manager]
 Zarządzanie kanałem
-[%s has joined]
-%s dołączył(a)
-[You have joined %s]
-Dołączyłeś do %s
-[%s has left]
-%s opuścił(a) czat
-[%s has disconnected]
-%s został rozłączony
-[%s is now known as %s]
-%s jest obecnie znany jako %s
-[You are now known as %s]
-Jesteś teraz znany jako %s
-[%s kicked %s]
-%s wyrzucił uczestnika %s
-[Notice from %s: ]
-Powiadomienie od %s:\s
-[The topic is '%s%s']
-Temat to "%s%s"
-[ (set by %s on %s)]
- (wybrany przez %s na %s)
-[ (set by %s)]
- (wybrany przez %s)
-[%s enables '%s' status for %s]
-%s włącza status "%s" dla %s
-[%s disables '%s' status for %s]
-%s wyłącza status "%s" dla %s
 [Message sessions]
 Okno rozmowy
 [Input area background]
@@ -27761,66 +26974,6 @@ Protokół
 Lokalny czas kontaktu
 [Window caption (skinned mode)]
 Nagłówek okna (tryb graficzny)
-[Open new chat rooms in the default container]
-Otwórz nowe okno rozmowy grupowej w domyślnym kontenerze
-[Flash window when someone speaks]
-Migaj oknem, gdy ktoś mówi
-[Flash window when a word is highlighted]
-Migaj oknem, gdy jakieś słowo jest podświetlone
-[Create tabs or windows for highlight events]
-Utwórz kartę lub okno dla podświetlenia zdarzeń
-[Activate chat window on highlight]
-Aktywuj okno rozmowy przy podświetleniu
-[Show list of users in the chat room]
-Pokaż listę użytkowników w pokoju
-[Colorize nicknames in member list]
-Koloruj nicki na liście
-[Show button menus when right clicking the buttons]
-Pokaż menu przycisku po kliknięciu na nim PPM
-[Show topic as status message on the contact list]
-Pokaż temat pokoju na liście kontaktów
-[Do not pop up the window when joining a chat room]
-Nie pokazuj okna po dołączeniu do pokoju czatu
-[Sync splitter position with standard IM sessions]
-Synchronizuj pozycję separatorów ze standardowymi sesjami rozmowy
-[Show contact's status modes if supported by the protocol]
-Pokaż statusy kontaktu, jeśli są wspierane przez protokół
-[Display contact's status icon before user role icon]
-Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
-[Use IRC style status indicators in the nick list]
-Używaj ircowych wskaźników na liście nicków
-[Use alternative sorting method in member list]
-Używaj alternatywnej metody sortowania listy nicków
-[Prefix all events with a timestamp]
-Poprzedź wszystkie zdarzenia czasem
-[Timestamp only when event time differs]
-Poprzedź czasem tylko, jeśli się różni
-[Timestamp has same color as the event]
-Czas ma taki sam kolor jak zdarzenie
-[Indent the second line of a message]
-Wcinaj drugą linię wiadomości
-[Limit user names in the message log to 20 characters]
-Ogranicz nazwy użytkowników do 20 znaków w dzienniku
-[Add a colon (:) to auto-completed user names]
-Dodaj (:) na końcu automatycznie uzupełnianych nicków
-[Add a comma instead of a colon to auto-completed user names]
-Dodaj przecinek zamiast dwukropka do automatycznie uzupełnianych nicków
-[Start private conversation on double click in nick list (insert nick if unchecked)]
-Rozpocznij rozmowę prywatną przez podwójne kliknięcie na liście nicków (wstaw nick, jeśli niezaznaczone)
-[Strip colors from messages in the log]
-Usuń kolory z wiadomości w dzienniku
-[Enable the 'event filter' for new rooms]
-Włącz "filtr zdarzeń" dla nowych pokoi
-[Use IRC style status indicators in the log]
-Używaj ircowych wskaźników w dzienniku wiadomości
-[Allow clickable user names in the message log]
-Dwuklik na nick z listy otwiera okno rozmowy
-[Add new line after names]
-Dodawaj nową linię po nazwie autora wiadomości
-[Colorize user names in message log]
-Koloruj nicki w dzienniku wiadomości
-[Scale down icons to 10x10 pixels in the chat log]
-Skaluj ikony do 10x10 px w dzienniku rozmowy grupowej
 [Window Icon]
 Ikona okna
 [Icon overlay]
@@ -27897,6 +27050,72 @@ Tło dziennika czatu grupowego
 Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
 Wygląd dziennika wiadomości
+[Open new chat rooms in the default container]
+Otwórz nowe okno rozmowy grupowej w domyślnym kontenerze
+[Flash window when someone speaks]
+Migaj oknem, gdy ktoś mówi
+[Flash window when a word is highlighted]
+Migaj oknem, gdy jakieś słowo jest podświetlone
+[Create tabs or windows for highlight events]
+Utwórz kartę lub okno dla podświetlenia zdarzeń
+[Activate chat window on highlight]
+Aktywuj okno rozmowy przy podświetleniu
+[Show list of users in the chat room]
+Pokaż listę użytkowników w pokoju
+[Colorize nicknames in member list]
+Koloruj nicki na liście
+[Show button menus when right clicking the buttons]
+Pokaż menu przycisku po kliknięciu na nim PPM
+[Show topic as status message on the contact list]
+Pokaż temat pokoju na liście kontaktów
+[Do not pop up the window when joining a chat room]
+Nie pokazuj okna po dołączeniu do pokoju czatu
+[Sync splitter position with standard IM sessions]
+Synchronizuj pozycję separatorów ze standardowymi sesjami rozmowy
+[Show contact's status modes if supported by the protocol]
+Pokaż statusy kontaktu, jeśli są wspierane przez protokół
+[Display contact's status icon before user role icon]
+Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
+[Use IRC style status indicators in the nick list]
+Używaj ircowych wskaźników na liście nicków
+[Use alternative sorting method in member list]
+Używaj alternatywnej metody sortowania listy nicków
+[Prefix all events with a timestamp]
+Poprzedź wszystkie zdarzenia czasem
+[Timestamp only when event time differs]
+Poprzedź czasem tylko, jeśli się różni
+[Timestamp has same color as the event]
+Czas ma taki sam kolor jak zdarzenie
+[Indent the second line of a message]
+Wcinaj drugą linię wiadomości
+[Limit user names in the message log to 20 characters]
+Ogranicz nazwy użytkowników do 20 znaków w dzienniku
+[Add a colon (:) to auto-completed user names]
+Dodaj (:) na końcu automatycznie uzupełnianych nicków
+[Add a comma instead of a colon to auto-completed user names]
+Dodaj przecinek zamiast dwukropka do automatycznie uzupełnianych nicków
+[Start private conversation on double click in nick list (insert nick if unchecked)]
+Rozpocznij rozmowę prywatną przez podwójne kliknięcie na liście nicków (wstaw nick, jeśli niezaznaczone)
+[Strip colors from messages in the log]
+Usuń kolory z wiadomości w dzienniku
+[Enable the 'event filter' for new rooms]
+Włącz "filtr zdarzeń" dla nowych pokoi
+[Use IRC style status indicators in the log]
+Używaj ircowych wskaźników w dzienniku wiadomości
+[Allow clickable user names in the message log]
+Dwuklik na nick z listy otwiera okno rozmowy
+[Add new line after names]
+Dodawaj nową linię po nazwie autora wiadomości
+[Colorize user names in message log]
+Koloruj nicki w dzienniku wiadomości
+[Scale down icons to 10x10 pixels in the chat log]
+Skaluj ikony do 10x10 px w dzienniku rozmowy grupowej
+[No markers]
+Brak znaków
+[Show as icons]
+Pokaż ikony
+[Show as text symbols]
+Pokaż symbole tekstowe
 [nick of current contact (if defined)]
 nick obecnego kontaktu (jeśli zdefiniowany)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -27951,54 +27170,18 @@ Zmienne
 Wszystkie pliki
 [Select folder]
 Wybierz folder
-[No markers]
-Brak znaków
-[Show as icons]
-Pokaż ikony
-[Show as text symbols]
-Pokaż symbole tekstowe
 [Settings]
 Ustawienia
 [Log formatting]
 Formatowanie dziennika
-[Events and filters]
-Zdarzenia i filtry
 [Highlighting]
 Podświetlanie
 [%s%s says:%s %s]
 %s%s mówi: %s %s
-[Expand or collapse the side bar]
-Rozwiń lub zwiń pasek boczny
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Filtr nie może zostać włączony, ponieważ niewybrane zostały żadne zdarzenia, ani globalnie, ani dla tego pokoju.
-[Event filter error]
-Błąd filtru zdarzeń
-[, %d %s, %d %s idle]
-, %d %s, %d %s bezczynny
-[hours]
-godziny
-[hour]
-godzina
-[minutes]
-minut
-[minute]
-minut
-[, %d %s idle]
- jest bezczynny %d %s
-[%s on %s%s]
-%s (%s)%s
-[%s: chat room (%u user%s)]
-Pokój czatowy: %s (jest %u%s użytkownik(ów))
-[%s: chat room (%u users%s)]
-Pokój czatowy: %s (jest %u%s użytkownik(ów))
-[, event filter active]
-, filtr zdarzeń włączony
-[%s: message session]
-%s: Rozmowa
-[%s: message session (%u users)]
-%s: Rozmowa (%u użytkowników)
 [Message session...]
 Sesja rozmowy...
+[Message from %s]
+Wiadomość od %s
 [Default container]
 Domyślny kontener
 [Attach to]
@@ -28049,8 +27232,6 @@ Włączone, jeśli dostępne, zawsze na dole
 Nie pokazuj ich
 [&User]
 &Użytkownik
-[&Room]
-&Pokój
 [Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Dźwięk jest %s. Kliknij aby przełączyć, przytrzymaj Shift i kliknij, aby ustawić dla otwartych kontenerów
 [disabled]
@@ -28079,12 +27260,52 @@ Nieznane zdarzenie
 Nowych wiadomości:\s
 [Unknown module or contact]
 Nieznany moduł lub kontakt
+[Show a preview of the event]
+Pokaż podgląd zdarzenia
+[Don't announce event when message dialog is open]
+Nie ogłaszaj zdarzenia, kiedy okno rozmowy jest otwarte
+[Don't announce events from RSS protocols]
+Nie ogłaszaj zdarzeń z protokołu RSS
+[Merge new events for the same contact into existing popup]
+Połącz nowe zdarzenia od tego samego w istniejącym popupie
+[Show headers]
+Pokaż nagłówki
+[Dismiss popup]
+Odrzuć popup
+[Open event]
+Pokaż zdarzenie
+[Dismiss event]
+Odrzuć zdarzenie
+[Disable event notifications for instant messages]
+Wyłącz powiadomienia dla wiadomości
+[Disable event notifications for group chats]
+Wyłącz powiadomienia dla czatów
+[Disable notifications for non-message events]
+Wyłącz powiadomienia dla innych zdarzeń
+[Remove popups for a contact when the message window is focused]
+Usuń popupy dla kontaktu, gdy jego okno rozmowy jest aktywne
+[Remove popups for a contact when I start typing a reply]
+Usuń popupy dla kontaktu, gdy zacznę pisać odpowiedź
+[Remove popups for a contact when I send a reply]
+Usuń popupy dla kontaktu, gdy wyślę odpowiedź
+[Disable notifications]
+Wyłącz powiadomienia
+[System tray icon]
+Ikona w zasobniku
+[Left click actions (popups only)]
+Akcje LPM (tylko popupy)
+[Right click actions (popups only)]
+Akcje PPM (tylko popupy)
+[Timeout actions (popups only)]
+Akcje po upłynięciu czasu wyświetlania (tylko popupy)
+[Combine notifications for the same contact]
+Kombinacja notyfikacji dla tego samego użytkownika
+[Remove popups under following conditions]
+Usuń popupy w następujących przypadkach:
 [Event notifications]
 Zdarzenia
 [Popups]
 Popupy
-[Rich Edit file]
-Plik pola edycji z formatowaniem
 [No status message]
 Kontakt nie ma opisu.
 [You cannot edit user notes when there are unsent messages]
@@ -28097,8 +27318,6 @@ Ostatnia wiadomość: %s o %s
 %s wpisuje tekst.
 [%s is typing a message]
 %s pisze wiadomość...
-[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Automatyczne przewijanie jest wyłączone, %d wiadomości w kolejce (naciśnij F12, aby je włączyć).
 [Instant messages]
 Wiadomości
 [Incoming (focused window)]
@@ -28117,16 +27336,10 @@ Błąd wysyłania wiadomości
 Inne
 [TabSRMM: typing]
 TabSRMM: pisanie
-[TabSRMM session list]
-Lista sesji TabSRMM
-[TabSRMM menu]
-Menu TabSRMM
 [&Messaging settings...]
 Opcje &rozmowy...
 [&Send later job list...]
 Lista zadań "&wyślij później"...
-[Message from %s]
-Wiadomość od %s
 [signed off.]
 Rozłączony
 [signed on and is now %s.]
@@ -28249,6 +27462,8 @@ Wklej tag [img] lub otocz zaznaczony tekst tagami [img][/img]
 Dodaj ten kontakt na stałe do listy kontaktów
 [Do not add this contact permanently]
 Nie dodawaj tego kontaktu na stałe
+[Expand or collapse the side bar]
+Rozwiń lub zwiń pasek boczny
 [Contact not on list. You may add it...]
 Kontakt spoza listy. Jeśli chcesz dodać...
 [A message failed to send successfully.]
@@ -28261,14 +27476,12 @@ Kliknij, by pokazać menu kontaktu\nKliknij strzałkę, by pokazać ustawienia o
 Gotowy
 [Send later]
 Wyślij później
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (kliknięcie Shift -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by dodać lub usunąć kontakt z ulubionych..
-[No UID]
-Brak UID
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (kliknięcie Shift -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by zmienić status tego kontaktu jako ulubionego.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Edytujesz notatki o użytkowniku. Użyj przycisku ponownie lub naciśnij skrót klawiszowy (domyślnie: Alt+N), aby zapisać notatki i powrócić do normalnego trybu wiadomości
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+Filtr nie może zostać włączony, ponieważ niewybrane zostały żadne zdarzenia, ani globalnie, ani dla tego pokoju.
+[Event filter error]
+Błąd filtru zdarzeń
 [Selection copied to clipboard]
 Zaznaczenie skopiowano do schowka
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -28281,6 +27494,14 @@ Dostarczenie nie powiodło się: %s
 Przekroczono limit czasu wysyłania wiadomości
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakt jest rozłączony, protokół nie wspiera wysyłania plików do rozłączonych kontaktów.
+['(Unknown contact)']
+"(Nieznany kontakt)"
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
+Funkcja "Wklej i Wyślij" jest wyłączona. Możesz ją włączyć w zakładce "Ogólne" w sekcji "Wysyłanie wiadomości".
+[Set your avatar...]
+Ustaw awatar...
+[A message delivery has failed.\nClick to open the message window.]
+Dostarczenie wiadomości nie powiodło się.\nKliknij, aby otworzyć okno rozmowy.
 [Error creating destination directory]
 Błąd tworzenia folderu
 [Save contact picture]
@@ -28289,16 +27510,40 @@ Zapisz obrazek kontaktu
 Pliki obrazów
 [The file exists. Do you want to overwrite it?]
 Plik istnieje. Chcesz nadpisać?
-[Set your avatar...]
-Ustaw awatar...
-[Save and close session]
-Zapisz i zamknij sesje
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-Funkcja "Wklej i Wyślij" jest wyłączona. Możesz ją włączyć w zakładce "Ogólne" w sekcji "Wysyłanie wiadomości".
-['(Unknown contact)']
-"(Nieznany kontakt)"
 [JPEG-compressed images]
 Skompresowane obrazy JPEG
+[Save and close session]
+Zapisz i zamknij sesje
+[, %d %s, %d %s idle]
+, %d %s, %d %s bezczynny
+[hours]
+godziny
+[hour]
+godzina
+[minutes]
+minut
+[minute]
+minut
+[, %d %s idle]
+ jest bezczynny %d %s
+[%s on %s%s]
+%s (%s)%s
+[%s: chat room (%u user%s)]
+Pokój czatowy: %s (jest %u%s użytkownik(ów))
+[%s: chat room (%u users%s)]
+Pokój czatowy: %s (jest %u%s użytkownik(ów))
+[, event filter active]
+, filtr zdarzeń włączony
+[%s: message session]
+%s: Rozmowa
+[%s: message session (%u users)]
+%s: Rozmowa (%u użytkowników)
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (kliknięcie Shift -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by dodać lub usunąć kontakt z ulubionych..
+[No UID]
+Brak UID
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (kliknięcie Shift -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by zmienić status tego kontaktu jako ulubionego.
 [Thai]
 Tajski
 [Japanese]
@@ -28379,14 +27624,78 @@ Wczoraj
 Czy chcesz także, aby szablony wiadomości zostały odczytane z motywu?\nUwaga: to nadpisze obecnie załadowany zestaw szablonów co może znacznie wpłynąć na wygląd Twojego okna rozmowy.\nNaciśnij Anuluj, aby nie ładować nic.
 [Load theme]
 Załaduj skórkę
-[Internal message log]
-Standardowy
-[IEView plugin]
-Wtyczka IEView
-[History++ plugin]
-Wtyczka History++
-[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Masz wybór jaka wtyczka ma obsługiwać historię wiadomości w oknie rozmowy. Większość ustawień jest dla standardowego podglądu wiadomości. Aby zmienić ustawienia dziennika wiadomości musisz skonfigurować IEView lub History++.
+[Message window behavior]
+Zachowanie okna rozmowy
+[Sending messages]
+Wysyłanie wiadomości
+[Send on Shift+Enter]
+Wyślij wiadomość po Shift+Enter
+[Send message on 'Enter']
+Enter wysyła wiadomość
+[Send message on double 'Enter']
+Podwójny Enter wysyła wiadomość
+[Minimize the message window on send]
+Minimalizuj okno rozmowy po wysłaniu
+[Close the message window on send]
+Zamknij okno rozmowy po wysłaniu
+[Always flash contact list and tray icon for new messages]
+Zawsze migaj na liście kontaktów i ikoną w zasobniku przy nowej wiadomości
+[Delete temporary contacts on close]
+Usuń tymczasowe kontakty przy zamknięciu
+[Enable "Paste and send" feature]
+Włącz "Wklej i wyślij" za pomocą Ctrl+D
+[Allow BBCode formatting in outgoing messages]
+Zezwól na formatowanie BBCode w wiadomościach wychodzących
+[Automatically split long messages (experimental, use with care)]
+Automatycznie rozdzielaj długie wiadomości (eksperymentalne, używaj ostrożnie)
+[Log status changes]
+Pokazuj zmiany statusu
+[Automatically copy selected text]
+Automatycznie kopiuj zaznaczony tekst
+[Test contact]
+Testowy kontakt
+[Template set editor]
+Edytor zbioru szablonów
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno chcesz to zrobić?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Zbiór szablonów został zresetowany, zamknij i otwórz wszystkie okna rozmowy. Okno edytora szablonów zostanie teraz zamknięte.
+[Message log appearance]
+Wygląd dziennika wiadomości
+[Support for external plugins]
+Wsparcie dla zewnętrznych wtyczek
+[Timestamp settings (note: timestamps also depend on your templates)]
+Ustawienia znaczników czasu (uwaga: znaczniki czasu zależą także od twojego szablonu)
+[Message log icons]
+Ikony okna rozmowy
+[Show dates in timestamps]
+Pokaż datę przy czasie
+[Show seconds in timestamps]
+Pokaż sekundy w czasie
+[Use contacts local time (if timezone info available)]
+Użyj czasu lokalnego kontaktów (jeśli strefa czasowa jest dostępna)
+[Draw grid lines]
+Rysuj linie dzielące zdarzenia w dzienniku
+[Use incoming/outgoing icons]
+Użyj ikon dla Przychodzących/Wychodzących
+[Use message grouping]
+Grupuj wiadomości
+[Simple text formatting (*bold*, etc.)]
+Proste formatowanie tekstu (*pogrubienie* itp.)
+[Support BBCode formatting]
+Wspieraj formatowanie BBCode
+[Place a separator in the log after a window lost its foreground status]
+Wstawiaj separatory w nieaktywnych sesjach
+[Only place a separator when an incoming event is announced with a popup]
+Użyj konfiguracji Popupów dla wstawiania separatorów
+[Show events at the new line (IEView Compatibility Mode)]
+Pokaż zdarzenia w nowej linii (Tryb zgodności z IEView)
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+Podkreśl czas/nick (Tryb zgodności z IEView)
+[Show timestamp after nickname (IEView Compatibility Mode)]
+Pokaż czas po nazwie (tryb zgodności z IEView)
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Użyj normalnych szablonów (odznacz, by użyć prostych szablonów, jeśli twój zbiór szablonów je obsługuje)
 [** New contacts **]
 ** Nowe kontakty **
 [** Unknown contacts **]
@@ -28397,12 +27706,54 @@ Zawsze
 Zawsze, ale nie pokazuj, jeśli okno jest aktywne
 [Only when no message window is open]
 Tylko, gdy żadne okno rozmowy nie jest otwarte
+[How to create tabs and windows for incoming messages]
+Opcje tworzenia kart i okna rozmowy dla przychodzących wiadomości
+[Show status text on tabs]
+Pokaż status na kartach
+[Prefer xStatus icons when available]
+Używaj ikon xStatus, jeśli dostępne
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Szczegółowe podpowiedzi na kartach (wymaga Tippera)
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+Zawsze aktywuj nowe okna rozmowy (ma PRIORYTET!)
+[Automatically create new message sessions without activating them]
+Twórz nowe sesje rozmowy bez aktywowania ich
+[New windows are minimized (the option above MUST be active)]
+Nowe okna zminimalizowane
+[Activate a minimized window when a new tab is created inside it]
+Aktywuj zminimalizowane okno, gdy tworzona jest nowa karta
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Automatycznie przełączaj istniejące karty w zminimalizowanych oknach dla przychodzących wiadomości (ignorowane przy użyciu funkcji Aero Peek)
+[Close button only hides message windows]
+Przycisk zamykania tylko ukrywa okno rozmowy
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Zezwól na tabulację (Tab przełącza fokus w karcie/oknie)
+[Add offline contacts to multisend list]
+Dodaj rozłączone kontakty na listę wysyłania do wielu naraz
 [Normal - close tab, if last tab is closed also close the window]
 Normalnie - zamknij kartę, jeśli nie ma kart zamknij okno
 [Minimize the window to the task bar]
 Zminimalizuj okno do paska
 [Close or hide window, depends on the close button setting above]
 Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
+[Message window tweaks]
+Poprawki okna rozmowy
+[Display metacontact icons]
+Wyświetlaj ikony metakontaktów
+[Error feedback]
+Błędy
+[Close current tab on send]
+Zamknij kartę po wysłaniu wiadomości
+[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy) (*)
+[Show client description in info panel]
+Pokaż opis klienta w panelu informacji
+[On tab control]
+Na kontrolce karty
+[On the button bar]
+Na pasku przycisków
+[Disable error popups on sending failures]
+Wyłącz popupy błędów wysyłania wiadomości
 [Choose status modes]
 Wybierz tryby statusu
 [General]
@@ -28421,8 +27772,6 @@ Okno rozmowy
 Wczytaj i zastosuj
 [Window layout tweaks]
 Wygląd kart
-[A message delivery has failed.\nClick to open the message window.]
-Dostarczenie wiadomości nie powiodło się.\nKliknij, aby otworzyć okno rozmowy.
 [Message Log Options]
 Opcje dziennika wiadomości
 [Image tag]
@@ -28473,8 +27822,6 @@ Strzałka w lewo
 Strzałka w prawo
 [Up Arrow]
 Strzałka w górę
-[Session List]
-Lista sesji
 [Frame 1]
 Ramka 1
 [Frame 2]
@@ -28585,12 +27932,6 @@ Wiadomość Przychodząca na Czacie
 Wiadomość Wychodząca na Czacie
 [Error message]
 Komunikat o błędzie
-[Template set editor]
-Edytor zbioru szablonów
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno chcesz to zrobić?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Zbiór szablonów został zresetowany, zamknij i otwórz wszystkie okna rozmowy. Okno edytora szablonów zostanie teraz zamknięte.
 [TabSRMM themes]
 Skórka TabSRMM
 [No effect]
@@ -28609,156 +27950,6 @@ Niestandardowy (użyj własnego koloru gradientu)
 Wszystkie kontenery muszą zostać zamknięte przed zmianą skórki\nKontynuować?
 [Change skin]
 Zmień skórkę
-[Message window tweaks]
-Poprawki okna rozmowy
-[Display metacontact icons]
-Wyświetlaj ikony metakontaktów
-[Error feedback]
-Błędy
-[Close current tab on send]
-Zamknij kartę po wysłaniu wiadomości
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy) (*)
-[Show client description in info panel]
-Pokaż opis klienta w panelu informacji
-[On tab control]
-Na kontrolce karty
-[On the button bar]
-Na pasku przycisków
-[Disable error popups on sending failures]
-Wyłącz popupy błędów wysyłania wiadomości
-[Show a preview of the event]
-Pokaż podgląd zdarzenia
-[Don't announce event when message dialog is open]
-Nie ogłaszaj zdarzenia, kiedy okno rozmowy jest otwarte
-[Don't announce events from RSS protocols]
-Nie ogłaszaj zdarzeń z protokołu RSS
-[Enable the system tray icon]
-Pokaż ikonę w zasobniku systemowym
-[Merge new events for the same contact into existing popup]
-Połącz nowe zdarzenia od tego samego w istniejącym popupie
-[Show headers]
-Pokaż nagłówki
-[Dismiss popup]
-Odrzuć popup
-[Open event]
-Pokaż zdarzenie
-[Dismiss event]
-Odrzuć zdarzenie
-[Disable event notifications for instant messages]
-Wyłącz powiadomienia dla wiadomości
-[Disable event notifications for group chats]
-Wyłącz powiadomienia dla czatów
-[Disable notifications for non-message events]
-Wyłącz powiadomienia dla innych zdarzeń
-[Remove popups for a contact when the message window is focused]
-Usuń popupy dla kontaktu, gdy jego okno rozmowy jest aktywne
-[Remove popups for a contact when I start typing a reply]
-Usuń popupy dla kontaktu, gdy zacznę pisać odpowiedź
-[Remove popups for a contact when I send a reply]
-Usuń popupy dla kontaktu, gdy wyślę odpowiedź
-[Disable notifications]
-Wyłącz powiadomienia
-[System tray icon]
-Ikona w zasobniku
-[Left click actions (popups only)]
-Akcje LPM (tylko popupy)
-[Right click actions (popups only)]
-Akcje PPM (tylko popupy)
-[Timeout actions (popups only)]
-Akcje po upłynięciu czasu wyświetlania (tylko popupy)
-[Combine notifications for the same contact]
-Kombinacja notyfikacji dla tego samego użytkownika
-[Remove popups under following conditions]
-Usuń popupy w następujących przypadkach:
-[Message window behavior]
-Zachowanie okna rozmowy
-[Sending messages]
-Wysyłanie wiadomości
-[Send on Shift+Enter]
-Wyślij wiadomość po Shift+Enter
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
-[Minimize the message window on send]
-Minimalizuj okno rozmowy po wysłaniu
-[Close the message window on send]
-Zamknij okno rozmowy po wysłaniu
-[Always flash contact list and tray icon for new messages]
-Zawsze migaj na liście kontaktów i ikoną w zasobniku przy nowej wiadomości
-[Delete temporary contacts on close]
-Usuń tymczasowe kontakty przy zamknięciu
-[Enable "Paste and send" feature]
-Włącz "Wklej i wyślij" za pomocą Ctrl+D
-[Allow BBCode formatting in outgoing messages]
-Zezwól na formatowanie BBCode w wiadomościach wychodzących
-[Automatically split long messages (experimental, use with care)]
-Automatycznie rozdzielaj długie wiadomości (eksperymentalne, używaj ostrożnie)
-[Log status changes]
-Pokazuj zmiany statusu
-[Automatically copy selected text]
-Automatycznie kopiuj zaznaczony tekst
-[Message log appearance]
-Wygląd dziennika wiadomości
-[Support for external plugins]
-Wsparcie dla zewnętrznych wtyczek
-[Timestamp settings (note: timestamps also depend on your templates)]
-Ustawienia znaczników czasu (uwaga: znaczniki czasu zależą także od twojego szablonu)
-[Message log icons]
-Ikony okna rozmowy
-[Show dates in timestamps]
-Pokaż datę przy czasie
-[Show seconds in timestamps]
-Pokaż sekundy w czasie
-[Use contacts local time (if timezone info available)]
-Użyj czasu lokalnego kontaktów (jeśli strefa czasowa jest dostępna)
-[Draw grid lines]
-Rysuj linie dzielące zdarzenia w dzienniku
-[Use incoming/outgoing icons]
-Użyj ikon dla Przychodzących/Wychodzących
-[Use message grouping]
-Grupuj wiadomości
-[Simple text formatting (*bold*, etc.)]
-Proste formatowanie tekstu (*pogrubienie* itp.)
-[Support BBCode formatting]
-Wspieraj formatowanie BBCode
-[Place a separator in the log after a window lost its foreground status]
-Wstawiaj separatory w nieaktywnych sesjach
-[Only place a separator when an incoming event is announced with a popup]
-Użyj konfiguracji Popupów dla wstawiania separatorów
-[Show events at the new line (IEView Compatibility Mode)]
-Pokaż zdarzenia w nowej linii (Tryb zgodności z IEView)
-[Underline timestamp/nickname (IEView Compatibility Mode)]
-Podkreśl czas/nick (Tryb zgodności z IEView)
-[Show timestamp after nickname (IEView Compatibility Mode)]
-Pokaż czas po nazwie (tryb zgodności z IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Użyj normalnych szablonów (odznacz, by użyć prostych szablonów, jeśli twój zbiór szablonów je obsługuje)
-[How to create tabs and windows for incoming messages]
-Opcje tworzenia kart i okna rozmowy dla przychodzących wiadomości
-[Show status text on tabs]
-Pokaż status na kartach
-[Prefer xStatus icons when available]
-Używaj ikon xStatus, jeśli dostępne
-[Detailed tooltip on tabs (requires Tipper plugin)]
-Szczegółowe podpowiedzi na kartach (wymaga Tippera)
-[ALWAYS activate new message sessions (has PRIORITY over the options below)]
-Zawsze aktywuj nowe okna rozmowy (ma PRIORYTET!)
-[Automatically create new message sessions without activating them]
-Twórz nowe sesje rozmowy bez aktywowania ich
-[New windows are minimized (the option above MUST be active)]
-Nowe okna zminimalizowane
-[Activate a minimized window when a new tab is created inside it]
-Aktywuj zminimalizowane okno, gdy tworzona jest nowa karta
-[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Automatycznie przełączaj istniejące karty w zminimalizowanych oknach dla przychodzących wiadomości (ignorowane przy użyciu funkcji Aero Peek)
-[Close button only hides message windows]
-Przycisk zamykania tylko ukrywa okno rozmowy
-[Allow Tab key in typing area (this will disable focus selection by Tab key)]
-Zezwól na tabulację (Tab przełącza fokus w karcie/oknie)
-[Add offline contacts to multisend list]
-Dodaj rozłączone kontakty na listę wysyłania do wielu naraz
 [Disable &typing notification]
 Wyłącz powiadomienie o &pisaniu
 [Enable &typing notification]
@@ -28771,12 +27962,6 @@ Włącz powiadomienie o &pisaniu
 Kontakt pisze wiadomość
 [Contact stopped typing]
 Kontakt przestał pisać
-[Force default message log]
-Wymuś domyślny dziennik wiadomości
-[Force History++]
-Wymuś History++
-[Force IEView]
-Wymuś IEView
 [Set messaging options for %s]
 Ustawienia opcji rozmowy dla %s
 [TabSRMM message (%s)]
@@ -29854,14 +29039,14 @@ Nie można otworzyć profilu Tox
 Nie można odczytać profilu Tox
 [Unable to decrypt Tox profile]
 Nie można odszyfrować profilu Tox
-[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
-Usunięcie hasła spowoduje rozszyfrowanie profilu.\r\nCzy na pewno chcesz usunąć hasło?
 [New password is empty]
 Nowe hasło jest puste
 [New password is not equal to confirmation]
 Nowe hasło nie jest równe powtórzonemu
 [Old password is not valid]
 Stare hasło nie jest prawidłowe
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+Usunięcie hasła spowoduje rozszyfrowanie profilu.\r\nCzy na pewno chcesz usunąć hasło?
 [You cannot add yourself to your contact list]
 Nie możesz dodać siebie samego do swojej listy kontaktów
 [Contact already in your contact list]
@@ -30078,13 +29263,11 @@ Zmień wielkość liter ostatniego/zaznaczonego
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.0.3
+;  Version: 1.3.1.3
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
 Wsparcie dla protokołu Twitter.
-[Server:]
-Serwer:
 [Create a new Twitter account]
 Utwórz nowe konto Twitter
 [Default group:]
@@ -30103,8 +29286,6 @@ Anuluj
 Inne opcje
 [Use group chat for Twitter feed]
 Użyj pokoju czatowego dla osi czasu Twitter
-[Base URL:]
-Link:
 [Polling rate:]
 Sprawdzaj:
 [Once every]
@@ -30161,6 +29342,8 @@ Nie udało się zainicjować połączenia Netlib dla %s.
 Połączenie awatarów %s
 [Twitter (avatars)]
 Twitter (awatary)
+[User name]
+Nazwa użytkownika
 [Send Tweet...]
 Wyślij Tweet...
 [Network]
@@ -30191,7 +29374,7 @@ Odpowiedz...
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.2
+;  Version: 0.9.0.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -30460,18 +29643,6 @@ Menu grupy
 Menu podgrupy
 [Account menu]
 Menu konta
-[Extra icons]
-Dodatkowe ikony
-[Replace the following default icons:]
-Zamień następujące domyślne ikony:
-[Homepage]
-Strona domowa
-[Phone]
-Telefon
-[E-mail]
-E-mail
-[Gender]
-Płeć
 [Misc]
 Inne
 [Show 'Restart' menu item]
@@ -30710,12 +29881,16 @@ Aktualizacja
 Eksport
 [Goto]
 Idź do
+[Phone]
+Telefon
 [Fax]
 Fax
 [Cellular]
 Telefon komórkowy
 [Custom phone]
 Własny telefon
+[E-mail]
+E-mail
 [Down arrow]
 Strzałka w dół
 [Add]
@@ -31252,20 +30427,12 @@ Senior
 Wyślij e-mail
 [Memory allocation error!]
 Błąd alokacji pamięci!
-[E-mail (UInfoEx)]
-E-mail (UInfoEx)
-[Gender (UInfoEx)]
-Płeć (UInfoEx)
 [User has no valid homepage]
 Użytkownik nie podał strony domowej
 [View Homepage]
 Pokaż stronę domową
 [&Homepage]
 &Strona domowa
-[Homepage (UInfoEx)]
-Strona domowa (UInfoEx)
-[Phone (UInfoEx)]
-Telefon (UInfoEx)
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\nPozostało %d kontaktów
 [Abort Refreshing Contact Details]
@@ -31348,6 +30515,8 @@ Okno otwierania pliku zwróciło błąd: %d!
 Okno zapisywania pliku zwróciło błąd: %d!
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 Plik ini "%s",\ndo którego miały zostać zapisane dane kontaktu, nie mógł zostać otwarty.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+Plik ini "%s",\nz którego miały zostać odczytane dane kontaktu, nie mógł zostać otwarty.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Żaden z %d kontaktów zapisanych w pliku ini nie pasuje do wybranego kontaktu!\nNic nie zostanie zaimportowane.
 [Import complete]
@@ -31356,8 +30525,6 @@ Import zakończony
 Pewne podstawowe statystyki
 [Added %d of %d contacts stored in the ini-file.]
 Dodano %d z %d kontaktów zapisanych w pliku ini.
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-Plik ini "%s",\nz którego miały zostać odczytane dane kontaktu, nie mógł zostać otwarty.
 [all Contacts]
 Wszystkie kontakty
 [Select a destination file...]
@@ -31752,13 +30919,13 @@ wstawia zmienną o nazwie "x"
 wstawia "y", oraz przechowuje "y" jako zmienną o nazwie "x"
 [only stores y as variables x]
 przechowuje "y" jako zmienną o nazwie "x"
-[--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique ID (UIN for ICQ, email for MSN) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, ID or display\r\n\r\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
---- Znaki specjalne ---\r\n\r\n\Następujące znaki mają specjalne znaczenie w przetwarzaniu zmiennych:\r\n\r\n\?<funkcja>(<argumenty>)\r\n\Przetworzy to podane argumenty funkcji, a wynik zostanie przetworzony ponownie. Przykład: Dzisiaj jest ?cdate(yyyy/MM/dd).\r\n\r\n\!<funkcja>(<argumenty>)\r\n\Przetworzy to podane argumenty funkcji, a wynik nie zostanie przetworzony ponownie. Przykład: Wiadomość oczekująca: !message(,first,rcvd,unread).\r\n\r\n\%<pole>%\r\n\Będzie to przetwarzać dane pole. Przykład: Zainstalowałem Mirandę w: %mirandapath%.\r\n\r\n\`<ciąg>`\r\n\To nie przetworzy podanego ciągu znaków. Każda funkcja, pole czy znak specjalny w ciągu będzie widoczny w wynikach nieprzetworzony. Przykład: Użyj `%mirandapath%`  by pokazać ścieżkę instalacyjną Mirandy.\r\n\r\n\#<komentarz>\r\n\Doda to komentarz w przetwarzanym ciągu znaków. Wszystko od znaku # do końca linii zostanie usunięte. Przykład: %dbprofile% #jest to bezużyteczny komentarz.\r\n\r\n\r\n\--- Kontakty ---\r\n\r\n\Gdy funkcja wymaga kontaktu jako argumentu, to można określić go na dwa sposoby:\r\n\r\n\(1) Użyć unikalnego ID (UIN dla ICQ, e-mail dla MSN) albo id protokołu i po nim id kontaktu w postaci <PROTOID:KONTAKTID>, przykładowo <MSN:miranda@hotmail.com> lub <ICQ:123456789>.\r\n\r\n\(2) Używając funkcji kontaktów:\r\n\?contact(x,y)\r\n\Zostanie wyszukany kontakt który będzie zawierał wartość "x" w właściwości "y", przy czym "y" może przyjąć wartość:\r\n\first, last, nick, email, id lub display\r\n\r\n\Przykładowo: ?contact(miranda@hotmail.com,email) lub ?contact(Miranda,nick). Funkcja kontaktu zwróci unikalny kontakt zgodnie z zapytaniem, lub nic, jeśli nie istnieje kontakt spełniający podane kryteria lub istnieje ich kilka.
+[--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique ID (UIN for ICQ, JID for Jabber) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <JABBER:miranda@example.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, ID or display\r\n\r\nFor example: ?contact(miranda@example.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
+--- Znaki specjalne ---\r\n\r\n\Następujące znaki mają specjalne znaczenie w przetwarzaniu zmiennych:\r\n\r\n\?<funkcja>(<argumenty>)\r\n\Przetworzy to podane argumenty funkcji, a wynik zostanie przetworzony ponownie. Przykład: Dzisiaj jest ?cdate(yyyy/MM/dd).\r\n\r\n\!<funkcja>(<argumenty>)\r\n\Przetworzy to podane argumenty funkcji, a wynik nie zostanie przetworzony ponownie. Przykład: Wiadomość oczekująca: !message(,first,rcvd,unread).\r\n\r\n\%<pole>%\r\n\Będzie to przetwarzać dane pole. Przykład: Zainstalowałem Mirandę w: %mirandapath%.\r\n\r\n\`<ciąg>`\r\n\To nie przetworzy podanego ciągu znaków. Każda funkcja, pole czy znak specjalny w ciągu będzie widoczny w wynikach nieprzetworzony. Przykład: Użyj `%mirandapath%`  by pokazać ścieżkę instalacyjną Mirandy.\r\n\r\n\#<komentarz>\r\n\Doda to komentarz w przetwarzanym ciągu znaków. Wszystko od znaku # do końca linii zostanie usunięte. Przykład: %dbprofile% #jest to bezużyteczny komentarz.\r\n\r\n\r\n\--- Kontakty ---\r\n\r\n\Gdy funkcja wymaga kontaktu jako argumentu, to można określić go na dwa sposoby:\r\n\r\n\(1) Użyć unikalnego ID (UIN dla ICQ, JID dla Jabber) albo id protokołu i po nim id kontaktu w postaci <PROTOID:KONTAKTID>, przykładowo <JABBER:miranda@example.com> lub <ICQ:123456789>.\r\n\r\n\(2) Używając funkcji kontaktów:\r\n\?contact(x,y)\r\n\Zostanie wyszukany kontakt który będzie zawierał wartość "x" w właściwości "y", przy czym "y" może przyjąć wartość:\r\n\first, last, nick, email, id lub display\r\n\r\n\Przykładowo: ?contact(miranda@example.com,email) lub ?contact(Miranda,nick). Funkcja kontaktu zwróci unikalny kontakt zgodnie z zapytaniem, lub nic, jeśli nie istnieje kontakt spełniający podane kryteria lub istnieje ich kilka.
 #muuid {32579908-724b-467f-adad-22b6359a749a}
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.9.2
+;  Version: 0.1.11.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31901,10 +31068,6 @@ Jako zwykły status dla muzyki nieznanej, w przeciwnym razie status audio
 Tylko jako status audio
 [as regular status only]
 Tylko jako zwykły status
-[Group chats]
-Rozmowy grupowe
-[Message for return to group chat:]
-Wiadomość po powrocie do czatu grupowego:
 [Login settings]
 Opcje logowania
 [Local settings]
@@ -32297,8 +31460,6 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na 
 Oczekiwanie...
 [Enter new status message]
 Wprowadź nowy opis
-[I'm back]
-Wróciłam(-łem)
 [%s is listening to]
 %s słucha
 [Interests]
@@ -32722,8 +31883,6 @@ odtwarzacz
 "Variables" wyjście ANSI
 [FPS (Frames per second)]
 FPS (klatek na sekundę)
-[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
-Jeśli używana jest usługa zmiennych, zwrócona wartość zostanie podana w kodowaniu ANSI (domyślnie w UTF8)
 [Save settings in INI-file]
 Zapisz ustawienia w INI
 [VBR or not]
@@ -35436,7 +34595,7 @@ Urodziny blisko
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
@@ -35475,24 +34634,12 @@ Zapisuj do pliku tekstowego
 Zapisuj dostęp do folderów
 [Alerts on folders access]
 Powiadomienia o dostępie do folderów
-[Log files and folders in UNC format]
-Zapisuj pliki i foldery w formacie UNC
-[Alert files && folders in UNC format]
-Powiadamiaj o plikach i folderach w formacie UNC
-[Log computer name with username]
-Zapisuj nazwę komputera wraz z nazwą użytkownika
-[Alert computer name with username]
-Podaj nazwę komputera wraz z nazwą użytkownika w powiadomieniu
-[Disabled options will be available in the next version]
-Wyłączone opcje będą dostępne w następnej wersji
 [Show current connections]
 Pokaż aktualne połączenia
 [Common Dialog Error 0x%lx]
 Powszechny błąd dialogu 0x%lx
 [Error]
 Błąd
-[Not implemented yet...]
-Jeszcze nie zaimplementowano...
 [Who uses my files]
 Who uses my files
 [Services]
@@ -35648,7 +34795,7 @@ Oznajmiaj
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.0.1.3
+;  Version: 1.1.0.4
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]
@@ -35679,8 +34826,6 @@ Pliki dźwiękowe
 Pliki WAV
 [All contacts]
 Wszystkie kontakty
-[(Unknown contact)]
-(Nieznany kontakt)
 [Sounds]
 Dźwięki
 [XSound Notify]

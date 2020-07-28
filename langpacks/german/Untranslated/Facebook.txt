@@ -1,0 +1,1 @@
+[Use invisible mode after login]

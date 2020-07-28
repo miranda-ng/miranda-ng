@@ -296,84 +296,8 @@ KB
 Премахване на цветовете от съобщенията
 [Enable 'event filter' for new rooms]
 Включване на "филтър на събития" за новите стаи
-[Show topic changes]
-Промяна на тема
-[Show users joining]
-Влизане на потребител
-[Show users disconnecting]
-Излизане от мрежата на потребител
-[Show messages]
-Съобщение
-[Show actions]
-Действия
-[Show users leaving]
-Излизане на потребител
-[Show users being kicked]
-Изгонване на потребител
-[Show notices]
-Известия
-[Show users changing name]
-Промяна на прякор
-[Show information messages]
-Информационни съобщения
-[Show status changes of users]
-Промяна на състояние на потребител
-[Show icons in tray only when the chat room is not active]
-Показване на икони в трея само при неактивна чат стая
-[Show icon in tray for topic changes]
-Промяна на тема (topic)
-[Show icon in tray for users joining]
-Влизане на потребител
-[Show icon in tray for users disconnecting]
-Излизане от мрежата на потребители
-[Show icon in tray for messages]
-Съобщение
-[Show icon in tray for actions]
-Действия
-[Show icon in tray for highlights]
-Отличаване
-[Show icon in tray for users leaving]
-Излизане на потребител
-[Show icon in tray for users kicking other user]
-Потребител изгонва друг потребител
-[Show icon in tray for notices]
-Известие
-[Show icon in tray for name changes]
-Промяна на прякор
-[Show icon in tray for information messages]
-Информационни съобщения
-[Show icon in tray for status changes]
-Промяна на състояние
-[Show popups only when the chat room is not active]
-Показване на popups, когато чат стаята е активна
-[Show popup for topic changes]
-Показване на popups при промяна на тема
-[Show popup for users joining]
-Показване на popups при влизане на потребител
-[Show popup for users disconnecting]
-Показване на popups при излизане от мрежата на потребители
-[Show popup for messages]
-Показване на popups за ново съобщение
-[Show popup for actions]
-Показване на popups за действия
-[Show popup for highlights]
-Показване на popups при отличаване
-[Show popup for users leaving]
-Показване на popups при излизане на потребител
-[Show popup for users kicking other user]
-Показване на popups при изгонване на потребител
-[Show popup for notices]
-Показване на popup за известие
-[Show popup for name changes]
-Показване на popups при промяна на име
-[Show popup for information messages]
-Показване на popups за информационни съобщения
-[Show popup for status changes]
-Показване на popups при промяна на състояние
 [Appearance and functionality of chat windows]
 Външен вид и функционалност на чат стаите
-[Icons to display in the tray]
-Икони за изобразяване в трея
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -426,16 +350,14 @@ KB
 Променливи
 [Appearance]
 Външен вид
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Стандартни събития за показване в чат стая при включен "филтър на събития"
 [Select folder]
 Избор на папка
 [Message sessions]
 Разговори
 [General]
 Основни
-[Event log]
-Дневник на събития
+[Log formatting]
+Формат на дневника
 [Popups]
 Рopups
 ;file \plugins\Scriver\src\globals.cpp
@@ -681,6 +603,8 @@ Shift+Enter
 ** Нови контакти **
 [** Unknown contacts **]
 ** Непознати контакти **
+[Event log]
+Дневник на събития
 [Typing notify]
 Уведомяване при писане
 ;file \plugins\Scriver\src\msgs.cpp

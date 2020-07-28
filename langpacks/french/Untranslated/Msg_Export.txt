@@ -3,6 +3,8 @@
 [Use JSON format for export]
 [Do nothing]
 [Debug]
+[Export]
+[Select none]
 [Miranda database contains %d events]
 [Failed to open file]
 [Save as RTF]

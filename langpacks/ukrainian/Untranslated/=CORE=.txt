@@ -6,7 +6,6 @@
 [Wikipedia (en)]
 [In a civil union]
 [&Open/close chat window]
-[%s says]
 [Browser: Back]
 [Browser: Forward]
 [Browser: Refresh]

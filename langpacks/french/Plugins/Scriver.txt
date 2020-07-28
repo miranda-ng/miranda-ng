@@ -296,84 +296,8 @@ Mettre la deuxième ligne d'un message en retrait
 
 [Enable 'event filter' for new rooms]
 
-[Show topic changes]
-Changements de sujet
-[Show users joining]
-Usagers entrants
-[Show users disconnecting]
-Usagers qui se déconnectent
-[Show messages]
-Afficher les messages
-[Show actions]
-Afficher les actions possibles
-[Show users leaving]
-Afficher les usagers sortants
-[Show users being kicked]
-Afficher les usagers exclus
-[Show notices]
-Afficher les notices
-[Show users changing name]
-Afficher les changements de nom d'usager
-[Show information messages]
-Afficher les messages d'information
-[Show status changes of users]
-Afficher les changements d'état du contact
-[Show icons in tray only when the chat room is not active]
-N'afficher les icônes dans le systray que si le salon est inactif
-[Show icon in tray for topic changes]
-Changements de sujet
-[Show icon in tray for users joining]
-Usagers entrants
-[Show icon in tray for users disconnecting]
-Usagers qui se déconnectent
-[Show icon in tray for messages]
-Messages
-[Show icon in tray for actions]
-Actions
-[Show icon in tray for highlights]
-Texte surligné
-[Show icon in tray for users leaving]
-Usagers sortants
-[Show icon in tray for users kicking other user]
-Exclusions
-[Show icon in tray for notices]
-
-[Show icon in tray for name changes]
-Changements de nom
-[Show icon in tray for information messages]
-Messages d'information
-[Show icon in tray for status changes]
-Changements d'état du contact
-[Show popups only when the chat room is not active]
-st pas actif
-[Show popup for topic changes]
-
-[Show popup for users joining]
-
-[Show popup for users disconnecting]
-
-[Show popup for messages]
-
-[Show popup for actions]
-
-[Show popup for highlights]
-
-[Show popup for users leaving]
-
-[Show popup for users kicking other user]
-
-[Show popup for notices]
-
-[Show popup for name changes]
-
-[Show popup for information messages]
-
-[Show popup for status changes]
-
 [Appearance and functionality of chat windows]
 
-[Icons to display in the tray]
-Icônes à afficher dans la zone de notification système (tray)
 [nick of current contact (if defined)]
 
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -426,15 +350,13 @@ Icônes à afficher dans la zone de notification système (tray)
 
 [Appearance]
 Apparence
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-
 [Select folder]
 Sélectionnez un répertoire
 [Message sessions]
 Sessions de message
 [General]
 Général
-[Event log]
+[Log formatting]
 
 [Popups]
 Popups
@@ -681,6 +603,8 @@ Invisible
 ** Nouveaux contacts **
 [** Unknown contacts **]
 ** Contacts inconnus **
+[Event log]
+
 [Typing notify]
 Notification de frappe
 ;file \plugins\Scriver\src\msgs.cpp

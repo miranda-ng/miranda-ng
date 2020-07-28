@@ -1156,10 +1156,26 @@ Pytaj przed usunięciem kontaktów
 
 ['Hide offline' means to hide:]
 "Ukryj rozłączonych" tzn.:
-[Hidden window]
-
+[Default settings for known event types]
+Domyślne ustawienia dla zdarzeń
+[Show when filter is active]
+Pokaż kiedy filtr jest wł.
+[Log to file]
+Zapisuj w pliku
+[Popup]
+Popup
 [Tray]
 Zasobnik
+[Sound]
+Dźwięk
+[Show icons in tray only when the chat room is not active]
+Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
+[Highlight event]
+Podświetlenie
+[Show popups only when the chat room is not active]
+Pokazuj popupy tylko, gdy pokój nie jest aktywny
+[Hidden window]
+
 [&Hide/Show]
 &Pokaż/Ukryj
 [E&xit]
@@ -1481,28 +1497,6 @@ Dodawaj ":" do automatycznie uzupełnianych nazw użytkownika
 Usuń kolory z wiadomości w dzienniku
 [Enable the 'event filter' for new rooms]
 Włącz "filtr zdarzeń" dla nowych pokoi
-[Show topic changes]
-Pokaż zmiany tematu
-[Show users joining]
-Pokaż dołączających użytkowników
-[Show users disconnecting]
-Pokaż rozłączonych użytkowników
-[Show messages]
-Pokaż wiadomości
-[Show actions]
-Pokaż zdarzenia
-[Show users leaving]
-Pokaż wychodzących użytkowników
-[Show users being kicked]
-Pokaż wyrzucanych użytkowników
-[Show notices]
-Pokaż powiadomienia
-[Show users changing name]
-Pokaż zmiany nazwy użytkowników
-[Show information messages]
-Pokaż wiadomości z informacjami
-[Show status changes of users]
-Pokaż zmiany statusu użytkowników
 [Show icon for topic changes]
 Pokaż ikony zmian tematu
 [Show icon for users joining]
@@ -1527,58 +1521,6 @@ Pokaż ikony zmian nazwy
 Pokaż ikony wiadomości informacyjnych
 [Show icon for status changes]
 Pokaż ikony zmian statusu
-[Show icons in tray only when the chat room is not active]
-Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
-[Show icon in tray for topic changes]
-Pokaż ikony w zasobniku dla zmian tematu
-[Show icon in tray for users joining]
-Pokaż ikony w zasobniku dla dołączających użytkowników
-[Show icon in tray for users disconnecting]
-Pokaż ikony w zasobniku dla rozłączonych użytkowników
-[Show icon in tray for messages]
-Pokaż ikony w zasobniku dla wiadomości
-[Show icon in tray for actions]
-Pokaż ikony w zasobniku dla zdarzeń
-[Show icon in tray for highlights]
-Pokaż ikony w zasobniku dla podświetleń
-[Show icon in tray for users leaving]
-Pokaż ikony w zasobniku dla wychodzących użytkowników
-[Show icon in tray for users kicking other user]
-Pokaż ikony w zasobniku dla wyrzucanych użytkowników
-[Show icon in tray for notices]
-Pokaż ikony w zasobniku dla powiadomień
-[Show icon in tray for name changes]
-Pokaż ikony w zasobniku dla zmian nazwy
-[Show icon in tray for information messages]
-Pokaż ikony w zasobniku dla wiadomości informacyjnych
-[Show icon in tray for status changes]
-Pokaż ikony w zasobniku dla zmian statusu
-[Show popups only when the chat room is not active]
-Pokazuj popupy tylko, gdy pokój nie jest aktywny
-[Show popup for topic changes]
-Pokaż popup zmiany tematu
-[Show popup for users joining]
-Pokaż popup dołączających użytkowników
-[Show popup for users disconnecting]
-Pokaż popup rozłączonych użytkowników
-[Show popup for messages]
-Pokaż popup wiadomości
-[Show popup for actions]
-Pokaż popup akcji
-[Show popup for highlights]
-Pokaż popup podświetleń
-[Show popup for users leaving]
-Pokaż popup wychodzących użytkowników
-[Show popup for users kicking other user]
-Pokaż popup wyrzuconych użytkowników
-[Show popup for notices]
-Pokaż popup powiadomień
-[Show popup for name changes]
-Pokaż popup zmian nicków
-[Show popup for information messages]
-Pokaż popup wiadomości informacyjnych
-[Show popup for status changes]
-Pokaż popup zmian statusu
 [Window icon]
 Ikona okna
 [Bold]
@@ -1653,14 +1595,8 @@ Dziennik czatu
 Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
 Wygląd dziennika wiadomości
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Domyślne zdarzenia pokazywane w nowych pokojach, gdy "filtr zdarzeń" jest aktywny
 [Icons to display in the message log]
 Ikony wyświetlane w dzienniku wiadomości
-[Icons to display in the tray]
-Ikony wyświetlane w zasobniku
-[Popups to display]
-Popupy do wyświetlenia
 [Chat log]
 Dziennik czatu
 [Chat]
@@ -2108,6 +2044,9 @@ Informacja w %s
 %s mówi
 [Chat rooms]
 Pokoje czatu
+;file \src\mir_app\src\chat_ui.cpp
+[Events and filters]
+Zdarzenia i filtry
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]

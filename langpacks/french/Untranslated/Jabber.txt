@@ -5,7 +5,6 @@
 [View and modify your server-side contact list.]
 [Upload]
 [History recording mode]
-[Account registration]
 [Set as default (Ctrl+Space)]
 [Move rule up (Alt+Up)]
 [Move rule down (Alt+Down)]

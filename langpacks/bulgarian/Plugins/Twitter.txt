@@ -85,6 +85,8 @@
 %s връзки за аватари
 [Twitter (avatars)]
 
+[User name]
+Потребителско име
 [Send Tweet...]
 
 [Network]

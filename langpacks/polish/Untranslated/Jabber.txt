@@ -1,5 +1,4 @@
 [History recording mode]
-[Account registration]
 [Error %s %s]
 [Select Command]
 [In progress. Please Wait...]
@@ -58,7 +57,6 @@
 [Please confirm Miranda NG shutdown]
 [There is no group chats to leave]
 [Choose the group chats you want to leave]
-[XML (UTF-8 encoded)]
 [Error %s %s\r\nPlease select other server]
 [Error %s %s\r\nTry to specify more detailed]
 [Message redirected from: %s\r\n]

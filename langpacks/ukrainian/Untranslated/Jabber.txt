@@ -1,5 +1,4 @@
 [History recording mode]
-[Account registration]
 [JID:]
 [Support Message Archive Management (XEP-0313)]
 [Supports message carbons (XEP-0280)]
@@ -40,7 +39,6 @@
 [Error %d occurred during workstation lock]
 [Confirmation needed]
 [Choose the group chats you want to leave]
-[XML (UTF-8 encoded)]
 [Message redirected from: %s\r\n]
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 [Registration canceled]

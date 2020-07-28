@@ -1156,10 +1156,26 @@ Vor Löschen von Kontakten fragen
 
 ['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
-[Hidden window]
-Verstecktes Fenster
+[Default settings for known event types]
+Standardeinstellungen für bekannte Ereignis-Typen
+[Show when filter is active]
+Zeige, wenn Filter aktiv ist
+[Log to file]
+In Datei speichern
+[Popup]
+Popup
 [Tray]
 Tray
+[Sound]
+Klanghinweis
+[Show icons in tray only when the chat room is not active]
+Icon nur im Tray anzeigen, wenn Chatfenster nicht aktiv
+[Highlight event]
+Hebe Ereignis hervor
+[Show popups only when the chat room is not active]
+Popup nur wenn Chatfenster nicht aktiv
+[Hidden window]
+Verstecktes Fenster
 [&Hide/Show]
 Zeigen/&Ausblenden
 [E&xit]
@@ -1481,28 +1497,6 @@ Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
 Farben aus der Verlaufsanzeige entfernen
 [Enable the 'event filter' for new rooms]
 Ereignisfilter für neue Räume aktivieren
-[Show topic changes]
-Themenänderungen anzeigen
-[Show users joining]
-Beitretende Benutzer anzeigen
-[Show users disconnecting]
-Benutzer, die getrennt wurden, anzeigen
-[Show messages]
-Nachrichten anzeigen
-[Show actions]
-Aktionen anzeigen
-[Show users leaving]
-Verlassende Benutzer anzeigen
-[Show users being kicked]
-Benutzer, die gekickt werden, anzeigen
-[Show notices]
-Notizen anzeigen
-[Show users changing name]
-Nicknamenänderungen anzeigen
-[Show information messages]
-Informationsnachrichten anzeigen
-[Show status changes of users]
-Statusänderungen von Benutzern anzeigen
 [Show icon for topic changes]
 Icon für Themenänderungen anzeigen
 [Show icon for users joining]
@@ -1527,58 +1521,6 @@ Icon für Namensänderungen anzeigen
 Icon für Informationsnachrichten anzeigen
 [Show icon for status changes]
 Icon für Statusänderungen anzeigen
-[Show icons in tray only when the chat room is not active]
-Icon nur im Tray anzeigen, wenn Chatfenster nicht aktiv
-[Show icon in tray for topic changes]
-Trayicon für Themenänderungen anzeigen
-[Show icon in tray for users joining]
-Trayicon für beitretende Benutzer anzeigen
-[Show icon in tray for users disconnecting]
-Trayicon anzeigen, wenn Benutzer Verbindung unterbricht
-[Show icon in tray for messages]
-Trayicon für Nachrichten anzeigen
-[Show icon in tray for actions]
-Trayicon für Aktionen anzeigen
-[Show icon in tray for highlights]
-Trayicon für Hervorhebungen anzeigen
-[Show icon in tray for users leaving]
-Trayicon für verlassende Benutzer anzeigen
-[Show icon in tray for users kicking other user]
-Trayicon anzeigen, wenn Benutzer gekickt wird
-[Show icon in tray for notices]
-Trayicon für Notizen anzeigen
-[Show icon in tray for name changes]
-Trayicon bei Namensänderung anzeigen
-[Show icon in tray for information messages]
-Trayicon für Informationsnachrichten anzeigen
-[Show icon in tray for status changes]
-Trayicon für Statusänderungen anzeigen
-[Show popups only when the chat room is not active]
-Popup nur wenn Chatfenster nicht aktiv
-[Show popup for topic changes]
-Popup für Titeländerungen
-[Show popup for users joining]
-Popup für beitretende Benutzer anzeigen
-[Show popup for users disconnecting]
-Popup anzeigen, wenn Benutzer Verbindung unterbricht
-[Show popup for messages]
-Popup für Nachrichten anzeigen
-[Show popup for actions]
-Popup für Aktionen anzeigen
-[Show popup for highlights]
-Popup für Hervorhebungen anzeigen
-[Show popup for users leaving]
-Popup für verlassende Benutzer anzeigen
-[Show popup for users kicking other user]
-Popup anzeigen, wenn Benutzer gekickt wird
-[Show popup for notices]
-Popup für Notizen anzeigen
-[Show popup for name changes]
-Popup für Namensänderungen anzeigen
-[Show popup for information messages]
-Popup für Informationsnachrichten anzeigen
-[Show popup for status changes]
-Popup für Statusänderungen anzeigen
 [Window icon]
 Fenstericon
 [Bold]
@@ -1653,14 +1595,8 @@ Gruppenchatverlauf
 Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
 Aussehen des Verlaufsfensters
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Ereignisse, die standardmäßig angezeigt werden, wenn Ereignisfilter aktiv.
 [Icons to display in the message log]
 Folgende Icons im Verlaufsfenster anzeigen
-[Icons to display in the tray]
-Folgende Icons im Tray anzeigen
-[Popups to display]
-Folgende Popups anzeigen
 [Chat log]
 Chatverlauf
 [Chat]
@@ -2108,6 +2044,9 @@ Informationen in %s
 %s sagt
 [Chat rooms]
 Chaträume
+;file \src\mir_app\src\chat_ui.cpp
+[Events and filters]
+Ereignisse und Filter
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]

@@ -1156,10 +1156,26 @@ Demander avant de supprimer
 
 ['Hide offline' means to hide:]
 "Cacher les Hors ligne" masque :
-[Hidden window]
+[Default settings for known event types]
+
+[Show when filter is active]
+
+[Log to file]
+
+[Popup]
 
 [Tray]
 Tray
+[Sound]
+
+[Show icons in tray only when the chat room is not active]
+Afficher les icônes dans le systray que si le salon est inactif
+[Highlight event]
+
+[Show popups only when the chat room is not active]
+st pas actif
+[Hidden window]
+
 [&Hide/Show]
 &Afficher/Cacher
 [E&xit]
@@ -1481,28 +1497,6 @@ Limiter les noms à 20 caractères dans la fenêtre de discussion
 Retirer la couleur des messages dans le journal
 [Enable the 'event filter' for new rooms]
 
-[Show topic changes]
-Changements de sujet
-[Show users joining]
-Usagers entrants
-[Show users disconnecting]
-Usagers qui se déconnectent
-[Show messages]
-Afficher les messages
-[Show actions]
-Afficher les actions possibles
-[Show users leaving]
-Afficher les usagers sortants
-[Show users being kicked]
-Afficher les usagers exclus
-[Show notices]
-Afficher les notices
-[Show users changing name]
-Afficher les changements de nom d'usager
-[Show information messages]
-Afficher les messages d'information
-[Show status changes of users]
-Afficher les changements d'état du contact
 [Show icon for topic changes]
 Changements de sujet
 [Show icon for users joining]
@@ -1527,58 +1521,6 @@ Changements de nom
 Messages d'information
 [Show icon for status changes]
 Changements d'état du contact
-[Show icons in tray only when the chat room is not active]
-Afficher les icônes dans le systray que si le salon est inactif
-[Show icon in tray for topic changes]
-Changements de sujet
-[Show icon in tray for users joining]
-Usagers entrants
-[Show icon in tray for users disconnecting]
-Usagers qui se déconnectent
-[Show icon in tray for messages]
-Messages
-[Show icon in tray for actions]
-Actions
-[Show icon in tray for highlights]
-Texte surligné
-[Show icon in tray for users leaving]
-Usagers sortants
-[Show icon in tray for users kicking other user]
-Exclusions
-[Show icon in tray for notices]
-
-[Show icon in tray for name changes]
-Changements de nom
-[Show icon in tray for information messages]
-Messages d'information
-[Show icon in tray for status changes]
-Changements d'état du contact
-[Show popups only when the chat room is not active]
-st pas actif
-[Show popup for topic changes]
-
-[Show popup for users joining]
-
-[Show popup for users disconnecting]
-
-[Show popup for messages]
-
-[Show popup for actions]
-
-[Show popup for highlights]
-
-[Show popup for users leaving]
-
-[Show popup for users kicking other user]
-
-[Show popup for notices]
-
-[Show popup for name changes]
-
-[Show popup for information messages]
-
-[Show popup for status changes]
-
 [Window icon]
 Icônes de la fenêtre
 [Bold]
@@ -1653,14 +1595,8 @@ Groupe chats
 Apparence et fonctionnalités des fenêtres de salon
 [Appearance of the message log]
 Apparence du journal des messages
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-
 [Icons to display in the message log]
 Icônes à afficher dans le journal des messages
-[Icons to display in the tray]
-Icônes à afficher dans la zone de notification système (tray)
-[Popups to display]
-
 [Chat log]
 Fenêtre de chat
 [Chat]
@@ -2107,6 +2043,9 @@ Informations dans %s
 [%s says]
 %s dit
 [Chat rooms]
+
+;file \src\mir_app\src\chat_ui.cpp
+[Events and filters]
 
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp

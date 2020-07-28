@@ -1,8 +1,6 @@
 [Not secured for NotOnList]
 [Auto accept RSA key (NOT SECURED)]
 [Mode in Context Menu]
-[SHA-1:]
-[&Copy SHA-1]
 [SecureIM plugin Passphrase of private key]
 [Enter passphrase for the secret key:]
 [Set pre-shared key]

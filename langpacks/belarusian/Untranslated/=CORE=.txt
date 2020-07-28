@@ -15,7 +15,6 @@
 [It's complicated]
 [In a civil union]
 [&Open/close chat window]
-[%s says]
 [Chat rooms]
 [Phone/SMS]
 [Browser: Back]

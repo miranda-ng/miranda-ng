@@ -1,4 +1,3 @@
-[Enable UTF-8 autodetection]
 [%u second]
 [%u seconds]
 [Op]

@@ -1,5 +1,3 @@
-[SHA-1:]
-[&Copy SHA-1]
 [RSA/AES SecureIM]
 [Set pre-shared key]
 [Delete pre-shared key]
@@ -16,7 +14,3 @@
 [Select GnuPG Executable]
 [Sent back message received...]
 [SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA-1: %s Old SHA-1: %s]
-[SecureIM auto accepted RSA Public key from: %s uin: %s SHA-1: %s]
-[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA-1: %s\n\nOld SHA-1: %s\n\nDo you Replace this Key?]
-[SecureIM received RSA Public Key from "%s"\n\nSHA-1: %s\n\nDo you Accept this Key?]

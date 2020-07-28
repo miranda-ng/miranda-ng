@@ -1,5 +1,4 @@
 [History recording mode]
-[Account registration]
 [Current Password:]
 [New Password:]
 [Confirm New Password:]

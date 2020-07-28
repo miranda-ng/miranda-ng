@@ -85,6 +85,8 @@ Normale
 
 [Twitter (avatars)]
 
+[User name]
+Utilisateur
 [Send Tweet...]
 
 [Network]

@@ -37,7 +37,7 @@ Envoyer des invitations de groupe de chat
 [Cancel]
 Annuler
 [Account registration]
-
+Enregistrement d'un compte
 [Enter full phone number]
 
 [Send me registration code via SMS]

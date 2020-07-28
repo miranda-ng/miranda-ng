@@ -1156,10 +1156,26 @@ Potvrdit smazání kontaktů
 
 ['Hide offline' means to hide:]
 'Skrýt offline' znamená skrytí:
-[Hidden window]
-
+[Default settings for known event types]
+Výchozí nastavení pro známé typy událostí
+[Show when filter is active]
+Zobrazit při aktivním filtru
+[Log to file]
+Uložit záznam
+[Popup]
+Oznámení
 [Tray]
 Oznamovací oblast
+[Sound]
+Zvuk
+[Show icons in tray only when the chat room is not active]
+Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
+[Highlight event]
+Zvýraznit událost
+[Show popups only when the chat room is not active]
+Zobrazit oznámení pouze při neaktivním okně s diskusí
+[Hidden window]
+
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
@@ -1481,28 +1497,6 @@ Přidávat ':' k automaticky doplněným jménům
 Záznam ukládat bez kódů definujících barvy
 [Enable the 'event filter' for new rooms]
 Aktivovat filtr událostí pro nové místnosti
-[Show topic changes]
-Zobrazit informaci o změně tématu
-[Show users joining]
-Zobrazit informaci o příchodu uživatelů
-[Show users disconnecting]
-Zobrazit informaci o odpojení uživatelů
-[Show messages]
-Zobrazit zprávy
-[Show actions]
-Zobrazit akce
-[Show users leaving]
-Zobrazit informaci o odchodu uživatelů
-[Show users being kicked]
-Zobrazit informaci o vykopnutí uživatelů
-[Show notices]
-Zobrazit poznámky
-[Show users changing name]
-Zobrazit informaci o změně jména
-[Show information messages]
-Zobrazit informativní zprávy
-[Show status changes of users]
-Zobrazit informaci o změně stavu uživatelů
 [Show icon for topic changes]
 Zobrazit ikonu k informaci o změně tématu
 [Show icon for users joining]
@@ -1527,58 +1521,6 @@ Zobrazit ikonu k informaci o změně jména
 Zobrazit ikonu k textu informativní zprávy
 [Show icon for status changes]
 Zobrazit ikonu k informaci o změně stavu
-[Show icons in tray only when the chat room is not active]
-Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
-[Show icon in tray for topic changes]
-Zobrazit ikonu v ozn. oblasti při změně tématu
-[Show icon in tray for users joining]
-Zobrazit ikonu v ozn. oblasti při příchodu uživatelů
-[Show icon in tray for users disconnecting]
-Zobrazit ikonu v ozn. oblasti při odpojení uživatelů
-[Show icon in tray for messages]
-Zobrazit ikonu v ozn. oblasti při přijetí zprávy
-[Show icon in tray for actions]
-Zobrazit ikonu v ozn. oblasti při akci
-[Show icon in tray for highlights]
-Zobrazit ikonu v ozn. oblasti při zvýraznění
-[Show icon in tray for users leaving]
-Zobrazit ikonu v ozn. oblasti při odchodu uživatelů
-[Show icon in tray for users kicking other user]
-Zobrazit ikonu v ozn. oblasti při vykopnutí uživatelů
-[Show icon in tray for notices]
-Zobrazit ikonu v ozn. oblasti u poznámky
-[Show icon in tray for name changes]
-Zobrazit ikonu v ozn. oblasti při změně jména
-[Show icon in tray for information messages]
-Zobrazit ikonu v ozn. oblasti při přijetí informativní zprávy
-[Show icon in tray for status changes]
-Zobrazit ikonu v ozn. oblasti při změně stavu
-[Show popups only when the chat room is not active]
-Zobrazit oznámení pouze při neaktivním okně s diskusí
-[Show popup for topic changes]
-Zobrazit oznámení při změně tématu
-[Show popup for users joining]
-Zobrazit oznámení při příchodu uživatelů
-[Show popup for users disconnecting]
-Zobrazit oznámení při odpojení uživatelů
-[Show popup for messages]
-Zobrazit oznámení při přijetí zprávy
-[Show popup for actions]
-Zobrazit oznámení při akci
-[Show popup for highlights]
-Zobrazit oznámení při zvýraznění
-[Show popup for users leaving]
-Zobrazit oznámení při odchodu uživatelů
-[Show popup for users kicking other user]
-Zobrazit oznámení při vykopnutí uživatelů
-[Show popup for notices]
-Zobrazit oznámení u poznámky
-[Show popup for name changes]
-Zobrazit oznámení při změně jména
-[Show popup for information messages]
-Zobrazit oznámení při přijetí informativní zprávy
-[Show popup for status changes]
-Zobrazit oznámení při změně stavu
 [Window icon]
 Ikona okna
 [Bold]
@@ -1653,14 +1595,8 @@ Záznam rozhovorů
 Nastavení vzhledu a funkcí komunikačních oken
 [Appearance of the message log]
 Nastavení vzhledu záznamu komunikace
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
 [Icons to display in the message log]
 Možnosti zobrazení ikon v záznamu komunikace
-[Icons to display in the tray]
-Možnosti zobrazení ikon v oznamovací oblasti
-[Popups to display]
-Zobrazit oznámení
 [Chat log]
 Záznam diskuse
 [Chat]
@@ -2108,6 +2044,9 @@ Informace (na %s)
 %s píše
 [Chat rooms]
 Místnosti chatu
+;file \src\mir_app\src\chat_ui.cpp
+[Events and filters]
+Události a filtry
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]

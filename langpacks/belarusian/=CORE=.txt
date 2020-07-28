@@ -1156,10 +1156,26 @@ UIN, E-mail і г.д.
 
 ['Hide offline' means to hide:]
 'Схаваць адключаных' - схаваць:
-[Hidden window]
-
+[Default settings for known event types]
+Налады для вядомых тыпаў падзей
+[Show when filter is active]
+Пры ўключаным фільтры
+[Log to file]
+Запіс у файл
+[Popup]
+Вакно
 [Tray]
 Трэй
+[Sound]
+Гук
+[Show icons in tray only when the chat room is not active]
+Паказваць абразкі толькі калі вакно чата неактыўнае
+[Highlight event]
+Падсвятленне
+[Show popups only when the chat room is not active]
+Паказваць успл. вокны толькі пры не актыўным вакне чата
+[Hidden window]
+
 [&Hide/Show]
 С&хаваць/паказаць
 [E&xit]
@@ -1481,28 +1497,6 @@ UIN, E-mail і г.д.
 Забараніць колеры ў логе
 [Enable the 'event filter' for new rooms]
 Уключыць 'фільтр падзей' для новых чатаў
-[Show topic changes]
-Змена тэмы
-[Show users joining]
-Новыя кантакты
-[Show users disconnecting]
-Кантакты, што пакінулі сервер
-[Show messages]
-Паведамленні
-[Show actions]
-Дзеянні
-[Show users leaving]
-Кантакты, што пакідаюць чат
-[Show users being kicked]
-Выспяткі з чата
-[Show notices]
-Паказваць абвесткі
-[Show users changing name]
-Змена мянушкі
-[Show information messages]
-Інфармацыйныя паведамленні
-[Show status changes of users]
-Змена статусу
 [Show icon for topic changes]
 Змены тэмы
 [Show icon for users joining]
@@ -1526,58 +1520,6 @@ UIN, E-mail і г.д.
 [Show icon for information messages]
 Інфармацыйныя паведамленні
 [Show icon for status changes]
-Змены статусаў
-[Show icons in tray only when the chat room is not active]
-Паказваць абразкі толькі калі вакно чата неактыўнае
-[Show icon in tray for topic changes]
-Змена тэмы
-[Show icon in tray for users joining]
-Далучэнні ўдзельнікаў
-[Show icon in tray for users disconnecting]
-Адключэнні ўдзельнікаў
-[Show icon in tray for messages]
-Паведамленні
-[Show icon in tray for actions]
-Дзеянні
-[Show icon in tray for highlights]
-Падсветленыя паведамленні
-[Show icon in tray for users leaving]
-Выйсці ўдзельнікаў
-[Show icon in tray for users kicking other user]
-Выспятак
-[Show icon in tray for notices]
-Абразок абвесткі ў трэі
-[Show icon in tray for name changes]
-Змены мянушак
-[Show icon in tray for information messages]
-Інфармацыйныя паведамленні
-[Show icon in tray for status changes]
-Змены статусаў
-[Show popups only when the chat room is not active]
-Паказваць успл. вокны толькі пры не актыўным вакне чата
-[Show popup for topic changes]
-Змена тэмы
-[Show popup for users joining]
-Далучэнні ўдзельнікаў
-[Show popup for users disconnecting]
-Адключэнні ўдзельнікаў
-[Show popup for messages]
-Паведамленні
-[Show popup for actions]
-Дзеянні
-[Show popup for highlights]
-Падсветленыя паведамленні
-[Show popup for users leaving]
-Выйсці ўдзельнікаў
-[Show popup for users kicking other user]
-Выспятак
-[Show popup for notices]
-Вакно абвесткі
-[Show popup for name changes]
-Змены мянушак
-[Show popup for information messages]
-Інфармацыйныя паведамленні
-[Show popup for status changes]
 Змены статусаў
 [Window icon]
 Абразок вакна
@@ -1653,14 +1595,8 @@ UIN, E-mail і г.д.
 Выгляд і функцыянальнасць вокнаў чата
 [Appearance of the message log]
 Вонкавы выгляд лога паведамленняў
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Паказаць у новым вакне, калі 'Фільтр падзей' уключаны
 [Icons to display in the message log]
 Абразкі лога паведамленняў
-[Icons to display in the tray]
-Абразкі ў сістэмным латку
-[Popups to display]
-Усплывальныя вокны
 [Chat log]
 Лог чата
 [Chat]
@@ -2108,6 +2044,9 @@ Miranda не здолела загрузіць убудаваную сістэм
 %s кажа
 [Chat rooms]
 
+;file \src\mir_app\src\chat_ui.cpp
+[Events and filters]
+Падзеі і фільтры
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]

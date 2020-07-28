@@ -85,6 +85,8 @@ Nelze inicializovat síťovou komunikaci pro %s.
 
 [Twitter (avatars)]
 
+[User name]
+uživatelské jméno
 [Send Tweet...]
 
 [Network]

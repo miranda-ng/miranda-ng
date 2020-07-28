@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.5
+;  Version: 3.1.2.6
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -36,14 +36,8 @@ UTF-8 у нових файлах
 Додатковий рядок
 [Use << and >>]
 Знаки << і >>
-[Auto filename]
-Авт. імена
-[Clear all]
-Очистити
 [Help]
 Довідка
-[Export all history]
-Експорт історії
 [Exporting old messages]
 Експорт старих повідомлень
 [History file for %s (%s, format %s)]
@@ -70,10 +64,18 @@ UTF-8 у нових файлах
 Налагодження
 [User &details]
 &Інформація
-[Export selected]
-Експорт вибраного
+[Export]
+Експортувати
 [Set to default filename]
 Ім'я файлу за замовчанням
+[Select all]
+Вибрати все
+[Select none]
+
+[Auto filename]
+Авт. імена
+[Clear all]
+Очистити
 [Copy]
 Копіювати
 ;file \plugins\Msg_Export\src\FileViewer.cpp

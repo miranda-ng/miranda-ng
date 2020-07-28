@@ -85,6 +85,8 @@
 далучэнне аватараў %s
 [Twitter (avatars)]
 
+[User name]
+Імя карыстача
 [Send Tweet...]
 Паслаць твіт...
 [Network]

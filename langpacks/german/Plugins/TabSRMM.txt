@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.2
+;  Version: 3.6.1.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -64,20 +64,6 @@ Maximale Anzahl der Ereignisse im Nachrichtenfenster
 Zeilenhöhe der Benutzerliste in Gruppenchats (in Pixel):
 [Open log file base folder]
 Basisverzeichnis der Verlaufsdateien öffnen
-[Default settings for known event types]
-Standardeinstellungen für bekannte Ereignis-Typen
-[Show when filter is active]
-Zeige, wenn Filter aktiv ist
-[Log to file]
-In Datei speichern
-[Show popup]
-Popup anzeig.
-[Notify in tray]
-Tray-Benachr.
-[Suppress tray notifications for focused channel windows]
-Tray-Benachrichtigungen verbergen wenn Channelfenster fokusiert ist
-[Highlight event]
-Hervorgehobenes Ereignis
 [Line markers in the message log]
 Markierungen im Nachrichtenverlauf
 [Highlight user names]
@@ -1021,6 +1007,12 @@ Neue Zeile nach Namen einfügen
 Nutzernamen im Nachrichtenverlauf färben
 [Scale down icons to 10x10 pixels in the chat log]
 Icons auf 10 x 10 Pixel im Verlauf verkleinern
+[No markers]
+Keine Markierungen
+[Show as icons]
+Als Icons anzeigen
+[Show as text symbols]
+Als Textsymbole anzeigen
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1075,18 +1067,10 @@ Variablen
 Alle Dateien
 [Select folder]
 Ordner wählen
-[No markers]
-Keine Markierungen
-[Show as icons]
-Als Icons anzeigen
-[Show as text symbols]
-Als Textsymbole anzeigen
 [Settings]
 Einstellungen
 [Log formatting]
 Verlaufsformatierung
-[Events and filters]
-Ereignisse und Filter
 [Highlighting]
 Hervorhebungen
 ;file \plugins\TabSRMM\src\chat_tools.cpp
@@ -1237,8 +1221,6 @@ Letzte Nachricht am %s um %s empfangen
 %s hat einen Text eingegeben.
 [%s is typing a message]
 %s tippt eine Nachricht
-[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Autoscrolling ist deaktiviert, %d Nachricht(en) in der Warteschlange (F12 drücken um es zu aktivieren)
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Sofortnachrichten

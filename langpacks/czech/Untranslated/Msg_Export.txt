@@ -2,6 +2,7 @@
 [Use JSON format for export]
 [Use UTF-8 in new files]
 [History file for %s (%s, format %s)]
+[Select none]
 [Miranda database contains %d events]
 [Failed to open file]
 [Save as RTF]

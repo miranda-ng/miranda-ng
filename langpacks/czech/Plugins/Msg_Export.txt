@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.5
+;  Version: 3.1.2.6
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -36,14 +36,8 @@ Datum, čas
 Přidat 1 nový řádek
 [Use << and >>]
 Použít << a >>
-[Auto filename]
-Autom. název
-[Clear all]
-Odstranit vše
 [Help]
 Nápověda
-[Export all history]
-Exportovat vše
 [Exporting old messages]
 Export starých zpráv
 [History file for %s (%s, format %s)]
@@ -70,10 +64,18 @@ Smazat soubor
 Debug
 [User &details]
 &Detaily uživatele
-[Export selected]
-Exportovat vybrané
+[Export]
+Exportovat
 [Set to default filename]
 Výchozí název souboru
+[Select all]
+Vybrat vše
+[Select none]
+
+[Auto filename]
+Autom. název
+[Clear all]
+Odstranit vše
 [Copy]
 Zkopírovat
 ;file \plugins\Msg_Export\src\FileViewer.cpp

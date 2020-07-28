@@ -5,7 +5,6 @@
 [View user's history (Ctrl+H)]
 [In a civil union]
 [&Open/close chat window]
-[%s says]
 [Compact]
 [Load server history]
 [Unused]

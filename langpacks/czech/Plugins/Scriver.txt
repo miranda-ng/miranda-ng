@@ -296,84 +296,8 @@ Omezit délku jmen v záznamu na 20 znaků
 Záznam ukládat bez kódů definující barvy
 [Enable 'event filter' for new rooms]
 Aktivovat filtrování událostí pro nové místnosti
-[Show topic changes]
-Zobrazit informaci o změně tématu
-[Show users joining]
-Zobrazit informaci o příchodu uživatelů
-[Show users disconnecting]
-Zobrazit informaci o odpojení uživatelů
-[Show messages]
-Zobrazit zprávy
-[Show actions]
-Zobrazit akce
-[Show users leaving]
-Zobrazit informaci o odchodu uživatelů
-[Show users being kicked]
-Zobrazit informaci o vykopnutí uživatelů
-[Show notices]
-Zobrazit poznámky
-[Show users changing name]
-Zobrazit informaci o změně jména
-[Show information messages]
-Zobrazit informativní zprávy
-[Show status changes of users]
-Zobrazit informaci o změně stavu uživatelů
-[Show icons in tray only when the chat room is not active]
-Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
-[Show icon in tray for topic changes]
-Zobrazit ikonu v ozn. oblasti při změně tématu
-[Show icon in tray for users joining]
-Zobrazit ikonu v ozn. oblasti při příchodu uživatelů
-[Show icon in tray for users disconnecting]
-Zobrazit ikonu v ozn. oblasti při odpojení uživatelů
-[Show icon in tray for messages]
-Zobrazit ikonu v ozn. oblasti při přijetí zprávy
-[Show icon in tray for actions]
-Zobrazit ikonu v ozn. oblasti při akci
-[Show icon in tray for highlights]
-Zobrazit ikonu v ozn. oblasti při zvýraznění
-[Show icon in tray for users leaving]
-Zobrazit ikonu v ozn. oblasti při odchodu uživatelů
-[Show icon in tray for users kicking other user]
-Zobrazit ikonu v ozn. oblasti při vykopnutí uživatelů
-[Show icon in tray for notices]
-Zobrazit ikonu v ozn. oblasti u poznámky
-[Show icon in tray for name changes]
-Zobrazit ikonu v ozn. oblasti při změně jména
-[Show icon in tray for information messages]
-Zobrazit ikonu v ozn. oblasti při přijetí informativní zprávy
-[Show icon in tray for status changes]
-Zobrazit ikonu v ozn. oblasti při změně stavu
-[Show popups only when the chat room is not active]
-Zobrazit oznámení pouze při neaktivním okně s diskusí
-[Show popup for topic changes]
-Zobrazit oznámení při změně tématu
-[Show popup for users joining]
-Zobrazit oznámení při příchodu uživatelů
-[Show popup for users disconnecting]
-Zobrazit oznámení při odpojení uživatelů
-[Show popup for messages]
-Zobrazit oznámení při přijetí zprávy
-[Show popup for actions]
-Zobrazit oznámení při akci
-[Show popup for highlights]
-Zobrazit oznámení při zvýraznění
-[Show popup for users leaving]
-Zobrazit oznámení při odchodu uživatelů
-[Show popup for users kicking other user]
-Zobrazit oznámení při vykopnutí uživatelů
-[Show popup for notices]
-Zobrazit oznámení u poznámky
-[Show popup for name changes]
-Zobrazit oznámení při změně jména
-[Show popup for information messages]
-Zobrazit oznámení při přijetí informativní zprávy
-[Show popup for status changes]
-Zobrazit oznámení při změně stavu
 [Appearance and functionality of chat windows]
 Nastavení vzhledu a funkcí komunikačních oken
-[Icons to display in the tray]
-Možnosti zobrazení ikon v oznamovací oblasti
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -426,16 +350,14 @@ plné jméno dne v týdnu
 Proměnné
 [Appearance]
 Vzhled
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
 [Select folder]
 Vyberte požadovanou složku
 [Message sessions]
 Komunikace
 [General]
 Obecné
-[Event log]
-Záznam událostí
+[Log formatting]
+Formátování záznamu
 [Popups]
 Oznámení
 ;file \plugins\Scriver\src\globals.cpp
@@ -681,6 +603,8 @@ Shift+Enter
 ** nové kontakty **
 [** Unknown contacts **]
 ** neznámé kontakty **
+[Event log]
+Záznam událostí
 [Typing notify]
 Psaní zprávy
 ;file \plugins\Scriver\src\msgs.cpp

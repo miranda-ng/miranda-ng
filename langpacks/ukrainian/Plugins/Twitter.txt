@@ -85,6 +85,8 @@
 З'єднання аватарів %s
 [Twitter (avatars)]
 Twitter (аватари)
+[User name]
+Ім'я користувача
 [Send Tweet...]
 Надіслати твіт...
 [Network]

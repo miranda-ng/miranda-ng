@@ -37,7 +37,7 @@ Odeslat pozvánku k diskusi
 [Cancel]
 Zrušit
 [Account registration]
-
+Registrace účtu
 [Enter full phone number]
 
 [Send me registration code via SMS]

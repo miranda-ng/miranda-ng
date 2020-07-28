@@ -1156,10 +1156,26 @@ Preguntar antes de eliminar
 
 ['Hide offline' means to hide:]
 'Ocultar fuera de línea' es:
-[Hidden window]
+[Default settings for known event types]
 
+[Show when filter is active]
+
+[Log to file]
+
+[Popup]
+Ventana emergente
 [Tray]
 Bandeja
+[Sound]
+
+[Show icons in tray only when the chat room is not active]
+Mostrar iconos en la bandeja sólo cuando el chat no está activo
+[Highlight event]
+
+[Show popups only when the chat room is not active]
+Mostrar ventanas emergentes cuando el chat no está activo
+[Hidden window]
+
 [&Hide/Show]
 &Mostrar/Ocultar
 [E&xit]
@@ -1481,28 +1497,6 @@ Añadir ':' a los nombres de usuario auto-completado
 Quitar los colores de los mensajes en el registro
 [Enable the 'event filter' for new rooms]
 Habilitar el "filtro de eventos" para nuevas salas
-[Show topic changes]
-Mostar cambios recientes de tema
-[Show users joining]
-Mostrar usuarios entrando
-[Show users disconnecting]
-Mostrar usuarios que se desconectan
-[Show messages]
-Mostrar mensajes
-[Show actions]
-Mostrar acciones
-[Show users leaving]
-Mostrar usuarios que salen
-[Show users being kicked]
-Mostrar usuarios sacados
-[Show notices]
-Mostrar avisos
-[Show users changing name]
-Mostrar usuarios cambiando nombre
-[Show information messages]
-Mostrar mensajes de información
-[Show status changes of users]
-Mostrar cambios de estado de usuarios
 [Show icon for topic changes]
 Mostrar icono de cambios de temas
 [Show icon for users joining]
@@ -1527,58 +1521,6 @@ Mostrar icono de cambio de nombre
 Mostrar icono de mensajes de información
 [Show icon for status changes]
 Mostrar icono de cambia de estado
-[Show icons in tray only when the chat room is not active]
-Mostrar iconos en la bandeja sólo cuando el chat no está activo
-[Show icon in tray for topic changes]
-Mostrar icono en la bandeja de cambios de temas
-[Show icon in tray for users joining]
-Mostrar icono en la bandeja para los usuarios que estan entrando
-[Show icon in tray for users disconnecting]
-Mostrar icono en la bandeja para los usuarios que se estan desconectando
-[Show icon in tray for messages]
-Mostrar icono en la bandeja para mensajes
-[Show icon in tray for actions]
-Mostrar icono en la bandeja para acciones
-[Show icon in tray for highlights]
-Mostrar icono en la bandeja para destacados
-[Show icon in tray for users leaving]
-Mostrar icono en la bandeja para los usuarios que estan saliendo
-[Show icon in tray for users kicking other user]
-Mostrar icono en la bandeja para los usuarios sacados por otro usuario
-[Show icon in tray for notices]
-Mostrar icono en la bandeja de notificaciones
-[Show icon in tray for name changes]
-Mostrar icono en la bandeja para el cambio de nombres
-[Show icon in tray for information messages]
-Mostrar icono en la bandeja para mensajes de información
-[Show icon in tray for status changes]
-Mostrar icono en la bandeja para los cambios de estado
-[Show popups only when the chat room is not active]
-Mostrar ventanas emergentes cuando el chat no está activo
-[Show popup for topic changes]
-Mostrar ventana emergente para cambios temáticos
-[Show popup for users joining]
-Mostrar ventana emergente para los usuarios que estan entrando
-[Show popup for users disconnecting]
-Mostrar ventana emergente para los usuarios que se desconectan
-[Show popup for messages]
-Mostrar ventana emergente para mensajes
-[Show popup for actions]
-Mostrar ventana emergente para acciones
-[Show popup for highlights]
-Mostrar ventana emergente para destacados
-[Show popup for users leaving]
-Mostrar ventana emergente para los usuarios que estan saliendo
-[Show popup for users kicking other user]
-Mostrar ventana emergente para usuarios sacados por otro usuario
-[Show popup for notices]
-Mostrar ventana emergente para notificaciones
-[Show popup for name changes]
-Mostrar ventana emergente para cambios de nombre
-[Show popup for information messages]
-Mostrar ventana emergente para mensajes de información
-[Show popup for status changes]
-Mostrar ventana emergente para cambios de estado
 [Window icon]
 Icono de ventana
 [Bold]
@@ -1653,14 +1595,8 @@ Registro de Grupo de Chats
 Apariencia y funcionalidad de ventanas de chat
 [Appearance of the message log]
 Apariencia del registro de mensajes
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Eventos predeterminados a mostrar en nuevas salas de chat, si está activado el 'filtro de eventos'
 [Icons to display in the message log]
 Iconos a mostrar en el registro de mensajes
-[Icons to display in the tray]
-Iconos a mostrar en la bandeja
-[Popups to display]
-Ventanas emergentes mostrar
 [Chat log]
 Registro de chat
 [Chat]
@@ -2107,6 +2043,9 @@ Información en %s
 [%s says]
 %s dice
 [Chat rooms]
+
+;file \src\mir_app\src\chat_ui.cpp
+[Events and filters]
 
 ;file \src\mir_app\src\clcitems.cpp
 ;file \src\mir_app\src\clistgroups.cpp

@@ -296,84 +296,8 @@
 Заборонити кольори в журналі
 [Enable 'event filter' for new rooms]
 Увімкнути "Фільтр подій" для нових кімнат
-[Show topic changes]
-Зміни теми
-[Show users joining]
-Входи до чату
-[Show users disconnecting]
-Відключення користувачів
-[Show messages]
-Повідомлення
-[Show actions]
-Дії
-[Show users leaving]
-Виходи з чату
-[Show users being kicked]
-Стусани
-[Show notices]
-Приватні повідомлення
-[Show users changing name]
-Зміни ніків
-[Show information messages]
-Інформаційні повідомлення
-[Show status changes of users]
-Зміни статусів
-[Show icons in tray only when the chat room is not active]
-Показувати значки лише коли вікно чату неактивне
-[Show icon in tray for topic changes]
-Зміни теми
-[Show icon in tray for users joining]
-Входи до чату
-[Show icon in tray for users disconnecting]
-Відключення користувачів
-[Show icon in tray for messages]
-Повідомлення
-[Show icon in tray for actions]
-Дії
-[Show icon in tray for highlights]
-Підсвічені повідомлення
-[Show icon in tray for users leaving]
-Виходи з чату
-[Show icon in tray for users kicking other user]
-Стусани
-[Show icon in tray for notices]
-Приватні повідомлення
-[Show icon in tray for name changes]
-Зміни ніків
-[Show icon in tray for information messages]
-Інформаційні повідомлення
-[Show icon in tray for status changes]
-Зміни статусів
-[Show popups only when the chat room is not active]
-Показувати спливаючі вікна лише коли вікно чату неактивне
-[Show popup for topic changes]
-Зміни теми
-[Show popup for users joining]
-Входи до чату
-[Show popup for users disconnecting]
-Відключення користувачів
-[Show popup for messages]
-Повідомлення
-[Show popup for actions]
-Дії
-[Show popup for highlights]
-Підсвічені повідомлення
-[Show popup for users leaving]
-Виходи з чату
-[Show popup for users kicking other user]
-Стусани
-[Show popup for notices]
-Приватні повідомлення
-[Show popup for name changes]
-Зміни ніків
-[Show popup for information messages]
-Інформаційні повідомлення
-[Show popup for status changes]
-Зміни статусів
 [Appearance and functionality of chat windows]
 Інтерфейс і функціональність вікон чатів
-[Icons to display in the tray]
-Значки в системному треї
 [nick of current contact (if defined)]
 нік поточного контакту (якщо він визначений)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -426,16 +350,14 @@ ID поточного контакту (якщо визначено). Напри
 Змінні
 [Appearance]
 Зовнішній вигляд
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Показувати в новому вікні, якщо "Фільтр подій" увімкнений
 [Select folder]
 Вибрати папку
 [Message sessions]
 Бесіди
 [General]
 Загальне
-[Event log]
-Журнал подій
+[Log formatting]
+Формат журналу
 [Popups]
 Спливаючі вікна
 ;file \plugins\Scriver\src\globals.cpp
@@ -681,6 +603,8 @@ Shift+Enter
 ** Нові контакти **
 [** Unknown contacts **]
 ** Невідомі контакти **
+[Event log]
+Журнал подій
 [Typing notify]
 Сповіщення про друк
 ;file \plugins\Scriver\src\msgs.cpp

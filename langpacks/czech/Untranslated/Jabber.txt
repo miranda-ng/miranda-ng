@@ -1,5 +1,4 @@
 [History recording mode]
-[Account registration]
 [Jabber Ad-Hoc commands at %s]
 [Sending Ad-Hoc command to %s]
 [Can negotiate options for specific features]

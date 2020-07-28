@@ -25,7 +25,7 @@ Nachrichten auf dem Server als ungelesen belassen
 [Use invisible mode after login]
 
 [Load also Messenger contacts at login (not only Facebook friends)]
-
+Beim Anmelden auch Messenger-Kontakte laden (nicht nur Facebook-Freunde)
 [Group chats]
 Gruppenchats
 [Enable group chats]

@@ -1,5 +1,5 @@
 [Use JSON format for export]
-[Use UTF-8 in new files]
+[Select none]
 [Miranda database contains %d events]
 [Failed to open file]
 [History was saved successfully in file\r\n]
