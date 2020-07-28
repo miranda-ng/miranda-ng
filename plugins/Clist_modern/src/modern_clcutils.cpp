@@ -476,8 +476,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	//TODO: Add to settings
 	dat->row_align_group_mode = g_plugin.getByte("AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT);
 	if (g_clistApi.hwndContactTree == nullptr || dat->hWnd == g_clistApi.hwndContactTree) {
-
-		int defItemsOrder[NUM_ITEM_TYPE] = SETTINS_ROWITEMORDER_DEFAULT;
+		int defItemsOrder[NUM_ITEM_TYPE] = { ITEM_AVATAR, ITEM_ICON, ITEM_TEXT, ITEM_CONTACT_TIME, ITEM_EXTRA_ICONS };
 		for (int i = 0; i < NUM_ITEM_TYPE; i++) {
 			char tmp[128];
 			mir_snprintf(tmp, "RowPos%d", i);
@@ -485,9 +484,8 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 		}
 	}
 	else {
-		int defItems[] = { ITEM_ICON, ITEM_TEXT, ITEM_EXTRA_ICONS, };
-		for (int i = 0; i < NUM_ITEM_TYPE; i++)
-			dat->row_items[i] = (i < _countof(defItems)) ? defItems[i] : -1;
+		int defItems[NUM_ITEM_TYPE] = { ITEM_ICON, ITEM_TEXT, ITEM_EXTRA_ICONS, -1, -1 };
+		memcpy(dat->row_items, defItems, sizeof(defItems));
 	}
 
 	// Avatar
