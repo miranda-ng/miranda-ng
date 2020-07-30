@@ -2146,11 +2146,9 @@ LRESULT CLUI::OnNcHitTest(UINT, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT result = DefWindowProc(m_hWnd, WM_NCHITTEST, wParam, lParam);
 
-	if ((g_CluiData.fAutoSize) && (result == HTSIZE || result == HTTOP ||
-		result == HTTOPLEFT || result == HTTOPRIGHT ||
-		result == HTBOTTOM || result == HTBOTTOMRIGHT ||
-		result == HTBOTTOMLEFT))
-		return HTCLIENT;
+	if (g_CluiData.fAutoSize)
+		if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT || result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT)
+			return HTCLIENT;
 
 	if (result == HTMENU) {
 		POINT pt = UNPACK_POINT(lParam);

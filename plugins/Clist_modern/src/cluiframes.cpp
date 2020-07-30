@@ -987,8 +987,8 @@ static int _us_DoSetFrameOptions(WPARAM wParam, LPARAM lParam)
 		fw.visible = FALSE;
 		if (lParam & F_VISIBLE) fw.visible = TRUE;
 
-		fw.collapsed = TRUE;
-		if (lParam & F_UNCOLLAPSED) fw.collapsed = FALSE;
+		fw.collapsed = true;
+		if (lParam & F_UNCOLLAPSED) fw.collapsed = false;
 
 		fw.Locked = FALSE;
 		if (lParam & F_LOCKED) fw.Locked = TRUE;
@@ -1341,60 +1341,54 @@ static int _us_DoSetFrameBorder(WPARAM wParam, LPARAM lParam)
 //wparam = frameid
 static int _us_DoCollapseFrame(WPARAM wParam, LPARAM lParam)
 {
-	int FrameId;
+	if (_fCluiFramesModuleNotStarted)
+		return -1;
 
-	if (_fCluiFramesModuleNotStarted) return -1;
-
-	if (wParam == 0) {
-		FrameId = lParam;
-	}
-	else {
-		FrameId = id2pos(wParam);
-	}
+	int FrameId = (wParam == 0) ? lParam : id2pos(wParam);
 	if (FrameId >= 0 && FrameId < g_nFramesCount) {
-		int oldHeight;
-
 		// do not collapse/uncollapse client/locked/invisible frames
 		if (g_pfwFrames[FrameId].align == alClient && !(g_pfwFrames[FrameId].Locked || (!g_pfwFrames[FrameId].visible) || g_pfwFrames[FrameId].floating)) {
-			RECT rc;
-			if (Clist_IsDocked()) { return 0; };
-			if (!g_CluiData.fDocked && g_CluiData.fAutoSize) { return 0; };
-			GetWindowRect(g_clistApi.hwndContactList, &rc);
+			if (Clist_IsDocked())
+				return 0;
 
-			if (g_pfwFrames[FrameId].collapsed == TRUE) {
-				rc.bottom -= rc.top;
-				rc.bottom -= g_pfwFrames[FrameId].height;
-				g_pfwFrames[FrameId].HeightWhenCollapsed = g_pfwFrames[FrameId].height;
-				g_pfwFrames[FrameId].collapsed = FALSE;
+			if (g_CluiData.fDocked || !g_CluiData.fAutoSize) {
+				RECT rc;
+				GetWindowRect(g_clistApi.hwndContactList, &rc);
+
+				if (g_pfwFrames[FrameId].collapsed == true) {
+					rc.bottom -= rc.top;
+					rc.bottom -= g_pfwFrames[FrameId].height;
+					g_pfwFrames[FrameId].HeightWhenCollapsed = g_pfwFrames[FrameId].height;
+					g_pfwFrames[FrameId].collapsed = false;
+				}
+				else {
+					rc.bottom -= rc.top;
+					rc.bottom += g_pfwFrames[FrameId].HeightWhenCollapsed;
+					g_pfwFrames[FrameId].collapsed = true;
+				}
+
+				SetWindowPos(g_clistApi.hwndContactList, nullptr, 0, 0, rc.right - rc.left, rc.bottom, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOMOVE);
+
+				CLUIFramesStoreAllFrames();
 			}
-			else {
-				rc.bottom -= rc.top;
-				rc.bottom += g_pfwFrames[FrameId].HeightWhenCollapsed;
-				g_pfwFrames[FrameId].collapsed = TRUE;
-			}
+			return 0;
+		}
 
-			SetWindowPos(g_clistApi.hwndContactList, nullptr, 0, 0, rc.right - rc.left, rc.bottom, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOMOVE);
-
-			CLUIFramesStoreAllFrames();
-
-
+		if (g_pfwFrames[FrameId].Locked || (!g_pfwFrames[FrameId].visible))
 			return 0;
 
-		}
-		if (g_pfwFrames[FrameId].Locked || (!g_pfwFrames[FrameId].visible)) return 0;
-
-		oldHeight = g_pfwFrames[FrameId].height;
+		int oldHeight = g_pfwFrames[FrameId].height;
 
 		// if collapsed, uncollapse
-		if (g_pfwFrames[FrameId].collapsed == TRUE) {
+		if (g_pfwFrames[FrameId].collapsed == true) {
 			g_pfwFrames[FrameId].HeightWhenCollapsed = g_pfwFrames[FrameId].height;
 			g_pfwFrames[FrameId].height = UNCOLLAPSED_FRAME_SIZE;
-			g_pfwFrames[FrameId].collapsed = FALSE;
+			g_pfwFrames[FrameId].collapsed = false;
 		}
 		// if uncollapsed, collapse
 		else {
 			g_pfwFrames[FrameId].height = g_pfwFrames[FrameId].HeightWhenCollapsed;
-			g_pfwFrames[FrameId].collapsed = TRUE;
+			g_pfwFrames[FrameId].collapsed = true;
 		}
 
 		if (!g_pfwFrames[FrameId].floating) {
@@ -1404,10 +1398,10 @@ static int _us_DoCollapseFrame(WPARAM wParam, LPARAM lParam)
 				int alfrm = CLUIFramesGetalClientFrame();
 
 				if (alfrm != -1) {
-					g_pfwFrames[FrameId].collapsed = FALSE;
+					g_pfwFrames[FrameId].collapsed = false;
 					if (g_pfwFrames[alfrm].height > 2 * UNCOLLAPSED_FRAME_SIZE) {
 						oldHeight = g_pfwFrames[alfrm].height - UNCOLLAPSED_FRAME_SIZE;
-						g_pfwFrames[FrameId].collapsed = TRUE;
+						g_pfwFrames[FrameId].collapsed = true;
 					}
 				}
 				else {
@@ -1769,10 +1763,9 @@ static BOOL CLUIFramesFitInSize(void)
 {
 	int sumheight = 0;
 	int tbh = 0; // title bar height
-	int clientfrm;
-	clientfrm = CLUIFramesGetalClientFrame();
+	int clientfrm = CLUIFramesGetalClientFrame();
 	if (clientfrm != -1)
-		tbh = g_nTitleBarHeight*btoint(g_pfwFrames[clientfrm].TitleBar.ShowTitleBar);
+		tbh = g_nTitleBarHeight * btoint(g_pfwFrames[clientfrm].TitleBar.ShowTitleBar);
 
 	for (int i = 0; i < g_nFramesCount; i++) {
 		FRAMEWND &F = g_pfwFrames[i];
@@ -1802,12 +1795,6 @@ int CLUIFrames_GetTotalHeight()
 	}
 
 	GetBorderSize(g_clistApi.hwndContactList, &border);
-
-	//GetWindowRect(g_clistApi.hwndContactList,&winrect);
-	//GetClientRect(g_clistApi.hwndContactList,&clirect);
-	//	clirect.bottom -= clirect.top;
-	//	clirect.bottom += border.top+border.bottom;
-	//allbord = (winrect.bottom-winrect.top)-(clirect.bottom-clirect.top);
 
 	//TODO minsize
 	sumheight += g_CluiData.TopClientMargin;
@@ -1914,7 +1901,7 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 				sumheight += (F.height) + curfrmtbh + (i > 0 ? sepw : 0) + ((F.UseBorder && !g_CluiData.fLayered) ? 2 : 0);
 				if (sumheight > newheight - tbh) {
 					sumheight -= (F.height) + curfrmtbh + (i > 0 ? sepw : 0);
-					F.needhide = !g_CluiData.fDocked && g_CluiData.fAutoSize ? FALSE : TRUE;
+					F.needhide = g_CluiData.fDocked || !g_CluiData.fAutoSize;
 					drawitems--;
 					break;
 				}
@@ -1929,7 +1916,7 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 		i = sdarray[j].realpos;
 		FRAMEWND &F = g_pfwFrames[i];
 		if ((!F.needhide) && (!F.floating) && (F.visible) && (F.align == alTop)) {
-			curfrmtbh = (g_nTitleBarHeight + g_CluiData.nGapBetweenTitlebar)*btoint(F.TitleBar.ShowTitleBar);
+			curfrmtbh = (g_nTitleBarHeight + g_CluiData.nGapBetweenTitlebar) * btoint(F.TitleBar.ShowTitleBar);
 			F.wndSize.top = prevframebottomline + (i > 0 ? sepw : 0) + (curfrmtbh);
 			F.wndSize.bottom = F.height + F.wndSize.top + ((F.UseBorder && !g_CluiData.fLayered) ? 2 : 0);
 			F.prevvisframe = prevframe;
@@ -2220,9 +2207,7 @@ int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam)
 		mainHeight = mainRect.bottom - mainRect.top;
 		minHeight = CLUIFrames_GetTotalHeight();
 		if (mainHeight < minHeight) {
-			BOOL Upward = FALSE;
-			Upward = !g_CluiData.fDocked && g_CluiData.fAutoSize && db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT);
-
+			bool Upward = !g_CluiData.fDocked && g_CluiData.fAutoSize && db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT);
 			if (Upward)
 				mainRect.top = mainRect.bottom - minHeight;
 			else
