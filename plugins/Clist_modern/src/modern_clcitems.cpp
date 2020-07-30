@@ -415,7 +415,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		searchResult = wcsstr(lowered_name, lowered_search) ? 0 : 1;
 	}
 
-	if (pdnce && g_CluiData.bFilterEffective && dat != nullptr && !dat->bForceInDialog) {
+	if (pdnce && g_CluiData.bFilterEffective && dat != nullptr) {
 		if (szProto == nullptr)
 			szProto = Proto_GetBaseAccountName(hContact);
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
