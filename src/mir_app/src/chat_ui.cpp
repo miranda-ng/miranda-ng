@@ -58,6 +58,7 @@ class CChatEventOptionDlg : public CDlgBase
 		int enabled = !IsDlgButtonChecked(m_hwnd, ctrlId);
 		for (int i = 0; i < _countof(_eventorder); i++)
 			CheckDlgButton(m_hwnd, ctrlId + i, enabled);
+		NotifyChange();
 	}
 
 public:
