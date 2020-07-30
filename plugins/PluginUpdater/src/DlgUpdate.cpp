@@ -359,6 +359,7 @@ public:
 	void ShowError()
 	{
 		MessageBox(m_hwnd, TranslateT("Update failed! One of the components wasn't downloaded correctly. Try it again later."), TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
+		dwThreadId = 0;
 		Close();
 	}
 };
