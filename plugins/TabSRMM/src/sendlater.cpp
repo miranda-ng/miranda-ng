@@ -154,17 +154,11 @@ CSendLaterJob::~CSendLaterJob()
 CSendLater::CSendLater() :
 	m_sendLaterContactList(5, PtrKeySortT),
 	m_sendLaterJobList(5),
-	m_currJob(-1),
-	m_hwndDlg(nullptr),
-	m_hwndList(nullptr),
-	m_hwndFilter(nullptr),
-	m_hFilter(0)
+	m_fAvail(SRMSGMOD_T, "sendLaterAvail", false),
+	m_fErrorPopups(SRMSGMOD_T, "qmgrErrorPopups", false),
+	m_fSuccessPopups(SRMSGMOD_T, "qmgrSuccessPopups", false)
 {
-	m_fAvail = M.GetByte("sendLaterAvail", 0) != 0;
 	m_last_sendlater_processed = time(0);
-	m_fIsInteractive = false;
-	m_fErrorPopups = M.GetByte("qmgrErrorPopups", 0) != 0;
-	m_fSuccessPopups = M.GetByte("qmgrSuccessPopups", 0) != 0;
 }
 
 // clear all open send jobs. Only called on system shutdown to remove

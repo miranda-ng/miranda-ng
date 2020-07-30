@@ -35,12 +35,9 @@
 #define TIMEOUT_SENDLATER 10000
 #define TIMEOUT_SENDLATER_TICK 200
 
-class CSendLaterJob {
-
-public:
-	/*
-	 * job status/error codes
-	 */
+struct CSendLaterJob
+{
+	// job status/error codes
 	enum {
 		INVALID_CONTACT = 'I',
 		JOB_DEFERRED = 'D',
@@ -51,36 +48,62 @@ public:
 		JOB_REMOVABLE = 'R',
 		JOB_HOLD = 'H',
 	};
-	/*
-	 * internal flags
-	 */
+
+	// internal flags
 	enum {
 		SLF_SUSPEND = 1,
 		SLF_INVALID = 2
 	};
+
 	void	readFlags();
 	void	writeFlags();
 	void	cleanDB();
 	bool	isPersistentJob();
 	bool	mustDelete();
+
 	CSendLaterJob();
 	~CSendLaterJob();
 
-	char     szId[20];									// database key name (time stamp of original send)
-	MCONTACT hContact;									// original contact where the message has been assigned
-	MCONTACT hTargetContact;								// *real* contact (can be different for metacontacts, e.g).
-	HANDLE   hProcess;									// returned from the protocols sending service. needed to find it in the ACK handler
-	time_t   created;									// job was created at this time (important to kill jobs, that are too old)
-	time_t   lastSent;									// time at which the delivery was initiated. used to handle timeouts
-	char    *sendBuffer;								// utf-8 send buffer
-	PBYTE    pBuf;										// conventional send buffer (for non-utf8 protocols)
+	char     szId[20];            // database key name (time stamp of original send)
+	MCONTACT hContact;            // original contact where the message has been assigned
+	MCONTACT hTargetContact;      // *real* contact (can be different for metacontacts, e.g).
+	HANDLE   hProcess;            // returned from the protocols sending service. needed to find it in the ACK handler
+	time_t   created;             // job was created at this time (important to kill jobs, that are too old)
+	time_t   lastSent;            // time at which the delivery was initiated. used to handle timeouts
+	char    *sendBuffer;          // utf-8 send buffer
+	PBYTE    pBuf;                // conventional send buffer (for non-utf8 protocols)
 	DWORD    dwFlags;
-	int      iSendCount;									// # of times we tried to send it...
+	int      iSendCount;          // # of times we tried to send it...
 	bool     fSuccess, fFailed;
-	BYTE     bCode;										// error/progress code (for the UI)
+	BYTE     bCode;               // error/progress code (for the UI)
 };
 
-class CSendLater {
+class CSendLater
+{
+	void    processSingleContact(const MCONTACT hContact);
+	int     sendIt(CSendLaterJob *job);
+
+	INT_PTR CALLBACK DlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK DlgProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	void    qMgrFillList(bool fClear = true);
+	void    qMgrSetupColumns();
+	void    qMgrSaveColumns();
+	LRESULT qMgrAddFilter(const MCONTACT hContact, const wchar_t *tszNick);
+
+	LIST<void> m_sendLaterContactList;
+	LIST<CSendLaterJob> m_sendLaterJobList;
+
+	CMOption<bool> m_fAvail, m_fErrorPopups, m_fSuccessPopups;
+
+	bool     m_fIsInteractive = false;
+	time_t   m_last_sendlater_processed;
+	int      m_currJob = -1;
+
+	HWND     m_hwndDlg = 0;
+	HWND     m_hwndList = 0, m_hwndFilter = 0;
+	MCONTACT m_hFilter = 0;  // contact handle to filter the qmgr list (0 = no filter, show all)
+	LRESULT  m_sel;          // index of the combo box entry corresponding to the contact filter;
 
 public:
 	enum {
@@ -91,21 +114,23 @@ public:
 
 	CSendLater();
 	~CSendLater();
-	bool   isAvail() const { return(m_fAvail); }
-	bool   isInteractive() const { return(m_fIsInteractive); }
-	bool   isJobListEmpty() const { return(m_sendLaterJobList.getCount() == 0); }
-	bool   haveErrorPopups() const { return(m_fErrorPopups); }
-	bool   haveSuccessPopups() const { return(m_fSuccessPopups); }
-	void   startJobListProcess();
-	time_t lastProcessed() const { return(m_last_sendlater_processed); }
-	void   setLastProcessed(const time_t _t) { m_last_sendlater_processed = _t; }
-	void   flushQueue() { m_last_sendlater_processed = 0; }
-	bool   haveJobs() const { return (m_sendLaterJobList.getCount() != 0 && m_currJob != -1); }
+	
+	__inline bool   isAvail() { return m_fAvail; }
+	__inline bool   haveErrorPopups() { return m_fErrorPopups; }
+	__inline bool   haveSuccessPopups() { return m_fSuccessPopups; }
+
+	__inline bool   isInteractive() const { return m_fIsInteractive; }
+	__inline bool   isJobListEmpty() const { return m_sendLaterJobList.getCount() == 0; }
+	__inline time_t lastProcessed() const { return m_last_sendlater_processed; }
+	__inline void   setLastProcessed(const time_t _t) { m_last_sendlater_processed = _t; }
+	__inline void   flushQueue() { m_last_sendlater_processed = 0; }
+	__inline bool   haveJobs() const { return (m_sendLaterJobList.getCount() != 0 && m_currJob != -1); }
 
 	static int _cdecl addStub(const char *szSetting, void *lParam);
 
 	bool   processCurrentJob();
 	void   processContacts();
+	void   startJobListProcess();
 	int    addJob(const char *szSetting, void *lParam);
 	void   addContact(const MCONTACT hContact);
 	HANDLE processAck(const ACKDATA *ack);
@@ -113,35 +138,8 @@ public:
 	void   invokeQueueMgrDlg();
 	void   qMgrUpdate(bool fReEnable = false);
 	static INT_PTR svcQMgr(WPARAM wParam, LPARAM lParam);
-
-private:
-	void    processSingleContact(const MCONTACT hContact);
-	int     sendIt(CSendLaterJob *job);
-
-	INT_PTR CALLBACK DlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK DlgProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-	void    qMgrFillList(bool fClear = true);
-	void    qMgrSetupColumns();
-	void    qMgrSaveColumns();
-	LRESULT qMgrAddFilter(const MCONTACT hContact, const wchar_t* tszNick);
-
-	LIST<void> m_sendLaterContactList;
-	LIST<CSendLaterJob> m_sendLaterJobList;
-
-	bool     m_fAvail;
-	bool     m_fIsInteractive;
-	bool     m_fErrorPopups;
-	bool     m_fSuccessPopups;
-	time_t   m_last_sendlater_processed;
-	int      m_currJob;
-
-	HWND     m_hwndDlg;
-	HWND     m_hwndList, m_hwndFilter;
-	MCONTACT m_hFilter;      // contact handle to filter the qmgr list (0 = no filter, show all)
-	LRESULT  m_sel;          // index of the combo box entry corresponding to the contact filter;
 };
 
-extern CSendLater* sendLater;
+extern CSendLater *sendLater;
 
 #endif /* __SENDLATER_H */
