@@ -731,6 +731,7 @@
 [Fix incorrect timestamps in incoming messages]
 [Disable frame]
 [Enable XMPP link processing (requires AssocMgr)]
+[Embrace picture URLs with [img]]
 [Ignore server roster (groups and nick names)]
 [Security]
 [Allow servers to request version (XEP-0092)]
