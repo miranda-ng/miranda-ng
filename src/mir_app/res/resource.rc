@@ -798,10 +798,10 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Default settings for known event types",IDC_STATIC,7,5,293,153
     LTEXT           "Show when filter is active",IDC_STATIC,12,16,119,8,SS_CENTERIMAGE
-    CTEXT           "Log to file",IDC_STATIC,260,16,37,8,SS_CENTERIMAGE
-    CTEXT           "Popup",IDC_STATIC,142,16,31,8,SS_CENTERIMAGE
-    CTEXT           "Tray",IDC_STATIC,181,16,31,8,SS_CENTERIMAGE
-    CTEXT           "Sound",IDC_STATIC,221,16,31,8,SS_CENTERIMAGE
+    CONTROL         "Popup",IDC_ICON1,"MButtonClass",WS_TABSTOP,150,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Tray",IDC_ICON2,"MButtonClass",WS_TABSTOP,190,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Sound",IDC_ICON3,"MButtonClass",WS_TABSTOP,230,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Log to file",IDC_ICON4,"MButtonClass",WS_TABSTOP,270,13,16,16,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Actions",IDC_1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,28,120,10
     CONTROL         "Messages",IDC_2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,38,120,10
     CONTROL         "Nick changes",IDC_3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,48,120,10
@@ -849,17 +849,17 @@ BEGIN
     CONTROL         "",IDC_S10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,118,21,10
     CONTROL         "",IDC_S11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,128,21,10
     CONTROL         "",IDC_S12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,233,138,21,10
-    CONTROL         "",IDC_L1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,28,21,10
-    CONTROL         "",IDC_L2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,38,21,10
-    CONTROL         "",IDC_L3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,48,21,10
-    CONTROL         "",IDC_L4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,58,21,10
-    CONTROL         "",IDC_L5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,68,21,10
-    CONTROL         "",IDC_L6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,78,21,10
-    CONTROL         "",IDC_L7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,88,21,10
-    CONTROL         "",IDC_L8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,98,21,10
-    CONTROL         "",IDC_L9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,108,21,10
-    CONTROL         "",IDC_L10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,118,21,10
-    CONTROL         "",IDC_L11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,274,128,21,10
+    CONTROL         "",IDC_L1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,28,21,10
+    CONTROL         "",IDC_L2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,38,21,10
+    CONTROL         "",IDC_L3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,48,21,10
+    CONTROL         "",IDC_L4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,58,21,10
+    CONTROL         "",IDC_L5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,68,21,10
+    CONTROL         "",IDC_L6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,78,21,10
+    CONTROL         "",IDC_L7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,88,21,10
+    CONTROL         "",IDC_L8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,98,21,10
+    CONTROL         "",IDC_L9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,108,21,10
+    CONTROL         "",IDC_L10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,118,21,10
+    CONTROL         "",IDC_L11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,273,128,21,10
     CONTROL         "Show icons in tray only when the chat room is not active",IDC_TRAYONLYFORINACTIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,164,279,8
     LTEXT           "Highlight event",IDC_STATIC,42,139,100,12
@@ -1319,6 +1319,7 @@ IDI_NOPOPUP             ICON                    "icon_popup_no.ico"
 
 IDI_PASSWORD            ICON                    "icon_password.ico"
 
+IDI_SOUND               ICON                    "sound.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

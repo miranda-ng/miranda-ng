@@ -51,12 +51,17 @@ static UINT _eventorder[] =
 class CChatEventOptionDlg : public CDlgBase
 {
 	CCtrlCheck chkTray, chkPopup;
+	CCtrlMButton btn1, btn2, btn3, btn4;
 
 public:
 	CChatEventOptionDlg() :
 		CDlgBase(g_plugin, IDD_OPT_CHAT_EVENTS),
 		chkTray(this, IDC_TRAYONLYFORINACTIVE),
-		chkPopup(this, IDC_POPUPONLYFORINACTIVE)
+		chkPopup(this, IDC_POPUPONLYFORINACTIVE),
+		btn1(this, IDC_ICON1, SKINICON_OTHER_POPUP, LPGEN("Popup")),
+		btn2(this, IDC_ICON2, SKINICON_OTHER_MIRANDA, LPGEN("Tray")),
+		btn3(this, IDC_ICON3, SKINICON_OTHER_SOUND, LPGEN("Sound")),
+		btn4(this, IDC_ICON4, SKINICON_EVENT_FILE, LPGEN("Log to file"))
 	{
 		CreateLink(chkTray, g_bChatTrayInactive);
 		CreateLink(chkPopup, g_bChatPopupInactive);
@@ -64,6 +69,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		btn1.MakeFlat(); btn2.MakeFlat(); btn3.MakeFlat(); btn4.MakeFlat();
+
 		DWORD dwFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
 		DWORD dwTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 		DWORD dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);

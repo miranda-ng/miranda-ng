@@ -90,6 +90,7 @@
 #define SKINICON_OTHER_POPUP         248
 #define SKINICON_OTHER_NOPOPUP       249
 #define SKINICON_OTHER_KEYS          250
+#define SKINICON_OTHER_SOUND         251
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda skin

@@ -28,6 +28,7 @@
 #define IDD_OPT_CLIST                   119
 #define IDD_OPT_CHAT_EVENTS             120
 #define IDD_AUTHREQ                     121
+#define IDI_SOUND                       122
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
 #define IDI_AWAY                        128
@@ -280,6 +281,10 @@
 #define IDC_GENMENU_CUSTOMNAME          1086
 #define IDC_GENMENU_SET                 1087
 #define IDC_GENMENU_DEFAULT             1089
+#define IDC_ICON1                       1090
+#define IDC_ICON2                       1091
+#define IDC_ICON3                       1092
+#define IDC_ICON4                       1093
 #define IDC_CANVAS                      1094
 #define IDC_CANVAS2                     1095
 #define IDC_TXT_MULTILINE               1096
