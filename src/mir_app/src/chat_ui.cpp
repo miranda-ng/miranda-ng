@@ -53,6 +53,13 @@ class CChatEventOptionDlg : public CDlgBase
 	CCtrlCheck chkTray, chkPopup;
 	CCtrlMButton btn1, btn2, btn3, btn4;
 
+	void InvertColumn(int ctrlId)
+	{
+		int enabled = !IsDlgButtonChecked(m_hwnd, ctrlId);
+		for (int i = 0; i < _countof(_eventorder); i++)
+			CheckDlgButton(m_hwnd, ctrlId + i, enabled);
+	}
+
 public:
 	CChatEventOptionDlg() :
 		CDlgBase(g_plugin, IDD_OPT_CHAT_EVENTS),
@@ -65,6 +72,11 @@ public:
 	{
 		CreateLink(chkTray, g_bChatTrayInactive);
 		CreateLink(chkPopup, g_bChatPopupInactive);
+
+		btn1.OnClick = Callback(this, &CChatEventOptionDlg::onClick_Popup);
+		btn2.OnClick = Callback(this, &CChatEventOptionDlg::onClick_Tray);
+		btn3.OnClick = Callback(this, &CChatEventOptionDlg::onClick_Sound);
+		btn4.OnClick = Callback(this, &CChatEventOptionDlg::onClick_Log);
 	}
 
 	bool OnInitDialog() override
@@ -111,6 +123,11 @@ public:
 		LoadGlobalSettings();
 		return true;
 	}
+
+	void onClick_Popup(CCtrlButton *) { InvertColumn(IDC_P1); }
+	void onClick_Sound(CCtrlButton *) { InvertColumn(IDC_S1); }
+	void onClick_Tray(CCtrlButton *) { InvertColumn(IDC_T1); }
+	void onClick_Log(CCtrlButton *) { InvertColumn(IDC_L1); }
 };
 
 void ChatOptionsInit(WPARAM wParam)
