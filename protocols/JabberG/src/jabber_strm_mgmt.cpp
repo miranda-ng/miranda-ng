@@ -191,8 +191,13 @@ void strm_mgmt::HandleOutgoingNode(TiXmlElement *node)
 {
 	if (!m_bStrmMgmtEnabled)
 		return;
+	
+	auto *pNodeCopy = node->DeepClone(&xmlStorage)->ToElement();
+	if (pNodeCopy == nullptr)
+		return;
+
 	m_nStrmMgmtLocalSCount++;
-	NodeCache.push_back(node->DeepClone(&xmlStorage)->ToElement());
+	NodeCache.push_back(pNodeCopy);
 	if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) >= m_nStrmMgmtCacheSize)
 		RequestAck();
 }
