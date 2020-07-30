@@ -50,7 +50,7 @@ int ContactSettingChanged(WPARAM, LPARAM);
 int MetaStatusChanged(WPARAM, LPARAM);
 
 HRESULT(WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
-BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LRESULT& result);
+BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LRESULT &result);
 
 // new sources
 #include <crtdbg.h>
@@ -95,15 +95,9 @@ static HGENMENU hRenameMenuItem, hShowAvatarMenuItem, hHideAvatarMenuItem;
 
 static UINT uMsgGetProfile = 0;
 
-static int nLastRequiredHeight = 0,
-nRequiredHeight = 0,
-nMirMenuState = 0,
-nStatusMenuState = 0;
+static int nLastRequiredHeight = 0, nRequiredHeight = 0, nMirMenuState = 0, nStatusMenuState = 0;
 
-static RECT rcNewWindowRect = { 0 },
-rcOldWindowRect = { 0 },
-rcSizingRect = { 0 },
-rcCorrectSizeRect = { 0 };
+static RECT rcSizingRect = { 0 }, rcCorrectSizeRect = { 0 };
 
 static HANDLE hFrameContactTree;
 
@@ -138,7 +132,7 @@ OVERLAYICONINFO g_pStatusOverlayIcons[MAX_STATUS_COUNT] =
 //////////////// CLUI CLASS IMPLEMENTATION // ///////////////////////////////
 #include "modern_clui.h"
 
-CLUI* CLUI::m_pCLUI = nullptr;
+CLUI *CLUI::m_pCLUI = nullptr;
 BOOL CLUI::m_fMainMenuInited = FALSE;
 HWND CLUI::m_hWnd = nullptr;
 
@@ -251,7 +245,7 @@ HRESULT CLUI::CreateCluiFrames()
 }
 
 CLUI::CLUI() :
-m_hDwmapiDll(nullptr)
+	m_hDwmapiDll(nullptr)
 {
 	m_pCLUI = this;
 	g_CluiData.bSTATE = STATE_CLUI_LOADING;
@@ -486,7 +480,7 @@ int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 			AniAva_RemoveInvalidatedAvatars();
 		}
 
-		if (!g_mutex_bChangingMode && !g_CluiData.fLayered) { 
+		if (!g_mutex_bChangingMode && !g_CluiData.fLayered) {
 			if (nCmd == SW_HIDE && g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT)) {
 				ShowWindow(hWnd, SW_MINIMIZE); // removing of shadow
 				return ShowWindow(hWnd, nCmd);
@@ -529,7 +523,7 @@ static BOOL CLUI_WaitThreadsCompletion()
 void CLUI_UpdateLayeredMode()
 {
 	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT) != 0;
-	
+
 	bool tLayeredFlag = db_get_b(0, "ModernData", "EnableLayering", SETTING_ENABLELAYERING_DEFAULT) != 0 && !g_CluiData.fDisableSkinEngine;
 	if (g_CluiData.fLayered != tLayeredFlag) {
 		BOOL fWasVisible = IsWindowVisible(g_clistApi.hwndContactList);
@@ -543,7 +537,7 @@ void CLUI_UpdateLayeredMode()
 		else
 			exStyle &= ~WS_EX_LAYERED;
 
-		SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, exStyle&~WS_EX_LAYERED);
+		SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, exStyle & ~WS_EX_LAYERED);
 		SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, exStyle);
 		g_CluiData.fLayered = tLayeredFlag;
 		Sync(CLUIFrames_SetLayeredMode, tLayeredFlag, g_clistApi.hwndContactList);
@@ -731,7 +725,7 @@ struct  _tagTimerAsync
 
 static UINT_PTR SetTimerSync(WPARAM wParam, LPARAM)
 {
-	struct  _tagTimerAsync * call = (struct  _tagTimerAsync *) wParam;
+	struct  _tagTimerAsync *call = (struct  _tagTimerAsync *)wParam;
 	return SetTimer(call->hwnd, call->ID, call->Timeout, call->proc);
 }
 
@@ -1122,9 +1116,9 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 				break;
 
 			case CLB_STRETCHH:
-				if (dat->MenuBmpUse&CLBF_PROPORTIONAL) {
+				if (dat->MenuBmpUse & CLBF_PROPORTIONAL) {
 					destw = clRect.right - clRect.left;
-					desth = destw*bmp.bmHeight / bmp.bmWidth;
+					desth = destw * bmp.bmHeight / bmp.bmWidth;
 				}
 				else {
 					destw = clRect.right - clRect.left;
@@ -1133,9 +1127,9 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 				break;
 
 			case CLB_STRETCHV:
-				if (dat->MenuBmpUse&CLBF_PROPORTIONAL) {
+				if (dat->MenuBmpUse & CLBF_PROPORTIONAL) {
 					desth = clRect.bottom - clRect.top;
-					destw = desth*bmp.bmWidth / bmp.bmHeight;
+					destw = desth * bmp.bmWidth / bmp.bmHeight;
 				}
 				else {
 					destw = bmp.bmWidth;
@@ -1161,7 +1155,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 			FillRect(hdc, &r1, hbr);
 			DeleteObject(hbr);
 		}
-		if (item != 0 && state&(ODS_SELECTED)) {
+		if (item != 0 && state & (ODS_SELECTED)) {
 			hbr = CreateSolidBrush(dat->MenuBkHiColor);
 			FillRect(hdc, &r1, hbr);
 			DeleteObject(hbr);
@@ -1190,7 +1184,7 @@ int CLUI_IconsChanged(WPARAM, LPARAM)
 	DrawMenuBar(g_clistApi.hwndContactList);
 	ExtraIcon_Reload();
 	ExtraIcon_SetAll();
-	
+
 	// need to update tray cause it use combined icons
 	Clist_TrayIconIconsChanged();  // TODO: remove as soon as core will include icolib
 	ske_RedrawCompleteWindow();
@@ -1303,7 +1297,7 @@ int CLUI_SizingOnBorder(POINT pt, int PerformSize)
 		if (!g_CluiData.fAutoSize) {
 			if (pt.y <= r.bottom && pt.y >= r.bottom - SIZING_MARGIN)
 				sizeOnBorderFlag = SCF_BOTTOM;
-			else if (pt.y >= r.top    && pt.y <= r.top + SIZING_MARGIN)
+			else if (pt.y >= r.top && pt.y <= r.top + SIZING_MARGIN)
 				sizeOnBorderFlag = SCF_TOP;
 		}
 
@@ -1447,7 +1441,7 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 	return 0;
 }
 
-BOOL cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
+BOOL cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase)
 {
 	if (CLUI_IsInMainWindow(hWnd) && g_CluiData.fLayered) {
 		if (IsWindowVisible(hWnd))
@@ -1460,9 +1454,9 @@ BOOL cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
 	return InvalidateRect(hWnd, lpRect, bErase);
 }
 
-static BOOL FileExists(wchar_t * tszFilename)
+static BOOL FileExists(wchar_t *tszFilename)
 {
-	FILE * f = _wfopen(tszFilename, L"r");
+	FILE *f = _wfopen(tszFilename, L"r");
 	if (f == nullptr) return FALSE;
 	fclose(f);
 	return TRUE;
@@ -1499,7 +1493,7 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDesc
 }
 
 // MAIN WINPROC MESSAGE HANDLERS
-LRESULT CLUI::PreProcessWndProc(UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+LRESULT CLUI::PreProcessWndProc(UINT msg, WPARAM wParam, LPARAM lParam, BOOL &bHandled)
 {
 	// proxy CLUI Messages
 	LRESULT result = 0;
@@ -1563,23 +1557,24 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			RECT work_rect = { 0 };
 			RECT temp_rect = { 0 };
 			WINDOWPOS *wp = (WINDOWPOS*)lParam;
+
+			RECT rcOldWindowRect;
 			GetWindowRect(m_hWnd, &rcOldWindowRect);
 
 			// Прилипание к краям by ZorG
 			CLUI::SnappingToEdge(wp);
 
-			if ((rcOldWindowRect.bottom - rcOldWindowRect.top != wp->cy || rcOldWindowRect.right - rcOldWindowRect.left != wp->cx) && !(wp->flags&SWP_NOSIZE)) {
-				if (!(wp->flags&SWP_NOMOVE)) {
-					rcNewWindowRect.left = wp->x;
-					rcNewWindowRect.top = wp->y;
+			if ((rcOldWindowRect.bottom - rcOldWindowRect.top != wp->cy || rcOldWindowRect.right - rcOldWindowRect.left != wp->cx) && !(wp->flags & SWP_NOSIZE)) {
+				if (!(wp->flags & SWP_NOMOVE)) {
+					work_rect.left = wp->x;
+					work_rect.top = wp->y;
 				}
 				else {
-					rcNewWindowRect.left = rcOldWindowRect.left;
-					rcNewWindowRect.top = rcOldWindowRect.top;
+					work_rect.left = rcOldWindowRect.left;
+					work_rect.top = rcOldWindowRect.top;
 				}
-				rcNewWindowRect.right = rcNewWindowRect.left + wp->cx;
-				rcNewWindowRect.bottom = rcNewWindowRect.top + wp->cy;
-				work_rect = rcNewWindowRect;
+				work_rect.right = work_rect.left + wp->cx;
+				work_rect.bottom = work_rect.top + wp->cy;
 
 				// resize frames (batch)
 				HDWP PosBatch = BeginDeferWindowPos(1);
@@ -1822,7 +1817,7 @@ LRESULT CLUI::OnPaint(UINT msg, WPARAM wParam, LPARAM lParam)
 				GetWindowRect(m_hWnd, &w);
 				OffsetRect(&w, -w.left, -w.top);
 				BeginPaint(m_hWnd, &ps);
-				if ((ps.rcPaint.bottom - ps.rcPaint.top)*(ps.rcPaint.right - ps.rcPaint.left) == 0)
+				if ((ps.rcPaint.bottom - ps.rcPaint.top) * (ps.rcPaint.right - ps.rcPaint.left) == 0)
 					w2 = w;
 				else
 					w2 = ps.rcPaint;
@@ -2225,7 +2220,7 @@ LRESULT CLUI::OnMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
+LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL *pnmc)
 {
 	// TODO: Check and refactor possible problem of clist resized to full screen problem
 	static RECT rcWindow, rcTree, rcTree2, rcWorkArea, rcOld;
@@ -2262,26 +2257,32 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 	if (pnmc->pt.y > (rcWorkArea.bottom - rcWorkArea.top))
 		pnmc->pt.y = (rcWorkArea.bottom - rcWorkArea.top);
 
-	nLastRequiredHeight = pnmc->pt.y;
-	newHeight = max(CLUIFramesGetMinHeight(), max(pnmc->pt.y, 3) + 1 + ((winstyle&WS_BORDER) ? 2 : 0) + (rcWindow.bottom - rcWindow.top) - (rcTree.bottom - rcTree.top));
-	if (newHeight < (rcWorkArea.bottom - rcWorkArea.top)*minHeight / 100)
-		newHeight = (rcWorkArea.bottom - rcWorkArea.top)*minHeight / 100;
+	newHeight = max(CLUIFramesGetMinHeight(), max(pnmc->pt.y, 3) + 1 + ((winstyle & WS_BORDER) ? 2 : 0) + (rcWindow.bottom - rcWindow.top) - (rcTree.bottom - rcTree.top));
+	if (newHeight < (rcWorkArea.bottom - rcWorkArea.top) * minHeight / 100)
+		newHeight = (rcWorkArea.bottom - rcWorkArea.top) * minHeight / 100;
 
-	if (newHeight > (rcWorkArea.bottom - rcWorkArea.top)*maxHeight / 100)
-		newHeight = (rcWorkArea.bottom - rcWorkArea.top)*maxHeight / 100;
+	if (newHeight > (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100)
+		newHeight = (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100;
 
-	if (newHeight == (rcWindow.bottom - rcWindow.top)) return 0;
+	// if nothing was changed - return
+	if (newHeight == (rcWindow.bottom - rcWindow.top))
+		return 0;
 
 	if (db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT)) {
 		rcWindow.top = rcWindow.bottom - newHeight;
-		if (rcWindow.top < rcWorkArea.top) rcWindow.top = rcWorkArea.top;
+		if (rcWindow.top < rcWorkArea.top)
+			rcWindow.top = rcWorkArea.top;
 	}
 	else {
 		rcWindow.bottom = rcWindow.top + newHeight;
-		if (rcWindow.bottom > rcWorkArea.bottom) rcWindow.bottom = rcWorkArea.bottom;
+		if (rcWindow.bottom > rcWorkArea.bottom)
+			rcWindow.bottom = rcWorkArea.bottom;
 	}
-	if (nRequiredHeight == 1)
+
+	if (nRequiredHeight == 1) {
+		nLastRequiredHeight = newHeight;
 		return FALSE;
+	}
 
 	nRequiredHeight = 1;
 	if (mutex_bDuringSizing) {
@@ -2294,12 +2295,15 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 
 	SetWindowPos(m_hWnd, nullptr, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
 
-	nRequiredHeight = 0;
+	// during total resize contact list tree's height was somehow changed
+	if (nLastRequiredHeight != newHeight)
+		SetWindowPos(m_hWnd, nullptr, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, nLastRequiredHeight, SWP_NOZORDER | SWP_NOACTIVATE);
 
+	nRequiredHeight = 0;
 	return FALSE;
 }
 
-LRESULT CLUI::OnClickNotify(NMCLISTCONTROL * pnmc)
+LRESULT CLUI::OnClickNotify(NMCLISTCONTROL *pnmc)
 {
 	DWORD hitFlags;
 	HANDLE hItem = (HANDLE)SendMessage(g_clistApi.hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(pnmc->pt.x, pnmc->pt.y));
