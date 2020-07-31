@@ -3,4 +3,4 @@ Language: Български
 Locale: 0402
 Authors: NEOhidra, Castel
 Author-email: neohidra@gmail.com
-Last-Modified-Using: Miranda NG 0.95.11
+Last-Modified-Using: Miranda NG 0.95.12
