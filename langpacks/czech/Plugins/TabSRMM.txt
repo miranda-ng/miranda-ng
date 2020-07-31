@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.0.4
+;  Version: 3.6.1.3
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -64,20 +64,6 @@ Maximální počet událostí v záznamu komunikačního okna
 Výška seznamu účastníků skupinového rozhovoru (px)
 [Open log file base folder]
 Otevřít kořenovou složku záznamů
-[Default settings for known event types]
-Výchozí nastavení pro známé typy událostí
-[Show when filter is active]
-Zobrazit při aktivním filtru
-[Log to file]
-Uložit záznam
-[Show popup]
-Zobrazit oznámení
-[Notify in tray]
-Oznam. oblast
-[Suppress tray notifications for focused channel windows]
-Potlačit upozornění v oznamovací oblasti pro aktivní okna
-[Highlight event]
-Zvýraznit událost
 [Line markers in the message log]
 Oddělovače řádků v záznamu komunikace
 [Highlight user names]
@@ -142,8 +128,6 @@ sek.
 Uchovat v historii odesílání
 [entries]
 položek
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Možnosti označené (*) vejdou v platnost po restartu Mirandy
 [More about advanced tweaks]
 Více o pokročilých úpravách
 [Revert to (safe) defaults]
@@ -200,8 +184,6 @@ Neupozorňovat na vypršení času doručení
 Načíst pouze aktuální historii
 [Use private splitter position]
 Použít soukromý oddělovač
-[Contact is a favorite contact]
-Kontakt je mezi oblíbenými
 [Always trim message log to]
 Max. počet událostí v záznamu
 [events]
@@ -664,28 +646,6 @@ Tento kontakt
 Globální nastavení
 [Force off]
 Vždy vypnout
-[Recent sessions]
-Poslední rozhovory
-[Favorites]
-Oblíbené
-[Show the tray icon]
-Zobrazit ikonu v oznamovací oblasti
-[Disable all event notifications]
-Vypnout všechna oznámení události
-[Don't create windows automatically]
-Nevytvářet okna automaticky
-[Hide all message containers]
-Skrýt všechny kontejnery
-[Restore all message containers]
-Obnovit všechny kontejnery
-[Don't play sounds]
-Nepřehrávat zvuky
-[Be "super quiet"]
-Supertichý režim
-[Add contact to favorites]
-Přidat kontakt do oblíbených
-[Remove contact from favorites]
-Ostranit kontakt z oblíbených
 [Set position for this session]
 Nastavit pozici pro tento rozhovor
 [Set and save for all sessions]
@@ -793,33 +753,6 @@ Přepnout seznam uživatelů
 Filtr událostí - pravé tlačítko pro nastavení, levé pro aktivaci/deaktivaci
 [Channel manager]
 Správa kanálů
-;file \plugins\TabSRMM\src\chat_log.cpp
-[%s has joined]
-Příchod: %s
-[You have joined %s]
-Příchod na %s
-[%s has left]
-Odchod: %s
-[%s has disconnected]
-Odpojení: %s
-[%s is now known as %s]
-Změna přezdívky: %s -> %s
-[You are now known as %s]
-Změna vlastní přezdívky: %s
-[%s kicked %s]
-Vykopnutí: %s -> %s
-[Notice from %s: ]
-Poznámka od %s:
-[The topic is '%s%s']
-Aktuální téma: '%s%s'
-[ (set by %s on %s)]
- (nastavil %s na %s)
-[ (set by %s)]
- (nastavil %s)
-[%s enables '%s' status for %s]
-%s aktivuje stav '%s' pro %s
-[%s disables '%s' status for %s]
-%s deaktivuje stav '%s' pro %s
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Komunikace
@@ -1072,6 +1005,12 @@ Přidat nový řádek za jména
 Obarvit uživatelské jména v záznamu komunikace
 [Scale down icons to 10x10 pixels in the chat log]
 Změnit velikost ikon na 10x10 pixelů v záznamu chatu
+[No markers]
+Bez oddělovačů
+[Show as icons]
+Zobrazit jako ikony
+[Show as text symbols]
+Zobrazit jako textové symboly
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -1126,18 +1065,10 @@ Proměnné
 Všechny soubory
 [Select folder]
 Vyberte požadovanou složku
-[No markers]
-Bez oddělovačů
-[Show as icons]
-Zobrazit jako ikony
-[Show as text symbols]
-Zobrazit jako textové symboly
 [Settings]
 Nastavení
 [Log formatting]
 Formát záznamu
-[Events and filters]
-Události a filtry
 [Highlighting]
 Zvýrazňování
 ;file \plugins\TabSRMM\src\chat_tools.cpp
@@ -1146,6 +1077,8 @@ Zvýrazňování
 ;file \plugins\TabSRMM\src\container.cpp
 [Message session...]
 Rozhovor...
+[Message from %s]
+Zpráva od: %s
 [Default container]
 Výchozí kontejner
 [Attach to]
@@ -1233,8 +1166,6 @@ Zobrazit náhled události
 Neoznamovat, je-li konverzační okno otevřeno
 [Don't announce events from RSS protocols]
 Neoznamovat události z RSS čtečky
-[Enable the system tray icon]
-Zobrazit ikonu v oznamovací oblasti
 [Merge new events for the same contact into existing popup]
 Spojit nové události pro jeden kontakt do existujícího oznámení
 [Show headers]
@@ -1288,8 +1219,6 @@ Poslední zpráva přijata %s v %s
 %s dopsal/a zprávu.
 [%s is typing a message]
 %s píše zprávu
-[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Automatické posouvání je vypnuto, %d zpráva/y) ve frontě (stiskněte F12 pro zapnutí)
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Zprávy
@@ -1309,16 +1238,10 @@ Chyba při odesílání
 Ostatní
 [TabSRMM: typing]
 TabSRMM: psaní
-[TabSRMM session list]
-Seznam relací TabSRMM
-[TabSRMM menu]
-Nabídka TabSRMM
 [&Messaging settings...]
 &Nastavení komunikace...
 [&Send later job list...]
 Fronta zpožděných zpráv...
-[Message from %s]
-Zpráva od: %s
 [signed off.]
 se odhlásil/a.
 [signed on and is now %s.]
@@ -1641,6 +1564,14 @@ Zaznamenávat změny stavu
 
 [Automatically copy selected text]
 Automaticky kopírovat vybraný text
+[Test contact]
+Testovací kontakt
+[Template set editor]
+Editor sady šablon
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Tato volba obnoví všechny šablony do původního stavu. Opravdu chcete pokračovat?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a otevřete všechna komunikační okna. Editor šablon bude nyní ukončen.
 [Message log appearance]
 Vzhled záznamu komunikace
 [Support for external plugins]
@@ -1727,8 +1658,8 @@ Zobrazit ikonu metakontaktu
 Hlášení o chybách
 [Close current tab on send]
 Zavřít panel po odeslání
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Povolit bezobslužné odesílání (experimentální funkce vyžadovaná pro mnohonásobné či zpožděné odesílání) (*)
+[Enable unattended send (experimental feature, required for multisend and send later)]
+Povolit bezobslužné odesílání (experimentální funkce vyžadovaná pro mnohonásobné či zpožděné odesílání)
 [Show client description in info panel]
 Zobrazit popis klienta v info panelu
 [On tab control]
@@ -1806,8 +1737,6 @@ Rozbalovací šipka
 Šipka doprava
 [Up Arrow]
 Šipka nahoru
-[Session List]
-Seznam rozhovorů
 [Frame 1]
 Okno 1
 [Frame 2]
@@ -1926,12 +1855,6 @@ Seskupené příchozí (uvnitř)
 Seskupené odchozí (uvnitř)
 [Error message]
 Chybová zpráva
-[Template set editor]
-Editor sady šablon
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Tato volba obnoví všechny šablony do původního stavu. Opravdu chcete pokračovat?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a otevřete všechna komunikační okna. Editor šablon bude nyní ukončen.
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 TabSRMM témata
@@ -1952,7 +1875,6 @@ Uživatelský (vlastní barvy gradientu)
 Všechny kontejnery se zprávami musí být před aplikací skinu zavřeny\nPokračovat?
 [Change skin]
 Změnit skin
-;file \plugins\TabSRMM\src\trayicon.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 Vypnout &upozornění na psaní
@@ -1972,6 +1894,8 @@ Nastavení komunikace pro kontakt %s
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 TabSRMM zpráva (%s)
+[Save file|Unable to save temporary file]
+
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Editovat poznámky k uživateli|Editujete poznámky k uživateli. Klikněte na tlačítko znovu nebo použijte klávesovou zkratku (výchozí: Alt+N) pro uložení poznámek a návrat do normálního režimu
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]

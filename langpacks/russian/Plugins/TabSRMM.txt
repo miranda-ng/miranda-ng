@@ -128,8 +128,6 @@
 Размер истории ввода
 [entries]
 записей
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Настройки, отмеченные (*), вступят в силу только после перезапуска Miranda NG.
 [More about advanced tweaks]
 Подробнее о дополнительных настройках
 [Revert to (safe) defaults]
@@ -1660,8 +1658,8 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Ошибки доставки сообщений
 [Close current tab on send]
 Закрывать вкладку при отправке
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Включить автоотправку (нужно для мультиотправки и отправки с задержкой) (*)
+[Enable unattended send (experimental feature, required for multisend and send later)]
+Включить автоотправку (нужно для мультиотправки и отправки с задержкой)
 [Show client description in info panel]
 Показать описание клиента в инфо-панели
 [On tab control]

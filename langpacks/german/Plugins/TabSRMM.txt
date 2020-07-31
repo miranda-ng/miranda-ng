@@ -128,8 +128,6 @@ Sekunden
 letzte Nachrichten Eingabefeld
 [entries]
 Einträge
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Diese Einstellungen mit einem (*) werden erst nach einem Neustart von Miranda aktiviert.
 [More about advanced tweaks]
 Hilfe zu den erweiterten Einstellungen
 [Revert to (safe) defaults]
@@ -1660,8 +1658,8 @@ Metakontact-Icon anzeigen
 Fehlermeldung
 [Close current tab on send]
 Aktuellen Tab nach dem Senden schließen
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Unbeaufsichtigtes Senden aktivieren (experimentell, benötigt für multisend und 'später senden' (*)
+[Enable unattended send (experimental feature, required for multisend and send later)]
+Unbeaufsichtigtes Senden aktivieren (experimentell, benötigt für multisend und 'später senden')
 [Show client description in info panel]
 Client-Beschreibung im Infobereich anzeigen
 [On tab control]

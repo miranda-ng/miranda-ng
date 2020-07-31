@@ -7,6 +7,8 @@
 ;============================================================
 [Paste played music info into message window or status text]
 
+[Basic]
+Basique
 [Clear xStatus before set new one]
 
 [Emulate Multimedia keys]
@@ -653,4 +655,6 @@ Police...
 [Check unknown formats]
 
 [Check unknown file formats if player gives info.]
+
+[Oops, something wrong!]
 

@@ -1160,14 +1160,14 @@ Potvrdit smazání kontaktů
 Výchozí nastavení pro známé typy událostí
 [Show when filter is active]
 Zobrazit při aktivním filtru
-[Log to file]
-Uložit záznam
 [Popup]
 Oznámení
 [Tray]
 Oznamovací oblast
 [Sound]
 Zvuk
+[Log to file]
+Uložit záznam
 [Show icons in tray only when the chat room is not active]
 Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
 [Highlight event]
@@ -2691,8 +2691,6 @@ Zap
 Vyp
 [Password]
 Heslo
-[Unused]
-
 [Frames]
 Rámečky
 [Add group]

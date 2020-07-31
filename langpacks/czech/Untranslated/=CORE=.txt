@@ -7,7 +7,6 @@
 [&Open/close chat window]
 [Compact]
 [Load server history]
-[Unused]
 [Unselect all]
 [Log viewer]
 [Message window toolbar]

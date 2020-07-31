@@ -1160,14 +1160,14 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Стандартни настройки за видовете събития
 [Show when filter is active]
 Показване при включен филтър
-[Log to file]
-Запис във файл
 [Popup]
 Рopup
 [Tray]
 Трей
 [Sound]
 Звук
+[Log to file]
+Запис във файл
 [Show icons in tray only when the chat room is not active]
 Показване на икони в трея само при неактивна чат стая
 [Highlight event]
@@ -2691,8 +2691,6 @@ ANSI приставка
 Изкл.
 [Password]
 Парола
-[Unused]
-
 [Frames]
 Рамки
 [Add group]

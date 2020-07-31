@@ -41,7 +41,6 @@
 [New submenu]
 [Compact]
 [Load server history]
-[Unused]
 [Unselect all]
 [Log viewer]
 [Sint Maarten (Dutch part)]

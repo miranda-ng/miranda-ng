@@ -4,7 +4,6 @@
 [Hidden window]
 [&Open/close chat window]
 [Load server history]
-[Unused]
 [Unselect all]
 [Log viewer]
 [Message window toolbar]

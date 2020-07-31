@@ -128,8 +128,6 @@ s
 Ilość wpisów z historii
 [entries]
 wpisów
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Opcje oznaczone gwiazdką (*) przyniosą efekt po ponownym uruchomieniu Mirandy.
 [More about advanced tweaks]
 Więcej o zaawansowanych ustawieniach
 [Revert to (safe) defaults]
@@ -1660,8 +1658,8 @@ Wyświetlaj ikony metakontaktów
 Błędy
 [Close current tab on send]
 Zamknij kartę po wysłaniu wiadomości
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy) (*)
+[Enable unattended send (experimental feature, required for multisend and send later)]
+Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy)
 [Show client description in info panel]
 Pokaż opis klienta w panelu informacji
 [On tab control]

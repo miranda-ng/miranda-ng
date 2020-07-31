@@ -5,5 +5,6 @@
 [Inline pictures in messages (XEP-0231)]
 [Enable chat states sending (XEP-0085)]
 [Enable carbon copies (XEP-0280)]
+[Embrace picture URLs with [img]]
 [Ignore server roster (groups and nick names)]
 [Unable to decrypt a carbon copy of the encrypted outgoing message]

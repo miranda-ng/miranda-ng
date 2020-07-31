@@ -360,7 +360,7 @@
 [Message window tweaks]
 [Display metacontact icons]
 [Error feedback]
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+[Enable unattended send (experimental feature, required for multisend and send later)]
 [Show client description in info panel]
 [On tab control]
 [On the button bar]

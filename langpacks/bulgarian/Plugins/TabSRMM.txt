@@ -128,8 +128,6 @@
 Брой въведени съобщения за запазване
 [entries]
 записа
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Опциите отбелязани със звезда (*) ще бъдат осъществени само след рестартиране на Miranda.
 [More about advanced tweaks]
 Повече за допълнителните настройки
 [Revert to (safe) defaults]
@@ -1660,8 +1658,8 @@ Latin I
 При грешка
 [Close current tab on send]
 Затваряне на таба след изпращане
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)*
+[Enable unattended send (experimental feature, required for multisend and send later)]
+Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)
 [Show client description in info panel]
 Описание на клиента  в информационния панел
 [On tab control]

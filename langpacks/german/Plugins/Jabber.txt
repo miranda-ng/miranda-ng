@@ -1433,6 +1433,8 @@ Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 Frame deaktivieren
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
+[Embrace picture URLs with [img]]
+
 [Ignore server roster (groups and nick names)]
 
 [Security]

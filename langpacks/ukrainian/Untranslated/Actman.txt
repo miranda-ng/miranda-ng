@@ -26,7 +26,7 @@
 [Popup plus (PopupPlus.dll) latest StdPopup (StdPopup.dll)]
 [result of protocol service call]
 [Send a general request through the protocol chain for a contact]
-[str, account name]
+[account name (string)]
 [Return account name associated to contact (no need to free it)]
 [filter text]
 [Reserved]

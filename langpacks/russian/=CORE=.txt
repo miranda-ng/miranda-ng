@@ -1160,14 +1160,14 @@ UIN, E-mail и т.д.
 Настройки для известных типов событий
 [Show when filter is active]
 Показывать при вкл. фильтре
-[Log to file]
-Запись в файл
 [Popup]
 Всплывающее окно
 [Tray]
 Трей
 [Sound]
 Звук
+[Log to file]
+Запись в файл
 [Show icons in tray only when the chat room is not active]
 Показывать значки в трее только когда окно чата не активно
 [Highlight event]
@@ -2691,8 +2691,6 @@ ANSI плагин
 Откл.
 [Password]
 Пароль
-[Unused]
-Не используется
 [Frames]
 Фреймы
 [Add group]

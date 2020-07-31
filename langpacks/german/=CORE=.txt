@@ -1160,14 +1160,14 @@ Vor Löschen von Kontakten fragen
 Standardeinstellungen für bekannte Ereignis-Typen
 [Show when filter is active]
 Zeige, wenn Filter aktiv ist
-[Log to file]
-In Datei speichern
 [Popup]
 Popup
 [Tray]
 Tray
 [Sound]
 Klanghinweis
+[Log to file]
+In Datei speichern
 [Show icons in tray only when the chat room is not active]
 Icon nur im Tray anzeigen, wenn Chatfenster nicht aktiv
 [Highlight event]
@@ -2691,8 +2691,6 @@ Ein
 Aus
 [Password]
 Passwort
-[Unused]
-Ungenutzt
 [Frames]
 Frames
 [Add group]

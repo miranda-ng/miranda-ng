@@ -128,8 +128,6 @@ secondes
 Nombre d'entrées dans l'historique
 [entries]
 entrées
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-(*) nécessite le redémarrage de Miranda-IM pour prendre effet.
 [More about advanced tweaks]
 En savoir plus sur les réglages avancés
 [Revert to (safe) defaults]
@@ -1660,7 +1658,7 @@ Ajouter les contacts hors ligne à la liste de l'envoi groupé
 
 [Close current tab on send]
 Fermer l'onglet en cours dés l'envoi
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+[Enable unattended send (experimental feature, required for multisend and send later)]
 
 [Show client description in info panel]
 

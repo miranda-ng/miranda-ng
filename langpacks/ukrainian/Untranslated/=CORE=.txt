@@ -27,7 +27,6 @@
 [Shift + ]
 [Win + ]
 [Load server history]
-[Unused]
 [Unselect all]
 [Log viewer]
 [Message window toolbar]

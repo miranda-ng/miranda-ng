@@ -7,6 +7,8 @@
 ;============================================================
 [Paste played music info into message window or status text]
 Вставляє інформацію про відтворювану музику у вікно повідомлень або в статусне повідомлення.
+[Basic]
+Базово
 [Clear xStatus before set new one]
 Очищати xСтатус перед встановленням нового
 [Emulate Multimedia keys]
@@ -653,4 +655,6 @@ VBR чи ні
 [Check unknown formats]
 
 [Check unknown file formats if player gives info.]
+
+[Oops, something wrong!]
 

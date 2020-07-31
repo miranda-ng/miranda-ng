@@ -1433,6 +1433,8 @@ OMEMO: Новая сессия
 Выключить фрейм
 [Enable XMPP link processing (requires AssocMgr)]
 Обрабатывать XMPP ссылки (требуется плагин AssocMgr)
+[Embrace picture URLs with [img]]
+Оборачивать ссылки на изображения в тег [img]
 [Ignore server roster (groups and nick names)]
 Игнорировать серверный ростер (группы и имена контактов)
 [Security]

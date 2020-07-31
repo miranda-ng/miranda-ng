@@ -1160,13 +1160,13 @@ Demander avant de supprimer
 
 [Show when filter is active]
 
-[Log to file]
-
 [Popup]
 
 [Tray]
 Tray
 [Sound]
+
+[Log to file]
 
 [Show icons in tray only when the chat room is not active]
 Afficher les icônes dans le systray que si le salon est inactif
@@ -2691,8 +2691,6 @@ Déplacer vers le groupe
 
 [Password]
 Mot de passe
-[Unused]
-
 [Frames]
 Cadres
 [Add group]

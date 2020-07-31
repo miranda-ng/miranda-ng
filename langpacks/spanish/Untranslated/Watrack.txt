@@ -1,4 +1,5 @@
 [Paste played music info into message window or status text]
+[Basic]
 [Clear xStatus before set new one]
 [Emulate Multimedia keys]
 [xStatus will be cleared before text changing and restored with new text later.]
@@ -312,3 +313,4 @@
 [Disable WATrack]
 [Check unknown formats]
 [Check unknown file formats if player gives info.]
+[Oops, something wrong!]

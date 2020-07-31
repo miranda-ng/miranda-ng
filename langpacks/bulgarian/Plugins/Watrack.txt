@@ -7,6 +7,8 @@
 ;============================================================
 [Paste played music info into message window or status text]
 Поставя информация за възпроизвеждания аудио/видео файл в съобщението или съобщението за състояние. Предлага и водене на статистика.
+[Basic]
+Основни
 [Clear xStatus before set new one]
 Изчистване на старото xСъстояние преди задаване на ново
 [Emulate Multimedia keys]
@@ -653,4 +655,6 @@ WATrack състояние
 [Check unknown formats]
 
 [Check unknown file formats if player gives info.]
+
+[Oops, something wrong!]
 

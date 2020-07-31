@@ -1160,14 +1160,14 @@ Pytaj przed usunięciem kontaktów
 Domyślne ustawienia dla zdarzeń
 [Show when filter is active]
 Pokaż kiedy filtr jest wł.
-[Log to file]
-Zapisuj w pliku
 [Popup]
 Popup
 [Tray]
 Zasobnik
 [Sound]
 Dźwięk
+[Log to file]
+Zapisuj w pliku
 [Show icons in tray only when the chat room is not active]
 Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
 [Highlight event]
@@ -2691,8 +2691,6 @@ Wł.
 Wył.
 [Password]
 Hasło
-[Unused]
-
 [Frames]
 Ramki
 [Add group]

@@ -7,6 +7,8 @@
 ;============================================================
 [Paste played music info into message window or status text]
 Устаўляе інфармацыю пра прайграваную музыку ў вакно гутаркі ці ў статуснае паведамленне
+[Basic]
+Галоўныя
 [Clear xStatus before set new one]
 Чысціць xСтатус перад устаноўкай новага
 [Emulate Multimedia keys]
@@ -653,4 +655,6 @@ WATrack статус
 [Check unknown formats]
 
 [Check unknown file formats if player gives info.]
+
+[Oops, something wrong!]
 

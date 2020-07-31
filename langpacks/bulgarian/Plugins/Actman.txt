@@ -691,7 +691,7 @@ Unicode текст
 
 [Send a general request through the protocol chain for a contact]
 
-[str, account name]
+[account name (string)]
 
 [Return account name associated to contact (no need to free it)]
 

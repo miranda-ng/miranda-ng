@@ -691,8 +691,8 @@ Włącza lub wyłącza okienka typu popup (może być porzucone)
 wynik wywołania usługi protokołu
 [Send a general request through the protocol chain for a contact]
 Wyślij ogólne zapytanie poprzez łańcuch protokołu dla kontaktu
-[str, account name]
-str, nazwa konta
+[account name (string)]
+
 [Return account name associated to contact (no need to free it)]
 Zwróć nazwę konta powiązanego z kontaktem (nie ma potrzeby jej uwalniania)
 [displays the Account Manager]

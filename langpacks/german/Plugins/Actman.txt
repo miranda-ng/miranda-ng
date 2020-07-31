@@ -691,8 +691,8 @@ Aktiviert oder deaktiviert Popups (vielleicht veraltet)
 Ergebnis des Protokollserviceaufrufes
 [Send a general request through the protocol chain for a contact]
 Stellt eine generelle Anfrage durch die Protokollkette für einen Kontakt
-[str, account name]
-str, Kontenname
+[account name (string)]
+Kontenname (String)
 [Return account name associated to contact (no need to free it)]
 Gibt den Kontennamen zu dem Kontakt an (muss nicht freigegeben werden).
 [displays the Account Manager]

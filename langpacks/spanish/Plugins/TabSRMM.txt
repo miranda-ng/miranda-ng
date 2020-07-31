@@ -128,8 +128,6 @@ segundos
 
 [entries]
 
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-
 [More about advanced tweaks]
 
 [Revert to (safe) defaults]
@@ -1660,7 +1658,7 @@ Cerrar la ventana de mensaje al enviar
 
 [Close current tab on send]
 
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+[Enable unattended send (experimental feature, required for multisend and send later)]
 
 [Show client description in info panel]
 
