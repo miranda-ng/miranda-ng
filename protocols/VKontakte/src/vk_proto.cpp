@@ -669,7 +669,7 @@ void CVkProto::OnContactDeleted(MCONTACT hContact)
 	CMStringA code(FORMAT, "var userID=\"%d\";", userID);
 
 	if (param->bDeleteDialog)
-		code += "API.messages.deleteConversation({\"user_id\":userID,count:10000});";
+		code += "API.messages.deleteConversation({\"peer_id\":userID});";
 
 	if (param->bDeleteFromFriendlist)
 		code += "API.friends.delete({\"user_id\":userID});";
