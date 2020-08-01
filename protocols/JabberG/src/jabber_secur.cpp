@@ -230,20 +230,20 @@ TScramAuth::~TScramAuth()
 	mir_free(serverSignature);
 }
 
-void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t saltLen, int ind)
+void TScramAuth::Hi(BYTE *res, char *passw, size_t passwLen, char *salt, size_t saltLen, int ind)
 {
 	size_t bufLen = saltLen + sizeof(UINT32);
-	BYTE *u = (BYTE*)_alloca(max(bufLen, MIR_SHA1_HASH_SIZE));
+	BYTE *u = (BYTE*)_alloca(max(bufLen, EVP_MAX_MD_SIZE));
 	memcpy(u, salt, saltLen); *(UINT32*)(u + saltLen) = htonl(1);
 	
-	memset(res, 0, MIR_SHA1_HASH_SIZE);
+	memset(res, 0, EVP_MAX_MD_SIZE);
 
 	for (int i = 0; i < ind; i++) {
 		unsigned int len;
 		HMAC(hashMethod, (BYTE*)passw, (unsigned)passwLen, u, (unsigned)bufLen, u, &len);
-		bufLen = MIR_SHA1_HASH_SIZE;
+		bufLen = hashMethod->md_size;
 
-		for (unsigned j = 0; j < MIR_SHA1_HASH_SIZE; j++)
+		for (int j = 0; j < hashMethod->md_size; j++)
 			res[j] ^= u[j];
 	}
 }
@@ -290,38 +290,40 @@ char* TScramAuth::getChallenge(const char *challenge)
 	if (snonce == nullptr || salt == nullptr || ind == -1)
 		return nullptr;
 
-	BYTE saltedPassw[MIR_SHA1_HASH_SIZE];
+	BYTE saltedPassw[EVP_MAX_MD_SIZE];
 	Hi(saltedPassw, info->conn.password, mir_strlen(info->conn.password), salt, saltLen, ind);
 
-	BYTE clientKey[MIR_SHA1_HASH_SIZE];
+	BYTE clientKey[EVP_MAX_MD_SIZE];
 	unsigned int len;
-	HMAC(hashMethod, saltedPassw, sizeof(saltedPassw), (BYTE*)"Client Key", 10, clientKey, &len);
+	HMAC(hashMethod, saltedPassw, hashMethod->md_size, (BYTE*)"Client Key", 10, clientKey, &len);
 
-	BYTE storedKey[MIR_SHA1_HASH_SIZE];
+	BYTE storedKey[EVP_MAX_MD_SIZE], md[EVP_MAX_MD_SIZE];
 
-	mir_sha1_ctx ctx;
-	mir_sha1_init(&ctx);
-	mir_sha1_append(&ctx, clientKey, MIR_SHA1_HASH_SIZE);
-	mir_sha1_finish(&ctx, storedKey);
+	EVP_MD_CTX pctx = {};
+	pctx.digest = hashMethod;
+	pctx.md_data = md;
+	hashMethod->init(&pctx);
+	hashMethod->update(&pctx, clientKey, hashMethod->md_size);
+	hashMethod->final(&pctx, storedKey);
 
 	CMStringA authmsg(FORMAT, "%s,%s,c=%s,r=%s", msg1, chl.get(), cbd.get(), snonce.get());
 
-	BYTE clientSig[MIR_SHA1_HASH_SIZE];
-	HMAC(hashMethod, storedKey, sizeof(storedKey), (BYTE*)authmsg.c_str(), authmsg.GetLength(), clientSig, &len);
+	BYTE clientSig[EVP_MAX_MD_SIZE];
+	HMAC(hashMethod, storedKey, hashMethod->md_size, (BYTE*)authmsg.c_str(), authmsg.GetLength(), clientSig, &len);
 
-	BYTE clientProof[MIR_SHA1_HASH_SIZE];
-	for (unsigned j = 0; j < sizeof(clientKey); j++)
+	BYTE clientProof[EVP_MAX_MD_SIZE];
+	for (int j = 0; j < hashMethod->md_size; j++)
 		clientProof[j] = clientKey[j] ^ clientSig[j];
 
 	/* Calculate the server signature */
-	BYTE serverKey[MIR_SHA1_HASH_SIZE];
-	HMAC(hashMethod, saltedPassw, sizeof(saltedPassw), (BYTE*)"Server Key", 10, serverKey, &len);
+	BYTE serverKey[EVP_MAX_MD_SIZE];
+	HMAC(hashMethod, saltedPassw, hashMethod->md_size, (BYTE*)"Server Key", 10, serverKey, &len);
 
-	BYTE srvSig[MIR_SHA1_HASH_SIZE];
-	HMAC(hashMethod, serverKey, sizeof(serverKey), (BYTE*)authmsg.c_str(), authmsg.GetLength(), srvSig, &len);
-	serverSignature = mir_base64_encode(srvSig, sizeof(srvSig));
+	BYTE srvSig[EVP_MAX_MD_SIZE];
+	HMAC(hashMethod, serverKey, hashMethod->md_size, (BYTE*)authmsg.c_str(), authmsg.GetLength(), srvSig, &len);
+	serverSignature = mir_base64_encode(srvSig, hashMethod->md_size);
 
-	ptrA encproof(mir_base64_encode(clientProof, sizeof(clientProof)));
+	ptrA encproof(mir_base64_encode(clientProof, hashMethod->md_size));
 	CMStringA buf(FORMAT, "c=%s,r=%s,p=%s", cbd.get(), snonce.get(), encproof.get());
 	return mir_base64_encode(buf, buf.GetLength());
 }
@@ -357,7 +359,7 @@ char* TPlainAuth::getInitialRequest()
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic type
 
-TJabberAuth::TJabberAuth(ThreadData* pInfo, const char *pszMech) :
+TJabberAuth::TJabberAuth(ThreadData *pInfo, const char *pszMech) :
 	info(pInfo),
 	szName(mir_strdup(pszMech))
 {
