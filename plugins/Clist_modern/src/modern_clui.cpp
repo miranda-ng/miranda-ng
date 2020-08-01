@@ -2296,8 +2296,9 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL *pnmc)
 	SetWindowPos(m_hWnd, nullptr, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
 
 	// during total resize contact list tree's height was somehow changed
-	if (nLastRequiredHeight != newHeight)
+	/* if (nLastRequiredHeight != newHeight)
 		SetWindowPos(m_hWnd, nullptr, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, nLastRequiredHeight, SWP_NOZORDER | SWP_NOACTIVATE);
+		*/
 
 	nRequiredHeight = 0;
 	return FALSE;
