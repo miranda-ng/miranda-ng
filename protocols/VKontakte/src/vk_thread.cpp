@@ -950,7 +950,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	}
 	if (m_vkOptions.bClearServerHistory) {
 		debugLogA("CVkProto::SvcBanUser m_vkOptions.bClearServerHistory = true");
-		code += "API.messages.deleteDialog({\"user_id\":userID,count:10000});";
+		code += "API.messages.deleteConversation({\"peer_id\":userID});";
 		if (!wszVarWarning.IsEmpty())
 			wszVarWarning.AppendChar(L',');
 		wszVarWarning += TranslateT(" clear server history with him/her");
