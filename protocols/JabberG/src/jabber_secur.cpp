@@ -297,11 +297,11 @@ char* TScramAuth::getChallenge(const char *challenge)
 	unsigned int len;
 	HMAC(hashMethod, saltedPassw, hashMethod->md_size, (BYTE*)"Client Key", 10, clientKey, &len);
 
-	BYTE storedKey[EVP_MAX_MD_SIZE], md[EVP_MAX_MD_SIZE];
+	BYTE storedKey[EVP_MAX_MD_SIZE];
 
 	EVP_MD_CTX pctx = {};
 	pctx.digest = hashMethod;
-	pctx.md_data = md;
+	pctx.md_data = _alloca(hashMethod->ctx_size);
 	hashMethod->init(&pctx);
 	hashMethod->update(&pctx, clientKey, hashMethod->md_size);
 	hashMethod->final(&pctx, storedKey);
