@@ -2330,25 +2330,6 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 			m_bDeferredScroll = false;
 			DM_ScrollToBottom(0, 1);
 		}
-
-		if (m_iLogMode == WANT_IEVIEW_LOG) {
-			HWND hwndLog = m_pLog->GetHwnd();
-
-			RECT rcRTF;
-			GetWindowRect(hwndLog, &rcRTF);
-			rcRTF.left += 20;
-			rcRTF.top += 20;
-
-			POINT pt;
-			pt.x = rcRTF.left;
-			pt.y = rcRTF.top;
-
-			if (M.GetByte("subclassIEView", 0)) {
-				mir_subclassWindow(hwndLog, IEViewSubclassProc);
-				SetWindowPos(hwndLog, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
-				RedrawWindow(hwndLog, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
-			}
-		}
 	}
 
 	DM_SetDBButtonStates();

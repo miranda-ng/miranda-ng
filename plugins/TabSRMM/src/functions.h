@@ -79,7 +79,6 @@ HMENU TSAPI BuildContainerMenu();
 
 int TSAPI MessageWindowOpened(MCONTACT hContact, CMsgDialog *pDlg);
 
-LRESULT CALLBACK IEViewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /*

@@ -73,19 +73,6 @@ static void _clrMsgFilter(MSGFILTER *m)
 /////////////////////////////////////////////////////////////////////////////////////////
 // sublassing procedure for the h++ based message log viewer
 
-LRESULT CALLBACK IEViewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CMsgDialog *mwdat = (CMsgDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
-
-	switch (msg) {
-	case WM_NCCALCSIZE:
-		return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, IEViewSubclassProc);
-	case WM_NCPAINT:
-		return CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, IEViewSubclassProc);
-	}
-	return mir_callNextSubclass(hwnd, IEViewSubclassProc, msg, wParam, lParam);
-}
-
 LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CMsgDialog *mwdat = (CMsgDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
@@ -2801,8 +2788,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			Resize();
 			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
 
-			if (m_iLogMode != WANT_IEVIEW_LOG)
-				SetFocus(m_message.GetHwnd());
+			SetFocus(m_message.GetHwnd());
 			if (m_pContainer->m_flags.m_bSideBar)
 				m_pContainer->m_pSideBar->moveButtons();
 		}
