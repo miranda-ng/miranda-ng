@@ -28,7 +28,6 @@
 #define IDD_OPT_CLIST                   119
 #define IDD_OPT_CHAT_EVENTS             120
 #define IDD_AUTHREQ                     121
-#define IDI_SOUND                       122
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
 #define IDI_AWAY                        128
@@ -165,6 +164,7 @@
 #define IDI_AUTH_GRANT                  325
 #define IDI_AUTH_REQUEST                326
 #define IDI_AUTH_REVOKE                 327
+#define IDI_SOUND                       328
 #define IDI_ONTHEPHONE                  1002
 #define IDC_MESSAGE                     1002
 #define IDC_LANGINFOFRAME               1002
