@@ -210,6 +210,7 @@ class CMainOptsDlg : public CDlgBase
 {
 	CCtrlCheck chkFile, chkMissed, chkHistory, chkMenuItem, chkUserInfo;
 	CCtrlButton btnVariables;
+	CCtrlTreeView protocols;
 
 public:
 	CMainOptsDlg() :
@@ -219,8 +220,11 @@ public:
 		chkHistory(this, IDC_HISTORY),
 		chkMenuItem(this, IDC_MENUITEM),
 		chkUserInfo(this, IDC_USERINFO),
+		protocols(this, IDC_PROTOCOLLIST),
 		btnVariables(this, IDC_VARIABLES)
 	{
+		protocols.SetFlags(MTREE_CHECKBOX);
+
 		btnVariables.OnClick = Callback(this, &CMainOptsDlg::onClick_Variables);
 
 		chkFile.OnChange = Callback(this, &CMainOptsDlg::onChanged_File);
@@ -252,12 +256,10 @@ public:
 		SetDlgItemInt(m_hwnd, IDC_HISTORYSIZE, g_plugin.getWord("HistoryMax", 10 - 1) - 1, FALSE);
 
 		// load protocol list
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PROTOCOLLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PROTOCOLLIST), GWL_STYLE) | TVS_CHECKBOXES);
-
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
+		tvis.item.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 
 		for (auto &pa : Accounts()) {
@@ -266,8 +268,8 @@ public:
 
 			tvis.item.pszText = pa->tszAccountName;
 			tvis.item.lParam = (LPARAM)mir_strdup(pa->szModuleName);
-			tvis.item.state = INDEXTOSTATEIMAGEMASK(IsWatchedProtocol(pa->szModuleName) + 1);
-			TreeView_InsertItem(GetDlgItem(m_hwnd, IDC_PROTOCOLLIST), &tvis);
+			tvis.item.iImage = IsWatchedProtocol(pa->szModuleName);
+			protocols.InsertItem(&tvis);
 		}
 		return true;
 	}
@@ -339,27 +341,26 @@ public:
 		g_plugin.setByte("IdleSupport", IsDlgButtonChecked(m_hwnd, IDC_IDLESUPPORT));
 
 		// save protocol list
-		HWND hwndTreeView = GetDlgItem(m_hwnd, IDC_PROTOCOLLIST);
 		int size = 1;
 
 		CMStringA watchedProtocols;
-		HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
+		HTREEITEM hItem = protocols.GetRoot();
 
-		TVITEM tvItem;
-		tvItem.mask = TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
+		TVITEMEX tvItem;
+		tvItem.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_PARAM;
 		tvItem.stateMask = TVIS_STATEIMAGEMASK;
 
 		while (hItem != nullptr) {
 			tvItem.hItem = hItem;
-			TreeView_GetItem(hwndTreeView, &tvItem);
+			protocols.GetItem(&tvItem);
 			char *protocol = (char *)tvItem.lParam;
-			if ((BOOL)(tvItem.state >> 12) - 1) {
+			if (tvItem.iImage) {
 				size += (int)mir_strlen(protocol) + 2;
 				if (!watchedProtocols.IsEmpty())
 					watchedProtocols.AppendChar('\n');
 				watchedProtocols.Append(protocol);
 			}
-			hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
+			hItem = protocols.GetNextSibling(hItem);
 		}
 		g_plugin.setString("WatchedAccounts", watchedProtocols);
 
@@ -371,16 +372,15 @@ public:
 	void OnDestroy() override
 	{
 		// free protocol list 
-		HWND hwndTreeView = GetDlgItem(m_hwnd, IDC_PROTOCOLLIST);
-		HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
-		TVITEM tvItem;
+		HTREEITEM hItem = protocols.GetRoot();
+		TVITEMEX tvItem;
 		tvItem.mask = TVIF_HANDLE | TVIF_PARAM;
 
 		while (hItem != nullptr) {
 			tvItem.hItem = hItem;
-			TreeView_GetItem(hwndTreeView, &tvItem);
+			protocols.GetItem(&tvItem);
 			mir_free((void *)tvItem.lParam);
-			hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
+			hItem = protocols.GetNextSibling(hItem);
 		}
 	}
 
