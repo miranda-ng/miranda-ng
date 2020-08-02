@@ -1114,11 +1114,12 @@ public:
 		return true;
 	}
 
-	bool OnApply() override
+	bool OnClose() override
 	{
 		if (m_pReminder)
 			DeleteReminder(m_pReminder);
 		JustSaveReminders();
+		NotifyList();
 		return true;
 	}
 
