@@ -832,12 +832,8 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		char jid[JABBER_MAX_JID_LEN];
 		if (GetClientJID(event->hContact, jid, _countof(jid))) {
 			pResourceStatus r(ResourceInfoFromJID(jid));
-			if (r && r->m_bMessageSessionActive) {
-				r->m_bMessageSessionActive = false;
-
-				if (m_bEnableChatStates && (GetResourceCapabilities(jid, r) & JABBER_CAPS_CHATSTATES))
-					m_ThreadInfo->send(XmlNode("message") << XATTR("to", jid) << XATTR("type", "chat") << XATTRID(SerialNext()) << XCHILDNS("gone", JABBER_FEAT_CHATSTATES));
-			}
+			if (m_bEnableChatStates && (GetResourceCapabilities(jid, r) & JABBER_CAPS_CHATSTATES))
+				m_ThreadInfo->send(XmlNode("message") << XATTR("to", jid) << XATTR("type", "chat") << XATTRID(SerialNext()) << XCHILDNS("gone", JABBER_FEAT_CHATSTATES));
 		}
 	}
 

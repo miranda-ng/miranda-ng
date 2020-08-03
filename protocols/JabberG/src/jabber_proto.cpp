@@ -947,10 +947,6 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		}
 	}
 
-	pResourceStatus r(ResourceInfoFromJID(szClientJid));
-	if (r)
-		r->m_bMessageSessionActive = true;
-
 	JabberCapsBits jcb = GetResourceCapabilities(szClientJid);
 
 	if (jcb & JABBER_RESOURCE_CAPS_ERROR)

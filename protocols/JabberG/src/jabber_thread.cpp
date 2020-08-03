@@ -1170,11 +1170,8 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 	// chatstates inactive event
-	if (hContact && XmlGetChildByTag(node, "inactive", "xmlns", JABBER_FEAT_CHATSTATES)) {
+	if (hContact && XmlGetChildByTag(node, "inactive", "xmlns", JABBER_FEAT_CHATSTATES))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
-		if (pFromResource)
-			pFromResource->m_bMessageSessionActive = false;
-	}
 
 	// message receipts delivery notification
 	if (auto *n = XmlGetChildByTag(node, "received", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS)) {
@@ -1361,8 +1358,6 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 
 	if (item != nullptr) {
 		if (pFromResource) {
-			pFromResource->m_bMessageSessionActive = true;
-
 			JABBER_RESOURCE_STATUS *pLast = item->m_pLastSeenResource;
 			item->m_pLastSeenResource = pFromResource;
 			if (item->resourceMode == RSMODE_LASTSEEN && pLast == pFromResource)
