@@ -39,8 +39,7 @@ JABBER_LIST_ITEM::~JABBER_LIST_ITEM()
 	for (auto &it : arResources)
 		delete it;
 
-	if (m_pItemResource)
-		delete m_pItemResource;
+	delete m_pItemResource;
 
 	if (photoFileName) {
 		if (list == LIST_VCARD_TEMP)
