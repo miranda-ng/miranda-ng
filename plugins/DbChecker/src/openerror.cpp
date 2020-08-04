@@ -45,7 +45,7 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 			break;
 
 		case IDOK:
-			OpenDatabase(hdlg, IDD_FILEACCESS);
+			OpenDatabase(hdlg);
 			break;
 		}
 		break;

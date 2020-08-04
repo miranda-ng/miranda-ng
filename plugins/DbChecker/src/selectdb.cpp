@@ -28,7 +28,7 @@ static bool CheckBroken(const wchar_t *ptszFullPath)
 	return dblink->grokHeader(ptszFullPath) != EGROKPRF_NOERROR;
 }
 
-int OpenDatabase(HWND hdlg, INT iNextPage)
+int OpenDatabase(HWND hdlg)
 {
 	wchar_t tszMsg[1024];
 	int error = 0;
@@ -60,12 +60,8 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 	}
 
 	// force check
-	if (error == EGROKPRF_OBSOLETE) {
-		opts.bAggressive = opts.bBackup = true;
+	if (error == EGROKPRF_OBSOLETE)
 		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
-	}
-	else if (iNextPage == IDD_FILEACCESS)
-		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
 	else
 		PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
 	return true;
@@ -235,12 +231,6 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			opts.dbChecker->Destroy();
 			opts.dbChecker = nullptr;
 		}
-
-		if (bShortMode)
-			if (!OpenDatabase(hdlg, IDD_FILEACCESS)) {
-				EndDialog(GetParent(hdlg), 1);
-				return FALSE;
-			}
 		return TRUE;
 
 	case WZN_PAGECHANGING:
@@ -290,12 +280,10 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		break;
 
 		case IDC_BACK:
-			if (!bShortMode)
-				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_WELCOME, (LPARAM)WelcomeDlgProc);
 			break;
 
 		case IDOK:
-			OpenDatabase(hdlg, IDD_FILEACCESS);
+			OpenDatabase(hdlg);
 			break;
 		}
 		break;

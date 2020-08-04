@@ -37,7 +37,7 @@ static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 			makeBold = 1;
 	}
 	else if (!mir_strcmp(szClass, "Button")) {
-		if (exstyle&WS_EX_CLIENTEDGE)
+		if (exstyle & WS_EX_CLIENTEDGE)
 			makeBold = 1;
 	}
 	if (makeBold) {
@@ -79,11 +79,10 @@ int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam,
 				*bReturn = (INT_PTR)GetStockObject(WHITE_BRUSH);
 				return TRUE;
 			}
-			else {
-				SetBkMode((HDC)wParam, TRANSPARENT);
-				*bReturn = (INT_PTR)GetStockObject(NULL_BRUSH);
-				return TRUE;
-			}
+
+			SetBkMode((HDC)wParam, TRANSPARENT);
+			*bReturn = (INT_PTR)GetStockObject(NULL_BRUSH);
+			return TRUE;
 		}
 		break;
 	}
@@ -96,13 +95,11 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 
 	switch (message) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hdlg);
 		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DBTOOL)));
 		hdlgPage = nullptr;
-		if (bShortMode)
-			SendMessage(hdlg, WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
-		else
-			SendMessage(hdlg, WZM_GOTOPAGE, IDD_WELCOME, (LPARAM)WelcomeDlgProc);
-		TranslateDialogDefault(hdlg);
+
+		SendMessage(hdlg, WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
 		return TRUE;
 
 	case WZM_GOTOPAGE:
@@ -138,9 +135,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 			opts.dbChecker->Destroy();
 			opts.dbChecker = nullptr;
 		}
-
-		if (opts.hOutFile)
-			CloseHandle(opts.hOutFile);
 
 		DestroyWindow(hdlgPage);
 		if (hBoldFont != nullptr) {

@@ -43,15 +43,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct DbToolOptions
 {
 	wchar_t filename[MAX_PATH];
-	wchar_t workingFilename[MAX_PATH];
-	wchar_t outputFilename[MAX_PATH];
-	wchar_t backupFilename[MAX_PATH];
 	MDatabaseCommon *db;
 	MIDatabaseChecker *dbChecker;
-	HANDLE hOutFile;
 	DWORD error;
-	int bCheckOnly, bBackup, bAggressive;
-	int bEraseHistory, bMarkRead, bConvertUtf;
 };
 
 struct CMPlugin : public PLUGIN<CMPlugin>
@@ -66,20 +60,17 @@ extern DbToolOptions opts;
 extern HANDLE hEventRun, hEventAbort;
 extern int errorCount;
 extern LRESULT wizardResult;
-extern bool bServiceMode, bLaunchMiranda, bShortMode, bAutoExit;
+extern bool bServiceMode, bLaunchMiranda, bAutoExit;
 
 int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam, INT_PTR *bReturn);
 
-INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK CleaningDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-int OpenDatabase(HWND hdlg, INT iNextPage);
+int OpenDatabase(HWND hdlg);
 
 #define STATUS_CLASSMASK  0x0f
 void AddToStatus(int flags, const wchar_t* fmt, ...);

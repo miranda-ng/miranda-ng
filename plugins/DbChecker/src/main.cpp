@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 int hLangpack = 0;
-bool bServiceMode, bLaunchMiranda, bShortMode, bAutoExit;
+bool bServiceMode, bLaunchMiranda, bAutoExit;
 
 DbToolOptions opts = { 0 };
 
@@ -60,7 +60,7 @@ static HANDLE hService; // do not remove it!
 
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
-	bLaunchMiranda = bShortMode = bAutoExit = false;
+	bLaunchMiranda = bAutoExit = false;
 	bServiceMode = true;
 	
 	opts.db = db_get_current();
@@ -76,7 +76,6 @@ static INT_PTR ServiceMode(WPARAM, LPARAM)
 
 static INT_PTR CheckProfile(WPARAM wParam, LPARAM lParam)
 {
-	bShortMode = true;
 	bLaunchMiranda = lParam != 0;
 	bAutoExit = lParam == 2;
 	bServiceMode = false;

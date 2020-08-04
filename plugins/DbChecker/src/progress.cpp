@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void __cdecl WorkerThread(void *unused);
 static HWND hwndStatus, hdlgProgress, hwndBar;
-static bool bShortModeDone;
 HANDLE hEventRun = nullptr, hEventAbort = nullptr;
 int errorCount;
 LRESULT wizardResult;
@@ -80,16 +79,13 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		hdlgProgress = hdlg;
 		hwndStatus = GetDlgItem(hdlg, IDC_STATUS);
 		errorCount = 0;
-		bShortModeDone = false;
 		hwndBar = GetDlgItem(hdlg, IDC_PROGRESS);
 		SendMessage(hwndBar, PBM_SETRANGE, 0, MAKELPARAM(0, 1000));
 		{
-			HDC hdc;
-			HFONT hFont, hoFont;
 			SIZE s;
-			hdc = GetDC(nullptr);
-			hFont = (HFONT)SendMessage(hdlg, WM_GETFONT, 0, 0);
-			hoFont = (HFONT)SelectObject(hdc, hFont);
+			HDC hdc = GetDC(nullptr);
+			HFONT hFont = (HFONT)SendMessage(hdlg, WM_GETFONT, 0, 0);
+			HFONT hoFont = (HFONT)SelectObject(hdc, hFont);
 			GetTextExtentPoint32(hdc, L"x", 1, &s);
 			SelectObject(hdc, hoFont);
 			ReleaseDC(nullptr, hdc);
@@ -154,43 +150,18 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_PROCESSINGDONE:
 		SetProgressBar(1000);
-		if (bShortMode) {
-			EnableWindow(GetDlgItem(GetParent(hdlg), IDC_BACK), FALSE);
-			EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), FALSE);
-			SetDlgItemText(GetParent(hdlg), IDCANCEL, TranslateT("&Finish"));
-			bShortModeDone = true;
-			if (bAutoExit)
-				PostMessage(GetParent(hdlg), WM_COMMAND, IDCANCEL, 0);
-		}
-		else {
-			AddToStatus(STATUS_SUCCESS, TranslateT("Click Next to continue"));
-			EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), TRUE);
-		}
+		AddToStatus(STATUS_SUCCESS, TranslateT("Click Next to continue"));
+		EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), TRUE);
 
 		if (manualAbort == 1)
 			EndDialog(GetParent(hdlg), 0);
 		else if (manualAbort == 2) {
-			if (opts.bCheckOnly)
-				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
-			else {
-				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
-				CloseHandle(opts.hOutFile);
-				opts.hOutFile = nullptr;
-			}
+			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
 			break;
 		}
 		break;
 
 	case WZN_CANCELCLICKED:
-		if (bShortModeDone) {
-			if (!errorCount) {
-				if (bLaunchMiranda)
-					Profile_SetDefault(opts.filename);
-				wizardResult = 1;
-			}
-			return TRUE;
-		}
-
 		ResetEvent(hEventRun);
 		if (IsWindowEnabled(GetDlgItem(GetParent(hdlg), IDOK)))
 			break;
@@ -216,10 +187,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 				break;
 			}
 			SetEvent(hEventRun);
-			if (opts.bCheckOnly)
-				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FILEACCESS, (LPARAM)FileAccessDlgProc);
-			else
-				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
+			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
 			break;
 
 		case IDOK:

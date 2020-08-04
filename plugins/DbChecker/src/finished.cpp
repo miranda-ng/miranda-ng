@@ -32,12 +32,7 @@ INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		SetDlgItemText(GetParent(hdlg), IDCANCEL, TranslateT("&Finish"));
 		SetWindowLongPtr(GetDlgItem(hdlg, IDC_DBFILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_DBFILE), GWL_STYLE) | SS_PATHELLIPSIS);
 		SetDlgItemText(hdlg, IDC_DBFILE, opts.filename);
-		if (opts.bBackup) {
-			ShowWindow(GetDlgItem(hdlg, IDC_STBACKUP), TRUE);
-			SetWindowLongPtr(GetDlgItem(hdlg, IDC_BACKUPFILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_BACKUPFILE), GWL_STYLE) | SS_PATHELLIPSIS);
-			SetDlgItemText(hdlg, IDC_BACKUPFILE, opts.backupFilename);
-		}
-		else ShowWindow(GetDlgItem(hdlg, IDC_STBACKUP), FALSE);
+
 		TranslateDialogDefault(hdlg);
 		return TRUE;
 
