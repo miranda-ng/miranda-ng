@@ -551,10 +551,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 }
 
-void CLogWindow::LogEvents(DBEVENTINFO*, bool)
-{
-}
-
 void CLogWindow::UpdateOptions()
 {
 	if (m_pDlg.isChat())

@@ -145,7 +145,8 @@ int LoadDefaultModules(void)
 
 	if (LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first
 	if (LoadHelpModule()) return 1;
-	
+	if (LoadStdPlugins()) return 1;
+
 	Langpack_SortDuplicates();
 
 	if (LoadAccountsModule()) return 1;
@@ -155,7 +156,6 @@ int LoadDefaultModules(void)
 	if (LoadIgnoreModule()) return 1;
 	if (LoadVisibilityModule()) return 1;
 	if (LoadIdleModule()) return 1;
-	if (LoadStdPlugins()) return 1;
 	return 0;
 }
 
