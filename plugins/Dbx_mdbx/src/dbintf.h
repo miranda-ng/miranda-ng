@@ -309,7 +309,7 @@ protected:
 	}
 
 	STDMETHODIMP_(BOOL)     Start(DBCHeckCallback *callback);
-	STDMETHODIMP_(BOOL)     CheckDb(int phase, int firstTime);
+	STDMETHODIMP_(BOOL)     CheckDb(int phase);
 	STDMETHODIMP_(VOID)     Destroy();
 
 	DBCHeckCallback *cb;

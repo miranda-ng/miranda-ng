@@ -29,19 +29,17 @@ static void Finalize()
 
 void __cdecl WorkerThread(void *)
 {
-	int task, firstTime;
 	time_t ts = time(nullptr);
 
 	AddToStatus(STATUS_MESSAGE, TranslateT("Database worker thread activated"));
 
 	DWORD sp = 0;
-	firstTime = 0;
 
 	DBCHeckCallback callback;
 	callback.pfnAddLogMessage = AddToStatus;
 	opts.dbChecker->Start(&callback);
 
-	for (task = 0;;) {
+	for (int task = 0;; task++) {
 		if (callback.spaceProcessed / (callback.spaceUsed / 1000 + 1) > sp) {
 			sp = callback.spaceProcessed / (callback.spaceUsed / 1000 + 1);
 			SetProgressBar(sp);
@@ -52,8 +50,7 @@ void __cdecl WorkerThread(void *)
 			break;
 		}
 
-		int ret = opts.dbChecker->CheckDb(task, firstTime);
-		firstTime = 0;
+		int ret = opts.dbChecker->CheckDb(task);
 		if (ret == ERROR_OUT_OF_PAPER) {
 			Finalize();
 			AddToStatus(STATUS_MESSAGE, TranslateT("Elapsed time: %d sec"), time(nullptr) - ts);
@@ -62,10 +59,6 @@ void __cdecl WorkerThread(void *)
 			else
 				AddToStatus(STATUS_SUCCESS, TranslateT("All tasks completed successfully"));
 			break;
-		}
-		else if (ret == ERROR_NO_MORE_ITEMS) {
-			task++;
-			firstTime = 1;
 		}
 		else if (ret != ERROR_SUCCESS)
 			break;

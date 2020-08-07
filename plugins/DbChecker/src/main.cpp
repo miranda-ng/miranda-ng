@@ -64,13 +64,14 @@ static INT_PTR ServiceMode(WPARAM, LPARAM)
 	bServiceMode = true;
 	
 	opts.db = db_get_current();
+	db_setCurrent(nullptr);
 	wcsncpy_s(opts.filename, VARSW(L"%miranda_userdata%\\%miranda_profilename%.dat"), _TRUNCATE);
 
 	opts.dbChecker = opts.db->GetChecker();
 	if (opts.dbChecker == nullptr)
 		return SERVICE_FAILED;
 
-	DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, ProgressDlgProc);
+	DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
 	return (bLaunchMiranda) ? SERVICE_CONTINUE : SERVICE_FAILED;
 }
 

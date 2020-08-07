@@ -308,7 +308,7 @@ static CheckWorker Workers[] =
 	&CDbxMDBX::CheckEvents1
 };
 
-int CDbxMDBX::CheckDb(int phase, int)
+int CDbxMDBX::CheckDb(int phase)
 {
 	if (phase >= _countof(Workers))
 		return ERROR_OUT_OF_PAPER;

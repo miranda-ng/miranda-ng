@@ -47,7 +47,7 @@ struct DBCHeckCallback
 interface MIDatabaseChecker
 {
 	STDMETHOD_(BOOL, Start)(DBCHeckCallback *callback) PURE;
-	STDMETHOD_(BOOL, CheckDb)(int phase, int firstTime) PURE;
+	STDMETHOD_(BOOL, CheckDb)(int phase) PURE;
 	STDMETHOD_(VOID, Destroy)() PURE;
 };
 

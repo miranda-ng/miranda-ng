@@ -166,6 +166,10 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
+		if (bServiceMode) {
+			OpenDatabase(hdlg);
+			return TRUE;
+		}
 		{
 			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
 			ImageList_AddIcon(hIml, LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_PROFILEGREEN)));
