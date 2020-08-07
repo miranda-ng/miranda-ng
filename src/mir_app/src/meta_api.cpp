@@ -38,17 +38,19 @@ MIR_APP_DLL(void) db_mc_enable(BOOL bEnabled)
 
 MIR_APP_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
 {
-	if (currDb == nullptr || !g_bMetaEnabled) return FALSE;
+	if (g_pCurrDb == nullptr || !g_bMetaEnabled)
+		return FALSE;
 
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 	return (cc == nullptr) ? FALSE : cc->nSubs != -1;
 }
 
 MIR_APP_DLL(BOOL) db_mc_isSub(MCONTACT hContact)
 {
-	if (currDb == nullptr || !g_bMetaEnabled) return FALSE;
+	if (g_pCurrDb == nullptr || !g_bMetaEnabled)
+		return FALSE;
 
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 	return (cc == nullptr) ? FALSE : cc->parentID != 0;
 }
 
@@ -79,18 +81,20 @@ MIR_APP_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact)
 // returns parent hContact for a subcontact or NULL if it's not a sub
 MIR_APP_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
 {
-	if (currDb == nullptr) return NULL;
+	if (g_pCurrDb == nullptr)
+		return 0;
 
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hSubContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hSubContact);
 	return (cc == nullptr) ? NULL : cc->parentID;
 }
 
 // returns parent hContact for a subcontact or hContact itself if it's not a sub
 MIR_APP_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact)
 {
-	if (currDb == nullptr) return hContact;
+	if (g_pCurrDb == nullptr)
+		return hContact;
 
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 	if (cc == nullptr) return hContact;
 
 	return (cc->IsSub()) ? cc->parentID : hContact;
@@ -153,7 +157,7 @@ MIR_APP_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bWr
 	if (cc->nDefault != contact_number) {
 		cc->nDefault = contact_number;
 		if (bWriteDb)
-			currDb->MetaSetDefault(cc);
+			g_pCurrDb->MetaSetDefault(cc);
 
 		NotifyEventHooks(hEventDefaultChanged, hMetaContact, hSub);
 	}
@@ -172,7 +176,7 @@ MIR_APP_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWrit
 	if (cc->nDefault != iNum) {
 		cc->nDefault = iNum;
 		if (bWriteDb)
-			currDb->MetaSetDefault(cc);
+			g_pCurrDb->MetaSetDefault(cc);
 
 		NotifyEventHooks(hEventDefaultChanged, hMetaContact, Meta_GetContactHandle(cc, iNum));
 	}

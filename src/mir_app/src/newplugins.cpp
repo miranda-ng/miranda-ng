@@ -778,10 +778,10 @@ int LoadNewPluginsModuleInfos(void)
 
 void UnloadDatabase(void)
 {
+	auto *currDb = g_pCurrDb;
 	if (currDb != nullptr) {
 		db_setCurrent(nullptr);
 		delete currDb;
-		currDb = nullptr;
 	}
 
 	UninitIni();

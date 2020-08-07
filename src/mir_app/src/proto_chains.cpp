@@ -26,10 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 {
-	if (currDb == nullptr)
+	if (g_pCurrDb == nullptr)
 		return 1;
 
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 	if (cc && cc->szProto != nullptr) {
 		strncpy(szBuf, cc->szProto, cbLen);
 		szBuf[cbLen - 1] = 0;
@@ -41,12 +41,12 @@ static int GetProtocolP(MCONTACT hContact, char *szBuf, int cbLen)
 	dbv.pszVal = szBuf;
 	dbv.cchVal = cbLen;
 
-	int res = currDb->GetContactSettingStatic(hContact, "Protocol", "p", &dbv);
+	int res = g_pCurrDb->GetContactSettingStatic(hContact, "Protocol", "p", &dbv);
 	if (res == 0) {
 		if (cc == nullptr)
-			cc = currDb->getCache()->AddContactToCache(hContact);
+			cc = g_pCurrDb->getCache()->AddContactToCache(hContact);
 
-		cc->szProto = currDb->getCache()->GetCachedSetting(nullptr, szBuf, 0, mir_strlen(szBuf));
+		cc->szProto = g_pCurrDb->getCache()->GetCachedSetting(nullptr, szBuf, 0, mir_strlen(szBuf));
 	}
 	return res;
 }

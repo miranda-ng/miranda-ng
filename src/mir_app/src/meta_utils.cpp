@@ -60,7 +60,7 @@ int Meta_SetNick(char *szProto)
 
 BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 {
-	DBCachedContact *ccDest = CheckMeta(hMeta), *ccSub = currDb->getCache()->GetCachedContact(hSub);
+	DBCachedContact *ccDest = CheckMeta(hMeta), *ccSub = g_pCurrDb->getCache()->GetCachedContact(hSub);
 	if (ccDest == nullptr || ccSub == nullptr)
 		return FALSE;
 
@@ -178,7 +178,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 	}
 
 	// merge sub's events to the meta-history
-	currDb->MetaMergeHistory(ccDest, ccSub);
+	g_pCurrDb->MetaMergeHistory(ccDest, ccSub);
 
 	// hide sub finally
 	Contact_Hide(ccSub->contactID);
@@ -290,7 +290,7 @@ DBCachedContact* CheckMeta(MCONTACT hMeta)
 	if (!g_bMetaEnabled)
 		return nullptr;
 
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hMeta);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hMeta);
 	return (cc == nullptr || cc->nSubs == -1) ? nullptr : cc;
 }
 
@@ -324,7 +324,7 @@ int Meta_HideLinkedContacts(void)
 	char buffer[512];
 
 	for (auto &hContact : Contacts()) {
-		DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+		DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 		if (cc == nullptr || cc->parentID == 0)
 			continue;
 
@@ -383,7 +383,7 @@ int Meta_HideMetaContacts(bool bHide)
 {
 	for (auto &hContact : Contacts()) {
 		bool bSet;
-		DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+		DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 		if (cc->IsSub()) // show on hide, reverse flag
 			bSet = !bHide;
 		else if (cc->IsMeta())

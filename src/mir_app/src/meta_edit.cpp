@@ -215,7 +215,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		TranslateDialogDefault(hwndDlg);
 		Window_SetIcon_IcoLib(hwndDlg, Meta_GetIconHandle(I_EDIT));
 		{
-			DBCachedContact *cc = currDb->getCache()->GetCachedContact(lParam);
+			DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(lParam);
 			if (cc == nullptr) {
 				DestroyWindow(hwndDlg);
 				return FALSE;

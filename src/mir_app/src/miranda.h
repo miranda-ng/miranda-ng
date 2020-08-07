@@ -50,7 +50,7 @@ extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
 /**** database.cpp *********************************************************************/
 
-extern MDatabaseCommon *currDb;
+extern MIR_CORE_EXPORT MDatabaseCommon *g_pCurrDb;
 extern LIST<DATABASELINK> arDbPlugins;
 
 int  InitIni(void);

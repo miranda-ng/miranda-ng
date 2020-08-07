@@ -56,13 +56,13 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 	if (hMetaContact == 0)
 		return 0;
 
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hMetaContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hMetaContact);
 	if (cc == nullptr)
 		return 0;
 
 	db_set_dw(hMetaContact, META_PROTO, "NumContacts", 0);
 	cc->nSubs = 0;
-	currDb->MetaSetDefault(cc); // explicitly write default sub to a db
+	g_pCurrDb->MetaSetDefault(cc); // explicitly write default sub to a db
 
 	// Add the MetaContact protocol to the new meta contact
 	Proto_AddToContact(hMetaContact, META_PROTO);
@@ -93,7 +93,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 		return;
 
 	// make sure this contact thinks it's part of this metacontact
-	DBCachedContact *ccSub = currDb->getCache()->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
+	DBCachedContact *ccSub = g_pCurrDb->getCache()->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
 	if (ccSub != nullptr)
 		if (ccSub->parentID == ccMeta->contactID)
 			Contact_Hide(ccSub->contactID, false);
@@ -128,12 +128,12 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	db_unset(ccMeta->contactID, META_PROTO, buffer);
 
 	if (ccSub != nullptr) {
-		currDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
+		g_pCurrDb->MetaDetouchSub(ccMeta, ccMeta->nSubs - 1);
 
 		if (bDeleteSub)
-			currDb->MetaRemoveSubHistory(ccSub);
+			g_pCurrDb->MetaRemoveSubHistory(ccSub);
 		else {
-			currDb->MetaSplitHistory(ccMeta, ccSub);
+			g_pCurrDb->MetaSplitHistory(ccMeta, ccSub);
 			ccSub->parentID = 0;
 		}
 	}
@@ -181,7 +181,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 
 INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 {
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 	if (cc == nullptr)
 		return 1;
 
@@ -201,7 +201,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 		db_delete_contact(hContact);
 	}
 	else if (cc->IsSub()) {
-		if ((cc = currDb->getCache()->GetCachedContact(cc->parentID)) == nullptr)
+		if ((cc = g_pCurrDb->getCache()->GetCachedContact(cc->parentID)) == nullptr)
 			return 2;
 
 		if (cc->nSubs == 1) {
@@ -227,7 +227,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 
 INT_PTR Meta_Default(WPARAM hSub, LPARAM)
 {
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(db_mc_getMeta(hSub));
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(db_mc_getMeta(hSub));
 	if (cc && cc->IsMeta())
 		db_mc_setDefault(cc->contactID, hSub, true);
 	return 0;
@@ -244,7 +244,7 @@ INT_PTR Meta_Default(WPARAM hSub, LPARAM)
 
 int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 {
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hMeta);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hMeta);
 	if (cc == nullptr)
 		return 0;
 		

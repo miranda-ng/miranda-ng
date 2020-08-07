@@ -126,7 +126,7 @@ static void Meta_SetSrmmSub(MCONTACT hMeta, MCONTACT hSub)
 static INT_PTR MetaFilter_RecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(ccs->hContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(ccs->hContact);
 	if (cc && cc->IsSub())
 		Meta_SetSrmmSub(cc->parentID, cc->contactID);
 
@@ -293,11 +293,11 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact == 0)
 		return 0;
 
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 	if (cc == nullptr || !cc->IsSub())
 		return 0;
 
-	DBCachedContact *ccMeta = currDb->getCache()->GetCachedContact(cc->parentID);
+	DBCachedContact *ccMeta = g_pCurrDb->getCache()->GetCachedContact(cc->parentID);
 	if (ccMeta == nullptr || !ccMeta->IsMeta())
 		return 0;
 
@@ -419,7 +419,7 @@ int Meta_SettingChanged(WPARAM hContact, LPARAM lParam)
 
 int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 {
-	DBCachedContact *cc = currDb->getCache()->GetCachedContact(hContact);
+	DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(hContact);
 	if (cc == nullptr)
 		return 0;
 
@@ -446,7 +446,7 @@ int Meta_ContactDeleted(WPARAM hContact, LPARAM)
 
 	// remove & restore all subcontacts
 	for (int i = 0; i < cc->nSubs; i++)
-		currDb->MetaDetouchSub(cc, i);
+		g_pCurrDb->MetaDetouchSub(cc, i);
 
 	return 0;
 }
@@ -500,7 +500,7 @@ static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 	if (mwed->uType == MSG_WINDOW_EVT_OPEN) {
-		DBCachedContact *cc = currDb->getCache()->GetCachedContact(mwed->hContact);
+		DBCachedContact *cc = g_pCurrDb->getCache()->GetCachedContact(mwed->hContact);
 		if (cc != nullptr) {
 			Srmm_SetIconFlags(cc->contactID, META_PROTO, 0, cc->IsMeta() ? 0 : MBF_HIDDEN);
 			if (cc->IsMeta()) {
