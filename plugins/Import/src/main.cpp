@@ -51,7 +51,7 @@ CMPlugin::CMPlugin() :
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IMPORT, MIID_SERVICEMODE, MIID_LAST };
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
