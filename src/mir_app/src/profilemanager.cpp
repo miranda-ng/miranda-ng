@@ -231,6 +231,14 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Profile selector
 
+static int numMessages[5];
+
+static void stubAddMessage(int iType, const wchar_t *, ...)
+{
+	if (iType < 5)
+		numMessages[iType]++;
+}
+
 class CChooseProfileDlg : public CDlgBase
 {
 	CCtrlButton &m_btnOk;
@@ -332,12 +340,36 @@ class CChooseProfileDlg : public CDlgBase
 		m_profileList.DeleteItem(item.iItem);
 	}
 
+	void CheckProfile(DATABASELINK *dblink, const wchar_t *profile)
+	{
+		CMStringW wszFullName(FORMAT, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
+
+		if (auto *db = dblink->Load(wszFullName, false)) {
+			if (auto *pChecker = db->GetChecker()) {
+				DBCHeckCallback cb = { 0, 0, &stubAddMessage };
+				memset(numMessages, 0, sizeof(numMessages));
+
+				pChecker->Start(&cb);
+
+				for (int task = 0;; task++)
+					if (pChecker->CheckDb(task) != 0)
+						break;
+
+				pChecker->Destroy();
+
+				CMStringW wszMsg(FORMAT, TranslateT("Database verification ended with %d fatal errors, %d errors, %d warnings and %d infos"),
+					numMessages[STATUS_FATAL], numMessages[STATUS_ERROR], numMessages[STATUS_WARNING], numMessages[STATUS_MESSAGE]);
+				MessageBoxW(m_hwnd, wszMsg, TranslateT("Database"), MB_OK | MB_ICONINFORMATION);
+			}
+			delete db;
+		}
+	}
+
 	void CompactProfile(DATABASELINK *dblink, const wchar_t *profile)
 	{
 		CMStringW wszFullName(FORMAT, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
 
-		MDatabaseCommon *db = dblink->Load(wszFullName, false);
-		if (db != nullptr) {
+		if (auto *db = dblink->Load(wszFullName, false)) {
 			db->Compact();
 			delete db;
 		}
@@ -413,9 +445,20 @@ class CChooseProfileDlg : public CDlgBase
 		}
 
 		DATABASELINK *dblink = (DATABASELINK*)item.lParam;
-		if (dblink != nullptr && dblink->capabilities & MDB_CAPS_COMPACT) {
-			AppendMenu(hMenu, MF_STRING, 3, TranslateT("Compact"));
-			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
+		if (dblink != nullptr) {
+			bool bAdded = false;
+			if (dblink->capabilities & MDB_CAPS_COMPACT) {
+				AppendMenu(hMenu, MF_STRING, 3, TranslateT("Compact"));
+				bAdded = true;
+			}
+
+			if (dblink->capabilities & MDB_CAPS_CHECK) {
+				AppendMenu(hMenu, MF_STRING, 4, TranslateT("Verify"));
+				bAdded = true;
+			}
+
+			if (bAdded)
+				AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 		}
 
 		AppendMenu(hMenu, MF_STRING, 2, TranslateT("Delete"));
@@ -431,6 +474,10 @@ class CChooseProfileDlg : public CDlgBase
 
 		case 3:
 			CompactProfile(dblink, profile);
+			break;
+
+		case 4:
+			CheckProfile(dblink, profile);
 			break;
 		}
 		DestroyMenu(hMenu);

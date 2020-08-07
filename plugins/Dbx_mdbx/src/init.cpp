@@ -89,7 +89,7 @@ static MDatabaseCommon* loadDatabase(const TCHAR *profile, BOOL bReadOnly)
 
 static DATABASELINK dblink =
 {
-	MDB_CAPS_COMPACT | MDB_CAPS_CREATE,
+	MDB_CAPS_COMPACT | MDB_CAPS_CREATE | MDB_CAPS_CHECK,
 	"dbx_mdbx",
 	L"MDBX database driver",
 	makeDatabase,
