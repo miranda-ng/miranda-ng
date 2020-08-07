@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.12
+;  Version: 0.95.13
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -2541,12 +2541,18 @@ xСтатус
 <Неизвестный формат>
 [Are you sure you want to remove profile "%s"?]
 Вы уверены, что хотите удалить профиль "%s"?
+[Database verification ended with %d fatal errors, %d errors, %d warnings and %d infos]
+Проверка базы завершена: %d фатальных ошибок, %d ошибок, %d предупреждений и %d информационных сообщений
+[Database]
+База данных
 [&Convert]
 &Конвертировать
 [Run]
 Запустить
 [Compact]
 Сжать
+[Verify]
+Проверить
 [Size]
 Размер
 [Created]

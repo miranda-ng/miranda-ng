@@ -42,6 +42,13 @@
 Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в базе в случае утери пароля. Рекомендуется только параноидальным пользователям
 [Set password]
 Установить пароль
+;file \plugins\Dbx_mdbx\src\dbcheck.cpp
+[Orphaned sorting event with wrong contact ID %d, deleting]
+Потерянное событие сортировки с некорректным идентификатором контакта %d, удаляем
+[Orphaned sorting event with wrong event ID %d:%08X, deleting]
+Потерянное событие сортировки с некорректным идентификатором события %d:%08X, удаляем
+[Orphaned event id with wrong event ID %08X, deleting]
+Потерянный идентификатор события с некорректным идентификатором события %08X, удаляем
 ;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
 [Too many errors!]
 Слишком много ошибок!
