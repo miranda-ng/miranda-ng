@@ -51,7 +51,6 @@ extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
 /**** database.cpp *********************************************************************/
 
 extern MDatabaseCommon *currDb;
-extern DATABASELINK *currDblink;
 extern LIST<DATABASELINK> arDbPlugins;
 
 int  InitIni(void);

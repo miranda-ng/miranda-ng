@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "profilemanager.h"
 
 MDatabaseCommon *currDb = nullptr;
-DATABASELINK *currDblink = nullptr;
 
 bool g_bDbCreated;
 wchar_t g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
@@ -405,7 +404,6 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 			return EGROKPRF_CANTREAD;
 
 		fillProfileName(tszProfile);
-		currDblink = it;
 		db_setCurrent(currDb = pDb);
 		return 0;
 	}
@@ -427,7 +425,6 @@ static int tryCreateDatabase(const wchar_t *ptszProfile)
 				return EGROKPRF_CANTREAD;
 
 			fillProfileName(ptszProfile);
-			currDblink = p;
 			db_setCurrent(currDb = pDb);
 			return 0;
 		}

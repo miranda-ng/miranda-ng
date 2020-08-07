@@ -782,7 +782,6 @@ void UnloadDatabase(void)
 		db_setCurrent(nullptr);
 		delete currDb;
 		currDb = nullptr;
-		currDblink = nullptr;
 	}
 
 	UninitIni();
