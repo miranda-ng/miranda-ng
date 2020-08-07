@@ -252,6 +252,7 @@ public:
 	void SetPassword(const wchar_t *ptszPassword);
 
 	int  CheckEvents1(void);
+	int  CheckEvents2(void);
 
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
 
