@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -31,7 +31,6 @@
 [Download more skins]
 [Available view modes]
 [Include protocols]
-[New]
 [Include groups]
 [Show contacts in groups]
 [Include status modes]
@@ -461,6 +460,7 @@
 [Toolbar background]
 [Toolbar upgrade]
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[All contacts]
 [Ungrouped contacts]
 [And]
 [Or]
@@ -470,14 +470,18 @@
 [Hours]
 [Days]
 [Configuring view mode: %s]
-[All contacts]
+[Add view mode]
+[Rename view mode]
+[Remove view mode]
 [Filtering]
 [*** All contacts ***]
 [Configure view modes]
-[Really delete this view mode? This cannot be undone]
-[Delete a view mode]
+[Enter view mode name]
 [A view mode with this name does already exist]
 [Duplicate name]
+[Enter new view mode name]
+[Really delete this view mode? This cannot be undone]
+[Delete a view mode]
 [Setup view modes...]
 [Select a view mode]
 [Setup view modes]
