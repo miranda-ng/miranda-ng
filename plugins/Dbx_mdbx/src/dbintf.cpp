@@ -306,7 +306,8 @@ int CDbxMDBX::Start(DBCHeckCallback *callback)
 static CheckWorker Workers[] =
 {
 	&CDbxMDBX::CheckEvents1,
-	&CDbxMDBX::CheckEvents2
+	&CDbxMDBX::CheckEvents2,
+	&CDbxMDBX::CheckEvents3,
 };
 
 int CDbxMDBX::CheckDb(int phase)

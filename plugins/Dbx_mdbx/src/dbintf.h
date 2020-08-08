@@ -253,6 +253,7 @@ public:
 
 	int  CheckEvents1(void);
 	int  CheckEvents2(void);
+	int  CheckEvents3(void);
 
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
 

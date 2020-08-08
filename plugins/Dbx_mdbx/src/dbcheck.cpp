@@ -57,7 +57,7 @@ int CDbxMDBX::CheckEvents1(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// we are tracing EventId tables to verify that they have correct event ids
+// we are tracing EventId table to verify that they have correct event ids
 
 int CDbxMDBX::CheckEvents2(void)
 {
@@ -71,6 +71,32 @@ int CDbxMDBX::CheckEvents2(void)
 			mdbx_cursor_del(cursor, 0);
 			cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned event id with wrong event ID %08X, deleting"), hDbEvent));
 			continue;
+		}
+	}
+
+	trnlck.commit();
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// we are tracing Settings table to verify that they have correct contact ids
+
+int CDbxMDBX::CheckEvents3(void)
+{
+	txn_ptr trnlck(StartTran());
+	cursor_ptr cursor(trnlck, m_dbSettings);
+
+	MDBX_val key, data;
+	for (int ret = mdbx_cursor_get(cursor, &key, &data, MDBX_FIRST); ret == MDBX_SUCCESS; ret = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
+		auto *pKey = (DBSettingKey *)key.iov_base;
+
+		if (pKey->hContact) {
+			auto *cc = m_cache->GetCachedContact(pKey->hContact);
+			if (cc == nullptr) {
+				mdbx_cursor_del(cursor, 0);
+				cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned setting with wrong contact ID %08X, deleting"), pKey->hContact));
+				continue;
+			}
 		}
 	}
 
