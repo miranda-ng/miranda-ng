@@ -40,6 +40,7 @@
 [Win + ]
 [New submenu]
 [Compact]
+[Check database]
 [Load server history]
 [Unselect all]
 [Log viewer]

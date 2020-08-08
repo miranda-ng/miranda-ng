@@ -6,6 +6,7 @@
 [In a civil union]
 [&Open/close chat window]
 [Compact]
+[Check database]
 [Load server history]
 [Unselect all]
 [Log viewer]

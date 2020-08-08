@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -56,8 +56,6 @@
 Даступныя рэжымы выгляду
 [Include protocols]
 Уключыць пратаколы
-[New]
-Стварыць
 [Include groups]
 Уключыць гурты
 [Show contacts in groups]
@@ -900,6 +898,8 @@ Angeli-Ka (графіка), FYR (шаблон)
 [Toolbar upgrade]
 Аднаўленне панэлі кнопак
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[All contacts]
+Усе кантакты
 [Ungrouped contacts]
 Кантакты па-за гуртамі
 [And]
@@ -918,22 +918,30 @@ Angeli-Ka (графіка), FYR (шаблон)
 Дзён
 [Configuring view mode: %s]
 Налада рэжыму прагляду: %s
-[All contacts]
-Усе кантакты
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Filtering]
 Фільтраванне
 [*** All contacts ***]
 *** Усе кантакты ***
 [Configure view modes]
 Налада рэжымаў выгляду
-[Really delete this view mode? This cannot be undone]
-Сапраўды выдаліць рэжым? Адмена не магчымая!
-[Delete a view mode]
-Выдаленне рэжыму прагляду
+[Enter view mode name]
+
 [A view mode with this name does already exist]
 Рэжым адлюстравання з такім імем ужо прысутнічае
 [Duplicate name]
 Супадальнае імя
+[Enter new view mode name]
+
+[Really delete this view mode? This cannot be undone]
+Сапраўды выдаліць рэжым? Адмена не магчымая!
+[Delete a view mode]
+Выдаленне рэжыму прагляду
 [Setup view modes...]
 Наладзіць рэжымы выгляду...
 [Select a view mode]

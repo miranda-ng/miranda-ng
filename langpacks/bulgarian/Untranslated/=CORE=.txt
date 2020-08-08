@@ -63,6 +63,7 @@
 [<mixed>]
 [Re-enable Miranda plugin?]
 [Compact]
+[Check database]
 [Load server history]
 [Account name must be filled.]
 [Filled blob]

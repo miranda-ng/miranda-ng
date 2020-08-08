@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -56,8 +56,6 @@ Stáhnout další skiny
 Přehled režimů zobrazení
 [Include protocols]
 Včetně protokolů
-[New]
-Nový
 [Include groups]
 Včetně skupin
 [Show contacts in groups]
@@ -900,6 +898,8 @@ Pozadí tlačítkové lišty
 [Toolbar upgrade]
 Aktualizace lišty tlačítek
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[All contacts]
+Všechny kontakty
 [Ungrouped contacts]
 Nesdružené kontakty
 [And]
@@ -918,22 +918,30 @@ hodin
 dnů
 [Configuring view mode: %s]
 Konfigurace pohledu: %s
-[All contacts]
-Všechny kontakty
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Filtering]
 Filtrování
 [*** All contacts ***]
 *** všechny kontakty ***
 [Configure view modes]
 Konfigurace režimu zobrazení
-[Really delete this view mode? This cannot be undone]
-Opravdu chcete odstranit režim zobrazení? Tuto akci nelze vzít zpět.
-[Delete a view mode]
-Odstranit režim zobrazení
+[Enter view mode name]
+
 [A view mode with this name does already exist]
 Režim zobrazení s tímto názvem již existuje
 [Duplicate name]
 Duplicitní jméno
+[Enter new view mode name]
+
+[Really delete this view mode? This cannot be undone]
+Opravdu chcete odstranit režim zobrazení? Tuto akci nelze vzít zpět.
+[Delete a view mode]
+Odstranit režim zobrazení
 [Setup view modes...]
 Nastavit režimy zobrazení...
 [Select a view mode]

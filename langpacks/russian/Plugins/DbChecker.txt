@@ -1,0 +1,54 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.12.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Проверяет базу данных Miranda NG.
+;file \plugins\DbChecker\res\resource.rc
+[Miranda Database Tool]
+Инструмент базы данных Miranda NG
+[&Next >]
+&Далее >
+[Cancel]
+Отмена
+[Error Opening Database]
+Ошибка открытия базы
+[There was an error opening the profile database given.]
+Ошибка открытия базы профиля.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Нажмите Далее, чтобы повторить чтение файла, или нажмите Назад, чтобы выбрать другой профиль базы данных.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Файл уже используется другой копией Miranda NG. Закройте все открытые копии и нажмите "Далее" для повтора.
+[Working...]
+Выполнение...
+[Please wait while the requested operations are being performed.]
+Подождите, пока все операции будут завершены.
+;file \plugins\DbChecker\src\openerror.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Плагин проверки не может найти подходящий драйвер базы для открытия '%s'.
+[Error]
+Ошибка
+[Database driver '%s' doesn't support checking.]
+Драйвер базы '%s' не поддерживает проверку.
+;file \plugins\DbChecker\src\progress.cpp
+[&Finish]
+&Завершить
+[Click Finish to continue]
+Нажмите "Завершить" для продолжения
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Обработка ещё не завершена; если вы отмените её сейчас, то изменения не будут применены к исходной базе данных. Вы хотите отменить?
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Database worker thread activated]
+Активировано восстановление работоспособности базы
+[Processing aborted by user]
+Обработка отменена пользователем
+[Elapsed time: %d sec]
+Затрачено времени: %d сек.
+[All tasks completed but with errors (%d)]
+Все задачи завершены, но с ошибками (%d шт.)
+[All tasks completed successfully]
+Все задачи завершены

@@ -1,0 +1,54 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.12.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Перевірка баз даних Miranda NG.
+;file \plugins\DbChecker\res\resource.rc
+[Miranda Database Tool]
+Інструмент бази Miranda NG
+[&Next >]
+&Далі >
+[Cancel]
+Скасувати
+[Error Opening Database]
+Помилка відкриття бази
+[There was an error opening the profile database given.]
+Помилка відкриття бази профілю.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Натисніть "Далі", щоб повторити читання файлу, або "Назад", щоб вибрати інший профіль бази даних.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Файл використовується іншою копією Miranda NG. Закрийте всі копії і натисніть "Далі" для повтору.
+[Working...]
+Виконання...
+[Please wait while the requested operations are being performed.]
+Зачекайте, поки всі операції будуть завершені.
+;file \plugins\DbChecker\src\openerror.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Плагін перевірки не може знайти відповідного драйвера бази для відкриття "%s".
+[Error]
+Помилка
+[Database driver '%s' doesn't support checking.]
+Драйвер бази "%s" не підтримує перевірку.
+;file \plugins\DbChecker\src\progress.cpp
+[&Finish]
+Завершити
+[Click Finish to continue]
+
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Обробка ще не завершена; якщо ви скасуєте її зараз, то зміни не будуть застосовані до оригінальної бази даних. Ви хочете скасувати?
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Database worker thread activated]
+Активовано відновлення працездатності бази
+[Processing aborted by user]
+Обробка скасована користувачем
+[Elapsed time: %d sec]
+Витрачено часу: %d с
+[All tasks completed but with errors (%d)]
+Усі завдання завершені, але %d з помилками
+[All tasks completed successfully]
+Усі завдання завершені

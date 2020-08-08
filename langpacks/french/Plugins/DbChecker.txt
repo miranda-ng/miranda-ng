@@ -1,0 +1,54 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.12.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+
+;file \plugins\DbChecker\res\resource.rc
+[Miranda Database Tool]
+
+[&Next >]
+
+[Cancel]
+Annuler
+[Error Opening Database]
+
+[There was an error opening the profile database given.]
+
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+
+[Working...]
+
+[Please wait while the requested operations are being performed.]
+
+;file \plugins\DbChecker\src\openerror.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+
+[Error]
+Erreur
+[Database driver '%s' doesn't support checking.]
+
+;file \plugins\DbChecker\src\progress.cpp
+[&Finish]
+
+[Click Finish to continue]
+
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Database worker thread activated]
+
+[Processing aborted by user]
+
+[Elapsed time: %d sec]
+
+[All tasks completed but with errors (%d)]
+
+[All tasks completed successfully]
+

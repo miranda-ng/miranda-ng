@@ -1,0 +1,2 @@
+[Click Finish to continue]
+[Database worker thread activated]

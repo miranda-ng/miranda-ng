@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -56,8 +56,6 @@
 Налични режими за преглед
 [Include protocols]
 Включени протоколи
-[New]
-Нов
 [Include groups]
 Включени групи
 [Show contacts in groups]
@@ -900,6 +898,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 [Toolbar upgrade]
 
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[All contacts]
+Всички контакти
 [Ungrouped contacts]
 Негрупирани контакти
 [And]
@@ -918,22 +918,30 @@ Angeli-Ka (изображения), FYR (шаблон)
 Дни
 [Configuring view mode: %s]
 Настройвате режим за преглед: %s
-[All contacts]
-Всички контакти
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Filtering]
 Филтриране
 [*** All contacts ***]
 *** Всички контакти ***
 [Configure view modes]
 Настройване на режимите за преглед
-[Really delete this view mode? This cannot be undone]
-Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
-[Delete a view mode]
-Изтриване на режим за преглед
+[Enter view mode name]
+
 [A view mode with this name does already exist]
 Вече съществува режим за преглед с въведеното име
 [Duplicate name]
 Повтарящо се име
+[Enter new view mode name]
+
+[Really delete this view mode? This cannot be undone]
+Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
+[Delete a view mode]
+Изтриване на режим за преглед
 [Setup view modes...]
 Настройване на режимите за преглед...
 [Select a view mode]

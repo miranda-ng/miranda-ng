@@ -1,0 +1,54 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.12.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Валидатор за базата данни на Miranda NG.
+;file \plugins\DbChecker\res\resource.rc
+[Miranda Database Tool]
+Инструмент за базата данни на Miranda
+[&Next >]
+Напред >
+[Cancel]
+Отказ
+[Error Opening Database]
+Грешка при отваряне на база данни
+[There was an error opening the profile database given.]
+Възникна грешка при отварянето на зададената база данни.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Натиснете "Напред >" за нов опит за отваряне на файла или "< Назад", за да изберете друга база данни.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Вероятно файлът се използва от Miranda. Излезте от стартираната Miranda и натиснете "Напред >" за нов опит.
+[Working...]
+Изпълнение...
+[Please wait while the requested operations are being performed.]
+Моля, изчакайте докато заявените действия бъдат изпълнени.
+;file \plugins\DbChecker\src\openerror.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Няма подходяща приставка, която да отвори "%s".
+[Error]
+Грешка
+[Database driver '%s' doesn't support checking.]
+Драйвърът за базити данни "%s" не може да извършва проверки.
+;file \plugins\DbChecker\src\progress.cpp
+[&Finish]
+Готово
+[Click Finish to continue]
+
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Процесът не е завършил. Ако се откажете сега, промените които са извършени до момента ще бъдат анулирани и базата данни ще бъде върната към предишното си състояние. Наистина ли желаете да се откажете?
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Database worker thread activated]
+
+[Processing aborted by user]
+Обработването бе прекратено от потребител
+[Elapsed time: %d sec]
+Изминало време: %d сек
+[All tasks completed but with errors (%d)]
+Всички задачи са завършени, но с грешки (%d)
+[All tasks completed successfully]
+Всички задачи бяха завършени успешно.

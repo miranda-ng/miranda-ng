@@ -1,0 +1,54 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.12.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Miranda-NG-Datenbankprüfung.
+;file \plugins\DbChecker\res\resource.rc
+[Miranda Database Tool]
+Miranda-Datenbankassistent
+[&Next >]
+Weiter >
+[Cancel]
+Abbrechen
+[Error Opening Database]
+Fehler beim Öffnen der Datenbank
+[There was an error opening the profile database given.]
+Es ist ein Fehler beim Öffnen der Datenbank aufgetreten
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Klicken Sie auf "Weiter", um es erneut zu versuchen, oder auf "Zurück", um eine andere Datei auszuwählen.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Evtl. wird das Profil im Moment von Miranda verwendet. Beenden Sie Miranda und klicken Sie auf "Weiter" für einen neuen Versuch.
+[Working...]
+Vorgang läuft...
+[Please wait while the requested operations are being performed.]
+Bitte warten Sie, bis die notwendigen Arbeitsgänge beendet wurden.
+;file \plugins\DbChecker\src\openerror.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Datenbankprüfung kann kein passendes Datenbank-Plugin finden um '%s' zu öffnen.
+[Error]
+Fehler
+[Database driver '%s' doesn't support checking.]
+Datenbanktreiber '%s' unterstützt keine Überprüfung.
+;file \plugins\DbChecker\src\progress.cpp
+[&Finish]
+&Fertig
+[Click Finish to continue]
+
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie den Vorgang abbrechen?
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Database worker thread activated]
+Datenbankverarbeitungsfunktion gestartet
+[Processing aborted by user]
+Verarbeitung von Benutzer abgebrochen
+[Elapsed time: %d sec]
+Benötigte Zeit: %d Sekunden
+[All tasks completed but with errors (%d)]
+Alle Arbeitsschritte beendet, aber mit Fehlern (%d)
+[All tasks completed successfully]
+Alle Arbeitsschritte erfolgreich beendet

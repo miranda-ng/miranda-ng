@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -56,8 +56,6 @@ ATTENTION : \tDes skins peuvent modifier votre profil. Un retour ne sera pas pos
 Mode d'affichages disponibles
 [Include protocols]
 Protocoles inclus
-[New]
-Nouveau
 [Include groups]
 Groupes inclus
 [Show contacts in groups]
@@ -900,6 +898,8 @@ Minimiser
 [Toolbar upgrade]
 
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[All contacts]
+tous les contacts
 [Ungrouped contacts]
 Contacts non-groupés
 [And]
@@ -918,22 +918,30 @@ Heures
 Jours
 [Configuring view mode: %s]
 Configurer le mode d'affichage : %s
-[All contacts]
-tous les contacts
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Filtering]
 Filtres
 [*** All contacts ***]
 *** Tous les contacts ***
 [Configure view modes]
 Configurer les modes d'affichages
-[Really delete this view mode? This cannot be undone]
-Effacer ce mode d'affichage? Ne pourra pas être récupérer
-[Delete a view mode]
-Effacer un mode d'affichage
+[Enter view mode name]
+
 [A view mode with this name does already exist]
 Un mode d'affichage existe déjà avec ce nom
 [Duplicate name]
 Nom en double
+[Enter new view mode name]
+
+[Really delete this view mode? This cannot be undone]
+Effacer ce mode d'affichage? Ne pourra pas être récupérer
+[Delete a view mode]
+Effacer un mode d'affichage
 [Setup view modes...]
 Configurer les modes d'affichages
 [Select a view mode]

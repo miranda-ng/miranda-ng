@@ -1,0 +1,54 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.12.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Плагін праверкі БД Miranda NG.
+;file \plugins\DbChecker\res\resource.rc
+[Miranda Database Tool]
+Прылада базы Miranda NG
+[&Next >]
+&Далей >
+[Cancel]
+Скасаваць
+[Error Opening Database]
+Памылка адкрыцця базы
+[There was an error opening the profile database given.]
+Памылка адкрыцця базы профіля.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Націсніце Далей, каб паўтарыць чытанне файла, ці націсніце Назад, каб абраць іншы профіль базы дадзеных.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Файл ужо выкарыстоўваецца іншай копіяй Miranda NG. Зачыніце ўсе адкрытыя копіі і націсніце "Далей" для паўтору.
+[Working...]
+Выкананне...
+[Please wait while the requested operations are being performed.]
+Пачакайце, пакуль усе аперацыі будуць завершаны.
+;file \plugins\DbChecker\src\openerror.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Плагін праверкі не можа знайсці патэбнага драйвера БД для адкрыцця '%s'.
+[Error]
+Памылка
+[Database driver '%s' doesn't support checking.]
+Драйвер базы '%s' не падтрымлівае праверку.
+;file \plugins\DbChecker\src\progress.cpp
+[&Finish]
+Завяршыць
+[Click Finish to continue]
+
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Апрацоўка яшчэ не завершана; калі вы адменіце яе цяпер, то змены не будуць ужыты да арыгінальнай базы дадзеных. Вы жадаеце адмяніць?
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Database worker thread activated]
+Актывавана аднаўленне працаздольнасці базы
+[Processing aborted by user]
+Апрацоўка адменена карыстачом
+[Elapsed time: %d sec]
+Выдаткавана часу: %d сек.
+[All tasks completed but with errors (%d)]
+Усе задачы завершаны, але з памылкамі (%d шт)
+[All tasks completed successfully]
+Усе задачы завершаны

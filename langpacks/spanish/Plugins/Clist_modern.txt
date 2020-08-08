@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -56,8 +56,6 @@ Reiniciar puede ser necesario para que todos los cambios surtan efecto
 Modos de visualización disponibles
 [Include protocols]
 Incluir protocolos
-[New]
-Nuevo
 [Include groups]
 Incluir grupos
 [Show contacts in groups]
@@ -900,6 +898,8 @@ Para ver una barra de herramientas en Clist_modern necesitas el plugin TopToolBa
 [Toolbar upgrade]
 Actualizar barra de herramientas
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[All contacts]
+Todos los contactos
 [Ungrouped contacts]
 contactos desagrupados
 [And]
@@ -918,22 +918,30 @@ Horas
 Días
 [Configuring view mode: %s]
 Configurando modo de vista: %s
-[All contacts]
-Todos los contactos
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Filtering]
 Filtrando
 [*** All contacts ***]
 *** Todos los contactos ***
 [Configure view modes]
 Configurar modos de vista
-[Really delete this view mode? This cannot be undone]
-¿Realmente desea eliminar este modo de vista? Esto no se puede deshacer
-[Delete a view mode]
-Eliminar un modo de vista
+[Enter view mode name]
+
 [A view mode with this name does already exist]
 Ya existe un modo de vista con ese nombre
 [Duplicate name]
 Nombre duplicado
+[Enter new view mode name]
+
+[Really delete this view mode? This cannot be undone]
+¿Realmente desea eliminar este modo de vista? Esto no se puede deshacer
+[Delete a view mode]
+Eliminar un modo de vista
 [Setup view modes...]
 Configuración de Modos de Vista
 [Select a view mode]

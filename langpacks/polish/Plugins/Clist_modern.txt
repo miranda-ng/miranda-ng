@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -56,8 +56,6 @@ Pobierz więcej skórek
 Dostępne tryby widoku
 [Include protocols]
 Uwzględnione protokoły
-[New]
-Nowy
 [Include groups]
 Uwzględnione grupy
 [Show contacts in groups]
@@ -900,6 +898,8 @@ Tło paska narzędzi
 [Toolbar upgrade]
 Aktualizacja paska narzędzi
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[All contacts]
+Wszystkie kontakty
 [Ungrouped contacts]
 Niepogrupowane kontakty
 [And]
@@ -918,22 +918,30 @@ Godzin
 Dni
 [Configuring view mode: %s]
 Konfigurowanie trybu widoku: %s
-[All contacts]
-Wszystkie kontakty
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Filtering]
 Filtrowanie
 [*** All contacts ***]
 *** Wszystkie kontakty ***
 [Configure view modes]
 Ustaw tryb widoku
-[Really delete this view mode? This cannot be undone]
-Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
-[Delete a view mode]
-Usuwanie trybu widoku
+[Enter view mode name]
+
 [A view mode with this name does already exist]
 Tryb widoku o podanej nazwie już istnieje
 [Duplicate name]
 Zduplikowana nazwa
+[Enter new view mode name]
+
+[Really delete this view mode? This cannot be undone]
+Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
+[Delete a view mode]
+Usuwanie trybu widoku
 [Setup view modes...]
 Ustaw tryby widoku...
 [Select a view mode]

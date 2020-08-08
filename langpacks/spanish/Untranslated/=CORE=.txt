@@ -197,6 +197,7 @@
 [<Unknown format>]
 [&Convert]
 [Compact]
+[Check database]
 [Load server history]
 [Account name must be filled.]
 [Add group]

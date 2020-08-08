@@ -49,6 +49,8 @@
 Потерянное событие сортировки с некорректным идентификатором события %d:%08X, удаляем
 [Orphaned event id with wrong event ID %08X, deleting]
 Потерянный идентификатор события с некорректным идентификатором события %08X, удаляем
+[Orphaned setting with wrong contact ID %08X, deleting]
+Потерянная настройка с некорректным идентификатором контакта %08X, удаляем
 ;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
 [Too many errors!]
 Слишком много ошибок!

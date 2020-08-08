@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -56,8 +56,6 @@ Weitere Skins herunterladen
 Verfügbare Kontaktfilter
 [Include protocols]
 Protokolle auswählen
-[New]
-Neu
 [Include groups]
 Gruppen auswählen
 [Show contacts in groups]
@@ -900,6 +898,8 @@ Toolbar Hintergrund
 [Toolbar upgrade]
 Toolbar aktualisieren
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
+[All contacts]
+Alle Kontakte
 [Ungrouped contacts]
 Nicht gruppierte Kontakte
 [And]
@@ -918,22 +918,30 @@ Stunden
 Tage
 [Configuring view mode: %s]
 Diesen Kontaktfilter einrichten: %s
-[All contacts]
-Alle Kontakte
+[Add view mode]
+
+[Rename view mode]
+
+[Remove view mode]
+
 [Filtering]
 Filtern
 [*** All contacts ***]
 *** Alle Kontakte ***
 [Configure view modes]
 Kontaktfilter einrichten
-[Really delete this view mode? This cannot be undone]
-Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
-[Delete a view mode]
-Kontaktfilter löschen
+[Enter view mode name]
+
 [A view mode with this name does already exist]
 Ein Kontaktfilter dieses Namens existiert bereits
 [Duplicate name]
 Doppelter Name
+[Enter new view mode name]
+
+[Really delete this view mode? This cannot be undone]
+Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
+[Delete a view mode]
+Kontaktfilter löschen
 [Setup view modes...]
 Kontaktfilter einstellen...
 [Select a view mode]

@@ -1,0 +1,54 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.12.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Kontrola databáze Mirandy NG.
+;file \plugins\DbChecker\res\resource.rc
+[Miranda Database Tool]
+Nástroj pro správu databáze Mirandy
+[&Next >]
+&Další >
+[Cancel]
+Zrušit
+[Error Opening Database]
+Chyba při otevírání databáze
+[There was an error opening the profile database given.]
+Chyba při otevírání požadované databáze.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Kliknutím na tlačítko 'Další' zkusíte databázi znovu otevřít. Tlačítkem 'Zpět' se vrátíte k výběru profilu.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Vybranou databázi používá jiný program. Ukončete všechny spuštěné instance programu Miranda a klikněte na tlačítko 'Další'.
+[Working...]
+Probíhá údržba...
+[Please wait while the requested operations are being performed.]
+Počkejte prosím, správce provádí požadovanou údržbu databáze.
+;file \plugins\DbChecker\src\openerror.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Nelze nalézt vhodný doplněk databáze pro otevření '%s'.
+[Error]
+Chyba
+[Database driver '%s' doesn't support checking.]
+Doplněk databáze '%s' nepodporuje kontrolu.
+;file \plugins\DbChecker\src\progress.cpp
+[&Finish]
+&Dokončit
+[Click Finish to continue]
+
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Zpracování ještě nebylo dokončeno. Pokud jej nyní zrušíte, změny, které byly aktuálně provedeny, budou vráceny zpět a originální databáze bude obnovena. Opravdu si přejete zpracování zrušit?
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Database worker thread activated]
+Aktivace procesu pro práci s databází
+[Processing aborted by user]
+Procházení přerušeno uživatelem
+[Elapsed time: %d sec]
+Délka kontroly: %d sek.
+[All tasks completed but with errors (%d)]
+Všechny úlohy byly dokončeny; počet chyb: %d
+[All tasks completed successfully]
+Všechny úlohy byly úspěšně dokončeny

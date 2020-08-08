@@ -42,6 +42,15 @@
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
 [Set password]
 Задаване на парола
+;file \plugins\Dbx_mdbx\src\dbcheck.cpp
+[Orphaned sorting event with wrong contact ID %d, deleting]
+
+[Orphaned sorting event with wrong event ID %d:%08X, deleting]
+
+[Orphaned event id with wrong event ID %08X, deleting]
+
+[Orphaned setting with wrong contact ID %08X, deleting]
+
 ;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
 [Too many errors!]
 Твърде много грешки!

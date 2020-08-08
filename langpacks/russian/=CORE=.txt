@@ -2541,18 +2541,14 @@ xСтатус
 <Неизвестный формат>
 [Are you sure you want to remove profile "%s"?]
 Вы уверены, что хотите удалить профиль "%s"?
-[Database verification ended with %d fatal errors, %d errors, %d warnings and %d infos]
-Проверка базы завершена: %d фатальных ошибок, %d ошибок, %d предупреждений и %d информационных сообщений
-[Database]
-База данных
 [&Convert]
 &Конвертировать
 [Run]
 Запустить
 [Compact]
 Сжать
-[Verify]
-Проверить
+[Check database]
+Проверить базу
 [Size]
 Размер
 [Created]

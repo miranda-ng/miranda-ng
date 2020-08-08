@@ -1,3 +1,8 @@
 [Editing view mode]
 [Layered]
 [Last online]
+[Add view mode]
+[Rename view mode]
+[Remove view mode]
+[Enter view mode name]
+[Enter new view mode name]
