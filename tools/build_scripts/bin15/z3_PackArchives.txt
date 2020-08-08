@@ -86,6 +86,7 @@ Plugins\AVS.dll
 Plugins\Clist_modern.dll
 Plugins\CrashDumper.dll
 Plugins\Db_autobackups.dll
+Plugins\DbChecker.dll
 Plugins\Dbx_mdbx.dll
 Plugins\Dummy.dll
 Plugins\Facebook.dll

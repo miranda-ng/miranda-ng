@@ -41,6 +41,7 @@ Plugins\cryptopp.dll
 Plugins\cslist.dll
 Plugins\currencyrates.dll
 Plugins\cyrtranslit.dll
+Plugins\dbchecker.dll
 Plugins\dbeditorpp.dll
 Plugins\dbx_mdbx.dll
 Plugins\dbx_mmap.dll
