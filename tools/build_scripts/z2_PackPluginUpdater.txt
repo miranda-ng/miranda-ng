@@ -55,6 +55,7 @@ Core\StdUrl.dll
 Core\StdUserInfo.dll
 Core\StdUserOnline.dll
 Plugins\Db_autobackups.dll
+Plugins\DbChecker.dll
 Plugins\Dbx_mdbx.dll
 Plugins\Dummy.dll
 Plugins\Import.dll
