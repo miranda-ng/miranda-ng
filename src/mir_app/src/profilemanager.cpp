@@ -438,7 +438,7 @@ class CChooseProfileDlg : public CDlgBase
 			}
 
 			if (plugin_checker && (dblink->capabilities & MDB_CAPS_CHECK)) {
-				AppendMenu(hMenu, MF_STRING, 4, TranslateT("Verify"));
+				AppendMenu(hMenu, MF_STRING, 4, TranslateT("Check database"));
 				bAdded = true;
 			}
 
