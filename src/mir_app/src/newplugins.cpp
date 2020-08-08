@@ -59,7 +59,7 @@ HANDLE hevLoadModule, hevUnloadModule;
 wchar_t mirandabootini[MAX_PATH];
 static int askAboutIgnoredPlugins;
 
-pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
+pluginEntry *plugin_checker, *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
 
 #define PLUGINDISABLELIST "PluginDisable"
 
@@ -394,6 +394,11 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	}
 	else if (hasMuuid(pIds, MIID_PROTOCOL) || !mir_wstrcmpi(tszFileName, L"mradio.dll") || !mir_wstrcmpi(tszFileName, L"watrack.dll"))
 		p->bIsProtocol = true;
+
+	if (plugin_checker == nullptr && !mir_wstrcmpi(tszFileName, L"dbchecker.dll")) {
+		plugin_checker = p;
+		p->bIsLast = true;
+	}
 
 	if (plugin_crshdmp == nullptr && !mir_wstrcmpi(tszFileName, L"crashdumper.dll")) {
 		plugin_crshdmp = p;

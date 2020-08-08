@@ -92,23 +92,24 @@ int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam,
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static HWND hdlgPage;
+	auto *opts = (DbToolOptions *)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
+		SetWindowLongPtr(hdlg, GWLP_USERDATA, lParam);
 		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DBTOOL)));
 		hdlgPage = nullptr;
 
-		SendMessage(hdlg, WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
+		OpenDatabase(hdlg);
 		return TRUE;
 
 	case WZM_GOTOPAGE:
 		if (hdlgPage != nullptr) DestroyWindow(hdlgPage);
-		EnableWindow(GetDlgItem(hdlg, IDC_BACK), TRUE);
 		EnableWindow(GetDlgItem(hdlg, IDOK), TRUE);
 		EnableWindow(GetDlgItem(hdlg, IDCANCEL), TRUE);
 		SetDlgItemText(hdlg, IDCANCEL, TranslateT("Cancel"));
-		hdlgPage = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(wParam), hdlg, (DLGPROC)lParam);
+		hdlgPage = CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCE(wParam), hdlg, (DLGPROC)lParam, LPARAM(opts));
 		TranslateDialogDefault(hdlgPage);
 		SetWindowPos(hdlgPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		ShowWindow(hdlgPage, SW_SHOW);
@@ -116,7 +117,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_BACK:
 		case IDOK:
 			SendMessage(hdlgPage, WZN_PAGECHANGING, wParam, 0);
 			SendMessage(hdlgPage, message, wParam, lParam);
@@ -131,10 +131,11 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_DESTROY:
-		if (opts.dbChecker) {
-			opts.dbChecker->Destroy();
-			opts.dbChecker = nullptr;
+		if (opts->dbChecker) {
+			opts->dbChecker->Destroy();
+			opts->dbChecker = nullptr;
 		}
+		delete opts;
 
 		DestroyWindow(hdlgPage);
 		if (hBoldFont != nullptr) {

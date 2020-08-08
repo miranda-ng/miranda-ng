@@ -27,28 +27,63 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 
 	switch (message) {
 	case WM_INITDIALOG:
-	{
-		wchar_t szError[256];
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, opts.error, 0, szError, _countof(szError), nullptr);
-		SetDlgItemText(hdlg, IDC_ERRORTEXT, szError);
-	}
-	if (opts.error == ERROR_SHARING_VIOLATION) ShowWindow(GetDlgItem(hdlg, IDC_INUSE), SW_SHOW);
-	SetWindowLongPtr(GetDlgItem(hdlg, IDC_FILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_FILE), GWL_STYLE) | SS_PATHELLIPSIS);
-	TranslateDialogDefault(hdlg);
-	SetDlgItemText(hdlg, IDC_FILE, opts.filename);
-	return TRUE;
+		{
+			auto *opts = (DbToolOptions *)lParam;
+
+			wchar_t szError[256];
+			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, opts->error, 0, szError, _countof(szError), nullptr);
+			SetDlgItemText(hdlg, IDC_ERRORTEXT, szError);
+
+			if (opts->error == ERROR_SHARING_VIOLATION)
+				ShowWindow(GetDlgItem(hdlg, IDC_INUSE), SW_SHOW);
+			SetWindowLongPtr(GetDlgItem(hdlg, IDC_FILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_FILE), GWL_STYLE) | SS_PATHELLIPSIS);
+			TranslateDialogDefault(hdlg);
+			SetDlgItemText(hdlg, IDC_FILE, opts->filename);
+		}
+		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_BACK:
-			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
-			break;
-
 		case IDOK:
-			OpenDatabase(hdlg);
+			OpenDatabase(GetParent(hdlg));
 			break;
 		}
 		break;
 	}
 	return FALSE;
+}
+
+int OpenDatabase(HWND hdlg)
+{
+	auto *opts = (DbToolOptions *)GetWindowLongPtr(hdlg, GWLP_USERDATA);
+	wchar_t tszMsg[1024];
+
+	if (opts->dbChecker == nullptr) {
+		DATABASELINK *dblink = FindDatabasePlugin(opts->filename);
+		if (dblink == nullptr) {
+			mir_snwprintf(tszMsg,
+				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."),
+				opts->filename);
+		LBL_Error:
+			MessageBox(hdlg, tszMsg, TranslateT("Error"), MB_OK | MB_ICONERROR);
+			return false;
+		}
+
+		auto *pDb = dblink->Load(opts->filename, false);
+		if (pDb == nullptr) {
+			PostMessage(hdlg, WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
+			return true;
+		}
+
+		opts->dbChecker = pDb->GetChecker();
+		if (opts->dbChecker == nullptr) {
+			mir_snwprintf(tszMsg, TranslateT("Database driver '%s' doesn't support checking."), TranslateW(dblink->szFullName));
+			goto LBL_Error;
+		}
+
+		opts->db = pDb;
+	}
+	
+	PostMessage(hdlg, WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+	return true;
 }

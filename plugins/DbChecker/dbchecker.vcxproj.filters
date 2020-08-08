@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
   <ItemGroup>
-    <ClCompile Include="src\finished.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -12,9 +9,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\progress.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\selectdb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\wizard.cpp">

@@ -40,12 +40,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define WZN_PAGECHANGING  (WM_USER+1221)
 #define WZN_CANCELCLICKED (WM_USER+1222)
 
-struct DbToolOptions
+struct DbToolOptions : public MZeroedObject
 {
-	wchar_t filename[MAX_PATH];
+	DbToolOptions()
+	{
+		hEventRun = CreateEvent(nullptr, TRUE, TRUE, nullptr);
+		hEventAbort = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+	}
+
+	~DbToolOptions()
+	{
+		delete db;
+		CloseHandle(hEventAbort);
+		CloseHandle(hEventRun);
+	}
+
 	MDatabaseCommon *db;
 	MIDatabaseChecker *dbChecker;
 	DWORD error;
+	HANDLE hEventRun, hEventAbort;
+	bool bFinished, bAutoExit;
+	wchar_t filename[MAX_PATH];
 };
 
 struct CMPlugin : public PLUGIN<CMPlugin>
@@ -56,18 +71,13 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 };
 
-extern DbToolOptions opts;
-extern HANDLE hEventRun, hEventAbort;
 extern int errorCount;
 extern LRESULT wizardResult;
-extern bool bServiceMode, bLaunchMiranda, bAutoExit;
 
 int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam, INT_PTR *bReturn);
 
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK FinishedDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 int OpenDatabase(HWND hdlg);

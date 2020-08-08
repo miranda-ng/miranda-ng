@@ -19,11 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int hLangpack = 0;
-bool bServiceMode, bLaunchMiranda, bAutoExit;
-
-DbToolOptions opts = { 0 };
-
 CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -60,28 +55,27 @@ static HANDLE hService; // do not remove it!
 
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
-	bLaunchMiranda = bAutoExit = false;
-	bServiceMode = true;
-	
-	opts.db = db_get_current();
+	auto *opts = new DbToolOptions();
+	opts->db = db_get_current();
 	db_setCurrent(nullptr);
-	wcsncpy_s(opts.filename, VARSW(L"%miranda_userdata%\\%miranda_profilename%.dat"), _TRUNCATE);
+	wcsncpy_s(opts->filename, VARSW(L"%miranda_userdata%\\%miranda_profilename%.dat"), _TRUNCATE);
 
-	opts.dbChecker = opts.db->GetChecker();
-	if (opts.dbChecker == nullptr)
+	opts->dbChecker = opts->db->GetChecker();
+	if (opts->dbChecker == nullptr) {
+		delete opts;
 		return SERVICE_FAILED;
+	}
 
-	DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
-	return (bLaunchMiranda) ? SERVICE_CONTINUE : SERVICE_FAILED;
+	DialogBoxParamW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(opts));
+	return SERVICE_FAILED;
 }
 
 static INT_PTR CheckProfile(WPARAM wParam, LPARAM lParam)
 {
-	bLaunchMiranda = lParam != 0;
-	bAutoExit = lParam == 2;
-	bServiceMode = false;
-	wcsncpy(opts.filename, (wchar_t*)wParam, _countof(opts.filename));
-	return DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
+	auto *opts = new DbToolOptions();
+	opts->bAutoExit = lParam == 2;
+	wcsncpy(opts->filename, (wchar_t*)wParam, _countof(opts->filename));
+	return DialogBoxParamW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(opts));
 }
 
 int CMPlugin::Load(void)

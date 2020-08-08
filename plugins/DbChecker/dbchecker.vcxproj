@@ -19,11 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\finished.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\openerror.cpp" />
     <ClCompile Include="src\progress.cpp" />
-    <ClCompile Include="src\selectdb.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

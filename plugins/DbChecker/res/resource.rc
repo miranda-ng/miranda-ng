@@ -32,27 +32,9 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Miranda Database Tool"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    PUSHBUTTON      "< &Back",IDC_BACK,96,153,50,14
     DEFPUSHBUTTON   "&Next >",IDOK,146,153,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,205,153,50,14
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-5,143,269,1
-END
-
-IDD_SELECTDB DIALOGEX 0, 0, 262, 143
-STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
-    LTEXT           "Select Miranda Profile",IDC_STATIC,11,6,206,8,WS_BORDER
-    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
-    LTEXT           "You can choose the Miranda profile database to compact or repair.",IDC_STATIC,20,14,197,16
-    LTEXT           "Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.",IDC_STATIC,10,35,242,16
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
-    CONTROL         "List1",IDC_DBLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | LVS_AUTOARRANGE | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,10,53,242,72
-    RTEXT           "&File:",IDC_STATIC,10,130,22,8
-    EDITTEXT        IDC_FILE,31,128,177,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "&Other...",IDC_OTHER,212,128,40,12
 END
 
 IDD_OPENERROR DIALOGEX 0, 0, 262, 143
@@ -85,23 +67,6 @@ BEGIN
     LISTBOX         IDC_STATUS,20,52,222,84,NOT LBS_NOTIFY | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_DISABLENOSCROLL | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP
 END
 
-IDD_FINISHED DIALOGEX 0, 0, 262, 143
-STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
-    LTEXT           "Finished!",IDC_STATIC,11,6,206,8,WS_BORDER
-    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
-    LTEXT           "All tasks have been completed.",IDC_STATIC,20,14,197,16
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
-    CONTROL         "Launch Miranda with this profile",IDC_LAUNCHMIRANDA,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,87,226,10,WS_EX_CLIENTEDGE
-    LTEXT           "Launches Miranda with the profile that was just worked on.",IDC_STATIC,37,98,212,16
-    LTEXT           "",IDC_DBFILE,23,68,226,8,SS_NOPREFIX | WS_BORDER
-    LTEXT           "The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.",IDC_STATIC,23,38,226,24
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -119,14 +84,6 @@ BEGIN
         BOTTOMMARGIN, 167
     END
 
-    IDD_SELECTDB, DIALOG
-    BEGIN
-        LEFTMARGIN, 23
-        RIGHTMARGIN, 249
-        TOPMARGIN, 38
-        BOTTOMMARGIN, 136
-    END
-
     IDD_OPENERROR, DIALOG
     BEGIN
         LEFTMARGIN, 23
@@ -139,15 +96,6 @@ BEGIN
     BEGIN
         LEFTMARGIN, 20
         RIGHTMARGIN, 242
-        TOPMARGIN, 38
-        BOTTOMMARGIN, 136
-    END
-
-    IDD_FINISHED, DIALOG
-    BEGIN
-        LEFTMARGIN, 23
-        RIGHTMARGIN, 249
-        VERTGUIDE, 37
         TOPMARGIN, 38
         BOTTOMMARGIN, 136
     END

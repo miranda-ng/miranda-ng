@@ -340,29 +340,14 @@ class CChooseProfileDlg : public CDlgBase
 		m_profileList.DeleteItem(item.iItem);
 	}
 
-	void CheckProfile(DATABASELINK *dblink, const wchar_t *profile)
+	void CheckProfile(const wchar_t *profile)
 	{
 		CMStringW wszFullName(FORMAT, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
 
-		if (auto *db = dblink->Load(wszFullName, false)) {
-			if (auto *pChecker = db->GetChecker()) {
-				DBCHeckCallback cb = { 0, 0, &stubAddMessage };
-				memset(numMessages, 0, sizeof(numMessages));
-
-				pChecker->Start(&cb);
-
-				for (int task = 0;; task++)
-					if (pChecker->CheckDb(task) != 0)
-						break;
-
-				pChecker->Destroy();
-
-				CMStringW wszMsg(FORMAT, TranslateT("Database verification ended with %d fatal errors, %d errors, %d warnings and %d infos"),
-					numMessages[STATUS_FATAL], numMessages[STATUS_ERROR], numMessages[STATUS_WARNING], numMessages[STATUS_MESSAGE]);
-				MessageBoxW(m_hwnd, wszMsg, TranslateT("Database"), MB_OK | MB_ICONINFORMATION);
-			}
-			delete db;
-		}
+		if (TryLoadPlugin(plugin_checker, false))
+			CallService(MS_DB_CHECKPROFILE, (WPARAM)wszFullName.c_str(), 0);
+		else
+			Plugin_Uninit(plugin_checker);
 	}
 
 	void CompactProfile(DATABASELINK *dblink, const wchar_t *profile)
@@ -452,7 +437,7 @@ class CChooseProfileDlg : public CDlgBase
 				bAdded = true;
 			}
 
-			if (dblink->capabilities & MDB_CAPS_CHECK) {
+			if (plugin_checker && (dblink->capabilities & MDB_CAPS_CHECK)) {
 				AppendMenu(hMenu, MF_STRING, 4, TranslateT("Verify"));
 				bAdded = true;
 			}
@@ -477,7 +462,7 @@ class CChooseProfileDlg : public CDlgBase
 			break;
 
 		case 4:
-			CheckProfile(dblink, profile);
+			CheckProfile(profile);
 			break;
 		}
 		DestroyMenu(hMenu);

@@ -21,9 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define WM_PROCESSINGDONE  (WM_USER+1)
 
-void __cdecl WorkerThread(void *unused);
+void __cdecl WorkerThread(DbToolOptions *opts);
 static HWND hwndStatus, hdlgProgress, hwndBar;
-HANDLE hEventRun = nullptr, hEventAbort = nullptr;
 int errorCount;
 LRESULT wizardResult;
 
@@ -73,8 +72,13 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 	if (DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn))
 		return bReturn;
 
+	auto *opts = (DbToolOptions *)GetWindowLongPtrW(hdlg, GWLP_USERDATA);
+
 	switch (message) {
 	case WM_INITDIALOG:
+		opts = (DbToolOptions *)lParam;
+		SetWindowLongPtrW(hdlg, GWLP_USERDATA, lParam);
+
 		EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), FALSE);
 		hdlgProgress = hdlg;
 		hwndStatus = GetDlgItem(hdlg, IDC_STATUS);
@@ -82,10 +86,11 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		hwndBar = GetDlgItem(hdlg, IDC_PROGRESS);
 		SendMessage(hwndBar, PBM_SETRANGE, 0, MAKELPARAM(0, 1000));
 		{
-			SIZE s;
 			HDC hdc = GetDC(nullptr);
 			HFONT hFont = (HFONT)SendMessage(hdlg, WM_GETFONT, 0, 0);
 			HFONT hoFont = (HFONT)SelectObject(hdc, hFont);
+
+			SIZE s;
 			GetTextExtentPoint32(hdc, L"x", 1, &s);
 			SelectObject(hdc, hoFont);
 			ReleaseDC(nullptr, hdc);
@@ -101,10 +106,8 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			hBoldFont = CreateFontIndirect(&lf);
 		}
 		manualAbort = 0;
-		hEventRun = CreateEvent(nullptr, TRUE, TRUE, nullptr);
-		hEventAbort = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 		TranslateDialogDefault(hdlg);
-		_beginthread(WorkerThread, 0, nullptr);
+		mir_forkThread<DbToolOptions>(WorkerThread, opts);
 		return TRUE;
 
 	case WM_MEASUREITEM:
@@ -142,16 +145,21 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 				SetTextColor(dis->hDC, RGB(0, 192, 0));
 				break;
 			}
-			if (bold) hoFont = (HFONT)SelectObject(dis->hDC, hBoldFont);
+			if (bold)
+				hoFont = (HFONT)SelectObject(dis->hDC, hBoldFont);
 			ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED | ETO_OPAQUE, &dis->rcItem, str, (UINT)mir_wstrlen(str), nullptr);
-			if (bold) SelectObject(dis->hDC, hoFont);
+			if (bold)
+				SelectObject(dis->hDC, hoFont);
 		}
 		return TRUE;
 
 	case WM_PROCESSINGDONE:
 		SetProgressBar(1000);
-		AddToStatus(STATUS_SUCCESS, TranslateT("Click Next to continue"));
-		EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), TRUE);
+		if (opts->bAutoExit)
+			PostMessage(GetParent(hdlg), WM_COMMAND, IDCANCEL, 0);
+
+		SetDlgItemText(GetParent(hdlg), IDCANCEL, TranslateT("&Finish"));
+		AddToStatus(STATUS_SUCCESS, TranslateT("Click Finish to continue"));
 
 		if (manualAbort == 1)
 			EndDialog(GetParent(hdlg), 0);
@@ -162,49 +170,27 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		break;
 
 	case WZN_CANCELCLICKED:
-		ResetEvent(hEventRun);
-		if (IsWindowEnabled(GetDlgItem(GetParent(hdlg), IDOK)))
+		ResetEvent(opts->hEventRun);
+		if (opts->bFinished)
 			break;
 
 		if (MessageBox(hdlg, TranslateT("Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?"), TranslateT("Miranda Database Tool"), MB_YESNO) == IDYES) {
 			manualAbort = 1;
-			SetEvent(hEventAbort);
+			SetEvent(opts->hEventAbort);
 		}
-		SetEvent(hEventRun);
+		SetEvent(opts->hEventRun);
 		SetWindowLongPtr(hdlg, DWLP_MSGRESULT, TRUE);
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_BACK:
-			ResetEvent(hEventRun);
-			if (!IsWindowEnabled(GetDlgItem(GetParent(hdlg), IDOK))) {
-				if (MessageBox(hdlg, TranslateT("Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?"), TranslateT("Miranda Database Tool"), MB_YESNO) == IDYES) {
-					manualAbort = 2;
-					SetEvent(hEventAbort);
-				}
-				SetEvent(hEventRun);
-				break;
-			}
-			SetEvent(hEventRun);
-			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
-			break;
-
 		case IDOK:
-			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_FINISHED, (LPARAM)FinishedDlgProc);
+			EndDialog(GetParent(hdlg), 1);
 			break;
 		}
 		break;
 
 	case WM_DESTROY:
-		if (hEventAbort) {
-			CloseHandle(hEventAbort);
-			hEventAbort = nullptr;
-		}
-		if (hEventRun) {
-			CloseHandle(hEventRun);
-			hEventRun = nullptr;
-		}
 		if (hBoldFont) {
 			DeleteObject(hBoldFont);
 			hBoldFont = nullptr;
