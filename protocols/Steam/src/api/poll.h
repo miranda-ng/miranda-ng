@@ -4,8 +4,8 @@
 class PollRequest : public HttpRequest
 {
 public:
-	PollRequest(const char *token, const char *umqId, UINT32 messageId, int idleSeconds) :
-		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001")
+	PollRequest(CSteamProto *ppro) :
+		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v1")
 	{
 		timeout = (STEAM_API_TIMEOUT + 5) * 1000;
 		// flags |= NLHRF_PERSISTENT;
@@ -13,10 +13,10 @@ public:
 		Headers << CHAR_PARAM("Connection", "keep-alive");
 
 		Content = new FormUrlEncodedContent(this)
-			<< CHAR_PARAM("access_token", token)
-			<< CHAR_PARAM("umqid", umqId)
-			<< INT64_PARAM("message", messageId)
-			<< INT_PARAM("secidletime", idleSeconds)
+			<< CHAR_PARAM("access_token", ppro->getMStringA("TokenSecret"))
+			<< CHAR_PARAM("umqid", ppro->getMStringA("UMQID"))
+			<< INT64_PARAM("message", ppro->getDword("MessageID"))
+			<< INT_PARAM("secidletime", ppro->IdleSeconds())
 			<< INT_PARAM("sectimeout", STEAM_API_TIMEOUT);
 	}
 

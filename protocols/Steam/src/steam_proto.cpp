@@ -206,13 +206,8 @@ HANDLE CSteamProto::SearchBasic(const wchar_t* id)
 	if (!this->IsOnline())
 		return nullptr;
 
-	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(mir_u2a(id));
-
-	PushRequest(
-		new GetUserSummariesRequest(token, steamId),
-		&CSteamProto::OnSearchResults,
-		(HANDLE)STEAM_SEARCH_BYID);
+	PushRequest(new GetUserSummariesRequest(this, steamId), &CSteamProto::OnSearchResults, (HANDLE)STEAM_SEARCH_BYID);
 
 	return (HANDLE)STEAM_SEARCH_BYID;
 }

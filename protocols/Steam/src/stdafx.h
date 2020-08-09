@@ -64,7 +64,10 @@ extern HANDLE hExtraXStatus;
 #include "steam_dialogs.h"
 #include "steam_options.h"
 #include "http_request.h"
+
 #include "api/enums.h"
+#include "steam_proto.h"
+
 #include "api/app_info.h"
 #include "api/authorization.h"
 #include "api/authorization.h"
@@ -80,6 +83,5 @@ extern HANDLE hExtraXStatus;
 #include "api/rsa_key.h"
 #include "api/search.h"
 #include "api/session.h"
-#include "steam_proto.h"
 
 #endif //_COMMON_H_

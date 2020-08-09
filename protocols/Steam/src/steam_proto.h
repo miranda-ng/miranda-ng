@@ -55,6 +55,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	friend class CSteamPasswordEditor;
 	friend class CSteamOptionsMain;
 	friend class CSteamOptionsBlockList;
+	friend class PollRequest;
 
 	ptrW m_password;
 	ptrW m_defaultGroup;
@@ -69,7 +70,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	HANDLE m_hRequestQueueThread;
 	LIST<RequestQueueItem> m_requestQueue;
 
-	// pooling
+	// polling
 	HANDLE m_hPollingThread;
 	ULONG hAuthProcess;
 	ULONG hMessageProcess;

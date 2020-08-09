@@ -4,10 +4,10 @@
 class GetConversationsRequest : public HttpRequest
 {
 public:
-	GetConversationsRequest(const char *token) :
+	GetConversationsRequest(CSteamProto *ppro) :
 		HttpRequest(HttpGet, STEAM_API_URL "/IFriendMessagesService/GetActiveMessageSessions/v0001")
 	{
-		Uri << CHAR_PARAM("access_token", token);
+		Uri << CHAR_PARAM("access_token", ppro->getMStringA("TokenSecret"));
 	}
 
 	//{

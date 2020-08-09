@@ -36,7 +36,6 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 					ContactIsFriend(hContact);
 				break;
 			}
-
 			continue;
 		}
 
@@ -52,7 +51,6 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			recv.szMessage = (char*)text.c_str();
 			recv.flags = PREF_SENT;
 			RecvMsg(hContact, &recv);
-
 			continue;
 		}
 
@@ -66,7 +64,6 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 			m_typingTimestamps[steamId] = 0;
-
 			continue;
 		}
 
@@ -78,7 +75,6 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			}
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)STEAM_TYPING_TIME);
 			m_typingTimestamps[steamId] = timestamp;
-
 			continue;
 		}
 
@@ -92,7 +88,6 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 				}
 			}
 			steamIds.append(steamId).append(",");
-
 			continue;
 		}
 
@@ -109,21 +104,16 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			dbei.timestamp = now();
 			dbei.szModule = m_szModuleName;
 			db_event_add(hContact, &dbei);
-
 			continue;
 		}
 
 		debugLogA(__FUNCTION__ ": Unknown event type \"%s\"", type.c_str());
 	}
 
-	if (steamIds.empty())
-		return;
-
-	steamIds.pop_back();
-	ptrA token(getStringA("TokenSecret"));
-	PushRequest(
-		new GetUserSummariesRequest(token, steamIds.c_str()),
-		&CSteamProto::OnGotUserSummaries);
+	if (!steamIds.empty()) {
+		steamIds.pop_back();
+		PushRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnGotUserSummaries);
+	}
 }
 
 struct PollParam
@@ -201,9 +191,6 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 
 		// Reset error counter only when we've got OK
 		param->errors = 0;
-
-		// m_pollingConnection = response->nlc;
-
 		return;
 	}
 
@@ -230,17 +217,11 @@ void CSteamProto::PollingThread(void*)
 {
 	debugLogA(__FUNCTION__ ": entering");
 
-	ptrA token(getStringA("TokenSecret"));
-
 	PollParam param;
 	param.errors = 0;
 	param.errorsLimit = getByte("PollingErrorsLimit", STEAM_API_POLLING_ERRORS_LIMIT);
-	while (IsOnline() && param.errors < param.errorsLimit) {
-		// request->nlc = m_pollingConnection;
-		ptrA umqId(getStringA("UMQID"));
-		UINT32 messageId = getDword("MessageID", 0);
-		SendRequest(new PollRequest(token, umqId, messageId, IdleSeconds()), &CSteamProto::OnGotPoll, &param);
-	}
+	while (IsOnline() && param.errors < param.errorsLimit)
+		SendRequest(new PollRequest(this), &CSteamProto::OnGotPoll, &param);
 
 	if (IsOnline()) {
 		debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");

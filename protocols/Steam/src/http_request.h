@@ -336,7 +336,6 @@ class HttpResponse
 {
 	friend class HttpRequest;
 
-private:
 	NETLIBHTTPREQUEST *m_response;
 
 public:

@@ -295,8 +295,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 
 	// create auth request event
 	ptrA steamId(getUStringA(hContact, "SteamID"));
-	ptrA token(getUStringA("TokenSecret"));
-	SendRequest(new GetUserSummariesRequest(token, steamId), &CSteamProto::OnGotUserSummaries);
+	SendRequest(new GetUserSummariesRequest(this, steamId), &CSteamProto::OnGotUserSummaries);
 
 	ptrA nickName(getUStringA(hContact, "Nick"));
 	if (nickName == nullptr)
@@ -438,13 +437,11 @@ void CSteamProto::OnGotFriendList(const JSONNode &root, void *)
 	}
 	friendsMap.clear();
 
-	ptrA token(getStringA("TokenSecret"));
-
 	if (!steamIds.empty())
-		PushRequest(new GetUserSummariesRequest(token, steamIds.c_str()), &CSteamProto::OnGotUserSummaries);
+		PushRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnGotUserSummaries);
 
 	// Load last conversations
-	PushRequest(new GetConversationsRequest(token), &CSteamProto::OnGotConversations);
+	PushRequest(new GetConversationsRequest(this), &CSteamProto::OnGotConversations);
 }
 
 void CSteamProto::OnGotBlockList(const JSONNode &root, void *)
@@ -731,6 +728,5 @@ void CSteamProto::OnSearchByNameStarted(const HttpResponse &response, void *arg)
 	// remove trailing ","
 	steamIds.pop_back();
 
-	ptrA token(getStringA("TokenSecret"));
-	PushRequest(new GetUserSummariesRequest(token, steamIds.c_str()), &CSteamProto::OnSearchResults, (HANDLE)arg);
+	PushRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnSearchResults, (HANDLE)arg);
 }
