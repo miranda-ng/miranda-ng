@@ -69,9 +69,9 @@ Exportieren
 [Set to default filename]
 Standard-Dateinamen setzen
 [Select all]
-Alles auswählen
+Alle auswählen
 [Select none]
-
+Keine auswählen
 [Auto filename]
 Autom. Dateiname
 [Clear all]
@@ -126,7 +126,7 @@ Nutzer-ID
 [No contacts found to export]
 Keine Kontakte zum exportieren gefunden
 [Export accounts]
-
+Konten exportieren
 [Message export]
 Message Export
 [History]

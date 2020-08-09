@@ -44,13 +44,13 @@ Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht 
 Passwort setzen
 ;file \plugins\Dbx_mdbx\src\dbcheck.cpp
 [Orphaned sorting event with wrong contact ID %d, deleting]
-
+Verwaistes Sortierungsereignis mit falscher Kontakt-ID %d, löschen
 [Orphaned sorting event with wrong event ID %d:%08X, deleting]
-
+Verwaistes Sortierungsereignis mit falscher Ereignis-ID %d:%08X löschen
 [Orphaned event id with wrong event ID %08X, deleting]
-
+Verwaiste Ereignis-ID mit falscher Ereignis-ID %08X, löschen
 [Orphaned setting with wrong contact ID %08X, deleting]
-
+Verwaiste Einstellung mit falscher Kontakt-ID %08X, löschen
 ;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
 [Too many errors!]
 Zu viele Fehler!

@@ -1,2 +1,0 @@
-[Set OTR policy per account]
-[Generating new private key for account '%s'.\nPlease Wait...]

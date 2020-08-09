@@ -821,7 +821,7 @@ Text automatisch erkennen
 [Calling modules' names]
 Pluginnamen verwenden
 [Print dates]
-
+Datum ausgeben
 [Log to]
 Log nach
 [OutputDebugString()]
@@ -829,7 +829,7 @@ OutputDebugString()
 [File]
 Datei
 [Rotate logs]
-
+Logs rotieren
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Programm ausführen, wenn Miranda NG startet (bspw. tail -f, dbgview etc.):
 [Run now]
@@ -1157,7 +1157,7 @@ Gruppen aktivieren
 [Ask before deleting contacts]
 Vor Löschen von Kontakten fragen
 [Remove temporary contacts on exit]
-
+Temporäre Kontakte beim Beenden löschen
 ['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
 [Default settings for known event types]
@@ -2011,7 +2011,7 @@ Chatfenster &öffnen/schließen
 [&Leave chat]
 Chat ver&lassen
 [&Mute chat]
-
+Chat stu&mmschalten
 [Always]
 Immer
 [Never]
@@ -2165,7 +2165,7 @@ Telefon/SMS
 [Chat activity]
 Chat-Aktivität
 [Chat mute mode]
-
+Chat-Stumm-Modus
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Extraicons
@@ -2580,7 +2580,7 @@ Autorisierung gewähren
 [Revoke authorization]
 Autorisierung widerrufen
 [Load server history]
-
+Serververlauf laden
 ;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 WARNUNG! Das Konto wird gelöscht. Das heißt, dass all seine Einstellungen, Kontakte und Verläufe ebenfalls gelöscht werden.\n\nSind Sie sich absolut sicher?

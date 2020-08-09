@@ -13,43 +13,43 @@ Nachrichten
 [Files]
 Dateien
 [URLs]
-
+URLs
 [Total]
-Komplett
+Insgesamt
 [Incoming]
 Eingehend
 [Outgoing]
 Ausgehend
 [since]
-
+von
 [till]
-
+bis
 [Group messages]
 Nachrichten gruppieren
 [Log window]
-
+Verlaufsfenster
 [Enable vertical scroll bar]
-
+Vertikalen Scrollbalken aktivieren
 [Draw window edge]
-
+Fensterrand darstellen
 [Template list:]
-
+Liste der Vorlagen:
 [Edit template:]
-
+Vorlage bearbeiten:
 [Text preview:]
-
+Textvorschau:
 [Graphic preview:]
-
+Grafische Vorschau:
 [Filter]
 Filter
 [Show all events]
 Alle Ereignisse
 [Show incoming events only]
-
+Nur eingehende Ereignisse anzeigen
 [Show outgoing events only]
-
+Nur ausgehende Ereignisse anzeigen
 [Use custom filter...]
-
+Eigenen Filter verwenden...
 [Incoming events]
 Eingehende Ereignisse
 [Outgoing events]
@@ -57,15 +57,15 @@ Ausgehende Ereignisse
 [Show messages]
 Nachrichten anzeigen
 [Show file transfers]
-
+Dateiübertragungen anzeigen
 [Show URLs]
-
+URLs anzeigen
 [Show sign in/out events]
-
+An-/Abgemeldet Ereignisse anzeigen
 [Show other events]
-
+Andere Ereignisse anzeigen
 [Auto search]
-
+Autom. Suche
 [Log options]
 Verlaufseinstellungen
 [Options]
@@ -92,15 +92,15 @@ Ausgehende Dateien
 [Status changes]
 Statusänderungen
 [Other incoming events]
-
+Eingehendes sonstiges Ereignis
 [Other outgoing events]
-
+Ausgehendes sonstiges Ereignis
 [Selected item's text]
-
+Text des ausgewählten Eintrags
 [Selected item's background]
-
+Hintergrund des ausgewählten Eintrags
 [Selected item's frame]
-
+Rahmen des ausgewählten Eintrags
 [Grid background]
 Hintergrund des Verlaufsfensters
 [Separator]
@@ -133,17 +133,17 @@ Homepage
 [About]
 Über
 [History search results]
-
+Verlaufssuchergebnisse
 [Export...]
 Exportieren...
 [Delete...]
-
+Löschen...
 [Search...]
-
+Suchen...
 [Send message]
 Nachricht senden
 [Jump to date]
-
+Zu Datum springen
 [User info]
 Benutzerinfo
 [User menu]
@@ -155,25 +155,25 @@ Finde vorherige
 [Conversations]
 Unterhaltungen
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
-
+Es ist ein Metakontakt. Verwenden Sie zum Export einen seiner Unterkontakte:\r\n%s
 [Export warning]
-
+Export-Warnung
 [JSON files]
-
+JSON-Dateien
 [Export %s history]
-
+Verlauf von %s exportieren
 [Complete]
 Fertig
 [History export]
-
+Verlaufsexport
 ;file \plugins\NewStory\src\history_control.cpp
 [Do you really want to remove selected event(s)?]
-
+Möchten Sie die ausgewählten Ereignisse wirklich löschen?
 ;file \plugins\NewStory\src\history_menus.cpp
 [Are you sure to remove all events from history?]
-
+Sind Sie sicher, dass Sie alle Ereignisse aus dem Verlauf löschen möchten?
 [User history]
-
+Benutzerverlauf
 [Empty history]
 Leere Verlauf
 [System history]
@@ -190,13 +190,13 @@ Eingehende Nachricht
 [Outgoing message]
 Ausgehende Nachricht
 [User signed in]
-
+Benutzer hat sich angemeldet
 [Unknown event]
 Unbekanntes Ereignis
 [Template group]
-
+Vorlage Gruppe
 [Cancel edit]
-
+Bearbeitung abbrechen
 [Update preview]
 Vorschau aktualisieren
 [Help]
@@ -209,27 +209,27 @@ Hilfe zu Variablen
 [Test contact]
 Test-Kontakt
 [simply % character]
-
+Einfaches Prozentzeichen (%)
 [a "hard" line break (cr/lf - will break indent)]
-
+Ein "harter" Zeilenumbruch (CR/LF - unterbricht Einrückung)
 [my nickname]
-
+Mein Nickname
 [buddy\'s nickname]
-
+Nickname des Freundes
 [event count]
 Ereigniszähler
 [icon]
 Icon
 [direction icon]
-
+Ein-/Ausgehend Icon
 [direction symbol]
-
+Ein-/Ausgehend Symbol
 [timestamp]
 Zeitstempel
 [hour (24 hour format, 0-23)]
-
+Stunde (24-Stunden-Format, 0-23)
 [hour (12 hour format)]
-
+Stunde (12-Stunden-Format)
 [minute]
 Minute
 [second]
@@ -237,17 +237,17 @@ Sekunde
 [month]
 Monat
 [day of month]
-
+Monatstag
 [year (4 digits)]
 Jahr (vierstellig)
 [day of week (Sunday, Monday... translatable)]
-
+Wochentag
 [AM/PM symbol]
-
+AM/PM-Zeichen
 [name of month, translatable]
-
+Monatsname
 [the message string itself]
-
+Die Nachricht selbst
 [History]
 Verlauf
 [Advanced]
@@ -292,24 +292,24 @@ November
 [December]
 Dezember
 [System event]
-
+Systemereignis
 [Interface]
 Oberfläche
 [Window title]
-
+Fenstertitel
 [Message log]
 Nachrichtenverlauf
 [Grouped messages]
-
+Gruppierte Nachrichten
 [Presence requests]
-
+Präsenzanfragen
 [Other events]
 Sonstige Ereignisse
 [Authorization requests]
-
+Autorisierungsanfragen
 ['You were added' events]
-
+'Sie wurden hinzugefügt' Ereignisse
 ['You were deleted' events]
-
+'Sie wurden gelöscht' Ereignisse
 [Clipboard]
 Zwischenablage

@@ -77,7 +77,7 @@ Verbindung aufrechterhalten
 [Automatically delete contacts not in my roster]
 Kontakte außerhalb meiner Kontaktliste automatisch löschen
 [History recording mode]
-
+Verlaufsaufzeichnungsmodus
 [Language for human-readable resources:]
 Sprache für menschenlesbare Dialoge:
 [File Transfer]
@@ -501,7 +501,7 @@ Unterstützt private XML-Speicherung (Lesezeichen und anderes)
 [Supports attention requests ('nudge')]
 Unterstützt Aufmerksamkeitsanfragen ('nudge')
 [Support Message Archive Management (XEP-0313)]
-
+Unterstützt Message Archive Management (XEP-0313)
 [Supports chat history retrieving]
 Unterstützt das Erhalten von Chatverläufen
 [Supports chat history management]
@@ -887,7 +887,7 @@ Passwort kann nicht geändert werden
 Jabberlesezeichenfehler
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Conference Room Configuration]
-
+Konferenzraum-Einstellungen
 [%s, %d items (%s)]
 %s, %d Einträge (%s)
 [Reason to ban]
@@ -911,7 +911,7 @@ Besitzerliste
 HTTP-Authentifizierungsanfrage empfangen
 ;file \protocols\JabberG\src\jabber_mam.cpp
 [Do you want to erase local history before loading it from server?]
-
+Möchten Sie den lokalen Verlauf löschen bevor Sie ihn vom Server laden?
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Jabber-Kontenauswahl
@@ -1367,7 +1367,7 @@ Zulu
 [Never]
 Niemals
 [Roster]
-
+Roster
 [Always]
 Immer
 [These changes will take effect the next time you connect to the Jabber network.]
@@ -1405,15 +1405,15 @@ Notizen empfangen
 [Automatically save received notes]
 Empfangene Notizen automatisch speichern
 [Inline pictures in messages (XEP-0231)]
-
+Bilder in Nachrichten einbetten (XEP-0231)
 [Enable chat states sending (XEP-0085)]
-
+Senden von Chatstatus aktivieren (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Serverseitigen Verlauf aktivieren (XEP-0136)
 [Enable Message Archive Management (XEP-0313)]
-
+Message Archive Management unterstützen (XEP-0313)
 [Enable carbon copies (XEP-0280)]
-
+Durchschlagskopien aktivieren (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (Testing)]
 Stream-Management verwenden wenn möglich (XEP-0198) (Testphase)
 [Server options]
@@ -1439,9 +1439,9 @@ Frame deaktivieren
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
 [Embrace picture URLs with [img]]
-
+Bild-URLs in [img] einschließen
 [Ignore server roster (groups and nick names)]
-
+Server-Roster ignorieren (Gruppen und Nicknamen)
 [Security]
 Sicherheit
 [Allow servers to request version (XEP-0092)]
@@ -1775,7 +1775,7 @@ Autorisierung fehlgeschlagen für %s@%s.
 [Message redirected from: %s\r\n]
 Nachricht weitergeleitet von: %s\r\n
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
-
+Konnte eine Durchschlagskopie der verschlüsselten ausgehenden Nachricht nicht entschlüsseln
 [Registration canceled]
 Registrierung abgebrochen
 [Sending registration information...]

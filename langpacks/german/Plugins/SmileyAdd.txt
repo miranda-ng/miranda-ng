@@ -33,7 +33,7 @@ Hochwertige Skalierung von Smileys
 [Animate]
 Animieren
 [Maximum sticker height]
-
+Maximale Sticker-Höhe
 [Minimum smiley height]
 Minimale Smiley-Höhe
 [Smiley selector]

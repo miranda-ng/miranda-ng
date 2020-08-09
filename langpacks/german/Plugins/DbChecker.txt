@@ -42,7 +42,7 @@ Datenbanktreiber '%s' unterstützt keine Überprüfung.
 [&Finish]
 &Fertig
 [Click Finish to continue]
-
+Beenden klicken um fortzufahren
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie den Vorgang abbrechen?
 ;file \plugins\DbChecker\src\wizard.cpp

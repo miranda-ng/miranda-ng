@@ -919,11 +919,11 @@ Tage
 [Configuring view mode: %s]
 Diesen Kontaktfilter einrichten: %s
 [Add view mode]
-
+Kontaktfilter hinzufügen
 [Rename view mode]
-
+Kontaktfilter umbenennen
 [Remove view mode]
-
+Kontaktfilter entfernen
 [Filtering]
 Filtern
 [*** All contacts ***]
@@ -931,13 +931,13 @@ Filtern
 [Configure view modes]
 Kontaktfilter einrichten
 [Enter view mode name]
-
+Namen des Kontaktfilters eingeben
 [A view mode with this name does already exist]
 Ein Kontaktfilter dieses Namens existiert bereits
 [Duplicate name]
 Doppelter Name
 [Enter new view mode name]
-
+Namen des neuen Kontaktfilters eingeben
 [Really delete this view mode? This cannot be undone]
 Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
 [Delete a view mode]

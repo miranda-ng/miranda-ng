@@ -93,14 +93,14 @@ Eingehender Anruf
 [%s gateway connection]
 %s Gatewayverbindung
 [Discord voice call]
-
+Discord-Sprachanruf
 [User ID]
 Nutzer-ID
 [Protocol is offline or user isn't authorized yet]
 Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
 ;file \protocols\Discord\src\server.cpp
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
-
+Der Server erfordert, dass Sie ein Captcha eingeben. Miranda wird Sie nun an einen Browser weiterleiten.
 ;file \protocols\Discord\src\utils.cpp
 [Owners]
 Besitzer

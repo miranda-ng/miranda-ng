@@ -306,9 +306,9 @@ Audio
 [Audio message]
 Audio-Nachricht
 [Transcription]
-
+Transkription
 [Graffiti]
-
+Graffiti
 [Video]
 Video
 [Link]
@@ -320,13 +320,13 @@ Pinnwandeintrag
 [(Unknown contact)]
 (Unbekannter Kontakt)
 [Wall reply]
-
+Pinnwandantwort
 [from]
 von
 [Story]
-
+Geschichte
 [Sticker]
-
+Sticker
 [Product]
 Produkt
 [Price]

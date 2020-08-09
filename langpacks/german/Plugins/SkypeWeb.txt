@@ -122,7 +122,7 @@ Dateiübertragung:\n\tDateiname: %s\n\tGröße: %lld Bytes\n
 [Preview]
 Vorschau
 [Full image]
-
+Volles Bild
 [Unknown event, please send this text for developer: "%s"]
 Unbekanntes Ereignis, bitte senden Sie diesen Text an den Entwickler: "%s"
 ;file \protocols\SkypeWeb\src\skype_icons.cpp

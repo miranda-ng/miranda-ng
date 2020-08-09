@@ -1897,7 +1897,7 @@ Nachrichteneinstellungen für %s
 [TabSRMM message (%s)]
 TabSRMM-Nachricht (%s)
 [Save file|Unable to save temporary file]
-
+Datei speichern|Konnte temporäre Datei nicht speichern
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Editiere Benutzernachricht|Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
