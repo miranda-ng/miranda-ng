@@ -326,7 +326,7 @@ class CChooseProfileDlg : public CDlgBase
 	void DeleteProfile(const LVITEM &item)
 	{
 		CMStringW wszMessage(FORMAT, TranslateT("Are you sure you want to remove profile \"%s\"?"), item.pszText);
-		if (IDYES != MessageBox(nullptr, wszMessage, L"Miranda NG", MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
+		if (IDYES != MessageBoxW(nullptr, wszMessage, L"Miranda NG", MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 			return;
 
 		wszMessage.Format(L"%s\\%s%c", m_pd->ptszProfileDir, item.pszText, 0);
@@ -357,6 +357,8 @@ class CChooseProfileDlg : public CDlgBase
 		if (auto *db = dblink->Load(wszFullName, false)) {
 			db->Compact();
 			delete db;
+			
+			MessageBoxW(nullptr, TranslateT("Database compacted successfully"), L"Miranda NG", MB_OK | MB_ICONINFORMATION);
 		}
 	}
 
