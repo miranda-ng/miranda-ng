@@ -111,8 +111,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_DBTOOL              ICON                    "dbtool.ico"
-IDI_PROFILEGREEN        ICON                    "profileg.ico"
-IDI_BAD                 ICON                    "delete.ico"
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

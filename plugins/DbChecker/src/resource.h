@@ -7,11 +7,9 @@
 #define IDE_WATERMARK                   102
 #define IDI_DBTOOL                      102
 #define IDE_HDRLOGO                     103
-#define IDI_PROFILEGREEN                104
 #define IDD_WELCOME                     106
 #define IDD_OPENERROR                   108
 #define IDD_PROGRESS                    111
-#define IDI_BAD                         113
 #define IDC_WATERMARK                   1000
 #define IDC_TITLE                       1001
 #define IDC_HDRLOGO                     1002

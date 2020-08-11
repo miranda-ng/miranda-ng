@@ -28,8 +28,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <time.h>
 
 #include <newpluginapi.h>
+#include <m_clist.h>
 #include <m_database.h>
 #include <m_db_int.h>
+#include <m_genmenu.h>
 #include <m_langpack.h>
 #include <win2k.h>
 
@@ -50,7 +52,8 @@ struct DbToolOptions : public MZeroedObject
 
 	~DbToolOptions()
 	{
-		delete db;
+		if (bOwnsDb)
+			delete db;
 		CloseHandle(hEventAbort);
 		CloseHandle(hEventRun);
 	}
@@ -59,7 +62,7 @@ struct DbToolOptions : public MZeroedObject
 	MIDatabaseChecker *dbChecker;
 	DWORD error;
 	HANDLE hEventRun, hEventAbort;
-	bool bFinished, bAutoExit;
+	bool bFinished, bAutoExit, bOwnsDb;
 	wchar_t filename[MAX_PATH];
 };
 
