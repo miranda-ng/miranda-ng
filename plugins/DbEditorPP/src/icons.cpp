@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-
 int dbeIcons[] = {
 	ICO_EMPTY,
 	ICO_BINARY,
@@ -18,8 +17,7 @@ int dbeIcons[] = {
 	ICO_OFFLINE
 };
 
-
-IconItem iconList[] = {
+static IconItem iconList[] = {
 	{ LPGEN("Main icon"), "DBE++_0", ICO_DBE_BUTT },
 	{ LPGEN("Closed module"), "DBE++_1", ICO_CLOSED },
 	{ LPGEN("Open module"), "DBE++_2", ICO_OPENED },
@@ -37,16 +35,6 @@ IconItem iconList[] = {
 	{ LPGEN("Unicode setting"), "DBE++_UNICODE", ICO_UNICODE },
 	{ LPGEN("Handle"), "DBE++_HANDLE", ICO_HANDLE }
 };
-
-
-
-HANDLE GetIcoLibHandle(int icon)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == icon)
-			return it.hIcolib;
-	return INVALID_HANDLE_VALUE;
-}
 
 void IcoLibRegister(void)
 {

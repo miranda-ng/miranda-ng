@@ -291,7 +291,6 @@ int EnumResidentSettings(const char *module, ModuleSettingLL *msll);
 int fixResidentSettings();
 
 // icons
-HANDLE GetIcoLibHandle(int icon);
 void IcoLibRegister();
 HICON LoadSkinnedDBEIcon(int icon);
 HIMAGELIST LoadIcons();

@@ -90,7 +90,7 @@ static int OnTTBLoaded(WPARAM, LPARAM)
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = "DBEditorpp/MenuCommand";
 	ttb.name = LPGEN("Database Editor++");
-	ttb.hIconHandleUp = GetIcoLibHandle(ICO_DBE_BUTT);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(ICO_DBE_BUTT);
 	ttb.pszTooltipUp = LPGEN("Open Database Editor");
 	hTTBButt = g_plugin.addTTB(&ttb);
 	return 0;
@@ -106,14 +106,14 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	SET_UID(mi, 0xe298849c, 0x1a8c, 0x4fc7, 0xa0, 0xf4, 0x78, 0x18, 0xf, 0xe2, 0xf7, 0xc9);
 	mi.position = 1900000001;
-	mi.hIcolibItem = GetIcoLibHandle(ICO_DBE_BUTT);
+	mi.hIcolibItem = g_plugin.getIconHandle(ICO_DBE_BUTT);
 	mi.name.a = modFullname;
 	mi.pszService = "DBEditorpp/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x2fed8613, 0xac43, 0x4148, 0xbd, 0x5c, 0x44, 0x88, 0xaf, 0x68, 0x69, 0x10);
 	mi.root = nullptr;
-	mi.hIcolibItem = GetIcoLibHandle(ICO_REGUSER);
+	mi.hIcolibItem = g_plugin.getIconHandle(ICO_REGUSER);
 	mi.name.a = LPGEN("Open user tree in DBE++");
 	mi.pszService = "DBEditorpp/MenuCommand";
 	hUserMenu = Menu_AddContactMenuItem(&mi);
