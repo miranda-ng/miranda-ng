@@ -28,7 +28,12 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_impl(*this),
 	m_requests(1)
 {
-	InitNetwork();
+	NETLIBUSER nlu = {};
+	CMStringW name(FORMAT, TranslateT("%s connection"), m_tszUserName);
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = name.GetBuffer();
+	nlu.szSettingsModule = m_szModuleName;
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
 	CreateProtoService(PS_GETAVATARINFO, &CSkypeProto::SvcGetAvatarInfo);

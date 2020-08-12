@@ -616,6 +616,8 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 		break;
 	}
 
+	AddHeader("User-Agent", NETLIB_USER_AGENT);
+
 	if (url)
 		m_szUrl.Append(url);
 	m_pFunc = pFunc;

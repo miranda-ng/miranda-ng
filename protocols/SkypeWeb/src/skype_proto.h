@@ -183,8 +183,6 @@ private:
 	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
 	// requests
-	void InitNetwork();
-	
 	bool m_isTerminated = true;
 	mir_cs m_requestQueueLock;
 	LIST<AsyncHttpRequest> m_requests;

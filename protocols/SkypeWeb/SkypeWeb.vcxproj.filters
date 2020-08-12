@@ -52,9 +52,6 @@
     <ClCompile Include="src\skype_messages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_network.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_oauth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
