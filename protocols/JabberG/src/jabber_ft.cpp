@@ -110,8 +110,8 @@ void CJabberProto::FtInitiate(filetransfer *ft)
 	if (wchar_t *p = wcsrchr(filename, '\\'))
 		filename = p + 1;
 
-	// if we enabled XEP-0231, try to inline a picture
-	if (m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w)) {
+	// if we enabled XEP-0231, try to inline a picture (but only for private chats)
+	if (m_bInlinePictures && ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w) && !isChatRoom(ft->std.hContact)) {
 		if (FtTryInlineFile(ft)) {
 			mir_forkthread(FakeAckThread, ft);
 			return;
