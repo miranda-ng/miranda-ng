@@ -97,8 +97,10 @@ void CContactCache::resetMeta()
 
 void CContactCache::closeWindow()
 {
-	if (m_dat)
-		::SendMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
+	if (m_dat) {
+		m_dat->m_bForcedClose = true;
+		m_dat->Close();
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -301,9 +303,12 @@ void CContactCache::deletedHandler()
 {
 	cc = &ccInvalid;
 	m_isValid = false;
-	if (m_dat)
+	if (m_dat) {
+		m_dat->m_bForcedClose = true;
+
 		// this message must be sent async to allow a contact to rest in peace before window gets closed
 		::PostMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);
+	}
 
 	releaseAlloced();
 	m_hContact = INVALID_CONTACT_ID;

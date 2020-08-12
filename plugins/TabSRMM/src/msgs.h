@@ -469,6 +469,7 @@ public:
 	bool    m_bEditNotesActive;
 	bool    m_bShowAvatar;
 	bool    m_bSaveBtn, m_bNeedCheckSize;
+	bool    m_bForcedClose;
 	bool    m_bErrorState;
 	bool    m_bDividerWanted, m_bDividerSet;
 	bool    m_bSplitterOverride;
@@ -544,6 +545,7 @@ public:
 	int OnFilter(MSGFILTER *);
 
 	bool OnInitDialog() override;
+	bool OnClose() override;
 	void OnDestroy() override;
 	int Resizer(UTILRESIZECONTROL *urc) override;
 

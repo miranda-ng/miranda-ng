@@ -270,16 +270,16 @@ void CProxyWindow::sendPreview()
 		return;
 
 	FORMATRANGE fr = {};
-	POINT pt = { 0 };
+	POINT pt = {};
 	RECT rcContainer, rcTemp, rcRich, rcLog;
 	HDC hdc, dc;
 	int twips = (int)(15.0f / PluginConfig.m_DPIscaleY);
 	bool fIsChat = m_dat->isChat();
 	HWND hwndRich = m_dat->m_pLog->GetHwnd();
-	POINT	ptOrigin = { 0 }, ptBottom;
+	POINT	ptOrigin = {}, ptBottom;
 
 	if (m_dat->m_bNeedCheckSize) {
-		RECT	rcClient;
+		RECT rcClient;
 		m_dat->m_pContainer->QueryClientArea(rcClient);
 		::MoveWindow(m_dat->GetHwnd(), rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
 		::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
