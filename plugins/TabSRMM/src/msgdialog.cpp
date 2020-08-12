@@ -610,7 +610,7 @@ bool CMsgDialog::OnInitDialog()
 		mir_free(wszInitialText);
 	}
 
-	SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+	m_pContainer->QueryClientArea(rc);
 
 	SetWindowPos(m_hwnd, nullptr, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), m_bActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);
 	LoadSplitter();
@@ -2781,7 +2781,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				DM_UpdateLastMessage();
 		}
 
-		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
+		m_pContainer->QueryClientArea(rcClient);
 		MoveWindow(m_hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), TRUE);
 		if (m_bWasBackgroundCreate) {
 			m_bWasBackgroundCreate = false;

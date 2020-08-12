@@ -149,7 +149,7 @@ void CMsgDialog::CloseTab()
 		m_pContainer->m_hwndActive = GetTabWindow(m_hwndParent, i);
 
 		RECT rc;
-		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)& rc);
+		m_pContainer->QueryClientArea(rc);
 		SetWindowPos(m_pContainer->m_hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
 		ShowWindow(m_pContainer->m_hwndActive, SW_SHOW);
 		SetForegroundWindow(m_pContainer->m_hwndActive);

@@ -280,7 +280,7 @@ void CProxyWindow::sendPreview()
 
 	if (m_dat->m_bNeedCheckSize) {
 		RECT	rcClient;
-		::SendMessage(m_dat->m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
+		m_dat->m_pContainer->QueryClientArea(rcClient);
 		::MoveWindow(m_dat->GetHwnd(), rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
 		::SendMessage(m_dat->GetHwnd(), WM_SIZE, 0, 0);
 		m_dat->DM_ScrollToBottom(0, 1);

@@ -512,6 +512,15 @@ void TContainerData::LoadThemeDefaults()
 	m_theme.isPrivate = false;
 }
 
+void TContainerData::QueryClientArea(RECT &rc)
+{
+	if (!IsIconic(m_hwnd))
+		GetClientRect(m_hwnd, &rc);
+	else
+		CopyRect(&rc, &m_rcSaved);
+	AdjustTabClientRect(rc);
+}
+
 // search tab with either next or most recent unread message and select it
 void TContainerData::QueryPending()
 {
@@ -1747,8 +1756,8 @@ panel_found:
 			pContainer->ApplySetting(true);
 			break;
 		case IDM_MOREOPTIONS:
-			if (IsIconic(pContainer->m_hwnd))
-				SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+			if (IsIconic(hwndDlg))
+				SendMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
 			pContainer->OptionsDialog();
 			break;
 		case SC_MAXIMIZE:
@@ -1976,30 +1985,17 @@ panel_found:
 	case WM_MEASUREITEM:
 		return Menu_MeasureItem(lParam);
 
-	case DM_QUERYCLIENTAREA:
-		{
-			RECT *pRect = (RECT*)lParam;
-			if (pRect) {
-				if (!IsIconic(hwndDlg))
-					GetClientRect(hwndDlg, pRect);
-				else
-					CopyRect(pRect, &pContainer->m_rcSaved);
-				pContainer->AdjustTabClientRect(*pRect);
-			}
-		}
-		return 0;
-
 	case WM_MOUSEWHEEL:
 		GetCursorPos(&pt);
 
 		if (pContainer->m_flags.m_bSideBar) {
 			RECT rc1;
-			GetWindowRect(GetDlgItem(pContainer->m_hwnd, IDC_SIDEBARUP), &rc);
-			GetWindowRect(GetDlgItem(pContainer->m_hwnd, IDC_SIDEBARDOWN), &rc1);
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_SIDEBARUP), &rc);
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_SIDEBARDOWN), &rc1);
 			rc.bottom = rc1.bottom;
 			if (PtInRect(&rc, pt)) {
 				short amount = (short)(HIWORD(wParam));
-				SendMessage(pContainer->m_hwnd, WM_COMMAND, MAKELONG(amount > 0 ? IDC_SIDEBARUP : IDC_SIDEBARDOWN, 0), IDC_SRMM_MESSAGE);
+				SendMessage(hwndDlg, WM_COMMAND, MAKELONG(amount > 0 ? IDC_SIDEBARUP : IDC_SIDEBARDOWN, 0), IDC_SRMM_MESSAGE);
 				return 0;
 			}
 		}

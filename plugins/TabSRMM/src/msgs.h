@@ -282,6 +282,7 @@ struct TContainerData : public MZeroedObject
 	void LoadOverrideTheme(void);
 	void LoadThemeDefaults(void);
 	void OptionsDialog(void);
+	void QueryClientArea(RECT &rc);
 	void QueryPending(void);
 	void ReflashContainer(void);
 	void Resize(bool, int newWidth);
@@ -722,7 +723,6 @@ struct TIconDescW
 #define DM_CHECKSIZE             (TM_USER+37)
 #define DM_FORCEREDRAW           (TM_USER+38)
 #define DM_QUERYHCONTACT         (TM_USER+41)
-#define DM_QUERYCLIENTAREA       (TM_USER+45)
 #define DM_ACTIVATEME            (TM_USER+46)
 #define DM_STATUSMASKSET         (TM_USER+51)
 #define DM_UPDATESTATUSMSG       (TM_USER+53)

@@ -390,7 +390,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
 			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
-		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+		m_pContainer->QueryClientArea(rc);
 		Resize();
 		DM_ScrollToBottom(1, 1);
 		Utils::showDlgControl(m_hwnd, IDC_MULTISPLITTER, (m_sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
