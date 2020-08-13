@@ -1289,7 +1289,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					wszLinkLast = jnImage["url"].as_mstring();
 				}
 
-				if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
+				if (m_vkOptions.iIMGBBCSupport)
 					res += SetBBCString(wszLink.IsEmpty() ? (wszLink128.IsEmpty() ? wszLinkLast : wszLink128) : wszLink, iBBC, vkbbcImg);
 			}
 
