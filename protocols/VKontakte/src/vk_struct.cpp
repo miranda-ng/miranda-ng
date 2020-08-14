@@ -160,6 +160,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bPopUpSyncHistory(proto, "PopUpSyncHistory", false),
 	iMarkMessageReadOn(proto, "MarkMessageReadOn", MarkMsgReadOn::markOnRead),
 	bStikersAsSmyles(proto, "StikersAsSmyles", false),
+	bUseStikersAsStaticSmyles(proto, "UseStikersAsStaticSmyles", true), //true - while issue #2527 not fixed
 	bUserForceInvisibleOnActivity(proto, "UserForceOnlineOnActivity", false),
 	bNewsEnabled(proto, "NewsEnabled", false),
 	iMaxLoadNewsPhoto(proto, "MaxLoadNewsPhoto", 5),
@@ -224,12 +225,4 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	pwszVKLang(proto, "VKLang", nullptr)
 
 {
-	// Note: Delete this code after next stable build
-	int iAutoClean = db_get_b(0, proto->m_szModuleName, "AutoClean", -1);
-	if (iAutoClean != -1) {
-		bLoadOnlyFriends = (BYTE)iAutoClean;
-		db_set_b(0, proto->m_szModuleName, "LoadOnlyFriends", bLoadOnlyFriends);
-		db_unset(0, proto->m_szModuleName, "AutoClean");
-	}
-	// Note
 }

@@ -294,7 +294,7 @@ void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, cons
 
 	const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
 	if (jnFwdMessages && !jnFwdMessages.empty()) {
-		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, bbcNo);
+		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, cc->m_hContact, bbcNo);
 		if (!wszBody.IsEmpty())
 			wszFwdMessages = L"\n" + wszFwdMessages;
 		wszBody += wszFwdMessages;
@@ -302,7 +302,7 @@ void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, cons
 
 	const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 	if (jnReplyMessages && !jnReplyMessages.empty()) {
-		CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, bbcNo);
+		CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, cc->m_hContact, bbcNo);
 		if (!wszBody.IsEmpty())
 			wszReplyMessages = L"\n" + wszReplyMessages;
 		wszBody += wszReplyMessages;
@@ -310,7 +310,7 @@ void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, cons
 
 	const JSONNode& jnAttachments = jnMsg["attachments"];
 	if (jnAttachments && !jnAttachments.empty()) {
-		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, bbcNo);
+		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, cc->m_hContact, bbcNo);
 
 		if (wszAttachmentDescr == L"== FilterAudioMessages ==")
 			return;

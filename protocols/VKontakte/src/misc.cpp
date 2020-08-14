@@ -1086,7 +1086,7 @@ CMStringW& CVkProto::ClearFormatNick(CMStringW& wszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC)
+CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, MCONTACT hContact, BBCSupport iBBC)
 {
 	debugLogA("CVkProto::GetAttachmentDescr");
 	CMStringW res;
@@ -1209,7 +1209,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					const JSONNode& jnSubAttachments = jnCopyHystoryItem["attachments"];
 					if (jnSubAttachments) {
 						debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-						CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+						CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, hContact, iBBC);
 						wszAttachmentDescr.Replace(L"\n", L"\n\t\t");
 						wszAttachmentDescr.Replace(L"== FilterAudioMessages ==", L"");
 						res += L"\n\t\t" + wszAttachmentDescr;
@@ -1220,7 +1220,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			const JSONNode& jnSubAttachments = jnWall["attachments"];
 			if (jnSubAttachments) {
 				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, hContact, iBBC);
 				wszAttachmentDescr.Replace(L"\n", L"\n\t");
 				wszAttachmentDescr.Replace(L"== FilterAudioMessages ==", L"");
 				res += L"\n\t" + wszAttachmentDescr;
@@ -1270,27 +1270,71 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				continue;
 			res.Empty(); // sticker is not really an attachment, so we don't want all that heading info
 
-			if (m_vkOptions.bStikersAsSmyles) {
-				int id = jnSticker["sticker_id"].as_int();
-				res.AppendFormat(L"[sticker:%d]", id);
-			}
-			else {
-				CMStringW wszLink, wszLink128, wszLinkLast;
-				const JSONNode& jnImages = jnSticker[m_vkOptions.bStickerBackground ? "images_with_background" : "images"];
-				for (auto& jnImage : jnImages) {
-					if (jnImage["width"].as_int() == (int)m_vkOptions.iStickerSize) {
-						wszLink = jnImage["url"].as_mstring();
-						break;
-					}
+			CMStringW wszLink, wszLink128, wszLinkLast, wszUrl;
+			const JSONNode& jnImages = jnSticker[m_vkOptions.bStickerBackground ? "images_with_background" : "images"];
 
-					if (jnImage["width"].as_int() == 128) // default size
-						wszLink128 = jnImage["url"].as_mstring();
+			int iStickerId = jnSticker["sticker_id"].as_int();
+			int iProductId = jnSticker["product_id"].as_int();
 
-					wszLinkLast = jnImage["url"].as_mstring();
+			for (auto& jnImage : jnImages) {
+				if (jnImage["width"].as_int() == (int)m_vkOptions.iStickerSize) {
+					wszLink = jnImage["url"].as_mstring();
+					break;
 				}
 
-				if (m_vkOptions.iIMGBBCSupport)
-					res += SetBBCString(wszLink.IsEmpty() ? (wszLink128.IsEmpty() ? wszLinkLast : wszLink128) : wszLink, iBBC, vkbbcImg);
+				if (jnImage["width"].as_int() == 128) // default size
+					wszLink128 = jnImage["url"].as_mstring();
+
+				wszLinkLast = jnImage["url"].as_mstring();
+			}
+
+			wszUrl = wszLink.IsEmpty() ? (wszLink128.IsEmpty() ? wszLinkLast : wszLink128) : wszLink;
+
+			if (!m_vkOptions.bStikersAsSmyles)
+				res += SetBBCString(wszUrl, iBBC, vkbbcImg);
+			else if (m_vkOptions.bUseStikersAsStaticSmyles)
+				res.AppendFormat(L"[sticker:%d]", iStickerId);
+			else {
+				if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
+					CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
+					CreateDirectoryTreeW(wszPath);
+
+					bool bSuccess = false;
+					CMStringW wszFileName(FORMAT, L"%s\\{sticker-%d-%d}.png", wszPath.c_str(), iProductId, iStickerId);
+
+					if (GetFileAttributesW(wszFileName) == INVALID_FILE_ATTRIBUTES) {
+						T2Utf szUrl(wszUrl);
+						NETLIBHTTPREQUEST req = {};
+						req.cbSize = sizeof(req);
+						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+						req.requestType = REQUEST_GET;
+						req.szUrl = szUrl;
+
+						NETLIBHTTPREQUEST* pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
+						if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
+							bSuccess = true;
+							FILE* out = _wfopen(wszFileName, L"wb");
+							fwrite(pReply->pData, 1, pReply->dataLength, out);
+							fclose(out);
+						}
+					}
+					else
+						bSuccess = true;
+
+
+					if (bSuccess) {
+						res.AppendFormat(L"{sticker-%d-%d}",  iProductId, iStickerId);
+
+						SMADD_CONT cont;
+						cont.cbSize = sizeof(SMADD_CONT);
+						cont.hContact = hContact;
+						cont.type = 1;
+						cont.path = wszFileName.GetBuffer();
+						CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+					}
+					else
+						res += SetBBCString(TranslateT("Sticker"), iBBC, vkbbcUrl, wszUrl);
+				}
 			}
 
 		}
@@ -1377,7 +1421,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 	return res;
 }
 
-CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC)
+CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, MCONTACT hConContact, BBCSupport iBBC)
 {
 	UINT uid = jnMsg["from_id"].as_int();
 	CMStringW wszBody(jnMsg["text"].as_mstring());
@@ -1406,7 +1450,7 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 
 	const JSONNode& jnFwdMessages = jnMsg["fwd_messages"];
 	if (jnFwdMessages && !jnFwdMessages.empty()) {
-		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
+		CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, hConContact, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
 		if (!wszBody.IsEmpty())
 			wszFwdMessages = L"\n" + wszFwdMessages;
 		wszBody += wszFwdMessages;
@@ -1414,7 +1458,7 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 
 	const JSONNode& jnAttachments = jnMsg["attachments"];
 	if (jnAttachments && !jnAttachments.empty()) {
-		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
+		CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, hConContact, iBBC == bbcNo ? iBBC : m_vkOptions.BBCForAttachments());
 		if (wszAttachmentDescr != L"== FilterAudioMessages ==") {
 			if (!wszBody.IsEmpty())
 				wszAttachmentDescr = L"\n" + wszAttachmentDescr;
@@ -1437,7 +1481,7 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 
 }
 
-CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC)
+CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, MCONTACT hConContact, BBCSupport iBBC)
 {
 	CMStringW res;
 	debugLogA("CVkProto::GetFwdMessages");
@@ -1465,10 +1509,10 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 		for (auto& jnMsg : jnMessages.as_array()) {
 			if (!res.IsEmpty())
 				res.AppendChar('\n');
-			res += GetFwdMessage(jnMsg, jnFUsers, vkUsers, iBBC);
+			res += GetFwdMessage(jnMsg, jnFUsers, vkUsers, hConContact, iBBC);
 		}
 	else
-		res = GetFwdMessage(jnMessages,  jnFUsers, vkUsers, iBBC);
+		res = GetFwdMessage(jnMessages,  jnFUsers, vkUsers, hConContact, iBBC);
 
 	res.AppendChar('\n');
 	vkUsers.destroy();

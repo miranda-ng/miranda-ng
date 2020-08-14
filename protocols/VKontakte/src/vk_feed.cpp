@@ -237,7 +237,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 			if (!wszPopupText.IsEmpty())
 				wszPopupText.AppendChar('\n');
 			wszPopupText += TranslateT("(attachments)");
-			wszText += GetAttachmentDescr(jnAttachments, m_vkOptions.bUseBBCOnAttacmentsAsNews ? m_vkOptions.BBCForNews() : m_vkOptions.BBCForAttachments());
+			wszText += GetAttachmentDescr(jnAttachments, FindUser(VK_FEED_USER), m_vkOptions.bUseBBCOnAttacmentsAsNews ? m_vkOptions.BBCForNews() : m_vkOptions.BBCForAttachments());
 		}
 	}
 

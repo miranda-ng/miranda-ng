@@ -235,11 +235,11 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 		int isRead = (mid <= iReadMsg);
 		int datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
-
+		MCONTACT hContact = FindUser(uid, true);
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages && !jnFwdMessages.empty()) {
-			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, hContact, m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszFwdMessages = L"\n" + wszFwdMessages;
 			wszBody += wszFwdMessages;
@@ -247,7 +247,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 		if (jnReplyMessages && !jnReplyMessages.empty()) {
-			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
+			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, hContact, m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszReplyMessages = L"\n" + wszReplyMessages;
 			wszBody += wszReplyMessages;
@@ -255,7 +255,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments && !jnAttachments.empty()) {
-			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
+			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, hContact, m_vkOptions.BBCForAttachments());
 
 			if (wszAttachmentDescr == L"== FilterAudioMessages ==") {
 				count++;
@@ -271,7 +271,6 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
 
-		MCONTACT hContact = FindUser(uid, true);
 		PROTORECVEVENT recv = { 0 };
 		if (isRead)
 			recv.flags |= PREF_CREATEREAD;
