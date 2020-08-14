@@ -28,7 +28,7 @@ SmileyPackType* GetSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCT
 {
 	hContact = DecodeMetaContact(hContact);
 	if (smlc)
-		*smlc = opt.DisableCustom ? nullptr : g_SmileyPackCStore.GetSmileyPack(hContact);
+		*smlc = g_SmileyPackCStore.GetSmileyPack(hContact);
 
 	if (proto != nullptr && IsBadStringPtrA(proto, 10))
 		return nullptr;
@@ -357,8 +357,6 @@ INT_PTR ReloadPack(WPARAM, LPARAM lParam)
 
 INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 {
-	if (opt.DisableCustom) return 0;
-
 	SMADD_CONT *cont = (SMADD_CONT*)lParam;
 
 	switch (cont->type) {

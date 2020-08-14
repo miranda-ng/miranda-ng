@@ -37,7 +37,6 @@ public:
 	bool AnimateDlg;
 	bool InputSmileys;
 	bool DCursorSmiley;
-	bool DisableCustom;
 	bool HQScaling;
 	bool HorizontalSorting;
 	unsigned SelWndBkgClr;
