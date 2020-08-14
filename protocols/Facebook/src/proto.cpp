@@ -75,7 +75,9 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	m_szClientID = getMStringA(DBKEY_CLIENT_ID);
 	if (m_szClientID.IsEmpty()) {
 		for (int i = 0; i < 20; i++) {
-			int c = rand() % 62;
+			DWORD dwRandon;
+			Utils_GetRandom(&dwRandon, sizeof(dwRandon));
+			int c = dwRandon % 62;
 			if (c >= 0 && c < 26)
 				c += 'a';
 			else if (c >= 26 && c < 52)
@@ -131,6 +133,24 @@ FacebookProto::~FacebookProto()
 
 void FacebookProto::OnModulesLoaded()
 {
+	CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers\\*.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
+
+	WIN32_FIND_DATAW findData;
+	HANDLE hFind = FindFirstFileW(wszPath, &findData);
+	if (hFind != INVALID_HANDLE_VALUE) {
+		wszPath.Truncate(wszPath.GetLength() - 5);
+		do {
+			CMStringW wszFileName = wszPath + findData.cFileName;
+
+			SMADD_CONT cont;
+			cont.cbSize = sizeof(SMADD_CONT);
+			cont.hContact = 0;
+			cont.type = 1;
+			cont.path = wszFileName.GetBuffer();
+			CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+		}
+			while (FindNextFileW(hFind, &findData));
+	}
 }
 
 void FacebookProto::OnShutdown()

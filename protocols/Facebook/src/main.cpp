@@ -68,6 +68,5 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModuleLoaded);
 
 	// Initialize random generator (used only as fallback in utils)
-	srand(::time(0));
 	return 0;
 }
