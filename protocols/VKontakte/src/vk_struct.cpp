@@ -160,7 +160,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bPopUpSyncHistory(proto, "PopUpSyncHistory", false),
 	iMarkMessageReadOn(proto, "MarkMessageReadOn", MarkMsgReadOn::markOnRead),
 	bStikersAsSmyles(proto, "StikersAsSmyles", false),
-	bUseStikersAsStaticSmyles(proto, "UseStikersAsStaticSmyles", true), //true - while issue #2527 not fixed
+	bUseStikersAsStaticSmyles(proto, "UseStikersAsStaticSmyles", false),
 	bUserForceInvisibleOnActivity(proto, "UserForceOnlineOnActivity", false),
 	bNewsEnabled(proto, "NewsEnabled", false),
 	iMaxLoadNewsPhoto(proto, "MaxLoadNewsPhoto", 5),

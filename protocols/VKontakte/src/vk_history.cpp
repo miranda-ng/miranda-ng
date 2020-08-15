@@ -239,7 +239,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		const JSONNode &jnFwdMessages = jnMsg["fwd_messages"];
 		if (jnFwdMessages && !jnFwdMessages.empty()) {
-			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, hContact, m_vkOptions.BBCForAttachments());
+			CMStringW wszFwdMessages = GetFwdMessages(jnFwdMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszFwdMessages = L"\n" + wszFwdMessages;
 			wszBody += wszFwdMessages;
@@ -247,7 +247,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		const JSONNode& jnReplyMessages = jnMsg["reply_message"];
 		if (jnReplyMessages && !jnReplyMessages.empty()) {
-			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, hContact, m_vkOptions.BBCForAttachments());
+			CMStringW wszReplyMessages = GetFwdMessages(jnReplyMessages, jnFUsers, m_vkOptions.BBCForAttachments());
 			if (!wszBody.IsEmpty())
 				wszReplyMessages = L"\n" + wszReplyMessages;
 			wszBody += wszReplyMessages;
@@ -255,7 +255,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		const JSONNode &jnAttachments = jnMsg["attachments"];
 		if (jnAttachments && !jnAttachments.empty()) {
-			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, hContact, m_vkOptions.BBCForAttachments());
+			CMStringW wszAttachmentDescr = GetAttachmentDescr(jnAttachments, m_vkOptions.BBCForAttachments());
 
 			if (wszAttachmentDescr == L"== FilterAudioMessages ==") {
 				count++;

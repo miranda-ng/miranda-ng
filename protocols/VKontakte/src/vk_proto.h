@@ -230,6 +230,9 @@ private:
 		m_hContactHistoryMenuItems[CHMI_COUNT],
 		m_hProtoMenuItems[PMI_COUNT];
 
+
+	void InitSmileys();
+
 	//==== Menus =========================================================================
 
 	void InitMenus();
@@ -358,9 +361,9 @@ private:
 	CMStringW GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC);
 	CMStringW SetBBCString(LPCWSTR wszString, BBCSupport iBBC, VKBBCType bbcType, LPCWSTR wszAddString = nullptr);
 	CMStringW& ClearFormatNick(CMStringW& wszText);
-	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, MCONTACT hContact, BBCSupport iBBC);
-	CMStringW GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, MCONTACT hConContact, BBCSupport iBBC);
-	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, MCONTACT hConContact, BBCSupport iBBC);
+	CMStringW GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport iBBC);
+	CMStringW GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC);
+	CMStringW GetFwdMessages(const JSONNode &jnMessages, const JSONNode &jnFUsers, BBCSupport iBBC);
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
