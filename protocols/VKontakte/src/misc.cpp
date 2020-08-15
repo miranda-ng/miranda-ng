@@ -1290,9 +1290,9 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			wszUrl = wszLink.IsEmpty() ? (wszLink128.IsEmpty() ? wszLinkLast : wszLink128) : wszLink;
 
-			if (!m_vkOptions.bStikersAsSmyles)
+			if (!m_vkOptions.bStikersAsSmileys)
 				res += SetBBCString(wszUrl, iBBC, vkbbcImg);
-			else if (m_vkOptions.bUseStikersAsStaticSmyles)
+			else if (m_vkOptions.bUseStikersAsStaticSmileys)
 				res.AppendFormat(L"[sticker:%d]", iStickerId);
 			else {
 				if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
@@ -1320,6 +1320,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					}
 					else
 						bSuccess = true;
+
 
 					if (bSuccess) {
 						res.AppendFormat(L"[sticker-%d]",  iStickerId);

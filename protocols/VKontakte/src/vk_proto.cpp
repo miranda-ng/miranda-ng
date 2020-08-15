@@ -119,10 +119,10 @@ void CVkProto::OnModulesLoaded()
 
 void CVkProto::InitSmileys()
 {
-	if (!m_vkOptions.bStikersAsSmyles)
+	if (!m_vkOptions.bStikersAsSmileys)
 		return;
 
-	if (m_vkOptions.bUseStikersAsStaticSmyles)
+	if (m_vkOptions.bUseStikersAsStaticSmileys)
 		return;
 
 	CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers\\*.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);

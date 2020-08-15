@@ -159,8 +159,8 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bRemoveFromCList(proto, "RemoveFromClistOnBanUser", false),
 	bPopUpSyncHistory(proto, "PopUpSyncHistory", false),
 	iMarkMessageReadOn(proto, "MarkMessageReadOn", MarkMsgReadOn::markOnRead),
-	bStikersAsSmyles(proto, "StikersAsSmyles", false),
-	bUseStikersAsStaticSmyles(proto, "UseStikersAsStaticSmyles", false),
+	bStikersAsSmileys(proto, "StikersAsSmileys", false),
+	bUseStikersAsStaticSmileys(proto, "UseStikersAsStaticSmileys", false),
 	bUserForceInvisibleOnActivity(proto, "UserForceOnlineOnActivity", false),
 	bNewsEnabled(proto, "NewsEnabled", false),
 	iMaxLoadNewsPhoto(proto, "MaxLoadNewsPhoto", 5),
@@ -225,4 +225,12 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	pwszVKLang(proto, "VKLang", nullptr)
 
 {
+	// Note: Delete this code after next stable build
+	int iStikersAsSmyles = db_get_b(0, proto->m_szModuleName, "StikersAsSmyles", -1);
+	if (iStikersAsSmyles != -1) {
+		bStikersAsSmileys = iStikersAsSmyles == 1;
+		db_set_b(0, proto->m_szModuleName, "StikersAsSmileys", (BYTE)iStikersAsSmyles);
+		db_unset(0, proto->m_szModuleName, "StikersAsSmyles");
+	}
+	// Note
 }

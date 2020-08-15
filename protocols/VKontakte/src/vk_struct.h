@@ -256,8 +256,8 @@ struct CVKOptions {
 	CMOption<BYTE> bRemoveFromCList;
 	CMOption<BYTE> bPopUpSyncHistory;
 	CMOption<BYTE> iMarkMessageReadOn;
-	CMOption<BYTE> bStikersAsSmyles;
-	CMOption<BYTE> bUseStikersAsStaticSmyles;
+	CMOption<BYTE> bStikersAsSmileys;
+	CMOption<BYTE> bUseStikersAsStaticSmileys;
 	CMOption<BYTE> bUserForceInvisibleOnActivity;
 	CMOption<BYTE> iMusicSendMetod;
 	CMOption<BYTE> bPopupContactsMusic;
