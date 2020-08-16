@@ -384,6 +384,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	int     FindRTLLocale(void);
 	void    FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
 	void    FlashTab(bool bInvertMode);
+	LRESULT GetSendButtonState();
 	void    GetSendFormat(void);
 	HICON   GetXStatusIcon() const;
 	void    HandlePasteAndSend(void);
@@ -545,7 +546,6 @@ public:
 	int OnFilter(MSGFILTER *);
 
 	bool OnInitDialog() override;
-	bool OnClose() override;
 	void OnDestroy() override;
 	int Resizer(UTILRESIZECONTROL *urc) override;
 
@@ -586,44 +586,44 @@ public:
 		return m_pContainer->IsActive() && m_pContainer->m_hwndActive == m_hwnd;
 	}
 
-	void  DM_OptionsApplied(bool bRemakeLog = true);
-	void  DM_RecalcPictureSize(void);
-	void  DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
+	void    DM_OptionsApplied(bool bRemakeLog = true);
+	void    DM_RecalcPictureSize(void);
+	void    DM_ScrollToBottom(WPARAM wParam, LPARAM lParam);
+		     
+	void    ActivateTooltip(int iCtrlId, const wchar_t *pwszMessage);
+	void    CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code);
+	void    DrawStatusIcons(HDC hDC, const RECT &rc, int gap);
+	void    EnableSendButton(bool bMode) const;
+	void    EnableSending(bool bMode) const;
+	void    FormatRaw(CMStringW&, int flags, bool isSent);
+	bool    FormatTitleBar(const wchar_t *szFormat, CMStringW &dest);
+	bool    GetAvatarVisibility(void);
+	void    GetClientIcon(void);
+	HICON   GetMyContactIcon(LPCSTR szSetting);
+	void    GetMyNick(void);
+	HICON   IconFromAvatar(void) const;
+	void    KbdState(bool &isShift, bool &isControl, bool &isAlt);
+	void    LimitMessageText(int iLen);
+	int     LoadLocalFlags(void);
+	bool    MustPlaySound(void) const;
+	void    NotifyDeliveryFailure(void) const;
+	void    RemakeLog(void);
+	void    SaveSplitter(void);
+	void    SelectContainer(void);
+	void    SetDialogToType(void);
+	void    ShowPicture(bool showNewPic);
+	void    SplitterMoved(int x, HWND hwnd);
+	void    SwitchToContainer(const wchar_t *szNewName);
+	int     Typing(int secs);
+	void    UpdateReadChars(void) const;
+	void    UpdateSaveAndSendButton(void);
 
-	void  ActivateTooltip(int iCtrlId, const wchar_t *pwszMessage);
-	void  CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int code);
-	void  DrawStatusIcons(HDC hDC, const RECT &rc, int gap);
-	void  EnableSendButton(bool bMode) const;
-	void  EnableSending(bool bMode) const;
-	void  FormatRaw(CMStringW&, int flags, bool isSent);
-	bool  FormatTitleBar(const wchar_t *szFormat, CMStringW &dest);
-	bool  GetAvatarVisibility(void);
-	void  GetClientIcon(void);
-	HICON GetMyContactIcon(LPCSTR szSetting);
-	void  GetMyNick(void);
-	HICON IconFromAvatar(void) const;
-	void  KbdState(bool &isShift, bool &isControl, bool &isAlt);
-	void  LimitMessageText(int iLen);
-	int   LoadLocalFlags(void);
-	bool  MustPlaySound(void) const;
-	void  NotifyDeliveryFailure(void) const;
-	void  RemakeLog(void);
-	void  SaveSplitter(void);
-	void  SelectContainer(void);
-	void  SetDialogToType(void);
-	void  ShowPicture(bool showNewPic);
-	void  SplitterMoved(int x, HWND hwnd);
-	void  SwitchToContainer(const wchar_t *szNewName);
-	int   Typing(int secs);
-	void  UpdateReadChars(void) const;
-	void  UpdateSaveAndSendButton(void);
-
-	int   MsgWindowDrawHandler(DRAWITEMSTRUCT *dis);
-	int   MsgWindowMenuHandler(int selection, int menuId);
-	int   MsgWindowUpdateMenu(HMENU submenu, int menuID);
-
-	void  RenderToolbarBG(HDC hdc, const RECT &rcWindow) const;
-	void  UpdateToolbarBG(void);
+	int     MsgWindowDrawHandler(DRAWITEMSTRUCT *dis);
+	int     MsgWindowMenuHandler(int selection, int menuId);
+	int     MsgWindowUpdateMenu(HMENU submenu, int menuID);
+		     
+	void    RenderToolbarBG(HDC hdc, const RECT &rcWindow) const;
+	void    UpdateToolbarBG(void);
 };
 
 extern LIST<void> g_arUnreadWindows;

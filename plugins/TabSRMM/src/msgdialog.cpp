@@ -666,54 +666,6 @@ bool CMsgDialog::OnInitDialog()
 	return true;
 }
 
-bool CMsgDialog::OnClose()
-{
-	// usual close, not forced
-	if (!m_bForcedClose) {
-		// esc handles error controls if we are in error state (error controls visible)
-		if (m_bErrorState) {
-			DM_ErrorDetected(MSGERROR_CANCEL, 0);
-			return false;
-		}
-
-		switch (PluginConfig.m_EscapeCloses) {
-		case 1: // minimize container
-			SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-			return false;
-
-		case 2: // close or hide, optionally
-			if (PluginConfig.m_bHideOnClose) {
-				ShowWindow(m_pContainer->m_hwnd, SW_HIDE);
-				return false;
-			}
-			break;
-
-		case 3: // do nothing
-			_dlgReturn(m_hwnd, FALSE);
-			return false;
-		}
-		_dlgReturn(m_hwnd, TRUE);
-	}
-
-	if (m_iOpenJobs > 0 && !m_bForcedClose) {
-		if (m_bErrorState)
-			DM_ErrorDetected(MSGERROR_CANCEL, 1);
-		else {
-			if (m_bWarnClose)
-				return false;
-
-			m_bWarnClose = true;
-			LRESULT result = SendQueue::WarnPendingJobs(0);
-			m_bWarnClose = false;
-			if (result == IDNO)
-				return false;
-		}
-	}
-
-	CloseTab();
-	return true;
-}
-
 void CMsgDialog::OnDestroy()
 {
 	NotifyEvent(MSG_WINDOW_EVT_CLOSING);
@@ -833,7 +785,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 	}
 	else final_sendformat = true;
 
-	if (GetSendButtonState(m_hwnd) == PBS_DISABLED)
+	if (GetSendButtonState() == PBS_DISABLED)
 		return;
 
 	ptrA streamOut(m_message.GetRichTextRtf(!final_sendformat));
@@ -1629,7 +1581,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		}
 
 		if (pFilter->nmhdr.idFrom == IDC_SRMM_MESSAGE) {
-			if (GetSendButtonState(m_hwnd) != PBS_DISABLED && !m_pContainer->m_flags.m_bHideToolbar)
+			if (GetSendButtonState() != PBS_DISABLED && !m_pContainer->m_flags.m_bHideToolbar)
 				SetFocus(GetDlgItem(m_hwnd, IDOK));
 			else
 				SetFocus(m_pLog->GetHwnd());
@@ -2002,7 +1954,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 				if (!fCompleted) {
-					if ((GetSendButtonState(GetHwnd()) != PBS_DISABLED))
+					if ((GetSendButtonState() != PBS_DISABLED))
 						SetFocus(m_message.GetHwnd());
 					else
 						SetFocus(m_pLog->GetHwnd());
@@ -3143,6 +3095,51 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (uOpen)
 				*uOpen += m_iOpenJobs;
 		}
+		return 0;
+
+	case WM_CLOSE:
+		// usual close, not forced
+		if (wParam == 0 && lParam == 0) {
+			// esc handles error controls if we are in error state (error controls visible)
+			if (m_bErrorState) {
+				DM_ErrorDetected(MSGERROR_CANCEL, 0);
+				return TRUE;
+			}
+
+			switch (PluginConfig.m_EscapeCloses) {
+			case 1: // minimize container
+				SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+				return TRUE;
+
+			case 2: // close or hide, optionally
+				if (PluginConfig.m_bHideOnClose) {
+					ShowWindow(m_pContainer->m_hwnd, SW_HIDE);
+					return TRUE;
+				}
+				break;
+
+			case 3: // do nothing
+				_dlgReturn(m_hwnd, FALSE);
+				return TRUE;
+			}
+			_dlgReturn(m_hwnd, TRUE);
+		}
+
+		if (m_iOpenJobs > 0 && lParam != 2) {
+			if (m_bErrorState)
+				DM_ErrorDetected(MSGERROR_CANCEL, 1);
+			else {
+				if (m_bWarnClose)
+					return TRUE;
+
+				m_bWarnClose = true;
+				LRESULT result = SendQueue::WarnPendingJobs(0);
+				m_bWarnClose = false;
+				if (result == IDNO)
+					return TRUE;
+			}
+		}
+		CloseTab();
 		return 0;
 
 	case WM_DWMCOMPOSITIONCHANGED:

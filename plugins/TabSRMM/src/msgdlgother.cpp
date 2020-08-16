@@ -693,8 +693,8 @@ void CMsgDialog::GetMyNick()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// retrieve both buddys and my own UIN for a message session and store them in the message window *dat
-// respects metacontacts and uses the current protocol if the contact is a MC
+// retrieve both buddys and my own UIN for a message session and store them in the message 
+// window *dat respects metacontacts and uses the current protocol if the contact is a MC
 
 void CMsgDialog::GetMYUIN()
 {
@@ -703,6 +703,14 @@ void CMsgDialog::GetMYUIN()
 		wcsncpy_s(m_myUin, uid, _TRUNCATE);
 	else
 		m_myUin[0] = 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// returns the status of Send button
+
+LRESULT CMsgDialog::GetSendButtonState()
+{
+	return m_btnOk.SendMsg(BUTTONGETSTATEID, TRUE, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1963,9 +1971,9 @@ void CMsgDialog::UpdateSaveAndSendButton()
 	gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
 
 	int len = SendDlgItemMessage(m_hwnd, IDC_SRMM_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
-	if (len && GetSendButtonState(m_hwnd) == PBS_DISABLED)
+	if (len && GetSendButtonState() == PBS_DISABLED)
 		EnableSendButton(true);
-	else if (len == 0 && GetSendButtonState(m_hwnd) != PBS_DISABLED)
+	else if (len == 0 && GetSendButtonState() != PBS_DISABLED)
 		EnableSendButton(false);
 
 	if (len) {          // looks complex but avoids flickering on the button while typing.
