@@ -24,6 +24,7 @@ class CFacebookAccOptsDlg : public CFBDlgBase
 {
 	CCtrlEdit edtGroup;
 	CCtrlCheck chkEnableChats, chkHideChats, chkKeepUnread, chkLoginInvis, chkLoadAll;
+	CCtrlHyperlink linkMainPage;
 
 public:
 	CFacebookAccOptsDlg(FacebookProto *pThis) :
@@ -33,7 +34,8 @@ public:
 		chkHideChats(this, IDC_HIDECHATS),
 		chkKeepUnread(this, IDC_KEEP_UNREAD),
 		chkLoginInvis(this, IDC_INVIS_LOGIN),
-		chkEnableChats(this, IDC_ENABLECHATS)
+		chkEnableChats(this, IDC_ENABLECHATS),
+		linkMainPage(this, IDC_NEWACCOUNTLINK, "https://www.facebook.com")
 	{
 		CreateLink(edtGroup, pThis->m_wszDefaultGroup);
 		CreateLink(chkLoadAll, pThis->m_bLoadAll);
