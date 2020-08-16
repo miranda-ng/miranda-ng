@@ -47,7 +47,7 @@ enum
 MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, DWORD options);
 
 // allocate text object (unicode)
-MTEXTCONTROL_DLL(HANDLE) MTextCreateW(HANDLE userHandle, WCHAR *text);
+MTEXTCONTROL_DLL(HANDLE) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text);
 
 // allocate text object (advanced)
 MTEXTCONTROL_DLL(HANDLE) MTextCreateEx(HANDLE userHandle, void *text, DWORD flags);

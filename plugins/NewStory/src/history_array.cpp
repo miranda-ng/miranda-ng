@@ -49,7 +49,7 @@ bool Filter::check(ItemData *item)
 void ItemData::checkCreate(HWND hwnd)
 {
 	if (data == nullptr) {
-		data = MTextCreateW(htuLog, ptrW(TplFormatString(getTemplate(), hContact, this)));
+		data = MTextCreateW(htuLog, Proto_GetBaseAccountName(hContact), ptrW(TplFormatString(getTemplate(), hContact, this)));
 		MTextSetParent(data, hwnd);
 	}
 }

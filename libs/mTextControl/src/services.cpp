@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 struct TextObject
 {
 	DWORD options;
+	const char *szProto;
 	IFormattedTextDraw *ftd;
 	TextObject() : options(0), ftd(nullptr) {}
 	~TextObject() { if (ftd) delete ftd; }
@@ -45,44 +46,33 @@ void MText_InitFormatting1(TextObject *text)
 	bbCodeParse(text->ftd);
 
 	// smilies
-	//	HWND hwnd = (HWND)CallServiceSync(MS_TEXT_CREATEPROXY, (WPARAM)text, 0);
 	HWND hwnd = CreateProxyWindow(text->ftd->getTextService());
-	SMADD_RICHEDIT3 sm = { 0 };
+
+	SMADD_RICHEDIT3 sm = {};
 	sm.cbSize = sizeof(sm);
 	sm.hwndRichEditControl = hwnd;
 	sm.rangeToReplace = nullptr;
-	sm.Protocolname = nullptr;
+	sm.Protocolname = text->szProto;
 	sm.flags = SAFLRE_INSERTEMF;
-	CallService(MS_SMILEYADD_REPLACESMILEYS, RGB(0xff, 0xff, 0xff), (LPARAM)&sm);
-	DestroyWindow(hwnd);
+	CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 
-	//	text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, -1, &lResult);
-	/*
-		// rtl stuff
-		PARAFORMAT2 pf2;
-		pf2.cbSize = sizeof(pf2);
-		pf2.dwMask = PFM_ALIGNMENT|PFM_RTLPARA;
-		pf2.wEffects = PFE_RTLPARA;
-		pf2.wAlignment = PFA_RIGHT;
-		text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, -1, &lResult);
-		text->ftd->getTextService()->TxSendMessage(EM_SETPARAFORMAT, 0, (LPARAM)&pf2, &lResult);
-		text->ftd->getTextService()->TxSendMessage(EM_SETSEL, 0, 0, &lResult);
-		*/
+	DestroyWindow(hwnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // allocate text object (unicode)
 
-MTEXTCONTROL_DLL(HANDLE) MTextCreateW(HANDLE userHandle, WCHAR *text)
+MTEXTCONTROL_DLL(HANDLE) MTextCreateW(HANDLE userHandle, const char *szProto, const wchar_t *text)
 {
 	TextObject *result = new TextObject;
+	result->szProto = szProto;
 	result->options = TextUserGetOptions(userHandle);
 	result->ftd = new CFormattedTextDraw;
 	result->ftd->Create();
 	InitRichEdit(result->ftd->getTextService());
 
 	MText_InitFormatting0(result->ftd, result->options);
-	result->ftd->putTextW(text);
+	result->ftd->putTextW((WCHAR*)text);
 	MText_InitFormatting1(result);
 
 	return (HANDLE)result;

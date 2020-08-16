@@ -30,7 +30,7 @@ MTEXTCONTROL_DLL(HANDLE) MTextRegister(const char *userTitle, DWORD options)
 	textUserNew->name = new char[mir_strlen(userTitle) + 1];
 	mir_strcpy(textUserNew->name, userTitle);
 	textUserNew->options =
-		(db_get_dw(0, MODULENAME, userTitle, options)&MTEXT_FANCY_MASK) | (textUserNew->options&MTEXT_SYSTEM_MASK);
+		(db_get_dw(0, MODULENAME, userTitle, options) & MTEXT_FANCY_MASK) | (textUserNew->options & MTEXT_SYSTEM_MASK);
 	db_set_dw(0, MODULENAME, userTitle, textUserNew->options);
 	textUserNew->prev = textUserLast;
 	textUserNew->next = nullptr;

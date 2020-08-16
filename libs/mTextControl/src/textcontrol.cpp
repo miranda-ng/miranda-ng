@@ -76,7 +76,7 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int textLength = GetWindowTextLength(hwnd);
 			data->text = new wchar_t[textLength + 1];
 			GetWindowText(hwnd, data->text, textLength + 1);
-			data->mtext = MTextCreateW(data->htu, data->text);
+			data->mtext = MTextCreateW(data->htu, 0, data->text);
 
 			MTextSetParent(data->mtext, hwnd);
 
