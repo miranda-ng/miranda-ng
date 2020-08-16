@@ -745,12 +745,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 					szBody += "\r\n";
 				szBody += "STK{" + stickerId + "}";
 
-				SMADD_CONT cont;
-				cont.cbSize = sizeof(SMADD_CONT);
-				cont.hContact = pUser->hContact;
-				cont.type = 1;
-				cont.path = wszFileName.GetBuffer();
-				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+				SMADD_CONT cont = { 1, m_szModuleName, wszFileName };
+				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 			}
 			else szBody += TranslateU("Sticker received");
 		}

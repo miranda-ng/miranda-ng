@@ -208,41 +208,6 @@ SmileyType* SmileyPackType::GetSmiley(unsigned index)
 	return (index < (unsigned)m_SmileyList.getCount()) ? &m_SmileyList[index] : nullptr;
 }
 
-static DWORD_PTR ConvertServiceParam(MCONTACT hContact, const wchar_t *param)
-{
-	if (param == nullptr)
-		return 0;
-	if (mir_wstrcmpi(L"hContact", param) == 0)
-		return hContact;
-	if (iswdigit(*param))
-		return _wtoi(param);
-
-	return (DWORD_PTR)param;
-}
-
-void SmileyType::CallSmileyService(MCONTACT hContact)
-{
-	MRegexp16 srvsplit(L"(.*)\\|(.*)\\|(.*)");
-	srvsplit.match(m_TriggerText);
-
-	CMStringW name = srvsplit.getGroup(1);
-	CMStringW par1 = srvsplit.getGroup(2);
-	CMStringW par2 = srvsplit.getGroup(3);
-
-	const char *proto = "";
-	if (name[0] == '/') {
-		proto = (const char*)Proto_GetBaseAccountName(hContact);
-		if (proto == nullptr)
-			return;
-	}
-
-	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, "%s%S", proto, name.c_str());
-	CallService(str,
-		ConvertServiceParam(hContact, par1.c_str()),
-		ConvertServiceParam(hContact, par2.c_str()));
-}
-
 SmileyPackType::~SmileyPackType()
 {
 	if (m_hSmList != nullptr) ImageList_Destroy(m_hSmList);

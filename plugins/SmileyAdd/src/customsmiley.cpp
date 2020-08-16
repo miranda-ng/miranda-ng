@@ -20,39 +20,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 SmileyPackCListType g_SmileyPackCStore;
 
-bool SmileyPackCListType::AddSmileyPack(MCONTACT hContact, wchar_t *dir)
+bool SmileyPackCListType::AddSmileyPack(const char *pszModule, const wchar_t *dir)
 {
 	bool res = true;
-	if (GetSmileyPack(hContact) == nullptr) {
-		SmileyPackCType *smileyPack = new SmileyPackCType;
+	if (GetSmileyPack(pszModule) == nullptr) {
+		SmileyPackCType *smileyPack = new SmileyPackCType(pszModule);
 
 		res = smileyPack->LoadSmileyDir(dir);
-		if (res) {
-			smileyPack->SetId(hContact);
+		if (res)
 			m_SmileyPacks.insert(smileyPack);
-		}
-		else delete smileyPack;
+		else
+			delete smileyPack;
 	}
 	return res;
 }
 
-bool SmileyPackCListType::AddSmiley(MCONTACT hContact, wchar_t *path)
+bool SmileyPackCListType::AddSmiley(const char *pszModule, const wchar_t *path)
 {
-	SmileyPackCType *smpack = GetSmileyPack(hContact);
+	SmileyPackCType *smpack = GetSmileyPack(pszModule);
 	if (smpack == nullptr) {
-		smpack = new SmileyPackCType;
-
-		smpack->SetId(hContact);
+		smpack = new SmileyPackCType(pszModule);
 		m_SmileyPacks.insert(smpack);
 	}
 	return smpack->LoadSmiley(path);
 }
 
 
-SmileyPackCType* SmileyPackCListType::GetSmileyPack(MCONTACT id)
+SmileyPackCType* SmileyPackCListType::GetSmileyPack(const char *pszModule)
 {
 	for (auto &it : m_SmileyPacks)
-		if (it->GetId() == id)
+		if (!mir_strcmp(it->GetId(), pszModule))
 			return it;
 
 	return nullptr;
@@ -83,7 +80,7 @@ bool SmileyCType::CreateTriggerText(char *text)
 // SmileyPackCType
 //
 
-bool SmileyPackCType::LoadSmileyDir(wchar_t *dir)
+bool SmileyPackCType::LoadSmileyDir(const wchar_t *dir)
 {
 	CMStringW dirs = dir;
 	dirs += L"\\*.*";
@@ -113,7 +110,7 @@ bool SmileyPackCType::LoadSmileyDir(wchar_t *dir)
 	return false;
 }
 
-bool SmileyPackCType::LoadSmiley(wchar_t *path)
+bool SmileyPackCType::LoadSmiley(const wchar_t *path)
 {
 	CMStringW dirs = path;
 	int slash = dirs.ReverseFind('\\');

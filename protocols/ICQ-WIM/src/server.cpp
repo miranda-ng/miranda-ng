@@ -441,15 +441,55 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			if (idx != -1)
 				wszUrl.Truncate(idx);
 
-			CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszUrl.c_str());
-			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
-			pReq->hContact = hContact;
-			pReq->pUserInfo = (void*)iMsgTime;
-			pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "600");
-			Push(pReq);
+			// is it already downloaded sticker?
+			CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
+			if (!_waccess(wszLoadedPath, 0))
+				wszText.Format(L"STK{%s}", wszUrl.c_str());
+			else {
+				// download file info
+				IcqFileInfo *pFileInfo = nullptr;
 
-			MarkAsRead(hContact);
-			return;
+				CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszUrl.c_str());
+				auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
+				pReq->hContact = hContact;
+				pReq->pUserInfo = &pFileInfo;
+				pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "192,600,xlarge");
+				if (!ExecuteRequest(pReq))
+					return;
+
+				// is it a sticker?
+				if (pFileInfo->bIsSticker) {
+					auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
+					pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+					pNew->pUserInfo = wszUrl.GetBuffer();
+					pNew->AddHeader("Sec-Fetch-User", "?1");
+					pNew->AddHeader("Sec-Fetch-Site", "cross-site");
+					pNew->AddHeader("Sec-Fetch-Mode", "navigate");
+					if (!ExecuteRequest(pNew))
+						return;
+
+					wszText.Format(L"STK{%s}", wszUrl.c_str());
+					delete pFileInfo;
+				}
+				else {
+					// detach a file transfer
+					auto *ft = new IcqFileTransfer(hContact, pFileInfo->szUrl);
+					ft->pfts.totalBytes = ft->pfts.currentFileSize = pFileInfo->dwFileSize;
+					ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
+
+					PROTORECVFILE pre = {};
+					pre.dwFlags = PRFF_UNICODE;
+					pre.fileCount = 1;
+					pre.timestamp = iMsgTime;
+					pre.files.w = &ft->m_wszShortName;
+					pre.descr.w = pFileInfo->wszDescr;
+					pre.lParam = (LPARAM)ft;
+					ProtoChainRecvFile(hContact, &pre);
+
+					delete pFileInfo;
+					return;
+				}
+			}
 		}
 
 		// suppress notifications for already loaded/processed messages
@@ -844,34 +884,62 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Support for stickers
+
+void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	if (pReply->resultCode != 200) {
+		debugLogA("Error getting sticker: %d", pReply->resultCode);
+		return;
+	}
+
+	CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
+	CreateDirectoryTreeW(wszPath);
+
+	CMStringW wszFileName(FORMAT, L"%s\\STK{%s}.png", wszPath.c_str(), pReq->pUserInfo);
+	FILE *out = _wfopen(wszFileName, L"wb");
+	fwrite(pReply->pData, 1, pReply->dataLength, out);
+	fclose(out);
+
+	SMADD_CONT cont = { 1, m_szModuleName, wszFileName };
+	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// File info request
 
 void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
+	IcqFileInfo **res = (IcqFileInfo **)pReq->pUserInfo;
+	*res = nullptr;
+
 	RobustReply root(pReply);
 	if (root.error() != 200)
 		return;
 
-	auto &data = root.result()["info"];
-	std::string szUrl(data["dlink"].as_string());
+	auto &pData = root.result();
+	auto &pInfo = pData["info"] ;
+	std::string szUrl(pInfo["dlink"].as_string());
 	if (szUrl.empty())
 		return;
 
+	MarkAsRead(pReq->hContact);
+
+	bool bIsSticker;
+	CMStringW wszDescr(pInfo["file_name"].as_mstring());
+	if (!mir_wstrncmp(wszDescr, L"dnld", 4)) {
+		bIsSticker = true;
+
+		std::string szPreview = pData["previews"]["192"].as_string();
+		if (!szPreview.empty())
+			szUrl = szPreview;
+	}
+	else bIsSticker = false;
+
 	mir_urlDecode(&*szUrl.begin());
 
-	CMStringW wszDescr(data["file_name"].as_mstring());
-
-	auto *ft = new IcqFileTransfer(pReq->hContact, szUrl.c_str());
-	ft->pfts.totalBytes = ft->pfts.currentFileSize = data["file_size"].as_int();
-	ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
-
-	PROTORECVFILE pre = { 0 };
-	pre.dwFlags = PRFF_UNICODE;
-	pre.fileCount = 1;
-	pre.timestamp = DWORD_PTR(pReq->pUserInfo);
-	pre.files.w = &ft->m_wszShortName;
-	pre.descr.w = wszDescr;
-	pre.lParam = (LPARAM)ft;
-	ProtoChainRecvFile(pReq->hContact, &pre);
+	*res = new IcqFileInfo(szUrl, wszDescr, pInfo["file_size"].as_int());
+	res[0]->bIsSticker = bIsSticker;
 }
 
 void CIcqProto::OnFileRecv(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)

@@ -132,7 +132,7 @@ static void ReplaceContactSmileys(RichEditData *rdt, const CHARRANGE &sel, bool 
 {
 	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace) return;
 	SmileyPackCType *smcp = nullptr;
-	SmileyPackType *SmileyPack = GetSmileyPack(nullptr, rdt->hContact, rdt->inputarea ? nullptr : &smcp);
+	SmileyPackType *SmileyPack = GetSmileyPack(Proto_GetBaseAccountName(rdt->hContact), rdt->inputarea ? nullptr : &smcp);
 	ReplaceSmileys(rdt->hwnd, SmileyPack, smcp, sel, false, ignoreLast, unFreeze);
 }
 

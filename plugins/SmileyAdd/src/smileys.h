@@ -86,8 +86,6 @@ public:
 	void AddObject(ISmileyBase *pObject);
 	void RemoveObject(ISmileyBase *pObject);
 
-	void CallSmileyService(MCONTACT hContact);
-
 	void SetHidden(bool hid) { SetFlagsBit(HiddenSmiley, hid); }
 	void SetRegEx(bool regex) { SetFlagsBit(RegExSmiley, regex); }
 	void SetService(bool service) { SetFlagsBit(ServiceSmiley, service); }

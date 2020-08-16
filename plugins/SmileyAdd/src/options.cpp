@@ -455,8 +455,6 @@ public:
 		stwp->xPosition = rect.left;
 		stwp->yPosition = rect.bottom + 4;
 		stwp->direction = 1;
-		stwp->hContact = 0;
-
 		mir_forkThread<SmileyToolWindowParam>(SmileyToolThread, stwp);
 	}
 

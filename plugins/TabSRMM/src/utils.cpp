@@ -191,7 +191,7 @@ ok:
 				smbp.Protocolname = m_cache->getActiveProto();
 				smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
 				smbp.str = (wchar_t*)smcode.c_str();
-				smbp.hContact = m_hContact;
+
 				SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
 				if (smbpr) {
 					CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smbpr);

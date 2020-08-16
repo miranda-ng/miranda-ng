@@ -37,11 +37,15 @@ private:
 	SmileyVectorType m_SmileyList;
 	SmileyLookupType m_SmileyLookup;
 
-	MCONTACT m_id;
+	ptrA m_szModule;
 
 	void AddTriggersToSmileyLookup(void);
 
 public:
+	SmileyPackCType(const char *pszModule) :
+		m_szModule(mir_strdup(pszModule))
+	{}
+
 	SmileyVectorType& GetSmileyList(void) { return m_SmileyList; }
 	SmileyLookupType& GetSmileyLookup(void) { return m_SmileyLookup; }
 
@@ -49,11 +53,10 @@ public:
 
 	SmileyCType* GetSmiley(unsigned index) { return &m_SmileyList[index]; }
 
-	MCONTACT GetId(void) { return m_id; }
-	void SetId(MCONTACT id) { m_id = id; }
+	const char* GetId(void) { return m_szModule; }
 
-	bool LoadSmiley(wchar_t *path);
-	bool LoadSmileyDir(wchar_t *dir);
+	bool LoadSmiley(const wchar_t *path);
+	bool LoadSmileyDir(const wchar_t *dir);
 };
 
 
@@ -68,12 +71,12 @@ private:
 public:
 	int NumberOfSmileyPacks(void) { return m_SmileyPacks.getCount(); }
 
-	bool AddSmiley(MCONTACT hContact, wchar_t *path);
-	bool AddSmileyPack(MCONTACT hContact, wchar_t *dir);
+	bool AddSmiley(const char *pszModule, const wchar_t *path);
+	bool AddSmileyPack(const char *pszModule, const wchar_t *dir);
 
-	void ClearAndFreeAll(void) { 	m_SmileyPacks.destroy(); }
+	void ClearAndFreeAll(void) { m_SmileyPacks.destroy(); }
 
-	SmileyPackCType* GetSmileyPack(MCONTACT id);
+	SmileyPackCType* GetSmileyPack(const char *pszModule);
 };
 
 extern SmileyPackCListType g_SmileyPackCStore;

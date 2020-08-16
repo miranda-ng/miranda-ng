@@ -69,6 +69,20 @@ enum ChatMenuItems
 	IDM_INVITE = 10, IDM_LEAVE
 };
 
+struct IcqFileInfo
+{
+	IcqFileInfo(const std::string &pszUrl, const CMStringW &pwszDescr, DWORD dwSize) :
+		szUrl(pszUrl.c_str()),
+		wszDescr(pwszDescr),
+		dwFileSize(dwSize)
+	{}
+
+	CMStringA szUrl;
+	CMStringW wszDescr;
+	DWORD dwFileSize;
+	bool bIsSticker = false;
+};
+
 struct IcqGroup
 {
 	IcqGroup(int _p1, const CMStringW &_p2) :
@@ -282,6 +296,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnGenToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnGetChatInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);

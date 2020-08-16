@@ -267,7 +267,7 @@ int TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact)
 	SMADD_INFO2 smainfo = { 0 };
 	smainfo.cbSize = sizeof(smainfo);
 	smainfo.Protocolname = const_cast<char *>(szProto);
-	smainfo.hContact = hContact;
+
 	CallService(MS_SMILEYADD_GETINFO2, 0, (LPARAM)&smainfo);
 	if (smainfo.ButtonIcon)
 		DestroyIcon(smainfo.ButtonIcon);

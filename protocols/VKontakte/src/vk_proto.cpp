@@ -126,22 +126,8 @@ void CVkProto::InitSmileys()
 		return;
 
 	CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers\\*.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-
-	WIN32_FIND_DATAW findData;
-	HANDLE hFind = FindFirstFileW(wszPath, &findData);
-	if (hFind != INVALID_HANDLE_VALUE) {
-		wszPath.Truncate(wszPath.GetLength() - 5);
-		do {
-			CMStringW wszFileName = wszPath + findData.cFileName;
-
-			SMADD_CONT cont;
-			cont.cbSize = sizeof(SMADD_CONT);
-			cont.hContact = 0;
-			cont.type = 1;
-			cont.path = wszFileName.GetBuffer();
-			CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
-		} while (FindNextFileW(hFind, &findData));
-	}
+	SMADD_CONT cont = { 2, m_szModuleName, wszPath };
+	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 }
 
 // Menu support

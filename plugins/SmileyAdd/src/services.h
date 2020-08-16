@@ -39,7 +39,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam);
 int DbSettingChanged(WPARAM wParam, LPARAM lParam);
 int ReloadColour(WPARAM, LPARAM);
 
-SmileyPackType* GetSmileyPack(const char* proto, MCONTACT hContact = 0, SmileyPackCType** smlc = nullptr);
+SmileyPackType* GetSmileyPack(const char* proto, SmileyPackCType** smlc = nullptr);
 
 
 #endif // SMILEYADD_SERVICES_H_

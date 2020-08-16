@@ -68,7 +68,6 @@ typedef struct
     LPARAM targetWParam;        //Target WParam to be sent (LParam will be char* to select smiley)
                                 //see the example file.
     HWND hwndParent;            //Parent window for smiley dialog 
-	 MCONTACT hContact;          //Contact handle
 } SMADD_SHOWSEL3;
 
 //Show smiley selection window 
@@ -88,7 +87,6 @@ typedef struct
                                 //NULL if the buttonicon is not defined...
     int NumberOfVisibleSmileys; //Number of visible smileys defined.
     int NumberOfSmileys;        //Number of total smileys defined
-	 MCONTACT hContact;          //Contact handle
 } SMADD_INFO2;
 
 //get button smiley icon
@@ -134,7 +132,6 @@ typedef struct
     unsigned numSmileys;        //Number of Smileys found, this parameter filled by SmileyAdd
     unsigned oflag;             //One of the SAFL_ flags specifies content of the parse results
                                 //this parameter filled by SmileyAdd
-	 MCONTACT hContact;          //Contact handle
 } SMADD_BATCHPARSE2;
 
 typedef struct 
@@ -239,10 +236,9 @@ typedef struct
 
 typedef struct 
 {
-	unsigned cbSize;            // size of the structure
-	MCONTACT hContact;
 	int type;                   // 0 - directory, 1 - file;
-	TCHAR* path;                // smiley category name for reference
+   const char *pszModule;      // module name
+	const wchar_t *path;        // smiley category name for reference
 } SMADD_CONT;
 
 //Loads all smileys for the contact

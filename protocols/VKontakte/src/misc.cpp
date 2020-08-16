@@ -1318,25 +1318,17 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 							fclose(out);
 						}
 					}
-					else
-						bSuccess = true;
-
+					else bSuccess = true;
 
 					if (bSuccess) {
 						res.AppendFormat(L"[sticker-%d]",  iStickerId);
 
-						SMADD_CONT cont;
-						cont.cbSize = sizeof(SMADD_CONT);
-						cont.hContact = 0;
-						cont.type = 1;
-						cont.path = wszFileName.GetBuffer();
-						CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+						SMADD_CONT cont = { 1, m_szModuleName, wszFileName };
+						CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 					}
-					else
-						res += SetBBCString(TranslateT("Sticker"), iBBC, vkbbcUrl, wszUrl);
+					else res += SetBBCString(TranslateT("Sticker"), iBBC, vkbbcUrl, wszUrl);
 				}
 			}
-
 		}
 		else if (wszType == L"link") {
 			const JSONNode& jnLink = jnAttach["link"];

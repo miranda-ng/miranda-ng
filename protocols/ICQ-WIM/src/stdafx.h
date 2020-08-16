@@ -62,6 +62,7 @@
 #include <m_options.h>
 #include <m_popup.h>
 #include <m_skin.h>
+#include <m_smileyadd.h>
 #include <m_system.h>
 #include <m_timezones.h>
 #include <m_userinfo.h>

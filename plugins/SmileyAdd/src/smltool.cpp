@@ -46,7 +46,6 @@ private:
 	int m_Direction;
 	UINT m_TargetMessage;
 	WPARAM m_TargetWParam;
-	MCONTACT m_hContact;
 	int rowSel;
 	bool m_Choosing;
 
@@ -175,41 +174,18 @@ LRESULT SmileyToolWindowType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lP
 	return Result;
 }
 
-struct smlsrvstruct
-{
-	smlsrvstruct(SmileyType *tsml, MCONTACT thContact)
-		: sml(tsml), hContact(thContact)
-	{
-	}
-	SmileyType *sml;
-	MCONTACT hContact;
-};
-
-void CALLBACK smileyServiceCallback(void *arg)
-{
-	smlsrvstruct *p = (smlsrvstruct*)arg;
-	p->sml->CallSmileyService(p->hContact);
-	delete p;
-}
-
 void SmileyToolWindowType::InsertSmiley(void)
 {
 	if (m_CurrentHotTrack >= 0 && m_hWndTarget != nullptr) {
 		SmileyType *sml = m_pSmileyPack->GetSmiley(m_CurrentHotTrack);
 
-		if (sml->IsService()) {
-			smlsrvstruct *p = new smlsrvstruct(sml, m_hContact);
-			CallFunctionAsync(smileyServiceCallback, p);
-		}
-		else {
-			CMStringW insertText;
+		CMStringW insertText;
+		if (opt.SurroundSmileyWithSpaces) insertText = ' ';
+		insertText += sml->GetInsertText();
+		if (opt.SurroundSmileyWithSpaces) insertText += ' ';
 
-			if (opt.SurroundSmileyWithSpaces) insertText = ' ';
-			insertText += sml->GetInsertText();
-			if (opt.SurroundSmileyWithSpaces) insertText += ' ';
+		SendMessage(m_hWndTarget, m_TargetMessage, m_TargetWParam, (LPARAM)insertText.c_str());
 
-			SendMessage(m_hWndTarget, m_TargetMessage, m_TargetWParam, (LPARAM)insertText.c_str());
-		}
 		m_Choosing = true;
 		DestroyWindow(m_hwndDialog);
 	}
@@ -469,7 +445,6 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	m_TargetMessage = stwp->targetMessage;
 	m_TargetWParam = stwp->targetWParam;
 	m_Direction = stwp->direction;
-	m_hContact = stwp->hContact;
 
 	m_CurrentHotTrack = -2;
 	m_CurrMouseTrack = -1;
