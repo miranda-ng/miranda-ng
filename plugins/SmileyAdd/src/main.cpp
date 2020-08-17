@@ -92,8 +92,6 @@ int CMPlugin::Load()
 		return 1;
 	}
 
-	InitImageCache();
-
 	g_plugin.registerIcon(MODULENAME, iconList);
 
 	g_SmileyCategories.SetSmileyPackStore(&g_SmileyPacks);

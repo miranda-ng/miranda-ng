@@ -133,7 +133,6 @@ public:
 
 ImageBase* AddCacheImage(const CMStringW &file, int index);
 
-void InitImageCache(void);
 void DestroyImageCache(void);
 
 #endif

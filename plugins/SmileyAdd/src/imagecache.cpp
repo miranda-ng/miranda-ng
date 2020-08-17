@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static HANDLE g_hMutexIm;
+static mir_cs csCache;
 static OBJLIST<ImageBase> g_imagecache(25, ImageType::CompareImg);
 
 static CMStringW lastdllname;
@@ -28,7 +28,8 @@ static UINT_PTR timerId;
 
 static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	WaitForSingleObject(g_hMutexIm, 3000);
+	mir_cslock lck(csCache);
+
 	const time_t ts = time(0) - 10;
 	if (lastmodule && ts > laststamp) {
 		FreeLibrary(lastmodule);
@@ -46,36 +47,25 @@ static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 			timerId = 0;
 		}
 	}
-
-	ReleaseMutex(g_hMutexIm);
 }
-
-
-static void CALLBACK sttMainThreadCallback(PVOID)
-{
-	if (timerId == 0xffffffff)
-		timerId = SetTimer(nullptr, 0, 10000, (TIMERPROC)timerProc);
-}
-
 
 static HMODULE LoadDll(const CMStringW &file)
 {
-	WaitForSingleObject(g_hMutexIm, 3000);
+	mir_cslock lck(csCache);
 
 	if (lastdllname != file) {
 		FreeLibrary(lastmodule);
 		lastdllname = file;
 
 		lastmodule = LoadLibraryEx(file.c_str(), nullptr, LOAD_LIBRARY_AS_DATAFILE);
-
 	}
-	laststamp = time(0);
 
-	ReleaseMutex(g_hMutexIm);
+	laststamp = time(0);
 	return lastmodule;
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
+// ImageBase
 
 ImageBase::ImageBase(unsigned id)
 {
@@ -86,32 +76,28 @@ ImageBase::ImageBase(unsigned id)
 
 long ImageBase::AddRef(void)
 {
-	WaitForSingleObject(g_hMutexIm, 3000);
-	long cnt = ++m_lRefCount;
-	ReleaseMutex(g_hMutexIm);
-	return cnt;
+	mir_cslock lck(csCache);
+	return ++m_lRefCount;
 }
 
 long ImageBase::Release(void)
 {
-	WaitForSingleObject(g_hMutexIm, 3000);
+	mir_cslock lck(csCache);
 
 	long cnt = m_lRefCount;
-	if (cnt) m_lRefCount = --cnt;
-	if (cnt == 0) m_timestamp = time(0);
-
-	ReleaseMutex(g_hMutexIm);
+	if (cnt)
+		m_lRefCount = --cnt;
+	if (cnt == 0)
+		m_timestamp = time(0);
 	return cnt;
 }
 
 void ImageBase::ProcessTimerTick(time_t ts)
 {
-	WaitForSingleObject(g_hMutexIm, 3000);
+	mir_cslock lck(csCache);
 	if (m_lRefCount == 0 && m_timestamp < ts)
 		if (!g_imagecache.remove(this))
 			delete this;
-
-	ReleaseMutex(g_hMutexIm);
 }
 
 int ImageBase::CompareImg(const ImageBase *p1, const ImageBase *p2)
@@ -151,7 +137,6 @@ void ImageBase::Draw(HDC hdc, RECT &rc, bool clip)
 	}
 }
 
-
 HBITMAP ImageBase::GetBitmap(COLORREF bkgClr, int sizeX, int sizeY)
 {
 	RECT rc = { 0, 0, sizeX, sizeY };
@@ -189,9 +174,10 @@ int ImageBase::SelectNextFrame(const int frame)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// IconType
 
-IconType::IconType(const unsigned id, const CMStringW &file, const int index, const IcoTypeEnum type)
-	: ImageBase(id)
+IconType::IconType(const unsigned id, const CMStringW &file, const int index, const IcoTypeEnum type) :
+	ImageBase(id)
 {
 	m_SmileyIcon = nullptr;
 
@@ -246,10 +232,11 @@ void IconType::GetSize(SIZE &size)
 	DeleteObject(ii.hbmColor);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// ImageListItemType
 
-
-ImageListItemType::ImageListItemType(const unsigned id, HIMAGELIST hImList, int index)
-	: ImageBase(id)
+ImageListItemType::ImageListItemType(const unsigned id, HIMAGELIST hImList, int index) :
+	ImageBase(id)
 {
 	m_index = index;
 	m_hImList = hImList;
@@ -279,8 +266,11 @@ void ImageListItemType::GetSize(SIZE &size)
 	ImageList_GetIconSize(m_hImList, (int*)&size.cx, (int*)&size.cy);
 }
 
-ImageType::ImageType(const unsigned id, const CMStringW &file, IStream *pStream)
-	: ImageBase(id)
+/////////////////////////////////////////////////////////////////////////////////////////
+// ImageType
+
+ImageType::ImageType(const unsigned id, const CMStringW &file, IStream *pStream) :
+	ImageBase(id)
 {
 	m_bmp = nullptr;
 	m_pPropertyItem = nullptr;
@@ -310,8 +300,8 @@ ImageType::ImageType(const unsigned id, const CMStringW &file, IStream *pStream)
 	}
 }
 
-ImageType::ImageType(const unsigned id, const CMStringW &file, const int index, const IcoTypeEnum type)
-	: ImageBase(id)
+ImageType::ImageType(const unsigned id, const CMStringW &file, const int index, const IcoTypeEnum type) :
+	ImageBase(id)
 {
 	m_bmp = nullptr;
 	m_pPropertyItem = nullptr;
@@ -350,11 +340,10 @@ ImageType::ImageType(const unsigned id, const CMStringW &file, const int index, 
 	}
 }
 
-
 ImageType::~ImageType(void)
 {
-	if (m_pPropertyItem) delete[] m_pPropertyItem;
-	if (m_bmp) delete m_bmp;
+	delete[] m_pPropertyItem;
+	delete m_bmp;
 }
 
 void ImageType::SelectFrame(int frame)
@@ -367,17 +356,15 @@ void ImageType::SelectFrame(int frame)
 	}
 }
 
-
 void ImageType::DrawInternal(HDC hdc, int x, int y, int sizeX, int sizeY)
 {
-	if (m_bmp == nullptr) return;
+	if (m_bmp == nullptr)
+		return;
 
-	WaitForSingleObject(g_hMutexIm, 3000);
+	mir_cslock lck(csCache);
 
 	Gdiplus::Graphics grp(hdc);
 	grp.DrawImage(m_bmp, x, y, sizeX, sizeY);
-
-	ReleaseMutex(g_hMutexIm);
 }
 
 int ImageType::GetFrameDelay(void) const
@@ -388,17 +375,15 @@ int ImageType::GetFrameDelay(void) const
 
 HICON ImageType::GetIcon(void)
 {
-	if (m_bmp == nullptr) return nullptr;
+	if (m_bmp == nullptr)
+		return nullptr;
+
+	mir_cslock lck(csCache);
 
 	HICON hIcon = nullptr;
-	WaitForSingleObject(g_hMutexIm, 3000);
-
 	m_bmp->GetHICON(&hIcon);
-
-	ReleaseMutex(g_hMutexIm);
 	return hIcon;
 }
-
 
 void ImageType::GetSize(SIZE &size)
 {
@@ -409,9 +394,11 @@ void ImageType::GetSize(SIZE &size)
 	else size.cx = size.cy = 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// ImageFType
 
-ImageFType::ImageFType(const unsigned id)
-	: ImageBase(id)
+ImageFType::ImageFType(const unsigned id) :
+	ImageBase(id)
 {
 	m_bmp = nullptr;
 }
@@ -508,22 +495,21 @@ void ImageFType::GetSize(SIZE &size)
 	else size.cx = size.cy = 0;
 }
 
-void InitImageCache(void)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
+static void CALLBACK sttMainThreadCallback(PVOID)
 {
-	g_hMutexIm = CreateMutex(nullptr, FALSE, nullptr);
+	if (timerId == 0xffffffff)
+		timerId = SetTimer(nullptr, 0, 10000, (TIMERPROC)timerProc);
 }
 
 void DestroyImageCache(void)
 {
-	WaitForSingleObject(g_hMutexIm, 3000);
-
 	if (timerId) KillTimer(nullptr, timerId);
 	if (lastmodule) FreeLibrary(lastmodule);
 
 	g_imagecache.destroy();
-
-	ReleaseMutex(g_hMutexIm);
-	CloseHandle(g_hMutexIm);
 }
 
 ImageBase* AddCacheImage(const CMStringW &file, int index)
@@ -531,7 +517,7 @@ ImageBase* AddCacheImage(const CMStringW &file, int index)
 	CMStringW tmpfile(file); tmpfile.AppendFormat(L"#%d", index);
 	unsigned id = mir_hash(tmpfile.c_str(), tmpfile.GetLength() * sizeof(wchar_t));
 
-	WaitForSingleObject(g_hMutexIm, 3000);
+	mir_cslock lck(csCache);
 
 	ImageBase srch(id);
 	ImageBase *img = g_imagecache.find(&srch);
@@ -548,9 +534,7 @@ ImageBase* AddCacheImage(const CMStringW &file, int index)
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, 0, icoFile) : (ImageBase*)new IconType(id, file, 0, icoFile);
 		else if (ext == L"icl")
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, index, icoIcl) : (ImageBase*)new IconType(id, file, index, icoIcl);
-		else if (ext == L"gif")
-			img = new ImageType(id, file, nullptr);
-		else if (ext == L"tif" || ext == L"tiff")
+		else if (ext == L"gif" || ext == L"tif" || ext == L"tiff" || ext == L"webp")
 			img = new ImageType(id, file, nullptr);
 		else
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, nullptr) : (ImageBase*)new ImageFType(id, file);
@@ -563,8 +547,6 @@ ImageBase* AddCacheImage(const CMStringW &file, int index)
 		}
 	}
 	else img->AddRef();
-
-	ReleaseMutex(g_hMutexIm);
 
 	return img;
 }

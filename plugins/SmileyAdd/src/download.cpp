@@ -142,7 +142,7 @@ void __cdecl SmileyDownloadThread(void*)
 		dlQueue.remove(0);
 	}
 	dlQueue.destroy();
-	if (hHttpDwnl) Netlib_CloseHandle(hHttpDwnl);
+	Netlib_CloseHandle(hHttpDwnl);
 	threadRunning = false;
 	ReleaseMutex(g_hDlMutex);
 
