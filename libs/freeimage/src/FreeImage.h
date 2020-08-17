@@ -382,11 +382,12 @@ FI_STRUCT (FIICCPROFILE) {
 */
 FI_ENUM(FREE_IMAGE_FORMAT) {
 	FIF_UNKNOWN = -1,
-	FIF_BMP		= 0,
-	FIF_ICO		= 1,
-	FIF_JPEG	= 2,
-	FIF_PNG		= 3,
-	FIF_GIF		= 4,
+	FIF_BMP     = 0,
+	FIF_ICO     = 1,
+	FIF_JPEG    = 2,
+	FIF_PNG     = 3,
+	FIF_GIF     = 4,
+	FIF_WEBP    = 5,
 	//FIF_JNG		= 3,
 	//FIF_KOALA		= 4,
 	//FIF_LBM		= 5,

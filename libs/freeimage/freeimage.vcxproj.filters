@@ -161,231 +161,6 @@
     <ClCompile Include="src\FreeImage\ZLibInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\LibJPEG\jaricom.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcapimin.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcapistd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcarith.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jccoefct.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jccolor.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcdctmgr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jchuff.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcinit.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcmainct.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcmarker.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcmaster.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcomapi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcparam.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcprepct.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jcsample.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jctrans.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdapimin.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdapistd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdarith.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdatadst.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdatasrc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdcoefct.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdcolor.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jddctmgr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdhuff.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdinput.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdmainct.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdmarker.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdmaster.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdmerge.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdpostct.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdsample.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jdtrans.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jerror.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jfdctflt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jfdctfst.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jfdctint.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jidctflt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jidctfst.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jidctint.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jmemmgr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jmemnobs.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jquant1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jquant2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\jutils.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\rdbmp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\rdcolmap.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\rdgif.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\rdppm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\rdrle.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\rdswitch.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\rdtarga.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\transupp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\wrbmp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\wrgif.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\wrjpgcom.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\wrppm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\wrrle.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibJPEG\wrtarga.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\png.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngerror.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngget.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngmem.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngpread.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngread.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngrio.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngrtran.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngrutil.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngset.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngtrans.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngwio.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngwrite.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngwtran.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LibPNG\pngwutil.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -406,6 +181,558 @@
     </ClCompile>
     <ClCompile Include="src\Metadata\TagLib.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jaricom.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcapimin.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcapistd.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcarith.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jccoefct.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jccolor.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcdctmgr.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jchuff.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcinit.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcmainct.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcmarker.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcmaster.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcomapi.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcparam.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcprepct.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jcsample.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jctrans.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdapimin.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdapistd.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdarith.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdatadst.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdatasrc.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdcoefct.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdcolor.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jddctmgr.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdhuff.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdinput.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdmainct.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdmarker.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdmaster.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdmerge.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdpostct.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdsample.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jdtrans.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jerror.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jfdctflt.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jfdctfst.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jfdctint.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jidctflt.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jidctfst.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jidctint.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jmemmgr.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jmemnobs.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jquant1.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jquant2.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\jutils.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\png.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngerror.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngget.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngmem.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngpread.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngread.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngrio.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngrtran.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngrutil.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngset.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngtrans.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngwio.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngwrite.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngwtran.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibPNG\pngwutil.c">
+      <Filter>Source Files\LibPNG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\rdbmp.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\rdcolmap.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\rdgif.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\rdppm.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\rdrle.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\rdswitch.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\rdtarga.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\transupp.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\wrbmp.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\wrgif.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\wrjpgcom.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\wrppm.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\wrrle.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibJPEG\wrtarga.c">
+      <Filter>Source Files\LibJPEG</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeImage\PluginWebP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\alpha_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\buffer_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\frame_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\idec_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\io_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\quant_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\tree_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\vp8_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\vp8l_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dec\webp_dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\demux\anim_decode.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\demux\demux.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\alpha_processing.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\alpha_processing_mips_dsp_r2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\alpha_processing_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\alpha_processing_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\alpha_processing_sse41.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\cost.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\cost_mips_dsp_r2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\cost_mips32.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\cost_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\cost_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\cpu.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\dec.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\dec_clip_tables.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\dec_mips_dsp_r2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\dec_mips32.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\dec_msa.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\dec_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\dec_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\dec_sse41.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\enc_mips32.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\enc_msa.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\enc_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\enc_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\enc_sse41.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\filters.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\filters_msa.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\filters_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\filters_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_enc_mips32.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_enc_msa.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_enc_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_enc_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_enc_sse41.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_mips_dsp_r2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_msa.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\lossless_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\rescaler.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\rescaler_mips32.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\rescaler_msa.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\rescaler_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\rescaler_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\ssim.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\ssim_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\upsampling.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\upsampling_msa.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\upsampling_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\upsampling_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\upsampling_sse41.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\yuv.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\yuv_mips32.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\yuv_neon.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\yuv_sse2.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\dsp\yuv_sse41.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\alpha_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\analysis_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\backward_references_cost_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\backward_references_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\config_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\cost_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\filter_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\frame_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\histogram_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\iterator_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\near_lossless_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\picture_csp_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\picture_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\picture_psnr_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\picture_rescale_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\picture_tools_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\predictor_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\quant_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\syntax_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\token_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\tree_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\vp8l_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\enc\webp_enc.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\mux\anim_encode.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\mux\muxedit.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\mux\muxinternal.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\mux\muxread.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\bit_reader_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\bit_writer_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\color_cache_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\filters_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\huffman_encode_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\huffman_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\quant_levels_dec_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\quant_levels_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\random_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\rescaler_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\thread_utils.c">
+      <Filter>Source Files\LibWebP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LibWebP\src\utils\utils.c">
+      <Filter>Source Files\LibWebP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -436,5 +763,16 @@
     <ClInclude Include="src\Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files\LibJPEG">
+      <UniqueIdentifier>{63184e62-d315-42d1-a485-baf087fdd62b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LibPNG">
+      <UniqueIdentifier>{434c2e09-4489-4e9f-af0c-bc098b7c0543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LibWebP">
+      <UniqueIdentifier>{e77e35c9-e7a1-48f4-a959-5bc1742014df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

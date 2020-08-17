@@ -1,0 +1,12 @@
+prefix=C:/Program Files (x86)/WebP
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libwebpmux
+Description: Library for manipulating the WebP graphics format container
+Version: 1.1.0
+Requires: libwebp >= 0.2.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lwebpmux
+Libs.private: 
