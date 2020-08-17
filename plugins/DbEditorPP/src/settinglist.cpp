@@ -375,8 +375,11 @@ void SelectSetting(const char *setting)
 	lvItem.iItem = findListItem(setting);
 	if (lvItem.iItem != -1) {
 		EditFinish(lvItem.iItem);
+		
 		lvItem.state = LVIS_SELECTED | LVIS_FOCUSED;
 		ListView_SetItem(hwnd2List, &lvItem);
+
+		ListView_EnsureVisible(hwnd2List, lvItem.iItem, false);
 	}
 }
 
