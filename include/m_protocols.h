@@ -375,6 +375,7 @@ ProtoBroadcastAck(), listeners must hook ME_PROTO_ACK, note that lParam = ACKDAT
 #define PA_FORMAT_GIF      5
 #define PA_FORMAT_SWF      6
 #define PA_FORMAT_XML      7
+#define PA_FORMAT_WEBP     8
 
 typedef struct {
 	MCONTACT hContact;         // this might have to be set by the caller too

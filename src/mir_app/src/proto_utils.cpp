@@ -209,6 +209,8 @@ MIR_APP_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
 		return L".swf";
 	if (format == PA_FORMAT_XML)
 		return L".xml";
+	if (format == PA_FORMAT_WEBP)
+		return L".webp";
 
 	return L"";
 }
@@ -243,6 +245,9 @@ MIR_APP_DLL(int) ProtoGetAvatarFormat(const wchar_t *ptszFileName)
 	if (!wcsicmp(ptszExt, L".xml"))
 		return PA_FORMAT_XML;
 
+	if (!wcsicmp(ptszExt, L".webp"))
+		return PA_FORMAT_WEBP;
+
 	return PA_FORMAT_UNKNOWN;
 }
 
@@ -272,6 +277,11 @@ MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const wchar_t **ptszE
 		if (!memcmp(pBuffer, "BM", 2)) {
 			if (ptszExtension) *ptszExtension = L".bmp";
 			return PA_FORMAT_BMP;
+		}
+
+		if (!memcmp(pBuffer, "RIFF", 4) && !memcmp((char*)pBuffer+8, "WEBP", 4)) {
+			if (ptszExtension) *ptszExtension = L".webp";
+			return PA_FORMAT_WEBP;
 		}
 	}
 
@@ -305,7 +315,8 @@ static char *wszMimeTypes[] =
 	"image/bmp",                // PA_FORMAT_BMP
 	"image/gif",                // PA_FORMAT_GIF
 	"image/swf",                // PA_FORMAT_SWF
-	"application/xml"           // PA_FORMAT_XML
+	"application/xml",          // PA_FORMAT_XML
+	"image/webp",               // PA_FORMAT_WEBP
 };
 
 MIR_APP_DLL(const char*) ProtoGetAvatarMimeType(int iFileType)
