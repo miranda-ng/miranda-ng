@@ -124,7 +124,6 @@ int  SmileyButtonPressed(WPARAM, LPARAM);
 
 // functions for general use (defined in general.cpp)
 int CalculateTextHeight(HDC hdc, CHARFORMAT2 *chf);
-const wchar_t* GetImageExt(CMStringW &fname);
 
 MCONTACT DecodeMetaContact(MCONTACT hContact);
 bool IsSmileyProto(char *proto);

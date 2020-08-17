@@ -132,7 +132,7 @@ void __cdecl SmileyDownloadThread(void*)
 
 			CMStringW fname(dlQueue[0].fname);
 			if (dlQueue[0].needext) {
-				fname += GetImageExt(fname);
+				fname += ProtoGetAvatarExtension(ProtoGetAvatarFileFormat(fname));
 				needext = true;
 			}
 			_wrename(dlQueue[0].fname.c_str(), fname.c_str());

@@ -59,30 +59,6 @@ HICON GetDefaultIcon(bool copy)
 	return resIco;
 }
 
-const wchar_t* GetImageExt(CMStringW &fname)
-{
-	const wchar_t *ext = L"";
-
-	int fileId = _wopen(fname.c_str(), O_RDONLY | _O_BINARY);
-	if (fileId != -1) {
-		BYTE buf[6];
-
-		int bytes = _read(fileId, buf, sizeof(buf));
-		if (bytes > 4) {
-			if (*(unsigned short*)buf == 0xd8ff)
-				ext = L"jpg";
-			else if (*(unsigned short*)buf == 0x4d42)
-				ext = L"bmp";
-			else if (*(unsigned*)buf == 0x474e5089)
-				ext = L"png";
-			else if (*(unsigned*)buf == 0x38464947)
-				ext = L"gif";
-		}
-		_close(fileId);
-	}
-	return ext;
-}
-
 HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 {
 	ICONINFO ii;
