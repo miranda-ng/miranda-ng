@@ -178,7 +178,7 @@ class COptionsDialog : public CDlgBase
 		tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 		tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_SELECTED;
 
-		SmileyCategoryListType::SmileyCategoryVectorType &smc = *tmpsmcat.GetSmileyCategoryList();
+		auto &smc = *tmpsmcat.GetSmileyCategoryList();
 		for (int i = 0; i < smc.getCount(); i++) {
 			if (smc[i].IsVisible()) {
 				tvi.item.pszText = (wchar_t *)smc[i].GetDisplayName().c_str();
@@ -224,7 +224,7 @@ class COptionsDialog : public CDlgBase
 		bool useOne = !chkStdPack.GetState();
 		bool usePhysProto = chkUsePhys.GetState();
 
-		SmileyCategoryListType::SmileyCategoryVectorType &smc = *tmpsmcat.GetSmileyCategoryList();
+		auto &smc = *tmpsmcat.GetSmileyCategoryList();
 		for (auto &it : smc) {
 			bool visiblecat = usePhysProto ? !it->IsAcc() : !it->IsPhysProto();
 			bool visible = useOne ? !it->IsProto() : visiblecat;
@@ -333,7 +333,7 @@ public:
 
 		tmpsmcat = g_SmileyCategories;
 
-		SmileyCategoryListType::SmileyCategoryVectorType &smc = *g_SmileyCategories.GetSmileyCategoryList();
+		auto &smc = *g_SmileyCategories.GetSmileyCategoryList();
 		for (auto &it : smc) {
 			HICON hIcon = nullptr;
 			if (it->IsProto()) {
@@ -389,7 +389,7 @@ public:
 
 		// Cleanup database
 		CMStringW empty;
-		SmileyCategoryListType::SmileyCategoryVectorType &smc = *g_SmileyCategories.GetSmileyCategoryList();
+		auto &smc = *g_SmileyCategories.GetSmileyCategoryList();
 		for (auto &it : smc)
 			if (tmpsmcat.GetSmileyCategory(it->GetName()) == nullptr)
 				opt.WritePackFileName(empty, it->GetName());

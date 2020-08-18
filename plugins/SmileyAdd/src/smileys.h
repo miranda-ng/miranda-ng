@@ -125,9 +125,7 @@ template<class T> struct SMOBJLIST : public OBJLIST<T>
 
 class SmileyLookup
 {
-private:
 	MRegexp16 m_pattern;
-
 	int m_ind;
 	CMStringW m_text;
 	bool m_valid;
@@ -137,7 +135,6 @@ public:
 	{
 		size_t pos, len;
 		SmileyLocType(size_t p, size_t l) : pos(p), len(l) {}
-		SmileyLocType() {}
 	};
 	typedef SMOBJLIST<SmileyLocType> SmileyLocVecType;
 
@@ -150,16 +147,8 @@ public:
 	bool IsValid(void) const { return m_valid; }
 };
 
-
 class SmileyPackType
 {
-public:
-	typedef SMOBJLIST<SmileyType> SmileyVectorType;
-	typedef SMOBJLIST<SmileyLookup> SmileyLookupType;
-
-	POINT selec, win;
-
-private:
 	CMStringW m_Filename;  //used as identification
 	CMStringW m_Name;
 	CMStringW m_Author;
@@ -171,7 +160,10 @@ private:
 
 	int m_VisibleCount;
 
+	typedef SMOBJLIST<SmileyType> SmileyVectorType;
 	SmileyVectorType m_SmileyList;
+
+	typedef SMOBJLIST<SmileyLookup> SmileyLookupType;
 	SmileyLookupType m_SmileyLookup;
 
 	bool errorFound;
@@ -182,6 +174,8 @@ private:
 public:
 	SmileyPackType();
 	~SmileyPackType();
+
+	POINT selec, win;
 
 	SmileyVectorType& GetSmileyList(void) { return m_SmileyList; }
 	SmileyLookupType* GetSmileyLookup(void) { return &m_SmileyLookup; }
@@ -210,10 +204,7 @@ public:
 
 class SmileyPackListType
 {
-public:
 	typedef SMOBJLIST<SmileyPackType> SmileyPackVectorType;
-
-private:
 	SmileyPackVectorType m_SmileyPacks;
 
 public:
@@ -240,7 +231,6 @@ typedef enum
 
 class SmileyCategoryType
 {
-private:
 	CMStringW m_Name;
 	CMStringW m_DisplayName;
 	CMStringW m_Filename;     //functions as identification 
@@ -285,10 +275,8 @@ public:
 
 class SmileyCategoryListType
 {
-public:
 	typedef SMOBJLIST<SmileyCategoryType> SmileyCategoryVectorType;
 
-private:
 	SmileyCategoryVectorType m_SmileyCategories;
 	SmileyPackListType *m_pSmileyPackStore;
 

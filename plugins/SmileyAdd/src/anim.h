@@ -21,27 +21,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class Animate
 {
-private:
-
-	ImageBase  *m_img;
+	ImageBase  *m_img = nullptr;
 	SmileyType *m_sml;
 
 	HDC    m_hdcMem;
 	HBRUSH m_hbr;
+	RECT   m_cliprect;
 
-	RECT m_cliprect;
-
-	unsigned	m_nFramePosition;
-	int  m_offset;
+	int  m_nFramePosition = 0;
+	int  m_offset = 0;
 	int  m_counter = 0;
-	bool m_running;
-	bool m_sel;
+	bool m_running = false;
+	bool m_sel = false;
 	bool m_clip;
 
 	void DrawFrame(HDC hdc);
 
 public:
-
 	Animate(SmileyType *sml, RECT &rect, HDC hdcMem, HBRUSH hbr, bool clip);
 	~Animate();
 
@@ -56,16 +52,14 @@ public:
 
 class AnimatedPack
 {
-private:
 	OBJLIST<Animate> m_AniList;
 
-	HWND m_hwnd;
-	int  m_wsize;
-
-	HBRUSH	m_hbr;
+	HWND    m_hwnd;
+	int     m_wsize;
+	HBRUSH  m_hbr;
 	HBITMAP m_hBmp;
-	HDC		m_hdcMem;
-	HBITMAP	m_hOld;
+	HDC     m_hdcMem;
+	HBITMAP m_hOld;
 
 public:
 	AnimatedPack(HWND hwnd, int wsize, SIZE &sel, COLORREF bkg);

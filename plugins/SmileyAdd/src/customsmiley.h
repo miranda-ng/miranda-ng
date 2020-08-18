@@ -29,11 +29,9 @@ public:
 
 class SmileyPackCType
 {
-public:
 	typedef SMOBJLIST<SmileyCType> SmileyVectorType;
 	typedef SMOBJLIST<SmileyLookup> SmileyLookupType;
 
-private:
 	SmileyVectorType m_SmileyList;
 	SmileyLookupType m_SmileyLookup;
 
@@ -62,10 +60,7 @@ public:
 
 class SmileyPackCListType 
 {
-public:
 	typedef SMOBJLIST<SmileyPackCType> SmileyPackVectorType;
-
-private:
 	SmileyPackVectorType m_SmileyPacks;
 
 public:

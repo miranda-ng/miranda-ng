@@ -668,7 +668,6 @@ SmileyCategoryType::SmileyCategoryType(SmileyPackListType *pSPS, const CMStringW
 	opt.ReadPackFileName(m_Filename, m_Name, defaultFilename);
 }
 
-
 void SmileyCategoryType::Load(void)
 {
 	bool bVisibleCat = opt.UsePhysProto ? !IsAcc() : !IsPhysProto();

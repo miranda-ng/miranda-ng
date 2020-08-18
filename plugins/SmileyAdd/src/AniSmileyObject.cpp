@@ -22,7 +22,6 @@ class CAniSmileyObject;
 
 class CAniSmileyObject : public ISmileyBase, public MZeroedObject
 {
-private:
 	typedef enum { animStdOle, animDrctRichEd, animHpp } AnimType;
 
 	POINTL      m_rectOrig;

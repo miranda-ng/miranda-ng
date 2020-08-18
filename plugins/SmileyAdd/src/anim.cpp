@@ -20,10 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Animate::Animate(SmileyType *sml, RECT &rect, HDC hdcMem, HBRUSH hbr, bool clip) :
 	m_sml(sml),
-	m_img(nullptr),
-	m_nFramePosition(0), m_sel(false), m_clip(clip),
-	m_offset(0), m_running(false),
-	m_hdcMem(hdcMem), m_hbr(hbr)
+	m_clip(clip),
+	m_hdcMem(hdcMem),
+	m_hbr(hbr)
 {
 	m_cliprect = rect;
 }

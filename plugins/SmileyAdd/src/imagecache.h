@@ -50,19 +50,15 @@ public:
 	static int CompareImg(const ImageBase *p1, const ImageBase *p2);
 };
 
-
-typedef enum
+enum IcoTypeEnum
 {
 	icoDll,
 	icoFile,
 	icoIcl
-} 
-IcoTypeEnum;
-
+};
 
 class IconType : public ImageBase
 {
-private:
 	HICON m_SmileyIcon;
 
 public:
@@ -74,10 +70,8 @@ public:
 	void GetSize(SIZE &size);
 };
 
-
 class ImageListItemType : public ImageBase
 {
-private:
 	int m_index;
 	HIMAGELIST m_hImList;
 
@@ -92,7 +86,6 @@ public:
 
 class ImageType : public ImageBase
 {
-private:
 	int m_nCurrentFrame;
 	int m_nFrameCount;
 
@@ -100,7 +93,6 @@ private:
 	Gdiplus::PropertyItem*	m_pPropertyItem;
 
 public:
-
 	ImageType(const unsigned id, const CMStringW &file, IStream *pStream);
 	ImageType(const unsigned id, const CMStringW &file, const int index, const IcoTypeEnum type);
 	~ImageType();
@@ -117,11 +109,9 @@ public:
 
 class ImageFType : public ImageBase
 {
-protected:
 	HBITMAP m_bmp;
 
 public:
-
 	ImageFType(const unsigned id);
 	ImageFType(const unsigned id, const CMStringW &file);
 	~ImageFType();
@@ -136,4 +126,3 @@ ImageBase* AddCacheImage(const CMStringW &file, int index);
 void DestroyImageCache(void);
 
 #endif
-

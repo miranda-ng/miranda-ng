@@ -34,8 +34,8 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 {
 	if (lpstrText == nullptr || *lpstrText == 0) return;
 
-	SmileyPackType::SmileyLookupType *sml  = smileyPack ? smileyPack->GetSmileyLookup() : nullptr;
-	SmileyPackCType::SmileyLookupType *smlc = smileyCPack ? &smileyCPack->GetSmileyLookup() : nullptr;
+	auto *sml  = smileyPack ? smileyPack->GetSmileyLookup() : nullptr;
+	auto *smlc = smileyCPack ? &smileyCPack->GetSmileyLookup() : nullptr;
 
 	// Precompute number of smileys
 	int smlszo = sml  ? sml->getCount()  : 0;
