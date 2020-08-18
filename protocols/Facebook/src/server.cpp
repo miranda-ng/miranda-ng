@@ -725,11 +725,12 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 				JsonReply reply(ExecuteRequest(pReq));
 				if (!reply.error()) {
 					for (auto &sticker : reply.data()) {
-						std::string szUrl = sticker["animated_image"]["uri"].as_string();
-						if (szUrl.empty())
-							szUrl = sticker["thread_image"]["uri"].as_string();
-						else
-							wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
+						// std::string szUrl = sticker["animated_image"]["uri"].as_string();
+						// if (szUrl.empty())
+						// 	szUrl = sticker["thread_image"]["uri"].as_string();
+						// else
+						// 	wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
+						std::string szUrl = sticker["thread_image"]["uri"].as_string();
 
 						NETLIBHTTPREQUEST req = {};
 						req.cbSize = sizeof(req);
