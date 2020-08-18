@@ -1042,12 +1042,12 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 		return;
 
 	case 401:
-		if (root.detail() == 1002) { // session expired
-			delSetting(DB_KEY_ATOKEN);
-			delSetting(DB_KEY_SESSIONKEY);
+		delSetting(DB_KEY_ATOKEN);
+		delSetting(DB_KEY_SESSIONKEY);
+		if (root.detail() == 1002) // session expired
 			CheckPassword();
-		}
-		else ConnectionFailed(LOGINERR_WRONGPASSWORD, root.error());
+		else
+			ConnectionFailed(LOGINERR_WRONGPASSWORD, root.error());
 		return;
 
 	case 400:
