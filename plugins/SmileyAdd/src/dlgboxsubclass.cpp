@@ -33,7 +33,7 @@ struct MsgWndData : public MZeroedObject
 
 	void CreateSmileyButton(void)
 	{
-		SmileyPackType *SmileyPack = GetSmileyPack(ProtocolName);
+		SmileyPackType *SmileyPack = FindSmileyPack(ProtocolName);
 		bool doSmileyButton = SmileyPack != nullptr && SmileyPack->VisibleSmileyCount() != 0;
 
 		doSmileyReplace = true;
@@ -135,7 +135,7 @@ int SmileyButtonPressed(WPARAM, LPARAM lParam)
 		return 0;
 
 	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
-	stwp->pSmileyPack = GetSmileyPack(dat->ProtocolName);
+	stwp->pSmileyPack = FindSmileyPack(dat->ProtocolName, dat->hContact);
 	stwp->hWndParent = pcbc->hwndFrom;
 	stwp->hWndTarget = dat->hwndInput;
 	stwp->targetMessage = EM_REPLACESEL;

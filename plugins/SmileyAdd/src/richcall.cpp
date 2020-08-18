@@ -56,7 +56,7 @@ static void SetPosition(HWND hwnd)
 
 	int objectCount = RichEditOle->GetObjectCount();
 	for (int i = objectCount - 1; i >= 0; i--) {
-		REOBJECT reObj = { 0 };
+		REOBJECT reObj = {};
 		reObj.cbStruct = sizeof(REOBJECT);
 
 		HRESULT hr = RichEditOle->GetObject(i, &reObj, REO_GETOBJ_POLEOBJ);
@@ -132,7 +132,7 @@ static void ReplaceContactSmileys(RichEditData *rdt, const CHARRANGE &sel, bool 
 {
 	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace) return;
 	SmileyPackCType *smcp = nullptr;
-	SmileyPackType *SmileyPack = GetSmileyPack(Proto_GetBaseAccountName(rdt->hContact), rdt->inputarea ? nullptr : &smcp);
+	SmileyPackType *SmileyPack = FindSmileyPack(Proto_GetBaseAccountName(rdt->hContact), rdt->hContact, rdt->inputarea ? nullptr : &smcp);
 	ReplaceSmileys(rdt->hwnd, SmileyPack, smcp, sel, false, ignoreLast, unFreeze);
 }
 

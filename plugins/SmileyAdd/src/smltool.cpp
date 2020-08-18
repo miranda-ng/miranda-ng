@@ -296,7 +296,7 @@ void SmileyToolWindowType::MouseMove(int xposition, int yposition)
 	if (but<0)
 		SendMessage(m_hToolTip, TTM_ACTIVATE, FALSE, 0);
 	else if (m_CurrMouseTrack != but) {
-		TOOLINFO ti = { 0 };
+		TOOLINFO ti = {};
 		ti.cbSize = sizeof(ti);
 		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 		ti.hwnd = m_hwndDialog;
@@ -503,7 +503,7 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	//add tooltips
 	m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", TTS_NOPREFIX | WS_POPUP, 0, 0, 0, 0, m_hwndDialog, nullptr, g_plugin.getInst(), nullptr);
 	
-	TOOLINFO ti = { 0 };
+	TOOLINFO ti = {};
 	ti.cbSize = sizeof(ti);
 	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 	ti.hwnd = m_hwndDialog;

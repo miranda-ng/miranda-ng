@@ -212,7 +212,7 @@ public:
 
 	bool AddSmileyPack(CMStringW &filename, CMStringW &packname);
 	void ClearAndFreeAll(void);
-	SmileyPackType* GetSmileyPack(CMStringW& filename);
+	SmileyPackType* GetSmileyPack(CMStringW &filename);
 };
 
 

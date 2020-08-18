@@ -96,8 +96,8 @@ FacebookUser* FacebookProto::AddContact(const CMStringW &wszId, bool bTemp)
 		Contact_RemoveFromList(hContact);
 
 	auto* ret = new FacebookUser(_wtoi64(wszId), hContact);
-
 	m_users.insert(ret);
+
 	return ret;
 }
 
@@ -527,7 +527,7 @@ void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
 
 		rdr.readField(fieldType, fieldId);
 		assert(fieldType == FB_THRIFT_TYPE_I64);
-		assert(fieldId == 1 || fieldId == 4);
+		assert(fieldId == 1 || fieldId == 3 || fieldId == 4);
 		rdr.readInt64(timestamp);
 
 		while (!rdr.isStop()) {
@@ -710,7 +710,14 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 			bool bSuccess = false;
 			CMStringW wszFileName(FORMAT, L"%s\\STK{%S}.png", wszPath.c_str(), stickerId.c_str());
-			if (GetFileAttributesW(wszFileName) == INVALID_FILE_ATTRIBUTES) {
+			DWORD dwAttrib = GetFileAttributesW(wszFileName);
+			if (dwAttrib == INVALID_FILE_ATTRIBUTES) {
+				wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
+				dwAttrib = GetFileAttributesW(wszFileName);
+			}
+
+			// new sticker
+			if (dwAttrib == INVALID_FILE_ATTRIBUTES) {
 				auto *pReq = CreateRequestGQL(FB_API_QUERY_STICKER);
 				pReq << CHAR_PARAM("query_params", CMStringA(FORMAT, "{\"0\":[\"%s\"]}", stickerId.c_str()));
 				pReq->CalcSig();
@@ -718,22 +725,24 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 				JsonReply reply(ExecuteRequest(pReq));
 				if (!reply.error()) {
 					for (auto &sticker : reply.data()) {
-						for (auto &img : sticker["thread_image"]) {
-							CMStringA szUrl(img.as_mstring());
+						std::string szUrl = sticker["animated_image"]["uri"].as_string();
+						if (szUrl.empty())
+							szUrl = sticker["thread_image"]["uri"].as_string();
+						else
+							wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
 
-							NETLIBHTTPREQUEST req = {};
-							req.cbSize = sizeof(req);
-							req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-							req.requestType = REQUEST_GET;
-							req.szUrl = szUrl.GetBuffer();
+						NETLIBHTTPREQUEST req = {};
+						req.cbSize = sizeof(req);
+						req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+						req.requestType = REQUEST_GET;
+						req.szUrl = (char*)szUrl.c_str();
 
-							NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
-							if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
-								bSuccess = true;
-								FILE *out = _wfopen(wszFileName, L"wb");
-								fwrite(pReply->pData, 1, pReply->dataLength, out);
-								fclose(out);
-							}
+						NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
+						if (pReply != nullptr && pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
+							bSuccess = true;
+							FILE *out = _wfopen(wszFileName, L"wb");
+							fwrite(pReply->pData, 1, pReply->dataLength, out);
+							fclose(out);
 						}
 					}
 				}

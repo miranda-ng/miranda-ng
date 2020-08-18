@@ -43,7 +43,7 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 {
 	int result = 0xBADBAD;
 	char *szRedirUrl = nullptr;
-	NETLIBHTTPREQUEST nlhr = { 0 };
+	NETLIBHTTPREQUEST nlhr = {};
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);

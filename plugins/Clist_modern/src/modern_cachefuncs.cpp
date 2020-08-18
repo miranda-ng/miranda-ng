@@ -170,7 +170,7 @@ void CSmileyString::DestroySmileyList()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Parsing of text for smiley
 //
-void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t * szText, BOOL replace_smileys)
+void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t *szText, BOOL replace_smileys)
 {
 	int last_pos = 0;
 	iMaxSmileyHeight = 0;
@@ -183,8 +183,9 @@ void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t *
 	int text_size = (int)mir_wstrlen(szText);
 
 	// Call service for the first time to see if needs to be used...
-	SMADD_BATCHPARSE2 sp = { 0 };
+	SMADD_BATCHPARSE2 sp = {};
 	sp.cbSize = sizeof(sp);
+	sp.hContact = pdnce->hContact;
 
 	if (dat->text_use_protocol_smileys) {
 		sp.Protocolname = pdnce->szProto;

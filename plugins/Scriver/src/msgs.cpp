@@ -463,7 +463,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 
 static int ModuleLoad(WPARAM, LPARAM)
 {
-	g_dat.smileyAddInstalled = ServiceExists(MS_SMILEYADD_SHOWSELECTION) && ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
+	g_dat.smileyAddInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
 	return 0;
 }
 

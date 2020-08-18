@@ -27,21 +27,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SAFLRE_NOCUSTOM   8     // Do not use custom smileys
 #define SAFLRE_FIREVIEW   16    // use NM_FIREVIEWCHANGE messages
 
-typedef struct 
+struct SMADD_RICHEDIT3
 {
-    unsigned cbSize;            //size of the structure
-    HWND hwndRichEditControl;   //handle to the rich edit control
-    CHARRANGE* rangeToReplace;  //same meaning as for normal Richedit use (NULL = replaceall)
-    const char* Protocolname;   //protocol to use... if you have defined a protocol, u can 
-                                //use your own protocol name. SmileyAdd will automatically 
-                                //select the smileypack that is defined for your protocol.
-                                //Or, use "Standard" for standard smiley set. Or "ICQ" 
-                                //if you prefer those icons. 
-                                //If not found or NULL, "Standard" will be used
-    unsigned flags;             //Flags (SAFLRE_*) that define the behaivior
-    BOOL disableRedraw;         //Parameter have been depricated, have no effect on operation
-	 MCONTACT hContact;          //Contact handle
-} SMADD_RICHEDIT3;
+	unsigned cbSize;            //size of the structure
+	HWND hwndRichEditControl;   //handle to the rich edit control
+	CHARRANGE *rangeToReplace;  //same meaning as for normal Richedit use (NULL = replaceall)
+	const char *Protocolname;   //protocol to use... if you have defined a protocol, u can 
+										 //use your own protocol name. SmileyAdd will automatically 
+										 //select the smileypack that is defined for your protocol.
+										 //Or, use "Standard" for standard smiley set. Or "ICQ" 
+										 //if you prefer those icons. 
+										 //If not found or NULL, "Standard" will be used
+	unsigned flags;             //Flags (SAFLRE_*) that define the behaivior
+	BOOL disableRedraw;         //Parameter have been depricated, have no effect on operation
+	MCONTACT hContact;          //Contact handle
+};
 
 //Replace smileys in a rich edit control... 
 //wParam = (WPARAM) 0; not used
@@ -49,45 +49,17 @@ typedef struct
 //return: TRUE if API succeeded (all parameters were valid) , FALSE if not.
 #define MS_SMILEYADD_REPLACESMILEYS  "SmileyAdd/ReplaceSmileys"
 
-
-typedef struct 
+struct SMADD_INFO2
 {
-    unsigned cbSize;            //size of the structure
-    char* Protocolname;         //protocol to use... if you have defined a protocol, you can 
-                                //use your own protocol name. Smiley add will automatically 
-                                //select the smileypack that is defined for your protocol.
-                                //Or, use "Standard" for standard smiley set. Or "ICQ"
-                                //if you prefer those icons.
-                                //If not found or NULL: "Standard" will be used
-    int xPosition;              //Postition to place the selectwindow
-    int yPosition;              // "
-    int Direction;              //Direction (i.e. size upwards/downwards/etc) of the window 0, 1, 2, 3
-
-    HWND hwndTarget;            //Window, where to send the message when smiley is selected.
-    UINT targetMessage;         //Target message, to be sent.
-    LPARAM targetWParam;        //Target WParam to be sent (LParam will be char* to select smiley)
-                                //see the example file.
-    HWND hwndParent;            //Parent window for smiley dialog 
-} SMADD_SHOWSEL3;
-
-//Show smiley selection window 
-//wParam = (WPARAM) 0; not used
-//lParam = (LPARAM) (SMADD_SHOWSEL3*) &smre;  //pointer to SMADD_SHOWSEL3
-//return: TRUE if API succeeded (all parameters were valid) , FALSE if not.
-#define MS_SMILEYADD_SHOWSELECTION  "SmileyAdd/ShowSmileySelection"
-
-
-typedef struct 
-{
-    unsigned cbSize;            //size of the structure
-    char* Protocolname;         //   "             "
-    HICON ButtonIcon;           //RETURN VALUE: this is filled with the icon handle
-                                //of the smiley that can be used on the button
-                                //if used with GETINFO2 handle must be destroyed by user!
-                                //NULL if the buttonicon is not defined...
-    int NumberOfVisibleSmileys; //Number of visible smileys defined.
-    int NumberOfSmileys;        //Number of total smileys defined
-} SMADD_INFO2;
+	unsigned cbSize;            //size of the structure
+	char *Protocolname;         //   "             "
+	HICON ButtonIcon;           //RETURN VALUE: this is filled with the icon handle
+										 //of the smiley that can be used on the button
+										 //if used with GETINFO2 handle must be destroyed by user!
+										 //NULL if the buttonicon is not defined...
+	int NumberOfVisibleSmileys; //Number of visible smileys defined.
+	int NumberOfSmileys;        //Number of total smileys defined
+};
 
 //get button smiley icon
 //wParam = (WPARAM) 0; not used
@@ -112,43 +84,44 @@ typedef struct
   #define SAFL_TCHAR     0
 #endif
 
-typedef struct 
+struct SMADD_BATCHPARSE2
 {
-    unsigned cbSize;            //size of the structure
-    const char* Protocolname;   //protocol to use... if you have defined a protocol, u can 
-                                //use your own protocol name. Smiley add wil automatically 
-                                //select the smileypack that is defined for your protocol.
-                                //Or, use "Standard" for standard smiley set. Or "ICQ"
-                                //if you prefer those icons. 
-                                //If not found or NULL: "Standard" will be used
-    union {
-       TCHAR*   str;            //String to parse
-       char*    astr;
-       wchar_t* wstr;
-    };
-    unsigned flag;              //One of the SAFL_ flags specifies parsing requirements
-                                //This parameter should be filled by the user
+	unsigned cbSize;            //size of the structure
+	const char *Protocolname;   //protocol to use... if you have defined a protocol, u can 
+										 //use your own protocol name. Smiley add wil automatically 
+										 //select the smileypack that is defined for your protocol.
+										 //Or, use "Standard" for standard smiley set. Or "ICQ"
+										 //if you prefer those icons. 
+										 //If not found or NULL: "Standard" will be used
+	union {
+		TCHAR *str;            //String to parse
+		char *astr;
+		wchar_t *wstr;
+	};
+	unsigned flag;              //One of the SAFL_ flags specifies parsing requirements
+										 //This parameter should be filled by the user
 
-    unsigned numSmileys;        //Number of Smileys found, this parameter filled by SmileyAdd
-    unsigned oflag;             //One of the SAFL_ flags specifies content of the parse results
-                                //this parameter filled by SmileyAdd
-} SMADD_BATCHPARSE2;
+	unsigned numSmileys;        //Number of Smileys found, this parameter filled by SmileyAdd
+	unsigned oflag;             //One of the SAFL_ flags specifies content of the parse results
+										 //this parameter filled by SmileyAdd
+	MCONTACT hContact;          //Contact handle
+};
 
-typedef struct 
+struct SMADD_BATCHPARSERES
 {
-    unsigned startChar;         //Starting smiley character 
-                                //Because of iterative nature of the API caller should set this 
-                                //parameter to correct value
-    unsigned size;              //Number of characters in smiley (0 if not found)
-                                //Because of iterative nature of the API caller should set this 
-                                //parameter to correct value
-    union {
-      const TCHAR*   filepath;
-      const char*    afilepath;
-      const wchar_t* wfilepath;
-      HICON          hIcon;     //User responsible for destroying icon handle 
-    };
-} SMADD_BATCHPARSERES;
+	unsigned startChar;         //Starting smiley character 
+										 //Because of iterative nature of the API caller should set this 
+										 //parameter to correct value
+	unsigned size;              //Number of characters in smiley (0 if not found)
+										 //Because of iterative nature of the API caller should set this 
+										 //parameter to correct value
+	union {
+		const TCHAR *filepath;
+		const char *afilepath;
+		const wchar_t *wfilepath;
+		HICON          hIcon;     //User responsible for destroying icon handle 
+	};
+};
 
 //find all smileys in text, API parses the provided text and returns all smileys found
 //wParam = (WPARAM) 0; not used
@@ -163,12 +136,12 @@ typedef struct
 //lParam = (LPARAM) (SMADD_BATCHPARSERES*) &smgp;  //pointer to SMADD_BATCHPARSERES
 #define MS_SMILEYADD_BATCHFREE "SmileyAdd/BatchFree"
 
-typedef struct 
+struct SMADD_REGCAT
 {
-    unsigned cbSize;            //size of the structure
-    char* name;                 //smiley category name for reference
-    char* dispname;             //smiley category name for display 
-} SMADD_REGCAT;
+	unsigned cbSize;            //size of the structure
+	char *name;                 //smiley category name for reference
+	char *dispname;             //smiley category name for display 
+};
 
 //Register smiley category
 //wParam = (WPARAM) 0; not used
@@ -214,32 +187,32 @@ typedef struct
 #define FVCA_SKIPDRAW		5
 
 // Extended NMHDR structure for WM_NOTIFY
-typedef struct  
-{   
-    //NMHDR structure
-    HWND     hwndFrom;          // Window of smiley host
-    UINT_PTR idFrom;            // ignored
-    UINT     code;              // NM_FIREVIEWCHANGE
-    
-    size_t      cbSize;
-    BYTE        bEvent;         // FVCN_ value - pre- or post- painting
-    BYTE        bAction;        // FVCA_ keys
-    HDC         hDC;            // Canvas to draw on
-    RECT        rcRect;         // Valid/should be in case of FVCA_DRAW
-    COLORREF    clrBackground;  // color to fill background if fTransparent is not set
-    BOOL        fTransparent;   // if need to fill back color (not supported)
-    LPARAM      lParam;         // used by host window PreFire and PostFire event
-} FVCNDATA_NMHDR;
+struct FVCNDATA_NMHDR
+{
+	//NMHDR structure
+	HWND     hwndFrom;          // Window of smiley host
+	UINT_PTR idFrom;            // ignored
+	UINT     code;              // NM_FIREVIEWCHANGE
+
+	size_t      cbSize;
+	BYTE        bEvent;         // FVCN_ value - pre- or post- painting
+	BYTE        bAction;        // FVCA_ keys
+	HDC         hDC;            // Canvas to draw on
+	RECT        rcRect;         // Valid/should be in case of FVCA_DRAW
+	COLORREF    clrBackground;  // color to fill background if fTransparent is not set
+	BOOL        fTransparent;   // if need to fill back color (not supported)
+	LPARAM      lParam;         // used by host window PreFire and PostFire event
+};
 
 // Code of WM_NOTIFY message (code)
 #define NM_FIREVIEWCHANGE   NM_FIRST+1;
 
-typedef struct 
+struct SMADD_CONT
 {
 	int type;                   // 0 - directory, 1 - file;
-   const char *pszModule;      // module name
+	const char *pszModule;      // module name
 	const wchar_t *path;        // smiley category name for reference
-} SMADD_CONT;
+};
 
 //Loads all smileys for the contact
 //wParam = (WPARAM) 0; not used

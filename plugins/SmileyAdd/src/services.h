@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // service commands
 INT_PTR ReplaceSmileysCommand(WPARAM wParam, LPARAM lParam);
-INT_PTR ShowSmileySelectionCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR GetInfoCommand(WPARAM wParam, LPARAM);
 INT_PTR GetInfoCommand2(WPARAM wParam, LPARAM);
 INT_PTR RegisterPack(WPARAM wParam, LPARAM lParam);
@@ -38,8 +37,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam);
 int DbSettingChanged(WPARAM wParam, LPARAM lParam);
 int ReloadColour(WPARAM, LPARAM);
 
-SmileyPackType* GetSmileyPack(const char* proto, SmileyPackCType** smlc = nullptr);
-
+SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact = 0, SmileyPackCType **smlc = nullptr);
 
 #endif // SMILEYADD_SERVICES_H_
 

@@ -86,7 +86,7 @@ public:
 		if (m_hwnd == nullptr)
 			return;
 
-		REOBJECT reObj = { 0 };
+		REOBJECT reObj = {};
 		reObj.cbStruct = sizeof(reObj);
 		{
 			CComPtr<IRichEditOle> RichEditOle;

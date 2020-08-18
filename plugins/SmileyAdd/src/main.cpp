@@ -115,7 +115,6 @@ int CMPlugin::Load()
 
 	// create the smiley services
 	CreateServiceFunction(MS_SMILEYADD_REPLACESMILEYS, ReplaceSmileysCommand);
-	CreateServiceFunction(MS_SMILEYADD_SHOWSELECTION, ShowSmileySelectionCommand);
 	CreateServiceFunction(MS_SMILEYADD_GETINFO2, GetInfoCommand2);
 	CreateServiceFunction(MS_SMILEYADD_REGISTERCATEGORY, RegisterPack);
 	CreateServiceFunction(MS_SMILEYADD_BATCHPARSE, ParseTextBatch);

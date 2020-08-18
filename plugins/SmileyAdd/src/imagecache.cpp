@@ -454,7 +454,7 @@ void ImageFType::DrawInternal(HDC hdc, int x, int y, int sizeX, int sizeY)
 	GetObject(m_bmp, sizeof(bm), &bm);
 
 	if (bm.bmBitsPixel == 32) {
-		BLENDFUNCTION bf = { 0 };
+		BLENDFUNCTION bf = {};
 		bf.SourceConstantAlpha = 255;
 		bf.AlphaFormat = AC_SRC_ALPHA;
 		GdiAlphaBlend(hdc, x, y, sizeX, sizeY, hdcImg, 0, 0, bm.bmWidth, bm.bmHeight, bf);
