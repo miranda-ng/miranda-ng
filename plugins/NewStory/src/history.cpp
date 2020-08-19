@@ -679,7 +679,8 @@ public:
 		//export contact info
 		JSONNode pRoot, pInfo, pHist(JSON_ARRAY);
 		pInfo.set_name("info");
-		pInfo.push_back(JSONNode("proto", proto));
+		if (proto)
+			pInfo.push_back(JSONNode("proto", proto));
 
 		if (id != NULL)
 			pInfo.push_back(JSONNode(uid, T2Utf(id).get()));
