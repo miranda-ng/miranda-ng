@@ -459,17 +459,20 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 				// is it a sticker?
 				if (pFileInfo->bIsSticker) {
-					auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
-					pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-					pNew->pUserInfo = wszUrl.GetBuffer();
-					pNew->AddHeader("Sec-Fetch-User", "?1");
-					pNew->AddHeader("Sec-Fetch-Site", "cross-site");
-					pNew->AddHeader("Sec-Fetch-Mode", "navigate");
-					if (!ExecuteRequest(pNew))
-						return;
+					if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
+						auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
+						pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+						pNew->pUserInfo = wszUrl.GetBuffer();
+						pNew->AddHeader("Sec-Fetch-User", "?1");
+						pNew->AddHeader("Sec-Fetch-Site", "cross-site");
+						pNew->AddHeader("Sec-Fetch-Mode", "navigate");
+						if (!ExecuteRequest(pNew))
+							return;
 
-					wszText.Format(L"STK{%s}", wszUrl.c_str());
-					delete pFileInfo;
+						wszText.Format(L"STK{%s}", wszUrl.c_str());
+						delete pFileInfo;
+					}
+					else wszText = TranslateT("SmileyAdd plugin required to support stickers");
 				}
 				else {
 					// detach a file transfer
