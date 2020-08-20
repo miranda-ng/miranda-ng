@@ -326,6 +326,9 @@
     <ClCompile Include="src\splay.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\version_win32.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vauth\cleartext.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -545,6 +548,7 @@
     <ClInclude Include="src\url.h" />
     <ClInclude Include="src\urlapi-int.h" />
     <ClInclude Include="src\urldata.h" />
+    <ClInclude Include="src\version_win32.h" />
     <ClInclude Include="src\warnless.h" />
     <ClInclude Include="src\wildcard.h" />
     <ClInclude Include="src\x509asn1.h" />

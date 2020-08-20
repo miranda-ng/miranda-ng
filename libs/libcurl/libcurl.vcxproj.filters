@@ -299,6 +299,9 @@
     <ClCompile Include="src\splay.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\version_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\vauth\cleartext.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -800,6 +803,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\urldata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version_win32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\warnless.h">

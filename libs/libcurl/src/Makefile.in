@@ -228,7 +228,7 @@ am__objects_1 = libcurl_la-altsvc.lo libcurl_la-amigaos.lo \
 	libcurl_la-transfer.lo libcurl_la-urlapi.lo \
 	libcurl_la-version.lo libcurl_la-warnless.lo \
 	libcurl_la-wildcard.lo libcurl_la-x509asn1.lo \
-	libcurl_la-dynbuf.lo
+	libcurl_la-dynbuf.lo libcurl_la-version_win32.lo
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_2 = vauth/libcurl_la-cleartext.lo vauth/libcurl_la-cram.lo \
 	vauth/libcurl_la-digest.lo vauth/libcurl_la-digest_sspi.lo \
@@ -317,7 +317,8 @@ am__objects_9 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-timeval.lo libcurlu_la-transfer.lo \
 	libcurlu_la-urlapi.lo libcurlu_la-version.lo \
 	libcurlu_la-warnless.lo libcurlu_la-wildcard.lo \
-	libcurlu_la-x509asn1.lo libcurlu_la-dynbuf.lo
+	libcurlu_la-x509asn1.lo libcurlu_la-dynbuf.lo \
+	libcurlu_la-version_win32.lo
 am__objects_10 = vauth/libcurlu_la-cleartext.lo \
 	vauth/libcurlu_la-cram.lo vauth/libcurlu_la-digest.lo \
 	vauth/libcurlu_la-digest_sspi.lo \
@@ -469,6 +470,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurl_la-url.Plo \
 	./$(DEPDIR)/libcurl_la-urlapi.Plo \
 	./$(DEPDIR)/libcurl_la-version.Plo \
+	./$(DEPDIR)/libcurl_la-version_win32.Plo \
 	./$(DEPDIR)/libcurl_la-warnless.Plo \
 	./$(DEPDIR)/libcurl_la-wildcard.Plo \
 	./$(DEPDIR)/libcurl_la-x509asn1.Plo \
@@ -583,6 +585,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurlu_la-url.Plo \
 	./$(DEPDIR)/libcurlu_la-urlapi.Plo \
 	./$(DEPDIR)/libcurlu_la-version.Plo \
+	./$(DEPDIR)/libcurlu_la-version_win32.Plo \
 	./$(DEPDIR)/libcurlu_la-warnless.Plo \
 	./$(DEPDIR)/libcurlu_la-wildcard.Plo \
 	./$(DEPDIR)/libcurlu_la-x509asn1.Plo \
@@ -768,6 +771,7 @@ HAVE_LDAP_SSL = @HAVE_LDAP_SSL@
 HAVE_LIBZ = @HAVE_LIBZ@
 HAVE_OPENSSL_SRP = @HAVE_OPENSSL_SRP@
 HAVE_PROTO_BSDSOCKET_H = @HAVE_PROTO_BSDSOCKET_H@
+HAVE_ZSTD = @HAVE_ZSTD@
 IDN_ENABLED = @IDN_ENABLED@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -1021,7 +1025,8 @@ LIB_CFILES = altsvc.c amigaos.c asyn-ares.c asyn-thread.c base64.c            \
   sendf.c setopt.c sha256.c share.c slist.c smb.c smtp.c socketpair.c socks.c \
   socks_gssapi.c socks_sspi.c speedcheck.c splay.c strcase.c strdup.c         \
   strerror.c strtok.c strtoofft.c system_win32.c telnet.c tftp.c timeval.c    \
-  transfer.c urlapi.c version.c warnless.c wildcard.c x509asn1.c dynbuf.c
+  transfer.c urlapi.c version.c warnless.c wildcard.c x509asn1.c dynbuf.c     \
+  version_win32.c
 
 LIB_HFILES = altsvc.h amigaos.h arpa_telnet.h asyn.h conncache.h connect.h    \
   content_encoding.h cookie.h curl_addrinfo.h curl_base64.h curl_ctype.h      \
@@ -1040,7 +1045,7 @@ LIB_HFILES = altsvc.h amigaos.h arpa_telnet.h asyn.h conncache.h connect.h    \
   smb.h smtp.h sockaddr.h socketpair.h socks.h speedcheck.h splay.h strcase.h \
   strdup.h strerror.h strtok.h strtoofft.h system_win32.h telnet.h tftp.h     \
   timeval.h transfer.h urlapi-int.h urldata.h warnless.h wildcard.h           \
-  x509asn1.h dynbuf.h
+  x509asn1.h dynbuf.h version_win32.h
 
 LIB_RCFILES = libcurl.rc
 CSOURCES = $(LIB_CFILES) $(LIB_VAUTH_CFILES) $(LIB_VTLS_CFILES) \
@@ -1443,6 +1448,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-url.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-urlapi.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-version.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-version_win32.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-warnless.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-wildcard.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-x509asn1.Plo@am__quote@ # am--include-marker
@@ -1557,6 +1563,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-url.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-urlapi.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-version.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-version_win32.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-warnless.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-wildcard.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-x509asn1.Plo@am__quote@ # am--include-marker
@@ -2452,6 +2459,13 @@ libcurl_la-dynbuf.lo: dynbuf.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='dynbuf.c' object='libcurl_la-dynbuf.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-dynbuf.lo `test -f 'dynbuf.c' || echo '$(srcdir)/'`dynbuf.c
+
+libcurl_la-version_win32.lo: version_win32.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-version_win32.lo -MD -MP -MF $(DEPDIR)/libcurl_la-version_win32.Tpo -c -o libcurl_la-version_win32.lo `test -f 'version_win32.c' || echo '$(srcdir)/'`version_win32.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-version_win32.Tpo $(DEPDIR)/libcurl_la-version_win32.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='version_win32.c' object='libcurl_la-version_win32.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-version_win32.lo `test -f 'version_win32.c' || echo '$(srcdir)/'`version_win32.c
 
 vauth/libcurl_la-cleartext.lo: vauth/cleartext.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT vauth/libcurl_la-cleartext.lo -MD -MP -MF vauth/$(DEPDIR)/libcurl_la-cleartext.Tpo -c -o vauth/libcurl_la-cleartext.lo `test -f 'vauth/cleartext.c' || echo '$(srcdir)/'`vauth/cleartext.c
@@ -3475,6 +3489,13 @@ libcurlu_la-dynbuf.lo: dynbuf.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-dynbuf.lo `test -f 'dynbuf.c' || echo '$(srcdir)/'`dynbuf.c
 
+libcurlu_la-version_win32.lo: version_win32.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-version_win32.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-version_win32.Tpo -c -o libcurlu_la-version_win32.lo `test -f 'version_win32.c' || echo '$(srcdir)/'`version_win32.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-version_win32.Tpo $(DEPDIR)/libcurlu_la-version_win32.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='version_win32.c' object='libcurlu_la-version_win32.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-version_win32.lo `test -f 'version_win32.c' || echo '$(srcdir)/'`version_win32.c
+
 vauth/libcurlu_la-cleartext.lo: vauth/cleartext.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT vauth/libcurlu_la-cleartext.lo -MD -MP -MF vauth/$(DEPDIR)/libcurlu_la-cleartext.Tpo -c -o vauth/libcurlu_la-cleartext.lo `test -f 'vauth/cleartext.c' || echo '$(srcdir)/'`vauth/cleartext.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) vauth/$(DEPDIR)/libcurlu_la-cleartext.Tpo vauth/$(DEPDIR)/libcurlu_la-cleartext.Plo
@@ -3957,6 +3978,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-url.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-urlapi.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-version.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-version_win32.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-warnless.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-wildcard.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-x509asn1.Plo
@@ -4071,6 +4093,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-url.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-urlapi.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-version.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-version_win32.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-warnless.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-wildcard.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-x509asn1.Plo
@@ -4294,6 +4317,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-url.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-urlapi.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-version.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-version_win32.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-warnless.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-wildcard.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-x509asn1.Plo
@@ -4408,6 +4432,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-url.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-urlapi.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-version.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-version_win32.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-warnless.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-wildcard.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-x509asn1.Plo
