@@ -53,7 +53,54 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 	ptrA password(getStringA(SKYPE_SETTINGS_PASSWORD));
 	CMStringA mscookies(FORMAT, "MSPRequ=%s;MSPOK=%s;CkTst=G%lld;", scookies["MSPRequ"].c_str(), scookies["MSPOK"].c_str(), time(NULL));
 
+	cookies["MSPRequ"] = scookies["MSPRequ"];
+
 	PushRequest(new OAuthRequest(login, password, mscookies.c_str(), PPTF.c_str()));
+}
+
+void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST* response, AsyncHttpRequest*) {
+	if (response == nullptr || response->pData == nullptr) {
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	std::regex regex;
+	std::smatch match;
+	std::string content = response->pData;
+	std::map<std::string, std::string> scookies;
+	std::string PPTF;
+	std::string opid;
+
+	regex = "sFT:'(.+?)'";
+	if (!std::regex_search(content, match, regex)) {
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+	PPTF = match[1];
+
+	regex = "&opid=(.+?)'";
+	if (!std::regex_search(content, match, regex)) {
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+	opid = match[1];
+
+	for (int i = 0; i < response->headersCount; i++) {
+		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
+			continue;
+
+		content = response->headers[i].szValue;
+		regex = "^(.+?)=(.+?);";
+		if (std::regex_search(content, match, regex))
+			scookies[match[1]] = match[2];
+	}
+
+	CMStringA mscookies(FORMAT, "MSPRequ=%s;MSPOK=%s;PPAuth=%s;OParams=%s;", cookies["MSPRequ"].c_str(), scookies["MSPOK"].c_str(), scookies["PPAuth"].c_str(), scookies["OParams"].c_str());
+
+	PushRequest(new OAuthRequest(mscookies.c_str(), PPTF.c_str(), opid.c_str()));
 }
 
 void CSkypeProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)

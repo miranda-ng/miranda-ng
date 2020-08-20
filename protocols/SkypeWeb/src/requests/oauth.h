@@ -31,7 +31,7 @@ struct OAuthRequest : public AsyncHttpRequest
 	}
 
 	OAuthRequest(const char *login, const char *password, const char *cookies, const char *ppft) :
-		AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://login.live.com/ppsecure/post.srf", &CSkypeProto::OnOAuthAuthorize)
+		AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://login.live.com/ppsecure/post.srf", &CSkypeProto::OnOAuthConfirm)
 	{
 		this << CHAR_PARAM("wa", "wsignin1.0") << CHAR_PARAM("wp", "MBI_SSL")
 			<< CHAR_PARAM("wreply", "https://lw.skype.com/login/oauth/proxy?site_name=lw.skype.com")
@@ -42,6 +42,21 @@ struct OAuthRequest : public AsyncHttpRequest
 		AddHeader("Cookie", cookies);
 
 		this << CHAR_PARAM("login", login) << CHAR_PARAM("passwd", password) << CHAR_PARAM("PPFT", ppft);
+	}
+
+	OAuthRequest(const char *cookies, const char* ppft, const char* opid) :
+		AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://login.live.com/ppsecure/post.srf", &CSkypeProto::OnOAuthAuthorize)
+	{
+		this << CHAR_PARAM("wa", "wsignin1.0") << CHAR_PARAM("wp", "MBI_SSL")
+			<< CHAR_PARAM("wreply", "https://lw.skype.com/login/oauth/proxy?site_name=lw.skype.com")
+			<< CHAR_PARAM("cobrandid", "90010")
+			<< CHAR_PARAM("opid", opid);
+		m_szUrl.AppendFormat("?%s", m_szParam.c_str());
+		m_szParam.Empty();
+
+		AddHeader("Cookie", cookies);
+
+		this << CHAR_PARAM("type", "28") << CHAR_PARAM("PPFT", ppft);
 	}
 
 	OAuthRequest(const char *t) :

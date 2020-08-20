@@ -122,7 +122,8 @@ public:
 
 	// oauth
 	void OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
-	void OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+	void OnOAuthConfirm(NETLIBHTTPREQUEST* response, AsyncHttpRequest* pRequest);
+	void OnOAuthAuthorize(NETLIBHTTPREQUEST* response, AsyncHttpRequest* pRequest);
 	void OnOAuthEnd(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 
 	void OnASMObjectCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
