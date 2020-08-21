@@ -30,7 +30,7 @@ class SmileyToolWindowType
 	unsigned m_NumberOfHorizontalButtons = 0;
 	SIZE m_BitmapWidth = { 0, 0 };
 	SIZE m_ButtonSize = { 0, 0 };
-	unsigned m_ButtonSpace = -1;
+	unsigned m_ButtonSpace = 1;
 	unsigned m_NumberOfButtons = 0;
 	int m_WindowSizeY;
 
