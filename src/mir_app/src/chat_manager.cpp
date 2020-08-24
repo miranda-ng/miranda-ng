@@ -897,7 +897,6 @@ static void ResetApi()
 
 	g_chatApi.SetOffline = ::SetOffline;
 	g_chatApi.SetAllOffline = ::SetAllOffline;
-	g_chatApi.AddEvent = ::AddEvent;
 	g_chatApi.FindRoom = ::FindRoom;
 	g_chatApi.DoRtfToTags = ::DoRtfToTags;
 

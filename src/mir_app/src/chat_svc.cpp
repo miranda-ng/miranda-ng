@@ -28,7 +28,6 @@ INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 #include "resource.h"
 
 mir_cs csChat;
-HGENMENU hJoinMenuItem, hLeaveMenuItem;
 MWindowList g_hWindowList;
 HANDLE hevSendEvent, hevBuildMenuEvent;
 
@@ -726,6 +725,79 @@ EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions()
 /////////////////////////////////////////////////////////////////////////////////////////
 // module initialization
 
+static HGENMENU hJoinMenuItem, hLeaveMenuItem, hMuteRootMenuItem, hMute0MenuItem, hMute1MenuItem, hMute2MenuItem;
+
+static INT_PTR JoinChat(WPARAM hContact, LPARAM lParam)
+{
+	if (hContact) {
+		char *szProto = Proto_GetBaseAccountName(hContact);
+		if (szProto) {
+			if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
+				CallProtoService(szProto, PS_JOINCHAT, hContact, lParam);
+			else
+				RoomDoubleclicked(hContact, 0);
+		}
+	}
+
+	return 0;
+}
+
+static INT_PTR LeaveChat(WPARAM hContact, LPARAM lParam)
+{
+	if (hContact) {
+		char *szProto = Proto_GetBaseAccountName(hContact);
+		if (szProto)
+			CallProtoService(szProto, PS_LEAVECHAT, hContact, lParam);
+	}
+	return 0;
+}
+
+static INT_PTR MuteChat(WPARAM hContact, LPARAM param)
+{
+	db_set_b(hContact, "SRMM", "MuteMode", param);
+	return 0;
+}
+
+static int PrebuildContactMenu(WPARAM hContact, LPARAM)
+{
+	if (hContact == 0)
+		return 0;
+
+	int iMuteMode = db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+	bool bEnabledJoin = false, bEnabledLeave = false, bIsChat = false;
+	char *szProto = Proto_GetBaseAccountName(hContact);
+	if (szProto) {
+		// display this menu item only for chats
+		if (db_get_b(hContact, szProto, "ChatRoom", 0)) {
+			bIsChat = true;
+			// still hide it for offline protos
+			if (Proto_GetStatus(szProto) != ID_STATUS_OFFLINE) {
+				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE) {
+					if (ProtoServiceExists(szProto, PS_JOINCHAT)) {
+						bEnabledJoin = true;
+						Menu_ModifyItem(hJoinMenuItem, LPGENW("&Join chat"));
+					}
+				}
+				else {
+					bEnabledJoin = true;
+					Menu_ModifyItem(hJoinMenuItem, LPGENW("&Open/close chat window"));
+				}
+			}
+			bEnabledLeave = ProtoServiceExists(szProto, PS_LEAVECHAT) != 0;
+		}
+	}
+
+	Menu_ShowItem(hJoinMenuItem, bEnabledJoin);
+	Menu_ShowItem(hLeaveMenuItem, bEnabledLeave);
+	Menu_ShowItem(hMuteRootMenuItem, bIsChat);
+	if (bIsChat) {
+		Menu_ModifyItem(hMute0MenuItem, 0, INVALID_HANDLE_VALUE, (iMuteMode == CHATMODE_NORMAL) ? CMIF_CHECKED : 0);
+		Menu_ModifyItem(hMute1MenuItem, 0, INVALID_HANDLE_VALUE, (iMuteMode == CHATMODE_MUTE) ? CMIF_CHECKED : 0);
+		Menu_ModifyItem(hMute2MenuItem, 0, INVALID_HANDLE_VALUE, (iMuteMode == CHATMODE_UNMUTE) ? CMIF_CHECKED : 0);
+	}
+	return 0;
+}
+
 static int ModulesLoaded(WPARAM, LPARAM)
 {
 	LoadChatIcons();
@@ -735,7 +807,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x2bb76d5, 0x740d, 0x4fd2, 0x8f, 0xee, 0x7c, 0xa4, 0x5a, 0x74, 0x65, 0xa6);
-	mi.position = -2000090001;
+	mi.position = -2000090002;
 	mi.flags = CMIF_DEFAULT;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
 	mi.name.a = LPGEN("&Join chat");
@@ -744,13 +816,43 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	CreateServiceFunction(mi.pszService, JoinChat);
 
 	SET_UID(mi, 0x72b7440b, 0xd2db, 0x4e22, 0xa6, 0xb1, 0x2, 0xd0, 0x96, 0xee, 0xad, 0x88);
-	mi.position = -2000090000;
+	mi.position = -2000090001;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
 	mi.flags = CMIF_NOTOFFLINE;
 	mi.name.a = LPGEN("&Leave chat");
 	mi.pszService = "GChat/LeaveChat";
 	hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, LeaveChat);
+
+	SET_UID(mi, 0x1c16b08e, 0x923, 0x4321, 0x9e, 0x67, 0x3d, 0x69, 0x87, 0x37, 0xd9, 0x4a);
+	mi.position = -2000090000;
+	mi.hIcolibItem = 0;
+	mi.flags = 0;
+	mi.name.a = LPGEN("&Mute chat");
+	mi.pszService = 0;
+	hMuteRootMenuItem = Menu_AddContactMenuItem(&mi);
+
+	mi.root = hMuteRootMenuItem;
+	mi.position = 1;
+	mi.hIcolibItem = 0;
+	mi.flags = CMIF_SYSTEM;
+	mi.name.a = LPGEN("Default");
+	mi.pszService = "GChat/MuteChat";
+	hMute0MenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, MuteChat);
+	Menu_ConfigureItem(hMute0MenuItem, MCI_OPT_EXECPARAM, INT_PTR(CHATMODE_NORMAL));
+
+	mi.position = 2;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OFF);
+	mi.name.a = LPGEN("Mute");
+	hMute1MenuItem = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(hMute1MenuItem, MCI_OPT_EXECPARAM, INT_PTR(CHATMODE_MUTE));
+
+	mi.position = 3;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ON);
+	mi.name.a = LPGEN("Unmute");
+	hMute2MenuItem = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(hMute2MenuItem, MCI_OPT_EXECPARAM, INT_PTR(CHATMODE_UNMUTE));
 
 	g_chatApi.SetAllOffline(TRUE, nullptr);
 	return 0;

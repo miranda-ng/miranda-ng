@@ -97,51 +97,111 @@ wchar_t* RemoveFormatting(const wchar_t *pszWord)
 	return szTemp;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR EventDoubleclicked(WPARAM, LPARAM lParam)
+{
+	return RoomDoubleclicked((WPARAM)((CLISTEVENT *)lParam)->hContact, 0);
+}
+
+static void AddEvent(MCONTACT hContact, HICON hIcon, int type, const wchar_t *pwszText)
+{
+	if (mir_wstrlen(pwszText) == 0)
+		return;
+
+	CLISTEVENT cle = {};
+	cle.hContact = hContact;
+	cle.hDbEvent = GC_FAKE_EVENT;
+	cle.flags = type | CLEF_UNICODE;
+	cle.hIcon = hIcon;
+	cle.pszService = "GChat/DblClickEvent";
+	cle.szTooltip.w = pwszText;
+
+	if (!ServiceExists(cle.pszService))
+		CreateServiceFunction(cle.pszService, &EventDoubleclicked);
+
+	if (type) {
+		if (!g_clistApi.pfnGetEvent(hContact, 0))
+			g_clistApi.pfnAddEvent(&cle);
+	}
+	else {
+		if (g_clistApi.pfnGetEvent(hContact, 0))
+			g_clistApi.pfnRemoveEvent(hContact, GC_FAKE_EVENT);
+		g_clistApi.pfnAddEvent(&cle);
+	}
+}
+
 BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
+	HICON hIcon;
+	CMStringW wszText;
+	int iMuteMode = db_get_b(si->hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+	switch (iMuteMode) {
+	case CHATMODE_MUTE: iMuteMode = CLEF_ONLYAFEW; break;
+	case CHATMODE_UNMUTE: iMuteMode = 0; break;
+	default:
+		iMuteMode = (gce->iType & GC_EVENT_HIGHLIGHT) ? 0 : CLEF_ONLYAFEW;
+	}
+
 	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		g_chatApi.AddEvent(si->hContact, Skin_LoadIcon(SKINICON_EVENT_MESSAGE), GC_FAKE_EVENT, 0, TranslateT("%s wants your attention in %s"), gce->pszNick.w, si->ptszName);
+		hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+		wszText.Format(TranslateT("%s wants your attention in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_MESSAGE:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_MESSAGE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->pszNick.w, si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_MESSAGE];
+		wszText.Format(TranslateT("%s speaks in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_ACTION:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_ACTION], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s speaks in %s"), gce->pszNick.w, si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_ACTION];
+		wszText.Format(TranslateT("%s speaks in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_JOIN:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_JOIN], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has joined %s"), gce->pszNick.w, si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_JOIN];
+		wszText.Format(TranslateT("%s has joined %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_PART:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_PART], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has left %s"), gce->pszNick.w, si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_PART];
+		wszText.Format(TranslateT("%s has left %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_QUIT:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_QUIT], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s has disconnected"), gce->pszNick.w);
+		hIcon = g_chatApi.hIcons[ICON_QUIT];
+		wszText.Format(TranslateT("%s has disconnected"), gce->pszNick.w);
 		break;
 	case GC_EVENT_NICK:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_NICK], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s is now known as %s"), gce->pszNick.w, gce->pszText.w);
+		hIcon = g_chatApi.hIcons[ICON_NICK];
+		wszText.Format(TranslateT("%s is now known as %s"), gce->pszNick.w, gce->pszText.w);
 		break;
 	case GC_EVENT_KICK:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_KICK], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s kicked %s from %s"), gce->pszStatus.w, gce->pszNick.w, si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_KICK];
+		wszText.Format(TranslateT("%s kicked %s from %s"), gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_NOTICE:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_NOTICE], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Notice from %s"), gce->pszNick.w);
+		hIcon = g_chatApi.hIcons[ICON_NOTICE];
+		wszText.Format(TranslateT("Notice from %s"), gce->pszNick.w);
 		break;
 	case GC_EVENT_TOPIC:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_TOPIC], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Topic change in %s"), si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_TOPIC];
+		wszText.Format(TranslateT("Topic change in %s"), si->ptszName);
 		break;
 	case GC_EVENT_INFORMATION:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_INFO], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("Information in %s"), si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_INFO];
+		wszText.Format(TranslateT("Information in %s"), si->ptszName);
 		break;
 	case GC_EVENT_ADDSTATUS:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_ADDSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s enables '%s' status for %s in %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w, si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_ADDSTATUS];
+		wszText.Format(TranslateT("%s enables '%s' status for %s in %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_REMOVESTATUS:
-		g_chatApi.AddEvent(si->hContact, g_chatApi.hIcons[ICON_REMSTATUS], GC_FAKE_EVENT, CLEF_ONLYAFEW, TranslateT("%s disables '%s' status for %s in %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w, si->ptszName);
+		hIcon = g_chatApi.hIcons[ICON_REMSTATUS];
+		wszText.Format(TranslateT("%s disables '%s' status for %s in %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
+	default:
+		return FALSE;
 	}
 
+	AddEvent(si->hContact, hIcon, iMuteMode, wszText);
 	return TRUE;
 }
 

@@ -25,12 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_popup.h>
 #include <m_fontservice.h>
 
+#define CHATMODE_NORMAL 0
+#define CHATMODE_MUTE   1
+#define CHATMODE_UNMUTE 2
+
 void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
 void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
 class CLogWindow : public CSrmmLogWindow {};
 
-extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
 extern HPLUGIN g_pChatPlugin;
 extern GlobalLogSettingsBase *g_Settings;
 extern int g_cbSession, g_cbModuleInfo, g_iFontMode;
@@ -84,16 +87,12 @@ void          UM_SortKeys(SESSION_INFO *si);
 void          UM_SortUser(SESSION_INFO *si);
 
 // clist.c
-BOOL          AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* fmt, ...);
 MCONTACT      AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType);
 MCONTACT      FindRoom(const char *pszModule, const wchar_t *pszRoom);
 BOOL          SetAllOffline(BOOL bHide, const char *pszModule);
 BOOL          SetOffline(MCONTACT hContact, BOOL bHide);
 		        
 int           RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
-INT_PTR       JoinChat(WPARAM wParam, LPARAM lParam);
-INT_PTR       LeaveChat(WPARAM wParam, LPARAM lParam);
-int           PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 
 // options.c
 void          ChatOptionsInit(WPARAM wParam);
