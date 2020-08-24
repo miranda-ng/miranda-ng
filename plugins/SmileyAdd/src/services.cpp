@@ -26,6 +26,7 @@ LIST<void> menuHandleArray(5);
 
 SmileyPackType* FindSmileyPack(const char *proto, MCONTACT hContact, SmileyPackCType **smlc)
 {
+	hContact = DecodeMetaContact(hContact);
 	if (smlc)
 		*smlc = g_SmileyPackCStore.GetSmileyPack(proto);
 
