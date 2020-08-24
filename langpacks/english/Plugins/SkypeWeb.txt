@@ -91,8 +91,6 @@
 [You cannot send when you are offline.]
 [Unknown error!]
 [Network error!]
-;file \protocols\SkypeWeb\src\skype_network.cpp
-[%s connection]
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 ;file \protocols\SkypeWeb\src\skype_popups.cpp
@@ -100,5 +98,6 @@
 [Errors]
 [Calls]
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
+[%s connection]
 [Incoming call canceled]
 [Skypename]
