@@ -155,14 +155,7 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 		return;
 	}
 
-	if (IsStatusConnecting(m_iStatus))
-		if (m_iStatus++ > SKYPE_MAX_CONNECT_RETRIES) {
-			debugLogA(__FUNCTION__ ": failed to create endpoint (too many connect retries)");
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-			SetStatus(ID_STATUS_OFFLINE);
-			return;
-		}
-
+	// Succeeded, decode the answer
 	if (auto *hdr = Netlib_GetHeader(response, "Set-RegistrationToken")) {
 		CMStringA szValue = hdr;
 		int iStart = 0;

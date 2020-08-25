@@ -126,8 +126,6 @@ struct AsyncHttpRequest : public MTHttpRequest<CSkypeProto>
 
 #define MODULE "Skype"
 
-#define SKYPE_MAX_CONNECT_RETRIES 10
-
 enum SKYPE_LOGIN_ERROR
 {
 	LOGIN_ERROR_UNKNOWN = 1001,
