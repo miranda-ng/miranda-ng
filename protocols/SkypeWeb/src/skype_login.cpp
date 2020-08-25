@@ -118,10 +118,8 @@ void CSkypeProto::OnLoginSuccess()
 
 void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
-	if (!IsStatusConnecting(m_iStatus))
-		return;
-
-	m_iStatus++;
+	if (IsStatusConnecting(m_iStatus))
+		m_iStatus++;
 
 	if (response == nullptr) {
 		debugLogA(__FUNCTION__ ": failed to get create endpoint");
@@ -140,7 +138,7 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 		if (auto *hdr = Netlib_GetHeader(response, "Location"))
 			g_plugin.szDefaultServer = GetServerFromUrl(hdr);
 		PushRequest(new CreateEndpointRequest(this));
-		break;
+		return;
 
 	case 401: // unauthorized
 		if (auto *szStatus = Netlib_GetHeader(response, "StatusText"))
@@ -157,12 +155,13 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 		return;
 	}
 
-	if (m_iStatus++ > SKYPE_MAX_CONNECT_RETRIES) {
-		debugLogA(__FUNCTION__ ": failed to create endpoint (too many connect retries)");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
+	if (IsStatusConnecting(m_iStatus))
+		if (m_iStatus++ > SKYPE_MAX_CONNECT_RETRIES) {
+			debugLogA(__FUNCTION__ ": failed to create endpoint (too many connect retries)");
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+			SetStatus(ID_STATUS_OFFLINE);
+			return;
+		}
 
 	if (auto *hdr = Netlib_GetHeader(response, "Set-RegistrationToken")) {
 		CMStringA szValue = hdr;
