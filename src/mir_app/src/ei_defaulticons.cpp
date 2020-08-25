@@ -24,11 +24,12 @@ Boston, MA 02111-1307, USA.
 #include "m_cluiframes.h"
 
 #include "extraicons.h"
+#include "chat.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // DB extra icons
 
-HANDLE hExtraVisibility, hExtraChat, hExtraGender, hExtraProto;
+HANDLE hExtraVisibility, hExtraChat, hExtraChatMute, hExtraGender, hExtraProto;
 
 static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 {
@@ -87,6 +88,25 @@ static void SetGender(MCONTACT hContact, int gender, bool clear)
 
 	if (ico != nullptr || clear)
 		ExtraIcon_SetIconByName(hExtraGender, hContact, ico);
+}
+
+static void SetChatMute(MCONTACT hContact, int mode)
+{
+	if (hContact == 0)
+		return;
+
+	if (mode == -1)
+		mode = db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
+
+	HANDLE hIcon;
+	switch (mode) {
+	case CHATMODE_MUTE: hIcon = Skin_GetIconHandle(SKINICON_OTHER_OFF); break;
+	case CHATMODE_UNMUTE: hIcon = Skin_GetIconHandle(SKINICON_OTHER_ON); break;
+	default:
+		hIcon = nullptr; break;
+	}
+
+	ExtraIcon_SetIcon(hExtraChatMute, hContact, hIcon);
 }
 
 struct Info
@@ -160,12 +180,17 @@ static int SettingChanged(WPARAM hContact, LPARAM lParam)
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	bool isProto = (strcmp(cws->szModule, proto) == 0);
-	if (isProto && strcmp(cws->szSetting, "ApparentMode") == 0) {
+	if (isProto && !strcmp(cws->szSetting, "ApparentMode")) {
 		SetVisibility(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.wVal, true);
 		return 0;
 	}
 
-	if (strcmp(cws->szSetting, "Gender") == 0 && (isProto || strcmp(cws->szModule, "UserInfo") == 0)) {
+	if (!strcmp(cws->szModule, "SRMM") && !strcmp(cws->szSetting, "MuteMode")) {
+		SetChatMute(hContact, cws->value.type == DBVT_DELETED ? CHATMODE_NORMAL : cws->value.wVal);
+		return 0;
+	}
+
+	if (!strcmp(cws->szSetting, "Gender") && (isProto || !strcmp(cws->szModule, "UserInfo"))) {
 		SetGender(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal, true);
 		return 0;
 	}
@@ -290,6 +315,7 @@ static int ProtocolOnClick(WPARAM wParam, LPARAM, LPARAM)
 void DefaultExtraIcons_Load()
 {
 	hExtraChat = ExtraIcon_RegisterIcolib("chat_activity", LPGEN("Chat activity"), "ChatActivity");
+	hExtraChatMute = ExtraIcon_RegisterIcolib("chat_mute", LPGEN("Chat mute mode"), "ChatMute");
 	hExtraVisibility = ExtraIcon_RegisterIcolib("visibility", "Visibility", Skin_GetIconHandle(SKINICON_OTHER_VISIBLE_ALL));
 	hExtraGender = ExtraIcon_RegisterIcolib("gender", "Gender", "gender_male", nullptr, 0, EIF_DISABLED_BY_DEFAULT);
 	hExtraProto = ExtraIcon_RegisterCallback("protocol", "Account", Skin_GetIconHandle(SKINICON_OTHER_ACCMGR),
@@ -304,6 +330,7 @@ void DefaultExtraIcons_Load()
 	}
 
 	for (auto &hContact : Contacts()) {
+		SetChatMute(hContact, -1);
 		SetExtraIcons(hContact);
 		SetVisibility(hContact, -1, false);
 		SetGender(hContact, -1, false);

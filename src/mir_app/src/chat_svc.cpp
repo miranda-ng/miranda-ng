@@ -832,14 +832,16 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = 0;
 	hMuteRootMenuItem = Menu_AddContactMenuItem(&mi);
 
+	UNSET_UID(mi);
 	mi.root = hMuteRootMenuItem;
+	mi.flags = CMIF_SYSTEM;
+	mi.pszService = "GChat/MuteChat";
+	CreateServiceFunction(mi.pszService, MuteChat);
+
 	mi.position = 1;
 	mi.hIcolibItem = 0;
-	mi.flags = CMIF_SYSTEM;
 	mi.name.a = LPGEN("Default");
-	mi.pszService = "GChat/MuteChat";
 	hMute0MenuItem = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, MuteChat);
 	Menu_ConfigureItem(hMute0MenuItem, MCI_OPT_EXECPARAM, INT_PTR(CHATMODE_NORMAL));
 
 	mi.position = 2;
