@@ -86,7 +86,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 		return false;
 	}
 
-	if (!unzip(pFileUrl.tszDiskPath, g_tszTempPath, nullptr, true)) {
+	if (unzip(pFileUrl.tszDiskPath, g_tszTempPath, nullptr, true)) {
 		Netlib_LogfW(hNetlibUser, L"Unzipping list of available updates from %s failed", baseUrl.get());
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		Skin_PlaySound("updatefailed");
@@ -141,8 +141,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 		if (UpdateMode == UPDATE_MODE_STABLE)
 			g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
 	}
-	else
-		g_plugin.setByte(DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
+	else g_plugin.setByte(DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
 
 	return true;
 }
@@ -459,20 +458,22 @@ int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 	else *dst++ = 0;
 
 	DWORD dwBytes = 0, dwError;
-	if (WriteFile(hPipe, buf, (DWORD)((BYTE *)dst - buf), &dwBytes, nullptr) == 0)
-		return 0;
+	if (!WriteFile(hPipe, buf, (DWORD)((BYTE *)dst - buf), &dwBytes, nullptr))
+		return GetLastError();
 
 	dwError = 0;
-	if (ReadFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr) == 0) return 0;
-	if (dwBytes != sizeof(DWORD)) return 0;
+	if (!ReadFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr))
+		return GetLastError();
+	if (dwBytes != sizeof(DWORD))
+		return ERROR_BAD_ARGUMENTS;
 
-	return dwError == ERROR_SUCCESS;
+	return dwError;
 }
 
 int SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst)
 {
 	if (hPipe == nullptr)
-		return CopyFile(pSrc, pDst, FALSE);
+		return CopyFileW(pSrc, pDst, FALSE);
 
 	return TransactPipe(1, pSrc, pDst);
 }
@@ -480,10 +481,35 @@ int SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst)
 int SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 {
 	if (hPipe == nullptr) {
-		DeleteFile(pDst);
-		if (MoveFile(pSrc, pDst) == 0) // use copy on error
-			CopyFile(pSrc, pDst, FALSE);
-		DeleteFile(pSrc);
+		if (!DeleteFileW(pDst)) {
+			DWORD dwError = GetLastError();
+			if (dwError != ERROR_ACCESS_DENIED && dwError != ERROR_FILE_NOT_FOUND)
+				return dwError;
+		}
+
+		if (!MoveFileW(pSrc, pDst)) { // use copy on error
+			switch (DWORD dwError = GetLastError()) {
+			case ERROR_ALREADY_EXISTS:
+				return 0; // this file was included into many archives, so Miranda tries to move it again & again
+
+			case ERROR_ACCESS_DENIED:
+			case ERROR_SHARING_VIOLATION:
+			case ERROR_LOCK_VIOLATION:
+				// use copy routine if a move operation isn't available
+				// for example, when files are on different disks
+				if (!CopyFileW(pSrc, pDst, FALSE))
+					return GetLastError();
+
+				if (!DeleteFileW(pSrc))
+					return GetLastError();
+				break;
+
+			default:
+				return dwError;
+			}
+		}
+
+		return ERROR_SUCCESS;
 	}
 
 	return TransactPipe(2, pSrc, pDst);
@@ -515,10 +541,13 @@ int SafeCreateFilePath(const wchar_t *pFolder)
 	return TransactPipe(5, pFolder, nullptr);
 }
 
-void BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName)
+int BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName)
 {
 	SafeCreateFilePath(ptszBackFileName);
-	SafeMoveFile(ptszSrcFileName, ptszBackFileName);
+	
+	if (int iErrorCode = SafeMoveFile(ptszSrcFileName, ptszBackFileName))
+		return iErrorCode;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

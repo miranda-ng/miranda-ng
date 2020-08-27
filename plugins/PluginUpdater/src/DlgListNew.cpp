@@ -312,7 +312,7 @@ public:
 
 				if (DownloadFile(&p->File, nlc)) {
 					m_list.SetItemText(i, 1, TranslateT("Succeeded."));
-					if (unzip(p->File.tszDiskPath, tszMirandaPath, tszFileBack, false))
+					if (!unzip(p->File.tszDiskPath, tszMirandaPath, tszFileBack, false))
 						SafeDeleteFile(p->File.tszDiskPath);  // remove .zip after successful update
 					db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->tszOldName));
 				}

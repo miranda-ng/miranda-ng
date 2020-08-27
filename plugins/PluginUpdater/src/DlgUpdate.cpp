@@ -85,13 +85,21 @@ class CUpdateDLg : public CDlgBase
 			Netlib_CloseHandle(nlc);
 
 			// 3) Unpack all zips
+			DWORD dwErrorCode;
 			for (auto &it : todo) {
 				if (it->bEnabled) {
 					if (it->bDeleteOnly) {
 						// we need only to backup the old file
 						wchar_t *ptszRelPath = it->tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
 						mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
-						BackupFile(it->tszNewName, tszBackFile);
+						if (dwErrorCode = BackupFile(it->tszNewName, tszBackFile)) {
+LBL_Error:
+							Skin_PlaySound("updatefailed");
+							CMStringW wszError(FORMAT, TranslateT("Unpack operation failed with error code=%d, update terminated"), dwErrorCode);
+							MessageBox(pDlg->GetHwnd(), wszError, TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
+							pDlg->Close();
+							return;
+						}
 					}
 					else {
 						// if file name differs, we also need to backup the old file here
@@ -100,11 +108,14 @@ class CUpdateDLg : public CDlgBase
 							wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
 							mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath.get(), it->tszOldName);
 							mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, it->tszOldName);
-							BackupFile(tszSrcPath, tszBackFile);
+							if (dwErrorCode = BackupFile(tszSrcPath, tszBackFile))
+								goto LBL_Error;
 						}
 
-						if (unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
-							SafeDeleteFile(it->File.tszDiskPath);  // remove .zip after successful update
+						if (dwErrorCode = unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
+							goto LBL_Error;
+
+						SafeDeleteFile(it->File.tszDiskPath);  // remove .zip after successful update
 					}
 				}
 			}
@@ -449,11 +460,12 @@ static void DlgUpdateSilent(void *param)
 				}
 
 				// remove .zip after successful update
-				if (unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
+				if (!unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
 					SafeDeleteFile(it->File.tszDiskPath);
 			}
 		}
 	}
+	
 	delete &UpdateFiles;
 	Skin_PlaySound("updatecompleted");
 

@@ -249,7 +249,7 @@ void  UnloadNetlib();
 
 void  CALLBACK RestartPrompt(void *);
 
-void  BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName);
+int   BackupFile(wchar_t *ptszSrcFileName, wchar_t *ptszBackFileName);
 
 bool  ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
@@ -262,7 +262,7 @@ void  __stdcall OpenPluginOptions(void*);
 void  CheckUpdateOnStartup();
 void  __stdcall InitTimer(void *type);
 
-bool unzip(const wchar_t *ptszZipFile, wchar_t *ptszDestPath, wchar_t *ptszBackPath,bool ch);
+int  unzip(const wchar_t *ptszZipFile, wchar_t *ptszDestPath, wchar_t *ptszBackPath,bool ch);
 
 ///////////////////////////////////////////////////////////////////////////////
 
