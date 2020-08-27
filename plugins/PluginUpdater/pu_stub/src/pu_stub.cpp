@@ -75,23 +75,47 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 		DWORD dwAction = *(DWORD*)szReadBuffer;
 		wchar_t *ptszFile1 = (wchar_t*)(szReadBuffer + sizeof(DWORD));
 		wchar_t *ptszFile2 = ptszFile1 + wcslen(ptszFile1) + 1;
+		dwError = 0;
 		log(L"Received command: %d <%s> <%s>", dwAction, ptszFile1, ptszFile2);
 		switch (dwAction) {
 		case 1:  // copy
-			dwError = CopyFile(ptszFile1, ptszFile2, FALSE);
+			if (!CopyFile(ptszFile1, ptszFile2, FALSE))
+				dwError = GetLastError();
 			break;
 
 		case 2: // move
-			DeleteFile(ptszFile2);
-			if (MoveFile(ptszFile1, ptszFile2) == 0) // use copy on error
-				dwError = CopyFile(ptszFile1, ptszFile2, FALSE);
-			else
-				dwError = 0;
-			DeleteFile(ptszFile1);
+			if (!DeleteFileW(ptszFile2)) {
+				dwError = GetLastError();
+				if (dwError != ERROR_ACCESS_DENIED && dwError != ERROR_FILE_NOT_FOUND)
+					break;
+			}
+			
+			if (!MoveFileW(ptszFile1, ptszFile2)) { // use copy on error
+				switch (dwError = GetLastError()) {
+				case ERROR_ALREADY_EXISTS:
+					dwError = 0;
+					break; // this file was included into many archives, so Miranda tries to move it again & again
+
+				case ERROR_ACCESS_DENIED:
+				case ERROR_SHARING_VIOLATION:
+				case ERROR_LOCK_VIOLATION:
+					// use copy routine if a move operation isn't available
+					// for example, when files are on different disks
+					if (!CopyFileW(ptszFile1, ptszFile2, FALSE))
+						dwError = GetLastError();
+
+					if (!DeleteFileW(ptszFile1))
+						dwError = GetLastError();
+
+					dwError = 0;
+					break;
+				}
+			}
 			break;
 
 		case 3: // erase
-			dwError = DeleteFile(ptszFile1);
+			if (!DeleteFileW(ptszFile1))
+				dwError = GetLastError();
 			break;
 
 		case 4: // create dir														  

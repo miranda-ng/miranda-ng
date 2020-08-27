@@ -445,7 +445,7 @@ int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 	BYTE buf[1024];
 	DWORD l1 = lstrlen(p1), l2 = lstrlen(p2);
 	if (l1 > MAX_PATH || l2 > MAX_PATH)
-		return 0;
+		return ERROR_BAD_ARGUMENTS;
 
 	*(DWORD *)buf = opcode;
 	wchar_t *dst = (wchar_t *)&buf[sizeof(DWORD)];
