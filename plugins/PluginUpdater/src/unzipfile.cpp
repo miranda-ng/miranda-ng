@@ -46,7 +46,7 @@ int extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath,
 	// This is because there may be more then one file in a single zip
 	// So we need to check each file
 	if (ch && 1 != db_get_b(0, DB_MODULE_FILES, StrToLower(ptrA(mir_strdup(filename))), 1))
-		return true;
+		return UNZ_OK;
 
 	wchar_t tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
 	ptrW ptszNewName(mir_utf8decodeW(filename));
