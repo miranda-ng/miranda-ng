@@ -440,6 +440,7 @@ static void DlgUpdateSilent(void *param)
 	}
 
 	// 3) Unpack all zips
+	DWORD dwErrorCode;
 	VARSW tszMirandaPath(L"%miranda_path%");
 	for (auto &it : UpdateFiles) {
 		if (it->bEnabled) {
@@ -447,7 +448,12 @@ static void DlgUpdateSilent(void *param)
 				// we need only to backup the old file
 				wchar_t *ptszRelPath = it->tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
 				mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
-				BackupFile(it->tszNewName, tszBackFile);
+				if (dwErrorCode = BackupFile(it->tszNewName, tszBackFile)) {
+LBL_Error:
+					Skin_PlaySound("updatefailed");
+					delete &UpdateFiles;
+					return;
+				}
 			}
 			else {
 				// if file name differs, we also need to backup the old file here
@@ -456,12 +462,14 @@ static void DlgUpdateSilent(void *param)
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
 					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath.get(), it->tszOldName);
 					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, it->tszOldName);
-					BackupFile(tszSrcPath, tszBackFile);
+					if (dwErrorCode = BackupFile(tszSrcPath, tszBackFile))
+						goto LBL_Error;
 				}
 
 				// remove .zip after successful update
-				if (!unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
-					SafeDeleteFile(it->File.tszDiskPath);
+				if (dwErrorCode = unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
+					goto LBL_Error;
+				SafeDeleteFile(it->File.tszDiskPath);
 			}
 		}
 	}
