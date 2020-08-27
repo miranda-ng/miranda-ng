@@ -389,6 +389,7 @@ bool PrepareEscalation()
 	if (ext != nullptr)
 		*ext = '\0';
 	wcscat(szPath, L".test");
+
 	HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		// we are admins or UAC is disable, cool
@@ -396,46 +397,45 @@ bool PrepareEscalation()
 		DeleteFile(szPath);
 		return true;
 	}
-	else if (IsRunAsAdmin()) {
-		// Check the current process's "run as administrator" status.
+
+	// Check the current process's "run as administrator" status.
+	if (IsRunAsAdmin())
 		return true;
+
+	// Elevate the process. Create a pipe for a stub first
+	wchar_t tszPipeName[MAX_PATH];
+	mir_snwprintf(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%d", GetCurrentProcessId());
+	hPipe = CreateNamedPipe(tszPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, nullptr);
+	if (hPipe == INVALID_HANDLE_VALUE) {
+		hPipe = nullptr;
 	}
 	else {
-		// Elevate the process. Create a pipe for a stub first
-		wchar_t tszPipeName[MAX_PATH];
-		mir_snwprintf(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%d", GetCurrentProcessId());
-		hPipe = CreateNamedPipe(tszPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, nullptr);
-		if (hPipe == INVALID_HANDLE_VALUE) {
-			hPipe = nullptr;
-		}
-		else {
-			wchar_t cmdLine[100], *p;
-			GetModuleFileName(nullptr, szPath, ARRAYSIZE(szPath));
-			if ((p = wcsrchr(szPath, '\\')) != nullptr)
-				wcscpy(p + 1, L"pu_stub.exe");
-			mir_snwprintf(cmdLine, L"%d", GetCurrentProcessId());
+		wchar_t cmdLine[100], *p;
+		GetModuleFileName(nullptr, szPath, ARRAYSIZE(szPath));
+		if ((p = wcsrchr(szPath, '\\')) != nullptr)
+			wcscpy(p + 1, L"pu_stub.exe");
+		mir_snwprintf(cmdLine, L"%d", GetCurrentProcessId());
 
-			// Launch a stub
-			SHELLEXECUTEINFO sei = { sizeof(sei) };
-			sei.lpVerb = L"runas";
-			sei.lpFile = szPath;
-			sei.lpParameters = cmdLine;
-			sei.hwnd = nullptr;
-			sei.nShow = SW_NORMAL;
-			if (ShellExecuteEx(&sei)) {
-				if (hPipe != nullptr)
-					ConnectNamedPipe(hPipe, nullptr);
-				return true;
-			}
-
-			DWORD dwError = GetLastError();
-			if (dwError == ERROR_CANCELLED) {
-				// The user refused to allow privileges elevation.
-				// Do nothing ...
-			}
+		// Launch a stub
+		SHELLEXECUTEINFO sei = { sizeof(sei) };
+		sei.lpVerb = L"runas";
+		sei.lpFile = szPath;
+		sei.lpParameters = cmdLine;
+		sei.hwnd = nullptr;
+		sei.nShow = SW_NORMAL;
+		if (ShellExecuteEx(&sei)) {
+			if (hPipe != nullptr)
+				ConnectNamedPipe(hPipe, nullptr);
+			return true;
 		}
-		return false;
+
+		DWORD dwError = GetLastError();
+		if (dwError == ERROR_CANCELLED) {
+			// The user refused to allow privileges elevation.
+			// Do nothing ...
+		}
 	}
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

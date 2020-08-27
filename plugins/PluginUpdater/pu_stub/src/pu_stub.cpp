@@ -85,13 +85,15 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 
 		case 2: // move
 			if (!DeleteFileW(ptszFile2)) {
-				dwError = GetLastError();
-				if (dwError != ERROR_ACCESS_DENIED && dwError != ERROR_FILE_NOT_FOUND)
+				DWORD err = GetLastError();
+				if (err != ERROR_ACCESS_DENIED && err != ERROR_FILE_NOT_FOUND) {
+					dwError = err;
 					break;
+				}
 			}
 			
 			if (!MoveFileW(ptszFile1, ptszFile2)) { // use copy on error
-				switch (dwError = GetLastError()) {
+				switch (DWORD err = GetLastError()) {
 				case ERROR_ALREADY_EXISTS:
 					dwError = 0;
 					break; // this file was included into many archives, so Miranda tries to move it again & again
@@ -106,8 +108,10 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 
 					if (!DeleteFileW(ptszFile1))
 						dwError = GetLastError();
+					break;
 
-					dwError = 0;
+				default:
+					dwError = err;
 					break;
 				}
 			}
