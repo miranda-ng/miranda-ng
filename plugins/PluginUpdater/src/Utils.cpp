@@ -490,6 +490,7 @@ int SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 		if (!MoveFileW(pSrc, pDst)) { // use copy on error
 			switch (DWORD dwError = GetLastError()) {
 			case ERROR_ALREADY_EXISTS:
+			case ERROR_FILE_NOT_FOUND:
 				return 0; // this file was included into many archives, so Miranda tries to move it again & again
 
 			case ERROR_ACCESS_DENIED:

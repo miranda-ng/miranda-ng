@@ -95,6 +95,7 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 			if (!MoveFileW(ptszFile1, ptszFile2)) { // use copy on error
 				switch (DWORD err = GetLastError()) {
 				case ERROR_ALREADY_EXISTS:
+				case ERROR_FILE_NOT_FOUND:
 					dwError = 0;
 					break; // this file was included into many archives, so Miranda tries to move it again & again
 
