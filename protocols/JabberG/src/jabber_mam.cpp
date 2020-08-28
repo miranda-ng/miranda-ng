@@ -69,13 +69,26 @@ void CJabberProto::MamSetMode(int iNewMode)
 void CJabberProto::MamRetrieveMissingMessages()
 {
 	CMStringA szLastId = getMStringA("LastMamId");
-	if (szLastId.IsEmpty())
-		return;
 
 	XmlNodeIq iq("set", SerialNext());
-	auto *set = iq << XCHILDNS("query", JABBER_FEAT_MAM) << XCHILDNS("set", "http://jabber.org/protocol/rsm");
-	set << XCHILD("max", "100");
-	set << XCHILD("after", szLastId);
+	auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
+
+	if (szLastId.IsEmpty()) {
+		m_bMamDisableMessages = true; // our goal is to save message id, not to store messages
+
+		char buf[100];
+		time2str(time(0), buf, _countof(buf));
+
+		auto *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
+		form << XCHILD("field") << XATTR("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
+		form << XCHILD("field") << XATTR("var", "end") << XCHILD("value", buf);
+	}
+	else {
+		auto *set = query << XCHILDNS("set", "http://jabber.org/protocol/rsm");
+		set << XCHILD("max", "1000");
+		set << XCHILD("after", szLastId);
+	}
+	
 	m_ThreadInfo->send(iq);
 }
 
@@ -84,6 +97,9 @@ void CJabberProto::MamRetrieveMissingMessages()
 
 void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
+	// even if that flag was enabled, unset it
+	m_bMamDisableMessages = false;
+
 	if (auto *fin = XmlGetChildByTag(iqNode, "fin", "xmlns", JABBER_FEAT_MAM)) {
 		// if dataset is complete, there's nothing more to do
 		if (!mir_strcmp(XmlGetAttr(fin, "complete"), "true"))
@@ -98,7 +114,7 @@ void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInf
 
 			XmlNodeIq iq(pReq);
 			auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
-			auto *x = query << XCHILDNS("x", "jabber:x:data") << XATTR("type", "submit");
+			auto *x = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
 			x << XCHILD("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
 			x << XCHILD("var", "with") << XCHILD("value", jid);
 			auto *rsm = query << XCHILDNS("set", "http://jabber.org/protocol/rsm");
@@ -128,7 +144,7 @@ INT_PTR __cdecl CJabberProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
 
 			XmlNodeIq iq(pReq);
 			auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
-			auto *x = query << XCHILDNS("x", "jabber:x:data") << XATTR("type", "submit");
+			auto *x = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
 			x << XCHILD("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
 			x << XCHILD("var", "with") << XCHILD("value", jid);
 			query << XCHILDNS("set", "http://jabber.org/protocol/rsm") << XCHILD("max", "100");

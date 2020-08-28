@@ -251,6 +251,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   m_bPepSupported;
 	bool   m_bStreamSent;
 	bool   m_bMamPrefsAvailable;
+	bool   m_bMamDisableMessages;
 
 	HWND   m_hwndJabberChangePassword;
 	HWND   m_hwndPrivacyRule;
