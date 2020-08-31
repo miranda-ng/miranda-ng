@@ -67,8 +67,6 @@ CMPlugin::CMPlugin() :
 
 int CMPlugin::Load()
 {
-	InitServices();
-
 	g_plugin.setByte(DB_SETTING_NEED_RESTART, 0);
 
 	DWORD dwLen = GetTempPath(_countof(g_tszTempPath), g_tszTempPath);

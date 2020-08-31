@@ -87,7 +87,6 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 	case WM_COMMAND:
 		PUDeletePopup(hPopup);
 		CallFunctionAsync(RestartPrompt, nullptr);
-
 		break;
 	}
 
@@ -138,4 +137,3 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 	if (Number == POPUP_TYPE_ERROR)
 		MessageBox(nullptr, ptszText, ptszTitle, MB_ICONINFORMATION);
 }
-

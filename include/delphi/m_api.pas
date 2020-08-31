@@ -231,7 +231,6 @@ var
   {$include m_metacontacts.inc}
   {$include m_netlib.inc}
   {$include m_options.inc}
-  {$include m_pluginupdater.inc}
   {$include m_popup.inc}
   {$include m_protomod.inc}
   {$include m_skin.inc}

@@ -41,7 +41,6 @@ Boston, MA 02111-1307, USA.
 #include <m_assocmgr.h>
 #include <m_gui.h>
 #include <win2k.h>
-#include <m_pluginupdater.h>
 
 #include <m_folders.h>
 
@@ -56,6 +55,9 @@ extern "C"
 #include "resource.h"
 
 #include <m_autobackups.h>
+
+#define MS_PU_SHOWLIST "PluginUpdater/ShowList"
+#define MS_PU_CHECKUPDATES "PluginUpdater/CheckUpdates"
 
 #include "Notifications.h"
 
@@ -238,7 +240,6 @@ typedef OBJLIST<ServListEntry> SERVLIST;
 void  InitPopupList();
 void  InitNetlib();
 void  InitIcoLib();
-void  InitServices();
 void  InitEvents();
 void  InitListNew();
 void  InitCheck();
@@ -258,7 +259,6 @@ wchar_t* GetDefaultUrl();
 bool   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
 
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
-void  __stdcall OpenPluginOptions(void*);
 void  CheckUpdateOnStartup();
 void  __stdcall InitTimer(void *type);
 

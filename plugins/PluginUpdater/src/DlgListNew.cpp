@@ -37,6 +37,11 @@ bool FILEINFO::IsFiltered(const CMStringW &wszFilter)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void __stdcall OpenPluginOptions(void *)
+{
+	g_plugin.openOptions(nullptr, L"Plugins");
+}
+
 static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_LBUTTONDOWN) {
