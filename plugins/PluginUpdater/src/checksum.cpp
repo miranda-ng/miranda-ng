@@ -25,12 +25,12 @@ struct MFileMapping
 	PBYTE  ptr;
 	HANDLE hMap, hFile;
 
-	MFileMapping(const wchar_t* ptszFileName)
+	MFileMapping(const wchar_t* pwszFileName)
 	{
 		ptr = nullptr;
 		hMap = nullptr;
 
-		hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
+		hFile = CreateFile(pwszFileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 		if (hFile != INVALID_HANDLE_VALUE)
 			hMap = CreateFileMapping(hFile, nullptr, PAGE_WRITECOPY, 0, 0, nullptr);
 		if (hMap)

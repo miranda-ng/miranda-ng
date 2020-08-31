@@ -29,8 +29,8 @@ bool FILEINFO::IsFiltered(const CMStringW &wszFilter)
 	if (wszFilter.IsEmpty())
 		return false;
 
-	wchar_t pathLwr[MAX_PATH];
-	wcsncpy_s(pathLwr, this->tszNewName, _TRUNCATE);
+	TFileName pathLwr;
+	wcsncpy_s(pathLwr, this->wszNewName, _TRUNCATE);
 	wcslwr(pathLwr);
 	return wcsstr(pathLwr, wszFilter) == 0;
 }
@@ -56,12 +56,12 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			if (ListView_GetItem(hwnd, &lvi) && lvi.iGroupId == 1) {
 				FILEINFO *info = (FILEINFO *)lvi.lParam;
 
-				wchar_t tszFileName[MAX_PATH];
-				wcscpy(tszFileName, wcsrchr(info->tszNewName, L'\\') + 1);
-				wchar_t *p = wcschr(tszFileName, L'.'); *p = 0;
+				TFileName wszFileName;
+				wcscpy(wszFileName, wcsrchr(info->wszNewName, L'\\') + 1);
+				wchar_t *p = wcschr(wszFileName, L'.'); *p = 0;
 
-				wchar_t link[MAX_PATH];
-				mir_snwprintf(link, PLUGIN_INFO_URL, tszFileName);
+				TFileName link;
+				mir_snwprintf(link, PLUGIN_INFO_URL, wszFileName);
 				Utils_OpenUrlW(link);
 			}
 		}
@@ -99,14 +99,14 @@ class CMissingPLuginsDlg : public CDlgBase
 				continue;
 
 			int groupId = 4;
-			if (wcschr(p->tszOldName, L'\\') != nullptr)
-				groupId = (wcsstr(p->tszOldName, L"Plugins") != nullptr) ? 1 : ((wcsstr(p->tszOldName, L"Languages") != nullptr) ? 3 : 2);
+			if (wcschr(p->wszOldName, L'\\') != nullptr)
+				groupId = (wcsstr(p->wszOldName, L"Plugins") != nullptr) ? 1 : ((wcsstr(p->wszOldName, L"Languages") != nullptr) ? 3 : 2);
 
 			lvi.iItem = todo->indexOf(&p);
 			lvi.lParam = (LPARAM)p;
 			lvi.iGroupId = groupId;
 			lvi.iImage = ((groupId == 1) ? 0 : -1);
-			lvi.pszText = p->tszOldName;
+			lvi.pszText = p->wszOldName;
 			m_list.InsertItem(&lvi);
 
 			if (p->bEnabled) {
@@ -154,7 +154,7 @@ public:
 		m_list.SetImageList(hIml, LVSIL_SMALL);
 
 		if (IsWinVer7Plus()) {
-			wchar_t szPath[MAX_PATH];
+			TFileName szPath;
 			GetModuleFileNameW(nullptr, szPath, _countof(szPath));
 			wchar_t *ext = wcsrchr(szPath, '.');
 			if (ext != nullptr)
@@ -294,15 +294,10 @@ public:
 		AutoHandle pipe(hPipe);
 
 		// create needed folders after escalating priviledges. Folders creates when we actually install updates
-		wchar_t tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
+		TFileName wszTempFolder, wszBackupFolder;
+		CreateWorkFolders(wszTempFolder, wszBackupFolder);
 
-		mir_snwprintf(tszFileBack, L"%s\\Backups", g_tszRoot);
-		SafeCreateDirectory(tszFileBack);
-
-		mir_snwprintf(tszFileTemp, L"%s\\Temp", g_tszRoot);
-		SafeCreateDirectory(tszFileTemp);
-
-		VARSW tszMirandaPath(L"%miranda_path%");
+		VARSW wszMirandaPath(L"%miranda_path%");
 
 		HNETLIBCONN nlc = nullptr;
 		int i = 0;
@@ -317,9 +312,9 @@ public:
 
 				if (DownloadFile(&p->File, nlc)) {
 					m_list.SetItemText(i, 1, TranslateT("Succeeded."));
-					if (!unzip(p->File.tszDiskPath, tszMirandaPath, tszFileBack, false))
-						SafeDeleteFile(p->File.tszDiskPath);  // remove .zip after successful update
-					db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->tszOldName));
+					if (!unzip(p->File.wszDiskPath, wszMirandaPath, wszBackupFolder, false))
+						SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
+					db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->wszOldName));
 				}
 				else m_list.SetItemText(i, 1, TranslateT("Failed!"));
 			}
@@ -355,35 +350,35 @@ static void __stdcall LaunchListDialog(void *param)
 	(new CMissingPLuginsDlg((OBJLIST<FILEINFO> *)param))->Show();
 }
 
-static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t* tszBaseUrl, const wchar_t* tszPath)
+static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t* pwszBaseUrl, const wchar_t* pwszPath)
 {
 	FILEINFO *FileInfo = new FILEINFO;
 	FileInfo->bDeleteOnly = FALSE;
 	// copy the relative old name
-	wcsncpy_s(FileInfo->tszOldName, hash.m_name, _TRUNCATE);
-	wcsncpy_s(FileInfo->tszNewName, hash.m_name, _TRUNCATE);
+	wcsncpy_s(FileInfo->wszOldName, hash.m_name, _TRUNCATE);
+	wcsncpy_s(FileInfo->wszNewName, hash.m_name, _TRUNCATE);
 
-	wchar_t tszFileName[MAX_PATH];
-	wcsncpy_s(tszFileName, wcsrchr(tszPath, L'\\') + 1, _TRUNCATE);
-	if (auto *tp = wcschr(tszFileName, L'.'))
+	TFileName wszFileName;
+	wcsncpy_s(wszFileName, wcsrchr(pwszPath, L'\\') + 1, _TRUNCATE);
+	if (auto *tp = wcschr(wszFileName, L'.'))
 		*tp = 0;
 
-	wchar_t tszRelFileName[MAX_PATH];
-	wcsncpy_s(tszRelFileName, hash.m_name, _TRUNCATE);
-	if (auto *tp = wcsrchr(tszRelFileName, L'.'))
+	TFileName wszRelFileName;
+	wcsncpy_s(wszRelFileName, hash.m_name, _TRUNCATE);
+	if (auto *tp = wcsrchr(wszRelFileName, L'.'))
 		*tp = 0;
-	if (auto *tp = wcschr(tszRelFileName, L'\\'))
-		wcslwr((tp) ? tp+1 : tszRelFileName);
+	if (auto *tp = wcschr(wszRelFileName, L'\\'))
+		wcslwr((tp) ? tp+1 : wszRelFileName);
 
-	mir_snwprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, tszFileName);
-	mir_snwprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszRelFileName);
-	for (auto *tp = wcschr(FileInfo->File.tszDownloadURL, '\\'); tp != nullptr; tp = wcschr(tp, '\\'))
+	mir_snwprintf(FileInfo->File.wszDiskPath, L"%s\\Temp\\%s.zip", g_wszRoot, wszFileName);
+	mir_snwprintf(FileInfo->File.wszDownloadURL, L"%s/%s.zip", pwszBaseUrl, wszRelFileName);
+	for (auto *tp = wcschr(FileInfo->File.wszDownloadURL, '\\'); tp != nullptr; tp = wcschr(tp, '\\'))
 		*tp++ = '/';
 	FileInfo->File.CRCsum = hash.m_crc;
 	
 	// Load list of checked Plugins from database
-	Netlib_LogfW(hNetlibUser, L"File %s found", FileInfo->tszOldName);
-	FileInfo->bEnabled = db_get_b(0, DB_MODULE_NEW_FILES, _T2A(FileInfo->tszOldName)) != 0;
+	Netlib_LogfW(hNetlibUser, L"File %s found", FileInfo->wszOldName);
+	FileInfo->bEnabled = db_get_b(0, DB_MODULE_NEW_FILES, _T2A(FileInfo->wszOldName)) != 0;
 	return FileInfo;
 }
 
@@ -394,10 +389,10 @@ static void GetList(void *)
 {
 	Thread_SetName("PluginUpdater: GetList");
 
-	wchar_t tszTempPath[MAX_PATH];
-	DWORD dwLen = GetTempPath(_countof(tszTempPath), tszTempPath);
-	if (tszTempPath[dwLen - 1] == '\\')
-		tszTempPath[dwLen - 1] = 0;
+	TFileName wszTempPath;
+	DWORD dwLen = GetTempPath(_countof(wszTempPath), wszTempPath);
+	if (wszTempPath[dwLen - 1] == '\\')
+		wszTempPath[dwLen - 1] = 0;
 
 	ptrW updateUrl(GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
@@ -410,11 +405,11 @@ static void GetList(void *)
 	VARSW dirname(L"%miranda_path%");
 
 	for (auto &it : hashes) {
-		wchar_t tszPath[MAX_PATH];
-		mir_snwprintf(tszPath, L"%s\\%s", dirname.get(), it->m_name);
+		TFileName pwszPath;
+		mir_snwprintf(pwszPath, L"%s\\%s", dirname.get(), it->m_name);
 
-		if (GetFileAttributes(tszPath) == INVALID_FILE_ATTRIBUTES) {
-			FILEINFO *FileInfo = ServerEntryToFileInfo(*it, baseUrl, tszPath);
+		if (GetFileAttributes(pwszPath) == INVALID_FILE_ATTRIBUTES) {
+			FILEINFO *FileInfo = ServerEntryToFileInfo(*it, baseUrl, pwszPath);
 			UpdateFiles->insert(FileInfo);
 		}
 	}
@@ -472,7 +467,7 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 	if (p == nullptr)
 		return 1;
 
-	wchar_t pluginPath[MAX_PATH];
+	TFileName pluginPath;
 	mir_wstrcpy(pluginPath, p + 1);
 	p = wcschr(pluginPath, '/');
 	if (p) *p = '\\';
@@ -492,14 +487,13 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 		return 0;
 
 	VARSW dirName(L"%miranda_path%");
-	wchar_t tszPath[MAX_PATH];
-	mir_snwprintf(tszPath, L"%s\\%s", dirName.get(), hash->m_name);
-	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, tszPath);
+	TFileName pwszPath;
+	mir_snwprintf(pwszPath, L"%s\\%s", dirName.get(), hash->m_name);
+	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, pwszPath);
 
 	FILELIST *fileList = new FILELIST(1);
 	fileList->insert(fileInfo);
 	CallFunctionAsync(LaunchListDialog, fileList);
-
 	return 0;
 }
 

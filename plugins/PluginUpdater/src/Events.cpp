@@ -23,10 +23,10 @@ HANDLE hPluginUpdaterFolder;
 
 int OnFoldersChanged(WPARAM, LPARAM)
 {
-	FoldersGetCustomPathW(hPluginUpdaterFolder, g_tszRoot, MAX_PATH, L"");
-	size_t len = wcslen(g_tszRoot);
-	if (g_tszRoot[len-1] == '\\' || g_tszRoot[len-1] == '/')
-		g_tszRoot[len-1] = 0;
+	FoldersGetCustomPathW(hPluginUpdaterFolder, g_wszRoot, MAX_PATH, L"");
+	size_t len = wcslen(g_wszRoot);
+	if (g_wszRoot[len-1] == '\\' || g_wszRoot[len-1] == '/')
+		g_wszRoot[len-1] = 0;
 	return 0;
 }
 
@@ -35,7 +35,7 @@ void EmptyFolder()
 	SHFILEOPSTRUCT file_op = {
 		nullptr,
 		FO_DELETE,
-		g_tszRoot,
+		g_wszRoot,
 		L"",
 		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
 		false,
@@ -50,7 +50,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 		OnFoldersChanged(0, 0);
 	}
-	else lstrcpyn(g_tszRoot, VARSW(L"%miranda_path%\\" DEFAULT_UPDATES_FOLDER), _countof(g_tszRoot));
+	else lstrcpyn(g_wszRoot, VARSW(L"%miranda_path%\\" DEFAULT_UPDATES_FOLDER), _countof(g_wszRoot));
 
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 		AssocMgr_AddNewUrlTypeW("mirpu:", TranslateT("Plugin updater URI scheme"), g_plugin.getInst(), IDI_PLGLIST, MODULENAME "/ParseUri", 0);

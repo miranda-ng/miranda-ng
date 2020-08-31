@@ -314,9 +314,9 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					iNewMode = UPDATE_MODE_TRUNK_SYMBOLS;
 				}
 				else {
-					wchar_t tszUrl[100];
-					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, tszUrl, _countof(tszUrl));
-					g_plugin.setWString(DB_SETTING_UPDATE_URL, tszUrl);
+					wchar_t wszUrl[100];
+					GetDlgItemText(hwndDlg, IDC_CUSTOMURL, wszUrl, _countof(wszUrl));
+					g_plugin.setWString(DB_SETTING_UPDATE_URL, wszUrl);
 					iNewMode = UPDATE_MODE_CUSTOM;
 				}
 

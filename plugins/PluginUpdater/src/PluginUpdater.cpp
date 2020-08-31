@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 CMPlugin g_plugin;
 
-wchar_t g_tszRoot[MAX_PATH] = {0}, g_tszTempPath[MAX_PATH];
+TFileName g_wszRoot = {0}, g_wszTempPath;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -69,9 +69,9 @@ int CMPlugin::Load()
 {
 	g_plugin.setByte(DB_SETTING_NEED_RESTART, 0);
 
-	DWORD dwLen = GetTempPath(_countof(g_tszTempPath), g_tszTempPath);
-	if (g_tszTempPath[dwLen-1] == '\\')
-		g_tszTempPath[dwLen-1] = 0;
+	DWORD dwLen = GetTempPath(_countof(g_wszTempPath), g_wszTempPath);
+	if (g_wszTempPath[dwLen-1] == '\\')
+		g_wszTempPath[dwLen-1] = 0;
 
 	InitPopupList();
 	InitNetlib();

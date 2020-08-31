@@ -68,9 +68,9 @@ static LRESULT CALLBACK PopupDlgProc(HWND hPopup, UINT uMsg, WPARAM wParam, LPAR
 void CALLBACK RestartPrompt(void *)
 {
 	if (!g_plugin.bAutoRestart) {
-		wchar_t tszText[200];
-		mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
-		if (MessageBox(nullptr, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) != IDYES)
+		wchar_t wszText[200];
+		mir_snwprintf(wszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
+		if (MessageBox(nullptr, wszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) != IDYES)
 			return;
 	}
 
@@ -93,7 +93,7 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 	return DefWindowProc(hPopup, uMsg, wParam, lParam);
 }
 
-void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
+void ShowPopup(LPCTSTR pwszTitle, LPCTSTR pwszText, int Number)
 {
 	if (Popup_Enabled()) {
 		char setting[100];
@@ -113,8 +113,8 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 				ppd.iSeconds = g_plugin.PopupTimeout;
 			}
 
-			lstrcpyn(ppd.lpwzText, ptszText, MAX_SECONDLINE);
-			lstrcpyn(ppd.lpwzContactName, ptszTitle, MAX_CONTACTNAME);
+			lstrcpyn(ppd.lpwzText, pwszText, MAX_SECONDLINE);
+			lstrcpyn(ppd.lpwzContactName, pwszTitle, MAX_CONTACTNAME);
 
 			switch (g_plugin.PopupDefColors) {
 			case byCOLOR_WINDOWS:
@@ -135,5 +135,5 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 	}
 
 	if (Number == POPUP_TYPE_ERROR)
-		MessageBox(nullptr, ptszText, ptszTitle, MB_ICONINFORMATION);
+		MessageBox(nullptr, pwszText, pwszTitle, MB_ICONINFORMATION);
 }
