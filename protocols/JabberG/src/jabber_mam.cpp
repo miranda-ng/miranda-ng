@@ -45,8 +45,8 @@ void CJabberProto::OnIqResultMamInfo(const TiXmlElement *iqNode, CJabberIqInfo *
 	}
 
 	// shall we retrieve missing messages?
-	if (pInfo->GetUserData())
-		MamRetrieveMissingMessages();
+	// if (pInfo->GetUserData())
+	//		MamRetrieveMissingMessages();
 }
 
 void CJabberProto::MamSetMode(int iNewMode)
