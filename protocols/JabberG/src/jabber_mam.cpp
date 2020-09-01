@@ -114,9 +114,9 @@ void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInf
 
 			XmlNodeIq iq(pReq);
 			auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
-			auto *x = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
-			x << XCHILD("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
-			x << XCHILD("var", "with") << XCHILD("value", jid);
+			auto *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
+			form << XCHILD("field") << XATTR("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
+			form << XCHILD("field") << XATTR("var", "with") << XCHILD("value", jid);
 			auto *rsm = query << XCHILDNS("set", "http://jabber.org/protocol/rsm");
 			rsm << XCHILD("max", "100");
 			rsm << XCHILD("after", lastId);
@@ -144,9 +144,9 @@ INT_PTR __cdecl CJabberProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
 
 			XmlNodeIq iq(pReq);
 			auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
-			auto *x = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
-			x << XCHILD("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
-			x << XCHILD("var", "with") << XCHILD("value", jid);
+			auto *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
+			form << XCHILD("field") << XATTR("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
+			form << XCHILD("field") << XATTR("var", "with") << XCHILD("value", jid);
 			query << XCHILDNS("set", "http://jabber.org/protocol/rsm") << XCHILD("max", "100");
 			m_ThreadInfo->send(iq);
 		}
