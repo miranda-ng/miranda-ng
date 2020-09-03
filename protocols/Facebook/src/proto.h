@@ -512,6 +512,7 @@ public:
 	void OnModulesLoaded() override;
    void OnShutdown() override;
 
+   MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact) override;
    int      SendMsg(MCONTACT hContact, int flags, const char *pszSrc);
 	int      SetStatus(int iNewStatus) override;
