@@ -178,10 +178,12 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 	if (dwFlags & CI_NEEDCOUNT) {
 		dwFlags &= ~CI_NEEDCOUNT;
 		bReturnCount = true;
+		nMatch = -2;
 	}
 	else bReturnCount = false;
 
 	// search the cache
+	if (nMatch == 0)
 	{
 		CONTACTCE tmp = { dwFlags, (wchar_t*)tszContact, 0 };
 
@@ -279,12 +281,12 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 	if (bReturnCount)
 		return count;
 
+	// return random contact
+	if (nMatch == -1 && arResults.getCount() != 0)
+		return (UINT_PTR)arResults[rand() % arResults.getCount()];
+
 	if (hMatch == 0)
 		return INVALID_CONTACT_ID;
-
-	// return random contact
-	if (nMatch == -1)
-		return (UINT_PTR)arResults[rand() % arResults.getCount()];
 
 	// cache the found result
 	if (count == 0) {
