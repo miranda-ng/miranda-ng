@@ -81,7 +81,7 @@ static wchar_t* parseContact(ARGUMENTSINFO *ai)
 
 	int n = 0;
 	if (ai->argc == 4) {
-		if (*ai->argv.w[3] != 'r') // random contact
+		if (*ai->argv.w[3] == 'r') // random contact
 			n = -1;
 		else
 			n = _wtoi(ai->argv.w[3]) - 1;
