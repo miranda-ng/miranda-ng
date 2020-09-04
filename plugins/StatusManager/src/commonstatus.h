@@ -126,6 +126,7 @@ extern TProtoSettings protoList;
 
 int CompareProtoSettings(const SMProto *p1, const SMProto *p2);
 HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout);
+void ShutdownConfirmDialog(void);
 
 int SetStatusEx(TProtoSettings &ps);
 

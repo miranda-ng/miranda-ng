@@ -24,14 +24,14 @@
 #define TIMER_ID	1
 
 // variables
-static HWND win;
+static HWND hwndConfirm;
 static int timeOut;
 
 static TProtoSettings *confirmSettings;
 
 static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static PROTOCOLSETTINGEX* protoSetting = nullptr;
+	static PROTOCOLSETTINGEX *protoSetting = nullptr;
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -46,12 +46,10 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		}
 		else SetDlgItemText(hwndDlg, IDC_STSMSG, protoSetting->m_szMsg);
 
-		{
-			wchar_t desc[512];
-			mir_snwprintf(desc, TranslateT("Set %s message for %s."),
-				Clist_GetStatusModeDescription(GetActualStatus(protoSetting), 0), protoSetting->m_tszAccName);
-			SetDlgItemText(hwndDlg, IDC_DESCRIPTION, desc);
-		}
+		wchar_t desc[512];
+		mir_snwprintf(desc, TranslateT("Set %s message for %s."),
+			Clist_GetStatusModeDescription(GetActualStatus(protoSetting), 0), protoSetting->m_tszAccName);
+		SetDlgItemText(hwndDlg, IDC_DESCRIPTION, desc);
 		break;
 
 	case WM_COMMAND:
@@ -64,9 +62,9 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					if (protoSetting->m_szMsg != nullptr)
 						GetDlgItemText(hwndDlg, IDC_STSMSG, protoSetting->m_szMsg, len + 1);
 				}
-				SendMessage(GetParent(hwndDlg), UM_STSMSGDLGCLOSED, TRUE, 0);
-				EndDialog(hwndDlg, IDC_OK);
 			}
+			SendMessage(GetParent(hwndDlg), UM_STSMSGDLGCLOSED, TRUE, 0);
+			EndDialog(hwndDlg, IDC_OK);
 			break;
 
 		case IDC_CANCEL:
@@ -147,6 +145,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		hwndConfirm = hwndDlg;
 		{
 			HWND hList = GetDlgItem(hwndDlg, IDC_STARTUPLIST);
 			SendMessage(hList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
@@ -372,6 +371,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_DESTROY:
 		delete confirmSettings; confirmSettings = nullptr;
+		hwndConfirm = nullptr;
 		break;
 	}
 
@@ -391,10 +391,16 @@ HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout)
 	if (timeOut < 0)
 		timeOut = DEF_CLOSE_TIME;
 
-	if (GetWindow(win, 0) == nullptr) {
-		win = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONFIRMDIALOG), nullptr, ConfirmDlgProc, 0);
-		EnableWindow(win, TRUE);
+	if (hwndConfirm == nullptr) {
+		hwndConfirm = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONFIRMDIALOG), nullptr, ConfirmDlgProc, 0);
+		EnableWindow(hwndConfirm, TRUE);
 	}
 
-	return win;
+	return hwndConfirm;
+}
+
+void ShutdownConfirmDialog()
+{
+	if (hwndConfirm)
+		DestroyWindow(hwndConfirm);
 }

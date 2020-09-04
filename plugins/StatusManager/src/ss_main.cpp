@@ -308,6 +308,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	if (hMessageWindow)
 		DestroyWindow(hMessageWindow);
 
+	ShutdownConfirmDialog();
 	protoList.destroy();
 	return 0;
 }
