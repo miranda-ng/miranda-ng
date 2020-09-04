@@ -251,7 +251,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   m_bPepSupported;
 	bool   m_bStreamSent;
 	bool   m_bMamPrefsAvailable;
-	bool   m_bMamDisableMessages;
+	bool   m_bMamDisableMessages, m_bMamCreateRead;
 
 	HWND   m_hwndJabberChangePassword;
 	HWND   m_hwndPrivacyRule;
@@ -644,6 +644,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnIqResultMamInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
+	void       MamSendForm(const char *pszWith, const char *pszAfter = nullptr);
 	void       MamRetrieveMissingMessages(void);
 	void       MamSetMode(int iNewMode);
 

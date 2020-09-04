@@ -45,8 +45,8 @@ void CJabberProto::OnIqResultMamInfo(const TiXmlElement *iqNode, CJabberIqInfo *
 	}
 
 	// shall we retrieve missing messages?
-	// if (pInfo->GetUserData())
-	//		MamRetrieveMissingMessages();
+	if (pInfo->GetUserData())
+		MamRetrieveMissingMessages();
 }
 
 void CJabberProto::MamSetMode(int iNewMode)
@@ -75,6 +75,7 @@ void CJabberProto::MamRetrieveMissingMessages()
 
 	if (szLastId.IsEmpty()) {
 		m_bMamDisableMessages = true; // our goal is to save message id, not to store messages
+		m_bMamCreateRead = false;
 
 		char buf[100];
 		time2str(time(0), buf, _countof(buf));
@@ -95,6 +96,27 @@ void CJabberProto::MamRetrieveMissingMessages()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact's history loader
 
+void CJabberProto::MamSendForm(const char *pszWith, const char *pszAfter)
+{
+	auto *pReq = AddIQ(&CJabberProto::OnIqResultRsm, JABBER_IQ_TYPE_SET);
+	pReq->SetParamsToParse(JABBER_IQ_PARSE_FROM);
+
+	XmlNodeIq iq(pReq);
+	auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
+
+	auto *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
+	form << XCHILD("field") << XATTR("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
+	if (pszWith != nullptr)
+		form << XCHILD("field") << XATTR("var", "with") << XCHILD("value", pszWith);
+
+	auto *rsm = query << XCHILDNS("set", "http://jabber.org/protocol/rsm");
+	rsm << XCHILD("max", "1000");
+	if (pszAfter != nullptr)
+		rsm << XCHILD("after", pszAfter);
+	m_ThreadInfo->send(iq);
+}
+
+
 void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	// even if that flag was enabled, unset it
@@ -105,23 +127,9 @@ void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInf
 		if (!mir_strcmp(XmlGetAttr(fin, "complete"), "true"))
 			return;
 
-		auto *lastId = XmlGetChildText(fin, "last");
-		if (lastId) {
-			ptrA jid(getUStringA(pInfo->GetHContact(), "jid"));
-
-			auto *pReq = AddIQ(&CJabberProto::OnIqResultRsm, JABBER_IQ_TYPE_SET);
-			pReq->SetParamsToParse(JABBER_IQ_PARSE_FROM);
-
-			XmlNodeIq iq(pReq);
-			auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
-			auto *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
-			form << XCHILD("field") << XATTR("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
-			form << XCHILD("field") << XATTR("var", "with") << XCHILD("value", jid);
-			auto *rsm = query << XCHILDNS("set", "http://jabber.org/protocol/rsm");
-			rsm << XCHILD("max", "100");
-			rsm << XCHILD("after", lastId);
-			m_ThreadInfo->send(iq);
-		}
+		if (auto *set = XmlGetChildByTag(fin, "set", "xmlns", "http://jabber.org/protocol/rsm"))
+			if (auto *lastId = XmlGetChildText(set, "last"))
+				MamSendForm(ptrA(getUStringA(pInfo->GetHContact(), "jid")), lastId);
 	}
 }
 
@@ -131,24 +139,18 @@ INT_PTR __cdecl CJabberProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
 		return 0;
 
 	// wipe out old history first
-	DB::ECPTR pCursor(DB::Events(hContact));
-	while (pCursor.FetchNext())
-		pCursor.DeleteEvent();
+	if (IDYES == MessageBoxW(NULL, TranslateT("Do you want to erase local history before loading it from server?"), m_tszUserName, MB_YESNOCANCEL | MB_ICONQUESTION)) {
+		DB::ECPTR pCursor(DB::Events(hContact));
+		while (pCursor.FetchNext())
+			pCursor.DeleteEvent();
+	}
 
 	// load remaining items from server
 	if (m_bJabberOnline) {
 		ptrA jid(getUStringA(hContact, "jid"));
 		if (jid != nullptr) {
-			auto *pReq = AddIQ(&CJabberProto::OnIqResultRsm, JABBER_IQ_TYPE_SET);
-			pReq->SetParamsToParse(JABBER_IQ_PARSE_FROM);
-
-			XmlNodeIq iq(pReq);
-			auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
-			auto *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
-			form << XCHILD("field") << XATTR("var", "FORM_TYPE") << XATTR("type", "hidden") << XCHILD("value", JABBER_FEAT_MAM);
-			form << XCHILD("field") << XATTR("var", "with") << XCHILD("value", jid);
-			query << XCHILDNS("set", "http://jabber.org/protocol/rsm") << XCHILD("max", "100");
-			m_ThreadInfo->send(iq);
+			m_bMamCreateRead = true;
+			MamSendForm(jid);
 		}
 	}
 	return 0;

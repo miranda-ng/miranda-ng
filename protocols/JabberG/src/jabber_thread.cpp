@@ -1005,8 +1005,8 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	if (!node->Name() || mir_strcmp(node->Name(), "message"))
 		return;
 
-	bool bEnableDelivery = true;
 	time_t msgTime = 0;
+	bool bEnableDelivery = true, bCreateRead = false, bWasSent = false;
 	auto *from = XmlGetAttr(node, "from"), *type = XmlGetAttr(node, "type"), *idStr = XmlGetAttr(node, "id");
 	const char *szMsgId = nullptr; // MAM support
 
@@ -1025,17 +1025,28 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			node = xmlMessage;
 			type = XmlGetAttr(node, "type");
 			from = XmlGetAttr(node, "from");
-			if (!mir_strcmpi(from, info->fullJID)) {
+			auto *to = XmlGetAttr(node, "to");
+
+			char szJid[JABBER_MAX_JID_LEN];
+			JabberStripJid(from, szJid, _countof(szJid));
+			if (!mir_strcmpi(szJid, m_szJabberJID)) {
+				bWasSent = true;
+				std::swap(from, to);
+			}
+
+			// we disable message reading with our resource only for the missing messages
+			if (!m_bMamCreateRead && !mir_strcmpi(to, info->fullJID)) {
 				debugLogA("MAM: outgoing message from this machine (%s), ignored", from);
 				return;
 			}
 		}
 
-		if (auto *xmlDelay = XmlGetChildByTag(xmlForwarded, "delay", "xmlns", JABBER_FEAT_DELAY))
+		if (auto *xmlDelay = XmlGetChildByTag(xmlForwarded, "delay", "xmlns", "urn:xmpp:delay"))
 			if (auto *ptszTimeStamp = XmlGetAttr(xmlDelay, "stamp"))
-				msgTime = JabberIsoToUnixTime(ptszTimeStamp);
+				msgTime = str2time(ptszTimeStamp);
 
 		bEnableDelivery = false;
+		bCreateRead = m_bMamCreateRead;
 	}
 
 	if (from == nullptr) {
@@ -1073,12 +1084,11 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 
 	// Handle carbons. The message MUST be coming from our bare JID.
 	const TiXmlElement *carbon = nullptr;
-	bool carbonSent = false; //2 cases: received or sent.
 	if (IsMyOwnJID(from)) {
 		carbon = XmlGetChildByTag(node, "received", "xmlns", JABBER_FEAT_CARBONS);
 		if (!carbon) {
 			if (carbon = XmlGetChildByTag(node, "sent", "xmlns", JABBER_FEAT_CARBONS))
-				carbonSent = true;
+				bWasSent = true;
 		}
 		if (carbon) {
 			// If carbons are disabled in options, we should ignore occasional carbons sent to us by server
@@ -1087,6 +1097,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				return;
 			}
 
+			bCreateRead = true;
 			auto *xmlForwarded = XmlGetChildByTag(carbon, "forwarded", "xmlns", JABBER_XMLNS_FORWARD);
 			auto *xmlMessage = XmlFirstChild(xmlForwarded, "message");
 			// Carbons MUST have forwarded/message content
@@ -1099,7 +1110,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			node = xmlMessage;
 			type = XmlGetAttr(node, "type");
 
-			if (!carbonSent) {
+			if (!bWasSent) {
 				// Received should just be treated like incoming messages, except maybe not flash the flasher. Simply unwrap.
 				from = XmlGetAttr(node, "from");
 				if (from == nullptr) {
@@ -1278,7 +1289,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				return;
 			}
 
-			if (carbon && carbonSent)
+			if (carbon && bWasSent)
 				szMessage = TranslateU("Unable to decrypt a carbon copy of the encrypted outgoing message");
 			else {
 				// XEP-0027 is not strict enough, different clients have different implementations
@@ -1387,9 +1398,9 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		msgTime = now;
 
 	PROTORECVEVENT recv = {};
-	if (carbon) {
+	if (bCreateRead) {
 		recv.flags |= PREF_CREATEREAD;
-		if (carbonSent)
+		if (bWasSent)
 			recv.flags |= PREF_SENT;
 	}
 	recv.timestamp = (DWORD)msgTime;
