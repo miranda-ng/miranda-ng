@@ -348,7 +348,7 @@ class CChooseProfileDlg : public CDlgBase
 			db->Compact();
 			delete db;
 			
-			MessageBoxW(nullptr, TranslateT("Database compacted successfully"), L"Miranda NG", MB_OK | MB_ICONINFORMATION);
+			MessageBoxW(nullptr, TranslateT("Database was compacted successfully"), L"Miranda NG", MB_OK | MB_ICONINFORMATION);
 		}
 	}
 
