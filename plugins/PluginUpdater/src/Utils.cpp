@@ -437,10 +437,38 @@ bool PrepareEscalation()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Folder creation
 
+static int __cdecl CompareDirs(const CMStringW *s1, const CMStringW *s2)
+{
+	return mir_wstrcmp(s1->c_str(), s2->c_str());
+}
+
 void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder)
 {
-	mir_snwprintf(wszBackupFolder, L"%s\\Backups", g_wszRoot);
+	TFileName wszMask;
+	mir_snwprintf(wszMask, L"%s\\Backups\\BKP*", g_wszRoot);
+
+	WIN32_FIND_DATAW fdata;
+	HANDLE hFind = FindFirstFileW(wszMask, &fdata);
+	if (hFind) {
+		// sort folder names alphabetically
+		OBJLIST<CMStringW> arNames(1, CompareDirs);
+		do {
+			if (fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				arNames.insert(new CMStringW(fdata.cFileName));
+		} while (FindNextFileW(hFind, &fdata));
+
+		// remove all folders with lesser dates if there're more than 10 folders
+		while (arNames.getCount() > 9) {
+			SafeDeleteDirectory(arNames[0]);
+			arNames.remove(00);
+		}
+	}
+
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+	mir_snwprintf(wszBackupFolder, L"%s\\Backups\\BKP%04d-%02d-%02d %02d-%02d-%02d-%03d", g_wszRoot, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 	SafeCreateDirectory(wszBackupFolder);
+
 	mir_snwprintf(wszTempFolder, L"%s\\Temp", g_wszRoot);
 	SafeCreateDirectory(wszTempFolder);
 }
@@ -537,6 +565,14 @@ int SafeCreateDirectory(const wchar_t *pwszFolder)
 		return CreateDirectoryTreeW(pwszFolder);
 
 	return TransactPipe(4, pwszFolder, nullptr);
+}
+
+int SafeDeleteDirectory(const wchar_t *pwszDirName)
+{
+	if (hPipe == nullptr)
+		return DeleteDirectoryTreeW(pwszDirName);
+
+	return TransactPipe(6, pwszDirName, nullptr);
 }
 
 int SafeCreateFilePath(const wchar_t *pwszFolder)

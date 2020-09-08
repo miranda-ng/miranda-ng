@@ -119,8 +119,6 @@ LBL_Error:
 			}
 			Skin_PlaySound("updatecompleted");
 
-			g_plugin.setByte(DB_SETTING_RESTART_COUNT, 5);
-
 			if (g_plugin.bBackup)
 				CallService(MS_AB_BACKUP, 0, 0);
 
@@ -474,8 +472,6 @@ LBL_Error:
 	g_plugin.bForceRedownload = false;
 	g_plugin.bChangePlatform = false;
 	g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
-
-	g_plugin.setByte(DB_SETTING_RESTART_COUNT, 5);
 	g_plugin.setByte(DB_SETTING_NEED_RESTART, 1);
 
 	if (g_plugin.bBackup)

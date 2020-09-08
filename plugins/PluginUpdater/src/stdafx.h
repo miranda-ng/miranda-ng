@@ -136,7 +136,6 @@ enum
 #define DB_SETTING_UPDATE_MODE           "UpdateMode"
 #define DB_SETTING_UPDATE_URL            "UpdateURL"
 #define DB_SETTING_NEED_RESTART          "NeedRestart"
-#define DB_SETTING_RESTART_COUNT         "RestartCount"
 #define DB_SETTING_LAST_UPDATE           "LastUpdate"
 #define DB_SETTING_DONT_SWITCH_TO_STABLE "DontSwitchToStable"
 #define DB_SETTING_CHANGEPLATFORM        "ChangePlatform"
@@ -276,6 +275,7 @@ bool PrepareEscalation();
 void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder);
 
 int SafeCreateDirectory(const wchar_t *pwszDirName);
+int SafeDeleteDirectory(const wchar_t *pwszDirName);
 int SafeCopyFile(const wchar_t *pwszSrc, const wchar_t *pwszDst);
 int SafeMoveFile(const wchar_t *pwszSrc, const wchar_t *pwszDst);
 int SafeDeleteFile(const wchar_t *pwszSrc);

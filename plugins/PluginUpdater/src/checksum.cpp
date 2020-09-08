@@ -25,7 +25,7 @@ struct MFileMapping
 	PBYTE  ptr;
 	HANDLE hMap, hFile;
 
-	MFileMapping(const wchar_t* pwszFileName)
+	MFileMapping(const wchar_t *pwszFileName)
 	{
 		ptr = nullptr;
 		hMap = nullptr;
