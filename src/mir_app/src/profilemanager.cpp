@@ -84,14 +84,14 @@ class CCreateProfileDlg : public CDlgBase
 
 	int CreateProfile(const wchar_t *profile, DATABASELINK *link)
 	{
-		wchar_t buf[256];
-		int err = 0;
-		
 		// check if the file already exists
 		const wchar_t *file = wcsrchr(profile, '\\');
 		if (file)
 			file++;
-		
+
+		int err = 0;
+		wchar_t buf[256];
+
 		if (_waccess(profile, 0) == 0) {
 			// file already exists!
 			mir_snwprintf(buf,
@@ -101,12 +101,7 @@ class CCreateProfileDlg : public CDlgBase
 				return 0;
 
 			// move the file
-			SHFILEOPSTRUCT sf = {};
-			sf.wFunc = FO_DELETE;
-			sf.pFrom = buf;
-			sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-			mir_snwprintf(buf, L"%s\0", profile);
-			if (SHFileOperation(&sf) != 0) {
+			if (DeleteDirectoryTreeW(profile, true) != 0) {
 				mir_snwprintf(buf, TranslateT("Couldn't move '%s' to the Recycle Bin. Please select another profile name."), file);
 				MessageBox(m_hwnd, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION | MB_OK);
 				return 0;
@@ -329,13 +324,8 @@ class CChooseProfileDlg : public CDlgBase
 		if (IDYES != MessageBoxW(nullptr, wszMessage, L"Miranda NG", MB_YESNO | MB_TASKMODAL | MB_ICONWARNING))
 			return;
 
-		wszMessage.Format(L"%s\\%s%c", m_pd->ptszProfileDir, item.pszText, 0);
-
-		SHFILEOPSTRUCT sf = {};
-		sf.wFunc = FO_DELETE;
-		sf.pFrom = wszMessage;
-		sf.fFlags = FOF_NOCONFIRMATION | FOF_SILENT | FOF_ALLOWUNDO;
-		SHFileOperation(&sf);
+		wszMessage.Format(L"%s\\%s", m_pd->ptszProfileDir, item.pszText);
+		DeleteDirectoryTreeW(wszMessage, true);
 		
 		m_profileList.DeleteItem(item.iItem);
 	}

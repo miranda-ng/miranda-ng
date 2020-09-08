@@ -26,7 +26,6 @@ extern int iconsNum;
 
 static mir_cs csEventList;
 
-bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true);
 std::wstring GetName(const std::wstring &path);
 
 HistoryEventList::HistoryEventList() :
@@ -608,7 +607,7 @@ void HistoryEventList::Init()
 	GetTempPath(MAX_PATH, temp);
 	m_contactFileDir = temp;
 	m_contactFileDir += L"BasicHistoryImportDir\\";
-	DeleteDirectory(m_contactFileDir.c_str());
+	DeleteDirectoryTreeW(m_contactFileDir.c_str());
 	CreateDirectory(m_contactFileDir.c_str(), nullptr);
 }
 

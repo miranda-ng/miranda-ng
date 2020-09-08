@@ -207,6 +207,30 @@ MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *szDir)
 	return (CreateDirectoryW(szTestDir, nullptr) == 0) ? GetLastError() : 0;
 }
 
+MIR_CORE_DLL(int) DeleteDirectoryTreeW(const wchar_t *pwszDir, bool bAllowUndo)
+{
+	if (pwszDir == nullptr)
+		return ERROR_BAD_ARGUMENTS;
+
+	CMStringW wszPath(pwszDir);
+	wszPath.AppendChar(0);
+
+	SHFILEOPSTRUCTW file_op = {
+		nullptr,
+		FO_DELETE,
+		wszPath,
+		L"",
+		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
+		false,
+		nullptr,
+		L"" };
+
+	if (bAllowUndo)
+		file_op.fFlags |= FOF_ALLOWUNDO;
+
+	return SHFileOperationW(&file_op);
+}
+
 int InitPathUtils(void)
 {
 	GetModuleFileNameA(nullptr, szMirandaPath, _countof(szMirandaPath));

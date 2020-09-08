@@ -216,13 +216,7 @@ protected:
 
 	void Recycle_OnClick(CCtrlBase*)
 	{
-		ptrW szIniPath(m_iniPath.GetText());
-		SHFILEOPSTRUCT shfo = {};
-		shfo.wFunc = FO_DELETE;
-		shfo.pFrom = szIniPath;
-		szIniPath[mir_wstrlen(szIniPath) + 1] = '\0';
-		shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-		SHFileOperation(&shfo);
+		DeleteDirectoryTreeW(ptrW(m_iniPath.GetText()), true);
 		Close();
 	}
 
@@ -553,12 +547,7 @@ static void DoAutoExec(void)
 			if (!mir_wstrcmpi(szOnCompletion, L"delete"))
 				DeleteFile(szIniPath);
 			else if (!mir_wstrcmpi(szOnCompletion, L"recycle")) {
-				SHFILEOPSTRUCT shfo = {};
-				shfo.wFunc = FO_DELETE;
-				shfo.pFrom = szIniPath;
-				szIniPath[mir_wstrlen(szIniPath) + 1] = 0;
-				shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-				SHFileOperation(&shfo);
+				DeleteDirectoryTreeW(szIniPath, true);
 			}
 			else if (!mir_wstrcmpi(szOnCompletion, L"rename")) {
 				wchar_t szRenamePrefix[MAX_PATH], szNewPath[MAX_PATH];

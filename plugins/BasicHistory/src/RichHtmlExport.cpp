@@ -253,39 +253,12 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 	if (ii.hbmMask) DeleteObject(ii.hbmMask);
 }
 
-bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true)
-{
-	size_t len = mir_wstrlen(lpszDir);
-	wchar_t *pszFrom = new wchar_t[len + 2];
-	wcscpy_s(pszFrom, len + 2, lpszDir);
-	pszFrom[len] = 0;
-	pszFrom[len + 1] = 0;
-
-	SHFILEOPSTRUCT fileop;
-	fileop.hwnd = nullptr;    // no status display
-	fileop.wFunc = FO_DELETE;  // delete operation
-	fileop.pFrom = pszFrom;  // source file name as double null terminated string
-	fileop.pTo = nullptr;    // no destination needed
-	fileop.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;  // do not prompt the user
-
-	if (!noRecycleBin)
-		fileop.fFlags |= FOF_ALLOWUNDO;
-
-	fileop.fAnyOperationsAborted = FALSE;
-	fileop.lpszProgressTitle = nullptr;
-	fileop.hNameMappings = nullptr;
-
-	int ret = SHFileOperation(&fileop);
-	delete[] pszFrom;
-	return (ret == 0);
-}
-
 void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string& baseProto1, const std::wstring& encoding)
 {
 	baseProto = baseProto1;
 	folder = RemoveExt(fileName) + L"_files";
 	folderName = GetName(folder);
-	DeleteDirectory(folder.c_str());
+	DeleteDirectoryTreeW(folder.c_str());
 	CreateDirectory(folder.c_str(), nullptr);
 	std::wstring css = folder + L"\\history.css";
 	BOOL cssCopied = FALSE;

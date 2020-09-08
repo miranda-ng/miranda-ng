@@ -291,6 +291,12 @@ EXTERN_C MIR_CORE_DLL(int) CreateDirectoryTree(const char *pszDir);
 EXTERN_C MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *pwszDir);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Deletes a directory recursively
+// Returns 0 on success or an error code otherwise
+
+EXTERN_C MIR_CORE_DLL(int) DeleteDirectoryTreeW(const wchar_t *pwszDir, bool bAllowUndo = false);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Creates all subdirectories required to create a file with the file name given
 // Returns 0 on success or an error code otherwise
 

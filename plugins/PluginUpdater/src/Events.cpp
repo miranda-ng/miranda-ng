@@ -30,20 +30,6 @@ int OnFoldersChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-void EmptyFolder()
-{
-	SHFILEOPSTRUCT file_op = {
-		nullptr,
-		FO_DELETE,
-		g_wszRoot,
-		L"",
-		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
-		false,
-		nullptr,
-		L"" };
-	SHFileOperation(&file_op);
-}
-
 int ModulesLoaded(WPARAM, LPARAM)
 {
 	if (hPluginUpdaterFolder = FoldersRegisterCustomPathW(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHW L"\\" DEFAULT_UPDATES_FOLDER)) {
@@ -59,7 +45,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	if (iRestartCount > 0)
 		g_plugin.setByte(DB_SETTING_RESTART_COUNT, iRestartCount - 1);
 	else
-		EmptyFolder(); // silently
+		DeleteDirectoryTreeW(g_wszRoot);
 
 	CheckUpdateOnStartup();
 

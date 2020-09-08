@@ -21,8 +21,9 @@ void log(const wchar_t *tszFormat, ...)
 
 int CreateDirectoryTreeW(const wchar_t* szDir)
 {
-	wchar_t szTestDir[MAX_PATH];
-	lstrcpynW(szTestDir, szDir, MAX_PATH);
+	wchar_t szTestDir[MAX_PATH+1];
+	if (lstrcpynW(szTestDir, szDir, MAX_PATH) == nullptr)
+		szTestDir[MAX_PATH] = 0;
 
 	DWORD dwAttributes = GetFileAttributesW(szTestDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
@@ -36,6 +37,28 @@ int CreateDirectoryTreeW(const wchar_t* szDir)
 	CreateDirectoryTreeW(szTestDir);
 	*pszLastBackslash = '\\';
 	return (CreateDirectoryW(szTestDir, nullptr) == 0) ? GetLastError() : 0;
+}
+
+int DeleteDirectoryTreeW(const wchar_t *pwszDirName)
+{
+	// file name shall be double sero ended
+	wchar_t wszPath[MAX_PATH + 2];
+	if (lstrcpynW(wszPath, pwszDirName, MAX_PATH) == nullptr)
+		wszPath[MAX_PATH] = 0;
+	wszPath[lstrlenW(wszPath) + 1] = 0;
+
+	SHFILEOPSTRUCTW file_op = {
+		NULL,
+		FO_DELETE,
+		wszPath,
+		L"",
+		FOF_NOCONFIRMATION |
+		FOF_NOERRORUI |
+		FOF_SILENT,
+		false,
+		0,
+		L"" };
+	return SHFileOperationW(&file_op);
 }
 
 void CreatePathToFileW(wchar_t *wszFilePath)
@@ -129,6 +152,11 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 
 		case 5: // create path to file
 			CreatePathToFileW(ptszFile1);
+			dwError = 0;
+			break;
+
+		case 6: // delete folder recursively
+			DeleteDirectoryTreeW(ptszFile1);
 			dwError = 0;
 			break;
 

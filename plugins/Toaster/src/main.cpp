@@ -31,19 +31,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_POPUP,
 static int OnPreShutdown(WPARAM, LPARAM)
 {
 	CleanupClasses();
-
-	SHFILEOPSTRUCT file_op = {
-		nullptr,
-		FO_DELETE,
-		wszTempDir,
-		L"",
-		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
-		false,
-		nullptr,
-		L""
-	};
-	SHFileOperation(&file_op);
-
+	DeleteDirectoryTreeW(wszTempDir);
 	return 0;
 }
 

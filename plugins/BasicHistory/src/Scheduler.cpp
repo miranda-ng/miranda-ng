@@ -26,7 +26,6 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = nullptr, std::ws
 std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName, std::map<std::wstring, bool>& existingContacts, bool replaceContact);
 std::wstring GetDirectoryName(const std::wstring &path);
 std::wstring GetName(const std::wstring &path);
-bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true);
 void ListDirectory(const std::wstring &basePath, const std::wstring &path, std::list<std::wstring>& files);
 std::wstring ReplaceStr(const std::wstring& str, wchar_t oldCh, wchar_t newCh);
 time_t GetNextExportTime(TaskOptions& to);
@@ -286,7 +285,7 @@ bool DoTask(TaskOptions& to)
 			if (pos < dir.length())
 				dir = dir.substr(0, pos);
 
-			DeleteDirectory(dir.c_str());
+			DeleteDirectoryTreeW(dir.c_str());
 			CreateDirectory(dir.c_str(), nullptr);
 		}
 
@@ -416,7 +415,7 @@ bool DoTask(TaskOptions& to)
 		}
 
 		if (to.useFtp || to.compress)
-			DeleteDirectory(dir.c_str());
+			DeleteDirectoryTreeW(dir.c_str());
 	}
 	else {
 		std::map<std::wstring, bool> existingContacts;
@@ -440,7 +439,7 @@ bool DoTask(TaskOptions& to)
 			if (pos < dir.length())
 				dir = dir.substr(0, pos);
 
-			DeleteDirectory(dir.c_str());
+			DeleteDirectoryTreeW(dir.c_str());
 			CreateDirectory(dir.c_str(), nullptr);
 			filePath = dir + L"\\" + filePath;
 		}
@@ -490,7 +489,7 @@ bool DoTask(TaskOptions& to)
 
 		if (error) {
 			if (to.compress && !to.useFtp)
-				DeleteDirectory(dir.c_str());
+				DeleteDirectoryTreeW(dir.c_str());
 		}
 		else if (to.compress) {
 			std::wstring zipFilePath = to.filePath;
@@ -508,7 +507,7 @@ bool DoTask(TaskOptions& to)
 				zipDir = temp;
 				zipDir += L"zip<date>";
 				zipDir = GetFileName(zipDir, L"", existingContacts, true);
-				DeleteDirectory(zipDir.c_str());
+				DeleteDirectoryTreeW(zipDir.c_str());
 				CreateDirectory(zipDir.c_str(), nullptr);
 				zipFilePath = zipDir + L"\\" + zipFilePath;
 			}
@@ -533,7 +532,7 @@ bool DoTask(TaskOptions& to)
 				}
 			}
 
-			DeleteDirectory(dir.c_str());
+			DeleteDirectoryTreeW(dir.c_str());
 		}
 	}
 
@@ -966,7 +965,7 @@ bool ZipFiles(const std::wstring &dir, std::wstring zipFilePath, const std::stri
 		else error = true;
 	}
 
-	DeleteDirectory(dir.c_str());
+	DeleteDirectoryTreeW(dir.c_str());
 	return error;
 }
 

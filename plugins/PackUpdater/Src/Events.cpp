@@ -51,21 +51,9 @@ INT_PTR MenuCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR EmptyFolder(WPARAM, LPARAM lParam)
+INT_PTR EmptyFolder(WPARAM, LPARAM)
 {
-	SHFILEOPSTRUCT file_op = {
-		nullptr,
-		FO_DELETE,
-		tszRoot,
-		L"",
-		FOF_NOERRORUI |
-		FOF_SILENT,
-		false,
-		nullptr,
-		L"" };
-	if (lParam)
-		file_op.fFlags |= FOF_NOCONFIRMATION;
-	SHFileOperation(&file_op);
+	DeleteDirectoryTreeW(tszRoot);
 	return 0;
 }
 

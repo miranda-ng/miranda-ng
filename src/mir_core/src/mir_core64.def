@@ -2,6 +2,7 @@ LIBRARY mir_core.mir
 
 EXPORTS
 ?g_pCurrDb@@3PEAVMDatabaseCommon@@EA @1 NONAME
+DeleteDirectoryTreeW            @2
 CallFunctionAsync               @5
 CallPluginEventHook             @7
 CallService                     @8
