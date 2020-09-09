@@ -589,9 +589,7 @@ int BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName)
 {
 	SafeCreateFilePath(pwszBackFileName);
 
-	if (int iErrorCode = SafeMoveFile(pwszSrcFileName, pwszBackFileName))
-		return iErrorCode;
-	return 0;
+	return SafeMoveFile(pwszSrcFileName, pwszBackFileName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
