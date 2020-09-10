@@ -558,11 +558,11 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 
 		LIST<TJidData> newJids;
 
-		bool bChanged;
+		bool bChanged = false;
 
-		CPrivacyList *pList;
+		CPrivacyList *pList = nullptr;
 
-		TCLCInfo() : newJids(1, TJidData::cmp), bChanged(false), pList(nullptr) {}
+		TCLCInfo() : newJids(1, TJidData::cmp) {}
 		~TCLCInfo()
 		{
 			for (auto &it : newJids) {
@@ -1774,10 +1774,9 @@ public:
 		CPrivacyList *pList = GetSelectedList(m_hwnd);
 		if (pList) {
 			char *szListName = pList->GetListName();
-			if ((m_proto->m_privacyListManager.GetActiveListName() && !mir_strcmp(szListName, m_proto->m_privacyListManager.GetActiveListName())) ||
-				(m_proto->m_privacyListManager.GetDefaultListName() && !mir_strcmp(szListName, m_proto->m_privacyListManager.GetDefaultListName()))) {
+			if (!mir_strcmp(szListName, m_proto->m_privacyListManager.GetActiveListName()) || !mir_strcmp(szListName, m_proto->m_privacyListManager.GetDefaultListName())) {
 				lck.unlock();
-				MessageBox(m_hwnd, TranslateT("Can't remove active or default list"), TranslateT("Sorry"), MB_OK | MB_ICONSTOP);
+				MessageBox(m_hwnd, TranslateT("Can't remove active or default list"), m_proto->m_tszUserName, MB_OK | MB_ICONSTOP);
 				return;
 			}
 			pList->SetDeleted();
@@ -1794,69 +1793,83 @@ public:
 			return;
 		}
 		{
-			mir_cslock lck(m_proto->m_privacyListManager.m_cs);
+			mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
 			if (IsWindowVisible(m_clcClist.GetHwnd()))
 				CListBuildList(clc_info.pList);
 
-			CPrivacyListModifyUserParam *pUserData = nullptr;
-			CPrivacyList *pList = m_proto->m_privacyListManager.GetFirstList();
-			while (pList) {
-				if (pList->IsModified()) {
-					CPrivacyListRule* pRule = pList->GetFirstRule();
-					if (!pRule)
-						pList->SetDeleted();
-					if (pList->IsDeleted()) {
-						pList->RemoveAllRules();
-						pRule = nullptr;
+			for (auto *pList = m_proto->m_privacyListManager.GetFirstList(); pList; pList = pList->GetNext()) {
+				if (!pList->IsModified())
+					continue;
+
+				if (!pList->GetFirstRule()) {
+					auto *szListName = pList->GetListName();
+					if (!mir_strcmp(szListName, m_proto->m_privacyListManager.GetActiveListName()) || !mir_strcmp(szListName, m_proto->m_privacyListManager.GetDefaultListName())) {
+						lck.unlock();
+						MessageBox(m_hwnd, TranslateT("Can't remove active or default list"), m_proto->m_tszUserName, MB_OK | MB_ICONSTOP);
+						return;
 					}
-					pList->SetModified(FALSE);
-
-					if (!pUserData)
-						pUserData = new CPrivacyListModifyUserParam();
-
-					pUserData->m_dwCount++;
-
-					XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListModify, JABBER_IQ_TYPE_SET, nullptr, pUserData));
-					TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
-					TiXmlElement *listTag = query << XCHILD("list") << XATTR("name", pList->GetListName());
-
-					while (pRule) {
-						TiXmlElement *itemTag = listTag << XCHILD("item");
-						switch (pRule->GetType()) {
-						case Jid:
-							itemTag << XATTR("type", "jid");
-							break;
-						case Group:
-							itemTag << XATTR("type", "group");
-							break;
-						case Subscription:
-							itemTag << XATTR("type", "subscription");
-							break;
-						}
-						if (pRule->GetType() != Else)
-							itemTag << XATTR("value", pRule->GetValue());
-						if (pRule->GetAction())
-							itemTag << XATTR("action", "allow");
-						else
-							itemTag << XATTR("action", "deny");
-						itemTag << XATTRI("order", pRule->GetOrder());
-						DWORD dwPackets = pRule->GetPackets();
-						if (dwPackets != JABBER_PL_RULE_TYPE_ALL) {
-							if (dwPackets & JABBER_PL_RULE_TYPE_IQ)
-								itemTag << XCHILD("iq");
-							if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN)
-								itemTag << XCHILD("presence-in");
-							if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_OUT)
-								itemTag << XCHILD("presence-out");
-							if (dwPackets & JABBER_PL_RULE_TYPE_MESSAGE)
-								itemTag << XCHILD("message");
-						}
-						pRule = pRule->GetNext();
-					}
-
-					m_proto->m_ThreadInfo->send(iq);
 				}
-				pList = pList->GetNext();
+			}
+
+			CPrivacyListModifyUserParam *pUserData = nullptr;
+			for (auto *pList = m_proto->m_privacyListManager.GetFirstList(); pList; pList = pList->GetNext()) {
+				if (!pList->IsModified())
+					continue;
+
+				CPrivacyListRule* pRule = pList->GetFirstRule();
+				if (!pRule)
+					pList->SetDeleted();
+
+				if (pList->IsDeleted()) {
+					pList->RemoveAllRules();
+					pRule = nullptr;
+				}
+				pList->SetModified(FALSE);
+
+				if (!pUserData)
+					pUserData = new CPrivacyListModifyUserParam();
+
+				pUserData->m_dwCount++;
+
+				XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListModify, JABBER_IQ_TYPE_SET, nullptr, pUserData));
+				TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
+				TiXmlElement *listTag = query << XCHILD("list") << XATTR("name", pList->GetListName());
+
+				while (pRule) {
+					TiXmlElement *itemTag = listTag << XCHILD("item");
+					switch (pRule->GetType()) {
+					case Jid:
+						itemTag << XATTR("type", "jid");
+						break;
+					case Group:
+						itemTag << XATTR("type", "group");
+						break;
+					case Subscription:
+						itemTag << XATTR("type", "subscription");
+						break;
+					}
+					if (pRule->GetType() != Else)
+						itemTag << XATTR("value", pRule->GetValue());
+					if (pRule->GetAction())
+						itemTag << XATTR("action", "allow");
+					else
+						itemTag << XATTR("action", "deny");
+					itemTag << XATTRI("order", pRule->GetOrder());
+					DWORD dwPackets = pRule->GetPackets();
+					if (dwPackets != JABBER_PL_RULE_TYPE_ALL) {
+						if (dwPackets & JABBER_PL_RULE_TYPE_IQ)
+							itemTag << XCHILD("iq");
+						if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN)
+							itemTag << XCHILD("presence-in");
+						if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_OUT)
+							itemTag << XCHILD("presence-out");
+						if (dwPackets & JABBER_PL_RULE_TYPE_MESSAGE)
+							itemTag << XCHILD("message");
+					}
+					pRule = pRule->GetNext();
+				}
+
+				m_proto->m_ThreadInfo->send(iq);
 			}
 		}
 

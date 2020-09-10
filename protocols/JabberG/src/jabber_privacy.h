@@ -168,8 +168,7 @@ public:
 
 	void RemoveAllRules()
 	{
-		if (m_pRules)
-			delete m_pRules;
+		delete m_pRules;
 		m_pRules = nullptr;
 	}
 
