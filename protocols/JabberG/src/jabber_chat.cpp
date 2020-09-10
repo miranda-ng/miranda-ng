@@ -660,8 +660,8 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 	void ResetListOptions(CCtrlClc *)
 	{
-		m_clc.SetHideEmptyGroups(1);
-		m_clc.SetHideOfflineRoot(1);
+		m_clc.SetHideEmptyGroups(true);
+		m_clc.SetHideOfflineRoot(true);
 	}
 
 	void InviteUser(char *pUser, char *text)

@@ -1289,7 +1289,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_TXT_RULES, WM_SETFONT, (WPARAM)hfnt, TRUE);
 
 		SetWindowLongPtr(m_clcClist.GetHwnd(), GWL_STYLE,
-			GetWindowLongPtr(m_clcClist.GetHwnd(), GWL_STYLE) | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
+			GetWindowLongPtr(m_clcClist.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
 		m_clcClist.SetExStyle(CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT);
 
 		HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 9, 9);
