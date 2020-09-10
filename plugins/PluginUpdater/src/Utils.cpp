@@ -458,7 +458,7 @@ void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder)
 		} while (FindNextFileW(hFind, &fdata));
 
 		// remove all folders with lesser dates if there're more than 10 folders
-		while (arNames.getCount() > 9) {
+		while (arNames.getCount() >= g_plugin.iNumberBackups) {
 			SafeDeleteDirectory(arNames[0]);
 			arNames.remove(00);
 		}

@@ -59,7 +59,8 @@ CMPlugin::CMPlugin() :
 
 	// other settings
 	iPeriod(MODULENAME, "Period", 1),
-	iPeriodMeasure(MODULENAME, "PeriodMeasure", 1)
+	iPeriodMeasure(MODULENAME, "PeriodMeasure", 1),
+	iNumberBackups(MODULENAME, "NumberOfBackups", 3)
 {
 }
 

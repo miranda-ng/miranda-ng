@@ -64,6 +64,8 @@
 #define IDC_ERR_BG                      1061
 #define IDC_INFO_MESSAGES_BG            1062
 #define IDC_AUTORESTART                 1063
+#define IDC_NUMBER_BACKUPS              1064
+#define IDC_BACKUPS_SPIN                1066
 
 // Next default values for new objects
 // 
@@ -71,7 +73,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40075
-#define _APS_NEXT_CONTROL_VALUE         1064
+#define _APS_NEXT_CONTROL_VALUE         1067
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

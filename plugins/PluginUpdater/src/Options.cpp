@@ -72,6 +72,7 @@ wchar_t* GetDefaultUrl()
 
 class COptionsDlg : public CDlgBase
 {
+	CCtrlSpin spinBackups;
 	CCtrlCombo cmbPeriod;
 	CCtrlCheck chkPeriod, chkStable, chkStableSym, chkTrunk, chkTrunkSym, chkCustom;
 	CCtrlCheck chkHttps, chkPlatform, chkStartup, chkAutoRestart, chkOnlyOnce, chkBackup, chkSilent;
@@ -124,7 +125,9 @@ public:
 		chkTrunkSym(this, IDC_TRUNK_SYMBOLS),
 		chkStable(this, IDC_STABLE),
 		chkStableSym(this, IDC_STABLE_SYMBOLS),
-		chkCustom(this, IDC_CUSTOM)
+		chkCustom(this, IDC_CUSTOM),
+
+		spinBackups(this, IDC_BACKUPS_SPIN, 10, 1)
 	{
 		CreateLink(chkHttps, g_plugin.bUseHttps);
 		CreateLink(chkBackup, g_plugin.bBackup);
@@ -133,6 +136,7 @@ public:
 		CreateLink(chkStartup, g_plugin.bUpdateOnStartup);
 		CreateLink(chkOnlyOnce, g_plugin.bOnlyOnceADay);
 		CreateLink(chkAutoRestart, g_plugin.bAutoRestart);
+		CreateLink(spinBackups, g_plugin.iNumberBackups);
 
 		chkPlatform.OnChange = chkHttps.OnChange = Callback(this, &COptionsDlg::onChange_Url);
 		chkPeriod.OnChange = Callback(this, &COptionsDlg::onChange_Period);

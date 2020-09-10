@@ -169,7 +169,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	// common options
 	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bUseHttps, bAutoRestart;
-	CMOption<int>  iPeriod, iPeriodMeasure;
+	CMOption<int>  iPeriod, iPeriodMeasure, iNumberBackups;
 
 	// popup options
 	CMOption<BYTE> PopupDefColors, PopupLeftClickAction, PopupRightClickAction;
