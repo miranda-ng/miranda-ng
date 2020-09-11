@@ -395,6 +395,11 @@ void CSteamProto::OnGotFriendList(const JSONNode &root, void *)
 		json_string steamId = _friend["steamid"].as_string();
 		friendsMap.insert(std::make_pair(steamId, &_friend));
 	}
+	
+	if (friendsMap.empty()) {
+		debugLogA("Empty friends list, exiting");
+		return;
+	}
 
 	// Check and update contacts in database
 	for (auto &hContact : AccContacts()) {
