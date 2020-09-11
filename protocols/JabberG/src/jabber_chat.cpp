@@ -57,11 +57,9 @@ struct TRoleOrAffiliationInfo
 {
 	int value;
 	int id;
-	wchar_t *title_en;
+	wchar_t *pwszTitle;
 	int min_role;
 	int min_affiliation;
-
-	wchar_t *title;
 
 	bool check(JABBER_RESOURCE_STATUS *me, JABBER_RESOURCE_STATUS *him)
 	{
@@ -71,11 +69,6 @@ struct TRoleOrAffiliationInfo
 		if (me->m_role < min_role) return false;
 		if (me->m_affiliation < min_affiliation) return false;
 		return true;
-	}
-	
-	void translate()
-	{
-		title = TranslateW(title_en);
 	}
 };
 
@@ -120,12 +113,6 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 {
 	if (item->bChatActive)
 		return 1;
-
-	// translate string for menus (this can't be done in initializer)
-	for (auto &it : sttAffiliationItems)
-		it.translate();
-	for (auto &it : sttRoleItems)
-		it.translate();
 
 	Utf2T wszJid(item->jid);
 	ptrA szNick(JabberNickFromJID(item->jid));
@@ -793,173 +780,154 @@ void CJabberProto::AdminGet(const char *to, const char *ns, const char *var, con
 		<< XQUERY(ns) << XCHILD("item") << XATTR(var, varVal));
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Member info dialog
-struct TUserInfoData
+
+class CMemberInfoDlg : public CJabberDlgBase
 {
-	CJabberProto *ppro;
-	JABBER_LIST_ITEM *item;
-	JABBER_RESOURCE_STATUS *me, *him;
-};
+	JABBER_LIST_ITEM *m_item;
+	JABBER_RESOURCE_STATUS *m_me, *m_him;
 
-static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	TUserInfoData *dat = (TUserInfoData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	int value, idx;
+	CCtrlCombo cmbRole, cmbAffiliation;
+	CCtrlMButton btnRole, btnAffiliation;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		dat = (TUserInfoData *)lParam;
+public:
+	CMemberInfoDlg(CJabberProto *ppro, JABBER_LIST_ITEM *item, JABBER_RESOURCE_STATUS *me, JABBER_RESOURCE_STATUS *him) :
+		CJabberDlgBase(ppro, IDD_GROUPCHAT_INFO),
+		m_item(item),
+		m_me(me),
+		m_him(him),
+		cmbRole(this, IDC_TXT_ROLE),
+		btnRole(this, IDC_BTN_ROLE, SKINICON_EVENT_FILE, "Apply"),
+		cmbAffiliation(this, IDC_TXT_AFFILIATION),
+		btnAffiliation(this, IDC_BTN_AFFILIATION, SKINICON_EVENT_FILE, "Apply")
+	{
+		cmbRole.OnSelChanged = Callback(this, &CMemberInfoDlg::onSelChange_Role);
+		cmbAffiliation.OnSelChanged = Callback(this, &CMemberInfoDlg::onSelChange_Affiliation);
 
-		Window_SetIcon_IcoLib(hwndDlg, g_plugin.getIconHandle(IDI_GROUP));
-		{
-			LOGFONT lf;
-			GetObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_TXT_NICK, WM_GETFONT, 0, 0), sizeof(lf), &lf);
-			lf.lfWeight = FW_BOLD;
-			HFONT hfnt = CreateFontIndirect(&lf);
-			SendDlgItemMessage(hwndDlg, IDC_TXT_NICK, WM_SETFONT, (WPARAM)hfnt, TRUE);
-		}
+		btnRole.OnClick = Callback(this, &CMemberInfoDlg::onClick_Role);
+		btnAffiliation.OnClick = Callback(this, &CMemberInfoDlg::onClick_Affiliation);
+	}
 
-		SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_FILE));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BUTTONADDTOOLTIP, (WPARAM)"Apply", 0);
+	bool OnInitDialog() override
+	{
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_GROUP));
 
-		SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_FILE));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BUTTONADDTOOLTIP, (WPARAM)"Apply", 0);
+		LOGFONT lf;
+		GetObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_NICK, WM_GETFONT, 0, 0), sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		HFONT hfnt = CreateFontIndirect(&lf);
+		SendDlgItemMessage(m_hwnd, IDC_TXT_NICK, WM_SETFONT, (WPARAM)hfnt, TRUE);
 
-		SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)Skin_LoadProtoIcon(dat->ppro->m_szModuleName, dat->him->m_iStatus), 0);
+		btnRole.MakeFlat();
+		btnAffiliation.MakeFlat();
+
+		SendDlgItemMessage(m_hwnd, IDC_ICO_STATUS, STM_SETICON, (WPARAM)Skin_LoadProtoIcon(m_proto->m_szModuleName, m_him->m_iStatus), 0);
 
 		char buf[256];
-		mir_snprintf(buf, TranslateU("%s from\n%s"), dat->him->m_szResourceName.get(), dat->item->jid);
-		SetDlgItemTextUtf(hwndDlg, IDC_HEADERBAR, buf);
+		mir_snprintf(buf, TranslateU("%s from\n%s"), m_him->m_szResourceName.get(), m_item->jid);
+		SetDlgItemTextUtf(m_hwnd, IDC_HEADERBAR, buf);
 
-		SetDlgItemTextUtf(hwndDlg, IDC_TXT_NICK, dat->him->m_szResourceName);
-		SetDlgItemTextUtf(hwndDlg, IDC_TXT_JID, dat->him->m_szRealJid ? dat->him->m_szRealJid : TranslateU("Real JID not available"));
-		SetDlgItemTextUtf(hwndDlg, IDC_TXT_STATUS, dat->him->m_szStatusMessage);
+		SetDlgItemTextUtf(m_hwnd, IDC_TXT_NICK, m_him->m_szResourceName);
+		SetDlgItemTextUtf(m_hwnd, IDC_TXT_JID, m_him->m_szRealJid ? m_him->m_szRealJid : TranslateU("Real JID not available"));
+		SetDlgItemTextUtf(m_hwnd, IDC_TXT_STATUS, m_him->m_szStatusMessage);
 
-		for (auto &it : sttRoleItems) {
-			if ((it.value == dat->him->m_role) || it.check(dat->me, dat->him)) {
-				SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETITEMDATA,
-					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_ADDSTRING, 0, (LPARAM)it.title),
-					it.value);
-				if (it.value == dat->him->m_role)
-					SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETCURSEL, idx, 0);
+		for (auto &it : sttRoleItems)
+			if ((it.value == m_him->m_role) || it.check(m_me, m_him)) {
+				int idx = cmbRole.AddString(TranslateW(it.pwszTitle), it.value);
+				if (it.value == m_him->m_role)
+					cmbRole.SetCurSel(idx);
 			}
-		}
-		
-		for (auto &it : sttAffiliationItems) {
-			if ((it.value == dat->him->m_affiliation) || it.check(dat->me, dat->him)) {
-				SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETITEMDATA,
-					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_ADDSTRING, 0, (LPARAM)it.title),
-					it.value);
-				if (it.value == dat->him->m_affiliation)
-					SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETCURSEL, idx, 0);
+
+		for (auto &it : sttAffiliationItems)
+			if ((it.value == m_him->m_affiliation) || it.check(m_me, m_him)) {
+				int idx = cmbAffiliation.AddString(TranslateW(it.pwszTitle), it.value);
+				if (it.value == m_him->m_affiliation)
+					cmbAffiliation.SetCurSel(idx);
 			}
-		}
 
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_ROLE), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_AFFILIATION), FALSE);
-		break;
-
-	case WM_COMMAND:
-		if (!dat)
-			break;
-
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
-			break;
-
-		case IDC_TXT_AFFILIATION:
-			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				value = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETITEMDATA,
-					SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETCURSEL, 0, 0), 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_AFFILIATION), dat->him->m_affiliation != value);
-			}
-			break;
-
-		case IDC_BTN_AFFILIATION:
-			value = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETITEMDATA,
-				SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETCURSEL, 0, 0), 0);
-			if (dat->him->m_affiliation == value)
-				break;
-
-			char szBareJid[JABBER_MAX_JID_LEN];
-			JabberStripJid(dat->him->m_szRealJid, szBareJid, _countof(szBareJid));
-
-			switch (value) {
-			case AFFILIATION_NONE:
-				if (dat->him->m_szRealJid)
-					dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "jid", szBareJid, "affiliation", "none");
-				else
-					dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "nick", dat->him->m_szResourceName, "affiliation", "none");
-				break;
-			case AFFILIATION_MEMBER:
-				if (dat->him->m_szRealJid)
-					dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "jid", szBareJid, "affiliation", "member");
-				else
-					dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "nick", dat->him->m_szResourceName, "affiliation", "member");
-				break;
-			case AFFILIATION_ADMIN:
-				if (dat->him->m_szRealJid)
-					dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "jid", szBareJid, "affiliation", "admin");
-				else
-					dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "nick", dat->him->m_szResourceName, "affiliation", "admin");
-				break;
-			case AFFILIATION_OWNER:
-				if (dat->him->m_szRealJid)
-					dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "jid", szBareJid, "affiliation", "owner");
-				else
-					dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "nick", dat->him->m_szResourceName, "affiliation", "owner");
-			}
-			break;
-
-		case IDC_TXT_ROLE:
-			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				value = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETITEMDATA,
-					SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETCURSEL, 0, 0), 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_ROLE), dat->him->m_role != value);
-			}
-			break;
-
-		case IDC_BTN_ROLE:
-			value = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETITEMDATA,
-				SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETCURSEL, 0, 0), 0);
-			if (dat->him->m_role == value)
-				break;
-
-			switch (value) {
-			case ROLE_VISITOR:
-				dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "nick", dat->him->m_szResourceName, "role", "visitor");
-				break;
-			case ROLE_PARTICIPANT:
-				dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "nick", dat->him->m_szResourceName, "role", "participant");
-				break;
-			case ROLE_MODERATOR:
-				dat->ppro->AdminSet(dat->item->jid, JABBER_FEAT_MUC_ADMIN, "nick", dat->him->m_szResourceName, "role", "moderator");
-				break;
-			}
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		Window_FreeIcon_IcoLib(hwndDlg);
-		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, 0));
-		IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, 0));
-		if (dat) {
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-			mir_free(dat);
-		}
-		break;
+		btnRole.Disable();
+		btnAffiliation.Disable();
+		return true;
 	}
-	return FALSE;
-}
+
+	void OnDestroy() override
+	{
+		Window_FreeIcon_IcoLib(m_hwnd);
+		IcoLib_ReleaseIcon((HICON)btnRole.SendMsg(BM_SETIMAGE, IMAGE_ICON, 0));
+		IcoLib_ReleaseIcon((HICON)btnAffiliation.SendMsg(BM_SETIMAGE, IMAGE_ICON, 0));
+	}
+
+	void onSelChange_Affiliation(CCtrlCombo*)
+	{
+		int value = cmbAffiliation.GetItemData(cmbAffiliation.GetCurSel());
+		btnAffiliation.Enable(m_him->m_affiliation != value);
+	}
+
+	void onClick_Affiliation(CCtrlButton *)
+	{
+		int value = cmbAffiliation.GetItemData(cmbAffiliation.GetCurSel());
+		if (m_him->m_affiliation == value)
+			return;
+
+		char szBareJid[JABBER_MAX_JID_LEN];
+		JabberStripJid(m_him->m_szRealJid, szBareJid, _countof(szBareJid));
+
+		switch (value) {
+		case AFFILIATION_NONE:
+			if (m_him->m_szRealJid)
+				m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "jid", szBareJid, "affiliation", "none");
+			else
+				m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "nick", m_him->m_szResourceName, "affiliation", "none");
+			break;
+		case AFFILIATION_MEMBER:
+			if (m_him->m_szRealJid)
+				m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "jid", szBareJid, "affiliation", "member");
+			else
+				m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "nick", m_him->m_szResourceName, "affiliation", "member");
+			break;
+		case AFFILIATION_ADMIN:
+			if (m_him->m_szRealJid)
+				m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "jid", szBareJid, "affiliation", "admin");
+			else
+				m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "nick", m_him->m_szResourceName, "affiliation", "admin");
+			break;
+		case AFFILIATION_OWNER:
+			if (m_him->m_szRealJid)
+				m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "jid", szBareJid, "affiliation", "owner");
+			else
+				m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "nick", m_him->m_szResourceName, "affiliation", "owner");
+		}
+	}
+
+	void onSelChange_Role(CCtrlCombo *)
+	{
+		int value = cmbRole.GetItemData(cmbRole.GetCurSel());
+		btnRole.Enable(m_him->m_role != value);
+	}
+
+	void onClick_Role(CCtrlButton*)
+	{
+		int value = cmbRole.GetItemData(cmbRole.GetCurSel());
+		if (m_him->m_role == value)
+			return;
+
+		switch (value) {
+		case ROLE_VISITOR:
+			m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "nick", m_him->m_szResourceName, "role", "visitor");
+			break;
+		case ROLE_PARTICIPANT:
+			m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "nick", m_him->m_szResourceName, "role", "participant");
+			break;
+		case ROLE_MODERATOR:
+			m_proto->AdminSet(m_item->jid, JABBER_FEAT_MUC_ADMIN, "nick", m_him->m_szResourceName, "role", "moderator");
+			break;
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Nick list command processor
 
 static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* gch)
 {
@@ -1019,15 +987,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		break;
 
 	case IDM_INFO:
-		{
-			TUserInfoData *dat = (TUserInfoData *)mir_alloc(sizeof(TUserInfoData));
-			dat->me = me;
-			dat->him = him;
-			dat->item = item;
-			dat->ppro = ppro;
-			HWND hwndInfo = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_GROUPCHAT_INFO), nullptr, sttUserInfoDlgProc, (LPARAM)dat);
-			ShowWindow(hwndInfo, SW_SHOW);
-		}
+		(new CMemberInfoDlg(ppro, item, me, him))->Show();
 		break;
 
 	case IDM_KICK:
