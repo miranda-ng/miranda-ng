@@ -319,6 +319,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 
 	Contact_Hide(item->hContact, false);
 	item->bChatActive = false;
+	item->bChatGotSubject = false;
 
 	if (m_bJabberOnline) {
 		m_ThreadInfo->send(

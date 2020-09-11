@@ -206,6 +206,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	char *password;	// password for room
 	bool bAutoJoin;
 
+	bool bChatGotSubject;  // MUC received message with subject
 	bool bUseResource;
 	bool bHistoryRead;
 	bool bRealContact;

@@ -1026,6 +1026,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 			}
 		}
 		
+		item->bChatGotSubject = true;
 		item->getTemp()->m_szStatusMessage = mir_strdup(msgText);
 	}
 	else {
@@ -1057,7 +1058,6 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 			msgTime = JabberIsoToUnixTime(p);
 	}
 
-	bool isHistory = msgTime != 0;
 	time_t now = time(0);
 	if (!msgTime || msgTime > now)
 		msgTime = now;
@@ -1078,10 +1078,10 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	gce.pszText.a = szText;
 	gce.bIsMe = nick == nullptr ? FALSE : (mir_strcmp(resource, item->nick) == 0);
 
-	if (!isHistory)
+	if (item->bChatGotSubject)
 		gce.dwFlags |= GCEF_ADDTOLOG;
 
-	if (m_bGcLogChatHistory && isHistory)
+	if (m_bGcLogChatHistory && !item->bChatGotSubject)
 		gce.dwFlags |= GCEF_NOTNOTIFY;
 
 	Chat_Event(&gce);
