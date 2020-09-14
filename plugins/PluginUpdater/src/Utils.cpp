@@ -20,7 +20,7 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 HNETLIBUSER hNetlibUser = nullptr;
-HANDLE hPipe = nullptr;
+HANDLE g_hPipe = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -398,12 +398,16 @@ bool PrepareEscalation()
 	if (IsRunAsAdmin())
 		return true;
 
+	// if pipe already opened?
+	if (g_hPipe != nullptr)
+		return true;
+
 	// Elevate the process. Create a pipe for a stub first
 	TFileName wzPipeName;
 	mir_snwprintf(wzPipeName, L"\\\\.\\pipe\\Miranda_Pu_%d", GetCurrentProcessId());
-	hPipe = CreateNamedPipe(wzPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, nullptr);
-	if (hPipe == INVALID_HANDLE_VALUE) {
-		hPipe = nullptr;
+	g_hPipe = CreateNamedPipe(wzPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, nullptr);
+	if (g_hPipe == INVALID_HANDLE_VALUE) {
+		g_hPipe = nullptr;
 	}
 	else {
 		wchar_t cmdLine[100], *p;
@@ -420,8 +424,8 @@ bool PrepareEscalation()
 		sei.hwnd = nullptr;
 		sei.nShow = SW_NORMAL;
 		if (ShellExecuteEx(&sei)) {
-			if (hPipe != nullptr)
-				ConnectNamedPipe(hPipe, nullptr);
+			if (g_hPipe != nullptr)
+				ConnectNamedPipe(g_hPipe, nullptr);
 			return true;
 		}
 
@@ -472,6 +476,8 @@ void RemoveBackupFolders()
 		} while (FindNextFileW(hFind, &fdata));
 
 		// remove all folders with lesser dates if there're more than 10 folders
+		if (PrepareEscalation())
+
 		while (arNames.getCount() > g_plugin.iNumberBackups) {
 			mir_snwprintf(wszMask, L"%s\\Backups\\%s", g_wszRoot, arNames[0].c_str());
 			SafeDeleteDirectory(wszMask);
@@ -500,11 +506,11 @@ int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 	else *dst++ = 0;
 
 	DWORD dwBytes = 0, dwError;
-	if (!WriteFile(hPipe, buf, (DWORD)((BYTE *)dst - buf), &dwBytes, nullptr))
+	if (!WriteFile(g_hPipe, buf, (DWORD)((BYTE *)dst - buf), &dwBytes, nullptr))
 		return GetLastError();
 
 	dwError = 0;
-	if (!ReadFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr))
+	if (!ReadFile(g_hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr))
 		return GetLastError();
 	if (dwBytes != sizeof(DWORD))
 		return ERROR_BAD_ARGUMENTS;
@@ -514,7 +520,7 @@ int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 
 int SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst)
 {
-	if (hPipe == nullptr)
+	if (g_hPipe == nullptr)
 		return CopyFileW(pSrc, pDst, FALSE);
 
 	return TransactPipe(1, pSrc, pDst);
@@ -522,7 +528,7 @@ int SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst)
 
 int SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 {
-	if (hPipe == nullptr) {
+	if (g_hPipe == nullptr) {
 		if (!DeleteFileW(pDst)) {
 			DWORD dwError = GetLastError();
 			if (dwError != ERROR_ACCESS_DENIED && dwError != ERROR_FILE_NOT_FOUND)
@@ -560,7 +566,7 @@ int SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 
 int SafeDeleteFile(const wchar_t *pwszFile)
 {
-	if (hPipe == nullptr)
+	if (g_hPipe == nullptr)
 		return DeleteFile(pwszFile);
 
 	return TransactPipe(3, pwszFile, nullptr);
@@ -568,7 +574,7 @@ int SafeDeleteFile(const wchar_t *pwszFile)
 
 int SafeCreateDirectory(const wchar_t *pwszFolder)
 {
-	if (hPipe == nullptr)
+	if (g_hPipe == nullptr)
 		return CreateDirectoryTreeW(pwszFolder);
 
 	return TransactPipe(4, pwszFolder, nullptr);
@@ -576,7 +582,7 @@ int SafeCreateDirectory(const wchar_t *pwszFolder)
 
 int SafeDeleteDirectory(const wchar_t *pwszDirName)
 {
-	if (hPipe == nullptr)
+	if (g_hPipe == nullptr)
 		return DeleteDirectoryTreeW(pwszDirName);
 
 	return TransactPipe(6, pwszDirName, nullptr);
@@ -584,7 +590,7 @@ int SafeDeleteDirectory(const wchar_t *pwszDirName)
 
 int SafeCreateFilePath(const wchar_t *pwszFolder)
 {
-	if (hPipe == nullptr) {
+	if (g_hPipe == nullptr) {
 		CreatePathToFileW(pwszFolder);
 		return 0;
 	}

@@ -69,7 +69,7 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 		SafeCreateFilePath(wszDestFile);
 
 		wchar_t *pwszFile2unzip;
-		if (hPipe == nullptr) // direct mode
+		if (g_hPipe == nullptr) // direct mode
 			pwszFile2unzip = wszDestFile;
 		else {
 			TFileName wszTempPath;
@@ -103,7 +103,7 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 		CloseHandle(hFile);
 		unzCloseCurrentFile(uf); /* don't lose the error */
 
-		if (hPipe)
+		if (g_hPipe)
 			SafeMoveFile(pwszFile2unzip, wszDestFile);
 	}
 	return err;

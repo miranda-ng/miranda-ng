@@ -47,7 +47,6 @@ class CUpdateDLg : public CDlgBase
 		VARSW wszMirandaPath(L"%miranda_path%");
 		{
 			ThreadWatch threadId(pDlg->dwThreadId);
-			AutoHandle pipe(hPipe);
 
 			// Create needed folders after escalating priviledges. Folders creates when we actually install updates
 			TFileName wszTempFolder, wszBackupFolder;
@@ -399,8 +398,6 @@ static void DlgUpdateSilent(void *param)
 		delete &UpdateFiles;
 		return;
 	}
-
-	AutoHandle pipe(hPipe);
 
 	// Create needed folders after escalating priviledges. Folders creates when we actually install updates
 	TFileName wszTempFolder, wszBackupFolder;

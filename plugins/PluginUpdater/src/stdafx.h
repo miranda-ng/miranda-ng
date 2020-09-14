@@ -153,7 +153,7 @@ using namespace std;
 
 extern DWORD g_mirandaVersion;
 extern wchar_t g_wszRoot[MAX_PATH], g_wszTempPath[MAX_PATH];
-extern HANDLE hPipe;
+extern HANDLE g_hPipe;
 extern HNETLIBUSER hNetlibUser;
 
 extern IconItem iconList[];
@@ -180,21 +180,6 @@ void UninitCheck(void);
 void UninitListNew(void);
 
 int OptInit(WPARAM, LPARAM);
-
-class AutoHandle : private MNonCopyable
-{
-	HANDLE &m_handle;
-
-public:
-	AutoHandle(HANDLE &_handle) : m_handle(_handle) {}
-	~AutoHandle()
-	{
-		if (m_handle) {
-			::CloseHandle(m_handle);
-			m_handle = nullptr;
-		}
-	}
-};
 
 class ThreadWatch
 {

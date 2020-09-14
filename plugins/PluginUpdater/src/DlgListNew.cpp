@@ -291,8 +291,6 @@ public:
 
 	void Unpack()
 	{
-		AutoHandle pipe(hPipe);
-
 		// create needed folders after escalating priviledges. Folders creates when we actually install updates
 		TFileName wszTempFolder, wszBackupFolder;
 		CreateWorkFolders(wszTempFolder, wszBackupFolder);

@@ -288,7 +288,8 @@ public:
 			FindClose(hFind);
 		}
 
-		RemoveBackupFolders();
+		if (PrepareEscalation())
+			RemoveBackupFolders();
 
 		// if user tried to change the channel, run the update dialog immediately
 		if (bStartUpdate)
