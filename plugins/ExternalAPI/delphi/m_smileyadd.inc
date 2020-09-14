@@ -53,36 +53,6 @@ type
 const
   MS_SMILEYADD_REPLACESMILEYS:PAnsiChar = 'SmileyAdd/ReplaceSmileys';
 
-type
-  PSMADD_SHOWSEL3 = ^TSMADD_SHOWSEL3;
-  TSMADD_SHOWSEL3 = record
-    cbSize       : uint;      // size of the structure
-    Protocolname : PAnsiChar; // protocol to use... if you have defined a protocol,
-      // you can use your own protocol name. Smiley add will automatically
-      // select the smileypack that is defined for your protocol.
-      // Or, use "Standard" for standard smiley set. Or "ICQ"
-      // if you prefer those icons.
-      // If not found or NULL: "Standard" will be used
-    xPosition    : int;       // Postition to place the selectwindow
-    yPosition    : int;
-    Direction    : int;       // Direction (i.e. size upwards/downwards/etc) of the window 0, 1, 2, 3
-    hwndTarget   : HWND;      // Window, where to send the message when smiley is selected.
-    targetMessage: uint;      // Target message, to be sent.
-    targetWParam : LPARAM;    // Target WParam to be sent (LParam will be PAnsiChar to
-                              // select smiley) see the example file.
-    hwndParent   : HWND;      // Parent window for smiley dialog
-    hContact     : TMCONTACT; // Contact handle
-  end;
-
-{
-  Show smiley selection window
-  wParam = (WPARAM) 0; not used
-  lParam = (LPARAM) (SMADD_SHOWSEL3*) &smre;  //pointer to SMADD_SHOWSEL3
-  return: TRUE if API succeeded (all parameters were valid) , FALSE if not.
-}
-const
-  MS_SMILEYADD_SHOWSELECTION:PAnsiChar = 'SmileyAdd/ShowSmileySelection';
-
 {
   get smiley button icon
   wParam = (WPARAM) 0; not used
