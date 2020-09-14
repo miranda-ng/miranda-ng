@@ -587,6 +587,9 @@ int SafeCreateFilePath(const wchar_t *pwszFolder)
 
 int BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName)
 {
+	if (_waccess(pwszSrcFileName, 0))
+		return 0;
+
 	SafeCreateFilePath(pwszBackFileName);
 
 	return SafeMoveFile(pwszSrcFileName, pwszBackFileName);
