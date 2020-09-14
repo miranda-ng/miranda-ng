@@ -444,6 +444,20 @@ static int __cdecl CompareDirs(const CMStringW *s1, const CMStringW *s2)
 
 void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder)
 {
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+	mir_snwprintf(wszBackupFolder, L"%s\\Backups\\BKP%04d-%02d-%02d %02d-%02d-%02d-%03d", g_wszRoot, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+	SafeCreateDirectory(wszBackupFolder);
+
+	mir_snwprintf(wszTempFolder, L"%s\\Temp", g_wszRoot);
+	SafeCreateDirectory(wszTempFolder);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Folder removal
+
+void RemoveBackupFolders()
+{
 	TFileName wszMask;
 	mir_snwprintf(wszMask, L"%s\\Backups\\BKP*", g_wszRoot);
 
@@ -458,19 +472,12 @@ void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder)
 		} while (FindNextFileW(hFind, &fdata));
 
 		// remove all folders with lesser dates if there're more than 10 folders
-		while (arNames.getCount() >= g_plugin.iNumberBackups) {
-			SafeDeleteDirectory(arNames[0]);
+		while (arNames.getCount() > g_plugin.iNumberBackups) {
+			mir_snwprintf(wszMask, L"%s\\Backups\\%s", g_wszRoot, arNames[0].c_str());
+			SafeDeleteDirectory(wszMask);
 			arNames.remove(00);
 		}
 	}
-
-	SYSTEMTIME st;
-	GetLocalTime(&st);
-	mir_snwprintf(wszBackupFolder, L"%s\\Backups\\BKP%04d-%02d-%02d %02d-%02d-%02d-%03d", g_wszRoot, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
-	SafeCreateDirectory(wszBackupFolder);
-
-	mir_snwprintf(wszTempFolder, L"%s\\Temp", g_wszRoot);
-	SafeCreateDirectory(wszTempFolder);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

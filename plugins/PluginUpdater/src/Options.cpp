@@ -288,6 +288,8 @@ public:
 			FindClose(hFind);
 		}
 
+		RemoveBackupFolders();
+
 		// if user tried to change the channel, run the update dialog immediately
 		if (bStartUpdate)
 			CallService(MS_PU_CHECKUPDATES, 0, 0);

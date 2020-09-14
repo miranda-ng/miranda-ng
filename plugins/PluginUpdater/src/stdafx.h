@@ -269,10 +269,11 @@ int  unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackP
 
 int CalculateModuleHash(const wchar_t *pwszFileName, char *dest);
 
-BOOL IsProcessElevated();
-bool PrepareEscalation();
+BOOL IsProcessElevated(void);
+bool PrepareEscalation(void);
 
 void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder);
+void RemoveBackupFolders(void);
 
 int SafeCreateDirectory(const wchar_t *pwszDirName);
 int SafeDeleteDirectory(const wchar_t *pwszDirName);

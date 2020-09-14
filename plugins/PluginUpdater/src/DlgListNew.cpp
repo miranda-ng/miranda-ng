@@ -323,6 +323,8 @@ public:
 		}
 		Netlib_CloseHandle(nlc);
 
+		RemoveBackupFolders();
+
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Download complete"), POPUP_TYPE_INFO);
 
 		int rc = MessageBox(m_hwnd, TranslateT("Download complete. Do you want to go to plugins option page?"), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);

@@ -117,6 +117,8 @@ LBL_Error:
 					}
 				}
 			}
+
+			RemoveBackupFolders();
 			Skin_PlaySound("updatecompleted");
 
 			if (g_plugin.bBackup)
@@ -466,6 +468,8 @@ LBL_Error:
 		}
 	}
 	
+	RemoveBackupFolders();
+
 	delete &UpdateFiles;
 	Skin_PlaySound("updatecompleted");
 
