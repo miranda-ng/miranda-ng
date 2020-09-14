@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern SESSION_INFO g_TabSession;
 
+DWORD g_dwDiskLogFlags;
 HPLUGIN g_pChatPlugin;
 GlobalLogSettingsBase *g_Settings;
 int g_cbSession, g_cbModuleInfo, g_iFontMode;
@@ -257,6 +258,8 @@ void LoadGlobalSettings(void)
 	g_Settings->UserListHeadingsFont = CreateFontIndirect(&lf);
 
 	SetIndentSize();
+
+	g_dwDiskLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
 }
 
 static void FreeGlobalSettings(void)

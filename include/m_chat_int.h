@@ -324,7 +324,6 @@ struct CHAT_MANAGER
 	BOOL          (*DoTrayIcon)(SESSION_INFO *si, GCEVENT *gce);
 	BOOL          (*DoPopup)(SESSION_INFO *si, GCEVENT *gce);
 	int           (*ShowPopup)(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
-	BOOL          (*LogToFile)(SESSION_INFO *si, GCEVENT *gce);
 	wchar_t*      (*GetChatLogsFilename)(SESSION_INFO *si, time_t tTime);
 	char*         (*Log_SetStyle)(int style);
 

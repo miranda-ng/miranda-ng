@@ -472,24 +472,6 @@ wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 }
 
 /*
-* log the event to the log file
-* allows selective logging of wanted events
-*/
-BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
-{
-	if (!si || !gce)
-		return FALSE;
-
-	/*
-	* check whether we have to log this event
-	*/
-	if (!(gce->iType & si->iDiskLogFlags))
-		return FALSE;
-
-	return oldLogToFile(si, gce); // call kernel method
-}
-
-/*
  * set all filters and notification config for a session
  * uses per channel mask + filterbits, default config as backup
  */
@@ -523,8 +505,6 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwFlags_default = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 	dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
 	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "TrayIconMask", 0);
-
-	si->iDiskLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
 
 	si->iLogTrayFlags = dwFlags_default;
 	for (int i = 0; i < 32; i++) {

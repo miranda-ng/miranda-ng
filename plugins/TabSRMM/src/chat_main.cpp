@@ -372,7 +372,6 @@ int Chat_Load()
 	// this operation is unsafe, that's why we restore the old pci state on exit
 	g_chatApi.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
 	g_chatApi.IsHighlighted = IsHighlighted;
-	oldLogToFile = g_chatApi.LogToFile; g_chatApi.LogToFile = LogToFile;
 	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
 	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.ShowPopup = ShowPopup;
 	g_chatApi.Log_CreateRTF = Log_CreateRTF;

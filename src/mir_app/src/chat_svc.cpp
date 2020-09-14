@@ -412,7 +412,7 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 
 		bManyFix++;
 		if ((gce->dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-			g_chatApi.LogToFile(si, gce);
+			LogToFile(si, gce);
 	}
 
 	return 0;
@@ -556,7 +556,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 				g_chatApi.DoSoundsFlashPopupTrayStuff(si, &gce, bIsHighlighted, 0);
 
 			if ((gce.dwFlags & GCEF_ADDTOLOG) && g_Settings->bLoggingEnabled)
-				g_chatApi.LogToFile(si, &gce);
+				LogToFile(si, &gce);
 		}
 
 		if (!bRemoveFlag)

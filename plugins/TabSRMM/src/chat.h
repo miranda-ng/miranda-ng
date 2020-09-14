@@ -52,7 +52,7 @@ struct MODULEINFO : public GCModuleInfoBase
 
 struct SESSION_INFO : public GCSessionInfoBase
 {
-	int iLogTrayFlags, iLogPopupFlags, iDiskLogFlags;
+	int iLogTrayFlags, iLogPopupFlags;
 };
 
 struct LOGSTREAMDATA : public GCLogStreamDataBase
@@ -130,7 +130,6 @@ void     Chat_SetFilters(SESSION_INFO *si);
 void     DoFlashAndSoundWorker(FLASH_PARAMS* p);
 BOOL     DoPopup(SESSION_INFO *si, GCEVENT* gce);
 int      ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
-BOOL     LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
 #include "chat_resource.h"
 

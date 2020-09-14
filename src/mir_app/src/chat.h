@@ -34,17 +34,19 @@ void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwnd
 
 class CLogWindow : public CSrmmLogWindow {};
 
-extern HPLUGIN g_pChatPlugin;
-extern GlobalLogSettingsBase *g_Settings;
-extern int g_cbSession, g_cbModuleInfo, g_iFontMode;
+extern HPLUGIN  g_pChatPlugin;
+extern int      g_cbSession, g_cbModuleInfo, g_iFontMode;
 extern wchar_t *g_szFontGroup;
-extern mir_cs csChat;
+extern mir_cs   csChat;
 
-extern HCURSOR g_hCurHyperlinkHand;
-extern char* pLogIconBmpBits[14];
-extern LIST<SESSION_INFO> g_arSessions;
+extern DWORD    g_dwDiskLogFlags;
+extern HCURSOR  g_hCurHyperlinkHand;
+extern char*    pLogIconBmpBits[14];
+extern HANDLE   hevSendEvent, hevBuildMenuEvent;
+
 extern MWindowList g_hWindowList;
-extern HANDLE hevSendEvent, hevBuildMenuEvent;
+extern LIST<SESSION_INFO> g_arSessions;
+extern GlobalLogSettingsBase *g_Settings;
 
 extern CMOption<bool> g_bChatTrayInactive, g_bChatPopupInactive;
 

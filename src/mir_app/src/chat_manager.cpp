@@ -909,7 +909,6 @@ static void ResetApi()
 	g_chatApi.DoTrayIcon = ::DoTrayIcon;
 	g_chatApi.DoPopup = ::DoPopup;
 	g_chatApi.ShowPopup = ::ShowPopup;
-	g_chatApi.LogToFile = ::LogToFile;
 	g_chatApi.GetChatLogsFilename = ::GetChatLogsFilename;
 	g_chatApi.Log_SetStyle = ::Log_SetStyle;
 

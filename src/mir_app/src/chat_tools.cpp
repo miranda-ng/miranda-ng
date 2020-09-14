@@ -483,6 +483,13 @@ bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 
 BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 {
+	if (si == nullptr || gce == nullptr)
+		return FALSE;
+
+	// check whether we have to log this event
+	if (!(gce->iType & g_dwDiskLogFlags))
+		return FALSE;
+
 	wchar_t p = '\0';
 
 	GetChatLogsFilename(si, gce->time);
