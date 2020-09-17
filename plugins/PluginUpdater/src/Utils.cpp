@@ -467,23 +467,64 @@ void RemoveBackupFolders()
 
 	WIN32_FIND_DATAW fdata;
 	HANDLE hFind = FindFirstFileW(wszMask, &fdata);
-	if (hFind) {
-		// sort folder names alphabetically
-		OBJLIST<CMStringW> arNames(1, CompareDirs);
-		do {
-			if (fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				arNames.insert(new CMStringW(fdata.cFileName));
-		} while (FindNextFileW(hFind, &fdata));
+	if (!hFind)
+		return;
 
-		// remove all folders with lesser dates if there're more than 10 folders
-		if (PrepareEscalation())
+	// sort folder names alphabetically
+	OBJLIST<CMStringW> arNames(1, CompareDirs);
+	do {
+		if (fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			arNames.insert(new CMStringW(fdata.cFileName));
+	} while (FindNextFileW(hFind, &fdata));
 
+	FindClose(hFind);
+
+	// remove all folders with lesser dates if there're more than 10 folders
+	if (PrepareEscalation()) {
 		while (arNames.getCount() > g_plugin.iNumberBackups) {
 			mir_snwprintf(wszMask, L"%s\\Backups\\%s", g_wszRoot, arNames[0].c_str());
 			SafeDeleteDirectory(wszMask);
 			arNames.remove(00);
 		}
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// moves updated files back to Miranda's folder
+
+static void SafeMoveFolder(const wchar_t *wszSrc, const wchar_t *wszDest)
+{
+	TFileName wszNewSrc, wszNewDest;
+	mir_snwprintf(wszNewSrc, L"%s\\*", wszSrc);
+
+	WIN32_FIND_DATAW fdata;
+	HANDLE hFind = FindFirstFileW(wszNewSrc, &fdata);
+	if (!hFind)
+		return;
+
+	do {
+		if (!mir_wstrcmp(fdata.cFileName, L".") || !mir_wstrcmp(fdata.cFileName, L".."))
+			continue;
+
+		mir_snwprintf(wszNewSrc, L"%s\\%s", wszSrc, fdata.cFileName);
+		mir_snwprintf(wszNewDest, L"%s\\%s", wszDest, fdata.cFileName);
+
+		if (fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			SafeMoveFolder(wszNewSrc, wszNewDest);
+		else
+			SafeMoveFile(wszNewSrc, wszNewDest);
+	}
+		while (FindNextFileW(hFind, &fdata));
+
+	FindClose(hFind);
+}
+
+void RollbackChanges(TFileName &pwszBackupFolder)
+{
+	VARSW dirname(L"%miranda_path%");
+	SafeMoveFolder(pwszBackupFolder, dirname);
+
+	SafeDeleteDirectory(pwszBackupFolder);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

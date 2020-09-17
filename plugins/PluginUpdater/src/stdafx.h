@@ -259,6 +259,7 @@ bool PrepareEscalation(void);
 
 void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder);
 void RemoveBackupFolders(void);
+void RollbackChanges(TFileName &pwszBackupFolder);
 
 int SafeCreateDirectory(const wchar_t *pwszDirName);
 int SafeDeleteDirectory(const wchar_t *pwszDirName);

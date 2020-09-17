@@ -91,6 +91,7 @@ class CUpdateDLg : public CDlgBase
 						mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszNewName + wcslen(wszMirandaPath) + 1);
 						if (dwErrorCode = BackupFile(it->wszNewName, wszBackFile)) {
 LBL_Error:
+							RollbackChanges(wszBackupFolder);
 							Skin_PlaySound("updatefailed");
 							CMStringW wszError(FORMAT, TranslateT("Unpack operation failed with error code=%d, update terminated"), dwErrorCode);
 							MessageBox(pDlg->GetHwnd(), wszError, TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
@@ -441,6 +442,7 @@ static void DlgUpdateSilent(void *param)
 				mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszNewName + wcslen(wszMirandaPath) + 1);
 				if (dwErrorCode = BackupFile(it->wszNewName, wszBackFile)) {
 LBL_Error:
+					RollbackChanges(wszBackupFolder);
 					Skin_PlaySound("updatefailed");
 					delete &UpdateFiles;
 					return;
