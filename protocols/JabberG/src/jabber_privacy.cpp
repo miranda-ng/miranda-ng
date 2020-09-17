@@ -141,32 +141,6 @@ void CJabberProto::OnIqResultPrivacyList(const TiXmlElement *iqNode, CJabberIqIn
 	UI_SAFE_NOTIFY(m_pDlgPrivacyLists, WM_PROTO_REFRESH);
 }
 
-CPrivacyList* GetSelectedList(HWND hDlg)
-{
-	LRESULT nCurSel = SendDlgItemMessage(hDlg, IDC_LB_LISTS, LB_GETCURSEL, 0, 0);
-	if (nCurSel == LB_ERR)
-		return nullptr;
-
-	LRESULT nItemData = SendDlgItemMessage(hDlg, IDC_LB_LISTS, LB_GETITEMDATA, nCurSel, 0);
-	if (nItemData == LB_ERR || nItemData == 0)
-		return nullptr;
-
-	return (CPrivacyList*)nItemData;
-}
-
-CPrivacyListRule* GetSelectedRule(HWND hDlg)
-{
-	LRESULT nCurSel = SendDlgItemMessage(hDlg, IDC_PL_RULES_LIST, LB_GETCURSEL, 0, 0);
-	if (nCurSel == LB_ERR)
-		return nullptr;
-
-	LRESULT nItemData = SendDlgItemMessage(hDlg, IDC_PL_RULES_LIST, LB_GETITEMDATA, nCurSel, 0);
-	if (nItemData == LB_ERR || nItemData == 0)
-		return nullptr;
-
-	return (CPrivacyListRule*)nItemData;
-}
-
 void CJabberProto::OnIqResultPrivacyListActive(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	CPrivacyList *pList = (CPrivacyList *)pInfo->GetUserData();
@@ -592,8 +566,8 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 
 	void ShowAdvancedList(CPrivacyList *pList)
 	{
-		int nLbSel = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCURSEL, 0, 0);
-		SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_RESETCONTENT, 0, 0);
+		int nLbSel = m_lbRules.GetCurSel();
+		m_lbRules.ResetContent();
 
 		bool bListEmpty = true;
 
@@ -646,19 +620,17 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 			char szListItem[512];
 			mir_snprintf(szListItem, "%s %s %s", szTypeValue, pRule->GetAction() ? "allow" : "deny", szPackets.c_str());
 
-			LRESULT nItemId = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, Utf2T(szListItem));
-			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETITEMDATA, nItemId, (LPARAM)pRule);
-
+			m_lbRules.AddString(Utf2T(szListItem), LPARAM(pRule));
 			pRule = pRule->GetNext();
 		}
 
-		EnableWindow(GetDlgItem(m_hwnd, IDC_PL_RULES_LIST), !bListEmpty);
+		m_lbRules.Enable(!bListEmpty);
 		if (bListEmpty)
-			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateT("List has no rules, empty lists will be deleted then changes applied"));
+			m_lbRules.AddString(TranslateT("List has no rules, empty lists will be deleted then changes applied"));
 		else
-			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETCURSEL, nLbSel, 0);
+			m_lbRules.SetCurSel(nLbSel);
 
-		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_PL_RULES_LIST, LBN_SELCHANGE), 0);
+		lbRules_OnSelChange(0);
 	}
 
 	void DrawNextRulePart(HDC hdc, COLORREF color, const wchar_t *text, RECT *rc)
@@ -1130,24 +1102,24 @@ lbl_return:
 			bListsModified = m_proto->m_privacyListManager.IsModified() || clc_info.bChanged;
 		}
 
-		int nCurSel = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCURSEL, 0, 0);
-		int nItemCount = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCOUNT, 0, 0);
+		int nCurSel = m_lbRules.GetCurSel();
+		int nItemCount = m_lbRules.GetCount();
 		BOOL bSelected = nCurSel != CB_ERR;
-		BOOL bListSelected = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETCOUNT, 0, 0);
-		bListSelected = bListSelected && (SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETCURSEL, 0, 0) != LB_ERR);
-		bListSelected = bListSelected && SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETCURSEL, 0, 0), 0);
+		BOOL bListSelected = m_lbLists.GetCount();
+		bListSelected = bListSelected && (m_lbLists.GetCurSel() != LB_ERR);
+		bListSelected = bListSelected && m_lbLists.GetItemData(m_lbLists.GetCurSel());
 
 		m_edtNewJid.Enable(bListsLoaded && bListSelected);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TXT_OTHERJID), bListsLoaded && bListSelected);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_ADDJID), bListsLoaded && bListSelected);
+		m_btnAddJid.Enable(bListsLoaded && bListSelected);
+		m_btnAddRule.Enable(bListsLoaded && bListSelected);
+		m_btnEditRule.Enable(bListsLoaded && bSelected);
+		m_btnRemoveRule.Enable(bListsLoaded && bSelected);
+		m_btnUpRule.Enable(bListsLoaded && bSelected && nCurSel != 0);
+		m_btnDownRule.Enable(bListsLoaded && bSelected && nCurSel != (nItemCount - 1));
+		m_btnApply.Enable(bListsLoaded && bListsModified);
 
-		EnableWindow(GetDlgItem(m_hwnd, IDC_ADD_RULE), bListsLoaded && bListSelected);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_EDIT_RULE), bListsLoaded && bSelected);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_REMOVE_RULE), bListsLoaded && bSelected);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_UP_RULE), bListsLoaded && bSelected && nCurSel != 0);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_DOWN_RULE), bListsLoaded && bSelected && nCurSel != (nItemCount - 1));
+		EnableWindow(GetDlgItem(m_hwnd, IDC_TXT_OTHERJID), bListsLoaded && bListSelected);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_REMOVE_LIST), bListsLoaded && bListSelected);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_APPLY), bListsLoaded && bListsModified);
 
 		if (bListsLoaded)
 			SetStatusText(TranslateT("Ready."));
@@ -1211,11 +1183,31 @@ lbl_return:
 		return (IDYES == MessageBox(m_hwnd, TranslateT("Privacy lists are not saved, discard any changes and exit?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2));
 	}
 
-	CCtrlMButton	m_btnSimple, m_btnAdvanced, m_btnAddJid, m_btnActivate, m_btnSetDefault;
-	CCtrlMButton	m_btnEditRule, m_btnAddRule, m_btnRemoveRule, m_btnUpRule, m_btnDownRule;
-	CCtrlMButton	m_btnAddList, m_btnRemoveList;
+	CPrivacyList* GetSelectedList()
+	{
+		int nCurSel = m_lbLists.GetCurSel();
+		if (nCurSel == LB_ERR)
+			return nullptr;
+
+		LRESULT nItemData = m_lbLists.GetItemData(nCurSel);
+		return (nItemData == LB_ERR || nItemData == 0) ? nullptr : (CPrivacyList *)nItemData;
+	}
+
+	CPrivacyListRule* GetSelectedRule()
+	{
+		int nCurSel = m_lbRules.GetCurSel();
+		if (nCurSel == LB_ERR)
+			return nullptr;
+
+		LRESULT nItemData = m_lbRules.GetItemData(nCurSel);
+		return (nItemData == LB_ERR || nItemData == 0) ? nullptr : (CPrivacyListRule *)nItemData;
+	}
+
+	CCtrlMButton   m_btnSimple, m_btnAdvanced, m_btnAddJid, m_btnActivate, m_btnSetDefault;
+	CCtrlMButton   m_btnEditRule, m_btnAddRule, m_btnRemoveRule, m_btnUpRule, m_btnDownRule;
+	CCtrlMButton   m_btnAddList, m_btnRemoveList;
 	CCtrlButton    m_btnApply;
-	CCtrlListBox	m_lbLists, m_lbRules;
+	CCtrlListBox   m_lbLists, m_lbRules;
 	CCtrlClc       m_clcClist;
 	CCtrlEdit      m_edtNewJid;
 
@@ -1273,11 +1265,11 @@ public:
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_PRIVACY_LISTS));
 
-		EnableWindow(GetDlgItem(m_hwnd, IDC_ADD_RULE), FALSE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_EDIT_RULE), FALSE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_REMOVE_RULE), FALSE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_UP_RULE), FALSE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_DOWN_RULE), FALSE);
+		m_btnAddRule.Disable();
+		m_btnEditRule.Disable();
+		m_btnRemoveRule.Disable();
+		m_btnUpRule.Disable();
+		m_btnDownRule.Disable();
 
 		m_proto->QueryPrivacyLists();
 
@@ -1334,16 +1326,16 @@ public:
 		if (m_proto->getByte("plistsWnd_simpleMode", 1)) {
 			UIShowControls(m_hwnd, idSimpleControls, SW_SHOW);
 			UIShowControls(m_hwnd, idAdvancedControls, SW_HIDE);
-			CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, BST_CHECKED);
+			m_btnSimple.Push(true);
 		}
 		else {
 			UIShowControls(m_hwnd, idSimpleControls, SW_HIDE);
 			UIShowControls(m_hwnd, idAdvancedControls, SW_SHOW);
-			CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, BST_CHECKED);
+			m_btnAdvanced.Push(true);
 		}
 
-		mir_subclassWindow(GetDlgItem(m_hwnd, IDC_LB_LISTS), LstListsSubclassProc);
-		mir_subclassWindow(GetDlgItem(m_hwnd, IDC_PL_RULES_LIST), LstRulesSubclassProc);
+		mir_subclassWindow(m_lbLists.GetHwnd(), LstListsSubclassProc);
+		mir_subclassWindow(m_lbRules.GetHwnd(), LstRulesSubclassProc);
 
 		SetStatusText(TranslateT("Loading..."));
 
@@ -1368,7 +1360,7 @@ public:
 		// Delete custom bold font
 		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TXT_LISTS, WM_GETFONT, 0, 0));
 
-		m_proto->setByte("plistsWnd_simpleMode", IsDlgButtonChecked(m_hwnd, IDC_BTN_SIMPLE));
+		m_proto->setByte("plistsWnd_simpleMode", m_btnSimple.IsPushed());
 
 		Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "plistsWnd_sz");
 
@@ -1377,37 +1369,34 @@ public:
 
 	void OnProtoRefresh(WPARAM, LPARAM) override
 	{
-		LRESULT sel = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETCURSEL, 0, 0);
+		LRESULT sel = m_lbLists.GetCurSel();
 		wchar_t *szCurrentSelectedList = nullptr;
 		if (sel != LB_ERR) {
-			LRESULT len = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETTEXTLEN, sel, 0) + 1;
+			LRESULT len = m_lbLists.SendMsg(LB_GETTEXTLEN, sel, 0) + 1;
 			szCurrentSelectedList = (wchar_t *)mir_alloc(len * sizeof(wchar_t));
-			SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETTEXT, sel, (LPARAM)szCurrentSelectedList);
+			m_lbLists.SendMsg(LB_GETTEXT, sel, (LPARAM)szCurrentSelectedList);
 		}
 
-		SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_RESETCONTENT, 0, 0);
-
-		LRESULT nItemId = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_ADDSTRING, 0, (LPARAM)TranslateT("<none>"));
-		SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETITEMDATA, nItemId, 0);
+		m_lbLists.ResetContent();
+		m_lbLists.AddString(TranslateT("<none>"), 0);
 		{
 			mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 
 			CPrivacyList *pList = m_proto->m_privacyListManager.GetFirstList();
 			while (pList) {
-				if (!pList->IsDeleted()) {
-					nItemId = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_ADDSTRING, 0, (LPARAM)pList->GetListName());
-					SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETITEMDATA, nItemId, (LPARAM)pList);
-				}
+				if (!pList->IsDeleted())
+					m_lbLists.AddString(Utf2T(pList->GetListName()), (LPARAM)pList);
+
 				pList = pList->GetNext();
 			}
 
-			if (!szCurrentSelectedList || (SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SELECTSTRING, -1, (LPARAM)szCurrentSelectedList) == LB_ERR))
-				SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETCURSEL, 0, 0);
+			if (!szCurrentSelectedList || (m_lbLists.SelectString(szCurrentSelectedList) == LB_ERR))
+				m_lbLists.SetCurSel(0);
 			if (szCurrentSelectedList)
 				mir_free(szCurrentSelectedList);
 		}
 
-		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_LB_LISTS, LBN_SELCHANGE), 0);
+		lbLists_OnSelChange(0);
 		EnableEditorControls();
 	}
 
@@ -1523,21 +1512,21 @@ public:
 
 	void btnSimple_OnClick(CCtrlButton*)
 	{
-		CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, BST_CHECKED);
-		CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, BST_UNCHECKED);
+		m_btnSimple.Push(true);
+		m_btnAdvanced.Push(false);
 		UIShowControls(m_hwnd, idSimpleControls, SW_SHOW);
 		UIShowControls(m_hwnd, idAdvancedControls, SW_HIDE);
-		CListApplyList(GetSelectedList(m_hwnd));
+		CListApplyList(GetSelectedList());
 	}
 
 	void btnAdvanced_OnClick(CCtrlButton*)
 	{
-		CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, BST_CHECKED);
+		m_btnSimple.Push(false);
+		m_btnAdvanced.Push(true);
 		UIShowControls(m_hwnd, idSimpleControls, SW_HIDE);
 		UIShowControls(m_hwnd, idAdvancedControls, SW_SHOW);
-		CListBuildList(GetSelectedList(m_hwnd));
-		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_LB_LISTS, LBN_SELCHANGE), 0);
+		CListBuildList(GetSelectedList());
+		lbLists_OnSelChange(0);
 	}
 
 	void btnAddJid_OnClick(CCtrlButton*)
@@ -1553,14 +1542,14 @@ public:
 
 		mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
 
-		CPrivacyList *pList = GetSelectedList(m_hwnd);
+		CPrivacyList *pList = GetSelectedList();
 		if (pList && pList->IsModified()) {
 			lck.unlock();
 			MessageBox(m_hwnd, TranslateT("Please save list before activating"), TranslateT("First, save the list"), MB_OK | MB_ICONSTOP);
 			return;
 		}
-		EnableWindow(GetDlgItem(m_hwnd, IDC_ACTIVATE), FALSE);
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_ACTIVATE), GWLP_USERDATA, (LONG_PTR)pList);
+		m_btnActivate.Disable();
+		SetWindowLongPtr(m_btnActivate.GetHwnd(), GWLP_USERDATA, (LONG_PTR)pList);
 		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, nullptr, pList));
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 		TiXmlElement *active = query << XCHILD("active");
@@ -1579,14 +1568,14 @@ public:
 
 		mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
 
-		CPrivacyList *pList = GetSelectedList(m_hwnd);
+		CPrivacyList *pList = GetSelectedList();
 		if (pList && pList->IsModified()) {
 			lck.unlock();
 			MessageBox(m_hwnd, TranslateT("Please save list before you make it the default list"), TranslateT("First, save the list"), MB_OK | MB_ICONSTOP);
 			return;
 		}
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SET_DEFAULT), FALSE);
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SET_DEFAULT), GWLP_USERDATA, (LONG_PTR)pList);
+		m_btnSetDefault.Disable();
+		SetWindowLongPtr(m_btnSetDefault.GetHwnd(), GWLP_USERDATA, (LONG_PTR)pList);
 
 		XmlNodeIq iq(m_proto->AddIQ(&CJabberProto::OnIqResultPrivacyListDefault, JABBER_IQ_TYPE_SET, nullptr, pList));
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
@@ -1601,27 +1590,26 @@ public:
 
 	void lbLists_OnSelChange(CCtrlListBox *)
 	{
-		LRESULT nCurSel = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETCURSEL, 0, 0);
+		int nCurSel = m_lbLists.GetCurSel();
 		if (nCurSel == LB_ERR)
 			return;
 
-		LRESULT nErr = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_GETITEMDATA, nCurSel, 0);
+		LRESULT nErr = m_lbLists.GetItemData(nCurSel);
 		if (nErr == LB_ERR)
 			return;
+		
 		if (nErr == 0) {
 			if (IsWindowVisible(m_clcClist.GetHwnd())) {
 				CListBuildList(clc_info.pList);
 				CListApplyList(nullptr);
 			}
 			else {
-				EnableWindow(GetDlgItem(m_hwnd, IDC_PL_RULES_LIST), FALSE);
-				SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_RESETCONTENT, 0, 0);
-				SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateT("No list selected"));
+				m_lbRules.Disable();
+				m_lbRules.ResetContent();
+				m_lbRules.AddString(TranslateT("No list selected"));
 			}
-			EnableEditorControls();
-			return;
 		}
-		{
+		else {
 			mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 			if (IsWindowVisible(m_clcClist.GetHwnd())) {
 				CListBuildList(clc_info.pList);
@@ -1634,7 +1622,7 @@ public:
 
 	void lbLists_OnDblClick(CCtrlListBox*)
 	{
-		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_ACTIVATE, 0), 0);
+		m_btnActivate.OnClick(0);
 	}
 
 	void lbRules_OnSelChange(CCtrlListBox*)
@@ -1644,7 +1632,7 @@ public:
 
 	void lbRules_OnDblClick(CCtrlListBox*)
 	{
-		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_EDIT_RULE, 0), 0);
+		m_btnEditRule.OnClick(0);
 	}
 
 	void btnEditRule_OnClick(CCtrlButton*)
@@ -1652,8 +1640,8 @@ public:
 		// FIXME: potential deadlock due to PLM lock while editing rule
 		mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 
-		CPrivacyListRule* pRule = GetSelectedRule(m_hwnd);
-		CPrivacyList *pList = GetSelectedList(m_hwnd);
+		CPrivacyListRule* pRule = GetSelectedRule();
+		CPrivacyList *pList = GetSelectedList();
 		if (pList && pRule) {
 			CJabberDlgPrivacyRule dlgPrivacyRule(m_proto, m_hwnd, pRule);
 			if (dlgPrivacyRule.DoModal()) {
@@ -1668,7 +1656,7 @@ public:
 		// FIXME: potential deadlock due to PLM lock while editing rule
 		mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 
-		CPrivacyList *pList = GetSelectedList(m_hwnd);
+		CPrivacyList *pList = GetSelectedList();
 		if (pList) {
 			CPrivacyListRule* pRule = new CPrivacyListRule(m_proto, Jid, "", FALSE);
 			CJabberDlgPrivacyRule dlgPrivacyRule(m_proto, m_hwnd, pRule);
@@ -1686,14 +1674,14 @@ public:
 	{
 		mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 
-		CPrivacyList *pList = GetSelectedList(m_hwnd);
-		CPrivacyListRule* pRule = GetSelectedRule(m_hwnd);
+		CPrivacyList *pList = GetSelectedList();
+		CPrivacyListRule* pRule = GetSelectedRule();
 
 		if (pList && pRule) {
 			pList->RemoveRule(pRule);
-			int nCurSel = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCURSEL, 0, 0);
-			int nItemCount = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCOUNT, 0, 0);
-			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETCURSEL, nCurSel != nItemCount - 1 ? nCurSel : nCurSel - 1, 0);
+			int nCurSel = m_lbRules.GetCurSel();
+			int nItemCount = m_lbRules.GetCount();
+			m_lbRules.SetCurSel(nCurSel != nItemCount - 1 ? nCurSel : nCurSel - 1);
 			pList->Reorder();
 			pList->SetModified();
 			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
@@ -1704,13 +1692,13 @@ public:
 	{
 		mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 
-		CPrivacyList *pList = GetSelectedList(m_hwnd);
-		CPrivacyListRule* pRule = GetSelectedRule(m_hwnd);
-		int nCurSel = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCURSEL, 0, 0);
+		CPrivacyList *pList = GetSelectedList();
+		CPrivacyListRule* pRule = GetSelectedRule();
+		int nCurSel = m_lbRules.GetCurSel();
 
 		if (pList && pRule && nCurSel) {
 			pRule->SetOrder(pRule->GetOrder() - 11);
-			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETCURSEL, nCurSel - 1, 0);
+			m_lbRules.SetCurSel(nCurSel - 1);
 			pList->Reorder();
 			pList->SetModified();
 			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
@@ -1721,14 +1709,14 @@ public:
 	{
 		mir_cslock lck(m_proto->m_privacyListManager.m_cs);
 
-		CPrivacyList *pList = GetSelectedList(m_hwnd);
-		CPrivacyListRule* pRule = GetSelectedRule(m_hwnd);
-		int nCurSel = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCURSEL, 0, 0);
-		int nItemCount = SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_GETCOUNT, 0, 0);
+		CPrivacyList *pList = GetSelectedList();
+		CPrivacyListRule* pRule = GetSelectedRule();
+		int nCurSel = m_lbRules.GetCurSel();
+		int nItemCount = m_lbRules.GetCount();
 
 		if (pList && pRule && (nCurSel != (nItemCount - 1))) {
 			pRule->SetOrder(pRule->GetOrder() + 11);
-			SendDlgItemMessage(m_hwnd, IDC_PL_RULES_LIST, LB_SETCURSEL, nCurSel + 1, 0);
+			m_lbRules.SetCurSel(nCurSel + 1);
 			pList->Reorder();
 			pList->SetModified();
 			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
@@ -1754,14 +1742,15 @@ public:
 				pList->SetLoaded(TRUE);
 			}
 		}
+
 		if (pList)
 			pList->SetDeleted(FALSE);
 
-		int nSelected = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SELECTSTRING, -1, (LPARAM)dlgPrivacyAddList.szLine);
+		Utf2T wszName(dlgPrivacyAddList.szLine);
+		int nSelected = m_lbLists.SelectString(wszName);
 		if (nSelected == CB_ERR) {
-			nSelected = SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_ADDSTRING, 0, (LPARAM)dlgPrivacyAddList.szLine);
-			SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETITEMDATA, nSelected, (LPARAM)pList);
-			SendDlgItemMessage(m_hwnd, IDC_LB_LISTS, LB_SETCURSEL, nSelected, 0);
+			nSelected = m_lbLists.AddString(wszName, (LPARAM)pList);
+			m_lbLists.SetCurSel(nSelected);
 		}
 
 		PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
@@ -1771,7 +1760,7 @@ public:
 	{
 		mir_cslockfull lck(m_proto->m_privacyListManager.m_cs);
 
-		CPrivacyList *pList = GetSelectedList(m_hwnd);
+		CPrivacyList *pList = GetSelectedList();
 		if (pList) {
 			char *szListName = pList->GetListName();
 			if (!mir_strcmp(szListName, m_proto->m_privacyListManager.GetActiveListName()) || !mir_strcmp(szListName, m_proto->m_privacyListManager.GetDefaultListName())) {
@@ -1889,13 +1878,13 @@ public:
 	void clcClist_OnUpdate(CCtrlClc::TEventInfo*)
 	{
 		CListFilter();
-		CListApplyList(GetSelectedList(m_hwnd));
+		CListApplyList(GetSelectedList());
 	}
 
 	void clcClist_OnOptionsChanged(CCtrlClc::TEventInfo*)
 	{
 		CListResetOptions();
-		CListApplyList(GetSelectedList(m_hwnd));
+		CListApplyList(GetSelectedList());
 	}
 
 	void clcClist_OnClick(CCtrlClc::TEventInfo *evt)
