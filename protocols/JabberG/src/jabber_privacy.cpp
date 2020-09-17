@@ -1102,13 +1102,13 @@ lbl_return:
 			bListsModified = m_proto->m_privacyListManager.IsModified() || clc_info.bChanged;
 		}
 
+		int nListSet = m_lbLists.GetCurSel();
 		int nCurSel = m_lbRules.GetCurSel();
 		int nItemCount = m_lbRules.GetCount();
-		BOOL bSelected = nCurSel != CB_ERR;
-		BOOL bListSelected = m_lbLists.GetCount();
-		bListSelected = bListSelected && (m_lbLists.GetCurSel() != LB_ERR);
-		bListSelected = bListSelected && m_lbLists.GetItemData(m_lbLists.GetCurSel());
+		bool bSelected = nCurSel != CB_ERR;
+		bool bListSelected = (m_lbLists.GetCount() != 0) && (nListSet != LB_ERR) && (m_lbLists.GetItemData(nListSet) != 0);
 
+		m_clcClist.Enable(bListsLoaded && bListSelected);
 		m_edtNewJid.Enable(bListsLoaded && bListSelected);
 		m_btnAddJid.Enable(bListsLoaded && bListSelected);
 		m_btnAddRule.Enable(bListsLoaded && bListSelected);
