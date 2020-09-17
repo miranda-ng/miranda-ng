@@ -367,10 +367,11 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	BOOL bInactive = si->pDlg == nullptr || !si->pDlg->IsActive();
 
 	int iEvent = gce->iType;
+	bool bMute = db_get_b(si->hContact, "SRMM", "MuteMode", CHATMODE_NORMAL) == CHATMODE_MUTE;
 
 	if (bHighlight) {
 		gce->iType |= GC_EVENT_HIGHLIGHT;
-		if (bInactive || !g_Settings->bSoundsFocus)
+		if (!bMute && (bInactive || !g_Settings->bSoundsFocus))
 			Skin_PlaySound("ChatHighlight");
 		if (Contact_IsHidden(si->hContact))
 			Contact_Hide(si->hContact, false);
@@ -419,7 +420,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		}
 
 		if (db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & iEvent)
-			if (szSound && (bInactive || !g_Settings->bSoundsFocus))
+			if (!bMute && szSound && (bInactive || !g_Settings->bSoundsFocus))
 				Skin_PlaySound(szSound);
 	}
 

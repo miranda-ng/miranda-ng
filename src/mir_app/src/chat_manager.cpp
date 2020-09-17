@@ -78,7 +78,7 @@ static SESSION_INFO* GetActiveSession(void)
 // Log manager functions
 //	Necessary to keep track of events in a window log
 
-static LOGINFO *LM_AddEvent(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
+static LOGINFO* LM_AddEvent(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
 {
 	if (!ppLogListStart || !ppLogListEnd)
 		return nullptr;

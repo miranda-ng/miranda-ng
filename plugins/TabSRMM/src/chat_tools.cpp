@@ -406,6 +406,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 			if (!(db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & params->iEvent))
 				params->sound = nullptr;
+			else if (CHATMODE_MUTE == db_get_b(si->hContact, "SRMM", "MuteMode", CHATMODE_NORMAL))
+				params->sound = nullptr;
 		}
 		else {
 			switch (params->iEvent) {
