@@ -58,12 +58,29 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 	PushRequest(new OAuthRequest(login, password, mscookies.c_str(), PPTF.c_str()));
 }
 
-void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST* response, AsyncHttpRequest*) {
+bool CSkypeProto::CheckOauth(const char *szResponse)
+{
+	std::string content = szResponse;
+	std::smatch match;
+	if (!std::regex_search(content, match, std::regex("<input.+?type=\"hidden\".+?name=\"t\".+?id=\"t\".+?value=\"(.+?)\".*?>")))
+		if (!std::regex_search(content, match, std::regex("<input.+?type=\"hidden\".+?name=\"ipt\".+?id=\"ipt\".+?value=\"(.+?)\".*?>")))
+			return false;
+
+	std::string t = match[1];
+	PushRequest(new OAuthRequest(t.c_str()));
+	return true;
+}
+
+void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *)
+{
 	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
+
+	if (CheckOauth(response->pData))
+		return;
 
 	std::regex regex;
 	std::smatch match;
@@ -99,7 +116,6 @@ void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST* response, AsyncHttpRequest*)
 	}
 
 	CMStringA mscookies(FORMAT, "MSPRequ=%s;MSPOK=%s;PPAuth=%s;OParams=%s;", cookies["MSPRequ"].c_str(), scookies["MSPOK"].c_str(), scookies["PPAuth"].c_str(), scookies["OParams"].c_str());
-
 	PushRequest(new OAuthRequest(mscookies.c_str(), PPTF.c_str(), opid.c_str()));
 }
 
@@ -111,18 +127,10 @@ void CSkypeProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest
 		return;
 	}
 
-	std::string content = response->pData;
-	std::smatch match;
-	if (!std::regex_search(content, match, std::regex("<input.+?type=\"hidden\".+?name=\"t\".+?id=\"t\".+?value=\"(.+?)\".*?>"))) {
-		if (!std::regex_search(content, match, std::regex("<input.+?type=\"hidden\".+?name=\"ipt\".+?id=\"ipt\".+?value=\"(.+?)\".*?>"))) {
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-			SetStatus(ID_STATUS_OFFLINE);
-			return;
-		}
+	if (!CheckOauth(response->pData)) {
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
 	}
-	std::string t = match[1];
-
-	PushRequest(new OAuthRequest(t.c_str()));
 }
 
 void CSkypeProto::OnOAuthEnd(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)

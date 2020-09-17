@@ -144,6 +144,7 @@ public:
 	void OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 	void OnReceiveAwayMsg(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 
+	bool CheckOauth(const char *szResponse);
 	void LoadProfile(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
 
 private:
