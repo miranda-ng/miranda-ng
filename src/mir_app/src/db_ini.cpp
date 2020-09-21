@@ -168,7 +168,7 @@ protected:
 public:
 	CWarnIniChangeDlg(warnSettingChangeInfo_t *warnInfo) :
 		CDlgBase(g_plugin, IDD_WARNINICHANGE),
-		m_yes(this, IDYES), m_no(this, IDNO),
+		m_yes(this, IDOK), m_no(this, IDNO),
 		m_noWarn(this, IDC_WARNNOMORE),
 		m_iniName(this, IDC_ININAME), m_settingName(this, IDC_SETTINGNAME),
 		m_newValue(this, IDC_NEWVALUE), m_securityInfo(this, IDC_SECURITYINFO)

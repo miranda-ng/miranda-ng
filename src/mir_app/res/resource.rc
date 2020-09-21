@@ -199,7 +199,7 @@ BEGIN
     LTEXT           "Do you want to allow this change?",IDC_STATIC,5,71,177,8
     CONTROL         "&Allow all further changes to this section",IDC_WARNNOMORE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,80,169,10
-    DEFPUSHBUTTON   "&Yes",IDYES,5,94,50,14
+    DEFPUSHBUTTON   "&Yes",IDOK,5,94,50,14
     PUSHBUTTON      "&No",IDNO,59,94,50,14
     PUSHBUTTON      "Cancel import",IDCANCEL,123,94,59,14
 END
