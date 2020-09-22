@@ -234,7 +234,7 @@ int CDbxMDBX::Map()
 
 	mdbx_env_create(&m_env);
 	mdbx_env_set_maxdbs(m_env, 10);
-	mdbx_env_set_maxreaders(m_env, 244);
+	mdbx_env_set_maxreaders(m_env, 1024);
 	mdbx_env_set_userctx(m_env, this);
 	mdbx_env_set_assert(m_env, assert_func);
 
