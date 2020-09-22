@@ -30,16 +30,26 @@ void FacebookProto::ConnectionFailed()
 	OnShutdown();
 }
 
+bool FacebookProto::ExtractOwnMessage(__int64 msgId, COwnMessage &res)
+{
+	mir_cslock lck(m_csOwnMessages);
+	for (auto &it : arOwnMessages)
+		if (it->msgId == msgId) {
+			res = *it;
+			arOwnMessages.removeItem(&it);
+			return true;
+		}
+
+	return false;
+}
+
 void FacebookProto::NotifyDelivery(const CMStringA &szId)
 {
-	__int64 msgid = _atoi64(szId);
-	for (auto &it : arOwnMessages) {
-		if (it->msgId == msgid) {
-			ProtoBroadcastAck(it->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
-			if (g_bMessageState)
-				CallService(MS_MESSAGESTATE_UPDATE, it->hContact, MRD_TYPE_DELIVERED);
-			arOwnMessages.removeItem(&it);
-		}
+	COwnMessage tmp;
+	if (ExtractOwnMessage(_atoi64(szId), tmp)) {
+		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.reqId, (LPARAM)szId.c_str());
+		if (g_bMessageState)
+			CallService(MS_MESSAGESTATE_UPDATE, tmp.hContact, MRD_TYPE_DELIVERED);
 	}
 }
 
@@ -895,25 +905,21 @@ void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 		return;
 	}
 
-	for (auto &it : arOwnMessages) {
-		if (it->msgId == offlineId) {
-			if (pUser->bIsChat) {
-				CMStringW wszId(FORMAT, L"%lld", m_uid);
-				it->wszText.Replace(L"%", L"%%");
+	COwnMessage tmp;
+	if (ExtractOwnMessage(offlineId, tmp)) {
+		if (pUser->bIsChat) {
+			CMStringW wszId(FORMAT, L"%lld", m_uid);
+			tmp.wszText.Replace(L"%", L"%%");
 
-				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-				gce.pszID.w = wszUserId;
-				gce.dwFlags = GCEF_ADDTOLOG;
-				gce.pszUID.w = wszId;
-				gce.pszText.w = it->wszText;
-				gce.time = time(0);
-				gce.bIsMe = true;
-				Chat_Event(&gce);
-			}
-			else ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->reqId, (LPARAM)szId.c_str());
-
-			arOwnMessages.removeItem(&it);
-			break;
+			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+			gce.pszID.w = wszUserId;
+			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.pszUID.w = wszId;
+			gce.pszText.w = tmp.wszText;
+			gce.time = time(0);
+			gce.bIsMe = true;
+			Chat_Event(&gce);
 		}
+		else ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.reqId, (LPARAM)szId.c_str());
 	}
 }

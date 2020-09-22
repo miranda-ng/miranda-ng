@@ -365,6 +365,13 @@ struct COwnMessage
    MCONTACT hContact;
    CMStringW wszText;
 
+   COwnMessage() :
+      msgId(0),
+      reqId(0),
+      hContact(0)
+   {
+   }
+
    COwnMessage(__int64 _id, int _reqId, MCONTACT _hContact) :
       msgId(_id),
       reqId(_reqId),
@@ -456,7 +463,9 @@ class FacebookProto : public PROTO<FacebookProto>
 
 	CMStringA m_szAuthToken; // calculated 
 
+   mir_cs    m_csOwnMessages;
    OBJLIST<COwnMessage> arOwnMessages;
+   bool      ExtractOwnMessage(__int64 msgId, COwnMessage &res);
 
    OBJLIST<FacebookUser> m_users;
    FacebookUser* FindUser(__int64 id)
