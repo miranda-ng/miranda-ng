@@ -81,7 +81,7 @@ static void InitLog()
 		hLogger = mir_createLog("Netlib", LPGENW("Standard Netlib log"), logOptions.tszFile, 0);
 }
 
-static const wchar_t* szTimeFormats[] =
+static const wchar_t *szTimeFormats[] =
 {
 	LPGENW("No times"),
 	LPGENW("Standard hh:mm:ss times"),
@@ -89,187 +89,194 @@ static const wchar_t* szTimeFormats[] =
 	LPGENW("Times in microseconds")
 };
 
-static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
+class CLogOptionsDlg : public CDlgBase
 {
-	wchar_t str[MAX_PATH];
+	CCtrlEdit edtFileName;
+	CCtrlButton btnRunNow, btnFileName, btnRunAtStart;
+	CCtrlTreeView treeFilter;
 
-	switch (message) {
-	case WM_INITDIALOG:
-		logOptions.hwndOpts = hwndDlg;
-		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_DUMPRECV, logOptions.dumpRecv ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DUMPSENT, logOptions.dumpSent ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DUMPPROXY, logOptions.dumpProxy ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DUMPSSL, logOptions.dumpSsl ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TEXTDUMPS, logOptions.textDumps ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AUTODETECTTEXT, logOptions.autoDetectText ? BST_CHECKED : BST_UNCHECKED);
+public:
+	CLogOptionsDlg() :
+		CDlgBase(g_plugin, IDD_NETLIBLOGOPTS),
+		treeFilter(this, IDC_FILTER),
+		edtFileName(this, IDC_FILENAME),
+		btnRunNow(this, IDC_RUNNOW),
+		btnFileName(this, IDC_FILENAMEBROWSE),
+		btnRunAtStart(this, IDC_RUNATSTARTBROWSE)
+	{
+		btnFileName.OnClick = btnRunAtStart.OnClick = Callback(this, &CLogOptionsDlg::onClick_Browse);
+
+		edtFileName.OnChange = Callback(this, &CLogOptionsDlg::onChange_FileName);
+	}
+
+	bool OnInitDialog() override
+	{
+		logOptions.hwndOpts = m_hwnd;
+		CheckDlgButton(m_hwnd, IDC_DUMPRECV, logOptions.dumpRecv ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_DUMPSENT, logOptions.dumpSent ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_DUMPPROXY, logOptions.dumpProxy ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_DUMPSSL, logOptions.dumpSsl ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TEXTDUMPS, logOptions.textDumps ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_AUTODETECTTEXT, logOptions.autoDetectText ? BST_CHECKED : BST_UNCHECKED);
 
 		for (auto &it : szTimeFormats)
-			SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
+			SendDlgItemMessage(m_hwnd, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 
-		SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_SETCURSEL, logOptions.timeFormat, 0);
-		CheckDlgButton(hwndDlg, IDC_SHOWNAMES, logOptions.showUser ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TOOUTPUTDEBUGSTRING, logOptions.toOutputDebugString ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_TOFILE, logOptions.toFile ? BST_CHECKED : BST_UNCHECKED);
-		SetDlgItemText(hwndDlg, IDC_FILENAME, logOptions.tszUserFile);
-		SetDlgItemText(hwndDlg, IDC_PATH, logOptions.tszFile);
-		CheckDlgButton(hwndDlg, IDC_SHOWTHISDLGATSTART, db_get_b(0, "Netlib", "ShowLogOptsAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
-		{
-			ptrA szRun(db_get_sa(0, "Netlib", "RunAtStart"));
-			if (szRun)
-				SetDlgItemTextA(hwndDlg, IDC_RUNATSTART, szRun);
+		SendDlgItemMessage(m_hwnd, IDC_TIMEFORMAT, CB_SETCURSEL, logOptions.timeFormat, 0);
+		CheckDlgButton(m_hwnd, IDC_SHOWNAMES, logOptions.showUser ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TOOUTPUTDEBUGSTRING, logOptions.toOutputDebugString ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TOFILE, logOptions.toFile ? BST_CHECKED : BST_UNCHECKED);
+		edtFileName.SetText(logOptions.tszUserFile);
+		SetDlgItemText(m_hwnd, IDC_PATH, logOptions.tszFile);
+		CheckDlgButton(m_hwnd, IDC_SHOWTHISDLGATSTART, db_get_b(0, "Netlib", "ShowLogOptsAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
 
-			HWND hwndFilter = GetDlgItem(hwndDlg, IDC_FILTER);
-			SetWindowLongPtr(hwndFilter, GWL_STYLE, GetWindowLongPtr(hwndFilter, GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
+		ptrA szRun(db_get_sa(0, "Netlib", "RunAtStart"));
+		if (szRun)
+			SetDlgItemTextA(m_hwnd, IDC_RUNATSTART, szRun);
 
-			TVINSERTSTRUCT tvis = {};
-			tvis.hInsertAfter = TVI_SORT;
-			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+		SetWindowLongPtr(treeFilter.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeFilter.GetHwnd(), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
 
-			for (auto &it : netlibUser) {
-				tvis.item.pszText = it->user.szDescriptiveName.w;
-				tvis.item.lParam = netlibUser.indexOf(&it);
-				tvis.item.state = INDEXTOSTATEIMAGEMASK(it->toLog ? 2 : 1);
-				TreeView_InsertItem(hwndFilter, &tvis);
-			}
-			tvis.item.lParam = -1;
-			tvis.item.pszText = TranslateT("(Miranda core logging)");
-			tvis.item.state = INDEXTOSTATEIMAGEMASK((logOptions.toLog) ? 2 : 1);
-			TreeView_InsertItem(hwndFilter, &tvis);
+		TVINSERTSTRUCT tvis = {};
+		tvis.hInsertAfter = TVI_SORT;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
+		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+
+		for (auto &it : netlibUser) {
+			tvis.item.pszText = it->user.szDescriptiveName.w;
+			tvis.item.lParam = netlibUser.indexOf(&it);
+			tvis.item.state = INDEXTOSTATEIMAGEMASK(it->toLog ? 2 : 1);
+			treeFilter.InsertItem(&tvis);
 		}
-		return TRUE;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_FILENAME:
-			if (HIWORD(wParam) == EN_CHANGE) {
-				if ((HWND)lParam == GetFocus())
-					CheckDlgButton(hwndDlg, IDC_TOFILE, BST_CHECKED);
-
-				wchar_t path[MAX_PATH];
-				GetWindowText((HWND)lParam, path, _countof(path));
-
-				PathToAbsoluteW(VARSW(path), path);
-				SetDlgItemText(hwndDlg, IDC_PATH, path);
-			}
-			break;
-
-		case IDC_FILENAMEBROWSE:
-		case IDC_RUNATSTARTBROWSE:
-			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, _countof(str));
-			{
-				wchar_t filter[200];
-				mir_snwprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
-
-				OPENFILENAME ofn = { 0 };
-				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-				ofn.hwndOwner = hwndDlg;
-				ofn.Flags = OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-				if (LOWORD(wParam) == IDC_FILENAMEBROWSE)
-					ofn.lpstrTitle = TranslateT("Select where log file will be created");
-				else {
-					ofn.Flags |= OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-					ofn.lpstrTitle = TranslateT("Select program to be run");
-				}
-				ofn.lpstrFilter = filter;
-				ofn.lpstrFile = str;
-				ofn.nMaxFile = _countof(str) - 2;
-				ofn.nMaxFileTitle = MAX_PATH;
-				if (LOWORD(wParam) == IDC_FILENAMEBROWSE) {
-					if (!GetSaveFileName(&ofn)) return 1;
-				}
-				else if (!GetOpenFileName(&ofn))
-					return 1;
-
-				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && wcschr(str, ' ') != nullptr) {
-					memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
-					str[0] = '"';
-					mir_wstrcat(str, L"\"");
-				}
-				SetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str);
-			}
-			break;
-
-		case IDC_RUNNOW:
-			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, _countof(str));
-			if (str[0]) {
-				STARTUPINFO si = { sizeof(si) };
-				PROCESS_INFORMATION pi;
-				CreateProcess(nullptr, str, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
-			}
-			break;
-
-		case IDOK:
-			GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, _countof(str));
-			db_set_ws(0, "Netlib", "RunAtStart", str);
-			db_set_b(0, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
-
-			GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
-			logOptions.tszUserFile = rtrimw(str);
-			db_set_ws(0, "Netlib", "File", str);
-
-			GetDlgItemText(hwndDlg, IDC_PATH, str, _countof(str));
-			logOptions.tszFile = rtrimw(str);
-
-			db_set_b(0, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV));
-			db_set_b(0, "Netlib", "DumpSent", logOptions.dumpSent = IsDlgButtonChecked(hwndDlg, IDC_DUMPSENT));
-			db_set_b(0, "Netlib", "DumpProxy", logOptions.dumpProxy = IsDlgButtonChecked(hwndDlg, IDC_DUMPPROXY));
-			db_set_b(0, "Netlib", "DumpSsl", logOptions.dumpSsl = IsDlgButtonChecked(hwndDlg, IDC_DUMPSSL));
-			db_set_b(0, "Netlib", "TextDumps", logOptions.textDumps = IsDlgButtonChecked(hwndDlg, IDC_TEXTDUMPS));
-			db_set_b(0, "Netlib", "AutoDetectText", logOptions.autoDetectText = IsDlgButtonChecked(hwndDlg, IDC_AUTODETECTTEXT));
-			db_set_b(0, "Netlib", "TimeFormat", logOptions.timeFormat = SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_GETCURSEL, 0, 0));
-			db_set_b(0, "Netlib", "ShowUser", logOptions.showUser = IsDlgButtonChecked(hwndDlg, IDC_SHOWNAMES));
-			db_set_b(0, "Netlib", "ToOutputDebugString", logOptions.toOutputDebugString = IsDlgButtonChecked(hwndDlg, IDC_TOOUTPUTDEBUGSTRING));
-			db_set_b(0, "Netlib", "ToFile", logOptions.toFile = IsDlgButtonChecked(hwndDlg, IDC_TOFILE));
-			{
-				HWND hwndFilter = GetDlgItem(logOptions.hwndOpts, IDC_FILTER);
-				TVITEM tvi = { 0 };
-				BOOL checked;
-
-				tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE | TVIF_TEXT;
-				tvi.hItem = TreeView_GetRoot(hwndFilter);
-
-				while (tvi.hItem) {
-					TreeView_GetItem(hwndFilter, &tvi);
-					checked = ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2);
-
-					if (tvi.lParam == -1) {
-						logOptions.toLog = checked;
-						db_set_dw(0, "Netlib", "NLlog", checked);
-					}
-					else if (tvi.lParam < netlibUser.getCount()) {
-						netlibUser[tvi.lParam]->toLog = checked;
-						db_set_dw(0, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
-					}
-
-					tvi.hItem = TreeView_GetNextSibling(hwndFilter, tvi.hItem);
-				}
-			}
-			InitLog();
-			__fallthrough;
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_FILTER), TVSIL_STATE));
-		logOptions.hwndOpts = nullptr;
-		break;
+		tvis.item.lParam = -1;
+		tvis.item.pszText = TranslateT("(Miranda core logging)");
+		tvis.item.state = INDEXTOSTATEIMAGEMASK((logOptions.toLog) ? 2 : 1);
+		treeFilter.InsertItem(&tvis);
+		return true;
 	}
-	return FALSE;
-}
+
+	bool OnApply() override
+	{
+		wchar_t str[MAX_PATH];
+		GetDlgItemText(m_hwnd, IDC_RUNATSTART, str, _countof(str));
+		db_set_ws(0, "Netlib", "RunAtStart", str);
+		db_set_b(0, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTHISDLGATSTART));
+
+		edtFileName.GetText(str, _countof(str));
+		logOptions.tszUserFile = rtrimw(str);
+		db_set_ws(0, "Netlib", "File", str);
+
+		GetDlgItemText(m_hwnd, IDC_PATH, str, _countof(str));
+		logOptions.tszFile = rtrimw(str);
+
+		db_set_b(0, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(m_hwnd, IDC_DUMPRECV));
+		db_set_b(0, "Netlib", "DumpSent", logOptions.dumpSent = IsDlgButtonChecked(m_hwnd, IDC_DUMPSENT));
+		db_set_b(0, "Netlib", "DumpProxy", logOptions.dumpProxy = IsDlgButtonChecked(m_hwnd, IDC_DUMPPROXY));
+		db_set_b(0, "Netlib", "DumpSsl", logOptions.dumpSsl = IsDlgButtonChecked(m_hwnd, IDC_DUMPSSL));
+		db_set_b(0, "Netlib", "TextDumps", logOptions.textDumps = IsDlgButtonChecked(m_hwnd, IDC_TEXTDUMPS));
+		db_set_b(0, "Netlib", "AutoDetectText", logOptions.autoDetectText = IsDlgButtonChecked(m_hwnd, IDC_AUTODETECTTEXT));
+		db_set_b(0, "Netlib", "TimeFormat", logOptions.timeFormat = SendDlgItemMessage(m_hwnd, IDC_TIMEFORMAT, CB_GETCURSEL, 0, 0));
+		db_set_b(0, "Netlib", "ShowUser", logOptions.showUser = IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES));
+		db_set_b(0, "Netlib", "ToOutputDebugString", logOptions.toOutputDebugString = IsDlgButtonChecked(m_hwnd, IDC_TOOUTPUTDEBUGSTRING));
+		db_set_b(0, "Netlib", "ToFile", logOptions.toFile = IsDlgButtonChecked(m_hwnd, IDC_TOFILE));
+
+		TVITEMEX tvi = {};
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE | TVIF_TEXT;
+		tvi.hItem = treeFilter.GetRoot();
+
+		while (tvi.hItem) {
+			treeFilter.GetItem(&tvi);
+			bool checked = ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2);
+
+			if (tvi.lParam == -1) {
+				logOptions.toLog = checked;
+				db_set_dw(0, "Netlib", "NLlog", checked);
+			}
+			else if (tvi.lParam < netlibUser.getCount()) {
+				netlibUser[tvi.lParam]->toLog = checked;
+				db_set_dw(0, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
+			}
+
+			tvi.hItem = treeFilter.GetNextSibling(tvi.hItem);
+		}
+
+		InitLog();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		ImageList_Destroy(TreeView_GetImageList(GetDlgItem(m_hwnd, IDC_FILTER), TVSIL_STATE));
+		logOptions.hwndOpts = nullptr;
+	}
+
+	void onChange_FileName(CCtrlEdit *pEdit)
+	{
+		if (pEdit->GetHwnd() == GetFocus())
+			CheckDlgButton(m_hwnd, IDC_TOFILE, BST_CHECKED);
+
+		wchar_t path[MAX_PATH];
+		pEdit->GetText(path, _countof(path));
+		PathToAbsoluteW(VARSW(path), path);
+		SetDlgItemText(m_hwnd, IDC_PATH, path);
+	}
+
+	void onClick_Browse(CCtrlButton *pButton)
+	{
+		wchar_t str[MAX_PATH];
+		GetWindowText(GetWindow(pButton->GetHwnd(), GW_HWNDPREV), str, _countof(str));
+
+		wchar_t filter[200];
+		mir_snwprintf(filter, L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
+
+		OPENFILENAME ofn = { 0 };
+		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+		ofn.hwndOwner = m_hwnd;
+		ofn.Flags = OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
+		if (pButton->GetCtrlId() == IDC_FILENAMEBROWSE)
+			ofn.lpstrTitle = TranslateT("Select where log file will be created");
+		else {
+			ofn.Flags |= OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+			ofn.lpstrTitle = TranslateT("Select program to be run");
+		}
+		ofn.lpstrFilter = filter;
+		ofn.lpstrFile = str;
+		ofn.nMaxFile = _countof(str) - 2;
+		ofn.nMaxFileTitle = MAX_PATH;
+		if (pButton->GetCtrlId() == IDC_FILENAMEBROWSE) {
+			if (!GetSaveFileName(&ofn))
+				return;
+		}
+		else if (!GetOpenFileName(&ofn))
+			return;
+
+		if (pButton->GetCtrlId() == IDC_RUNATSTARTBROWSE && wcschr(str, ' ') != nullptr) {
+			memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
+			str[0] = '"';
+			mir_wstrcat(str, L"\"");
+		}
+		SetWindowText(GetWindow(pButton->GetHwnd(), GW_HWNDPREV), str);
+	}
+
+	void onClick_RunNow(CCtrlButton *)
+	{
+		wchar_t str[MAX_PATH];
+		GetDlgItemText(m_hwnd, IDC_RUNATSTART, str, _countof(str));
+		if (!str[0])
+			return;
+
+		STARTUPINFO si = { sizeof(si) };
+		PROCESS_INFORMATION pi;
+		CreateProcessW(nullptr, str, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
+		CloseHandle(pi.hProcess);
+		CloseHandle(pi.hThread);
+	}
+};
 
 void NetlibLogShowOptions(void)
 {
 	if (logOptions.hwndOpts == nullptr)
-		logOptions.hwndOpts = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_NETLIBLOGOPTS), nullptr, LogOptionsDlgProc);
+		(new CLogOptionsDlg())->Create();
 	SetForegroundWindow(logOptions.hwndOpts);
 }
 
