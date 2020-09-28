@@ -287,6 +287,7 @@
     <Image Include="res\never_visible.ico" />
     <Image Include="res\Off.ico" />
     <Image Include="res\On.ico" />
+    <Image Include="res\sound.ico" />
     <Image Include="res\status_away.ico" />
     <Image Include="res\status_DND.ico" />
     <Image Include="res\status_free4chat.ico" />

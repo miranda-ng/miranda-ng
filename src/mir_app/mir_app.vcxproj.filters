@@ -723,5 +723,8 @@
     <Image Include="res\icon_password.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\sound.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -563,6 +563,7 @@
 #define IDC_SM_ENABLED                  1746
 #define IDC_LANGUAGES                   1747
 #define IDC_GENMENU_MODULE              1748
+#define IDC_LOGROTATE                   1749
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889
@@ -669,9 +670,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        332
+#define _APS_NEXT_RESOURCE_VALUE        333
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1749
+#define _APS_NEXT_CONTROL_VALUE         1751
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

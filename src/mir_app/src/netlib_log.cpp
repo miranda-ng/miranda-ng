@@ -35,13 +35,11 @@ extern HANDLE hConnectionHeaderMutex;
 #define TIMEFORMAT_MICROSECONDS 3
 struct {
 	HWND hwndOpts;
-	int toOutputDebugString;
-	int toFile;
-	int toLog;
-	int timeFormat;
-	int showUser;
-	int dumpSent, dumpRecv, dumpProxy, dumpSsl;
-	int textDumps, autoDetectText;
+	bool toOutputDebugString, toFile, toLog;
+	bool showUser;
+	bool dumpSent, dumpRecv, dumpProxy, dumpSsl;
+	bool textDumps, autoDetectText;
+	int  timeFormat;
 	CMStringW tszFile, tszUserFile;
 }
 static logOptions = {};
@@ -59,6 +57,18 @@ static HANDLE hLogger = nullptr;
 
 static void InitLog()
 {
+	logOptions.dumpRecv = db_get_b(0, "Netlib", "DumpRecv", true) != 0;
+	logOptions.dumpSent = db_get_b(0, "Netlib", "DumpSent", true) != 0;
+	logOptions.dumpProxy = db_get_b(0, "Netlib", "DumpProxy", true) != 0;
+	logOptions.dumpSsl = db_get_b(0, "Netlib", "DumpSsl", false) != 0;
+	logOptions.textDumps = db_get_b(0, "Netlib", "TextDumps", true) != 0;
+	logOptions.autoDetectText = db_get_b(0, "Netlib", "AutoDetectText", true) != 0;
+	logOptions.timeFormat = db_get_b(0, "Netlib", "TimeFormat", TIMEFORMAT_HHMMSS);
+	logOptions.showUser = db_get_b(0, "Netlib", "ShowUser", true) != 0;
+	logOptions.toOutputDebugString = db_get_b(0, "Netlib", "ToOutputDebugString", false) != 0;
+	logOptions.toFile = db_get_b(0, "Netlib", "ToFile", false) != 0;
+	logOptions.toLog = db_get_dw(0, "Netlib", "NLlog", true) != 0;
+
 	if (hLogger) {
 		mir_closeLog(hLogger);
 		hLogger = nullptr;
@@ -77,8 +87,16 @@ static void InitLog()
 		logOptions.tszFile = VARSW(logOptions.tszUserFile);
 	}
 
-	if (logOptions.toFile)
-		hLogger = mir_createLog("Netlib", LPGENW("Standard Netlib log"), logOptions.tszFile, 0);
+	if (logOptions.toFile) {
+		CMStringW wszFileName = logOptions.tszFile;
+		if (db_get_b(0, "Netlib", "RotateLogs", false)) {
+			int iLogNumber = db_get_dw(0, "Netlib", "RotateId");
+			wszFileName.AppendFormat(L".%d", iLogNumber);
+			db_set_dw(0, "Netlib", "RotateId", (iLogNumber + 1) % 10);
+		}
+
+		hLogger = mir_createLog("Netlib", LPGENW("Standard Netlib log"), wszFileName, 0);
+	}
 }
 
 static const wchar_t *szTimeFormats[] =
@@ -92,6 +110,7 @@ static const wchar_t *szTimeFormats[] =
 class CLogOptionsDlg : public CDlgBase
 {
 	CCtrlEdit edtFileName;
+	CCtrlCombo cmbTimeFormat;
 	CCtrlButton btnRunNow, btnFileName, btnRunAtStart;
 	CCtrlTreeView treeFilter;
 
@@ -100,6 +119,7 @@ public:
 		CDlgBase(g_plugin, IDD_NETLIBLOGOPTS),
 		treeFilter(this, IDC_FILTER),
 		edtFileName(this, IDC_FILENAME),
+		cmbTimeFormat(this, IDC_TIMEFORMAT),
 		btnRunNow(this, IDC_RUNNOW),
 		btnFileName(this, IDC_FILENAMEBROWSE),
 		btnRunAtStart(this, IDC_RUNATSTARTBROWSE)
@@ -120,9 +140,9 @@ public:
 		CheckDlgButton(m_hwnd, IDC_AUTODETECTTEXT, logOptions.autoDetectText ? BST_CHECKED : BST_UNCHECKED);
 
 		for (auto &it : szTimeFormats)
-			SendDlgItemMessage(m_hwnd, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
+			cmbTimeFormat.AddString(TranslateW(it));
+		cmbTimeFormat.SetCurSel(logOptions.timeFormat);
 
-		SendDlgItemMessage(m_hwnd, IDC_TIMEFORMAT, CB_SETCURSEL, logOptions.timeFormat, 0);
 		CheckDlgButton(m_hwnd, IDC_SHOWNAMES, logOptions.showUser ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_TOOUTPUTDEBUGSTRING, logOptions.toOutputDebugString ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_TOFILE, logOptions.toFile ? BST_CHECKED : BST_UNCHECKED);
@@ -160,7 +180,6 @@ public:
 		wchar_t str[MAX_PATH];
 		GetDlgItemText(m_hwnd, IDC_RUNATSTART, str, _countof(str));
 		db_set_ws(0, "Netlib", "RunAtStart", str);
-		db_set_b(0, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTHISDLGATSTART));
 
 		edtFileName.GetText(str, _countof(str));
 		logOptions.tszUserFile = rtrimw(str);
@@ -169,16 +188,19 @@ public:
 		GetDlgItemText(m_hwnd, IDC_PATH, str, _countof(str));
 		logOptions.tszFile = rtrimw(str);
 
-		db_set_b(0, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(m_hwnd, IDC_DUMPRECV));
-		db_set_b(0, "Netlib", "DumpSent", logOptions.dumpSent = IsDlgButtonChecked(m_hwnd, IDC_DUMPSENT));
-		db_set_b(0, "Netlib", "DumpProxy", logOptions.dumpProxy = IsDlgButtonChecked(m_hwnd, IDC_DUMPPROXY));
-		db_set_b(0, "Netlib", "DumpSsl", logOptions.dumpSsl = IsDlgButtonChecked(m_hwnd, IDC_DUMPSSL));
-		db_set_b(0, "Netlib", "TextDumps", logOptions.textDumps = IsDlgButtonChecked(m_hwnd, IDC_TEXTDUMPS));
-		db_set_b(0, "Netlib", "AutoDetectText", logOptions.autoDetectText = IsDlgButtonChecked(m_hwnd, IDC_AUTODETECTTEXT));
-		db_set_b(0, "Netlib", "TimeFormat", logOptions.timeFormat = SendDlgItemMessage(m_hwnd, IDC_TIMEFORMAT, CB_GETCURSEL, 0, 0));
-		db_set_b(0, "Netlib", "ShowUser", logOptions.showUser = IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES));
-		db_set_b(0, "Netlib", "ToOutputDebugString", logOptions.toOutputDebugString = IsDlgButtonChecked(m_hwnd, IDC_TOOUTPUTDEBUGSTRING));
-		db_set_b(0, "Netlib", "ToFile", logOptions.toFile = IsDlgButtonChecked(m_hwnd, IDC_TOFILE));
+		db_set_b(0, "Netlib", "DumpRecv", IsDlgButtonChecked(m_hwnd, IDC_DUMPRECV));
+		db_set_b(0, "Netlib", "DumpSent", IsDlgButtonChecked(m_hwnd, IDC_DUMPSENT));
+		db_set_b(0, "Netlib", "DumpProxy", IsDlgButtonChecked(m_hwnd, IDC_DUMPPROXY));
+		db_set_b(0, "Netlib", "DumpSsl", IsDlgButtonChecked(m_hwnd, IDC_DUMPSSL));
+		db_set_b(0, "Netlib", "TextDumps", IsDlgButtonChecked(m_hwnd, IDC_TEXTDUMPS));
+		db_set_b(0, "Netlib", "AutoDetectText", IsDlgButtonChecked(m_hwnd, IDC_AUTODETECTTEXT));
+		db_set_b(0, "Netlib", "ShowUser", IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES));
+		db_set_b(0, "Netlib", "ToOutputDebugString", IsDlgButtonChecked(m_hwnd, IDC_TOOUTPUTDEBUGSTRING));
+		db_set_b(0, "Netlib", "ShowLogOptsAtStart", IsDlgButtonChecked(m_hwnd, IDC_SHOWTHISDLGATSTART));
+		db_set_b(0, "Netlib", "ToFile", IsDlgButtonChecked(m_hwnd, IDC_TOFILE));
+		db_set_b(0, "Netlib", "RotateLogs", IsDlgButtonChecked(m_hwnd, IDC_LOGROTATE));
+
+		db_set_b(0, "Netlib", "TimeFormat", cmbTimeFormat.GetCurSel());
 
 		TVITEMEX tvi = {};
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE | TVIF_TEXT;
@@ -522,18 +544,6 @@ void NetlibLogInit(void)
 
 	CreateServiceFunction(MS_NETLIB_LOGWIN, ShowOptions);
 	hLogEvent = CreateHookableEvent(ME_NETLIB_FASTDUMP);
-
-	logOptions.dumpRecv = db_get_b(0, "Netlib", "DumpRecv", 1);
-	logOptions.dumpSent = db_get_b(0, "Netlib", "DumpSent", 1);
-	logOptions.dumpProxy = db_get_b(0, "Netlib", "DumpProxy", 1);
-	logOptions.dumpSsl = db_get_b(0, "Netlib", "DumpSsl", 0);
-	logOptions.textDumps = db_get_b(0, "Netlib", "TextDumps", 1);
-	logOptions.autoDetectText = db_get_b(0, "Netlib", "AutoDetectText", 1);
-	logOptions.timeFormat = db_get_b(0, "Netlib", "TimeFormat", TIMEFORMAT_HHMMSS);
-	logOptions.showUser = db_get_b(0, "Netlib", "ShowUser", 1);
-	logOptions.toOutputDebugString = db_get_b(0, "Netlib", "ToOutputDebugString", 0);
-	logOptions.toFile = db_get_b(0, "Netlib", "ToFile", 0);
-	logOptions.toLog = db_get_dw(0, "Netlib", "NLlog", 1);
 
 	InitLog();
 

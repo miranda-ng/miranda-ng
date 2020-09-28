@@ -251,6 +251,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,226,294,10
     DEFPUSHBUTTON   "OK",IDOK,194,241,54,14
     PUSHBUTTON      "Cancel",IDCANCEL,254,241,54,14
+    CONTROL         "Rotate logs",IDC_LOGROTATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,147,146,153,10
 END
 
 IDD_OPT_SOUND DIALOGEX 0, 0, 316, 252
@@ -1321,6 +1322,7 @@ IDI_PASSWORD            ICON                    "icon_password.ico"
 
 IDI_SOUND               ICON                    "sound.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Cursor
@@ -1486,6 +1488,11 @@ BEGIN
 END
 
 IDD_OPT_SOUND AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_NETLIBLOGOPTS AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
