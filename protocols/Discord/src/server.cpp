@@ -243,7 +243,7 @@ void CDiscordProto::OnReceiveMessageAck(NETLIBHTTPREQUEST *pReply, AsyncHttpRequ
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define RECAPTCHA_API_KEY "6Lef5iQTAAAAAKeIvIY-DeexoO3gj7ryl9rLMEnn"
-#define RECAPTCHA_SITE_URL "https://discordapp.com"
+#define RECAPTCHA_SITE_URL "https://discord.com"
 
 void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 {
@@ -255,7 +255,7 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 				for (auto &it : captcha) {
 					if (it.as_mstring() == "captcha-required") {
 						MessageBoxW(NULL, TranslateT("The server requires you to enter the captcha. Miranda will redirect you to a browser now"), L"Discord", MB_OK | MB_ICONINFORMATION);
-						Utils_OpenUrl("https://discordapp.com/app");
+						Utils_OpenUrl("https://discord.com/app");
 					}
 				}
 			}
