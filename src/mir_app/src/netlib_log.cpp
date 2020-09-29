@@ -36,7 +36,7 @@ extern HANDLE hConnectionHeaderMutex;
 struct {
 	HWND hwndOpts;
 	bool toOutputDebugString, toFile, toLog;
-	bool showUser;
+	bool showUser, rotateLogs;
 	bool dumpSent, dumpRecv, dumpProxy, dumpSsl;
 	bool textDumps, autoDetectText;
 	int  timeFormat;
@@ -64,6 +64,7 @@ static void InitLog()
 	logOptions.textDumps = db_get_b(0, "Netlib", "TextDumps", true) != 0;
 	logOptions.autoDetectText = db_get_b(0, "Netlib", "AutoDetectText", true) != 0;
 	logOptions.timeFormat = db_get_b(0, "Netlib", "TimeFormat", TIMEFORMAT_HHMMSS);
+	logOptions.rotateLogs = db_get_b(0, "Netlib", "RotateLogs", false);
 	logOptions.showUser = db_get_b(0, "Netlib", "ShowUser", true) != 0;
 	logOptions.toOutputDebugString = db_get_b(0, "Netlib", "ToOutputDebugString", false) != 0;
 	logOptions.toFile = db_get_b(0, "Netlib", "ToFile", false) != 0;
@@ -89,7 +90,7 @@ static void InitLog()
 
 	if (logOptions.toFile) {
 		CMStringW wszFileName = logOptions.tszFile;
-		if (db_get_b(0, "Netlib", "RotateLogs", false)) {
+		if (logOptions.rotateLogs) {
 			int iLogNumber = db_get_dw(0, "Netlib", "RotateId");
 			wszFileName.AppendFormat(L".%d", iLogNumber);
 			db_set_dw(0, "Netlib", "RotateId", (iLogNumber + 1) % 10);
@@ -137,6 +138,7 @@ public:
 		CheckDlgButton(m_hwnd, IDC_DUMPPROXY, logOptions.dumpProxy ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DUMPSSL, logOptions.dumpSsl ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_TEXTDUMPS, logOptions.textDumps ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_LOGROTATE, logOptions.rotateLogs ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_AUTODETECTTEXT, logOptions.autoDetectText ? BST_CHECKED : BST_UNCHECKED);
 
 		for (auto &it : szTimeFormats)
