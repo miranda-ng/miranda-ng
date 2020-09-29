@@ -241,6 +241,9 @@ public:
 
 	STDMETHODIMP_(MEVENT) FindFirstEvent(MCONTACT) override
 	{
+		if (m_events.empty())
+			return 0;
+
 		m_curr = m_events.begin();
 		return *m_curr;
 	}
@@ -256,6 +259,9 @@ public:
 
 	STDMETHODIMP_(MEVENT) FindLastEvent(MCONTACT) override
 	{
+		if (m_events.empty())
+			return 0;
+
 		m_curr = m_events.end();
 		return *m_curr;
 	}
