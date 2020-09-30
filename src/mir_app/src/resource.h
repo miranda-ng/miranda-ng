@@ -215,6 +215,7 @@
 #define IDC_REMOVETEMP                  1030
 #define IDC_SHOWNAMES                   1031
 #define IDC_ABOUT                       1032
+#define IDC_SHOWDATE                    1032
 #define IDC_MYNOTES                     1033
 #define IDC_TRAYONLYFORINACTIVE         1034
 #define IDC_POPUPONLYFORINACTIVE        1035

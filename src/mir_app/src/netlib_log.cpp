@@ -36,7 +36,7 @@ extern HANDLE hConnectionHeaderMutex;
 struct {
 	HWND hwndOpts;
 	bool toOutputDebugString, toFile, toLog;
-	bool showUser, rotateLogs;
+	bool showUser, rotateLogs, bPrintDate;
 	bool dumpSent, dumpRecv, dumpProxy, dumpSsl;
 	bool textDumps, autoDetectText;
 	int  timeFormat;
@@ -63,6 +63,7 @@ static void InitLog()
 	logOptions.dumpSsl = db_get_b(0, "Netlib", "DumpSsl", false) != 0;
 	logOptions.textDumps = db_get_b(0, "Netlib", "TextDumps", true) != 0;
 	logOptions.autoDetectText = db_get_b(0, "Netlib", "AutoDetectText", true) != 0;
+	logOptions.bPrintDate = db_get_b(0, "Netlib", "PrintDate", false) != 0;
 	logOptions.timeFormat = db_get_b(0, "Netlib", "TimeFormat", TIMEFORMAT_HHMMSS);
 	logOptions.rotateLogs = db_get_b(0, "Netlib", "RotateLogs", false);
 	logOptions.showUser = db_get_b(0, "Netlib", "ShowUser", true) != 0;
@@ -133,24 +134,26 @@ public:
 	bool OnInitDialog() override
 	{
 		logOptions.hwndOpts = m_hwnd;
+
+		CheckDlgButton(m_hwnd, IDC_TOFILE, logOptions.toFile ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_DUMPSSL, logOptions.dumpSsl ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DUMPRECV, logOptions.dumpRecv ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DUMPSENT, logOptions.dumpSent ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWDATE, logOptions.bPrintDate ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWNAMES, logOptions.showUser ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DUMPPROXY, logOptions.dumpProxy ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_DUMPSSL, logOptions.dumpSsl ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_TEXTDUMPS, logOptions.textDumps ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_LOGROTATE, logOptions.rotateLogs ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_AUTODETECTTEXT, logOptions.autoDetectText ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SHOWTHISDLGATSTART, db_get_b(0, "Netlib", "ShowLogOptsAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_TOOUTPUTDEBUGSTRING, logOptions.toOutputDebugString ? BST_CHECKED : BST_UNCHECKED);
 
 		for (auto &it : szTimeFormats)
 			cmbTimeFormat.AddString(TranslateW(it));
 		cmbTimeFormat.SetCurSel(logOptions.timeFormat);
 
-		CheckDlgButton(m_hwnd, IDC_SHOWNAMES, logOptions.showUser ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TOOUTPUTDEBUGSTRING, logOptions.toOutputDebugString ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TOFILE, logOptions.toFile ? BST_CHECKED : BST_UNCHECKED);
 		edtFileName.SetText(logOptions.tszUserFile);
 		SetDlgItemText(m_hwnd, IDC_PATH, logOptions.tszFile);
-		CheckDlgButton(m_hwnd, IDC_SHOWTHISDLGATSTART, db_get_b(0, "Netlib", "ShowLogOptsAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		ptrA szRun(db_get_sa(0, "Netlib", "RunAtStart"));
 		if (szRun)
@@ -190,18 +193,19 @@ public:
 		GetDlgItemText(m_hwnd, IDC_PATH, str, _countof(str));
 		logOptions.tszFile = rtrimw(str);
 
+		db_set_b(0, "Netlib", "ToFile", IsDlgButtonChecked(m_hwnd, IDC_TOFILE));
+		db_set_b(0, "Netlib", "DumpSsl", IsDlgButtonChecked(m_hwnd, IDC_DUMPSSL));
 		db_set_b(0, "Netlib", "DumpRecv", IsDlgButtonChecked(m_hwnd, IDC_DUMPRECV));
 		db_set_b(0, "Netlib", "DumpSent", IsDlgButtonChecked(m_hwnd, IDC_DUMPSENT));
-		db_set_b(0, "Netlib", "DumpProxy", IsDlgButtonChecked(m_hwnd, IDC_DUMPPROXY));
-		db_set_b(0, "Netlib", "DumpSsl", IsDlgButtonChecked(m_hwnd, IDC_DUMPSSL));
-		db_set_b(0, "Netlib", "TextDumps", IsDlgButtonChecked(m_hwnd, IDC_TEXTDUMPS));
-		db_set_b(0, "Netlib", "AutoDetectText", IsDlgButtonChecked(m_hwnd, IDC_AUTODETECTTEXT));
 		db_set_b(0, "Netlib", "ShowUser", IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES));
-		db_set_b(0, "Netlib", "ToOutputDebugString", IsDlgButtonChecked(m_hwnd, IDC_TOOUTPUTDEBUGSTRING));
-		db_set_b(0, "Netlib", "ShowLogOptsAtStart", IsDlgButtonChecked(m_hwnd, IDC_SHOWTHISDLGATSTART));
-		db_set_b(0, "Netlib", "ToFile", IsDlgButtonChecked(m_hwnd, IDC_TOFILE));
+		db_set_b(0, "Netlib", "DumpProxy", IsDlgButtonChecked(m_hwnd, IDC_DUMPPROXY));
+		db_set_b(0, "Netlib", "PrintDate", IsDlgButtonChecked(m_hwnd, IDC_SHOWDATE));
+		db_set_b(0, "Netlib", "TextDumps", IsDlgButtonChecked(m_hwnd, IDC_TEXTDUMPS));
 		db_set_b(0, "Netlib", "RotateLogs", IsDlgButtonChecked(m_hwnd, IDC_LOGROTATE));
-
+		db_set_b(0, "Netlib", "AutoDetectText", IsDlgButtonChecked(m_hwnd, IDC_AUTODETECTTEXT));
+		db_set_b(0, "Netlib", "ShowLogOptsAtStart", IsDlgButtonChecked(m_hwnd, IDC_SHOWTHISDLGATSTART));
+		db_set_b(0, "Netlib", "ToOutputDebugString", IsDlgButtonChecked(m_hwnd, IDC_TOOUTPUTDEBUGSTRING));
+		
 		db_set_b(0, "Netlib", "TimeFormat", cmbTimeFormat.GetCurSel());
 
 		TVITEMEX tvi = {};
@@ -327,7 +331,7 @@ int NetlibLog_Worker(NetlibUser *nlu, const char *pszMsg, int flags)
 		return 1;
 
 	LARGE_INTEGER liTimeNow;
-	char szTime[32], szHead[128];
+	char szDate[32], szTime[32], szHead[128];
 	switch (logOptions.timeFormat) {
 	case TIMEFORMAT_HHMMSS:
 		GetTimeFormatA(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, nullptr, nullptr, szTime, _countof(szTime));
@@ -349,18 +353,24 @@ int NetlibLog_Worker(NetlibUser *nlu, const char *pszMsg, int flags)
 		break;
 
 	default:
-		szTime[0] = '\0';
+		szTime[0] = 0;
 		break;
 	}
+
+	if (logOptions.bPrintDate) {
+		GetDateFormatA(LOCALE_USER_DEFAULT, 0, nullptr, "yyyy-MM-dd", szDate, _countof(szDate));
+		mir_strcat(szDate, " ");
+	}
+	else szDate[0] = 0;
 
 	if (flags & MSG_NOTITLE) 
 		szHead[0] = 0; 
 	else {
 		char *szUser = (logOptions.showUser) ? (nlu == nullptr ? nullptr : nlu->user.szSettingsModule) : nullptr;
 		if (szUser)
-			mir_snprintf(szHead, "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
+			mir_snprintf(szHead, "[%s%s%04X] [%s] ", szDate, szTime, GetCurrentThreadId(), szUser);
 		else
-			mir_snprintf(szHead, "[%s%04X] ", szTime, GetCurrentThreadId());
+			mir_snprintf(szHead, "[%s%s%04X] ", szDate, szTime, GetCurrentThreadId());
 	}
 
 	if (logOptions.toOutputDebugString) {
