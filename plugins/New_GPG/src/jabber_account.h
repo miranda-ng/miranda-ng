@@ -13,33 +13,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 #ifndef JABBER_ACCOUNT_H
 #define JABBER_ACCOUNT_H
+
 class JabberAccount 
 {
-public:
-	void setAccountName(wchar_t *Name);
-	void setAccountNumber(int Number);
-	void setJabberInterface(IJabberInterface *JIf);
-	void setSendHandler(HJHANDLER hHandler);
-	void setPresenceHandler(HJHANDLER hHandler);
-	void setMessageHandler(HJHANDLER hHandler);
-
-	wchar_t* getAccountName();
-	int getAccountNumber();
-	IJabberInterface* getJabberInterface();
-	HJHANDLER getSendHandler();
-	HJHANDLER getPresenceHandler();
-	HJHANDLER getMessageHandler();
-
-	JabberAccount();
-	~JabberAccount();
-
-private:
 	wchar_t *AccountName = nullptr;
 	int AccountNumber = -1;
 	IJabberInterface *JabberInterface = nullptr;
 	HJHANDLER hSendHandler = INVALID_HANDLE_VALUE, hPresenceHandler = INVALID_HANDLE_VALUE, hMessageHandler = INVALID_HANDLE_VALUE;
+
+public:
+	__forceinline JabberAccount()
+	{
+	}
+
+	__forceinline ~JabberAccount()
+	{
+		mir_free(AccountName);
+	}
+
+	__forceinline void setAccountName(wchar_t *Name) { AccountName = Name; }
+	__forceinline void setAccountNumber(int Number) { AccountNumber = Number; }
+	__forceinline void setJabberInterface(IJabberInterface *JIf) { JabberInterface = JIf; }
+	__forceinline void setSendHandler(HJHANDLER hHandler) { hSendHandler = hHandler; }
+	__forceinline void setPresenceHandler(HJHANDLER hHandler) { hPresenceHandler = hHandler; }
+	__forceinline void setMessageHandler(HJHANDLER hHandler) { hMessageHandler = hHandler; }
+
+	__forceinline wchar_t*          getAccountName() const {	return AccountName; }
+	__forceinline int               getAccountNumber() const {	return AccountNumber; }
+	__forceinline IJabberInterface* getJabberInterface() const { return JabberInterface; }
+	__forceinline HJHANDLER         getSendHandler() const { return hSendHandler; }
+	__forceinline HJHANDLER         getPresenceHandler() const { return hPresenceHandler; }
+	__forceinline HJHANDLER         getMessageHandler() const { return hMessageHandler; }
 };
 
 #endif

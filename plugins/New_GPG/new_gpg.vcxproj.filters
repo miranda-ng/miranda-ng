@@ -11,9 +11,6 @@
     <ClCompile Include="src\init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_account.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

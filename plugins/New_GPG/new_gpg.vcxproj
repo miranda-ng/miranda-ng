@@ -29,7 +29,6 @@
     <ClCompile Include="src\gpg_wrapper.cpp" />
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\init.cpp" />
-    <ClCompile Include="src\jabber_account.cpp" />
     <ClCompile Include="src\log.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\messages.cpp" />
