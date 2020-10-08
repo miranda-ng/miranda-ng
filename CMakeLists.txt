@@ -8,10 +8,10 @@ else()
 	set(PREBUILT_DIR ${CMAKE_SOURCE_DIR}/libs/win32)
 endif()
 
-set(LIB_EAY_DEBUG ${PREBUILT_DIR}/libeay32.lib CACHE FILEPATH "libeay debug path")
-set(LIB_EAY_RELEASE ${PREBUILT_DIR}/libeay32.lib CACHE FILEPATH "libeay release path")
-set(SSL_EAY_DEBUG ${PREBUILT_DIR}/ssleay32.lib CACHE FILEPATH "ssleay debug path")
-set(SSL_EAY_RELEASE ${PREBUILT_DIR}/ssleay32.lib CACHE FILEPATH "ssleay release path")
+set(LIB_CRYPTO_DEBUG ${PREBUILT_DIR}/libcrypto.lib CACHE FILEPATH "libcrypto debug path")
+set(LIB_CRYPTO_RELEASE ${PREBUILT_DIR}/libcrypto.lib CACHE FILEPATH "libcrypto release path")
+set(LIB_SSL_DEBUG ${PREBUILT_DIR}/libssl.lib CACHE FILEPATH "libssl debug path")
+set(LIB_SSL_RELEASE ${PREBUILT_DIR}/libssl.lib CACHE FILEPATH "libssl release path")
 
 find_package(OpenSSL)
 
