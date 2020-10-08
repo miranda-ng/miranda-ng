@@ -296,9 +296,6 @@
     <ClCompile Include="src\newplugins.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\openssl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -74,7 +74,6 @@ static bool SSL_library_load(void)
 	if (!bSslInitDone) { // init OpenSSL
 		SSL_library_init();
 		SSL_load_error_strings();
-		CRYPTO_set_mem_functions(mir_calloc, mir_realloc, mir_free);
 		// FIXME check errors
 
 		bSslInitDone = true;
@@ -147,8 +146,7 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 		Netlib_Logf(nullptr, "SSL setup failure: context");
 		return false;
 	}
-	// disable dangerous cipher suites
-	SSL_CTX_ctrl(ssl->ctx, SSL_CTRL_OPTIONS, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3, nullptr);
+
 	// SSL_read/write should transparently handle renegotiations
 	SSL_CTX_ctrl(ssl->ctx, SSL_CTRL_MODE, SSL_MODE_AUTO_RETRY, nullptr);
 
@@ -183,7 +181,7 @@ static PCCERT_CONTEXT SSL_X509ToCryptCert(X509 * x509)
 	if ((len >= 0) && buf) {
 		pCertContext = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, buf, len);
 
-		CRYPTO_free(buf);
+		CRYPTO_free(buf, __FILE__, __LINE__);
 	}
 	return pCertContext;
 }
@@ -207,8 +205,8 @@ static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 				// add all remaining certs to store (note: stack needs not be freed, it is not a copy)
 				STACK_OF(X509) *server_chain = SSL_get_peer_cert_chain(session);
 				if (server_chain) {
-					for (int i = 0; i < server_chain->stack.num; i++) {
-						X509 *next_cert = (X509 *)server_chain->stack.data[i];
+					for (int i = 0; i < OPENSSL_sk_num((OPENSSL_STACK *)server_chain); i++) {
+						X509 *next_cert = (X509 *)OPENSSL_sk_value((OPENSSL_STACK *)server_chain, i);
 						CertAddCertificateContextToStore(store, SSL_X509ToCryptCert(next_cert), CERT_STORE_ADD_USE_EXISTING, nullptr);
 					}
 				}

@@ -20,8 +20,8 @@ Libs\libjson.mir
 Libs\Pcre16.mir
 Libs\sqlite3.mir
 Libs\Zlib.mir
-Libs\libeay32.mir
-Libs\ssleay32.mir
+Libs\libcrypto-1_1.mir
+Libs\libssl-1_1.mir
 Plugins\Db_autobackups.dll
 Plugins\DbChecker.dll
 Plugins\Dbx_mdbx.dll

@@ -186,16 +186,16 @@ Core\stduseronline.dll
 
 Libs\freeimage.mir
 Libs\hunspell.mir
-Libs\libeay32.mir
+Libs\libcrypto-1_1.mir
 Libs\libcurl.mir
 Libs\libjson.mir
 Libs\libsignal.mir
 Libs\libssh2.mir
+Libs\libssl-1_1.mir
 Libs\mir_app.mir
 Libs\mir_core.mir
 Libs\pcre16.mir
 Libs\sqlite3.mir
-Libs\ssleay32.mir
 Libs\zlib.mir
 
 

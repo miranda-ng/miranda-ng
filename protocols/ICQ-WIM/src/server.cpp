@@ -20,7 +20,7 @@
 
 #include "stdafx.h"
 
-#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "libcrypto.lib")
 
 void CIcqProto::CheckAvatarChange(MCONTACT hContact, const JSONNode &ev)
 {

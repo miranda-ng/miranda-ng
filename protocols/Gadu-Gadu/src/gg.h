@@ -72,7 +72,7 @@
 
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
-#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "libcrypto.lib")
 
 // libgadu headers
 #include "libgadu.h"

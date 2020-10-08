@@ -77,4 +77,4 @@ struct ec_private_key : public signal_type_base
 #include "proto.h"
 #include "resource.h"
 
-#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "libcrypto.lib")

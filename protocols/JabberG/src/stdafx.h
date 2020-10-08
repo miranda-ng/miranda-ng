@@ -103,7 +103,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <openssl/hmac.h>
 #include <openssl/rand.h>
 #include <openssl/sha.h>
-#pragma comment(lib, "libeay32.lib")
 
 #include "../../libs/zlib/src/zlib.h"
 

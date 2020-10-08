@@ -32,7 +32,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 static int hmac_sha256_init(void **hmac_context, const uint8_t *key, size_t key_len, void *)
 {
-	HMAC_CTX *ctx = new HMAC_CTX;
+	HMAC_CTX *ctx = HMAC_CTX_new();
 	*hmac_context = ctx;
 	HMAC_Init(ctx, key, key_len, EVP_sha256());
 	return 0;
@@ -56,8 +56,7 @@ int hmac_sha256_final(void *hmac_context, signal_buffer **output, void *user_dat
 
 void hmac_sha256_cleanup(void *hmac_context, void *)
 {
-	HMAC_cleanup((HMAC_CTX *)hmac_context);
-	delete hmac_context;
+	HMAC_CTX_free((HMAC_CTX *)hmac_context);
 }
 
 static int random_func(uint8_t *pData, size_t size, void *)

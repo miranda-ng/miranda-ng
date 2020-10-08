@@ -62,8 +62,7 @@ namespace omemo
 
 	int hmac_sha256_init_func(void **hmac_context, const uint8_t *key, size_t key_len, void * /*user_data*/)
 	{
-		HMAC_CTX *ctx = (HMAC_CTX*)mir_alloc(sizeof(HMAC_CTX));
-		HMAC_CTX_init(ctx);
+		HMAC_CTX *ctx = HMAC_CTX_new();
 		HMAC_Init_ex(ctx, key, (int)key_len, EVP_sha256(), NULL);
 		*hmac_context = ctx;
 		return 0;
@@ -90,8 +89,7 @@ namespace omemo
 	void hmac_sha256_cleanup_func(void * hmac_context, void * /*user_data*/)
 	{
 		HMAC_CTX *ctx = (HMAC_CTX*)hmac_context;
-		HMAC_CTX_cleanup(ctx);
-		mir_free(ctx);
+		HMAC_CTX_free(ctx);
 	}
 
 	int sha512_digest_init_func(void **digest_context, void * /*user_data*/)
@@ -225,20 +223,21 @@ complete:
 			return SG_ERR_UNKNOWN;
 		}
 
-		EVP_CIPHER_CTX ctx;
-		EVP_CIPHER_CTX_init(&ctx);
+		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+		if (!ctx) {
+			result = SG_ERR_UNKNOWN;
+			goto complete;
+		}
 
-		result = EVP_EncryptInit_ex(&ctx, evp_cipher, nullptr, key, iv);
+		result = EVP_EncryptInit_ex(ctx, evp_cipher, nullptr, key, iv);
 		if (!result) {
-			//fprintf(stderr, "cannot initialize cipher\n");
 			result = SG_ERR_UNKNOWN;
 			goto complete;
 		}
 
 		if (cipher == SG_CIPHER_AES_CTR_NOPADDING) {
-			result = EVP_CIPHER_CTX_set_padding(&ctx, 0);
+			result = EVP_CIPHER_CTX_set_padding(ctx, 0);
 			if (!result) {
-				//fprintf(stderr, "cannot set padding\n");
 				result = SG_ERR_UNKNOWN;
 				goto complete;
 			}
@@ -246,24 +245,20 @@ complete:
 
 		out_buf = (uint8_t*)mir_alloc(sizeof(uint8_t) * (plaintext_len + EVP_CIPHER_block_size(evp_cipher)));
 		if (!out_buf) {
-			//fprintf(stderr, "cannot allocate output buffer\n");
 			result = SG_ERR_NOMEM;
 			goto complete;
 		}
 
 		int out_len = 0;
-		result = EVP_EncryptUpdate(&ctx,
-			out_buf, &out_len, plaintext, (int)plaintext_len);
+		result = EVP_EncryptUpdate(ctx, out_buf, &out_len, plaintext, (int)plaintext_len);
 		if (!result) {
-			//fprintf(stderr, "cannot encrypt plaintext\n");
 			result = SG_ERR_UNKNOWN;
 			goto complete;
 		}
 
 		int final_len = 0;
-		result = EVP_EncryptFinal_ex(&ctx, out_buf + out_len, &final_len);
+		result = EVP_EncryptFinal_ex(ctx, out_buf + out_len, &final_len);
 		if (!result) {
-			//fprintf(stderr, "cannot finish encrypting plaintext\n");
 			result = SG_ERR_UNKNOWN;
 			goto complete;
 		}
@@ -271,10 +266,8 @@ complete:
 		*output = signal_buffer_create(out_buf, out_len + final_len);
 
 complete:
-		EVP_CIPHER_CTX_cleanup(&ctx);
-		if (out_buf) {
-			mir_free(out_buf);
-		}
+		EVP_CIPHER_CTX_free(ctx);
+		mir_free(out_buf);
 		return result;
 	}
 
@@ -305,20 +298,21 @@ complete:
 			return SG_ERR_UNKNOWN;
 		}
 
-		EVP_CIPHER_CTX ctx;
-		EVP_CIPHER_CTX_init(&ctx);
-
-		result = EVP_DecryptInit_ex(&ctx, evp_cipher, nullptr, key, iv);
+		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+		if (!ctx) {
+			result = SG_ERR_UNKNOWN;
+			goto complete;
+		}
+	
+		result = EVP_DecryptInit_ex(ctx, evp_cipher, nullptr, key, iv);
 		if (!result) {
-			///fprintf(stderr, "cannot initialize cipher\n");
 			result = SG_ERR_UNKNOWN;
 			goto complete;
 		}
 
 		if (cipher == SG_CIPHER_AES_CTR_NOPADDING) {
-			result = EVP_CIPHER_CTX_set_padding(&ctx, 0);
+			result = EVP_CIPHER_CTX_set_padding(ctx, 0);
 			if (!result) {
-				//fprintf(stderr, "cannot set padding\n");
 				result = SG_ERR_UNKNOWN;
 				goto complete;
 			}
@@ -326,24 +320,20 @@ complete:
 
 		out_buf = (uint8_t*)mir_alloc(sizeof(uint8_t) * (ciphertext_len + EVP_CIPHER_block_size(evp_cipher)));
 		if (!out_buf) {
-			//fprintf(stderr, "cannot allocate output buffer\n");
 			result = SG_ERR_UNKNOWN;
 			goto complete;
 		}
 
 		int out_len = 0;
-		result = EVP_DecryptUpdate(&ctx,
-			out_buf, &out_len, ciphertext, (int)ciphertext_len);
+		result = EVP_DecryptUpdate(ctx, out_buf, &out_len, ciphertext, (int)ciphertext_len);
 		if (!result) {
-			//fprintf(stderr, "cannot decrypt ciphertext\n");
 			result = SG_ERR_UNKNOWN;
 			goto complete;
 		}
 
 		int final_len = 0;
-		result = EVP_DecryptFinal_ex(&ctx, out_buf + out_len, &final_len);
+		result = EVP_DecryptFinal_ex(ctx, out_buf + out_len, &final_len);
 		if (!result) {
-			//fprintf(stderr, "cannot finish decrypting ciphertext\n");
 			result = SG_ERR_UNKNOWN;
 			goto complete;
 		}
@@ -351,7 +341,7 @@ complete:
 		*output = signal_buffer_create(out_buf, out_len + final_len);
 
 complete:
-		EVP_CIPHER_CTX_cleanup(&ctx);
+		EVP_CIPHER_CTX_free(ctx);
 		if (out_buf) {
 			mir_free(out_buf);
 		}

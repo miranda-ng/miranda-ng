@@ -3,12 +3,9 @@
 rd /s /q out32dll
 rd /s /q tmp32dll
 
-perl Configure VC-WIN32
-call ms\do_nasm.bat
+set LDFLAGS=/nologo /debug /SUBSYSTEM:CONSOLE",5.01"
+perl Configure shared VC-WIN32 /D\"_USING_V110_SDK71_\" /D\"_WIN32_WINNT=0x0501\"
 
 call %VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars32.bat 
-nmake -f ms\ntdll.mak clean
-nmake -f ms\ntdll.mak
-
-move out32dll\libeay32.dll out32dll\libeay32.mir
-move out32dll\ssleay32.dll out32dll\ssleay32.mir
+nmake clean
+nmake 

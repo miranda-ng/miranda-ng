@@ -54,7 +54,7 @@ using std::map;
 
 #include <openssl/hmac.h>
 #include <openssl/sha.h>
-#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "libcrypto.lib")
 
 #include "utility.h"
 #include "http.h"
