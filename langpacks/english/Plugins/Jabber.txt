@@ -466,6 +466,8 @@
 [Owner List]
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
+;file \protocols\JabberG\src\jabber_mam.cpp
+[Do you want to erase local history before loading it from server?]
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 [Add to Bookmarks]
@@ -831,7 +833,6 @@
 [Please save list before you make it the default list]
 [No list selected]
 [Can't remove active or default list]
-[Sorry]
 [Unable to save list because you are currently offline.]
 [List Editor...]
 ;file \protocols\JabberG\src\jabber_proto.cpp
