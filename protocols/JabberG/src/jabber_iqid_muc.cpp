@@ -89,18 +89,12 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 		m_list.DeleteAllItems();
 	}
 
-	void FillJidList()
+	void FillJidList(bool bFilter)
 	{
-		wchar_t *filter = nullptr;
-		if (GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FILTER), GWLP_USERDATA)) {
-			int filterLength = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_FILTER)) + 1;
-			filter = (wchar_t *)_alloca(filterLength * sizeof(wchar_t));
-			GetDlgItemText(m_hwnd, IDC_FILTER, filter, filterLength);
-		}
-
 		if (!m_info)
 			return;
 
+		ptrW filter(bFilter ? edtFilter.GetText() : nullptr);
 		m_list.SendMsg(WM_SETREDRAW, FALSE, 0);
 
 		FreeList();
@@ -162,6 +156,7 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 
 	JABBER_MUC_JIDLIST_INFO *m_info;
 
+	CCtrlEdit edtFilter;
 	CCtrlButton btnReset, btnApply;
 	CCtrlListView m_list;
 
@@ -171,7 +166,8 @@ public:
 		m_info(pInfo),
 		m_list(this, IDC_LIST),
 		btnApply(this, IDC_BTN_FILTERAPPLY),
-		btnReset(this, IDC_BTN_FILTERRESET)
+		btnReset(this, IDC_BTN_FILTERRESET),
+		edtFilter(this, IDC_FILTER)
 	{
 		m_list.OnClick = Callback(this, &CJabberMucJidListDlg::list_OnClick);
 
@@ -207,6 +203,16 @@ public:
 		}
 
 		Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "jidListWnd_");
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (GetFocus() == edtFilter.GetHwnd()) {
+			ptrW wszFilter(edtFilter.GetText());
+			FillJidList(mir_wstrlen(wszFilter) != 0);
+			return false;
+		}
 		return true;
 	}
 
@@ -268,8 +274,7 @@ public:
 		}
 		SetWindowText(m_hwnd, title);
 
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FILTER), GWLP_USERDATA, 0);
-		FillJidList();
+		FillJidList(false);
 	}
 
 	void list_OnClick(CCtrlListView::TEventInfo*)
@@ -325,14 +330,12 @@ public:
 
 	void onClick_Apply(CCtrlButton*)
 	{
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FILTER), GWLP_USERDATA, 1);
-		FillJidList();
+		FillJidList(true);
 	}
 
 	void onClick_Reset(CCtrlButton*)
 	{
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FILTER), GWLP_USERDATA, 0);
-		FillJidList();
+		FillJidList(false);
 	}
 };
 
