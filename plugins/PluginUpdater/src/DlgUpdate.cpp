@@ -577,7 +577,6 @@ static renameTable[] =
 	{ L"gtalkext.dll",                   nullptr },
 	{ L"importtxt.dll",                  nullptr },
 	{ L"langman.dll",                    nullptr },
-	{ L"libeay32.mir",                   nullptr },
 	{ L"libtox.dll",                     nullptr },
 	{ L"lua53.dll",                      nullptr },
 	{ L"metacontacts.dll",               nullptr },
@@ -588,7 +587,6 @@ static renameTable[] =
 	{ L"msvcr100.dll",                   nullptr },
 	{ L"mtextcontrol.dll",               nullptr },
 	{ L"sms.dll",                        nullptr },
-	{ L"ssleay32.mir",                   nullptr },
 	{ L"tlen.dll",                       nullptr },
 	{ L"whatsapp.dll",                   nullptr },
 	{ L"xfire.dll",                      nullptr },
@@ -663,13 +661,17 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 			}
 			continue;
 		}
-		
+
+		// create full name of the current file
+		mir_snwprintf(wszBuf, L"%s\\%s", pwszFolder, ffd.cFileName);
+
 		if (isValidExtension(ffd.cFileName)) {
 			// calculate the current file's relative name and store it into wszNewName
 			if (CheckFileRename(ffd.cFileName, wszNewName)) {
-				Netlib_LogfW(hNetlibUser, L"File %s will be renamed to %s.", ffd.cFileName, wszNewName);
-				// Yes, we need the old file name, because this will be hashed later
-				mir_snwprintf(wszBuf, L"%s\\%s", pwszFolder, ffd.cFileName);
+				if (wszNewName[0])
+					Netlib_LogfW(hNetlibUser, L"File <%s> will be renamed to <%s>", wszBuf, wszNewName);
+				else
+					Netlib_LogfW(hNetlibUser, L"File <%s> will be deleted", wszBuf);
 			}
 			else {
 				if (level == 0) {
@@ -677,19 +679,16 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 					wcsncpy_s(wszNewName, g_plugin.bChangePlatform && !mir_wstrcmpi(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
 					mir_snwprintf(wszBuf, L"%s\\%s", pwszFolder, wszNewName);
 				}
-				else {
-					mir_snwprintf(wszNewName, L"%s\\%s", pwszFolder + cbBaseLen, ffd.cFileName);
-					mir_snwprintf(wszBuf, L"%s\\%s", pwszFolder, ffd.cFileName);
-				}
+				else mir_snwprintf(wszNewName, L"%s\\%s", pwszFolder + cbBaseLen, ffd.cFileName);
 			}
 		}
 		else {
-			// the only exclusion is Libs\\libmdbx.mir
-			if (level == 1 && !wcsicmp(ffd.cFileName, L"libmdbx.mir")) {
+			if (level == 1 && !wcsicmp(ffd.cFileName, L"libmdbx.mir")) // move Libs\\libmdbx.mir to the root folder
 				wszNewName[0] = 0;
-				mir_snwprintf(wszBuf, L"%s\\%s", pwszFolder, ffd.cFileName);
-			}
-			else continue; // skip all another filea
+			else if (!wcsicmp(ffd.cFileName, L"libeay32.mir") || !wcsicmp(ffd.cFileName, L"ssleay32.mir")) // remove old OpenSSL modules
+				wszNewName[0] = 0;
+			else
+				continue; // skip all another files
 		}
 
 		wchar_t *pwszUrl;
