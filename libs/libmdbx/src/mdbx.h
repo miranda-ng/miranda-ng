@@ -1254,7 +1254,7 @@ enum MDBX_txn_flags_t {
 #if defined(__cplusplus) && !defined(__cpp_constexpr) && !defined(DOXYGEN)
   MDBX_TXN_RDONLY_PREPARE = uint32_t(MDBX_RDONLY) | uint32_t(MDBX_NOMEMINIT),
 #else
-  MDBX_TXN_RDONLY_PREPARE = MDBX_RDONLY | MDBX_NOMEMINIT,
+  MDBX_TXN_RDONLY_PREPARE = MDBX_RDONLY + MDBX_NOMEMINIT,
 #endif
 
   /** Do not block when starting a write transaction. */
