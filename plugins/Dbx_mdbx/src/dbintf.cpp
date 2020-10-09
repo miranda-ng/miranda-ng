@@ -59,7 +59,7 @@ CDbxMDBX::~CDbxMDBX()
 
 int CDbxMDBX::Load()
 {
-	unsigned int defFlags = MDBX_CREATE;
+	MDBX_db_flags_t defFlags = MDBX_CREATE;
 	{
 		txn_ptr trnlck(StartTran());
 		if (trnlck == nullptr) {
@@ -96,7 +96,7 @@ int CDbxMDBX::Load()
 			m_header.dwSignature = DBHEADER_SIGNATURE;
 			m_header.dwVersion = DBHEADER_VERSION;
 			data.iov_base = &m_header; data.iov_len = sizeof(m_header);
-			mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
+			mdbx_put(trnlck, m_dbGlobal, &key, &data, MDBX_UPSERT);
 			DBFlush();
 		}
 
@@ -107,7 +107,7 @@ int CDbxMDBX::Load()
 		trnlck.commit();
 	}
 
-	mdbx_txn_begin(m_env, nullptr, MDBX_RDONLY, &m_txn_ro);
+	mdbx_txn_begin(m_env, nullptr, MDBX_TXN_RDONLY, &m_txn_ro);
 	mdbx_cursor_open(m_txn_ro, m_dbEvents, &m_curEvents);
 	mdbx_cursor_open(m_txn_ro, m_dbEventIds, &m_curEventIds);
 	mdbx_cursor_open(m_txn_ro, m_dbEventsSort, &m_curEventsSort);
@@ -218,7 +218,7 @@ void CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void assert_func(const MDBX_env*, const char *msg, const char *function, unsigned line)
+static void assert_func(const MDBX_env*, const char *msg, const char *function, unsigned line) MDBX_CXX17_NOEXCEPT
 {
 	Netlib_Logf(nullptr, "MDBX: assertion failed (%s, %d): %s", function, line, msg);
 
@@ -255,7 +255,7 @@ int CDbxMDBX::Map()
 	if (rc != MDBX_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
-	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_SAFE_NOSYNC | MDBX_COALESCE | MDBX_EXCLUSIVE;
+	MDBX_env_flags_t mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_SAFE_NOSYNC | MDBX_COALESCE | MDBX_EXCLUSIVE;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
 

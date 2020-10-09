@@ -75,7 +75,7 @@ struct DBEventSortingKey
 	MEVENT hEvent;
 	uint64_t ts;
 
-	static int Compare(const MDBX_val*, const MDBX_val*);
+	static int Compare(const MDBX_val*, const MDBX_val*) MDBX_CXX17_NOEXCEPT;
 };
 
 struct DBEventIdKey
@@ -83,7 +83,7 @@ struct DBEventIdKey
 	uint32_t iModuleId;	    // offset to a DBModuleName struct of the name of
 	char     szEventId[256]; // string id
 
-	static int Compare(const MDBX_val*, const MDBX_val*);
+	static int Compare(const MDBX_val*, const MDBX_val*) MDBX_CXX17_NOEXCEPT;
 };
 
 struct DBSettingKey
@@ -92,7 +92,7 @@ struct DBSettingKey
 	uint32_t dwModuleId;
 	char     szSettingName[1];
 
-	static int Compare(const MDBX_val*, const MDBX_val*);
+	static int Compare(const MDBX_val*, const MDBX_val*) MDBX_CXX17_NOEXCEPT;
 };
 
 struct DBSettingValue
@@ -161,7 +161,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	__forceinline MDBX_txn* StartTran()
 	{
 		MDBX_txn *res = 0;
-		m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_RDONLY : 0, &res);
+		m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &res);
 		/* FIXME: throw an exception */
 		_ASSERT(m_dbError == MDBX_SUCCESS);
 		return res;

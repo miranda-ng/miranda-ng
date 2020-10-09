@@ -39,14 +39,14 @@ int CDbxMDBX::CheckEvents1(void)
 		if (pData->hContact != 0) {
 			auto *cc = m_cache->GetCachedContact(pData->hContact);
 			if (cc == nullptr) {
-				mdbx_cursor_del(cursor, 0);
+				mdbx_cursor_del(cursor, MDBX_UPSERT);
 				cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned sorting event with wrong contact ID %d, deleting"), pData->hContact));
 				continue;
 			}
 		}
 
 		if (GetBlobSize(pData->hEvent) == -1) {
-			mdbx_cursor_del(cursor, 0);
+			mdbx_cursor_del(cursor, MDBX_UPSERT);
 			cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned sorting event with wrong event ID %d:%08X, deleting"), pData->hContact, pData->hEvent));
 			continue;
 		}
@@ -68,7 +68,7 @@ int CDbxMDBX::CheckEvents2(void)
 	for (int ret = mdbx_cursor_get(cursor, &key, &data, MDBX_FIRST); ret == MDBX_SUCCESS; ret = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
 		MEVENT hDbEvent = *(MEVENT *)data.iov_base;
 		if (GetBlobSize(hDbEvent) == -1) {
-			mdbx_cursor_del(cursor, 0);
+			mdbx_cursor_del(cursor, MDBX_UPSERT);
 			cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned event id with wrong event ID %08X, deleting"), hDbEvent));
 			continue;
 		}
@@ -93,7 +93,7 @@ int CDbxMDBX::CheckEvents3(void)
 		if (pKey->hContact) {
 			auto *cc = m_cache->GetCachedContact(pKey->hContact);
 			if (cc == nullptr) {
-				mdbx_cursor_del(cursor, 0);
+				mdbx_cursor_del(cursor, MDBX_UPSERT);
 				cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned setting with wrong contact ID %08X, deleting"), pKey->hContact));
 				continue;
 			}

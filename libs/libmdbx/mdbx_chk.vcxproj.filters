@@ -5,10 +5,7 @@
     <ClCompile Include="..\..\build\appstub\appstub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\src\mdbx_chk.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\src\wingetopt.c">
+    <ClCompile Include="src\mdbx_chk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

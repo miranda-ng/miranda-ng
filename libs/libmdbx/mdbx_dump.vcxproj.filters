@@ -2,13 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
   <ItemGroup>
-    <ClCompile Include="src\src\mdbx_dump.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\src\wingetopt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\build\appstub\appstub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mdbx_dump.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

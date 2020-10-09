@@ -51,7 +51,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_DATABA
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void logger(int type, const char *function, int line, const char *msg, va_list args)
+static void logger(MDBX_log_level_t type, const char *function, int line, const char *msg, va_list args) MDBX_CXX17_NOEXCEPT
 {
 	char tmp[4096];
 	_vsnprintf_s(tmp, _countof(tmp), msg, args);
@@ -99,7 +99,7 @@ static DATABASELINK dblink =
 
 int CMPlugin::Load()
 {
-	mdbx_setup_debug(MDBX_DBG_ASSERT, MDBX_LOG_WARN, &logger);
+	mdbx_setup_debug(MDBX_LOG_WARN, MDBX_DBG_ASSERT, &logger);
 	RegisterDatabasePlugin(&dblink);
 	return 0;
 }
