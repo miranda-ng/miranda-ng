@@ -1006,6 +1006,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 		resource = nullptr;
 
 	if ((n = XmlFirstChild(node, "subject")) != nullptr) {
+		item->bChatGotSubject = true;
 		msgText = n->GetText();
 		if (msgText == nullptr || msgText[0] == '\0')
 			return;
@@ -1026,7 +1027,6 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 			}
 		}
 		
-		item->bChatGotSubject = true;
 		item->getTemp()->m_szStatusMessage = mir_strdup(msgText);
 	}
 	else {
