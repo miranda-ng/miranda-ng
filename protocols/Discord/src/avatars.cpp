@@ -99,7 +99,7 @@ bool CDiscordProto::RetrieveAvatar(MCONTACT hContact)
 	if (id == 0 || szAvatarHash == nullptr)
 		return false;
 
-	CMStringA szUrl(FORMAT, "https://cdn.discord.com/avatars/%lld/%s.jpg", id, szAvatarHash.get());
+	CMStringA szUrl(FORMAT, "https://cdn.discordapp.com/avatars/%lld/%s.jpg", id, szAvatarHash.get());
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveAvatar);
 	pReq->pUserInfo = (void*)hContact;
 	Push(pReq);
