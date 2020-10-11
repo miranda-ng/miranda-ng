@@ -117,7 +117,7 @@ static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 {
 	switch (msg) {
 	case WM_RBUTTONUP:
-		if (db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) != 0) {
+		if (g_chatApi.bRightClickFilter) {
 			CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 			if (pDlg == nullptr)
 				break;
@@ -616,7 +616,7 @@ void CSrmmBaseDialog::onClick_Color(CCtrlButton *pButton)
 	cf.dwMask = CFM_COLOR;
 
 	if (IsDlgButtonChecked(m_hwnd, pButton->GetCtrlId())) {
-		if (db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0) {
+		if (!g_chatApi.bRightClickFilter) {
 			ShowColorChooser(pButton->GetCtrlId());
 			return;
 		}
@@ -639,7 +639,7 @@ void CSrmmBaseDialog::onClick_BkColor(CCtrlButton *pButton)
 	cf.dwMask = CFM_BACKCOLOR;
 
 	if (IsDlgButtonChecked(m_hwnd, pButton->GetCtrlId())) {
-		if (!db_get_b(0, CHAT_MODULE, "RightClickFilter", 0)) {
+		if (!g_chatApi.bRightClickFilter) {
 			ShowColorChooser(pButton->GetCtrlId());
 			return;
 		}

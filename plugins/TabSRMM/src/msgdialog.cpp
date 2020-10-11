@@ -1000,13 +1000,13 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 
-	if (m_bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 1) == 0) {
+	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter) 
 		ShowFilterMenu();
-		return;
+	else {
+		RedrawLog();
+		UpdateTitle();
+		db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
 	}
-	RedrawLog();
-	UpdateTitle();
-	db_set_b(m_si->hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
 }
 
 void CMsgDialog::onClick_ShowNickList(CCtrlButton *pButton)

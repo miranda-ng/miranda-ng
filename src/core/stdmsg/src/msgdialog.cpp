@@ -333,7 +333,7 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 
 	m_bFilterEnabled = !m_bFilterEnabled;
 	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2, FALSE));
-	if (m_bFilterEnabled && db_get_b(0, CHAT_MODULE, "RightClickFilter", 0) == 0)
+	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
 		ShowFilterMenu();
 	else
 		RedrawLog();

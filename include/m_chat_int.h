@@ -347,6 +347,7 @@ struct CHAT_MANAGER
 	FONTINFO aFonts[OPTIONS_FONTCOUNT];
 	LIST<SESSION_INFO> &arSessions;
 	char **pLogIconBmpBits;
+	CMOption<bool> bRightClickFilter;
 
 	// user-defined custom callbacks
 	void (*OnCreateModule)(MODULEINFO*);

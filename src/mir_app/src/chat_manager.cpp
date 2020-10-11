@@ -990,7 +990,8 @@ void Chat_RemoveContact(MCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CHAT_MANAGER::CHAT_MANAGER() :
-	arSessions(g_arSessions)
+	arSessions(g_arSessions),
+	bRightClickFilter(CHAT_MODULE, "RightClickFilter", false)
 {
 	pLogIconBmpBits = ::pLogIconBmpBits;
 
