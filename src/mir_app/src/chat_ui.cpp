@@ -50,7 +50,7 @@ static UINT _eventorder[] =
 
 class CChatEventOptionDlg : public CDlgBase
 {
-	CCtrlCheck chkTray, chkPopup;
+	CCtrlCheck chkTray, chkPopup, chkRightClick;
 	CCtrlMButton btn1, btn2, btn3, btn4;
 
 	void InvertColumn(int ctrlId)
@@ -66,6 +66,7 @@ public:
 		CDlgBase(g_plugin, IDD_OPT_CHAT_EVENTS),
 		chkTray(this, IDC_TRAYONLYFORINACTIVE),
 		chkPopup(this, IDC_POPUPONLYFORINACTIVE),
+		chkRightClick(this, IDC_RIGHTCLICK),
 		btn1(this, IDC_ICON1, SKINICON_OTHER_POPUP, LPGEN("Popup")),
 		btn2(this, IDC_ICON2, SKINICON_OTHER_MIRANDA, LPGEN("Tray")),
 		btn3(this, IDC_ICON3, SKINICON_OTHER_SOUND, LPGEN("Sound")),
@@ -73,6 +74,7 @@ public:
 	{
 		CreateLink(chkTray, g_bChatTrayInactive);
 		CreateLink(chkPopup, g_bChatPopupInactive);
+		CreateLink(chkRightClick, g_chatApi.bRightClickFilter);
 
 		btn1.OnClick = Callback(this, &CChatEventOptionDlg::onClick_Popup);
 		btn2.OnClick = Callback(this, &CChatEventOptionDlg::onClick_Tray);

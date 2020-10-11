@@ -38,7 +38,6 @@ static struct branch_t branch1[] = {
 	{ LPGENW("Flash when someone speaks"), "FlashWindow", 0, 0, nullptr },
 	{ LPGENW("Flash when a word is highlighted"), "FlashWindowHighlight", 0, 1, nullptr },
 	{ LPGENW("Show chat nick list"), "ShowNicklist", 0, 1, nullptr },
-	{ LPGENW("Enable button context menus"), "RightClickFilter", 0, 0, nullptr },
 	{ LPGENW("Show topic on your contact list (if supported)"), "TopicOnClist", 0, 0, nullptr },
 	{ LPGENW("Do not play sounds when focused"), "SoundsFocus", 0, 0, nullptr },
 	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, nullptr },

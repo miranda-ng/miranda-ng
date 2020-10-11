@@ -34,7 +34,6 @@ static branch_t branch1[] = {
 	{ LPGENW("Flash window when someone speaks"), "FlashWindow", 0, false },
 	{ LPGENW("Flash window when a word is highlighted"), "FlashWindowHighlight", 0, true },
 	{ LPGENW("Show list of users in the chat room"), "ShowNicklist", 0, true },
-	{ LPGENW("Show button menus when right clicking the buttons"), "RightClickFilter", 0, false },
 	{ LPGENW("Show the topic of the room on your contact list (if supported)"), "TopicOnClist", 0, false },
 	{ LPGENW("Do not play sounds when the chat room is focused"), "SoundsFocus", 0, false },
 	{ LPGENW("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, false },
