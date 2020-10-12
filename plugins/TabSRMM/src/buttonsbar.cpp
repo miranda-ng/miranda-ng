@@ -109,32 +109,32 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pszModuleName = "Tabsrmm";
 	bbd.dwDefPos = 80;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[14];
-	bbd.pwszTooltip = LPGENW("Select font color");
+	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (Ctrl+K)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 81;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[16];
-	bbd.pwszTooltip = LPGENW("Change background color");
+	bbd.pwszTooltip = LPGENW("Select a background color for the text (Ctrl+L)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SRMM_SHOWNICKLIST;
 	bbd.dwDefPos = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[19];
-	bbd.pwszTooltip = LPGENW("Toggle nick list");
+	bbd.pwszTooltip = LPGENW("Show/hide the nick list (Ctrl+N)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_FILTER;
 	bbd.dwDefPos = 24;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[18];
-	bbd.pwszTooltip = LPGENW("Event filter - right click to setup, left click to activate/deactivate");
+	bbd.pwszTooltip = LPGENW("Enable/disable the event filter (Ctrl+F)");
 	Srmm_AddButton(&bbd, &g_plugin);
 
 	bbd.dwButtonID = IDC_SRMM_CHANMGR;
 	bbd.dwDefPos = 33;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[17];
-	bbd.pwszTooltip = LPGENW("Channel manager");
+	bbd.pwszTooltip = LPGENW("Control this room (Ctrl+O)");
 	Srmm_AddButton(&bbd, &g_plugin);
 	return 0;
 }
