@@ -58,9 +58,12 @@ void ServerList::saveToDb() const
 
 ServerList::FTP::FTP(int index)
 {
-	ptrA Name(g_plugin.getStringA(CMStringA(FORMAT, "Name%d", index)));
-	if (Name)
+	ptrW Name(g_plugin.getWStringA(CMStringA(FORMAT, "Name%d", index)));
+	if (Name == nullptr)
 		mir_snwprintf(m_stzName, TranslateT("FTP Server %d"), index + 1);
+	else
+		wcsncpy_s(m_stzName, Name, _TRUNCATE);
+
 	ptrA Pass(g_plugin.getStringA(CMStringA(FORMAT, "Password%d", index)));
 	if (Pass)
 		strncpy_s(m_szPass, Pass, _TRUNCATE);

@@ -51,11 +51,11 @@ CMPlugin::CMPlugin() :
 
 static IconItem iconList[] =
 {
-	{ LPGEN("FTP Server 1"),     "ftp1", 		IDI_FTP0       },
-	{ LPGEN("FTP Server 2"),     "ftp2", 		IDI_FTP1       },
-	{ LPGEN("FTP Server 3"),     "ftp3", 		IDI_FTP2       },
-	{ LPGEN("FTP Server 4"),     "ftp4", 		IDI_FTP3       },
-	{ LPGEN("FTP Server 5"),     "ftp5", 		IDI_FTP4       },
+	{ LPGEN("FTP Server 1"),     "ftp1",       IDI_FTP0       },
+	{ LPGEN("FTP Server 2"),     "ftp2",       IDI_FTP1       },
+	{ LPGEN("FTP Server 3"),     "ftp3",       IDI_FTP2       },
+	{ LPGEN("FTP Server 4"),     "ftp4",       IDI_FTP3       },
+	{ LPGEN("FTP Server 5"),     "ftp5",       IDI_FTP4       },
 	{ LPGEN("Send file"),        "main",       IDI_MENU       },
 	{ LPGEN("Clipboard"),        "clipboard",  IDI_CLIPBOARD  },
 	{ LPGEN("Pause"),            "pause",      IDI_PAUSE      },
@@ -76,7 +76,7 @@ void InitMenuItems()
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xB7132F5A, 0x65FC, 0x42C5, 0xB4, 0xCB, 0x54, 0xBC, 0xAC, 0x58, 0x34, 0xE9);
 	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MENU);
 	mi.position = 3000090001;
 	mi.name.w = LPGENW("FTP File");
 
@@ -140,7 +140,7 @@ void InitMenuItems()
 	memset(&mi, 0, sizeof(mi));
 	SET_UID(mi, 0x0C17CAD7, 0x7F23, 0x449B, 0xB9, 0xCD, 0xFF, 0x50, 0xDA, 0x69, 0xF3, 0x6F);
 	mi.flags = CMIF_UNICODE;
-	mi.hIcolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MENU);
 	mi.position = 3000090001;
 	mi.name.w = LPGENW("FTP File manager");
 	mi.pszService = MS_FTPFILE_SHOWMANAGER;
@@ -168,7 +168,7 @@ void InitTabsrmmButton()
 	btn.dwButtonID = 1;
 	btn.pszModuleName = MODULENAME;
 	btn.dwDefPos = 105;
-	btn.hIcon = iconList[ServerList::FTP_COUNT].hIcolib;
+	btn.hIcon = g_plugin.getIconHandle(IDI_MENU);
 	btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_CANBEHIDDEN;
 	btn.pwszTooltip = TranslateT("FTP File");
 	Srmm_AddButton(&btn, &g_plugin);
