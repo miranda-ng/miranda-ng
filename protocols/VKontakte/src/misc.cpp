@@ -1227,6 +1227,43 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				res += L"\n\t" + wszAttachmentDescr;
 			}
 		}
+		else if (wszType == L"wall_reply") {
+			const JSONNode& jnWallReply = jnAttach["wall_reply"];
+			if (!jnWallReply)
+				continue;
+
+			CMStringW wszText(jnWallReply["text"].as_mstring());
+			int iWallReplyId = jnWallReply["id"].as_int();
+			int iFromId = jnWallReply["from_id"].as_int();
+			int iFromOwnerId = jnWallReply["owner_id"].as_int();
+			int iPostOwnerId = jnWallReply["post_id"].as_int();
+			int iThreadId = jnWallReply["reply_to_comment"].as_int();
+
+			CMStringW wszUrl(FORMAT, L"https://vk.com/wall%d_%d?reply=%d&thread=%d", iFromOwnerId, iPostOwnerId, iWallReplyId, iThreadId);
+
+			CMStringW wszFromNick, wszFromUrl;
+			MCONTACT hFromContact = FindUser(iFromId);
+			if (hFromContact || iFromId == m_msgId)
+				wszFromNick = ptrW(db_get_wsa(hFromContact, m_szModuleName, "Nick"));
+			else
+				wszFromNick = TranslateT("(Unknown contact)");
+			wszFromUrl = UserProfileUrl(iFromId);
+
+			res.AppendFormat(L"%s %s %s: %s",
+				SetBBCString(TranslateT("Wall reply"), iBBC, vkbbcUrl, wszUrl).c_str(),
+				TranslateT("from"),
+				SetBBCString(wszFromNick, iBBC, vkbbcUrl, wszFromUrl).c_str(),
+				wszText.IsEmpty() ? L" " : wszText.c_str());
+
+			const JSONNode& jnSubAttachments = jnWallReply["attachments"];
+			if (jnSubAttachments) {
+				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
+				CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+				wszAttachmentDescr.Replace(L"\n", L"\n\t");
+				wszAttachmentDescr.Replace(L"== FilterAudioMessages ==", L"");
+				res += L"\n\t" + wszAttachmentDescr;
+			}
+		}
 		else if (wszType == L"story") {
 			const JSONNode& jnStory = jnAttach["story"];
 			if (!jnStory)
@@ -1404,8 +1441,13 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
 				res.AppendFormat(L"\n\t%s", SetBBCString(wszLink, iBBC, vkbbcImg).c_str());
 		}
-		else
+		else {
 			res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(wszType, iBBC, vkbbcB).c_str());
+			const JSONNode& jnUnknown = jnAttach[jnAttach["type"].as_string().c_str()];
+			CMStringW wszText(jnUnknown["text"].as_mstring());
+			if (!wszText.IsEmpty())
+				res.AppendFormat(L"\n%s: %s", TranslateT("Text"), wszText);
+		}
 
 		res.AppendChar('\n');
 	}
