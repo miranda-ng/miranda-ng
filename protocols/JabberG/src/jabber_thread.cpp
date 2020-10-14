@@ -984,7 +984,7 @@ DWORD JabberGetLastContactMessageTime(MCONTACT hContact)
 MCONTACT CJabberProto::CreateTemporaryContact(const char *szJid, JABBER_LIST_ITEM* chatItem)
 {
 	if (chatItem == nullptr)
-		return DBCreateContact(szJid, ptrA(JabberNickFromJID(szJid)), true, true);
+		return DBCreateContact(szJid, nullptr, true, true);
 
 	const char *p = strchr(szJid, '/');
 	if (p != nullptr && p[1] != '\0')

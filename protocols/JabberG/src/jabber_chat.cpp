@@ -1294,7 +1294,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 
 static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, const char *nick)
 {
-	MCONTACT hContact = ppro->DBCreateContact(MakeJid(item->jid, nick), nullptr, true, false);
+	MCONTACT hContact = ppro->DBCreateContact(MakeJid(item->jid, nick), nick, true, false);
 	if (hContact != 0) {
 		pResourceStatus r(item->findResource(nick));
 		if (r)

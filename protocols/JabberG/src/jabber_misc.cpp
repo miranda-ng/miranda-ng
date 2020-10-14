@@ -85,6 +85,9 @@ MCONTACT CJabberProto::DBCreateContact(const char *jid, const char *nick, bool t
 	setUString(hNewContact, "jid", szJid);
 	if (nick != nullptr && *nick != '\0')
 		setUString(hNewContact, "Nick", nick);
+	else
+		setUString(hNewContact, "Nick", ptrA(JabberNickFromJID(szJid)));
+
 	if (temporary)
 		Contact_RemoveFromList(hNewContact);
 	else
