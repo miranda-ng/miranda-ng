@@ -168,7 +168,7 @@ static int json__pairsIterator(lua_State *L)
 
 static int json__pairs(lua_State *L)
 {
-	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
+	luaL_checkudata(L, 1, MT_JSON);
 
 	lua_pushinteger(L, 0);
 	lua_pushcclosure(L, json__pairsIterator, 1);

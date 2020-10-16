@@ -29,6 +29,8 @@ public:
 	CMTField(const char *name, int type) :
 		name(mir_strdup(name)), type(type) {}
 
+	virtual ~CMTField() {}
+
 	const char* GetName() const { return name; }
 	int GetType() const { return type; }
 
