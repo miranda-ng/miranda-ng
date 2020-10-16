@@ -5,6 +5,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	friend class CMLuaOptionsMain;
 	friend class CMLuaEvaluateOptions;
 
+	HNETLIBUSER hNetlib = nullptr;
+
 private:
 	lua_State *L;
 

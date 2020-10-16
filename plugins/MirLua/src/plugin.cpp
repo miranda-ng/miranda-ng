@@ -123,8 +123,13 @@ int CMPlugin::OnModulesLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
+	nlu.szDescriptiveName.a = MODULENAME;
+	nlu.szSettingsModule = MODULENAME;
+	hNetlib = Netlib_RegisterUser(&nlu);
+
 	LoadIcons();
-	LoadNetlib();
 	LoadLua();
 
 	HookPluginEvent(ME_SYSTEM_MODULESLOADED, &CMPlugin::OnModulesLoaded);
@@ -134,8 +139,9 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	Netlib_CloseHandle(hNetlib);
+
 	UnloadLua();
-	UnloadNetlib();
 	return 0;
 }
 

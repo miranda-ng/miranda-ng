@@ -78,7 +78,6 @@
       <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\module_loader.cpp" />
-    <ClCompile Include="src\netlib.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\plugin.cpp" />
     <ClCompile Include="src\script.cpp" />

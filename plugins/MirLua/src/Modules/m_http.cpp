@@ -68,7 +68,7 @@ static void SetContent(NETLIBHTTPREQUEST *request, const char *data, size_t leng
 	if (request->pData != nullptr)
 		mir_free(request->pData);
 	request->pData = mir_strdup(data);
-	request->dataLength = length;
+	request->dataLength = (int)length;
 }
 
 /***********************************************/
@@ -205,7 +205,7 @@ static const luaL_Reg contentApi[] =
 
 static NETLIBHTTPREQUEST* response_Create(lua_State *L, NETLIBHTTPREQUEST *request)
 {
-	NETLIBHTTPREQUEST *response = Netlib_HttpTransaction(g_hNetlib, request);
+	NETLIBHTTPREQUEST *response = Netlib_HttpTransaction(g_plugin.hNetlib, request);
 	NETLIBHTTPREQUEST **udata = (NETLIBHTTPREQUEST**)lua_newuserdata(L, sizeof(NETLIBHTTPREQUEST*));
 	*udata = response;
 	luaL_setmetatable(L, MT_NETLIBHTTPRESPONSE);
@@ -431,7 +431,7 @@ static int request_Send(lua_State *L)
 
 static int request__index(lua_State *L)
 {
-	NETLIBHTTPREQUEST *request = *(NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
+	luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
 	const char *key = lua_tostring(L, 2);
 
 	if (mir_strcmpi(key, "Method") == 0)

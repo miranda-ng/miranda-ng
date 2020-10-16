@@ -68,10 +68,6 @@ extern HANDLE g_hScriptsFolder;
 #define LUATEXTSCRIPTEXT L"lua"
 #define LUAPRECSCRIPTEXT L"luac"
 
-extern HNETLIBUSER g_hNetlib;
-void LoadNetlib();
-void UnloadNetlib();
-
 void LoadIcons();
 
 /* utils */

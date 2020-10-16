@@ -4,7 +4,7 @@ void Log(const char *format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	Netlib_Log(g_hNetlib, CMStringA().FormatV(format, args));
+	Netlib_Log(g_plugin.hNetlib, CMStringA().FormatV(format, args));
 	va_end(args);
 }
 
@@ -12,7 +12,7 @@ void Log(const wchar_t *format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	Netlib_LogW(g_hNetlib, CMStringW().FormatV(format, args));
+	Netlib_LogW(g_plugin.hNetlib, CMStringW().FormatV(format, args));
 	va_end(args);
 }
 

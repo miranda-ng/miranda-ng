@@ -21,12 +21,12 @@ static int HookEventLuaParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM par
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 
 	if (wParam)
-		lua_pushinteger(L, wParam);
+		lua_pushlightuserdata(L, (void *)wParam);
 	else
 		lua_pushnil(L);
 
 	if (lParam)
-		lua_pushinteger(L, lParam);
+		lua_pushlightuserdata(L, (void *)lParam);
 	else
 		lua_pushnil(L);
 
@@ -122,8 +122,8 @@ INT_PTR CreateServiceFunctionLuaStateParam(void *obj, WPARAM wParam, LPARAM lPar
 	int ref = param;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 
-	lua_pushinteger(L, wParam);
-	lua_pushinteger(L, lParam);
+	lua_pushlightuserdata(L, (void *)wParam);
+	lua_pushlightuserdata(L, (void *)lParam);
 	luaM_pcall(L, 2, 1);
 
 	INT_PTR res = lua_tointeger(L, 1);
