@@ -139,6 +139,8 @@ public:
 	ItemData* get(int id, bool bLoad = false);
 	ItemData* operator[] (int id) { return get(id, true); }
 
+	void remove(int idx);
+
 	int FindRel(int id, int dir, Filter filter)
 	{
 		int count = getCount();

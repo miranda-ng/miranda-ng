@@ -66,7 +66,6 @@ enum
 
 	//
 	NSM_COPY,
-	NSM_DELETE,
 	NSM_EXPORT,
 
 	//

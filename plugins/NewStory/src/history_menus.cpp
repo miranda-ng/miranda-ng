@@ -2,10 +2,9 @@
 
 static HGENMENU hmiHistory, hmiEmpty;
 
-static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM)
+INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM)
 {
-	extern wchar_t wszDelete[];
-	if (IDYES != MessageBoxW(nullptr, TranslateW(wszDelete), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
+	if (IDYES != MessageBoxW(nullptr, TranslateT("Are you sure to remove all events from history?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
 		return 1;
 
 	DB::ECPTR pCursor(DB::Events(hContact));

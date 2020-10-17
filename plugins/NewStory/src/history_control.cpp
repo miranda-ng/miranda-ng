@@ -5,8 +5,6 @@
 HANDLE htuLog = 0;
 
 static WNDPROC OldEditWndProc;
-wchar_t wszDelete[] = LPGENW("Are you sure to remove all events from history?");
-
 static LRESULT CALLBACK HistoryEditWndProc(HWND, UINT, WPARAM, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////
@@ -71,6 +69,7 @@ struct NewstoryListData : public MZeroedObject
 			break;
 
 		case ID_CONTEXT_DELETE:
+			DeleteItems();
 			break;
 
 		case ID_CONTEXT_SELECTALL:
@@ -135,6 +134,31 @@ struct NewstoryListData : public MZeroedObject
 		SendMessage(hwndEditBox, EM_SETSEL, 0, (LPARAM)(-1));
 		ShowWindow(hwndEditBox, SW_SHOW);
 		SetFocus(hwndEditBox);
+	}
+
+	void DeleteItems(void)
+	{
+		if (IDYES != MessageBoxW(hwnd, TranslateT("Do you really want to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
+			return;
+
+		db_set_safety_mode(false);
+
+		int firstSel = -1;
+		int eventCount = items.getCount();
+		for (int i = eventCount - 1; i >= 0; i--) {
+			auto *p = items.get(i, false);
+			if (p->hEvent && p->bSelected) {
+				db_event_delete(p->hEvent);
+				items.remove(i);
+				firstSel = i;
+			}
+		}
+		db_set_safety_mode(true);
+
+		if (firstSel != -1) {
+			SendMessage(hwnd, NSM_SETCARET, firstSel, 0);
+			SendMessage(hwnd, NSM_SELECTITEMS, firstSel, firstSel);
+		}
 	}
 
 	void EndEditItem(bool bAccept)
@@ -442,6 +466,7 @@ static LRESULT CALLBACK HistoryEditWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int idx;
+	POINT pt;
 	NewstoryListData *data = (NewstoryListData *)GetWindowLongPtr(hwnd, 0);
 
 	switch (msg) {
@@ -475,6 +500,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		data->redrawTimer.Stop();
 		data->redrawTimer.Start(100);
+		InvalidateRect(hwnd, nullptr, FALSE);
 		break;
 
 	case NSM_GETARRAY:
@@ -611,24 +637,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		data->pMsgDlg = (CSrmmBaseDialog *)lParam;
 		break;
 
-	case NSM_DELETE:
-		if (IDYES == MessageBoxW(hwnd, TranslateW(wszDelete), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION)) {
-			db_set_safety_mode(false);
-
-			int eventCount = data->items.getCount();
-			for (int i = eventCount - 1; i >= 0; i--) {
-				auto *p = data->items.get(i, false);
-				if (p->hEvent)
-					db_event_delete(p->hEvent);
-			}
-			db_set_safety_mode(true);
-
-			data->items.reset();
-
-			InvalidateRect(hwnd, 0, FALSE);
-		}
-		break;
-
 	case NSM_COPY:
 		{
 			CMStringW res;
@@ -695,17 +703,21 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_CONTEXTMENU:
-		{
-			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			if (pt.x == -1 && pt.y == -1)
-				GetCursorPos(&pt);
+		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		if (pt.x == -1 && pt.y == -1)
+			GetCursorPos(&pt);
 
-			POINT pt2 = pt;
-			ScreenToClient(hwnd, &pt2);
+		POINT pt2 = pt;
+		ScreenToClient(hwnd, &pt2);
 
-			int index = data->GetItemFromPixel(pt2.y);
-			if (index != -1)
-				data->OnContextMenu(index, pt);
+		idx = data->GetItemFromPixel(pt2.y);
+		if (idx != -1) {
+			if (data->caret != idx)
+				data->EndEditItem(false);
+			SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
+			SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+
+			data->OnContextMenu(idx, pt);
 		}
 		break;
 
@@ -786,6 +798,10 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					data->EndEditItem(false);
 				break;
 
+			case VK_DELETE:
+				data->DeleteItems();
+				break;
+
 			case VK_INSERT:
 			case 'C':
 				if (isCtrl)
@@ -801,50 +817,47 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_LBUTTONDOWN:
-		{
-			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			int item = data->GetItemFromPixel(pt.y);
-			if (item >= 0) {
-				if (data->caret != item)
-					data->EndEditItem(false);
+		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		idx = data->GetItemFromPixel(pt.y);
+		if (idx >= 0) {
+			if (data->caret != idx)
+				data->EndEditItem(false);
 
-				if (wParam & MK_CONTROL) {
-					SendMessage(hwnd, NSM_TOGGLEITEMS, item, item);
-					SendMessage(hwnd, NSM_SETCARET, item, TRUE);
+			if (wParam & MK_CONTROL) {
+				SendMessage(hwnd, NSM_TOGGLEITEMS, idx, idx);
+				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+			}
+			else if (wParam & MK_SHIFT) {
+				SendMessage(hwnd, NSM_SELECTITEMS, data->caret, idx);
+				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
+			}
+			else {
+				auto *pItem = data->items[idx];
+				pt.y -= pItem->savedTop;
+				if (pItem->isLink(pt)) {
+					Utils_OpenUrlW(pItem->getWBuf());
+					return 0;
 				}
-				else if (wParam & MK_SHIFT) {
-					SendMessage(hwnd, NSM_SELECTITEMS, data->caret, item);
-					SendMessage(hwnd, NSM_SETCARET, item, TRUE);
-				}
-				else {
-					auto *pItem = data->items[item];
-					pt.y -= pItem->savedTop;
-					if (pItem->isLink(pt)) {
-						Utils_OpenUrlW(pItem->getWBuf());
-						return 0;
-					}
 					
-					if (data->caret == item) {
-						data->BeginEditItem(item, true);
-						return 0;
-					}
-
-					SendMessage(hwnd, NSM_SELECTITEMS2, item, item);
-					SendMessage(hwnd, NSM_SETCARET, item, TRUE);
+				if (data->caret == idx) {
+					data->BeginEditItem(idx, true);
+					return 0;
 				}
+
+				SendMessage(hwnd, NSM_SELECTITEMS2, idx, idx);
+				SendMessage(hwnd, NSM_SETCARET, idx, TRUE);
 			}
 		}
+
 		SetFocus(hwnd);
 		return 0;
 
 	case WM_MOUSEMOVE:
-		{
-			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			int item = data->GetItemFromPixel(pt.y);
-			if (item >= 0) {
-				auto *pItem = data->items[item];
-				MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
-			}
+		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+		idx = data->GetItemFromPixel(pt.y);
+		if (idx >= 0) {
+			auto *pItem = data->items[idx];
+			MTextSendMessage(hwnd, pItem->data, msg, wParam, lParam);
 		}
 		break;
 

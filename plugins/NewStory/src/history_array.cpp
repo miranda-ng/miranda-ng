@@ -262,7 +262,7 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 
 ItemData& HistoryArray::allocateItem()
 {
-	if (iLastPageCounter == HIST_BLOCK_SIZE - 1) {
+	if (iLastPageCounter == HIST_BLOCK_SIZE) {
 		pages.insert(new ItemBlock());
 		iLastPageCounter = 0;
 	}
@@ -289,4 +289,33 @@ int HistoryArray::getCount() const
 {
 	int nPages = pages.getCount();
 	return (nPages == 0) ? 0 : (nPages - 1) * HIST_BLOCK_SIZE + iLastPageCounter;
+}
+
+void HistoryArray::remove(int id)
+{
+	int pageNo = id / HIST_BLOCK_SIZE;
+	if (pageNo >= pages.getCount())
+		return;
+
+	auto &pPage = pages[pageNo];
+	int offset = id % HIST_BLOCK_SIZE;
+
+	ItemData tmp;
+	memcpy(&tmp, pPage.data + offset, sizeof(ItemData));
+
+	if (offset != HIST_BLOCK_SIZE - 1)
+		memmove(&pPage.data[offset], &pPage.data[offset+1], sizeof(ItemData) * (HIST_BLOCK_SIZE - 1 - offset));
+
+	for (int i = pageNo + 1; i < pages.getCount(); i++) {
+		auto &prev = pages[i - 1], &curr = pages[i];
+		memcpy(&prev.data[HIST_BLOCK_SIZE - 1], curr.data, sizeof(ItemData));
+		memmove(&curr.data, &curr.data[1], sizeof(ItemData) * (HIST_BLOCK_SIZE - 1));
+		memset(&curr.data[HIST_BLOCK_SIZE - 1], 0, sizeof(ItemData));
+	}
+
+	if (iLastPageCounter == 1) {
+		pages.remove(pages.getCount() - 1);
+		iLastPageCounter = HIST_BLOCK_SIZE;
+	}
+	else iLastPageCounter--;
 }
