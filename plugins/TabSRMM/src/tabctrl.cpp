@@ -33,6 +33,36 @@ static WNDPROC OldTabControlClassProc;
 
 #define FIXED_TAB_SIZE 100
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// window data for the tab control window class
+
+struct TabControlData
+{
+	HWND   hwnd;
+	DWORD  dwStyle;
+	DWORD  cx, cy;
+	HANDLE hTheme, hThemeButton, hbp;
+	int    xpad;
+	int    iBeginIndex;
+	int    iHoveredTabIndex;
+	int    iHoveredCloseIcon;
+	HWND   hwndDrag;
+
+	bool   bVisualStyles;
+	bool   bDragging;
+	bool   bRefreshWithoutClip;
+	bool   bSavePos;
+	bool   bTipActive;
+	bool   bAeroTabs;
+	bool   bCloseButton;
+
+	HIMAGELIST himlDrag;
+	TContainerData *pContainer;
+	CMsgDialog *dragDat;
+	CMsgDialog *helperDat;  // points to the client data of the active tab
+	CImageItem *helperItem, *helperGlowItem;				// aero ui, holding the skin image for the tabs
+};
+
 // returns the index of the tab under the mouse pointer. Used for
 // context menu popup and tooltips
 // pt: mouse coordinates, obtained from GetCursorPos()
@@ -922,6 +952,35 @@ skip_tabs:
 	EndPaint(hwnd, &ps);
 }
 
+static bool TabBeginDrag(HWND hwnd, bool bSavePos)
+{
+	POINT pt;
+	pt.x = (short)LOWORD(GetMessagePos());
+	pt.y = (short)HIWORD(GetMessagePos());
+	if (DragDetect(hwnd, pt) && TabCtrl_GetItemCount(hwnd) > 1) {
+		int i = GetTabItemFromMouse(hwnd, &pt);
+		if (i != -1) {
+			HWND hDlg = GetTabWindow(hwnd, i);
+			CMsgDialog *dat = (CMsgDialog *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+			if (dat) {
+				TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				tabdat->bDragging = true;
+				tabdat->iBeginIndex = i;
+				tabdat->hwndDrag = hDlg;
+				tabdat->dragDat = dat;
+				tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
+				tabdat->bSavePos = bSavePos;
+				ImageList_AddIcon(tabdat->himlDrag, dat->m_hTabIcon);
+				ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
+				ImageList_DragEnter(hwnd, pt.x, pt.y);
+				SetCapture(hwnd);
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
 static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	POINT pt;
@@ -1097,55 +1156,13 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		CallService("mToolTip/HideTip", 0, 0);
 		tabdat->bTipActive = false;
 
-		if (GetKeyState(VK_CONTROL) & 0x8000) {
-			pt.x = (short)LOWORD(GetMessagePos());
-			pt.y = (short)HIWORD(GetMessagePos());
-			if (DragDetect(hwnd, pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-				int i = GetTabItemFromMouse(hwnd, &pt);
-				if (i != -1) {
-					HWND hDlg = GetTabWindow(hwnd, i);
-					CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-					if (dat) {
-						tabdat->bDragging = true;
-						tabdat->iBeginIndex = i;
-						tabdat->hwndDrag = hDlg;
-						tabdat->dragDat = dat;
-						tabdat->bSavePos = true;
-						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
-						ImageList_AddIcon(tabdat->himlDrag, dat->m_hTabIcon);
-						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
-						ImageList_DragEnter(hwnd, pt.x, pt.y);
-						SetCapture(hwnd);
-					}
-					return TRUE;
-				}
-			}
-		}
-
-		if (GetKeyState(VK_MENU) & 0x8000) {
-			pt.x = (short)LOWORD(GetMessagePos());
-			pt.y = (short)HIWORD(GetMessagePos());
-			if (DragDetect(hwnd, pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-				int i = GetTabItemFromMouse(hwnd, &pt);
-				if (i != -1) {
-					HWND hDlg = GetTabWindow(hwnd, i);
-					CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-					if (dat) {
-						tabdat->bDragging = true;
-						tabdat->iBeginIndex = i;
-						tabdat->hwndDrag = hDlg;
-						tabdat->dragDat = dat;
-						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
-						tabdat->bSavePos = false;
-						ImageList_AddIcon(tabdat->himlDrag, dat->m_hTabIcon);
-						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
-						ImageList_DragEnter(hwnd, pt.x, pt.y);
-						SetCapture(hwnd);
-					}
-					return TRUE;
-				}
-			}
-		}
+		if (GetKeyState(VK_CONTROL) & 0x8000)
+			if (TabBeginDrag(hwnd, true))
+				return TRUE;
+		
+		if (GetKeyState(VK_MENU) & 0x8000)
+			if (TabBeginDrag(hwnd, false))
+				return TRUE;
 
 		if (tabdat->bCloseButton) {
 			GetCursorPos(&pt);
@@ -1172,8 +1189,8 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			ImageList_DragMove(pt.x, pt.y);
 		}
 
+		GetCursorPos(&pt);
 		{
-			GetCursorPos(&pt);
 			int iOld = tabdat->iHoveredTabIndex;
 			tabdat->iHoveredTabIndex = GetTabItemFromMouse(hwnd, &pt);
 			if (tabdat->iHoveredTabIndex != iOld)

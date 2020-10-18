@@ -444,37 +444,6 @@ private:
 	static	void TSAPI AeroEffectCallback_Solid(const HDC hdc, const RECT *rc, int iEffectArea);
 };
 
-/*
- * window data for the tab control window class
- */
-
-struct TabControlData
-{
-	HWND   hwnd;
-	DWORD  dwStyle;
-	DWORD  cx, cy;
-	HANDLE hTheme, hThemeButton, hbp;
-	int    xpad;
-	int    iBeginIndex;
-	int    iHoveredTabIndex;
-	int    iHoveredCloseIcon;
-	HWND   hwndDrag;
-
-	bool   bVisualStyles;
-	bool   bDragging;
-	bool   bRefreshWithoutClip;
-	bool   bSavePos;
-	bool   bTipActive;
-	bool   bAeroTabs;
-	bool   bCloseButton;
-	
-	HIMAGELIST himlDrag;
-	TContainerData *pContainer;
-	CMsgDialog *dragDat;
-	CMsgDialog *helperDat;  // points to the client data of the active tab
-	CImageItem *helperItem, *helperGlowItem;				// aero ui, holding the skin image for the tabs
-};
-
 extern CSkin *Skin;
 
 /*
