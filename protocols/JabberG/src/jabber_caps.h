@@ -346,7 +346,6 @@ public:
 	void Load();
 	void Save();
 
-	JabberCapsBits GetClientCaps(const char *szNode, const char *szHash);
 	CJabberClientPartialCaps* GetPartialCaps(const char *szNode, const char *szHash);
 
 	CJabberClientPartialCaps* SetClientCaps(const char *szNode, const char *szHash, const char *szVer, JabberCapsBits jcbCaps, int nIqId = -1);

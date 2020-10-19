@@ -585,21 +585,6 @@ CJabberClientCaps* CJabberClientCapsManager::FindClient(const char *szNode)
 	return m_arCaps.find((CJabberClientCaps*)&szNode);
 }
 
-JabberCapsBits CJabberClientCapsManager::GetClientCaps(const char *szNode, const char *szVer)
-{
-	mir_cslockfull lck(m_cs);
-	CJabberClientCaps *pClient = FindClient(szNode);
-	if (!pClient) {
-		lck.unlock();
-		Netlib_Logf(0, "CAPS: get no caps for: %s, %s", szNode, szVer);
-		return JABBER_RESOURCE_CAPS_UNINIT;
-	}
-	JabberCapsBits jcbCaps = pClient->GetPartialCaps(szVer);
-	lck.unlock();
-	Netlib_Logf(0, "CAPS: get caps %I64x for: %s, %s", jcbCaps, szNode, szVer);
-	return jcbCaps;
-}
-
 CJabberClientPartialCaps* CJabberClientCapsManager::GetPartialCaps(const char *szNode, const char *szHash)
 {
 	mir_cslock lck(m_cs);
