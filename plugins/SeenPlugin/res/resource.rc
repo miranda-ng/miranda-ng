@@ -73,7 +73,7 @@ BEGIN
     CONTROL         "Enable 'Missed Ones' feature",IDC_MISSEDONES,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,6,200,149,10
     CONTROL         "Count times",IDC_COUNT,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,16,212,139,10
     LTEXT           "Accounts to watch:",IDC_MAINGROUP,162,144,138,9
-    CONTROL         "Tree1",IDC_PROTOCOLLIST,"SysTreeView32",TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,162,154,138,77
+    CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,162,154,138,77
 END
 
 IDD_POPUPS DIALOGEX 0, 0, 280, 208
@@ -161,7 +161,7 @@ BEGIN
         RIGHTMARGIN, 300
         VERTGUIDE, 6
         VERTGUIDE, 16
-        VERTGUIDE, 155
+        VERTGUIDE, 156
         VERTGUIDE, 162
         BOTTOMMARGIN, 228
     END
@@ -195,6 +195,17 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_SETTINGS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////

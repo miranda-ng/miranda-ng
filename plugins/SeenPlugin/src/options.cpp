@@ -210,7 +210,7 @@ class CMainOptsDlg : public CDlgBase
 {
 	CCtrlCheck chkFile, chkMissed, chkHistory, chkMenuItem, chkUserInfo;
 	CCtrlButton btnVariables;
-	CCtrlTreeView protocols;
+	CCtrlListView protocols;
 
 public:
 	CMainOptsDlg() :
@@ -223,8 +223,6 @@ public:
 		protocols(this, IDC_PROTOCOLLIST),
 		btnVariables(this, IDC_VARIABLES)
 	{
-		protocols.SetFlags(MTREE_CHECKBOX);
-
 		btnVariables.OnClick = Callback(this, &CMainOptsDlg::onClick_Variables);
 
 		chkFile.OnChange = Callback(this, &CMainOptsDlg::onChanged_File);
@@ -256,20 +254,24 @@ public:
 		SetDlgItemInt(m_hwnd, IDC_HISTORYSIZE, g_plugin.getWord("HistoryMax", 10 - 1) - 1, FALSE);
 
 		// load protocol list
-		TVINSERTSTRUCT tvis;
-		tvis.hParent = nullptr;
-		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
-		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+		protocols.SetExtendedListViewStyle(LVS_EX_CHECKBOXES);
+
+		RECT rc;
+		GetClientRect(protocols.GetHwnd(), &rc);
+
+		LVCOLUMN lvc = {};
+		lvc.mask = LVCF_FMT | LVCF_WIDTH;
+		lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
+		lvc.cx = 120;
+		protocols.InsertColumn(0, &lvc);
 
 		for (auto &pa : Accounts()) {
 			if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 				continue;
 
-			tvis.item.pszText = pa->tszAccountName;
-			tvis.item.lParam = (LPARAM)mir_strdup(pa->szModuleName);
-			tvis.item.iImage = IsWatchedProtocol(pa->szModuleName);
-			protocols.InsertItem(&tvis);
+			int idx = protocols.AddItem(pa->tszAccountName, 0, (LPARAM)mir_strdup(pa->szModuleName));
+			if (IsWatchedProtocol(pa->szModuleName))
+				protocols.SetCheckState(idx, true);
 		}
 		return true;
 	}
@@ -341,26 +343,17 @@ public:
 		g_plugin.setByte("IdleSupport", IsDlgButtonChecked(m_hwnd, IDC_IDLESUPPORT));
 
 		// save protocol list
-		int size = 1;
-
 		CMStringA watchedProtocols;
-		HTREEITEM hItem = protocols.GetRoot();
 
-		TVITEMEX tvItem;
-		tvItem.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_PARAM;
-		tvItem.stateMask = TVIS_STATEIMAGEMASK;
+		int nItems = protocols.GetItemCount();
+		for (int i=0; i < nItems; i++) {
+			if (!protocols.GetCheckState(i))
+				continue;
 
-		while (hItem != nullptr) {
-			tvItem.hItem = hItem;
-			protocols.GetItem(&tvItem);
-			char *protocol = (char *)tvItem.lParam;
-			if (tvItem.iImage) {
-				size += (int)mir_strlen(protocol) + 2;
-				if (!watchedProtocols.IsEmpty())
-					watchedProtocols.AppendChar('\n');
-				watchedProtocols.Append(protocol);
-			}
-			hItem = protocols.GetNextSibling(hItem);
+			char *szProto = (char *)protocols.GetItemData(i);
+			if (!watchedProtocols.IsEmpty())
+				watchedProtocols.AppendChar('\n');
+			watchedProtocols.Append(szProto);
 		}
 		g_plugin.setString("WatchedAccounts", watchedProtocols);
 
@@ -372,16 +365,9 @@ public:
 	void OnDestroy() override
 	{
 		// free protocol list 
-		HTREEITEM hItem = protocols.GetRoot();
-		TVITEMEX tvItem;
-		tvItem.mask = TVIF_HANDLE | TVIF_PARAM;
-
-		while (hItem != nullptr) {
-			tvItem.hItem = hItem;
-			protocols.GetItem(&tvItem);
-			mir_free((void *)tvItem.lParam);
-			hItem = protocols.GetNextSibling(hItem);
-		}
+		int nItems = protocols.GetItemCount();
+		for (int i = 0; i < nItems; i++)
+			mir_free((void *)(char *)protocols.GetItemData(i));
 	}
 
 	void onChanged_MenuItem(CCtrlCheck *)
