@@ -265,7 +265,7 @@ public:
 		lvc.cx = 120;
 		protocols.InsertColumn(0, &lvc);
 
-		for (auto &pa : Accounts()) {
+		for (auto &pa : Accounts().rev_iter()) {
 			if (CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 				continue;
 
