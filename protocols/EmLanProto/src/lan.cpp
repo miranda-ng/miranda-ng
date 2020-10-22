@@ -5,18 +5,45 @@
 
 CLan::CLan()
 {
-	m_income = INVALID_SOCKET;
-	m_filesoc = INVALID_SOCKET;
-	m_status = LS_OK;
-	m_mode = LM_OFF;
-	m_hListenThread = nullptr;
-	m_hAcceptTCPThread = nullptr;
+	memset(&m_curAddr, 0, sizeof(m_curAddr));
+	memset(&m_hostAddr, 0, sizeof(m_hostAddr));
+
 	Startup();
 }
 
 CLan::~CLan()
 {
 	Shutdown();
+}
+
+bool CLan::ResetInterfaces()
+{
+	char hostname[256];
+	if (gethostname(hostname, 256) != 0) {
+		m_status = LS_CANT_GET_HOSTADDR;
+		return false;
+	}
+
+	int hostAddrCount = 0;
+	in_addr hostAddr[MAX_INTERNAL_IP];
+
+	hostent *host = gethostbyname(hostname);
+	char **pAddr = host->h_addr_list;
+
+	while (*pAddr && hostAddrCount < MAX_INTERNAL_IP) {
+		in_addr addr;
+		addr.S_un.S_addr = *((u_long *)(*pAddr));
+		hostAddr[hostAddrCount++] = addr;
+		pAddr++;
+	}
+
+	// nothing changed? return false
+	if (m_hostAddrCount == hostAddrCount && !memcmp(m_hostAddr, hostAddr, sizeof(hostAddr)))
+		return false;
+
+	m_hostAddrCount = hostAddrCount;
+	memcpy(m_hostAddr, hostAddr, sizeof(hostAddr));
+	return true;
 }
 
 void CLan::Startup()
@@ -26,22 +53,7 @@ void CLan::Startup()
 		m_status = LS_OK;
 		m_mode = LM_ON;
 
-		char hostname[256];
-		if (gethostname(hostname, 256) == 0) {
-			hostent* host = gethostbyname(hostname);
-			char** pAddr = host->h_addr_list;
-			m_hostAddrCount = 0;
-			while (*pAddr && m_hostAddrCount < MAX_INTERNAL_IP) {
-				in_addr addr;
-				addr.S_un.S_addr = *((u_long*)(*pAddr));
-				m_hostAddr[m_hostAddrCount++] = addr;
-				pAddr++;
-			}
-			m_curAddr = m_hostAddr[0];
-		}
-		else {
-			m_status = LS_CANT_GET_HOSTADDR;
-		}
+		ResetInterfaces();
 	}
 	else {
 		m_status = LS_OK;
@@ -89,6 +101,9 @@ void CLan::StopListen()
 void CLan::StartListen()
 {
 	if (m_mode != LM_ON)
+		return;
+
+	if (m_curAddr.S_un.S_addr == 0)
 		return;
 
 	m_income = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);

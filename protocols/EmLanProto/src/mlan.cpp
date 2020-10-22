@@ -26,27 +26,12 @@ enum enuLEXT
 	LEXT_SENDURL,
 };
 
-CMLan::CMLan()
+CMLan::CMLan() :
+	m_timer(Miranda_GetSystemWindow(), (UINT_PTR)this)
 {
-	m_RequiredIp = 0;
-	m_UseHostName = true;
-
-	m_mirStatus = ID_STATUS_OFFLINE;
-	m_pRootContact = nullptr;
-	m_hCheckThread = nullptr;
-
-	m_handleId = 1;
-
-	m_amesAway = nullptr;
-	m_amesNa = nullptr;
-	m_amesOccupied = nullptr;
-	m_amesDnd = nullptr;
-	m_amesFfc = nullptr;
-
-	m_pFileConnectionList = nullptr;
+	m_timer.OnEvent = Callback(this, &CMLan::OnTimer);
 
 	LoadSettings();
-
 	SetAllOffline();
 }
 
@@ -116,25 +101,27 @@ void CMLan::SetAllOffline()
 
 void CMLan::StartChecking()
 {
-	if (m_hCheckThread)
+	if (m_bChecking)
 		return;
 
 	for (TContact *cont = m_pRootContact; cont; cont = cont->m_prev)
 		cont->m_time = MLAN_CHECK + MLAN_TIMEOUT;
 
-	m_hCheckThread = mir_forkthread(CheckProc, this);
+	if (ResetInterfaces())
+		LoadSettings();
+
+	m_bChecking = true;
+	m_timer.Start(MLAN_SLEEP);
+	
 	StartListen();
 	RequestStatus(true);
 }
 
 void CMLan::StopChecking()
 {
-	{
-		mir_cslock lck(m_csAccessClass);
-		if (m_hCheckThread) {
-			TerminateThread(m_hCheckThread, 0);
-			m_hCheckThread = nullptr;
-		}
+	if (m_bChecking) {
+		m_bChecking = false;
+		m_timer.Stop();
 	}
 
 	m_mirStatus = ID_STATUS_OFFLINE;
@@ -150,30 +137,21 @@ void CMLan::StopChecking()
 	SetAllOffline();
 }
 
-void __cdecl CMLan::CheckProc(void *lpParameter)
+void CMLan::OnTimer(CTimer*)
 {
-	CMLan *lan = (CMLan*)lpParameter;
-	lan->Check();
-}
+	mir_cslock lck(m_csAccessClass);
 
-void CMLan::Check()
-{
-	while (true) {
-		Sleep(MLAN_SLEEP);
-		mir_cslock lck(m_csAccessClass);
-
-		for (TContact *cont = m_pRootContact; cont; cont = cont->m_prev) {
-			if (cont->m_status != ID_STATUS_OFFLINE) {
-				if (cont->m_time)
-					cont->m_time--;
-				if (cont->m_time == MLAN_TIMEOUT)
-					RequestStatus(true, cont->m_addr.S_un.S_addr);
-				if (!cont->m_time) {
-					cont->m_status = ID_STATUS_OFFLINE;
-					MCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
-					if (hContact)
-						g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
-				}
+	for (TContact *cont = m_pRootContact; cont; cont = cont->m_prev) {
+		if (cont->m_status != ID_STATUS_OFFLINE) {
+			if (cont->m_time)
+				cont->m_time--;
+			if (cont->m_time == MLAN_TIMEOUT)
+				RequestStatus(true, cont->m_addr.S_un.S_addr);
+			if (!cont->m_time) {
+				cont->m_status = ID_STATUS_OFFLINE;
+				MCONTACT hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
+				if (hContact)
+					g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			}
 		}
 	}
@@ -1186,7 +1164,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 void CMLan::OnOutTCPConnection(u_long, SOCKET out_socket, LPVOID lpParameter)
 {
 	EMLOG("Sending OUT TCP connection");
-	TFileConnection *conn = (TFileConnection*)lpParameter;
+	TFileConnection *conn = (TFileConnection *)lpParameter;
 
 	if (out_socket == INVALID_SOCKET) {
 		EMLOG("Can't create OUT socket");
@@ -1224,20 +1202,20 @@ void CMLan::OnOutTCPConnection(u_long, SOCKET out_socket, LPVOID lpParameter)
 		filecount++;
 		CloseHandle(hFile);
 
-		wchar_t* filepart;
+		wchar_t *filepart;
 		GetFullPathName(*pf, MAX_PATH, name, &filepart);
 		free(*pf);
 		*pf = mir_wstrdup(name);
-		mir_strcpy((char*)buf + len, _T2A(filepart));
+		mir_strcpy((char *)buf + len, _T2A(filepart));
 		len += (int)mir_wstrlen(filepart) + 1;
 
 		pf++;
 	}
-	mir_strcpy((char*)buf + len, _T2A(conn->m_szDescription));
+	mir_strcpy((char *)buf + len, _T2A(conn->m_szDescription));
 	len += (int)mir_wstrlen(conn->m_szDescription) + 1;
 
-	*((int*)(buf + 1)) = size;
-	*((int*)(buf + 1 + 4)) = filecount;
+	*((int *)(buf + 1)) = size;
+	*((int *)(buf + 1 + 4)) = filecount;
 
 	GetCurrentDirectory(MAX_PATH, name);
 	conn->m_szDir = mir_wstrdup(name);
@@ -1287,7 +1265,7 @@ void CMLan::OnOutTCPConnection(u_long, SOCKET out_socket, LPVOID lpParameter)
 		u_char snd_buf[5];
 		snd_buf[0] = FCODE_SND_NEXTFILE;
 		int fsize = GetFileSize(hFile, nullptr);
-		*((int*)(snd_buf + 1)) = fsize;
+		*((int *)(snd_buf + 1)) = fsize;
 		EMLOG("Sending file size");
 		if (conn->Send(snd_buf, 5)) {
 			CloseHandle(hFile);
@@ -1398,12 +1376,12 @@ int CMLan::SendFile(CCSDATA *ccs)
 	conn->m_cid = cid;
 	conn->m_hContact = ccs->hContact;
 
-	conn->m_szDescription = mir_wstrdup((wchar_t*)ccs->wParam);
+	conn->m_szDescription = mir_wstrdup((wchar_t *)ccs->wParam);
 	int files = 0;
-	wchar_t** ppszFiles = (wchar_t**)ccs->lParam;
+	wchar_t **ppszFiles = (wchar_t **)ccs->lParam;
 	while (ppszFiles[files])
 		files++;
-	conn->m_szFiles = new wchar_t*[files + 1];
+	conn->m_szFiles = new wchar_t *[files + 1];
 	for (int i = 0; i < files; i++)
 		conn->m_szFiles[i] = mir_wstrdup(ppszFiles[i]);
 	conn->m_szFiles[files] = nullptr;
@@ -1428,7 +1406,7 @@ int CMLan::FileAllow(CCSDATA *ccs)
 
 	mir_cslock connLck(conn->m_csAccess);
 	conn->m_state = TFileConnection::FCS_ALLOW;
-	conn->m_szDir = mir_wstrdup((wchar_t*)ccs->lParam);
+	conn->m_szDir = mir_wstrdup((wchar_t *)ccs->lParam);
 	return cid;
 }
 
@@ -1464,11 +1442,8 @@ int CMLan::FileCancel(CCSDATA *ccs)
 	return 0;
 }
 
-int CMLan::FileResume(int cid, PROTOFILERESUME* pfr)
+int CMLan::FileResume(int cid, PROTOFILERESUME *pfr)
 {
-	//int cid = (int)ccs->wParam;
-	//PROTOFILERESUME* pfr = (PROTOFILERESUME*)ccs->lParam;
-
 	TFileConnection *conn = m_pFileConnectionList;
 	while (conn) {
 		if (conn->m_cid == cid)

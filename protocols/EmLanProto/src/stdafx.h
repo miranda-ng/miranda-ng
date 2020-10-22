@@ -18,6 +18,7 @@
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_clist.h>
+#include <m_gui.h>
 
 #include "resource.h"
 #include "version.h"

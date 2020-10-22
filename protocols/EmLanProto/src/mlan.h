@@ -89,9 +89,8 @@ private:
 		char *m_nick;
 		TContact *m_prev;
 	};
-	u_int m_mirStatus;
-	TContact *m_pRootContact;
-	HANDLE m_hCheckThread;
+	u_int m_mirStatus = ID_STATUS_OFFLINE;
+	TContact *m_pRootContact = nullptr;
 
 	wchar_t m_name[MAX_HOSTNAME_LEN];
 	DWORD m_nameLen;
@@ -103,12 +102,13 @@ private:
 	MCONTACT FindContact(in_addr addr, const char *nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status = ID_STATUS_ONLINE);
 	void DeleteCache();
 
+	CTimer m_timer;
+	BOOL m_bChecking = false;
 	void StartChecking();
 	void StopChecking();
-	static void __cdecl CheckProc(void *lpParameter);
-	void Check();
+	void OnTimer(CTimer*);
 
-	int m_handleId;
+	int m_handleId = 1;
 	int GetRandomProcId() { return m_handleId++; } // TODO: must create propper CRITICAL SECTION, cause there may be collisions
 
 	static void __cdecl LaunchExt(void *lpParameter);
@@ -133,15 +133,15 @@ private:
 	void ParsePacket(TPacket& pak, u_char* buf, int len = 65536);
 	void SendPacketExt(TPacket& pak, u_long addr);
 
-	bool m_UseHostName;
-	u_long m_RequiredIp;
+	bool m_UseHostName = true;
+	u_long m_RequiredIp = 0;
 
 	HANDLE m_hookIcqMsgReq;
-	char* m_amesAway;
-	char* m_amesNa;
-	char* m_amesOccupied;
-	char* m_amesDnd;
-	char* m_amesFfc;
+	char* m_amesAway = nullptr;
+	char* m_amesNa = nullptr;
+	char* m_amesOccupied = nullptr;
+	char* m_amesDnd = nullptr;
+	char* m_amesFfc = nullptr;
 
 	struct TFileConnection
 	{
@@ -187,7 +187,7 @@ private:
 	void FileRemoveFromList(TFileConnection* conn);
 
 	mir_cs m_csFileConnectionList;
-	TFileConnection* m_pFileConnectionList;
+	TFileConnection* m_pFileConnectionList = nullptr;
 };
 
 #endif //__mlan_h__
