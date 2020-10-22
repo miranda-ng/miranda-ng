@@ -627,7 +627,7 @@ begin
     Checked:=True;
     Top:=35;
     Left:=20;
-    Width:=210;
+    Width:=310;
     Caption:=ExpandConstant('{cm:DefTypeInstRadio}');
   end;
   DefTypeInstLabel:=TLabel.Create(InstallTypePage);
@@ -645,7 +645,7 @@ begin
     Checked:=False;
     Top:=DefTypeInstLabel.Top+DefTypeInstLabel.Height+20;
     Left:=20;
-    Width:=150;
+    Width:=250;
     Caption:=ExpandConstant('{cm:PortTypeInstRadio}');
   end;
   PortTypeInstLabel:=TLabel.Create(InstallTypePage);
