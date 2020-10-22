@@ -213,6 +213,12 @@ public:
 		return true;
 	}
 
+	bool OnApply() override
+	{
+		OpenBookmark();
+		return true;
+	}
+
 	void OnDestroy() override
 	{
 		LVCOLUMN lvc = { 0 };
