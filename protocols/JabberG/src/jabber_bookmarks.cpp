@@ -394,7 +394,7 @@ public:
 					m_proto->GroupchatJoinRoom(server, room, ptrA(JabberNickFromJID(m_proto->m_szJabberJID)), item->password);
 			}
 		}
-		else Utils_OpenUrl(item->jid);
+		else Utils_OpenUrlW(Utf2T(item->jid));
 	}
 
 	void UpdateData()
