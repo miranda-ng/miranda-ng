@@ -220,8 +220,8 @@ public:
 		}
 
 		tmp = edit_KEY_REAL_NAME.GetText();
-		if (mir_wstrlen(tmp) < 5) {
-			MessageBox(nullptr, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
+		if (mir_wstrlen(tmp) < 4) {
+			MessageBox(nullptr, TranslateT("Name must contain at least 4 characters"), TranslateT("Error"), MB_OK);
 			return false;
 		}
 		if (wcschr(tmp, '(') || wcschr(tmp, ')')) {
@@ -230,7 +230,7 @@ public:
 		}
 
 		tmp = edit_KEY_EMAIL.GetText();
-		if ((mir_wstrlen(tmp)) < 5 || (!wcschr(tmp, '@')) || (!wcschr(tmp, '.'))) {
+		if (mir_wstrlen(tmp) < 5 || !wcschr(tmp, '@')) {
 			MessageBox(nullptr, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
 			return false;
 		}
