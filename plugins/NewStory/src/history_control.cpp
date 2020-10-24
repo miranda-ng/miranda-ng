@@ -138,7 +138,7 @@ struct NewstoryListData : public MZeroedObject
 
 	void DeleteItems(void)
 	{
-		if (IDYES != MessageBoxW(hwnd, TranslateT("Do you really want to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
+		if (IDYES != MessageBoxW(hwnd, TranslateT("Are you sure to remove selected event(s)?"), _T(MODULETITLE), MB_YESNOCANCEL | MB_ICONQUESTION))
 			return;
 
 		db_set_safety_mode(false);
