@@ -101,9 +101,6 @@
     <ClCompile Include="src\jabber_opt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_opttree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\jabber_password.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -200,9 +197,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\jabber_omemo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\jabber_opttree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\jabber_presence_manager.h">

@@ -60,7 +60,6 @@
     <ClCompile Include="src\jabber_notes.cpp" />
     <ClCompile Include="src\jabber_omemo.cpp" />
     <ClCompile Include="src\jabber_opt.cpp" />
-    <ClCompile Include="src\jabber_opttree.cpp" />
     <ClCompile Include="src\jabber_password.cpp" />
     <ClCompile Include="src\jabber_presence_manager.cpp" />
     <ClCompile Include="src\jabber_privacy.cpp" />
@@ -94,7 +93,6 @@
     <ClInclude Include="src\jabber_message_manager.h" />
     <ClInclude Include="src\jabber_notes.h" />
     <ClInclude Include="src\jabber_omemo.h" />
-    <ClInclude Include="src\jabber_opttree.h" />
     <ClInclude Include="src\jabber_presence_manager.h" />
     <ClInclude Include="src\jabber_privacy.h" />
     <ClInclude Include="src\jabber_proto.h" />

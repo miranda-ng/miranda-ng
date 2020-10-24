@@ -1260,6 +1260,46 @@ protected:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlTreeOpts - array of options with sections
+
+class MIR_CORE_EXPORT CCtrlTreeOpts : public CCtrlTreeView
+{
+	typedef CCtrlTreeView CSuper;
+
+public:
+	CCtrlTreeOpts(CDlgBase *dlg, int ctrlId);
+	~CCtrlTreeOpts();
+
+	void AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, CMOption<bool> &option);
+
+	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
+	void OnDestroy() override;
+	void OnInit() override;
+	bool OnApply() override;
+
+protected:
+	struct COptionsItem
+	{
+		const wchar_t *m_pwszSection, *m_pwszName;
+
+		CMOption<bool> *m_option;
+
+		HTREEITEM m_hItem = nullptr;
+
+		COptionsItem(const wchar_t *pwszSection, const wchar_t *pwszName, CMOption<bool> &option) :
+			m_pwszSection(pwszSection),
+			m_pwszName(pwszName),
+			m_option(&option)
+		{
+		}
+	};
+
+	OBJLIST<COptionsItem> m_options;
+
+	void ProcessItemClick(HTREEITEM hti);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlPages
 
 #define PSN_INFOCHANGED    1
