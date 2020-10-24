@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.5
+;  Version: 0.1.11.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -162,13 +162,16 @@
 [Link]
 [Document]
 [Wall post]
+[(Unknown contact)]
+[Wall reply]
+[from]
 [Story]
 [Sticker]
 [Product]
 [Price]
 [Gift]
 [Unsupported or unknown attachment type: %s]
-[(Unknown contact)]
+[Text]
 [Message from]
 [at]
 [User restored control over own page]

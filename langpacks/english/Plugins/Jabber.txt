@@ -720,6 +720,7 @@
 [Inline pictures in messages (XEP-0231)]
 [Enable chat states sending (XEP-0085)]
 [Enable server-side history (XEP-0136)]
+[Enable Message Archive Management (XEP-0313)]
 [Enable carbon copies (XEP-0280)]
 [Use Stream Management (XEP-0198) if possible (Testing)]
 [Server options]

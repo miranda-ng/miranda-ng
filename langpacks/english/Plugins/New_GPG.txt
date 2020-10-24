@@ -178,7 +178,7 @@
 [You must set encryption algorithm first]
 [Key length must be of length from 1024 to 4096 bits]
 [Invalid date]
-[Name must contain at least 5 characters]
+[Name must contain at least 4 characters]
 [Name cannot contain '(' or ')']
 [Invalid Email]
 [Generating new key, please wait...]

@@ -138,7 +138,6 @@
 [Flash when someone speaks]
 [Flash when a word is highlighted]
 [Show chat nick list]
-[Enable button context menus]
 [Show topic on your contact list (if supported)]
 [Do not play sounds when focused]
 [Do not pop up the window when joining a chat room]
