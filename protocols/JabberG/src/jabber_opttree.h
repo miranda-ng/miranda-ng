@@ -37,7 +37,7 @@ public:
 	CCtrlTreeOpts(CDlgBase* dlg, int ctrlId);
 	~CCtrlTreeOpts();
 
-	void AddOption(wchar_t *szOption, CMOption<bool> &option);
+	void AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, CMOption<bool> &option);
 
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	void OnDestroy() override;
@@ -47,18 +47,21 @@ public:
 protected:
 	struct COptionsItem
 	{
-		wchar_t *m_szOptionName;
-		int m_groupId;
+		const wchar_t *m_pwszSection, *m_pwszName;
+		int m_groupId = OPTTREE_CHECK;
 
 		CMOption<bool> *m_option;
 
 		HTREEITEM m_hItem = nullptr;
 
-		COptionsItem(wchar_t *szOption, CMOption<bool> &option);
-		~COptionsItem();
+		COptionsItem(const wchar_t *pwszSection, const wchar_t *pwszName, CMOption<bool> &option) :
+			m_pwszSection(pwszSection),
+			m_pwszName(pwszName),
+			m_option(&option)
+		{}
 	};
 
-	LIST<COptionsItem> m_options;
+	OBJLIST<COptionsItem> m_options;
 
 	void ProcessItemClick(HTREEITEM hti);
 };

@@ -131,8 +131,9 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 			m_ThreadInfo->send(XmlNodeIq("set", SerialNext()) << XCHILDNS((m_bEnableCarbons) ? "enable" : "disable", JABBER_FEAT_CARBONS));
 
 		// Server seems to support MAM, let's retrieve MAM settings
-		if (info->jabberServerCaps & JABBER_CAPS_MAM)
-			m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultMamInfo, JABBER_IQ_TYPE_GET, 0, this)) << XCHILDNS("prefs", JABBER_FEAT_MAM));
+		if (m_bEnableMam)
+			if (info->jabberServerCaps & JABBER_CAPS_MAM)
+				m_ThreadInfo->send(XmlNodeIq(AddIQ(&CJabberProto::OnIqResultMamInfo, JABBER_IQ_TYPE_GET, 0, this)) << XCHILDNS("prefs", JABBER_FEAT_MAM));
 
 		if (m_bAutoJoinBookmarks) {
 			LIST<JABBER_LIST_ITEM> ll(10);

@@ -752,7 +752,7 @@ class CDlgOptAdvanced : public CJabberDlgBase
 	CCtrlCheck		m_chkDirect;
 	CCtrlCheck		m_chkDirectManual;
 	CCtrlEdit		m_txtDirect;
-	CCtrlTreeOpts	m_otvOptions;
+	CCtrlTreeOpts	m_options;
 
 	bool m_oldFrameValue;
 
@@ -762,7 +762,7 @@ public:
 		m_chkDirect(this, IDC_DIRECT),
 		m_chkDirectManual(this, IDC_DIRECT_MANUAL),
 		m_txtDirect(this, IDC_DIRECT_ADDR),
-		m_otvOptions(this, IDC_OPTTREE),
+		m_options(this, IDC_OPTTREE),
 		m_oldFrameValue(proto->m_bDisableFrame)
 	{
 		CreateLink(m_chkDirect, proto->m_bBsDirect);
@@ -771,40 +771,41 @@ public:
 
 		m_chkDirect.OnChange = m_chkDirectManual.OnChange = Callback(this, &CDlgOptAdvanced::chkDirect_OnChange);
 
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Use message delivery receipts (XEP-0184)"), m_proto->m_bMsgAck);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable avatars"), m_proto->m_bEnableAvatars);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log chat state changes"), m_proto->m_bLogChatstates);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log presence subscription state changes"), m_proto->m_bLogPresence);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log presence errors"), m_proto->m_bLogPresenceErrors);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user moods receiving"), m_proto->m_bEnableUserMood);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user tunes receiving"), m_proto->m_bEnableUserTune);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user activity receiving"), m_proto->m_bEnableUserActivity);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive notes"), m_proto->m_bAcceptNotes);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Automatically save received notes"), m_proto->m_bAutosaveNotes);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Inline pictures in messages (XEP-0231)"), m_proto->m_bInlinePictures);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable chat states sending (XEP-0085)"), m_proto->m_bEnableChatStates);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable carbon copies (XEP-0280)"), m_proto->m_bEnableCarbons);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Use Stream Management (XEP-0198) if possible (Testing)"), m_proto->m_bEnableStreamMgmt);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Use message delivery receipts (XEP-0184)"), m_proto->m_bMsgAck);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable avatars"), m_proto->m_bEnableAvatars);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log chat state changes"), m_proto->m_bLogChatstates);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log presence subscription state changes"), m_proto->m_bLogPresence);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Log presence errors"), m_proto->m_bLogPresenceErrors);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user moods receiving"), m_proto->m_bEnableUserMood);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user tunes receiving"), m_proto->m_bEnableUserTune);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable user activity receiving"), m_proto->m_bEnableUserActivity);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Receive notes"), m_proto->m_bAcceptNotes);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Automatically save received notes"), m_proto->m_bAutosaveNotes);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Inline pictures in messages (XEP-0231)"), m_proto->m_bInlinePictures);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable chat states sending (XEP-0085)"), m_proto->m_bEnableChatStates);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable Message Archive Management (XEP-0313)"), m_proto->m_bEnableMam);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), m_proto->m_bEnableCarbons);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Use Stream Management (XEP-0198) if possible (Testing)"), m_proto->m_bEnableStreamMgmt);
 
-		m_otvOptions.AddOption(LPGENW("Server options") L"/" LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
-		m_otvOptions.AddOption(LPGENW("Server options") L"/" LPGENW("Enable stream compression (if possible)"), m_proto->m_bEnableZlib);
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Enable stream compression (if possible)"), m_proto->m_bEnableZlib);
 
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Enable remote controlling (from another resource of same JID only)"), m_proto->m_bEnableRemoteControl);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Show transport agents on contact list"), m_proto->m_bShowTransport);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Automatically add contact when accept authorization"), m_proto->m_bAutoAdd);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Automatically accept authorization requests"), m_proto->m_bAutoAcceptAuthorization);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Disable frame"), m_proto->m_bDisableFrame);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Embrace picture URLs with [img]"), m_proto->m_bEmbraceUrls);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Enable remote controlling (from another resource of same JID only)"), m_proto->m_bEnableRemoteControl);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Show transport agents on contact list"), m_proto->m_bShowTransport);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically add contact when accept authorization"), m_proto->m_bAutoAdd);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically accept authorization requests"), m_proto->m_bAutoAcceptAuthorization);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Disable frame"), m_proto->m_bDisableFrame);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Embrace picture URLs with [img]"), m_proto->m_bEmbraceUrls);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);
 
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_bAllowVersionRequests);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Show information about operating system in version replies"), m_proto->m_bShowOSVersion);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_bBsOnlyIBB);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_bAcceptHttpAuth);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)"), m_proto->m_bUseOMEMO);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_bAllowVersionRequests);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Show information about operating system in version replies"), m_proto->m_bShowOSVersion);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_bBsOnlyIBB);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_bAcceptHttpAuth);
+		m_options.AddOption(LPGENW("Security"), LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)"), m_proto->m_bUseOMEMO);
 	}
 
 	bool OnInitDialog() override
@@ -841,6 +842,7 @@ public:
 				}
 			}
 		}
+
 		if (m_proto->m_bUseOMEMO)
 			m_proto->m_omemo.init();
 		else
@@ -877,7 +879,7 @@ class CDlgOptGc : public CJabberDlgBase
 	CCtrlEdit		m_txtAltNick;
 	CCtrlEdit		m_txtSlap;
 	CCtrlEdit		m_txtQuit;
-	CCtrlTreeOpts	m_otvOptions;
+	CCtrlTreeOpts	m_options;
 
 public:
 	CDlgOptGc(CJabberProto *proto) :
@@ -885,23 +887,24 @@ public:
 		m_txtAltNick(this, IDC_TXT_ALTNICK),
 		m_txtSlap(this, IDC_TXT_SLAP),
 		m_txtQuit(this, IDC_TXT_QUIT),
-		m_otvOptions(this, IDC_OPTTREE)
+		m_options(this, IDC_OPTTREE)
 	{
 		CreateLink(m_txtAltNick, "GcAltNick", L"");
 		CreateLink(m_txtSlap, "GcMsgSlap", TranslateW(_T(JABBER_GC_MSG_SLAP)));
 		CreateLink(m_txtQuit, "GcMsgQuit", TranslateW(_T(JABBER_GC_MSG_QUIT)));
 
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Autoaccept multiuser chat invitations"),   m_proto->m_bAutoAcceptMUC);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join bookmarks on login"),   m_proto->m_bAutoJoinBookmarks);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join conferences on login"), m_proto->m_bAutoJoinConferences);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not open chat windows on creation"),    m_proto->m_bAutoJoinHidden);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not show multiuser chat invitations"),  m_proto->m_bIgnoreMUCInvites);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Ban notifications"),                    m_proto->m_bGcLogBans);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Room configuration changes"),           m_proto->m_bGcLogConfig);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Affiliation changes"),                  m_proto->m_bGcLogAffiliations);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Role changes"),                         m_proto->m_bGcLogRoles);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Status changes"),                       m_proto->m_bGcLogStatuses);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Don't notify history messages"),        m_proto->m_bGcLogChatHistory);
+		m_options.AddOption(LPGENW("General"), LPGENW("Autoaccept multiuser chat invitations"),   m_proto->m_bAutoAcceptMUC);
+		m_options.AddOption(LPGENW("General"), LPGENW("Automatically join bookmarks on login"),   m_proto->m_bAutoJoinBookmarks);
+		m_options.AddOption(LPGENW("General"), LPGENW("Automatically join conferences on login"), m_proto->m_bAutoJoinConferences);
+		m_options.AddOption(LPGENW("General"), LPGENW("Do not open chat windows on creation"),    m_proto->m_bAutoJoinHidden);
+		m_options.AddOption(LPGENW("General"), LPGENW("Do not show multiuser chat invitations"),  m_proto->m_bIgnoreMUCInvites);
+		
+		m_options.AddOption(LPGENW("Log events"), LPGENW("Ban notifications"),                    m_proto->m_bGcLogBans);
+		m_options.AddOption(LPGENW("Log events"), LPGENW("Room configuration changes"),           m_proto->m_bGcLogConfig);
+		m_options.AddOption(LPGENW("Log events"), LPGENW("Affiliation changes"),                  m_proto->m_bGcLogAffiliations);
+		m_options.AddOption(LPGENW("Log events"), LPGENW("Role changes"),                         m_proto->m_bGcLogRoles);
+		m_options.AddOption(LPGENW("Log events"), LPGENW("Status changes"),                       m_proto->m_bGcLogStatuses);
+		m_options.AddOption(LPGENW("Log events"), LPGENW("Don't notify history messages"),        m_proto->m_bGcLogChatHistory);
 	}
 };
 

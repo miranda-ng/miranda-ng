@@ -51,6 +51,9 @@ void CJabberProto::OnIqResultMamInfo(const TiXmlElement *iqNode, CJabberIqInfo *
 
 void CJabberProto::MamSetMode(int iNewMode)
 {
+	if (!m_bEnableMam)
+		return;
+
 	const char *szMode;
 	switch (iNewMode) {
 	case 0:  szMode = "never"; break;
@@ -135,7 +138,7 @@ void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInf
 
 INT_PTR __cdecl CJabberProto::OnMenuLoadHistory(WPARAM hContact, LPARAM)
 {
-	if (hContact == 0)
+	if (hContact == 0 || !m_bEnableMam)
 		return 0;
 
 	// wipe out old history first

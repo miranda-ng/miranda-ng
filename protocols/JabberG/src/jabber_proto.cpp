@@ -95,6 +95,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bEnableAvatars(this, "EnableAvatars", true),
 	m_bEnableCarbons(this, "EnableCarbons", true),
 	m_bEnableChatStates(this, "EnableChatStates", true),
+	m_bEnableMam(this, "EnableMam", true),
 	m_bEnableMsgArchive(this, "EnableMsgArchive", false),
 	m_bEnableRemoteControl(this, "EnableRemoteControl", false),
 	m_bEnableStreamMgmt(this, "UseStreamMgmt", false),

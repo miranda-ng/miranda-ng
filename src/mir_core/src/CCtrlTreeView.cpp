@@ -114,13 +114,6 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	TVHITTESTINFO hti;
 
 	switch (msg) {
-	case WM_KEYDOWN:
-		if (wParam == VK_SPACE) {
-			if ((GetItemState(this->GetSelection(), TVIS_STATEIMAGEMASK) >> 12) == 0)
-				return TRUE;
-		}
-		break;
-
 	case WM_MOUSEMOVE:
 		if (m_bDragging) {
 			hti.pt.x = (short)LOWORD(lParam);

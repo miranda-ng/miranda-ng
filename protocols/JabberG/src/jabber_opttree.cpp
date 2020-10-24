@@ -37,13 +37,11 @@ CCtrlTreeOpts::CCtrlTreeOpts(CDlgBase* dlg, int ctrlId):
 
 CCtrlTreeOpts::~CCtrlTreeOpts()
 {
-	for (auto &it : m_options)
-		delete it;
 }
 
-void CCtrlTreeOpts::AddOption(wchar_t *szOption, CMOption<bool> &option)
+void CCtrlTreeOpts::AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, CMOption<bool> &option)
 {
-	m_options.insert(new COptionsItem(szOption, option), m_options.getCount());
+	m_options.insert(new COptionsItem(pwszSection, pwszName, option), m_options.getCount());
 }
 
 BOOL CCtrlTreeOpts::OnNotify(int idCtrl, NMHDR *pnmh)
@@ -105,56 +103,34 @@ void CCtrlTreeOpts::OnInit()
 
 	/* build options tree. based on code from IcoLib */
 	for (auto &it : m_options) {
-		int sectionLevel = 0;
-
-		HTREEITEM hSection = nullptr;
-		wchar_t itemName[1024];
-		mir_wstrcpy(itemName, it->m_szOptionName);
-		wchar_t *sectionName = itemName;
-
-		while (sectionName) {
-			// allow multi-level tree
-			wchar_t *pItemName = sectionName;
-			HTREEITEM hItem;
-
-			if (sectionName = wcschr(sectionName, '/')) {
-				// one level deeper
-				*sectionName = 0;
-				sectionName++;
+		if (it->m_pwszSection) {
+			HTREEITEM hSection = FindNamedItem(nullptr, it->m_pwszSection);
+			if (!hSection) {
+				TVINSERTSTRUCT tvis = {};
+				tvis.hParent = hSection;
+				tvis.hInsertAfter = TVI_LAST;
+				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+				tvis.item.pszText = (LPWSTR)it->m_pwszSection;
+				tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
+				tvis.item.iImage = tvis.item.iSelectedImage = IMG_GRPOPEN;
+				hSection = InsertItem(&tvis);
 			}
 
-			hItem = FindNamedItem(hSection, pItemName);
-			if (!sectionName || !hItem) {
-				if (!hItem) {
-					TVINSERTSTRUCT tvis = {};
-					tvis.hParent = hSection;
-					tvis.hInsertAfter = TVI_LAST;//TVI_SORT;
-					tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-					tvis.item.pszText = pItemName;
-					tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
-					if (sectionName) {
-						tvis.item.lParam = -1;
-						tvis.item.state |= TVIS_BOLD;
-						tvis.item.stateMask |= TVIS_BOLD;
-						tvis.item.iImage = tvis.item.iSelectedImage = IMG_GRPOPEN;
-					}
-					else {
-						tvis.item.lParam = m_options.indexOf(&it);
+			TVINSERTSTRUCT tvis = {};
+			tvis.hParent = hSection;
+			tvis.hInsertAfter = TVI_LAST;
+			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			tvis.item.pszText = (LPWSTR)it->m_pwszName;
+			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
+			tvis.item.lParam = m_options.indexOf(&it);
 
-						BYTE val = *it->m_option;
+			BYTE val = *it->m_option;
+			if (it->m_groupId == OPTTREE_CHECK)
+				tvis.item.iImage = tvis.item.iSelectedImage = val ? IMG_CHECK : IMG_NOCHECK;
+			else
+				tvis.item.iImage = tvis.item.iSelectedImage = val ? IMG_RCHECK : IMG_NORCHECK;
 
-						if (it->m_groupId == OPTTREE_CHECK)
-							tvis.item.iImage = tvis.item.iSelectedImage = val ? IMG_CHECK : IMG_NOCHECK;
-						else
-							tvis.item.iImage = tvis.item.iSelectedImage = val ? IMG_RCHECK : IMG_NORCHECK;
-					}
-					hItem = InsertItem(&tvis);
-					if (!sectionName)
-						it->m_hItem = hItem;
-				}
-			}
-			sectionLevel++;
-			hSection = hItem;
+			it->m_hItem = InsertItem(&tvis);
 		}
 	}
 
@@ -207,7 +183,7 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 
 	case IMG_NORCHECK:
 		for (auto &it : m_options) {
-			if (it->m_groupId == m_options[tvi.lParam]->m_groupId) {
+			if (it->m_groupId == m_options[tvi.lParam].m_groupId) {
 				TVITEMEX tvi_tmp;
 				tvi_tmp.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 				tvi_tmp.hItem = it->m_hItem;
@@ -221,16 +197,4 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 	}
 
 	SetItem(&tvi);
-}
-
-CCtrlTreeOpts::COptionsItem::COptionsItem(wchar_t *szOption, CMOption<bool> &option) :
-	m_option(&option),
-	m_groupId(OPTTREE_CHECK)
-{
-	m_szOptionName = mir_wstrdup(szOption);
-}
-
-CCtrlTreeOpts::COptionsItem::~COptionsItem()
-{
-	mir_free(m_szOptionName);
 }
