@@ -268,8 +268,6 @@ Blinken, wenn jemand schreibt
 Blinken, wenn ein Wort hervorgehoben wird
 [Show chat nick list]
 Chatbenutzerliste zeigen
-[Enable button context menus]
-Buttonkontextmenüs nutzen
 [Show topic on your contact list (if supported)]
 Thema in Kontaktliste zeigen (falls unterstützt)
 [Do not play sounds when focused]

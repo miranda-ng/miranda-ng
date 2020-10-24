@@ -345,8 +345,8 @@ Sie müssen als Erstes einen Verschlüsselungsalgorithmus setzen
 Schlüssellänge muss zwischen 1024 und 4096 Bit betragen.
 [Invalid date]
 Ungültiges Datum
-[Name must contain at least 5 characters]
-Der Name muss mind. 5 Zeichen beinhalten.
+[Name must contain at least 4 characters]
+Der Name muss mind. 4 Zeichen beinhalten.
 [Name cannot contain '(' or ')']
 Der Name darf kein '(' oder ')' beinhalten
 [Invalid Email]

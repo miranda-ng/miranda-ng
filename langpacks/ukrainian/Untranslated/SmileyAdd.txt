@@ -1,4 +1,3 @@
-[Disable stickers]
 [Maximum sticker height]
 [Smiley packs' folder]
 [d'Oh!]

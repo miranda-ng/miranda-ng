@@ -116,5 +116,7 @@ Mitglied
 Unbekannter Sticker
 [User sent a sticker:]
 Benutzer hat einen Sticker gesendet:
+[SmileyAdd plugin required to support stickers]
+Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [Buddy addition failed]
 Hinzufügen eines Freundes fehlgeschlagen

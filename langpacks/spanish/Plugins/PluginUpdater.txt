@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.7
+;  Version: 0.2.0.9
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -35,6 +35,8 @@ Cada
 [Restart Miranda automatically]
 
 [Backup database before update (requires Db_autobackups plugin)]
+
+[Number of backups to keep:]
 
 [Files source]
 Archivos fuente
@@ -134,6 +136,8 @@ La lista está vacía.
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 ¡Será eliminado!
+[Unpack operation failed with error code=%d, update terminated]
+
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Actualización completa. Pulse Sí para reiniciar Miranda ahora o en No para posponer el reinicio hasta la salida.
 [Miranda NG Core]

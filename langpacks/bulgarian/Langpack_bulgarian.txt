@@ -3,12 +3,12 @@ Language: Български
 Locale: 0402
 Authors: NEOhidra, Castel
 Author-email: neohidra@gmail.com
-Last-Modified-Using: Miranda NG 0.95.10.3
+Last-Modified-Using: Miranda NG 0.95.12
 
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.11
+;  Version: 0.95.13
 ;============================================================
 [Become idle if the following is left unattended:]
 Бездействащ при липса на активност в:
@@ -68,14 +68,6 @@ Last-Modified-Using: Miranda NG 0.95.10.3
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
 Ще бъде изтрита изтрита историята и настройките за контакта!
-[Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide empty groups]
-Скриване на празните групи
-[Disable groups]
-Без групи
-[Ask before deleting contacts]
-Запитване преди изтриване на контакт
 [Sort contacts by name]
 име
 [Sort contacts by status]
@@ -102,8 +94,6 @@ Last-Modified-Using: Miranda NG 0.95.10.3
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
-[Contact list]
-Списък с контакти
 [System tray icon]
 Икона в трея
 [System tray icon when using multiple protocols]
@@ -170,8 +160,6 @@ Last-Modified-Using: Miranda NG 0.95.10.3
 Полупрозрачност на отличения текст
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
-['Hide offline' means to hide:]
-Скриване като извън линия:
 [Groups]
 Групи
 [Draw a line alongside group names]
@@ -196,10 +184,10 @@ Last-Modified-Using: Miranda NG 0.95.10.3
 Време:
 [milliseconds]
 милисекунди
-[Left margin:]
-Ляв ръб:
 [Hide vertical scroll bar]
 Без вертикална лента за придвижване
+[Left margin:]
+Ляв ръб:
 [Row height:]
 Ред (височина):
 [Gamma correction]
@@ -1062,6 +1050,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Да се показва контекстното меню на подконтакта
 [Show user information]
 Информация за потребителя
+[Contact list]
+Списък с контакти
 [Display subcontact nickname]
 Показване прякора на подконтакта
 [Display subcontact display name]
@@ -1104,8 +1094,36 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Относно Miranda NG
 [Credits >]
 Заслуги >
+[Hide offline users]
+Скриване на контактите "Извън линия"
+[Hide empty groups]
+Скриване на празните групи
+[Enable groups]
+С групи
+[Ask before deleting contacts]
+Запитване преди изтриване на контакт
+['Hide offline' means to hide:]
+Скриване като извън линия:
+[Default settings for known event types]
+Стандартни настройки за видовете събития
+[Show when filter is active]
+Показване при включен филтър
+[Popup]
+Рopup
 [Tray]
 Трей
+[Sound]
+Звук
+[Log to file]
+Запис във файл
+[Show icons in tray only when the chat room is not active]
+Показване на икони в трея само при неактивна чат стая
+[Highlight event]
+Отличаване на събитие
+[Show popups only when the chat room is not active]
+Показване на popups, когато чат стаята е активна
+[Show button menus when right clicking the buttons]
+Показване менютата на бутоните при натискане с десен бутон
 [&Hide/Show]
 Показване/Скриване
 [E&xit]
@@ -1252,6 +1270,8 @@ Google Translate
 Фон на списъка
 [Global]
 Общо
+[General]
+Основни
 [Standard crypto provider]
 Стандартен доставчик на криптиране
 [User has not registered an e-mail address]
@@ -1376,14 +1396,6 @@ Google Translate
 Мигане на прозореца при отличаване на дума
 [Show list of users in the chat room]
 Списък с потребители в чат стаята
-[Show button for sending messages]
-Показване на бутона за изпращане на съобщение
-[Show buttons for controlling the chat room]
-Показване на бутон за контрол на чат стаята
-[Show buttons for formatting the text you are typing]
-Показване на бутони за форматиране на текста, който въвеждате
-[Show button menus when right clicking the buttons]
-Показване менютата на бутоните при натискане с десен бутон
 [Show the topic of the room on your contact list (if supported)]
 Показване на темата на стаята в списъка с контакти (ако се поддържа)
 [Do not play sounds when the chat room is focused]
@@ -1410,28 +1422,6 @@ Google Translate
 Премахване на цветовете от съобщенията в дневника
 [Enable the 'event filter' for new rooms]
 Включване на филтъра за събития в нови стаи
-[Show topic changes]
-Промяна на тема
-[Show users joining]
-Влизане на потребител
-[Show users disconnecting]
-Излизане от мрежата на потребител
-[Show messages]
-Съобщение
-[Show actions]
-Действия
-[Show users leaving]
-Излизане на потребител
-[Show users being kicked]
-Изгонване на потребител
-[Show notices]
-Известия
-[Show users changing name]
-Промяна на прякор
-[Show information messages]
-Информационни съобщения
-[Show status changes of users]
-Промяна на състояние на потребител
 [Show icon for topic changes]
 Смяна на темата (topic)
 [Show icon for users joining]
@@ -1456,58 +1446,6 @@ Google Translate
 Информационни съобщения
 [Show icon for status changes]
 Промяна на състояние
-[Show icons in tray only when the chat room is not active]
-Показване на икони в трея само при неактивна чат стая
-[Show icon in tray for topic changes]
-Промяна на тема (topic)
-[Show icon in tray for users joining]
-Влизане на потребител
-[Show icon in tray for users disconnecting]
-Излизане от мрежата на потребители
-[Show icon in tray for messages]
-Съобщение
-[Show icon in tray for actions]
-Действия
-[Show icon in tray for highlights]
-Отличаване
-[Show icon in tray for users leaving]
-Излизане на потребител
-[Show icon in tray for users kicking other user]
-Потребител изгонва друг потребител
-[Show icon in tray for notices]
-Известие
-[Show icon in tray for name changes]
-Промяна на прякор
-[Show icon in tray for information messages]
-Информационни съобщения
-[Show icon in tray for status changes]
-Промяна на състояние
-[Show popups only when the chat room is not active]
-Показване на popups, когато чат стаята е активна
-[Show popup for topic changes]
-Показване на popups при промяна на тема
-[Show popup for users joining]
-Показване на popups при влизане на потребител
-[Show popup for users disconnecting]
-Показване на popups при излизане от мрежата на потребители
-[Show popup for messages]
-Показване на popups за ново съобщение
-[Show popup for actions]
-Показване на popups за действия
-[Show popup for highlights]
-Показване на popups при отличаване
-[Show popup for users leaving]
-Показване на popups при излизане на потребител
-[Show popup for users kicking other user]
-Показване на popups при изгонване на потребител
-[Show popup for notices]
-Показване на popup за известие
-[Show popup for name changes]
-Показване на popups при промяна на име
-[Show popup for information messages]
-Показване на popups за информационни съобщения
-[Show popup for status changes]
-Показване на popups при промяна на състояние
 [Window icon]
 Икона на прозореца
 [Bold]
@@ -1582,20 +1520,20 @@ Google Translate
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
 Външен вид на дневника за съобщения
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Стандартни събития за показване в чат стая при включен "филтър на събития"
 [Icons to display in the message log]
 Икони за изобразяване в дневника за съобщения
-[Icons to display in the tray]
-Икони за изобразяване в трея
-[Popups to display]
-Popups за изобразяване
-[General]
-Основни
 [Chat log]
 Чат дневник
 [Popups]
 Рopups
+[Incoming message (10x10)]
+Входящо съобщение (10х10)
+[Outgoing message (10x10)]
+Изходящо съобщение (10х10)
+[%s is typing a message...]
+%s пише съобщение...
+[Last message received on %s at %s.]
+Последното съобщение е получено на %s в %s.
 [%s: chat room (%u user)]
 %s: Чат стая (%u потребител)
 [%s: chat room (%u users)]
@@ -1604,20 +1542,8 @@ Popups за изобразяване
 %s: Разговор
 [%s: message session (%u users)]
 %s: Разговор (%u потребителя)
-[Nickname]
-Прякор
-[Unique ID]
-Уникален ID
-[Incoming message (10x10)]
-Входящо съобщение (10х10)
-[Outgoing message (10x10)]
-Изходящо съобщение (10х10)
-[Last message received on %s at %s.]
-Последното съобщение е получено на %s в %s.
 [Message session]
 Разговор
-[%s is typing a message...]
-%s пише съобщение...
 [Me]
 Аз
 [File sent]
@@ -1900,8 +1826,6 @@ Popups са изключени
 %u ви добави в списъка си с контакти
 [Added event]
 Добавяне на събитие
-[&Join chat]
-Влизане
 [%s has joined]
 %s влезе
 [You have joined %s]
@@ -1916,10 +1840,10 @@ Popups са изключени
 Сменихте името си на %s
 [%s kicked %s]
 %s изгони %s
-[Notice from %s: ]
-Известие от %s:\s
-[The topic is '%s%s']
-Темата е "%s%s"
+[Notice from %s]
+Известие от %s
+[The topic is '%s']
+Темата е "%s"
 [ (set by %s on %s)]
  (зададена от %s на %s)
 [ (set by %s)]
@@ -1964,8 +1888,14 @@ Popups са изключени
 Списък с прякори (Отсъстващ)
 [Message typing area]
 Поле за въвеждане на съобщения
+[&Join chat]
+Влизане
 [&Leave chat]
 Излизане
+[Always]
+Винаги
+[Never]
+Никога
 [Message is highlighted]
 Отличаване на съобщение
 [User has performed an action]
@@ -1990,8 +1920,6 @@ Popups са изключени
 %s излезе %s
 [%s kicked %s from %s]
 %s изгони %s от %s
-[Notice from %s]
-Известие от %s
 [Topic change in %s]
 Промяна на темата в %s
 [Information in %s]
@@ -2000,26 +1928,10 @@ Popups са изключени
 %s даде статут "%s" на %s в %s
 [%s disables '%s' status for %s in %s]
 %s отне статута "%s" на %s в %s
-[%s says: %s]
-%s каза: %s
-[%s has left (%s)]
-%s излезе (%s)
-[%s has disconnected (%s)]
-%s излезе от мрежата (%s)
-[%s kicked %s (%s)]
-%s изгони %s (%s)
-[Notice from %s: %s]
-Известие от %s: %s
-[The topic is '%s']
-Темата е "%s"
-[The topic is '%s' (set by %s)]
-Темата е "%s" (зададена от %s)
-[Look up '%s':]
-Търсене за "%s":
-[No word to look up]
-Няма дума за търсене
-[&Message %s]
-Съобщение %s
+[%s says]
+%s каза
+[Events and filters]
+Събития и филтри
 [New group]
 Нова група
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2036,6 +1948,8 @@ Popups са изключени
 Свързване
 [Connecting (attempt %d)]
 Свързване (опит %d)
+[Common]
+Общи
 [(Unknown contact)]
 (Непознат контакт)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2226,6 +2140,8 @@ Win +\s
 Прочитане на съобщение
 [Open Options page]
 Отваря "Настройки"
+[Toggle groups]
+Включване/Изключване на групите
 [Open logging options]
 Отваря "Настройки на дневника на мрежовите връзки"
 [Open 'Find user' dialog]
@@ -2424,6 +2340,12 @@ Win +\s
 Моите профили
 [New profile]
 Нов профил
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
+[Revoke authorization]
+Отнемане на пълномощното
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Акаунтът ще бъде изтрит. Тоест всички негови настройки, контакти и историята ще бъдат изтрити.\n\nНаистина ли желаете това?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2474,12 +2396,6 @@ ID на акаунта
 Името на акаунта трябва да бъде уникално.
 [&Accounts...]
 Акаунти...
-[Request authorization]
-Молба за упълномощаване
-[Grant authorization]
-Даване на пълномощно
-[Revoke authorization]
-Отнемане на пълномощното
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
 [Could not search on any of the protocols, are you online?]
@@ -2566,6 +2482,16 @@ ANSI приставка
 Файлове със звуци
 [WAV files]
 WAV файлове
+[&Message %s]
+Съобщение %s
+[Nickname]
+Прякор
+[Unique ID]
+Уникален ID
+[Look up '%s':]
+Търсене за "%s":
+[No word to look up]
+Няма дума за търсене
 [<Separator>]
 <Разделител>
 [Toolbar]
@@ -3161,8 +3087,8 @@ INI
 Стойност
 [Use LastResult]
 Ползване на последния резултат
-[UTF8 encoding]
-Кодиране UTF8
+[UTF-8 encoding]
+Кодиране UTF-8
 [Function name]
 Име на функция
 [DLL name]
@@ -3863,8 +3789,8 @@ AddContact+
 ;  Version: 0.2.1.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
-Осигурява възможност за асоцииране на някои типове файлове и на URL-адреси водещи към gg, mirpu, wpmsg, xmpp, ymsgr.
+[Handles file type associations and URLs like gg, mirpu, xmpp.]
+Осигурява възможност за асоцииране на някои типове файлове и на URL-адреси водещи към gg, mirpu, xmpp.
 [Registered associations for Miranda NG:]
 Регистрирани асоциации с Miranda NG:
 [Miscellaneous]
@@ -4281,7 +4207,7 @@ Avatar History: Създаването на препратка се провал
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.1
+;  Version: 0.98.1.2
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -5105,42 +5031,6 @@ ChangeKeyboardLayout
 ;============================================================
 [A contact list for blind folks.]
 Списък за контакти предназначен за хора с увредено зрение.
-[Delete contact]
-Изтриване на контакта
-[Are you sure you want to delete %s?]
-Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
-[This will erase all history and settings for this contact!]
-Ще бъде изтрита изтрита историята и настройките за контакта!
-[Yes]
-Да
-[No]
-Не
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Скриване (запазва историята и настройките за игнориране/видимост)
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Може да отмените скриването от "Настройки > Контакти > Игнориране".
-[Hotkeys]
-Клавишни комбинации
-[Show/Hide:]
-Показване/Скриване:
-[Read message:]
-Прочитане на съобщение:
-[Web search:]
-Уеб търсене:
-[URL:]
-URL:
-[Open in new browser window]
-Отваряне в нов прозорец
-[Show options]
-Показване на настройките
-[Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide empty groups]
-Скриване на празните групи
-[Disable groups]
-Без групи
-[Ask before deleting contacts]
-Запитване преди изтриване на контакт
 [Sort contacts by name]
 име
 [Sort contacts by status]
@@ -5167,8 +5057,6 @@ URL:
 Всички икони
 [Only when statuses differ]
 Само при различни състояния
-[Contact list]
-Списък с контакти
 [System tray icon]
 Икона в трея
 [System tray icon when using multiple protocols]
@@ -5217,10 +5105,6 @@ URL:
 Сенки под менютата (изисква рестарт)
 [Pin to desktop]
 Прилепване към работния плот
-[Items]
-Елементи
-['Hide offline' means to hide:]
-Скриване като извън линия:
 [Groups]
 Групи
 [Show counts of number of contacts in a group]
@@ -5261,28 +5145,12 @@ URL:
 Разделител между панелите
 [Show resize grip indicator]
 Индикатор за ръчна промяна на размера
-[Not focused]
-Дефокусирано
-[Offline]
-Извън линия
-[Online]
-На линия
-[Away]
-Отсъстващ
-[Not available]
-Недостъпен
-[Occupied]
-Зает
-[Do not disturb]
-Не безпокойте
-[Free for chat]
-Готов за чат
-[Invisible]
-Невидим
 [Divider: %s]
 Разделител: %s
 [Info: %s]
 Информация: %s
+[Contact list]
+Списък с контакти
 [List]
 Списък
 [Global]
@@ -5297,7 +5165,7 @@ URL:
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.8
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -5346,8 +5214,6 @@ URL:
 Налични режими за преглед
 [Include protocols]
 Включени протоколи
-[New]
-Нов
 [Include groups]
 Включени групи
 [Show contacts in groups]
@@ -5450,16 +5316,6 @@ URL:
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [This will erase all history and settings for this contact!]
 Ще бъде изтрита изтрита историята и настройките за контакта!
-[Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide empty groups]
-Скриване на празните групи
-[Disable groups]
-Без групи
-[Ask before deleting contacts]
-Запитване преди изтриване на контакт
-[Contact list]
-Списък с контакти
 [Contact list sorting]
 Сортиране на списъка с контакти по:
 [1st:]
@@ -5468,8 +5324,8 @@ URL:
 2ри:
 [3rd:]
 3ти:
-[Gamma correction]
-Корекция на гамата
+[Selection mode]
+Режим на маркиране
 [Default]
 Стандарт
 [Full selection]
@@ -5478,8 +5334,8 @@ URL:
 Частично маркиране
 [No selection]
 Без маркиране
-[Selection mode]
-Режим на маркиране
+[Gamma correction]
+Корекция на гамата
 [Bring to front if covered]
 Извеждане отпред, ако е покрит
 [Hide contact list after]
@@ -5544,8 +5400,6 @@ x100 ms
 Полупрозрачност на отличения текст
 [Dim idle contacts]
 Потъмняване на бездействащите контакти
-['Hide offline' means to hide:]
-Скриване като извън линия:
 [Groups]
 Групи
 [Draw a line alongside group names]
@@ -5880,6 +5734,8 @@ ms между две мигания
 Облици
 [Modern contact list]
 Modern contact list
+[Contact list]
+Списък с контакти
 [Avatar overlay]
 Насложени над аватара икони
 [Status overlay]
@@ -6116,6 +5972,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 Ползване на групи / Без групи
 [Use groups]
 Ползване на групи
+[Disable groups]
+Без групи
 [Enable/Disable sounds]
 Включване/Изключване на звука
 [Enable sounds]
@@ -6126,6 +5984,8 @@ Angeli-Ka (изображения), FYR (шаблон)
 Минимизиране
 [To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 За да имате лента с инструменти в Clist_modern се нуждаете от приставката TopToolBar.\nНатиснете "Да" ако искате да я свалите или "Отказ" за да продължите
+[All contacts]
+Всички контакти
 [Ungrouped contacts]
 Негрупирани контакти
 [And]
@@ -6144,22 +6004,20 @@ Angeli-Ka (изображения), FYR (шаблон)
 Дни
 [Configuring view mode: %s]
 Настройвате режим за преглед: %s
-[All contacts]
-Всички контакти
 [Filtering]
 Филтриране
 [*** All contacts ***]
 *** Всички контакти ***
 [Configure view modes]
 Настройване на режимите за преглед
-[Really delete this view mode? This cannot be undone]
-Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
-[Delete a view mode]
-Изтриване на режим за преглед
 [A view mode with this name does already exist]
 Вече съществува режим за преглед с въведеното име
 [Duplicate name]
 Повтарящо се име
+[Really delete this view mode? This cannot be undone]
+Наистина ли желаете режимът за преглед да бъде изтрит? Това действие не може да бъде отменено.
+[Delete a view mode]
+Изтриване на режим за преглед
 [Setup view modes...]
 Настройване на режимите за преглед...
 [Select a view mode]
@@ -6207,20 +6065,8 @@ CList nicer изключение
 Ще бъде изтрита изтрита историята и настройките за контакта!
 [Contact list]
 Списък с контакти
-[Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide empty groups]
-Скриване на празните групи
-[Disable groups]
-Без групи
-[Ask before deleting contacts]
-Запитване преди изтриване на контакт
-[Disable icon blinking]
-Без мигане на икони
 [Apply last active view mode]
 Ползвай последния режим за преглед
-[Contact list layout]
-Изглед на списъка с контакти
 [Show menu and status buttons]
 Бутони "Меню" и "Състояние"
 [Draw sunken edge]
@@ -6231,6 +6077,8 @@ CList nicer изключение
 Интерфейс с едно натискане
 [Always show status in tooltip]
 Показване на състоянието в подсказка
+[Disable icon blinking]
+Без мигане на икони
 [ms]
 ms
 [Event area]
@@ -6549,6 +6397,52 @@ ms
 Настройване на режимите за преглед
 [Clear view mode]
 Изчистване на режима за преглед
+[Nothing]
+Нищо
+[Name]
+Име
+[Status]
+Състояние
+[Message frequency]
+Честота на съобщенията
+[Never]
+Никога
+[Always]
+Винаги
+[For RTL only]
+Само при Л<Д
+[RTL TEXT only]
+Само за текст Л<Д
+[Always left]
+Винаги отляво
+[Always right]
+Винаги отдясно
+[Automatic (RTL)]
+Автоматично Л<Д
+[When space allows it]
+Когато мястото позволява
+[When needed]
+Ако е необходимо
+[With nickname - left]
+С прякора вляво
+[Far left]
+Далеч вляво
+[Far right]
+Далеч вдясно
+[With nickname - right]
+С прякора вдясно
+[Row items]
+Елементи на реда
+[Contacts]
+Контакти
+[Groups and layout]
+Групи и изглед
+[Advanced]
+Разширени
+[No events...]
+Няма събития...
+[Global]
+Общо
 [Not focused]
 Дефокусирано
 [Offline]
@@ -6567,60 +6461,18 @@ ms
 Готов за чат
 [Invisible]
 Невидим
-[Always left]
-Винаги отляво
-[Always right]
-Винаги отдясно
-[Automatic (RTL)]
-Автоматично Л<Д
-[Nothing]
-Нищо
-[Name]
-Име
-[Status]
-Състояние
-[Message frequency]
-Честота на съобщенията
-[Never]
-Никога
-[Always]
-Винаги
-[For RTL only]
-Само при Л<Д
-[RTL TEXT only]
-Само за текст Л<Д
-[When space allows it]
-Когато мястото позволява
-[When needed]
-Ако е необходимо
-[With nickname - left]
-С прякора вляво
-[Far left]
-Далеч вляво
-[Far right]
-Далеч вдясно
-[With nickname - right]
-С прякора вдясно
+[Title bar]
+Заглавна лента
+[Thin border]
+Тънка рамка
+[No border]
+Без рамка
 [General]
 Основни
 [List layout]
 Изглед на списъка
 [Background]
 Фон
-[Row items]
-Елементи на реда
-[Contacts]
-Контакти
-[Groups and layout]
-Групи и изглед
-[Advanced]
-Разширени
-[Skins]
-Облици
-[No events...]
-Няма събития...
-[Global]
-Общо
 [Toggle show online/offline]
 Показване/Скриване на контактите "Извън линия"
 [Toggle groups]
@@ -6737,18 +6589,14 @@ ms
 Показване на всички заглавни ленти
 [Hide all title bars]
 Скриване на всички заглавни ленти
-[Title bar]
-Заглавна лента
-[Thin border]
-Тънка рамка
-[No border]
-Без рамка
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Загнездването на списъка е невъзможно, когато се използва стандартната заглавна лента и рамка. Използвайте рамка Tool Window или стил без рамка.
 [Contact list docking]
 Загнездване на списъка
 [Load and apply]
 Зареждане и прилагане
+[Skins]
+Облици
 [Show additional buttons]
 Показване на допълнителни бутони
 [Draw sunken frame]
@@ -7161,7 +7009,7 @@ Popup настройки
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: borkra
 ;============================================================
 [View Version Information]
@@ -7530,11 +7378,58 @@ XML файлове (*.xml)
 Заменя (само за избрани контакти) буквите на кирилица в изходящите съобщения с фонетичният им латински еквивалент.
 [&Transliterate]
 Транслитериране
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.13.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Валидатор за базата данни на Miranda NG.
+[Miranda Database Tool]
+Инструмент за базата данни на Miranda
+[&Next >]
+Напред >
+[Cancel]
+Отказ
+[Error Opening Database]
+Грешка при отваряне на база данни
+[There was an error opening the profile database given.]
+Възникна грешка при отварянето на зададената база данни.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Натиснете "Напред >" за нов опит за отваряне на файла или "< Назад", за да изберете друга база данни.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Вероятно файлът се използва от Miranda. Излезте от стартираната Miranda и натиснете "Напред >" за нов опит.
+[Working...]
+Изпълнение...
+[Please wait while the requested operations are being performed.]
+Моля, изчакайте докато заявените действия бъдат изпълнени.
+[Database]
+База данни
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Няма подходяща приставка, която да отвори "%s".
+[Error]
+Грешка
+[Database driver '%s' doesn't support checking.]
+Драйвърът за базити данни "%s" не може да извършва проверки.
+[&Finish]
+Готово
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Процесът не е завършил. Ако се откажете сега, промените които са извършени до момента ще бъдат анулирани и базата данни ще бъде върната към предишното си състояние. Наистина ли желаете да се откажете?
+[Processing aborted by user]
+Обработването бе прекратено от потребител
+[Elapsed time: %d sec]
+Изминало време: %d сек
+[All tasks completed but with errors (%d)]
+Всички задачи са завършени, но с грешки (%d)
+[All tasks completed successfully]
+Всички задачи бяха завършени успешно.
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.2
+;  Version: 4.0.1.3
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -7846,6 +7741,8 @@ INI файлове
 Паролата е грешна!
 [Please type in your password]
 Моля, въведете паролата
+[Error]
+Грешка
 [Change/remove password]
 Промяна/премахване на парола
 [Wrong old password entered!]
@@ -7968,7 +7865,7 @@ INI файлове
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Automatic backups]
@@ -8053,7 +7950,7 @@ INI файлове
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.1
+;  Version: 0.6.2.5
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -8074,12 +7971,20 @@ INI файлове
 Главна икона
 [Group chats]
 Групови чатове
+[Call]
+Обаждане
 [Network]
 Мрежа
 [Account]
 Акаунт
+[Incoming call]
+Входящо обаждане
 [%s server connection]
 %s връзка със сървъра
+[Owners]
+Собственици
+[Participants]
+Участници
 [Preview]
 Образец
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
@@ -8119,7 +8024,7 @@ Live ID
 ;============================================================
 ;  File: EmLanProto.dll
 ;  Plugin: E-mage LAN protocol
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: kva
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
@@ -8179,12 +8084,12 @@ E-mage LAN протокол
 Един непрочетен имейл...
 [Plugins]
 Приставки
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.1.0.8
+;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Осигурява комуникация чрез социалната мрежа Facebook в Miranda NG.
@@ -8194,132 +8099,34 @@ E-mage LAN протокол
 Парола:
 [Create a new Facebook account]
 Създаване на Facebook акаунт
-[What's on your mind?]
-Какво мислите?
-[Wall:]
-Стена:
-[Visibility:]
-Видимост:
-[Text:]
-Текст:
-[URL:]
-URL:
-[Place:]
-Място:
-[Contacts >>]
-Контакти >>
-[Share]
-Сподели
-[Cancel]
-Отказ
 [User details]
 Подробности за потребителя
 [Contacts]
 Контакти
 [Default group:]
 Стандартна група
-[Automatically set 'Ignore status change' flag]
-Автозадаване на флаг "Игнориране промените на състояния"
-[Use bigger avatars]
-Ползване на по-големи аватари
-[News feed types to notify:]
-Уведомяване за следните новини:
-[Extra]
-Допълнителни
-[Use balloon notifications in system tray instead of popups]
-Ползване на балонни известия в трея вместо popup
-[Post Miranda statuses to Wall]
-Публикуване на състоянията от Miranda на стената
-[Advanced]
-Разширени
-[Bots challenge test]
-Тест за ботове
-[Instruction:]
-Инструкции:
-[Submit]
-Пращане
-[Messages]
-Съобщения
-[Enter the text you see]
-Въведете текста, който виждате
-[&Invite user...]
-Покани потребител...
-[User &details]
-Подробности за потребителя
-[User &history]
-История на потребителя
-[Myself]
-Аз
-[Friend]
-Приятел
-[User]
-Потребител
-[Notifications]
-Уведомявания
-[Unknown error]
-Непозната грешка
-[Login error, probably bad login credentials.]
-Грешка при вписване вероятно поради сгрешени данни за вписване.
-[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уеб страницата на Facebook и опитайте да изпратите съобщението до контакта отново!
-[Please enter a username.]
-Моля, въведете потребителско име.
-[Please enter a password.]
-Моля, въведете парола.
-[Default]
-Стандарт
-[<< Contacts]
-<< Контакти
-[a sticker]
-стикер
-[files]
-файлове
-[a file]
-файл
-[User sent %s:]
-Потребител изпрати%s:
-[%s is typing a message...]
-%s пише съобщение...
-[You cannot send messages when you are offline.]
-Не можете да изпращате съобщения, когато сте "Извън линия"
-[Contact is back on server-list.]
-Контактът е отново в списъка на сървъра.
-[Contact is no longer on server-list.]
-Контактът вече не е в списъка на сървъра.
-[%s server connection]
-%s връзка със сървъра
+[Group chats]
+Групови чатове
+[&Invite]
+Покана
+[Cancel]
+Отказ
+[&Invite a user]
+Поканване на потребител
 [Network]
 Мрежа
 [Account]
 Акаунт
-[Events]
-Събития
-[Messaging]
-Съобщения
-[Other events]
-Други събития
-[Notification]
-Уведомяване
-[Newsfeed event]
-Новина
-[Other event]
-Друго събитие
-[Mind]
-Мисли си
-[Angry]
-Ядосан
-[Haha]
-Ха-ха
-[Like]
-Харесва ми
-[Love]
-Любов
-[Sad]
-Тъжно
-[Wow]
-Еха
-[Services...]
-Услуги...
+[%s server connection]
+%s връзка със сървъра
+[Participant]
+Участник
+[URL]
+URL
+[Title]
+Заглавие
+[Description]
+Описание
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -8447,8 +8254,6 @@ ICQ клиенти
 IRC клиенти
 [Jabber clients]
 Jabber клиенти
-[MSN clients]
-MSN клиенти
 [RSS clients]
 RSS клиенти
 [VKontakte clients]
@@ -8517,8 +8322,6 @@ JGmail
 JGTalk
 [Jabber overlay]
 Jabber
-[MSN overlay]
-MSN
 [VK overlay]
 VK
 [Skype overlay]
@@ -8726,7 +8529,7 @@ ms
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
-;  Version: 0.6.0.5
+;  Version: 0.6.0.6
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
@@ -11044,11 +10847,11 @@ XML индекс
 [Speed]
 Скорост
 [Current IP Address: ]
-Текущ IP адрес: 
+Текущ IP адрес:\s
 [Current Address: ]
-Текущ адрес: 
+Текущ адрес:\s
 [IP Address: ]
-IP адрес: 
+IP адрес:\s
 [You are browsing from]
 Преглеждате от
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
@@ -11084,7 +10887,7 @@ HTTP споделяне на нов файл
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.5
+;  Version: 0.95.12.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -11121,6 +10924,12 @@ UIN:
 Разширени
 [%s server connection]
 %s връзка със сървъра
+[Name]
+Име
+[Rename]
+Преименуване
+[Delete]
+Изтриване
 [admin]
 администратор
 [member]
@@ -11209,7 +11018,7 @@ ICQ номер
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.2
+;  Version: 1.6.0.4
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [Copy]
@@ -11278,10 +11087,6 @@ ICQ номер
  заявено упълномощаване
 [ was added.]
  беше добавен.
-[The topic is %s.]
-Темата е %s.
-[Error]
-Грешка
 [Default]
 Стандарт
 [Template]
@@ -11446,6 +11251,8 @@ IEView
 Miranda внос
 [All Files]
 Всички файлове
+[Miranda NG database/mContacts]
+База от данни на Miranda NG/mContacts
 [Skipping duplicate group %s.]
 Пропускане на дублираща се група %s.
 [Import...]
@@ -11565,8 +11372,8 @@ CTCP информация
 Съобщение при изход:
 [Server code page:]
 Кодова таблица за сървъра:
-[Enable UTF8 autodetection]
-Автоматично засичане на UTF8
+[Enable UTF-8 autodetection]
+Автоматично засичане на UTF-8
 [Add server]
 Добавяне на сървър
 [Auto]
@@ -12125,7 +11932,7 @@ Voice (имащ право да говори)
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -12196,8 +12003,6 @@ Voice (имащ право да говори)
 Поддържане на връзката
 [Automatically delete contacts not in my roster]
 Автоизтриване на контакти, които не са в моя списък с хора
-[User directory:]
-Директория на потребителя:
 [Language for human-readable resources:]
 Език за човешките ресурси:
 [File Transfer]
@@ -12212,10 +12017,8 @@ Voice (имащ право да говори)
 Съвет:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Премахнете горните отметки, ако имате проблеми с изпращането на файлове. Може да причини проблеми с обмена на големи файлове.
-[Jabber account registration]
-Регистриране на Jabber акаунт
-[Jabber Form]
-Jabber формуляр
+[Account registration]
+Регистриране на акаунт
 [Instruction:]
 Инструкции:
 [Submit]
@@ -12510,8 +12313,8 @@ Jabber настроение
 Изпълнение
 [Jabber Agent Registration]
 Регистрация на Jabber агент
-[No message]
-Няма съобщение
+[Registration successful]
+Успешно регистриране
 [Register]
 Регистриране
 [Please wait...]
@@ -12612,14 +12415,14 @@ Jabber настроение
 Участник
 [Moderator]
 Модератор
-[Owners]
-Собственици
-[Moderators]
-Модератори
-[Participants]
-Участници
 [Visitors]
 Посетители
+[Participants]
+Участници
+[Moderators]
+Модератори
+[Owners]
+Собственици
 [Role of %s was changed to '%s'.]
 Ролята на %s е променена на "%s".
 [Change &nickname]
@@ -12734,22 +12537,6 @@ Jabber настроение
 Изпращането на данни е невъзможно извън линия.
 [Jabber Error]
 Jabber грешка
-[Node hierarchy]
-Йерархия на възела
-[Node]
-Възел
-[Navigate]
-Придвижване
-[Browse all favorites]
-Разглеждане на всички любими
-[Remove all favorites]
-Премахване на всички любими
-[Registered transports]
-Регистрирани транспорти
-[Browse local transports]
-Разглеждане на местните транспорти
-[Browse chatrooms]
-Разглеждане на чат стаите
 [Contact Menu...]
 Меню на контакта...
 [View vCard]
@@ -12780,10 +12567,28 @@ Jabber грешка
 Копиране името на възела
 [Copy node information]
 Копиране информацията за възела
+[Node hierarchy]
+Йерархия на възела
+[Node]
+Възел
+[Navigate]
+Придвижване
+[Browse all favorites]
+Разглеждане на всички любими
+[Remove all favorites]
+Премахване на всички любими
+[Registered transports]
+Регистрирани транспорти
+[Browse local transports]
+Разглеждане на местните транспорти
+[Browse chatrooms]
+Разглеждане на чат стаите
 [type]
 тип
 [Type]
 Тип
+[No compatible file transfer mechanism exists]
+Не съществува съвместим механизъм за обмен на файлове
 [Failed to retrieve room list from server.]
 Списъкът със стаи от сървъра не бе извлечен.
 [No rooms available on server.]
@@ -12888,8 +12693,6 @@ RSS услуга
 Неуспешно удостоверяване за %s.
 [Authentication]
 Упълномощаване
-[Registration successful]
-Успешно регистриране
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Паролата е променена. Не забравяйте да я промените в настройките на протокола Jabber.
 [Password cannot be changed.]
@@ -12914,8 +12717,6 @@ RSS услуга
 Получена е HTTP молба за удостоверяване
 [Jabber account chooser]
 Избор на Jabber акаунт
-[Convert]
-Превръщане
 [Add to Bookmarks]
 Добавяне в отметките
 [Commands]
@@ -12930,10 +12731,6 @@ Jabber източник
 Последна активност
 [Server's Choice]
 По избор на сървъра
-[&Convert to Contact]
-Превръщане в контакт
-[&Convert to Chat Room]
-Превръщане в чат стая
 [Services...]
 Услуги...
 [Registered Transports]
@@ -13284,6 +13081,10 @@ Jabber източник
 йоруба
 [Zulu]
 зулуски
+[Never]
+Никога
+[Always]
+Винаги
 [These changes will take effect the next time you connect to the Jabber network.]
 Промените ще бъдат осъществени при следващо свързване към мрежата Jabber.
 [Jabber Protocol Option]
@@ -13298,8 +13099,6 @@ Jabber източник
 Трябва да сте на линия
 [Messaging]
 Съобщения
-[Send messages slower, but with full acknowledgment]
-По-бавно изпращане на съобщенията, но със сигурно потвърждение
 [Enable avatars]
 Ползване на аватари
 [Log chat state changes]
@@ -13336,8 +13135,6 @@ Jabber източник
 Без рамка
 [Enable XMPP link processing (requires AssocMgr)]
 Асоцииране с XMPP връзки (изисква приставка AssocMgr)
-[Keep contacts assigned to local groups (ignore roster group)]
-Назначавай контактите към местните групи (игнориране на списъка с хора)
 [Security]
 Сигурност
 [Allow servers to request version (XEP-0092)]
@@ -13512,14 +13309,10 @@ S.ms
 Не сте избрали списък
 [Can't remove active or default list]
 Активният или стандартният списък не може да бъдат премахнати
-[Sorry]
-Извинете
 [Unable to save list because you are currently offline.]
 Списъка не може да бъде запаметен защото сте извън линия.
 [List Editor...]
 Редактиране на списък...
-[No compatible file transfer mechanism exists]
-Не съществува съвместим механизъм за обмен на файлове
 [Protocol is offline or no JID]
 Протоколът е "Извън линия" или няма JID
 [Lock workstation]
@@ -13544,8 +13337,8 @@ S.ms
 Сваляне...
 [Connecting...]
 Свързване...
-[XML for MS Excel (UTF-8 encoded)]
-XML за MS Excel (кодиран с UTF-8)
+[XML (UTF-8 encoded)]
+XML (кодиран с UTF-8)
 [Error: unknown reply received\r\nPlease select other server]
 Грешка: получен е непознат отговор\r\nМоля, изберете друг сървър
 [Search error]
@@ -14010,7 +13803,7 @@ Jabber vCard: Редактиране на телефонен номер
 ;============================================================
 ;  File: KeyboardNotify.dll
 ;  Plugin: Keyboard notify ext.
-;  Version: 1.5.7.7
+;  Version: 1.6.0.1
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
@@ -14031,10 +13824,10 @@ Jabber vCard: Редактиране на телефонен номер
 На линия
 [Away]
 Отсъстващ
-[Occupied]
-Зает
 [Not available]
 Недостъпен
+[Occupied]
+Зает
 [Do not disturb]
 Не безпокойте
 [Free for chat]
@@ -14095,14 +13888,14 @@ URL събития
 Протокол
 [All Files]
 Всички файлове
+[Events]
+Събития
 [Accounts]
 Акаунти
 [Rules]
 Правила
 [Flashing]
 Мигане
-[Events]
-Събития
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -14434,7 +14227,7 @@ xСъстояние
 ;============================================================
 ;  File: MessageState.dll
 ;  Plugin: Message state
-;  Version: 0.0.1.0
+;  Version: 0.1.0.2
 ;  Authors: MikalaiR
 ;============================================================
 [Sending...]
@@ -14551,7 +14344,7 @@ xСъстояние
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.9.1
+;  Version: 0.11.9.2
 ;  Authors: Miranda NG team
 ;============================================================
 [General]
@@ -14568,7 +14361,7 @@ xСъстояние
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR Generating Private Key]
@@ -14601,24 +14394,12 @@ OTR създаване на нов частен ключ
 Показване на OTR системните съобщения като Popup
 [Show verification dialog when receiving unverified fingerprint]
 Изискване на потвърждаване при получаване на непотвърден отпечатък
-[Set OTR policy per protocol]
-Задаване на политика за протоколите
 [Current policy:]
 Текуща политика:
-[Generate new private key]
-Създаване на нов частен ключ
-[Forget private key]
-Забравяне на ключа
 [Set OTR policy per contact]
 Задаване на политика за контактите
 [View & Modify status of known fingerprints]
 Преглед и промяна състоянието на отпечатъците
-[Set verified]
-Потвърждаване
-[Set unknown]
-Задай непознат
-[Forget]
-Забравяне
 [&Cancel]
 Отказ
 [&No]
@@ -14635,6 +14416,18 @@ OTR състояние
 Прекратяване на OTR сесията
 [&Verify Fingerprint]
 Проверяване на отпечатъка
+[Set verified]
+Потвърждаване
+[Set unknown]
+Задай непознат
+[Copy]
+Копиране
+[Forget]
+Забравяне
+[Generate new private key]
+Създаване на нов частен ключ
+[Forget private key]
+Забравяне на ключа
 [OTR private]
 OTR частно
 [OTR unverified]
@@ -14693,16 +14486,6 @@ OTR информация
 Сега се използва ПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Сега се използва НЕПОТВЪРДЕН отпечатък за OTR шифрованата сесия с "%s"
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Създаване на нов частен ключ за протокол "%s".\nМоля, изчакайте...
-[General]
-Основни
-[Protocols]
-Протоколи
-[Contacts]
-Контакти
-[Fingerprints]
-Отпечатъци
 [Contact]
 Контакт
 [Account]
@@ -14791,6 +14574,14 @@ OTR състояние
 Конвертиране на HTML код (за Pidgin)
 [Services]
 Услуги
+[General]
+Основни
+[Accounts]
+Акаунти
+[Contacts]
+Контакти
+[Fingerprints]
+Отпечатъци
 #muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
 ;  File: MobileState.dll
@@ -15012,7 +14803,7 @@ mRadio вкл.
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.3
+;  Version: 3.1.2.6
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -15031,18 +14822,12 @@ mRadio вкл.
 Макс. ширина
 [Time format]
 Час (формат)
-[Use UTF8 in new files]
-UTF8 за нови файлове
+[Use UTF-8 in new files]
+UTF-8 за нови файлове
 [Append extra new line]
 Допълнителен ред
-[Auto filename]
-Авт. именуване
-[Clear all]
-Изчисти всички
 [Help]
 Помощ
-[Export all history]
-Износ на история
 [Exporting old messages]
 Изнасяне на стари съобщения
 [&Find...]
@@ -15065,10 +14850,16 @@ UTF8 за нови файлове
 Дебъг
 [User &details]
 Подробности за потребителя
-[Export selected]
-Износ на маркираните
+[Export]
+Износ
 [Set to default filename]
 Стандартно име на файла
+[Select all]
+Избор - всичко
+[Auto filename]
+Авт. именуване
+[Clear all]
+Изчисти всички
 [Copy]
 Копиране
 [Search string was not found!]
@@ -15101,14 +14892,10 @@ UTF8 за нови файлове
 Файл
 [Nick]
 Прякор
-[Proto]
-Протокол
-[UIN]
-UIN
+[Account]
+Акаунт
 [No contacts found to export]
 Не са открити контакти за изнасяне
-[Export Protocols]
-Протоколи за изнасяне
 [History]
 История
 [General]
@@ -15159,8 +14946,6 @@ Miranda NG (приставка Message Export)
 							История за
 [User]
 Потребител
-[Protocol]
-Протокол
 [File: ]
 Файл:
 [Description: ]
@@ -15187,230 +14972,6 @@ UIN        :
 Изтрит е потребител. Да бъде ли изтрит и файла?
 [Failed to delete the file]
 Изтриването на файла се провали
-#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
-;============================================================
-;  File: MSN.dll
-;  Plugin: MSN protocol
-;  Version: 0.95.11.1
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
-;============================================================
-[Microsoft Network (MSN) protocol support for Miranda NG.]
-Осигурява комуникация чрез протокола Microsoft Network (MSN) в Miranda NG.
-[Live ID:]
-Live ID:
-[Password:]
-Парола:
-[Nickname:]
-Прякор:
-[Create a new Windows Live account]
-Създаване на Windows Live акаунт
-[Expert]
-Експерт
-[Send message font color/size info inside messages]
-Изпращане на информация за шрифта и размера на съобщението
-[Disable all contacts not included into my contact list]
-Изключване на контактите, които не са в списъка с контакти
-[Manage server groups]
-Управление групите на сървъра
-[Allow people on my contact list send messages to mobile device]
-Изпращане на съобщ. до мобилното ми устройство от хора в списъка с контакти
-[Run the following application when new Hotmail arrives]
-Изпълнение на следната програма при пристигане на ново писмо в Hotmail
-[Connection settings]
-Настройки за свързване
-[Direct:]
-Директно:
-[Gateway:]
-Шлюз:
-[Reset]
-Анулиране
-[Notify me when a message delivery has failed]
-Уведомяване при неуспешно доставяне на съобщение
-[Incoming file transfers]
-Входящо прехвърляне на файл
-[Your host (or router):]
-Ваш хост (или рутер):
-[Server List Manager]
-Диспечер на сървърния списък
-[Contact is on your local list]
-Контакт в местния списък с контакти
-[Contact is included into your server list]
-Контактът не е в списъка на сървъра
-[Blocked contact]
-Блокиран контакт
-[Somebody included you in his/her server list]
-Потребител добавил ви в списъка си с контакти
-[Refresh]
-Обновяване
-[Enable Popup notifications]
-Уведомяване с Popup
-[Ignore new messages not in Inbox folder]
-Игнориране на писмата в папки различни от Inbox
-[Other]
-Друго
-[Display errors using popups]
-Изобразяване на грешки чрез popups
-[Enable 'Chat Session Established' popup]
-popup при установяване на разговор
-[Enable 'Contact left channel' popup]
-popup при излизане на контакт от канал
-[Set Nickname]
-Задаване на прякор
-[Cancel]
-Отказ
-[Mobile Device (used for SMS)]
-Мобилно устройство (използва се за SMS-и)
-[Spouse/Partner]
-Съпруг(а)/Партньор
-[Middle Name]
-Презиме
-[First Name]
-Име
-[Last Name]
-Фамилия
-[Anniversary]
-Годишнина
-[Birthday]
-Рожден ден
-[Nickname]
-Прякор
-[Place:]
-Място:
-[MSN Delete Contact]
-MSN изтриване на контакт
-[Remove from Hotmail Address book]
-Премахване от книгата с адреси в Hotmail
-[Block Contact]
-Блокиране на контакта
-[Invite Contact To Chat]
-Поканете контакт
-[Live ID]
-Live ID
-[&Invite]
-Покана
-[&Cancel]
-Отказ
-[Add]
-Добавяне
-[Admin]
-Администратор
-[User]
-Потребител
-[Chat #]
-Чат №
-[&Invite user...]
-Покани потребител...
-[&Leave chat session]
-Напускане от разговора
-[User &details]
-Подробности за потребителя
-[User &history]
-История на потребителя
-[MSN Alert]
-MSN уведовяване
-[User not online]
-Потребителя не е на линия
-[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Контактът %s е премахнат от сървъра.\nЖелаете ли да бъде запазен като "Локален контакт" за да се съхрани историята на разговорите?
-[%s protocol]
-Протокол "%s"
-[Subject: %s]
-Тема: %s
-[Hotmail from %s (%S)]
-Hotmail от %s (%S)
-[Hotmail from %s]
-Hotmail от %s
-[Unread mail is available: %d in Inbox and %d in other folders.]
-Непрочетени е-писма: %d в Inbox и %d в други папки
-[&Unblock]
-Деблокиране
-[&Block]
-Блокиране
-[Create &Chat]
-Създаване на чат
-[Display &Hotmail Inbox]
-Показване на пощата в Hotmail
-[View &Profile]
-Преглед на профила
-[Notifications]
-Уведомявания
-[Errors]
-Грешки
-[MSN Protocol]
-MSN протокол
-[Protocol icon]
-Икона на протокола
-[Profile]
-Профил
-[MSN Services]
-MSN услуги
-[Block user]
-Блокиране
-[Invite to chat]
-Покана за чат
-[Start Netmeeting]
-Иницииране на Netmeeting
-[Contact list]
-Списък с контакти
-[Allowed list]
-Списък "Разрешени"
-[Blocked list]
-Списък "Блокирани"
-[Local list]
-Местен списък
-[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Внасянето на групите от сървъра може да измени положението на някои контакти при следващо вписване в MSN. Желаете ли вашите групи да бъдат качени на сървъра?
-[These changes will take effect the next time you connect to the MSN Messenger network.]
-Промените ще бъдат осъществени при следващо свързване към мрежата MSN.
-[MSN options]
-MSN настройки
-[Automatically obtain host/port]
-Автоматично получаване на хост/порт
-[Manually specify host/port]
-Ръчно определяне на хост/порт
-[Disable]
-Изключване
-[IP info available only after login]
-IP информацията е налична само след вписване
-[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-Протоколът MSN изисква закъснението за съобщения да е не по-малко от 60 секунди. Поправете стойността.
-[Network]
-Мрежа
-[Account]
-Акаунт
-[Connection]
-Връзка
-[Server list]
-Списък на сървъра
-[Live Mail]
-Live поща
-[Live Alert]
-Live уведомяване
-[%s plugin connections]
-Връзки на приставката "%s"
-[Contact already in your contact list]
-Контактът вече присъства в списъка ви с контакти
-[Protocol is offline]
-Протоколът е извън линия
-[You cannot send message to yourself]
-Не е възможно изпращането на съобщения до себе си
-[Message is too long: SMS page limited to 133 UTF8 chars]
-Съобщението е твърде дълго: SMS страниците са ограничени до 133 UTF8 знака
-[Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Съобщението е твърде дълго: MSN съобщенията са ограничени до 1202 UTF8 знака
-[Offline messaging is not allowed for LCS contacts]
-Изпращането на съобщения извън линия не е позволено за LCS контакти
-[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Протоколът MSN изисква закъснението за съобщения да е не по-малко от 60 секунди. Поправете стойността.
-[Convert to Chat]
-Конвертиране в чат
-#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
-;============================================================
-;  File: mTextControl.dll
-;  Plugin: Miranda text control
-;  Version: 0.8.0.1
-;  Authors: Merlin_de, Victor Pavlychko
-;============================================================
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: MyDetails.dll
@@ -15881,6 +15442,191 @@ URL адрес на страницата за коментари към нови
 Вкл / Изкл на автоматично обновяване
 [NewsAggregator HTTP connections]
 HTTP връзки на NewsAggregator
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.1.0.2
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Прегледайте историята на разговорите в Miranda NG.
+[Messages]
+Съобщения
+[Files]
+Файлове
+[Total]
+Тотален
+[Incoming]
+Входящи
+[Outgoing]
+Изходящи
+[Group messages]
+Групиране на съобщенията
+[Filter]
+Филтър
+[Show all events]
+Показване на всички събития
+[Incoming events]
+Входящи събития
+[Outgoing events]
+Изходящи събития
+[Show messages]
+Съобщение
+[Log options]
+Настройки на дневника
+[Options]
+Настройки
+[Templates]
+Шаблони
+[Copy]
+Копиране
+[Edit]
+Редактиране
+[Delete]
+Изтриване
+[Select all]
+Избор - всичко
+[Incoming messages]
+Входящите съобщения
+[Outgoing messages]
+Изходящи съобщения
+[Incoming files]
+Входящи файлове
+[Outgoing files]
+Изходящи файлове
+[Status changes]
+Промяна на състояние
+[Grid background]
+Фон на мрежата
+[Separator]
+Разделител
+[Incoming name]
+Входящо име
+[Outgoing name]
+Изходящо име
+[FirstName]
+Име
+[LastName]
+Фамилия
+[e-mail]
+Имейл
+[Nick]
+Прякор
+[Age]
+Възраст
+[Gender]
+Пол
+[City]
+Град
+[State]
+Област
+[Phone]
+Телефон
+[Homepage]
+Домашна страница
+[About]
+Относно
+[Export...]
+Износ...
+[Send message]
+Изпращане на съобщение
+[User info]
+Подробности за потребителя
+[User menu]
+Потребителско меню
+[Conversations]
+Разговори
+[Complete]
+Завършен
+[Empty history]
+Изтриване на историята
+[System history]
+Системна история
+[Main icon]
+Главна икона
+[Search]
+Търсене
+[Export]
+Износ
+[Incoming message]
+Входящо съобщение
+[Outgoing message]
+Изходящо съобщение
+[Unknown event]
+Неизвестно събитие
+[Update preview]
+Обновяване
+[Help]
+Помощ
+[Reset to default]
+Стандарт
+[Variables help]
+За променливите
+[Test contact]
+Тестови контакт
+[event count]
+Брой събития
+[icon]
+Икона
+[timestamp]
+Времева марка
+[minute]
+минута
+[month]
+месец
+[year (4 digits)]
+година(4 знака)
+[History]
+История
+[Advanced]
+Разширени
+[Sunday]
+неделя
+[Monday]
+понеделник
+[Tuesday]
+вторник
+[Wednesday]
+сряда
+[Thursday]
+четвъртък
+[Friday]
+петък
+[Saturday]
+събота
+[January]
+януари
+[February]
+февруари
+[March]
+март
+[April]
+април
+[May]
+май
+[June]
+юни
+[July]
+юли
+[August]
+август
+[September]
+септември
+[October]
+октомври
+[November]
+ноември
+[December]
+декември
+[Interface]
+Интерфейс
+[Message log]
+Дневник за съобщения
+[Other events]
+Други събития
+[Clipboard]
+Клипборд
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
@@ -16170,8 +15916,8 @@ xСъстояние
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.1.0.1
-;  Authors: sss
+;  Version: 0.2.0.4
+;  Authors: sss, Miranda NG Team
 ;============================================================
 [Account:]
 Акаунт:
@@ -16199,22 +15945,22 @@ xСъстояние
 Текуща парола:
 [Warning]
 Предупреждение
-[Contact]
-Контакт
-[Name]
-Име
-[Email]
-Имейл
-[Protocol]
-Протокол
-[info]
-Информация
 [Error]
 Грешка
-[LOG files]
-Дневници (файлове)
 [Info]
 Информация
+[Email]
+Имейл
+[Name]
+Име
+[Contact]
+Контакт
+[Account]
+Акаунт
+[info]
+Информация
+[LOG files]
+Дневници (файлове)
 [Services]
 Услуги
 [Main]
@@ -16258,7 +16004,7 @@ URL
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.0
+;  Version: 0.2.3.1
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [History Enabled]
@@ -16273,13 +16019,15 @@ URL
 Изчистване
 [** All contacts **]
 ** Всички контакти **
+[** New contacts **]
+** Нови контакти **
 [History]
 История
 #muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.4
+;  Version: 0.2.1.0
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Reset to defaults]
@@ -16632,7 +16380,7 @@ HTTP връзки на Pack Updater
 [Default file encoding]
 Станд. кодиране на знаците
 [Auto-detect UTF-8]
-Автоматично засичане на UTF8
+Автоматично засичане на UTF-8
 [Show confirmation dialog box]
 Показване на прозорец за потвърждаване
 [Autosend download link to contact]
@@ -16852,7 +16600,7 @@ HTTP връзки на Paste It
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.3
+;  Version: 0.2.0.9
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -16869,10 +16617,6 @@ HTTP връзки на Paste It
 Марк. всички
 [Select &none]
 Нищо
-[Hotkey]
-Клавишна комбинация
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-За промени отидете в "Персонализиране > Клавишни" комбинации
 [Update options]
 Настройки за актуализирането
 [On startup]
@@ -16883,6 +16627,8 @@ HTTP връзки на Paste It
 Всеки
 [Silent mode]
 Тих режим
+[Number of backups to keep:]
+Брой резервни копия за съхраняване:
 [Files source]
 Кая версия да се сваля
 [Stable version]
@@ -16941,6 +16687,18 @@ HTTP връзки на Paste It
 Всички компоненти за Miranda NG, които не сте инсталирали. Отметнете тези, които желаете да свалите и натиснете "Сваляне".\nНатиснете бутона "i" за да прегледате страницата с информация за даден компонент.
 [Download]
 Сваляне
+[Component Name]
+Име на компонента
+[State]
+Състояние
+[Plugins]
+Приставки
+[Icons]
+Икони
+[Languages]
+Езици
+[Other]
+Друго
 [Downloading...]
 Сваляне...
 [Succeeded.]
@@ -16955,18 +16713,6 @@ Plugin Updater
 Свалянето приключи
 [Download complete. Do you want to go to plugins option page?]
 Свалянето приключи. Желаете ли да отворите страницата с настройките?
-[Component Name]
-Име на компонента
-[State]
-Състояние
-[Plugins]
-Приставки
-[Icons]
-Икони
-[Languages]
-Езици
-[Other]
-Друго
 [List is empty.]
 Списъкът е празен.
 [List loading already started!]
@@ -16987,14 +16733,14 @@ Plugin Updater
 %d компонента са актуализирани
 [You need to restart your Miranda to apply installed updates.]
 Необходимо е да рестартирате Miranda NG за да бъдат приложени актуализациите.
-[Would you like to restart it now?]
-Желаете ли да бъде рестартирана сега?
 [Checking for new updates...]
 Проверка за нови актуализации...
 [No updates found.]
 Няма налични актуализации.
 [Update checking already started!]
 Вече е стартирана проверка за актуализации!
+[Would you like to restart it now?]
+Желаете ли да бъде рестартирана сега?
 [Stable version (incompatible with current development version)]
 Стабилна версия (несъвместимо с текущата развойна версия)
 [hours]
@@ -17038,7 +16784,7 @@ HTTP връзки на Plugin Updater
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.15
+;  Version: 2.1.1.17
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -17759,7 +17505,7 @@ Quick Search
 [ users found (]
  Открити потребители (
 [) Online: ]
-) На линия: 
+) На линия:\s
 [Online]
 На линия
 [deleted]
@@ -17908,7 +17654,7 @@ Quick Search
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -17941,8 +17687,8 @@ Scriver - за изпращане и получаване на съобщени�
 Табове
 [Enable tabs]
 Включване на табовете
-[Always show tab bar]
-Постоянно видима лентата с табове
+[Only show tab bar when it's needed]
+Лента за табове само ако е необходима
 [Tabs at the bottom]
 Табове на дъното
 [Limit names on tabs to]
@@ -17985,8 +17731,6 @@ Scriver - за изпращане и получаване на съобщени�
 линии
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
-[Enable IEView]
-Включване на IEView
 [Show icons]
 Показване на икони
 [Show time]
@@ -17999,8 +17743,8 @@ Scriver - за изпращане и получаване на съобщени�
 Ползване на дълга дата
 [Relative date]
 Кратък формат за дата
-[Show names]
-Показване на имена
+[Hide names]
+Скриване на имена
 [Enable message grouping]
 Групиране на съобщенията
 [Mark follow-up messages with timestamp]
@@ -18137,30 +17881,6 @@ KB
 Времетраене (сек)
 [(0 means default setting, -1 means indefinite time)]
 (0 = стандартна стойност, -1 = безкрайност)
-[Log]
-Дневник
-[&Copy]
-Копиране
-[Co&py all]
-Копиране на всичко
-[Select &all]
-Маркиране на всичко
-[Word lookup]
-Търсене на дума
-[Yandex]
-Yandex
-[Wikipedia (en)]
-Wikipedia (en)
-[Google Maps]
-Google Maps
-[Google Translate]
-Google Translate
-[C&lear log]
-Изчистване на дневника
-[&Open link]
-Отваряне на връзката
-[&Copy link]
-Копиране на връзката
 [Message]
 Съобщение
 [Undo]
@@ -18177,6 +17897,8 @@ Google Translate
 Поставяне и изпращане
 [Delete]
 Изтриване
+[Select &all]
+Маркиране на всичко
 [Clear]
 Изчистване
 [Close other tabs]
@@ -18193,8 +17915,6 @@ Google Translate
 Мигане при отличаване на дума
 [Show chat nick list]
 Показване на чат списъка с прякори
-[Enable button context menus]
-Включване на контекстното меню на контактите
 [Show topic on your contact list (if supported)]
 Показване на темата в списъка с контакти (ако се поддържа)
 [Do not play sounds when focused]
@@ -18221,84 +17941,8 @@ Google Translate
 Премахване на цветовете от съобщенията
 [Enable 'event filter' for new rooms]
 Включване на "филтър на събития" за новите стаи
-[Show topic changes]
-Промяна на тема
-[Show users joining]
-Влизане на потребител
-[Show users disconnecting]
-Излизане от мрежата на потребител
-[Show messages]
-Съобщение
-[Show actions]
-Действия
-[Show users leaving]
-Излизане на потребител
-[Show users being kicked]
-Изгонване на потребител
-[Show notices]
-Известия
-[Show users changing name]
-Промяна на прякор
-[Show information messages]
-Информационни съобщения
-[Show status changes of users]
-Промяна на състояние на потребител
-[Show icons in tray only when the chat room is not active]
-Показване на икони в трея само при неактивна чат стая
-[Show icon in tray for topic changes]
-Промяна на тема (topic)
-[Show icon in tray for users joining]
-Влизане на потребител
-[Show icon in tray for users disconnecting]
-Излизане от мрежата на потребители
-[Show icon in tray for messages]
-Съобщение
-[Show icon in tray for actions]
-Действия
-[Show icon in tray for highlights]
-Отличаване
-[Show icon in tray for users leaving]
-Излизане на потребител
-[Show icon in tray for users kicking other user]
-Потребител изгонва друг потребител
-[Show icon in tray for notices]
-Известие
-[Show icon in tray for name changes]
-Промяна на прякор
-[Show icon in tray for information messages]
-Информационни съобщения
-[Show icon in tray for status changes]
-Промяна на състояние
-[Show popups only when the chat room is not active]
-Показване на popups, когато чат стаята е активна
-[Show popup for topic changes]
-Показване на popups при промяна на тема
-[Show popup for users joining]
-Показване на popups при влизане на потребител
-[Show popup for users disconnecting]
-Показване на popups при излизане от мрежата на потребители
-[Show popup for messages]
-Показване на popups за ново съобщение
-[Show popup for actions]
-Показване на popups за действия
-[Show popup for highlights]
-Показване на popups при отличаване
-[Show popup for users leaving]
-Показване на popups при излизане на потребител
-[Show popup for users kicking other user]
-Показване на popups при изгонване на потребител
-[Show popup for notices]
-Показване на popup за известие
-[Show popup for name changes]
-Показване на popups при промяна на име
-[Show popup for information messages]
-Показване на popups за информационни съобщения
-[Show popup for status changes]
-Показване на popups при промяна на състояние
 [Appearance and functionality of chat windows]
 Външен вид и функционалност на чат стаите
-[Icons to display in the tray]
-Икони за изобразяване в трея
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -18341,24 +17985,16 @@ Google Translate
 Променливи
 [Appearance]
 Външен вид
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Стандартни събития за показване в чат стая при включен "филтър на събития"
 [Select folder]
 Избор на папка
-[%s: chat room (%u user)]
-%s: чат стая (%u потребител)
-[%s: chat room (%u users)]
-%s: чат стая (%u потребителя)
-[%s: message session]
-%s: разговор
-[%s: message session (%u users)]
-%s: разговор (%u потребителя)
-[Nickname]
-Прякор
-[Unique ID]
-Уникален ID
-[Status]
-Състояние
+[Message sessions]
+Разговори
+[General]
+Основни
+[Log formatting]
+Формат на дневника
+[Popups]
+Рopups
 [Add contact]
 Добавяне на контакт
 [User's details]
@@ -18505,18 +18141,14 @@ Latin I
 Действие: Изпрати до всички
 [Action: Paste and send]
 Действие: Поставяне и изпращане
-[Sending in progress: %d message(s) left...]
-Процес на изпращане: още %d съобщение(я)
-[%s is typing a message...]
-%s пише съобщение...
-[Last message received on %s at %s.]
-Последното съобщение е получено на %s в %s.
-[Look up '%s':]
-Търсене за "%s":
-[No word to look up]
-Няма дума за търсене
 [User menu - %s]
 Потребителско меню - %s
+[Nickname]
+Прякор
+[Unique ID]
+Уникален ID
+[Status]
+Състояние
 [Me]
 Аз
 [My contact]
@@ -18589,16 +18221,10 @@ Shift+Enter
 ** Нови контакти **
 [** Unknown contacts **]
 ** Непознати контакти **
-[Message sessions]
-Разговори
-[General]
-Основни
 [Event log]
 Дневник на събития
 [Typing notify]
 Уведомяване при писане
-[Popups]
-Рopups
 [Message from %s]
 Съобщение от %s
 [%s is typing a message]
@@ -18675,21 +18301,35 @@ Shift+Enter
 Контакт спря да пише
 [An unknown error has occurred.]
 Възникна непозната грешка.
+[Sending in progress: %d message(s) left...]
+Процес на изпращане: още %d съобщение(я)
+[%s is typing a message...]
+%s пише съобщение...
+[Last message received on %s at %s.]
+Последното съобщение е получено на %s в %s.
+[%s: chat room (%u user)]
+%s: чат стая (%u потребител)
+[%s: chat room (%u users)]
+%s: чат стая (%u потребителя)
+[%s: message session]
+%s: разговор
+[%s: message session (%u users)]
+%s: разговор (%u потребителя)
 [Always on top]
 Винаги отгоре
 #muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
-;  Version: 1.0.12.4
+;  Version: 1.0.12.6
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [sec]
 сек
 [days]
 дни
-[Protocols]
-Протоколи
+[Accounts]
+Акаунти
 [Private]
 Частно
 [&Export]
@@ -18726,24 +18366,6 @@ Popup времетраене
 Състояние
 [Public key]
 Публичен ключ
-[General]
-Основни
-[Nickname]
-Прякор
-[Name]
-Име
-[Password is too short!]
-Паролата е твърде кратка!
-[ON]
-Включено
-[Off]
-Изкл.
-[(none)]
-(никакво)
-[Disabled]
-Изключено
-[Enabled]
-Включено
 [Contact List]
 Списък с контакти
 [Contact Menu]
@@ -18752,21 +18374,37 @@ Popup времетраене
 Прозорец за съобщения
 [Popups]
 Рopups
+[Disabled]
+Изключено
+[Enabled]
+Включено
 [Overlays]
 Насложени икони за
 [Icons]
 Икони
-[Executable Files]
-Изпълними файлове
 [All files]
 Всички файлове
+[Password is too short!]
+Паролата е твърде кратка!
+[Nickname]
+Прякор
+[Account]
+Акаунт
+[Name]
+Име
+[(none)]
+(никакво)
+[Executable Files]
+Изпълними файлове
 [Services]
 Услуги
+[General]
+Основни
 #muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.5
+;  Version: 5.0.5.6
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Last seen options]
@@ -19263,7 +18901,7 @@ ms
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.4
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
@@ -19316,27 +18954,27 @@ ms
 Обаждане
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Прехвърляне на файл:\n\tИме на файла: %s \n\tРазмер: %lld байта \n
+[Preview]
+Образец
 [Protocol icon]
 Икона на протокола
 [Protocols]
 Протоколи
 [Block contact]
 Блокиране на контакта
-[%s connection]
-%s връзка
 [Network]
 Мрежа
 [Notifications]
 Уведомявания
 [Errors]
 Грешки
-[Incoming call from %s]
-Входящо обаждане от %s
+[%s connection]
+%s връзка
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.2
+;  Version: 0.3.2.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -19359,8 +18997,6 @@ ms
 Замяна само на усмивки оградени от интервал
 [Scale smiley to text height]
 Мащабиране до големината на текста
-[Disable custom smileys]
-Без персонални усмивки
 [High quality smiley scaling]
 Висококачествено мащабиране
 [Animate]
@@ -19893,7 +19529,7 @@ TopToolBar бутон (изисква се рестарт на Miranda)
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.5
+;  Version: 1.2.0.6
 ;  Authors: P Boon
 ;============================================================
 [Startup status]
@@ -20188,7 +19824,7 @@ Dial-up (експериментално)
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.6.6
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Username:]
@@ -20403,7 +20039,7 @@ StopSpam: изпратете съобщение и отговорете на в�
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.1.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -20464,20 +20100,6 @@ StopSpam: изпратете съобщение и отговорете на в�
 Височина на редовете в списъка с прякори (пиксела)
 [Open log file base folder]
 Отваряне папката на дневниците
-[Default settings for known event types]
-Стандартни настройки за видовете събития
-[Show when filter is active]
-Показване при включен филтър
-[Log to file]
-Запис във файл
-[Show popup]
-Рopup
-[Notify in tray]
-Икона в трея
-[Suppress tray notifications for focused channel windows]
-Без уведомявания в трея за канала във фокусиран прозорец
-[Highlight event]
-Отличаване на събитие
 [Line markers in the message log]
 Маркиране на новите редове с
 [Highlight user names]
@@ -20534,8 +20156,6 @@ StopSpam: изпратете съобщение и отговорете на в�
 Брой въведени съобщения за запазване
 [entries]
 записа
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Опциите отбелязани със звезда (*) ще бъдат осъществени само след рестартиране на Miranda.
 [More about advanced tweaks]
 Повече за допълнителните настройки
 [Revert to (safe) defaults]
@@ -20578,8 +20198,6 @@ Popup настройки
 Всички режими
 [Choose modes]
 Изберете състояния
-[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Начин за изобразяване на дневника за съобщения. Настройката може да бъде игнорирана при липса на приставка.
 [Send text formatting method]
 Метод за форматиране на изпращания текст
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
@@ -20588,8 +20206,6 @@ Popup настройки
 Режим с информационен панел
 [Show avatar in message window]
 Аватар на контакта в прозореца за съобщения
-[Contact is a favorite contact]
-Контакта е любим контакт
 [Load only actual history]
 Зареди само актуална история
 [Always trim message log to]
@@ -20726,8 +20342,6 @@ ID на потребителя в лентата за състояние
 Събития от преди
 [minutes old]
 минути
-[Global message log display]
-Общо изобразяване на дневника чрез
 [Typing notification options]
 Настройки за уведомяване при писане
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -21040,28 +20654,6 @@ Mаксимална ширина за лента с бутони
 За контакта
 [Global setting]
 Общи настройки
-[Recent sessions]
-Скорошни разговори
-[Favorites]
-Любими
-[Show the tray icon]
-Показване на трей иконата
-[Disable all event notifications]
-Изключване на всички уведомявания за събития
-[Don't create windows automatically]
-Без автоматично създаване на прозорци
-[Hide all message containers]
-Скриване на всички контейнери
-[Restore all message containers]
-Възстановяване на контейнерите
-[Don't play sounds]
-Без звук
-[Be "super quiet"]
-Супер тих режим
-[Add contact to favorites]
-Добавяне на контакта в любимите
-[Remove contact from favorites]
-Премахване на контакта от любимите
 [Set position for this session]
 Задаване на позицията за разговора
 [Set and save for all sessions]
@@ -21086,8 +20678,6 @@ Mаксимална ширина за лента с бутони
 Копиране на съобщението в клипборда
 [&File]
 Файл
-[Save message log as...]
-Запис на дневника за съобщения като...
 [Close message session\tCtrl+W]
 Затваряне на разговора\tCtrl+W
 [Close container\tAlt+F4]
@@ -21158,42 +20748,16 @@ Mаксимална ширина за лента с бутони
 История на съобщенията
 [Edit user notes]
 Бележки за потребителя
-[Select font color]
-Избор на цвят за шрифта
-[Change background color]
-Избор на цвят за фон
-[Toggle nick list]
-Списък с прякори (Вкл./Изкл.)
-[Event filter - right click to setup, left click to activate/deactivate]
-Филтър на събития - десен бутон за настройки, ляв бутон за вкл./изкл.
-[Channel manager]
-Настройки на канала
-[%s has joined]
-%s влезе
-[You have joined %s]
-Вие влязохте в %s
-[%s has left]
-%s излезе
-[%s has disconnected]
-%s излезе от мрежата
-[%s is now known as %s]
-%s смени името си на %s
-[You are now known as %s]
-Сменихте името си на %s
-[%s kicked %s]
-%s изгони %s
-[Notice from %s: ]
-Известие от %s:\s
-[The topic is '%s%s']
-Темата е "%s%s"
-[ (set by %s on %s)]
- (зададена от %s на %s)
-[ (set by %s)]
- (зададена от %s)
-[%s enables '%s' status for %s]
-%s даде статут "%s" на "%s"
-[%s disables '%s' status for %s]
-%s отне статута "%s" на "%s"
+[Select a foreground color for the text (Ctrl+K)]
+Цвят на текста (Ctrl+K)
+[Select a background color for the text (Ctrl+L)]
+Фон за текста (Ctrl+L)
+[Show/hide the nick list (Ctrl+N)]
+Показване/Скриване на списъка с прякори (Ctrl+N)
+[Enable/disable the event filter (Ctrl+F)]
+Включване/Изключване на филтъра за събития (Ctrl+F)
+[Control this room (Ctrl+O)]
+Управление на стаята (Ctrl+O)
 [Message sessions]
 Разговори
 [Input area background]
@@ -21302,60 +20866,6 @@ UIN
 Протокол
 [Contacts local time]
 Местно време на контактите
-[Open new chat rooms in the default container]
-Отваряне на новите чат стаи в стандартния контейнер
-[Flash window when someone speaks]
-Мигане на прозореца при ново съобщение
-[Flash window when a word is highlighted]
-Мигане на прозореца при отличаване на дума
-[Create tabs or windows for highlight events]
-Създаване на контейнер/таб при отличаване на събитие
-[Activate chat window on highlight]
-Активиране на чат прозореца при отличаване
-[Show list of users in the chat room]
-Списък с потребители в чат стаята
-[Colorize nicknames in member list]
-Оцветяване на прякорите в списъка на членовете
-[Show button menus when right clicking the buttons]
-Показване менютата на бутоните при натискане с десен бутон
-[Show topic as status message on the contact list]
-Показване на темата на стаята като текст за състояние в списъка с контакти
-[Do not pop up the window when joining a chat room]
-Без изскачане на прозореца при влизане в чат стая
-[Show contact's status modes if supported by the protocol]
-Показване състоянието на потребителите (ако се поддържа от протокола)
-[Display contact's status icon before user role icon]
-Иконата за състояние на потребителя пред иконата на протокола
-[Use IRC style status indicators in the nick list]
-Ползване на индикатори в стил IRC в списъка с прякори (@, %, + и т.н.)
-[Use alternative sorting method in member list]
-Алтернативно сортиране на списъка с прякори
-[Prefix all events with a timestamp]
-Времева марка като представка за всички събития
-[Timestamp only when event time differs]
-Представка (времева марка) само ако времето е различно
-[Timestamp has same color as the event]
-Еднакъв цвят на времевата марка и събитието
-[Indent the second line of a message]
-Отстъп на втория ред от всяко съобщение
-[Limit user names in the message log to 20 characters]
-Ограничаване на потребителските имена в дневника за съобщения до 20 знака
-[Add a colon (:) to auto-completed user names]
-Добавяне на ":" след автодовършените потребителски имена
-[Start private conversation on double click in nick list (insert nick if unchecked)]
-Стартиране на разговор при двукратно натискане (вмъкване на прякора, ако не е отметнато)
-[Strip colors from messages in the log]
-Премахване на цветовете от съобщенията в дневника
-[Enable the 'event filter' for new rooms]
-Включване на филтъра за събития в нови стаи
-[Use IRC style status indicators in the log]
-Ползване на индикатори в стил IRC в дневника
-[Allow clickable user names in the message log]
-Превръщане на прякорите от дневника в хипервръзки (автовъвеждане)
-[Colorize user names in message log]
-Оцветяване на прякорите в дневника за съобщения
-[Scale down icons to 10x10 pixels in the chat log]
-Мащабиране на иконите до 10х10 пиксела в чат дневника
 [Window Icon]
 Икона на прозореца
 [Icon overlay]
@@ -21430,6 +20940,64 @@ UIN
 Външен вид и функционалност на чат стаите
 [Appearance of the message log]
 Външен вид на дневника за съобщения
+[Open new chat rooms in the default container]
+Отваряне на новите чат стаи в стандартния контейнер
+[Flash window when someone speaks]
+Мигане на прозореца при ново съобщение
+[Flash window when a word is highlighted]
+Мигане на прозореца при отличаване на дума
+[Create tabs or windows for highlight events]
+Създаване на контейнер/таб при отличаване на събитие
+[Activate chat window on highlight]
+Активиране на чат прозореца при отличаване
+[Show list of users in the chat room]
+Списък с потребители в чат стаята
+[Colorize nicknames in member list]
+Оцветяване на прякорите в списъка на членовете
+[Show topic as status message on the contact list]
+Показване на темата на стаята като текст за състояние в списъка с контакти
+[Do not pop up the window when joining a chat room]
+Без изскачане на прозореца при влизане в чат стая
+[Show contact's status modes if supported by the protocol]
+Показване състоянието на потребителите (ако се поддържа от протокола)
+[Display contact's status icon before user role icon]
+Иконата за състояние на потребителя пред иконата на протокола
+[Use IRC style status indicators in the nick list]
+Ползване на индикатори в стил IRC в списъка с прякори (@, %, + и т.н.)
+[Use alternative sorting method in member list]
+Алтернативно сортиране на списъка с прякори
+[Prefix all events with a timestamp]
+Времева марка като представка за всички събития
+[Timestamp only when event time differs]
+Представка (времева марка) само ако времето е различно
+[Timestamp has same color as the event]
+Еднакъв цвят на времевата марка и събитието
+[Indent the second line of a message]
+Отстъп на втория ред от всяко съобщение
+[Limit user names in the message log to 20 characters]
+Ограничаване на потребителските имена в дневника за съобщения до 20 знака
+[Add a colon (:) to auto-completed user names]
+Добавяне на ":" след автодовършените потребителски имена
+[Start private conversation on double click in nick list (insert nick if unchecked)]
+Стартиране на разговор при двукратно натискане (вмъкване на прякора, ако не е отметнато)
+[Strip colors from messages in the log]
+Премахване на цветовете от съобщенията в дневника
+[Enable the 'event filter' for new rooms]
+Включване на филтъра за събития в нови стаи
+[Use IRC style status indicators in the log]
+Ползване на индикатори в стил IRC в дневника
+[Allow clickable user names in the message log]
+Превръщане на прякорите от дневника в хипервръзки (автовъвеждане)
+[Colorize user names in message log]
+Оцветяване на прякорите в дневника за съобщения
+[Scale down icons to 10x10 pixels in the chat log]
+Мащабиране на иконите до 10х10 пиксела в чат дневника
+[No markers]
+Без маркиране
+[Show as icons]
+Икона
+[Show as text symbols]
+Текстови символ
 [nick of current contact (if defined)]
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -21474,54 +21042,18 @@ UIN
 Всички файлове
 [Select folder]
 Избор на папка
-[No markers]
-Без маркиране
-[Show as icons]
-Икона
-[Show as text symbols]
-Текстови символ
 [Settings]
 Настройки
 [Log formatting]
 Формат на дневника
-[Events and filters]
-Събития и филтри
 [Highlighting]
 Отличаване
 [%s%s says:%s %s]
 %s%s каза:%s %s
-[Expand or collapse the side bar]
-Разгръщане / Сгъване на страничната лента
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Филтърът не може да бъде зареден, защото няма избрани събития за показване общо или само чат стаята
-[Event filter error]
-Филтър на събития: грешка
-[, %d %s, %d %s idle]
-, %d %s и %d %s бездействие
-[hours]
-часа
-[hour]
-час
-[minutes]
-минути
-[minute]
-минута
-[, %d %s idle]
-, %d %s бездействие
-[%s on %s%s]
-Прякор: %s, Акаунт: %s%s
-[%s: chat room (%u user%s)]
-%s: Чат стая (%u потребител%s)
-[%s: chat room (%u users%s)]
-%s: Чат стая (%u потребителя%s)
-[, event filter active]
-, включен филтър на събития
-[%s: message session]
-%s: Разговор
-[%s: message session (%u users)]
-%s: Разговор (%u потребителя)
 [Message session...]
 Разговор...
+[Message from %s]
+Съобщение от %s
 [Default container]
 Стандартен контейнер
 [Attach to]
@@ -21572,8 +21104,6 @@ UIN
 Скриване
 [&User]
 Потребител
-[&Room]
-Стая
 [Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Звукът е %s. Натиснете, за да превключите. Задръжте бутона "Shift" и натиснете, за да зададете състояние за всички контейнери
 [disabled]
@@ -21600,6 +21130,48 @@ TabSRMM предупреждение
 Нови съобщения:\s
 [Unknown module or contact]
 Непознат модул/контакт
+[Show a preview of the event]
+Представяне на образец на събитието
+[Don't announce event when message dialog is open]
+Без уведомяване за събития при отворен прозорец
+[Don't announce events from RSS protocols]
+Без уведомяване за събития от протокола RSS
+[Merge new events for the same contact into existing popup]
+Сливане на нови събития от един и същ контакт в съществуващ popup
+[Show headers]
+Показване на горните колонтитули
+[Dismiss popup]
+Затваряне на Popup
+[Open event]
+Отваряне на събитието
+[Dismiss event]
+Затваряне на събитието
+[Disable event notifications for instant messages]
+Без уведомяване за събития в разговори
+[Disable event notifications for group chats]
+Без уведомяване за събития в групови чатове
+[Disable notifications for non-message events]
+Без уведомяване за събития, които не са свързани със съобщение
+[Remove popups for a contact when the message window is focused]
+Премахване на popups за контакт, при фокусиране на прозореца за съобщения
+[Remove popups for a contact when I start typing a reply]
+Премахване на popups за контакт, при писане на отговор
+[Remove popups for a contact when I send a reply]
+Премахване на popups за контакт, след изпращане на отговор
+[Disable notifications]
+Без уведомяване
+[System tray icon]
+Икона в трея
+[Left click actions (popups only)]
+Действие на левия бутон (само за popups)
+[Right click actions (popups only)]
+Действие на десния бутон (само за popups)
+[Timeout actions (popups only)]
+Автоматично действие след изтичане на времетраенето (само за popups)
+[Combine notifications for the same contact]
+Обединяване на уведомявания за един и същ потребител
+[Remove popups under following conditions]
+Премахване на popup за събитие при:
 [Event notifications]
 Уведомявания за събития
 [Popups]
@@ -21616,8 +21188,6 @@ TabSRMM предупреждение
 %s въведе текст.
 [%s is typing a message]
 %s пише съобщение
-[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Автоматичното придвижване е изключено, %d непрегледани съобщения (за включване натиснете клавиш F12)
 [Instant messages]
 Незабавни съобщения
 [Incoming (focused window)]
@@ -21636,16 +21206,10 @@ TabSRMM предупреждение
 Друго
 [TabSRMM: typing]
 TabSRMM: Писане
-[TabSRMM session list]
-Списък на разговорите в TabSRMM
-[TabSRMM menu]
-Меню на TabSRMM
 [&Messaging settings...]
 Настройки на разговорите...
 [&Send later job list...]
 Съобщения за изпращане след време...
-[Message from %s]
-Съобщение от %s
 [signed off.]
 излезе.
 [signed on and is now %s.]
@@ -21684,8 +21248,12 @@ TabSRMM: Писане
 Изчиства дневника за съобщения
 [Collapse side bar]
 Сгъване на страничната лента
+[Channel manager]
+Настройки на канала
 [Toggle filter]
 Вкл./Изкл. на филтъра
+[Toggle nick list]
+Списък с прякори (Вкл./Изкл.)
 [Show server window]
 Показва прозореца на сървъра
 [%s    Idle: %dh,%02dm]
@@ -21758,6 +21326,8 @@ TabSRMM
 Добавяне на контакта за постоянно в списъка с контакти
 [Do not add this contact permanently]
 Не добавяй контакта за постоянно
+[Expand or collapse the side bar]
+Разгръщане / Сгъване на страничната лента
 [Contact not on list. You may add it...]
 Потребителят не е в списъка с контакти. Можете да го добавите...
 [A message failed to send successfully.]
@@ -21770,14 +21340,12 @@ TabSRMM
 Нов опит
 [Send later]
 Изпрати след време
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Shift+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
-[No UID]
-Няма UID
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редактирате бележките за потребителя. За запаметяване на промените и връщане към нормалния режим за писане/изпращане на съобщения натиснете отново бутона или клавишната комбинация, обикновено: Alt+N
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+Филтърът не може да бъде зареден, защото няма избрани събития за показване общо или само чат стаята
+[Event filter error]
+Филтър на събития: грешка
 [Selection copied to clipboard]
 Маркираното бе копирано в клипборда
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -21788,6 +21356,14 @@ UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛя
 Неуспешно доставяне: %s
 [Contact is offline and this protocol does not support sending files to offline users.]
 Контактът е извън линия, а протоколът не поддържа изпращане на съобщения до контакти извън линия.
+['(Unknown contact)']
+"(Непознат контакт)"
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
+Функцията "Поставяне и изпращане" е изключена. Можете да я включите от Разговори>Основни - Изпращане на съобщения.
+[Set your avatar...]
+Задаване на собствен аватар...
+[A message delivery has failed.\nClick to open the message window.]
+Неуспешно доставяне на съобщение.\nНатиснете тук, за да бъде отворен прозореца за съобщения.
 [Error creating destination directory]
 Грешка при създаването на директорията
 [Save contact picture]
@@ -21796,16 +21372,40 @@ UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛя
 Изображения
 [The file exists. Do you want to overwrite it?]
 Файлът съществува. Желаете ли да бъде презаписан?
-[Set your avatar...]
-Задаване на собствен аватар...
-[Save and close session]
-Запис и затваряне
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-Функцията "Поставяне и изпращане" е изключена. Можете да я включите от Разговори>Основни - Изпращане на съобщения.
-['(Unknown contact)']
-"(Непознат контакт)"
 [JPEG-compressed images]
 JPEG компресирани изображения
+[Save and close session]
+Запис и затваряне
+[, %d %s, %d %s idle]
+, %d %s и %d %s бездействие
+[hours]
+часа
+[hour]
+час
+[minutes]
+минути
+[minute]
+минута
+[, %d %s idle]
+, %d %s бездействие
+[%s on %s%s]
+Прякор: %s, Акаунт: %s%s
+[%s: chat room (%u user%s)]
+%s: Чат стая (%u потребител%s)
+[%s: chat room (%u users%s)]
+%s: Чат стая (%u потребителя%s)
+[, event filter active]
+, включен филтър на събития
+[%s: message session]
+%s: Разговор
+[%s: message session (%u users)]
+%s: Разговор (%u потребителя)
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Shift+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
+[No UID]
+Няма UID
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Shift+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 [Thai]
 тайски (тайландски)
 [Japanese]
@@ -21884,14 +21484,76 @@ Latin I
 <няма облик>
 [Load theme]
 Зареждане на тема
-[Internal message log]
-Вградения дневник за съобщения
-[IEView plugin]
-Приставката IEView
-[History++ plugin]
-Приставката History++
-[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-За изобразяване на историята в прозореца за съобщения е избрана приставка различна от TabSRMM. Повечето от настройките които ще намерите тук са само за TabSRMM и няма да окажат ефект. Ако желаете да промените външния вид на дневника ще трябва да го направите от настройките на IEView или History++.
+[Message window behavior]
+Поведение на прозореца за съобщения
+[Sending messages]
+Изпращане на съобщения
+[Send on Shift+Enter]
+Изпращане със Shift+Enter
+[Send message on 'Enter']
+Изпращане на съобщение с "Enter"
+[Send message on double 'Enter']
+Двукратно натискане на "Enter" изпраща съобщение
+[Minimize the message window on send]
+Минимизиране на прозореца след изпращане
+[Close the message window on send]
+Затваряне на прозореца след изпращане
+[Always flash contact list and tray icon for new messages]
+Мигане на списъка с контакти и трей иконата при ново съобщение
+[Delete temporary contacts on close]
+Изтриване на временните контакти след затваряне на прозореца
+[Enable "Paste and send" feature]
+Включване на функцията "Поставяне и изпращане"
+[Allow BBCode formatting in outgoing messages]
+Разрешаване форматиране на изходящите съобщения с BBCode
+[Automatically split long messages (experimental, use with care)]
+Автоматично разделяне на дългите съобщения (експериментално - използвайте внимателно)
+[Log status changes]
+Запис на промените на състоянията
+[Automatically copy selected text]
+Автокопиране на маркирания текст
+[Test contact]
+Тестови контакт
+[Template set editor]
+Редактор на шаблони
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Ще бъдат възстановени вградените стандартни шаблони. Наистина ли желаете това?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Наборът шаблони беше успешно възстановен, моля затворете всички разговори. Настоящият прозорец ще бъде затворен сега.
+[Message log appearance]
+Външен вид на дневника за съобщения
+[Support for external plugins]
+Поддръжка на външни приставки
+[Timestamp settings (note: timestamps also depend on your templates)]
+Настройки на времевата марка (бележка: те зависят и от шаблона)
+[Message log icons]
+Икони в дневника за съобщения
+[Show dates in timestamps]
+Показване на дата във времевата марка
+[Show seconds in timestamps]
+Показване на секунди във времевата марка
+[Use contacts local time (if timezone info available)]
+Ползване на часовия пояс на потребителя (ако е наличен)
+[Draw grid lines]
+Добавяне на решетка
+[Use incoming/outgoing icons]
+Ползване на входящи/изходящи икони
+[Use message grouping]
+Групиране на съобщенията
+[Simple text formatting (*bold*, etc.)]
+Лесно форматиране (*bold* и т.н.)
+[Support BBCode formatting]
+Поддържане на BBCode форматиране
+[Place a separator in the log after a window lost its foreground status]
+Поставяне на разделите в дневника след дефокусиран на прозореца
+[Only place a separator when an incoming event is announced with a popup]
+Поставяне на разделител само след уведомяване за входящо събитие с popup
+[Show events at the new line (IEView Compatibility Mode)]
+Събитията на нов ред (режим на съвместимост с IEView)
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+Подчертаване на времевата марка/прякор (режим на съвместимост с IEView)
+[Show timestamp after nickname (IEView Compatibility Mode)]
+Времева марка след прякора (режим на съвместимост с IEView)
 [** New contacts **]
 ** Нови контакти **
 [** Unknown contacts **]
@@ -21902,12 +21564,54 @@ Latin I
 Винаги, но не и когато прозореца е фокусиран
 [Only when no message window is open]
 Само когато прозорецът за съобщенията е отворен
+[How to create tabs and windows for incoming messages]
+Създаване на табове и прозорци при получаване на съобщение
+[Show status text on tabs]
+Показване на състоянието в табовете
+[Prefer xStatus icons when available]
+Ползване на икона за xСъстояние, ако е налично
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Подробни подсказки (изисква приставка Tipper)
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+АКТИВИРАНЕ на новия разговор при получаване на ново съобщение (има предимство!)
+[Automatically create new message sessions without activating them]
+Автоматично създаване на нов разговор, без да бъде активиран
+[New windows are minimized (the option above MUST be active)]
+Създаване на прозореца в минимизирано състояние (горната опция трябва да има отметка)
+[Activate a minimized window when a new tab is created inside it]
+Активиране на минимизиран прозорец при създаването на нов таб в него
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Автопревключване на табове в минимизирани прозорци (игнорира се при ползване функцията Aero Peek на лентата със задачи)
+[Close button only hides message windows]
+Бутон "Затваряне" само скрива прозореца за съобщения
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Ползване на клавиша Tab в полето за въвеждане на съобщения (ще отмени функцията му за преместване на фокуса)
+[Add offline contacts to multisend list]
+Включване на контактите "Извън линия" в списъка за многократно изпращане
 [Normal - close tab, if last tab is closed also close the window]
 Обикновено затваря таба, а ако е единствен - затваря прозореца
 [Minimize the window to the task bar]
 Минимизира прозореца в лентата за задачи
 [Close or hide window, depends on the close button setting above]
 Затваря/Скрива прозореца (зависи как е настроен бутона "Затваряне" по-горе)
+[Message window tweaks]
+Допълнителни настройки на прозореца за съобщения
+[Display metacontact icons]
+Показване на икони за метаконтакти
+[Error feedback]
+При грешка
+[Close current tab on send]
+Затваряне на таба след изпращане
+[Enable unattended send (experimental feature, required for multisend and send later)]
+Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)
+[Show client description in info panel]
+Описание на клиента  в информационния панел
+[On tab control]
+В таба
+[On the button bar]
+В лентата с бутони
+[Disable error popups on sending failures]
+Без popups при неуспешно изпращане на съобщение
 [Choose status modes]
 Избор на състояния
 [General]
@@ -21924,8 +21628,6 @@ Latin I
 Прозорец за съобщения
 [Load and apply]
 Зареждане и прилагане
-[A message delivery has failed.\nClick to open the message window.]
-Неуспешно доставяне на съобщение.\nНатиснете тук, за да бъде отворен прозореца за съобщения.
 [Message Log Options]
 Настройки на дневника за съобщения
 [Quote text]
@@ -21974,8 +21676,6 @@ Latin I
 Стрелка надясно
 [Up Arrow]
 Стрелка нагоре
-[Session List]
-Списък на разговорите
 [Frame 1]
 Рамка 1
 [Frame 2]
@@ -22068,12 +21768,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 %d потребител(я)
 [Server window]
 Прозорец на сървъра
-[Template set editor]
-Редактор на шаблони
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Ще бъдат възстановени вградените стандартни шаблони. Наистина ли желаете това?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Наборът шаблони беше успешно възстановен, моля затворете всички разговори. Настоящият прозорец ще бъде затворен сега.
 [TabSRMM themes]
 Теми за TabSRMM
 [No effect]
@@ -22092,154 +21786,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Всички контейнери трябва да се затворят, преди да бъде сменен обликът\nЖелаете ли да бъдат затворени сега?
 [Change skin]
 Смяна на облика
-[Message window tweaks]
-Допълнителни настройки на прозореца за съобщения
-[Display metacontact icons]
-Показване на икони за метаконтакти
-[Error feedback]
-При грешка
-[Close current tab on send]
-Затваряне на таба след изпращане
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)*
-[Show client description in info panel]
-Описание на клиента  в информационния панел
-[On tab control]
-В таба
-[On the button bar]
-В лентата с бутони
-[Disable error popups on sending failures]
-Без popups при неуспешно изпращане на съобщение
-[Show a preview of the event]
-Представяне на образец на събитието
-[Don't announce event when message dialog is open]
-Без уведомяване за събития при отворен прозорец
-[Don't announce events from RSS protocols]
-Без уведомяване за събития от протокола RSS
-[Enable the system tray icon]
-Включване на икона в трея
-[Merge new events for the same contact into existing popup]
-Сливане на нови събития от един и същ контакт в съществуващ popup
-[Show headers]
-Показване на горните колонтитули
-[Dismiss popup]
-Затваряне на Popup
-[Open event]
-Отваряне на събитието
-[Dismiss event]
-Затваряне на събитието
-[Disable event notifications for instant messages]
-Без уведомяване за събития в разговори
-[Disable event notifications for group chats]
-Без уведомяване за събития в групови чатове
-[Disable notifications for non-message events]
-Без уведомяване за събития, които не са свързани със съобщение
-[Remove popups for a contact when the message window is focused]
-Премахване на popups за контакт, при фокусиране на прозореца за съобщения
-[Remove popups for a contact when I start typing a reply]
-Премахване на popups за контакт, при писане на отговор
-[Remove popups for a contact when I send a reply]
-Премахване на popups за контакт, след изпращане на отговор
-[Disable notifications]
-Без уведомяване
-[System tray icon]
-Икона в трея
-[Left click actions (popups only)]
-Действие на левия бутон (само за popups)
-[Right click actions (popups only)]
-Действие на десния бутон (само за popups)
-[Timeout actions (popups only)]
-Автоматично действие след изтичане на времетраенето (само за popups)
-[Combine notifications for the same contact]
-Обединяване на уведомявания за един и същ потребител
-[Remove popups under following conditions]
-Премахване на popup за събитие при:
-[Message window behavior]
-Поведение на прозореца за съобщения
-[Sending messages]
-Изпращане на съобщения
-[Send on Shift+Enter]
-Изпращане със Shift+Enter
-[Send message on 'Enter']
-Изпращане на съобщение с "Enter"
-[Send message on double 'Enter']
-Двукратно натискане на "Enter" изпраща съобщение
-[Minimize the message window on send]
-Минимизиране на прозореца след изпращане
-[Close the message window on send]
-Затваряне на прозореца след изпращане
-[Always flash contact list and tray icon for new messages]
-Мигане на списъка с контакти и трей иконата при ново съобщение
-[Delete temporary contacts on close]
-Изтриване на временните контакти след затваряне на прозореца
-[Enable "Paste and send" feature]
-Включване на функцията "Поставяне и изпращане"
-[Allow BBCode formatting in outgoing messages]
-Разрешаване форматиране на изходящите съобщения с BBCode
-[Automatically split long messages (experimental, use with care)]
-Автоматично разделяне на дългите съобщения (експериментално - използвайте внимателно)
-[Log status changes]
-Запис на промените на състоянията
-[Automatically copy selected text]
-Автокопиране на маркирания текст
-[Message log appearance]
-Външен вид на дневника за съобщения
-[Support for external plugins]
-Поддръжка на външни приставки
-[Timestamp settings (note: timestamps also depend on your templates)]
-Настройки на времевата марка (бележка: те зависят и от шаблона)
-[Message log icons]
-Икони в дневника за съобщения
-[Show dates in timestamps]
-Показване на дата във времевата марка
-[Show seconds in timestamps]
-Показване на секунди във времевата марка
-[Use contacts local time (if timezone info available)]
-Ползване на часовия пояс на потребителя (ако е наличен)
-[Draw grid lines]
-Добавяне на решетка
-[Use incoming/outgoing icons]
-Ползване на входящи/изходящи икони
-[Use message grouping]
-Групиране на съобщенията
-[Simple text formatting (*bold*, etc.)]
-Лесно форматиране (*bold* и т.н.)
-[Support BBCode formatting]
-Поддържане на BBCode форматиране
-[Place a separator in the log after a window lost its foreground status]
-Поставяне на разделите в дневника след дефокусиран на прозореца
-[Only place a separator when an incoming event is announced with a popup]
-Поставяне на разделител само след уведомяване за входящо събитие с popup
-[Show events at the new line (IEView Compatibility Mode)]
-Събитията на нов ред (режим на съвместимост с IEView)
-[Underline timestamp/nickname (IEView Compatibility Mode)]
-Подчертаване на времевата марка/прякор (режим на съвместимост с IEView)
-[Show timestamp after nickname (IEView Compatibility Mode)]
-Времева марка след прякора (режим на съвместимост с IEView)
-[How to create tabs and windows for incoming messages]
-Създаване на табове и прозорци при получаване на съобщение
-[Show status text on tabs]
-Показване на състоянието в табовете
-[Prefer xStatus icons when available]
-Ползване на икона за xСъстояние, ако е налично
-[Detailed tooltip on tabs (requires Tipper plugin)]
-Подробни подсказки (изисква приставка Tipper)
-[ALWAYS activate new message sessions (has PRIORITY over the options below)]
-АКТИВИРАНЕ на новия разговор при получаване на ново съобщение (има предимство!)
-[Automatically create new message sessions without activating them]
-Автоматично създаване на нов разговор, без да бъде активиран
-[New windows are minimized (the option above MUST be active)]
-Създаване на прозореца в минимизирано състояние (горната опция трябва да има отметка)
-[Activate a minimized window when a new tab is created inside it]
-Активиране на минимизиран прозорец при създаването на нов таб в него
-[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Автопревключване на табове в минимизирани прозорци (игнорира се при ползване функцията Aero Peek на лентата със задачи)
-[Close button only hides message windows]
-Бутон "Затваряне" само скрива прозореца за съобщения
-[Allow Tab key in typing area (this will disable focus selection by Tab key)]
-Ползване на клавиша Tab в полето за въвеждане на съобщения (ще отмени функцията му за преместване на фокуса)
-[Add offline contacts to multisend list]
-Включване на контактите "Извън линия" в списъка за многократно изпращане
 [Disable &typing notification]
 Изключване на уведомяванията при писане
 [Enable &typing notification]
@@ -22252,12 +21798,6 @@ TabSRMM изисква Windows версия 2000 или по-нова.
 Контакт започна да пише
 [Contact stopped typing]
 Контакт спря да пише
-[Force default message log]
-Винаги стандартният дневник
-[Force History++]
-Винаги History++
-[Force IEView]
-Винаги IEView
 [Set messaging options for %s]
 Настройки на разговорите с %s
 [TabSRMM message (%s)]
@@ -23375,13 +22915,11 @@ KB
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.0.3
+;  Version: 1.3.1.3
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Twitter в Miranda NG.
-[Server:]
-Сървър:
 [Create a new Twitter account]
 Създайте нов акаунт за Twitter
 [Default group:]
@@ -23430,6 +22968,8 @@ KB
 %s връзка със сървъра
 [%s avatar connection]
 %s връзки за аватари
+[User name]
+Потребителско име
 [Network]
 Мрежа
 [Basic]
@@ -23450,7 +22990,7 @@ Tweet
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.2
+;  Version: 0.9.0.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -23699,18 +23239,6 @@ popup за годишнина
 Меню на подгрупите
 [Account menu]
 Меню на акаунтите
-[Extra icons]
-Допълнителни икони
-[Replace the following default icons:]
-Замяна на следните стандартни икони:
-[Homepage]
-Домашна страница
-[Phone]
-Телефон
-[E-mail]
-Имейл
-[Gender]
-Пол
 [Misc]
 Разни
 [Show 'Restart' menu item]
@@ -23923,12 +23451,16 @@ popup за годишнина
 Обнови
 [Export]
 Износ
+[Phone]
+Телефон
 [Fax]
 Факс
 [Cellular]
 Мобилен тел.
 [Custom phone]
 Зададен телефон
+[E-mail]
+Имейл
 [Down arrow]
 Стрелка надолу
 [Add]
@@ -24451,20 +23983,12 @@ Web дизайн
 Изпращане на е-писмо
 [Memory allocation error!]
 Грешка при заделянето на памет!
-[E-mail (UInfoEx)]
-Имейл (UInfoEx)
-[Gender (UInfoEx)]
-Пол (UInfoEx)
 [User has no valid homepage]
 Потребителят няма валидна домашна страница
 [View Homepage]
 Домашна страница
 [&Homepage]
 Домашна страница
-[Homepage (UInfoEx)]
-Страница (UInfoEx)
-[Phone (UInfoEx)]
-Телефон (UInfoEx)
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 [b]%s (%S)...[/b]\n%d оставащи контакта
 [Abort Refreshing Contact Details]
@@ -24665,11 +24189,23 @@ x - y - ...
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.9.2
+;  Version: 0.1.11.6
 ;  Authors: Miranda NG team
 ;============================================================
+[Create new chat]
+Създаване на нов чат
 [Status message]
 Текст за състояние
+[Send message to my wall]
+Публикуване на моята стена
+[Load news from VK]
+Зареждане на новините от VK
+[Load history for all contacts from VK]
+Зареждане от сайта на историята на всички контакти
+[Wipe contacts missing in friend list]
+Изтриване на контаките, които не са в приятели
+[Visit profile]
+Профил на сайта
 [off]
 изкл.
 [Other]
@@ -24680,12 +24216,32 @@ x - y - ...
 Групи
 [Invites]
 Покани
+[E-mail or phone number:]
+Имейл или телефонен номер:
 [Password:]
 Парола:
+[Open VKontakte site]
+Отваряне на страницата VKontakte
 [Advanced]
 Разширени
-[Group chats]
-Групови чатове
+[Report abuse]
+Докладване на нередност
+[Login settings]
+Настройки за вписване
+[Local settings]
+Местни настройки
+[Contact list group:]
+Група в списъка с контакти:
+[Language for names and titles:]
+Език за имената и наименованията:
+[Mark message as read:]
+Отбелязване на съобщ. като прочетени:
+[Sync history on protocol online:]
+При вписване се синхронизира историята:
+[Use local time for received messages]
+Местно време за получените съобщения
+[Server-side delivery confirmation]
+Потвърждаване на доставката от страна на сървъра
 [Bots challenge test]
 Тест за ботове
 [Instruction:]
@@ -24718,6 +24274,10 @@ URL:
 Документ
 [(Unknown contact)]
 (Непознат контакт)
+[from]
+от
+[Text]
+Текст
 [Message from]
 Съобщение от
 [Participants]
@@ -24750,6 +24310,8 @@ URL:
 Преглед
 [Menu]
 Меню
+[Account language]
+Език на акаунта
 [English]
 Английски
 [Russian]
@@ -24766,10 +24328,38 @@ URL:
 Немски
 [Italian]
 Италиански
+[automatically]
+автоматично
+[for last 1 day]
+за последния 1 ден
+[for last 3 days]
+за последните 3 дена
+[on read]
+при прочитане
+[on receive]
+при получаване
+[on reply]
+при отговор
+[on typing]
+при въвеждане на текст
 [%s server connection]
 %s връзка със сървъра
 [Mark messages as read]
 Маркиране на съобщенията като прочетени
+[Delete from friend list]
+Изтриване от списъка с приятели
+[Ban user]
+Блокиране на потребителя
+[Reload messages from vk.com...]
+Зареждане на историята от сайта...
+[for last week]
+за последната седмица
+[for last 30 days]
+за последните 30 дни
+[for last 90 days]
+за последните 90 дни
+[for all time]
+от самото начало
 [Errors]
 Грешки
 [Notifications]
@@ -24793,6 +24383,8 @@ URL:
 ;============================================================
 [Paste played music info into message window or status text]
 Поставя информация за възпроизвеждания аудио/видео файл в съобщението или съобщението за състояние. Предлага и водене на статистика.
+[Basic]
+Основни
 [Clear xStatus before set new one]
 Изчистване на старото xСъстояние преди задаване на ново
 [Emulate Multimedia keys]
@@ -26829,7 +26421,7 @@ Popup приставка
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Nikolay Redko
 ;============================================================
 [Timeout (seconds)]
@@ -26927,7 +26519,7 @@ Popup приставка
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.0.1.3
+;  Version: 1.1.0.4
 ;  Authors: Roman Torsten
 ;============================================================
 [Account:]
@@ -26946,8 +26538,6 @@ Popup приставка
 WAV файлове
 [All contacts]
 Всички контакти
-[(Unknown contact)]
-(Непознат контакт)
 [Sounds]
 Звук
 #muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}

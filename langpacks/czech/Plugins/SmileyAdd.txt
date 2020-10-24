@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.2
+;  Version: 0.3.2.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -28,8 +28,6 @@ Zobrazení
 Nahradit pouze smajlíky ohraničené mezerami
 [Scale smiley to text height]
 Sjednotit velikost smajlíků s textem
-[Disable stickers]
-
 [High quality smiley scaling]
 Zapnout kvalitní přepočet velikosti
 [Animate]

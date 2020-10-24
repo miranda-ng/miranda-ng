@@ -345,8 +345,8 @@ Musisz najpierw ustawić algorytm szyfrujący
 Długość klucza musi mieć od 1024 do 4096 bitów
 [Invalid date]
 Niepoprawna data
-[Name must contain at least 5 characters]
-Nazwa musi zawierać co najmniej 5 znaków
+[Name must contain at least 4 characters]
+Nazwa musi zawierać co najmniej 4 znaków
 [Name cannot contain '(' or ')']
 Nazwa nie może zawierać "(", ani ")"
 [Invalid Email]

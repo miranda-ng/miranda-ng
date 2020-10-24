@@ -1,2 +1,6 @@
+[Print dates]
+[Rotate logs]
 [Remove temporary contacts on exit]
+[&Mute chat]
+[Chat mute mode]
 [Load server history]

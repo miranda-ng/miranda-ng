@@ -820,12 +820,16 @@ Décharges de texte là où disponible
 Auto-détection du texte
 [Calling modules' names]
 Appel des noms de modules
+[Print dates]
+
 [Log to]
 Inscription dans...
 [OutputDebugString()]
 OutputDebugString()
 [File]
 Fichier
+[Rotate logs]
+
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Exécuter un programme lorsque Miranda NG démarre (ex tail -f, dbgview, etc.) :
 [Run now]
@@ -1174,6 +1178,8 @@ Afficher les icônes dans le systray que si le salon est inactif
 
 [Show popups only when the chat room is not active]
 st pas actif
+[Show button menus when right clicking the buttons]
+Afficher les menus des boutons par un clic droit dessus
 [Hidden window]
 
 [&Hide/Show]
@@ -1469,8 +1475,6 @@ Fenêtre clignotante quand quelqu'un parle
 Fenêtre clignotante quand un mot est surligné
 [Show list of users in the chat room]
 Voir la liste des présents d'un salon
-[Show button menus when right clicking the buttons]
-Afficher les menus des boutons par un clic droit dessus
 [Show the topic of the room on your contact list (if supported)]
 Afficher le topic du salon sur votre liste de contact (si supporté)
 [Do not play sounds when the chat room is focused]
@@ -1933,11 +1937,6 @@ Cette fonctionnalité n'est pas supportée par le protocole
 %u vous a ajouté à sa liste de contacts
 [Added event]
 
-;file \src\mir_app\src\chat_clist.cpp
-[&Join chat]
-Re&joindre
-[&Open/close chat window]
-
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s est arrivé
@@ -2005,8 +2004,18 @@ Zone de saisie des messages
 [Chat log symbols (Webdings)]
 
 ;file \src\mir_app\src\chat_svc.cpp
+[&Join chat]
+Re&joindre
+[&Open/close chat window]
+
 [&Leave chat]
 &Quitter le chat
+[&Mute chat]
+
+[Always]
+Toujours
+[Never]
+Jamais
 [Message is highlighted]
 Message surligné
 [User has performed an action]
@@ -2154,6 +2163,8 @@ Page web
 [Phone/SMS]
 
 [Chat activity]
+
+[Chat mute mode]
 
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
@@ -2541,6 +2552,8 @@ Souci à la création de profil
 
 [Are you sure you want to remove profile "%s"?]
 Êtes-vous sûr que vous voulez supprimer le profil "%s"?
+[Database was compacted successfully]
+
 [&Convert]
 
 [Run]

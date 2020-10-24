@@ -13,6 +13,7 @@
 [Skipped.]
 [Plugin Updater]
 [List loading already started!]
+[Unpack operation failed with error code=%d, update terminated]
 [Miranda NG Core]
 [Deprecated!]
 [Update found!]

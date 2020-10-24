@@ -820,12 +820,16 @@
 Автоопределение текста
 [Calling modules' names]
 Имена вызывающих модулей
+[Print dates]
+Дата
 [Log to]
 Записывать в
 [OutputDebugString()]
 Функцию OutputDebugString()
 [File]
 Файл
+[Rotate logs]
+Ротация файлов
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Запускать программу вместе с Miranda NG (например, tail -f, dbgview и т.д.):
 [Run now]
@@ -1174,6 +1178,8 @@ UIN, E-mail и т.д.
 Подсветка
 [Show popups only when the chat room is not active]
 Показывать всплывающие окна только когда окно чата не активно
+[Show button menus when right clicking the buttons]
+Показывать меню кнопки по правому щелчку
 [Hidden window]
 Скрытое окно
 [&Hide/Show]
@@ -1469,8 +1475,6 @@ Google Карты
 Мигать окном, если есть подсвеченные сообщения
 [Show list of users in the chat room]
 Показывать список пользователей в комнате чата
-[Show button menus when right clicking the buttons]
-Показывать меню кнопки по правому щелчку
 [Show the topic of the room on your contact list (if supported)]
 Показывать тему комнаты чата в списке контактов (если поддерживается)
 [Do not play sounds when the chat room is focused]
@@ -1933,11 +1937,6 @@ Miranda не смогла загрузить встроенную систему
 %u добавил вас в свой список контактов
 [Added event]
 Событие добавления
-;file \src\mir_app\src\chat_clist.cpp
-[&Join chat]
-Войти в чат
-[&Open/close chat window]
-&Открыть/закрыть окно чата
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s вошёл
@@ -2005,8 +2004,18 @@ Miranda не смогла загрузить встроенную систему
 [Chat log symbols (Webdings)]
 Символы в чате (шрифт Webdings)
 ;file \src\mir_app\src\chat_svc.cpp
+[&Join chat]
+Войти в чат
+[&Open/close chat window]
+&Открыть/закрыть окно чата
 [&Leave chat]
 Покинуть чат
+[&Mute chat]
+&Заглушать чат
+[Always]
+Всегда
+[Never]
+Никогда
 [Message is highlighted]
 Подсвеченное сообщение
 [User has performed an action]
@@ -2155,6 +2164,8 @@ Miranda не может распознать этот профиль
 Телефон/SMS
 [Chat activity]
 Активность в чате
+[Chat mute mode]
+Режим беззвучности чата
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Экстра значки
@@ -2541,6 +2552,8 @@ xСтатус
 <Неизвестный формат>
 [Are you sure you want to remove profile "%s"?]
 Вы уверены, что хотите удалить профиль "%s"?
+[Database was compacted successfully]
+База успешно сжата
 [&Convert]
 &Конвертировать
 [Run]

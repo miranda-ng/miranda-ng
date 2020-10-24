@@ -268,8 +268,6 @@
 Блимання вікна, якщо є підсвічене повідомлення
 [Show chat nick list]
 Показувати в кімнаті чату список користувачів
-[Enable button context menus]
-Показувати меню кнопки за натисненням правою кнопкою миші
 [Show topic on your contact list (if supported)]
 Показувати тему чат-кімнати в списку контактів (якщо підтримується)
 [Do not play sounds when focused]

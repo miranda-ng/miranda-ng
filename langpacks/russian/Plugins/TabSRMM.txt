@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.3
+;  Version: 3.6.1.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -743,16 +743,16 @@ BBCode ([b][i][u])
 История сообщений
 [Edit user notes]
 Редактировать заметки о пользователе
-[Select font color]
-Выбор цвета
-[Change background color]
-Изменить цвет фона
-[Toggle nick list]
-Вкл/выкл список участников
-[Event filter - right click to setup, left click to activate/deactivate]
-Фильтр событий - щелчок правой кнопкой для настройки, левой - вкл/выкл
-[Channel manager]
-Управление каналом
+[Select a foreground color for the text (Ctrl+K)]
+Выбрать цвет текста (Ctrl+K)
+[Select a background color for the text (Ctrl+L)]
+Выбрать фон текста (Ctrl+L)
+[Show/hide the nick list (Ctrl+N)]
+Показать/скрыть список пользователей (Ctrl+N)
+[Enable/disable the event filter (Ctrl+F)]
+Включить/выключить фильтр событий (Ctrl+F)
+[Control this room (Ctrl+O)]
+Управление комнатой чата (Ctrl+O)
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Беседы
@@ -959,8 +959,6 @@ BBCode ([b][i][u])
 Показывать список пользователей в комнате чата
 [Colorize nicknames in member list]
 Цветные ники в списке пользователей
-[Show button menus when right clicking the buttons]
-Показывать меню кнопки по правому щелчку
 [Show topic as status message on the contact list]
 Показать тему комнаты чата в списке контактов как сообщение статуса
 [Do not pop up the window when joining a chat room]
@@ -1285,8 +1283,12 @@ TabSRMM: набор текста
 Очистить журнал сообщений
 [Collapse side bar]
 Свернуть боковую панель
+[Channel manager]
+Управление каналом
 [Toggle filter]
 Переключить фильтр
+[Toggle nick list]
+Вкл/выкл список участников
 [Show server window]
 Показать окно сервера
 ;file \plugins\TabSRMM\src\infopanel.cpp

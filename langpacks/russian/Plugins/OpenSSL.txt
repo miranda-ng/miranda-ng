@@ -5,8 +5,8 @@
 ;  Version: 0.1.0.2
 ;  Authors: Miranda NG team
 ;============================================================
-[Core driver to provide OpenSSL-based SSL services.]
-Драйвер ядра, использующий OpenSSL для предоставления услуг шифрования.
+[Core driver to provide OpenSSL-based SSL services. It provides TLS 1.2/1.3 support for legacy operating systems.]
+Драйвер ядра, использующий OpenSSL для предоставления услуг шифрования. Добавляет поддержку TLS 1.2/1.3 в устаревшие операционные системы.
 ;file \plugins\OpenSSL\src\ssl_openssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности

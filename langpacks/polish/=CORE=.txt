@@ -820,12 +820,16 @@ Dziel tekst tam gdzie możliwe
 Automatycznie wykryj tekst
 [Calling modules' names]
 Nazwy wywołanych modułów
+[Print dates]
+
 [Log to]
 Zapisz do
 [OutputDebugString()]
 OutputDebugString()
 [File]
 Plik
+[Rotate logs]
+
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Uruchom program podczas uruchamiania Mirandy NG (np., tail -f, dbgview, itp.):
 [Run now]
@@ -1174,6 +1178,8 @@ Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
 Podświetlenie
 [Show popups only when the chat room is not active]
 Pokazuj popupy tylko, gdy pokój nie jest aktywny
+[Show button menus when right clicking the buttons]
+Pokaż menu przycisku po kliknięciu na nim PPM
 [Hidden window]
 
 [&Hide/Show]
@@ -1469,8 +1475,6 @@ Migaj oknem, gdy ktoś mówi
 Migaj oknem, gdy jakieś słowo jest podświetlone
 [Show list of users in the chat room]
 Pokaż listę użytkowników w pokoju
-[Show button menus when right clicking the buttons]
-Pokaż menu przycisku po kliknięciu na nim PPM
 [Show the topic of the room on your contact list (if supported)]
 Pokaż temat pokoju na liście kontaktów (jeśli obsługiwane)
 [Do not play sounds when the chat room is focused]
@@ -1933,11 +1937,6 @@ Funkcja nie wspierana przez protokół
 %u dodał(a) cię do swojej listy kontaktów
 [Added event]
 Dodanie kontaktu
-;file \src\mir_app\src\chat_clist.cpp
-[&Join chat]
-&Dołącz do czatu
-[&Open/close chat window]
-
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s dołączył(a)
@@ -2005,8 +2004,18 @@ Obszar pisania wiadomości
 [Chat log symbols (Webdings)]
 Symbole dziennika czatowego
 ;file \src\mir_app\src\chat_svc.cpp
+[&Join chat]
+&Dołącz do czatu
+[&Open/close chat window]
+
 [&Leave chat]
 &Opuść czat
+[&Mute chat]
+
+[Always]
+Zawsze
+[Never]
+Nigdy
 [Message is highlighted]
 Podświetlona wiadomość
 [User has performed an action]
@@ -2155,6 +2164,8 @@ Strona WWW
 Telefon/SMS
 [Chat activity]
 Aktywność czatu
+[Chat mute mode]
+
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Dodatkowe ikony
@@ -2541,6 +2552,8 @@ Problem z utworzeniem profilu
 <Nieznany format>
 [Are you sure you want to remove profile "%s"?]
 Czy na pewno chcesz usunąć profil "%s"?
+[Database was compacted successfully]
+
 [&Convert]
 &Konwertuj
 [Run]

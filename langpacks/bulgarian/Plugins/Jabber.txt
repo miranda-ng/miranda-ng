@@ -909,6 +909,9 @@ RSS услуга
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Получена е HTTP молба за удостоверяване
+;file \protocols\JabberG\src\jabber_mam.cpp
+[Do you want to erase local history before loading it from server?]
+
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Избор на Jabber акаунт
@@ -1407,6 +1410,8 @@ Jabber източник
 
 [Enable server-side history (XEP-0136)]
 
+[Enable Message Archive Management (XEP-0313)]
+
 [Enable carbon copies (XEP-0280)]
 
 [Use Stream Management (XEP-0198) if possible (Testing)]
@@ -1631,8 +1636,6 @@ S.ms
 Не сте избрали списък
 [Can't remove active or default list]
 Активният или стандартният списък не може да бъдат премахнати
-[Sorry]
-Извинете
 [Unable to save list because you are currently offline.]
 Списъка не може да бъде запаметен защото сте извън линия.
 [List Editor...]

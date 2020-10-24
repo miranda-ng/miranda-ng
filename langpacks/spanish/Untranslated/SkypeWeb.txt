@@ -61,7 +61,7 @@
 [You cannot send when you are offline.]
 [Unknown error!]
 [Network error!]
-[%s connection]
 [Calls]
+[%s connection]
 [Incoming call canceled]
 [Skypename]

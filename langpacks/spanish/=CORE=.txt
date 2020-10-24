@@ -820,12 +820,16 @@ Dumpear texto cuando se pueda
 Detección automática de texto
 [Calling modules' names]
 Llamando a nombres de módulos
+[Print dates]
+
 [Log to]
 Registrar en
 [OutputDebugString()]
 OutputDebugString()
 [File]
 Archivo
+[Rotate logs]
+
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Ejecutar programa cuando Miranda NG comienza (por ejemplo tail-f, dbgview, etc.):
 [Run now]
@@ -1174,6 +1178,8 @@ Mostrar iconos en la bandeja sólo cuando el chat no está activo
 
 [Show popups only when the chat room is not active]
 Mostrar ventanas emergentes cuando el chat no está activo
+[Show button menus when right clicking the buttons]
+Mostrar menús del botón derecho cuando se hace clic en los botones
 [Hidden window]
 
 [&Hide/Show]
@@ -1469,8 +1475,6 @@ Parpadear ventana cuando alguien habla
 Parpadear ventana cuando se resalta una palabra
 [Show list of users in the chat room]
 Mostrar lista de usuarios en la sala de chat
-[Show button menus when right clicking the buttons]
-Mostrar menús del botón derecho cuando se hace clic en los botones
 [Show the topic of the room on your contact list (if supported)]
 Mostrar el tema de la sala en su lista de contactos (si es compatible)
 [Do not play sounds when the chat room is focused]
@@ -1933,11 +1937,6 @@ La función no está soportada por el protocolo
 %u te ha añadido a su lista de contactos
 [Added event]
 Evento añadido
-;file \src\mir_app\src\chat_clist.cpp
-[&Join chat]
-&Entrar
-[&Open/close chat window]
-
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s se ha unido
@@ -2005,7 +2004,17 @@ Miembros de la lista de usuarios (fuera)
 [Chat log symbols (Webdings)]
 
 ;file \src\mir_app\src\chat_svc.cpp
+[&Join chat]
+&Entrar
+[&Open/close chat window]
+
 [&Leave chat]
+
+[&Mute chat]
+
+[Always]
+
+[Never]
 
 [Message is highlighted]
 El mensaje esta resaltado
@@ -2155,6 +2164,8 @@ Sitio web
 
 [Chat activity]
 Actividad de chat
+[Chat mute mode]
+
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Iconos adicionales
@@ -2541,6 +2552,8 @@ Problema al crear el perfil
 
 [Are you sure you want to remove profile "%s"?]
 ¿Está seguro que desea eliminar el perfil "%s"?
+[Database was compacted successfully]
+
 [&Convert]
 
 [Run]

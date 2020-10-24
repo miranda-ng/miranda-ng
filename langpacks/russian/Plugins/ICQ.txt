@@ -116,5 +116,7 @@ UIN/почта/телефон
 Неизвестный стикер
 [User sent a sticker:]
 Пользователь отправил стикер:
+[SmileyAdd plugin required to support stickers]
+Для поддержки стикеров требуется плагин SmileyAdd
 [Buddy addition failed]
 Не удалось добавить контакт

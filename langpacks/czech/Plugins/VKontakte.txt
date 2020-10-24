@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.3
+;  Version: 0.1.11.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -317,7 +317,15 @@ Adresa
 Dokument
 [Wall post]
 Příspěvek na zdi
+[(Unknown contact)]
+(Neznámý kontakt)
+[Wall reply]
+
+[from]
+od
 [Story]
+
+[Sticker]
 
 [Product]
 
@@ -327,8 +335,8 @@ Příspěvek na zdi
 Dárek
 [Unsupported or unknown attachment type: %s]
 Nepodporovaný nebo neznámý typ přílohy: %s
-[(Unknown contact)]
-(neznámý kontakt)
+[Text]
+Text
 [Message from]
 Zpráva od
 [at]

@@ -268,8 +268,6 @@
 Мигать окном, если есть подсвеченные сообщения
 [Show chat nick list]
 Показывать пользователей в списке
-[Enable button context menus]
-Включить кнопки в контекстном меню
 [Show topic on your contact list (if supported)]
 Показывать тему в списке контактов (если поддерживается)
 [Do not play sounds when focused]

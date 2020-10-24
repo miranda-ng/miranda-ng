@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.2
+;  Version: 0.3.2.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -28,8 +28,6 @@ Wyświetlanie
 Zamień tylko emotikony oddzielone spacjami
 [Scale smiley to text height]
 Skaluj emotikony do wysokości tekstu
-[Disable stickers]
-
 [High quality smiley scaling]
 Skalowanie emotikon HQ
 [Animate]

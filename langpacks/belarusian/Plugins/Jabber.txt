@@ -909,6 +909,9 @@ Jabber памылка
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Атрыманы запыт HTTP аўтарызацыі
+;file \protocols\JabberG\src\jabber_mam.cpp
+[Do you want to erase local history before loading it from server?]
+
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Выбар конту Jabber
@@ -1407,6 +1410,8 @@ Jabber Рэсурс
 
 [Enable server-side history (XEP-0136)]
 Уключыць гісторыю на серверы (XEP-0136)
+[Enable Message Archive Management (XEP-0313)]
+
 [Enable carbon copies (XEP-0280)]
 
 [Use Stream Management (XEP-0198) if possible (Testing)]
@@ -1631,8 +1636,6 @@ S.ms
 Спіс не абраны
 [Can't remove active or default list]
 Немагчыма выдаліць актыўны або сапраўдны спіс
-[Sorry]
-Выбачайце
 [Unable to save list because you are currently offline.]
 Немагчыма захаваць спіс, спачатку далучыцеся.
 [List Editor...]

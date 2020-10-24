@@ -1197,7 +1197,7 @@ Kontakt: %s (%S)
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 Parser kann XMLCard "%s" nicht laden\nFehler: %d\nBeschreibung: %s
 [File not found]
-
+Datei nicht gefunden
 [The selected file is no valid XMLCard]
 Die gewählte Datei ist keine gültige XMLCard.
 [The version of the XMLCard is not supported by UserInfoEx]

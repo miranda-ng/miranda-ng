@@ -909,6 +909,9 @@ xHTML-формат повідомлень чату
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Отримано запит HTTP-авторизації
+;file \protocols\JabberG\src\jabber_mam.cpp
+[Do you want to erase local history before loading it from server?]
+
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Вибір облікового запису Jabber
@@ -1407,6 +1410,8 @@ xHTML-формат повідомлень чату
 
 [Enable server-side history (XEP-0136)]
 Увімкнути історію на сервері (XEP-0136) (тільки при підтримці на стороні сервера)
+[Enable Message Archive Management (XEP-0313)]
+
 [Enable carbon copies (XEP-0280)]
 
 [Use Stream Management (XEP-0198) if possible (Testing)]
@@ -1631,8 +1636,6 @@ Hipchat
 Список не вибрано
 [Can't remove active or default list]
 Неможливо видалити активний або стандартний список
-[Sorry]
-Вибачте
 [Unable to save list because you are currently offline.]
 Неможливо зберегти список, тому що ви не в мережі.
 [List Editor...]

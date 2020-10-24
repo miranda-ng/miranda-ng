@@ -167,9 +167,11 @@ Completo
 [History export]
 
 ;file \plugins\NewStory\src\history_control.cpp
-[Are you sure to remove all events from history?]
+[Do you really want to remove selected event(s)?]
 
 ;file \plugins\NewStory\src\history_menus.cpp
+[Are you sure to remove all events from history?]
+
 [User history]
 
 [Empty history]

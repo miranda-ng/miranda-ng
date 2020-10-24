@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -167,9 +167,6 @@ Sie können keine Nachricht versenden, so lange Sie offline sind.
 Unbekannter Fehler!
 [Network error!]
 Netzwerkfehler!
-;file \protocols\SkypeWeb\src\skype_network.cpp
-[%s connection]
-%s-Verbindung
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Netzwerk
@@ -181,6 +178,8 @@ Fehler
 [Calls]
 Aufrufe
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
+[%s connection]
+%s-Verbindung
 [Incoming call canceled]
 Eingehender Anruf abgebrochen
 [Skypename]

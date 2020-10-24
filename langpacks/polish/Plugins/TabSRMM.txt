@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.3
+;  Version: 3.6.1.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -743,16 +743,16 @@ Opcje dziennika wiadomości
 Zobacz historię użytkownika
 [Edit user notes]
 Edytuj notatkę kontaktu
-[Select font color]
-Wybierz kolor czcionki
-[Change background color]
-Zmień kolor tła
-[Toggle nick list]
-Pokaż/Ukryj listę nicków
-[Event filter - right click to setup, left click to activate/deactivate]
-Filtr zdarzeń: PPM - ustawienia, LPM - aktywacja/dezaktywacja
-[Channel manager]
-Zarządzanie kanałem
+[Select a foreground color for the text (Ctrl+K)]
+Wybierz kolor dla tekstu (Ctrl+K)
+[Select a background color for the text (Ctrl+L)]
+Wybierz kolor tła dla tekstu (Ctrl+L)
+[Show/hide the nick list (Ctrl+N)]
+Pokaż/Ukryj listę nazw (Ctrl+N)
+[Enable/disable the event filter (Ctrl+F)]
+Włącz/wyłącz filtr zdarzeń (Ctrl+F)
+[Control this room (Ctrl+O)]
+Kontroluj ten pokój (Ctrl + O)
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Okno rozmowy
@@ -959,8 +959,6 @@ Aktywuj okno rozmowy przy podświetleniu
 Pokaż listę użytkowników w pokoju
 [Colorize nicknames in member list]
 Koloruj nicki na liście
-[Show button menus when right clicking the buttons]
-Pokaż menu przycisku po kliknięciu na nim PPM
 [Show topic as status message on the contact list]
 Pokaż temat pokoju na liście kontaktów
 [Do not pop up the window when joining a chat room]
@@ -1285,8 +1283,12 @@ Pokaż wyślij do wielu
 Wyczyść okno rozmowy
 [Collapse side bar]
 Zwiń boczny pasek
+[Channel manager]
+Zarządzanie kanałem
 [Toggle filter]
 Pokaż filtr
+[Toggle nick list]
+Pokaż/Ukryj listę nicków
 [Show server window]
 Pokaż okno serwera
 ;file \plugins\TabSRMM\src\infopanel.cpp

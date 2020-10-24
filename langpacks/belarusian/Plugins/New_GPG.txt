@@ -345,7 +345,7 @@ ID ключа:
 
 [Invalid date]
 
-[Name must contain at least 5 characters]
+[Name must contain at least 4 characters]
 
 [Name cannot contain '(' or ')']
 

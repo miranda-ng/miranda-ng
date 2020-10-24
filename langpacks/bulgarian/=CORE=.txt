@@ -820,12 +820,16 @@ SSL трафик
 Автооткриване на текст
 [Calling modules' names]
 
+[Print dates]
+
 [Log to]
 Запис в
 [OutputDebugString()]
 OutputDebugString()
 [File]
 Файл
+[Rotate logs]
+
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 
 [Run now]
@@ -1174,6 +1178,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Отличаване на събитие
 [Show popups only when the chat room is not active]
 Показване на popups, когато чат стаята е активна
+[Show button menus when right clicking the buttons]
+Показване менютата на бутоните при натискане с десен бутон
 [Hidden window]
 
 [&Hide/Show]
@@ -1469,8 +1475,6 @@ Google Translate
 Мигане на прозореца при отличаване на дума
 [Show list of users in the chat room]
 Списък с потребители в чат стаята
-[Show button menus when right clicking the buttons]
-Показване менютата на бутоните при натискане с десен бутон
 [Show the topic of the room on your contact list (if supported)]
 Показване на темата на стаята в списъка с контакти (ако се поддържа)
 [Do not play sounds when the chat room is focused]
@@ -1933,11 +1937,6 @@ Popups са изключени
 %u ви добави в списъка си с контакти
 [Added event]
 Добавяне на събитие
-;file \src\mir_app\src\chat_clist.cpp
-[&Join chat]
-Влизане
-[&Open/close chat window]
-
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s влезе
@@ -2005,8 +2004,18 @@ Popups са изключени
 [Chat log symbols (Webdings)]
 
 ;file \src\mir_app\src\chat_svc.cpp
+[&Join chat]
+Влизане
+[&Open/close chat window]
+
 [&Leave chat]
 Излизане
+[&Mute chat]
+
+[Always]
+Винаги
+[Never]
+Никога
 [Message is highlighted]
 Отличаване на съобщение
 [User has performed an action]
@@ -2155,6 +2164,8 @@ Popups са изключени
 
 [Chat activity]
 Чат активност
+[Chat mute mode]
+
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Допълнителни икони
@@ -2541,6 +2552,8 @@ Win +\s
 <Неизвестен формат>
 [Are you sure you want to remove profile "%s"?]
 Наистина ли желаете профилът "%s" да бъде изтрит?
+[Database was compacted successfully]
+
 [&Convert]
 Конвертиране
 [Run]

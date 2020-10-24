@@ -268,8 +268,6 @@ KB
 Мигане при отличаване на дума
 [Show chat nick list]
 Показване на чат списъка с прякори
-[Enable button context menus]
-Включване на контекстното меню на контактите
 [Show topic on your contact list (if supported)]
 Показване на темата в списъка с контакти (ако се поддържа)
 [Do not play sounds when focused]

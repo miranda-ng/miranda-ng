@@ -3,7 +3,7 @@ Language: Čeština
 Locale: 0405
 Authors: Robert Pösel (Robyer) (viz http://www.robyer.cz)
 Author-email: robyer@seznam.cz
-Last-Modified-Using: Miranda NG 0.95.10.3
+Last-Modified-Using: Miranda NG 0.95.12
 
 ; Based on translation for Miranda IM (viz http://miranda.kvalitne.cz):
 ; Authors: Vít Šindlář, sir-qwerty, Martin Koníček, Aleš Studený, madmojo, Dave-Dave, Tur McDonnel, waclaw, Lev, Pavel Svátek, Mareman, Richard Nižnik, Laslo Gogolak, Petr Hanuš, churchyard, tapin, Soustruh, Libor Polčák, Jiří Kocman, MiSHAK, Robyer, Fille, Jake
@@ -12,7 +12,7 @@ Last-Modified-Using: Miranda NG 0.95.10.3
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.11
+;  Version: 0.95.13
 ;============================================================
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
@@ -74,14 +74,6 @@ Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
 Tímto odstraníte celou historii a nastavení kontaktu!
-[Hide offline users]
-Skrýt uživatele offline
-[Hide empty groups]
-Skrýt prázdné skupiny
-[Disable groups]
-Vypnout skupiny
-[Ask before deleting contacts]
-Potvrdit smazání kontaktů
 [Sort contacts by name]
 Řadit kontakty dle jména
 [Sort contacts by status]
@@ -108,14 +100,14 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[Contact list]
-Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovací oblasti při použití více protokolů
 [Contact list sorting]
 Řazení seznamu kontaktů
+[Don't move offline user to bottom]
+Kontakty offline nepřesouvat na konec
 [Window]
 Okno
 [Always on top]
@@ -178,8 +170,6 @@ Zobrazit výběr i tehdy, není-li seznam aktivní
 Zobrazit vybrané položky průhledně
 [Dim idle contacts]
 Zešednout neaktivní kontakty
-['Hide offline' means to hide:]
-'Skrýt offline' znamená skrytí:
 [Groups]
 Skupiny
 [Draw a line alongside group names]
@@ -204,10 +194,10 @@ Rolovat seznam kontaktů plynule
 Čas:
 [milliseconds]
 ms
-[Left margin:]
-Levý okraj:
 [Hide vertical scroll bar]
 Skrýt svislý posuvník
+[Left margin:]
+Levý okraj:
 [Row height:]
 Výška řádku:
 [Gamma correction]
@@ -1106,6 +1096,8 @@ Nastavit jako výchozí a otevřít kom. okno
 Zobrazit kontextovou nabídku kontaktu
 [Show user information]
 Zobrazit informace o uživateli
+[Contact list]
+Seznam kontaktů
 [Display subcontact nickname]
 Zobrazit přezdívku podkontaktu
 [Display subcontact display name]
@@ -1150,8 +1142,36 @@ Zpráva o zařazení mezi kontakty
 O programu Miranda NG
 [Credits >]
 Poděkování >
+[Hide offline users]
+Skrýt uživatele offline
+[Hide empty groups]
+Skrýt prázdné skupiny
+[Enable groups]
+Povolit skupiny
+[Ask before deleting contacts]
+Potvrdit smazání kontaktů
+['Hide offline' means to hide:]
+'Skrýt offline' znamená skrytí:
+[Default settings for known event types]
+Výchozí nastavení pro známé typy událostí
+[Show when filter is active]
+Zobrazit při aktivním filtru
+[Popup]
+Oznámení
 [Tray]
 Oznamovací oblast
+[Sound]
+Zvuk
+[Log to file]
+Uložit záznam
+[Show icons in tray only when the chat room is not active]
+Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
+[Highlight event]
+Zvýraznit událost
+[Show popups only when the chat room is not active]
+Zobrazit oznámení pouze při neaktivním okně s diskusí
+[Show button menus when right clicking the buttons]
+Zobrazit kontextové menu u tlačítek
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
@@ -1300,6 +1320,8 @@ Neviditelný
 Pozadí seznamu
 [Global]
 Globální
+[General]
+Obecné
 [Standard crypto provider]
 Standardní šifrovací modul
 [User has not registered an e-mail address]
@@ -1424,14 +1446,6 @@ Zablikat oknem při přijetí zprávy
 Zablikat oknem při zvýraznění slova
 [Show list of users in the chat room]
 Zobrazit seznam uživatelů v místnosti
-[Show button for sending messages]
-Zobrazit tlačítko pro odesílání zpráv
-[Show buttons for controlling the chat room]
-Zobrazit tlačítka řízení pravidel místnosti
-[Show buttons for formatting the text you are typing]
-Zobrazit tlačítka pro formátování textu při psaní
-[Show button menus when right clicking the buttons]
-Zobrazit kontextové menu u tlačítek
 [Show the topic of the room on your contact list (if supported)]
 Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
 [Do not play sounds when the chat room is focused]
@@ -1458,28 +1472,6 @@ Přidávat ':' k automaticky doplněným jménům
 Záznam ukládat bez kódů definujících barvy
 [Enable the 'event filter' for new rooms]
 Aktivovat filtr událostí pro nové místnosti
-[Show topic changes]
-Zobrazit informaci o změně tématu
-[Show users joining]
-Zobrazit informaci o příchodu uživatelů
-[Show users disconnecting]
-Zobrazit informaci o odpojení uživatelů
-[Show messages]
-Zobrazit zprávy
-[Show actions]
-Zobrazit akce
-[Show users leaving]
-Zobrazit informaci o odchodu uživatelů
-[Show users being kicked]
-Zobrazit informaci o vykopnutí uživatelů
-[Show notices]
-Zobrazit poznámky
-[Show users changing name]
-Zobrazit informaci o změně jména
-[Show information messages]
-Zobrazit informativní zprávy
-[Show status changes of users]
-Zobrazit informaci o změně stavu uživatelů
 [Show icon for topic changes]
 Zobrazit ikonu k informaci o změně tématu
 [Show icon for users joining]
@@ -1504,58 +1496,6 @@ Zobrazit ikonu k informaci o změně jména
 Zobrazit ikonu k textu informativní zprávy
 [Show icon for status changes]
 Zobrazit ikonu k informaci o změně stavu
-[Show icons in tray only when the chat room is not active]
-Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
-[Show icon in tray for topic changes]
-Zobrazit ikonu v ozn. oblasti při změně tématu
-[Show icon in tray for users joining]
-Zobrazit ikonu v ozn. oblasti při příchodu uživatelů
-[Show icon in tray for users disconnecting]
-Zobrazit ikonu v ozn. oblasti při odpojení uživatelů
-[Show icon in tray for messages]
-Zobrazit ikonu v ozn. oblasti při přijetí zprávy
-[Show icon in tray for actions]
-Zobrazit ikonu v ozn. oblasti při akci
-[Show icon in tray for highlights]
-Zobrazit ikonu v ozn. oblasti při zvýraznění
-[Show icon in tray for users leaving]
-Zobrazit ikonu v ozn. oblasti při odchodu uživatelů
-[Show icon in tray for users kicking other user]
-Zobrazit ikonu v ozn. oblasti při vykopnutí uživatelů
-[Show icon in tray for notices]
-Zobrazit ikonu v ozn. oblasti u poznámky
-[Show icon in tray for name changes]
-Zobrazit ikonu v ozn. oblasti při změně jména
-[Show icon in tray for information messages]
-Zobrazit ikonu v ozn. oblasti při přijetí informativní zprávy
-[Show icon in tray for status changes]
-Zobrazit ikonu v ozn. oblasti při změně stavu
-[Show popups only when the chat room is not active]
-Zobrazit oznámení pouze při neaktivním okně s diskusí
-[Show popup for topic changes]
-Zobrazit oznámení při změně tématu
-[Show popup for users joining]
-Zobrazit oznámení při příchodu uživatelů
-[Show popup for users disconnecting]
-Zobrazit oznámení při odpojení uživatelů
-[Show popup for messages]
-Zobrazit oznámení při přijetí zprávy
-[Show popup for actions]
-Zobrazit oznámení při akci
-[Show popup for highlights]
-Zobrazit oznámení při zvýraznění
-[Show popup for users leaving]
-Zobrazit oznámení při odchodu uživatelů
-[Show popup for users kicking other user]
-Zobrazit oznámení při vykopnutí uživatelů
-[Show popup for notices]
-Zobrazit oznámení u poznámky
-[Show popup for name changes]
-Zobrazit oznámení při změně jména
-[Show popup for information messages]
-Zobrazit oznámení při přijetí informativní zprávy
-[Show popup for status changes]
-Zobrazit oznámení při změně stavu
 [Window icon]
 Ikona okna
 [Bold]
@@ -1630,22 +1570,24 @@ Záznam rozhovorů
 Nastavení vzhledu a funkcí komunikačních oken
 [Appearance of the message log]
 Nastavení vzhledu záznamu komunikace
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
 [Icons to display in the message log]
 Možnosti zobrazení ikon v záznamu komunikace
-[Icons to display in the tray]
-Možnosti zobrazení ikon v oznamovací oblasti
-[Popups to display]
-Zobrazit oznámení
-[General]
-Obecné
 [Chat log]
 Záznam diskuse
 [Chat]
 Diskuse
 [Popups]
 Oznámení
+[The message send timed out.]
+Překročen časový limit odeslání zprávy.
+[Incoming message (10x10)]
+Příchozí zpráva (10x10)
+[Outgoing message (10x10)]
+Odchozí zpráva (10x10)
+[%s is typing a message...]
+%s píše zprávu...
+[Last message received on %s at %s.]
+Poslední zpráva přijata %s v %s.
 [%s: chat room (%u user)]
 %s: kanál (účastníků: %u)
 [%s: chat room (%u users)]
@@ -1654,22 +1596,8 @@ Oznámení
 %s: rozhovor
 [%s: message session (%u users)]
 %s: rozhovor (účastníků: %u)
-[Nickname]
-Přezdívka
-[Unique ID]
-Identifikátor
-[The message send timed out.]
-Překročen časový limit odeslání zprávy.
-[Incoming message (10x10)]
-Příchozí zpráva (10x10)
-[Outgoing message (10x10)]
-Odchozí zpráva (10x10)
-[Last message received on %s at %s.]
-Poslední zpráva přijata %s v %s.
 [Message session]
 Rozhovor
-[%s is typing a message...]
-%s píše zprávu...
 [Me]
 Já
 [File sent]
@@ -1956,8 +1884,6 @@ Funkce není protokolem podporována
 %u si vás přidal mezi své kontakty
 [Added event]
 Nová událost
-[&Join chat]
-&Přidat se do diskuse
 [%s has joined]
 Příchod: %s
 [You have joined %s]
@@ -1972,10 +1898,10 @@ Změna přezdívky: %s -> %s
 Změna vlastní přezdívky: %s
 [%s kicked %s]
 Vykopnutí: %s -> %s
-[Notice from %s: ]
-Poznámka od %s:\s
-[The topic is '%s%s']
-Aktuální téma: '%s%s'
+[Notice from %s]
+Poznámka od %s
+[The topic is '%s']
+Aktuální téma: %s
 [ (set by %s on %s)]
  (nastavil %s na %s)
 [ (set by %s)]
@@ -2022,8 +1948,14 @@ Seznam účastníků (pryč)
 Oblast se zprávou
 [Chat log symbols (Webdings)]
 Symboly v záznamu chatu (Webdings)
+[&Join chat]
+&Přidat se do diskuse
 [&Leave chat]
 Op&ustit diskusi
+[Always]
+Vždy
+[Never]
+Nikdy
 [Message is highlighted]
 Zvýraznění zprávy
 [User has performed an action]
@@ -2048,8 +1980,6 @@ Změna tématu diskuse
 %s odešel (z %s)
 [%s kicked %s from %s]
 %s vykopnul %s (z %s)
-[Notice from %s]
-Poznámka (napsal: %s)
 [Topic change in %s]
 Změna tématu na %s
 [Information in %s]
@@ -2058,28 +1988,12 @@ Informace (na %s)
 %s aktivuje stav '%s' pro %s v %s
 [%s disables '%s' status for %s in %s]
 %s aktivuje stav '%s' pro %s v %s
-[%s says: %s]
-%s píše: %s
-[%s has left (%s)]
-%s odešel (%s)
-[%s has disconnected (%s)]
-%s se odpojil (%s)
-[%s kicked %s (%s)]
-%s vykopnul %s (%s)
-[Notice from %s: %s]
-Poznámka od %s: %s
-[The topic is '%s']
-Aktuální téma: %s
-[The topic is '%s' (set by %s)]
-Aktuální téma: %s (nastavil %s)
+[%s says]
+%s píše
 [Chat rooms]
 Místnosti chatu
-[Look up '%s':]
-Vyhledat '%s':
-[No word to look up]
-Není co vyhledat
-[&Message %s]
-&Zpráva pro '%s'
+[Events and filters]
+Události a filtry
 [New group]
 Nová skupina
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2096,6 +2010,8 @@ Tato skupina
 Připojování
 [Connecting (attempt %d)]
 Připojování (pokus č.%d)
+[Common]
+Obecné
 [(Unknown contact)]
 (neznámý kontakt)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2308,6 +2224,8 @@ Zobrazit nebo skrýt kontakty
 Přečíst zprávu
 [Open Options page]
 Okno pro nastavení
+[Toggle groups]
+Přepnout skupiny
 [Open logging options]
 Otevřít záznam
 [Open 'Find user' dialog]
@@ -2540,6 +2458,12 @@ Změněno
 Seznam profilů
 [New profile]
 Nový profil
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[Revoke authorization]
+Odvolat autorizaci
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 POZOR!!! Vybraný účet bude smazán. V důsledku to znamená, že bude odstraněn seznam kontaktů daného protokolu, historie i nastavení.\n\nOpravdu chcete smazat vybraný účet?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2592,12 +2516,6 @@ Chyba účtu
 Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
 [&Accounts...]
 Účt&y...
-[Request authorization]
-Požádat o autorizaci
-[Grant authorization]
-Udělit autorizaci
-[Revoke authorization]
-Odvolat autorizaci
 [Could not start a search on '%s', there was a problem - is %s connected?]
 V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
 [Could not search on any of the protocols, are you online?]
@@ -2688,6 +2606,16 @@ Hlavní ikony
 Zvukové soubory
 [WAV files]
 Soubory WAV
+[&Message %s]
+&Zpráva pro '%s'
+[Nickname]
+Přezdívka
+[Unique ID]
+Identifikátor
+[Look up '%s':]
+Vyhledat '%s':
+[No word to look up]
+Není co vyhledat
 [<Separator>]
 <oddělovač>
 [Toolbar]
@@ -3849,8 +3777,8 @@ Vlastní úpravy
 ;  Version: 0.2.1.1
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
-Spravuje asociace souborů a URL jako jsou gg, mirpu, wpmsg, xmpp, ymsgr.
+[Handles file type associations and URLs like gg, mirpu, xmpp.]
+Spravuje asociace souborů a URL jako jsou gg, mirpu, xmpp.
 [Registered associations for Miranda NG:]
 Asociace registrované pro Mirandu NG:
 [Miscellaneous]
@@ -4291,7 +4219,7 @@ Historie avatarů: Nelze vytvořit zástupce
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.1
+;  Version: 0.98.1.2
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -5483,42 +5411,6 @@ Změna klienta
 ;============================================================
 [A contact list for blind folks.]
 Seznam kontaktů pro nevidomé.
-[Delete contact]
-Smazání kontaktu
-[Are you sure you want to delete %s?]
-Opravdu chcete smazat kontakt %s?
-[This will erase all history and settings for this contact!]
-Tímto odstraníte celou historii a nastavení kontaktu!
-[Yes]
-Ano
-[No]
-Ne
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-(Skrytí kontaktů zrušíte v Možnosti -> Kontakty -> Filtrování.)
-[Hotkeys]
-Klávesové zkratky
-[Show/Hide:]
-Zobrazit/Skrýt:
-[Read message:]
-Přečíst zprávu:
-[Web search:]
-Hledat na webu:
-[URL:]
-Odkaz:
-[Open in new browser window]
-Otevřít v novém okně prohlížeče
-[Show options]
-Možnosti nastav.
-[Hide offline users]
-Skrýt uživatele offline
-[Hide empty groups]
-Skrýt prázdné skupiny
-[Disable groups]
-Vypnout skupiny
-[Ask before deleting contacts]
-Potvrdit smazání kontaktů
 [Sort contacts by name]
 Řadit kontakty dle jména
 [Sort contacts by status]
@@ -5545,8 +5437,6 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[Contact list]
-Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
@@ -5597,10 +5487,6 @@ Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 Zobrazit stín (vyžaduje restart)
 [Pin to desktop]
 Připíchnout na plochu
-[Items]
-Položky
-['Hide offline' means to hide:]
-'Skrýt offline' znamená skrytí:
 [Groups]
 Skupiny
 [Show counts of number of contacts in a group]
@@ -5641,30 +5527,14 @@ Shodná šířka všech položek
 Zobrazit efekt zkosení panelů
 [Show resize grip indicator]
 Zobrazit tlač. změny velik.
-[Not focused]
-Neaktivní
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Na chvíli pryč
-[Not available]
-Nejsem tady
-[Occupied]
-Nemám čas
-[Do not disturb]
-Nerušit!
-[Free for chat]
-Mám volno
-[Invisible]
-Neviditelný
 [Group: %name% %count% [%mode%]]
 Skupina: %name% %count% [%mode%]
 [Divider: %s]
 Oddělovač: %s
 [Info: %s]
 Informace: %s
+[Contact list]
+Seznam kontaktů
 [List]
 Seznam
 [Global]
@@ -5679,7 +5549,7 @@ Sbalený
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.8
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -5732,8 +5602,6 @@ Stáhnout další skiny
 Přehled režimů zobrazení
 [Include protocols]
 Včetně protokolů
-[New]
-Nový
 [Include groups]
 Včetně skupin
 [Show contacts in groups]
@@ -5836,20 +5704,10 @@ Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
 Tímto odstraníte celou historii a nastavení kontaktu!
-[Hide offline users]
-Skrýt uživatele offline
-[Hide empty groups]
-Skrýt prázdné skupiny
-[Disable groups]
-Vypnout skupiny
-[Ask before deleting contacts]
-Potvrdit smazání kontaktů
-[Don't move offline user to bottom]
-Kontakty offline nepřesouvat na konec
-[Contact list]
-Seznam kontaktů
 [Contact list sorting]
 Řazení seznamu kontaktů
+[Don't move offline user to bottom]
+Kontakty offline nepřesouvat na konec
 [1st:]
 1)
 [2nd:]
@@ -5858,8 +5716,8 @@ Seznam kontaktů
 3)
 [Place offline users out of groups]
 Kontakty offline umístit mimo skupiny
-[Gamma correction]
-Gama korekce
+[Selection mode]
+Způsob výběru
 [Default]
 Výchozí
 [Full selection]
@@ -5868,8 +5726,8 @@ Celý řádek
 Část řádku
 [No selection]
 Bez výběru
-[Selection mode]
-Způsob výběru
+[Gamma correction]
+Gama korekce
 [Bring to front if covered]
 Při překrytí přenést do popředí
 [Hide contact list after]
@@ -5934,8 +5792,6 @@ Zobrazit výběr i tehdy, není-li seznam aktivní
 Zobrazit vybrané položky průhledně
 [Dim idle contacts]
 Zešednout neaktivní kontakty
-['Hide offline' means to hide:]
-'Skrýt offline' znamená skrytí:
 [Groups]
 Skupiny
 [Draw a line alongside group names]
@@ -6302,6 +6158,8 @@ Změna metakontaktu (přesun)
 Skiny
 [Modern contact list]
 Moderní seznam kontaktů
+[Contact list]
+Seznam kontaktů
 [Avatar overlay]
 Překrytí avataru
 [Status overlay]
@@ -6554,6 +6412,8 @@ Vyhledat uživatele
 Zobrazit/skrýt skupiny
 [Use groups]
 Zapnout skupiny
+[Disable groups]
+Vypnout skupiny
 [Enable/Disable sounds]
 Povolit/zakázat zvuky
 [Enable sounds]
@@ -6568,6 +6428,8 @@ Pro zobrazení lišty tlačítek v seznamu kontaktů potřebujete doplněk TopTo
 Pozadí tlačítkové lišty
 [Toolbar upgrade]
 Aktualizace lišty tlačítek
+[All contacts]
+Všechny kontakty
 [Ungrouped contacts]
 Nesdružené kontakty
 [And]
@@ -6586,22 +6448,20 @@ hodin
 dnů
 [Configuring view mode: %s]
 Konfigurace pohledu: %s
-[All contacts]
-Všechny kontakty
 [Filtering]
 Filtrování
 [*** All contacts ***]
 *** všechny kontakty ***
 [Configure view modes]
 Konfigurace režimu zobrazení
-[Really delete this view mode? This cannot be undone]
-Opravdu chcete odstranit režim zobrazení? Tuto akci nelze vzít zpět.
-[Delete a view mode]
-Odstranit režim zobrazení
 [A view mode with this name does already exist]
 Režim zobrazení s tímto názvem již existuje
 [Duplicate name]
 Duplicitní jméno
+[Really delete this view mode? This cannot be undone]
+Opravdu chcete odstranit režim zobrazení? Tuto akci nelze vzít zpět.
+[Delete a view mode]
+Odstranit režim zobrazení
 [Setup view modes...]
 Nastavit režimy zobrazení...
 [Select a view mode]
@@ -6651,20 +6511,8 @@ Opravdu chcete smazat kontakt %s?
 Tímto odstraníte celou historii a nastavení kontaktu!
 [Contact list]
 Seznam kontaktů
-[Hide offline users]
-Skrýt uživatele offline
-[Hide empty groups]
-Skrýt prázdné skupiny
-[Disable groups]
-Vypnout skupiny
-[Ask before deleting contacts]
-Potvrdit smazání kontaktů
-[Disable icon blinking]
-Vypnout blikání ikon
 [Apply last active view mode]
 Použít poslední aktivní režim zobrazení
-[Contact list layout]
-Vzhled seznamu kontaktů
 [Show menu and status buttons]
 Zobrazit tlačítka menu a stavu
 [Draw sunken edge]
@@ -6675,6 +6523,8 @@ Ikona v oznamovací oblasti
 Zařídit vše jedním kliknutím myši
 [Always show status in tooltip]
 Vždy zobrazit stav v tipu
+[Disable icon blinking]
+Vypnout blikání ikon
 [ms]
 ms
 [Event area]
@@ -6743,8 +6593,6 @@ A nakonec dle
 Posunovat události v seznamu nahoru
 [Do not separate offline contacts]
 Neoddělovat kontakty ve stavu offline
-[Hide as offline]
-Skrýt jako offline
 [Right align contacts]
 Zarovnat kontakt vpravo
 [Avatars]
@@ -7023,6 +6871,52 @@ Vybrat režim zobrazení
 Nastavení režimů zobrazení
 [Clear view mode]
 Zrušit režim zobrazení
+[Nothing]
+Nic
+[Name]
+Jméno
+[Status]
+Stavy
+[Message frequency]
+Četnost zpráv
+[Never]
+Nikdy
+[Always]
+Vždy
+[For RTL only]
+Pouze pro RTL
+[RTL TEXT only]
+Pouze pro RTL TEXT
+[Always left]
+Vždy vlevo
+[Always right]
+Vždy vpravo
+[Automatic (RTL)]
+Automaticky (RTL)
+[When space allows it]
+Pokud to místo dovolí
+[When needed]
+Pokud je potřeba
+[With nickname - left]
+S přezdívkou - vlevo
+[Far left]
+Úplně vlevo
+[Far right]
+Úplně vpravo
+[With nickname - right]
+S přezdívkou - vpravo
+[Row items]
+Řádky
+[Contacts]
+Kontakty
+[Groups and layout]
+Skupiny a vzhled
+[Advanced]
+Extra
+[No events...]
+<žádné události>
+[Global]
+Globální
 [Not focused]
 Neaktivní
 [Offline]
@@ -7041,60 +6935,20 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[Always left]
-Vždy vlevo
-[Always right]
-Vždy vpravo
-[Automatic (RTL)]
-Automaticky (RTL)
-[Nothing]
-Nic
-[Name]
-Jméno
-[Status]
-Stavy
-[Message frequency]
-Četnost zpráv
-[Never]
-Nikdy
-[Always]
-Vždy
-[For RTL only]
-Pouze pro RTL
-[RTL TEXT only]
-Pouze pro RTL TEXT
-[When space allows it]
-Pokud to místo dovolí
-[When needed]
-Pokud je potřeba
-[With nickname - left]
-S přezdívkou - vlevo
-[Far left]
-Úplně vlevo
-[Far right]
-Úplně vpravo
-[With nickname - right]
-S přezdívkou - vpravo
+[Title bar]
+Záhlaví okna
+[Tool Window]
+S tenkým záhlavím
+[Thin border]
+Tenký okraj
+[No border]
+Bez okraje
 [General]
 Obecné
 [List layout]
 Vzhled seznamu
 [Background]
 Pozadí
-[Row items]
-Řádky
-[Contacts]
-Kontakty
-[Groups and layout]
-Skupiny a vzhled
-[Advanced]
-Extra
-[Skins]
-Skiny
-[No events...]
-<žádné události>
-[Global]
-Globální
 [Toggle show online/offline]
 Přepnout online/offline
 [Toggle groups]
@@ -7217,20 +7071,14 @@ Zobrazit všechny rámečky
 Zobrazit záhlaví rámečků
 [Hide all title bars]
 Skrýt záhlaví rámečků
-[Title bar]
-Záhlaví okna
-[Tool Window]
-S tenkým záhlavím
-[Thin border]
-Tenký okraj
-[No border]
-Bez okraje
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Seznam kontaktů nemůže být ukotven při použití výchozího stylu záhlaví a okraje. Použijte tenký styl záhlaví nebo okno bez okraje.
 [Contact list docking]
 Ukotvení seznamu kontaktů
 [Load and apply]
 Použití
+[Skins]
+Skiny
 [Show metacontact protocol icons]
 Zobrazit ikony protokolu subkontaktu
 [Show additional buttons]
@@ -7593,7 +7441,7 @@ Odeslat kontakty pro
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -7962,11 +7810,60 @@ Zadejte formát oznámení.
 Nahrazuje (pouze pro zvolené kontakty) znaky azbuky v odchozích zprávách jejich fonetickými ekvivalenty v latince.
 [&Transliterate]
 &Transliterovat
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.13.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Kontrola databáze Mirandy NG.
+[Miranda Database Tool]
+Nástroj pro správu databáze Mirandy
+[&Next >]
+&Další >
+[Cancel]
+Zrušit
+[Error Opening Database]
+Chyba při otevírání databáze
+[There was an error opening the profile database given.]
+Chyba při otevírání požadované databáze.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Kliknutím na tlačítko 'Další' zkusíte databázi znovu otevřít. Tlačítkem 'Zpět' se vrátíte k výběru profilu.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Vybranou databázi používá jiný program. Ukončete všechny spuštěné instance programu Miranda a klikněte na tlačítko 'Další'.
+[Working...]
+Probíhá údržba...
+[Please wait while the requested operations are being performed.]
+Počkejte prosím, správce provádí požadovanou údržbu databáze.
+[Database]
+Databáze
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Nelze nalézt vhodný doplněk databáze pro otevření '%s'.
+[Error]
+Chyba
+[Database driver '%s' doesn't support checking.]
+Doplněk databáze '%s' nepodporuje kontrolu.
+[&Finish]
+&Dokončit
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Zpracování ještě nebylo dokončeno. Pokud jej nyní zrušíte, změny, které byly aktuálně provedeny, budou vráceny zpět a originální databáze bude obnovena. Opravdu si přejete zpracování zrušit?
+[Database worker thread activated]
+Aktivace procesu pro práci s databází
+[Processing aborted by user]
+Procházení přerušeno uživatelem
+[Elapsed time: %d sec]
+Délka kontroly: %d sek.
+[All tasks completed but with errors (%d)]
+Všechny úlohy byly dokončeny; počet chyb: %d
+[All tasks completed successfully]
+Všechny úlohy byly úspěšně dokončeny
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.2
+;  Version: 4.0.1.3
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8336,6 +8233,8 @@ Příliš mnoho chybných pokusů!
 Zadané heslo není správné!
 [Please type in your password]
 Zadejte prosím své heslo
+[Error]
+Chyba
 [Change/remove password]
 Změnit/zrušit heslo
 [Wrong old password entered!]
@@ -8462,7 +8361,7 @@ Nastavit heslo
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -8563,7 +8462,7 @@ Miranda NG [%s] záloha databáze
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.1
+;  Version: 0.6.2.5
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -8586,14 +8485,24 @@ Změ&nit přezdívku
 Hlavní ikona
 [Group chats]
 Skupinové rozhovory
+[Call]
+Volat
+[Call ended]
+Hovor ukončen
 [Network]
 Sítě
 [Account]
 Účet
+[Incoming call]
+Příchozí hovor
 [%s server connection]
 %s - spojení se serverem
 [User ID]
 Identifikátor
+[Owners]
+Vlastníci
+[Participants]
+Účastníci
 [Preview]
 Náhled
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
@@ -8661,7 +8570,7 @@ Tento Dummy účet neumožňuje odesílání zpráv. Můžete to povolit v nasta
 ;============================================================
 ;  File: EmLanProto.dll
 ;  Plugin: E-mage LAN protocol
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: kva
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
@@ -8755,12 +8664,12 @@ Doplňky
 Vynucené znovu-připojení k Exchange serveru...
 [Connecting to Exchange ...]
 Připojování k Exchange...
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.1.0.8
+;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Facebook protokol pro Mirandu NG.
@@ -8770,366 +8679,42 @@ E-mail:
 Heslo:
 [Create a new Facebook account]
 Zřídit nový účet na Facebooku
-[What's on your mind?]
-Co se vám honí hlavou?
-[Wall:]
-Zeď:
-[Visibility:]
-Viditelnost:
-[Text:]
-Text:
-[URL:]
-Odkaz:
-[Place:]
-Místo:
-[Contacts >>]
-Kontakty >>
-[Attach contacts:]
-Označit kontakty:
-[Share]
-Sdílet
-[Cancel]
-Zrušit
 [User details]
 Informace o uživateli
 [Contacts]
 Kontakty
 [Default group:]
 Výchozí skupina:
-[Automatically set 'Ignore status change' flag]
-Automaticky ignorovat změnu stavu
-[Use bigger avatars]
-Zobrazit větší avatary
-[Prefer real names instead of nicknames]
-Preferovat reálná jména namísto přezdívek
-[Popup notifications]
-Oznámení
-[Show notifications]
-Zobrazovat upozornění
-[Show wall posts (news feed) (WARNING: Causes excessive network traffic!)]
-Zobrazovat příspěvky ze zdi (kanál novinek) (VAROVÁNÍ: Způsobuje zvýšený síťový přenos dat!)
-[News feed types to notify:]
-Upozorňovat na tyto příspěvky:
-[Don't show advertising posts]
-Nezobrazovat reklamní příspěvky
-[Show friendships changes (when someone removes/approves you)]
-Zobrazovat změny přátelství (když vás někdo odebere nebo potvrdí)
-[Show real-time friends activity (ticker feed)]
-Zobrazit aktivitu přátel v reálném čase (kanál aktivity)
-[Show my "On this day" posts at login]
-Zobrazit vzpomínky (příspěvky "v tento den") po přihlášení
-[Chatroom logging]
-Záznam do skupinových rozhovorů
-[Log notifications into special chatroom]
-Zaznamenávat upozornění do speciálního skupinového rozhovoru
-[Extra]
-Další možnosti
-[Use balloon notifications in system tray instead of popups]
-Místo klasického oznámení použít bubliny v systémové liště
-[Use this server for opening links:]
-Pro otevírání odkazů použít tento server:
-[Statuses]
-Stavy
-[Post Miranda statuses to Wall]
-Odesílat stav Mirandy na zeď Facebooku
-[Turn off chat on Facebook when going to offline in Miranda]
-Vypnout chat na Facebooku při odpojení v Mirandě
-[Map unsupported statuses to Invisible (instead of Away)]
-Pro nepodporované stavy použít Neviditelný (nikoli Na chvíli pryč)
-[Allow posting statuses to my pages (may slow down login)]
-Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
-[Advanced]
-Extra
-[Bots challenge test]
-Kontrola robotů
-[Instruction:]
-Instrukce:
-[Submit]
-Potvrdit
-[Messages]
-Zprávy
-[Keep messages as unread on server (don't send "seen" info)]
-Ponechat zprávy na serveru jako nepřečtené (neodesílat informaci o času přečtení)
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Zobrazovat samolepky jako vlastní smajlíky (EXPERIMENTÁLNÍ)
-[Multi user chats]
+[Keep messages as unread on server]
+Ponechat zprávy na serveru jako nepřečtené
+[Group chats]
 Skupinové rozhovory
-[Enable multi user chats support]
-Povolit podporu pro skupinové rozhovory
 [Do not open chat windows on creation]
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
-[Automatically join active chats that exist in contact list]
-Automaticky připojit existující skupinové rozhovory v seznamu
-[History synchronization]
-Synchronizace historie
-[Load last messages on opening message window (EXPERIMENTAL)]
-Načíst poslední zprávy při otevření komunikačního okna (EXPERIMENTÁLNÍ)
-[Number of messages to load:]
-Počet zpráv pro načtení:
-[Facebook Login Approval]
-Potvrzení přihlášení Facebooku
-[Your security settings requires to input a security code to access your account from unknown browsers.\n\nYou can get the code via Facebook application on your phone or click button below to receive it via SMS.]
-V rámci zabezpečení vašeho účtu musíte zadat bezpečnostní kód pro přístup přihlášení z neznámých prohlížečů.\n\nKód můžete získat v mobilní Facebook aplikaci na vašem telefonu nebo klikněte dole pro zaslání kódu v SMS.
-[Send SMS]
-Poslat SMS
-[Enter the text you see]
-Zadejte text, který vidíte
-[&Invite user...]
-Pozvat k d&iskusi...
-[User &details]
-&Detaily uživatele
-[User &history]
-Zobrazit &historii
-[Former]
-Bývalý účastník
-[Myself]
-Já
-[Friend]
-Přítel
-[User]
-Uživatel
-[Notifications]
-Upozornění
-[%s and more (%d)]
-%s a další (%d)
-[Login error: %s]
-Chyba připojení: %s
-[Unknown error]
-Neznámá chyba
-[Login error: Invalid request.]
-Chyba připojení: Neplatný požadavek.
-[You entered too many invalid verification codes. Plugin will disconnect.]
-Zadali jste příliš mnoho neplatných ověřovacích kódů. Nyní budete odhlášeni.
-[You entered wrong verification code. Try it again.]
-Zadali jste neplatný ověřovací kód. Zkuste to znovu.
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-Chyba připojení: Váš účet je dočasně zablokován. Musíte potvrdit toto zařízení z webového prohlížeče.
-[Check last login]
-Zkontrolovavt poslední přihlášení
-[Do you recognize this activity?]
-Poznáváte tuto aktivitu?
-[Login error: You need to confirm last unknown login or revoke it from web browser.]
-Chyba připojení: Je potřeba potvrdit poslední neznámé přihlášení nebo ho zamítnout z webového prohlížeče.
-[Login error: Facebook thinks your computer is infected. Solve it by logging in via 'private browsing' mode of your web browser and run their antivirus check.]
-Chyba připojení: Facebook si myslí, že je váš počítač nakažen. To můžete vyřešit přihlášením ve vašem prohlížeči v "privátním režimu", kdy následně potvrdíte antivirovou kontrolu.
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-Chyba připojení: Je vyžadována captcha. Musíte potvrdit toto zařízení z webového prohlížeče.
-[Login error, probably bad login credentials.]
-Chyba při přihlašování, možná máte špatné přihlašovací údaje.
-[Could not load communication token. You should report this and wait for plugin update.]
-Nelze načíst komunikační token. Měli byste tento problém nahlásit a počkat na aktualizaci.
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-Nelze načíst všechna požadovaná data. Doplněk může stále fungovat korektně, ale měli byste tento problém nahlásit a počkat na aktualizaci.
-[Contact doesn't have required data in database.]
-Kontakt nemá v databázi požadovaná data.
-[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-Vyžadováno potvrzení pro odesílání zpráv jiným klientům.\nOtevřte stránky Facebooku a odešlete znovu zprávu tomuto kontaktu!
-[User cancel captcha challenge.]
-Uživatel nezadal captcha kód.
-[Timeout when sending message.]
-Vypršel čas na odeslání zprávy.
-[Status update was successful.]
-Stav byl úspěšně aktualizován.
-[Error occurred when requesting verification SMS code.]
-Nastala chyba při požadavku o ověřovací SMS kód.
-[Verification SMS code was sent to your mobile phone.]
-Ověřovací SMS kód byl odeslán na váš mobilní telefon.
-[Please enter a username.]
-Zadejte uživatelské jméno.
-[Please enter a password.]
-Zadejte heslo.
-[Contact was removed from your server list.]
-Kontakt byl odebrán z vašeho seznamu přátel.
-[Error occurred when removing contact from server.]
-Nastala chyba při odebírání kontaktu z vašeho seznamu přátel.
-[Request for friendship was sent.]
-Požadavek o přátelství byl odeslán.
-[Error occurred when requesting friendship.]
-Nastala chyba při požadavku o přátelství.
-[Request for friendship was accepted.]
-Požadavek o přátelství byl přijat.
-[Error occurred when accepting friendship request.]
-Nastala chyba při pokusu o přijetí požadavku o přátelství.
-[Request for friendship was canceled.]
-Požadavek o přátelství byl zrušen.
-[Error occurred when canceling friendship request.]
-Nastala chyba při rušení požadavku o přátelství.
-[Request for friendship was ignored.]
-Požadavek o přátelství byl ignorován.
-[Error occurred when ignoring friendship request.]
-Nastala chyba při pokusu o ignorování požadavku o přátelství.
-[Top News]
-Hlavní zprávy
-[Most Recent]
-Nejnovější
-[Pages]
-Stránky
-[Classic website]
-Klasické stránky
-[Mobile website]
-Mobilní stránky
-[Smartphone website]
-Smartphone stránky
-[Public]
-Veřejný
-[Friends of friends]
-Přátelé přátel
-[Friends]
-Přátelé
-[Friends except acquaintances]
-Přátelé kromě známých
-[Only me]
-Jenom já
-[Default]
-Výchozí
-[<< Contacts]
-<< Kontakty
-[What's on your mind, %s?]
-Co se vám honí hlavou, %s?
-[a sticker]
-samolepku
-[a GIF]
-GIF
-[a link]
-odkaz
-[files]
-soubory
-[a file]
-soubor
-[User sent %s:]
-Uživatel odeslal %s:
-[User sent an unsupported attachment. Open your browser to see it.]
-Uživatel odeslal nepodporovanou přílohu. Otevřte webový prohlížeč pro její zobrazení.
-[%s is typing a message...]
-%s píše zprávu...
-[You cannot send messages when you are offline.]
-Ve stavu offline nelze odesílat zprávy.
-[Contact is back on server-list.]
-Kontakt je zpět mezi vašimi přáteli.
-[Contact is no longer on server-list.]
-Kontakt již není mezi vašimi přáteli.
-[Loading history started.]
-Načítání historie spuštěno.
-[Loading messages: %d/%d]
-Načteno zpráv: %d/%d
-[Loading history completed.]
-Načítání historie dokončeno.
-[<attachment without text>]
-<příloha bez textu>
-[Loading memories...]
-Načítání vzpomínek...
-[On this day]
-V tento den
-[Loading notifications...]
-Načítání upozornění...
-[Loading friendship requests...]
-Načítání požadavků o přátelství...
-[Loading wall posts...]
-Načítání příspěvků ze zdi...
-[%s server connection]
-%s - spojení se serverem
-[Unable to initialize Netlib for %s.]
-Nelze inicializovat síťovou komunikaci pro %s.
-[Video call]
-Video hovor
-[Facebook ID must be numeric value.]
-Facebook ID musí být číselná hodnota.
+[Send group chat invitation]
+Odeslat pozvánku k diskusi
+[&Invite]
+&Pozvat
+[Cancel]
+Zrušit
+[&Invite a user]
+Pozvat už&ivatele
 [Network]
 Sítě
 [Account]
 Účet
-[Events]
-Události
-[Messaging]
-Komunikace
-[Share status...]
-Sdílet stav...
-[Own wall]
-Vlastní zeď
-[Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
-Načítání historie již probíhá a nemůže být spuštěno pro více kontaktů najednou. Počkejte prosím na jeho dokončení.
-[This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]
-Toto načte všechny zprávy ze serveru. Abyste zabránili duplicitním zprávám ve vaší historii, před pokračováním ručně smažte existující zpráv.\nNačítání může nějakou dobu trvat, buďte trpěliví.\n\nPřejete si pokračovat?
-[Do you want to cancel your friendship with '%s'?]
-Přejete si zrušit vaše přátelství s '%s'?
-[Client errors]
-Chyby klienta
-[Wall posts]
-Příspěvky ze zdi
-[Other events]
-Jiné události
-[Friendship events]
-Přátelství
-[Real-time friends activity]
-Aktivita přátel v reálném čase
-[Memories]
-Vzpomínky
-[Visit profile]
-Zobrazit profil
-[Visit notifications]
-Zobrazit upozornění
-[Show 'Share status' window]
-Zobrazit okno pro sdílení stavu
-[Notification]
-Oznámení
-[Newsfeed event]
-Příspěvek na zdi
-[Other event]
-Ostatní události
-[Friendship event]
-Přátelství
-[Ticker event]
-Ticker události
-[Message read: %s by %s]
-Zpráva byla přečtena: %s - %s
-[Message read: %s]
-Zpráva byla přečtena: %s
-[Facebook icon]
-Ikona Facebooku
-[Mind]
-Zpráva stavu
-[Poke]
-Šťouchnout
-[Newsfeed]
-Novinka
-[Friendship details]
-Podrobnosti o přátelství
-[Conversation]
-Konverzace
-[Message read]
-Zpráva přečtena
-[Angry]
-To mě štve
-[Haha]
-Haha
-[Like]
-To se mi líbí
-[Love]
-Super
-[Sad]
-To mě mrzí
-[Wow]
-Paráda
-[Visit friendship details]
-Zobrazit podrobnosti o přátelství
-[Visit conversation]
-Zobrazit konverzaci
-[Load history]
-Načíst historii
-[Cancel friendship request]
-Zrušit požadavek o přátelství
-[Deny friendship request]
-Odmítnout požadavek o přátelství
-[Services...]
-Služby
-[Check friendship requests]
-Zkontrolovat požadavky o přátelství
-[Check newsfeeds]
-Zkontrolovat novinky ze zdi
-[Check memories]
-Zkontrolovat vzpomínky
-[Check notifications]
-Zkontrolovat upozornění
+[%s server connection]
+%s - spojení se serverem
+[Participant]
+Účastník
+[URL]
+Odkaz
+[Title]
+Název
+[Source]
+Zdroj
+[Description]
+Popis
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -9321,8 +8906,6 @@ Klienti ICQ
 Klienti IRC
 [Jabber clients]
 Klienti Jabber
-[MSN clients]
-Klienti MSN
 [RSS clients]
 Klienti RSS
 [VKontakte clients]
@@ -9542,7 +9125,7 @@ Vlastní úpravy
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
-;  Version: 0.6.0.5
+;  Version: 0.6.0.6
 ;  Authors: yaho
 ;============================================================
 [FTP accounts]
@@ -11580,7 +11163,7 @@ Hardwarové klávesy
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.5
+;  Version: 0.95.12.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -11597,6 +11180,8 @@ Odeslat pozvánku k diskusi
 &Pozvat
 [Cancel]
 Zrušit
+[Account registration]
+Registrace účtu
 [UIN:]
 UIN:
 [Online since:]
@@ -11627,6 +11212,12 @@ Obecné
 Extra
 [%s server connection]
 %s - spojení se serverem
+[Name]
+Jméno
+[Rename]
+Přejmenovat
+[Delete]
+Smazat
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Chyba připojení.\nZadané UIN a heslo bylo odmítnuto serverem (%d).
 [admin]
@@ -11753,7 +11344,7 @@ Historie &systému
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.2
+;  Version: 1.6.0.4
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -11826,14 +11417,6 @@ Odchozí přenos souboru
  žádá o autorizaci
 [ was added.]
  byl přidán
-[%s has joined.]
-Příchod: %s
-[%s has left.]
-Odchod: %s
-[The topic is %s.]
-Téma: %s
-[Error]
-Chyba
 [Default]
 Výchozí
 [Template]
@@ -12058,6 +11641,8 @@ Požadovaný soubor neexistuje. Zkontrolujte prosím, zda je zadaný název v po
 Miranda - import dat
 [All Files]
 Všechny soubory
+[Miranda NG database/mContacts]
+Databáze Mirandy NG/mContacts
 [Skipping duplicate group %s.]
 Přeskakování duplicitní skupiny %s.
 [Import...]
@@ -12191,7 +11776,7 @@ Skripty
 Při ukončení:
 [Server code page:]
 Kódování serveru:
-[Enable UTF8 autodetection]
+[Enable UTF-8 autodetection]
 Zapnout detekci UTF-8
 [Add server]
 Přidat server
@@ -12467,10 +12052,10 @@ Odeslána žádost o reverzní přenos souborů pomocí DCC -> %s [%s]
 Odeslána žádost o přenos souborů pomocí DCC -> %s [%s]
 [DCC ERROR: Unable to bind local port]
 Chyba DCC: Nelze navázat spojení na požadovaném lokálním portu
-[The protocol is not online]
-Protokol není ve stavu online
 [The dcc chat connection is not active]
 Privátní diskuse není aktivní
+[The protocol is not online]
+Protokol není ve stavu online
 [Please choose an IRC-network to go online. This network will be the default.]
 Do stavu online přejdete po výběru sítě serverů IRC. Tato síť bude nastavena jako výchozí.
 [Main]
@@ -12715,7 +12300,7 @@ Odstranění výjimky
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -12788,8 +12373,6 @@ Hostitel:
 Udržovat spojení
 [Automatically delete contacts not in my roster]
 Automaticky mazat kontakty mimo vlastní seznam
-[User directory:]
-Adresářová služba:
 [Language for human-readable resources:]
 Definice jazyka pro textové služby:
 [File Transfer]
@@ -12798,18 +12381,14 @@ Přenos souborů
 Povolit odesílání souborů přímým spojením mezi klienty
 [Specify external address:]
 Zadat externí adresu:
-[Allow file sending through bytestream proxy server:]
-Povolit odesílání souborů přes proxy server:
 [Miscellaneous]
 Ostatní
 [Hint:]
 Tip:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Máte-li problémy s přenosem souborů, vypněte všechny výše uvedené možnosti. Na druhou stranu to může zamezit přenosu velkých souborů.
-[Jabber account registration]
-Jabber :: Registrace účtu
-[Jabber Form]
-Jabber :: Formulář
+[Account registration]
+Registrace účtu
 [Instruction:]
 Instrukce:
 [Submit]
@@ -13120,8 +12699,8 @@ Spustit
 Zjišťování seznamu příkazů. Počkejte prosím...
 [Jabber Agent Registration]
 Jabber :: Registrace služby
-[No message]
-Žádná zpráva
+[Registration successful]
+Registrace proběhla úspěšně
 [Register]
 Registrovat
 [Please wait...]
@@ -13172,8 +12751,6 @@ Poskytuje informace o místním času
 Umožňuje poslat a přijmout ping
 [Supports data forms]
 Podporuje formulářové prvky
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-Umožňuje zpracovávat a reagovat na události typu doručení, zobrazení a psaní zprávy
 [Supports vCard]
 Podporuje vCard
 [Supports XHTML formatting of chat messages]
@@ -13234,14 +12811,14 @@ Přihlížející
 Účastník
 [Moderator]
 Moderátor
-[Owners]
-Vlastníci
-[Moderators]
-Moderátoři
-[Participants]
-Účastníci
 [Visitors]
 Přihlížející
+[Participants]
+Účastníci
+[Moderators]
+Moderátoři
+[Owners]
+Vlastníci
 [Role of %s was changed to '%s'.]
 Role uživatele %s byla změněna na '%s'.
 [Change &nickname]
@@ -13358,20 +12935,6 @@ Důvod k uzavření %s
 Nelze odesílat data když jste offline.
 [Jabber Error]
 Jabber chyba
-[Node hierarchy]
-Hierarchie uzlů
-[Node]
-Uzel
-[Browse all favorites]
-Procházet všechny oblíbené
-[Remove all favorites]
-Odebrat všechny oblíbené
-[Registered transports]
-Registrované služby
-[Browse local transports]
-Procházet lokální služby
-[Browse chatrooms]
-Procházet diskuse
 [Contact Menu...]
 Uživatelské menu...
 [View vCard]
@@ -13402,6 +12965,20 @@ Zkopírovat JID
 Zkopírovat název uzlu
 [Copy node information]
 Zkopírovat informace o uzlu
+[Node hierarchy]
+Hierarchie uzlů
+[Node]
+Uzel
+[Browse all favorites]
+Procházet všechny oblíbené
+[Remove all favorites]
+Odebrat všechny oblíbené
+[Registered transports]
+Registrované služby
+[Browse local transports]
+Procházet lokální služby
+[Browse chatrooms]
+Procházet diskuse
 [Identities]
 Identity
 [category]
@@ -13512,8 +13089,6 @@ Vyhledávání
 Soukromí
 [Authentication failed for %s.]
 Chyba při ověřování %s.
-[Registration successful]
-Registrace proběhla úspěšně
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
 Heslo bylo úspěšně změněno. Nezapomeňte tento údaj zaktualizovat v nastavení protokolu Jabber.
 [Password cannot be changed.]
@@ -13538,8 +13113,6 @@ Seznam správců
 Seznam vlastníků
 [Jabber account chooser]
 Volba účtu protokolu Jabber
-[Convert]
-Nahradit
 [Add to Bookmarks]
 Přidat mezi záložky
 [Commands]
@@ -13554,10 +13127,6 @@ Umístění
 Naposledy aktivní
 [Server's Choice]
 Podle serveru
-[&Convert to Contact]
-Z&měnit na kontakt
-[&Convert to Chat Room]
-Z&měnit na místnost
 [Services...]
 Služby
 [Registered Transports]
@@ -13734,6 +13303,10 @@ velština
 jidiš
 [Yoruba]
 jorubština
+[Never]
+Nikdy
+[Always]
+Vždy
 [These changes will take effect the next time you connect to the Jabber network.]
 Změny se projeví až při příštím připojení do sítě Jabber.
 [Jabber Protocol Option]
@@ -13748,8 +13321,6 @@ Změnu hesla lze provést pouze pokud jste připojen
 Musíte být přípojen
 [Messaging]
 Rozhovor
-[Send messages slower, but with full acknowledgment]
-Odeslat zprávy pomaleji, ale s úplným potvrzením
 [Enable avatars]
 Aktivovat avatary
 [Log chat state changes]
@@ -13792,8 +13363,6 @@ Opravovat neplatné datum příchozích zpráv
 Vypnout zobrazení rámečku
 [Enable XMPP link processing (requires AssocMgr)]
 Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
-[Keep contacts assigned to local groups (ignore roster group)]
-Neměnit rozmístění kontaktů ve skupinách (ignorovat stav na serveru)
 [Security]
 Zabezpečení
 [Allow servers to request version (XEP-0092)]
@@ -13962,8 +13531,6 @@ Uložit seznam
 Vyberte požadovaný seznam.
 [Can't remove active or default list]
 Aktivní ani výchozí seznam nelze odstranit.
-[Sorry]
-Bohužel
 [List Editor...]
 Editor...
 [Set status]
@@ -14486,7 +14053,7 @@ Jsem šťastný uživatel Mirandy NG. Stáhněte si ji z https://miranda-ng.org/
 ;============================================================
 ;  File: KeyboardNotify.dll
 ;  Plugin: Keyboard notify ext.
-;  Version: 1.5.7.7
+;  Version: 1.6.0.1
 ;  Authors: TioDuke
 ;============================================================
 [Flashes your keyboard LEDs when a message has arrived.]
@@ -14539,10 +14106,10 @@ Upozornit pouze ve stavu
 Online
 [Away]
 Na chvíli pryč
-[Occupied]
-Nemám čas
 [Not available]
 Nejsem tady
+[Occupied]
+Nemám čas
 [Do not disturb]
 Nerušit!
 [Free for chat]
@@ -14675,6 +14242,10 @@ Protokol
 Sekvence blikání klávesnicí
 [All Files]
 Všechny soubory
+[Keyboard Flash]
+Blikání klávesnicí
+[Events]
+Události
 [Accounts]
 Účty
 [Rules]
@@ -14683,10 +14254,6 @@ Pravidla
 Blikání
 [Themes]
 Vlastní sekvence
-[Keyboard Flash]
-Blikání klávesnicí
-[Events]
-Události
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -15128,11 +14695,21 @@ Vlastní úpravy
 ;============================================================
 ;  File: MessageState.dll
 ;  Plugin: Message state
-;  Version: 0.0.1.0
+;  Version: 0.1.0.2
 ;  Authors: MikalaiR
 ;============================================================
 [Displays icons in message window showing whether your last outgoing message was read / is still unread.]
 Zobrazuje ikony informující o stavu vaší poslední odeslané zprávy - zda byla přečtena či nikoliv.
+[Last message read at %X %x]
+Poslední zpráva přečtena v %X %x
+[Last message read]
+Poslední zpráva přečtena
+[Last message is not read]
+Poslední zpráva nebyla přečtena
+[Last message was not sent]
+Poslední zpráva nebyla odeslána
+[Sending...]
+Odesílání...
 [MessageState unread extra icon]
 MessageState ikona nepřečtené zprávy
 [Unread message icon]
@@ -15145,18 +14722,6 @@ Ikona chyby odesílání
 Ikony odesílání zprávy
 [Unread clist extra icon]
 Ikona nepřečtené zprávy v seznamu
-[Last message is not read]
-Poslední zpráva nebyla přečtena
-[Last message read]
-Poslední zpráva přečtena
-[Last message was not sent]
-Poslední zpráva nebyla odeslána
-[Sending...]
-Odesílání...
-[Last message read at %X %x]
-Poslední zpráva přečtena v %X %x
-[Last message read (unknown time)]
-Poslední zpráva přečtena (neznámo kdy)
 ;#muuid for MimCmd not found, please specify manually!
 ;============================================================
 ;  File: MimCmd.exe
@@ -15273,7 +14838,7 @@ Nelze odeslat zprávu
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.9.1
+;  Version: 0.11.9.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
@@ -15310,7 +14875,7 @@ Složka se skripty
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
@@ -15345,24 +14910,12 @@ Systémové zprávy OTR zobrazovat v okně
 Systémové zprávy OTR zobrazovat jako oznámení
 [Show verification dialog when receiving unverified fingerprint]
 Zobrazit ověřovací dialog při přijetí neověřeného klíče
-[Set OTR policy per protocol]
-Nastavit aktivaci šifrování (OTR) pro každý protokol zvlášť
 [Current policy:]
 Zvolit aktivaci:
-[Generate new private key]
-Vygenerovat nový privátní klíč
-[Forget private key]
-Zapomenout privátní klíč
 [Set OTR policy per contact]
 Nastavit aktivaci šifrování (OTR) pro každý kontakt zvlášť
 [View & Modify status of known fingerprints]
 Zobrazit a spravovat známé otisky
-[Set verified]
-Je ověřený
-[Set unknown]
-Není ověřený
-[Forget]
-Zapomenout
 [Socialist Millionaires Protocol]
 Socialistický milionářský protokol
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -15385,6 +14938,18 @@ Obnovit šifrovanou relaci (OTR)
 Zrušit šifrovanou relaci (OTR)
 [&Verify Fingerprint]
 Ověřit otisk
+[Set verified]
+Je ověřený
+[Set unknown]
+Není ověřený
+[Copy]
+Zkopírovat
+[Forget]
+Zapomenout
+[Generate new private key]
+Vygenerovat nový privátní klíč
+[Forget private key]
+Zapomenout privátní klíč
 [OTR private]
 Privátní (OTR)
 [OTR unverified]
@@ -15443,16 +15008,6 @@ Ukončena šifrovaná relace (OTR) kontaktem '%s'. Měli byste udělat to samé!
 Šifrovaná relace (OTR) s '%s' nyní používá OVĚŘENÝ otisk
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Šifrovaná relace (OTR) s '%s' nyní používá NEOVĚŘENÝ otisk
-[Generating new private key for protocol '%s'.\nPlease Wait...]
-Generování nového privátního klíče pro protokol '%s'.\nProsím čekejte...
-[General]
-Obecné
-[Protocols]
-Protokoly
-[Contacts]
-Kontakty
-[Fingerprints]
-Otisky
 [Contact]
 Kontakt
 [Account]
@@ -15543,6 +15098,14 @@ Stav šifrování (OTR)
 Privátní data
 [Services]
 Služby
+[General]
+Obecné
+[Accounts]
+Účty
+[Contacts]
+Kontakty
+[Fingerprints]
+Otisky
 #muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
 ;  File: MobileState.dll
@@ -15732,7 +15295,7 @@ Zpráva s hvězdičkou
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.3
+;  Version: 3.1.2.6
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -15759,14 +15322,8 @@ Datum, čas
 Přidat 1 nový řádek
 [Use << and >>]
 Použít << a >>
-[Auto filename]
-Autom. název
-[Clear all]
-Odstranit vše
 [Help]
 Nápověda
-[Export all history]
-Exportovat vše
 [Exporting old messages]
 Export starých zpráv
 [&Find...]
@@ -15791,10 +15348,16 @@ Smazat soubor
 Debug
 [User &details]
 &Detaily uživatele
-[Export selected]
-Exportovat vybrané
+[Export]
+Exportovat
 [Set to default filename]
 Výchozí název souboru
+[Select all]
+Vybrat vše
+[Auto filename]
+Autom. název
+[Clear all]
+Odstranit vše
 [Copy]
 Zkopírovat
 [Search string was not found!]
@@ -15825,10 +15388,10 @@ Vyberte cílovou složku
 Soubor
 [Nick]
 Přezdívka
-[Proto]
-Protokol
-[UIN]
-UIN
+[Account]
+Účet
+[User ID]
+Identifikátor
 [No contacts found to export]
 Nenalezeny žádné kontakty
 [Message export]
@@ -15865,8 +15428,6 @@ Dom. stránka
 Informace
 [User]
 Uživatel
-[Protocol]
-Protokol
 [File: ]
 Soubor:\s
 [Description: ]
@@ -15889,246 +15450,6 @@ Uživatel, který si vás přidal mezi kontakty:
 UIN       :
 [Failed to delete the file]
 Chyba při mazání souboru
-#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
-;============================================================
-;  File: MSN.dll
-;  Plugin: MSN protocol
-;  Version: 0.95.11.1
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
-;============================================================
-[Microsoft Network (MSN) protocol support for Miranda NG.]
-Microsoft Network (MSN) protokol pro Mirandu NG.
-[Live ID:]
-Identifikátor:
-[Password:]
-Heslo:
-[Nickname:]
-Přezdívka:
-[Create a new Windows Live account]
-Zřídit nový účet v síti Windows Live
-[Expert]
-Pokročilé
-[Send message font color/size info inside messages]
-Ke zprávě přidat informaci o barvě a velikosti písma
-[Disable all contacts not included into my contact list]
-Vypnout všechny kontakty neuvedené v aktuálním seznamu
-[Manage server groups]
-Zapnout správu skupin na serveru
-[Allow people on my contact list send messages to mobile device]
-Lidem ze seznamu kontaktů povolit posílání zpráv na mobil
-[Run the following application when new Hotmail arrives]
-Spustit vybranou aplikaci (po příchodu nové pošty)
-[Connection settings]
-Možnosti připojení
-[Direct:]
-Přímé:
-[Gateway:]
-Brána:
-[Reset]
-Reset
-[Notify me when a message delivery has failed]
-Upozornit při nedoručení odeslané zprávy
-[Incoming file transfers]
-Přenos příchozích souborů
-[Your host (or router):]
-Počítač (nebo brána):
-[Server List Manager]
-Správa kontaktů na serveru
-[Contact is on your local list]
-Kontakt je ve vašem lokálním seznamu
-[Contact is included into your server list]
-Kontakt je umístěn v seznamu na serveru
-[Allowed (active) contact]
-Povolený kontakt
-[Blocked contact]
-Zablokovaný kontakt
-[Somebody included you in his/her server list]
-Kontakt vás má umístěn ve svém seznamu na serveru
-[Refresh]
-Aktualizovat
-[Enable Popup notifications]
-Povolit oznámení
-[Ignore new messages not in Inbox folder]
-Ignorovat nové zprávy z jiné složky než Doručená pošta
-[Other]
-Ostatní
-[Display errors using popups]
-Zobrazit chybová hlášení jako oznámení
-[Enable 'Chat Session Established' popup]
-Zapnout oznámení typu 'Spojení navázáno'
-[Enable 'Contact left channel' popup]
-Zapnout oznámení typu 'Odchod z kanálu'
-[Set Nickname]
-Nastavit přezdívku
-[Cancel]
-Zrušit
-[Mobile Device (used for SMS)]
-Mobilní zařízení (použito pro SMS)
-[Spouse/Partner]
-Manžel(ka)/Partner
-[Middle Name]
-Prostřední jméno
-[First Name]
-Jméno
-[Last Name]
-Příjmení
-[Anniversary]
-Výročí
-[Birthday]
-Narozeniny
-[Nickname]
-Přezdívka
-[Place:]
-Místo:
-[MSN Delete Contact]
-Smazat kontakt (MSN)
-[Remove from Hotmail Address book]
-Odebrat z adresáře Hotmail
-[Block Contact]
-Zablokovat kontakt
-[Invite Contact To Chat]
-Pozvat k diskusi
-[Live ID]
-Identifikátor
-[&Invite]
-&Pozvat
-[&Cancel]
-&Zrušit
-[Add]
-Přidat
-[Admin]
-Admin
-[User]
-Uživatel
-[Chat #]
-Diskuse č.
-[&Invite user...]
-Pozvat k d&iskusi...
-[&Leave chat session]
-&Opustit diskusi
-[User &details]
-&Detaily uživatele
-[User &history]
-Zobrazit &historii
-[MSN Alert]
-Upozornění MSN
-[User not online]
-Uživatel není online
-[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-Kontakt %s byl odebrán ze serveru.\nPřejete si kontakt ponechat uložený lokálně pro zachování historie?
-[%s protocol]
-%s protokol
-[Subject: %s]
-Předmět: %s
-[Hotmail from %s (%S)]
-Zpráva od %s (%S)
-[Hotmail from %s]
-Zpráva od: %s
-[Unread mail is available: %d in Inbox and %d in other folders.]
-Máte neprečtenou poštu. Příchozí: %d, ostatní: %d.
-[&Unblock]
-Od&blokovat
-[&Block]
-Za&blokovat
-[Open &Hotmail Inbox]
-Přečíst poštu &Hotmail
-[Send &Hotmail E-mail]
-E-mail přes &Hotmail
-[Create &Chat]
-Začít &diskusi
-[Display &Hotmail Inbox]
-Přečíst poštu &Hotmail
-[View &Profile]
-Zobrazit profil
-[Setup Live &Alerts]
-N&astavit upozornění
-[Custom Smileys]
-Vlastní smajlíky
-[Notifications]
-Upozornění
-[Errors]
-Chyby
-[MSN Protocol]
-Protokol MSN
-[Protocol icon]
-Ikona protokolu
-[Hotmail Inbox]
-Schránka Hotmail
-[Profile]
-Profil
-[MSN Services]
-Služby MSN
-[Block user]
-Zablokovat uživatele
-[Invite to chat]
-Pozvat k diskusi
-[Start Netmeeting]
-Spustit Netmeeting
-[Contact list]
-Seznam kontaktů
-[Allowed list]
-Seznam povolených
-[Blocked list]
-Seznam zablokovaných
-[Relative list]
-Seznam protistrany
-[Local list]
-Lokální seznam
-[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Import skupin ze serveru může při příštím přihlášení ovlivnit seznam\nkontaktů. Opravdu chcete zapnout správu skupin na serveru?
-[These changes will take effect the next time you connect to the MSN Messenger network.]
-Provedené změny se projeví až při dalším připojení k síti MSN Messenger.
-[MSN options]
-MSN - možnosti
-[Automatically obtain host/port]
-Automaticky zjistit kombinaci hostitel/port
-[Manually specify host/port]
-Ručně zadat kombinaci hostitel/port
-[Disable]
-Vypnout
-[IP info available only after login]
-Informace o IP jsou dostupné až po přihlášení
-[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
-MSN protokol vyžaduje časový interval pro odeslání zprávy 60 sek. a vyšší. Opravte nastavenou hodnotu.
-[Network]
-Sítě
-[Account]
-Účet
-[Connection]
-Spojení
-[Server list]
-Seznamy
-[Live Mail]
-Nová pošta (Live)
-[Live Alert]
-Upozornění (Live)
-[%s plugin connections]
-%s - spojení se serverem
-[Contact already in your contact list]
-Kontakt je již ve vašem seznamu
-[Protocol is offline]
-Protokol je offline
-[You cannot send message to yourself]
-Nemůžete poslat zprávu sami sobě.
-[Message is too long: SMS page limited to 133 UTF8 chars]
-Příliš dlouhá zpráva: Max. počet znaků je 133 (s diakritikou)
-[Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Zpráva je příliš dlouhá. Protokol MSN umožňuje napsat max. 1202 znaků (v kódování UTF8).
-[Offline messaging is not allowed for LCS contacts]
-Pro LCS kontakty není umožněna offline komunikace
-[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-MSN protokol vyžaduje časový interval pro odeslání zprávy 60 sek. a vyšší. Opravte prosím nastavenou hodnotu.
-[Convert to Chat]
-Převést na chat
-#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
-;============================================================
-;  File: mTextControl.dll
-;  Plugin: Miranda text control
-;  Version: 0.8.0.1
-;  Authors: Merlin_de, Victor Pavlychko
-;============================================================
-[Provides text render API for different plugins.]
-Poskytuje API pro vykreslování textu pro různé doplňky.
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: MyDetails.dll
@@ -16807,6 +16128,199 @@ Avatary
 Povolit/zakázat automatickou aktualizaci
 [NewsAggregator HTTP connections]
 NewsAggregator - spojení pomocí protokolu HTTP
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.1.0.2
+;  Authors: nullbie
+;============================================================
+[History viewer for Miranda NG.]
+Zobrazovač historie pro Mirandu NG.
+[Messages]
+Zprávy
+[Files]
+Soubory
+[URLs]
+Odkazy
+[Total]
+Celkem
+[Incoming]
+Příchozí
+[Outgoing]
+Odchozí
+[Group messages]
+Seskupovat zprávy
+[Filter]
+Filtr
+[Show all events]
+Zobrazit všechny události
+[Incoming events]
+Příchozí události
+[Outgoing events]
+Odchozí události
+[Show messages]
+Zobrazit zprávy
+[Log options]
+Možnosti záznamu
+[Options]
+Možnosti
+[Templates]
+Šablony
+[Copy]
+Zkopírovat
+[Edit]
+Upravit
+[Delete]
+Smazat
+[Select all]
+Vybrat vše
+[Incoming messages]
+Příchozí zprávy
+[Outgoing messages]
+Odchozí zprávy
+[Incoming files]
+Příchozí soubory
+[Outgoing files]
+Odchozí soubory
+[Status changes]
+Změny stavu
+[Grid background]
+Pozadí mřížky
+[Separator]
+Oddělovač
+[Incoming name]
+Příchozí jméno
+[Outgoing name]
+Odchozí jméno
+[FirstName]
+Jméno
+[LastName]
+Příjmení
+[e-mail]
+e-mail
+[Nick]
+Přezdívka
+[Age]
+Věk
+[Gender]
+Pohlaví
+[City]
+Město
+[State]
+Stát
+[Phone]
+Telefon
+[Homepage]
+Dom. stránka
+[About]
+Informace
+[Export...]
+Exportovat...
+[Search...]
+Hledat...
+[Send message]
+Poslat zprávu
+[User info]
+Informace o uživateli
+[User menu]
+Nabídka kontaktu
+[Find next]
+Najít další
+[Find previous]
+Najít předchozí
+[Conversations]
+Konverzace
+[Complete]
+Dokončeno
+[Empty history]
+Vymazání historie
+[System history]
+Historie systému
+[Main icon]
+Hlavní ikona
+[Search]
+Hledat
+[Export]
+Exportovat
+[Incoming message]
+Příchozí zpráva
+[Outgoing message]
+Odchozí zpráva
+[Unknown event]
+Neznámá událost
+[Update preview]
+Obnovit náhled
+[Help]
+Nápověda
+[Reset to default]
+Obnovit výchozí
+[Variables help]
+Proměnné
+[Test contact]
+Testovací kontakt
+[event count]
+Počet událostí
+[icon]
+Ikona
+[timestamp]
+Časový údaj
+[minute]
+Minuta
+[month]
+měsíc
+[year (4 digits)]
+rok (4 číslice)
+[History]
+Historie
+[Advanced]
+Extra
+[Sunday]
+neděle
+[Monday]
+pondělí
+[Tuesday]
+úterý
+[Wednesday]
+středa
+[Thursday]
+čtvrtek
+[Friday]
+pátek
+[Saturday]
+sobota
+[January]
+leden
+[February]
+únor
+[March]
+březen
+[April]
+duben
+[May]
+květen
+[June]
+červen
+[July]
+červenec
+[August]
+srpen
+[September]
+září
+[October]
+říjen
+[November]
+listopad
+[December]
+prosinec
+[Interface]
+Rozhraní
+[Message log]
+Záznam komunikace
+[Other events]
+Jiné události
+[Clipboard]
+Schránka
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
@@ -17224,8 +16738,8 @@ Dostupné jsou tyto proměnné:\r\n\r\n%n\tnová zpráva stavu\r\n%o\tstará zpr
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.1.0.1
-;  Authors: sss
+;  Version: 0.2.0.4
+;  Authors: sss, Miranda NG Team
 ;============================================================
 [Delete key]
 Smazat klíč
@@ -17261,16 +16775,20 @@ Importovat
 Původní heslo:
 [Warning]
 Upozornění
-[Contact]
-Kontakt
+[Error]
+Chyba
+[Info]
+Info
 [Key ID]
 ID klíče
-[Name]
-Jméno
 [Email]
 E-mail
-[Protocol]
-Protokol
+[Name]
+Jméno
+[Contact]
+Kontakt
+[Account]
+Účet
 [not set]
 Není zvoleno
 [info]
@@ -17279,12 +16797,8 @@ Info
 Exportovat veřejný klíč
 [Failed to allocate memory]
 Nezdařila se alokace paměti
-[Error]
-Chyba
 [LOG files]
 Soubory záznamů
-[Info]
-Info
 [Services]
 Služby
 [Main]
@@ -17293,6 +16807,8 @@ Hlavní
 Zprávy
 [Advanced]
 Extra
+[Invalid Email]
+Neplatný e-mail
 [Accounts]
 Účty
 [Default]
@@ -17303,8 +16819,6 @@ ID klíče
 Nahradit
 [Accept]
 Přijmout
-[Invalid Email]
-Neplatný e-mail
 [Turn off GPG encryption]
 Vypnout šifrování GPG
 [Turn on GPG encryption]
@@ -17340,7 +16854,7 @@ Hlavní ikona
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.0
+;  Version: 0.2.3.1
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -17371,6 +16885,8 @@ Vymazat
 Bez historie
 [** All contacts **]
 ** všechny kontakty **
+[** New contacts **]
+** nové kontakty **
 [History]
 Historie
 [Logging]
@@ -17379,7 +16895,7 @@ Záznam
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.4
+;  Version: 0.2.1.0
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Default Note Size]
@@ -17466,8 +16982,6 @@ Přidat novou poznámku
 Přidat novou připomínku
 [Notes && Reminders]
 Poznámky &a připomínky
-[&Delete All Notes]
-S&mazat všechny poznámky
 [Alerts]
 Upozornění
 [Black]
@@ -17789,8 +17303,6 @@ Hlavní
 ;  Version: 0.1.0.2
 ;  Authors: Miranda NG team
 ;============================================================
-[Core driver to provide OpenSSL-based SSL services.]
-Základní ovladač poskytující SSL služby s použitím OpenSSL.
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
 [Host we are connecting to is not the one certificate was issued for]
@@ -18162,7 +17674,7 @@ Neznámý
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.3
+;  Version: 0.2.0.9
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -18181,10 +17693,6 @@ Zrušit
 Vybr&at vše
 [Select &none]
 Z&rušit výběr
-[Hotkey]
-Klávesy
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Zkratky změníte v sekci Vlastní úpravy -> Klávesové zkratky
 [Update options]
 Kontrola aktualizací
 [On startup]
@@ -18197,6 +17705,8 @@ Každých
 Tichý režim
 [Backup database before update (requires Db_autobackups plugin)]
 Zálohovat databázi před aktualizací (vyžaduje doplněk Db_autobackups)
+[Number of backups to keep:]
+Počet uložených kopií:
 [Files source]
 Zdroj dat
 [Stable version]
@@ -18259,6 +17769,18 @@ Seznam komponent
 Zde je kompletní seznam dostupných komponent pro Mirandu NG. Zaškrtněte komponenty, které si přejete stáhnout.\n\nKlikněte na informační ikonu pro zobrazení stránky komponenty.
 [Download]
 Stáhnout
+[Component Name]
+Název komponenty
+[State]
+Stav
+[Plugins]
+Doplňky
+[Icons]
+Ikony
+[Languages]
+Jazyky
+[Other]
+Ostatní
 [Downloading...]
 Stahování...
 [Succeeded.]
@@ -18273,18 +17795,6 @@ Aktualizátor
 Stahování dokončeno
 [Download complete. Do you want to go to plugins option page?]
 Stahování dokončeno. Přejete si zobrazit nastavení doplňků?
-[Component Name]
-Název komponenty
-[State]
-Stav
-[Plugins]
-Doplňky
-[Icons]
-Ikony
-[Languages]
-Jazyky
-[Other]
-Ostatní
 [List is empty.]
 Seznam je prázdný
 [List loading already started!]
@@ -18307,8 +17817,6 @@ Aktualizace se nezdařila! Některá z komponent nebyla správně stažena. Zkus
 %d komponent bylo aktualizováno
 [You need to restart your Miranda to apply installed updates.]
 Je nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
-[Would you like to restart it now?]
-Přejete si ji nyní restartovat?
 [Checking for new updates...]
 Zjišťování aktualizací...
 [No updates found.]
@@ -18317,6 +17825,8 @@ Zjišťování aktualizací...
 Kontrola aktualizací již probíhá!
 [Plugin updater URI scheme]
 Schéma URI pro aktualizátor
+[Would you like to restart it now?]
+Přejete si ji nyní restartovat?
 [Backup database before update]
 Zálohovat databázi před aktualizací
 [Stable version (incompatible with current development version)]
@@ -18372,7 +17882,7 @@ Databáze
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.15
+;  Version: 2.1.1.17
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -19282,7 +18792,7 @@ Neznámá chyba
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -19315,8 +18825,8 @@ Odeslat zprávu:
 Panely
 [Enable tabs]
 Zapnout panely
-[Always show tab bar]
-Trvale zobrazit lištu s panely
+[Only show tab bar when it's needed]
+Skrýt lištu s panely, je-li jen jeden
 [Tabs at the bottom]
 Panely v dolní části okna
 [Limit names on tabs to]
@@ -19359,8 +18869,6 @@ Min. velikost pole pro zadávání textu:
 řádky
 [Message window event log]
 Záznam událostí
-[Enable IEView]
-Použít doplněk IEView
 [Show icons]
 Zobrazit ikony
 [Show time]
@@ -19373,8 +18881,8 @@ Zobrazit datum
 Použít dlouhý formát data
 [Relative date]
 Použít relativní zápis data
-[Show names]
-Zobrazit jména
+[Hide names]
+Skrýt jména
 [Enable message grouping]
 Seskupovat zprávy
 [Mark follow-up messages with timestamp]
@@ -19511,30 +19019,6 @@ Pozadí
 Prodleva (s)
 [(0 means default setting, -1 means indefinite time)]
 (0 = výchozí nastavení, -1 = vypnutí prodlevy)
-[Log]
-Záznam
-[&Copy]
-Z&kopírovat
-[Co&py all]
-Zko&pírovat vše
-[Select &all]
-Vybr&at vše
-[Word lookup]
-Vyhledávání slova
-[Yandex]
-Yandex
-[Wikipedia (en)]
-Wikipedia (en)
-[Google Maps]
-Mapy Google
-[Google Translate]
-Překladač Google
-[C&lear log]
-Vy&mazat záznam
-[&Open link]
-&Otevřít odkaz
-[&Copy link]
-Z&kopírovat odkaz
 [Message]
 Zpráva
 [Undo]
@@ -19551,6 +19035,8 @@ Vložit
 Vložit a poslat
 [Delete]
 Smazat
+[Select &all]
+Vybr&at vše
 [Clear]
 Vymazat
 [Close other tabs]
@@ -19567,8 +19053,6 @@ Zablikat oknem při napsání zprávy
 Zablikat oknem při zvýraznění slova
 [Show chat nick list]
 Zobrazit seznam účastníků diskuse
-[Enable button context menus]
-Zobrazit kontextové menu u tlačítek
 [Show topic on your contact list (if supported)]
 Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
 [Do not play sounds when focused]
@@ -19595,84 +19079,8 @@ Omezit délku jmen v záznamu na 20 znaků
 Záznam ukládat bez kódů definující barvy
 [Enable 'event filter' for new rooms]
 Aktivovat filtrování událostí pro nové místnosti
-[Show topic changes]
-Zobrazit informaci o změně tématu
-[Show users joining]
-Zobrazit informaci o příchodu uživatelů
-[Show users disconnecting]
-Zobrazit informaci o odpojení uživatelů
-[Show messages]
-Zobrazit zprávy
-[Show actions]
-Zobrazit akce
-[Show users leaving]
-Zobrazit informaci o odchodu uživatelů
-[Show users being kicked]
-Zobrazit informaci o vykopnutí uživatelů
-[Show notices]
-Zobrazit poznámky
-[Show users changing name]
-Zobrazit informaci o změně jména
-[Show information messages]
-Zobrazit informativní zprávy
-[Show status changes of users]
-Zobrazit informaci o změně stavu uživatelů
-[Show icons in tray only when the chat room is not active]
-Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
-[Show icon in tray for topic changes]
-Zobrazit ikonu v ozn. oblasti při změně tématu
-[Show icon in tray for users joining]
-Zobrazit ikonu v ozn. oblasti při příchodu uživatelů
-[Show icon in tray for users disconnecting]
-Zobrazit ikonu v ozn. oblasti při odpojení uživatelů
-[Show icon in tray for messages]
-Zobrazit ikonu v ozn. oblasti při přijetí zprávy
-[Show icon in tray for actions]
-Zobrazit ikonu v ozn. oblasti při akci
-[Show icon in tray for highlights]
-Zobrazit ikonu v ozn. oblasti při zvýraznění
-[Show icon in tray for users leaving]
-Zobrazit ikonu v ozn. oblasti při odchodu uživatelů
-[Show icon in tray for users kicking other user]
-Zobrazit ikonu v ozn. oblasti při vykopnutí uživatelů
-[Show icon in tray for notices]
-Zobrazit ikonu v ozn. oblasti u poznámky
-[Show icon in tray for name changes]
-Zobrazit ikonu v ozn. oblasti při změně jména
-[Show icon in tray for information messages]
-Zobrazit ikonu v ozn. oblasti při přijetí informativní zprávy
-[Show icon in tray for status changes]
-Zobrazit ikonu v ozn. oblasti při změně stavu
-[Show popups only when the chat room is not active]
-Zobrazit oznámení pouze při neaktivním okně s diskusí
-[Show popup for topic changes]
-Zobrazit oznámení při změně tématu
-[Show popup for users joining]
-Zobrazit oznámení při příchodu uživatelů
-[Show popup for users disconnecting]
-Zobrazit oznámení při odpojení uživatelů
-[Show popup for messages]
-Zobrazit oznámení při přijetí zprávy
-[Show popup for actions]
-Zobrazit oznámení při akci
-[Show popup for highlights]
-Zobrazit oznámení při zvýraznění
-[Show popup for users leaving]
-Zobrazit oznámení při odchodu uživatelů
-[Show popup for users kicking other user]
-Zobrazit oznámení při vykopnutí uživatelů
-[Show popup for notices]
-Zobrazit oznámení u poznámky
-[Show popup for name changes]
-Zobrazit oznámení při změně jména
-[Show popup for information messages]
-Zobrazit oznámení při přijetí informativní zprávy
-[Show popup for status changes]
-Zobrazit oznámení při změně stavu
 [Appearance and functionality of chat windows]
 Nastavení vzhledu a funkcí komunikačních oken
-[Icons to display in the tray]
-Možnosti zobrazení ikon v oznamovací oblasti
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -19725,24 +19133,16 @@ plné jméno dne v týdnu
 Proměnné
 [Appearance]
 Vzhled
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
 [Select folder]
 Vyberte požadovanou složku
-[%s: chat room (%u user)]
-%s: kanál (účastníků: %u)
-[%s: chat room (%u users)]
-%s: kanál (účastníků: %u)
-[%s: message session]
-%s: rozhovor
-[%s: message session (%u users)]
-%s: rozhovor (účastníků: %u)
-[Nickname]
-Přezdívka
-[Unique ID]
-Identifikátor
-[Status]
-Stavy
+[Message sessions]
+Komunikace
+[General]
+Obecné
+[Log formatting]
+Formátování záznamu
+[Popups]
+Oznámení
 [Add contact]
 Přidat kontakt
 [User's details]
@@ -19891,18 +19291,14 @@ Vložit citaci
 Poslat všem
 [Action: Paste and send]
 Vložit text a poslat
-[Sending in progress: %d message(s) left...]
-Odesílání; počet zpráv k odeslání: %d
-[%s is typing a message...]
-%s píše zprávu...
-[Last message received on %s at %s.]
-Poslední zpráva přijata %s v %s.
-[Look up '%s':]
-Vyhledat '%s':
-[No word to look up]
-Není co vyhledat
 [User menu - %s]
 Uživatelské menu - %s
+[Nickname]
+Přezdívka
+[Unique ID]
+Identifikátor
+[Status]
+Stavy
 [Me]
 Já
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -19983,16 +19379,10 @@ Shift+Enter
 ** nové kontakty **
 [** Unknown contacts **]
 ** neznámé kontakty **
-[Message sessions]
-Komunikace
-[General]
-Obecné
 [Event log]
 Záznam událostí
 [Typing notify]
 Psaní zprávy
-[Popups]
-Oznámení
 [Message from %s]
 Zpráva od: %s
 [%s is typing a message]
@@ -20069,6 +19459,20 @@ Kontakt začal psát
 Kontakt přestal psát
 [An unknown error has occurred.]
 Neznámá chyba.
+[Sending in progress: %d message(s) left...]
+Odesílání; počet zpráv k odeslání: %d
+[%s is typing a message...]
+%s píše zprávu...
+[Last message received on %s at %s.]
+Poslední zpráva přijata %s v %s.
+[%s: chat room (%u user)]
+%s: kanál (účastníků: %u)
+[%s: chat room (%u users)]
+%s: kanál (účastníků: %u)
+[%s: message session]
+%s: rozhovor
+[%s: message session (%u users)]
+%s: rozhovor (účastníků: %u)
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
 [Always on top]
@@ -20077,7 +19481,7 @@ Vždy navrchu
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
-;  Version: 1.0.12.4
+;  Version: 1.0.12.6
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [SecureIM plugin for Miranda NG.]
@@ -20108,8 +19512,8 @@ Offline klíč vyprší za:
 dnů
 [Reset All]
 Vše resetovat
-[Protocols]
-Protokoly
+[Accounts]
+Účty
 [Split Messages]
 Rozdělit zprávy
 [Online:]
@@ -20118,12 +19522,12 @@ Online:
 Offline:
 [RSA Key]
 RSA klíč
-[SHA1:]
-SHA1:
+[SHA-1:]
+SHA-1:
 [Public]
 Veřejný
-[&Copy SHA1]
-&Zkopírovat SHA1
+[&Copy SHA-1]
+&Zkopírovat SHA-1
 [E&xport]
 E&xportovat
 [Private]
@@ -20232,18 +19636,20 @@ Exportovat veřejný klíč
 Importovat veřejný klíč
 [Delete public key]
 Smazat veřejný klíč
-[SecureIM established...]
-Šifrované spojení navázáno...
 [Key exchange failed...]
 Chyba při výměně klíčů...
-[Key from disabled...]
-Deaktivován cizí klíč...
-[Sent back message received...]
-Přijata odpověď...
-[Sending back secure message...]
-Odesílání šifrované odpovědi...
+[SecureIM: Error while decrypting the message, bad message length.]
+Chyba při dešifrování zprávy, špatná délka.
+[SecureIM: Error while decrypting the message, bad message CRC.]
+Chyba při dešifrování zprávy, chyba CRC.
+[SecureIM: Error while decrypting the message.]
+Chyba při dešifrování zprávy.
+[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
+Uživatel neodpovídá na výměnu klíčů!\r\nChcete zprávu odeslat nešifrovanou?
 [SecureIM disabled...]
 Šifrování vypnuto...
+[SecureIM established...]
+Šifrované spojení navázáno...
 [Sending key...]
 Odesílání klíče...
 [Key received...]
@@ -20252,92 +19658,6 @@ Klíč přijat...
 Odesílání zprávy...
 [Message received...]
 Přijata zpráva...
-[Encrypting file:]
-Šifrování souboru:
-[Decrypting file:]
-Dešifrování souboru:
-[Bad key received...]
-Obdržen špatný klíč...
-[SecureIM: Error while decrypting the message.]
-Chyba při dešifrování zprávy.
-[SecureIM: Error while decrypting the message, bad message length.]
-Chyba při dešifrování zprávy, špatná délka.
-[SecureIM: Error while decrypting the message, bad message CRC.]
-Chyba při dešifrování zprávy, chyba CRC.
-[User has not answered to key exchange!\nYour messages are still in SecureIM queue, do you want to send them unencrypted now?]
-Uživatel neodpovídá na výměnu klíčů!\r\nChcete zprávu odeslat nešifrovanou?
-[SecureIM not enabled! You must enable SecureIM with this user...]
-SecureIM není povoleno! S tímto uživatelem musíte SecureIM povolit!
-[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
-Nelze poslat šifrovanou zprávu!\nUživatel je ve stavu offline a platnost klíče vypršela.\nChcete poslat zprávu bez šifrování?
-[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
-SecureIM nebyl nahrán. Knihovna cryptopp.dll chybí/špatná verze!
-[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-SecureIM nemůže načíst PGP/GPG klíč! Zkontrolujte PGP/GPG nastavení!
-[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
-SecureIM nemůže zašifrovat zprávu! Zkontrolujte důvěryhodnost PGP/GPG klíče!
-[Can't send encrypted message!\nDo you want to send your message?\nIt will be unencrypted!]
-Nelze poslat šifrovanou zprávu!\nChcete poslat vaší zpráv nešifrovanou?
-[General]
-Obecné
-[Nickname]
-Přezdívka
-[Name]
-Jméno
-[Password is too short!]
-Heslo je příliš krátké!
-[ON]
-Zap
-[Off]
-Vyp
-[Keyrings loaded.]
-Klíčenka načtena.
-[Keyrings not loaded!]
-Klíčenka nebyla načtena!
-[PGP SDK v%i.%i.%i found.]
-Nalezen PGP SDK v.%i.%i.%i
-[PGP SDK not found!]
-PGP SDK nenalezen!
-[This version not supported!]
-Tato verze není podporována!
-[(none)]
-(není)
-[Private key loaded.]
-Osobní klíče nahrány.
-[Private key not loaded!]
-Osobní klíče nenahrány!
-[Keyrings disabled!]
-Klíčenka vypnuta!
-[Native]
-Nativní
-[Disabled]
-Vypnuto
-[Enabled]
-Zapnuto
-[Create SecureIM connection]
-Navázat šifrované spojení
-[Disable SecureIM connection]
-Zrušit šifrované spojení
-[Load PGP Key]
-Načíst PGP klíč
-[Unload PGP Key]
-Odstranit PGP klíč
-[Load GPG Key]
-Nahrát GPG klíč
-[Unload GPG Key]
-Opustit GPG klíč
-[Delete RSA Key]
-Smazat RSA klíč
-[SecureIM status (disabled)]
-Stav SecureIM (vypnuto)
-[SecureIM status (enabled)]
-Stav SecureIM (zapnuto)
-[SecureIM status (always try)]
-Stav SecureIM (zkus vždy)
-[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
-Nemohu dešifrovat tuto zprávu - namáte instalován PGP. Více informací na www.pgp.com nebo na www.gnupg.org
-[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key?]
-SecureIM přijal RSA veřejný klíč od "%s"\n\nSHA1: %s\n\nChcete přijmout tento klíč??
 [Contact List]
 Seznam kontaktů
 [Connection Disabled]
@@ -20364,6 +19684,10 @@ Zabezpečené připojení probíhá
 Přijata zabezpečená zpráva
 [Sent Secured Message]
 Odeslána zabezpečená zpráva
+[Disabled]
+Vypnuto
+[Enabled]
+Zapnuto
 [Overlays]
 Překryvné
 [Native mode]
@@ -20374,6 +19698,14 @@ PGP mód
 GPG mód
 [RSA/AES mode]
 RSA/AES mód
+[SecureIM status (disabled)]
+Stav SecureIM (vypnuto)
+[SecureIM status (enabled)]
+Stav SecureIM (zapnuto)
+[SecureIM status (always try)]
+Stav SecureIM (zkus vždy)
+[Native]
+Nativní
 [SecureIM]
 SecureIM
 [Icons]
@@ -20382,12 +19714,22 @@ Ikony
 Příchozí zabezpečená zpráva
 [Outgoing Secure Message]
 Odchozí zabezpečená zpráva
+[Create SecureIM connection]
+Navázat šifrované spojení
+[Disable SecureIM connection]
+Zrušit šifrované spojení
+[Load PGP Key]
+Načíst PGP klíč
+[Unload PGP Key]
+Odstranit PGP klíč
+[Load GPG Key]
+Nahrát GPG klíč
+[Unload GPG Key]
+Opustit GPG klíč
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
+SecureIM nebyl nahrán. Knihovna cryptopp.dll chybí/špatná verze!
 [SecureIM status]
 Stav SecureIM
-[Executable Files]
-Spustitelné soubory
-[Select GnuPG Executable]
-Vyberte gpg.exe
 [ASC files]
 Soubory ASC
 [All files]
@@ -20402,8 +19744,62 @@ Uložit veřejný klíč do souboru
 Načíst privátní klíč ze souboru
 [Load Public Key File]
 Načíst veřejný klíč ze souboru
+[Password is too short!]
+Heslo je příliš krátké!
+[Nickname]
+Přezdívka
+[Account]
+Účet
+[User ID]
+Identifikátor
+[Name]
+Jméno
+[Keyrings disabled!]
+Klíčenka vypnuta!
+[This version not supported!]
+Tato verze není podporována!
+[Keyrings loaded.]
+Klíčenka načtena.
+[Keyrings not loaded!]
+Klíčenka nebyla načtena!
+[Private key loaded.]
+Osobní klíče nahrány.
+[Private key not loaded!]
+Osobní klíče nenahrány!
+[PGP SDK v%i.%i.%i found.]
+Nalezen PGP SDK v.%i.%i.%i
+[PGP SDK not found!]
+PGP SDK nenalezen!
+[(none)]
+(není)
+[Key ID]
+ID klíče
+[Executable Files]
+Spustitelné soubory
+[Select GnuPG Executable]
+Vyberte gpg.exe
 [Services]
 Služby
+[General]
+Obecné
+[Key from disabled...]
+Deaktivován cizí klíč...
+[SecureIM: Sorry, unable to decrypt this message because you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+Nemohu dešifrovat tuto zprávu - namáte instalován PGP. Více informací na www.pgp.com nebo na www.gnupg.org
+[Sending back secure message...]
+Odesílání šifrované odpovědi...
+[Sent back message received...]
+Přijata odpověď...
+[Bad key received...]
+Obdržen špatný klíč...
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+SecureIM nemůže načíst PGP/GPG klíč! Zkontrolujte PGP/GPG nastavení!
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+SecureIM nemůže zašifrovat zprávu! Zkontrolujte důvěryhodnost PGP/GPG klíče!
+[SecureIM not enabled! You must enable SecureIM with this user...]
+SecureIM není povoleno! S tímto uživatelem musíte SecureIM povolit!
+[Can't send encrypted message!\nUser is offline now and his secure key has been expired. Do you want to send your message?\nIt will be unencrypted!]
+Nelze poslat šifrovanou zprávu!\nUživatel je ve stavu offline a platnost klíče vypršela.\nChcete poslat zprávu bez šifrování?
 [SecureIM [Native]]
 SecureIM [Nativní]
 [SecureIM [PGP]]
@@ -20416,7 +19812,7 @@ SecureIM [RSA/AES]
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.5
+;  Version: 5.0.5.6
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -21317,7 +20713,7 @@ Doplňky
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.4
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -21428,14 +20824,14 @@ Zmeškaný hovor
 Hovor ukončen (%s)
 [File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
 Přenos souboru:\n\tNázev souboru: %s \n\tVelikost: %lld bajtů \n
+[Preview]
+Náhled
 [Unknown event, please send this text for developer: "%s"]
 Neznámá událost, odešlete prosím tento text vývojáři: "%s"
 [Protocol icon]
 Ikona protokolu
 [Create new chat icon]
 Ikona vytvoření nového chatu
-[Sync history icon]
-Ikona synchronizace historie
 [Block user icon]
 Ikona blokování uživatele
 [Unblock user icon]
@@ -21458,8 +20854,6 @@ Ověření selhalo. Neplatné uživatelské jméno nebo heslo.
 Příliš mnoho neúspěšných pokusů o ověření pro dané uživatelské jméno nebo IP.
 [Authentication failed. Unknown error.]
 Ověření selhalo. Neznámá chyba.
-[Get server history]
-Načíst historii ze serveru
 [Block contact]
 Zablokovat kontakt
 [Unblock contact]
@@ -21472,10 +20866,6 @@ Nemůžete odesílat zprávy ve stavu offline.
 Neznámá chyba!
 [Network error!]
 Chyba sítě!
-[Enter confirmation code]
-Zadejte potvrzovací kód
-[%s connection]
-%s - spojení se serverem
 [Network]
 Sítě
 [Notifications]
@@ -21484,15 +20874,15 @@ Upozornění
 Chyby
 [Calls]
 Hovory
+[%s connection]
+%s - spojení se serverem
 [Skypename]
 Skype jméno
-[Incoming call from %s]
-Příchozí hovor (%s)
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.2
+;  Version: 0.3.2.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -21517,14 +20907,10 @@ Zobrazení
 Nahradit pouze smajlíky ohraničené mezerami
 [Scale smiley to text height]
 Sjednotit velikost smajlíků s textem
-[Disable custom smileys]
-Zakázat vlastní smajlíky
 [High quality smiley scaling]
 Zapnout kvalitní přepočet velikosti
 [Animate]
 Animovat
-[Maximum 'Custom smiley' height]
-Max. velikost vlastních smajlíků
 [Minimum smiley height]
 Min. velikost smajlíků
 [Smiley selector]
@@ -21985,7 +21371,7 @@ Stavy
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.5
+;  Version: 1.2.0.6
 ;  Authors: P Boon
 ;============================================================
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -22322,7 +21708,7 @@ Lišta tlačítek
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.6.6
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -22371,8 +21757,8 @@ Steam hra
 Chci hrát
 [ (Non-Steam)]
  (Non-Steam)
-[ on server %s]
- na serveru %s
+[ on server %S]
+ na serveru %S
 [Playing]
 Hraje
 [%s is back in your contact list]
@@ -22527,7 +21913,7 @@ Extra
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.1.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -22588,20 +21974,6 @@ Maximální počet událostí v záznamu komunikačního okna
 Výška seznamu účastníků skupinového rozhovoru (px)
 [Open log file base folder]
 Otevřít kořenovou složku záznamů
-[Default settings for known event types]
-Výchozí nastavení pro známé typy událostí
-[Show when filter is active]
-Zobrazit při aktivním filtru
-[Log to file]
-Uložit záznam
-[Show popup]
-Zobrazit oznámení
-[Notify in tray]
-Oznam. oblast
-[Suppress tray notifications for focused channel windows]
-Potlačit upozornění v oznamovací oblasti pro aktivní okna
-[Highlight event]
-Zvýraznit událost
 [Line markers in the message log]
 Oddělovače řádků v záznamu komunikace
 [Highlight user names]
@@ -22664,8 +22036,6 @@ sek.
 Uchovat v historii odesílání
 [entries]
 položek
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Možnosti označené (*) vejdou v platnost po restartu Mirandy
 [More about advanced tweaks]
 Více o pokročilých úpravách
 [Revert to (safe) defaults]
@@ -22708,10 +22078,6 @@ Zrušit
 Všechny stavy
 [Choose modes]
 Výběr stavů
-[Message log view mode (does not affect open windows)]
-Styl záznamu komunikace (nemá vliv na otevřené okna)
-[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Vyberte, jak zobrazit záznam komunikace. Toto nastavení nebude zohledněno, pokud není některý z následujících doplňků nainstalován.
 [Send text formatting method]
 Formátování odesílaného textu
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
@@ -22720,14 +22086,12 @@ Zde je možno zvolit jiné formátování textu, než je v globálních nastaven
 Režim info panel
 [Show avatar in message window]
 Zobrazit avatar v komunikačním okně
-[Use private splitter position]
-Použít soukromý oddělovač
-[Contact is a favorite contact]
-Kontakt je mezi oblíbenými
 [Ignore sending timeouts]
 Neupozorňovat na vypršení času doručení
 [Load only actual history]
 Načíst pouze aktuální historii
+[Use private splitter position]
+Použít soukromý oddělovač
 [Always trim message log to]
 Max. počet událostí v záznamu
 [events]
@@ -22864,8 +22228,6 @@ Konkrétní počet předchozích událostí
 Předchozí události starší méně než
 [minutes old]
 min.
-[Global message log display]
-Zobrazení záznamu komunikace
 [Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -23190,28 +22552,6 @@ Tento kontakt
 Globální nastavení
 [Force off]
 Vždy vypnout
-[Recent sessions]
-Poslední rozhovory
-[Favorites]
-Oblíbené
-[Show the tray icon]
-Zobrazit ikonu v oznamovací oblasti
-[Disable all event notifications]
-Vypnout všechna oznámení události
-[Don't create windows automatically]
-Nevytvářet okna automaticky
-[Hide all message containers]
-Skrýt všechny kontejnery
-[Restore all message containers]
-Obnovit všechny kontejnery
-[Don't play sounds]
-Nepřehrávat zvuky
-[Be "super quiet"]
-Supertichý režim
-[Add contact to favorites]
-Přidat kontakt do oblíbených
-[Remove contact from favorites]
-Ostranit kontakt z oblíbených
 [Set position for this session]
 Nastavit pozici pro tento rozhovor
 [Set and save for all sessions]
@@ -23236,8 +22576,6 @@ Zrušit mnohonásobné odesílání
 Zkopírovat zprávu
 [&File]
 &Soubor
-[Save message log as...]
-Uložit záznam jako...
 [Close message session\tCtrl+W]
 Ukončit rozhovor\tCtrl+W
 [Close container\tAlt+F4]
@@ -23310,42 +22648,16 @@ Možnosti záznamu komunikace
 Zobrazit historii
 [Edit user notes]
 Editovat poznámky uživatele
-[Select font color]
-Výběr barvy textu
-[Change background color]
-Změnit barvu pozadí
-[Toggle nick list]
-Přepnout seznam uživatelů
-[Event filter - right click to setup, left click to activate/deactivate]
-Filtr událostí - pravé tlačítko pro nastavení, levé pro aktivaci/deaktivaci
-[Channel manager]
-Správa kanálů
-[%s has joined]
-Příchod: %s
-[You have joined %s]
-Příchod na %s
-[%s has left]
-Odchod: %s
-[%s has disconnected]
-Odpojení: %s
-[%s is now known as %s]
-Změna přezdívky: %s -> %s
-[You are now known as %s]
-Změna vlastní přezdívky: %s
-[%s kicked %s]
-Vykopnutí: %s -> %s
-[Notice from %s: ]
-Poznámka od %s:
-[The topic is '%s%s']
-Aktuální téma: '%s%s'
-[ (set by %s on %s)]
- (nastavil %s na %s)
-[ (set by %s)]
- (nastavil %s)
-[%s enables '%s' status for %s]
-%s aktivuje stav '%s' pro %s
-[%s disables '%s' status for %s]
-%s deaktivuje stav '%s' pro %s
+[Select a foreground color for the text (Ctrl+K)]
+Změní barvu textu (Ctrl+K)
+[Select a background color for the text (Ctrl+L)]
+Změní barvu pozadí textu (Ctrl+L)
+[Show/hide the nick list (Ctrl+N)]
+Zobrazí/skryje seznam účastníků (Ctrl+N)
+[Enable/disable the event filter (Ctrl+F)]
+Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
+[Control this room (Ctrl+O)]
+Možnosti řízení kanálu (Ctrl+O)
 [Message sessions]
 Komunikace
 [Input area background]
@@ -23460,66 +22772,6 @@ Protokol
 Místní čas kontaktu
 [Window caption (skinned mode)]
 Titulek okna (při použití skinu)
-[Open new chat rooms in the default container]
-Otevírat nové místnosti ve výchozím kontejneru
-[Flash window when someone speaks]
-Zablikat oknem při napsání zprávy
-[Flash window when a word is highlighted]
-Zablikat oknem při zvýraznění slova
-[Create tabs or windows for highlight events]
-Vytvořit panely nebo okna při zvýraznění
-[Activate chat window on highlight]
-Aktivovat okno chatu při zvýraznění
-[Show list of users in the chat room]
-Zobrazit seznam uživatelů v místnosti
-[Colorize nicknames in member list]
-Obarvit přezdívky v seznamu uživatelů
-[Show button menus when right clicking the buttons]
-Zobrazit kontextové menu u tlačítek
-[Show topic as status message on the contact list]
-Zobrazit téma jako zprávu stavu v seznamu kontaktů
-[Do not pop up the window when joining a chat room]
-Neaktivovat okno po příchodu do místnosti
-[Sync splitter position with standard IM sessions]
-Sdílet pozici oddělovače se standardními rozhovory
-[Show contact's status modes if supported by the protocol]
-Zobrazit stav kontaktu, pokud je protokol podporuje
-[Display contact's status icon before user role icon]
-Zobrazit ikonu stavu kontaktu před ikonou jeho role
-[Use IRC style status indicators in the nick list]
-Použít IRC indikátory stavu v seznamu účastníků
-[Use alternative sorting method in member list]
-Použít alternativní metodu třídění v seznamu uživatelů
-[Prefix all events with a timestamp]
-Před každou událost přidat informaci o čase
-[Timestamp only when event time differs]
-Zobrazit časový údaj pouze pokud se liší
-[Timestamp has same color as the event]
-Pro časový údaj použít stejnou barvu jakou má příslušná událost
-[Indent the second line of a message]
-Odsadit druhý řádek dlouhé zprávy
-[Limit user names in the message log to 20 characters]
-Omezit délku jmen v záznamu na 20 znaků
-[Add a colon (:) to auto-completed user names]
-Přidat dvojtečku za automaticky doplněné jméno
-[Add a comma instead of a colon to auto-completed user names]
-Přidat čárku místo dvojtečky za automaticky doplněné jméno
-[Start private conversation on double click in nick list (insert nick if unchecked)]
-Zahájit soukromý rozhovor dvojklikem v seznamu uživatelů (jinak vložit přezdívku)
-[Strip colors from messages in the log]
-Záznam ukládat bez kódů definující barvy
-[Enable the 'event filter' for new rooms]
-Aktivovat filtr událostí pro nové místnosti
-[Use IRC style status indicators in the log]
-Použít IRC indikátory stavu v záznamu
-[Allow clickable user names in the message log]
-Povolit klikatelné uživatelské jména v záznamu komunikace
-[Add new line after names]
-Přidat nový řádek za jména
-[Colorize user names in message log]
-Obarvit uživatelské jména v záznamu komunikace
-[Scale down icons to 10x10 pixels in the chat log]
-Změnit velikost ikon na 10x10 pixelů v záznamu chatu
 [Window Icon]
 Ikona okna
 [Icon overlay]
@@ -23596,6 +22848,70 @@ Pozadí skupinového rozhovoru
 Nastavení vzhledu a funkcí komunikačních oken
 [Appearance of the message log]
 Nastavení vzhledu záznamu komunikace
+[Open new chat rooms in the default container]
+Otevírat nové místnosti ve výchozím kontejneru
+[Flash window when someone speaks]
+Zablikat oknem při napsání zprávy
+[Flash window when a word is highlighted]
+Zablikat oknem při zvýraznění slova
+[Create tabs or windows for highlight events]
+Vytvořit panely nebo okna při zvýraznění
+[Activate chat window on highlight]
+Aktivovat okno chatu při zvýraznění
+[Show list of users in the chat room]
+Zobrazit seznam uživatelů v místnosti
+[Colorize nicknames in member list]
+Obarvit přezdívky v seznamu uživatelů
+[Show topic as status message on the contact list]
+Zobrazit téma jako zprávu stavu v seznamu kontaktů
+[Do not pop up the window when joining a chat room]
+Neaktivovat okno po příchodu do místnosti
+[Sync splitter position with standard IM sessions]
+Sdílet pozici oddělovače se standardními rozhovory
+[Show contact's status modes if supported by the protocol]
+Zobrazit stav kontaktu, pokud je protokol podporuje
+[Display contact's status icon before user role icon]
+Zobrazit ikonu stavu kontaktu před ikonou jeho role
+[Use IRC style status indicators in the nick list]
+Použít IRC indikátory stavu v seznamu účastníků
+[Use alternative sorting method in member list]
+Použít alternativní metodu třídění v seznamu uživatelů
+[Prefix all events with a timestamp]
+Před každou událost přidat informaci o čase
+[Timestamp only when event time differs]
+Zobrazit časový údaj pouze pokud se liší
+[Timestamp has same color as the event]
+Pro časový údaj použít stejnou barvu jakou má příslušná událost
+[Indent the second line of a message]
+Odsadit druhý řádek dlouhé zprávy
+[Limit user names in the message log to 20 characters]
+Omezit délku jmen v záznamu na 20 znaků
+[Add a colon (:) to auto-completed user names]
+Přidat dvojtečku za automaticky doplněné jméno
+[Add a comma instead of a colon to auto-completed user names]
+Přidat čárku místo dvojtečky za automaticky doplněné jméno
+[Start private conversation on double click in nick list (insert nick if unchecked)]
+Zahájit soukromý rozhovor dvojklikem v seznamu uživatelů (jinak vložit přezdívku)
+[Strip colors from messages in the log]
+Záznam ukládat bez kódů definující barvy
+[Enable the 'event filter' for new rooms]
+Aktivovat filtr událostí pro nové místnosti
+[Use IRC style status indicators in the log]
+Použít IRC indikátory stavu v záznamu
+[Allow clickable user names in the message log]
+Povolit klikatelné uživatelské jména v záznamu komunikace
+[Add new line after names]
+Přidat nový řádek za jména
+[Colorize user names in message log]
+Obarvit uživatelské jména v záznamu komunikace
+[Scale down icons to 10x10 pixels in the chat log]
+Změnit velikost ikon na 10x10 pixelů v záznamu chatu
+[No markers]
+Bez oddělovačů
+[Show as icons]
+Zobrazit jako ikony
+[Show as text symbols]
+Zobrazit jako textové symboly
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
@@ -23650,54 +22966,18 @@ Proměnné
 Všechny soubory
 [Select folder]
 Vyberte požadovanou složku
-[No markers]
-Bez oddělovačů
-[Show as icons]
-Zobrazit jako ikony
-[Show as text symbols]
-Zobrazit jako textové symboly
 [Settings]
 Nastavení
 [Log formatting]
 Formát záznamu
-[Events and filters]
-Události a filtry
 [Highlighting]
 Zvýrazňování
 [%s%s says:%s %s]
 %s%s říká:%s %s
-[Expand or collapse the side bar]
-Zobrazit či skrýt boční lištu
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Filtr nelze povolit, neboť nejsou vybrány žádné typy událostí, ať už globální, nebo pro tuto místnost.
-[Event filter error]
-Chyba filtru událostí
-[, %d %s, %d %s idle]
-, %d %s, %d %s nečinný
-[hours]
-hodin
-[hour]
-hodina
-[minutes]
-minut
-[minute]
-minuta
-[, %d %s idle]
-, %d %s nečinný
-[%s on %s%s]
-%s v síti %s%s
-[%s: chat room (%u user%s)]
-%s: místnost (účastníků: %u)
-[%s: chat room (%u users%s)]
-%s: místnost (účastníků: %u)
-[, event filter active]
-, filtr událostí aktivní
-[%s: message session]
-%s: rozhovor
-[%s: message session (%u users)]
-%s: rozhovor (účastníků: %u)
 [Message session...]
 Rozhovor...
+[Message from %s]
+Zpráva od: %s
 [Default container]
 Výchozí kontejner
 [Attach to]
@@ -23748,8 +23028,6 @@ Zapnuto, je-li uvedeno, vždy zobrazit dole
 Nezobrazovat
 [&User]
 &Uživatel
-[&Room]
-Místnost
 [Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers]
 Zvuky jsou %s. Kliknutím stav změníte, kliknutím se SHIFTem nastavíte pro všechny otevřené kontejnery.
 [disabled]
@@ -23778,12 +23056,52 @@ Neznámá událost
 Nové zprávy:\s
 [Unknown module or contact]
 Neznámý modul nebo uživatel
+[Show a preview of the event]
+Zobrazit náhled události
+[Don't announce event when message dialog is open]
+Neoznamovat, je-li konverzační okno otevřeno
+[Don't announce events from RSS protocols]
+Neoznamovat události z RSS čtečky
+[Merge new events for the same contact into existing popup]
+Spojit nové události pro jeden kontakt do existujícího oznámení
+[Show headers]
+Zobrazit záhlaví ve sloučených oznámeních
+[Dismiss popup]
+Zavřít oznámení
+[Open event]
+Otevřít událost
+[Dismiss event]
+Označit událost jako zhlédnutou
+[Disable event notifications for instant messages]
+Zakázat oznámení událostí pro běžnou komunikaci
+[Disable event notifications for group chats]
+Zakázat oznámení událostí pro skupinový chat
+[Disable notifications for non-message events]
+Zakázat oznámení pro události nesouvisející se zprávami
+[Remove popups for a contact when the message window is focused]
+Odstranit oznámení kontaktu pokud je komunikační okno aktivní
+[Remove popups for a contact when I start typing a reply]
+Odstranit oznámení kontaktu jakmile začnu psát odpověď
+[Remove popups for a contact when I send a reply]
+Odstranit oznámení kontaktu jakmile pošlu odpověď
+[Disable notifications]
+Vypnout oznámení
+[System tray icon]
+Ikona v oznamovací oblasti
+[Left click actions (popups only)]
+Kliknutí levého tlačítka myši na oznámení
+[Right click actions (popups only)]
+Kliknutí pravého tlačítka myši na oznámení
+[Timeout actions (popups only)]
+Vypršení časového limitu oznámení
+[Combine notifications for the same contact]
+Kombinovat oznámení pro jeden kontakt
+[Remove popups under following conditions]
+Zavírat upozornění při těchto podmínkách:
 [Event notifications]
 Oznámení události
 [Popups]
 Oznámení
-[Rich Edit file]
-Rich Edit soubor
 [No status message]
 Žádná zpráva stavu
 [You cannot edit user notes when there are unsent messages]
@@ -23796,8 +23114,6 @@ Poslední zpráva přijata %s v %s
 %s dopsal/a zprávu.
 [%s is typing a message]
 %s píše zprávu
-[Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Automatické posouvání je vypnuto, %d zpráva/y) ve frontě (stiskněte F12 pro zapnutí)
 [Instant messages]
 Zprávy
 [Incoming (focused window)]
@@ -23816,16 +23132,10 @@ Chyba při odesílání
 Ostatní
 [TabSRMM: typing]
 TabSRMM: psaní
-[TabSRMM session list]
-Seznam relací TabSRMM
-[TabSRMM menu]
-Nabídka TabSRMM
 [&Messaging settings...]
 &Nastavení komunikace...
 [&Send later job list...]
 Fronta zpožděných zpráv...
-[Message from %s]
-Zpráva od: %s
 [signed off.]
 se odhlásil/a.
 [signed on and is now %s.]
@@ -23864,8 +23174,12 @@ Přepnout odesílání více uživatelům
 Vymazat záznam komunikace
 [Collapse side bar]
 Skrýt boční lištu
+[Channel manager]
+Správa kanálů
 [Toggle filter]
 Přepnout filtr
+[Toggle nick list]
+Přepnout seznam uživatelů
 [Show server window]
 Zobrazit okno serveru
 [%s    Idle: %dh,%02dm]
@@ -23938,6 +23252,8 @@ Vložit značku [img] / uzavřít vybraný text do [img][/img]
 Přidat tento kontakt do seznamu natrvalo
 [Do not add this contact permanently]
 Nepřidávat tento kontakt do seznamu
+[Expand or collapse the side bar]
+Zobrazit či skrýt boční lištu
 [Contact not on list. You may add it...]
 Kontakt není v seznamu. Můžete ho přidat...
 [A message failed to send successfully.]
@@ -23950,14 +23266,12 @@ Kliknutím zobrazíte uživatelské menu\nKliknutím na šipku možnosti okna
 Znovu
 [Send later]
 Poslat později
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (Shift klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nKliknout pravým pro správu metakontaktů\nTáhnout pro přidání nebo odebrání uživatele z oblíbených.
-[No UID]
-Žádné UID
-[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
-UID: %s (Shift klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nTáhnout pro změnu oblíbenosti tohoto uživatele.
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Editujete poznámky k uživateli. Klikněte na tlačítko znovu nebo použijte klávesovou zkratku (výchozí: Alt+N) pro uložení poznámek a návrat do normálního režimu
+[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
+Filtr nelze povolit, neboť nejsou vybrány žádné typy událostí, ať už globální, nebo pro tuto místnost.
+[Event filter error]
+Chyba filtru událostí
 [Selection copied to clipboard]
 Výběr zkopírován do schránky
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -23970,6 +23284,14 @@ Chyba při odesílání: %s
 Čas na odeslání vypršel
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakt je offline a tento protokol nepodporuje posílání souborů offline uživatelům
+['(Unknown contact)']
+'(neznámý kontakt)'
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
+Funkce 'vložit a poslat' je vypnutá. Můžete ji zapnout v nabídce Možnosti -> Komunikace -> Obecné.
+[Set your avatar...]
+Nastavit svůj avatar...
+[A message delivery has failed.\nClick to open the message window.]
+Zprávu se nepodařilo odeslat.\nKliknutím otevřete komunikační okno.
 [Error creating destination directory]
 Chyba při vytváření cílového adresáře
 [Save contact picture]
@@ -23978,16 +23300,40 @@ Uložit obrázek kontaktu
 Soubory obrázků
 [The file exists. Do you want to overwrite it?]
 Soubor existuje. Chcete jej přepsat?
-[Set your avatar...]
-Nastavit svůj avatar...
-[Save and close session]
-Uložit a zavřít rozhovor
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
-Funkce 'vložit a poslat' je vypnutá. Můžete ji zapnout v nabídce Možnosti -> Komunikace -> Obecné.
-['(Unknown contact)']
-'(neznámý kontakt)'
 [JPEG-compressed images]
 JPEG-komprimované obrázky
+[Save and close session]
+Uložit a zavřít rozhovor
+[, %d %s, %d %s idle]
+, %d %s, %d %s nečinný
+[hours]
+hodin
+[hour]
+hodina
+[minutes]
+minut
+[minute]
+minuta
+[, %d %s idle]
+, %d %s nečinný
+[%s on %s%s]
+%s v síti %s%s
+[%s: chat room (%u user%s)]
+%s: místnost (účastníků: %u)
+[%s: chat room (%u users%s)]
+%s: místnost (účastníků: %u)
+[, event filter active]
+, filtr událostí aktivní
+[%s: message session]
+%s: rozhovor
+[%s: message session (%u users)]
+%s: rozhovor (účastníků: %u)
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (Shift klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nKliknout pravým pro správu metakontaktů\nTáhnout pro přidání nebo odebrání uživatele z oblíbených.
+[No UID]
+Žádné UID
+[UID: %s (Shift+click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (Shift klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nTáhnout pro změnu oblíbenosti tohoto uživatele.
 [Thai]
 thajština
 [Japanese]
@@ -24068,14 +23414,78 @@ Včera
 Chcete se vzhledem nahrát také šablony záznamu?\nUPOZORNĚNÍ: Tato volba přepíše uloženou sadu šablon, což může významě ovlivnit vzhled záznamu komunikace.\nPokud zvolíte Storno, nenahraje se vůbec nic.
 [Load theme]
 Nahrát vzhled
-[Internal message log]
-Vestavěný záznam komunikace
-[IEView plugin]
-Styly (IEView)
-[History++ plugin]
-Doplněk History++
-[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Vybrali jste externí plugin pro zobrazení záznamu zpráv v komunikačním okně. Mnoho nastavení v tomto okně je pouze pro standardní zobrazení záznamu komunikace, a proto nebude mít žádný vliv. Pro změnu vhledu záznamu komunikačního okna musíte nastavit IEView nebo History++.
+[Message window behavior]
+Chování komunikačního okna
+[Sending messages]
+Odesílání zpráv
+[Send on Shift+Enter]
+Odeslat zprávu pomocí Shift+Enter
+[Send message on 'Enter']
+Odeslat zprávu klávesou Enter
+[Send message on double 'Enter']
+Odeslat zprávu dvojitým Enter
+[Minimize the message window on send]
+Minimalizovat okno kliknutím na 'Poslat'
+[Close the message window on send]
+Zavřít okno kliknutím na 'Poslat'
+[Always flash contact list and tray icon for new messages]
+Vždy blikat v seznamu kontaktů a v oznam. oblasti při nové zprávě
+[Delete temporary contacts on close]
+Smazat dočasné kontakty po zavření okna
+[Enable "Paste and send" feature]
+Povolit funkci "Vložit a poslat"
+[Allow BBCode formatting in outgoing messages]
+Povolit formátování pomocí BBCode v odchozích zprávách
+[Automatically split long messages (experimental, use with care)]
+Automaticky rozdělovat příliš dlouhé zprávy (experimentální fce)
+[Log status changes]
+Zaznamenávat změny stavu
+[Automatically copy selected text]
+Automaticky kopírovat vybraný text
+[Test contact]
+Testovací kontakt
+[Template set editor]
+Editor sady šablon
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Tato volba obnoví všechny šablony do původního stavu. Opravdu chcete pokračovat?
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a otevřete všechna komunikační okna. Editor šablon bude nyní ukončen.
+[Message log appearance]
+Vzhled záznamu komunikace
+[Support for external plugins]
+Podpora externích doplňků
+[Timestamp settings (note: timestamps also depend on your templates)]
+Nastavení časových údajů (pozn.: rovněž závisí na vašich šablonách)
+[Message log icons]
+Ikony v záznamu komunikace
+[Show dates in timestamps]
+Zobrazit datum v časovém údaji
+[Show seconds in timestamps]
+Zobrazit sekundy v časovém údaji
+[Use contacts local time (if timezone info available)]
+Použít lokální čas kontaktu (je-li dostupná informace o zóně)
+[Draw grid lines]
+Zobrazit mřížku
+[Use incoming/outgoing icons]
+Použít příchozí a odchozí ikony
+[Use message grouping]
+Seskupovat zprávy
+[Simple text formatting (*bold*, etc.)]
+Prosté formátování textu (*tučný*, atd.)
+[Support BBCode formatting]
+Formátovat text pomocí BBCode
+[Place a separator in the log after a window lost its foreground status]
+Umístit oddělovač do záznamu jakmile okno přestane být v popředí
+[Only place a separator when an incoming event is announced with a popup]
+Umístit oddělovač pouze pokud je příchozí událost uvozena oznámením
+[Show events at the new line (IEView Compatibility Mode)]
+Zobrazit události na novém řádku (režim kompatibility s IEView)
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+Podtrhnout čas/přezdívku (režim kompatibility s IEView)
+[Show timestamp after nickname (IEView Compatibility Mode)]
+Zobrazit čas za přezdívkou (režim kompatibility s IEView)
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Použít normální šablony (po odznačení se použijí jednoduché šablony, pokud to sada dovoluje)
 [** New contacts **]
 ** nové kontakty **
 [** Unknown contacts **]
@@ -24086,12 +23496,54 @@ Vždy
 Pokaždé, kromě otevřeného okna ve výhledu
 [Only when no message window is open]
 Jen když není žádné komunikační okno otevřené
+[How to create tabs and windows for incoming messages]
+Vytváření záložek a oken pro příchozí zprávy
+[Show status text on tabs]
+Zobrazit text stavu na panelu
+[Prefer xStatus icons when available]
+Preferovat ikonu rozšířeného stavu
+[Detailed tooltip on tabs (requires Tipper plugin)]
+Zobrazit tipy nad panely (vyžaduje doplněk Tipper)
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+VŽDY aktivovat panel/okno s novou zprávou (má PRIORITU před nastavením uvedeném dále)
+[Automatically create new message sessions without activating them]
+Automaticky (bez nutnosti aktivování) vytvořit panel/okno při přijetí nové zprávy
+[New windows are minimized (the option above MUST be active)]
+Nová okna jsou minimalizována (pouze pokud je povoleno nastavení nad tímto nastavením)
+[Activate a minimized window when a new tab is created inside it]
+Aktivovat minimalizované okno pokud je v něm vytvořen nový panel
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Automaticky přepínat existující panely v minimalizovaném okně při příchozích zprávách (ignorováno při použití Aero náhledu v hlavním panelu)
+[Close button only hides message windows]
+Zavírací tlačítko pouze skryje komunikační okno
+[Allow Tab key in typing area (this will disable focus selection by Tab key)]
+Povolit klávesu Tab v části psaní zprávy (vypne označování dalšího prvku okna pomocí klávesy Tab)
+[Add offline contacts to multisend list]
+Přidávat offline kontakty do seznamu více příjemců
 [Normal - close tab, if last tab is closed also close the window]
 Normální - zavřít panel, pokud je uzavřen poslední panel, zavřít i okno
 [Minimize the window to the task bar]
 Minimalizovat okno
 [Close or hide window, depends on the close button setting above]
 Zavřít či schovat okno, záleží na nastavení uzavíracího tlačítka
+[Message window tweaks]
+Komunikační okno
+[Display metacontact icons]
+Zobrazit ikonu metakontaktu
+[Error feedback]
+Hlášení o chybách
+[Close current tab on send]
+Zavřít panel po odeslání
+[Enable unattended send (experimental feature, required for multisend and send later)]
+Povolit bezobslužné odesílání (experimentální funkce vyžadovaná pro mnohonásobné či zpožděné odesílání)
+[Show client description in info panel]
+Zobrazit popis klienta v info panelu
+[On tab control]
+Na záložkách
+[On the button bar]
+Na tlačítkové liště
+[Disable error popups on sending failures]
+Zakázat chybové oznámení při neodeslání zprávy
 [Choose status modes]
 Vyberte stavy
 [General]
@@ -24110,8 +23562,6 @@ Komunikační okno
 Použití
 [Window layout tweaks]
 Rozvržení okna
-[A message delivery has failed.\nClick to open the message window.]
-Zprávu se nepodařilo odeslat.\nKliknutím otevřete komunikační okno.
 [Message Log Options]
 Možnosti záznamu komunikace
 [Image tag]
@@ -24162,8 +23612,6 @@ Rozbalovací šipka
 Šipka doprava
 [Up Arrow]
 Šipka nahoru
-[Session List]
-Seznam rozhovorů
 [Frame 1]
 Okno 1
 [Frame 2]
@@ -24274,12 +23722,6 @@ Seskupené příchozí (uvnitř)
 Seskupené odchozí (uvnitř)
 [Error message]
 Chybová zpráva
-[Template set editor]
-Editor sady šablon
-[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Tato volba obnoví všechny šablony do původního stavu. Opravdu chcete pokračovat?
-[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a otevřete všechna komunikační okna. Editor šablon bude nyní ukončen.
 [TabSRMM themes]
 TabSRMM témata
 [No effect]
@@ -24298,156 +23740,6 @@ Uživatelský (vlastní barvy gradientu)
 Všechny kontejnery se zprávami musí být před aplikací skinu zavřeny\nPokračovat?
 [Change skin]
 Změnit skin
-[Message window tweaks]
-Komunikační okno
-[Display metacontact icons]
-Zobrazit ikonu metakontaktu
-[Error feedback]
-Hlášení o chybách
-[Close current tab on send]
-Zavřít panel po odeslání
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Povolit bezobslužné odesílání (experimentální funkce vyžadovaná pro mnohonásobné či zpožděné odesílání) (*)
-[Show client description in info panel]
-Zobrazit popis klienta v info panelu
-[On tab control]
-Na záložkách
-[On the button bar]
-Na tlačítkové liště
-[Disable error popups on sending failures]
-Zakázat chybové oznámení při neodeslání zprávy
-[Show a preview of the event]
-Zobrazit náhled události
-[Don't announce event when message dialog is open]
-Neoznamovat, je-li konverzační okno otevřeno
-[Don't announce events from RSS protocols]
-Neoznamovat události z RSS čtečky
-[Enable the system tray icon]
-Zobrazit ikonu v oznamovací oblasti
-[Merge new events for the same contact into existing popup]
-Spojit nové události pro jeden kontakt do existujícího oznámení
-[Show headers]
-Zobrazit záhlaví ve sloučených oznámeních
-[Dismiss popup]
-Zavřít oznámení
-[Open event]
-Otevřít událost
-[Dismiss event]
-Označit událost jako zhlédnutou
-[Disable event notifications for instant messages]
-Zakázat oznámení událostí pro běžnou komunikaci
-[Disable event notifications for group chats]
-Zakázat oznámení událostí pro skupinový chat
-[Disable notifications for non-message events]
-Zakázat oznámení pro události nesouvisející se zprávami
-[Remove popups for a contact when the message window is focused]
-Odstranit oznámení kontaktu pokud je komunikační okno aktivní
-[Remove popups for a contact when I start typing a reply]
-Odstranit oznámení kontaktu jakmile začnu psát odpověď
-[Remove popups for a contact when I send a reply]
-Odstranit oznámení kontaktu jakmile pošlu odpověď
-[Disable notifications]
-Vypnout oznámení
-[System tray icon]
-Ikona v oznamovací oblasti
-[Left click actions (popups only)]
-Kliknutí levého tlačítka myši na oznámení
-[Right click actions (popups only)]
-Kliknutí pravého tlačítka myši na oznámení
-[Timeout actions (popups only)]
-Vypršení časového limitu oznámení
-[Combine notifications for the same contact]
-Kombinovat oznámení pro jeden kontakt
-[Remove popups under following conditions]
-Zavírat upozornění při těchto podmínkách:
-[Message window behavior]
-Chování komunikačního okna
-[Sending messages]
-Odesílání zpráv
-[Send on Shift+Enter]
-Odeslat zprávu pomocí Shift+Enter
-[Send message on 'Enter']
-Odeslat zprávu klávesou Enter
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým Enter
-[Minimize the message window on send]
-Minimalizovat okno kliknutím na 'Poslat'
-[Close the message window on send]
-Zavřít okno kliknutím na 'Poslat'
-[Always flash contact list and tray icon for new messages]
-Vždy blikat v seznamu kontaktů a v oznam. oblasti při nové zprávě
-[Delete temporary contacts on close]
-Smazat dočasné kontakty po zavření okna
-[Enable "Paste and send" feature]
-Povolit funkci "Vložit a poslat"
-[Allow BBCode formatting in outgoing messages]
-Povolit formátování pomocí BBCode v odchozích zprávách
-[Automatically split long messages (experimental, use with care)]
-Automaticky rozdělovat příliš dlouhé zprávy (experimentální fce)
-[Log status changes]
-Zaznamenávat změny stavu
-[Automatically copy selected text]
-Automaticky kopírovat vybraný text
-[Message log appearance]
-Vzhled záznamu komunikace
-[Support for external plugins]
-Podpora externích doplňků
-[Timestamp settings (note: timestamps also depend on your templates)]
-Nastavení časových údajů (pozn.: rovněž závisí na vašich šablonách)
-[Message log icons]
-Ikony v záznamu komunikace
-[Show dates in timestamps]
-Zobrazit datum v časovém údaji
-[Show seconds in timestamps]
-Zobrazit sekundy v časovém údaji
-[Use contacts local time (if timezone info available)]
-Použít lokální čas kontaktu (je-li dostupná informace o zóně)
-[Draw grid lines]
-Zobrazit mřížku
-[Use incoming/outgoing icons]
-Použít příchozí a odchozí ikony
-[Use message grouping]
-Seskupovat zprávy
-[Simple text formatting (*bold*, etc.)]
-Prosté formátování textu (*tučný*, atd.)
-[Support BBCode formatting]
-Formátovat text pomocí BBCode
-[Place a separator in the log after a window lost its foreground status]
-Umístit oddělovač do záznamu jakmile okno přestane být v popředí
-[Only place a separator when an incoming event is announced with a popup]
-Umístit oddělovač pouze pokud je příchozí událost uvozena oznámením
-[Show events at the new line (IEView Compatibility Mode)]
-Zobrazit události na novém řádku (režim kompatibility s IEView)
-[Underline timestamp/nickname (IEView Compatibility Mode)]
-Podtrhnout čas/přezdívku (režim kompatibility s IEView)
-[Show timestamp after nickname (IEView Compatibility Mode)]
-Zobrazit čas za přezdívkou (režim kompatibility s IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Použít normální šablony (po odznačení se použijí jednoduché šablony, pokud to sada dovoluje)
-[How to create tabs and windows for incoming messages]
-Vytváření záložek a oken pro příchozí zprávy
-[Show status text on tabs]
-Zobrazit text stavu na panelu
-[Prefer xStatus icons when available]
-Preferovat ikonu rozšířeného stavu
-[Detailed tooltip on tabs (requires Tipper plugin)]
-Zobrazit tipy nad panely (vyžaduje doplněk Tipper)
-[ALWAYS activate new message sessions (has PRIORITY over the options below)]
-VŽDY aktivovat panel/okno s novou zprávou (má PRIORITU před nastavením uvedeném dále)
-[Automatically create new message sessions without activating them]
-Automaticky (bez nutnosti aktivování) vytvořit panel/okno při přijetí nové zprávy
-[New windows are minimized (the option above MUST be active)]
-Nová okna jsou minimalizována (pouze pokud je povoleno nastavení nad tímto nastavením)
-[Activate a minimized window when a new tab is created inside it]
-Aktivovat minimalizované okno pokud je v něm vytvořen nový panel
-[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Automaticky přepínat existující panely v minimalizovaném okně při příchozích zprávách (ignorováno při použití Aero náhledu v hlavním panelu)
-[Close button only hides message windows]
-Zavírací tlačítko pouze skryje komunikační okno
-[Allow Tab key in typing area (this will disable focus selection by Tab key)]
-Povolit klávesu Tab v části psaní zprávy (vypne označování dalšího prvku okna pomocí klávesy Tab)
-[Add offline contacts to multisend list]
-Přidávat offline kontakty do seznamu více příjemců
 [Disable &typing notification]
 Vypnout &upozornění na psaní
 [Enable &typing notification]
@@ -24460,12 +23752,6 @@ Zapnout &upozornění na psaní
 Kontakt začal psát
 [Contact stopped typing]
 Kontakt přestal psát
-[Force default message log]
-Vždy použít vestavěný záznam
-[Force History++]
-Vždy použít History++
-[Force IEView]
-Vždy použít IEView
 [Set messaging options for %s]
 Nastavení komunikace pro kontakt %s
 [TabSRMM message (%s)]
@@ -25683,11 +24969,9 @@ Invertovat velikost posledního / vybraného
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.0.3
+;  Version: 1.3.1.3
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-[Server:]
-Server:
 [Default group:]
 Výchozí skupina:
 [Username:]
@@ -25730,6 +25014,8 @@ Normální
 %s - spojení se serverem
 [Unable to initialize Netlib for %s.]
 Nelze inicializovat síťovou komunikaci pro %s.
+[User name]
+uživatelské jméno
 [Network]
 Sítě
 [Basic]
@@ -25742,7 +25028,7 @@ Oznámení
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.2
+;  Version: 0.9.0.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Edit contact information]
@@ -26001,18 +25287,6 @@ Nabídka skupiny
 Nabídka podskupiny
 [Account menu]
 Nabídka účtu
-[Extra icons]
-Doplňkové ikony
-[Replace the following default icons:]
-Nahradit následující výchozí ikony:
-[Homepage]
-Dom. stránka
-[Phone]
-Telefon
-[E-mail]
-E-mail
-[Gender]
-Pohlaví
 [Misc]
 Různé
 [Show 'Restart' menu item]
@@ -26247,12 +25521,16 @@ Aktualizovat
 Exportovat
 [Goto]
 WWW
+[Phone]
+Telefon
 [Fax]
 Fax
 [Cellular]
 Mobil
 [Custom phone]
 Vlastní typ telefonu
+[E-mail]
+E-mail
 [Down arrow]
 Šipka dolů
 [Add]
@@ -26787,20 +26065,12 @@ sen.
 Poslat e-mail
 [Memory allocation error!]
 Chyba při alokování paměti!
-[E-mail (UInfoEx)]
-E-mail (UInfoEx)
-[Gender (UInfoEx)]
-Pohlaví (UInfoEx)
 [User has no valid homepage]
 Uživatel nemá uvedenou platnou domácí stránku
 [View Homepage]
 Zobrazit domovskou stránku
 [&Homepage]
 &Domácí stránka
-[Homepage (UInfoEx)]
-Domovská stránka (UInfoEx)
-[Phone (UInfoEx)]
-Telefon (UInfoEx)
 [[b]%s (%S)...[/b]\n%d Contacts remaining]
 \[b]%s (%S)...[/b]\n%d kontaktů zbývá
 [Abort Refreshing Contact Details]
@@ -26879,6 +26149,8 @@ Dialog otevření souboru vrátil chybu: %d!
 Dialog uložení souboru vrátil chybu: %d!
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 INI soubor "%s"\nnemohl být otevřen pro uložení informací o kontaktu.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+INI soubor "%s"\nnemohl být otevřen pro načtení informací o kontaktu.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Žádný z %d kontaktů uložených v INI souboru neodpovídal vybranému kontaktu!\nNic nebude importováno.
 [Import complete]
@@ -26887,8 +26159,6 @@ Import hotov
 Základní statistiky
 [Added %d of %d contacts stored in the ini-file.]
 Přidáno %d z %d kontaktů uložených v INI souboru.
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-INI soubor "%s"\nnemohl být otevřen pro načtení informací o kontaktu.
 [all Contacts]
 všechny kontakty
 [Select a destination file...]
@@ -27169,7 +26439,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.9.2
+;  Version: 0.1.11.6
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
@@ -27204,8 +26474,6 @@ Extra
 Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
 [Always notify as unread for all incoming message]
 Vždy upozornit všechny příchozí zprávy jako nepřečtené
-[Group chats]
-Skupinové rozhovory
 [Use local time for received messages]
 Použít lokální čas počítače pro příchozí zprávy
 [Bots challenge test]
@@ -27258,12 +26526,16 @@ Adresa
 Dokument
 [Wall post]
 Příspěvek na zdi
+[(Unknown contact)]
+(neznámý kontakt)
+[from]
+od
 [Gift]
 Dárek
 [Unsupported or unknown attachment type: %s]
 Nepodporovaný nebo neznámý typ přílohy: %s
-[(Unknown contact)]
-(neznámý kontakt)
+[Text]
+Text
 [Message from]
 Zpráva od
 [Participants]
@@ -27361,6 +26633,8 @@ Hry
 ;============================================================
 [Paste played music info into message window or status text]
 Vkládá informace o přehrávané hudbě do komunikačního okna nebo zprávy stavu
+[Basic]
+Obecné
 [Clear xStatus before set new one]
 Před nastavením rozšířeného stavu nastavit prázdný
 [Emulate Multimedia keys]
@@ -29663,7 +28937,7 @@ Narozeniny (brzy)
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Nikolay Redko
 ;============================================================
 [Timeout (seconds)]
@@ -29821,7 +29095,7 @@ Oznámení
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.0.1.3
+;  Version: 1.1.0.4
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]
@@ -29852,8 +29126,6 @@ Zvukové soubory
 Soubory WAV
 [All contacts]
 Všechny kontakty
-[(Unknown contact)]
-(neznámý kontakt)
 [Sounds]
 Zvuky
 [XSound Notify]

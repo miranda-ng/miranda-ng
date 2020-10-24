@@ -820,12 +820,16 @@ Textausgaben, wo möglich
 Text automatisch erkennen
 [Calling modules' names]
 Pluginnamen verwenden
+[Print dates]
+
 [Log to]
 Log nach
 [OutputDebugString()]
 OutputDebugString()
 [File]
 Datei
+[Rotate logs]
+
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Programm ausführen, wenn Miranda NG startet (bspw. tail -f, dbgview etc.):
 [Run now]
@@ -1174,6 +1178,8 @@ Icon nur im Tray anzeigen, wenn Chatfenster nicht aktiv
 Hebe Ereignis hervor
 [Show popups only when the chat room is not active]
 Popup nur wenn Chatfenster nicht aktiv
+[Show button menus when right clicking the buttons]
+Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
 [Hidden window]
 Verstecktes Fenster
 [&Hide/Show]
@@ -1469,8 +1475,6 @@ Fenster blinkt, wenn jemand schreibt
 Fenster blinkt, wenn Wort hervorgehoben wird
 [Show list of users in the chat room]
 Benutzerliste im Chatraum anzeigen
-[Show button menus when right clicking the buttons]
-Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
 [Show the topic of the room on your contact list (if supported)]
 Thema des Raumes in der Kontaktliste anzeigen (falls unterstützt)
 [Do not play sounds when the chat room is focused]
@@ -1933,11 +1937,6 @@ Diese Funktion wird durch dieses Protokoll nicht unterstützt
 %u fügte Sie zu seiner Kontaktliste hinzu
 [Added event]
 Sie wurden von jemandem hinzugefügt
-;file \src\mir_app\src\chat_clist.cpp
-[&Join chat]
-Chat &betreten
-[&Open/close chat window]
-Chatfenster &öffnen/schließen
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s ist beigetreten
@@ -2005,8 +2004,18 @@ Nachrichteneingabefeld
 [Chat log symbols (Webdings)]
 Chatverlaufssymbole (Webdings)
 ;file \src\mir_app\src\chat_svc.cpp
+[&Join chat]
+Chat &betreten
+[&Open/close chat window]
+Chatfenster &öffnen/schließen
 [&Leave chat]
 Chat ver&lassen
+[&Mute chat]
+
+[Always]
+Immer
+[Never]
+Niemals
 [Message is highlighted]
 Nachricht ist hervorgehoben
 [User has performed an action]
@@ -2155,6 +2164,8 @@ Homepage
 Telefon/SMS
 [Chat activity]
 Chat-Aktivität
+[Chat mute mode]
+
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Extraicons
@@ -2541,6 +2552,8 @@ Fehler beim Erstellen des Profils
 <unbekanntes Format>
 [Are you sure you want to remove profile "%s"?]
 Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
+[Database was compacted successfully]
+Datenbank wurde erfolgreich komprimiert
 [&Convert]
 &Umwandeln
 [Run]

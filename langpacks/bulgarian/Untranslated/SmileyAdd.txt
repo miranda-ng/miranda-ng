@@ -1,5 +1,4 @@
 [Use per protocol global smiley packs]
-[Disable stickers]
 [Maximum sticker height]
 [IEView style window]
 [Horizontal sorting]

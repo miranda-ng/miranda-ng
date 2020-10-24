@@ -268,8 +268,6 @@ Groupe chats
 
 [Show chat nick list]
 
-[Enable button context menus]
-
 [Show topic on your contact list (if supported)]
 
 [Do not play sounds when focused]

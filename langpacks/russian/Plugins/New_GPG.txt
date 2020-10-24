@@ -345,8 +345,8 @@ GPG не удалось расшифровать входящее сообщен
 Длина ключа должна быть от 1024 до 4096 бит
 [Invalid date]
 Недопустимая дата
-[Name must contain at least 5 characters]
-Имя должно содержать не менее 5 символов
+[Name must contain at least 4 characters]
+Имя должно содержать не менее 4 символов
 [Name cannot contain '(' or ')']
 Имя не может содержать '(' или ')'
 [Invalid Email]

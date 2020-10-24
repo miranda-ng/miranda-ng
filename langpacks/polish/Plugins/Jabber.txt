@@ -909,6 +909,9 @@ Lista właścicieli
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Żądanie autoryzacji http przyjęte
+;file \protocols\JabberG\src\jabber_mam.cpp
+[Do you want to erase local history before loading it from server?]
+
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Wybór konta Jabber
@@ -1407,6 +1410,8 @@ Automatycznie zapisuj otrzymane notatki
 
 [Enable server-side history (XEP-0136)]
 Włącz historię po stronie serwera
+[Enable Message Archive Management (XEP-0313)]
+
 [Enable carbon copies (XEP-0280)]
 
 [Use Stream Management (XEP-0198) if possible (Testing)]
@@ -1631,8 +1636,6 @@ Proszę zapisać listę przed uczynieniem jej domyślną
 Nie wybrano listy
 [Can't remove active or default list]
 Nie można usunąć aktywnej lub domyślnej listy
-[Sorry]
-Przykro mi
 [Unable to save list because you are currently offline.]
 Nie można zapisać listy, ponieważ jesteś rozłączony.
 [List Editor...]

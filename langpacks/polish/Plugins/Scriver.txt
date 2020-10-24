@@ -268,8 +268,6 @@ Migaj, kiedy ktoś pisze
 Migaj, kiedy słowo jest podkreślone
 [Show chat nick list]
 Pokaż listę rozmówców
-[Enable button context menus]
-Włącz menu kontekstowe przycisku
 [Show topic on your contact list (if supported)]
 Pokaż temat na liście kontaktów (jeśli obsługiwane)
 [Do not play sounds when focused]

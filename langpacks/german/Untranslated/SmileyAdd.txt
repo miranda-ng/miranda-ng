@@ -1,2 +1,1 @@
-[Disable stickers]
 [Maximum sticker height]

@@ -345,8 +345,8 @@ ID ключа:
 Довжина ключа має бути від 1024 до 4096 біт
 [Invalid date]
 
-[Name must contain at least 5 characters]
-Ім'я має містити щонайменше 5 символів
+[Name must contain at least 4 characters]
+Ім'я має містити щонайменше 4 символів
 [Name cannot contain '(' or ')']
 Ім'я не може містити '(' чи ')'
 [Invalid Email]

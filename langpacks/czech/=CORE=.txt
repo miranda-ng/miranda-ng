@@ -820,12 +820,16 @@ Přednostně textový výpis
 Automatická detekce textu
 [Calling modules' names]
 Názvy volajících modulů
+[Print dates]
+
 [Log to]
 Soubor
 [OutputDebugString()]
 Funkce OutputDebugString()
 [File]
 Soubor
+[Rotate logs]
+
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Spustit program při startu Mirandy NG (např. tail -f, dbgview, atd.):
 [Run now]
@@ -1174,6 +1178,8 @@ Zobrazit ikonu v ozn. oblasti pouze při neaktivním okně s diskusí
 Zvýraznit událost
 [Show popups only when the chat room is not active]
 Zobrazit oznámení pouze při neaktivním okně s diskusí
+[Show button menus when right clicking the buttons]
+Zobrazit kontextové menu u tlačítek
 [Hidden window]
 
 [&Hide/Show]
@@ -1469,8 +1475,6 @@ Zablikat oknem při přijetí zprávy
 Zablikat oknem při zvýraznění slova
 [Show list of users in the chat room]
 Zobrazit seznam uživatelů v místnosti
-[Show button menus when right clicking the buttons]
-Zobrazit kontextové menu u tlačítek
 [Show the topic of the room on your contact list (if supported)]
 Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
 [Do not play sounds when the chat room is focused]
@@ -1933,11 +1937,6 @@ Funkce není protokolem podporována
 %u si vás přidal mezi své kontakty
 [Added event]
 Nová událost
-;file \src\mir_app\src\chat_clist.cpp
-[&Join chat]
-&Přidat se do diskuse
-[&Open/close chat window]
-
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 Příchod: %s
@@ -2005,8 +2004,18 @@ Oblast se zprávou
 [Chat log symbols (Webdings)]
 Symboly v záznamu chatu (Webdings)
 ;file \src\mir_app\src\chat_svc.cpp
+[&Join chat]
+&Přidat se do diskuse
+[&Open/close chat window]
+
 [&Leave chat]
 Op&ustit diskusi
+[&Mute chat]
+
+[Always]
+Vždy
+[Never]
+Nikdy
 [Message is highlighted]
 Zvýraznění zprávy
 [User has performed an action]
@@ -2155,6 +2164,8 @@ Dom. stránka
 Telefon/SMS
 [Chat activity]
 Aktivita v chatu
+[Chat mute mode]
+
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Doplňkové ikony
@@ -2541,6 +2552,8 @@ Chyba při vytváření profilu
 <neznámý formát>
 [Are you sure you want to remove profile "%s"?]
 Opravdu si přejete odstranit profil "%s"?
+[Database was compacted successfully]
+
 [&Convert]
 &Zkonvertovat
 [Run]

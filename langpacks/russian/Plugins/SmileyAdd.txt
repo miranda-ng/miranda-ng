@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.2
+;  Version: 0.3.2.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -28,8 +28,6 @@
 Заменять только смайлы, окружённые пробелами
 [Scale smiley to text height]
 Масштабировать смайлы под текст
-[Disable stickers]
-Отключить стикеры
 [High quality smiley scaling]
 Качественное масштабирование
 [Animate]

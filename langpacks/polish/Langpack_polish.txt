@@ -2,12 +2,12 @@ Miranda Language Pack Version 1
 Language: Polski
 Locale: 0415
 Authors: bunnyhoney, Xantros, Goraf, Piciok
-Last-Modified-Using: Miranda NG 0.95.11
+Last-Modified-Using: Miranda NG 0.95.13
 
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.12
+;  Version: 0.95.13
 ;============================================================
 [Become idle if the following is left unattended:]
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
@@ -1151,20 +1151,22 @@ Pytaj przed usunięciem kontaktów
 Domyślne ustawienia dla zdarzeń
 [Show when filter is active]
 Pokaż kiedy filtr jest wł.
-[Log to file]
-Zapisuj w pliku
 [Popup]
 Popup
 [Tray]
 Zasobnik
 [Sound]
 Dźwięk
+[Log to file]
+Zapisuj w pliku
 [Show icons in tray only when the chat room is not active]
 Pokaż ikony w zasobniku tylko, kiedy pokój jest nieaktywny
 [Highlight event]
 Podświetlenie
 [Show popups only when the chat room is not active]
 Pokazuj popupy tylko, gdy pokój nie jest aktywny
+[Show button menus when right clicking the buttons]
+Pokaż menu przycisku po kliknięciu na nim PPM
 [&Hide/Show]
 &Pokaż/Ukryj
 [E&xit]
@@ -1439,8 +1441,6 @@ Migaj oknem, gdy ktoś mówi
 Migaj oknem, gdy jakieś słowo jest podświetlone
 [Show list of users in the chat room]
 Pokaż listę użytkowników w pokoju
-[Show button menus when right clicking the buttons]
-Pokaż menu przycisku po kliknięciu na nim PPM
 [Show the topic of the room on your contact list (if supported)]
 Pokaż temat pokoju na liście kontaktów (jeśli obsługiwane)
 [Do not play sounds when the chat room is focused]
@@ -1883,8 +1883,6 @@ Funkcja nie wspierana przez protokół
 %u dodał(a) cię do swojej listy kontaktów
 [Added event]
 Dodanie kontaktu
-[&Join chat]
-&Dołącz do czatu
 [%s has joined]
 %s dołączył(a)
 [You have joined %s]
@@ -1949,8 +1947,14 @@ Członkowie listy użytkowników (Zaraz wracam)
 Obszar pisania wiadomości
 [Chat log symbols (Webdings)]
 Symbole dziennika czatowego
+[&Join chat]
+&Dołącz do czatu
 [&Leave chat]
 &Opuść czat
+[Always]
+Zawsze
+[Never]
+Nigdy
 [Message is highlighted]
 Podświetlona wiadomość
 [User has performed an action]
@@ -2445,6 +2449,8 @@ Czy na pewno chcesz usunąć profil "%s"?
 Uruchom
 [Compact]
 Skompaktuj
+[Check database]
+Sprawdź profil
 [Size]
 Rozmiar
 [Created]
@@ -3824,8 +3830,6 @@ Włącza lub wyłącza okienka typu popup (może być porzucone)
 wynik wywołania usługi protokołu
 [Send a general request through the protocol chain for a contact]
 Wyślij ogólne zapytanie poprzez łańcuch protokołu dla kontaktu
-[str, account name]
-str, nazwa konta
 [Return account name associated to contact (no need to free it)]
 Zwróć nazwę konta powiązanego z kontaktem (nie ma potrzeby jej uwalniania)
 [displays the Account Manager]
@@ -6080,7 +6084,7 @@ Zwinięta
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.10
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -6133,8 +6137,6 @@ Pobierz więcej skórek
 Dostępne tryby widoku
 [Include protocols]
 Uwzględnione protokoły
-[New]
-Nowy
 [Include groups]
 Uwzględnione grupy
 [Show contacts in groups]
@@ -6959,6 +6961,8 @@ Aby wyświetlić pasek narzędzi w Clist_modern wymagana jest wtyczka TopToolBar
 Tło paska narzędzi
 [Toolbar upgrade]
 Aktualizacja paska narzędzi
+[All contacts]
+Wszystkie kontakty
 [Ungrouped contacts]
 Niepogrupowane kontakty
 [And]
@@ -6977,22 +6981,20 @@ Godzin
 Dni
 [Configuring view mode: %s]
 Konfigurowanie trybu widoku: %s
-[All contacts]
-Wszystkie kontakty
 [Filtering]
 Filtrowanie
 [*** All contacts ***]
 *** Wszystkie kontakty ***
 [Configure view modes]
 Ustaw tryb widoku
-[Really delete this view mode? This cannot be undone]
-Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
-[Delete a view mode]
-Usuwanie trybu widoku
 [A view mode with this name does already exist]
 Tryb widoku o podanej nazwie już istnieje
 [Duplicate name]
 Zduplikowana nazwa
+[Really delete this view mode? This cannot be undone]
+Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
+[Delete a view mode]
+Usuwanie trybu widoku
 [Setup view modes...]
 Ustaw tryby widoku...
 [Select a view mode]
@@ -8649,6 +8651,57 @@ Wprowadź format popupa.
 Zastępuje litery cyrylicy w wiadomościach wychodzących (dla wybranych kontaktów), fonetycznymi odpowiednikami łacińskimi.
 [&Transliterate]
 Dokonaj &transliteracji
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.13.1
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+Narzędzie do sprawdzania i naprawy bazy danych Mirandy NG.
+[Miranda Database Tool]
+Narzędzie naprawcze
+[&Next >]
+&Dalej >
+[Cancel]
+Anuluj
+[Error Opening Database]
+Błąd podczas otwierania profilu
+[There was an error opening the profile database given.]
+Wystąpił błąd podczas otwierania profilu.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Kliknij przycisk Dalej, aby spróbować ponownie otworzyć plik, lub kliknij przycisk Wstecz, aby wybrać nowy profil.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Plik może być używany przez aktualnie uruchomioną Mirandę. Zamknij wszystkie uruchomione Mirandy i kliknij przycisk Dalej, aby ponowić.
+[Working...]
+Pracuję...
+[Please wait while the requested operations are being performed.]
+Proszę czekać aż żądane operacje zostaną wykonane.
+[Database]
+Profil
+[Check database]
+Sprawdź profil
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+Database Checker nie może znaleźć odpowiedniej wtyczki aby otworzyć profil "%s".
+[Error]
+Błąd
+[Database driver '%s' doesn't support checking.]
+Sterownik bazy danych "%s" nie wspiera sprawdzania.
+[&Finish]
+&Zakończ
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Przetwarzanie nie zostało jeszcze ukończone, jeśli zrezygnujesz teraz następne zmiany, które obecnie zostały dokonane zostaną cofnięte i oryginalny profil zostanie przywrócony. Czy nadal chcesz anulować?
+[Database worker thread activated]
+Aktywowano wątek roboczy profilu
+[Processing aborted by user]
+Przetwarzanie zakończone przez użytkownika
+[Elapsed time: %d sec]
+Czas pracy: %d s
+[All tasks completed but with errors (%d)]
+Zakończono wszystkie zadania ale z błędami (%d)
+[All tasks completed successfully]
+Wszystkie zadania zakończono pomyślnie
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: DbEditorPP.dll
@@ -9378,7 +9431,7 @@ To sztuczne konto ma wyłączoną obsługę wysyłania wiadomości. Włącz ją 
 ;============================================================
 ;  File: EmLanProto.dll
 ;  Plugin: E-mage LAN protocol
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: kva
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
@@ -10103,7 +10156,7 @@ Personalizacja
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
-;  Version: 0.6.0.5
+;  Version: 0.6.0.6
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
@@ -12792,6 +12845,8 @@ Wyślij zaproszenie do czatu
 &Zaproś
 [Cancel]
 Anuluj
+[Account registration]
+Rejestracja konta
 [UIN:]
 UIN:
 [Online since:]
@@ -15609,8 +15664,6 @@ Proszę zapisać listę przed uczynieniem jej domyślną
 Nie wybrano listy
 [Can't remove active or default list]
 Nie można usunąć aktywnej lub domyślnej listy
-[Sorry]
-Przykro mi
 [Unable to save list because you are currently offline.]
 Nie można zapisać listy, ponieważ jesteś rozłączony.
 [List Editor...]
@@ -17238,7 +17291,7 @@ Nie można uruchomić wtyczki MirFox (Miranda), inny komponent MirFox jest nieak
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.9.1
+;  Version: 0.11.9.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
@@ -19675,8 +19728,6 @@ Musisz najpierw ustawić algorytm szyfrujący
 Długość klucza musi mieć od 1024 do 4096 bitów
 [Invalid date]
 Niepoprawna data
-[Name must contain at least 5 characters]
-Nazwa musi zawierać co najmniej 5 znaków
 [Name cannot contain '(' or ')']
 Nazwa nie może zawierać "(", ani ")"
 [Invalid Email]
@@ -20535,8 +20586,6 @@ Ogólne
 ;  Version: 0.1.0.2
 ;  Authors: Miranda NG team
 ;============================================================
-[Core driver to provide OpenSSL-based SSL services.]
-Sterownik rdzenia zapewniający usługi SSL oparte na OpenSSL.
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu
 [Host we are connecting to is not the one certificate was issued for]
@@ -21012,7 +21061,7 @@ Nieznany
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.7
+;  Version: 0.2.0.9
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21043,6 +21092,8 @@ Co
 Tryb cichy
 [Backup database before update (requires Db_autobackups plugin)]
 Rób kopię bazy danych przed aktualizacją (wymaga wtyczki Db_autobackups)
+[Number of backups to keep:]
+Liczba trzymanych kopii zapasowych:
 [Files source]
 Źródło plików
 [Stable version]
@@ -22879,8 +22930,6 @@ Migaj, kiedy ktoś pisze
 Migaj, kiedy słowo jest podkreślone
 [Show chat nick list]
 Pokaż listę rozmówców
-[Enable button context menus]
-Włącz menu kontekstowe przycisku
 [Show topic on your contact list (if supported)]
 Pokaż temat na liście kontaktów (jeśli obsługiwane)
 [Do not play sounds when focused]
@@ -23708,7 +23757,7 @@ SecureIM [RSA/AES]
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.5
+;  Version: 5.0.5.6
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -24729,7 +24778,7 @@ Wtyczki
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -24882,8 +24931,6 @@ Nie możesz wysyłać będąc rozłączonym.
 Nieznany błąd!
 [Network error!]
 Błąd sieciowy!
-[%s connection]
-Połączenie %s
 [Network]
 Protokoły
 [Notifications]
@@ -24892,13 +24939,15 @@ Powiadomienia
 Błędy
 [Calls]
 Rozmowy
+[%s connection]
+Połączenie %s
 [Skypename]
 Nazwa Skype
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.2
+;  Version: 0.3.2.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -26111,7 +26160,7 @@ Zaawansowane
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.3
+;  Version: 3.6.1.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -26234,8 +26283,6 @@ s
 Ilość wpisów z historii
 [entries]
 wpisów
-[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Opcje oznaczone gwiazdką (*) przyniosą efekt po ponownym uruchomieniu Mirandy.
 [More about advanced tweaks]
 Więcej o zaawansowanych ustawieniach
 [Revert to (safe) defaults]
@@ -26850,16 +26897,16 @@ Opcje dziennika wiadomości
 Zobacz historię użytkownika
 [Edit user notes]
 Edytuj notatkę kontaktu
-[Select font color]
-Wybierz kolor czcionki
-[Change background color]
-Zmień kolor tła
-[Toggle nick list]
-Pokaż/Ukryj listę nicków
-[Event filter - right click to setup, left click to activate/deactivate]
-Filtr zdarzeń: PPM - ustawienia, LPM - aktywacja/dezaktywacja
-[Channel manager]
-Zarządzanie kanałem
+[Select a foreground color for the text (Ctrl+K)]
+Wybierz kolor dla tekstu (Ctrl+K)
+[Select a background color for the text (Ctrl+L)]
+Wybierz kolor tła dla tekstu (Ctrl+L)
+[Show/hide the nick list (Ctrl+N)]
+Pokaż/Ukryj listę nazw (Ctrl+N)
+[Enable/disable the event filter (Ctrl+F)]
+Włącz/wyłącz filtr zdarzeń (Ctrl+F)
+[Control this room (Ctrl+O)]
+Kontroluj ten pokój (Ctrl + O)
 [Message sessions]
 Okno rozmowy
 [Input area background]
@@ -27064,8 +27111,6 @@ Aktywuj okno rozmowy przy podświetleniu
 Pokaż listę użytkowników w pokoju
 [Colorize nicknames in member list]
 Koloruj nicki na liście
-[Show button menus when right clicking the buttons]
-Pokaż menu przycisku po kliknięciu na nim PPM
 [Show topic as status message on the contact list]
 Pokaż temat pokoju na liście kontaktów
 [Do not pop up the window when joining a chat room]
@@ -27382,8 +27427,12 @@ Pokaż wyślij do wielu
 Wyczyść okno rozmowy
 [Collapse side bar]
 Zwiń boczny pasek
+[Channel manager]
+Zarządzanie kanałem
 [Toggle filter]
 Pokaż filtr
+[Toggle nick list]
+Pokaż/Ukryj listę nicków
 [Show server window]
 Pokaż okno serwera
 [%s    Idle: %dh,%02dm]
@@ -27744,8 +27793,8 @@ Wyświetlaj ikony metakontaktów
 Błędy
 [Close current tab on send]
 Zamknij kartę po wysłaniu wiadomości
-[Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy) (*)
+[Enable unattended send (experimental feature, required for multisend and send later)]
+Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy)
 [Show client description in info panel]
 Pokaż opis klienta w panelu informacji
 [On tab control]
@@ -30925,7 +30974,7 @@ przechowuje "y" jako zmienną o nazwie "x"
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.2
+;  Version: 0.1.11.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31224,6 +31273,10 @@ Link
 Dokument
 [Wall post]
 Post na tablicy
+[(Unknown contact)]
+(Nieznany kontakt)
+[from]
+od
 [Product]
 Produkt
 [Price]
@@ -31232,8 +31285,8 @@ Cena
 Prezent
 [Unsupported or unknown attachment type: %s]
 Niewspierany albo nieznany typ załącznika: %s
-[(Unknown contact)]
-(Nieznany kontakt)
+[Text]
+Tekst
 [Message from]
 Wiadomość od
 [at]
@@ -31517,6 +31570,8 @@ Czy na pewno chcesz zgłosić nadużycie przez %s?
 ;============================================================
 [Paste played music info into message window or status text]
 Wkleja informacje o odtwarzanych multimediach w oknie rozmowy lub statusie.
+[Basic]
+Podstawowe
 [Clear xStatus before set new one]
 Czyść xStatus przed ustawieniem kolejnego
 [Emulate Multimedia keys]

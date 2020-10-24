@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.12.1
+;  Version: 0.95.13.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -26,6 +26,11 @@
 Выполнение...
 [Please wait while the requested operations are being performed.]
 Подождите, пока все операции будут завершены.
+;file \plugins\DbChecker\src\main.cpp
+[Database]
+База данных
+[Check database]
+Проверить базу
 ;file \plugins\DbChecker\src\openerror.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Плагин проверки не может найти подходящий драйвер базы для открытия '%s'.

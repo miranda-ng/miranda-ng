@@ -268,8 +268,6 @@ Zablikat oknem při napsání zprávy
 Zablikat oknem při zvýraznění slova
 [Show chat nick list]
 Zobrazit seznam účastníků diskuse
-[Enable button context menus]
-Zobrazit kontextové menu u tlačítek
 [Show topic on your contact list (if supported)]
 Zadané téma zobrazit v seznamu kontaktů (je-li to podporováno)
 [Do not play sounds when focused]

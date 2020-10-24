@@ -909,6 +909,9 @@ Jabber ошибка
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Получен запрос HTTP авторизации
+;file \protocols\JabberG\src\jabber_mam.cpp
+[Do you want to erase local history before loading it from server?]
+Очистить локальную историю перед загрузкой истории с сервера?
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Выбор учётной записи Jabber
@@ -1407,6 +1410,8 @@ OMEMO: Новая сессия
 Включить уведомления о состоянии чата (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
+[Enable Message Archive Management (XEP-0313)]
+Включить архивацию сообщений на сервере (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Включить копирование сообщений на все ресурсы (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (Testing)]
@@ -1631,8 +1636,6 @@ S.ms
 Список не выбран
 [Can't remove active or default list]
 Невозможно удалить активный или стандартный список
-[Sorry]
-Извините
 [Unable to save list because you are currently offline.]
 Невозможно сохранить список, т.к. вы не в сети.
 [List Editor...]

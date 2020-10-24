@@ -3,7 +3,6 @@
 [Version:]
 [Use per protocol global smiley packs]
 [Display]
-[Disable stickers]
 [High quality smiley scaling]
 [Maximum sticker height]
 [Minimum smiley height]

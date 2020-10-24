@@ -3,7 +3,7 @@ Language: Español
 Locale: 0c0a
 Authors: Carlos Sánchez (c-sanchez)
 Author-email: carlos1994sanchez@gmail.com
-Last-Modified-Using: Miranda NG 0.95.10.3
+Last-Modified-Using: Miranda NG 0.95.13
 
 ; Una nueva traducción al Español para Miranda NG realizada desde cero.
 
@@ -17,7 +17,7 @@ Last-Modified-Using: Miranda NG 0.95.10.3
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.11
+;  Version: 0.95.13
 ;============================================================
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
@@ -79,14 +79,6 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 ¿Está seguro de que desea eliminar a %s?
 [This will erase all history and settings for this contact!]
 ¡Esto borrará toda el historial y los valores de este contacto!
-[Hide offline users]
-Ocultar usuarios fuera de línea
-[Hide empty groups]
-Ocultar grupos vacíos
-[Disable groups]
-Desactivar grupos
-[Ask before deleting contacts]
-Preguntar antes de eliminar
 [Sort contacts by name]
 Ordenar contactos por nombre
 [Sort contacts by status]
@@ -113,14 +105,14 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[Contact list]
-Lista de contactos
 [System tray icon]
 Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
 [Contact list sorting]
 Orden de la lista de contacto
+[Don't move offline user to bottom]
+No mover usuario fuera de línea al final
 [Window]
 Ventana
 [Always on top]
@@ -183,8 +175,6 @@ Mostrar selección aún si la lista no está enfocada
 Hacer selección resaltada translúcida
 [Dim idle contacts]
 Oscurecer contactos inactivos
-['Hide offline' means to hide:]
-'Ocultar fuera de línea' es:
 [Groups]
 Grupos
 [Draw a line alongside group names]
@@ -209,10 +199,10 @@ Desplazar lista de problemas
 Tiempo:
 [milliseconds]
 milisegundos
-[Left margin:]
-Margen izquierdo:
 [Hide vertical scroll bar]
 Ocultar barra de desplazamiento vertical
+[Left margin:]
+Margen izquierdo:
 [Row height:]
 Alto de fila:
 [Gamma correction]
@@ -1027,6 +1017,8 @@ Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y us
 Contactos
 [&Apply]
 &Aplicar
+[Contact list]
+Lista de contactos
 [Last modified using:]
 Última modificación usando:
 [Locale:]
@@ -1055,8 +1047,24 @@ Usted fue añadido
 Acerca de Miranda NG
 [Credits >]
 Créditos >
+[Hide offline users]
+Ocultar usuarios fuera de línea
+[Hide empty groups]
+Ocultar grupos vacíos
+[Ask before deleting contacts]
+Preguntar antes de eliminar
+['Hide offline' means to hide:]
+'Ocultar fuera de línea' es:
+[Popup]
+Ventana emergente
 [Tray]
 Bandeja
+[Show icons in tray only when the chat room is not active]
+Mostrar iconos en la bandeja sólo cuando el chat no está activo
+[Show popups only when the chat room is not active]
+Mostrar ventanas emergentes cuando el chat no está activo
+[Show button menus when right clicking the buttons]
+Mostrar menús del botón derecho cuando se hace clic en los botones
 [&Hide/Show]
 &Mostrar/Ocultar
 [E&xit]
@@ -1197,6 +1205,8 @@ Invisible
 Lista de fondos
 [Global]
 Global
+[General]
+General
 [Standard crypto provider]
 Proveedor estándar de cifrado
 [User has not registered an e-mail address]
@@ -1317,14 +1327,6 @@ Parpadear ventana cuando alguien habla
 Parpadear ventana cuando se resalta una palabra
 [Show list of users in the chat room]
 Mostrar lista de usuarios en la sala de chat
-[Show button for sending messages]
-Mostrar el botón para enviar mensajes
-[Show buttons for controlling the chat room]
-Mostrar botones para el control de la sala de chat
-[Show buttons for formatting the text you are typing]
-Mostrar botones para formatear el texto que está escribiendo
-[Show button menus when right clicking the buttons]
-Mostrar menús del botón derecho cuando se hace clic en los botones
 [Show the topic of the room on your contact list (if supported)]
 Mostrar el tema de la sala en su lista de contactos (si es compatible)
 [Do not play sounds when the chat room is focused]
@@ -1351,28 +1353,6 @@ Añadir ':' a los nombres de usuario auto-completado
 Quitar los colores de los mensajes en el registro
 [Enable the 'event filter' for new rooms]
 Habilitar el "filtro de eventos" para nuevas salas
-[Show topic changes]
-Mostar cambios recientes de tema
-[Show users joining]
-Mostrar usuarios entrando
-[Show users disconnecting]
-Mostrar usuarios que se desconectan
-[Show messages]
-Mostrar mensajes
-[Show actions]
-Mostrar acciones
-[Show users leaving]
-Mostrar usuarios que salen
-[Show users being kicked]
-Mostrar usuarios sacados
-[Show notices]
-Mostrar avisos
-[Show users changing name]
-Mostrar usuarios cambiando nombre
-[Show information messages]
-Mostrar mensajes de información
-[Show status changes of users]
-Mostrar cambios de estado de usuarios
 [Show icon for topic changes]
 Mostrar icono de cambios de temas
 [Show icon for users joining]
@@ -1397,58 +1377,6 @@ Mostrar icono de cambio de nombre
 Mostrar icono de mensajes de información
 [Show icon for status changes]
 Mostrar icono de cambia de estado
-[Show icons in tray only when the chat room is not active]
-Mostrar iconos en la bandeja sólo cuando el chat no está activo
-[Show icon in tray for topic changes]
-Mostrar icono en la bandeja de cambios de temas
-[Show icon in tray for users joining]
-Mostrar icono en la bandeja para los usuarios que estan entrando
-[Show icon in tray for users disconnecting]
-Mostrar icono en la bandeja para los usuarios que se estan desconectando
-[Show icon in tray for messages]
-Mostrar icono en la bandeja para mensajes
-[Show icon in tray for actions]
-Mostrar icono en la bandeja para acciones
-[Show icon in tray for highlights]
-Mostrar icono en la bandeja para destacados
-[Show icon in tray for users leaving]
-Mostrar icono en la bandeja para los usuarios que estan saliendo
-[Show icon in tray for users kicking other user]
-Mostrar icono en la bandeja para los usuarios sacados por otro usuario
-[Show icon in tray for notices]
-Mostrar icono en la bandeja de notificaciones
-[Show icon in tray for name changes]
-Mostrar icono en la bandeja para el cambio de nombres
-[Show icon in tray for information messages]
-Mostrar icono en la bandeja para mensajes de información
-[Show icon in tray for status changes]
-Mostrar icono en la bandeja para los cambios de estado
-[Show popups only when the chat room is not active]
-Mostrar ventanas emergentes cuando el chat no está activo
-[Show popup for topic changes]
-Mostrar ventana emergente para cambios temáticos
-[Show popup for users joining]
-Mostrar ventana emergente para los usuarios que estan entrando
-[Show popup for users disconnecting]
-Mostrar ventana emergente para los usuarios que se desconectan
-[Show popup for messages]
-Mostrar ventana emergente para mensajes
-[Show popup for actions]
-Mostrar ventana emergente para acciones
-[Show popup for highlights]
-Mostrar ventana emergente para destacados
-[Show popup for users leaving]
-Mostrar ventana emergente para los usuarios que estan saliendo
-[Show popup for users kicking other user]
-Mostrar ventana emergente para usuarios sacados por otro usuario
-[Show popup for notices]
-Mostrar ventana emergente para notificaciones
-[Show popup for name changes]
-Mostrar ventana emergente para cambios de nombre
-[Show popup for information messages]
-Mostrar ventana emergente para mensajes de información
-[Show popup for status changes]
-Mostrar ventana emergente para cambios de estado
 [Window icon]
 Icono de ventana
 [Bold]
@@ -1523,22 +1451,24 @@ Registro de Grupo de Chats
 Apariencia y funcionalidad de ventanas de chat
 [Appearance of the message log]
 Apariencia del registro de mensajes
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Eventos predeterminados a mostrar en nuevas salas de chat, si está activado el 'filtro de eventos'
 [Icons to display in the message log]
 Iconos a mostrar en el registro de mensajes
-[Icons to display in the tray]
-Iconos a mostrar en la bandeja
-[Popups to display]
-Ventanas emergentes mostrar
-[General]
-General
 [Chat log]
 Registro de chat
 [Chat]
 Chat
 [Popups]
 Ventanas emergentes
+[The message send timed out.]
+El mensaje envia el tiempo de espera.
+[Incoming message (10x10)]
+Mensaje entrante (10x10)
+[Outgoing message (10x10)]
+Mensaje saliente (10x10)
+[%s is typing a message...]
+%s está escribiendo un mensaje...
+[Last message received on %s at %s.]
+Último mensaje recibido el %s a %s.
 [%s: chat room (%u user)]
 %s: sala de chat (%u usuario)
 [%s: chat room (%u users)]
@@ -1547,22 +1477,8 @@ Ventanas emergentes
 %s: sesión de mensaje
 [%s: message session (%u users)]
 %s: sesión de mensaje (%u usuarios)
-[Nickname]
-Apodo
-[Unique ID]
-ID único
-[The message send timed out.]
-El mensaje envia el tiempo de espera.
-[Incoming message (10x10)]
-Mensaje entrante (10x10)
-[Outgoing message (10x10)]
-Mensaje saliente (10x10)
-[Last message received on %s at %s.]
-Último mensaje recibido el %s a %s.
 [Message session]
 Sesión de mensaje
-[%s is typing a message...]
-%s está escribiendo un mensaje...
 [File sent]
 Archivo enviado
 [Outgoing messages]
@@ -1757,8 +1673,6 @@ La función no está soportada por el protocolo
 %u te ha añadido a su lista de contactos
 [Added event]
 Evento añadido
-[&Join chat]
-&Entrar
 [%s has joined]
 %s se ha unido
 [You have joined %s]
@@ -1773,10 +1687,10 @@ Te has unido a %s
 Usted ahora se conoce como %s
 [%s kicked %s]
 %s sacado %s
-[Notice from %s: ]
-Aviso de %s:\s
-[The topic is '%s%s']
-El tema es '%s%s'
+[Notice from %s]
+Aviso de %s
+[The topic is '%s']
+El tema es '%s'
 [ (set by %s on %s)]
  (establecido por %s el %s)
 [ (set by %s)]
@@ -1821,6 +1735,8 @@ Miembros de la lista de usuarios (en línea)
 Miembros de la lista de usuarios (fuera)
 [Message typing area]
 Área de escritura de mensaje
+[&Join chat]
+&Entrar
 [Message is highlighted]
 El mensaje esta resaltado
 [User has performed an action]
@@ -1845,8 +1761,6 @@ El tema ha sido cambiado
 %s ha dejado %s
 [%s kicked %s from %s]
 %s echado %s de %s
-[Notice from %s]
-Aviso de %s
 [Topic change in %s]
 Tema cambiado en %s
 [Information in %s]
@@ -1855,26 +1769,8 @@ Información en %s
 %s habilita '%s' de estado para %s en %s
 [%s disables '%s' status for %s in %s]
 %s deshabilita '%s' de estado para %s en %s
-[%s says: %s]
-%s dice: %s
-[%s has left (%s)]
-%s ha dejado (%s)
-[%s has disconnected (%s)]
-%s se ha desconectado (%s)
-[%s kicked %s (%s)]
-%s echado %s (%s)
-[Notice from %s: %s]
-Aviso de %s: %s
-[The topic is '%s']
-El tema es '%s'
-[The topic is '%s' (set by %s)]
-El tema es '%s' (establecido por %s)
-[Look up '%s':]
-Buscar '%s':
-[No word to look up]
-Ni una palabra para buscar
-[&Message %s]
-&Mensaje %s
+[%s says]
+%s dice
 [New group]
 Nuevo grupo
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2181,6 +2077,12 @@ Modificado
 Mis perfiles
 [New profile]
 Nuevo perfil
+[Request authorization]
+Solicitar autorización
+[Grant authorization]
+Conceder autorización
+[Revoke authorization]
+Revocar autorización
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ¡ADVERTENCIA! La cuenta se va a eliminar. Esto significa que todos sus ajustes, contactos y las historias serán también borrados.\n\n¿Estás absolutamente seguro?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -2231,12 +2133,6 @@ Error de cuenta
 El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
 [&Accounts...]
 &Cuentas...
-[Request authorization]
-Solicitar autorización
-[Grant authorization]
-Conceder autorización
-[Revoke authorization]
-Revocar autorización
 [Could not start a search on '%s', there was a problem - is %s connected?]
 No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
 [Could not search on any of the protocols, are you online?]
@@ -2325,6 +2221,16 @@ Iconos principales
 Archivos de sonido
 [WAV files]
 Archivos WAV
+[&Message %s]
+&Mensaje %s
+[Nickname]
+Apodo
+[Unique ID]
+ID único
+[Look up '%s':]
+Buscar '%s':
+[No word to look up]
+Ni una palabra para buscar
 [<Separator>]
 <Separador>
 [Toolbar]
@@ -3420,7 +3326,7 @@ Protocolo desconocido
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.1
+;  Version: 0.98.1.2
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Dialog]
@@ -3816,42 +3722,6 @@ No hacer nada
 ;============================================================
 [A contact list for blind folks.]
 Una lista de contactos para personas ciegas.
-[Delete contact]
-Eliminar contacto
-[Are you sure you want to delete %s?]
-¿Está seguro de que desea eliminar a %s?
-[This will erase all history and settings for this contact!]
-¡Esto borrará toda el historial y los valores de este contacto!
-[Yes]
-Sí
-[No]
-No
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Ocultarse solo de la lista, con el fin de mantener el historial e ignorar la configuración/visibilidad
-[Use Options -> Contacts -> Ignore to unhide contacts.]
-Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
-[Hotkeys]
-Teclas de acceso rápido
-[Show/Hide:]
-Mostrar/Ocultar:
-[Read message:]
-Leer mensaje:
-[Web search:]
-Búscar en la web:
-[URL:]
-URL:
-[Open in new browser window]
-Abrir en una nueva ventana del navegador
-[Show options]
-Mostrar opciones
-[Hide offline users]
-Ocultar usuarios fuera de línea
-[Hide empty groups]
-Ocultar grupos vacíos
-[Disable groups]
-Desactivar grupos
-[Ask before deleting contacts]
-Preguntar antes de eliminar
 [Sort contacts by name]
 Ordenar contactos por nombre
 [Sort contacts by status]
@@ -3878,8 +3748,6 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[Contact list]
-Lista de contactos
 [System tray icon]
 Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
@@ -3930,10 +3798,6 @@ Si la ventana está cubierta parcialmente, traer al frente en lugar de esconders
 Mostrar sombra (requiere un reinicio)
 [Pin to desktop]
 Pin de escritorio
-[Items]
-Elementos
-['Hide offline' means to hide:]
-'Ocultar fuera de línea' es:
 [Groups]
 Grupos
 [Show counts of number of contacts in a group]
@@ -3974,30 +3838,14 @@ Igualar anchura de secciones
 Mostrar biseles en los paneles
 [Show resize grip indicator]
 Mostrar indicador de cambio de tamaño
-[Not focused]
-No enfocado
-[Offline]
-Fuera de línea
-[Online]
-En línea
-[Away]
-Fuera
-[Not available]
-No disponible
-[Occupied]
-Ocupado
-[Do not disturb]
-No molestar
-[Free for chat]
-Libre para el chat
-[Invisible]
-Invisible
 [Group: %name% %count% [%mode%]]
 Grupo: %name% %count% [%mode%]
 [Divider: %s]
 Divisor: %s
 [Info: %s]
 Info: %s
+[Contact list]
+Lista de contactos
 [List]
 Lista
 [Global]
@@ -4012,7 +3860,7 @@ Colapsado
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.8
+;  Version: 0.9.1.11
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -4061,8 +3909,6 @@ Reiniciar puede ser necesario para que todos los cambios surtan efecto
 Modos de visualización disponibles
 [Include protocols]
 Incluir protocolos
-[New]
-Nuevo
 [Include groups]
 Incluir grupos
 [Show contacts in groups]
@@ -4165,20 +4011,10 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 ¿Está seguro de que desea eliminar a %s?
 [This will erase all history and settings for this contact!]
 ¡Esto borrará toda el historial y los valores de este contacto!
-[Hide offline users]
-Ocultar usuarios fuera de línea
-[Hide empty groups]
-Ocultar grupos vacíos
-[Disable groups]
-Desactivar grupos
-[Ask before deleting contacts]
-Preguntar antes de eliminar
-[Don't move offline user to bottom]
-No mover usuario fuera de línea al final
-[Contact list]
-Lista de contactos
 [Contact list sorting]
 Clasificación de la lista de contacto
+[Don't move offline user to bottom]
+No mover usuario fuera de línea al final
 [1st:]
 1ro:
 [2nd:]
@@ -4187,8 +4023,8 @@ Clasificación de la lista de contacto
 3ro:
 [Place offline users out of groups]
 Coloca los usuarios sin conexión de grupos
-[Gamma correction]
-Corrección de gama
+[Selection mode]
+Modo de selección
 [Default]
 Por defecto
 [Full selection]
@@ -4197,8 +4033,8 @@ Selección completa
 Menos selección
 [No selection]
 Sin selección
-[Selection mode]
-Modo de selección
+[Gamma correction]
+Corrección de gama
 [Bring to front if covered]
 Traer al frente si está cubierto
 [Hide contact list after]
@@ -4263,8 +4099,6 @@ Mostrar selección aún si la lista no está enfocada
 Hacer selección resaltada translúcida
 [Dim idle contacts]
 Oscurecer contactos inactivos
-['Hide offline' means to hide:]
-'Ocultar fuera de línea' es:
 [Groups]
 Grupos
 [Draw a line alongside group names]
@@ -4367,6 +4201,8 @@ E&stado
 &Opciones
 [Skins]
 Pieles
+[Contact list]
+Lista de contactos
 [List background]
 Lista de fondos
 [Contact names]
@@ -4473,6 +4309,8 @@ Buscar usuario
 Usar/Deshabilitar grupos
 [Use groups]
 Usar grupos
+[Disable groups]
+Desactivar grupos
 [Enable/Disable sounds]
 Habilitar/Desabilitar sonidos
 [Enable sounds]
@@ -4485,6 +4323,8 @@ Minimizar
 Para ver una barra de herramientas en Clist_modern necesitas el plugin TopToolBar. Haga clic en Sí para descargarlo o Cancelar para continuar
 [Toolbar upgrade]
 Actualizar barra de herramientas
+[All contacts]
+Todos los contactos
 [Ungrouped contacts]
 contactos desagrupados
 [And]
@@ -4503,22 +4343,20 @@ Horas
 Días
 [Configuring view mode: %s]
 Configurando modo de vista: %s
-[All contacts]
-Todos los contactos
 [Filtering]
 Filtrando
 [*** All contacts ***]
 *** Todos los contactos ***
 [Configure view modes]
 Configurar modos de vista
-[Really delete this view mode? This cannot be undone]
-¿Realmente desea eliminar este modo de vista? Esto no se puede deshacer
-[Delete a view mode]
-Eliminar un modo de vista
 [A view mode with this name does already exist]
 Ya existe un modo de vista con ese nombre
 [Duplicate name]
 Nombre duplicado
+[Really delete this view mode? This cannot be undone]
+¿Realmente desea eliminar este modo de vista? Esto no se puede deshacer
+[Delete a view mode]
+Eliminar un modo de vista
 [Setup view modes...]
 Configuración de Modos de Vista
 [Select a view mode]
@@ -4556,22 +4394,14 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 ¡Esto borrará toda el historial y los valores de este contacto!
 [Contact list]
 Lista de contactos
-[Hide offline users]
-Ocultar usuarios fuera de línea
-[Hide empty groups]
-Ocultar grupos vacíos
-[Disable groups]
-Desactivar grupos
-[Ask before deleting contacts]
-Preguntar antes de eliminar
-[Disable icon blinking]
-Desactivar parpadeo de icono
 [System tray icon]
 Icono de la bandeja de sistema
 [Single click interface]
 Interfaz simple clic
 [Always show status in tooltip]
 Mostrar estado sobre herramientas
+[Disable icon blinking]
+Desactivar parpadeo de icono
 [ms]
 ms
 [System tray icon when using multiple protocols]
@@ -4760,6 +4590,16 @@ Habilitar/Desabilitar sonidos
 Menú de estado
 [Setup view modes]
 Configuración de modos de vista
+[Name]
+Nombre
+[Status]
+Estado
+[Contacts]
+Contactos
+[Advanced]
+Avanzado
+[Global]
+Global
 [Not focused]
 No enfocado
 [Offline]
@@ -4778,22 +4618,10 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[Name]
-Nombre
-[Status]
-Estado
 [General]
 General
 [Background]
 Fondo
-[Contacts]
-Contactos
-[Advanced]
-Avanzado
-[Skins]
-Pieles
-[Global]
-Global
 [Reset view mode]
 Reiniciar modo de vista
 [Configure view modes]
@@ -4826,6 +4654,8 @@ Búsqueda rápida de texto
 Mostrar barra de título
 [Frames]
 Marcos
+[Skins]
+Pieles
 [&Hide/show]
 &Mostrar/Ocultar
 [&Find/add contacts...]
@@ -5092,7 +4922,7 @@ Menú del usuario
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: borkra
 ;============================================================
 [Close]
@@ -5223,11 +5053,24 @@ Red
 Reemplaza (sólo para los contactos seleccionados) las letras del cirílico en los mensajes salientes con las combinaciones de letras latinas fonéticamente equivalentes.
 [&Transliterate]
 &Transcribir
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: DbChecker.dll
+;  Plugin: Database checker
+;  Version: 0.95.13.1
+;  Authors: George Hazan
+;============================================================
+[Cancel]
+Cancelar
+[Database]
+Base de datos
+[Error]
+Error
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.2
+;  Version: 4.0.1.3
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [&Search]
@@ -5291,6 +5134,8 @@ Cancelar
 Cambiar contraseña
 [Remove]
 Eliminar
+[Error]
+Error
 [Database]
 Base de datos
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
@@ -5325,7 +5170,7 @@ Eliminar
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Disabled]
@@ -5352,7 +5197,7 @@ Variables
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.1
+;  Version: 0.6.2.5
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -5402,7 +5247,7 @@ Nombre de usuario
 ;============================================================
 ;  File: EmLanProto.dll
 ;  Plugin: E-mage LAN protocol
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: kva
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
@@ -5482,12 +5327,12 @@ Comprobar buzones de intercambio
 Notificar intercambio
 [Plugins]
 Plugins
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.4.2.4
-;  Authors: Michal Zelinka, Robert Pösel
+;  Version: 0.1.0.8
+;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Compatibilidad con el protocolo de Facebook para Miranda NG.
@@ -5497,204 +5342,24 @@ Correo:
 Contraseña:
 [Create a new Facebook account]
 Crear una nueva cuenta de Facebook
-[What's on your mind?]
-¿Qué tienes en mente?
-[Wall:]
-Muro:
-[Visibility:]
-Visibilidad:
-[Text:]
-Texto:
-[URL:]
-URL:
-[Place:]
-Lugar:
-[Contacts >>]
-Contactos >>]
-[Attach contacts:]
-Adjuntar contactos:
-[Share]
-Compartir
-[Cancel]
-Cancelar
 [User details]
 Detalles del usuario
 [Contacts]
 Contactos
 [Default group:]
 Grupo predeterminado:
-[Automatically set 'Ignore status change' flag]
-Establecer automáticamente bandera 'Ignorar el cambio de estado'
-[Use bigger avatars]
-Usar avatares grandes
-[News feed types to notify:]
-Tipos de noticias a notificar:
-[Use balloon notifications in system tray instead of popups]
-Globos de aviso en la bandeja en vez de ventanas emergentes
-[Use this server for opening links:]
-Abrir enlaces con este servidor:
-[Post Miranda statuses to Wall]
-Enviar estados de Miranda al Muro
-[Allow posting statuses to my pages (may slow down login)]
-Permitir publicar estados a mis páginas (puede ralentizar sesión)
-[Advanced]
-Avanzado
-[Bots challenge test]
-Prueba de reto Bots
-[Instruction:]
-Instrucción:
-[Submit]
-Presentar
-[Messages]
-Mensajes
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Activar soporte para emoticonos personalizados (EXPERIMENTAL)
-[Enter the text you see]
-Introduzca el texto que aparece
-[&Invite user...]
-&Invitar usuario...
-[User &details]
-&Detalles del usuario
-[User &history]
-&Historial del usuario
-[Notifications]
-Notificaciones
-[Login error: %s]
-Error de inicio de sesión: %s
-[Unknown error]
-Error desconocido
-[Login error: Invalid request.]
-Error de inicio de sesión: Solicitud no válida.
-[Login error, probably bad login credentials.]
-Error de inicio de sesión, las credenciales de inicio de sesión probablemente son malas.
-[Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
-Necesita confirmación para enviar mensajes a otros clientes.\n¡Abrir el sitio web de Facebook y tratar de enviar un mensaje a este contacto de nuevo!
-[Timeout when sending message.]
-Tiempo de espera al enviar el mensaje
-[Status update was successful.]
-Estado actualizado con un éxito.
-[Please enter a username.]
-Por favor, introduzca un nombre de usuario.
-[Please enter a password.]
-Por favor, introduzca una contraseña.
-[Contact was removed from your server list.]
-El contacto fue eliminado de la lista de servidores.
-[Error occurred when removing contact from server.]
-Se produjo un error al quitar el contacto del servidor.
-[Request for friendship was sent.]
-La solicitud de amistad se ha enviado.
-[Error occurred when requesting friendship.]
-Se produjo un error al solicitar la amistad.
-[Request for friendship was canceled.]
-La solicitud de amistad fue cancelada.
-[Error occurred when canceling friendship request.]
-Se produjo un error al cancelar la solicitud de amistad.
-[Top News]
-Noticias principales
-[Most Recent]
-Más reciente
-[Classic website]
-Sitio web clásico
-[Mobile website]
-Sitio web para móvil
-[Smartphone website]
-Sitio web para smartphone
-[Public]
-Público
-[Friends of friends]
-Amigos de amigos
-[Friends]
-Amigos
-[Friends except acquaintances]
-Amigos menos conocidos
-[Only me]
-Sólo para mí
-[Default]
-Por defecto
-[<< Contacts]
-<< Contactos
-[What's on your mind, %s?]
-¿Qué hay en tu mente, %s?
-[a sticker]
-una etiqueta
-[files]
-archivos
-[a file]
-un archivo
-[User sent %s:]
-El usuario le envió %s:
-[%s is typing a message...]
-%s está escribiendo un mensaje...
-[You cannot send messages when you are offline.]
-No puede enviar mensajes cuando no esté conectado.
-[Contact is back on server-list.]
-El contacto regresa a la lista del servidor.
-[Contact is no longer on server-list.]
-El contacto ya no está en la lista del servidor.
-[%s server connection]
-%s conexión al servidor
-[Facebook ID must be numeric value.]
-Facebook ID debe ser un valor numérico.
+[Group chats]
+Grupo de chats
+[Cancel]
+Cancelar
 [Network]
 Red
 [Account]
 Cuenta
-[Events]
-Eventos
-[Messaging]
-Mensajería
-[Share status...]
-Compartir estado...
-[Own wall]
-Propio muro
-[Do you want to cancel your friendship with '%s'?]
-¿Quiere cancelar su amistad con '%s'?
-[Other events]
-Otros eventos
-[Visit profile]
-Visitar perfil
-[Show 'Share status' window]
-Mostrar ventana "Compartir estado'
-[Notification]
-Notificación
-[Other event]
-Otros eventos
-[Message read: %s by %s]
-Leer mensaje: %s por %s
-[Message read: %s]
-Leer mensaje: %s
-[Facebook icon]
-Icono de Facebook
-[Mind]
-Mente
-[Poke]
-Meter
-[Newsfeed]
-Fuentes noticias
-[Friendship details]
-Detalles de amistad
-[Angry]
-Me enoja
-[Haha]
-Me divierte
-[Like]
-Me gusta
-[Love]
-Me encanta
-[Sad]
-Me entristece
-[Wow]
-Me asombra
-[Visit friendship details]
-Visitar detalles de amistad
-[Cancel friendship request]
-Cancelar solicitud de amistad
-[Services...]
-Servicios...
-[Check friendship requests]
-Comprobar solicitudes de amistad
-[Check newsfeeds]
-Comprobar fuentes de noticias
+[%s server connection]
+%s conexión al servidor
+[URL]
+URL
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -5893,7 +5558,7 @@ Personalizar
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
-;  Version: 0.6.0.5
+;  Version: 0.6.0.6
 ;  Authors: yaho
 ;============================================================
 [Password]
@@ -6227,7 +5892,7 @@ Personalizar
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.11.5
+;  Version: 0.95.12.1
 ;  Authors: George Hazan
 ;============================================================
 [Password:]
@@ -6248,6 +5913,12 @@ General
 Avanzado
 [%s server connection]
 %s conexión al servidor
+[Name]
+Nombre
+[Rename]
+Renombrar
+[Delete]
+Eliminar
 ;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
@@ -6302,7 +5973,7 @@ Ver &historial
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.2
+;  Version: 1.6.0.4
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [Copy]
@@ -6321,8 +5992,6 @@ Mostrar segundos
 Transferencia de archivos entrantes
 [(Unknown Contact)]
 (Contacto desconocido)
-[Error]
-Error
 [Default]
 Por defecto
 [All Files]
@@ -6504,7 +6173,7 @@ Fuera de línea
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.11.0.5
+;  Version: 0.95.11.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
@@ -6577,8 +6246,6 @@ Anfitrión:
 Mantener viva la conexión
 [Automatically delete contacts not in my roster]
 Eliminar automáticamente los contactos que no están en mi lista
-[User directory:]
-Directorio de usuario:
 [Language for human-readable resources:]
 Idioma de los recursos legibles:
 [File Transfer]
@@ -6587,18 +6254,14 @@ Transferencia de Archivos
 Permitir el envío de archivos a través de la conexión peer-to-peer directa
 [Specify external address:]
 Especifique la dirección externa:
-[Allow file sending through bytestream proxy server:]
-Permitir enviar archivos con servidor proxy bytestream:
 [Miscellaneous]
 Diverso
 [Hint:]
 Indicio:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Tratar de desactivar todas las marcas de verificación de arriba si usted está experimentando problemas con el envío de archivos. Pero puede causar problemas con la transferencia de archivos de gran tamaño.
-[Jabber account registration]
-Registro de cuenta Jabber
-[Jabber Form]
-Formulario Jabber
+[Account registration]
+Registro de cuenta
 [Instruction:]
 Instrucción:
 [Submit]
@@ -6831,7 +6494,7 @@ en el teléfono
 ;============================================================
 ;  File: KeyboardNotify.dll
 ;  Plugin: Keyboard notify ext.
-;  Version: 1.5.7.7
+;  Version: 1.6.0.1
 ;  Authors: TioDuke
 ;============================================================
 [Accounts to check]
@@ -6844,10 +6507,10 @@ segundos
 En línea
 [Away]
 Fuera
-[Occupied]
-Ocupado
 [Not available]
 No disponible
+[Occupied]
+Ocupado
 [Do not disturb]
 No molestar
 [Free for chat]
@@ -6888,12 +6551,12 @@ Ninguno
 Protocolo
 [All Files]
 Todos los archivos
+[Events]
+Eventos
 [Accounts]
 Cuentas
 [Rules]
 Reglas
-[Events]
-Eventos
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;============================================================
 ;  File: LinkList.dll
@@ -7031,7 +6694,7 @@ Personalizar
 ;============================================================
 ;  File: MessageState.dll
 ;  Plugin: Message state
-;  Version: 0.0.1.0
+;  Version: 0.1.0.2
 ;  Authors: MikalaiR
 ;============================================================
 [Sending...]
@@ -7116,7 +6779,7 @@ Cuentas
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.9.1
+;  Version: 0.11.9.2
 ;  Authors: Miranda NG team
 ;============================================================
 [General]
@@ -7127,7 +6790,7 @@ Servicios
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.14.2.1
+;  Version: 0.14.2.2
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [&Cancel]
@@ -7136,18 +6799,14 @@ Servicios
 &No
 [&Yes]
 &Sí
+[Copy]
+Copiar
 [Refresh]
 Refrescar
 [Yes]
 Sí
 [No]
 No
-[General]
-General
-[Protocols]
-Protocolos
-[Contacts]
-Contactos
 [Contact]
 Contacto
 [Account]
@@ -7158,6 +6817,12 @@ Por defecto
 Contraseña
 [Services]
 Servicios
+[General]
+General
+[Accounts]
+Cuentas
+[Contacts]
+Contactos
 #muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
 ;  File: MobileState.dll
@@ -7231,13 +6896,11 @@ Mensaje con asterisco
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.3
+;  Version: 3.1.2.6
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Browse]
 Navegar
-[Clear all]
-Limpiar todo
 [Help]
 Ayuda
 [&Find...]
@@ -7248,6 +6911,10 @@ Ayuda
 No hacer nada
 [User &details]
 &Detalles del usuario
+[Select all]
+Seleccionar todo
+[Clear all]
+Limpiar todo
 [Copy]
 Copiar
 [Executable files]
@@ -7258,6 +6925,10 @@ Todos los archivos
 Archivo
 [Nick]
 Apodo
+[Account]
+Cuenta
+[User ID]
+ID de usuario
 [History]
 Historial
 [General]
@@ -7286,8 +6957,6 @@ Telefono
 Sitio web
 [About]
 Acerca de
-[Protocol]
-Protocolo
 [File: ]
 Archivo:\s
 [Nick      :]
@@ -7298,68 +6967,6 @@ Nombre     :
 Apellido   :
 [e-mail    :]
 E-mail     :
-#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
-;============================================================
-;  File: MSN.dll
-;  Plugin: MSN protocol
-;  Version: 0.95.11.1
-;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
-;============================================================
-[Password:]
-Contraseña:
-[Nickname:]
-Apodo:
-[Expert]
-Experto
-[Reset]
-Reiniciar
-[Refresh]
-Refrescar
-[Other]
-Otro
-[Cancel]
-Cancelar
-[Nickname]
-Apodo
-[Place:]
-Lugar:
-[&Cancel]
-&Cancelar
-[Add]
-Añadir
-[&Invite user...]
-&Invitar usuario...
-[&Leave chat session]
-&Abandonar sesión de charla
-[User &details]
-&Detalles del usuario
-[User &history]
-&Historial del usuario
-[Notifications]
-Notificaciones
-[Errors]
-Errores
-[Profile]
-Perfil
-[Contact list]
-Lista de contactos
-[Disable]
-Deshabilitar
-[Network]
-Red
-[Account]
-Cuenta
-[Connection]
-Conexión
-#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
-;============================================================
-;  File: mTextControl.dll
-;  Plugin: Miranda text control
-;  Version: 0.8.0.1
-;  Authors: Merlin_de, Victor Pavlychko
-;============================================================
-[Provides text render API for different plugins.]
-Proporciona API renderizador de texto para diferentes plugins.
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: MyDetails.dll
@@ -7568,6 +7175,99 @@ Eliminando contacto
 Red
 [Avatars]
 Avatares
+#muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
+;============================================================
+;  File: NewStory.dll
+;  Plugin: NewStory
+;  Version: 0.1.0.2
+;  Authors: nullbie
+;============================================================
+[Messages]
+Mensajes
+[Files]
+Archivos
+[Incoming]
+Entrante
+[Outgoing]
+Saliendo
+[Show messages]
+Mostrar mensajes
+[Log options]
+Opciones de registro
+[Options]
+Opciones
+[Templates]
+Plantillas
+[Copy]
+Copiar
+[Edit]
+Editar
+[Delete]
+Eliminar
+[Select all]
+Seleccionar todo
+[Incoming messages]
+Mensajes entrantes
+[Outgoing messages]
+Mensajes salientes
+[Status changes]
+Cambios de estado
+[Incoming name]
+Nombre entrante
+[Outgoing name]
+Nombre saliente
+[FirstName]
+Nombre
+[LastName]
+Apellido
+[e-mail]
+E-mail
+[Nick]
+Apodo
+[Age]
+Edad
+[Gender]
+Genero
+[City]
+Ciudad
+[State]
+Estado
+[Phone]
+Telefono
+[Homepage]
+Sitio web
+[About]
+Acerca de...
+[Export...]
+Exportar...
+[Send message]
+Enviar mensaje
+[User menu]
+Menú del usuario
+[Complete]
+Completo
+[Main icon]
+Icono principal
+[Search]
+Buscar
+[Incoming message]
+Mensaje entrante
+[Outgoing message]
+Mensaje saliente
+[Help]
+Ayuda
+[Reset to default]
+Restaurar por defecto
+[timestamp]
+Marca de tiempo
+[History]
+Historial
+[Advanced]
+Avanzado
+[Message log]
+Registro de mensaje
+[Other events]
+Otros eventos
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
@@ -7677,8 +7377,8 @@ No hacer nada
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.1.0.1
-;  Authors: sss
+;  Version: 0.2.0.4
+;  Authors: sss, Miranda NG Team
 ;============================================================
 [Account:]
 Cuenta:.
@@ -7694,20 +7394,20 @@ Cancelar
 Contraseña:
 [Warning]
 Advertencia
-[Contact]
-Contacto
-[Name]
-Nombre
-[Protocol]
-Protocolo
-[not set]
-no establecido
-[info]
-info
 [Error]
 Error
 [Info]
 Info
+[Name]
+Nombre
+[Contact]
+Contacto
+[Account]
+Cuenta
+[not set]
+no establecido
+[info]
+info
 [Services]
 Servicios
 [Main]
@@ -7749,7 +7449,7 @@ Icono principal
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.0
+;  Version: 0.2.3.1
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -7780,6 +7480,8 @@ Limpiar
 Sin Historial
 [** All contacts **]
 ** Todos los contactos **
+[** New contacts **]
+** Nuevos contactos **
 [History]
 Historial
 [Logging]
@@ -7788,7 +7490,7 @@ Iniciando sesión
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.0.4
+;  Version: 0.2.1.0
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [None]
@@ -8085,7 +7787,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.3
+;  Version: 0.2.0.9
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -8102,10 +7804,6 @@ Cancelar
 Elegir &todo
 [Select &none]
 Elegir &nada
-[Hotkey]
-Tecla de acceso directo
-[Go to Options -> Customize -> Hotkeys to change the hotkey]
-Vaya a Opciones -> Personalizar -> Teclas de acceso directo para cambiar la tecla de acceso directo
 [On startup]
 Al inicio
 [(but only once a day)]
@@ -8166,6 +7864,18 @@ Lista de componentes
 Esta es la lista completa de los componentes que faltan en Miranda NG. Revise los componentes que desea descargar.\n\nHaga clic en el icono de info para ver la página de información de componentes.
 [Download]
 Descargar
+[Component Name]
+Nombre del componente
+[State]
+Estado
+[Plugins]
+Plugins
+[Icons]
+Iconos
+[Languages]
+Idiomas
+[Other]
+Otro
 [Downloading...]
 Descargando...
 [Succeeded.]
@@ -8180,18 +7890,6 @@ Plugin actualizador
 Descarga completa
 [Download complete. Do you want to go to plugins option page?]
 Descarga completa. ¿Desea ir a la página de opciones de plugins?
-[Component Name]
-Nombre del componente
-[State]
-Estado
-[Plugins]
-Plugins
-[Icons]
-Iconos
-[Languages]
-Idiomas
-[Other]
-Otro
 [List is empty.]
 La lista está vacía.
 [List loading already started!]
@@ -8251,7 +7949,7 @@ Base de datos
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.15
+;  Version: 2.1.1.17
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Miscellaneous]
@@ -8613,7 +8311,7 @@ Error desconocido
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.1.10
+;  Version: 3.0.2.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Behavior]
@@ -8640,8 +8338,8 @@ Ventana de mensajes de registro de eventos
 Mostrar iconos
 [Show seconds]
 Mostrar segundos
-[Show names]
-Mostrar nombres
+[Hide names]
+Ocultar nombres
 [events]
 eventos
 [minutes]
@@ -8734,22 +8432,6 @@ Texto
 Fondo
 [Timeout (s)]
 Tiempo de espera (s)
-[Log]
-Registro
-[&Copy]
-&Copiar
-[Co&py all]
-Co&piar todo
-[Select &all]
-Seleccionar todo
-[Word lookup]
-Palabra de búsqueda
-[C&lear log]
-&Limpiar registro
-[&Open link]
-&Abrir enlace
-[&Copy link]
-Copiar enlace
 [Message]
 Mensaje
 [Undo]
@@ -8766,6 +8448,8 @@ Pegar
 Pegar && enviar
 [Delete]
 Eliminar
+[Select &all]
+Seleccionar todo
 [Clear]
 Limpiar
 [Messaging]
@@ -8780,104 +8464,18 @@ Prefijo de todos los eventos con una fecha y hora
 Sólo prefijo de marca de tiempo si ha cambiado
 [Indent the second line of a message]
 Sangría de la segunda línea de un mensaje
-[Show topic changes]
-Mostar cambios recientes de tema
-[Show users joining]
-Mostrar usuarios entrando
-[Show users disconnecting]
-Mostrar usuarios que se desconectan
-[Show messages]
-Mostrar mensajes
-[Show actions]
-Mostrar acciones
-[Show users leaving]
-Mostrar usuarios que salen
-[Show users being kicked]
-Mostrar usuarios sacados
-[Show notices]
-Mostrar avisos
-[Show users changing name]
-Mostrar usuarios cambiando nombre
-[Show information messages]
-Mostrar mensajes de información
-[Show status changes of users]
-Mostrar cambios de estado de usuarios
-[Show icons in tray only when the chat room is not active]
-Mostrar iconos en la bandeja sólo cuando el chat no está activo
-[Show icon in tray for topic changes]
-Mostrar icono en la bandeja de cambios de temas
-[Show icon in tray for users joining]
-Mostrar icono en la bandeja para los usuarios que estan entrando
-[Show icon in tray for users disconnecting]
-Mostrar icono en la bandeja para los usuarios que se estan desconectando
-[Show icon in tray for messages]
-Mostrar icono en la bandeja para mensajes
-[Show icon in tray for actions]
-Mostrar icono en la bandeja para acciones
-[Show icon in tray for highlights]
-Mostrar icono en la bandeja para destacados
-[Show icon in tray for users leaving]
-Mostrar icono en la bandeja para los usuarios que estan saliendo
-[Show icon in tray for users kicking other user]
-Mostrar icono en la bandeja para los usuarios sacados por otro usuario
-[Show icon in tray for notices]
-Mostrar icono en la bandeja de notificaciones
-[Show icon in tray for name changes]
-Mostrar icono en la bandeja para el cambio de nombres
-[Show icon in tray for information messages]
-Mostrar icono en la bandeja para mensajes de información
-[Show icon in tray for status changes]
-Mostrar icono en la bandeja para los cambios de estado
-[Show popups only when the chat room is not active]
-Mostrar ventanas emergentes cuando el chat no está activo
-[Show popup for topic changes]
-Mostrar ventana emergente para cambios temáticos
-[Show popup for users joining]
-Mostrar ventana emergente para los usuarios que estan entrando
-[Show popup for users disconnecting]
-Mostrar ventana emergente para los usuarios que se desconectan
-[Show popup for messages]
-Mostrar ventana emergente para mensajes
-[Show popup for actions]
-Mostrar ventana emergente para acciones
-[Show popup for highlights]
-Mostrar ventana emergente para destacados
-[Show popup for users leaving]
-Mostrar ventana emergente para los usuarios que estan saliendo
-[Show popup for users kicking other user]
-Mostrar ventana emergente para usuarios sacados por otro usuario
-[Show popup for notices]
-Mostrar ventana emergente para notificaciones
-[Show popup for name changes]
-Mostrar ventana emergente para cambios de nombre
-[Show popup for information messages]
-Mostrar ventana emergente para mensajes de información
-[Show popup for status changes]
-Mostrar ventana emergente para cambios de estado
-[Icons to display in the tray]
-Iconos a mostrar en la bandeja
 [Variables]
 Variables
 [Appearance]
 Apariencia
-[Default events to show in new chat rooms if the 'event filter' is enabled]
-Eventos predeterminados a mostrar en nuevas salas de chat, si está activado el "filtro de eventos'
 [Select folder]
 Seleccionar carpeta
-[%s: chat room (%u user)]
-%s: sala de chat (%u usuario)
-[%s: chat room (%u users)]
-%s: sala de chat (%u usuarios)
-[%s: message session]
-%s: sesión de mensaje
-[%s: message session (%u users)]
-%s: sesión de mensaje (%u usuarios)
-[Nickname]
-Apodo
-[Unique ID]
-ID único
-[Status]
-Estado
+[Message sessions]
+Sesiones de mensaje
+[General]
+General
+[Popups]
+Ventanas emergentes
 [Add contact]
 Añadir contacto
 [Send message]
@@ -8954,14 +8552,12 @@ Tema (10x10)
 Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
-[%s is typing a message...]
-%s está escribiendo un mensaje...
-[Last message received on %s at %s.]
-Último mensaje recibido el %s a %s.
-[Look up '%s':]
-Buscar '%s':
-[No word to look up]
-Ni una palabra para buscar
+[Nickname]
+Apodo
+[Unique ID]
+ID único
+[Status]
+Estado
 [File sent]
 Archivo enviado
 [File received]
@@ -9012,14 +8608,8 @@ Shift+Intro
 ** Nuevos contactos **
 [** Unknown contacts **]
 ** Contactos desconocidos **
-[Message sessions]
-Sesiones de mensaje
-[General]
-General
 [Typing notify]
 Notificación de escritura
-[Popups]
-Ventanas emergentes
 [Message from %s]
 Mensaje de
 [%s is typing a message]
@@ -9092,6 +8682,18 @@ El contacto ha comenzado a escribir
 El contacto dejó de escribir
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
+[%s is typing a message...]
+%s está escribiendo un mensaje...
+[Last message received on %s at %s.]
+Último mensaje recibido el %s a %s.
+[%s: chat room (%u user)]
+%s: sala de chat (%u usuario)
+[%s: chat room (%u users)]
+%s: sala de chat (%u usuarios)
+[%s: message session]
+%s: sesión de mensaje
+[%s: message session (%u users)]
+%s: sesión de mensaje (%u usuarios)
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
 [Always on top]
@@ -9100,15 +8702,15 @@ Siempre en primer plano
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
-;  Version: 1.0.12.4
+;  Version: 1.0.12.6
 ;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
 [sec]
 seg
 [days]
 días
-[Protocols]
-Protocolos
+[Accounts]
+Cuentas
 [Public]
 Público
 [Back]
@@ -9127,39 +8729,39 @@ Contraseña:
 Cancelar
 [Status]
 Estado
-[General]
-General
-[Nickname]
-Apodo
-[Name]
-Nombre
-[ON]
-ENCENDIDO
-[Off]
-Apagado
-[Native]
-Nativo
-[Disabled]
-Desabilitado
 [Contact List]
 Lista de contactos
 [Contact Menu]
 Menú de contacto
 [Popups]
 Ventanas emergentes
+[Disabled]
+Desabilitado
+[Native]
+Nativo
 [Icons]
 Iconos
-[Executable Files]
-Archivos ejecutables
 [All files]
 Todos los archivos
+[Nickname]
+Apodo
+[Account]
+Cuenta
+[User ID]
+ID de usuario
+[Name]
+Nombre
+[Executable Files]
+Archivos ejecutables
 [Services]
 Servicios
+[General]
+General
 #muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.5
+;  Version: 5.0.5.6
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Text]
@@ -9416,7 +9018,7 @@ Plugins
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.3.4
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
@@ -9441,6 +9043,8 @@ Advertencia
 &Abandonar sesión de charla
 [File]
 Archivo
+[Preview]
+Previsualizar
 [Protocols]
 Protocolos
 [Network]
@@ -9453,7 +9057,7 @@ Errores
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.1.2
+;  Version: 0.3.2.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Name:]
@@ -9656,7 +9260,7 @@ Estado
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.2.0.5
+;  Version: 1.2.0.6
 ;  Authors: P Boon
 ;============================================================
 [Allows you to define the status Miranda should set on startup, configurable per account.]
@@ -9967,7 +9571,7 @@ Barra de herramientas
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.6.6
+;  Version: 0.95.12.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Username:]
@@ -10042,7 +9646,7 @@ Avanzado
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.14
+;  Version: 3.6.1.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Actions]
@@ -10195,32 +9799,16 @@ Mostrar barra de estado
 Barra de herramientas
 [View user's history]
 Ver historial del usuario
-[%s has joined]
-%s se ha unido
-[You have joined %s]
-Te has unido a %s
-[%s has left]
-%s ha salido
-[%s has disconnected]
-%s se ha desconectado
-[%s is now known as %s]
-%s ahora se conoce como %s
-[You are now known as %s]
-Usted ahora se conoce como %s
-[%s kicked %s]
-%s sacado %s
-[Notice from %s: ]
-Aviso de %s:\s
-[The topic is '%s%s']
-El tema es '%s%s'
-[ (set by %s on %s)]
- (establecido por %s el %s)
-[ (set by %s)]
- (establecido por %s)
-[%s enables '%s' status for %s]
-%s habilitar '%s' de estado para %s
-[%s disables '%s' status for %s]
-%s deshabilitar '%s' de estado para %s
+[Select a foreground color for the text (Ctrl+K)]
+Seleccione un color de primer plano para el texto (Ctrl+K)
+[Select a background color for the text (Ctrl+L)]
+Seleccione un color de fondo para el texto (Ctrl+L)
+[Show/hide the nick list (Ctrl+N)]
+Mostrar/ocultar la lista de apodos (Ctrl+N)
+[Enable/disable the event filter (Ctrl+F)]
+Activar/desactivar el filtro de eventos (Ctrl+F)
+[Control this room (Ctrl+O)]
+Controlar esta sala (Ctrl+O)
 [Message sessions]
 Sesiones de mensaje
 [Tabs]
@@ -10231,28 +9819,6 @@ Apodo
 Estado
 [Protocol]
 Protocolo
-[Flash window when someone speaks]
-Parpadear ventana cuando alguien habla
-[Flash window when a word is highlighted]
-Parpadear ventana cuando se resalta una palabra
-[Show list of users in the chat room]
-Mostrar lista de usuarios en la sala de chat
-[Show button menus when right clicking the buttons]
-Mostrar menús del botón derecho cuando se hace clic en los botones
-[Do not pop up the window when joining a chat room]
-No abrir la ventana al unirse a una sala de chat
-[Prefix all events with a timestamp]
-Prefijo de todos los eventos con una fecha y hora
-[Timestamp has same color as the event]
-La marca de tiempo tiene mismo color que evento
-[Indent the second line of a message]
-Sangría de la segunda línea de un mensaje
-[Limit user names in the message log to 20 characters]
-Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
-[Strip colors from messages in the log]
-Quitar los colores de los mensajes en el registro
-[Enable the 'event filter' for new rooms]
-Habilitar el "filtro de eventos" para nuevas salas
 [Window Icon]
 Icono de ventana
 [Icon overlay]
@@ -10307,6 +9873,26 @@ Fondo de lista de usuarios
 Apariencia y funcionalidad de ventanas de chat
 [Appearance of the message log]
 Apariencia del registro de mensajes
+[Flash window when someone speaks]
+Parpadear ventana cuando alguien habla
+[Flash window when a word is highlighted]
+Parpadear ventana cuando se resalta una palabra
+[Show list of users in the chat room]
+Mostrar lista de usuarios en la sala de chat
+[Do not pop up the window when joining a chat room]
+No abrir la ventana al unirse a una sala de chat
+[Prefix all events with a timestamp]
+Prefijo de todos los eventos con una fecha y hora
+[Timestamp has same color as the event]
+La marca de tiempo tiene mismo color que evento
+[Indent the second line of a message]
+Sangría de la segunda línea de un mensaje
+[Limit user names in the message log to 20 characters]
+Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
+[Strip colors from messages in the log]
+Quitar los colores de los mensajes en el registro
+[Enable the 'event filter' for new rooms]
+Habilitar el "filtro de eventos" para nuevas salas
 [Variables]
 Variables
 [All files]
@@ -10315,20 +9901,16 @@ Todos los archivos
 Seleccionar carpeta
 [Settings]
 Ajustes
-[hours]
-horas
-[minutes]
-minutos
-[%s: message session]
-%s: sesión de mensaje
-[%s: message session (%u users)]
-%s: sesión de mensaje (%u usuarios)
+[Message from %s]
+Mensaje de
 [Notifications]
 Notificaciones
 [disabled]
 desabilitado
 [Incoming file]
 Archivo entrante
+[System tray icon]
+Icono de la bandeja de sistema
 [Event notifications]
 Notificaciones de eventos
 [Popups]
@@ -10353,8 +9935,6 @@ Enviar mensaje de error
 &Mensaje
 [Other]
 Otro
-[Message from %s]
-Mensaje de
 [Paste and send]
 Pegar y Enviar
 [Send message]
@@ -10371,6 +9951,22 @@ Avatares
 Escribiendo notificación
 ['(Unknown contact)']
 '(Contacto desconocido)'
+[hours]
+horas
+[minutes]
+minutos
+[%s: message session]
+%s: sesión de mensaje
+[%s: message session (%u users)]
+%s: sesión de mensaje (%u usuarios)
+[Send message on 'Enter']
+Enviar mensaje con 'Intro'
+[Send message on double 'Enter']
+Enviar mensaje con doble 'Intro'
+[Minimize the message window on send]
+Minimizar la ventana de mensaje al enviar
+[Close the message window on send]
+Cerrar la ventana de mensaje al enviar
 [** New contacts **]
 ** Nuevos contactos **
 [** Unknown contacts **]
@@ -10399,16 +9995,6 @@ Registro de mensaje
 Error
 [Contact]
 Contacto
-[System tray icon]
-Icono de la bandeja de sistema
-[Send message on 'Enter']
-Enviar mensaje con 'Intro'
-[Send message on double 'Enter']
-Enviar mensaje con doble 'Intro'
-[Minimize the message window on send]
-Minimizar la ventana de mensaje al enviar
-[Close the message window on send]
-Cerrar la ventana de mensaje al enviar
 [Contact started typing]
 El contacto ha comenzado a escribir
 [Contact stopped typing]
@@ -10742,11 +10328,9 @@ Invertir Caso de Último / Seleccionado
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.0.3
+;  Version: 1.3.1.3
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-[Server:]
-Servidor:
 [Default group:]
 Grupo predeterminado:
 [Username:]
@@ -10791,7 +10375,7 @@ Ventanas emergentes
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.8.5.2
+;  Version: 0.9.0.1
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Updating]
@@ -10886,16 +10470,6 @@ Menú principal
 Apagado
 [Contact menu]
 Menú de contacto
-[Extra icons]
-Iconos adicionales
-[Homepage]
-Sitio web
-[Phone]
-Telefono
-[E-mail]
-E-mail
-[Gender]
-Genero
 [Country flags]
 Banderas de país
 [Show country flag as &status icon on message window]
@@ -10946,10 +10520,14 @@ actualizando
 Principal
 [Update]
 Actualizar
+[Phone]
+Telefono
 [Fax]
 Fax
 [Cellular]
 Celular
+[E-mail]
+E-mail
 [Down arrow]
 Flecha abajo
 [Add]
@@ -11024,7 +10602,7 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.9.2
+;  Version: 0.1.11.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -11049,8 +10627,6 @@ Contraseña:
 Abrir sitio VKontakte
 [Advanced]
 Avanzado
-[Group chats]
-Grupo de chats
 [Bots challenge test]
 Prueba de reto Bots
 [Instruction:]
@@ -11081,6 +10657,8 @@ Vídeo
 Enlace
 [(Unknown contact)]
 (Contacto desconocido)
+[Text]
+Texto
 [Unknown]
 Desconocido
 [Warning]
@@ -11692,7 +11270,7 @@ Advertencia
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Nikolay Redko
 ;============================================================
 [Background color]
@@ -11778,7 +11356,7 @@ Anunciar
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.0.1.3
+;  Version: 1.1.0.4
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]
@@ -11809,8 +11387,6 @@ Archivos de sonido
 Archivos WAV
 [All contacts]
 Todos los contactos
-[(Unknown contact)]
-(Contacto desconocido)
 [Sounds]
 Sonidos
 [XSound Notify]

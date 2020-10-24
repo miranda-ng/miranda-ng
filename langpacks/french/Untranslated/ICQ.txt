@@ -26,4 +26,5 @@
 [admin]
 [Unknown sticker]
 [User sent a sticker:]
+[SmileyAdd plugin required to support stickers]
 [Buddy addition failed]

@@ -820,12 +820,16 @@
 Аўтавызначэнне тэксту
 [Calling modules' names]
 Імёны выклікаючых плагінаў
+[Print dates]
+
 [Log to]
 Весьці лог у
 [OutputDebugString()]
 Выснова адладкавых радкоў
 [File]
 Файл
+[Rotate logs]
+
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Выканаць праграму пры запуску (напрыклад, tail -f, dbgview, etc.):
 [Run now]
@@ -1174,6 +1178,8 @@ UIN, E-mail і г.д.
 Падсвятленне
 [Show popups only when the chat room is not active]
 Паказваць успл. вокны толькі пры не актыўным вакне чата
+[Show button menus when right clicking the buttons]
+Паказваць меню кнопкі па правай пстрычцы
 [Hidden window]
 
 [&Hide/Show]
@@ -1469,8 +1475,6 @@ UIN, E-mail і г.д.
 Міргаць вакном, пры падсветленым паведамленні
 [Show list of users in the chat room]
 Паказваць спіс удзельнікаў чата
-[Show button menus when right clicking the buttons]
-Паказваць меню кнопкі па правай пстрычцы
 [Show the topic of the room on your contact list (if supported)]
 Паказваць тэму чата ў спісе кантактаў (калі падтрымліваецца)
 [Do not play sounds when the chat room is focused]
@@ -1933,11 +1937,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 %u дадаў(ла) вас у свой спіс
 [Added event]
 Падзея дадання
-;file \src\mir_app\src\chat_clist.cpp
-[&Join chat]
-Зайсці
-[&Open/close chat window]
-
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s увайшоў
@@ -2005,8 +2004,18 @@ Miranda не здолела загрузіць убудаваную сістэм
 [Chat log symbols (Webdings)]
 Знакі ў чаце (шрыфт Webdings)
 ;file \src\mir_app\src\chat_svc.cpp
+[&Join chat]
+Зайсці
+[&Open/close chat window]
+
 [&Leave chat]
 Пакінуць чат
+[&Mute chat]
+
+[Always]
+Заўсёды
+[Never]
+Ніколі
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]
@@ -2155,6 +2164,8 @@ Miranda не можа распазнаць гэты профіль
 
 [Chat activity]
 Актыўнасць у чаце
+[Chat mute mode]
+
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Экстра абразкі
@@ -2541,6 +2552,8 @@ xСтатус
 <Невядомы фармат>
 [Are you sure you want to remove profile "%s"?]
 Вы ўпэўнены, што хочаце выдаліць профіль "%s"?
+[Database was compacted successfully]
+
 [&Convert]
 &Канвертаваць
 [Run]

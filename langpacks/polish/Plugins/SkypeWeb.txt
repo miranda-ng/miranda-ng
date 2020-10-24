@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -167,9 +167,6 @@ Nie możesz wysyłać będąc rozłączonym.
 Nieznany błąd!
 [Network error!]
 Błąd sieciowy!
-;file \protocols\SkypeWeb\src\skype_network.cpp
-[%s connection]
-Połączenie %s
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Protokoły
@@ -181,6 +178,8 @@ Błędy
 [Calls]
 Rozmowy
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
+[%s connection]
+Połączenie %s
 [Incoming call canceled]
 
 [Skypename]

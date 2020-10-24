@@ -6,7 +6,6 @@
 [Display]
 [Replace only smileys surrounded by spaces]
 [Scale smiley to text height]
-[Disable stickers]
 [High quality smiley scaling]
 [Animate]
 [Maximum sticker height]

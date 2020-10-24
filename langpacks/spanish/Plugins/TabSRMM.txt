@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.3
+;  Version: 3.6.1.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -743,16 +743,16 @@ Barra de herramientas
 Ver historial del usuario
 [Edit user notes]
 
-[Select font color]
-
-[Change background color]
-
-[Toggle nick list]
-
-[Event filter - right click to setup, left click to activate/deactivate]
-
-[Channel manager]
-
+[Select a foreground color for the text (Ctrl+K)]
+Seleccione un color de primer plano para el texto (Ctrl+K)
+[Select a background color for the text (Ctrl+L)]
+Seleccione un color de fondo para el texto (Ctrl+L)
+[Show/hide the nick list (Ctrl+N)]
+Mostrar/ocultar la lista de apodos (Ctrl+N)
+[Enable/disable the event filter (Ctrl+F)]
+Activar/desactivar el filtro de eventos (Ctrl+F)
+[Control this room (Ctrl+O)]
+Controlar esta sala (Ctrl+O)
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Sesiones de mensaje
@@ -959,8 +959,6 @@ Parpadear ventana cuando se resalta una palabra
 Mostrar lista de usuarios en la sala de chat
 [Colorize nicknames in member list]
 
-[Show button menus when right clicking the buttons]
-Mostrar menús del botón derecho cuando se hace clic en los botones
 [Show topic as status message on the contact list]
 
 [Do not pop up the window when joining a chat room]
@@ -1285,7 +1283,11 @@ Enviar mensaje
 
 [Collapse side bar]
 
+[Channel manager]
+
 [Toggle filter]
+
+[Toggle nick list]
 
 [Show server window]
 

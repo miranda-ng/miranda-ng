@@ -1,1 +1,2 @@
 [Restart Miranda automatically]
+[Unpack operation failed with error code=%d, update terminated]
