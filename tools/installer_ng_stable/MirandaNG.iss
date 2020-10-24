@@ -65,8 +65,8 @@ Source: "Files\Icons\Toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: cli
 
 ; Core and core modules
 Source: "Files\{#MirName}"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\libmdbx.mir"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\*.dll"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\libmdbx.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\FreeImage.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libeay32.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libjson.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -127,6 +127,7 @@ Source: "Files\Plugins\Scriver.dll"; DestDir: "{app}\Plugins"; Components: messa
 ; DB drivers
 Source: "Files\Plugins\Dbx_mdbx.dll"; DestDir: "{app}\Plugins"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\fixme.cmd"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\mdbx_chk.exe"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\mdbx_dump.exe"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\mdbx_load.exe"; DestDir: "{app}"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
@@ -194,9 +195,9 @@ en.InstTypeText=Select installation type
 en.DefTypeInstRadio=Normal Installation (recommended)
 en.PortTypeInstRadio=Portable Installation
 en.DefTypeInstLabel=Profiles and user data files are stored in Application Data.%nUAC compatible (Windows Vista/7/8)
-en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%nVersion for installation on removable storage devices (such as USB flash drive)%n(Do not install to Program Files with enabled UAC!!!)
+en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%nVersion for installation on removable storage devices (such as USB flash drive)%n(Do not install to Program Files with enabled UAC!)
 
-en.ProfileUninst=WARNING!!!%nYou are about to delete profile folder containing all your settings, contacts and message history!%nAre you sure you want to remove profile?%n(You may need it later)
+en.ProfileUninst=WARNING!%nYou are about to delete profile folder containing all your settings, contacts and message history!%nAre you sure you want to remove profile?%n(You may need it later)
 
 en.FolderExists1=Folder
 en.FolderExists2=already exists. This installer is for a first time install only! Please select another folder for a new installation.%nIf you wish to upgrade your current program, please use PluginUpdater ("Check for plugin updates" item in Miranda's main menu).
@@ -266,9 +267,9 @@ ru.InstTypeText=Выберите тип установки программы.
 ru.DefTypeInstRadio=Обычная установка (рекомендуется)
 ru.PortTypeInstRadio=Портативная установка
 ru.DefTypeInstLabel=Профиль и все необходимые файлы хранятся в папке пользователя%n(Application Data).%nСовместимо с UAC (Windows Vista/7/8)
-ru.PortTypeInstLabel=Профиль и файлы пользователя находятся в папке с программой.%nПодходит для установки на Flash-накопители, не оставляет следов в ОС.%n(Не устанавливать в Program Files при включенном UAC!!!)
+ru.PortTypeInstLabel=Профиль и файлы пользователя находятся в папке с программой.%nПодходит для установки на Flash-накопители, не оставляет следов в ОС.%n(Не устанавливать в Program Files при включенном UAC!)
 
-ru.ProfileUninst=ПРЕДУПРЕЖДЕНИЕ!!!%nВы можете удалить папку профиля, включающую в себя настройки, контакты и историю переписки!%nВы действительно хотите удалить файлы профиля?%n(Может понадобиться в дальнейшем)
+ru.ProfileUninst=ПРЕДУПРЕЖДЕНИЕ!%nВы можете удалить папку профиля, включающую в себя настройки, контакты и историю переписки!%nВы действительно хотите удалить файлы профиля?%n(Может понадобиться в дальнейшем)
 
 ru.FolderExists1=Выбранная папка
 ru.FolderExists2=включает в себя предыдущую установку! Установщик не предназначен для обновления. Пожалуйста, выберите иную папку для новой установки.%nДля обновления уже установленной программы воспользуйтесь плагином PluginUpdater (Пункт "Проверить обновления плагинов" в главном меню).
@@ -338,9 +339,9 @@ cz.InstTypeText=Zvolte režim instalace
 cz.DefTypeInstRadio=Běžná instalace (doporučeno)
 cz.PortTypeInstRadio=Přenositelná verze
 cz.DefTypeInstLabel=Profily a uživatelská data jsou uložena ve složce Data aplikací.%nKompatibilní se zapnutým Řízením uživatelských účtů (UAC) (Windows Vista/7/8)
-cz.PortTypeInstLabel=Profily a uživatelská data jsou uložena ve složce spolu s programem.%nTento způsob je vhodný pro přenosné disky (jako USB flash disky)%n(Neinstalujte do Program Files, pokud máte zapnuté UAC!!!)
+cz.PortTypeInstLabel=Profily a uživatelská data jsou uložena ve složce spolu s programem.%nTento způsob je vhodný pro přenosné disky (jako USB flash disky)%n(Neinstalujte do Program Files, pokud máte zapnuté UAC!)
 
-cz.ProfileUninst=VAROVÁNÍ!!!%nChystáte se odstranit složku s profily, která obsahuje všechno vaše nastavení, kontakty a historii komunikace!%nOpravdu si přejete odstranit vaše data?%n(V budoucnu se vám ještě mohou hodit.)
+cz.ProfileUninst=VAROVÁNÍ!%nChystáte se odstranit složku s profily, která obsahuje všechno vaše nastavení, kontakty a historii komunikace!%nOpravdu si přejete odstranit vaše data?%n(V budoucnu se vám ještě mohou hodit.)
 
 cz.FolderExists1=Složka
 cz.FolderExists2=již existuje. Tento instalátor slouží pouze pro prvotní instalaci! Zvolte prosím jinou složku, pokud si přejete provést novou instalaci.%nPokud si přejete aktualizovat vaši stávající verzi, použijte doplněk PluginUpdater (položka "Zkontrolovat aktualizace" v hlavní nabídce Mirandy).
@@ -482,9 +483,9 @@ pl.InstTypeText=Wybierz typ instalacji
 pl.DefTypeInstRadio=Normalna (zalecana)
 pl.PortTypeInstRadio=Przenośna
 pl.DefTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze Dane aplikacji.%nZgodne z Kontrolą konta uzytkownika (Windows Vista/7/8)
-pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze programu.%nWersja do instalowania na urządzeniach przenośnych (takich jak pamięć przenośna)%n(Nie instaluj w Program files/Pliki programów z włączoną Kontrolą konta użytkownika!!!)
+pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze programu.%nWersja do instalowania na urządzeniach przenośnych (takich jak pamięć przenośna)%n(Nie instaluj w Program files/Pliki programów z włączoną Kontrolą konta użytkownika!)
 
-pl.ProfileUninst=UWAGA!!!%nZamierzasz usunąć folder z profilami, zawierający wszystkie Twoje ustawienia, kontakty i historię rozmów.%nCzy na pewno chcesz go usunąć?%n(Możesz go później potrzebować)
+pl.ProfileUninst=UWAGA!%nZamierzasz usunąć folder z profilami, zawierający wszystkie Twoje ustawienia, kontakty i historię rozmów.%nCzy na pewno chcesz go usunąć?%n(Możesz go później potrzebować)
 
 pl.FolderExists1=Folder
 pl.FolderExists2=już istnieje. Ten instalator służy tylko do czystej instalacji! Wybierz inny folder aby zainstalować program.%nJeżeli chcesz zaktualizować Mirandę, użyj do tego celu wtyczki PluginUpdater (wybierając "Sprawdź aktualizacje" z menu głównego Mirandy).

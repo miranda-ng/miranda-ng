@@ -1,13 +1,13 @@
 ﻿#ifdef ptx86
    #define MirName "Miranda32.exe"
    #define MirGroupName "Miranda NG"
-   #define MirOutName "miranda-ng-alpha-latest"
+   #define MirPtf ""
    #define ArcAllow ""
    #define MirPfInstDir "ExpandConstant('{pf32}')"
 #else
    #define MirName "Miranda64.exe"
    #define MirGroupName "Miranda NG x64"
-   #define MirOutName "miranda-ng-alpha-latest_x64"
+   #define MirPtf "_x64"
    #define ArcAllow "x64"
    #define MirPfInstDir "ExpandConstant('{pf64}')"
 #endif
@@ -34,7 +34,7 @@ Compression=lzma2/max
 SolidCompression=yes
 PrivilegesRequired=poweruser
 OutputDir=..\
-OutputBaseFilename={#MirOutName}
+OutputBaseFilename=miranda-ng-alpha-latest{#MirPtf}
 WizardImageFile=Installer\WizModernImage-IS.bmp
 WizardSmallImageFile=Installer\SetupMNGSmall.bmp
 SetupIconFile=Installer\mng_installer.ico
@@ -73,7 +73,7 @@ Source: "Files\Libs\libjson.mir"; DestDir: "{app}\Libs"; Components: program; Fl
 Source: "Files\Libs\libssl-1_1.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\mir_app.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\mir_core.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Libs\Pcre16.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent()
+Source: "Files\Libs\Pcre16.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\sqlite3.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\Zlib.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Core\StdAutoAway.dll"; DestDir: "{app}\Core"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
