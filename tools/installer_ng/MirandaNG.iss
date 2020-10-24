@@ -194,8 +194,8 @@ en.InstTypeHeader=Installation Mode
 en.InstTypeText=Select installation type
 en.DefTypeInstRadio=Normal Installation (recommended)
 en.PortTypeInstRadio=Portable Installation
-en.DefTypeInstLabel=Profiles and user data files are stored in Application Data.%nUAC compatible (Windows Vista/7/8)
-en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%nVersion for installation on removable storage devices (such as USB flash drive)%n(Do not install to Program Files with enabled UAC!)
+en.DefTypeInstLabel=Profiles and user data files are stored in Application Data.%nUAC compatible.
+en.PortTypeInstLabel=Profiles and user data files are stored in program folder.%nVersion for installation on removable storage devices (such as USB flash drive).%nDo not install to Program Files with enabled UAC!
 
 en.ProfileUninst=WARNING!%nYou are about to delete profile folder containing all your settings, contacts and message history!%nAre you sure you want to remove profile?%n(You may need it later)
 
@@ -266,13 +266,13 @@ ru.InstTypeHeader=Тип установки
 ru.InstTypeText=Выберите тип установки программы.
 ru.DefTypeInstRadio=Обычная установка (рекомендуется)
 ru.PortTypeInstRadio=Портативная установка
-ru.DefTypeInstLabel=Профиль и все необходимые файлы хранятся в папке пользователя%n(Application Data).%nСовместимо с UAC (Windows Vista/7/8)
-ru.PortTypeInstLabel=Профиль и файлы пользователя находятся в папке с программой.%nПодходит для установки на Flash-накопители, не оставляет следов в ОС.%n(Не устанавливать в Program Files при включенном UAC!)
+ru.DefTypeInstLabel=Профиль и все необходимые файлы хранятся в папке пользователя%n(Application Data).%nСовместимо с UAC.
+ru.PortTypeInstLabel=Профиль и файлы пользователя находятся в папке с программой.%nПодходит для установки на внешние накопители, не оставляет следов в ОС.%nНе устанавливать в Program Files при включённом UAC!
 
 ru.ProfileUninst=ПРЕДУПРЕЖДЕНИЕ!%nВы можете удалить папку профиля, включающую в себя настройки, контакты и историю переписки!%nВы действительно хотите удалить файлы профиля?%n(Может понадобиться в дальнейшем)
 
 ru.FolderExists1=Выбранная папка
-ru.FolderExists2=включает в себя предыдущую установку! Установщик не предназначен для обновления. Пожалуйста, выберите иную папку для новой установки.%nДля обновления уже установленной программы воспользуйтесь плагином PluginUpdater (Пункт "Проверить обновления плагинов" в главном меню).
+ru.FolderExists2=включает в себя предыдущую установку! Установщик не предназначен для обновления. Пожалуйста, выберите иную папку для новой установки.%nДля обновления уже установленной программы воспользуйтесь плагином PluginUpdater (Пункт "Проверить обновления" в главном меню).
 
 ru.PercentDone=% выполнено
 
@@ -313,7 +313,7 @@ ru.SoundsDescription=Звуковые эффекты, проигрываемые
 ru.ProtocolsDescription=Различные протоколы для обмена сообщениями и не только.
 ru.ProtocolsFbDescription=Поддержка протокола Facebook в Miranda NG. Поддержка статусов, поиск контактов, авторизация и не только.
 ru.ProtocolsGGDescription=Поддержка протокола Gadu-Gadu в Miranda NG.
-ru.ProtocolsICQDescription=Поддержка протокола ICQ в Miranda NG.
+ru.ProtocolsICQDescription=Поддержка протокола ICQ (WIM) в Miranda NG.
 ru.ProtocolsIRCDescription=Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
 ru.ProtocolsJabberDescription=Поддержка протокола Jabber (XMPP) в Miranda NG. Протокол основан на открытых стандартах, базирующихся на XML.
 ru.ClistsDescription=Плагины списков контактов.
@@ -338,8 +338,8 @@ cz.InstTypeHeader=Režim instalace
 cz.InstTypeText=Zvolte režim instalace
 cz.DefTypeInstRadio=Běžná instalace (doporučeno)
 cz.PortTypeInstRadio=Přenositelná verze
-cz.DefTypeInstLabel=Profily a uživatelská data jsou uložena ve složce Data aplikací.%nKompatibilní se zapnutým Řízením uživatelských účtů (UAC) (Windows Vista/7/8)
-cz.PortTypeInstLabel=Profily a uživatelská data jsou uložena ve složce spolu s programem.%nTento způsob je vhodný pro přenosné disky (jako USB flash disky)%n(Neinstalujte do Program Files, pokud máte zapnuté UAC!)
+cz.DefTypeInstLabel=Profily a uživatelská data jsou uložena ve složce Data aplikací.%nKompatibilní se zapnutým Řízením uživatelských účtů (UAC).
+cz.PortTypeInstLabel=Profily a uživatelská data jsou uložena ve složce spolu s programem.%nTento způsob je vhodný pro přenosné disky (jako USB flash disky).%nNeinstalujte do Program Files, pokud máte zapnuté UAC!
 
 cz.ProfileUninst=VAROVÁNÍ!%nChystáte se odstranit složku s profily, která obsahuje všechno vaše nastavení, kontakty a historii komunikace!%nOpravdu si přejete odstranit vaše data?%n(V budoucnu se vám ještě mohou hodit.)
 
@@ -410,8 +410,8 @@ de.InstTypeHeader=Installationsmodus
 de.InstTypeText=Wählen Sie die Art der Installation aus
 de.DefTypeInstRadio=Normale Installation (empfohlen)
 de.PortTypeInstRadio=Portable Installation
-de.DefTypeInstLabel=Profil- und Benutzerdaten werden in Anwendungsdaten gespeichert.%nUAC-kompatibel (Windows Vista/7/8).
-de.PortTypeInstLabel=Profil- und Benutzerdaten werden im Programmverzeichnis gespeichert.%nDies ist die Version zur Verwendung auf portablen Laufwerken (wie USB-Sticks).%n(Installieren Sie Miranda NG mit aktivierter UAC nicht im Programme-Ordner!)
+de.DefTypeInstLabel=Profil- und Benutzerdaten werden in Anwendungsdaten gespeichert.%nUAC-kompatibel.
+de.PortTypeInstLabel=Profil- und Benutzerdaten werden im Programmverzeichnis gespeichert.%nDies ist die Version zur Verwendung auf portablen Laufwerken (wie USB-Sticks).%nInstallieren Sie Miranda NG mit aktivierter UAC nicht im Programme-Ordner!
 
 de.ProfileUninst=WARNUNG!%nSie sind dabei, Ihr Profil mitsamt all Ihren Einstellungen, Kontakten und Nachrichten zu löschen!%nSind Sie sich sicher, dass Sie das Profil löschen möchten?%n(Sie könnten es später brauchen.)
 
@@ -482,8 +482,8 @@ pl.InstTypeHeader=Typ instalacji
 pl.InstTypeText=Wybierz typ instalacji
 pl.DefTypeInstRadio=Normalna (zalecana)
 pl.PortTypeInstRadio=Przenośna
-pl.DefTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze Dane aplikacji.%nZgodne z Kontrolą konta uzytkownika (Windows Vista/7/8)
-pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze programu.%nWersja do instalowania na urządzeniach przenośnych (takich jak pamięć przenośna)%n(Nie instaluj w Program files/Pliki programów z włączoną Kontrolą konta użytkownika!)
+pl.DefTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze Dane aplikacji.%nZgodne z Kontrolą konta uzytkownika.
+pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze programu.%nWersja do instalowania na urządzeniach przenośnych%n(takich jak pamięć przenośna)%nNie instaluj w Pliki programów z włączoną Kontrolą konta użytkownika!
 
 pl.ProfileUninst=UWAGA!%nZamierzasz usunąć folder z profilami, zawierający wszystkie Twoje ustawienia, kontakty i historię rozmów.%nCzy na pewno chcesz go usunąć?%n(Możesz go później potrzebować)
 
