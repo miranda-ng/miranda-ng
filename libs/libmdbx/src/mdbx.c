@@ -8872,6 +8872,9 @@ static void mdbx_cursors_eot(MDBX_txn *txn, unsigned merge) {
   MDBX_xcursor *mx;
   int i;
 
+  if (cursors == nullptr)
+     return;
+
   for (i = txn->mt_numdbs; --i >= 0;) {
     for (mc = cursors[i]; mc; mc = next) {
       unsigned stage = mc->mc_signature;

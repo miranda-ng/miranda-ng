@@ -158,21 +158,14 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 		}
 	} m_impl;
 
-	__forceinline MDBX_txn* StartTran()
-	{
-		MDBX_txn *res = 0;
-		m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &res);
-		/* FIXME: throw an exception */
-		_ASSERT(m_dbError == MDBX_SUCCESS);
-		return res;
-	}
-
 	bool CheckEvent(DBCachedContact *cc, const DBEvent *dbe, DBCachedContact *&cc2);
 	bool EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe, bool bNew);
 	void FillContacts(void);
 	int  PrepareCheck(void);
 	void TouchFile(void);
 	void UpdateMenuItem(void);
+
+	MDBX_txn* StartTran();
 
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
@@ -186,6 +179,8 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 
 	MDBX_dbi m_dbGlobal;
 	DBHeader m_header;
+
+	MDBX_txn *m_txnWrite = nullptr;
 
 	DBCachedContact m_ccDummy; // dummy contact to serve a cache item for MCONTACT = 0
 
