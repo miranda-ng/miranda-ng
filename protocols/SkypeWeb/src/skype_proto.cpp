@@ -20,8 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CSkypeProto>(protoName, userName),
 	m_PopupClasses(1),
-	m_InviteDialogs(1),
-	m_GCCreateDialogs(1),
 	m_OutMessages(3, PtrKeySortT),
 	m_bThreadsTerminated(false),
 	m_opts(this),
@@ -239,20 +237,10 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		return 0;
 
 	switch (iNewStatus) {
-	case ID_STATUS_FREECHAT:
-		iNewStatus = ID_STATUS_ONLINE;
-		break;
-		
-	case ID_STATUS_NA:
-		iNewStatus = ID_STATUS_AWAY;
-		break;
-
-	case ID_STATUS_OCCUPIED:
-		iNewStatus = ID_STATUS_DND;
-		break;
+	case ID_STATUS_FREECHAT: iNewStatus = ID_STATUS_ONLINE; break;
+	case ID_STATUS_NA:       iNewStatus = ID_STATUS_AWAY;   break;
+	case ID_STATUS_OCCUPIED: iNewStatus = ID_STATUS_DND;    break;
 	}
-
-	//mir_cslock lck(m_StatusLock);
 
 	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
 
@@ -267,7 +255,6 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		// logout
 		StopQueue();
 
-		CloseDialogs();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
 
 		m_impl.m_heartBeat.StopSafe();
@@ -299,30 +286,26 @@ int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
 int CSkypeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	PROTOSEARCHRESULT **isrList = (PROTOSEARCHRESULT**)pre->szMessage;
-	DWORD cbBlob = 0;
-	BYTE *pBlob;
-	BYTE *pCurBlob;
-	int i;
 
 	int nCount = *((LPARAM*)pre->lParam);
 	char* szMessageId = ((char*)pre->lParam + sizeof(LPARAM));
 
 	//if (GetMessageFromDb(hContact, szMessageId, pre->timestamp)) return 0;
 
-	for (i = 0; i < nCount; i++)
+	DWORD cbBlob = 0;
+	for (int i = 0; i < nCount; i++)
 		cbBlob += int(/*mir_wstrlen(isrList[i]->nick.w)*/0 + 2 + mir_wstrlen(isrList[i]->id.w) + mir_strlen(szMessageId));
 
-	pBlob = (PBYTE)mir_calloc(cbBlob);
+	BYTE *pBlob = (PBYTE)mir_calloc(cbBlob);
+	BYTE *pCurBlob = pBlob;
 
-	for (i = 0, pCurBlob = pBlob; i < nCount; i++) {
+	for (int i = 0; i < nCount; i++) {
 		//mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->nick.w));
 		pCurBlob += mir_strlen((PCHAR)pCurBlob) + 1;
 
 		mir_strcpy((char*)pCurBlob, _T2A(isrList[i]->id.w));
 		pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	}
-
-	// memcpy(pCurBlob + 1, szMessageId, mir_strlen(szMessageId));
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;

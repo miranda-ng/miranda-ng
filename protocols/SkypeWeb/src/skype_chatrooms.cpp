@@ -81,7 +81,35 @@ void CSkypeProto::OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 	}
 }
 
-/* Hooks */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Group chat invitation dialog
+
+class CSkypeInviteDlg : public CSkypeDlgBase
+{
+	CCtrlCombo m_combo;
+
+public:
+	MCONTACT m_hContact = 0;
+
+	CSkypeInviteDlg(CSkypeProto *proto) :
+		CSkypeDlgBase(proto, IDD_GC_INVITE),
+		m_combo(this, IDC_CONTACT)
+	{}
+
+	bool OnInitDialog() override
+	{
+		for (auto &hContact : m_proto->AccContacts())
+			if (!m_proto->isChatRoom(hContact))
+				m_combo.AddString(Clist_GetContactDisplayName(hContact), hContact);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		m_hContact = m_combo.GetItemData(m_combo.GetCurSel());
+		return true;
+	}
+};
 
 int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 {
@@ -459,6 +487,70 @@ void CSkypeProto::RemoveChatContact(const char *chat_id, const char *id, const c
 
 	Chat_Event(&gce);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Group chat creation dialog
+
+class CSkypeGCCreateDlg : public CSkypeDlgBase
+{
+	CCtrlClc m_clc;
+
+public:
+	LIST<char> m_ContactsList;
+
+	CSkypeGCCreateDlg(CSkypeProto *proto) :
+		CSkypeDlgBase(proto, IDD_GC_CREATE),
+		m_clc(this, IDC_CLIST),
+		m_ContactsList(1)
+	{
+		m_clc.OnListRebuilt = Callback(this, &CSkypeGCCreateDlg::FilterList);
+	}
+
+	~CSkypeGCCreateDlg()
+	{
+		CSkypeProto::FreeList(m_ContactsList);
+		m_ContactsList.destroy();
+	}
+
+	bool OnInitDialog() override
+	{
+		SetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE,
+			GetWindowLongPtr(m_clc.GetHwnd(), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE);
+		m_clc.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
+
+		ResetListOptions(&m_clc);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		for (auto &hContact : m_proto->AccContacts()) {
+			if (!m_proto->isChatRoom(hContact))
+				if (HANDLE hItem = m_clc.FindContact(hContact))
+					if (m_clc.GetCheck(hItem))
+						m_ContactsList.insert(m_proto->getId(hContact).Detach());
+		}
+
+		m_ContactsList.insert(m_proto->m_szSkypename.GetBuffer());
+		return true;
+	}
+
+	void FilterList(CCtrlClc *)
+	{
+		for (auto &hContact : Contacts()) {
+			char *proto = Proto_GetBaseAccountName(hContact);
+			if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
+				if (HANDLE hItem = m_clc.FindContact(hContact))
+					m_clc.DeleteItem(hItem);
+		}
+	}
+
+	void ResetListOptions(CCtrlClc *)
+	{
+		m_clc.SetHideEmptyGroups(true);
+		m_clc.SetHideOfflineRoot(true);
+	}
+};
 
 INT_PTR CSkypeProto::SvcCreateChat(WPARAM, LPARAM)
 {
