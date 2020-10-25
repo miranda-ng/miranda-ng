@@ -40,11 +40,6 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 
 CDbxMDBX::~CDbxMDBX()
 {
-	if (m_txnWrite) {
-		mdbx_txn_commit(m_txnWrite);
-		m_txnWrite = nullptr;
-	}
-
 	mdbx_env_close(m_env);
 
 	if (!m_bReadOnly)
@@ -66,9 +61,8 @@ int CDbxMDBX::Load()
 {
 	MDBX_db_flags_t defFlags = MDBX_CREATE;
 	{
-		m_txnWrite = nullptr;
-		m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &m_txnWrite);
-		if (m_txnWrite == nullptr) {
+		txn_ptr trnlck(StartTran());
+		if (trnlck == nullptr) {
 			if (m_dbError == MDBX_TXN_FULL) {
 				if (IDOK == MessageBox(NULL, TranslateT("Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit"), TranslateT("Error"), MB_ICONERROR | MB_OKCANCEL))
 					Utils_OpenUrl("https://www.miranda-ng.org/news/unknown-profile-format");
@@ -76,20 +70,20 @@ int CDbxMDBX::Load()
 			}
 			return EGROKPRF_DAMAGED;
 		}
+		
+		mdbx_dbi_open(trnlck, "global", defFlags | MDBX_INTEGERKEY, &m_dbGlobal);
+		mdbx_dbi_open(trnlck, "crypto", defFlags, &m_dbCrypto);
+		mdbx_dbi_open(trnlck, "contacts", defFlags | MDBX_INTEGERKEY, &m_dbContacts);
+		mdbx_dbi_open(trnlck, "modules", defFlags | MDBX_INTEGERKEY, &m_dbModules);
+		mdbx_dbi_open(trnlck, "events", defFlags | MDBX_INTEGERKEY, &m_dbEvents);
 
-		mdbx_dbi_open(m_txnWrite, "global", defFlags | MDBX_INTEGERKEY, &m_dbGlobal);
-		mdbx_dbi_open(m_txnWrite, "crypto", defFlags, &m_dbCrypto);
-		mdbx_dbi_open(m_txnWrite, "contacts", defFlags | MDBX_INTEGERKEY, &m_dbContacts);
-		mdbx_dbi_open(m_txnWrite, "modules", defFlags | MDBX_INTEGERKEY, &m_dbModules);
-		mdbx_dbi_open(m_txnWrite, "events", defFlags | MDBX_INTEGERKEY, &m_dbEvents);
-
-		mdbx_dbi_open_ex(m_txnWrite, "eventids", defFlags, &m_dbEventIds, DBEventIdKey::Compare, nullptr);
-		mdbx_dbi_open_ex(m_txnWrite, "eventsrt", defFlags, &m_dbEventsSort, DBEventSortingKey::Compare, nullptr);
-		mdbx_dbi_open_ex(m_txnWrite, "settings", defFlags, &m_dbSettings, DBSettingKey::Compare, nullptr);
+		mdbx_dbi_open_ex(trnlck, "eventids", defFlags, &m_dbEventIds, DBEventIdKey::Compare, nullptr);
+		mdbx_dbi_open_ex(trnlck, "eventsrt", defFlags, &m_dbEventsSort, DBEventSortingKey::Compare, nullptr);
+		mdbx_dbi_open_ex(trnlck, "settings", defFlags, &m_dbSettings, DBSettingKey::Compare, nullptr);
 
 		uint32_t keyVal = 1;
 		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
-		if (mdbx_get(m_txnWrite, m_dbGlobal, &key, &data) == MDBX_SUCCESS) {
+		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS) {
 			const DBHeader *hdr = (const DBHeader*)data.iov_base;
 			if (hdr->dwSignature != DBHEADER_SIGNATURE)
 				return EGROKPRF_DAMAGED;
@@ -102,16 +96,15 @@ int CDbxMDBX::Load()
 			m_header.dwSignature = DBHEADER_SIGNATURE;
 			m_header.dwVersion = DBHEADER_VERSION;
 			data.iov_base = &m_header; data.iov_len = sizeof(m_header);
-			mdbx_put(m_txnWrite, m_dbGlobal, &key, &data, MDBX_UPSERT);
+			mdbx_put(trnlck, m_dbGlobal, &key, &data, MDBX_UPSERT);
 			DBFlush();
 		}
 
 		keyVal = 2;
-		if (mdbx_get(m_txnWrite, m_dbGlobal, &key, &data) == MDBX_SUCCESS)
+		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS)
 			m_ccDummy.dbc = *(const DBContact*)data.iov_base;
 
-		mdbx_txn_commit(m_txnWrite);
-		m_txnWrite = nullptr;
+		trnlck.commit();
 	}
 
 	mdbx_txn_begin(m_env, nullptr, MDBX_TXN_RDONLY, &m_txn_ro);
@@ -225,24 +218,6 @@ void CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MDBX_txn* CDbxMDBX::StartTran()
-{
-	if (m_txnWrite == nullptr) {
-		m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &m_txnWrite);
-		_ASSERT(m_dbError == MDBX_SUCCESS);
-		if (m_dbError != MDBX_SUCCESS)
-			return nullptr;
-	}
-
-	MDBX_txn *res = 0;
-	m_dbError = mdbx_txn_begin(m_env, m_txnWrite, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &res);
-	/* FIXME: throw an exception */
-	_ASSERT(m_dbError == MDBX_SUCCESS);
-	return res;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static void assert_func(const MDBX_env*, const char *msg, const char *function, unsigned line) MDBX_CXX17_NOEXCEPT
 {
 	Netlib_Logf(nullptr, "MDBX: assertion failed (%s, %d): %s", function, line, msg);
@@ -280,7 +255,7 @@ int CDbxMDBX::Map()
 	if (rc != MDBX_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
-	MDBX_env_flags_t mode = MDBX_NOSUBDIR | MDBX_SAFE_NOSYNC | MDBX_COALESCE | MDBX_EXCLUSIVE;
+	MDBX_env_flags_t mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_SAFE_NOSYNC | MDBX_COALESCE | MDBX_EXCLUSIVE;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
 
@@ -311,15 +286,8 @@ void CDbxMDBX::TouchFile()
 
 void CDbxMDBX::DBFlush(bool bForce)
 {
-	if (bForce) {
-		if (m_txnWrite) {
-			mir_cslock trnlck(m_csDbAccess);
-
-			mdbx_txn_commit(m_txnWrite);
-			m_txnWrite = nullptr;
-			mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &m_txnWrite);
-		}
-	}
+	if (bForce)
+		mdbx_env_sync(m_env);
 
 	else if (m_safetyMode)
 		m_impl.m_timer.Start(50);
