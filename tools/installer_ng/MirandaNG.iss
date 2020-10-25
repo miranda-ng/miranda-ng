@@ -267,7 +267,7 @@ ru.InstTypeText=Выберите тип установки программы.
 ru.DefTypeInstRadio=Обычная установка (рекомендуется)
 ru.PortTypeInstRadio=Портативная установка
 ru.DefTypeInstLabel=Профиль и все необходимые файлы хранятся в папке пользователя%n(Application Data).%nСовместимо с UAC.
-ru.PortTypeInstLabel=Профиль и файлы пользователя находятся в папке с программой.%nПодходит для установки на внешние накопители, не оставляет следов в ОС.%nНе устанавливать в Program Files при включённом UAC!
+ru.PortTypeInstLabel=Профиль и файлы пользователя находятся в папке с программой.%nПодходит для установки на внешние накопители.%nНе устанавливать в Program Files при включённом UAC!
 
 ru.ProfileUninst=ПРЕДУПРЕЖДЕНИЕ!%nВы можете удалить папку профиля, включающую в себя настройки, контакты и историю переписки!%nВы действительно хотите удалить файлы профиля?%n(Может понадобиться в дальнейшем)
 
@@ -411,7 +411,7 @@ de.InstTypeText=Wählen Sie die Art der Installation aus
 de.DefTypeInstRadio=Normale Installation (empfohlen)
 de.PortTypeInstRadio=Portable Installation
 de.DefTypeInstLabel=Profil- und Benutzerdaten werden in Anwendungsdaten gespeichert.%nUAC-kompatibel.
-de.PortTypeInstLabel=Profil- und Benutzerdaten werden im Programmverzeichnis gespeichert.%nDies ist die Version zur Verwendung auf portablen Laufwerken (wie USB-Sticks).%nInstallieren Sie Miranda NG mit aktivierter UAC nicht im Programme-Ordner!
+de.PortTypeInstLabel=Profil- und Benutzerdaten werden im Programmverzeichnis gespeichert.%nDies ist die Version zur Verwendung auf portablen Laufwerken%n(wie USB-Sticks).%nInstallieren Sie Miranda NG mit aktivierter UAC nicht im Programme-Ordner!
 
 de.ProfileUninst=WARNUNG!%nSie sind dabei, Ihr Profil mitsamt all Ihren Einstellungen, Kontakten und Nachrichten zu löschen!%nSind Sie sich sicher, dass Sie das Profil löschen möchten?%n(Sie könnten es später brauchen.)
 
@@ -483,7 +483,7 @@ pl.InstTypeText=Wybierz typ instalacji
 pl.DefTypeInstRadio=Normalna (zalecana)
 pl.PortTypeInstRadio=Przenośna
 pl.DefTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze Dane aplikacji.%nZgodne z Kontrolą konta uzytkownika.
-pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze programu.%nWersja do instalowania na urządzeniach przenośnych%n(takich jak pamięć przenośna)%nNie instaluj w Pliki programów z włączoną Kontrolą konta użytkownika!
+pl.PortTypeInstLabel=Profile i pliki danych użytkownika są przechowywane w folderze programu.%nWersja do instalowania na urządzeniach przenośnych%n(takich jak pamięć przenośna).%nNie instaluj w Pliki programów z włączoną Kontrolą konta użytkownika!
 
 pl.ProfileUninst=UWAGA!%nZamierzasz usunąć folder z profilami, zawierający wszystkie Twoje ustawienia, kontakty i historię rozmów.%nCzy na pewno chcesz go usunąć?%n(Możesz go później potrzebować)
 
