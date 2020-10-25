@@ -28,12 +28,10 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\request_queue.cpp" />
-    <ClCompile Include="src\skype_accounts.cpp" />
     <ClCompile Include="src\skype_avatars.cpp" />
     <ClCompile Include="src\skype_chatrooms.cpp" />
     <ClCompile Include="src\skype_contacts.cpp" />
     <ClCompile Include="src\skype_db.cpp" />
-    <ClCompile Include="src\skype_dialogs.cpp" />
     <ClCompile Include="src\skype_events.cpp" />
     <ClCompile Include="src\skype_files.cpp" />
     <ClCompile Include="src\skype_history_sync.cpp" />
@@ -70,9 +68,7 @@
     <ClInclude Include="src\requests\subscriptions.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\skype_db.h" />
-    <ClInclude Include="src\skype_dialogs.h" />
     <ClInclude Include="src\skype_menus.h" />
-    <ClInclude Include="src\skype_options.h" />
     <ClInclude Include="src\skype_proto.h" />
     <ClInclude Include="src\skype_utils.h" />
     <ClInclude Include="src\stdafx.h" />

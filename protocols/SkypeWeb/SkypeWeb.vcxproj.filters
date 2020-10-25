@@ -13,9 +13,6 @@
     <ClCompile Include="src\request_queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_accounts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_avatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -26,9 +23,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_db.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\skype_dialogs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_events.cpp">
@@ -135,13 +129,7 @@
     <ClInclude Include="src\skype_db.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\skype_dialogs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\skype_menus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\skype_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">

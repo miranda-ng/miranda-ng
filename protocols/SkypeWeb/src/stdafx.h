@@ -80,8 +80,6 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSkypeProto>
 #include "version.h"
 #include "resource.h"
 #include "skype_menus.h"
-#include "skype_dialogs.h"
-#include "skype_options.h"
 #include "skype_utils.h"
 #include "skype_db.h"
 #include "skype_proto.h"
