@@ -555,11 +555,14 @@ class CJabberDlgDiscovery : public CJabberDlgBase
 	CCtrlMButton m_btnBrowse;
 	CCtrlListView m_lstDiscoTree;
 	CCtrlEdit m_filter;
+	CTimer m_refreshTimer, m_autodiscoTimer;
 
 public:
 	CJabberDlgDiscovery(CJabberProto *proto, char *jid) :
 		CJabberDlgBase(proto, IDD_SERVICE_DISCOVERY),
 		m_jid(jid),
+		m_refreshTimer(this, REFRESH_TIMER),
+		m_autodiscoTimer(this, AUTODISCO_TIMER),
 		m_btnViewAsTree(this, IDC_BTN_VIEWTREE, g_plugin.getIcon(IDI_VIEW_TREE), "View as tree"),
 		m_btnViewAsList(this, IDC_BTN_VIEWLIST, g_plugin.getIcon(IDI_VIEW_LIST), "View as list"),
 		m_btnGoHome(this, IDC_BTN_NAVHOME, g_plugin.getIcon(IDI_NAV_HOME), "Navigate home"),
@@ -570,6 +573,9 @@ public:
 		m_filter(this, IDC_FILTER)
 	{
 		SetMinSize(538, 374);
+
+		m_refreshTimer.OnEvent = Callback(this, &CJabberDlgDiscovery::RefreshTimer);
+		m_autodiscoTimer.OnEvent = Callback(this, &CJabberDlgDiscovery::AutodiscoTimer);
 
 		m_btnViewAsTree.OnClick = Callback(this, &CJabberDlgDiscovery::btnViewAsTree_OnClick);
 		m_btnViewAsList.OnClick = Callback(this, &CJabberDlgDiscovery::btnViewAsList_OnClick);
@@ -698,13 +704,13 @@ public:
 
 	void OnProtoRefresh(WPARAM, LPARAM) override
 	{
-		KillTimer(m_hwnd, REFRESH_TIMER);
+		m_refreshTimer.Stop();
 		if (GetTickCount() - m_proto->m_dwSDLastRefresh < REFRESH_TIMEOUT) {
-			SetTimer(m_hwnd, REFRESH_TIMER, REFRESH_TIMEOUT, nullptr);
+			m_refreshTimer.Start(REFRESH_TIMEOUT);
 			return;
 		}
 
-		RefreshTimer();
+		RefreshTimer(0);
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override
@@ -1223,7 +1229,50 @@ public:
 			wcsncpy_s(ev->nmlvit->pszText, ev->nmlvit->cchTextMax, Utf2T(pNode->GetTooltipText()), _TRUNCATE);
 	}
 
-	void RefreshTimer()
+	void AutodiscoTimer(CTimer *)
+	{
+		HWND hwndList = m_lstDiscoTree.GetHwnd();
+		RECT rcCtl; GetClientRect(hwndList, &rcCtl);
+		RECT rcHdr; GetClientRect(ListView_GetHeader(hwndList), &rcHdr);
+		LVHITTESTINFO lvhti = { 0 };
+		lvhti.pt.x = rcCtl.left + 5;
+		lvhti.pt.y = rcHdr.bottom + 5;
+		int iFirst = ListView_HitTest(hwndList, &lvhti);
+		memset(&lvhti, 0, sizeof(lvhti));
+		lvhti.pt.x = rcCtl.left + 5;
+		lvhti.pt.y = rcCtl.bottom - 5;
+		int iLast = ListView_HitTest(hwndList, &lvhti);
+		if (iFirst < 0)
+			return;
+		if (iLast < 0)
+			iLast = ListView_GetItemCount(hwndList) - 1;
+
+		TiXmlDocument packet;
+		{
+			mir_cslock lck(m_proto->m_SDManager.cs());
+			for (int i = iFirst; i <= iLast; i++) {
+				LVITEM lvi = { 0 };
+				lvi.mask = LVIF_PARAM;
+				lvi.iItem = i;
+				ListView_GetItem(hwndList, &lvi);
+				if (!lvi.lParam)
+					continue;
+
+				CJabberSDNode *pNode = (CJabberSDNode *)TreeList_GetData((HTREELISTITEM)lvi.lParam);
+				if (!pNode || pNode->GetInfoRequestId())
+					continue;
+
+				m_proto->SendInfoRequest(pNode, &packet);
+			}
+		}
+		if (!packet.NoChildren())
+			m_proto->m_ThreadInfo->send(packet.RootElement());
+
+		m_autodiscoTimer.Stop();
+		m_proto->m_dwSDLastRefresh = GetTickCount();
+	}
+
+	void RefreshTimer(CTimer *)
 	{
 		mir_cslockfull lck(m_proto->m_SDManager.cs());
 
@@ -1245,7 +1294,7 @@ public:
 		}
 		lck.unlock();
 		TreeList_Update(m_lstDiscoTree.GetHwnd());
-		KillTimer(m_hwnd, REFRESH_TIMER);
+		m_refreshTimer.Stop();
 		m_proto->m_dwSDLastRefresh = GetTickCount();
 	}
 
@@ -1261,54 +1310,6 @@ public:
 				SetDlgItemText(m_hwnd, IDC_COMBO_JID, _T(SD_FAKEJID_MYAGENTS));
 				SetDlgItemText(m_hwnd, IDC_COMBO_NODE, L"");
 				PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
-			}
-			break;
-
-		case WM_TIMER:
-			if (wParam == REFRESH_TIMER) {
-				RefreshTimer();
-				return TRUE;
-			}
-			
-			if (wParam == AUTODISCO_TIMER) {
-				HWND hwndList = m_lstDiscoTree.GetHwnd();
-				RECT rcCtl; GetClientRect(hwndList, &rcCtl);
-				RECT rcHdr; GetClientRect(ListView_GetHeader(hwndList), &rcHdr);
-				LVHITTESTINFO lvhti = { 0 };
-				lvhti.pt.x = rcCtl.left + 5;
-				lvhti.pt.y = rcHdr.bottom + 5;
-				int iFirst = ListView_HitTest(hwndList, &lvhti);
-				memset(&lvhti, 0, sizeof(lvhti));
-				lvhti.pt.x = rcCtl.left + 5;
-				lvhti.pt.y = rcCtl.bottom - 5;
-				int iLast = ListView_HitTest(hwndList, &lvhti);
-				if (iFirst < 0) return FALSE;
-				if (iLast < 0) iLast = ListView_GetItemCount(hwndList) - 1;
-
-				TiXmlDocument packet;
-				{
-					mir_cslock lck(m_proto->m_SDManager.cs());
-					for (int i = iFirst; i <= iLast; i++) {
-						LVITEM lvi = { 0 };
-						lvi.mask = LVIF_PARAM;
-						lvi.iItem = i;
-						ListView_GetItem(hwndList, &lvi);
-						if (!lvi.lParam)
-							continue;
-
-						CJabberSDNode *pNode = (CJabberSDNode *)TreeList_GetData((HTREELISTITEM)lvi.lParam);
-						if (!pNode || pNode->GetInfoRequestId())
-							continue;
-
-						m_proto->SendInfoRequest(pNode, &packet);
-					}
-				}
-				if (!packet.NoChildren())
-					m_proto->m_ThreadInfo->send(packet.RootElement());
-
-				KillTimer(m_hwnd, AUTODISCO_TIMER);
-				m_proto->m_dwSDLastRefresh = GetTickCount();
-				return TRUE;
 			}
 			break;
 
@@ -1331,19 +1332,19 @@ public:
 						m_proto->m_ThreadInfo->send(packet.RootElement());
 					return TRUE;
 				}
+
 				if (pHeader->code == NM_CUSTOMDRAW) {
 					LPNMLVCUSTOMDRAW lpnmlvcd = (LPNMLVCUSTOMDRAW)lParam;
 					if (lpnmlvcd->nmcd.dwDrawStage != CDDS_PREPAINT)
 						return CDRF_DODEFAULT;
 
-					KillTimer(m_hwnd, AUTODISCO_TIMER);
+					m_autodiscoTimer.Stop();
 					if (GetTickCount() - sttLastAutoDisco < AUTODISCO_TIMEOUT) {
-						SetTimer(m_hwnd, AUTODISCO_TIMER, AUTODISCO_TIMEOUT, nullptr);
+						m_autodiscoTimer.Start(AUTODISCO_TIMEOUT);
 						return CDRF_DODEFAULT;
 					}
 
-					SendMessage(m_hwnd, WM_TIMER, AUTODISCO_TIMER, 0);
-
+					AutodiscoTimer(0);
 					return CDRF_DODEFAULT;
 				}
 			}
