@@ -181,14 +181,10 @@ void CJabberProto::OnLoggedIn()
 	// XEP-0083 support
 	if (!(m_StrmMgmt.IsSessionResumed()))
 	{
-		{
-			CJabberIqInfo *pIqInfo = AddIQ(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
-			// ugly hack to prevent hangup during login process
-			pIqInfo->SetTimeout(30000);
-			m_ThreadInfo->send(
-				XmlNodeIq(pIqInfo) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
-				<< XCHILDNS("roster", JABBER_FEAT_NESTED_ROSTER_GROUPS));
-		}
+		// ugly hack to prevent hangup during login process
+		CJabberIqInfo *pIqInfo = AddIQ(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
+		pIqInfo->SetTimeout(30000);
+		m_ThreadInfo->send(XmlNodeIq(pIqInfo) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS("roster", JABBER_FEAT_NESTED_ROSTER_GROUPS));
 
 		// Server-side notes
 		m_ThreadInfo->send(
@@ -204,8 +200,10 @@ void CJabberProto::OnLoggedIn()
 	m_bPepSupported = false;
 	m_ThreadInfo->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;
 
+	char szBareJid[JABBER_MAX_JID_LEN];
+	JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid));
 	m_ThreadInfo->send(
-		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, m_ThreadInfo->conn.server))
+		XmlNodeIq(AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, szBareJid))
 			<< XQUERY(JABBER_FEAT_DISCO_INFO));
 
 	QueryPrivacyLists(m_ThreadInfo);
