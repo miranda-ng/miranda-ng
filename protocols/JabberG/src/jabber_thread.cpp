@@ -612,6 +612,8 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 
 void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 {
+	info->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;
+
 	bool isRegisterAvailable = false;
 	bool areMechanismsDefined = false;
 
@@ -702,6 +704,15 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 			m_StrmMgmt.CheckStreamFeatures(n);
 		else if (!mir_strcmp(pszName, "csi") && n->Attribute("xmlns", JABBER_FEAT_CSI))
 			m_bCisAvailable = true;
+		else if (!mir_strcmp(pszName, "c") && !mir_strcmp(n->Attribute("xmlns"), JABBER_FEAT_ENTITY_CAPS)) {
+			auto *szNode = n->Attribute("node"), *szHash = n->Attribute("ver");
+			auto *pCaps = g_clientCapsManager.GetPartialCaps(szNode, szHash);
+			if (pCaps == nullptr) {
+				CMStringA payLoad(FORMAT, "%s%c%s", szNode, 0, szHash);
+				info->pPendingQuery = AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, info->conn.server, payLoad.Detach(), 1);
+			}
+			else info->jabberServerCaps |= pCaps->GetCaps();
+		}
 	}
 
 	if (areMechanismsDefined) {

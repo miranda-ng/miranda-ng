@@ -375,9 +375,9 @@ struct ThreadData
 	char     fullJID[JABBER_MAX_JID_LEN];
 	ptrA     tszNewPassword;
 
-//	class TJabberAuth *auth;
 	char *gssapiHostName;
 
+	CJabberIqInfo *pPendingQuery;
 	JabberCapsBits jabberServerCaps;
 
 	void  close(void);

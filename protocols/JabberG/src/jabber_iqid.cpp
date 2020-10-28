@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 #include "jabber_privacy.h"
 
-void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabberIqInfo*)
+void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	if (iqNode == nullptr)
 		return;
@@ -62,20 +62,30 @@ void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabber
 		NotifyFastHook(hDiscoInfoResult, (WPARAM)&tmp, (LPARAM)(IJabberInterface*)this);
 	}
 
-	if (m_ThreadInfo) {
-		for (auto *feature : TiXmlFilter(query, "feature")) {
-			const char *featureName = XmlGetAttr(feature, "var");
-			if (!featureName)
-				continue;
+	JabberCapsBits jcb = 0;
 
-			for (int j = 0; j < g_cJabberFeatCapPairs; j++) {
-				if (!mir_strcmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
-					m_ThreadInfo->jabberServerCaps |= g_JabberFeatCapPairs[j].jcbCap;
-					break;
-				}
+	for (auto *feature : TiXmlFilter(query, "feature")) {
+		const char *featureName = XmlGetAttr(feature, "var");
+		if (!featureName)
+			continue;
+
+		for (int j = 0; j < g_cJabberFeatCapPairs; j++) {
+			if (!mir_strcmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
+				jcb |= g_JabberFeatCapPairs[j].jcbCap;
+				break;
 			}
 		}
 	}
+
+	if (void *p = pInfo->GetUserData()) {
+		const char *szNode = (const char *)p;
+		const char *szVer = szNode + strlen(szNode) + 1;
+		g_clientCapsManager.SetClientCaps(szNode, szVer, "", jcb);
+		mir_free(p);
+	}
+
+	if (m_ThreadInfo)
+		m_ThreadInfo->jabberServerCaps |= jcb;
 
 	OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_SERVERINFO);
 }
@@ -126,8 +136,8 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 		if (info->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO)
 			EnableArchive(m_bEnableMsgArchive != 0);
 
+		// Server seems to support carbon copies, let's enable/disable them
 		if (info->jabberServerCaps & JABBER_CAPS_CARBONS)
-			// Server seems to support carbon copies, let's enable/disable them
 			m_ThreadInfo->send(XmlNodeIq("set", SerialNext()) << XCHILDNS((m_bEnableCarbons) ? "enable" : "disable", JABBER_FEAT_CARBONS));
 
 		// Server seems to support MAM, let's retrieve MAM settings
@@ -198,7 +208,11 @@ void CJabberProto::OnLoggedIn()
 	}
 
 	m_bPepSupported = false;
-	m_ThreadInfo->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;
+
+	if (m_ThreadInfo->pPendingQuery) {
+		m_ThreadInfo->send(XmlNodeIq(m_ThreadInfo->pPendingQuery) << XQUERY(JABBER_FEAT_DISCO_INFO));
+		m_ThreadInfo->pPendingQuery = nullptr;
+	}
 
 	char szBareJid[JABBER_MAX_JID_LEN];
 	JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid));
