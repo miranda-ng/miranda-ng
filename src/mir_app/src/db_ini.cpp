@@ -28,6 +28,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static bool bModuleInitialized = false;
 static HANDLE hIniChangeNotification;
 
+static void MyDeleteFile(const wchar_t *pwszFileName)
+{
+	if (PU::PrepareEscalation())
+		PU::SafeDeleteFile(pwszFileName);
+}
+
 //////////////////////////////////////////////////////
 
 class CInstallIniDlg : public CDlgBase
@@ -205,7 +211,7 @@ protected:
 	void Delete_OnClick(CCtrlBase*)
 	{
 		ptrW szIniPath(m_iniPath.GetText());
-		DeleteFile(szIniPath);
+		MyDeleteFile(szIniPath);
 		Close();
 	}
 
@@ -540,12 +546,12 @@ static void DoAutoExec(void)
 		ProcessIniFile(szIniPath, szSafeSections, szUnsafeSections, secur, secFN);
 
 		if (secFN)
-			DeleteFile(szIniPath);
+			MyDeleteFile(szIniPath);
 		else {
 			wchar_t szOnCompletion[8];
 			Profile_GetSetting(L"AutoExec/OnCompletion", szOnCompletion, L"recycle");
 			if (!mir_wstrcmpi(szOnCompletion, L"delete"))
-				DeleteFile(szIniPath);
+				MyDeleteFile(szIniPath);
 			else if (!mir_wstrcmpi(szOnCompletion, L"recycle")) {
 				DeleteDirectoryTreeW(szIniPath, true);
 			}
