@@ -39,7 +39,7 @@ class CUpdateDLg : public CDlgBase
 		OBJLIST<FILEINFO> todo(*pDlg->m_todo);
 
 		// 1) If we need to escalate priviledges, launch a stub
-		if (!PrepareEscalation()) {
+		if (!PU::PrepareEscalation()) {
 			pDlg->Close();
 			return;
 		}
@@ -113,7 +113,7 @@ LBL_Error:
 						if (dwErrorCode = unzip(it->File.wszDiskPath, wszMirandaPath, wszBackupFolder, true))
 							goto LBL_Error;
 
-						SafeDeleteFile(it->File.wszDiskPath);  // remove .zip after successful update
+						PU::SafeDeleteFile(it->File.wszDiskPath);  // remove .zip after successful update
 					}
 				}
 			}
@@ -134,7 +134,7 @@ LBL_Error:
 			else {
 				ptrW oldbin(g_plugin.getWStringA("OldBin2"));
 				if (oldbin) {
-					SafeDeleteFile(oldbin);
+					PU::SafeDeleteFile(oldbin);
 					g_plugin.delSetting("OldBin2");
 				}
 			}
@@ -213,7 +213,7 @@ public:
 			HANDLE hFile = CreateFileW(wszPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 			if (hFile == INVALID_HANDLE_VALUE)
 				// Running Windows Vista or later (major version >= 6).
-				Button_SetElevationRequiredState(btnOk.GetHwnd(), !IsProcessElevated());
+				Button_SetElevationRequiredState(btnOk.GetHwnd(), !PU::IsProcessElevated());
 			else {
 				CloseHandle(hFile);
 				DeleteFileW(wszPath);
@@ -395,7 +395,7 @@ static void DlgUpdateSilent(void *param)
 	}
 
 	// 1) If we need to escalate priviledges, launch a stub
-	if (!PrepareEscalation()) {
+	if (!PU::PrepareEscalation()) {
 		delete &UpdateFiles;
 		return;
 	}
@@ -462,7 +462,7 @@ LBL_Error:
 				// remove .zip after successful update
 				if (dwErrorCode = unzip(it->File.wszDiskPath, wszMirandaPath, wszBackupFolder, true))
 					goto LBL_Error;
-				SafeDeleteFile(it->File.wszDiskPath);
+				PU::SafeDeleteFile(it->File.wszDiskPath);
 			}
 		}
 	}

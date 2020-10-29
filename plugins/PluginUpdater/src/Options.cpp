@@ -288,7 +288,7 @@ public:
 			FindClose(hFind);
 		}
 
-		if (PrepareEscalation())
+		if (PU::PrepareEscalation())
 			RemoveBackupFolders();
 
 		// if user tried to change the channel, run the update dialog immediately

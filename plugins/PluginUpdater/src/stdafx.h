@@ -153,7 +153,6 @@ using namespace std;
 
 extern DWORD g_mirandaVersion;
 extern wchar_t g_wszRoot[MAX_PATH], g_wszTempPath[MAX_PATH];
-extern HANDLE g_hPipe;
 extern HNETLIBUSER hNetlibUser;
 
 extern IconItem iconList[];
@@ -254,18 +253,8 @@ int  unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackP
 
 int CalculateModuleHash(const wchar_t *pwszFileName, char *dest);
 
-BOOL IsProcessElevated(void);
-bool PrepareEscalation(void);
-
 void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder);
 void RemoveBackupFolders(void);
 void RollbackChanges(TFileName &pwszBackupFolder);
-
-int SafeCreateDirectory(const wchar_t *pwszDirName);
-int SafeDeleteDirectory(const wchar_t *pwszDirName);
-int SafeCopyFile(const wchar_t *pwszSrc, const wchar_t *pwszDst);
-int SafeMoveFile(const wchar_t *pwszSrc, const wchar_t *pwszDst);
-int SafeDeleteFile(const wchar_t *pwszSrc);
-int SafeCreateFilePath(const wchar_t *pFolder);
 
 char* StrToLower(char *str);

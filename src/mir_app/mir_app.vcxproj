@@ -139,6 +139,7 @@
     <ClCompile Include="src\proto_order.cpp" />
     <ClCompile Include="src\proto_ui.cpp" />
     <ClCompile Include="src\proto_utils.cpp" />
+    <ClCompile Include="src\pu_utils.cpp" />
     <ClCompile Include="src\searchresults.cpp" />
     <ClCompile Include="src\skin2opts.cpp" />
     <ClCompile Include="src\skinicons.cpp" />

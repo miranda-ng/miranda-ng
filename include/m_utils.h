@@ -411,4 +411,28 @@ struct ENTER_STRING
 
 EXTERN_C MIR_APP_DLL(bool) EnterString(ENTER_STRING *pForm);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// pu_stub utilities
+
+namespace PU
+{
+	// Checks if we're working via pu_stub or not
+	MIR_APP_DLL(bool) IsDirect();
+	
+	// Checks if a process has enough rights to write into Miranda's folder
+	MIR_APP_DLL(bool) IsProcessElevated();
+	
+	// Launches pu_stub.exe with elevated priviledges if needed
+	MIR_APP_DLL(bool) PrepareEscalation();
+	
+	MIR_APP_DLL(int) SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst);
+	MIR_APP_DLL(int) SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst);
+	MIR_APP_DLL(int) SafeDeleteFile(const wchar_t *pwszFile);
+	MIR_APP_DLL(int) SafeCreateDirectory(const wchar_t *pwszFolder);
+	MIR_APP_DLL(int) SafeDeleteDirectory(const wchar_t *pwszDirName);
+	MIR_APP_DLL(int) SafeCreateFilePath(const wchar_t *pwszFolder);
+
+
+};
+
 #endif // M_UTILS_H__

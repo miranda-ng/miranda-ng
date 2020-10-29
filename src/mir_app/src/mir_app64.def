@@ -741,3 +741,12 @@ Chat_CreateMenu @824 NONAME
 ?GetChecker@MDatabaseCommon@@UEAAPEAUMIDatabaseChecker@@XZ @829 NONAME
 ?GetMenuItem@PROTO_INTERFACE@@QEAAPEAUTMO_IntMenuItem@@W4ProtoMenuItemType@@@Z @830 NONAME
 Netlib_GetTlsUnique @831 NONAME
+?IsDirect@PU@@YA_NXZ @832 NONAME
+?IsProcessElevated@PU@@YA_NXZ @833 NONAME
+?PrepareEscalation@PU@@YA_NXZ @834 NONAME
+?SafeCopyFile@PU@@YAHPEB_W0@Z @835 NONAME
+?SafeCreateDirectory@PU@@YAHPEB_W@Z @836 NONAME
+?SafeCreateFilePath@PU@@YAHPEB_W@Z @837 NONAME
+?SafeDeleteDirectory@PU@@YAHPEB_W@Z @838 NONAME
+?SafeDeleteFile@PU@@YAHPEB_W@Z @839 NONAME
+?SafeMoveFile@PU@@YAHPEB_W0@Z @840 NONAME

@@ -20,7 +20,6 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 HNETLIBUSER hNetlibUser = nullptr;
-HANDLE g_hPipe = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -146,6 +145,8 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	return true;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Single file HTTP transaction
 
 bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 {
@@ -215,7 +216,7 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 					if (hFile != INVALID_HANDLE_VALUE) {
 						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
 						CloseHandle(hFile);
-						SafeMoveFile(wszTempFile, pFileURL->wszDiskPath);
+						PU::SafeMoveFile(wszTempFile, pFileURL->wszDiskPath);
 					}
 				}
 				return true;
@@ -232,212 +233,6 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	return false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-// FUNCTION: IsRunAsAdmin()
-//
-// PURPOSE: The function checks whether the current process is run as
-// administrator. In other words, it dictates whether the primary access
-// token of the process belongs to user account that is a member of the
-// local Administrators group and it is elevated.
-//
-// RETURN VALUE: Returns TRUE if the primary access token of the process
-// belongs to user account that is a member of the local Administrators
-// group and it is elevated. Returns FALSE if the token does not.
-//
-// EXCEPTION: If this function fails, it throws a C++ DWORD exception which
-// contains the Win32 error code of the failure.
-//
-// EXAMPLE CALL:
-//   try
-//   {
-//       if (IsRunAsAdmin())
-//           wprintf (L"Process is run as administrator\n");
-//       else
-//           wprintf (L"Process is not run as administrator\n");
-//   }
-//   catch (DWORD dwError)
-//   {
-//       wprintf(L"IsRunAsAdmin failed w/err %lu\n", dwError);
-//   }
-
-BOOL IsRunAsAdmin()
-{
-	BOOL fIsRunAsAdmin = FALSE;
-	DWORD dwError = ERROR_SUCCESS;
-	PSID pAdministratorsGroup = nullptr;
-
-	// Allocate and initialize a SID of the administrators group.
-	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
-	if (!AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &pAdministratorsGroup)) {
-		dwError = GetLastError();
-		goto Cleanup;
-	}
-
-	// Determine whether the SID of administrators group is bEnabled in
-	// the primary access token of the process.
-	if (!CheckTokenMembership(nullptr, pAdministratorsGroup, &fIsRunAsAdmin)) {
-		dwError = GetLastError();
-		goto Cleanup;
-	}
-
-Cleanup:
-	// Centralized cleanup for all allocated resources.
-	if (pAdministratorsGroup) {
-		FreeSid(pAdministratorsGroup);
-		pAdministratorsGroup = nullptr;
-	}
-
-	// Throw the error if something failed in the function.
-	if (ERROR_SUCCESS != dwError) {
-		throw dwError;
-	}
-
-	return fIsRunAsAdmin;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////
-// FUNCTION: IsProcessElevated()
-//
-// PURPOSE: The function gets the elevation information of the current
-// process. It dictates whether the process is elevated or not. Token
-// elevation is only available on Windows Vista and newer operating
-// systems, thus IsProcessElevated throws a C++ exception if it is called
-// on systems prior to Windows Vista. It is not appropriate to use this
-// function to determine whether a process is run as administartor.
-//
-// RETURN VALUE: Returns TRUE if the process is elevated. Returns FALSE if
-// it is not.
-//
-// EXCEPTION: If this function fails, it throws a C++ DWORD exception
-// which contains the Win32 error code of the failure. For example, if
-// IsProcessElevated is called on systems prior to Windows Vista, the error
-// code will be ERROR_INVALID_PARAMETER.
-//
-// NOTE: TOKEN_INFORMATION_CLASS provides TokenElevationType to check the
-// elevation type (TokenElevationTypeDefault / TokenElevationTypeLimited /
-// TokenElevationTypeFull) of the process. It is different from
-// TokenElevation in that, when UAC is turned off, elevation type always
-// returns TokenElevationTypeDefault even though the process is elevated
-// (Integrity Level == High). In other words, it is not safe to say if the
-// process is elevated based on elevation type. Instead, we should use
-// TokenElevation.
-//
-// EXAMPLE CALL:
-//   try
-//   {
-//       if (IsProcessElevated())
-//           wprintf (L"Process is elevated\n");
-//       else
-//           wprintf (L"Process is not elevated\n");
-//   }
-//   catch (DWORD dwError)
-//   {
-//       wprintf(L"IsProcessElevated failed w/err %lu\n", dwError);
-//   }
-
-BOOL IsProcessElevated()
-{
-	BOOL fIsElevated = FALSE;
-	DWORD dwError = ERROR_SUCCESS;
-	HANDLE hToken = nullptr;
-
-	// Open the primary access token of the process with TOKEN_QUERY.
-	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
-		dwError = GetLastError();
-		goto Cleanup;
-	}
-
-	// Retrieve token elevation information.
-	TOKEN_ELEVATION elevation;
-	DWORD dwSize;
-	if (!GetTokenInformation(hToken, TokenElevation, &elevation, sizeof(elevation), &dwSize)) {
-		// When the process is run on operating systems prior to Windows
-		// Vista, GetTokenInformation returns FALSE with the
-		// ERROR_INVALID_PARAMETER error code because TokenElevation is
-		// not supported on those operating systems.
-		dwError = GetLastError();
-		goto Cleanup;
-	}
-
-	fIsElevated = elevation.TokenIsElevated;
-
-Cleanup:
-	// Centralized cleanup for all allocated resources.
-	if (hToken) {
-		CloseHandle(hToken);
-		hToken = nullptr;
-	}
-
-	// Throw the error if something failed in the function.
-	if (ERROR_SUCCESS != dwError) {
-		throw dwError;
-	}
-
-	return fIsElevated;
-}
-
-bool PrepareEscalation()
-{
-	// First try to create a file near Miranda32.exe
-	TFileName szPath;
-	GetModuleFileName(nullptr, szPath, _countof(szPath));
-	wchar_t *ext = wcsrchr(szPath, '.');
-	if (ext != nullptr)
-		*ext = '\0';
-	wcscat(szPath, L".test");
-
-	HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-	if (hFile != INVALID_HANDLE_VALUE) {
-		// we are admins or UAC is disable, cool
-		CloseHandle(hFile);
-		DeleteFile(szPath);
-		return true;
-	}
-
-	// Check the current process's "run as administrator" status.
-	if (IsRunAsAdmin())
-		return true;
-
-	// if pipe already opened?
-	if (g_hPipe != nullptr)
-		return true;
-
-	// Elevate the process. Create a pipe for a stub first
-	TFileName wzPipeName;
-	mir_snwprintf(wzPipeName, L"\\\\.\\pipe\\Miranda_Pu_%d", GetCurrentProcessId());
-	g_hPipe = CreateNamedPipe(wzPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, nullptr);
-	if (g_hPipe == INVALID_HANDLE_VALUE) {
-		g_hPipe = nullptr;
-	}
-	else {
-		wchar_t cmdLine[100], *p;
-		GetModuleFileName(nullptr, szPath, ARRAYSIZE(szPath));
-		if ((p = wcsrchr(szPath, '\\')) != nullptr)
-			wcscpy(p + 1, L"pu_stub.exe");
-		mir_snwprintf(cmdLine, L"%d", GetCurrentProcessId());
-
-		// Launch a stub
-		SHELLEXECUTEINFO sei = { sizeof(sei) };
-		sei.lpVerb = L"runas";
-		sei.lpFile = szPath;
-		sei.lpParameters = cmdLine;
-		sei.hwnd = nullptr;
-		sei.nShow = SW_NORMAL;
-		if (ShellExecuteEx(&sei)) {
-			if (g_hPipe != nullptr)
-				ConnectNamedPipe(g_hPipe, nullptr);
-			return true;
-		}
-
-		DWORD dwError = GetLastError();
-		if (dwError == ERROR_CANCELLED) {
-			// The user refused to allow privileges elevation.
-			// Do nothing ...
-		}
-	}
-	return false;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Folder creation
 
@@ -451,10 +246,10 @@ void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder)
 	SYSTEMTIME st;
 	GetLocalTime(&st);
 	mir_snwprintf(wszBackupFolder, L"%s\\Backups\\BKP%04d-%02d-%02d %02d-%02d-%02d-%03d", g_wszRoot, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
-	SafeCreateDirectory(wszBackupFolder);
+	PU::SafeCreateDirectory(wszBackupFolder);
 
 	mir_snwprintf(wszTempFolder, L"%s\\Temp", g_wszRoot);
-	SafeCreateDirectory(wszTempFolder);
+	PU::SafeCreateDirectory(wszTempFolder);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -480,10 +275,10 @@ void RemoveBackupFolders()
 	FindClose(hFind);
 
 	// remove all folders with lesser dates if there're more than 10 folders
-	if (PrepareEscalation()) {
+	if (PU::PrepareEscalation()) {
 		while (arNames.getCount() > g_plugin.iNumberBackups) {
 			mir_snwprintf(wszMask, L"%s\\Backups\\%s", g_wszRoot, arNames[0].c_str());
-			SafeDeleteDirectory(wszMask);
+			PU::SafeDeleteDirectory(wszMask);
 			arNames.remove(00);
 		}
 	}
@@ -512,7 +307,7 @@ static void SafeMoveFolder(const wchar_t *wszSrc, const wchar_t *wszDest)
 		if (fdata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			SafeMoveFolder(wszNewSrc, wszNewDest);
 		else
-			SafeMoveFile(wszNewSrc, wszNewDest);
+			PU::SafeMoveFile(wszNewSrc, wszNewDest);
 	}
 		while (FindNextFileW(hFind, &fdata));
 
@@ -524,119 +319,7 @@ void RollbackChanges(TFileName &pwszBackupFolder)
 	VARSW dirname(L"%miranda_path%");
 	SafeMoveFolder(pwszBackupFolder, dirname);
 
-	SafeDeleteDirectory(pwszBackupFolder);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
-{
-	BYTE buf[1024];
-	DWORD l1 = lstrlen(p1), l2 = lstrlen(p2);
-	if (l1 > MAX_PATH || l2 > MAX_PATH)
-		return ERROR_BAD_ARGUMENTS;
-
-	*(DWORD *)buf = opcode;
-	wchar_t *dst = (wchar_t *)&buf[sizeof(DWORD)];
-	lstrcpy(dst, p1);
-	dst += l1 + 1;
-	if (p2) {
-		lstrcpy(dst, p2);
-		dst += l2 + 1;
-	}
-	else *dst++ = 0;
-
-	DWORD dwBytes = 0, dwError;
-	if (!WriteFile(g_hPipe, buf, (DWORD)((BYTE *)dst - buf), &dwBytes, nullptr))
-		return GetLastError();
-
-	dwError = 0;
-	if (!ReadFile(g_hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr))
-		return GetLastError();
-	if (dwBytes != sizeof(DWORD))
-		return ERROR_BAD_ARGUMENTS;
-
-	return dwError;
-}
-
-int SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst)
-{
-	if (g_hPipe == nullptr)
-		return CopyFileW(pSrc, pDst, FALSE);
-
-	return TransactPipe(1, pSrc, pDst);
-}
-
-int SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
-{
-	if (g_hPipe == nullptr) {
-		if (!DeleteFileW(pDst)) {
-			DWORD dwError = GetLastError();
-			if (dwError != ERROR_ACCESS_DENIED && dwError != ERROR_FILE_NOT_FOUND)
-				return dwError;
-		}
-
-		if (!MoveFileW(pSrc, pDst)) { // use copy on error
-			switch (DWORD dwError = GetLastError()) {
-			case ERROR_ALREADY_EXISTS:
-			case ERROR_FILE_NOT_FOUND:
-				return 0; // this file was included into many archives, so Miranda tries to move it again & again
-
-			case ERROR_ACCESS_DENIED:
-			case ERROR_SHARING_VIOLATION:
-			case ERROR_LOCK_VIOLATION:
-				// use copy routine if a move operation isn't available
-				// for example, when files are on different disks
-				if (!CopyFileW(pSrc, pDst, FALSE))
-					return GetLastError();
-
-				if (!DeleteFileW(pSrc))
-					return GetLastError();
-				break;
-
-			default:
-				return dwError;
-			}
-		}
-
-		return ERROR_SUCCESS;
-	}
-
-	return TransactPipe(2, pSrc, pDst);
-}
-
-int SafeDeleteFile(const wchar_t *pwszFile)
-{
-	if (g_hPipe == nullptr)
-		return DeleteFile(pwszFile);
-
-	return TransactPipe(3, pwszFile, nullptr);
-}
-
-int SafeCreateDirectory(const wchar_t *pwszFolder)
-{
-	if (g_hPipe == nullptr)
-		return CreateDirectoryTreeW(pwszFolder);
-
-	return TransactPipe(4, pwszFolder, nullptr);
-}
-
-int SafeDeleteDirectory(const wchar_t *pwszDirName)
-{
-	if (g_hPipe == nullptr)
-		return DeleteDirectoryTreeW(pwszDirName);
-
-	return TransactPipe(6, pwszDirName, nullptr);
-}
-
-int SafeCreateFilePath(const wchar_t *pwszFolder)
-{
-	if (g_hPipe == nullptr) {
-		CreatePathToFileW(pwszFolder);
-		return 0;
-	}
-
-	return TransactPipe(5, pwszFolder, nullptr);
+	PU::SafeDeleteDirectory(pwszBackupFolder);
 }
 
 int BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName)
@@ -644,9 +327,9 @@ int BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName)
 	if (_waccess(pwszSrcFileName, 0))
 		return 0;
 
-	SafeCreateFilePath(pwszBackFileName);
+	PU::SafeCreateFilePath(pwszBackFileName);
 
-	return SafeMoveFile(pwszSrcFileName, pwszBackFileName);
+	return PU::SafeMoveFile(pwszSrcFileName, pwszBackFileName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

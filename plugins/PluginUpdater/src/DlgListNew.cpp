@@ -162,7 +162,7 @@ public:
 			wcscat(szPath, L".test");
 			HANDLE hFile = CreateFileW(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 			if (hFile == INVALID_HANDLE_VALUE)
-				Button_SetElevationRequiredState(GetDlgItem(m_hwnd, IDOK), !IsProcessElevated());
+				Button_SetElevationRequiredState(GetDlgItem(m_hwnd, IDOK), !PU::IsProcessElevated());
 			else {
 				CloseHandle(hFile);
 				DeleteFile(szPath);
@@ -311,7 +311,7 @@ public:
 				if (DownloadFile(&p->File, nlc)) {
 					m_list.SetItemText(i, 1, TranslateT("Succeeded."));
 					if (!unzip(p->File.wszDiskPath, wszMirandaPath, wszBackupFolder, false))
-						SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
+						PU::SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
 					db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->wszOldName));
 				}
 				else m_list.SetItemText(i, 1, TranslateT("Failed!"));
@@ -339,7 +339,7 @@ static void ApplyDownloads(void *param)
 	auto *pDlg = (CMissingPLuginsDlg *)param;
 
 	// if we need to escalate priviledges, launch a atub
-	if (PrepareEscalation())
+	if (PU::PrepareEscalation())
 		pDlg->Unpack();
 		
 	pDlg->Close();
