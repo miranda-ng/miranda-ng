@@ -19,15 +19,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #pragma warning(disable:4566)
 
-time_t CSkypeProto::IsoToUnixTime(const char *stamp)
+time_t CSkypeProto::IsoToUnixTime(const std::string &stamp)
 {
 	char date[9];
 	int i, y;
 
-	if (stamp == nullptr)
+	if (stamp.empty())
 		return 0;
 
-	char *p = NEWSTR_ALLOCA(stamp);
+	char *p = NEWSTR_ALLOCA(stamp.c_str());
 
 	// skip '-' chars
 	int si = 0, sj = 0;

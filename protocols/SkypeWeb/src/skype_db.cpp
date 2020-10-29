@@ -99,8 +99,6 @@ void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szCont
 
 void CSkypeProto::InitDBEvents()
 {
-	db_set_resident(m_szModuleName, "LastAuthRequestTime");
-
 	// custom event
 	DBEVENTTYPEDESCR dbEventType = {};
 	dbEventType.module = m_szModuleName;

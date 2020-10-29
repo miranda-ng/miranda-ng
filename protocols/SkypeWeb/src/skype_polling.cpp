@@ -152,13 +152,15 @@ void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 			MirVer.Append("Skype (Unknown)");
 		}
 	}
+	
 	if (privateInfo != NULL) {
 		std::string epname = privateInfo["epname"].as_string();
 		if (!epname.empty()) {
 			MirVer.AppendFormat(" [%s]", epname.c_str());
 		}
 	}
-	db_set_s(hContact, m_szModuleName, "MirVer", MirVer);
+	
+	setString(hContact, "MirVer", MirVer);
 }
 
 void CSkypeProto::ProcessUserPresence(const JSONNode &node)

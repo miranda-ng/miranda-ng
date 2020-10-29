@@ -47,15 +47,15 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 		std::string content = message["content"].as_string();
 		std::string conversationLink = message["conversationLink"].as_string();
 		int emoteOffset = message["skypeemoteoffset"].as_int();
-		time_t timestamp = IsoToUnixTime(message["composetime"].as_string().c_str());
+		time_t timestamp = IsoToUnixTime(message["composetime"].as_string());
 		CMStringA skypename(UrlToSkypename(from.c_str()));
 
 		bool isEdited = message["skypeeditedid"];
 
 		MCONTACT hContact = FindContact(UrlToSkypename(conversationLink.c_str()));
 
-		if (timestamp > db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0))
-			db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
+		if (timestamp > getDword(hContact, "LastMsgTime", 0))
+			setDword(hContact, "LastMsgTime", timestamp);
 
 		DWORD iFlags = DBEF_UTF;
 
@@ -138,7 +138,7 @@ void CSkypeProto::OnSyncHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 
 			if (strConversationLink.find("/8:") != -1) {
 				CMStringA szSkypename = UrlToSkypename(strConversationLink.c_str());
-				time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string().c_str()));
+				time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string()));
 
 				MCONTACT hContact = FindContact(szSkypename);
 				if (hContact != NULL)

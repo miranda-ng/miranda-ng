@@ -254,7 +254,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 
 	CMStringW szTopic(node["threadtopic"].as_mstring());
 
-	time_t timestamp = IsoToUnixTime(node["composetime"].as_string().c_str());
+	time_t timestamp = IsoToUnixTime(node["composetime"].as_string());
 
 	std::string strContent = node["content"].as_string();
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();

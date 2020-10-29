@@ -28,7 +28,7 @@ void CSkypeProto::SetContactStatus(MCONTACT hContact, WORD status)
 	if (oldStatus != status) {
 		setWord(hContact, "Status", status);
 		if (status == ID_STATUS_OFFLINE)
-			db_unset(hContact, m_szModuleName, "MirVer");
+			delSetting(hContact, "MirVer");
 	}
 }
 
@@ -69,24 +69,24 @@ MCONTACT CSkypeProto::FindContact(const char *skypename)
 MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 {
 	MCONTACT hContact = FindContact(skypename);
+	if (hContact)
+		return hContact;
 
-	if (!hContact) {
-		hContact = db_add_contact();
-		Proto_AddToContact(hContact, m_szModuleName);
+	hContact = db_add_contact();
+	Proto_AddToContact(hContact, m_szModuleName);
 
-		setString(hContact, SKYPE_SETTINGS_ID, skypename);
+	setString(hContact, SKYPE_SETTINGS_ID, skypename);
 
-		if (m_opts.wstrCListGroup) {
-			Clist_GroupCreate(0, m_opts.wstrCListGroup);
-			Clist_SetGroup(hContact, m_opts.wstrCListGroup);
-		}
-
-		setByte(hContact, "Auth", 1);
-		setByte(hContact, "Grant", 1);
-
-		if (isTemporary)
-			Contact_RemoveFromList(hContact);
+	if (m_opts.wstrCListGroup) {
+		Clist_GroupCreate(0, m_opts.wstrCListGroup);
+		Clist_SetGroup(hContact, m_opts.wstrCListGroup);
 	}
+
+	setByte(hContact, "Auth", 1);
+	setByte(hContact, "Grant", 1);
+
+	if (isTemporary)
+		Contact_RemoveFromList(hContact);
 	return hContact;
 }
 
@@ -101,26 +101,31 @@ void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest
 		std::string skypename = item["mri"].as_string().erase(0, 2);
 		std::string reason = item["greeting"].as_string();
 
-		time_t eventTime = IsoToUnixTime(item["invites"][json_index_t(0)].as_string().c_str());
+		time_t eventTime = 0;
+		for (auto &it : item["invites"])
+			eventTime = IsoToUnixTime(it["time"].as_string());
 
 		MCONTACT hContact = AddContact(skypename.c_str());
-		if (hContact) {
-			time_t lastEventTime = db_get_dw(hContact, m_szModuleName, "LastAuthRequestTime", 0);
+		time_t lastEventTime = getDword(hContact, "LastAuthRequestTime");
+		if (lastEventTime && lastEventTime >= eventTime)
+			continue;
 
-			if (lastEventTime < eventTime) {
-				db_set_dw(hContact, m_szModuleName, "LastAuthRequestTime", eventTime);
-				delSetting(hContact, "Auth");
+		std::string displayName = item["displayname"].as_string();
+		if (displayName.empty())
+			displayName = skypename;
+		setUString(hContact, "Nick", displayName.c_str());
 
-				DB::AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, skypename.c_str(), reason.c_str());
+		setDword(hContact, "LastAuthRequestTime", eventTime);
+		delSetting(hContact, "Auth");
 
-				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = time(0);
-				pre.lParam = blob.size();
-				pre.szMessage = blob;
+		DB::AUTH_BLOB blob(hContact, displayName.c_str(), nullptr, nullptr, skypename.c_str(), reason.c_str());
 
-				ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
-			}
-		}
+		PROTORECVEVENT pre = { 0 };
+		pre.timestamp = time(0);
+		pre.lParam = blob.size();
+		pre.szMessage = blob;
+
+		ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 	}
 }
 

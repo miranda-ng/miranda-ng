@@ -108,7 +108,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	MCONTACT hContact = AddContact(szConversationName, true);
 
 	if (m_bHistorySynced)
-		db_set_dw(hContact, m_szModuleName, "LastMsgTime", (DWORD)timestamp);
+		setDword(hContact, "LastMsgTime", timestamp);
 
 	if (strMessageType == "Control/Typing") {
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
@@ -184,7 +184,7 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 	db_event_get(hDbEvent, &dbei);
 	time_t timestamp = dbei.timestamp;
 
-	if (db_get_dw(hContact, m_szModuleName, "LastMsgTime", 0) > (timestamp - 300))
+	if (getDword(hContact, "LastMsgTime") > (timestamp - 300))
 		PushRequest(new MarkMessageReadRequest(getId(hContact), timestamp, timestamp, false));
 }
 
