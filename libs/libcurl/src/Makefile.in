@@ -215,20 +215,21 @@ am__objects_1 = libcurl_la-altsvc.lo libcurl_la-amigaos.lo \
 	libcurl_la-parsedate.lo libcurl_la-pingpong.lo \
 	libcurl_la-pop3.lo libcurl_la-progress.lo libcurl_la-psl.lo \
 	libcurl_la-doh.lo libcurl_la-rand.lo libcurl_la-rename.lo \
-	libcurl_la-rtsp.lo libcurl_la-security.lo libcurl_la-select.lo \
-	libcurl_la-sendf.lo libcurl_la-setopt.lo libcurl_la-sha256.lo \
-	libcurl_la-share.lo libcurl_la-slist.lo libcurl_la-smb.lo \
-	libcurl_la-smtp.lo libcurl_la-socketpair.lo \
-	libcurl_la-socks.lo libcurl_la-socks_gssapi.lo \
-	libcurl_la-socks_sspi.lo libcurl_la-speedcheck.lo \
-	libcurl_la-splay.lo libcurl_la-strcase.lo libcurl_la-strdup.lo \
+	libcurl_la-rtsp.lo libcurl_la-select.lo libcurl_la-sendf.lo \
+	libcurl_la-setopt.lo libcurl_la-sha256.lo libcurl_la-share.lo \
+	libcurl_la-slist.lo libcurl_la-smb.lo libcurl_la-smtp.lo \
+	libcurl_la-socketpair.lo libcurl_la-socks.lo \
+	libcurl_la-socks_gssapi.lo libcurl_la-socks_sspi.lo \
+	libcurl_la-speedcheck.lo libcurl_la-splay.lo \
+	libcurl_la-strcase.lo libcurl_la-strdup.lo \
 	libcurl_la-strerror.lo libcurl_la-strtok.lo \
 	libcurl_la-strtoofft.lo libcurl_la-system_win32.lo \
 	libcurl_la-telnet.lo libcurl_la-tftp.lo libcurl_la-timeval.lo \
 	libcurl_la-transfer.lo libcurl_la-urlapi.lo \
 	libcurl_la-version.lo libcurl_la-warnless.lo \
 	libcurl_la-wildcard.lo libcurl_la-x509asn1.lo \
-	libcurl_la-dynbuf.lo libcurl_la-version_win32.lo
+	libcurl_la-dynbuf.lo libcurl_la-version_win32.lo \
+	libcurl_la-easyoptions.lo libcurl_la-easygetopt.lo
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_2 = vauth/libcurl_la-cleartext.lo vauth/libcurl_la-cram.lo \
 	vauth/libcurl_la-digest.lo vauth/libcurl_la-digest_sspi.lo \
@@ -303,22 +304,22 @@ am__objects_9 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-pingpong.lo libcurlu_la-pop3.lo \
 	libcurlu_la-progress.lo libcurlu_la-psl.lo libcurlu_la-doh.lo \
 	libcurlu_la-rand.lo libcurlu_la-rename.lo libcurlu_la-rtsp.lo \
-	libcurlu_la-security.lo libcurlu_la-select.lo \
-	libcurlu_la-sendf.lo libcurlu_la-setopt.lo \
-	libcurlu_la-sha256.lo libcurlu_la-share.lo \
-	libcurlu_la-slist.lo libcurlu_la-smb.lo libcurlu_la-smtp.lo \
-	libcurlu_la-socketpair.lo libcurlu_la-socks.lo \
-	libcurlu_la-socks_gssapi.lo libcurlu_la-socks_sspi.lo \
-	libcurlu_la-speedcheck.lo libcurlu_la-splay.lo \
-	libcurlu_la-strcase.lo libcurlu_la-strdup.lo \
-	libcurlu_la-strerror.lo libcurlu_la-strtok.lo \
-	libcurlu_la-strtoofft.lo libcurlu_la-system_win32.lo \
-	libcurlu_la-telnet.lo libcurlu_la-tftp.lo \
-	libcurlu_la-timeval.lo libcurlu_la-transfer.lo \
-	libcurlu_la-urlapi.lo libcurlu_la-version.lo \
-	libcurlu_la-warnless.lo libcurlu_la-wildcard.lo \
-	libcurlu_la-x509asn1.lo libcurlu_la-dynbuf.lo \
-	libcurlu_la-version_win32.lo
+	libcurlu_la-select.lo libcurlu_la-sendf.lo \
+	libcurlu_la-setopt.lo libcurlu_la-sha256.lo \
+	libcurlu_la-share.lo libcurlu_la-slist.lo libcurlu_la-smb.lo \
+	libcurlu_la-smtp.lo libcurlu_la-socketpair.lo \
+	libcurlu_la-socks.lo libcurlu_la-socks_gssapi.lo \
+	libcurlu_la-socks_sspi.lo libcurlu_la-speedcheck.lo \
+	libcurlu_la-splay.lo libcurlu_la-strcase.lo \
+	libcurlu_la-strdup.lo libcurlu_la-strerror.lo \
+	libcurlu_la-strtok.lo libcurlu_la-strtoofft.lo \
+	libcurlu_la-system_win32.lo libcurlu_la-telnet.lo \
+	libcurlu_la-tftp.lo libcurlu_la-timeval.lo \
+	libcurlu_la-transfer.lo libcurlu_la-urlapi.lo \
+	libcurlu_la-version.lo libcurlu_la-warnless.lo \
+	libcurlu_la-wildcard.lo libcurlu_la-x509asn1.lo \
+	libcurlu_la-dynbuf.lo libcurlu_la-version_win32.lo \
+	libcurlu_la-easyoptions.lo libcurlu_la-easygetopt.lo
 am__objects_10 = vauth/libcurlu_la-cleartext.lo \
 	vauth/libcurlu_la-cram.lo vauth/libcurlu_la-digest.lo \
 	vauth/libcurlu_la-digest_sspi.lo \
@@ -394,6 +395,8 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurl_la-dotdot.Plo \
 	./$(DEPDIR)/libcurl_la-dynbuf.Plo \
 	./$(DEPDIR)/libcurl_la-easy.Plo \
+	./$(DEPDIR)/libcurl_la-easygetopt.Plo \
+	./$(DEPDIR)/libcurl_la-easyoptions.Plo \
 	./$(DEPDIR)/libcurl_la-escape.Plo \
 	./$(DEPDIR)/libcurl_la-file.Plo \
 	./$(DEPDIR)/libcurl_la-fileinfo.Plo \
@@ -443,7 +446,6 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurl_la-psl.Plo ./$(DEPDIR)/libcurl_la-rand.Plo \
 	./$(DEPDIR)/libcurl_la-rename.Plo \
 	./$(DEPDIR)/libcurl_la-rtsp.Plo \
-	./$(DEPDIR)/libcurl_la-security.Plo \
 	./$(DEPDIR)/libcurl_la-select.Plo \
 	./$(DEPDIR)/libcurl_la-sendf.Plo \
 	./$(DEPDIR)/libcurl_la-setopt.Plo \
@@ -506,6 +508,8 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurlu_la-dotdot.Plo \
 	./$(DEPDIR)/libcurlu_la-dynbuf.Plo \
 	./$(DEPDIR)/libcurlu_la-easy.Plo \
+	./$(DEPDIR)/libcurlu_la-easygetopt.Plo \
+	./$(DEPDIR)/libcurlu_la-easyoptions.Plo \
 	./$(DEPDIR)/libcurlu_la-escape.Plo \
 	./$(DEPDIR)/libcurlu_la-file.Plo \
 	./$(DEPDIR)/libcurlu_la-fileinfo.Plo \
@@ -557,7 +561,6 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurlu_la-rand.Plo \
 	./$(DEPDIR)/libcurlu_la-rename.Plo \
 	./$(DEPDIR)/libcurlu_la-rtsp.Plo \
-	./$(DEPDIR)/libcurlu_la-security.Plo \
 	./$(DEPDIR)/libcurlu_la-select.Plo \
 	./$(DEPDIR)/libcurlu_la-sendf.Plo \
 	./$(DEPDIR)/libcurlu_la-setopt.Plo \
@@ -735,6 +738,7 @@ CURL_DISABLE_HTTP = @CURL_DISABLE_HTTP@
 CURL_DISABLE_IMAP = @CURL_DISABLE_IMAP@
 CURL_DISABLE_LDAP = @CURL_DISABLE_LDAP@
 CURL_DISABLE_LDAPS = @CURL_DISABLE_LDAPS@
+CURL_DISABLE_MQTT = @CURL_DISABLE_MQTT@
 CURL_DISABLE_POP3 = @CURL_DISABLE_POP3@
 CURL_DISABLE_PROXY = @CURL_DISABLE_PROXY@
 CURL_DISABLE_RTSP = @CURL_DISABLE_RTSP@
@@ -742,7 +746,6 @@ CURL_DISABLE_SMB = @CURL_DISABLE_SMB@
 CURL_DISABLE_SMTP = @CURL_DISABLE_SMTP@
 CURL_DISABLE_TELNET = @CURL_DISABLE_TELNET@
 CURL_DISABLE_TFTP = @CURL_DISABLE_TFTP@
-CURL_ENABLE_MQTT = @CURL_ENABLE_MQTT@
 CURL_LT_SHLIB_VERSIONED_FLAVOUR = @CURL_LT_SHLIB_VERSIONED_FLAVOUR@
 CURL_NETWORK_AND_TIME_LIBS = @CURL_NETWORK_AND_TIME_LIBS@
 CURL_NETWORK_LIBS = @CURL_NETWORK_LIBS@
@@ -944,7 +947,7 @@ EXTRA_DIST = Makefile.m32 config-win32.h config-win32ce.h           \
  config-plan9.h config-riscos.h config-mac.h curl_config.h.in       \
  makefile.dj config-dos.h libcurl.plist libcurl.rc config-amigaos.h \
  makefile.amiga Makefile.netware nwlib.c nwos.c config-win32ce.h    \
- config-os400.h setup-os400.h config-symbian.h Makefile.Watcom      \
+ config-os400.h setup-os400.h                                       \
  config-tpf.h mk-ca-bundle.pl mk-ca-bundle.vbs $(CMAKE_DIST)        \
  firefox-db2pem.sh config-vxworks.h Makefile.vxworks checksrc.pl    \
  setup-win32.h
@@ -977,7 +980,7 @@ lib_LTLIBRARIES = libcurl.la
 # For the full guide on libcurl ABI rules, see docs/libcurl/ABI
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/lib \
 	-I$(top_srcdir)/lib $(am__append_1) -DBUILDING_LIBCURL
-VERSIONINFO = -version-info 10:0:6
+VERSIONINFO = -version-info 11:0:7
 AM_LDFLAGS = 
 AM_CFLAGS = 
 libcurl_la_CPPFLAGS_EXTRA = $(am__append_7) $(am__append_8)
@@ -1021,19 +1024,19 @@ LIB_CFILES = altsvc.c amigaos.c asyn-ares.c asyn-thread.c base64.c            \
   http_ntlm.c http_proxy.c idn_win32.c if2ip.c imap.c inet_ntop.c inet_pton.c \
   krb5.c ldap.c llist.c md4.c md5.c memdebug.c mime.c mprintf.c mqtt.c        \
   multi.c netrc.c non-ascii.c nonblock.c openldap.c parsedate.c pingpong.c    \
-  pop3.c progress.c psl.c doh.c rand.c rename.c rtsp.c security.c select.c    \
+  pop3.c progress.c psl.c doh.c rand.c rename.c rtsp.c select.c               \
   sendf.c setopt.c sha256.c share.c slist.c smb.c smtp.c socketpair.c socks.c \
   socks_gssapi.c socks_sspi.c speedcheck.c splay.c strcase.c strdup.c         \
   strerror.c strtok.c strtoofft.c system_win32.c telnet.c tftp.c timeval.c    \
   transfer.c urlapi.c version.c warnless.c wildcard.c x509asn1.c dynbuf.c     \
-  version_win32.c
+  version_win32.c easyoptions.c easygetopt.c
 
 LIB_HFILES = altsvc.h amigaos.h arpa_telnet.h asyn.h conncache.h connect.h    \
   content_encoding.h cookie.h curl_addrinfo.h curl_base64.h curl_ctype.h      \
   curl_des.h curl_endian.h curl_fnmatch.h curl_get_line.h curl_gethostname.h  \
   curl_gssapi.h curl_hmac.h curl_ldap.h curl_md4.h curl_md5.h curl_memory.h   \
   curl_memrchr.h curl_multibyte.h curl_ntlm_core.h curl_ntlm_wb.h curl_path.h \
-  curl_printf.h curl_range.h curl_rtmp.h curl_sasl.h curl_sec.h curl_setup.h  \
+  curl_printf.h curl_range.h curl_rtmp.h curl_sasl.h curl_krb5.h curl_setup.h \
   curl_setup_once.h curl_sha256.h curl_sspi.h curl_threads.h curlx.h dict.h   \
   dotdot.h easyif.h escape.h file.h fileinfo.h formdata.h ftp.h url.h         \
   ftplistparser.h getinfo.h gopher.h hash.h hostcheck.h hostip.h http.h       \
@@ -1045,7 +1048,7 @@ LIB_HFILES = altsvc.h amigaos.h arpa_telnet.h asyn.h conncache.h connect.h    \
   smb.h smtp.h sockaddr.h socketpair.h socks.h speedcheck.h splay.h strcase.h \
   strdup.h strerror.h strtok.h strtoofft.h system_win32.h telnet.h tftp.h     \
   timeval.h transfer.h urlapi-int.h urldata.h warnless.h wildcard.h           \
-  x509asn1.h dynbuf.h version_win32.h
+  x509asn1.h dynbuf.h version_win32.h easyoptions.h
 
 LIB_RCFILES = libcurl.rc
 CSOURCES = $(LIB_CFILES) $(LIB_VAUTH_CFILES) $(LIB_VTLS_CFILES) \
@@ -1369,6 +1372,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-dotdot.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-dynbuf.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-easy.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-easygetopt.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-easyoptions.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-escape.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-file.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-fileinfo.Plo@am__quote@ # am--include-marker
@@ -1420,7 +1425,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-rand.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-rename.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-rtsp.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-security.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-select.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-sendf.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-setopt.Plo@am__quote@ # am--include-marker
@@ -1484,6 +1488,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-dotdot.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-dynbuf.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-easy.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-easygetopt.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-easyoptions.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-escape.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-file.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-fileinfo.Plo@am__quote@ # am--include-marker
@@ -1535,7 +1541,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-rand.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-rename.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-rtsp.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-security.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-select.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-sendf.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-setopt.Plo@am__quote@ # am--include-marker
@@ -2243,13 +2248,6 @@ libcurl_la-rtsp.lo: rtsp.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-rtsp.lo `test -f 'rtsp.c' || echo '$(srcdir)/'`rtsp.c
 
-libcurl_la-security.lo: security.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-security.lo -MD -MP -MF $(DEPDIR)/libcurl_la-security.Tpo -c -o libcurl_la-security.lo `test -f 'security.c' || echo '$(srcdir)/'`security.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-security.Tpo $(DEPDIR)/libcurl_la-security.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='security.c' object='libcurl_la-security.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-security.lo `test -f 'security.c' || echo '$(srcdir)/'`security.c
-
 libcurl_la-select.lo: select.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-select.lo -MD -MP -MF $(DEPDIR)/libcurl_la-select.Tpo -c -o libcurl_la-select.lo `test -f 'select.c' || echo '$(srcdir)/'`select.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-select.Tpo $(DEPDIR)/libcurl_la-select.Plo
@@ -2466,6 +2464,20 @@ libcurl_la-version_win32.lo: version_win32.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='version_win32.c' object='libcurl_la-version_win32.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-version_win32.lo `test -f 'version_win32.c' || echo '$(srcdir)/'`version_win32.c
+
+libcurl_la-easyoptions.lo: easyoptions.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-easyoptions.lo -MD -MP -MF $(DEPDIR)/libcurl_la-easyoptions.Tpo -c -o libcurl_la-easyoptions.lo `test -f 'easyoptions.c' || echo '$(srcdir)/'`easyoptions.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-easyoptions.Tpo $(DEPDIR)/libcurl_la-easyoptions.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='easyoptions.c' object='libcurl_la-easyoptions.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-easyoptions.lo `test -f 'easyoptions.c' || echo '$(srcdir)/'`easyoptions.c
+
+libcurl_la-easygetopt.lo: easygetopt.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-easygetopt.lo -MD -MP -MF $(DEPDIR)/libcurl_la-easygetopt.Tpo -c -o libcurl_la-easygetopt.lo `test -f 'easygetopt.c' || echo '$(srcdir)/'`easygetopt.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-easygetopt.Tpo $(DEPDIR)/libcurl_la-easygetopt.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='easygetopt.c' object='libcurl_la-easygetopt.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-easygetopt.lo `test -f 'easygetopt.c' || echo '$(srcdir)/'`easygetopt.c
 
 vauth/libcurl_la-cleartext.lo: vauth/cleartext.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT vauth/libcurl_la-cleartext.lo -MD -MP -MF vauth/$(DEPDIR)/libcurl_la-cleartext.Tpo -c -o vauth/libcurl_la-cleartext.lo `test -f 'vauth/cleartext.c' || echo '$(srcdir)/'`vauth/cleartext.c
@@ -3272,13 +3284,6 @@ libcurlu_la-rtsp.lo: rtsp.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-rtsp.lo `test -f 'rtsp.c' || echo '$(srcdir)/'`rtsp.c
 
-libcurlu_la-security.lo: security.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-security.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-security.Tpo -c -o libcurlu_la-security.lo `test -f 'security.c' || echo '$(srcdir)/'`security.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-security.Tpo $(DEPDIR)/libcurlu_la-security.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='security.c' object='libcurlu_la-security.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-security.lo `test -f 'security.c' || echo '$(srcdir)/'`security.c
-
 libcurlu_la-select.lo: select.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-select.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-select.Tpo -c -o libcurlu_la-select.lo `test -f 'select.c' || echo '$(srcdir)/'`select.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-select.Tpo $(DEPDIR)/libcurlu_la-select.Plo
@@ -3495,6 +3500,20 @@ libcurlu_la-version_win32.lo: version_win32.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='version_win32.c' object='libcurlu_la-version_win32.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-version_win32.lo `test -f 'version_win32.c' || echo '$(srcdir)/'`version_win32.c
+
+libcurlu_la-easyoptions.lo: easyoptions.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-easyoptions.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-easyoptions.Tpo -c -o libcurlu_la-easyoptions.lo `test -f 'easyoptions.c' || echo '$(srcdir)/'`easyoptions.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-easyoptions.Tpo $(DEPDIR)/libcurlu_la-easyoptions.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='easyoptions.c' object='libcurlu_la-easyoptions.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-easyoptions.lo `test -f 'easyoptions.c' || echo '$(srcdir)/'`easyoptions.c
+
+libcurlu_la-easygetopt.lo: easygetopt.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-easygetopt.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-easygetopt.Tpo -c -o libcurlu_la-easygetopt.lo `test -f 'easygetopt.c' || echo '$(srcdir)/'`easygetopt.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-easygetopt.Tpo $(DEPDIR)/libcurlu_la-easygetopt.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='easygetopt.c' object='libcurlu_la-easygetopt.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-easygetopt.lo `test -f 'easygetopt.c' || echo '$(srcdir)/'`easygetopt.c
 
 vauth/libcurlu_la-cleartext.lo: vauth/cleartext.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT vauth/libcurlu_la-cleartext.lo -MD -MP -MF vauth/$(DEPDIR)/libcurlu_la-cleartext.Tpo -c -o vauth/libcurlu_la-cleartext.lo `test -f 'vauth/cleartext.c' || echo '$(srcdir)/'`vauth/cleartext.c
@@ -3899,6 +3918,8 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-dotdot.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-dynbuf.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-easy.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-easygetopt.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-easyoptions.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-escape.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-file.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-fileinfo.Plo
@@ -3950,7 +3971,6 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-rand.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-rename.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-rtsp.Plo
-	-rm -f ./$(DEPDIR)/libcurl_la-security.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-select.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-sendf.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-setopt.Plo
@@ -4014,6 +4034,8 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-dotdot.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-dynbuf.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-easy.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-easygetopt.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-easyoptions.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-escape.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-file.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-fileinfo.Plo
@@ -4065,7 +4087,6 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-rand.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-rename.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-rtsp.Plo
-	-rm -f ./$(DEPDIR)/libcurlu_la-security.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-select.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-sendf.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-setopt.Plo
@@ -4238,6 +4259,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-dotdot.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-dynbuf.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-easy.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-easygetopt.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-easyoptions.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-escape.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-file.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-fileinfo.Plo
@@ -4289,7 +4312,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-rand.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-rename.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-rtsp.Plo
-	-rm -f ./$(DEPDIR)/libcurl_la-security.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-select.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-sendf.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-setopt.Plo
@@ -4353,6 +4375,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-dotdot.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-dynbuf.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-easy.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-easygetopt.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-easyoptions.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-escape.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-file.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-fileinfo.Plo
@@ -4404,7 +4428,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-rand.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-rename.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-rtsp.Plo
-	-rm -f ./$(DEPDIR)/libcurlu_la-security.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-select.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-sendf.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-setopt.Plo
@@ -4548,6 +4571,9 @@ checksrc:
 
 tidy:
 	$(TIDY) $(CSOURCES) $(TIDYFLAGS) -- $(AM_CPPFLAGS) $(CPPFLAGS) -DHAVE_CONFIG_H
+
+optiontable:
+	perl optiontable.pl < $(top_srcdir)/include/curl/curl.h > easyoptions.c
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

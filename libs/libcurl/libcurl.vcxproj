@@ -122,6 +122,12 @@
     <ClCompile Include="src\easy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\easygetopt.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\easyoptions.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\escape.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -279,9 +285,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\rtsp.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\security.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\select.c">
@@ -455,6 +458,7 @@
     <ClInclude Include="src\curl_get_line.h" />
     <ClInclude Include="src\curl_gssapi.h" />
     <ClInclude Include="src\curl_hmac.h" />
+    <ClInclude Include="src\curl_krb5.h" />
     <ClInclude Include="src\curl_ldap.h" />
     <ClInclude Include="src\curl_md4.h" />
     <ClInclude Include="src\curl_md5.h" />
@@ -468,7 +472,6 @@
     <ClInclude Include="src\curl_range.h" />
     <ClInclude Include="src\curl_rtmp.h" />
     <ClInclude Include="src\curl_sasl.h" />
-    <ClInclude Include="src\curl_sec.h" />
     <ClInclude Include="src\curl_setup.h" />
     <ClInclude Include="src\curl_setup_once.h" />
     <ClInclude Include="src\curl_sha256.h" />
@@ -479,6 +482,7 @@
     <ClInclude Include="src\dotdot.h" />
     <ClInclude Include="src\dynbuf.h" />
     <ClInclude Include="src\easyif.h" />
+    <ClInclude Include="src\easyoptions.h" />
     <ClInclude Include="src\escape.h" />
     <ClInclude Include="src\file.h" />
     <ClInclude Include="src\fileinfo.h" />

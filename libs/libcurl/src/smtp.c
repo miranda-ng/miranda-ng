@@ -133,6 +133,7 @@ const struct Curl_handler Curl_handler_smtp = {
   ZERO_NULL,                        /* connection_check */
   PORT_SMTP,                        /* defport */
   CURLPROTO_SMTP,                   /* protocol */
+  CURLPROTO_SMTP,                   /* family */
   PROTOPT_CLOSEACTION | PROTOPT_NOURLQUERY | /* flags */
   PROTOPT_URLOPTIONS
 };
@@ -160,6 +161,7 @@ const struct Curl_handler Curl_handler_smtps = {
   ZERO_NULL,                        /* connection_check */
   PORT_SMTPS,                       /* defport */
   CURLPROTO_SMTPS,                  /* protocol */
+  CURLPROTO_SMTP,                   /* family */
   PROTOPT_CLOSEACTION | PROTOPT_SSL
   | PROTOPT_NOURLQUERY | PROTOPT_URLOPTIONS /* flags */
 };
@@ -1322,6 +1324,7 @@ static CURLcode smtp_connect(struct connectdata *conn, bool *done)
   Curl_sasl_init(&smtpc->sasl, &saslsmtp);
 
   /* Initialise the pingpong layer */
+  Curl_pp_setup(pp);
   Curl_pp_init(pp);
 
   /* Parse the URL options */

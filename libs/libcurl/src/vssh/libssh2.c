@@ -150,6 +150,7 @@ const struct Curl_handler Curl_handler_scp = {
   ZERO_NULL,                            /* connection_check */
   PORT_SSH,                             /* defport */
   CURLPROTO_SCP,                        /* protocol */
+  CURLPROTO_SCP,                        /* family */
   PROTOPT_DIRLOCK | PROTOPT_CLOSEACTION
   | PROTOPT_NOURLQUERY                  /* flags */
 };
@@ -177,6 +178,7 @@ const struct Curl_handler Curl_handler_sftp = {
   ZERO_NULL,                            /* connection_check */
   PORT_SSH,                             /* defport */
   CURLPROTO_SFTP,                       /* protocol */
+  CURLPROTO_SFTP,                       /* family */
   PROTOPT_DIRLOCK | PROTOPT_CLOSEACTION
   | PROTOPT_NOURLQUERY                  /* flags */
 };
@@ -442,6 +444,7 @@ static CURLcode ssh_knownhost(struct connectdata *conn)
   if(data->set.str[STRING_SSH_KNOWNHOSTS]) {
     /* we're asked to verify the host against a file */
     struct ssh_conn *sshc = &conn->proto.sshc;
+    struct libssh2_knownhost *host = NULL;
     int rc;
     int keytype;
     size_t keylen;
@@ -456,7 +459,6 @@ static CURLcode ssh_knownhost(struct connectdata *conn)
        * What host name does OpenSSH store in its file if an IDN name is
        * used?
        */
-      struct libssh2_knownhost *host;
       enum curl_khmatch keymatch;
       curl_sshkeycallback func =
         data->set.ssh_keyfunc?data->set.ssh_keyfunc:sshkeycallback;
@@ -568,7 +570,13 @@ static CURLcode ssh_knownhost(struct connectdata *conn)
       /* DEFER means bail out but keep the SSH_HOSTKEY state */
       result = sshc->actualcode = CURLE_PEER_FAILED_VERIFICATION;
       break;
+    case CURLKHSTAT_FINE_REPLACE:
+      /* remove old host+key that doesn't match */
+      if(host)
+        libssh2_knownhost_del(sshc->kh, host);
+        /*FALLTHROUGH*/
     case CURLKHSTAT_FINE:
+        /*FALLTHROUGH*/
     case CURLKHSTAT_FINE_ADD_TO_FILE:
       /* proceed */
       if(keycheck != LIBSSH2_KNOWNHOST_CHECK_MATCH) {
@@ -583,7 +591,8 @@ static CURLcode ssh_knownhost(struct connectdata *conn)
         if(addrc)
           infof(data, "Warning adding the known host %s failed!\n",
                 conn->host.name);
-        else if(rc == CURLKHSTAT_FINE_ADD_TO_FILE) {
+        else if(rc == CURLKHSTAT_FINE_ADD_TO_FILE ||
+                rc == CURLKHSTAT_FINE_REPLACE) {
           /* now we write the entire in-memory list of known hosts to the
              known_hosts file */
           int wrc =
@@ -814,6 +823,7 @@ static CURLcode ssh_statemach_act(struct connectdata *conn, bool *block)
       result = ssh_force_knownhost_key_type(conn);
       if(result) {
         state(conn, SSH_SESSION_FREE);
+        sshc->actualcode = result;
         break;
       }
 
@@ -1390,7 +1400,9 @@ static CURLcode ssh_statemach_act(struct connectdata *conn, bool *block)
          */
         if(strncasecompare(cmd, "chgrp ", 6) ||
            strncasecompare(cmd, "chmod ", 6) ||
-           strncasecompare(cmd, "chown ", 6) ) {
+           strncasecompare(cmd, "chown ", 6) ||
+           strncasecompare(cmd, "atime ", 6) ||
+           strncasecompare(cmd, "mtime ", 6)) {
           /* attribute change */
 
           /* sshc->quote_path1 contains the mode to set */
@@ -1586,6 +1598,34 @@ static CURLcode ssh_statemach_act(struct connectdata *conn, bool *block)
           sshc->actualcode = CURLE_QUOTE_ERROR;
           break;
         }
+      }
+      else if(strncasecompare(cmd, "atime", 5)) {
+        time_t date = Curl_getdate_capped(sshc->quote_path1);
+        if(date == -1) {
+          Curl_safefree(sshc->quote_path1);
+          Curl_safefree(sshc->quote_path2);
+          failf(data, "Syntax error: incorrect access date format");
+          state(conn, SSH_SFTP_CLOSE);
+          sshc->nextstate = SSH_NO_STATE;
+          sshc->actualcode = CURLE_QUOTE_ERROR;
+          break;
+        }
+        sshc->quote_attrs.atime = (unsigned long)date;
+        sshc->quote_attrs.flags = LIBSSH2_SFTP_ATTR_ACMODTIME;
+      }
+      else if(strncasecompare(cmd, "mtime", 5)) {
+        time_t date = Curl_getdate_capped(sshc->quote_path1);
+        if(date == -1) {
+          Curl_safefree(sshc->quote_path1);
+          Curl_safefree(sshc->quote_path2);
+          failf(data, "Syntax error: incorrect modification date format");
+          state(conn, SSH_SFTP_CLOSE);
+          sshc->nextstate = SSH_NO_STATE;
+          sshc->actualcode = CURLE_QUOTE_ERROR;
+          break;
+        }
+        sshc->quote_attrs.mtime = (unsigned long)date;
+        sshc->quote_attrs.flags = LIBSSH2_SFTP_ATTR_ACMODTIME;
       }
 
       /* Now send the completed structure... */
@@ -2999,6 +3039,42 @@ static CURLcode ssh_setup_connection(struct connectdata *conn)
 static Curl_recv scp_recv, sftp_recv;
 static Curl_send scp_send, sftp_send;
 
+static ssize_t ssh_tls_recv(libssh2_socket_t sock, void *buffer,
+                            size_t length, int flags, void **abstract)
+{
+  struct connectdata *conn = (struct connectdata *)*abstract;
+  ssize_t nread;
+  CURLcode result;
+  (void)flags;
+
+  result = Curl_read(conn, sock, buffer, length, &nread);
+  if(result == CURLE_AGAIN)
+    return -EAGAIN; /* magic return code for libssh2 */
+  else if(result)
+    return -1; /* generic error */
+  if(conn->data->set.verbose)
+    Curl_debug(conn->data, CURLINFO_DATA_IN, (char *)buffer, (size_t)nread);
+  return nread;
+}
+
+static ssize_t ssh_tls_send(libssh2_socket_t sock, const void *buffer,
+                            size_t length, int flags, void **abstract)
+{
+  struct connectdata *conn = (struct connectdata *)*abstract;
+  ssize_t nwrite;
+  CURLcode result;
+  (void)flags;
+
+  result = Curl_write(conn, sock, buffer, length, &nwrite);
+  if(result == CURLE_AGAIN)
+    return -EAGAIN; /* magic return code for libssh2 */
+  else if(result)
+    return -1; /* error */
+  if(conn->data->set.verbose)
+    Curl_debug(conn->data, CURLINFO_DATA_OUT, (char *)buffer, (size_t)nwrite);
+  return nwrite;
+}
+
 /*
  * Curl_ssh_connect() gets called from Curl_protocol_connect() to allow us to
  * do protocol-specific actions at connect-time.
@@ -3020,14 +3096,6 @@ static CURLcode ssh_connect(struct connectdata *conn, bool *done)
      function to make the re-use checks properly be able to check this bit. */
   connkeep(conn, "SSH default");
 
-  if(conn->handler->protocol & CURLPROTO_SCP) {
-    conn->recv[FIRSTSOCKET] = scp_recv;
-    conn->send[FIRSTSOCKET] = scp_send;
-  }
-  else {
-    conn->recv[FIRSTSOCKET] = sftp_recv;
-    conn->send[FIRSTSOCKET] = sftp_send;
-  }
   ssh = &conn->proto.sshc;
 
 #ifdef CURL_LIBSSH2_DEBUG
@@ -3046,6 +3114,53 @@ static CURLcode ssh_connect(struct connectdata *conn, bool *done)
   if(ssh->ssh_session == NULL) {
     failf(data, "Failure initialising ssh session");
     return CURLE_FAILED_INIT;
+  }
+
+  if(conn->http_proxy.proxytype == CURLPROXY_HTTPS) {
+    /*
+     * This crazy union dance is here to avoid assigning a void pointer a
+     * function pointer as it is invalid C. The problem is of course that
+     * libssh2 has such an API...
+     */
+    union receive {
+      void *recvp;
+      ssize_t (*recvptr)(libssh2_socket_t, void *, size_t, int, void **);
+    };
+    union transfer {
+      void *sendp;
+      ssize_t (*sendptr)(libssh2_socket_t, const void *, size_t, int, void **);
+    };
+    union receive sshrecv;
+    union transfer sshsend;
+
+    sshrecv.recvptr = ssh_tls_recv;
+    sshsend.sendptr = ssh_tls_send;
+
+    infof(data, "Uses HTTPS proxy!\n");
+    /*
+      Setup libssh2 callbacks to make it read/write TLS from the socket.
+
+      ssize_t
+      recvcb(libssh2_socket_t sock, void *buffer, size_t length,
+      int flags, void **abstract);
+
+      ssize_t
+      sendcb(libssh2_socket_t sock, const void *buffer, size_t length,
+      int flags, void **abstract);
+
+    */
+    libssh2_session_callback_set(ssh->ssh_session,
+                                 LIBSSH2_CALLBACK_RECV, sshrecv.recvp);
+    libssh2_session_callback_set(ssh->ssh_session,
+                                 LIBSSH2_CALLBACK_SEND, sshsend.sendp);
+  }
+  else if(conn->handler->protocol & CURLPROTO_SCP) {
+    conn->recv[FIRSTSOCKET] = scp_recv;
+    conn->send[FIRSTSOCKET] = scp_send;
+  }
+  else {
+    conn->recv[FIRSTSOCKET] = sftp_recv;
+    conn->send[FIRSTSOCKET] = sftp_send;
   }
 
   if(data->set.ssh_compression) {

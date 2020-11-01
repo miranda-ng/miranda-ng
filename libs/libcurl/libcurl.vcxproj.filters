@@ -95,6 +95,12 @@
     <ClCompile Include="src\easy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\easygetopt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\easyoptions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\escape.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -252,9 +258,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\rtsp.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\security.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\select.c">
@@ -529,6 +532,9 @@
     <ClInclude Include="src\curl_hmac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\curl_krb5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\curl_ldap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -568,9 +574,6 @@
     <ClInclude Include="src\curl_sasl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\curl_sec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\curl_setup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -596,6 +599,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\easyif.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\easyoptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\escape.h">

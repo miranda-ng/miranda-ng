@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_GETHOSTNAME_H
-#define HEADER_CURL_GETHOSTNAME_H
+#ifndef HEADER_CURL_EASYOPTIONS_H
+#define HEADER_CURL_EASYOPTIONS_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -22,10 +22,14 @@
  *
  ***************************************************************************/
 
-/* Hostname buffer size */
-#define HOSTNAME_MAX 1024
+/* should probably go into the public header */
 
-/* This returns the local machine's un-qualified hostname */
-int Curl_gethostname(char * const name, GETHOSTNAME_TYPE_ARG2 namelen);
+#include <curl/curl.h>
 
-#endif /* HEADER_CURL_GETHOSTNAME_H */
+/* generated table with all easy options */
+extern struct curl_easyoption Curl_easyopts[];
+
+#ifdef DEBUGBUILD
+int Curl_easyopts_check(void);
+#endif
+#endif
