@@ -1404,6 +1404,9 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		case TABSRMM_HK_QUOTEMSG:
 			SendMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);
 			return _dlgReturn(m_hwnd, 1);
+		case TABSRMM_HK_CLEARMSG:
+			m_message.SetText(L"");
+			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_USERMENU:
 			SendMessage(m_hwnd, WM_COMMAND, IDC_PROTOCOL, 0);
 			return _dlgReturn(m_hwnd, 1);
@@ -1889,15 +1892,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if (!isAlt && !isCtrl && !m_pContainer->m_flags.m_bNoSound && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
 			Skin_PlaySound("SoundOnTyping");
-
-		if (isCtrl && !isAlt) {
-			switch (wParam) {
-			case 0x0b:
-				if (!isChat())
-					m_message.SetText(L"");
-				return 0;
-			}
-		}
 		break;
 
 	case WM_MOUSEWHEEL:

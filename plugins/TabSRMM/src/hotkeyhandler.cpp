@@ -46,6 +46,7 @@ static HOTKEYDESC _hotkeydescs[] = {
 	{ "tabsrmm_copts", LPGEN("Container options"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'O'), 0, TABSRMM_HK_CONTAINEROPTIONS },
 	{ "tabsrmm_sendfile", LPGEN("Send a file"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT, 'F'), 0, TABSRMM_HK_SENDFILE },
 	{ "tabsrmm_quote", LPGEN("Quote message"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT, 'Q'), 0, TABSRMM_HK_QUOTEMSG },
+	{ "tabsrmm_clear", LPGEN("Clear message area"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'K'), 0, TABSRMM_HK_CLEARMSG },
 	{ "tabsrmm_sendlater", LPGEN("Toggle send later"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'S'), 0, TABSRMM_HK_TOGGLESENDLATER },
 
 	{ "tabsrmm_send", LPGEN("Send message"), TABSRMM_HK_SECTION_GENERIC, nullptr, 0, 0, TABSRMM_HK_SEND },
