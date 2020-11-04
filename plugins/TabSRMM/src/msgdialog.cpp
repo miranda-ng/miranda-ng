@@ -1924,6 +1924,8 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else if (hClip = GetClipboardData(CF_BITMAP))
 				SendHBitmapAsFile((HBITMAP)hClip);
+			else if (hClip = GetClipboardData(CF_HDROP))
+				SendMessage(m_hwnd, WM_DROPFILES, WPARAM(hClip), 0);
 
 			CloseClipboard();
 		}
