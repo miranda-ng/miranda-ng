@@ -37,31 +37,27 @@ INT_PTR CALLBACK CurrencyRateInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT 
 		TranslateDialogDefault(hdlg);
 		{
 			tstring sDescription = GetContactName(hContact);
-			::SetDlgItemText(hdlg, IDC_STATIC_CURRENCYRATE_NAME, sDescription.c_str());
+			::SetDlgItemTextW(hdlg, IDC_STATIC_CURRENCYRATE_NAME, sDescription.c_str());
 
 			double dRate = 0.0;
 			if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, dRate)) {
-				tostringstream o;
-				o.imbue(GetSystemLocale());
-				o << dRate;
-
-				::SetDlgItemText(hdlg, IDC_EDIT_PREVIOUS_RATE, o.str().c_str());
+				wchar_t str[40];
+				swprintf_s(str, L"%.6lf", dRate);
+				::SetDlgItemTextW(hdlg, IDC_EDIT_PREVIOUS_RATE, str);
 			}
 
 			dRate = 0.0;
 			if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate)) {
-				tostringstream o;
-				o.imbue(GetSystemLocale());
-				o << dRate;
-
-				::SetDlgItemText(hdlg, IDC_EDIT_RATE, o.str().c_str());
+				wchar_t str[40];
+				swprintf_s(str, L"%.6lf", dRate);
+				::SetDlgItemTextW(hdlg, IDC_EDIT_RATE, str);
 			}
 
 			time_t nFetchTime;
 			if (true == get_fetch_time(nFetchTime, hContact)) {
 				wchar_t szTime[50] = { 0 };
 				if (0 == _tctime_s(szTime, 50, &nFetchTime)) {
-					::SetDlgItemText(hdlg, IDC_EDIT_RATE_FETCH_TIME, szTime);
+					::SetDlgItemTextW(hdlg, IDC_EDIT_RATE_FETCH_TIME, szTime);
 				}
 			}
 
@@ -69,7 +65,7 @@ INT_PTR CALLBACK CurrencyRateInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT 
 			tostringstream o;
 			o << TranslateT("Info provided by") << L" <a href=\"" << pi.m_sURL << L"\">" << pi.m_sName << L"</a>";
 
-			::SetDlgItemText(hdlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
+			::SetDlgItemTextW(hdlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
 		}
 		return TRUE;
 

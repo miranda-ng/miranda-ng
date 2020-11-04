@@ -354,7 +354,7 @@ tstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, 
 				case 't':  sResult += L"\t"; break;
 				case 'n':  sResult += L"\n"; break;
 				case '\\': sResult += L"\\"; break;
-				default:       sResult += chr; sResult += t; break;
+				default:   sResult += chr; sResult += t; break;
 				}
 				++i;
 			}
@@ -862,15 +862,11 @@ static tstring format_fetch_time(MCONTACT hContact, const tstring &rsFormat)
 
 static tstring format_double(double dValue, int nWidth)
 {
-	tostringstream o;
-	o.imbue(GetSystemLocale());
-
+	wchar_t str[100], format[] = L"%.6lf";
 	if (nWidth > 0 && nWidth <= 9)
-		o << std::setprecision(nWidth) << std::showpoint << std::fixed;
-
-	o << dValue;
-
-	return o.str();
+		format[2] = '0' + nWidth;
+	swprintf_s(str, format, dValue);
+	return str;
 }
 
 tstring CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const

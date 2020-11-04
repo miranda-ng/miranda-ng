@@ -60,10 +60,9 @@ inline void update_swap_button(HWND hDlg)
 
 inline tstring double2str(double dValue)
 {
-	tostringstream output;
-	output.imbue(GetSystemLocale());
-	output << std::fixed << std::setprecision(2) << dValue;
-	return output.str();
+	wchar_t str[40];
+	swprintf_s(str, L"%.2lf", dValue);
+	return str;
 }
 
 inline bool str2double(const tstring& s, double& d)
@@ -201,23 +200,9 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 							const auto pProvider = get_currency_converter_provider();
 							assert(pProvider);
 							if (pProvider) {
-								tstring sResult;
-								std::string sError;
-								try {
-									double dResult = pProvider->Convert(dAmount, from, to);
-									tostringstream ss;
-									ss.imbue(GetSystemLocale());
-									ss << std::fixed << std::setprecision(2) << dAmount << " " << from.GetName() << " = " << dResult << " " << to.GetName();
-									sResult = ss.str();
-								}
-								catch (std::exception& e) {
-									sError = e.what();
-								}
-
-								if (false == sError.empty())
-									sResult = currencyrates_a2t(sError.c_str());//A2T(sError.c_str());
-
-								SetDlgItemText(hDlg, IDC_EDIT_RESULT, sResult.c_str());
+								double dResult = pProvider->Convert(dAmount, from, to);
+								CMStringW sResult(FORMAT, L"%.2lf %s = %.2lf %s", dAmount, from.GetName().c_str(), dResult, to.GetName().c_str());
+								SetDlgItemText(hDlg, IDC_EDIT_RESULT, sResult);
 							}
 						}
 					}

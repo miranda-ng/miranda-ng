@@ -27,10 +27,9 @@ namespace detail
 
 		static tstring ToString(double v)
 		{
-			tostringstream s;
-			s.imbue(std::locale(""));
-			s << std::fixed << v;
-			return s.str();
+			wchar_t str[40];
+			swprintf_s(str, L"%.6lf", v);
+			return str;
 		}
 	};
 }
