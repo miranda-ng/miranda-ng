@@ -123,7 +123,11 @@ static int sttServerEnum(const char* szSetting, void*)
 	SERVER_INFO *pData = new SERVER_INFO;
 	pData->m_name = mir_strdup(szSetting);
 
-	char *p1 = strchr(dbv.pszVal, ':') + 1;
+	char *p1 = strchr(dbv.pszVal, ':');
+	if (p1 == nullptr)
+		return 0;
+
+	p1++;
 	pData->m_iSSL = 0;
 	if (!_strnicmp(p1, "SSL", 3)) {
 		p1 += 3;
