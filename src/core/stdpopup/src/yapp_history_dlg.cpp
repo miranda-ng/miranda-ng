@@ -528,7 +528,7 @@ INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		bInitializing = 1;
-		Window_SetIcon_IcoLib(hWnd, IcoLib_GetIconHandle(ICO_HISTORY));
+		Window_SetIcon_IcoLib(hWnd, g_plugin.getIconHandle(IDI_HISTORY));
 		{
 			int renderer = lstPopupHistory.GetRenderer();
 			LoadRenderer(hWnd, renderer);

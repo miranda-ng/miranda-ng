@@ -26,7 +26,6 @@
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\core.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\message_pump.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\popwin.cpp" />
@@ -37,7 +36,6 @@
     <ClCompile Include="src\yapp.cpp" />
     <ClCompile Include="src\yapp_history.cpp" />
     <ClCompile Include="src\yapp_history_dlg.cpp" />
-    <ClInclude Include="src\icons.h" />
     <ClInclude Include="src\message_pump.h" />
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\popwin.h" />

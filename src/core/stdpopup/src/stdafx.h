@@ -35,13 +35,14 @@
 #include "services.h"
 #include "resource.h"
 #include "yapp_history.h"
-#include "icons.h"
 
 #define MODULENAME "YAPP"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	void InitIcons();
 
 	int Load() override;
 	int Unload() override;
