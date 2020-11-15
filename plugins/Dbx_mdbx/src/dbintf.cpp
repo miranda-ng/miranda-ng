@@ -27,10 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // constructor & destructor
 
 CDbxMDBX::CDbxMDBX(const wchar_t *tszFileName, int iMode) :
-	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
-	m_bShared((iMode & DBMODE_SHARED) != 0),
-	m_maxContactId(0),
 	m_pwszProfileName(mir_wstrdup(tszFileName)),
 	m_impl(*this)
 {

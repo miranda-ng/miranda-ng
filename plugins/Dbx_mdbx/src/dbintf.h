@@ -179,7 +179,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	// database stuff
 
 	ptrW         m_pwszProfileName;
-	bool         m_safetyMode, m_bReadOnly, m_bShared, m_bEncrypted, m_bUsesPassword;
+	bool         m_safetyMode = true, m_bReadOnly, m_bEncrypted, m_bUsesPassword;
 
 	MDBX_env    *m_env;
 	CMDBX_txn_ro m_txn_ro;
@@ -204,7 +204,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	MDBX_dbi	    m_dbContacts;
 	MDBX_cursor *m_curContacts;
 
-	MCONTACT     m_maxContactId;
+	MCONTACT     m_maxContactId = 0;
 
 	void         GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &items);
 
