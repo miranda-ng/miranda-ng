@@ -26,16 +26,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // constructor & destructor
 
-CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
+CDbxMDBX::CDbxMDBX(const wchar_t *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
 	m_maxContactId(0),
+	m_pwszProfileName(mir_wstrdup(tszFileName)),
 	m_impl(*this)
 {
 	m_ccDummy.nSubs = -1;
-
-	m_tszProfileName = mir_wstrdup(tszFileName);
 }
 
 CDbxMDBX::~CDbxMDBX()
@@ -51,8 +50,6 @@ CDbxMDBX::~CDbxMDBX()
 
 	if (m_crypto)
 		m_crypto->destroy();
-
-	mir_free(m_tszProfileName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +135,7 @@ BYTE bDefHeader[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 int CDbxMDBX::Check(void)
 {
-	FILE *pFile = _wfopen(m_tszProfileName, L"rb");
+	FILE *pFile = _wfopen(m_pwszProfileName, L"rb");
 	if (pFile == nullptr)
 		return EGROKPRF_CANTREAD;
 
@@ -156,7 +153,7 @@ int CDbxMDBX::Check(void)
 
 BOOL CDbxMDBX::Compact()
 {
-	CMStringW wszTmpFile(FORMAT, L"%s.tmp", m_tszProfileName);
+	CMStringW wszTmpFile(FORMAT, L"%s.tmp", m_pwszProfileName.get());
 
 	mir_cslock lck(m_csDbAccess);
 	int res = Backup(wszTmpFile);
@@ -165,8 +162,8 @@ BOOL CDbxMDBX::Compact()
 
 	mdbx_env_close(m_env);
 
-	DeleteFileW(m_tszProfileName);
-	MoveFileW(wszTmpFile, m_tszProfileName);
+	DeleteFileW(m_pwszProfileName);
+	MoveFileW(wszTmpFile, m_pwszProfileName);
 
 	Map();
 	Load();
@@ -229,7 +226,7 @@ static void assert_func(const MDBX_env*, const char *msg, const char *function, 
 
 int CDbxMDBX::Map()
 {
-	if (!LockName(m_tszProfileName))
+	if (!LockName(m_pwszProfileName))
 		return EGROKPRF_CANTREAD;
 
 	mdbx_env_create(&m_env);
@@ -259,7 +256,7 @@ int CDbxMDBX::Map()
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
 
-	if (mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664) != MDBX_SUCCESS)
+	if (mdbx_env_open(m_env, _T2A(m_pwszProfileName), mode, 0664) != MDBX_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
 	return EGROKPRF_NOERROR;
@@ -275,7 +272,7 @@ void CDbxMDBX::TouchFile()
 	FILETIME ft;
 	SystemTimeToFileTime(&st, &ft);
 
-	HANDLE hFile = CreateFileW(m_tszProfileName, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+	HANDLE hFile = CreateFileW(m_pwszProfileName, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		SetFileTime(hFile, nullptr, &ft, &ft);
 		CloseHandle(hFile);

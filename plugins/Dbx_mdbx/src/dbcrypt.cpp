@@ -122,15 +122,16 @@ CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
 
 class CEnterPasswordDialog : public CDlgBase
 {
+	friend class CDbxMDBX;
+
 	CTimer m_timer;
 	CCtrlData m_header;
 	CCtrlData m_language;
 	CCtrlEdit m_passwordEdit;
 
-	friend class CDbxMDBX;
+	int m_wrongPass = 0;
+	wchar_t m_newPass[100];
 	CDbxMDBX *m_db;
-	TCHAR m_newPass[100];
-	unsigned short m_wrongPass = 0;
 
 	void OnTimer(CTimer*)
 	{

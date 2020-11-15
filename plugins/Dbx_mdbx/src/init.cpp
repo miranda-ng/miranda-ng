@@ -61,21 +61,21 @@ static void logger(MDBX_log_level_t type, const char *function, int line, const 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
-static int makeDatabase(const TCHAR *profile)
+static int makeDatabase(const wchar_t *profile)
 {
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, 0));
 	return db->Map();
 }
 
 // returns 0 if the given profile has a valid header
-static int grokHeader(const TCHAR *profile)
+static int grokHeader(const wchar_t *profile)
 {
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, DBMODE_SHARED | DBMODE_READONLY));
 	return db->Check();
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static MDatabaseCommon* loadDatabase(const TCHAR *profile, BOOL bReadOnly)
+static MDatabaseCommon* loadDatabase(const wchar_t *profile, BOOL bReadOnly)
 {
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, (bReadOnly) ? DBMODE_READONLY : 0));
 	if (db->Map() != ERROR_SUCCESS)

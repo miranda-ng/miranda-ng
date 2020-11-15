@@ -45,7 +45,7 @@ static bool CheckOldPassword(HWND hwndDlg, CDbxMDBX *db)
 {
 	if (db->usesPassword()) 
 	{
-		TCHAR buf[100];
+		wchar_t buf[100];
 		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, _countof(buf));
 		pass_ptrA oldPass(mir_utf8encodeW(buf));
 		if (!db->m_crypto->checkPassword(oldPass)) 
@@ -60,14 +60,14 @@ static bool CheckOldPassword(HWND hwndDlg, CDbxMDBX *db)
 struct DlgChangePassParam
 {
 	CDbxMDBX *db;
-	TCHAR newPass[100];
+	wchar_t newPass[100];
 	unsigned short wrongPass;
 };
 
 static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	TCHAR buf[100];
+	wchar_t buf[100];
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -112,7 +112,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			break;
 
 		case IDOK:
-			TCHAR buf2[100];
+			wchar_t buf2[100];
 			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, _countof(buf2));
 			if (wcslen(buf2) < 3) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));

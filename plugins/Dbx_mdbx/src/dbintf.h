@@ -139,6 +139,7 @@ struct EventItem
 class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
 {
 	friend class CMdbxEventCursor;
+	typedef std::map<uint32_t, std::string> TModuleMap;
 
 	struct Impl {
 		CDbxMDBX &pro;
@@ -177,15 +178,15 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
 
-	TCHAR*   m_tszProfileName;
-	bool     m_safetyMode, m_bReadOnly, m_bShared, m_bEncrypted, m_bUsesPassword;
+	ptrW         m_pwszProfileName;
+	bool         m_safetyMode, m_bReadOnly, m_bShared, m_bEncrypted, m_bUsesPassword;
 
 	MDBX_env    *m_env;
 	CMDBX_txn_ro m_txn_ro;
 	int 			 m_dbError;
 
-	MDBX_dbi m_dbGlobal;
-	DBHeader m_header;
+	MDBX_dbi     m_dbGlobal;
+	DBHeader     m_header;
 
 	DBCachedContact m_ccDummy; // dummy contact to serve a cache item for MCONTACT = 0
 
@@ -195,7 +196,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	MDBX_dbi     m_dbSettings;
 	MDBX_cursor *m_curSettings;
 
-	HANDLE   hService[2], hHook;
+	HANDLE       hService[2], hHook;
 
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
@@ -203,9 +204,9 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	MDBX_dbi	    m_dbContacts;
 	MDBX_cursor *m_curContacts;
 
-	MCONTACT m_maxContactId;
+	MCONTACT     m_maxContactId;
 
-	void     GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &items);
+	void         GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &items);
 
 	////////////////////////////////////////////////////////////////////////////
 	// events
@@ -214,7 +215,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	MDBX_cursor *m_curEvents, *m_curEventsSort, *m_curEventIds;
 	MEVENT       m_dwMaxEventId;
 
-	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
+	void         FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
 
 	////////////////////////////////////////////////////////////////////////////
 	// modules
@@ -222,12 +223,12 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	MDBX_dbi	    m_dbModules;
 	MDBX_cursor *m_curModules;
 
-	std::map<uint32_t, std::string> m_Modules;
+	TModuleMap   m_Modules;
 
-	int      InitModules();
+	int          InitModules();
 
-	uint32_t GetModuleID(const char *szName);
-	char*    GetModuleName(uint32_t dwId);
+	uint32_t     GetModuleID(const char *szName);
+	char*        GetModuleName(uint32_t dwId);
 
 	////////////////////////////////////////////////////////////////////////////
 	// encryption
@@ -240,7 +241,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	void     InitDialogs();
 
 public:
-	CDbxMDBX(const TCHAR *tszFileName, int mode);
+	CDbxMDBX(const wchar_t *tszFileName, int mode);
 	virtual ~CDbxMDBX();
 
 	int  Check(void);
