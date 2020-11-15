@@ -131,7 +131,7 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 		if (mdbx_del(trnlck, m_dbEvents, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
 
-		if (trnlck.commit() != MDBX_SUCCESS)
+		if (trnlck.Commit() != MDBX_SUCCESS)
 			return 1;
 	}
 
@@ -274,7 +274,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 				return false;
 		}
 
-		if (trnlck.commit() != MDBX_SUCCESS)
+		if (trnlck.Commit() != MDBX_SUCCESS)
 			return false;
 	}
 
@@ -448,7 +448,7 @@ BOOL CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 				return -1;
 		}
 
-		if (trnlck.commit() != MDBX_SUCCESS)
+		if (trnlck.Commit() != MDBX_SUCCESS)
 			return -1;
 	}
 

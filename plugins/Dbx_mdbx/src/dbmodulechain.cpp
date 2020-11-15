@@ -50,7 +50,7 @@ uint32_t CDbxMDBX::GetModuleID(const char *szName)
 			txn_ptr trnlck(StartTran());
 			if (mdbx_put(trnlck, m_dbModules, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 				return -1;
-			if (trnlck.commit() != MDBX_SUCCESS)
+			if (trnlck.Commit() != MDBX_SUCCESS)
 				return -1;
 		}
 

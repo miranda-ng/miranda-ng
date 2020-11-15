@@ -98,7 +98,7 @@ int CDbxMDBX::Load()
 		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS)
 			m_ccDummy.dbc = *(const DBContact*)data.iov_base;
 
-		trnlck.commit();
+		trnlck.Commit();
 	}
 
 	mdbx_txn_begin(m_env, nullptr, MDBX_TXN_RDONLY, &m_txn_ro);

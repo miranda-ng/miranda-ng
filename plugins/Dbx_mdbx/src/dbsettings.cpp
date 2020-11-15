@@ -343,7 +343,7 @@ LBL_WriteString:
 		if (mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 			return 1;
 
-		if (trnlck.commit() != MDBX_SUCCESS)
+		if (trnlck.Commit() != MDBX_SUCCESS)
 			return 1;
 	}
 
@@ -377,7 +377,7 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 			MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
 			if (mdbx_del(trnlck, m_dbSettings, &key, nullptr) != MDBX_SUCCESS)
 				return 1;
-			if (trnlck.commit() != MDBX_SUCCESS)
+			if (trnlck.Commit() != MDBX_SUCCESS)
 				return 1;
 		}
 

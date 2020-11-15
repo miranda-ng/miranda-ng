@@ -70,25 +70,25 @@ public:
 	{
 		if (txn) {
 			/* FIXME: see https://github.com/leo-yuriev/libfpta/blob/77a7251fde2030165a3916ee68fd86a1374b3dd8/src/common.cxx#L370 */
-			abort();
+			Abort();
 		}
 	}
 
 	__forceinline operator MDBX_txn*() const { return txn; }
 
-	__forceinline int commit()
+	__forceinline int Commit()
 	{
 		int rc = mdbx_txn_commit(txn);
 		if (rc != MDBX_SUCCESS) {
 			/* FIXME: throw an exception */
-			abort();
+			Abort();
 			return rc;
 		}
 		txn = nullptr;
 		return MDBX_SUCCESS;
 	}
 
-	__forceinline void abort()
+	__forceinline void Abort()
 	{
 		int rc = mdbx_txn_abort(txn);
 		/* FIXME: throw an exception */
