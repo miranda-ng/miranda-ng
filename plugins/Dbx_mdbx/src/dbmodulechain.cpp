@@ -26,10 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int CDbxMDBX::InitModules()
 {
 	txn_ptr_ro trnlck(m_txn_ro);
-	cursor_ptr_ro cursor(m_curModules);
-	
+	cursor_ptr pCursor(m_txn_ro, m_dbModules);
+
 	MDBX_val key, data;
-	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
+	while (mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
 		uint32_t iMod = *(uint32_t*)key.iov_base;
 		const char *szMod = (const char*)data.iov_base;
 		m_Modules[iMod] = szMod;

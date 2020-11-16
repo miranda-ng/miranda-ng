@@ -308,19 +308,19 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 
 	std::vector<MEVENT> lstEvents;
 	{
-		txn_ptr_ro txnro(m_txn_ro);
+		txn_ptr_ro txn(m_txn_ro);
 
 		MDBX_stat st;
-		mdbx_dbi_stat(txnro, m_dbEvents, &st, sizeof(st));
+		mdbx_dbi_stat(txn, m_dbEvents, &st, sizeof(st));
 
 		lstEvents.reserve(st.ms_entries);
-		{
-			cursor_ptr_ro cursor(m_curEvents);
-			MDBX_val key, data;
-			while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
-				const MEVENT hDbEvent = *(const MEVENT*)key.iov_base;
-				lstEvents.push_back(hDbEvent);
-			}
+
+		cursor_ptr pCursor(txn, m_dbEvents);
+
+		MDBX_val key, data;
+		while (mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
+			const MEVENT hDbEvent = *(const MEVENT*)key.iov_base;
+			lstEvents.push_back(hDbEvent);
 		}
 	}
 

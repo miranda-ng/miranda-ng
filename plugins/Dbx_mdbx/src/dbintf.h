@@ -159,14 +159,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 		}
 	} m_impl;
 
-	__forceinline MDBX_txn* StartTran()
-	{
-		MDBX_txn *res = 0;
-		m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &res);
-		/* FIXME: throw an exception */
-		_ASSERT(m_dbError == MDBX_SUCCESS);
-		return res;
-	}
+	MDBX_txn* StartTran();
 
 	bool CheckEvent(DBCachedContact *cc, const DBEvent *dbe, DBCachedContact *&cc2);
 	bool EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe, bool bNew);
@@ -182,6 +175,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	bool         m_safetyMode = true, m_bReadOnly, m_bEncrypted, m_bUsesPassword;
 
 	MDBX_env    *m_env;
+	MDBX_txn    *m_pWriteTran;
 	CMDBX_txn_ro m_txn_ro;
 	int 			 m_dbError;
 
@@ -194,16 +188,12 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	// settings
 
 	MDBX_dbi     m_dbSettings;
-	MDBX_cursor *m_curSettings;
-
 	HANDLE       hService[2], hHook;
 
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
 
 	MDBX_dbi	    m_dbContacts;
-	MDBX_cursor *m_curContacts;
-
 	MCONTACT     m_maxContactId = 0;
 
 	void         GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &items);
@@ -212,7 +202,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	// events
 
 	MDBX_dbi	    m_dbEvents, m_dbEventsSort, m_dbEventIds;
-	MDBX_cursor *m_curEvents, *m_curEventsSort, *m_curEventIds;
+	MDBX_cursor *m_curEventsSort;
 	MEVENT       m_dwMaxEventId;
 
 	void         FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
@@ -221,8 +211,6 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	// modules
 
 	MDBX_dbi	    m_dbModules;
-	MDBX_cursor *m_curModules;
-
 	TModuleMap   m_Modules;
 
 	int          InitModules();

@@ -139,20 +139,6 @@ public:
 	__forceinline operator MDBX_cursor*() const { return m_cursor; }
 };
 
-class cursor_ptr_ro
-{
-	MDBX_cursor *m_cursor;
-public:
-	__forceinline cursor_ptr_ro(MDBX_cursor *cursor) : m_cursor(cursor)
-	{
-		int rc = mdbx_cursor_renew(mdbx_cursor_txn(m_cursor), m_cursor);
-		/* FIXME: throw an exception */
-		_ASSERT(rc == MDBX_SUCCESS);
-		UNREFERENCED_PARAMETER(rc);
-	}
-	__forceinline operator MDBX_cursor*() const { return m_cursor; }
-};
-
 #include "dbintf.h"
 #include "resource.h"
 #include "version.h"

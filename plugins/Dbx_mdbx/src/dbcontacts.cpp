@@ -149,9 +149,9 @@ void CDbxMDBX::GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &list)
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
 	txn_ptr_ro trnlck(m_txn_ro);
-	cursor_ptr_ro cursor(m_curEventsSort);
+	mdbx_cursor_bind(m_txn_ro, m_curEventsSort, m_dbEventsSort);
 
-	for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
+	for (int res = mdbx_cursor_get(m_curEventsSort, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(m_curEventsSort, &key, &data, MDBX_NEXT)) {
 		const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.iov_base;
 		if (pKey->hContact != hContact)
 			return;
@@ -286,10 +286,10 @@ void CDbxMDBX::FillContacts()
 {
 	{
 		txn_ptr_ro trnlck(m_txn_ro);
-		cursor_ptr_ro cursor(m_curContacts);
+		cursor_ptr pCursor(m_txn_ro, m_dbContacts);
 
 		MDBX_val key, data;
-		while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
+		while (mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
 			DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.iov_base);
 			cc->dbc = *(DBContact*)data.iov_base;
 		}

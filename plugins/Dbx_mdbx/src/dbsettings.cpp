@@ -399,13 +399,13 @@ BOOL CDbxMDBX::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumP
 {
 	LIST<char> arKeys(100);
 	{
-		DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
 		txn_ptr_ro txn(m_txn_ro);
-		cursor_ptr_ro cursor(m_curSettings);
+		cursor_ptr pCursor(m_txn_ro, m_dbSettings);
 
+		DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
 		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-		for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
+		for (int res = mdbx_cursor_get(pCursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT)) {
 			const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
 			if (pKey->hContact != hContact || pKey->dwModuleId != keyVal.dwModuleId)
 				break;
