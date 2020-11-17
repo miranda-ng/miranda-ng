@@ -73,7 +73,7 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 	if (!CheckEvent(cc, &dbe, cc2))
 		return 1;
 	{
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		DBEventSortingKey key2 = { dbe.dwContactID, hDbEvent, dbe.timestamp };
 		MDBX_val key = { &key2, sizeof(key2) }, data;
 
@@ -215,7 +215,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 		dbe.flags |= DBEF_HAS_ID;
 	}
 
-	BYTE *recBuf = (BYTE*)_alloca(sizeof(DBEvent) + dbe.cbBlob + cbSrvId + 1), *p = recBuf;
+	BYTE *recBuf = (BYTE*)_alloca(sizeof(dbe) + dbe.cbBlob + cbSrvId + 2), *p = recBuf;
 	memcpy(p, &dbe, sizeof(dbe)); p += sizeof(dbe);
 	memcpy(p, pBlob, dbe.cbBlob); p += dbe.cbBlob;
 	if (*p != 0)
@@ -226,7 +226,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 	}
 
 	{
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data = { recBuf, size_t(p - recBuf) };
 		if (mdbx_put(trnlck, m_dbEvents, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 			return false;
@@ -278,7 +278,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 			return false;
 	}
 
-	DBFlush();
+	DBFlush(true);
 
 	// Notify only in safe mode or on really new events
 	if (m_safetyMode && !(dbei->flags & DBEF_TEMPORARY))
@@ -410,7 +410,7 @@ BOOL CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 
 	uint32_t wRetVal = -1;
 	{
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 		if (mdbx_get(trnlck, m_dbEvents, &key, &data) != MDBX_SUCCESS)
 			return -1;

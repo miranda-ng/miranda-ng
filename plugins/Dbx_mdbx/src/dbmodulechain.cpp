@@ -47,7 +47,7 @@ uint32_t CDbxMDBX::GetModuleID(const char *szName)
 	if (m_Modules.find(iHash) == m_Modules.end()) {
 		MDBX_val key = { &iHash, sizeof(iHash) }, data = { (void*)szName, strlen(szName) + 1 };
 		{
-			txn_ptr trnlck(StartTran());
+			txn_ptr trnlck(this);
 			if (mdbx_put(trnlck, m_dbModules, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 				return -1;
 			if (trnlck.Commit() != MDBX_SUCCESS)

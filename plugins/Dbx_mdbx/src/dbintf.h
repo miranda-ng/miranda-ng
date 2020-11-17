@@ -139,6 +139,8 @@ struct EventItem
 class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
 {
 	friend class CMdbxEventCursor;
+	friend class txn_ptr;
+
 	typedef std::map<uint32_t, std::string> TModuleMap;
 
 	struct Impl {

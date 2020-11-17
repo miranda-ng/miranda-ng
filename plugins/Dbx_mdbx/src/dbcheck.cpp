@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDbxMDBX::CheckEvents1(void)
 {
-	txn_ptr trnlck(StartTran());
+	txn_ptr trnlck(this);
 	cursor_ptr cursor(trnlck, m_dbEventsSort);
 
 	MDBX_val key, data;
@@ -61,7 +61,7 @@ int CDbxMDBX::CheckEvents1(void)
 
 int CDbxMDBX::CheckEvents2(void)
 {
-	txn_ptr trnlck(StartTran());
+	txn_ptr trnlck(this);
 	cursor_ptr cursor(trnlck, m_dbEventIds);
 
 	MDBX_val key, data;
@@ -83,7 +83,7 @@ int CDbxMDBX::CheckEvents2(void)
 
 int CDbxMDBX::CheckEvents3(void)
 {
-	txn_ptr trnlck(StartTran());
+	txn_ptr trnlck(this);
 	cursor_ptr cursor(trnlck, m_dbSettings);
 
 	MDBX_val key, data;

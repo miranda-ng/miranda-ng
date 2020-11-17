@@ -53,7 +53,7 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 		DBEventSortingKey keyS = { contactID, 0, 0 };
 		MDBX_val key = { &keyS, sizeof(keyS) }, data;
 
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		cursor_ptr cursor(trnlck, m_dbEventsSort);
 
 		for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
@@ -80,7 +80,7 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 		DBSettingKey keyS = { contactID, 0, 0 };
 		MDBX_val key = { &keyS, sizeof(keyS) }, data;
 
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		cursor_ptr cursor(trnlck, m_dbSettings);
 
 		for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
@@ -100,7 +100,7 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 	Netlib_Log(0, "Started wipe contact itself");
 	MDBX_val key = { &contactID, sizeof(MCONTACT) };
 	{
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		if (mdbx_del(trnlck, m_dbContacts, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
 		if (trnlck.Commit() != MDBX_SUCCESS)
@@ -122,7 +122,7 @@ MCONTACT CDbxMDBX::AddContact()
 		MDBX_val key = { &dwContactId, sizeof(MCONTACT) };
 		MDBX_val data = { &cc->dbc, sizeof(cc->dbc) };
 
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		if (mdbx_put(trnlck, m_dbContacts, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 			return 0;
 		if (trnlck.Commit() != MDBX_SUCCESS)
@@ -166,7 +166,7 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	GatherContactHistory(ccSub->contactID, list);
 
 	for (auto &EI : list) {
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 
 		DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
 		MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
@@ -178,13 +178,15 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 		ccMeta->dbc.dwEventCount++;
 	}
+	{
+		MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
 
-	MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
-	txn_ptr trnlck(StartTran());
-	if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, MDBX_UPSERT) != MDBX_SUCCESS)
-		return 1;
-	if (trnlck.Commit() != MDBX_SUCCESS)
-		return 1;
+		txn_ptr trnlck(this);
+		if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, MDBX_UPSERT) != MDBX_SUCCESS)
+			return 1;
+		if (trnlck.Commit() != MDBX_SUCCESS)
+			return 1;
+	}
 
 	DBFlush();
 	return 0;
@@ -198,7 +200,7 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	GatherContactHistory(ccSub->contactID, list);
 
 	for (auto &EI : list) {
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
 		MDBX_val key = { &insVal, sizeof(insVal) };
 		if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
@@ -208,13 +210,14 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 		ccMeta->dbc.dwEventCount--;
 	}
-
-	txn_ptr trnlck(StartTran());
-	MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
-	if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, MDBX_UPSERT) != MDBX_SUCCESS)
-		return 1;
-	if (trnlck.Commit() != MDBX_SUCCESS)
-		return 1;
+	{
+		txn_ptr trnlck(this);
+		MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
+		if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, MDBX_UPSERT) != MDBX_SUCCESS)
+			return 1;
+		if (trnlck.Commit() != MDBX_SUCCESS)
+			return 1;
+	}
 	
 	DBFlush();
 	return 0;
@@ -228,7 +231,7 @@ BOOL CDbxMDBX::MetaRemoveSubHistory(DBCachedContact *ccSub)
 	GatherContactHistory(ccSub->contactID, list);
 
 	for (auto &EI : list) {
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		{
 			MDBX_val key = { &EI->eventId, sizeof(MEVENT) }, data;
 			if (mdbx_get(trnlck, m_dbEvents, &key, &data) == MDBX_SUCCESS) {
