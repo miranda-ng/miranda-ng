@@ -1295,7 +1295,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					int numSubs = db_mc_getSubCount(pPs->hContact);
 					for (int i = 0; i < numSubs; i++) {
 						MCONTACT hSubContact = db_mc_getSub(pPs->hContact, i);
-						if (hSubContact != NULL) {
+						if (hSubContact) {
 							if (ProtoServiceExists(Proto_GetBaseAccountName(hSubContact), PSS_GETINFO)) {
 								pPs->infosUpdated = (TAckInfo *)mir_realloc(pPs->infosUpdated, sizeof(TAckInfo) * (pPs->nSubContacts + 1));
 								pPs->infosUpdated[pPs->nSubContacts].hContact = hSubContact;

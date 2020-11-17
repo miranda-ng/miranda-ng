@@ -43,7 +43,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	int bHideOffline = Clist::HideOffline;
 	for (int j = 0; j < subcount; j++) {
 		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
-		if (hsub == -1)
+		if (!hsub)
 			continue;
 
 		ClcCacheEntry *pdnce = Clist_GetCacheEntry(hsub);

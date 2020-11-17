@@ -487,7 +487,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 			const int def = db_mc_getDefaultNum(hContact);
 			if (def > -1 && def < INT_MAX) {
 				MCONTACT hSubContact = db_mc_getSub(hContact, def);
-				if (hSubContact != NULL && !DBGetBirthDate(hSubContact, nullptr)) {
+				if (hSubContact && !DBGetBirthDate(hSubContact, nullptr)) {
 					RemoveFlags(MADF_HASCUSTOM);
 					SetFlags(MADF_HASMETA);
 				}
@@ -501,7 +501,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 					for (int i = 0; i < cnt; i++) {
 						if (i != def) {
 							MCONTACT hSubContact = db_mc_getSub(hContact, i);
-							if (hSubContact != NULL && !DBGetBirthDate(hSubContact, nullptr)) {
+							if (hSubContact && !DBGetBirthDate(hSubContact, nullptr)) {
 								RemoveFlags(MADF_HASCUSTOM);
 								SetFlags(MADF_HASMETA);
 								break;
@@ -771,7 +771,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 					// update metasubcontacts
 					for (int i = 0; i < nSubContactCount; i++) {
 						MCONTACT hSubContact = db_mc_getSub(hContact, i);
-						if (hSubContact != NULL) {
+						if (hSubContact) {
 							if (!mdbIgnore.DBGetDate(hSubContact, Proto_GetBaseAccountName(hSubContact), SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 								mdbIgnore.DBWriteDateStamp(hSubContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);
 
