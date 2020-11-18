@@ -31,28 +31,12 @@ if "%1" == "" (
   set ProfileName=%1
 )
 
-echo Backing up %ProfileName%...
-
 set FullProfileName=%ProfileDir%\%ProfileName%\%ProfileName%.dat
-set TmpFileName=%TEMP%\%ProfileName%.tmp
-
-del "%TmpFileName%" > nul
-
-mdbx_dump.exe -n -a -f "%TmpFileName%" "%FullProfileName%"
-if not exist "%TmpFileName%" (
-  echo Backup failed, exiting
-  goto :eof
-)
-
-mdbx_load.exe -n -a -f "%TmpFileName%" "%FullProfileName%.tmp"
-if errorlevel 1 (
-  echo Restore failed, exiting
-  goto :eof
-)
 
 del "%FullProfileName%.bak" > nul
-move "%FullProfileName%" "%FullProfileName%.bak"
-move "%FullProfileName%.tmp" "%FullProfileName%"
+copy "%FullProfileName%" "%FullProfileName%.bak"
+
+mdbx_chk.exe -i -w -v -t -1 "%FullProfileName%"
 
 echo Operation succeeded
 goto :eof
