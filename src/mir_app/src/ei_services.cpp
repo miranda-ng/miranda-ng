@@ -466,7 +466,7 @@ MIR_APP_DLL(int) ExtraIcon_Clear(HANDLE hExtraIcon, MCONTACT hContact)
 static IconItem iconList[] =
 {
 	{ LPGEN("Chat activity"), "ChatActivity",  IDI_CHAT   },
-	{ LPGEN("Chat mute"),     "ChatMute",      IDI_OFF    },
+	{ LPGEN("Mute chat"),     "ChatMute",      IDI_OFF    },
 	{ LPGEN("Male"),          "gender_male",   IDI_MALE   },
 	{ LPGEN("Female"),		  "gender_female", IDI_FEMALE }
 };
