@@ -1653,7 +1653,7 @@ Google Карты
 [Incoming colon]
 Двоеточие во входящих сообщениях
 [Message area]
-Область сообщения
+Область сообщений
 [Other events]
 Другие события
 [Message log]
@@ -1726,11 +1726,6 @@ Miranda не смогла загрузить встроенную систему
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Неизвестная ошибка.
-;file \src\core\stdpopup\src\icons.cpp
-[Popups are enabled]
-Всплывающие окна включены
-[Popups are disabled]
-Всплывающие окна выключены
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Пример
@@ -1788,6 +1783,10 @@ Miranda не смогла загрузить встроенную систему
 [Enable popups]
 Включить всплывающие окна
 ;file \src\core\stdpopup\src\yapp.cpp
+[Popups are enabled]
+Всплывающие окна включены
+[Popups are disabled]
+Всплывающие окна выключены
 [Toggle popups]
 Вкл/Выкл вспл. окна
 [First line]
@@ -2170,6 +2169,8 @@ Miranda не может распознать этот профиль
 [Extra icons]
 Экстра значки
 ;file \src\mir_app\src\ei_services.cpp
+[Mute chat]
+Заглушать чат
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Вы не заполнили поле для поиска. Пожалуйста, введите запрос для поиска и попробуйте ещё раз.

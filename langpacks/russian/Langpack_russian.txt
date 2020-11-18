@@ -826,12 +826,16 @@ Last-Modified-Using: Miranda NG 0.95.13
 Автоопределение текста
 [Calling modules' names]
 Имена вызывающих модулей
+[Print dates]
+Дата
 [Log to]
 Записывать в
 [OutputDebugString()]
 Функцию OutputDebugString()
 [File]
 Файл
+[Rotate logs]
+Ротация файлов
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Запускать программу вместе с Miranda NG (например, tail -f, dbgview и т.д.):
 [Run now]
@@ -1702,10 +1706,6 @@ Miranda не смогла загрузить встроенную систему
 Контакт закончил набор текста
 [An unknown error has occurred.]
 Неизвестная ошибка.
-[Popups are enabled]
-Всплывающие окна включены
-[Popups are disabled]
-Всплывающие окна выключены
 [Example]
 Пример
 [The quick brown fox jumped over the lazy dog.]
@@ -1760,6 +1760,10 @@ Miranda не смогла загрузить встроенную систему
 Выключить всплывающие окна
 [Enable popups]
 Включить всплывающие окна
+[Popups are enabled]
+Всплывающие окна включены
+[Popups are disabled]
+Всплывающие окна выключены
 [Toggle popups]
 Вкл/Выкл вспл. окна
 [First line]
@@ -1970,6 +1974,8 @@ Miranda не смогла загрузить встроенную систему
 &Открыть/закрыть окно чата
 [&Leave chat]
 Покинуть чат
+[&Mute chat]
+&Заглушать чат
 [Always]
 Всегда
 [Never]
@@ -2108,6 +2114,8 @@ Miranda не может распознать этот профиль
 Телефон/SMS
 [Chat activity]
 Активность в чате
+[Chat mute mode]
+Режим беззвучности чата
 [Extra icons]
 Экстра значки
 [You haven't filled in the search field. Please enter a search term and try again.]
@@ -8490,7 +8498,7 @@ ID пользователя
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.0
+;  Version: 0.2.1.1
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -15227,6 +15235,8 @@ Jabber ошибка
 Список владельцев
 [Http authentication request received]
 Получен запрос HTTP авторизации
+[Do you want to erase local history before loading it from server?]
+Очистить локальную историю перед загрузкой истории с сервера?
 [Jabber account chooser]
 Выбор учётной записи Jabber
 [Add to Bookmarks]
@@ -15719,6 +15729,8 @@ OMEMO: Новая сессия
 Включить уведомления о состоянии чата (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
+[Enable Message Archive Management (XEP-0313)]
+Включить архивацию сообщений на сервере (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Включить копирование сообщений на все ресурсы (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (Testing)]
@@ -25091,7 +25103,7 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.2
+;  Version: 0.95.12.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -31317,7 +31329,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.6
+;  Version: 0.1.11.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]

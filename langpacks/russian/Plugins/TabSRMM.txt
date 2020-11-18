@@ -1257,6 +1257,8 @@ TabSRMM: набор текста
 Отправить файл
 [Quote message]
 Цитировать сообщение
+[Clear message area]
+Очистить область сообщений
 [Toggle send later]
 Вкл/выкл отправку с задержкой
 [Send message]
