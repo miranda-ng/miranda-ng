@@ -882,9 +882,6 @@
 [Contact stopped typing]
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
-;file \src\core\stdpopup\src\icons.cpp
-[Popups are enabled]
-[Popups are disabled]
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 [The quick brown fox jumped over the lazy dog.]
@@ -915,6 +912,8 @@
 [Disable popups]
 [Enable popups]
 ;file \src\core\stdpopup\src\yapp.cpp
+[Popups are enabled]
+[Popups are disabled]
 [Toggle popups]
 [First line]
 [Second line]
@@ -1120,6 +1119,7 @@
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 ;file \src\mir_app\src\ei_services.cpp
+[Chat mute]
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 [Search]

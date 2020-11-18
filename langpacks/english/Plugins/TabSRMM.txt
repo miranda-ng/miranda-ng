@@ -638,6 +638,7 @@
 [Contact's messaging preferences]
 [Send a file]
 [Quote message]
+[Clear message area]
 [Toggle send later]
 [Send message]
 [Show message history]
