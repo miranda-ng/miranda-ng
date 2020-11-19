@@ -193,6 +193,6 @@ int OnLoadLangpack(WPARAM, LPARAM)
 {
 	UnknownConctactTranslatedName = TranslateT("(Unknown contact)");
 	if (!MirandaLoading())
-		ApplyViewMode(g_CluiData.current_viewmode, true);
+		ApplyViewMode(g_CluiData.current_viewmode, false);
 	return 0;
 }
