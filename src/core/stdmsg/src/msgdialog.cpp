@@ -1072,6 +1072,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
+	case EM_PASTESPECIAL:
 	case WM_PASTE:
 		if (IsClipboardFormatAvailable(CF_HDROP)) {
 			if (OpenClipboard(m_message.GetHwnd())) {
@@ -1154,11 +1155,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 
-			if ((wParam == 45 && isShift || wParam == 0x56 && isCtrl) && !isAlt) { // ctrl-v (paste clean text)
-				m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-				return TRUE;
-			}
-
 			if (wParam == VK_TAB && isShift && !isCtrl) { // SHIFT-TAB (go to nick list)
 				SetFocus(m_nickList.GetHwnd());
 				return TRUE;
@@ -1181,11 +1177,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_iLastEnterTime = 0;
 				return TRUE;
 			}
-		}
-
-		if (wParam == VK_INSERT && isShift || wParam == 'V' && isCtrl) { // ctrl-v (paste clean text)
-			m_message.SendMsg(WM_PASTE, 0, 0);
-			return 0;
 		}
 
 		if (isCtrl && g_dat.bCtrlSupport && m_cmdList.getCount()) {

@@ -886,11 +886,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					m_btnChannelMgr.Click();
 				return TRUE;
 			}
-
-			if (((wParam == VK_INSERT && isShift) || (wParam == 'V' && isCtrl)) && !isAlt) { // ctrl-v (paste clean text)
-				m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-				return TRUE;
-			}
 		}
 		break;
 

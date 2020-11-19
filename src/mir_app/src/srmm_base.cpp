@@ -165,15 +165,15 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CHAR:
 		switch (wParam) {
-		case 0x02:
+		case 0x02: // ctrl+B
 			if (m_btnBold.Enabled())
 				return 1;
 			break;
-		case 0x09:
+		case 0x09: // ctrl+I
 			if (m_btnItalic.Enabled())
 				return 1;
 			break;
-		case 0x15:
+		case 0x15: // ctrl+U
 			if (m_btnUnderline.Enabled())
 				return 1;
 			break;
@@ -193,6 +193,14 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_KEYDOWN:
+		if ((GetKeyState(VK_CONTROL) & 0x8000) && wParam == 'V' || (GetKeyState(VK_SHIFT) & 0x8000) && wParam == VK_INSERT) {
+			if (IsClipboardFormatAvailable(CF_HDROP)) {
+				m_message.SendMsg(WM_PASTE, 0, 0);
+				return 0;
+			}
+		}
+		__fallthrough;
+
 	case WM_SYSKEYDOWN:
 		if (!(GetKeyState(VK_RMENU) & 0x8000)) {
 			MSG message = { m_hwnd, msg, wParam, lParam };
