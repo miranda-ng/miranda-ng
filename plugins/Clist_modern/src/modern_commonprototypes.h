@@ -197,7 +197,7 @@ void    UnloadAvatarOverlayIcon();                                             /
 void    UnLoadContactListModule();                                             //clistmod.c
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
-void    ApplyViewMode(const char *Name, bool onlySelector = false);
+void    ApplyViewMode(const char *Name);
 void    SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
 
 // cluiframes.c
