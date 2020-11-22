@@ -247,37 +247,38 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
-	bool      m_bOnline, m_bTerminated, m_bFirstBos;
-	int       m_iTimeShift;
+	bool         m_bOnline, m_bTerminated, m_bFirstBos;
+	int          m_iTimeShift;
+				    
+	MCONTACT     CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
+	void         CheckPassword(void);
+	void         ConnectionFailed(int iReason, int iErrorCode = 0);
+	void         EmailNotification(const wchar_t *pwszText);
+	void         GetPermitDeny();
+	wchar_t*     GetUIN(MCONTACT hContact);
+	void         MarkAsRead(MCONTACT hContact);
+	void         MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
+	bool         RetrievePassword();
+	void         RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
+	void         RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
+	void         SetServerStatus(int iNewStatus);
+	void         ShutdownSession(void);
+	void         StartSession(void);
+				    
+	void         CheckAvatarChange(MCONTACT hContact, const JSONNode&);
+	IcqFileInfo* CheckFile(MCONTACT hContact, CMStringW &wszFileName, bool &bIsFile);
+	void         CheckLastId(MCONTACT hContact, const JSONNode&);
+	void         Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
+	void         Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
+	MCONTACT     ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
+	void         ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
+				    
+	void         OnLoggedIn(void);
+	void         OnLoggedOut(void);
 
-	MCONTACT  CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
-	void      CheckPassword(void);
-	void      ConnectionFailed(int iReason, int iErrorCode = 0);
-	void      EmailNotification(const wchar_t *pwszText);
-	void      GetPermitDeny();
-	wchar_t*  GetUIN(MCONTACT hContact);
-	void      MarkAsRead(MCONTACT hContact);
-	void      MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
-	bool      RetrievePassword();
-	void      RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
-	void      RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
-	void      SetServerStatus(int iNewStatus);
-	void      ShutdownSession(void);
-	void      StartSession(void);
-
-	void      CheckAvatarChange(MCONTACT hContact, const JSONNode&);
-	void      CheckLastId(MCONTACT hContact, const JSONNode&);
-	void      Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
-	void      Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
-	MCONTACT  ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
-	void      ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
-
-	void      OnLoggedIn(void);
-	void      OnLoggedOut(void);
-
-	mir_cs    m_csMarkReadQueue;
+	mir_cs       m_csMarkReadQueue;
 	LIST<IcqCacheItem> m_arMarkReadQueue;
-	void      SendMarkRead();
+	void         SendMarkRead();
 
 	AsyncHttpRequest* UserInfoRequest(MCONTACT);
 
