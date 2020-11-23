@@ -658,23 +658,23 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))
 						pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 500);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 501);
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 600);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-224"))
 						pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 510);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-224-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 511);
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 610);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256"))
 						pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 520);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 521);
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 620);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-384"))
 						pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 530);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-384-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 531);
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 630);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-512"))
 						pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 540);
 					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-512-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 541);
+						pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 640);
 					else if (!mir_strcmp(szMechanism, "NTLM") || !mir_strcmp(szMechanism, "GSS-SPNEGO") || !mir_strcmp(szMechanism, "GSSAPI"))
 						pAuth = new TNtlmAuth(info, szMechanism);
 					else {
