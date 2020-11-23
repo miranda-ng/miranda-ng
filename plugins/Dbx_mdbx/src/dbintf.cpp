@@ -149,7 +149,7 @@ int CDbxMDBX::Load()
 	MDBX_db_flags_t defFlags = MDBX_CREATE;
 
 	m_pWriteTran = nullptr;
-	m_dbError = mdbx_txn_begin(m_env, nullptr, MDBX_TXN_READWRITE, &m_pWriteTran);
+	m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &m_pWriteTran);
 	if (m_pWriteTran == nullptr) {
 		if (m_dbError == MDBX_TXN_FULL) {
 			if (IDOK == MessageBox(NULL, TranslateT("Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit"), TranslateT("Error"), MB_ICONERROR | MB_OKCANCEL))
