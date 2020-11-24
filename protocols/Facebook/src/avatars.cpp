@@ -41,7 +41,8 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 	req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.requestType = REQUEST_GET;
 
-	const char *szParams = m_bUseBigAvatars ? "width=200&height=200" : "width=80&height=80";
+	CMStringA szParams((m_bUseBigAvatars) ? "type=large" : "type=normal");
+	szParams.AppendFormat("&access_token=%s", m_szAuthToken.c_str());
 
 	for (auto &cc : AccContacts()) {
 		if (Miranda_IsTerminated())
@@ -52,7 +53,7 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 
 		delSetting(cc, "UpdateNeeded");
 
-		CMStringA szUrl(FORMAT, "https://graph.facebook.com/%s/picture?%s", getMStringA(cc, DBKEY_ID).c_str(), szParams);
+		CMStringA szUrl(FORMAT, "https://graph.facebook.com/%s/picture?%s", getMStringA(cc, DBKEY_ID).c_str(), szParams.c_str());
 		req.szUrl = szUrl.GetBuffer();
 	
 		NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(m_hNetlibUser, &req);
