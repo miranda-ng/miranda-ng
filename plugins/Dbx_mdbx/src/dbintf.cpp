@@ -65,6 +65,13 @@ BOOL CDbxMDBX::Backup(const wchar_t *pwszPath)
 		return 1;
 	}
 
+	mir_cslock lck(m_csDbAccess);
+
+	if (m_pWriteTran) {
+		mdbx_txn_commit(m_pWriteTran);
+		m_pWriteTran = nullptr;
+	}
+
 	int res = mdbx_env_copy2fd(m_env, pFile, MDBX_CP_COMPACT);
 	if (res != MDBX_SUCCESS) {
 		Netlib_Logf(0, "CDbxMDBX::Backup: mdbx_env_copy2fd failed with error code %d", res);
@@ -81,6 +88,9 @@ LBL_Fail:
 	}
 
 	CloseHandle(pFile);
+
+	txn_ptr trnlck(this);
+	trnlck.Commit();
 	return 0;
 }
 
