@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #define WM_PROCESSINGDONE  (WM_USER+1)
+#define WM_ADDMESSAGE      (WM_USER+2)
 
 void __cdecl WorkerThread(DbToolOptions *opts);
 static HWND hwndStatus, hdlgProgress, hwndBar;
@@ -35,10 +36,7 @@ void AddToStatus(int flags, const wchar_t* fmt, ...)
 	mir_vsnwprintf(str, _countof(str), fmt, vararg);
 	va_end(vararg);
 
-	int i = SendMessage(hwndStatus, LB_ADDSTRING, 0, (LPARAM)str);
-	SendMessage(hwndStatus, LB_SETITEMDATA, i, flags);
-	InvalidateRect(hwndStatus, nullptr, FALSE);
-	SendMessage(hwndStatus, LB_SETTOPINDEX, i, 0);
+	PostMessage(hdlgProgress, WM_ADDMESSAGE, WPARAM(mir_wstrdup(str)), flags);
 
 #ifdef _DEBUG
 	OutputDebugString(str);
@@ -166,6 +164,16 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		else if (manualAbort == 2) {
 			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
 			break;
+		}
+		break;
+
+	case WM_ADDMESSAGE:
+		{
+			int i = SendMessage(hwndStatus, LB_ADDSTRING, 0, wParam);
+			SendMessage(hwndStatus, LB_SETITEMDATA, i, lParam);
+			InvalidateRect(hwndStatus, nullptr, FALSE);
+			SendMessage(hwndStatus, LB_SETTOPINDEX, i, 0);
+			mir_free((void *)wParam);
 		}
 		break;
 
