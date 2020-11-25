@@ -135,7 +135,11 @@ void CDbxMDBX::DBFlush(bool bForce)
 
 		if (m_pWriteTran) {
 			mdbx_txn_commit(m_pWriteTran);
+			
 			m_pWriteTran = nullptr;
+			m_dbError = mdbx_txn_begin(m_env, nullptr, MDBX_TXN_READWRITE, &m_pWriteTran);
+			// FIXME: throw an exception
+			_ASSERT(m_dbError == MDBX_SUCCESS);
 		}
 	}
 	else if (m_safetyMode)
