@@ -310,7 +310,6 @@ static INT_PTR CALLBACK DlgProcClistAdditionalOpts(HWND hwndDlg, UINT msg, WPARA
 		CheckDlgButton(hwndDlg, IDC_METAEXPAND, db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
 		CheckDlgButton(hwndDlg, IDC_DISCOVER_AWAYMSG, db_get_b(0, "ModernData", "InternalAwayMsgDiscovery", SETTING_INTERNALAWAYMSGREQUEST_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
 		CheckDlgButton(hwndDlg, IDC_REMOVE_OFFLINE_AWAYMSG, db_get_b(0, "ModernData", "RemoveAwayMessageForOffline", SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
-		CheckDlgButton(hwndDlg, IDC_FILTER_SEARCH, db_get_b(0, "CLC", "FilterSearch", SETTING_FILTERSEARCH_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by Robyer
 
 		SendDlgItemMessage(hwndDlg, IDC_SUBINDENTSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SUBINDENT), 0);
 		SendDlgItemMessage(hwndDlg, IDC_SUBINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
@@ -339,7 +338,6 @@ static INT_PTR CALLBACK DlgProcClistAdditionalOpts(HWND hwndDlg, UINT msg, WPARA
 				db_set_b(0, "CLC", "MetaExpanding", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_METAEXPAND));
 				db_set_b(0, "ModernData", "InternalAwayMsgDiscovery", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISCOVER_AWAYMSG));
 				db_set_b(0, "ModernData", "RemoveAwayMessageForOffline", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_REMOVE_OFFLINE_AWAYMSG));
-				db_set_b(0, "CLC", "FilterSearch", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FILTER_SEARCH));
 
 				db_set_b(0, "CLC", "SubIndent", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SUBINDENTSPIN, UDM_GETPOS, 0, 0));
 				ClcOptionsChanged();
