@@ -700,6 +700,10 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 	CMStringW wszActorFbId(metadata["actorFbId"].as_mstring());
 	CMStringA szId(metadata["messageId"].as_mstring());
+	if (CheckOwnMessage(pUser, offlineId, szId)) {
+		debugLogA("own message <%s> skipped", szId.c_str());
+		return;
+	}
 
 	// messages sent with attachments are returning as deltaNewMessage, not deltaSentMessage
 	__int64 actorFbId = _wtoi64(wszActorFbId);
@@ -890,12 +894,38 @@ void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 }
 
 // my own message was sent
+bool FacebookProto::CheckOwnMessage(FacebookUser *pUser, __int64 offlineId, const char *pszMsgId)
+{
+	COwnMessage tmp;
+	if (!ExtractOwnMessage(offlineId, tmp))
+		return false;
+
+	if (pUser->bIsChat) {
+		CMStringW wszId(FORMAT, L"%lld", m_uid);
+		tmp.wszText.Replace(L"%", L"%%");
+
+		wchar_t userId[100];
+		_i64tow_s(pUser->id, userId, _countof(userId), 10);
+
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+		gce.pszID.w = userId;
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.pszUID.w = wszId;
+		gce.pszText.w = tmp.wszText;
+		gce.time = time(0);
+		gce.bIsMe = true;
+		Chat_Event(&gce);
+	}
+	else ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.reqId, (LPARAM)pszMsgId);
+
+	return true;
+}
+
 void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 {
 	auto &metadata = root["messageMetadata"];
 
 	__int64 offlineId = _wtoi64(metadata["offlineThreadingId"].as_mstring());
-	std::string szId(metadata["messageId"].as_string());
 
 	CMStringW wszUserId;
 	bool bIsChat;
@@ -905,21 +935,6 @@ void FacebookProto::OnPublishSentMessage(const JSONNode &root)
 		return;
 	}
 
-	COwnMessage tmp;
-	if (ExtractOwnMessage(offlineId, tmp)) {
-		if (pUser->bIsChat) {
-			CMStringW wszId(FORMAT, L"%lld", m_uid);
-			tmp.wszText.Replace(L"%", L"%%");
-
-			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-			gce.pszID.w = wszUserId;
-			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.pszUID.w = wszId;
-			gce.pszText.w = tmp.wszText;
-			gce.time = time(0);
-			gce.bIsMe = true;
-			Chat_Event(&gce);
-		}
-		else ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.reqId, (LPARAM)szId.c_str());
-	}
+	std::string szMsgId(metadata["messageId"].as_string());
+	CheckOwnMessage(pUser, offlineId, szMsgId.c_str());
 }
