@@ -50,13 +50,11 @@ MEVENT CDbxMDBX::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 
 BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 {
-	DBCachedContact *cc, *cc2;
 	DBEvent dbe;
 	char *szId = nullptr;
 	{
-		txn_ptr_ro txn(m_txn_ro);
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+		if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)
 			return 1;
 
 		dbe = *(DBEvent*)data.iov_base;
@@ -64,11 +62,11 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 			char *src = (char *)data.iov_base + sizeof(dbe) + dbe.cbBlob + 1;
 			szId = NEWSTR_ALLOCA(src);
 		}
-
-		cc = (dbe.dwContactID != 0) ? m_cache->GetCachedContact(dbe.dwContactID) : &m_ccDummy;
-		if (cc == nullptr || cc->dbc.dwEventCount == 0)
-			return 1;
 	}
+
+	DBCachedContact *cc2, *cc = (dbe.dwContactID != 0) ? m_cache->GetCachedContact(dbe.dwContactID) : &m_ccDummy;
+	if (cc == nullptr || cc->dbc.dwEventCount == 0)
+		return 1;
 
 	if (!CheckEvent(cc, &dbe, cc2))
 		return 1;
@@ -148,16 +146,13 @@ BOOL CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 	if (dbei->timestamp == 0) return 1;
 
 	DBEVENTINFO tmp = *dbei;
-	{
-		txn_ptr_ro txn(m_txn_ro);
-		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
-			return 1;
 
-		DBEvent *dbe = (DBEvent*)data.iov_base;
-		tmp.timestamp = dbe->timestamp;
-	}
+	MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
+	if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)
+		return 1;
 
+	DBEvent *dbe = (DBEvent*)data.iov_base;
+	tmp.timestamp = dbe->timestamp;
 	return !EditEvent(contactID, hDbEvent, &tmp, false);
 }
 
@@ -291,10 +286,8 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 
 LONG CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
 {
-	txn_ptr_ro txn(m_txn_ro);
-
 	MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-	if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+	if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)
 		return -1;
 	return ((const DBEvent*)data.iov_base)->cbBlob;
 }
@@ -312,10 +305,8 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	size_t cbBlob;
 	const DBEvent *dbe;
 	{
-		txn_ptr_ro txn(m_txn_ro);
-
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+		if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)
 			return 1;
 
 		dbe = (const DBEvent*)data.iov_base;
@@ -469,13 +460,12 @@ MEVENT CDbxMDBX::GetEventById(LPCSTR szModule, LPCSTR szId)
 	strncpy_s(keyId.szEventId, szId, _TRUNCATE);
 
 	MDBX_val key = { &keyId, sizeof(MEVENT) + strlen(keyId.szEventId) + 1 }, data;
-	txn_ptr_ro txn(m_txn_ro);
-	if (mdbx_get(txn, m_dbEventIds, &key, &data) != MDBX_SUCCESS)
+	if (mdbx_get(StartTran(), m_dbEventIds, &key, &data) != MDBX_SUCCESS)
 		return 0;
 
 	MEVENT hDbEvent = *(MEVENT *)data.iov_base;
 	MDBX_val key2 = { &hDbEvent, sizeof(MEVENT) }, data2;
-	if (mdbx_get(txn, m_dbEvents, &key2, &data2) != MDBX_SUCCESS)
+	if (mdbx_get(StartTran(), m_dbEvents, &key2, &data2) != MDBX_SUCCESS)
 		return 0;
 
 	return hDbEvent;
@@ -488,10 +478,8 @@ MCONTACT CDbxMDBX::GetEventContact(MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return INVALID_CONTACT_ID;
 
-	txn_ptr_ro txn(m_txn_ro);
-
 	MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-	if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+	if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)
 		return INVALID_CONTACT_ID;
 
 	return ((const DBEvent*)data.iov_base)->dwContactID;
@@ -512,9 +500,7 @@ MEVENT CDbxMDBX::FindFirstEvent(MCONTACT contactID)
 	DBEventSortingKey keyVal = { contactID, 0, 0 };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-	txn_ptr_ro txn(m_txn_ro);
-
-	mdbx_cursor_bind(m_txn_ro, m_curEventsSort, m_dbEventsSort);
+	mdbx_cursor_bind(StartTran(), m_curEventsSort, m_dbEventsSort);
 	if (mdbx_cursor_get(m_curEventsSort, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS)
 		return cc->t_evLast = 0;
 
@@ -546,8 +532,7 @@ MEVENT CDbxMDBX::FindLastEvent(MCONTACT contactID)
 	DBEventSortingKey keyVal = { contactID, 0xFFFFFFFF, 0xFFFFFFFFFFFFFFFF };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-	txn_ptr_ro txn(m_txn_ro);
-	mdbx_cursor_bind(m_txn_ro, m_curEventsSort, m_dbEventsSort);
+	mdbx_cursor_bind(StartTran(), m_curEventsSort, m_dbEventsSort);
 
 	if (mdbx_cursor_get(m_curEventsSort, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS) {
 		if (mdbx_cursor_get(m_curEventsSort, &key, &data, MDBX_LAST) != MDBX_SUCCESS)
@@ -578,11 +563,9 @@ MEVENT CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return cc->t_evLast = 0;
 
-	txn_ptr_ro txn(m_txn_ro);
-
 	if (cc->t_evLast != hDbEvent) {
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+		if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)
 			return 0;
 		cc->t_tsLast = ((DBEvent*)data.iov_base)->timestamp;
 	}
@@ -590,7 +573,7 @@ MEVENT CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 	DBEventSortingKey keyVal = { contactID, hDbEvent, cc->t_tsLast };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-	mdbx_cursor_bind(m_txn_ro, m_curEventsSort, m_dbEventsSort);
+	mdbx_cursor_bind(StartTran(), m_curEventsSort, m_dbEventsSort);
 	if (mdbx_cursor_get(m_curEventsSort, &key, nullptr, MDBX_SET) != MDBX_SUCCESS)
 		return cc->t_evLast = 0;
 
@@ -619,11 +602,9 @@ MEVENT CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 	MDBX_val data;
 
-	txn_ptr_ro txn(m_txn_ro);
-
 	if (cc->t_evLast != hDbEvent) {
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) };
-		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+		if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)
 			return 0;
 		cc->t_tsLast = ((DBEvent*)data.iov_base)->timestamp;
 	}
@@ -631,7 +612,7 @@ MEVENT CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 	DBEventSortingKey keyVal = { contactID, hDbEvent, cc->t_tsLast };
 	MDBX_val key = { &keyVal, sizeof(keyVal) };
 
-	mdbx_cursor_bind(m_txn_ro, m_curEventsSort, m_dbEventsSort);
+	mdbx_cursor_bind(StartTran(), m_curEventsSort, m_dbEventsSort);
 	if (mdbx_cursor_get(m_curEventsSort, &key, nullptr, MDBX_SET) != MDBX_SUCCESS)
 		return cc->t_evLast = 0;
 
@@ -675,28 +656,25 @@ public:
 
 	MEVENT FetchNext() override
 	{
+		mdbx_cursor_bind(m_pOwner->StartTran(), m_pOwner->m_curEventsSort, m_pOwner->m_dbEventsSort);
+
 		MDBX_val key = { &m_key, sizeof(m_key) }, data;
 		DBEventSortingKey dbKey;
-		{
-			txn_ptr_ro txn(m_pOwner->m_txn_ro);
-			mdbx_cursor_bind(m_pOwner->m_txn_ro, m_pOwner->m_curEventsSort, m_pOwner->m_dbEventsSort);
+		if (m_bFirst) {
+			m_bFirst = false;
 
-			if (m_bFirst) {
-				m_bFirst = false;
+			if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS)
+				return 0;
+			dbKey = *(const DBEventSortingKey *)key.iov_base;
+		}
+		else {
+			if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET) != MDBX_SUCCESS)
+				return 0;
 
-				if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS)
-					return 0;
-				dbKey = *(const DBEventSortingKey *)key.iov_base;
-			}
-			else {
-				if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET) != MDBX_SUCCESS)
-					return 0;
+			if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, (m_bForward) ? MDBX_NEXT : MDBX_PREV) != MDBX_SUCCESS)
+				return 0;
 
-				if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, (m_bForward) ? MDBX_NEXT : MDBX_PREV) != MDBX_SUCCESS)
-					return 0;
-
-				dbKey = *(const DBEventSortingKey *)key.iov_base;
-			}
+			dbKey = *(const DBEventSortingKey *)key.iov_base;
 		}
 
 		if (dbKey.hContact != hContact)

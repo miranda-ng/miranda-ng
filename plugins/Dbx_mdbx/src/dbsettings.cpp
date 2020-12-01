@@ -89,15 +89,8 @@ LBL_Seek:
 	keyVal->dwModuleId = GetModuleID(szModule);
 	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-	int res;
-	const BYTE *pBlob;
-	{
-		txn_ptr_ro trnlck(m_txn_ro);
-		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
-		res = mdbx_get(trnlck, m_dbSettings, &key, &data);
-		pBlob = (const BYTE*)data.iov_base;
-	}
-
+	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
+	int res = mdbx_get(StartTran(), m_dbSettings, &key, &data);
 	if (res != MDBX_SUCCESS) {
 		// try to get the missing mc setting from the active sub
 		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
@@ -111,6 +104,7 @@ LBL_Seek:
 		return 1;
 	}
 
+	const BYTE *pBlob = (const BYTE*)data.iov_base;
 	if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
 		return 1;
 
@@ -398,12 +392,11 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 BOOL CDbxMDBX::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param)
 {
 	LIST<char> arKeys(100);
-	{
-		DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
-		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-		txn_ptr_ro txn(m_txn_ro);
-		cursor_ptr pCursor(m_txn_ro, m_dbSettings);
+	DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
+	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
+	{
+		cursor_ptr pCursor(StartTran(), m_dbSettings);
 
 		for (int res = mdbx_cursor_get(pCursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT)) {
 			const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;

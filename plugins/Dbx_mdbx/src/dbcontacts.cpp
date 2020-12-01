@@ -26,8 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 LONG CDbxMDBX::GetContactCount(void)
 {
 	MDBX_stat st;
-	txn_ptr_ro trnlck(m_txn_ro);
-	mdbx_dbi_stat(trnlck, m_dbContacts, &st, sizeof(st));
+	mdbx_dbi_stat(StartTran(), m_dbContacts, &st, sizeof(st));
 	return st.ms_entries;
 }
 
@@ -148,8 +147,7 @@ void CDbxMDBX::GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &list)
 	DBEventSortingKey keyVal = { hContact, 0, 0 };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-	txn_ptr_ro trnlck(m_txn_ro);
-	mdbx_cursor_bind(m_txn_ro, m_curEventsSort, m_dbEventsSort);
+	mdbx_cursor_bind(StartTran(), m_curEventsSort, m_dbEventsSort);
 
 	for (int res = mdbx_cursor_get(m_curEventsSort, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(m_curEventsSort, &key, &data, MDBX_NEXT)) {
 		const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.iov_base;
@@ -287,15 +285,12 @@ void DBCachedContact::Revert()
 
 void CDbxMDBX::FillContacts()
 {
-	{
-		txn_ptr_ro trnlck(m_txn_ro);
-		cursor_ptr pCursor(m_txn_ro, m_dbContacts);
+	cursor_ptr pCursor(StartTran(), m_dbContacts);
 
-		MDBX_val key, data;
-		while (mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
-			DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.iov_base);
-			cc->dbc = *(DBContact*)data.iov_base;
-		}
+	MDBX_val key, data;
+	while (mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
+		DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.iov_base);
+		cc->dbc = *(DBContact*)data.iov_base;
 	}
 
 	for (DBCachedContact *cc = m_cache->GetFirstContact(); cc; cc = m_cache->GetNextContact(cc->contactID)) {

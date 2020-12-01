@@ -140,6 +140,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 {
 	friend class CMdbxEventCursor;
 	friend class txn_ptr;
+	friend class txn_ptr_ro;
 
 	typedef std::map<uint32_t, std::string> TModuleMap;
 
@@ -178,7 +179,6 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 
 	MDBX_env    *m_env;
 	MDBX_txn    *m_pWriteTran;
-	CMDBX_txn_ro m_txn_ro;
 	int 			 m_dbError;
 
 	MDBX_dbi     m_dbGlobal;

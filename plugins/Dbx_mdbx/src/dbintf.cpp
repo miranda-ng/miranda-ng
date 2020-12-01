@@ -206,25 +206,22 @@ int CDbxMDBX::Load()
 		if (mdbx_get(m_pWriteTran, m_dbGlobal, &key, &data) == MDBX_SUCCESS)
 			m_ccDummy.dbc = *(const DBContact *)data.iov_base;
 	}
-	mdbx_txn_commit(m_pWriteTran); m_pWriteTran = nullptr;
 
-	mdbx_txn_begin(m_env, nullptr, MDBX_TXN_RDONLY, &m_txn_ro);
-	
 	m_curEventsSort = mdbx_cursor_create(nullptr);
 
 	MDBX_val key, val;
 	{
-		cursor_ptr pCursor(m_txn_ro, m_dbEvents);
+		cursor_ptr pCursor(m_pWriteTran, m_dbEvents);
 		if (mdbx_cursor_get(pCursor, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
 			m_dwMaxEventId = *(MEVENT *)key.iov_base;
 	}
 	{
-		cursor_ptr pCursor(m_txn_ro, m_dbContacts);
+		cursor_ptr pCursor(m_pWriteTran, m_dbContacts);
 		if (mdbx_cursor_get(pCursor, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
 			m_maxContactId = *(MCONTACT *)key.iov_base;
 	}
 
-	mdbx_txn_reset(m_txn_ro);
+	mdbx_txn_commit(m_pWriteTran); m_pWriteTran = nullptr;
 
 	if (InitModules()) return EGROKPRF_DAMAGED;
 	if (InitCrypt())   return EGROKPRF_DAMAGED;
@@ -314,10 +311,7 @@ MDBX_txn* CDbxMDBX::StartTran()
 		_ASSERT(m_dbError == MDBX_SUCCESS);
 	}
 
-	MDBX_txn *res = nullptr;
-	m_dbError = mdbx_txn_begin(m_env, m_pWriteTran, MDBX_TXN_READWRITE, &res);
-	_ASSERT(m_dbError == MDBX_SUCCESS);
-	return res;
+	return m_pWriteTran;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

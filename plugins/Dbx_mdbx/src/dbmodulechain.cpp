@@ -25,8 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDbxMDBX::InitModules()
 {
-	txn_ptr_ro trnlck(m_txn_ro);
-	cursor_ptr pCursor(m_txn_ro, m_dbModules);
+	cursor_ptr pCursor(StartTran(), m_dbModules);
 
 	MDBX_val key, data;
 	while (mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {

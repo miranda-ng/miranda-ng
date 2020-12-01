@@ -203,14 +203,10 @@ int CDbxMDBX::InitCrypt()
 	if (m_crypto != nullptr)
 		return 0;
 
-	int rc;
-	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value;
-	{
-		txn_ptr_ro txn(m_txn_ro);
-		rc = mdbx_get(txn, m_dbCrypto, &key, &value);
-	}
-
 	CRYPTO_PROVIDER *pProvider;
+	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value;
+
+	int rc = mdbx_get(StartTran(), m_dbCrypto, &key, &value);
 	if (rc == MDBX_SUCCESS) {
 		pProvider = Crypto_GetProvider((const char*)value.iov_base);
 		if (pProvider == nullptr)
@@ -225,11 +221,7 @@ int CDbxMDBX::InitCrypt()
 		return 3;
 
 	key.iov_len = sizeof(DBKey_Crypto_Key); key.iov_base = DBKey_Crypto_Key;
-	{
-		txn_ptr_ro txn(m_txn_ro);
-		rc = mdbx_get(txn, m_dbCrypto, &key, &value);
-	}
-	
+	rc = mdbx_get(StartTran(), m_dbCrypto, &key, &value);
 	if (rc == MDBX_SUCCESS && (value.iov_len == m_crypto->getKeyLength())) {
 		if (!m_crypto->setKey((const BYTE*)value.iov_base, value.iov_len)) {
 			CEnterPasswordDialog dlg(this);
@@ -254,13 +246,10 @@ int CDbxMDBX::InitCrypt()
 	}
 
 	key.iov_len = sizeof(DBKey_Crypto_IsEncrypted); key.iov_base = DBKey_Crypto_IsEncrypted;
-	{
-		txn_ptr_ro txn(m_txn_ro);
-		if (mdbx_get(txn, m_dbCrypto, &key, &value) == MDBX_SUCCESS)
-			m_bEncrypted = *(const bool *)value.iov_base;
-		else
-			m_bEncrypted = false;
-	}
+	if (mdbx_get(StartTran(), m_dbCrypto, &key, &value) == MDBX_SUCCESS)
+		m_bEncrypted = *(const bool *)value.iov_base;
+	else
+		m_bEncrypted = false;
 
 	InitDialogs();
 	return 0;
@@ -307,19 +296,17 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 		return 0;
 
 	std::vector<MEVENT> lstEvents;
+
+	MDBX_stat st;
+	mdbx_dbi_stat(StartTran(), m_dbEvents, &st, sizeof(st));
+	lstEvents.reserve(st.ms_entries);
+
 	{
-		txn_ptr_ro txn(m_txn_ro);
-
-		MDBX_stat st;
-		mdbx_dbi_stat(txn, m_dbEvents, &st, sizeof(st));
-
-		lstEvents.reserve(st.ms_entries);
-
-		cursor_ptr pCursor(txn, m_dbEvents);
-
 		MDBX_val key, data;
+		cursor_ptr pCursor(StartTran(), m_dbEvents);
+
 		while (mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
-			const MEVENT hDbEvent = *(const MEVENT*)key.iov_base;
+			const MEVENT hDbEvent = *(const MEVENT *)key.iov_base;
 			lstEvents.push_back(hDbEvent);
 		}
 	}

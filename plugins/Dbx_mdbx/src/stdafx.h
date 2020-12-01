@@ -58,27 +58,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #	define thread_local __declspec(thread)
 #endif
 
-struct CMDBX_txn_ro
-{
-	MDBX_txn *txn = nullptr;
-	mir_cs cs;
-
-	__forceinline operator MDBX_txn* () { return txn; }
-	__forceinline MDBX_txn** operator &() { return &txn; }
-};
-
-class txn_ptr_ro
-{
-	CMDBX_txn_ro &txn;
-	mir_cslock lock;
-
-public:
-	txn_ptr_ro(CMDBX_txn_ro &_txn);
-	~txn_ptr_ro();
-
-	__forceinline operator MDBX_txn*() const { return txn; }
-};
-
 class cursor_ptr
 {
 	MDBX_cursor *m_cursor;
@@ -112,8 +91,7 @@ public:
 
 	__forceinline operator MDBX_txn*() const { return txn; }
 
-	int  Commit();
-	void Abort();
+	int Commit();
 };
 
 #include "resource.h"
@@ -127,4 +105,3 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 #include "ui.h"
-
