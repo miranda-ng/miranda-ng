@@ -145,7 +145,8 @@ void CDbxMDBX::DBFlush(bool bForce)
 
 		if (m_pWriteTran) {
 			mdbx_txn_commit(m_pWriteTran);
-			
+			mdbx_env_sync(m_env);
+
 			m_pWriteTran = nullptr;
 			m_dbError = mdbx_txn_begin(m_env, nullptr, MDBX_TXN_READWRITE, &m_pWriteTran);
 			// FIXME: throw an exception
