@@ -557,7 +557,7 @@ void CMsgDialog::onClick_ShowList(CCtrlButton *pButton)
 		return;
 
 	m_bNicklistEnabled = !m_bNicklistEnabled;
-	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2));
+	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST2 : IDI_NICKLIST));
 	m_pLog->ScrollToBottom();
 	Resize();
 }
@@ -568,7 +568,7 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 		return;
 
 	m_bFilterEnabled = !m_bFilterEnabled;
-	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2));
+	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER2 : IDI_FILTER));
 	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
 		ShowFilterMenu();
 	else
@@ -884,11 +884,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
 				if (m_btnChannelMgr.Enabled())
 					m_btnChannelMgr.Click();
-				return TRUE;
-			}
-
-			if (((wParam == VK_INSERT && isShift) || (wParam == 'V' && isCtrl)) && !isAlt) { // ctrl-v (paste clean text)
-				m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 				return TRUE;
 			}
 		}

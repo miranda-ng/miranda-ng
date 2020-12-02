@@ -213,7 +213,7 @@ BYTE GetEx(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetti
 			// try to get setting from the default subcontact first
 			if (def > -1 && def < INT_MAX) {
 				hSubContact = db_mc_getSub(hContact, def);
-				if (hSubContact != NULL)
+				if (hSubContact)
 					result = DB::Setting::GetEx(hSubContact, pszModule, Proto_GetBaseAccountName(hSubContact), pszSetting, dbv, destType) != 0;
 			}
 			// scan all subcontacts for the setting
@@ -224,7 +224,7 @@ BYTE GetEx(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetti
 					for (i = 0; result && i < cnt; i++) {
 						if (i != def) {
 							hSubContact = db_mc_getSub(hContact, i);
-							if (hSubContact != NULL)
+							if (hSubContact)
 								result = DB::Setting::GetEx(hSubContact, pszModule, Proto_GetBaseAccountName(hSubContact), pszSetting, dbv, destType) != 0;
 	}	}	}	}	}	}
 
@@ -268,7 +268,7 @@ WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR ps
 			// try to get setting from the default subcontact first
 			if (def > -1 && def < INT_MAX) {
 				hSubContact = db_mc_getSub(hContact, def);
-				if (hSubContact != NULL) {
+				if (hSubContact) {
 					wFlags = GetCtrl(hSubContact, pszSubModule, nullptr, Proto_GetBaseAccountName(hSubContact), pszSetting, dbv, destType);
 					if (wFlags != 0) {
 						wFlags &= ~CTRLF_HASCUSTOM;
@@ -283,7 +283,7 @@ WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR ps
 				for (i = 0; i < cnt; i++) {
 					if (i != def) {
 						hSubContact = db_mc_getSub(hContact, i);
-						if (hSubContact != NULL) {
+						if (hSubContact) {
 							wFlags = GetCtrl(hSubContact, pszSubModule, nullptr, Proto_GetBaseAccountName(hSubContact), pszSetting, dbv, destType);
 							if (wFlags != 0) {
 								wFlags &= ~CTRLF_HASCUSTOM;

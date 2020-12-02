@@ -114,59 +114,55 @@ void CIrcProto::WriteSettings(TDbSetting *sets, int count)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int sttServerEnum(const char* szSetting, void*)
+static int sttServerEnum(const char *szSetting, void *)
 {
-	DBVARIANT dbv;
-	if (db_get_s(0, SERVERSMODULE, szSetting, &dbv))
+	CMStringA szValue(db_get_sm(0, SERVERSMODULE, szSetting));
+	if (szValue.IsEmpty())
 		return 0;
+
+	int iStart = 0;
+	CMStringA szName, szAddress, szPort, szGroup;
+	szName = szValue.Tokenize(":", iStart); // skip SERVER
+	szAddress = szValue.Tokenize(":", iStart);
+	if (szName.IsEmpty() || szAddress.IsEmpty())
+		return 0;
+
+	szPort = szValue.Tokenize(":", iStart);
+	szGroup = szValue.Tokenize(":", iStart);
 
 	SERVER_INFO *pData = new SERVER_INFO;
 	pData->m_name = mir_strdup(szSetting);
 
-	char *p1 = strchr(dbv.pszVal, ':');
-	if (p1 == nullptr)
-		return 0;
-
-	p1++;
 	pData->m_iSSL = 0;
-	if (!_strnicmp(p1, "SSL", 3)) {
-		p1 += 3;
-		if (*p1 == '1')
+	if (!_strnicmp(szAddress, "SSL", 3)) {
+		if (szAddress[3] == '1')
 			pData->m_iSSL = 1;
-		else if (*p1 == '2')
+		else if (szAddress[3] == '2')
 			pData->m_iSSL = 2;
-		p1++;
+		szAddress.Delete(0, 4);
 	}
-	
-	char *p2 = strchr(p1, ':');
-	pData->m_address = (char*)mir_alloc(p2 - p1 + 1);
-	mir_strncpy(pData->m_address, p1, p2 - p1 + 1);
 
-	p1 = p2 + 1;
-	while (*p2 != 'G' && *p2 != '-')
-		p2++;
+	pData->m_address = mir_strdup(szAddress);
 
-	char *buf = (char*)alloca(p2 - p1 + 1);
-	mir_strncpy(buf, p1, p2 - p1 + 1);
-	pData->m_portStart = atoi(buf);
+	for (iStart = 0; iStart < szPort.GetLength(); iStart++)
+		if (szPort[iStart] == 'G' || szPort[iStart] == '-')
+			break;
 
-	if (*p2 == 'G')
+	pData->m_portStart = atoi(szPort.Left(iStart));
+
+	if (szPort[iStart] == 'G')
 		pData->m_portEnd = pData->m_portStart;
 	else {
-		p1 = p2 + 1;
-		p2 = strchr(p1, 'G');
-		buf = (char*)alloca(p2 - p1 + 1);
-		mir_strncpy(buf, p1, p2 - p1 + 1);
-		pData->m_portEnd = atoi(buf);
+		int iEnd = szPort.Find('G', ++iStart);
+		if (iEnd == -1)
+			return 0;
+
+		pData->m_portEnd = atoi(szPort.Mid(iStart, iEnd - iStart));
 	}
 
-	p1 = strchr(p2, ':') + 1;
-	p2 = strchr(p1, 0);
-	pData->m_group = (char*)mir_alloc(p2 - p1 + 1);
-	mir_strncpy(pData->m_group, p1, p2 - p1 + 1);
+	pData->m_group = mir_strdup(szGroup);
 
 	g_servers.insert(pData);
-	db_free(&dbv);
 	return 0;
 }
 

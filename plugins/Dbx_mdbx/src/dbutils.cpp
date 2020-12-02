@@ -55,35 +55,21 @@ int DBSettingKey::Compare(const MDBX_val *ax, const MDBX_val *bx) MDBX_CXX17_NOE
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// txn_ptr class 
 
-txn_ptr_ro::txn_ptr_ro(CMDBX_txn_ro &_txn) : 
-	txn(_txn),
-	lock(txn.cs)
+txn_ptr::txn_ptr(CDbxMDBX *_db) :
+	pDb(_db),
+	txn(_db->StartTran())
 {
-	for (int nRetries = 0; nRetries < 5; nRetries++) {
-		int rc = mdbx_txn_renew(txn);
-		if (rc == MDBX_SUCCESS)
-			break;
-
-		#ifdef _DEBUG
-			DebugBreak();
-		#endif
-		Netlib_Logf(nullptr, "txn_ptr_ro::txn_ptr_ro failed with error=%d, retrying...", rc);
-		Sleep(0);
-	}
+	_db->m_csDbAccess.Lock();
 }
 
-txn_ptr_ro::~txn_ptr_ro()
+txn_ptr::~txn_ptr()
 {
-	for (int nRetries = 0; nRetries < 5; nRetries++) {
-		int rc = mdbx_txn_reset(txn);
-		if (rc == MDBX_SUCCESS)
-			break;
+	pDb->m_csDbAccess.Unlock();
+}
 
-		#ifdef _DEBUG
-			DebugBreak();
-		#endif
-		Netlib_Logf(nullptr, "txn_ptr_ro::~txn_ptr_ro failed with error=%d, retrying...", rc);
-		Sleep(0);
-	}
+int txn_ptr::Commit()
+{
+	return MDBX_SUCCESS;
 }

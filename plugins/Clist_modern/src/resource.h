@@ -296,7 +296,6 @@
 #define IDC_REMOVE_OFFLINE_AWAYMSG      1767
 #define IDC_SC_STATIC                   1768
 #define IDC_TRANSPARENTOVERLAY          1768
-#define IDC_FILTER_SEARCH               1768
 #define IDC_SHOWUNREADEMAIL             1769
 #define IDC_IDC_MULTI_COUNT             1771
 #define IDC_MULTI_COUNT                 1771

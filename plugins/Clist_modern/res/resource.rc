@@ -454,8 +454,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,38,201,10
     CONTROL         "Remove status message if contact became offline",IDC_REMOVE_OFFLINE_AWAYMSG,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,50,201,10
-    CONTROL         "Use improved search method in contact list",IDC_FILTER_SEARCH,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,62,201,10
     GROUPBOX        "Metacontacts stuff",IDC_FRAME_META,2,81,218,88
     CONTROL         "Use 'Meta' protocol icons for metacontacts",IDC_META,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,95,201,10

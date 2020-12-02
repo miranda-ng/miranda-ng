@@ -332,7 +332,7 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 		return;
 
 	m_bFilterEnabled = !m_bFilterEnabled;
-	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2, FALSE));
+	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER2 : IDI_FILTER, FALSE));
 	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
 		ShowFilterMenu();
 	else
@@ -345,7 +345,7 @@ void CMsgDialog::onClick_NickList(CCtrlButton *pButton)
 		return;
 
 	m_bNicklistEnabled = !m_bNicklistEnabled;
-	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2, FALSE));
+	pButton->SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST2 : IDI_NICKLIST, FALSE));
 
 	m_pLog->ScrollToBottom();
 	Resize();
@@ -1072,6 +1072,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
+	case EM_PASTESPECIAL:
 	case WM_PASTE:
 		if (IsClipboardFormatAvailable(CF_HDROP)) {
 			if (OpenClipboard(m_message.GetHwnd())) {
@@ -1154,11 +1155,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			}
 
-			if ((wParam == 45 && isShift || wParam == 0x56 && isCtrl) && !isAlt) { // ctrl-v (paste clean text)
-				m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-				return TRUE;
-			}
-
 			if (wParam == VK_TAB && isShift && !isCtrl) { // SHIFT-TAB (go to nick list)
 				SetFocus(m_nickList.GetHwnd());
 				return TRUE;
@@ -1181,11 +1177,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_iLastEnterTime = 0;
 				return TRUE;
 			}
-		}
-
-		if (wParam == VK_INSERT && isShift || wParam == 'V' && isCtrl) { // ctrl-v (paste clean text)
-			m_message.SendMsg(WM_PASTE, 0, 0);
-			return 0;
 		}
 
 		if (isCtrl && g_dat.bCtrlSupport && m_cmdList.getCount()) {

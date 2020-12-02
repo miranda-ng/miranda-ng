@@ -12,7 +12,6 @@ extern int ON_SETALLEXTRAICON_CYCLE;
 extern FRAMEWND *g_pfwFrames;
 extern int g_nFramesCount;
 extern RECT g_rcEdgeSizingRect;
-extern FRAMEWND *wndFrameEventArea;
 extern ROWCELL *gl_RowTabAccess[];
 extern ROWCELL *gl_RowRoot;
 extern HIMAGELIST hAvatarOverlays;
@@ -20,18 +19,12 @@ extern int  g_nTitleBarHeight;
 extern BOOL g_bTransparentFlag;
 extern HIMAGELIST g_himlCListClc;
 extern BOOL g_mutex_bSizing;
-extern HIMAGELIST g_himlCListClc;
-extern BYTE nameOrder[];
-extern SortedList lContactsCache;
 extern BOOL g_flag_bOnModulesLoadedCalled;
 extern SKINOBJECTSLIST g_SkinObjectList;
 extern CURRWNDIMAGEDATA *g_pCachedWindow;
 extern BOOL g_mutex_bLockUpdating;
 extern STATUSBARDATA g_StatusBarData;
-extern SKINOBJECTSLIST g_SkinObjectList;
-extern CURRWNDIMAGEDATA *g_pCachedWindow;
 extern char *g_szConnectingProto;
-extern BOOL g_mutex_bLockUpdating;
 extern int  g_mutex_bOnTrayRightClick;
 extern BOOL g_flag_bPostWasCanceled;
 extern BOOL g_flag_bFullRepaint;
@@ -39,7 +32,6 @@ extern BOOL g_bMultiConnectionMode;
 extern BYTE g_bCalledFromShowHide;
 extern HICON g_hListeningToIcon;
 extern HWND g_hCLUIOptionsWnd;
-extern BOOL g_bTransparentFlag;
 extern HINSTANCE g_hMirApp;
 extern BOOL g_mutex_bChangingMode;
 extern UINT g_dwMainThreadID;
@@ -197,7 +189,7 @@ void    UnloadAvatarOverlayIcon();                                             /
 void    UnLoadContactListModule();                                             //clistmod.c
 void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
-void    ApplyViewMode(const char *Name, bool onlySelector = false);
+void    ApplyViewMode(const char *Name);
 void    SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
 
 // cluiframes.c

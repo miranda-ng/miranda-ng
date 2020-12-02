@@ -741,7 +741,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->gammaCorrection = db_get_b(0, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);
 	dat->bShowIdle = db_get_b(0, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) != 0;
 	dat->bNoVScrollbar = db_get_b(0, "CLC", "NoVScrollBar", false) != 0;
-	dat->bFilterSearch = db_get_b(0, "CLC", "FilterSearch", false) != 0;
+	dat->bFilterSearch = Clist::FilterSearch;
 	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
 
 	dat->greyoutFlags = db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);

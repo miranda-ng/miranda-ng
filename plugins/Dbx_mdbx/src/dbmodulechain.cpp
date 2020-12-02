@@ -25,11 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDbxMDBX::InitModules()
 {
-	txn_ptr_ro trnlck(m_txn_ro);
-	cursor_ptr_ro cursor(m_curModules);
-	
+	cursor_ptr pCursor(StartTran(), m_dbModules);
+
 	MDBX_val key, data;
-	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
+	while (mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
 		uint32_t iMod = *(uint32_t*)key.iov_base;
 		const char *szMod = (const char*)data.iov_base;
 		m_Modules[iMod] = szMod;
@@ -47,7 +46,7 @@ uint32_t CDbxMDBX::GetModuleID(const char *szName)
 	if (m_Modules.find(iHash) == m_Modules.end()) {
 		MDBX_val key = { &iHash, sizeof(iHash) }, data = { (void*)szName, strlen(szName) + 1 };
 		{
-			txn_ptr trnlck(StartTran());
+			txn_ptr trnlck(this);
 			if (mdbx_put(trnlck, m_dbModules, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 				return -1;
 			if (trnlck.Commit() != MDBX_SUCCESS)

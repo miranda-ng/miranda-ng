@@ -58,67 +58,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #	define thread_local __declspec(thread)
 #endif
 
-class txn_ptr
-{
-	MDBX_txn *txn;
-public:
-	__forceinline txn_ptr(MDBX_txn *_txn) :
-		txn(_txn)
-	{}
-
-	__forceinline ~txn_ptr()
-	{
-		if (txn) {
-			/* FIXME: see https://github.com/leo-yuriev/libfpta/blob/77a7251fde2030165a3916ee68fd86a1374b3dd8/src/common.cxx#L370 */
-			Abort();
-		}
-	}
-
-	__forceinline operator MDBX_txn*() const { return txn; }
-
-	__forceinline int Commit()
-	{
-		int rc = mdbx_txn_commit(txn);
-		if (rc != MDBX_SUCCESS) {
-			/* FIXME: throw an exception */
-			Abort();
-			return rc;
-		}
-		txn = nullptr;
-		return MDBX_SUCCESS;
-	}
-
-	__forceinline void Abort()
-	{
-		int rc = mdbx_txn_abort(txn);
-		/* FIXME: throw an exception */
-		_ASSERT(rc == MDBX_SUCCESS);
-		UNREFERENCED_PARAMETER(rc);
-		txn = nullptr;
-	}
-};
-
-struct CMDBX_txn_ro
-{
-	MDBX_txn *txn = nullptr;
-	mir_cs cs;
-
-	__forceinline operator MDBX_txn* () { return txn; }
-	__forceinline MDBX_txn** operator &() { return &txn; }
-};
-
-class txn_ptr_ro
-{
-	CMDBX_txn_ro &txn;
-	mir_cslock lock;
-
-public:
-	txn_ptr_ro(CMDBX_txn_ro &_txn);
-	~txn_ptr_ro();
-
-	__forceinline operator MDBX_txn*() const { return txn; }
-};
-
 class cursor_ptr
 {
 	MDBX_cursor *m_cursor;
@@ -139,21 +78,22 @@ public:
 	__forceinline operator MDBX_cursor*() const { return m_cursor; }
 };
 
-class cursor_ptr_ro
+#include "dbintf.h"
+
+class txn_ptr
 {
-	MDBX_cursor *m_cursor;
+	CDbxMDBX *pDb;
+	MDBX_txn *txn;
+
 public:
-	__forceinline cursor_ptr_ro(MDBX_cursor *cursor) : m_cursor(cursor)
-	{
-		int rc = mdbx_cursor_renew(mdbx_cursor_txn(m_cursor), m_cursor);
-		/* FIXME: throw an exception */
-		_ASSERT(rc == MDBX_SUCCESS);
-		UNREFERENCED_PARAMETER(rc);
-	}
-	__forceinline operator MDBX_cursor*() const { return m_cursor; }
+	txn_ptr(CDbxMDBX *_db);
+	~txn_ptr();
+
+	__forceinline operator MDBX_txn*() const { return txn; }
+
+	int Commit();
 };
 
-#include "dbintf.h"
 #include "resource.h"
 #include "version.h"
 
@@ -165,4 +105,3 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 #include "ui.h"
-

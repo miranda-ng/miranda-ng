@@ -89,15 +89,8 @@ LBL_Seek:
 	keyVal->dwModuleId = GetModuleID(szModule);
 	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-	int res;
-	const BYTE *pBlob;
-	{
-		txn_ptr_ro trnlck(m_txn_ro);
-		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
-		res = mdbx_get(trnlck, m_dbSettings, &key, &data);
-		pBlob = (const BYTE*)data.iov_base;
-	}
-
+	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
+	int res = mdbx_get(StartTran(), m_dbSettings, &key, &data);
 	if (res != MDBX_SUCCESS) {
 		// try to get the missing mc setting from the active sub
 		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
@@ -111,6 +104,7 @@ LBL_Seek:
 		return 1;
 	}
 
+	const BYTE *pBlob = (const BYTE*)data.iov_base;
 	if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
 		return 1;
 
@@ -339,7 +333,7 @@ LBL_WriteString:
 	}
 
 	{
-		txn_ptr trnlck(StartTran());
+		txn_ptr trnlck(this);
 		if (mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 			return 1;
 
@@ -373,7 +367,7 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 			keyVal->dwModuleId = GetModuleID(szModule);
 			memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-			txn_ptr trnlck(StartTran());
+			txn_ptr trnlck(this);
 			MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
 			if (mdbx_del(trnlck, m_dbSettings, &key, nullptr) != MDBX_SUCCESS)
 				return 1;
@@ -398,14 +392,13 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 BOOL CDbxMDBX::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param)
 {
 	LIST<char> arKeys(100);
+
+	DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
+	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 	{
-		DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
-		txn_ptr_ro txn(m_txn_ro);
-		cursor_ptr_ro cursor(m_curSettings);
+		cursor_ptr pCursor(StartTran(), m_dbSettings);
 
-		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
-
-		for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
+		for (int res = mdbx_cursor_get(pCursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT)) {
 			const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
 			if (pKey->hContact != hContact || pKey->dwModuleId != keyVal.dwModuleId)
 				break;

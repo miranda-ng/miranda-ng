@@ -571,11 +571,16 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 
 	if (!evt_cur_fwd)
 	{
-		return 0;
+		evt_cur_fwd = evt_stmts_prep[SQL_EVT_STMT_FINDFIRST];
+		sqlite3_bind_int64(evt_cur_fwd, 1, hContact);
+		evt_cnt_fwd = hContact;
 	}
-	if (hContact != evt_cnt_fwd)
+	else if (hContact != evt_cnt_fwd)
 	{
-		return 0;
+		sqlite3_reset(evt_cur_fwd);
+		evt_cur_fwd = evt_stmts_prep[SQL_EVT_STMT_FINDFIRST];
+		sqlite3_bind_int64(evt_cur_fwd, 1, hContact);
+		evt_cnt_fwd = hContact;
 	}
 
 	while (hDbEvent !=  sqlite3_column_int64(evt_cur_fwd, 0))
@@ -619,11 +624,16 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 
 	if (!evt_cur_backwd)
 	{
-		return 0;
+		evt_cur_backwd = evt_stmts_prep[SQL_EVT_STMT_FINDLAST];
+		sqlite3_bind_int64(evt_cur_backwd, 1, hContact);
+		evt_cnt_backwd = hContact;
 	}
-	if (hContact != evt_cnt_backwd)
+	else if (hContact != evt_cnt_backwd)
 	{
-		return 0;
+		sqlite3_reset(evt_cur_fwd);
+		evt_cur_backwd = evt_stmts_prep[SQL_EVT_STMT_FINDLAST];
+		sqlite3_bind_int64(evt_cur_backwd, 1, hContact);
+		evt_cnt_backwd = hContact;
 	}
 
 	while (hDbEvent != sqlite3_column_int64(evt_cur_backwd, 0))

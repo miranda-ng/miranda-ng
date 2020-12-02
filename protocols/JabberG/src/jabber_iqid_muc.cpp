@@ -145,8 +145,9 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 		}
 
 		lvi.iSubItem = 0;
-		lvi.mask = LVIF_PARAM | LVIF_IMAGE;
+		lvi.mask = LVIF_TEXT |LVIF_PARAM | LVIF_IMAGE;
 		lvi.lParam = -1;
+		lvi.pszText = L"";
 		lvi.iImage = 1;
 		m_list.InsertItem(&lvi);
 

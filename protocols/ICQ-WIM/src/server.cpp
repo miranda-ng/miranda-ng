@@ -101,6 +101,55 @@ void CIcqProto::CheckPassword()
 	else StartSession();
 }
 
+IcqFileInfo* CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, bool &bIsFile)
+{
+	CMStringW wszUrl(wszText.Mid(26));
+	int idx = wszUrl.Find(' ');
+	if (idx != -1)
+		wszUrl.Truncate(idx);
+
+	bIsFile = false;
+	IcqFileInfo *pFileInfo = nullptr;
+
+	// is it already downloaded sticker?
+	CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
+	if (!_waccess(wszLoadedPath, 0)) {
+		pFileInfo = (IcqFileInfo *)this;
+		wszText.Format(L"STK{%s}", wszUrl.c_str());
+	}
+	else {
+		// download file info
+		CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszUrl.c_str());
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
+		pReq->hContact = hContact;
+		pReq->pUserInfo = &pFileInfo;
+		pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "192,600,xlarge");
+		if (!ExecuteRequest(pReq))
+			return nullptr;
+
+		// is it a sticker?
+		if (pFileInfo->bIsSticker) {
+			if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
+				auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
+				pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+				pNew->pUserInfo = wszUrl.GetBuffer();
+				pNew->AddHeader("Sec-Fetch-User", "?1");
+				pNew->AddHeader("Sec-Fetch-Site", "cross-site");
+				pNew->AddHeader("Sec-Fetch-Mode", "navigate");
+				if (!ExecuteRequest(pNew))
+					return nullptr;
+
+				wszText.Format(L"STK{%s}", wszUrl.c_str());
+				delete pFileInfo;
+			}
+			else wszText = TranslateT("SmileyAdd plugin required to support stickers");
+		}
+		else bIsFile = true;
+	}
+
+	return pFileInfo;
+}
+
 void CIcqProto::CheckStatus()
 {
 	time_t now = time(0);
@@ -403,6 +452,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 
 	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
+	bool bIsOutgoing = it["outgoing"].as_bool(), bIsFileTransfer = false;
 
 	if (isChatRoom(hContact)) {
 		CMStringA reqId(it["reqId"].as_mstring());
@@ -410,6 +460,17 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 		CMStringW wszSender(it["chat"]["sender"].as_mstring());
 		CMStringW wszChatId(getMStringW(hContact, "ChatRoomID"));
+
+		if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
+			auto *pFileInfo = CheckFile(hContact, wszText, bIsFileTransfer);
+			if (!pFileInfo)
+				return;
+
+			if (bIsFileTransfer) {
+				wszText = pFileInfo->szUrl;
+				delete pFileInfo;
+			}
+		}
 
 		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
 		gce.pszID.w = wszChatId;
@@ -419,101 +480,67 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		gce.time = iMsgTime;
 		gce.bIsMe = wszSender == m_szOwnId;
 		Chat_Event(&gce);
+		return;
 	}
-	else {
-		// skip own messages, just set the server msgid
-		CMStringA reqId(it["reqId"].as_mstring());
-		if (CheckOwnMessage(reqId, szMsgId, true))
+
+	// skip own messages, just set the server msgid
+	CMStringA reqId(it["reqId"].as_mstring());
+	if (CheckOwnMessage(reqId, szMsgId, true)) {
+		debugLogA("Skipping our own message %s", szMsgId.c_str());
+		return;
+	}
+
+	// ignore duplicates
+	MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
+	if (hDbEvent != 0) {
+		debugLogA("Message %s already exists", szMsgId.c_str());
+		return;
+	}
+
+	// filter out file transfers
+	if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
+		auto *pFileInfo = CheckFile(hContact, wszText, bIsFileTransfer);
+		if (!pFileInfo)
 			return;
 
-		// ignore duplicates
-		MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
-		if (hDbEvent != 0) {
-			debugLogA("Message %s already exists", szMsgId.c_str());
+		if (bIsFileTransfer) {
+			// convert a file info into Miranda's file transfer
+			auto *ft = new IcqFileTransfer(hContact, pFileInfo->szUrl);
+			ft->pfts.totalBytes = ft->pfts.currentFileSize = pFileInfo->dwFileSize;
+			ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
+
+			PROTORECVFILE pre = {};
+			pre.dwFlags = PRFF_UNICODE;
+			pre.fileCount = 1;
+			pre.timestamp = iMsgTime;
+			pre.files.w = &ft->m_wszShortName;
+			pre.descr.w = pFileInfo->wszDescr;
+			pre.lParam = (LPARAM)ft;
+			ProtoChainRecvFile(hContact, &pre);
+
+			delete pFileInfo;
 			return;
 		}
-
-		// filter out file transfers
-		bool bIsOutgoing = it["outgoing"].as_bool();
-		if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
-			CMStringW wszUrl(wszText.Mid(26));
-			int idx = wszUrl.Find(' ');
-			if (idx != -1)
-				wszUrl.Truncate(idx);
-
-			// is it already downloaded sticker?
-			CMStringW wszLoadedPath(FORMAT, L"%s\\%S\\Stickers\\STK{%s}.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName, wszUrl.c_str());
-			if (!_waccess(wszLoadedPath, 0))
-				wszText.Format(L"STK{%s}", wszUrl.c_str());
-			else {
-				// download file info
-				IcqFileInfo *pFileInfo = nullptr;
-
-				CMStringA szUrl(FORMAT, ICQ_FILE_SERVER "/info/%S/", wszUrl.c_str());
-				auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, szUrl, &CIcqProto::OnFileInfo);
-				pReq->hContact = hContact;
-				pReq->pUserInfo = &pFileInfo;
-				pReq << CHAR_PARAM("aimsid", m_aimsid) << CHAR_PARAM("previews", "192,600,xlarge");
-				if (!ExecuteRequest(pReq))
-					return;
-
-				// is it a sticker?
-				if (pFileInfo->bIsSticker) {
-					if (ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS)) {
-						auto *pNew = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, pFileInfo->szUrl, &CIcqProto::OnGetSticker);
-						pNew->flags |= NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
-						pNew->pUserInfo = wszUrl.GetBuffer();
-						pNew->AddHeader("Sec-Fetch-User", "?1");
-						pNew->AddHeader("Sec-Fetch-Site", "cross-site");
-						pNew->AddHeader("Sec-Fetch-Mode", "navigate");
-						if (!ExecuteRequest(pNew))
-							return;
-
-						wszText.Format(L"STK{%s}", wszUrl.c_str());
-						delete pFileInfo;
-					}
-					else wszText = TranslateT("SmileyAdd plugin required to support stickers");
-				}
-				else {
-					// detach a file transfer
-					auto *ft = new IcqFileTransfer(hContact, pFileInfo->szUrl);
-					ft->pfts.totalBytes = ft->pfts.currentFileSize = pFileInfo->dwFileSize;
-					ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
-
-					PROTORECVFILE pre = {};
-					pre.dwFlags = PRFF_UNICODE;
-					pre.fileCount = 1;
-					pre.timestamp = iMsgTime;
-					pre.files.w = &ft->m_wszShortName;
-					pre.descr.w = pFileInfo->wszDescr;
-					pre.lParam = (LPARAM)ft;
-					ProtoChainRecvFile(hContact, &pre);
-
-					delete pFileInfo;
-					return;
-				}
-			}
-		}
-
-		// suppress notifications for already loaded/processed messages
-		__int64 storedLastId = getId(hContact, DB_KEY_LASTMSGID);
-		if (msgId <= storedLastId) {
-			debugLogA("Parsing old/processed message with id %lld < %lld, setting CR to true", msgId, storedLastId);
-			bCreateRead = true;
-		}
-
-		debugLogA("Adding message %d:%lld (CR=%d)", hContact, msgId, bCreateRead);
-
-		ptrA szUtf(mir_utf8encodeW(wszText));
-
-		PROTORECVEVENT pre = {};
-		if (bIsOutgoing) pre.flags |= PREF_SENT;
-		if (bCreateRead) pre.flags |= PREF_CREATEREAD;
-		pre.szMsgId = szMsgId;
-		pre.timestamp = iMsgTime;
-		pre.szMessage = szUtf;
-		ProtoChainRecvMsg(hContact, &pre);
 	}
+
+	// suppress notifications for already loaded/processed messages
+	__int64 storedLastId = getId(hContact, DB_KEY_LASTMSGID);
+	if (msgId <= storedLastId) {
+		debugLogA("Parsing old/processed message with id %lld < %lld, setting CR to true", msgId, storedLastId);
+		bCreateRead = true;
+	}
+
+	debugLogA("Adding message %d:%lld (CR=%d)", hContact, msgId, bCreateRead);
+
+	ptrA szUtf(mir_utf8encodeW(wszText));
+
+	PROTORECVEVENT pre = {};
+	if (bIsOutgoing) pre.flags |= PREF_SENT;
+	if (bCreateRead) pre.flags |= PREF_CREATEREAD;
+	pre.szMsgId = szMsgId;
+	pre.timestamp = iMsgTime;
+	pre.szMessage = szUtf;
+	ProtoChainRecvMsg(hContact, &pre);
 }
 
 bool CIcqProto::RefreshRobustToken()

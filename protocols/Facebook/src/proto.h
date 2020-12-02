@@ -475,6 +475,7 @@ class FacebookProto : public PROTO<FacebookProto>
 
    FacebookUser* UserFromJson(const JSONNode &root, CMStringW &wszId, bool &bIsChat);
 
+   bool CheckOwnMessage(FacebookUser *pUser, __int64 offlineId, const char *pszMsgId);
    void FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody);
    void NotifyDelivery(const CMStringA &msgid);
 
