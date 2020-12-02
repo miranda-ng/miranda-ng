@@ -705,6 +705,11 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		return;
 	}
 
+	if (db_event_getById(m_szModuleName, szId)) {
+		debugLogA("this message <%s> was already stored, exiting", szId.c_str());
+		return;
+	}
+
 	// messages sent with attachments are returning as deltaNewMessage, not deltaSentMessage
 	__int64 actorFbId = _wtoi64(wszActorFbId);
 	if (m_uid == actorFbId)
