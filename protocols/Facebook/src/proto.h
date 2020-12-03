@@ -440,7 +440,6 @@ class FacebookProto : public PROTO<FacebookProto>
    void MqttQueueConnect();
 
    void OnPublish(const char *str, const uint8_t *payLoad, size_t cbLen);
-   void OnPublishDelivery(FbThriftReader &rdr);
    void OnPublishMessage(FbThriftReader &rdr);
    void OnPublishPresence(FbThriftReader &rdr);
    void OnPublishUtn(FbThriftReader &rdr);
@@ -477,7 +476,6 @@ class FacebookProto : public PROTO<FacebookProto>
 
    bool CheckOwnMessage(FacebookUser *pUser, __int64 offlineId, const char *pszMsgId);
    void FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody);
-   void NotifyDelivery(const CMStringA &msgid);
 
    void OnLoggedIn();
    void OnLoggedOut();
