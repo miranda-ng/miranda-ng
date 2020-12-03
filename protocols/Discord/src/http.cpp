@@ -103,8 +103,7 @@ void CDiscordProto::ServerThread(void*)
 	debugLogA("CDiscordProto::WorkerThread: %s", "entering");
 
 	if (m_szAccessToken != nullptr)
-		// try to receive a response from server
-		RetrieveMyInfo();
+		RetrieveMyInfo(); // try to receive a response from server
 	else {
 		if (mir_wstrlen(m_wszEmail) == 0) {
 			ConnectionFailed(LOGINERR_BADUSERID);

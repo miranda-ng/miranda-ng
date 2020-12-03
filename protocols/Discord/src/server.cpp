@@ -265,16 +265,19 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	}
 
 	JsonReply root(pReply);
-	if (!root)
+	if (!root) {
 		ConnectionFailed(LOGINERR_NOSERVER);
-	else {
-		auto &data = root.data();
-		CMStringA szToken = data["token"].as_mstring();
-		if (szToken.IsEmpty())
-			return;
-
-		m_szAccessToken = szToken.Detach();
-		setString("AccessToken", m_szAccessToken);
-		RetrieveMyInfo();
+		return;
 	}
+
+	auto &data = root.data();
+	CMStringA szToken = data["token"].as_mstring();
+	if (szToken.IsEmpty()) {
+		debugLogA("Strange empty token received, exiting");
+		return;
+	}
+
+	m_szAccessToken = szToken.Detach();
+	setString("AccessToken", m_szAccessToken);
+	RetrieveMyInfo();
 }
