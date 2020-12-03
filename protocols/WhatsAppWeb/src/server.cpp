@@ -368,7 +368,6 @@ bool WhatsAppProto::ServerThreadWorker()
 	NETLIBHTTPHEADER hdrs[] =
 	{
 		{ "Origin", "https://web.whatsapp.com" },
-		{ "Sec-WebSocket-Key", "k/hwJLznKpk3p2hxyYGzWA==" },
 		{ 0, 0 }
 	};
 

@@ -45,7 +45,6 @@ bool CDiscordProto::GatewayThreadWorker()
 	NETLIBHTTPHEADER hdrs[] =
 	{
 		{ "Origin", "https://discord.com" },
-		{ "Sec-WebSocket-Key", "xkGAFcWD1fSJp6o0tceQOg==" },
 		{ 0, 0 }
 	};
 
