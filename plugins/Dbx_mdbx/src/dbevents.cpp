@@ -273,7 +273,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 			return false;
 	}
 
-	DBFlush(true);
+	DBFlush();
 
 	// Notify only in safe mode or on really new events
 	if (m_safetyMode && !(dbei->flags & DBEF_TEMPORARY))
