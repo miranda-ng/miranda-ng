@@ -228,6 +228,7 @@ int CDbxMDBX::Load()
 	if (InitCrypt())   return EGROKPRF_DAMAGED;
 
 	FillContacts();
+	FillSettings();
 
 	return EGROKPRF_NOERROR;
 }

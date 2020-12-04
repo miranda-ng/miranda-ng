@@ -292,21 +292,4 @@ void CDbxMDBX::FillContacts()
 		DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.iov_base);
 		cc->dbc = *(DBContact*)data.iov_base;
 	}
-
-	for (DBCachedContact *cc = m_cache->GetFirstContact(); cc; cc = m_cache->GetNextContact(cc->contactID)) {
-		CheckProto(cc, "");
-
-		DBVARIANT dbv; dbv.type = DBVT_DWORD;
-		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
-		if (cc->nSubs != -1) {
-			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs * sizeof(MCONTACT));
-			for (int k = 0; k < cc->nSubs; k++) {
-				char setting[100];
-				mir_snprintf(setting, _countof(setting), "Handle%d", k);
-				cc->pSubs[k] = (0 != GetContactSetting(cc->contactID, META_PROTO, setting, &dbv)) ? 0 : dbv.dVal;
-			}
-		}
-		cc->nDefault = (0 != GetContactSetting(cc->contactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
-		cc->parentID = (0 != GetContactSetting(cc->contactID, META_PROTO, "ParentMeta", &dbv)) ? 0 : dbv.dVal;
-	}
 }

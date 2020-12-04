@@ -33,7 +33,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DBMODE_READONLY  0x0002
 
 #define DBVT_ENCRYPTED   250
-#define DBVT_UNENCRYPTED 251
 
 #define MARKED_READ (DBEF_READ | DBEF_SENT)
 
@@ -166,7 +165,6 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 
 	bool CheckEvent(DBCachedContact *cc, const DBEvent *dbe, DBCachedContact *&cc2);
 	bool EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe, bool bNew);
-	void FillContacts(void);
 	int  PrepareCheck(void);
 	void TouchFile(void);
 	void UpdateMenuItem(void);
@@ -192,12 +190,15 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	MDBX_dbi     m_dbSettings;
 	HANDLE       hService[2], hHook;
 
+	void         FillSettings(void);
+
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
 
 	MDBX_dbi	    m_dbContacts;
 	MCONTACT     m_maxContactId = 0;
 
+	void         FillContacts(void);
 	void         GatherContactHistory(MCONTACT hContact, OBJLIST<EventItem> &items);
 
 	////////////////////////////////////////////////////////////////////////////

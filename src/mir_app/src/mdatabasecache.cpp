@@ -154,15 +154,39 @@ char* MDatabaseCache::GetCachedSetting(const char *szModuleName, const char *szS
 
 void MDatabaseCache::SetCachedVariant(DBVARIANT* s /* new */, DBVARIANT* d /* cached */)
 {
-	char* szSave = (d->type == DBVT_UTF8 || d->type == DBVT_ASCIIZ) ? d->pszVal : nullptr;
+	void *szSave = nullptr;
+	if (d->type & DBVTF_VARIABLELENGTH)
+		szSave = (d->type == DBVT_UTF8 || d->type == DBVT_ASCIIZ) ? (void*)d->pszVal : d->pbVal;
 
 	memcpy(d, s, sizeof(DBVARIANT));
-	if ((s->type == DBVT_UTF8 || s->type == DBVT_ASCIIZ) && s->pszVal != nullptr) {
-		if (szSave != nullptr)
-			d->pszVal = (char*)mir_realloc(szSave, mir_strlen(s->pszVal) + 1);
-		else
-			d->pszVal = (char*)mir_alloc(mir_strlen(s->pszVal) + 1);
-		mir_strcpy(d->pszVal, s->pszVal);
+
+	if (s->type & DBVTF_VARIABLELENGTH) {
+		// string variable length value
+		if (s->type == DBVT_UTF8 || s->type == DBVT_ASCIIZ) {
+			if (s->pszVal == nullptr) {
+				mir_free(szSave);
+				return;
+			}
+
+			if (szSave != nullptr)
+				d->pszVal = (char*)mir_realloc(szSave, mir_strlen(s->pszVal) + 1);
+			else
+				d->pszVal = (char*)mir_alloc(mir_strlen(s->pszVal) + 1);
+			strcpy(d->pszVal, s->pszVal);
+		}
+		// binary variable length value
+		else {
+			if (s->pbVal == nullptr) {
+				mir_free(szSave);
+				return;
+			}
+
+			if (szSave != nullptr)
+				d->pbVal = (BYTE*)mir_realloc(szSave, s->cpbVal);
+			else
+				d->pbVal = (BYTE*)mir_alloc(s->cpbVal);
+			memcpy(d->pbVal, s->pbVal, s->cpbVal);
+		}
 	}
 	else if (szSave != nullptr)
 		mir_free(szSave);

@@ -23,6 +23,78 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+void CDbxMDBX::FillSettings()
+{
+	cursor_ptr pCursor(StartTran(), m_dbSettings);
+
+	DBSettingKey keyVal = {};
+	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
+	for (int res = mdbx_cursor_get(pCursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(pCursor, &key, &data, MDBX_NEXT)) {
+		const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
+
+		auto *szModule = GetModuleName(pKey->dwModuleId);
+		if (szModule == nullptr)
+			continue;
+
+		const BYTE *pBlob = (const BYTE*)data.iov_base;
+		if (*pBlob == DBVT_DELETED)
+			continue;
+
+		size_t settingNameLen = strlen(pKey->szSettingName);
+		size_t moduleNameLen = strlen(szModule);
+
+		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, pKey->szSettingName, moduleNameLen, settingNameLen);
+
+		DBVARIANT *dbv = m_cache->GetCachedValuePtr(pKey->hContact, szCachedSettingName, 1);
+
+		size_t varLen;
+
+		BYTE iType = dbv->type = pBlob[0]; pBlob++;
+		switch (iType) {
+		case DBVT_BYTE:  dbv->bVal = *pBlob; break;
+		case DBVT_WORD:  dbv->wVal = *(WORD*)pBlob; break;
+		case DBVT_DWORD: dbv->dVal = *(DWORD*)pBlob; break;
+
+		case DBVT_UTF8:
+		case DBVT_ASCIIZ:
+			varLen = *(WORD*)pBlob;
+			pBlob += 2;
+			dbv->pszVal = (char*)mir_alloc(1 + varLen);
+			memcpy(dbv->pszVal, pBlob, varLen);
+			dbv->pszVal[varLen] = 0;
+			break;
+
+		case DBVT_BLOB:
+		case DBVT_ENCRYPTED:
+			varLen = *(WORD*)pBlob;
+			pBlob += 2;
+			dbv->pbVal = (BYTE *)mir_alloc(varLen);
+			memcpy(dbv->pbVal, pBlob, varLen);
+			dbv->cpbVal = varLen;
+			break;
+		}
+	}
+
+	for (DBCachedContact *cc = m_cache->GetFirstContact(); cc; cc = m_cache->GetNextContact(cc->contactID)) {
+		CheckProto(cc, "");
+
+		DBVARIANT dbv; dbv.type = DBVT_DWORD;
+		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
+		if (cc->nSubs != -1) {
+			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs * sizeof(MCONTACT));
+			for (int k = 0; k < cc->nSubs; k++) {
+				char setting[100];
+				mir_snprintf(setting, _countof(setting), "Handle%d", k);
+				cc->pSubs[k] = (0 != GetContactSetting(cc->contactID, META_PROTO, setting, &dbv)) ? 0 : dbv.dVal;
+			}
+		}
+		cc->nDefault = (0 != GetContactSetting(cc->contactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(cc->contactID, META_PROTO, "ParentMeta", &dbv)) ? 0 : dbv.dVal;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
 
 static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
@@ -30,10 +102,7 @@ static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
 	if (!strcmp(szModule, META_PROTO))
 		return strcmp(szSetting, "IsSubcontact") && strcmp(szSetting, "ParentMetaID");
 
-	if (!strcmp(szModule, "Ignore"))
-		return false;
-
-	return true;
+	return false;
 }
 
 int CDbxMDBX::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
@@ -41,153 +110,96 @@ int CDbxMDBX::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCST
 	if (szSetting == nullptr || szModule == nullptr)
 		return 1;
 
+	DBVARIANT *pCachedValue;
 	size_t settingNameLen = strlen(szSetting);
 	size_t moduleNameLen = strlen(szModule);
-
-	mir_cslock lck(m_csDbAccess);
+	{
+		mir_cslock lck(m_csDbAccess);
 
 LBL_Seek:
-	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
+		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 
-	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 0);
-	if (pCachedValue != nullptr) {
-		if (pCachedValue->type == DBVT_ASCIIZ || pCachedValue->type == DBVT_UTF8) {
-			int cbOrigLen = dbv->cchVal;
-			char *cbOrigPtr = dbv->pszVal;
-			memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
-			if (isStatic) {
-				int cbLen = 0;
-				if (pCachedValue->pszVal != nullptr)
-					cbLen = (int)strlen(pCachedValue->pszVal);
-
-				cbOrigLen--;
-				dbv->pszVal = cbOrigPtr;
-				if (cbLen < cbOrigLen)
-					cbOrigLen = cbLen;
-				memcpy(dbv->pszVal, pCachedValue->pszVal, cbOrigLen);
-				dbv->pszVal[cbOrigLen] = 0;
-				dbv->cchVal = cbLen;
-			}
-			else {
-				dbv->pszVal = (char*)mir_alloc(strlen(pCachedValue->pszVal) + 1);
-				strcpy(dbv->pszVal, pCachedValue->pszVal);
-			}
-		}
-		else memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
-
-		return (pCachedValue->type == DBVT_DELETED) ? 1 : 0;
-	}
-
-	// never look db for the resident variable
-	if (szCachedSettingName[-1] != 0)
-		return 1;
-
-	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : nullptr;
-
-	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen);
-	keyVal->hContact = contactID;
-	keyVal->dwModuleId = GetModuleID(szModule);
-	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
-
-	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
-	int res = mdbx_get(StartTran(), m_dbSettings, &key, &data);
-	if (res != MDBX_SUCCESS) {
-		// try to get the missing mc setting from the active sub
-		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
-			if (contactID = db_mc_getDefault(contactID)) {
-				if (szModule = Proto_GetBaseAccountName(contactID)) {
-					moduleNameLen = strlen(szModule);
-					goto LBL_Seek;
+		pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 0);
+		if (pCachedValue == nullptr) {
+			// if nothing was faound, try to lookup the same setting from meta's default contact
+			if (contactID) {
+				DBCachedContact *cc = m_cache->GetCachedContact(contactID);
+				if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
+					if (contactID = db_mc_getDefault(contactID)) {
+						szModule = Proto_GetBaseAccountName(contactID);
+						moduleNameLen = strlen(szModule);
+						goto LBL_Seek;
+					}
 				}
 			}
+
+			// otherwise fail
+			return 1;
 		}
-		return 1;
 	}
 
-	const BYTE *pBlob = (const BYTE*)data.iov_base;
-	if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
-		return 1;
-
-	int varLen;
-	BYTE iType = dbv->type = pBlob[0]; pBlob++;
-	switch (iType) {
-	case DBVT_DELETED: /* this setting is deleted */
-		dbv->type = DBVT_DELETED;
-		return 2;
-
-	case DBVT_BYTE:  dbv->bVal = *pBlob; break;
-	case DBVT_WORD:  dbv->wVal = *(WORD*)pBlob; break;
-	case DBVT_DWORD: dbv->dVal = *(DWORD*)pBlob; break;
-
-	case DBVT_UTF8:
+	switch(pCachedValue->type) {
 	case DBVT_ASCIIZ:
-		varLen = *(WORD*)pBlob;
-		pBlob += 2;
+	case DBVT_UTF8:
+		dbv->type = pCachedValue->type;
 		if (isStatic) {
-			dbv->cchVal--;
-			if (varLen < dbv->cchVal)
-				dbv->cchVal = varLen;
-			memcpy(dbv->pszVal, pBlob, dbv->cchVal); // decode
-			dbv->pszVal[dbv->cchVal] = 0;
-			dbv->cchVal = varLen;
+			int cbLen = (int)mir_strlen(pCachedValue->pszVal);
+			int cbOrigLen = dbv->cchVal;
+			cbOrigLen--;
+			if (cbLen < cbOrigLen)
+				cbOrigLen = cbLen;
+			memcpy(dbv->pszVal, pCachedValue->pszVal, cbOrigLen);
+			dbv->pszVal[cbOrigLen] = 0;
+			dbv->cchVal = cbLen;
 		}
 		else {
-			dbv->pszVal = (char*)mir_alloc(1 + varLen);
-			memcpy(dbv->pszVal, pBlob, varLen);
-			dbv->pszVal[varLen] = 0;
+			dbv->pszVal = (char *)mir_alloc(strlen(pCachedValue->pszVal) + 1);
+			strcpy(dbv->pszVal, pCachedValue->pszVal);
+			dbv->cchVal = pCachedValue->cchVal;
 		}
 		break;
 
 	case DBVT_BLOB:
-		varLen = *(WORD*)pBlob;
-		pBlob += 2;
+		dbv->type = DBVT_BLOB;
 		if (isStatic) {
-			if (varLen < dbv->cpbVal)
-				dbv->cpbVal = varLen;
-			memcpy(dbv->pbVal, pBlob, dbv->cpbVal);
+			if (pCachedValue->cpbVal < dbv->cpbVal)
+				dbv->cpbVal = pCachedValue->cpbVal;
+			memcpy(dbv->pbVal, pCachedValue->pbVal, dbv->cpbVal);
 		}
 		else {
-			dbv->pbVal = (BYTE *)mir_alloc(varLen);
-			memcpy(dbv->pbVal, pBlob, varLen);
+			dbv->pbVal = (BYTE *)mir_alloc(pCachedValue->cpbVal);
+			memcpy(dbv->pbVal, pCachedValue->pbVal, pCachedValue->cpbVal);
 		}
-		dbv->cpbVal = varLen;
+		dbv->cpbVal = pCachedValue->cpbVal;
 		break;
 
 	case DBVT_ENCRYPTED:
-		if (m_crypto == nullptr)
-			return 1;
+		if (m_crypto != nullptr) {
+			size_t realLen;
+			ptrA decoded(m_crypto->decodeString(pCachedValue->pbVal, pCachedValue->cpbVal, &realLen));
+			if (decoded == nullptr)
+				return 1;
 
-		varLen = *(WORD*)pBlob;
-		pBlob += 2;
-
-		size_t realLen;
-		ptrA decoded(m_crypto->decodeString(pBlob, varLen, &realLen));
-		if (decoded == nullptr)
-			return 1;
-
-		varLen = (WORD)realLen;
-		dbv->type = DBVT_UTF8;
-		if (isStatic) {
-			dbv->cchVal--;
-			if (varLen < dbv->cchVal)
-				dbv->cchVal = varLen;
-			memcpy(dbv->pszVal, decoded, dbv->cchVal);
-			dbv->pszVal[dbv->cchVal] = 0;
-			dbv->cchVal = varLen;
+			dbv->type = DBVT_UTF8;
+			if (isStatic) {
+				dbv->cchVal--;
+				if (realLen < dbv->cchVal)
+					dbv->cchVal = realLen;
+				memcpy(dbv->pszVal, decoded, dbv->cchVal);
+				dbv->pszVal[dbv->cchVal] = 0;
+				dbv->cchVal = realLen;
+			}
+			else {
+				dbv->pszVal = (char *)mir_alloc(1 + realLen);
+				memcpy(dbv->pszVal, decoded, realLen);
+				dbv->pszVal[realLen] = 0;
+			}
+			break;
 		}
-		else {
-			dbv->pszVal = (char*)mir_alloc(1 + varLen);
-			memcpy(dbv->pszVal, decoded, varLen);
-			dbv->pszVal[varLen] = 0;
-		}
-		break;
-	}
+		return 1;
 
-	/**** add to cache **********************/
-	if (iType != DBVT_BLOB && iType != DBVT_ENCRYPTED) {
-		pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
-		if (pCachedValue != nullptr)
-			m_cache->SetCachedVariant(dbv, pCachedValue);
+	default:
+		memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
 	}
 
 	return 0;
@@ -227,11 +239,12 @@ BOOL CDbxMDBX::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *db
 	case DBVT_BYTE: case DBVT_WORD: case DBVT_DWORD:
 		break;
 
-	case DBVT_ASCIIZ: case DBVT_UTF8:
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
 		bIsEncrypted = m_bEncrypted || IsSettingEncrypted(dbcws->szModule, dbcws->szSetting);
-LBL_WriteString:
 		if (dbcwWork.value.pszVal == nullptr)
 			return 1;
+
 		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
 		if (bIsEncrypted) {
 			size_t len;
@@ -244,14 +257,12 @@ LBL_WriteString:
 		}
 		break;
 
-	case DBVT_UNENCRYPTED:
-		dbcwNotif.value.type = dbcwWork.value.type = DBVT_UTF8;
-		goto LBL_WriteString;
-
-	case DBVT_BLOB: case DBVT_ENCRYPTED:
+	case DBVT_BLOB:
+	case DBVT_ENCRYPTED:
 		if (dbcwWork.value.pbVal == nullptr)
 			return 1;
 		break;
+
 	default:
 		return 1;
 	}
@@ -259,32 +270,36 @@ LBL_WriteString:
 	mir_cslockfull lck(m_csDbAccess);
 	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
 
-	// we don't cache blobs and passwords
-	if (dbcwWork.value.type != DBVT_BLOB && dbcwWork.value.type != DBVT_ENCRYPTED && !bIsEncrypted) {
-		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
-		if (pCachedValue != nullptr) {
-			bool bIsIdentical = false;
-			if (pCachedValue->type == dbcwWork.value.type) {
-				switch (dbcwWork.value.type) {
-				case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == dbcwWork.value.bVal;  break;
-				case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == dbcwWork.value.wVal;  break;
-				case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == dbcwWork.value.dVal;  break;
-				case DBVT_UTF8:
-				case DBVT_ASCIIZ: bIsIdentical = strcmp(pCachedValue->pszVal, dbcwWork.value.pszVal) == 0; break;
-				}
-				if (bIsIdentical)
-					return 0;
+	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
+	if (pCachedValue != nullptr) {
+		bool bIsIdentical = false;
+		if (pCachedValue->type == dbcwWork.value.type) {
+			switch (dbcwWork.value.type) {
+			case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == dbcwWork.value.bVal;  break;
+			case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == dbcwWork.value.wVal;  break;
+			case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == dbcwWork.value.dVal;  break;
+			case DBVT_UTF8:
+			case DBVT_ASCIIZ: bIsIdentical = strcmp(pCachedValue->pszVal, dbcwWork.value.pszVal) == 0; break;
+			case DBVT_BLOB:
+			case DBVT_ENCRYPTED:
+				if (pCachedValue->cpbVal == dbcwWork.value.cchVal)
+					bIsIdentical = memcmp(pCachedValue->pbVal, dbcwWork.value.pbVal, dbcwWork.value.cchVal);
+				break;
 			}
-			m_cache->SetCachedVariant(&dbcwWork.value, pCachedValue);
+			if (bIsIdentical)
+				return 0;
 		}
-		if (szCachedSettingName[-1] != 0) {
-			lck.unlock();
-			NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwWork);
-			return 0;
-		}
+		m_cache->SetCachedVariant(&dbcwWork.value, pCachedValue);
 	}
-	else m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 
+	// for resident settings we simply emulate change hook and return
+	if (szCachedSettingName[-1] != 0) {
+		lck.unlock();
+		NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
+		return 0;
+	}
+
+	// write down a setting to database
 	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen);
 	keyVal->hContact = contactID;
 	keyVal->dwModuleId = GetModuleID(dbcws->szModule);
