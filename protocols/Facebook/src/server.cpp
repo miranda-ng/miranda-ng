@@ -43,16 +43,6 @@ bool FacebookProto::ExtractOwnMessage(__int64 msgId, COwnMessage &res)
 	return false;
 }
 
-void FacebookProto::NotifyDelivery(const CMStringA &szId)
-{
-	COwnMessage tmp;
-	if (ExtractOwnMessage(_atoi64(szId), tmp)) {
-		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.reqId, (LPARAM)szId.c_str());
-		if (g_bMessageState)
-			CallService(MS_MESSAGESTATE_UPDATE, tmp.hContact, MRD_TYPE_DELIVERED);
-	}
-}
-
 void FacebookProto::OnLoggedIn()
 {
 	m_mid = 0;
@@ -478,17 +468,6 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 		OnPublishMessage(rdr);
 	else if (!strcmp(topic, "/orca_typing_notifications"))
 		OnPublishUtn(rdr);
-	else if (!strcmp(topic, "/send_message_response"))
-		OnPublishDelivery(rdr);
-}
-
-void FacebookProto::OnPublishDelivery(FbThriftReader &rdr)
-{
-	JSONNode root = JSONNode::parse((const char *)rdr.data());
-	if (root["succeeded"].as_bool()) {
-		CMStringA msgId(root["msgid"].as_mstring());
-		NotifyDelivery(msgId);
-	}
 }
 
 void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
@@ -698,7 +677,6 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		}
 	}
 
-	CMStringW wszActorFbId(metadata["actorFbId"].as_mstring());
 	CMStringA szId(metadata["messageId"].as_mstring());
 	if (CheckOwnMessage(pUser, offlineId, szId)) {
 		debugLogA("own message <%s> skipped", szId.c_str());
@@ -709,11 +687,6 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		debugLogA("this message <%s> was already stored, exiting", szId.c_str());
 		return;
 	}
-
-	// messages sent with attachments are returning as deltaNewMessage, not deltaSentMessage
-	__int64 actorFbId = _wtoi64(wszActorFbId);
-	if (m_uid == actorFbId)
-		NotifyDelivery(szId);
 
 	// parse message body
 	CMStringA szBody(root["body"].as_string().c_str());
@@ -843,6 +816,9 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	}
 
 	// if that's a group chat, send it to the room
+	CMStringW wszActorFbId(metadata["actorFbId"].as_mstring());
+	__int64 actorFbId = _wtoi64(wszActorFbId);
+
 	if (pUser->bIsChat) {
 		szBody.Replace("%", "%%");
 		ptrW wszText(mir_utf8decodeW(szBody));

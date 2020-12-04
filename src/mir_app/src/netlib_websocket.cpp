@@ -43,6 +43,10 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) WebSocket_Connect(HNETLIBUSER nlu, const char *s
 	nlr->AddHeader("Pragma", "no-cache");
 	nlr->AddHeader("Cache-Control", "no-cache");
 	nlr->AddHeader("Connection", "keep-alive, Upgrade");
+
+	uint8_t binNonce[16];
+	Utils_GetRandom(binNonce, sizeof(binNonce));
+	nlr->AddHeader("Sec-WebSocket-Key", ptrA(mir_base64_encode(binNonce, sizeof(binNonce))));
 	nlr->AddHeader("Sec-WebSocket-Version", "13");
 	nlr->AddHeader("Sec-WebSocket-Extensions", "permessage-deflate; client_max_window_bits");
 	
