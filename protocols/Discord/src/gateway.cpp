@@ -48,7 +48,7 @@ bool CDiscordProto::GatewayThreadWorker()
 		{ 0, 0 }
 	};
 
-	auto *pReply = WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=6", hdrs);
+	auto *pReply = WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", hdrs);
 	if (pReply == nullptr) {
 		debugLogA("Gateway connection failed, exiting");
 		return false;
