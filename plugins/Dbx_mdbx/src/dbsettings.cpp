@@ -46,8 +46,10 @@ void CDbxMDBX::FillSettings()
 		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, pKey->szSettingName, moduleNameLen, settingNameLen);
 
 		DBVARIANT *dbv = m_cache->GetCachedValuePtr(pKey->hContact, szCachedSettingName, 1);
+		if (dbv == nullptr) // garbage! a setting for removed/non-existent contact
+			continue;
 
-		size_t varLen;
+		WORD varLen;
 
 		BYTE iType = dbv->type = pBlob[0]; pBlob++;
 		switch (iType) {
@@ -184,10 +186,10 @@ LBL_Seek:
 			if (isStatic) {
 				dbv->cchVal--;
 				if (realLen < dbv->cchVal)
-					dbv->cchVal = realLen;
+					dbv->cchVal = WORD(realLen);
 				memcpy(dbv->pszVal, decoded, dbv->cchVal);
 				dbv->pszVal[dbv->cchVal] = 0;
-				dbv->cchVal = realLen;
+				dbv->cchVal = WORD(realLen);
 			}
 			else {
 				dbv->pszVal = (char *)mir_alloc(1 + realLen);
