@@ -81,7 +81,7 @@ void CDiscordProto::Chat_SendPrivateMessage(GCHOOK *gch)
 
 		setId(hContact, DB_KEY_ID, userId);
 		setId(hContact, DB_KEY_CHANNELID, _wtoi64(gch->si->ptszID));
-		setWString(hContact, "Nick", gch->ptszNick);
+		setWString(hContact, DB_KEY_NICK, gch->ptszNick);
 		Contact_Hide(hContact);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 	}

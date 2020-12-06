@@ -19,16 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 INT_PTR CDiscordProto::OnMenuCopyId(WPARAM hContact, LPARAM)
 {
-	CMStringW mynick(ptrW(getWStringA(hContact, DB_KEY_NICK)));
-	mynick.AppendFormat(L"#%d", getDword(hContact, DB_KEY_DISCR));
-
 	if (OpenClipboard(nullptr)) {
 		EmptyClipboard();
+
+		CMStringW mynick(FORMAT, L"%s#%d", getMStringW(hContact, DB_KEY_NICK).c_str(), getDword(hContact, DB_KEY_DISCR));
 		int length = mynick.GetLength() + 1;
-		HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, length * sizeof(wchar_t));
-		mir_wstrncpy((wchar_t*)GlobalLock(hMemory), mynick, length);
-		GlobalUnlock(hMemory);
-		SetClipboardData(CF_UNICODETEXT, hMemory);
+		if (HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, length * sizeof(wchar_t))) {
+			mir_wstrncpy((wchar_t *)GlobalLock(hMemory), mynick, length);
+			GlobalUnlock(hMemory);
+			SetClipboardData(CF_UNICODETEXT, hMemory);
+		}
 		CloseClipboard();
 	}
 
