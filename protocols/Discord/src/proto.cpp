@@ -477,14 +477,13 @@ void __cdecl CDiscordProto::GetAwayMsgThread(void *param)
 	Thread_SetName("Jabber: GetAwayMsgThread");
 
 	auto *pUser = (CDiscordUser *)param;
-	if (pUser != nullptr) {
-		if (!pUser->wszTopic.IsEmpty()) {
-			ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pUser->wszTopic.c_str());
-			return;
-		}
-	}
+	if (pUser == nullptr)
+		return;
 
-	ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	if (pUser->wszTopic.IsEmpty())
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	else
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pUser->wszTopic.c_str());
 }
 
 HANDLE CDiscordProto::GetAwayMsg(MCONTACT hContact)
