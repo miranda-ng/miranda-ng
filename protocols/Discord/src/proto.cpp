@@ -134,6 +134,8 @@ CDiscordProto::~CDiscordProto()
 
 void CDiscordProto::OnModulesLoaded()
 {
+	std::vector<MCONTACT> lostIds;
+
 	// Fill users list
 	for (auto &hContact : AccContacts()) {
 		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
@@ -141,7 +143,6 @@ void CDiscordProto::OnModulesLoaded()
 		pNew->lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
 		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
-		arUsers.insert(pNew);
 
 		// set EnableSync = 1 by default for all existing guilds
 		switch (getByte(hContact, "ChatRoom")) {
@@ -153,15 +154,22 @@ void CDiscordProto::OnModulesLoaded()
 
 		case 1: // group chat
 			pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
-			if (!pNew->channelId)
-				db_delete_contact(hContact);
+			if (!pNew->channelId) {
+				lostIds.push_back(hContact);
+				delete pNew;
+				continue;
+			}
 			break;
 
 		default:
 			pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
 			break;
 		}
+		arUsers.insert(pNew);
 	}
+
+	for (auto &hContact: lostIds)
+		db_delete_contact(hContact);
 
 	// Clist
 	Clist_GroupCreate(0, m_wszDefaultGroup);

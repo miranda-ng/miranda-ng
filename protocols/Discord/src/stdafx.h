@@ -16,6 +16,8 @@
 #include <direct.h>
 #include <time.h>
 
+#include <vector>
+
 #include "resource.h"
 
 #include <m_system.h>
