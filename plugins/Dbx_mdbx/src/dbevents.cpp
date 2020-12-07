@@ -441,7 +441,7 @@ BOOL CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-MEVENT CDbxMDBX::GetEventById(LPCSTR szModule, LPCSTR szId)
+MEVENT CDbxMDBX::GetEventById(const char *szModule, const char *szId)
 {
 	if (szModule == nullptr || szId == nullptr)
 		return 0;

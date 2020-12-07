@@ -99,7 +99,7 @@ void CDbxMDBX::FillSettings()
 
 #define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
 
-static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
+static bool ValidLookupName(const char *szModule, const char *szSetting)
 {
 	if (!strcmp(szModule, META_PROTO))
 		return strcmp(szSetting, "IsSubcontact") && strcmp(szSetting, "ParentMetaID");
@@ -107,7 +107,7 @@ static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
 	return false;
 }
 
-int CDbxMDBX::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
+int CDbxMDBX::GetContactSettingWorker(MCONTACT contactID, const char *szModule, const char *szSetting, DBVARIANT *dbv, int isStatic)
 {
 	if (szSetting == nullptr || szModule == nullptr)
 		return 1;
@@ -363,7 +363,7 @@ BOOL CDbxMDBX::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *db
 	return 0;
 }
 
-BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting)
+BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, const char *szModule, const char *szSetting)
 {
 	if (!szModule || !szSetting)
 		return 1;
@@ -374,7 +374,13 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 		mir_cslock lck(m_csDbAccess);
 		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 
-		// it's not a resident variable, delete it from database too
+		// try to remove it from cache first. 
+		// if there's nothing, don't try to remove a setting from database
+		auto *pSetting = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
+		if (pSetting == nullptr)
+			return 1;
+
+		// if it's not a resident variable, delete it from database too
 		if (szCachedSettingName[-1] == 0) {
 			DBSettingKey *keyVal = (DBSettingKey*)_alloca(sizeof(DBSettingKey) + settingNameLen);
 			keyVal->hContact = contactID;
@@ -387,9 +393,6 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 				return 1;
 			DBFlush();
 		}
-
-		// and don't forget to remove it from cache
-		m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 	}
 
 	// notify
