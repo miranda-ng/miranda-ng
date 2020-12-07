@@ -68,9 +68,6 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 				mdbx_del(trnlck, m_dbEvents, &key2, nullptr);
 			}
 		}
-
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return 1;
 	}
 
 	// remove all contact's settings
@@ -90,9 +87,6 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 			if (mdbx_cursor_del(cursor, MDBX_UPSERT) != MDBX_SUCCESS)
 				return 1;
 		}
-
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return 1;
 	}
 
 	// finally remove the contact itself
@@ -101,8 +95,6 @@ LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
 	{
 		txn_ptr trnlck(this);
 		if (mdbx_del(trnlck, m_dbContacts, &key, nullptr) != MDBX_SUCCESS)
-			return 1;
-		if (trnlck.Commit() != MDBX_SUCCESS)
 			return 1;
 	}
 
@@ -123,8 +115,6 @@ MCONTACT CDbxMDBX::AddContact()
 
 		txn_ptr trnlck(this);
 		if (mdbx_put(trnlck, m_dbContacts, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
-			return 0;
-		if (trnlck.Commit() != MDBX_SUCCESS)
 			return 0;
 	}
 
@@ -171,9 +161,6 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 			return 1;
 
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return 1;
-
 		ccMeta->dbc.dwEventCount++;
 	}
 	{
@@ -181,8 +168,6 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 		txn_ptr trnlck(this);
 		if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, MDBX_UPSERT) != MDBX_SUCCESS)
-			return 1;
-		if (trnlck.Commit() != MDBX_SUCCESS)
 			return 1;
 	}
 
@@ -203,8 +188,6 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		MDBX_val key = { &insVal, sizeof(insVal) };
 		if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return 1;
 
 		ccMeta->dbc.dwEventCount--;
 	}
@@ -212,8 +195,6 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		txn_ptr trnlck(this);
 		MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
 		if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, MDBX_UPSERT) != MDBX_SUCCESS)
-			return 1;
-		if (trnlck.Commit() != MDBX_SUCCESS)
 			return 1;
 	}
 	
@@ -246,9 +227,6 @@ BOOL CDbxMDBX::MetaRemoveSubHistory(DBCachedContact *ccSub)
 			if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 				return 1;
 		}
-		
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return 1;
 	}
 
 	DBFlush();

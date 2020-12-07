@@ -52,7 +52,6 @@ int CDbxMDBX::CheckEvents1(void)
 		}
 	}
 
-	trnlck.Commit();
 	return 0;
 }
 
@@ -74,7 +73,6 @@ int CDbxMDBX::CheckEvents2(void)
 		}
 	}
 
-	trnlck.Commit();
 	return 0;
 }
 
@@ -100,6 +98,5 @@ int CDbxMDBX::CheckEvents3(void)
 		}
 	}
 
-	trnlck.Commit();
 	return 0;
 }

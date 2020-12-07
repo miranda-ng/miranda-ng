@@ -128,9 +128,6 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 		key.iov_len = sizeof(MEVENT); key.iov_base = &hDbEvent;
 		if (mdbx_del(trnlck, m_dbEvents, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
-
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return 1;
 	}
 
 	DBFlush();
@@ -268,9 +265,6 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 			if (mdbx_put(trnlck, m_dbEventIds, &keyid, &dataid, MDBX_UPSERT) != MDBX_SUCCESS)
 				return false;
 		}
-
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return false;
 	}
 
 	DBFlush();
@@ -438,9 +432,6 @@ BOOL CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 			if (mdbx_put(trnlck, m_dbContacts, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 				return -1;
 		}
-
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return -1;
 	}
 
 	DBFlush();

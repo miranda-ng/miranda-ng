@@ -353,9 +353,6 @@ BOOL CDbxMDBX::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *db
 		txn_ptr trnlck(this);
 		if (mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
 			return 1;
-
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return 1;
 	}
 
 	// notify
@@ -377,8 +374,8 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 		mir_cslock lck(m_csDbAccess);
 		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 
-		if (szCachedSettingName[-1] == 0)  // it's not a resident variable
-		{
+		// it's not a resident variable, delete it from database too
+		if (szCachedSettingName[-1] == 0) {
 			DBSettingKey *keyVal = (DBSettingKey*)_alloca(sizeof(DBSettingKey) + settingNameLen);
 			keyVal->hContact = contactID;
 			keyVal->dwModuleId = GetModuleID(szModule);
@@ -388,14 +385,12 @@ BOOL CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR 
 			MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
 			if (mdbx_del(trnlck, m_dbSettings, &key, nullptr) != MDBX_SUCCESS)
 				return 1;
-			if (trnlck.Commit() != MDBX_SUCCESS)
-				return 1;
+			DBFlush();
 		}
 
+		// and don't forget to remove it from cache
 		m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 	}
-
-	DBFlush();
 
 	// notify
 	DBCONTACTWRITESETTING dbcws = { 0 };

@@ -109,9 +109,6 @@ CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
 		key.iov_len = sizeof(DBKey_Crypto_IsEncrypted); key.iov_base = DBKey_Crypto_IsEncrypted; value.iov_len = sizeof(bool); value.iov_base = &bTotalCrypt;
 		if (mdbx_put(trnlck, m_dbCrypto, &key, &value, MDBX_UPSERT) != MDBX_SUCCESS)
 			return nullptr;
-
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return nullptr;
 	}
 
 	DBFlush();
@@ -264,8 +261,6 @@ void CDbxMDBX::StoreKey()
 		txn_ptr trnlck(this);
 		MDBX_val key = { DBKey_Crypto_Key, sizeof(DBKey_Crypto_Key) }, value = { pKey, iKeyLength };
 		int rc = mdbx_put(trnlck, m_dbCrypto, &key, &value, MDBX_UPSERT);
-		if (rc == MDBX_SUCCESS)
-			rc = trnlck.Commit();
 		/* FIXME: throw an exception */
 		assert(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
@@ -358,8 +353,6 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 		}
 
 		lstEvents.erase(lstEvents.begin(), lstEvents.begin()+portion);
-		if (trnlck.Commit() != MDBX_SUCCESS)
-			return 1;
 	}
 		while (lstEvents.size() > 0);
 
@@ -367,8 +360,6 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 		txn_ptr trnlck(this);
 		MDBX_val key = { DBKey_Crypto_IsEncrypted, sizeof(DBKey_Crypto_IsEncrypted) }, value = { &bEncrypted, sizeof(bool) };
 		if (mdbx_put(trnlck, m_dbCrypto, &key, &value, MDBX_UPSERT) != MDBX_SUCCESS)
-			return 1;
-		if (trnlck.Commit() != MDBX_SUCCESS)
 			return 1;
 	}
 

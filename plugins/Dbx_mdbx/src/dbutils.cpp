@@ -68,8 +68,3 @@ txn_ptr::~txn_ptr()
 {
 	pDb->m_csDbAccess.Unlock();
 }
-
-int txn_ptr::Commit()
-{
-	return MDBX_SUCCESS;
-}

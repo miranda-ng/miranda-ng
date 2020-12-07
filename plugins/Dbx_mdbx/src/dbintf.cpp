@@ -88,9 +88,6 @@ LBL_Fail:
 	}
 
 	CloseHandle(pFile);
-
-	txn_ptr trnlck(this);
-	trnlck.Commit();
 	return 0;
 }
 

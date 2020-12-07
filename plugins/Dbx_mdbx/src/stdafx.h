@@ -90,8 +90,6 @@ public:
 	~txn_ptr();
 
 	__forceinline operator MDBX_txn*() const { return txn; }
-
-	int Commit();
 };
 
 #include "resource.h"
