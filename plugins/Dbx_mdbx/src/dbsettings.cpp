@@ -129,6 +129,9 @@ LBL_Seek:
 				if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
 					if (contactID = db_mc_getDefault(contactID)) {
 						szModule = Proto_GetBaseAccountName(contactID);
+						if (szModule == nullptr) // smth went wrong
+							return 1;
+
 						moduleNameLen = strlen(szModule);
 						goto LBL_Seek;
 					}
