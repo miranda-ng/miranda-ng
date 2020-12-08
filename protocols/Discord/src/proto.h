@@ -30,6 +30,7 @@ public:
 	JsonReply(NETLIBHTTPREQUEST *);
 	~JsonReply();
 
+	__forceinline int error() const { return m_errorCode; }
 	__forceinline JSONNode& data() const { return *m_root; }
 	__forceinline operator bool() const { return m_errorCode == 200; }
 };

@@ -30,14 +30,20 @@ void CDiscordProto::RemoveFriend(SnowFlake id)
 
 void CDiscordProto::RetrieveHistory(CDiscordUser *pUser, CDiscordHistoryOp iOp, SnowFlake msgid, int iLimit)
 {
+	if (!pUser->hContact || getByte(pUser->hContact, DB_KEY_DONT_FETCH))
+		return;
+
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, szUrl, &CDiscordProto::OnReceiveHistory);
 	pReq << INT_PARAM("limit", iLimit);
-	switch (iOp) {
-	case MSG_AFTER:
-		pReq << INT64_PARAM("after", msgid); break;
-	case MSG_BEFORE:
-		pReq << INT64_PARAM("before", msgid); break;
+
+	if (msgid) {
+		switch (iOp) {
+		case MSG_AFTER:
+			pReq << INT64_PARAM("after", msgid); break;
+		case MSG_BEFORE:
+			pReq << INT64_PARAM("before", msgid); break;
+		}
 	}
 	pReq->pUserInfo = pUser;
 	Push(pReq);
@@ -53,8 +59,11 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	CDiscordUser *pUser = (CDiscordUser*)pReq->pUserInfo;
 
 	JsonReply root(pReply);
-	if (!root)
+	if (!root) {
+		if (root.error() == 403) // forbidden, don't try to read it anymore
+			setByte(pUser->hContact, DB_KEY_DONT_FETCH, true);
 		return;
+	}
 
 	SESSION_INFO *si = nullptr;
 	if (!pUser->bIsPrivate) {
