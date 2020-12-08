@@ -108,10 +108,11 @@ MIR_APP_DLL(bool) Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcConta
 			group->scanIndex++;
 			continue;
 		}
-		if (nowVisible)
-			index++;
 
 		ClcContact *cc = group->cl[group->scanIndex];
+		if (nowVisible && cc->type != CLCIT_GROUP)
+			index++;
+
 		ClcContact *res = g_clistApi.pfnFindItem(dwItem, cc);
 		if (res != nullptr) {
 			if (isVisible) {
