@@ -299,13 +299,10 @@ void CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 
 MDBX_txn* CDbxMDBX::StartTran()
 {
-	if (m_bReadOnly)
-		return nullptr;
-
 	mir_cslock lck(m_csDbAccess);
 
 	if (m_pWriteTran == nullptr) {
-		m_dbError = mdbx_txn_begin(m_env, nullptr, MDBX_TXN_READWRITE, &m_pWriteTran);
+		m_dbError = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_TXN_RDONLY : MDBX_TXN_READWRITE, &m_pWriteTran);
 		// FIXME: throw an exception
 		_ASSERT(m_dbError == MDBX_SUCCESS);
 	}

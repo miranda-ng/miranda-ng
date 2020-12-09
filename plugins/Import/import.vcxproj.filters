@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="dbrw">
-      <UniqueIdentifier>{0775b44c-fe4d-4330-9c89-2718336516b8}</UniqueIdentifier>
+    <Filter Include="Source Files\dbrw">
+      <UniqueIdentifier>{e176f3a4-8c75-4335-a753-570c376ad1ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,31 +40,25 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dbrw\dbcontacts.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dbrw</Filter>
     </ClCompile>
     <ClCompile Include="src\dbrw\dbevents.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbrw\dbsettings.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dbrw</Filter>
     </ClCompile>
     <ClCompile Include="src\dbrw\dbintf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbrw\dbsql.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dbrw</Filter>
     </ClCompile>
     <ClCompile Include="src\dbrw\dbrw.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dbrw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbrw\dbsettings.cpp">
+      <Filter>Source Files\dbrw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dbrw\dbsql.cpp">
+      <Filter>Source Files\dbrw</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\dbrw\dbintf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\dbrw\dbrw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dbrw\dbintf.h">
+      <Filter>Source Files\dbrw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dbrw\dbrw.h">
+      <Filter>Source Files\dbrw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
