@@ -190,7 +190,6 @@ static void ShowRoom(SESSION_INFO *si)
 			si->pDlg->UpdateNickList();
 		else
 			si->pDlg->UpdateTitle();
-		si->pDlg->RedrawLog();
 		si->pDlg->UpdateStatusBar();
 	}
 	else if (g_Settings.bTabsEnable && g_pTabDialog)

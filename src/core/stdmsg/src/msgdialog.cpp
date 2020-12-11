@@ -1371,8 +1371,11 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (WPARAM)&cf);
 
 	m_pLog->Clear();
-	if (!isChat())
+	if (isChat())
+		RedrawLog();
+	else
 		RemakeLog();
+
 	FixTabIcons();
 }
 
