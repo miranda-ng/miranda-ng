@@ -551,10 +551,12 @@ struct
 }
 static MsgHandlers[] =
 {
-	{ "deltaNewMessage",  &FacebookProto::OnPublishPrivateMessage },
-	{ "deltaThreadName",  &FacebookProto::OnPublishThreadName },
-	{ "deltaSentMessage", &FacebookProto::OnPublishSentMessage },
-	{ "deltaReadReceipt", &FacebookProto::OnPublishReadReceipt },
+	{ "deltaNewMessage",                     &FacebookProto::OnPublishPrivateMessage },
+	{ "deltaThreadName",                     &FacebookProto::OnPublishThreadName },
+	{ "deltaSentMessage",                    &FacebookProto::OnPublishSentMessage },
+	{ "deltaReadReceipt",                    &FacebookProto::OnPublishReadReceipt },
+	{ "deltaParticipantsAddedToGroupThread", &FacebookProto::OnPublishChatJoin },
+	{ "deltaParticipantLeftGroupThread",     &FacebookProto::OnPublishChatLeave },
 };
 
 void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
@@ -871,6 +873,65 @@ void FacebookProto::OnPublishThreadName(const JSONNode &root)
 		setWString(pUser->hContact, DBKEY_NICK, wszTitle);
 	else
 		delSetting(pUser->hContact, DBKEY_NICK);
+}
+
+// user joined chat 
+void FacebookProto::OnPublishChatJoin(const JSONNode &root)
+{
+	auto &metadata = root["messageMetadata"];
+	__int64 offlineId = _wtoi64(metadata["offlineThreadingId"].as_mstring());
+	if (!offlineId) {
+		debugLogA("We care about messages only, event skipped");
+		return;
+	}
+
+	bool bIsChat;
+	CMStringW wszUserId;
+	auto *pUser = UserFromJson(metadata, wszUserId, bIsChat);
+	if (!bIsChat || pUser == nullptr)
+		return;
+
+	CMStringW wszText(metadata["adminText"].as_mstring());
+	for (auto &it : root["addedParticipants"]) {
+		CMStringW wszNick(it["fullName"].as_mstring()), wszId(it["userFbId"].as_mstring());
+		
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
+		gce.pszID.w = wszUserId;
+		gce.dwFlags = GCEF_ADDTOLOG;
+		gce.pszNick.w = wszNick;
+		gce.pszUID.w = wszId;
+		gce.pszText.w = wszText;
+		gce.time = time(0);
+		gce.bIsMe = _wtoi64(wszId) == m_uid;
+		Chat_Event(&gce);
+	}
+}
+
+// user left chat 
+void FacebookProto::OnPublishChatLeave(const JSONNode &root)
+{
+	auto &metadata = root["messageMetadata"];
+	__int64 offlineId = _wtoi64(metadata["offlineThreadingId"].as_mstring());
+	if (!offlineId) {
+		debugLogA("We care about messages only, event skipped");
+		return;
+	}
+
+	bool bIsChat;
+	CMStringW wszUserId;
+	auto *pUser = UserFromJson(metadata, wszUserId, bIsChat);
+	if (!bIsChat || pUser == nullptr)
+		return;
+
+	CMStringW wszText(metadata["adminText"].as_mstring()), wszId(root["leftParticipantFbId"].as_mstring());
+	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_PART };
+	gce.pszID.w = wszUserId;
+	gce.dwFlags = GCEF_ADDTOLOG;
+	gce.pszUID.w = wszId;
+	gce.pszText.w = wszText;
+	gce.time = time(0);
+	gce.bIsMe = _wtoi64(wszId) == m_uid;
+	Chat_Event(&gce);
 }
 
 // read notification

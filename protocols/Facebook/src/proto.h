@@ -503,6 +503,8 @@ public:
     void OnPublishReadReceipt(const JSONNode &json);
     void OnPublishSentMessage(const JSONNode &json);
     void OnPublishThreadName(const JSONNode &json);
+    void OnPublishChatJoin(const JSONNode &json);
+    void OnPublishChatLeave(const JSONNode &json);
 
     //////////////////////////////////////////////////////////////////////////////////////
     // options
