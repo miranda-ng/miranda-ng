@@ -482,8 +482,8 @@ class FacebookProto : public PROTO<FacebookProto>
 
    bool RefreshSid();
    bool RefreshToken();
-   FacebookUser* RefreshThread(JSONNode& n);
-   FacebookUser* RefreshThread(CMStringW& wszId);
+	FacebookUser* RefreshThread(JSONNode &n);
+	FacebookUser* RefreshThread(CMStringW &wszId);
    void RefreshThreads();
    int  RefreshContacts();
 
@@ -502,6 +502,7 @@ public:
     void OnPublishPrivateMessage(const JSONNode &json);
     void OnPublishReadReceipt(const JSONNode &json);
     void OnPublishSentMessage(const JSONNode &json);
+    void OnPublishThreadName(const JSONNode &json);
 
     //////////////////////////////////////////////////////////////////////////////////////
     // options

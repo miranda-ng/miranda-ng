@@ -95,9 +95,8 @@ FacebookUser* FacebookProto::AddContact(const CMStringW &wszId, bool bTemp)
 	if (bTemp)
 		Contact_RemoveFromList(hContact);
 
-	auto* ret = new FacebookUser(_wtoi64(wszId), hContact);
+	auto *ret = new FacebookUser(_wtoi64(wszId), hContact);
 	m_users.insert(ret);
-
 	return ret;
 }
 
@@ -215,15 +214,16 @@ bool FacebookProto::RefreshSid()
 	return true;
 }
 
-FacebookUser* FacebookProto::RefreshThread(JSONNode& n) {
+FacebookUser* FacebookProto::RefreshThread(JSONNode &n)
+{
 	if (!n["is_group_thread"].as_bool())
 		return nullptr;
 
 	CMStringW chatId(n["thread_key"]["thread_fbid"].as_mstring());
 	CMStringW name(n["name"].as_mstring());
 	if (name.IsEmpty()) {
-		for (auto& u : n["all_participants"]["nodes"]) {
-			auto& ur = u["messaging_actor"];
+		for (auto &u : n["all_participants"]["nodes"]) {
+			auto &ur = u["messaging_actor"];
 			CMStringW userId(ur["id"].as_mstring());
 			if (_wtoi64(userId) == m_uid)
 				continue;
@@ -239,15 +239,15 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode& n) {
 		}
 	}
 
-	auto* si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chatId, name);
+	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chatId, name);
 	if (si == nullptr)
 		return nullptr;
 
 	setWString(si->hContact, DBKEY_ID, chatId);
 	Chat_AddGroup(si, TranslateT("Participant"));
 
-	for (auto& u : n["all_participants"]["nodes"]) {
-		auto& ur = u["messaging_actor"];
+	for (auto &u : n["all_participants"]["nodes"]) {
+		auto &ur = u["messaging_actor"];
 		CMStringW userId(ur["id"].as_mstring());
 		CMStringW userName(ur["name"].as_mstring());
 
@@ -264,33 +264,32 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode& n) {
 	Chat_Control(m_szModuleName, chatId, SESSION_ONLINE);
 
 	__int64 userId = _wtoi64(chatId);
-	auto* user = FindUser(userId);
+	auto *pUser = FindUser(userId);
 
-	if (user == nullptr) {
-		user = new FacebookUser(userId, si->hContact, true, true);
-		m_users.insert(user);
+	if (pUser == nullptr) {
+		pUser = new FacebookUser(userId, si->hContact, true, true);
+		m_users.insert(pUser);
 	}
 	else {
-		user->hContact = si->hContact;
-		user->bIsChatInitialized = true;
+		pUser->hContact = si->hContact;
+		pUser->bIsChatInitialized = true;
 	}
 
-	return user;
+	return pUser;
 }
 
-FacebookUser* FacebookProto::RefreshThread(CMStringW& wszId) {
-	auto* pReq = CreateRequestGQL(FB_API_QUERY_THREAD);
+FacebookUser* FacebookProto::RefreshThread(CMStringW &wszId)
+{
+	auto *pReq = CreateRequestGQL(FB_API_QUERY_THREAD);
 
 	pReq << WCHAR_PARAM("query_params", CMStringW(FORMAT, L"{\"0\":[\"%s\"], \"12\":0, \"13\":\"false\"}", wszId.c_str()));
 	pReq->CalcSig();
 
 	JsonReply reply(ExecuteRequest(pReq));
 	if (!reply.error()) {
-		auto& root = reply.data();
-
-		for (auto& n : root) {
+		auto &root = reply.data();
+		for (auto &n : root)
 			return RefreshThread(n);
-		}
 	}
 
 	return nullptr;
@@ -553,6 +552,7 @@ struct
 static MsgHandlers[] =
 {
 	{ "deltaNewMessage",  &FacebookProto::OnPublishPrivateMessage },
+	{ "deltaThreadName",  &FacebookProto::OnPublishThreadName },
 	{ "deltaSentMessage", &FacebookProto::OnPublishSentMessage },
 	{ "deltaReadReceipt", &FacebookProto::OnPublishReadReceipt },
 };
@@ -653,8 +653,8 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 		return;
 	}
 
-	CMStringW wszUserId;
 	bool bIsChat;
+	CMStringW wszUserId;
 	auto *pUser = UserFromJson(metadata, wszUserId, bIsChat);
 
 	if (!bIsChat && pUser == nullptr)
@@ -770,6 +770,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 			FetchAttach(szId, fbid, szBody);
 			continue;
 		}
+
 		JSONROOT nBody(szJson);
 		if (!nBody)
 			continue;
@@ -847,6 +848,29 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 		ProtoChainRecvMsg(pUser->hContact, &pre);
 	}
+}
+
+// changing thread name
+void FacebookProto::OnPublishThreadName(const JSONNode &root)
+{
+	auto &metadata = root["messageMetadata"];
+	__int64 offlineId = _wtoi64(metadata["offlineThreadingId"].as_mstring());
+	if (!offlineId) {
+		debugLogA("We care about messages only, event skipped");
+		return;
+	}
+
+	bool bIsChat;
+	CMStringW wszUserId;
+	auto *pUser = UserFromJson(metadata, wszUserId, bIsChat);
+	if (!bIsChat || pUser == nullptr)
+		return;
+
+	CMStringW wszTitle = root["name"].as_mstring();
+	if (!wszTitle.IsEmpty())
+		setWString(pUser->hContact, DBKEY_NICK, wszTitle);
+	else
+		delSetting(pUser->hContact, DBKEY_NICK);
 }
 
 // read notification
