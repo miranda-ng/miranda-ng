@@ -6,7 +6,6 @@ COAuthDlg::COAuthDlg(CCloudService *service, const char *authUrl, CCloudService:
 	m_authorize(this, IDC_OAUTH_AUTHORIZE, authUrl),
 	m_code(this, IDC_OAUTH_CODE), m_ok(this, IDOK)
 {
-	m_autoClose = CLOSE_ON_CANCEL;
 	m_code.OnChange = Callback(this, &COAuthDlg::Code_OnChange);
 }
 
