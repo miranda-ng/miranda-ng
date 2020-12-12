@@ -9,7 +9,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -1225,13 +1225,18 @@ gtls_connect_step3(struct connectdata *conn,
 
     certclock = gnutls_x509_crt_get_expiration_time(x509_cert);
     showtime(data, "expire date", certclock);
+
+    gnutls_free(certfields.data);
   }
 
   rc = gnutls_x509_crt_get_issuer_dn2(x509_cert, &certfields);
   if(rc)
     infof(data, "Failed to get certificate issuer\n");
-  else
+  else {
     infof(data, "\t issuer: %s\n", certfields.data);
+
+    gnutls_free(certfields.data);
+  }
 #endif
 
   gnutls_x509_crt_deinit(x509_cert);

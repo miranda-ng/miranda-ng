@@ -9,7 +9,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -218,8 +218,7 @@ CURLcode Curl_pp_vsendf(struct pingpong *pp,
   conn->data_prot = data_sec;
 #endif
 
-  if(data->set.verbose)
-    Curl_debug(data, CURLINFO_HEADER_OUT, s, (size_t)bytes_written);
+  Curl_debug(data, CURLINFO_HEADER_OUT, s, (size_t)bytes_written);
 
   if(bytes_written != (ssize_t)write_len) {
     /* the whole chunk was not sent, keep it around and adjust sizes */
@@ -364,9 +363,8 @@ CURLcode Curl_pp_readresp(curl_socket_t sockfd,
 #ifdef HAVE_GSSAPI
           if(!conn->sec_complete)
 #endif
-            if(data->set.verbose)
-              Curl_debug(data, CURLINFO_HEADER_IN,
-                         pp->linestart_resp, (size_t)perline);
+            Curl_debug(data, CURLINFO_HEADER_IN,
+                       pp->linestart_resp, (size_t)perline);
 
           /*
            * We pass all response-lines to the callback function registered

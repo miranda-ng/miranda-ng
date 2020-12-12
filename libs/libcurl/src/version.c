@@ -9,7 +9,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -415,8 +415,11 @@ static curl_version_info_data version_info = {
 #if defined(HAVE_ZSTD)
   | CURL_VERSION_ZSTD
 #endif
-#if defined(USE_ALTSVC)
+#ifndef CURL_DISABLE_ALTSVC
   | CURL_VERSION_ALTSVC
+#endif
+#if defined(USE_HSTS)
+  | CURL_VERSION_HSTS
 #endif
   ,
   NULL, /* ssl_version */

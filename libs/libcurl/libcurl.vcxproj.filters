@@ -152,6 +152,9 @@
     <ClCompile Include="src\hostsyn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\hsts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\http.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -635,6 +638,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\hostip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hsts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\http.h">

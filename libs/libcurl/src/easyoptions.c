@@ -9,7 +9,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -115,6 +115,12 @@ struct curl_easyoption Curl_easyopts[] = {
   {"HEADERDATA", CURLOPT_HEADERDATA, CURLOT_CBPTR, 0},
   {"HEADERFUNCTION", CURLOPT_HEADERFUNCTION, CURLOT_FUNCTION, 0},
   {"HEADEROPT", CURLOPT_HEADEROPT, CURLOT_VALUES, 0},
+  {"HSTS", CURLOPT_HSTS, CURLOT_STRING, 0},
+  {"HSTSREADDATA", CURLOPT_HSTSREADDATA, CURLOT_CBPTR, 0},
+  {"HSTSREADFUNCTION", CURLOPT_HSTSREADFUNCTION, CURLOT_FUNCTION, 0},
+  {"HSTSWRITEDATA", CURLOPT_HSTSWRITEDATA, CURLOT_CBPTR, 0},
+  {"HSTSWRITEFUNCTION", CURLOPT_HSTSWRITEFUNCTION, CURLOT_FUNCTION, 0},
+  {"HSTS_CTRL", CURLOPT_HSTS_CTRL, CURLOT_LONG, 0},
   {"HTTP09_ALLOWED", CURLOPT_HTTP09_ALLOWED, CURLOT_LONG, 0},
   {"HTTP200ALIASES", CURLOPT_HTTP200ALIASES, CURLOT_SLIST, 0},
   {"HTTPAUTH", CURLOPT_HTTPAUTH, CURLOT_VALUES, 0},
@@ -342,6 +348,6 @@ struct curl_easyoption Curl_easyopts[] = {
  */
 int Curl_easyopts_check(void)
 {
-  return (CURLOPT_LASTENTRY != (298 + 1));
+  return (CURLOPT_LASTENTRY != (304 + 1));
 }
 #endif

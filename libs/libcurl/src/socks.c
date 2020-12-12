@@ -9,7 +9,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -771,7 +771,7 @@ CURLproxycode Curl_SOCKS5(const char *proxy_user,
 
   case CONNECT_RESOLVING:
     /* check if we have the name resolved by now */
-    dns = Curl_fetch_addr(conn, hostname, (int)conn->port);
+    dns = Curl_fetch_addr(conn, hostname, remote_port);
 
     if(dns) {
 #ifdef CURLRES_ASYNCH

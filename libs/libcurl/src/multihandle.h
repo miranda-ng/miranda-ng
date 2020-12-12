@@ -11,7 +11,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -138,13 +138,9 @@ struct Curl_multi {
                                     previous callback */
   unsigned int max_concurrent_streams;
 
-#ifdef USE_WINSOCK
-  WSAEVENT wsa_event; /* winsock event used for waits */
-#else
 #ifdef ENABLE_WAKEUP
   curl_socket_t wakeup_pair[2]; /* socketpair() used for wakeup
                                    0 is used for read, 1 is used for write */
-#endif
 #endif
   /* multiplexing wanted */
   bool multiplexing;

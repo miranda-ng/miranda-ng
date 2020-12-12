@@ -9,7 +9,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -96,6 +96,7 @@ bool curl_win32_idn_to_ascii(const char *in, char **out);
 #include "getinfo.h"
 #include "urlapi-int.h"
 #include "system_win32.h"
+#include "hsts.h"
 
 /* And now for the protocols */
 #include "ftp.h"
@@ -411,6 +412,8 @@ CURLcode Curl_close(struct Curl_easy **datap)
   Curl_flush_cookies(data, TRUE);
   Curl_altsvc_save(data, data->asi, data->set.str[STRING_ALTSVC]);
   Curl_altsvc_cleanup(&data->asi);
+  Curl_hsts_save(data, data->hsts, data->set.str[STRING_HSTS]);
+  Curl_hsts_cleanup(&data->hsts);
 #if !defined(CURL_DISABLE_HTTP) && !defined(CURL_DISABLE_CRYPTO_AUTH)
   Curl_http_auth_cleanup_digest(data);
 #endif
@@ -494,6 +497,7 @@ CURLcode Curl_init_userdefined(struct Curl_easy *data)
   set->ftp_use_eprt = TRUE;   /* FTP defaults to EPRT operations */
   set->ftp_use_pret = FALSE;  /* mainly useful for drftpd servers */
   set->ftp_filemethod = FTPFILE_MULTICWD;
+  set->ftp_skip_ip = TRUE;    /* skip PASV IP by default */
 #endif
   set->dns_cache_timeout = 60; /* Timeout every 60 seconds by default */
 
@@ -1911,6 +1915,37 @@ static CURLcode parseurlandfillconn(struct Curl_easy *data,
   if(uc)
     return Curl_uc_to_curlcode(uc);
 
+  uc = curl_url_get(uh, CURLUPART_HOST, &data->state.up.hostname, 0);
+  if(uc) {
+    if(!strcasecompare("file", data->state.up.scheme))
+      return CURLE_OUT_OF_MEMORY;
+  }
+
+#ifdef USE_HSTS
+  if(data->hsts && strcasecompare("http", data->state.up.scheme)) {
+    if(Curl_hsts(data->hsts, data->state.up.hostname, TRUE)) {
+      char *url;
+      Curl_safefree(data->state.up.scheme);
+      uc = curl_url_set(uh, CURLUPART_SCHEME, "https", 0);
+      if(uc)
+        return Curl_uc_to_curlcode(uc);
+      if(data->change.url_alloc)
+        Curl_safefree(data->change.url);
+      /* after update, get the updated version */
+      uc = curl_url_get(uh, CURLUPART_URL, &url, 0);
+      if(uc)
+        return Curl_uc_to_curlcode(uc);
+      uc = curl_url_get(uh, CURLUPART_SCHEME, &data->state.up.scheme, 0);
+      if(uc)
+        return Curl_uc_to_curlcode(uc);
+      data->change.url = url;
+      data->change.url_alloc = TRUE;
+      infof(data, "Switched from HTTP to HTTPS due to HSTS => %s\n",
+            data->change.url);
+    }
+  }
+#endif
+
   result = findprotocol(data, conn, data->state.up.scheme);
   if(result)
     return result;
@@ -1955,12 +1990,6 @@ static CURLcode parseurlandfillconn(struct Curl_easy *data,
   }
   else if(uc != CURLUE_NO_OPTIONS)
     return Curl_uc_to_curlcode(uc);
-
-  uc = curl_url_get(uh, CURLUPART_HOST, &data->state.up.hostname, 0);
-  if(uc) {
-    if(!strcasecompare("file", data->state.up.scheme))
-      return CURLE_OUT_OF_MEMORY;
-  }
 
   uc = curl_url_get(uh, CURLUPART_PATH, &data->state.up.path, 0);
   if(uc)
@@ -2080,7 +2109,7 @@ static CURLcode setup_connection_internals(struct connectdata *conn)
 
 void Curl_free_request_state(struct Curl_easy *data)
 {
-  Curl_safefree(data->req.protop);
+  Curl_safefree(data->req.p.http);
   Curl_safefree(data->req.newurl);
 
 #ifndef CURL_DISABLE_DOH
@@ -3095,7 +3124,7 @@ static CURLcode parse_connect_to_slist(struct Curl_easy *data,
     conn_to_host = conn_to_host->next;
   }
 
-#ifdef USE_ALTSVC
+#ifndef CURL_DISABLE_ALTSVC
   if(data->asi && !host && (port == -1) &&
      ((conn->handler->protocol == CURLPROTO_HTTPS) ||
 #ifdef CURLDEBUG

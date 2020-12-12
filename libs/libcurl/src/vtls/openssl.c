@@ -9,7 +9,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -223,6 +223,14 @@
 /* ... but it is not the case with old versions of OpenSSL */
 #define DEFAULT_CIPHER_SELECTION \
   "ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH"
+#endif
+
+#ifdef HAVE_OPENSSL_SRP
+/* the function exists */
+#ifdef USE_TLS_SRP
+/* the functionality is not disabled */
+#define USE_OPENSSL_SRP
+#endif
 #endif
 
 struct ssl_backend_data {
@@ -1076,9 +1084,6 @@ int cert_stuff(struct connectdata *conn,
 /* returns non-zero on failure */
 static int x509_name_oneline(X509_NAME *a, char *buf, size_t size)
 {
-#if 0
-  return X509_NAME_oneline(a, buf, size);
-#else
   BIO *bio_out = BIO_new(BIO_s_mem());
   BUF_MEM *biomem;
   int rc;
@@ -1100,7 +1105,6 @@ static int x509_name_oneline(X509_NAME *a, char *buf, size_t size)
   BIO_free(bio_out);
 
   return !rc;
-#endif
 }
 
 /**
@@ -1111,6 +1115,21 @@ static int x509_name_oneline(X509_NAME *a, char *buf, size_t size)
  */
 static int Curl_ossl_init(void)
 {
+#if (OPENSSL_VERSION_NUMBER >= 0x10100000L) &&  \
+  !defined(LIBRESSL_VERSION_NUMBER)
+  const uint64_t flags =
+#ifdef OPENSSL_INIT_ENGINE_ALL_BUILTIN
+    /* not present in BoringSSL */
+    OPENSSL_INIT_ENGINE_ALL_BUILTIN |
+#endif
+#ifdef CURL_DISABLE_OPENSSL_AUTO_LOAD_CONFIG
+    OPENSSL_INIT_NO_LOAD_CONFIG |
+#else
+    OPENSSL_INIT_LOAD_CONFIG |
+#endif
+    0;
+  OPENSSL_init_ssl(flags, NULL);
+#else
   OPENSSL_load_builtin_modules();
 
 #ifdef USE_OPENSSL_ENGINE
@@ -1129,10 +1148,6 @@ static int Curl_ossl_init(void)
                          CONF_MFLAGS_IGNORE_MISSING_FILE);
 #endif
 
-#if (OPENSSL_VERSION_NUMBER >= 0x10100000L) && \
-    !defined(LIBRESSL_VERSION_NUMBER)
-  /* OpenSSL 1.1.0+ takes care of initialization itself */
-#else
   /* Lets get nice error messages */
   SSL_load_error_strings();
 
@@ -1780,6 +1795,11 @@ static CURLcode verifystatus(struct connectdata *conn,
   X509_STORE     *st = NULL;
   STACK_OF(X509) *ch = NULL;
   struct ssl_backend_data *backend = connssl->backend;
+  X509 *cert;
+  OCSP_CERTID *id = NULL;
+  int cert_status, crl_reason;
+  ASN1_GENERALIZEDTIME *rev, *thisupd, *nextupd;
+  int ret;
 
   long len = SSL_get_tlsext_status_ocsp_resp(backend->handle, &status);
 
@@ -1848,43 +1868,63 @@ static CURLcode verifystatus(struct connectdata *conn,
     goto end;
   }
 
-  for(i = 0; i < OCSP_resp_count(br); i++) {
-    int cert_status, crl_reason;
-    OCSP_SINGLERESP *single = NULL;
+  /* Compute the certificate's ID */
+  cert = SSL_get_peer_certificate(backend->handle);
+  if(!cert) {
+    failf(data, "Error getting peer certficate");
+    result = CURLE_SSL_INVALIDCERTSTATUS;
+    goto end;
+  }
 
-    ASN1_GENERALIZEDTIME *rev, *thisupd, *nextupd;
-
-    single = OCSP_resp_get0(br, i);
-    if(!single)
-      continue;
-
-    cert_status = OCSP_single_get0_status(single, &crl_reason, &rev,
-                                          &thisupd, &nextupd);
-
-    if(!OCSP_check_validity(thisupd, nextupd, 300L, -1L)) {
-      failf(data, "OCSP response has expired");
-      result = CURLE_SSL_INVALIDCERTSTATUS;
-      goto end;
+  for(i = 0; i < sk_X509_num(ch); i++) {
+    X509 *issuer = sk_X509_value(ch, i);
+    if(X509_check_issued(issuer, cert) == X509_V_OK) {
+      id = OCSP_cert_to_id(EVP_sha1(), cert, issuer);
+      break;
     }
+  }
+  X509_free(cert);
 
-    infof(data, "SSL certificate status: %s (%d)\n",
-          OCSP_cert_status_str(cert_status), cert_status);
+  if(!id) {
+    failf(data, "Error computing OCSP ID");
+    result = CURLE_SSL_INVALIDCERTSTATUS;
+    goto end;
+  }
 
-    switch(cert_status) {
-      case V_OCSP_CERTSTATUS_GOOD:
-        break;
+  /* Find the single OCSP response corresponding to the certificate ID */
+  ret = OCSP_resp_find_status(br, id, &cert_status, &crl_reason, &rev,
+                              &thisupd, &nextupd);
+  OCSP_CERTID_free(id);
+  if(ret != 1) {
+    failf(data, "Could not find certificate ID in OCSP response");
+    result = CURLE_SSL_INVALIDCERTSTATUS;
+    goto end;
+  }
 
-      case V_OCSP_CERTSTATUS_REVOKED:
-        result = CURLE_SSL_INVALIDCERTSTATUS;
+  /* Validate the corresponding single OCSP response */
+  if(!OCSP_check_validity(thisupd, nextupd, 300L, -1L)) {
+    failf(data, "OCSP response has expired");
+    result = CURLE_SSL_INVALIDCERTSTATUS;
+    goto end;
+  }
 
-        failf(data, "SSL certificate revocation reason: %s (%d)",
-              OCSP_crl_reason_str(crl_reason), crl_reason);
-        goto end;
+  infof(data, "SSL certificate status: %s (%d)\n",
+        OCSP_cert_status_str(cert_status), cert_status);
 
-      case V_OCSP_CERTSTATUS_UNKNOWN:
-        result = CURLE_SSL_INVALIDCERTSTATUS;
-        goto end;
-    }
+  switch(cert_status) {
+  case V_OCSP_CERTSTATUS_GOOD:
+    break;
+
+  case V_OCSP_CERTSTATUS_REVOKED:
+    result = CURLE_SSL_INVALIDCERTSTATUS;
+    failf(data, "SSL certificate revocation reason: %s (%d)",
+          OCSP_crl_reason_str(crl_reason), crl_reason);
+    goto end;
+
+  case V_OCSP_CERTSTATUS_UNKNOWN:
+  default:
+    result = CURLE_SSL_INVALIDCERTSTATUS;
+    goto end;
   }
 
 end:
@@ -2471,7 +2511,7 @@ static CURLcode ossl_connect_step1(struct connectdata *conn, int sockindex)
 #endif
 #endif
   const long int ssl_version = SSL_CONN_CONFIG(version);
-#ifdef HAVE_OPENSSL_SRP
+#ifdef USE_OPENSSL_SRP
   const enum CURL_TLSAUTH ssl_authtype = SSL_SET_OPTION(authtype);
 #endif
   char * const ssl_cert = SSL_SET_OPTION(primary.clientcert);
@@ -2516,7 +2556,7 @@ static CURLcode ossl_connect_step1(struct connectdata *conn, int sockindex)
     failf(data, OSSL_PACKAGE " was built without SSLv2 support");
     return CURLE_NOT_BUILT_IN;
 #else
-#ifdef HAVE_OPENSSL_SRP
+#ifdef USE_OPENSSL_SRP
     if(ssl_authtype == CURL_TLSAUTH_SRP)
       return CURLE_SSL_CONNECT_ERROR;
 #endif
@@ -2529,7 +2569,7 @@ static CURLcode ossl_connect_step1(struct connectdata *conn, int sockindex)
     failf(data, OSSL_PACKAGE " was built without SSLv3 support");
     return CURLE_NOT_BUILT_IN;
 #else
-#ifdef HAVE_OPENSSL_SRP
+#ifdef USE_OPENSSL_SRP
     if(ssl_authtype == CURL_TLSAUTH_SRP)
       return CURLE_SSL_CONNECT_ERROR;
 #endif
@@ -2727,33 +2767,33 @@ static CURLcode ossl_connect_step1(struct connectdata *conn, int sockindex)
   if(ssl_cert || ssl_cert_blob || ssl_cert_type) {
     BIO *ssl_cert_bio = NULL;
     BIO *ssl_key_bio = NULL;
-    int result_cert_stuff;
     if(ssl_cert_blob) {
       /* the typecast of blob->len is fine since it is guaranteed to never be
          larger than CURL_MAX_INPUT_LENGTH */
       ssl_cert_bio = BIO_new_mem_buf(ssl_cert_blob->data,
                                      (int)ssl_cert_blob->len);
       if(!ssl_cert_bio)
-        return CURLE_SSL_CERTPROBLEM;
+        result = CURLE_OUT_OF_MEMORY;
     }
-    if(SSL_SET_OPTION(key_blob)) {
+    if(!result && SSL_SET_OPTION(key_blob)) {
       ssl_key_bio = BIO_new_mem_buf(SSL_SET_OPTION(key_blob)->data,
                                     (int)SSL_SET_OPTION(key_blob)->len);
       if(!ssl_key_bio)
-        return CURLE_SSL_CERTPROBLEM;
+        result = CURLE_OUT_OF_MEMORY;
     }
-    result_cert_stuff = cert_stuff(conn, backend->ctx,
+    if(!result &&
+       !cert_stuff(conn, backend->ctx,
                    ssl_cert, ssl_cert_bio, ssl_cert_type,
                    SSL_SET_OPTION(key), ssl_key_bio,
-                   SSL_SET_OPTION(key_type), SSL_SET_OPTION(key_passwd));
+                   SSL_SET_OPTION(key_type), SSL_SET_OPTION(key_passwd)))
+      result = CURLE_SSL_CERTPROBLEM;
     if(ssl_cert_bio)
       BIO_free(ssl_cert_bio);
     if(ssl_key_bio)
       BIO_free(ssl_key_bio);
-    if(!result_cert_stuff) {
+    if(result)
       /* failf() is already done in cert_stuff() */
-      return CURLE_SSL_CERTPROBLEM;
-    }
+      return result;
   }
 
   ciphers = SSL_CONN_CONFIG(cipher_list);
@@ -2797,7 +2837,7 @@ static CURLcode ossl_connect_step1(struct connectdata *conn, int sockindex)
   }
 #endif
 
-#ifdef HAVE_OPENSSL_SRP
+#ifdef USE_OPENSSL_SRP
   if(ssl_authtype == CURL_TLSAUTH_SRP) {
     char * const ssl_username = SSL_SET_OPTION(username);
 
@@ -3453,7 +3493,6 @@ typedef int numcert_t;
 
 static CURLcode get_cert_chain(struct connectdata *conn,
                                struct ssl_connect_data *connssl)
-
 {
   CURLcode result;
   STACK_OF(X509) *sk;
@@ -4357,7 +4396,9 @@ static CURLcode Curl_ossl_md5sum(unsigned char *tmp, /* input */
   (void) unused;
 
   mdctx = EVP_MD_CTX_create();
-  EVP_DigestInit_ex(mdctx, EVP_md5(), NULL);
+  if(!mdctx)
+    return CURLE_OUT_OF_MEMORY;
+  EVP_DigestInit(mdctx, EVP_md5());
   EVP_DigestUpdate(mdctx, tmp, tmplen);
   EVP_DigestFinal_ex(mdctx, md5sum, &len);
   EVP_MD_CTX_destroy(mdctx);
@@ -4375,7 +4416,9 @@ static CURLcode Curl_ossl_sha256sum(const unsigned char *tmp, /* input */
   (void) unused;
 
   mdctx = EVP_MD_CTX_create();
-  EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL);
+  if(!mdctx)
+    return CURLE_OUT_OF_MEMORY;
+  EVP_DigestInit(mdctx, EVP_sha256());
   EVP_DigestUpdate(mdctx, tmp, tmplen);
   EVP_DigestFinal_ex(mdctx, sha256sum, &len);
   EVP_MD_CTX_destroy(mdctx);

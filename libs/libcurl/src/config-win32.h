@@ -11,7 +11,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -245,10 +245,6 @@
 
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
-
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
 
 /* Define if you have the strcasecmp function. */
 /* #define HAVE_STRCASECMP 1 */
@@ -716,9 +712,6 @@ Vista
 #if defined(__POCC__) && defined(USE_WIN32_LDAP)
 #  define CURL_DISABLE_LDAP 1
 #endif
-
-/* if SSL is enabled */
-#define USE_OPENSSL 1
 
 /* Define to use the Windows crypto library. */
 #if !defined(CURL_WINDOWS_APP)

@@ -9,7 +9,7 @@
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at https://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -28,6 +28,8 @@
 
 #ifdef HAVE_LINUX_TCP_H
 #include <linux/tcp.h>
+#elif defined(HAVE_NETINET_TCP_H)
+#include <netinet/tcp.h>
 #endif
 
 #include <curl/curl.h>
@@ -277,11 +279,8 @@ void Curl_failf(struct Curl_easy *data, const char *fmt, ...)
       strcpy(data->set.errorbuffer, error);
       data->state.errorbuf = TRUE; /* wrote error string */
     }
-    if(data->set.verbose) {
-      error[len] = '\n';
-      error[++len] = '\0';
-      Curl_debug(data, CURLINFO_TEXT, error, len);
-    }
+    error[len++] = '\n';
+    Curl_debug(data, CURLINFO_TEXT, error, len);
     va_end(ap);
   }
 }
@@ -693,72 +692,74 @@ CURLcode Curl_read(struct connectdata *conn, /* connection data */
 int Curl_debug(struct Curl_easy *data, curl_infotype type,
                char *ptr, size_t size)
 {
-  static const char s_infotype[CURLINFO_END][3] = {
-    "* ", "< ", "> ", "{ ", "} ", "{ ", "} " };
   int rc = 0;
+  if(data->set.verbose) {
+    static const char s_infotype[CURLINFO_END][3] = {
+      "* ", "< ", "> ", "{ ", "} ", "{ ", "} " };
 
 #ifdef CURL_DOES_CONVERSIONS
-  char *buf = NULL;
-  size_t conv_size = 0;
+    char *buf = NULL;
+    size_t conv_size = 0;
 
-  switch(type) {
-  case CURLINFO_HEADER_OUT:
-    buf = Curl_memdup(ptr, size);
-    if(!buf)
-      return 1;
-    conv_size = size;
+    switch(type) {
+    case CURLINFO_HEADER_OUT:
+      buf = Curl_memdup(ptr, size);
+      if(!buf)
+        return 1;
+      conv_size = size;
 
-    /* Special processing is needed for this block if it
-     * contains both headers and data (separated by CRLFCRLF).
-     * We want to convert just the headers, leaving the data as-is.
-     */
-    if(size > 4) {
-      size_t i;
-      for(i = 0; i < size-4; i++) {
-        if(memcmp(&buf[i], "\x0d\x0a\x0d\x0a", 4) == 0) {
-          /* convert everything through this CRLFCRLF but no further */
-          conv_size = i + 4;
-          break;
+      /* Special processing is needed for this block if it
+       * contains both headers and data (separated by CRLFCRLF).
+       * We want to convert just the headers, leaving the data as-is.
+       */
+      if(size > 4) {
+        size_t i;
+        for(i = 0; i < size-4; i++) {
+          if(memcmp(&buf[i], "\x0d\x0a\x0d\x0a", 4) == 0) {
+            /* convert everything through this CRLFCRLF but no further */
+            conv_size = i + 4;
+            break;
+          }
         }
       }
-    }
 
-    Curl_convert_from_network(data, buf, conv_size);
-    /* Curl_convert_from_network calls failf if unsuccessful */
-    /* we might as well continue even if it fails...   */
-    ptr = buf; /* switch pointer to use my buffer instead */
-    break;
-  default:
-    /* leave everything else as-is */
-    break;
-  }
+      Curl_convert_from_network(data, buf, conv_size);
+      /* Curl_convert_from_network calls failf if unsuccessful */
+      /* we might as well continue even if it fails...   */
+      ptr = buf; /* switch pointer to use my buffer instead */
+      break;
+    default:
+      /* leave everything else as-is */
+      break;
+    }
 #endif /* CURL_DOES_CONVERSIONS */
 
-  if(data->set.fdebug) {
-    Curl_set_in_callback(data, true);
-    rc = (*data->set.fdebug)(data, type, ptr, size, data->set.debugdata);
-    Curl_set_in_callback(data, false);
-  }
-  else {
-    switch(type) {
-    case CURLINFO_TEXT:
-    case CURLINFO_HEADER_OUT:
-    case CURLINFO_HEADER_IN:
-      fwrite(s_infotype[type], 2, 1, data->set.err);
-      fwrite(ptr, size, 1, data->set.err);
-#ifdef CURL_DOES_CONVERSIONS
-      if(size != conv_size) {
-        /* we had untranslated data so we need an explicit newline */
-        fwrite("\n", 1, 1, data->set.err);
-      }
-#endif
-      break;
-    default: /* nada */
-      break;
+    if(data->set.fdebug) {
+      Curl_set_in_callback(data, true);
+      rc = (*data->set.fdebug)(data, type, ptr, size, data->set.debugdata);
+      Curl_set_in_callback(data, false);
     }
-  }
+    else {
+      switch(type) {
+      case CURLINFO_TEXT:
+      case CURLINFO_HEADER_OUT:
+      case CURLINFO_HEADER_IN:
+        fwrite(s_infotype[type], 2, 1, data->set.err);
+        fwrite(ptr, size, 1, data->set.err);
 #ifdef CURL_DOES_CONVERSIONS
-  free(buf);
+        if(size != conv_size) {
+          /* we had untranslated data so we need an explicit newline */
+          fwrite("\n", 1, 1, data->set.err);
+        }
 #endif
+        break;
+      default: /* nada */
+        break;
+      }
+    }
+#ifdef CURL_DOES_CONVERSIONS
+    free(buf);
+#endif
+  }
   return rc;
 }

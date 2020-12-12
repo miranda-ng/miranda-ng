@@ -179,6 +179,9 @@
     <ClCompile Include="src\hostsyn.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\hsts.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\http.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -494,6 +497,7 @@
     <ClInclude Include="src\hash.h" />
     <ClInclude Include="src\hostcheck.h" />
     <ClInclude Include="src\hostip.h" />
+    <ClInclude Include="src\hsts.h" />
     <ClInclude Include="src\http.h" />
     <ClInclude Include="src\http2.h" />
     <ClInclude Include="src\http_chunks.h" />
