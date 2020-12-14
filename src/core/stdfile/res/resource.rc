@@ -139,7 +139,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPT
 CAPTION "File transfers"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_TABS,"SysTabControl32", WS_TABSTOP,7,7,262,224 
+    CONTROL         "",IDC_TABS,"SysTabControl32",WS_TABSTOP,7,7,262,224
     PUSHBUTTON      "Clear completed",IDC_CLEAR,7,234,100,14
     PUSHBUTTON      "Close",IDCANCEL,219,234,50,14
 END
@@ -151,45 +151,46 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
 END
 
-IDD_OPT_FILETRANSFER DIALOGEX 0, 0, 313, 232
+IDD_OPT_FILETRANSFER DIALOGEX 0, 0, 313, 243
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Receiving files",IDC_STATIC,0,0,313,90
+    GROUPBOX        "Receiving files",IDC_STATIC,0,0,313,99
     LTEXT           "Received files folder:",IDC_STATIC,8,15,82,8
     EDITTEXT        IDC_FILEDIR,92,13,190,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_FILEDIRBROWSE,287,14,15,11
-    LTEXT           "Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%",IDC_STATIC,8,27,294,11,WS_DISABLED
+    PUSHBUTTON      "...",IDC_FILEDIRBROWSE,287,12,15,13
+    LTEXT           "Variables allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%",IDC_STATIC,8,26,294,11,WS_DISABLED
     CONTROL         "Auto-accept incoming files from people on my contact list",IDC_AUTOACCEPT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,39,294,10
-    CONTROL         "Minimize the file transfer window",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,52,285,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,36,294,10
+    CONTROL         "Minimize the file transfer window",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,48,285,10
     CONTROL         "Close window when transfer completes",IDC_AUTOCLOSE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,65,294,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,60,294,10
     CONTROL         "Clear completed transfers on window closing",IDC_AUTOCLEAR,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,76,294,10
-    GROUPBOX        "Virus scanner",IDC_VIRUSSCANNERGROUP,0,90,313,93
-    LTEXT           "Scan files:",IDC_STATIC,8,102,43,9,SS_CENTERIMAGE
-    CONTROL         "Never, do not use virus scanning",IDC_NOSCANNER,"Button",BS_AUTORADIOBUTTON,52,102,250,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,72,294,10
+    CONTROL         "Sort file transfers in the reverse order",IDC_REVERSE_ORDER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,84,286,10
+    GROUPBOX        "Virus scanner",IDC_VIRUSSCANNERGROUP,0,100,313,93
+    LTEXT           "Scan files:",IDC_STATIC,8,112,43,9,SS_CENTERIMAGE
+    CONTROL         "Never, do not use virus scanning",IDC_NOSCANNER,"Button",BS_AUTORADIOBUTTON,52,112,250,10
     CONTROL         "When all files have been downloaded",IDC_SCANAFTERDL,
-                    "Button",BS_AUTORADIOBUTTON,52,114,250,10
+                    "Button",BS_AUTORADIOBUTTON,52,124,250,10
     CONTROL         "As each file finishes downloading",IDC_SCANDURINGDL,
-                    "Button",BS_AUTORADIOBUTTON,52,126,250,10
-    LTEXT           "Command line:",IDC_ST_CMDLINE,7,142,62,8
-    COMBOBOX        IDC_SCANCMDLINE,70,141,213,71,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "...",IDC_SCANCMDLINEBROWSE,287,142,15,11
-    LTEXT           "%f will be replaced by the file or folder name to be scanned",IDC_ST_CMDLINEHELP,70,155,232,8
+                    "Button",BS_AUTORADIOBUTTON,52,136,250,10
+    LTEXT           "Command line:",IDC_ST_CMDLINE,7,161,62,8
+    COMBOBOX        IDC_SCANCMDLINE,70,151,213,71,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "...",IDC_SCANCMDLINEBROWSE,287,151,15,13
+    LTEXT           "%f will be replaced by the file or folder name to be scanned",IDC_ST_CMDLINEHELP,70,165,232,8
     CONTROL         "Warn me before opening a file that has not been scanned",IDC_WARNBEFOREOPENING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,168,294,10
-    GROUPBOX        "If incoming files already exist",IDC_STATIC,0,187,313,41
-    CONTROL         "Ask me",IDC_ASK,"Button",BS_AUTORADIOBUTTON,8,200,73,10
-    CONTROL         "Resume",IDC_RESUME,"Button",BS_AUTORADIOBUTTON,82,200,125,10
-    CONTROL         "Overwrite",IDC_OVERWRITE,"Button",BS_AUTORADIOBUTTON,8,212,73,10
-    CONTROL         "Rename (append "" (1)"", etc.)",IDC_RENAME,"Button",BS_AUTORADIOBUTTON,82,212,125,10
-    LTEXT           "You will always be asked about files from people not on your contact list",IDC_STATIC,212,198,90,24
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,178,294,10
+    GROUPBOX        "If incoming files already exist",IDC_STATIC,0,197,313,41
+    CONTROL         "Ask me",IDC_ASK,"Button",BS_AUTORADIOBUTTON,8,210,73,10
+    CONTROL         "Resume",IDC_RESUME,"Button",BS_AUTORADIOBUTTON,82,210,125,10
+    CONTROL         "Overwrite",IDC_OVERWRITE,"Button",BS_AUTORADIOBUTTON,8,222,73,10
+    CONTROL         "Rename (append "" (1)"", etc.)",IDC_RENAME,"Button",BS_AUTORADIOBUTTON,82,222,125,10
+    LTEXT           "You will always be asked about files from people not on your contact list",IDC_STATIC,212,208,90,24
 END
 
-#endif    // APSTUDIO_INVOKED
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -260,28 +261,56 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
-	"..\..\mir_app\src\resource.h\0"
+    "..\\..\\mir_app\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
 END
 
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_FILETRANSFER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

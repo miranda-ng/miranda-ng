@@ -281,6 +281,7 @@
 #define IDC_GENMENU_SERVICE             1085
 #define IDC_GENMENU_CUSTOMNAME          1086
 #define IDC_GENMENU_SET                 1087
+#define IDC_REVERSE_ORDER               1088
 #define IDC_GENMENU_DEFAULT             1089
 #define IDC_ICON1                       1090
 #define IDC_ICON2                       1091
