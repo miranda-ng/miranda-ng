@@ -33,7 +33,7 @@ struct TFtMgrData
 	HWND hwndOutgoing;
 
 	HANDLE hhkPreshutdown;
-	TBPFLAG         errorState;
+	TBPFLAG errorState;
 };
 
 #define M_CALCPROGRESS (WM_USER + 200)
@@ -46,25 +46,28 @@ struct TFtProgressData
 
 struct TLayoutWindowInfo
 {
+	TLayoutWindowInfo(HWND _hwnd) :
+		hwnd(_hwnd)
+	{
+		::GetWindowRect(_hwnd, &rc);
+	}
+
 	HWND hwnd;
 	RECT rc;
 };
 
-struct TLayoutWindowList
-{
-	struct TLayoutWindowInfo **items;
-	int realCount, limit, increment;
-	FSortFunc sortFunc;
-};
-
 struct TFtPageData
 {
-	struct TLayoutWindowList *wnds;
-	int runningCount;
-	int height, dataHeight, scrollPos;
+	TFtPageData() :
+		arWindows(1)
+	{}
+
+	OBJLIST<TLayoutWindowInfo> arWindows;
+	int runningCount = 0;
+	int height = 0, dataHeight = 0, scrollPos = 0;
 };
 
-static void LayoutTransfers(HWND hwnd, struct TFtPageData *dat)
+static void LayoutTransfers(HWND hwnd, TFtPageData *dat)
 {
 	int top = 0;
 	RECT rc;
@@ -73,13 +76,13 @@ static void LayoutTransfers(HWND hwnd, struct TFtPageData *dat)
 	dat->scrollPos = GetScrollPos(hwnd, SB_VERT);
 	dat->height = rc.bottom - rc.top;
 
-	if (dat->wnds->realCount) {
-		HDWP hdwp = BeginDeferWindowPos(dat->wnds->realCount);
+	if (dat->arWindows.getCount()) {
+		HDWP hdwp = BeginDeferWindowPos(dat->arWindows.getCount());
 		top -= dat->scrollPos;
-		for (int i = 0; i < dat->wnds->realCount; ++i) {
-			int height = dat->wnds->items[i]->rc.bottom - dat->wnds->items[i]->rc.top;
-			if (nullptr != dat->wnds->items[i]->hwnd) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, dat->wnds->items[i]->hwnd, nullptr, 0, top, rc.right, height, SWP_NOZORDER);
+		for (auto &it : dat->arWindows) {
+			int height = it->rc.bottom - it->rc.top;
+			if (nullptr != it->hwnd) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, it->hwnd, nullptr, 0, top, rc.right, height, SWP_NOZORDER);
 			top += height;
 		}
 		top += dat->scrollPos;
@@ -99,32 +102,29 @@ static void LayoutTransfers(HWND hwnd, struct TFtPageData *dat)
 
 static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct TFtPageData *dat = (struct TFtPageData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	int i;
+	TFtPageData *dat = (TFtPageData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
 			// Force scrollbar visibility
-			SCROLLINFO si = {0};
+			SCROLLINFO si = {};
 			si.cbSize = sizeof(si);
 			si.fMask = SIF_DISABLENOSCROLL;
 			SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 
-			dat = (struct TFtPageData *)mir_alloc(sizeof(struct TFtPageData));
-			dat->wnds = (struct TLayoutWindowList *)List_Create(0, 1);
-			dat->scrollPos = 0;
-			dat->runningCount = 0;
+			dat = new TFtPageData();
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
 		}
 		break;
 
 	case WM_FT_ADD:
 		{
-			TLayoutWindowInfo *wnd = (struct TLayoutWindowInfo *)mir_alloc(sizeof(struct TLayoutWindowInfo));
-			wnd->hwnd = (HWND)lParam;
-			GetWindowRect(wnd->hwnd, &wnd->rc);
-			List_Insert((SortedList *)dat->wnds, wnd, dat->wnds->realCount);
+			TLayoutWindowInfo *wnd = new TLayoutWindowInfo((HWND)lParam);
+			if (g_plugin.bReverseOrder)
+				dat->arWindows.insert(wnd, 0);
+			else
+				dat->arWindows.insert(wnd);
 			LayoutTransfers(hwnd, dat);
 			dat->runningCount++;
 			PostMessage(GetParent(hwnd), WM_TIMER, 1, NULL);
@@ -132,19 +132,18 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WM_FT_RESIZE:
-		for (i=0; i < dat->wnds->realCount; ++i)
-			if (dat->wnds->items[i]->hwnd == (HWND)lParam) {
-				GetWindowRect(dat->wnds->items[i]->hwnd, &dat->wnds->items[i]->rc);
+		for (auto &it : dat->arWindows)
+			if (it->hwnd == (HWND)lParam) {
+				GetWindowRect(it->hwnd, &it->rc);
 				break;
 			}
 		LayoutTransfers(hwnd, dat);
 		break;
 
 	case WM_FT_REMOVE:
-		for (i=0; i < dat->wnds->realCount; ++i)
-			if (dat->wnds->items[i]->hwnd == (HWND)lParam) {
-				mir_free(dat->wnds->items[i]);
-				List_Remove((SortedList *)dat->wnds, i);
+		for (auto &it : dat->arWindows)
+			if (it->hwnd == (HWND)lParam) {
+				dat->arWindows.remove(dat->arWindows.indexOf(&it));
 				break;
 			}
 		LayoutTransfers(hwnd, dat);
@@ -153,23 +152,27 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	case WM_FT_COMPLETED:
 		//wParam: { ACKRESULT_SUCCESS | ACKRESULT_FAILED | ACKRESULT_DENIED }
 		dat->runningCount--;
-		for (i=0; i < dat->wnds->realCount; i++) {
-			// no error when canceling (WM_FT_REMOVE is send first, check if hwnd is still registered)
-			if (dat->wnds->items[i]->hwnd == (HWND)lParam) {
-				SendMessage(GetParent(hwnd), WM_TIMER, 1, (LPARAM)wParam);
-				break;
-			}
-		}
-		if (i == dat->wnds->realCount)
-			PostMessage(GetParent(hwnd), WM_TIMER, 1, NULL);
+		{
+			bool bFound = false;
+			for (auto &it : dat->arWindows)
+				// no error when canceling (WM_FT_REMOVE is send first, check if hwnd is still registered)
+				if (it->hwnd == (HWND)lParam) {
+					bFound = true;
+					SendMessage(GetParent(hwnd), WM_TIMER, 1, (LPARAM)wParam);
+					break;
+				}
 
-		if(dat->runningCount == 0 && wParam == ACKRESULT_SUCCESS && g_plugin.getByte("AutoClose", 0))
+			if (!bFound)
+				PostMessage(GetParent(hwnd), WM_TIMER, 1, NULL);
+		}
+
+		if(dat->runningCount == 0 && wParam == ACKRESULT_SUCCESS && g_plugin.bAutoClose)
 			ShowWindow(hwndFtMgr, SW_HIDE);
 		break;
 
 	case WM_FT_CLEANUP:
-		for (i=0; i < dat->wnds->realCount; ++i)
-			SendMessage(dat->wnds->items[i]->hwnd, WM_FT_CLEANUP, wParam, lParam);
+		for (auto &it : dat->arWindows)
+			SendMessage(it->hwnd, WM_FT_CLEANUP, wParam, lParam);
 		break;
 
 	case WM_SIZE:
@@ -177,18 +180,15 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WM_MOUSEWHEEL:
-		{
-			short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
-			if (zDelta) {
-				int nScrollLines = 0;
-				SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, (void*)&nScrollLines, 0);
-				for (i=0; i < (nScrollLines + 1) / 2; i++)
-					SendMessage(hwnd, WM_VSCROLL, (zDelta < 0) ? SB_LINEDOWN : SB_LINEUP, 0);
-			}
-
-			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, 0);
-			return TRUE;
+		if (int zDelta = GET_WHEEL_DELTA_WPARAM(wParam)) {
+			int nScrollLines = 0;
+			SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &nScrollLines, 0);
+			for (int i=0; i < (nScrollLines + 1) / 2; i++)
+				SendMessage(hwnd, WM_VSCROLL, (zDelta < 0) ? SB_LINEDOWN : SB_LINEUP, 0);
 		}
+
+		SetWindowLongPtr(hwnd, DWLP_MSGRESULT, 0);
+		return TRUE;
 
 	case WM_VSCROLL:
 		{
@@ -211,27 +211,29 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 				break;
 			}
 
-			if (pos > dat->dataHeight - dat->height) pos = dat->dataHeight - dat->height;
-			if (pos < 0) pos = 0;
+			if (pos > dat->dataHeight - dat->height)
+				pos = dat->dataHeight - dat->height;
+			if (pos < 0)
+				pos = 0;
 
 			if (dat->scrollPos != pos) {
 				ScrollWindow(hwnd, 0, dat->scrollPos - pos, nullptr, nullptr);
 				SetScrollPos(hwnd, SB_VERT, pos, TRUE);
 				dat->scrollPos = pos;
 			}
-			break;
 		}
+		break;
 
 	case M_PRESHUTDOWN:
-		for (i=0; i < dat->wnds->realCount; ++i)
-			PostMessage(dat->wnds->items[i]->hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, BN_CLICKED), 0);
+		for (auto &it : dat->arWindows)
+			PostMessage(it->hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, BN_CLICKED), 0);
 		break;
 
 	case M_CALCPROGRESS:
 		{
 			TFtProgressData *prg = (TFtProgressData *)wParam;
-			for (i=0; i < dat->wnds->realCount; ++i) {
-				FileDlgData *trdat = (FileDlgData *)GetWindowLongPtr(dat->wnds->items[i]->hwnd, GWLP_USERDATA);
+			for (auto &it : dat->arWindows) {
+				FileDlgData *trdat = (FileDlgData *)GetWindowLongPtr(it->hwnd, GWLP_USERDATA);
 				if (trdat->transferStatus.totalBytes && trdat->fs && !trdat->send && (trdat->transferStatus.totalBytes == trdat->transferStatus.totalProgress))
 					prg->scan++;
 				else if (trdat->transferStatus.totalBytes && trdat->fs) { // in progress
@@ -246,11 +248,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WM_DESTROY:
-		for (i=0; i < dat->wnds->realCount; ++i)
-			mir_free(dat->wnds->items[i]);
-		List_Destroy((SortedList *)dat->wnds);
-		mir_free(dat->wnds);
-		mir_free(dat);
+		delete dat;
 		break;
 	}
 
@@ -260,13 +258,11 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	struct TFtMgrData *dat = (struct TFtMgrData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	HWND hwndTab = GetDlgItem(hwnd, IDC_TABS);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			TCITEM tci = {0};
-			HWND hwndTab = GetDlgItem(hwnd, IDC_TABS);
-
 			TranslateDialogDefault(hwnd);
 			Window_SetSkinIcon_IcoLib(hwnd, SKINICON_EVENT_FILE);
 
@@ -280,6 +276,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			dat->hwndOutgoing = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
 			ShowWindow(dat->hwndIncoming, SW_SHOW);
 
+			TCITEM tci = {};
 			tci.mask = TCIF_PARAM|TCIF_TEXT;
 			tci.pszText = TranslateT("Incoming");
 			tci.lParam = (LPARAM)dat->hwndIncoming;
@@ -290,20 +287,18 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			Utils_RestoreWindowPosition(hwnd, NULL, MODULENAME, "FtMgrDlg_", RWPF_NOACTIVATE);
 			// Fall through to setup initial placement
+			__fallthrough;
 		}
 	case WM_SIZE:
 		{
 			RECT rc, rcButton;
-			HDWP hdwp;
-			HWND hwndTab = GetDlgItem(hwnd, IDC_TABS);
-
 			GetWindowRect(GetDlgItem(hwnd, IDCANCEL), &rcButton);
 			OffsetRect(&rcButton, -rcButton.left, -rcButton.top);
 
 			GetClientRect(hwnd, &rc);
 			InflateRect(&rc, -6, -6);
 
-			hdwp = BeginDeferWindowPos(3);
+			HDWP hdwp = BeginDeferWindowPos(3);
 
 			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_CLEAR), NULL, rc.left, rc.bottom-rcButton.bottom, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
 			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDCANCEL), nullptr, rc.right-rcButton.right, rc.bottom-rcButton.bottom, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
@@ -328,29 +323,24 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				hdwp = DeferWindowPos(hdwp, dat->hwndOutgoing, HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 0);
 
 			EndDeferWindowPos(hdwp);
-
-			break;
 		}
+		break;
 
 	case WM_MOUSEWHEEL:
-		if (IsWindowVisible(dat->hwndIncoming)) SendMessage(dat->hwndIncoming, msg, wParam, lParam);
-		if (IsWindowVisible(dat->hwndOutgoing)) SendMessage(dat->hwndOutgoing, msg, wParam, lParam);
+		if (IsWindowVisible(dat->hwndIncoming))
+			SendMessage(dat->hwndIncoming, msg, wParam, lParam);
+		if (IsWindowVisible(dat->hwndOutgoing))
+			SendMessage(dat->hwndOutgoing, msg, wParam, lParam);
 		break;
 
 	case WM_FT_SELECTPAGE:
-		{
-			TCITEM tci = {0};
-			HWND hwndTab = GetDlgItem(hwnd, IDC_TABS);
-
-			if (TabCtrl_GetCurSel(hwndTab) == (int)wParam) break;
-
+		if (TabCtrl_GetCurSel(hwndTab) != (int)wParam) {
+			TCITEM tci = {};
 			tci.mask = TCIF_PARAM;
-
 			TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &tci);
+
 			ShowWindow((HWND)tci.lParam, SW_HIDE);
-
 			TabCtrl_SetCurSel(hwndTab, wParam);
-
 			TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &tci);
 			ShowWindow((HWND)tci.lParam, SW_SHOW);
 		}
@@ -361,13 +351,13 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
 			lpmmi->ptMinTrackSize.x = 300;
 			lpmmi->ptMinTrackSize.y = 400;
-			return 0;
 		}
+		return 0;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDCANCEL:
-			PostMessage(hwnd, WM_CLOSE , 0, 0);
+			PostMessage(hwnd, WM_CLOSE, 0, 0);
 			break;
 
 		case IDC_CLEAR:
@@ -380,29 +370,21 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_TABS:
-			{
-				HWND hwndTab = GetDlgItem(hwnd, IDC_TABS);
-				switch (((LPNMHDR)lParam)->code) {
-				case TCN_SELCHANGING:
-					{
-						TCITEM tci = {0};
-						tci.mask = TCIF_PARAM;
-						TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &tci);
-						ShowWindow((HWND)tci.lParam, SW_HIDE);
-						break;
-					}
+			TCITEM tci = {};
+			switch (((LPNMHDR)lParam)->code) {
+			case TCN_SELCHANGING:
+				tci.mask = TCIF_PARAM;
+				TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &tci);
+				ShowWindow((HWND)tci.lParam, SW_HIDE);
+				break;
 
-				case TCN_SELCHANGE:
-					{
-						TCITEM tci = {0};
-						tci.mask = TCIF_PARAM;
-						TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &tci);
-						ShowWindow((HWND)tci.lParam, SW_SHOW);
-						break;
-					}
-				}
+			case TCN_SELCHANGE:
+				tci.mask = TCIF_PARAM;
+				TabCtrl_GetItem(hwndTab, TabCtrl_GetCurSel(hwndTab), &tci);
+				ShowWindow((HWND)tci.lParam, SW_SHOW);
 				break;
 			}
+			break;
 		}
 		break;
 
@@ -414,7 +396,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_CLOSE:
 		ShowWindow(hwnd, SW_HIDE);
-		if (g_plugin.getByte("AutoClear", 1)) {
+		if (g_plugin.bAutoClear) {
 			PostMessage(dat->hwndIncoming, WM_FT_CLEANUP, 0, 0);
 			PostMessage(dat->hwndOutgoing, WM_FT_CLEANUP, 0, 0);
 		}
@@ -436,7 +418,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_SHOWWINDOW:
-		if ( !wParam) { // hiding
+		if (!wParam) { // hiding
 			KillTimer(hwnd, 1);
 			break;
 		}
@@ -448,12 +430,12 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			if ((lParam == ACKRESULT_FAILED) || (lParam == ACKRESULT_DENIED))
 				dat->errorState = TBPF_ERROR;
 
-			TFtProgressData prg = {0};
+			TFtProgressData prg = { 0 };
 			SendMessage(dat->hwndIncoming, M_CALCPROGRESS, (WPARAM)&prg, 0);
 			SendMessage(dat->hwndOutgoing, M_CALCPROGRESS, (WPARAM)&prg, 0);
 			if (dat->errorState) {
 				pTaskbarInterface->SetProgressState(hwnd, dat->errorState);
-				if ( !prg.run)
+				if (!prg.run)
 					pTaskbarInterface->SetProgressValue(hwnd, 1, 1);
 			}
 			else if (prg.run)
@@ -476,8 +458,6 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 {
-	bool bAutoMin = g_plugin.getByte("AutoMin", 0) != 0; /* lqbe */
-
 	bool bJustCreated = (hwndFtMgr == nullptr);
 	if (bJustCreated)
 		hwndFtMgr = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FTMGR), NULL, FtMgrDlgProc);
@@ -488,7 +468,7 @@ HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 		SetForegroundWindow(hwndFtMgr);
 		return hwndFtMgr;
 	}
-	if (bAutoMin && bJustCreated) { /* lqbe */
+	if (g_plugin.bAutoMin && bJustCreated) { /* lqbe */
 		ShowWindow(hwndFtMgr, SW_HIDE);
 		ShowWindow(hwndFtMgr, SW_MINIMIZE);
 		return hwndFtMgr;
@@ -499,10 +479,10 @@ HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 		SetForegroundWindow(hwndFtMgr);
 		return hwndFtMgr;
 	}
-	if ( !bJustCreated && IsWindowVisible(hwndFtMgr))
+	if (!bJustCreated && IsWindowVisible(hwndFtMgr))
 		return hwndFtMgr;
 
-	ShowWindow(hwndFtMgr, bAutoMin ? SW_SHOWMINNOACTIVE : SW_SHOWNOACTIVATE);
+	ShowWindow(hwndFtMgr, g_plugin.bAutoMin ? SW_SHOWMINNOACTIVE : SW_SHOWNOACTIVATE);
 	return hwndFtMgr;
 }
 
@@ -520,8 +500,8 @@ void FtMgr_ShowPage(int page)
 
 HWND FtMgr_AddTransfer(FileDlgData *fdd)
 {
-	bool bForceActivate = fdd->send || !g_plugin.getByte("AutoAccept", 0);
-	TFtMgrData *dat = (TFtMgrData*)GetWindowLongPtr(FtMgr_Show(bForceActivate, false), GWLP_USERDATA);
+	bool bForceActivate = fdd->send || !g_plugin.bAutoAccept;
+	TFtMgrData *dat = (TFtMgrData *)GetWindowLongPtr(FtMgr_Show(bForceActivate, false), GWLP_USERDATA);
 	if (dat == nullptr)
 		return nullptr;
 

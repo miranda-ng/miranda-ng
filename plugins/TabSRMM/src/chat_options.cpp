@@ -401,6 +401,10 @@ void RegisterFontServiceFonts()
 
 int FontServiceFontsChanged(WPARAM, LPARAM)
 {
+	g_chatApi.ReloadSettings();
+	g_chatApi.MM_IconsChanged();
+	g_chatApi.MM_FontsChanged();
+
 	PluginConfig.reloadSettings();
 	CSkin::initAeroEffect();
 	CacheMsgLogIcons();

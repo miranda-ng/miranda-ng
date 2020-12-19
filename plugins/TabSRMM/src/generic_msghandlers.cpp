@@ -874,6 +874,8 @@ void CMsgDialog::DM_OptionsApplied(bool bRemakeLog)
 	if (bRemakeLog) {
 		if (IsIconic(m_pContainer->m_hwnd))
 			m_bDeferredRemakeLog = true;
+		else if (isChat())
+			RedrawLog();
 		else
 			RemakeLog();
 	}

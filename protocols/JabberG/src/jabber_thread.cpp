@@ -1409,11 +1409,11 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		msgTime = now;
 
 	PROTORECVEVENT recv = {};
-	if (bCreateRead) {
+	if (bCreateRead)
 		recv.flags |= PREF_CREATEREAD;
-		if (bWasSent)
-			recv.flags |= PREF_SENT;
-	}
+	if (bWasSent)
+		recv.flags |= PREF_SENT;
+
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = szMessage.GetBuffer();
 	recv.szMsgId = szMsgId;

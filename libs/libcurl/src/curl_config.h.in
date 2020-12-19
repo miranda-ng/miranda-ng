@@ -15,6 +15,9 @@
 /* Default SSL backend */
 #undef CURL_DEFAULT_SSL_BACKEND
 
+/* disable alt-svc */
+#undef CURL_DISABLE_ALTSVC
+
 /* to disable cookies support */
 #undef CURL_DISABLE_COOKIES
 
@@ -972,9 +975,6 @@
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #undef TIME_WITH_SYS_TIME
 
-/* to enable alt-svc */
-#undef USE_ALTSVC
-
 /* if AmiSSL is in use */
 #undef USE_AMISSL
 
@@ -992,6 +992,9 @@
 
 /* if GnuTLS uses nettle as crypto backend */
 #undef USE_GNUTLS_NETTLE
+
+/* to enable HSTS */
+#undef USE_HSTS
 
 /* PSL support enabled */
 #undef USE_LIBPSL

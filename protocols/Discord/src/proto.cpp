@@ -134,6 +134,8 @@ CDiscordProto::~CDiscordProto()
 
 void CDiscordProto::OnModulesLoaded()
 {
+	std::vector<MCONTACT> lostIds;
+
 	// Fill users list
 	for (auto &hContact : AccContacts()) {
 		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
@@ -141,16 +143,33 @@ void CDiscordProto::OnModulesLoaded()
 		pNew->lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
 		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
 		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
-		arUsers.insert(pNew);
 
 		// set EnableSync = 1 by default for all existing guilds
-		if (getByte(hContact, "ChatRoom") == 2) {
+		switch (getByte(hContact, "ChatRoom")) {
+		case 2: // guild
 			delSetting(hContact, DB_KEY_CHANNELID);
 			if (getDword(hContact, "EnableSync", -1) == -1)
 				setDword(hContact, "EnableSync", 1);
+			break;
+
+		case 1: // group chat
+			pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
+			if (!pNew->channelId) {
+				lostIds.push_back(hContact);
+				delete pNew;
+				continue;
+			}
+			break;
+
+		default:
+			pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
+			break;
 		}
-		else pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
+		arUsers.insert(pNew);
 	}
+
+	for (auto &hContact: lostIds)
+		db_delete_contact(hContact);
 
 	// Clist
 	Clist_GroupCreate(0, m_wszDefaultGroup);
@@ -466,14 +485,13 @@ void __cdecl CDiscordProto::GetAwayMsgThread(void *param)
 	Thread_SetName("Jabber: GetAwayMsgThread");
 
 	auto *pUser = (CDiscordUser *)param;
-	if (pUser != nullptr) {
-		if (!pUser->wszTopic.IsEmpty()) {
-			ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pUser->wszTopic.c_str());
-			return;
-		}
-	}
+	if (pUser == nullptr)
+		return;
 
-	ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	if (pUser->wszTopic.IsEmpty())
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	else
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pUser->wszTopic.c_str());
 }
 
 HANDLE CDiscordProto::GetAwayMsg(MCONTACT hContact)

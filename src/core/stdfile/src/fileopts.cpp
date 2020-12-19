@@ -29,12 +29,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define VSCAN_NORTON      3
 #define VSCAN_CA          4
 
-struct virusscannerinfo {
+struct {
 	const wchar_t *szProductName;
 	const wchar_t *szExeRegPath;
 	const wchar_t *szExeRegValue;
 	const wchar_t *szCommandLine;
-} virusScanners[] = {
+}
+static virusScanners[] =
+{
 	{L"Network Associates/McAfee VirusScan", L"SOFTWARE\\McAfee\\VirusScan", L"Scan32EXE", L"\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot"},
 	{L"Dr Solomon's VirusScan (Network Associates)", L"SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General", L"szScannerExe", L"\"%s\" %%f /uinone /noboot /comp /prompt /autoexit"},
 	{L"Norton AntiVirus", L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe", nullptr, L"\"%s\" %%f /b- /m- /s+ /noresults"},
@@ -47,189 +49,192 @@ struct virusscannerinfo {
 	{L"ESET NOD32 Antivirus", L"SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info", L"InstallDir", L"\"%secls.exe\" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean \"%%f\""},
 };
 
-#define M_UPDATEENABLING   (WM_USER+100)
-#define M_SCANCMDLINESELCHANGE  (WM_USER+101)
-
 #ifndef SHACF_FILESYS_DIRS
 	#define SHACF_FILESYS_DIRS  0x00000020
 #endif
 
-static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CFileOptsDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILEDIR), SHACF_FILESYS_DIRS);
+	CCtrlButton btnFileDir, btnScanCmdLine;
+	CCtrlCheck chkAutoMin, chkAutoClear, chkAutoClose, chkAutoAccept, chkReverseOrder, chkNoScanner;
+	CCtrlCombo cmbScanCmdLine;
 
-			wchar_t str[MAX_PATH];
-			GetContactReceivedFilesDir(NULL, str, _countof(str), FALSE);
-			SetDlgItemText(hwndDlg, IDC_FILEDIR, str);
+public:
+	CFileOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_FILETRANSFER),
+		btnFileDir(this, IDC_FILEDIRBROWSE),
+		btnScanCmdLine(this, IDC_SCANCMDLINEBROWSE),
+		chkAutoMin(this, IDC_AUTOMIN),
+		chkAutoClear(this, IDC_AUTOCLEAR),
+		chkAutoClose(this, IDC_AUTOCLOSE),
+		chkNoScanner(this, IDC_NOSCANNER),
+		chkAutoAccept(this, IDC_AUTOACCEPT),
+		chkReverseOrder(this, IDC_REVERSE_ORDER),
+		cmbScanCmdLine(this, IDC_SCANCMDLINE)
+	{
+		CreateLink(chkAutoMin, g_plugin.bAutoMin);
+		CreateLink(chkAutoClear, g_plugin.bAutoClear);
+		CreateLink(chkAutoClose, g_plugin.bAutoClose);
+		CreateLink(chkAutoAccept, g_plugin.bAutoAccept);
+		CreateLink(chkReverseOrder, g_plugin.bReverseOrder);
 
-			CheckDlgButton(hwndDlg, IDC_AUTOACCEPT, g_plugin.getByte("AutoAccept", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOMIN, g_plugin.getByte("AutoMin", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, g_plugin.getByte("AutoClose", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOCLEAR, g_plugin.getByte("AutoClear", 1) ? BST_CHECKED : BST_UNCHECKED);
-			switch (g_plugin.getByte("UseScanner", VIRUSSCAN_DISABLE)) {
-				case VIRUSSCAN_AFTERDL: CheckDlgButton(hwndDlg, IDC_SCANAFTERDL, BST_CHECKED); break;
-				case VIRUSSCAN_DURINGDL: CheckDlgButton(hwndDlg, IDC_SCANDURINGDL, BST_CHECKED); break;
-				default: CheckDlgButton(hwndDlg, IDC_NOSCANNER, BST_CHECKED); break;
-			}
-			CheckDlgButton(hwndDlg, IDC_WARNBEFOREOPENING, g_plugin.getByte("WarnBeforeOpening", 1) ? BST_CHECKED : BST_UNCHECKED);
+		btnFileDir.OnClick = Callback(this, &CFileOptsDlg::onClick_FileDir);
+		btnScanCmdLine.OnClick = Callback(this, &CFileOptsDlg::onClick_ScanCmdLine);
 
-			for (int i = 0; i < _countof(virusScanners); i++) {
-				wchar_t szScanExe[MAX_PATH];
-				if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, _countof(szScanExe))) {
-					int iItem = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)virusScanners[i].szProductName);
-					SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, i);
-				}
-			}
-			if (SendDlgItemMessageA(hwndDlg, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0) == 0) {
-				int iItem = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)L"");
-				SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, (LPARAM)-1);
-			}
-
-			DBVARIANT dbv;
-			if (g_plugin.getWString("ScanCmdLine", &dbv) == 0) {
-				SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, dbv.pwszVal);
-				db_free(&dbv);
-			}
-			else if (SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0)) {
-				SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_SETCURSEL, 0, 0);
-				PostMessage(hwndDlg, M_SCANCMDLINESELCHANGE, 0, 0);
-			}
-
-			switch (g_plugin.getByte("IfExists", FILERESUME_ASK)) {
-				case FILERESUME_RESUMEALL: CheckDlgButton(hwndDlg, IDC_RESUME, BST_CHECKED); break;
-				case FILERESUME_OVERWRITEALL: CheckDlgButton(hwndDlg, IDC_OVERWRITE, BST_CHECKED); break;
-				case FILERESUME_RENAMEALL: CheckDlgButton(hwndDlg, IDC_RENAME, BST_CHECKED); break;
-				default: CheckDlgButton(hwndDlg, IDC_ASK, BST_CHECKED); break;
-			}
-			SendMessage(hwndDlg, M_UPDATEENABLING, 0, 0);
-		}
-		return TRUE;
-
-	case M_UPDATEENABLING:
-		{
-			int on = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_NOSCANNER);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ST_CMDLINE), on);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SCANCMDLINE), on);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SCANCMDLINEBROWSE), on);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ST_CMDLINEHELP), on);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTOMIN), IsDlgButtonChecked(hwndDlg, IDC_AUTOACCEPT));
-		}
-		break;
-	case M_SCANCMDLINESELCHANGE:
-		{
-			wchar_t str[512];
-			wchar_t szScanExe[MAX_PATH];
-			int iScanner = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETCURSEL, 0, 0), 0);
-			if (iScanner >= _countof(virusScanners) || iScanner < 0) break;
-			str[0] = '\0';
-			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[iScanner].szExeRegPath, virusScanners[iScanner].szExeRegValue, szScanExe, _countof(szScanExe)))
-				mir_snwprintf(str, virusScanners[iScanner].szCommandLine, szScanExe);
-			SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_FILEDIR:
-			if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
-			break;
-
-		case IDC_FILEDIRBROWSE:
-			{
-				wchar_t str[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_FILEDIR, str, _countof(str));
-				if (BrowseForFolder(hwndDlg, str))
-					SetDlgItemText(hwndDlg, IDC_FILEDIR, str);
-			}
-			break;
-
-		case IDC_AUTOACCEPT:
-		case IDC_NOSCANNER:
-		case IDC_SCANAFTERDL:
-		case IDC_SCANDURINGDL:
-			SendMessage(hwndDlg, M_UPDATEENABLING, 0, 0);
-			break;
-
-		case IDC_SCANCMDLINE:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-				PostMessage(hwndDlg, M_SCANCMDLINESELCHANGE, 0, 0);
-			else if (HIWORD(wParam) != CBN_EDITCHANGE)
-				return 0;
-			break;
-
-		case IDC_SCANCMDLINEBROWSE:
-			wchar_t str[MAX_PATH + 2];
-			GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, _countof(str));
-
-			CMStringW tszFilter;
-			tszFilter.AppendFormat(L"%s (*.exe)%c*.exe%c", TranslateT("Executable files"), 0, 0);
-			tszFilter.AppendFormat(L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
-
-			OPENFILENAME ofn = { 0 };
-			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-			ofn.hwndOwner = hwndDlg;
-			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-			ofn.lpstrFilter = tszFilter;
-			ofn.lpstrFile = str;
-			ofn.nMaxFile = _countof(str) - 2;
-			if (str[0] == '"') {
-				wchar_t *pszQuote = wcschr(str + 1, '"');
-				if (pszQuote)
-					*pszQuote = 0;
-				memmove(str, str + 1, (mir_wstrlen(str) * sizeof(wchar_t)));
-			}
-			else {
-				wchar_t *pszSpace = wcschr(str, ' ');
-				if (pszSpace) *pszSpace = 0;
-			}
-			ofn.nMaxFileTitle = MAX_PATH;
-			if (!GetOpenFileName(&ofn)) break;
-			if (wcschr(str, ' ') != nullptr) {
-				memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
-				str[0] = '"';
-				mir_wstrcat(str, L"\"");
-			}
-			SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str);
-			break;
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			wchar_t str[512];
-			GetDlgItemText(hwndDlg, IDC_FILEDIR, str, _countof(str));
-			RemoveInvalidPathChars(str);
-			g_plugin.setWString("RecvFilesDirAdv", str);
-			g_plugin.setByte("AutoAccept", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOACCEPT));
-			g_plugin.setByte("AutoMin", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOMIN));
-			g_plugin.setByte("AutoClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLOSE));
-			g_plugin.setByte("AutoClear", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAR));
-			g_plugin.setByte("UseScanner", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCANAFTERDL) ? VIRUSSCAN_AFTERDL : (IsDlgButtonChecked(hwndDlg, IDC_SCANDURINGDL) ? VIRUSSCAN_DURINGDL : VIRUSSCAN_DISABLE)));
-			GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, _countof(str));
-			g_plugin.setWString("ScanCmdLine", str);
-			g_plugin.setByte("WarnBeforeOpening", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WARNBEFOREOPENING));
-			g_plugin.setByte("IfExists", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ASK) ? FILERESUME_ASK : (IsDlgButtonChecked(hwndDlg, IDC_RESUME) ? FILERESUME_RESUMEALL : (IsDlgButtonChecked(hwndDlg, IDC_OVERWRITE) ? FILERESUME_OVERWRITEALL : FILERESUME_RENAMEALL))));
-			return TRUE;
-		}
-		break;
+		chkNoScanner.OnChange = Callback(this, &CFileOptsDlg::onChange_NoScanner);
+		chkAutoAccept.OnChange = Callback(this, &CFileOptsDlg::onChange_AutoAccept);
+		cmbScanCmdLine.OnSelChanged = Callback(this, &CFileOptsDlg::onSelChanged_Combo);
 	}
-	return FALSE;
-}
+
+	bool OnInitDialog() override
+	{
+		SHAutoComplete(GetDlgItem(m_hwnd, IDC_FILEDIR), SHACF_FILESYS_DIRS);
+
+		wchar_t str[MAX_PATH];
+		GetContactReceivedFilesDir(NULL, str, _countof(str), FALSE);
+		SetDlgItemText(m_hwnd, IDC_FILEDIR, str);
+
+		switch (g_plugin.getByte("UseScanner", VIRUSSCAN_DISABLE)) {
+		case VIRUSSCAN_AFTERDL: CheckDlgButton(m_hwnd, IDC_SCANAFTERDL, BST_CHECKED); break;
+		case VIRUSSCAN_DURINGDL: CheckDlgButton(m_hwnd, IDC_SCANDURINGDL, BST_CHECKED); break;
+		default: CheckDlgButton(m_hwnd, IDC_NOSCANNER, BST_CHECKED); break;
+		}
+		CheckDlgButton(m_hwnd, IDC_WARNBEFOREOPENING, g_plugin.getByte("WarnBeforeOpening", 1) ? BST_CHECKED : BST_UNCHECKED);
+
+		for (int i = 0; i < _countof(virusScanners); i++) {
+			wchar_t szScanExe[MAX_PATH];
+			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, _countof(szScanExe))) {
+				int iItem = SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)virusScanners[i].szProductName);
+				SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, i);
+			}
+		}
+		if (SendDlgItemMessageA(m_hwnd, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0) == 0) {
+			int iItem = SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)L"");
+			SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, (LPARAM)-1);
+		}
+
+		DBVARIANT dbv;
+		if (g_plugin.getWString("ScanCmdLine", &dbv) == 0) {
+			SetDlgItemText(m_hwnd, IDC_SCANCMDLINE, dbv.pwszVal);
+			db_free(&dbv);
+		}
+		else if (SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0)) {
+			SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_SETCURSEL, 0, 0);
+			onSelChanged_Combo(0);
+		}
+
+		switch (g_plugin.getByte("IfExists", FILERESUME_ASK)) {
+		case FILERESUME_RESUMEALL: CheckDlgButton(m_hwnd, IDC_RESUME, BST_CHECKED); break;
+		case FILERESUME_OVERWRITEALL: CheckDlgButton(m_hwnd, IDC_OVERWRITE, BST_CHECKED); break;
+		case FILERESUME_RENAMEALL: CheckDlgButton(m_hwnd, IDC_RENAME, BST_CHECKED); break;
+		default: CheckDlgButton(m_hwnd, IDC_ASK, BST_CHECKED); break;
+		}
+
+		onChange_NoScanner(0);
+		onChange_AutoAccept(0);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		wchar_t str[512];
+		GetDlgItemText(m_hwnd, IDC_FILEDIR, str, _countof(str));
+		RemoveInvalidPathChars(str);
+		g_plugin.setWString("RecvFilesDirAdv", str);
+
+		GetDlgItemText(m_hwnd, IDC_SCANCMDLINE, str, _countof(str));
+		g_plugin.setWString("ScanCmdLine", str);
+
+		g_plugin.setByte("UseScanner", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_SCANAFTERDL) ? VIRUSSCAN_AFTERDL : (IsDlgButtonChecked(m_hwnd, IDC_SCANDURINGDL) ? VIRUSSCAN_DURINGDL : VIRUSSCAN_DISABLE)));
+		g_plugin.setByte("WarnBeforeOpening", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_WARNBEFOREOPENING));
+		g_plugin.setByte("IfExists", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_ASK) ? FILERESUME_ASK : 
+			(IsDlgButtonChecked(m_hwnd, IDC_RESUME) ? FILERESUME_RESUMEALL : 
+				(IsDlgButtonChecked(m_hwnd, IDC_OVERWRITE) ? FILERESUME_OVERWRITEALL : FILERESUME_RENAMEALL))));
+		return TRUE;
+	}
+
+	void onChange_AutoAccept(CCtrlCheck *)
+	{
+		chkAutoMin.Enable(chkAutoAccept.GetState());
+	}
+
+	void onChange_NoScanner(CCtrlCheck *)
+	{
+		bool bEnabled = chkNoScanner.GetState();
+		btnScanCmdLine.Enable(bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_ST_CMDLINE), bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_SCANCMDLINE), bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_ST_CMDLINEHELP), bEnabled);
+	}
+
+	void onSelChanged_Combo(CCtrlCombo*)
+	{
+		int iScanner = SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_GETCURSEL, 0, 0), 0);
+		if (iScanner >= _countof(virusScanners) || iScanner < 0)
+			return;
+
+		wchar_t szScanExe[MAX_PATH], str[512];
+		if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[iScanner].szExeRegPath, virusScanners[iScanner].szExeRegValue, szScanExe, _countof(szScanExe)))
+			mir_snwprintf(str, virusScanners[iScanner].szCommandLine, szScanExe);
+		else
+			str[0] = 0;
+		SetDlgItemText(m_hwnd, IDC_SCANCMDLINE, str);
+	}
+
+	void onClick_FileDir(CCtrlButton*)
+	{
+		wchar_t str[MAX_PATH];
+		GetDlgItemText(m_hwnd, IDC_FILEDIR, str, _countof(str));
+		if (BrowseForFolder(m_hwnd, str))
+			SetDlgItemText(m_hwnd, IDC_FILEDIR, str);
+	}
+
+	void onClick_ScanCmdLine(CCtrlButton*)
+	{
+		wchar_t str[MAX_PATH + 2];
+		GetDlgItemText(m_hwnd, IDC_SCANCMDLINE, str, _countof(str));
+
+		CMStringW tszFilter;
+		tszFilter.AppendFormat(L"%s (*.exe)%c*.exe%c", TranslateT("Executable files"), 0, 0);
+		tszFilter.AppendFormat(L"%s (*)%c*%c", TranslateT("All files"), 0, 0);
+
+		OPENFILENAME ofn = { 0 };
+		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+		ofn.hwndOwner = m_hwnd;
+		ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
+		ofn.lpstrFilter = tszFilter;
+		ofn.lpstrFile = str;
+		ofn.nMaxFile = _countof(str) - 2;
+		if (str[0] == '"') {
+			wchar_t *pszQuote = wcschr(str + 1, '"');
+			if (pszQuote)
+				*pszQuote = 0;
+			memmove(str, str + 1, (mir_wstrlen(str) * sizeof(wchar_t)));
+		}
+		else {
+			wchar_t *pszSpace = wcschr(str, ' ');
+			if (pszSpace) *pszSpace = 0;
+		}
+		ofn.nMaxFileTitle = MAX_PATH;
+		if (!GetOpenFileName(&ofn))
+			return;
+
+		if (wcschr(str, ' ') != nullptr) {
+			memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
+			str[0] = '"';
+			mir_wstrcat(str, L"\"");
+		}
+		SetDlgItemText(m_hwnd, IDC_SCANCMDLINE, str);
+	}
+};
 
 int FileOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 900000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILETRANSFER);
 	odp.szTitle.a = LPGEN("File transfers");
 	odp.szGroup.a = LPGEN("Events");
-	odp.pfnDlgProc = DlgProcFileOpts;
+	odp.pDialog = new CFileOptsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;

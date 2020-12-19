@@ -77,6 +77,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	CMOption<bool> bAutoMin, bAutoClear, bAutoClose, bAutoAccept, bReverseOrder;
+
 	int Load() override;
 	int Unload() override;
 };

@@ -257,7 +257,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_DATE), &rcDateCtrl);
 				SetWindowPos(GetDlgItem(hwndDlg, IDC_DATE), 0, 0, 0, rcDateCtrl.right - rcDateCtrl.left - (rcBtn2.left - rcBtn1.left), rcDateCtrl.bottom - rcDateCtrl.top, SWP_NOZORDER | SWP_NOMOVE);
 			}
-			else if (g_plugin.getByte("AutoAccept", 0)) {
+			else if (g_plugin.bAutoAccept) {
 				//don't check auto-min here to fix BUG#647620
 				PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDOK));
 			}
@@ -332,7 +332,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			dat->hwndTransfer = FtMgr_AddTransfer(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			//check for auto-minimize here to fix BUG#647620
-			if (g_plugin.getByte("AutoAccept", 0) && g_plugin.getByte("AutoMin", 0)) {
+			if (g_plugin.bAutoAccept && g_plugin.bAutoMin) {
 				ShowWindow(hwndDlg, SW_HIDE);
 				ShowWindow(hwndDlg, SW_SHOWMINNOACTIVE);
 			}

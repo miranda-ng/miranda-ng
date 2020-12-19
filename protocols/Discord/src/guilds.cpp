@@ -117,6 +117,16 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
 	si->pParent = pGuild->pParentSi;
 	pUser->hContact = si->hContact;
+	setId(pUser->hContact, DB_KEY_ID, pUser->channelId);
+	setId(pUser->hContact, DB_KEY_CHANNELID, pUser->channelId);
+
+	SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
+	if (oldMsgId == 0)
+		RetrieveHistory(pUser, MSG_BEFORE, pUser->lastMsgId, 20);
+	else if (!pUser->bSynced && pUser->lastMsgId > oldMsgId) {
+		pUser->bSynced = true;
+		RetrieveHistory(pUser, MSG_AFTER, oldMsgId, 99);
+	}
 
 	if (m_bUseGuildGroups) {
 		if (pUser->parentId) {
@@ -218,19 +228,6 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	if (m_bUseGroupchats)
 		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
 
-	// retrieve missing histories
-	for (auto &it : pGuild->arChannels) {
-		if (it->bIsPrivate)
-			continue;
-
-		if (!it->bSynced) {
-			it->bSynced = true;
-			SnowFlake oldMsgId = getId(it->hContact, DB_KEY_LASTMSGID);
-			if (oldMsgId != 0 && it->lastMsgId > oldMsgId)
-				RetrieveHistory(it, MSG_AFTER, oldMsgId, 99);
-		}
-	}
-
 	pGuild->bSynced = true;
 }
 
@@ -287,17 +284,6 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		pUser->pGuild = pGuild;
 		pUser->lastMsgId = ::getId(pch["last_message_id"]);
 		pUser->parentId = _wtoi64(pch["parent_id"].as_mstring());
-
-		SnowFlake oldMsgId = getId(pUser->hContact, DB_KEY_LASTMSGID);
-		if (oldMsgId == 0)
-			RetrieveHistory(pUser, MSG_BEFORE, pUser->lastMsgId, 20);
-		else if (!pUser->bSynced && pUser->lastMsgId > oldMsgId) {
-			pUser->bSynced = true;
-			RetrieveHistory(pUser, MSG_AFTER, oldMsgId, 99);
-		}
-
-		setId(pUser->hContact, DB_KEY_ID, channelId);
-		setId(pUser->hContact, DB_KEY_CHANNELID, channelId);
 		return pUser;
 	}
 

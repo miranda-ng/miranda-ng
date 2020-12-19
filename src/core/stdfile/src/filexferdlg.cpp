@@ -309,31 +309,29 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (dat->bytesRecvedHistorySize < _countof(dat->bytesRecvedHistory))
 			dat->bytesRecvedHistorySize++;
 
-		{
-			wchar_t szSpeed[32], szTime[32], szDisplay[96];
-			SYSTEMTIME st;
-			ULARGE_INTEGER li;
-			FILETIME ft;
+		wchar_t szSpeed[32], szTime[32], szDisplay[96];
+		SYSTEMTIME st;
+		ULARGE_INTEGER li;
+		FILETIME ft;
 
-			GetSensiblyFormattedSize((dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]) / dat->bytesRecvedHistorySize, szSpeed, _countof(szSpeed), 0, 1, NULL);
-			if (dat->bytesRecvedHistory[0] == dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1])
-				mir_wstrcpy(szTime, L"??:??:??");
-			else {
-				li.QuadPart = BIGI(10000000)*(dat->transferStatus.currentFileSize - dat->transferStatus.currentFileProgress)*dat->bytesRecvedHistorySize / (dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]);
-				ft.dwHighDateTime = li.HighPart; ft.dwLowDateTime = li.LowPart;
-				FileTimeToSystemTime(&ft, &st);
-				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &st, NULL, szTime, _countof(szTime));
-			}
-			if (dat->bytesRecvedHistory[0] != dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]) {
-				li.QuadPart = BIGI(10000000)*(dat->transferStatus.totalBytes - dat->transferStatus.totalProgress)*dat->bytesRecvedHistorySize / (dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]);
-				ft.dwHighDateTime = li.HighPart; ft.dwLowDateTime = li.LowPart;
-				FileTimeToSystemTime(&ft, &st);
-				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &st, NULL, szTime, _countof(szTime));
-			}
-
-			mir_snwprintf(szDisplay, L"%s/%s  (%s %s)", szSpeed, TranslateT("sec"), szTime, TranslateT("remaining"));
-			SetDlgItemText(hwndDlg, IDC_ALLSPEED, szDisplay);
+		GetSensiblyFormattedSize((dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]) / dat->bytesRecvedHistorySize, szSpeed, _countof(szSpeed), 0, 1, NULL);
+		if (dat->bytesRecvedHistory[0] == dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1])
+			mir_wstrcpy(szTime, L"??:??:??");
+		else {
+			li.QuadPart = BIGI(10000000)*(dat->transferStatus.currentFileSize - dat->transferStatus.currentFileProgress)*dat->bytesRecvedHistorySize / (dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]);
+			ft.dwHighDateTime = li.HighPart; ft.dwLowDateTime = li.LowPart;
+			FileTimeToSystemTime(&ft, &st);
+			GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &st, NULL, szTime, _countof(szTime));
 		}
+		if (dat->bytesRecvedHistory[0] != dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]) {
+			li.QuadPart = BIGI(10000000)*(dat->transferStatus.totalBytes - dat->transferStatus.totalProgress)*dat->bytesRecvedHistorySize / (dat->bytesRecvedHistory[0] - dat->bytesRecvedHistory[dat->bytesRecvedHistorySize - 1]);
+			ft.dwHighDateTime = li.HighPart; ft.dwLowDateTime = li.LowPart;
+			FileTimeToSystemTime(&ft, &st);
+			GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &st, NULL, szTime, _countof(szTime));
+		}
+
+		mir_snwprintf(szDisplay, L"%s/%s  (%s %s)", szSpeed, TranslateT("sec"), szTime, TranslateT("remaining"));
+		SetDlgItemText(hwndDlg, IDC_ALLSPEED, szDisplay);
 		break;
 
 	case WM_MEASUREITEM:

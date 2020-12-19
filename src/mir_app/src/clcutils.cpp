@@ -77,24 +77,6 @@ int fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contac
 	if (flags)
 		*flags = 0;
 
-	POINT pt;
-	pt.x = testx;
-	pt.y = testy;
-	ClientToScreen(hwnd, &pt);
-
-	HWND hwndParent = hwnd, hwndTemp;
-	do {
-		hwndTemp = hwndParent;
-		hwndParent = (HWND)GetWindowLongPtr(hwndTemp, GWLP_HWNDPARENT);
-
-		POINT pt1 = pt;
-		ScreenToClient(hwndParent, &pt1);
-		HWND h = ChildWindowFromPointEx(hwndParent ? hwndParent : GetDesktopWindow(), pt1, CWP_SKIPINVISIBLE | CWP_SKIPTRANSPARENT);
-		if (h != hwndTemp)
-			if (!hwndParent || !(GetWindowLongPtr(hwndTemp, GWL_STYLE) & BS_GROUPBOX))
-				return -1;
-	} while (hwndParent);
-
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
 	if (testx < 0 || testy < 0 || testy >= clRect.bottom || testx >= clRect.right) {

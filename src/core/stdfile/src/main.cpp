@@ -43,8 +43,14 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bAutoMin(MODULENAME, "AutoMin", false),
+	bAutoClear(MODULENAME, "AutoClear", true),
+	bAutoClose(MODULENAME, "AutoClose", false),
+	bAutoAccept(MODULENAME, "AutoAccept", false),
+	bReverseOrder(MODULENAME, "ReverseOrder", false)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

@@ -349,7 +349,7 @@ void CDiscordProto::ParseSpecialChars(SESSION_INFO *si, CMStringW &str)
 		else if (wszWord[0] == '#') {
 			CDiscordUser *pUser = FindUserByChannel(_wtoi64(wszWord.c_str() + 1));
 			if (pUser != nullptr) {
-				ptrW wszNick(getWStringA(pUser->hContact, "Nick"));
+				ptrW wszNick(getWStringA(pUser->hContact, DB_KEY_NICK));
 				if (wszNick != nullptr)
 					str.Replace(L"<" + wszWord + L">", wszNick);
 			}
