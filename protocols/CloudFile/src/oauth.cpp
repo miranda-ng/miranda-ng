@@ -22,7 +22,7 @@ bool COAuthDlg::OnInitDialog()
 bool COAuthDlg::OnApply()
 {
 	m_service->ForkThread(m_requestAccessTokenThread, m_hwnd);
-	return true;
+	return false;
 }
 
 void COAuthDlg::Code_OnChange(CCtrlBase*)
