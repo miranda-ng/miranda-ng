@@ -24,14 +24,18 @@ struct LoginOAuthRequest : public AsyncHttpRequest
 		AsyncHttpRequest(REQUEST_POST, HOST_API, "/login/skypetoken", &CSkypeProto::OnLoginOAuth)
 	{
 		username.MakeLower();
-		CMStringA hashStr(::FORMAT, "%s\nskyper\n%s", username.c_str(), password);
+		const char *pszLogin = username;
+		if (int iOffset = username.Find(':'))
+			pszLogin += iOffset + 1;
+
+		CMStringA hashStr(::FORMAT, "%s\nskyper\n%s", pszLogin, password);
 
 		BYTE digest[16];
 		mir_md5_hash((const BYTE*)hashStr.GetString(), hashStr.GetLength(), digest);
 
 		this << CHAR_PARAM("scopes", "client")
 			<< CHAR_PARAM("clientVersion", mir_urlEncode("0/7.4.85.102/259/").c_str())
-			<< CHAR_PARAM("username", mir_urlEncode(username).c_str())
+			<< CHAR_PARAM("username", mir_urlEncode(pszLogin).c_str())
 			<< CHAR_PARAM("passwordHash", mir_urlEncode(ptrA(mir_base64_encode(digest, sizeof(digest)))).c_str());
 	}
 };

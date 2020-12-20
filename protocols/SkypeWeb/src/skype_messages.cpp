@@ -32,13 +32,13 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 	Utils_GetRandom(&param->hMessage, sizeof(param->hMessage));
 	param->hMessage &= ~0x80000000;
 
-	ptrA username(getStringA(hContact, "Skypename"));
+	CMStringA id(getId(hContact));
 
 	AsyncHttpRequest *pReq;
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		pReq = new SendActionRequest(username, param->hMessage, &szMessage[4], this);
+		pReq = new SendActionRequest(id, param->hMessage, &szMessage[4], this);
 	else
-		pReq = new SendMessageRequest(username, param->hMessage, szMessage);
+		pReq = new SendMessageRequest(id, param->hMessage, szMessage);
 	pReq->pUserInfo = param;
 	PushRequest(pReq);
 	{
@@ -93,17 +93,19 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 {
 	CMStringA szMessageId = node["clientmessageid"] ? node["clientmessageid"].as_string().c_str() : node["skypeeditedid"].as_string().c_str();
-	CMStringA szConversationName(UrlToSkypename(node["conversationLink"].as_string().c_str()));
-	CMStringA szFromSkypename(UrlToSkypename(node["from"].as_string().c_str()));
+	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
+	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_string().c_str()));
+	
+	CMStringW wszContent = node["content"].as_mstring();
 
 	std::string strMessageType = node["messagetype"].as_string();
-	std::string strContent = node["content"].as_string();
-	std::string szClearedContent(strMessageType == "RichText" ? RemoveHtml(strContent) : strContent);
+	if (strMessageType == "RichText")
+		wszContent = RemoveHtml(wszContent);
 
 	bool bEdited = node["skypeeditedid"];
 	time_t timestamp = time(0); // fuck the server time, we need to place events in the order of our local time
 
-	int nEmoteOffset = atoi(node["skypeemoteoffset"].as_string().c_str());
+	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
 	MCONTACT hContact = AddContact(szConversationName, true);
 
@@ -125,18 +127,19 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 				mir_cslock lck(m_lckOutMessagesList);
 				m_OutMessages.remove(hMessage);
 			}
-			else AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, DBEF_UTF | DBEF_SENT, &szClearedContent[nEmoteOffset], szMessageId);
+			else AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, DBEF_UTF | DBEF_SENT, wszContent.c_str()+nEmoteOffset, szMessageId);
 		}
 		else {
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 			MEVENT hDbEvent = GetMessageFromDb(szMessageId);
 			if (bEdited && hDbEvent != NULL)
-				EditEvent(hContact, hDbEvent, szClearedContent.c_str(), timestamp);
+				EditEvent(hContact, hDbEvent, wszContent, timestamp);
 			else {
+				T2Utf szMsg(wszContent);
 				PROTORECVEVENT recv = {};
 				recv.timestamp = timestamp;
-				recv.szMessage = (char*)szClearedContent.c_str();
+				recv.szMessage = szMsg;
 				recv.lParam = nEmoteOffset;
 				recv.szMsgId = szMessageId;
 				ProtoChainRecvMsg(hContact, &recv);
@@ -144,28 +147,28 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		}
 	}
 	else if (strMessageType == "Event/Call") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
 	}
 	else if (strMessageType == "RichText/Files") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, wszContent , szMessageId);
 	}
 	else if (strMessageType == "RichText/UriObject") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
 	}
 	else if (strMessageType == "RichText/Contacts") {
-		ProcessContactRecv(hContact, timestamp, strContent.c_str(), szMessageId);
+		ProcessContactRecv(hContact, timestamp, T2Utf(wszContent), szMessageId);
 	}
 	else if (strMessageType == "RichText/Media_FlikMsg") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_MOJI, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_MOJI, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
 	}
 	else if (strMessageType == "RichText/Media_GenericFile") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILE, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILE, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
 	}
 	else if (strMessageType == "RichText/Media_Album") {
 		// do nothing
 	}
 	else {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, strContent.c_str(), szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
 	}
 }
 

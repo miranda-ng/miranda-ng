@@ -38,23 +38,24 @@ MEVENT CSkypeProto::GetMessageFromDb(const char *messageId)
 	return db_event_getById(m_szModuleName, messageId);
 }
 
-MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid)
+MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const CMStringW &content, const CMStringA &msgId)
 {
-	if (MEVENT hDbEvent = GetMessageFromDb(uid))
+	if (MEVENT hDbEvent = GetMessageFromDb(msgId))
 		return hDbEvent;
 
+	T2Utf szMsg(content);
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;
-	dbei.cbBlob = (DWORD)mir_strlen(content) + 1;
-	dbei.pBlob = (BYTE *)content;
+	dbei.cbBlob = (DWORD)mir_strlen(szMsg) + 1;
+	dbei.pBlob = (BYTE *)szMsg;
 	dbei.flags = flags;
-	dbei.szId = uid;
+	dbei.szId = msgId;
 	return db_event_add(hContact, &dbei);
 }
 
-void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, time_t edit_time)
+void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const CMStringW &szContent, time_t edit_time)
 {
 	mir_cslock lck(m_AppendMessageLock);
 	DBEVENTINFO dbei = {};
@@ -72,7 +73,7 @@ void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szCont
 					return;
 
 			JSONNode jEdit;
-			jEdit << INT_PARAM("time", (long)edit_time) << CHAR_PARAM("text", szContent);
+			jEdit << INT_PARAM("time", (long)edit_time) << WCHAR_PARAM("text", szContent);
 			jEdits << jEdit;
 		}
 	}
@@ -84,7 +85,7 @@ void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szCont
 		jMsg << jOriginalMsg;
 
 		JSONNode jEdit;
-		jEdit << INT_PARAM("time", (long)edit_time) << CHAR_PARAM("text", szContent);
+		jEdit << INT_PARAM("time", (long)edit_time) << WCHAR_PARAM("text", szContent);
 
 		JSONNode jEdits(JSON_ARRAY); jEdits.set_name("edits");
 		jEdits << jEdit;

@@ -35,10 +35,10 @@ struct SyncHistoryFirstRequest : public AsyncHttpRequest
 
 struct GetHistoryRequest : public AsyncHttpRequest
 {
-	GetHistoryRequest(const char *username, int pageSize, bool isChat, LONGLONG timestamp) :
+	GetHistoryRequest(const char *username, int pageSize, LONGLONG timestamp) :
 		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CSkypeProto::OnGetServerHistory)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%d:%s/messages", isChat ? 19 : 8, mir_urlEncode(username).c_str());
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
 
 		this << INT_PARAM("startTime", timestamp) << INT_PARAM("pageSize", pageSize)
 			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread");

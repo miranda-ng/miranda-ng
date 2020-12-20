@@ -31,9 +31,11 @@ enum SKYPE_DB_EVENT_TYPE
 	SKYPE_DB_EVENT_TYPE_UNKNOWN
 };
 
-#define SKYPE_SETTINGS_ID "Skypename"
+#define SKYPE_SETTINGS_ID       "SkypeId"
+#define SKYPE_SETTINGS_LOGIN    "Skypename"
+#define SKYPE_SETTINGS_USERTYPE "UserType"
 #define SKYPE_SETTINGS_PASSWORD "Password"
-#define SKYPE_SETTINGS_GROUP "DefaultGroup"
+#define SKYPE_SETTINGS_GROUP    "DefaultGroup"
 
 struct CSkypeOptions
 {

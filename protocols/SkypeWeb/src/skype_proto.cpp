@@ -55,6 +55,27 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 
 	m_hPollingThread = ForkThreadEx(&CSkypeProto::PollingThread, NULL, NULL);
 
+	m_szSkypename = getMStringA(SKYPE_SETTINGS_ID);
+	if (m_szSkypename.IsEmpty()) {
+		m_szSkypename = getMStringA(SKYPE_SETTINGS_LOGIN);
+		if (!m_szSkypename.IsEmpty()) { // old settings format, need to update all settings
+			m_szSkypename.Insert(0, "8:");
+			setString(SKYPE_SETTINGS_ID, m_szSkypename);
+
+			for (auto &hContact : AccContacts()) {
+				CMStringA id(ptrA(getUStringA(hContact, "Skypename")));
+				if (!id.IsEmpty())
+					setString(hContact, SKYPE_SETTINGS_ID, (isChatRoom(hContact)) ? "19:"+id : "8:"+id);
+
+				ptrW wszNick(getWStringA(hContact, "Nick"));
+				if (wszNick == nullptr)
+					setUString(hContact, "Nick", id);
+
+				delSetting(hContact, "Skypename");
+			}
+		}
+	}
+
 	InitGroupChatModule();
 }
 

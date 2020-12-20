@@ -342,43 +342,43 @@ const HtmlEntity htmlEntities[] =
 	{ "zwnj", "\xE2\x80\x8C" }
 };
 
-std::string RemoveHtml(const std::string &data)
+CMStringW RemoveHtml(const CMStringW &data)
 {
-	std::string new_string;
+	CMStringW new_string;
 
-	for (std::string::size_type i = 0; i < data.length(); i++) {
-		if (data.at(i) == '<') {
-			i = data.find('>', i);
-			if (i == std::string::npos)
+	for (int i = 0; i < data.GetLength(); i++) {
+		wchar_t c = data[i];
+		if (c == '<') {
+			i = data.Find('>', i);
+			if (i == -1)
 				break;
 
 			continue;
 		}
 
-		if (data.at(i) == '&') {
-			std::string::size_type begin = i;
-			i = data.find(';', i);
-			if (i == std::string::npos) {
+		// special character
+		if (c == '&') {
+			int begin = i;
+			i = data.Find(';', i);
+			if (i == -1)
 				i = begin;
-			}
 			else {
-				std::string entity = data.substr(begin + 1, i - begin - 1);
+				CMStringW entity = data.Mid(begin + 1, i - begin - 1);
 
 				bool found = false;
-				if (entity.length() > 1 && entity.at(0) == '#') {
+				if (entity.GetLength() > 1 && entity[0] == '#') {
 					// Numeric replacement
 					bool hex = false;
-					if (entity.at(1) == 'x') {
+					if (entity[1] == 'x') {
 						hex = true;
-						entity = entity.substr(2);
+						entity.Delete(0, 2);
 					}
-					else {
-						entity = entity.substr(1);
-					}
-					if (!entity.empty()) {
+					else entity.Delete(0, 1);
+
+					if (!entity.IsEmpty()) {
 						found = true;
 						errno = 0;
-						unsigned long value = strtoul(entity.c_str(), nullptr, hex ? 16 : 10);
+						unsigned long value = wcstoul(entity, nullptr, hex ? 16 : 10);
 						if (errno != 0) { // error with conversion in strtoul, ignore the result
 							found = false;
 						}
@@ -404,8 +404,9 @@ std::string RemoveHtml(const std::string &data)
 				}
 				else {
 					// Keyword replacement
+					CMStringA tmp = entity;
 					for (auto &it : htmlEntities) {
-						if (!mir_strcmpi(entity.c_str(), it.entity)) {
+						if (!mir_strcmpi(tmp, it.entity)) {
 							new_string += it.symbol;
 							found = true;
 							break;
@@ -420,7 +421,7 @@ std::string RemoveHtml(const std::string &data)
 			}
 		}
 
-		new_string += data.at(i);
+		new_string.AppendChar(c);
 	}
 
 	return new_string;
@@ -453,7 +454,7 @@ int CSkypeProto::SkypeToMirandaStatus(const char *status)
 	else if (!mir_strcmpi(status, "Away"))
 		return ID_STATUS_AWAY;
 	else if (!mir_strcmpi(status, "Idle"))
-		return /*ID_STATUS_IDLE*/ID_STATUS_AWAY;
+		return ID_STATUS_AWAY;
 	else if (!mir_strcmpi(status, "Busy"))
 		return ID_STATUS_DND;
 	else
@@ -465,52 +466,106 @@ bool CSkypeProto::IsFileExists(std::wstring path)
 	return _waccess(path.c_str(), 0) == 0;
 }
 
+const char* GetSkypeNick(const char *szSkypeId)
+{
+	if (auto *p = strchr(szSkypeId, ':'))
+		return p + 1;
+	return szSkypeId;
+}
+
+const wchar_t* GetSkypeNick(const wchar_t *szSkypeId)
+{
+	if (auto *p = wcsrchr(szSkypeId, ':'))
+		return p + 1;
+	return szSkypeId;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // url parsing
 
-CMStringA CSkypeProto::ParseUrl(const char *url, const char *token)
+CMStringA ParseUrl(const char *url, const char *token)
 {
 	if (url == nullptr)
 		return CMStringA();
 
-	const char *start = strstr(url, token);
+	auto *start = strstr(url, token);
 	if (start == nullptr)
 		return CMStringA();
 
-	start = start + mir_strlen(token);
-	const char *end = strchr(start, '/');
+	auto *end = strchr(++start, '/');
 	if (end == nullptr)
 		return CMStringA(start);
 	return CMStringA(start, end - start);
 }
 
-CMStringA CSkypeProto::GetStringChunk(const char *haystack, const char *start, const char *end)
+CMStringW ParseUrl(const wchar_t *url, const wchar_t *token)
 {
-	const char *sstart = strstr(haystack, start);
-	if (sstart == nullptr)
-		return CMStringA();
+	if (url == nullptr)
+		return CMStringW();
 
-	sstart = sstart + mir_strlen(start);
-	const char *send = strstr(sstart, end);
-	if (send == nullptr)
-		return CMStringA(sstart);
-	return CMStringA(sstart, send - sstart);
+	auto *start = wcsstr(url, token);
+	if (start == nullptr)
+		return CMStringW();
+
+	auto *end = wcschr(++start, '/');
+	if (end == nullptr)
+		return CMStringW(start);
+	return CMStringW(start, end - start);
 }
 
-CMStringA CSkypeProto::UrlToSkypename(const char *url)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int possibleTypes[] = { 1, 2, 8, 19 };
+
+CMStringA UrlToSkypeId(const char *url, int *pUserType)
 {
+	int userType = -1;
 	CMStringA szResult;
 
-	if (strstr(url, "/1:"))
-		szResult = ParseUrl(url, "/1:");
-	else if (strstr(url, "/8:"))
-		szResult = ParseUrl(url, "/8:");
-	else if (strstr(url, "/19:"))
-		szResult = ParseUrl(url, "/19:");
+	if (url != nullptr) {
+		for (auto &it : possibleTypes) {
+			char tmp[10];
+			sprintf_s(tmp, "/%d:", it);
+			if (strstr(url, tmp)) {
+				userType = it;
+				szResult = ParseUrl(url, tmp);
+				break;
+			}
+		}
+	}
+
+	if (pUserType)
+		*pUserType = userType;
 
 	return szResult;
 }
 
-CMStringA CSkypeProto::GetServerFromUrl(const char *url)
+CMStringW UrlToSkypeId(const wchar_t *url, int *pUserType)
+{
+	int userType = -1;
+	CMStringW szResult;
+
+	if (url != nullptr) {
+		for (auto &it : possibleTypes) {
+			wchar_t tmp[10];
+			swprintf_s(tmp, L"/%d:", it);
+			if (wcsstr(url, tmp)) {
+				userType = it;
+				szResult = ParseUrl(url, tmp);
+				break;
+			}
+		}
+	}
+
+	if (pUserType)
+		*pUserType = userType;
+
+	return szResult;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMStringA GetServerFromUrl(const char *url)
 {
 	return ParseUrl(url, "://");
 }

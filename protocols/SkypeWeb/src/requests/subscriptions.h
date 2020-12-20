@@ -43,7 +43,7 @@ struct CreateContactsSubscriptionRequest : public AsyncHttpRequest
 		JSONNode contacts(JSON_ARRAY); contacts.set_name("contacts");
 		for (auto &it : skypenames) {
 			JSONNode contact;
-			contact << CHAR_PARAM("id", CMStringA(::FORMAT, "8:%s", it));
+			contact << CHAR_PARAM("id", it);
 			contacts << contact;
 		}
 

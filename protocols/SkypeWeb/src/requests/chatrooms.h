@@ -68,8 +68,7 @@ struct CreateChatroomRequest : public AsyncHttpRequest
 
 		for (auto &it : skypenames) {
 			JSONNode member;
-			member << CHAR_PARAM("id", CMStringA(::FORMAT, "8:%s", it).GetBuffer())
-				<< CHAR_PARAM("role", !mir_strcmpi(it, ppro->m_szSkypename) ? "Admin" : "User");
+			member << CHAR_PARAM("id", it) << CHAR_PARAM("role", !mir_strcmpi(it, ppro->m_szSkypename) ? "Admin" : "User");
 			members << member;
 		}
 		node << members;
@@ -79,10 +78,10 @@ struct CreateChatroomRequest : public AsyncHttpRequest
 
 struct GetChatInfoRequest : public AsyncHttpRequest
 {
-	GetChatInfoRequest(const char *chatId, const CMStringW topic) :
+	GetChatInfoRequest(const char *chatId, const CMStringW &topic) :
 		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CSkypeProto::OnGetChatInfo)
 	{
-		m_szUrl.AppendFormat("/threads/%s%s", strstr(chatId, "19:") == chatId ? "" : "19:", chatId);
+		m_szUrl.AppendFormat("/threads/%s", chatId);
 		pUserInfo = topic.Detach();
 
 		this << CHAR_PARAM("view", "msnp24Equivalent");
@@ -94,7 +93,7 @@ struct InviteUserToChatRequest : public AsyncHttpRequest
 	InviteUserToChatRequest(const char *chatId, const char *skypename, const char *role) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT)
 	{
-		m_szUrl.AppendFormat("/threads/19:%s/members/8:%s", chatId, skypename);
+		m_szUrl.AppendFormat("/threads/%s/members/%s", chatId, skypename);
 
 		JSONNode node;
 		node << CHAR_PARAM("role", role);
@@ -107,7 +106,7 @@ struct KickUserRequest : public AsyncHttpRequest
 	KickUserRequest(const char *chatId, const char *skypename) :
 		AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT)
 	{
-		m_szUrl.AppendFormat("/threads/19:%s/members/8:%s", chatId, skypename);
+		m_szUrl.AppendFormat("/threads/%s/members/%s", chatId, skypename);
 	}
 };
 
@@ -116,7 +115,7 @@ struct SetChatPropertiesRequest : public AsyncHttpRequest
 	SetChatPropertiesRequest(const char *chatId, const char *propname, const char *value) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT)
 	{
-		m_szUrl.AppendFormat("/threads/19:%s/properties?name=%s", chatId, propname);
+		m_szUrl.AppendFormat("/threads/%s/properties?name=%s", chatId, propname);
 
 		JSONNode node;
 		node << CHAR_PARAM(propname, value);

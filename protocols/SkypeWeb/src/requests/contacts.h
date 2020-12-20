@@ -48,7 +48,7 @@ struct AddContactRequest : public AsyncHttpRequest
 		AddHeader("Accept", "application/json");
 
 		JSONNode node;
-		node << CHAR_PARAM("mri", CMStringA(::FORMAT, "8:%s", who)) << CHAR_PARAM("greeting", greeting);
+		node << CHAR_PARAM("mri", who) << CHAR_PARAM("greeting", greeting);
 		m_szParam = node.write().c_str();
 	}
 };
@@ -56,7 +56,7 @@ struct AddContactRequest : public AsyncHttpRequest
 struct DeleteContactRequest : public AsyncHttpRequest
 {
 	DeleteContactRequest(const char *who) :
-		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/contacts/v2/users/SELF/contacts/8:" + mir_urlEncode(who))
+		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/contacts/v2/users/SELF/contacts/" + mir_urlEncode(who))
 	{
 		AddHeader("Accept", "application/json");
 	}
@@ -67,7 +67,7 @@ struct AuthAcceptRequest : public AsyncHttpRequest
 	AuthAcceptRequest(const char *who) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS)
 	{
-		m_szUrl.AppendFormat("/contacts/v2/users/SELF/invites/8:%s/accept", who);
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/invites/%s/accept", who);
 
 		AddHeader("Accept", "application/json");
 	}
@@ -78,7 +78,7 @@ struct AuthDeclineRequest : public AsyncHttpRequest
 	AuthDeclineRequest(const char *who) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS)
 	{
-		m_szUrl.AppendFormat("/contacts/v2/users/SELF/invites/8:%s/decline", who);
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/invites/%s/decline", who);
 
 		AddHeader("Accept", "application/json");
 	}
@@ -89,7 +89,7 @@ struct BlockContactRequest : public AsyncHttpRequest
 	BlockContactRequest(CSkypeProto *ppro, MCONTACT hContact) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, 0, &CSkypeProto::OnBlockContact)
 	{
-		m_szUrl.AppendFormat("/contacts/v2/users/SELF/contacts/blocklist/8:%s", ppro->getId(hContact).c_str());
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/contacts/blocklist/%s", ppro->getId(hContact).c_str());
 		m_szParam = "{\"report_abuse\":\"false\",\"ui_version\":\"skype.com\"}";
 		pUserInfo = (void *)hContact;
 
@@ -102,7 +102,7 @@ struct UnblockContactRequest : public AsyncHttpRequest
 	UnblockContactRequest(CSkypeProto *ppro, MCONTACT hContact) :
 		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, 0, &CSkypeProto::OnUnblockContact)
 	{
-		m_szUrl.AppendFormat("/contacts/v2/users/SELF/contacts/blocklist/8:%s", ppro->getId(hContact).c_str());
+		m_szUrl.AppendFormat("/contacts/v2/users/SELF/contacts/blocklist/%s", ppro->getId(hContact).c_str());
 		pUserInfo = (void *)hContact;
 
 		AddHeader("Accept", "application/json");

@@ -29,7 +29,7 @@ struct SendMessageRequest : public AsyncHttpRequest
 	SendMessageRequest(const char *username, time_t timestamp, const char *message, const char *MessageType = nullptr) :
 	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/8:%s/messages", username);
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", username);
 
 		JSONNode node;
 		node  << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", MessageType ? MessageType : "Text")
@@ -43,7 +43,7 @@ struct SendActionRequest : public AsyncHttpRequest
 	SendActionRequest(const char *username, time_t timestamp, const char *message, CSkypeProto *ppro) :
 	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/8:%s/messages", username);
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", username);
 
 		CMStringA content;
 		content.AppendFormat("%s %s", ppro->m_szSkypename.c_str(), message);
@@ -58,7 +58,7 @@ struct SendActionRequest : public AsyncHttpRequest
 struct SendTypingRequest : public AsyncHttpRequest
 {
 	SendTypingRequest(const char *username, int iState) :
-	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/8:" + mir_urlEncode(username) + "/messages")
+	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(username) + "/messages")
 	{
 		const char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
 

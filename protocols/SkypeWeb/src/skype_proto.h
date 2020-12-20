@@ -241,7 +241,9 @@ private:
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen);
 
-	MCONTACT FindContact(const char *skypename);
+	MCONTACT FindContact(const char *skypeId);
+	MCONTACT FindContact(const wchar_t *skypeId);
+
 	MCONTACT AddContact(const char *skypename, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
@@ -250,8 +252,8 @@ private:
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
 
 	MEVENT GetMessageFromDb(const char *messageId);
-	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const char *content, const char *uid);
-	void EditEvent(MCONTACT hContact, MEVENT hEvent, const char *szContent, time_t edit_time);
+	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const CMStringW &content, const CMStringA &msgId);
+	void EditEvent(MCONTACT hContact, MEVENT hEvent, const CMStringW &content, time_t edit_time);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
@@ -265,24 +267,19 @@ private:
 	// chats
 	void InitGroupChatModule();
 
-	MCONTACT FindChatRoom(const char *chatname);
-
 	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
 	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
 	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
-	void StartChatRoom(const wchar_t *tid, const wchar_t *tname);
+	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname);
 
 	void OnChatEvent(const JSONNode &node);
-	void OnSendChatMessage(const char *chat_id, const wchar_t *tszMessage);
-	void AddMessageToChat(const char *chat_id, const char *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
-	void AddChatContact(const char *chat_id, const char *id, const char *name, const char *role, bool isChange = false);
-	void RemoveChatContact(const char *chat_id, const char *id, const char *name, bool isKick = false, const char *initiator = "");
-	char* GetChatContactNick(const char *chat_id, const char *id, const char *name);
-
-	void RenameChat(const char *chat_id, const char *name);
-	void ChangeChatTopic(const char * chat_id, const char *topic, const char *initiator);
+	void OnSendChatMessage(MCONTACT hContact, const wchar_t *tszMessage);
+	void AddMessageToChat(MCONTACT hContact, const wchar_t *from, const wchar_t *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
+	void AddChatContact(MCONTACT hContact, const wchar_t *id, const wchar_t *role, bool isChange = false);
+	void RemoveChatContact(MCONTACT hContact, const wchar_t *id, bool isKick = false, const wchar_t *initiator = L"");
+	wchar_t* GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name = nullptr);
 
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
@@ -312,12 +309,15 @@ private:
 	{	return (m_iStatus > ID_STATUS_OFFLINE);
 	}
 
+	__forceinline bool IsMe(const wchar_t *str)
+	{	return (!mir_wstrcmpi(str, Utf2T(m_szMyname)) || !mir_wstrcmp(str, getMStringW("SelfEndpointName")));
+	}
+
 	__forceinline bool IsMe(const char *str)
-	{	return (!mir_strcmpi(str, m_szMyname) || !mir_strcmp(str, ptrA(getStringA("SelfEndpointName"))));
+	{	return (!mir_strcmpi(str, m_szMyname) || !mir_strcmp(str, ptrA(getUStringA("SelfEndpointName"))));
 	}
 
 	static time_t IsoToUnixTime(const std::string &stamp);
-	static CMStringA GetStringChunk(const char *haystack, const char *start, const char *end);
 
 	static int SkypeToMirandaStatus(const char *status);
 	static const char *MirandaToSkypeStatus(int status);
@@ -327,11 +327,6 @@ private:
 	static bool IsFileExists(std::wstring path);
 
 	static LRESULT CALLBACK PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-	static CMStringA ParseUrl(const char *url, const char *token);
-
-	static CMStringA UrlToSkypename(const char *url);
-	static CMStringA GetServerFromUrl(const char *url);
 
 	void ProcessTimer();
 

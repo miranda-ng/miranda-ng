@@ -57,25 +57,35 @@ MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
 	return DbGetAuthEventContact(&dbei);
 }
 
-MCONTACT CSkypeProto::FindContact(const char *skypename)
+MCONTACT CSkypeProto::FindContact(const char *skypeId)
 {
 	for (auto &hContact : AccContacts())
-		if (!mir_strcmpi(skypename, getId(hContact)))
+		if (!mir_strcmpi(skypeId, ptrA(getUStringA(hContact, SKYPE_SETTINGS_ID))))
 			return hContact;
 
 	return 0;
 }
 
-MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
+MCONTACT CSkypeProto::FindContact(const wchar_t *skypeId)
 {
-	MCONTACT hContact = FindContact(skypename);
+	for (auto &hContact : AccContacts())
+		if (!mir_wstrcmpi(skypeId, getMStringW(hContact, SKYPE_SETTINGS_ID)))
+			return hContact;
+
+	return 0;
+}
+
+MCONTACT CSkypeProto::AddContact(const char *skypeId, bool isTemporary)
+{
+	MCONTACT hContact = FindContact(skypeId);
 	if (hContact)
 		return hContact;
 
 	hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
 
-	setString(hContact, SKYPE_SETTINGS_ID, skypename);
+	setString(hContact, SKYPE_SETTINGS_ID, skypeId);
+	setUString(hContact, "Nick", GetSkypeNick(skypeId));
 
 	if (m_opts.wstrCListGroup) {
 		Clist_GroupCreate(0, m_opts.wstrCListGroup);
@@ -98,27 +108,27 @@ void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest
 
 	auto &root = reply.data();
 	for (auto &item : root["invite_list"]) {
-		std::string skypename = item["mri"].as_string().erase(0, 2);
+		std::string skypeId = item["mri"].as_string().erase(0, 2);
 		std::string reason = item["greeting"].as_string();
 
 		time_t eventTime = 0;
 		for (auto &it : item["invites"])
 			eventTime = IsoToUnixTime(it["time"].as_string());
 
-		MCONTACT hContact = AddContact(skypename.c_str());
+		MCONTACT hContact = AddContact(skypeId.c_str());
 		time_t lastEventTime = getDword(hContact, "LastAuthRequestTime");
 		if (lastEventTime && lastEventTime >= eventTime)
 			continue;
 
 		std::string displayName = item["displayname"].as_string();
 		if (displayName.empty())
-			displayName = skypename;
+			displayName = skypeId;
 		setUString(hContact, "Nick", displayName.c_str());
 
 		setDword(hContact, "LastAuthRequestTime", eventTime);
 		delSetting(hContact, "Auth");
 
-		DB::AUTH_BLOB blob(hContact, displayName.c_str(), nullptr, nullptr, skypename.c_str(), reason.c_str());
+		DB::AUTH_BLOB blob(hContact, displayName.c_str(), nullptr, nullptr, skypeId.c_str(), reason.c_str());
 
 		PROTORECVEVENT pre = { 0 };
 		pre.timestamp = time(0);
@@ -129,7 +139,7 @@ void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest
 	}
 }
 
-//[{"skypename":"echo123", "authorized" : true, "blocked" : false, ...},...]
+//[{"skypeId":"echo123", "authorized" : true, "blocked" : false, ...},...]
 // other properties is exists but empty
 
 void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
@@ -144,7 +154,7 @@ void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 	for (auto &item : root["contacts"]) {
 		const JSONNode &name = item["name"];
 
-		std::string skypename = item["id"].as_string();
+		std::string skypeId = item["id"].as_string();
 		CMStringW display_name = item["display_name"].as_mstring();
 		CMStringW first_name = name["first"].as_mstring();
 		CMStringW last_name = name["surname"].as_mstring();
@@ -152,7 +162,7 @@ void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 		std::string type = item["type"].as_string();
 
 		if (type == "skype" || loadAll) {
-			MCONTACT hContact = AddContact(skypename.c_str());
+			MCONTACT hContact = AddContact(skypeId.c_str());
 			if (hContact) {
 				if (item["authorized"].as_bool()) {
 					delSetting(hContact, "Auth");
@@ -183,7 +193,7 @@ void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 					setWString(hContact, "LastName", last_name);
 
 				if (item["mood"])
-					db_set_utf(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_string()).c_str());
+					db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_mstring()));
 
 				SetAvatarUrl(hContact, avatar_url);
 				ReloadAvatarInfo(hContact);

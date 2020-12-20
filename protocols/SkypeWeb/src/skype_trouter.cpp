@@ -35,7 +35,7 @@ void CSkypeProto::OnReceiveStatus(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 	auto &root = reply.data();
 	for (auto &it : root["Responses"]) {
 		std::string id = it["Contact"].as_string();
-		id.erase(0, 2);
+
 		MCONTACT hContact = AddContact(id.c_str());
 		if (hContact) {
 			int status = SkypeToMirandaStatus(it["Payload"]["status"].as_string().c_str());
@@ -59,7 +59,7 @@ void CSkypeProto::RefreshStatuses(void)
 			nRecs = 0;
 		}
 
-		pReq << CHAR_PARAM("cMri", "8:" + id);
+		pReq << CHAR_PARAM("cMri", id);
 		nRecs++;
 
 		if (nRecs >= 10) {

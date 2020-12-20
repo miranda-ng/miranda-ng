@@ -12,7 +12,7 @@ struct ASMObjectCreateRequest : public AsyncHttpRequest
 		AddHeader("Content-Type", "text/json");
 		AddHeader("X-Client-Version", "0/0.0.0.0");
 
-		CMStringA szContact(FORMAT, "%d:%s", ppro->isChatRoom(fup->hContact) ? 19 : 8, ppro->getId(fup->hContact).c_str());
+		CMStringA szContact(ppro->getId(fup->hContact));
 		T2Utf uszFileName(fup->tszFileName);
 		const char *szFileName = strrchr(uszFileName.get() + 1, '\\');
 
