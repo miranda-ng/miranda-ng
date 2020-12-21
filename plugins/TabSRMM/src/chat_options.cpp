@@ -233,8 +233,8 @@ static wchar_t *chatcolorsnames[] =
 	LPGENW("Channel operators"),
 	LPGENW("Extended mode 1"),
 	LPGENW("Extended mode 2"),
-	LPGENW("Selection background"),
-	LPGENW("Selected text"),
+	LPGENW("Selected nicklist background"),
+	LPGENW("Selected nicklist text"),
 	LPGENW("Incremental search highlight")
 };
 
