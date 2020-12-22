@@ -69,7 +69,7 @@ void CSkypeProto::OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 
 	for (auto &it : conversations) {
 		auto &props = it["threadProperties"];
-		if (it["lastMessage"] && props["members"])
+		if (it["lastMessage"] && props["members"] && !props["lastleaveat"])
 			StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring());
 	}
 }
