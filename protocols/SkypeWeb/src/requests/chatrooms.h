@@ -76,6 +76,15 @@ struct CreateChatroomRequest : public AsyncHttpRequest
 	}
 };
 
+struct DestroyChatroomRequest : public AsyncHttpRequest
+{
+	DestroyChatroomRequest(const char *room_id) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT)
+	{
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", room_id);
+	}
+};
+
 struct GetChatInfoRequest : public AsyncHttpRequest
 {
 	GetChatInfoRequest(const wchar_t *chatId) :

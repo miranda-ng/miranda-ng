@@ -237,9 +237,12 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnContactDeleted(MCONTACT hContact)
 {
-	if (IsOnline())
-		if (hContact && !isChatRoom(hContact))
+	if (IsOnline() && hContact) {
+		if (isChatRoom(hContact))
+			PushRequest(new DestroyChatroomRequest(getMStringA(hContact, "ChatRoomID")));
+		else
 			PushRequest(new DeleteContactRequest(getId(hContact)));
+	}
 }
 
 INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
