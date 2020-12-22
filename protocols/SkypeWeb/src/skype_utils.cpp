@@ -658,30 +658,6 @@ INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpRequestHandler pFunc) :
-	m_host(host)
-{
-	switch (host) {
-	case HOST_API:       m_szUrl = "https://api.skype.com"; break;
-	case HOST_CONTACTS:  m_szUrl = "https://contacts.skype.com"; break;
-	case HOST_GRAPH:     m_szUrl = "https://skypegraph.skype.com"; break;
-	case HOST_LOGIN:     m_szUrl = "https://login.skype.com"; break;
-	case HOST_DEFAULT:
-		m_szUrl.Format("https://%s/v1", g_plugin.szDefaultServer.c_str());
-		break;
-	}
-
-	AddHeader("User-Agent", NETLIB_USER_AGENT);
-
-	if (url)
-		m_szUrl.Append(url);
-	m_pFunc = pFunc;
-	flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
-	requestType = type;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 {
 	if (pReply == nullptr) {

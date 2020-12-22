@@ -45,12 +45,11 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 		int userType;
 		CMStringW wszChatId = UrlToSkypeId(message["conversationLink"].as_mstring(), &userType);
 		CMStringW wszContent = message["content"].as_mstring();
+		CMStringW wszFrom = UrlToSkypeId(message["from"].as_mstring());
 
 		std::string messageType = message["messagetype"].as_string();
-		std::string from = message["from"].as_string();
 		int emoteOffset = message["skypeemoteoffset"].as_int();
 		time_t timestamp = IsoToUnixTime(message["composetime"].as_string());
-		CMStringA skypename(UrlToSkypeId(from.c_str()));
 
 		bool isEdited = message["skypeeditedid"];
 
@@ -64,7 +63,7 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 		if (!markAllAsUnread)
 			iFlags |= DBEF_READ;
 
-		if (IsMe(skypename))
+		if (IsMe(wszFrom))
 			iFlags |= DBEF_SENT;
 
 		if (userType == 8 || userType == 2) {
@@ -96,8 +95,12 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 			}
 		}
 		else if (userType == 19) {
+			auto *si = g_chatApi.SM_FindSession(wszChatId, m_szModuleName);
+			if (si == nullptr)
+				return;
+
 			if (messageType == "Text" || messageType == "RichText")
-				AddMessageToChat(hContact, wszChatId, messageType == "RichText" ? RemoveHtml(wszContent) : wszContent, emoteOffset != NULL, emoteOffset, timestamp, true);
+				AddMessageToChat(si, wszFrom, messageType == "RichText" ? RemoveHtml(wszContent) : wszContent, emoteOffset != NULL, emoteOffset, timestamp, true);
 		}
 	}
 }
@@ -133,19 +136,19 @@ void CSkypeProto::OnSyncHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 
 	for (auto &conversation : conversations) {
 		const JSONNode &lastMessage = conversation["lastMessage"];
-		if (lastMessage) {
-			std::string strConversationLink = lastMessage["conversationLink"].as_string();
+		if (!lastMessage)
+			continue;
 
-			int iUserType;
-			CMStringA szSkypename = UrlToSkypeId(strConversationLink.c_str(), &iUserType);
-			if (iUserType == 8 || iUserType == 2) {
-				time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string()));
+		int iUserType;
+		std::string strConversationLink = lastMessage["conversationLink"].as_string();
+		CMStringA szSkypename = UrlToSkypeId(strConversationLink.c_str(), &iUserType);
+		if (iUserType == 8 || iUserType == 2) {
+			time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string()));
 
-				MCONTACT hContact = FindContact(szSkypename);
-				if (hContact != NULL)
-					if (getDword(hContact, "LastMsgTime", 0) < composeTime)
-						PushRequest(new GetHistoryRequest(szSkypename, 100, 0));
-			}
+			MCONTACT hContact = FindContact(szSkypename);
+			if (hContact != NULL)
+				if (getDword(hContact, "LastMsgTime", 0) < composeTime)
+					PushRequest(new GetHistoryRequest(szSkypename, 100, 0));
 		}
 	}
 

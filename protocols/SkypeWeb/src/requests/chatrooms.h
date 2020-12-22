@@ -33,7 +33,7 @@ struct SendChatMessageRequest : public AsyncHttpRequest
 	SendChatMessageRequest(const char *to, time_t timestamp, const char *message) :
 		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/19:%s/messages", to);
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", to);
 
 		JSONNode node;
 		node << CHAR_PARAM("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
@@ -47,7 +47,7 @@ struct SendChatActionRequest : public AsyncHttpRequest
 	SendChatActionRequest(const char *to, time_t timestamp, const char *message) :
 		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/19:%s/messages", to);
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", to);
 
 		JSONNode node(JSON_NODE);
 		node << CHAR_PARAM("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
@@ -78,11 +78,10 @@ struct CreateChatroomRequest : public AsyncHttpRequest
 
 struct GetChatInfoRequest : public AsyncHttpRequest
 {
-	GetChatInfoRequest(const char *chatId, const CMStringW &topic) :
+	GetChatInfoRequest(const wchar_t *chatId) :
 		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CSkypeProto::OnGetChatInfo)
 	{
-		m_szUrl.AppendFormat("/threads/%s", chatId);
-		pUserInfo = topic.Detach();
+		m_szUrl.AppendFormat("/threads/%S", chatId);
 
 		this << CHAR_PARAM("view", "msnp24Equivalent");
 	}

@@ -46,6 +46,8 @@ SESSION_INFO* CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tnam
 	// Finish initialization
 	Chat_Control(m_szModuleName, tid, (getBool("HideChats", 1) ? WINDOW_HIDDEN : SESSION_INITDONE));
 	Chat_Control(m_szModuleName, tid, SESSION_ONLINE);
+
+	PushRequest(new GetChatInfoRequest(tid));
 	return si;
 }
 
@@ -65,14 +67,10 @@ void CSkypeProto::OnLoadChats(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 	if (totalCount >= 99 || conversations.size() >= 99)
 		ReadHistoryRest(syncState.c_str());
 
-	for (auto &conversation : conversations) {
-		if (!conversation["lastMessage"])
-			continue;
-
-		const JSONNode &id = conversation["id"];
-		const JSONNode &threadProperties = conversation["threadProperties"];
-		CMStringW topic(threadProperties["topic"].as_mstring());
-		SendRequest(new GetChatInfoRequest(id.as_string().c_str(), topic));
+	for (auto &it : conversations) {
+		auto &props = it["threadProperties"];
+		if (it["lastMessage"] && props["members"])
+			StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring());
 	}
 }
 
@@ -116,11 +114,11 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	if (mir_strcmp(si->pszModule, m_szModuleName) != 0)
 		return 0;
 
-	T2Utf user_id(gch->ptszUID);
+	T2Utf chat_id(si->ptszID), user_id(gch->ptszUID);
 
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:
-		OnSendChatMessage(si->hContact, gch->ptszText);
+		SendChatMessage(si, gch->ptszText);
 		break;
 
 	case GC_USER_PRIVMESS:
@@ -130,7 +128,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				hContact = AddContact(user_id, true);
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
 				Contact_Hide(hContact);
-				setWString(hContact, "Nick", gch->ptszUID);
+				setWString(hContact, "Nick", (gch->ptszNick) ? gch->ptszNick : GetSkypeNick(gch->ptszUID));
 			}
 			CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
 		}
@@ -143,7 +141,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				CSkypeInviteDlg dlg(this);
 				if (dlg.DoModal())
 					if (dlg.m_hContact != NULL)
-						PushRequest(new InviteUserToChatRequest(getId(si->hContact), getId(dlg.m_hContact), "User"));
+						PushRequest(new InviteUserToChatRequest(chat_id, getId(dlg.m_hContact), "User"));
 			}
 			break;
 
@@ -154,7 +152,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case 30:
 			CMStringW newTopic = ChangeTopicForm();
 			if (!newTopic.IsEmpty())
-				PushRequest(new SetChatPropertiesRequest(getId(si->hContact), "topic", T2Utf(newTopic.GetBuffer())));
+				PushRequest(new SetChatPropertiesRequest(chat_id, "topic", T2Utf(newTopic.GetBuffer())));
 			break;
 		}
 		break;
@@ -162,13 +160,13 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_NICKLISTMENU:
 		switch (gch->dwData) {
 		case 10:
-			PushRequest(new KickUserRequest(getId(si->hContact), user_id));
+			PushRequest(new KickUserRequest(chat_id, user_id));
 			break;
 		case 30:
-			PushRequest(new InviteUserToChatRequest(getId(si->hContact), user_id, "Admin"));
+			PushRequest(new InviteUserToChatRequest(chat_id, user_id, "Admin"));
 			break;
 		case 40:
-			PushRequest(new InviteUserToChatRequest(getId(si->hContact), user_id, "User"));
+			PushRequest(new InviteUserToChatRequest(chat_id, user_id, "User"));
 			break;
 		case 50:
 			ptrW tnick_old(GetChatContactNick(si->hContact, gch->ptszUID, gch->ptszText));
@@ -180,23 +178,22 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			pForm.szDataPrefix = "renamenick_";
 
 			if (EnterString(&pForm)) {
-				MCONTACT hChatContact = si->hContact;
-				if (hChatContact == NULL)
+				if (si->hContact == NULL)
 					break; // This probably shouldn't happen, but if chat is NULL for some reason, do nothing
 
 				ptrW tnick_new(pForm.ptszResult);
 				bool reset = mir_wstrlen(tnick_new) == 0;
 				if (reset) {
 					// User fill blank name, which means we reset the custom nick
-					db_unset(hChatContact, "UsersNicks", user_id);
-					tnick_new = GetChatContactNick(gch->si->hContact, gch->ptszUID, gch->ptszText);
+					db_unset(si->hContact, "UsersNicks", user_id);
+					tnick_new = GetChatContactNick(si->hContact, gch->ptszUID, gch->ptszText);
 				}
 
 				if (!mir_wstrcmp(tnick_old, tnick_new))
 					break; // New nick is same, do nothing
 
 				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_NICK };
-				gce.pszID.w = gch->si->ptszID;
+				gce.pszID.w = si->ptszID;
 				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.pszNick.w = tnick_old;
 				gce.bIsMe = IsMe(user_id);
@@ -206,7 +203,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				Chat_Event(&gce);
 
 				if (!reset)
-					db_set_ws(hChatContact, "UsersNicks", user_id, tnick_new);
+					db_set_ws(si->hContact, "UsersNicks", user_id, tnick_new);
 			}
 			break;
 		}
@@ -263,13 +260,12 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			debugLogW(L"unable to create chat %s", wszChatId.c_str());
 			return;
 		}
-		PushRequest(new GetChatInfoRequest(T2Utf(wszChatId), wszTopic));
 	}
 
 	std::string messageType = node["messagetype"].as_string();
 	if (messageType == "Text" || messageType == "RichText") {
 		CMStringW wszClearedContent(messageType == "RichText" ? RemoveHtml(wszContent) : wszContent);
-		AddMessageToChat(si->hContact, szFromId, wszClearedContent, nEmoteOffset != NULL, nEmoteOffset, timestamp);
+		AddMessageToChat(si, szFromId, wszClearedContent, nEmoteOffset != NULL, nEmoteOffset, timestamp);
 	}
 	else if (messageType == "ThreadActivity/AddMember") {
 		// <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
@@ -278,8 +274,8 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			return;
 
 		if (auto *pRoot = doc.FirstChildElement("addMember")) {
-			CMStringW target = UrlToSkypeId(pRoot->FirstChildElement("target")->Value());
-			AddChatContact(si->hContact, target, L"User");
+			CMStringW target = Utf2T(XmlGetChildText(pRoot, "target"));
+			AddChatContact(si, target, L"User");
 		}
 	}
 	else if (messageType == "ThreadActivity/DeleteMember") {
@@ -289,9 +285,9 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			return;
 
 		if (auto *pRoot = doc.FirstChildElement("deletemember")) {
-			CMStringW target = Utf2T(UrlToSkypeId(pRoot->FirstChildElement("target")->Value()));
-			CMStringW initiator = Utf2T(UrlToSkypeId(pRoot->FirstChildElement("initiator")->Value()));
-			RemoveChatContact(si->hContact, target, true, initiator);
+			CMStringW target = Utf2T(UrlToSkypeId(XmlGetChildText(pRoot, "target")));
+			CMStringW initiator = Utf2T(XmlGetChildText(pRoot, "initiator"));
+			RemoveChatContact(si, target, true, initiator);
 		}
 	}
 	else if (messageType == "ThreadActivity/TopicUpdate") {
@@ -302,14 +298,14 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 
 		auto *pRoot = doc.FirstChildElement("topicupdate");
 		if (pRoot) {
-			CMStringW initiator = Utf2T(UrlToSkypeId(pRoot->FirstChildElement("initiator")->Value()));
-			CMStringW value = Utf2T(pRoot->FirstChildElement("value")->Value());
+			CMStringW initiator = Utf2T(XmlGetChildText(pRoot, "initiator"));
+			CMStringW value = Utf2T(XmlGetChildText(pRoot, "value"));
 			Chat_ChangeSessionName(m_szModuleName, wszChatId, value);
 
 			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_TOPIC };
 			gce.pszID.w = wszChatId;
 			gce.pszUID.w = initiator;
-			gce.pszNick.w = initiator;
+			gce.pszNick.w = GetSkypeNick(initiator);
 			gce.pszText.w = wszTopic;
 			Chat_Event(&gce);
 		}
@@ -322,12 +318,12 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 
 		auto *pRoot = doc.FirstChildElement("roleupdate");
 		if (pRoot) {
-			CMStringW initiator = Utf2T(UrlToSkypeId(pRoot->FirstChildElement("initiator")->Value()));
+			CMStringW initiator = Utf2T(UrlToSkypeId(XmlGetChildText(pRoot, "initiator")));
 
 			auto *pTarget = pRoot->FirstChildElement("target");
 			if (pTarget) {
-				CMStringW id = Utf2T(UrlToSkypeId(pTarget->FirstChildElement("id")->Value()));
-				const char *role = pTarget->FirstChildElement("role")->Value();
+				CMStringW id = Utf2T(UrlToSkypeId(XmlGetChildText(pTarget, "id")));
+				const char *role = XmlGetChildText(pTarget, "role");
 
 				GCEVENT gce = { m_szModuleName, 0, !mir_strcmpi(role, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
 				gce.pszID.w = wszChatId;
@@ -344,7 +340,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	}
 }
 
-void CSkypeProto::OnSendChatMessage(MCONTACT hContact, const wchar_t *tszMessage)
+void CSkypeProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 {
 	if (!IsOnline())
 		return;
@@ -353,7 +349,7 @@ void CSkypeProto::OnSendChatMessage(MCONTACT hContact, const wchar_t *tszMessage
 	rtrimw(buf);
 	Chat_UnescapeTags(buf);
 
-	CMStringA chat_id(getId(hContact));
+	T2Utf chat_id(si->ptszID);
 	ptrA szMessage(mir_utf8encodeW(buf));
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
@@ -362,27 +358,25 @@ void CSkypeProto::OnSendChatMessage(MCONTACT hContact, const wchar_t *tszMessage
 		PushRequest(new SendChatMessageRequest(chat_id, time(0), szMessage));
 }
 
-void CSkypeProto::AddMessageToChat(MCONTACT hContact, const wchar_t *from, const wchar_t *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
+void CSkypeProto::AddMessageToChat(SESSION_INFO *si, const wchar_t *from, const wchar_t *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
 {
-	CMStringW wszChatId(getMStringW(hContact, SKYPE_SETTINGS_ID));
-	ptrW tnick(GetChatContactNick(hContact, from));
+	ptrW tnick(GetChatContactNick(si->hContact, from));
 
 	GCEVENT gce = { m_szModuleName, 0, isAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
-	gce.pszID.w = wszChatId;
-	gce.dwFlags = GCEF_UTF8;
+	gce.pszID.w = si->ptszID;
 	gce.bIsMe = IsMe(from);
 	gce.pszNick.w = tnick;
 	gce.time = timestamp;
 	gce.pszUID.w = from;
 
-	CMStringA szText(content);
-	szText.Replace("%", "%%");
+	CMStringW wszText(content);
+	wszText.Replace(L"%", L"%%");
 
 	if (!isAction) {
-		gce.pszText.a = szText;
+		gce.pszText.w = wszText;
 		gce.dwFlags |= GCEF_ADDTOLOG;
 	}
-	else gce.pszText.a = szText.GetBuffer() + emoteOffset;
+	else gce.pszText.w = wszText.c_str() + emoteOffset;
 
 	if (isLoading)
 		gce.dwFlags |= GCEF_NOTNOTIFY;
@@ -390,10 +384,8 @@ void CSkypeProto::AddMessageToChat(MCONTACT hContact, const wchar_t *from, const
 	Chat_Event(&gce);
 }
 
-void CSkypeProto::OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
+void CSkypeProto::OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
-	ptrW wszTopic((wchar_t *)pRequest->pUserInfo);
-
 	JsonReply reply(response);
 	if (reply.error())
 		return;
@@ -405,26 +397,23 @@ void CSkypeProto::OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest *p
 
 	CMStringW wszChatId(UrlToSkypeId(root["messages"].as_mstring()));
 	auto *si = g_chatApi.SM_FindSession(wszChatId, m_szModuleName);
-	if (si == nullptr) {
-		si = StartChatRoom(wszChatId, wszTopic);
-		if (si == nullptr)
-			return;
-	}
+	if (si == nullptr)
+		return;
 
 	for (auto &member : root["members"]) {
 		CMStringW username(UrlToSkypeId(member["userLink"].as_mstring()));
 		CMStringW role = member["role"].as_mstring();
-		AddChatContact(si->hContact, username, role, true);
+		AddChatContact(si, username, role, true);
 	}
 	
-	PushRequest(new GetHistoryRequest(getId(si->hContact), true, 0));
+	PushRequest(new GetHistoryRequest(_T2A(si->ptszID), true, 0));
 }
 
 wchar_t* CSkypeProto::GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name)
 {
 	// Check if there is custom nick for this chat contact
 	if (hContact)
-		if (auto *tname = getWStringA(hContact, "UsersNicks"))
+		if (auto *tname = db_get_wsa(hContact, "UsersNicks", T2Utf(id)))
 			return tname;
 
 	// Check if we have this contact in database
@@ -452,13 +441,12 @@ wchar_t* CSkypeProto::GetChatContactNick(MCONTACT hContact, const wchar_t *id, c
 	return mir_wstrdup(GetSkypeNick(id));
 }
 
-void CSkypeProto::AddChatContact(MCONTACT hContact, const wchar_t *id, const wchar_t *role, bool isChange)
+void CSkypeProto::AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange)
 {
-	CMStringW chat_id(getMStringW(hContact, SKYPE_SETTINGS_ID));
-	ptrW szNick(GetChatContactNick(hContact, id));
+	ptrW szNick(GetChatContactNick(si->hContact, id));
 
 	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-	gce.pszID.w = chat_id;
+	gce.pszID.w = si->ptszID;
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pszNick.w = szNick;
 	gce.pszUID.w = id;
@@ -468,17 +456,16 @@ void CSkypeProto::AddChatContact(MCONTACT hContact, const wchar_t *id, const wch
 	Chat_Event(&gce);
 }
 
-void CSkypeProto::RemoveChatContact(MCONTACT hContact, const wchar_t *id, bool isKick, const wchar_t *initiator)
+void CSkypeProto::RemoveChatContact(SESSION_INFO *si, const wchar_t *id, bool isKick, const wchar_t *initiator)
 {
 	if (IsMe(id))
 		return;
 
-	CMStringW chat_id(getMStringW(hContact, SKYPE_SETTINGS_ID));
-	ptrW szNick(GetChatContactNick(hContact, id));
-	ptrW szInitiator(GetChatContactNick(hContact, initiator));
+	ptrW szNick(GetChatContactNick(si->hContact, id));
+	ptrW szInitiator(GetChatContactNick(si->hContact, initiator));
 	
 	GCEVENT gce = { m_szModuleName, 0, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
-	gce.pszID.w = chat_id;
+	gce.pszID.w = si->ptszID;
 	gce.pszNick.w = szNick;
 	gce.pszUID.w = id;
 	gce.time = time(0);
@@ -602,7 +589,7 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 
 CMStringW CSkypeProto::ChangeTopicForm()
 {
-	CMStringW caption(FORMAT, L"[%s] %s", _A2T(m_szModuleName), TranslateT("Enter new chatroom topic"));
+	CMStringW caption(FORMAT, L"[%s] %s", _A2T(m_szModuleName).get(), TranslateT("Enter new chatroom topic"));
 	ENTER_STRING pForm = {};
 	pForm.type = ESF_MULTILINE;
 	pForm.caption = caption;

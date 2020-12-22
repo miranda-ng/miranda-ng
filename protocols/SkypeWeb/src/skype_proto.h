@@ -197,7 +197,6 @@ private:
 
 	void Execute(AsyncHttpRequest *request);
 	void PushRequest(AsyncHttpRequest *request);
-	void SendRequest(AsyncHttpRequest *request);
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
@@ -275,11 +274,12 @@ private:
 	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname);
 
 	void OnChatEvent(const JSONNode &node);
-	void OnSendChatMessage(MCONTACT hContact, const wchar_t *tszMessage);
-	void AddMessageToChat(MCONTACT hContact, const wchar_t *from, const wchar_t *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
-	void AddChatContact(MCONTACT hContact, const wchar_t *id, const wchar_t *role, bool isChange = false);
-	void RemoveChatContact(MCONTACT hContact, const wchar_t *id, bool isKick = false, const wchar_t *initiator = L"");
 	wchar_t* GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name = nullptr);
+
+	void AddMessageToChat(SESSION_INFO *si, const wchar_t *from, const wchar_t *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
+	void AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
+	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, bool isKick = false, const wchar_t *initiator = L"");
+	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
 
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
