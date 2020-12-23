@@ -65,11 +65,8 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) WebSocket_Connect(HNETLIBUSER nlu, const char *s
 		return nullptr;
 	}
 
-	if (pReply->resultCode != 101) {
+	if (pReply->resultCode != 101)
 		Netlib_Logf(nlu, "Error establishing WebSocket connection to %s, status %d", tmpHost.c_str(), pReply->resultCode);
-		Netlib_FreeHttpRequest(pReply);
-		return nullptr;
-	}
 
 	return pReply;
 }
