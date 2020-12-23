@@ -97,7 +97,7 @@ CSkypeProto::~CSkypeProto()
 
 void CSkypeProto::OnModulesLoaded()
 {
-	setAllContactStatuses(ID_STATUS_OFFLINE, true);
+	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnPreCreateMessage);
 
@@ -281,7 +281,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		m_impl.m_heartBeat.StopSafe();
 
 		if (!Miranda_IsTerminated())
-			setAllContactStatuses(ID_STATUS_OFFLINE, true);
+			setAllContactStatuses(ID_STATUS_OFFLINE, false);
 		return 0;
 	}
 	else {
