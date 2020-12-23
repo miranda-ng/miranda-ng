@@ -406,7 +406,7 @@ void CSkypeProto::OnGetChatInfo(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 		AddChatContact(si, username, role, true);
 	}
 	
-	PushRequest(new GetHistoryRequest(_T2A(si->ptszID), true, 0));
+	PushRequest(new GetHistoryRequest(T2Utf(si->ptszID), 100, 0, true));
 }
 
 wchar_t* CSkypeProto::GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name)

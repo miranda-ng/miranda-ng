@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* HISTORY SYNC */
 
-void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
+void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -33,9 +33,11 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 	std::string syncState = metadata["syncState"].as_string();
 
 	bool markAllAsUnread = getBool("MarkMesUnread", true);
+	bool bUseLocalTime = pRequest->pUserInfo != 0;
+	time_t iLocalTime = time(0);
 
 	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new GetHistoryOnUrlRequest(syncState.c_str()));
+		PushRequest(new GetHistoryRequest(syncState.c_str(), pRequest->pUserInfo));
 
 	for (int i = (int)conversations.size(); i >= 0; i--) {
 		const JSONNode &message = conversations.at(i);
@@ -57,16 +59,18 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 
 		if (timestamp > getDword(hContact, "LastMsgTime", 0))
 			setDword(hContact, "LastMsgTime", timestamp);
-
-		DWORD iFlags = DBEF_UTF;
-
-		if (!markAllAsUnread)
-			iFlags |= DBEF_READ;
-
-		if (IsMe(wszFrom))
-			iFlags |= DBEF_SENT;
+		if (bUseLocalTime)
+			timestamp = iLocalTime;
 
 		if (userType == 8 || userType == 2) {
+			DWORD iFlags = DBEF_UTF;
+
+			if (!markAllAsUnread)
+				iFlags |= DBEF_READ;
+
+			if (IsMe(wszFrom))
+				iFlags |= DBEF_SENT;
+
 			if (messageType == "Text" || messageType == "RichText") {
 				CMStringW szMessage(messageType == "RichText" ? RemoveHtml(wszContent) : wszContent);
 				MEVENT dbevent = GetMessageFromDb(szMessageId);
@@ -114,7 +118,7 @@ void CSkypeProto::ReadHistoryRest(const char *szUrl)
 
 INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(getId(hContact), 100, 0));
+	PushRequest(new GetHistoryRequest(getId(hContact), 100, 0, false));
 	return 0;
 }
 
@@ -148,7 +152,7 @@ void CSkypeProto::OnSyncHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 			MCONTACT hContact = FindContact(szSkypename);
 			if (hContact != NULL)
 				if (getDword(hContact, "LastMsgTime", 0) < composeTime)
-					PushRequest(new GetHistoryRequest(szSkypename, 100, 0));
+					PushRequest(new GetHistoryRequest(szSkypename, 100, 0, true));
 		}
 	}
 
