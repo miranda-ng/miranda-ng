@@ -418,10 +418,7 @@ void WhatsAppProto::ProcessCmd(const JSONNode &root)
 
 void WhatsAppProto::ProcessConn(const JSONNode &root)
 {
-	if (m_pQRDlg) {
-		m_pQRDlg->Close();
-		m_pQRDlg = nullptr;
-	}
+	CloseQrDialog();
 
 	m_szJid = root["wid"].as_mstring();
 	setString(DBKEY_ID, m_szJid);

@@ -101,6 +101,14 @@ static INT_PTR __stdcall sttShowDialog(void *param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::CloseQrDialog()
+{
+	if (m_pQRDlg) {
+		m_pQRDlg->Close();
+		m_pQRDlg = nullptr;
+	}
+}
+
 bool WhatsAppProto::ShowQrCode(const CMStringA &ref)
 {
 	MBinBuffer pubKey;
