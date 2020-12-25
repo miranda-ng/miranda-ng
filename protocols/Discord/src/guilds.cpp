@@ -329,8 +329,10 @@ void CDiscordProto::LoadGuildInfo(CDiscordGuild *pGuild)
 	if (fileId != -1) {
 		size_t length = _filelength(fileId);
 		ptrA buf((char *)mir_alloc(length+1));
-		_read(fileId, buf, (unsigned)length);
+		int result = _read(fileId, buf, (unsigned)length);
 		_close(fileId);
+		if (result == -1)
+			return;
 
 		JSONNode root(JSONNode::parse(buf));
 		for (auto &cc : root) {
