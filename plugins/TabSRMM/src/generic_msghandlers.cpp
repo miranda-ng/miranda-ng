@@ -1229,9 +1229,6 @@ void CMsgDialog::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 				}
 				else CSkin::DrawDimmedIcon(hDC, x, y, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);
 			}
-			else if (sid->dwId == MSG_ICON_SESSION) {
-				DrawIconEx(hDC, x, y, PluginConfig.g_sideBarIcons[0], PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
-			}
 		}
 		else {
 			HICON hIcon;
@@ -1358,9 +1355,6 @@ int SI_InitStatusIcons()
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	sid.dwId = MSG_ICON_UTN;
-	Srmm_AddIcon(&sid, &g_plugin);
-
-	sid.dwId = MSG_ICON_SESSION;
 	Srmm_AddIcon(&sid, &g_plugin);
 
 	HookEvent(ME_MSG_ICONSCHANGED, OnSrmmIconChanged);

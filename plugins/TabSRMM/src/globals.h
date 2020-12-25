@@ -74,7 +74,6 @@ public:
 	HICON       g_IconMsgEventBig, g_IconTypingEventBig;
 	HMENU       g_hMenuContext, g_hMenuContainer;
 	HICON       g_buttonBarIcons[NR_BUTTONBARICONS];
-	HICON       g_sideBarIcons[NR_SIDEBARICONS];
 	HANDLE      g_buttonBarIconHandles[23];
 
 	// dynamic options, need reload when options change
