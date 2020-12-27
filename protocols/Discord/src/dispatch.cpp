@@ -217,25 +217,17 @@ void CDiscordProto::OnCommandGuildMemberListUpdate(const JSONNode &pRoot)
 
 			if (!mir_strcmp(item .name(), "member")) {
 				bool bNew = false;
-				CMStringW wszUserId = item["user"]["id"].as_mstring();
-				SnowFlake userId = _wtoi64(wszUserId);
-				CDiscordGuildMember *pm = pGuild->FindUser(userId);
-				if (pm == nullptr) {
-					pm = new CDiscordGuildMember(userId);
-					pGuild->arChatUsers.insert(pm);
-					pm->wszNick = item["user"]["username"].as_mstring() + L"#" + item["user"]["discriminator"].as_mstring();
-					bNew = true;
-				}
-
+				auto *pm = ProcessGuildUser(pGuild, item, &bNew);
 				pm->iStatus = iStatus;
 
 				if (bNew)
 					AddGuildUser(pGuild, *pm);
 				else if (iStatus) {
+					CMStringW wszUserId(FORMAT, L"%lld", pm->userId);
+
 					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_SETCONTACTSTATUS };
 					gce.time = time(0);
 					gce.pszUID.w = wszUserId;
-					Chat_Event(&gce);
 
 					for (auto &cc : pGuild->arChannels) {
 						if (!cc->bIsGroup)

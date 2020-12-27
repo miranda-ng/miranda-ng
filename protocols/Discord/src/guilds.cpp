@@ -189,29 +189,12 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 
 	// store all guild members
 	for (auto &it : pRoot["members"]) {
-		CMStringW wszUserId = it["user"]["id"].as_mstring();
-		SnowFlake userId = _wtoi64(wszUserId);
-		CDiscordGuildMember *pm = pGuild->FindUser(userId);
-		if (pm == nullptr) {
-			pm = new CDiscordGuildMember(userId);
-			pGuild->arChatUsers.insert(pm);
-		}
+		auto *pm = ProcessGuildUser(pGuild, it);
 
-		pm->wszNick = it["nick"].as_mstring();
-		if (pm->wszNick.IsEmpty())
-			pm->wszNick = it["user"]["username"].as_mstring() + L"#" + it["user"]["discriminator"].as_mstring();
+		CMStringW wszNick = it["nick"].as_mstring();
+		if (!wszNick.IsEmpty())
+			pm->wszNick = wszNick;
 
-		if (userId == pGuild->ownerId)
-			pm->wszRole = L"@owner";
-		else {
-			CDiscordRole *pRole = nullptr;
-			for (auto &itr : it["roles"]) {
-				SnowFlake roleId = ::getId(itr);
-				if (pRole = pGuild->arRoles.find((CDiscordRole *)&roleId))
-					break;
-			}
-			pm->wszRole = (pRole == nullptr) ? L"@everyone" : pRole->wszName;
-		}
 		pm->iStatus = ID_STATUS_OFFLINE;
 	}
 
@@ -288,6 +271,39 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	}
 
 	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, const JSONNode &pUser, bool *pbNew)
+{
+	bool bNew = false;
+	CMStringW wszUserId = pUser["user"]["id"].as_mstring();
+	SnowFlake userId = _wtoi64(wszUserId);
+	CDiscordGuildMember *pm = pGuild->FindUser(userId);
+	if (pm == nullptr) {
+		pm = new CDiscordGuildMember(userId);
+		pGuild->arChatUsers.insert(pm);
+		bNew = true;
+	}
+
+	pm->wszNick = pUser["user"]["username"].as_mstring() + L"#" + pUser["user"]["discriminator"].as_mstring();
+
+	if (userId == pGuild->ownerId)
+		pm->wszRole = L"@owner";
+	else {
+		CDiscordRole *pRole = nullptr;
+		for (auto &itr : pUser["roles"]) {
+			SnowFlake roleId = ::getId(itr);
+			if (pRole = pGuild->arRoles.find((CDiscordRole *)&roleId))
+				break;
+		}
+		pm->wszRole = (pRole == nullptr) ? L"@everyone" : pRole->wszName;
+	}
+
+	if (pbNew)
+		*pbNew = bNew;
+	return pm;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
