@@ -39,6 +39,7 @@ static handlers[] = // these structures must me sorted alphabetically
 	{ L"GUILD_CREATE", &CDiscordProto::OnCommandGuildCreated },
 	{ L"GUILD_DELETE", &CDiscordProto::OnCommandGuildDeleted },
 	{ L"GUILD_MEMBER_ADD", &CDiscordProto::OnCommandGuildMemberAdded },
+	{ L"GUILD_MEMBER_LIST_UPDATE", &CDiscordProto::OnCommandGuildMemberListUpdate },
 	{ L"GUILD_MEMBER_REMOVE", &CDiscordProto::OnCommandGuildMemberRemoved },
 	{ L"GUILD_MEMBER_UPDATE", &CDiscordProto::OnCommandGuildMemberUpdated },
 	{ L"GUILD_ROLE_CREATE", &CDiscordProto::OnCommandRoleCreated },
@@ -196,6 +197,60 @@ void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandGuildMemberAdded(const JSONNode&)
 {
+}
+
+void CDiscordProto::OnCommandGuildMemberListUpdate(const JSONNode &pRoot)
+{
+	auto *pGuild = FindGuild(::getId(pRoot["guild_id"]));
+	if (pGuild == nullptr)
+		return;
+
+	int iStatus = 0;
+
+	for (auto &ops: pRoot["ops"]) {
+		for (auto &it : ops["items"]) {
+			auto &item = it.at((size_t)0);
+			if (!mir_strcmp(item .name(), "group")) {
+				iStatus = item ["id"].as_string() == "online" ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
+				continue;
+			}
+
+			if (!mir_strcmp(item .name(), "member")) {
+				bool bNew = false;
+				CMStringW wszUserId = item["user"]["id"].as_mstring();
+				SnowFlake userId = _wtoi64(wszUserId);
+				CDiscordGuildMember *pm = pGuild->FindUser(userId);
+				if (pm == nullptr) {
+					pm = new CDiscordGuildMember(userId);
+					pGuild->arChatUsers.insert(pm);
+					pm->wszNick = item["user"]["username"].as_mstring() + L"#" + item["user"]["discriminator"].as_mstring();
+					bNew = true;
+				}
+
+				pm->iStatus = iStatus;
+
+				if (bNew)
+					AddGuildUser(pGuild, *pm);
+				else if (iStatus) {
+					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_SETCONTACTSTATUS };
+					gce.time = time(0);
+					gce.pszUID.w = wszUserId;
+					Chat_Event(&gce);
+
+					for (auto &cc : pGuild->arChannels) {
+						if (!cc->bIsGroup)
+							continue;
+						
+						gce.pszID.w = cc->wszChannelName;
+						gce.dwItemData = iStatus;
+						Chat_Event(&gce);
+					}
+				}
+			}
+		}
+	}
+
+	pGuild->bSynced = true;
 }
 
 void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)

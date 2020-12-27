@@ -234,6 +234,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void  GatewaySend(const JSONNode &pNode);
 	bool  GatewayProcess(const JSONNode &pNode);
 
+	void  GatewaySendGuildInfo(CDiscordGuild *pGuild);
 	void  GatewaySendHeartbeat(void);
 	void  GatewaySendIdentify(void);
 	void  GatewaySendResume(void);
@@ -299,8 +300,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	}
 
 	void AddGuildUser(CDiscordGuild *guild, const CDiscordGuildMember &pUser);
-	void LoadGuildInfo(CDiscordGuild *guild);
-
+	
 	void ProcessGuild(const JSONNode &json);
 	CDiscordUser* ProcessGuildChannel(CDiscordGuild *guild, const JSONNode &json);
 	void ProcessPresence(const JSONNode &json);
@@ -398,6 +398,7 @@ public:
 	void OnCommandGuildCreated(const JSONNode &json);
 	void OnCommandGuildDeleted(const JSONNode &json);
 	void OnCommandGuildMemberAdded(const JSONNode &json);
+	void OnCommandGuildMemberListUpdate(const JSONNode &json);
 	void OnCommandGuildMemberRemoved(const JSONNode &json);
 	void OnCommandGuildMemberUpdated(const JSONNode &json);
 	void OnCommandFriendAdded(const JSONNode &json);

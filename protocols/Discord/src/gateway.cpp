@@ -236,6 +236,26 @@ bool CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 //////////////////////////////////////////////////////////////////////////////////////
 // requests to be sent to a gateway
 
+void CDiscordProto::GatewaySendGuildInfo(CDiscordGuild *pGuild)
+{
+	if (!pGuild->arChannels.getCount())
+		return;
+
+	JSONNode a1(JSON_ARRAY); a1 << INT_PARAM("", 0) << INT_PARAM("", 99);
+
+	CMStringA szId(FORMAT, "%lld", pGuild->arChannels[0]->id);
+	JSONNode chl(JSON_ARRAY); chl.set_name(szId.c_str()); chl << a1;
+
+	JSONNode channels; channels.set_name("channels"); channels << chl;
+
+	JSONNode payload; payload.set_name("d");
+	payload << SINT64_PARAM("guild_id", pGuild->id) << BOOL_PARAM("typing", true) << BOOL_PARAM("activities", true) << BOOL_PARAM("presences", true) << channels;
+		
+	JSONNode root;
+	root << INT_PARAM("op", OPCODE_REQUEST_SYNC_CHANNEL) << payload;
+	GatewaySend(root);
+}
+
 void CDiscordProto::GatewaySendHeartbeat()
 {
 	// we don't send heartbeat packets until we get logged in

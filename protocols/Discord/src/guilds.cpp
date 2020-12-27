@@ -173,9 +173,6 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	pGuild->hContact = si->hContact;
 	setId(pGuild->hContact, DB_KEY_CHANNELID, guildId);
 
-	if (!pGuild->bSynced && getByte(si->hContact, "EnableSync"))
-		LoadGuildInfo(pGuild);
-
 	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
 	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);
 
@@ -183,6 +180,12 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 		ProcessRole(pGuild, it);
 
 	BuildStatusList(pGuild, si);
+
+	for (auto &it : pRoot["channels"])
+		ProcessGuildChannel(pGuild, it);
+
+	if (!pGuild->bSynced && getByte(si->hContact, "EnableSync"))
+		GatewaySendGuildInfo(pGuild);
 
 	// store all guild members
 	for (auto &it : pRoot["members"]) {
@@ -221,9 +224,6 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 
 	for (auto &it : pGuild->arChatUsers)
 		AddGuildUser(pGuild, *it);
-
-	for (auto &it : pRoot["channels"])
-		ProcessGuildChannel(pGuild, it);
 
 	if (m_bUseGroupchats)
 		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
@@ -310,38 +310,4 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 	pu->iStatusEx = flags;
 	if (pUser.userId == m_ownId)
 		pGuild->pParentSi->pMe = pu;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static CMStringW GetCacheFileName(SnowFlake guildId)
-{
-	VARSW wszCacheDir(L"%miranda_userdata%\\Discord");
-	CreateDirectoryTreeW(wszCacheDir);
-
-	return CMStringW(FORMAT, L"%s\\%lld.cache", wszCacheDir.get(), guildId);
-}
-
-void CDiscordProto::LoadGuildInfo(CDiscordGuild *pGuild)
-{
-	CMStringW wszCacheFile(GetCacheFileName(pGuild->id));
-	int fileId = _wopen(wszCacheFile, _O_BINARY | _O_RDONLY);
-	if (fileId != -1) {
-		size_t length = _filelength(fileId);
-		ptrA buf((char *)mir_alloc(length+1));
-		int result = _read(fileId, buf, (unsigned)length);
-		_close(fileId);
-		if (result == -1)
-			return;
-
-		JSONNode root(JSONNode::parse(buf));
-		for (auto &cc : root) {
-			auto *pUser = new CDiscordGuildMember(_wtoi64(cc["id"].as_mstring()));
-			pUser->wszNick = cc["nick"].as_mstring();
-			pUser->wszRole = cc["role"].as_mstring();
-			pGuild->arChatUsers.insert(pUser);
-
-			AddGuildUser(pGuild, *pUser);
-		}
-	}
 }
