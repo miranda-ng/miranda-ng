@@ -177,7 +177,7 @@ BEGIN
                     "Button",BS_AUTORADIOBUTTON,52,124,250,10
     CONTROL         "As each file finishes downloading",IDC_SCANDURINGDL,
                     "Button",BS_AUTORADIOBUTTON,52,136,250,10
-    LTEXT           "Command line:",IDC_ST_CMDLINE,7,161,62,8
+    LTEXT           "Command line:",IDC_ST_CMDLINE,7,152,62,8
     COMBOBOX        IDC_SCANCMDLINE,70,151,213,71,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "...",IDC_SCANCMDLINEBROWSE,287,151,15,13
     LTEXT           "%f will be replaced by the file or folder name to be scanned",IDC_ST_CMDLINEHELP,70,165,232,8

@@ -56,7 +56,8 @@ static virusScanners[] =
 class CFileOptsDlg : public CDlgBase
 {
 	CCtrlButton btnFileDir, btnScanCmdLine;
-	CCtrlCheck chkAutoMin, chkAutoClear, chkAutoClose, chkAutoAccept, chkReverseOrder, chkNoScanner;
+	CCtrlCheck chkAutoMin, chkAutoClear, chkAutoClose, chkAutoAccept, chkReverseOrder;
+	CCtrlCheck chkNoScanner, chkScanDuringDl, chkScanAfterDl;
 	CCtrlCombo cmbScanCmdLine;
 
 public:
@@ -67,9 +68,13 @@ public:
 		chkAutoMin(this, IDC_AUTOMIN),
 		chkAutoClear(this, IDC_AUTOCLEAR),
 		chkAutoClose(this, IDC_AUTOCLOSE),
-		chkNoScanner(this, IDC_NOSCANNER),
 		chkAutoAccept(this, IDC_AUTOACCEPT),
 		chkReverseOrder(this, IDC_REVERSE_ORDER),
+
+		chkNoScanner(this, IDC_NOSCANNER),
+		chkScanAfterDl(this, IDC_SCANAFTERDL),
+		chkScanDuringDl(this, IDC_SCANDURINGDL),
+
 		cmbScanCmdLine(this, IDC_SCANCMDLINE)
 	{
 		CreateLink(chkAutoMin, g_plugin.bAutoMin);
@@ -95,31 +100,28 @@ public:
 		SetDlgItemText(m_hwnd, IDC_FILEDIR, str);
 
 		switch (g_plugin.getByte("UseScanner", VIRUSSCAN_DISABLE)) {
-		case VIRUSSCAN_AFTERDL: CheckDlgButton(m_hwnd, IDC_SCANAFTERDL, BST_CHECKED); break;
-		case VIRUSSCAN_DURINGDL: CheckDlgButton(m_hwnd, IDC_SCANDURINGDL, BST_CHECKED); break;
-		default: CheckDlgButton(m_hwnd, IDC_NOSCANNER, BST_CHECKED); break;
+		case VIRUSSCAN_AFTERDL: chkScanAfterDl.SetState(true); break;
+		case VIRUSSCAN_DURINGDL: chkScanDuringDl.SetState(true); break;
+		default: chkNoScanner.SetState(true); break;
 		}
 		CheckDlgButton(m_hwnd, IDC_WARNBEFOREOPENING, g_plugin.getByte("WarnBeforeOpening", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 		for (int i = 0; i < _countof(virusScanners); i++) {
 			wchar_t szScanExe[MAX_PATH];
-			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, _countof(szScanExe))) {
-				int iItem = SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)virusScanners[i].szProductName);
-				SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, i);
-			}
+			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, _countof(szScanExe)))
+				cmbScanCmdLine.AddString(virusScanners[i].szProductName, i);
 		}
-		if (SendDlgItemMessageA(m_hwnd, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0) == 0) {
-			int iItem = SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)L"");
-			SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, (LPARAM)-1);
-		}
+		
+		if (!cmbScanCmdLine.GetCount())
+			cmbScanCmdLine.AddString(L"", -1);
 
 		DBVARIANT dbv;
 		if (g_plugin.getWString("ScanCmdLine", &dbv) == 0) {
-			SetDlgItemText(m_hwnd, IDC_SCANCMDLINE, dbv.pwszVal);
+			cmbScanCmdLine.SetText(dbv.pwszVal);
 			db_free(&dbv);
 		}
-		else if (SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0)) {
-			SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_SETCURSEL, 0, 0);
+		else if (cmbScanCmdLine.GetCount()) {
+			cmbScanCmdLine.SetCurSel(0);
 			onSelChanged_Combo(0);
 		}
 
@@ -142,10 +144,10 @@ public:
 		RemoveInvalidPathChars(str);
 		g_plugin.setWString("RecvFilesDirAdv", str);
 
-		GetDlgItemText(m_hwnd, IDC_SCANCMDLINE, str, _countof(str));
+		cmbScanCmdLine.GetText(str, _countof(str));
 		g_plugin.setWString("ScanCmdLine", str);
 
-		g_plugin.setByte("UseScanner", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_SCANAFTERDL) ? VIRUSSCAN_AFTERDL : (IsDlgButtonChecked(m_hwnd, IDC_SCANDURINGDL) ? VIRUSSCAN_DURINGDL : VIRUSSCAN_DISABLE)));
+		g_plugin.setByte("UseScanner", chkScanAfterDl.GetState() ? VIRUSSCAN_AFTERDL : (chkScanDuringDl.GetState() ? VIRUSSCAN_DURINGDL : VIRUSSCAN_DISABLE));
 		g_plugin.setByte("WarnBeforeOpening", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_WARNBEFOREOPENING));
 		g_plugin.setByte("IfExists", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_ASK) ? FILERESUME_ASK : 
 			(IsDlgButtonChecked(m_hwnd, IDC_RESUME) ? FILERESUME_RESUMEALL : 
@@ -162,14 +164,14 @@ public:
 	{
 		bool bEnabled = chkNoScanner.GetState();
 		btnScanCmdLine.Enable(bEnabled);
+		cmbScanCmdLine.Enable(bEnabled);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_ST_CMDLINE), bEnabled);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SCANCMDLINE), bEnabled);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_ST_CMDLINEHELP), bEnabled);
 	}
 
 	void onSelChanged_Combo(CCtrlCombo*)
 	{
-		int iScanner = SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_SCANCMDLINE, CB_GETCURSEL, 0, 0), 0);
+		int iScanner = cmbScanCmdLine.GetItemData(cmbScanCmdLine.GetCurSel());
 		if (iScanner >= _countof(virusScanners) || iScanner < 0)
 			return;
 
@@ -178,7 +180,7 @@ public:
 			mir_snwprintf(str, virusScanners[iScanner].szCommandLine, szScanExe);
 		else
 			str[0] = 0;
-		SetDlgItemText(m_hwnd, IDC_SCANCMDLINE, str);
+		cmbScanCmdLine.SetText(str);
 	}
 
 	void onClick_FileDir(CCtrlButton*)
@@ -192,7 +194,7 @@ public:
 	void onClick_ScanCmdLine(CCtrlButton*)
 	{
 		wchar_t str[MAX_PATH + 2];
-		GetDlgItemText(m_hwnd, IDC_SCANCMDLINE, str, _countof(str));
+		cmbScanCmdLine.GetText(str, _countof(str));
 
 		CMStringW tszFilter;
 		tszFilter.AppendFormat(L"%s (*.exe)%c*.exe%c", TranslateT("Executable files"), 0, 0);
@@ -224,7 +226,7 @@ public:
 			str[0] = '"';
 			mir_wstrcat(str, L"\"");
 		}
-		SetDlgItemText(m_hwnd, IDC_SCANCMDLINE, str);
+		cmbScanCmdLine.SetText(str);
 	}
 };
 
