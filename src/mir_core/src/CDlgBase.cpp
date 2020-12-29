@@ -185,7 +185,7 @@ BOOL CALLBACK CDlgBase::GlobalFieldEnum(HWND hwnd, LPARAM lParam)
 	else if (!wcsicmp(wszClass, L"ComboBox"))
 		new CCtrlCombo(pDlg, id);
 	else if (!wcsicmp(wszClass, L"Button")) {
-		if (GetWindowLongW(hwnd, GWL_STYLE) & (BS_CHECKBOX | BS_RADIOBUTTON))
+		if (GetWindowLongW(hwnd, GWL_STYLE) & (BS_CHECKBOX | BS_RADIOBUTTON | BS_AUTORADIOBUTTON))
 			new CCtrlCheck(pDlg, id);
 		else
 			new CCtrlButton(pDlg, id);
