@@ -174,6 +174,7 @@
 [Minimize the file transfer window]
 [Close window when transfer completes]
 [Clear completed transfers on window closing]
+[Sort file transfers in the reverse order]
 [Virus scanner]
 [Scan files:]
 [Never, do not use virus scanning]
@@ -585,6 +586,7 @@
 [Enable groups]
 [Ask before deleting contacts]
 [Remove temporary contacts on exit]
+[Search works as filter]
 ['Hide offline' means to hide:]
 [Default settings for known event types]
 [Show when filter is active]
@@ -1119,7 +1121,7 @@
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 ;file \src\mir_app\src\ei_services.cpp
-[Chat mute]
+[Mute chat]
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 [Search]
@@ -1213,6 +1215,7 @@
 [Subgroup menu]
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
+[Do you really want to delete this menu item?]
 [Menus]
 ;file \src\mir_app\src\menu_tray.cpp
 [Tray menu]

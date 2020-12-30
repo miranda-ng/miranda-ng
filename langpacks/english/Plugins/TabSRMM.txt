@@ -470,8 +470,8 @@
 [Channel operators]
 [Extended mode 1]
 [Extended mode 2]
-[Selection background]
-[Selected text]
+[Selected nicklist background]
+[Selected nicklist text]
 [Incremental search highlight]
 [Fields background]
 [Nick list background]
@@ -576,7 +576,6 @@
 [disabled]
 [enabled]
 [Sending typing notifications is %s.]
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
