@@ -929,10 +929,10 @@ BBCode ([b][i][u])
 Расширенный режим 1
 [Extended mode 2]
 Расширенный режим 2
-[Selection background]
-Фон выбранного
-[Selected text]
-Выделенный текст
+[Selected nicklist background]
+Фон выделенного текста в списке пользователей
+[Selected nicklist text]
+Выделенный текст в списке пользователей
 [Incremental search highlight]
 Подсветка поиска
 [Fields background]
@@ -1137,8 +1137,6 @@ ID текущего контакта (если определён). Наприм
 включён
 [Sending typing notifications is %s.]
 Отправка уведомления о наборе: %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Список вкладок.\nНажмите левой кнопкой мыши, чтобы открыть список вкладок.\nНажмите правой кнопкой мыши, чтобы получить доступ к избранному и быстро настроить поведение окна сообщений
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Отправляется %d сообщений. Длина сообщения: %d байт, ограничение длины: %d байт\n\n%d cообщений в очереди для последующей доставки
 ;file \plugins\TabSRMM\src\eventpopups.cpp
