@@ -48,7 +48,7 @@ void CSkypeProto::StartQueue()
 
 	m_isTerminated = false;
 	if (m_hRequestQueueThread == nullptr)
-		m_hRequestQueueThread = ForkThreadEx(&CSkypeProto::WorkerThread, 0, 0);
+		ForkThread(&CSkypeProto::WorkerThread);
 }
 
 void CSkypeProto::StopQueue()
@@ -143,6 +143,8 @@ void CSkypeProto::Execute(AsyncHttpRequest *item)
 
 void CSkypeProto::WorkerThread(void*)
 {
+	m_hRequestQueueThread = GetCurrentThread();
+
 	while (true) {
 		m_hRequestQueueEvent.Wait();
 		if (m_isTerminated)

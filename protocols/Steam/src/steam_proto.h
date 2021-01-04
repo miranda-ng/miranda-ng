@@ -92,6 +92,7 @@ public:
 
 	// PROTO_INTERFACE
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+	MCONTACT AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) override;
 
 	int      Authorize(MEVENT hDbEvent) override;
 	int      AuthRecv(MCONTACT, PROTORECVEVENT*) override;

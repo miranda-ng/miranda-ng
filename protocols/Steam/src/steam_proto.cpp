@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName)
-	: PROTO<CSteamProto>(protoName, userName),
+CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
+	PROTO<CSteamProto>(protoName, userName),
 	m_requestQueue(1), hAuthProcess(1), hMessageProcess(1)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
@@ -95,7 +95,7 @@ CSteamProto::~CSteamProto()
 
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
-	MCONTACT hContact = AddContact(_T2A(psr->id.w), psr->nick.w, true);
+	MCONTACT hContact = AddContact(T2Utf(psr->id.w), psr->nick.w, true);
 
 	if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT)) {
 		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT *)psr;
@@ -103,6 +103,24 @@ MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	}
 
 	return hContact;
+}
+
+MCONTACT CSteamProto::AddToListByEvent(int, int, MEVENT hDbEvent)
+{
+	DBEVENTINFO dbei = {};
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
+		return NULL;
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr)
+		return NULL;
+	if (db_event_get(hDbEvent, &dbei))
+		return NULL;
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
+		return NULL;
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
+		return NULL;
+
+	DB::AUTH_BLOB blob(dbei.pBlob);
+	return AddContact(blob.get_email(), Utf2T(blob.get_nick()));
 }
 
 int CSteamProto::Authorize(MEVENT hDbEvent)
@@ -291,7 +309,7 @@ int CSteamProto::SetStatus(int new_status)
 
 		m_isTerminated = false;
 
-		m_hRequestQueueThread = ForkThreadEx(&CSteamProto::RequestQueueThread, nullptr, nullptr);
+		ForkThread(&CSteamProto::RequestQueueThread);
 
 		Login();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
