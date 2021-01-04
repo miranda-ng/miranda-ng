@@ -6,10 +6,6 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
-	m_idleTS = 0;
-	m_lastMessageTS = 0;
-	isLoginAgain = false;
-	m_hPollingThread = nullptr;
 	m_hRequestsQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	// default group
@@ -83,6 +79,12 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	debugLogA(__FUNCTION__":Setting protocol / module name to '%s'", m_szModuleName);
+
+	if (DWORD iGlobalValue = getDword(DB_KEY_LASTMSGTS)) {
+		for (auto &cc : AccContacts())
+			setDword(cc, DB_KEY_LASTMSGTS, iGlobalValue);
+		delSetting(DB_KEY_LASTMSGTS);
+	}
 }
 
 CSteamProto::~CSteamProto()
@@ -302,13 +304,8 @@ int CSteamProto::SetStatus(int new_status)
 		Logout();
 	}
 	else if (m_hRequestQueueThread == nullptr && !IsStatusConnecting(m_iStatus)) {
-		// Load last message timestamp for correct loading of messages history
-		m_lastMessageTS = getDword("LastMessageTS", 0);
-
 		m_iStatus = ID_STATUS_CONNECTING;
-
 		m_isTerminated = false;
-
 		ForkThread(&CSteamProto::RequestQueueThread);
 
 		Login();

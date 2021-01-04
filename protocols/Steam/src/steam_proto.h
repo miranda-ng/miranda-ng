@@ -79,12 +79,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	std::map<HANDLE, time_t> m_mpOutMessages;
 	std::map<std::string, time_t> m_typingTimestamps;
 
-	/**
-	 * Used only to compare in steam_history.cpp, others should write such value directly to db profile, because PollingThread
-	 * may start sooner than steam_history requests so it could possibly break getting history messages from server
-	 */
-	time_t m_lastMessageTS;
-
 public:
 	// PROTO_INTERFACE
 	CSteamProto(const char *protoName, const wchar_t *userName);
