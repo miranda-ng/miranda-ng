@@ -728,7 +728,7 @@ Nazwa konta
 [Rate]
 Ocena
 [Last online]
-Ostatnio dostępni
+Ostatnio dostępny
 [-Nothing-]
 -Nic-
 [Hide to tray]
