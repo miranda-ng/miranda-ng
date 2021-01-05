@@ -750,3 +750,4 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?SafeDeleteDirectory@PU@@YGHPB_W@Z @838 NONAME
 ?SafeDeleteFile@PU@@YGHPB_W@Z @839 NONAME
 ?SafeMoveFile@PU@@YGHPB_W0@Z @840 NONAME
+?FilterSearch@Clist@@3V?$CMOption@_N@@A @841 NONAME
