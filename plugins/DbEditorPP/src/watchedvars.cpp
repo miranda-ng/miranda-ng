@@ -342,25 +342,20 @@ void openWatchedVarWindow()
 
 void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 {
-	COLORREF colorBack = g_plugin.getDword("PopupColour", RGB(255, 0, 0));
-	COLORREF colorText = g_plugin.getDword("PopupTextColour", RGB(0, 0, 0));
-	int timeout = g_plugin.getByte("PopupDelay", 3);
-
-	wchar_t name[NAME_SIZE], text[MAX_SECONDLINE], value[MAX_SECONDLINE];
-	GetContactName(hContact, nullptr, name, _countof(name));
-
-	// 2nd line
+	int timeout = g_plugin.iPopupDelay;
+	
+	wchar_t value[MAX_SECONDLINE];
 	int type = GetValue(hContact, module, setting, value, _countof(value));
-	mir_snwprintf(text, TranslateT("Database Setting Changed: \nModule: \"%s\", Setting: \"%s\"\nNew Value (%s): \"%s\""), 
-		_A2T(module).get(), _A2T(setting).get(), DBVType(type), value);
 
 	POPUPDATAW ppd;
-	ppd.lchContact = (MCONTACT)hContact;
+	GetContactName(hContact, nullptr, ppd.lpwzContactName, _countof(ppd.lpwzContactName));
+	mir_snwprintf(ppd.lpwzText, TranslateT("Database Setting Changed: \nModule: \"%s\", Setting: \"%s\"\nNew Value (%s): \"%s\""), 
+		_A2T(module).get(), _A2T(setting).get(), DBVType(type), value);
+
+	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT));
-	mir_wstrncpy(ppd.lpwzContactName, name, _countof(ppd.lpwzContactName));
-	mir_wstrncpy(ppd.lpwzText, text, _countof(ppd.lpwzText));
-	ppd.colorBack = colorBack;
-	ppd.colorText = colorText;
+	ppd.colorBack = g_plugin.iPopupBkColor;
+	ppd.colorText = g_plugin.iPopupTxtColor;
 	ppd.iSeconds = timeout ? timeout : -1;
 	PUAddPopupW(&ppd);
 }

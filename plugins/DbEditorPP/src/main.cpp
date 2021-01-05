@@ -33,8 +33,15 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	iPopupDelay(MODULENAME, "PopupDelay", 4),
+	iPopupBkColor(MODULENAME, "PopupColour", RGB(255, 0, 0)),
+	iPopupTxtColor(MODULENAME, "PopupTextColour", RGB(0, 0, 0)),
+	bWarnOnDelete(MODULENAME, "WarnOnDelete", true),
+	bRestoreOnOpen(MODULENAME, "RestoreOnOpen", true),
+	bExpandSettingsOnOpen(MODULENAME, "ExpandSettingsOnOpen", false)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // we implement service mode interface

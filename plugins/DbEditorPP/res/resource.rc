@@ -56,12 +56,21 @@ BEGIN
     CONTROL         "Automatically expand ""Settings"" when Database Editor++ starts",IDC_EXPANDSETTINGS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,26,283,10
     CONTROL         "Warn when deleting modules",IDC_WARNONDEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,39,280,10
+END
+
+IDD_POPUP_OPTS DIALOGEX 0, 0, 314, 71
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
     CONTROL         "Use popups when watched settings change values",IDC_POPUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,57,275,10
-    EDITTEXT        IDC_POPUPTIMEOUT,144,68,20,12,ES_NUMBER
-    CONTROL         "",IDC_COLOUR,"ColourPicker",WS_TABSTOP,257,68,26,12
-    RTEXT           "Popup timeout (0 for infinite)",IDC_STATIC,35,70,103,8
-    RTEXT           "Background color",IDC_STATIC,177,70,77,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,11,275,10
+    EDITTEXT        IDC_POPUPTIMEOUT,144,24,26,12,ES_NUMBER
+    CONTROL         "",IDC_COLOUR,"ColourPicker",WS_TABSTOP,144,38,26,12
+    LTEXT           "Popup timeout (0 for infinite)",IDC_STATIC,35,26,103,8
+    LTEXT           "Background color",IDC_STATIC,35,40,103,8
+    CONTROL         "",IDC_TXT_COLOUR,"ColourPicker",WS_TABSTOP,144,53,26,12
+    LTEXT           "Text color",IDC_STATIC,35,55,103,8
 END
 
 IDD_ADD_MODULE DIALOGEX 0, 0, 186, 67
@@ -181,6 +190,10 @@ BEGIN
         HORZGUIDE, 68
     END
 
+    IDD_POPUP_OPTS, DIALOG
+    BEGIN
+    END
+
     IDD_ADD_MODULE, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -245,22 +258,39 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 ICO_REGEDIT             ICON                    "regedit.ico"
+
 ICO_CLOSED              ICON                    "closed.ico"
+
 ICO_OPENED              ICON                    "opened.ico"
+
 ICO_SETTINGS            ICON                    "settings.ico"
+
 ICO_ONLINE              ICON                    "online.ico"
+
 ICO_DBE_BUTT            ICON                    "dbepp.ico"
+
 ICO_REGUSER             ICON                    "usermenu.ico"
+
 ICO_STRING              ICON                    "string.ico"
+
 ICO_CONTACTS            ICON                    "contacts.ico"
+
 ICO_BINARY              ICON                    "binary.ico"
+
 ICO_DWORD               ICON                    "dword.ico"
+
 ICO_BYTE                ICON                    "byte.ico"
+
 ICO_WORD                ICON                    "word.ico"
+
 ICO_OFFLINE             ICON                    "offline.ico"
+
 ICO_UNICODE             ICON                    "unicode.ico"
+
 ICO_HANDLE              ICON                    "handle.ico"
+
 ICO_EMPTY               ICON                    "empty.ico"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -306,7 +336,7 @@ BEGIN
     BEGIN
         MENUITEM "&Search and replace",         MENU_FINDANDREPLACE
         MENUITEM SEPARATOR
-        MENUITEM "Delete &resident settings",      MENU_FIX_RESIDENT
+        MENUITEM "Delete &resident settings",   MENU_FIX_RESIDENT
         MENUITEM SEPARATOR
         MENUITEM "&Delete module",              MENU_DELETE
     END
@@ -350,7 +380,7 @@ BEGIN
     POPUP "Item context"
     BEGIN
         MENUITEM "&Edit",                       MENU_EDIT_SET
-        MENUITEM "&Copy",                       MENU_COPY_SET 
+        MENUITEM "&Copy",                       MENU_COPY_SET
         MENUITEM "&Delete",                     MENU_DELETE_SET
         POPUP "Convert to"
         BEGIN
@@ -372,8 +402,7 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
-		MENUITEM "&Refresh",                    MENU_REFRESH
-
+        MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "Null Mod context"
     BEGIN
@@ -384,7 +413,7 @@ BEGIN
         MENUITEM "Export module",               MENU_EXPORTMODULE
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
-   		MENUITEM "&Refresh",                    MENU_REFRESH
+        MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "Contact menu"
     BEGIN
@@ -399,7 +428,7 @@ BEGIN
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
         END
         MENUITEM SEPARATOR
-   		MENUITEM "&Refresh",                    MENU_REFRESH
+        MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "NULL contact menu"
     BEGIN
@@ -412,7 +441,7 @@ BEGIN
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
         END
         MENUITEM SEPARATOR
-   		MENUITEM "&Refresh",                    MENU_REFRESH
+        MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "Contacts menu"
     BEGIN
@@ -423,7 +452,7 @@ BEGIN
             MENUITEM "From pasted text",            MENU_IMPORTFROMTEXT
         END
         MENUITEM SEPARATOR
-   		MENUITEM "&Refresh",                    MENU_REFRESH
+        MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "Contact Mod context"
     BEGIN
@@ -435,7 +464,7 @@ BEGIN
         MENUITEM "Export module from all contacts", MENU_EXPORTDB
         MENUITEM SEPARATOR
         MENUITEM "&Watch",                      MENU_WATCH_ITEM
-   		MENUITEM "&Refresh",                    MENU_REFRESH
+        MENUITEM "&Refresh",                    MENU_REFRESH
     END
     POPUP "new item"
     BEGIN
@@ -449,7 +478,7 @@ BEGIN
             MENUITEM "BL&OB",                       MENU_ADD_BLOB
         END
         MENUITEM SEPARATOR
-   		MENUITEM "&Refresh",                    MENU_REFRESH
+        MENUITEM "&Refresh",                    MENU_REFRESH
     END
 END
 
@@ -462,6 +491,17 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       MENU_EXIT
     END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_POPUP_OPTS AFX_DIALOG_LAYOUT
+BEGIN
+    0
 END
 
 #endif    // English (United States) resources

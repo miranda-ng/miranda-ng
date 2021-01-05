@@ -8,7 +8,7 @@ int deleteModule(MCONTACT hContact, const char *module, int confirm)
 	if (!module || IsModuleEmpty(hContact, module))
 		return 0;
 
-	if (confirm && g_plugin.getByte("WarnOnDelete", 1)) {
+	if (confirm && g_plugin.bWarnOnDelete) {
 		wchar_t text[MSG_SIZE];
 		mir_snwprintf(text, TranslateT("Are you sure you want to delete module \"%s\"?"), _A2T(module).get());
 		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)

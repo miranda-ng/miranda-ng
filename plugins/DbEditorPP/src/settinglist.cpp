@@ -124,7 +124,7 @@ void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *s
 	if (!count)
 		return;
 
-	if (g_plugin.getByte("WarnOnDelete", 1)) {
+	if (g_plugin.bWarnOnDelete) {
 		wchar_t text[MSG_SIZE];
 		mir_snwprintf(text, TranslateT("Are you sure you want to delete setting(s): %d?"), count);
 		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)

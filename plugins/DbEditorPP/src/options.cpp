@@ -1,67 +1,66 @@
 #include "stdafx.h"
 
-static INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptionsDlg : public CDlgBase
 {
-	static bool bInitDone = true;
-	switch (msg) {
-	case WM_INITDIALOG:
-		bInitDone = false;
-		CheckDlgButton(hwnd, IDC_EXPANDSETTINGS, g_plugin.getByte("ExpandSettingsOnOpen", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_RESTORESETTINGS, g_plugin.getByte("RestoreOnOpen", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_WARNONDEL, g_plugin.getByte("WarnOnDelete", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_POPUPS, g_bUsePopups ? BST_CHECKED : BST_UNCHECKED);
-		SetDlgItemInt(hwnd, IDC_POPUPTIMEOUT, g_plugin.getWord("PopupDelay", 4), 0);
-		SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_SETCOLOUR, 0, (LPARAM)g_plugin.getDword("PopupColour", RGB(255, 0, 0)));
-		TranslateDialogDefault(hwnd);
-		bInitDone = true;
-		return TRUE;
+	CCtrlCheck chkExpand, chkRestore, chkWarnDelete;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_RESTORESETTINGS:
-		case IDC_EXPANDSETTINGS:
-		case IDC_POPUPS:
-		case IDC_WARNONDEL:
-		case IDC_COLOUR:
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_POPUPTIMEOUT:
-			if (bInitDone && (HIWORD(wParam) == EN_CHANGE))
-				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				g_plugin.setByte("ExpandSettingsOnOpen", (BYTE)IsDlgButtonChecked(hwnd, IDC_EXPANDSETTINGS));
-				g_plugin.setByte("RestoreOnOpen", (BYTE)IsDlgButtonChecked(hwnd, IDC_RESTORESETTINGS));
-				g_plugin.setByte("WarnOnDelete", (BYTE)IsDlgButtonChecked(hwnd, IDC_WARNONDEL));
-				g_bUsePopups = IsDlgButtonChecked(hwnd, IDC_POPUPS) != 0;
-				g_plugin.setByte("UsePopUps", (BYTE)g_bUsePopups);
-				g_plugin.setWord("PopupDelay", (WORD)GetDlgItemInt(hwnd, IDC_POPUPTIMEOUT, nullptr, 0));
-				g_plugin.setDword("PopupColour", (DWORD)SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_GETCOLOUR, 0, 0));
-				return TRUE;
-			}
-			break;
-		}
-		break;
+public:
+	COptionsDlg() :
+		CDlgBase(g_plugin, IDD_OPTIONS),
+		chkExpand(this, IDC_EXPANDSETTINGS),
+		chkRestore(this, IDC_RESTORESETTINGS),
+		chkWarnDelete(this, IDC_WARNONDEL)
+	{
+		CreateLink(chkExpand, g_plugin.bExpandSettingsOnOpen);
+		CreateLink(chkRestore, g_plugin.bRestoreOnOpen);
+		CreateLink(chkWarnDelete, g_plugin.bWarnOnDelete);
 	}
-	return FALSE;
-}
+};
+
+class CPopupOptionsDlg : public CDlgBase
+{
+	CCtrlEdit  edtTimeout;
+	CCtrlCheck chkUsePopups;
+	CCtrlColor clrBack, clrText;
+
+public:
+	CPopupOptionsDlg() :
+		CDlgBase(g_plugin, IDD_POPUP_OPTS),
+		clrBack(this, IDC_COLOUR),
+		clrText(this, IDC_TXT_COLOUR),
+		edtTimeout(this, IDC_POPUPTIMEOUT),
+		chkUsePopups(this, IDC_POPUPS)
+	{
+		CreateLink(clrBack, g_plugin.iPopupBkColor);
+		CreateLink(clrText, g_plugin.iPopupTxtColor);
+		CreateLink(edtTimeout, g_plugin.iPopupDelay);
+	}
+
+	bool OnInitDialog() override
+	{
+		chkUsePopups.SetState(g_bUsePopups);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		g_plugin.setByte("UsePopUps", g_bUsePopups = chkUsePopups.GetState());
+		return true;
+	}
+};
 
 INT OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szGroup.a = LPGEN("Database");
-	odp.szTitle.a = modFullname;
-	odp.pfnDlgProc = DlgProcOpts;
 	odp.flags = ODPF_BOLDGROUPS;
+	odp.szTitle.a = modFullname;
+
+	odp.szGroup.a = LPGEN("Database");
+	odp.pDialog = new COptionsDlg();
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.szGroup.a = LPGEN("Popups");
+	odp.pDialog = new CPopupOptionsDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
