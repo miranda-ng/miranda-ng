@@ -25,11 +25,11 @@ Import zakończony
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 Jeśli w przyszłości będziesz chciał użyć kreatora ponownie, możesz go włączyć w sekcji Wtyczki w oknie ustawień.
 [Choose import type:]
-
+Wybierz typ importu:
 [Choose directory]
-
+Wybierz folder
 [Choose file]
-
+Wybierz plik
 [&Filename:]
 &Nazwa pliku
 [Now importing...]
@@ -59,7 +59,7 @@ Importuje jedynie kontakty, nie importuje żadnej historii wiadomości.
 [Custom schema: you can choose what to import.]
 Własny schemat: możesz wybrać co chcesz importować.
 [Check duplicates]
-
+Sprawdź duplikaty
 [New contacts && groups]
 Nowe kontakty i grupy
 [System history]
@@ -81,9 +81,9 @@ Inne
 [Choose appropriate accounts for import]
 Wybierz odpowiednie konta, by dokonać importowania
 [Choose file type:]
-
+Wybierz typ pliku:
 [Enter file name for import:]
-
+Wpisz nazwę pliku do importu:
 [Copy]
 Kopiuj
 ;file \plugins\Import\src\import.cpp
@@ -172,14 +172,14 @@ Wszystkie pliki
 [You cannot import your current profile into itself]
 Nie możesz zaimportować obecnego profilu do niego samego
 [Importing whole directory]
-
+Importuj cały folder
 ;file \plugins\Import\src\patterns.cpp
 [Invalid file header]
-
+Nieprawidłowy nagłówek pliku
 [Cannot parse file header, skipping file]
-
+Nie można przeanalizować nagłówka pliku, pomijanie pliku
 [Loading file '%s'...]
-
+Wczytytanie pliku '%s'...
 [Failed to open file <%s> for import: %d]
 
 [Failed to mmap file <%s> for import: %d]
@@ -188,11 +188,11 @@ Nie możesz zaimportować obecnego profilu do niego samego
 
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
-
+Import historii dla %s
 [Miranda NG database/mContacts]
 Profil Mirandy NG/mContacts
 [JSON file]
-
+Plik JSON
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 Pomijanie zduplikowanej grupy %s.
