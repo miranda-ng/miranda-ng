@@ -107,7 +107,7 @@ int     ske_DrawImageAt(HDC hdc, RECT *rc);
 BOOL    ske_DrawIconEx(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags);
 int     ske_DrawNonFramedObjects(BOOL Erase, RECT *r);
 BOOL    ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format);
-LPSKINOBJECTDESCRIPTOR ske_FindObjectByName(const char *szName, BYTE objType, SKINOBJECTSLIST *Skin);
+SKINOBJECTDESCRIPTOR* ske_FindObjectByName(const char *szName, BYTE objType, SKINOBJECTSLIST *Skin);
 HBITMAP ske_GetCurrentWindowImage();
 int     ske_GetFullFilename(wchar_t *buf, const wchar_t *file, wchar_t *skinfolder, BOOL madeAbsolute);
 BOOL    ske_ImageList_DrawEx(HIMAGELIST himl, int i, HDC hdcDst, int x, int y, int dx, int dy, COLORREF rgbBk, COLORREF rgbFg, UINT fStyle);

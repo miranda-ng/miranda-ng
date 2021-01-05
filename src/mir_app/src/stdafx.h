@@ -92,6 +92,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_protocols.h>
 #include <m_protoint.h>
 #include <m_skin.h>
+#include <m_skin_eng.h>
 #include <m_srmm_int.h>
 #include <m_ssl.h>
 #include <m_timezones.h>

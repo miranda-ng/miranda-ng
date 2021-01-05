@@ -257,7 +257,7 @@ void RegisterFontServiceFonts()
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? FONTF_BOLD : 0) | (lf.lfItalic ? FONTF_ITALIC : 0);
 		fid.deffontsettings.charset = lf.lfCharSet;
-		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
+		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style & FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		wcsncpy_s(fid.deffontsettings.szFace, lf.lfFaceName, _TRUNCATE);
 		wcsncpy_s(fid.backgroundGroup, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), _TRUNCATE);
 		wcsncpy_s(fid.group, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), _TRUNCATE);
