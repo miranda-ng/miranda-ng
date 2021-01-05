@@ -294,8 +294,6 @@ void RegisterFontServiceFonts()
 			wcsncpy_s(fid.backgroundName, LPGENW("Input area background"), _TRUNCATE);
 			break;
 		case H_MSGFONTID_STATUSCHANGES:
-			fid.flags |= FIDF_DISABLESTYLES;
-			fid.flags &= ~FIDF_ALLOWEFFECTS;
 			wcsncpy_s(fid.backgroundName, LPGENW("Status background"), _TRUNCATE);
 			break;
 		case H_MSGFONTID_DIVIDERS:
