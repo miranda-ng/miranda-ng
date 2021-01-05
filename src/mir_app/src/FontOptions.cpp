@@ -746,23 +746,21 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		FONTEFFECT Effect;
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-			HFONT hFont = nullptr, hoFont = nullptr;
-			COLORREF clBack = (COLORREF)-1;
-			COLORREF clText = GetSysColor(COLOR_WINDOWTEXT);
-			BOOL bIsFont = FALSE;
-			wchar_t *itemName = nullptr;
-
-			FSUIListItemData *itemData = (FSUIListItemData *)dis->itemData;
-			FONTEFFECT *pEffect = nullptr;
-
 			if (dis->CtlID != IDC_FONTLIST)
 				break;
 
-			if (!itemData) return FALSE;
+			FSUIListItemData *itemData = (FSUIListItemData *)dis->itemData;
+			if (!itemData)
+				return FALSE;
+
+			HFONT hFont = nullptr, hoFont = nullptr;
+			wchar_t *itemName = nullptr;
+			COLORREF clBack = (COLORREF)-1;
+			COLORREF clText = GetSysColor(COLOR_WINDOWTEXT);
+			FONTEFFECT *pEffect = nullptr;
 
 			if (itemData->font_id >= 0) {
 				int iItem = itemData->font_id;
-				bIsFont = TRUE;
 				CreateFromFontSettings(&font_id_list_w2[iItem].value, &lf);
 				hFont = CreateFontIndirect(&lf);
 				itemName = font_id_list_w2[iItem].getName();
@@ -771,7 +769,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			if (itemData->colour_id >= 0) {
 				int iItem = itemData->colour_id;
-				if (bIsFont)
+				if (hFont)
 					clBack = colour_id_list_w2[iItem].value;
 				else {
 					clText = colour_id_list_w2[iItem].value;
@@ -787,7 +785,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				Effect.secondaryColour = effect_id_list_w2[iItem].value.secondaryColour;
 				pEffect = &Effect;
 
-				if (!bIsFont)
+				if (!hFont)
 					itemName = effect_id_list_w2[iItem].getName();
 			}
 
@@ -803,16 +801,16 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_HIGHLIGHT));
 			}
 			else {
-				SetTextColor(dis->hDC, bIsFont ? clText : GetSysColor(COLOR_WINDOWTEXT));
-				if (bIsFont && (clBack != (COLORREF)-1)) {
+				SetTextColor(dis->hDC, hFont ? clText : GetSysColor(COLOR_WINDOWTEXT));
+				if (hFont && (clBack != (COLORREF)-1)) {
 					HBRUSH hbrTmp = CreateSolidBrush(clBack);
 					FillRect(dis->hDC, &dis->rcItem, hbrTmp);
 					DeleteObject(hbrTmp);
 				}
-				else FillRect(dis->hDC, &dis->rcItem, bIsFont ? hBkgColourBrush : GetSysColorBrush(COLOR_WINDOW));
+				else FillRect(dis->hDC, &dis->rcItem, hFont ? hBkgColourBrush : GetSysColorBrush(COLOR_WINDOW));
 			}
 
-			if (bIsFont) {
+			if (hFont) {
 				HBRUSH hbrBack;
 				RECT rc;
 
@@ -843,6 +841,10 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				SetTextColor(dis->hDC, clText);
 
 				DrawTextWithEffect(dis->hDC, L"abc", 3, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
+
+				SelectObject(dis->hDC, hoFont);
+				DeleteObject(hFont);
+				hoFont = (HFONT)SelectObject(dis->hDC, (HFONT)SendDlgItemMessage(hwndDlg, dis->CtlID, WM_GETFONT, 0, 0));
 
 				if (dis->itemState & ODS_SELECTED) {
 					SetTextColor(dis->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
@@ -877,8 +879,9 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				DrawTextWithEffect(dis->hDC, itemName, (int)mir_wstrlen(itemName), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS, pEffect);
 			}
-			if (hoFont) SelectObject(dis->hDC, hoFont);
-			if (hFont) DeleteObject(hFont);
+			
+			if (hoFont)
+				SelectObject(dis->hDC, hoFont);
 		}
 		return TRUE;
 
