@@ -367,7 +367,7 @@ Odstępy między ramkami:
 [Gaps after captions:]
 Odstępy po opisach:
 [Use non-layered mode]
-Używaj trybu bezwarstwowego
+Tryb bezwarstwowy
 [Round corners]
 Zaokrąglone rogi
 [Non-layered mode]
