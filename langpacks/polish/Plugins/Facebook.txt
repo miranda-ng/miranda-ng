@@ -29,7 +29,7 @@ Pobieraj przy logowaniu także kontakty Messenger'a (a nie tylko znajomości Fac
 [Group chats]
 Rozmowy grupowe
 [Enable group chats]
-
+Włącz rozmowy grupowe
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
 [Send group chat invitation]
@@ -42,7 +42,7 @@ Anuluj
 [&Invite a user]
 &Zaproś
 [&Leave/destroy chat]
-
+&Opuść/usuń czat
 [&Kick user]
 &Wyrzuć użytkownika
 ;file \protocols\Facebook\src\options.cpp
@@ -54,14 +54,14 @@ Konto
 [%s server connection]
 Połączenie %s
 [Protocol is offline or user isn't authorized yet]
-
+Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 ;file \protocols\Facebook\src\server.cpp
 [Participant]
 Uczestnik
 [Sticker received]
 
 [SmileyAdd plugin required to support stickers]
-
+Wtyczka SmileyAdd jest wymagana do obsługi naklejek
 [URL]
 Link
 [Title]
