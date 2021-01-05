@@ -763,6 +763,24 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlColor - color picker
+
+class MIR_CORE_EXPORT CCtrlColor : public CCtrlData
+{
+	typedef CCtrlData CSuper;
+
+public:
+	CCtrlColor(CDlgBase *dlg, int ctrlId);
+	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) override;
+
+	bool OnApply() override;
+	void OnReset() override;
+
+	DWORD GetColor();
+	void SetColor(DWORD dwValue);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlDate - date & time picker
 
 class MIR_CORE_EXPORT CCtrlDate : public CCtrlData

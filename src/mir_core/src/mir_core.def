@@ -1481,3 +1481,11 @@ TimeZone_GetSystemTime @1692
 ?OnInit@CCtrlTreeOpts@@UAEXXZ @1704 NONAME
 ?OnNotify@CCtrlTreeOpts@@UAEHHPAUtagNMHDR@@@Z @1705 NONAME
 ?ProcessItemClick@CCtrlTreeOpts@@IAEXPAU_TREEITEM@@@Z @1706 NONAME
+??0CCtrlColor@@QAE@PAVCDlgBase@@H@Z @1707 NONAME
+??1CCtrlColor@@UAE@XZ @1708 NONAME
+??_7CCtrlColor@@6B@ @1709 NONAME
+?GetColor@CCtrlColor@@QAEKXZ @1710 NONAME
+?OnApply@CCtrlColor@@UAE_NXZ @1711 NONAME
+?OnCommand@CCtrlColor@@UAEHPAUHWND__@@GG@Z @1712 NONAME
+?OnReset@CCtrlColor@@UAEXXZ @1713 NONAME
+?SetColor@CCtrlColor@@QAEXK@Z @1714 NONAME
