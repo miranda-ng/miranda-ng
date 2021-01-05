@@ -565,11 +565,6 @@ CMStringW UrlToSkypeId(const wchar_t *url, int *pUserType)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringA GetServerFromUrl(const char *url)
-{
-	return ParseUrl(url, "://");
-}
-
 INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 {
 	wchar_t *arg = (wchar_t *)lParam;

@@ -24,12 +24,9 @@ const char* GetSkypeNick(const char *pszSkypeId);
 const wchar_t* GetSkypeNick(const wchar_t *szSkypeId);
 
 CMStringA ParseUrl(const char *url, const char *token);
-CMStringW ParseUrl(const wchar_t *url, const wchar_t *token);
 
 CMStringA UrlToSkypeId(const char *url, int *pUserType = nullptr);
 CMStringW UrlToSkypeId(const wchar_t *url, int *pUserType = nullptr);
-
-CMStringA GetServerFromUrl(const char *url);
 
 class EventHandle
 {

@@ -133,8 +133,11 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 
 	case 301:
 	case 302: // redirect to the closest data center
-		if (auto *hdr = Netlib_GetHeader(response, "Location"))
-			g_plugin.szDefaultServer = GetServerFromUrl(hdr);
+		if (auto *hdr = Netlib_GetHeader(response, "Location")) {
+			CMStringA szUrl(hdr+8);
+			int iEnd = szUrl.Find('/');
+			g_plugin.szDefaultServer = (iEnd != -1) ? szUrl.Left(iEnd) : szUrl;
+		}
 		PushRequest(new CreateEndpointRequest(this));
 		return;
 
