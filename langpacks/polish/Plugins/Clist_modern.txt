@@ -728,7 +728,7 @@ Nazwa konta
 [Rate]
 Ocena
 [Last online]
-
+Ostatnio dostępni
 [-Nothing-]
 -Nic-
 [Hide to tray]
@@ -919,11 +919,11 @@ Dni
 [Configuring view mode: %s]
 Konfigurowanie trybu widoku: %s
 [Add view mode]
-
+Dodaj tryb widoku
 [Rename view mode]
-
+Edytuj tryb widoku
 [Remove view mode]
-
+Usuń tryb widoku
 [Filtering]
 Filtrowanie
 [*** All contacts ***]
@@ -931,13 +931,13 @@ Filtrowanie
 [Configure view modes]
 Ustaw tryb widoku
 [Enter view mode name]
-
+Wpisz nazwę trybu widoku
 [A view mode with this name does already exist]
 Tryb widoku o podanej nazwie już istnieje
 [Duplicate name]
 Zduplikowana nazwa
 [Enter new view mode name]
-
+Wpisz nową nazwę trybu widoku
 [Really delete this view mode? This cannot be undone]
 Na pewno chcesz usunąć ten tryb widoku? Nie można tego cofnąć.
 [Delete a view mode]
