@@ -65,7 +65,7 @@ Używaj SSL
 [Use TLS]
 Używaj TLS
 [Unregister]
-Skasuj konto
+Usuń konto
 [Expert]
 Zaawansowane
 [Manually specify connection host]
@@ -77,7 +77,7 @@ Utrzymuj połączenie
 [Automatically delete contacts not in my roster]
 Automatycznie usuwaj kontakty spoza mojej listy
 [History recording mode]
-
+Przechowuj historię na serwerze
 [Language for human-readable resources:]
 Wybierz swój język:
 [File Transfer]
@@ -331,9 +331,9 @@ Rola:
 [Set role]
 Zmień rolę
 [Affiliation:]
-Powiązanie:
+Przynależność:
 [Set affiliation]
-Zmień powiązanie
+Zmień przynależność
 [Status message:]
 Opis:
 [Chat options]
@@ -391,23 +391,23 @@ Aktywność
 Nastrój
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
-
+Błąd %s %s
 [Select Command]
-
+Wybierz polecenie
 [Not supported]
 Nie obsługiwane
 [Done]
 Gotowe
 [In progress. Please Wait...]
-
+W toku. Proszę czekać...
 [Execute]
 Wykonaj
 [Requesting command list. Please wait...]
-
+Żądanie listy poleceń. Proszę czekać...
 [Jabber Ad-Hoc commands at %s]
-
+Polecenia Jabber Ad-Hoc dla %s
 [Sending Ad-Hoc command to %s]
-
+Wysyłanie polecenie Ad-Hoc do %s
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [Jabber Agent Registration]
 Rejestracja agenta Jabbera
@@ -433,27 +433,27 @@ Linki
 Proxy Bytestream nie jest dostępne
 ;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
-Wsparcie dla "przeglądarki usług"
+Obsługa informacji przeglądarki usług
 [Supports Service Discovery items list]
-Wsparcie dla listy elementów "przeglądarki usług"
+Obsługa listy przeglądarki usług
 [Can inform about its Jabber capabilities]
 Informowanie o możliwościach Jabbera
 [Supports stream initiation (e.g., for filetransfers)]
-Wsparcie dla inicjacji strumienia (np. dla transferu plików)
+Obsługa inicjacji strumienia (np. dla transferu plików)
 [Supports stream initiation for file transfers]
-Wsparcie dla strumienia dla przesyłania plików
+Obsługa inicjacji strumienia dla przesyłania plików
 [Supports file transfers via SOCKS5 Bytestreams]
-Wsparcie dla transferu plików za pośrednictwem SOCKS5
+Obsługa transferu plików za pośrednictwem SOCKS5
 [Supports file transfers via In-Band Bytestreams]
-Wsparcie dla bezpośredniego transferu plików (IBB)
+Obsługa bezpośredniego transferu plików (IBB)
 [Supports file transfers via Out-of-Band Bytestreams]
-Wsparcie dla pośredniego transferu plików (OOB)
+Obsługa pośredniego transferu plików (OOB)
 [Supports execution of Ad-Hoc commands]
-Wsparcie dla wykonywania poleceń Ad-Hoc
+Obsługa wykonywania poleceń Ad-Hoc
 [Supports in-band registration]
-Wsparcie dla bezpośredniej rejestracji
+Obsługa bezpośredniej rejestracji
 [Supports multi-user chat]
-Wsparcie dla czatów
+Obsługa czatów
 [Can report chat state in a chat session]
 Możliwość raportowania zmian statusu w sesji czatu
 [Can report information about the last activity of the user]
@@ -465,13 +465,13 @@ Możliwość raportowania czasu lokalnego użytkownika
 [Can send and receive ping requests]
 Możliwość wysyłania i odbierania żądań pingu
 [Supports data forms]
-Wsparcie dla formularzy danych
+Obsługa formularzy danych
 [Supports vCard]
-Wsparcie dla vCard
+Obsługa vCard
 [Supports XHTML formatting of chat messages]
-Wsparcie dla XHTML formatowania czatu
+Obsługa formatowania czatu XHTML
 [Supports Jabber Browsing]
-Wsparcie dla przeglądarki Jabber
+Obsługa przeglądarki Jabber
 [Can negotiate options for specific features]
 Możliwość negocjacji specyficznych cech opcji
 [Can request advanced processing of message stanzas]
@@ -481,47 +481,47 @@ Możliwość raportowania informacji o nastroju użytkownika
 [Receives information about user moods]
 Otrzymywanie informacji o nastroju użytkownika
 [Supports generic publish-subscribe functionality]
-Wsparcie dla funkcji publikowania autoryzacji
+Obsługa funkcji publikowania autoryzacji
 [Supports SecureIM plugin for Miranda NG]
-Wsparcie dla wtyczki SecureIM w Mirandzie NG
+Obsługa wtyczki SecureIM w Mirandzie NG
 [Supports OTR (Off-the-Record Messaging)]
-Wsparcie dla wtyczki MirOtr w Mirandzie NG
+Obsługa wtyczki MirOtr w Mirandzie NG
 [Supports New_GPG plugin for Miranda NG]
-Wsparcie dla wtyczki New_GPG w Mirandzie NG
+Obsługa wtyczki New_GPG w Mirandzie NG
 [Blocks packets from other users/group chats using Privacy lists]
 Możliwość blokowania komunikacji z innymi użytkownikami za pomocą list prywatności
 [Supports Message Receipts]
-Wsparcie dla potwierdzenia dostarczenia wiadomości
+Obsługa potwierdzenia dostarczenia wiadomości
 [Can report information about the music to which a user is listening]
 Możliwość raportowania informacji o odtwarzanych mediach
 [Receives information about the music to which a user is listening]
 Odbiera informacje o mediach, które odtwarza użytkownik
 [Supports private XML Storage (for bookmarks and other)]
-Wsparcie dla prywatnej przestrzeni XML (zakładki i inne)
+Obsługa prywatnej przestrzeni XML (zakładki i inne)
 [Supports attention requests ('nudge')]
-Wsparcie dla proszenia o uwagę ("nudge")
+Obsługa proszenia o uwagę ("nudge")
 [Support Message Archive Management (XEP-0313)]
-
+Obsługa zarządzania archiwum wiadomości (XEP-0313)
 [Supports chat history retrieving]
-Wsparcie dla pobierania historii czatu
+Obsługa pobierania historii czatu
 [Supports chat history management]
-Wsparcie dla zarządzania historią czatu
+Obsługa zarządzania historią czatu
 [Can report information about user activity]
 Możliwość przekazywania informacji na temat aktywności użytkowników
 [Receives information about user activity]
 Odbiera informacje o aktywności użytkowników
 [Supports Miranda NG notes extension]
-Wsparcie "notatek" w Mirandzie NG
+Obsługa "notatek" w Mirandzie NG
 [Supports Jingle]
-Wsparcie dla rozmów audio i wideo (Jingle)
+Obsługa rozmów audio i wideo (Jingle)
 [Supports Roster Exchange]
-Wsparcie dla zarządzania listą kontaktów (Roster Exchange)
+Obsługa zarządzania listą kontaktów (Roster Exchange)
 [Supports direct chat invitations (XEP-0249)]
-Wsparcie dla bezpośrednich zaproszeń do czatu (XEP-0249)
+Obsługa bezpośrednich zaproszeń do czatu (XEP-0249)
 [Receives information about OMEMO devices]
 Otrzymuj informacje o urządzeniach OMEMO
 [Supports message carbons (XEP-0280)]
-Wsparcie message carbons (XEP-0280)
+Obsługa message carbons (XEP-0280)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
@@ -549,23 +549,23 @@ Moderatorzy
 [Owners]
 Właściciel
 [User %s is now banned.]
-
+Użytkownik %s został zbanowany.
 [User %s changed status to %s with message: %s]
-
+Użytkownik %s zmienił status na %s z opisem: %s
 [User %s changed status to %s]
-
+Użytkownik %s zmienił status na %s
 [Room configuration was changed.]
-
+Konfiguracja pokoju została zmieniona.
 [Outcast]
 Wygnaniec
 [Affiliation of %s was changed to '%s'.]
-
+Przynależność z %s została zmieniona na '%s'.
 [Role of %s was changed to '%s'.]
 Rolę %s zmieniono na "%s".
 [because room is now members-only]
-
+ponieważ pokój jest teraz tylko dla członków
 [user banned]
-
+użytkownik zbanowany
 [Change &nickname]
 Zmień &nick
 [&Invite a user]
@@ -577,7 +577,7 @@ Lista &uczestników
 [&Moderator list]
 Lista &moderatorów
 [&Affiliations]
-&Powiązanie
+&Przynależność
 [&Member list]
 Lista &członków
 [&Admin list]
@@ -639,7 +639,7 @@ Wybierz &rolę
 [&Moderator]
 &Moderator
 [Set &affiliation]
-Wybierz &powiązanie
+Wybierz &przynależność
 [&None]
 &Żadne
 [&Member]
@@ -665,9 +665,9 @@ Zaproś użytkowników do\n%s
 [%s (not on roster)]
 %s (nie na liście)
 [%s from\n%s]
-
+%s z\n%s
 [Real JID not available]
-
+Prawdziwy JID nie jest dostępny
 [Reason to kick %s]
 Powód wyrzucenia %s
 [Reason to ban %s]
@@ -711,7 +711,7 @@ Dodaj do "wyszukiwarki kontaktów"
 [Use this proxy]
 Użyj proxy
 [Use for uploads]
-
+Użyj do przesyłania
 [Commands...]
 Komendy...
 [Logon]
@@ -742,21 +742,21 @@ Przeglądaj lokalne transporty
 Przeglądaj pokoje
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
-
+Identyfikacja
 [category]
-
+kategoria
 [type]
 typ
 [Category]
-
+Kategoria
 [Type]
 Typ
 [Supported features]
-
+Obsługiwane funkcje
 [Info request error]
-
+Błąd żądania informacji
 [Items request error]
-
+Błąd żądania elementu
 ;file \protocols\JabberG\src\jabber_ft.cpp
 [No compatible file transfer mechanism exists]
 Nie istnieje żaden kompatybilny mechanizm transferu plików
@@ -768,7 +768,7 @@ Brak dostępnych pokoi na serwerze.
 [Room list request timed out.]
 Upłynął limit czasu żądania listy pokojów.
 [<no nick>]
-
+<brak nicku>
 [Loading...]
 Wczytywanie...
 [Please wait for room list to download.]
@@ -782,7 +782,7 @@ Zmień nick w <%s>
 [Error]
 Błąd
 [has set the subject to:]
-
+ustawił temat:
 [Group chat invitation to\n%s]
 Zaproszenie do czatu\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -887,7 +887,7 @@ Hasło nie może być zmienione.
 Błąd zakładek Jabbera
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Conference Room Configuration]
-
+Konfiguracja czatu
 [%s, %d items (%s)]
 %s, %d osoby (%s)
 [Reason to ban]
@@ -911,7 +911,7 @@ Lista właścicieli
 Żądanie autoryzacji http przyjęte
 ;file \protocols\JabberG\src\jabber_mam.cpp
 [Do you want to erase local history before loading it from server?]
-
+Czy chcesz wymazać lokalną historię przed załadowaniem jej z serwera?
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Wybór konta Jabber
@@ -1409,9 +1409,9 @@ Automatycznie zapisuj otrzymane notatki
 [Enable chat states sending (XEP-0085)]
 
 [Enable server-side history (XEP-0136)]
-Włącz historię po stronie serwera
+Włącz historię po stronie serwera (XEP-0136)
 [Enable Message Archive Management (XEP-0313)]
-
+Włącz zarządzanie archiwum wiadomości
 [Enable carbon copies (XEP-0280)]
 
 [Use Stream Management (XEP-0198) if possible (Testing)]
@@ -1437,11 +1437,11 @@ Naprawiaj błędne czasy przychodzących wiadomości
 [Disable frame]
 Wyłącz ramkę
 [Enable XMPP link processing (requires AssocMgr)]
-Włącz powiązanie XMPP (wymagany wtyczka AssocMgr.dll)
+Włącz powiązanie XMPP (wymagana wtyczka AssocMgr.dll)
 [Embrace picture URLs with [img]]
-
+Uwzględnij adresy URL zdjęć za pomocą [img]
 [Ignore server roster (groups and nick names)]
-
+Ignoruj roster serwera (grupy i nicki)
 [Security]
 Bezpieczeństwo
 [Allow servers to request version (XEP-0092)]
@@ -1453,7 +1453,7 @@ Akceptuj tylko wewnętrzne transfery plików (nie ujawniaj adresu IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Akceptuj prośby o autoryzację HTTP (XEP-0070)
 [Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
-Uzyj szyfrowania OMEMO dla wiadomości jeżeli to możliwe (XEP-0384) (Podstawowe wsparcie, bez GUI)
+Uzyj szyfrowania OMEMO dla wiadomości jeżeli to możliwe (XEP-0384) (Podstawowa obsługa, bez GUI)
 [General]
 Ogólne
 [Autoaccept multiuser chat invitations]
@@ -1514,7 +1514,7 @@ S.ms
 Niektóre zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%s]
-
+Ustaw nowe hasło dla %s@%s
 [New password does not match.]
 Nowe hasło nie pasuje.
 [Current password is incorrect.]
@@ -1647,25 +1647,25 @@ Protokół jest Rozłączony lub brak JID
 Nie istnieje żadna ważna sesja OMEMO
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
-
+Polecenie zakończone pomyślnie
 [Error occurred during processing command]
-
+Wystąpił błąd podczas przetwarzania polecenia
 [Set status]
 Ustaw status
 [Set options]
-
+Ustaw opcje
 [Forward unread messages]
-
+Przekaż nieprzeczytane wiadomości
 [Leave group chats]
-
+Opuść czaty
 [Lock workstation]
 Zablokuj komputer
 [Quit Miranda NG]
-
+Zamknij Mirandę NG
 [Change Status]
-
+Zmień status
 [Choose the status and status message]
-
+Ustaw status i opis
 [Status]
 Status
 [Extended away (Not available)]
@@ -1675,43 +1675,43 @@ Niewidoczny
 [Offline]
 Rozłączony
 [Priority]
-
+Priorytet
 [Status message]
 Opis
 [Change global status]
-
+Zmień globalny status
 [Set Options]
-
+Ustaw opcje
 [Set the desired options]
-
+Ustaw żądane opcje
 [Automatically Accept File Transfers]
-
+Automatycznie akceptuj transfery plików
 [Play sounds]
 Graj dźwięki
 [Disable remote controlling (check twice what you are doing)]
-
+Wyłącz zdalne sterowanie (sprawdź dwa razy, co robisz)
 [There is no messages to forward]
-
+Brak wiadomości do przekazania
 [Forward options]
-
+Opcje przekazywania
 [%d message(s) to be forwarded]
-
+%d wiadomość(i) do przekazania
 [Mark messages as read]
 Oznacz wiadomości jako przeczytane
 [%d message(s) forwarded]
-
+%d wiadomość(i) przekazanych
 [Workstation successfully locked]
 
 [Error %d occurred during workstation lock]
 
 [Confirmation needed]
-
+Wymagane potwierdzenie
 [Please confirm Miranda NG shutdown]
-
+Potwierdź zamknięcie Mirandy NG
 [There is no group chats to leave]
-
+Nie ma czatów do opuszczenia
 [Choose the group chats you want to leave]
-
+Wybierz czat, który chcesz opuścić
 ;file \protocols\JabberG\src\jabber_roster.cpp
 [Group]
 Grupa
@@ -1727,11 +1727,11 @@ Pobieranie...
 XML (UTF-8 encoded)
 ;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
-
+Błąd %s %s\r\nWybierz inny serwer
 [Error: unknown reply received\r\nPlease select other server]
 Błąd: otrzymano nieznaną odpowiedź\r\nProszę wybrać inny serwer
 [Error %s %s\r\nTry to specify more detailed]
-
+Błąd %s %s\r\nSpróbuj określić bardziej szczegółowo
 [Search error]
 Błąd wyszukiwania
 [Select/type search service URL above and press <Go>]
@@ -1773,11 +1773,11 @@ Błąd: Utracono połączenie
 [Authentication failed for %s@%s.]
 Autoryzacja nieudana dla %s@%s.
 [Message redirected from: %s\r\n]
-
+Wiadomość przekierowana z: %s\r\n
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
-
+Nie można odszyfrować kopii wiadomości do zaszyfrowanej wiadomości wychodzącej
 [Registration canceled]
-
+Rejestracja anulowana
 [Sending registration information...]
 Wysyłanie informacji rejestracyjnych...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
@@ -1792,13 +1792,13 @@ Wersja
 [System]
 System
 [<currently online>]
-
+<aktualnie dostępnych>
 [Last activity]
-
+Ostatnia aktywność
 [Client capabilities]
-
+Możliwości klienta
 [Software information]
-
+Informacje o oprogramowaniu
 [Operating system]
 System operacyjny
 [Operating system version]
@@ -1828,7 +1828,7 @@ Dostępny od
 [Logoff message]
 Ostatni opis
 [<no information available>]
-
+<brak dostępnych informacji>
 [Last active resource]
 Ostatnio aktywny zasób
 [Please switch online to see more details.]
