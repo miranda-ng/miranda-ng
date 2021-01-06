@@ -6,24 +6,24 @@
 ;  Authors: Aleksey Smyrnov aka Soar
 ;============================================================
 [Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
-Pozwala przesuwaæ, minimalizowaæ i aktywowaæ okna Mirandy tak, jakby to by³o pojedyncze okno.
+Pozwala przesuwaÄ‡, minimalizowaÄ‡ i aktywowaÄ‡ okna Mirandy tak, jakby to byÅ‚o pojedyncze okno.
 ;file \plugins\AsSingleWindow\res\optionsPage.rc
 [Windows moving]
 Przesuwanie okien
 [Contact list on the left]
-Lista kontaktów po lewej
+Lista kontaktÃ³w po lewej
 [Contact list on the right]
-Lista kontaktów po prawej
+Lista kontaktÃ³w po prawej
 [Don't merge windows]
-Nie ³¹cz okien
+Nie Å‚Ä…cz okien
 [At opening one more message window]
-Przy otwieraniu kolejnego okna wiadomoœci
+Przy otwieraniu kolejnego okna wiadomoÅ›ci
 [Merge windows in opening order]
-£¹cz okna w kolejnoœci otwierania
+ÅÄ…cz okna w kolejnoÅ›ci otwierania
 [Merge only first window]
-£¹cz tylko pierwsze okno
+ÅÄ…cz tylko pierwsze okno
 [Don't merge windows until closing]
-Nie ³¹cz okien przed zamkniêciem
+Nie Å‚Ä…cz okien przed zamkniÄ™ciem
 ;file \plugins\AsSingleWindow\src\Options.cpp
 [AsSingleWindow]
 
