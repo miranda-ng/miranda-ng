@@ -93,6 +93,23 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, 
 	if (!GetItem(&tvis.itemex))
 		return nullptr;
 
+	OBJLIST<TVINSERTSTRUCT> arChildren(1);
+	for (HTREEITEM p = GetChild(hItem); p; p = GetNextSibling(p)) {
+		wchar_t buf[128];
+		TVINSERTSTRUCT tvis2 = {};
+		tvis2.itemex.mask = (UINT)-1;
+		tvis2.itemex.pszText = buf;
+		tvis2.itemex.cchTextMax = _countof(buf);
+		tvis2.itemex.hItem = p;
+		if (GetItem(&tvis2.itemex)) {
+			tvis2.itemex.pszText = mir_wstrdup(tvis2.itemex.pszText);
+			arChildren.insert(new TVINSERTSTRUCT(tvis2));
+
+			tvis2.itemex.lParam = 0;
+			SetItem(&tvis2.itemex);
+		}
+	}
+
 	// the pointed lParam will be freed inside TVN_DELETEITEM
 	// so lets substitute it with 0
 	LPARAM saveOldData = tvis.itemex.lParam;
@@ -102,11 +119,25 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, 
 	// now current item contain lParam = 0 we can delete it. the memory will be kept.
 	DeleteItem(hItem);
 
+	for (auto &it : arChildren)
+		DeleteItem(it->itemex.hItem);
+
 	tvis.itemex.stateMask = tvis.itemex.state;
 	tvis.itemex.lParam = saveOldData;
 	tvis.hParent = hParent;
 	tvis.hInsertAfter = hInsertAfter;
-	return InsertItem(&tvis);
+	auto hNewItem = InsertItem(&tvis);
+
+	hInsertAfter = nullptr;
+	for (auto &it : arChildren) {
+		it->hParent = hNewItem;
+		it->hInsertAfter = hInsertAfter;
+		hInsertAfter = InsertItem(it);
+
+		mir_free(it->itemex.pszText);
+	}
+
+	return hNewItem;
 }
 
 LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
