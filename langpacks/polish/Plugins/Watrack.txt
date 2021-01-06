@@ -657,4 +657,4 @@ Sprawdzaj nieznane formaty
 [Check unknown file formats if player gives info.]
 Sprawdzaj nieznane formaty jeżeli odtwarzacz dostarcza informacji. 
 [Oops, something wrong!]
-
+Ups, coś nie tak!
