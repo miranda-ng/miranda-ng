@@ -6,7 +6,7 @@
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
-
+Obsługa Discord w Mirandzie NG.
 ;file \protocols\Discord\res\discord.rc
 [User details]
 Dane kontaktu
@@ -19,11 +19,11 @@ Kontakty
 [Default group:]
 Domyślna grupa:
 [Enable group chats]
-
+Włącz czaty
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
 [Use subgroups for server channels (requires restart)]
-
+Używaj podgrup dla kanałów serwera (wymagany restart)
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
@@ -33,21 +33,21 @@ Nick:
 [Change &nickname]
 Zmień &nick
 [Channel control]
-
+Ustawienia kanału
 [Change &topic]
-
+Zmień &temat
 [&Rename channel]
-
+&Zmień kanał
 [&Destroy channel]
-
+&Usuń kanał
 [Do you really want to destroy this channel? This action is non-revertable.]
-
+Czy na pewno chcesz usunąć ten kanał? Tej czynności nie można cofnąć.
 [Enter new channel name:]
-
+Ustaw nową nazwę kanału:
 [Enter new topic:]
-
+Ustaw nowy temat:
 [Enter your new nick name:]
-
+Ustaw swój nowy nick:
 ;file \protocols\Discord\src\main.cpp
 [Main icon]
 Główna ikona

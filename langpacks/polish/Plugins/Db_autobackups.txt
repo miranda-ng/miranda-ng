@@ -27,7 +27,7 @@ Przeglądaj...
 [Go to the "Options -> Customize -> Folders" to change settings]
 Idź do Opcje -> Personalizacja -> Foldery aby zmienić ustawienia
 [Backup file mask:]
-
+Maska pliku kopii:
 [Compress backup to zip-archive]
 Kompresuj kopię do archiwum zip
 [Backup profile folder]
@@ -57,9 +57,9 @@ Kopia zapasowa utworzona
 Tworzenie kopii zapasowej bazy danych w toku...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Enable &AutoBackups notification]
-
+Włącz powiadomienia o kopii zapasowej
 [Disable &AutoBackups notification]
-
+Wyłącz powiadomienia o kopii zapasowej
 [Miranda NG databases]
 Bazy danych Mirandy NG
 [Compressed Miranda NG databases]

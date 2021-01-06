@@ -44,13 +44,13 @@ Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, �
 Ustaw/Zmień hasło
 ;file \plugins\Dbx_mdbx\src\dbcheck.cpp
 [Orphaned sorting event with wrong contact ID %d, deleting]
-
+Utracone zdarzenie sortowania z nieprawidłowym identyfikatorem kontaktu %d, usuwanie
 [Orphaned sorting event with wrong event ID %d:%08X, deleting]
-
+Utracone zdarzenie sortowania z nieprawidłowym identyfikatorem zdarzenia %d:%08X, usuwanie
 [Orphaned event id with wrong event ID %08X, deleting]
-
+Utracony identyfikator zdarzenia z nieprawidłowym identyfikatorem zdarzenia %08X, usuwanie
 [Orphaned setting with wrong contact ID %08X, deleting]
-
+Utracone ustawienie z nieprawidłowym identyfikatorem kontaktu %08X, usuwanie
 ;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
 [Too many errors!]
 Zbyt wiele błędów!
@@ -60,7 +60,7 @@ Nieprawidłowe hasło!
 Proszę wprowadzić hasło
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
-
+Format bazy danych jest przestarzały. Kliknij OK, aby uzyskać szczegóły aktualizacji, lub Anuluj, aby wyjść.
 [Error]
 Błąd
 ;file \plugins\Dbx_mdbx\src\dbintf.h
@@ -74,12 +74,12 @@ Hasło jest za krótkie!
 [Passwords do not match!]
 Hasła nie pasują!
 [Database was compacted successfully]
-
+Baza danych została pomyślnie skompresowana
 [Database]
 Profil
 [Database compaction failed]
-
+Kompresja bazy danych nie powiodła się
 [Logo]
 Logo
 [Compact]
-Skompaktuj
+Kompresuj
