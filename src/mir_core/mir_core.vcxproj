@@ -46,6 +46,7 @@
     <ClCompile Include="src\CCtrlButton.cpp" />
     <ClCompile Include="src\CCtrlCheck.cpp" />
     <ClCompile Include="src\CCtrlClc.cpp" />
+    <ClCompile Include="src\CCtrlColor.cpp" />
     <ClCompile Include="src\CCtrlCombo.cpp" />
     <ClCompile Include="src\CCtrlData.cpp" />
     <ClCompile Include="src\cctrldate.cpp" />

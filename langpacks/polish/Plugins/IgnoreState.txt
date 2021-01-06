@@ -34,7 +34,7 @@ Częściowe ignorowanie
 [Message Ignore]
 Ignorowanie wiadomości
 [Ignore State]
-Status ignorowania
+Ignoruj status
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 Ikony

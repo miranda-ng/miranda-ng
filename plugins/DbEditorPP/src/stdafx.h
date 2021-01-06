@@ -17,37 +17,41 @@
 #include <malloc.h>
 
 #include <newpluginapi.h>
-#include <m_utils.h>
 #include <m_clist.h>
-#include <m_skin.h>
-#include <m_langpack.h>
 #include <m_database.h>
 #include <m_db_int.h>
-#include <m_system.h>
-#include <m_netlib.h>
-#include <m_protocols.h>
-#include <m_userinfo.h>
-#include <m_options.h>
-#include <m_protosvc.h>
-#include <m_popup.h>
-#include <m_icolib.h>
+#include <m_gui.h>
 #include <m_hotkeys.h>
+#include <m_icolib.h>
+#include <m_langpack.h>
 #include <m_metacontacts.h>
+#include <m_netlib.h>
+#include <m_options.h>
+#include <m_popup.h>
+#include <m_protocols.h>
+#include <m_protosvc.h>
+#include <m_skin.h>
+#include <m_userinfo.h>
+#include <m_utils.h>
 
 #include "m_toptoolbar.h"
 
 #include "resource.h"
 #include "version.h"
 
-
 //=======================================================
 //	Definitions
 //=======================================================
+
 #define MODULENAME   "DBEditorpp"
 #define modFullname  "Database Editor++"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<bool> bExpandSettingsOnOpen, bRestoreOnOpen, bWarnOnDelete;
+	CMOption<WORD> iPopupDelay;
+	CMOption<DWORD> iPopupBkColor, iPopupTxtColor;
+
 	CMPlugin();
 
 	int Load() override;
@@ -63,7 +67,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 #define WM_FINDITEM (WM_USER + 1) // onyl for the main window, wparam is ItemIfno* lparam is 0
 
-
 /***********************
 	ModuleTreeInfoStruct
 	this gets dumped as the lparam for each module tree item
@@ -76,14 +79,14 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define STUB              4
 #define EMPTY             8
 
-
-struct ModuleTreeInfoStruct {
+struct ModuleTreeInfoStruct
+{
 	int type; // from above types
 	MCONTACT hContact;
 };
 
-
-struct SettingListInfo {
+struct SettingListInfo
+{
 	MCONTACT hContact;
 	int selectedItem; // item that is currently selected
 	char module[FLD_SIZE];
@@ -93,35 +96,37 @@ struct SettingListInfo {
 	int subitem;
 };
 
-
-struct DBsetting {
+struct DBsetting
+{
 	MCONTACT hContact;
 	char *module;
 	char *setting;
 	DBVARIANT dbv;
 };
 
-
-typedef struct {
+struct ModuleAndContact
+{
 	char module[FLD_SIZE];
 	MCONTACT hContact;
-} ModuleAndContact;
+};
 
 // find window
 #define FW_MODULE 0
 #define FW_SETTINGNAME 1
 #define FW_SETTINGVALUE 2
 
-typedef struct {
+struct ItemInfo
+{
 	int type; // above types
 	MCONTACT hContact;
 	char module[FLD_SIZE];
 	char setting[FLD_SIZE];
-} ItemInfo;
+};
 
 // watchwindow
-struct WatchListArrayStruct {
-	struct DBsetting *item; // gotta malloc this
+struct WatchListArrayStruct
+{
+	DBsetting *item; // gotta malloc this
 	int count;
 	int size;
 };
@@ -139,21 +144,23 @@ struct ModuleSettingLL
 	ModSetLinkLinkItem *last;
 };
 
-struct ColumnsSettings {
+struct ColumnsSettings
+{
 	wchar_t *name;
 	int index;
 	char *dbname;
 	int defsize;
 };
 
-struct ColumnsSortParams {
+struct ColumnsSortParams
+{
 	HWND hList;
 	int column;
 	int last;
 };
 
-
-enum ICONS {
+enum ICONS
+{
 	IMAGE_EMPTY,
 	IMAGE_BINARY,
 	IMAGE_BYTE,
@@ -169,7 +176,6 @@ enum ICONS {
 	IMAGE_ONLINE,
 	IMAGE_OFFLINE
 };
-
 
 //=======================================================
 //  Variables

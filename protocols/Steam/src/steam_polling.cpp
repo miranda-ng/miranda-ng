@@ -10,7 +10,16 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 		time_t timestamp = _wtol(item["utc_timestamp"].as_mstring());
 
 		bool bIsMe = IsMe(steamId.c_str());
-		MCONTACT hContact = (bIsMe) ? 0 : GetContact(steamId.c_str());
+		MCONTACT hContact;
+		if (!bIsMe) {
+			hContact = GetContact(steamId.c_str());
+			if (hContact == 0)
+				continue;
+
+			if (timestamp > getDword(hContact, DB_KEY_LASTMSGTS))
+				setDword(hContact, DB_KEY_LASTMSGTS, timestamp);
+		}
+		else hContact = 0;
 
 		if (type == "personarelationship") {
 			PersonaRelationshipAction state = (PersonaRelationshipAction)item["persona_state"].as_int();
@@ -179,11 +188,6 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 	}
 
 	if (error == "OK") {
-		// remember last message timestamp
-		time_t timestamp = _wtoi64(root["utc_timestamp"].as_mstring());
-		if (timestamp > getDword("LastMessageTS", 0))
-			setDword("LastMessageTS", timestamp);
-
 		long messageId = root["messagelast"].as_int();
 		setDword("MessageID", messageId);
 

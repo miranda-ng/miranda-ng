@@ -403,7 +403,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 			insertItem(hContact, module->name, contact);
 		}
 
-		if (g_plugin.getByte("ExpandSettingsOnOpen", 0))
+		if (g_plugin.bExpandSettingsOnOpen)
 			TreeView_Expand(hwnd2Tree, contact, TVE_EXPAND);
 
 		if (Select && hSelectedContact == NULL) {

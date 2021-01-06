@@ -40,6 +40,7 @@
 #include "version.h"
 
 #define MODULE "Steam"
+#define DB_KEY_LASTMSGTS "LastMessageTS"
 
 #define STEAM_API_TIMEOUT 30
 #define STEAM_API_IDLEOUT_AWAY 600
@@ -62,7 +63,6 @@ extern HANDLE hExtraXStatus;
 #define now() time(0)
 
 #include "steam_dialogs.h"
-#include "steam_options.h"
 #include "http_request.h"
 
 #include "api/enums.h"

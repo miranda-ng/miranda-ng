@@ -41,7 +41,7 @@ Pokazuj wiadomości systemowe OTR jako popupy
 [Show verification dialog when receiving unverified fingerprint]
 Pokazuj okno weryfikacji po otrzymaniu niezweryfikowanego odcisku palca
 [Set OTR policy per account]
-
+Ustaw politykę OTR dla konta
 [Current policy:]
 Obecna polityka:
 [Set OTR policy per contact]
@@ -143,7 +143,7 @@ Szyfrowana sesja OTR z "%s" używa teraz zweryfikowanego odcisku palca
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 Szyfrowana sesja OTR z "%s" używa teraz niezweryfikowanego odcisku palca
 [Generating new private key for account '%s'.\nPlease Wait...]
-
+Generuję nowy klucz prywatny dla konta '%s'.\nProszę czekać ...
 [Contact]
 Kontakt
 [Account]

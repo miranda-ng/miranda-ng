@@ -105,7 +105,6 @@ struct TitleBtn {
 
 #define NR_LOGICONS 7
 #define NR_BUTTONBARICONS 37//MaD: 29
-#define NR_SIDEBARICONS 2
 
 class CContactCache;
 class CMenuBar;
@@ -1037,9 +1036,8 @@ struct SIDEBARITEM
 // encryption status bar indicator
 #define MSG_ICON_MODULE " TabSrmm"
 
-#define MSG_ICON_SESSION 0
-#define MSG_ICON_UTN     1
-#define MSG_ICON_SOUND   2
+#define MSG_ICON_UTN     0
+#define MSG_ICON_SOUND   1
 
 int SI_InitStatusIcons();
 

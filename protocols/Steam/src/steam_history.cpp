@@ -2,44 +2,40 @@
 
 void CSteamProto::OnGotConversations(const JSONNode &root, void *)
 {
-	// Don't load any messages when we don't have lastMessageTS, as it may cause duplicates
-	if (m_lastMessageTS <= 0)
-		return;
-
 	if (root.isnull())
 		return;
 
 	const JSONNode &response = root["response"];
 	for (auto &session : response["message_sessions"]) {
 		long long accountId = _wtoi64(session["accountid_friend"].as_mstring());
+
 		const char *who = AccountIdToSteamId(accountId);
+		MCONTACT hContact = GetContact(who);
+		if (!hContact)
+			continue;
+
+		// Don't load any messages when we don't have lastMessageTS, as it may cause duplicates
+		time_t storedMessageTS = getDword(hContact, DB_KEY_LASTMSGTS);
+		if (storedMessageTS == 0)
+			continue;
 
 		time_t lastMessageTS = _wtoi64(session["last_message"].as_mstring());
-
-		/*node = json_get(session, "last_view");
-		time_t last_view = _wtoi64(ptrW(json_as_string(node)));
-
-		node = json_get(session, "unread_message_count");
-		long unread_count = json_as_int(node);*/
-
-		if (lastMessageTS > m_lastMessageTS) {
+		if (lastMessageTS > storedMessageTS) {
 			ptrA token(getStringA("TokenSecret"));
 			ptrA steamId(getStringA("SteamID"));
-			PushRequest(new GetHistoryMessagesRequest(token, steamId, who, m_lastMessageTS), &CSteamProto::OnGotHistoryMessages, mir_strdup(who));
+			PushRequest(new GetHistoryMessagesRequest(token, steamId, who, storedMessageTS), &CSteamProto::OnGotHistoryMessages, (void*)hContact);
 		}
 	}
 }
 
 void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 {
-	ptrA cSteamId((char *)arg);
-
-	MCONTACT hContact = GetContact(cSteamId);
-	if (!hContact)
-		return;
-
 	if (root.isnull())
 		return;
+
+	MCONTACT hContact = UINT_PTR(arg);
+	time_t storedMessageTS = getDword(hContact, DB_KEY_LASTMSGTS);
+	time_t newTS = storedMessageTS;
 
 	const JSONNode &response = root["response"];
 	const JSONNode &messages = response["messages"];
@@ -54,7 +50,7 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		time_t timestamp = _wtoi64(message["timestamp"].as_mstring());
 
 		// Ignore already existing messages
-		if (timestamp <= m_lastMessageTS)
+		if (timestamp <= storedMessageTS)
 			continue;
 
 		PROTORECVEVENT recv = { 0 };
@@ -65,5 +61,10 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 			recv.flags = PREF_SENT;
 
 		RecvMsg(hContact, &recv);
+
+		if (timestamp > newTS)
+			newTS = timestamp;
 	}
+
+	setDword(hContact, DB_KEY_LASTMSGTS, newTS);		
 }

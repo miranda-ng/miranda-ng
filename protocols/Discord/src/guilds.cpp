@@ -173,9 +173,6 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	pGuild->hContact = si->hContact;
 	setId(pGuild->hContact, DB_KEY_CHANNELID, guildId);
 
-	if (!pGuild->bSynced && getByte(si->hContact, "EnableSync"))
-		LoadGuildInfo(pGuild);
-
 	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
 	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);
 
@@ -184,31 +181,20 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 
 	BuildStatusList(pGuild, si);
 
+	for (auto &it : pRoot["channels"])
+		ProcessGuildChannel(pGuild, it);
+
+	if (!pGuild->bSynced && getByte(si->hContact, "EnableSync"))
+		GatewaySendGuildInfo(pGuild);
+
 	// store all guild members
 	for (auto &it : pRoot["members"]) {
-		CMStringW wszUserId = it["user"]["id"].as_mstring();
-		SnowFlake userId = _wtoi64(wszUserId);
-		CDiscordGuildMember *pm = pGuild->FindUser(userId);
-		if (pm == nullptr) {
-			pm = new CDiscordGuildMember(userId);
-			pGuild->arChatUsers.insert(pm);
-		}
+		auto *pm = ProcessGuildUser(pGuild, it);
 
-		pm->wszNick = it["nick"].as_mstring();
-		if (pm->wszNick.IsEmpty())
-			pm->wszNick = it["user"]["username"].as_mstring() + L"#" + it["user"]["discriminator"].as_mstring();
+		CMStringW wszNick = it["nick"].as_mstring();
+		if (!wszNick.IsEmpty())
+			pm->wszNick = wszNick;
 
-		if (userId == pGuild->ownerId)
-			pm->wszRole = L"@owner";
-		else {
-			CDiscordRole *pRole = nullptr;
-			for (auto &itr : it["roles"]) {
-				SnowFlake roleId = ::getId(itr);
-				if (pRole = pGuild->arRoles.find((CDiscordRole *)&roleId))
-					break;
-			}
-			pm->wszRole = (pRole == nullptr) ? L"@everyone" : pRole->wszName;
-		}
 		pm->iStatus = ID_STATUS_OFFLINE;
 	}
 
@@ -221,9 +207,6 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 
 	for (auto &it : pGuild->arChatUsers)
 		AddGuildUser(pGuild, *it);
-
-	for (auto &it : pRoot["channels"])
-		ProcessGuildChannel(pGuild, it);
 
 	if (m_bUseGroupchats)
 		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
@@ -292,6 +275,39 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, const JSONNode &pUser, bool *pbNew)
+{
+	bool bNew = false;
+	CMStringW wszUserId = pUser["user"]["id"].as_mstring();
+	SnowFlake userId = _wtoi64(wszUserId);
+	CDiscordGuildMember *pm = pGuild->FindUser(userId);
+	if (pm == nullptr) {
+		pm = new CDiscordGuildMember(userId);
+		pGuild->arChatUsers.insert(pm);
+		bNew = true;
+	}
+
+	pm->wszNick = pUser["user"]["username"].as_mstring() + L"#" + pUser["user"]["discriminator"].as_mstring();
+
+	if (userId == pGuild->ownerId)
+		pm->wszRole = L"@owner";
+	else {
+		CDiscordRole *pRole = nullptr;
+		for (auto &itr : pUser["roles"]) {
+			SnowFlake roleId = ::getId(itr);
+			if (pRole = pGuild->arRoles.find((CDiscordRole *)&roleId))
+				break;
+		}
+		pm->wszRole = (pRole == nullptr) ? L"@everyone" : pRole->wszName;
+	}
+
+	if (pbNew)
+		*pbNew = bNew;
+	return pm;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMember &pUser)
 {
 	int flags = 0;
@@ -310,36 +326,4 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 	pu->iStatusEx = flags;
 	if (pUser.userId == m_ownId)
 		pGuild->pParentSi->pMe = pu;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static CMStringW GetCacheFileName(SnowFlake guildId)
-{
-	VARSW wszCacheDir(L"%miranda_userdata%\\Discord");
-	CreateDirectoryTreeW(wszCacheDir);
-
-	return CMStringW(FORMAT, L"%s\\%lld.cache", wszCacheDir.get(), guildId);
-}
-
-void CDiscordProto::LoadGuildInfo(CDiscordGuild *pGuild)
-{
-	CMStringW wszCacheFile(GetCacheFileName(pGuild->id));
-	int fileId = _wopen(wszCacheFile, _O_BINARY | _O_RDONLY);
-	if (fileId != -1) {
-		size_t length = _filelength(fileId);
-		ptrA buf((char *)mir_alloc(length+1));
-		_read(fileId, buf, (unsigned)length);
-		_close(fileId);
-
-		JSONNode root(JSONNode::parse(buf));
-		for (auto &cc : root) {
-			auto *pUser = new CDiscordGuildMember(_wtoi64(cc["id"].as_mstring()));
-			pUser->wszNick = cc["nick"].as_mstring();
-			pUser->wszRole = cc["role"].as_mstring();
-			pGuild->arChatUsers.insert(pUser);
-
-			AddGuildUser(pGuild, *pUser);
-		}
-	}
 }

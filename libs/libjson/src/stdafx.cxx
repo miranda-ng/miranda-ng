@@ -51,7 +51,12 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const CHAR_PARAM &param)
 		JSONNode tmp(JSON_NULL); tmp.set_name(param.szName);
 		json.push_back(tmp);
 	}
+	else if (param.szName == nullptr) {
+		JSONNode tmp; tmp.set_name(param.szValue);
+		json.push_back(tmp);
+	}
 	else json.push_back(JSONNode(param.szName, param.szValue));
+	
 	return json;
 }
 

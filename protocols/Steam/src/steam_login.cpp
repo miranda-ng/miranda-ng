@@ -349,11 +349,6 @@ void CSteamProto::OnLoggedOn(const HttpResponse &response, void *)
 	long messageId = root["umqid"].as_int();
 	setDword("MessageID", messageId);
 
-	if (m_lastMessageTS <= 0) {
-		time_t timestamp = _wtoi64(root["utc_timestamp"].as_mstring());
-		setDword("LastMessageTS", timestamp);
-	}
-
 	// load contact list
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(getStringA("SteamID"));

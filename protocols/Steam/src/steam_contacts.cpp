@@ -35,8 +35,7 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 		delSetting(hContact, "XStatusMsg");
 		// and extra icon
 		SetContactExtraIcon(hContact, NULL);
-		// no break intentionally
-		[[fallthrough]] ;
+		__fallthrough;
 
 	default:
 		db_unset(hContact, "CList", "StatusMsg");

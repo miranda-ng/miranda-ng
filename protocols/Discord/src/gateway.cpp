@@ -45,18 +45,35 @@ bool CDiscordProto::GatewayThreadWorker()
 	NETLIBHTTPHEADER hdrs[] =
 	{
 		{ "Origin", "https://discord.com" },
-		{ 0, 0 }
+		{ 0, 0 },
+		{ 0, 0 },
 	};
 
-	auto *pReply = WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=6", hdrs);
+	CMStringA szCookie(getMStringA("WSCookie"));
+	if (!szCookie.IsEmpty()) {
+		hdrs[1].szName = "Cookie";
+		hdrs[1].szValue = szCookie.GetBuffer();
+	}
+
+	NLHR_PTR pReply(WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", hdrs));
 	if (pReply == nullptr) {
 		debugLogA("Gateway connection failed, exiting");
 		return false;
 	}
-	
+
+	if (auto *pszNewCookie = Netlib_GetHeader(pReply, "Set-Cookie")) {
+		char *p = strchr(pszNewCookie, ';');
+		if (p) *p = 0;
+
+		setString("WSCookie", pszNewCookie);
+	}
+
+	if (pReply->resultCode != 101)
+		return false;
+
+	// succeeded!
 	debugLogA("Gateway connection succeeded");
 	m_hGatewayConnection = pReply->nlc;
-	Netlib_FreeHttpRequest(pReply);
 
 	bool bExit = false;
 	int offset = 0;
@@ -218,6 +235,26 @@ bool CDiscordProto::GatewayProcess(const JSONNode &pRoot)
 
 //////////////////////////////////////////////////////////////////////////////////////
 // requests to be sent to a gateway
+
+void CDiscordProto::GatewaySendGuildInfo(CDiscordGuild *pGuild)
+{
+	if (!pGuild->arChannels.getCount())
+		return;
+
+	JSONNode a1(JSON_ARRAY); a1 << INT_PARAM("", 0) << INT_PARAM("", 99);
+
+	CMStringA szId(FORMAT, "%lld", pGuild->arChannels[0]->id);
+	JSONNode chl(JSON_ARRAY); chl.set_name(szId.c_str()); chl << a1;
+
+	JSONNode channels; channels.set_name("channels"); channels << chl;
+
+	JSONNode payload; payload.set_name("d");
+	payload << SINT64_PARAM("guild_id", pGuild->id) << BOOL_PARAM("typing", true) << BOOL_PARAM("activities", true) << BOOL_PARAM("presences", true) << channels;
+		
+	JSONNode root;
+	root << INT_PARAM("op", OPCODE_REQUEST_SYNC_CHANNEL) << payload;
+	GatewaySend(root);
+}
 
 void CDiscordProto::GatewaySendHeartbeat()
 {

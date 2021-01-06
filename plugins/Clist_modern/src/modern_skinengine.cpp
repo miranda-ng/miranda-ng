@@ -102,7 +102,7 @@ static int  ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 static void ske_AddParseTextGlyphObject(char * szGlyphTextID, char * szDefineString, SKINOBJECTSLIST *Skin);
 static void ske_AddParseSkinFont(char * szFontID, char * szDefineString);
 static int  ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin);
-static LPSKINOBJECTDESCRIPTOR ske_FindObject(const char *szName, SKINOBJECTSLIST *Skin);
+static SKINOBJECTDESCRIPTOR* ske_FindObject(const char *szName, SKINOBJECTSLIST *Skin);
 static int  ske_LoadSkinFromResource(BOOL bOnlyObjects);
 static void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult);
 static int  ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting);
@@ -1313,7 +1313,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST *preq, GLYPHOBJECT *pobj)
 
 
 
-int ske_AddDescriptorToSkinObjectList(LPSKINOBJECTDESCRIPTOR lpDescr, SKINOBJECTSLIST *Skin)
+int ske_AddDescriptorToSkinObjectList(SKINOBJECTDESCRIPTOR *lpDescr, SKINOBJECTSLIST *Skin)
 {
 	SKINOBJECTSLIST *sk = (Skin ? Skin : &g_SkinObjectList);
 	if (!mir_strcmpi(lpDescr->szObjectID, "_HEADER_"))
@@ -1357,19 +1357,19 @@ int ske_AddDescriptorToSkinObjectList(LPSKINOBJECTDESCRIPTOR lpDescr, SKINOBJECT
 	return 1;
 }
 
-static LPSKINOBJECTDESCRIPTOR ske_FindObject(const char *szName, SKINOBJECTSLIST *Skin)
+static SKINOBJECTDESCRIPTOR* ske_FindObject(const char *szName, SKINOBJECTSLIST *Skin)
 {
 	SKINOBJECTSLIST *sk = (Skin == nullptr) ? (&g_SkinObjectList) : Skin;
 	return skin_FindObjectByRequest((char *)szName, sk->pMaskList);
 }
 
-static LPSKINOBJECTDESCRIPTOR ske_FindObjectByMask(MODERNMASK *pModernMask, SKINOBJECTSLIST *Skin)
+static SKINOBJECTDESCRIPTOR* ske_FindObjectByMask(MODERNMASK *pModernMask, SKINOBJECTSLIST *Skin)
 {
 	SKINOBJECTSLIST *sk = (Skin == nullptr) ? (&g_SkinObjectList) : Skin;
 	return sk->pMaskList ? skin_FindObjectByMask(pModernMask, sk->pMaskList) : nullptr;
 }
 
-LPSKINOBJECTDESCRIPTOR ske_FindObjectByName(const char *szName, BYTE objType, SKINOBJECTSLIST *Skin)
+SKINOBJECTDESCRIPTOR* ske_FindObjectByName(const char *szName, BYTE objType, SKINOBJECTSLIST *Skin)
 {
 	SKINOBJECTSLIST *sk = (Skin == nullptr) ? (&g_SkinObjectList) : Skin;
 	for (DWORD i = 0; i < sk->dwObjLPAlocated; i++) {
@@ -1389,17 +1389,17 @@ LPSKINOBJECTDESCRIPTOR ske_FindObjectByName(const char *szName, BYTE objType, SK
 
 INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam)
 {
-	LPSKINDRAWREQUEST preq = (LPSKINDRAWREQUEST)wParam;
+	auto *preq = (SKINDRAWREQUEST *)wParam;
 	if (preq == nullptr)
 		return -1;
 
 	mir_cslock lck(cs_SkinChanging);
 
-	LPSKINOBJECTDESCRIPTOR pgl = (lParam ? ske_FindObjectByMask((MODERNMASK*)lParam, nullptr) : ske_FindObject(preq->szObjectID, nullptr));
+	SKINOBJECTDESCRIPTOR *pgl = (lParam ? ske_FindObjectByMask((MODERNMASK*)lParam, nullptr) : ske_FindObject(preq->szObjectID, nullptr));
 	if (pgl == nullptr) return -1;
 	if (pgl->Data == nullptr) return -1;
 
-	LPGLYPHOBJECT gl = (LPGLYPHOBJECT)pgl->Data;
+	GLYPHOBJECT *gl = (GLYPHOBJECT*)pgl->Data;
 	int iStyle = gl->Style & 7;
 	if (iStyle == ST_SKIP)
 		return ST_SKIP;
@@ -2411,7 +2411,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	return 0;
 }
 
-static int ske_DrawTextWithEffectWorker(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, MODERNFONTEFFECT *effect)
+static int ske_DrawTextWithEffectWorker(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, FONTEFFECT *effect)
 {
 	if (format & DT_CALCRECT)
 		return DrawText(hdc, lpString, nCount, lpRect, format);
@@ -2437,8 +2437,6 @@ static int ske_DrawTextWithEffectWorker(HDC hdc, LPCTSTR lpString, int nCount, R
 INT_PTR ske_Service_DrawTextWithEffect(WPARAM wParam, LPARAM)
 {
 	DrawTextWithEffectParam *p = (DrawTextWithEffectParam *)wParam;
-	if (p->cbSize != sizeof(DrawTextWithEffectParam))
-		return FALSE;
 	return ske_DrawTextWithEffectWorker(p->hdc, p->lpchText, p->cchText, p->lprc, p->dwDTFormat, p->pEffect);
 }
 

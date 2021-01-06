@@ -24,8 +24,6 @@ void CSkypeProto::Login()
 	StartQueue();
 	int tokenExpires = getDword("TokenExpiresIn");
 
-	m_szSkypename = getMStringA(SKYPE_SETTINGS_ID);
-
 	pass_ptrA szPassword(getStringA(SKYPE_SETTINGS_PASSWORD));
 	if (m_szSkypename.IsEmpty() || szPassword == NULL) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
@@ -135,8 +133,11 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 
 	case 301:
 	case 302: // redirect to the closest data center
-		if (auto *hdr = Netlib_GetHeader(response, "Location"))
-			g_plugin.szDefaultServer = GetServerFromUrl(hdr);
+		if (auto *hdr = Netlib_GetHeader(response, "Location")) {
+			CMStringA szUrl(hdr+8);
+			int iEnd = szUrl.Find('/');
+			g_plugin.szDefaultServer = (iEnd != -1) ? szUrl.Left(iEnd) : szUrl;
+		}
 		PushRequest(new CreateEndpointRequest(this));
 		return;
 
@@ -233,7 +234,7 @@ void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpReq
 	LIST<char> skypenames(1);
 	for (auto &hContact : AccContacts())
 		if (!isChatRoom(hContact))
-			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
+			skypenames.insert(getId(hContact).Detach());
 
 	PushRequest(new CreateContactsSubscriptionRequest(skypenames));
 	FreeList(skypenames);
@@ -250,7 +251,7 @@ void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpReq
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root)
-		setString("SelfEndpointName", UrlToSkypename(root["selfLink"].as_string().c_str()));
+		setString("SelfEndpointName", UrlToSkypeId(root["selfLink"].as_string().c_str()));
 
 	PushRequest(new GetProfileRequest(this, 0));
 }

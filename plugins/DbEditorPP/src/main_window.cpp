@@ -247,7 +247,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_WORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_WORD) ? MF_CHECKED : MF_UNCHECKED));
 			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_DWORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_DWORD) ? MF_CHECKED : MF_UNCHECKED));
 
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (g_plugin.getByte("RestoreOnOpen", 1) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (g_plugin.bRestoreOnOpen ? MF_CHECKED : MF_UNCHECKED));
 
 			g_Order = g_plugin.getByte("SortMode", 1);
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SORT_ORDER, MF_BYCOMMAND | (g_Order ? MF_CHECKED : MF_UNCHECKED));
@@ -255,7 +255,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			int restore;
 			if (hRestore)
 				restore = 3;
-			else if (g_plugin.getByte("RestoreOnOpen", 1))
+			else if (g_plugin.bRestoreOnOpen)
 				restore = 2;
 			else
 				restore = 0;
@@ -304,7 +304,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DESTROY: // free our shit!
-		if (g_plugin.getByte("RestoreOnOpen", 1)) {
+		if (g_plugin.bRestoreOnOpen) {
 			HTREEITEM item;
 
 			if (item = TreeView_GetSelection(hwnd2Tree)) {
@@ -491,9 +491,9 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_SAVE_POSITION:
 			{
-				BOOL save = !g_plugin.getByte("RestoreOnOpen", 1);
-				CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (save ? MF_CHECKED : MF_UNCHECKED));
-				g_plugin.setByte("RestoreOnOpen", (byte)save);
+				bool bSave = !g_plugin.bRestoreOnOpen;
+				CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (bSave ? MF_CHECKED : MF_UNCHECKED));
+				g_plugin.bRestoreOnOpen = bSave;
 			}
 			break;
 		case MENU_INLINE_EDIT:

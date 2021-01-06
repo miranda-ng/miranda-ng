@@ -15,11 +15,6 @@ void CSteamProto::OnModulesLoaded()
 	DbEvent_RegisterType(&dbEventType);
 }
 
-INT_PTR CSteamProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
-{
-	return (INT_PTR)(CSteamOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();
-}
-
 int CSteamProto::OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	bool idle = (lParam & IDF_ISIDLE) != 0;

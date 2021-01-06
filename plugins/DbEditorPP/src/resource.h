@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by E:\Miranda\NG\plugins\DbeditorPP\res\resource.rc
+// Used by w:\miranda-ng\plugins\DbEditorPP\res\resource.rc
 //
 #define ICO_REGEDIT                     1
 #define ICO_UNICODE                     2
@@ -28,6 +28,7 @@
 #define IDD_CHANGE_ARRAYSIZE            120
 #define IDD_FIND                        121
 #define IDD_OPTIONS                     122
+#define IDD_POPUP_OPTS                  123
 #define ICO_CLOSED                      124
 #define ICO_OPENED                      125
 #define ICO_SETTINGS                    128
@@ -76,6 +77,7 @@
 #define IDC_POPUPTIMEOUT                1049
 #define IDC_COLOUR                      1050
 #define IDC_RESTORESETTINGS             1051
+#define IDC_TXT_COLOUR                  1051
 #define IDC_BLOB                        1052
 #define IDC_FOUND                       1056
 #define IDC_SBAR                        1057
@@ -145,7 +147,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        131
+#define _APS_NEXT_RESOURCE_VALUE        132
 #define _APS_NEXT_COMMAND_VALUE         40065
 #define _APS_NEXT_CONTROL_VALUE         1059
 #define _APS_NEXT_SYMED_VALUE           101

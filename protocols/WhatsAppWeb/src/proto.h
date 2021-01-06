@@ -45,6 +45,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	EVP_PKEY *m_pKeys; // private & public keys
 
+	void CloseQrDialog();
 	bool ShowQrCode(const CMStringA &ref);
 
 	/// Network ////////////////////////////////////////////////////////////////////////////

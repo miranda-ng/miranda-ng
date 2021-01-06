@@ -284,6 +284,7 @@
 #define IDC_REVERSE_ORDER               1088
 #define IDC_GENMENU_DEFAULT             1089
 #define IDC_ICON1                       1090
+#define IDC_GENMENU_DELETE              1090
 #define IDC_ICON2                       1091
 #define IDC_ICON3                       1092
 #define IDC_ICON4                       1093
@@ -674,7 +675,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        333
+#define _APS_NEXT_RESOURCE_VALUE        334
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1753
 #define _APS_NEXT_SYMED_VALUE           101

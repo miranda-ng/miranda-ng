@@ -42,7 +42,7 @@ Sterownik bazy danych "%s" nie wspiera sprawdzania.
 [&Finish]
 &Zakończ
 [Click Finish to continue]
-
+Kliknij Zakończ aby kontynuować
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Przetwarzanie nie zostało jeszcze ukończone, jeśli zrezygnujesz teraz następne zmiany, które obecnie zostały dokonane zostaną cofnięte i oryginalny profil zostanie przywrócony. Czy nadal chcesz anulować?
 ;file \plugins\DbChecker\src\wizard.cpp
@@ -54,6 +54,6 @@ Przetwarzanie zakończone przez użytkownika
 [Elapsed time: %d sec]
 Czas pracy: %d s
 [All tasks completed but with errors (%d)]
-Zakończono wszystkie zadania ale z błędami (%d)
+Zakończono wszystkie zadania z błędami (%d)
 [All tasks completed successfully]
 Wszystkie zadania zakończono pomyślnie

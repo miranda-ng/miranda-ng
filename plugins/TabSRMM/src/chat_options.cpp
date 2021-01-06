@@ -233,8 +233,8 @@ static wchar_t *chatcolorsnames[] =
 	LPGENW("Channel operators"),
 	LPGENW("Extended mode 1"),
 	LPGENW("Extended mode 2"),
-	LPGENW("Selection background"),
-	LPGENW("Selected text"),
+	LPGENW("Selected nick list background"),
+	LPGENW("Selected nick list text"),
 	LPGENW("Incremental search highlight")
 };
 
@@ -257,7 +257,7 @@ void RegisterFontServiceFonts()
 		fid.deffontsettings.size = (char)lf.lfHeight;
 		fid.deffontsettings.style = (lf.lfWeight >= FW_BOLD ? FONTF_BOLD : 0) | (lf.lfItalic ? FONTF_ITALIC : 0);
 		fid.deffontsettings.charset = lf.lfCharSet;
-		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
+		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style & FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		wcsncpy_s(fid.deffontsettings.szFace, lf.lfFaceName, _TRUNCATE);
 		wcsncpy_s(fid.backgroundGroup, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), _TRUNCATE);
 		wcsncpy_s(fid.group, LPGENW("Message sessions") L"/" LPGENW("Single Messaging"), _TRUNCATE);
@@ -294,8 +294,6 @@ void RegisterFontServiceFonts()
 			wcsncpy_s(fid.backgroundName, LPGENW("Input area background"), _TRUNCATE);
 			break;
 		case H_MSGFONTID_STATUSCHANGES:
-			fid.flags |= FIDF_DISABLESTYLES;
-			fid.flags &= ~FIDF_ALLOWEFFECTS;
 			wcsncpy_s(fid.backgroundName, LPGENW("Status background"), _TRUNCATE);
 			break;
 		case H_MSGFONTID_DIVIDERS:

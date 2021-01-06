@@ -59,51 +59,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\api\app_info.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\authorization.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\avatar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\captcha.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\enums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\friend.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\friend_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\history.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\login.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\message.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\pending.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\poll.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\rsa_key.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\search.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\api\session.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\http_request.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -124,6 +79,51 @@
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\enums.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\app_info.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\authorization.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\avatar.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\captcha.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\friend.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\friend_list.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\history.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\login.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\message.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\pending.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\poll.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\rsa_key.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\search.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\session.h">
+      <Filter>Header Files\api</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

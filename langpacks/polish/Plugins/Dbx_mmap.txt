@@ -67,9 +67,9 @@ Aby otworzyć ten profil musisz zainstalować wtyczkę dbx_mdbx. Wciśnij Tak ab
 [To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
 Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
 [Cannot move old profile '%s' to '%s': error %d]
-
+Nie można przenieść starego profilu '%s' do '%s' : błąd %d
 [Attempt to create database '%s' failed with error code %d]
-
+Błąd towrzenia bazy danych '%s' : kod błędu %d
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo

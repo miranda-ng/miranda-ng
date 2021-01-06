@@ -9,7 +9,7 @@
 Pozwala na kontrolowanie Mirandy poprzez wiersz poleceń.
 ;file \plugins\CmdLine\src\CmdLine.cpp
 [Could not initialize CmdLine plugin properly]
-
+Nie można poprawnie zainicjować wiersza poleceń wtyczki
 [Error]
 Błąd
 ;file \plugins\CmdLine\src\mimcmd_data.h

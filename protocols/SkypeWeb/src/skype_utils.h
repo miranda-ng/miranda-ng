@@ -18,7 +18,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-std::string RemoveHtml(const std::string &src);
+CMStringW RemoveHtml(const CMStringW &src);
+
+const char* GetSkypeNick(const char *pszSkypeId);
+const wchar_t* GetSkypeNick(const wchar_t *szSkypeId);
+
+CMStringA ParseUrl(const char *url, const char *token);
+
+CMStringA UrlToSkypeId(const char *url, int *pUserType = nullptr);
+CMStringW UrlToSkypeId(const wchar_t *url, int *pUserType = nullptr);
 
 class EventHandle
 {

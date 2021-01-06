@@ -102,6 +102,7 @@ enum SkypeHost
 struct AsyncHttpRequest : public MTHttpRequest<CSkypeProto>
 {
 	SkypeHost m_host;
+	MCONTACT hContact = 0;
 
 	AsyncHttpRequest(int type, SkypeHost host, LPCSTR url = nullptr, MTHttpRequestHandler pFunc = nullptr);
 };

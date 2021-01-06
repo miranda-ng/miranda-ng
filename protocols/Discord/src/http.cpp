@@ -41,7 +41,7 @@ static LONG g_reqNum = 0;
 AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR _url, MTHttpRequestHandler pFunc, JSONNode *pRoot)
 {
 	if (*_url == '/') {	// relative url leads to a site
-		m_szUrl = "https://discord.com/api/v6";
+		m_szUrl = "https://discord.com/api/v8";
 		m_szUrl += _url;
 		m_bMainSite = true;
 	}

@@ -382,8 +382,8 @@ public:
 		btnPreview(this, IDC_PREVIEW),
 		chkInfo(this, IDC_INFO_MESSAGES),
 		chkErrors(this, IDC_ERRORS),
-		chOwnColors(this, IDC_USEWINCOLORS),
-		chkWinColors(this, IDC_USEOWNCOLORS),
+		chOwnColors(this, IDC_USEOWNCOLORS),
+		chkWinColors(this, IDC_USEWINCOLORS),
 		chkPopupColors(this, IDC_USEPOPUPCOLORS)
 	{
 		btnPreview.OnClick = Callback(this, &CPopupOptDlg::onClick_Preview);
@@ -404,7 +404,7 @@ public:
 		else if (g_plugin.PopupDefColors == byCOLOR_WINDOWS)
 			chOwnColors.SetState(true);
 		else if (g_plugin.PopupDefColors == byCOLOR_POPUP)
-			CheckDlgButton(m_hwnd, IDC_USEPOPUPCOLORS, BST_CHECKED);
+			chkPopupColors.SetState(true);
 
 		for (auto &it : PopupsList) {
 			SendDlgItemMessage(m_hwnd, it.ctrl2, CPM_SETCOLOUR, 0, it.colorText);

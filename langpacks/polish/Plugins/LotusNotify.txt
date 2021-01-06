@@ -70,7 +70,7 @@ Status niepołączony gdy:
 [Unable to load all required Lotus API functions]
 Załadowanie wymaganych funkcji API biblioteki Lotus nie powiodło się.
 [Lotus Notes Client not detected. Check plugin configuration description at https://miranda-ng.org/p/LotusNotify]
-
+Nie wykryto klienta Lotus Notes. Sprawdź opis konfiguracji wtyczki na https://miranda-ng.org/p/LotusNotify
 [Unable to initialize Notes.]
 Zainicjowanie interfejsu Lotus Notes nie powiodło się.
 [Lotus Notes Extension Manager was not registered. Authentication function will not work properly]

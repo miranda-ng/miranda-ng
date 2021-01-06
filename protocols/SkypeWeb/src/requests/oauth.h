@@ -41,6 +41,9 @@ struct OAuthRequest : public AsyncHttpRequest
 
 		AddHeader("Cookie", cookies);
 
+		if (auto *delim = strchr(login, ':'))
+			login = delim + 1;
+
 		this << CHAR_PARAM("login", login) << CHAR_PARAM("passwd", password) << CHAR_PARAM("PPFT", ppft);
 	}
 

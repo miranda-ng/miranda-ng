@@ -308,8 +308,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Разрешить внутренние запросы статусных сообщений
 [Remove status message if contact became offline]
 Удалить статусное сообщение, если контакт не в сети
-[Use improved search method in contact list]
-Поиск по списку контактов с фильтрацией результатов
 [Metacontacts stuff]
 Метаконтакты
 [Use 'Meta' protocol icons for metacontacts]

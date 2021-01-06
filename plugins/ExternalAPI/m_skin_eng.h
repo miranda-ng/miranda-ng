@@ -26,12 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_ske_H_INC
 
 #include <m_clistint.h>
+#include <m_fontservice.h>
 
 /*defaults*/
 #define DEFAULT_FIT_MODE    FM_STRETCH
 #define DEFAULT_STYLE       ST_BRUSH
 #define DEFAULT_BKCOLOUR    GetSysColor(COLOR_3DFACE)
-#define DEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
+#define DEFAULT_SELBKCOLOUR GetSysColor(COLOR_HIGHLIGHT)
 #define SIZING_MARGIN 3
 
 /* Fit mode */
@@ -63,7 +64,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ADT_BOTTOM                   0x00000008
 //#define ADT_ECLIPSE 64
 
-
 /*SERVICES*/
 
 //toggle the 'hide offline contacts' flag and call CLUI
@@ -81,82 +81,78 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // lParam = 0 ( used for internal purposes: pointer to skin object list)
 #define MS_SKIN_REGISTERDEFOBJECT "ModernList/RegisterDefObject"
 
-typedef struct s_DEF_SKIN_OBJECT_PARAMS
+struct DEF_SKIN_OBJECT_PARAMS
 {
-  char * szObjectID;
-  BYTE defStyle;
-  DWORD defColor;
-  //    SKINOBJECTSLIST * Skin;
-} DEF_SKIN_OBJECT_PARAMS;
-
+	char *szObjectID;
+	BYTE defStyle;
+	DWORD defColor;
+};
 
 // Request painting glyph object
 // wParam = pointer to SKINDRAWREQUEST structure
 // lParam = 0
 #define MS_SKIN_DRAWGLYPH "ModernList/DrawGlyph"
 
-
-
 /* EVENTS */
 #define ME_SKIN_SERVICESCREATED "ModernList/ServicesCreated"
 
 /* DRAWGLYPH Request structure */
-typedef struct s_SKINDRAWREQUEST
+struct SKINDRAWREQUEST
 {
-  char szObjectID[255];      // Unic Object ID (path) to paint
-  RECT rcDestRect;           // Rectangle to fit
-  RECT rcClipRect;           // Rectangle to paint in.
-  HDC hDC;                   // Handler to device context to paint in.
-} SKINDRAWREQUEST,*LPSKINDRAWREQUEST;
+	char szObjectID[255];     // Unic Object ID (path) to paint
+	RECT rcDestRect;          // Rectangle to fit
+	RECT rcClipRect;          // Rectangle to paint in.
+	HDC hDC;                  // Handler to device context to paint in.
+};
 
 /* SKINOBJECTDESCRIPTOR opbject descriptor structure */
-typedef struct tagSKINOBJECTDESCRIPTOR
+struct SKINOBJECTDESCRIPTOR
 {
-  BYTE    bType;              // One of OT_* values.
-  char*   szObjectID;         // Unic Object ID (path) [255] max
-  LPVOID  Data;               // Pointer to GLYPHOBJECT strycture if bType==OT_GLYPHOBJECT
-} SKINOBJECTDESCRIPTOR, *LPSKINOBJECTDESCRIPTOR;
+	BYTE  bType;              // One of OT_* values.
+	char *szObjectID;         // Unic Object ID (path) [255] max
+	void *Data;               // Pointer to GLYPHOBJECT strycture if bType==OT_GLYPHOBJECT
+};
 
 /* SKINOBJECTDESCRIPTOR opbject descriptor structure */
-typedef struct s_GLYPHOBJECT
+struct GLYPHOBJECT
 {
-  BYTE Style;                                // One of ST_* values
-  HBITMAP hGlyph;                            // Bitmap handler (for internal use only)
-  DWORD dwTop, dwLeft, dwBottom, dwRight;    // Margins
-  char* szFileName;                          // FileName of image
-  DWORD dwColor;                             // Fill color
-  BYTE dwAlpha;                              // Constant alpha-transparency level
-  BYTE FitMode;                              // One of FM_* values
-  POINT clipArea;                            // Object image rect on full image
-  SIZE szclipArea;                           // Object image rect on full image
-  SortedList * plTextList;                   // List of GLYPHTEXT
-  LONG bmWidth;
-  LONG bmHeight;
-  BYTE bmBitsPixel;
-} GLYPHOBJECT,*LPGLYPHOBJECT;
+	BYTE Style;                                // One of ST_* values
+	HBITMAP hGlyph;                            // Bitmap handler (for internal use only)
+	DWORD dwTop, dwLeft, dwBottom, dwRight;    // Margins
+	char *szFileName;                          // FileName of image
+	DWORD dwColor;                             // Fill color
+	BYTE dwAlpha;                              // Constant alpha-transparency level
+	BYTE FitMode;                              // One of FM_* values
+	POINT clipArea;                            // Object image rect on full image
+	SIZE szclipArea;                           // Object image rect on full image
+	SortedList *plTextList;                   // List of GLYPHTEXT
+	LONG bmWidth;
+	LONG bmHeight;
+	BYTE bmBitsPixel;
+};
 
 /* SKINTEXTDESCRIPTOR opbject descriptor structure */
-typedef struct s_GLYPHTEXT
+struct GLYPHTEXT
 {
-  char        * szGlyphTextID;
-  TCHAR       * stText;
-  TCHAR       * stValueText;
-  DWORD         dwFlags;
-  DWORD         dwColor;                     // Color (InvAA)(RR)(GG)(BB)
-  DWORD         dwShadow;                    //ToDo: Color2/Shaddow
-  int           iLeft,iTop,iRight,iBottom;
-  BYTE          RelativeFlags;
-  char        * szFontID;
-  HFONT         hFont;
-  char		  * szObjectName;
-}GLYPHTEXT,*LPGLYPHTEXT;
+	char  *szGlyphTextID;
+	TCHAR *stText;
+	TCHAR *stValueText;
+	DWORD  dwFlags;
+	DWORD  dwColor;                     // Color (InvAA)(RR)(GG)(BB)
+	DWORD  dwShadow;                    //ToDo: Color2/Shaddow
+	int    iLeft, iTop, iRight, iBottom;
+	BYTE   RelativeFlags;
+	char  *szFontID;
+	HFONT  hFont;
+	char  *szObjectName;
+};
 
 /* SKINTEXTDESCRIPTOR opbject descriptor structure */
-typedef struct s_SKINFONT
+struct SKINFONT
 {
-  char        * szFontID;
-  HFONT         hFont;
-}SKINFONT, *LPSKINFONT;
+	char *szFontID;
+	HFONT hFont;
+};
 
 /* HELPER FUNCTIONS */
 
@@ -164,7 +160,7 @@ typedef struct s_SKINFONT
 int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT * rcClip, char * objectID)
 {
 	SKINDRAWREQUEST rq;
-	POINT pt={0};
+	POINT pt={};
 	RECT rc,r1;
 
 	if (!objectID) return 0;
@@ -224,23 +220,6 @@ static BOOL __inline ScreenToClientRect(HWND hWnd, LPRECT lpRect)
 	return ret;
 }
 
-//int __inline CreateGlyphedObjectDefStyle(char * ObjID,BYTE defStyle)
-//{
-//    DEF_SKIN_OBJECT_PARAMS prm={0};
-//    prm.defColor=DEFAULT_BKCOLOUR;
-//    prm.defStyle=defStyle;
-//    prm.szObjectID=ObjID;
-//    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
-//}
-//int __inline CreateGlyphedObjectDefColor(char * ObjID,DWORD defColor)
-//{
-//    DEF_SKIN_OBJECT_PARAMS prm={0};
-//    prm.defColor=defColor;
-//    prm.defStyle=ST_BRUSH;
-//    prm.szObjectID=ObjID;
-//    return CallService(MS_SKIN_REGISTERDEFOBJECT,(WPARAM)&prm,0);
-//}
-
 //Paint  ObjectID
 static int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * objectID)
 {
@@ -260,16 +239,16 @@ static int __inline SkinDrawGlyph(HDC hdc, RECT * rcSize, RECT * rcClip, char * 
 //                                          //
 //////////////////////////////////////////////
 
-typedef struct sPAINT_REQUEST
+struct sPaintRequest
 {
-  DWORD dStructSize;      //size of structure
-  HWND  hWnd;             //called by window
-  HDC   hDC;              //context to draw on
-  RECT  rcUpdate;         //rectangle to be painted in (relative to Top-Left corner of Main window)
-  DWORD dwFlags;          //drawing flags
-  void * CallbackData;    //Data for passing to callback procedure
-  char Reserved[16];      //reserved for farther usage;
-} sPaintRequest;
+  DWORD dStructSize;      // size of structure
+  HWND  hWnd;             // called by window
+  HDC   hDC;              // context to draw on
+  RECT  rcUpdate;         // rectangle to be painted in (relative to Top-Left corner of Main window)
+  DWORD dwFlags;          // drawing flags
+  void *CallbackData;     // Data for passing to callback procedure
+  char  Reserved[16];     // reserved for farther usage;
+};
 
 // Request to register sub for callback painting frame area
 // wParam = hWnd of called frame
@@ -289,60 +268,58 @@ typedef struct sPAINT_REQUEST
 #define MS_SKINENG_INVALIDATEFRAMEIMAGE "SkinEngine/ske_Service_InvalidateFrameImage"
 
 // Callback proc type
-typedef int (/*__stdcall*/ *tPaintCallbackProc)(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgnUpdate, DWORD dFlags, void * CallBackData);
-//tPaintCallbackProc PaintCallbackProc;
+typedef int (*tPaintCallbackProc)(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgnUpdate, DWORD dFlags, void * CallBackData);
 
 // HELPER TO UPDATEIMAGEFRAME
-
 
 __inline BOOL isSkinEngineEnabled()
 {
 	return ServiceExists(MS_SKINENG_REGISTERPAINTSUB) && !db_get_b(NULL, "ModernData", "DisableEngine", FALSE);
 }
 
-
 __inline BOOL isLayeredEnabled()
 {
 	return isSkinEngineEnabled() && db_get_b(NULL, "ModernData", "EnableLayering", TRUE);
 }
 
-int __inline SkinEngUpdateImageFrame(HWND hwnd, RECT * rcUpdate, DWORD dwFlags, void * CallBackData)
+int __inline SkinEngUpdateImageFrame(HWND hwnd, RECT *rcUpdate, DWORD dwFlags, void *CallBackData)
 {
-  sPaintRequest sr={0};
-  sr.dStructSize=sizeof(sPaintRequest);
-  sr.hWnd=hwnd;
-  if (rcUpdate)
-    sr.rcUpdate=*rcUpdate;
-  sr.dwFlags=dwFlags;
-  sr.CallbackData=CallBackData;
-  return CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM)hwnd,(LPARAM)&sr);
+	sPaintRequest sr = { 0 };
+	sr.dStructSize = sizeof(sPaintRequest);
+	sr.hWnd = hwnd;
+	if (rcUpdate)
+		sr.rcUpdate = *rcUpdate;
+	sr.dwFlags = dwFlags;
+	sr.CallbackData = CallBackData;
+	return CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)hwnd, (LPARAM)&sr);
 }
 
-int __inline SkinEngInvalidateImageFrame(HWND hwnd, CONST RECT * rcUpdate, DWORD dwFlags, void * CallBackData)
+int __inline SkinEngInvalidateImageFrame(HWND hwnd, CONST RECT *rcUpdate, DWORD dwFlags, void *CallBackData)
 {
-  sPaintRequest sr={0};
-  if (hwnd && !isLayeredEnabled()) return InvalidateRect(hwnd,rcUpdate,dwFlags);
-  sr.dStructSize=sizeof(sPaintRequest);
-  sr.hWnd=hwnd;
-  if (rcUpdate)
-    sr.rcUpdate=*rcUpdate;
-  sr.dwFlags=dwFlags;
-  sr.CallbackData=CallBackData;
-  return CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE,(WPARAM)hwnd,(LPARAM)&sr);
+	sPaintRequest sr = { 0 };
+	if (hwnd && !isLayeredEnabled()) return InvalidateRect(hwnd, rcUpdate, dwFlags);
+	sr.dStructSize = sizeof(sPaintRequest);
+	sr.hWnd = hwnd;
+	if (rcUpdate)
+		sr.rcUpdate = *rcUpdate;
+	sr.dwFlags = dwFlags;
+	sr.CallbackData = CallBackData;
+	return CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)hwnd, (LPARAM)&sr);
 }
 
-
-int __inline SkinInvalidateFrame(HWND hWnd, CONST RECT* lpRect)
+int __inline SkinInvalidateFrame(HWND hWnd, CONST RECT *lpRect)
 {
 	return SkinEngInvalidateImageFrame(hWnd, lpRect, 0, nullptr);
 }
-// Alpha channel GDI replacements/helpers
 
+////////////////////////////////////////////////////////////////////////////////
+// Alpha channel GDI replacements/helpers
 //
 // Paints text with correct alpha channel
 // wParam - pointer to AlphaTextOutParams
 #define MS_SKINENG_ALPHATEXTOUT "SkinEngine/ske_AlphaTextOut"
-typedef struct _AlphaTextOutParams
+
+struct AlphaTextOutParams
 {
   HDC hDC;
   LPCTSTR lpString;
@@ -351,111 +328,94 @@ typedef struct _AlphaTextOutParams
   UINT format;
   DWORD ARGBcolor;
   char reserv[16];
-}AlphaTextOutParams;
+};
 
-int __inline AlphaText(HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format, DWORD ARGBcolor)
+int __inline AlphaText(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, DWORD ARGBcolor)
 {
-  AlphaTextOutParams ap={0};
-  ap.hDC=hDC;
-  ap.lpString=lpString;
-  ap.nCount=nCount;
-  ap.lpRect=lpRect;
-  ap.format=format;
-  ap.ARGBcolor=ARGBcolor;
-  return CallService(MS_SKINENG_ALPHATEXTOUT,(WPARAM)&ap,0);
+	AlphaTextOutParams ap = {};
+	ap.hDC = hDC;
+	ap.lpString = lpString;
+	ap.nCount = nCount;
+	ap.lpRect = lpRect;
+	ap.format = format;
+	ap.ARGBcolor = ARGBcolor;
+	return CallService(MS_SKINENG_ALPHATEXTOUT, (WPARAM)&ap, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Paints text with correct alpha channel and effect, alternative to DrawText
 // wParam - pointer to DrawTextWithEffectParam
 
-typedef struct MODERNFONTEFFECT_tag
+struct DrawTextWithEffectParam
 {
-    BYTE     effectIndex;
-    DWORD    baseColour;        // ARGB
-    DWORD    secondaryColour;   // ARGB
-}
-MODERNFONTEFFECT;
-
-typedef struct DrawTextWithEffectParam_tag
-{
-    int cbSize;
-    HDC             hdc;                  // handle to DC
-    LPCTSTR         lpchText;             // text to draw
-    int             cchText;              // length of text to draw
-    LPRECT          lprc;                 // rectangle coordinates
-    UINT            dwDTFormat;           // formatting options
-    MODERNFONTEFFECT *    pEffect;        // effect to be drawn on
-} DrawTextWithEffectParam;
+    HDC         hdc;          // handle to DC
+    LPCTSTR     lpchText;     // text to draw
+    int         cchText;      // length of text to draw
+    LPRECT      lprc;         // rectangle coordinates
+    UINT        dwDTFormat;   // formatting options
+    FONTEFFECT *pEffect;      // effect to be drawn on
+};
 
 #define MS_DRAW_TEXT_WITH_EFFECTA "Modern/SkinEngine/DrawTextWithEffectA"
 #define MS_DRAW_TEXT_WITH_EFFECTW "Modern/SkinEngine/DrawTextWithEffectW"
 
-#ifdef UNICODE
-    #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTW
-#else
-    #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTA
-#endif
+#define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTW
 
 // Helper
-int __inline DrawTextWithEffect( HDC hdc, LPCTSTR lpchText, int cchText, RECT * lprc, UINT dwDTFormat, MODERNFONTEFFECT * pEffect )
+int __inline DrawTextWithEffect(HDC hdc, LPCTSTR lpchText, int cchText, RECT *lprc, UINT dwDTFormat, FONTEFFECT *pEffect)
 {
-    DrawTextWithEffectParam params;
-    static BYTE bIfServiceExists = ServiceExists( MS_DRAW_TEXT_WITH_EFFECT ) ? 1 : 0;
-    if ( bIfServiceExists == 0 ) return DrawText ( hdc, lpchText, cchText, lprc, dwDTFormat );
+	if (!ServiceExists(MS_DRAW_TEXT_WITH_EFFECT) || pEffect == nullptr || pEffect->effectIndex == 0)
+		return DrawText(hdc, lpchText, cchText, lprc, dwDTFormat);
 
-    // else
-    params.cbSize       = sizeof( DrawTextWithEffectParam );
-    params.hdc          = hdc;
-    params.lpchText     = lpchText;
-    params.cchText      = cchText;
-    params.lprc         = lprc;
-    params.dwDTFormat   = dwDTFormat;
-    params.pEffect      = pEffect;
-    return CallService( MS_DRAW_TEXT_WITH_EFFECT, (WPARAM)&params, 0 );
+	DrawTextWithEffectParam params;
+	params.hdc = hdc;
+	params.lpchText = lpchText;
+	params.cchText = cchText;
+	params.lprc = lprc;
+	params.dwDTFormat = dwDTFormat;
+	params.pEffect = pEffect;
+	return CallService(MS_DRAW_TEXT_WITH_EFFECT, (WPARAM)&params, 0);
 }
 
-
-typedef struct _ImageListFixParam
+struct ImageListFixParam
 {
-  HIMAGELIST himl;
-  int index;
-  HICON hicon;
-}ImageListFixParam;
+	HIMAGELIST himl;
+	int index;
+	HICON hicon;
+};
 
-typedef struct _DrawIconFixParam
+struct DrawIconFixParam
 {
-  HDC hdc;
-  int xLeft;
-  int yTop;
-  HICON hIcon;
-  int cxWidth;
-  int cyWidth;
-  UINT istepIfAniCur;
-  HBRUSH hbrFlickerFreeDraw;
-  UINT diFlags;
-} DrawIconFixParam;
+	HDC hdc;
+	int xLeft;
+	int yTop;
+	HICON hIcon;
+	int cxWidth;
+	int cyWidth;
+	UINT istepIfAniCur;
+	HBRUSH hbrFlickerFreeDraw;
+	UINT diFlags;
+};
+
 //wParam - pointer to DrawIconFixParam
 #define MS_SKINENG_DRAWICONEXFIX "SkinEngine/DrawIconEx_Fix"
 
-int __inline mod_DrawIconEx_helper(HDC hdc,int xLeft,int yTop,HICON hIcon,int cxWidth,int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags)
+int __inline mod_DrawIconEx_helper(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags)
 {
-  DrawIconFixParam p={0};
-  p.hdc=hdc;
-  p.xLeft=xLeft;
-  p.yTop=yTop;
-  p.hIcon=hIcon;
-  p.cxWidth=cxWidth;
-  p.cyWidth=cyWidth;
-  p.istepIfAniCur=istepIfAniCur;
-  p.hbrFlickerFreeDraw=hbrFlickerFreeDraw;
-  p.diFlags=diFlags;
-  return CallService(MS_SKINENG_DRAWICONEXFIX,(WPARAM)&p,0);
+	DrawIconFixParam p = { 0 };
+	p.hdc = hdc;
+	p.xLeft = xLeft;
+	p.yTop = yTop;
+	p.hIcon = hIcon;
+	p.cxWidth = cxWidth;
+	p.cyWidth = cyWidth;
+	p.istepIfAniCur = istepIfAniCur;
+	p.hbrFlickerFreeDraw = hbrFlickerFreeDraw;
+	p.diFlags = diFlags;
+	return CallService(MS_SKINENG_DRAWICONEXFIX, (WPARAM)&p, 0);
 }
 
-
-
-
+////////////////////////////////////////////////////////////////////////////////
 //  Register of plugin's user
 //
 //  wParam = (WPARAM)szSetting - string that describes a user
@@ -464,14 +424,14 @@ int __inline mod_DrawIconEx_helper(HDC hdc,int xLeft,int yTop,HICON hIcon,int cx
 //               "Status bar background/StatusBar"
 //  lParam = (LPARAM)dwFlags
 //
+
 #define MS_BACKGROUNDCONFIG_REGISTER "ModernBkgrCfg/Register"
 
-//
+////////////////////////////////////////////////////////////////////////////////
 //  Notification about changed background
 //  wParam = ModuleName
 //  lParam = 0
+
 #define ME_BACKGROUNDCONFIG_CHANGED "ModernBkgrCfg/Changed"
-
-
 
 #endif

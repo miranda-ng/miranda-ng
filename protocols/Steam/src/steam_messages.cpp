@@ -38,8 +38,8 @@ void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 		const JSONNode &time = root["utc_timestamp"];
 		if (time) {
 			timestamp = atol(node.as_string().c_str());
-			if (timestamp > getDword("LastMessageTS", 0))
-				setDword("LastMessageTS", timestamp);
+			if (timestamp > getDword(param->hContact, DB_KEY_LASTMSGTS))
+				setDword(param->hContact, DB_KEY_LASTMSGTS, timestamp);
 		}
 	}
 

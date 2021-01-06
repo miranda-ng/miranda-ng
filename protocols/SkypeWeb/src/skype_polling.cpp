@@ -102,7 +102,7 @@ void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 {
 	debugLogA(__FUNCTION__);
 	std::string selfLink = node["selfLink"].as_string();
-	CMStringA skypename(UrlToSkypename(selfLink.c_str()));
+	CMStringA skypename(UrlToSkypeId(selfLink.c_str()));
 
 	MCONTACT hContact = FindContact(skypename);
 	if (hContact == NULL)
@@ -169,7 +169,7 @@ void CSkypeProto::ProcessUserPresence(const JSONNode &node)
 
 	std::string selfLink = node["selfLink"].as_string();
 	std::string status = node["status"].as_string();
-	CMStringA skypename = UrlToSkypename(selfLink.c_str());
+	CMStringA skypename = UrlToSkypeId(selfLink.c_str());
 
 	if (!skypename.IsEmpty()) {
 		if (IsMe(skypename)) {
@@ -195,9 +195,12 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 
 	std::string conversationLink = node["conversationLink"].as_string();
 
-	if (conversationLink.find("/8:") != std::string::npos)
+	int iUserType;
+	UrlToSkypeId(conversationLink.c_str(), &iUserType);
+
+	if (iUserType == 2 || iUserType == 8)
 		OnPrivateMessageEvent(node);
-	else if (conversationLink.find("/19:") != std::string::npos)
+	else if (iUserType == 19)
 		OnChatEvent(node);
 }
 

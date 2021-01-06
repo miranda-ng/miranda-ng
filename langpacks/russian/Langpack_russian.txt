@@ -1635,7 +1635,7 @@ Google Карты
 [Incoming colon]
 Двоеточие во входящих сообщениях
 [Message area]
-Область сообщения
+Область сообщений
 [Other events]
 Другие события
 [Message log]
@@ -2118,6 +2118,8 @@ Miranda не может распознать этот профиль
 Режим беззвучности чата
 [Extra icons]
 Экстра значки
+[Mute chat]
+Заглушать чат
 [You haven't filled in the search field. Please enter a search term and try again.]
 Вы не заполнили поле для поиска. Пожалуйста, введите запрос для поиска и попробуйте ещё раз.
 [Search]
@@ -6430,8 +6432,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Разрешить внутренние запросы статусных сообщений
 [Remove status message if contact became offline]
 Удалить статусное сообщение, если контакт не в сети
-[Use improved search method in contact list]
-Поиск по списку контактов с фильтрацией результатов
 [Metacontacts stuff]
 Метаконтакты
 [Use 'Meta' protocol icons for metacontacts]
@@ -9434,7 +9434,7 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.5
+;  Version: 0.6.2.6
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -9700,7 +9700,7 @@ ID записи
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.8
+;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -13064,6 +13064,8 @@ UIN/почта:
 Введите имя новой группы
 [UIN/e-mail/phone]
 UIN/почта/телефон
+[SmileyAdd plugin required to support stickers]
+Для поддержки стикеров требуется плагин SmileyAdd
 [You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 Вы не ввели номер ICQ либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
@@ -13080,8 +13082,6 @@ UIN/почта/телефон
 Неизвестный стикер
 [User sent a sticker:]
 Пользователь отправил стикер:
-[SmileyAdd plugin required to support stickers]
-Для поддержки стикеров требуется плагин SmileyAdd
 [Buddy addition failed]
 Не удалось добавить контакт
 ;#muuid for ICQCorp not found, please specify manually!
@@ -19287,6 +19287,8 @@ HTTP-подключения каналов новостей
 Готово
 [History export]
 Экспорт истории
+[Are you sure to remove selected event(s)?]
+Уверены, что хотите удалить выбранные события?
 [Are you sure to remove all events from history?]
 Уверены, что хотите удалить все события из истории?
 [User history]
@@ -25103,7 +25105,7 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.3
+;  Version: 0.95.13.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -27422,10 +27424,6 @@ BBCode ([b][i][u])
 Расширенный режим 1
 [Extended mode 2]
 Расширенный режим 2
-[Selection background]
-Фон выбранного
-[Selected text]
-Выделенный текст
 [Incremental search highlight]
 Подсветка поиска
 [Fields background]
@@ -27626,8 +27624,6 @@ ID текущего контакта (если определён). Наприм
 включён
 [Sending typing notifications is %s.]
 Отправка уведомления о наборе: %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Список вкладок.\nНажмите левой кнопкой мыши, чтобы открыть список вкладок.\nНажмите правой кнопкой мыши, чтобы получить доступ к избранному и быстро настроить поведение окна сообщений
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Отправляется %d сообщений. Длина сообщения: %d байт, ограничение длины: %d байт\n\n%d cообщений в очереди для последующей доставки
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
@@ -27742,6 +27738,8 @@ TabSRMM: набор текста
 Отправить файл
 [Quote message]
 Цитировать сообщение
+[Clear message area]
+Очистить область сообщений
 [Toggle send later]
 Вкл/выкл отправку с задержкой
 [Send message]

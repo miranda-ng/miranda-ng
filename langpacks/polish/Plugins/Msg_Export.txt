@@ -25,11 +25,11 @@ Format eksportu
 [Max column width]
 Szerokość
 [Note: 0 = no limit]
-Notka: 0 = bez limitu
+0 = bez limitu
 [Time format]
 Format czasu
 [Use JSON format for export]
-
+Użyj formatu JSON do eksportu
 [Use UTF-8 in new files]
 UTF-8 dla nowych wiadomości
 [Append extra new line]
@@ -71,7 +71,7 @@ Ustaw domyślną nazwę pliku
 [Select all]
 Zaznacz wszystko
 [Select none]
-
+Odznacz wszystko
 [Auto filename]
 Autonazewnictwo
 [Clear all]
@@ -126,7 +126,7 @@ ID użytkownika
 [No contacts found to export]
 Nie znaleziono kontaktów do eksportu
 [Export accounts]
-
+Konta do eksportu
 [Message export]
 Eksport wiadomości
 [History]
