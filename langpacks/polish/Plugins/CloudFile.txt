@@ -39,9 +39,9 @@ Aby umożliwić Miranda NG dostęp do %s:
 [Go to this link]
 Otwórz ten link
 [Request access]
-
+Przyznaj dostęp
 [Revoke access]
-
+Odwołaj dostęp
 ;file \protocols\CloudFile\src\icons.cpp
 [Upload file(s)]
 Wyślij plik(i)
