@@ -33,7 +33,7 @@ Co
 [Silent mode]
 Tryb cichy
 [Restart Miranda automatically]
-
+Uruchom ponownie Mirandę automatycznie
 [Backup database before update (requires Db_autobackups plugin)]
 Rób kopię bazy danych przed aktualizacją (wymaga wtyczki Db_autobackups)
 [Number of backups to keep:]
@@ -53,7 +53,7 @@ Niestandardowa wersja
 [Change platform to 32-bit]
 Zmień platformę na 32-bit
 [Use HTTPS]
-
+Używaj HTTPS
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirandę, aby zainstalować pobrane aktualizacje.
 [Notifications]
@@ -137,7 +137,7 @@ Wczytywanie listy już rozpoczęte!
 [Will be deleted!]
 Zostanie usunięty!
 [Unpack operation failed with error code=%d, update terminated]
-
+Rozpakowywanie nie powiodło się, kod błędu=%d, aktualizacja zakończona
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualizacja zakończona. Wciśnij "Tak", aby zrestartować Mirandę teraz lub "Nie", żeby zrobić to później.
 [Miranda NG Core]
