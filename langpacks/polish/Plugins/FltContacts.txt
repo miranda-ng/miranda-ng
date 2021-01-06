@@ -35,15 +35,15 @@ Różne
 [*requires Tipper plugin]
 *wymagana wtyczka Tipper
 [Bring to front]
-Umieszczenie
+Przesuń na wierzch
 [Bring to front every]
-Do przodu co każde
+Co każde
 [seconds]
 s
 [Hide when contact list is shown]
 Ukryj, gdy lista kontaktów jest wyświetlana
 [Single click interface]
-Pokaż/Ukryj listę po pojedynczym kliknięciu
+Pojedyncze kliknięcie
 [Dim idle contacts]
 Przygaś bezczynne kontakty
 [Idle contacts]
@@ -96,7 +96,7 @@ Usuń pływające kontakty
 [Show/Hide all thumbs]
 Pokaż/Ukryj wszystkie kontakty
 [Floating contacts plugin won't work until you uncheck the "Disable drag and drop of items" option in Options - Contact list]
-
+Wtyczka pływających kontaktów nie będzie działać, dopóki nie usuniesz zaznaczenia opcji „Wyłącz przeciągnij i upuść” w Opcje - Lista kontaktów
 ;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Pływające kontakty
