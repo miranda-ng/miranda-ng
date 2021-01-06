@@ -556,6 +556,7 @@ class CTemplateEditDlg : public CMsgDialog
 	TTemplateSet *tSet;
 
 	CCtrlEdit edtText;
+	CCtrlColor clr1, clr2, clr3, clr4, clr5;
 	CCtrlButton btnResetAll, btnSave, btnForget, btnRevert, btnPreview;
 	CCtrlListBox listTemplates;
 	CCtrlHyperlink urlHelp;
@@ -564,6 +565,11 @@ public:
 	CTemplateEditDlg(BOOL _rtl, HWND hwndParent) :
 		CSuper(IDD_TEMPLATEEDIT, 0),
 		rtl(_rtl),
+		clr1(this, IDC_COLOR1),
+		clr2(this, IDC_COLOR2),
+		clr3(this, IDC_COLOR3),
+		clr4(this, IDC_COLOR4),
+		clr5(this, IDC_COLOR5),
 		edtText(this, IDC_EDITTEMPLATE),
 		urlHelp(this, IDC_VARIABLESHELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Templates"),
 		btnSave(this, IDC_SAVETEMPLATE),
@@ -621,11 +627,11 @@ public:
 		Utils::enableDlgControl(m_hwndParent, IDC_MODIFY, FALSE);
 		Utils::enableDlgControl(m_hwndParent, IDC_RTLMODIFY, FALSE);
 
-		SendDlgItemMessage(m_hwnd, IDC_COLOR1, CPM_SETCOLOUR, 0, M.GetDword("cc1", SRMSGDEFSET_BKGCOLOUR));
-		SendDlgItemMessage(m_hwnd, IDC_COLOR2, CPM_SETCOLOUR, 0, M.GetDword("cc2", SRMSGDEFSET_BKGCOLOUR));
-		SendDlgItemMessage(m_hwnd, IDC_COLOR3, CPM_SETCOLOUR, 0, M.GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
-		SendDlgItemMessage(m_hwnd, IDC_COLOR4, CPM_SETCOLOUR, 0, M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
-		SendDlgItemMessage(m_hwnd, IDC_COLOR5, CPM_SETCOLOUR, 0, M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
+		clr1.SetColor(M.GetDword("cc1", SRMSGDEFSET_BKGCOLOUR));
+		clr1.SetColor(M.GetDword("cc2", SRMSGDEFSET_BKGCOLOUR));
+		clr1.SetColor(M.GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
+		clr1.SetColor(M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
+		clr1.SetColor(M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
 		edtText.SendMsg(EM_SETREADONLY, TRUE, 0);
 		return true;
 	}
@@ -640,11 +646,11 @@ public:
 		delete m_pContainer;
 		delete m_cache;
 
-		db_set_dw(0, SRMSGMOD_T, "cc1", SendDlgItemMessage(m_hwnd, IDC_COLOR1, CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SRMSGMOD_T, "cc2", SendDlgItemMessage(m_hwnd, IDC_COLOR2, CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SRMSGMOD_T, "cc3", SendDlgItemMessage(m_hwnd, IDC_COLOR3, CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SRMSGMOD_T, "cc4", SendDlgItemMessage(m_hwnd, IDC_COLOR4, CPM_GETCOLOUR, 0, 0));
-		db_set_dw(0, SRMSGMOD_T, "cc5", SendDlgItemMessage(m_hwnd, IDC_COLOR5, CPM_GETCOLOUR, 0, 0));
+		db_set_dw(0, SRMSGMOD_T, "cc1", clr1.GetColor());
+		db_set_dw(0, SRMSGMOD_T, "cc2", clr2.GetColor());
+		db_set_dw(0, SRMSGMOD_T, "cc3", clr3.GetColor());
+		db_set_dw(0, SRMSGMOD_T, "cc4", clr4.GetColor());
+		db_set_dw(0, SRMSGMOD_T, "cc5", clr5.GetColor());
 	}
 
 	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override

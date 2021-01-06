@@ -491,10 +491,13 @@ public:
 class COptPopupDlg : public CDlgBase
 {
 	CCtrlCheck chkRadio1, chkRadio2, chkRadio3;
+	CCtrlColor clrBack, clrText;
 
 public:
-	COptPopupDlg()
-		: CDlgBase(g_plugin, IDD_OPTIONSPOPUP),
+	COptPopupDlg() :
+		CDlgBase(g_plugin, IDD_OPTIONSPOPUP),
+		clrBack(this, IDC_BKG),
+		clrText(this, IDC_TEXT),
 		chkRadio1(this, IDC_RADIO1),
 		chkRadio2(this, IDC_RADIO2),
 		chkRadio3(this, IDC_RADIO3)
@@ -504,8 +507,8 @@ public:
 
 	bool OnInitDialog() override
 	{
-		SendDlgItemMessage(m_hwnd, IDC_BKG, CPM_SETCOLOUR, 0, g_Settings.crPUBkgColour);
-		SendDlgItemMessage(m_hwnd, IDC_TEXT, CPM_SETCOLOUR, 0, g_Settings.crPUTextColour);
+		clrBack.SetColor(g_Settings.crPUBkgColour);
+		clrText.SetColor(g_Settings.crPUTextColour);
 
 		if (g_Settings.iPopupStyle == 2)
 			CheckDlgButton(m_hwnd, IDC_RADIO2, BST_CHECKED);
@@ -513,9 +516,7 @@ public:
 			CheckDlgButton(m_hwnd, IDC_RADIO3, BST_CHECKED);
 		else
 			CheckDlgButton(m_hwnd, IDC_RADIO1, BST_CHECKED);
-
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BKG), IsDlgButtonChecked(m_hwnd, IDC_RADIO3) == BST_CHECKED ? TRUE : FALSE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TEXT), IsDlgButtonChecked(m_hwnd, IDC_RADIO3) == BST_CHECKED ? TRUE : FALSE);
+		onChange_Radio(0);
 
 		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(100, -1));
 		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETPOS, 0, MAKELONG(g_Settings.iPopupTimeout, 0));
@@ -538,18 +539,16 @@ public:
 		g_Settings.iPopupTimeout = iLen;
 		db_set_w(0, CHAT_MODULE, "PopupTimeout", (WORD)iLen);
 
-		g_Settings.crPUBkgColour = SendDlgItemMessage(m_hwnd, IDC_BKG, CPM_GETCOLOUR, 0, 0);
-		db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)SendDlgItemMessage(m_hwnd, IDC_BKG, CPM_GETCOLOUR, 0, 0));
-		g_Settings.crPUTextColour = SendDlgItemMessage(m_hwnd, IDC_TEXT, CPM_GETCOLOUR, 0, 0);
-		db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)SendDlgItemMessage(m_hwnd, IDC_TEXT, CPM_GETCOLOUR, 0, 0));
+		db_set_dw(0, CHAT_MODULE, "PopupColorBG", g_Settings.crPUBkgColour = clrBack.GetColor());
+		db_set_dw(0, CHAT_MODULE, "PopupColorText", g_Settings.crPUTextColour = clrText.GetColor());
 		return true;
 	}
 	
 	void onChange_Radio(CCtrlCheck*)
 	{
-		BOOL bStatus = chkRadio3.GetState() != 0;
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BKG), bStatus);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TEXT), bStatus);
+		bool bStatus = chkRadio3.GetState();
+		clrBack.Enable(bStatus);
+		clrText.Enable(bStatus);
 	}
 };
 

@@ -224,18 +224,20 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static UINT avatar_controls[] = { IDC_ALIGNMENT, IDC_AVATARSBORDER, IDC_AVATARSROUNDED, IDC_AVATARBORDERCLR, IDC_ALWAYSALIGNNICK, IDC_AVATARHEIGHT, IDC_AVATARSIZESPIN, 0 };
+static UINT avatar_controls[] = { IDC_ALIGNMENT, IDC_AVATARSBORDER, IDC_AVATARSROUNDED, IDC_AVATARBORDERCLR, IDC_ALWAYSALIGNNICK, IDC_AVATARHEIGHT, IDC_AVATARSIZESPIN };
 
 class CDspAdvancedDlg : public CRowItemsBaseDlg
 {
 	CCtrlCheck chkLocalTime, chkAvaRound, chkAvaBorder;
+	CCtrlColor clrAvaBorder;
 
 public:
 	CDspAdvancedDlg() :
 		CRowItemsBaseDlg(IDD_OPT_DSPADVANCED),
 		chkAvaRound(this, IDC_AVATARSROUNDED),
 		chkAvaBorder(this, IDC_AVATARSBORDER),
-		chkLocalTime(this, IDC_SHOWLOCALTIME)
+		chkLocalTime(this, IDC_SHOWLOCALTIME),
+		clrAvaBorder(this, IDC_AVATARBORDERCLR)
 	{
 		chkAvaRound.OnChange = Callback(this, &CDspAdvancedDlg::onChange_AvatarsRounded);
 		chkAvaBorder.OnChange = Callback(this, &CDspAdvancedDlg::onChange_AvatarsBorder);
@@ -253,19 +255,10 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Far left"));
 		SendDlgItemMessage(m_hwnd, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Far right"));
 		SendDlgItemMessage(m_hwnd, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With nickname - right"));
-		{
-			int i = 0;
-			if (cfg::dat.bAvatarServiceAvail) {
-				Utils::enableDlgControl(m_hwnd, IDC_CLISTAVATARS, TRUE);
-				while (avatar_controls[i] != 0)
-					Utils::enableDlgControl(m_hwnd, avatar_controls[i++], TRUE);
-			}
-			else {
-				Utils::enableDlgControl(m_hwnd, IDC_CLISTAVATARS, FALSE);
-				while (avatar_controls[i] != 0)
-					Utils::enableDlgControl(m_hwnd, avatar_controls[i++], FALSE);
-			}
-		}
+
+		Utils::enableDlgControl(m_hwnd, IDC_CLISTAVATARS, cfg::dat.bAvatarServiceAvail);
+		for (auto &ctrlId : avatar_controls)
+			Utils::enableDlgControl(m_hwnd, ctrlId, cfg::dat.bAvatarServiceAvail);
 
 		CheckDlgButton(m_hwnd, IDC_NOAVATARSOFFLINE, cfg::dat.bNoOfflineAvatars ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(m_hwnd, IDC_DUALROWMODE, CB_SETCURSEL, cfg::dat.dualRowMode, 0);
@@ -276,7 +269,7 @@ public:
 		CheckDlgButton(m_hwnd, IDC_ALWAYSALIGNNICK, (cfg::dat.dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SHOWSTATUSMSG, (cfg::dat.dwFlags & CLUI_FRAME_SHOWSTATUSMSG) ? BST_CHECKED : BST_UNCHECKED);
 
-		SendDlgItemMessage(m_hwnd, IDC_AVATARBORDERCLR, CPM_SETCOLOUR, 0, cfg::dat.avatarBorder);
+		clrAvaBorder.SetColor(cfg::dat.avatarBorder);
 
 		SendDlgItemMessage(m_hwnd, IDC_RADIUSSPIN, UDM_SETRANGE, 0, MAKELONG(10, 2));
 		SendDlgItemMessage(m_hwnd, IDC_RADIUSSPIN, UDM_SETPOS, 0, cfg::dat.avatarRadius);
@@ -320,7 +313,7 @@ public:
 		cfgSetFlag(m_hwnd, IDC_ALWAYSALIGNNICK, CLUI_FRAME_ALWAYSALIGNNICK);
 		cfgSetFlag(m_hwnd, IDC_SHOWSTATUSMSG, CLUI_FRAME_SHOWSTATUSMSG);
 
-		cfg::dat.avatarBorder = SendDlgItemMessage(m_hwnd, IDC_AVATARBORDERCLR, CPM_GETCOLOUR, 0, 0);
+		cfg::dat.avatarBorder = clrAvaBorder.GetColor();
 		db_set_dw(0, "CLC", "avatarborder", cfg::dat.avatarBorder);
 
 		BOOL translated;
@@ -364,7 +357,7 @@ public:
 
 	void onChange_AvatarsBorder(CCtrlCheck *)
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_AVATARBORDERCLR, chkAvaBorder.GetState());
+		clrAvaBorder.Enable(chkAvaBorder.GetState());
 	}
 };
 

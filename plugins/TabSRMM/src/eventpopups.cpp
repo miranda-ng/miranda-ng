@@ -490,10 +490,19 @@ class CPopupOptionsDlg : public CDlgBase
 {
 	CCtrlTreeView eventOptions;
 	CCtrlButton btnPreview, btnModes;
+	CCtrlColor mucBack, mucText, msgBack, msgText, otherBack, otherText, errBack, errText;
 
 public:
 	CPopupOptionsDlg() :
 		CDlgBase(g_plugin, IDD_POPUP_OPT),
+		errBack(this, IDC_COLBACK_ERR),
+		errText(this, IDC_COLTEXT_ERR),
+		msgBack(this, IDC_COLBACK_MESSAGE),
+		msgText(this, IDC_COLTEXT_MESSAGE),
+		mucBack(this, IDC_COLBACK_MUC),
+		mucText(this, IDC_COLTEXT_MUC),
+		otherBack(this, IDC_COLBACK_OTHERS),
+		otherText(this, IDC_COLTEXT_OTHERS),
 		btnModes(this, IDC_POPUPSTATUSMODES),
 		btnPreview(this, IDC_PREVIEW),
 		eventOptions(this, IDC_EVENTOPTIONS)
@@ -506,18 +515,18 @@ public:
 	{
 		TreeViewInit(eventOptions, lvGroupsNEN, lvItemsNEN, 0, 0, TRUE);
 
-		SendDlgItemMessage(m_hwnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colBackMsg);
-		SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, nen_options.colTextMsg);
-		SendDlgItemMessage(m_hwnd, IDC_COLBACK_OTHERS, CPM_SETCOLOUR, 0, nen_options.colBackOthers);
-		SendDlgItemMessage(m_hwnd, IDC_COLTEXT_OTHERS, CPM_SETCOLOUR, 0, nen_options.colTextOthers);
-		SendDlgItemMessage(m_hwnd, IDC_COLBACK_ERR, CPM_SETCOLOUR, 0, nen_options.colBackErr);
-		SendDlgItemMessage(m_hwnd, IDC_COLTEXT_ERR, CPM_SETCOLOUR, 0, nen_options.colTextErr);
+		msgBack.SetColor(nen_options.colBackMsg);
+		msgText.SetColor(nen_options.colTextMsg);
+		otherBack.SetColor(nen_options.colBackOthers);
+		otherText.SetColor(nen_options.colTextOthers);
+		errBack.SetColor(nen_options.colBackErr);
+		errText.SetColor(nen_options.colTextErr);
 		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE, nen_options.bDefaultColorMsg ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS, nen_options.bDefaultColorOthers ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_ERR, nen_options.bDefaultColorErr ? BST_CHECKED : BST_UNCHECKED);
 
-		SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MUC, CPM_SETCOLOUR, 0, g_Settings.crPUTextColour);
-		SendDlgItemMessage(m_hwnd, IDC_COLBACK_MUC, CPM_SETCOLOUR, 0, g_Settings.crPUBkgColour);
+		mucText.SetColor(g_Settings.crPUTextColour);
+		mucBack.SetColor(g_Settings.crPUBkgColour);
 		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_MUC, g_Settings.iPopupStyle == 2 ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
@@ -530,14 +539,14 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayErr);
 		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETPOS, 0, (LPARAM)g_Settings.iPopupTimeout);
 
-		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_MESSAGE, !nen_options.bDefaultColorMsg);
-		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_MESSAGE, !nen_options.bDefaultColorMsg);
-		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_OTHERS, !nen_options.bDefaultColorOthers);
-		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_OTHERS, !nen_options.bDefaultColorOthers);
-		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_ERR, !nen_options.bDefaultColorErr);
-		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_ERR, !nen_options.bDefaultColorErr);
-		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_MUC, g_Settings.iPopupStyle == 3);
-		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_MUC, g_Settings.iPopupStyle == 3);
+		msgBack.Enable(!nen_options.bDefaultColorMsg);
+		msgText.Enable(!nen_options.bDefaultColorMsg);
+		otherBack.Enable(!nen_options.bDefaultColorOthers);
+		otherText.Enable(!nen_options.bDefaultColorOthers);
+		errBack.Enable(!nen_options.bDefaultColorErr);
+		errText.Enable(!nen_options.bDefaultColorErr);
+		mucText.Enable(g_Settings.iPopupStyle == 3);
+		mucBack.Enable(g_Settings.iPopupStyle == 3);
 
 		CheckDlgButton(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle < 2 ? BST_CHECKED : BST_UNCHECKED);
 		Utils::enableDlgControl(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
@@ -558,11 +567,8 @@ public:
 
 		db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
 		db_set_w(0, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
-
-		g_Settings.crPUBkgColour = SendDlgItemMessage(m_hwnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
-		db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
-		g_Settings.crPUTextColour = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
-		db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)g_Settings.crPUTextColour);
+		db_set_dw(0, CHAT_MODULE, "PopupColorBG", g_Settings.crPUBkgColour = mucBack.GetColor());
+		db_set_dw(0, CHAT_MODULE, "PopupColorText", g_Settings.crPUTextColour = mucText.GetColor());
 
 		NEN_WriteOptions(&nen_options);
 		CheckForRemoveMask();
@@ -614,14 +620,14 @@ public:
 			nen_options.iLimitPreview = GetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, nullptr, FALSE);
 		else
 			nen_options.iLimitPreview = 0;
-		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_MESSAGE, !nen_options.bDefaultColorMsg);
-		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_MESSAGE, !nen_options.bDefaultColorMsg);
-		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_OTHERS, !nen_options.bDefaultColorOthers);
-		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_OTHERS, !nen_options.bDefaultColorOthers);
-		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_ERR, !nen_options.bDefaultColorErr);
-		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_ERR, !nen_options.bDefaultColorErr);
-		Utils::enableDlgControl(m_hwnd, IDC_COLTEXT_MUC, g_Settings.iPopupStyle == 3);
-		Utils::enableDlgControl(m_hwnd, IDC_COLBACK_MUC, g_Settings.iPopupStyle == 3);
+		msgBack.Enable(!nen_options.bDefaultColorMsg);
+		msgText.Enable(!nen_options.bDefaultColorMsg);
+		otherBack.Enable(!nen_options.bDefaultColorOthers);
+		otherText.Enable(!nen_options.bDefaultColorOthers);
+		errBack.Enable(!nen_options.bDefaultColorErr);
+		errText.Enable(!nen_options.bDefaultColorErr);
+		mucText.Enable(g_Settings.iPopupStyle == 3);
+		mucBack.Enable(g_Settings.iPopupStyle == 3);
 
 		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
@@ -632,14 +638,14 @@ public:
 		Utils::enableDlgControl(m_hwnd, IDC_DELAY_ERR, nen_options.iDelayErr != -1);
 		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MUC, g_Settings.iPopupTimeout != -1);
 
-		nen_options.colBackMsg = SendDlgItemMessage(m_hwnd, IDC_COLBACK_MESSAGE, CPM_GETCOLOUR, 0, 0);
-		nen_options.colTextMsg = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MESSAGE, CPM_GETCOLOUR, 0, 0);
-		nen_options.colBackOthers = SendDlgItemMessage(m_hwnd, IDC_COLBACK_OTHERS, CPM_GETCOLOUR, 0, 0);
-		nen_options.colTextOthers = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_OTHERS, CPM_GETCOLOUR, 0, 0);
-		nen_options.colBackErr = SendDlgItemMessage(m_hwnd, IDC_COLBACK_ERR, CPM_GETCOLOUR, 0, 0);
-		nen_options.colTextErr = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_ERR, CPM_GETCOLOUR, 0, 0);
-		g_Settings.crPUBkgColour = SendDlgItemMessage(m_hwnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
-		g_Settings.crPUTextColour = SendDlgItemMessage(m_hwnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
+		nen_options.colBackMsg = msgBack.GetColor();
+		nen_options.colTextMsg = msgText.GetColor();
+		nen_options.colBackOthers = otherBack.GetColor();
+		nen_options.colTextOthers = otherText.GetColor();
+		nen_options.colBackErr = errBack.GetColor();
+		nen_options.colTextErr = errText.GetColor();
+		g_Settings.crPUBkgColour = mucBack.GetColor();
+		g_Settings.crPUTextColour = mucText.GetColor();
 	}
 };
 
