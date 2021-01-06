@@ -249,7 +249,11 @@ void vfMessage(int, TemplateVars *vars, MCONTACT, ItemData *item)
 
 void vfFile(int, TemplateVars *vars, MCONTACT, ItemData *item)
 {
-	vars->SetVar('M', item->getWBuf(), false);
+	CMStringW wszFileName(item->getWBuf());
+	wszFileName.Replace('\\', '/');
+	wszFileName = L"[url]file://" + wszFileName + L"[/url]";
+
+	vars->SetVar('M', wszFileName, false);
 }
 
 void vfUrl(int, TemplateVars *vars, MCONTACT, ItemData *item)
