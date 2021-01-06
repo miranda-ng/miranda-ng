@@ -782,7 +782,7 @@ Zmień nick w <%s>
 [Error]
 Błąd
 [has set the subject to:]
-ustawił temat:
+ustawił(a) temat:
 [Group chat invitation to\n%s]
 Zaproszenie do czatu\n%s
 ;file \protocols\JabberG\src\jabber_icolib.cpp
@@ -1385,7 +1385,7 @@ Musisz być połączony
 [Messaging]
 Wiadomości
 [Use message delivery receipts (XEP-0184)]
-
+Użyj potwierdzeń dostarczenia wiadomości (XEP-0184)
 [Enable avatars]
 Włącz obsługę awatarów
 [Log chat state changes]
@@ -1405,15 +1405,15 @@ Odbieraj notatki
 [Automatically save received notes]
 Automatycznie zapisuj otrzymane notatki
 [Inline pictures in messages (XEP-0231)]
-
+Zdjęcia w treści wiadomości (XEP-0231)
 [Enable chat states sending (XEP-0085)]
-
+Włącz wysyłanie statusów do czatu (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Włącz historię po stronie serwera (XEP-0136)
 [Enable Message Archive Management (XEP-0313)]
-Włącz zarządzanie archiwum wiadomości
+Włącz zarządzanie archiwum wiadomości (XEP-0313)
 [Enable carbon copies (XEP-0280)]
-
+Włącz kopie wiadomości do zasobów (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (Testing)]
 Użyj Stream Management (XEP-0198) gdy możliwe (Testowe)
 [Server options]
