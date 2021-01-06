@@ -299,7 +299,7 @@ Wszystkie konta
 [For different statuses]
 Dla różnych statusów
 [Cycle period, seconds]
-Co ile zamieniać, w sekundach
+Zmieniaj co (s)
 [Additional stuff]
 Pozostałe ustawienia
 [Ignore empty extra icons places (arrange to right).]
@@ -507,7 +507,7 @@ Pokaż tytuł
 [Locked]
 Zablokowane
 [Border]
-Obramowanie
+Wyrównanie
 [Floating]
 Pływający
 [Frames order]
@@ -521,9 +521,9 @@ Dodaj kontener
 [Remove container]
 Usuń kontener
 [Vertical align:]
-Pionowe wyrównanie:
+Pionowo
 [Horizontal align:]
-Poziome wyrównanie:
+Poziomo
 [Container type:]
 Typ kontenera:
 [Container width:]
