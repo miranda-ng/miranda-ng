@@ -267,25 +267,25 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 		case IDC_SIMPLE:
 		case IDOK:
-		{
-			MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETITEMDATA, SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETCURSEL, 0, 0), 0);
-			int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)) + 1;
-			if (length > 1) {
-				wchar_t *text = (wchar_t*)mir_alloc(length * sizeof(wchar_t));
-				if (!text) {
-					msg(TranslateT("Couldn't allocate enough memory"), L"");
-					break;
+			{
+				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETITEMDATA, SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETCURSEL, 0, 0), 0);
+				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)) + 1;
+				if (length > 1) {
+					wchar_t *text = (wchar_t *)mir_alloc(length * sizeof(wchar_t));
+					if (!text) {
+						msg(TranslateT("Couldn't allocate enough memory"), L"");
+						break;
+					}
+					GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
+					g_plugin.setWString(hContact, "PounceMsg", text);
+					mir_free(text);
 				}
-				GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-				g_plugin.setWString(hContact, "PounceMsg", text);
-				mir_free(text);
+				else g_plugin.delSetting(hContact, "PounceMsg");
+				saveLastSetting(hContact, hwnd);
 			}
-			else g_plugin.delSetting(hContact, "PounceMsg");
-			saveLastSetting(hContact, hwnd);
-		} // fall through
-		if (LOWORD(wParam) == IDC_SIMPLE)
-			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE_SIMPLE), nullptr, BuddyPounceSimpleDlgProc, (LPARAM)((windowInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->hContact);
-		// fall through
+			if (LOWORD(wParam) == IDC_SIMPLE)
+				CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE_SIMPLE), nullptr, BuddyPounceSimpleDlgProc, (LPARAM)((windowInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->hContact);
+			__fallthrough;
 
 		case IDCANCEL:
 			if (wi->SendIfMy) DestroyWindow(wi->SendIfMy);

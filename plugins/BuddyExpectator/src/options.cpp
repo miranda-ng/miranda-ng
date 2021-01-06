@@ -195,9 +195,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		break;
 
 	case WM_NOTIFY:
-	{
-		NMHDR* nmhdr = (NMHDR*)lParam;
-		switch (nmhdr->code) {
+		switch (((NMHDR*)lParam)->code) {
 		case PSN_APPLY:
 			//iAbsencePeriod
 			int num = GetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, nullptr, FALSE);
@@ -254,7 +252,6 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			return TRUE;
 		}
 		break;
-	}
 	}
 	return 0;
 }
@@ -381,9 +378,9 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 		}
 
 		break;
+
 	case WM_NOTIFY:
-	{
-		NMHDR* nmhdr = (NMHDR*)lParam;
+		NMHDR *nmhdr = (NMHDR *)lParam;
 		switch (nmhdr->code) {
 		case PSN_APPLY:
 			if (IsDlgButtonChecked(hwndDlg, IDC_COLORS_POPUP)) {
@@ -415,7 +412,6 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			return TRUE;
 		}
 		break;
-	}
 	}
 	return 0;
 }

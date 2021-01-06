@@ -37,8 +37,7 @@ int settingId[] =
 //
 INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -49,23 +48,16 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				SetDlgItemInt(hwndDlg, -settingId[indx], g_plugin.getDword(settingName[indx], settingDefault[indx]), FALSE);
 
 		CheckDlgButton(hwndDlg, IDC_ALPHANUM, g_plugin.getDword("base64", 1) ? BST_CHECKED : BST_UNCHECKED);
-
 		return TRUE;
 
 	case WM_COMMAND:
-		if (//MAKEWPARAM(IDC_AUTO, BN_CLICKED) != wParam || 
-			MAKEWPARAM(IDC_ALPHANUM, BN_CLICKED) != wParam)
-		{
-			for (int indx = 0; indx < _countof(settingId); indx++)
-			{
-				if (LOWORD(wParam) == abs(settingId[indx]))
-				{
-					if (settingId[indx] > 0)
-					{
+		if (MAKEWPARAM(IDC_ALPHANUM, BN_CLICKED) != wParam) {
+			for (int indx = 0; indx < _countof(settingId); indx++) {
+				if (LOWORD(wParam) == abs(settingId[indx])) {
+					if (settingId[indx] > 0) {
 						if (HIWORD(wParam) != CPN_COLOURCHANGED) return FALSE;
 					}
-					else
-					{
+					else {
 						if (HIWORD(wParam) != EN_CHANGE) return FALSE;
 						if ((HWND)lParam != GetFocus()) return FALSE;
 					}
@@ -79,19 +71,17 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		return FALSE;
 
 	case WM_NOTIFY:
-		if ((((NMHDR*)lParam)->idFrom == 0) && (((LPNMHDR)lParam)->code == PSN_APPLY))
-		{
+		if ((((NMHDR *)lParam)->idFrom == 0) && (((LPNMHDR)lParam)->code == PSN_APPLY)) {
 			int value;
 			BOOL succ;
 
-			for (int indx = 0; indx < _countof(settingId); indx++)
-			{
+			for (int indx = 0; indx < _countof(settingId); indx++) {
 				if (settingId[indx] > 0)
 					value = SendDlgItemMessage(hwndDlg, settingId[indx], CPM_GETCOLOUR, 0, 0);
-				else
-				{
+				else {
 					value = GetDlgItemInt(hwndDlg, -settingId[indx], &succ, FALSE);
-					if (!succ) value = settingDefault[indx];
+					if (!succ)
+						value = settingDefault[indx];
 				}
 				g_plugin.setDword(settingName[indx], value);
 			}
