@@ -593,7 +593,7 @@ Miranda_WaitOnHandleEx @663
 ?MetaMergeHistory@MDatabaseReadonly@@UEAAHPEAUDBCachedContact@@0@Z @680 NONAME
 ?MetaSplitHistory@MDatabaseReadonly@@UEAAHPEAUDBCachedContact@@0@Z @681 NONAME
 ?SetCacheSafetyMode@MDatabaseReadonly@@UEAAXH@Z @682 NONAME
-?WriteContactSetting@MDatabaseReadonly@@UEAAHIPEAUDBCONTACTWRITESETTING@@@Z @683 NONAME
+?WriteContactSettingWorker@MDatabaseReadonly@@UEAAHIAEAUDBCONTACTWRITESETTING@@@Z @683 NONAME
 ??0MDatabaseReadonly@@QEAA@XZ @684 NONAME
 ??_7MDatabaseReadonly@@6B@ @685 NONAME
 ?GetEventById@MDatabaseReadonly@@UEAAIPEBD0@Z @686 NONAME
@@ -752,3 +752,6 @@ Netlib_GetTlsUnique @831 NONAME
 ?SafeMoveFile@PU@@YAHPEB_W0@Z @840 NONAME
 ?FilterSearch@Clist@@3V?$CMOption@_N@@A @841 NONAME
 ?FillContactSettings@MDatabaseCommon@@IEAAXXZ @842 NONAME
+?GetContactSettingWorker@MDatabaseCommon@@MEAAHIPEBD0PEAUDBVARIANT@@H@Z @843 NONAME
+?WriteContactSetting@MDatabaseCommon@@UEAAHIPEAUDBCONTACTWRITESETTING@@@Z @844 NONAME
+?getCrypt@MDatabaseCommon@@QEBAPEAUMICryptoEngine@@XZ @845 NONAME

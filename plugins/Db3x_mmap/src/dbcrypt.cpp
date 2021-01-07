@@ -95,7 +95,7 @@ void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
 
 	for (auto &p : arSettings) {
 		size_t len;
-		BYTE *pResult = db->m_crypto->encodeString(p->szValue, &len);
+		BYTE *pResult = db->getCrypt()->encodeString(p->szValue, &len);
 		if (pResult != nullptr) {
 			DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
 			dbcws.value.type = DBVT_ENCRYPTED;

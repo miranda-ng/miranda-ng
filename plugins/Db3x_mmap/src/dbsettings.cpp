@@ -219,125 +219,18 @@ LBL_Seek:
 	return 1;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws)
+STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws)
 {
-	if (dbcws == nullptr || dbcws->szSetting == nullptr || dbcws->szModule == nullptr || m_bReadOnly)
-		return 1;
+	log1(" write database as %s", printVariant(&dbcws.value));
 
-	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	int settingNameLen = (int)mir_strlen(dbcws->szSetting);
-	int moduleNameLen = (int)mir_strlen(dbcws->szModule);
-	if (settingNameLen > 0xFE) {
-#ifdef _DEBUG
-		OutputDebugStringA("WriteContactSetting() got a > 255 setting name length. \n");
-#endif
-		return 1;
-	}
-	if (moduleNameLen > 0xFE) {
-#ifdef _DEBUG
-		OutputDebugStringA("WriteContactSetting() got a > 255 module name length. \n");
-#endif
-		return 1;
-	}
-
-	// used for notifications
-	DBCONTACTWRITESETTING dbcwNotif = *dbcws;
-	if (dbcwNotif.value.type == DBVT_WCHAR) {
-		if (dbcwNotif.value.pszVal != nullptr) {
-			char* val = mir_utf8encodeW(dbcwNotif.value.pwszVal);
-			if (val == nullptr)
-				return 1;
-
-			dbcwNotif.value.pszVal = (char*)alloca(mir_strlen(val) + 1);
-			mir_strcpy(dbcwNotif.value.pszVal, val);
-			mir_free(val);
-			dbcwNotif.value.type = DBVT_UTF8;
-		}
-		else return 1;
-	}
-
-	if (dbcwNotif.szModule == nullptr || dbcwNotif.szSetting == nullptr)
-		return 1;
-
-	DBCONTACTWRITESETTING dbcwWork = dbcwNotif;
-	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
-	bool bIsResident = szCachedSettingName[-1] != 0;
-
-	mir_ptr<BYTE> pEncoded(nullptr);
-	bool bIsEncrypted = false;
-	switch (dbcwWork.value.type) {
-	case DBVT_BYTE: case DBVT_WORD: case DBVT_DWORD:
-		break;
-
-	case DBVT_ASCIIZ: case DBVT_UTF8:
-		bIsEncrypted = !bIsResident && (m_bEncrypted || IsSettingEncrypted(dbcws->szModule, dbcws->szSetting));
-	LBL_WriteString:
-		if (dbcwWork.value.pszVal == nullptr)
-			return 1;
-		dbcwWork.value.cchVal = (WORD)mir_strlen(dbcwWork.value.pszVal);
-		if (bIsEncrypted) {
-			size_t len;
-			BYTE *pResult = m_crypto->encodeString(dbcwWork.value.pszVal, &len);
-			if (pResult != nullptr) {
-				pEncoded = dbcwWork.value.pbVal = pResult;
-				dbcwWork.value.cpbVal = (WORD)len;
-				dbcwWork.value.type = DBVT_ENCRYPTED;
-			}
-		}
-		break;
-
-	case DBVT_UNENCRYPTED:
-		dbcwNotif.value.type = dbcwWork.value.type = DBVT_UTF8;
-		goto LBL_WriteString;
-
-	case DBVT_BLOB: case DBVT_ENCRYPTED:
-		if (dbcwWork.value.pbVal == nullptr)
-			return 1;
-		break;
-	default:
-		return 1;
-	}
-
-	mir_cslockfull lck(m_csDbAccess);
-
+	DWORD settingNameLen = (DWORD)mir_strlen(dbcws.szSetting);
 	DWORD ofsBlobPtr, ofsContact = GetContactOffset(contactID);
 	if (ofsContact == 0) {
 		_ASSERT(false); // contact doesn't exist?
 		return 2;
 	}
 
-	log3("set [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
-
-	// we don't cache blobs and passwords
-	if (dbcwWork.value.type != DBVT_BLOB && dbcwWork.value.type != DBVT_ENCRYPTED && !bIsEncrypted) {
-		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
-		if (pCachedValue != nullptr) {
-			bool bIsIdentical = false;
-			if (pCachedValue->type == dbcwWork.value.type) {
-				switch (dbcwWork.value.type) {
-				case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == dbcwWork.value.bVal;  break;
-				case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == dbcwWork.value.wVal;  break;
-				case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == dbcwWork.value.dVal;  break;
-				case DBVT_UTF8:
-				case DBVT_ASCIIZ: bIsIdentical = mir_strcmp(pCachedValue->pszVal, dbcwWork.value.pszVal) == 0; break;
-				}
-				if (bIsIdentical)
-					return 0;
-			}
-			m_cache->SetCachedVariant(&dbcwWork.value, pCachedValue);
-		}
-		if (bIsResident) {
-			lck.unlock();
-			log2(" set resident as %s (%p)", printVariant(&dbcwWork.value), pCachedValue);
-			NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwWork);
-			return 0;
-		}
-	}
-	else m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
-
-	log1(" write database as %s", printVariant(&dbcwWork.value));
-
-	DWORD ofsModuleName = GetModuleNameOfs(dbcwWork.szModule);
+	DWORD ofsModuleName = GetModuleNameOfs(dbcws.szModule);
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, nullptr);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
@@ -348,15 +241,15 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 	DBContactSettings dbcs;
 	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsModuleName);
 	if (ofsSettingsGroup == 0) {  //module group didn't exist - make it
-		switch (dbcwWork.value.type) {
+		switch (dbcws.value.type) {
 		case DBVT_ASCIIZ: case DBVT_UTF8:
-			bytesRequired = dbcwWork.value.cchVal + 2;
+			bytesRequired = dbcws.value.cchVal + 2;
 			break;
 		case DBVT_BLOB: case DBVT_ENCRYPTED:
-			bytesRequired = dbcwWork.value.cpbVal + 2;
+			bytesRequired = dbcws.value.cpbVal + 2;
 			break;
 		default:
-			bytesRequired = dbcwWork.value.type;
+			bytesRequired = dbcws.value.type;
 		}
 		bytesRequired += 2 + settingNameLen;
 		bytesRequired += (DB_SETTINGS_RESIZE_GRANULARITY - (bytesRequired % DB_SETTINGS_RESIZE_GRANULARITY)) % DB_SETTINGS_RESIZE_GRANULARITY;
@@ -380,7 +273,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 		pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(settingNameLen + 1);
-			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, dbcwWork.szSetting, settingNameLen))
+			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, dbcws.szSetting, settingNameLen))
 				break;
 			NeedBytes(1);
 			MoveAlong(pBlob[0] + 1);
@@ -394,9 +287,9 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 			MoveAlong(1 + settingNameLen);
 			// if different type or variable length and length is different
 			NeedBytes(3);
-			if (pBlob[0] != dbcwWork.value.type ||
-				((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob + 1) != dbcwWork.value.cchVal) ||
-				((pBlob[0] == DBVT_BLOB || pBlob[0] == DBVT_ENCRYPTED) && *(PWORD)(pBlob + 1) != dbcwWork.value.cpbVal))
+			if (pBlob[0] != dbcws.value.type ||
+				((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob + 1) != dbcws.value.cchVal) ||
+				((pBlob[0] == DBVT_BLOB || pBlob[0] == DBVT_ENCRYPTED) && *(PWORD)(pBlob + 1) != dbcws.value.cpbVal))
 			{
 				// bin it
 				NeedBytes(3);
@@ -418,26 +311,23 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 			else {
 				// replace existing setting at pBlob
 				MoveAlong(1);	// skip data type
-				switch (dbcwWork.value.type) {
-				case DBVT_BYTE:  DBWrite(ofsBlobPtr, &dbcwWork.value.bVal, 1); break;
-				case DBVT_WORD:  DBWrite(ofsBlobPtr, &dbcwWork.value.wVal, 2); break;
-				case DBVT_DWORD: DBWrite(ofsBlobPtr, &dbcwWork.value.dVal, 4); break;
+				switch (dbcws.value.type) {
+				case DBVT_BYTE:  DBWrite(ofsBlobPtr, &dbcws.value.bVal, 1); break;
+				case DBVT_WORD:  DBWrite(ofsBlobPtr, &dbcws.value.wVal, 2); break;
+				case DBVT_DWORD: DBWrite(ofsBlobPtr, &dbcws.value.dVal, 4); break;
 				case DBVT_BLOB:
-					DBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
+					DBWrite(ofsBlobPtr + 2, dbcws.value.pbVal, dbcws.value.cpbVal);
 					break;
 				case DBVT_ENCRYPTED:
-					DBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
+					DBWrite(ofsBlobPtr + 2, dbcws.value.pbVal, dbcws.value.cpbVal);
 					break;
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
-					DBWrite(ofsBlobPtr + 2, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
+					DBWrite(ofsBlobPtr + 2, dbcws.value.pszVal, dbcws.value.cchVal);
 					break;
 				}
 				// quit
 				DBFlush(1);
-				lck.unlock();
-				// notify
-				NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
 				return 0;
 			}
 		}
@@ -446,15 +336,15 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 	// cannot do a simple replace, add setting to end of list
 	// pBlob already points to end of list
 	// see if it fits
-	switch (dbcwWork.value.type) {
+	switch (dbcws.value.type) {
 	case DBVT_ASCIIZ: case DBVT_UTF8:
-		bytesRequired = dbcwWork.value.cchVal + 2;
+		bytesRequired = dbcws.value.cchVal + 2;
 		break;
 	case DBVT_BLOB: case DBVT_ENCRYPTED:
-		bytesRequired = dbcwWork.value.cpbVal + 2;
+		bytesRequired = dbcws.value.cpbVal + 2;
 		break;
 	default:
-		bytesRequired = dbcwWork.value.type;
+		bytesRequired = dbcws.value.type;
 	}
 
 	bytesRequired += 2 + settingNameLen;
@@ -501,31 +391,31 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 
 	// we now have a place to put it and enough space: make it
 	DBWrite(ofsBlobPtr, &settingNameLen, 1);
-	DBWrite(ofsBlobPtr + 1, (PVOID)dbcwWork.szSetting, settingNameLen);
+	DBWrite(ofsBlobPtr + 1, (PVOID)dbcws.szSetting, settingNameLen);
 	MoveAlong(1 + settingNameLen);
-	DBWrite(ofsBlobPtr, &dbcwWork.value.type, 1);
+	DBWrite(ofsBlobPtr, &dbcws.value.type, 1);
 	MoveAlong(1);
-	switch (dbcwWork.value.type) {
-	case DBVT_BYTE: DBWrite(ofsBlobPtr, &dbcwWork.value.bVal, 1); MoveAlong(1); break;
-	case DBVT_WORD: DBWrite(ofsBlobPtr, &dbcwWork.value.wVal, 2); MoveAlong(2); break;
-	case DBVT_DWORD: DBWrite(ofsBlobPtr, &dbcwWork.value.dVal, 4); MoveAlong(4); break;
+	switch (dbcws.value.type) {
+	case DBVT_BYTE: DBWrite(ofsBlobPtr, &dbcws.value.bVal, 1); MoveAlong(1); break;
+	case DBVT_WORD: DBWrite(ofsBlobPtr, &dbcws.value.wVal, 2); MoveAlong(2); break;
+	case DBVT_DWORD: DBWrite(ofsBlobPtr, &dbcws.value.dVal, 4); MoveAlong(4); break;
 
 	case DBVT_BLOB:
-		DBWrite(ofsBlobPtr, &dbcwWork.value.cpbVal, 2);
-		DBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
-		MoveAlong(2 + dbcwWork.value.cpbVal);
+		DBWrite(ofsBlobPtr, &dbcws.value.cpbVal, 2);
+		DBWrite(ofsBlobPtr + 2, dbcws.value.pbVal, dbcws.value.cpbVal);
+		MoveAlong(2 + dbcws.value.cpbVal);
 		break;
 
 	case DBVT_ENCRYPTED:
-		DBWrite(ofsBlobPtr, &dbcwWork.value.cpbVal, 2);
-		DBWrite(ofsBlobPtr + 2, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
-		MoveAlong(2 + dbcwWork.value.cpbVal);
+		DBWrite(ofsBlobPtr, &dbcws.value.cpbVal, 2);
+		DBWrite(ofsBlobPtr + 2, dbcws.value.pbVal, dbcws.value.cpbVal);
+		MoveAlong(2 + dbcws.value.cpbVal);
 		break;
 
 	case DBVT_UTF8: case DBVT_ASCIIZ:
-		DBWrite(ofsBlobPtr, &dbcwWork.value.cchVal, 2);
-		DBWrite(ofsBlobPtr + 2, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
-		MoveAlong(2 + dbcwWork.value.cchVal);
+		DBWrite(ofsBlobPtr, &dbcws.value.cchVal, 2);
+		DBWrite(ofsBlobPtr + 2, dbcws.value.pszVal, dbcws.value.cchVal);
+		MoveAlong(2 + dbcws.value.cchVal);
 		break;
 	}
 
@@ -534,10 +424,6 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 
 	// quit
 	DBFlush(1);
-	lck.unlock();
-
-	// notify
-	NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
 	return 0;
 }
 

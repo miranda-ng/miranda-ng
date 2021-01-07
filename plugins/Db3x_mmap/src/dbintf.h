@@ -61,7 +61,6 @@ DBHeader
 #define WSOFS_END   0xFFFFFFFF
 #define WS_ERROR    0xFFFFFFFF
 
-#define DBVT_ENCRYPTED   250
 #define DBVT_UNENCRYPTED 251
 
 #define MARKED_READ (DBEF_READ | DBEF_SENT)
@@ -234,7 +233,7 @@ public:
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam) override;
 
 	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) override;
-	STDMETHODIMP_(BOOL)     WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws) override;
+	STDMETHODIMP_(BOOL)     WriteContactSettingWorker(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) override;
 	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting) override;
 	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param) override;
 
@@ -274,8 +273,6 @@ public:
 	DWORD    m_flushFailTick;
 	PBYTE    m_pDbCache;
 	HANDLE   m_hMap;
-
-	MICryptoEngine *m_crypto;
 
 protected:
 	DWORD    m_dwFileSize, m_dwMaxContactId;

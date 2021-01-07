@@ -167,16 +167,20 @@ interface MIR_APP_EXPORT MIDatabase
 #pragma warning(push)
 #pragma warning(disable:4275)
 
+struct MICryptoEngine;
+
 class MIR_APP_EXPORT MDatabaseCommon : public MIDatabase, public MNonCopyable
 {
 	HANDLE m_hLock = nullptr;
 
 protected:
+	bool m_bEncrypted = false;
 	int m_codePage;
 	
 	mir_cs m_csDbAccess;
 	LIST<char> m_lResidentSettings;
 	MIDatabaseCache* m_cache;
+	MICryptoEngine *m_crypto;
 
 protected:
 	void FillContactSettings();
@@ -184,12 +188,14 @@ protected:
 	int  CheckProto(DBCachedContact *cc, const char *proto);
 	void UnlockName();
 
-	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) PURE;
+	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
+	STDMETHOD_(BOOL, WriteContactSettingWorker)(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) PURE;
 
 public:
 	MDatabaseCommon();
 	virtual ~MDatabaseCommon();
 
+	__forceinline MICryptoEngine* getCrypt() const { return m_crypto; }
 	__forceinline MIDatabaseCache* getCache() const { return m_cache; }
 
 	STDMETHODIMP_(BOOL) DeleteModule(MCONTACT contactID, LPCSTR szModule) override;
@@ -206,7 +212,8 @@ public:
 	STDMETHODIMP_(BOOL) GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
 	STDMETHODIMP_(BOOL) GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
 	STDMETHODIMP_(BOOL) FreeVariant(DBVARIANT *dbv);
-	
+	STDMETHODIMP_(BOOL) WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws) override;
+
 	STDMETHODIMP_(BOOL) EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam) override;
 	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName) override;
 	
@@ -252,7 +259,7 @@ public:
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP_(BOOL) GetContactSettingWorker(MCONTACT, LPCSTR, LPCSTR, DBVARIANT*, int) override;
-	STDMETHODIMP_(BOOL) WriteContactSetting(MCONTACT, DBCONTACTWRITESETTING*) override;
+	STDMETHODIMP_(BOOL) WriteContactSettingWorker(MCONTACT, DBCONTACTWRITESETTING&) override;
 	STDMETHODIMP_(BOOL) DeleteContactSetting(MCONTACT, LPCSTR, LPCSTR) override;
 	STDMETHODIMP_(BOOL) EnumContactSettings(MCONTACT, DBSETTINGENUMPROC, const char*, void*) override;
 

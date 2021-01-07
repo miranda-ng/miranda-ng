@@ -32,8 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DBMODE_SHARED    0x0001
 #define DBMODE_READONLY  0x0002
 
-#define DBVT_ENCRYPTED   250
-
 #define MARKED_READ (DBEF_READ | DBEF_SENT)
 
 #include <pshpack1.h>
@@ -173,7 +171,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	// database stuff
 
 	ptrW         m_pwszProfileName;
-	bool         m_safetyMode = true, m_bReadOnly, m_bEncrypted, m_bUsesPassword;
+	bool         m_safetyMode = true, m_bReadOnly, m_bUsesPassword;
 
 	MDBX_env    *m_env;
 	MDBX_txn    *m_pWriteTran;
@@ -278,8 +276,7 @@ public:
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam) override;
 
-	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, const char *szModule, const char *szSetting, DBVARIANT *dbv, int isStatic) override;
-	STDMETHODIMP_(BOOL)     WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws) override;
+	STDMETHODIMP_(BOOL)     WriteContactSettingWorker(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) override;
 	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, const char *szModule, const char *szSetting) override;
 	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param) override;
 
@@ -307,7 +304,4 @@ protected:
 	STDMETHODIMP_(VOID)     Destroy();
 
 	DBCHeckCallback *cb;
-
-public:
-	MICryptoEngine *m_crypto;
 };

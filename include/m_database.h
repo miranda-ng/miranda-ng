@@ -128,14 +128,16 @@ EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC
 /////////////////////////////////////////////////////////////////////////////////////////
 // DBVARIANT: used by db/contact/getsetting and db/contact/writesetting
 
-#define DBVT_DELETED  0   // this setting just got deleted, no other values are valid
-#define DBVT_BYTE     1	  // bVal and cVal are valid
-#define DBVT_WORD     2	  // wVal and sVal are valid
-#define DBVT_DWORD    4	  // dVal and lVal are valid
-#define DBVT_ASCIIZ 255	  // pszVal is valid
-#define DBVT_BLOB   254	  // cpbVal and pbVal are valid
-#define DBVT_UTF8   253   // pszVal is valid
-#define DBVT_WCHAR  252   // pwszVal is valid
+#define DBVT_DELETED       0   // this setting just got deleted, no other values are valid
+#define DBVT_BYTE          1	 // bVal and cVal are valid
+#define DBVT_WORD          2	 // wVal and sVal are valid
+#define DBVT_DWORD         4	 // dVal and lVal are valid
+#define DBVT_ASCIIZ      255	 // pszVal is valid
+#define DBVT_BLOB        254	 // cpbVal and pbVal are valid
+#define DBVT_UTF8        253   // pszVal is valid
+#define DBVT_WCHAR       252   // pwszVal is valid
+#define DBVT_ENCRYPTED   250   // blob of encrypted bytesw
+
 
 #define DBVTF_VARIABLELENGTH  0x80
 

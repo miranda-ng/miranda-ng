@@ -159,7 +159,7 @@ static bool CheckOldPassword(HWND hwndDlg, CDb3Mmap *db)
 	if (db->usesPassword()) {
 		wchar_t buf[100];
 		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, _countof(buf));
-		if (!db->m_crypto->checkPassword(T2Utf(buf))) {
+		if (!db->getCrypt()->checkPassword(T2Utf(buf))) {
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));
 			return false;
 		}

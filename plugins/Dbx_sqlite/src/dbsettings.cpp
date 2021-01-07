@@ -24,6 +24,61 @@ void CDbxSQLite::InitSettings()
 	for (auto &it : settings_stmts)
 		sqlite3_prepare_v3(m_db, it.szQuery, -1, SQLITE_PREPARE_PERSISTENT, &it.pQuery, nullptr);
 
+	sqlite3_stmt *stmt = nullptr;
+	sqlite3_prepare_v2(m_db, "SELECT type, value, contact_id, module, setting FROM settings;", -1, &stmt, nullptr);
+	while (sqlite3_step(stmt) == SQLITE_ROW) {
+		MCONTACT hContact = sqlite3_column_int64(stmt, 2);
+		auto *szModule = (const char *)sqlite3_column_text(stmt, 3);
+		auto *szSetting = (const char *)sqlite3_column_text(stmt, 4);
+
+		size_t settingNameLen = strlen(szSetting);
+		size_t moduleNameLen = strlen(szModule);
+
+		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
+
+		DBVARIANT *dbv = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
+		if (dbv == nullptr) // garbage! a setting for removed/non-existent contact
+			continue;
+
+		dbv->type = (int)sqlite3_column_int(stmt, 0);
+		switch (dbv->type) {
+		case DBVT_BYTE:
+			dbv->bVal = sqlite3_column_int(stmt, 1);
+			break;
+
+		case DBVT_WORD:
+			dbv->wVal = sqlite3_column_int(stmt, 1);
+			break;
+
+		case DBVT_DWORD:
+			dbv->dVal = sqlite3_column_int64(stmt, 1);
+			break;
+
+		case DBVT_ASCIIZ:
+		case DBVT_UTF8:
+			dbv->cchVal = sqlite3_column_bytes(stmt, 1);
+			{
+				const char *value = (const char *)sqlite3_column_text(stmt, 1);
+				dbv->pszVal = (char *)mir_alloc(dbv->cchVal + 1);
+				memcpy(dbv->pszVal, value, dbv->cchVal);
+				dbv->pszVal[dbv->cchVal] = 0;
+			}
+			break;
+
+		case DBVT_ENCRYPTED:
+		case DBVT_BLOB:
+			dbv->cpbVal = sqlite3_column_bytes(stmt, 1);
+			{
+				const char *data = (const char *)sqlite3_column_blob(stmt, 1);
+				dbv->pbVal = (BYTE *)mir_alloc(dbv->cpbVal + 1);
+				memcpy(dbv->pbVal, data, dbv->cpbVal);
+				dbv->pbVal[dbv->cpbVal] = 0;
+			}
+			break;
+		}
+	}
+	sqlite3_finalize(stmt);
+
 	FillContactSettings();
 }
 
@@ -32,6 +87,8 @@ void CDbxSQLite::UninitSettings()
 	for (auto &it : settings_stmts)
 		sqlite3_finalize(it.pQuery);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL CDbxSQLite::EnumModuleNames(DBMODULEENUMPROC pFunc, void *param)
 {
@@ -55,223 +112,32 @@ BOOL CDbxSQLite::EnumModuleNames(DBMODULEENUMPROC pFunc, void *param)
 	return result;
 }
 
-static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+BOOL CDbxSQLite::WriteContactSettingWorker(MCONTACT hContact, DBCONTACTWRITESETTING &dbcws)
 {
-	if (!strcmp(szModule, META_PROTO))
-		return strcmp(szSetting, "IsSubcontact") && strcmp(szSetting, "ParentMetaID");
-
-	if (!strcmp(szModule, "Ignore"))
-		return false;
-
-	return true;
-}
-
-BOOL CDbxSQLite::GetContactSettingWorker(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
-{
-	if (szSetting == nullptr || szModule == nullptr)
-		return 1;
-
-	DBCachedContact *cc = nullptr;
-	if (hContact) {
-		cc = m_cache->GetCachedContact(hContact);
-		if (cc == nullptr)
-			return 1;
-	}
-
-	mir_cslock lock(m_csDbAccess);
-
-LBL_Seek:
-	char *cachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, mir_strlen(szModule), mir_strlen(szSetting));
-	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, cachedSettingName, 0);
-	if (pCachedValue != nullptr) {
-		if (pCachedValue->type == DBVT_UTF8) {
-			int cbOrigLen = dbv->cchVal;
-			char *cbOrigPtr = dbv->pszVal;
-			memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
-			if (isStatic) {
-				int cbLen = 0;
-				if (pCachedValue->pszVal != nullptr)
-					cbLen = (int)mir_strlen(pCachedValue->pszVal);
-
-				cbOrigLen--;
-				dbv->pszVal = cbOrigPtr;
-				if (cbLen < cbOrigLen)
-					cbOrigLen = cbLen;
-				memcpy(dbv->pszVal, pCachedValue->pszVal, cbOrigLen);
-				dbv->pszVal[cbOrigLen] = 0;
-				dbv->cchVal = cbLen;
-			}
-			else {
-				dbv->pszVal = (char *)mir_alloc(mir_strlen(pCachedValue->pszVal) + 1);
-				mir_strcpy(dbv->pszVal, pCachedValue->pszVal);
-			}
-		}
-		else memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
-
-		return (pCachedValue->type == DBVT_DELETED) ? 1 : 0;
-	}
-
-	// never look db for the resident variable
-	if (cachedSettingName[-1] != 0)
-		return 1;
-
-	sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_GET].pQuery;
-	sqlite3_bind_int64(stmt, 1, hContact);
-	sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
-	sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
-	int rc = sqlite3_step(stmt);
-	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
-	if (rc != SQLITE_ROW) {
-		sqlite3_reset(stmt);
-		if (rc == SQLITE_DONE && cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
-			if (hContact = db_mc_getDefault(hContact)) {
-				if (szModule = Proto_GetBaseAccountName(hContact))
-					goto LBL_Seek;
-			}
-		}
-		return 1;
-	}
-	dbv->type = (int)sqlite3_column_int(stmt, 0);
-	switch (dbv->type) {
-	case DBVT_DELETED:
-		dbv->type = DBVT_DELETED;
-		sqlite3_reset(stmt);
-		return 2;
-	case DBVT_BYTE:
-		dbv->bVal = sqlite3_column_int(stmt, 1);
-		break;
-	case DBVT_WORD:
-		dbv->wVal = sqlite3_column_int(stmt, 1);
-		break;
-	case DBVT_DWORD:
-		dbv->dVal = sqlite3_column_int64(stmt, 1);
-		break;
-	case DBVT_UTF8:
-		dbv->cchVal = sqlite3_column_bytes(stmt, 1);
-		{
-			const char *value = (const char *)sqlite3_column_text(stmt, 1);
-			if (!isStatic)
-				dbv->pszVal = (char *)mir_alloc(dbv->cchVal + 1);
-			memcpy(dbv->pszVal, value, dbv->cchVal);
-			dbv->pszVal[dbv->cchVal] = 0;
-		}
-		break;
-	case DBVT_BLOB:
-		dbv->cpbVal = sqlite3_column_bytes(stmt, 1);
-		{
-			const char *data = (const char *)sqlite3_column_blob(stmt, 1);
-			if (!isStatic)
-				dbv->pbVal = (BYTE *)mir_alloc(dbv->cpbVal + 1);
-			memcpy(dbv->pbVal, data, dbv->cpbVal);
-		}
-		break;
-	}
-	sqlite3_reset(stmt);
-
-	// add to cache
-	if (dbv->type != DBVT_BLOB) {
-		pCachedValue = m_cache->GetCachedValuePtr(hContact, cachedSettingName, 1);
-		if (pCachedValue != nullptr)
-			m_cache->SetCachedVariant(dbv, pCachedValue);
-	}
-
-	return 0;
-}
-
-BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *dbcws)
-{
-	if (dbcws == nullptr || dbcws->szSetting == nullptr || dbcws->szModule == nullptr)
-		return 1;
-
-	if (hContact) {
-		DBCachedContact *cc = m_cache->GetCachedContact(hContact);
-		if (cc == nullptr)
-			return 1;
-	}
-
-	DBCONTACTWRITESETTING dbcwNotif = *dbcws;
-	// we work only with utf-8 inside
-	switch (dbcwNotif.value.type) {
-	case DBVT_UTF8:
-		dbcwNotif.value.pszVal = mir_strdup(dbcws->value.pszVal);
-		break;
-	case DBVT_ASCIIZ:
-		{
-			ptrA value(mir_utf8encode(dbcws->value.pszVal));
-			dbcwNotif.value.pszVal = NEWSTR_ALLOCA(value);
-			dbcwNotif.value.type = DBVT_UTF8;
-			break;
-		}
-	case DBVT_WCHAR:
-		{
-			T2Utf value(dbcwNotif.value.pwszVal);
-			dbcwNotif.value.pszVal = NEWSTR_ALLOCA(value);
-			dbcwNotif.value.type = DBVT_UTF8;
-			break;
-		}
-	}
-	DBCONTACTWRITESETTING dbcwWork = dbcwNotif;
-	if (dbcwWork.value.type == DBVT_UTF8)
-		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
-
-	mir_cslockfull lock(m_csDbAccess);
-
-	char *cachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, mir_strlen(dbcwWork.szModule), mir_strlen(dbcwWork.szSetting));
-	bool isResident = cachedSettingName[-1] != 0;
-
-	// we don't cache blobs
-	if (dbcwWork.value.type != DBVT_BLOB) {
-		DBVARIANT *cachedValue = m_cache->GetCachedValuePtr(hContact, cachedSettingName, 1);
-		if (cachedValue != nullptr) {
-			bool isIdentical = false;
-			if (cachedValue->type == dbcwWork.value.type) {
-				switch (dbcwWork.value.type) {
-				case DBVT_BYTE:
-					isIdentical = cachedValue->bVal == dbcwWork.value.bVal;
-					break;
-				case DBVT_WORD:
-					isIdentical = cachedValue->wVal == dbcwWork.value.wVal;
-					break;
-				case DBVT_DWORD:
-					isIdentical = cachedValue->dVal == dbcwWork.value.dVal;
-					break;
-				case DBVT_UTF8:
-					isIdentical = mir_strcmp(cachedValue->pszVal, dbcwWork.value.pszVal) == 0;
-					break;
-				}
-				if (isIdentical)
-					return 0;
-			}
-			m_cache->SetCachedVariant(&dbcwWork.value, cachedValue);
-		}
-		if (isResident) {
-			lock.unlock();
-			NotifyEventHooks(g_hevSettingChanged, hContact, (LPARAM)&dbcwWork);
-			return 0;
-		}
-	}
-	else m_cache->GetCachedValuePtr(hContact, cachedSettingName, -1);
-
 	sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_REPLACE].pQuery;
 	sqlite3_bind_int64(stmt, 1, hContact);
-	sqlite3_bind_text(stmt, 2, dbcwWork.szModule, (int)mir_strlen(dbcwWork.szModule), nullptr);
-	sqlite3_bind_text(stmt, 3, dbcwWork.szSetting, (int)mir_strlen(dbcwWork.szSetting), nullptr);
-	sqlite3_bind_int(stmt, 4, dbcwWork.value.type);
-	switch (dbcwWork.value.type) {
+	sqlite3_bind_text(stmt, 2, dbcws.szModule, (int)mir_strlen(dbcws.szModule), nullptr);
+	sqlite3_bind_text(stmt, 3, dbcws.szSetting, (int)mir_strlen(dbcws.szSetting), nullptr);
+	sqlite3_bind_int(stmt, 4, dbcws.value.type);
+	switch (dbcws.value.type) {
 	case DBVT_BYTE:
-		sqlite3_bind_int(stmt, 5, dbcwWork.value.bVal);
+		sqlite3_bind_int(stmt, 5, dbcws.value.bVal);
 		break;
 	case DBVT_WORD:
-		sqlite3_bind_int(stmt, 5, dbcwWork.value.wVal);
+		sqlite3_bind_int(stmt, 5, dbcws.value.wVal);
 		break;
 	case DBVT_DWORD:
-		sqlite3_bind_int64(stmt, 5, dbcwWork.value.dVal);
+		sqlite3_bind_int64(stmt, 5, dbcws.value.dVal);
 		break;
+	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
-		sqlite3_bind_text(stmt, 5, dbcwWork.value.pszVal, dbcwWork.value.cchVal, nullptr);
+		sqlite3_bind_text(stmt, 5, dbcws.value.pszVal, dbcws.value.cchVal, nullptr);
 		break;
+	case DBVT_ENCRYPTED:
 	case DBVT_BLOB:
-		sqlite3_bind_blob(stmt, 5, dbcwWork.value.pbVal, dbcwWork.value.cpbVal, nullptr);
+		sqlite3_bind_blob(stmt, 5, dbcws.value.pbVal, dbcws.value.cpbVal, nullptr);
 		break;
 	}
 
@@ -281,12 +147,10 @@ BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *d
 	if (rc != SQLITE_DONE)
 		return 1;
 
-	lock.unlock();
-
-	NotifyEventHooks(g_hevSettingChanged, hContact, (LPARAM)&dbcwNotif);
-
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting)
 {
@@ -328,6 +192,8 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL CDbxSQLite::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param)
 {

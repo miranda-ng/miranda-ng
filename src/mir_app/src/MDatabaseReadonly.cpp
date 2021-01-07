@@ -108,7 +108,7 @@ BOOL MDatabaseReadonly::GetContactSettingWorker(MCONTACT, LPCSTR, LPCSTR, DBVARI
 	return 1;
 }
 
-BOOL MDatabaseReadonly::WriteContactSetting(MCONTACT, DBCONTACTWRITESETTING*)
+BOOL MDatabaseReadonly::WriteContactSettingWorker(MCONTACT, DBCONTACTWRITESETTING&)
 {
 	return 1;
 }

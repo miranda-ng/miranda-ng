@@ -324,6 +324,121 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSettingStatic(MCONTACT contactID,
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool ValidLookupName(const char *szModule, const char *szSetting)
+{
+	if (!strcmp(szModule, META_PROTO))
+		return strcmp(szSetting, "IsSubcontact") && strcmp(szSetting, "ParentMetaID");
+
+	return false;
+}
+
+STDMETHODIMP_(int) MDatabaseCommon::GetContactSettingWorker(MCONTACT contactID, const char *szModule, const char *szSetting, DBVARIANT *dbv, int isStatic)
+{
+	if (szSetting == nullptr || szModule == nullptr)
+		return 1;
+
+	DBVARIANT *pCachedValue;
+	size_t settingNameLen = strlen(szSetting);
+	size_t moduleNameLen = strlen(szModule);
+	{
+		mir_cslock lck(m_csDbAccess);
+
+LBL_Seek:
+		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
+
+		pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 0);
+		if (pCachedValue == nullptr) {
+			// if nothing was faund, try to lookup the same setting from meta's default contact
+			if (contactID) {
+				DBCachedContact *cc = m_cache->GetCachedContact(contactID);
+				if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
+					if (contactID = db_mc_getDefault(contactID)) {
+						szModule = Proto_GetBaseAccountName(contactID);
+						if (szModule == nullptr) // smth went wrong
+							return 1;
+
+						moduleNameLen = strlen(szModule);
+						goto LBL_Seek;
+					}
+				}
+			}
+
+			// otherwise fail
+			return 1;
+		}
+	}
+
+	switch(pCachedValue->type) {
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+		dbv->type = pCachedValue->type;
+		if (isStatic) {
+			int cbLen = (int)mir_strlen(pCachedValue->pszVal);
+			int cbOrigLen = dbv->cchVal;
+			cbOrigLen--;
+			if (cbLen < cbOrigLen)
+				cbOrigLen = cbLen;
+			memcpy(dbv->pszVal, pCachedValue->pszVal, cbOrigLen);
+			dbv->pszVal[cbOrigLen] = 0;
+			dbv->cchVal = cbLen;
+		}
+		else {
+			dbv->pszVal = (char *)mir_alloc(strlen(pCachedValue->pszVal) + 1);
+			strcpy(dbv->pszVal, pCachedValue->pszVal);
+			dbv->cchVal = pCachedValue->cchVal;
+		}
+		break;
+
+	case DBVT_BLOB:
+		dbv->type = DBVT_BLOB;
+		if (isStatic) {
+			if (pCachedValue->cpbVal < dbv->cpbVal)
+				dbv->cpbVal = pCachedValue->cpbVal;
+			memcpy(dbv->pbVal, pCachedValue->pbVal, dbv->cpbVal);
+		}
+		else {
+			dbv->pbVal = (BYTE *)mir_alloc(pCachedValue->cpbVal);
+			memcpy(dbv->pbVal, pCachedValue->pbVal, pCachedValue->cpbVal);
+		}
+		dbv->cpbVal = pCachedValue->cpbVal;
+		break;
+
+	case DBVT_ENCRYPTED:
+		if (m_crypto != nullptr) {
+			size_t realLen;
+			ptrA decoded(m_crypto->decodeString(pCachedValue->pbVal, pCachedValue->cpbVal, &realLen));
+			if (decoded == nullptr)
+				return 1;
+
+			dbv->type = DBVT_UTF8;
+			if (isStatic) {
+				dbv->cchVal--;
+				if (realLen < dbv->cchVal)
+					dbv->cchVal = WORD(realLen);
+				memcpy(dbv->pszVal, decoded, dbv->cchVal);
+				dbv->pszVal[dbv->cchVal] = 0;
+				dbv->cchVal = WORD(realLen);
+			}
+			else {
+				dbv->pszVal = (char *)mir_alloc(1 + realLen);
+				memcpy(dbv->pszVal, decoded, realLen);
+				dbv->pszVal[realLen] = 0;
+			}
+			break;
+		}
+		return 1;
+
+	default:
+		memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 STDMETHODIMP_(BOOL) MDatabaseCommon::FreeVariant(DBVARIANT *dbv)
 {
 	if (dbv == nullptr) return 1;
@@ -341,6 +456,105 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::FreeVariant(DBVARIANT *dbv)
 		break;
 	}
 	dbv->type = 0;
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws)
+{
+	if (dbcws == nullptr || dbcws->szSetting == nullptr || dbcws->szModule == nullptr)
+		return 1;
+
+	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
+	size_t settingNameLen = strlen(dbcws->szSetting);
+	size_t moduleNameLen = strlen(dbcws->szModule);
+
+	// used for notifications
+	DBCONTACTWRITESETTING dbcwNotif = *dbcws;
+	if (dbcwNotif.value.type == DBVT_WCHAR) {
+		if (dbcwNotif.value.pszVal != nullptr) {
+			T2Utf val(dbcwNotif.value.pwszVal);
+			if (!val)
+				return 1;
+
+			dbcwNotif.value.pszVal = NEWSTR_ALLOCA(val);
+			dbcwNotif.value.type = DBVT_UTF8;
+		}
+		else return 1;
+	}
+
+	if (dbcwNotif.szModule == nullptr || dbcwNotif.szSetting == nullptr)
+		return 1;
+
+	DBCONTACTWRITESETTING dbcwWork = dbcwNotif;
+
+	mir_ptr<BYTE> pEncoded(nullptr);
+	bool bIsEncrypted = false;
+	switch (dbcwWork.value.type) {
+	case DBVT_BYTE: case DBVT_WORD: case DBVT_DWORD:
+		break;
+
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+		bIsEncrypted = m_bEncrypted || IsSettingEncrypted(dbcws->szModule, dbcws->szSetting);
+		if (dbcwWork.value.pszVal == nullptr)
+			return 1;
+
+		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
+		if (bIsEncrypted) {
+			size_t len;
+			BYTE *pResult = m_crypto->encodeString(dbcwWork.value.pszVal, &len);
+			if (pResult != nullptr) {
+				pEncoded = dbcwWork.value.pbVal = pResult;
+				dbcwWork.value.cpbVal = (WORD)len;
+				dbcwWork.value.type = DBVT_ENCRYPTED;
+			}
+		}
+		break;
+
+	case DBVT_BLOB:
+	case DBVT_ENCRYPTED:
+		if (dbcwWork.value.pbVal == nullptr)
+			return 1;
+		break;
+
+	default:
+		return 1;
+	}
+
+	mir_cslockfull lck(m_csDbAccess);
+	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
+
+	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
+	if (pCachedValue != nullptr) {
+		bool bIsIdentical = false;
+		if (pCachedValue->type == dbcwWork.value.type) {
+			switch (dbcwWork.value.type) {
+			case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == dbcwWork.value.bVal;  break;
+			case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == dbcwWork.value.wVal;  break;
+			case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == dbcwWork.value.dVal;  break;
+			case DBVT_UTF8:
+			case DBVT_ASCIIZ: bIsIdentical = strcmp(pCachedValue->pszVal, dbcwWork.value.pszVal) == 0; break;
+			case DBVT_BLOB:
+			case DBVT_ENCRYPTED:
+				if (pCachedValue->cpbVal == dbcwWork.value.cchVal)
+					bIsIdentical = memcmp(pCachedValue->pbVal, dbcwWork.value.pbVal, dbcwWork.value.cchVal);
+				break;
+			}
+			if (bIsIdentical)
+				return 0;
+		}
+		m_cache->SetCachedVariant(&dbcwWork.value, pCachedValue);
+	}
+
+	// for non-resident settings we call a write worker
+	if (szCachedSettingName[-1] == 0)
+		if (WriteContactSettingWorker(contactID, dbcwWork))
+			return 1;
+
+	lck.unlock();
+	NotifyEventHooks(g_hevSettingChanged, contactID, (LPARAM)&dbcwNotif);
 	return 0;
 }
 
