@@ -6,41 +6,39 @@ enum {
 	SQL_SET_STMT_REPLACE,
 	SQL_SET_STMT_DELETE,
 	SQL_SET_STMT_ENUMMODULE,
-	SQL_SET_STMT_CHANGES,
-	SQL_SET_STMT_NUM
+	SQL_SET_STMT_CHANGES
 };
 
-static char *settings_stmts[SQL_SET_STMT_NUM] = {
-	"SELECT DISTINCT module FROM settings;",
-	"SELECT type, value FROM settings WHERE contact_id = ? AND module = ? AND setting = ? LIMIT 1;",
-	"REPLACE INTO settings(contact_id, module, setting, type, value) VALUES (?, ?, ?, ?, ?);",
-	"DELETE FROM settings WHERE contact_id = ? AND module = ? AND setting = ?;",
-	"SELECT setting FROM settings WHERE contact_id = ? AND module = ?;",
-	"SELECT changes() FROM settings;"
+static CQuery settings_stmts[] =
+{
+	{ "SELECT DISTINCT module FROM settings;" },
+	{ "SELECT type, value FROM settings WHERE contact_id = ? AND module = ? AND setting = ? LIMIT 1;" },
+	{ "REPLACE INTO settings(contact_id, module, setting, type, value) VALUES (?, ?, ?, ?, ?);" },
+	{ "DELETE FROM settings WHERE contact_id = ? AND module = ? AND setting = ?;" },
+	{ "SELECT setting FROM settings WHERE contact_id = ? AND module = ?;" },
+	{ "SELECT CHANGES() FROM settings;" },
 };
-
-static sqlite3_stmt *settings_stmts_prep[SQL_SET_STMT_NUM] = { 0 };
 
 void CDbxSQLite::InitSettings()
 {
-	for (size_t i = 0; i < SQL_SET_STMT_NUM; i++)
-		sqlite3_prepare_v3(m_db, settings_stmts[i], -1, SQLITE_PREPARE_PERSISTENT, &settings_stmts_prep[i], nullptr);
+	for (auto &it : settings_stmts)
+		sqlite3_prepare_v3(m_db, it.szQuery, -1, SQLITE_PREPARE_PERSISTENT, &it.pQuery, nullptr);
 }
 
 void CDbxSQLite::UninitSettings()
 {
-	for (size_t i = 0; i < SQL_SET_STMT_NUM; i++)
-		sqlite3_finalize(settings_stmts_prep[i]);
+	for (auto &it : settings_stmts)
+		sqlite3_finalize(it.pQuery);
 }
 
 BOOL CDbxSQLite::EnumModuleNames(DBMODULEENUMPROC pFunc, void *param)
 {
 	LIST<char> modules(100);
 	{
-		sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_ENUM];
+		sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_ENUM].pQuery;
 		int rc = 0;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-			const char *value = (const char*)sqlite3_column_text(stmt, 0);
+			const char *value = (const char *)sqlite3_column_text(stmt, 0);
 			modules.insert(mir_strdup(value));
 		}
 		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
@@ -102,7 +100,7 @@ LBL_Seek:
 				dbv->cchVal = cbLen;
 			}
 			else {
-				dbv->pszVal = (char*)mir_alloc(mir_strlen(pCachedValue->pszVal) + 1);
+				dbv->pszVal = (char *)mir_alloc(mir_strlen(pCachedValue->pszVal) + 1);
 				mir_strcpy(dbv->pszVal, pCachedValue->pszVal);
 			}
 		}
@@ -115,7 +113,7 @@ LBL_Seek:
 	if (cachedSettingName[-1] != 0)
 		return 1;
 
-	sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_GET];
+	sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_GET].pQuery;
 	sqlite3_bind_int64(stmt, 1, hContact);
 	sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
 	sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
@@ -147,24 +145,24 @@ LBL_Seek:
 		dbv->dVal = sqlite3_column_int64(stmt, 1);
 		break;
 	case DBVT_UTF8:
-	{
 		dbv->cchVal = sqlite3_column_bytes(stmt, 1);
-		const char *value = (const char*)sqlite3_column_text(stmt, 1);
-		if (!isStatic)
-			dbv->pszVal = (char*)mir_alloc(dbv->cchVal + 1);
-		memcpy(dbv->pszVal, value, dbv->cchVal);
-		dbv->pszVal[dbv->cchVal] = 0;
+		{
+			const char *value = (const char *)sqlite3_column_text(stmt, 1);
+			if (!isStatic)
+				dbv->pszVal = (char *)mir_alloc(dbv->cchVal + 1);
+			memcpy(dbv->pszVal, value, dbv->cchVal);
+			dbv->pszVal[dbv->cchVal] = 0;
+		}
 		break;
-	}
 	case DBVT_BLOB:
-	{
 		dbv->cpbVal = sqlite3_column_bytes(stmt, 1);
-		const char *data = (const char*)sqlite3_column_blob(stmt, 1);
-		if (!isStatic)
-			dbv->pbVal = (BYTE*)mir_alloc(dbv->cpbVal + 1);
-		memcpy(dbv->pbVal, data, dbv->cpbVal);
+		{
+			const char *data = (const char *)sqlite3_column_blob(stmt, 1);
+			if (!isStatic)
+				dbv->pbVal = (BYTE *)mir_alloc(dbv->cpbVal + 1);
+			memcpy(dbv->pbVal, data, dbv->cpbVal);
+		}
 		break;
-	}
 	}
 	sqlite3_reset(stmt);
 
@@ -196,19 +194,19 @@ BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *d
 		dbcwNotif.value.pszVal = mir_strdup(dbcws->value.pszVal);
 		break;
 	case DBVT_ASCIIZ:
-	{
-		ptrA value(mir_utf8encode(dbcws->value.pszVal));
-		dbcwNotif.value.pszVal = NEWSTR_ALLOCA(value);
-		dbcwNotif.value.type = DBVT_UTF8;
-		break;
-	}
+		{
+			ptrA value(mir_utf8encode(dbcws->value.pszVal));
+			dbcwNotif.value.pszVal = NEWSTR_ALLOCA(value);
+			dbcwNotif.value.type = DBVT_UTF8;
+			break;
+		}
 	case DBVT_WCHAR:
-	{
-		T2Utf value(dbcwNotif.value.pwszVal);
-		dbcwNotif.value.pszVal = NEWSTR_ALLOCA(value);
-		dbcwNotif.value.type = DBVT_UTF8;
-		break;
-	}
+		{
+			T2Utf value(dbcwNotif.value.pwszVal);
+			dbcwNotif.value.pszVal = NEWSTR_ALLOCA(value);
+			dbcwNotif.value.type = DBVT_UTF8;
+			break;
+		}
 	}
 	DBCONTACTWRITESETTING dbcwWork = dbcwNotif;
 	if (dbcwWork.value.type == DBVT_UTF8)
@@ -252,7 +250,7 @@ BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *d
 	}
 	else m_cache->GetCachedValuePtr(hContact, cachedSettingName, -1);
 
-	sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_REPLACE];
+	sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_REPLACE].pQuery;
 	sqlite3_bind_int64(stmt, 1, hContact);
 	sqlite3_bind_text(stmt, 2, dbcwWork.szModule, (int)mir_strlen(dbcwWork.szModule), nullptr);
 	sqlite3_bind_text(stmt, 3, dbcwWork.szSetting, (int)mir_strlen(dbcwWork.szSetting), nullptr);
@@ -274,6 +272,7 @@ BOOL CDbxSQLite::WriteContactSetting(MCONTACT hContact, DBCONTACTWRITESETTING *d
 		sqlite3_bind_blob(stmt, 5, dbcwWork.value.pbVal, dbcwWork.value.cpbVal, nullptr);
 		break;
 	}
+
 	int rc = sqlite3_step(stmt);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	sqlite3_reset(stmt);
@@ -297,19 +296,18 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 		if (cc == nullptr)
 			return 1;
 	}
-	
+
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, mir_strlen(szModule), mir_strlen(szSetting));
-	if (szCachedSettingName[-1] == 0)  // it's not a resident variable
-	{
+	if (szCachedSettingName[-1] == 0) { // it's not a resident variable
 		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_DELETE];
+		sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_DELETE].pQuery;
 		sqlite3_bind_int64(stmt, 1, hContact);
 		sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
 		sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
 		int rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_DONE);
 		sqlite3_reset(stmt);
-		stmt = settings_stmts_prep[SQL_SET_STMT_CHANGES];
+		stmt = settings_stmts[SQL_SET_STMT_CHANGES].pQuery;
 		rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_ROW);
 		int deleted = sqlite3_column_int(stmt, 0);
@@ -343,12 +341,12 @@ BOOL CDbxSQLite::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnu
 	LIST<char> settings(100);
 	{
 		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = settings_stmts_prep[SQL_SET_STMT_ENUMMODULE];
+		sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_ENUMMODULE].pQuery;
 		sqlite3_bind_int64(stmt, 1, hContact);
 		sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
 		int rc = 0;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-			const char *value = (const char*)sqlite3_column_text(stmt, 0);
+			const char *value = (const char *)sqlite3_column_text(stmt, 0);
 			settings.insert(mir_strdup(value));
 		}
 		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);

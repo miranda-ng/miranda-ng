@@ -20,6 +20,14 @@
 #include "resource.h"
 #include "version.h"
 
+struct CQuery
+{
+	const char *szQuery;
+	sqlite3_stmt *pQuery;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 constexpr auto SQLITE_HEADER_STR = "SQLite format 3";
 
 struct CMPlugin : public PLUGIN<CMPlugin>
