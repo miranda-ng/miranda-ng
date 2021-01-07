@@ -260,13 +260,16 @@ static void RestoreUnreadMessageAlerts(void)
 			if (db_event_get(hDbEvent, &dbei))
 				continue;
 
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+			if (!dbei.markedRead() && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 				int windowAlreadyExists = Srmm_FindWindow(hContact) != nullptr;
 				if (windowAlreadyExists)
 					continue;
 
 				char *szProto = Proto_GetBaseAccountName(hContact);
-				if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto))))
+				if (szProto == nullptr)
+					continue;
+
+				if (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))
 					autoPopup = true;
 
 				if (autoPopup && !windowAlreadyExists)

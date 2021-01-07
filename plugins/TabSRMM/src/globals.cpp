@@ -467,6 +467,8 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 			DBEVENTINFO dbei = {};
 			if (db_event_get(hDbEvent, &dbei))
 				continue;
+			if (Proto_GetBaseAccountName(hContact) == nullptr)
+				continue;
 
 			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
 				if (Srmm_FindWindow(hContact) != nullptr)
