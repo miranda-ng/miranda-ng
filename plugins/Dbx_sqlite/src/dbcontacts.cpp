@@ -110,7 +110,7 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 
 	stmt = ctc_stmts_prep[SQL_CTC_STMT_DELETEEVENTS_SRT];
 	sqlite3_bind_int64(stmt, 1, hContact);
-	int rc = sqlite3_step(stmt);
+	rc = sqlite3_step(stmt);
 	assert(rc == SQLITE_DONE);
 	sqlite3_reset(stmt);
 	if (rc != SQLITE_DONE)
