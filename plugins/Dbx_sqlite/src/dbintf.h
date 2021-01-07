@@ -13,7 +13,9 @@ struct DBCachedContact : public DBCachedContactBase
 	DBCachedContact()
 		: m_count(-1), m_unread(0) { }
 
-	bool HasCount() const;
+	__forceinline bool HasCount() const {
+		return m_count > -1;
+	}
 
 	void AddEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread);
 	void EditEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread);

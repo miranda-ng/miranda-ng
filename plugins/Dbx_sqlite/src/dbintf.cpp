@@ -31,40 +31,40 @@ int CDbxSQLite::Create(const wchar_t *profile)
 	if (rc != SQLITE_OK)
 		return 1;
 
-	rc = sqlite3_exec(database, "create table contacts (id integer not null primary key autoincrement);", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "CREATE TABLE contacts (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT);", nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		//TODO: handle error
 	}
-	rc = sqlite3_exec(database, "create table events (id integer not null primary key autoincrement, contact_id integer not null, module text not null,"
-		"timestamp integer not null, type integer not null, flags integer not null, data blob, server_id text);", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "CREATE TABLE events (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, contact_id INTEGER NOT NULL, module TEXT NOT NULL,"
+		"timestamp INTEGER NOT NULL, type INTEGER NOT NULL, flags INTEGER NOT NULL, data BLOB, server_id TEXT);", nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		//TODO: handle error
 	}
-	rc = sqlite3_exec(database, "create index idx_events_contactid_timestamp on events(contact_id, timestamp);", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "CREATE INDEX idx_events_contactid_timestamp ON events(contact_id, timestamp);", nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		//TODO: handle error
 	}
-	rc = sqlite3_exec(database, "create index idx_events_module_serverid on events(module, server_id);", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "CREATE INDEX idx_events_module_serverid ON events(module, server_id);", nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		//TODO: handle error
 	}
-    rc = sqlite3_exec(database, "create table events_srt (id integer not null, contact_id integer not null, timestamp integer, primary key (contact_id, timestamp, id));",
+    rc = sqlite3_exec(database, "CREATE TABLE events_srt (id INTEGER NOT NULL, contact_id INTEGER NOT NULL, timestamp INTEGER, PRIMARY KEY(contact_id, timestamp, id));",
 		nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		//TODO: handle error
 	}
-	rc = sqlite3_exec(database, "create table settings (contact_id integer not null, module text not null, setting text not null, type integer not null, value any,"
-		"primary key(contact_id, module, setting)) without rowid;", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "CREATE TABLE settings (contact_id INTEGER NOT NULL, module TEXT NOT NULL, setting TEXT NOT NULL, type INTEGER NOT NULL, value ANY,"
+		"PRIMARY KEY(contact_id, module, setting)) WITHOUT ROWID;", nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		//TODO: handle error
 	}
-	rc = sqlite3_exec(database, "create index idx_settings_module on settings(module);", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(database, "CREATE INDEX idx_settings_module ON settings(module);", nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
 	{
 		//TODO: handle error

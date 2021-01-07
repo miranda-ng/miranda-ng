@@ -11,12 +11,12 @@ enum {
 };
 
 static char *settings_stmts[SQL_SET_STMT_NUM] = {
-	"select distinct module from settings;",
-	"select type, value from settings where contact_id = ? and module = ? and setting = ? limit 1;",
-	"replace into settings(contact_id, module, setting, type, value) values (?, ?, ?, ?, ?);",
-	"delete from settings where contact_id = ? and module = ? and setting = ?;",
-	"select setting from settings where contact_id = ? and module = ?;",
-	"select changes() from settings;"
+	"SELECT DISTINCT module FROM settings;",
+	"SELECT type, value FROM settings WHERE contact_id = ? AND module = ? AND setting = ? LIMIT 1;",
+	"REPLACE INTO settings(contact_id, module, setting, type, value) VALUES (?, ?, ?, ?, ?);",
+	"DELETE FROM settings WHERE contact_id = ? AND module = ? AND setting = ?;",
+	"SELECT setting FROM settings WHERE contact_id = ? AND module = ?;",
+	"SELECT changes() FROM settings;"
 };
 
 static sqlite3_stmt *settings_stmts_prep[SQL_SET_STMT_NUM] = { 0 };
