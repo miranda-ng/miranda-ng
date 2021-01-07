@@ -23,6 +23,8 @@ void CDbxSQLite::InitSettings()
 {
 	for (auto &it : settings_stmts)
 		sqlite3_prepare_v3(m_db, it.szQuery, -1, SQLITE_PREPARE_PERSISTENT, &it.pQuery, nullptr);
+
+	FillContactSettings();
 }
 
 void CDbxSQLite::UninitSettings()

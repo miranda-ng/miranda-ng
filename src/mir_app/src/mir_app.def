@@ -751,3 +751,4 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?SafeDeleteFile@PU@@YGHPB_W@Z @839 NONAME
 ?SafeMoveFile@PU@@YGHPB_W0@Z @840 NONAME
 ?FilterSearch@Clist@@3V?$CMOption@_N@@A @841 NONAME
+?FillContactSettings@MDatabaseCommon@@IAEXXZ @842 NONAME

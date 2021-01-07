@@ -179,6 +179,7 @@ protected:
 	MIDatabaseCache* m_cache;
 
 protected:
+	void FillContactSettings();
 	bool LockName(const wchar_t *pwszProfileName);
 	int  CheckProto(DBCachedContact *cc, const char *proto);
 	void UnlockName();

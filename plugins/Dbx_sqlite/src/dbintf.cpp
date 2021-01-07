@@ -142,8 +142,8 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 
 
 	CDbxSQLite *db = new CDbxSQLite(database);
-	db->InitSettings();
 	db->InitContacts();
+	db->InitSettings();
 	db->InitEvents();
 	return db;
 }
