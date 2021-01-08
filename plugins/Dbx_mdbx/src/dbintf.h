@@ -171,7 +171,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	// database stuff
 
 	ptrW         m_pwszProfileName;
-	bool         m_safetyMode = true, m_bReadOnly, m_bUsesPassword;
+	bool         m_safetyMode = true, m_bReadOnly;
 
 	MDBX_env    *m_env;
 	MDBX_txn    *m_pWriteTran;
@@ -224,7 +224,6 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 
 	MDBX_dbi m_dbCrypto;
 
-	int      InitCrypt(void);
 	void     InitDialogs();
 
 public:
@@ -236,7 +235,6 @@ public:
 	int  EnableEncryption(bool bEnable);
 	int  Load();
 	int  Map();
-	void StoreKey(void);
 	void SetPassword(const wchar_t *ptszPassword);
 
 	int  CheckEvents1(void);
@@ -244,8 +242,6 @@ public:
 	int  CheckEvents3(void);
 
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
-
-	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:
 	STDMETHODIMP_(BOOL)     IsRelational(void) override { return TRUE; }
@@ -281,7 +277,13 @@ public:
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub) override;
 	STDMETHODIMP_(BOOL)     MetaRemoveSubHistory(DBCachedContact *ccSub) override;
 
+	STDMETHODIMP_(CRYPTO_PROVIDER*) ReadProvider(void);
 	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*);
+
+	STDMETHODIMP_(BOOL)     ReadEncryption(void);
+
+	STDMETHODIMP_(BOOL)     ReadCryptoKey(MBinBuffer&);
+	STDMETHODIMP_(BOOL)     StoreCryptoKey(void);
 
 	STDMETHODIMP_(BOOL)     Compact();
 	STDMETHODIMP_(BOOL)     Backup(const wchar_t*);

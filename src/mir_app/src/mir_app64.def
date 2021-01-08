@@ -757,7 +757,13 @@ Netlib_GetTlsUnique @831 NONAME
 ?getCrypt@MDatabaseCommon@@QEBAPEAUMICryptoEngine@@XZ @845 NONAME
 ?isEncrypted@MDatabaseCommon@@QEBA_NXZ @846 NONAME
 ?SelectProvider@MDatabaseCommon@@IEAAPEAUCRYPTO_PROVIDER@@XZ @847 NONAME
-?StoreProvider@MDatabaseCommon@@MEAAHPEAUCRYPTO_PROVIDER@@@Z @848 NONAME
+?StoreProvider@MDatabaseReadonly@@UEAAHPEAUCRYPTO_PROVIDER@@@Z @848 NONAME
 ?Crypto_GetProvider@@YAPEAUCRYPTO_PROVIDER@@PEBD@Z @849 NONAME
 ?Crypto_ListProviders@@YAXPEAHPEAPEAPEAUCRYPTO_PROVIDER@@@Z @850 NONAME
 ?Crypto_RegisterEngine@@YAXPEBUCRYPTO_PROVIDER@@@Z @851 NONAME
+?InitCrypt@MDatabaseCommon@@IEAAHXZ @852 NONAME
+?ReadCryptoKey@MDatabaseReadonly@@UEAAHAEAVMBinBuffer@@@Z @853 NONAME
+?ReadEncryption@MDatabaseReadonly@@UEAAHXZ @854 NONAME
+?ReadProvider@MDatabaseReadonly@@UEAAPEAUCRYPTO_PROVIDER@@XZ @855 NONAME
+?StoreCryptoKey@MDatabaseReadonly@@UEAAHXZ @856 NONAME
+?usesPassword@MDatabaseCommon@@QEBA_NXZ @857 NONAME

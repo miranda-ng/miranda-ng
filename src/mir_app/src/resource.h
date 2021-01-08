@@ -29,6 +29,8 @@
 #define IDD_OPT_CHAT_EVENTS             120
 #define IDD_AUTHREQ                     121
 #define IDD_SELECT_CRYPTOPROVIDER       122
+#define IDD_LOGIN                       123
+#define IDI_DATABASE                    124
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
 #define IDI_AWAY                        128
@@ -351,8 +353,10 @@
 #define IDC_USESPECIFIC                 1212
 #define IDC_FILEDIR                     1213
 #define IDC_TRANSFERCOMPLETED           1214
+#define IDC_LANG                        1215
+#define IDC_USERPASS                    1216
 #define IDC_ALLFILESPROGRESS            1217
-#define IDC_WHITERECT                   1221
+#define IDC_WHITERECT                   1220
 #define IDC_ALLSPEED                    1221
 #define IDC_FIRSTNAME                   1224
 #define IDC_LASTNAME                    1225

@@ -116,6 +116,7 @@ int CDb3Mmap::Load(bool bSkipInit)
 		if (InitMap()) return 1;
 		if (InitModuleNames()) return 1;
 		if (InitCrypt()) return EGROKPRF_CANTREAD;
+		InitDialogs();
 
 		// everything is ok, go on
 		if (!m_bReadOnly) {

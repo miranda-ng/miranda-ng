@@ -23,13 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-struct DlgChangePassParam
-{
-	CDb3Mmap *db;
-	wchar_t newPass[100];
-	int wrongPass;
-};
-
 #define MS_DB_CHANGEPASSWORD "DB/UI/ChangePassword"
 
 static IconItem iconList[] =
@@ -55,105 +48,6 @@ void LanguageChanged(HWND hwndDlg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(iconList[0].defIconID)));
-
-		param = (DlgChangePassParam*)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-		if (param->wrongPass) {
-			if (param->wrongPass > 2) {
-				HWND hwndCtrl = GetDlgItem(hwndDlg, IDC_USERPASS);
-				EnableWindow(hwndCtrl, FALSE);
-				hwndCtrl = GetDlgItem(hwndDlg, IDOK);
-				EnableWindow(hwndCtrl, FALSE);
-				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Too many errors!"));
-			}
-			else SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is not correct!"));
-		}
-		else SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Please type in your password"));
-
-		oldLangID = 0;
-		SetTimer(hwndDlg, 1, 200, nullptr);
-		LanguageChanged(hwndDlg);
-		return TRUE;
-
-	case WM_CTLCOLORSTATIC:
-		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_LANG)) {
-			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
-			SetBkMode((HDC)wParam, TRANSPARENT);
-			return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
-		}
-		return FALSE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			EndDialog(hwndDlg, IDCANCEL);
-			break;
-
-		case IDOK:
-			GetDlgItemText(hwndDlg, IDC_USERPASS, param->newPass, _countof(param->newPass));
-			
-			if (Profile_GetSettingInt(L"Database/RememberPassword")) {
-				CREDENTIAL cred = { 0 };
-				cred.Type = CRED_TYPE_GENERIC;
-				cred.TargetName = L"Miranda NG/Database";
-				cred.CredentialBlobSize = DWORD(mir_wstrlen(param->newPass) * sizeof(wchar_t) + sizeof(wchar_t));
-				cred.CredentialBlob = (LPBYTE)param->newPass;
-				cred.Persist = CRED_PERSIST_LOCAL_MACHINE;
-				CredWrite(&cred, 0);
-			}
-
-			EndDialog(hwndDlg, IDOK);
-		}
-		break;
-
-	case WM_TIMER:
-		LanguageChanged(hwndDlg);
-		return FALSE;
-
-	case WM_DESTROY:
-		KillTimer(hwndDlg, 1);
-		DestroyIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
-	}
-
-	return FALSE;
-}
-
-bool CDb3Mmap::EnterPassword(const BYTE *pKey, const size_t keyLen)
-{
-	DlgChangePassParam param = { this };
-	while (true) {
-		PCREDENTIAL pCred;
-		if (param.wrongPass == 0 && CredRead(L"Miranda NG/Dbx_mmap", CRED_TYPE_GENERIC, 0, &pCred)) {
-			m_crypto->setPassword(T2Utf((wchar_t*)pCred->CredentialBlob));
-			CredFree(pCred);
-		}
-		else {
-			if (IDOK != DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_LOGIN), nullptr, sttEnterPassword, (LPARAM)&param))
-				return false;
-			m_crypto->setPassword(T2Utf(param.newPass));
-		}
-
-		if (m_crypto->setKey(pKey, keyLen)) {
-			m_bUsesPassword = true;
-			SecureZeroMemory(&param, sizeof(param));
-			return true;
-		}
-
-		param.wrongPass++;
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static bool CheckOldPassword(HWND hwndDlg, CDb3Mmap *db)
 {
 	if (db->usesPassword()) {
@@ -166,6 +60,13 @@ static bool CheckOldPassword(HWND hwndDlg, CDb3Mmap *db)
 	}
 	return true;
 }
+
+struct DlgChangePassParam
+{
+	CDb3Mmap *db;
+	wchar_t newPass[100];
+	int wrongPass;
+};
 
 static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -209,7 +110,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			else {
 				param->db->WriteSignature(dbSignatureU);
 				param->db->SetPassword(nullptr);
-				param->db->StoreKey();
+				param->db->StoreCryptoKey();
 				EndDialog(hwndDlg, IDREMOVE);
 			}
 			break;
@@ -233,7 +134,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 			param->db->WriteSignature(dbSignatureE);
 			param->db->SetPassword(buf2);
-			param->db->StoreKey();
+			param->db->StoreCryptoKey();
 			SecureZeroMemory(buf2, sizeof(buf2));
 			EndDialog(hwndDlg, IDOK);
 		}

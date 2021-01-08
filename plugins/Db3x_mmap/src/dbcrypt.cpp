@@ -25,20 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-//VERY VERY VERY BASIC ENCRYPTION FUNCTION
-
-static void Encrypt(char *msg, BOOL up)
-{
-	int jump = (up) ? 5 : -5;
-	for (int i = 0; msg[i]; i++)
-		msg[i] = msg[i] + jump;
-}
-
-__forceinline void DecodeString(LPSTR buf)
-{
-	Encrypt(buf, FALSE);
-}
-
 struct VarDescr
 {
 	VarDescr(LPCSTR var, LPCSTR value) :
@@ -63,138 +49,29 @@ struct VarDescr
 	int iLen;
 };
 
-struct SettingUgraderParam
-{
-	CDb3Mmap *db;
-	LPCSTR    szModule;
-	MCONTACT  contactID;
-	OBJLIST<VarDescr>* pList;
-};
-
-int sttSettingUgrader(const char *szSetting, void *lParam)
-{
-	SettingUgraderParam *param = (SettingUgraderParam*)lParam;
-	if (param->db->IsSettingEncrypted(param->szModule, szSetting)) {
-		DBVARIANT dbv = { DBVT_UTF8 };
-		if (!param->db->GetContactSettingStr(param->contactID, param->szModule, szSetting, &dbv)) {
-			if (dbv.type == DBVT_UTF8) {
-				DecodeString(dbv.pszVal);
-				param->pList->insert(new VarDescr(szSetting, (LPCSTR)dbv.pszVal));
-			}
-			param->db->FreeVariant(&dbv);
-		}
-	}
-	return 0;
-}
-
-void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
-{
-	OBJLIST<VarDescr> arSettings(1);
-	SettingUgraderParam param = { db, szModule, contactID, &arSettings };
-	db->EnumContactSettings(0, sttSettingUgrader, szModule, &param);
-
-	for (auto &p : arSettings) {
-		size_t len;
-		BYTE *pResult = db->getCrypt()->encodeString(p->szValue, &len);
-		if (pResult != nullptr) {
-			DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
-			dbcws.value.type = DBVT_ENCRYPTED;
-			dbcws.value.pbVal = pResult;
-			dbcws.value.cpbVal = (WORD)len;
-			db->WriteContactSetting(contactID, &dbcws);
-
-			mir_free(pResult);
-		}
-	}
-}
-
-int sttModuleEnum(const char *szModule, void *lParam)
-{
-	CDb3Mmap *db = (CDb3Mmap*)lParam;
-	sttContactEnum(0, szModule, db);
-
-	for (MCONTACT contactID = db->FindFirstContact(); contactID; contactID = db->FindNextContact(contactID))
-		sttContactEnum(contactID, szModule, db);
-
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int CDb3Mmap::InitCrypt()
 {
 	if (m_dbHeader.version == DB_OLD_VERSION)
 		return 0;
 
-	CRYPTO_PROVIDER *pProvider;
-	bool bMissingKey = false;
-
-	DBVARIANT dbv = { 0 };
-	dbv.type = DBVT_BLOB;
-	if (GetContactSetting(0, "CryptoEngine", "Provider", &dbv)) {
-LBL_CreateProvider:
-		pProvider = SelectProvider();
-		if (pProvider == nullptr)
-			return 1;
-	}
-	else {
-		if (dbv.type != DBVT_BLOB) { // old version, clean it up
-			bMissingKey = true;
-			goto LBL_CreateProvider;
-		}
-
-		pProvider = Crypto_GetProvider(LPCSTR(dbv.pbVal));
-		FreeVariant(&dbv);
-		if (pProvider == nullptr)
-			goto LBL_CreateProvider;
-	}
-
-	if ((m_crypto = pProvider->pFactory()) == nullptr)
-		return 3;
-
-	dbv.type = DBVT_BLOB;
-	if (GetContactSetting(0, "CryptoEngine", "StoredKey", &dbv)) {
-		bMissingKey = true;
-
-	LBL_SetNewKey:
-		m_crypto->generateKey(); // unencrypted key
-		StoreKey();
-	}
-	else {
-		size_t iKeyLength = m_crypto->getKeyLength();
-		if (dbv.cpbVal != (WORD)iKeyLength)
-			goto LBL_SetNewKey;
-
-		if (!m_crypto->setKey(dbv.pbVal, iKeyLength)) {
-			if (memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
-				goto LBL_SetNewKey;
-
-			if (!EnterPassword(dbv.pbVal, iKeyLength)) { // password protected?
-				if (m_dbHeader.version >= DB_094_VERSION)
-					return 4;
-
-				// one of the early used version of mmap was replaced then by mmap_sa
-				// simply remove old badly generated key
-				bMissingKey = true;
-				goto LBL_SetNewKey;
-			}
-		}
-
-		FreeVariant(&dbv);
-	}
-
-	if (bMissingKey)
-		EnumModuleNames(sttModuleEnum, this);
-
-	dbv.type = DBVT_BYTE;
-	if (!GetContactSetting(0, "CryptoEngine", "DatabaseEncryption", &dbv))
-		m_bEncrypted = dbv.bVal != 0;
-
-	InitDialogs();
-	return 0;
+	return MDatabaseCommon::InitCrypt();
 }
 
-void CDb3Mmap::StoreKey()
+/////////////////////////////////////////////////////////////////////////////////////////
+// Saving encryption key in a database
+
+STDMETHODIMP_(BOOL) CDb3Mmap::ReadCryptoKey(MBinBuffer &buf)
+{
+	DBVARIANT dbv = {};
+	dbv.type = DBVT_BLOB;
+	if (GetContactSetting(0, "CryptoEngine", "StoredKey", &dbv))
+		return FALSE;
+
+	buf.append(dbv.pbVal, dbv.cpbVal);
+	return TRUE;
+}
+
+STDMETHODIMP_(BOOL) CDb3Mmap::StoreCryptoKey()
 {
 	size_t iKeyLength = m_crypto->getKeyLength();
 	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
@@ -207,6 +84,35 @@ void CDb3Mmap::StoreKey()
 	WriteContactSetting(0, &dbcws);
 
 	SecureZeroMemory(pKey, iKeyLength);
+	return TRUE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Saving encryption flag
+
+STDMETHODIMP_(BOOL) CDb3Mmap::ReadEncryption()
+{
+	DBVARIANT dbv = {};
+	dbv.type = DBVT_BYTE;
+	return (GetContactSetting(0, "CryptoEngine", "DatabaseEncryption", &dbv)) ? false : dbv.bVal != 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Saving provider in a database
+
+STDMETHODIMP_(CRYPTO_PROVIDER *) CDb3Mmap::ReadProvider()
+{
+	DBVARIANT dbv = {};
+	dbv.type = DBVT_BLOB;
+	if (GetContactSetting(0, "CryptoEngine", "Provider", &dbv))
+		return nullptr;
+
+	if (dbv.type != DBVT_BLOB) 
+		return nullptr;
+	
+	auto *pProvider = Crypto_GetProvider(LPCSTR(dbv.pbVal));
+	FreeVariant(&dbv);
+	return pProvider;
 }
 
 STDMETHODIMP_(BOOL) CDb3Mmap::StoreProvider(CRYPTO_PROVIDER *pProvider)

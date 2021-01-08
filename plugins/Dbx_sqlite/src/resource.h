@@ -5,7 +5,6 @@
 #define IDREMOVE                        3
 #define IDI_ICONPASS                    100
 #define IDI_LOGO                        101
-#define IDD_LOGIN                       102
 #define IDD_NEWPASS                     103
 #define IDD_CHANGEPASS                  104
 #define IDD_OPTIONS                     105

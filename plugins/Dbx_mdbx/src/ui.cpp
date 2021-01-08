@@ -104,7 +104,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			else {
 				// param->db->WriteSignature(dbSignatureU);
 				param->db->SetPassword(nullptr);
-				param->db->StoreKey();
+				param->db->StoreCryptoKey();
 				EndDialog(hwndDlg, IDREMOVE);
 			}
 			break;
@@ -128,7 +128,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 			// param->db->WriteSignature(dbSignatureE);
 			param->db->SetPassword(buf2);
-			param->db->StoreKey();
+			param->db->StoreCryptoKey();
 			SecureZeroMemory(buf2, sizeof(buf2));
 			EndDialog(hwndDlg, IDOK);
 		}

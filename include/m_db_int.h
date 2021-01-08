@@ -175,7 +175,7 @@ class MIR_APP_EXPORT MDatabaseCommon : public MIDatabase, public MNonCopyable
 	HANDLE m_hLock = nullptr;
 
 protected:
-	bool m_bEncrypted = false;
+	bool m_bEncrypted = false, m_bUsesPassword = false;
 	int m_codePage;
 	
 	mir_cs m_csDbAccess;
@@ -184,13 +184,24 @@ protected:
 	MICryptoEngine *m_crypto;
 
 protected:
+	int  CheckProto(DBCachedContact *cc, const char *proto);
 	void FillContactSettings();
 	bool LockName(const wchar_t *pwszProfileName);
-	int  CheckProto(DBCachedContact *cc, const char *proto);
 	void UnlockName();
 
+	////////////////////////////////////////////////////////////////////////////////////////
+	// encryption support
+
+	int InitCrypt();
+
 	CRYPTO_PROVIDER* SelectProvider();
-	STDMETHOD_(BOOL, StoreProvider)(CRYPTO_PROVIDER*);
+	STDMETHOD_(CRYPTO_PROVIDER*, ReadProvider)() PURE;
+	STDMETHOD_(BOOL, StoreProvider)(CRYPTO_PROVIDER*) PURE;
+	
+	STDMETHOD_(BOOL, ReadCryptoKey)(MBinBuffer&) PURE;
+	STDMETHOD_(BOOL, StoreCryptoKey)() PURE;
+
+	STDMETHOD_(BOOL, ReadEncryption)() PURE;	
 
 	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
 	STDMETHOD_(BOOL, WriteContactSettingWorker)(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) PURE;
@@ -202,6 +213,7 @@ public:
 	__forceinline bool isEncrypted() const { return m_bEncrypted; }
 	__forceinline MICryptoEngine* getCrypt() const { return m_crypto; }
 	__forceinline MIDatabaseCache* getCache() const { return m_cache; }
+	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 	STDMETHODIMP_(BOOL) DeleteModule(MCONTACT contactID, LPCSTR szModule) override;
 
@@ -246,6 +258,12 @@ public:
 	STDMETHODIMP_(void) SetCacheSafetyMode(BOOL) override;
 
 	STDMETHODIMP_(BOOL) EnumModuleNames(DBMODULEENUMPROC, void*) override;
+
+	STDMETHODIMP_(CRYPTO_PROVIDER*) ReadProvider() override;
+	STDMETHODIMP_(BOOL) StoreProvider(CRYPTO_PROVIDER*) override;
+	STDMETHODIMP_(BOOL) ReadCryptoKey(MBinBuffer&) override;
+	STDMETHODIMP_(BOOL) StoreCryptoKey() override;
+	STDMETHODIMP_(BOOL) ReadEncryption() override;
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP_(MCONTACT) AddContact(void) override;

@@ -757,7 +757,13 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?getCrypt@MDatabaseCommon@@QBEPAUMICryptoEngine@@XZ @845 NONAME
 ?isEncrypted@MDatabaseCommon@@QBE_NXZ @846 NONAME
 ?SelectProvider@MDatabaseCommon@@IAEPAUCRYPTO_PROVIDER@@XZ @847 NONAME
-?StoreProvider@MDatabaseCommon@@MAGHPAUCRYPTO_PROVIDER@@@Z @848 NONAME
+?StoreProvider@MDatabaseReadonly@@UAGHPAUCRYPTO_PROVIDER@@@Z @848 NONAME
 ?Crypto_GetProvider@@YGPAUCRYPTO_PROVIDER@@PBD@Z @849 NONAME
 ?Crypto_ListProviders@@YGXPAHPAPAPAUCRYPTO_PROVIDER@@@Z @850 NONAME
 ?Crypto_RegisterEngine@@YGXPBUCRYPTO_PROVIDER@@@Z @851 NONAME
+?InitCrypt@MDatabaseCommon@@IAEHXZ @852 NONAME
+?ReadCryptoKey@MDatabaseReadonly@@UAGHAAVMBinBuffer@@@Z @853 NONAME
+?ReadEncryption@MDatabaseReadonly@@UAGHXZ @854 NONAME
+?ReadProvider@MDatabaseReadonly@@UAGPAUCRYPTO_PROVIDER@@XZ @855 NONAME
+?StoreCryptoKey@MDatabaseReadonly@@UAGHXZ @856 NONAME
+?usesPassword@MDatabaseCommon@@QBE_NXZ @857 NONAME

@@ -44,6 +44,33 @@ BOOL MDatabaseReadonly::EnumModuleNames(DBMODULEENUMPROC, void*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+STDMETHODIMP_(BOOL) MDatabaseReadonly::ReadCryptoKey(MBinBuffer&)
+{
+	return FALSE;
+}
+
+STDMETHODIMP_(BOOL) MDatabaseReadonly::StoreCryptoKey()
+{
+	return FALSE;
+}
+
+STDMETHODIMP_(CRYPTO_PROVIDER*) MDatabaseReadonly::ReadProvider()
+{
+	return nullptr;
+}
+
+STDMETHODIMP_(BOOL) MDatabaseReadonly::StoreProvider(CRYPTO_PROVIDER *)
+{
+	return FALSE;
+}
+
+STDMETHODIMP_(BOOL) MDatabaseReadonly::ReadEncryption()
+{
+	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MCONTACT MDatabaseReadonly::AddContact(void)
 {
 	return 0;

@@ -193,7 +193,6 @@ struct CDb3Mmap : public MDatabaseCommon, public MZeroedObject
 	int CheckDbHeaders(bool bInteractive);
 
 	void ToggleEncryption(void);
-	void StoreKey(void);
 	void SetPassword(const wchar_t *ptszPassword);
 	void UpdateMenuItem(void);
 
@@ -203,7 +202,6 @@ struct CDb3Mmap : public MDatabaseCommon, public MZeroedObject
 	void WriteSignature(DBSignature&);
 
 	__forceinline HANDLE getFile() const { return m_hDbFile; }
-	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:
 	STDMETHODIMP_(BOOL)     IsRelational(void) override { return FALSE; }
@@ -231,6 +229,12 @@ public:
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam) override;
 
+	STDMETHODIMP_(BOOL)     ReadCryptoKey(MBinBuffer&);
+	STDMETHODIMP_(BOOL)     StoreCryptoKey(void);
+
+	STDMETHODIMP_(BOOL)     ReadEncryption(void);
+
+	STDMETHODIMP_(CRYPTO_PROVIDER*) ReadProvider();
 	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*);
 
 	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) override;
@@ -265,7 +269,7 @@ protected:
 	HANDLE   m_hDbFile;
 	DBHeader m_dbHeader;
 	DWORD    m_ChunkSize;
-	bool     m_safetyMode, m_bReadOnly, m_bShared, m_bUsesPassword;
+	bool     m_safetyMode, m_bReadOnly, m_bShared;
 
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
@@ -322,5 +326,4 @@ protected:
 	void     ToggleSettingsEncryption(MCONTACT contactID);
 
 	void     InitDialogs();
-	bool     EnterPassword(const BYTE *pKey, const size_t keyLen);
 };
