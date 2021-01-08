@@ -65,8 +65,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern LIST<CDb3Mmap> g_Dbs;
 extern DBSignature dbSignatureU, dbSignatureE, dbSignatureIM, dbSignatureSA, dbSignatureSD;
 
-#include "ui.h"
-
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
 #else

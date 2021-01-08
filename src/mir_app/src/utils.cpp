@@ -26,12 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS_SYSTEM_GET_MD5I	"Miranda/System/GetMD5I"
 
-int  InitCrypt(void);
-void UninitCrypt(void);
-
 void InitClistCore(void);
-
-static BOOL bModuleInitialized = FALSE;
 
 static CountryListEntry countries[] = {
 	{ 0,      "",   LPGEN("Unspecified") },
@@ -379,21 +374,10 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 
 int LoadUtilsModule(void)
 {
-	bModuleInitialized = TRUE;
-
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER, GetCountryByNumber);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYBYISOCODE, GetCountryByISOCode);
 	CreateServiceFunction(MS_UTILS_GETCOUNTRYLIST, GetCountryList);
 
-	InitCrypt();
 	InitClistCore();
 	return 0;
-}
-
-void UnloadUtilsModule(void)
-{
-	if (!bModuleInitialized)
-		return;
-
-	UninitCrypt();
 }

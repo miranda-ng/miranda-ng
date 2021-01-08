@@ -183,24 +183,6 @@ STDMETHODIMP_(MCONTACT) MDatabaseCommon::FindNextContact(MCONTACT contactID, con
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Encryption support
-
-BOOL MDatabaseCommon::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
-{
-	if (!_strnicmp(szSetting, "password", 8))      return true;
-	if (!mir_strcmp(szSetting, "NLProxyAuthPassword")) return true;
-	if (!mir_strcmp(szSetting, "LNPassword"))          return true;
-	if (!mir_strcmp(szSetting, "FileProxyPassword"))   return true;
-	if (!mir_strcmp(szSetting, "TokenSecret"))         return true;
-
-	if (!mir_strcmp(szModule, "SecureIM")) {
-		if (!mir_strcmp(szSetting, "pgp"))              return true;
-		if (!mir_strcmp(szSetting, "pgpPrivKey"))       return true;
-	}
-	return false;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Meta-contacts support
 
 BOOL MDatabaseCommon::MetaDetouchSub(DBCachedContact *cc, int nSub)

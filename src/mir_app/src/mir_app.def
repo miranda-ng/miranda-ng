@@ -756,3 +756,8 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?WriteContactSetting@MDatabaseCommon@@UAGHIPAUDBCONTACTWRITESETTING@@@Z @844 NONAME
 ?getCrypt@MDatabaseCommon@@QBEPAUMICryptoEngine@@XZ @845 NONAME
 ?isEncrypted@MDatabaseCommon@@QBE_NXZ @846 NONAME
+?SelectProvider@MDatabaseCommon@@IAEPAUCRYPTO_PROVIDER@@XZ @847 NONAME
+?StoreProvider@MDatabaseCommon@@MAGHPAUCRYPTO_PROVIDER@@@Z @848 NONAME
+?Crypto_GetProvider@@YGPAUCRYPTO_PROVIDER@@PBD@Z @849 NONAME
+?Crypto_ListProviders@@YGXPAHPAPAPAUCRYPTO_PROVIDER@@@Z @850 NONAME
+?Crypto_RegisterEngine@@YGXPBUCRYPTO_PROVIDER@@@Z @851 NONAME

@@ -203,7 +203,6 @@ struct CDb3Mmap : public MDatabaseCommon, public MZeroedObject
 	void WriteSignature(DBSignature&);
 
 	__forceinline HANDLE getFile() const { return m_hDbFile; }
-	__forceinline bool isEncrypted() const { return m_bEncrypted; }
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:
@@ -231,6 +230,8 @@ public:
 	STDMETHODIMP_(MEVENT)   FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent) override;
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam) override;
+
+	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*);
 
 	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) override;
 	STDMETHODIMP_(BOOL)     WriteContactSettingWorker(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) override;

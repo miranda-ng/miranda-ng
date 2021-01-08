@@ -212,6 +212,6 @@ int LoadEncryptionModule(void)
 	cp.szDescr.a = LPGEN("Standard crypto provider");
 	cp.pFactory = builder;
 	cp.pPlugin = &g_plugin;
-	CallService(MS_CRYPTO_REGISTER_ENGINE, 0, LPARAM(&cp));
+	Crypto_RegisterEngine(&cp);
 	return 0;
 }

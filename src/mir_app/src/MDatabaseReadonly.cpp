@@ -39,7 +39,7 @@ void MDatabaseReadonly::SetCacheSafetyMode(BOOL)
 
 BOOL MDatabaseReadonly::EnumModuleNames(DBMODULEENUMPROC, void*)
 {
-	return 0;
+	return FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

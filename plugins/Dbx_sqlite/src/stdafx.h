@@ -6,12 +6,11 @@
 #include <memory>
 
 #include <malloc.h>
-#include <newpluginapi.h>
 #include <win2k.h>
 #include <assert.h>
 
-#include <m_core.h>
-#include <m_system.h>
+#include <newpluginapi.h>
+#include <m_crypto.h>
 #include <m_database.h>
 #include <m_protocols.h>
 #include <m_metacontacts.h>

@@ -92,6 +92,7 @@
     <ClCompile Include="src\lpopts.cpp" />
     <ClCompile Include="src\mdatabasecache.cpp" />
     <ClCompile Include="src\MDatabaseCommon.cpp" />
+    <ClCompile Include="src\MDatabaseCommonCrypt.cpp" />
     <ClCompile Include="src\MDatabaseReadonly.cpp" />
     <ClCompile Include="src\menu_clist.cpp" />
     <ClCompile Include="src\menu_frames.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="src\chat.h" />
     <ClInclude Include="src\clc.h" />
     <ClInclude Include="src\database.h" />
+    <ClInclude Include="src\encrypt.h" />
     <ClInclude Include="src\extraicons.h" />
     <ClInclude Include="src\filter.h" />
     <ClInclude Include="src\findadd.h" />

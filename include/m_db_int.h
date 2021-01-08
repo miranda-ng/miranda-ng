@@ -168,6 +168,7 @@ interface MIR_APP_EXPORT MIDatabase
 #pragma warning(disable:4275)
 
 struct MICryptoEngine;
+struct CRYPTO_PROVIDER;
 
 class MIR_APP_EXPORT MDatabaseCommon : public MIDatabase, public MNonCopyable
 {
@@ -187,6 +188,9 @@ protected:
 	bool LockName(const wchar_t *pwszProfileName);
 	int  CheckProto(DBCachedContact *cc, const char *proto);
 	void UnlockName();
+
+	CRYPTO_PROVIDER* SelectProvider();
+	STDMETHOD_(BOOL, StoreProvider)(CRYPTO_PROVIDER*);
 
 	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
 	STDMETHOD_(BOOL, WriteContactSettingWorker)(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) PURE;

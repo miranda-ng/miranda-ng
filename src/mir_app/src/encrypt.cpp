@@ -22,66 +22,40 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "encrypt.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int CompareFunc(const CRYPTO_PROVIDER *p1, const CRYPTO_PROVIDER *p2)
+static int CompareFunc(const MCryptoProvider *p1, const MCryptoProvider *p2)
 {
 	return mir_strcmp(p1->pszName, p2->pszName);
 }
 
-static LIST<CRYPTO_PROVIDER> arProviders(5, CompareFunc);
-
-static INT_PTR srvRegister(WPARAM, LPARAM lParam)
-{
-	CRYPTO_PROVIDER *p = (CRYPTO_PROVIDER*)lParam;
-	if (p == nullptr || p->dwSize != sizeof(CRYPTO_PROVIDER))
-		return 1;
-
-	CRYPTO_PROVIDER *pNew = new CRYPTO_PROVIDER(*p);
-	pNew->pszName = mir_strdup(p->pszName);
-	if (pNew->dwFlags & CPF_UNICODE)
-		pNew->szDescr.w = mir_wstrdup(TranslateW_LP(p->szDescr.w, p->pPlugin));
-	else
-		pNew->szDescr.w = mir_a2u(TranslateA_LP(p->szDescr.a, p->pPlugin));
-	arProviders.insert(pNew);
-	return 0;
-}
-
-static INT_PTR srvEnumProviders(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam && lParam) {
-		*(int*)wParam = arProviders.getCount();
-		*(CRYPTO_PROVIDER***)lParam = arProviders.getArray();
-	}
-	return 0;
-}
-
-static INT_PTR srvGetProvider(WPARAM, LPARAM lParam)
-{
-	if (lParam == 0)
-		return 0;
-
-	CRYPTO_PROVIDER tmp;
-	tmp.pszName = (LPSTR)lParam;
-	return (INT_PTR)arProviders.find(&tmp);
-}
+OBJLIST<MCryptoProvider> arCryptoProviders(5, CompareFunc);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int InitCrypt(void)
+MIR_APP_DLL(void) Crypto_RegisterEngine(const CRYPTO_PROVIDER *pProvider)
 {
-	CreateServiceFunction(MS_CRYPTO_REGISTER_ENGINE, srvRegister);
-	CreateServiceFunction(MS_CRYPTO_ENUM_PROVIDERS,  srvEnumProviders);
-	CreateServiceFunction(MS_CRYPTO_GET_PROVIDER,    srvGetProvider);
-	return 0;
+	if (pProvider && pProvider->dwSize == sizeof(CRYPTO_PROVIDER))
+		arCryptoProviders.insert(new MCryptoProvider(pProvider));
 }
 
-void UninitCrypt(void)
+MIR_APP_DLL(void) Crypto_ListProviders(int *pCount, CRYPTO_PROVIDER ***pList)
 {
-	for (auto &p : arProviders) {
-		mir_free(p->pszName);
-		mir_free(p->szDescr.w);
-		delete p;
-	}
+	if (pCount)
+		*pCount = arCryptoProviders.getCount();
+
+	if (pList)
+		*pList = (CRYPTO_PROVIDER**)arCryptoProviders.getArray();
+}
+
+MIR_APP_DLL(CRYPTO_PROVIDER*) Crypto_GetProvider(const char *pszName)
+{
+	if (pszName == 0)
+		return nullptr;
+
+	auto *tmp = (MCryptoProvider *)_alloca(sizeof(MCryptoProvider));
+	tmp->pszName = (LPSTR)pszName;
+	return arCryptoProviders.find(tmp);
 }

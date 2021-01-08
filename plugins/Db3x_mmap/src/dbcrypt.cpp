@@ -132,26 +132,10 @@ int CDb3Mmap::InitCrypt()
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_BLOB;
 	if (GetContactSetting(0, "CryptoEngine", "Provider", &dbv)) {
-	LBL_CreateProvider:
-		CRYPTO_PROVIDER **ppProvs;
-		int iNumProvs;
-		Crypto_EnumProviders(&iNumProvs, &ppProvs);
-		if (iNumProvs == 0)
+LBL_CreateProvider:
+		pProvider = SelectProvider();
+		if (pProvider == nullptr)
 			return 1;
-
-		if (iNumProvs > 1)
-		{
-			CSelectCryptoDialog dlg(ppProvs, iNumProvs);
-			dlg.DoModal();
-			pProvider = dlg.GetSelected();
-		}
-		else pProvider = ppProvs[0];
-
-		DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
-		dbcws.value.type = DBVT_BLOB;
-		dbcws.value.pbVal = (PBYTE)pProvider->pszName;
-		dbcws.value.cpbVal = (WORD)mir_strlen(pProvider->pszName) + 1;
-		WriteContactSetting(0, &dbcws);
 	}
 	else {
 		if (dbv.type != DBVT_BLOB) { // old version, clean it up
@@ -223,6 +207,16 @@ void CDb3Mmap::StoreKey()
 	WriteContactSetting(0, &dbcws);
 
 	SecureZeroMemory(pKey, iKeyLength);
+}
+
+STDMETHODIMP_(BOOL) CDb3Mmap::StoreProvider(CRYPTO_PROVIDER *pProvider)
+{
+	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
+	dbcws.value.type = DBVT_BLOB;
+	dbcws.value.pbVal = (PBYTE)pProvider->pszName;
+	dbcws.value.cpbVal = (WORD)mir_strlen(pProvider->pszName) + 1;
+	WriteContactSetting(0, &dbcws);
+	return TRUE;
 }
 
 void CDb3Mmap::SetPassword(const wchar_t *ptszPassword)

@@ -74,7 +74,6 @@ void UnloadProtocolsModule(void);
 void UnloadSkinSounds(void);
 void UnloadSkinHotkeys(void);
 void UnloadSrmmModule(void);
-void UnloadUtilsModule(void);
 
 int LoadHeaderbarModule();
 int LoadDescButtonModule();
@@ -171,7 +170,6 @@ void UnloadDefaultModules(void)
 	UnloadSkinHotkeys();
 	UnloadSrmmModule();
 	UnloadIcoLibModule();
-	UnloadUtilsModule();
 	UnloadExtraIconsModule();
 	UnloadClcModule();
 	UnloadContactListModule();

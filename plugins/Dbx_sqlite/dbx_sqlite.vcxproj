@@ -32,6 +32,7 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="src\dbcontacts.cpp" />
+    <ClCompile Include="src\dbcrypt.cpp" />
     <ClCompile Include="src\dbevents.cpp" />
     <ClCompile Include="src\dbintf.cpp" />
     <ClCompile Include="src\dbsettings.cpp" />

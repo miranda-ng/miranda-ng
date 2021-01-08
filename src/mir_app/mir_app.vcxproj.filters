@@ -389,6 +389,9 @@
     <ClCompile Include="src\pu_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\MDatabaseCommonCrypt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chat.h">
@@ -449,6 +452,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\usedIcons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\encrypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -225,8 +225,6 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	MDBX_dbi m_dbCrypto;
 
 	int      InitCrypt(void);
-	CRYPTO_PROVIDER* SelectProvider();
-
 	void     InitDialogs();
 
 public:
@@ -283,6 +281,7 @@ public:
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub) override;
 	STDMETHODIMP_(BOOL)     MetaRemoveSubHistory(DBCachedContact *ccSub) override;
 
+	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*);
 
 	STDMETHODIMP_(BOOL)     Compact();
 	STDMETHODIMP_(BOOL)     Backup(const wchar_t*);

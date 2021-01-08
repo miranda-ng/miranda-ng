@@ -28,6 +28,7 @@
 #define IDD_OPT_CLIST                   119
 #define IDD_OPT_CHAT_EVENTS             120
 #define IDD_AUTHREQ                     121
+#define IDD_SELECT_CRYPTOPROVIDER       122
 #define IDD_DETAILS                     125
 #define IDD_HISTORY                     127
 #define IDI_AWAY                        128
@@ -302,6 +303,8 @@
 #define IDC_EDIT1                       1105
 #define IDC_BUILDTIME                   1108
 #define IDC_CREDITSFILE                 1109
+#define IDC_SELECTCRYPT_COMBO           1110
+#define IDC_CRYPTOPROVIDER_DESCR        1111
 #define IDC_NUMBER                      1113
 #define IDC_FINDWHAT                    1131
 #define IDC_FIND                        1132

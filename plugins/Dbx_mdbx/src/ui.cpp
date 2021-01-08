@@ -43,13 +43,11 @@ void LanguageChanged(HWND hwndDlg)
 
 static bool CheckOldPassword(HWND hwndDlg, CDbxMDBX *db)
 {
-	if (db->usesPassword()) 
-	{
+	if (db->usesPassword()) {
 		wchar_t buf[100];
 		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, _countof(buf));
 		pass_ptrA oldPass(mir_utf8encodeW(buf));
-		if (!db->getCrypt()->checkPassword(oldPass)) 
-		{
+		if (!db->getCrypt()->checkPassword(oldPass)) {
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));
 			return false;
 		}

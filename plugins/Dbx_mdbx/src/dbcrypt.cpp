@@ -23,96 +23,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-class CSelectCryptoDialog : public CDlgBase
-{
-	CCtrlCombo m_combo;
-	CCtrlData m_descr;
-	CCtrlCheck m_chkTotalCrypt;
-	CRYPTO_PROVIDER **m_provs;
-	size_t m_provscount;
-	CRYPTO_PROVIDER *m_selected;
-	bool m_bTotalEncryption;
-
-	bool OnInitDialog() override
-	{
-		for (size_t i = 0; i < m_provscount; i++) {
-			CRYPTO_PROVIDER *prov = m_provs[i];
-			m_combo.AddStringA(prov->pszName, i);
-		}
-		m_combo.SetCurSel(0);
-		m_descr.SetText(m_provs[0]->szDescr.w);
-		return true;
-	}
-
-	bool OnApply() override
-	{
-		m_selected = m_provs[m_combo.GetItemData(m_combo.GetCurSel())];
-		m_bTotalEncryption = m_chkTotalCrypt.GetState() != 0;
-		return true;
-	}
-
-	void OnComboChanged(CCtrlCombo*)
-	{
-		m_descr.SetText(m_provs[m_combo.GetItemData(m_combo.GetCurSel())]->szDescr.w);
-	}
-
-public:
-	CSelectCryptoDialog(CRYPTO_PROVIDER **provs, size_t count) :
-		CDlgBase(g_plugin, IDD_SELECT_CRYPTOPROVIDER),
-		m_combo(this, IDC_SELECTCRYPT_COMBO),
-		m_descr(this, IDC_CRYPTOPROVIDER_DESCR),
-		m_chkTotalCrypt(this, IDC_CHECK_TOTALCRYPT),
-		m_provs(provs),
-		m_provscount(count),
-		m_selected(nullptr)
-	{
-		m_combo.OnChange = Callback(this, &CSelectCryptoDialog::OnComboChanged);
-	}
-
-	inline CRYPTO_PROVIDER* GetSelected() 
-	{	return m_selected;
-	}
-	inline bool TotalSelected()
-	{	return m_bTotalEncryption;
-	}
-};
-
 char DBKey_Crypto_Provider[] = "Provider";
 char DBKey_Crypto_Key[] = "Key";
 char DBKey_Crypto_IsEncrypted[] = "EncryptedDB";
 
-CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
+STDMETHODIMP_(BOOL) CDbxMDBX::StoreProvider(CRYPTO_PROVIDER *pProv)
 {
-	CRYPTO_PROVIDER **ppProvs, *pProv;
-	int iNumProvs;
-	Crypto_EnumProviders(&iNumProvs, &ppProvs);
-
-	if (iNumProvs == 0)
-		return nullptr;
-
-	bool bTotalCrypt = false;
-
-	if (iNumProvs > 1) {
-		CSelectCryptoDialog dlg(ppProvs, iNumProvs);
-		dlg.DoModal();
-		pProv = dlg.GetSelected();
-		bTotalCrypt = dlg.TotalSelected();
-	}
-	else pProv = ppProvs[0];
-
-	{
-		txn_ptr trnlck(this);
-		MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value = { pProv->pszName, mir_strlen(pProv->pszName) + 1 };
-		if (mdbx_put(trnlck, m_dbCrypto, &key, &value, MDBX_UPSERT) != MDBX_SUCCESS)
-			return nullptr;
-
-		key.iov_len = sizeof(DBKey_Crypto_IsEncrypted); key.iov_base = DBKey_Crypto_IsEncrypted; value.iov_len = sizeof(bool); value.iov_base = &bTotalCrypt;
-		if (mdbx_put(trnlck, m_dbCrypto, &key, &value, MDBX_UPSERT) != MDBX_SUCCESS)
-			return nullptr;
-	}
+	txn_ptr trnlck(this);
+	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value = { pProv->pszName, mir_strlen(pProv->pszName) + 1 };
+	if (mdbx_put(trnlck, m_dbCrypto, &key, &value, MDBX_UPSERT) != MDBX_SUCCESS)
+		return FALSE;
 
 	DBFlush();
-	return pProv;
+	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
