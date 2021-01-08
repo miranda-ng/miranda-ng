@@ -32,6 +32,7 @@
 #define IDD_LOGIN                       123
 #define IDI_DATABASE                    124
 #define IDD_DETAILS                     125
+#define IDD_OPT_DATABASE                126
 #define IDD_HISTORY                     127
 #define IDI_AWAY                        128
 #define IDI_FREE4CHAT                   129
@@ -529,6 +530,8 @@
 #define IDC_PLUGINURL                   1682
 #define IDC_PLUGINPID                   1683
 #define IDC_IDLESPIN                    1687
+#define IDC_STANDARD                    1688
+#define IDC_TOTAL                       1689
 #define IDC_NODBDRIVERS                 1690
 #define IDC_IDLESTATUSLOCK              1691
 #define IDC_RESTART                     1692

@@ -3,12 +3,6 @@
 // Используется D:\Others\SVN\MirandaNG\trunk\plugins\Db3x_mmap\res\db3x_mmap.rc
 //
 #define IDREMOVE                        3
-#define IDI_LOGO                        101
-#define IDD_OPTIONS                     105
-#define IDD_SELECT_CRYPTOPROVIDER       106
-#define IDC_HEADERBAR                   1001
-#define IDC_STANDARD                    1007
-#define IDC_TOTAL                       1008
 
 // Next default values for new objects
 // 

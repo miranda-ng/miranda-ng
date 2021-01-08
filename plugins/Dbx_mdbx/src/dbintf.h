@@ -231,7 +231,6 @@ public:
 
 	int  Check(void);
 	void DBFlush(bool bForce = false);
-	int  EnableEncryption(bool bEnable);
 	int  Load();
 	int  Map();
 
@@ -273,13 +272,14 @@ public:
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub) override;
 	STDMETHODIMP_(BOOL)     MetaRemoveSubHistory(DBCachedContact *ccSub) override;
 
-	STDMETHODIMP_(CRYPTO_PROVIDER*) ReadProvider(void);
-	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*);
+	STDMETHODIMP_(CRYPTO_PROVIDER*) ReadProvider(void) override;
+	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*) override;
 
-	STDMETHODIMP_(BOOL)     ReadEncryption(void);
+	STDMETHODIMP_(BOOL)     EnableEncryption(BOOL) override;
+	STDMETHODIMP_(BOOL)     ReadEncryption(void) override;
 
-	STDMETHODIMP_(BOOL)     ReadCryptoKey(MBinBuffer&);
-	STDMETHODIMP_(BOOL)     StoreCryptoKey(void);
+	STDMETHODIMP_(BOOL)     ReadCryptoKey(MBinBuffer&) override;
+	STDMETHODIMP_(BOOL)     StoreCryptoKey(void) override;
 
 	STDMETHODIMP_(BOOL)     Compact();
 	STDMETHODIMP_(BOOL)     Backup(const wchar_t*);

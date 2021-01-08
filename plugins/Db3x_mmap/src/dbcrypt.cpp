@@ -127,8 +127,11 @@ STDMETHODIMP_(BOOL) CDb3Mmap::StoreProvider(CRYPTO_PROVIDER *pProvider)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDb3Mmap::ToggleEncryption()
+STDMETHODIMP_(BOOL) CDb3Mmap::EnableEncryption(BOOL bEnable)
 {
+	if (bEnable == m_bEncrypted)
+		return TRUE;
+
 	HANDLE hSave1 = g_hevSettingChanged; g_hevSettingChanged = nullptr;
 	HANDLE hSave2 = g_hevEventAdded;     g_hevEventAdded = nullptr;
 	HANDLE hSave3 = g_hevEventDeleted;   g_hevEventDeleted = nullptr;
@@ -154,6 +157,7 @@ void CDb3Mmap::ToggleEncryption()
 	g_hevEventAdded = hSave2;
 	g_hevEventDeleted = hSave3;
 	g_hevEventFiltered = hSave4;
+	return TRUE;
 }
 
 void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)

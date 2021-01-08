@@ -37,62 +37,14 @@ static INT_PTR CompactMe(void* obj, WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptionsDialog : public CDlgBase
-{
-	CCtrlCheck m_chkStandart;
-	CCtrlCheck m_chkTotal;
-	CDbxMDBX *m_db;
-
-	bool OnInitDialog() override
-	{
-		m_chkStandart.SetState(!m_db->isEncrypted());
-		m_chkTotal.SetState(m_db->isEncrypted());
-		return true;
-	}
-
-	bool OnApply() override
-	{
-		SetCursor(LoadCursor(nullptr, IDC_WAIT));
-		m_db->EnableEncryption(m_chkTotal.GetState() != 0);
-		SetCursor(LoadCursor(nullptr, IDC_ARROW));
-		m_chkStandart.SetState(!m_db->isEncrypted());
-		m_chkTotal.SetState(m_db->isEncrypted());
-		return true;
-	}
-
-public:
-	COptionsDialog(CDbxMDBX *db) :
-		CDlgBase(g_plugin, IDD_OPTIONS),
-		m_chkStandart(this, IDC_STANDARD),
-		m_chkTotal(this, IDC_TOTAL),
-		m_db(db)
-	{
-	}
-};
-
-static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.position = -790000000;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.szTitle.a = LPGEN("Database");
-	odp.pDialog = new COptionsDialog((CDbxMDBX*)obj);
-	g_plugin.addOptions(wParam, &odp);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static IconItem iconList[] =
 {
 	{ LPGEN("Compact"), "compact", IDI_COMPACT }
 };
 
-static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	g_plugin.registerIcon(LPGEN("Database"), iconList, "mdbx");
-
-	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, obj);
 
 	// main menu item
 	CMenuItem mi(&g_plugin);
@@ -113,5 +65,5 @@ void CDbxMDBX::InitDialogs()
 {
 	hService[0] = CreateServiceFunctionObj(MS_DB_COMPACT, CompactMe, this);
 
-	hHook = HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
+	hHook = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 }

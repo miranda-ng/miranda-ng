@@ -94,17 +94,16 @@ STDMETHODIMP_(BOOL) CDbxMDBX::StoreProvider(CRYPTO_PROVIDER *pProv)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CDbxMDBX::EnableEncryption(bool bEncrypted)
+STDMETHODIMP_(BOOL) CDbxMDBX::EnableEncryption(BOOL bEncrypted)
 {
 	if (m_bEncrypted == bEncrypted)
-		return 0;
+		return TRUE;
 
 	std::vector<MEVENT> lstEvents;
 
 	MDBX_stat st;
 	mdbx_dbi_stat(StartTran(), m_dbEvents, &st, sizeof(st));
 	lstEvents.reserve(st.ms_entries);
-
 	{
 		MDBX_val key, data;
 		cursor_ptr pCursor(StartTran(), m_dbEvents);
@@ -157,7 +156,7 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 				memcpy(pNewDBEvent + 1, pNewBlob, nNewBlob);
 
 				if (mdbx_put(trnlck, m_dbEvents, &key, &data, MDBX_UPSERT) != MDBX_SUCCESS)
-					return 1;
+					return FALSE;
 			}
 		}
 
@@ -169,10 +168,10 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 		txn_ptr trnlck(this);
 		MDBX_val key = { DBKey_Crypto_IsEncrypted, sizeof(DBKey_Crypto_IsEncrypted) }, value = { &bEncrypted, sizeof(bool) };
 		if (mdbx_put(trnlck, m_dbCrypto, &key, &value, MDBX_UPSERT) != MDBX_SUCCESS)
-			return 1;
+			return FALSE;
 	}
 
 	DBFlush();
 	m_bEncrypted = bEncrypted;
-	return 0;
+	return TRUE;
 }

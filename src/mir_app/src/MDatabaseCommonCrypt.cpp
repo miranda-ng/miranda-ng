@@ -260,10 +260,66 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Options
+
+class CDatabaseOptionsDialog : public CDlgBase
+{
+	CCtrlCheck m_chkStandart, m_chkTotal;
+	CCtrlButton m_btnChangePass;
+	MDatabaseCommon *m_db;
+
+public:
+	CDatabaseOptionsDialog(MDatabaseCommon *db) :
+		CDlgBase(g_plugin, IDD_OPT_DATABASE),
+		m_db(db),
+		m_chkTotal(this, IDC_TOTAL),
+		m_chkStandart(this, IDC_STANDARD),
+		m_btnChangePass(this, IDC_USERPASS1)
+	{
+		m_btnChangePass.OnClick = Callback(this, &CDatabaseOptionsDialog::onClick_ChangePass);
+	}
+
+	bool OnInitDialog() override
+	{
+		m_chkStandart.SetState(!m_db->isEncrypted());
+		m_chkTotal.SetState(m_db->isEncrypted());
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		SetCursor(LoadCursor(nullptr, IDC_WAIT));
+		m_db->EnableEncryption(m_chkTotal.GetState() != 0);
+		SetCursor(LoadCursor(nullptr, IDC_ARROW));
+		m_chkStandart.SetState(!m_db->isEncrypted());
+		m_chkTotal.SetState(m_db->isEncrypted());
+		return true;
+	}
+
+	void onClick_ChangePass(CCtrlButton *)
+	{
+		ChangePassword(m_db, 0, 0);
+	}
+};
+
+static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.position = -790000000;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.szTitle.a = LPGEN("Database");
+	odp.pDialog = new CDatabaseOptionsDialog((MDatabaseCommon*)obj);
+	g_plugin.addOptions(wParam, &odp);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
 	MDatabaseCommon *db = (MDatabaseCommon *)obj;
+
+	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, obj);
 
 	// main menu item
 	CMenuItem mi(&g_plugin);

@@ -192,8 +192,6 @@ struct CDb3Mmap : public MDatabaseCommon, public MZeroedObject
 	int CreateDbHeaders(const DBSignature&);
 	int CheckDbHeaders(bool bInteractive);
 
-	void ToggleEncryption(void);
-
 	void DatabaseCorruption(wchar_t *text);
 	void WriteSignature(DBSignature&);
 
@@ -225,13 +223,14 @@ public:
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam) override;
 
-	STDMETHODIMP_(BOOL)     ReadCryptoKey(MBinBuffer&);
-	STDMETHODIMP_(BOOL)     StoreCryptoKey(void);
+	STDMETHODIMP_(BOOL)     ReadCryptoKey(MBinBuffer&) override;
+	STDMETHODIMP_(BOOL)     StoreCryptoKey(void) override;
 
-	STDMETHODIMP_(BOOL)     ReadEncryption(void);
+	STDMETHODIMP_(BOOL)     EnableEncryption(BOOL) override;
+	STDMETHODIMP_(BOOL)     ReadEncryption(void) override;
 
-	STDMETHODIMP_(CRYPTO_PROVIDER*) ReadProvider();
-	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*);
+	STDMETHODIMP_(CRYPTO_PROVIDER*) ReadProvider() override;
+	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*) override;
 
 	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) override;
 	STDMETHODIMP_(BOOL)     WriteContactSettingWorker(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) override;
@@ -320,6 +319,4 @@ protected:
 	int      InitCrypt(void);
 	void     ToggleEventsEncryption(MCONTACT contactID);
 	void     ToggleSettingsEncryption(MCONTACT contactID);
-
-	void     InitDialogs();
 };

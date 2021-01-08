@@ -768,3 +768,4 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?StoreCryptoKey@MDatabaseReadonly@@UAGHXZ @856 NONAME
 ?usesPassword@MDatabaseCommon@@QBE_NXZ @857 NONAME
 ?SetPassword@MDatabaseCommon@@QAEXPB_W@Z @858 NONAME
+?EnableEncryption@MDatabaseReadonly@@UAGHH@Z @859 NONAME

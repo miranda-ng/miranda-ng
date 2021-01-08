@@ -67,3 +67,11 @@ STDMETHODIMP_(BOOL) CDbxSQLite::StoreProvider(CRYPTO_PROVIDER *pProvider)
 	WriteContactSetting(0, &dbcws);
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Toggles full/partial encryption mode
+
+STDMETHODIMP_(BOOL) CDbxSQLite::EnableEncryption(BOOL)
+{
+	return FALSE;
+}

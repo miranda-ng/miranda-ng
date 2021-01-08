@@ -64,6 +64,11 @@ STDMETHODIMP_(BOOL) MDatabaseReadonly::StoreProvider(CRYPTO_PROVIDER *)
 	return FALSE;
 }
 
+STDMETHODIMP_(BOOL) MDatabaseReadonly::EnableEncryption(BOOL)
+{
+	return FALSE;
+}
+
 STDMETHODIMP_(BOOL) MDatabaseReadonly::ReadEncryption()
 {
 	return FALSE;

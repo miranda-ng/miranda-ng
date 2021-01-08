@@ -242,6 +242,7 @@ public:
 	STDMETHOD_(BOOL, ReadCryptoKey)(MBinBuffer&) PURE;
 	STDMETHOD_(BOOL, StoreCryptoKey)() PURE;
 
+	STDMETHOD_(BOOL, EnableEncryption)(BOOL) PURE;
 	STDMETHOD_(BOOL, ReadEncryption)() PURE;	
 };
 
@@ -265,6 +266,7 @@ public:
 	STDMETHODIMP_(BOOL) StoreProvider(CRYPTO_PROVIDER*) override;
 	STDMETHODIMP_(BOOL) ReadCryptoKey(MBinBuffer&) override;
 	STDMETHODIMP_(BOOL) StoreCryptoKey() override;
+	STDMETHODIMP_(BOOL) EnableEncryption(BOOL) override;
 	STDMETHODIMP_(BOOL) ReadEncryption() override;
 
 	////////////////////////////////////////////////////////////////////////////////////////

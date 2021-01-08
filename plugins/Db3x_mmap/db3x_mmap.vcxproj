@@ -39,7 +39,6 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\ui.cpp" />
     <ClInclude Include="src\database.h" />
     <ClInclude Include="src\dbintf.h" />
     <ClInclude Include="src\resource.h" />

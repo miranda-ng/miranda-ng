@@ -97,6 +97,7 @@ public:
 	STDMETHODIMP_(CRYPTO_PROVIDER*) ReadProvider() override;
 	STDMETHODIMP_(BOOL)     StoreProvider(CRYPTO_PROVIDER*) override;
 
+	STDMETHODIMP_(BOOL)     EnableEncryption(BOOL) override;
 	STDMETHODIMP_(BOOL)     ReadEncryption() override;
 
 	STDMETHODIMP_(BOOL)     WriteContactSettingWorker(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) override;
