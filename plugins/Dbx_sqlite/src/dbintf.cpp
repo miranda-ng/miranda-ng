@@ -142,14 +142,15 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 
 
 	CDbxSQLite *db = new CDbxSQLite(database);
-	if (!db->InitCrypt()) {
-		delete db;
-		return nullptr;
-	}
-	
 	db->InitContacts();
 	db->InitSettings();
 	db->InitEvents();
+
+	if (db->InitCrypt()) {
+		delete db;
+		return nullptr;
+	}
+
 	return db;
 }
 
