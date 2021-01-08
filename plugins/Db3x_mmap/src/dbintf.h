@@ -264,7 +264,7 @@ protected:
 	HANDLE   m_hDbFile;
 	DBHeader m_dbHeader;
 	DWORD    m_ChunkSize;
-	bool     m_safetyMode, m_bReadOnly, m_bShared, m_bEncrypted, m_bUsesPassword;
+	bool     m_safetyMode, m_bReadOnly, m_bShared, m_bUsesPassword;
 
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff

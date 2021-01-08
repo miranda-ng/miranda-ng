@@ -50,9 +50,6 @@ CDbxMDBX::~CDbxMDBX()
 	for (auto &it : hService)
 		DestroyServiceFunction(it);
 	UnhookEvent(hHook);
-
-	if (m_crypto)
-		m_crypto->destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

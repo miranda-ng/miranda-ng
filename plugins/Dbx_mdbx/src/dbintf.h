@@ -247,7 +247,6 @@ public:
 
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
 
-	__forceinline bool isEncrypted() const { return m_bEncrypted; }
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:

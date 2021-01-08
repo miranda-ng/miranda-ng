@@ -195,6 +195,7 @@ public:
 	MDatabaseCommon();
 	virtual ~MDatabaseCommon();
 
+	__forceinline bool isEncrypted() const { return m_bEncrypted; }
 	__forceinline MICryptoEngine* getCrypt() const { return m_crypto; }
 	__forceinline MIDatabaseCache* getCache() const { return m_cache; }
 

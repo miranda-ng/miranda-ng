@@ -74,9 +74,6 @@ CDb3Mmap::~CDb3Mmap()
 	DestroyServiceFunction(hService);
 	UnhookEvent(hHook);
 
-	if (m_crypto)
-		m_crypto->destroy();
-
 	if (m_hMap)
 		CloseHandle(m_hMap);
 

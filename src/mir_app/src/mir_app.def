@@ -755,3 +755,4 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?GetContactSettingWorker@MDatabaseCommon@@MAGHIPBD0PAUDBVARIANT@@H@Z @843 NONAME
 ?WriteContactSetting@MDatabaseCommon@@UAGHIPAUDBCONTACTWRITESETTING@@@Z @844 NONAME
 ?getCrypt@MDatabaseCommon@@QBEPAUMICryptoEngine@@XZ @845 NONAME
+?isEncrypted@MDatabaseCommon@@QBE_NXZ @846 NONAME

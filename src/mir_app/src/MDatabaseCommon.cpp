@@ -38,6 +38,9 @@ MDatabaseCommon::MDatabaseCommon() :
 
 MDatabaseCommon::~MDatabaseCommon()
 {
+	if (m_crypto)
+		m_crypto->destroy();
+
 	UnlockName();
 	delete (MDatabaseCache*)m_cache;
 }
