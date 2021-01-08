@@ -165,7 +165,6 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	bool EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe, bool bNew);
 	int  PrepareCheck(void);
 	void TouchFile(void);
-	void UpdateMenuItem(void);
 
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
@@ -186,7 +185,7 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	// settings
 
 	MDBX_dbi     m_dbSettings;
-	HANDLE       hService[2], hHook;
+	HANDLE       hService[1], hHook;
 
 	void         FillSettings(void);
 
@@ -235,13 +234,10 @@ public:
 	int  EnableEncryption(bool bEnable);
 	int  Load();
 	int  Map();
-	void SetPassword(const wchar_t *ptszPassword);
 
 	int  CheckEvents1(void);
 	int  CheckEvents2(void);
 	int  CheckEvents3(void);
-
-	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
 
 public:
 	STDMETHODIMP_(BOOL)     IsRelational(void) override { return TRUE; }

@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "database.h"
 #include "encrypt.h"
 
+#define MS_DB_CHANGEPASSWORD "DB/UI/ChangePassword"
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Provider selection dialog
 
@@ -105,6 +107,177 @@ BOOL MDatabaseCommon::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 		if (!mir_strcmp(szSetting, "pgpPrivKey"))       return true;
 	}
 	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static HGENMENU hSetPwdMenu;
+
+__forceinline wchar_t *GetMenuTitle(bool bUsesPassword)
+{
+	return bUsesPassword ? LPGENW("Change/remove password") : LPGENW("Set password");
+}
+
+void MDatabaseCommon::SetPassword(const wchar_t *ptszPassword)
+{
+	if (ptszPassword == nullptr || *ptszPassword == 0) {
+		m_bUsesPassword = false;
+		m_crypto->setPassword(nullptr);
+	}
+	else {
+		m_bUsesPassword = true;
+		m_crypto->setPassword(T2Utf(ptszPassword));
+	}
+
+	Menu_ModifyItem(hSetPwdMenu, GetMenuTitle(m_bUsesPassword), Skin_GetIconHandle(SKINICON_OTHER_KEYS));
+}
+
+static UINT oldLangID;
+void LanguageChanged(HWND hwndDlg)
+{
+	UINT_PTR LangID = (UINT_PTR)GetKeyboardLayout(0);
+	char Lang[3] = { 0 };
+	if (LangID != oldLangID) {
+		oldLangID = LangID;
+		GetLocaleInfoA(MAKELCID((LangID & 0xffffffff), SORT_DEFAULT), LOCALE_SABBREVLANGNAME, Lang, 2);
+		Lang[0] = toupper(Lang[0]);
+		Lang[1] = tolower(Lang[1]);
+		SetDlgItemTextA(hwndDlg, IDC_LANG, Lang);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool CheckOldPassword(HWND hwndDlg, MDatabaseCommon *db)
+{
+	if (db->usesPassword()) {
+		wchar_t buf[100];
+		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, _countof(buf));
+		pass_ptrA oldPass(mir_utf8encodeW(buf));
+		if (!db->getCrypt()->checkPassword(oldPass)) {
+			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));
+			return false;
+		}
+	}
+	return true;
+}
+
+struct DlgChangePassParam
+{
+	MDatabaseCommon *db;
+	wchar_t newPass[100];
+	unsigned short wrongPass;
+};
+
+static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	wchar_t buf[100];
+
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)g_plugin.getIcon(IDI_DATABASE, true));
+
+		param = (DlgChangePassParam*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		oldLangID = 0;
+		SetTimer(hwndDlg, 1, 200, nullptr);
+		LanguageChanged(hwndDlg);
+		return TRUE;
+
+	case WM_CTLCOLORSTATIC:
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_LANG)) {
+			SetTextColor((HDC)wParam, GetSysColor(COLOR_HIGHLIGHTTEXT));
+			SetBkMode((HDC)wParam, TRANSPARENT);
+			return (INT_PTR)GetSysColorBrush(COLOR_HIGHLIGHT);
+		}
+		return FALSE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+			EndDialog(hwndDlg, IDCANCEL);
+			break;
+
+		case IDREMOVE:
+			if (!CheckOldPassword(hwndDlg, param->db)) {
+LBL_Error:
+				SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
+				SetDlgItemTextA(hwndDlg, IDC_USERPASS1, "");
+				SetDlgItemTextA(hwndDlg, IDC_USERPASS2, "");
+			}
+			else {
+				param->db->SetPassword(nullptr);
+				param->db->StoreCryptoKey();
+				EndDialog(hwndDlg, IDREMOVE);
+			}
+			break;
+
+		case IDOK:
+			wchar_t buf2[100];
+			GetDlgItemText(hwndDlg, IDC_USERPASS1, buf2, _countof(buf2));
+			if (wcslen(buf2) < 3) {
+				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is too short!"));
+				goto LBL_Error;
+			}
+
+			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, _countof(buf));
+			if (wcscmp(buf2, buf)) {
+				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Passwords do not match!"));
+				goto LBL_Error;
+			}
+
+			if (!CheckOldPassword(hwndDlg, param->db))
+				goto LBL_Error;
+
+			param->db->SetPassword(buf2);
+			param->db->StoreCryptoKey();
+			SecureZeroMemory(buf2, sizeof(buf2));
+			EndDialog(hwndDlg, IDOK);
+		}
+		break;
+
+	case WM_TIMER:
+		LanguageChanged(hwndDlg);
+		return FALSE;
+
+	case WM_DESTROY:
+		KillTimer(hwndDlg, 1);
+		Window_FreeIcon_IcoLib(GetDlgItem(hwndDlg, IDC_HEADERBAR));
+	}
+
+	return FALSE;
+}
+
+static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
+{
+	MDatabaseCommon *db = (MDatabaseCommon*)obj;
+	DlgChangePassParam param = { db };
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)&param);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
+{
+	MDatabaseCommon *db = (MDatabaseCommon *)obj;
+
+	// main menu item
+	CMenuItem mi(&g_plugin);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000, g_plugin.getIconHandle(IDI_DATABASE));
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
+
+	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
+	mi.flags = CMIF_UNICODE;
+	mi.position = 1000000001;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_KEYS);
+	mi.name.w = GetMenuTitle(db->usesPassword());
+	mi.pszService = MS_DB_CHANGEPASSWORD;
+	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -225,6 +398,9 @@ int MDatabaseCommon::InitCrypt()
 			return 6;
 		StoreCryptoKey();
 	}
+
+	CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
+	HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
 
 	m_bEncrypted = ReadEncryption();
 	return 0;

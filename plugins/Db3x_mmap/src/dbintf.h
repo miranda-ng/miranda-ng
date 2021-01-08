@@ -193,10 +193,6 @@ struct CDb3Mmap : public MDatabaseCommon, public MZeroedObject
 	int CheckDbHeaders(bool bInteractive);
 
 	void ToggleEncryption(void);
-	void SetPassword(const wchar_t *ptszPassword);
-	void UpdateMenuItem(void);
-
-	__forceinline LPTSTR GetMenuTitle() const { return m_bUsesPassword ? LPGENW("Change/remove password") : LPGENW("Set password"); }
 
 	void DatabaseCorruption(wchar_t *text);
 	void WriteSignature(DBSignature&);

@@ -94,21 +94,6 @@ STDMETHODIMP_(BOOL) CDbxMDBX::StoreProvider(CRYPTO_PROVIDER *pProv)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDbxMDBX::SetPassword(const wchar_t *ptszPassword)
-{
-	if (ptszPassword == nullptr || *ptszPassword == 0) {
-		m_bUsesPassword = false;
-		m_crypto->setPassword(nullptr);
-	}
-	else {
-		m_bUsesPassword = true;
-		m_crypto->setPassword(pass_ptrA(mir_utf8encodeW(ptszPassword)));
-	}
-	UpdateMenuItem();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int CDbxMDBX::EnableEncryption(bool bEncrypted)
 {
 	if (m_bEncrypted == bEncrypted)

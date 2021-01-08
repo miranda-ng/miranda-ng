@@ -189,20 +189,6 @@ protected:
 	bool LockName(const wchar_t *pwszProfileName);
 	void UnlockName();
 
-	////////////////////////////////////////////////////////////////////////////////////////
-	// encryption support
-
-	int InitCrypt();
-
-	CRYPTO_PROVIDER* SelectProvider();
-	STDMETHOD_(CRYPTO_PROVIDER*, ReadProvider)() PURE;
-	STDMETHOD_(BOOL, StoreProvider)(CRYPTO_PROVIDER*) PURE;
-	
-	STDMETHOD_(BOOL, ReadCryptoKey)(MBinBuffer&) PURE;
-	STDMETHOD_(BOOL, StoreCryptoKey)() PURE;
-
-	STDMETHOD_(BOOL, ReadEncryption)() PURE;	
-
 	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
 	STDMETHOD_(BOOL, WriteContactSettingWorker)(MCONTACT contactID, DBCONTACTWRITESETTING &dbcws) PURE;
 
@@ -214,6 +200,8 @@ public:
 	__forceinline MICryptoEngine* getCrypt() const { return m_crypto; }
 	__forceinline MIDatabaseCache* getCache() const { return m_cache; }
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
+
+	void SetPassword(const wchar_t *ptszPassword);
 
 	STDMETHODIMP_(BOOL) DeleteModule(MCONTACT contactID, LPCSTR szModule) override;
 
@@ -241,6 +229,20 @@ public:
 
 	STDMETHODIMP_(DB::EventCursor*) EventCursor(MCONTACT hContact, MEVENT hDbEvent) override;
 	STDMETHODIMP_(DB::EventCursor*) EventCursorRev(MCONTACT hContact, MEVENT hDbEvent) override;
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// encryption support
+
+	int InitCrypt();
+
+	CRYPTO_PROVIDER* SelectProvider();
+	STDMETHOD_(CRYPTO_PROVIDER*, ReadProvider)() PURE;
+	STDMETHOD_(BOOL, StoreProvider)(CRYPTO_PROVIDER*) PURE;
+
+	STDMETHOD_(BOOL, ReadCryptoKey)(MBinBuffer&) PURE;
+	STDMETHOD_(BOOL, StoreCryptoKey)() PURE;
+
+	STDMETHOD_(BOOL, ReadEncryption)() PURE;	
 };
 
 #pragma warning(pop)

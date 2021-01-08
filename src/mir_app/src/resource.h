@@ -63,6 +63,8 @@
 #define IDI_MERROR                      165
 #define IDI_MWARNING                    166
 #define IDI_MINFO                       167
+#define IDD_CHANGEPASS                  168
+#define IDD_NEWPASS                     169
 #define IDI_MIRANDAWEBSITE              172
 #define IDI_RENAME                      173
 #define IDI_HISTORY                     174
@@ -400,7 +402,11 @@
 #define IDC_CATEGORYLIST                1366
 #define IDC_LOADICONS                   1369
 #define IDC_STICONSGROUP                1371
+#define IDC_OLDPASS                     1372
+#define IDC_USERPASS1                   1373
+#define IDC_USERPASS2                   1374
 #define IDC_MSGICON                     1375
+#define IDREMOVE                        1376
 #define IDC_STNOPAGE                    1377
 #define IDC_STCHECKMARKS                1380
 #define IDC_STATUSBAR                   1389

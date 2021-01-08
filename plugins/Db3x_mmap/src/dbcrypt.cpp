@@ -125,27 +125,14 @@ STDMETHODIMP_(BOOL) CDb3Mmap::StoreProvider(CRYPTO_PROVIDER *pProvider)
 	return TRUE;
 }
 
-void CDb3Mmap::SetPassword(const wchar_t *ptszPassword)
-{
-	if (ptszPassword == nullptr || *ptszPassword == 0) {
-		m_bUsesPassword = false;
-		m_crypto->setPassword(nullptr);
-	}
-	else {
-		m_bUsesPassword = true;
-		m_crypto->setPassword(T2Utf(ptszPassword));
-	}
-	UpdateMenuItem();
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CDb3Mmap::ToggleEncryption()
 {
-	HANDLE hSave1 = g_hevSettingChanged;    g_hevSettingChanged = nullptr;
-	HANDLE hSave2 = g_hevEventAdded;       g_hevEventAdded = nullptr;
-	HANDLE hSave3 = g_hevEventDeleted;     g_hevEventDeleted = nullptr;
-	HANDLE hSave4 = g_hevEventFiltered; g_hevEventFiltered = nullptr;
+	HANDLE hSave1 = g_hevSettingChanged; g_hevSettingChanged = nullptr;
+	HANDLE hSave2 = g_hevEventAdded;     g_hevEventAdded = nullptr;
+	HANDLE hSave3 = g_hevEventDeleted;   g_hevEventDeleted = nullptr;
+	HANDLE hSave4 = g_hevEventFiltered;  g_hevEventFiltered = nullptr;
 
 	mir_cslock lck(m_csDbAccess);
 	ToggleSettingsEncryption(0);
