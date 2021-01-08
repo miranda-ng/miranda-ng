@@ -502,7 +502,7 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, DBC
 			return 1;
 
 		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
-		if (bIsEncrypted) {
+		if (bIsEncrypted && m_crypto) {
 			size_t len;
 			BYTE *pResult = m_crypto->encodeString(dbcwWork.value.pszVal, &len);
 			if (pResult != nullptr) {
