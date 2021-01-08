@@ -21,6 +21,6 @@ Zero powiadomień
 Wtyczki
 ;file \plugins\ZeroNotification\src\stdafx.h
 [Disable &Sounds]
-Wyłącz &dźwięki
+Wyłącz dźwię&ki
 [Enable &Sounds]
-Włącz &dźwięki
+Włącz dźwię&ki

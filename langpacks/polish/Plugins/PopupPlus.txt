@@ -306,7 +306,7 @@ Kontakty
 [Advanced]
 Zaawansowane
 [Toggle popups]
-Włącz/Wyłącz popupy
+Włącz/wyłącz popupy
 [Enable popups]
 Włącz popupy
 [Disable popups]

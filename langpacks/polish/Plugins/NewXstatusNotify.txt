@@ -187,7 +187,7 @@ Ogólne
 [Accounts]
 Konta
 [Enable/Disable accounts which you don't wish to be notified for:]
-Włącz/Wyłącz konta dla których nie chcesz powiadomień:
+Włącz/wyłącz konta dla których nie chcesz powiadomień:
 [Notify when contact changes status message]
 Powiadom, gdy kontakt zmienia opis
 [Notify when contact removes status message]

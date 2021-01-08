@@ -28,7 +28,7 @@ Limit wielkości dziennika [1 000 - 1 000 000 linii]
 Zapisz ustawienia i zrestartuj konsolę
 ;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
-Pokaż/Ukryj konsolę
+Pokaż/ukryj konsolę
 [Hide Console]
 Ukryj konsolę
 [Show Console]

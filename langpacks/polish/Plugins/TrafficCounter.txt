@@ -134,7 +134,7 @@ Nie udało się odczytać pliku statystyk
 Licznik transferu
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Toggle traffic counter]
-Włącz/Wyłącz licznik danych
+Włącz/wyłącz licznik danych
 [Traffic counter notification]
 Powiadomienia licznika transferu
 [%d kilobytes sent]
@@ -144,7 +144,7 @@ Powiadomienia licznika transferu
 [Font]
 Czcionka
 [Show/Hide frame]
-Pokaż/Ukryj ramkę
+Pokaż/ukryj ramkę
 [Hide traffic window]
 Ukryj okno licznika
 [Clear the current (Now:) value]

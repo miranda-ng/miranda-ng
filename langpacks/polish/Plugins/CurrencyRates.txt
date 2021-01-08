@@ -176,7 +176,7 @@ Auto-aktualizacja wyłączona
 [Currency Rates]
 
 [Enable/Disable Auto Update]
-Włącz/Wyłącz autoaktualizację
+Włącz/wyłącz autoaktualizację
 [Refresh All Rates]
 
 [Currency Converter...]

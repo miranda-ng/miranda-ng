@@ -397,7 +397,7 @@ Czat
 [&Invite a user]
 &Zaproś użytkownika
 [View/change &title]
-Pokaż/Zmień &nazwę
+Pokaż/zmień &nazwę
 [&Destroy room]
 &Zniszcz pokój
 [&User details]

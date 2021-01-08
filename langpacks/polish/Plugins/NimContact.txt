@@ -9,7 +9,7 @@
 Pozwala dodać "kontakty", które mogą działać jako skróty do innych programów lub linki do stron internetowych.\r\nNazwy kontaktów można odczytywać z pliku tekstowego (w tym dowolnego pliku ASCII).
 ;file \protocols\Non-IM Contact\res\resource.rc
 [View/Edit Files]
-Pokaż/Edytuj pliki
+Pokaż/edytuj pliki
 [Add File]
 Dodaj plik
 [Add URL]
@@ -99,7 +99,7 @@ filename()
 [Help]
 Pomoc
 [Copy / Export contact]
-Kopiuj/Eksportuj kontakt
+Kopiuj/eksportuj kontakt
 [&Export Non-IM Contact]
 &Eksportuj kontakt Non-IM
 [Co&py Non-IM Contact]
@@ -154,7 +154,7 @@ Kontakt &Non-IM
 [&Add Non-IM Contact]
 &Dodaj kontakt Non-IM
 [&View/Edit Files]
-&Zobacz/Edytuj pliki
+&Zobacz/edytuj pliki
 [&Export all Non-IM Contacts]
 &Eksportuj wszystkie kontakty Non-IM
 [&Import Non-IM Contacts]

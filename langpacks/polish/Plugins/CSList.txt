@@ -13,9 +13,9 @@ Niestandardowa lista statusów
 [No items available in the database.\nClick the Add button to define some.]
 Brak elementów w bazie danych.\nKliknij na przycisk dodawania aby zdefiniować statusy.
 [Add/Modify Custom Status]
-Dodaj/Edytuj własne statusy
+Dodaj/edytuj własne statusy
 [Add/Modify]
-Dodaj/Edytuj
+Dodaj/edytuj
 [Cancel]
 Anuluj
 [List settings]

@@ -160,7 +160,7 @@ włączone
 [double clicked]
 dwuklik
 [Show/Hide &Ping Window]
-Pokaż/Ukryj okno &Pingu
+Pokaż/ukryj okno &Pingu
 [List]
 Lista
 ;file \plugins\Ping\src\rawping.cpp

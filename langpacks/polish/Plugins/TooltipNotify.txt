@@ -45,7 +45,7 @@ x2 dla dostępnych zdarzeń
 [Double click on tooltip]
 Opcje dwukliku
 [Shows/Hides contact list]
-Pokaż/Ukryj listę kontaktów
+Pokaż/ukryj listę kontaktów
 [Opens message dialog]
 Otwórz okno rozmowy
 [Behavior]

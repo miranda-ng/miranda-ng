@@ -486,7 +486,7 @@ Moduł History++ nie został załadowany, brak pliku richedit 2.0+.\\nPrzyciśni
 [&Empty System History]
 &Usuń historię systemową
 [&Empty History]
-&Usuń historię
+U&suń historię
 [Do you really want to delete ALL items for this contact?]
 Czy na pewno chcesz usunąć WSZYSTKIE wpisy dla tego kontaktu?
 [Note: It can take several minutes for large histories]

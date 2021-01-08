@@ -154,7 +154,7 @@ Element "Sprawdź urodziny" w menu
 [List birthdays menu item]
 Element menu pokaż listę urodzin
 [Add/change birthday]
-Dodaj/Zmień urodziny
+Dodaj/zmień urodziny
 [Refresh user details]
 Odśwież informacje o użytkowniku
 [Import birthdays]
@@ -239,6 +239,6 @@ Ten plik został wyeksportowany przy użyciu wersji Unicode WhenWasIt. Proszę u
 [Birthdays (When Was It)]
 Urodziny (When Was It)
 [Add/change user &birthday]
-Dodaj/Zmień datę &urodzin
+Dodaj/zmień datę u&rodzin
 [Birthday near]
 Urodziny blisko

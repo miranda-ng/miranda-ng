@@ -97,9 +97,9 @@ Odstęp pomiędzy
 [Borders]
 Obramowanie
 [Vertical align]
-Pionowe wyrównanie
+Pionowo
 [Horizontal align]
-Poziome wyrównanie
+Poziomo
 [Multiline status bar:]
 Wielolinijkowy pasek statusu:
 [Accounts per line]
@@ -133,7 +133,7 @@ Pokaż obie ikony
 [Show normal status as overlay]
 Pokaż status jako nakładkę
 [Status overlay opacity is 75%]
-Widoczność nakładki statusu - 75%
+Widoczność nakładki - 75%
 [Show unread emails (if supported)]
 Pokaż nieprzeczytane maile (jeśli obsługiwane)
 [Right click opens status menu]
@@ -189,7 +189,7 @@ Ukryj listę kontaktów po
 [Automatically resize window to height of list]
 Dopasuj rozmiar okna rozmowy do wysokości listy
 [maximum]
-maksymalną
+maksymalny
 [% of screen]
 % ekranu
 [Size upwards]
@@ -229,7 +229,7 @@ Zawsze widoczny
 [Dock to sides]
 Dokuj do krawędzi
 [and minimum]
-i minimalną
+minimalny
 [Items]
 Obiekty
 [Show divider between online and offline contacts]
@@ -273,7 +273,7 @@ Ukryj pionowy pasek przewijania
 [Fade out entire list when:]
 Przygaś całą listę, gdy:
 [Single click interface]
-Pokaż/Ukryj listę po pojedynczym kliknięciu
+Pokaż/ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
 [Disable icon blinking]
@@ -351,7 +351,7 @@ Minimalizuj do zasobnika
 [Translucency options]
 Opcje przezroczystości
 [Fade contact list in/out]
-Wygaszaj/Rozjaśniaj listę
+Wygaszaj/rozjaśniaj listę
 [Transparent contact list]
 Przezroczysta lista kontaktów
 [Inactive opacity:]
@@ -405,7 +405,7 @@ Pokaż awatary
 [Draw overlay icons]
 Rysuj nakładki ikon
 [Max size (pixels):]
-Maks. rozmiar (w pikselach):
+Wielkość do (px):
 [Round corners of avatars]
 Zaokrąglone rogi awatarów
 [Ignore size for row height calcs]
@@ -575,9 +575,9 @@ Pokaż wszystkie paski tytułów
 Ukryj wszystkie paski tytułów
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
-&Ukryj/pokaż
+U&kryj/pokaż
 [&Find/add contacts...]
-&Szukaj/Dodaj kontakty...
+S&zukaj/dodaj kontakty...
 [&Main menu]
 &Menu główne
 [&Status]
@@ -814,7 +814,7 @@ Wyłącz Mirandę NG
 [Restore last status]
 Przywróć ostatni status
 [Show/Hide offline users]
-Pokaż/Ukryj rozłączonych
+Pokaż/ukryj rozłączonych
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [( unknown )]
 ( nieznany )
@@ -870,7 +870,7 @@ Konta
 [Accounts...]
 Konta...
 [Show/Hide offline contacts]
-Pokaż/Ukryj rozłączonych
+Pokaż/ukryj rozłączonych
 [Hide offline contacts]
 Ukryj rozłączone kontakty
 [Show offline contacts]
@@ -878,13 +878,13 @@ Pokaż rozłączone kontakty
 [Find user]
 Szukaj kontaktu
 [Use/Disable groups]
-Włącz/Wyłącz grupy
+Włącz/wyłącz grupy
 [Use groups]
 Pokaż grupy
 [Disable groups]
 Wyłącz grupy
 [Enable/Disable sounds]
-Włącz/Wyłącz dźwięki
+Włącz/wyłącz dźwięki
 [Enable sounds]
 Włącz dźwięki
 [Disable sounds]

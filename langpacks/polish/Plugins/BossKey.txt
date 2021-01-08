@@ -64,7 +64,7 @@ Ukryj Mirandę NG
 [Hide]
 Ukryj
 [Hide/Show Miranda]
-Pokaż/Ukryj Mirandę
+Pokaż/ukryj Mirandę
 [BossKey]
 BossKey
 [get the BossKey name]

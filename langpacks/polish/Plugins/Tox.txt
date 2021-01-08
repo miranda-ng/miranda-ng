@@ -51,7 +51,7 @@ Usuń hasło
 [Change password]
 Zmień hasło
 [Set password]
-Ustaw/Zmień hasło
+Ustaw hasło
 [If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
 Jeżeli to pole zawiera adres Tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą toxme.io.
 [DNS name:]

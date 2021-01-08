@@ -15,7 +15,7 @@ Przypisz
 [Clear]
 Wyczyść
 [Show/Hide contact list]
-Pokaż/Ukryj listę kontaktów
+Pokaż/ukryj listę kontaktów
 [Read message]
 Przeczytaj wiadomość
 [Last pressed key]

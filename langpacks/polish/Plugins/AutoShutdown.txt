@@ -29,7 +29,7 @@ Automatycznie wyłącz komputer kiedy:
 [&Thunderstorm warning is issued (Weather)]
 Ostrzeżenia o &burzy z piorunami (Weather)
 [Automatic shutdown]
-Autowyłączanie
+Auto wyłączanie
 [Select the automatic shutdown event]
 Wybierz zdarzenie automatycznego zamykania
 [Shutdown at &specific time]
@@ -45,7 +45,7 @@ Wyłącz kiedy Miranda NG stanie się &bezczynna
 [Configure]
 Konfiguruj
 [Shutdown when &processor usage drops below:]
-Zamknij, gdy zużycie procesora spadnie poniżej:
+Zamknij, gdy &zużycie procesora spadnie poniżej:
 [(current: 0%)]
 (aktualnie: 0%)
 [Shutdown when all contacts are &offline]
@@ -107,13 +107,13 @@ Miesięcy
 [(current: %u%%)]
 (obecnie: %u%%)
 [Start/Stop automatic shutdown]
-Włącz/Wyłącz autowyłączanie
+Włącz/wyłącz auto wyłączanie
 [Start automatic shutdown]
-Włącz autowyłączanie
+Włącz auto wyłączanie
 [Stop automatic shutdown]
-Wyłącz autowyłączanie
+Wyłącz auto wyłączanie
 [Stop automatic &shutdown]
-Zatrzymaj &autowyłączanie
+Zatrzymaj &auto wyłączanie
 [Automatic &shutdown...]
 Automatyczne &wyłączanie...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
@@ -136,9 +136,9 @@ Wszystkie połączenia zostaną zamknięte za %u sek.
 [The computer will automatically be shut down in %u second(s).]
 Komputer zostanie wyłączony za %u sek.
 [Automatic shutdown error]
-Błąd autowyłączania
+Błąd auto wyłączania
 [The shutdown process failed!\nReason: %s]
-Nieudane autowyłączanie!\nPowód: %s
+Nieudane auto wyłączanie!\nPowód: %s
 [Unknown]
 Nieznany
 [Initiating the shutdown process failed!\nReason: %s]
@@ -182,12 +182,12 @@ Ustawia status wszystkich protokołów na Rozłączony i zamyka połączenia RAS
 [Alerts]
 Alarmy
 [Automatic shutdown countdown]
-Odliczanie autowyłączania
+Odliczanie auto wyłączania
 ;file \plugins\AutoShutdown\src\stdafx.h
 [AutoShutdown]
-Autowyłączanie
+Auto wyłączanie
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle automatic shutdown]
-Przełącznik autowyłączania
+Przełącznik auto wyłączania
 [Main]
 Ogólne

@@ -35,7 +35,7 @@ Zapętl dźwięk alarmu
 [Period (hours):]
 Okres (godziny):
 [Hide/show with clist]
-Pokaż/Ukryj z listą kontaktów
+Pokaż/ukryj z listą kontaktów
 [Auto size vertically]
 Rozmiar auto w pionie
 [Transparency (%):]
@@ -180,7 +180,7 @@ Przypomnienie: Bardzo szybkie
 [Alarm: System tray]
 Alarm: Zasobnik systemowy
 [Menu: Show/Hide reminders]
-Menu: Pokaż/Ukryj przypomnienie
+Menu: Pokaż/ukryj przypomnienie
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]
 Niedziela

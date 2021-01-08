@@ -111,7 +111,7 @@ Flags.dll
 [Flags]
 Flagi
 [Enable/disable spell checker]
-Włącz/Wyłącz sprawdzanie pisowni
+Włącz/wyłącz sprawdzanie pisowni
 [Enabled]
 Włączony
 [Disabled]

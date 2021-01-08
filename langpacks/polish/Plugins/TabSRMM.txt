@@ -349,7 +349,7 @@ Ustaw statusy dla automatycznego tworzenia kart...
 [Limit nicknames on tabs to]
 Limituj nicki na kartach do
 [Esc key behavior]
-Opcje Esc
+Opcje przycisku Esc
 [Select container]
 Wybierz kontener
 [Available containers]
@@ -748,7 +748,7 @@ Wybierz kolor dla tekstu (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
 Wybierz kolor tła dla tekstu (Ctrl+L)
 [Show/hide the nick list (Ctrl+N)]
-Pokaż/Ukryj listę nazw (Ctrl+N)
+Pokaż/ukryj listę nazw (Ctrl+N)
 [Enable/disable the event filter (Ctrl+F)]
 Włącz/wyłącz filtr zdarzeń (Ctrl+F)
 [Control this room (Ctrl+O)]
@@ -994,7 +994,7 @@ Usuń kolory z wiadomości w dzienniku
 [Enable the 'event filter' for new rooms]
 Włącz "filtr zdarzeń" dla nowych pokoi
 [Use IRC style status indicators in the log]
-Używaj ircowych wskaźników w dzienniku wiadomości
+Używaj ircowych wskaźników w dzienniku
 [Allow clickable user names in the message log]
 Dwuklik na nick z listy otwiera okno rozmowy
 [Add new line after names]
@@ -1288,7 +1288,7 @@ Zarządzanie kanałem
 [Toggle filter]
 Pokaż filtr
 [Toggle nick list]
-Pokaż/Ukryj listę nicków
+Pokaż/ukryj listę nicków
 [Show server window]
 Pokaż okno serwera
 ;file \plugins\TabSRMM\src\infopanel.cpp
@@ -1563,7 +1563,7 @@ Automatycznie rozdzielaj długie wiadomości (eksperymentalne, używaj ostrożni
 [Log status changes]
 Pokazuj zmiany statusu
 [Use the same splitter height for all sessions]
-
+Użyj tej samej wysokości separatora dla wszystkich sesji
 [Automatically copy selected text]
 Automatycznie kopiuj zaznaczony tekst
 [Test contact]
@@ -1591,7 +1591,7 @@ Użyj czasu lokalnego kontaktów (jeśli strefa czasowa jest dostępna)
 [Draw grid lines]
 Rysuj linie dzielące zdarzenia w dzienniku
 [Use incoming/outgoing icons]
-Użyj ikon dla Przychodzących/Wychodzących
+Użyj ikon dla przychodzących/wychodzących
 [Use message grouping]
 Grupuj wiadomości
 [Simple text formatting (*bold*, etc.)]
@@ -1601,7 +1601,7 @@ Wspieraj formatowanie BBCode
 [Place a separator in the log after a window lost its foreground status]
 Wstawiaj separatory w nieaktywnych sesjach
 [Only place a separator when an incoming event is announced with a popup]
-Użyj konfiguracji Popupów dla wstawiania separatorów
+Umieść separator tylko wtedy, gdy nadchodzące zdarzenie jest ogłaszane za pomocą popupa
 [Show events at the new line (IEView Compatibility Mode)]
 Pokaż zdarzenia w nowej linii (Tryb zgodności z IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
@@ -1651,7 +1651,7 @@ Zminimalizuj okno do paska
 [Close or hide window, depends on the close button setting above]
 Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
 [Do nothing (ignore Esc key)]
-
+Nic nie rób (ignoruj przycisk Esc)
 [Message window tweaks]
 Poprawki okna rozmowy
 [Display metacontact icons]
@@ -1897,7 +1897,7 @@ Ustawienia opcji rozmowy dla %s
 [TabSRMM message (%s)]
 Wiadomość TabSRMM (%s)
 [Save file|Unable to save temporary file]
-
+Zapisz plik|Nie można zapisać pliku tymczasowego
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Edycja notatek kontaktu|Kliknij przycisk ponownie lub użyj skrótu klawiszowego (domyślnie: Alt+N) aby zapisać informacje i powrócić do normalnego trybu wiadomości.
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]

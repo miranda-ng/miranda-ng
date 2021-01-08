@@ -147,7 +147,7 @@ Zawsze &na wierzchu
 [Delete &All Notes]
 Usuń &wszystkie notatki
 [&Show / Hide Notes]
-&Pokaż/Ukryj notatkę
+&Pokaż/ukryj notatkę
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 Nowa notatka
@@ -163,7 +163,7 @@ Zobacz przypomnienia
 [Delete All Notes]
 Usuń wszystkie notatki
 [Show/Hide Notes]
-Pokaż/Ukryj notatki
+Pokaż/ukryj notatki
 [On Top Caption Icon]
 Ikona nagłówkowa na wierzchu
 [Delete All Reminders]

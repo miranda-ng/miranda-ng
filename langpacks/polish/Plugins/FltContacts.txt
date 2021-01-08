@@ -94,7 +94,7 @@ Ukryj pływające kontakty
 [Remove thumb]
 Usuń pływające kontakty
 [Show/Hide all thumbs]
-Pokaż/Ukryj wszystkie kontakty
+Pokaż/ukryj wszystkie kontakty
 [Floating contacts plugin won't work until you uncheck the "Disable drag and drop of items" option in Options - Contact list]
 Wtyczka pływających kontaktów nie będzie działać, dopóki nie usuniesz zaznaczenia opcji „Wyłącz przeciągnij i upuść” w Opcje - Lista kontaktów
 ;file \plugins\FloatingContacts\src\options.cpp

@@ -39,4 +39,4 @@ Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
 [Set password]
-Ustaw/Zmień hasło
+Ustaw/zmień hasło

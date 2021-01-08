@@ -211,7 +211,7 @@ Nieaktywne okno:
 [Active opacity:]
 Aktywne okno:
 [Fade contact list in/out]
-Wygaszaj/Rozjaśniaj listę
+Wygaszaj/rozjaśniaj listę
 [Fully transparent (like TweakUI)]
 Pełna przezroczystość (jak TweakUI)
 [Items]
@@ -374,9 +374,9 @@ Eksportuj do pliku skórki
 [Show menu]
 Pokaż menu
 [Show/Hide offline contacts]
-Pokaż/Ukryj rozłączonych
+Pokaż/ukryj rozłączonych
 [Use/Disable groups]
-Włącz/Wyłącz grupy
+Włącz/wyłącz grupy
 [Find and add contacts]
 Szukaj i dodaj kontakt
 [Accounts]
@@ -384,7 +384,7 @@ Konta
 [Open preferences]
 Otwórz opcje
 [Enable/Disable sounds]
-Włącz/Wyłącz dźwięki
+Włącz/wyłącz dźwięki
 [Minimize contact list]
 Minimalizuj listę kontaktów
 [Status menu]
@@ -478,13 +478,13 @@ Układ listy
 Tło
 ;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
-Pokaż/Ukryj rozłączonych
+Pokaż/ukryj rozłączonych
 [Toggle groups]
-Włącz/Wyłącz grupy
+Włącz/wyłącz grupy
 [Find contacts]
 Szukaj kontaktów
 [Toggle sounds]
-Włącz/Wyłącz dźwięki
+Włącz/wyłącz dźwięki
 [Show TabSRMM session list]
 Pokaż listę sesji TabSRMM
 [Show TabSRMM menu]
@@ -620,7 +620,7 @@ Rysuj zatopioną ramkę
 [&Hide/show]
 &Ukryj/pokaż
 [&Find/add contacts...]
-&Szukaj/Dodaj kontakty...
+&Szukaj/dodaj kontakty...
 [&Main menu]
 &Menu główne
 [&Status]

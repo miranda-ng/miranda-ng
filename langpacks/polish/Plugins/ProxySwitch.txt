@@ -13,7 +13,7 @@
 [Direct connection]
 
 [Use proxy]
-
+Użyj proxy
 [General]
 Ogólne
 [Manage Miranda NG proxy]
@@ -39,7 +39,7 @@ Użyj domyślnych kolorów
 [Show proxy status on change]
 
 [Restart of Miranda NG is required.]
-
+Ponowne uruchomienie Mirandy NG jest wymagane.
 [Enter semicolon (;) separated list of IP network addresses in any of the formats below:\n\tIP/bits\t(10.0.0.1/24)\t\tIP/mask\t(10.0.0.1/255.255.255.0)\n\tIP1-2\t(10.0.0.1-50)\t\tIP1-IP2\t(10.0.0.1-10.0.2.255)]
 
 [Any entry in the 'Use proxy' list can be prefixed by an exclamation mark (!) to increase its priority. Entries with wrong syntax will be ignored. The plugin checks the IP addresses in the following way:]
@@ -50,26 +50,26 @@ Użyj domyślnych kolorów
 Anuluj
 ;file \plugins\ProxySwitch\src\ip.cpp
 [Proxy]
-
+Proxy
 [Direct]
 
 [disconnected]
 Rozłączony
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
-
+Aktualny adres IP
 [Enable &IP change notification]
-
+Włącz powiadamianie o zmianie &adresu IP
 [Disable &IP change notification]
-
+Wyłącz powiadamianie o zmianie &adresu IP
 [Show my &IP addresses]
-
+Pokaż mój adres IP
 [Proxy settings && interfaces]
 
 [Disable proxy]
-
+Wyłącz proxy
 [Enable proxy]
-
+Włącz proxy
 [Popups]
 Popupy
 [IP change notification]

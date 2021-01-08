@@ -42,7 +42,7 @@ Zatwierdzono
 [Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
 Czy jesteś pewien? Ustawienia zostaną usunięte z profilu i Explorera
 [Disable/Remove shlext]
-Wyłącz/Usuń shlext
+Wyłącz/usuń shlext
 [Services]
 Usługi
 ;file \plugins\ShellExt\src\shlcom.cpp

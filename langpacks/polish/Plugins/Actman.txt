@@ -38,7 +38,7 @@ N&ie dla wszystkich
 [Export]
 Eksportuj
 [Reload/Refresh]
-Przeładuj/Odśwież
+Przeładuj/odśwież
 [Registered actions]
 Zarejestrowane akcje
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
@@ -266,7 +266,7 @@ Efekt
 [Service:]
 Usługa:
 [In/Out]
-Wejście/Wyjście
+Wejście/wyjście
 [Clipboard]
 Schowek
 [Copy to]

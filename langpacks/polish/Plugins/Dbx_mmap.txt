@@ -39,7 +39,7 @@ Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
 [Set password]
-Ustaw/Zmień hasło
+Ustaw/zmień hasło
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Miranda wykryła błąd w twojej bazie danych. Miranda zostanie teraz zamknięta.
@@ -58,7 +58,7 @@ Ten profil jest zbyt stary, by uaktualnić go wtyczką PluginUpdater. Twoja baza
 Przestarzały format bazy danych
 ;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
-Zmień/Usuń hasło
+Zmień/usuń hasło
 ;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 Ten profil jest w starym niewspieranym już formacie. Wciśnij Tak aby przekonwertować go do nowego formatu lub Nie aby powrócić.

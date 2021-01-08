@@ -437,7 +437,7 @@ Nie można zarejestrować konta z powodu błędu:\n\t%s
 [Registration rejected]
 Rejestracja została odrzucona
 [You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]
-Zarejestrowałeś nowe konto.\nProszę swoje dane w Menu głównym -> Pokaż/Zmień moje dane...
+Zarejestrowałeś nowe konto.\nProszę swoje dane w Menu głównym -> Pokaż/zmień moje dane...
 [Your account cannot be removed because of error:\n\t%s]
 Twoje konto nie może być usunięte z powodu błędu:\n\t%s
 [Bad number or password]

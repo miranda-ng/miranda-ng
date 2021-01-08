@@ -165,7 +165,7 @@ Usuń
 [Anniversary editor]
 Edytor rocznic
 [Add/Edit your anniversary here.]
-Dodaj/Edytuj rocznice tutaj.
+Dodaj/edytuj rocznice tutaj.
 [Enter a name for the anniversary here please:]
 Podaj nazwę rocznicy:
 [Anniversary list]
@@ -607,7 +607,7 @@ Eksportuj/importuj kontakt
 [&Import user details]
 &Importuj dane kontaktu
 [View/change my &details...]
-Pokaż/Zmień moje &dane...
+Pokaż/zmień moje &dane...
 [Export all contacts]
 Eksportuj wszystkie kontakty
 [Import all contacts]
@@ -1098,7 +1098,7 @@ Czy chcesz anulować aktualną procedurę odświeżania?
 [an anniversary]
 rocznica
 [He/she has the following anniversaries:]
-O/ona ma następujące rocznice:
+On/ona ma następujące rocznice:
 [He has the following anniversaries:]
 On ma następujące rocznice:
 [She has the following anniversaries:]

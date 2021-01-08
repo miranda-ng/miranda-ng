@@ -57,9 +57,9 @@ Kopia zapasowa utworzona
 Tworzenie kopii zapasowej bazy danych w toku...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Enable &AutoBackups notification]
-Włącz powiadomienia o kopii zapasowej
+Włącz powiadomienia o &kopii zapasowej
 [Disable &AutoBackups notification]
-Wyłącz powiadomienia o kopii zapasowej
+Wyłącz powiadomienia o &kopii zapasowej
 [Miranda NG databases]
 Bazy danych Mirandy NG
 [Compressed Miranda NG databases]

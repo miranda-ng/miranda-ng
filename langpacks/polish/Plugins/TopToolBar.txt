@@ -44,7 +44,7 @@ Pokaż opcje
 [Show accounts manager]
 Pokaż menedżer kont
 [Find/add contacts]
-Szukaj/Dodaj kontakty
+Szukaj/dodaj kontakty
 [Show status menu]
 Pokaż menu statusu
 [Show/hide offline contacts]

@@ -200,7 +200,7 @@ miesiąc
 \#{data} na #{unit}
 ;file \plugins\HistoryStats\src\column_inout.h
 [In/out]
-Wejście/Wyjście
+Wejście/wyjście
 [Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values.]
 Graficzny podgląd liczby dla przychodzących, wychodzących lub łącznie znaków, wiadomości lub rozmów. Ta kolumna może wyświetlać całkowite i średnie wartości.
 ;file \plugins\HistoryStats\src\column_inoutgraph.cpp

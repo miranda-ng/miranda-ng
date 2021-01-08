@@ -302,7 +302,7 @@ Przełącz wielkość liter
 [Switch match whole word]
 Przełącz całe wyrazy
 [Show/hide contacts]
-Pokaż/Ukryj kontakty
+Pokaż/ukryj kontakty
 [Switch only incoming messages]
 Przełącz na przychodzące wiadomości
 [Switch only outgoing messages]

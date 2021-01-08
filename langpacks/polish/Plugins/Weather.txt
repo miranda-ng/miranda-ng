@@ -337,7 +337,7 @@ Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienk
 Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.
 ;file \protocols\Weather\src\weather.cpp
 [Enable/disable auto update]
-Włącz/Wyłącz autoaktualizacje
+Włącz/wyłącz auto-aktualizacje
 [Auto Update Enabled]
 Auto-aktualizacja włączona
 [Auto Update Disabled]
@@ -501,7 +501,7 @@ Pokaż całą prognozę
 [Weather]
 Pogoda
 [Enable/Disable Weather Update]
-Włącz/Wyłącz aktualizacje pogodowe
+Włącz/wyłącz aktualizacje pogodowe
 [Update All Weather]
 Aktualizuj całą pogodę
 [Remove Old Data then Update All]

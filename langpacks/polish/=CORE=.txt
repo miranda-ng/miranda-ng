@@ -73,7 +73,7 @@ Sortowanie po statusie
 [Sort contacts by protocol]
 Sortowanie po protokole
 [Single click interface]
-Pokaż/Ukryj listę po pojedynczym kliknięciu
+Pokaż/ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
 [Disable icon blinking]
@@ -127,7 +127,7 @@ s
 [Automatically resize window to height of list]
 Dopasuj rozmiar okna rozmowy do wysokości listy
 [maximum]
-maksymalną
+maksymalny
 [% of screen]
 % ekranu
 [Size upwards]
@@ -139,7 +139,7 @@ Włącza dokowanie
 [Translucency options]
 Opcje przezroczystości
 [Fade contact list in/out]
-Wygaszaj/Rozjaśniaj listę
+Wygaszaj/rozjaśniaj listę
 [Transparent contact list]
 Przezroczysta lista kontaktów
 [Inactive opacity:]
@@ -613,7 +613,7 @@ Wartość czasu oczekiwania (0 - domyślna):
 [Find]
 Szukaj
 [&Find next]
-&szukaj następnego
+&Następny
 [Find what:]
 Szukaj:
 [Message history]
@@ -731,7 +731,7 @@ Zarządzaj profilem Miranda NG
 [Start in service mode with]
 Startuj w:
 [Find/add contacts]
-Szukaj/Dodaj kontakty
+Szukaj/dodaj kontakty
 [Search:]
 Szukaj:
 [E-mail address]
@@ -829,7 +829,7 @@ OutputDebugString()
 [File]
 Plik
 [Rotate logs]
-
+Daty
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Uruchom program podczas uruchamiania Mirandy NG (np., tail -f, dbgview, itp.):
 [Run now]
@@ -1107,9 +1107,9 @@ Wyświetl nazwę subkontaktu
 [Lock name to first contact]
 Zablokuj nazwę pierwszego kontaktu
 [Choose needed logger from listed below:]
-
+Wybierz potrzebny rejestrator z poniższej listy:
 [Enable custom log controls in group chats]
-
+Włącz niestandardowe opcje dziennika w czatach
 [Current language:]
 Aktualny język:
 [Last modified using:]
@@ -1157,7 +1157,7 @@ Włącz grupy
 [Ask before deleting contacts]
 Pytaj przed usunięciem kontaktów
 [Remove temporary contacts on exit]
-
+Usuń kontakty tymczasowe podczas wyłączania programu
 ['Hide offline' means to hide:]
 "Ukryj rozłączonych" tzn.:
 [Default settings for known event types]
@@ -1181,9 +1181,9 @@ Pokazuj popupy tylko, gdy pokój nie jest aktywny
 [Show button menus when right clicking the buttons]
 Pokaż menu przycisku po kliknięciu na nim PPM
 [Hidden window]
-
+Ukryte okna
 [&Hide/Show]
-&Pokaż/Ukryj
+&Pokaż/ukryj
 [E&xit]
 W&yjdź
 [Nowhere]
@@ -1700,9 +1700,9 @@ Ustawienia &pokoju
 [Control this room (Ctrl+O)]
 Kontroluj ten pokój (Ctrl + O)
 [&Show/hide nick list]
-&Pokaż/Ukryj listę nicków
+&Pokaż/ukryj listę nicków
 [Show/hide the nick list (Ctrl+N)]
-Pokaż/Ukryj listę nazw (Ctrl+N)
+Pokaż/ukryj listę nazw (Ctrl+N)
 [&Filter]
 &Filtr
 [Enable/disable the event filter (Ctrl+F)]
@@ -1789,7 +1789,7 @@ Wyłącz popupy
 Włącz popupy
 ;file \src\core\stdpopup\src\yapp.cpp
 [Toggle popups]
-Włącz/Wyłącz popupy
+Włącz/wyłącz popupy
 [First line]
 Pierwsza linia
 [Second line]
@@ -1897,7 +1897,7 @@ Notatki
 [Owner]
 Właściciel
 [View/change my &details...]
-Pokaż/Zmień moje &dane...
+Pokaż/zmień moje &dane...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s jest Dostępny
@@ -2007,11 +2007,11 @@ Symbole dziennika czatowego
 [&Join chat]
 &Dołącz do czatu
 [&Open/close chat window]
-
+Otwórz/zamknij okno &czatu
 [&Leave chat]
-&Opuść czat
+Opuść &czat
 [&Mute chat]
-
+&Wycisz czat
 [Always]
 Zawsze
 [Never]
@@ -2165,7 +2165,7 @@ Telefon/SMS
 [Chat activity]
 Aktywność czatu
 [Chat mute mode]
-
+Tryb wyciszenia czatu
 ;file \src\mir_app\src\ei_options.cpp
 [Extra icons]
 Dodatkowe ikony
@@ -2188,7 +2188,7 @@ Wszystkie sieci
 [Handle]
 Uchwyt
 [&Find/add contacts...]
-&Szukaj/Dodaj kontakty...
+S&zukaj/dodaj kontakty...
 ;file \src\mir_app\src\FontOptions.cpp
 [Failed to create file]
 Nie udało się utworzyć pliku
@@ -2304,13 +2304,13 @@ Zasięg Mirandy
 ** Wszystkie kontakty **
 ;file \src\mir_app\src\keyboard.cpp
 [Show/Hide contact list]
-Pokaż/Ukryj listę kontaktów
+Pokaż/ukryj listę kontaktów
 [Read message]
 Przeczytaj wiadomość
 [Open Options page]
 Otwórz okno opcji
 [Toggle groups]
-Włącz/Wyłącz grupy
+Włącz/wyłącz grupy
 [Open logging options]
 Otwórz okno opcji logowania
 [Open 'Find user' dialog]
@@ -2392,7 +2392,7 @@ Protokół
 [Send offline]
 Wysyłaj do rozłączonego
 [Send &online]
-Wysyłaj do dostępnego
+W&ysyłaj do dostępnego
 [Delete metacontact?]
 Usunąć metakontakt?
 ;file \src\mir_app\src\meta_main.cpp
@@ -2462,7 +2462,7 @@ Nie udało się zapisać nicka kontaktu do metakontaktu
 [<Root group>]
 <Grupa główna>
 [&Move to group]
-&Przenieś do grupy
+Przenieś do &grupy
 ;file \src\mir_app\src\netlib_log.cpp
 [Standard Netlib log]
 Standardowy log Netlib
@@ -2553,7 +2553,7 @@ Problem z utworzeniem profilu
 [Are you sure you want to remove profile "%s"?]
 Czy na pewno chcesz usunąć profil "%s"?
 [Database was compacted successfully]
-
+Baza danych została skompresowana pomyślnie
 [&Convert]
 &Konwertuj
 [Run]
@@ -2580,7 +2580,7 @@ Udziel autoryzacji
 [Revoke authorization]
 Cofnij autoryzację
 [Load server history]
-
+Pobierz historię z serwera
 ;file \src\mir_app\src\proto_opts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 UWAGA! Konto zostanie usunięte. To znaczy że wszystkie ustawienia, kontakty i historia zostaną usunięte.\n\nCzy jesteś pewien?
@@ -2691,7 +2691,7 @@ Wtyczka Unicode
 [ANSI plugin]
 Wtyczka ANSI
 [Show/Hide]
-Pokaż/Ukryj
+Pokaż/ukryj
 [Exit]
 Wyłącz
 [Join chat]
@@ -2730,7 +2730,7 @@ Dźwięki
 [WAV files]
 Pliki WAV
 [Unselect all]
-
+Odznacz wszystko
 ;file \src\mir_app\src\srmm_base.cpp
 [&Message %s]
 &Wiadomość %s
@@ -2740,7 +2740,7 @@ Nick
 Unikalne ID
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
-
+Dziennik wiadomości
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Look up '%s':]
 Zobacz "%s":
@@ -3267,7 +3267,7 @@ Mapa bitowa PNG
 <nieokreślony>
 ;file \include\m_message.h
 [Message window toolbar]
-
+Pasek narzędziowy okna rozmowy
 ;file \include\m_popup.h
 [Do nothing]
 Nic nie rób

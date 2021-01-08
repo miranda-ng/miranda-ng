@@ -137,7 +137,7 @@ Nie można utworzyć okna!
 [Could not allocate memory!]
 Nie można przydzielić pamięci!
 [&Create Linklist]
-&Utwórz listę linków
+Utwórz &listę linków
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist plugin]
 Lista linków

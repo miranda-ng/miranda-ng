@@ -97,7 +97,7 @@ Wyróżnienie składni
 Historia zapisana pomyślnie w pliku\r\n
 ;file \plugins\Msg_Export\src\main.cpp
 [Open E&xported History]
-Otwórz e&ksportowaną historię
+Otwórz &eksportowaną historię
 ;file \plugins\Msg_Export\src\options.cpp
 [Reading database information (Phase 1 of 2)]
 Odczyt informacji z bazy danych (etap 1 z 2)

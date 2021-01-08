@@ -244,7 +244,7 @@ Błąd protokołu Sametime
 [User restricted]
 Użytkownik ograniczony
 [Incorrect Username/Password]
-Nieprawidłowa Nazwa użytkownika/Hasło
+Nieprawidłowa nazwa użytkownika/hasło
 [Encryption mismatch]
 Niezgodność szyfrowania
 [User unregistered]

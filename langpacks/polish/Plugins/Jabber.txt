@@ -589,7 +589,7 @@ Lista z&banowanych
 [&Room options]
 Opcje &pokoju
 [View/change &topic]
-Pokaż/Zmień &temat
+Pokaż/zmień &temat
 [Add to &bookmarks]
 Dodaj do &zakładek
 [&Configure...]
@@ -803,7 +803,7 @@ Osobista wizytówka
 [Convert to room]
 Skonwertuj na pokój
 [Login/logout]
-Zaloguj/Wyloguj
+Zaloguj/wyloguj
 [Resolve nicks]
 Ustal nicki
 [Send note]
@@ -936,7 +936,7 @@ Rejestruj Transport
 [Local Server Transports]
 Lokalne transporty
 [Create/Join group chat]
-Utwórz/Dołącz do czatu
+Utwórz/dołącz do czatu
 [Roster editor]
 Zarządzanie listą kontaktów
 [Resource priority]
@@ -1735,7 +1735,7 @@ Błąd %s %s\r\nSpróbuj określić bardziej szczegółowo
 [Search error]
 Błąd wyszukiwania
 [Select/type search service URL above and press <Go>]
-Wybierz/Wpisz link usługi, której szukasz i wciśnij <Idź>
+Wybierz/wpisz link usługi, której szukasz i wciśnij <Idź>
 [Please wait...\r\nConnecting search server...]
 Proszę czekać...\r\nTrwa wyszukiwanie serwera...
 [You have to be connected to server]

@@ -196,7 +196,7 @@ Otwórz folder Cache
 [%d minutes to update]
 %d minut do aktualizacji
 [Open/Close window]
-Otwórz/Zamknij okno
+Otwórz/zamknij okno
 [Update data]
 Zaktualizuj dane
 [Contact options]
@@ -350,4 +350,4 @@ Brak pliku "psite.bat".
 [Site URL]
 Adres strony
 [Please select site in Find/Add contacts...]
-Proszę wybrać stronę w Szukaj/Dodaj kontakty...
+Proszę wybrać stronę w Szukaj/dodaj kontakty...
