@@ -878,8 +878,11 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 	BYTE *eventBuf = (PBYTE)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain
-	MEVENT hEvent = srcDb->FindFirstEvent(hContact);
-	for (int i = 0; hEvent; i++, hEvent = srcDb->FindNextEvent(hContact, hEvent)) {
+	int i = 0;
+	DB::ECPTR pCursor(srcDb->EventCursor(hContact, 0));
+	while (MEVENT hEvent = pCursor.FetchNext()) {
+		i++;
+
 		// Copy the event and import it
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = srcDb->GetBlobSize(hEvent);

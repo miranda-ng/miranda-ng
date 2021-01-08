@@ -583,12 +583,60 @@ STDMETHODIMP_(MIDatabaseChecker *) MDatabaseCommon::GetChecker()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Event cursors
 
-STDMETHODIMP_(DB::EventCursor *) MDatabaseCommon::EventCursor(MCONTACT, MEVENT)
+class CCompatiblityCursor : public DB::EventCursor
 {
-	return nullptr;
+	MDatabaseCommon *db;
+	MEVENT curr;
+
+public:
+	CCompatiblityCursor(MDatabaseCommon *pDb, MCONTACT hContact, MEVENT hEvent) :
+		DB::EventCursor(hContact),
+		db(pDb)
+	{
+		curr = (hEvent == 0) ? db->FindFirstEvent(hContact) : db->FindNextEvent(hContact, hEvent);
+	}
+
+	MEVENT FetchNext() override
+	{
+		if (curr == 0)
+			return 0;
+		
+		MEVENT ret = curr; curr = db->FindNextEvent(hContact, curr);
+		return ret;
+	}
+};
+
+STDMETHODIMP_(DB::EventCursor*) MDatabaseCommon::EventCursor(MCONTACT hContact, MEVENT hEvent)
+{
+	return new CCompatiblityCursor(this, hContact, hEvent);
 }
 
-STDMETHODIMP_(DB::EventCursor *) MDatabaseCommon::EventCursorRev(MCONTACT, MEVENT)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CCompatiblityCursorRev : public DB::EventCursor
 {
-	return nullptr;
+	MDatabaseCommon *db;
+	MEVENT curr;
+
+public:
+	CCompatiblityCursorRev(MDatabaseCommon *pDb, MCONTACT hContact, MEVENT hEvent) :
+		DB::EventCursor(hContact),
+		db(pDb)
+	{
+		curr = (hEvent == 0) ? db->FindLastEvent(hContact) : db->FindPrevEvent(hContact, hEvent);
+	}
+
+	MEVENT FetchNext() override
+	{
+		if (curr == 0)
+			return 0;
+
+		MEVENT ret = curr; curr = db->FindPrevEvent(hContact, curr);
+		return ret;
+	}
+};
+
+STDMETHODIMP_(DB::EventCursor*) MDatabaseCommon::EventCursorRev(MCONTACT hContact, MEVENT hEvent)
+{
+	return new CCompatiblityCursorRev(this, hContact, hEvent);
 }
