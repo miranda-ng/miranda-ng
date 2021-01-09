@@ -37,7 +37,7 @@ Usuwaj także wiadomości systemowe OTR
 [Show OTR system messages inline]
 Pokazuj wiadomości systemowe OTR w linii
 [Show OTR system messages as popup]
-Pokazuj wiadomości systemowe OTR jako popupy
+Pokazuj wiadomości systemowe OTR w powiadomieniach
 [Show verification dialog when receiving unverified fingerprint]
 Pokazuj okno weryfikacji po otrzymaniu niezweryfikowanego odcisku palca
 [Set OTR policy per account]

@@ -23,7 +23,7 @@ Nazwa dziennika:
 [Network]
 Protokoły
 [Popups]
-Popupy
+Powiadomienia
 [Reply]
 Odpowiedź
 [Block Repetitions]

@@ -20,7 +20,7 @@ Zmienia opis globalnie lub dla wybranego konta.\nUżyj: awaymsg <opis> [<konto>]
 [Changes extended status either globally or per account.\nUsage: xstatus <xStatus> [<account>].\n<xStatus> is the new extended status to set. Possible values are: ...\n<Account> is an optional parameter specifying the account for which extended status is set. If not specified then extended status for all accounts will be changed.\nNOTE: Not all accounts/protocols support extended status.]
 Zmienia xStatus globalnie lub dla wybranego konta.\nUżyj: xstatus <xStatus> [<konto>].\n <xStatus> to nowy xStatus, który ma zostać ustawiony. Dostępne wartości to: ...\n<konto> to parametr opcjonalny określający konto, dla którego xStatus ma zostać ustawiony. Jeśli nie został on podany, xStatus zostanie zmieniony globalnie dla wszystkich kont.\nUwaga: nie wszystkie konta/protokoły obsługują xStatus.
 [Disables or enables popups display.\nUsage: popups (disable | enable | toggle).\nThe command will either enable or disable popups display.]
-Wyłącza lub włącza wyświetlanie popupów.\nUżyj: popups (disable |enable |toggle).\nKomenda wyłączy lub włączy wyświetlanie popupów.
+Wyłącza lub włącza wyświetlanie powiadomień.\nUżyj: popups (disable |enable |toggle).\nKomenda wyłączy lub włączy wyświetlanie popupów.
 [Disables or enables sounds.\nUsage: sounds (disable | enable | toggle).\nThe command will either disable or enable sounds.]
 Wyłącza lub włącza dźwięki.\nUżyj: sounds (disable | enable | toggle).\nKomenda wyłączy lub włączy dźwięki.
 [Hides or shows the contact list window.\nUsage: clist (show | hide | toggle).\nThe command will either show or hide the contact list window.]
@@ -79,17 +79,17 @@ Zmieniono opis "%s" na "%s" (status to "%s").
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 Nie udało się zmienić opisu dla konta "%s" na "%s" (status to "%s").
 [Popups are currently enabled.]
-Popupy są teraz włączone.
+Powiadomienia są teraz włączone.
 [Popups are currently disabled.]
-Popupy są teraz wyłączone.
+Powiadomienia są teraz wyłączone.
 [Popups were enabled successfully.]
-Popupy zostały włączone pomyślnie.
+Powiadomienia zostały włączone pomyślnie.
 [Popups could not be enabled.]
-Popupy nie mogły zostać włączone.
+Powiadomienia nie mogły zostać włączone.
 [Popups were disabled successfully.]
-Popupy zostały wyłączone pomyślnie.
+Powiadomienia zostały wyłączone pomyślnie.
 [Popups could not be disabled.]
-Popupy nie mogły zostać wyłączone.
+Powiadomienia nie mogły zostać wyłączone.
 [Sounds are currently enabled.]
 Dźwięki są teraz włączone.
 [Sounds are currently disabled.]

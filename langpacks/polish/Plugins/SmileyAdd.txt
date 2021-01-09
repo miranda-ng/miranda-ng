@@ -33,7 +33,7 @@ Skalowanie emotikon HQ
 [Animate]
 Animowane
 [Maximum sticker height]
-Miaksymalna wysokość naklejek
+Maksymalna wysokość naklejek
 [Minimum smiley height]
 Minimalna wysokość emotikon
 [Smiley selector]

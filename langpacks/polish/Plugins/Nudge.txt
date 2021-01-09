@@ -27,7 +27,7 @@ Automatyczna odpowiedź nudgem po:
 [s]
 s
 [Enable popup notification]
-Włącz powiadomienia popup
+Włącz powiadomienia
 [Respect ignore settings (status changes)]
 Uwzględnij ignorowanie ustawień (zmiany statusów)
 [Sending text]

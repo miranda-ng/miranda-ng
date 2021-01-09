@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.0
+;  Version: 0.2.1.1
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -39,13 +39,13 @@ Z&mienne...
 [Add to &Log only if Value Changed]
 Dodaj do &dziennika tylko, jeśli wartość się zmieniła
 [Show &Popup Window]
-Pokaż okno &popup
+Pokaż &powiadomienia
 [Show Popup Window Only if Value &Changed]
-Pokaż popup tylko, jeśli wartość się &zmieniła
+Pokaż powiadomienia tylko, jeśli wartość się &zmieniła
 [Cancel]
 Anuluj
 [Popup settings...]
-Ustawienia popup...
+Ustawienia powiadomień...
 [Currency Converter]
 Przelicznik walut
 [&to:]
@@ -59,7 +59,7 @@ Informacje dostarczone przez <a href="http://www.google.com">Google</a>
 [Close]
 Zamknij
 [Popup settings]
-Ustawienia popupa
+Ustawienia powiadomień
 [Colors]
 Kolory
 [Use default colors]
@@ -73,13 +73,13 @@ Kolor tekstu
 [Timeout]
 Wyświetlaj
 [Default]
-Domyślny
+Domyślnie
 [Custom]
-Niestandardowe
+Niestandardowo
 [Permanent]
-Stałe
+Trwale
 [Do not add to popup's history]
-Nie dodawaj popupów do historii
+Nie dodawaj powiadomień do historii
 [Preview]
 Podgląd
 [Current Rate:]
@@ -245,4 +245,4 @@ Wpisz format pliku dziennika.
 [Enter history format.]
 Wprowadź format historii.
 [Enter popup window format.]
-Wprowadź format popupa.
+Wprowadź format powiadomienia.

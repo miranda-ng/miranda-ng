@@ -6,7 +6,7 @@
 ;  Authors: StDenis
 ;============================================================
 [Plugin replaces message boxes (those having only OK button) with popups.]
-Zastępuje "okna komunikatów" (tych tylko z przyciskiem OK), popup-ami.
+Zastępuje "okna komunikatów" (tych tylko z przyciskiem OK), powiadomieniami.
 ;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 Styl gwiazdki
@@ -32,7 +32,7 @@ Włącz dźwięki
 [MessagePopup]
 MessagePopup
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\MsgPopup\src\options.cpp
 [Message with question]
 Wiadomość z pytaniem

@@ -179,7 +179,7 @@ Tekst paska tytułu:
 [Pin to desktop]
 Przypnij do pulpitu
 [Show drop shadow (restart required)]
-Pokaż cień (wymagany restart)
+Pokaż cień (wymagane ponowne uruchomienie)
 [Hide contact list after it has been idle for]
 Ukryj listę, jeśli bezczynność jest dłuższa niż
 [seconds]

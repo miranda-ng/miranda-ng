@@ -123,15 +123,15 @@ Ustaw jako stację domyślną
 [Disable automatic update for this station]
 Wyłącz automatyczne aktualizację dla tej stacji
 [Disable Popup for this station]
-Wyłącz Popup dla tej stacji
+Wyłącz powiadomienie dla tej stacji
 [Change]
 Zmień
 [Cancel]
 Anuluj
 [Popup Options]
-Opcje popupów
+Opcje powiadomień
 [Enable popups]
-Włącz popupy
+Włącz powiadomienia
 [Popup only when condition changes]
 Tylko przy zmianie warunków
 [Colors]
@@ -143,25 +143,25 @@ Kolor tekstu
 [Use Windows colors]
 Użyj kolorów Windows
 [Popup Actions]
-Akcje Popupu
+Akcje Powiadomień
 [Left Click]
 LPM
 [Right Click]
 PPM
 [Popup timeout]
-Wyświetlanie Popup
+Wyświetlanie powiadomień
 [Timeout]
 Wyświetlaj
 [seconds]
 s
 [Default]
-Domyślny
+Domyślnie
 [Permanent]
-Stałe
+Trwale
 [Popup Text]
-Tekst popupu
+Tekst powiadomienia
 [Popup Title]
-Tytuł popupu
+Tytuł powiadomienia
 [Variables]
 Zmienne
 [Preview]
@@ -233,7 +233,7 @@ Miasto:
 [Menu]
 Menu
 [Dismiss Popup]
-Odrzuć popup
+Odrzuć powiadomienie
 [Open brief information]
 Otwórz krótkie informacje
 [Open complete forecast]
@@ -413,9 +413,9 @@ Pokaż całkowicie
 [Weather Update]
 Aktualizuj pogodę
 [Popup]
-Popup
+Powiadomienia
 [No Popup]
-Brak Popupu
+Brak powiadomień
 [Edit Settings]
 Edytuj ustawienia
 ;file \protocols\Weather\src\weather_info.cpp
@@ -481,7 +481,7 @@ Ogólne
 [Display]
 Wyświetlanie
 [Popups]
-Popupy
+Powiadomienia
 ;file \protocols\Weather\src\weather_popup.cpp
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]

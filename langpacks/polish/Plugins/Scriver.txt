@@ -357,7 +357,7 @@ Ogólne
 [Log formatting]
 Formatowanie dziennika
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Dodaj kontakt

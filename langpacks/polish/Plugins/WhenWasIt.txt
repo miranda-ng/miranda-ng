@@ -11,17 +11,17 @@ Powiadomienia o nadchodzących urodzinach.
 [Notify of birthdays:]
 Powiadamiaj o urodzinach:
 [Popups]
-Popupy
+Powiadomienia
 [Popup timeout:]
 Czas wyświetlania:
 [Preview]
 Podgląd
 [Don't show popups for subcontacts]
-Nie pokazuj popupów dla subkontaktów
+Nie pokazuj powiadomień dla subkontaktów
 [Show popup when no birthdays are near]
-Pokaż popup kiedy nadchodzi rocznica
+Pokaż powiadomienie, gdy nadchodzi rocznica
 [Popup mouse click]
-Kliknięcie w popup
+Kliknięcie w powiadomienie
 [Left]
 LPM
 [Right]
@@ -110,7 +110,7 @@ Wszystkie kontakty poza ignorowanymi
 [All contacts except hidden and ignored ones]
 Wszystkie kontakty poza ukrytymi i ignorowanymi
 [Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
-Ustaw opóźnienie popupu powiadamiając o zbliżających się urodzinach.\nFormat: opóźnienie domyślne [ | opóźnienie dla urodzin mających miejsce dzisiaj]
+Ustaw opóźnienie powiadomienia, gdy zbliżają się urodziny.\nFormat: opóźnienie domyślne [ | opóźnienie dla urodzin mających miejsce dzisiaj]
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 Proszę wybrać moduł, w którym zapisana ma być data urodzin.\r\nDomyślną lokalizacją jest "UserInfo".\nUżyj modułu protokołu, aby data urodzin była widoczna w informacjach o użytkowniku.\r\nModuł mBirthday używa tego samego modułu co wtyczka mBirthday.
 [Set birthday for %s:]

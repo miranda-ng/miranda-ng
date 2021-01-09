@@ -11,13 +11,13 @@ Chatbot w języku rosyjskim.
 [Boltun]
 Boltun
 [Boltun Autochat everybody]
-Boltun czatuj automatycznie ze wszystkimi
+Rozmawiaj automatycznie ze wszystkimi
 [Boltun Autochat everybody not in contact list]
-Boltun czatuj automatycznie ze wszystkimi z poza listy
+Rozmawiaj automatycznie ze wszystkimi z poza listy
 [Boltun Autochat everybody while away]
-Boltun czatuj automatycznie ze wszystkimi, gdy oddalony
+Rozmawiaj automatycznie ze wszystkimi, gdy Zaraz wracam
 [Warn contacts Boltun is chatting]
-Ostrzegaj kontakty, że czatuje Boltun
+Ostrzegaj kontakty, że rozmawia Boltun
 [Mark replied messages as read]
 Oznacz wiadomości, na które odpowiedziano jako przeczytane
 [sec]
@@ -31,7 +31,7 @@ Czas pisania zależy od długości wiadomości (w znakach)
 [Typing and thinking time can be much longer]
 Czas pisania i myślenia może być znacznie dłuższy
 [Typing time (for a message of 4 words):]
-Czas pisania wiadomości o długości czterech słów:
+Czas pisania (wiadomość o długości 4 słów):
 [Thinking time:]
 Czas myślenia:
 [Engine]
@@ -41,7 +41,7 @@ Baza odpowiedzi
 [Reload]
 Odśwież
 [Stay silent if have no good aswers]
-Siedź cicho, gdy nie ma dobrych odpowiedzi
+Nie odpowiadaj, gdy nie ma dobrych odpowiedzi
 [Start answers with a lowercase letter]
 Zaczynaj odpowiedzi z małej litery
 [Don't use "I don't understand"-like answers]

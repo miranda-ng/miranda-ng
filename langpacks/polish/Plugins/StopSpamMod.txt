@@ -47,7 +47,7 @@ Wyłącz pytanie w trybie niewidocznym
 [Exclude contacts which we sending something from spam check]
 Wyklucz ze sprawdzania kontakty, którym napiszesz wiadomość
 [Remove Excluded contacts after restart]
-Usuń wykluczone kontakty po restarcie
+Usuń wykluczone kontakty po ponownym uruchomieniu
 [Add contacts to specified group:]
 Dodaj kontakty do specjalnej grupy
 [Ignore URL in messages and auth requests]
@@ -61,7 +61,7 @@ Automatycznie udzielaj autoryzacji
 [Request authorization from contacts which pass StopSpam test]
 Wymagaj autoryzacji od kontaktów, które zdały test StopSpam
 [Remove all temporary contacts after restart]
-Usuń wszystkie tymczasowe kontakty po restarcie
+Usuń wszystkie tymczasowe kontakty po ponownym uruchomieniu
 [Use regex for answers checking]
 Użyj regex dla kontroli odpowiedzi
 [Log Spammers to system history]

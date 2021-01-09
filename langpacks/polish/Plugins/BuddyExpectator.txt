@@ -13,11 +13,11 @@ Kiedy kontakt będzie aktywny po:
 [or comes online for the first time]
 lub stanie się aktywny po raz pierwszy.
 [Show a popup]
-Pokaż popup
+Pokaż powiadomienia
 [Add an event (flashing icon) to the contact]
 Dodaj zdarzenie (migająca ikona) dla kontaktu
 [On event action (double click) or popup click:]
-Akcja zdarzenia (dwuklik) lub popup:
+Akcja zdarzenia (dwuklik) lub powiadomienie:
 [Open User Details]
 Otwórz dane kontaktu
 [Open message window]
@@ -45,11 +45,11 @@ Użyj kolorów Windows
 [Delay]
 Wyświetlaj
 [Default]
-Domyślny
+Domyślnie
 [Custom]
-Niestandardowe
+Niestandardowo
 [Permanent]
-Stałe
+Trwale
 [sec]
 s
 [Preview]
@@ -70,7 +70,7 @@ Włącz "Daj mi znać"
 Zawsze powiadamiaj
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
-Ikona w zasobniku/popupie
+Ikona w zasobniku/powiadomieniu
 [Enabled]
 Włączony
 [Disabled]
@@ -129,7 +129,7 @@ powrócił po braku aktywności od %d dni
 [Contacts]
 Kontakty
 [Popups]
-Popupy
+Powiadomienia
 [not detected]
 nie wykryto
 [not found]

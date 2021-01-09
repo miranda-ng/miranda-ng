@@ -76,7 +76,7 @@ Inny status
 [Other]
 Inne
 [Popups]
-Popupy
+Powiadomienia
 [** New contacts **]
 ** Nowe kontakty **
 [** Unknown contacts **]

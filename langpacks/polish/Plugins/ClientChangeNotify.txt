@@ -68,7 +68,7 @@ Włącz powiadomienia o zmianie k&lienta
 [ClientChangeNotify: Client changed]
 Zmiana klienta
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Błąd #%d
@@ -80,7 +80,7 @@ Nie można otworzyć pliku dziennika\s
 [Open message window]
 Otwórz okno rozmowy
 [Close popup]
-Zamknij popup
+Zamknij powiadomienie
 [Open contact details window]
 Otwórz dane kontaktu
 [Open contact menu]

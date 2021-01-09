@@ -91,7 +91,7 @@ i oznacz ją jako nieprzeczytaną po zatwierdzeniu
 [Reset to defaults]
 Przywróć domyślne
 [Enable popup notifications]
-Włącz popupy
+Włącz powiadomienia
 [Appearance]
 Personalizacja
 [Foreground]
@@ -139,7 +139,7 @@ Wiadomości
 [Bayes]
 Filtrowanie
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\Spamotron\src\popups.cpp
 [Message blocked due to preview action]
 Wiadomość zablokowana z powodu akcji sprawdzającej

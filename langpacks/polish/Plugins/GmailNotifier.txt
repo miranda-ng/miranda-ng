@@ -49,7 +49,7 @@ Uruchom własny program
 [Use online contacts when no new mail]
 Używaj dostępnych kontaktów przy braku nowych wiadomości
 [Enable icon selection and icon in status bar (restart)]
-Używaj wyboru ikon oraz ikon w pasku stanu (restart)
+Używaj wyboru ikon oraz ikon w pasku stanu (wymagane ponowne uruchomienie)
 [This is a shared computer so disable auto login]
 To jest komputer współdzielony, więc wyłącz automatyczne logowanie
 [Log unread threads into database (enable history)]

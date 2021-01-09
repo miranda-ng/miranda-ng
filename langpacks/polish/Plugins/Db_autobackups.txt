@@ -73,7 +73,7 @@ Kopia zapasowa profilu
 [Save profile as...]
 Zapisz profil w...
 [Popups]
-Popupy
+Powiadomienia
 [Database backups]
 Kopia zapasowa
 [Backup folder]

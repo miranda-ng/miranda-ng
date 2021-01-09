@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.5
+;  Version: 0.6.2.6
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -23,7 +23,7 @@ Włącz czaty
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
 [Use subgroups for server channels (requires restart)]
-Używaj podgrup dla kanałów serwera (wymagany restart)
+Używaj podgrup dla kanałów serwera (wymagane ponowne uruchomienie)
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp

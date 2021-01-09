@@ -31,7 +31,7 @@ Ukryj notatki przy starcie
 [Add Contact list menu items]
 Dodaj elementy do listy kontaktów
 [(Requires Miranda restart)]
-(Wymaga restartu Mirandy)
+(Wymaga ponownego uruchomienia)
 [Reminder options]
 Opcje przypomnień
 [Add Reminder closes dialog]

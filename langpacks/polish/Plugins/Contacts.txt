@@ -41,7 +41,7 @@ Wystąpił błąd. Protokół zwrócił następujący błąd:
 [Try again]
 Spróbuj ponownie
 [Popup]
-Popup
+Powiadomienia
 [Add to List]
 Dodaj do listy
 [User details]

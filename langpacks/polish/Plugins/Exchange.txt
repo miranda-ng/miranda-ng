@@ -39,7 +39,7 @@ Próbuj się połączyć
 [times before giving up]
 razy przed rezygnacją
 [Show email notifications using popup module]
-Pokazuj powiadomienia o nowej poczcie używając modułu Popup
+Pokazuj powiadomienia o nowej poczcie używając wtyczki Popup
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
 ID wpisu

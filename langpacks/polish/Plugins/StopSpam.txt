@@ -37,7 +37,7 @@ Włącz blokowanie próśb o autoryzację
 [Answer is not case sensitive]
 Nie sprawdzaj wielkości liter
 [Remove all temporary contacts after restart]
-Usuń wszystkie tymczasowe kontakty po restarcie
+Usuń wszystkie tymczasowe kontakty po ponownym uruchomieniu
 [Log Spammers to system history]
 Dziennik spamu w historii systemowej
 ;file \plugins\StopSpamPlus\src\events.cpp

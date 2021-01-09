@@ -9,15 +9,15 @@
 Poszerza funkcjonalność Mirandy NG dzięki skryptom lua.
 ;file \plugins\MirLua\res\resource.rc
 [Reload all]
-Załaduj wszystkie ponownie
+Przeładuj wszystkie
 [Scripts]
 Skrypty
 [Popup on script error]
-Popup o błędzie skryptu
+Powiadomienia o błędzie skryptu
 [General]
 Ogólne
 [Popup on obsolete methods]
-Popup o przestarzałych metodach
+Powiadomienia o przestarzałych metodach
 [Auto evaluation]
 
 [Evaluate]

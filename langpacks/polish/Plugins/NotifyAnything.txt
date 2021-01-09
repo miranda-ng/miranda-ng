@@ -6,7 +6,7 @@
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
-Wyświetla popupy dla zdarzeń wywoływanych pakietami UDP.
+Wyświetla powiadomienia dla zdarzeń wywoływanych pakietami UDP.
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Security]
 Bezpieczeństwo

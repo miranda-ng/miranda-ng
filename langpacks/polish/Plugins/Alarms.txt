@@ -17,7 +17,7 @@ Edytuj
 [Alarms]
 Alarmy
 [Use popup plugin]
-Użyj wtyczki popup
+Użyj wtyczki Popup
 [Default snooze:]
 Domyślny czas drzemki:
 [minutes]
@@ -37,7 +37,7 @@ Okres (godziny):
 [Hide/show with clist]
 Pokaż/ukryj z listą kontaktów
 [Auto size vertically]
-Rozmiar auto w pionie
+Rozciągaj w pionie
 [Transparency (%):]
 Przezroczystość (%):
 [Alert window]

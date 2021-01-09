@@ -25,9 +25,9 @@ Opcje zdarzeń
 [Critical shutdown events]
 Krytyczne zdarzenia wyłączania
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
-Automatycznie wyłącz komputer kiedy:
+Automatycznie wyłącz komputer, gdy wystąpi jedna z następujących sytuacji:]
 [&Thunderstorm warning is issued (Weather)]
-Ostrzeżenia o &burzy z piorunami (Weather)
+Ostrzeżenie o &burzy z piorunami (Weather)
 [Automatic shutdown]
 Auto wyłączanie
 [Select the automatic shutdown event]

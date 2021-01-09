@@ -31,9 +31,9 @@ Dodaj zdarzenie
 [Delete event]
 Usuń zdarzenie
 [WinSCP path]
-ścieżka WinSCP
+Ścieżka WinSCP
 [WinSCP log path]
-ścieżka logu WinSCP
+Ścieżka logu WinSCP
 [New messages on top]
 Nowe wiadomości na górze
 [Show event icons]
@@ -93,7 +93,7 @@ Edytuj zadanie
 [Delete task]
 Usuń zadanie
 [Display errors using popups]
-Wyświetlaj błędy za pomocą popupów
+Wyświetlaj błędy w powiadomieniu
 [Save errors to system history]
 Zapisz błędy do historii systemowej
 [Task]

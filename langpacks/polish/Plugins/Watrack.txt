@@ -166,7 +166,7 @@ Nazwa odtwarzacza
 [Players list]
 Lista odtwarzaczy
 [Popup Title / Text]
-Tytuł/Tekst popupu
+Tytuł/Tekst powiadomienia
 [Frame Text]
 Tekst ramki
 [Export Text]
@@ -472,7 +472,7 @@ Globalny skrót WATrack
 [WATrack data insert hotkey]
 Umieść dane WATrack
 [WATrack popup hotkey]
-WATrack popup
+Powiadomienie WATrack 
 [Switch ON these modules]
 Włączone moduły
 [Modules]
@@ -570,7 +570,7 @@ Ukryj kiedy odtwarzacz jest wyłączony
 [Hide when no music]
 Ukryj kiedy nic nie jest odtwarzane
 [Use popup action buttons]
-Użyj przycisków zdarzeń popup
+Użyj przycisków zdarzeń powiadomienia
 [Left click]
 LPM
 [Right click]

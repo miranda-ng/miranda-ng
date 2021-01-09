@@ -31,7 +31,7 @@ min.
 [Keep connection on error]
 Utrzymuj połączenie po wystąpieniu błędu
 [Set popup colors]
-Ustaw kolory komunikatów
+Ustaw kolory powiadomień
 [Background]
 Tło
 [Text]
@@ -53,7 +53,7 @@ Pokazuj błędy połączeń
 [Remember newest message ID and don't show older]
 Zapamiętaj najnowszą wiadomość i nie pokazuj starszych od niej
 [...even if popup not clicked]
-...nawet jeśli popup nie został kliknięty
+...nawet jeśli powiadomienie nie zostało kliknięte
 [Clear popups history]
 Wyczyść historię powiadomień
 [Filter messages containing the following:]
@@ -82,7 +82,7 @@ To narzędzie pozwala sprawdzić twój plik notes.ini, czy został prawidłowo u
 [LotusNotify plugin configuration]
 Konfiguracja wtyczki LotusNotify
 [notes.ini modified correctly. Miranda restart required.]
-notes.ini poprawnie zmodyfikowany. Należy zrestartować mirandę.
+notes.ini poprawnie zmodyfikowany. Należy ponownie uruchomić Mirandę.
 [notes.ini seem to be set correctly.]
 notes.ini wygląda na skonfigurowane prawidłowo.
 [Now checking Lotus, try again later]
@@ -96,7 +96,7 @@ Wtyczki
 [Connection]
 Połączenie
 [Popup]
-Popup
+Powiadomienia
 [Miscellaneous]
 Różne
 [&Check Lotus]

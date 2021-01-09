@@ -6,18 +6,18 @@
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
-Powiadamia o otrzymaniu wiadomości, linku, pliku itp. wyświetlając popup.
+Powiadamia o otrzymaniu wiadomości, linku, pliku itp.
 ;file \plugins\NewEventNotify\res\resource.rc
 [General options]
 Ogólne
 [Show entry in the Popups menu]
-Pokaż wpis w menu wtyczki Popup
+Pokaż wpis w menu powiadomienia
 [Temporarily disable event popups]
-Tymczasowo wyłącz popupy zdarzeń
+Tymczasowo wyłącz powiadomienia zdarzeń
 [Show preview of event in popup]
-Pokaż podgląd zdarzenia w popupie
+Pokaż podgląd zdarzenia w powiadomieniu
 [Popup options]
-Opcje popupów
+Opcje powiadomień
 [Message]
 Wiadomość
 [File]
@@ -35,7 +35,7 @@ Powiadom mnie o...
 [Left click actions]
 Akcja LPM
 [Dismiss popup]
-Odrzuć popup
+Odrzuć powiadomienia
 [Open event]
 Pokaż zdarzenie
 [Dismiss event]
@@ -47,13 +47,13 @@ Po upływie czasu
 [Message event only]
 Powiadomienia o wiadomościach
 [Don't show popup when message dialog is already open]
-Nie pokazuj popupów przy otwartym oknie rozmowy
+Nie pokazuj powiadomień przy otwartym oknie rozmowy
 [Hide popup when sending new message]
-Ukryj popup przy wysyłaniu nowej wiadomości
+Ukryj powiadomienia przy wysyłaniu nowej wiadomości
 [Open reply dialog instead of reading the message]
 Otwórz okno odpowiedzi zamiast czytania wiadomości
 [Merge popups from one user]
-Połącz popupy od jednego użytkownika
+Połącz powiadomienia od jednego użytkownika
 [Preview]
 Podgląd
 [Show date]
@@ -71,12 +71,12 @@ Ost. wiadomość na końcu
 [Edit]
 Edytuj
 [No popups for RSS contacts]
-Nie wyświetlaj popupów dla kanałów RSS
+Nie wyświetlaj powiadomień dla kanałów RSS
 [No popups for read messages]
-Nie wyświetlaj popupów dla przeczytanych wiadomości
+Nie wyświetlaj powiadomień dla przeczytanych wiadomości
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Powiadomienia

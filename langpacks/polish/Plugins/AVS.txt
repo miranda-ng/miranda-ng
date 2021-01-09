@@ -15,7 +15,7 @@ Wybierz domyślny obrazek
 [Delete default picture]
 Usuń domyślny obrazek
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own avatar go to Main menu -> View/change my details -> Avatar.]
-UWAGA: Te zdjęcia NIE są Twoimi awatarami.\nAby ustawić swojego awatara, przejdź do Menu głównego -> Pokaż/Zmień moje dane -> Awatar.
+UWAGA: Te zdjęcia NIE są Twoimi awatarami.\nAby ustawić swojego awatara, przejdź do Menu głównego -> Pokaż/zmień moje dane -> Awatar.
 [Try to draw avatar background transparent (for images without transparency)]
 Próbuj rysować przezroczyste tło awataru (dla obrazku bez przezroczystości)
 [Number of points to define background:]
@@ -33,7 +33,7 @@ Kiedy ustawiasz awatary, zawsze zmieniaj je w kwadraty
 [Try to draw own avatar background transparent (for images without transparency)]
 Rysuj przezroczyste tło przy swoim awatarze (dla obrazku bez przezroczystości)
 [This uses the same additional options as in "Contact avatars" tab]
-To korzysta z tych samych opcji dodatkowych, jakie znajdują się w zakładce awatary kontaktu
+Wykorzystuje te same dodatkowe opcje, co w zakładce „Awatary kontaktów”
 [Protect the picture and prevent automatic avatars from overwriting it]
 Chroń obraz i zapobiegaj przed automatycznym zastąpieniem awataru
 [Make the avatar square]

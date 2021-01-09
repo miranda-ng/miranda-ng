@@ -45,7 +45,7 @@ Element głównego menu
 [Open log]
 Otwórz
 [Show popups]
-Pokaż popupy
+Pokaż powiadomienia
 [Page keyword]
 Słowo kluczowe strony
 [URL address]
@@ -118,7 +118,7 @@ Przeglądasz z
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Twoje IP zewnętrzne zostało wykryte jako %d.%d.%d.%d\r\nprzez: %s
 [You need to restart Miranda to change the main menu]
-Musisz zrestartować Mirandę, by dokonać zmian w menu głównym
+Musisz uruchomić ponownie Mirandę, by dokonać zmian w menu głównym
 [HTTP Server]
 Serwer HTTP
 [Network]

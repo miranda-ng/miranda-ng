@@ -1367,7 +1367,7 @@ Zulu
 [Never]
 Nigdy
 [Roster]
-
+Roster
 [Always]
 Zawsze
 [These changes will take effect the next time you connect to the Jabber network.]

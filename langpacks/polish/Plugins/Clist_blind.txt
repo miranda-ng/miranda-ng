@@ -81,7 +81,7 @@ Pokaż pasek tytułu
 [If window is partially covered, bring to front instead of hiding]
 Jeśli okno jest częściowo zakryte, przenieś na wierzch zamiast ukrywać
 [Show drop shadow (restart required)]
-Pokaż cień (wymagany restart)
+Pokaż cień (wymagane ponowne uruchomienie)
 [Pin to desktop]
 Przypnij do pulpitu
 [Groups]

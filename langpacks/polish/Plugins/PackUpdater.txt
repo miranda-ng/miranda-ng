@@ -59,7 +59,7 @@ Użyj nie&standardowych kolorów
 [Use &Windows colors]
 Użyj kolorów &Windows
 [Use defa&ult colors]
-&Używaj domyślnych kolorów
+&Użyj domyślnych kolorów
 [Preview]
 Podgląd
 [Click action]
@@ -77,13 +77,13 @@ Wyświetlaj
 [Sec]
 s
 [* Needs popup actions to be enabled]
-* Wymaga działań popup, które zostaną włączone
+* Wymaga włączenia akcji powiadomień
 [Not sets for "Message boxes"]
-Nie określa dla "Komunikaty"
+Nie dotyczy "Komunikaty"
 [Boxes]
 Okna
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 Sprawdź aktualizacje paczki
@@ -110,7 +110,7 @@ Pobieranie zakończone. Rozpocząć aktualizację? Wszystkie twoje ustawienia zo
 Wybrałeś, aby nie instalować pobranych aktualizacji.\nMożesz zainstalować je ręcznie z lokalizacji:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
-Zamknij popup
+Zamknij powiadomienie
 [Do nothing]
 Nic nie rób
 ;file \plugins\PackUpdater\Src\Options.cpp

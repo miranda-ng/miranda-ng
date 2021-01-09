@@ -97,29 +97,29 @@ Bezpieczne połączenie
 [Send/Receive encrypted colors]
 Szyfrowane wysyłanie/odbieranie
 [SecureIM Popup Colors]
-Kolory popupów
+Kolory powiadomień SecureIM
 [Preview]
 Podgląd
 [Events]
 Zdarzenia
 [Popup Timeout]
-Czas popupów
+Czas wyświetlania
 [Time in Seconds]
 w sekundach
 [0 = Default Popup Timeout Value]
 0 - domyślnie
 [Show a popup on established connection]
-Pokaż popup ustawionego połączenia
+Pokaż powiadomienie ustawionego połączenia
 [Show a popup on disabled connection]
-Pokaż popup na wyłączonym połączeniu
+Pokaż powiadomienie przy wyłączonym połączeniu
 [Show a popup on key send]
-Pokaż popup wysłanego klucza
+Pokaż powiadomienie o wysłanego klucza
 [Show a popup on key received]
-Pokaż popup otrzymanego klucza
+Pokaż powiadomienie o otrzymaniu klucza
 [Show a popup on each secure send]
-Pokaż popup każdej bezpiecznej wysłanej wiadomości
+Pokaż powiadomienie o każdej bezpiecznej wysłanej wiadomości
 [Show a popup on each secure receive]
-Pokaż popup każdej bezpiecznej odebranej wiadomości
+Pokaż powiadomienie o każdej bezpiecznej odebranej wiadomości
 [Please type in your password]
 Proszę wprowadzić hasło
 [Username:]
@@ -213,7 +213,7 @@ Ustawione bezpieczne połączenie
 [Message Window]
 Okno rozmowy
 [Popups]
-Popupy
+Powiadomienia
 [Secure Connection Disabled]
 Wyłączone bezpieczne połączenie
 [Secure Connection Established]
@@ -352,11 +352,11 @@ Usługi
 Ogólne
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [Key Popup]
-Popup z kluczem
+Powiadomienie z kluczem
 [Secure Popup]
-Bezpieczny popup
+Powiadomienie bezpieczeństwa
 [Message Popup]
-Popup z wiadomością
+Powiadomienie z wiadomością
 ;file \plugins\SecureIM\src\svcs_menu.cpp
 [Can't change mode! Secure connection established!]
 Nie można zmienić trybu! Bezpieczne połączenie ustawione!

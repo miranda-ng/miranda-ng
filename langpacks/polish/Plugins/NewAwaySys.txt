@@ -344,6 +344,6 @@ Away system
 [Status]
 Status
 [Popups]
-Popupy
+Powiadomienia
 [Variables plugin is not installed]
 Wtyczka Variables nie jest zainstalowana

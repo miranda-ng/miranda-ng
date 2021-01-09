@@ -37,7 +37,7 @@ Opis
 [Plugin activation]
 Aktywacja wtyczki
 [Automatically turn off Popups and Sounds on status change]
-Automatyczne wyłącz popupy i dźwięki po zmianie statusu
+Automatyczne wyłącz powiadomienia i dźwięki po zmianie statusu
 [Configure]
 Konfiguruj
 [Notify me for people not on my contact list]
@@ -63,7 +63,7 @@ Usuń
 [Enable sounds]
 Włącz dźwięki
 [Enable popups]
-Włącz popupy
+Włącz powiadomienia
 [Status Notify]
 Zmiany statusu
 [Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
@@ -71,7 +71,7 @@ Indywidualne dźwięki są wyłączone.\n\nAby je włączyć przejdź do Opcje -
 [Sounds]
 Dźwięki
 [Popups]
-Popupy
+Powiadomienia
 [Extra status notify]
 Powiadomienie xStatus
 [Extra status logging]
@@ -99,7 +99,7 @@ Użyj kolorów Windows
 [Use default colors]
 Użyj domyślnych kolorów
 [Popup text]
-Tekst popupu
+Tekst powiadomienia
 [Show contact group name]
 Pokaż nazwę grupy kontaktu
 [Show status description]
@@ -129,7 +129,7 @@ PPM
 [Notification]
 Powiadomienie
 [Show Popups when I connect]
-Pokaż popupy podczas łączenia
+Pokaż powiadomienia podczas łączenia
 [Disable for extra status 'Music']
 Wyłącz dla xStatusu "Muzyka"
 [Truncate message length to:]
@@ -368,7 +368,7 @@ Filtrowanie
 [Open message window]
 Otwórz okno rozmowy
 [Close popup]
-Zamknij popup
+Zamknij powiadomienie
 [Open contact details window]
 Otwórz dane kontaktu
 [Open contact menu]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.6
+;  Version: 0.1.11.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -51,7 +51,7 @@ Przetwarzaj naklejki jako uśmieszki
 [Shorten links for audio attachments]
 Skracaj linki do załączników audio
 [Use non-standard popups for news and event notifications]
-Używaj niestandardowych popupów dla powiadomień o aktualnościach i zdarzeniach
+Używaj niestandardowych powiadomień dla  aktualności i zdarzeń
 [Add message link to messages with attachments]
 Dodawaj wiadomość z linkiem w przypadku wiadomości z załącznikiem
 [News and event notifications]

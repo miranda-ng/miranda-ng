@@ -37,15 +37,15 @@ Te zmiany zostaną wprowadzone gdy ponownie połączysz się z siecią Twittera.
 [Treat tweets as messages]
 Traktuj tweety jako wiadomość
 [Enable popup notifications for tweets]
-Włącz powiadomienia popup dla Tweetów
+Włącz powiadomienia dla Tweetów
 [Colors]
 Kolory
 [Use Windows colors]
-Użyj kolorów Windows
+Kolory Windows
 [Use default colors]
-Użyj domyślnych kolorów
+Domyślne kolory
 [Use custom colors]
-Użyj niestandardowych kolorów
+Niestandardowe kolory
 [Back]
 Tło
 [Text]
@@ -53,11 +53,11 @@ Tekst
 [Timeout]
 Wyświetlaj
 [Default]
-Domyślny
+Domyślnnie
 [Custom]
-Niestandardowe
+Niestandardowo
 [Permanent]
-Stałe
+Twale
 [Preview]
 Podgląd
 [But not during sign-on]
@@ -94,7 +94,7 @@ Protokoły
 [Basic]
 Podstawowe
 [Popups]
-Popupy
+Powiadomienia
 [%s Protocol]
 Protokół %s
 [Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]

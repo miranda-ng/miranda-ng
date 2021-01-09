@@ -27,9 +27,9 @@ Ogólne
 [Hide interfaces]
 
 [Popup options]
-Opcje popupów
+Opcje powiadomień
 [Enable popups]
-Włącz popupy
+Włącz powiadomienia
 [Text color]
 Kolor tekstu
 [Background color]
@@ -71,7 +71,7 @@ Wyłącz proxy
 [Enable proxy]
 Włącz proxy
 [Popups]
-Popupy
+Powiadomienia
 [IP change notification]
 
 ;file \plugins\ProxySwitch\src\opt.cpp

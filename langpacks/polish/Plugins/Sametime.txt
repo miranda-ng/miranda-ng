@@ -25,7 +25,7 @@ Wyświetlanie błędów
 [Use message boxes]
 Użyj okienek
 [Use popups]
-Użyj popup
+Użyj powiadomień
 [Use system tray balloons]
 Używaj baloników w zasobniku systemowym
 [Contacts]

@@ -33,7 +33,7 @@ Wyrzucanie użytkownika
 [Notices]
 Powiadomienia
 [Popup]
-Popup
+Powiadomienia
 [Tray]
 Zasobnik
 [Options]
@@ -141,7 +141,7 @@ znaków
 [Only show event notifications when my status is...]
 Pokaż powiadomienie o zdarzeniach tylko, gdy następujący status to...
 [Popup options]
-Opcje popupa
+Opcje powiadomień
 [Text]
 Tekst
 [Background]
@@ -151,17 +151,17 @@ Wyświetlaj (sekund, 0 - domyślnie, -1 - nie chowaj)
 [Message]
 Wiadomość
 [Use default colors]
-Użyj domyślnych kolorów
+Domyślne kolory
 [Others]
 Inne
 [Preview]
 Podgląd
 [Group chats]
-Rozmowy grupowe
+Czaty
 [Errors]
 Błędy
 [Use the message log color theme for group chat popups]
-Użyj koloru wiadomości skórki dla popupów czatowych
+Użyj koloru wiadomości skórki dla powiadomień z czatu
 [Dialog]
 Okno
 [Cancel]
@@ -169,7 +169,7 @@ Anuluj
 [All modes]
 Wszystkie tryby
 [Choose modes]
-Wybierz tryby
+Wybierz tryb
 [Send text formatting method]
 Wyślij metodę formatowania tekstu
 [You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
@@ -207,13 +207,13 @@ Migaj dopóki nieaktywne
 [Disable flashing]
 Wyłącz miganie
 [Enable popups if minimized]
-Włącz popupy, jeśli zminimalizowane
+Włącz powiadomienia, jeśli zminimalizowane
 [Enable popups if unfocused]
-Włącz popupy, jeśli nieaktywne
+Włącz powiadomienia, jeśli nieaktywne
 [Enable popups if focused]
-Włącz popupy, jeśli aktywne
+Włącz powiadomienia, jeśli aktywne
 [Show popups for inactive tabs in active containers]
-Pokaż popupy dla nieaktywnych kart w aktywnych kontenerach
+Pokaż powiadomienia dla nieaktywnych kart w aktywnych kontenerach
 [Hide the status bar]
 Ukryj pasek statusu
 [Hide the menu bar]
@@ -337,7 +337,7 @@ Pokaż powiadomienie, jeśli nie ma otwartych okien rozmowy
 [Show balloon tooltip in the system tray]
 Pokaż podpowiedź w chmurce w zasobniku systemowym
 [        Show popups when a user is typing]
-        Pokaż popupy, kiedy użytkownik pisze
+        Pokaż powiadomienia, kiedy użytkownik pisze
 [More about typing notifications]
 Więcej na temat powiadomień o pisaniu
 [Tab options]
@@ -391,7 +391,7 @@ Ustawienia Windows Aero
 [Use Aero UI elements (only when not using a custom skin)]
 Użyj elementów UI Aero (tylko, gdy nie jest używana niestandardowa skórka)
 [Use Windows 7 task bar enhancements (restart required)]
-Użyj paska zadań Windows 7 (wymaga restartu)
+Użyj paska zadań Windows 7 (wymaga ponownego uruchomienia)
 [Colors]
 Kolory
 [...is &typing]
@@ -403,19 +403,19 @@ Kolory
 [Use &Windows colors]
 Użyj kolorów &Windows
 [Only &one popup for each contact]
-Tylko &jeden popup dla każdego kontaktu
+Tylko &jedno powiadomienie dla każdego kontaktu
 [Show &entry in the main menu]
 Pokaż &wpis w menu głównym
 [...is typing]
 ...pisze
 [Default]
-Domyślny
+Domyślnie
 [From protocol]
 Z protokołu
 [Permanent]
-Stałe
+Trwale
 [Custom]
-Niestandardowe
+Niestandardowo
 [...stopped typing]
 ...przestał pisać
 [Timeout]
@@ -537,9 +537,9 @@ Zadania oczekujące w kolejce
 [Filter by contact:]
 Filtrowanie kontaktów:
 [Display popups for failed jobs]
-Pokaż popupy dla błędów zadań
+Pokaż powiadomienia dla błędów zadań
 [Display popups for completed jobs]
-Pokaż popupy dla zakończonych zadań
+Pokaż powiadomienia dla zakończonych zadań
 [Do not show this message again]
 Nie pokazuj tej wiadomości
 [Yes]
@@ -705,17 +705,17 @@ Pozostań na wierzchu
 [&Container]
 &Kontener
 [Event popups]
-Popupy zdarzeń
+Powiadomienia zdarzeń
 [Disable all event popups]
-Wyłącz wszystkie popupy o zdarzeniach
+Wyłącz wszystkie powiadomienia o zdarzeniach
 [Show popups if window is minimized]
-Pokazuj popupy jeżeli okno jest zminimalizowane
+Pokazuj powiadomienia, jeżeli okno jest zminimalizowane
 [Show popups if window is unfocused]
-Pokazuj popupy jeżeli okno jest nieaktywne
+Pokazuj powiadomienia, jeżeli okno jest nieaktywne
 [Show popups if window is focused]
-Pokazuj popupy jeżeli okno jest aktywne
+Pokazuj powiadomienia, jeżeli okno jest aktywne
 [Show popups for all inactive sessions]
-Pokazuj popupy dla wszystkich nieaktywnych sesji
+Pokazuj powiadomienia dla wszystkich nieaktywnych sesji
 [Save current window position as default]
 Zapisz obecne położenie okna jako domyślne
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
@@ -929,10 +929,10 @@ Głos właścicieli
 Tryb rozszerzony 1
 [Extended mode 2]
 Tryb rozszerzony 2
-[Selection background]
-Tło zaznaczonego uczestnika
-[Selected text]
-Zaznaczony tekst
+[Selected nicklist background]
+
+[Selected nicklist text]
+
 [Incremental search highlight]
 Podświetlanie wyszukiwania
 [Fields background]
@@ -1093,7 +1093,7 @@ Wybierz opcje dla interfejsu kart. Nie wszystkie opcje zostaną zaakceptowane w 
 [Notifications]
 Powiadomienia
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
-Zaznacz, kiedy chcesz widzieć powiadomienia (popup) dla tego okna. Akceptacja zmian zachowana jest dla wszystkich zakładek w tym oknie.
+Zaznacz, kiedy chcesz widzieć powiadomienia dla tego okna. Akceptacja zmian zachowana jest dla wszystkich zakładek w tym oknie.
 [Flashing]
 Miganie
 [Window size and theme]
@@ -1137,13 +1137,11 @@ wyłączony
 włączone
 [Sending typing notifications is %s.]
 Wysyłanie powiadomienia o pisaniu jest %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Lista sesji.\nLPM na listę otwiera sesje.\nPPM otwiera menu Ulubionych i szybkiej konfiguracji okna rozmowy.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 %d, w trakcie wysyłania. Długość wiadomości: %d bajtów, limit długości wiadomości: %d bajtów\n\n%d wiadomości jest w kolejce do wysłania później
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Jedna z twoich akcji popupów jest ustawiona na Usuń Zdarzenie.\nUwaga, te opcje mogą powodować niechciane efekty uboczne jako że usuwają one zdarzenia z kolejki nieprzeczytanych.\nTo może prowadzić do niepokazywania zdarzeń jako nowe. Jeżeli nie chcesz takiego zachowania, przejrzyj ustawienia "Powiadomień o zdarzeniach"
+Jedna z twoich akcji powiadomień jest ustawiona na Usuń Zdarzenie.\nUwaga, te opcje mogą powodować niechciane efekty uboczne jako że usuwają one zdarzenia z kolejki nieprzeczytanych.\nTo może prowadzić do niepokazywania zdarzeń jako nowe. Jeżeli nie chcesz takiego zachowania, przejrzyj ustawienia "Powiadomień o zdarzeniach"
 [TabSRMM warning message]
 Ostrzeżenie TabSRMM
 [Incoming file]
@@ -1165,11 +1163,11 @@ Nie ogłaszaj zdarzenia, kiedy okno rozmowy jest otwarte
 [Don't announce events from RSS protocols]
 Nie ogłaszaj zdarzeń z protokołu RSS
 [Merge new events for the same contact into existing popup]
-Połącz nowe zdarzenia od tego samego w istniejącym popupie
+Połącz nowe zdarzenia od tego samego w istniejącym powiadomieniu
 [Show headers]
 Pokaż nagłówki
 [Dismiss popup]
-Odrzuć popup
+Odrzuć powiadomienie
 [Open event]
 Pokaż zdarzenie
 [Dismiss event]
@@ -1181,29 +1179,29 @@ Wyłącz powiadomienia dla czatów
 [Disable notifications for non-message events]
 Wyłącz powiadomienia dla innych zdarzeń
 [Remove popups for a contact when the message window is focused]
-Usuń popupy dla kontaktu, gdy jego okno rozmowy jest aktywne
+Usuń powiadomienia dla kontaktu, gdy jego okno rozmowy jest aktywne
 [Remove popups for a contact when I start typing a reply]
-Usuń popupy dla kontaktu, gdy zacznę pisać odpowiedź
+Usuń powiadomienia dla kontaktu, gdy zacznę pisać odpowiedź
 [Remove popups for a contact when I send a reply]
-Usuń popupy dla kontaktu, gdy wyślę odpowiedź
+Usuń powiadomienia dla kontaktu, gdy wyślę odpowiedź
 [Disable notifications]
 Wyłącz powiadomienia
 [System tray icon]
 Ikona w zasobniku
 [Left click actions (popups only)]
-Akcje LPM (tylko popupy)
+Akcje LPM (tylko powiadomienia)
 [Right click actions (popups only)]
-Akcje PPM (tylko popupy)
+Akcje PPM (tylko powiadomienia)
 [Timeout actions (popups only)]
-Akcje po upłynięciu czasu wyświetlania (tylko popupy)
+Akcje po upłynięciu czasu wyświetlania (tylko powiadomienia)
 [Combine notifications for the same contact]
 Kombinacja notyfikacji dla tego samego użytkownika
 [Remove popups under following conditions]
-Usuń popupy w następujących przypadkach:
+Usuń powiadomienia w następujących przypadkach:
 [Event notifications]
 Zdarzenia
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Kontakt nie ma opisu.
@@ -1257,6 +1255,8 @@ Preferencje wysyłania i odbierania wiadomości od kontaktu
 Wyślij plik
 [Quote message]
 Cytuj wiadomość
+[Clear message area]
+
 [Toggle send later]
 Pokaż wyślij później
 [Send message]
@@ -1601,7 +1601,7 @@ Wspieraj formatowanie BBCode
 [Place a separator in the log after a window lost its foreground status]
 Wstawiaj separatory w nieaktywnych sesjach
 [Only place a separator when an incoming event is announced with a popup]
-Umieść separator tylko wtedy, gdy nadchodzące zdarzenie jest ogłaszane za pomocą popupa
+Umieść separator tylko wtedy, gdy nadchodzące zdarzenie jest ogłaszane za pomocą powiadomień
 [Show events at the new line (IEView Compatibility Mode)]
 Pokaż zdarzenia w nowej linii (Tryb zgodności z IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
@@ -1669,7 +1669,7 @@ Na kontrolce karty
 [On the button bar]
 Na pasku przycisków
 [Disable error popups on sending failures]
-Wyłącz popupy błędów wysyłania wiadomości
+Wyłącz powiadomienia błędów wysyłania wiadomości
 [Choose status modes]
 Wybierz tryby statusu
 [General]
@@ -1814,7 +1814,7 @@ Niewysłane wiadomości czekają na potwierdzenie.\nJeśli teraz zamkniesz okno,
 [Message window warning]
 Ostrzeżenie okna rozmowy
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
-Wiadomość poprawnie dodana do listy wysyłania.\nZostanie wysłana jak będzie to możliwe, rezultat zostanie wyświetlony w popupie.
+Wiadomość poprawnie dodana do listy wysyłania.\nZostanie wysłana jak będzie to możliwe, rezultat zostanie wyświetlony w powiadomieniu.
 [The send later feature is not available on this protocol.]
 Opcja wyślij później nie jest dostępna dla tego protokołu.
 [\n(Sent delayed. Original timestamp %s)]
@@ -1879,9 +1879,9 @@ Wszystkie kontenery muszą zostać zamknięte przed zmianą skórki\nKontynuowa�
 Zmień skórkę
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
-Wyłącz powiadomienie o &pisaniu
+Wyłącz powiadomienia o &pisaniu
 [Enable &typing notification]
-Włącz powiadomienie o &pisaniu
+Włącz powiadomienia o &pisaniu
 [...has stopped typing.]
 ...przestał pisać.
 [...is typing a message.]

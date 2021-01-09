@@ -47,7 +47,7 @@ Komunikaty o błędach
 [Suppress error messages]
 Ignoruj komunikaty o błędach
 [Display using popup or OSD plugin]
-Wyświetlaj używając wtyczek popup lub OSD
+Wyświetlaj używając wtyczek Popup lub OSD
 [Expert options]
 Opcje zaawansowane
 [Disable download protection]
@@ -55,11 +55,11 @@ Wyłącz ochronę przed pobieraniem
 [(not recommended)]
 (niezalecane)
 [Display data in popup on alert]
-Powiadomienia
+Wyświetlaj dane w powiadomieniu o alarmie
 [Display data in popup]
-Wyświetl dane w popupie
+Wyświetl dane w powiadomieniu
 [You may need to restart Miranda NG for this change to take effect.]
-Restart Mirandy NG, może być potrzebny by te zmiany weszły w życie.
+Uruchom ponownie aby zmiany przyniosły efekt.
 [Contact name:]
 Nazwa kontaktu:
 [URL:]
@@ -133,13 +133,13 @@ Dołączanie danych do pliku
 [Save as raw data]
 Zapisz jako dane nieprzetworzone
 [Popup timeout]
-Wyświetlanie Popup
+Wyświetlanie powiadomienia
 [Timeout]
 Wyświetlaj
 [Default]
-Domyślny
+Domyślnie
 [Permanent]
-Stałe
+Trwale
 [Preview]
 Podgląd
 [Colors]
@@ -161,7 +161,7 @@ Otwórz okno danych
 [Open web page]
 Otwórz stronę
 [Dismiss popup]
-Odrzuć popup
+Odrzuć powiadomienie
 [Right click action]
 Akcja po kliknięciu PPM
 [Log]
@@ -213,7 +213,7 @@ Wszystkie strony w Webview zostały zaktualizowane.
 [Network]
 Protokoły
 [Popups]
-Popupy
+Powiadomienia
 ;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Nie można zapisać w pliku
@@ -327,7 +327,7 @@ Strona zmienia się
 [A specific part of web page changes]
 Określona część strony zmienia się
 [This is a preview popup.]
-To jest okienko podglądu.
+To jest podgląd powiadomienia.
 [You need to supply a search string.]
 Musisz podać ciąg wyszukiwania.
 [You need to supply a start string.]

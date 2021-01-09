@@ -79,7 +79,7 @@ Rozłączony
 [xStatuses]
 xStatusy
 [Keys to flash]
-Klawisze, które powinny świecić
+Klawisze, które powinny migać
 [Num Lock]
 Num Lock
 [Caps Lock]

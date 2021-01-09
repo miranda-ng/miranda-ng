@@ -6,12 +6,12 @@
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
-Skanuje w poszukiwaniu użytkowników twoich udostępnionych plików i folderów w sieci, i powiadamia cię za pomocą popupa.
+Skanuje w poszukiwaniu użytkowników twoich udostępnionych plików i folderów w sieci, i powiadamia cię za pomocą dymka.
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 WUMF: Aktualne połączenia
 [Popup delay settings]
-Ustawienia opóźnienia Popupa
+Ustawienia opóźnienia powiadomień
 [Timeout (seconds)]
 Opóźnienie (sekundy)
 [Background color]
@@ -27,7 +27,7 @@ Domyślny
 [Custom]
 Niestandardowe
 [Popup color settings]
-Ustawienia koloru popupa
+Ustawienia koloru powiadomienia
 [Use Windows colors]
 Użyj kolorów Windows
 [Use default colors]
@@ -70,12 +70,12 @@ Błąd alokacji pamięci
 [Error creating menu]
 Błąd tworzenia menu
 [Enable WUMF popups]
-Włącz popupy WUMF
+Włącz powiadomienia WUMF
 [Disable WUMF popups]
-Wyłącz popupy WUMF
+Wyłącz powiadomienia WUMF
 [Show connections list]
 Pokaż listę połączeń
 [Popups]
-Popupy
+Powiadomienia
 [WUMF: Show connections]
 WUMF: Pokaż połączenia

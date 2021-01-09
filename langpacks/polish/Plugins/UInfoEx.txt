@@ -125,7 +125,7 @@ Odtwarzaj dźwięk
 [Use ignore list]
 Użyj listy blokowania
 [Birthday popup colors]
-Kolory popupów urodzin
+Kolory powiadomień urodzin
 [Background color]
 Kolor tła
 [Text color]
@@ -137,19 +137,19 @@ Użyj domyślnych kolorów
 [Timeout]
 Wyświetlaj
 [Default]
-Domyślny
+Domyślnie
 [Custom]
-Niestandardowe
+Niestandardowo
 [Permanent]
-Stałe
+Trwale
 [Show reminder messages as popups (if reminder is enabled)]
-Pokaż przypomnienie w popupie (jeśli jest włączony)
+Pokaż przypomnienie w powiadomieniu (jeśli jest włączony)
 [Anniversary popup colors]
-Kolory popupów rocznic
+Kolory powiadomień rocznic
 [Replace progress dialogs with popups]
-Nadpisz dialogi popupów
+Zastąp okienka dialogowe powiadomieniami
 [Replace message boxes with popups]
-Nadpisz okienka wiadomości popupów
+Zastąp okienka wiadomości powiadomieniami
 [Preview]
 Podgląd
 [Homepage:]
@@ -209,7 +209,7 @@ Włącz rozszerzoną usługę "wyślij/odbierz" e-mail(*)
 [Use Windows timezone]
 Używaj strefy czasowej Windows
 [(*) Requires Miranda to be restarted.]
-(*) Miranda musi zostać zrestartowana.
+(*) Miranda musi zostać uruchomiona ponownie.
 [Reset factory defaults]
 Przywróć domyślne
 [Protocol's information]
@@ -275,7 +275,7 @@ Menu konta
 [Misc]
 Inne
 [Show 'Restart' menu item]
-Pokaż "Restart" w menu
+Pokaż "Uruchom ponownie" w menu
 [Use zodiac as default avatar]
 Użyj znaku zodiaku jako awatara
 [Country flags]
@@ -419,7 +419,7 @@ Tylko rocznice
 [Disabled reminder]
 Przypominanie wyłączone
 [Popup anniversary list]
-Lista rocznic w popupie
+Lista rocznic w powiadomieniu
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
 Gotowy
@@ -679,7 +679,7 @@ Zaawansowane
 [Details dialog]
 Okno danych
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Przeszłość

@@ -6,12 +6,12 @@
 ;  Authors: MaKaR
 ;============================================================
 [Notify with popup if some connection established]
-Powiadamia popupem, gdy zostanie nawiązane połączenie.
+Powiadamia, gdy zostanie nawiązane połączenie.
 ;file \protocols\ConnectionNotify\res\ConnectionNotify.rc
 [Set popup colors]
 Ustaw kolory komunikatów
 [Popup options]
-Opcje popupów
+Opcje powiadomień
 [Background]
 Tło
 [Text]
@@ -59,9 +59,9 @@ Zdalne IP:Port
 Powiadomienie o nowym połączeniu
 ;file \protocols\ConnectionNotify\src\filter.cpp
 [Always show popup]
-Zawsze pokazuj popup
+Zawsze pokazuj powiadomienia
 [Never show popup]
-Nigdy nie pokazuj popupu
+Nigdy nie pokazuj powiadomień
 [First close options window]
 Najpierw zamknij okno opcji
 ;file \protocols\ConnectionNotify\src\options.cpp

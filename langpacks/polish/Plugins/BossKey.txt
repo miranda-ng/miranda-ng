@@ -45,17 +45,17 @@ Okno jest nieaktywne
 [Hide Miranda when:]
 Ukryj Mirandę kiedy:
 [Miranda is inactive]
-Miranda jest nieaktywna
+Program jest nieaktywny
 [min]
 min
 [Miranda is started]
-Miranda się uruchamia
+Program się uruchamia
 [Others]
 Inne
 [Create a main menu item]
 Utwórz wpis w menu głównym
 [Restore hiding on startup after failure]
-Przywróć ukrywanie na starcie po awarii
+Ukryj podczas uruchamiania po awarii
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Password is not correct!\nPlease, enter correct password.]
 Błędne hasło!\nProszę wpisać poprawne hasło.

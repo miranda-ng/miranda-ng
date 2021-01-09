@@ -35,7 +35,7 @@ Licz ile razy
 [Accounts to watch:]
 Protokoły do obserwowania:
 [Use popups]
-Użyj popup
+Użyj powiadomień
 [Title]
 Nazwa
 [Text]
@@ -167,7 +167,7 @@ Zmienne
 [Contacts]
 Kontakty
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\SeenPlugin\src\stdafx.h
 [%n is %s (%u)]
 %n jest %s (%u)

@@ -47,7 +47,7 @@ Podgląd skórki
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 UWAGA: \tSkórki mogą zmodyfikować twój profil. Przywrócenie zmian nie jest możliwe. \n\t\tWykonaj kopię profilu przed ustawieniem nowej skórki.
 [* Restart may be required for all changes to take effect]
-* Miranda NG musi zostać zrestartowana aby zmiany przyniosły efekt
+* Uruchom ponownie program aby zmiany przyniosły efekt
 [Skin folder]
 Folder skórek
 [Download more skins]
@@ -207,15 +207,15 @@ Przeciągnij do
 [x100 ms]
 x100 ms
 [show delay]
-opóźnienie pokazania
+pojawianie
 [hide delay]
-opóźnienie ukrycia
+ukrywanie
 [Hide method]
 Metoda ukrycia
 [pixels]
 px
 [keep on screen]
-utrzymaj na ekranie
+trzymaj na ekranie
 [Snap to edges]
 Przyciąganie do krawędzi
 [Event notify area]
@@ -253,7 +253,7 @@ Rysuj linię wzdłuż nazw grupy
 [Show counts of number of contacts in a group]
 Pokaż liczbę kontaktów w grupach
 [Hide group counts when there are none online]
-Ukryj liczbę kontaktów, jeśli nikt nie jest dostępny
+Ukryj liczbę kontaktów, jeśli nikt nie jest Dostępny
 [Sort groups alphabetically]
 Sortuj grupy alfabetycznie
 [Quicksearch in open groups only]
@@ -291,7 +291,7 @@ Dla podobnych statusów
 [Global status]
 Globalny status
 [Single account]
-Pojedyncze konto
+Jedno konto
 [Cycle icons]
 Zamieniaj ikony
 [All accounts]
@@ -303,13 +303,11 @@ Zmieniaj co (s)
 [Additional stuff]
 Pozostałe ustawienia
 [Ignore empty extra icons places (arrange to right).]
-Ignoruj puste miejsca na dodatkowe ikony (rozmieść w prawo)
+Ignoruj puste miejsca dodatkowych ikon (rozmieść w prawo)
 [Allow internal requesting of status message text]
 Akceptuj wewnętrzne prośby o treść opisu
 [Remove status message if contact became offline]
 Usuń opis, jeśli kontakt się rozłączy
-[Use improved search method in contact list]
-Użyj ulepszonej metody wyszukiwania na liście kontaktów
 [Metacontacts stuff]
 Elementy metakontaktów
 [Use 'Meta' protocol icons for metacontacts]
@@ -359,7 +357,7 @@ Nieaktywne okno:
 [Active opacity:]
 Aktywne okno:
 [Enable drop shadow (restart required)]
-Włącz cieniowanie (wymaga restartu)
+Cieniowanie (wymaga ponownego uruchomienia)
 [Frames]
 Ramki
 [Gaps between frames:]
@@ -375,7 +373,7 @@ Tryb Non-layered
 [Disable skin engine]
 Wyłącz silnik skórkowania
 [Enable Aero Glass (Vista, Win 7)]
-Włącz Aero Glass (Vista, Win 7)
+Aero Glass (Vista, Win 7)
 [Order of items:]
 Kolejność wyświetlania:
 [Minimum row height:]

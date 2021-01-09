@@ -108,7 +108,7 @@ Błąd otwierania lub tworzenia pliku:\n
 [Max line width must be at least %d. Or use 0 for no limit.]
 Maksymalna szerokość linii musi być co najmniej %d. 0 dla braku limitu.
 [You need to restart Miranda to change the history function]
-Musisz zrestartować Mirandę aby zmienić funkcję historii
+Musisz uruchomić ponownie Mirandę aby zmienić funkcję historii
 [Executable files]
 Pliki wykonywalne
 [All files]

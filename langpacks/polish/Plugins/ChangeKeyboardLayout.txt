@@ -27,7 +27,7 @@ Zapisuj operacje
 [Copy result to clipboard]
 Kopiuj rezultat do schowka
 [Show result in Popup]
-Pokaż wynik w popupie
+Pokaż wynik w powiadomieniu
 [Strings for keyboard layouts]
 Ciągi dla układów klawiatur
 [Default]
@@ -45,11 +45,11 @@ Zmień aktywny układ klawiatury w systemie
 [Colors]
 Kolory
 [Use default colors]
-Użyj domyślnych kolorów
+Domyślne kolory
 [Use Windows colors]
-Użyj kolorów Windows
+Kolory Windows
 [Use custom colors]
-Użyj niestandardowych kolorów
+Niestandardowe kolory
 [Back]
 Tło
 [Text]
@@ -57,7 +57,7 @@ Tekst
 [Timeout]
 Wyświetlaj
 [Permanent]
-Stałe
+Trwale
 [Custom]
 Niestandardowe
 [On left click]
@@ -78,7 +78,7 @@ Zmienianie wielkości liter
 [Message sessions]
 Okno rozmowy
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 ;file \plugins\ChangeKeyboardLayout\src\stdafx.h
 [ChangeKeyboardLayout]

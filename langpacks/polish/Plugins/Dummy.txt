@@ -19,7 +19,7 @@ Tekst unikalnego ID:
 [Visible name of unique identifier of contacts]
 Widoczna nazwa unikalnego identyfikatora kontaktów
 [Restart is required to apply these changes.]
-Do zastosowania tych zmian wymagany jest restart.
+Do zastosowania tych zmian wymagane jest ponowne uruchomienie.
 [Allow sending messages to contacts]
 Zezwól wysyłać wiadomości do kontaktów
 ;file \protocols\Dummy\src\dummy.h

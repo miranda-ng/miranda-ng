@@ -13,7 +13,7 @@ Uruchom profil
 [Change profile]
 Zmień profil
 [Restart]
-Restart
+Uruchom ponownie
 [Profile manager]
 Menedżer profili
 [Database]

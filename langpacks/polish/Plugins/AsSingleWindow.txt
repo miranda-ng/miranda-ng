@@ -17,7 +17,7 @@ Lista kontaktów po prawej
 [Don't merge windows]
 Nie łącz okien
 [At opening one more message window]
-Przy otwieraniu kolejnego okna wiadomości
+Otwieranie kolejnego okna wiadomości
 [Merge windows in opening order]
 Łącz okna w kolejności otwierania
 [Merge only first window]

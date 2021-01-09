@@ -65,7 +65,7 @@ Pozostaw tytuł ostatnio słuchanego utworu po wyłączeniu odtwarzacza
 [Enable status messages parsing by Variables plugin]
 Włącz przetwarzanie opisu przez wtyczkę Variables
 [Exclude %date% token from parsing (restart required)]
-Wyłącznie token %date% z parsowania (wymaga restartu)
+Wyłącznie token %date% z parsowania (wymaga ponownego uruchomienia)
 [Layout]
 Układ
 [Show status list]

@@ -127,25 +127,25 @@ Nie pokazuj sekund
 [Mail Notifications]
 Powiadomienie
 [Popup]
-Popup
+Powiadomienia
 [Single popup]
-Jeden popup
+Jedno powiadomieni
 [Multi popup]
-Więcej popupów
+Więcej powiadomień
 [Use custom color]
 Użyj niestandardowych kolorów
 [No new mail notifications]
 Powiadomienie o braku nowych wiadomości e-mail
 [Popup if no mail]
-Popup jeśli brak e-maili
+Powiadomienie jeśli brak e-maili
 [Persistent message]
 Stała wiadomość
 [Connection failure notifications]
 Powiadomienia o niepowodzeniu połączenia
 [Popup notification if failed]
-Popup gdy niepowodzenie
+Powiadomienie gdy niepowodzenie
 [..s Popup duration]
-.. czas trwania popupu
+.. czas trwania powiadomienia
 [Preview]
 Podgląd
 [Background color]
@@ -320,7 +320,7 @@ Ogólne
 [Plugins]
 Wtyczki
 [Popups]
-Popupy
+Powiadomienia
 [No account selected]
 Nie zaznaczono konta
 [Time left to next check [s]: %d]

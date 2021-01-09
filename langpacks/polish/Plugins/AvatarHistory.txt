@@ -6,7 +6,7 @@
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
-Wtyczka ta przechowuje kopie zapasowe awatarów wszystkich twoich kontaktów i/lub pokazuje popup.
+Wtyczka ta przechowuje kopie zapasowe awatarów wszystkich twoich kontaktów i/lub pokazuje powiadomienia.
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Save as...]
 Zapisz jako...
@@ -25,7 +25,7 @@ Przechowuj stare awatary tego kontaktu na dysku
 [Log this user's avatars changes to history]
 Zapisuj zmiany awatara tego kontaktu w historii
 [Show popups for this user]
-Pokaż popupy dla tego użytkownika
+Pokaż popowiadomienia dla tego użytkownika
 [Protocols]
 Protokoły
 [Enable tracking for these protocols:]
@@ -33,7 +33,7 @@ Włącz śledzenie dla protokołów:
 [Metacontacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
 Meta kontakty zachowują się w specyficzny sposób: informacje są kopiowane z subkontaktów (powiadomienia z meta są ignorowane)
 [Show popup when a contact change his avatar]
-Pokaż popup kiedy kontakt zmieni swój awatar
+Pokaż powiadomienia kiedy kontakt zmieni swój awatar
 [Colors]
 Kolory
 [Background color]
@@ -47,11 +47,11 @@ Użyj domyślnych kolorów
 [Timeout]
 Wyświetlaj
 [Default]
-Domyślny
+Domyślnie
 [Custom]
-Niestandardowe
+Niestandardowo
 [Permanent]
-Stałe
+Trwale
 [Actions]
 Akcje
 [On right click:]
@@ -149,7 +149,7 @@ Historia
 [Avatar]
 Awatar
 [Popups]
-Popupy
+Powiadomienia
 [Avatar change]
 Zmiana awataru
 ;file \plugins\AvatarHistory\src\stdafx.h

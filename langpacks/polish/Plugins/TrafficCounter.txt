@@ -31,7 +31,7 @@ Kolor tekstu:
 [Reset to default]
 Domyślne ustawienia
 [Popup timeout]
-Opóźnienie
+Wyświetlaj
 [Default]
 Domyślny
 [Custom]
@@ -96,7 +96,7 @@ Licznik transferu
 [Statistics]
 Statystyki
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Bajty

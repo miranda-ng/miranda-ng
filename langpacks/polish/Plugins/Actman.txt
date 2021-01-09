@@ -628,11 +628,11 @@ Ignoruj kontakt
 [Unignore Contact]
 Przestań ignorować kontakt
 [restart in default profile or profile manager]
-Restartuj do profilu domyślnego lub menedżera profili
+Uruchom ponownie w domyślnym profilu lub menedżerze profili
 [restart with current profile]
-Restartuj do obecnego profilu
+Uruchom ponownie w obecnym profilu
 [Restarts Miranda]
-Restartuje Mirandę
+Uruchamia ponownie Mirandę
 [Station name]
 Nazwa stacji
 [wParam is Handle]
@@ -676,7 +676,7 @@ Opróżnij folder pobranych Updatera
 [Popup plus (PopupPlus.dll) latest StdPopup (StdPopup.dll)]
 Popup plus (PopupPlus.dll) najnowszy StdPopup (StdPopup.dll)
 [Enables or disables popup windows]
-Włącza lub wyłącza okienka popup
+Włącza lub wyłącza okienka powiadomień
 [Notify]
 Powiadomienia
 [StdPopup or Popup plus]
@@ -686,7 +686,7 @@ Wyskakujące okno
 [Unicode Text]
 Tekst Unicode
 [Enables or disables popup windows (maybe deprecated)]
-Włącza lub wyłącza okienka typu popup (może być porzucone)
+Włącza lub wyłącza okienka powiadomień (może być porzucone)
 [result of protocol service call]
 wynik wywołania usługi protokołu
 [Send a general request through the protocol chain for a contact]
@@ -748,7 +748,7 @@ Zwraca ciąg zawierający post versioninfo
 [Show or save (call default action) Modules version Info]
 Pokaż lub zapisz moduły versioninfo (wywołuje domyślną akcję)
 [Show popup or Info window with current music information.]
-Pokaż popup lub okienko informacyjne z aktualnie słuchanym utworem.
+Pokaż powiadomienie z aktualnie słuchanym utworem.
 [log filename]
 nazwa pliku dziennika
 [report filename]

@@ -9,6 +9,6 @@
 Dodaje do menu głównego, i menu w zasobniku systemowym, opcję restartu.
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
-Restart
+Uruchom ponownie
 [Restart Plugin]
-Restart
+Wtyczka Restart

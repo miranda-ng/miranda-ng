@@ -27,15 +27,15 @@ Opcje aktualizacji
 [On startup]
 Przy starcie
 [(but only once a day)]
-(ale tylko raz dziennie)
+(tylko raz dziennie)
 [Every]
 Co
 [Silent mode]
 Tryb cichy
 [Restart Miranda automatically]
-Uruchom ponownie Mirandę automatycznie
+Automatycznie uruchamiaj ponownie
 [Backup database before update (requires Db_autobackups plugin)]
-Rób kopię bazy danych przed aktualizacją (wymaga wtyczki Db_autobackups)
+Twórz kopię bazy danych przed aktualizacją (wymaga wtyczki Db_autobackups)
 [Number of backups to keep:]
 Liczba trzymanych kopii zapasowych:
 [Files source]
@@ -55,11 +55,11 @@ Zmień platformę na 32-bit
 [Use HTTPS]
 Używaj HTTPS
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-Niektóre komponenty zostały zaktualizowane.\nMusisz zrestartować Mirandę, aby zainstalować pobrane aktualizacje.
+Niektóre komponenty zostały zaktualizowane.\nMusisz ponownie uruchomić program, aby zainstalować pobrane aktualizacje.
 [Notifications]
 Powiadomienia
 [Restart]
-Restart
+Uruchom ponownie
 [Errors]
 Błędy
 [Info messages]
@@ -75,7 +75,7 @@ Użyj nie&standardowych kolorów
 [Use &Windows colors]
 Użyj kolorów &Windows
 [Use defa&ult colors]
-&Używaj domyślnych kolorów
+&Użyj domyślnych kolorów
 [Preview]
 Podgląd
 [Click action]
@@ -93,9 +93,9 @@ Wyświetlaj
 [Sec]
 s
 [For "Restart" popup setting is always infinity]
-Nie ustawiony na "Restart"
+Dla "Uruchom ponownie" zawsze "nie chowaj"
 [Popups]
-Popupy
+Powiadomienia
 [Component list]
 Lista komponentów
 [Here is the complete list of missing Miranda NG components. Check components that you want to download.\n\nClick on info icon to view component info page.]
@@ -139,7 +139,7 @@ Zostanie usunięty!
 [Unpack operation failed with error code=%d, update terminated]
 Rozpakowywanie nie powiodło się, kod błędu=%d, aktualizacja zakończona
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
-Aktualizacja zakończona. Wciśnij "Tak", aby zrestartować Mirandę teraz lub "Nie", żeby zrobić to później.
+Aktualizacja zakończona. Wciśnij "Tak", aby uruchomić ponownie Mirandę teraz lub "Nie", żeby zrobić to później.
 [Miranda NG Core]
 Rdzeń Mirandy NG
 [Deprecated!]
@@ -153,7 +153,7 @@ Aktualizacja nie powiodła się! Jeden z komponentów nie został prawidłowo po
 [%d component(s) was updated]
 Zaktualizowano %d komponentów
 [You need to restart your Miranda to apply installed updates.]
-Musisz zrestartować Mirandę, aby zainstalować aktualizacje.
+Musisz uruchomić ponownie Mirandę, aby zainstalować aktualizacje.
 [Checking for new updates...]
 Sprawdzanie aktualizacji...
 [No updates found.]
@@ -178,7 +178,7 @@ dni
 [Change platform to 64-bit]
 Zmień platformę na 64-bit
 [Close popup]
-Zamknij popup
+Zamknij powiadomienie
 [Do nothing]
 Nic nie rób
 [Test]

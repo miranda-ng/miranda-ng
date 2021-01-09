@@ -29,7 +29,7 @@ Włącz menu szybkich odp.
 [Consider as ServiceName]
 Użyj jako nazwę usługi
 [You have changed the plugin settings via database.\nThis requires restart!]
-Zmieniłeś ustawienia w bazie danych.\nWymagany restart!
+Zmieniłeś ustawienia w bazie danych.\nWymagane ponowne uruchomienie!
 [Quick Messages Help]
 Pomoc
 [- Selected text]

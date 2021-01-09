@@ -43,7 +43,7 @@ Automatycznie wyślij do kontaktu link do pobrania pliku
 [Menu items]
 Elementy menu
 [Use submenu (restart required)]
-Użyj podmenu (wymagany restart)
+Użyj podmenu (wymagane ponowne uruchomienie)
 [Hide inactive accounts]
 Ukryj nieaktywne konta
 [Other]

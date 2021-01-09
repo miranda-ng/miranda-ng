@@ -6,7 +6,7 @@
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
-Dostarcza usługi powiadomień popup dla innych wtyczek.
+Dostarcza usługi powiadomień dla innych wtyczek.
 ;file \plugins\Popup\res\resource.rc
 [Content and Style]
 Zawartość i wygląd
@@ -23,7 +23,7 @@ Rozmiar i pozycja
 [History]
 Historia
 [Enable popup history]
-Włącz historię popupów
+Włącz historię powiadomień
 [Store last]
 Trzymaj
 [events]
@@ -47,7 +47,7 @@ Włącz aktualizację awatarów
 [Multimonitor]
 Wiele monitorów
 [Start the popups in the monitor with]
-Pokaż popupy na monitorze zawierającym
+Pokaż powiadomienia na monitorze zawierającym
 [Miranda's window]
 Okno Mirandy
 [the active window]
@@ -61,7 +61,7 @@ Widoczność:
 [Opaque popups under cursor]
 Wyłącz pod kursorem
 [Slide popup]
-Przeciągnij popup
+Przeciągnij powiadomienie
 [Effect:]
 Efekt:
 [Time (in):]
@@ -83,15 +83,15 @@ Podgląd
 [Download more skins]
 Pobierz więcej skórek
 [Popup history]
-Historia popupów
+Historia powiadomień
 [Desktop]
 Pulpit
 [Popup area]
-Obszar popupu
+Obszar powiadomień
 [pixel(s)]
 px
 [Distance between popups]
-Odległość pomiędzy popupami
+Odległość pomiędzy powiadomieniami
 [Configure popup area]
 Przestrzeń wyświetlania
 [Close]
@@ -99,9 +99,9 @@ Zamknij
 [General]
 Ogólne
 [Enable popup actions]
-Włącz akcje popupów
+Włącz akcje powiadomień
 [Popup actions are those tiny buttons below notification text.]
-Akcje popupu to te małe przyciski pod tekstem powiadomienia
+Akcje powiadomień to te małe przyciski pod tekstem powiadomienia.
 [Common actions]
 Popularne akcje
 [Please choose in what cases default actions should be added:]
@@ -111,13 +111,13 @@ Dodaj info i menu tylko dla kontaktów
 [Add default actions for contacts only]
 Domyślne akcje tylko dla kontaktów
 [Don't close popups on default actions]
-Nie zamykaj popupów przy akcjach
+Nie zamykaj powiadomień przy akcjach
 [Size and position]
 Rozmiar i położenie
 [Use large icons]
 Użyj dużych ikon
 [Popup actions will be displayed as:]
-Akcje popupów będą wyświetlane jako:
+Akcje powiadomień będą wyświetlane jako:
 [Icons and labels below text]
 Ikony i etykiety pod tekstem
 [Icons on the left]
@@ -175,15 +175,15 @@ Pokaż domyślnie
 [Default timeout]
 Domyślny czas oczekiwania
 [Infinite popup delay]
-Nie chowaj popupów
+Nie chowaj powiadomień
 [Popup delay:]
 Wyświetlaj:
 [seconds]
 s
 [Do not close hovered popups]
-Nie zamykaj aktywnych popupów
+Nie zamykaj aktywnych powiadomień
 [Dynamically resize the popups]
-Automatyczny rozmiar popupów
+Automatyczny rozmiar powiadomień
 [Minimum width]
 Min. szerokość
 [Maximum width]
@@ -193,7 +193,7 @@ Pozycja:
 [Layout:]
 Ułożenie:
 [Reorder popups]
-Zmień kolejność popupów
+Zmień kolejność powiadomień
 [Disable when:]
 Wyłącz, kiedy:
 [Always (has priority)]
@@ -214,9 +214,9 @@ Menu kontaktu
 [Add permanently]
 Dodaj na stałe
 [Pin popup]
-Przypnij popup
+Przypnij powiadomienie
 [Dismiss popup]
-Odrzuć popup
+Odrzuć powiadomienie
 [Copy to clipboard]
 Kopiuj do schowka
 [No overwrite]
@@ -243,7 +243,7 @@ To jest wiadomość z błędem
 Blaknięcie
 ;file \plugins\Popup\src\font.h
 [Popups]
-Popupy
+Powiadomienia
 [Title]
 Tytuł
 [Clock]
@@ -264,9 +264,9 @@ Podkreślony tytuł
 Granica awatara
 ;file \plugins\Popup\src\history.cpp
 [Popup history is disabled]
-Historia popupów jest wyłączona
+Historia powiadomień jest wyłączona
 [Popup history message]
-Historia popupów
+Historia powiadomień
 ;file \plugins\Popup\src\icons.cpp
 [With "favorite" overlay]
 Nakładka "ulubione"
@@ -281,11 +281,11 @@ Błąd
 [Refresh skin list]
 Odśwież listę skórek
 [Popup placement]
-Położenie popupu
+Położenie powiadomień
 [Cancel]
 Anuluj
 [Popup group]
-Grupa popupu
+Grupa powiadomień
 [Favorite contact]
 Ulubiony kontakt
 [Show in fullscreen]
@@ -293,7 +293,7 @@ Pokaż na pełnym ekranie
 [Blocked contact]
 Zablokowany kontakt
 [Pinned popup]
-Przypięty popup
+Przypięte powiadomienie
 [Add contact permanently]
 Dodaj kontakt na stałe
 ;file \plugins\Popup\src\main.cpp
@@ -306,13 +306,13 @@ Kontakty
 [Advanced]
 Zaawansowane
 [Toggle popups]
-Włącz/wyłącz popupy
+Włącz/wyłącz powiadomienia
 [Enable popups]
-Włącz popupy
+Włącz powiadomienia
 [Disable popups]
-Wyłącz popupy
+Wyłącz powiadomienia
 [Popup Plus]
-Popupy
+Popup Plus
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 Błąd: Nie mogłem zarejestrować klasy okna Popup\r\nWtyczka nie będzie działać.
 ;file \plugins\Popup\src\opt_adv.cpp
@@ -363,7 +363,7 @@ Status protokołu
 [You cannot specify a value lower than %d and higher than %d.]
 Nie możesz ustawić wartości niższej niż %d ani wyższej niż %d.
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-Opcja "Zmień kolejność popupów" jest obecnie wyłączona.\r\nTo może spowodować nieprawidłowo wyrównane Popupy w połączeniu z\r\nawatarami and zamianą tekstu\ngłównie NewXstatusNotify).\r\n\r\nCzy chcesz teraz włączyć zmianę kolejności popupów?\r\n
+Opcja "Zmień kolejność powiadomień" jest obecnie wyłączona.\r\nTo może spowodować nieprawidłowe wyrównane powiadomienia w połączeniu z\r\nawatarami i zamianą tekstu\n(głównie NewXstatusNotify).\r\n\r\nCzy chcesz teraz włączyć zmianę kolejności powiadomień?\r\n
 [Popup plus warning]
 Ostrzeżenie Popup plus
 ;file \plugins\Popup\src\opt_skins.cpp
@@ -398,10 +398,10 @@ Ulubiony
 [Block]
 Blokuj
 [Popup Mode: Auto]
-Tryb Popup: Auto
+Tryb powiadomień: Auto
 [Popup Mode: Favorite]
-Tryb popupów: ulubione
+Tryb powiadomień: Ulubione
 [Popup Mode: Ignore fullscreen]
-Tryb Popup: Ignoruj pełny ekran
+Tryb powiadomień: Ignoruj pełny ekran
 [Popup Mode: Block contact]
-Tryb Popup: Zablokuj kontakt
+Tryb powiadomień: Zablokuj kontakt

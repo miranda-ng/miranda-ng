@@ -39,9 +39,9 @@ Automatycznie rozwijaj ustawienia podczas startu Database Editor++
 [Warn when deleting modules]
 Ostrzeż przed usuwaniem modułów
 [Use popups when watched settings change values]
-Użyj popupów kiedy oglądane ustawienia zmieniają wartość.
+Użyj powiadomień kiedy oglądane ustawienia zmieniają wartość
 [Popup timeout (0 for infinite)]
-Wyświetlania (0 - nie chowaj)
+Wyświetlaj (0 - nie chowaj)
 [Background color]
 Kolor tła
 [Add a module to contact]

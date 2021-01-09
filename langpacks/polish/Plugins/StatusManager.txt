@@ -27,7 +27,7 @@ Info: Musisz ponownie uruchomić Mirandę NG aby wprowadzić zmiany.
 [General]
 Ogólne
 [Show popups]
-Pokaż popupy
+Pokaż powiadomienia
 [Account connection]
 Połączenie konta
 [Check connection]
@@ -165,7 +165,7 @@ PPM
 [Do nothing]
 Nic nie rób
 [Close popup]
-Zamknij popup
+Zamknij powiadomienie
 [Cancel reconnecting]
 Anuluj ponowne łączenie
 [Colors]
@@ -187,9 +187,9 @@ Domyślny
 [Custom]
 Niestandardowe
 [Permanent]
-Stałe
+Trwale
 [Show additional information in popups]
-Pokaż dodatkowe informacje w popupach
+Pokaż dodatkowe informacje w powiadomieniach
 [Use Miranda's message setting]
 Użyj ustawień opisu Mirandy
 [Use this message:]
@@ -331,7 +331,7 @@ Podstawowe
 [Advanced]
 Zaawansowane
 [Popups]
-Popupy
+Powiadomienia
 ;file \plugins\StatusManager\src\options.cpp
 [Status manager]
 Menedżer statusu

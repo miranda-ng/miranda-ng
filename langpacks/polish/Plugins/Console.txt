@@ -23,9 +23,9 @@ Długość wiersza [25-255]
 [Log size limit [1 000 - 1 000 000 lines]]
 Limit wielkości dziennika [1 000 - 1 000 000 linii]
 [* Restart needed]
-* Wymagany restart
+* Wymagane ponowne uruchomienie
 [Save settings and restart console]
-Zapisz ustawienia i zrestartuj konsolę
+Zapisz ustawienia i uruchom ponownie konsolę
 ;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
 Pokaż/ukryj konsolę
