@@ -41,7 +41,7 @@ Użyj Opcje -> Personalizacja -> Czcionki i kolory, by zmienić rozmiar oraz kol
 [Indent:]
 Wcięcie:
 [Row height:]
-Wysokość wiersza:
+Wysokość:
 [Repeats for success/failure:]
 Odpowiedzi na sukces/porażkę:
 [Attach to contact list]

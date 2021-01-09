@@ -29,17 +29,17 @@ Sprawdzaj co
 [seconds]
 s
 [Force reconnect every]
-Wymuszaj ponowne połączenie co
+Wymuszaj połączenie co
 [minutes]
 minut
 [Check server before trying to connect]
 Sprawdź serwer przed próbą połączenia
 [Try to connect]
-Próbuj się połączyć
+Próba łączenia
 [times before giving up]
 razy przed rezygnacją
 [Show email notifications using popup module]
-Pokazuj powiadomienia o nowej poczcie używając wtyczki Popup
+Powiadomienia o nowej poczcie (wtyczka Popup)
 ;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
 ID wpisu

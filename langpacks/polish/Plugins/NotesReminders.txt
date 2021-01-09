@@ -55,7 +55,7 @@ Data
 [Time]
 Czas
 [Repeat each day]
-
+Powtarzaj codziennie
 [Reminder Note:]
 Treść notatki:
 [None]

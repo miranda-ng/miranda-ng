@@ -57,7 +57,7 @@ Test
 [Transfer limit (Kb/s)]
 Limit transferu (Kb/s)
 [No control when Away or Not available]
-Brak, gdy Zaraz wracam lub Wrócę później
+Brak, gdy Zaraz wracam, Wrócę później
 [Connection control]
 Kontrola połączenia
 [Index creation]

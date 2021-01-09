@@ -11,11 +11,11 @@ Pozwala na pokazanie ekranu startowego przy uruchamianiu Mirandy.
 [Splash Options]
 Opcje ekranu powitalnego
 [Show splash]
-Pokaż ekran powitalny
+Ekran powitalny
 [Show random splash]
 Pokaż losowy ekran powitalny
 [Play sound]
-Odtwarzaj dźwięk
+Odtwórz dźwięk
 [Show Miranda Version]
 Pokaż wersję Mirandy
 [Enable]

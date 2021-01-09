@@ -37,7 +37,7 @@ Przekieruj wiadomości do...
 [Template]
 Szablon
 [%u - user nick;   %i - uin;    %t - time;   \r%d - date;   %m - message]
-%u- nick użytkownika;   %i - UIN;    %t - czas;   \r%d - data;   %m - wiadomość
+%u - nick użytkownika; %i - UIN;\r%t - czas; %d - data; %m - wiadomość
 [Forwarding options]
 Opcje przekierowania
 [Split message (%m)]

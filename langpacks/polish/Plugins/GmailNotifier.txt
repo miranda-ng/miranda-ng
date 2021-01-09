@@ -27,7 +27,7 @@ Sprawdzaj skrzynkę Gmail co
 [minutes]
 minut
 [Notify using:]
-Powiadamiaj przy użyciu:
+Powiadamienia:
 [Duration:]
 Czas trwania:
 [seconds]
@@ -37,7 +37,7 @@ Tekst|Tło:
 [On double click:]
 Po podwójnym kliknięciu:
 [System tray]
-Zasobnik systemowy
+Zasobnik sys.
 [Popup plugin]
 Wtyczka Popup
 [Login using default browser]

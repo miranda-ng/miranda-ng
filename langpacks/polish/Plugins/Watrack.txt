@@ -576,11 +576,11 @@ LPM
 [Right click]
 PPM
 [Use default colors]
-Użyj domyślnych kolorów
+Domyślne kolory
 [Use Windows colors]
-Użyj kolorów Windows
+Kolory Windows
 [Use custom colors]
-Użyj niestandardowych kolorów
+Niestandardowe kolory
 [artist]
 artysta
 [album]

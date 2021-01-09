@@ -29,7 +29,7 @@ s
 [Enable popup notification]
 Włącz powiadomienia
 [Respect ignore settings (status changes)]
-Uwzględnij ignorowanie ustawień (zmiany statusów)
+Ignoruj ustawienia (zmiany statusów)
 [Sending text]
 Wysyłany tekst
 [Receiving text]

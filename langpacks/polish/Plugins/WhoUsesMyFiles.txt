@@ -37,7 +37,7 @@ Użyj niestandardowych kolorów
 [File access filter && logging settings]
 Filtr dostępu do plików i ustawienia logowania
 [Log into text file]
-Zapisuj do pliku tekstowego
+Zapisuj do .txt
 [Log folders access]
 Zapisuj dostęp do folderów
 [Alerts on folders access]

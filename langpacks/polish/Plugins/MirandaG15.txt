@@ -59,9 +59,9 @@ Pokaż krótki opis zdarzenia
 [Size of the log]
 Rozmiar dziennika
 [Notification duration]
-Czas trwania powiadomienia
+Wyświetlaj owiadomienie
 [events]
-Zdarzenia
+zdarzeń
 [seconds]
 sekund
 [Notification types]
@@ -149,7 +149,7 @@ Rozwiń wszystkie grupy
 [Use two columns]
 Używaj dwóch kolumn
 [Fade out selection rectangle]
-Efekt fade out dla kwadratu oznaczającego wybór
+Efekt zanikania zaznaczenia
 [Typing notifications]
 Powiadomienia o pisaniu
 [Show typing notifications]
@@ -185,7 +185,7 @@ Odpowiadanie
 [Show line break indicators]
 Pokaż wskaźniki końca linii
 [Send messages with Enter, insert line breaks with Ctrl+Enter]
-Wysyłaj wiadomość po wciśnięciu enteru, wstawiaj nową linię po wciśnięciu Ctrl+Enter
+Wysyłaj wiadomość po wciśnięciu Enter, wstawiaj nową linię po wciśnięciu Ctrl+Enter
 [Maximized replying]
 Zmaksymalizowane odpowiadanie
 [Close chat after]

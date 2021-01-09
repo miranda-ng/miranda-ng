@@ -17,7 +17,7 @@ Przychodzące wiadomości
 [Incoming files]
 Przychodzące pliki
 [Groupchat messages]
-
+Wiadomości grupowe
 [Everything else]
 Pozostałe
 [Message-Event only]

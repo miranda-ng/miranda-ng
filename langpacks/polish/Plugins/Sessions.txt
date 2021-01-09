@@ -9,7 +9,7 @@
 Menedżer sesji dla Mirandy NG.
 ;file \plugins\Sessions\res\Sessions.rc
 [Action on Startup]
-Akcje podczas startu
+Akcje podczas uruchamiania
 [Open Sessions Manager dialog]
 Otwórz menedżer sesji
 [Restore Last Session]

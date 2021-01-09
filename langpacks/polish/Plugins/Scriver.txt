@@ -31,7 +31,7 @@ Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [seconds]
 s
 [Send message on:]
-
+Wysyła wiadomość:
 [Tabs]
 Karty
 [Enable tabs]

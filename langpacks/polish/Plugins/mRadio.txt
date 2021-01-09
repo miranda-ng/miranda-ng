@@ -138,7 +138,7 @@ Graj/Stop
 [Start/Stop Record]
 Nagrywaj/Przerwij nagrywanie
 [Record]
-Zgrywanie
+Nagrywanie
 [Status message template]
 Szablon opisu
 [Equalizer presets]

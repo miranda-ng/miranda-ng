@@ -37,7 +37,7 @@ Z prawej do lewej jako domyślny kierunek tekstu
 [Search]
 Szukaj
 [&Find next]
-&szukaj następnego
+Na&stępny
 [Cancel]
 Anuluj
 [Text:]

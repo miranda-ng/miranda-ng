@@ -930,9 +930,9 @@ Tryb rozszerzony 1
 [Extended mode 2]
 Tryb rozszerzony 2
 [Selected nicklist background]
-
+Tło zaznaczenia na liście nicków
 [Selected nicklist text]
-
+Tekst zaznaczenia na liście nicków
 [Incremental search highlight]
 Podświetlanie wyszukiwania
 [Fields background]
@@ -1256,7 +1256,7 @@ Wyślij plik
 [Quote message]
 Cytuj wiadomość
 [Clear message area]
-
+Wyczyść pole wiadomości
 [Toggle send later]
 Pokaż wyślij później
 [Send message]

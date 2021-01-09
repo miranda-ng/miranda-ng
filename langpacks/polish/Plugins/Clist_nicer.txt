@@ -43,7 +43,7 @@ Rysuj wtopione krawędzie
 [System tray icon]
 Ikona w zasobniku
 [Single click interface]
-Pokaż/Ukryj listę po pojedynczym kliknięciu
+Pokaż/ukryj listę po pojedynczym kliknięciu
 [Always show status in tooltip]
 Zawsze pokazuj status w podpowiedzi
 [Disable icon blinking]

@@ -45,7 +45,7 @@ O&twórz Folder
 [Link Settings]
 Ustawienia łącza
 [Contact list settings]
-Ustawienia Listy kontaktów
+Ustawienia listy kontaktów
 [Group:]
 Grupa:
 [Status Icon]
