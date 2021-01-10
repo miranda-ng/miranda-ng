@@ -36,7 +36,7 @@ static CQuery evt_stmts[] =
 	{ "SELECT COUNT(1) FROM events_srt WHERE contact_id = ? LIMIT 1;" },
 	{ "INSERT INTO events(contact_id, module, timestamp, type, flags, data, server_id) VALUES (?, ?, ?, ?, ?, ?, ?);" },
 	{ "DELETE FROM events WHERE id = ?;" },
-	{ "UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, blob = ? WHERE id = ?;" },
+	{ "UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, data = ? WHERE id = ?;" },
 	{ "SELECT LENGTH(data) FROM events WHERE id = ? LIMIT 1;" },
 	{ "SELECT module, timestamp, type, flags, length(data), data FROM events WHERE id = ? LIMIT 1;" },
 	{ "SELECT flags FROM events WHERE id = ? LIMIT 1;" },
