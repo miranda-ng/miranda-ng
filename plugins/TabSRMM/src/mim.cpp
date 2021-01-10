@@ -335,7 +335,7 @@ int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 			}
 		}
 		if (iFound == SendQueue::NR_SENDJOBS)     // no matching send info found in the queue
-			sendLater->processAck(pAck);
+			SendLater::processAck(pAck);
 		else                                      // try to find the process handle in the list of open send later jobs
 			SendMessage(jobs[iFound].hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(iFound, i), lParam);
 	}

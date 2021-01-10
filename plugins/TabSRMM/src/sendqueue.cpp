@@ -231,7 +231,7 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 
 		sendQueue->clearJob(iEntry);
 		if (iJobs)
-			sendLater->flushQueue(); // force queue processing
+			SendLater::flushQueue(); // force queue processing
 		return 0;
 	}
 
@@ -535,12 +535,10 @@ LRESULT SendQueue::WarnPendingJobs(unsigned int)
 
 int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bool fIsSendLater)
 {
-	bool  fAvail = sendLater->isAvail();
-
 	const wchar_t *szNote = nullptr;
 
 	if (fIsSendLater && dat) {
-		if (fAvail)
+		if (SendLater::Avail)
 			szNote = TranslateT("Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.");
 		else
 			szNote = TranslateT("The send later feature is not available on this protocol.");
@@ -565,7 +563,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 		SendDlgItemMessage(dat->GetHwnd(), IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Close session"), BATF_UNICODE);
 		dat->m_bSaveBtn = false;
 
-		if (!fAvail)
+		if (!SendLater::Avail)
 			return 0;
 	}
 
@@ -595,7 +593,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 	}
 	else {
 		mir_snprintf(tszMsg, required, "%s%s", utf_header.get(), job->szSendBuffer);
-		sendLater->addJob(tszMsg, (void*)hContact);
+		SendLater::addJob(tszMsg, (void*)hContact);
 	}
 	mir_free(tszMsg);
 
@@ -603,7 +601,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 		int iCount = db_get_dw(hContact ? hContact : job->hContact, "SendLater", "count", 0);
 		iCount++;
 		db_set_dw(hContact ? hContact : job->hContact, "SendLater", "count", iCount);
-		sendLater->addContact(hContact ? hContact : job->hContact);
+		SendLater::addContact(hContact ? hContact : job->hContact);
 	}
 	return iJobIndex;
 }

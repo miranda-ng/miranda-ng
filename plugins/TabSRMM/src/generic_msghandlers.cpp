@@ -363,7 +363,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_ERASENOW | RDW_UPDATENOW);
 			break;
 		case ID_SENDMENU_SENDLATER:
-			if (sendLater->isAvail())
+			if (SendLater::Avail)
 				m_sendMode ^= SMODE_SENDLATER;
 			else
 				CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION);
@@ -689,7 +689,7 @@ void CMsgDialog::DM_UpdateLastMessage() const
 
 HWND CMsgDialog::DM_CreateClist()
 {
-	if (!sendLater->isAvail()) {
+	if (!SendLater::Avail) {
 		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION);
 		m_sendMode &= ~SMODE_MULTIPLE;
 		return nullptr;

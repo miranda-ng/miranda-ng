@@ -650,6 +650,12 @@ static INT_PTR ReloadSettings(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR svcQMgr(WPARAM, LPARAM)
+{
+	SendLater::invokeQueueMgrDlg();
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // initialises the internal API, services, events etc...
 
@@ -664,7 +670,7 @@ static void TSAPI InitAPI()
 	CreateServiceFunction("TabSRMsg/ReloadSettings", ReloadSettings);
 
 	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
-	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
+	CreateServiceFunction(MS_TABMSG_SLQMGR, svcQMgr);
 
 	SI_InitStatusIcons();
 }
@@ -685,7 +691,6 @@ int LoadSendRecvMessageModule(void)
 	PluginConfig.hUserPrefsWindowList = WindowList_Create();
 	sendQueue = new SendQueue;
 	Skin = new CSkin;
-	sendLater = new CSendLater;
 
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 

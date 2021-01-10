@@ -265,7 +265,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_TABMSG_SETUSERPREFS;
 	PluginConfig.m_UserMenuItem = Menu_AddContactMenuItem(&mi);
 
-	if (sendLater->isAvail()) {
+	if (SendLater::Avail) {
 		SET_UID(mi, 0x8f32b04e, 0x314e, 0x42eb, 0x89, 0xc6, 0x56, 0x21, 0xf5, 0x1a, 0x2f, 0x22);
 		mi.position = -500050006;
 		mi.hIcolibItem = nullptr;
@@ -461,7 +461,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 	for (auto &hContact : Contacts()) {
 		if (db_get_dw(hContact, "SendLater", "count", 0))
-			sendLater->addContact(hContact);
+			SendLater::addContact(hContact);
 
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = {};

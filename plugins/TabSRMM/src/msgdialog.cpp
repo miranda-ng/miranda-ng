@@ -1423,7 +1423,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			PostMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_PIC, BN_CLICKED), 0);
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_TOGGLESENDLATER:
-			if (sendLater->isAvail()) {
+			if (SendLater::Avail) {
 				m_sendMode ^= SMODE_SENDLATER;
 				SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
 					SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);

@@ -35,87 +35,22 @@
 #define TIMEOUT_SENDLATER 10000
 #define TIMEOUT_SENDLATER_TICK 200
 
-struct CSendLaterJob
-{
-	// job status/error codes
-	enum {
-		INVALID_CONTACT = 'I',
-		JOB_DEFERRED = 'D',
-		JOB_AGE = 'O',
-		JOB_MYSTATUS = 'M',
-		JOB_STATUS = 'S',
-		JOB_WAITACK = 'A',
-		JOB_REMOVABLE = 'R',
-		JOB_HOLD = 'H',
-	};
-
-	// internal flags
-	enum {
-		SLF_SUSPEND = 1,
-		SLF_INVALID = 2
-	};
-
-	void	readFlags();
-	void	writeFlags();
-	void	cleanDB();
-	bool	isPersistentJob();
-	bool	mustDelete();
-
-	CSendLaterJob();
-	~CSendLaterJob();
-
-	char     szId[20];            // database key name (time stamp of original send)
-	MCONTACT hContact;            // original contact where the message has been assigned
-	MCONTACT hTargetContact;      // *real* contact (can be different for metacontacts, e.g).
-	HANDLE   hProcess;            // returned from the protocols sending service. needed to find it in the ACK handler
-	time_t   created;             // job was created at this time (important to kill jobs, that are too old)
-	time_t   lastSent;            // time at which the delivery was initiated. used to handle timeouts
-	char    *sendBuffer;          // utf-8 send buffer
-	PBYTE    pBuf;                // conventional send buffer (for non-utf8 protocols)
-	DWORD    dwFlags;
-	int      iSendCount;          // # of times we tried to send it...
-	bool     fSuccess, fFailed;
-	BYTE     bCode;               // error/progress code (for the UI)
+enum {
+	SENDLATER_AGE_THRESHOLD = (86400 * 3),				// 3 days, older messages will be removed from the db.
+	SENDLATER_RESEND_THRESHOLD = 180,					// timeouted messages should be resent after that many seconds
+	SENDLATER_PROCESS_INTERVAL = 50						// process the list of waiting job every this many seconds
 };
 
-class CSendLater
+namespace SendLater
 {
-	friend class CSendLaterDlg;
+	void   shutDown();
 
-	void    processSingleContact(const MCONTACT hContact);
-	int     sendIt(CSendLaterJob *job);
-
-	LIST<void> m_sendLaterContactList;
-	LIST<CSendLaterJob> m_sendLaterJobList;
-
-	CMOption<bool> m_fAvail, m_fErrorPopups, m_fSuccessPopups;
-
-	bool     m_fIsInteractive = false;
-	time_t   m_last_sendlater_processed;
-	int      m_currJob = -1;
-
-public:
-	enum {
-		SENDLATER_AGE_THRESHOLD = (86400 * 3),				// 3 days, older messages will be removed from the db.
-		SENDLATER_RESEND_THRESHOLD = 180,					// timeouted messages should be resent after that many seconds
-		SENDLATER_PROCESS_INTERVAL = 50						// process the list of waiting job every this many seconds
-	};
-
-	CSendLater();
-	~CSendLater();
-	
-	__inline bool   isAvail() { return m_fAvail; }
-	__inline bool   haveErrorPopups() { return m_fErrorPopups; }
-	__inline bool   haveSuccessPopups() { return m_fSuccessPopups; }
-
-	__inline bool   isInteractive() const { return m_fIsInteractive; }
-	__inline bool   isJobListEmpty() const { return m_sendLaterJobList.getCount() == 0; }
-	__inline time_t lastProcessed() const { return m_last_sendlater_processed; }
-	__inline void   setLastProcessed(const time_t _t) { m_last_sendlater_processed = _t; }
-	__inline void   flushQueue() { m_last_sendlater_processed = 0; }
-	__inline bool   haveJobs() const { return (m_sendLaterJobList.getCount() != 0 && m_currJob != -1); }
-
-	static int _cdecl addStub(const char *szSetting, void *lParam);
+	bool   isInteractive();
+	bool   isJobListEmpty();
+	time_t lastProcessed();
+	void   setLastProcessed(const time_t _t);
+	void   flushQueue();
+	bool   haveJobs();
 
 	bool   processCurrentJob();
 	void   processContacts();
@@ -126,9 +61,8 @@ public:
 
 	void   invokeQueueMgrDlg();
 	void   qMgrUpdate(bool fReEnable = false);
-	static INT_PTR svcQMgr(WPARAM wParam, LPARAM lParam);
-};
 
-extern CSendLater *sendLater;
+	extern CMOption<bool> Avail, ErrorPopups, SuccessPopups;
+};
 
 #endif /* __SENDLATER_H */

@@ -88,8 +88,8 @@ int CMPlugin::Unload()
 	Skin->setupTabCloseBitmap(true);
 	Skin->UnloadAeroTabs();
 	CleanTempFiles();
+	SendLater::shutDown();
 	delete Skin;
-	delete sendLater;
 	delete sendQueue;
 	return iRet;
 }

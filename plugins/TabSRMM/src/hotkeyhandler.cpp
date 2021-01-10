@@ -393,17 +393,17 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendMessage(pCont->m_hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
 
 			// process send later contacts and jobs, if enough time has elapsed
-			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
-				sendLater->setLastProcessed(time(0));
+			if (SendLater::Avail && !SendLater::isInteractive() && (time(0) - SendLater::lastProcessed()) > SENDLATER_PROCESS_INTERVAL) {
+				SendLater::setLastProcessed(time(0));
 
 				// check the list of contacts that may have new send later jobs
 				// (added on user's request)
-				sendLater->processContacts();
+				SendLater::processContacts();
 
 				// start processing the job list
-				if (!sendLater->isJobListEmpty()) {
+				if (!SendLater::isJobListEmpty()) {
 					KillTimer(hwndDlg, wParam);
-					sendLater->startJobListProcess();
+					SendLater::startJobListProcess();
 					SetTimer(hwndDlg, TIMERID_SENDLATER_TICK, TIMEOUT_SENDLATER_TICK, nullptr);
 				}
 			}
@@ -413,12 +413,12 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// TODO better timings, possibly slow down when many jobs are in the
 		// queue.
 		else if (wParam == TIMERID_SENDLATER_TICK) {
-			if (!sendLater->haveJobs()) {
+			if (!SendLater::haveJobs()) {
 				KillTimer(hwndDlg, wParam);
 				SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, nullptr);
-				sendLater->qMgrUpdate(true);
+				SendLater::qMgrUpdate(true);
 			}
-			else sendLater->processCurrentJob();
+			else SendLater::processCurrentJob();
 		}
 		break;
 
