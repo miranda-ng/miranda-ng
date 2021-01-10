@@ -151,6 +151,334 @@ CSendLaterJob::~CSendLaterJob()
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Send Later dialog
+
+#define QMGR_LIST_NRCOLUMNS 5
+
+static char *szColFormat = "%d;%d;%d;%d;%d";
+static char *szColDefault = "100;120;80;120;120";
+
+static class CSendLaterDlg *pDialog;
+
+class CSendLaterDlg : public CDlgBase
+{
+	friend class CSendLater;
+
+	CSendLater *m_later;
+	MCONTACT m_hFilter = 0;  // contact handle to filter the qmgr list (0 = no filter, show all)
+	int      m_sel = -1;     // index of the combo box entry corresponding to the contact filter;
+
+	int AddFilter(const MCONTACT hContact, const wchar_t *tszNick)
+	{
+		int lr = m_filter.FindString(tszNick);
+		if (lr == CB_ERR) {
+			lr = m_filter.InsertString(tszNick, -1, hContact);
+			if (hContact == m_hFilter)
+				m_sel = lr;
+		}
+		return m_sel;
+	}
+
+	// fills the list of jobs with current contents of the job queue
+	// filters by m_hFilter (contact handle)
+	void FillList()
+	{
+		wchar_t *formatTime = L"%Y.%m.%d - %H:%M";
+
+		m_sel = 0;
+		m_filter.InsertString(TranslateT("<All contacts>"), -1, 0);
+
+		LVITEM lvItem = { 0 };
+
+		BYTE bCode = '-';
+		unsigned uIndex = 0;
+		for (auto &p : m_later->m_sendLaterJobList) {
+			CContactCache *c = CContactCache::getContactCache(p->hContact);
+
+			const wchar_t *tszNick = c->getNick();
+			if (m_hFilter && m_hFilter != p->hContact) {
+				AddFilter(c->getContact(), tszNick);
+				continue;
+			}
+
+			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
+			wchar_t tszBuf[255];
+			mir_snwprintf(tszBuf, L"%s [%s]", tszNick, c->getRealAccount());
+			lvItem.pszText = tszBuf;
+			lvItem.cchTextMax = _countof(tszBuf);
+			lvItem.iItem = uIndex++;
+			lvItem.iSubItem = 0;
+			lvItem.lParam = LPARAM(p);
+			m_list.InsertItem(&lvItem);
+			AddFilter(c->getContact(), tszNick);
+
+			lvItem.mask = LVIF_TEXT;
+			wchar_t tszTimestamp[30];
+			wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->created));
+			tszTimestamp[29] = 0;
+			lvItem.pszText = tszTimestamp;
+			lvItem.iSubItem = 1;
+			m_list.SetItem(&lvItem);
+
+			wchar_t *msg = mir_utf8decodeW(p->sendBuffer);
+			wchar_t *preview = Utils::GetPreviewWithEllipsis(msg, 255);
+			lvItem.pszText = preview;
+			lvItem.iSubItem = 2;
+			m_list.SetItem(&lvItem);
+			mir_free(preview);
+			mir_free(msg);
+
+			const wchar_t *tszStatusText = nullptr;
+			if (p->fFailed) {
+				tszStatusText = p->bCode == CSendLaterJob::JOB_REMOVABLE ?
+					TranslateT("Removed") : TranslateT("Failed");
+			}
+			else if (p->fSuccess)
+				tszStatusText = TranslateT("Sent OK");
+			else {
+				switch (p->bCode) {
+				case CSendLaterJob::JOB_DEFERRED:
+					tszStatusText = TranslateT("Deferred");
+					break;
+				case CSendLaterJob::JOB_AGE:
+					tszStatusText = TranslateT("Failed");
+					break;
+				case CSendLaterJob::JOB_HOLD:
+					tszStatusText = TranslateT("Suspended");
+					break;
+				default:
+					tszStatusText = TranslateT("Pending");
+					break;
+				}
+			}
+			if (p->bCode)
+				bCode = p->bCode;
+
+			wchar_t tszStatus[20];
+			mir_snwprintf(tszStatus, L"X/%s[%c] (%d)", tszStatusText, bCode, p->iSendCount);
+			tszStatus[0] = p->szId[0];
+			lvItem.pszText = tszStatus;
+			lvItem.iSubItem = 3;
+			m_list.SetItem(&lvItem);
+
+			if (p->lastSent == 0)
+				wcsncpy_s(tszTimestamp, L"Never", _TRUNCATE);
+			else {
+				wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->lastSent));
+				tszTimestamp[29] = 0;
+			}
+			lvItem.pszText = tszTimestamp;
+			lvItem.iSubItem = 4;
+			m_list.SetItem(&lvItem);
+		}
+
+		if (m_hFilter == 0)
+			m_filter.SetCurSel(0);
+		else
+			m_filter.SetCurSel(m_sel);
+	}
+
+	// set the column headers
+	void SetupColumns()
+	{
+		RECT rcList;
+		::GetWindowRect(m_list.GetHwnd(), &rcList);
+		LONG cxList = rcList.right - rcList.left;
+
+		int nWidths[QMGR_LIST_NRCOLUMNS];
+		CMStringA colList(db_get_sm(0, SRMSGMOD_T, "qmgrListColumns", szColDefault));
+		sscanf(colList, szColFormat, &nWidths[0], &nWidths[1], &nWidths[2], &nWidths[3], &nWidths[4]);
+
+		LVCOLUMN	col = {};
+		col.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
+		col.cx = max(nWidths[0], 10);
+		col.pszText = TranslateT("Contact");
+		m_list.InsertColumn(0, &col);
+
+		col.pszText = TranslateT("Original timestamp");
+		col.cx = max(nWidths[1], 10);
+		m_list.InsertColumn(1, &col);
+
+		col.pszText = TranslateT("Message text");
+		col.cx = max((cxList - nWidths[0] - nWidths[1] - nWidths[3] - nWidths[4] - 10), 10);
+		m_list.InsertColumn(2, &col);
+
+		col.pszText = TranslateT("Status");
+		col.cx = max(nWidths[3], 10);
+		m_list.InsertColumn(3, &col);
+
+		col.pszText = TranslateT("Last send info");
+		col.cx = max(nWidths[4], 10);
+		m_list.InsertColumn(4, &col);
+	}
+
+	CCtrlCheck chkSuccess, chkError;
+	CCtrlCombo m_filter;
+	CCtrlListView m_list;
+	CCtrlHyperlink m_link;
+
+public:
+	CSendLaterDlg(CSendLater *pLater) :
+		CDlgBase(g_plugin, IDD_SENDLATER_QMGR),
+		m_later(pLater),
+		m_list(this, IDC_QMGR_LIST),
+		m_link(this, IDC_QMGR_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Send_later"),
+		m_filter(this, IDC_QMGR_FILTER),
+		chkError(this, IDC_QMGR_ERRORPOPUPS),
+		chkSuccess(this, IDC_QMGR_SUCCESSPOPUPS)
+	{
+		m_list.OnBuildMenu = Callback(this, &CSendLaterDlg::onMenu_list);
+		
+		m_filter.OnSelChanged = Callback(this, &CSendLaterDlg::onSelChange_filter);
+
+		chkError.OnChange = Callback(this, &CSendLaterDlg::onChange_Error);
+		chkSuccess.OnChange = Callback(this, &CSendLaterDlg::onChange_Success);
+	}
+
+	bool OnInitDialog() override
+	{
+		pDialog = this;
+		m_hFilter = db_get_dw(0, SRMSGMOD_T, "qmgrFilterContact", 0);
+
+		::SetWindowLongPtr(m_list.GetHwnd(), GWL_STYLE, ::GetWindowLongPtr(m_list.GetHwnd(), GWL_STYLE) | LVS_SHOWSELALWAYS);
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_LABELTIP | LVS_EX_DOUBLEBUFFER);
+		SetupColumns();
+		FillList();
+
+		chkSuccess.SetState(m_later->m_fSuccessPopups);
+		chkError.SetState(m_later->m_fErrorPopups);
+		Show();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		pDialog = nullptr;
+		db_set_dw(0, SRMSGMOD_T, "qmgrFilterContact", m_hFilter);
+
+		// save column widths
+		LVCOLUMN	col = {};
+		col.mask = LVCF_WIDTH;
+		int nWidths[QMGR_LIST_NRCOLUMNS];
+		for (int i = 0; i < QMGR_LIST_NRCOLUMNS; i++) {
+			m_list.GetColumn(i, &col);
+			nWidths[i] = max(col.cx, 10);
+		}
+
+		char szColFormatNew[100];
+		mir_snprintf(szColFormatNew, 100, "%d;%d;%d;%d;%d", nWidths[0], nWidths[1], nWidths[2], nWidths[3], nWidths[4]);
+		::db_set_s(0, SRMSGMOD_T, "qmgrListColumns", szColFormatNew);
+	}
+
+	void onSelChange_filter(CCtrlCombo*)
+	{
+		LRESULT lr = m_filter.GetCurSel();
+		if (lr != CB_ERR) {
+			m_hFilter = m_filter.GetItemData(lr);
+			FillList();
+		}
+	}
+
+	void onMenu_list(CCtrlListView::TEventInfo*)
+	{
+		POINT pt;
+		::GetCursorPos(&pt);
+
+		// copy to clipboard only allowed with a single selection
+		HMENU hSubMenu = ::GetSubMenu(PluginConfig.g_hMenuContext, 7);
+		if (m_list.GetSelectedCount() == 1)
+			::EnableMenuItem(hSubMenu, ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD, MF_ENABLED);
+
+		m_later->m_fIsInteractive = true;
+		int selection = ::TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
+		if (selection == ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS) {
+			for (auto &p : m_later->m_sendLaterJobList) {
+				if (p->szId[0] == 'M') {
+					p->fFailed = true;
+					p->bCode = CSendLaterJob::JOB_REMOVABLE;
+				}
+			}
+		}
+		else if (selection != 0) {
+			HandleMenuClick(selection);
+			m_later->m_last_sendlater_processed = 0;			// force a queue check
+		}
+		m_later->m_fIsInteractive = false;
+	}
+
+	void onChange_Success(CCtrlCheck *)
+	{
+		m_later->m_fSuccessPopups = chkSuccess.GetState();
+		db_set_b(0, SRMSGMOD_T, "qmgrSuccessPopups", m_later->m_fSuccessPopups);
+	}
+
+	void onChange_Error(CCtrlCheck *)
+	{
+		m_later->m_fErrorPopups = chkError.GetState();
+		db_set_b(0, SRMSGMOD_T, "qmgrErrorPopups", m_later->m_fErrorPopups);
+	}
+
+	// this handles all commands sent by the context menu
+	// mark jobs for removal/reset/hold/unhold
+	// exception: kill all open multisend jobs is directly handled from the context menu
+	void HandleMenuClick(int iSelection)
+	{
+		if (m_list.GetSelectedCount() == 0)
+			return;
+
+		LRESULT items = m_list.GetItemCount();
+
+		LVITEM item = { 0 };
+		item.mask = LVIF_STATE | LVIF_PARAM;
+		item.stateMask = LVIS_SELECTED;
+
+		if (iSelection != ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD)
+			if (IDCANCEL == MessageBoxW(nullptr, TranslateT("You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone."), TranslateT("Queue manager"), MB_ICONQUESTION | MB_OKCANCEL))
+				return;
+
+		for (LRESULT i = 0; i < items; i++) {
+			item.iItem = i;
+			m_list.GetItem(&item);
+			if (item.state & LVIS_SELECTED) {
+				CSendLaterJob* job = (CSendLaterJob*)item.lParam;
+				if (!job)
+					continue;
+
+				switch (iSelection) {
+				case ID_QUEUEMANAGER_MARKSELECTEDFORREMOVAL:
+					job->bCode = CSendLaterJob::JOB_REMOVABLE;
+					job->fFailed = true;
+					break;
+				case ID_QUEUEMANAGER_HOLDSELECTED:
+					job->bCode = CSendLaterJob::JOB_HOLD;
+					job->writeFlags();
+					break;
+				case ID_QUEUEMANAGER_RESUMESELECTED:
+					job->bCode = 0;
+					job->writeFlags();
+					break;
+				case ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD:
+					Utils::CopyToClipBoard((wchar_t*)ptrW(mir_utf8decodeW(job->sendBuffer)), m_hwnd);
+					break;
+				case ID_QUEUEMANAGER_RESETSELECTED:
+					if (job->bCode == CSendLaterJob::JOB_DEFERRED) {
+						job->iSendCount = 0;
+						job->bCode = '-';
+					}
+					else if (job->bCode == CSendLaterJob::JOB_AGE) {
+						job->fFailed = false;
+						job->bCode = '-';
+						job->created = time(0);
+					}
+					break;
+				}
+			}
+		}
+		FillList();
+	}
+};
+
 CSendLater::CSendLater() :
 	m_sendLaterContactList(5, PtrKeySortT),
 	m_sendLaterJobList(5),
@@ -166,8 +494,8 @@ CSendLater::CSendLater() :
 // the database (only successful sends may do this).
 CSendLater::~CSendLater()
 {
-	if (m_hwndDlg)
-		::DestroyWindow(m_hwndDlg);
+	if (pDialog)
+		pDialog->Close();
 
 	if (m_sendLaterJobList.getCount() == 0)
 		return;
@@ -184,8 +512,8 @@ void CSendLater::startJobListProcess()
 {
 	m_currJob = 0;
 
-	if (m_hwndDlg)
-		Utils::enableDlgControl(m_hwndDlg, IDC_QMGR_LIST, false);
+	if (pDialog)
+		pDialog->m_list.Disable();
 }
 
 // checks if the current job in the timer-based process queue is subject
@@ -406,8 +734,8 @@ void CSendLater::addContact(const MCONTACT hContact)
 	}
 
 	/*
-	 * this list should not have duplicate entries
-	 */
+	* this list should not have duplicate entries
+	*/
 
 	if (m_sendLaterContactList.find((HANDLE)hContact))
 		return;
@@ -453,366 +781,18 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 // UI stuff (dialog procedures for the queue manager dialog
 void CSendLater::qMgrUpdate(bool fReEnable)
 {
-	if (m_hwndDlg) {
+	if (pDialog) {
 		if (fReEnable)
-			Utils::enableDlgControl(m_hwndDlg, IDC_QMGR_LIST, true);
-		::SendMessage(m_hwndDlg, WM_USER + 100, 0, 0); // if qmgr is open, tell it to update
+			pDialog->m_list.Enable(true);
+		pDialog->FillList();
 	}
-}
-
-LRESULT CSendLater::qMgrAddFilter(const MCONTACT hContact, const wchar_t* tszNick)
-{
-	LRESULT lr = ::SendMessage(m_hwndFilter, CB_FINDSTRING, 0, LPARAM(tszNick));
-	if (lr == CB_ERR) {
-		lr = ::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1, LPARAM(tszNick));
-		::SendMessage(m_hwndFilter, CB_SETITEMDATA, lr, hContact);
-		if (hContact == m_hFilter)
-			m_sel = lr;
-	}
-	return m_sel;
-}
-
-// fills the list of jobs with current contents of the job queue
-// filters by m_hFilter (contact handle)
-void CSendLater::qMgrFillList(bool fClear)
-{
-	wchar_t *formatTime = L"%Y.%m.%d - %H:%M";
-
-	if (fClear) {
-		::SendMessage(m_hwndList, LVM_DELETEALLITEMS, 0, 0);
-		::SendMessage(m_hwndFilter, CB_RESETCONTENT, 0, 0);
-	}
-
-	m_sel = 0;
-	::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1,
-		LPARAM(TranslateT("<All contacts>")));
-	::SendMessage(m_hwndFilter, CB_SETITEMDATA, 0, 0);
-
-	LVITEM lvItem = { 0 };
-
-	BYTE bCode = '-';
-	unsigned uIndex = 0;
-	for (auto &p : m_sendLaterJobList) {
-		CContactCache *c = CContactCache::getContactCache(p->hContact);
-
-		const wchar_t *tszNick = c->getNick();
-		if (m_hFilter && m_hFilter != p->hContact) {
-			qMgrAddFilter(c->getContact(), tszNick);
-			continue;
-		}
-
-		lvItem.mask = LVIF_TEXT | LVIF_PARAM;
-		wchar_t tszBuf[255];
-		mir_snwprintf(tszBuf, L"%s [%s]", tszNick, c->getRealAccount());
-		lvItem.pszText = tszBuf;
-		lvItem.cchTextMax = _countof(tszBuf);
-		lvItem.iItem = uIndex++;
-		lvItem.iSubItem = 0;
-		lvItem.lParam = LPARAM(p);
-		::SendMessage(m_hwndList, LVM_INSERTITEM, 0, LPARAM(&lvItem));
-		qMgrAddFilter(c->getContact(), tszNick);
-
-		lvItem.mask = LVIF_TEXT;
-		wchar_t tszTimestamp[30];
-		wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->created));
-		tszTimestamp[29] = 0;
-		lvItem.pszText = tszTimestamp;
-		lvItem.iSubItem = 1;
-		::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
-
-		wchar_t *msg = mir_utf8decodeW(p->sendBuffer);
-		wchar_t *preview = Utils::GetPreviewWithEllipsis(msg, 255);
-		lvItem.pszText = preview;
-		lvItem.iSubItem = 2;
-		::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
-		mir_free(preview);
-		mir_free(msg);
-
-		const wchar_t *tszStatusText = nullptr;
-		if (p->fFailed) {
-			tszStatusText = p->bCode == CSendLaterJob::JOB_REMOVABLE ?
-				TranslateT("Removed") : TranslateT("Failed");
-		}
-		else if (p->fSuccess)
-			tszStatusText = TranslateT("Sent OK");
-		else {
-			switch (p->bCode) {
-			case CSendLaterJob::JOB_DEFERRED:
-				tszStatusText = TranslateT("Deferred");
-				break;
-			case CSendLaterJob::JOB_AGE:
-				tszStatusText = TranslateT("Failed");
-				break;
-			case CSendLaterJob::JOB_HOLD:
-				tszStatusText = TranslateT("Suspended");
-				break;
-			default:
-				tszStatusText = TranslateT("Pending");
-				break;
-			}
-		}
-		if (p->bCode)
-			bCode = p->bCode;
-
-		wchar_t tszStatus[20];
-		mir_snwprintf(tszStatus, L"X/%s[%c] (%d)", tszStatusText, bCode, p->iSendCount);
-		tszStatus[0] = p->szId[0];
-		lvItem.pszText = tszStatus;
-		lvItem.iSubItem = 3;
-		::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
-
-		if (p->lastSent == 0)
-			wcsncpy_s(tszTimestamp, L"Never", _TRUNCATE);
-		else {
-			wcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->lastSent));
-			tszTimestamp[29] = 0;
-		}
-		lvItem.pszText = tszTimestamp;
-		lvItem.iSubItem = 4;
-		::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
-	}
-
-	if (m_hFilter == 0)
-		::SendMessage(m_hwndFilter, CB_SETCURSEL, 0, 0);
-	else
-		::SendMessage(m_hwndFilter, CB_SETCURSEL, m_sel, 0);
-}
-
-// set the column headers
-//
-#define QMGR_LIST_NRCOLUMNS 5
-
-static char*  szColFormat = "%d;%d;%d;%d;%d";
-static char*  szColDefault = "100;120;80;120;120";
-
-void CSendLater::qMgrSetupColumns()
-{
-	LVCOLUMN	col = { 0 };
-	int			nWidths[QMGR_LIST_NRCOLUMNS];
-	DBVARIANT	dbv = { 0 };
-	RECT		rcList;
-	LONG		cxList;
-
-	::GetWindowRect(m_hwndList, &rcList);
-	cxList = rcList.right - rcList.left;
-
-	if (0 == db_get_s(0, SRMSGMOD_T, "qmgrListColumns", &dbv)) {
-		sscanf(dbv.pszVal, szColFormat, &nWidths[0], &nWidths[1], &nWidths[2], &nWidths[3], &nWidths[4]);
-		db_free(&dbv);
-	}
-	else
-		sscanf(szColDefault, szColFormat, &nWidths[0], &nWidths[1], &nWidths[2], &nWidths[3], &nWidths[4]);
-
-	col.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
-	col.cx = max(nWidths[0], 10);
-	col.pszText = TranslateT("Contact");
-
-	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 0, LPARAM(&col));
-
-	col.pszText = TranslateT("Original timestamp");
-	col.cx = max(nWidths[1], 10);
-	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 1, LPARAM(&col));
-
-	col.pszText = TranslateT("Message text");
-	col.cx = max((cxList - nWidths[0] - nWidths[1] - nWidths[3] - nWidths[4] - 10), 10);
-	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 2, LPARAM(&col));
-
-	col.pszText = TranslateT("Status");
-	col.cx = max(nWidths[3], 10);
-	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 3, LPARAM(&col));
-
-	col.pszText = TranslateT("Last send info");
-	col.cx = max(nWidths[4], 10);
-	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 4, LPARAM(&col));
-
-}
-
-// save user defined column widths to the database
-void CSendLater::qMgrSaveColumns()
-{
-	char		szColFormatNew[100];
-	int			nWidths[QMGR_LIST_NRCOLUMNS], i;
-	LVCOLUMN	col = { 0 };
-
-	col.mask = LVCF_WIDTH;
-	for (i = 0; i < QMGR_LIST_NRCOLUMNS; i++) {
-		::SendMessage(m_hwndList, LVM_GETCOLUMN, i, LPARAM(&col));
-		nWidths[i] = max(col.cx, 10);
-	}
-	mir_snprintf(szColFormatNew, 100, "%d;%d;%d;%d;%d", nWidths[0], nWidths[1], nWidths[2], nWidths[3], nWidths[4]);
-	::db_set_s(0, SRMSGMOD_T, "qmgrListColumns", szColFormatNew);
-}
-
-INT_PTR CALLBACK CSendLater::DlgProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CSendLater *s = (CSendLater*)(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
-	if (s)
-		return s->DlgProc(hwnd, msg, wParam, lParam);
-
-	if (msg == WM_INITDIALOG) {
-		::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
-		s = (CSendLater*)(lParam);
-		return s->DlgProc(hwnd, msg, wParam, lParam);
-	}
-	return FALSE;
-}
-
-INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		m_hwndDlg = hwnd;
-		TranslateDialogDefault(hwnd);
-		m_hwndList = ::GetDlgItem(m_hwndDlg, IDC_QMGR_LIST);
-		m_hwndFilter = ::GetDlgItem(m_hwndDlg, IDC_QMGR_FILTER);
-		m_hFilter = db_get_dw(0, SRMSGMOD_T, "qmgrFilterContact", 0);
-
-		::SetWindowLongPtr(m_hwndList, GWL_STYLE, ::GetWindowLongPtr(m_hwndList, GWL_STYLE) | LVS_SHOWSELALWAYS);
-		::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_LABELTIP | LVS_EX_DOUBLEBUFFER);
-		qMgrSetupColumns();
-		qMgrFillList();
-		::CheckDlgButton(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS, m_fSuccessPopups ? BST_CHECKED : BST_UNCHECKED);
-		::CheckDlgButton(m_hwndDlg, IDC_QMGR_ERRORPOPUPS, m_fErrorPopups ? BST_CHECKED : BST_UNCHECKED);
-		::ShowWindow(hwnd, SW_NORMAL);
-		return FALSE;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->hwndFrom == m_hwndList) {
-			switch (((LPNMHDR)lParam)->code) {
-			case NM_RCLICK:
-				POINT pt;
-				::GetCursorPos(&pt);
-
-				// copy to clipboard only allowed with a single selection
-				HMENU hSubMenu = ::GetSubMenu(PluginConfig.g_hMenuContext, 7);
-				if (::SendMessage(m_hwndList, LVM_GETSELECTEDCOUNT, 0, 0) == 1)
-					::EnableMenuItem(hSubMenu, ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD, MF_ENABLED);
-
-				m_fIsInteractive = true;
-				int selection = ::TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwndDlg, nullptr);
-				if (selection == ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS) {
-					for (auto &p : m_sendLaterJobList) {
-						if (p->szId[0] == 'M') {
-							p->fFailed = true;
-							p->bCode = CSendLaterJob::JOB_REMOVABLE;
-						}
-					}
-				}
-				else if (selection != 0) {
-					::SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDC_QMGR_REMOVE, LOWORD(selection)), 0);
-					m_last_sendlater_processed = 0;			// force a queue check
-				}
-				m_fIsInteractive = false;
-				break;
-			}
-		}
-		break;
-
-	case WM_COMMAND:
-		if (HIWORD(wParam) == CBN_SELCHANGE && reinterpret_cast<HWND>(lParam) == m_hwndFilter) {
-			LRESULT lr = ::SendMessage(m_hwndFilter, CB_GETCURSEL, 0, 0);
-			if (lr != CB_ERR) {
-				m_hFilter = ::SendMessage(m_hwndFilter, CB_GETITEMDATA, lr, 0);
-				qMgrFillList();
-			}
-			break;
-		}
-		switch (LOWORD(wParam)) {
-		case IDOK:
-		case IDCANCEL:
-			qMgrSaveColumns();
-			::DestroyWindow(hwnd);
-			break;
-
-		case IDC_QMGR_SUCCESSPOPUPS:
-			m_fSuccessPopups = ::IsDlgButtonChecked(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS) ? true : false;
-			db_set_b(0, SRMSGMOD_T, "qmgrSuccessPopups", m_fSuccessPopups ? 1 : 0);
-			break;
-
-		case IDC_QMGR_ERRORPOPUPS:
-			m_fErrorPopups = ::IsDlgButtonChecked(m_hwndDlg, IDC_QMGR_ERRORPOPUPS) ? true : false;
-			db_set_b(0, SRMSGMOD_T, "qmgrErrorPopups", m_fErrorPopups ? 1 : 0);
-			break;
-
-		case IDC_QMGR_HELP:
-			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Send_later");
-			break;
-
-			// this handles all commands sent by the context menu
-			// mark jobs for removal/reset/hold/unhold
-			// exception: kill all open multisend jobs is directly handled from the context menu
-		case IDC_QMGR_REMOVE:
-			if (::SendMessage(m_hwndList, LVM_GETSELECTEDCOUNT, 0, 0) != 0) {
-				LVITEM item = { 0 };
-				LRESULT	items = ::SendMessage(m_hwndList, LVM_GETITEMCOUNT, 0, 0);
-				item.mask = LVIF_STATE | LVIF_PARAM;
-				item.stateMask = LVIS_SELECTED;
-
-				if (HIWORD(wParam) != ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD) {
-					if (MessageBox(nullptr, TranslateT("You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone."), TranslateT("Queue manager"),
-						MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
-						break;
-				}
-				for (LRESULT i = 0; i < items; i++) {
-					item.iItem = i;
-					::SendMessage(m_hwndList, LVM_GETITEM, 0, LPARAM(&item));
-					if (item.state & LVIS_SELECTED) {
-						CSendLaterJob* job = (CSendLaterJob*)item.lParam;
-						if (!job)
-							continue;
-
-						switch (HIWORD(wParam)) {
-						case ID_QUEUEMANAGER_MARKSELECTEDFORREMOVAL:
-							job->bCode = CSendLaterJob::JOB_REMOVABLE;
-							job->fFailed = true;
-							break;
-						case ID_QUEUEMANAGER_HOLDSELECTED:
-							job->bCode = CSendLaterJob::JOB_HOLD;
-							job->writeFlags();
-							break;
-						case ID_QUEUEMANAGER_RESUMESELECTED:
-							job->bCode = 0;
-							job->writeFlags();
-							break;
-						case ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD:
-							Utils::CopyToClipBoard((wchar_t*)ptrW(mir_utf8decodeW(job->sendBuffer)), m_hwndDlg);
-							break;
-						case ID_QUEUEMANAGER_RESETSELECTED:
-							if (job->bCode == CSendLaterJob::JOB_DEFERRED) {
-								job->iSendCount = 0;
-								job->bCode = '-';
-							}
-							else if (job->bCode == CSendLaterJob::JOB_AGE) {
-								job->fFailed = false;
-								job->bCode = '-';
-								job->created = time(0);
-							}
-							break;
-						}
-					}
-				}
-				qMgrFillList();
-			}
-		}
-		break;
-
-	case WM_USER + 100:
-		qMgrFillList();
-		break;
-
-	case WM_NCDESTROY:
-		m_hwndDlg = nullptr;
-		db_set_dw(0, SRMSGMOD_T, "qmgrFilterContact", m_hFilter);
-		break;
-	}
-	return FALSE;
 }
 
 // invoke queue manager dialog - do nothing if this dialog is already open
 void CSendLater::invokeQueueMgrDlg()
 {
-	if (m_hwndDlg == nullptr)
-		m_hwndDlg = ::CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SENDLATER_QMGR), nullptr, CSendLater::DlgProcStub, LPARAM(this));
+	if (pDialog == nullptr)
+		(new CSendLaterDlg(this))->Create();
 }
 
 // service function to invoke the queue manager

@@ -80,16 +80,10 @@ struct CSendLaterJob
 
 class CSendLater
 {
+	friend class CSendLaterDlg;
+
 	void    processSingleContact(const MCONTACT hContact);
 	int     sendIt(CSendLaterJob *job);
-
-	INT_PTR CALLBACK DlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK DlgProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-	void    qMgrFillList(bool fClear = true);
-	void    qMgrSetupColumns();
-	void    qMgrSaveColumns();
-	LRESULT qMgrAddFilter(const MCONTACT hContact, const wchar_t *tszNick);
 
 	LIST<void> m_sendLaterContactList;
 	LIST<CSendLaterJob> m_sendLaterJobList;
@@ -99,11 +93,6 @@ class CSendLater
 	bool     m_fIsInteractive = false;
 	time_t   m_last_sendlater_processed;
 	int      m_currJob = -1;
-
-	HWND     m_hwndDlg = 0;
-	HWND     m_hwndList = 0, m_hwndFilter = 0;
-	MCONTACT m_hFilter = 0;  // contact handle to filter the qmgr list (0 = no filter, show all)
-	LRESULT  m_sel;          // index of the combo box entry corresponding to the contact filter;
 
 public:
 	enum {
