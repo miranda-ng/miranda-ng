@@ -230,9 +230,7 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO
 	if (dbei->timestamp == 0)
 		return 1;
 
-	DBCachedContact *cc = (hContact)
-		? m_cache->GetCachedContact(hContact)
-		: &m_system;
+	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return 1;
 
@@ -275,6 +273,7 @@ LONG CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 		sqlite3_reset(stmt);
 		return -1;
 	}
+
 	LONG res = sqlite3_column_int64(stmt, 0);
 	sqlite3_reset(stmt);
 	return res;
@@ -328,9 +327,7 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return -1;
 
-	DBCachedContact *cc = (hContact)
-		? m_cache->GetCachedContact(hContact)
-		: &m_system;
+	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return -1;
 
@@ -370,7 +367,6 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 	}
 
 	NotifyEventHooks(g_hevMarkedRead, hContact, (LPARAM)hDbEvent);
-
 	return flags;
 }
 
@@ -395,12 +391,9 @@ MCONTACT CDbxSQLite::GetEventContact(MEVENT hDbEvent)
 
 MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 {
-	DBCachedContact *cc = (hContact)
-		? m_cache->GetCachedContact(hContact)
-		: &m_system;
+	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return 0;
-
 
 	evt_cnt_fwd = hContact;
 
@@ -428,9 +421,7 @@ MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 
 MEVENT CDbxSQLite::FindFirstUnreadEvent(MCONTACT hContact)
 {
-	DBCachedContact *cc = (hContact)
-		? m_cache->GetCachedContact(hContact)
-		: &m_system;
+	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return 0;
 
@@ -483,9 +474,7 @@ MEVENT CDbxSQLite::FindFirstUnreadEvent(MCONTACT hContact)
 
 MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)
 {
-	DBCachedContact *cc = (hContact)
-		? m_cache->GetCachedContact(hContact)
-		: &m_system;
+	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return 0;
 
@@ -649,9 +638,8 @@ BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSu
 		rc = sqlite3_step(stmt);
 		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	}
+
 	sqlite3_reset(stmt);
-
-
 	return TRUE;
 }
 
@@ -709,6 +697,7 @@ MEVENT CDbxSQLiteEventCursor::FetchNext()
 {
 	if (!cursor)
 		return 0;
+
 	int rc = sqlite3_step(cursor);
 	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
 	if (rc != SQLITE_ROW) {
