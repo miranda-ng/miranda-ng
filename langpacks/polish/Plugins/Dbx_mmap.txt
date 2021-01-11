@@ -69,7 +69,7 @@ Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby 
 [Cannot move old profile '%s' to '%s': error %d]
 Nie można przenieść starego profilu '%s' do '%s' : błąd %d
 [Attempt to create database '%s' failed with error code %d]
-Błąd towrzenia bazy danych '%s' : kod błędu %d
+Błąd tworzenia bazy danych '%s' : kod błędu %d
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo

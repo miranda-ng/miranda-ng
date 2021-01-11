@@ -1,3 +1,0 @@
-[Use JSON format for export]
-[Select none]
-[Export accounts]

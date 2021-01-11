@@ -27,7 +27,7 @@ Sprawdzaj skrzynkę Gmail co
 [minutes]
 minut
 [Notify using:]
-Powiadamienia:
+Powiadomienia:
 [Duration:]
 Czas trwania:
 [seconds]

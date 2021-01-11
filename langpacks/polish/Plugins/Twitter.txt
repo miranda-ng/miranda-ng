@@ -53,11 +53,11 @@ Tekst
 [Timeout]
 Wyświetlaj
 [Default]
-Domyślnnie
+Domyślnie
 [Custom]
 Niestandardowo
 [Permanent]
-Twale
+Trwale
 [Preview]
 Podgląd
 [But not during sign-on]

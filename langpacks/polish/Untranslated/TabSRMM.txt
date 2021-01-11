@@ -1,3 +1,0 @@
-[Use the same splitter height for all sessions]
-[Do nothing (ignore Esc key)]
-[Save file|Unable to save temporary file]

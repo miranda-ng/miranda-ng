@@ -1,7 +1,0 @@
-[Orphaned sorting event with wrong contact ID %d, deleting]
-[Orphaned sorting event with wrong event ID %d:%08X, deleting]
-[Orphaned event id with wrong event ID %08X, deleting]
-[Orphaned setting with wrong contact ID %08X, deleting]
-[Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
-[Database was compacted successfully]
-[Database compaction failed]

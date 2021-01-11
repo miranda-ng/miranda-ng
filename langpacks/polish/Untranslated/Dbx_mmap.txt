@@ -1,2 +1,0 @@
-[Cannot move old profile '%s' to '%s': error %d]
-[Attempt to create database '%s' failed with error code %d]

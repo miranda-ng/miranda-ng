@@ -25,7 +25,7 @@ Przechowuj stare awatary tego kontaktu na dysku
 [Log this user's avatars changes to history]
 Zapisuj zmiany awatara tego kontaktu w historii
 [Show popups for this user]
-Pokaż popowiadomienia dla tego użytkownika
+Pokaż powiadomienia dla tego użytkownika
 [Protocols]
 Protokoły
 [Enable tracking for these protocols:]

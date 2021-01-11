@@ -59,7 +59,7 @@ Pokaż krótki opis zdarzenia
 [Size of the log]
 Rozmiar dziennika
 [Notification duration]
-Wyświetlaj owiadomienie
+Wyświetlaj powiadomienie
 [events]
 zdarzeń
 [seconds]

@@ -547,7 +547,7 @@ po udzieleniu odpowiedzi
 [on typing]
 podczas pisania
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
-Te zmiany zostaną wporwadzone po ponownym uruchomieniu Mirandy NG.\nCzy chcesz to zrobić teraz?
+Te zmiany zostaną wprowadzone po ponownym uruchomieniu Mirandy NG.\nCzy chcesz to zrobić teraz?
 [VKontakte protocol]
 Protokół VKontakte
 ;file \protocols\VKontakte\src\vk_pollserver.cpp
@@ -598,7 +598,7 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieścił cię on n
 Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na czarnej liście
 ;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
-Ładowanieopisuzvk.com.\nTo może zająć trochę czasu.
+Ładowanie opisu z vk.com.\nTo może zająć trochę czasu.
 [Waiting...]
 Oczekiwanie...
 [Enter new status message]

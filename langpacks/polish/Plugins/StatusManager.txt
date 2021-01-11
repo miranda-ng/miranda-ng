@@ -19,7 +19,7 @@ Status podczas uruchamiania
 [Allows you to define the status Miranda should set on startup, configurable per account.]
 Pozwala na określenie statusu Mirandy podczas uruchamiania, konfigurowalna dla protokołów.
 [Advanced auto away]
-Zaawansowana obługa bezczynności
+Zaawansowana obsługa bezczynności
 [Improved auto away module with some more options than the built in, configurable per account.]
 Ulepszony moduł obsługi bezczynności z większą liczbą opcji niż podstawowy, z konfiguracją dla każdego konta z osobna.
 [Note: Miranda NG will have to be restarted for changes to take effect.]

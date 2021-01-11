@@ -55,7 +55,7 @@ Inne
 [Obey 'Suppress online notification' settings]
 Stosuj ustawienia "Usuń powiadomienia dostępności"
 [Auto positioning]
-Autopozycjowanie
+Autopozycjonowanie
 [Transparent input]
 Wprowadź przezroczystość
 [Preview]

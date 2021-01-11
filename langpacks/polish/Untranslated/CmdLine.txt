@@ -1,1 +1,0 @@
-[Could not initialize CmdLine plugin properly]

@@ -142,7 +142,7 @@ x podzielone przez y
 [converts decimal value x to hex value and padds to length y]
 konwertuje wartości dziesiętne liczby "x" do wartości hex i długości "y"
 [x modulo y (remainder of x divided by y)]
-"x" modulo "y" (reszta z dzielenia "x" przez "y")
+"x" modułu "y" (reszta z "x" dzielona przez "y")
 [x times y]
 "x" razy "y"
 [x times y divided by z]

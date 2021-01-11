@@ -179,7 +179,7 @@ Nieprawidłowy nagłówek pliku
 [Cannot parse file header, skipping file]
 Nie można przeanalizować nagłówka pliku, pomijanie pliku
 [Loading file '%s'...]
-Wczytytanie pliku '%s'...
+Wczytywanie pliku '%s'...
 [Failed to open file <%s> for import: %d]
 
 [Failed to mmap file <%s> for import: %d]

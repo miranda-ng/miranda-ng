@@ -1,4 +1,3 @@
-[Send message on:]
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 [Unused]
 [Enter]

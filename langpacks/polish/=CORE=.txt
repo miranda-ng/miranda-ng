@@ -2566,7 +2566,7 @@ Baza danych została skompresowana pomyślnie
 [Run]
 Uruchom
 [Compact]
-Skompaktuj
+Kompresuj
 [Check database]
 Sprawdź profil
 [Size]

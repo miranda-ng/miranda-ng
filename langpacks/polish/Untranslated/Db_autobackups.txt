@@ -1,3 +1,0 @@
-[Backup file mask:]
-[Enable &AutoBackups notification]
-[Disable &AutoBackups notification]

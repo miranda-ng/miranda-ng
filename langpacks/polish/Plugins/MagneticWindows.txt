@@ -15,7 +15,7 @@ Przyciągaj okna
 [%d pix]
 %d px
 [For Scriver users: automatically hold down the Ctrl key while moving/sizing. (Make sure you use Scriver!)]
-Dla użytkowników wtyczki Scriver: symuluj wsciśnięty Ctrl przy poruszaniu/skalowaniu okna. (Upewnij się że używasz Scriver'a!)
+Dla użytkowników wtyczki Scriver: symuluj wciśnięty Ctrl przy poruszaniu/skalowaniu okna. (Upewnij się że używasz Scriver'a!)
 ;file \plugins\MagneticWindows\src\Options.cpp
 [Customize]
 Personalizacja
