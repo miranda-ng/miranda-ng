@@ -971,7 +971,7 @@ CallFunctionSync @1170
 ?SetRange@CCtrlProgress@@QAEXGG@Z @1186 NONAME
 ?SetStep@CCtrlProgress@@QAEXG@Z @1187 NONAME
 ?Start@CTimer@@QAEXH@Z @1188 NONAME
-?Stop@CTimer@@QAEXXZ @1189 NONAME
+?Stop@CTimer@@QAE_NXZ @1189 NONAME
 ?AddTimer@CDlgBase@@IAEXPAVCTimer@@@Z @1190 NONAME
 ?GetItemRect@CCtrlListBox@@QAEHHPAUtagRECT@@@Z @1193 NONAME
 ?SetItemHeight@CCtrlListBox@@QAEXHH@Z @1194 NONAME

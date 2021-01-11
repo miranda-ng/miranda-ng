@@ -440,7 +440,7 @@ public:
 	virtual BOOL OnTimer();
 
 	void Start(int elapse);
-	void Stop();
+	bool Stop(); // returns true if timer was active
 
 	void StartSafe(int elapse);
 	void StopSafe();

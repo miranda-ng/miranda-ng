@@ -51,9 +51,9 @@ void CTimer::Start(int elapse)
 	::SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, nullptr);
 }
 
-void CTimer::Stop()
+bool CTimer::Stop()
 {
-	::KillTimer(m_wnd->GetHwnd(), m_idEvent);
+	return 0 != ::KillTimer(m_wnd->GetHwnd(), m_idEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
