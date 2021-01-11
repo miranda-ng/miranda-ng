@@ -35,7 +35,7 @@ BEGIN
     CONTROL         "Tree1",IDC_POPLIST,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NOHSCROLL | TVS_NONEVENHEIGHT | WS_BORDER | WS_TABSTOP,199,6,98,42
     CONTROL         "In background",IDC_DONOTSTEALFOCUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,21,130,10
 
-    LTEXT           "Maximum number of flashes",IDC_STATIC,7,35,141,8
+    LTEXT           "Maximum number of flashes (0 = indefinite)",IDC_STATIC,7,35,141,8
     EDITTEXT        IDC_NFLASHES,150,33,25,12,ES_AUTOHSCROLL | ES_NUMBER
     
     CONTROL         "Close the message window on send",IDC_AUTOCLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,50,289,10
