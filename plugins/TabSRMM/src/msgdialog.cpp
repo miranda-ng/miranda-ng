@@ -312,6 +312,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 	CSuper(g_plugin, iDlgId),
 	m_pPanel(this),
+	timerAwayMsg(this, 4),
 	m_btnOk(this, IDOK),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
@@ -329,6 +330,7 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 CMsgDialog::CMsgDialog(SESSION_INFO *si) :
 	CSuper(g_plugin, IDD_CHANNEL, si),
 	m_pPanel(this),
+	timerAwayMsg(this, 4),
 	m_btnOk(this, IDOK),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
@@ -1090,6 +1092,20 @@ void CMsgDialog::onFlash(CTimer *)
 {
 	if (m_bCanFlashTab)
 		FlashTab(true);
+}
+
+// timer to control info panel hovering
+void CMsgDialog::onAwayMsg(CTimer *pTimer)
+{
+	pTimer->Stop();
+
+	POINT pt;
+	GetCursorPos(&pt);
+
+	if (m_pPanel.hitTest(pt) != CInfoPanel::HTNIRVANA)
+		ActivateTooltip(0, 0);
+	else
+		m_bAwayMsgTimer = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2727,18 +2743,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_TIMER:
-		// timer to control info panel hovering
-		if (wParam == TIMERID_AWAYMSG) {
-			KillTimer(m_hwnd, wParam);
-			GetCursorPos(&pt);
-
-			if (wParam == TIMERID_AWAYMSG && m_pPanel.hitTest(pt) != CInfoPanel::HTNIRVANA)
-				ActivateTooltip(0, 0);
-			else
-				m_bAwayMsgTimer = false;
-			break;
-		}
-
 		// timer id for message timeouts is composed like:
 		// for single message sends: basevalue (TIMERID_MSGSEND) + send queue index
 		if (wParam >= TIMERID_MSGSEND) {

@@ -524,6 +524,7 @@ public:
 	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
 	SESSION_INFO *m_pLastSession;
 
+	CTimer timerAwayMsg;
 	CCtrlButton m_btnOk, m_btnAdd, m_btnQuote, m_btnCancelAdd;
 
 public:
@@ -540,6 +541,7 @@ public:
 
 	void onType(CTimer *);
 	void onFlash(CTimer *);
+	void onAwayMsg(CTimer *);
 
 	void onChange_Message(CCtrlEdit *);
 

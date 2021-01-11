@@ -769,7 +769,7 @@ void CInfoPanel::handleClick(const POINT& pt)
 		return;
 
 	if (!m_isChat) {
-		::KillTimer(m_dat->GetHwnd(), TIMERID_AWAYMSG);
+		m_dat->timerAwayMsg.Stop();
 		m_dat->m_bAwayMsgTimer = false;
 	}
 	HMENU m = constructContextualMenu();
@@ -841,7 +841,7 @@ void CInfoPanel::trackMouse(POINT &pt)
 
 	if (m_hoverFlags) {
 		if (!m_dat->m_bAwayMsgTimer) {
-			::SetTimer(m_dat->GetHwnd(), TIMERID_AWAYMSG, 1000, nullptr);
+			m_dat->timerAwayMsg.Start(1000);
 			m_dat->m_bAwayMsgTimer = true;
 		}
 	}

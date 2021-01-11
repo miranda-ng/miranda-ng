@@ -28,8 +28,6 @@
 #define __SENDQUEUE_H
 
 #define TIMERID_MSGSEND      100
-#define TIMERID_AWAYMSG      4
-//#define TIMERID_TOOLTIP		 5
 #define TIMEOUT_TYPEOFF      10000      // send type off after 10 seconds of inactivity
 #define SB_CHAR_WIDTH        45
 #define SEND_FLAGS PREF_UNICODE
