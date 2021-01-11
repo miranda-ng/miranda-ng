@@ -231,7 +231,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			if (g_clistApi.pfnGetEvent(si->hContact, 0))
 				g_clistApi.pfnRemoveEvent(si->hContact, GC_FAKE_EVENT);
 
-		if (si->pDlg && KillTimer(si->pDlg->GetHwnd(), TIMERID_FLASHWND))
+		if (si->pDlg && si->pDlg->timerFlash.Stop())
 			FlashWindow(si->pDlg->GetHwnd(), FALSE);
 
 		PUDeletePopup(hWnd);

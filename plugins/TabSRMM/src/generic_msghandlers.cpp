@@ -1104,7 +1104,7 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 				m_iFlashIcon = PluginConfig.g_IconMsgEvent;
 				break;
 			}
-			SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+			timerFlash.Start(TIMEOUT_FLASHWND);
 			m_bCanFlashTab = true;
 		}
 

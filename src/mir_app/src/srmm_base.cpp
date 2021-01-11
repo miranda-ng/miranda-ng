@@ -30,6 +30,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_INFO *si) :
 	CDlgBase(pPlugin, idDialog),
+	timerFlash(this, 1),
+	timerType(this, 2),
+
 	m_message(this, IDC_SRMM_MESSAGE),
 	m_nickList(this, IDC_SRMM_NICKLIST),
 

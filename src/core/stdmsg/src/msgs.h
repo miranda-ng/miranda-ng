@@ -68,6 +68,9 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	CCtrlBase m_avatar;
 	CCtrlButton m_btnOk;
+	
+	void OnFlash(CTimer *);
+	void OnType(CTimer *);
 
 	CTabbedWindow *m_pOwner;
 	DWORD m_nFlash = 0;

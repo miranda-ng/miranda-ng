@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "statusicon.h"
 
-#define TIMERID_FLASHWND     1
-#define TIMERID_TYPE         2
 #define TIMEOUT_FLASHWND     900
 #define TIMEOUT_TYPEOFF      10000      //send type off after 10 seconds of inactivity
 #define SB_CHAR_WIDTH        45
@@ -88,6 +86,9 @@ void CMsgDialog::Init()
 	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Text);
 
 	m_splitterY.OnChange = Callback(this, &CMsgDialog::onSplitterY);
+
+	timerFlash.OnEvent = Callback(this, &CMsgDialog::OnFlash);
+	timerType.OnEvent = Callback(this, &CMsgDialog::OnType);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +125,7 @@ bool CMsgDialog::OnInitDialog()
 	m_wOldStatus = m_wStatus;
 	m_cmdListInd = -1;
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
-	SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
+	timerType.Start(1000);
 
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
 	m_iSplitterY = g_plugin.getDword(g_dat.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
@@ -259,7 +260,7 @@ void CMsgDialog::OnDestroy()
 		else
 			db_unset(m_hContact, SRMSGMOD, DBSAVEDMSG);
 	}
-	KillTimer(m_hwnd, TIMERID_TYPE);
+
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
@@ -419,6 +420,54 @@ void CMsgDialog::onChange_Text(CCtrlEdit*)
 		}
 		else if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 			NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
+	}
+}
+
+void CMsgDialog::OnFlash(CTimer *)
+{
+	FixTabIcons();
+	if (!g_dat.nFlashMax || m_nFlash < 2 * g_dat.nFlashMax)
+		FlashWindow(m_pOwner->GetHwnd(), TRUE);
+	m_nFlash++;
+}
+
+void CMsgDialog::OnType(CTimer*)
+{
+	ShowTime(false);
+	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
+		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
+
+	if (m_bShowTyping) {
+		if (m_nTypeSecs) {
+			m_nTypeSecs--;
+			if (GetForegroundWindow() == m_pOwner->GetHwnd())
+				FixTabIcons();
+		}
+		else {
+			UpdateLastMessage();
+			if (g_dat.bShowTypingWin)
+				FixTabIcons();
+			m_bShowTyping = false;
+		}
+	}
+	else {
+		if (m_nTypeSecs) {
+			wchar_t szBuf[256];
+			wchar_t *szContactName = Clist_GetContactDisplayName(m_hContact);
+			HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
+
+			mir_snwprintf(szBuf, TranslateT("%s is typing a message..."), szContactName);
+			m_nTypeSecs--;
+
+			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
+			SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hTyping);
+			if (g_dat.bShowTypingWin && GetForegroundWindow() != m_pOwner->GetHwnd()) {
+				HICON hIcon = (HICON)SendMessage(m_hwnd, WM_GETICON, ICON_SMALL, 0);
+				SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hTyping);
+				IcoLib_ReleaseIcon(hIcon);
+			}
+			m_bShowTyping = true;
+		}
 	}
 }
 
@@ -656,55 +705,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_TIMECHANGE:
 		PostMessage(m_hwnd, DM_NEWTIMEZONE, 0, 0);
 		RemakeLog();
-		break;
-
-	case WM_TIMER:
-		if (wParam == TIMERID_FLASHWND) {
-			FixTabIcons();
-			if (!g_dat.nFlashMax || m_nFlash < 2 * g_dat.nFlashMax)
-				FlashWindow(m_pOwner->GetHwnd(), TRUE);
-			m_nFlash++;
-			break;
-		}
-
-		if (wParam == TIMERID_TYPE) {
-			ShowTime(false);
-			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
-				NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
-
-			if (m_bShowTyping) {
-				if (m_nTypeSecs) {
-					m_nTypeSecs--;
-					if (GetForegroundWindow() == m_pOwner->GetHwnd())
-						FixTabIcons();
-				}
-				else {
-					UpdateLastMessage();
-					if (g_dat.bShowTypingWin)
-						FixTabIcons();
-					m_bShowTyping = false;
-				}
-			}
-			else {
-				if (m_nTypeSecs) {
-					wchar_t szBuf[256];
-					wchar_t *szContactName = Clist_GetContactDisplayName(m_hContact);
-					HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
-
-					mir_snwprintf(szBuf, TranslateT("%s is typing a message..."), szContactName);
-					m_nTypeSecs--;
-
-					SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
-					SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hTyping);
-					if (g_dat.bShowTypingWin && GetForegroundWindow() != m_pOwner->GetHwnd()) {
-						HICON hIcon = (HICON)SendMessage(m_hwnd, WM_GETICON, ICON_SMALL, 0);
-						SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hTyping);
-						IcoLib_ReleaseIcon(hIcon);
-					}
-					m_bShowTyping = true;
-				}
-			}
-		}
 		break;
 
 	case WM_MEASUREITEM:
@@ -1243,12 +1243,12 @@ bool CMsgDialog::IsActive() const
 
 void CMsgDialog::StartFlash()
 {
-	::SetTimer(m_hwnd, TIMERID_FLASHWND, 900, nullptr);
+	timerFlash.Start(1000);
 }
 
 void CMsgDialog::StopFlash()
 {
-	if (::KillTimer(m_hwnd, TIMERID_FLASHWND)) {
+	if (timerFlash.Stop()) {
 		::FlashWindow(m_pOwner->GetHwnd(), FALSE);
 
 		m_nFlash = 0;

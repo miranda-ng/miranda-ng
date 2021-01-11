@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#define TIMERID_FLASHWND 1
+
 #define SB_CHAR_WIDTH		 40
 #define SB_SENDING_WIDTH 	 25
 #define SB_UNICODE_WIDTH 	 18

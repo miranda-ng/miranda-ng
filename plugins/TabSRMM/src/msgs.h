@@ -538,6 +538,9 @@ public:
 	void onClick_CancelAdd(CCtrlButton *);
 	void onClick_ShowNickList(CCtrlButton *);
 
+	void onType(CTimer *);
+	void onFlash(CTimer *);
+
 	void onChange_Message(CCtrlEdit *);
 
 	void onDblClick_List(CCtrlListBox *);

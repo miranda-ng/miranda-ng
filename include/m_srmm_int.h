@@ -230,6 +230,7 @@ public:
 	bool m_bFGSet, m_bBGSet;
 	bool m_bInMenu;
 	COLORREF m_iFG, m_iBG;
+	CTimer timerFlash, timerType;
 
 	void ClearLog();
 	void RedrawLog();

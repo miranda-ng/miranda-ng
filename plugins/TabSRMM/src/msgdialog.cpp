@@ -355,6 +355,9 @@ void CMsgDialog::Init()
 	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 
 	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Message);
+
+	timerFlash.OnEvent = Callback(this, &CMsgDialog::onFlash);
+	timerType.OnEvent = Callback(this, &CMsgDialog::onType);
 }
 
 CMsgDialog::~CMsgDialog()
@@ -474,7 +477,7 @@ bool CMsgDialog::OnInitDialog()
 	m_iMultiSplit = g_plugin.getDword("multisplit", 150);
 	if (m_si == nullptr || m_si->iType == GCW_PRIVMESS) {
 		m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
-		SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
+		timerType.Start(1000);
 	}
 	m_iLastEventType = 0xffffffff;
 
@@ -618,7 +621,7 @@ bool CMsgDialog::OnInitDialog()
 
 	if (m_pContainer->m_flags.m_bCreateMinimized || !m_bActivate || m_pContainer->m_flags.m_bDeferredTabSelect) {
 		m_iFlashIcon = PluginConfig.g_IconMsgEvent;
-		SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
+		timerFlash.Start(TIMEOUT_FLASHWND);
 		m_bCanFlashTab = true;
 
 		DBEVENTINFO dbei = {};
@@ -1075,6 +1078,18 @@ void CMsgDialog::onChange_Message(CCtrlEdit*)
 				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 		}
 	}
+}
+
+void CMsgDialog::onType(CTimer *)
+{
+	if (m_si == nullptr || m_si->iType == GCW_PRIVMESS)
+		DM_Typing(false);
+}
+
+void CMsgDialog::onFlash(CTimer *)
+{
+	if (m_bCanFlashTab)
+		FlashTab(true);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2739,16 +2754,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 					sendQueue->handleError(this, iIndex);
 				break;
 			}
-		}
-		else if (wParam == TIMERID_FLASHWND) {
-			if (m_bCanFlashTab)
-				FlashTab(true);
-			break;
-		}
-		else if (wParam == TIMERID_TYPE) {
-			if (m_si == nullptr || m_si->iType == GCW_PRIVMESS)
-				DM_Typing(false);
-			break;
 		}
 		break;
 

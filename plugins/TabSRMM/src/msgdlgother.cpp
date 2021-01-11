@@ -2281,7 +2281,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
-		if (KillTimer(m_hwnd, TIMERID_FLASHWND) || m_iFlashIcon) {
+		if (timerFlash.Stop() || m_iFlashIcon) {
 			FlashTab(false);
 			m_bCanFlashTab = FALSE;
 			m_iFlashIcon = nullptr;
@@ -2298,7 +2298,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 		m_pContainer->m_pMenuBar->configureMenu();
 	}
 	else {
-		if (KillTimer(m_hwnd, TIMERID_FLASHWND)) {
+		if (timerFlash.Stop()) {
 			FlashTab(false);
 			m_bCanFlashTab = false;
 		}
