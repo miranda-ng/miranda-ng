@@ -358,6 +358,7 @@ void CMsgDialog::Init()
 
 	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Message);
 
+	timerAwayMsg.OnEvent = Callback(this, &CMsgDialog::onAwayMsg);
 	timerFlash.OnEvent = Callback(this, &CMsgDialog::onFlash);
 	timerType.OnEvent = Callback(this, &CMsgDialog::onType);
 }
