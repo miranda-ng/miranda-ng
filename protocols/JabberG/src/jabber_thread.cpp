@@ -385,9 +385,11 @@ LBL_FatalError:
 
 	// User may change status to OFFLINE while we are connecting above
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE || info.bIsReg) {
+		bool bSendKeepAlive = false;
+
 		if (!info.bIsReg) {
 			m_szJabberJID = CMStringA(FORMAT, "%s@%s", info.conn.username, info.conn.server).Detach();
-			m_bSendKeepAlive = m_bKeepAlive != 0;
+			bSendKeepAlive = m_bKeepAlive;
 			setUString("jid", m_szJabberJID); // store jid in database
 
 			ListInit();
@@ -413,14 +415,14 @@ LBL_FatalError:
 				if (nSelRes == -1) // error
 					break;
 				else if (nSelRes == 0) {
-					if (m_bSendKeepAlive) {
+					if (bSendKeepAlive) {
 						if (info.jabberServerCaps & JABBER_CAPS_PING) {
 							CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, nullptr, this);
 							pInfo->SetTimeout(m_iConnectionKeepAliveTimeout);
 							info.send(XmlNodeIq(pInfo) << XATTR("from", info.fullJID) << XCHILDNS("ping", JABBER_FEAT_PING));
 						}
+						else info.send(" \t ");
 					}
-					else info.send(" \t ");
 					
 					if (m_bEnableStreamMgmt)
 						m_StrmMgmt.RequestAck();
