@@ -488,8 +488,11 @@ static TOptionListGroup lvGroupsNEN[] =
 
 class CPopupOptionsDlg : public CDlgBase
 {
+	NEN_OPTIONS tmpOpts;
+
 	CCtrlTreeView eventOptions;
 	CCtrlButton btnPreview, btnModes;
+	CCtrlCheck chkMessage, chkOthers, chkMuc, chkErr;
 	CCtrlColor mucBack, mucText, msgBack, msgText, otherBack, otherText, errBack, errText;
 
 public:
@@ -505,56 +508,63 @@ public:
 		otherText(this, IDC_COLTEXT_OTHERS),
 		btnModes(this, IDC_POPUPSTATUSMODES),
 		btnPreview(this, IDC_PREVIEW),
-		eventOptions(this, IDC_EVENTOPTIONS)
+		eventOptions(this, IDC_EVENTOPTIONS),
+		chkMessage(this, IDC_CHKDEFAULTCOL_MESSAGE),
+		chkOthers(this, IDC_CHKDEFAULTCOL_OTHERS),
+		chkErr(this, IDC_CHKDEFAULTCOL_ERR),
+		chkMuc(this, IDC_CHKDEFAULTCOL_MUC)
+
 	{
 		btnModes.OnClick = Callback(this, &CPopupOptionsDlg::onClick_Modes);
 		btnPreview.OnClick = Callback(this, &CPopupOptionsDlg::onClick_Preview);
+
+		tmpOpts = nen_options;
 	}
 
 	bool OnInitDialog() override
 	{
 		TreeViewInit(eventOptions, lvGroupsNEN, lvItemsNEN, 0, 0, TRUE);
 
-		msgBack.SetColor(nen_options.colBackMsg);
-		msgText.SetColor(nen_options.colTextMsg);
-		otherBack.SetColor(nen_options.colBackOthers);
-		otherText.SetColor(nen_options.colTextOthers);
-		errBack.SetColor(nen_options.colBackErr);
-		errText.SetColor(nen_options.colTextErr);
-		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE, nen_options.bDefaultColorMsg ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS, nen_options.bDefaultColorOthers ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_ERR, nen_options.bDefaultColorErr ? BST_CHECKED : BST_UNCHECKED);
+		msgBack.SetColor(tmpOpts.colBackMsg);
+		msgText.SetColor(tmpOpts.colTextMsg);
+		otherBack.SetColor(tmpOpts.colBackOthers);
+		otherText.SetColor(tmpOpts.colTextOthers);
+		errBack.SetColor(tmpOpts.colBackErr);
+		errText.SetColor(tmpOpts.colTextErr);
+		chkMessage.SetState(tmpOpts.bDefaultColorMsg);
+		chkOthers.SetState(tmpOpts.bDefaultColorOthers);
+		chkErr.SetState(tmpOpts.bDefaultColorErr);
 
 		mucText.SetColor(g_Settings.crPUTextColour);
 		mucBack.SetColor(g_Settings.crPUBkgColour);
-		CheckDlgButton(m_hwnd, IDC_CHKDEFAULTCOL_MUC, g_Settings.iPopupStyle == 2 ? BST_CHECKED : BST_UNCHECKED);
+		chkMuc.SetState(g_Settings.iPopupStyle == 2);
 
 		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
 		SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
 		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
 		SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
 
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayMsg);
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayOthers);
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iDelayErr);
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETPOS, 0, (LPARAM)tmpOpts.iDelayMsg);
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_SETPOS, 0, (LPARAM)tmpOpts.iDelayOthers);
+		SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_SETPOS, 0, (LPARAM)tmpOpts.iDelayErr);
 		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETPOS, 0, (LPARAM)g_Settings.iPopupTimeout);
 
-		msgBack.Enable(!nen_options.bDefaultColorMsg);
-		msgText.Enable(!nen_options.bDefaultColorMsg);
-		otherBack.Enable(!nen_options.bDefaultColorOthers);
-		otherText.Enable(!nen_options.bDefaultColorOthers);
-		errBack.Enable(!nen_options.bDefaultColorErr);
-		errText.Enable(!nen_options.bDefaultColorErr);
+		msgBack.Enable(!tmpOpts.bDefaultColorMsg);
+		msgText.Enable(!tmpOpts.bDefaultColorMsg);
+		otherBack.Enable(!tmpOpts.bDefaultColorOthers);
+		otherText.Enable(!tmpOpts.bDefaultColorOthers);
+		errBack.Enable(!tmpOpts.bDefaultColorErr);
+		errText.Enable(!tmpOpts.bDefaultColorErr);
 		mucText.Enable(g_Settings.iPopupStyle == 3);
 		mucBack.Enable(g_Settings.iPopupStyle == 3);
 
 		CheckDlgButton(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle < 2 ? BST_CHECKED : BST_UNCHECKED);
 		Utils::enableDlgControl(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
 
-		SetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, nen_options.iLimitPreview, FALSE);
-		CheckDlgButton(m_hwnd, IDC_LIMITPREVIEW, (nen_options.iLimitPreview > 0) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(2048, nen_options.iLimitPreview > 0 ? 50 : 0));
-		SendDlgItemMessage(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETPOS, 0, (LPARAM)nen_options.iLimitPreview);
+		SetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, tmpOpts.iLimitPreview, FALSE);
+		CheckDlgButton(m_hwnd, IDC_LIMITPREVIEW, (tmpOpts.iLimitPreview > 0) ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(2048, tmpOpts.iLimitPreview > 0 ? 50 : 0));
+		SendDlgItemMessage(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETPOS, 0, (LPARAM)tmpOpts.iLimitPreview);
 		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
 		return true;
@@ -562,6 +572,8 @@ public:
 
 	bool OnApply() override
 	{
+		nen_options = tmpOpts;
+
 		// scan the tree view and obtain the options...
 		TreeViewToDB(eventOptions, lvItemsNEN, nullptr, nullptr);
 
@@ -575,11 +587,16 @@ public:
 		return true;
 	}
 
+	void OnReset() override
+	{
+		NEN_ReadOptions(&tmpOpts);
+	}
+
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_COMMAND && wParam == DM_STATUSMASKSET) {
 			db_set_dw(0, MODULE, "statusmask", (DWORD)lParam);
-			nen_options.dwStatusMask = (int)lParam;
+			tmpOpts.dwStatusMask = (int)lParam;
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
@@ -587,17 +604,17 @@ public:
 
 	void onClick_Preview(CCtrlButton *)
 	{
-		PopupShowT(&nen_options, 0, 0, EVENTTYPE_MESSAGE, nullptr);
+		PopupShowT(&tmpOpts, 0, 0, EVENTTYPE_MESSAGE, nullptr);
 	}
 
 	void onClick_Modes(CCtrlButton *)
 	{
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), m_hwnd, DlgProcSetupStatusModes, db_get_dw(0, MODULE, "statusmask", (DWORD)-1));
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), m_hwnd, DlgProcSetupStatusModes, db_get_dw(0, MODULE, "statusmask", -1));
 	}
 
 	void OnChange() override
 	{
-		if (IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MUC))
+		if (chkMuc.GetState())
 			g_Settings.iPopupStyle = 2;
 		else if (IsDlgButtonChecked(m_hwnd, IDC_MUC_LOGCOLORS))
 			g_Settings.iPopupStyle = 1;
@@ -606,26 +623,25 @@ public:
 
 		Utils::enableDlgControl(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
 
-		nen_options.bDefaultColorMsg = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE);
-		nen_options.bDefaultColorOthers = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS);
-		nen_options.bDefaultColorErr = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_ERR);
+		tmpOpts.bDefaultColorMsg = chkMessage.GetState();
+		tmpOpts.bDefaultColorOthers = chkOthers.GetState();
+		tmpOpts.bDefaultColorErr = chkErr.GetState();
 
-		nen_options.iDelayMsg = SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_GETPOS, 0, 0);
-		nen_options.iDelayOthers = SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_GETPOS, 0, 0);
-		nen_options.iDelayErr = SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_GETPOS, 0, 0);
-
+		tmpOpts.iDelayMsg = SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_GETPOS, 0, 0);
+		tmpOpts.iDelayOthers = SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_GETPOS, 0, 0);
+		tmpOpts.iDelayErr = SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_GETPOS, 0, 0);
 		g_Settings.iPopupTimeout = SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_GETPOS, 0, 0);
 
 		if (IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW))
-			nen_options.iLimitPreview = GetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, nullptr, FALSE);
+			tmpOpts.iLimitPreview = GetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, nullptr, FALSE);
 		else
-			nen_options.iLimitPreview = 0;
-		msgBack.Enable(!nen_options.bDefaultColorMsg);
-		msgText.Enable(!nen_options.bDefaultColorMsg);
-		otherBack.Enable(!nen_options.bDefaultColorOthers);
-		otherText.Enable(!nen_options.bDefaultColorOthers);
-		errBack.Enable(!nen_options.bDefaultColorErr);
-		errText.Enable(!nen_options.bDefaultColorErr);
+			tmpOpts.iLimitPreview = 0;
+		msgBack.Enable(!tmpOpts.bDefaultColorMsg);
+		msgText.Enable(!tmpOpts.bDefaultColorMsg);
+		otherBack.Enable(!tmpOpts.bDefaultColorOthers);
+		otherText.Enable(!tmpOpts.bDefaultColorOthers);
+		errBack.Enable(!tmpOpts.bDefaultColorErr);
+		errText.Enable(!tmpOpts.bDefaultColorErr);
 		mucText.Enable(g_Settings.iPopupStyle == 3);
 		mucBack.Enable(g_Settings.iPopupStyle == 3);
 
@@ -633,17 +649,17 @@ public:
 		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
 
 		// disable delay textbox when infinite is checked
-		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MESSAGE, nen_options.iDelayMsg != -1);
-		Utils::enableDlgControl(m_hwnd, IDC_DELAY_OTHERS, nen_options.iDelayOthers != -1);
-		Utils::enableDlgControl(m_hwnd, IDC_DELAY_ERR, nen_options.iDelayErr != -1);
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MESSAGE, tmpOpts.iDelayMsg != -1);
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_OTHERS, tmpOpts.iDelayOthers != -1);
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_ERR, tmpOpts.iDelayErr != -1);
 		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MUC, g_Settings.iPopupTimeout != -1);
 
-		nen_options.colBackMsg = msgBack.GetColor();
-		nen_options.colTextMsg = msgText.GetColor();
-		nen_options.colBackOthers = otherBack.GetColor();
-		nen_options.colTextOthers = otherText.GetColor();
-		nen_options.colBackErr = errBack.GetColor();
-		nen_options.colTextErr = errText.GetColor();
+		tmpOpts.colBackMsg = msgBack.GetColor();
+		tmpOpts.colTextMsg = msgText.GetColor();
+		tmpOpts.colBackOthers = otherBack.GetColor();
+		tmpOpts.colTextOthers = otherText.GetColor();
+		tmpOpts.colBackErr = errBack.GetColor();
+		tmpOpts.colTextErr = errText.GetColor();
 		g_Settings.crPUBkgColour = mucBack.GetColor();
 		g_Settings.crPUTextColour = mucText.GetColor();
 	}
