@@ -248,8 +248,6 @@ public:
 	{
 		wszOldPass = m_proto->getMStringW("Password");
 		edtPassword.SetText(wszOldPass);
-
-		onChange_Tray(0);
 		return true;
 	}
 
@@ -330,8 +328,6 @@ public:
 				if (iStatus == m_proto->m_iStatus2)
 					cmbStatus2.SetCurSel(idx);
 			}
-
-			onChange_Timeout1(0);
 		}
 
 		return true;

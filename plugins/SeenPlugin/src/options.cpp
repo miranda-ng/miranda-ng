@@ -119,7 +119,6 @@ public:
 			SendDlgItemMessage(m_hwnd, i, CPM_SETCOLOUR, 0, back);
 			SendDlgItemMessage(m_hwnd, i + 20, CPM_SETCOLOUR, 0, text);
 		}
-		onChange_Popups(0);
 
 		SetDlgItemText(m_hwnd, IDC_POPUPSTAMP, g_plugin.getMStringW("PopupStamp", DEFAULT_POPUPSTAMP));
 		SetDlgItemText(m_hwnd, IDC_POPUPSTAMPTEXT, g_plugin.getMStringW("PopupStampText", DEFAULT_POPUPSTAMPTEXT));

@@ -607,7 +607,6 @@ public:
 	{
 		chkLoadAll.SetState(g_plugin.iLoadCount == 0);
 		chkLoadNumber.SetState(!chkLoadAll.GetState());
-		onChange_All(0);
 		return true;
 	}
 

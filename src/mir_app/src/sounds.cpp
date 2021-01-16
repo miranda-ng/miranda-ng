@@ -132,7 +132,6 @@ public:
 		RebuildTree();
 		m_tree.SetItemState(0, TVIS_SELECTED, TVIS_SELECTED);
 		chkSounds.SetState(db_get_b(0, "Skin", "UseSound", 0) != 0);
-		onChange_Sounds(0);
 		return true;
 	}
 

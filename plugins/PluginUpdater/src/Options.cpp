@@ -218,9 +218,6 @@ public:
 				chkPlatform.Hide();
 		}
 #endif
-
-		onChange_Startup(0);
-		onChange_Period(0);
 		return true;
 	}
 

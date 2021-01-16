@@ -52,8 +52,6 @@ public:
 		ptrW buf(m_proto->getWStringA(DB_KEY_PASSWORD));
 		if (buf)
 			m_edPassword.SetText(buf);
-
-		onChange_GroupChats(0);
 		return true;
 	}
 

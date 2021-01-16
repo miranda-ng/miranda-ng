@@ -277,11 +277,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_AVATARSIZESPIN, UDM_SETRANGE, 0, MAKELONG(100, 16));
 		SendDlgItemMessage(m_hwnd, IDC_AVATARSIZESPIN, UDM_SETPOS, 0, cfg::dat.avatarSize);
 
-		onChange_AvatarsBorder(0);
-		onChange_AvatarsRounded(0);
-
 		chkLocalTime.SetState(cfg::dat.bShowLocalTime);
-		onChange_LocalTime(0);
 
 		if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT)
 			SendDlgItemMessage(m_hwnd, IDC_ALIGNMENT, CB_SETCURSEL, 1, 0);

@@ -65,10 +65,8 @@ public:
 		chkCycle.SetState(iTrayIcon == SETTING_TRAYICON_CYCLE);
 		chkMulti.SetState(iTrayIcon == SETTING_TRAYICON_MULTI);
 		chkDontCycle.SetState(iTrayIcon == SETTING_TRAYICON_SINGLE);
-		onChange_Tray(0);
 		
 		chkDisableBlink.SetState(g_plugin.getBool("DisableTrayFlash", false));
-		onChange_DisableBlink(0);
 
 		blink.SetPosition(g_plugin.getWord("IconFlashTime", 550));
 		cycleTime.SetPosition(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT));

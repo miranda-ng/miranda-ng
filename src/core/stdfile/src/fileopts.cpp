@@ -132,8 +132,6 @@ public:
 		default: CheckDlgButton(m_hwnd, IDC_ASK, BST_CHECKED); break;
 		}
 
-		onChange_NoScanner(0);
-		onChange_AutoAccept(0);
 		return true;
 	}
 

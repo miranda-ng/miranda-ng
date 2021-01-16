@@ -286,8 +286,6 @@ public:
 		cmbSendMode.AddString(TranslateT("Ctrl+Enter"));
 		cmbSendMode.AddString(TranslateT("Shift+Enter"));
 		cmbSendMode.SetCurSel(g_dat.sendMode);
-
-		onChange_AutoPopup(0);
 		return true;
 	}
 
@@ -361,13 +359,7 @@ public:
 		chkLimitChatTabs.OnChange = Callback(this, &CTabsOptionsDlg::onChange_LimitChatTabs);
 		chkSeparateChats.OnChange = Callback(this, &CTabsOptionsDlg::onChange_SeparateChats);
 	}
-
-	bool OnInitDialog() override
-	{
-		onChange_UseTabs(0);
-		return true;
-	}
-
+		
 	void onChange_UseTabs(CCtrlCheck*)
 	{
 		int bChecked = chkUseTabs.GetState();
@@ -462,9 +454,6 @@ public:
 
 		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(m_hwnd, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 255));
 		SetDlgItemTextA(m_hwnd, IDC_ITRANSPARENCYPERC, str);
-
-		onChange_Transparency(0);
-		onChange_ShowTitlebar(0);
 		return true;
 	}
 
@@ -616,12 +605,6 @@ public:
 			break;
 		}
 
-		onChange_Time(0);
-		onChange_Times(0);
-		onChange_Dates(0);
-		onChange_GroupMsg(0);
-		onChange_IndentText(0);
-
 		PARAFORMAT2 pf2;
 		memset(&pf2, 0, sizeof(pf2));
 		pf2.cbSize = sizeof(pf2);
@@ -746,9 +729,6 @@ public:
 		onResetClist(0);
 
 		chkTypingBalloon.SetState(!g_plugin.bShowTypingClist);
-
-		onChange_Notify(0);
-		onChange_Tray(0);
 		return true;
 	}
 

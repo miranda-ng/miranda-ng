@@ -382,7 +382,6 @@ public:
 		edtHighlight.Enable(g_Settings.bHighlightEnabled);
 
 		chkLogging.SetState(g_Settings.bLoggingEnabled);
-		onChange_Logging(nullptr);
 		return true;
 	}
 

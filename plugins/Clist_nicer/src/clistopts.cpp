@@ -61,7 +61,6 @@ public:
 		chkCycle.SetState(g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_CYCLE);
 		chkMulti.SetState(g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI);
 		chkDontCycle.SetState(g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE);
-		onChange_Cycle(0);
 
 		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
 		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
@@ -204,13 +203,11 @@ public:
 
 		for (auto &it : checkBoxToStyleEx)
 			CheckDlgButton(m_hwnd, it.id, (exStyle & it.flag) ^ (it.flag * it.not_t) ? BST_CHECKED : BST_UNCHECKED);
-		onChange_Smooth(0);
 
 		CheckDlgButton(m_hwnd, IDC_FULLROWSELECT, (cfg::dat.dwFlags & CLUI_FULLROWSELECT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DBLCLKAVATARS, cfg::dat.bDblClkAvatars ? BST_CHECKED : BST_UNCHECKED);
 
 		chkGreyOut.SetState(db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS));
-		onChange_GreyOut(0);
 
 		DWORD style = db_get_dw(0, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS);
 		TVINSERTSTRUCT tvis;
@@ -314,7 +311,6 @@ public:
 		CheckDlgButton(m_hwnd, IDC_ONDESKTOP, g_plugin.getByte("OnDesktop", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		chkAutoSize.SetState(cfg::dat.autosize);
-		onChange_AutoSize(0);
 
 		SendDlgItemMessage(m_hwnd, IDC_BORDERSTYLE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Title bar"));
 		SendDlgItemMessage(m_hwnd, IDC_BORDERSTYLE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tool Window"));
@@ -344,7 +340,6 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("HideTime", SETTING_HIDETIME_DEFAULT), 0));
 
 		chkAutoHide.SetState(g_plugin.getByte("AutoHide", SETTING_AUTOHIDE_DEFAULT));
-		onChange_AutoHide(0);
 
 		ptrW tszTitle(g_plugin.getWStringA("TitleText"));
 		if (tszTitle != NULL)
@@ -355,7 +350,6 @@ public:
 		CheckDlgButton(m_hwnd, IDC_FULLTRANSPARENT, cfg::dat.bFullTransparent ? BST_CHECKED : BST_UNCHECKED);
 
 		chkTransparent.SetState(cfg::dat.isTransparent);
-		onChange_Transparent(0);
 
 		SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 		SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
@@ -574,7 +568,6 @@ public:
 	bool OnInitDialog() override
 	{
 		chkBitmap.SetState(db_get_b(0, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP));
-		onChange_Bitmap(0);
 
 		CheckDlgButton(m_hwnd, IDC_WINCOLOUR, db_get_b(0, "CLC", "UseWinColours", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SKINMODE, cfg::dat.bWallpaperMode ? BST_CHECKED : BST_UNCHECKED);
@@ -682,7 +675,6 @@ public:
 	bool OnInitDialog() override
 	{
 		chkShowSbar.SetState(db_get_b(0, "CLUI", "ShowSBar", 1));
-		onChange_Show(0);
 
 		BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 		CheckDlgButton(m_hwnd, IDC_SHOWICON, showOpts & 1 ? BST_CHECKED : BST_UNCHECKED);

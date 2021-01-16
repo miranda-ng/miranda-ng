@@ -1209,7 +1209,6 @@ public:
 
 		chkLimit.SetState(M.GetByte("cuttitle", 0));
 		spnLimit.SetPosition(db_get_w(0, SRMSGMOD_T, "cut_at", 15));
-		onChange_Cut(&chkLimit);
 
 		cmbEscMode.AddString(TranslateT("Normal - close tab, if last tab is closed also close the window"));
 		cmbEscMode.AddString(TranslateT("Minimize the window to the task bar"));

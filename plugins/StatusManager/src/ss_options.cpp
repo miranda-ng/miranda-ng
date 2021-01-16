@@ -264,7 +264,6 @@ class CSSMainOptDlg : public CSSOptionsBaseDlg
 		chkSetDocked.Enable(db_get_b(0, MODULE_CLIST, SETTING_TOOLWINDOW, 1));
 		if (!chkSetDocked.Enabled())
 			chkSetDocked.SetState(false);
-		onChange_Docked(0);
 
 		int val = SSPlugin.getByte(SETTING_WINSTATE, SETTING_STATE_NORMAL);
 		SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_RESETCONTENT, 0, 0);
@@ -285,8 +284,6 @@ class CSSMainOptDlg : public CSSOptionsBaseDlg
 		SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_SETITEMDATA, item, SETTING_STATE_NORMAL);
 		if (val == SETTING_STATE_NORMAL || (val == SETTING_STATE_MINIMIZED) && db_get_b(0, MODULE_CLIST, SETTING_TOOLWINDOW, 0))
 			SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_SETCURSEL, item, 0);
-
-		onChange_SetWinSize(0);
 	}
 
 	CCtrlButton btnShowCmdl;
@@ -353,11 +350,6 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETITEMDATA, (WPARAM)item, (LPARAM)DOCKED_NONE);
 		if (val == DOCKED_NONE)
 			SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETCURSEL, (WPARAM)item, 0);
-
-		onChange_SetProfile(0);
-		onChange_ShowDialog(0);
-		onChange_SetWinState(0);
-		onChange_SetWinLocation(0);
 
 		ReinitProfiles();
 		timer.Start(100);
