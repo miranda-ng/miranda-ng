@@ -28,7 +28,7 @@ Używaj podgrup dla kanałów serwera (wymagane ponowne uruchomienie)
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]
-
+edytowane w
 ;file \protocols\Discord\src\groupchat.cpp
 [Change &nickname]
 Zmień &nick
@@ -52,7 +52,7 @@ Ustaw swój nowy nick:
 [Main icon]
 Główna ikona
 [Group chats]
-Rozmowy grupowe
+Czaty
 [Call]
 Zadzwoń
 [Call ended]
@@ -77,7 +77,7 @@ Rozmowa zakończona
 [Create new channel]
 
 [Copy Discord ID]
-
+Kopiuj Discord ID
 [Enable guild sync]
 
 ;file \protocols\Discord\src\options.cpp
@@ -97,7 +97,7 @@ Połączenie %s
 [User ID]
 ID użytkownika
 [Protocol is offline or user isn't authorized yet]
-
+Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 ;file \protocols\Discord\src\server.cpp
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
 

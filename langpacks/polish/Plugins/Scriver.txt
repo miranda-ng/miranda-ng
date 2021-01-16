@@ -79,7 +79,7 @@ Wysokość okna wpisywania tekstu
 [lines]
 linie
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
-
+Możesz użyć osadzonych zmiennych: %name% dla nazwy kontaktu,%status% dla jego statusu,%statusmsg% dla opisu i %account% dla nazwy jego konta
 [Message window event log]
 Dziennik okna rozmowy
 [Show icons]
@@ -217,7 +217,7 @@ Ogranicz do
 [KB]
 KB
 [Group chat]
-Rozmowy grupowe
+Czaty
 [Use same style as in the message log]
 Użyj takiego samego stylu, jak w dzienniku
 [Use default colors]
@@ -260,7 +260,7 @@ Zamknij kartę
 [Messaging]
 Wiadomości
 [Group chats]
-Rozmowy grupowe
+Czaty
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Migaj, kiedy ktoś pisze
@@ -564,7 +564,7 @@ Pole tekstowe
 [Input area background]
 Tło obszaru pisania wiadomości
 [Unused]
-
+Nie używane
 [Info bar contact name]
 Nazwa kontaktu w pasku informacyjnym
 [Info bar background]
@@ -590,13 +590,13 @@ Porozmawiajmy
 [Invisible]
 Niewidoczny
 [Enter]
-
+Enter
 [Double 'Enter']
-
+Podwójny 'Enter'
 [Ctrl+Enter]
-
+Ctrl+Enter
 [Shift+Enter]
-
+Shift+Enter
 [** New contacts **]
 ** Nowe kontakty **
 [** Unknown contacts **]

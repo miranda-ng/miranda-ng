@@ -59,7 +59,7 @@ Opis
 [Account:]
 Konto:
 [Away mode]
-
+Tryb nieobecności
 [Set]
 Ustaw
 [when full-screen mode is active]
@@ -69,13 +69,13 @@ gdy włączy się wygaszacz
 [when workstation is locked]
 kiedy komputer jest zablokowany
 [when terminal session is disconnected]
-
+gdy sesja terminala jest rozłączona
 [after]
 po
 [minutes of inactivity]
 minutach bezczynności
 [After away]
-
+Po nieobecności
 [minutes of level 1 mode]
 minutach trybu poziomu 1
 [only set when inactive]
@@ -87,7 +87,7 @@ Przywróć status po powrocie
 [Confirm resetting status]
 Potwierdź resetowanie statusu
 [Enter idle mode]
-
+Przejdź do trybu bezczynności
 [Only set if current status is]
 Ustaw tylko, gdy obecny status to:
 [Command line]
@@ -235,7 +235,7 @@ Usuń
 [Create a TopToolBar button]
 Utwórz przycisk paska narzędzi
 [Show confirm dialog when loading]
-Pokaż okno potwierdzania przy załadunku
+Okno potwierdzania przy uruchamianiu
 [Create a main menu item]
 Utwórz wpis w menu głównym
 [Status profiles]

@@ -98,7 +98,7 @@ Nieznana odpowiedź %s (%i)
 Brak odpowiedzi od %s (%i)
 ;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
 [CloudFile transfer]
-
+Wyślij przez CloudFile
 [%s (%i):\nCould not add a share to the CloudFile plugin.]
 %s (%i):\nNie można udostępnić przez wtyczkę CloudFile.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
@@ -147,7 +147,7 @@ Wyślij jako obrazek
 ;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
-Transfer HTTPServer
+Wyślij przez HTTPServer
 [Could not start the HTTP Server plugin.]
 Nie można uruchomić wtyczki serwera HTTP.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]

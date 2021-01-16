@@ -342,7 +342,7 @@ Po zakończeniu zamknij okno transferu
 [Clear completed transfers on window closing]
 Czyść zakończone transfery plików
 [Sort file transfers in the reverse order]
-
+Sortuj transfery plików w odwrotnej kolejności
 [Virus scanner]
 Skaner antywirusowy
 [Scan files:]
@@ -823,7 +823,7 @@ Automatycznie wykryj tekst
 [Calling modules' names]
 Nazwy wywołanych modułów
 [Print dates]
-
+Zapisuj daty
 [Log to]
 Zapisz do
 [OutputDebugString()]
@@ -1161,7 +1161,7 @@ Pytaj przed usunięciem kontaktów
 [Remove temporary contacts on exit]
 Usuń kontakty tymczasowe podczas wyłączania programu
 [Search works as filter]
-
+Wyszukiwanie działa jako filtr
 ['Hide offline' means to hide:]
 "Ukryj rozłączonych" tzn.:
 [Default settings for known event types]
@@ -1596,7 +1596,7 @@ Informacja (10x10)
 [Messaging]
 Wiadomości
 [Group chats]
-Rozmowy grupowe
+Czaty
 [Group chats log]
 Dziennik czatu
 [Appearance and functionality of chat room windows]
@@ -1861,7 +1861,7 @@ Mężczyzna
 [Female]
 Kobieta
 [<not specified>]
-<nieokreślone>
+-
 [Single]
 Singiel
 [Close relationships]
@@ -2174,7 +2174,7 @@ Tryb wyciszenia czatu
 Dodatkowe ikony
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
-
+Wycisz czat
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Nie wypełniono pola wyszukiwania. Wprowadź wyszukiwane hasło i spróbuj ponownie.
@@ -2350,7 +2350,7 @@ Menu podgrupy
 [New submenu]
 Nowe podmenu
 [Do you really want to delete this menu item?]
-
+Czy na pewno chcesz usunąć tę pozycję menu?
 [Menus]
 Menu
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2644,7 +2644,7 @@ Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
-Nie można rozpocząć wyszukiwania w "%s", ponieważ wystąpił problem. Czy "%s" jest połączony?
+Nie można rozpocząć wyszukiwania na koncie '%s'. Czy konto '%s' jest połączone z siecią?
 [Could not search on any of the protocols, are you online?]
 Nie można wyszukiwać w żadnym z protokołów. Jesteś połączony?
 [Problem with search]

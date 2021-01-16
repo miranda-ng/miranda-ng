@@ -23,13 +23,13 @@ Domyślna grupa:
 [Keep messages as unread on server]
 Utrzymuj wiadomości na serwerze jako nieprzeczytane
 [Use invisible mode after login]
-
+Użyj trybu niewidocznego po zalogowaniu
 [Load also Messenger contacts at login (not only Facebook friends)]
 Pobierz przy logowaniu kontakty z Messenger'a (a nie tylko znajomości Facebook'a)
 [Group chats]
-Rozmowy grupowe
+Czaty
 [Enable group chats]
-Włącz rozmowy grupowe
+Włącz czaty
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
 [Send group chat invitation]
@@ -59,7 +59,7 @@ Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 [Participant]
 Uczestnik
 [Sticker received]
-
+Otrzymano naklejkę
 [SmileyAdd plugin required to support stickers]
 Wtyczka SmileyAdd jest wymagana do obsługi naklejek
 [URL]
@@ -67,8 +67,8 @@ Link
 [Title]
 Nazwa
 [Source]
-
+Źródło
 [Description]
 Opis
 [Playable media]
-
+Odtwarzane multimedia

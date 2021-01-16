@@ -108,9 +108,9 @@ Typ parametru
 [number value]
 wartość
 [ANSI string]
-ANSI
+Ciąg ANSI
 [Unicode string]
-Unicode
+Ciąg Unicode
 [current contact]
 obecny kontakt
 [last result]
@@ -534,7 +534,7 @@ zwróci znak Unicode zamiast Ansi
 [will not use the cache]
 Nie będzie używać cache
 [Gets the string that the contact list will use to represent a contact]
-otrzyma ciąg, którego będzie używać lista kontaktów, by przedstawiać kontakt
+Otrzyma ciąg, którego będzie używać lista kontaktów, by przedstawiać kontakt
 [int hMenu handle]
 uchwyt int hMenu
 [Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
@@ -692,7 +692,7 @@ wynik wywołania usługi protokołu
 [Send a general request through the protocol chain for a contact]
 Wyślij ogólne zapytanie poprzez łańcuch protokołu dla kontaktu
 [account name (string)]
-
+nazwa konta (ciąg)
 [Return account name associated to contact (no need to free it)]
 Zwróć nazwę konta powiązanego z kontaktem (nie ma potrzeby jej uwalniania)
 [displays the Account Manager]

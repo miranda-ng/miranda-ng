@@ -115,7 +115,7 @@ Skórki
 [Message Log]
 Dziennik wiadomości
 [Group chats]
-Rozmowy grupowe
+Czaty
 [History]
 Historia
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp

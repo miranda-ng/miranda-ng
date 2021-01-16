@@ -85,7 +85,7 @@ Rysuj linię powyżej
 [Value on a new line]
 Wartość w nowej linii
 [Parse Tipper variables first]
-Analizuj zmienne Tippera jako pierwsze
+Analizuj zmienne podpowiedzi jako pierwsze
 [Preset items:]
 Skonfigurowane elementy:
 [Items]
@@ -190,7 +190,7 @@ Ukryj rozłączonych
 Dopisz nazwę protokołu
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 [Tipper smileys]
-Emotikony Tippera
+Emotikony w podpowiedzi
 ;file \plugins\TipperYM\src\options.cpp
 [Show for all contact types]
 Pokazuj dla wszystkich typów kontaktów
@@ -470,7 +470,7 @@ Wartości
 [Tray title]
 Tytuł w zasobniku
 [Tipper]
-Tipper
+Podpowiedzi
 [Copy item]
 Skopiuj wpis
 [Arrow up]

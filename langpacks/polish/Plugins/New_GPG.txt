@@ -19,13 +19,13 @@ Włącz szyfrowanie
 [Import key from keyserver]
 Importuj klucz z serwera
 [Bind own keys to accounts]
-
+Powiąż własne klucze z kontami
 [Bind]
-
+Powiąż
 [Generate key]
 Generuj klucz
 [Select own key to bind to account]
-
+Wybierz własny klucz do powiązania z kontem
 [Key password:]
 Hasło:
 [Load other]
@@ -45,7 +45,7 @@ Eksportuj klucz prywatny
 [Change password]
 Zmień hasło
 [Set GPG bin path and keyring home dir.]
-Ustaw ścieżkę GPG bin oraz katalog domowy kluczy.
+Ustaw ścieżkę oraz katalog domowy kluczy GPG.
 [Continue]
 Kontynuuj
 [Home directory:]
@@ -129,7 +129,7 @@ Nowe hasło dwukrotnie:
 [User list:]
 Lista użytkowników:
 [Export PubKey]
-Eksportuj klucz publiczny
+Eksp. klucz publiczny
 [Turn on debug log]
 Włącz log debugowania
 [Use Jabber API on Miranda NG (recommended)]
@@ -143,7 +143,7 @@ Automatyczna wymiana kluczy
 [Copy own key]
 Kopiuj własny klucz
 [Bind keys to accounts]
-
+Powiąż klucze z kontami
 [Add tags to encoded and decoded messages]
 Dodaj tagi do zakodowanych i odkodowanych wiadomości
 [Incoming message tags:]
@@ -151,9 +151,9 @@ Tagi wiadomości przychodzących:
 [Outgoing message tags:]
 Tagi wiadomości wychodzących:
 [Open:]
-Otwórz:
+Otwórz
 [Close:]
-Zamknij:
+Zamknij
 [Strip all tags in outgoing messages]
 Wytnij wszystkie tagi w wiadomościach wychodzących
 [Turn on presence signing (Jabber) (required by XEP-0027)]
@@ -163,7 +163,7 @@ Eksportuj klucze
 [Import keys]
 Importuj klucze
 [Send error messages]
-
+Wyślij komunikaty o błędach
 ;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
 Wyłącz GPG
@@ -238,11 +238,11 @@ Otrzymano zaszyfrowaną wiadomość od kontaktu, dla którego szyfrowanie jest w
 [Do you want to try to decrypt encrypted message?]
 Czy chcesz spróbować odszyfrować zaszyfrowaną wiadomość?
 [GPG cannot decrypt incoming message]
-
+GPG nie może odszyfrować wiadomości przychodzącej
 [Received unencrypted message:]
-
+Otrzymano niezaszyfrowaną wiadomość:
 [Failed to decrypt GPG encrypted message.\nMessage body for manual decryption:\n]
-
+Nie udało się odszyfrować wiadomości zaszyfrowanej GPG.\nTreść wiadomości do ręcznego odszyfrowania:\n
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Próbujemy zaszyfrować niezaufanym kluczem. Czy chcesz na stałe zaufać temu kluczowi?
 [Something is wrong, GPG does not understand us, aborting encryption.]
@@ -374,7 +374,7 @@ Akceptuj
 [Received key from %s]
 Otrzymano klucz od %s
 [Please enter password for key with ID: ]
-
+Wprowadź hasło dla klucza z identyfikatorem:
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 Czy chcesz przełączyć szyfrowanie dla wszystkich subkontaktów?

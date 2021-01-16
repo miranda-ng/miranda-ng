@@ -119,7 +119,7 @@ Kontener używa prywatnych opcji. Wysokość panela nie jest dzielona z innymi k
 [Show picture for this contact]
 Pokaż zdjęcie dla tego kontaktu
 [Advanced tweaks]
-Zaawansowane poprawki
+Zaawansowane
 [Message send timeout]
 Limit czasu wysyłania wiadomości
 [seconds]
@@ -940,13 +940,13 @@ Tło pola
 [Nick list background]
 Tło listy użytkowników
 [Group chat log background]
-Tło dziennika czatu grupowego
+Tło dziennika czatu
 [Appearance and functionality of chat room windows]
 Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
 Wygląd dziennika wiadomości
 [Open new chat rooms in the default container]
-Otwórz nowe okno rozmowy grupowej w domyślnym kontenerze
+Otwórz nowe okno czatu w domyślnym kontenerze
 [Flash window when someone speaks]
 Migaj oknem, gdy ktoś mówi
 [Flash window when a word is highlighted]
@@ -1002,7 +1002,7 @@ Dodawaj nową linię po nazwie autora wiadomości
 [Colorize user names in message log]
 Koloruj nicki w dzienniku wiadomości
 [Scale down icons to 10x10 pixels in the chat log]
-Skaluj ikony do 10x10 px w dzienniku rozmowy grupowej
+Skaluj ikony do 10x10 px w dzienniku czatu
 [No markers]
 Brak znaków
 [Show as icons]

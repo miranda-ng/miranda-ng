@@ -83,7 +83,7 @@ Nie dodawaj powiadomień do historii
 [Preview]
 Podgląd
 [Current Rate:]
-Aktualna ocena:
+Aktualny wskaźnik:
 [Rate Fetch Time:]
 Czas pobierania wskaźnika:
 [Previous Rate:]
@@ -105,11 +105,11 @@ Poprzedni wskaźnik:
 [&Tendency:]
 &Tendencja:
 [&Personal key:]
-
+&Klucz osobisty:
 [&Advanced Settings...]
 &Zaawansowane ustawienia...
 [Rate Info]
-
+Informacje o walucie
 ;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 Nie ma co pokazać
@@ -133,7 +133,7 @@ Informacje dostarczone przez
 Wprowadź liczbę dodatnią.
 ;file \protocols\CurrencyRates\src\CurrencyRateInfoDlg.cpp
 [Currency Rate]
-
+Kurs waluty
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
 [Source of Information]
 Źródło informacji
@@ -174,17 +174,17 @@ Auto-aktualizacja włączona
 [Auto Update Disabled]
 Auto-aktualizacja wyłączona
 [Currency Rates]
-
+Kursy walut
 [Enable/Disable Auto Update]
 Włącz/wyłącz autoaktualizację
 [Refresh All Rates]
-
+Odśwież wszystkie kursy
 [Currency Converter...]
 Przelicznik walut...
 [Export All Currency Rates]
-
+Eksportuj wszystkie kursy walut
 [Import All Currency Rates]
-
+Importuj wszystkie kursy walut
 [Refresh]
 Odśwież
 [Open Log File...]
@@ -194,31 +194,31 @@ Notowanie...
 [Edit Settings...]
 Edytuj ustawienia...
 [Enable/Disable Currency Rates Auto Update]
-
+Włącz/wyłącz automatyczną aktualizację kursów walut
 [Currency Rates Auto Update Enabled]
-
+Włączono automatyczną aktualizację kursów walut
 [Currency Rates Auto Update Disabled]
-
+Wyłączono automatyczną aktualizację kursów walut
 [Currency Symbol]
-
+Symbol waluty
 [Network]
 Protokoły
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
 [This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-
+Ta wtyczka wymaga klucza osobistego. Naciśnij przycisk Tak, aby uzyskać go w witrynie, a następnie wprowadź wynik w oknie dialogowym Opcje, w przeciwnym razie wtyczka nie będzie działać poprawnie.
 [CurrencyRates HTTP connections]
 Połączenie HTTP CurrencyRates
 ;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 Ikona protokołu
 [Currency Rate up]
-
+Wzrost kursu waluty
 [Currency Rate down]
-
+Spadek kursu waluty
 [Currency Rate not changed]
-
+Nie zmieniono kursu waluty
 [Currency Rate Section]
-
+Sekcja kursów walut
 [Export]
 Eksportuj
 [Swap button]

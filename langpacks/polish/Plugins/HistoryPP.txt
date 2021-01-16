@@ -696,4 +696,4 @@ Przychodzące zdarzenia
 [Outgoing events]
 Wychodzące zdarzenia
 [Unused]
-
+Nie używany

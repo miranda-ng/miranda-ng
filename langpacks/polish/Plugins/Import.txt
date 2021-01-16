@@ -94,9 +94,9 @@ Stare konto
 [New account]
 Nowe konto
 [Protocol %S is not loaded, skipping account %s creation]
-Protokół %s nie jest załadowany, pomijam tworzenie konta %s
+Protokół %S nie jest załadowany, pomijam tworzenie konta %s
 [Unable to create an account %s of protocol %S]
-Nie można utworzyć konta %s dla protokołu %s
+Nie można utworzyć konta %s dla protokołu %S
 [Metacontact cannot be imported due to its ambiguity.]
 Metakontakt nie może zostać zaimportowany z powodu swojej dwuznaczności.
 [Added metacontact '%s']
@@ -106,7 +106,7 @@ Dodano metakontakt
 [Skipping contact with no protocol]
 Pomijanie kontaktu bez przypisanego protokołu
 [Skipping contact, account %S cannot be mapped.]
-Pomijanie kontaktu, konto %s nie może zostać przypisane.
+Pomijanie kontaktu, konto %S nie może zostać przypisane.
 [Skipping contact, %S not installed.]
 Pomijanie kontaktu, %S jest niezainstalowane.
 [Skipping non-IM contact (%S)]
@@ -181,11 +181,11 @@ Nie można przeanalizować nagłówka pliku, pomijanie pliku
 [Loading file '%s'...]
 Wczytywanie pliku '%s'...
 [Failed to open file <%s> for import: %d]
-
+Nie udało się otworzyć importowanego pliku <%s>: %d
 [Failed to mmap file <%s> for import: %d]
-
+Nie udało się zaimportować pliku mmap <%s>: %d
 [Failed to map view of file <%s> for import: %d]
-
+Nie udało się zmapować importowanego pliku <%s>: %d
 ;file \plugins\Import\src\ui.cpp
 [Import history for %s]
 Import historii dla %s

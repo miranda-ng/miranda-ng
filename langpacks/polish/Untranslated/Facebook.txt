@@ -1,4 +1,0 @@
-[Use invisible mode after login]
-[Sticker received]
-[Source]
-[Playable media]

@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Core driver to provide OpenSSL-based SSL services. It provides TLS 1.2/1.3 support for legacy operating systems.]
-
+Główny sterownik zapewniający usługi SSL oparte na OpenSSL. Zapewnia obsługę TLS 1.2/1.3 dla starszych systemów operacyjnych.]
 ;file \plugins\OpenSSL\src\ssl_openssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu

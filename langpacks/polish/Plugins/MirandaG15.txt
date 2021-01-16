@@ -101,7 +101,7 @@ Emotikony
 [Status changes]
 Zmiany statusu
 [Group chat events:]
-Zdarzenia rozmowy grupowej:
+Zdarzenia na czacie:
 [Notices]
 Wzmianki
 [Channel events]

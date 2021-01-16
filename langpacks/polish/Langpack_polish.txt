@@ -343,6 +343,8 @@ Minimalizuj okno transferu plików
 Po zakończeniu zamknij okno transferu
 [Clear completed transfers on window closing]
 Czyść zakończone transfery plików
+[Sort file transfers in the reverse order]
+Sortuj transfery plików w odwrotnej kolejności
 [Virus scanner]
 Skaner antywirusowy
 [Scan files:]
@@ -817,6 +819,8 @@ Dziel tekst tam gdzie możliwe
 Automatycznie wykryj tekst
 [Calling modules' names]
 Nazwy wywołanych modułów
+[Print dates]
+Zapisuj daty
 [Log to]
 Zapisz do
 [OutputDebugString()]
@@ -1153,6 +1157,8 @@ Włącz grupy
 Pytaj przed usunięciem kontaktów
 [Remove temporary contacts on exit]
 Usuń kontakty tymczasowe podczas wyłączania programu
+[Search works as filter]
+Wyszukiwanie działa jako filtr
 ['Hide offline' means to hide:]
 "Ukryj rozłączonych" tzn.:
 [Default settings for known event types]
@@ -1568,7 +1574,7 @@ Informacja (10x10)
 [Messaging]
 Wiadomości
 [Group chats]
-Rozmowy grupowe
+Czaty
 [Group chats log]
 Dziennik czatu
 [Appearance and functionality of chat room windows]
@@ -1818,7 +1824,7 @@ Mężczyzna
 [Female]
 Kobieta
 [<not specified>]
-<nieokreślone>
+-
 [Single]
 Singiel
 [Close relationships]
@@ -2107,6 +2113,8 @@ Aktywność czatu
 Tryb wyciszenia czatu
 [Extra icons]
 Dodatkowe ikony
+[Mute chat]
+Wycisz czat
 [You haven't filled in the search field. Please enter a search term and try again.]
 Nie wypełniono pola wyszukiwania. Wprowadź wyszukiwane hasło i spróbuj ponownie.
 [Search]
@@ -2269,6 +2277,8 @@ Menu grupy
 Menu podgrupy
 [New submenu]
 Nowe podmenu
+[Do you really want to delete this menu item?]
+Czy na pewno chcesz usunąć tę pozycję menu?
 [Menus]
 Menu
 [Tray menu]
@@ -2466,7 +2476,7 @@ Baza danych została skompresowana pomyślnie
 [Run]
 Uruchom
 [Compact]
-Skompaktuj
+Kompresuj
 [Check database]
 Sprawdź profil
 [Size]
@@ -2540,7 +2550,7 @@ Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
 [&Accounts...]
 &Konta...
 [Could not start a search on '%s', there was a problem - is %s connected?]
-Nie można rozpocząć wyszukiwania w "%s", ponieważ wystąpił problem. Czy "%s" jest połączony?
+Nie można rozpocząć wyszukiwania na koncie '%s'. Czy konto '%s' jest połączone z siecią?
 [Could not search on any of the protocols, are you online?]
 Nie można wyszukiwać w żadnym z protokołów. Jesteś połączony?
 [Problem with search]
@@ -3273,9 +3283,9 @@ Typ parametru
 [number value]
 wartość
 [ANSI string]
-ANSI
+Ciąg ANSI
 [Unicode string]
-Unicode
+Ciąg Unicode
 [current contact]
 obecny kontakt
 [last result]
@@ -3699,7 +3709,7 @@ zwróci znak Unicode zamiast Ansi
 [will not use the cache]
 Nie będzie używać cache
 [Gets the string that the contact list will use to represent a contact]
-otrzyma ciąg, którego będzie używać lista kontaktów, by przedstawiać kontakt
+Otrzyma ciąg, którego będzie używać lista kontaktów, by przedstawiać kontakt
 [int hMenu handle]
 uchwyt int hMenu
 [Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
@@ -3856,6 +3866,8 @@ Włącza lub wyłącza okienka powiadomień (może być porzucone)
 wynik wywołania usługi protokołu
 [Send a general request through the protocol chain for a contact]
 Wyślij ogólne zapytanie poprzez łańcuch protokołu dla kontaktu
+[account name (string)]
+nazwa konta (ciąg)
 [Return account name associated to contact (no need to free it)]
 Zwróć nazwę konta powiązanego z kontaktem (nie ma potrzeby jej uwalniania)
 [displays the Account Manager]
@@ -4611,7 +4623,7 @@ Przechowuj stare awatary tego kontaktu na dysku
 [Log this user's avatars changes to history]
 Zapisuj zmiany awatara tego kontaktu w historii
 [Show popups for this user]
-Pokaż popowiadomienia dla tego użytkownika
+Pokaż powiadomienia dla tego użytkownika
 [Protocols]
 Protokoły
 [Enable tracking for these protocols:]
@@ -8583,7 +8595,7 @@ Nie dodawaj powiadomień do historii
 [Preview]
 Podgląd
 [Current Rate:]
-Aktualna ocena:
+Aktualny wskaźnik:
 [Rate Fetch Time:]
 Czas pobierania wskaźnika:
 [Previous Rate:]
@@ -8604,8 +8616,12 @@ Poprzedni wskaźnik:
 &Opis:
 [&Tendency:]
 &Tendencja:
+[&Personal key:]
+&Klucz osobisty:
 [&Advanced Settings...]
 &Zaawansowane ustawienia...
+[Rate Info]
+Informacje o walucie
 [There is nothing to show]
 Nie ma co pokazać
 [Seconds]
@@ -8624,6 +8640,8 @@ Wprowadź tekst do wyświetlenia na liście kontaktów.
 Informacje dostarczone przez
 [Enter positive number.]
 Wprowadź liczbę dodatnią.
+[Currency Rate]
+Kurs waluty
 [Source of Information]
 Źródło informacji
 [Rate Value]
@@ -8660,10 +8678,18 @@ Skrócona notacja dla "%f/%i"
 Auto-aktualizacja włączona
 [Auto Update Disabled]
 Auto-aktualizacja wyłączona
+[Currency Rates]
+Kursy walut
 [Enable/Disable Auto Update]
 Włącz/wyłącz autoaktualizację
+[Refresh All Rates]
+Odśwież wszystkie kursy
 [Currency Converter...]
 Przelicznik walut...
+[Export All Currency Rates]
+Eksportuj wszystkie kursy walut
+[Import All Currency Rates]
+Importuj wszystkie kursy walut
 [Refresh]
 Odśwież
 [Open Log File...]
@@ -8672,12 +8698,30 @@ Otwórz plik dziennika...
 Notowanie...
 [Edit Settings...]
 Edytuj ustawienia...
+[Enable/Disable Currency Rates Auto Update]
+Włącz/wyłącz automatyczną aktualizację kursów walut
+[Currency Rates Auto Update Enabled]
+Włączono automatyczną aktualizację kursów walut
+[Currency Rates Auto Update Disabled]
+Wyłączono automatyczną aktualizację kursów walut
+[Currency Symbol]
+Symbol waluty
 [Network]
 Protokoły
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+Ta wtyczka wymaga klucza osobistego. Naciśnij przycisk Tak, aby uzyskać go w witrynie, a następnie wprowadź wynik w oknie dialogowym Opcje, w przeciwnym razie wtyczka nie będzie działać poprawnie.
 [CurrencyRates HTTP connections]
 Połączenie HTTP CurrencyRates
 [Protocol icon]
 Ikona protokołu
+[Currency Rate up]
+Wzrost kursu waluty
+[Currency Rate down]
+Spadek kursu waluty
+[Currency Rate not changed]
+Nie zmieniono kursu waluty
+[Currency Rate Section]
+Sekcja kursów walut
 [Export]
 Eksportuj
 [Swap button]
@@ -9240,7 +9284,7 @@ Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby 
 [Cannot move old profile '%s' to '%s': error %d]
 Nie można przenieść starego profilu '%s' do '%s' : błąd %d
 [Attempt to create database '%s' failed with error code %d]
-Błąd towrzenia bazy danych '%s' : kod błędu %d
+Błąd tworzenia bazy danych '%s' : kod błędu %d
 [Logo]
 Logo
 [Too many errors!]
@@ -9434,6 +9478,8 @@ Nie otwieraj okien czatów po ich utworzeniu
 Używaj podgrup dla kanałów serwera (wymagane ponowne uruchomienie)
 [Nick:]
 Nick:
+[edited at]
+edytowane w
 [Change &nickname]
 Zmień &nick
 [Channel control]
@@ -9455,11 +9501,13 @@ Ustaw swój nowy nick:
 [Main icon]
 Główna ikona
 [Group chats]
-Rozmowy grupowe
+Czaty
 [Call]
 Zadzwoń
 [Call ended]
 Rozmowa zakończona
+[Copy Discord ID]
+Kopiuj Discord ID
 [Network]
 Protokoły
 [Account]
@@ -9470,6 +9518,8 @@ Połączenie przychodzące
 Połączenie %s
 [User ID]
 ID użytkownika
+[Protocol is offline or user isn't authorized yet]
+Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 [Owners]
 Właściciel
 [Participants]
@@ -9658,12 +9708,14 @@ Kontakty
 Domyślna grupa:
 [Keep messages as unread on server]
 Utrzymuj wiadomości na serwerze jako nieprzeczytane
+[Use invisible mode after login]
+Użyj trybu niewidocznego po zalogowaniu
 [Load also Messenger contacts at login (not only Facebook friends)]
 Pobierz przy logowaniu kontakty z Messenger'a (a nie tylko znajomości Facebook'a)
 [Group chats]
-Rozmowy grupowe
+Czaty
 [Enable group chats]
-Włącz rozmowy grupowe
+Włącz czaty
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
 [Send group chat invitation]
@@ -9688,14 +9740,20 @@ Połączenie %s
 Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 [Participant]
 Uczestnik
+[Sticker received]
+Otrzymano naklejkę
 [SmileyAdd plugin required to support stickers]
 Wtyczka SmileyAdd jest wymagana do obsługi naklejek
 [URL]
 Link
 [Title]
 Nazwa
+[Source]
+Źródło
 [Description]
 Opis
+[Playable media]
+Odtwarzane multimedia
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;============================================================
 ;  File: FavContacts.dll
@@ -10994,7 +11052,7 @@ Sprawdzaj skrzynkę Gmail co
 [minutes]
 minut
 [Notify using:]
-Powiadamienia:
+Powiadomienia:
 [Duration:]
 Czas trwania:
 [seconds]
@@ -11740,6 +11798,8 @@ Poprzedni
 Przychodzące zdarzenia
 [Outgoing events]
 Wychodzące zdarzenia
+[Unused]
+Nie używany
 #muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
 ;============================================================
 ;  File: HistoryStats.dll
@@ -12989,6 +13049,8 @@ Wpisz hasło:
 Zapamiętaj hasło dla tej sesji
 [&Invite a user]
 &Zaproś
+[&Leave/destroy chat]
+&Opuść/usuń czat
 [E-mail]
 E-mail
 [Network]
@@ -13005,6 +13067,8 @@ Nazwa
 Zmień nazwę
 [Delete]
 Usuń
+[SmileyAdd plugin required to support stickers]
+Wtyczka SmileyAdd jest wymagana do obsługi naklejek
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Połączenie nieudane.\nTwój numer ICQ lub hasło zostały odrzucone (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
@@ -13249,7 +13313,7 @@ Skórki
 [Message Log]
 Dziennik wiadomości
 [Group chats]
-Rozmowy grupowe
+Czaty
 [History]
 Historia
 [Today]
@@ -13391,9 +13455,9 @@ Stare konto
 [New account]
 Nowe konto
 [Protocol %S is not loaded, skipping account %s creation]
-Protokół %s nie jest załadowany, pomijam tworzenie konta %s
+Protokół %S nie jest załadowany, pomijam tworzenie konta %s
 [Unable to create an account %s of protocol %S]
-Nie można utworzyć konta %s dla protokołu %s
+Nie można utworzyć konta %s dla protokołu %S
 [Metacontact cannot be imported due to its ambiguity.]
 Metakontakt nie może zostać zaimportowany z powodu swojej dwuznaczności.
 [Added metacontact '%s']
@@ -13403,7 +13467,7 @@ Dodano metakontakt
 [Skipping contact with no protocol]
 Pomijanie kontaktu bez przypisanego protokołu
 [Skipping contact, account %S cannot be mapped.]
-Pomijanie kontaktu, konto %s nie może zostać przypisane.
+Pomijanie kontaktu, konto %S nie może zostać przypisane.
 [Skipping contact, %S not installed.]
 Pomijanie kontaktu, %S jest niezainstalowane.
 [Skipping non-IM contact (%S)]
@@ -13473,7 +13537,13 @@ Nieprawidłowy nagłówek pliku
 [Cannot parse file header, skipping file]
 Nie można przeanalizować nagłówka pliku, pomijanie pliku
 [Loading file '%s'...]
-Wczytytanie pliku '%s'...
+Wczytywanie pliku '%s'...
+[Failed to open file <%s> for import: %d]
+Nie udało się otworzyć importowanego pliku <%s>: %d
+[Failed to mmap file <%s> for import: %d]
+Nie udało się zaimportować pliku mmap <%s>: %d
+[Failed to map view of file <%s> for import: %d]
+Nie udało się zmapować importowanego pliku <%s>: %d
 [Import history for %s]
 Import historii dla %s
 [Miranda NG database/mContacts]
@@ -15349,7 +15419,7 @@ Niemiecki
 [Gaelic; Scottish Gaelic]
 Gaelicki szkocki
 [Irish]
-Irlancki
+Irlandzki
 [Galician]
 Galicyjski
 [Manx]
@@ -15703,7 +15773,7 @@ Akceptuj tylko wewnętrzne transfery plików (nie ujawniaj adresu IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Akceptuj prośby o autoryzację HTTP (XEP-0070)
 [Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
-Uzyj szyfrowania OMEMO dla wiadomości jeżeli to możliwe (XEP-0384) (Podstawowa obsługa, bez GUI)
+Użyj szyfrowania OMEMO dla wiadomości jeżeli to możliwe (XEP-0384) (Podstawowa obsługa, bez GUI)
 [General]
 Ogólne
 [Autoaccept multiuser chat invitations]
@@ -17112,7 +17182,7 @@ Przyciągaj okna
 [%d pix]
 %d px
 [For Scriver users: automatically hold down the Ctrl key while moving/sizing. (Make sure you use Scriver!)]
-Dla użytkowników wtyczki Scriver: symuluj wsciśnięty Ctrl przy poruszaniu/skalowaniu okna. (Upewnij się że używasz Scriver'a!)
+Dla użytkowników wtyczki Scriver: symuluj wciśnięty Ctrl przy poruszaniu/skalowaniu okna. (Upewnij się że używasz Scriver'a!)
 [Customize]
 Personalizacja
 #muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
@@ -17391,7 +17461,7 @@ Emotikony
 [Status changes]
 Zmiany statusu
 [Group chat events:]
-Zdarzenia rozmowy grupowej:
+Zdarzenia na czacie:
 [Notices]
 Wzmianki
 [Channel events]
@@ -17882,7 +17952,7 @@ Następująca wiadomość, otrzymana od "%s", nie została zaszyfrowana:\n\n%s
 [unknown OTR message received, please report that to Miranda NG developers]
 Otrzymano nieznaną wiadomość OTR, proszę zgłosić to do zespołu Mirandy NG
 [ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
- zażądał prywatnej rozmowy Off-the-Record, jedakże nie posiadasz wtyczki, która by to wspierała.\nZobacz http://pl.wikipedia.org/wiki/Off-the-record_messaging, aby uzyskać więcej informacji
+ zażądał prywatnej rozmowy Off-the-Record, jednakże nie posiadasz wtyczki, która by to wspierała.\nZobacz http://pl.wikipedia.org/wiki/Off-the-record_messaging, aby uzyskać więcej informacji
 #muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
 ;  File: MobileState.dll
@@ -19112,24 +19182,60 @@ Pokazuje historię wiadomości.
 Wiadomości
 [Files]
 Pliki
+[URLs]
+Linki
 [Total]
-Całkowity
+Wszystkie
 [Incoming]
-Przychodzące
+Przych.
 [Outgoing]
-Wychodzące
+Wych.
+[since]
+od
+[till]
+do
 [Group messages]
 Grupuj wiadomości
+[Log window]
+Okno dziennika
+[Enable vertical scroll bar]
+Włącz pionowy pasek przewijania
+[Draw window edge]
+Rysuj krawędź okna
+[Template list:]
+Lista szablonów:
+[Edit template:]
+Edytuj szablon:
+[Text preview:]
+Podgląd tekstowy:
+[Graphic preview:]
+Podgląd graficzny:
 [Filter]
-Filtr
+Filtruj
 [Show all events]
 Pokaż wszystkie zdarzenia
+[Show incoming events only]
+Pokaż tylko przychodzące zdarzenia
+[Show outgoing events only]
+Pokaż tylko wychodzące zdarzenia
+[Use custom filter...]
+Użyj niestandardowego filtra ...
 [Incoming events]
 Przychodzące zdarzenia
 [Outgoing events]
 Wychodzące zdarzenia
 [Show messages]
 Pokaż wiadomości
+[Show file transfers]
+Pokaż transfery plików
+[Show URLs]
+Pokaż Linki
+[Show sign in/out events]
+Pokaż zdarzenia logowania/wylogowania
+[Show other events]
+Pokaż inne zdarzenia
+[Auto search]
+Wyszukiwanie automatyczne
 [Log options]
 Opcje dziennika
 [Options]
@@ -19154,6 +19260,16 @@ Przychodzące pliki
 Wychodzące pliki
 [Status changes]
 Zmiany statusu
+[Other incoming events]
+Inne przychodzące zdarzenia
+[Other outgoing events]
+Inne wychodzące zdarzenia
+[Selected item's text]
+Tekst wybranego elementu
+[Selected item's background]
+Tło wybranego elementu
+[Selected item's frame]
+Ramka wybranego elementu
 [Grid background]
 Kolor tła
 [Separator]
@@ -19184,10 +19300,18 @@ Telefon
 Strona WWW
 [About]
 O wtyczce
+[History search results]
+Wyniki wyszukiwania w historii
 [Export...]
 Eksportuj...
+[Delete...]
+Usuń...
+[Search...]
+Znajdź...
 [Send message]
 Wyślij wiadomość
+[Jump to date]
+Idź do daty
 [User info]
 Informacje użytkownika
 [User menu]
@@ -19197,11 +19321,27 @@ Wyszukaj następny
 [Find previous]
 Wyszukaj poprzedni
 [Conversations]
-Rozmowy
+Rozmowa
+[It is metacontact. For export use one of this subcontacts:\r\n%s]
+To jest metakontakt. Do eksportu użyj jednego z tych podkontaktów:\r\n%s
+[Export warning]
+Ostrzeżenie dotyczące eksportu
+[JSON files]
+Pliki JSON
+[Export %s history]
+Eksport historii %s
 [Complete]
 Zakończone
+[History export]
+Eksport historii
+[Are you sure to remove selected event(s)?]
+Czy na pewno chcesz usunąć wybrane wydarzenia?
+[Are you sure to remove all events from history?]
+Czy na pewno chcesz usunąć wszystkie wydarzenia z historii?
+[User history]
+Historia użytkownika
 [Empty history]
-Pusta Historia
+Usuń historię
 [System history]
 Historia systemowa
 [Main icon]
@@ -19214,8 +19354,14 @@ Eksportuj
 Przychodząca wiadomość
 [Outgoing message]
 Wychodząca wiadomość
+[User signed in]
+Zalogowany użytkownik
 [Unknown event]
 Nieznane zdarzenie
+[Template group]
+Szablon grup
+[Cancel edit]
+Anuluj edycję
 [Update preview]
 Uaktualnij podgląd
 [Help]
@@ -19226,18 +19372,46 @@ Przywróć domyślne
 Pomoc o zmiennych
 [Test contact]
 Testowy kontakt
+[simply % character]
+znak %
+[a "hard" line break (cr/lf - will break indent)]
+„twardy” podział wiersza (cr/lf - spowoduje złamanie wcięcia)
+[my nickname]
+moja nazwa
+[buddy\'s nickname]
+nazwa kontaktu
 [event count]
 Liczba zdarzeń
 [icon]
 Ikona
+[direction icon]
+ikona kierunku
+[direction symbol]
+symbol kierunku
 [timestamp]
-Czas
+czas
+[hour (24 hour format, 0-23)]
+godzina (format 24 godzinny, 0-23)
+[hour (12 hour format)]
+godzina (format 12 godzinny)
 [minute]
-minut
+minuty
+[second]
+sekundy
 [month]
 miesiąc
+[day of month]
+dni miesiąca
 [year (4 digits)]
 rok (4 znaki)
+[day of week (Sunday, Monday... translatable)]
+dzni tygodnia (Niedziela, Poniedziałek… przetłumaczalny)
+[AM/PM symbol]
+symbol AM/PM
+[name of month, translatable]
+nazwa miesiąca, przetłumaczalny
+[the message string itself]
+sam ciąg wiadomości
 [History]
 Historia
 [Advanced]
@@ -19280,12 +19454,26 @@ Październik
 Listopad
 [December]
 Grudzień
+[System event]
+Zdarzenia systemowe
 [Interface]
 Interfejs
+[Window title]
+Tytuł okna
 [Message log]
 Dziennik wiadomości
+[Grouped messages]
+Pogrupowane wiadomości
+[Presence requests]
+Prośby o obecność
 [Other events]
 Inne zdarzenia
+[Authorization requests]
+Prośby o autoryzację
+['You were added' events]
+Zdarzenia „Zostałeś dodany”
+['You were deleted' events]
+Zdarzenia „Zostałeś usunięty”
 [Clipboard]
 Schowek
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
@@ -19720,8 +19908,14 @@ Wybierz istniejący
 Włącz szyfrowanie
 [Import key from keyserver]
 Importuj klucz z serwera
+[Bind own keys to accounts]
+Powiąż własne klucze z kontami
+[Bind]
+Powiąż
 [Generate key]
 Generuj klucz
+[Select own key to bind to account]
+Wybierz własny klucz do powiązania z kontem
 [Key password:]
 Hasło:
 [Load other]
@@ -19741,7 +19935,7 @@ Eksportuj klucz prywatny
 [Change password]
 Zmień hasło
 [Set GPG bin path and keyring home dir.]
-Ustaw ścieżkę GPG bin oraz katalog domowy kluczy.
+Ustaw ścieżkę oraz katalog domowy kluczy GPG.
 [Continue]
 Kontynuuj
 [Home directory:]
@@ -19825,7 +20019,7 @@ Nowe hasło dwukrotnie:
 [User list:]
 Lista użytkowników:
 [Export PubKey]
-Eksportuj klucz publiczny
+Eksp. klucz publiczny
 [Turn on debug log]
 Włącz log debugowania
 [Use Jabber API on Miranda NG (recommended)]
@@ -19838,6 +20032,8 @@ Szyfruj transfery pliku
 Automatyczna wymiana kluczy
 [Copy own key]
 Kopiuj własny klucz
+[Bind keys to accounts]
+Powiąż klucze z kontami
 [Add tags to encoded and decoded messages]
 Dodaj tagi do zakodowanych i odkodowanych wiadomości
 [Incoming message tags:]
@@ -19845,9 +20041,9 @@ Tagi wiadomości przychodzących:
 [Outgoing message tags:]
 Tagi wiadomości wychodzących:
 [Open:]
-Otwórz:
+Otwórz
 [Close:]
-Zamknij:
+Zamknij
 [Strip all tags in outgoing messages]
 Wytnij wszystkie tagi w wiadomościach wychodzących
 [Turn on presence signing (Jabber) (required by XEP-0027)]
@@ -19856,6 +20052,8 @@ Włącz podpisywanie obecności (Jabber) (wymagane przez XEP-0027)
 Eksportuj klucze
 [Import keys]
 Importuj klucze
+[Send error messages]
+Wyślij komunikaty o błędach
 [GPG Turn off encryption]
 Wyłącz GPG
 [GPG Turn on encryption]
@@ -19926,6 +20124,12 @@ Wykryto metakontakt
 Otrzymano zaszyfrowaną wiadomość od kontaktu, dla którego szyfrowanie jest wyłączone.\nCzy chcesz włączyć szyfrowanie dla tego kontaktu?
 [Do you want to try to decrypt encrypted message?]
 Czy chcesz spróbować odszyfrować zaszyfrowaną wiadomość?
+[GPG cannot decrypt incoming message]
+GPG nie może odszyfrować wiadomości przychodzącej
+[Received unencrypted message:]
+Otrzymano niezaszyfrowaną wiadomość:
+[Failed to decrypt GPG encrypted message.\nMessage body for manual decryption:\n]
+Nie udało się odszyfrować wiadomości zaszyfrowanej GPG.\nTreść wiadomości do ręcznego odszyfrowania:\n
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Próbujemy zaszyfrować niezaufanym kluczem. Czy chcesz na stałe zaufać temu kluczowi?
 [Something is wrong, GPG does not understand us, aborting encryption.]
@@ -20054,6 +20258,8 @@ Zastąp
 Akceptuj
 [Received key from %s]
 Otrzymano klucz od %s
+[Please enter password for key with ID: ]
+Wprowadź hasło dla klucza z identyfikatorem:
 [Do you want to toggle encryption for all subcontacts?]
 Czy chcesz przełączyć szyfrowanie dla wszystkich subkontaktów?
 [Turn off GPG encryption]
@@ -20888,6 +21094,8 @@ Ogólne
 ;  Version: 0.1.0.2
 ;  Authors: Miranda NG team
 ;============================================================
+[Core driver to provide OpenSSL-based SSL services. It provides TLS 1.2/1.3 support for legacy operating systems.]
+Główny sterownik zapewniający usługi SSL oparte na OpenSSL. Zapewnia obsługę TLS 1.2/1.3 dla starszych systemów operacyjnych.]
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu
 [Host we are connecting to is not the one certificate was issued for]
@@ -21773,7 +21981,7 @@ Wyłącz, kiedy:
 [Always (has priority)]
 Zawsze (ma priorytet)
 [Fullscreen mode]
-Funkcja pełnoekranowa
+Tryb pełnoekranowy
 [Debug]
 Analizuj
 [Quick reply]
@@ -23072,6 +23280,8 @@ nieaktywny
 Wysokość okna wpisywania tekstu
 [lines]
 linie
+[You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
+Możesz użyć osadzonych zmiennych: %name% dla nazwy kontaktu,%status% dla jego statusu,%statusmsg% dla opisu i %account% dla nazwy jego konta
 [Message window event log]
 Dziennik okna rozmowy
 [Show icons]
@@ -23209,7 +23419,7 @@ Ogranicz do
 [KB]
 KB
 [Group chat]
-Rozmowy grupowe
+Czaty
 [Use same style as in the message log]
 Użyj takiego samego stylu, jak w dzienniku
 [Use default colors]
@@ -23251,7 +23461,7 @@ Zamknij kartę
 [Messaging]
 Wiadomości
 [Group chats]
-Rozmowy grupowe
+Czaty
 [Flash when someone speaks]
 Migaj, kiedy ktoś pisze
 [Flash when a word is highlighted]
@@ -23548,6 +23758,8 @@ Przychodzący dwukropek
 Pole tekstowe
 [Input area background]
 Tło obszaru pisania wiadomości
+[Unused]
+Nie używane
 [Info bar contact name]
 Nazwa kontaktu w pasku informacyjnym
 [Info bar background]
@@ -23572,6 +23784,14 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
+[Enter]
+Enter
+[Double 'Enter']
+Podwójny 'Enter'
+[Ctrl+Enter]
+Ctrl+Enter
+[Shift+Enter]
+Shift+Enter
 [** New contacts **]
 ** Nowe kontakty **
 [** Unknown contacts **]
@@ -24429,6 +24649,8 @@ Błąd MAPI (%i):\n%s.
 Nieznana odpowiedź %s (%i)
 [Got no response from %s (%i)]
 Brak odpowiedzi od %s (%i)
+[CloudFile transfer]
+Wyślij przez CloudFile
 [%s (%i):\nCould not add a share to the CloudFile plugin.]
 %s (%i):\nNie można udostępnić przez wtyczkę CloudFile.
 [Email transfer]
@@ -24470,7 +24692,7 @@ Transfer FTP
 [Image upload]
 Wyślij jako obrazek
 [HTTPServer transfer]
-Transfer HTTPServer
+Wyślij przez HTTPServer
 [Could not start the HTTP Server plugin.]
 Nie można uruchomić wtyczki serwera HTTP.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
@@ -25896,7 +26118,7 @@ Status podczas uruchamiania
 [Allows you to define the status Miranda should set on startup, configurable per account.]
 Pozwala na określenie statusu Mirandy podczas uruchamiania, konfigurowalna dla protokołów.
 [Advanced auto away]
-Zaawansowana obługa bezczynności
+Zaawansowana obsługa bezczynności
 [Improved auto away module with some more options than the built in, configurable per account.]
 Ulepszony moduł obsługi bezczynności z większą liczbą opcji niż podstawowy, z konfiguracją dla każdego konta z osobna.
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -25935,6 +26157,8 @@ Profil
 Opis
 [Account:]
 Konto:
+[Away mode]
+Tryb nieobecności
 [Set]
 Ustaw
 [when full-screen mode is active]
@@ -25943,10 +26167,14 @@ gdy aktywny tryb pełnoekranowy
 gdy włączy się wygaszacz
 [when workstation is locked]
 kiedy komputer jest zablokowany
+[when terminal session is disconnected]
+gdy sesja terminala jest rozłączona
 [after]
 po
 [minutes of inactivity]
 minutach bezczynności
+[After away]
+Po nieobecności
 [minutes of level 1 mode]
 minutach trybu poziomu 1
 [only set when inactive]
@@ -25957,6 +26185,8 @@ Monitoruj tylko aktywność Mirandy
 Przywróć status po powrocie
 [Confirm resetting status]
 Potwierdź resetowanie statusu
+[Enter idle mode]
+Przejdź do trybu bezczynności
 [Only set if current status is]
 Ustaw tylko, gdy obecny status to:
 [Command line]
@@ -26104,7 +26334,7 @@ Usuń
 [Create a TopToolBar button]
 Utwórz przycisk paska narzędzi
 [Show confirm dialog when loading]
-Pokaż okno potwierdzania przy załadunku
+Okno potwierdzania przy uruchamianiu
 [Create a main menu item]
 Utwórz wpis w menu głównym
 [Status profiles]
@@ -26606,7 +26836,7 @@ Kontener używa prywatnych opcji. Wysokość panela nie jest dzielona z innymi k
 [Show picture for this contact]
 Pokaż zdjęcie dla tego kontaktu
 [Advanced tweaks]
-Zaawansowane poprawki
+Zaawansowane
 [Message send timeout]
 Limit czasu wysyłania wiadomości
 [seconds]
@@ -27424,13 +27654,13 @@ Tło pola
 [Nick list background]
 Tło listy użytkowników
 [Group chat log background]
-Tło dziennika czatu grupowego
+Tło dziennika czatu
 [Appearance and functionality of chat room windows]
 Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
 Wygląd dziennika wiadomości
 [Open new chat rooms in the default container]
-Otwórz nowe okno rozmowy grupowej w domyślnym kontenerze
+Otwórz nowe okno czatu w domyślnym kontenerze
 [Flash window when someone speaks]
 Migaj oknem, gdy ktoś mówi
 [Flash window when a word is highlighted]
@@ -27486,7 +27716,7 @@ Dodawaj nową linię po nazwie autora wiadomości
 [Colorize user names in message log]
 Koloruj nicki w dzienniku wiadomości
 [Scale down icons to 10x10 pixels in the chat log]
-Skaluj ikony do 10x10 px w dzienniku rozmowy grupowej
+Skaluj ikony do 10x10 px w dzienniku czatu
 [No markers]
 Brak znaków
 [Show as icons]
@@ -28457,7 +28687,7 @@ Rysuj linię powyżej
 [Value on a new line]
 Wartość w nowej linii
 [Parse Tipper variables first]
-Analizuj zmienne Tippera jako pierwsze
+Analizuj zmienne podpowiedzi jako pierwsze
 [Preset items:]
 Skonfigurowane elementy:
 [Items]
@@ -28561,7 +28791,7 @@ Ukryj rozłączonych
 [Append protocol name]
 Dopisz nazwę protokołu
 [Tipper smileys]
-Emotikony Tippera
+Emotikony w podpowiedzi
 [Show for all contact types]
 Pokazuj dla wszystkich typów kontaktów
 [Show only for contacts]
@@ -28835,7 +29065,7 @@ Wartości
 [Tray title]
 Tytuł w zasobniku
 [Tipper]
-Tipper
+Podpowiedzi
 [Copy item]
 Skopiuj wpis
 [Arrow up]
@@ -29167,7 +29397,7 @@ Inne
 [Obey 'Suppress online notification' settings]
 Stosuj ustawienia "Usuń powiadomienia dostępności"
 [Auto positioning]
-Autopozycjowanie
+Autopozycjonowanie
 [Transparent input]
 Wprowadź przezroczystość
 [Preview]
@@ -29700,11 +29930,11 @@ Tekst
 [Timeout]
 Wyświetlaj
 [Default]
-Domyślnnie
+Domyślnie
 [Custom]
 Niestandardowo
 [Permanent]
-Twale
+Trwale
 [Preview]
 Podgląd
 [But not during sign-on]
@@ -31087,7 +31317,7 @@ x podzielone przez y
 [converts decimal value x to hex value and padds to length y]
 konwertuje wartości dziesiętne liczby "x" do wartości hex i długości "y"
 [x modulo y (remainder of x divided by y)]
-"x" modulo "y" (reszta z dzielenia "x" przez "y")
+"x" modułu "y" (reszta z "x" dzielona przez "y")
 [x times y]
 "x" razy "y"
 [x times y divided by z]
@@ -31804,7 +32034,7 @@ po udzieleniu odpowiedzi
 [on typing]
 podczas pisania
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
-Te zmiany zostaną wporwadzone po ponownym uruchomieniu Mirandy NG.\nCzy chcesz to zrobić teraz?
+Te zmiany zostaną wprowadzone po ponownym uruchomieniu Mirandy NG.\nCzy chcesz to zrobić teraz?
 [VKontakte protocol]
 Protokół VKontakte
 [%s server connection]
@@ -31848,7 +32078,7 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieścił cię on n
 [Cannot add this user to friends as you put him on blacklist]
 Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na czarnej liście
 [Loading status message from vk.com.\nThis may take some time.]
-Ładowanieopisuzvk.com.\nTo może zająć trochę czasu.
+Ładowanie opisu z vk.com.\nTo może zająć trochę czasu.
 [Waiting...]
 Oczekiwanie...
 [Enter new status message]
