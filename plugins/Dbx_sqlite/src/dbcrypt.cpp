@@ -27,6 +27,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::StoreCryptoKey()
 	WriteContactSetting(0, &dbcws);
 
 	SecureZeroMemory(pKey, iKeyLength);
+	DBFlush();
 	return TRUE;
 }
 
@@ -65,6 +66,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::StoreProvider(CRYPTO_PROVIDER *pProvider)
 	dbcws.value.pbVal = (PBYTE)pProvider->pszName;
 	dbcws.value.cpbVal = (WORD)mir_strlen(pProvider->pszName) + 1;
 	WriteContactSetting(0, &dbcws);
+	DBFlush();
 	return TRUE;
 }
 

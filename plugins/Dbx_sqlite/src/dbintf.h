@@ -43,6 +43,24 @@ class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 
 	DBCachedContact m_system;
 
+	struct Impl {
+		CDbxSQLite &pro;
+
+		CTimer m_timer;
+		void OnTimer(CTimer *pTimer)
+		{
+			pTimer->Stop();
+			pro.DBFlush(true);
+		}
+
+		Impl(CDbxSQLite &_p) :
+			pro(_p),
+			m_timer(Miranda_GetSystemWindow(), UINT_PTR(this))
+		{
+			m_timer.OnEvent = Callback(this, &Impl::OnTimer);
+		}
+	} m_impl;
+
 	bool m_safetyMode;
 
 	CDbxSQLite(sqlite3 *database);
@@ -56,6 +74,8 @@ class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 
 	void InitSettings();
 	void UninitSettings();
+
+	void DBFlush(bool bForce = false);
 
 public:
 	~CDbxSQLite();

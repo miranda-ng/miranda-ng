@@ -100,7 +100,7 @@ BOOL CDbxSQLite::EnumModuleNames(DBMODULEENUMPROC pFunc, void *param)
 			const char *value = (const char *)sqlite3_column_text(stmt, 0);
 			modules.insert(mir_strdup(value));
 		}
-		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+		logError(rc);
 		sqlite3_reset(stmt);
 	}
 
@@ -142,11 +142,12 @@ BOOL CDbxSQLite::WriteContactSettingWorker(MCONTACT hContact, DBCONTACTWRITESETT
 	}
 
 	int rc = sqlite3_step(stmt);
-	assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+	logError(rc);
 	sqlite3_reset(stmt);
 	if (rc != SQLITE_DONE)
 		return 1;
 
+	DBFlush();
 	return 0;
 }
 
@@ -171,15 +172,17 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 		sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
 		sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
 		int rc = sqlite3_step(stmt);
-		assert(rc == SQLITE_DONE);
+		logError(rc);
 		sqlite3_reset(stmt);
 		stmt = settings_stmts[SQL_SET_STMT_CHANGES].pQuery;
 		rc = sqlite3_step(stmt);
-		assert(rc == SQLITE_ROW);
+		logError(rc);
 		int deleted = sqlite3_column_int(stmt, 0);
 		sqlite3_reset(stmt);
 		if (deleted == 0)
 			return 1;
+
+		DBFlush();
 	}
 	m_cache->GetCachedValuePtr(hContact, szCachedSettingName, -1);
 
@@ -217,7 +220,7 @@ BOOL CDbxSQLite::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnu
 			const char *value = (const char *)sqlite3_column_text(stmt, 0);
 			settings.insert(mir_strdup(value));
 		}
-		assert(rc == SQLITE_ROW || rc == SQLITE_DONE);
+		logError(rc);
 		sqlite3_reset(stmt);
 	}
 

@@ -1,19 +1,18 @@
 #pragma once
 
 #include <windows.h>
-#include <sqlite3.h>
-
-#include <memory>
-
 #include <malloc.h>
-#include <win2k.h>
-#include <assert.h>
+#include <crtdbg.h>
 
 #include <newpluginapi.h>
 #include <m_crypto.h>
 #include <m_database.h>
+#include <m_gui.h>
+#include <m_netlib.h>
 #include <m_protocols.h>
 #include <m_metacontacts.h>
+
+#include <sqlite3.h>
 
 #include "dbintf.h"
 #include "resource.h"
@@ -24,6 +23,8 @@ struct CQuery
 	const char *szQuery;
 	sqlite3_stmt *pQuery;
 };
+
+void logError(int rc, const char *szFile = __FILE__, int line = __LINE__);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
