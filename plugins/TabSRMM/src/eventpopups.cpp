@@ -490,9 +490,32 @@ class CPopupOptionsDlg : public CDlgBase
 {
 	NEN_OPTIONS tmpOpts;
 
+	void GrabData()
+	{
+		tmpOpts.iLimitPreview = (chkLimit.GetState()) ? spinLimit.GetPosition() : 0;
+
+		tmpOpts.colBackMsg = msgBack.GetColor();
+		tmpOpts.colTextMsg = msgText.GetColor();
+		tmpOpts.colBackOthers = otherBack.GetColor();
+		tmpOpts.colTextOthers = otherText.GetColor();
+		tmpOpts.colBackErr = errBack.GetColor();
+		tmpOpts.colTextErr = errText.GetColor();
+
+		if (chkMuc.GetState())
+			g_Settings.iPopupStyle = 2;
+		else if (chkLogColors.GetState())
+			g_Settings.iPopupStyle = 1;
+		else
+			g_Settings.iPopupStyle = 3;
+
+		g_Settings.crPUBkgColour = mucBack.GetColor();
+		g_Settings.crPUTextColour = mucText.GetColor();
+	}
+
 	CCtrlTreeView eventOptions;
 	CCtrlButton btnPreview, btnModes;
-	CCtrlCheck chkMessage, chkOthers, chkMuc, chkErr;
+	CCtrlSpin  spinMessage, spinOthers, spinMuc, spinErr, spinLimit;
+	CCtrlCheck chkMessage, chkOthers, chkMuc, chkErr, chkLimit, chkLogColors;
 	CCtrlColor mucBack, mucText, msgBack, msgText, otherBack, otherText, errBack, errText;
 
 public:
@@ -509,14 +532,31 @@ public:
 		btnModes(this, IDC_POPUPSTATUSMODES),
 		btnPreview(this, IDC_PREVIEW),
 		eventOptions(this, IDC_EVENTOPTIONS),
+		spinMessage(this, IDC_DELAY_MESSAGE_SPIN, 3600, -1),
+		spinOthers(this, IDC_DELAY_OTHERS_SPIN, 3600, -1),
+		spinMuc(this, IDC_DELAY_MUC_SPIN, 3600, -1),
+		spinErr(this, IDC_DELAY_ERR_SPIN, 3600, -1),
+		spinLimit(this, IDC_MESSAGEPREVIEWLIMITSPIN, 2048),
+		chkLogColors(this, IDC_MUC_LOGCOLORS),
 		chkMessage(this, IDC_CHKDEFAULTCOL_MESSAGE),
 		chkOthers(this, IDC_CHKDEFAULTCOL_OTHERS),
+		chkLimit(this, IDC_LIMITPREVIEW),
 		chkErr(this, IDC_CHKDEFAULTCOL_ERR),
 		chkMuc(this, IDC_CHKDEFAULTCOL_MUC)
-
 	{
 		btnModes.OnClick = Callback(this, &CPopupOptionsDlg::onClick_Modes);
 		btnPreview.OnClick = Callback(this, &CPopupOptionsDlg::onClick_Preview);
+
+		chkLimit.OnChange = Callback(this, &CPopupOptionsDlg::onChange_Limit);
+		chkMessage.OnChange = Callback(this, &CPopupOptionsDlg::onChange_Message);
+		chkOthers.OnChange = Callback(this, &CPopupOptionsDlg::onChange_Others);
+		chkErr.OnChange = Callback(this, &CPopupOptionsDlg::onChange_Error);
+		chkMuc.OnChange = chkLogColors.OnChange = Callback(this, &CPopupOptionsDlg::onChange_Muc);
+
+		spinMessage.OnChange = Callback(this, &CPopupOptionsDlg::onChange_DelayMsg);
+		spinOthers.OnChange = Callback(this, &CPopupOptionsDlg::onChange_DelayOther);
+		spinErr.OnChange = Callback(this, &CPopupOptionsDlg::onChange_DelayErr);
+		spinMuc.OnChange = Callback(this, &CPopupOptionsDlg::onChange_DelayMuc);
 
 		tmpOpts = nen_options;
 	}
@@ -539,15 +579,10 @@ public:
 		mucBack.SetColor(g_Settings.crPUBkgColour);
 		chkMuc.SetState(g_Settings.iPopupStyle == 2);
 
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_SETRANGE, 0, MAKELONG(3600, -1));
-
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_SETPOS, 0, (LPARAM)tmpOpts.iDelayMsg);
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_SETPOS, 0, (LPARAM)tmpOpts.iDelayOthers);
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_SETPOS, 0, (LPARAM)tmpOpts.iDelayErr);
-		SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_SETPOS, 0, (LPARAM)g_Settings.iPopupTimeout);
+		spinMessage.SetPosition(tmpOpts.iDelayMsg);
+		spinOthers.SetPosition(tmpOpts.iDelayOthers);
+		spinErr.SetPosition(tmpOpts.iDelayErr);
+		spinMuc.SetPosition(g_Settings.iPopupTimeout);
 
 		msgBack.Enable(!tmpOpts.bDefaultColorMsg);
 		msgText.Enable(!tmpOpts.bDefaultColorMsg);
@@ -558,20 +593,17 @@ public:
 		mucText.Enable(g_Settings.iPopupStyle == 3);
 		mucBack.Enable(g_Settings.iPopupStyle == 3);
 
-		CheckDlgButton(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle < 2 ? BST_CHECKED : BST_UNCHECKED);
-		Utils::enableDlgControl(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
+		chkLogColors.SetState(g_Settings.iPopupStyle == 1);
+		chkLogColors.Enable(g_Settings.iPopupStyle != 2);
 
-		SetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, tmpOpts.iLimitPreview, FALSE);
-		CheckDlgButton(m_hwnd, IDC_LIMITPREVIEW, (tmpOpts.iLimitPreview > 0) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(2048, tmpOpts.iLimitPreview > 0 ? 50 : 0));
-		SendDlgItemMessage(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETPOS, 0, (LPARAM)tmpOpts.iLimitPreview);
-		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
+		chkLimit.SetState(tmpOpts.iLimitPreview > 0);
+		spinLimit.SetPosition(tmpOpts.iLimitPreview);
 		return true;
 	}
 
 	bool OnApply() override
 	{
+		GrabData();
 		nen_options = tmpOpts;
 
 		// scan the tree view and obtain the options...
@@ -604,6 +636,7 @@ public:
 
 	void onClick_Preview(CCtrlButton *)
 	{
+		GrabData();
 		PopupShowT(&tmpOpts, 0, 0, EVENTTYPE_MESSAGE, nullptr);
 	}
 
@@ -612,56 +645,65 @@ public:
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), m_hwnd, DlgProcSetupStatusModes, db_get_dw(0, MODULE, "statusmask", -1));
 	}
 
-	void OnChange() override
+	void onChange_Limit(CCtrlCheck *)
 	{
-		if (chkMuc.GetState())
-			g_Settings.iPopupStyle = 2;
-		else if (IsDlgButtonChecked(m_hwnd, IDC_MUC_LOGCOLORS))
-			g_Settings.iPopupStyle = 1;
-		else
-			g_Settings.iPopupStyle = 3;
+		bool bEnabled = chkLimit.GetState();
+		spinLimit.Enable(bEnabled);
+		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, bEnabled);
+	}
 
-		Utils::enableDlgControl(m_hwnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
-
+	void onChange_Message(CCtrlCheck *)
+	{
 		tmpOpts.bDefaultColorMsg = chkMessage.GetState();
-		tmpOpts.bDefaultColorOthers = chkOthers.GetState();
-		tmpOpts.bDefaultColorErr = chkErr.GetState();
-
-		tmpOpts.iDelayMsg = SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_SPIN, UDM_GETPOS, 0, 0);
-		tmpOpts.iDelayOthers = SendDlgItemMessage(m_hwnd, IDC_DELAY_OTHERS_SPIN, UDM_GETPOS, 0, 0);
-		tmpOpts.iDelayErr = SendDlgItemMessage(m_hwnd, IDC_DELAY_ERR_SPIN, UDM_GETPOS, 0, 0);
-		g_Settings.iPopupTimeout = SendDlgItemMessage(m_hwnd, IDC_DELAY_MESSAGE_MUC_SPIN, UDM_GETPOS, 0, 0);
-
-		if (IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW))
-			tmpOpts.iLimitPreview = GetDlgItemInt(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, nullptr, FALSE);
-		else
-			tmpOpts.iLimitPreview = 0;
 		msgBack.Enable(!tmpOpts.bDefaultColorMsg);
 		msgText.Enable(!tmpOpts.bDefaultColorMsg);
-		otherBack.Enable(!tmpOpts.bDefaultColorOthers);
-		otherText.Enable(!tmpOpts.bDefaultColorOthers);
+	}
+
+	void onChange_Error(CCtrlCheck *)
+	{
+		tmpOpts.bDefaultColorErr = chkErr.GetState();
 		errBack.Enable(!tmpOpts.bDefaultColorErr);
 		errText.Enable(!tmpOpts.bDefaultColorErr);
-		mucText.Enable(g_Settings.iPopupStyle == 3);
-		mucBack.Enable(g_Settings.iPopupStyle == 3);
+	}
 
-		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(m_hwnd, IDC_LIMITPREVIEW) != 0);
+	void onChange_Others(CCtrlCheck *)
+	{
+		tmpOpts.bDefaultColorOthers = chkOthers.GetState();
+		otherBack.Enable(!tmpOpts.bDefaultColorOthers);
+		otherText.Enable(!tmpOpts.bDefaultColorOthers);
+	}
 
-		// disable delay textbox when infinite is checked
+	void onChange_Muc(CCtrlCheck *)
+	{
+		bool bMuc = chkMuc.GetState(), bLog = chkLogColors.GetState();
+
+		mucText.Enable(!bMuc && !bLog);
+		mucBack.Enable(!bMuc && !bLog);
+		chkLogColors.Enable(!bMuc);
+	}
+
+	void onChange_DelayMsg(CCtrlSpin *)
+	{
+		tmpOpts.iDelayMsg = spinMessage.GetPosition();
 		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MESSAGE, tmpOpts.iDelayMsg != -1);
-		Utils::enableDlgControl(m_hwnd, IDC_DELAY_OTHERS, tmpOpts.iDelayOthers != -1);
-		Utils::enableDlgControl(m_hwnd, IDC_DELAY_ERR, tmpOpts.iDelayErr != -1);
-		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MUC, g_Settings.iPopupTimeout != -1);
+	}
 
-		tmpOpts.colBackMsg = msgBack.GetColor();
-		tmpOpts.colTextMsg = msgText.GetColor();
-		tmpOpts.colBackOthers = otherBack.GetColor();
-		tmpOpts.colTextOthers = otherText.GetColor();
-		tmpOpts.colBackErr = errBack.GetColor();
-		tmpOpts.colTextErr = errText.GetColor();
-		g_Settings.crPUBkgColour = mucBack.GetColor();
-		g_Settings.crPUTextColour = mucText.GetColor();
+	void onChange_DelayOther(CCtrlSpin *)
+	{
+		tmpOpts.iDelayOthers = spinOthers.GetPosition();
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_OTHERS, tmpOpts.iDelayOthers != -1);
+	}
+
+	void onChange_DelayErr(CCtrlSpin *)
+	{
+		tmpOpts.iDelayErr = spinErr.GetPosition();
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_ERR, tmpOpts.iDelayErr != -1);
+	}
+
+	void onChange_DelayMuc(CCtrlSpin *)
+	{
+		g_Settings.iPopupTimeout = spinMuc.GetPosition();
+		Utils::enableDlgControl(m_hwnd, IDC_DELAY_MUC, g_Settings.iPopupTimeout != -1);
 	}
 };
 
