@@ -9,4 +9,4 @@
 #define __DESCRIPTION            "Core driver for Windows native SSL support."
 #define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdSSL/"
-#define __COPYRIGHT              "© 2014-20 Miranda NG team"
+#define __COPYRIGHT              "© 2014-21  Miranda NG team"

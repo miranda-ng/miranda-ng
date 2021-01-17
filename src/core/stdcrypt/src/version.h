@@ -8,4 +8,4 @@
 #define __DESCRIPTION            "Core module for encryption."
 #define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdCrypt/"
-#define __COPYRIGHT              "© 2012-20 Miranda NG team"
+#define __COPYRIGHT              "© 2012-21 Miranda NG team"

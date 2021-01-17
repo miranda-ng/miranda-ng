@@ -2,7 +2,7 @@
 
 Standard SSL driver for Miranda NG
 
-Copyright (c) 2014-20 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2014-21  Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
