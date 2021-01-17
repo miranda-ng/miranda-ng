@@ -2,10 +2,10 @@
 
 Jabber Protocol Plugin for Miranda NG
 
-Copyright (c) 2002-04  Santithorn Bunchua
-Copyright (c) 2005-12  George Hazan
-Copyright (c) 2007-09  Maxim Mluhov
-Copyright (c) 2007-09  Victor Pavlychko
+Copyright (c) 2002-04 Santithorn Bunchua
+Copyright (c) 2005-12 George Hazan
+Copyright (c) 2007-09 Maxim Mluhov
+Copyright (c) 2007-09 Victor Pavlychko
 Copyright (C) 2012-21 Miranda NG team
 
 This program is free software; you can redistribute it and/or
