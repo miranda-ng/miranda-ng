@@ -29,6 +29,27 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 	DWORD sp = 0;
 
+	if (opts->bMarkRead) {
+		int nCount = 0;
+
+		for (auto &cc : Contacts()) {
+			DB::ECPTR pCursor(DB::Events(cc));
+			while (MEVENT hEvent = pCursor.FetchNext()) {
+				DBEVENTINFO dbei = {};
+				if (db_event_get(hEvent, &dbei))
+					continue;
+
+				if (!dbei.markedRead()) {
+					db_event_markRead(cc, hEvent);
+					nCount++;
+				}
+			}
+		}
+
+		if (nCount)
+			AddToStatus(STATUS_MESSAGE, TranslateT("%d events marked as read"), nCount);
+	}
+
 	DBCHeckCallback callback;
 	callback.pfnAddLogMessage = AddToStatus;
 	opts->dbChecker->Start(&callback);

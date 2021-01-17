@@ -8,7 +8,6 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <winres.h>
-
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -16,10 +15,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -27,14 +24,29 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 //
 
 IDD_WIZARD DIALOGEX 0, 0, 262, 174
-STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Miranda Database Tool"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&Next >",IDOK,146,153,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,205,153,50,14
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-5,143,269,1
+    CONTROL         "",IDC_SPLITTER,"Static",SS_ETCHEDHORZ,-5,143,269,1
+END
+
+IDD_OPTPAGE DIALOGEX 0, 0, 262, 143
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
+    LTEXT           "Checker's options",IDC_STATIC,11,6,206,8,WS_BORDER
+    LTEXT           "Customize settings and proceed to the checking.",IDC_STATIC,20,14,197,16
+    CONTROL         "",IDC_SPLITTER,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    LTEXT           "File name:",IDC_STATIC,6,39,252,8
+    EDITTEXT        IDC_FILENAME,6,50,235,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_OPENFILE,243,49,15,13
+    CONTROL         "Mark all events as read",IDC_MARKREAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,69,248,10
 END
 
 IDD_OPENERROR DIALOGEX 0, 0, 262, 143
@@ -44,9 +56,8 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "whiterect",IDC_STATIC,0,0,262,32
     LTEXT           "Error Opening Database",IDC_STATIC,11,6,206,8,WS_BORDER
-    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
     LTEXT           "There was an error opening the profile database given.",IDC_STATIC,20,14,197,16
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    CONTROL         "",IDC_SPLITTER,"Static",SS_ETCHEDHORZ,-1,32,264,1
     LTEXT           "",IDC_ERRORTEXT,23,38,226,16,SS_NOPREFIX | WS_BORDER
     LTEXT           "Click Next to try opening the file again, or click Back to select a new profile database to manipulate.",IDC_STATIC,23,67,226,16
     LTEXT           "The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.",IDC_INUSE,23,87,226,16,NOT WS_VISIBLE
@@ -58,11 +69,10 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "whiterect",-1,0,0,262,32
-    LTEXT           "Working...",-1,11,6,206,8,WS_BORDER
-    CONTROL         "",IDC_HDRLOGO,"Static",SS_ENHMETAFILE,234,3,25,25
-    LTEXT           "Please wait while the requested operations are being performed.",-1,20,14,197,16
-    CONTROL         "",-1,"Static",SS_ETCHEDHORZ,-1,32,264,1
+    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
+    LTEXT           "Working...",IDC_STATIC,11,6,206,8,WS_BORDER
+    LTEXT           "Please wait while the requested operations are being performed.",IDC_STATIC,20,14,197,16
+    CONTROL         "",IDC_SPLITTER,"Static",SS_ETCHEDHORZ,-1,32,264,1
     CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | WS_BORDER,20,38,222,11
     LISTBOX         IDC_STATUS,20,52,222,84,NOT LBS_NOTIFY | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_DISABLENOSCROLL | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP
 END
@@ -82,6 +92,10 @@ BEGIN
         RIGHTMARGIN, 255
         TOPMARGIN, 7
         BOTTOMMARGIN, 167
+    END
+
+    IDD_OPTPAGE, DIALOG
+    BEGIN
     END
 
     IDD_OPENERROR, DIALOG
@@ -112,7 +126,53 @@ END
 // remains consistent on all systems.
 IDI_DBTOOL              ICON                    "dbtool.ico"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTPAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <winres.h>\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -126,3 +186,4 @@ IDI_DBTOOL              ICON                    "dbtool.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

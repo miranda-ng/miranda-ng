@@ -19,71 +19,39 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
+COpenErrorDlg::COpenErrorDlg() :
+	CSuper(IDD_OPENERROR)
 {
-	INT_PTR bReturn;
-	if (DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn))
-		return bReturn;
-
-	switch (message) {
-	case WM_INITDIALOG:
-		{
-			auto *opts = (DbToolOptions *)lParam;
-
-			wchar_t szError[256];
-			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, opts->error, 0, szError, _countof(szError), nullptr);
-			SetDlgItemText(hdlg, IDC_ERRORTEXT, szError);
-
-			if (opts->error == ERROR_SHARING_VIOLATION)
-				ShowWindow(GetDlgItem(hdlg, IDC_INUSE), SW_SHOW);
-			SetWindowLongPtr(GetDlgItem(hdlg, IDC_FILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_FILE), GWL_STYLE) | SS_PATHELLIPSIS);
-			TranslateDialogDefault(hdlg);
-			SetDlgItemText(hdlg, IDC_FILE, opts->filename);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			OpenDatabase(GetParent(hdlg));
-			break;
-		}
-		break;
-	}
-	return FALSE;
 }
 
-int OpenDatabase(HWND hdlg)
+bool COpenErrorDlg::OnInitDialog()
 {
-	auto *opts = (DbToolOptions *)GetWindowLongPtr(hdlg, GWLP_USERDATA);
-	wchar_t tszMsg[1024];
+	CSuper::OnInitDialog();
 
-	if (opts->dbChecker == nullptr) {
-		DATABASELINK *dblink = FindDatabasePlugin(opts->filename);
-		if (dblink == nullptr) {
-			mir_snwprintf(tszMsg,
-				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."),
-				opts->filename);
-		LBL_Error:
-			MessageBox(hdlg, tszMsg, TranslateT("Error"), MB_OK | MB_ICONERROR);
-			return false;
-		}
+	auto *opts = getOpts();
 
-		auto *pDb = dblink->Load(opts->filename, false);
-		if (pDb == nullptr) {
-			PostMessage(hdlg, WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
-			return true;
-		}
+	wchar_t szError[256];
+	FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, opts->error, 0, szError, _countof(szError), nullptr);
+	SetDlgItemText(m_hwnd, IDC_ERRORTEXT, szError);
 
-		opts->dbChecker = pDb->GetChecker();
-		if (opts->dbChecker == nullptr) {
-			mir_snwprintf(tszMsg, TranslateT("Database driver '%s' doesn't support checking."), TranslateW(dblink->szFullName));
-			goto LBL_Error;
-		}
-
-		opts->db = pDb;
-	}
-	
-	PostMessage(hdlg, WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+	if (opts->error == ERROR_SHARING_VIOLATION)
+		ShowWindow(GetDlgItem(m_hwnd, IDC_INUSE), SW_SHOW);
+	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FILE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_FILE), GWL_STYLE) | SS_PATHELLIPSIS);
+	SetDlgItemText(m_hwnd, IDC_FILE, opts->filename);
 	return true;
+}
+
+int COpenErrorDlg::Resizer(UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
+	case IDC_SPLITTER:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+	}
+
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+}
+
+void COpenErrorDlg::OnNext()
+{
+	changePage(new COptionsPageDlg());
 }

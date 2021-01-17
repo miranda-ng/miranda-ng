@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void __cdecl WorkerThread(DbToolOptions *opts);
 static HWND hwndStatus, hdlgProgress, hwndBar;
 int errorCount;
-LRESULT wizardResult;
+extern HFONT hBoldFont;
 
 void AddToStatus(int flags, const wchar_t* fmt, ...)
 {
@@ -60,54 +60,76 @@ void ProcessingDone(void)
 	SendMessage(hdlgProgress, WM_PROCESSINGDONE, 0, 0);
 }
 
-INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// CProgressDlg implementation
+
+CProgressPageDlg::CProgressPageDlg() :
+	CSuper(IDD_PROGRESS)
 {
-	static int fontHeight, listWidth;
-	static int manualAbort;
-	static HFONT hBoldFont = nullptr;
+}
 
-	INT_PTR bReturn;
-	if (DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn))
-		return bReturn;
+bool CProgressPageDlg::OnInitDialog()
+{
+	CSuper::OnInitDialog();
 
-	auto *opts = (DbToolOptions *)GetWindowLongPtrW(hdlg, GWLP_USERDATA);
+	EnableWindow(GetDlgItem(m_hwndParent, IDOK), FALSE);
+	hdlgProgress = m_hwnd;
+	hwndStatus = GetDlgItem(m_hwnd, IDC_STATUS);
+	errorCount = 0;
+	hwndBar = GetDlgItem(m_hwnd, IDC_PROGRESS);
+	SendMessage(hwndBar, PBM_SETRANGE, 0, MAKELPARAM(0, 1000));
+	{
+		HDC hdc = GetDC(nullptr);
+		HFONT hFont = (HFONT)SendMessage(m_hwnd, WM_GETFONT, 0, 0);
+		HFONT hoFont = (HFONT)SelectObject(hdc, hFont);
 
-	switch (message) {
-	case WM_INITDIALOG:
-		opts = (DbToolOptions *)lParam;
-		SetWindowLongPtrW(hdlg, GWLP_USERDATA, lParam);
+		SIZE s;
+		GetTextExtentPoint32(hdc, L"x", 1, &s);
+		SelectObject(hdc, hoFont);
+		ReleaseDC(nullptr, hdc);
+		fontHeight = s.cy;
 
-		EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), FALSE);
-		hdlgProgress = hdlg;
-		hwndStatus = GetDlgItem(hdlg, IDC_STATUS);
-		errorCount = 0;
-		hwndBar = GetDlgItem(hdlg, IDC_PROGRESS);
-		SendMessage(hwndBar, PBM_SETRANGE, 0, MAKELPARAM(0, 1000));
-		{
-			HDC hdc = GetDC(nullptr);
-			HFONT hFont = (HFONT)SendMessage(hdlg, WM_GETFONT, 0, 0);
-			HFONT hoFont = (HFONT)SelectObject(hdc, hFont);
+		RECT rc;
+		GetClientRect(GetDlgItem(m_hwnd, IDC_STATUS), &rc);
+		listWidth = rc.right;
 
-			SIZE s;
-			GetTextExtentPoint32(hdc, L"x", 1, &s);
-			SelectObject(hdc, hoFont);
-			ReleaseDC(nullptr, hdc);
-			fontHeight = s.cy;
+		LOGFONT lf;
+		GetObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_STATUS, WM_GETFONT, 0, 0), sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		hBoldFont = CreateFontIndirect(&lf);
+	}
+	manualAbort = 0;
+	TranslateDialogDefault(m_hwnd);
+	mir_forkThread<DbToolOptions>(WorkerThread, getOpts());
+	return true;
+}
 
-			RECT rc;
-			GetClientRect(GetDlgItem(hdlg, IDC_STATUS), &rc);
-			listWidth = rc.right;
+void CProgressPageDlg::OnDestroy()
+{
+	if (hBoldFont) {
+		DeleteObject(hBoldFont);
+		hBoldFont = nullptr;
+	}
+}
 
-			LOGFONT lf;
-			GetObject((HFONT)SendDlgItemMessage(hdlg, IDC_STATUS, WM_GETFONT, 0, 0), sizeof(lf), &lf);
-			lf.lfWeight = FW_BOLD;
-			hBoldFont = CreateFontIndirect(&lf);
-		}
-		manualAbort = 0;
-		TranslateDialogDefault(hdlg);
-		mir_forkThread<DbToolOptions>(WorkerThread, opts);
-		return TRUE;
+int CProgressPageDlg::Resizer(UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
+	case IDC_STATUS:
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	}
 
+	return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+}
+
+void CProgressPageDlg::OnNext()
+{
+	EndDialog(m_hwndParent, 1);
+}
+
+INT_PTR CProgressPageDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch(msg) {
 	case WM_MEASUREITEM:
 		{
 			LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
@@ -153,16 +175,16 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_PROCESSINGDONE:
 		SetProgressBar(1000);
-		if (opts->bAutoExit)
-			PostMessage(GetParent(hdlg), WM_COMMAND, IDCANCEL, 0);
+		if (getOpts()->bAutoExit)
+			PostMessage(GetParent(m_hwnd), WM_COMMAND, IDCANCEL, 0);
 
-		SetDlgItemText(GetParent(hdlg), IDCANCEL, TranslateT("&Finish"));
+		SetDlgItemText(GetParent(m_hwnd), IDCANCEL, TranslateT("&Finish"));
 		AddToStatus(STATUS_SUCCESS, TranslateT("Click Finish to continue"));
 
 		if (manualAbort == 1)
-			EndDialog(GetParent(hdlg), 0);
+			EndDialog(GetParent(m_hwnd), 0);
 		else if (manualAbort == 2) {
-			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressDlgProc);
+			changePage(new CProgressPageDlg());
 			break;
 		}
 		break;
@@ -178,32 +200,21 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		break;
 
 	case WZN_CANCELCLICKED:
-		ResetEvent(opts->hEventRun);
-		if (opts->bFinished)
-			break;
+		{
+			auto *opts = getOpts();
+			ResetEvent(opts->hEventRun);
+			if (getOpts()->bFinished)
+				break;
 
-		if (MessageBox(hdlg, TranslateT("Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?"), TranslateT("Miranda Database Tool"), MB_YESNO) == IDYES) {
-			manualAbort = 1;
-			SetEvent(opts->hEventAbort);
+			if (MessageBox(m_hwnd, TranslateT("Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?"), TranslateT("Miranda Database Tool"), MB_YESNO) == IDYES) {
+				manualAbort = 1;
+				SetEvent(opts->hEventAbort);
+			}
+			SetEvent(opts->hEventRun);
 		}
-		SetEvent(opts->hEventRun);
-		SetWindowLongPtr(hdlg, DWLP_MSGRESULT, TRUE);
+		SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			EndDialog(GetParent(hdlg), 1);
-			break;
-		}
-		break;
-
-	case WM_DESTROY:
-		if (hBoldFont) {
-			DeleteObject(hBoldFont);
-			hBoldFont = nullptr;
-		}
-		break;
 	}
-	return FALSE;
+	
+	return CSuper::DlgProc(msg, wParam, lParam);
 }

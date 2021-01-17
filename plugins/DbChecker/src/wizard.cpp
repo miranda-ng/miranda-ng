@@ -21,8 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static HFONT hBoldFont = nullptr;
-static HENHMETAFILE hEmfHeaderLogo = nullptr;
+#define WZM_GETOPTS (WM_USER+1)
+#define WZM_GOTOPAGE (WM_USER+2)
+
+HFONT hBoldFont = nullptr;
 
 static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 {
@@ -33,8 +35,12 @@ static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 
 	GetClassNameA(hwnd, szClass, sizeof(szClass));
 	if (!mir_strcmp(szClass, "Static")) {
-		if (((style & SS_TYPEMASK) == SS_LEFT || (style & SS_TYPEMASK) == SS_CENTER || (style & SS_TYPEMASK) == SS_RIGHT) && exstyle & WS_EX_CLIENTEDGE)
-			makeBold = 1;
+		if (exstyle & WS_EX_CLIENTEDGE) {
+			switch (style & SS_TYPEMASK) {
+			case SS_LEFT: case SS_CENTER: case SS_RIGHT:
+				makeBold = 1;
+			}
+		}
 	}
 	else if (!mir_strcmp(szClass, "Button")) {
 		if (exstyle & WS_EX_CLIENTEDGE)
@@ -55,98 +61,159 @@ static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 	return TRUE;
 }
 
-int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam, INT_PTR *bReturn)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Basic wizard dialog class
+
+CWizardPageDlg::CWizardPageDlg(int iDlgId) :
+	CSuper(g_plugin, iDlgId),
+	btnOk(this, IDOK),
+	btnCancel(this, IDCANCEL)
 {
-	switch (message) {
-	case WM_INITDIALOG:
-		EnumChildWindows(hdlg, MyControlsEnumChildren, 0);
-		if (hEmfHeaderLogo == nullptr) {
-			HRSRC hRsrc = FindResourceA(g_plugin.getInst(), MAKEINTRESOURCEA(IDE_HDRLOGO), "EMF");
-			HGLOBAL hGlob = LoadResource(g_plugin.getInst(), hRsrc);
-			hEmfHeaderLogo = SetEnhMetaFileBits(SizeofResource(g_plugin.getInst(), hRsrc), (PBYTE)LockResource(hGlob));
-		}
-		SendDlgItemMessage(hdlg, IDC_HDRLOGO, STM_SETIMAGE, IMAGE_ENHMETAFILE, (LPARAM)hEmfHeaderLogo);
-		break;
+	m_autoClose = 0; // disable built-in IDOK & IDCANCEL handlers;
+	m_forceResizable = true;
 
-	case WM_CTLCOLORSTATIC:
-		if ((GetWindowLongPtr((HWND)lParam, GWL_STYLE) & 0xFFFF) == 0) {
-			char szText[256];
-			GetWindowTextA((HWND)lParam, szText, _countof(szText));
-			if (!mir_strcmp(szText, "whiterect")) {
-				SetTextColor((HDC)wParam, RGB(255, 255, 255));
-				SetBkColor((HDC)wParam, RGB(255, 255, 255));
-				SetBkMode((HDC)wParam, OPAQUE);
-				*bReturn = (INT_PTR)GetStockObject(WHITE_BRUSH);
-				return TRUE;
-			}
-
-			SetBkMode((HDC)wParam, TRANSPARENT);
-			*bReturn = (INT_PTR)GetStockObject(NULL_BRUSH);
-			return TRUE;
-		}
-		break;
-	}
-	return FALSE;
+	btnOk.OnClick = Callback(this, &CWizardPageDlg::onClick_Ok);
+	btnCancel.OnClick = Callback(this, &CWizardPageDlg::onClick_Cancel);
 }
 
-INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
+void CWizardPageDlg::OnCancel()
 {
-	static HWND hdlgPage;
-	auto *opts = (DbToolOptions *)GetWindowLongPtr(hdlg, GWLP_USERDATA);
+	PostMessage(m_hwndParent, WM_CLOSE, 0, 0);
+}
 
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		SetWindowLongPtr(hdlg, GWLP_USERDATA, lParam);
-		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_DBTOOL)));
-		hdlgPage = nullptr;
+bool CWizardPageDlg::OnInitDialog()
+{
+	EnumChildWindows(m_hwnd, MyControlsEnumChildren, 0);
+	return true;
+}
 
-		OpenDatabase(hdlg);
-		return TRUE;
+void CWizardPageDlg::changePage(CWizardPageDlg *pNewPage)
+{
+	PostMessage(m_hwndParent, WZM_GOTOPAGE, 0, (LPARAM)pNewPage);
+}
+
+DbToolOptions* CWizardPageDlg::getOpts() const
+{
+	return (DbToolOptions *)SendMessage(m_hwndParent, WZM_GETOPTS, 0, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Wizard dialog class
+
+CWizardDlg::CWizardDlg(DbToolOptions *opts) :
+	CDlgBase(g_plugin, IDD_WIZARD),
+	m_opts(opts),
+	btnCancel(this, IDCANCEL),
+	timerStart(this, 1)
+{
+	m_autoClose = CLOSE_ON_OK;
+	SetMinSize(450, 300);
+
+	btnCancel.OnClick = Callback(this, &CWizardDlg::onClick_Cancel);
+
+	timerStart.OnEvent = Callback(this, &CWizardDlg::onTimer);
+}
+
+bool CWizardDlg::OnInitDialog()
+{
+	Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "Wizard_");
+	Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_DBTOOL));
+	timerStart.Start(100);
+	return true;
+}
+
+bool CWizardDlg::OnApply() 
+{
+	SendMessage(hwndPage, WZN_PAGECHANGING, 0, 0);
+	SendMessage(hwndPage, WM_COMMAND, IDOK, 0);
+	return false;
+}
+
+void CWizardDlg::OnDestroy() 
+{
+	Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "Wizard_");
+
+	if (m_opts->dbChecker) {
+		m_opts->dbChecker->Destroy();
+		m_opts->dbChecker = nullptr;
+	}
+	delete m_opts;
+
+	if (hwndPage)
+		DestroyWindow(hwndPage);
+
+	if (hBoldFont != nullptr) {
+		DeleteObject(hBoldFont);
+		hBoldFont = nullptr;
+	}
+}
+
+INT_PTR CWizardDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WZM_GETOPTS:
+		SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, (LPARAM)m_opts);
+		return true;
 
 	case WZM_GOTOPAGE:
-		if (hdlgPage != nullptr) DestroyWindow(hdlgPage);
-		EnableWindow(GetDlgItem(hdlg, IDOK), TRUE);
-		EnableWindow(GetDlgItem(hdlg, IDCANCEL), TRUE);
-		SetDlgItemText(hdlg, IDCANCEL, TranslateT("Cancel"));
-		hdlgPage = CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCE(wParam), hdlg, (DLGPROC)lParam, LPARAM(opts));
-		TranslateDialogDefault(hdlgPage);
-		SetWindowPos(hdlgPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-		ShowWindow(hdlgPage, SW_SHOW);
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			SendMessage(hdlgPage, WZN_PAGECHANGING, wParam, 0);
-			SendMessage(hdlgPage, message, wParam, lParam);
-			break;
-
-		case IDCANCEL:
-			wizardResult = 0;
-			SendMessage(hdlgPage, WZN_CANCELCLICKED, 0, 0);
-			EndDialog(hdlg, wizardResult);
-			break;
-		}
-		break;
-
-	case WM_DESTROY:
-		if (opts->dbChecker) {
-			opts->dbChecker->Destroy();
-			opts->dbChecker = nullptr;
-		}
-		delete opts;
-
-		DestroyWindow(hdlgPage);
-		if (hBoldFont != nullptr) {
-			DeleteObject(hBoldFont);
-			hBoldFont = nullptr;
-		}
-		if (hEmfHeaderLogo != nullptr) {
-			DeleteEnhMetaFile(hEmfHeaderLogo);
-			hEmfHeaderLogo = nullptr;
-		}
-		break;
+		ChangePage((CWizardPageDlg *)lParam);
+		return FALSE;
 	}
-	return FALSE;
+
+	INT_PTR res = CDlgBase::DlgProc(msg, wParam, lParam);
+	if (msg == WM_SIZE && hwndPage) {
+		SetWindowPos(hwndPage, 0, 0, 0, m_splitterX, m_splitterY, SWP_NOZORDER | SWP_NOACTIVATE);
+		SendMessage(hwndPage, WM_SIZE, wParam, lParam);
+		InvalidateRect(hwndPage, 0, 0);
+	}
+
+	return res;
+}
+
+int CWizardDlg::Resizer(UTILRESIZECONTROL *urc)
+{
+	switch (urc->wId) {
+	case IDC_SPLITTER:
+		m_splitterX = urc->dlgNewSize.cx;
+		m_splitterY = urc->dlgNewSize.cy - (urc->dlgOriginalSize.cy - urc->rcItem.top);
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+
+	case IDOK:
+	case IDCANCEL:
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+	}
+
+	return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+}
+
+void CWizardDlg::onClick_Cancel(CCtrlButton *)
+{
+	SendMessage(hwndPage, WZN_CANCELCLICKED, 0, 0);
+	EndModal(0);
+}
+
+void CWizardDlg::onTimer(CTimer *pTimer)
+{
+	pTimer->Stop();
+
+	ChangePage(new COptionsPageDlg());
+}
+
+LRESULT CWizardDlg::ChangePage(CWizardPageDlg *pPage)
+{
+	if (hwndPage != nullptr)
+		DestroyWindow(hwndPage);
+
+	EnableWindow(GetDlgItem(m_hwnd, IDOK), TRUE);
+	EnableWindow(GetDlgItem(m_hwnd, IDCANCEL), TRUE);
+	SetDlgItemText(m_hwnd, IDCANCEL, TranslateT("Cancel"));
+	{
+		pPage->SetParent(m_hwnd);
+		pPage->Show();
+		hwndPage = pPage->GetHwnd();
+	}
+	SetWindowPos(hwndPage, nullptr, 0, 0, m_splitterX, m_splitterY, SWP_NOZORDER);
+
+	ShowWindow(hwndPage, SW_SHOW);
+	return 0;
 }

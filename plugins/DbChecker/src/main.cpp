@@ -38,7 +38,7 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
 {
 }
 
@@ -48,8 +48,6 @@ CMPlugin::CMPlugin() :
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(DATABASELINK *) Profile_GetLink();
 
 static HANDLE hService; // do not remove it!
 
@@ -64,7 +62,7 @@ static INT_PTR ServiceMode(WPARAM, LPARAM)
 	}
 	wcsncpy_s(opts->filename, VARSW(L"%miranda_userdata%\\%miranda_profilename%.dat"), _TRUNCATE);
 
-	DialogBoxParamW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(opts));
+	CWizardDlg(opts).DoModal();
 	return SERVICE_FAILED;
 }
 
@@ -88,7 +86,7 @@ static INT_PTR CheckProfile(WPARAM wParam, LPARAM lParam)
 		wcsncpy_s(opts->filename, VARSW(L"%miranda_userdata%\\%miranda_profilename%.dat"), _TRUNCATE);
 	}
 
-	return DialogBoxParamW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(opts));
+	return CWizardDlg(opts).DoModal();
 }
 
 static int OnModulesLoaded(WPARAM, LPARAM)
