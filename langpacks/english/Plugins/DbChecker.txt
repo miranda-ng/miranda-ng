@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -10,6 +10,10 @@
 [Miranda Database Tool]
 [&Next >]
 [Cancel]
+[Checker's options]
+[Customize settings and proceed to the checking.]
+[File name:]
+[Mark all events as read]
 [Error Opening Database]
 [There was an error opening the profile database given.]
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
@@ -19,7 +23,7 @@
 ;file \plugins\DbChecker\src\main.cpp
 [Database]
 [Check database]
-;file \plugins\DbChecker\src\openerror.cpp
+;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 [Error]
 [Database driver '%s' doesn't support checking.]
@@ -30,6 +34,7 @@
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp
 [Database worker thread activated]
+[%d events marked as read]
 [Processing aborted by user]
 [Elapsed time: %d sec]
 [All tasks completed but with errors (%d)]
