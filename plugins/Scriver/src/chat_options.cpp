@@ -560,7 +560,6 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wPar
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_SETCOLOUR, 0, g_Settings.crPUBkgColour);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_TEXT, CPM_SETCOLOUR, 0, g_Settings.crPUTextColour);
 
@@ -596,23 +595,6 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_CHAT_CHECKBOXES:
-			if (((LPNMHDR)lParam)->code == NM_CLICK) {
-				TVHITTESTINFO hti;
-				hti.pt.x = (short)LOWORD(GetMessagePos());
-				hti.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
-					if (hti.flags & TVHT_ONITEMSTATEICON)
-						SendMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)hti.hItem);
-			}
-			else if (((LPNMHDR)lParam)->code == TVN_KEYDOWN) {
-				if (((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE)
-					SendMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom,
-					(LPARAM)TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom));
-			}
-			break;
-
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
