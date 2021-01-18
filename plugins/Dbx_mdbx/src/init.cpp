@@ -97,6 +97,11 @@ static DATABASELINK dblink =
 	loadDatabase
 };
 
+STDMETHODIMP_(DATABASELINK *) CDbxMDBX::GetDriver()
+{
+	return &dblink;
+}
+
 int CMPlugin::Load()
 {
 	mdbx_setup_debug(MDBX_LOG_WARN, MDBX_DBG_ASSERT, &logger);

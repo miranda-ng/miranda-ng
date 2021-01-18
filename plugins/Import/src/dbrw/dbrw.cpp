@@ -94,6 +94,11 @@ static DATABASELINK dblink =
 	dbrw_Load
 };
 
+STDMETHODIMP_(DATABASELINK *) CDbxSQLite::GetDriver()
+{
+	return &g_patternDbLink;
+}
+
 void RegisterDbrw()
 {
 	RegisterDatabasePlugin(&dblink);

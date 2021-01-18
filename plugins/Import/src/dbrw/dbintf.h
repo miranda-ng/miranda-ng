@@ -154,4 +154,6 @@ public:
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub) override;
 
 	STDMETHODIMP_(MEVENT)   GetEventById(LPCSTR szModule, LPCSTR szId) override;
+
+	STDMETHODIMP_(DATABASELINK *) GetDriver();
 };

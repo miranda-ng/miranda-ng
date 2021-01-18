@@ -37,6 +37,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define STATUS_FATAL      3
 #define STATUS_SUCCESS    4
 
+struct DATABASELINK;
+
 struct DBCHeckCallback
 {
 	DWORD  spaceProcessed, spaceUsed;
@@ -155,6 +157,8 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(BOOL, Backup)(LPCWSTR) PURE;
 	
 	STDMETHOD_(MIDatabaseChecker*, GetChecker)(void) PURE;
+	STDMETHOD_(DATABASELINK*, GetDriver)(void) PURE;
+
 
 	STDMETHOD_(MEVENT, GetEventById)(LPCSTR szModule, LPCSTR szId) PURE;
 
@@ -181,7 +185,7 @@ protected:
 	mir_cs m_csDbAccess;
 	LIST<char> m_lResidentSettings;
 	MIDatabaseCache* m_cache;
-	MICryptoEngine *m_crypto;
+	MICryptoEngine *m_crypto = nullptr;
 
 protected:
 	int  CheckProto(DBCachedContact *cc, const char *proto);

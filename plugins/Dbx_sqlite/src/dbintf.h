@@ -130,6 +130,8 @@ public:
 	STDMETHODIMP_(BOOL)     Compact() override;
 	STDMETHODIMP_(BOOL)     Backup(LPCWSTR) override;
 
+	STDMETHODIMP_(DATABASELINK*) GetDriver() override;
+
 	STDMETHODIMP_(DB::EventCursor*) EventCursor(MCONTACT hContact, MEVENT hDbEvent) override;
 	STDMETHODIMP_(DB::EventCursor*) EventCursorRev(MCONTACT hContact, MEVENT hDbEvent) override;
 };

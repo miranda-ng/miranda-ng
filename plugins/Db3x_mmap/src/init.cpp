@@ -134,6 +134,11 @@ static DATABASELINK dblink =
 	LoadDatabase
 };
 
+STDMETHODIMP_(DATABASELINK *) CDb3Mmap::GetDriver()
+{
+	return &dblink;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CMPlugin::Load()

@@ -37,6 +37,11 @@ static DATABASELINK dblink =
 	&CDbxSQLite::Load,
 };
 
+STDMETHODIMP_(DATABASELINK *) CDbxSQLite::GetDriver()
+{
+	return &dblink;
+}
+
 int CMPlugin::Load()
 {
 	RegisterDatabasePlugin(&dblink);

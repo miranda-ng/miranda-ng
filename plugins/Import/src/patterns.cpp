@@ -690,6 +690,8 @@ public:
 	{
 		return (idx >= 1) ? idx-1 : 0;
 	}
+
+	STDMETHODIMP_(DATABASELINK *) GetDriver();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -723,3 +725,8 @@ DATABASELINK g_patternDbLink =
 	pattern_grokHeader,
 	pattern_load
 };
+
+STDMETHODIMP_(DATABASELINK *) CDbxPattern::GetDriver()
+{
+	return &g_patternDbLink;
+}

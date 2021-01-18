@@ -207,6 +207,8 @@ public:
 
 		return iEvent-1;
 	}
+
+	STDMETHODIMP_(DATABASELINK *) GetDriver();
 };
 
 static int mc_grokHeader(const wchar_t *profile)
@@ -233,6 +235,11 @@ static DATABASELINK dblink =
 	mc_grokHeader,
 	mc_load
 };
+
+STDMETHODIMP_(DATABASELINK *) CDbxJson::GetDriver()
+{
+	return &g_patternDbLink;
+}
 
 void RegisterJson()
 {

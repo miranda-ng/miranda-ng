@@ -242,6 +242,8 @@ public:
 
 	STDMETHODIMP_(MEVENT)   GetEventById(LPCSTR szModule, LPCSTR szId) override;
 
+	STDMETHODIMP_(DATABASELINK*) GetDriver() override;
+
 protected:
 	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName);
 	void  InvalidateSettingsGroupOfsCacheEntry(DWORD) {}

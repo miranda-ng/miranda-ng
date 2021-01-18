@@ -274,6 +274,8 @@ public:
 		--m_curr;
 		return *m_curr;
 	}
+
+	STDMETHODIMP_(DATABASELINK *) GetDriver() override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -308,6 +310,11 @@ static DATABASELINK dblink =
 	mc_grokHeader,
 	mc_load
 };
+
+STDMETHODIMP_(DATABASELINK *) CDbxMc::GetDriver()
+{
+	return &dblink;
+}
 
 void RegisterMContacts()
 {
