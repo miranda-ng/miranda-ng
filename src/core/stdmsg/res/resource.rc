@@ -43,8 +43,8 @@ BEGIN
     CONTROL         "Use the contact's status icon as the window icon",IDC_STATUSWIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,75,290,10
     CONTROL         "Save the window size and location individually for each contact",IDC_SAVEPERCONTACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,88,289,10
-    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,100,289,10
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,8,88,289,10
+    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,8,100,289,10
     CONTROL         "Support Ctrl+Up/Down in message area to show previously sent messages",IDC_CTRLSUPPORT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,112,289,10
     CONTROL         "Delete temporary contacts when closing message window",IDC_DELTEMP,

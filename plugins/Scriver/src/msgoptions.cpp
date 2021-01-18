@@ -271,9 +271,7 @@ public:
 		CreateLink(chkStayMinimized, g_plugin.bStayMinimized);
 		CreateLink(chkSavePerContact, g_plugin.bSavePerContact);
 
-		chkCascade.OnChange = Callback(this, &CMainOptionsDlg::onChange_Cascade);
 		chkAutoPopup.OnChange = Callback(this, &CMainOptionsDlg::onChange_AutoPopup);
-		chkSavePerContact.OnChange = Callback(this, &CMainOptionsDlg::onChange_SavePerContact);
 	}
 
 	bool OnInitDialog() override
@@ -302,16 +300,6 @@ public:
 		bool bChecked = chkAutoPopup.GetState();
 		m_tree.Enable(bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STAYMINIMIZED), bChecked);
-	}
-
-	void onChange_Cascade(CCtrlCheck*)
-	{
-		chkSavePerContact.SetState(!chkCascade.GetState());
-	}
-
-	void onChange_SavePerContact(CCtrlCheck*)
-	{
-		chkCascade.SetState(!chkSavePerContact.GetState());
 	}
 };
 

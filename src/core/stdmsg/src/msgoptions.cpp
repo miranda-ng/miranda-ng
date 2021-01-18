@@ -214,7 +214,6 @@ public:
 		chkAutoMin.OnChange = Callback(this, &COptionMainDlg::onChange_AutoMin);
 		chkAutoClose.OnChange = Callback(this, &COptionMainDlg::onChange_AutoClose);
 		chkLimitAvatar.OnChange = Callback(this, &COptionMainDlg::onChange_LimitAvatar);
-		chkSavePerContact.OnChange = Callback(this, &COptionMainDlg::onChange_SavePerContact);
 
 		CreateLink(edtNFlash, g_dat.nFlashMax);
 		CreateLink(edtAvatarH, g_dat.iAvatarHeight);
@@ -273,11 +272,6 @@ public:
 	{
 		chkAutoMin.SetState(false);
 		chkCtrlSupport.Enable(!chkAutoClose.GetState());
-	}
-
-	void onChange_SavePerContact(CCtrlCheck*)
-	{
-		chkCascade.Enable(!chkSavePerContact.GetState());
 	}
 
 	void onChange_Avatar(CCtrlCheck*)

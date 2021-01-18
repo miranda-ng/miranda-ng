@@ -35,9 +35,9 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,12,155,10
     CONTROL         "Tree1",IDC_POPLIST,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,163,12,98,44
     CONTROL         "and stay minimized",IDC_STAYMINIMIZED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,23,141,10
-    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,58,293,10
+    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,6,58,293,10
     CONTROL         "Save size and location for each contact",IDC_SAVEPERCONTACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,69,293,10
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,6,69,293,10
     CONTROL         "Minimize on send",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,80,293,10
     CONTROL         "Hide windows on close",IDC_HIDECONTAINERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,91,293,10
     CONTROL         "Remember unsent messages",IDC_SAVEDRAFTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,103,293,10
