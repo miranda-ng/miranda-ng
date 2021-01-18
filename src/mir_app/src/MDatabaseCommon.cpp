@@ -575,9 +575,25 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::SetSettingResident(BOOL bIsResident, const 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+class MDefaultChecker : public MIDatabaseChecker
+{
+	STDMETHODIMP_(int) Start(DBCHeckCallback*) override
+	{	return ERROR_SUCCESS;
+	}
+
+	STDMETHODIMP_(BOOL) CheckDb(int /*phase*/) override
+	{	return ERROR_OUT_OF_PAPER;
+	}
+	
+	STDMETHODIMP_(VOID) Destroy() override
+	{}
+};
+
+static MDefaultChecker sttDefaultChecker;
+
 STDMETHODIMP_(MIDatabaseChecker *) MDatabaseCommon::GetChecker()
 {
-	return nullptr;
+	return &sttDefaultChecker;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
