@@ -39,9 +39,9 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
-    LTEXT           "Checker's options",IDC_STATIC,11,6,206,8,WS_BORDER
-    LTEXT           "Customize settings and proceed to the checking.",IDC_STATIC,20,14,197,16
+    LTEXT           "",IDC_STATIC,0,0,262,32
+    LTEXT           "Checker's options",IDC_STATIC,11,6,250,8,WS_BORDER
+    LTEXT           "Customize settings and proceed to the checking.",IDC_STATIC,20,14,240,16
     CONTROL         "",IDC_SPLITTER,"Static",SS_ETCHEDHORZ,-1,32,264,1
     LTEXT           "File name:",IDC_STATIC,6,39,252,8
     EDITTEXT        IDC_FILENAME,6,50,235,12,ES_AUTOHSCROLL
@@ -54,9 +54,9 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
-    LTEXT           "Error Opening Database",IDC_STATIC,11,6,206,8,WS_BORDER
-    LTEXT           "There was an error opening the profile database given.",IDC_STATIC,20,14,197,16
+    LTEXT           "",IDC_STATIC,0,0,262,32
+    LTEXT           "Error Opening Database",IDC_STATIC,11,6,250,8,WS_BORDER
+    LTEXT           "There was an error opening the profile database given.",IDC_STATIC,20,14,240,16
     CONTROL         "",IDC_SPLITTER,"Static",SS_ETCHEDHORZ,-1,32,264,1
     LTEXT           "",IDC_ERRORTEXT,23,38,226,16,SS_NOPREFIX | WS_BORDER
     LTEXT           "Click Next to try opening the file again, or click Back to select a new profile database to manipulate.",IDC_STATIC,23,67,226,16
@@ -69,9 +69,9 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "whiterect",IDC_STATIC,0,0,262,32
-    LTEXT           "Working...",IDC_STATIC,11,6,206,8,WS_BORDER
-    LTEXT           "Please wait while the requested operations are being performed.",IDC_STATIC,20,14,197,16
+    LTEXT           "",IDC_STATIC,0,0,262,32
+    LTEXT           "Working...",IDC_STATIC,11,6,250,8,WS_BORDER
+    LTEXT           "Please wait while the requested operations are being performed.",IDC_STATIC,20,14,240,16
     CONTROL         "",IDC_SPLITTER,"Static",SS_ETCHEDHORZ,-1,32,264,1
     CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | WS_BORDER,20,38,222,11
     LISTBOX         IDC_STATUS,20,52,222,84,NOT LBS_NOTIFY | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_DISABLENOSCROLL | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP
