@@ -79,8 +79,6 @@ JsonReply::JsonReply(NETLIBHTTPREQUEST *pReply)
 	}
 
 	m_errorCode = pReply->resultCode;
-	if (m_errorCode != 200)
-		return;
 
 	m_root = json_parse(pReply->pData);
 	if (m_root == nullptr)

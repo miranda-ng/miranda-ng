@@ -19,6 +19,7 @@ struct AsyncHttpRequest : public MTHttpRequest<CDiscordProto>
 
 	int m_iErrorCode, m_iReqNum;
 	bool m_bMainSite;
+	MCONTACT hContact;
 };
 
 class JsonReply
@@ -436,6 +437,8 @@ public:
 
 	bool RetrieveAvatar(MCONTACT hContact);
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	void OnSendMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Misc

@@ -437,6 +437,27 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMsg
 
+void CDiscordProto::OnSendMsg(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
+{
+	JsonReply root(pReply);
+	if (!root) {
+		int iReqNum = -1;
+		for (auto &it : arOwnMessages)
+			if (it->reqId == pReq->m_iReqNum) {
+				iReqNum = it->reqId;
+				arOwnMessages.removeItem(&it);
+				break;
+			}
+
+		if (iReqNum != -1) {
+			CMStringW wszErrorMsg(root.data()["message"].as_mstring());
+			if (wszErrorMsg.IsEmpty())
+				wszErrorMsg = TranslateT("Message send failed");
+			ProtoBroadcastAck(pReq->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)iReqNum, (LPARAM)wszErrorMsg.c_str());
+		}
+	}
+}
+
 int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 {
 	if (!m_bOnline) {
@@ -472,7 +493,8 @@ int CDiscordProto::SendMsg(MCONTACT hContact, int /*flags*/, const char *pszSrc)
 	JSONNode body; body << WCHAR_PARAM("content", wszText) << SINT64_PARAM("nonce", nonce);
 
 	CMStringA szUrl(FORMAT, "/channels/%lld/messages", pUser->channelId);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr, &body);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnSendMsg, &body);
+	pReq->hContact = hContact;
 	arOwnMessages.insert(new COwnMessage(nonce, pReq->m_iReqNum));
 	Push(pReq);
 	return pReq->m_iReqNum;
