@@ -161,7 +161,9 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 	T2Utf pszTemp(message);
 	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)mir_strlen(pszTemp);
 	BYTE *pbBuffer = (BYTE*)mir_alloc(cbMemoLen);
-	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
+
+	DB::ECPTR pCursor(DB::EventsRev(hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (olddbei.cbBlob > cbMemoLen)
 			pbBuffer = (PBYTE)mir_realloc(pbBuffer, (size_t)(cbMemoLen = olddbei.cbBlob));

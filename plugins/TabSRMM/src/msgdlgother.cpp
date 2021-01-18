@@ -463,49 +463,41 @@ void CMsgDialog::FindFirstEvent()
 	if (m_bActualHistory)
 		historyMode = LOADHISTORY_COUNT;
 
+	DBEVENTINFO dbei = {};
+	DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
+
 	switch (historyMode) {
 	case LOADHISTORY_COUNT:
 		int i;
-		MEVENT hPrevEvent;
-		{
-			DBEVENTINFO dbei = {};
-			// ability to load only current session's history
-			if (m_bActualHistory)
-				i = m_cache->getSessionMsgCount();
-			else
-				i = g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
 
-			for (; i > 0; i--) {
-				if (m_hDbEventFirst == 0)
-					hPrevEvent = db_event_last(m_hContact);
-				else
-					hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
-				if (hPrevEvent == 0)
-					break;
-				dbei.cbBlob = 0;
-				m_hDbEventFirst = hPrevEvent;
-				db_event_get(m_hDbEventFirst, &dbei);
-				if (!DbEventIsShown(&dbei))
-					i++;
-			}
+		// ability to load only current session's history
+		if (m_bActualHistory)
+			i = m_cache->getSessionMsgCount();
+		else
+			i = g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
+
+		for (; i > 0; i--) {
+			MEVENT hPrevEvent = pCursor.FetchNext();
+			if (hPrevEvent == 0)
+				break;
+
+			dbei.cbBlob = 0;
+			m_hDbEventFirst = hPrevEvent;
+			db_event_get(m_hDbEventFirst, &dbei);
+			if (!DbEventIsShown(&dbei))
+				i++;
 		}
 		break;
 
 	case LOADHISTORY_TIME:
-		DBEVENTINFO dbei = {};
 		if (m_hDbEventFirst == 0)
 			dbei.timestamp = time(0);
 		else
 			db_event_get(m_hDbEventFirst, &dbei);
 
 		DWORD firstTime = dbei.timestamp - 60 * g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
-		for (;;) {
-			if (m_hDbEventFirst == 0)
-				hPrevEvent = db_event_last(m_hContact);
-			else
-				hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
-			if (hPrevEvent == 0)
-				break;
+
+		while (MEVENT hPrevEvent = pCursor.FetchNext()) {
 			dbei.cbBlob = 0;
 			db_event_get(hPrevEvent, &dbei);
 			if (dbei.timestamp < firstTime)

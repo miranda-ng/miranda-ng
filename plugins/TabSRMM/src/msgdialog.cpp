@@ -586,7 +586,8 @@ bool CMsgDialog::OnInitDialog()
 
 		DM_OptionsApplied();
 
-		for (MEVENT hdbEvent = db_event_last(m_hContact); hdbEvent; hdbEvent = db_event_prev(m_hContact, hdbEvent)) {
+		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
+		while (MEVENT hdbEvent = pCursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
 			db_event_get(hdbEvent, &dbei);
 			if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {

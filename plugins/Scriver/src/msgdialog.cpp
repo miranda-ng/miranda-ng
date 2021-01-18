@@ -256,17 +256,17 @@ bool CMsgDialog::OnInitDialog()
 					notifyUnread = true;
 			}
 
+			DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
+
 			DBEVENTINFO dbei = {};
 			MEVENT hPrevEvent;
 			switch (historyMode) {
 			case LOADHISTORY_COUNT:
 				for (int i = g_plugin.iLoadCount; i > 0; i--) {
-					if (m_hDbEventFirst == 0)
-						hPrevEvent = db_event_last(m_hContact);
-					else
-						hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
+					hPrevEvent = pCursor.FetchNext();
 					if (hPrevEvent == 0)
 						break;
+
 					dbei.cbBlob = 0;
 					m_hDbEventFirst = hPrevEvent;
 					db_event_get(m_hDbEventFirst, &dbei);
@@ -276,26 +276,23 @@ bool CMsgDialog::OnInitDialog()
 				break;
 
 			case LOADHISTORY_TIME:
-				if (m_hDbEventFirst == 0) {
+				if (m_hDbEventFirst == 0)
 					dbei.timestamp = time(0);
-					hPrevEvent = db_event_last(m_hContact);
-				}
-				else {
+				else
 					db_event_get(m_hDbEventFirst, &dbei);
-					hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
-				}
 
 				DWORD firstTime = dbei.timestamp - 60 * g_plugin.iLoadTime;
 				for (;;) {
+					hPrevEvent = pCursor.FetchNext();
 					if (hPrevEvent == 0)
 						break;
+
 					dbei.cbBlob = 0;
 					db_event_get(hPrevEvent, &dbei);
 					if (dbei.timestamp < firstTime)
 						break;
 					if (DbEventIsShown(dbei))
 						m_hDbEventFirst = hPrevEvent;
-					hPrevEvent = db_event_prev(m_hContact, hPrevEvent);
 				}
 				break;
 			}
@@ -303,16 +300,14 @@ bool CMsgDialog::OnInitDialog()
 
 		m_pParent->AddChild(this);
 
-		MEVENT hdbEvent = db_event_last(m_hContact);
-		if (hdbEvent) {
+		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
+		while (MEVENT hdbEvent = pCursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
-			do {
-				db_event_get(hdbEvent, &dbei);
-				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-					m_lastMessage = dbei.timestamp;
-					break;
-				}
-			} while ((hdbEvent = db_event_prev(m_hContact, hdbEvent)));
+			db_event_get(hdbEvent, &dbei);
+			if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
+				m_lastMessage = dbei.timestamp;
+				break;
+			}
 		}
 
 		SendMessage(m_hwnd, DM_OPTIONSAPPLIED, 0, 0);

@@ -151,67 +151,57 @@ bool CMsgDialog::OnInitDialog()
 
 		// This finds the first message to display, it works like shit
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
-		switch (g_dat.iLoadHistory) {
-		case LOADHISTORY_COUNT:
-			for (int i = g_dat.nLoadCount; i--;) {
-				MEVENT hPrevEvent;
-				if (m_hDbEventFirst == 0)
-					hPrevEvent = db_event_last(m_hContact);
-				else
-					hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
-				if (hPrevEvent == 0)
-					break;
+		{
+			DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
 
-				DBEVENTINFO dbei = {};
-				m_hDbEventFirst = hPrevEvent;
-				db_event_get(hPrevEvent, &dbei);
-				if (!DbEventIsShown(&dbei))
-					i++;
-			}
-			break;
+			switch (g_dat.iLoadHistory) {
+			case LOADHISTORY_COUNT:
+				for (int i = g_dat.nLoadCount; i--;) {
+					MEVENT hPrevEvent = pCursor.FetchNext();
+					if (hPrevEvent == 0)
+						break;
 
-		case LOADHISTORY_TIME:
-			DBEVENTINFO dbei = {};
-			if (m_hDbEventFirst == 0)
-				dbei.timestamp = (DWORD)time(0);
-			else
-				db_event_get(m_hDbEventFirst, &dbei);
-
-			DWORD firstTime = dbei.timestamp - 60 * g_dat.nLoadTime;
-			for (;;) {
-				MEVENT hPrevEvent;
-				if (m_hDbEventFirst == 0)
-					hPrevEvent = db_event_last(m_hContact);
-				else
-					hPrevEvent = db_event_prev(m_hContact, m_hDbEventFirst);
-				if (hPrevEvent == 0)
-					break;
-
-				dbei.cbBlob = 0;
-				db_event_get(hPrevEvent, &dbei);
-				if (dbei.timestamp < firstTime)
-					break;
-				m_hDbEventFirst = hPrevEvent;
-			}
-			break;
-		}
-
-		MEVENT hdbEvent = db_event_last(m_hContact);
-		if (hdbEvent) {
-			bool bUpdate = false;
-			do {
-				DBEVENTINFO dbei = {};
-				db_event_get(hdbEvent, &dbei);
-				if ((dbei.eventType == EVENTTYPE_MESSAGE) && !(dbei.flags & DBEF_SENT)) {
-					m_lastMessage = dbei.timestamp;
-					bUpdate = true;
-					break;
+					DBEVENTINFO dbei = {};
+					m_hDbEventFirst = hPrevEvent;
+					db_event_get(hPrevEvent, &dbei);
+					if (!DbEventIsShown(&dbei))
+						i++;
 				}
-			} while (hdbEvent = db_event_prev(m_hContact, hdbEvent));
+				break;
 
-			if (bUpdate)
-				UpdateLastMessage();
+			case LOADHISTORY_TIME:
+				DBEVENTINFO dbei = {};
+				if (m_hDbEventFirst == 0)
+					dbei.timestamp = (DWORD)time(0);
+				else
+					db_event_get(m_hDbEventFirst, &dbei);
+
+				DWORD firstTime = dbei.timestamp - 60 * g_dat.nLoadTime;
+				while (MEVENT hPrevEvent = pCursor.FetchNext()) {
+					dbei.cbBlob = 0;
+					db_event_get(hPrevEvent, &dbei);
+					if (dbei.timestamp < firstTime)
+						break;
+					m_hDbEventFirst = hPrevEvent;
+				}
+				break;
+			}
 		}
+
+		bool bUpdate = false;
+		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
+		while (MEVENT hdbEvent = pCursor.FetchNext()) {
+			DBEVENTINFO dbei = {};
+			db_event_get(hdbEvent, &dbei);
+			if ((dbei.eventType == EVENTTYPE_MESSAGE) && !(dbei.flags & DBEF_SENT)) {
+				m_lastMessage = dbei.timestamp;
+				bUpdate = true;
+				break;
+			}
+		}
+
+		if (bUpdate)
+			UpdateLastMessage();
 
 		OnOptionsApplied(false);
 
