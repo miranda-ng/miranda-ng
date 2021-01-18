@@ -583,13 +583,13 @@ public:
 	{
 		switch (g_plugin.iHistoryMode) {
 		case LOADHISTORY_UNREAD:
-			CheckDlgButton(m_hwnd, IDC_LOADUNREAD, BST_CHECKED);
+			chkLoadUnread.SetState(true);
 			break;
 		case LOADHISTORY_COUNT:
-			CheckDlgButton(m_hwnd, IDC_LOADCOUNT, BST_CHECKED);
+			chkLoadCount.SetState(true);
 			break;
 		case LOADHISTORY_TIME:
-			CheckDlgButton(m_hwnd, IDC_LOADTIME, BST_CHECKED);
+			chkLoadTime.SetState(true);
 			break;
 		}
 
@@ -612,9 +612,9 @@ public:
 
 	bool OnApply() override
 	{
-		if (IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT))
+		if (chkLoadCount.GetState())
 			g_plugin.iHistoryMode = LOADHISTORY_COUNT;
-		else if (IsDlgButtonChecked(m_hwnd, IDC_LOADTIME))
+		else if (chkLoadTime.GetState())
 			g_plugin.iHistoryMode = LOADHISTORY_TIME;
 		else
 			g_plugin.iHistoryMode = LOADHISTORY_UNREAD;
@@ -631,12 +631,12 @@ public:
 
 	void onChange_Time(CCtrlCheck*)
 	{
-		int bChecked = IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT);
+		int bChecked = chkLoadCount.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTN), bChecked);
 		spinCount.Enable(bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTTEXT2), bChecked);
 
-		bChecked = IsDlgButtonChecked(m_hwnd, IDC_LOADTIME);
+		bChecked = chkLoadTime.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMEN), bChecked);
 		spinTime.Enable(bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STMINSOLD), bChecked);
