@@ -248,13 +248,16 @@ bool HistoryArray::addEvent(MCONTACT hContact, MEVENT hEvent, int count)
 	int numItems = getCount();
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
 
-	for (int i = 0; hEvent && i < count; i++) {
+	DB::ECPTR pCursor(DB::Events(hContact, hEvent));
+	for (int i = 0; i < count; i++) {
+		hEvent = pCursor.FetchNext();
+		if (!hEvent)
+			break;
+
 		auto &p = allocateItem();
 		p.hContact = hContact;
 		p.hEvent = hEvent;
 		p.pPrev = pPrev; pPrev = &p;
-
-		hEvent = db_event_next(hContact, hEvent);
 	}
 
 	return true;

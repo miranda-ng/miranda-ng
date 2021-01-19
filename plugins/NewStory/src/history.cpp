@@ -542,7 +542,7 @@ public:
 
 		UpdateTitle();
 
-		ADDEVENTS tmp = { m_hContact, db_event_first(m_hContact), -1 };
+		ADDEVENTS tmp = { m_hContact, 0, -1 };
 		m_histControl.SendMsg(NSM_ADDEVENTS, WPARAM(&tmp), 0);
 		m_histControl.SendMsg(WM_KEYDOWN, VK_END, 0);
 
@@ -707,59 +707,57 @@ public:
 
 		// export events
 		bool bAppendOnly = false;
-		if (auto *pCursor = DB::Events(m_hContact)) {
-			while (MEVENT hDbEvent = pCursor->FetchNext()) {
-				DBEVENTINFO dbei = {};
-				int nSize = db_event_getBlobSize(hDbEvent);
-				if (nSize > 0) {
-					dbei.cbBlob = nSize;
-					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 2);
-					dbei.pBlob[dbei.cbBlob] = 0;
-					dbei.pBlob[dbei.cbBlob + 1] = 0;
-					// Double null terminate, this should prevent most errors 
-					// where the blob received has an invalid format
-				}
-
-				if (!db_event_get(hDbEvent, &dbei)) {
-					if (bAppendOnly) {
-						SetFilePointer(hFile, -3, nullptr, FILE_END);
-						WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
-					}
-
-					JSONNode pRoot2;
-					pRoot2.push_back(JSONNode("type", dbei.eventType));
-
-					if (mir_strcmp(dbei.szModule, proto))
-						pRoot2.push_back(JSONNode("module", dbei.szModule));
-
-					pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
-
-					wchar_t szTemp[500];
-					TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
-					pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
-
-					std::string flags;
-					if (dbei.flags & DBEF_SENT)
-						flags += "m";
-					if (dbei.flags & DBEF_READ)
-						flags += "r";
-					pRoot2.push_back(JSONNode("flags", flags));
-
-					ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
-					if (msg)
-						pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
-
-					output = pRoot2.write_formatted();
-					output += "\n]}";
-
-					WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
-					if (dbei.pBlob)
-						mir_free(dbei.pBlob);
-				}
-
-				bAppendOnly = true;
+		DB::ECPTR pCursor(DB::Events(m_hContact));
+		while (MEVENT hDbEvent = pCursor.FetchNext()) {
+			DBEVENTINFO dbei = {};
+			int nSize = db_event_getBlobSize(hDbEvent);
+			if (nSize > 0) {
+				dbei.cbBlob = nSize;
+				dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 2);
+				dbei.pBlob[dbei.cbBlob] = 0;
+				dbei.pBlob[dbei.cbBlob + 1] = 0;
+				// Double null terminate, this should prevent most errors 
+				// where the blob received has an invalid format
 			}
-			delete pCursor;
+
+			if (!db_event_get(hDbEvent, &dbei)) {
+				if (bAppendOnly) {
+					SetFilePointer(hFile, -3, nullptr, FILE_END);
+					WriteFile(hFile, ",", 1, &dwBytesWritten, nullptr);
+				}
+
+				JSONNode pRoot2;
+				pRoot2.push_back(JSONNode("type", dbei.eventType));
+
+				if (mir_strcmp(dbei.szModule, proto))
+					pRoot2.push_back(JSONNode("module", dbei.szModule));
+
+				pRoot2.push_back(JSONNode("timestamp", dbei.timestamp));
+
+				wchar_t szTemp[500];
+				TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+				pRoot2.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
+
+				std::string flags;
+				if (dbei.flags & DBEF_SENT)
+					flags += "m";
+				if (dbei.flags & DBEF_READ)
+					flags += "r";
+				pRoot2.push_back(JSONNode("flags", flags));
+
+				ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+				if (msg)
+					pRoot2.push_back(JSONNode("body", T2Utf(msg).get()));
+
+				output = pRoot2.write_formatted();
+				output += "\n]}";
+
+				WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
+				if (dbei.pBlob)
+					mir_free(dbei.pBlob);
+			}
+
+			bAppendOnly = true;
 		}
 
 		// Close the file
