@@ -43,3 +43,5 @@ struct MCryptoProvider : public CRYPTO_PROVIDER
 };
 
 extern OBJLIST<MCryptoProvider> arCryptoProviders;
+
+void InitCryptMenuItem(CMenuItem &mi);

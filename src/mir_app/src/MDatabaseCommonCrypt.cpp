@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "database.h"
 #include "encrypt.h"
 
-#define MS_DB_CHANGEPASSWORD "DB/UI/ChangePassword"
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Provider selection dialog
 
@@ -315,25 +313,20 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
+void InitCryptMenuItem(CMenuItem &mi)
 {
-	MDatabaseCommon *db = (MDatabaseCommon *)obj;
+	auto *pDb = db_get_current();
 
-	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, obj);
-
-	// main menu item
-	CMenuItem mi(&g_plugin);
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000, g_plugin.getIconHandle(IDI_DATABASE));
-	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
+	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, pDb);
 
 	SET_UID(mi, 0x50321866, 0xba1, 0x46dd, 0xb3, 0xa6, 0xc3, 0xcc, 0x55, 0xf2, 0x42, 0x9e);
 	mi.flags = CMIF_UNICODE;
 	mi.position = 1000000001;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_KEYS);
-	mi.name.w = GetMenuTitle(db->usesPassword());
-	mi.pszService = MS_DB_CHANGEPASSWORD;
+	mi.name.w = GetMenuTitle(pDb->usesPassword());
+	mi.pszService = "DB/UI/ChangePassword";
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
-	return 0;
+	CreateServiceFunctionObj(mi.pszService, ChangePassword, pDb);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -454,9 +447,6 @@ int MDatabaseCommon::InitCrypt()
 			return 6;
 		StoreCryptoKey();
 	}
-
-	CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
-	HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);
 
 	m_bEncrypted = ReadEncryption();
 	return 0;

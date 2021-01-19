@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "encrypt.h"
 #include "profilemanager.h"
 
 bool g_bDbCreated;
@@ -460,10 +461,11 @@ static INT_PTR CompactMe(void* obj, WPARAM, LPARAM)
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	auto *pDb = db_get_current();
-	if (pDb->GetDriver()->capabilities & MDB_CAPS_COMPACT) {
-		CMenuItem mi(&g_plugin);
-		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000, 0);
 
+	CMenuItem mi(&g_plugin);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000, g_plugin.getIconHandle(IDI_DATABASE));
+
+	if (pDb->GetDriver()->capabilities & MDB_CAPS_COMPACT) {
 		SET_UID(mi, 0x98c0caf3, 0xBfe5, 0x4e31, 0xac, 0xf0, 0xab, 0x95, 0xb2, 0x9b, 0x9f, 0x73);
 		mi.position++;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_DATABASE);
@@ -473,6 +475,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 		CreateServiceFunctionObj(mi.pszService, CompactMe, pDb);
 	}
+
+	InitCryptMenuItem(mi);
 	return 0;
 }
 
