@@ -325,9 +325,15 @@ public:
 				LoadPluginDynamically(it);
 
 		// set checkboxes for all loaded plugins
-		for (auto &it : arPluginList)
-			if (isPluginOnWhiteList(it->fileName) && it->hInst)
-				m_plugList.SetItemState(it->iRow, (it->flags & STATIC_PLUGIN) ? 0x3000 : 0x2000, LVIS_STATEIMAGEMASK);
+		for (auto &it : arPluginList) {
+			if (!isPluginOnWhiteList(it->fileName))
+				continue;
+
+			if (it->flags & STATIC_PLUGIN)
+				m_plugList.SetItemState(it->iRow, 0x3000, LVIS_STATEIMAGEMASK);
+			else if (it->hInst)
+				m_plugList.SetItemState(it->iRow, 0x2000, LVIS_STATEIMAGEMASK);
+		}
 
 		// sort out the headers
 		m_plugList.SetColumnWidth(0, LVSCW_AUTOSIZE); // dll name
