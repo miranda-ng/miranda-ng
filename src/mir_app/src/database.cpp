@@ -29,7 +29,7 @@ bool g_bDbCreated;
 wchar_t g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
 wchar_t* g_defaultProfile;
 
-bool fileExist(const wchar_t *fname)
+static bool fileExist(const wchar_t *fname)
 {
 	if (*fname == 0)
 		return false;
@@ -445,6 +445,38 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Default menu items
+
+static INT_PTR CompactMe(void* obj, WPARAM, LPARAM)
+{
+	auto *db = (MDatabaseCommon *)obj;
+	if (!db->Compact())
+		MessageBox(0, TranslateT("Database was compacted successfully"), TranslateT("Database"), MB_OK | MB_ICONINFORMATION);
+	else
+		MessageBox(0, TranslateT("Database compaction failed"), TranslateT("Database"), MB_OK | MB_ICONERROR);
+	return 0;
+}
+
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	auto *pDb = db_get_current();
+	if (pDb->GetDriver()->capabilities & MDB_CAPS_COMPACT) {
+		CMenuItem mi(&g_plugin);
+		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000, 0);
+
+		SET_UID(mi, 0x98c0caf3, 0xBfe5, 0x4e31, 0xac, 0xf0, 0xab, 0x95, 0xb2, 0x9b, 0x9f, 0x73);
+		mi.position++;
+		mi.hIcolibItem = g_plugin.getIconHandle(IDI_DATABASE);
+		mi.name.a = LPGEN("Compact");
+		mi.pszService = "DB/UI/Compact";
+		Menu_AddMainMenuItem(&mi);
+
+		CreateServiceFunctionObj(mi.pszService, CompactMe, pDb);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static wchar_t tszNoDrivers[] = LPGENW("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll");
 static wchar_t tszUnknownFormat[] = LPGENW("Miranda was unable to open '%s', it's in an unknown format.");
@@ -509,6 +541,9 @@ int LoadDatabaseModule(void)
 		}
 	}
 		while (retry);
+
+	if (rc == 0)
+		HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	return rc;
 }

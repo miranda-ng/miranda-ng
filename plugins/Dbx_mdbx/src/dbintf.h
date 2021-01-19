@@ -223,8 +223,6 @@ class CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 
 	MDBX_dbi m_dbCrypto;
 
-	void     InitDialogs();
-
 public:
 	CDbxMDBX(const wchar_t *tszFileName, int mode);
 	virtual ~CDbxMDBX();

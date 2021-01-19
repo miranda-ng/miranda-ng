@@ -102,4 +102,3 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Load() override;
 };
 
-#include "ui.h"
