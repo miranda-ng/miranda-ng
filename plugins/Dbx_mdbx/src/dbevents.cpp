@@ -657,6 +657,13 @@ public:
 			if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS)
 				return 0;
 			dbKey = *(const DBEventSortingKey *)key.iov_base;
+
+			if (!m_bForward && dbKey.hContact) {
+				if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_PREV) != MDBX_SUCCESS)
+					return 0;
+
+				dbKey = *(const DBEventSortingKey *)key.iov_base;
+			}
 		}
 		else {
 			if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET) != MDBX_SUCCESS)
