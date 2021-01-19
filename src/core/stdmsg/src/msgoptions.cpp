@@ -211,7 +211,6 @@ public:
 		tree.SetFlags(MTREE_CHECKBOX);
 
 		chkAvatar.OnChange = Callback(this, &COptionMainDlg::onChange_Avatar);
-		chkAutoMin.OnChange = Callback(this, &COptionMainDlg::onChange_AutoMin);
 		chkAutoClose.OnChange = Callback(this, &COptionMainDlg::onChange_AutoClose);
 		chkLimitAvatar.OnChange = Callback(this, &COptionMainDlg::onChange_LimitAvatar);
 
@@ -262,16 +261,9 @@ public:
 		return true;
 	}
 
-	void onChange_AutoMin(CCtrlCheck*)
+	void onChange_AutoClose(CCtrlCheck *pCheck)
 	{
-		chkAutoClose.SetState(false);
-		chkCtrlSupport.Enable(!chkAutoClose.GetState());
-	}
-
-	void onChange_AutoClose(CCtrlCheck*)
-	{
-		chkAutoMin.SetState(false);
-		chkCtrlSupport.Enable(!chkAutoClose.GetState());
+		chkCtrlSupport.Enable(!pCheck->GetState());
 	}
 
 	void onChange_Avatar(CCtrlCheck*)
