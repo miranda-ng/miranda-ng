@@ -352,8 +352,11 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	}
 	else {
 		InitPathVar();
-		NotifyEventHooks(hModulesLoadedEvent, 0, 0);
-		g_bModulesLoadedFired = true;
+
+		if (plugin_service == nullptr) {
+			NotifyEventHooks(hModulesLoadedEvent, 0, 0);
+			g_bModulesLoadedFired = true;
+		}
 
 		// ensure that the kernel hooks the SystemShutdownProc() after all plugins
 		HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);

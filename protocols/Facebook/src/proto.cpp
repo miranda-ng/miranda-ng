@@ -116,9 +116,6 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	HookProtoEvent(ME_OPT_INITIALISE, &FacebookProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &FacebookProto::OnMarkedRead);
 
-	// Default group
-	Clist_GroupCreate(0, m_wszDefaultGroup);
-
 	// Group chats
 	GCREGISTER gcr = {};
 	gcr.dwFlags = GC_TYPNOTIF;
@@ -142,6 +139,9 @@ void FacebookProto::OnModulesLoaded()
 	wszPath.Format(L"%s\\%S\\Stickers\\*.webp", wszCache.get(), m_szModuleName);
 	cont.path = wszPath;
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+
+	// Default group
+	Clist_GroupCreate(0, m_wszDefaultGroup);
 }
 
 void FacebookProto::OnShutdown()
