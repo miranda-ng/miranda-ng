@@ -464,6 +464,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	CMenuItem mi(&g_plugin);
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000, g_plugin.getIconHandle(IDI_DATABASE));
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "F7C5567C-D1EE-484B-B4F6-24677A5AAAEF");
 
 	if (pDb->GetDriver()->capabilities & MDB_CAPS_COMPACT) {
 		SET_UID(mi, 0x98c0caf3, 0xBfe5, 0x4e31, 0xac, 0xf0, 0xab, 0x95, 0xb2, 0x9b, 0x9f, 0x73);
