@@ -623,7 +623,7 @@ class CMdbxEventCursor : public DB::EventCursor
 	friend class CDbxMDBX;
 	CDbxMDBX *m_pOwner;
 
-	bool m_bForward, m_bFirst = true;
+	bool m_bForward;
 	DBCachedContact *m_cc;
 	DBEventSortingKey m_key;
 
@@ -650,32 +650,19 @@ public:
 		mdbx_cursor_bind(m_pOwner->StartTran(), m_pOwner->m_curEventsSort, m_pOwner->m_dbEventsSort);
 
 		MDBX_val key = { &m_key, sizeof(m_key) }, data;
-		DBEventSortingKey dbKey;
-		if (m_bFirst) {
-			m_bFirst = false;
+		switch (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET)) {
+		case MDBX_SUCCESS:
+		case MDBX_NOTFOUND:
+			break;
 
-			if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS)
-				return 0;
-			dbKey = *(const DBEventSortingKey *)key.iov_base;
-
-			// we could easily move position to the next contact, if it exists
-			if (!m_bForward && dbKey.hContact != hContact) {
-				if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_PREV) != MDBX_SUCCESS)
-					return 0;
-
-				dbKey = *(const DBEventSortingKey *)key.iov_base;
-			}
-		}
-		else {
-			if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET) != MDBX_SUCCESS)
-				return 0;
-
-			if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, (m_bForward) ? MDBX_NEXT : MDBX_PREV) != MDBX_SUCCESS)
-				return 0;
-
-			dbKey = *(const DBEventSortingKey *)key.iov_base;
+		default:
+			return 0;
 		}
 
+		if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, (m_bForward) ? MDBX_NEXT : MDBX_PREV) != MDBX_SUCCESS)
+			return 0;
+
+		DBEventSortingKey dbKey = *(const DBEventSortingKey *)key.iov_base;
 		if (dbKey.hContact != hContact)
 			return 0;
 		
