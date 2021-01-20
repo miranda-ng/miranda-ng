@@ -18,7 +18,8 @@ CDbxSQLite::~CDbxSQLite()
 	UninitSettings();
 
 	if (m_db) {
-		rc = sqlite3_close(m_db);
+		while ((rc = sqlite3_close(m_db)) == SQLITE_BUSY)
+			::SleepEx(50, TRUE);
 		logError(rc);
 
 		m_db = nullptr;
