@@ -92,7 +92,7 @@ static INT_PTR CheckProfile(WPARAM wParam, LPARAM lParam)
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	CMenuItem mi(&g_plugin);
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500100000);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000);
 
 	// Main menu items
 	SET_UID(mi, 0x371f9e52, 0x39f5, 0x4fee, 0x84, 0xbb, 0xfe, 0x9c, 0xf, 0xd6, 0x85, 0x79); // {371F9E52-39F5-4FEE-84BB-FE9C0FD68579}

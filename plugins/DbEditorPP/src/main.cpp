@@ -109,7 +109,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	// Register menu item
 	CMenuItem mi(&g_plugin);
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 1900000001);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000);
 
 	SET_UID(mi, 0xe298849c, 0x1a8c, 0x4fc7, 0xa0, 0xf4, 0x78, 0x18, 0xf, 0xe2, 0xf7, 0xc9);
 	mi.position = 1900000001;
