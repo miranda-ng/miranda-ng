@@ -66,6 +66,9 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 		if (type == "saytext" || type == "emote") {
 			json_string text = item["text"].as_string();
 
+			if (timestamp > getDword(hContact, DB_KEY_LASTMSGTS))
+				setDword(hContact, DB_KEY_LASTMSGTS, timestamp);
+
 			PROTORECVEVENT recv = { 0 };
 			recv.timestamp = timestamp;
 			recv.szMessage = (char*)text.c_str();
