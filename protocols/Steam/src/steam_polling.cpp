@@ -63,7 +63,7 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			continue;
 		}
 
-		if (type == "saytext" || type =="emote") {
+		if (type == "saytext" || type == "emote") {
 			json_string text = item["text"].as_string();
 
 			PROTORECVEVENT recv = { 0 };

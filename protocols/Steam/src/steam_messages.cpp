@@ -35,12 +35,9 @@ void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 		if (node)
 			error = node.as_string();
 
-		const JSONNode &time = root["utc_timestamp"];
-		if (time) {
-			timestamp = atol(node.as_string().c_str());
-			if (timestamp > getDword(param->hContact, DB_KEY_LASTMSGTS))
-				setDword(param->hContact, DB_KEY_LASTMSGTS, timestamp);
-		}
+		timestamp = atol(root["utc_timestamp"].as_string().c_str());
+		if (timestamp > getDword(param->hContact, DB_KEY_LASTMSGTS))
+			setDword(param->hContact, DB_KEY_LASTMSGTS, timestamp);
 	}
 
 	if (mir_strcmpi(error.c_str(), "OK") != 0) {
