@@ -91,7 +91,7 @@ public:
 	{
 		g_plugin.setByte("SortByStatus", g_bSortByStatus = sortByStatus.GetState());
 		g_plugin.setByte("SortByProto", g_bSortByProto = sortByProto.GetState());
-		g_plugin.getByte("NoOfflineBottom", g_bNoOfflineBottom = chkOfflineBottom.GetState());
+		g_plugin.setByte("NoOfflineBottom", g_bNoOfflineBottom = chkOfflineBottom.GetState());
 		g_plugin.setByte("Tray1Click", IsDlgButtonChecked(m_hwnd, IDC_ONECLK));
 		g_plugin.setByte("AlwaysStatus", IsDlgButtonChecked(m_hwnd, IDC_ALWAYSSTATUS));
 		g_plugin.setByte("AlwaysMulti", !IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
