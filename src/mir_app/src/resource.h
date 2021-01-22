@@ -244,6 +244,7 @@
 #define IDC_BBRESET                     1052
 #define IDC_NICK                        1053
 #define IDC_BTN_EXPORT                  1054
+#define IDC_ALWAYSSTATUS                1055
 #define IDC_FONTLIST                    1056
 #define IDC_CHOOSEFONT                  1057
 #define IDC_EFFECT                      1058
@@ -306,6 +307,7 @@
 #define IDC_SPIN1                       1103
 #define IDC_SEPARATOR                   1104
 #define IDC_EDIT1                       1105
+#define IDC_ONECLK                      1106
 #define IDC_BUILDTIME                   1108
 #define IDC_CREDITSFILE                 1109
 #define IDC_SELECTCRYPT_COMBO           1110

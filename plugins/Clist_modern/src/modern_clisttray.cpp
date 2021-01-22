@@ -141,7 +141,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case TIM_CALLBACK:
-		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !g_plugin.getByte("Tray1Click", SETTING_TRAY1CLICK_DEFAULT)) {
+		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !Clist::Tray1Click) {
 			POINT pt;
 			HMENU hMenu = Menu_GetStatusMenu();
 			g_mutex_bOnTrayRightClick = 1;

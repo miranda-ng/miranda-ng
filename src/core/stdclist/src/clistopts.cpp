@@ -57,8 +57,6 @@ public:
 		sortByStatus.SetState(g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT));
 		chkOfflineBottom.SetState(g_plugin.getByte("NoOfflineBottom"));
 
-		CheckDlgButton(m_hwnd, IDC_ONECLK, g_plugin.getByte("Tray1Click", SETTING_TRAY1CLICK_DEFAULT));
-		CheckDlgButton(m_hwnd, IDC_ALWAYSSTATUS, g_plugin.getByte("AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT));
 		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !g_plugin.getByte("AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT));
 
 		int iTrayIcon = g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT);
@@ -92,8 +90,6 @@ public:
 		g_plugin.setByte("SortByStatus", g_bSortByStatus = sortByStatus.GetState());
 		g_plugin.setByte("SortByProto", g_bSortByProto = sortByProto.GetState());
 		g_plugin.setByte("NoOfflineBottom", g_bNoOfflineBottom = chkOfflineBottom.GetState());
-		g_plugin.setByte("Tray1Click", IsDlgButtonChecked(m_hwnd, IDC_ONECLK));
-		g_plugin.setByte("AlwaysStatus", IsDlgButtonChecked(m_hwnd, IDC_ALWAYSSTATUS));
 		g_plugin.setByte("AlwaysMulti", !IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
 		g_plugin.setByte("TrayIcon", (chkDontCycle.GetState() ? SETTING_TRAYICON_SINGLE : (chkCycle.GetState() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI)));
 		g_plugin.setWord("CycleTime", cycleTime.GetPosition());

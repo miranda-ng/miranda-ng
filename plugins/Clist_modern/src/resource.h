@@ -112,12 +112,10 @@
 #define IDC_CLIENTDRAG                  1076
 #define IDC_EVENTAREA                   1077
 #define IDC_TOOLWND                     1097
-#define IDC_ONECLK                      1098
 #define IDC_SHOWCAPTION                 1098
 #define IDC_FADEINOUT                   1101
 #define IDC_AUTOSIZE                    1102
 #define IDC_AUTOSIZEUPWARD              1103
-#define IDC_ALWAYSSTATUS                1103
 #define IDC_LOCKSIZING                  1111
 #define IDC_TRANSPARENT                 1124
 #define IDC_TRANSINACTIVE               1126

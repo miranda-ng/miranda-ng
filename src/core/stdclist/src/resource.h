@@ -18,7 +18,6 @@
 #define IDC_SHOWMAINMENU                1075
 #define IDC_CLIENTDRAG                  1076
 #define IDC_TOOLWND                     1097
-#define IDC_ONECLK                      1098
 #define IDC_SHOWCAPTION                 1098
 #define IDC_SHOWHIDE                    1100
 #define IDC_SORTBYSTATUS                1101
@@ -26,7 +25,6 @@
 #define IDC_READMSG                     1102
 #define IDC_AUTOSIZE                    1102
 #define IDC_AUTOSIZEUPWARD              1103
-#define IDC_ALWAYSSTATUS                1103
 #define IDC_NETSEARCH                   1104
 #define IDC_SORTBYPROTO                 1105
 #define IDC_SHOWOPTIONS                 1105

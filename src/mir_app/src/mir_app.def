@@ -769,3 +769,5 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?usesPassword@MDatabaseCommon@@QBE_NXZ @857 NONAME
 ?SetPassword@MDatabaseCommon@@QAEXPB_W@Z @858 NONAME
 ?EnableEncryption@MDatabaseReadonly@@UAGHH@Z @859 NONAME
+?Tray1Click@Clist@@3V?$CMOption@_N@@A @860 NONAME
+?TrayAlwaysStatus@Clist@@3V?$CMOption@_N@@A @861 NONAME

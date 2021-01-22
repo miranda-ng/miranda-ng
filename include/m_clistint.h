@@ -444,12 +444,14 @@ extern MIR_APP_EXPORT CLIST_INTERFACE g_clistApi;
 
 namespace Clist
 {
-	extern MIR_APP_EXPORT CMOption<bool> 
+	extern MIR_APP_EXPORT CMOption<bool>
 		HideOffline,
 		UseGroups,
 		FilterSearch,
-		HideEmptyGroups, 
-		ConfirmDelete;
+		HideEmptyGroups,
+		ConfirmDelete,
+		Tray1Click,
+		TrayAlwaysStatus;
 
 	extern MIR_APP_EXPORT CMOption<DWORD>
 		OfflineModes;

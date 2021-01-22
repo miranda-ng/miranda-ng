@@ -65,12 +65,10 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,12,121,10
     CONTROL         "Draw sunken edge",IDC_CLISTSUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,121,10
     GROUPBOX        "System tray icon",IDC_STATIC,1,54,163,63
-    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,64,147,10
-    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,10,76,147,10
-    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,88,147,10
-    EDITTEXT        IDC_BLINKTIME,69,99,57,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,116,97,11,16
-    LTEXT           "ms",IDC_STATIC,131,101,24,8
+    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,67,147,10
+    EDITTEXT        IDC_BLINKTIME,69,78,57,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,120,77,11,16
+    LTEXT           "ms",IDC_STATIC,131,80,24,8
     GROUPBOX        "Event area",IDC_STATIC,169,54,133,63
     LTEXT           "Set base visibility on the frames menu",IDC_STATIC,176,65,121,20
     CONTROL         "Auto mode",IDC_EVENTAREAAUTOHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,88,121,10
@@ -444,7 +442,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\\src\\include\\resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -529,100 +527,6 @@ IDC_HYPERLINKHAND       CURSOR                  "..\\..\\..\\src\\mir_app\\res\\
 IDC_DROP                CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drag_copy.cur"
 
 IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drop_user.cur"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_EXCEPTION, DIALOG
-    BEGIN
-    END
-
-    IDD_DELETECONTACT, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_CLIST, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_DSPGROUPS, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_DSPITEMS, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_DSPADVANCED, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_ICONS, DIALOG
-    BEGIN
-        VERTGUIDE, 5
-        VERTGUIDE, 11
-        VERTGUIDE, 20
-        VERTGUIDE, 288
-        VERTGUIDE, 298
-    END
-
-    IDD_OPT_CLUI, DIALOG
-    BEGIN
-        HORZGUIDE, 127
-    END
-
-    IDD_OPT_CLC, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_CLCBKG, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_SBAR, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_VIEWMODES, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_SKIN, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT, DIALOG
-    BEGIN
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_OPT_SKIN AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_CLIST AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_OPT_CLC AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

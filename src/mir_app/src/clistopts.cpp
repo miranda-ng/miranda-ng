@@ -34,6 +34,9 @@ CMOption<bool> Clist::HideEmptyGroups(MODULENAME, "HideEmptyGroups", false);
 CMOption<bool> Clist::DisableIconBlink(MODULENAME, "NoIconBlink", false);
 CMOption<bool> Clist::RemoveTempContacts(MODULENAME, "RemoveTempContacts", true);
 
+CMOption<bool> Clist::Tray1Click(MODULENAME, "Tray1Click", IsWinVer7Plus());
+CMOption<bool> Clist::TrayAlwaysStatus(MODULENAME, "AlwaysStatus", false);
+
 CMOption<bool>  Clist::FilterSearch("CLC", "FilterSearch", false);
 CMOption<DWORD> Clist::OfflineModes("CLC", "OfflineModes", MODEF_OFFLINE);
 
@@ -59,23 +62,28 @@ static const offlineValues[] =
 class ClistCommonOptsDlg : public CDlgBase
 {
 	CCtrlCheck chkUseGroups, chkHideOffline, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts, chkDisableIconBlink, chkFilterSearch;
+	CCtrlCheck chkAlwaysStatus, chkOneClick;
 	CCtrlTreeView hideStatuses;
 
 public:
 	ClistCommonOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_CLIST),
 		hideStatuses(this, IDC_HIDEOFFLINEOPTS),
+		chkOneClick(this, IDC_ONECLK),
 		chkUseGroups(this, IDC_USEGROUPS),
 		chkHideOffline(this, IDC_HIDEOFFLINE),
 		chkFilterSearch(this, IDC_FILTER_SEARCH),
+		chkAlwaysStatus(this, IDC_ALWAYSSTATUS),
 		chkConfirmDelete(this, IDC_CONFIRMDELETE), 
 		chkHideEmptyGroups(this, IDC_HIDEEMPTYGROUPS), 
 		chkDisableIconBlink(this, IDC_DISABLEICONBLINK),
 		chkRemoveTempContacts(this, IDC_REMOVETEMP)
 	{
+		CreateLink(chkOneClick, Clist::Tray1Click);
 		CreateLink(chkUseGroups, Clist::UseGroups);
 		CreateLink(chkHideOffline, Clist::HideOffline);
 		CreateLink(chkFilterSearch, Clist::FilterSearch);
+		CreateLink(chkAlwaysStatus, Clist::TrayAlwaysStatus);
 		CreateLink(chkConfirmDelete, Clist::ConfirmDelete);
 		CreateLink(chkHideEmptyGroups, Clist::HideEmptyGroups);
 		CreateLink(chkDisableIconBlink, Clist::DisableIconBlink);

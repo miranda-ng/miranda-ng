@@ -28,7 +28,6 @@
 #define IDD_OPT_DSPGROUPS               303
 #define IDC_ACTIVEPERC                  1000
 #define IDC_OPTIONSTAB                  1000
-#define IDC_ALWAYSSTATUS                1009
 #define IDC_APPLY                       1011
 #define IDC_AUTOSIZE                    1013
 #define IDC_AUTOSIZEUPWARD              1014
@@ -84,7 +83,6 @@
 #define IDC_CRIGHTSPIN                  1081
 #define IDC_LEFTMARGINSPIN              1092
 #define IDC_NOGROUPICON                 1102
-#define IDC_ONECLK                      1105
 #define IDC_RIGHTMARGIN                 1121
 #define IDC_ROWGAP                      1122
 #define IDC_TRANSPARENT                 1124

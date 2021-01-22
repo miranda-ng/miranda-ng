@@ -777,7 +777,7 @@ BEGIN
     EDITTEXT        IDC_CREDITSFILE,4,32,202,67,ES_CENTER | ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_VSCROLL
 END
 
-IDD_OPT_CLIST DIALOGEX 0, 0, 302, 202
+IDD_OPT_CLIST DIALOGEX 0, 0, 302, 214
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -793,6 +793,9 @@ BEGIN
     CONTROL         "Search works as filter",IDC_FILTER_SEARCH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,89,166,10
     CTEXT           "'Hide offline' means to hide:",IDC_STATIC,183,14,105,8
     CONTROL         "",IDC_HIDEOFFLINEOPTS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,183,24,105,104
+    GROUPBOX        "Tray",IDC_STATIC,6,135,289,39
+    CONTROL         "Single click interface",IDC_ONECLK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,145,276,10
+    CONTROL         "Always show status in tooltip",IDC_ALWAYSSTATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,14,159,276,11
 END
 
 IDD_OPT_CHAT_EVENTS DIALOGEX 0, 0, 306, 201
@@ -951,6 +954,7 @@ BEGIN
     LTEXT           "All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users",IDC_STATIC,22,110,284,33
     PUSHBUTTON      "Set password",IDC_USERPASS1,200,153,111,17
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1181,6 +1185,7 @@ BEGIN
 
     IDD_OPT_CLIST, DIALOG
     BEGIN
+        BOTTOMMARGIN, 165
     END
 
     IDD_OPT_CHAT_EVENTS, DIALOG
@@ -1401,6 +1406,7 @@ IDI_PASSWORD            ICON                    "icon_password.ico"
 IDI_SOUND               ICON                    "sound.ico"
 
 IDI_DATABASE            ICON                    "database.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

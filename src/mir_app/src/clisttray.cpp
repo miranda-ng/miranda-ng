@@ -83,7 +83,7 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 		CMStringW tszTip;
 
 		if (szPrefix && szPrefix[0]) {
-			if (!db_get_b(0, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
+			if (!Clist::TrayAlwaysStatus) {
 				wcsncpy_s(g_clistApi.szTip, MAX_TIP_SIZE, szPrefix, _TRUNCATE);
 				return g_clistApi.szTip;
 			}
@@ -126,7 +126,7 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 			ptrW ProtoXStatus(sttGetXStatus(szProto));
 			wchar_t *szStatus = Clist_GetStatusModeDescription(pa->iRealStatus, 0);
 			if (szPrefix && szPrefix[0]) {
-				if (db_get_b(0, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
+				if (Clist::TrayAlwaysStatus) {
 					if (hasTips()) {
 						if (ProtoXStatus != nullptr)
 							mir_snwprintf(g_clistApi.szTip, MAX_TIP_SIZE, L"%s%s<b>%-12.12s</b>\t%s%s%-24.24s", szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus.get());
@@ -676,7 +676,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 		if (msg->lParam == WM_MBUTTONUP)
 			g_clistApi.pfnShowHide();
-		else if (msg->lParam == (db_get_b(0, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT) ? WM_LBUTTONUP : WM_LBUTTONDBLCLK)) {
+		else if (msg->lParam == (Clist::Tray1Click ? WM_LBUTTONUP : WM_LBUTTONDBLCLK)) {
 			if ((GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
 				POINT pt;
 				HMENU hMenu = Menu_GetStatusMenu();
