@@ -163,7 +163,7 @@ Eksportuj klucze
 [Import keys]
 Importuj klucze
 [Send error messages]
-Wyślij komunikaty o błędach
+Komunikaty o błędach wysyłania
 ;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
 Wyłącz GPG

@@ -217,9 +217,9 @@ moja nazwa
 [buddy\'s nickname]
 nazwa kontaktu
 [event count]
-Liczba zdarzeń
+liczba zdarzeń
 [icon]
-Ikona
+ikona
 [direction icon]
 ikona kierunku
 [direction symbol]
@@ -241,7 +241,7 @@ dni miesiąca
 [year (4 digits)]
 rok (4 znaki)
 [day of week (Sunday, Monday... translatable)]
-dzni tygodnia (Niedziela, Poniedziałek… przetłumaczalny)
+dzień tygodnia (Niedziela, Poniedziałek… przetłumaczalny)
 [AM/PM symbol]
 symbol AM/PM
 [name of month, translatable]

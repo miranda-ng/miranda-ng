@@ -929,10 +929,10 @@ Głos właścicieli
 Tryb rozszerzony 1
 [Extended mode 2]
 Tryb rozszerzony 2
-[Selected nicklist background]
-Tło zaznaczenia na liście nicków
-[Selected nicklist text]
-Tekst zaznaczenia na liście nicków
+[Selected nick list background]
+Tło zazaczonego nicku na liście
+[Selected nick list text]
+Tekst zaznaczonego nicku na liście
 [Incremental search highlight]
 Podświetlanie wyszukiwania
 [Fields background]
@@ -1780,6 +1780,16 @@ Ta nazwa jest już w użyciu
 Wysłano wiadomość z listy zadań.\nOryginalna wiadomość: %s
 [A send later job failed to complete.\nThe original message: %s]
 Błąd wysłania wiadomości z listy zadań.\nOryginalna wiadomość: %s
+[Contact]
+Kontakt
+[Original timestamp]
+Oryginalny znacznik czasu
+[Message text]
+Tekst wiadomości
+[Last send info]
+Informacje o ostatnio wysłanych
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Próbujesz zmienić status jednego lub więcej elementów listy zadań wysyłania\nŻądanie działania zostanie wykonane w następnym przetwarzaniu listy\n\nTo działanie nie może być cofnięte.
 [<All contacts>]
 <Wszystkie kontakty>
 [Removed]
@@ -1794,16 +1804,6 @@ Opóźniony
 Zawieszony
 [Pending]
 Wysyłanie
-[Contact]
-Kontakt
-[Original timestamp]
-Oryginalny znacznik czasu
-[Message text]
-Tekst wiadomości
-[Last send info]
-Informacje o ostatnio wysłanych
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Próbujesz zmienić status jednego lub więcej elementów listy zadań wysyłania\nŻądanie działania zostanie wykonane w następnym przetwarzaniu listy\n\nTo działanie nie może być cofnięte.
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Wiadomość nie może zostać wysłana do jednego lub więcej nadawców lub opóźniona, ponieważ przekracza ona maksymalną długość wiadomości wynoszącą %d bajtów

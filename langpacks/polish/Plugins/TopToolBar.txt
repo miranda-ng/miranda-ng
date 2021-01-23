@@ -84,7 +84,7 @@ Separator
 [TopToolBar background]
 Tło TopToolBar
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download]
-Nie znaleziono usługi ramek, wtyczka zostanie więc wyłączona.\nAby ją uruchomić musisz zainstalować lub włączyć wtyczkę listy kontaktów wspierającą tę usługę.\nLista kontaktów Modern\nnicer\nMożesz je pobrać na https://wiki.miranda-ng.org/Download
+Nie znaleziono usługi ramek, wtyczka zostanie więc wyłączona.\nAby ją uruchomić, musisz zainstalować lub włączyć wtyczkę listy kontaktów wspierającą tę usługę:\n- Modern contact list\n- Clist nicer\nMożesz je pobrać na https://wiki.miranda-ng.org/Download
 [TopToolBar]
 Pasek narzędzi
 ;file \plugins\TopToolBar\src\ttbopt.cpp

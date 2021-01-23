@@ -26,6 +26,6 @@ Otwieranie kolejnego okna wiadomości
 Nie łącz okien przed zamknięciem
 ;file \plugins\AsSingleWindow\src\Options.cpp
 [AsSingleWindow]
-
+Łączenie okien
 [Customize]
 Personalizacja

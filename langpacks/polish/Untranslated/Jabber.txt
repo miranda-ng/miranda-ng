@@ -1,4 +1,0 @@
-[Extended away (Not available)]
-[Workstation successfully locked]
-[Error %d occurred during workstation lock]
-[Please switch online to see more details.]

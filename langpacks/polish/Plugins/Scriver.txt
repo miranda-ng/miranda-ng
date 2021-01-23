@@ -79,7 +79,7 @@ Wysokość okna wpisywania tekstu
 [lines]
 linie
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
-Możesz użyć osadzonych zmiennych: %name% dla nazwy kontaktu,%status% dla jego statusu,%statusmsg% dla opisu i %account% dla nazwy jego konta
+Możesz użyć osadzonych zmiennych: %name% dla nazwy kontaktu, %status% dla jego statusu, %statusmsg% dla opisu i %account% dla nazwy jego konta
 [Message window event log]
 Dziennik okna rozmowy
 [Show icons]

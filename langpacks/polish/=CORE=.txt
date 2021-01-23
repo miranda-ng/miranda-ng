@@ -115,9 +115,9 @@ Pokaż pasek menu
 [Show title bar]
 Pokaż pasek tytułu
 [Title bar text:]
-Tekst paska tytułu:
+Tytuł okna:
 [Show drop shadow (restart required)]
-Pokaż cień (wymagane ponowne uruchomienie)
+Pokaż cień (po ponownym uruchomieniu)
 [Pin to desktop]
 Przypnij do pulpitu
 [Hide contact list after it has been idle for]
@@ -125,9 +125,9 @@ Ukryj listę, jeśli bezczynność jest dłuższa niż
 [seconds]
 s
 [Automatically resize window to height of list]
-Dopasuj rozmiar okna rozmowy do wysokości listy
+Dopasuj rozmiar okna do wysokości listy
 [maximum]
-maksymalny
+maksymalnie
 [% of screen]
 % ekranu
 [Size upwards]
@@ -372,8 +372,8 @@ Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
 Automatycznie pokazuj okno gdy:
 [In background]
 W tle
-[Maximum number of flashes]
-Maksymalna liczba mignięć
+[Maximum number of flashes (0 = indefinite)]
+Maksymalna liczba mignięć (0 = nieokreślone)
 [Close the message window on send]
 Zamknij okno rozmowy po wysłaniu
 [Minimize the message window on send]
@@ -1186,6 +1186,34 @@ Pokazuj powiadomienia tylko, gdy pokój nie jest aktywny
 Pokaż menu przycisku po kliknięciu na nim PPM
 [Hidden window]
 Ukryte okna
+[Select crypto provider]
+Wybierz dostawcę kryptograficznego
+[Login to Miranda NG]
+Logowanie do Mirandy NG
+[New password]
+Nowe hasło do profilu:
+[Please enter your new password]
+Proszę wpisać twoje nowe hasło.
+[Enter password]
+Wprowadź hasło
+[Change password]
+Zmień hasło
+[Change]
+Zmień
+[Old password]
+Stare hasło do profilu:
+[Database encryption mode]
+Tryb szyfrowania bazy
+[Standard]
+Standardowy
+[Total]
+Całkowity
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
+[Set password]
+Ustaw/zmień hasło
 [&Hide/Show]
 &Pokaż/ukryj
 [E&xit]
@@ -2175,6 +2203,8 @@ Dodatkowe ikony
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
 Wycisz czat
+[Database]
+Profil
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Nie wypełniono pola wyszukiwania. Wprowadź wyszukiwane hasło i spróbuj ponownie.
@@ -2329,6 +2359,21 @@ wbudowany
 Nieznany
 [Languages]
 Języki
+;file \src\mir_app\src\MDatabaseCommonCrypt.cpp
+[Change/remove password]
+Zmień/usuń hasło
+[Wrong old password entered!]
+Złe stare hasło!
+[Password is too short!]
+Hasło jest za krótkie!
+[Passwords do not match!]
+Hasła nie pasują!
+[Too many errors!]
+Zbyt wiele błędów!
+[Password is not correct!]
+Nieprawidłowe hasło!
+[Please type in your password]
+Proszę wprowadzić hasło
 ;file \src\mir_app\src\menu_clist.cpp
 [Custom status]
 Niestandardowy status

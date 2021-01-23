@@ -118,9 +118,9 @@ Pokaż pasek menu
 [Show title bar]
 Pokaż pasek tytułu
 [Title bar text:]
-Tekst paska tytułu:
+Tytuł okna:
 [Show drop shadow (restart required)]
-Pokaż cień (wymagane ponowne uruchomienie)
+Pokaż cień (po ponownym uruchomieniu)
 [Pin to desktop]
 Przypnij do pulpitu
 [Hide contact list after it has been idle for]
@@ -128,9 +128,9 @@ Ukryj listę, jeśli bezczynność jest dłuższa niż
 [seconds]
 s
 [Automatically resize window to height of list]
-Dopasuj rozmiar okna rozmowy do wysokości listy
+Dopasuj rozmiar okna do wysokości listy
 [maximum]
-maksymalny
+maksymalnie
 [% of screen]
 % ekranu
 [Size upwards]
@@ -373,8 +373,8 @@ Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
 Automatycznie pokazuj okno gdy:
 [In background]
 W tle
-[Maximum number of flashes]
-Maksymalna liczba mignięć
+[Maximum number of flashes (0 = indefinite)]
+Maksymalna liczba mignięć (0 = nieokreślone)
 [Close the message window on send]
 Zamknij okno rozmowy po wysłaniu
 [Minimize the message window on send]
@@ -1183,6 +1183,34 @@ Pokazuj powiadomienia tylko, gdy pokój nie jest aktywny
 Pokaż menu przycisku po kliknięciu na nim PPM
 [Hidden window]
 Ukryte okna
+[Select crypto provider]
+Wybierz dostawcę kryptograficznego
+[Login to Miranda NG]
+Logowanie do Mirandy NG
+[New password]
+Nowe hasło do profilu:
+[Please enter your new password]
+Proszę wpisać twoje nowe hasło.
+[Enter password]
+Wprowadź hasło
+[Change password]
+Zmień hasło
+[Change]
+Zmień
+[Old password]
+Stare hasło do profilu:
+[Database encryption mode]
+Tryb szyfrowania bazy
+[Standard]
+Standardowy
+[Total]
+Całkowity
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
+[Set password]
+Ustaw/zmień hasło
 [&Hide/Show]
 &Pokaż/ukryj
 [E&xit]
@@ -2115,6 +2143,8 @@ Tryb wyciszenia czatu
 Dodatkowe ikony
 [Mute chat]
 Wycisz czat
+[Database]
+Profil
 [You haven't filled in the search field. Please enter a search term and try again.]
 Nie wypełniono pola wyszukiwania. Wprowadź wyszukiwane hasło i spróbuj ponownie.
 [Search]
@@ -2261,6 +2291,20 @@ wbudowany
 Nieznany
 [Languages]
 Języki
+[Change/remove password]
+Zmień/usuń hasło
+[Wrong old password entered!]
+Złe stare hasło!
+[Password is too short!]
+Hasło jest za krótkie!
+[Passwords do not match!]
+Hasła nie pasują!
+[Too many errors!]
+Zbyt wiele błędów!
+[Password is not correct!]
+Nieprawidłowe hasło!
+[Please type in your password]
+Proszę wprowadzić hasło
 [Custom status]
 Niestandardowy status
 [%s (locked)]
@@ -4301,6 +4345,8 @@ Otwieranie kolejnego okna wiadomości
 Łącz tylko pierwsze okno
 [Don't merge windows until closing]
 Nie łącz okien przed zamknięciem
+[AsSingleWindow]
+Łączenie okien
 [Customize]
 Personalizacja
 #muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
@@ -8761,7 +8807,7 @@ Dokonaj &transliteracji
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -8772,6 +8818,14 @@ Narzędzie naprawcze
 &Dalej >
 [Cancel]
 Anuluj
+[Checker's options]
+Opcje sprawdzania
+[Customize settings and proceed to the checking.]
+Dostosuj ustawienia i przejdź do sprawdzania.
+[File name:]
+Nazwa pliku:
+[Mark all events as read]
+Oznacz wszystkie zdarzenia jako przeczytane
 [Error Opening Database]
 Błąd podczas otwierania profilu
 [There was an error opening the profile database given.]
@@ -8802,6 +8856,8 @@ Kliknij Zakończ aby kontynuować
 Przetwarzanie nie zostało jeszcze ukończone, jeśli zrezygnujesz teraz następne zmiany, które obecnie zostały dokonane zostaną cofnięte i oryginalny profil zostanie przywrócony. Czy nadal chcesz anulować?
 [Database worker thread activated]
 Aktywowano wątek roboczy profilu
+[%d events marked as read]
+%d zdarzeń oznaczonych jako przeczytane
 [Processing aborted by user]
 Przetwarzanie zakończone przez użytkownika
 [Elapsed time: %d sec]
@@ -8814,7 +8870,7 @@ Wszystkie zadania zakończono pomyślnie
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.3
+;  Version: 4.0.1.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8855,6 +8911,8 @@ Użyj powiadomień kiedy oglądane ustawienia zmieniają wartość
 Wyświetlaj (0 - nie chowaj)
 [Background color]
 Kolor tła
+[Text color]
+Kolor tekstu
 [Add a module to contact]
 Dodaj moduł do kontaktu
 [Add a module named]
@@ -9115,6 +9173,8 @@ Wczytywanie kontaktów...
 Wczytywanie modułów...
 [Contacts]
 Kontakty
+[Popups]
+Powiadomienia
 [Add module to "%s"]
 Dodaj moduł do "%s"
 [Type]
@@ -9148,40 +9208,6 @@ Zmieniły się ustawienia profilu: \nModuł: "%s", Ustawienie: "%s"\nNowa warto�
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
-[Select crypto provider]
-Wybierz dostawcę kryptograficznego
-[Cancel]
-Anuluj
-[Total encryption (Recommended only for paranoid users)]
-Całkowite szyfrowanie (Zalecane wyłącznie obsesyjnym użytkownikom)
-[Login to Miranda NG]
-Logowanie do Mirandy NG
-[New password]
-Nowe hasło do profilu:
-[Please enter your new password]
-Proszę wpisać twoje nowe hasło.
-[Enter password]
-Wprowadź hasło
-[Change password]
-Zmień hasło
-[Change]
-Zmień
-[Remove]
-Usuń
-[Old password]
-Stare hasło do profilu:
-[Database encryption mode]
-Tryb szyfrowania bazy
-[Standard]
-Standardowy
-[Total]
-Całkowity
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
-[Set password]
-Ustaw/zmień hasło
 [Orphaned sorting event with wrong contact ID %d, deleting]
 Utracone zdarzenie sortowania z nieprawidłowym identyfikatorem kontaktu %d, usuwanie
 [Orphaned sorting event with wrong event ID %d:%08X, deleting]
@@ -9190,32 +9216,16 @@ Utracone zdarzenie sortowania z nieprawidłowym identyfikatorem zdarzenia %d:%08
 Utracony identyfikator zdarzenia z nieprawidłowym identyfikatorem zdarzenia %08X, usuwanie
 [Orphaned setting with wrong contact ID %08X, deleting]
 Utracone ustawienie z nieprawidłowym identyfikatorem kontaktu %08X, usuwanie
-[Too many errors!]
-Zbyt wiele błędów!
-[Password is not correct!]
-Nieprawidłowe hasło!
-[Please type in your password]
-Proszę wprowadzić hasło
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 Format bazy danych jest przestarzały. Kliknij OK, aby uzyskać szczegóły aktualizacji, lub Anuluj, aby wyjść.
 [Error]
 Błąd
-[Change/remove password]
-Zmień/usuń hasło
-[Wrong old password entered!]
-Złe stare hasło!
-[Password is too short!]
-Hasło jest za krótkie!
-[Passwords do not match!]
-Hasła nie pasują!
 [Database was compacted successfully]
 Baza danych została pomyślnie skompresowana
 [Database]
 Profil
 [Database compaction failed]
 Kompresja bazy danych nie powiodła się
-[Logo]
-Logo
 [Compact]
 Kompresuj
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
@@ -9227,38 +9237,6 @@ Kompresuj
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
-[Select crypto provider]
-Wybierz dostawcę kryptograficznego
-[Cancel]
-Anuluj
-[Login to Miranda NG]
-Logowanie do Mirandy NG
-[New password]
-Nowe hasło do profilu:
-[Please enter your new password]
-Proszę wpisać twoje nowe hasło.
-[Enter password]
-Wprowadź hasło
-[Change password]
-Zmień hasło
-[Change]
-Zmień
-[Remove]
-Usuń
-[Old password]
-Stare hasło do profilu:
-[Database encryption mode]
-Tryb szyfrowania bazy
-[Standard]
-Standardowy
-[Total]
-Całkowity
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
-[Set password]
-Ustaw/zmień hasło
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Miranda wykryła błąd w twojej bazie danych. Miranda zostanie teraz zamknięta.
 [Disk is full. Miranda will now shut down.]
@@ -9273,8 +9251,6 @@ Panika profilu
 Ten profil jest zbyt stary, by uaktualnić go wtyczką PluginUpdater. Twoja baza danych musi zostać najpierw skonwertowana.\n\nChcesz przeczytać jak to naprawić?
 [Obsolete database format]
 Przestarzały format bazy danych
-[Change/remove password]
-Zmień/usuń hasło
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 Ten profil jest w starym niewspieranym już formacie. Wciśnij Tak aby przekonwertować go do nowego formatu lub Nie aby powrócić.
 [To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
@@ -9285,51 +9261,15 @@ Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby 
 Nie można przenieść starego profilu '%s' do '%s' : błąd %d
 [Attempt to create database '%s' failed with error code %d]
 Błąd tworzenia bazy danych '%s' : kod błędu %d
-[Logo]
-Logo
-[Too many errors!]
-Zbyt wiele błędów!
-[Password is not correct!]
-Nieprawidłowe hasło!
-[Please type in your password]
-Proszę wprowadzić hasło
-[Wrong old password entered!]
-Złe stare hasło!
-[Password is too short!]
-Hasło jest za krótkie!
-[Passwords do not match!]
-Hasła nie pasują!
-[Database]
-Baza danych
 #muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
-[Select crypto provider]
-Wybierz dostawcę kryptograficznego
-[Cancel]
-Anuluj
-[Login to Miranda NG]
-Logowanie do Mirandy NG
-[New password]
-Nowe hasło do profilu:
-[Please enter your new password]
-Proszę wpisać twoje nowe hasło.
-[Enter password]
-Wprowadź hasło
-[Change password]
-Zmień hasło
-[Change]
-Zmień
-[Remove]
-Usuń
-[Old password]
-Stare hasło do profilu:
 [Database encryption mode]
 Tryb szyfrowania bazy
 [Standard]
@@ -9340,8 +9280,6 @@ Całkowity
 Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
-[Set password]
-Ustaw/zmień hasło
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
@@ -15984,6 +15922,8 @@ Zmień status
 Ustaw status i opis
 [Status]
 Status
+[Extended away (Not available)]
+Rozszerzony Zaraz wracam (Niedostępne)
 [Invisible]
 Niewidoczny
 [Offline]
@@ -16014,6 +15954,10 @@ Opcje przekazywania
 Oznacz wiadomości jako przeczytane
 [%d message(s) forwarded]
 %d wiadomość(i) przekazanych
+[Workstation successfully locked]
+Stacja robocza została pomyślnie zablokowana
+[Error %d occurred during workstation lock]
+Wystąpił błąd %d podczas blokady stacji roboczej
 [Confirmation needed]
 Wymagane potwierdzenie
 [Please confirm Miranda NG shutdown]
@@ -16136,6 +16080,8 @@ Ostatni opis
 <brak dostępnych informacji>
 [Last active resource]
 Ostatnio aktywny zasób
+[Please switch online to see more details.]
+Połącz się z siecią, aby zobaczyć więcej szczegółów.
 [Copy]
 Kopiuj
 [Copy only this value]
@@ -17664,6 +17610,10 @@ Powiadomienia o błędzie skryptu
 Ogólne
 [Popup on obsolete methods]
 Powiadomienia o przestarzałych metodach
+[Auto evaluation]
+Automatyczne sprawdzanie
+[Evaluate]
+Sprawdzanie
 [Script]
 Skrypt
 [Loaded]
@@ -17674,6 +17624,8 @@ Nie powiodło się
 Otwórz
 [Reload]
 Przeładuj
+[Compile]
+Kompiluj
 [Common scripts]
 Wspólne skrypty
 [Services]
@@ -19381,9 +19333,9 @@ moja nazwa
 [buddy\'s nickname]
 nazwa kontaktu
 [event count]
-Liczba zdarzeń
+liczba zdarzeń
 [icon]
-Ikona
+ikona
 [direction icon]
 ikona kierunku
 [direction symbol]
@@ -19405,7 +19357,7 @@ dni miesiąca
 [year (4 digits)]
 rok (4 znaki)
 [day of week (Sunday, Monday... translatable)]
-dzni tygodnia (Niedziela, Poniedziałek… przetłumaczalny)
+dzień tygodnia (Niedziela, Poniedziałek… przetłumaczalny)
 [AM/PM symbol]
 symbol AM/PM
 [name of month, translatable]
@@ -20053,7 +20005,7 @@ Eksportuj klucze
 [Import keys]
 Importuj klucze
 [Send error messages]
-Wyślij komunikaty o błędach
+Komunikaty o błędach wysyłania
 [GPG Turn off encryption]
 Wyłącz GPG
 [GPG Turn on encryption]
@@ -21571,7 +21523,7 @@ Nieznany
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.9
+;  Version: 0.2.0.10
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -23281,7 +23233,7 @@ Wysokość okna wpisywania tekstu
 [lines]
 linie
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
-Możesz użyć osadzonych zmiennych: %name% dla nazwy kontaktu,%status% dla jego statusu,%statusmsg% dla opisu i %account% dla nazwy jego konta
+Możesz użyć osadzonych zmiennych: %name% dla nazwy kontaktu, %status% dla jego statusu, %statusmsg% dla opisu i %account% dla nazwy jego konta
 [Message window event log]
 Dziennik okna rozmowy
 [Show icons]
@@ -25328,7 +25280,7 @@ Wtyczki
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -26465,7 +26417,7 @@ Pasek narzędzi
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -27643,10 +27595,10 @@ Głos właścicieli
 Tryb rozszerzony 1
 [Extended mode 2]
 Tryb rozszerzony 2
-[Selected nicklist background]
-Tło zaznaczenia na liście nicków
-[Selected nicklist text]
-Tekst zaznaczenia na liście nicków
+[Selected nick list background]
+Tło zazaczonego nicku na liście
+[Selected nick list text]
+Tekst zaznaczonego nicku na liście
 [Incremental search highlight]
 Podświetlanie wyszukiwania
 [Fields background]
@@ -28475,6 +28427,16 @@ Ta nazwa jest już w użyciu
 Wysłano wiadomość z listy zadań.\nOryginalna wiadomość: %s
 [A send later job failed to complete.\nThe original message: %s]
 Błąd wysłania wiadomości z listy zadań.\nOryginalna wiadomość: %s
+[Contact]
+Kontakt
+[Original timestamp]
+Oryginalny znacznik czasu
+[Message text]
+Tekst wiadomości
+[Last send info]
+Informacje o ostatnio wysłanych
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Próbujesz zmienić status jednego lub więcej elementów listy zadań wysyłania\nŻądanie działania zostanie wykonane w następnym przetwarzaniu listy\n\nTo działanie nie może być cofnięte.
 [<All contacts>]
 <Wszystkie kontakty>
 [Removed]
@@ -28489,16 +28451,6 @@ Opóźniony
 Zawieszony
 [Pending]
 Wysyłanie
-[Contact]
-Kontakt
-[Original timestamp]
-Oryginalny znacznik czasu
-[Message text]
-Tekst wiadomości
-[Last send info]
-Informacje o ostatnio wysłanych
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Próbujesz zmienić status jednego lub więcej elementów listy zadań wysyłania\nŻądanie działania zostanie wykonane w następnym przetwarzaniu listy\n\nTo działanie nie może być cofnięte.
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Wiadomość nie może zostać wysłana do jednego lub więcej nadawców lub opóźniona, ponieważ przekracza ona maksymalną długość wiadomości wynoszącą %d bajtów
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -29510,7 +29462,7 @@ Separator
 [TopToolBar background]
 Tło TopToolBar
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download]
-Nie znaleziono usługi ramek, wtyczka zostanie więc wyłączona.\nAby ją uruchomić musisz zainstalować lub włączyć wtyczkę listy kontaktów wspierającą tę usługę.\nLista kontaktów Modern\nnicer\nMożesz je pobrać na https://wiki.miranda-ng.org/Download
+Nie znaleziono usługi ramek, wtyczka zostanie więc wyłączona.\nAby ją uruchomić, musisz zainstalować lub włączyć wtyczkę listy kontaktów wspierającą tę usługę:\n- Modern contact list\n- Clist nicer\nMożesz je pobrać na https://wiki.miranda-ng.org/Download
 [TopToolBar]
 Pasek narzędzi
 [Default]

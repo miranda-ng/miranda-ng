@@ -1669,7 +1669,7 @@ Ustaw status i opis
 [Status]
 Status
 [Extended away (Not available)]
-
+Rozszerzony Zaraz wracam (Niedostępne)
 [Invisible]
 Niewidoczny
 [Offline]
@@ -1701,9 +1701,9 @@ Oznacz wiadomości jako przeczytane
 [%d message(s) forwarded]
 %d wiadomość(i) przekazanych
 [Workstation successfully locked]
-
+Stacja robocza została pomyślnie zablokowana
 [Error %d occurred during workstation lock]
-
+Wystąpił błąd %d podczas blokady stacji roboczej
 [Confirmation needed]
 Wymagane potwierdzenie
 [Please confirm Miranda NG shutdown]
@@ -1832,7 +1832,7 @@ Ostatni opis
 [Last active resource]
 Ostatnio aktywny zasób
 [Please switch online to see more details.]
-
+Połącz się z siecią, aby zobaczyć więcej szczegółów.
 [Copy]
 Kopiuj
 [Copy only this value]

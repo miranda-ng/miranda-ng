@@ -19,9 +19,9 @@ Ogólne
 [Popup on obsolete methods]
 Powiadomienia o przestarzałych metodach
 [Auto evaluation]
-
+Automatyczne sprawdzanie
 [Evaluate]
-
+Sprawdzanie
 ;file \plugins\MirLua\src\icons.cpp
 [Script]
 Skrypt
@@ -34,7 +34,7 @@ Otwórz
 [Reload]
 Przeładuj
 [Compile]
-
+Kompiluj
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Wspólne skrypty
