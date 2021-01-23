@@ -1,7 +1,7 @@
 ChangeLog
 ---------
 
-## v0.9.3 (in development)
+## v0.9.3 (in development) scheduled at 2021-02-23
 
 TODO:
  - Engage new terminology (https://github.com/erthink/libmdbx/issues/137).
@@ -13,18 +13,48 @@ TODO:
  - Packages for ROSA Linux, ALT Linux, Fedora/RHEL, Debian/Ubuntu.
 
 Acknowledgements:
+
  - Mahlon E. Smith (http://www.martini.nu/) for FreeBSD port of libmdbx.
  - 장세연 (http://www.castis.com) for bug fixing and PR.
 
-Added features:
+Removed options and features:
+
+ - Drop `MDBX_HUGE_TRANSACTIONS` build-option (now no longer required).
+
+New features:
+
  - Package for FreeBSD is available now by Mahlon E. Smith.
+ - New API functions to get/set various options (https://github.com/erthink/libmdbx/issues/128).
+    - the maximum number of named databases for the environment;
+    - the maximum number of threads/reader slots;
+    - threshold (since the last unsteady commit) to force flush the data buffers to disk;
+    - relative period (since the last unsteady commit) to force flush the data buffers to disk;
+    - limit to grow a list of reclaimed/recycled page's numbers for finding a sequence of contiguous pages for large data items;
+    - limit to grow a cache of dirty pages for reuse in the current transaction;
+    - limit of a pre-allocated memory items for dirty pages;
+    - limit of dirty pages for a write transaction;
+    - initial allocation size for dirty pages list of a write transaction;
+    - maximal part of the dirty pages may be spilled when necessary;
+    - minimal part of the dirty pages should be spilled when necessary;
+    - how much of the parent transaction dirty pages will be spilled while start each child transaction;
+ - Unlimited/Dynamic size of retired and dirty page lists (https://github.com/erthink/libmdbx/issues/123).
+ - Added `-p` option (purge subDB before loading) to `mdbx_load` tool.
+ - Reworked spilling of large transaction and committing of nested transactions.
+ - Added `MDBX_ENABLE_REFUND` and `MDBX_PNL_ASCENDING` internal/advanced build options.
 
 Fixes:
+
  - Fixed missing cleanup (null assigned) in the C++ commit/abort (https://github.com/erthink/libmdbx/pull/143).
  - Fixed `mdbx_realloc()` for case of nullptr and `MDBX_AVOID_CRT=ON` for Windows.
+ - Fixed the possibility to use invalid and renewed (closed & re-opened, dropped & re-created) DBI-handles (https://github.com/erthink/libmdbx/issues/146).
+ - Fixed 4-byte aligned access to 64-bit integers, including access to the `bootid` meta-page's field (https://github.com/erthink/libmdbx/issues/153).
+ - Fixed minor/potential memory leak during page flushing and unspilling.
+ - Fixed handling states of cursors's and subDBs's for nested transactions.
+ - Fixed page leak in extra rare case the list of retired pages changed during update GC on transaction commit.
+ - Fixed assertions to avoid false-positive UB detection by CLANG/LLVM (https://github.com/erthink/libmdbx/issues/153).
 
 
-## v0.9.2 scheduled at 2020-11-27
+## v0.9.2 at 2020-11-27
 
 Acknowledgements:
 
