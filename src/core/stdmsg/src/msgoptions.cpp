@@ -211,8 +211,10 @@ public:
 		tree.SetFlags(MTREE_CHECKBOX);
 
 		chkAvatar.OnChange = Callback(this, &COptionMainDlg::onChange_Avatar);
+		chkAutoMin.OnChange = Callback(this, &COptionMainDlg::onChange_AutoMin);
 		chkAutoClose.OnChange = Callback(this, &COptionMainDlg::onChange_AutoClose);
 		chkLimitAvatar.OnChange = Callback(this, &COptionMainDlg::onChange_LimitAvatar);
+		chkSavePerContact.OnChange = Callback(this, &COptionMainDlg::onChange_SavePerContact);
 
 		CreateLink(edtNFlash, g_dat.nFlashMax);
 		CreateLink(edtAvatarH, g_dat.iAvatarHeight);
@@ -261,9 +263,21 @@ public:
 		return true;
 	}
 
-	void onChange_AutoClose(CCtrlCheck *pCheck)
+	void onChange_AutoMin(CCtrlCheck*)
 	{
-		chkCtrlSupport.Enable(!pCheck->GetState());
+		chkAutoClose.SetState(false);
+		chkCtrlSupport.Enable(!chkAutoClose.GetState());
+	}
+
+	void onChange_AutoClose(CCtrlCheck*)
+	{
+		chkAutoMin.SetState(false);
+		chkCtrlSupport.Enable(!chkAutoClose.GetState());
+	}
+
+	void onChange_SavePerContact(CCtrlCheck*)
+	{
+		chkCascade.Enable(!chkSavePerContact.GetState());
 	}
 
 	void onChange_Avatar(CCtrlCheck*)

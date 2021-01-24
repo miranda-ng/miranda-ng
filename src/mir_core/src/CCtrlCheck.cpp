@@ -58,7 +58,6 @@ int CCtrlCheck::GetState()
 void CCtrlCheck::SetState(int state)
 {
 	::SendMessage(m_hwnd, BM_SETCHECK, state, 0);
-	OnChange(this);
 }
 
 bool CCtrlCheck::IsChecked()

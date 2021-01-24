@@ -218,6 +218,9 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (!OnInitDialog())
 			return FALSE;
 
+		for (auto &it : m_controls)
+			it->OnChange(it);
+
 		m_bInitialized = true;
 		return TRUE;
 
