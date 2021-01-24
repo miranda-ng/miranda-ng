@@ -739,12 +739,7 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		}
 		else ptszVarPath = g_Settings->pszLogDir;
 
-		wchar_t *tszParsedName = Utils_ReplaceVarsW(ptszVarPath, si->hContact, rva);
-		if (g_chatApi.OnGetLogName)
-			g_chatApi.OnGetLogName(si, tszParsedName);
-		else
-			PathToAbsoluteW(tszParsedName, si->pszLogFileName);
-		mir_free(tszParsedName);
+		PathToAbsoluteW(ptrW(Utils_ReplaceVarsW(ptszVarPath, si->hContact, rva)), si->pszLogFileName);
 
 		for (auto &it : rva)
 			mir_free(it.value.w);

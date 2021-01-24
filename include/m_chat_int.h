@@ -356,7 +356,6 @@ struct CHAT_MANAGER
 	void (*OnReplaceSession)(SESSION_INFO*);
 
 	void (*ShowRoom)(SESSION_INFO*);
-	void (*OnGetLogName)(SESSION_INFO*, const wchar_t*);
 	void (*OnEventBroadcast)(SESSION_INFO *si, GCEVENT *gce);
 	
 	void (*OnSetTopic)(SESSION_INFO*);
