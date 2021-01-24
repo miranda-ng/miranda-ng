@@ -46,14 +46,15 @@ wchar_t* GetContactID(MCONTACT hContact)
 
 #define XSTR(target, s) _xstrselect(target, s, _A2W(s))
 
-static __forceinline int _xcscmp(const char *s1, const char *s2) { return strcmp(s1, s2); }
-static __forceinline int _xcsncmp(const char *s1, const char *s2, size_t n) { return strncmp(s1, s2, n); }
+static __forceinline int    _xcscmp(const char *s1, const char *s2) { return strcmp(s1, s2); }
+static __forceinline int    _xcsncmp(const char *s1, const char *s2, size_t n) { return strncmp(s1, s2, n); }
 static __forceinline size_t _xcslen(const char *s1) { return strlen(s1); }
-static __forceinline char *_xcscpy(char *s1, const char *s2) { return strcpy(s1, s2); }
-static __forceinline char *_xcsncpy(char *s1, const char *s2, size_t n) { return strncpy(s1, s2, n); }
-static __forceinline const char *_xstrselect(const char*, const char *s1, wchar_t*) { return s1; }
-static __forceinline char *_itox(char*, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
-static __forceinline char *mir_a2x(const char*, const char *s) { return mir_strdup(s); }
+static __forceinline char*  _xcscpy(char *s1, const char *s2) { return strcpy(s1, s2); }
+static __forceinline char*  _xcsncpy(char *s1, const char *s2, size_t n) { return strncpy(s1, s2, n); }
+static __forceinline const char* _xstrselect(const char*, const char *s1, wchar_t*) { return s1; }
+static __forceinline char*  _itox(char*, int a) { return itoa(a, (char *)mir_alloc(sizeof(char)*20), 10); }
+static __forceinline char*  mir_a2x(const char *, const char *s) { return mir_strdup(s); }
+static __forceinline char*  mir_w2x(const char *, const wchar_t *s) { return mir_u2a(s); }
 
 static __forceinline char *GetContactNickX(const char*, MCONTACT hContact)
 {
@@ -138,9 +139,10 @@ static __forceinline int _xcsncmp(const wchar_t *s1, const wchar_t *s2, size_t n
 static __forceinline size_t _xcslen(const wchar_t *s1) { return wcslen(s1); }
 static __forceinline wchar_t* _xcscpy(wchar_t *s1, const wchar_t *s2) { return wcscpy(s1, s2); }
 static __forceinline wchar_t* _xcsncpy(wchar_t *s1, const wchar_t *s2, size_t n) { return wcsncpy(s1, s2, n); }
-static __forceinline const wchar_t* _xstrselect(const wchar_t*, const char*, const wchar_t *s2) { return s2; }
-static __forceinline wchar_t* _itox(wchar_t *, int a) { return _itow(a, (wchar_t *)mir_alloc(sizeof(wchar_t)*20), 10); }
+static __forceinline const wchar_t* _xstrselect(const wchar_t *, const char *, const wchar_t *s2) { return s2; }
+static __forceinline wchar_t* _itox(wchar_t *, int a) { return _itow(a, (wchar_t *)mir_alloc(sizeof(wchar_t) * 20), 10); }
 static __forceinline wchar_t* mir_a2x(const wchar_t *, const char *s) { return mir_a2u(s); }
+static __forceinline wchar_t* mir_w2x(const wchar_t *, const wchar_t *s) { return mir_wstrdup(s); }
 
 static __forceinline wchar_t* GetContactNickX(const wchar_t*, MCONTACT hContact)
 {
@@ -233,7 +235,14 @@ XCHAR *GetInternalVariable(const XCHAR *key, size_t keyLength, MCONTACT hContact
 		else if (!_xcscmp(theKey, XSTR(key, "accountname"))) {
 			PROTOACCOUNT *acc = Proto_GetAccount(Proto_GetBaseAccountName(hContact));
 			if (acc != nullptr)
-				theValue = mir_a2x(key, _T2A(acc->tszAccountName));
+				theValue = mir_w2x(key, acc->tszAccountName);
+		}
+		else if (!_xcscmp(theKey, XSTR(key, "group"))) {
+			ptrW wszGroup(Clist_GetGroup(hContact));
+			if (wszGroup)
+				theValue = mir_w2x(key, wszGroup);
+			else
+				theValue = mir_w2x(key, L"");
 		}
 		else if (!_xcscmp(theKey, XSTR(key, "userid")))
 			theValue = GetContactIDX(key, hContact);
