@@ -180,11 +180,12 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 
 	// LIST_CHATROOM
 	// jid = room JID
-	BOOL bChatActive;
-	HWND hwndGcListBan;
-	HWND hwndGcListAdmin;
-	HWND hwndGcListOwner;
-	int  iChatState;
+	SESSION_INFO *si;
+	HWND  hwndGcListBan;
+	HWND  hwndGcListAdmin;
+	HWND  hwndGcListOwner;
+	int   iChatState;
+	DWORD dwChatInitTime;
 
 	// LIST_FILE
 	// jid = string representation of port number
@@ -206,7 +207,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	char *password;	// password for room
 	bool bAutoJoin;
 
-	bool bChatGotSubject;  // MUC received message with subject
+	bool bChatLogging;
 	bool bUseResource;
 	bool bHistoryRead;
 	bool bRealContact;

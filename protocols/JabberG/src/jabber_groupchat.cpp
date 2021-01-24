@@ -978,7 +978,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 		MsgPopup(0, str, TranslateT("Error"));
 
-		if (item != nullptr && !item->bChatActive)
+		if (item != nullptr && !item->si)
 			ListRemove(LIST_CHATROOM, from);
 	}
 }
@@ -1006,7 +1006,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 		resource = nullptr;
 
 	if ((n = XmlFirstChild(node, "subject")) != nullptr) {
-		item->bChatGotSubject = true;
+		item->bChatLogging = true;
 		msgText = n->GetText();
 		if (msgText == nullptr || msgText[0] == '\0')
 			return;
@@ -1062,6 +1062,9 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	if (!msgTime || msgTime > now)
 		msgTime = now;
 
+	if (now - item->dwChatInitTime > 2)
+		item->bChatLogging = true;
+
 	if (resource != nullptr) {
 		pResourceStatus r(item->findResource(resource));
 		nick = (r && r->m_szNick) ? r->m_szNick.get() : resource;
@@ -1078,15 +1081,13 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	gce.pszText.a = szText;
 	gce.bIsMe = nick == nullptr ? FALSE : (mir_strcmp(resource, item->nick) == 0);
 
-	if (item->bChatGotSubject)
+	// if we log chat events, add them to log window
+	if (item->bChatLogging)
 		gce.dwFlags |= GCEF_ADDTOLOG;
-
-	if (m_bGcLogChatHistory && !item->bChatGotSubject)
+	else if (m_bGcLogChatHistory) // else we need to suppress disk logging and sounds/popups
 		gce.dwFlags |= GCEF_NOTNOTIFY;
 
 	Chat_Event(&gce);
-
-	item->bChatActive = 2;
 
 	if (gce.iType == GC_EVENT_TOPIC)
 		Chat_SetStatusbarText(m_szModuleName, Utf2T(item->jid), Utf2T(szText));

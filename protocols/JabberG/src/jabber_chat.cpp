@@ -111,42 +111,44 @@ int JabberGcGetStatus(JABBER_RESOURCE_STATUS *r)
 
 int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 {
-	if (item->bChatActive)
+	if (item->si)
 		return 1;
 
 	Utf2T wszJid(item->jid);
 	ptrA szNick(JabberNickFromJID(item->jid));
-	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszJid, Utf2T(szNick));
-	if (si != nullptr) {
-		item->hContact = si->hContact;
+	SESSION_INFO *si = item->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszJid, Utf2T(szNick));
+	if (si == nullptr)
+		return 2;
 
-		if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid)) {
-			if (bookmark->name) {
-				ptrW myHandle(db_get_wsa(si->hContact, "CList", "MyHandle"));
-				if (myHandle == nullptr)
-					db_set_ws(si->hContact, "CList", "MyHandle", bookmark->name);
-			}
-		}
+	item->hContact = si->hContact;
 
-		ptrA tszNick(getUStringA(si->hContact, "MyNick"));
-		if (tszNick != nullptr) {
-			if (!mir_strcmp(tszNick, szNick))
-				delSetting(si->hContact, "MyNick");
-			else
-				setUString(si->hContact, "MyNick", item->nick);
-		}
-		else setUString(si->hContact, "MyNick", item->nick);
-
-		ptrA passw(getUStringA(si->hContact, "Password"));
-		if (mir_strcmp(passw, item->password)) {
-			if (!item->password || !item->password[0])
-				delSetting(si->hContact, "Password");
-			else
-				setUString(si->hContact, "Password", item->password);
+	if (JABBER_LIST_ITEM *bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid)) {
+		if (bookmark->name) {
+			ptrW myHandle(db_get_wsa(si->hContact, "CList", "MyHandle"));
+			if (myHandle == nullptr)
+				db_set_ws(si->hContact, "CList", "MyHandle", bookmark->name);
 		}
 	}
 
-	item->bChatActive = true;
+	ptrA tszNick(getUStringA(si->hContact, "MyNick"));
+	if (tszNick != nullptr) {
+		if (!mir_strcmp(tszNick, szNick))
+			delSetting(si->hContact, "MyNick");
+		else
+			setUString(si->hContact, "MyNick", item->nick);
+	}
+	else setUString(si->hContact, "MyNick", item->nick);
+
+	ptrA passw(getUStringA(si->hContact, "Password"));
+	if (mir_strcmp(passw, item->password)) {
+		if (!item->password || !item->password[0])
+			delSetting(si->hContact, "Password");
+		else
+			setUString(si->hContact, "Password", item->password);
+	}
+
+	item->bChatLogging = false;
+	item->dwChatInitTime = time(0);
 
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--)
 		Chat_AddGroup(si, TranslateW(Utf2T(sttStatuses[i])));
@@ -158,7 +160,8 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus &user, TJabberGcLogInfoType type)
 {
-	if (!item || !user || (item->bChatActive != 2)) return;
+	if (!item || !user || !item->bChatLogging)
+		return;
 
 	CMStringA buf;
 
@@ -248,7 +251,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *r
 	gce.pszUID.a = resource;
 	gce.pszUserInfo.a = jid;
 	gce.pszText.a = szReason;
-	if (item->bChatActive == 2) {
+	if (item->bChatLogging) {
 		gce.dwFlags |= GCEF_ADDTOLOG;
 		gce.time = time(0);
 	}
@@ -318,8 +321,8 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 		Chat_Control(m_szModuleName, wszRoomJid, SESSION_OFFLINE);
 
 	Contact_Hide(item->hContact, false);
-	item->bChatActive = false;
-	item->bChatGotSubject = false;
+	item->si = nullptr;
+	item->bChatLogging = false;
 
 	if (m_bJabberOnline) {
 		m_ThreadInfo->send(
@@ -538,7 +541,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			idx = IDM_LINK0;
 			LISTFOREACH_NODEF(i, this, LIST_CHATROOM)
 				if (item = ListGetItemPtrFromIndex(i)) {
-					if (!item->bChatActive)
+					if (!item->si)
 						continue;
 
 					gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, idx);
@@ -1097,7 +1100,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			LISTFOREACH(i, ppro, LIST_CHATROOM)
 			{
 				if (JABBER_LIST_ITEM *pItem = ppro->ListGetItemPtrFromIndex(i)) {
-					if (!pItem->bChatActive) continue;
+					if (!pItem->si) continue;
 					if (!idx--) {
 						szInviteTo = pItem->jid;
 						break;
