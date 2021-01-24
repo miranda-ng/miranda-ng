@@ -370,13 +370,6 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTAC
 		#include "m_system.h"
 	#endif
 
-	struct VARS : public ptrA
-	{
-		__forceinline VARS(const char *str) :
-			ptrA(Utils_ReplaceVars(str))
-		{}
-	};
-
 	struct VARSW : public ptrW
 	{
 		__forceinline VARSW(const wchar_t *str) :
