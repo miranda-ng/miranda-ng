@@ -6,14 +6,14 @@ class COptionsDlg : public CDlgBase
 {
 	void SetDialogState()
 	{
-		CCtrlEdit &periodText = *(CCtrlEdit*)FindControl(IDC_ED_PERIOD);
-		CCtrlEdit &numBackupsText = *(CCtrlEdit*)FindControl(IDC_ED_NUMBACKUPS);
+		auto *periodText = FindControl(IDC_ED_PERIOD);
+		auto *numBackupsText = FindControl(IDC_ED_NUMBACKUPS);
 		
 		bool bEnabled = !m_disable.IsChecked();
 		m_backupOnStart.Enable(bEnabled);
 		m_backupOnExit.Enable(bEnabled);
 		m_backupPeriodic.Enable(bEnabled);
-		numBackupsText.Enable(bEnabled);
+		numBackupsText->Enable(bEnabled);
 		m_numBackups.Enable(bEnabled);
 		m_backup.Enable(bEnabled);
 		m_folder.Enable(bEnabled);
@@ -22,7 +22,7 @@ class COptionsDlg : public CDlgBase
 		m_foldersPageLink.Enable(bEnabled);
 		m_disableProgress.Enable(bEnabled);
 		m_useZip.Enable(bEnabled);
-		periodText.Enable(bEnabled);
+		periodText->Enable(bEnabled);
 		m_period.Enable(bEnabled);
 		m_periodType.Enable(bEnabled);
 		m_backupProfile.Enable(bEnabled);
@@ -31,9 +31,9 @@ class COptionsDlg : public CDlgBase
 		if (!bEnabled) {
 			m_cloudFileService.Disable();
 
-			m_backupOnStart.SetState(FALSE);
-			m_backupOnExit.SetState(FALSE);
-			m_backupPeriodic.SetState(FALSE);
+			m_backupOnStart.SetState(false);
+			m_backupOnExit.SetState(false);
+			m_backupPeriodic.SetState(false);
 		}
 		else {
 			m_cloudFileService.Enable(m_useCloudFile.IsChecked());
@@ -42,9 +42,9 @@ class COptionsDlg : public CDlgBase
 			BYTE backupTypes = g_plugin.backup_types;
 			if (backupTypes == BT_DISABLED)
 				backupTypes = g_plugin.backup_types.Default();
-			m_backupOnStart.SetState(backupTypes & BT_START ? TRUE : FALSE);
-			m_backupOnExit.SetState(backupTypes & BT_EXIT ? TRUE : FALSE);
-			m_backupPeriodic.SetState(backupTypes & BT_PERIODIC ? TRUE : FALSE);
+			m_backupOnStart.SetState((backupTypes & BT_START) != 0);
+			m_backupOnExit.SetState((backupTypes & BT_EXIT) != 0);
+			m_backupPeriodic.SetState((backupTypes & BT_PERIODIC) != 0);
 		}
 	}
 
@@ -59,9 +59,8 @@ class COptionsDlg : public CDlgBase
 			CW_USEDEFAULT, CW_USEDEFAULT,
 			hwndFolder, nullptr, g_plugin.getInst(), nullptr);
 
-		if (m_hPathTip == nullptr) {
+		if (m_hPathTip == nullptr)
 			return;
-		}
 
 		SetWindowPos(m_hPathTip, HWND_TOPMOST, 0, 0, 0, 0, (SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE));
 
@@ -125,14 +124,22 @@ class COptionsDlg : public CDlgBase
 public:
 	COptionsDlg() :
 		CDlgBase(g_plugin, IDD_OPTIONS),
-		m_disable(this, IDC_RAD_DISABLED), m_backupOnStart(this, IDC_RAD_START),
-		m_backupOnExit(this, IDC_RAD_EXIT), m_backupPeriodic(this, IDC_RAD_PERIODIC),
-		m_backup(this, IDC_BUT_NOW), m_backupProfile(this, IDC_BACKUPPROFILE),
-		m_period(this, SPIN_PERIOD, 60, 1), m_periodType(this, IDC_PT),
-		m_folder(this, IDC_ED_FOLDER), m_browseFolder(this, IDC_BUT_BROWSE), m_filemask(this, IDC_FILEMASK),
-		m_foldersPageLink(this, IDC_LNK_FOLDERS, nullptr), m_numBackups(this, SPIN_NUMBACKUPS, 9999, 1),
+		m_disable(this, IDC_RAD_DISABLED),
+		m_backupOnStart(this, IDC_RAD_START),
+		m_backupOnExit(this, IDC_RAD_EXIT),
+		m_backupPeriodic(this, IDC_RAD_PERIODIC),
+		m_backup(this, IDC_BUT_NOW),
+		m_backupProfile(this, IDC_BACKUPPROFILE),
+		m_period(this, SPIN_PERIOD, 60, 1),
+		m_periodType(this, IDC_PT),
+		m_folder(this, IDC_ED_FOLDER),
+		m_browseFolder(this, IDC_BUT_BROWSE),
+		m_filemask(this, IDC_FILEMASK),
+		m_foldersPageLink(this, IDC_LNK_FOLDERS, nullptr),
+		m_numBackups(this, SPIN_NUMBACKUPS, 9999, 1),
 		m_disableProgress(this, IDC_CHK_NOPROG),
-		m_useZip(this, IDC_CHK_USEZIP), m_useCloudFile(this, IDC_CLOUDFILE),
+		m_useZip(this, IDC_CHK_USEZIP),
+		m_useCloudFile(this, IDC_CLOUDFILE),
 		m_cloudFileService(this, IDC_CLOUDFILESEVICE)
 	{
 		CreateLink(m_period, g_plugin.period);
@@ -271,7 +278,7 @@ public:
 	void BackupType_OnChange(CCtrlBase*)
 	{
 		if (!m_backupOnStart.IsChecked() && !m_backupOnExit.IsChecked() && !m_backupPeriodic.IsChecked()) {
-			m_disable.SetState(TRUE);
+			m_disable.SetState(true);
 			SetDialogState();
 		}
 	}
