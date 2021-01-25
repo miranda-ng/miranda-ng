@@ -172,6 +172,8 @@ public:
 	void onChange_SplitterX(CSplitter *);
 	void onChange_SplitterY(CSplitter *);
 
+	void onType(CTimer *);
+
 	void CloseTab() override;
 	void LoadSettings() override;
 	void SetStatusText(const wchar_t *, HICON) override;

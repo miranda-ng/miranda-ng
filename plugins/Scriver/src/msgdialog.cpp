@@ -152,6 +152,8 @@ void CMsgDialog::Init()
 
 	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 
+	timerType.OnEvent = Callback(this, &CMsgDialog::onType);
+
 	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Message);
 	m_splitterY.OnChange = Callback(this, &CMsgDialog::onChange_SplitterY);
 }
@@ -171,7 +173,7 @@ bool CMsgDialog::OnInitDialog()
 		m_wStatus = ID_STATUS_OFFLINE;
 
 	m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
-	SetTimer(m_hwnd, TIMERID_TYPE, 1000, nullptr);
+	timerType.Start(1000);
 
 	m_lastEventType = -1;
 	m_lastEventTime = time(0);
@@ -574,6 +576,9 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 
 void CMsgDialog::onChange_SplitterX(CSplitter *pSplitter)
 {
+	if (!m_bInitialized)
+		return;
+
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
@@ -586,9 +591,37 @@ void CMsgDialog::onChange_SplitterX(CSplitter *pSplitter)
 
 void CMsgDialog::onChange_SplitterY(CSplitter *pSplitter)
 {
+	if (!m_bInitialized)
+		return;
+
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 	m_pParent->iSplitterY = rc.bottom - pSplitter->GetPos();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::onType(CTimer *)
+{
+	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
+		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
+
+	if (m_bShowTyping) {
+		if (m_nTypeSecs)
+			m_nTypeSecs--;
+		else {
+			m_bShowTyping = false;
+			UpdateStatusBar();
+			UpdateIcon();
+		}
+	}
+	else {
+		if (m_nTypeSecs) {
+			m_bShowTyping = true;
+			UpdateStatusBar();
+			UpdateIcon();
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1274,27 +1307,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 		if (wParam == TIMERID_MSGSEND)
 			ReportSendQueueTimeouts(this);
-		else if (wParam == TIMERID_TYPE) {
-			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && GetTickCount() - m_nLastTyping > TIMEOUT_TYPEOFF)
-				NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
-
-			if (m_bShowTyping) {
-				if (m_nTypeSecs)
-					m_nTypeSecs--;
-				else {
-					m_bShowTyping = false;
-					UpdateStatusBar();
-					UpdateIcon();
-				}
-			}
-			else {
-				if (m_nTypeSecs) {
-					m_bShowTyping = true;
-					UpdateStatusBar();
-					UpdateIcon();
-				}
-			}
-		}
 		else if (wParam == TIMERID_UNREAD) {
 			TabControlData tcd;
 			tcd.iFlags = TCDF_ICON;

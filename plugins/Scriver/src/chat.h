@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EM_ACTIVATE (WM_USER+202)
 
 #define TIMERID_MSGSEND    201
-#define TIMERID_TYPE       202
 #define TIMERID_UNREAD     203
 #define TIMEOUT_TYPEOFF  10000  // send type off after 10 seconds of inactivity
 #define TIMEOUT_UNREAD     800  // multiple-send bombproofing: send max 3 messages every 4 seconds
