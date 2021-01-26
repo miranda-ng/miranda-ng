@@ -223,6 +223,7 @@ extern COLORREF fontcolors[MSGDLGFONTCOUNT + 2];
 extern HINSTANCE hinstance;
 extern BOOL g_bIMGtagButton;
 extern char* TemplateNames[TMPL_MAX];
+extern wchar_t* TemplateNamesW[TMPL_MAX];
 extern HANDLE hUserPrefsWindowList;
 extern TCpTable cpTable[];
 

@@ -45,6 +45,18 @@ char* TemplateNames[TMPL_MAX] =
 	LPGEN("Error message")
 };
 
+wchar_t* TemplateNamesW[TMPL_MAX] =
+{
+	LPGENW("Message In"),
+	LPGENW("Message Out"),
+	LPGENW("Group In (Start)"),
+	LPGENW("Group Out (Start)"),
+	LPGENW("Group In (Inner)"),
+	LPGENW("Group Out (Inner)"),
+	LPGENW("Status change"),
+	LPGENW("Error message")
+};
+
 TTemplateSet LTR_Default = 
 {
 	TRUE,

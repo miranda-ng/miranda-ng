@@ -621,8 +621,8 @@ public:
 		Utils::enableDlgControl(m_hwnd, IDC_REVERT, FALSE);
 		Utils::enableDlgControl(m_hwnd, IDC_FORGET, FALSE);
 
-		for (auto &it : TemplateNames)
-			listTemplates.AddString(TranslateW(_A2T(it)), int(&it - TemplateNames));
+		for (auto &it : TemplateNamesW)
+			listTemplates.AddString(TranslateW(it), int(&it - TemplateNamesW));
 
 		Utils::enableDlgControl(m_hwndParent, IDC_MODIFY, FALSE);
 		Utils::enableDlgControl(m_hwndParent, IDC_RTLMODIFY, FALSE);
@@ -679,7 +679,7 @@ public:
 					SetTextColor(dis->hDC, GetSysColor(COLOR_WINDOWTEXT));
 			}
 			
-			auto *pwszName = TranslateW(_A2T(TemplateNames[iItem]));
+			const wchar_t *pwszName = TranslateW(TemplateNamesW[iItem]);
 			TextOutW(dis->hDC, dis->rcItem.left, dis->rcItem.top, pwszName, (int)mir_wstrlen(pwszName));
 		}
 
@@ -688,6 +688,9 @@ public:
 
 	void onChange_Text(CCtrlEdit *)
 	{
+		if (!m_bInitialized)
+			return;
+
 		if (!selchanging) {
 			changed = TRUE;
 			updateInfo[inEdit] = TRUE;
