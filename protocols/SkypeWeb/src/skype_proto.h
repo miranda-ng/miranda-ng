@@ -92,11 +92,27 @@ public:
 	// search
 	void __cdecl SearchBasicThread(void* id);
 
-	////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+	// services
+
 	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
 	static INT_PTR GetEventText(WPARAM, LPARAM lParam);
 
-	CSkypeOptions m_opts;
+	//////////////////////////////////////////////////////////////////////////////////////
+	// settings
+
+	CMOption<bool> bAutoHistorySync;
+	CMOption<bool> bMarkAllAsUnread;
+	CMOption<bool> bUseBBCodes;
+	CMOption<bool> bUseServerTime; // hidden setting!
+
+	CMOption<bool> bUseHostnameAsPlace;
+	CMOption<wchar_t*> wstrPlace;
+
+	CMOption<wchar_t*> wstrCListGroup;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// other data
 
 	int m_iPollingId;
 	ptrA m_szApiToken, m_szToken, m_szId;
@@ -187,7 +203,6 @@ private:
 	EventHandle m_hRequestQueueEvent;
 	HANDLE m_hRequestQueueThread;
 
-	static unsigned __cdecl AsyncSendThread(void *, void *);
 	void __cdecl WorkerThread(void *);
 
 	void StartQueue();

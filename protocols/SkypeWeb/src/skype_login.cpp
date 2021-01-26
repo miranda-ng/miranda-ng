@@ -206,8 +206,8 @@ void CSkypeProto::SendPresence()
 {
 	ptrA epname;
 
-	if (!m_opts.bUseHostnameAsPlace && m_opts.wstrPlace && *m_opts.wstrPlace)
-		epname = mir_utf8encodeW(m_opts.wstrPlace);
+	if (!bUseHostnameAsPlace && wstrPlace && *wstrPlace)
+		epname = mir_utf8encodeW(wstrPlace);
 	else {
 		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = _countof(compName);
@@ -246,7 +246,7 @@ void CSkypeProto::OnCapabilitiesSended(NETLIBHTTPREQUEST *response, AsyncHttpReq
 	PushRequest(new GetContactListRequest(this, nullptr));
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl")), 0));
 
-	if (m_opts.bAutoHistorySync)
+	if (bAutoHistorySync)
 		PushRequest(new SyncHistoryFirstRequest(100));
 
 	JSONNode root = JSONNode::parse(response->pData);

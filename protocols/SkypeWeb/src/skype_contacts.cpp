@@ -87,9 +87,9 @@ MCONTACT CSkypeProto::AddContact(const char *skypeId, bool isTemporary)
 	setString(hContact, SKYPE_SETTINGS_ID, skypeId);
 	setUString(hContact, "Nick", GetSkypeNick(skypeId));
 
-	if (m_opts.wstrCListGroup) {
-		Clist_GroupCreate(0, m_opts.wstrCListGroup);
-		Clist_SetGroup(hContact, m_opts.wstrCListGroup);
+	if (wstrCListGroup) {
+		Clist_GroupCreate(0, wstrCListGroup);
+		Clist_SetGroup(hContact, wstrCListGroup);
 	}
 
 	setByte(hContact, "Auth", 1);
@@ -177,9 +177,9 @@ void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 
 				ptrW wszGroup(Clist_GetGroup(hContact));
 				if (wszGroup == nullptr) {
-					if (m_opts.wstrCListGroup) {
-						Clist_GroupCreate(0, m_opts.wstrCListGroup);
-						Clist_SetGroup(hContact, m_opts.wstrCListGroup);
+					if (wstrCListGroup) {
+						Clist_GroupCreate(0, wstrCListGroup);
+						Clist_SetGroup(hContact, wstrCListGroup);
 					}
 				}
 

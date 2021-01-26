@@ -33,7 +33,7 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 	std::string syncState = metadata["syncState"].as_string();
 
 	bool markAllAsUnread = getBool("MarkMesUnread", true);
-	bool bUseLocalTime = pRequest->pUserInfo != 0;
+	bool bUseLocalTime = !bUseServerTime && pRequest->pUserInfo != 0;
 	time_t iLocalTime = time(0);
 
 	if (totalCount >= 99 || conversations.size() >= 99)

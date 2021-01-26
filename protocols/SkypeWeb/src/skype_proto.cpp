@@ -22,9 +22,15 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_PopupClasses(1),
 	m_OutMessages(3, PtrKeySortT),
 	m_bThreadsTerminated(false),
-	m_opts(this),
 	m_impl(*this),
-	m_requests(1)
+	m_requests(1),
+	bAutoHistorySync(this, "AutoSync", true),
+	bMarkAllAsUnread(this, "MarkMesUnread", true),
+	bUseHostnameAsPlace(this, "UseHostName", true),
+	bUseBBCodes(this, "UseBBCodes", true),
+	bUseServerTime(this, "UseServerTime", false),
+	wstrCListGroup(this, SKYPE_SETTINGS_GROUP, L"Skype"),
+	wstrPlace(this, "Place", L"")
 {
 	NETLIBUSER nlu = {};
 	CMStringW name(FORMAT, TranslateT("%s connection"), m_tszUserName);
