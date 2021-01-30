@@ -815,25 +815,13 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		if (hDialogsList)
 			WindowList_Remove(hDialogsList, event->hwndWindow);
 
-		DBVARIANT dbv;
-		bool bSupportTyping = false;
-		if (!db_get(event->hContact, "SRMsg", "SupportTyping", &dbv)) {
-			bSupportTyping = dbv.bVal == 1;
-			db_free(&dbv);
-		}
-		else if (!db_get(0, "SRMsg", "DefaultTyping", &dbv)) {
-			bSupportTyping = dbv.bVal == 1;
-			db_free(&dbv);
-		}
-		
-		if (!bSupportTyping || !m_bJabberOnline)
-			return 0;
-
-		char jid[JABBER_MAX_JID_LEN];
-		if (GetClientJID(event->hContact, jid, _countof(jid))) {
-			pResourceStatus r(ResourceInfoFromJID(jid));
-			if (m_bEnableChatStates && (GetResourceCapabilities(jid, r) & JABBER_CAPS_CHATSTATES))
-				m_ThreadInfo->send(XmlNode("message") << XATTR("to", jid) << XATTR("type", "chat") << XATTRID(SerialNext()) << XCHILDNS("gone", JABBER_FEAT_CHATSTATES));
+		if (m_bJabberOnline) {
+			char jid[JABBER_MAX_JID_LEN];
+			if (GetClientJID(event->hContact, jid, _countof(jid))) {
+				pResourceStatus r(ResourceInfoFromJID(jid));
+				if (m_bEnableChatStates && (GetResourceCapabilities(jid, r) & JABBER_CAPS_CHATSTATES))
+					m_ThreadInfo->send(XmlNode("message") << XATTR("to", jid) << XATTR("type", "chat") << XATTRID(SerialNext()) << XCHILDNS("gone", JABBER_FEAT_CHATSTATES));
+			}
 		}
 	}
 
