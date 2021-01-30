@@ -19,7 +19,7 @@ _The Future will (be) [Positive](https://www.ptsecurity.com). Всё будет 
 
 \section copyright LICENSE & COPYRIGHT
 
-\authors Copyright (c) 2015-2020, Leonid Yuriev <leo@yuriev.ru>
+\authors Copyright (c) 2015-2021, Leonid Yuriev <leo@yuriev.ru>
 and other _libmdbx_ authors: please see [AUTHORS](./AUTHORS) file.
 
 \copyright Redistribution and use in source and binary forms, with or without
@@ -1380,7 +1380,7 @@ DEFINE_ENUM_FLAG_OPERATORS(MDBX_db_flags_t)
 
 /** \brief Data changing flags
  * \ingroup c_crud
- * \see c_crud_hint
+ * \see \ref c_crud_hints "Quick reference for Insert/Update/Delete operations"
  * \see mdbx_put() \see mdbx_cursor_put() \see mdbx_replace() */
 enum MDBX_put_flags_t {
   /** Upsertion by default (without any other flags) */
@@ -2852,6 +2852,12 @@ LIBMDBX_INLINE_API(int, mdbx_env_get_maxdbs,
   return rc;
 }
 
+/** \brief Returns the default size of database page for the current system.
+ * \ingroup c_statinfo
+ * \details Default size of database page depends on the size of the system
+ * page and usually exactly match it. */
+MDBX_NOTHROW_PURE_FUNCTION LIBMDBX_API size_t mdbx_default_pagesize(void);
+
 /** \brief Get the maximum size of keys can write.
  * \ingroup c_statinfo
  *
@@ -3823,6 +3829,8 @@ LIBMDBX_API int mdbx_get_equal_or_great(MDBX_txn *txn, MDBX_dbi dbi,
  *      the count of the number of elements actually written. The `iov_base` of
  *      the second \ref MDBX_val is unused.
  *
+ * \see \ref c_crud_hints "Quick reference for Insert/Update/Delete operations"
+ *
  * \returns A non-zero error value on failure and 0 on success,
  *          some possible errors are:
  * \retval MDBX_THREAD_MISMATCH  Given transaction is not owned
@@ -3876,6 +3884,8 @@ LIBMDBX_API int mdbx_put(MDBX_txn *txn, MDBX_dbi dbi, const MDBX_val *key,
  *                           combination for selection particular item from
  *                           multi-value/duplicates.
  *
+ * \see \ref c_crud_hints "Quick reference for Insert/Update/Delete operations"
+ *
  * \returns A non-zero error value on failure and 0 on success. */
 LIBMDBX_API int mdbx_replace(MDBX_txn *txn, MDBX_dbi dbi, const MDBX_val *key,
                              MDBX_val *new_data, MDBX_val *old_data,
@@ -3901,6 +3911,8 @@ LIBMDBX_API int mdbx_replace_ex(MDBX_txn *txn, MDBX_dbi dbi,
  *
  * This function will return \ref MDBX_NOTFOUND if the specified key/data
  * pair is not in the database.
+ *
+ * \see \ref c_crud_hints "Quick reference for Insert/Update/Delete operations"
  *
  * \param [in] txn   A transaction handle returned by \ref mdbx_txn_begin().
  * \param [in] dbi   A database handle returned by \ref mdbx_dbi_open().
@@ -3942,7 +3954,7 @@ LIBMDBX_API int mdbx_del(MDBX_txn *txn, MDBX_dbi dbi, const MDBX_val *key,
 LIBMDBX_API MDBX_cursor *mdbx_cursor_create(void *context);
 
 /** \brief Set application information associated with the \ref MDBX_cursor.
- * \ingroup c_crud
+ * \ingroup c_cursors
  * \see mdbx_cursor_get_userctx()
  *
  * \param [in] cursor  An cursor handle returned by \ref mdbx_cursor_create()
@@ -3953,7 +3965,7 @@ LIBMDBX_API MDBX_cursor *mdbx_cursor_create(void *context);
 LIBMDBX_API int mdbx_cursor_set_userctx(MDBX_cursor *cursor, void *ctx);
 
 /** \brief Get the application information associated with the MDBX_cursor.
- * \ingroup c_crud
+ * \ingroup c_cursors
  * \see mdbx_cursor_set_userctx()
  *
  * \param [in] cursor  An cursor handle returned by \ref mdbx_cursor_create()
@@ -4096,7 +4108,7 @@ LIBMDBX_API MDBX_dbi mdbx_cursor_dbi(const MDBX_cursor *cursor);
 LIBMDBX_API int mdbx_cursor_copy(const MDBX_cursor *src, MDBX_cursor *dest);
 
 /** \brief Retrieve by cursor.
- * \ingroup c_crud
+ * \ingroup c_cursors c_crud
  *
  * This function retrieves key/data pairs from the database. The address and
  * length of the key are returned in the object to which key refers (except
@@ -4120,7 +4132,7 @@ LIBMDBX_API int mdbx_cursor_get(MDBX_cursor *cursor, MDBX_val *key,
                                 MDBX_val *data, MDBX_cursor_op op);
 
 /** \brief Store by cursor.
- * \ingroup c_crud
+ * \ingroup c_cursors c_crud
  *
  * This function stores key/data pairs into the database. The cursor is
  * positioned at the new item, or on failure usually near it.
@@ -4185,6 +4197,8 @@ LIBMDBX_API int mdbx_cursor_get(MDBX_cursor *cursor, MDBX_val *key,
  *      the count of the number of elements actually written. The `iov_base` of
  *      the second \ref MDBX_val is unused.
  *
+ * \see \ref c_crud_hints "Quick reference for Insert/Update/Delete operations"
+ *
  * \returns A non-zero error value on failure and 0 on success,
  *          some possible errors are:
  * \retval MDBX_THREAD_MISMATCH  Given transaction is not owned
@@ -4201,7 +4215,7 @@ LIBMDBX_API int mdbx_cursor_put(MDBX_cursor *cursor, const MDBX_val *key,
                                 MDBX_val *data, MDBX_put_flags_t flags);
 
 /** \brief Delete current key/data pair.
- * \ingroup c_crud
+ * \ingroup c_cursors c_crud
  *
  * This function deletes the key/data pair to which the cursor refers. This
  * does not invalidate the cursor, so operations such as \ref MDBX_NEXT can
@@ -4218,6 +4232,8 @@ LIBMDBX_API int mdbx_cursor_put(MDBX_cursor *cursor, const MDBX_val *key,
  *      Delete all of the data items for the current key. This flag has effect
  *      only for database(s) was created with \ref MDBX_DUPSORT.
  *
+ * \see \ref c_crud_hints "Quick reference for Insert/Update/Delete operations"
+ *
  * \returns A non-zero error value on failure and 0 on success,
  *          some possible errors are:
  * \retval MDBX_THREAD_MISMATCH  Given transaction is not owned
@@ -4231,7 +4247,7 @@ LIBMDBX_API int mdbx_cursor_put(MDBX_cursor *cursor, const MDBX_val *key,
 LIBMDBX_API int mdbx_cursor_del(MDBX_cursor *cursor, MDBX_put_flags_t flags);
 
 /** \brief Return count of duplicates for current key.
- * \ingroup c_crud
+ * \ingroup c_cursors c_crud
  *
  * This call is valid for all databases, but reasonable only for that support
  * sorted duplicate data items \ref MDBX_DUPSORT.
@@ -4803,6 +4819,8 @@ typedef uint_fast64_t mdbx_attr_t;
  *      keys are already known to be in the correct order. Loading unsorted
  *      keys with this flag will cause a \ref MDBX_KEYEXIST error.
  *
+ * \see \ref c_crud_hints "Quick reference for Insert/Update/Delete operations"
+ *
  * \returns A non-zero error value on failure and 0 on success,
  *          some possible errors are:
  * \retval MDBX_EKEYMISMATCH
@@ -4849,6 +4867,8 @@ LIBMDBX_API int mdbx_cursor_put_attr(MDBX_cursor *cursor, MDBX_val *key,
  *      allows fast bulk loading when keys are already known to be in the
  *      correct order. Loading unsorted keys with this flag will cause
  *      a \ref MDBX_EKEYMISMATCH error.
+ *
+ * \see \ref c_crud_hints "Quick reference for Insert/Update/Delete operations"
  *
  * \returns A non-zero error value on failure and 0 on success,
  *          some possible errors are:

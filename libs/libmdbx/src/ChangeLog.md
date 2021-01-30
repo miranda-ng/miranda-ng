@@ -6,16 +6,18 @@ ChangeLog
 TODO:
  - Engage new terminology (https://github.com/erthink/libmdbx/issues/137).
  - Rework/speedup the implementation of the dirty page list (lazy compactification, lazy sorting via merge).
- - Resolve few TODOs (https://github.com/erthink/libmdbx/issues/123, https://github.com/erthink/libmdbx/issues/124,
-   https://github.com/erthink/libmdbx/issues/127, https://github.com/erthink/libmdbx/issues/128,
+ - Resolve few TODOs (https://github.com/erthink/libmdbx/issues/124, https://github.com/erthink/libmdbx/issues/127,
    https://github.com/erthink/libmdbx/issues/132, https://github.com/erthink/libmdbx/issues/115).
  - Finalize C++ API (few typos and trivia bugs are still likely for now).
- - Packages for ROSA Linux, ALT Linux, Fedora/RHEL, Debian/Ubuntu.
+ - Packages for [ROSA Linux](https://www.rosalinux.ru/), [ALT Linux](https://www.altlinux.org/), Fedora/RHEL, Debian/Ubuntu.
 
 Acknowledgements:
 
- - Mahlon E. Smith (http://www.martini.nu/) for FreeBSD port of libmdbx.
- - 장세연 (http://www.castis.com) for bug fixing and PR.
+ - [Mahlon E. Smith](http://www.martini.nu/) for [FreeBSD port of libmdbx](https://svnweb.freebsd.org/ports/head/databases/mdbx/).
+ - [장세연](http://www.castis.com) for bug fixing and PR.
+ - [Clément Renault](https://github.com/Kerollmops/heed) for [Heed](https://github.com/Kerollmops/heed) fully typed Rust wrapper.
+ - [Alex Sharov](https://github.com/AskAlexSharov) for bug reporting.
+ - [Noel Kuntze](https://github.com/Thermi) for bug reporting.
 
 Removed options and features:
 
@@ -24,7 +26,7 @@ Removed options and features:
 New features:
 
  - Package for FreeBSD is available now by Mahlon E. Smith.
- - New API functions to get/set various options (https://github.com/erthink/libmdbx/issues/128).
+ - New API functions to get/set various options (https://github.com/erthink/libmdbx/issues/128):
     - the maximum number of named databases for the environment;
     - the maximum number of threads/reader slots;
     - threshold (since the last unsteady commit) to force flush the data buffers to disk;
@@ -39,8 +41,14 @@ New features:
     - how much of the parent transaction dirty pages will be spilled while start each child transaction;
  - Unlimited/Dynamic size of retired and dirty page lists (https://github.com/erthink/libmdbx/issues/123).
  - Added `-p` option (purge subDB before loading) to `mdbx_load` tool.
- - Reworked spilling of large transaction and committing of nested transactions.
+ - Reworked spilling of large transaction and committing of nested transactions:
+    - page spilling code reworked to avoid the flaws and bugs inherited from LMDB;
+    - limit for number of dirty pages now is controllable at runtime;
+    - a spilled pages, including overflow/large pages, now can be reused and refunded/compactified in nested transactions;
+    - more effective refunding/compactification especially for the loosed page cache.
  - Added `MDBX_ENABLE_REFUND` and `MDBX_PNL_ASCENDING` internal/advanced build options.
+ - Added `mdbx_default_pagesize()` function.
+ - Better support architectures with a weak/relaxed memory consistency model (ARM, AARCH64, PPC, MIPS, RISC-V, etc) by means [C11 atomics](https://en.cppreference.com/w/c/atomic).
 
 Fixes:
 
@@ -52,6 +60,9 @@ Fixes:
  - Fixed handling states of cursors's and subDBs's for nested transactions.
  - Fixed page leak in extra rare case the list of retired pages changed during update GC on transaction commit.
  - Fixed assertions to avoid false-positive UB detection by CLANG/LLVM (https://github.com/erthink/libmdbx/issues/153).
+ - Fixed `MDBX_TXN_FULL` and regressive `MDBX_KEYEXIST` during large transaction commit with `MDBX_LIFORECLAIM` (https://github.com/erthink/libmdbx/issues/123).
+ - Fixed auto-recovery (`weak->steady` with the same boot-id) when Database size at last weak checkpoint is large than at last steady checkpoint.
+ - Fixed operation on systems with unusual small/large page size, including PowerPC (https://github.com/erthink/libmdbx/issues/157).
 
 
 ## v0.9.2 at 2020-11-27
