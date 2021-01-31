@@ -25,6 +25,8 @@ CDbxSQLite::~CDbxSQLite()
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CDbxSQLite::Create(const wchar_t *profile)
 {
 	sqlite3 *database = nullptr;
@@ -64,6 +66,8 @@ int CDbxSQLite::Create(const wchar_t *profile)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CDbxSQLite::Check(const wchar_t *profile)
 {
 	FILE *hFile = _wfopen(profile, L"rb");
@@ -95,6 +99,8 @@ int CDbxSQLite::Check(const wchar_t *profile)
 
 	return EGROKPRF_NOERROR;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 {
@@ -138,6 +144,8 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 	return db;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 BOOL CDbxSQLite::Backup(LPCWSTR profile)
 {
 	sqlite3 *database = nullptr;
@@ -180,6 +188,12 @@ void CDbxSQLite::DBFlush(bool bForce)
 	}
 	else if (m_safetyMode)
 		m_impl.m_timer.Start(50);
+}
+
+BOOL CDbxSQLite::Flush()
+{
+	DBFlush(true);
+	return ERROR_SUCCESS;
 }
 
 BOOL CDbxSQLite::IsRelational()

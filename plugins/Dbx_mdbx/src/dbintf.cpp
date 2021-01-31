@@ -228,6 +228,14 @@ int CDbxMDBX::Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+BOOL CDbxMDBX::Flush()
+{
+	DBFlush(true);
+	return ERROR_SUCCESS;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static void assert_func(const MDBX_env*, const char *msg, const char *function, unsigned line) MDBX_CXX17_NOEXCEPT
 {
 	Netlib_Logf(nullptr, "MDBX: assertion failed (%s, %d): %s", function, line, msg);

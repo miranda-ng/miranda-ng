@@ -129,6 +129,7 @@ public:
 
 	STDMETHODIMP_(BOOL)     Compact() override;
 	STDMETHODIMP_(BOOL)     Backup(LPCWSTR) override;
+	STDMETHODIMP_(BOOL)     Flush() override;
 
 	STDMETHODIMP_(DATABASELINK*) GetDriver() override;
 

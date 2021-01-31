@@ -279,8 +279,9 @@ public:
 	STDMETHODIMP_(BOOL)     ReadCryptoKey(MBinBuffer&) override;
 	STDMETHODIMP_(BOOL)     StoreCryptoKey(void) override;
 
-	STDMETHODIMP_(BOOL)     Compact();
-	STDMETHODIMP_(BOOL)     Backup(const wchar_t*);
+	STDMETHODIMP_(BOOL)     Compact() override;
+	STDMETHODIMP_(BOOL)     Backup(const wchar_t*) override;
+	STDMETHODIMP_(BOOL)     Flush() override;
 
 	STDMETHODIMP_(MEVENT)   GetEventById(const char *szModule, const char *szId) override;
 

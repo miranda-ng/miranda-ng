@@ -548,7 +548,6 @@ int CImportBatch::ImportGroups()
 
 		Clist_GroupSetExpanded(group_id, (it->wszName[0] & GROUPF_EXPANDED));
 	}
-
 	return arGroups.getCount();
 }
 
@@ -1051,6 +1050,7 @@ void CImportBatch::DoImport()
 
 		AddMessage(L"");
 	}
+	dstDb->Flush();
 	// End of Import Groups
 
 	// Import Contacts
@@ -1081,6 +1081,7 @@ void CImportBatch::DoImport()
 	}
 	else AddMessage(LPGENW("Skipping new contacts import."));
 	AddMessage(L"");
+	dstDb->Flush();
 	// End of Import Contacts
 
 	// Import NULL contact message chain
@@ -1096,6 +1097,7 @@ void CImportBatch::DoImport()
 	}
 	else AddMessage(LPGENW("Skipping system history import."));
 	AddMessage(L"");
+	dstDb->Flush();
 
 	// Import other contact messages
 	if (m_iOptions & IOPT_HISTORY) {
@@ -1103,6 +1105,7 @@ void CImportBatch::DoImport()
 		MCONTACT hContact = srcDb->FindFirstContact();
 		for (int i = 1; hContact != NULL; i++) {
 			ImportHistory(hContact, nullptr, NULL);
+			dstDb->Flush();
 
 			SetProgress(100 * i / nNumberOfContacts);
 			hContact = srcDb->FindNextContact(hContact);
@@ -1110,6 +1113,7 @@ void CImportBatch::DoImport()
 	}
 	else AddMessage(LPGENW("Skipping history import."));
 	AddMessage(L"");
+	dstDb->Flush();
 
 	// Restore database writing mode
 	dstDb->SetCacheSafetyMode(TRUE);

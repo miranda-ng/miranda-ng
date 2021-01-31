@@ -771,3 +771,4 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?EnableEncryption@MDatabaseReadonly@@UAGHH@Z @859 NONAME
 ?Tray1Click@Clist@@3V?$CMOption@_N@@A @860 NONAME
 ?TrayAlwaysStatus@Clist@@3V?$CMOption@_N@@A @861 NONAME
+?Flush@MDatabaseCommon@@UAGHXZ @862 NONAME

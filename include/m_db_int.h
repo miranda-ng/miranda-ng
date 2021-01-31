@@ -155,10 +155,10 @@ interface MIR_APP_EXPORT MIDatabase
 
 	STDMETHOD_(BOOL, Compact)(void) PURE;
 	STDMETHOD_(BOOL, Backup)(LPCWSTR) PURE;
-	
+	STDMETHOD_(BOOL, Flush)(void) PURE;
+
 	STDMETHOD_(MIDatabaseChecker*, GetChecker)(void) PURE;
 	STDMETHOD_(DATABASELINK*, GetDriver)(void) PURE;
-
 
 	STDMETHOD_(MEVENT, GetEventById)(LPCSTR szModule, LPCSTR szId) PURE;
 
@@ -228,6 +228,7 @@ public:
 	
 	STDMETHODIMP_(BOOL) Compact(void) override;
 	STDMETHODIMP_(BOOL) Backup(LPCWSTR) override;
+	STDMETHODIMP_(BOOL) Flush(void) override;
 
 	STDMETHODIMP_(MIDatabaseChecker*) GetChecker(void) override;
 
