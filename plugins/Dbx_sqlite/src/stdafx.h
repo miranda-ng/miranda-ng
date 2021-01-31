@@ -24,7 +24,7 @@ struct CQuery
 	sqlite3_stmt *pQuery;
 };
 
-void logError(int rc, const char *szFile = __FILE__, int line = __LINE__);
+void logError(int rc, const char *szFile, int line);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

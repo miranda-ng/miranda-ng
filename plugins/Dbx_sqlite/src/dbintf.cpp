@@ -11,7 +11,7 @@ CDbxSQLite::CDbxSQLite(sqlite3 *database) :
 CDbxSQLite::~CDbxSQLite()
 {
 	int rc = sqlite3_exec(m_db, "commit;", nullptr, nullptr, nullptr);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 
 	UninitEvents();
 	UninitContacts();
@@ -19,7 +19,7 @@ CDbxSQLite::~CDbxSQLite()
 
 	if (m_db) {
 		rc = sqlite3_close(m_db);
-		logError(rc);
+		logError(rc, __FILE__, __LINE__);
 
 		m_db = nullptr;
 	}
@@ -29,34 +29,36 @@ int CDbxSQLite::Create(const wchar_t *profile)
 {
 	sqlite3 *database = nullptr;
 	ptrA path(mir_utf8encodeW(profile));
-	int rc = sqlite3_open_v2(path, &database, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, nullptr);
-	logError(rc);
-	if (rc != SQLITE_OK)
+	int rc = sqlite3_open_v2(path, &database, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE | SQLITE_OPEN_EXCLUSIVE, nullptr);
+	logError(rc, __FILE__, __LINE__);
+	if (rc != SQLITE_OK) {
+		logError(rc, __FILE__, __LINE__);
 		return 1;
+	}
 
 	rc = sqlite3_exec(database, "CREATE TABLE contacts (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT);", nullptr, nullptr, nullptr);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(database, "CREATE TABLE events (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, contact_id INTEGER NOT NULL, module TEXT NOT NULL,"
 		"timestamp INTEGER NOT NULL, type INTEGER NOT NULL, flags INTEGER NOT NULL, data BLOB, server_id TEXT);", nullptr, nullptr, nullptr);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(database, "CREATE INDEX idx_events_contactid_timestamp ON events(contact_id, timestamp);", nullptr, nullptr, nullptr);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(database, "CREATE INDEX idx_events_module_serverid ON events(module, server_id);", nullptr, nullptr, nullptr);
 	if (rc != SQLITE_OK)
-		logError(rc);
+		logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(database, "CREATE TABLE events_srt (id INTEGER NOT NULL, contact_id INTEGER NOT NULL, timestamp INTEGER, PRIMARY KEY(contact_id, timestamp, id));", nullptr, nullptr, nullptr);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(database, "CREATE TABLE settings (contact_id INTEGER NOT NULL, module TEXT NOT NULL, setting TEXT NOT NULL, type INTEGER NOT NULL, value ANY,"
 		"PRIMARY KEY(contact_id, module, setting)) WITHOUT ROWID;", nullptr, nullptr, nullptr);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(database, "CREATE INDEX idx_settings_module ON settings(module);", nullptr, nullptr, nullptr);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 
 	sqlite3_close(database);
 	return 0;
@@ -83,9 +85,11 @@ int CDbxSQLite::Check(const wchar_t *profile)
 
 	sqlite3 *database = nullptr;
 	ptrA path(mir_utf8encodeW(profile));
-	int rc = sqlite3_open_v2(path, &database, SQLITE_OPEN_READONLY, nullptr);
-	if (rc != SQLITE_OK)
+	int rc = sqlite3_open_v2(path, &database, SQLITE_OPEN_READONLY | SQLITE_OPEN_EXCLUSIVE, nullptr);
+	if (rc != SQLITE_OK) {
+		logError(rc, __FILE__, __LINE__);
 		return EGROKPRF_DAMAGED;
+	}
 
 	sqlite3_close(database);
 
@@ -96,24 +100,28 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 {
 	sqlite3 *database = nullptr;
 	ptrA path(mir_utf8encodeW(profile));
-	int flags = SQLITE_OPEN_READWRITE;
+	int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_EXCLUSIVE;
 	if (readonly)
 		flags |= SQLITE_OPEN_READONLY;
 
 	int rc = sqlite3_open_v2(path, &database, flags, nullptr);
-	if (rc != SQLITE_OK)
+	if (rc != SQLITE_OK) {
+		logError(rc, __FILE__, __LINE__);
 		return nullptr;
+	}
 
-	rc = sqlite3_exec(database, "begin transaction;", nullptr, nullptr, nullptr);
-	logError(rc);
-
-	sqlite3_exec(database, "pragma locking_mode = EXCLUSIVE;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "pragma synchronous = NORMAL;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "pragma foreign_keys = OFF;", nullptr, nullptr, nullptr);
-	sqlite3_exec(database, "pragma journal_mode = OFF;", nullptr, nullptr, nullptr);
-
-	rc = sqlite3_exec(database, "commit;", nullptr, nullptr, nullptr);
-	logError(rc);
+	rc = sqlite3_exec(database, "pragma locking_mode = EXCLUSIVE;", nullptr, nullptr, nullptr);
+	logError(rc, __FILE__, __LINE__);
+	rc = sqlite3_exec(database, "pragma synchronous = NORMAL;", nullptr, nullptr, nullptr);
+	logError(rc, __FILE__, __LINE__);
+	rc = sqlite3_exec(database, "pragma foreign_keys = OFF;", nullptr, nullptr, nullptr);
+	logError(rc, __FILE__, __LINE__);
+	rc = sqlite3_exec(database, "pragma journal_mode = OFF;", nullptr, nullptr, nullptr);
+	logError(rc, __FILE__, __LINE__);
+	if (rc == SQLITE_BUSY) {
+		sqlite3_close(database);
+		return nullptr;
+	}
 
 	CDbxSQLite *db = new CDbxSQLite(database);
 	db->InitContacts();
@@ -126,7 +134,7 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 	}
 
 	rc = sqlite3_exec(database, "begin transaction;", nullptr, nullptr, nullptr);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 	return db;
 }
 
@@ -134,9 +142,11 @@ BOOL CDbxSQLite::Backup(LPCWSTR profile)
 {
 	sqlite3 *database = nullptr;
 	ptrA path(mir_utf8encodeW(profile));
-	int rc = sqlite3_open_v2(path, &database, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, nullptr);
-	if (rc != SQLITE_OK)
+	int rc = sqlite3_open_v2(path, &database, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE | SQLITE_OPEN_EXCLUSIVE, nullptr);
+	if (rc != SQLITE_OK) {
+		logError(rc, __FILE__, __LINE__);
 		return FALSE;
+	}
 
 	mir_cslock lock(m_csDbAccess);
 
@@ -163,10 +173,10 @@ void CDbxSQLite::DBFlush(bool bForce)
 		mir_cslock lck(m_csDbAccess);
 
 		int rc = sqlite3_exec(m_db, "commit;", nullptr, nullptr, nullptr);
-		logError(rc);
+		logError(rc, __FILE__, __LINE__);
 
 		rc = sqlite3_exec(m_db, "begin transaction;", nullptr, nullptr, nullptr);
-		logError(rc);
+		logError(rc, __FILE__, __LINE__);
 	}
 	else if (m_safetyMode)
 		m_impl.m_timer.Start(50);

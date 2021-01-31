@@ -32,7 +32,7 @@ void CDbxSQLite::InitContacts()
 		DBCachedContact *cc = (hContact) ? m_cache->AddContactToCache(hContact) : &m_system;
 		cc->m_count = sqlite3_column_int64(stmt, 1);
 	}
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 	sqlite3_finalize(stmt);
 }
 
@@ -47,7 +47,7 @@ LONG CDbxSQLite::GetContactCount()
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = ctc_stmts[SQL_CTC_STMT_COUNT].pQuery;
 	int rc = sqlite3_step(stmt);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 	int count = sqlite3_column_int(stmt, 0);
 	sqlite3_reset(stmt);
 	return count;
@@ -60,7 +60,7 @@ MCONTACT CDbxSQLite::AddContact()
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = ctc_stmts[SQL_CTC_STMT_ADD].pQuery;
 		int rc = sqlite3_step(stmt);
-		logError(rc);
+		logError(rc, __FILE__, __LINE__);
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return INVALID_CONTACT_ID;
@@ -87,7 +87,7 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 	sqlite3_stmt *stmt = ctc_stmts[SQL_CTC_STMT_DELETEEVENTS].pQuery;
 	sqlite3_bind_int64(stmt, 1, hContact);
 	int rc = sqlite3_step(stmt);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
 	if (rc != SQLITE_DONE)
 		return 1;
@@ -95,7 +95,7 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 	stmt = ctc_stmts[SQL_CTC_STMT_DELETEEVENTS_SRT].pQuery;
 	sqlite3_bind_int64(stmt, 1, hContact);
 	rc = sqlite3_step(stmt);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
 	if (rc != SQLITE_DONE)
 		return 1;
@@ -103,7 +103,7 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 	stmt = ctc_stmts[SQL_CTC_STMT_DELETESETTINGS].pQuery;
 	sqlite3_bind_int64(stmt, 1, hContact);
 	rc = sqlite3_step(stmt);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
 	if (rc != SQLITE_DONE)
 		return 1;
@@ -111,7 +111,7 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 	stmt = ctc_stmts[SQL_CTC_STMT_DELETE].pQuery;
 	sqlite3_bind_int64(stmt, 1, hContact);
 	rc = sqlite3_step(stmt);
-	logError(rc);
+	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
 	if (rc != SQLITE_DONE)
 		return 1;
