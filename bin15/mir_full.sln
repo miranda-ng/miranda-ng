@@ -2190,7 +2190,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}
 	EndGlobalSection
-	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
-	EndGlobalSection
 EndGlobal

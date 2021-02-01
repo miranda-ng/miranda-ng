@@ -606,10 +606,4 @@ Global
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A4CD630-DD83-4096-AA4D-7A141E43E853}
 	EndGlobalSection
-	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
-	EndGlobalSection
-	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
-	EndGlobalSection
 EndGlobal
