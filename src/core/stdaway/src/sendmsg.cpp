@@ -168,17 +168,19 @@ void ChangeAllProtoMessages(const char *szProto, int statusMode, wchar_t *msg)
 class CSetAwayMsgDlg : public CDlgBase
 {
 	int m_statusMode;
-	int m_countdown;
+	int m_countdown = 6;
 	wchar_t m_okButtonFormat[64];
 	const char *m_szProto;
 
 	CTimer m_timer;
 	CCtrlEdit edtMsg;
+	CCtrlButton m_btnOk;
 
 public:
 	CSetAwayMsgDlg(const char *szProto, int statusMode) :
 		CDlgBase(g_plugin, IDD_SETAWAYMSG),
 		m_timer(this, 1),
+		m_btnOk(this, IDOK),
 		m_szProto(szProto),
 		m_statusMode(statusMode),
 		edtMsg(this, IDC_MSG)
@@ -200,10 +202,9 @@ public:
 		mir_snwprintf(str, format, Clist_GetStatusModeDescription(m_statusMode, 0));
 		SetWindowText(m_hwnd, str);
 
-		GetDlgItemText(m_hwnd, IDOK, m_okButtonFormat, _countof(m_okButtonFormat));
+		m_btnOk.GetText(m_okButtonFormat, _countof(m_okButtonFormat));
 		edtMsg.SetText(ptrW(GetAwayMessage(m_statusMode, m_szProto)));
 
-		m_countdown = 6;
 		m_timer.Start(1000);
 		OnTimer(0);
 
@@ -239,7 +240,7 @@ public:
 		if (--m_countdown >= 0) {
 			wchar_t str[64];
 			mir_snwprintf(str, m_okButtonFormat, m_countdown);
-			SetDlgItemText(m_hwnd, IDOK, str);
+			m_btnOk.SetText(str);
 		}
 		else {
 			m_timer.Stop();
@@ -249,9 +250,12 @@ public:
 
 	void onChange_Msg(CCtrlEdit *)
 	{
+		if (!m_bInitialized)
+			return;
+
 		if (m_countdown >= 0) {
 			m_timer.Stop();
-			SetDlgItemText(m_hwnd, IDOK, TranslateT("OK"));
+			m_btnOk.SetText(TranslateT("OK"));
 			m_countdown = -1;
 		}
 	}
