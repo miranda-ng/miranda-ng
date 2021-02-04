@@ -27,7 +27,6 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 
 	std::regex regex;
 	std::smatch match;
-	std::map<std::string, std::string> scookies;
 	std::string content = response->pData;
 
 	regex = "<input.+?type=\"hidden\".+?name=\"PPFT\".+?id=\"i0327\".+?value=\"(.+?)\".*?/>";
@@ -39,6 +38,7 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 	}
 	std::string PPTF = match[1];
 
+	std::map<std::string, std::string> scookies;
 	for (int i = 0; i < response->headersCount; i++) {
 		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
 			continue;
@@ -85,26 +85,24 @@ void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 	std::regex regex;
 	std::smatch match;
 	std::string content = response->pData;
+
+	regex = "<input.+?type=\"hidden\".+?name=\"PPFT\".+?id=\"i0327\".+?value=\"(.+?)\".*?/>";;
+	if (!std::regex_search(content, match, regex)) {
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+	std::string PPTF = match[1];
+
+	regex = "[&?]opid=(.+?)[&']";
+	if (!std::regex_search(content, match, regex)) {
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+	std::string opid = match[1];
+
 	std::map<std::string, std::string> scookies;
-	std::string PPTF;
-	std::string opid;
-
-	regex = "sFT:'(.+?)'";
-	if (!std::regex_search(content, match, regex)) {
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-	PPTF = match[1];
-
-	regex = "&opid=(.+?)'";
-	if (!std::regex_search(content, match, regex)) {
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-	opid = match[1];
-
 	for (int i = 0; i < response->headersCount; i++) {
 		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
 			continue;
