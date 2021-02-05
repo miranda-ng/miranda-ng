@@ -193,6 +193,7 @@ void CDbxSQLite::DBFlush(bool bForce)
 BOOL CDbxSQLite::Flush()
 {
 	DBFlush(true);
+	sqlite3_db_cacheflush(m_db);
 	return ERROR_SUCCESS;
 }
 
