@@ -930,7 +930,8 @@ public:
 
 	void OnFilterChanged(void*)
 	{
-		m_timerFilter.Start(400);
+		if (m_bInitialized)
+			m_timerFilter.Start(400);
 	}
 
 	void OnTreeChanged(CCtrlTreeView::TEventInfo *evt)

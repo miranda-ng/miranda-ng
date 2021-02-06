@@ -437,24 +437,21 @@ public:
 		SetWindowText(g_clistApi.hwndContactList, title);
 
 		cfg::dat.dwFlags = IsDlgButtonChecked(m_hwnd, IDC_ROUNDEDBORDER) ? cfg::dat.dwFlags | CLUI_FRAME_ROUNDEDFRAME : cfg::dat.dwFlags & ~CLUI_FRAME_ROUNDEDFRAME;
-		db_set_b(0, "CLUI", "AutoSize", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZE));
 
-		if ((cfg::dat.autosize = IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZE) ? 1 : 0)) {
+		if (cfg::dat.autosize = chkAutoSize.GetState()) {
 			SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 			SendMessage(g_clistApi.hwndContactTree, WM_SIZE, 0, 0);
 		}
+		db_set_b(0, "CLUI", "AutoSize", cfg::dat.autosize);
 
 		db_set_b(0, "CLUI", "MaxSizeHeight", (BYTE)GetDlgItemInt(m_hwnd, IDC_MAXSIZEHEIGHT, nullptr, FALSE));
 		db_set_b(0, "CLUI", "AutoSizeUpward", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZEUPWARD));
-		g_plugin.setByte("AutoHide", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOHIDE));
+		g_plugin.setByte("AutoHide", chkAutoHide.GetState());
 		g_plugin.setWord("HideTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
 
-		g_plugin.setByte("Transparent", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT));
-		cfg::dat.isTransparent = IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT) ? 1 : 0;
-		g_plugin.setByte("Alpha", (BYTE)SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
-		cfg::dat.alpha = (BYTE)SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0);
-		g_plugin.setByte("AutoAlpha", (BYTE)SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0));
-		cfg::dat.autoalpha = (BYTE)SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0);
+		g_plugin.setByte("Transparent", cfg::dat.isTransparent = chkTransparent.GetState());
+		g_plugin.setByte("Alpha", cfg::dat.alpha = (BYTE)SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
+		g_plugin.setByte("AutoAlpha", cfg::dat.autoalpha = (BYTE)SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0));
 		g_plugin.setByte("WindowShadow", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DROPSHADOW));
 		g_plugin.setByte("OnDesktop", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_ONDESKTOP));
 		db_set_dw(0, "CLUI", "Frameflags", cfg::dat.dwFlags);
@@ -498,30 +495,33 @@ public:
 		return true;
 	}
 
-	void onChange_AutoHide(CCtrlCheck *)
+	void onChange_AutoHide(CCtrlCheck *pCheck)
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_HIDETIME, IsDlgButtonChecked(m_hwnd, IDC_AUTOHIDE));
-		Utils::enableDlgControl(m_hwnd, IDC_HIDETIMESPIN, IsDlgButtonChecked(m_hwnd, IDC_AUTOHIDE));
-		Utils::enableDlgControl(m_hwnd, IDC_STATIC01, IsDlgButtonChecked(m_hwnd, IDC_AUTOHIDE));
+		bool bEnable = pCheck->GetState();
+		Utils::enableDlgControl(m_hwnd, IDC_HIDETIME, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_STATIC01, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_HIDETIMESPIN, bEnable);
 	}
 
-	void onChange_AutoSize(CCtrlCheck *)
+	void onChange_AutoSize(CCtrlCheck *pCheck)
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_STATIC21, IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZE));
-		Utils::enableDlgControl(m_hwnd, IDC_STATIC22, IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZE));
-		Utils::enableDlgControl(m_hwnd, IDC_MAXSIZEHEIGHT, IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZE));
-		Utils::enableDlgControl(m_hwnd, IDC_MAXSIZESPIN, IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZE));
-		Utils::enableDlgControl(m_hwnd, IDC_AUTOSIZEUPWARD, IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZE));
+		bool bEnable = pCheck->GetState();
+		Utils::enableDlgControl(m_hwnd, IDC_STATIC21, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_STATIC22, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_MAXSIZEHEIGHT, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_MAXSIZESPIN, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_AUTOSIZEUPWARD, bEnable);
 	}
 
-	void onChange_Transparent(CCtrlCheck *)
+	void onChange_Transparent(CCtrlCheck *pCheck)
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_STATIC11, IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT));
-		Utils::enableDlgControl(m_hwnd, IDC_STATIC12, IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT));
-		Utils::enableDlgControl(m_hwnd, IDC_TRANSACTIVE, IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT));
-		Utils::enableDlgControl(m_hwnd, IDC_TRANSINACTIVE, IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT));
-		Utils::enableDlgControl(m_hwnd, IDC_ACTIVEPERC, IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT));
-		Utils::enableDlgControl(m_hwnd, IDC_INACTIVEPERC, IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT));
+		bool bEnable = pCheck->GetState();
+		Utils::enableDlgControl(m_hwnd, IDC_STATIC11, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_STATIC12, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_TRANSACTIVE, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_TRANSINACTIVE, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_ACTIVEPERC, bEnable);
+		Utils::enableDlgControl(m_hwnd, IDC_INACTIVEPERC, bEnable);
 	}
 
 	void UpdateCounters()

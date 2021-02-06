@@ -169,8 +169,11 @@ class COptDialog : public CDlgBase
 	void COptDialog::OnCatchCrashesChange(CCtrlCheck*)
 	{
 		m_chkRepSubfolder.Enable(m_chkCatchCrashes.GetState());
-		m_lblRestart.Show();
-		g_plugin.bNeedRestart = true;
+
+		if (m_bInitialized) {
+			m_lblRestart.Show();
+			g_plugin.bNeedRestart = true;
+		}
 	}
 
 public:

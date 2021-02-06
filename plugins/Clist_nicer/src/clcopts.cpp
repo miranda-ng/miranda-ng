@@ -322,7 +322,7 @@ public:
 		cfg::dat.bNoOfflineAvatars = IsDlgButtonChecked(m_hwnd, IDC_NOAVATARSOFFLINE) ? TRUE : FALSE;
 		g_plugin.setByte("NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
 
-		cfg::dat.bShowLocalTime = IsDlgButtonChecked(m_hwnd, IDC_SHOWLOCALTIME) ? 1 : 0;
+		cfg::dat.bShowLocalTime = chkLocalTime.GetState();
 		db_set_b(0, "CLC", "ShowLocalTime", (BYTE)cfg::dat.bShowLocalTime);
 
 		cfg::dat.bShowLocalTimeSelective = IsDlgButtonChecked(m_hwnd, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT) ? 1 : 0;
@@ -341,7 +341,7 @@ public:
 
 	void onChange_LocalTime(CCtrlCheck *)
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, IsDlgButtonChecked(m_hwnd, IDC_SHOWLOCALTIME));
+		Utils::enableDlgControl(m_hwnd, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, chkLocalTime.GetState());
 	}
 
 	void onChange_AvatarsRounded(CCtrlCheck *)
