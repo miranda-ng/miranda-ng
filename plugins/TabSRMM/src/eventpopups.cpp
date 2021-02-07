@@ -741,7 +741,7 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 
 	// message window is open, need to check the container config if we want to see a popup nonetheless
 	if (windowOpen && pContainer != nullptr) { 
-		if (nen_options.bWindowCheck && windowOpen) // no popups at all for open windows... no exceptions
+		if (nen_options.bWindowCheck) // no popups at all for open windows... no exceptions
 			return 0;
 	
 		if (pContainer->m_flags.m_bDontReport && (IsIconic(pContainer->m_hwnd))) // in tray counts as "minimised"

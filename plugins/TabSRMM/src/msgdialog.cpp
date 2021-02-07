@@ -2040,7 +2040,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		else m_iLastEnterTime = 0;
 
 		if (isCtrl && !isAlt && !isShift) {
-			if (!isShift && (wParam == VK_UP || wParam == VK_DOWN)) {          // input history scrolling (ctrl-up / down)
+			if (wParam == VK_UP || wParam == VK_DOWN) {          // input history scrolling (ctrl-up / down)
 				m_iLastEnterTime = 0;
 				m_cache->inputHistoryEvent(wParam);
 				return 0;
