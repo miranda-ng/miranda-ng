@@ -41,6 +41,9 @@
     <ClCompile Include="src\base64.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\c-hyper.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\conncache.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -180,6 +183,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hsts.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\http_aws_sigv4.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\http.c">
@@ -435,6 +441,7 @@
     <ClInclude Include="src\amigaos.h" />
     <ClInclude Include="src\arpa_telnet.h" />
     <ClInclude Include="src\asyn.h" />
+    <ClInclude Include="src\c-hyper.h" />
     <ClInclude Include="src\config-amigaos.h" />
     <ClInclude Include="src\config-dos.h" />
     <ClInclude Include="src\config-mac.h" />
@@ -498,6 +505,7 @@
     <ClInclude Include="src\hostcheck.h" />
     <ClInclude Include="src\hostip.h" />
     <ClInclude Include="src\hsts.h" />
+	<ClInclude Include="src\http_aws_sigv4.h" />
     <ClInclude Include="src\http.h" />
     <ClInclude Include="src\http2.h" />
     <ClInclude Include="src\http_chunks.h" />

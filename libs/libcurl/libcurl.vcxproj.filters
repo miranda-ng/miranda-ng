@@ -17,6 +17,9 @@
     <ClCompile Include="src\base64.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\c-hyper.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\conncache.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -153,6 +156,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hsts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\http_aws_sigv4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\http.c">
@@ -457,6 +463,9 @@
     <ClInclude Include="src\asyn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\c-hyper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\config-amigaos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -641,6 +650,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\hsts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\http_aws_sigv4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\http.h">
