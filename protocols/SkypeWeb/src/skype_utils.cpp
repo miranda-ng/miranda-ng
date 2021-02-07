@@ -594,7 +594,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		*(szSecondParam++) = 0;
 
 	// no command or message command
-	if (!szCommand || (szCommand && !mir_wstrcmpi(szCommand, L"chat"))) {
+	if (!szCommand || !mir_wstrcmpi(szCommand, L"chat")) {
 		if (szSecondParam) {
 			wchar_t *szChatId = wcsstr(szSecondParam, L"id=");
 			if (szChatId) {
