@@ -170,7 +170,7 @@ public:
 
 	void OnAvatarRoundChange(CCtrlBase*)
 	{
-		BOOL enabled = m_chkAvatarRound.IsChecked();
+		bool enabled = m_chkAvatarRound.IsChecked();
 		m_chkAvatarCustomCorn.Enable(enabled);
 		enabled = enabled && m_chkAvatarCustomCorn.IsChecked();
 		m_edtAvatarCustomCorn.Enable(enabled);
@@ -179,7 +179,7 @@ public:
 
 	void OnAvatarCustomCornChange(CCtrlBase*)
 	{
-		BOOL enabled = m_chkAvatarRound.IsChecked();
+		bool enabled = m_chkAvatarRound.IsChecked();
 		m_chkAvatarCustomCorn.Enable(enabled);
 		enabled = enabled && m_chkAvatarCustomCorn.IsChecked();
 		m_edtAvatarCustomCorn.Enable(enabled);
@@ -188,36 +188,37 @@ public:
 
 	void OnShowProtoNameChange(CCtrlBase*)
 	{
-		BOOL enabled = m_chkShowProtoName.IsChecked();
+		bool enabled = m_chkShowProtoName.IsChecked();
 		m_chkShowCycleProtoBtn.Enable(enabled);
 	}
 
 	void OnAvatarCustomSizeChange(CCtrlBase*)
 	{
-		BOOL enabled = m_chkAvatarCustomSize.IsChecked();
+		bool enabled = m_chkAvatarCustomSize.IsChecked();
 		m_edtAvatarCustomSize.Enable(enabled);
 		m_spnAvatarCustomSize.Enable(enabled);
 	}
 
 	void OnCycleProtosChange(CCtrlBase*)
 	{
-		BOOL enabled = m_chkCycleProtos.IsChecked();
+		bool enabled = m_chkCycleProtos.IsChecked();
 		m_edtCycleTime.Enable(enabled);
 		m_spnCycleTime.Enable(enabled);
 	}
 
 	void OnReplaceSmiliesChange(CCtrlBase*)
 	{
-		BOOL enabled = m_chkReplaceSmilies.IsChecked();
+		bool enabled = m_chkReplaceSmilies.IsChecked();
 		m_chkUseCLSmilies.Enable(enabled);
 		m_chkResizeSmilies.Enable(enabled);
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
-		BOOL ret = SaveOptsDlgProc(pageControls, _countof(pageControls), MODULENAME, m_hwnd, msg, wParam, lParam);
+		INT_PTR ret = SaveOptsDlgProc(pageControls, _countof(pageControls), MODULENAME, m_hwnd, msg, wParam, lParam);
 		if (ret)
 			return ret;
+		
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };

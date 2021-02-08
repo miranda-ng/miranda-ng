@@ -836,8 +836,9 @@ public:
 
 	void onChange_SearchText(CCtrlEdit*)
 	{
-		if (showFlags & HIST_AUTO_FILTER)
-			PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
+		if (m_bInitialized)
+			if (showFlags & HIST_AUTO_FILTER)
+				PostMessage(m_hwnd, UM_REBUILDLIST, 0, 0);
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override

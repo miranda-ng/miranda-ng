@@ -30,16 +30,6 @@ class COptDialog : public CDlgBase
 		m_chkSMName, m_chkCopyID, m_chkCopyIDName, m_chkShowID, m_chkTrimID, m_chkIgnoreHide;
 	CCtrlLabel m_lblHint;
 
-	void EnableWindowChecks()
-	{
-		m_chkAlpha.Enable(m_chkVis.GetState());
-		m_chkIgnoreHide.Enable(m_chkIgnore.GetState());
-		m_chkCopyIDName.Enable(m_chkCopyID.GetState());
-		m_chkShowID.Enable(m_chkCopyID.GetState());
-		m_chkTrimID.Enable(m_chkCopyID.GetState() && m_chkShowID.GetState());
-		m_chkSMName.Enable(m_chkStatusMsg.GetState());
-	}
-
 public:
 	COptDialog() :
 		CDlgBase(g_plugin, IDD_OPTIONS),
@@ -62,11 +52,10 @@ public:
 	{
 		m_flags = g_plugin.getDword("flags", vf_default);
 
-		m_chkVis.OnChange = Callback(this, &COptDialog::OnVisChange);
-		m_chkIgnore.OnChange = Callback(this, &COptDialog::OnIgnoreChange);
-		m_chkCopyID.OnChange = Callback(this, &COptDialog::OnCopyIDChange);
-		m_chkStatusMsg.OnChange = Callback(this, &COptDialog::OnStatusMsgChange);
-		m_chkShowID.OnChange = Callback(this, &COptDialog::OnShowIDChange);
+		m_chkVis.OnChange = Callback(this, &COptDialog::onChange_Vis);
+		m_chkIgnore.OnChange = Callback(this, &COptDialog::onChange_Ignore);
+		m_chkStatusMsg.OnChange = Callback(this, &COptDialog::onChange_StatusMsg);
+		m_chkCopyID.OnChange = m_chkShowID.OnChange = Callback(this, &COptDialog::onChange_CopyID);
 	}
 
 	bool OnInitDialog() override
@@ -82,8 +71,6 @@ public:
 			buffer.Format(L"%s *", item.GetText());
 			item.SetText(buffer);
 		}
-
-		EnableWindowChecks();
 		return true;
 	}
 
@@ -100,29 +87,26 @@ public:
 		return true;
 	}
 
-	void OnVisChange(CCtrlBase*)
+	void onChange_Vis(CCtrlBase*)
 	{
-		EnableWindowChecks();
+		m_chkAlpha.Enable(m_chkVis.GetState());
 	}
 
-	void OnIgnoreChange(CCtrlBase*)
+	void onChange_Ignore(CCtrlBase*)
 	{
-		EnableWindowChecks();
+		m_chkIgnoreHide.Enable(m_chkIgnore.GetState());
 	}
 
-	void OnCopyIDChange(CCtrlBase*)
+	void onChange_CopyID(CCtrlBase*)
 	{
-		EnableWindowChecks();
+		m_chkCopyIDName.Enable(m_chkCopyID.GetState());
+		m_chkShowID.Enable(m_chkCopyID.GetState());
+		m_chkTrimID.Enable(m_chkCopyID.GetState() && m_chkShowID.GetState());
 	}
 
-	void OnStatusMsgChange(CCtrlBase*)
+	void onChange_StatusMsg(CCtrlBase*)
 	{
-		EnableWindowChecks();
-	}
-
-	void OnShowIDChange(CCtrlBase*)
-	{
-		EnableWindowChecks();
+		m_chkSMName.Enable(m_chkStatusMsg.GetState());
 	}
 };
 

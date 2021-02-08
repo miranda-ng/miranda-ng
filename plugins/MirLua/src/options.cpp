@@ -207,8 +207,7 @@ void CMLuaEvaluateOptions::OnAutoEvalChange(CCtrlBase*)
 		m_script.OnChange = Callback(this, &CMLuaEvaluateOptions::OnEvaluate);
 		m_evaluate.Click();
 	}
-	else
-		m_script.OnChange = CCallback<CCtrlBase>();
+	else m_script.OnChange = CCallback<CCtrlBase>();
 }
 
 void CMLuaEvaluateOptions::OnEvaluate(CCtrlBase*)
