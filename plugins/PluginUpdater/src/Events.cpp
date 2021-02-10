@@ -47,7 +47,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 		DeleteDirectoryTreeW(CMStringW(g_wszRoot) + L"\\Backups");
 	}
 
-	CheckUpdateOnStartup();
 	CreateTimer();
 	return 0;
 }
@@ -61,6 +60,8 @@ int OnPreShutdown(WPARAM, LPARAM)
 
 void InitEvents()
 {
+	Miranda_WaitOnHandle(CheckUpdateOnStartup);
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 }

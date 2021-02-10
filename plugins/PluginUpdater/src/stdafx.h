@@ -234,6 +234,7 @@ void  UnloadListNew();
 void  UnloadNetlib();
 
 void  CALLBACK RestartPrompt(void *);
+void  CALLBACK CheckUpdateOnStartup(void);
 
 int   BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName);
 
@@ -244,7 +245,6 @@ wchar_t* GetDefaultUrl();
 bool   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
 
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
-void  CheckUpdateOnStartup();
 void  __stdcall InitTimer(void *type);
 
 int  unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackPath, bool ch);

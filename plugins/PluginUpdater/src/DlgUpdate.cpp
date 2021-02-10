@@ -870,7 +870,7 @@ void InitCheck()
 	CreateServiceFunction(MS_PU_CHECKUPDATES, MenuCommand);
 }
 
-void CheckUpdateOnStartup()
+void CALLBACK CheckUpdateOnStartup()
 {
 	if (g_plugin.bUpdateOnStartup) {
 		if (g_plugin.bOnlyOnceADay) {
