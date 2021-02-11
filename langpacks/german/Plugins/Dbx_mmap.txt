@@ -7,39 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Select crypto provider]
-Verschlüsselungsmodul auswählen
-[Cancel]
-Abbrechen
-[Login to Miranda NG]
-Einloggen bei Miranda NG
-[New password]
-Neues Passwort
-[Please enter your new password]
-Bitte geben Sie ein neues Passwort ein
-[Enter password]
-Passwort eingeben
-[Change password]
-Passwort ändern
-[Change]
-Ändern
-[Remove]
-Entfernen
-[Old password]
-Altes Passwort
-[Database encryption mode]
-Datenbank-Verschlüsselungsmodus
-[Standard]
-Standard
-[Total]
-Komplett
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
-[Set password]
-Passwort setzen
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Miranda hat Fehler in der Datenbank entdeckt. Miranda NG wird beendet.
@@ -56,9 +23,6 @@ Datenbankprobleme
 Dieses Profil ist zu alt um es mit PluginUpdater zu aktualisieren, Ihre Datenbank muss zunächst umgewandelt werden.\n\nMöchten Sie lesen wie man dies behebt?
 [Obsolete database format]
 Veraltetes Datenbankformat
-;file \plugins\Db3x_mmap\src\dbintf.h
-[Change/remove password]
-Passwort ändern/entfernen
 ;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 Diese Datenbank ist in einem alten Format, welches nicht mehr unterstützt wird. Klicken Sie Ja um es in das neue Format zu konvertieren, oder Nein um abzubrechen.
@@ -70,20 +34,3 @@ Um diese Datenbank zu öffnen müssen Sie das Import-Plugin installieren. Klicke
 Konnte altes Profil '%s' nicht nach '%s' verschieben: Fehler %d.
 [Attempt to create database '%s' failed with error code %d]
 Fehler beim Erstellen der Datenbank '%s', Fehlercode: %d.
-;file \plugins\Db3x_mmap\src\ui.cpp
-[Logo]
-Logo
-[Too many errors!]
-Zu viele Fehler!
-[Password is not correct!]
-Das Passwort ist inkorrekt!
-[Please type in your password]
-Bitte vergeben Sie ein Passwort!
-[Wrong old password entered!]
-Falsches altes Passwort eingegeben!
-[Password is too short!]
-Passwort ist zu kurz!
-[Passwords do not match!]
-Passwörter stimmen nicht überein!
-[Database]
-Datenbank

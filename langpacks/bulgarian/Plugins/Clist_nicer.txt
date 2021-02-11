@@ -42,10 +42,6 @@ CList nicer изключение
 Изобразяване на вграден ръб
 [System tray icon]
 Икона в трея
-[Single click interface]
-Интерфейс с едно натискане
-[Always show status in tooltip]
-Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
 [ms]

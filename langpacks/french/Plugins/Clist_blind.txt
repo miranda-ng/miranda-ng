@@ -14,10 +14,6 @@ Classer par nom
 Classer par état
 [Sort contacts by protocol]
 Classer par protocole
-[Single click interface]
-Clic simple
-[Always show status in tooltip]
-Afficher l'état dans la bulle
 [Disable icon blinking]
 Sans clignotement
 [ms delay]

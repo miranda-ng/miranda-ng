@@ -7,41 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
-;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
-[Select crypto provider]
-
-[Cancel]
-Отказ
-[Total encryption (Recommended only for paranoid users)]
-
-[Login to Miranda NG]
-Вписване в Miranda NG
-[New password]
-Нова парола
-[Please enter your new password]
-Моля, въведете новата парола
-[Enter password]
-Въведете парола
-[Change password]
-Промяна на паролата
-[Change]
-Промяна
-[Remove]
-Премахване
-[Old password]
-Стара парола
-[Database encryption mode]
-Режим за криптиране на базата от данни
-[Standard]
-Стандартен
-[Total]
-Тотален
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
-[Set password]
-Задаване на парола
 ;file \plugins\Dbx_mdbx\src\dbcheck.cpp
 [Orphaned sorting event with wrong contact ID %d, deleting]
 
@@ -51,35 +16,8 @@
 
 [Orphaned setting with wrong contact ID %08X, deleting]
 
-;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
-[Too many errors!]
-Твърде много грешки!
-[Password is not correct!]
-Паролата е грешна!
-[Please type in your password]
-Моля, въведете паролата
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 
 [Error]
 Грешка
-;file \plugins\Dbx_mdbx\src\dbintf.h
-[Change/remove password]
-Промяна/премахване на парола
-;file \plugins\Dbx_mdbx\src\ui.cpp
-[Wrong old password entered!]
-Въведената стара парола е грешна!
-[Password is too short!]
-Паролата е твърде кратка!
-[Passwords do not match!]
-Паролите не са еднакви!
-[Database was compacted successfully]
-
-[Database]
-База от данни
-[Database compaction failed]
-
-[Logo]
-
-[Compact]
-

@@ -929,10 +929,10 @@ UIN
 Разширен режим1
 [Extended mode 2]
 Разширен режим2
-[Selection background]
-Фон на маркираното
-[Selected text]
-Маркиран текст
+[Selected nick list background]
+
+[Selected nick list text]
+
 [Incremental search highlight]
 
 [Fields background]
@@ -1137,8 +1137,6 @@ UIN
 включено
 [Sending typing notifications is %s.]
 Изпращането на уведомяване при писане е %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Списък на разговорите.\nЛяв бутон = Списък на активните разговори.\nДесен бутон = Бързо настройване на прозореца за съобщения и достъп до любимите контакти
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 
 ;file \plugins\TabSRMM\src\eventpopups.cpp
@@ -1257,6 +1255,8 @@ TabSRMM: Писане
 Изпращане на файл
 [Quote message]
 Цитиране на съобщение
+[Clear message area]
+
 [Toggle send later]
 Изпрати след време (Вкл./Изкл.)
 [Send message]
@@ -1780,6 +1780,16 @@ Latin I
 Задача за изпращане след време приключи успешно.\nОригинално съобщение: %s
 [A send later job failed to complete.\nThe original message: %s]
 Неуспешен опит за изпълнение на задача за по-късно изпращане.\nОригинално съобщение: %s
+[Contact]
+Контакт
+[Original timestamp]
+Оригинална времева марка
+[Message text]
+Текст на съобщението
+[Last send info]
+Последна информация
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Ще промените състоянието на една или повече задачи от списъка\nза автоматично изпращане. Желаното действие(я) ще бъдат изпълнени при следващото изпълнение на списъка.\n\nДействието не е обратимо.
 [<All contacts>]
 <Всички контакти>
 [Removed]
@@ -1794,16 +1804,6 @@ Latin I
 Временно спряна
 [Pending]
 Изчакване
-[Contact]
-Контакт
-[Original timestamp]
-Оригинална времева марка
-[Message text]
-Текст на съобщението
-[Last send info]
-Последна информация
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Ще промените състоянието на една или повече задачи от списъка\nза автоматично изпращане. Желаното действие(я) ще бъдат изпълнени при следващото изпълнение на списъка.\n\nДействието не е обратимо.
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Съобщението не може да бъде изпратено по-късно или до няколко потребителя защото надвишава максималната разрешена дължина от %d байта

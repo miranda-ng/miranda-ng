@@ -14,10 +14,6 @@
 Сортировка по статусу
 [Sort contacts by protocol]
 Сортировка по протоколу
-[Single click interface]
-Один щелчок
-[Always show status in tooltip]
-Всегда показывать статус в подсказке
 [Disable icon blinking]
 Выключить мигание
 [ms delay]

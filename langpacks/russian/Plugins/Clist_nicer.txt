@@ -42,10 +42,6 @@
 Утопленный край
 [System tray icon]
 Значок в трее
-[Single click interface]
-Один щелчок
-[Always show status in tooltip]
-Всегда показывать статус в подсказке
 [Disable icon blinking]
 Выключить мигание
 [ms]

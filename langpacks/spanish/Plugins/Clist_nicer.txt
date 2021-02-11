@@ -42,10 +42,6 @@ Lista de contactos
 
 [System tray icon]
 Icono de la bandeja de sistema
-[Single click interface]
-Interfaz simple clic
-[Always show status in tooltip]
-Mostrar estado sobre herramientas
 [Disable icon blinking]
 Desactivar parpadeo de icono
 [ms]

@@ -4,7 +4,6 @@
 [Place offline users out of groups]
 [Allow internal requesting of status message text]
 [Remove status message if contact became offline]
-[Use improved search method in contact list]
 [Client area margins]
 [Tool style main window]
 [Enable drop shadow (restart required)]

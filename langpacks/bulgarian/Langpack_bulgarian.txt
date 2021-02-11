@@ -3,7 +3,7 @@ Language: Български
 Locale: 0402
 Authors: NEOhidra, Castel
 Author-email: neohidra@gmail.com
-Last-Modified-Using: Miranda NG 0.95.12
+Last-Modified-Using: Miranda NG 0.95.13
 
 ;============================================================
 ;  File: miranda32/64.exe
@@ -74,10 +74,6 @@ Last-Modified-Using: Miranda NG 0.95.12
 състояние
 [Sort contacts by protocol]
 протокол
-[Single click interface]
-Интерфейс с едно натискане
-[Always show status in tooltip]
-Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
 [ms delay]
@@ -366,8 +362,6 @@ Last-Modified-Using: Miranda NG 0.95.12
 Изскачане на прозореца при състояние:
 [In background]
 без фокусиране (на заден план)
-[Maximum number of flashes]
-Максимален брой мигания
 [Close the message window on send]
 Затваряне на прозореца след изпращане
 [Minimize the message window on send]
@@ -1104,14 +1098,18 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Запитване преди изтриване на контакт
 ['Hide offline' means to hide:]
 Скриване като извън линия:
+[Tray]
+Трей
+[Single click interface]
+Интерфейс с едно натискане
+[Always show status in tooltip]
+Показване на състоянието в подсказка
 [Default settings for known event types]
 Стандартни настройки за видовете събития
 [Show when filter is active]
 Показване при включен филтър
 [Popup]
 Рopup
-[Tray]
-Трей
 [Sound]
 Звук
 [Log to file]
@@ -1124,6 +1122,32 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване на popups, когато чат стаята е активна
 [Show button menus when right clicking the buttons]
 Показване менютата на бутоните при натискане с десен бутон
+[Login to Miranda NG]
+Вписване в Miranda NG
+[New password]
+Нова парола
+[Please enter your new password]
+Моля, въведете новата парола
+[Enter password]
+Въведете парола
+[Change password]
+Промяна на паролата
+[Change]
+Промяна
+[Old password]
+Стара парола
+[Database encryption mode]
+Режим за криптиране на базата от данни
+[Standard]
+Стандартен
+[Total]
+Тотален
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
+[Set password]
+Задаване на парола
 [&Hide/Show]
 Показване/Скриване
 [E&xit]
@@ -1634,10 +1658,6 @@ Google Translate
 Контакт спря да пише
 [An unknown error has occurred.]
 Възникна непозната грешка.
-[Popups are enabled]
-Popups са включени
-[Popups are disabled]
-Popups са изключени
 [Example]
 Пример
 [The quick brown fox jumped over the lazy dog.]
@@ -1692,6 +1712,10 @@ Popups са изключени
 Изключване на Popups
 [Enable popups]
 Включване на Popups
+[Popups are enabled]
+Popups са включени
+[Popups are disabled]
+Popups са изключени
 [Toggle popups]
 Вкл./Изкл. на Popups
 [First line]
@@ -1988,6 +2012,8 @@ Popups са изключени
 Грешка при надграждане структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно Miranda NG не разполага с необходимите права. Моля, преместете файла ръчно.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Не може да съхранявате профили в основната директория на Miranda NG.\nМоля, преместете профила в друга папка.
+[Database]
+База данни
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2154,6 +2180,20 @@ Win +\s
 Неизвестно
 [Languages]
 Езици
+[Change/remove password]
+Промяна/премахване на парола
+[Wrong old password entered!]
+Въведената стара парола е грешна!
+[Password is too short!]
+Паролата е твърде кратка!
+[Passwords do not match!]
+Паролите не са еднакви!
+[Too many errors!]
+Твърде много грешки!
+[Password is not correct!]
+Паролата е грешна!
+[Please type in your password]
+Моля, въведете паролата
 [Custom status]
 Персонално състояние
 [%s (locked)]
@@ -5037,10 +5077,6 @@ ChangeKeyboardLayout
 състояние
 [Sort contacts by protocol]
 протокол
-[Single click interface]
-Интерфейс с едно натискане
-[Always show status in tooltip]
-Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
 [ms delay]
@@ -5426,10 +5462,6 @@ x100 ms
 Без вертикална лента за придвижване
 [Fade out entire list when:]
 Избледняване на списъка, когато:
-[Single click interface]
-Интерфейс с едно натискане
-[Always show status in tooltip]
-Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
 [ms, delay between icon blinking]
@@ -6073,10 +6105,6 @@ CList nicer изключение
 Изобразяване на вграден ръб
 [System tray icon]
 Икона в трея
-[Single click interface]
-Интерфейс с едно натискане
-[Always show status in tooltip]
-Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
 [ms]
@@ -7168,7 +7196,7 @@ HTTP връзки на Crash Dumper
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.0
+;  Version: 0.2.1.1
 ;  Authors: Dioksin
 ;============================================================
 [Variable List]
@@ -7382,7 +7410,7 @@ XML файлове (*.xml)
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -7393,6 +7421,8 @@ XML файлове (*.xml)
 Напред >
 [Cancel]
 Отказ
+[File name:]
+Име на файла:
 [Error Opening Database]
 Грешка при отваряне на база данни
 [There was an error opening the profile database given.]
@@ -7429,7 +7459,7 @@ XML файлове (*.xml)
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.3
+;  Version: 4.0.1.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -7468,6 +7498,8 @@ XML файлове (*.xml)
 Popup времетраене (0=безкрайност)
 [Background color]
 Цвят на фона
+[Text color]
+Цвят на текста
 [Add a module to contact]
 Добавяне на модул към контакта
 [Add a module named]
@@ -7688,6 +7720,8 @@ INI файлове
 Зареждане на модулите...
 [Contacts]
 Контакти
+[Popups]
+Рopups
 [Add module to "%s"]
 Добавяне на модул към "%s"
 [Type]
@@ -7705,54 +7739,8 @@ INI файлове
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
-[Cancel]
-Отказ
-[Login to Miranda NG]
-Вписване в Miranda NG
-[New password]
-Нова парола
-[Please enter your new password]
-Моля, въведете новата парола
-[Enter password]
-Въведете парола
-[Change password]
-Промяна на паролата
-[Change]
-Промяна
-[Remove]
-Премахване
-[Old password]
-Стара парола
-[Database encryption mode]
-Режим за криптиране на базата от данни
-[Standard]
-Стандартен
-[Total]
-Тотален
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
-[Set password]
-Задаване на парола
-[Too many errors!]
-Твърде много грешки!
-[Password is not correct!]
-Паролата е грешна!
-[Please type in your password]
-Моля, въведете паролата
 [Error]
 Грешка
-[Change/remove password]
-Промяна/премахване на парола
-[Wrong old password entered!]
-Въведената стара парола е грешна!
-[Password is too short!]
-Паролата е твърде кратка!
-[Passwords do not match!]
-Паролите не са еднакви!
-[Database]
-База от данни
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
@@ -7762,36 +7750,6 @@ INI файлове
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
-[Cancel]
-Отказ
-[Login to Miranda NG]
-Вписване в Miranda NG
-[New password]
-Нова парола
-[Please enter your new password]
-Моля, въведете новата парола
-[Enter password]
-Въведете парола
-[Change password]
-Промяна на паролата
-[Change]
-Промяна
-[Remove]
-Премахване
-[Old password]
-Стара парола
-[Database encryption mode]
-Режим за криптиране на базата от данни
-[Standard]
-Стандартен
-[Total]
-Тотален
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
-[Set password]
-Задаване на парола
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Засечена е повреда в базата от данни. Сега Miranda ще бъде изключена.
 [Disk is full. Miranda will now shut down.]
@@ -7806,49 +7764,15 @@ INI файлове
 Профилът е твърде стара верия - необходимо е да се актуализира с PluginUpdater. Първо базата от дани ще бъде конвертирана.\n\nЖелаете ли да прочетете как става?
 [Obsolete database format]
 Формата на баата от данни е стар
-[Change/remove password]
-Промяна/премахване на парола
-[Too many errors!]
-Твърде много грешки!
-[Password is not correct!]
-Паролата е грешна!
-[Please type in your password]
-Моля, въведете паролата
-[Wrong old password entered!]
-Въведената стара парола е грешна!
-[Password is too short!]
-Паролата е твърде кратка!
-[Passwords do not match!]
-Паролите не са еднакви!
-[Database]
-База от данни
 #muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
-[Cancel]
-Отказ
-[Login to Miranda NG]
-Вписване в Miranda NG
-[New password]
-Нова парола
-[Please enter your new password]
-Моля, въведете новата парола
-[Enter password]
-Въведете парола
-[Change password]
-Промяна на паролата
-[Change]
-Промяна
-[Remove]
-Премахване
-[Old password]
-Стара парола
 [Database encryption mode]
 Режим за криптиране на базата от данни
 [Standard]
@@ -7859,8 +7783,6 @@ INI файлове
 Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
-[Set password]
-Задаване на парола
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
@@ -7950,7 +7872,7 @@ INI файлове
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.5
+;  Version: 0.6.2.6
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -8088,7 +8010,7 @@ E-mage LAN протокол
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.8
+;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -10900,6 +10822,8 @@ HTTP споделяне на нов файл
 Покана
 [Cancel]
 Отказ
+[Account registration]
+Регистриране на акаунт
 [UIN:]
 UIN:
 [Nick:]
@@ -16600,7 +16524,7 @@ HTTP връзки на Paste It
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.9
+;  Version: 0.2.0.11
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -18901,7 +18825,7 @@ ms
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.2
+;  Version: 0.95.13.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
@@ -18962,6 +18886,8 @@ ms
 Протоколи
 [Block contact]
 Блокиране на контакта
+[Create new chat]
+Създаване на нов чат
 [Network]
 Мрежа
 [Notifications]
@@ -19824,7 +19750,7 @@ Dial-up (експериментално)
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Username:]
@@ -20926,10 +20852,6 @@ UIN
 Разширен режим1
 [Extended mode 2]
 Разширен режим2
-[Selection background]
-Фон на маркираното
-[Selected text]
-Маркиран текст
 [Fields background]
 Фон на полетата
 [Nick list background]
@@ -21112,8 +21034,6 @@ UIN
 включено
 [Sending typing notifications is %s.]
 Изпращането на уведомяване при писане е %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Списък на разговорите.\nЛяв бутон = Списък на активните разговори.\nДесен бутон = Бързо настройване на прозореца за съобщения и достъп до любимите контакти
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 Едно от зададените popup действия е затваряне на събитието.\nТази настройка може да има нежелан ефект - събитието се премахва от опашката непрочетени.\nВъзможно последствие е непоказване на новите събития като такива. Ако не желаете подобно действие, можете да го промените от таб Уведомявания.
 [TabSRMM warning message]
@@ -21714,6 +21634,16 @@ Latin I
 Задача за изпращане след време приключи успешно.\nОригинално съобщение: %s
 [A send later job failed to complete.\nThe original message: %s]
 Неуспешен опит за изпълнение на задача за по-късно изпращане.\nОригинално съобщение: %s
+[Contact]
+Контакт
+[Original timestamp]
+Оригинална времева марка
+[Message text]
+Текст на съобщението
+[Last send info]
+Последна информация
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Ще промените състоянието на една или повече задачи от списъка\nза автоматично изпращане. Желаното действие(я) ще бъдат изпълнени при следващото изпълнение на списъка.\n\nДействието не е обратимо.
 [<All contacts>]
 <Всички контакти>
 [Removed]
@@ -21726,16 +21656,6 @@ Latin I
 Временно спряна
 [Pending]
 Изчакване
-[Contact]
-Контакт
-[Original timestamp]
-Оригинална времева марка
-[Message text]
-Текст на съобщението
-[Last send info]
-Последна информация
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Ще промените състоянието на една или повече задачи от списъка\nза автоматично изпращане. Желаното действие(я) ще бъдат изпълнени при следващото изпълнение на списъка.\n\nДействието не е обратимо.
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Съобщението не може да бъде изпратено по-късно или до няколко потребителя защото надвишава максималната разрешена дължина от %d байта
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -24189,7 +24109,7 @@ x - y - ...
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.6
+;  Version: 0.1.11.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]

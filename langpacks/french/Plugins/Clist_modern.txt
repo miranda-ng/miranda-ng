@@ -272,10 +272,6 @@ millisecondes
 Masquer la barre de défilement vertical
 [Fade out entire list when:]
 Assombrir complètement la liste si :
-[Single click interface]
-Clic simple
-[Always show status in tooltip]
-Afficher l'état dans la bulle
 [Disable icon blinking]
 Sans clignotement
 [ms, delay between icon blinking]
@@ -308,8 +304,6 @@ Paramètres avancés
 Autoriser la demande interne du texte de message d'état
 [Remove status message if contact became offline]
 
-[Use improved search method in contact list]
-Utilisez une meilleure méthode de recherche dans la liste de contacts
 [Metacontacts stuff]
 Paramètres pour les metacontacts
 [Use 'Meta' protocol icons for metacontacts]

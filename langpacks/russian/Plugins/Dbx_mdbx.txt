@@ -7,41 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
-;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
-[Select crypto provider]
-Выберите поставщика криптографии
-[Cancel]
-Отмена
-[Total encryption (Recommended only for paranoid users)]
-Полное шифрование (только для параноидальных пользователей)
-[Login to Miranda NG]
-Вход в Miranda NG
-[New password]
-Новый пароль
-[Please enter your new password]
-Пожалуйста, введите новый пароль
-[Enter password]
-Введите пароль
-[Change password]
-Изменить пароль
-[Change]
-Изменить
-[Remove]
-Удалить
-[Old password]
-Старый пароль
-[Database encryption mode]
-Режим шифрования базы
-[Standard]
-Стандартный
-[Total]
-Полный
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрование только критических данных (пароли, токены авторизации и т.п.). Остальные настройки и история, остаются незашифрованными. Быстрый и эффективный, подходит в большинстве случаев
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в базе в случае утери пароля. Рекомендуется только параноидальным пользователям
-[Set password]
-Установить пароль
 ;file \plugins\Dbx_mdbx\src\dbcheck.cpp
 [Orphaned sorting event with wrong contact ID %d, deleting]
 Потерянное событие сортировки с некорректным идентификатором контакта %d, удаляем
@@ -51,35 +16,8 @@
 Потерянный идентификатор события с некорректным идентификатором события %08X, удаляем
 [Orphaned setting with wrong contact ID %08X, deleting]
 Потерянная настройка с некорректным идентификатором контакта %08X, удаляем
-;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
-[Too many errors!]
-Слишком много ошибок!
-[Password is not correct!]
-Неверный пароль!
-[Please type in your password]
-Пожалуйста, введите свой пароль
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 Формат вашей базы является устаревшим. Нажмите "OK", чтобы получить сведения об обновлении, либо "Отмена" для выхода.
 [Error]
 Ошибка
-;file \plugins\Dbx_mdbx\src\dbintf.h
-[Change/remove password]
-Изменить/удалить пароль
-;file \plugins\Dbx_mdbx\src\ui.cpp
-[Wrong old password entered!]
-Введён ошибочный старый пароль!
-[Password is too short!]
-Слишком короткий пароль!
-[Passwords do not match!]
-Пароли не совпадают!
-[Database was compacted successfully]
-База успешно сжата
-[Database]
-База данных
-[Database compaction failed]
-Не удалось сжать базу
-[Logo]
-Логотип
-[Compact]
-Сжать

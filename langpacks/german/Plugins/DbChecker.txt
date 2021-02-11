@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -14,6 +14,14 @@ Miranda-Datenbankassistent
 Weiter >
 [Cancel]
 Abbrechen
+[Checker's options]
+
+[Customize settings and proceed to the checking.]
+
+[File name:]
+Dateiname:
+[Mark all events as read]
+
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -31,7 +39,7 @@ Bitte warten Sie, bis die notwendigen Arbeitsgänge beendet wurden.
 Datenbank
 [Check database]
 Datenbank prüfen
-;file \plugins\DbChecker\src\openerror.cpp
+;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Datenbankprüfung kann kein passendes Datenbank-Plugin finden um '%s' zu öffnen.
 [Error]
@@ -49,6 +57,8 @@ Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen,
 ;file \plugins\DbChecker\src\worker.cpp
 [Database worker thread activated]
 Datenbankverarbeitungsfunktion gestartet
+[%d events marked as read]
+
 [Processing aborted by user]
 Verarbeitung von Benutzer abgebrochen
 [Elapsed time: %d sec]

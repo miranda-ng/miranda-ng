@@ -272,10 +272,6 @@ ms
 Ukryj pionowy pasek przewijania
 [Fade out entire list when:]
 Przygaś całą listę, gdy:
-[Single click interface]
-Pokaż/ukryj listę po pojedynczym kliknięciu
-[Always show status in tooltip]
-Zawsze pokazuj status w podpowiedzi
 [Disable icon blinking]
 Wyłącz miganie ikony
 [ms, delay between icon blinking]

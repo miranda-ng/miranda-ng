@@ -1,0 +1,4 @@
+[Sort file transfers in the reverse order]
+[Search works as filter]
+[Mute chat]
+[Do you really want to delete this menu item?]

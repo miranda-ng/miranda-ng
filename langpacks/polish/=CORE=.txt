@@ -72,10 +72,6 @@ Sortowanie po nazwie
 Sortowanie po statusie
 [Sort contacts by protocol]
 Sortowanie po protokole
-[Single click interface]
-Pokaż/ukryj listę po pojedynczym kliknięciu
-[Always show status in tooltip]
-Zawsze pokazuj status w podpowiedzi
 [Disable icon blinking]
 Wyłącz miganie ikony
 [ms delay]
@@ -1164,14 +1160,18 @@ Usuń kontakty tymczasowe podczas wyłączania programu
 Wyszukiwanie działa jako filtr
 ['Hide offline' means to hide:]
 "Ukryj rozłączonych" tzn.:
+[Tray]
+Zasobnik
+[Single click interface]
+Pokaż/ukryj listę po pojedynczym kliknięciu
+[Always show status in tooltip]
+Zawsze pokazuj status w podpowiedzi
 [Default settings for known event types]
 Domyślne ustawienia dla zdarzeń
 [Show when filter is active]
 Pokaż kiedy filtr jest wł.
 [Popup]
 Powiadomienia
-[Tray]
-Zasobnik
 [Sound]
 Dźwięk
 [Log to file]
@@ -2152,6 +2152,14 @@ Miranda próbuje zaktualizować strukturę twojego profilu.\nNie można przenie�
 Miranda próbuje zaktualizować strukturę twojego profilu.\nNie można przenieść profilu %s do nowej lokalizacji %s automatycznie\nPrawdopodobnie nie masz wystarczających uprawnień. Proszę rozwiązać ten problem ręcznie.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil nie może być umieszczony w folderze głównym Mirandy.\Proszę przenieść profil do innej lokalizacji.
+[Database was compacted successfully]
+Baza danych została skompresowana pomyślnie
+[Database]
+Profil
+[Database compaction failed]
+Kompresja bazy danych nie powiodła się
+[Compact]
+Kompresuj
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda nie może otworzyć "%s", ponieważ nie masz zainstalowanej wtyczki do obsługi profili.\nMusisz zainstalować dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2203,8 +2211,6 @@ Dodatkowe ikony
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
 Wycisz czat
-[Database]
-Profil
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Nie wypełniono pola wyszukiwania. Wprowadź wyszukiwane hasło i spróbuj ponownie.
@@ -2604,14 +2610,10 @@ Problem z utworzeniem profilu
 <Nieznany format>
 [Are you sure you want to remove profile "%s"?]
 Czy na pewno chcesz usunąć profil "%s"?
-[Database was compacted successfully]
-Baza danych została skompresowana pomyślnie
 [&Convert]
 &Konwertuj
 [Run]
 Uruchom
-[Compact]
-Kompresuj
 [Check database]
 Sprawdź profil
 [Size]

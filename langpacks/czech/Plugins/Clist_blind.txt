@@ -14,10 +14,6 @@ Seznam kontaktů pro nevidomé.
 Řadit kontakty dle stavu
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
-[Single click interface]
-Zařídit vše jedním kliknutím myši
-[Always show status in tooltip]
-Vždy zobrazit stav v tipu
 [Disable icon blinking]
 Vypnout blikání ikon
 [ms delay]

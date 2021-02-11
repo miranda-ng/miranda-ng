@@ -31,7 +31,7 @@
 [JSON files]
 [Export %s history]
 [History export]
-[Do you really want to remove selected event(s)?]
+[Are you sure to remove selected event(s)?]
 [Are you sure to remove all events from history?]
 [User history]
 [User signed in]

@@ -424,7 +424,7 @@ Favourite
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.0
+;  Version: 0.2.1.1
 ;  Authors: Dioksin
 ;============================================================
 [Colors]
@@ -448,18 +448,20 @@ Text colour
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: George Hazan
 ;============================================================
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.3
+;  Version: 4.0.1.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Background color]
 Background colour
+[Text color]
+Text colour
 #muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
 ;============================================================
 ;  File: Dbx_mdbx.dll
@@ -478,7 +480,7 @@ Background colour
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -494,7 +496,7 @@ Go to the "Options -> Customise -> Folders" to change settings
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.5
+;  Version: 0.6.2.6
 ;  Authors: George Hazan
 ;============================================================
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
@@ -522,7 +524,7 @@ Go to the "Options -> Customise -> Folders" to change settings
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.8
+;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
@@ -1152,7 +1154,7 @@ Use defa&ult colours
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.9
+;  Version: 0.2.0.11
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Colors]
@@ -1413,7 +1415,7 @@ Synchronise if current status differs from previous one
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.2
+;  Version: 0.95.13.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Automatic messages synchronization]
@@ -1510,7 +1512,7 @@ Minimised
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Show chat state events (i.e., user closed chat session)]
@@ -1586,8 +1588,6 @@ Timestamp has same colour as the event
 Strip colours from messages in the log
 [Colorize user names in message log]
 Colourise user names in message log
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Session list.\nClick left for a list of open sessions.\nClick right to access favourites and quickly configure message window behaviour
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the 'Event notifications' settings page.
 [Do not synchronize the panel height with IM windows]
@@ -1759,7 +1759,7 @@ Mail order catalogue
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.6
+;  Version: 0.1.11.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Please authorize me to add you to my friend list.]

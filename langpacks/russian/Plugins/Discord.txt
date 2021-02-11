@@ -96,6 +96,8 @@
 Голосовой вызов Discord
 [User ID]
 ID пользователя
+[Message send failed]
+Не удалось отправить сообщение
 [Protocol is offline or user isn't authorized yet]
 Протокол не в сети или пользователь ещё не авторизовался
 ;file \protocols\Discord\src\server.cpp

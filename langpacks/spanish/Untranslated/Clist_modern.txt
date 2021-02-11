@@ -13,7 +13,6 @@
 [Ignore empty extra icons places (arrange to right).]
 [Allow internal requesting of status message text]
 [Remove status message if contact became offline]
-[Use improved search method in contact list]
 [Metacontacts stuff]
 [Use 'Meta' protocol icons for metacontacts]
 [Expand metacontacts]

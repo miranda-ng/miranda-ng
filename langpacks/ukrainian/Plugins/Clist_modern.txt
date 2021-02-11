@@ -272,10 +272,6 @@ x100 мс
 Сховати смугу прокручування
 [Fade out entire list when:]
 Зробити сірим, якщо:
-[Single click interface]
-Одне клацання
-[Always show status in tooltip]
-Завжди показувати статус у підказці
 [Disable icon blinking]
 Вимкнути блимання
 [ms, delay between icon blinking]
@@ -308,8 +304,6 @@ x100 мс
 Дозволити внутрішні запити статусних повідомлень
 [Remove status message if contact became offline]
 Видалити статусне повідомлення, якщо контакт офлайн
-[Use improved search method in contact list]
-Пошук у списку з фільтрацією результатів
 [Metacontacts stuff]
 Метаконтакти
 [Use 'Meta' protocol icons for metacontacts]

@@ -7,41 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
-;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
-[Select crypto provider]
-Verschlüsselungsmodul auswählen
-[Cancel]
-Abbrechen
-[Total encryption (Recommended only for paranoid users)]
-Totale Verschlüsselung (nur für paranoide Benutzer empfohlen)
-[Login to Miranda NG]
-Einloggen bei Miranda NG
-[New password]
-Neues Passwort
-[Please enter your new password]
-Bitte geben Sie ein neues Passwort ein
-[Enter password]
-Passwort eingeben
-[Change password]
-Passwort ändern
-[Change]
-Ändern
-[Remove]
-Entfernen
-[Old password]
-Altes Passwort
-[Database encryption mode]
-Datenbank-Verschlüsselungsmodus
-[Standard]
-Standard
-[Total]
-Komplett
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
-[Set password]
-Passwort setzen
 ;file \plugins\Dbx_mdbx\src\dbcheck.cpp
 [Orphaned sorting event with wrong contact ID %d, deleting]
 Verwaistes Sortierungsereignis mit falscher Kontakt-ID %d, löschen
@@ -51,35 +16,8 @@ Verwaistes Sortierungsereignis mit falscher Ereignis-ID %d:%08X löschen
 Verwaiste Ereignis-ID mit falscher Ereignis-ID %08X, löschen
 [Orphaned setting with wrong contact ID %08X, deleting]
 Verwaiste Einstellung mit falscher Kontakt-ID %08X, löschen
-;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
-[Too many errors!]
-Zu viele Fehler!
-[Password is not correct!]
-Das Passwort ist inkorrekt!
-[Please type in your password]
-Bitte vergeben Sie ein Passwort!
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 Ihre Datenbank ist in einem veralteten Format. Klicken Sie OK um Anweisungen zum Konvertieren zu lesen, oder Abbrechen zum Beenden.
 [Error]
 Fehler
-;file \plugins\Dbx_mdbx\src\dbintf.h
-[Change/remove password]
-Passwort ändern/entfernen
-;file \plugins\Dbx_mdbx\src\ui.cpp
-[Wrong old password entered!]
-Falsches altes Passwort eingegeben!
-[Password is too short!]
-Passwort ist zu kurz!
-[Passwords do not match!]
-Passwörter stimmen nicht überein!
-[Database was compacted successfully]
-Datenbank wurde erfolgreich komprimiert
-[Database]
-Datenbank
-[Database compaction failed]
-Komprimierung der Datenbank fehlgeschlagen
-[Logo]
-Logo
-[Compact]
-Komprimieren

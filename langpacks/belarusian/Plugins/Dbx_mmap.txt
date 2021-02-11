@@ -7,39 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Падтрымка базы Miranda NG.
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Select crypto provider]
-
-[Cancel]
-Скасаваць
-[Login to Miranda NG]
-Уваход у Miranda NG
-[New password]
-Новы пароль
-[Please enter your new password]
-Калі ласка, увядзіце новы пароль
-[Enter password]
-Увядзіце пароль
-[Change password]
-Змяніць пароль
-[Change]
-Змена
-[Remove]
-Выдаліць
-[Old password]
-Стары пароль
-[Database encryption mode]
-Рэжым шыфравання базы дадзеных
-[Standard]
-Звычайны
-[Total]
-Агульна
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Толькі крытычныя дадзеныя шыфруюцца (паролі, маркеры бяспекі і г.д.). Ўсё налады і гісторыя застаецца ў незашыфраваным выглядзе. Хуткі і эфектыўны, падыходзіць для большасці выпадкаў
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль. Рэкамендуем толькі для паранаідальных карыстальнікаў
-[Set password]
-Усталяваць пароль
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Міранда знайшла пашкоджанні ў базе дадзеных. Міранда будзе зачынена.
@@ -56,9 +23,6 @@
 
 [Obsolete database format]
 
-;file \plugins\Db3x_mmap\src\dbintf.h
-[Change/remove password]
-Змяніць/выдаліць пароль
 ;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 
@@ -70,20 +34,3 @@
 
 [Attempt to create database '%s' failed with error code %d]
 
-;file \plugins\Db3x_mmap\src\ui.cpp
-[Logo]
-Меню
-[Too many errors!]
-Занадта шмат памылак!
-[Password is not correct!]
-Пароль няслушны!
-[Please type in your password]
-Увядзіце ваш пароль
-[Wrong old password entered!]
-Няслушны стары пароль!
-[Password is too short!]
-Пароль надта кароткі!
-[Passwords do not match!]
-Паролі не супадаюць!
-[Database]
-Профіль

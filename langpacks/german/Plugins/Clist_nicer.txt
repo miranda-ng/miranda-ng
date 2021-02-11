@@ -42,10 +42,6 @@ Menü- und Statusbutton anzeigen
 Versenkte Darstellung benutzen
 [System tray icon]
 Systemtray-Icon
-[Single click interface]
-Kontaktliste mit Einfachklick öffnen
-[Always show status in tooltip]
-Immer Status als Tooltip anzeigen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [ms]

@@ -2,32 +2,12 @@
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів тощо.
 ;file \plugins\Dbx_sqlite\res\dbx_sqlite.rc
-[Select crypto provider]
-
-[Cancel]
-Скасувати
-[Login to Miranda NG]
-Вхід у Miranda NG
-[New password]
-Новий пароль
-[Please enter your new password]
-Будь ласка, введіть новий пароль
-[Enter password]
-Введіть пароль
-[Change password]
-Змінити пароль
-[Change]
-Змінити
-[Remove]
-Очистити
-[Old password]
-Старий пароль
 [Database encryption mode]
 Режим шифрування бази
 [Standard]
@@ -38,5 +18,3 @@
 Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
-[Set password]
-Встановити пароль

@@ -72,10 +72,6 @@
 състояние
 [Sort contacts by protocol]
 протокол
-[Single click interface]
-Интерфейс с едно натискане
-[Always show status in tooltip]
-Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
 [ms delay]
@@ -341,6 +337,8 @@
 Затваряне на прозореца след завършване на прехвърлянето
 [Clear completed transfers on window closing]
 Изчистване на завършилите прехвърляния след затваряне на прозореца
+[Sort file transfers in the reverse order]
+
 [Virus scanner]
 Сканиране за вируси
 [Scan files:]
@@ -370,8 +368,8 @@
 Изскачане на прозореца при състояние:
 [In background]
 без фокусиране (на заден план)
-[Maximum number of flashes]
-Максимален брой мигания
+[Maximum number of flashes (0 = indefinite)]
+Максимален брой мигания (0 = = безкрайност)
 [Close the message window on send]
 Затваряне на прозореца след изпращане
 [Minimize the message window on send]
@@ -1158,16 +1156,22 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Запитване преди изтриване на контакт
 [Remove temporary contacts on exit]
 
+[Search works as filter]
+
 ['Hide offline' means to hide:]
 Скриване като извън линия:
+[Tray]
+Трей
+[Single click interface]
+Интерфейс с едно натискане
+[Always show status in tooltip]
+Показване на състоянието в подсказка
 [Default settings for known event types]
 Стандартни настройки за видовете събития
 [Show when filter is active]
 Показване при включен филтър
 [Popup]
 Рopup
-[Tray]
-Трей
 [Sound]
 Звук
 [Log to file]
@@ -1182,6 +1186,34 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Показване менютата на бутоните при натискане с десен бутон
 [Hidden window]
 
+[Select crypto provider]
+
+[Login to Miranda NG]
+Вписване в Miranda NG
+[New password]
+Нова парола
+[Please enter your new password]
+Моля, въведете новата парола
+[Enter password]
+Въведете парола
+[Change password]
+Промяна на паролата
+[Change]
+Промяна
+[Old password]
+Стара парола
+[Database encryption mode]
+Режим за криптиране на базата от данни
+[Standard]
+Стандартен
+[Total]
+Тотален
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
+[Set password]
+Задаване на парола
 [&Hide/Show]
 Показване/Скриване
 [E&xit]
@@ -1726,11 +1758,6 @@ Google Translate
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Възникна непозната грешка.
-;file \src\core\stdpopup\src\icons.cpp
-[Popups are enabled]
-Popups са включени
-[Popups are disabled]
-Popups са изключени
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Пример
@@ -1788,6 +1815,10 @@ Popups са изключени
 [Enable popups]
 Включване на Popups
 ;file \src\core\stdpopup\src\yapp.cpp
+[Popups are enabled]
+Popups са включени
+[Popups are disabled]
+Popups са изключени
 [Toggle popups]
 Вкл./Изкл. на Popups
 [First line]
@@ -2121,6 +2152,14 @@ Popups са изключени
 Грешка при надграждане структурата на профила.\nПреместването на профила "%s" в %s е невъзможно.\nВероятно Miranda NG не разполага с необходимите права. Моля, преместете файла ръчно.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Не може да съхранявате профили в основната директория на Miranda NG.\nМоля, преместете профила в друга папка.
+[Database was compacted successfully]
+
+[Database]
+База данни
+[Database compaction failed]
+
+[Compact]
+
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2170,6 +2209,8 @@ Popups са изключени
 [Extra icons]
 Допълнителни икони
 ;file \src\mir_app\src\ei_services.cpp
+[Mute chat]
+
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Не сте попълнили полето за търсене. Моля, въведете израз и опитайте отново.
@@ -2324,6 +2365,21 @@ Win +\s
 Неизвестно
 [Languages]
 Езици
+;file \src\mir_app\src\MDatabaseCommonCrypt.cpp
+[Change/remove password]
+Промяна/премахване на парола
+[Wrong old password entered!]
+Въведената стара парола е грешна!
+[Password is too short!]
+Паролата е твърде кратка!
+[Passwords do not match!]
+Паролите не са еднакви!
+[Too many errors!]
+Твърде много грешки!
+[Password is not correct!]
+Паролата е грешна!
+[Please type in your password]
+Моля, въведете паролата
 ;file \src\mir_app\src\menu_clist.cpp
 [Custom status]
 Персонално състояние
@@ -2343,6 +2399,8 @@ Win +\s
 Меню на подгрупите
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
+
+[Do you really want to delete this menu item?]
 
 [Menus]
 Менюта
@@ -2552,14 +2610,10 @@ Win +\s
 <Неизвестен формат>
 [Are you sure you want to remove profile "%s"?]
 Наистина ли желаете профилът "%s" да бъде изтрит?
-[Database was compacted successfully]
-
 [&Convert]
 Конвертиране
 [Run]
 Изпълнение
-[Compact]
-
 [Check database]
 
 [Size]

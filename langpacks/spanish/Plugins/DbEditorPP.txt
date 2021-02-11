@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.3
+;  Version: 4.0.1.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -44,6 +44,8 @@ Bu&scar
 
 [Background color]
 Color de fondo
+[Text color]
+Color de texto
 [Add a module to contact]
 
 [Add a module named]
@@ -314,6 +316,8 @@ Base de datos
 [Contacts]
 Contactos
 ;file \plugins\DbEditorPP\src\options.cpp
+[Popups]
+Ventanas emergentes
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 

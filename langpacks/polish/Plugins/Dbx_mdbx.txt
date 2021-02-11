@@ -21,12 +21,3 @@ Utracone ustawienie z nieprawidłowym identyfikatorem kontaktu %08X, usuwanie
 Format bazy danych jest przestarzały. Kliknij OK, aby uzyskać szczegóły aktualizacji, lub Anuluj, aby wyjść.
 [Error]
 Błąd
-;file \plugins\Dbx_mdbx\src\ui.cpp
-[Database was compacted successfully]
-Baza danych została pomyślnie skompresowana
-[Database]
-Profil
-[Database compaction failed]
-Kompresja bazy danych nie powiodła się
-[Compact]
-Kompresuj

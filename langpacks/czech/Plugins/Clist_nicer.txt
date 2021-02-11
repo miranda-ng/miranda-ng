@@ -42,10 +42,6 @@ Zobrazit tlačítka menu a stavu
 Použít zanořený rámeček
 [System tray icon]
 Ikona v oznamovací oblasti
-[Single click interface]
-Zařídit vše jedním kliknutím myši
-[Always show status in tooltip]
-Vždy zobrazit stav v tipu
 [Disable icon blinking]
 Vypnout blikání ikon
 [ms]

@@ -1,0 +1,3 @@
+[Selected nick list background]
+[Selected nick list text]
+[Clear message area]

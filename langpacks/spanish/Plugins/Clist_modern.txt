@@ -272,10 +272,6 @@ milisegundos
 Ocultar barra de desplazamiento vertical
 [Fade out entire list when:]
 Desaparecer lista entera cuando:
-[Single click interface]
-Interfaz simple clic
-[Always show status in tooltip]
-Mostrar estado sobre herramientas
 [Disable icon blinking]
 Desactivar parpadeo de icono
 [ms, delay between icon blinking]
@@ -307,8 +303,6 @@ Icono de la bandeja de sistema
 [Allow internal requesting of status message text]
 
 [Remove status message if contact became offline]
-
-[Use improved search method in contact list]
 
 [Metacontacts stuff]
 

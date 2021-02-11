@@ -929,10 +929,10 @@ Channeloperatoren
 Erweiterter Modus 1
 [Extended mode 2]
 Erweiterter Modus 2
-[Selection background]
-Markierter Hintergrund
-[Selected text]
-Markierter Text
+[Selected nick list background]
+
+[Selected nick list text]
+
 [Incremental search highlight]
 Inkrementelle Suchhervorhebung
 [Fields background]
@@ -1137,8 +1137,6 @@ deaktiviert
 aktiviert
 [Sending typing notifications is %s.]
 Senden von Tippbenachrichtigungen ist %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Sitzungsliste:\nLinksklick für eine Liste offener Sitzungen.\nRechtsklick für den Zugang zu Favoriten und um das Verhalten des Nachrichtenfensters schnell einzustellen.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begrenzt auf: %d Byte\n\n%d Nachrichten werden für den späteren Versand verwaltet.
 ;file \plugins\TabSRMM\src\eventpopups.cpp
@@ -1257,6 +1255,8 @@ Kontakt Nachrichten Präferenz
 Eine Datei senden
 [Quote message]
 Nachricht zitieren
+[Clear message area]
+
 [Toggle send later]
 Später senden
 [Send message]
@@ -1780,6 +1780,16 @@ Der gewählte Name wird bereits verwendet.
 Ein "später senden"-Auftrag wurde erfolgreich erledigt.\nDie Originalnachricht war: %s
 [A send later job failed to complete.\nThe original message: %s]
 Ein "später senden"-Auftrag schlug fehl.\nDie Originalnachricht war: %s
+[Contact]
+Kontakt
+[Original timestamp]
+Original-Zeitstempel
+[Message text]
+Nachrichtentext
+[Last send info]
+Letzte gesendete Info
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Sie sind dabei, den Zustand eines oder mehrerer Elemente in der Sendewarteschlange\zu ändern. Die angeforderte Aktion(en) werden bei der nächsten geplanten Queue-Verarbeitung ausgeführt werden.\n\nDie Aktion kann nicht rückgängig gemacht werden.
 [<All contacts>]
 <Alle Kontakte>
 [Removed]
@@ -1794,16 +1804,6 @@ Hinausgeschoben
 Ausstehend
 [Pending]
 Bevorstehend
-[Contact]
-Kontakt
-[Original timestamp]
-Original-Zeitstempel
-[Message text]
-Nachrichtentext
-[Last send info]
-Letzte gesendete Info
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Sie sind dabei, den Zustand eines oder mehrerer Elemente in der Sendewarteschlange\zu ändern. Die angeforderte Aktion(en) werden bei der nächsten geplanten Queue-Verarbeitung ausgeführt werden.\n\nDie Aktion kann nicht rückgängig gemacht werden.
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Die Nachricht kann nicht verzögert gesendet werden oder an mehrere Kontakte weitergeleitet werden, denn sie überschreitet die maximale Länge der Nachricht, es sind nur %d Byte erlaubt.

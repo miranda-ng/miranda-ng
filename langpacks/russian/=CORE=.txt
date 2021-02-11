@@ -72,10 +72,6 @@
 Сортировка по статусу
 [Sort contacts by protocol]
 Сортировка по протоколу
-[Single click interface]
-Один щелчок
-[Always show status in tooltip]
-Всегда показывать статус в подсказке
 [Disable icon blinking]
 Выключить мигание
 [ms delay]
@@ -372,8 +368,8 @@
 Открывать окно, если:
 [In background]
 В фоне
-[Maximum number of flashes]
-Максимальное количество миганий
+[Maximum number of flashes (0 = indefinite)]
+Максимальное количество миганий (0 = бесконечно)
 [Close the message window on send]
 Закрывать окно после отправки
 [Minimize the message window on send]
@@ -1164,14 +1160,18 @@ UIN, E-mail и т.д.
 Поиск по списку контактов с фильтрацией результатов
 ['Hide offline' means to hide:]
 'Скрыть отключённых' - скрыть:
+[Tray]
+Трей
+[Single click interface]
+Один щелчок
+[Always show status in tooltip]
+Всегда показывать статус в подсказке
 [Default settings for known event types]
 Настройки для известных типов событий
 [Show when filter is active]
 Показывать при вкл. фильтре
 [Popup]
 Всплывающее окно
-[Tray]
-Трей
 [Sound]
 Звук
 [Log to file]
@@ -1186,6 +1186,34 @@ UIN, E-mail и т.д.
 Показывать меню кнопки по правому щелчку
 [Hidden window]
 Скрытое окно
+[Select crypto provider]
+Выберите поставщика криптографии
+[Login to Miranda NG]
+Вход в Miranda NG
+[New password]
+Новый пароль
+[Please enter your new password]
+Пожалуйста, введите новый пароль
+[Enter password]
+Введите пароль
+[Change password]
+Изменить пароль
+[Change]
+Изменить
+[Old password]
+Старый пароль
+[Database encryption mode]
+Режим шифрования базы
+[Standard]
+Стандартный
+[Total]
+Полный
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Шифрование только критических данных (пароли, токены авторизации и т.п.). Остальные настройки и история, остаются незашифрованными. Быстрый и эффективный, подходит в большинстве случаев
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в базе в случае утери пароля. Рекомендуется только параноидальным пользователям
+[Set password]
+Установить пароль
 [&Hide/Show]
 С&крыть/Показать
 [E&xit]
@@ -2124,6 +2152,14 @@ Miranda не смогла загрузить встроенную систему
 Миранда пытается обновить структуру вашего профиля.\nНе удалось автоматически переместить профиль %s в новое расположение %s\nВероятная причина - нехватка прав доступа. Пожалуйста, переместите профиль вручную.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Файл профиля не должен находится в корневой папке Miranda.
+[Database was compacted successfully]
+База успешно сжата
+[Database]
+База данных
+[Database compaction failed]
+Не удалось сжать базу
+[Compact]
+Сжать
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nНеобходимо установить плагин dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2329,6 +2365,21 @@ Win +\s
 Неизвестно
 [Languages]
 Языки
+;file \src\mir_app\src\MDatabaseCommonCrypt.cpp
+[Change/remove password]
+Изменить/удалить пароль
+[Wrong old password entered!]
+Введён ошибочный старый пароль!
+[Password is too short!]
+Слишком короткий пароль!
+[Passwords do not match!]
+Пароли не совпадают!
+[Too many errors!]
+Слишком много ошибок!
+[Password is not correct!]
+Неверный пароль!
+[Please type in your password]
+Пожалуйста, введите свой пароль
 ;file \src\mir_app\src\menu_clist.cpp
 [Custom status]
 xСтатус
@@ -2559,14 +2610,10 @@ xСтатус
 <Неизвестный формат>
 [Are you sure you want to remove profile "%s"?]
 Вы уверены, что хотите удалить профиль "%s"?
-[Database was compacted successfully]
-База успешно сжата
 [&Convert]
 &Конвертировать
 [Run]
 Запустить
-[Compact]
-Сжать
 [Check database]
 Проверить базу
 [Size]

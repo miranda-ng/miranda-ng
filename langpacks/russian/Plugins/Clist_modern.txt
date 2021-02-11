@@ -272,10 +272,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Скрыть полосу прокрутки
 [Fade out entire list when:]
 Затемнить весь список когда:
-[Single click interface]
-Один щелчок
-[Always show status in tooltip]
-Всегда показывать статус в подсказке
 [Disable icon blinking]
 Выключить мигание
 [ms, delay between icon blinking]

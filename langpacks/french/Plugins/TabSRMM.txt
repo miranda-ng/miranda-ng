@@ -929,10 +929,10 @@ OP du salon
 Mode étendu 1
 [Extended mode 2]
 Mode étendu 1
-[Selection background]
-Choix du fond
-[Selected text]
-Texte sélectionné
+[Selected nick list background]
+
+[Selected nick list text]
+
 [Incremental search highlight]
 
 [Fields background]
@@ -1137,8 +1137,6 @@ désactivé
 
 [Sending typing notifications is %s.]
 L'envoi de notification d'écriture est %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 
 ;file \plugins\TabSRMM\src\eventpopups.cpp
@@ -1256,6 +1254,8 @@ Coller et envoyer
 [Send a file]
 Envoyer un fichier
 [Quote message]
+
+[Clear message area]
 
 [Toggle send later]
 
@@ -1780,6 +1780,16 @@ Ce nom est déjà utilisé
 
 [A send later job failed to complete.\nThe original message: %s]
 
+[Contact]
+Contact
+[Original timestamp]
+
+[Message text]
+Message
+[Last send info]
+
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+
 [<All contacts>]
 
 [Removed]
@@ -1793,16 +1803,6 @@ Ce nom est déjà utilisé
 [Suspended]
 
 [Pending]
-
-[Contact]
-Contact
-[Original timestamp]
-
-[Message text]
-Message
-[Last send info]
-
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]

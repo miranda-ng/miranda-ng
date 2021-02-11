@@ -272,10 +272,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Схаваць паласу прагорткі
 [Fade out entire list when:]
 Прыцьміць увесь ліст калі:
-[Single click interface]
-Адна пстрычка
-[Always show status in tooltip]
-Заўсёды паказваць статус у падказцы
 [Disable icon blinking]
 Выключыць мігценне
 [ms, delay between icon blinking]
@@ -308,8 +304,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Дазволіць унутраныя запыты статусаў
 [Remove status message if contact became offline]
 Выдаляць паведамленні адлучаных кантактаў
-[Use improved search method in contact list]
-Пошук па спісе з фільтраваннем вынікаў
 [Metacontacts stuff]
 Метакантакты
 [Use 'Meta' protocol icons for metacontacts]

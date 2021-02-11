@@ -100,6 +100,8 @@
 [UIN/e-mail/phone]
 
 ;file \protocols\ICQ-WIM\src\server.cpp
+[SmileyAdd plugin required to support stickers]
+
 [You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
@@ -115,8 +117,6 @@
 [Unknown sticker]
 
 [User sent a sticker:]
-
-[SmileyAdd plugin required to support stickers]
 
 [Buddy addition failed]
 

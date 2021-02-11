@@ -2,32 +2,12 @@
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
 ;file \plugins\Dbx_sqlite\res\dbx_sqlite.rc
-[Select crypto provider]
-Zvolit způsob šifrování
-[Cancel]
-Zrušit
-[Login to Miranda NG]
-Přihlášení do Mirandy NG
-[New password]
-Nové heslo
-[Please enter your new password]
-Prosím zadejte nové heslo
-[Enter password]
-Zadejte heslo
-[Change password]
-Změnit heslo
-[Change]
-Změnit
-[Remove]
-Odebrat
-[Old password]
-Aktuální heslo
 [Database encryption mode]
 Režim šifrování databáze
 [Standard]
@@ -38,5 +18,3 @@ Celkem
 Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 
-[Set password]
-Nastavit heslo

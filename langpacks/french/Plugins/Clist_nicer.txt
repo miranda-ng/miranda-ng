@@ -42,10 +42,6 @@ Afficher le menu et la barre d'état
 Activer l'effet 3D
 [System tray icon]
 Icône de la barre des tâches
-[Single click interface]
-Clic simple
-[Always show status in tooltip]
-Afficher l'état dans la bulle
 [Disable icon blinking]
 Sans clignotement
 [ms]

@@ -929,10 +929,10 @@ Správci místností
 Rozšířený mód 1
 [Extended mode 2]
 Rozšířený mód 1
-[Selection background]
-Pozadí výběru
-[Selected text]
-Vybraný text
+[Selected nick list background]
+
+[Selected nick list text]
+
 [Incremental search highlight]
 Zvýraznění při vyhledávání
 [Fields background]
@@ -1137,8 +1137,6 @@ deaktivován
 zapnuto
 [Sending typing notifications is %s.]
 Odesílání upozornění na psaní je %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Seznam rozhovorů.\nKlikněte levým pro zobrazení seznamu otevřených rozhovorů.\nKlikněte pravým pro přístup k oblíbeným a rychlému nastavení chování komunikačního okna.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprávy: %d bytů\nPočet zpráv zařazených k pozdějšímu doručení: %d
 ;file \plugins\TabSRMM\src\eventpopups.cpp
@@ -1257,6 +1255,8 @@ Vložit a odeslat
 Odeslat soubor
 [Quote message]
 Citovat zprávu
+[Clear message area]
+
 [Toggle send later]
 Přepnout zpožděné odesílání
 [Send message]
@@ -1780,6 +1780,16 @@ Tento název již byl použit
 Zpožděné odesílání proběhlo úspěšně.\nPůvodní zpráva: %s
 [A send later job failed to complete.\nThe original message: %s]
 Zpožděné odesílání selhalo.\nPůvodní zpráva: %s
+[Contact]
+Kontakt
+[Original timestamp]
+Původní čas
+[Message text]
+Text zprávy
+[Last send info]
+Informace o posledním odeslání
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Upravujete jednu nebo více položek ve frontě bezobslužného odesílání. Požadované akce budou provedeny při dalším naplánovaném zpracování fronty.\n\nTato akce nemůže být vrácena zpět.
 [<All contacts>]
 <Všechny kontakty>
 [Removed]
@@ -1794,16 +1804,6 @@ Odloženo
 Pozastaveno
 [Pending]
 Čekající
-[Contact]
-Kontakt
-[Original timestamp]
-Původní čas
-[Message text]
-Text zprávy
-[Last send info]
-Informace o posledním odeslání
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Upravujete jednu nebo více položek ve frontě bezobslužného odesílání. Požadované akce budou provedeny při dalším naplánovaném zpracování fronty.\n\nTato akce nemůže být vrácena zpět.
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Zpráva nemůže být odeslána, protože překračuje maximální povolenou délku %d bytů

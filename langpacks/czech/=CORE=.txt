@@ -72,10 +72,6 @@ Tímto odstraníte celou historii a nastavení kontaktu!
 Řadit kontakty dle stavu
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
-[Single click interface]
-Zařídit vše jedním kliknutím myši
-[Always show status in tooltip]
-Vždy zobrazit stav v tipu
 [Disable icon blinking]
 Vypnout blikání ikon
 [ms delay]
@@ -341,6 +337,8 @@ Minimalizovat okno s přenášeným souborem
 Zavřít okno po dokončení přenosu
 [Clear completed transfers on window closing]
 Smazat dokončené přenosy po zavření okna
+[Sort file transfers in the reverse order]
+
 [Virus scanner]
 Antivirová kontrola
 [Scan files:]
@@ -370,8 +368,8 @@ Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu
 Automaticky vyvolat okno při:
 [In background]
 Na pozadí
-[Maximum number of flashes]
-Maximální počet bliknutí
+[Maximum number of flashes (0 = indefinite)]
+
 [Close the message window on send]
 Zavřít okno kliknutím na 'Poslat'
 [Minimize the message window on send]
@@ -1158,16 +1156,22 @@ Povolit skupiny
 Potvrdit smazání kontaktů
 [Remove temporary contacts on exit]
 
+[Search works as filter]
+
 ['Hide offline' means to hide:]
 'Skrýt offline' znamená skrytí:
+[Tray]
+Oznamovací oblast
+[Single click interface]
+Zařídit vše jedním kliknutím myši
+[Always show status in tooltip]
+Vždy zobrazit stav v tipu
 [Default settings for known event types]
 Výchozí nastavení pro známé typy událostí
 [Show when filter is active]
 Zobrazit při aktivním filtru
 [Popup]
 Oznámení
-[Tray]
-Oznamovací oblast
 [Sound]
 Zvuk
 [Log to file]
@@ -1182,6 +1186,34 @@ Zobrazit oznámení pouze při neaktivním okně s diskusí
 Zobrazit kontextové menu u tlačítek
 [Hidden window]
 
+[Select crypto provider]
+Zvolit způsob šifrování
+[Login to Miranda NG]
+Přihlášení do Mirandy NG
+[New password]
+Nové heslo
+[Please enter your new password]
+Prosím zadejte nové heslo
+[Enter password]
+Zadejte heslo
+[Change password]
+Změnit heslo
+[Change]
+Změnit
+[Old password]
+Aktuální heslo
+[Database encryption mode]
+Režim šifrování databáze
+[Standard]
+Standardní
+[Total]
+Celkem
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+
+[Set password]
+Nastavit heslo
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
@@ -1726,11 +1758,6 @@ Kontakt přestal psát
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Neznámá chyba.
-;file \src\core\stdpopup\src\icons.cpp
-[Popups are enabled]
-Oznámení jsou zapnuta
-[Popups are disabled]
-Oznámení jsou vypnuta
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Příklad
@@ -1788,6 +1815,10 @@ Vypnout oznámení
 [Enable popups]
 Povolit oznámení
 ;file \src\core\stdpopup\src\yapp.cpp
+[Popups are enabled]
+Oznámení jsou zapnuta
+[Popups are disabled]
+Oznámení jsou vypnuta
 [Toggle popups]
 Zapnout/vypnout oznámení
 [First line]
@@ -2121,6 +2152,14 @@ Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže b
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s automaticky,\nnejspíše kvůli nedostatečným oprávněním. Přesuňte prosím profil ručně.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
+[Database was compacted successfully]
+
+[Database]
+Databáze
+[Database compaction failed]
+
+[Compact]
+
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mdbx.dll.
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2170,6 +2209,8 @@ Aktivita v chatu
 [Extra icons]
 Doplňkové ikony
 ;file \src\mir_app\src\ei_services.cpp
+[Mute chat]
+
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Zadejte hledaný výraz a zkuste hledat znovu.
@@ -2324,6 +2365,21 @@ interní
 Neznámý
 [Languages]
 Jazyky
+;file \src\mir_app\src\MDatabaseCommonCrypt.cpp
+[Change/remove password]
+Změnit/zrušit heslo
+[Wrong old password entered!]
+Zadané původní heslo není správné!
+[Password is too short!]
+Heslo je příliš krátké!
+[Passwords do not match!]
+Zadaná hesla se neshodují!
+[Too many errors!]
+Příliš mnoho chybných pokusů!
+[Password is not correct!]
+Zadané heslo není správné!
+[Please type in your password]
+Zadejte prosím své heslo
 ;file \src\mir_app\src\menu_clist.cpp
 [Custom status]
 Rozšířený stav
@@ -2344,6 +2400,8 @@ Nabídka podskupiny
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 Nová podnabídka
+[Do you really want to delete this menu item?]
+
 [Menus]
 Nabídky
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2552,14 +2610,10 @@ Chyba při vytváření profilu
 <neznámý formát>
 [Are you sure you want to remove profile "%s"?]
 Opravdu si přejete odstranit profil "%s"?
-[Database was compacted successfully]
-
 [&Convert]
 &Zkonvertovat
 [Run]
 Spustit
-[Compact]
-
 [Check database]
 
 [Size]

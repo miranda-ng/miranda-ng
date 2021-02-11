@@ -96,6 +96,8 @@ Połączenie %s
 
 [User ID]
 ID użytkownika
+[Message send failed]
+
 [Protocol is offline or user isn't authorized yet]
 Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 ;file \protocols\Discord\src\server.cpp

@@ -272,10 +272,6 @@ ms
 Skrýt svislý posuvník
 [Fade out entire list when:]
 Zprůhlednit celý seznam při:
-[Single click interface]
-Zařídit vše jedním kliknutím myši
-[Always show status in tooltip]
-Vždy zobrazit stav v tipu
 [Disable icon blinking]
 Vypnout blikání ikon
 [ms, delay between icon blinking]
@@ -308,8 +304,6 @@ Ignorovat prázdná místa po extra ikonách (posunout >>)
 Povolit interní požadavky o text zprávy stavu
 [Remove status message if contact became offline]
 Odstranit stavovou zprávu při odpojení kontaktu
-[Use improved search method in contact list]
-Použít vylepšené vyhledávání v seznamu kontaktů
 [Metacontacts stuff]
 Další možnosti metakontaktů
 [Use 'Meta' protocol icons for metacontacts]

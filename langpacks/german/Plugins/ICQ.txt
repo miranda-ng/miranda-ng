@@ -100,6 +100,8 @@ Neuen Gruppennamen eingeben
 [UIN/e-mail/phone]
 UIN/E-Mail/Telefon
 ;file \protocols\ICQ-WIM\src\server.cpp
+[SmileyAdd plugin required to support stickers]
+Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 Sie haben keine ICQ-Nummer oder -Passwort eingegeben.\nGeben Sie dies unter Einstellungen > Netzwerk > ICQ ein und versuchen Sie es nochmal.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
@@ -116,7 +118,5 @@ Mitglied
 Unbekannter Sticker
 [User sent a sticker:]
 Benutzer hat einen Sticker gesendet:
-[SmileyAdd plugin required to support stickers]
-Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [Buddy addition failed]
 Hinzufügen eines Freundes fehlgeschlagen

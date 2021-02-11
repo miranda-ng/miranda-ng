@@ -272,10 +272,6 @@ Millisekunden
 Vertikale Bildlaufleiste ausblenden
 [Fade out entire list when:]
 Liste aus- bzw. abblenden, wenn:
-[Single click interface]
-Kontaktliste mit Einfachklick öffnen
-[Always show status in tooltip]
-Immer Status als Tooltip anzeigen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [ms, delay between icon blinking]
@@ -308,8 +304,6 @@ Leere Extraicons ignorieren (rechts anordnen)
 Interne Abfrage der Texte der Statusnachrichten
 [Remove status message if contact became offline]
 Statusnachricht entfernen, wenn Kontakt offline
-[Use improved search method in contact list]
-Verbesserte Suchmethode in Kontaktliste verwenden
 [Metacontacts stuff]
 Einstellungen für Metakontakte
 [Use 'Meta' protocol icons for metacontacts]

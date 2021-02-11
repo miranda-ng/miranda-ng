@@ -72,10 +72,6 @@ Ordenar contactos por nombre
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
-[Single click interface]
-Interfaz simple clic
-[Always show status in tooltip]
-Mostrar estado sobre herramientas
 [Disable icon blinking]
 Desactivar parpadeo de icono
 [ms delay]
@@ -341,6 +337,8 @@ Minimizar la ventana de transferencia de archivos
 Cerrar ventana cuando la transferencia se completa
 [Clear completed transfers on window closing]
 Limpiar transferencias realizadas al cerrar la ventana
+[Sort file transfers in the reverse order]
+
 [Virus scanner]
 Escáner de virus
 [Scan files:]
@@ -370,8 +368,8 @@ Siempre que se pregunte sobre archivos de personas que no están en la lista
 Ventana emergente automáticamente cuando:
 [In background]
 En segundo plano
-[Maximum number of flashes]
-Número máximo de destellos
+[Maximum number of flashes (0 = indefinite)]
+
 [Close the message window on send]
 Cerrar la ventana de mensaje al enviar
 [Minimize the message window on send]
@@ -1158,16 +1156,22 @@ Ocultar grupos vacíos
 Preguntar antes de eliminar
 [Remove temporary contacts on exit]
 
+[Search works as filter]
+
 ['Hide offline' means to hide:]
 'Ocultar fuera de línea' es:
+[Tray]
+Bandeja
+[Single click interface]
+Interfaz simple clic
+[Always show status in tooltip]
+Mostrar estado sobre herramientas
 [Default settings for known event types]
 
 [Show when filter is active]
 
 [Popup]
 Ventana emergente
-[Tray]
-Bandeja
 [Sound]
 
 [Log to file]
@@ -1181,6 +1185,34 @@ Mostrar ventanas emergentes cuando el chat no está activo
 [Show button menus when right clicking the buttons]
 Mostrar menús del botón derecho cuando se hace clic en los botones
 [Hidden window]
+
+[Select crypto provider]
+
+[Login to Miranda NG]
+
+[New password]
+
+[Please enter your new password]
+
+[Enter password]
+
+[Change password]
+Cambiar contraseña
+[Change]
+
+[Old password]
+
+[Database encryption mode]
+
+[Standard]
+
+[Total]
+
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+
+[Set password]
 
 [&Hide/Show]
 &Mostrar/Ocultar
@@ -1726,11 +1758,6 @@ El contacto dejó de escribir
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
-;file \src\core\stdpopup\src\icons.cpp
-[Popups are enabled]
-
-[Popups are disabled]
-
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 
@@ -1788,6 +1815,10 @@ Ajustes
 [Enable popups]
 
 ;file \src\core\stdpopup\src\yapp.cpp
+[Popups are enabled]
+
+[Popups are disabled]
+
 [Toggle popups]
 
 [First line]
@@ -2121,6 +2152,14 @@ Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover
 Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el perfil %s a la nueva ubicación %s automáticamente\nLo más probable es por falta de privilegios. Por favor, mueva el perfil manualmente.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.
+[Database was compacted successfully]
+
+[Database]
+Base de datos
+[Database compaction failed]
+
+[Compact]
+
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2170,6 +2209,8 @@ Actividad de chat
 [Extra icons]
 Iconos adicionales
 ;file \src\mir_app\src\ei_services.cpp
+[Mute chat]
+
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 No ha rellenado el campo de búsqueda. Por favor, introduzca un término de búsqueda y vuelva a intentarlo.
@@ -2324,6 +2365,21 @@ construido
 Desconocido
 [Languages]
 Idiomas
+;file \src\mir_app\src\MDatabaseCommonCrypt.cpp
+[Change/remove password]
+
+[Wrong old password entered!]
+
+[Password is too short!]
+
+[Passwords do not match!]
+
+[Too many errors!]
+
+[Password is not correct!]
+
+[Please type in your password]
+
 ;file \src\mir_app\src\menu_clist.cpp
 [Custom status]
 Estado personalizado
@@ -2343,6 +2399,8 @@ Menú principal
 
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
+
+[Do you really want to delete this menu item?]
 
 [Menus]
 Menús
@@ -2552,14 +2610,10 @@ Problema al crear el perfil
 
 [Are you sure you want to remove profile "%s"?]
 ¿Está seguro que desea eliminar el perfil "%s"?
-[Database was compacted successfully]
-
 [&Convert]
 
 [Run]
 Ejecutar
-[Compact]
-
 [Check database]
 
 [Size]

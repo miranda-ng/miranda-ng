@@ -7,39 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Select crypto provider]
-
-[Cancel]
-Cancelar
-[Login to Miranda NG]
-
-[New password]
-
-[Please enter your new password]
-
-[Enter password]
-
-[Change password]
-Cambiar contraseña
-[Change]
-
-[Remove]
-Eliminar
-[Old password]
-
-[Database encryption mode]
-
-[Standard]
-
-[Total]
-
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-
-[Set password]
-
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 
@@ -56,9 +23,6 @@ Eliminar
 
 [Obsolete database format]
 
-;file \plugins\Db3x_mmap\src\dbintf.h
-[Change/remove password]
-
 ;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 
@@ -70,20 +34,3 @@ Eliminar
 
 [Attempt to create database '%s' failed with error code %d]
 
-;file \plugins\Db3x_mmap\src\ui.cpp
-[Logo]
-
-[Too many errors!]
-
-[Password is not correct!]
-
-[Please type in your password]
-
-[Wrong old password entered!]
-
-[Password is too short!]
-
-[Passwords do not match!]
-
-[Database]
-Base de datos

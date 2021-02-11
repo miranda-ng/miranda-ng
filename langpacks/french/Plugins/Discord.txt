@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.5
+;  Version: 0.6.2.6
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -95,6 +95,8 @@ Compte
 [Discord voice call]
 
 [User ID]
+
+[Message send failed]
 
 [Protocol is offline or user isn't authorized yet]
 

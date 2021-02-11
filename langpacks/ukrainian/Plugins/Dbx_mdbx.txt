@@ -7,41 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів тощо.
-;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
-[Select crypto provider]
-
-[Cancel]
-Скасувати
-[Total encryption (Recommended only for paranoid users)]
-
-[Login to Miranda NG]
-Вхід у Miranda NG
-[New password]
-Новий пароль
-[Please enter your new password]
-Будь ласка, введіть новий пароль
-[Enter password]
-Введіть пароль
-[Change password]
-Змінити пароль
-[Change]
-Змінити
-[Remove]
-Очистити
-[Old password]
-Старий пароль
-[Database encryption mode]
-Режим шифрування бази
-[Standard]
-Стандартний
-[Total]
-Повний
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
-[Set password]
-Встановити пароль
 ;file \plugins\Dbx_mdbx\src\dbcheck.cpp
 [Orphaned sorting event with wrong contact ID %d, deleting]
 
@@ -51,35 +16,8 @@
 
 [Orphaned setting with wrong contact ID %08X, deleting]
 
-;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
-[Too many errors!]
-Дуже багато помилок!
-[Password is not correct!]
-Неправильний пароль!
-[Please type in your password]
-Будь ласка, введіть пароль
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 
 [Error]
 Помилка
-;file \plugins\Dbx_mdbx\src\dbintf.h
-[Change/remove password]
-Змінити/видалити пароль
-;file \plugins\Dbx_mdbx\src\ui.cpp
-[Wrong old password entered!]
-Введено помилковий старий пароль!
-[Password is too short!]
-Пароль занадто короткий!
-[Passwords do not match!]
-Паролі не збігаються!
-[Database was compacted successfully]
-
-[Database]
-База даних
-[Database compaction failed]
-
-[Logo]
-Профіль
-[Compact]
-Стиснути

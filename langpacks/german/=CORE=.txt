@@ -72,10 +72,6 @@ Kontakte nach Name sortieren
 Kontakte nach Status sortieren
 [Sort contacts by protocol]
 Kontakte nach Protokoll sortieren
-[Single click interface]
-Kontaktliste mit Einfachklick öffnen
-[Always show status in tooltip]
-Immer Status als Tooltip anzeigen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [ms delay]
@@ -341,6 +337,8 @@ Fenster bei Dateiübertragung minimieren
 Fenster nach abgeschlossener Übertragung schließen
 [Clear completed transfers on window closing]
 Komplette Übertragungen beim Schliessen des Fensters entfernen
+[Sort file transfers in the reverse order]
+
 [Virus scanner]
 Virenscanner
 [Scan files:]
@@ -370,8 +368,8 @@ Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 Fenster automatisch öffnen, wenn:
 [In background]
 im Hintergrund
-[Maximum number of flashes]
-Maximale Anzahl Blinken
+[Maximum number of flashes (0 = indefinite)]
+Maximale Anzahl Blinken (0 bedeutet unendlich)
 [Close the message window on send]
 Nachrichtenfenster beim Senden schließen
 [Minimize the message window on send]
@@ -1158,16 +1156,22 @@ Gruppen aktivieren
 Vor Löschen von Kontakten fragen
 [Remove temporary contacts on exit]
 Temporäre Kontakte beim Beenden löschen
+[Search works as filter]
+
 ['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
+[Tray]
+Tray
+[Single click interface]
+Kontaktliste mit Einfachklick öffnen
+[Always show status in tooltip]
+Immer Status als Tooltip anzeigen
 [Default settings for known event types]
 Standardeinstellungen für bekannte Ereignis-Typen
 [Show when filter is active]
 Zeige, wenn Filter aktiv ist
 [Popup]
 Popup
-[Tray]
-Tray
 [Sound]
 Klanghinweis
 [Log to file]
@@ -1182,6 +1186,34 @@ Popup nur wenn Chatfenster nicht aktiv
 Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
 [Hidden window]
 Verstecktes Fenster
+[Select crypto provider]
+Verschlüsselungsmodul auswählen
+[Login to Miranda NG]
+Einloggen bei Miranda NG
+[New password]
+Neues Passwort
+[Please enter your new password]
+Bitte geben Sie ein neues Passwort ein
+[Enter password]
+Passwort eingeben
+[Change password]
+Passwort ändern
+[Change]
+Ändern
+[Old password]
+Altes Passwort
+[Database encryption mode]
+Datenbank-Verschlüsselungsmodus
+[Standard]
+Standard
+[Total]
+Komplett
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
+[Set password]
+Passwort setzen
 [&Hide/Show]
 Zeigen/&Ausblenden
 [E&xit]
@@ -1726,11 +1758,6 @@ Kontakt tippt nicht mehr
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
-;file \src\core\stdpopup\src\icons.cpp
-[Popups are enabled]
-Popups sind aktiviert
-[Popups are disabled]
-Popups sind deaktiviert
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Beispiel
@@ -1788,6 +1815,10 @@ Popups deaktivieren
 [Enable popups]
 Popups aktivieren
 ;file \src\core\stdpopup\src\yapp.cpp
+[Popups are enabled]
+Popups sind aktiviert
+[Popups are disabled]
+Popups sind deaktiviert
 [Toggle popups]
 Popups ein-/ausschalten
 [First line]
@@ -2121,6 +2152,14 @@ Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an de
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht automatisch an den neuen Ort %s verschieben\nvermutlich wegen unzureichender Berechtigungen. Bitte verschieben Sie das Profil manuell.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil kann nicht im Miranda-Hauptverzeichnis abgelegt werden.\nBitte verschieben Sie Ihr Miranda-Profil an einen anderen Ort.
+[Database was compacted successfully]
+Datenbank wurde erfolgreich komprimiert
+[Database]
+Datenbank
+[Database compaction failed]
+Komprimierung der Datenbank fehlgeschlagen
+[Compact]
+Komprimieren
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mdbx.dll oder ein vergleichbares Plugin installiert sein.
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2170,6 +2209,8 @@ Chat-Stumm-Modus
 [Extra icons]
 Extraicons
 ;file \src\mir_app\src\ei_services.cpp
+[Mute chat]
+
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Sie haben keinen Suchbegriff eingegeben, bitte einen Text eingeben und erneut versuchen.
@@ -2324,6 +2365,21 @@ eingebaut
 Unbekannt
 [Languages]
 Sprachen
+;file \src\mir_app\src\MDatabaseCommonCrypt.cpp
+[Change/remove password]
+Passwort ändern/entfernen
+[Wrong old password entered!]
+Falsches altes Passwort eingegeben!
+[Password is too short!]
+Passwort ist zu kurz!
+[Passwords do not match!]
+Passwörter stimmen nicht überein!
+[Too many errors!]
+Zu viele Fehler!
+[Password is not correct!]
+Das Passwort ist inkorrekt!
+[Please type in your password]
+Bitte vergeben Sie ein Passwort!
 ;file \src\mir_app\src\menu_clist.cpp
 [Custom status]
 Custom Status
@@ -2344,6 +2400,8 @@ Untergruppenmenü
 ;file \src\mir_app\src\menu_options.cpp
 [New submenu]
 Neues Untermenü
+[Do you really want to delete this menu item?]
+
 [Menus]
 Menüs
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2552,14 +2610,10 @@ Fehler beim Erstellen des Profils
 <unbekanntes Format>
 [Are you sure you want to remove profile "%s"?]
 Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
-[Database was compacted successfully]
-Datenbank wurde erfolgreich komprimiert
 [&Convert]
 &Umwandeln
 [Run]
 Starten
-[Compact]
-Komprimieren
 [Check database]
 Datenbank prüfen
 [Size]

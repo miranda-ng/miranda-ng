@@ -14,10 +14,6 @@
 състояние
 [Sort contacts by protocol]
 протокол
-[Single click interface]
-Интерфейс с едно натискане
-[Always show status in tooltip]
-Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
 [ms delay]

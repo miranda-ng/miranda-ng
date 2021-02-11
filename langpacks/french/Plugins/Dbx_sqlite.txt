@@ -2,32 +2,12 @@
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 
 ;file \plugins\Dbx_sqlite\res\dbx_sqlite.rc
-[Select crypto provider]
-
-[Cancel]
-Annuler
-[Login to Miranda NG]
-
-[New password]
-
-[Please enter your new password]
-Veuillez entrer votre nouveau mot de passe
-[Enter password]
-Entrez le passe
-[Change password]
-Changer le mot de passe
-[Change]
-
-[Remove]
-Retirer
-[Old password]
-
 [Database encryption mode]
 
 [Standard]
@@ -38,5 +18,3 @@ Retirer
 
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 
-[Set password]
-Mot de passe du profil

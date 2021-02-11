@@ -14,10 +14,6 @@ Kontakte nach Name sortieren
 Kontakte nach Status sortieren
 [Sort contacts by protocol]
 Kontakte nach Protokoll sortieren
-[Single click interface]
-Kontaktliste mit Einfachklick öffnen
-[Always show status in tooltip]
-Immer Status als Tooltip anzeigen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [ms delay]

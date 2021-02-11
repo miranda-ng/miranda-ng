@@ -3,7 +3,7 @@ Language: Čeština
 Locale: 0405
 Authors: Robert Pösel (Robyer) (viz http://www.robyer.cz)
 Author-email: robyer@seznam.cz
-Last-Modified-Using: Miranda NG 0.95.12
+Last-Modified-Using: Miranda NG 0.95.13
 
 ; Based on translation for Miranda IM (viz http://miranda.kvalitne.cz):
 ; Authors: Vít Šindlář, sir-qwerty, Martin Koníček, Aleš Studený, madmojo, Dave-Dave, Tur McDonnel, waclaw, Lev, Pavel Svátek, Mareman, Richard Nižnik, Laslo Gogolak, Petr Hanuš, churchyard, tapin, Soustruh, Libor Polčák, Jiří Kocman, MiSHAK, Robyer, Fille, Jake
@@ -80,10 +80,6 @@ Tímto odstraníte celou historii a nastavení kontaktu!
 Řadit kontakty dle stavu
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
-[Single click interface]
-Zařídit vše jedním kliknutím myši
-[Always show status in tooltip]
-Vždy zobrazit stav v tipu
 [Disable icon blinking]
 Vypnout blikání ikon
 [ms delay]
@@ -376,8 +372,6 @@ Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu
 Automaticky vyvolat okno při:
 [In background]
 Na pozadí
-[Maximum number of flashes]
-Maximální počet bliknutí
 [Close the message window on send]
 Zavřít okno kliknutím na 'Poslat'
 [Minimize the message window on send]
@@ -1152,14 +1146,18 @@ Povolit skupiny
 Potvrdit smazání kontaktů
 ['Hide offline' means to hide:]
 'Skrýt offline' znamená skrytí:
+[Tray]
+Oznamovací oblast
+[Single click interface]
+Zařídit vše jedním kliknutím myši
+[Always show status in tooltip]
+Vždy zobrazit stav v tipu
 [Default settings for known event types]
 Výchozí nastavení pro známé typy událostí
 [Show when filter is active]
 Zobrazit při aktivním filtru
 [Popup]
 Oznámení
-[Tray]
-Oznamovací oblast
 [Sound]
 Zvuk
 [Log to file]
@@ -1172,6 +1170,26 @@ Zvýraznit událost
 Zobrazit oznámení pouze při neaktivním okně s diskusí
 [Show button menus when right clicking the buttons]
 Zobrazit kontextové menu u tlačítek
+[New password]
+Nové heslo
+[Please enter your new password]
+Prosím zadejte nové heslo
+[Enter password]
+Zadejte heslo
+[Change password]
+Změnit heslo
+[Change]
+Změnit
+[Database encryption mode]
+Režim šifrování databáze
+[Standard]
+Standardní
+[Total]
+Celkem
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
+[Set password]
+Nastavit heslo
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
@@ -1688,10 +1706,6 @@ Kontakt začal psát
 Kontakt přestal psát
 [An unknown error has occurred.]
 Neznámá chyba.
-[Popups are enabled]
-Oznámení jsou zapnuta
-[Popups are disabled]
-Oznámení jsou vypnuta
 [Example]
 Příklad
 [The quick brown fox jumped over the lazy dog.]
@@ -1746,6 +1760,10 @@ Třídy
 Vypnout oznámení
 [Enable popups]
 Povolit oznámení
+[Popups are enabled]
+Oznámení jsou zapnuta
+[Popups are disabled]
+Oznámení jsou vypnuta
 [Toggle popups]
 Zapnout/vypnout oznámení
 [First line]
@@ -2050,6 +2068,8 @@ Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže b
 Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže být přesunut do nového umístění %s automaticky,\nnejspíše kvůli nedostatečným oprávněním. Přesuňte prosím profil ručně.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
+[Database]
+Databáze
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mdbx.dll.
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2238,6 +2258,14 @@ interní
 Neznámý
 [Languages]
 Jazyky
+[Password is too short!]
+Heslo je příliš krátké!
+[Passwords do not match!]
+Zadaná hesla se neshodují!
+[Password is not correct!]
+Zadané heslo není správné!
+[Please type in your password]
+Zadejte prosím své heslo
 [Custom status]
 Rozšířený stav
 [%s (locked)]
@@ -5417,10 +5445,6 @@ Seznam kontaktů pro nevidomé.
 Řadit kontakty dle stavu
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
-[Single click interface]
-Zařídit vše jedním kliknutím myši
-[Always show status in tooltip]
-Vždy zobrazit stav v tipu
 [Disable icon blinking]
 Vypnout blikání ikon
 [ms delay]
@@ -5818,10 +5842,6 @@ ms
 Skrýt svislý posuvník
 [Fade out entire list when:]
 Zprůhlednit celý seznam při:
-[Single click interface]
-Zařídit vše jedním kliknutím myši
-[Always show status in tooltip]
-Vždy zobrazit stav v tipu
 [Disable icon blinking]
 Vypnout blikání ikon
 [ms, delay between icon blinking]
@@ -5854,8 +5874,6 @@ Ignorovat prázdná místa po extra ikonách (posunout >>)
 Povolit interní požadavky o text zprávy stavu
 [Remove status message if contact became offline]
 Odstranit stavovou zprávu při odpojení kontaktu
-[Use improved search method in contact list]
-Použít vylepšené vyhledávání v seznamu kontaktů
 [Metacontacts stuff]
 Další možnosti metakontaktů
 [Use 'Meta' protocol icons for metacontacts]
@@ -6519,10 +6537,6 @@ Zobrazit tlačítka menu a stavu
 Použít zanořený rámeček
 [System tray icon]
 Ikona v oznamovací oblasti
-[Single click interface]
-Zařídit vše jedním kliknutím myši
-[Always show status in tooltip]
-Vždy zobrazit stav v tipu
 [Disable icon blinking]
 Vypnout blikání ikon
 [ms]
@@ -7652,7 +7666,7 @@ Nastavit
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.0
+;  Version: 0.2.1.1
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -7814,7 +7828,7 @@ Nahrazuje (pouze pro zvolené kontakty) znaky azbuky v odchozích zprávách jej
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -7825,6 +7839,8 @@ Nástroj pro správu databáze Mirandy
 &Další >
 [Cancel]
 Zrušit
+[File name:]
+Název souboru:
 [Error Opening Database]
 Chyba při otevírání databáze
 [There was an error opening the profile database given.]
@@ -7863,7 +7879,7 @@ Všechny úlohy byly úspěšně dokončeny
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.3
+;  Version: 4.0.1.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -7904,6 +7920,8 @@ Oznámit změnu sledované hodnoty
 Doba zobrazení (0 = stále)
 [Background color]
 Barva pozadí
+[Text color]
+Barva textu
 [Add a module to contact]
 Přidat modul ke kontaktu
 [Add a module named]
@@ -8164,6 +8182,8 @@ Načítání seznamu kontaktů...
 Načítání modulů...
 [Contacts]
 Kontakty
+[Popups]
+Oznámení
 [Add module to "%s"]
 Přidat modul do "%s"
 [Type]
@@ -8197,56 +8217,8 @@ Nastavení databáze změněno: \nModul: "%s", Nastavení: "%s"\nNová hodnota (
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
-[Select crypto provider]
-Zvolit způsob šifrování
-[Cancel]
-Zrušit
-[Login to Miranda NG]
-Přihlášení do Mirandy NG
-[New password]
-Nové heslo
-[Please enter your new password]
-Prosím zadejte nové heslo
-[Enter password]
-Zadejte heslo
-[Change password]
-Změnit heslo
-[Change]
-Změnit
-[Remove]
-Odebrat
-[Old password]
-Aktuální heslo
-[Database encryption mode]
-Režim šifrování databáze
-[Standard]
-Standardní
-[Total]
-Celkem
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
-[Set password]
-Nastavit heslo
-[Too many errors!]
-Příliš mnoho chybných pokusů!
-[Password is not correct!]
-Zadané heslo není správné!
-[Please type in your password]
-Zadejte prosím své heslo
 [Error]
 Chyba
-[Change/remove password]
-Změnit/zrušit heslo
-[Wrong old password entered!]
-Zadané původní heslo není správné!
-[Password is too short!]
-Heslo je příliš krátké!
-[Passwords do not match!]
-Zadaná hesla se neshodují!
-[Database]
-Databáze
-[Logo]
-Logo
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
@@ -8256,36 +8228,6 @@ Logo
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
-[Select crypto provider]
-Zvolit způsob šifrování
-[Cancel]
-Zrušit
-[Login to Miranda NG]
-Přihlášení do Mirandy NG
-[New password]
-Nové heslo
-[Please enter your new password]
-Prosím zadejte nové heslo
-[Enter password]
-Zadejte heslo
-[Change password]
-Změnit heslo
-[Change]
-Změnit
-[Remove]
-Odebrat
-[Old password]
-Aktuální heslo
-[Database encryption mode]
-Režim šifrování databáze
-[Standard]
-Standardní
-[Total]
-Kompletní
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
-[Set password]
-Nastavit heslo
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Miranda zjistila poškození vaší databáze. Miranda bude nyní ukončena.
 [Disk is full. Miranda will now shut down.]
@@ -8300,53 +8242,15 @@ Poškození databáze
 Tento profil je příliš starý a nemůže být automaticky aktualizován. Je potřeba jej převést do nového formátu.\n\nPřejete si otevřít stránku s více informacemi?
 [Obsolete database format]
 Zastaralý formát databáze
-[Change/remove password]
-Změnit/zrušit heslo
-[Logo]
-Logo
-[Too many errors!]
-Příliš mnoho chybných pokusů!
-[Password is not correct!]
-Zadané heslo není správné!
-[Please type in your password]
-Zadejte prosím své heslo
-[Wrong old password entered!]
-Zadané původní heslo není správné!
-[Password is too short!]
-Heslo je příliš krátké!
-[Passwords do not match!]
-Zadaná hesla se neshodují!
-[Database]
-Databáze
 #muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
-[Select crypto provider]
-Zvolit způsob šifrování
-[Cancel]
-Zrušit
-[Login to Miranda NG]
-Přihlášení do Mirandy NG
-[New password]
-Nové heslo
-[Please enter your new password]
-Prosím zadejte nové heslo
-[Enter password]
-Zadejte heslo
-[Change password]
-Změnit heslo
-[Change]
-Změnit
-[Remove]
-Odebrat
-[Old password]
-Aktuální heslo
 [Database encryption mode]
 Režim šifrování databáze
 [Standard]
@@ -8355,8 +8259,6 @@ Standardní
 Celkem
 [Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
 Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
-[Set password]
-Nastavit heslo
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
@@ -8462,7 +8364,7 @@ Miranda NG [%s] záloha databáze
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.5
+;  Version: 0.6.2.6
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -8668,7 +8570,7 @@ Připojování k Exchange...
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.8
+;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -17674,7 +17576,7 @@ Neznámý
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.9
+;  Version: 0.2.0.11
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -20713,7 +20615,7 @@ Doplňky
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.2
+;  Version: 0.95.13.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -21708,7 +21610,7 @@ Lišta tlačítek
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -22832,10 +22734,6 @@ Správci místností
 Rozšířený mód 1
 [Extended mode 2]
 Rozšířený mód 1
-[Selection background]
-Pozadí výběru
-[Selected text]
-Vybraný text
 [Incremental search highlight]
 Zvýraznění při vyhledávání
 [Fields background]
@@ -23036,8 +22934,6 @@ deaktivován
 zapnuto
 [Sending typing notifications is %s.]
 Odesílání upozornění na psaní je %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Seznam rozhovorů.\nKlikněte levým pro zobrazení seznamu otevřených rozhovorů.\nKlikněte pravým pro přístup k oblíbeným a rychlému nastavení chování komunikačního okna.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprávy: %d bytů\nPočet zpráv zařazených k pozdějšímu doručení: %d
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
@@ -23650,6 +23546,16 @@ Tento název již byl použit
 Zpožděné odesílání proběhlo úspěšně.\nPůvodní zpráva: %s
 [A send later job failed to complete.\nThe original message: %s]
 Zpožděné odesílání selhalo.\nPůvodní zpráva: %s
+[Contact]
+Kontakt
+[Original timestamp]
+Původní čas
+[Message text]
+Text zprávy
+[Last send info]
+Informace o posledním odeslání
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Upravujete jednu nebo více položek ve frontě bezobslužného odesílání. Požadované akce budou provedeny při dalším naplánovaném zpracování fronty.\n\nTato akce nemůže být vrácena zpět.
 [<All contacts>]
 <Všechny kontakty>
 [Removed]
@@ -23664,16 +23570,6 @@ Odloženo
 Pozastaveno
 [Pending]
 Čekající
-[Contact]
-Kontakt
-[Original timestamp]
-Původní čas
-[Message text]
-Text zprávy
-[Last send info]
-Informace o posledním odeslání
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Upravujete jednu nebo více položek ve frontě bezobslužného odesílání. Požadované akce budou provedeny při dalším naplánovaném zpracování fronty.\n\nTato akce nemůže být vrácena zpět.
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Zpráva nemůže být odeslána, protože překračuje maximální povolenou délku %d bytů
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -26439,7 +26335,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.6
+;  Version: 0.1.11.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
@@ -26527,7 +26423,7 @@ Dokument
 [Wall post]
 Příspěvek na zdi
 [(Unknown contact)]
-(neznámý kontakt)
+(Neznámý kontakt)
 [from]
 od
 [Gift]

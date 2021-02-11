@@ -82,10 +82,6 @@ Kontakte nach Name sortieren
 Kontakte nach Status sortieren
 [Sort contacts by protocol]
 Kontakte nach Protokoll sortieren
-[Single click interface]
-Kontaktliste mit Einfachklick öffnen
-[Always show status in tooltip]
-Immer Status als Tooltip anzeigen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [ms delay]
@@ -378,8 +374,6 @@ Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 Fenster automatisch öffnen, wenn:
 [In background]
 im Hintergrund
-[Maximum number of flashes]
-Maximale Anzahl Blinken
 [Close the message window on send]
 Nachrichtenfenster beim Senden schließen
 [Minimize the message window on send]
@@ -824,12 +818,16 @@ Textausgaben, wo möglich
 Text automatisch erkennen
 [Calling modules' names]
 Pluginnamen verwenden
+[Print dates]
+Datum ausgeben
 [Log to]
 Log nach
 [OutputDebugString()]
 OutputDebugString()
 [File]
 Datei
+[Rotate logs]
+Logs rotieren
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Programm ausführen, wenn Miranda NG startet (bspw. tail -f, dbgview etc.):
 [Run now]
@@ -1156,16 +1154,22 @@ Leere Gruppen ausblenden
 Gruppen aktivieren
 [Ask before deleting contacts]
 Vor Löschen von Kontakten fragen
+[Remove temporary contacts on exit]
+Temporäre Kontakte beim Beenden löschen
 ['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
+[Tray]
+Tray
+[Single click interface]
+Kontaktliste mit Einfachklick öffnen
+[Always show status in tooltip]
+Immer Status als Tooltip anzeigen
 [Default settings for known event types]
 Standardeinstellungen für bekannte Ereignis-Typen
 [Show when filter is active]
 Zeige, wenn Filter aktiv ist
 [Popup]
 Popup
-[Tray]
-Tray
 [Sound]
 Klanghinweis
 [Log to file]
@@ -1180,6 +1184,32 @@ Popup nur wenn Chatfenster nicht aktiv
 Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
 [Hidden window]
 Verstecktes Fenster
+[Login to Miranda NG]
+Einloggen bei Miranda NG
+[New password]
+Neues Passwort
+[Please enter your new password]
+Bitte geben Sie ein neues Passwort ein
+[Enter password]
+Passwort eingeben
+[Change password]
+Passwort ändern
+[Change]
+Ändern
+[Old password]
+Altes Passwort
+[Database encryption mode]
+Datenbank-Verschlüsselungsmodus
+[Standard]
+Standard
+[Total]
+Komplett
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
+[Set password]
+Passwort setzen
 [&Hide/Show]
 Zeigen/&Ausblenden
 [E&xit]
@@ -1698,10 +1728,6 @@ Kontakt beginnt zu tippen
 Kontakt tippt nicht mehr
 [An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
-[Popups are enabled]
-Popups sind aktiviert
-[Popups are disabled]
-Popups sind deaktiviert
 [Example]
 Beispiel
 [The quick brown fox jumped over the lazy dog.]
@@ -1756,6 +1782,10 @@ Kategorien
 Popups deaktivieren
 [Enable popups]
 Popups aktivieren
+[Popups are enabled]
+Popups sind aktiviert
+[Popups are disabled]
+Popups sind deaktiviert
 [Toggle popups]
 Popups ein-/ausschalten
 [First line]
@@ -1966,6 +1996,8 @@ Chat &betreten
 Chatfenster &öffnen/schließen
 [&Leave chat]
 Chat ver&lassen
+[&Mute chat]
+Chat stu&mmschalten
 [Always]
 Immer
 [Never]
@@ -2064,6 +2096,12 @@ Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an de
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht automatisch an den neuen Ort %s verschieben\nvermutlich wegen unzureichender Berechtigungen. Bitte verschieben Sie das Profil manuell.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil kann nicht im Miranda-Hauptverzeichnis abgelegt werden.\nBitte verschieben Sie Ihr Miranda-Profil an einen anderen Ort.
+[Database was compacted successfully]
+Datenbank wurde erfolgreich komprimiert
+[Database]
+Datenbank
+[Compact]
+Komprimieren
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mdbx.dll oder ein vergleichbares Plugin installiert sein.
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2104,6 +2142,8 @@ Homepage
 Telefon/SMS
 [Chat activity]
 Chat-Aktivität
+[Chat mute mode]
+Chat-Stumm-Modus
 [Extra icons]
 Extraicons
 [You haven't filled in the search field. Please enter a search term and try again.]
@@ -2252,6 +2292,14 @@ eingebaut
 Unbekannt
 [Languages]
 Sprachen
+[Password is too short!]
+Passwort ist zu kurz!
+[Passwords do not match!]
+Passwörter stimmen nicht überein!
+[Password is not correct!]
+Das Passwort ist inkorrekt!
+[Please type in your password]
+Bitte vergeben Sie ein Passwort!
 [Custom status]
 Custom Status
 [%s (locked)]
@@ -2458,14 +2506,10 @@ Fehler beim Erstellen des Profils
 <unbekanntes Format>
 [Are you sure you want to remove profile "%s"?]
 Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
-[Database was compacted successfully]
-Datenbank wurde erfolgreich komprimiert
 [&Convert]
 &Umwandeln
 [Run]
 Starten
-[Compact]
-Komprimieren
 [Check database]
 Datenbank prüfen
 [Size]
@@ -2484,6 +2528,8 @@ Autorisierung anfragen
 Autorisierung gewähren
 [Revoke authorization]
 Autorisierung widerrufen
+[Load server history]
+Serververlauf laden
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 WARNUNG! Das Konto wird gelöscht. Das heißt, dass all seine Einstellungen, Kontakte und Verläufe ebenfalls gelöscht werden.\n\nSind Sie sich absolut sicher?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
@@ -5983,10 +6029,6 @@ Kontakte nach Name sortieren
 Kontakte nach Status sortieren
 [Sort contacts by protocol]
 Kontakte nach Protokoll sortieren
-[Single click interface]
-Kontaktliste mit Einfachklick öffnen
-[Always show status in tooltip]
-Immer Status als Tooltip anzeigen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [ms delay]
@@ -6384,10 +6426,6 @@ Millisekunden
 Vertikale Bildlaufleiste ausblenden
 [Fade out entire list when:]
 Liste aus- bzw. abblenden, wenn:
-[Single click interface]
-Kontaktliste mit Einfachklick öffnen
-[Always show status in tooltip]
-Immer Status als Tooltip anzeigen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [ms, delay between icon blinking]
@@ -6420,8 +6458,6 @@ Leere Extraicons ignorieren (rechts anordnen)
 Interne Abfrage der Texte der Statusnachrichten
 [Remove status message if contact became offline]
 Statusnachricht entfernen, wenn Kontakt offline
-[Use improved search method in contact list]
-Verbesserte Suchmethode in Kontaktliste verwenden
 [Metacontacts stuff]
 Einstellungen für Metakontakte
 [Use 'Meta' protocol icons for metacontacts]
@@ -7014,16 +7050,26 @@ Stunden
 Tage
 [Configuring view mode: %s]
 Diesen Kontaktfilter einrichten: %s
+[Add view mode]
+Kontaktfilter hinzufügen
+[Rename view mode]
+Kontaktfilter umbenennen
+[Remove view mode]
+Kontaktfilter entfernen
 [Filtering]
 Filtern
 [*** All contacts ***]
 *** Alle Kontakte ***
 [Configure view modes]
 Kontaktfilter einrichten
+[Enter view mode name]
+Namen des Kontaktfilters eingeben
 [A view mode with this name does already exist]
 Ein Kontaktfilter dieses Namens existiert bereits
 [Duplicate name]
 Doppelter Name
+[Enter new view mode name]
+Namen des neuen Kontaktfilters eingeben
 [Really delete this view mode? This cannot be undone]
 Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
 [Delete a view mode]
@@ -7085,10 +7131,6 @@ Menü- und Statusbutton anzeigen
 Versenkte Darstellung benutzen
 [System tray icon]
 Systemtray-Icon
-[Single click interface]
-Kontaktliste mit Einfachklick öffnen
-[Always show status in tooltip]
-Immer Status als Tooltip anzeigen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [ms]
@@ -8482,7 +8524,7 @@ Setzen
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.0
+;  Version: 0.2.1.1
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -8728,7 +8770,7 @@ Ersetzt (nur für einen ausgewählten Kontakt) die kyrillischen Buchstaben in au
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -8739,6 +8781,8 @@ Miranda-Datenbankassistent
 Weiter >
 [Cancel]
 Abbrechen
+[File name:]
+Dateiname:
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -8763,6 +8807,8 @@ Fehler
 Datenbanktreiber '%s' unterstützt keine Überprüfung.
 [&Finish]
 &Fertig
+[Click Finish to continue]
+Beenden klicken um fortzufahren
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie den Vorgang abbrechen?
 [Database worker thread activated]
@@ -8779,7 +8825,7 @@ Alle Arbeitsschritte erfolgreich beendet
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.3
+;  Version: 4.0.1.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8820,6 +8866,8 @@ Popups verwenden, wenn beobachtete Einstellungen den Wert ändern
 Anzeigedauer (0 für endlos)
 [Background color]
 Hintergrundfarbe
+[Text color]
+Textfarbe
 [Add a module to contact]
 Modul zum Kontakt hinzufügen
 [Add a module named]
@@ -9080,6 +9128,8 @@ Lade Kontakte...
 Lade Module...
 [Contacts]
 Kontakte
+[Popups]
+Popups
 [Add module to "%s"]
 Modul zu "%s" hinzufügen
 [Type]
@@ -9113,68 +9163,18 @@ Datenbankeinstellung geändert: \nModul: "%s", Einstellung: "%s"\nNeuer Wert (%s
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
-[Select crypto provider]
-Verschlüsselungsmodul auswählen
-[Cancel]
-Abbrechen
-[Total encryption (Recommended only for paranoid users)]
-Totale Verschlüsselung (nur für paranoide Benutzer empfohlen)
-[Login to Miranda NG]
-Einloggen bei Miranda NG
-[New password]
-Neues Passwort
-[Please enter your new password]
-Bitte geben Sie ein neues Passwort ein
-[Enter password]
-Passwort eingeben
-[Change password]
-Passwort ändern
-[Change]
-Ändern
-[Remove]
-Entfernen
-[Old password]
-Altes Passwort
-[Database encryption mode]
-Datenbank-Verschlüsselungsmodus
-[Standard]
-Standard
-[Total]
-Komplett
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
-[Set password]
-Passwort setzen
-[Too many errors!]
-Zu viele Fehler!
-[Password is not correct!]
-Das Passwort ist inkorrekt!
-[Please type in your password]
-Bitte vergeben Sie ein Passwort!
+[Orphaned sorting event with wrong contact ID %d, deleting]
+Verwaistes Sortierungsereignis mit falscher Kontakt-ID %d, löschen
+[Orphaned sorting event with wrong event ID %d:%08X, deleting]
+Verwaistes Sortierungsereignis mit falscher Ereignis-ID %d:%08X löschen
+[Orphaned event id with wrong event ID %08X, deleting]
+Verwaiste Ereignis-ID mit falscher Ereignis-ID %08X, löschen
+[Orphaned setting with wrong contact ID %08X, deleting]
+Verwaiste Einstellung mit falscher Kontakt-ID %08X, löschen
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 Ihre Datenbank ist in einem veralteten Format. Klicken Sie OK um Anweisungen zum Konvertieren zu lesen, oder Abbrechen zum Beenden.
 [Error]
 Fehler
-[Change/remove password]
-Passwort ändern/entfernen
-[Wrong old password entered!]
-Falsches altes Passwort eingegeben!
-[Password is too short!]
-Passwort ist zu kurz!
-[Passwords do not match!]
-Passwörter stimmen nicht überein!
-[Database was compacted successfully]
-Datenbank wurde erfolgreich komprimiert
-[Database]
-Datenbank
-[Database compaction failed]
-Komprimierung der Datenbank fehlgeschlagen
-[Logo]
-Logo
-[Compact]
-Komprimieren
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
@@ -9184,38 +9184,6 @@ Komprimieren
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
-[Select crypto provider]
-Verschlüsselungsmodul auswählen
-[Cancel]
-Abbrechen
-[Login to Miranda NG]
-Einloggen bei Miranda NG
-[New password]
-Neues Passwort
-[Please enter your new password]
-Bitte geben Sie ein neues Passwort ein
-[Enter password]
-Passwort eingeben
-[Change password]
-Passwort ändern
-[Change]
-Ändern
-[Remove]
-Entfernen
-[Old password]
-Altes Passwort
-[Database encryption mode]
-Datenbank-Verschlüsselungsmodus
-[Standard]
-Standard
-[Total]
-Komplett
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
-[Set password]
-Passwort setzen
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Miranda hat Fehler in der Datenbank entdeckt. Miranda NG wird beendet.
 [Disk is full. Miranda will now shut down.]
@@ -9230,8 +9198,6 @@ Datenbankprobleme
 Dieses Profil ist zu alt um es mit PluginUpdater zu aktualisieren, Ihre Datenbank muss zunächst umgewandelt werden.\n\nMöchten Sie lesen wie man dies behebt?
 [Obsolete database format]
 Veraltetes Datenbankformat
-[Change/remove password]
-Passwort ändern/entfernen
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 Diese Datenbank ist in einem alten Format, welches nicht mehr unterstützt wird. Klicken Sie Ja um es in das neue Format zu konvertieren, oder Nein um abzubrechen.
 [To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
@@ -9242,51 +9208,15 @@ Um diese Datenbank zu öffnen müssen Sie das Import-Plugin installieren. Klicke
 Konnte altes Profil '%s' nicht nach '%s' verschieben: Fehler %d.
 [Attempt to create database '%s' failed with error code %d]
 Fehler beim Erstellen der Datenbank '%s', Fehlercode: %d.
-[Logo]
-Logo
-[Too many errors!]
-Zu viele Fehler!
-[Password is not correct!]
-Das Passwort ist inkorrekt!
-[Please type in your password]
-Bitte vergeben Sie ein Passwort!
-[Wrong old password entered!]
-Falsches altes Passwort eingegeben!
-[Password is too short!]
-Passwort ist zu kurz!
-[Passwords do not match!]
-Passwörter stimmen nicht überein!
-[Database]
-Datenbank
 #muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
-[Select crypto provider]
-Verschlüsselungsmodul auswählen
-[Cancel]
-Abbrechen
-[Login to Miranda NG]
-Einloggen bei Miranda NG
-[New password]
-Neues Passwort
-[Please enter your new password]
-Bitte geben Sie ein neues Passwort ein
-[Enter password]
-Passwort eingeben
-[Change password]
-Passwort ändern
-[Change]
-Ändern
-[Remove]
-Entfernen
-[Old password]
-Altes Passwort
 [Database encryption mode]
 Datenbank-Verschlüsselungsmodus
 [Standard]
@@ -9297,8 +9227,6 @@ Komplett
 Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
 Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
-[Set password]
-Passwort setzen
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
@@ -9412,7 +9340,7 @@ Miranda NG [%s] Datenbanksicherung
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.5
+;  Version: 0.6.2.6
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -9495,10 +9423,14 @@ Eingehender Anruf
 %s Serververbindung
 [%s gateway connection]
 %s Gatewayverbindung
+[Discord voice call]
+Discord-Sprachanruf
 [User ID]
 Nutzer-ID
 [Protocol is offline or user isn't authorized yet]
 Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+Der Server erfordert, dass Sie ein Captcha eingeben. Miranda wird Sie nun an einen Browser weiterleiten.
 [Owners]
 Besitzer
 [Participants]
@@ -9674,7 +9606,7 @@ Mit Exchange verbinden...
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.8
+;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -9693,6 +9625,8 @@ Kontakte
 Standardgruppe:
 [Keep messages as unread on server]
 Nachrichten auf dem Server als ungelesen belassen
+[Use invisible mode after login]
+Unsichtbar-Modus nach Anmeldung verwenden
 [Load also Messenger contacts at login (not only Facebook friends)]
 Beim Anmelden auch Messenger-Kontakte laden (nicht nur Facebook-Freunde)
 [Group chats]
@@ -13082,6 +13016,8 @@ Löschen
 Neuen Gruppennamen eingeben
 [UIN/e-mail/phone]
 UIN/E-Mail/Telefon
+[SmileyAdd plugin required to support stickers]
+Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 Sie haben keine ICQ-Nummer oder -Passwort eingegeben.\nGeben Sie dies unter Einstellungen > Netzwerk > ICQ ein und versuchen Sie es nochmal.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
@@ -13098,8 +13034,6 @@ Mitglied
 Unbekannter Sticker
 [User sent a sticker:]
 Benutzer hat einen Sticker gesendet:
-[SmileyAdd plugin required to support stickers]
-Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [Buddy addition failed]
 Hinzufügen eines Freundes fehlgeschlagen
 ;#muuid for ICQCorp not found, please specify manually!
@@ -13309,6 +13243,8 @@ Eingehende Dateiübertragung
  fragte Autorisierung an
 [ was added.]
  wurde hinzugefügt.
+[Code]
+Code
 [RTL On]
 RTL an
 [RTL Off]
@@ -13317,6 +13253,8 @@ RTL aus
 Gruppierung an
 [Group Off]
 Gruppierung aus
+[Format text as code]
+Text als Code formatieren
 [Default]
 Standard
 [Template]
@@ -14449,6 +14387,8 @@ Host:
 Verbindung aufrechterhalten
 [Automatically delete contacts not in my roster]
 Kontakte außerhalb meiner Kontaktliste automatisch löschen
+[History recording mode]
+Verlaufsaufzeichnungsmodus
 [Language for human-readable resources:]
 Sprache für menschenlesbare Dialoge:
 [File Transfer]
@@ -14865,6 +14805,8 @@ Empfängt Informationen über die Musik, die ein Nutzer hört
 Unterstützt private XML-Speicherung (Lesezeichen und anderes)
 [Supports attention requests ('nudge')]
 Unterstützt Aufmerksamkeitsanfragen ('nudge')
+[Support Message Archive Management (XEP-0313)]
+Unterstützt Message Archive Management (XEP-0313)
 [Supports chat history retrieving]
 Unterstützt das Erhalten von Chatverläufen
 [Supports chat history management]
@@ -15239,6 +15181,8 @@ Passwort wurde geändert, bitte das entsprechende Feld unter Einstellungen -> Pr
 Passwort kann nicht geändert werden
 [Jabber Bookmarks Error]
 Jabberlesezeichenfehler
+[Conference Room Configuration]
+Konferenzraum-Einstellungen
 [%s, %d items (%s)]
 %s, %d Einträge (%s)
 [Reason to ban]
@@ -15259,6 +15203,8 @@ Administratorenliste
 Besitzerliste
 [Http authentication request received]
 HTTP-Authentifizierungsanfrage empfangen
+[Do you want to erase local history before loading it from server?]
+Möchten Sie den lokalen Verlauf löschen bevor Sie ihn vom Server laden?
 [Jabber account chooser]
 Jabber-Kontenauswahl
 [Add to Bookmarks]
@@ -15707,6 +15653,8 @@ Zhuang, Guangxi
 Zulu
 [Never]
 Niemals
+[Roster]
+Roster
 [Always]
 Immer
 [These changes will take effect the next time you connect to the Jabber network.]
@@ -15743,8 +15691,16 @@ Empfang von Aktivität aktivieren
 Notizen empfangen
 [Automatically save received notes]
 Empfangene Notizen automatisch speichern
+[Inline pictures in messages (XEP-0231)]
+Bilder in Nachrichten einbetten (XEP-0231)
+[Enable chat states sending (XEP-0085)]
+Senden von Chatstatus aktivieren (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Serverseitigen Verlauf aktivieren (XEP-0136)
+[Enable Message Archive Management (XEP-0313)]
+Message Archive Management unterstützen (XEP-0313)
+[Enable carbon copies (XEP-0280)]
+Durchschlagskopien aktivieren (XEP-0280)
 [Use Stream Management (XEP-0198) if possible (Testing)]
 Stream-Management verwenden wenn möglich (XEP-0198) (Testphase)
 [Server options]
@@ -15769,6 +15725,10 @@ Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 Frame deaktivieren
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
+[Embrace picture URLs with [img]]
+Bild-URLs in [img] einschließen
+[Ignore server roster (groups and nick names)]
+Server-Roster ignorieren (Gruppen und Nicknamen)
 [Security]
 Sicherheit
 [Allow servers to request version (XEP-0092)]
@@ -16093,6 +16053,8 @@ Registrierungsanweisung wird empfangen...
 Autorisierung fehlgeschlagen für %s@%s.
 [Message redirected from: %s\r\n]
 Nachricht weitergeleitet von: %s\r\n
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+Konnte eine Durchschlagskopie der verschlüsselten ausgehenden Nachricht nicht entschlüsseln
 [Registration canceled]
 Registrierung abgebrochen
 [Sending registration information...]
@@ -17742,6 +17704,8 @@ OTR-System-Nachricht im Fenster anzeigen
 OTR-System-Nachricht als Popup anzeigen
 [Show verification dialog when receiving unverified fingerprint]
 Bestätigungs-Dialog beim Empfang ungeprüfter Fingerabdrücke anzeigen
+[Set OTR policy per account]
+OTR-Verhalten pro Konto setzen
 [Current policy:]
 Aktuelles Verhalten:
 [Set OTR policy per contact]
@@ -17840,6 +17804,8 @@ OTR-Informationen
 OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen ÜBERPRÜFTEN Fingerabdruck
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 OTR-verschlüsselte Sitzung mit '%s' verwendet nun einen NICHT ÜBERPRÜFTEN Fingerabdruck
+[Generating new private key for account '%s'.\nPlease Wait...]
+Erzeuge neuen privaten Schlüssel für Konto '%s'.\nBitte warten...
 [Contact]
 Kontakt
 [Account]
@@ -18293,7 +18259,9 @@ Exportieren
 [Set to default filename]
 Standard-Dateinamen setzen
 [Select all]
-Alles auswählen
+Alle auswählen
+[Select none]
+Keine auswählen
 [Auto filename]
 Autom. Dateiname
 [Clear all]
@@ -18344,6 +18312,8 @@ Konto
 Nutzer-ID
 [No contacts found to export]
 Keine Kontakte zum exportieren gefunden
+[Export accounts]
+Konten exportieren
 [Message export]
 Message Export
 [History]
@@ -19193,24 +19163,60 @@ Verlaufsbetrachter für Miranda NG.
 Nachrichten
 [Files]
 Dateien
+[URLs]
+URLs
 [Total]
-Komplett
+Insgesamt
 [Incoming]
 Eingehend
 [Outgoing]
 Ausgehend
+[since]
+von
+[till]
+bis
 [Group messages]
 Nachrichten gruppieren
+[Log window]
+Verlaufsfenster
+[Enable vertical scroll bar]
+Vertikalen Scrollbalken aktivieren
+[Draw window edge]
+Fensterrand darstellen
+[Template list:]
+Liste der Vorlagen:
+[Edit template:]
+Vorlage bearbeiten:
+[Text preview:]
+Textvorschau:
+[Graphic preview:]
+Grafische Vorschau:
 [Filter]
 Filter
 [Show all events]
 Alle Ereignisse
+[Show incoming events only]
+Nur eingehende Ereignisse anzeigen
+[Show outgoing events only]
+Nur ausgehende Ereignisse anzeigen
+[Use custom filter...]
+Eigenen Filter verwenden...
 [Incoming events]
 Eingehende Ereignisse
 [Outgoing events]
 Ausgehende Ereignisse
 [Show messages]
 Nachrichten anzeigen
+[Show file transfers]
+Dateiübertragungen anzeigen
+[Show URLs]
+URLs anzeigen
+[Show sign in/out events]
+An-/Abgemeldet Ereignisse anzeigen
+[Show other events]
+Andere Ereignisse anzeigen
+[Auto search]
+Autom. Suche
 [Log options]
 Verlaufseinstellungen
 [Options]
@@ -19235,6 +19241,16 @@ Eingehende Dateien
 Ausgehende Dateien
 [Status changes]
 Statusänderungen
+[Other incoming events]
+Eingehendes sonstiges Ereignis
+[Other outgoing events]
+Ausgehendes sonstiges Ereignis
+[Selected item's text]
+Text des ausgewählten Eintrags
+[Selected item's background]
+Hintergrund des ausgewählten Eintrags
+[Selected item's frame]
+Rahmen des ausgewählten Eintrags
 [Grid background]
 Hintergrund des Verlaufsfensters
 [Separator]
@@ -19265,10 +19281,18 @@ Telefon
 Homepage
 [About]
 Über
+[History search results]
+Verlaufssuchergebnisse
 [Export...]
 Exportieren...
+[Delete...]
+Löschen...
+[Search...]
+Suchen...
 [Send message]
 Nachricht senden
+[Jump to date]
+Zu Datum springen
 [User info]
 Benutzerinfo
 [User menu]
@@ -19279,8 +19303,22 @@ Finde nächste
 Finde vorherige
 [Conversations]
 Unterhaltungen
+[It is metacontact. For export use one of this subcontacts:\r\n%s]
+Es ist ein Metakontakt. Verwenden Sie zum Export einen seiner Unterkontakte:\r\n%s
+[Export warning]
+Export-Warnung
+[JSON files]
+JSON-Dateien
+[Export %s history]
+Verlauf von %s exportieren
 [Complete]
 Fertig
+[History export]
+Verlaufsexport
+[Are you sure to remove all events from history?]
+Sind Sie sicher, dass Sie alle Ereignisse aus dem Verlauf löschen möchten?
+[User history]
+Benutzerverlauf
 [Empty history]
 Leere Verlauf
 [System history]
@@ -19295,8 +19333,14 @@ Exportieren
 Eingehende Nachricht
 [Outgoing message]
 Ausgehende Nachricht
+[User signed in]
+Benutzer hat sich angemeldet
 [Unknown event]
 Unbekanntes Ereignis
+[Template group]
+Vorlage Gruppe
+[Cancel edit]
+Bearbeitung abbrechen
 [Update preview]
 Vorschau aktualisieren
 [Help]
@@ -19307,20 +19351,46 @@ Auf Standard zurücksetzen
 Hilfe zu Variablen
 [Test contact]
 Test-Kontakt
+[simply % character]
+Einfaches Prozentzeichen (%)
+[a "hard" line break (cr/lf - will break indent)]
+Ein "harter" Zeilenumbruch (CR/LF - unterbricht Einrückung)
+[my nickname]
+Mein Nickname
+[buddy\'s nickname]
+Nickname des Freundes
 [event count]
 Ereigniszähler
 [icon]
 Icon
+[direction icon]
+Ein-/Ausgehend Icon
+[direction symbol]
+Ein-/Ausgehend Symbol
 [timestamp]
 Zeitstempel
+[hour (24 hour format, 0-23)]
+Stunde (24-Stunden-Format, 0-23)
+[hour (12 hour format)]
+Stunde (12-Stunden-Format)
 [minute]
 Minute
 [second]
 Sekunde
 [month]
 Monat
+[day of month]
+Monatstag
 [year (4 digits)]
 Jahr (vierstellig)
+[day of week (Sunday, Monday... translatable)]
+Wochentag
+[AM/PM symbol]
+AM/PM-Zeichen
+[name of month, translatable]
+Monatsname
+[the message string itself]
+Die Nachricht selbst
 [History]
 Verlauf
 [Advanced]
@@ -19363,12 +19433,26 @@ Oktober
 November
 [December]
 Dezember
+[System event]
+Systemereignis
 [Interface]
 Oberfläche
+[Window title]
+Fenstertitel
 [Message log]
 Nachrichtenverlauf
+[Grouped messages]
+Gruppierte Nachrichten
+[Presence requests]
+Präsenzanfragen
 [Other events]
 Sonstige Ereignisse
+[Authorization requests]
+Autorisierungsanfragen
+['You were added' events]
+'Sie wurden hinzugefügt' Ereignisse
+['You were deleted' events]
+'Sie wurden gelöscht' Ereignisse
 [Clipboard]
 Zwischenablage
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
@@ -19803,8 +19887,14 @@ Wähle existierenden
 Verschlüsselung aktivieren
 [Import key from keyserver]
 Schlüssel vom Schlüsselserver importieren
+[Bind own keys to accounts]
+Eigene Schlüssel an Konten binden
+[Bind]
+Binden
 [Generate key]
 Generiere Schlüssel
+[Select own key to bind to account]
+Einen Schlüssel auswählen um ihn an ein Konto zu binden
 [Key password:]
 Schlüsselpasswort:
 [Load other]
@@ -19921,6 +20011,8 @@ Dateitransfer verschlüsseln
 Auto Schlüsselaustausch
 [Copy own key]
 Eig. Schlüssel kopieren
+[Bind keys to accounts]
+Schlüssel an Konten binden
 [Add tags to encoded and decoded messages]
 Tags zu ver- und entschlüsselten Nachrichten hinzufügen
 [Incoming message tags:]
@@ -19939,6 +20031,8 @@ Presence signing aktivieren (Jabber) (erfordert durch XEP-0027)
 Schlüssel exportieren
 [Import keys]
 Schlüssel importieren
+[Send error messages]
+Fehlernachrichten senden
 [GPG Turn off encryption]
 GPG-Verschlüsselung ausschalten
 [GPG Turn on encryption]
@@ -19994,13 +20088,13 @@ Ihr geheimer Schlüssel mit ID:\s
 [ deleted from GPG secret keyring.\nDo you want to set another key?]
  gelöscht vom GPG-Schlüsselring\nWollen Sie einen anderen Schlüssel setzen?
 [Own secret key warning]
-Eigener geheimer Schlüssen Warnung
+Eigener geheimer Schlüssel Warnung
 [ expired and will not work.\nDo you want to set another key?]
  ausgelaufen und wird nicht funktionieren.\nMöchten Sie einen anderen Schlüssel setzen?
 [You didn't set a private key.\nWould you like to set it now?]
 Sie haben keinen privaten Schlüssel gesetzt.\nMöchten Sie nun einen setzen?
 [Own private key warning]
-Eigener privater Schlüssen Warnung
+Eigener privater Schlüssel Warnung
 [Do you want to load key for all subcontacts?]
 Möchten Sie den Schlüssel für alle Unterkontakte laden?
 [Metacontact detected]
@@ -20009,6 +20103,12 @@ Metakontakt entdeckt
 Sie haben eine verschlüsselte Nachricht von einem Kontakt empfangen der die Verschlüsselung deaktiviert hat.\nWollen Sie die Verschlüsselung für diesen Kontakt deaktivieren?
 [Do you want to try to decrypt encrypted message?]
 Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
+[GPG cannot decrypt incoming message]
+GPG kann eingehende Nachricht nicht entschlüsseln
+[Received unencrypted message:]
+Unverschlüsselte Nachricht empfangen:
+[Failed to decrypt GPG encrypted message.\nMessage body for manual decryption:\n]
+Entschlüsseln einer GPG-verschlüsselten Nachricht fehlgeschlagen.\nNachrichtentext zum manuellen Entschlüsseln:\n
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
 [Something is wrong, GPG does not understand us, aborting encryption.]
@@ -20109,6 +20209,8 @@ Sie müssen als Erstes einen Verschlüsselungsalgorithmus setzen
 Schlüssellänge muss zwischen 1024 und 4096 Bit betragen.
 [Invalid date]
 Ungültiges Datum
+[Name must contain at least 4 characters]
+Der Name muss mind. 4 Zeichen beinhalten.
 [Name cannot contain '(' or ')']
 Der Name darf kein '(' oder ')' beinhalten
 [Invalid Email]
@@ -20135,6 +20237,8 @@ Ersetzen
 Akzeptieren
 [Received key from %s]
 Schlüssel von %s empfangen
+[Please enter password for key with ID: ]
+Bitte Passwort eingeben für Schlüssel mit ID:\s
 [Do you want to toggle encryption for all subcontacts?]
 Wollen Sie die Verschlüsselung für alle Unterkontakte wechseln?
 [Turn off GPG encryption]
@@ -20969,6 +21073,8 @@ Allgemein
 ;  Version: 0.1.0.2
 ;  Authors: Miranda NG team
 ;============================================================
+[Core driver to provide OpenSSL-based SSL services. It provides TLS 1.2/1.3 support for legacy operating systems.]
+OpenSSL-basierte Implementierung der SSL-Dienste. Plugin bringt Unterstützung für TLS-1.2/1.3 für Windows XP.
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
 [Host we are connecting to is not the one certificate was issued for]
@@ -21444,7 +21550,7 @@ Unbekannt
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.9
+;  Version: 0.2.0.11
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21473,6 +21579,8 @@ Beim Start
 Alle
 [Silent mode]
 Stiller Modus
+[Restart Miranda automatically]
+Muranda automatisch neu starten
 [Backup database before update (requires Db_autobackups plugin)]
 Datenbank vor Aktualisierung sichern (benötigt Db_autobackups)
 [Number of backups to keep:]
@@ -21573,6 +21681,8 @@ Liste ist leer.
 Laden der Liste hat bereits begonnen!
 [Will be deleted!]
 Wird gelöscht!
+[Unpack operation failed with error code=%d, update terminated]
+Entpacken-Operation mit Fehlercode %d fehlgeschlagen, Update beendet.
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Aktualisierung abgeschlossen. Klicken Sie auf Ja, um Miranda neu zu starten, oder auf Nein, um einen Neustart nach dem Beenden zu machen.
 [Miranda NG Core]
@@ -25119,7 +25229,7 @@ Plugins
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.2
+;  Version: 0.95.13.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -25232,6 +25342,8 @@ Anruf beendet (%s)
 Dateiübertragung:\n\tDateiname: %s\n\tGröße: %lld Bytes\n
 [Preview]
 Vorschau
+[Full image]
+Volles Bild
 [Unknown event, please send this text for developer: "%s"]
 Unbekanntes Ereignis, bitte senden Sie diesen Text an den Entwickler: "%s"
 [Protocol icon]
@@ -25319,6 +25431,8 @@ Smileys an Texthöhe anpassen
 Hochwertige Skalierung von Smileys
 [Animate]
 Animieren
+[Maximum sticker height]
+Maximale Sticker-Höhe
 [Minimum smiley height]
 Minimale Smiley-Höhe
 [Smiley selector]
@@ -26256,7 +26370,7 @@ Toolbar
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -27434,10 +27548,6 @@ Channeloperatoren
 Erweiterter Modus 1
 [Extended mode 2]
 Erweiterter Modus 2
-[Selection background]
-Markierter Hintergrund
-[Selected text]
-Markierter Text
 [Incremental search highlight]
 Inkrementelle Suchhervorhebung
 [Fields background]
@@ -27638,8 +27748,6 @@ deaktiviert
 aktiviert
 [Sending typing notifications is %s.]
 Senden von Tippbenachrichtigungen ist %s.
-[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Sitzungsliste:\nLinksklick für eine Liste offener Sitzungen.\nRechtsklick für den Zugang zu Favoriten und um das Verhalten des Nachrichtenfensters schnell einzustellen.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begrenzt auf: %d Byte\n\n%d Nachrichten werden für den späteren Versand verwaltet.
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
@@ -28266,6 +28374,16 @@ Der gewählte Name wird bereits verwendet.
 Ein "später senden"-Auftrag wurde erfolgreich erledigt.\nDie Originalnachricht war: %s
 [A send later job failed to complete.\nThe original message: %s]
 Ein "später senden"-Auftrag schlug fehl.\nDie Originalnachricht war: %s
+[Contact]
+Kontakt
+[Original timestamp]
+Original-Zeitstempel
+[Message text]
+Nachrichtentext
+[Last send info]
+Letzte gesendete Info
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Sie sind dabei, den Zustand eines oder mehrerer Elemente in der Sendewarteschlange\zu ändern. Die angeforderte Aktion(en) werden bei der nächsten geplanten Queue-Verarbeitung ausgeführt werden.\n\nDie Aktion kann nicht rückgängig gemacht werden.
 [<All contacts>]
 <Alle Kontakte>
 [Removed]
@@ -28280,16 +28398,6 @@ Hinausgeschoben
 Ausstehend
 [Pending]
 Bevorstehend
-[Contact]
-Kontakt
-[Original timestamp]
-Original-Zeitstempel
-[Message text]
-Nachrichtentext
-[Last send info]
-Letzte gesendete Info
-[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Sie sind dabei, den Zustand eines oder mehrerer Elemente in der Sendewarteschlange\zu ändern. Die angeforderte Aktion(en) werden bei der nächsten geplanten Queue-Verarbeitung ausgeführt werden.\n\nDie Aktion kann nicht rückgängig gemacht werden.
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Die Nachricht kann nicht verzögert gesendet werden oder an mehrere Kontakte weitergeleitet werden, denn sie überschreitet die maximale Länge der Nachricht, es sind nur %d Byte erlaubt.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
@@ -28372,6 +28480,8 @@ Kontakt tippt nicht mehr
 Nachrichteneinstellungen für %s
 [TabSRMM message (%s)]
 TabSRMM-Nachricht (%s)
+[Save file|Unable to save temporary file]
+Datei speichern|Konnte temporäre Datei nicht speichern
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Editiere Benutzernachricht|Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
@@ -30952,7 +31062,7 @@ Kontakt: %s (%S)
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
 Parser kann XMLCard "%s" nicht laden\nFehler: %d\nBeschreibung: %s
 [File not found]
-DATEI NICHT GEFUNDEN
+Datei nicht gefunden
 [The selected file is no valid XMLCard]
 Die gewählte Datei ist keine gültige XMLCard.
 [The version of the XMLCard is not supported by UserInfoEx]
@@ -31341,7 +31451,7 @@ Speichert nur Variable y als x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.6
+;  Version: 0.1.11.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31642,6 +31752,10 @@ Anhänge:
 Audio
 [Audio message]
 Audio-Nachricht
+[Transcription]
+Transkription
+[Graffiti]
+Graffiti
 [Video]
 Video
 [Link]
@@ -31652,8 +31766,14 @@ Dokument
 Pinnwandeintrag
 [(Unknown contact)]
 (Unbekannter Kontakt)
+[Wall reply]
+Pinnwandantwort
 [from]
 von
+[Story]
+Geschichte
+[Sticker]
+Sticker
 [Product]
 Produkt
 [Price]
@@ -32624,6 +32744,8 @@ WATrack deaktivieren
 Unbekannte Formate überprüfen
 [Check unknown file formats if player gives info.]
 Unbekannte Formate überprüfen, falls der Player Informationen angibt.
+[Oops, something wrong!]
+Uups, etwas ging schief!
 #muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll

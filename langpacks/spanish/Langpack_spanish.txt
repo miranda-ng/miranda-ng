@@ -85,10 +85,6 @@ Ordenar contactos por nombre
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
-[Single click interface]
-Interfaz simple clic
-[Always show status in tooltip]
-Mostrar estado sobre herramientas
 [Disable icon blinking]
 Desactivar parpadeo de icono
 [ms delay]
@@ -381,8 +377,6 @@ Siempre que se pregunte sobre archivos de personas que no están en la lista
 Ventana emergente automáticamente cuando:
 [In background]
 En segundo plano
-[Maximum number of flashes]
-Número máximo de destellos
 [Close the message window on send]
 Cerrar la ventana de mensaje al enviar
 [Minimize the message window on send]
@@ -1055,16 +1049,22 @@ Ocultar grupos vacíos
 Preguntar antes de eliminar
 ['Hide offline' means to hide:]
 'Ocultar fuera de línea' es:
-[Popup]
-Ventana emergente
 [Tray]
 Bandeja
+[Single click interface]
+Interfaz simple clic
+[Always show status in tooltip]
+Mostrar estado sobre herramientas
+[Popup]
+Ventana emergente
 [Show icons in tray only when the chat room is not active]
 Mostrar iconos en la bandeja sólo cuando el chat no está activo
 [Show popups only when the chat room is not active]
 Mostrar ventanas emergentes cuando el chat no está activo
 [Show button menus when right clicking the buttons]
 Mostrar menús del botón derecho cuando se hace clic en los botones
+[Change password]
+Cambiar contraseña
 [&Hide/Show]
 &Mostrar/Ocultar
 [E&xit]
@@ -1823,6 +1823,8 @@ Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover
 Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el perfil %s a la nueva ubicación %s automáticamente\nLo más probable es por falta de privilegios. Por favor, mueva el perfil manualmente.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.
+[Database]
+Base de datos
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -3728,10 +3730,6 @@ Ordenar contactos por nombre
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
-[Single click interface]
-Interfaz simple clic
-[Always show status in tooltip]
-Mostrar estado sobre herramientas
 [Disable icon blinking]
 Desactivar parpadeo de icono
 [ms delay]
@@ -4125,10 +4123,6 @@ milisegundos
 Ocultar barra de desplazamiento vertical
 [Fade out entire list when:]
 Desaparecer lista entera cuando:
-[Single click interface]
-Interfaz simple clic
-[Always show status in tooltip]
-Mostrar estado sobre herramientas
 [Disable icon blinking]
 Desactivar parpadeo de icono
 [ms, delay between icon blinking]
@@ -4396,10 +4390,6 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 Lista de contactos
 [System tray icon]
 Icono de la bandeja de sistema
-[Single click interface]
-Interfaz simple clic
-[Always show status in tooltip]
-Mostrar estado sobre herramientas
 [Disable icon blinking]
 Desactivar parpadeo de icono
 [ms]
@@ -5001,7 +4991,7 @@ Establecer
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.0
+;  Version: 0.2.1.1
 ;  Authors: Dioksin
 ;============================================================
 [Log]
@@ -5057,7 +5047,7 @@ Reemplaza (sólo para los contactos seleccionados) las letras del cirílico en l
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.1
+;  Version: 0.95.13.2
 ;  Authors: George Hazan
 ;============================================================
 [Cancel]
@@ -5070,7 +5060,7 @@ Error
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.3
+;  Version: 4.0.1.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [&Search]
@@ -5079,6 +5069,8 @@ Bu&scar
 &Cancelar
 [Background color]
 Color de fondo
+[Text color]
+Color de texto
 [Cancel]
 Cancelar
 [Name]
@@ -5117,6 +5109,8 @@ Base de datos
 <DESCONOCIDO>
 [Contacts]
 Contactos
+[Popups]
+Ventanas emergentes
 [Type]
 Tipo
 [Size]
@@ -5128,16 +5122,8 @@ Tamaño
 ;  Version: 0.95.9.1
 ;  Authors: Miranda-NG project
 ;============================================================
-[Cancel]
-Cancelar
-[Change password]
-Cambiar contraseña
-[Remove]
-Eliminar
 [Error]
 Error
-[Database]
-Base de datos
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
@@ -5145,27 +5131,13 @@ Base de datos
 ;  Version: 0.95.8.1
 ;  Authors: Miranda-NG project
 ;============================================================
-[Cancel]
-Cancelar
-[Change password]
-Cambiar contraseña
-[Remove]
-Eliminar
-[Database]
-Base de datos
 #muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.10.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda-NG project
 ;============================================================
-[Cancel]
-Cancelar
-[Change password]
-Cambiar contraseña
-[Remove]
-Eliminar
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
@@ -5197,7 +5169,7 @@ Variables
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.5
+;  Version: 0.6.2.6
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -5331,7 +5303,7 @@ Plugins
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.8
+;  Version: 0.1.0.10
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -5901,6 +5873,8 @@ Contraseña:
 Notificaciones
 [Cancel]
 Cancelar
+[Account registration]
+Registro de cuenta
 [Nick:]
 Nick:
 [E-mail]
@@ -7787,7 +7761,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.9
+;  Version: 0.2.0.11
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -9018,7 +8992,7 @@ Plugins
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.12.2
+;  Version: 0.95.13.2
 ;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
@@ -9571,7 +9545,7 @@ Barra de herramientas
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.1
+;  Version: 0.95.12.2
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Username:]
@@ -9865,8 +9839,6 @@ Resaltado (10x10)
 Información (10x10)
 [Message Sessions]
 Sesiones de mensaje
-[Selected text]
-Texto seleccionado
 [Nick list background]
 Fondo de lista de usuarios
 [Appearance and functionality of chat room windows]
@@ -10602,7 +10574,7 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.6
+;  Version: 0.1.11.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]

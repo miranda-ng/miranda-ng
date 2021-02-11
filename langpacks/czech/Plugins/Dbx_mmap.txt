@@ -7,39 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Select crypto provider]
-Zvolit způsob šifrování
-[Cancel]
-Zrušit
-[Login to Miranda NG]
-Přihlášení do Mirandy NG
-[New password]
-Nové heslo
-[Please enter your new password]
-Prosím zadejte nové heslo
-[Enter password]
-Zadejte heslo
-[Change password]
-Změnit heslo
-[Change]
-Změnit
-[Remove]
-Odebrat
-[Old password]
-Aktuální heslo
-[Database encryption mode]
-Režim šifrování databáze
-[Standard]
-Standardní
-[Total]
-Kompletní
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-
-[Set password]
-Nastavit heslo
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Miranda zjistila poškození vaší databáze. Miranda bude nyní ukončena.
@@ -56,9 +23,6 @@ Poškození databáze
 Tento profil je příliš starý a nemůže být automaticky aktualizován. Je potřeba jej převést do nového formátu.\n\nPřejete si otevřít stránku s více informacemi?
 [Obsolete database format]
 Zastaralý formát databáze
-;file \plugins\Db3x_mmap\src\dbintf.h
-[Change/remove password]
-Změnit/zrušit heslo
 ;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 
@@ -70,20 +34,3 @@ Změnit/zrušit heslo
 
 [Attempt to create database '%s' failed with error code %d]
 
-;file \plugins\Db3x_mmap\src\ui.cpp
-[Logo]
-Logo
-[Too many errors!]
-Příliš mnoho chybných pokusů!
-[Password is not correct!]
-Zadané heslo není správné!
-[Please type in your password]
-Zadejte prosím své heslo
-[Wrong old password entered!]
-Zadané původní heslo není správné!
-[Password is too short!]
-Heslo je příliš krátké!
-[Passwords do not match!]
-Zadaná hesla se neshodují!
-[Database]
-Databáze

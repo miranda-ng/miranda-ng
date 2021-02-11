@@ -1,4 +1,3 @@
-[Select crypto provider]
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 [To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
 [To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]

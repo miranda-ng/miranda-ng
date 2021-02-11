@@ -42,10 +42,6 @@
 Патоплены край
 [System tray icon]
 Абразок у трэі
-[Single click interface]
-Адна пстрычка
-[Always show status in tooltip]
-Заўсёды паказваць статус у падказцы
 [Disable icon blinking]
 Выключыць мігценне
 [ms]

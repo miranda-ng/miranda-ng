@@ -7,39 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
-[Select crypto provider]
-Выберите поставщика криптографии
-[Cancel]
-Отмена
-[Login to Miranda NG]
-Вход в Miranda NG
-[New password]
-Новый пароль
-[Please enter your new password]
-Пожалуйста, введите новый пароль
-[Enter password]
-Введите пароль
-[Change password]
-Изменить пароль
-[Change]
-Изменить
-[Remove]
-Удалить
-[Old password]
-Старый пароль
-[Database encryption mode]
-Режим шифрования базы
-[Standard]
-Стандартный
-[Total]
-Полный
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрование только критических данных (пароли, токены авторизации и т.д.). Остальные настройки, включая историю, остаются незашифрованными. Быстрый и эффективный, подходит в большинстве случаев
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в базе в случае утери пароля. Рекомендуется только параноидальным пользователям
-[Set password]
-Установить пароль
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Miranda has detected corruption in your database. Miranda will now shut down.]
 Miranda нашла повреждения в вашей базе. Miranda будет закрыта.
@@ -56,9 +23,6 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Формат вашей базы является устаревшим. Чтобы получать обновления через PluginUpdater, нужно преобразовать базу в современный формат.\n\nНажмите Да, чтобы получить информацию, как это исправить.
 [Obsolete database format]
 Устаревший формат базы
-;file \plugins\Db3x_mmap\src\dbintf.h
-[Change/remove password]
-Изменить/удалить пароль
 ;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
 Формат вашей базы является устаревшим. Нажмите "Да", чтобы преобразовать её в новый формат или "Нет", чтобы вернуться назад
@@ -70,20 +34,3 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Не удалось переместить старый профиль '%s'в '%s': ошибка %d
 [Attempt to create database '%s' failed with error code %d]
 Неудачная попытка создать базу '%s', код ошибки: %d
-;file \plugins\Db3x_mmap\src\ui.cpp
-[Logo]
-Логотип
-[Too many errors!]
-Слишком много ошибок!
-[Password is not correct!]
-Неверный пароль!
-[Please type in your password]
-Пожалуйста, введите свой пароль
-[Wrong old password entered!]
-Введён ошибочный старый пароль!
-[Password is too short!]
-Слишком короткий пароль!
-[Passwords do not match!]
-Пароли не совпадают!
-[Database]
-База

@@ -7,41 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 
-;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
-[Select crypto provider]
-
-[Cancel]
-Annuler
-[Total encryption (Recommended only for paranoid users)]
-
-[Login to Miranda NG]
-
-[New password]
-
-[Please enter your new password]
-Veuillez entrer votre nouveau mot de passe
-[Enter password]
-Entrez le passe
-[Change password]
-Changer le mot de passe
-[Change]
-
-[Remove]
-Retirer
-[Old password]
-
-[Database encryption mode]
-
-[Standard]
-
-[Total]
-
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-
-[Set password]
-Mot de passe du profil
 ;file \plugins\Dbx_mdbx\src\dbcheck.cpp
 [Orphaned sorting event with wrong contact ID %d, deleting]
 
@@ -51,35 +16,8 @@ Mot de passe du profil
 
 [Orphaned setting with wrong contact ID %08X, deleting]
 
-;file \plugins\Dbx_mdbx\src\dbcrypt.cpp
-[Too many errors!]
-
-[Password is not correct!]
-Mot de passe incorrect !
-[Please type in your password]
-Veuillez taper un mot de passe
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 
 [Error]
 Erreur
-;file \plugins\Dbx_mdbx\src\dbintf.h
-[Change/remove password]
-
-;file \plugins\Dbx_mdbx\src\ui.cpp
-[Wrong old password entered!]
-
-[Password is too short!]
-
-[Passwords do not match!]
-Mot de passe incorrect !
-[Database was compacted successfully]
-
-[Database]
-
-[Database compaction failed]
-
-[Logo]
-
-[Compact]
-

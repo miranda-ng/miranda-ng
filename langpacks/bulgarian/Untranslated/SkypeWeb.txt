@@ -41,7 +41,6 @@
 [Too many failed authentication attempts with given username or IP.]
 [Authentication failed. Unknown error.]
 [Unblock contact]
-[Create new chat]
 [You cannot send when you are offline.]
 [Unknown error!]
 [Network error!]

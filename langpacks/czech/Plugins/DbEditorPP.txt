@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.3
+;  Version: 4.0.1.4
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -44,6 +44,8 @@ Oznámit změnu sledované hodnoty
 Doba zobrazení (0 = stále)
 [Background color]
 Barva pozadí
+[Text color]
+Barva textu
 [Add a module to contact]
 Přidat modul ke kontaktu
 [Add a module named]
@@ -314,6 +316,8 @@ Načítání modulů...
 [Contacts]
 Kontakty
 ;file \plugins\DbEditorPP\src\options.cpp
+[Popups]
+Oznámení
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 Přidat modul do "%s"

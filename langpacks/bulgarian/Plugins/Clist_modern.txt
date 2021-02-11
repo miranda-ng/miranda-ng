@@ -272,10 +272,6 @@ x100 ms
 Без вертикална лента за придвижване
 [Fade out entire list when:]
 Избледняване на списъка, когато:
-[Single click interface]
-Интерфейс с едно натискане
-[Always show status in tooltip]
-Показване на състоянието в подсказка
 [Disable icon blinking]
 Без мигане на икони
 [ms, delay between icon blinking]
@@ -307,8 +303,6 @@ ms между две мигания
 [Allow internal requesting of status message text]
 
 [Remove status message if contact became offline]
-
-[Use improved search method in contact list]
 
 [Metacontacts stuff]
 Метаконтакти - настройки

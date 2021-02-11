@@ -14,10 +14,6 @@ Ordenar contactos por nombre
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
-[Single click interface]
-Interfaz simple clic
-[Always show status in tooltip]
-Mostrar estado sobre herramientas
 [Disable icon blinking]
 Desactivar parpadeo de icono
 [ms delay]
