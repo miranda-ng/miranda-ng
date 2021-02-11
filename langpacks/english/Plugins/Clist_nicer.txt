@@ -24,8 +24,6 @@
 [Show menu and status buttons]
 [Draw sunken edge]
 [System tray icon]
-[Single click interface]
-[Always show status in tooltip]
 [Disable icon blinking]
 [ms]
 [Event area]

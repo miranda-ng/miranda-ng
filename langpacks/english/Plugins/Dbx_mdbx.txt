@@ -14,8 +14,3 @@
 ;file \plugins\Dbx_mdbx\src\dbintf.cpp
 [Your database is in the obsolete format. Click OK to read the upgrade instructions or Cancel to exit]
 [Error]
-;file \plugins\Dbx_mdbx\src\ui.cpp
-[Database was compacted successfully]
-[Database]
-[Database compaction failed]
-[Compact]

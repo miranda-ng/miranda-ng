@@ -10,8 +10,6 @@
 [Sort contacts by name]
 [Sort contacts by status]
 [Sort contacts by protocol]
-[Single click interface]
-[Always show status in tooltip]
 [Disable icon blinking]
 [ms delay]
 [Show]
