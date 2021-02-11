@@ -107,7 +107,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
-	MCONTACT hContact = AddContact(szConversationName, true);
+	MCONTACT hContact = AddContact(szConversationName, nullptr, true);
 
 	if (m_bHistorySynced)
 		setDword(hContact, "LastMsgTime", timestamp);
@@ -188,7 +188,7 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 	time_t timestamp = dbei.timestamp;
 
 	if (getDword(hContact, "LastMsgTime") > (timestamp - 300))
-		PushRequest(new MarkMessageReadRequest(getId(hContact), timestamp, timestamp, false));
+		PushRequest(new MarkMessageReadRequest(getId(hContact), timestamp, timestamp));
 }
 
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)

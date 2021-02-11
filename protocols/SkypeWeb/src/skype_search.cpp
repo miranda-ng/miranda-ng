@@ -46,6 +46,9 @@ void CSkypeProto::OnSearch(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 		const JSONNode &item = it["nodeProfileData"];
 
 		std::string skypeId = item["skypeId"].as_string();
+		if (UrlToSkypeId(skypeId.c_str()).IsEmpty())
+			skypeId = "8:" + skypeId;
+
 		std::string name = item["name"].as_string();
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };

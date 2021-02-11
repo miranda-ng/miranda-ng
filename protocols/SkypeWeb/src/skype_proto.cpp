@@ -179,12 +179,12 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 
 	if (psr->id.a == nullptr)
 		return NULL;
-	MCONTACT hContact;
 
+	MCONTACT hContact;
 	if (psr->flags & PSR_UNICODE)
-		hContact = AddContact(T2Utf(psr->id.w));
+		hContact = AddContact(T2Utf(psr->id.w), T2Utf(psr->nick.w));
 	else
-		hContact = AddContact(psr->id.a);
+		hContact = AddContact(psr->id.a, psr->nick.a);
 
 	return hContact;
 }
@@ -206,7 +206,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 
 	DB::AUTH_BLOB blob(dbei.pBlob);
 
-	MCONTACT hContact = AddContact(blob.get_email());
+	MCONTACT hContact = AddContact(blob.get_email(), blob.get_nick());
 	return hContact;
 }
 

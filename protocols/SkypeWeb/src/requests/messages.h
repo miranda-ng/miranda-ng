@@ -29,7 +29,7 @@ struct SendMessageRequest : public AsyncHttpRequest
 	SendMessageRequest(const char *username, time_t timestamp, const char *message, const char *MessageType = nullptr) :
 	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", username);
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
 
 		JSONNode node;
 		node  << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", MessageType ? MessageType : "Text")
@@ -43,7 +43,7 @@ struct SendActionRequest : public AsyncHttpRequest
 	SendActionRequest(const char *username, time_t timestamp, const char *message, CSkypeProto *ppro) :
 	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", username);
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
 
 		CMStringA content;
 		content.AppendFormat("%s %s", ppro->m_szSkypename.c_str(), message);
@@ -71,10 +71,10 @@ struct SendTypingRequest : public AsyncHttpRequest
 
 struct MarkMessageReadRequest : public AsyncHttpRequest
 {
-	MarkMessageReadRequest(const char *username, LONGLONG /*msgId*/, LONGLONG msgTimestamp, bool isChat) :
+	MarkMessageReadRequest(const char *username, LONGLONG /*msgId*/, LONGLONG msgTimestamp) :
 	  AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%d:%s/properties?name=consumptionhorizon", !isChat ? 8 : 19, username);
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/properties?name=consumptionhorizon", mir_urlEncode(username).c_str());
 
 		JSONNode node(JSON_NODE);
 		node << CHAR_PARAM("consumptionhorizon", CMStringA(::FORMAT, "%lld000;%lld000;%lld000", msgTimestamp, time(NULL), msgTimestamp));

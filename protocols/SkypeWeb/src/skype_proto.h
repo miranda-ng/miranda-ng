@@ -258,7 +258,7 @@ private:
 	MCONTACT FindContact(const char *skypeId);
 	MCONTACT FindContact(const wchar_t *skypeId);
 
-	MCONTACT AddContact(const char *skypename, bool isTemporary = false);
+	MCONTACT AddContact(const char *skypename, const char *nick, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 

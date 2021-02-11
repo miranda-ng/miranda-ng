@@ -75,7 +75,7 @@ MCONTACT CSkypeProto::FindContact(const wchar_t *skypeId)
 	return 0;
 }
 
-MCONTACT CSkypeProto::AddContact(const char *skypeId, bool isTemporary)
+MCONTACT CSkypeProto::AddContact(const char *skypeId, const char *nick, bool isTemporary)
 {
 	MCONTACT hContact = FindContact(skypeId);
 	if (hContact)
@@ -85,7 +85,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypeId, bool isTemporary)
 	Proto_AddToContact(hContact, m_szModuleName);
 
 	setString(hContact, SKYPE_SETTINGS_ID, skypeId);
-	setUString(hContact, "Nick", GetSkypeNick(skypeId));
+	setUString(hContact, "Nick", (nick) ? nick : GetSkypeNick(skypeId));
 
 	if (wstrCListGroup) {
 		Clist_GroupCreate(0, wstrCListGroup);
@@ -115,14 +115,14 @@ void CSkypeProto::LoadContactsAuth(NETLIBHTTPREQUEST *response, AsyncHttpRequest
 		for (auto &it : item["invites"])
 			eventTime = IsoToUnixTime(it["time"].as_string());
 
-		MCONTACT hContact = AddContact(skypeId.c_str());
+		std::string displayName = item["displayname"].as_string();
+		const char *szNick = (displayName.empty()) ? nullptr : displayName.c_str();
+
+		MCONTACT hContact = AddContact(skypeId.c_str(), szNick);
 		time_t lastEventTime = getDword(hContact, "LastAuthRequestTime");
 		if (lastEventTime && lastEventTime >= eventTime)
 			continue;
 
-		std::string displayName = item["displayname"].as_string();
-		if (displayName.empty())
-			displayName = skypeId;
 		setUString(hContact, "Nick", displayName.c_str());
 
 		setDword(hContact, "LastAuthRequestTime", eventTime);
@@ -155,14 +155,16 @@ void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 		const JSONNode &name = item["name"];
 
 		std::string skypeId = item["id"].as_string();
-		CMStringW display_name = item["display_name"].as_mstring();
 		CMStringW first_name = name["first"].as_mstring();
 		CMStringW last_name = name["surname"].as_mstring();
 		CMStringW avatar_url = item["avatar_url"].as_mstring();
 		std::string type = item["type"].as_string();
 
 		if (type == "skype" || loadAll) {
-			MCONTACT hContact = AddContact(skypeId.c_str());
+			std::string displayName = item["displayname"].as_string();
+			const char *szNick = (displayName.empty()) ? nullptr : displayName.c_str();
+
+			MCONTACT hContact = AddContact(skypeId.c_str(), szNick);
 			if (hContact) {
 				if (item["authorized"].as_bool()) {
 					delSetting(hContact, "Auth");
@@ -185,8 +187,6 @@ void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 
 				setString(hContact, "Type", type.c_str());
 
-				if (display_name)
-					setWString(hContact, "Nick", display_name);
 				if (first_name)
 					setWString(hContact, "FirstName", first_name);
 				if (last_name)

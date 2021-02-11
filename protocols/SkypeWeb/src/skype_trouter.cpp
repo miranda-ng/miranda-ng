@@ -36,7 +36,7 @@ void CSkypeProto::OnReceiveStatus(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 	for (auto &it : root["Responses"]) {
 		std::string id = it["Contact"].as_string();
 
-		MCONTACT hContact = AddContact(id.c_str());
+		MCONTACT hContact = AddContact(id.c_str(), nullptr);
 		if (hContact) {
 			int status = SkypeToMirandaStatus(it["Payload"]["status"].as_string().c_str());
 			setWord(hContact, "Status", status);
