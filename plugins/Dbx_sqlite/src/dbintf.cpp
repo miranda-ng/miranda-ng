@@ -106,9 +106,11 @@ MDatabaseCommon* CDbxSQLite::Load(const wchar_t *profile, int readonly)
 {
 	sqlite3 *database = nullptr;
 	ptrA path(mir_utf8encodeW(profile));
-	int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_EXCLUSIVE;
+	int flags = SQLITE_OPEN_EXCLUSIVE;
 	if (readonly)
 		flags |= SQLITE_OPEN_READONLY;
+	else
+		flags |= SQLITE_OPEN_READWRITE;
 
 	int rc = sqlite3_open_v2(path, &database, flags, nullptr);
 	if (rc != SQLITE_OK) {
