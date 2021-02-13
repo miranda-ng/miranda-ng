@@ -649,17 +649,25 @@ public:
 	{
 		mdbx_cursor_bind(m_pOwner->StartTran(), m_pOwner->m_curEventsSort, m_pOwner->m_dbEventsSort);
 
+		MDBX_cursor_op op = (m_bForward) ? MDBX_NEXT : MDBX_PREV;
+
 		MDBX_val key = { &m_key, sizeof(m_key) }, data;
 		switch (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET)) {
-		case MDBX_SUCCESS:
 		case MDBX_NOTFOUND:
+			// for forward cursors we're already on the first record after set
+			// for reverse cursors that means that we moved a pointer after last record, so we need to fetch
+			if (m_bForward)
+				op = MDBX_GET_CURRENT;
+			break;
+
+		case MDBX_SUCCESS:
 			break;
 
 		default:
 			return 0;
 		}
 
-		if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, (m_bForward) ? MDBX_NEXT : MDBX_PREV) != MDBX_SUCCESS)
+		if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, op) != MDBX_SUCCESS)
 			return 0;
 
 		DBEventSortingKey dbKey = *(const DBEventSortingKey *)key.iov_base;
