@@ -447,14 +447,12 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 
 	// that might be a zipped buffer
 	if (cbLen >= 2) {
-		if ((((p[0] << 8) | p[1]) % 31) == 0 && (p[0] & 0x0F) == 8) { // zip header ok
-			size_t dataSize;
-			void *pData = doUnzip(cbLen, p, dataSize);
-			if (pData != nullptr) {
-				debugLogA("UNZIP: <%s>", CMStringA((const char *)pData, (int)dataSize).c_str());
-				rdr.reset(dataSize, pData);
-				mir_free(pData);
-			}
+		size_t dataSize;
+		void *pData = doUnzip(cbLen, p, dataSize);
+		if (pData != nullptr) {
+			debugLogA("UNZIP: %d bytes unzipped ok", dataSize);
+			rdr.reset(dataSize, pData);
+			mir_free(pData);
 		}
 	}
 

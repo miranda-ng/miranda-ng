@@ -49,11 +49,19 @@ uint8_t *FacebookProto::doUnzip(size_t cbData, const void *pData, size_t &cbRes)
 	zStreamOut.next_in = (uint8_t *)pData;
 	zStreamOut.avail_out = (unsigned)dataSize;
 	zStreamOut.next_out = (uint8_t *)pRes;
-	inflate(&zStreamOut, Z_FINISH);
+	int rc = inflate(&zStreamOut, Z_FINISH);
 	inflateEnd(&zStreamOut);
 
-	cbRes = dataSize - zStreamOut.avail_out;
-	return pRes;
+	switch (rc) {
+	case Z_OK:
+	case Z_STREAM_END:
+		cbRes = dataSize - zStreamOut.avail_out;
+		return pRes;
+	}
+
+	mir_free(pRes);
+	cbRes = 0;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
