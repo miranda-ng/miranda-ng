@@ -34,6 +34,8 @@ public:
 		list_EXISTING_KEY_LIST(this, IDC_EXISTING_KEY_LIST)
 	{
 		id[0] = 0;
+
+		list_EXISTING_KEY_LIST.OnClick = Callback(this, &CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST);
 	}
 
 	bool OnInitDialog() override
@@ -47,7 +49,6 @@ public:
 		list_EXISTING_KEY_LIST.AddColumn(4, TranslateT("Expiration date"), 30);
 		list_EXISTING_KEY_LIST.AddColumn(5, TranslateT("Key length"), 30);
 		list_EXISTING_KEY_LIST.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_SINGLEROW);
-		int i = 1;
 
 		// parse gpg output
 		gpg_execution_params params;
@@ -58,6 +59,7 @@ public:
 		if (params.result == pxNotFound)
 			return false;
 
+		int i = 1;
 		string out(params.out);
 		string::size_type p = 0, p2 = 0, stop = 0;
 		while (p != string::npos) {
@@ -108,17 +110,17 @@ public:
 
 			p = out.find_first_not_of(" ", p);
 			list_EXISTING_KEY_LIST.SetItemText(row, 2, toUTF16(out.substr(p, p2 - p)).c_str());
+			i++;
+		}
 
-			list_EXISTING_KEY_LIST.SetColumnWidth(0, LVSCW_AUTOSIZE);// not sure about this
+		if (list_EXISTING_KEY_LIST.GetItemCount()) {
+			list_EXISTING_KEY_LIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
 			list_EXISTING_KEY_LIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
 			list_EXISTING_KEY_LIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
 			list_EXISTING_KEY_LIST.SetColumnWidth(3, LVSCW_AUTOSIZE);
 			list_EXISTING_KEY_LIST.SetColumnWidth(4, LVSCW_AUTOSIZE);
 			list_EXISTING_KEY_LIST.SetColumnWidth(5, LVSCW_AUTOSIZE);
-			i++;
 		}
-
-		list_EXISTING_KEY_LIST.OnClick = Callback(this, &CDlgLoadExistingKey::onChange_EXISTING_KEY_LIST);
 		return true;
 	}
 
@@ -517,6 +519,9 @@ public:
 
 	void SetListAutoSize()
 	{
+		if (list_USERLIST.GetItemCount() == 0)
+			return;
+
 		list_USERLIST.SetColumnWidth(0, LVSCW_AUTOSIZE);
 		list_USERLIST.SetColumnWidth(1, LVSCW_AUTOSIZE);
 		list_USERLIST.SetColumnWidth(2, LVSCW_AUTOSIZE);
