@@ -80,6 +80,7 @@ int ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i)
 
 class CMissingPLuginsDlg : public CDlgBase
 {
+	bool m_bFillingList = false;
 	CMStringW m_wszFilter;
 	OBJLIST<FILEINFO> *todo;
 	CCtrlEdit m_filter;
@@ -88,6 +89,8 @@ class CMissingPLuginsDlg : public CDlgBase
 
 	void FillList()
 	{
+		m_bFillingList = true;
+
 		m_list.DeleteAllItems();
 
 		LVITEM lvi = { 0 };
@@ -114,6 +117,7 @@ class CMissingPLuginsDlg : public CDlgBase
 				m_list.SetCheckState(lvi.iItem, 1);
 			}
 		}
+		m_bFillingList = false;
 
 		btnOk.Enable(enableOk);
 	}
@@ -248,6 +252,9 @@ public:
 
 	void onItemChanged(CCtrlListView::TEventInfo *ev)
 	{
+		if (m_bFillingList)
+			return;
+
 		NMLISTVIEW *nmlv = ev->nmlv;
 		if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
 			LVITEM lvI = { 0 };
