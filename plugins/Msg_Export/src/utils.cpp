@@ -643,7 +643,7 @@ const char *pSettings[] =
 	LPGEN("About")
 };
 
-static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
+static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
 {
 	wstring sLocalUser;
 	wstring sRemoteUser;
@@ -929,7 +929,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, wstring sFilePath
 // Description     : Called when an event is added to the DB
 //                   Or from the Export All funktion
 
-HANDLE openCreateFile(wstring sFilePath)
+HANDLE openCreateFile(const wstring &sFilePath)
 {
 	SetLastError(0);
 
@@ -980,7 +980,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, wstring sFilePath, bool bAppendOnly)
+bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstring &sFilePath, bool bAppendOnly)
 {
 	DBEVENTINFO dbei = {};
 	int nSize = db_event_getBlobSize(hDbEvent);

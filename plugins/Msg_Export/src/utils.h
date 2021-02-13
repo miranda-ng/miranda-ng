@@ -47,8 +47,8 @@ void LogLastError(const wchar_t *pszError);
 void DisplayErrorDialog(const wchar_t *pszError, wstring &sFilePath, DBEVENTINFO *dbei);
 
 bool bIsExportEnabled(MCONTACT hContact);
-HANDLE openCreateFile(wstring sFilePath);
-bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, wstring sFilePath, bool bAppendOnly);
+HANDLE openCreateFile(const wstring &sFilePath);
+bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstring &sFilePath, bool bAppendOnly);
 
 int nExportEvent(WPARAM wparam, LPARAM lparam);
 int nContactDeleted(WPARAM wparam, LPARAM lparam);
@@ -62,11 +62,11 @@ void UpdateFileToColWidth();
 bool bReadMirandaDirAndPath();
 wstring GetFilePathFromUser(MCONTACT hContact);
 
-void ReplaceDefines(MCONTACT hContact, wstring & sTarget);
+void ReplaceDefines(MCONTACT hContact, wstring &sTarget);
 void ReplaceTimeVariables(wstring &sRet);
 
 bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool bUtf8File);
 bool bWriteNewLine(HANDLE hFile, DWORD dwIndent);
-bool bIsUtf8Header(BYTE * pucByteOrder);
+bool bIsUtf8Header(BYTE *pucByteOrder);
 
 #endif
