@@ -556,7 +556,7 @@ bool bAdvancedCopy(HWND hwnd)
 			pszSrcBuf[0] = 0;
 			SendMessage(hwnd, EM_GETSELTEXT, 0, (LPARAM)pszSrcBuf);
 
-			HANDLE hDecMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, nSelLenght);
+			HANDLE hDecMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, nSelLenght * sizeof(wchar_t));
 			wchar_t *pszCurDec = (wchar_t*)GlobalLock(hDecMem);
 
 			bool bInSpaces = false;
