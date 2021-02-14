@@ -1071,9 +1071,9 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					ProcessFileDrop((HDROP)hDrop, m_hContact);
 				CloseClipboard();
 			}
+			return 0;
 		}
-		else m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-		return 0;
+		break;
 
 	case WM_KEYDOWN:
 		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
