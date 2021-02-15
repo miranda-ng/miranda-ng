@@ -889,11 +889,11 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		switch (LOWORD(wParam)) {
 		case IDC_FONTLIST:
 			if (HIWORD(wParam) == LBN_SELCHANGE) {
-				char bEnableFont = 1;
-				char bEnableClText = 1;
-				char bEnableClBack = 1;
-				char bEnableEffect = 1;
-				char bEnableReset = 1;
+				bool bEnableFont = true;
+				bool bEnableClText = true;
+				bool bEnableClBack = true;
+				bool bEnableEffect = true;
+				bool bEnableReset = true;
 
 				COLORREF clBack = 0xffffffff;
 				COLORREF clText = 0xffffffff;
@@ -906,15 +906,15 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (IsBadReadPtr(itemData, sizeof(FSUIListItemData))) continue; // prevent possible problems with corrupted itemData
 
 						if (bEnableClBack && (itemData->colour_id < 0))
-							bEnableClBack = 0;
+							bEnableClBack = false;
 						if (bEnableEffect && (itemData->effect_id < 0))
-							bEnableEffect = 0;
+							bEnableEffect = false;
 						if (bEnableFont && (itemData->font_id < 0))
-							bEnableFont = 0;
+							bEnableFont = false;
 						if (!bEnableFont || bEnableClText && (itemData->font_id < 0))
-							bEnableClText = 0;
+							bEnableClText = false;
 						if (bEnableReset && (itemData->font_id >= 0) && !(font_id_list_w2[itemData->font_id].flags & FIDF_DEFAULTVALID))
-							bEnableReset = 0;
+							bEnableReset = false;
 
 						if (bEnableClBack && (itemData->colour_id >= 0) && (clBack == 0xffffffff))
 							clBack = colour_id_list_w2[itemData->colour_id].value;
@@ -923,7 +923,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					mir_free(selItems);
 				}
-				else bEnableFont = bEnableClText = bEnableClBack = bEnableReset = bEnableEffect = 0;
+				else bEnableFont = bEnableClText = bEnableClBack = bEnableReset = bEnableEffect = false;
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), bEnableClBack);
 				ShowEffectButton(hwndDlg, bEnableEffect && !bEnableClBack);

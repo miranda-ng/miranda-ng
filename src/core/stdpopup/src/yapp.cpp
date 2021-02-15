@@ -97,7 +97,7 @@ static int TTBLoaded(WPARAM, LPARAM)
 
 static void InitFonts()
 {
-	font_id_firstline.flags = FIDF_ALLOWEFFECTS;
+	font_id_firstline.flags = FIDF_ALLOWEFFECTS | FIDF_DEFAULTVALID;
 	wcsncpy_s(font_id_firstline.group, LPGENW("Popups"), _TRUNCATE);
 	wcsncpy_s(font_id_firstline.name, LPGENW("First line"), _TRUNCATE);
 	strncpy_s(font_id_firstline.dbSettingsGroup, MODULENAME, _TRUNCATE);
@@ -107,7 +107,7 @@ static void InitFonts()
 	font_id_firstline.order = 0;
 	g_plugin.addFont(&font_id_firstline);
 
-	font_id_secondline.flags = FIDF_ALLOWEFFECTS;
+	font_id_secondline.flags = FIDF_ALLOWEFFECTS | FIDF_DEFAULTVALID;
 	wcsncpy_s(font_id_secondline.group, LPGENW("Popups"), _TRUNCATE);
 	wcsncpy_s(font_id_secondline.name, LPGENW("Second line"), _TRUNCATE);
 	strncpy_s(font_id_secondline.dbSettingsGroup, MODULENAME, _TRUNCATE);
@@ -117,7 +117,7 @@ static void InitFonts()
 	font_id_secondline.order = 1;
 	g_plugin.addFont(&font_id_secondline);
 
-	font_id_time.flags = FIDF_ALLOWEFFECTS;
+	font_id_time.flags = FIDF_ALLOWEFFECTS | FIDF_DEFAULTVALID;
 	wcsncpy_s(font_id_time.group, LPGENW("Popups"), _TRUNCATE);
 	wcsncpy_s(font_id_time.name, LPGENW("Time"), _TRUNCATE);
 	strncpy_s(font_id_time.dbSettingsGroup, MODULENAME, _TRUNCATE);
