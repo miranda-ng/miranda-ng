@@ -1851,7 +1851,7 @@ void CJabberProto::OmemoSendBundle()
 		mir_snprintf(attr_val, "%s.bundles:%u", JABBER_FEAT_OMEMO, own_id);
 		publish_node << XATTR("node", attr_val);
 	}
-	TiXmlElement *bundle_node = publish_node << XCHILD("item") << XCHILDNS("bundle", JABBER_FEAT_OMEMO);
+	TiXmlElement *bundle_node = publish_node << XCHILD("item") << XATTR("id", "current") << XCHILDNS("bundle", JABBER_FEAT_OMEMO);
 
 	// add signed pre key public
 	bundle_node << XCHILD("signedPreKeyPublic", ptrA(getUStringA("OmemoSignedPreKeyPublic"))) << XATTRI("signedPreKeyId", 1);
