@@ -450,11 +450,11 @@ bool show_popup(const ICurrencyRatesProvider *pProvider,
 	if (tendency.IsValid()) {
 		CTendency::EResult nComparison = tendency.Compare();
 		if (CTendency::NotChanged == nComparison)
-			ppd.lchIcon = CurrencyRates_LoadIconEx(IDI_ICON_NOTCHANGED);
+			ppd.lchIcon = g_plugin.getIcon(IDI_ICON_NOTCHANGED);
 		else if (CTendency::Up == nComparison)
-			ppd.lchIcon = CurrencyRates_LoadIconEx(IDI_ICON_UP);
+			ppd.lchIcon = g_plugin.getIcon(IDI_ICON_UP);
 		else if (CTendency::Down == nComparison)
-			ppd.lchIcon = CurrencyRates_LoadIconEx(IDI_ICON_DOWN);
+			ppd.lchIcon = g_plugin.getIcon(IDI_ICON_DOWN);
 	}
 
 	mir_wstrncpy(ppd.lpwzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);

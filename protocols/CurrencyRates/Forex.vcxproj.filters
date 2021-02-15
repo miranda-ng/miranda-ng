@@ -112,9 +112,6 @@
     <ClInclude Include="src\HTTPSession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\IconLib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ICurrencyRatesProvider.h">
       <Filter>Header Files</Filter>
     </ClInclude>

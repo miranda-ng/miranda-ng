@@ -28,9 +28,9 @@ LPSTR g_pszCurrencyConverter = "CurrencyRates/CurrencyConverter";
 void UpdateMenu(bool bAutoUpdate)
 {
 	if (bAutoUpdate) // to enable auto-update
-		Menu_ModifyItem(g_hEnableDisableMenu, LPGENW("Auto Update Enabled"), CurrencyRates_GetIconHandle(IDI_ICON_MAIN));
+		Menu_ModifyItem(g_hEnableDisableMenu, LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ICON_MAIN));
 	else // to disable auto-update
-		Menu_ModifyItem(g_hEnableDisableMenu, LPGENW("Auto Update Disabled"), CurrencyRates_GetIconHandle(IDI_ICON_DISABLED));
+		Menu_ModifyItem(g_hEnableDisableMenu, LPGENW("Auto Update Disabled"), g_plugin.getIconHandle(IDI_ICON_DISABLED));
 
 	CallService(MS_TTB_SETBUTTONSTATE, reinterpret_cast<WPARAM>(g_hTBButton), !bAutoUpdate ? TTBST_PUSHED : 0);
 }
@@ -61,13 +61,13 @@ void InitMenu()
 {
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Currency Rates"), 0, CurrencyRates_GetIconHandle(IDI_ICON_MAIN));
+	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Currency Rates"), 0, g_plugin.getIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "B474F556-22B6-42A1-A91E-22FE4F671388");
 
 	SET_UID(mi, 0x9de6716, 0x3591, 0x48c4, 0x9f, 0x64, 0x1b, 0xfd, 0xc6, 0xd1, 0x34, 0x97);
 	mi.name.w = LPGENW("Enable/Disable Auto Update");
 	mi.position = 10100001;
-	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_MAIN);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_MAIN);
 	mi.pszService = g_pszAutoUpdateCmd;
 	g_hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_EnableDisable);
@@ -76,7 +76,7 @@ void InitMenu()
 	SET_UID(mi, 0x91cbabf6, 0x5073, 0x4a78, 0x84, 0x8, 0x34, 0x61, 0xc1, 0x8a, 0x34, 0xd9);
 	mi.name.w = LPGENW("Refresh All Rates");
 	mi.position = 20100001;
-	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_MAIN);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_MAIN);
 	mi.pszService = "CurrencyRates/RefreshAll";
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_RefreshAll);
@@ -84,33 +84,33 @@ void InitMenu()
 	SET_UID(mi, 0x3663409c, 0xbd36, 0x473b, 0x9b, 0x4f, 0xff, 0x80, 0xf6, 0x2c, 0xdf, 0x9b);
 	mi.name.w = LPGENW("Currency Converter...");
 	mi.position = 20100002;
-	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 	mi.pszService = g_pszCurrencyConverter;
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_CurrencyConverter);
 
 	SET_UID(mi, 0x7cca4fd9, 0x903f, 0x4b7d, 0x93, 0x7a, 0x18, 0x63, 0x23, 0xd4, 0xa9, 0xa9);
 	mi.name.w = LPGENW("Export All Currency Rates");
-	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_EXPORT);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_EXPORT);
 	mi.pszService = MS_CURRENCYRATES_EXPORT;
 	mi.position = 20100003;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xa994d3b, 0x77c2, 0x4612, 0x8d, 0x5, 0x6a, 0xae, 0x8c, 0x21, 0xbd, 0xc9);
 	mi.name.w = LPGENW("Import All Currency Rates");
-	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_IMPORT);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_IMPORT);
 	mi.pszService = MS_CURRENCYRATES_IMPORT;
 	mi.position = 20100004;
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CurrencyRates_PrebuildContactMenu);
 
-	g_hMenuRoot = mi.root = g_plugin.addRootMenu(MO_CONTACT, LPGENW("Currency Rates"), 0, CurrencyRates_GetIconHandle(IDI_ICON_MAIN));
+	g_hMenuRoot = mi.root = g_plugin.addRootMenu(MO_CONTACT, LPGENW("Currency Rates"), 0, g_plugin.getIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "C259BE01-642C-461E-997D-0E756B2A3AD6");
 
 	SET_UID(mi, 0xb9812194, 0x3235, 0x4e76, 0xa3, 0xa4, 0x73, 0x32, 0x96, 0x1c, 0x1c, 0xf4);
 	mi.name.w = LPGENW("Refresh");
-	mi.hIcolibItem = CurrencyRates_GetIconHandle(IDI_ICON_REFRESH);
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_REFRESH);
 	mi.pszService = "CurrencyRates/RefreshContact";
 	g_hMenuRefresh = Menu_AddContactMenuItem(&mi, MODULENAME);
 	Menu_ConfigureItem(g_hMenuRefresh, MCI_OPT_EXECPARAM, INT_PTR(0));
@@ -153,8 +153,8 @@ int CurrencyRates_OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszService = g_pszAutoUpdateCmd;
 	ttb.pszTooltipUp = LPGEN("Currency Rates Auto Update Enabled");
 	ttb.pszTooltipDn = LPGEN("Currency Rates Auto Update Disabled");
-	ttb.hIconHandleUp = CurrencyRates_GetIconHandle(IDI_ICON_MAIN);
-	ttb.hIconHandleDn = CurrencyRates_GetIconHandle(IDI_ICON_DISABLED);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_ICON_MAIN);
+	ttb.hIconHandleDn = g_plugin.getIconHandle(IDI_ICON_DISABLED);
 	ttb.dwFlags = ((g_bAutoUpdate) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
 	g_hTBButton = g_plugin.addTTB(&ttb);
 
@@ -162,8 +162,8 @@ int CurrencyRates_OnToolbarLoaded(WPARAM, LPARAM)
 	ttb.pszService = g_pszCurrencyConverter;
 	ttb.pszTooltipUp = LPGEN("Currency Converter");
 	ttb.pszTooltipDn = LPGEN("Currency Converter");
-	ttb.hIconHandleUp = CurrencyRates_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
-	ttb.hIconHandleDn = CurrencyRates_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_ICON_CURRENCY_CONVERTER);
+	ttb.hIconHandleDn = g_plugin.getIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 	ttb.dwFlags = TTBBF_VISIBLE;
 	g_plugin.addTTB(&ttb);
 
@@ -288,6 +288,8 @@ CMPlugin::CMPlugin() :
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CurrencyRates_IconsInit();
 
 int CMPlugin::Load(void)
 {

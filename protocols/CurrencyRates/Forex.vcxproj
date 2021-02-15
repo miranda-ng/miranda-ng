@@ -64,7 +64,6 @@
     <ClInclude Include="src\ExtraImages.h" />
     <ClInclude Include="src\HTMLParserMS.h" />
     <ClInclude Include="src\HTTPSession.h" />
-    <ClInclude Include="src\IconLib.h" />
     <ClInclude Include="src\ICurrencyRatesProvider.h" />
     <ClInclude Include="src\IHTMLEngine.h" />
     <ClInclude Include="src\IHTMLParser.h" />

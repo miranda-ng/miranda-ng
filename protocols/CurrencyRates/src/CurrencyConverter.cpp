@@ -84,7 +84,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			assert(hWL);
 			WindowList_Add(hWL, hDlg);
 
-			Window_SetIcon_IcoLib(hDlg, CurrencyRates_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER));
+			Window_SetIcon_IcoLib(hDlg, g_plugin.getIconHandle(IDI_ICON_CURRENCY_CONVERTER));
 
 			HWND hcbxFrom = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_FROM);
 			HWND hcbxTo = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_INTO);
@@ -121,7 +121,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 
 			::SetDlgItemText(hDlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
 
-			::SendDlgItemMessage(hDlg, IDC_BUTTON_SWAP, BM_SETIMAGE, IMAGE_ICON, LPARAM(CurrencyRates_LoadIconEx(IDI_ICON_SWAP)));
+			::SendDlgItemMessage(hDlg, IDC_BUTTON_SWAP, BM_SETIMAGE, IMAGE_ICON, LPARAM(g_plugin.getIcon(IDI_ICON_SWAP)));
 
 			update_convert_button(hDlg);
 			update_swap_button(hDlg);

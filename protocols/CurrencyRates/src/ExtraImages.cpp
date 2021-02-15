@@ -4,7 +4,7 @@ static HANDLE hExtraIcon;
 
 void CurrencyRates_InitExtraIcons()
 {
-	hExtraIcon = ExtraIcon_RegisterIcolib(ICON_STR_CURRENCYRATE, MODULENAME, MODULENAME "_" ICON_STR_MAIN);
+	hExtraIcon = ExtraIcon_RegisterIcolib("currencyrate", MODULENAME, MODULENAME "_main");
 }
 
 bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex)
@@ -15,13 +15,13 @@ bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex)
 	HANDLE hIcolib;
 	switch (nIndex) {
 	case eiUp:
-		hIcolib = CurrencyRates_GetIconHandle(IDI_ICON_UP);
+		hIcolib = g_plugin.getIconHandle(IDI_ICON_UP);
 		break;
 	case eiDown:
-		hIcolib = CurrencyRates_GetIconHandle(IDI_ICON_DOWN);
+		hIcolib = g_plugin.getIconHandle(IDI_ICON_DOWN);
 		break;
 	case eiNotChanged:
-		hIcolib = CurrencyRates_GetIconHandle(IDI_ICON_NOTCHANGED);
+		hIcolib = g_plugin.getIconHandle(IDI_ICON_NOTCHANGED);
 		break;
 	default:
 		hIcolib = nullptr;

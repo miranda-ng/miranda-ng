@@ -75,7 +75,6 @@ inline tstring currencyrates_a2t(const char* s)
 
 #include "resource.h"
 #include "version.h"
-#include "IconLib.h"
 #include "CurrencyRateInfoDlg.h"
 #include "ModuleInfo.h"
 #include "DBUtils.h"
