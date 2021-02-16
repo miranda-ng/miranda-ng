@@ -424,17 +424,17 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,45,117,10
     GROUPBOX        "Icon mode",IDC_STATIC,2,61,292,110
     GROUPBOX        "For similar statuses",IDC_STATIC,8,71,138,74
-    CONTROL         "Global status",IDC_ICON_GLOBAL_S,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,81,97,10
+    CONTROL         "Global status",IDC_ICON_GLOBAL_S,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,81,124,10
     CONTROL         "Single account",IDC_ICON_ACC_S,"Button",BS_AUTORADIOBUTTON,14,97,60,10
-    CONTROL         "Cycle icons",IDC_ICON_CYCLE_S,"Button",BS_AUTORADIOBUTTON,14,113,97,10
-    CONTROL         "All accounts",IDC_ICON_ALL_S,"Button",BS_AUTORADIOBUTTON,14,129,97,10
-    COMBOBOX        IDC_PRIMARYSTATUS_S,80,114,60,101,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Cycle icons",IDC_ICON_CYCLE_S,"Button",BS_AUTORADIOBUTTON,14,113,124,10
+    CONTROL         "All accounts",IDC_ICON_ALL_S,"Button",BS_AUTORADIOBUTTON,14,129,124,10
+    COMBOBOX        IDC_PRIMARYSTATUS_S,80,96,60,101,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "For different statuses",IDC_STATIC,150,71,138,74
-    CONTROL         "Global status",IDC_ICON_GLOBAL_V,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,156,81,97,10
+    CONTROL         "Global status",IDC_ICON_GLOBAL_V,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,156,81,128,10
     CONTROL         "Single account",IDC_ICON_ACC_V,"Button",BS_AUTORADIOBUTTON,156,97,60,10
-    CONTROL         "Cycle icons",IDC_ICON_CYCLE_V,"Button",BS_AUTORADIOBUTTON,156,113,97,10
-    CONTROL         "All accounts",IDC_ICON_ALL_V,"Button",BS_AUTORADIOBUTTON,156,129,97,10
-    COMBOBOX        IDC_PRIMARYSTATUS_V,222,95,60,101,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Cycle icons",IDC_ICON_CYCLE_V,"Button",BS_AUTORADIOBUTTON,156,113,128,10
+    CONTROL         "All accounts",IDC_ICON_ALL_V,"Button",BS_AUTORADIOBUTTON,156,129,128,10
+    COMBOBOX        IDC_PRIMARYSTATUS_V,222,96,60,101,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_CYCLETIME,88,151,29,12,ES_RIGHT | ES_NUMBER
     CONTROL         "",IDC_CYCLETIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,120,150,11,14
     LTEXT           "Cycle period, seconds",IDC_STATIC,8,153,80,8
@@ -798,14 +798,43 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_TRAY, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_TRAY AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
+
+
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
+
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
