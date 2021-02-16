@@ -4,6 +4,8 @@
 #include <malloc.h>
 #include <crtdbg.h>
 
+#include <memory>
+
 #include <newpluginapi.h>
 #include <m_crypto.h>
 #include <m_database.h>

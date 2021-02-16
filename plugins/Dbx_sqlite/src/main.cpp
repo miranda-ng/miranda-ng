@@ -27,14 +27,38 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+// returns 0 if the profile is created, EMKPRF*
+static int makeDatabase(const wchar_t *profile)
+{
+	std::unique_ptr<CDbxSQLite> db(new CDbxSQLite(profile, false, false));
+	return db->Create();
+}
+
+// returns 0 if the given profile has a valid header
+static int grokHeader(const wchar_t *profile)
+{
+	std::unique_ptr<CDbxSQLite> db(new CDbxSQLite(profile, true, true));
+	return db->Check();
+}
+
+// returns 0 if all the APIs are injected otherwise, 1
+static MDatabaseCommon* loadDatabase(const wchar_t *profile, BOOL bReadOnly)
+{
+	std::unique_ptr<CDbxSQLite> db(new CDbxSQLite(profile, bReadOnly, false));
+	if (db->Load() != ERROR_SUCCESS)
+		return nullptr;
+
+	return db.release();
+}
+
 static DATABASELINK dblink =
 {
 	MDB_CAPS_CREATE | MDB_CAPS_COMPACT,
 	"dbx_sqlite",
 	L"SQLite database driver",
-	&CDbxSQLite::Create,
-	&CDbxSQLite::Check,
-	&CDbxSQLite::Load,
+	makeDatabase,
+	grokHeader,
+	loadDatabase	,
 };
 
 STDMETHODIMP_(DATABASELINK *) CDbxSQLite::GetDriver()

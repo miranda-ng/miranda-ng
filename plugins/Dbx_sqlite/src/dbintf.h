@@ -36,7 +36,8 @@ private:
 
 class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 {
-	sqlite3 *m_db;
+	ptrW m_wszFileName;
+	sqlite3 *m_db = nullptr;
 
 	sqlite3_stmt *evt_cur_fwd = nullptr, *evt_cur_backwd = nullptr;
 	MCONTACT evt_cnt_fwd = 0, evt_cnt_backwd = 0;
@@ -61,9 +62,7 @@ class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 		}
 	} m_impl;
 
-	bool m_safetyMode;
-
-	CDbxSQLite(sqlite3 *database);
+	bool m_safetyMode, m_bReadOnly, m_bShared;
 
 	void InitContacts();
 	void UninitContacts();
@@ -78,11 +77,12 @@ class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 	void DBFlush(bool bForce = false);
 
 public:
+	CDbxSQLite(const wchar_t *pwszFileName, bool bReadOnly, bool bShared);
 	~CDbxSQLite();
 
-	static int Create(const wchar_t *profile);
-	static int Check(const wchar_t *profile);
-	static MDatabaseCommon* Load(const wchar_t *profile, int readonly);
+	int Create();
+	int Check();
+	int Load();
 
 	STDMETHODIMP_(BOOL)     IsRelational(void) override;
 	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL) override;
