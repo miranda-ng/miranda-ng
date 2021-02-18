@@ -160,8 +160,8 @@ void CluiProtocolStatusChanged(int, const char*)
 		
 		partCount++;
 	}
+	
 	// update the clui button
-
 	int iIcon = 0;
 	int wStatus = 0;
 	ptrA szPrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
@@ -176,18 +176,15 @@ void CluiProtocolStatusChanged(int, const char*)
 		g_maxStatus = wStatus;
 	}
 
-	/*
-	* this is used globally (actually, by the clist control only) to determine if
-	* any protocol is "in connection" state. If true, then the clist discards redraws
-	* and uses timer based sort and redraw handling. This can improve performance
-	* when connecting multiple protocols significantly.
-	*/
+	// this is used globally (actually, by the clist control only) to determine if
+	// any protocol is "in connection" state. If true, then the clist discards redraws
+	// and uses timer based sort and redraw handling. This can improve performance
+	// when connecting multiple protocols significantly.
+
 	wchar_t *szStatus = Clist_GetStatusModeDescription(wStatus, 0);
 
-	/*
-	* set the global status icon and display the global (most online) status mode on the
-	* status mode button
-	*/
+	// set the global status icon and display the global (most online) status mode on the
+	// status mode button
 	if (szStatus && g_clistApi.hwndContactList) {
 		HWND hwndClistBtn = GetDlgItem(g_clistApi.hwndContactList, IDC_TBGLOBALSTATUS);
 		if (IsWindow(hwndClistBtn)) {

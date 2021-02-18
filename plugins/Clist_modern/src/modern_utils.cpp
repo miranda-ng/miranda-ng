@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-BYTE gl_TrimText = 1;
-
 char * __cdecl strstri(char *a, const char *b)
 {
 	char * x, *y;

@@ -204,9 +204,9 @@ void cliRecalcScrollBar(HWND hwnd, ClcData *dat)
 	}
 	else SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 	
-	g_mutex_bSizing = 1;
+	g_bSizing = true;
 	cliScrollTo(hwnd, dat, dat->yScroll, 1);
-	g_mutex_bSizing = 0;
+	g_bSizing = false;
 }
 
 
@@ -554,7 +554,7 @@ void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	// First line
 	dat->first_line_draw_smileys = g_plugin.getByte("FirstLineDrawSmileys", SETTING_FIRSTLINE_SMILEYS_DEFAULT);
 	dat->first_line_append_nick = g_plugin.getByte("FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT);
-	gl_TrimText = g_plugin.getByte("TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT);
+	g_bTrimText = g_plugin.getByte("TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT) != 0;
 
 	dat->rightMargin = db_get_b(0, "CLC", "RightMargin", CLCDEFAULT_RIGHTMARGIN);
 	dat->topMargin = db_get_b(0, "CLC", "TopMargin", 0);

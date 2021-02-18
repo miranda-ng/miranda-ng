@@ -480,13 +480,13 @@ INT_PTR SvcApplySkin(WPARAM, LPARAM lParam)
 	GetWindowRect(hwnd, &rc);
 	Sync(CLUIFrames_OnMoving, hwnd, &rc);
 
-	g_mutex_bChangingMode = TRUE;
+	g_bChangingMode = TRUE;
 	CLUI_UpdateLayeredMode();
 	CLUI_ChangeWindowMode();
 	SendMessage(g_clistApi.hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 	CLUI_ReloadCLUIOptions();
 	cliShowHide(true);
-	g_mutex_bChangingMode = FALSE;
+	g_bChangingMode = FALSE;
 
 	if (g_hCLUIOptionsWnd) {
 		SendDlgItemMessage(g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT));

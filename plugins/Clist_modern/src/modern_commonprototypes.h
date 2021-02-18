@@ -7,37 +7,37 @@
 
 extern CLIST_INTERFACE corecli;
 
-//Global variables
+// Global variables
 extern int ON_SETALLEXTRAICON_CYCLE;
-extern FRAMEWND *g_pfwFrames;
 extern int g_nFramesCount;
+extern int g_nTitleBarHeight;
+extern int g_mutex_bLockUpdating;
 extern RECT g_rcEdgeSizingRect;
+extern bool g_bSizing;
+extern bool g_bChangingMode;
+extern bool g_bOnModulesLoadedCalled;
+extern bool g_bOnTrayRightClick;
+extern bool g_bPostWasCanceled;
+extern bool g_bTransparentFlag;
+extern bool g_bFullRepaint;
+extern bool g_bMultiConnectionMode;
+extern BYTE g_bCalledFromShowHide;
+extern HWND g_hCLUIOptionsWnd;
+extern UINT g_dwMainThreadID;
+extern HWND g_hwndViewModeFrame;
+extern bool g_bTrimText;
+extern char *g_szConnectingProto;
+extern HICON g_hListeningToIcon;
+extern HANDLE g_hAwayMsgThread, g_hGetTextAsyncThread, g_hSmoothAnimationThread;
 extern ROWCELL *gl_RowTabAccess[];
 extern ROWCELL *gl_RowRoot;
+extern FRAMEWND *g_pfwFrames;
+extern HINSTANCE  g_hMirApp;
 extern HIMAGELIST hAvatarOverlays;
-extern int  g_nTitleBarHeight;
-extern BOOL g_bTransparentFlag;
 extern HIMAGELIST g_himlCListClc;
-extern BOOL g_mutex_bSizing;
-extern BOOL g_flag_bOnModulesLoadedCalled;
+extern STATUSBARDATA g_StatusBarData;
 extern SKINOBJECTSLIST g_SkinObjectList;
 extern CURRWNDIMAGEDATA *g_pCachedWindow;
-extern BOOL g_mutex_bLockUpdating;
-extern STATUSBARDATA g_StatusBarData;
-extern char *g_szConnectingProto;
-extern int  g_mutex_bOnTrayRightClick;
-extern BOOL g_flag_bPostWasCanceled;
-extern BOOL g_flag_bFullRepaint;
-extern BOOL g_bMultiConnectionMode;
-extern BYTE g_bCalledFromShowHide;
-extern HICON g_hListeningToIcon;
-extern HWND g_hCLUIOptionsWnd;
-extern HINSTANCE g_hMirApp;
-extern BOOL g_mutex_bChangingMode;
-extern UINT g_dwMainThreadID;
-extern HANDLE g_hAwayMsgThread, g_hGetTextAsyncThread, g_hSmoothAnimationThread;
-extern HWND g_hwndViewModeFrame;
-extern BYTE gl_TrimText;
 
 /************************************************************************/
 /*                              TYPE DEFS                               */

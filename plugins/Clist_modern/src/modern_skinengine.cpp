@@ -61,9 +61,10 @@ struct tga_header_t
 SKINOBJECTSLIST g_SkinObjectList = { 0 };
 CURRWNDIMAGEDATA *g_pCachedWindow = nullptr;
 
-BOOL g_flag_bPostWasCanceled = FALSE;
-BOOL g_flag_bFullRepaint = FALSE;
-BOOL g_mutex_bLockUpdating = FALSE;
+bool g_bPostWasCanceled = false;
+bool g_bFullRepaint = false;
+
+int g_mutex_bLockUpdating = 0;
 
 SortedList *gl_plGlyphTexts = nullptr;
 SortedList *gl_plSkinFonts = nullptr;
@@ -2763,7 +2764,7 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM)           // 
 
 	if ((!NoCancelPost || !IsAnyQueued) && flag_bUpdateQueued) { // no any queued updating cancel post or need to cancel post
 		flag_bUpdateQueued = 0;
-		g_flag_bPostWasCanceled = 1;
+		g_bPostWasCanceled = true;
 	}
 	return 1;
 }
@@ -2812,10 +2813,10 @@ static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam)   
 	}
 	else Sync(QueueAllFramesUpdating, true);
 
-	if (!flag_bUpdateQueued || g_flag_bPostWasCanceled)
+	if (!flag_bUpdateQueued || g_bPostWasCanceled)
 		if (PostMessage(g_clistApi.hwndContactList, UM_UPDATE, 0, 0)) {
 			flag_bUpdateQueued = 1;
-			g_flag_bPostWasCanceled = 0;
+			g_bPostWasCanceled = false;
 		}
 	return 1;
 }
@@ -3150,7 +3151,7 @@ int ske_ValidateFrameImageProc(RECT *r)
 	//-- Clear queue
 	Sync(QueueAllFramesUpdating, false);
 	flag_bUpdateQueued = 0;
-	g_flag_bPostWasCanceled = 0;
+	g_bPostWasCanceled = false;
 	return 1;
 }
 
@@ -3178,8 +3179,8 @@ int ske_UpdateWindowImageRect(RECT *r)                                     // Up
 	if (!g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE, nullptr);
 	if (g_pCachedWindow == nullptr) return ske_ValidateFrameImageProc(&wnd);
 	if (g_pCachedWindow->Width != wnd.right - wnd.left || g_pCachedWindow->Height != wnd.bottom - wnd.top) return ske_ValidateFrameImageProc(&wnd);
-	if (g_flag_bFullRepaint) {
-		g_flag_bFullRepaint = 0;
+	if (g_bFullRepaint) {
+		g_bFullRepaint = false;
 		return ske_ValidateFrameImageProc(&wnd);
 	}
 	ske_JustUpdateWindowImageRect(&wnd);

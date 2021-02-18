@@ -378,7 +378,7 @@ void CLCPaint::_DrawTextSmiley(HDC hdcMem, RECT *free_rc, SIZE *text_size, wchar
 
 		// Just draw ellipsis
 		if (free_rc->right <= free_rc->left) {
-			if (gl_TrimText)
+			if (g_bTrimText)
 				ske_DrawText(hdcMem, L"...", 3, free_rc, uTextFormat & ~DT_END_ELLIPSIS);
 		}
 		else {
@@ -707,7 +707,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 			wchar_t *szCounts = nullptr;
 			RECT text_rect = fr_rc;
 			RECT counts_rc = { 0 };
-			UINT uTextFormat = DT_LEFT | DT_VCENTER | (gl_TrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
+			UINT uTextFormat = DT_LEFT | DT_VCENTER | (g_bTrimText ? DT_END_ELLIPSIS : 0) | DT_SINGLELINE;
 			uTextFormat |= dat->text_rtl ? DT_RTLREADING : 0;
 			// Select font
 			ChangeToFont(hdcMem, dat, GetBasicFontID(Drawing), nullptr);
@@ -1836,7 +1836,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 		_StoreItemPos(Drawing, CIT_SELECTION, &selection_text_rc);
 
 		// Draw text
-		uTextFormat = uTextFormat | (gl_TrimText ? DT_END_ELLIPSIS : 0);
+		uTextFormat = uTextFormat | (g_bTrimText ? DT_END_ELLIPSIS : 0);
 
 		switch (Drawing->type) {
 		case CLCIT_DIVIDER:
@@ -2284,7 +2284,7 @@ void CLCPaint::_DrawContactItems(HDC hdcMem, ClcData *dat, ClcContact *Drawing, 
 		DT_SINGLELINE |
 		(dat->text_rtl ? DT_RTLREADING : 0) |
 		(dat->text_align_right ? DT_RIGHT : 0) |
-		(gl_TrimText ? DT_END_ELLIPSIS : 0) |
+		(g_bTrimText ? DT_END_ELLIPSIS : 0) |
 		((dat->bForceInDialog || dat->bkChanged) ? DT_FORCENATIVERENDER : 0);
 
 	RECT text_rc = *row_rc;

@@ -139,7 +139,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			Clist_Broadcast(INTM_STATUSCHANGED, hContact, 0);
 		}
 		else if (!strcmp(cws->szModule, META_PROTO) && !memcmp(cws->szSetting, "Status", 6)) { // Status0..N for metacontacts
-			if (g_clistApi.hwndContactTree && g_flag_bOnModulesLoadedCalled)
+			if (g_clistApi.hwndContactTree && g_bOnModulesLoadedCalled)
 				Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 
 			if ((g_plugin.secondLine.getType() == TEXT_STATUS_MESSAGE || g_plugin.thirdLine.getType() == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)

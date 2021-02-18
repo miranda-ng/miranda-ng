@@ -60,11 +60,11 @@ BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LP
 UINT    g_dwMainThreadID = 0;
 HANDLE  g_hAwayMsgThread = nullptr, g_hGetTextAsyncThread = nullptr, g_hSmoothAnimationThread = nullptr;
 
-BOOL    g_bTransparentFlag = FALSE;
-
-BOOL    g_mutex_bChangingMode = FALSE, g_mutex_bSizing = FALSE;
-
-BOOL    g_flag_bOnModulesLoadedCalled = FALSE;
+bool    g_bSizing = false;
+bool    g_bTrimText = true;
+bool    g_bChangingMode = false;
+bool    g_bTransparentFlag = false;
+bool    g_bOnModulesLoadedCalled = false;
 
 RECT    g_rcEdgeSizingRect = { 0 };
 
@@ -148,7 +148,7 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM, LPARAM)
 {
 	cliCluiProtocolStatusChanged(0, nullptr);
 	SleepEx(0, TRUE);
-	g_flag_bOnModulesLoadedCalled = TRUE;
+	g_bOnModulesLoadedCalled = true;
 
 	SendMessage(g_clistApi.hwndContactList, UM_CREATECLC, 0, 0); // $$$
 	InitSkinHotKeys();
@@ -480,7 +480,7 @@ int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 			AniAva_RemoveInvalidatedAvatars();
 		}
 
-		if (!g_mutex_bChangingMode && !g_CluiData.fLayered) {
+		if (!g_bChangingMode && !g_CluiData.fLayered) {
 			if (nCmd == SW_HIDE && g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT)) {
 				ShowWindow(hWnd, SW_MINIMIZE); // removing of shadow
 				return ShowWindow(hWnd, nCmd);
@@ -584,7 +584,7 @@ void CLUI_ChangeWindowMode()
 	LONG_PTR curStyle, curStyleEx;
 	if (!g_clistApi.hwndContactList) return;
 
-	g_mutex_bChangingMode = TRUE;
+	g_bChangingMode = true;
 	g_bTransparentFlag = g_plugin.getByte("Transparent", SETTING_TRANSPARENT_DEFAULT);
 	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) != 0;
 	if (g_bTransparentFlag == 0 && g_CluiData.bCurrentAlpha != 0)
@@ -710,8 +710,8 @@ void CLUI_ChangeWindowMode()
 
 		RedrawWindow(g_clistApi.hwndContactList, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
 	}
-	g_mutex_bChangingMode = FALSE;
-	flag_bFirstTimeCall = TRUE;
+	g_bChangingMode = false;
+	flag_bFirstTimeCall = true;
 	AniAva_UpdateParent();
 }
 
@@ -789,8 +789,8 @@ int CLUI_ShowFromBehindEdge()
 {
 	int method = g_CluiData.bBehindEdgeSettings;
 	bShowEventStarted = 0;
-	if (g_mutex_bOnTrayRightClick) {
-		g_mutex_bOnTrayRightClick = 0;
+	if (g_bOnTrayRightClick) {
+		g_bOnTrayRightClick= false;
 		return 0;
 	}
 
@@ -1447,7 +1447,7 @@ BOOL cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase)
 		if (IsWindowVisible(hWnd))
 			return SkinInvalidateFrame(hWnd, lpRect);
 
-		g_flag_bFullRepaint = 1;
+		g_bFullRepaint = true;
 		return 0;
 	}
 
@@ -1654,7 +1654,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case WM_SIZE:
-		if (g_mutex_bSizing) return 0;
+		if (g_bSizing) return 0;
 		if (wParam != SIZE_MINIMIZED /* &&  IsWindowVisible(m_hWnd)*/) {
 			if (g_clistApi.hwndContactList == nullptr)
 				return 0;
@@ -1671,12 +1671,12 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 				CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)m_hWnd, 0);
 
 			if (!g_CluiData.fLayered) {
-				g_mutex_bSizing = 1;
+				g_bSizing = true;
 				Sync(CLUIFrames_OnClistResize_mod, (WPARAM)m_hWnd, 1);
 				CLUIFrames_ApplyNewSizes(2);
 				CLUIFrames_ApplyNewSizes(1);
 				SendMessage(m_hWnd, CLN_LISTSIZECHANGE, 0, 0);
-				g_mutex_bSizing = 0;
+				g_bSizing = false;
 			}
 
 			// if g_CluiData.fDocked, dont remember pos (except for width)
@@ -1734,7 +1734,7 @@ LRESULT CLUI::OnDwmCompositionChanged(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*
 
 LRESULT CLUI::OnUpdate(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
-	if (g_flag_bPostWasCanceled)
+	if (g_bPostWasCanceled)
 		return FALSE;
 	return ske_ValidateFrameImageProc(nullptr);
 }

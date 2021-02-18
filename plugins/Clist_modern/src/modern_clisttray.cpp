@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "modern_statusbar.h"
 
-int g_mutex_bOnTrayRightClick = 0;
-BOOL g_bMultiConnectionMode = FALSE;
+bool g_bOnTrayRightClick = false;
+bool g_bMultiConnectionMode = false;
 BOOL IS_WM_MOUSE_DOWN_IN_TRAY;
 BOOL g_trayTooltipActive = FALSE;
 POINT tray_hover_pos = { 0 };
@@ -35,50 +35,12 @@ POINT tray_hover_pos = { 0 };
 #define NIF_STATE       0x00000008
 #define NIF_INFO        0x00000010
 
-#ifndef _INC_SHLWAPI
-
-typedef struct _DllVersionInfo
-{
-	DWORD cbSize;
-	DWORD dwMajorVersion;                   // Major version
-	DWORD dwMinorVersion;                   // Minor version
-	DWORD dwBuildNumber;                    // Build number
-	DWORD dwPlatformID;                     // DLLVER_PLATFORM_*
-} DLLVERSIONINFO;
-
-#define DLLVER_PLATFORM_WINDOWS         0x00000001      // Windows 95
-#define DLLVER_PLATFORM_NT              0x00000002      // Windows NT
-typedef HRESULT(CALLBACK* DLLGETVERSIONPROC)(DLLVERSIONINFO *);
-
-#endif
-
-BOOL  g_MultiConnectionMode = FALSE;
 char* g_szConnectingProto = nullptr;
-
-int GetStatusVal(int status)
-{
-	if (IsStatusConnecting(status)) // 'connecting' status has the top priority
-		return 600;
-
-	switch (status) {
-	case ID_STATUS_OFFLINE:    return 50;
-	case ID_STATUS_ONLINE:     return 100;
-	case ID_STATUS_FREECHAT:   return 110;
-	case ID_STATUS_INVISIBLE:  return 120;
-	case ID_STATUS_AWAY:       return 200;
-	case ID_STATUS_DND:        return 210;
-	case ID_STATUS_NA:         return 220;
-	case ID_STATUS_OCCUPIED:   return 230;
-	}
-
-	return 0;
-}
 
 INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 {
 	g_szConnectingProto = nullptr;
 
-	int curstatus = ID_STATUS_OFFLINE;
 	int connectingCount = 0;
 	g_bMultiConnectionMode = false;
 
@@ -93,11 +55,9 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 			else 
 				g_bMultiConnectionMode = true;
 		}
-		else if (GetStatusVal(it->iRealStatus) > GetStatusVal(curstatus))
-			curstatus = it->iRealStatus;
 	}
 
-	return curstatus;
+	return Clist_GetGeneralizedStatus();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +104,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !Clist::Tray1Click) {
 			POINT pt;
 			HMENU hMenu = Menu_GetStatusMenu();
-			g_mutex_bOnTrayRightClick = 1;
+			g_bOnTrayRightClick= true;
 			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
 			SetForegroundWindow(msg->hwnd);
 			SetFocus(msg->hwnd);
@@ -152,7 +112,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			g_clistApi.bTrayMenuOnScreen = TRUE;
 			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, nullptr);
 			PostMessage(msg->hwnd, WM_NULL, 0, 0);
-			g_mutex_bOnTrayRightClick = 0;
+			g_bOnTrayRightClick = false;
 			IS_WM_MOUSE_DOWN_IN_TRAY = 0;
 		}
 		else if (msg->lParam == WM_MBUTTONDOWN || msg->lParam == WM_LBUTTONDOWN || msg->lParam == WM_RBUTTONDOWN) {

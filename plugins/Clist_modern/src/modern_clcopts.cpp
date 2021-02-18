@@ -865,7 +865,7 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 
 			db_set_b(0, "CLUI", "DragToScroll", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
 			g_plugin.setByte("BringToFront", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BRINGTOFRONT));
-			g_mutex_bChangingMode = TRUE;
+			g_bChangingMode = true;
 			db_set_b(0, "CLUI", "ClientAreaDrag", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG));
 			db_set_b(0, "CLUI", "AutoSize", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
 			db_set_b(0, "CLUI", "LockSize", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LOCKSIZING));
@@ -886,7 +886,7 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			CLUI_ReloadCLUIOptions();
 			EventArea_ConfigureEventArea();
 			cliShowHide(true);
-			g_mutex_bChangingMode = FALSE;
+			g_bChangingMode = false;
 			return TRUE;
 		}
 		break;
@@ -1122,7 +1122,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			db_set_b(0, "CLC", "RoundCorners", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ROUNDCORNERS));
 			//======  End of Non-Layered Mode ======
 
-			g_mutex_bChangingMode = TRUE;
+			g_bChangingMode = true;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
 				HWND hProgMan = FindWindow(L"Progman", nullptr);
@@ -1161,7 +1161,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			SendMessage(g_clistApi.hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 			CLUI_ReloadCLUIOptions();
 			cliShowHide(true);
-			g_mutex_bChangingMode = FALSE;
+			g_bChangingMode = false;
 			return TRUE;
 		}
 	}
