@@ -229,14 +229,16 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 	// a contact setting
 	DBCachedContactValue *V, *V1;
 	DBCachedContact ccTemp, *cc;
+	{
+		mir_cslock lck(m_csContact);
+		ccTemp.contactID = contactID;
 
-	ccTemp.contactID = contactID;
+		int index = m_lContacts.getIndex(&ccTemp);
+		if (index == -1)
+			return nullptr;
 
-	int index = m_lContacts.getIndex(&ccTemp);
-	if (index == -1)
-		return nullptr;
-
-	m_lastVL = cc = m_lContacts[index];
+		m_lastVL = cc = m_lContacts[index];
+	}
 
 	for (V = cc->first; V != nullptr; V = V->next)
 		if (V->name == szSetting)
