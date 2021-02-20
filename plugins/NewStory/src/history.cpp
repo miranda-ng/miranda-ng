@@ -1044,15 +1044,3 @@ INT_PTR svcShowNewstory(WPARAM hContact, LPARAM)
 
 	return 0;
 }
-
-INT_PTR svcShowSystemNewstory(WPARAM, LPARAM)
-{
-	HWND hwnd = (HWND)WindowList_Find(hNewstoryWindows, 0);
-	if (hwnd && IsWindow(hwnd)) {
-		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-		SetFocus(hwnd);
-	}
-	else (new CHistoryDlg(0))->Show();
-
-	return 0;
-}

@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma hdrstop
 
 #include "m_hotkeys.h"
+#include "m_history.h"
 
 #include "clc.h"
 #include "genmenu.h"
@@ -1064,8 +1065,16 @@ void InitCustomMenus(void)
 	HookEvent(ME_HOTKEYS_CHANGED, sttRebuildHotkeys);
 	HookEvent(ME_LANGPACK_CHANGED, sttRebuildHotkeys);
 
-	// add exit command to menu
 	CMenuItem mi(&g_plugin);
+
+	SET_UID(mi, 0x9d6d4bb1, 0x5207, 0x481a, 0x80, 0x47, 0x67, 0x58, 0x8e, 0xb6, 0x8f, 0xff);
+	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
+	mi.name.a = LPGEN("System history");
+	mi.position = 500060000;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
+	Menu_AddMainMenuItem(&mi);
+
+	// add exit command to menu
 	SET_UID(mi, 0x707c8962, 0xc33f, 0x4893, 0x8e, 0x36, 0x30, 0xb1, 0x7c, 0xd8, 0x61, 0x40);
 	mi.position = 0x7fffffff;
 	mi.pszService = "CloseAction";

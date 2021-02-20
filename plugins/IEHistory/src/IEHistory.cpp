@@ -86,11 +86,6 @@ int CMPlugin::Load()
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddContactMenuItem(&mi);
 
-	// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^
-	SET_UID(mi, 0xfcb4bb2a, 0xd4d8, 0x48ab, 0x94, 0xcc, 0x5b, 0xe9, 0x8d, 0x53, 0x3e, 0xf1);
-	mi.name.w = LPGENW("&System History");
-	Menu_AddMainMenuItem(&mi);
-
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	return 0;
 }

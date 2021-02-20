@@ -34,22 +34,13 @@ void InitMenus()
 	hmiHistory = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, svcShowNewstory);
 
-	SET_UID(mi, 0xc20d7a69, 0x7607, 0x4aad, 0xa7, 0x42, 0x10, 0x86, 0xfb, 0x32, 0x49, 0x21);
+	SET_UID(mi, 0x0d4306aa, 0xe31e, 0x46ee, 0x89, 0x88, 0x3a, 0x2e, 0x05, 0xa6, 0xf3, 0xbc);
 	mi.pszService = "Newstory/EmptyHistory";
 	mi.name.a = LPGEN("Empty history");
 	mi.position = 1000090001;
 	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 	hmiEmpty = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, svcEmptyHistory);
-
-	// Main menu items
-	SET_UID(mi, 0xc20d7a69, 0x7607, 0x4aad, 0xa7, 0x42, 0x10, 0x86, 0xfb, 0x32, 0x49, 0x22);
-	mi.pszService = "Newstory/System";
-	mi.name.a = LPGEN("System history");
-	mi.position = 1000090000;
-	mi.hIcon = g_plugin.getIcon(ICO_NEWSTORY);
-	Menu_AddMainMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, svcShowSystemNewstory);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 }
