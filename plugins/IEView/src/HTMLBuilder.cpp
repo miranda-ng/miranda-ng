@@ -171,13 +171,13 @@ wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
 	if (str != nullptr)
 		return mir_wstrdup(str);
 
-	return mir_wstrdup(TranslateT("(Unknown Contact)"));
+	return mir_wstrdup(TranslateT("(Unknown contact)"));
 }
 
 char* HTMLBuilder::getEncodedContactName(MCONTACT hContact, const char *szProto)
 {
 	ptrW name(getContactName(hContact, szProto));
-	return encodeUTF8(hContact, (name != NULL) ? name : TranslateT("(Unknown Contact)"), ENF_NAMESMILEYS, true);
+	return encodeUTF8(hContact, (name != NULL) ? name : TranslateT("(Unknown contact)"), ENF_NAMESMILEYS, true);
 }
 
 void HTMLBuilder::appendEventNew(IEView *view, IEVIEWEVENT *event)

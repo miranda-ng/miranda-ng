@@ -406,7 +406,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		return -1; //subcontact
 
 	if (pdnce && pdnce->m_bIsUnknown && dat != nullptr && !dat->bForceInDialog)
-		return 1; //'Unknown Contact'
+		return 1; //'Unknown contact'
 
 	if (dat != nullptr && dat->bFilterSearch && pdnce && pdnce->tszName) {
 		// search filtering

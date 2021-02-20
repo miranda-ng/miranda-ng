@@ -347,10 +347,10 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 		if (!sPrevFileName.empty()) {
 			ReplaceDBPath(sPrevFileName);
 
-			// Here we will try to avoid the (Unknown Contact) in cases where the protocol for 
+			// Here we will try to avoid the (Unknown contact) in cases where the protocol for 
 			// this user has been removed.
-			if (bNickUsed && (wcsstr(Clist_GetContactDisplayName(hContact), TranslateT("(Unknown Contact)")) != nullptr))
-				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown Contact)
+			if (bNickUsed && (wcsstr(Clist_GetContactDisplayName(hContact), TranslateT("(Unknown contact)")) != nullptr))
+				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown contact)
 
 			// file name has changed
 			if (g_enRenameAction != eDANothing) {
