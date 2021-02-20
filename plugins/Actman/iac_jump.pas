@@ -218,7 +218,6 @@ var
   section: array [0..127] of AnsiChar;
   buf:array [0..31] of WideChar;
   pc:pAnsiChar;
-  tmp:pWideChar;
   oper,cond:byte;
 begin
   inherited Load(node,fmt);

@@ -148,7 +148,6 @@ var
   section:array [0..127] of AnsiChar;
   buf:array [0..31] of WideChar;
   pc:pAnsiChar;
-  tmp:pWideChar;
   lflags,lflags2:dword;
 begin
   inherited Load(node,fmt);

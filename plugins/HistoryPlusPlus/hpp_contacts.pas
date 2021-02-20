@@ -51,7 +51,7 @@ uses
   m_api,
   hpp_global;
 
-function GetContactDisplayName(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): String;
+function GetContactDisplayName(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): WideString;
 function GetContactProto(hContact: TMCONTACT): AnsiString; overload;
 function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: AnsiString): AnsiString; overload;
 function GetContactID(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;
@@ -86,7 +86,7 @@ begin
   end;
 end;
 
-function GetContactDisplayName(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): String;
+function GetContactDisplayName(hContact: TMCONTACT; Proto: AnsiString = ''; Contact: boolean = false): WideString;
 var
   RetPWideChar, UW: PChar;
 begin

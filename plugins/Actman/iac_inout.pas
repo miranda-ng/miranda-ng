@@ -299,7 +299,6 @@ procedure tInOutAction.Load(node:pointer;fmt:integer);
 var
   section: array [0..127] of AnsiChar;
   pc:pAnsiChar;
-  tmp:pWideChar;
   flags2:dword;
 begin
   inherited Load(node,fmt);
