@@ -513,7 +513,7 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return 0;
 
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return 0;
 
@@ -562,7 +562,7 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return 0;
 
-	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return 0;
 
