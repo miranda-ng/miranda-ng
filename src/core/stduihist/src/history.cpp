@@ -37,7 +37,7 @@ static HGENMENU hContactMenu = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Fills the events list
 
-static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
+static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t *buf, int cbBuf)
 {
 	wchar_t *msg = DbEvent_GetTextW(dbei, CP_ACP);
 	wcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
@@ -45,22 +45,22 @@ static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
 	mir_free(msg);
 }
 
-static void GetFileDescription(DBEVENTINFO *dbei, wchar_t* buf, int cbBuf)
+static void GetFileDescription(DBEVENTINFO *dbei, wchar_t *buf, int cbBuf)
 {
 	int len = dbei->cbBlob - sizeof(DWORD);
 	if (len >= cbBuf)
 		len = cbBuf-1;
 
 	MultiByteToWideChar(CP_ACP, 0, (LPCSTR)dbei->pBlob + sizeof(DWORD), len, buf, cbBuf);
-	buf[ len ] = 0;
+	buf[len] = 0;
 
 	if (len < cbBuf-3)
 		mir_wstrcat(buf, L"\r\n");
 }
 
-static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
+static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t *str, int cbStr)
 {
-	switch(dbei->eventType) {
+	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		GetMessageDescription(dbei, str, cbStr);
 		break;
@@ -77,11 +77,11 @@ static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 			*str = 0;
 }	}
 
-static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
+static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t *str, int cbStr)
 {
-	wchar_t* pszSrc, *pszTmp = nullptr;
+	wchar_t *pszSrc, *pszTmp = nullptr;
 
-	switch(dbei->eventType) {
+	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing message");
 		else                         pszSrc = TranslateT("Incoming message");
@@ -93,7 +93,7 @@ static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 		break;
 
 	default:
-		DBEVENTTYPEDESCR* et = DbEvent_GetType(dbei->szModule, dbei->eventType);
+		DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
 		if (et && (et->flags & DETF_HISTORY)) {
 			pszTmp = mir_a2u(et->descr);
 			pszSrc = TranslateW(pszTmp);
@@ -108,10 +108,11 @@ static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 	mir_free(pszTmp);
 }
 
-typedef struct {
+struct THistoryThread
+{
 	MCONTACT hContact;
 	HWND hwnd;
-} THistoryThread;
+};
 
 static void FillHistoryThread(THistoryThread *hInfo)
 {
@@ -182,19 +183,21 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		hContact = lParam;
 		WindowList_Add(hWindowList, hwndDlg, hContact);
 		Utils_RestoreWindowPosition(hwndDlg, hContact, "History", "");
-		{
-			wchar_t* contactName, str[200];
-			contactName = Clist_GetContactDisplayName(hContact);
-			mir_snwprintf(str, TranslateT("History for %s"), contactName);
+
+		if (hContact) {
+			wchar_t str[200];
+			mir_snwprintf(str, TranslateT("History for %s"), Clist_GetContactDisplayName(hContact));
 			SetWindowText(hwndDlg, str);
 		}
+		else SetWindowText(hwndDlg, TranslateT("System history"));
+
 		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_HISTORY);
 		SendMessage(hwndDlg, DM_HREBUILD, 0, 0);
 		return TRUE;
 
 	case DM_HREBUILD:
 		{
-			THistoryThread* hInfo = (THistoryThread*)mir_alloc(sizeof(THistoryThread));
+			THistoryThread *hInfo = (THistoryThread *)mir_alloc(sizeof(THistoryThread));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LIST), FALSE);
 			hInfo->hContact = hContact;
 			hInfo->hwnd = hwndDlg;
@@ -296,7 +299,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			GetObjectDescription(&dbei, str, _countof(str));
 			if (str[0]) {
 				CharUpperBuff(str, (int)mir_wstrlen(str));
-				if (wcsstr(str, (const wchar_t*)lParam) != nullptr) {
+				if (wcsstr(str, (const wchar_t *)lParam) != nullptr) {
 					SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
 					SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
 					break;
