@@ -37,46 +37,6 @@ static HGENMENU hContactMenu = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Fills the events list
 
-static void GetMessageDescription(DBEVENTINFO *dbei, wchar_t *buf, int cbBuf)
-{
-	wchar_t *msg = DbEvent_GetTextW(dbei, CP_ACP);
-	wcsncpy(buf, msg ? msg : TranslateT("Invalid message"), cbBuf);
-	buf[ cbBuf-1 ] = 0;
-	mir_free(msg);
-}
-
-static void GetFileDescription(DBEVENTINFO *dbei, wchar_t *buf, int cbBuf)
-{
-	int len = dbei->cbBlob - sizeof(DWORD);
-	if (len >= cbBuf)
-		len = cbBuf-1;
-
-	MultiByteToWideChar(CP_ACP, 0, (LPCSTR)dbei->pBlob + sizeof(DWORD), len, buf, cbBuf);
-	buf[len] = 0;
-
-	if (len < cbBuf-3)
-		mir_wstrcat(buf, L"\r\n");
-}
-
-static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t *str, int cbStr)
-{
-	switch (dbei->eventType) {
-	case EVENTTYPE_MESSAGE:
-		GetMessageDescription(dbei, str, cbStr);
-		break;
-
-	case EVENTTYPE_FILE:
-		GetFileDescription(dbei, str, cbStr);
-		break;
-
-	default:
-		DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
-		if (et && (et->flags & DETF_HISTORY))
-			GetMessageDescription(dbei, str, cbStr);
-		else
-			*str = 0;
-}	}
-
 static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t *str, int cbStr)
 {
 	wchar_t *pszSrc, *pszTmp = nullptr;
@@ -90,6 +50,14 @@ static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t *str, int cbStr)
 	case EVENTTYPE_FILE:
 		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing file");
 		else                         pszSrc = TranslateT("Incoming file");
+		break;
+
+	case EVENTTYPE_AUTHREQUEST:
+		pszSrc = TranslateT("Authorization request");
+		break;
+
+	case EVENTTYPE_ADDED:
+		pszSrc = TranslateT("Added event");
 		break;
 
 	default:
@@ -257,10 +225,9 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if ((int)dbei.cbBlob != -1) {
 					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 					if (db_event_get(hDbEvent, &dbei) == 0) {
-						wchar_t str[8192];
-						GetObjectDescription(&dbei, str, _countof(str));
-						if (str[0])
-							SetDlgItemText(hwndDlg, IDC_EDIT, str);
+						ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
+						if (wszDescr)
+							SetDlgItemText(hwndDlg, IDC_EDIT, wszDescr);
 					}
 					mir_free(dbei.pBlob);
 				}
@@ -295,11 +262,10 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dbei.cbBlob = oldBlobSize;
 			db_event_get(hDbEvent, &dbei);
 
-			wchar_t str[1024];
-			GetObjectDescription(&dbei, str, _countof(str));
-			if (str[0]) {
-				CharUpperBuff(str, (int)mir_wstrlen(str));
-				if (wcsstr(str, (const wchar_t *)lParam) != nullptr) {
+			ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
+			if (wszDescr) {
+				CharUpperBuff(wszDescr, (int)mir_wstrlen(wszDescr));
+				if (wcsstr(wszDescr, (const wchar_t *)lParam) != nullptr) {
 					SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
 					SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
 					break;
