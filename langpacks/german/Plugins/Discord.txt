@@ -97,7 +97,7 @@ Discord-Sprachanruf
 [User ID]
 Nutzer-ID
 [Message send failed]
-
+Nachricht konnte nicht gesendet werden
 [Protocol is offline or user isn't authorized yet]
 Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
 ;file \protocols\Discord\src\server.cpp

@@ -1,4 +1,0 @@
-[Checker's options]
-[Customize settings and proceed to the checking.]
-[Mark all events as read]
-[%d events marked as read]

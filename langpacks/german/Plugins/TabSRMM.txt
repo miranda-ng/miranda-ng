@@ -930,9 +930,9 @@ Erweiterter Modus 1
 [Extended mode 2]
 Erweiterter Modus 2
 [Selected nick list background]
-
+Hintergrund ausgewählter Nick in Liste
 [Selected nick list text]
-
+Text ausgewählter Nick in Liste
 [Incremental search highlight]
 Inkrementelle Suchhervorhebung
 [Fields background]
@@ -964,7 +964,7 @@ Thema als Statusnachricht in der Kontaktliste anzeigen
 [Do not pop up the window when joining a chat room]
 Fenster beim Betreten eines Chatraumes nicht automatisch erzeugen
 [Sync splitter position with standard IM sessions]
-Splitterposition mit Standard-Nachrichtensitzungen synchronisieren
+Splitterposition mit Direktnachrichten-Sitzungen synchronisieren
 [Show contact's status modes if supported by the protocol]
 Kontaktstatus anzeigen, falls das Protokoll dies unterstützt
 [Display contact's status icon before user role icon]
@@ -1093,7 +1093,7 @@ Wählen Sie Ihre Optionen für das getabbte Interface. Nicht alle Optionen könn
 [Notifications]
 Benachrichtigungen
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
-Wählen Sie, wann Sie Ereignisbenachrichtigungen (Popups) für dieses Fenster sehen wollen. Die Einstellungen gelten für alle Registerkarten in diesem Fenster.
+Wählen Sie, wann Sie Ereignisbenachrichtigungen (Popups) für dieses Fenster sehen wollen. Die Einstellungen gelten für alle Tabs in diesem Fenster.
 [Flashing]
 Blinken
 [Window size and theme]
@@ -1117,11 +1117,11 @@ Umschaltleiste auf der linken Seite
 [Switch bar on the right side]
 Umschaltleiste auf der rechten Seite
 [Globally on]
-Immer anzeigen
+Global an
 [On, if present]
-Anzeigen (falls vorhanden)
+An, falls vorhanden
 [Globally OFF]
-Nie anzeigen
+Global AUS
 [On, if present, always in bottom display]
 An, falls vorhanden, immer unten anzeigen
 [Don't show them]
@@ -1256,9 +1256,9 @@ Eine Datei senden
 [Quote message]
 Nachricht zitieren
 [Clear message area]
-
+Nachrichtenbereich leeren
 [Toggle send later]
-Später senden
+Später-Senden umschalten
 [Send message]
 Nachricht senden
 [Show message history]
@@ -1278,9 +1278,9 @@ Infoleiste umschalten
 [Toggle text direction]
 Textrichtung umschalten
 [Toggle multi send]
-Nachrichten an mehrere Personen senden
+Mehrfach-Senden umschalten
 [Clear message log]
-Nachrichtenverlauf löschen
+Nachrichtenverlauf leeren
 [Collapse side bar]
 Sidebar schließen
 [Channel manager]
@@ -1288,7 +1288,7 @@ Channelmanager
 [Toggle filter]
 Filter umschalten
 [Toggle nick list]
-Nickliste ein-/ausblenden
+Nickliste umschalten
 [Show server window]
 Serverfenster anzeigen
 ;file \plugins\TabSRMM\src\infopanel.cpp
@@ -1329,9 +1329,9 @@ Chatraum
 [contact]
 Kontakt
 [Do not synchronize the panel height with IM windows]
-Syncronisiere nicht die Schaltflächenhöhe mit den IM-Fenstern
+Die Bereichshöhe nicht mit Direktnachrichtenfenstern synchronisieren
 [Do not synchronize the panel height with group chat windows]
-Die Bereichshöhe nicht mit der Höhe des Gruppenchatfensters synchronisieren
+Die Bereichshöhe nicht mit Gruppenchatfenstern synchronisieren
 [Inherit from container setting]
 Von den Containereinstellungen übernehmen
 [Always off]
@@ -1423,7 +1423,7 @@ Diese Datei existiert bereits. Wollen Sie diese überschreiben?
 [JPEG-compressed images]
 JPEG-komprimierte Bilder
 [Save and close session]
-Speichern und schließen
+Sitzung speichern und schließen
 [, %d %s, %d %s idle]
 , %d %s, %d %s untätig
 [hours]
@@ -1692,7 +1692,7 @@ Fenster-Anordnung
 [Message Log Options]
 Verlaufseinstellungen
 [Image tag]
-Bild Tagschaltfläche
+Bild Tag
 [Quote text]
 Text zitieren
 [Save and close]
@@ -1700,11 +1700,11 @@ Speichern und schließen
 [Smiley button]
 Smileyschaltfläche
 [Format bold]
-Fett
+Fett formatieren
 [Format italic]
-Kursiv
+Kursiv formatieren
 [Format underline]
-Unterstrichen
+Unterstrichen formatieren
 [Font face]
 Schriftart
 [Font color]
@@ -1759,7 +1759,7 @@ Funktion deaktiviert (als Overlay)
 Funktion aktiviert (als Overlay)
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
-Nachrichtenfenster - Instant Messaging
+Nachrichtenfenster - Direktnachrichten
 [Message windows - all]
 Nachrichtenfenster - Alle
 [Message windows - group chats]

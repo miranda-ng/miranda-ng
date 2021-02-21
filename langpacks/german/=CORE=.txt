@@ -338,7 +338,7 @@ Fenster nach abgeschlossener Übertragung schließen
 [Clear completed transfers on window closing]
 Komplette Übertragungen beim Schliessen des Fensters entfernen
 [Sort file transfers in the reverse order]
-
+Dateiübertragungen in umgekehrter Reihenfolge sortieren
 [Virus scanner]
 Virenscanner
 [Scan files:]
@@ -1157,7 +1157,7 @@ Vor Löschen von Kontakten fragen
 [Remove temporary contacts on exit]
 Temporäre Kontakte beim Beenden löschen
 [Search works as filter]
-
+Suche arbeitet als Filter
 ['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
 [Tray]
@@ -2210,7 +2210,7 @@ Chat-Stumm-Modus
 Extraicons
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
-
+Chat stumm
 ;file \src\mir_app\src\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Sie haben keinen Suchbegriff eingegeben, bitte einen Text eingeben und erneut versuchen.
@@ -2401,7 +2401,7 @@ Untergruppenmenü
 [New submenu]
 Neues Untermenü
 [Do you really want to delete this menu item?]
-
+Möchten Sie diesen Menüeintrag wirklich löschen?
 [Menus]
 Menüs
 ;file \src\mir_app\src\menu_tray.cpp

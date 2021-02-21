@@ -15,13 +15,13 @@ Weiter >
 [Cancel]
 Abbrechen
 [Checker's options]
-
+Einstellungen der Überprüfung
 [Customize settings and proceed to the checking.]
-
+Einstellungen anpassen und mit der Überprüfung fortfahren.
 [File name:]
 Dateiname:
 [Mark all events as read]
-
+Alle Ereignisse als gelesen markieren
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -58,7 +58,7 @@ Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen,
 [Database worker thread activated]
 Datenbankverarbeitungsfunktion gestartet
 [%d events marked as read]
-
+%d Ereignisse wurden als gelesen markiert
 [Processing aborted by user]
 Verarbeitung von Benutzer abgebrochen
 [Elapsed time: %d sec]
