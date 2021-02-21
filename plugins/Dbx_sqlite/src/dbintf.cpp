@@ -155,17 +155,19 @@ BOOL CDbxSQLite::Backup(LPCWSTR profile)
 	int rc = sqlite3_open_v2(path, &database, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE | SQLITE_OPEN_EXCLUSIVE, nullptr);
 	if (rc != SQLITE_OK) {
 		logError(rc, __FILE__, __LINE__);
-		return FALSE;
+		return rc;
 	}
 
 	mir_cslock lock(m_csDbAccess);
 
 	sqlite3_backup *backup = sqlite3_backup_init(database, "main", m_db, "main");
-	if (backup) {
-		sqlite3_backup_step(backup, -1);
-		sqlite3_backup_finish(backup);
+	if (backup == nullptr) {
+		sqlite3_close(database);
+		return ERROR_BACKUP_CONTROLLER;
 	}
-	
+
+	sqlite3_backup_step(backup, -1);
+	sqlite3_backup_finish(backup);
 	sqlite3_close(database);
 	return 0;
 }
