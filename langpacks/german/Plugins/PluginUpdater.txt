@@ -33,7 +33,7 @@ Alle
 [Silent mode]
 Stiller Modus
 [Restart Miranda automatically]
-Muranda automatisch neu starten
+Miranda automatisch neu starten
 [Backup database before update (requires Db_autobackups plugin)]
 Datenbank vor Aktualisierung sichern (benötigt Db_autobackups)
 [Number of backups to keep:]
