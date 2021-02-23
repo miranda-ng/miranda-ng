@@ -142,7 +142,7 @@ void DBCachedContact::AddEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread)
 {
 	m_count = HasCount() ? m_count + 1 : 1;
 	
-	if (unread && timestamp > m_unreadTimestamp) {
+	if (unread && m_unreadTimestamp > timestamp) {
 		m_unread = hDbEvent;
 		m_unreadTimestamp = timestamp;
 	}
