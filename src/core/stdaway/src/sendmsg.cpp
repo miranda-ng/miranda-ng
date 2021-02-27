@@ -250,9 +250,6 @@ public:
 
 	void onChange_Msg(CCtrlEdit *)
 	{
-		if (!m_bInitialized)
-			return;
-
 		if (m_countdown >= 0) {
 			m_timer.Stop();
 			m_btnOk.SetText(TranslateT("OK"));

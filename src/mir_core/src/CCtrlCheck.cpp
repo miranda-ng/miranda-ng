@@ -27,7 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CCtrlCheck::CCtrlCheck(CDlgBase *dlg, int ctrlId)
 	: CCtrlData(dlg, ctrlId)
-{}
+{
+	m_bNotifiable = true;
+}
 
 BOOL CCtrlCheck::OnCommand(HWND, WORD, WORD)
 {

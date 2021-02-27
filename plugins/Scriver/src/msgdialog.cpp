@@ -576,9 +576,6 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 
 void CMsgDialog::onChange_SplitterX(CSplitter *pSplitter)
 {
-	if (!m_bInitialized)
-		return;
-
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
@@ -591,9 +588,6 @@ void CMsgDialog::onChange_SplitterX(CSplitter *pSplitter)
 
 void CMsgDialog::onChange_SplitterY(CSplitter *pSplitter)
 {
-	if (!m_bInitialized)
-		return;
-
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 	m_pParent->iSplitterY = rc.bottom - pSplitter->GetPos();

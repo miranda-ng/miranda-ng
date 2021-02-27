@@ -515,7 +515,7 @@ protected:
 	HWND m_hwnd = nullptr;  // must be the first data item
 	int m_idCtrl;
 	CDlgBase* m_parentWnd;
-	bool m_bChanged = false, m_bSilent = false, m_bUseSystemColors = false;
+	bool m_bChanged = false, m_bSilent = false, m_bUseSystemColors = false, m_bNotifiable = false;
 
 public:
 	CCallback<CCtrlBase> OnChange;

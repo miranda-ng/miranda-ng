@@ -688,9 +688,6 @@ public:
 
 	void onChange_Text(CCtrlEdit *)
 	{
-		if (!m_bInitialized)
-			return;
-
 		if (!selchanging) {
 			changed = TRUE;
 			updateInfo[inEdit] = TRUE;
