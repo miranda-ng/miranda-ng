@@ -42,8 +42,10 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
-	bEnabledForNew(MODULENAME, "EnabledForNew", true)
-{}
+	bEnabledForNew(MODULENAME, "EnabledForNew", true),
+	bWipeOnStartup(MODULENAME, "WipeOnStartup", false)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -95,9 +97,11 @@ void RemoveAllEvents(MCONTACT hContact)
 		pCursor.DeleteEvent();
 }
 
-void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+static void CALLBACK WipeOnStart()
 {
-	RemoveReadEvents();
+	for (auto &cc : Contacts())
+		if (g_plugin.getByte(cc, DBSETTING_REMOVE))
+			RemoveAllEvents(cc);
 }
 
 int OnDatabaseEventAdd(WPARAM hContact, LPARAM hDBEvent)
@@ -265,6 +269,9 @@ int CMPlugin::Load()
 	InitCommonControlsEx(&icex); 	
 	
 	InitIcons();
+
+	if (bWipeOnStartup)
+		Miranda_WaitOnHandle(WipeOnStart);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 	HookEvent(ME_DB_CONTACT_ADDED, OnContactAdded);

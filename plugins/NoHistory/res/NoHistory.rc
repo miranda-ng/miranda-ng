@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
 
@@ -15,10 +15,8 @@
 // Neutral (Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 #pragma code_page(1251)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -27,9 +25,11 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_HKEEP               ICON         "history_enabled.ico"
-IDI_HREMOVE             ICON         "history_disabled.ico"
-IDI_HCLEAR              ICON         "history_clear.ico"
+IDI_HKEEP               ICON                    "history_enabled.ico"
+
+IDI_HREMOVE             ICON                    "history_disabled.ico"
+
+IDI_HCLEAR              ICON                    "history_clear.ico"
 
 
 #ifdef APSTUDIO_INVOKED
@@ -38,17 +38,17 @@ IDI_HCLEAR              ICON         "history_clear.ico"
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\0"
 END
@@ -61,19 +61,17 @@ END
 // Dialog
 //
 
-IDD_OPT DIALOGEX 0, 0, 312, 235
+IDD_OPT DIALOGEX 0, 0, 312, 251
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Custom1",IDC_LIST,"CListControl",WS_TABSTOP | 0x1d0,7,7,
-                    298,192,WS_EX_CLIENTEDGE
+    CONTROL         "Custom1",IDC_LIST,"CListControl",WS_TABSTOP | 0x1d0,7,7,298,192,WS_EX_CLIENTEDGE
     ICON            IDI_HKEEP,IDC_PIC_KEEP,8,203,21,20
-    LTEXT           "Keep history for this contact",IDC_STATIC,42,203,263,8,
-                    SS_NOPREFIX | SS_CENTERIMAGE
-    ICON            IDI_HREMOVE,IDC_PIC_REMOVE,8,218,21,20
-    LTEXT           "Disable history for this contact",IDC_STATIC,42,220,263,
-                    8,SS_NOPREFIX | SS_CENTERIMAGE
+    LTEXT           "Keep history for this contact",IDC_STATIC,34,203,263,8,SS_NOPREFIX | SS_CENTERIMAGE
+    ICON            IDI_HREMOVE,IDC_PIC_REMOVE,8,216,21,20
+    LTEXT           "Disable history for this contact",IDC_STATIC,34,218,263,8,SS_NOPREFIX | SS_CENTERIMAGE
+    CONTROL         "Remove history on startup",IDC_ONSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,234,298,10
 END
 
 
@@ -91,11 +89,22 @@ BEGIN
         RIGHTMARGIN, 305
         VERTGUIDE, 42
         TOPMARGIN, 7
-        BOTTOMMARGIN, 228
+        BOTTOMMARGIN, 244
         HORZGUIDE, 211
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////

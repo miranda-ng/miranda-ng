@@ -31,6 +31,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMPlugin();
 
 	CMOption<bool> bEnabledForNew;
+	CMOption<bool> bWipeOnStartup;
 
 	int Load() override;
 	int Unload() override;

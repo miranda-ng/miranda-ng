@@ -4,8 +4,6 @@ class CDlgOptionsDlg : public CDlgBase
 {
 	HANDLE hItemAll, hItemNew;
 
-	CCtrlClc clist;
-
 	void SetListGroupIcons(HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount = nullptr)
 	{
 		int iconOn = 1;
@@ -79,11 +77,17 @@ class CDlgOptionsDlg : public CDlgBase
 		}
 	}
 
+	CCtrlClc clist;
+	CCtrlCheck chkOnStartup;
+
 public:
 	CDlgOptionsDlg() :
 		CDlgBase(g_plugin, IDD_OPT),
-		clist(this, IDC_LIST)
+		clist(this, IDC_LIST),
+		chkOnStartup(this, IDC_ONSTARTUP)
 	{
+		CreateLink(chkOnStartup, g_plugin.bWipeOnStartup);
+
 		clist.OnNewContact = clist.OnListRebuilt = Callback(this, &CDlgOptionsDlg::onListRebuilt);
 		clist.OnOptionsChanged = Callback(this, &CDlgOptionsDlg::onOptionsChanged);
 		clist.OnContactMoved = Callback(this, &CDlgOptionsDlg::onContactMoved);
