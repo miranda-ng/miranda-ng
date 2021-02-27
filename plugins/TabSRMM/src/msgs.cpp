@@ -700,7 +700,6 @@ int LoadSendRecvMessageModule(void)
 	ReloadTabConfig();
 	NEN_ReadOptions(&nen_options);
 
-	db_set_b(0, TEMPLATES_MODULE, "setup", 2);
 	LoadDefaultTemplates();
 	return 0;
 }
