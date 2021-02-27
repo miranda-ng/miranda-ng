@@ -684,7 +684,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 	}
 
 	if (iNewStatus != ID_STATUS_OFFLINE && !m_nick[0] || !m_userID[0] || !m_name[0]) {
-		Clist_TrayNotifyW(m_szModuleName, TranslateT("IRC error"), TranslateT("Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name)."), NIIF_ERROR, 15000);
+		Clist_TrayNotifyW(m_szModuleName, TranslateT("IRC error"), TranslateT("Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name)."), NIIF_ERROR, 15000);
 		return 0;
 	}
 
