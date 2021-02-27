@@ -39,8 +39,18 @@ class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 	ptrW m_wszFileName;
 	sqlite3 *m_db = nullptr;
 
-	sqlite3_stmt *evt_cur_fwd = nullptr, *evt_cur_backwd = nullptr;
-	MCONTACT evt_cnt_fwd = 0, evt_cnt_backwd = 0;
+	struct {
+		sqlite3_stmt *cur;
+		MCONTACT hContact;
+		MEVENT hEvent;
+
+		void clear() {
+			if (cur)
+				sqlite3_reset(cur);
+			memset(this, 0, sizeof(*this));
+		}
+	}
+	fwd, back;
 
 	DBCachedContact m_system;
 
