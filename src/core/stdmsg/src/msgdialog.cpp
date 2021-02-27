@@ -1371,6 +1371,9 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 
 void CMsgDialog::onSplitterX(CSplitter *pSplitter)
 {
+	if (!m_bInitialized)
+		return;
+
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
@@ -1384,6 +1387,9 @@ void CMsgDialog::onSplitterX(CSplitter *pSplitter)
 
 void CMsgDialog::onSplitterY(CSplitter *pSplitter)
 {
+	if (!m_bInitialized)
+		return;
+
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
 
