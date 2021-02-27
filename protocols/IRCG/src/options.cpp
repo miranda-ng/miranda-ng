@@ -334,12 +334,13 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 				return false;
 			}
 
+		SERVER_INFO *pData;
 		if (m_action == 2) {
-			int i = m_owner->m_serverCombo.GetCurSel();
-			m_owner->m_serverCombo.DeleteString(i);
+			int j = m_owner->m_serverCombo.GetCurSel();
+			pData = (SERVER_INFO*)m_owner->m_serverCombo.GetItemData(j);
 		}
+		else pData = new SERVER_INFO;
 
-		SERVER_INFO *pData = new SERVER_INFO;
 		pData->m_iSSL = 0;
 		if (IsDlgButtonChecked(m_hwnd, IDC_ON))
 			pData->m_iSSL = 2;
@@ -469,8 +470,8 @@ bool CConnectPrefsDlg::OnInitDialog()
 	m_proto->m_hwndConnect = m_hwnd;
 
 	//	Fill the servers combo box and create SERVER_INFO structures
-	for (auto &si : g_servers)
-		m_serverCombo.AddStringA(si->m_name, LPARAM(si));
+	for (auto &it : g_servers)
+		m_serverCombo.AddStringA(it->m_name, LPARAM(it));
 
 	m_serverCombo.SetCurSel(m_proto->m_serverComboSelection);
 	m_server.SetTextA(m_proto->m_serverName);
@@ -508,15 +509,7 @@ bool CConnectPrefsDlg::OnInitDialog()
 	m_useSasl.SetState(m_proto->m_bUseSASL);
 	m_channelAway.SetState(m_proto->m_channelAwayNotification);
 	m_onlineNotif.SetState(m_proto->m_autoOnlineNotification);
-	m_onlineTimer.Enable(m_proto->m_autoOnlineNotification);
-	m_channelAway.Enable(m_proto->m_autoOnlineNotification);
-	m_spin1.Enable(m_proto->m_autoOnlineNotification);
-	m_spin2.Enable(m_proto->m_autoOnlineNotification && m_proto->m_channelAwayNotification);
-	m_limit.Enable(m_proto->m_autoOnlineNotification && m_proto->m_channelAwayNotification);
 	m_ident.SetState(m_proto->m_ident);
-	m_identSystem.Enable(m_proto->m_ident);
-	m_identPort.Enable(m_proto->m_ident);
-	m_identTimer.Enable(m_proto->m_ident);
 	m_identTimer.SetState(m_proto->m_identTimer);
 	m_disableError.SetState(m_proto->m_disableErrorPopups);
 	m_forceVisible.SetState(m_proto->m_forceVisible);
@@ -528,15 +521,6 @@ bool CConnectPrefsDlg::OnInitDialog()
 	m_showServer.SetState(!m_proto->m_hideServerWindow);
 	m_showServer.Enable(m_proto->m_useServer);
 	m_autoJoin.SetState(m_proto->m_joinOnInvite);
-
-	m_serverCombo.Enable(!m_proto->m_disableDefaultServer);
-	m_add.Enable(!m_proto->m_disableDefaultServer);
-	m_edit.Enable(!m_proto->m_disableDefaultServer);
-	m_del.Enable(!m_proto->m_disableDefaultServer);
-	m_server.Enable(!m_proto->m_disableDefaultServer);
-	m_port.Enable(!m_proto->m_disableDefaultServer);
-	m_port2.Enable(!m_proto->m_disableDefaultServer);
-	m_pass.Enable(!m_proto->m_disableDefaultServer);
 	return true;
 }
 
