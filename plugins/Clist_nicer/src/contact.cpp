@@ -65,21 +65,20 @@ HANDLE hThreadMFUpdate = nullptr;
 static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 {
 	DWORD  curTime = time(0);
-	DWORD  frequency, eventCount;
-	MEVENT hEvent = db_event_last(hContact);
-
-	eventCount = 0;
+	DWORD  frequency, eventCount = 0;
 
 	DBEVENTINFO dbei = {};
-	while (hEvent) {
+	DB::ECPTR cursor(DB::EventsRev(hContact));
+	while (MEVENT hEvent = cursor.FetchNext()) {
 		db_event_get(hEvent, &dbei);
 
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) { // record time of last event
+		// record time of last event
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
 			eventCount++;
-		}
+
 		if (eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
 			break;
-		hEvent = db_event_prev(hContact, hEvent);
+
 		if (doSleep && mf_updatethread_running == FALSE)
 			return;
 		if (doSleep)
@@ -136,7 +135,8 @@ void MF_InitCheck(void)
 
 DWORD INTSORT_GetLastMsgTime(MCONTACT hContact)
 {
-	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
+	DB::ECPTR cursor(DB::EventsRev(hContact));
+	while (MEVENT hDbEvent = cursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))

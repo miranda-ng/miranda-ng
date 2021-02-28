@@ -84,7 +84,8 @@ void CContactCache::Rebuild()
 		info->hContact = hContact;
 		info->rate = 0;
 
-		for (MEVENT hEvent = db_event_last(hContact); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
+		DB::ECPTR cursor(DB::EventsRev(hContact));
+		while (MEVENT hEvent = cursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
 			if (!db_event_get(hEvent, &dbei)) {
 				if (float weight = GetEventWeight(timestamp - dbei.timestamp)) {

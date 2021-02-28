@@ -80,13 +80,12 @@ void setLastSeen(MCONTACT hContact)
 
 time_t getLastInputMsg(MCONTACT hContact)
 {
-	MEVENT hDbEvent = db_event_last(hContact);
-	while (hDbEvent) {
+	DB::ECPTR cursor(DB::EventsRev(hContact));
+	while (MEVENT hDbEvent = cursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
 			return dbei.timestamp;
-		hDbEvent = db_event_prev(hContact, hDbEvent);
 	}
 	return -1;
 }
