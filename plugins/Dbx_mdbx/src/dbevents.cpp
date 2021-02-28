@@ -496,6 +496,9 @@ MEVENT CDbxMDBX::FindFirstEvent(MCONTACT contactID)
 		return cc->t_evLast = 0;
 
 	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.iov_base;
+	if (pKey->hContact != contactID)
+		return cc->t_evLast = 0;
+
 	cc->t_tsLast = pKey->ts;
 	return cc->t_evLast = (pKey->hContact == contactID) ? pKey->hEvent : 0;
 }
@@ -535,6 +538,9 @@ MEVENT CDbxMDBX::FindLastEvent(MCONTACT contactID)
 	}
 
 	const DBEventSortingKey *pKey = (const DBEventSortingKey*)key.iov_base;
+	if (pKey->hContact != contactID)
+		return cc->t_evLast = 0;
+
 	cc->t_tsLast = pKey->ts;
 	return cc->t_evLast = (pKey->hContact == contactID) ? pKey->hEvent : 0;
 }
@@ -623,7 +629,7 @@ class CMdbxEventCursor : public DB::EventCursor
 	friend class CDbxMDBX;
 	CDbxMDBX *m_pOwner;
 
-	bool m_bForward;
+	bool m_bForward, m_bFirst = true;
 	DBCachedContact *m_cc;
 	DBEventSortingKey m_key;
 
@@ -635,41 +641,38 @@ public:
 		m_cc(cc)
 	{
 		m_key.hContact = hContact;
-		if (bForward) {
-			m_key.hEvent = 0;
-			m_key.ts = 0;
-		}
-		else {
-			m_key.hEvent = 0xFFFFFFFF;
-			m_key.ts = 0xFFFFFFFFFFFFFFFF;
-		}
+		if (bForward)
+			m_key.hEvent = pDb->FindFirstEvent(hContact);
+		else
+			m_key.hEvent = pDb->FindLastEvent(hContact);
+
+		if (m_key.hEvent != 0)
+			m_key.ts = cc->t_tsLast;
 	}
 
 	MEVENT FetchNext() override
 	{
-		mdbx_cursor_bind(m_pOwner->StartTran(), m_pOwner->m_curEventsSort, m_pOwner->m_dbEventsSort);
+		// if initial seek returned nothing, keep returning 0 forever
+		if (m_bFirst) {
+			if (m_key.hEvent == 0)
+				return 0;
 
-		MDBX_cursor_op op = (m_bForward) ? MDBX_NEXT : MDBX_PREV;
-
-		MDBX_val key = { &m_key, sizeof(m_key) }, data;
-		switch (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET)) {
-		case MDBX_NOTFOUND:
-			// for forward cursors we're already on the first record after set
-			// for reverse cursors that means that we moved a pointer after last record, so we need to fetch
-			if (m_bForward)
-				op = MDBX_GET_CURRENT;
-			break;
-
-		case MDBX_SUCCESS:
-			break;
-
-		default:
-			return 0;
+			m_bFirst = false;
+			return m_key.hEvent;
 		}
 
-		if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, op) != MDBX_SUCCESS)
+		mdbx_cursor_bind(m_pOwner->StartTran(), m_pOwner->m_curEventsSort, m_pOwner->m_dbEventsSort);
+
+		// this is precise key position, if it doesn't exist - return
+		MDBX_val key = { &m_key, sizeof(m_key) }, data;
+		if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, MDBX_SET) != MDBX_SUCCESS)
 			return 0;
 
+		// move one record ahead or backward
+		if (mdbx_cursor_get(m_pOwner->m_curEventsSort, &key, &data, (m_bForward) ? MDBX_NEXT : MDBX_PREV) != MDBX_SUCCESS)
+			return 0;
+
+		// and this record should belong to the same contact
 		DBEventSortingKey dbKey = *(const DBEventSortingKey *)key.iov_base;
 		if (dbKey.hContact != hContact)
 			return 0;
