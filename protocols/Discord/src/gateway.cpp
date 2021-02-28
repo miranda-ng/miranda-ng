@@ -49,10 +49,9 @@ bool CDiscordProto::GatewayThreadWorker()
 		{ 0, 0 },
 	};
 
-	CMStringA szCookie(getMStringA("WSCookie"));
-	if (!szCookie.IsEmpty()) {
+	if (!m_szWSCookie.IsEmpty()) {
 		hdrs[1].szName = "Cookie";
-		hdrs[1].szValue = szCookie.GetBuffer();
+		hdrs[1].szValue = m_szWSCookie.GetBuffer();
 	}
 
 	NLHR_PTR pReply(WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", hdrs));
@@ -65,7 +64,7 @@ bool CDiscordProto::GatewayThreadWorker()
 		char *p = strchr(pszNewCookie, ';');
 		if (p) *p = 0;
 
-		setString("WSCookie", pszNewCookie);
+		m_szWSCookie = pszNewCookie;
 	}
 
 	if (pReply->resultCode != 101)
