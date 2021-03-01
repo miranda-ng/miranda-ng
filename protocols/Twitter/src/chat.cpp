@@ -131,18 +131,9 @@ void CTwitterProto::SetChatStatus(int status)
 			if (isChatRoom(hContact))
 				continue;
 
-			DBVARIANT uid, nick;
-			if (getString(hContact, TWITTER_KEY_UN, &uid))
-				continue;
-
-			if (!db_get_s(hContact, "CList", "MyHandle", &nick)) {
-				AddChatContact(uid.pszVal, nick.pszVal);
-				db_free(&nick);
-			}
-			else
-				AddChatContact(uid.pszVal);
-
-			db_free(&uid);
+			ptrA uid(getUStringA(hContact, TWITTER_KEY_UN)), nick(db_get_utfa(hContact, "CList", "MyHandle"));
+			if (uid)
+				AddChatContact(uid, nick);
 		}
 
 		// For some reason, I have to send an INITDONE message, even if I'm not actually
