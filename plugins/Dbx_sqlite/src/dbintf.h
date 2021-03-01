@@ -6,7 +6,7 @@
 
 struct DBCachedContact : public DBCachedContactBase
 {
-	uint32_t m_count;
+	int32_t  m_count;
 	MEVENT   m_unread;
 	uint32_t m_unreadTimestamp;
 
