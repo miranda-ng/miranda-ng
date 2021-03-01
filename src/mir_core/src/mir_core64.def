@@ -1489,3 +1489,11 @@ TimeZone_GetSystemTime @1692
 ?OnCommand@CCtrlColor@@UEAAHPEAUHWND__@@GG@Z @1712 NONAME
 ?OnReset@CCtrlColor@@UEAAXXZ @1713 NONAME
 ?SetColor@CCtrlColor@@QEAAXK@Z @1714 NONAME
+??0CCtrlSlider@@QEAA@PEAVCDlgBase@@HHH@Z @1715 NONAME
+??1CCtrlSlider@@UEAA@XZ @1716 NONAME
+??_7CCtrlSlider@@6B@ @1717 NONAME
+?GetPosition@CCtrlSlider@@QEAAHXZ @1718 NONAME
+?OnApply@CCtrlSlider@@UEAA_NXZ @1719 NONAME
+?OnCommand@CCtrlSlider@@MEAAHPEAUHWND__@@GG@Z @1720 NONAME
+?OnReset@CCtrlSlider@@UEAAXXZ @1721 NONAME
+?SetPosition@CCtrlSlider@@QEAAXH@Z @1722 NONAME

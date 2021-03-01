@@ -339,6 +339,11 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return FALSE;
 
+	case WM_HSCROLL:
+		if (auto *pCtrl = FindControl(HWND(lParam)))
+			pCtrl->OnCommand(HWND(lParam), pCtrl->m_idCtrl, WM_HSCROLL);
+		break;
+
 	case PSM_CHANGED:
 		if (m_bInitialized)
 			OnChange();

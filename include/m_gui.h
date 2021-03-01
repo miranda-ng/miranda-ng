@@ -839,6 +839,28 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlSlider
+
+class MIR_CORE_EXPORT CCtrlSlider : public CCtrlData
+{
+	typedef CCtrlData CSuper;
+
+	int m_wMin, m_wMax;
+
+protected:
+	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
+
+public:
+	CCtrlSlider(CDlgBase *dlg, int ctrlId, int max = 100, int min = 0);
+
+	bool OnApply() override;
+	void OnReset() override;
+
+	int  GetPosition();
+	void SetPosition(int pos);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlSpin
 
 class MIR_CORE_EXPORT CCtrlSpin : public CCtrlData

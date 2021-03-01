@@ -58,6 +58,7 @@
     <ClCompile Include="src\CCtrlMButton.cpp" />
     <ClCompile Include="src\CCtrlPages.cpp" />
     <ClCompile Include="src\CCtrlRichEdit.cpp" />
+    <ClCompile Include="src\CCtrlSlider.cpp" />
     <ClCompile Include="src\CCtrlSpin.cpp" />
     <ClCompile Include="src\CCtrlTreeOpts.cpp" />
     <ClCompile Include="src\CCtrlTreeView.cpp" />
