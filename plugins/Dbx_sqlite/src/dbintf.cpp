@@ -163,11 +163,12 @@ BOOL CDbxSQLite::Backup(LPCWSTR profile)
 	sqlite3_backup *backup = sqlite3_backup_init(database, "main", m_db, "main");
 	if (backup == nullptr) {
 		sqlite3_close(database);
+		DeleteFileW(profile);
 		return ERROR_BACKUP_CONTROLLER;
 	}
 
-	sqlite3_backup_step(backup, -1);
-	sqlite3_backup_finish(backup);
+	logError(sqlite3_backup_step(backup, -1), __FILE__, __LINE__);
+	logError(sqlite3_backup_finish(backup), __FILE__, __LINE__);
 	sqlite3_close(database);
 	return 0;
 }
