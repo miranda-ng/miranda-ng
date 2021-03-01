@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_database.h>
+#include <m_gui.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_protosvc.h>
