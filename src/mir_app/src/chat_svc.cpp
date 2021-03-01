@@ -420,14 +420,16 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 
 static INT_PTR CALLBACK sttEventStub(void *_param)
 {
+	ptrW wszId, wszUid, wszNick, wszText, wszStatus, wszUserInfo;
+
 	GCEVENT gce = *(GCEVENT*)_param;
 	if (gce.dwFlags & GCEF_UTF8) {
-		gce.pszID.w = NEWWSTR_ALLOCA(Utf2T(gce.pszID.a));
-		gce.pszUID.w = NEWWSTR_ALLOCA(Utf2T(gce.pszUID.a));
-		gce.pszNick.w = NEWWSTR_ALLOCA(Utf2T(gce.pszNick.a));
-		gce.pszText.w = NEWWSTR_ALLOCA(Utf2T(gce.pszText.a));
-		gce.pszStatus.w = NEWWSTR_ALLOCA(Utf2T(gce.pszStatus.a));
-		gce.pszUserInfo.w = NEWWSTR_ALLOCA(Utf2T(gce.pszUserInfo.a));
+		gce.pszID.w = (wszId = mir_utf8decodeW(gce.pszID.a));
+		gce.pszUID.w = (wszUid = mir_utf8decodeW(gce.pszUID.a));
+		gce.pszNick.w = (wszNick = mir_utf8decodeW(gce.pszNick.a));
+		gce.pszText.w = (wszText = mir_utf8decodeW(gce.pszText.a));
+		gce.pszStatus.w = (wszStatus = mir_utf8decodeW(gce.pszStatus.a));
+		gce.pszUserInfo.w = (wszUserInfo = mir_utf8decodeW(gce.pszUserInfo.a));
 		gce.dwFlags &= ~GCEF_UTF8;
 	}
 
