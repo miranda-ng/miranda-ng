@@ -27,8 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void cliFreeCacheItem(ClcCacheEntry *p)
 {
-	mir_free_and_nil(p->szSecondLineText);
-	mir_free_and_nil(p->szThirdLineText);
+	replaceStrW(p->szSecondLineText, nullptr);
+	replaceStrW(p->szThirdLineText, nullptr);
 	p->ssSecondLine.DestroySmileyList();
 	p->ssThirdLine.DestroySmileyList();
 
@@ -49,7 +49,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	if (pdnce->szProto == nullptr) {
 		pdnce->szProto = Proto_GetBaseAccountName(pdnce->hContact);
 		if (pdnce->szProto && pdnce->tszName)
-			mir_free_and_nil(pdnce->tszName);
+			replaceStrW(pdnce->tszName, nullptr);
 	}
 
 	if (pdnce->tszName == nullptr) {

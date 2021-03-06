@@ -1047,7 +1047,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			return -1;
 
 		if (fw.TitleBar.tooltip != nullptr)
-			mir_free_and_nil(fw.TitleBar.tooltip);
+			replaceStrW(fw.TitleBar.tooltip, nullptr);
 		if (bUnicodeText)
 			fw.TitleBar.tooltip = mir_wstrdup((LPTSTR)lParam);
 		else
@@ -1641,9 +1641,9 @@ static int _us_DoRemoveFrame(WPARAM wParam, LPARAM)
 	if (pos < 0 || pos>g_nFramesCount) return -1;;
 
 	FRAMEWND &F = g_pfwFrames[pos];
-	mir_free_and_nil(F.name);
-	mir_free_and_nil(F.TitleBar.tbname);
-	mir_free_and_nil(F.TitleBar.tooltip);
+	replaceStrW(F.name, nullptr);
+	replaceStrW(F.TitleBar.tbname, nullptr);
+	replaceStrW(F.TitleBar.tooltip, nullptr);
 	DestroyWindow(F.hWnd);
 	F.hWnd = (HWND)-1;
 	DestroyWindow(F.TitleBar.hwnd);

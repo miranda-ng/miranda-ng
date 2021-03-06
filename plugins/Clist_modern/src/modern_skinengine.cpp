@@ -1343,7 +1343,7 @@ int ske_AddDescriptorToSkinObjectList(SKINOBJECTDESCRIPTOR *lpDescr, SKINOBJECTS
 					memcpy(obdat, gl, sizeof(GLYPHOBJECT));
 					if (gl->szFileName != nullptr) {
 						obdat->szFileName = mir_strdup(gl->szFileName);
-						mir_free_and_nil(gl->szFileName);
+						replaceStr(gl->szFileName, nullptr);
 					}
 					else obdat->szFileName = nullptr;
 
@@ -1712,7 +1712,7 @@ int ske_UnloadGlyphImage(HBITMAP hbmp)
 		pLoadedImages[i].dwLoadedTimes--;
 		if (pLoadedImages[i].dwLoadedTimes == 0) {
 			LPGLYPHIMAGE gl = &(pLoadedImages[i]);
-			mir_free_and_nil(gl->szFileName);
+			replaceStrW(gl->szFileName, nullptr);
 			memmove(&(pLoadedImages[i]), &(pLoadedImages[i + 1]), sizeof(GLYPHIMAGE) * (dwLoadedImagesCount - i - 1));
 			dwLoadedImagesCount--;
 			DeleteObject(hbmp);
@@ -1745,7 +1745,7 @@ int ske_UnloadSkin(SKINOBJECTSLIST *Skin)
 		mir_free_and_nil(gl_plSkinFonts);
 	}
 
-	mir_free_and_nil(Skin->szSkinPlace);
+	replaceStrW(Skin->szSkinPlace, nullptr);
 	if (Skin->pTextList) List_Destroy(Skin->pTextList);
 	mir_free_and_nil(Skin->pTextList);
 	ModernSkinButtonDeleteAll();
@@ -1759,7 +1759,7 @@ int ske_UnloadSkin(SKINOBJECTSLIST *Skin)
 			if (dt->hGlyph && dt->hGlyph != (HBITMAP)-1)
 				ske_UnloadGlyphImage(dt->hGlyph);
 			dt->hGlyph = nullptr;
-			mir_free_and_nil(dt->szFileName);
+			replaceStr(dt->szFileName, nullptr);
 
 			if (dt->plTextList && dt->plTextList->realCount > 0) {
 				for (int k = 0; k < dt->plTextList->realCount; k++) {
@@ -1778,7 +1778,7 @@ int ske_UnloadSkin(SKINOBJECTSLIST *Skin)
 			mir_free(dt);
 			break;
 		}
-		mir_free_and_nil(Skin->pObjects[i].szObjectID);
+		replaceStr(Skin->pObjects[i].szObjectID, nullptr);
 	}
 	mir_free_and_nil(Skin->pObjects);
 	Skin->pTextList = nullptr;
@@ -1844,7 +1844,7 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST *pObjectList)
 	for (DWORD i = 0; i < pObjectList->pMaskList->dwMaskCnt; i++) {
 		MODERNMASK *mm = &(pObjectList->pMaskList->pl_Masks[i]);
 		void *pObject = (void *)ske_FindObjectByName(mm->szObjectName, OT_ANY, (SKINOBJECTSLIST *)pObjectList);
-		mir_free_and_nil(mm->szObjectName);
+		replaceStr(mm->szObjectName, nullptr);
 		mm->bObjectFound = TRUE;
 		mm->pObject = pObject;
 	}
@@ -1854,7 +1854,7 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST *pObjectList)
 		for (int i = 0; i < pObjectList->pTextList->realCount; i++) {
 			GLYPHTEXT *glText = (GLYPHTEXT *)pObjectList->pTextList->items[i];
 			SKINOBJECTDESCRIPTOR *lpobj = ske_FindObjectByName(glText->szObjectName, OT_GLYPHOBJECT, pObjectList);
-			mir_free_and_nil(glText->szObjectName);
+			replaceStr(glText->szObjectName, nullptr);
 			GLYPHOBJECT *globj = nullptr;
 			if (lpobj)
 				globj = (GLYPHOBJECT*)lpobj->Data;

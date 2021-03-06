@@ -543,8 +543,8 @@ int RegisterObjectByParce(char *ObjectName, char *Params)
 
 		obj.Data = &gl;
 		int res = ske_AddDescriptorToSkinObjectList(&obj, nullptr);
-		mir_free_and_nil(obj.szObjectID);
-		mir_free_and_nil(gl.szFileName);
+		replaceStr(obj.szObjectID, nullptr);
+		replaceStr(gl.szFileName, nullptr);
 		return res;
 	}
 
