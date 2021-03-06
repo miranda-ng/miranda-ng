@@ -23,121 +23,102 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "stdafx.h"
 
-static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CGenOptsDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SORTBYNAME, !g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT) && !g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SORTBYSTATUS, g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SORTBYPROTO, g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+	CCtrlCheck chkBlink, chkCycle, chkDontCycle, chkMultiTray;
 
-		CheckDlgButton(hwndDlg, IDC_ALWAYSMULTI, !g_plugin.getByte("AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DONTCYCLE, g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CYCLE, g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_CYCLE ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MULTITRAY, g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DISABLEBLINK, g_plugin.getByte("DisableTrayFlash", 0) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKTIME), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKSPIN), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_STMSDELAY), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
-		if (IsDlgButtonChecked(hwndDlg, IDC_DONTCYCLE)) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSMULTI), FALSE);
-		}
-		if (IsDlgButtonChecked(hwndDlg, IDC_CYCLE)) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSMULTI), FALSE);
-		}
-		if (IsDlgButtonChecked(hwndDlg, IDC_MULTITRAY)) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), FALSE);
-		}
-		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
-		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
-		{
-			ptrA szPrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
-
-			int item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Global"));
-			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM)0);
-
-			for (auto &pa : Accounts()) {
-				if (!pa->IsEnabled() || CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
-					continue;
-
-				item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
-				SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM)pa);
-				if (!mir_strcmp(szPrimaryStatus, pa->szModuleName))
-					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETCURSEL, item, 0);
-			}
-		}
-		if (CB_ERR == (int)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0))
-			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETCURSEL, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BLINKTIME), 0);   // set buddy
-		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETRANGE, 0, MAKELONG(0x3FFF, 250));
-		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("IconFlashTime", 550), 0));
-		return TRUE;
-	
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_DONTCYCLE || LOWORD(wParam) == IDC_CYCLE || LOWORD(wParam) == IDC_MULTITRAY) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PRIMARYSTATUS), IsDlgButtonChecked(hwndDlg, IDC_DONTCYCLE));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIME), IsDlgButtonChecked(hwndDlg, IDC_CYCLE));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLETIMESPIN), IsDlgButtonChecked(hwndDlg, IDC_CYCLE));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ALWAYSMULTI), IsDlgButtonChecked(hwndDlg, IDC_MULTITRAY));
-		}
-		if (LOWORD(wParam) == IDC_DISABLEBLINK) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKTIME), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKSPIN), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_STMSDELAY), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
-		}
-		if (LOWORD(wParam) == IDC_CYCLETIME && HIWORD(wParam) != EN_CHANGE)
-			break;
-		if (LOWORD(wParam) == IDC_PRIMARYSTATUS && HIWORD(wParam) != CBN_SELCHANGE)
-			break;
-		if (LOWORD(wParam) == IDC_CYCLETIME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-		if (LOWORD(wParam) == IDC_BLINKTIME && HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-			return 0;       // dont make apply enabled during buddy set crap
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-	
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				g_plugin.setByte("SortByStatus", (BYTE) (g_bSortByStatus = IsDlgButtonChecked(hwndDlg, IDC_SORTBYSTATUS)));
-				g_plugin.setByte("SortByProto", (BYTE) (g_bSortByProto = IsDlgButtonChecked(hwndDlg, IDC_SORTBYPROTO)));
-				g_plugin.setByte("AlwaysMulti", (BYTE)!IsDlgButtonChecked(hwndDlg, IDC_ALWAYSMULTI));
-				g_plugin.setByte("TrayIcon",
-					(BYTE)(IsDlgButtonChecked(hwndDlg, IDC_DONTCYCLE) ? SETTING_TRAYICON_SINGLE
-						: (IsDlgButtonChecked(hwndDlg, IDC_CYCLE) ? SETTING_TRAYICON_CYCLE :
-							SETTING_TRAYICON_MULTI)));
-				g_plugin.setWord("CycleTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
-				g_plugin.setWord("IconFlashTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
-				g_plugin.setByte("DisableTrayFlash", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
-				{
-					int cur = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);
-					PROTOACCOUNT* pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETITEMDATA, cur, 0);
-					if (pa == nullptr)
-						g_plugin.delSetting("PrimaryStatus");
-					else
-						g_plugin.setString("PrimaryStatus", pa->szModuleName);
-				}
-
-				Clist_TrayIconIconsChanged();
-				Clist_LoadContactTree();  /* this won't do job properly since it only really works when changes happen */
-				g_clistApi.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);        /* force reshuffle */
-				return TRUE;
-			}
-			break;
-		}
-		break;
+public:
+	CGenOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_CLIST),
+		chkBlink(this, IDC_DISABLEBLINK),
+		chkCycle(this, IDC_CYCLE),
+		chkDontCycle(this, IDC_DONTCYCLE),
+		chkMultiTray(this, IDC_MULTITRAY)
+	{
+		chkBlink.OnChange = Callback(this, &CGenOptsDlg::onChange_Blink);
+		chkCycle.OnChange = chkDontCycle.OnChange = chkMultiTray.OnChange = Callback(this, &CGenOptsDlg::onChange_Cycle);
 	}
-	return FALSE;
-}
+
+	bool OnInitDialog() override
+	{
+		CheckDlgButton(m_hwnd, IDC_SORTBYNAME, !g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT) && !g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SORTBYSTATUS, g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SORTBYPROTO, g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+
+		int iTrayIcon = g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT);
+		chkCycle.SetState(iTrayIcon == SETTING_TRAYICON_CYCLE);
+		chkDontCycle.SetState(iTrayIcon == SETTING_TRAYICON_SINGLE);
+
+		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !g_plugin.getByte("AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_DISABLEBLINK, g_plugin.getByte("DisableTrayFlash", 0) == 1 ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
+		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
+
+		ptrA szPrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
+
+		int item = SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Global"));
+		SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM)0);
+
+		for (auto &pa : Accounts()) {
+			if (!pa->IsEnabled() || CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+				continue;
+
+			item = SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
+			SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM)pa);
+			if (!mir_strcmp(szPrimaryStatus, pa->szModuleName))
+				SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_SETCURSEL, item, 0);
+		}
+
+		if (CB_ERR == (int)SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0))
+			SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_SETCURSEL, 0, 0);
+		SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(m_hwnd, IDC_BLINKTIME), 0);   // set buddy
+		SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_SETRANGE, 0, MAKELONG(0x3FFF, 250));
+		SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("IconFlashTime", 550), 0));
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		int iTrayIcon = chkDontCycle.IsChecked() ? SETTING_TRAYICON_SINGLE : (chkCycle.IsChecked() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI);
+
+		g_plugin.setByte("SortByStatus", (BYTE)(g_bSortByStatus = IsDlgButtonChecked(m_hwnd, IDC_SORTBYSTATUS)));
+		g_plugin.setByte("SortByProto", (BYTE)(g_bSortByProto = IsDlgButtonChecked(m_hwnd, IDC_SORTBYPROTO)));
+		g_plugin.setByte("AlwaysMulti", (BYTE)!IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
+		g_plugin.setByte("TrayIcon", iTrayIcon);
+		g_plugin.setWord("CycleTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
+		g_plugin.setWord("IconFlashTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+		g_plugin.setByte("DisableTrayFlash", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DISABLEBLINK));
+
+		int cur = SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);
+		PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETITEMDATA, cur, 0);
+		if (pa == nullptr)
+			g_plugin.delSetting("PrimaryStatus");
+		else
+			g_plugin.setString("PrimaryStatus", pa->szModuleName);
+
+		Clist_TrayIconIconsChanged();
+		Clist_LoadContactTree();  /* this won't do job properly since it only really works when changes happen */
+		g_clistApi.pfnInvalidateDisplayNameCacheEntry(INVALID_CONTACT_ID);        /* force reshuffle */
+		return true;
+	}
+
+	void onChange_Cycle(CCtrlCheck *)
+	{
+		EnableWindow(GetDlgItem(m_hwnd, IDC_PRIMARYSTATUS), chkDontCycle.IsChecked());
+		EnableWindow(GetDlgItem(m_hwnd, IDC_CYCLETIME), chkCycle.IsChecked());
+		EnableWindow(GetDlgItem(m_hwnd, IDC_CYCLETIMESPIN), chkCycle.IsChecked());
+		EnableWindow(GetDlgItem(m_hwnd, IDC_ALWAYSMULTI), chkMultiTray.IsChecked());
+	}
+
+	void onChange_Blink(CCtrlCheck *pCheck)
+	{
+		bool bEnabled = !pCheck->IsChecked();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BLINKTIME), bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BLINKSPIN), bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_STMSDELAY), bEnabled);
+	}
+};
 
 /****************************************************************************************/
 
@@ -145,9 +126,8 @@ int CListOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -1000000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST);
 	odp.szTitle.a = LPGEN("Contact list");
-	odp.pfnDlgProc = DlgProcGenOpts;
+	odp.pDialog = new CGenOptsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
