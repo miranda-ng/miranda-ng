@@ -57,7 +57,6 @@
 #define IDC_HIDECOUNTSWHENEMPTY         1356
 #define IDC_QUICKSEARCHVISONLY          1360
 #define IDC_SORTGROUPSALPHA             1361
-#define IDC_NOTNOSMOOTHSCROLLING        1362
 #define IDC_STWINDOWGROUP               1364
 #define IDC_STATIC01                    1365
 #define IDC_BRINGTOFRONT                1579

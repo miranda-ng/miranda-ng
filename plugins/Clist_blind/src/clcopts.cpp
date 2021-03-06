@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setting, wchar_t* out, size_t len, wchar_t *def);
+wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char *module, char *setting, wchar_t *out, size_t len, wchar_t *def);
 
 #define DBFONTF_BOLD       1
 #define DBFONTF_ITALIC     2
@@ -34,104 +34,80 @@ struct
 {
 	int id;
 	DWORD flag;
-	int not;
 }
 static checkBoxToStyleEx[] =
 {
-	{ IDC_SHOWGROUPCOUNTS, CLS_EX_SHOWGROUPCOUNTS, 0 },
-	{ IDC_HIDECOUNTSWHENEMPTY, CLS_EX_HIDECOUNTSWHENEMPTY, 0 },
-	{ IDC_QUICKSEARCHVISONLY, CLS_EX_QUICKSEARCHVISONLY, 0 },
-	{ IDC_SORTGROUPSALPHA, CLS_EX_SORTGROUPSALPHA, 0 },
-	{ IDC_NOTNOSMOOTHSCROLLING, CLS_EX_NOSMOOTHSCROLLING, 1 }
+	{ IDC_SHOWGROUPCOUNTS, CLS_EX_SHOWGROUPCOUNTS },
+	{ IDC_HIDECOUNTSWHENEMPTY, CLS_EX_HIDECOUNTSWHENEMPTY },
+	{ IDC_QUICKSEARCHVISONLY, CLS_EX_QUICKSEARCHVISONLY },
+	{ IDC_SORTGROUPSALPHA, CLS_EX_SORTGROUPSALPHA },
 };
 
-static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CCClcMainOptsDlg : public CDlgBase
 {
-	wchar_t tmp[1024];
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
-			for (auto &it : checkBoxToStyleEx)
-				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not) ? BST_CHECKED : BST_UNCHECKED);
-		}
-		{
-			UDACCEL accel[2] = { {0, 10} , {2, 50} };
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)& accel);
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0,
-				MAKELONG(db_get_w(0, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
-		}
-		CheckDlgButton(hwndDlg, IDC_IDLE, db_get_b(0, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) ? BST_CHECKED : BST_UNCHECKED);
-		SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
-		SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0,
-			MAKELONG(db_get_b(0, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN), 0));
-		SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
-		SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETPOS, 0,
-			MAKELONG(db_get_b(0, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT), 0));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SMOOTHTIME), IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
-
-		SetDlgItemText(hwndDlg, IDC_T_CONTACT, MyDBGetContactSettingTString(NULL, "CLC", "TemplateContact", tmp, 1024, TranslateT("%name% [%status% %protocol%] %status_message%")));
-		SendDlgItemMessage(hwndDlg, IDC_T_CONTACT, EM_LIMITTEXT, 256, 0);
-		SetDlgItemText(hwndDlg, IDC_T_GROUP, MyDBGetContactSettingTString(NULL, "CLC", "TemplateGroup", tmp, 1024, TranslateT("Group: %name% %count% [%mode%]")));
-		SendDlgItemMessage(hwndDlg, IDC_T_GROUP, EM_LIMITTEXT, 256, 0);
-		SetDlgItemText(hwndDlg, IDC_T_DIVIDER, MyDBGetContactSettingTString(NULL, "CLC", "TemplateDivider", tmp, 1024, TranslateT("Divider: %s")));
-		SendDlgItemMessage(hwndDlg, IDC_T_DIVIDER, EM_LIMITTEXT, 256, 0);
-		SetDlgItemText(hwndDlg, IDC_T_INFO, MyDBGetContactSettingTString(NULL, "CLC", "TemplateInfo", tmp, 1024, TranslateT("Info: %s")));
-		SendDlgItemMessage(hwndDlg, IDC_T_INFO, EM_LIMITTEXT, 256, 0);
-		return TRUE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_NOTNOSMOOTHSCROLLING)
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SMOOTHTIME), IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
-		if ((LOWORD(wParam) == IDC_LEFTMARGIN || LOWORD(wParam) == IDC_SMOOTHTIME || LOWORD(wParam) == IDC_GROUPINDENT)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-		if ((LOWORD(wParam) == IDC_T_CONTACT || LOWORD(wParam) == IDC_T_GROUP || LOWORD(wParam) == IDC_T_DIVIDER || LOWORD(wParam) == IDC_T_INFO)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				int i;
-				DWORD exStyle = 0;
-				for (i = 0; i < _countof(checkBoxToStyleEx); i++)
-					if ((IsDlgButtonChecked(hwndDlg, checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].not)
-						exStyle |= checkBoxToStyleEx[i].flag;
-
-				db_set_dw(0, "CLC", "ExStyle", exStyle);
-				db_set_b(0, "CLC", "ShowIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
-				db_set_b(0, "CLC", "LeftMargin",
-					(BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
-				db_set_w(0, "CLC", "ScrollTime",
-					(WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CLC", "GroupIndent",
-					(BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
-
-				GetDlgItemText(hwndDlg, IDC_T_CONTACT, tmp, _countof(tmp));
-				db_set_ws(0, "CLC", "TemplateContact", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_GROUP, tmp, _countof(tmp));
-				db_set_ws(0, "CLC", "TemplateGroup", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_DIVIDER, tmp, _countof(tmp));
-				db_set_ws(0, "CLC", "TemplateDivider", tmp);
-				GetDlgItemText(hwndDlg, IDC_T_INFO, tmp, _countof(tmp));
-				db_set_ws(0, "CLC", "TemplateInfo", tmp);
-
-				Clist_ClcOptionsChanged();
-				return TRUE;
-			}
-			break;
-		}
-		break;
+public:
+	CCClcMainOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_CLC)
+	{
 	}
-	return FALSE;
-}
+
+	bool OnInitDialog() override
+	{
+		DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+		for (auto &it : checkBoxToStyleEx)
+			CheckDlgButton(m_hwnd, it.id, (exStyle & it.flag) ? BST_CHECKED : BST_UNCHECKED);
+
+		UDACCEL accel[2] = { {0, 10} , {2, 50} };
+		SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
+		SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)&accel);
+		SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
+
+		CheckDlgButton(m_hwnd, IDC_IDLE, db_get_b(0, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(m_hwnd, IDC_LEFTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
+		SendDlgItemMessage(m_hwnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, MAKELONG(db_get_b(0, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN), 0));
+		SendDlgItemMessage(m_hwnd, IDC_GROUPINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
+		SendDlgItemMessage(m_hwnd, IDC_GROUPINDENTSPIN, UDM_SETPOS, 0, MAKELONG(db_get_b(0, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT), 0));
+
+		wchar_t tmp[1024];
+		SetDlgItemText(m_hwnd, IDC_T_CONTACT, MyDBGetContactSettingTString(NULL, "CLC", "TemplateContact", tmp, 1024, TranslateT("%name% [%status% %protocol%] %status_message%")));
+		SendDlgItemMessage(m_hwnd, IDC_T_CONTACT, EM_LIMITTEXT, 256, 0);
+		SetDlgItemText(m_hwnd, IDC_T_GROUP, MyDBGetContactSettingTString(NULL, "CLC", "TemplateGroup", tmp, 1024, TranslateT("Group: %name% %count% [%mode%]")));
+		SendDlgItemMessage(m_hwnd, IDC_T_GROUP, EM_LIMITTEXT, 256, 0);
+		SetDlgItemText(m_hwnd, IDC_T_DIVIDER, MyDBGetContactSettingTString(NULL, "CLC", "TemplateDivider", tmp, 1024, TranslateT("Divider: %s")));
+		SendDlgItemMessage(m_hwnd, IDC_T_DIVIDER, EM_LIMITTEXT, 256, 0);
+		SetDlgItemText(m_hwnd, IDC_T_INFO, MyDBGetContactSettingTString(NULL, "CLC", "TemplateInfo", tmp, 1024, TranslateT("Info: %s")));
+		SendDlgItemMessage(m_hwnd, IDC_T_INFO, EM_LIMITTEXT, 256, 0);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		DWORD exStyle = 0;
+		for (int i = 0; i < _countof(checkBoxToStyleEx); i++)
+			if (IsDlgButtonChecked(m_hwnd, checkBoxToStyleEx[i].id))
+				exStyle |= checkBoxToStyleEx[i].flag;
+		db_set_dw(0, "CLC", "ExStyle", exStyle);
+
+		db_set_b(0, "CLC", "ShowIdle", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_IDLE) ? 1 : 0));
+		db_set_b(0, "CLC", "LeftMargin", (BYTE)SendDlgItemMessage(m_hwnd, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
+		db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
+		db_set_b(0, "CLC", "GroupIndent", (BYTE)SendDlgItemMessage(m_hwnd, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
+
+		wchar_t tmp[1024];
+		GetDlgItemText(m_hwnd, IDC_T_CONTACT, tmp, _countof(tmp));
+		db_set_ws(0, "CLC", "TemplateContact", tmp);
+		GetDlgItemText(m_hwnd, IDC_T_GROUP, tmp, _countof(tmp));
+		db_set_ws(0, "CLC", "TemplateGroup", tmp);
+		GetDlgItemText(m_hwnd, IDC_T_DIVIDER, tmp, _countof(tmp));
+		db_set_ws(0, "CLC", "TemplateDivider", tmp);
+		GetDlgItemText(m_hwnd, IDC_T_INFO, tmp, _countof(tmp));
+		db_set_ws(0, "CLC", "TemplateInfo", tmp);
+
+		Clist_ClcOptionsChanged();
+		return true;
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -139,9 +115,8 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Contact list");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.szTitle.a = LPGEN("List");
-	odp.pfnDlgProc = DlgProcClcMainOpts;
+	odp.pDialog = new CCClcMainOptsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
