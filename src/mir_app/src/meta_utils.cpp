@@ -423,8 +423,8 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 		}
 	}
 	else if (g_metaOptions.clist_contact_name == CNNT_DISPLAYNAME) {
-		wchar_t *name = Clist_GetContactDisplayName(hContact);
-		if (name && mir_wstrcmp(name, TranslateT("(Unknown contact)")) != 0) {
+		wchar_t *name = Clist_GetContactDisplayName(hContact, GCDNF_NOUNKNOWN);
+		if (name) {
 			db_set_ws(ccMeta->contactID, META_PROTO, "Nick", name);
 			return 0;
 		}

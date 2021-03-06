@@ -51,13 +51,8 @@ static void FillContactList(HWND hList)
 
 	for (int i = 0; i < g_data.num_contacts; i++) {
 		LvItem.iItem = i;
-
-		wchar_t *ptszCDN = Clist_GetContactDisplayName(g_data.hContact[i]);
-		if (ptszCDN == nullptr)
-			ptszCDN = TranslateT("(Unknown contact)");
-
 		LvItem.iSubItem = 0; // clist display name
-		LvItem.pszText = ptszCDN;
+		LvItem.pszText = Clist_GetContactDisplayName(g_data.hContact[i]);
 		ListView_InsertItem(hList, &LvItem);
 
 		LvItem.iSubItem = 1; // id
@@ -269,13 +264,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		return TRUE;
 
 	case WMU_SETTITLE:
-		{
-			wchar_t *ptszCDN = Clist_GetContactDisplayName(lParam);
-			if (ptszCDN == nullptr)
-				ptszCDN = TranslateT("(Unknown contact)");
-
-			SetDlgItemText(hwndDlg, IDC_ED_NAME, ptszCDN);
-		}
+		SetDlgItemText(hwndDlg, IDC_ED_NAME, Clist_GetContactDisplayName(lParam));
 		return TRUE;
 
 	case WM_NOTIFY:

@@ -114,7 +114,7 @@ void fnInvalidateDisplayNameCacheEntry(MCONTACT hContact)
 MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 {
 	if (hContact == 0)
-		return TranslateT("(Unknown contact)");
+		return (mode & GCDNF_NOUNKNOWN) ? nullptr : TranslateT("(Unknown contact)");
 	
 	ClcCacheEntry *cacheEntry = nullptr;
 	if (mode & GCDNF_NOCACHE)
@@ -131,6 +131,9 @@ MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 			replaceStrW(cacheEntry->tszName, tszDisplayName);
 		return tszDisplayName.detach();
 	}
+
+	if (mode & GCDNF_NOUNKNOWN)
+		return nullptr;
 
 	ProtoChainSend(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
 

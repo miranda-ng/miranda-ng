@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "modern_awaymsg.h"
 
-CMStringW UnknownConctactTranslatedName;
-
 void cliFreeCacheItem(ClcCacheEntry *p)
 {
 	mir_free_and_nil(p->szSecondLineText);
@@ -55,8 +53,11 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	}
 
 	if (pdnce->tszName == nullptr) {
-		pdnce->tszName = Clist_GetContactDisplayName(pdnce->hContact, GCDNF_NOCACHE);
-		pdnce->m_bIsUnknown = !mir_wstrcmp(pdnce->tszName, UnknownConctactTranslatedName);
+		pdnce->tszName = Clist_GetContactDisplayName(pdnce->hContact, GCDNF_NOCACHE | GCDNF_NOUNKNOWN);
+		if (!pdnce->tszName) {
+			pdnce->m_bIsUnknown = true;
+			pdnce->tszName = TranslateT("(Unknown contact)");
+		}
 	}
 
 	if (pdnce->m_iStatus == 0) //very strange look status sort is broken let always reread status
@@ -191,7 +192,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 int OnLoadLangpack(WPARAM, LPARAM)
 {
-	UnknownConctactTranslatedName = TranslateT("(Unknown contact)");
 	if (!MirandaLoading())
 		ApplyViewMode(g_CluiData.current_viewmode);
 	return 0;

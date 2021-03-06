@@ -200,11 +200,9 @@ struct CSendLaterJob : public MZeroedObject
 				* show a popup notification, unless they are disabled
 				*/
 				if (fShowPopup) {
-					wchar_t *tszName = Clist_GetContactDisplayName(hContact);
-
 					POPUPDATAW ppd;
 					ppd.lchContact = hContact;
-					wcsncpy_s(ppd.lpwzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
+					wcsncpy_s(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), _TRUNCATE);
 					ptrW msgPreview(Utils::GetPreviewWithEllipsis(reinterpret_cast<wchar_t *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100));
 					if (fSuccess)
 						mir_snwprintf(ppd.lpwzText, TranslateT("A send later job completed successfully.\nThe original message: %s"), msgPreview);

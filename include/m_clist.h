@@ -484,6 +484,7 @@ EXTERN_C MIR_APP_DLL(int) Clist_ContactCompare(MCONTACT hContact1, MCONTACT hCon
 // returns a static display name for a contact
 
 #define GCDNF_NOMYHANDLE 1 // will never return the user's custom name
+#define GCDNF_NOUNKNOWN  2 // will return nullptr instead of "Unknown contact" 
 #define GCDNF_NOCACHE    4 // will not use the cache
 
 EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode = 0);

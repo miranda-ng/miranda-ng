@@ -349,7 +349,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 
 			// Here we will try to avoid the (Unknown contact) in cases where the protocol for 
 			// this user has been removed.
-			if (bNickUsed && (wcsstr(Clist_GetContactDisplayName(hContact), TranslateT("(Unknown contact)")) != nullptr))
+			if (bNickUsed && Clist_GetContactDisplayName(hContact, GCDNF_NOMYHANDLE) == nullptr)
 				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown contact)
 
 			// file name has changed
