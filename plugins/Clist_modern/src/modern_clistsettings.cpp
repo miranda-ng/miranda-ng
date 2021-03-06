@@ -56,7 +56,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		pdnce->tszName = Clist_GetContactDisplayName(pdnce->hContact, GCDNF_NOCACHE | GCDNF_NOUNKNOWN);
 		if (!pdnce->tszName) {
 			pdnce->m_bIsUnknown = true;
-			pdnce->tszName = TranslateT("(Unknown contact)");
+			pdnce->tszName = mir_wstrdup(TranslateT("(Unknown contact)"));
 		}
 	}
 
