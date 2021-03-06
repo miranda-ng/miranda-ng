@@ -55,9 +55,10 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	if (pdnce->tszName == nullptr) {
 		pdnce->tszName = Clist_GetContactDisplayName(pdnce->hContact, GCDNF_NOCACHE | GCDNF_NOUNKNOWN);
 		if (!pdnce->tszName) {
-			pdnce->m_bIsUnknown = true;
 			pdnce->tszName = mir_wstrdup(TranslateT("(Unknown contact)"));
+			pdnce->m_bIsUnknown = true;
 		}
+		else pdnce->m_bIsUnknown = false;
 	}
 
 	if (pdnce->m_iStatus == 0) //very strange look status sort is broken let always reread status
