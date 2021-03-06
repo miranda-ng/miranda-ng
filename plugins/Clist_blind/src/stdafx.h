@@ -54,7 +54,7 @@ struct ClcContact : public ClcContactBase {};
 struct ClcData : public ClcDataBase
 {
 	HWND hwnd_list;
-	BOOL need_rebuild;
+	bool bNeedsRebuild;
 };
 
 // shared vars

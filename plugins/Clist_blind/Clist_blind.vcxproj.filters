@@ -5,9 +5,6 @@
     <ClCompile Include="src\clcopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\clcpaint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\clistmenus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

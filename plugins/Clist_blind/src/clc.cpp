@@ -17,12 +17,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void PaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *rcPaint);
+static void ScrollTo(HWND, ClcData *dat, int, int)
+{
+	ListView_SetSelectionMark(dat->hwnd_list, dat->selection);
+	ListView_SetItemState(dat->hwnd_list, dat->selection, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 wchar_t status_name[128];
-static wchar_t* GetStatusName(struct ClcContact *item)
+static wchar_t* GetStatusName(ClcContact *item)
 {
 	status_name[0] = '\0';
 	if (item->hContact == NULL || item->pce->szProto == nullptr)
@@ -40,7 +44,7 @@ static wchar_t* GetStatusName(struct ClcContact *item)
 }
 
 wchar_t status_message[256];
-static wchar_t* GetStatusMessage(struct ClcContact *item)
+static wchar_t* GetStatusMessage(ClcContact *item)
 {
 	status_message[0] = '\0';
 	if (item->hContact == NULL || item->pce->szProto == nullptr)
@@ -57,7 +61,7 @@ static wchar_t* GetStatusMessage(struct ClcContact *item)
 }
 
 wchar_t proto_name[128];
-static wchar_t* GetProtoName(struct ClcContact *item)
+static wchar_t* GetProtoName(ClcContact *item)
 {
 	proto_name[0] = '\0';
 	if (item->hContact == NULL || item->pce->szProto == nullptr) {
@@ -77,9 +81,11 @@ static wchar_t* GetProtoName(struct ClcContact *item)
 	return proto_name;
 }
 
-static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
+static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, bool call_orig)
 {
-	ClcData *dat = (ClcData *)tmp_dat;
+	ClcData *dat = tmp_dat;
+	int level = 0, iItem = 0;
+
 	wchar_t tmp[1024];
 	wchar_t template_contact[1024];
 	wchar_t template_group[1024];
@@ -89,7 +95,7 @@ static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_ori
 	BOOL has_focus = (GetFocus() == dat->hwnd_list || GetFocus() == hwnd);
 
 	if (call_orig)
-		coreCli.pfnRebuildEntireList(hwnd, (ClcData *)dat);
+		coreCli.pfnRebuildEntireList(hwnd, dat);
 
 	MyDBGetContactSettingTString(NULL, "CLC", "TemplateContact", template_contact, 1024, TranslateT("%name% [%status% %protocol%] %status_message%"));
 	MyDBGetContactSettingTString(NULL, "CLC", "TemplateGroup", template_group, 1024, TranslateT("Group: %name% %count% [%mode%]"));
@@ -99,7 +105,7 @@ static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_ori
 	SendMessage(dat->hwnd_list, WM_SETREDRAW, FALSE, 0);
 
 	// Reset content
-	SendMessage(dat->hwnd_list, LB_RESETCONTENT, 0, 0);
+	ListView_DeleteAllItems(dat->hwnd_list);
 
 	// Set font
 	SendMessage(dat->hwnd_list, WM_SETFONT, (WPARAM)dat->fontInfo[FONTID_CONTACTS].hFont, 0);
@@ -114,8 +120,8 @@ static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_ori
 		if (group->scanIndex == group->cl.getCount()) {
 			if ((group = group->parent) == nullptr)
 				break;
-			text -= 2;
-			size += 2;
+			
+			level--;
 			group->scanIndex++;
 			continue;
 		}
@@ -164,14 +170,17 @@ static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_ori
 			break;
 		}
 
-		SendMessage(dat->hwnd_list, LB_ADDSTRING, 0, (LPARAM)tmp);
+		LVITEMW lvi = {};
+		lvi.iItem = iItem++;
+		lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_INDENT;
+		lvi.pszText = tmp;
+		lvi.iIndent = level;
+		lvi.lParam = LPARAM(item);
+		ListView_InsertItem(dat->hwnd_list, &lvi);
 
 		if (item->type == CLCIT_GROUP && item->group->expanded) {
 			group = item->group;
-			text[0] = ' ';
-			text[1] = ' ';
-			text += 2;
-			size -= 2;
+			level++;
 			group->scanIndex = 0;
 			continue;
 		}
@@ -181,12 +190,19 @@ static void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_ori
 	SendMessage(dat->hwnd_list, WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(dat->hwnd_list, nullptr, TRUE);
 
+	if (dat->list.cl.getCount()) {
+		RECT rc;
+		ListView_GetItemRect(dat->hwnd_list, 0, &rc, LVIR_SELECTBOUNDS);
+		if (rc.bottom > rc.top)
+			dat->rowHeight = rc.bottom - rc.top;
+	}
+
 	dat->selection = selection;
-	SendMessage(dat->hwnd_list, LB_SETCURSEL, dat->selection, 0);
+	ScrollTo(dat->hwnd_list, dat, 0, 0);
 	if (has_focus)
 		SetFocus(dat->hwnd_list);
 
-	dat->need_rebuild = FALSE;
+	dat->bNeedsRebuild = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -208,8 +224,22 @@ static LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 static LRESULT CALLBACK ContactListControlSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_CHAR) {
-		coreCli.pfnContactListControlWndProc(GetParent(hwnd), msg, wParam, lParam);
+	switch (msg) {
+	case WM_KEYDOWN:
+		if (wParam == VK_LEFT || wParam == VK_RIGHT || wParam == VK_RETURN || wParam == VK_DELETE || wParam == VK_F2)
+			coreCli.pfnContactListControlWndProc(GetParent(hwnd), WM_KEYDOWN, wParam, 0);
+		break;
+
+	case WM_CHAR:
+		HWND hwndParent = GetParent(hwnd);
+		ClcData *dat = (ClcData *)GetWindowLongPtr(hwndParent, 0);
+		int iSaveSelection = dat->selection;
+
+		coreCli.pfnContactListControlWndProc(hwndParent, msg, wParam, lParam);
+
+		if (iSaveSelection != dat->selection)
+			ScrollTo(dat->hwnd_list, dat, 0, 0);
+
 		return 0;
 	}
 
@@ -228,25 +258,38 @@ static LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wP
 		dat = new ClcData();
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 
-		dat->hwnd_list = CreateWindowW(L"LISTBOX", L"",
-			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL),
+		dat->hwnd_list = CreateWindowW(WC_LISTVIEWW, L"", 
+			WS_VISIBLE | WS_CHILD | WS_VSCROLL | LVS_NOCOLUMNHEADER | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_REPORT,
 			0, 0, 0, 0, hwnd, nullptr, g_plugin.getInst(), nullptr);
-		dat->need_rebuild = FALSE;
+		dat->bNeedsRebuild = false;
 		mir_subclassWindow(dat->hwnd_list, ContactListControlSubclass);
+
+		ListView_SetExtendedListViewStyle(dat->hwnd_list, LVS_EX_FULLROWSELECT);
 
 		GetClientRect(hwnd, &r);
 		SetWindowPos(dat->hwnd_list, nullptr, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
+		{
+			LVCOLUMN lvc = {};
+			lvc.mask = LVCF_FMT | LVCF_WIDTH;
+			lvc.fmt = LVCFMT_LEFT;
+			lvc.cx = r.right - r.left;
+			ListView_InsertColumn(dat->hwnd_list, 0, &lvc);
+
+			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 10, 1);
+			ListView_SetImageList(dat->hwnd_list, hImgList, LVSIL_SMALL);
+		}
 		break;
 
 	case WM_SIZE:
 		GetClientRect(hwnd, &r);
 		SetWindowPos(dat->hwnd_list, nullptr, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
+		ListView_SetColumnWidth(dat->hwnd_list, 0, r.right - r.left);
 		break;
 
 	case WM_PRINTCLIENT:
 	case WM_PAINT:
-		if (dat->need_rebuild)
-			RebuildEntireListInternal(hwnd, (ClcData *)dat, FALSE);
+		if (dat->bNeedsRebuild)
+			RebuildEntireListInternal(hwnd, dat, false);
 		__fallthrough;
 
 	case WM_VSCROLL:
@@ -256,37 +299,10 @@ static LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wP
 	case INTM_SCROLLBARCHANGED:
 		return TRUE;
 
-	case WM_VKEYTOITEM:
-		{
-			WORD key = LOWORD(wParam);
-			if (key == VK_LEFT || key == VK_RIGHT || key == VK_RETURN || key == VK_DELETE || key == VK_F2) {
-				coreCli.pfnContactListControlWndProc(hwnd, WM_KEYDOWN, key, 0);
-				return dat->selection;
-			}
-
-			NMKEY nmkey;
-			nmkey.hdr.hwndFrom = hwnd;
-			nmkey.hdr.idFrom = GetDlgCtrlID(hwnd);
-			nmkey.hdr.code = NM_KEYDOWN;
-			nmkey.nVKey = key;
-			nmkey.uFlags = 0;
-			if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nmkey))
-				return -2;
-		}
-		return -1;
-
-	case WM_COMMAND:
-		if ((HANDLE)lParam != dat->hwnd_list || HIWORD(wParam) != LBN_SELCHANGE)
-			break;
-
-		dat->selection = SendMessage(dat->hwnd_list, LB_GETCURSEL, 0, 0);
-
-		KillTimer(hwnd, TIMERID_INFOTIP);
-		KillTimer(hwnd, TIMERID_RENAME);
-		dat->szQuickSearch[0] = 0;
-		g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
-		Clist_EnsureVisible(hwnd, (ClcData *)dat, dat->selection, 0);
-		UpdateWindow(hwnd);
+	case WM_NOTIFY:
+		if (LPNMHDR pnmh = (LPNMHDR)lParam)
+			if (pnmh->code == LVN_ITEMCHANGED || pnmh->code == LVN_ITEMACTIVATE)
+				dat->selection = ListView_GetSelectionMark(dat->hwnd_list);
 		break;
 
 	case WM_SETFOCUS:
@@ -300,42 +316,36 @@ static LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wP
 
 static void RebuildEntireList(HWND hwnd, ClcData *dat)
 {
-	RebuildEntireListInternal(hwnd, dat, TRUE);
+	RebuildEntireListInternal(hwnd, dat, true);
 }
 
-static void SetGroupExpand(HWND hwnd, ClcData *dat, struct ClcGroup *group, int newState)
+static void SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState)
 {
 	coreCli.pfnSetGroupExpand(hwnd, dat, group, newState);
-	dat->need_rebuild = TRUE;
-}
-
-static void ScrollTo(HWND, ClcData *, int, int)
-{
+	dat->bNeedsRebuild = true;
 }
 
 static void RecalcScrollBar(HWND, ClcData *)
 {
 }
 
+static int GetRowHeight(ClcData *dat, int)
+{
+	return dat->rowHeight;
+}
+
 static void LoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
 	coreCli.pfnLoadClcOptions(hwnd, dat, bFirst);
 
-	dat->bFilterSearch = false;
-	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
-}
-
-static int GetRowHeight(ClcData *dat, int)
-{
-	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
-	return dat->rowHeight;
+	dat->rowHeight = 16;
 }
 
 static void SortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 {
 	if (dat->bNeedsResort) {
 		coreCli.pfnSortCLC(hwnd, dat, useInsertionSort);
-		dat->need_rebuild = TRUE;
+		dat->bNeedsRebuild = true;
 	}
 }
 
@@ -345,7 +355,6 @@ void InitClc()
 	coreCli = g_clistApi;
 	g_clistApi.bOwnerDrawMenu = false;
 	g_clistApi.hInst = g_plugin.getInst();
-	g_clistApi.pfnPaintClc = PaintClc;
 	g_clistApi.pfnContactListWndProc = ContactListWndProc;
 	g_clistApi.pfnContactListControlWndProc = ContactListControlWndProc;
 	g_clistApi.pfnRebuildEntireList = RebuildEntireList;

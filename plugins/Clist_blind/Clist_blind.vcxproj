@@ -32,7 +32,6 @@
   <ItemGroup>
     <ClCompile Include="src\clc.cpp" />
     <ClCompile Include="src\clcopts.cpp" />
-    <ClCompile Include="src\clcpaint.cpp" />
     <ClCompile Include="src\clistmenus.cpp" />
     <ClCompile Include="src\clistopts.cpp" />
     <ClCompile Include="src\cluiopts.cpp" />

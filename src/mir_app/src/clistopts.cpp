@@ -126,6 +126,7 @@ public:
 		}
 		Clist::OfflineModes = flags;
 
+		Clist_ClcOptionsChanged();
 		Clist_LoadContactTree();
 		Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 		return true;
