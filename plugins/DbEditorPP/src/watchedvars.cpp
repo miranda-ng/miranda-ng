@@ -339,13 +339,12 @@ void openWatchedVarWindow()
 		SetForegroundWindow(hwnd2watchedVarsWindow);
 }
 
-
 void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 {
 	int timeout = g_plugin.iPopupDelay;
 	
 	wchar_t value[MAX_SECONDLINE];
-	int type = GetValue(hContact, module, setting, value, _countof(value));
+	int type = GetValueW(hContact, module, setting, value, _countof(value));
 
 	POPUPDATAW ppd;
 	GetContactName(hContact, nullptr, ppd.lpwzContactName, _countof(ppd.lpwzContactName));

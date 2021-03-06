@@ -204,13 +204,7 @@ extern bool g_bUsePopups;
 #define HEX_WORD		2
 #define HEX_DWORD		4
 
-#ifdef _UNICODE
-#define GetValue(a,b,c,d,e)	GetValueW(a,b,c,d,e)
-#else
-#define GetValue(a,b,c,d,e)	GetValueA(a,b,c,d,e)
-#endif
-
-//main
+// main
 char *StringFromBlob(BYTE *blob, WORD len);
 int WriteBlobFromString(MCONTACT hContact, const char *module, const char *setting, const char *value, int len);
 wchar_t *DBVType(BYTE type);

@@ -1,24 +1,5 @@
 #include "stdafx.h"
 
-
-
-#ifdef _UNICODE
-#define FindMatchT(a,b,c)	FindMatchW(a,b,c)
-#else
-#define FindMatchT(a,b,c)	FindMatchA(a,b,c)
-#endif
-
-
-#ifdef _UNICODE
-#define multiReplaceT(a,b,c,d)	multiReplaceW(a,b,c,d)
-#else
-#define multiReplaceT(a,b,c,d)	multiReplaceA(a,b,c,d)
-#endif
-
-
-static int lastColumn = -1;
-
-
 #define F_CASE		1
 #define F_EXACT		2
 #define F_MODNAME	4
@@ -34,17 +15,17 @@ static int lastColumn = -1;
 #define F_REPLACED	0x200
 #define F_DELETED	0x400
 
+static int lastColumn = -1;
 
-typedef struct
+struct FindInfo
 {
 	HWND hwnd; // hwnd to item list
 	wchar_t* search; // text to find
 	wchar_t* replace; // text to replace
 	int options; // or'd about items
-} FindInfo;
+};
 
-
-ColumnsSettings csResultList[] =
+static ColumnsSettings csResultList[] =
 {
 	{ LPGENW("Result"),  0, "Search0width", 100 },
 	{ LPGENW("Contact"), 1, "Search1width", 100 },
@@ -112,7 +93,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_SETTINGVALUE))
 					break;
 
-				FindInfo *fi = (FindInfo*)mir_calloc(sizeof(FindInfo));
+				FindInfo *fi = (FindInfo *)mir_calloc(sizeof(FindInfo));
 				if (!fi)
 					break;
 
@@ -157,7 +138,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_GETMINMAXINFO:
 		{
-			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
 			mmi->ptMinTrackSize.x = 610;
 			mmi->ptMinTrackSize.y = 300;
 		}
@@ -169,11 +150,11 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_NOTIFY:
 		if (LOWORD(wParam) != IDC_LIST) break;
-		switch (((NMHDR*)lParam)->code) {
+		switch (((NMHDR *)lParam)->code) {
 		case NM_DBLCLK:
 			LVHITTESTINFO hti;
 			LVITEM lvi;
-			hti.pt = ((NMLISTVIEW*)lParam)->ptAction;
+			hti.pt = ((NMLISTVIEW *)lParam)->ptAction;
 			if (ListView_SubItemHitTest(hwndResults, &hti) > -1) {
 				if (hti.flags & LVHT_ONITEM) {
 					lvi.mask = LVIF_PARAM;
@@ -222,10 +203,10 @@ void newFindWindow()
 	CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FIND), hwnd2mainWindow, FindWindowDlgProc);
 }
 
-void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *setting, wchar_t* value, int type)
+void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int type)
 {
 	wchar_t name[NAME_SIZE];
-	wchar_t* mode;
+	wchar_t *mode;
 
 	if (type & F_REPLACED)
 		mode = TranslateT("Replaced");
@@ -256,7 +237,7 @@ void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *set
 }
 
 
-char* multiReplaceA(const char *value, const char *search, const char *replace, int cs)
+char *multiReplaceA(const char *value, const char *search, const char *replace, int cs)
 {
 	int slen = (int)mir_strlen(search);
 	int rlen = (int)mir_strlen(replace);
@@ -266,8 +247,8 @@ char* multiReplaceA(const char *value, const char *search, const char *replace, 
 	int newlen = (!slen) ? rlen + 1 : ((rlen <= slen) ? vlen + 1 : vlen * rlen / slen + 1);
 
 	char *head;
-	char *in = (char*)value;
-	char *out = (char*)mir_alloc(newlen * sizeof(char));
+	char *in = (char *)value;
+	char *out = (char *)mir_alloc(newlen * sizeof(char));
 	out[0] = 0;
 
 	while (head = ci ? strstr(in, search) : StrStrIA(in, search)) {
@@ -281,7 +262,7 @@ char* multiReplaceA(const char *value, const char *search, const char *replace, 
 	return out;
 }
 
-WCHAR* multiReplaceW(const WCHAR *value, const WCHAR *search, const WCHAR *replace, int cs)
+WCHAR *multiReplaceW(const WCHAR *value, const WCHAR *search, const WCHAR *replace, int cs)
 {
 	int slen = (int)mir_wstrlen(search);
 	int rlen = (int)mir_wstrlen(replace);
@@ -291,8 +272,8 @@ WCHAR* multiReplaceW(const WCHAR *value, const WCHAR *search, const WCHAR *repla
 	int newlen = (!slen) ? rlen + 1 : ((rlen <= slen) ? vlen + 1 : vlen * rlen / slen + 1);
 
 	WCHAR *head;
-	WCHAR *in = (WCHAR*)value;
-	WCHAR *out = (WCHAR*)mir_alloc(newlen * sizeof(WCHAR));
+	WCHAR *in = (WCHAR *)value;
+	WCHAR *out = (WCHAR *)mir_alloc(newlen * sizeof(WCHAR));
 	out[0] = 0;
 
 	while (head = ci ? wcsstr(in, search) : StrStrIW(in, search)) {
@@ -333,7 +314,7 @@ int FindMatchW(const WCHAR *text, WCHAR *search, int options)
 }
 
 
-void fi_free(FindInfo* fi)
+void fi_free(FindInfo *fi)
 {
 	mir_free(fi->search);
 	mir_free(fi->replace);
@@ -343,7 +324,7 @@ void fi_free(FindInfo* fi)
 
 void __cdecl FindSettings(LPVOID param)
 {
-	FindInfo* fi = (FindInfo*)param;
+	FindInfo *fi = (FindInfo *)param;
 	HWND hwndParent = GetParent(fi->hwnd);
 
 	ModuleSettingLL ModuleList, SettingList;
@@ -461,14 +442,14 @@ void __cdecl FindSettings(LPVOID param)
 						case DBVT_ASCIIZ:
 							if (!value) value = mir_a2u(dbv.pszVal);
 
-							if (FindMatchT(value, fi->search, fi->options)) {
+							if (FindMatchW(value, fi->search, fi->options)) {
 								foundCount++;
 								ptrW ptr;
 								wchar_t *newValue = value;
 								int flag = F_SETVAL;
 
 								if (fi->replace) {
-									newValue = (fi->options & F_ENTIRE) ? fi->replace : ptr = multiReplaceT(value, fi->search, fi->replace, fi->options & F_CASE);
+									newValue = (fi->options & F_ENTIRE) ? fi->replace : ptr = multiReplaceW(value, fi->search, fi->replace, fi->options & F_CASE);
 									// !!!! delete or make empty ?
 									if (!newValue[0]) {
 										db_unset(hContact, module->name, setting->name);
@@ -477,12 +458,10 @@ void __cdecl FindSettings(LPVOID param)
 										deleteCount++;
 									}
 									else {
-#ifdef _UNICODE
 										// save as unicode if needed
 										if (dbv.type != DBVT_ASCIIZ || IsRealUnicode(newValue))
 											db_set_ws(hContact, module->name, setting->name, newValue);
 										else
-#endif
 											db_set_s(hContact, module->name, setting->name, _T2A(newValue));
 										flag |= F_REPLACED;
 										replaceCount++;
