@@ -500,7 +500,6 @@ static void SaveLatestChanges(HWND hwndDlg)
 	ChangedSItems.bCOLOR2 = FALSE;
 	ChangedSItems.bCOLOR2_TRANSPARENT = FALSE;
 	ChangedSItems.bTEXTCOLOR = FALSE;
-	ChangedSItems.bALPHA = FALSE;
 	ChangedSItems.bMARGIN_LEFT = FALSE;
 	ChangedSItems.bMARGIN_TOP = FALSE;
 	ChangedSItems.bMARGIN_RIGHT = FALSE;
