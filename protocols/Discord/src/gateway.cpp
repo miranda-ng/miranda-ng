@@ -68,8 +68,14 @@ bool CDiscordProto::GatewayThreadWorker()
 	}
 
 	// if there's no cookie & Miranda is bounced with error 404, simply apply the cookie and try again
-	if (pReply->resultCode != 101)
-		return pReply->resultCode == 404 && hdrs[1].szName == nullptr;
+	if (pReply->resultCode != 101) {
+		if (pReply->resultCode == 404) { // shitty Cloudflare...
+			if (hdrs[1].szName != nullptr)
+				m_szWSCookie.Empty(); // don't use the same cookie twice
+			return true;
+		}
+		return false;
+	}
 
 	// succeeded!
 	debugLogA("Gateway connection succeeded");
