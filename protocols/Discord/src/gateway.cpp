@@ -67,12 +67,13 @@ bool CDiscordProto::GatewayThreadWorker()
 		m_szWSCookie = pszNewCookie;
 	}
 
-	// if there's no cookie & Miranda is bounced with error 404, simply apply the cookie and try again
 	if (pReply->resultCode != 101) {
-		if (pReply->resultCode == 404) { // shitty Cloudflare...
-			if (hdrs[1].szName != nullptr)
-				m_szWSCookie.Empty(); // don't use the same cookie twice
-			return true;
+		// if there's no cookie & Miranda is bounced with error 404, simply apply the cookie and try again
+		if (pReply->resultCode == 404) {
+			if (hdrs[1].szName == nullptr)
+				return true;
+
+			m_szWSCookie.Empty(); // don't use the same cookie twice
 		}
 		return false;
 	}
