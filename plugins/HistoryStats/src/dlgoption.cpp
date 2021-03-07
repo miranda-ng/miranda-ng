@@ -174,14 +174,12 @@ void DlgOption::onRunStats()
 void DlgOption::onBandClicked(HANDLE hButton, INT_PTR dwData)
 {
 	if (dwData >= opFirstPage && dwData <= opLastPage && dwData != m_nCurPage) {
-		if (m_nCurPage != dwData) {
 			if (m_nCurPage != -1) {
 				m_Band.checkButton(m_hPageButton[m_nCurPage], false);
 				m_pPage[m_nCurPage]->hide();
 			}
 
 			m_nCurPage = dwData;
-		}
 
 		m_Band.checkButton(hButton, true);
 		m_pPage[m_nCurPage]->show();
