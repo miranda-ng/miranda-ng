@@ -346,24 +346,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		CGlobals::logStatusChange(wParam, reinterpret_cast<CContactCache *>(lParam));
 		return 0;
 
-	case DM_MUCFLASHWORKER:
-		{
-			FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
-			if (1 == wParam) {
-				Clist_ContactDoubleClicked(p->hContact);
-				p->bActiveTab = true;
-				p->bInactive = p->bMustAutoswitch = p->bMustFlash = false;
-			}
-
-			if (2 == wParam) {
-				p->bActiveTab = true;
-				p->bInactive = p->bMustAutoswitch = p->bMustFlash = false;
-				SendMessage(p->hWnd, DM_ACTIVATEME, 0, 0);
-			}
-			DoFlashAndSoundWorker(p);
-		}
-		return 0;
-
 	case WM_POWERBROADCAST:
 	case WM_DISPLAYCHANGE:
 		for (TContainerData *pCont = pFirstContainer; pCont; pCont = pCont->pNext)

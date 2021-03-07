@@ -149,6 +149,35 @@ GCSessionInfoBase::GCSessionInfoBase() :
 GCSessionInfoBase::~GCSessionInfoBase()
 {}
 
+const char *GCSessionInfoBase::getSoundName(int iEventType) const
+{
+	// if sounds are filtered out for this event type, do nothing;
+	if (!(db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & iEventType))
+		return nullptr;
+
+	// no sounds in the Mute mode
+	if (db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL) == CHATMODE_MUTE)
+		return nullptr;
+
+	switch (iEventType) {
+	case GC_EVENT_JOIN:           return "ChatJoin";
+	case GC_EVENT_PART:           return "ChatPart";
+	case GC_EVENT_QUIT:           return "ChatQuit";
+	case GC_EVENT_ADDSTATUS:
+	case GC_EVENT_REMOVESTATUS:   return "ChatMode";
+	case GC_EVENT_KICK:           return "ChatKick";
+	case GC_EVENT_ACTION:         return "ChatAction";
+	case GC_EVENT_NICK:           return "ChatNick";
+	case GC_EVENT_NOTICE:         return "ChatNotice";
+	case GC_EVENT_TOPIC:          return "ChatTopic";
+	case GC_EVENT_MESSAGE:
+		bool bInactive = pDlg == nullptr || !pDlg->IsActive();
+		return (bInactive) ? "RecvMsgInactive" : "RecvMsgActive";
+	}
+
+	return nullptr;
+}
+
 static SESSION_INFO* SM_CreateSession(void)
 {
 	return new SESSION_INFO();

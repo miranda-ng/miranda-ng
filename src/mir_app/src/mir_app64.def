@@ -772,3 +772,5 @@ Netlib_GetTlsUnique @831 NONAME
 ?Tray1Click@Clist@@3V?$CMOption@_N@@A @860 NONAME
 ?TrayAlwaysStatus@Clist@@3V?$CMOption@_N@@A @861 NONAME
 ?Flush@MDatabaseCommon@@UEAAHXZ @862 NONAME
+?getIcon@CHAT_MANAGER@@QEBAPEAUHICON__@@H@Z @863 NONAME
+?getSoundName@GCSessionInfoBase@@QEBAPEBDH@Z @864 NONAME

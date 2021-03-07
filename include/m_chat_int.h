@@ -191,6 +191,8 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 	__forceinline LIST<USERINFO>& getKeyList()
 	{	return (pParent != nullptr) ? pParent->arKeys : arKeys;
 	}
+
+	const char* getSoundName(int iEventType) const;
 };
 
 struct GCLogStreamDataBase
@@ -346,6 +348,9 @@ struct CHAT_MANAGER
 	LIST<SESSION_INFO> &arSessions;
 	char **pLogIconBmpBits;
 	CMOption<bool> bRightClickFilter;
+
+	// public API
+	MIR_APP_DLL(HICON) getIcon(int iEventType) const;
 
 	// user-defined custom callbacks
 	void (*OnCreateModule)(MODULEINFO*);

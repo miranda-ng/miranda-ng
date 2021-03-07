@@ -80,16 +80,6 @@ struct TMUCSettings : public GlobalLogSettingsBase
 	CMUCHighlight *Highlight;
 };
 
-struct FLASH_PARAMS : public MZeroedObject
-{
-	MCONTACT hContact;
-	const char* sound;
-	int   iEvent;
-	HICON hNotifyIcon;
-	bool  bActiveTab, bInactive, bMustFlash, bMustAutoswitch;
-	HWND  hWnd;
-};
-
 extern TMUCSettings g_Settings;
 
 #pragma comment(lib,"comctl32.lib")
@@ -127,7 +117,6 @@ wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2);
 bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 char     GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex);
 void     Chat_SetFilters(SESSION_INFO *si);
-void     DoFlashAndSoundWorker(FLASH_PARAMS* p);
 BOOL     DoPopup(SESSION_INFO *si, GCEVENT* gce);
 int      ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, wchar_t* pszRoomName, COLORREF crBkg, const wchar_t* fmt, ...);
 

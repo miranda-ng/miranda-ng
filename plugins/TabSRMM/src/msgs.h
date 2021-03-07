@@ -722,7 +722,6 @@ struct TIconDescW
 #define DM_CREATECONTAINER       (TM_USER+26)
 #define DM_QUERYLASTUNREAD       (TM_USER+28)
 #define DM_UPDATEPICLAYOUT       (TM_USER+30)
-#define DM_MUCFLASHWORKER        (TM_USER+32)
 #define DM_APPENDMCEVENT         (TM_USER+34)
 #define DM_CHECKINFOTIP          (TM_USER+35)
 #define DM_SAVESIZE              (TM_USER+36)

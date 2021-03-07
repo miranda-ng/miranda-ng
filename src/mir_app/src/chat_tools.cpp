@@ -99,6 +99,32 @@ wchar_t* RemoveFormatting(const wchar_t *pszWord)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+HICON CHAT_MANAGER::getIcon(int iEventType) const
+{
+	switch (iEventType) {
+	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
+	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
+		return hIcons[ICON_HIGHLIGHT];
+
+	case GC_EVENT_MESSAGE:      return g_chatApi.hIcons[ICON_MESSAGE];
+	case GC_EVENT_ACTION:       return g_chatApi.hIcons[ICON_ACTION];
+	case GC_EVENT_JOIN:         return g_chatApi.hIcons[ICON_JOIN];
+	case GC_EVENT_PART:         return g_chatApi.hIcons[ICON_PART];
+	case GC_EVENT_QUIT:         return g_chatApi.hIcons[ICON_QUIT];
+	case GC_EVENT_NICK:         return g_chatApi.hIcons[ICON_NICK];
+	case GC_EVENT_KICK:         return g_chatApi.hIcons[ICON_KICK];
+	case GC_EVENT_NOTICE:       return g_chatApi.hIcons[ICON_NOTICE];
+	case GC_EVENT_TOPIC:        return g_chatApi.hIcons[ICON_TOPIC];
+	case GC_EVENT_INFORMATION:  return g_chatApi.hIcons[ICON_INFO];
+	case GC_EVENT_ADDSTATUS:    return g_chatApi.hIcons[ICON_ADDSTATUS];
+	case GC_EVENT_REMOVESTATUS: return g_chatApi.hIcons[ICON_REMSTATUS];
+	default:
+		return nullptr;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static INT_PTR EventDoubleclicked(WPARAM, LPARAM lParam)
 {
 	return RoomDoubleclicked((WPARAM)((CLISTEVENT *)lParam)->hContact, 0);
@@ -133,8 +159,6 @@ static void AddEvent(MCONTACT hContact, HICON hIcon, int type, const wchar_t *pw
 
 BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 {
-	HICON hIcon;
-	CMStringW wszText;
 	int iMuteMode = db_get_b(si->hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
 	switch (iMuteMode) {
 	case CHATMODE_MUTE: iMuteMode = CLEF_ONLYAFEW; break;
@@ -143,65 +167,53 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 		iMuteMode = (gce->iType & GC_EVENT_HIGHLIGHT) ? 0 : CLEF_ONLYAFEW;
 	}
 
+	CMStringW wszText;
 	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 		wszText.Format(TranslateT("%s wants your attention in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_MESSAGE:
-		hIcon = g_chatApi.hIcons[ICON_MESSAGE];
 		wszText.Format(TranslateT("%s speaks in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_ACTION:
-		hIcon = g_chatApi.hIcons[ICON_ACTION];
 		wszText.Format(TranslateT("%s speaks in %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_JOIN:
-		hIcon = g_chatApi.hIcons[ICON_JOIN];
 		wszText.Format(TranslateT("%s has joined %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_PART:
-		hIcon = g_chatApi.hIcons[ICON_PART];
 		wszText.Format(TranslateT("%s has left %s"), gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_QUIT:
-		hIcon = g_chatApi.hIcons[ICON_QUIT];
 		wszText.Format(TranslateT("%s has disconnected"), gce->pszNick.w);
 		break;
 	case GC_EVENT_NICK:
-		hIcon = g_chatApi.hIcons[ICON_NICK];
 		wszText.Format(TranslateT("%s is now known as %s"), gce->pszNick.w, gce->pszText.w);
 		break;
 	case GC_EVENT_KICK:
-		hIcon = g_chatApi.hIcons[ICON_KICK];
 		wszText.Format(TranslateT("%s kicked %s from %s"), gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_NOTICE:
-		hIcon = g_chatApi.hIcons[ICON_NOTICE];
 		wszText.Format(TranslateT("Notice from %s"), gce->pszNick.w);
 		break;
 	case GC_EVENT_TOPIC:
-		hIcon = g_chatApi.hIcons[ICON_TOPIC];
 		wszText.Format(TranslateT("Topic change in %s"), si->ptszName);
 		break;
 	case GC_EVENT_INFORMATION:
-		hIcon = g_chatApi.hIcons[ICON_INFO];
 		wszText.Format(TranslateT("Information in %s"), si->ptszName);
 		break;
 	case GC_EVENT_ADDSTATUS:
-		hIcon = g_chatApi.hIcons[ICON_ADDSTATUS];
 		wszText.Format(TranslateT("%s enables '%s' status for %s in %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
 	case GC_EVENT_REMOVESTATUS:
-		hIcon = g_chatApi.hIcons[ICON_REMSTATUS];
 		wszText.Format(TranslateT("%s disables '%s' status for %s in %s"), gce->pszText.w, gce->pszStatus.w, gce->pszNick.w, si->ptszName);
 		break;
 	default:
 		return FALSE;
 	}
 
-	AddEvent(si->hContact, hIcon, iMuteMode, wszText);
+	AddEvent(si->hContact, g_chatApi.getIcon(gce->iType), iMuteMode, wszText);
 	return TRUE;
 }
 
@@ -290,51 +302,50 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	g_chatApi.CreateNick(si, &lin, wszNick);
 	bool bTextUsed = Chat_GetDefaultEventDescr(si, &lin, wszText);
 
-	HICON hIcon = nullptr;
 	COLORREF dwColor = 0;
 
 	switch (gce->iType) {
 	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
-		hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE); dwColor = g_chatApi.aFonts[16].color; wszText.Format(TranslateT("%s says"), wszNick.c_str());
+		dwColor = g_chatApi.aFonts[16].color; wszText.Format(TranslateT("%s says"), wszNick.c_str());
 		break;
 	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE); dwColor = g_chatApi.aFonts[16].color;
+		dwColor = g_chatApi.aFonts[16].color;
 		break;
 	case GC_EVENT_MESSAGE:
-		hIcon = g_chatApi.hIcons[ICON_MESSAGE]; dwColor = g_chatApi.aFonts[9].color; wszText.Format(TranslateT("%s says"), wszNick.c_str());
+		dwColor = g_chatApi.aFonts[9].color; wszText.Format(TranslateT("%s says"), wszNick.c_str());
 		break;
 	case GC_EVENT_ACTION:
-		hIcon = g_chatApi.hIcons[ICON_ACTION]; dwColor = g_chatApi.aFonts[15].color;
+		dwColor = g_chatApi.aFonts[15].color;
 		break;
 	case GC_EVENT_JOIN:
-		hIcon = g_chatApi.hIcons[ICON_JOIN]; dwColor = g_chatApi.aFonts[3].color;
+		dwColor = g_chatApi.aFonts[3].color;
 		break;
 	case GC_EVENT_PART:
-		hIcon = g_chatApi.hIcons[ICON_PART]; dwColor = g_chatApi.aFonts[4].color;
+		dwColor = g_chatApi.aFonts[4].color;
 		break;
 	case GC_EVENT_QUIT:
-		hIcon = g_chatApi.hIcons[ICON_QUIT]; dwColor = g_chatApi.aFonts[5].color;
+		dwColor = g_chatApi.aFonts[5].color;
 		break;
 	case GC_EVENT_NICK:
-		hIcon = g_chatApi.hIcons[ICON_NICK]; dwColor = g_chatApi.aFonts[7].color;
+		dwColor = g_chatApi.aFonts[7].color;
 		break;
 	case GC_EVENT_KICK:
-		hIcon = g_chatApi.hIcons[ICON_KICK]; dwColor = g_chatApi.aFonts[6].color;
+		dwColor = g_chatApi.aFonts[6].color;
 		break;
 	case GC_EVENT_NOTICE:
-		hIcon = g_chatApi.hIcons[ICON_NOTICE]; dwColor = g_chatApi.aFonts[8].color;
+		dwColor = g_chatApi.aFonts[8].color;
 		break;
 	case GC_EVENT_TOPIC:
-		hIcon = g_chatApi.hIcons[ICON_TOPIC]; dwColor = g_chatApi.aFonts[11].color;
+		dwColor = g_chatApi.aFonts[11].color;
 		break;
 	case GC_EVENT_INFORMATION:
-		hIcon = g_chatApi.hIcons[ICON_INFO]; dwColor = g_chatApi.aFonts[12].color;
+		dwColor = g_chatApi.aFonts[12].color;
 		break;
 	case GC_EVENT_ADDSTATUS:
-		hIcon = g_chatApi.hIcons[ICON_ADDSTATUS]; dwColor = g_chatApi.aFonts[13].color;
+		dwColor = g_chatApi.aFonts[13].color;
 		break;
 	case GC_EVENT_REMOVESTATUS:
-		hIcon = g_chatApi.hIcons[ICON_REMSTATUS]; dwColor = g_chatApi.aFonts[14].color;
+		dwColor = g_chatApi.aFonts[14].color;
 		break;
 	}
 
@@ -344,7 +355,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 		wszText.Append(RemoveFormatting(gce->pszText.w));
 	}
 
-	g_chatApi.ShowPopup(si->hContact, si, hIcon, si->pszModule, si->ptszName, dwColor, L"%s", wszText.c_str());
+	g_chatApi.ShowPopup(si->hContact, si, g_chatApi.getIcon(gce->iType), si->pszModule, si->ptszName, dwColor, L"%s", wszText.c_str());
 	return TRUE;
 }
 
@@ -395,32 +406,17 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			g_chatApi.DoPopup(si, gce);
 
 		// do sounds and flashing
-		const char *szSound = nullptr;
-		switch (iEvent) {
-		case GC_EVENT_JOIN:           szSound = "ChatJoin";   break;
-		case GC_EVENT_PART:           szSound = "ChatPart";   break;
-		case GC_EVENT_QUIT:           szSound = "ChatQuit";   break;
-		case GC_EVENT_ADDSTATUS:
-		case GC_EVENT_REMOVESTATUS:   szSound = "ChatMode";   break;
-		case GC_EVENT_KICK:           szSound = "ChatKick";   break;
-		case GC_EVENT_ACTION:         szSound = "ChatAction"; break;
-		case GC_EVENT_NICK:           szSound = "ChatNick";   break;
-		case GC_EVENT_NOTICE:         szSound = "ChatNotice"; break;
-		case GC_EVENT_TOPIC:          szSound = "ChatTopic";  break;
-		case GC_EVENT_MESSAGE:
-			szSound = (bInactive) ? "RecvMsgInactive" : "RecvMsgActive";
-
+		if (iEvent == GC_EVENT_MESSAGE) {
 			if (bInactive && !(si->wState & STATE_TALK)) {
 				si->wState |= STATE_TALK;
 				db_set_w(si->hContact, si->pszModule, "ApparentMode", ID_STATUS_OFFLINE);
 			}
 			if (g_chatApi.OnFlashWindow)
 				g_chatApi.OnFlashWindow(si, bInactive);
-			break;
 		}
 
-		if (db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & iEvent)
-			if (!bMute && szSound && (bInactive || !g_Settings->bSoundsFocus))
+		if (bInactive || !g_Settings->bSoundsFocus)
+			if (auto szSound = si->getSoundName(iEvent))
 				Skin_PlaySound(szSound);
 	}
 
