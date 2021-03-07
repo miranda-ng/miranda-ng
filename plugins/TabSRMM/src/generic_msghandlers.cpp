@@ -1306,7 +1306,7 @@ void CMsgDialog::DM_ErrorDetected(int type, int flag)
 				sendQueue->clearJob(m_iCurrentQueueError);
 			m_iCurrentQueueError = -1;
 			sendQueue->showErrorControls(this, FALSE);
-			if (type != MSGERROR_CANCEL || (type == MSGERROR_CANCEL && flag == 0))
+			if (type != MSGERROR_CANCEL || flag == 0)
 				m_message.SetText(L"");
 			sendQueue->checkQueue(this);
 			int iNextFailed = sendQueue->findNextFailed(this);
