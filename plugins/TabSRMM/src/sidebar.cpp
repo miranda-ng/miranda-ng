@@ -326,7 +326,7 @@ int CSideBarButton::testCloseButton() const
 void CSideBarButton::activateSession() const
 {
 	if (m_dat)
-		::SendMessage(m_dat->GetHwnd(), DM_ACTIVATEME, 0, 0);
+		m_dat->ActivateTab();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

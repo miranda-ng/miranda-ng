@@ -208,43 +208,42 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		return FALSE;
 
 	CMsgDialog *dat = si->pDlg;
-
 	MCONTACT hContact = si->hContact;
-	bool bInactive = true;
-	if (dat) {
-		if ((dat->GetHwnd() == dat->m_pContainer->m_hwndActive) && GetForegroundWindow() == dat->m_pContainer->m_hwnd)
-			bInactive = false;
-	}
+
+	int  iEvent = gce->iType;
+	bool bInactive = (dat) ? !dat->IsActive() : true;
 	bool bActiveTab = false;
 	bool bMustFlash = false;
 	bool bMustAutoswitch = false;
-	int  iEvent = gce->iType;
-	HWND hWnd = nullptr;
-
-	WPARAM wParamForHighLight = 0;
 	bool bFlagUnread = false;
+
 	if (bHighlight) {
 		gce->iType |= GC_EVENT_HIGHLIGHT;
 		if (Contact_IsHidden(si->hContact) != 0)
 			Contact_Hide(si->hContact, false);
+		
 		if (bInactive) {
 			bFlagUnread = true;
 			DoTrayIcon(si, gce);
-		}
-
-		if (g_Settings.bCreateWindowOnHighlight && dat == nullptr)
-			wParamForHighLight = 1;
-
-		if (dat && g_Settings.bAnnoyingHighlight && bInactive && dat->m_pContainer->m_hwnd != GetForegroundWindow()) {
-			wParamForHighLight = 2;
-			hWnd = dat->GetHwnd();
 		}
 
 		if (dat || !nen_options.iMUCDisable)
 			DoPopup(si, gce);
 		if (g_Settings.bFlashWindowHighlight && bInactive)
 			bMustFlash = true;
+
 		bMustAutoswitch = true;
+		if (g_Settings.bCreateWindowOnHighlight && dat == nullptr) {
+			Clist_ContactDoubleClicked(hContact);
+			bActiveTab = true;
+			bInactive = bMustAutoswitch = bMustFlash = false;
+		}
+
+		if (dat && g_Settings.bAnnoyingHighlight && bInactive && dat->m_pContainer->m_hwnd != GetForegroundWindow()) {
+			bActiveTab = true;
+			bInactive = bMustAutoswitch = bMustFlash = false;
+			dat->ActivateTab();
+		}
 	}
 	else {
 		// do blinking icons in tray
@@ -281,18 +280,6 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			dat->m_pWnd->Invalidate();
 	}
 	
-	if (1 == wParamForHighLight) {
-		Clist_ContactDoubleClicked(hContact);
-		bActiveTab = true;
-		bInactive = bMustAutoswitch = bMustFlash = false;
-	}
-
-	if (2 == wParamForHighLight) {
-		bActiveTab = true;
-		bInactive = bMustAutoswitch = bMustFlash = false;
-		SendMessage(hWnd, DM_ACTIVATEME, 0, 0);
-	}
-
 	auto sound = si->getSoundName(iEvent);
 	if (dat) {
 		bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
@@ -304,70 +291,68 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		Skin_PlaySound(sound);
 
 	// dialog event processing
-	if (dat == nullptr)
-		return true;
+	if (dat) {
+		HICON hNotifyIcon = (bManyFix && !bInactive) ? 0 : g_chatApi.getIcon(iEvent);
+		BOOL bForcedIcon = (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || hNotifyIcon == g_chatApi.hIcons[ICON_MESSAGE]);
 
-	HICON hNotifyIcon = (bManyFix && !bInactive) ? 0 : g_chatApi.getIcon(iEvent);
-	BOOL bForcedIcon = (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || hNotifyIcon == g_chatApi.hIcons[ICON_MESSAGE]);
-
-	if ((iEvent & si->iLogTrayFlags) || bForcedIcon) {
-		if (!bActiveTab) {
-			if (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT])
-				dat->m_iFlashIcon = hNotifyIcon;
-			else {
-				if (dat->m_iFlashIcon != g_chatApi.hIcons[ICON_HIGHLIGHT] && dat->m_iFlashIcon != g_chatApi.hIcons[ICON_MESSAGE])
+		if ((iEvent & si->iLogTrayFlags) || bForcedIcon) {
+			if (!bActiveTab) {
+				if (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT])
 					dat->m_iFlashIcon = hNotifyIcon;
-			}
-			dat->m_bCanFlashTab = TRUE;
-			dat->timerFlash.Start(TIMEOUT_FLASHWND);
-		}
-	}
-	if (dat->m_pWnd) {
-		dat->m_pWnd->updateIcon(hNotifyIcon);
-		dat->m_pWnd->setOverlayIcon(hNotifyIcon, true);
-	}
-
-	// autoswitch tab..
-	if (bMustAutoswitch) {
-		if ((IsIconic(dat->m_pContainer->m_hwnd)) && !IsZoomed(dat->m_pContainer->m_hwnd) && PluginConfig.m_bAutoSwitchTabs && dat->m_pContainer->m_hwndActive != dat->GetHwnd()) {
-			int iItem = GetTabIndexFromHWND(dat->m_pContainer->m_hwndTabs, dat->GetHwnd());
-			if (iItem >= 0) {
-				TabCtrl_SetCurSel(dat->m_pContainer->m_hwndTabs, iItem);
-				ShowWindow(dat->m_pContainer->m_hwndActive, SW_HIDE);
-				dat->m_pContainer->m_hwndActive = dat->GetHwnd();
-				dat->m_pContainer->UpdateTitle(dat->m_hContact);
-				dat->m_pContainer->m_flags.m_bDeferredTabSelect = true;
+				else {
+					if (dat->m_iFlashIcon != g_chatApi.hIcons[ICON_HIGHLIGHT] && dat->m_iFlashIcon != g_chatApi.hIcons[ICON_MESSAGE])
+						dat->m_iFlashIcon = hNotifyIcon;
+				}
+				dat->m_bCanFlashTab = TRUE;
+				dat->timerFlash.Start(TIMEOUT_FLASHWND);
 			}
 		}
-	}
-
-	// flash window if it is not focused
-	if (bMustFlash && bInactive)
-		if (!dat->m_pContainer->m_flags.m_bNoFlash)
-			dat->m_pContainer->FlashContainer(1, 0);
-
-	if (hNotifyIcon && bInactive && ((iEvent & si->iLogTrayFlags) || bForcedIcon)) {
-		if (bMustFlash)
-			dat->m_hTabIcon = hNotifyIcon;
-		else if (dat->m_iFlashIcon) {
-			dat->m_hTabIcon = dat->m_iFlashIcon;
-
-			TCITEM item = {};
-			item.mask = TCIF_IMAGE;
-			item.iImage = 0;
-			TabCtrl_SetItem(GetParent(dat->GetHwnd()), dat->m_iTabID, &item);
+		if (dat->m_pWnd) {
+			dat->m_pWnd->updateIcon(hNotifyIcon);
+			dat->m_pWnd->setOverlayIcon(hNotifyIcon, true);
 		}
 
-		HICON hIcon = (HICON)SendMessage(dat->m_pContainer->m_hwnd, WM_GETICON, ICON_BIG, 0);
-		if (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || (hIcon != g_chatApi.hIcons[ICON_MESSAGE] && hIcon != g_chatApi.hIcons[ICON_HIGHLIGHT])) {
-			dat->m_pContainer->SetIcon(dat, hNotifyIcon);
-			dat->m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
+		// autoswitch tab..
+		if (bMustAutoswitch) {
+			if ((IsIconic(dat->m_pContainer->m_hwnd)) && !IsZoomed(dat->m_pContainer->m_hwnd) && PluginConfig.m_bAutoSwitchTabs && dat->m_pContainer->m_hwndActive != dat->GetHwnd()) {
+				int iItem = GetTabIndexFromHWND(dat->m_pContainer->m_hwndTabs, dat->GetHwnd());
+				if (iItem >= 0) {
+					TabCtrl_SetCurSel(dat->m_pContainer->m_hwndTabs, iItem);
+					ShowWindow(dat->m_pContainer->m_hwndActive, SW_HIDE);
+					dat->m_pContainer->m_hwndActive = dat->GetHwnd();
+					dat->m_pContainer->UpdateTitle(dat->m_hContact);
+					dat->m_pContainer->m_flags.m_bDeferredTabSelect = true;
+				}
+			}
 		}
+
+		// flash window if it is not focused
+		if (bMustFlash && bInactive)
+			if (!dat->m_pContainer->m_flags.m_bNoFlash)
+				dat->m_pContainer->FlashContainer(1, 0);
+
+		if (hNotifyIcon && bInactive && ((iEvent & si->iLogTrayFlags) || bForcedIcon)) {
+			if (bMustFlash)
+				dat->m_hTabIcon = hNotifyIcon;
+			else if (dat->m_iFlashIcon) {
+				dat->m_hTabIcon = dat->m_iFlashIcon;
+
+				TCITEM item = {};
+				item.mask = TCIF_IMAGE;
+				item.iImage = 0;
+				TabCtrl_SetItem(GetParent(dat->GetHwnd()), dat->m_iTabID, &item);
+			}
+
+			HICON hIcon = (HICON)SendMessage(dat->m_pContainer->m_hwnd, WM_GETICON, ICON_BIG, 0);
+			if (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || (hIcon != g_chatApi.hIcons[ICON_MESSAGE] && hIcon != g_chatApi.hIcons[ICON_HIGHLIGHT])) {
+				dat->m_pContainer->SetIcon(dat, hNotifyIcon);
+				dat->m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
+			}
+		}
+
+		if (bMustFlash && bInactive)
+			AddUnreadContact(dat->m_hContact);
 	}
-
-	if (bMustFlash && bInactive)
-		AddUnreadContact(dat->m_hContact);
-
 	return true;
 }
 

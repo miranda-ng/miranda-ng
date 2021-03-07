@@ -749,6 +749,14 @@ void CMsgDialog::HandlePasteAndSend()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// is window active or not?
+
+bool CMsgDialog::IsActive() const
+{
+	return m_pContainer->IsActive() && m_pContainer->m_hwndActive == m_hwnd;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // read keyboard state and return the state of the modifier keys
 
 void CMsgDialog::KbdState(bool &isShift, bool &isControl, bool &isAlt)

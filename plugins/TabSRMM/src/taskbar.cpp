@@ -494,8 +494,10 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		// to the real message window.
 		if (WA_ACTIVE == wParam) {
 			if (IsWindow(m_dat->GetHwnd()))
-				::PostMessage(m_dat->GetHwnd(), DM_ACTIVATEME, 0, 0);
-			return 0;			// no default processing, avoid flickering.
+				m_dat->ActivateTab();
+			
+			// no default processing, avoid flickering.
+			return 0;
 		}
 		break;
 

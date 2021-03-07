@@ -559,6 +559,7 @@ public:
 
 	void AddLog() override;
 	void CloseTab() override;
+	bool IsActive() const override;
 	void LoadSettings() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;
@@ -584,11 +585,6 @@ public:
 	}
 
 	void LogEvent(DBEVENTINFO &dbei);
-
-	bool IsActive() const override
-	{
-		return m_pContainer->IsActive() && m_pContainer->m_hwndActive == m_hwnd;
-	}
 
 	void    DM_OptionsApplied(bool bRemakeLog = true);
 	void    DM_RecalcPictureSize(void);
@@ -728,7 +724,6 @@ struct TIconDescW
 #define DM_CHECKSIZE             (TM_USER+37)
 #define DM_FORCEREDRAW           (TM_USER+38)
 #define DM_QUERYHCONTACT         (TM_USER+41)
-#define DM_ACTIVATEME            (TM_USER+46)
 #define DM_STATUSMASKSET         (TM_USER+51)
 #define DM_UPDATESTATUSMSG       (TM_USER+53)
 #define DM_OWNNICKCHANGED        (TM_USER+55)

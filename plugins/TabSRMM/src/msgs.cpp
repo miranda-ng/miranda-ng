@@ -106,9 +106,9 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
 	MCONTACT hContact = ((CLISTEVENT *)lParam)->hContact;
 
-	HWND hwndExisting = Srmm_FindWindow(hContact);
-	if (hwndExisting != nullptr)
-		SendMessage(hwndExisting, DM_ACTIVATEME, 0, 0);
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg != nullptr)
+		pDlg->ActivateTab();
 	else {
 		wchar_t szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
@@ -146,17 +146,17 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	if (0 == (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
 
-	HWND hwnd = Srmm_FindWindow(hContact);
-	if (hwnd) {
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg) {
 		if (pszMsg) {
-			HWND hEdit = GetDlgItem(hwnd, IDC_SRMM_MESSAGE);
+			HWND hEdit = GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
 			if (isWchar)
 				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
 			else
 				SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
 		}
-		SendMessage(hwnd, DM_ACTIVATEME, 0, 0);
+		pDlg->ActivateTab();
 	}
 	else {
 		wchar_t szName[CONTAINER_NAMELEN + 1];

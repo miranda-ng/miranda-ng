@@ -3192,10 +3192,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		m_pContainer->InitRedraw();
 		return 0;
 
-	case DM_ACTIVATEME: // the child window will activate itself
-		ActivateTab();
-		return 0;
-
 	case DM_QUERYHCONTACT:
 		if (lParam)
 			*(MCONTACT *)lParam = m_hContact;
