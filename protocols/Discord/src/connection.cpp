@@ -90,6 +90,7 @@ void CDiscordProto::OnLoggedOut()
 	m_iGatewaySeq = 0;
 	m_szTempToken = nullptr;
 	m_szCookie.Empty();
+	m_szWSCookie.Empty();
 
 	m_impl.m_heartBeat.StopSafe();
 
