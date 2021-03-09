@@ -159,6 +159,9 @@ const char *GCSessionInfoBase::getSoundName(int iEventType) const
 	if (db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL) == CHATMODE_MUTE)
 		return nullptr;
 
+	if (iEventType & GC_EVENT_HIGHLIGHT)
+		return "ChatHighlight";
+
 	switch (iEventType) {
 	case GC_EVENT_JOIN:           return "ChatJoin";
 	case GC_EVENT_PART:           return "ChatPart";

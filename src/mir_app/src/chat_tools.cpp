@@ -377,22 +377,10 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 	BOOL bInactive = si->pDlg == nullptr || !si->pDlg->IsActive();
 
-	int iEvent = gce->iType;
-	bool bMute = db_get_b(si->hContact, "SRMM", "MuteMode", CHATMODE_NORMAL) == CHATMODE_MUTE;
-
 	if (bHighlight) {
 		gce->iType |= GC_EVENT_HIGHLIGHT;
-		if (!bMute && (bInactive || !g_Settings->bSoundsFocus))
-			Skin_PlaySound("ChatHighlight");
 		if (Contact_IsHidden(si->hContact))
 			Contact_Hide(si->hContact, false);
-		if (bInactive)
-			g_chatApi.DoTrayIcon(si, gce);
-		if (bInactive || !g_Settings->bPopupInactiveOnly)
-			g_chatApi.DoPopup(si, gce);
-		if (g_chatApi.OnFlashHighlight)
-			g_chatApi.OnFlashHighlight(si, bInactive);
-		return TRUE;
 	}
 
 	// do blinking icons in tray
@@ -406,7 +394,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			g_chatApi.DoPopup(si, gce);
 
 		// do sounds and flashing
-		if (iEvent == GC_EVENT_MESSAGE) {
+		if (gce->iType & GC_EVENT_MESSAGE) {
 			if (bInactive && !(si->wState & STATE_TALK)) {
 				si->wState |= STATE_TALK;
 				db_set_w(si->hContact, si->pszModule, "ApparentMode", ID_STATUS_OFFLINE);
@@ -416,10 +404,13 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		}
 
 		if (bInactive || !g_Settings->bSoundsFocus)
-			if (auto szSound = si->getSoundName(iEvent))
+			if (auto szSound = si->getSoundName(gce->iType))
 				Skin_PlaySound(szSound);
 	}
 
+	if (bHighlight)
+		if (g_chatApi.OnFlashHighlight)
+			g_chatApi.OnFlashHighlight(si, bInactive);
 	return TRUE;
 }
 
