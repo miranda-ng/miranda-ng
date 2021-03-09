@@ -155,10 +155,6 @@ const char *GCSessionInfoBase::getSoundName(int iEventType) const
 	if (!(db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT) & iEventType))
 		return nullptr;
 
-	// no sounds in the Mute mode
-	if (db_get_b(hContact, "SRMM", "MuteMode", CHATMODE_NORMAL) == CHATMODE_MUTE)
-		return nullptr;
-
 	if (iEventType & GC_EVENT_HIGHLIGHT)
 		return "ChatHighlight";
 
