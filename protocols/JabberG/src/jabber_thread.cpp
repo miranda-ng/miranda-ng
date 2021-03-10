@@ -1272,13 +1272,10 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	for (auto *xNode : TiXmlEnum(node)) {
 		if (m_bUseOMEMO) {
 			if (!mir_strcmp(xNode->Name(), "encrypted") && xNode->Attribute("xmlns", JABBER_FEAT_OMEMO)) {
-				const char *jid = XmlGetAttr(xNode, "from");
-				if (jid) {
-					if (!OmemoHandleMessage(xNode, jid, msgTime))
-						OmemoPutMessageToIncommingQueue(xNode, jid, msgTime);
-					debugLogA("OMEMO processing finished, returning");
-					return; //we do not want any additional processing
-				}
+				if (!OmemoHandleMessage(xNode, from, msgTime))
+					OmemoPutMessageToIncommingQueue(xNode, from, msgTime);
+				debugLogA("OMEMO processing finished, returning");
+				return; //we do not want any additional processing
 			}
 		}
 
