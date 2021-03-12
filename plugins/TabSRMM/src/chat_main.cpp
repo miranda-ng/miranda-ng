@@ -91,7 +91,7 @@ static void OnLoadSettings()
 	g_Settings.bLogClassicIndicators = M.GetBool(CHAT_MODULE, "LogClassicIndicators", false);
 	g_Settings.bAlternativeSorting = M.GetBool(CHAT_MODULE, "AlternativeSorting", true);
 	g_Settings.bAnnoyingHighlight = M.GetBool(CHAT_MODULE, "AnnoyingHighlight", false);
-	g_Settings.bCreateWindowOnHighlight = M.GetBool(CHAT_MODULE, "CreateWindowOnHighlight", true);
+	g_Settings.bCreateWindowOnHighlight = M.GetBool(CHAT_MODULE, "CreateWindowOnHighlight", false);
 
 	g_Settings.bLogSymbols = M.GetBool(CHAT_MODULE, "LogSymbols", true);
 	g_Settings.bClickableNicks = M.GetBool(CHAT_MODULE, "ClickableNicks", true);
