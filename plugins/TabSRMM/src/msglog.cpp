@@ -987,7 +987,10 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 			else i += 2;
 		}
 		else {
-			str.AppendFormat("{\\uc1\\u%d?}", (int)ci);
+			if (ci >= 32 && ci < 128)
+				str.AppendChar(ci);
+			else
+				str.AppendFormat("{\\uc1\\u%d?}", (int)ci);
 			i++;
 		}
 	}
@@ -1278,7 +1281,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 			? (fAppend ? m_pDlg.m_pContainer->m_theme.outbg : m_pDlg.m_pContainer->m_theme.oldoutbg)
 			: (fAppend ? m_pDlg.m_pContainer->m_theme.inbg : m_pDlg.m_pContainer->m_theme.oldinbg));
 
-	if (!(m_pDlg.m_isAutoRTL & 1)) {
+	if (!dbei_s && !(m_pDlg.m_isAutoRTL & 1)) {
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
