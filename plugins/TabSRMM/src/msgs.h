@@ -473,9 +473,8 @@ public:
 	bool    m_bErrorState;
 	bool    m_bDividerWanted, m_bDividerSet;
 	bool    m_bSplitterOverride;
-
 	bool    m_bRtlText;
-	bool    m_bLastParaDeleted;
+	bool    m_bLogEmpty;
 
 	int     m_sendMode;
 	HKL     m_hkl;                                    // keyboard layout identifier
