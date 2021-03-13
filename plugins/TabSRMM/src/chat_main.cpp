@@ -380,6 +380,7 @@ int Chat_Load()
 	g_chatApi.ReloadSettings();
 
 	g_Settings.Highlight = new CMUCHighlight();
+	SM_ReconfigureFilters();
 	return 0;
 }
 
