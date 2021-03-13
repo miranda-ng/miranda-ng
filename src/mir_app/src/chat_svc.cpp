@@ -49,26 +49,27 @@ static HANDLE
 
 void LoadChatIcons(void)
 {
-	g_chatApi.hIcons[ICON_ACTION] = LoadIconEx("log_action", FALSE);
-	g_chatApi.hIcons[ICON_ADDSTATUS] = LoadIconEx("log_addstatus", FALSE);
-	g_chatApi.hIcons[ICON_HIGHLIGHT] = LoadIconEx("log_highlight", FALSE);
-	g_chatApi.hIcons[ICON_INFO] = LoadIconEx("log_info", FALSE);
-	g_chatApi.hIcons[ICON_JOIN] = LoadIconEx("log_join", FALSE);
-	g_chatApi.hIcons[ICON_KICK] = LoadIconEx("log_kick", FALSE);
-	g_chatApi.hIcons[ICON_MESSAGE] = LoadIconEx("log_message_in", FALSE);
-	g_chatApi.hIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
-	g_chatApi.hIcons[ICON_NICK] = LoadIconEx("log_nick", FALSE);
-	g_chatApi.hIcons[ICON_NOTICE] = LoadIconEx("log_notice", FALSE);
-	g_chatApi.hIcons[ICON_PART] = LoadIconEx("log_part", FALSE);
-	g_chatApi.hIcons[ICON_QUIT] = LoadIconEx("log_quit", FALSE);
-	g_chatApi.hIcons[ICON_REMSTATUS] = LoadIconEx("log_removestatus", FALSE);
-	g_chatApi.hIcons[ICON_TOPIC] = LoadIconEx("log_topic", FALSE);
-	g_chatApi.hIcons[ICON_STATUS0] = LoadIconEx("status0", FALSE);
-	g_chatApi.hIcons[ICON_STATUS1] = LoadIconEx("status1", FALSE);
-	g_chatApi.hIcons[ICON_STATUS2] = LoadIconEx("status2", FALSE);
-	g_chatApi.hIcons[ICON_STATUS3] = LoadIconEx("status3", FALSE);
-	g_chatApi.hIcons[ICON_STATUS4] = LoadIconEx("status4", FALSE);
-	g_chatApi.hIcons[ICON_STATUS5] = LoadIconEx("status5", FALSE);
+	g_hChatIcons[ICON_ACTION] = LoadIconEx("log_action", FALSE);
+	g_hChatIcons[ICON_ADDSTATUS] = LoadIconEx("log_addstatus", FALSE);
+	g_hChatIcons[ICON_HIGHLIGHT] = LoadIconEx("log_highlight", FALSE);
+	g_hChatIcons[ICON_INFO] = LoadIconEx("log_info", FALSE);
+	g_hChatIcons[ICON_JOIN] = LoadIconEx("log_join", FALSE);
+	g_hChatIcons[ICON_KICK] = LoadIconEx("log_kick", FALSE);
+	g_hChatIcons[ICON_MESSAGE] = LoadIconEx("log_message_in", FALSE);
+	g_hChatIcons[ICON_MESSAGEOUT] = LoadIconEx("log_message_out", FALSE);
+	g_hChatIcons[ICON_NICK] = LoadIconEx("log_nick", FALSE);
+	g_hChatIcons[ICON_NOTICE] = LoadIconEx("log_notice", FALSE);
+	g_hChatIcons[ICON_PART] = LoadIconEx("log_part", FALSE);
+	g_hChatIcons[ICON_QUIT] = LoadIconEx("log_quit", FALSE);
+	g_hChatIcons[ICON_REMSTATUS] = LoadIconEx("log_removestatus", FALSE);
+	g_hChatIcons[ICON_TOPIC] = LoadIconEx("log_topic", FALSE);
+	
+	g_chatApi.hStatusIcons[0] = g_plugin.getIcon(IDI_STATUS0);
+	g_chatApi.hStatusIcons[1] = g_plugin.getIcon(IDI_STATUS1);
+	g_chatApi.hStatusIcons[2] = g_plugin.getIcon(IDI_STATUS2);
+	g_chatApi.hStatusIcons[3] = g_plugin.getIcon(IDI_STATUS3);
+	g_chatApi.hStatusIcons[4] = g_plugin.getIcon(IDI_STATUS4);
+	g_chatApi.hStatusIcons[5] = g_plugin.getIcon(IDI_STATUS5);
 
 	FreeMsgLogBitmaps();
 	LoadMsgLogBitmaps();
@@ -862,6 +863,18 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Status 1 (10x10)"), "status0", IDI_STATUS0, 10 },
+	{ LPGEN("Status 2 (10x10)"), "status1", IDI_STATUS1, 10 },
+	{ LPGEN("Status 3 (10x10)"), "status2", IDI_STATUS2, 10 },
+	{ LPGEN("Status 4 (10x10)"), "status3", IDI_STATUS3, 10 },
+	{ LPGEN("Status 5 (10x10)"), "status4", IDI_STATUS4, 10 },
+	{ LPGEN("Status 6 (10x10)"), "status5", IDI_STATUS5, 10 }
+};
+
 static bool bInited = false;
 
 int LoadChatModule(void)
@@ -878,6 +891,8 @@ int LoadChatModule(void)
 	
 	g_chatApi.hevPreCreate = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
 	g_chatApi.hevWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
+
+	g_plugin.registerIcon(LPGEN("Messaging") "/" LPGEN("Group chats"), iconList, "chat");
 
 	g_plugin.addSound("ChatHighlight", LPGENW("Group chats"), LPGENW("Message is highlighted"));
 	g_plugin.addSound("ChatAction", LPGENW("Group chats"), LPGENW("User has performed an action"));

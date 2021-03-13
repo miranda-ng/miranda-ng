@@ -101,23 +101,22 @@ wchar_t* RemoveFormatting(const wchar_t *pszWord)
 
 HICON CHAT_MANAGER::getIcon(int iEventType) const
 {
-	switch (iEventType) {
-	case GC_EVENT_MESSAGE | GC_EVENT_HIGHLIGHT:
-	case GC_EVENT_ACTION | GC_EVENT_HIGHLIGHT:
-		return hIcons[ICON_HIGHLIGHT];
+	if (iEventType & GC_EVENT_HIGHLIGHT)
+		return g_hChatIcons[ICON_HIGHLIGHT];
 
-	case GC_EVENT_MESSAGE:      return g_chatApi.hIcons[ICON_MESSAGE];
-	case GC_EVENT_ACTION:       return g_chatApi.hIcons[ICON_ACTION];
-	case GC_EVENT_JOIN:         return g_chatApi.hIcons[ICON_JOIN];
-	case GC_EVENT_PART:         return g_chatApi.hIcons[ICON_PART];
-	case GC_EVENT_QUIT:         return g_chatApi.hIcons[ICON_QUIT];
-	case GC_EVENT_NICK:         return g_chatApi.hIcons[ICON_NICK];
-	case GC_EVENT_KICK:         return g_chatApi.hIcons[ICON_KICK];
-	case GC_EVENT_NOTICE:       return g_chatApi.hIcons[ICON_NOTICE];
-	case GC_EVENT_TOPIC:        return g_chatApi.hIcons[ICON_TOPIC];
-	case GC_EVENT_INFORMATION:  return g_chatApi.hIcons[ICON_INFO];
-	case GC_EVENT_ADDSTATUS:    return g_chatApi.hIcons[ICON_ADDSTATUS];
-	case GC_EVENT_REMOVESTATUS: return g_chatApi.hIcons[ICON_REMSTATUS];
+	switch (iEventType) {
+	case GC_EVENT_MESSAGE:      return g_hChatIcons[ICON_MESSAGE];
+	case GC_EVENT_ACTION:       return g_hChatIcons[ICON_ACTION];
+	case GC_EVENT_JOIN:         return g_hChatIcons[ICON_JOIN];
+	case GC_EVENT_PART:         return g_hChatIcons[ICON_PART];
+	case GC_EVENT_QUIT:         return g_hChatIcons[ICON_QUIT];
+	case GC_EVENT_NICK:         return g_hChatIcons[ICON_NICK];
+	case GC_EVENT_KICK:         return g_hChatIcons[ICON_KICK];
+	case GC_EVENT_NOTICE:       return g_hChatIcons[ICON_NOTICE];
+	case GC_EVENT_TOPIC:        return g_hChatIcons[ICON_TOPIC];
+	case GC_EVENT_INFORMATION:  return g_hChatIcons[ICON_INFO];
+	case GC_EVENT_ADDSTATUS:    return g_hChatIcons[ICON_ADDSTATUS];
+	case GC_EVENT_REMOVESTATUS: return g_hChatIcons[ICON_REMSTATUS];
 	default:
 		return nullptr;
 	}

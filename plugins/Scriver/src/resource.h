@@ -59,12 +59,6 @@
 #define IDI_ADDSTATUS                   441
 #define IDI_REMSTATUS                   442
 #define IDI_ACTION                      443
-#define IDI_STATUS3                     453
-#define IDI_STATUS2                     454
-#define IDI_STATUS4                     455
-#define IDI_STATUS1                     456
-#define IDI_STATUS0                     457
-#define IDI_STATUS5                     458
 #define IDI_OVERLAY                     460
 #define IDI_NICKLIST2                   461
 #define IDI_FILTER2                     462

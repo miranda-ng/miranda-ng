@@ -72,12 +72,6 @@ static IconItem iconList2[] =
 	{ LPGEN("Hide nick list"),         "nicklist",        IDI_NICKLIST    }, // 12
 	{ LPGEN("Show nick list"),         "nicklist2",       IDI_NICKLIST2   }, // 13
 	{ LPGEN("Icon overlay"),           "overlay",         IDI_OVERLAY     }, // 14
-	{ LPGEN("Status 1 (10x10)"),       "status0",         IDI_STATUS0,  10}, // 15
-	{ LPGEN("Status 2 (10x10)"),       "status1",         IDI_STATUS1,  10}, // 16
-	{ LPGEN("Status 3 (10x10)"),       "status2",         IDI_STATUS2,  10}, // 17
-	{ LPGEN("Status 4 (10x10)"),       "status3",         IDI_STATUS3,  10}, // 18
-	{ LPGEN("Status 5 (10x10)"),       "status4",         IDI_STATUS4,  10}, // 19
-	{ LPGEN("Status 6 (10x10)"),       "status5",         IDI_STATUS5,  10}, // 20
 };
 
 static IconItem iconList3[] =

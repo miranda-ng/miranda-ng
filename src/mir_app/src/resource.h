@@ -171,6 +171,12 @@
 #define IDI_AUTH_REVOKE                 327
 #define IDI_SOUND                       328
 #define IDI_DATABASE                    329
+#define IDI_STATUS0                     330
+#define IDI_STATUS1                     331
+#define IDI_STATUS2                     332
+#define IDI_STATUS3                     333
+#define IDI_STATUS4                     334
+#define IDI_STATUS5                     335
 #define IDI_ONTHEPHONE                  1002
 #define IDC_MESSAGE                     1002
 #define IDC_LANGINFOFRAME               1002

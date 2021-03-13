@@ -1407,6 +1407,17 @@ IDI_SOUND               ICON                    "sound.ico"
 
 IDI_DATABASE            ICON                    "database.ico"
 
+IDI_STATUS0             ICON                    "chat/1.ico"
+
+IDI_STATUS1             ICON                    "chat/2.ico"
+
+IDI_STATUS2             ICON                    "chat/3.ico"
+
+IDI_STATUS3             ICON                    "chat/4.ico"
+
+IDI_STATUS4             ICON                    "chat/5.ico"
+
+IDI_STATUS5             ICON                    "chat/6.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

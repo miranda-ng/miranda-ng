@@ -2923,7 +2923,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 				int nickIndex = 0;
 				for (int i = 0; i < STATUSICONCOUNT; i++) {
-					if (hIcon == g_chatApi.hIcons[ICON_STATUS0 + i]) {
+					if (hIcon == g_chatApi.hStatusIcons[i]) {
 						nickIndex = i;
 						break;
 					}

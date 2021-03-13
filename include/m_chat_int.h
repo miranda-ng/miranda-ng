@@ -66,13 +66,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ICON_REMSTATUS        12
 #define ICON_TOPIC            13
 
-#define ICON_STATUS0          14
-#define ICON_STATUS1          15
-#define ICON_STATUS2          16
-#define ICON_STATUS3          17
-#define ICON_STATUS4          18
-#define ICON_STATUS5          19
-
 #define CHATMODE_NORMAL        0
 #define CHATMODE_MUTE          1
 #define CHATMODE_UNMUTE        2
@@ -341,7 +334,7 @@ struct CHAT_MANAGER
 	int logPixelSY, logPixelSX;
 	char *szActiveWndModule;
 	wchar_t *szActiveWndID;
-	HICON  hIcons[30];
+	HICON  hStatusIcons[STATUSICONCOUNT];
 	HBRUSH hListBkgBrush, hListSelectedBkgBrush;
 	HANDLE hevWinPopup, hevPreCreate;
 	FONTINFO aFonts[OPTIONS_FONTCOUNT];

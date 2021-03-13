@@ -76,12 +76,6 @@
 #define IDI_FILTER                      203
 #define IDI_FILTER2                     204
 #define IDI_OVERLAY                     205
-#define IDI_STATUS3                     206
-#define IDI_STATUS2                     207
-#define IDI_STATUS4                     208
-#define IDI_STATUS1                     209
-#define IDI_STATUS0                     210
-#define IDI_STATUS5                     211
 #define IDI_BLANK                       212
 #define IDI_SHOWNICKLIST                213
 #define IDI_HIDENICKLIST                214
@@ -102,8 +96,6 @@
 #define IDI_REMSTATUS                   261
 #define IDI_ACTION                      262
 #define IDI_HIGHLIGHT                   263
-#define IDI_TAG1                        264
-#define IDI_TAG2                        265
 
 
 

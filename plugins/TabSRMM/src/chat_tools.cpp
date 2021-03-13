@@ -194,7 +194,7 @@ passed:
 	}
 
 	if (iNewEvent == GC_EVENT_MESSAGE) {
-		ShowPopup(si->hContact, si, g_chatApi.hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : g_chatApi.aFonts[9].color,
+		ShowPopup(si->hContact, si, g_chatApi.getIcon(GC_EVENT_MESSAGE), si->pszModule, si->ptszName, clr ? clr : g_chatApi.aFonts[9].color,
 			TranslateT("%s%s says:%s %s"), bbStart, gce->pszNick.w, bbEnd, g_chatApi.RemoveFormatting(gce->pszText.w));
 	}
 	else oldDoPopup(si, gce);
@@ -292,15 +292,16 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 	// dialog event processing
 	if (dat) {
+		HICON hIconHighlight = g_chatApi.getIcon(GC_EVENT_HIGHLIGHT), hIconMessage = g_chatApi.getIcon(GC_EVENT_MESSAGE);
 		HICON hNotifyIcon = (bManyFix && !bInactive) ? 0 : g_chatApi.getIcon(iEvent);
-		BOOL bForcedIcon = (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || hNotifyIcon == g_chatApi.hIcons[ICON_MESSAGE]);
+		BOOL bForcedIcon = (hNotifyIcon == hIconHighlight || hNotifyIcon == hIconMessage);
 
 		if ((iEvent & si->iLogTrayFlags) || bForcedIcon) {
 			if (!bActiveTab) {
-				if (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT])
+				if (hNotifyIcon == hIconHighlight)
 					dat->m_iFlashIcon = hNotifyIcon;
 				else {
-					if (dat->m_iFlashIcon != g_chatApi.hIcons[ICON_HIGHLIGHT] && dat->m_iFlashIcon != g_chatApi.hIcons[ICON_MESSAGE])
+					if (dat->m_iFlashIcon != hIconHighlight && dat->m_iFlashIcon != hIconMessage)
 						dat->m_iFlashIcon = hNotifyIcon;
 				}
 				dat->m_bCanFlashTab = TRUE;
@@ -344,7 +345,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			}
 
 			HICON hIcon = (HICON)SendMessage(dat->m_pContainer->m_hwnd, WM_GETICON, ICON_BIG, 0);
-			if (hNotifyIcon == g_chatApi.hIcons[ICON_HIGHLIGHT] || (hIcon != g_chatApi.hIcons[ICON_MESSAGE] && hIcon != g_chatApi.hIcons[ICON_HIGHLIGHT])) {
+			if (hNotifyIcon == hIconHighlight || (hIcon != hIconMessage && hIcon != hIconHighlight)) {
 				dat->m_pContainer->SetIcon(dat, hNotifyIcon);
 				dat->m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
 			}

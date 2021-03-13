@@ -198,7 +198,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					HICON hIcon;
 
 					if (dis->itemData > 0)
-						hIcon = (dis->itemData & 0x10000000) ? g_chatApi.hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
+						hIcon = (dis->itemData & 0x10000000) ? g_chatApi.getIcon(GC_EVENT_HIGHLIGHT) : PluginConfig.g_IconMsgEvent;
 					else if (dat != nullptr) {
 						hIcon = dat->GetMyContactIcon(nullptr);
 						idle = dat->m_idle;

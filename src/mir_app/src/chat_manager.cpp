@@ -288,9 +288,9 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 
 	STATUSINFO *ti = g_chatApi.TM_FindStatus(si->pStatuses, g_chatApi.TM_WordToString(si->pStatuses, ui->Status));
 	if (ti != nullptr)
-		return g_chatApi.hIcons[ICON_STATUS0 + ti->iIconIndex];
+		return g_chatApi.hStatusIcons[ti->iIconIndex];
 	
-	return g_chatApi.hIcons[ICON_STATUS0];
+	return g_chatApi.hStatusIcons[0];
 }
 
 BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool bIsHighlighted)
@@ -997,6 +997,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 
 	ResetApi();
 
+	LoadChatIcons();
 	RegisterFonts();
 	OptionsInit();
 	return &g_chatApi;

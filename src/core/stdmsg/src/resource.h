@@ -38,12 +38,6 @@
 #define IDI_TAG1                        149
 #define IDI_TAG2                        150
 #define IDR_MENU                        151
-#define IDI_STATUS3                     153
-#define IDI_STATUS2                     154
-#define IDI_STATUS4                     155
-#define IDI_STATUS1                     156
-#define IDI_STATUS0                     157
-#define IDI_STATUS5                     158
 #define IDI_CLOSE                       159
 #define IDI_OVERLAY                     160
 #define IDI_NICKLIST2                   161

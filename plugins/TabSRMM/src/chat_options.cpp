@@ -183,13 +183,6 @@ static IconItem _icons[] =
 {
 	{ LPGEN("Window Icon"), "chat_window", IDI_CHANMGR },
 	{ LPGEN("Icon overlay"), "chat_overlay", IDI_OVERLAY },
-
-	{ LPGEN("Status 1 (10x10)"), "chat_status0", IDI_STATUS0 },
-	{ LPGEN("Status 2 (10x10)"), "chat_status1", IDI_STATUS1 },
-	{ LPGEN("Status 3 (10x10)"), "chat_status2", IDI_STATUS2 },
-	{ LPGEN("Status 4 (10x10)"), "chat_status3", IDI_STATUS3 },
-	{ LPGEN("Status 5 (10x10)"), "chat_status4", IDI_STATUS4 },
-	{ LPGEN("Status 6 (10x10)"), "chat_status5", IDI_STATUS5 }
 };
 
 static IconItem _logicons[] =

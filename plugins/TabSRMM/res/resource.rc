@@ -9,7 +9,6 @@
 //
 #include <winres.h>
 #include "..\..\..\include\statusmodes.h"
-#include "..\..\..\include\chat_resource.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -874,7 +873,6 @@ END
 BEGIN
     "#include <winres.h>\r\n"
     "#include ""..\\..\\..\\include\\statusmodes.h""\r\n"
-    "#include ""..\\..\\..\\include\\chat_resource.h""\r\n"
     "\0"
 END
 

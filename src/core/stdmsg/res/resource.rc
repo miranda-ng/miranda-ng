@@ -461,18 +461,6 @@ IDI_NICKLIST            ICON                    "nicklist.ico"
 
 IDI_BLANK               ICON                    "blank.ico"
 
-IDI_STATUS3             ICON                    "4.ico"
-
-IDI_STATUS2             ICON                    "3.ico"
-
-IDI_STATUS4             ICON                    "5.ico"
-
-IDI_STATUS1             ICON                    "2.ico"
-
-IDI_STATUS0             ICON                    "1.ico"
-
-IDI_STATUS5             ICON                    "6.ico"
-
 IDI_CLOSE               ICON                    "close.ico"
 
 IDI_OVERLAY             ICON                    "overlay.ico"
