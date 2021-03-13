@@ -208,7 +208,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		return FALSE;
 
 	CMsgDialog *dat = si->pDlg;
-	MCONTACT hContact = si->hContact;
+	int iMuteMode = db_get_b(si->hContact, "SRMM", "MuteMode", CHATMODE_NORMAL);
 
 	int  iEvent = gce->iType;
 	bool bInactive = (dat) ? !dat->IsActive() : true;
@@ -228,13 +228,15 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		}
 
 		if (dat || !nen_options.iMUCDisable)
-			DoPopup(si, gce);
+			if (iMuteMode != CHATMODE_MUTE)
+				DoPopup(si, gce);
+
 		if (g_Settings.bFlashWindowHighlight && bInactive)
 			bMustFlash = true;
 
 		bMustAutoswitch = true;
 		if (g_Settings.bCreateWindowOnHighlight && dat == nullptr) {
-			Clist_ContactDoubleClicked(hContact);
+			Clist_ContactDoubleClicked(si->hContact);
 			bActiveTab = true;
 			bInactive = bMustAutoswitch = bMustFlash = false;
 		}
@@ -256,7 +258,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (bManyFix == 0) {
 			// do popups
 			if (dat || !nen_options.iMUCDisable)
-				DoPopup(si, gce);
+				if (iMuteMode != CHATMODE_MUTE)
+					DoPopup(si, gce);
 
 			// do sounds and flashing
 			if (iEvent == GC_EVENT_MESSAGE) {
@@ -280,15 +283,17 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			dat->m_pWnd->Invalidate();
 	}
 	
-	auto sound = si->getSoundName(iEvent);
-	if (dat) {
-		bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
-		bActiveTab = (dat->m_pContainer->m_hwndActive == dat->GetHwnd());
-		if (sound && dat->MustPlaySound())
+	if (iMuteMode != CHATMODE_MUTE) {
+		auto sound = si->getSoundName(iEvent);
+		if (dat) {
+			bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
+			bActiveTab = (dat->m_pContainer->m_hwndActive == dat->GetHwnd());
+			if (sound && dat->MustPlaySound())
+				Skin_PlaySound(sound);
+		}
+		else if (sound)
 			Skin_PlaySound(sound);
 	}
-	else if (sound)
-		Skin_PlaySound(sound);
 
 	// dialog event processing
 	if (dat) {
