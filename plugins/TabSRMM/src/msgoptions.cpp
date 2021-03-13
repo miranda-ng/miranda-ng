@@ -607,7 +607,7 @@ public:
 	{
 		m_pLog = new CLogWindow(*this);
 
-		m_dwFlags = m_pContainer->m_theme.dwFlags | MWF_LOG_RTL;
+		m_dwFlags = m_pContainer->m_theme.dwFlags;
 
 		m_cache = new CContactCache(m_hContact);
 		m_cache->updateNick();
@@ -742,8 +742,7 @@ public:
 		m_dwFlags = (rtl ? m_dwFlags | MWF_LOG_RTL : m_dwFlags & ~MWF_LOG_RTL);
 		m_dwFlags = (iIndex == 0 || iIndex == 1) ? m_dwFlags & ~MWF_LOG_GROUPMODE : m_dwFlags | MWF_LOG_GROUPMODE;
 		mir_snwprintf(m_wszMyNickname, L"My Nickname");
-		m_pLog->Clear();
-		LOG()->LogEvents(0, 1, true, &dbei);
+		LOG()->LogEvents(0, 1, false, &dbei);
 		if (changed)
 			memcpy(tSet->szTemplates[inEdit], szTemp, TEMPLATE_LENGTH * sizeof(wchar_t));
 	}

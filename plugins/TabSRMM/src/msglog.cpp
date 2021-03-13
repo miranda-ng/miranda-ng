@@ -1204,6 +1204,13 @@ void CLogWindow::Attach()
 	m_rtf.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 }
 
+void CLogWindow::Clear()
+{
+	CSuper::Clear();
+
+	m_pDlg.m_bLogEmpty = true;
+}
+
 void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend)
 {
 	LogEvents(hDbEventFirst, count, fAppend, nullptr);
@@ -1264,7 +1271,8 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
-		SetWindowText(m_rtf.GetHwnd(), L"");
+		Clear();
+
 		sel.cpMin = 0;
 		sel.cpMax = GetWindowTextLength(m_rtf.GetHwnd());
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);

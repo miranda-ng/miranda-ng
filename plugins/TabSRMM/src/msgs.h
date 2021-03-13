@@ -315,6 +315,7 @@ public:
 	}
 
 	void Attach() override;
+	void Clear() override;
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
 	void LogEvents(struct LOGINFO *, bool) override;
 	void ScrollToBottom() override;
