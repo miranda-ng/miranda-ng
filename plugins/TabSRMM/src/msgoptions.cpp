@@ -607,7 +607,7 @@ public:
 	{
 		m_pLog = new CLogWindow(*this);
 
-		m_dwFlags = m_pContainer->m_theme.dwFlags;
+		m_dwFlags = m_pContainer->m_theme.dwFlags | MWF_LOG_RTL;
 
 		m_cache = new CContactCache(m_hContact);
 		m_cache->updateNick();

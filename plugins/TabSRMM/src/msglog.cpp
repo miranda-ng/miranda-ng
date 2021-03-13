@@ -469,16 +469,16 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 	CMStringA str;
 
 	// means: last \\par was deleted to avoid new line at end of log
-	if (dat->m_isAutoRTL & 2) {
+	if (dat->m_bLastParaDeleted) {
 		str.Append("\\par");
-		dat->m_isAutoRTL &= ~2;
+		dat->m_bLastParaDeleted = false;
 	}
 
 	if (dat->m_dwFlags & MWF_LOG_RTL)
 		dbei.flags |= DBEF_RTL;
 
 	if (dbei.flags & DBEF_RTL)
-		dat->m_isAutoRTL |= 1;
+		dat->m_bRtlText = true;
 
 	DWORD dwEffectiveFlags = dat->m_dwFlags;
 
@@ -518,7 +518,7 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 
 	streamData->isEmpty = FALSE;
 
-	if (dat->m_isAutoRTL & 1) {
+	if (dat->m_bRtlText) {
 		if (dbei.flags & DBEF_RTL)
 			str.Append("\\ltrch\\rtlch");
 		else
@@ -1267,7 +1267,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 		sel.cpMax = GetWindowTextLength(m_rtf.GetHwnd());
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		startAt = 0;
-		m_pDlg.m_isAutoRTL = 0;
+		m_pDlg.m_bLastParaDeleted = m_pDlg.m_bRtlText = false;
 	}
 
 	// begin to draw
@@ -1276,12 +1276,12 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 
 	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 
-	if (m_pDlg.m_isAutoRTL & 1)
+	if (dbei_s || m_pDlg.m_bRtlText)
 		m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, (LOWORD(m_pDlg.m_iLastEventType) & DBEF_SENT)
 			? (fAppend ? m_pDlg.m_pContainer->m_theme.outbg : m_pDlg.m_pContainer->m_theme.oldoutbg)
 			: (fAppend ? m_pDlg.m_pContainer->m_theme.inbg : m_pDlg.m_pContainer->m_theme.oldinbg));
 
-	if (!dbei_s && !(m_pDlg.m_isAutoRTL & 1)) {
+	if (!m_pDlg.m_bRtlText) {
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
@@ -1290,7 +1290,9 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 		sel.cpMin = sel.cpMax - 1;
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		m_rtf.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)L"");
-		m_pDlg.m_isAutoRTL |= 2;
+		
+		if (!dbei_s)
+			m_pDlg.m_bLastParaDeleted = true;
 	}
 
 	BOOL isSent;
