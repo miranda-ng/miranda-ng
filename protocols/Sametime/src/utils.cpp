@@ -141,7 +141,7 @@ void CSametimeProto::showPopup(guint32 code)
 	g_free(rcDesc);
 }
 
-void LogFromGLib(const gchar* log_domain, GLogLevelFlags log_level, const gchar* message, gpointer user_data)
+void LogFromGLib(const gchar*, GLogLevelFlags, const gchar* message, gpointer user_data)
 {
 	CSametimeProto* proto = (CSametimeProto*)user_data;
 	proto->debugLogW(_A2T(message));

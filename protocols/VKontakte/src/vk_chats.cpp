@@ -237,7 +237,6 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	const JSONNode &jnMsgs = jnResponse["msgs"];
 	const JSONNode &jnFUsers = jnResponse["fwd_users"];
-	const JSONNode &jnGUsers = jnResponse["groups"];
 	if (jnMsgs) {
 		const JSONNode &jnItems = jnMsgs["items"];
 		if (jnItems) {

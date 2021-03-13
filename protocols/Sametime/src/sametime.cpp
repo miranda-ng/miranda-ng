@@ -52,7 +52,7 @@ INT_PTR CSametimeProto::GetName(WPARAM wParam, LPARAM lParam)
 * @param wParam :	icon type
 * @return			an \c HICON in which the icon has been loaded.
 */
-INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM lParam)
+INT_PTR CSametimeProto::SametimeLoadIcon(WPARAM wParam, LPARAM)
 {
 	
 	UINT id;

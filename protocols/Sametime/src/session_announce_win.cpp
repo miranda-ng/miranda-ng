@@ -93,7 +93,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 					// build recipient list
 					safArg->recipients = nullptr;
 
-					int size = ListView_GetItemCount(GetDlgItem(hwndDlg, IDC_LST_ANTO));
+					size = ListView_GetItemCount(GetDlgItem(hwndDlg, IDC_LST_ANTO));
 					int send_count = 0;
 					for (int i = 0; i < size; i++) {
 						if (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_LST_ANTO), i)) {

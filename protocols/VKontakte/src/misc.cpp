@@ -1446,7 +1446,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			const JSONNode& jnUnknown = jnAttach[jnAttach["type"].as_string().c_str()];
 			CMStringW wszText(jnUnknown["text"].as_mstring());
 			if (!wszText.IsEmpty())
-				res.AppendFormat(L"\n%s: %s", TranslateT("Text"), wszText);
+				res.AppendFormat(L"\n%s: %s", TranslateT("Text"), wszText.c_str());
 		}
 
 		res.AppendChar('\n');

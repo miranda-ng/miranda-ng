@@ -158,9 +158,9 @@ void CSametimeProto::ImportContactsFromList(mwSametimeList* user_list, bool temp
 			id_block.user = (char*)group_name;
 			id_block.community = nullptr;
 
-			GList* gl = g_list_prepend(nullptr, &id_block);
-			mwAwareList_addAware(aware_list, gl);
-			g_list_free(gl);
+			GList* gl1 = g_list_prepend(nullptr, &id_block);
+			mwAwareList_addAware(aware_list, gl1);
+			g_list_free(gl1);
 		}
 
 		ul = utl = mwSametimeGroup_getUsers(stgroup);
@@ -195,7 +195,6 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 	mwAwareIdBlock id_block;
 	mwIdBlock uid;
 
-	GList* gl = nullptr;
 	for (auto &hContact : AccContacts()) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 			if (dbv.pszVal) {
@@ -348,7 +347,7 @@ CSametimeProto* getProtoFromMwServiceStorage(mwServiceStorage* srvcStorage)
 	return (CSametimeProto*)mwSession_getProperty(session, "PROTO_STRUCT_PTR");
 }
 
-void load_users_callback(mwServiceStorage* srvc, guint32 result, mwStorageUnit *item, gpointer data)
+void load_users_callback(mwServiceStorage* srvc, guint32, mwStorageUnit *item, gpointer)
 {
 	CSametimeProto* proto = getProtoFromMwServiceStorage(srvc);
 
@@ -397,7 +396,7 @@ CSametimeProto* getProtoFromMwServiceResolve(mwServiceResolve* srvcResolve)
 }
 
 
-void mwResolve_handler_dyngroup_callback(mwServiceResolve* srvc, guint32 id, guint32 code, GList *results, gpointer data)
+void mwResolve_handler_dyngroup_callback(mwServiceResolve* srvc, guint32, guint32, GList *results, gpointer data)
 {
 	CSametimeProto* proto = getProtoFromMwServiceResolve(srvc);
 	mwSametimeGroup* stgroup = (mwSametimeGroup*)data;
@@ -555,11 +554,11 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 }
 
 
-void mwAwareList_on_attrib(mwAwareList* list, mwAwareIdBlock* id, mwAwareAttribute* attrib)
+void mwAwareList_on_attrib(mwAwareList*, mwAwareIdBlock*, mwAwareAttribute*)
 {}
 
 
-void mwAwareList_clear(mwAwareList* list)
+void mwAwareList_clear(mwAwareList*)
 {}
 
 mwAwareListHandler mwAwareList_handler =
@@ -692,7 +691,7 @@ void mwResolve_handler_callback(mwServiceResolve* srvc, guint32 id, guint32 code
 	}
 }
 
-void mwResolve_handler_details_callback(mwServiceResolve* srvc, guint32 id, guint32 code, GList* results, gpointer data)
+void mwResolve_handler_details_callback(mwServiceResolve* srvc, guint32, guint32 code, GList* results, gpointer)
 {
 	CSametimeProto* proto = getProtoFromMwServiceResolve(srvc);
 
@@ -743,7 +742,7 @@ int CSametimeProto::GetMoreDetails(const char* name)
 	return 0; // fail
 }
 
-INT_PTR CALLBACK CALLBACK SearchDialogFunc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CALLBACK SearchDialogFunc(HWND hwndDlg, UINT msg, WPARAM, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -780,11 +779,11 @@ MCONTACT CSametimeProto::AddSearchedUser(MYPROTOSEARCHRESULT* mpsr, bool tempora
 	return hContact;
 }
 
-void mwServiceAware_on_attrib_callback(mwServiceAware* srvc, mwAwareAttribute* attrib)
+void mwServiceAware_on_attrib_callback(mwServiceAware*, mwAwareAttribute*)
 {
 }
 
-void mwServiceAware_clear_callback(mwServiceAware* srvc)
+void mwServiceAware_clear_callback(mwServiceAware*)
 {
 }
 
