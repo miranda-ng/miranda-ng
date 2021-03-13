@@ -142,6 +142,8 @@ static void OnLoadSettings()
 	if (g_Settings.SelectionBGBrush)
 		DeleteObject(g_Settings.SelectionBGBrush);
 	g_Settings.SelectionBGBrush = CreateSolidBrush(g_Settings.nickColors[5]);
+
+	SM_ReconfigureFilters();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -380,7 +382,6 @@ int Chat_Load()
 	g_chatApi.ReloadSettings();
 
 	g_Settings.Highlight = new CMUCHighlight();
-	SM_ReconfigureFilters();
 	return 0;
 }
 
