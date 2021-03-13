@@ -925,6 +925,8 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 				switch (iStatus) {
 				case 301:
 				case 307:
+				case 321:
+				case 322:
 					GcQuit(item, iStatus, reasonNode);
 					return;
 
@@ -941,6 +943,7 @@ void CJabberProto::GroupchatProcessPresence(const TiXmlElement *node)
 
 				case 301:
 				case 307:
+				case 321:
 				case 322:
 					ListRemoveResource(LIST_CHATROOM, from);
 					GcLogUpdateMemberStatus(item, resource, nick, str, GC_EVENT_KICK, reasonNode, iStatus);
