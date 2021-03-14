@@ -40,4 +40,3 @@
 [History]
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
-[&System History]

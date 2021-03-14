@@ -77,7 +77,6 @@
 [Miranda NG (Message Export Plugin)]
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
-[(Unknown Contact)]
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 [\nError: ]

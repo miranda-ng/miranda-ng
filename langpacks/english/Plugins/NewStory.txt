@@ -93,7 +93,6 @@
 [Are you sure to remove all events from history?]
 [User history]
 [Empty history]
-[System history]
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 [Search]
@@ -152,6 +151,7 @@
 [October]
 [November]
 [December]
+[System history]
 [System event]
 [Interface]
 [Window title]

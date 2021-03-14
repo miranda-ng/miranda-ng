@@ -41,7 +41,6 @@
 [Outgoing File Transfer]
 [Incoming File Transfer]
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-[(Unknown Contact)]
 [ requested authorization]
 [ was added.]
 ;file \plugins\IEView\src\ieview_main.cpp
