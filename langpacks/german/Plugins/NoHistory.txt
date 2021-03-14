@@ -13,7 +13,7 @@ Behalte Verlauf für diesen Kontakt
 [Disable history for this contact]
 Deaktiviere Verlauf für diesen Kontakt
 [Remove history on startup]
-
+Verlauf beim Start entfernen
 ;file \plugins\NoHistory\src\dllmain.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Diese Operation wird alle Verlaufseinträge für diesen Kontakt DAUERHAFT LÖSCHEN.\nSind Sie sich sicher, dass Sie dies machen wollen?
