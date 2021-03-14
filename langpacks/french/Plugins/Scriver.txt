@@ -411,18 +411,6 @@ Filtre d'évènement activé
 Masquer la liste des usagers
 [Show nick list]
 Afficher la liste des usagers
-[Status 1 (10x10)]
-État 1 (10x10)
-[Status 2 (10x10)]
-État 2 (10x10)
-[Status 3 (10x10)]
-État 3 (10x10)
-[Status 4 (10x10)]
-État 4 (10x10)
-[Status 5 (10x10)]
-État 5 (10x10)
-[Status 6 (10x10)]
-État 6 (10x10)
 [Message in (10x10)]
 Message reçu (10x10)
 [Message out (10x10)]

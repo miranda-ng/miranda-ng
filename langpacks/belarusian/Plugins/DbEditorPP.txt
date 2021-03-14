@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.4
+;  Version: 4.0.2.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -292,10 +292,6 @@ INI файлы
 Профіль
 [Open user tree in DBE++]
 Рэдактары базы
-[<UNKNOWN>]
-<НЕВЯДОМА>
-[[UNLOADED]]
-
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?
@@ -340,6 +336,11 @@ INI файлы
 [Edit setting (%s)]
 Рэдагаваць наладу (%s)
 [New setting (%s)]
+
+;file \plugins\DbEditorPP\src\utils.cpp
+[<UNKNOWN>]
+<НЕВЯДОМА>
+[[UNLOADED]]
 
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [*** resident ***]

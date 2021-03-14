@@ -427,7 +427,7 @@ Apodo
 
 [Please choose an IRC-network to go online. This network will be the default.]
 
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
 
 ;file \protocols\IRCG\src\options.cpp
 [Main]

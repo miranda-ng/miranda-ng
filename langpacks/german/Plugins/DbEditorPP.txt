@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.4
+;  Version: 4.0.2.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -292,10 +292,6 @@ Handle
 Datenbank
 [Open user tree in DBE++]
 Benutzerzweig in DBE++ öffnen
-[<UNKNOWN>]
-<UNBEKANNT>
-[[UNLOADED]]
-\[UNGELADEN]
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Soll Kontakt "%s" wirklich gelöscht werden?
@@ -341,6 +337,11 @@ Unbekannter DBVariant-Typ!
 Eintrag bearbeiten (%s)
 [New setting (%s)]
 Neuer Eintrag (%s)
+;file \plugins\DbEditorPP\src\utils.cpp
+[<UNKNOWN>]
+<UNBEKANNT>
+[[UNLOADED]]
+\[UNGELADEN]
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [*** resident ***]
 *** Vorrübergehend ***

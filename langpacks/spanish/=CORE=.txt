@@ -1581,18 +1581,6 @@ Ocultar lista de usuarios
 Mostrar lista de usuarios
 [Icon overlay]
 Icono de superposición
-[Status 1 (10x10)]
-Estado 1 (10x10)
-[Status 2 (10x10)]
-Estado 2 (10x10)
-[Status 3 (10x10)]
-Estado 3 (10x10)
-[Status 4 (10x10)]
-Estado 4 (10x10)
-[Status 5 (10x10)]
-Estado 5 (10x10)
-[Status 6 (10x10)]
-Estado 6 (10x10)
 [Message in (10x10)]
 Mensaje entrante (10x10)
 [Message out (10x10)]
@@ -1844,8 +1832,6 @@ El cliente no puede decodificar mensajes de servidor. Posibles causas: El servid
 [Host we are connecting to is not the one certificate was issued for]
 El servidor al que nos estamos conectando no es el del certificado emitido
 ;file \src\core\stduihist\src\history.cpp
-[Invalid message]
-Mensaje no válido
 [Outgoing message]
 Mensaje saliente
 [Incoming message]
@@ -1854,8 +1840,12 @@ Mensaje entrante
 Archivo saliente
 [Incoming file]
 Archivo entrante
+[Added event]
+Evento añadido
 [History for %s]
 Historial de %s
+[System history]
+
 [Are you sure you want to delete this history item?]
 ¿Realmente desea eliminar este elemento del historial?
 [Delete history]
@@ -1966,8 +1956,6 @@ La función no está soportada por el protocolo
 %s te ha añadido a su lista de contactos
 [%u added you to their contact list]
 %u te ha añadido a su lista de contactos
-[Added event]
-Evento añadido
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s se ha unido
@@ -2047,6 +2035,18 @@ Miembros de la lista de usuarios (fuera)
 
 [Never]
 
+[Status 1 (10x10)]
+Estado 1 (10x10)
+[Status 2 (10x10)]
+Estado 2 (10x10)
+[Status 3 (10x10)]
+Estado 3 (10x10)
+[Status 4 (10x10)]
+Estado 4 (10x10)
+[Status 5 (10x10)]
+Estado 5 (10x10)
+[Status 6 (10x10)]
+Estado 6 (10x10)
 [Message is highlighted]
 El mensaje esta resaltado
 [User has performed an action]

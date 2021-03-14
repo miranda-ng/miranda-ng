@@ -74,8 +74,6 @@ Ausgehende Dateiübertragung
 [Incoming File Transfer]
 Eingehende Dateiübertragung
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-[(Unknown Contact)]
-(Unbekannter Kontakt)
 [ requested authorization]
  fragte Autorisierung an
 [ was added.]

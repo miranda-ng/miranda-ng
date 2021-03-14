@@ -280,7 +280,7 @@ Colours
 ;============================================================
 ;  File: Clist_blind.dll
 ;  Plugin: BClist
-;  Version: 0.8.1.1
+;  Version: 0.9.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [Minimize to tray]
@@ -455,7 +455,7 @@ Text colour
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.4
+;  Version: 4.0.2.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Background color]
@@ -480,7 +480,7 @@ Text colour
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.3
+;  Version: 0.95.13.4
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -496,7 +496,7 @@ Go to the "Options -> Customise -> Folders" to change settings
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.6
+;  Version: 0.6.2.7
 ;  Authors: George Hazan
 ;============================================================
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
@@ -1062,7 +1062,7 @@ Use default colours
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.1
+;  Version: 0.2.3.2
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 #muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
@@ -1415,7 +1415,7 @@ Synchronise if current status differs from previous one
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Automatic messages synchronization]
@@ -1759,7 +1759,7 @@ Mail order catalogue
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.7
+;  Version: 0.1.11.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Please authorize me to add you to my friend list.]

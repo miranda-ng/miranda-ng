@@ -16,7 +16,6 @@
 [String setting]
 [Unicode setting]
 [Handle]
-[[UNLOADED]]
 [Delete resident settings from database?]
 [%d items deleted.]
 [Unable to store value in this data type!]
@@ -26,4 +25,5 @@
 [Unknown DBVariant type!]
 [Edit setting (%s)]
 [New setting (%s)]
+[[UNLOADED]]
 [*** resident ***]

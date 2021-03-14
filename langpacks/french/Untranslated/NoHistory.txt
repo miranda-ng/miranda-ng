@@ -1,4 +1,5 @@
 [Prevent Miranda from storing any history.]
+[Remove history on startup]
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 [Clear History]
 [History Disabled]

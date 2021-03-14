@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.1
+;  Version: 0.2.3.2
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -12,6 +12,8 @@ Verhindert, dass Miranda Verlauf speichert.
 Behalte Verlauf für diesen Kontakt
 [Disable history for this contact]
 Deaktiviere Verlauf für diesen Kontakt
+[Remove history on startup]
+
 ;file \plugins\NoHistory\src\dllmain.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Diese Operation wird alle Verlaufseinträge für diesen Kontakt DAUERHAFT LÖSCHEN.\nSind Sie sich sicher, dass Sie dies machen wollen?

@@ -72,5 +72,3 @@ Verlauf
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 &Verlauf anzeigen
-[&System History]
-&Systemverlauf

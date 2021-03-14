@@ -5,7 +5,7 @@
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
 [Failed to connect to]
 [DCC ERROR: Unable to bind local port for passive file transfer]
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
 [Event: Available]
 [Event: Away]
 [Event: Not available]

@@ -176,8 +176,6 @@ Dokončeno
 
 [Empty history]
 Vymazání historie
-[System history]
-Historie systému
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Hlavní ikona
@@ -291,6 +289,8 @@ září
 listopad
 [December]
 prosinec
+[System history]
+Historie systému
 [System event]
 
 [Interface]

@@ -74,8 +74,6 @@ Wychodzące transfery
 [Incoming File Transfer]
 Przychodzący transfer plików
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-[(Unknown Contact)]
-(Nieznany kontakt)
 [ requested authorization]
  poprosił(a) o autoryzację
 [ was added.]

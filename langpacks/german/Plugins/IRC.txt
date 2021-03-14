@@ -427,8 +427,8 @@ Die DCC-Chatverbindung ist nicht aktiv
 Protokoll ist nicht online
 [Please choose an IRC-network to go online. This network will be the default.]
 Bitte ein IRC-Netzwerk zum Verbinden auswählen. Dieses wird dann das Standardnetzwerk.
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Verbindung kann nicht hergestellt werden. Es wurden nicht alle erforderlichen Felder (Nickname, ID und Name) ausgefüllt.
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+Verbindung kann nicht hergestellt werden. Es wurden nicht alle erforderlichen Felder (Nickname, ID und Voller Name) ausgefüllt.
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 Allgemein

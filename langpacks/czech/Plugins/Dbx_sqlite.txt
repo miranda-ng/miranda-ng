@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.3
+;  Version: 0.95.13.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]

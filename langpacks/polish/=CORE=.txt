@@ -1581,18 +1581,6 @@ Ukryj listę użytkowników
 Pokaż listę użytkowników
 [Icon overlay]
 Pokrywanie ikony
-[Status 1 (10x10)]
-Status 1 (10x10)
-[Status 2 (10x10)]
-Status 2 (10x10)
-[Status 3 (10x10)]
-Status 3 (10x10)
-[Status 4 (10x10)]
-Status 4 (10x10)
-[Status 5 (10x10)]
-Status 5 (10x10)
-[Status 6 (10x10)]
-Status 6 (10x10)
 [Message in (10x10)]
 Wiadomość przychodząca (10x10)
 [Message out (10x10)]
@@ -1844,8 +1832,6 @@ Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wsp
 [Host we are connecting to is not the one certificate was issued for]
 Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
 ;file \src\core\stduihist\src\history.cpp
-[Invalid message]
-Nieprawidłowa wiadomość
 [Outgoing message]
 Wychodząca wiadomość
 [Incoming message]
@@ -1854,8 +1840,12 @@ Przychodząca wiadomość
 Wychodzący plik
 [Incoming file]
 Przychodzący plik
+[Added event]
+Dodanie kontaktu
 [History for %s]
 Historia dla "%s"
+[System history]
+Historia systemowa
 [Are you sure you want to delete this history item?]
 Czy jesteś pewien, że chcesz usunąć ten wpis historii?
 [Delete history]
@@ -1966,8 +1956,6 @@ Funkcja nie wspierana przez protokół
 %s dodał(a) cię do listy kontaktów
 [%u added you to their contact list]
 %u dodał(a) cię do swojej listy kontaktów
-[Added event]
-Dodanie kontaktu
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s dołączył(a)
@@ -2047,6 +2035,18 @@ Opuść &czat
 Zawsze
 [Never]
 Nigdy
+[Status 1 (10x10)]
+Status 1 (10x10)
+[Status 2 (10x10)]
+Status 2 (10x10)
+[Status 3 (10x10)]
+Status 3 (10x10)
+[Status 4 (10x10)]
+Status 4 (10x10)
+[Status 5 (10x10)]
+Status 5 (10x10)
+[Status 6 (10x10)]
+Status 6 (10x10)
 [Message is highlighted]
 Podświetlona wiadomość
 [User has performed an action]

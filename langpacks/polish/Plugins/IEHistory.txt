@@ -72,5 +72,3 @@ Historia
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 Zobacz &historię
-[&System History]
-Historia &systemowa

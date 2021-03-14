@@ -1581,18 +1581,6 @@ Masquer la liste des usagers
 Afficher la liste des usagers
 [Icon overlay]
 Surimpression d'icône
-[Status 1 (10x10)]
-État 1 (10x10)
-[Status 2 (10x10)]
-État 2 (10x10)
-[Status 3 (10x10)]
-État 3 (10x10)
-[Status 4 (10x10)]
-État 4 (10x10)
-[Status 5 (10x10)]
-État 5 (10x10)
-[Status 6 (10x10)]
-État 6 (10x10)
 [Message in (10x10)]
 Message reçu (10x10)
 [Message out (10x10)]
@@ -1844,8 +1832,6 @@ Copier date et heure
 [Host we are connecting to is not the one certificate was issued for]
 
 ;file \src\core\stduihist\src\history.cpp
-[Invalid message]
-Message invalide
 [Outgoing message]
 Message envoyé
 [Incoming message]
@@ -1854,8 +1840,12 @@ Message reçu
 Fichier envoyé
 [Incoming file]
 Fichier reçu
+[Added event]
+
 [History for %s]
 Historique de %s
+[System history]
+Historique du système
 [Are you sure you want to delete this history item?]
 Voulez-vous vraiment supprimer cette entrée ?
 [Delete history]
@@ -1966,8 +1956,6 @@ Cette fonctionnalité n'est pas supportée par le protocole
 %s vous a ajouté à sa liste de contacts
 [%u added you to their contact list]
 %u vous a ajouté à sa liste de contacts
-[Added event]
-
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s est arrivé
@@ -2047,6 +2035,18 @@ Re&joindre
 Toujours
 [Never]
 Jamais
+[Status 1 (10x10)]
+État 1 (10x10)
+[Status 2 (10x10)]
+État 2 (10x10)
+[Status 3 (10x10)]
+État 3 (10x10)
+[Status 4 (10x10)]
+État 4 (10x10)
+[Status 5 (10x10)]
+État 5 (10x10)
+[Status 6 (10x10)]
+État 6 (10x10)
 [Message is highlighted]
 Message surligné
 [User has performed an action]

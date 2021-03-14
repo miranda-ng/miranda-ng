@@ -368,6 +368,8 @@ Last-Modified-Using: Miranda NG 0.95.13
 Адкрываць вакно, калі:
 [In background]
 У фоне
+[Maximum number of flashes (0 = indefinite)]
+Мігцець не больш (0 = бясконцы)
 [Close the message window on send]
 Зачыняць вакно пасля адпраўкі
 [Minimize the message window on send]
@@ -1526,18 +1528,6 @@ UIN, E-mail і г.д.
 Паказаць спіс
 [Icon overlay]
 Абразок па-над
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
 [Message in (10x10)]
 Прынятае паведамленне (10х10)
 [Message out (10x10)]
@@ -1772,8 +1762,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Кліент не можа дэкадаваць паведамлення хаста. Магчымыя прычыны: вузел не падтрымлівае SSL ці патрабуе неіснуючы пакет бяспекі
 [Host we are connecting to is not the one certificate was issued for]
 Выдадзены сертыфікат не адпавядае хасту далчэння
-[Invalid message]
-Паведамленне пашкоджана
 [Outgoing message]
 Выходнае паведамленне
 [Incoming message]
@@ -1782,8 +1770,12 @@ Miranda не здолела загрузіць убудаваную сістэм
 Выходныя файл
 [Incoming file]
 Уваходны файл
+[Added event]
+Падзея дадання
 [History for %s]
 Гісторыя для %s
+[System history]
+Сістэмная гісторыя
 [Are you sure you want to delete this history item?]
 Выдаліць гэты запіс з гісторыі?
 [Delete history]
@@ -1882,8 +1874,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 %s дадаў(ла) вас у свой спіс
 [%u added you to their contact list]
 %u дадаў(ла) вас у свой спіс
-[Added event]
-Падзея дадання
 [%s has joined]
 %s увайшоў
 [You have joined %s]
@@ -1956,6 +1946,18 @@ Miranda не здолела загрузіць убудаваную сістэм
 Заўсёды
 [Never]
 Ніколі
+[Status 1 (10x10)]
+Статус 1 (10x10)
+[Status 2 (10x10)]
+Статус 2 (10x10)
+[Status 3 (10x10)]
+Статус 3 (10x10)
+[Status 4 (10x10)]
+Статус 4 (10x10)
+[Status 5 (10x10)]
+Статус 5 (10x10)
+[Status 6 (10x10)]
+Статус 6 (10x10)
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]
@@ -5684,7 +5686,7 @@ Pounce адпраўлены %s за %d секунд
 ;============================================================
 ;  File: Clist_blind.dll
 ;  Plugin: BClist
-;  Version: 0.8.1.1
+;  Version: 0.9.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
@@ -5801,24 +5803,24 @@ Pounce адпраўлены %s за %d секунд
 Бардзюры на панэлях
 [Show resize grip indicator]
 Індыкатар зм. памеру
+[Unknown protocol]
+Невядомы пратакол
 [Group: %name% %count% [%mode%]]
 Гурт: %name% %count% [%mode%]
 [Divider: %s]
 Драйвер: %s
 [Info: %s]
 Інфо: %s
+[Expanded]
+Разгорнута
+[Collapsed]
+Згорнута
 [Contact list]
 Спіс кантактаў
 [List]
 Спіс
 [Global]
 Глабальныя
-[Unknown protocol]
-Невядомы пратакол
-[Expanded]
-Разгорнута
-[Collapsed]
-Згорнута
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
@@ -8323,7 +8325,7 @@ HTTP далучэнне CurrencyRates
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.4
+;  Version: 4.0.2.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8572,8 +8574,6 @@ INI файлы
 Профіль
 [Open user tree in DBE++]
 Рэдактары базы
-[<UNKNOWN>]
-<НЕВЯДОМА>
 [Are you sure you want to delete contact "%s"?]
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?
 [Error loading module list]
@@ -8596,6 +8596,8 @@ INI файлы
 *** зашыфравана ***
 [Edit setting (%s)]
 Рэдагаваць наладу (%s)
+[<UNKNOWN>]
+<НЕВЯДОМА>
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Зменена налада базы: \nМодуль: "%s", налада: "%s"\nНовае значэнне (%s): "%s"
 #muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
@@ -8632,7 +8634,7 @@ INI файлы
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.3
+;  Version: 0.95.13.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -8746,7 +8748,7 @@ INI файлы
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.6
+;  Version: 0.6.2.7
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -11944,6 +11946,8 @@ HTTP Новы агульны файл
 Запрасіць
 [Cancel]
 Скасаваць
+[Account registration]
+Рэгістрацыя конту
 [UIN:]
 Нумар:
 [Online since:]
@@ -12086,8 +12090,6 @@ RTL па змаўчанні
 Гісторыя
 [View &history]
 &Гісторыя
-[&System History]
-&Сістэмная гісторыя
 #muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
@@ -12159,8 +12161,6 @@ RTL па змаўчанні
 Выходныя перадачы файлаў
 [Incoming File Transfer]
 Уваходны файл
-[(Unknown Contact)]
-(Невядомы кантакт)
 [ requested authorization]
  запрасіў аўтарызацыю
 [ was added.]
@@ -12772,8 +12772,6 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Пратакол не ў сетцы
 [Please choose an IRC-network to go online. This network will be the default.]
 Абярыце IRC сетка. Гэта сетка будзе абрана па змаўчанні.
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Немагчыма ўсталяваць далучэнне. Вы не ўвялі ўсе неабходныя дадзеныя (мянушка, User ID і імя)
 [Main]
 Галоўны
 [Add]
@@ -16840,8 +16838,6 @@ ID кантакта
 Miranda NG (Плагін экспарту паведамленняў)
 [No_Group]
 Без_Гурта
-[(Unknown Contact)]
-(Невядомы кантакт)
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не атрымалася пераназваць файл\n\n старое імя:\t%s\n новае імя:\t%s\n\n Памылка: %s
 [\nError: ]
@@ -17723,8 +17719,6 @@ HTTP далучэнне NewsAggregator
 Зроблена
 [Empty history]
 Сцерці гісторыю
-[System history]
-Сістэмная гісторыя
 [Main icon]
 Галоўны абразок
 [Search]
@@ -17801,6 +17795,8 @@ HTTP далучэнне NewsAggregator
 Лістапад
 [December]
 Снежань
+[System history]
+Сістэмная гісторыя
 [Interface]
 Выгляд
 [Message log]
@@ -18478,7 +18474,7 @@ ID ключа:
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.1
+;  Version: 0.2.3.2
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -21063,18 +21059,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Схаваць спіс
 [Show nick list]
 Паказаць спіс
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2(10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
 [Message in (10x10)]
 Прынятае паведамленне (10х10)
 [Message out (10x10)]
@@ -22601,7 +22585,7 @@ SendScreenshot - Памылка
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -24702,18 +24686,6 @@ RTL па змаўчанні
 Абразок вакна
 [Icon overlay]
 Абразок па-над
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
 [Message in (10x10)]
 Прынятае (10х10)
 [Message out (10x10)]
@@ -28415,7 +28387,7 @@ x, і захоўвае y, як зменную з імем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.7
+;  Version: 0.1.11.8
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]

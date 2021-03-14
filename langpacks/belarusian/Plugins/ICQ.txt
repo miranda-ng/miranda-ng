@@ -37,7 +37,7 @@
 [Cancel]
 Скасаваць
 [Account registration]
-
+Рэгістрацыя конту
 [Enter full phone number]
 
 [Send me registration code via SMS]

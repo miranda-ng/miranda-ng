@@ -176,8 +176,6 @@
 
 [Empty history]
 Сцерці гісторыю
-[System history]
-Сістэмная гісторыя
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Галоўны абразок
@@ -291,6 +289,8 @@
 Лістапад
 [December]
 Снежань
+[System history]
+Сістэмная гісторыя
 [System event]
 
 [Interface]

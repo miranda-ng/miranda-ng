@@ -74,8 +74,6 @@ Odchozí přenos souboru
 [Incoming File Transfer]
 Žádost o přenos souboru
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-[(Unknown Contact)]
-(neznámý kontakt)
 [ requested authorization]
  žádá o autorizaci
 [ was added.]

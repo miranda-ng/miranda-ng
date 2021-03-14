@@ -1,4 +1,4 @@
 [BL&OB]
-[[UNLOADED]]
 [*** buggy resident ***]
+[[UNLOADED]]
 [*** resident ***]

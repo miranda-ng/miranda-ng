@@ -427,8 +427,8 @@ IRC предупреждение
 Протоколът не е на линия
 [Please choose an IRC-network to go online. This network will be the default.]
 Изберете, към коя IRC мрежа да се включите. Тя ще бъде стандартна.
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Връзката не може да бъде осъществена. Не са попълнени всички необходими полета (Прякор, User ID и m_name).
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+Връзката не може да бъде осъществена. Не са попълнени всички необходими полета (Прякор, User ID и име).
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 Основна

@@ -18,4 +18,3 @@
 [Text search]
 [Time search]
 [Search finished. No more entries...]
-[&System History]

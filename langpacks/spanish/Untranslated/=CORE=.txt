@@ -120,6 +120,7 @@
 [Copy title to clipboard]
 [Copy message to clipboard]
 [Copy timestamp to clipboard]
+[System history]
 [Single]
 [Close relationships]
 [Engaged]

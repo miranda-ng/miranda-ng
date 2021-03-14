@@ -72,5 +72,3 @@ RTL за замовчанням
 ;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 &Історія
-[&System History]
-Сис&темна історія

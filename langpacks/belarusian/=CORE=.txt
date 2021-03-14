@@ -1581,18 +1581,6 @@ UIN, E-mail і г.д.
 Паказаць спіс
 [Icon overlay]
 Абразок па-над
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
 [Message in (10x10)]
 Прынятае паведамленне (10х10)
 [Message out (10x10)]
@@ -1844,8 +1832,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 [Host we are connecting to is not the one certificate was issued for]
 Выдадзены сертыфікат не адпавядае хасту далчэння
 ;file \src\core\stduihist\src\history.cpp
-[Invalid message]
-Паведамленне пашкоджана
 [Outgoing message]
 Выходнае паведамленне
 [Incoming message]
@@ -1854,8 +1840,12 @@ Miranda не здолела загрузіць убудаваную сістэм
 Выходныя файл
 [Incoming file]
 Уваходны файл
+[Added event]
+Падзея дадання
 [History for %s]
 Гісторыя для %s
+[System history]
+Сістэмная гісторыя
 [Are you sure you want to delete this history item?]
 Выдаліць гэты запіс з гісторыі?
 [Delete history]
@@ -1966,8 +1956,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 %s дадаў(ла) вас у свой спіс
 [%u added you to their contact list]
 %u дадаў(ла) вас у свой спіс
-[Added event]
-Падзея дадання
 ;file \src\mir_app\src\chat_log.cpp
 [%s has joined]
 %s увайшоў
@@ -2047,6 +2035,18 @@ Miranda не здолела загрузіць убудаваную сістэм
 Заўсёды
 [Never]
 Ніколі
+[Status 1 (10x10)]
+Статус 1 (10x10)
+[Status 2 (10x10)]
+Статус 2 (10x10)
+[Status 3 (10x10)]
+Статус 3 (10x10)
+[Status 4 (10x10)]
+Статус 4 (10x10)
+[Status 5 (10x10)]
+Статус 5 (10x10)
+[Status 6 (10x10)]
+Статус 6 (10x10)
 [Message is highlighted]
 Паведамленне вылучана
 [User has performed an action]

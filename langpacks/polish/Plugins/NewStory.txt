@@ -176,8 +176,6 @@ Czy na pewno chcesz usunąć wszystkie wydarzenia z historii?
 Historia użytkownika
 [Empty history]
 Usuń historię
-[System history]
-Historia systemowa
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Główna ikona
@@ -291,6 +289,8 @@ Październik
 Listopad
 [December]
 Grudzień
+[System history]
+Historia systemowa
 [System event]
 Zdarzenia systemowe
 [Interface]

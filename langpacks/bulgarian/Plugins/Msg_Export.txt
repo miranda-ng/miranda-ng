@@ -143,8 +143,6 @@ Miranda NG (приставка Message Export)
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 Без–Група
-[(Unknown Contact)]
-(Непознат контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Името на файла за потребител "%s" е променено!\n\nот:\t%s\nна:\t%s\n\nЖелаете ли да бъде променено името на файла?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]

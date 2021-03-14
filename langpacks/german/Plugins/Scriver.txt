@@ -411,18 +411,6 @@ Ereignisfilter aktiviert
 Benutzerliste ausblenden
 [Show nick list]
 Benutzerliste einblenden
-[Status 1 (10x10)]
-Status 1 (10x10)
-[Status 2 (10x10)]
-Status 2 (10x10)
-[Status 3 (10x10)]
-Status 3 (10x10)
-[Status 4 (10x10)]
-Status 4 (10x10)
-[Status 5 (10x10)]
-Status 5 (10x10)
-[Status 6 (10x10)]
-Status 6 (10x10)
 [Message in (10x10)]
 Eingehende Nachricht (10x10)
 [Message out (10x10)]

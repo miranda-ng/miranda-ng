@@ -16,7 +16,7 @@
 [%us]
 [online since %s, idle %s]
 [DCC ERROR: Unable to bind local port for passive file transfer]
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
 [Cyrillic (Windows)]
 [Cyrillic (KOI8R)]
 [Event: Available]

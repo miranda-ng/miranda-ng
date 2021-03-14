@@ -42,7 +42,6 @@
 [Unicode setting]
 [Open Database Editor]
 [Database]
-[[UNLOADED]]
 [Delete resident settings from database?]
 [%d items deleted.]
 [Add module to "%s"]
@@ -54,4 +53,5 @@
 [Unknown DBVariant type!]
 [Edit setting (%s)]
 [New setting (%s)]
+[[UNLOADED]]
 [*** resident ***]

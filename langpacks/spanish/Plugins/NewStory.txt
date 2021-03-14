@@ -176,8 +176,6 @@ Completo
 
 [Empty history]
 
-[System history]
-
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Icono principal
@@ -290,6 +288,8 @@ Avanzado
 [November]
 
 [December]
+
+[System history]
 
 [System event]
 

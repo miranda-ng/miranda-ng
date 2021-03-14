@@ -143,8 +143,6 @@ Contactos
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 
-[(Unknown Contact)]
-(Contacto desconocido)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]

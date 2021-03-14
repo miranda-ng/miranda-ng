@@ -346,6 +346,8 @@ Fenster bei Dateiübertragung minimieren
 Fenster nach abgeschlossener Übertragung schließen
 [Clear completed transfers on window closing]
 Komplette Übertragungen beim Schliessen des Fensters entfernen
+[Sort file transfers in the reverse order]
+Dateiübertragungen in umgekehrter Reihenfolge sortieren
 [Virus scanner]
 Virenscanner
 [Scan files:]
@@ -374,6 +376,8 @@ Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 Fenster automatisch öffnen, wenn:
 [In background]
 im Hintergrund
+[Maximum number of flashes (0 = indefinite)]
+Maximale Anzahl Blinken (0 bedeutet unendlich)
 [Close the message window on send]
 Nachrichtenfenster beim Senden schließen
 [Minimize the message window on send]
@@ -1156,6 +1160,8 @@ Gruppen aktivieren
 Vor Löschen von Kontakten fragen
 [Remove temporary contacts on exit]
 Temporäre Kontakte beim Beenden löschen
+[Search works as filter]
+Suche arbeitet als Filter
 ['Hide offline' means to hide:]
 'Offline-Kontakte verstecken':
 [Tray]
@@ -1184,6 +1190,8 @@ Popup nur wenn Chatfenster nicht aktiv
 Buttonmenü bei Rechtsklick auf Button anzeigen (Farben, Ereignisse)
 [Hidden window]
 Verstecktes Fenster
+[Select crypto provider]
+Verschlüsselungsmodul auswählen
 [Login to Miranda NG]
 Einloggen bei Miranda NG
 [New password]
@@ -1558,18 +1566,6 @@ Benutzerliste ausblenden
 Benutzerliste einblenden
 [Icon overlay]
 Neue Nachricht Tab
-[Status 1 (10x10)]
-Status 1 (10x10)
-[Status 2 (10x10)]
-Status 2 (10x10)
-[Status 3 (10x10)]
-Status 3 (10x10)
-[Status 4 (10x10)]
-Status 4 (10x10)
-[Status 5 (10x10)]
-Status 5 (10x10)
-[Status 6 (10x10)]
-Status 6 (10x10)
 [Message in (10x10)]
 Eingehende Nachricht (10x10)
 [Message out (10x10)]
@@ -1808,8 +1804,6 @@ Zeitstempel in Zwischenablage kopieren
 Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
 [Host we are connecting to is not the one certificate was issued for]
 Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
-[Invalid message]
-Ungültige Nachricht
 [Outgoing message]
 Ausgehende Nachricht
 [Incoming message]
@@ -1818,8 +1812,12 @@ Eingehende Nachricht
 Ausgehende Datei
 [Incoming file]
 Eingehende Datei
+[Added event]
+Sie wurden von jemandem hinzugefügt
 [History for %s]
 Verlauf von %s
+[System history]
+Systemverlauf
 [Are you sure you want to delete this history item?]
 Soll dieser Verlaufseintrag gelöscht werden?
 [Delete history]
@@ -1924,8 +1922,6 @@ Diese Funktion wird durch dieses Protokoll nicht unterstützt
 %s fügte Sie zu seiner Kontaktliste hinzu
 [%u added you to their contact list]
 %u fügte Sie zu seiner Kontaktliste hinzu
-[Added event]
-Sie wurden von jemandem hinzugefügt
 [%s has joined]
 %s ist beigetreten
 [You have joined %s]
@@ -2002,6 +1998,18 @@ Chat stu&mmschalten
 Immer
 [Never]
 Niemals
+[Status 1 (10x10)]
+Status 1 (10x10)
+[Status 2 (10x10)]
+Status 2 (10x10)
+[Status 3 (10x10)]
+Status 3 (10x10)
+[Status 4 (10x10)]
+Status 4 (10x10)
+[Status 5 (10x10)]
+Status 5 (10x10)
+[Status 6 (10x10)]
+Status 6 (10x10)
 [Message is highlighted]
 Nachricht ist hervorgehoben
 [User has performed an action]
@@ -2100,6 +2108,8 @@ Profil kann nicht im Miranda-Hauptverzeichnis abgelegt werden.\nBitte verschiebe
 Datenbank wurde erfolgreich komprimiert
 [Database]
 Datenbank
+[Database compaction failed]
+Komprimierung der Datenbank fehlgeschlagen
 [Compact]
 Komprimieren
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
@@ -2146,6 +2156,8 @@ Chat-Aktivität
 Chat-Stumm-Modus
 [Extra icons]
 Extraicons
+[Mute chat]
+Chat stumm
 [You haven't filled in the search field. Please enter a search term and try again.]
 Sie haben keinen Suchbegriff eingegeben, bitte einen Text eingeben und erneut versuchen.
 [Search]
@@ -2292,10 +2304,16 @@ eingebaut
 Unbekannt
 [Languages]
 Sprachen
+[Change/remove password]
+Passwort ändern/entfernen
+[Wrong old password entered!]
+Falsches altes Passwort eingegeben!
 [Password is too short!]
 Passwort ist zu kurz!
 [Passwords do not match!]
 Passwörter stimmen nicht überein!
+[Too many errors!]
+Zu viele Fehler!
 [Password is not correct!]
 Das Passwort ist inkorrekt!
 [Please type in your password]
@@ -2316,6 +2334,8 @@ Gruppenmenü
 Untergruppenmenü
 [New submenu]
 Neues Untermenü
+[Do you really want to delete this menu item?]
+Möchten Sie diesen Menüeintrag wirklich löschen?
 [Menus]
 Menüs
 [Tray menu]
@@ -6018,7 +6038,7 @@ ClientChangeNotify
 ;============================================================
 ;  File: Clist_blind.dll
 ;  Plugin: BClist
-;  Version: 0.8.1.1
+;  Version: 0.9.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
@@ -6135,24 +6155,24 @@ Alle Protokolle gleiche Breite
 Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
+[Unknown protocol]
+Unbekanntes Protokoll
 [Group: %name% %count% [%mode%]]
 Gruppe: %name% %count% [%mode%]
 [Divider: %s]
 Trennlinie: %s
 [Info: %s]
 Info: %s
+[Expanded]
+Ausgeklappt
+[Collapsed]
+Eingeklappt
 [Contact list]
 Kontaktliste
 [List]
 Liste
 [Global]
 Global
-[Unknown protocol]
-Unbekanntes Protokoll
-[Expanded]
-Ausgeklappt
-[Collapsed]
-Eingeklappt
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
@@ -8781,8 +8801,14 @@ Miranda-Datenbankassistent
 Weiter >
 [Cancel]
 Abbrechen
+[Checker's options]
+Einstellungen der Überprüfung
+[Customize settings and proceed to the checking.]
+Einstellungen anpassen und mit der Überprüfung fortfahren.
 [File name:]
 Dateiname:
+[Mark all events as read]
+Alle Ereignisse als gelesen markieren
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -8813,6 +8839,8 @@ Beenden klicken um fortzufahren
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie den Vorgang abbrechen?
 [Database worker thread activated]
 Datenbankverarbeitungsfunktion gestartet
+[%d events marked as read]
+%d Ereignisse wurden als gelesen markiert
 [Processing aborted by user]
 Verarbeitung von Benutzer abgebrochen
 [Elapsed time: %d sec]
@@ -8825,7 +8853,7 @@ Alle Arbeitsschritte erfolgreich beendet
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.4
+;  Version: 4.0.2.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9108,10 +9136,6 @@ Handle
 Datenbank
 [Open user tree in DBE++]
 Benutzerzweig in DBE++ öffnen
-[<UNKNOWN>]
-<UNBEKANNT>
-[[UNLOADED]]
-\[UNGELADEN]
 [Are you sure you want to delete contact "%s"?]
 Soll Kontakt "%s" wirklich gelöscht werden?
 [Delete resident settings from database?]
@@ -9150,6 +9174,10 @@ Unbekannter DBVariant-Typ!
 Eintrag bearbeiten (%s)
 [New setting (%s)]
 Neuer Eintrag (%s)
+[<UNKNOWN>]
+<UNBEKANNT>
+[[UNLOADED]]
+\[UNGELADEN]
 [*** resident ***]
 *** Vorrübergehend ***
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
@@ -9212,7 +9240,7 @@ Fehler beim Erstellen der Datenbank '%s', Fehlercode: %d.
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.3
+;  Version: 0.95.13.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -9340,7 +9368,7 @@ Miranda NG [%s] Datenbanksicherung
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.6
+;  Version: 0.6.2.7
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -9427,6 +9455,8 @@ Eingehender Anruf
 Discord-Sprachanruf
 [User ID]
 Nutzer-ID
+[Message send failed]
+Nachricht konnte nicht gesendet werden
 [Protocol is offline or user isn't authorized yet]
 Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
@@ -13162,8 +13192,6 @@ Information
 Verlauf
 [View &history]
 &Verlauf anzeigen
-[&System History]
-&Systemverlauf
 #muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
@@ -13237,8 +13265,6 @@ Weitere Vorlagen herunterladen
 Ausgehende Dateiübertragung
 [Incoming File Transfer]
 Eingehende Dateiübertragung
-[(Unknown Contact)]
-(Unbekannter Kontakt)
 [ requested authorization]
  fragte Autorisierung an
 [ was added.]
@@ -13942,8 +13968,6 @@ Die DCC-Chatverbindung ist nicht aktiv
 Protokoll ist nicht online
 [Please choose an IRC-network to go online. This network will be the default.]
 Bitte ein IRC-Netzwerk zum Verbinden auswählen. Dieses wird dann das Standardnetzwerk.
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Verbindung kann nicht hergestellt werden. Es wurden nicht alle erforderlichen Felder (Nickname, ID und Name) ausgefüllt.
 [Main]
 Allgemein
 [Add]
@@ -18328,8 +18352,6 @@ Zusätzlich
 Miranda NG (Message Export Plugin)
 [No_Group]
 Keine_Gruppe
-[(Unknown Contact)]
-(Unbekannter Kontakt)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Dateiname von Benutzer "%s" hat sich geändert!\n\nVon:\t%s\nIn:\t%s\n\nMöchten Sie diese Datei umbenennen?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -19315,14 +19337,14 @@ Verlauf von %s exportieren
 Fertig
 [History export]
 Verlaufsexport
+[Are you sure to remove selected event(s)?]
+Möchten Sie die ausgewählten Ereignisse wirklich löschen?
 [Are you sure to remove all events from history?]
 Sind Sie sicher, dass Sie alle Ereignisse aus dem Verlauf löschen möchten?
 [User history]
 Benutzerverlauf
 [Empty history]
 Leere Verlauf
-[System history]
-Systemverlauf
 [Main icon]
 Haupticon
 [Search]
@@ -19433,6 +19455,8 @@ Oktober
 November
 [December]
 Dezember
+[System history]
+Systemverlauf
 [System event]
 Systemereignis
 [Interface]
@@ -20444,7 +20468,7 @@ Kontakteinstellungen &bearbeiten
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.1
+;  Version: 0.2.3.2
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -21580,7 +21604,7 @@ Alle
 [Silent mode]
 Stiller Modus
 [Restart Miranda automatically]
-Muranda automatisch neu starten
+Miranda automatisch neu starten
 [Backup database before update (requires Db_autobackups plugin)]
 Datenbank vor Aktualisierung sichern (benötigt Db_autobackups)
 [Number of backups to keep:]
@@ -23547,18 +23571,6 @@ Ereignisfilter aktiviert
 Benutzerliste ausblenden
 [Show nick list]
 Benutzerliste einblenden
-[Status 1 (10x10)]
-Status 1 (10x10)
-[Status 2 (10x10)]
-Status 2 (10x10)
-[Status 3 (10x10)]
-Status 3 (10x10)
-[Status 4 (10x10)]
-Status 4 (10x10)
-[Status 5 (10x10)]
-Status 5 (10x10)
-[Status 6 (10x10)]
-Status 6 (10x10)
 [Message in (10x10)]
 Eingehende Nachricht (10x10)
 [Message out (10x10)]
@@ -25229,7 +25241,7 @@ Plugins
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -27492,18 +27504,6 @@ Fenstertitel (wenn Skin verwendet)
 Fenstericon
 [Icon overlay]
 Neue Nachricht Tab
-[Status 1 (10x10)]
-Status 1 (10x10)
-[Status 2 (10x10)]
-Status 2 (10x10)
-[Status 3 (10x10)]
-Status 3 (10x10)
-[Status 4 (10x10)]
-Status 4 (10x10)
-[Status 5 (10x10)]
-Status 5 (10x10)
-[Status 6 (10x10)]
-Status 6 (10x10)
 [Message in (10x10)]
 Eingehende Nachricht (10x10)
 [Message out (10x10)]
@@ -27548,6 +27548,10 @@ Channeloperatoren
 Erweiterter Modus 1
 [Extended mode 2]
 Erweiterter Modus 2
+[Selected nick list background]
+Hintergrund ausgewählter Nick in Liste
+[Selected nick list text]
+Text ausgewählter Nick in Liste
 [Incremental search highlight]
 Inkrementelle Suchhervorhebung
 [Fields background]
@@ -27579,7 +27583,7 @@ Thema als Statusnachricht in der Kontaktliste anzeigen
 [Do not pop up the window when joining a chat room]
 Fenster beim Betreten eines Chatraumes nicht automatisch erzeugen
 [Sync splitter position with standard IM sessions]
-Splitterposition mit Standard-Nachrichtensitzungen synchronisieren
+Splitterposition mit Direktnachrichten-Sitzungen synchronisieren
 [Show contact's status modes if supported by the protocol]
 Kontaktstatus anzeigen, falls das Protokoll dies unterstützt
 [Display contact's status icon before user role icon]
@@ -27705,7 +27709,7 @@ Wählen Sie Ihre Optionen für das getabbte Interface. Nicht alle Optionen könn
 [Notifications]
 Benachrichtigungen
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
-Wählen Sie, wann Sie Ereignisbenachrichtigungen (Popups) für dieses Fenster sehen wollen. Die Einstellungen gelten für alle Registerkarten in diesem Fenster.
+Wählen Sie, wann Sie Ereignisbenachrichtigungen (Popups) für dieses Fenster sehen wollen. Die Einstellungen gelten für alle Tabs in diesem Fenster.
 [Flashing]
 Blinken
 [Window size and theme]
@@ -27729,11 +27733,11 @@ Umschaltleiste auf der linken Seite
 [Switch bar on the right side]
 Umschaltleiste auf der rechten Seite
 [Globally on]
-Immer anzeigen
+Global an
 [On, if present]
-Anzeigen (falls vorhanden)
+An, falls vorhanden
 [Globally OFF]
-Nie anzeigen
+Global AUS
 [On, if present, always in bottom display]
 An, falls vorhanden, immer unten anzeigen
 [Don't show them]
@@ -27862,8 +27866,10 @@ Kontakt Nachrichten Präferenz
 Eine Datei senden
 [Quote message]
 Nachricht zitieren
+[Clear message area]
+Nachrichtenbereich leeren
 [Toggle send later]
-Später senden
+Später-Senden umschalten
 [Send message]
 Nachricht senden
 [Show message history]
@@ -27883,9 +27889,9 @@ Infoleiste umschalten
 [Toggle text direction]
 Textrichtung umschalten
 [Toggle multi send]
-Nachrichten an mehrere Personen senden
+Mehrfach-Senden umschalten
 [Clear message log]
-Nachrichtenverlauf löschen
+Nachrichtenverlauf leeren
 [Collapse side bar]
 Sidebar schließen
 [Channel manager]
@@ -27893,7 +27899,7 @@ Channelmanager
 [Toggle filter]
 Filter umschalten
 [Toggle nick list]
-Nickliste ein-/ausblenden
+Nickliste umschalten
 [Show server window]
 Serverfenster anzeigen
 [%s    Idle: %dh,%02dm]
@@ -27933,9 +27939,9 @@ Chatraum
 [contact]
 Kontakt
 [Do not synchronize the panel height with IM windows]
-Syncronisiere nicht die Schaltflächenhöhe mit den IM-Fenstern
+Die Bereichshöhe nicht mit Direktnachrichtenfenstern synchronisieren
 [Do not synchronize the panel height with group chat windows]
-Die Bereichshöhe nicht mit der Höhe des Gruppenchatfensters synchronisieren
+Die Bereichshöhe nicht mit Gruppenchatfenstern synchronisieren
 [Inherit from container setting]
 Von den Containereinstellungen übernehmen
 [Always off]
@@ -28023,7 +28029,7 @@ Diese Datei existiert bereits. Wollen Sie diese überschreiben?
 [JPEG-compressed images]
 JPEG-komprimierte Bilder
 [Save and close session]
-Speichern und schließen
+Sitzung speichern und schließen
 [, %d %s, %d %s idle]
 , %d %s, %d %s untätig
 [hours]
@@ -28289,7 +28295,7 @@ Fenster-Anordnung
 [Message Log Options]
 Verlaufseinstellungen
 [Image tag]
-Bild Tagschaltfläche
+Bild Tag
 [Quote text]
 Text zitieren
 [Save and close]
@@ -28297,11 +28303,11 @@ Speichern und schließen
 [Smiley button]
 Smileyschaltfläche
 [Format bold]
-Fett
+Fett formatieren
 [Format italic]
-Kursiv
+Kursiv formatieren
 [Format underline]
-Unterstrichen
+Unterstrichen formatieren
 [Font face]
 Schriftart
 [Font color]
@@ -28355,7 +28361,7 @@ Funktion deaktiviert (als Overlay)
 [Feature enabled (used as overlay)]
 Funktion aktiviert (als Overlay)
 [Message windows - IM]
-Nachrichtenfenster - Instant Messaging
+Nachrichtenfenster - Direktnachrichten
 [Message windows - all]
 Nachrichtenfenster - Alle
 [Message windows - group chats]
@@ -31451,7 +31457,7 @@ Speichert nur Variable y als x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.7
+;  Version: 0.1.11.8
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]

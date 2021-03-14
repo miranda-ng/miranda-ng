@@ -15,7 +15,6 @@
 [Dword setting]
 [String setting]
 [Unicode setting]
-[[UNLOADED]]
 [Delete resident settings from database?]
 [%d items deleted.]
 [Add module to "%s"]
@@ -24,4 +23,5 @@
 [*** buggy resident ***]
 [Unknown DBVariant type!]
 [New setting (%s)]
+[[UNLOADED]]
 [*** resident ***]

@@ -74,8 +74,6 @@ Mostrar segundos
 [Incoming File Transfer]
 Transferencia de archivos entrantes
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-[(Unknown Contact)]
-(Contacto desconocido)
 [ requested authorization]
 
 [ was added.]

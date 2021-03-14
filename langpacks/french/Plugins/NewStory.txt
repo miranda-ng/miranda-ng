@@ -176,8 +176,6 @@ Terminé
 
 [Empty history]
 Effacer l'historique
-[System history]
-Historique du système
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 
@@ -291,6 +289,8 @@ Avancé
 
 [December]
 
+[System history]
+Historique du système
 [System event]
 
 [Interface]

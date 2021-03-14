@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_blind.dll
 ;  Plugin: BClist
-;  Version: 0.8.1.1
+;  Version: 0.9.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
@@ -120,13 +120,20 @@
 Бардзюры на панэлях
 [Show resize grip indicator]
 Індыкатар зм. памеру
-;file \plugins\Clist_blind\src\clcopts.cpp
+;file \plugins\Clist_blind\src\clc.cpp
+[Unknown protocol]
+Невядомы пратакол
 [Group: %name% %count% [%mode%]]
 Гурт: %name% %count% [%mode%]
 [Divider: %s]
 Драйвер: %s
 [Info: %s]
 Інфо: %s
+[Expanded]
+Разгорнута
+[Collapsed]
+Згорнута
+;file \plugins\Clist_blind\src\clcopts.cpp
 [Contact list]
 Спіс кантактаў
 [List]
@@ -135,10 +142,3 @@
 [Global]
 Глабальныя
 ;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp
-[Unknown protocol]
-Невядомы пратакол
-[Expanded]
-Разгорнута
-[Collapsed]
-Згорнута

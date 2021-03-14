@@ -176,8 +176,6 @@ Sind Sie sicher, dass Sie alle Ereignisse aus dem Verlauf löschen möchten?
 Benutzerverlauf
 [Empty history]
 Leere Verlauf
-[System history]
-Systemverlauf
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Haupticon
@@ -291,6 +289,8 @@ Oktober
 November
 [December]
 Dezember
+[System history]
+Systemverlauf
 [System event]
 Systemereignis
 [Interface]

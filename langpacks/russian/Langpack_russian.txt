@@ -378,6 +378,8 @@ Last-Modified-Using: Miranda NG 0.95.13
 Открывать окно, если:
 [In background]
 В фоне
+[Maximum number of flashes (0 = indefinite)]
+Максимальное количество миганий (0 = бесконечно)
 [Close the message window on send]
 Закрывать окно после отправки
 [Minimize the message window on send]
@@ -1566,18 +1568,6 @@ Google Карты
 Показать список пользователей
 [Icon overlay]
 Значок поверх
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
 [Message in (10x10)]
 Принятое сообщение (10х10)
 [Message out (10x10)]
@@ -1816,8 +1806,6 @@ Miranda не смогла загрузить встроенную систему
 Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
 [Host we are connecting to is not the one certificate was issued for]
 Выданный сертификат не соответствует имени сервера, к которому производится подключение
-[Invalid message]
-Сообщение повреждено
 [Outgoing message]
 Исходящее сообщение
 [Incoming message]
@@ -1826,8 +1814,12 @@ Miranda не смогла загрузить встроенную систему
 Исходящий файл
 [Incoming file]
 Входящий файл
+[Added event]
+Событие добавления
 [History for %s]
 История для %s
+[System history]
+Системная история
 [Are you sure you want to delete this history item?]
 Удалить эту запись из истории?
 [Delete history]
@@ -1932,8 +1924,6 @@ Miranda не смогла загрузить встроенную систему
 %s добавил вас в свой список контактов
 [%u added you to their contact list]
 %u добавил вас в свой список контактов
-[Added event]
-Событие добавления
 [%s has joined]
 %s вошёл
 [You have joined %s]
@@ -2010,6 +2000,18 @@ Miranda не смогла загрузить встроенную систему
 Всегда
 [Never]
 Никогда
+[Status 1 (10x10)]
+Статус 1 (10x10)
+[Status 2 (10x10)]
+Статус 2 (10x10)
+[Status 3 (10x10)]
+Статус 3 (10x10)
+[Status 4 (10x10)]
+Статус 4 (10x10)
+[Status 5 (10x10)]
+Статус 5 (10x10)
+[Status 6 (10x10)]
+Статус 6 (10x10)
 [Message is highlighted]
 Подсвеченное сообщение
 [User has performed an action]
@@ -6034,7 +6036,7 @@ Windows не активен
 ;============================================================
 ;  File: Clist_blind.dll
 ;  Plugin: BClist
-;  Version: 0.8.1.1
+;  Version: 0.9.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
@@ -6151,24 +6153,24 @@ Windows не активен
 Бордюры на панелях
 [Show resize grip indicator]
 Индикатор изменения размера
+[Unknown protocol]
+Неизвестный протокол
 [Group: %name% %count% [%mode%]]
 Группа: %name% %count% [%mode%]
 [Divider: %s]
 Разделитель: %s
 [Info: %s]
 Инфо: %s
+[Expanded]
+развёрнута
+[Collapsed]
+свёрнута
 [Contact list]
 Список контактов
 [List]
 Список
 [Global]
 Глобальные
-[Unknown protocol]
-Неизвестный протокол
-[Expanded]
-развёрнута
-[Collapsed]
-свёрнута
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
@@ -8793,8 +8795,14 @@ HTTP-подключения CurrencyRates
 &Далее >
 [Cancel]
 Отмена
+[Checker's options]
+Настройки проверки
+[Customize settings and proceed to the checking.]
+Настроить параметры и перейти к проверке.
 [File name:]
 Имя файла:
+[Mark all events as read]
+Пометить все события прочитанными
 [Error Opening Database]
 Ошибка открытия базы
 [There was an error opening the profile database given.]
@@ -8825,6 +8833,8 @@ HTTP-подключения CurrencyRates
 Обработка ещё не завершена; если вы отмените её сейчас, то изменения не будут применены к исходной базе данных. Вы хотите отменить?
 [Database worker thread activated]
 Активировано восстановление работоспособности базы
+[%d events marked as read]
+Событий помечено прочитанными: %d
 [Processing aborted by user]
 Обработка отменена пользователем
 [Elapsed time: %d sec]
@@ -8837,7 +8847,7 @@ HTTP-подключения CurrencyRates
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.4
+;  Version: 4.0.2.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9118,8 +9128,6 @@ ID пользователя
 База данных
 [Open user tree in DBE++]
 Открыть в редакторе базы
-[<UNKNOWN>]
-<НЕИЗВЕСТНО>
 [Are you sure you want to delete contact "%s"?]
 Удалить контакт "%s"?
 [Delete resident settings from database?]
@@ -9158,6 +9166,8 @@ ID пользователя
 Редактировать настройку (%s)
 [New setting (%s)]
 Новая настройка (%s)
+[<UNKNOWN>]
+<НЕИЗВЕСТНО>
 [*** resident ***]
 *** резидентная ***
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
@@ -9220,7 +9230,7 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.3
+;  Version: 0.95.13.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -9348,7 +9358,7 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.6
+;  Version: 0.6.2.7
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -9435,6 +9445,8 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Голосовой вызов Discord
 [User ID]
 ID пользователя
+[Message send failed]
+Не удалось отправить сообщение
 [Protocol is offline or user isn't authorized yet]
 Протокол не в сети или пользователь ещё не авторизовался
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
@@ -13124,8 +13136,6 @@ UIN/почта/телефон
 История
 [View &history]
 &История
-[&System History]
-&Системная история
 #muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
@@ -13199,8 +13209,6 @@ UIN/почта/телефон
 Исходящий файл
 [Incoming File Transfer]
 Входящий файл
-[(Unknown Contact)]
-(Неизвестный контакт)
 [ requested authorization]
  запросил(а) авторизацию
 [ was added.]
@@ -13904,8 +13912,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Протокол не в сети
 [Please choose an IRC-network to go online. This network will be the default.]
 Выберите IRC сеть. Эта сеть будет выбрана по умолчанию.
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Невозможно установить подключение. Вы не ввели все необходимые данные (ник, User ID и имя).
 [Main]
 Главный
 [Add]
@@ -18222,8 +18228,6 @@ ID пользователя
 Контакты
 [Additional]
 Дополнительно
-[(Unknown Contact)]
-(Неизвестный контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Имя файла для контакта "%s" изменилось!\n\nс:\t%s\nна:\t%s\n\nХотите переименовать файл?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -19209,8 +19213,6 @@ HTTP-подключения каналов новостей
 История пользователя
 [Empty history]
 Очистить историю
-[System history]
-Системная история
 [Main icon]
 Основной значок
 [Search]
@@ -19321,6 +19323,8 @@ HTTP-подключения каналов новостей
 Ноябрь
 [December]
 Декабрь
+[System history]
+Системная история
 [System event]
 Системное событие
 [Interface]
@@ -20292,7 +20296,7 @@ GPG не удалось расшифровать входящее сообщен
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.1
+;  Version: 0.2.3.2
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -23375,18 +23379,6 @@ ID текущего контакта (если определён). Наприм
 Скрыть список пользователей
 [Show nick list]
 Показать список пользователей
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
 [Message in (10x10)]
 Принятое сообщение (10х10)
 [Message out (10x10)]
@@ -25019,7 +25011,7 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -27282,18 +27274,6 @@ BBCode ([b][i][u])
 Значок окна
 [Icon overlay]
 Значок поверх
-[Status 1 (10x10)]
-Статус 1 (10x10)
-[Status 2 (10x10)]
-Статус 2 (10x10)
-[Status 3 (10x10)]
-Статус 3 (10x10)
-[Status 4 (10x10)]
-Статус 4 (10x10)
-[Status 5 (10x10)]
-Статус 5 (10x10)
-[Status 6 (10x10)]
-Статус 6 (10x10)
 [Message in (10x10)]
 Принятое сообщение (10х10)
 [Message out (10x10)]
@@ -27338,6 +27318,10 @@ BBCode ([b][i][u])
 Расширенный режим 1
 [Extended mode 2]
 Расширенный режим 2
+[Selected nick list background]
+Фон выделенного текста в списке пользователей
+[Selected nick list text]
+Выделенный текст в списке пользователей
 [Incremental search highlight]
 Подсветка поиска
 [Fields background]
@@ -31241,7 +31225,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.7
+;  Version: 0.1.11.8
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]

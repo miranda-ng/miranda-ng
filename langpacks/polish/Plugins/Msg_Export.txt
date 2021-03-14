@@ -143,8 +143,6 @@ Wtyczka eksportu wiadomości Mirandy NG
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 Brak grupy
-[(Unknown Contact)]
-(Nieznany kontakt)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Nazwa pliku dla kontaktu "%s" zmieniła się!\n\nz:\t%s\nna:\t%s\n\nCzy chcesz zmienić nazwę pliku?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]

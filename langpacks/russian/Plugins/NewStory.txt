@@ -176,8 +176,6 @@
 История пользователя
 [Empty history]
 Очистить историю
-[System history]
-Системная история
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Основной значок
@@ -291,6 +289,8 @@
 Ноябрь
 [December]
 Декабрь
+[System history]
+Системная история
 [System event]
 Системное событие
 [Interface]

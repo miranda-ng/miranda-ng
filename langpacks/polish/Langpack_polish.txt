@@ -1559,18 +1559,6 @@ Ukryj listę użytkowników
 Pokaż listę użytkowników
 [Icon overlay]
 Pokrywanie ikony
-[Status 1 (10x10)]
-Status 1 (10x10)
-[Status 2 (10x10)]
-Status 2 (10x10)
-[Status 3 (10x10)]
-Status 3 (10x10)
-[Status 4 (10x10)]
-Status 4 (10x10)
-[Status 5 (10x10)]
-Status 5 (10x10)
-[Status 6 (10x10)]
-Status 6 (10x10)
 [Message in (10x10)]
 Wiadomość przychodząca (10x10)
 [Message out (10x10)]
@@ -1809,8 +1797,6 @@ Kopiuj czas do schowka
 Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu bezpieczeństwa.
 [Host we are connecting to is not the one certificate was issued for]
 Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
-[Invalid message]
-Nieprawidłowa wiadomość
 [Outgoing message]
 Wychodząca wiadomość
 [Incoming message]
@@ -1819,8 +1805,12 @@ Przychodząca wiadomość
 Wychodzący plik
 [Incoming file]
 Przychodzący plik
+[Added event]
+Dodanie kontaktu
 [History for %s]
 Historia dla "%s"
+[System history]
+Historia systemowa
 [Are you sure you want to delete this history item?]
 Czy jesteś pewien, że chcesz usunąć ten wpis historii?
 [Delete history]
@@ -1925,8 +1915,6 @@ Funkcja nie wspierana przez protokół
 %s dodał(a) cię do listy kontaktów
 [%u added you to their contact list]
 %u dodał(a) cię do swojej listy kontaktów
-[Added event]
-Dodanie kontaktu
 [%s has joined]
 %s dołączył(a)
 [You have joined %s]
@@ -2003,6 +1991,18 @@ Opuść &czat
 Zawsze
 [Never]
 Nigdy
+[Status 1 (10x10)]
+Status 1 (10x10)
+[Status 2 (10x10)]
+Status 2 (10x10)
+[Status 3 (10x10)]
+Status 3 (10x10)
+[Status 4 (10x10)]
+Status 4 (10x10)
+[Status 5 (10x10)]
+Status 5 (10x10)
+[Status 6 (10x10)]
+Status 6 (10x10)
 [Message is highlighted]
 Podświetlona wiadomość
 [User has performed an action]
@@ -6045,7 +6045,7 @@ Powiadomienia o zmianie klienta
 ;============================================================
 ;  File: Clist_blind.dll
 ;  Plugin: BClist
-;  Version: 0.8.1.1
+;  Version: 0.9.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
@@ -6162,24 +6162,24 @@ Sekcje tej samej szerokości
 Pokaż separatory na panelach
 [Show resize grip indicator]
 Pokaż wskaźnik rozmiaru uchwytu
+[Unknown protocol]
+Nieznany protokół
 [Group: %name% %count% [%mode%]]
 Grupa: %name% %count% [%mode%]
 [Divider: %s]
 Separator: %s
 [Info: %s]
 Info: %s
+[Expanded]
+Rozwinięta
+[Collapsed]
+Zwinięta
 [Contact list]
 Lista kontaktów
 [List]
 Lista
 [Global]
 Globalne
-[Unknown protocol]
-Nieznany protokół
-[Expanded]
-Rozwinięta
-[Collapsed]
-Zwinięta
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
@@ -8860,7 +8860,7 @@ Wszystkie zadania zakończono pomyślnie
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.4
+;  Version: 4.0.2.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9143,10 +9143,6 @@ Otwórz edytor profilu
 Profil
 [Open user tree in DBE++]
 Otwórz w edytorze profilu
-[<UNKNOWN>]
-<NIEZNANY>
-[[UNLOADED]]
-\[ODŁĄCZONE]
 [Are you sure you want to delete contact "%s"?]
 Na pewno chcesz usunąć kontakt "%s"?
 [Delete resident settings from database?]
@@ -9185,6 +9181,10 @@ Nieznany typ DBVariant!
 Edytuj ustawienie (%s)
 [New setting (%s)]
 Nowe ustawienie (%s)
+[<UNKNOWN>]
+<NIEZNANY>
+[[UNLOADED]]
+\[ODŁĄCZONE]
 [*** resident ***]
 *** rezydentne ***
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
@@ -9247,7 +9247,7 @@ Błąd tworzenia bazy danych '%s' : kod błędu %d
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.3
+;  Version: 0.95.13.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -9375,7 +9375,7 @@ Miranda NG [%s] kopia zapasowa profilu
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.6
+;  Version: 0.6.2.7
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -13123,8 +13123,6 @@ Informacje
 Historia
 [View &history]
 Zobacz &historię
-[&System History]
-Historia &systemowa
 #muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
@@ -13198,8 +13196,6 @@ Pobierz więcej szablonów
 Wychodzące transfery
 [Incoming File Transfer]
 Przychodzący transfer plików
-[(Unknown Contact)]
-(Nieznany kontakt)
 [ requested authorization]
  poprosił(a) o autoryzację
 [ was added.]
@@ -13895,8 +13891,6 @@ Rozmowa DCC CHAT jest nieaktywna
 Protokół jest rozłączony
 [Please choose an IRC-network to go online. This network will be the default.]
 Proszę wybierz sieć IRC do podłączenia się. Ta sieć będzie domyślną.
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Połączenie nie może zostać ustalone! Nie zostały wypełnione wszystkie wymagane pola (Nick, Alternatywny nick, Nazwa (e-mail) i ID użytkownika).
 [Main]
 Ogólne
 [Add]
@@ -18281,8 +18275,6 @@ Dodatkowe
 Wtyczka eksportu wiadomości Mirandy NG
 [No_Group]
 Brak grupy
-[(Unknown Contact)]
-(Nieznany kontakt)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Nazwa pliku dla kontaktu "%s" zmieniła się!\n\nz:\t%s\nna:\t%s\n\nCzy chcesz zmienić nazwę pliku?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -19276,8 +19268,6 @@ Czy na pewno chcesz usunąć wszystkie wydarzenia z historii?
 Historia użytkownika
 [Empty history]
 Usuń historię
-[System history]
-Historia systemowa
 [Main icon]
 Główna ikona
 [Search]
@@ -19388,6 +19378,8 @@ Październik
 Listopad
 [December]
 Grudzień
+[System history]
+Historia systemowa
 [System event]
 Zdarzenia systemowe
 [Interface]
@@ -20399,7 +20391,7 @@ E&dytuj ustawienia kontaktu
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.1
+;  Version: 0.2.3.2
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [Prevent Miranda from storing any history.]
@@ -23544,18 +23536,6 @@ Filtr zdarzeń włączony
 Ukryj listę użytkowników
 [Show nick list]
 Pokaż listę użytkowników
-[Status 1 (10x10)]
-Status 1 (10x10)
-[Status 2 (10x10)]
-Status 2 (10x10)
-[Status 3 (10x10)]
-Status 3 (10x10)
-[Status 4 (10x10)]
-Status 4 (10x10)
-[Status 5 (10x10)]
-Status 5 (10x10)
-[Status 6 (10x10)]
-Status 6 (10x10)
 [Message in (10x10)]
 Wiadomość przychodząca (10x10)
 [Message out (10x10)]
@@ -25262,7 +25242,7 @@ Wtyczki
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -27521,18 +27501,6 @@ Nagłówek okna (tryb graficzny)
 Ikona okna
 [Icon overlay]
 Pokrywanie ikony
-[Status 1 (10x10)]
-Status 1 (10x10)
-[Status 2 (10x10)]
-Status 2 (10x10)
-[Status 3 (10x10)]
-Status 3 (10x10)
-[Status 4 (10x10)]
-Status 4 (10x10)
-[Status 5 (10x10)]
-Status 5 (10x10)
-[Status 6 (10x10)]
-Status 6 (10x10)
 [Message in (10x10)]
 Wiadomość przychodząca (10x10)
 [Message out (10x10)]
@@ -31478,7 +31446,7 @@ przechowuje "y" jako zmienną o nazwie "x"
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.7
+;  Version: 0.1.11.8
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]

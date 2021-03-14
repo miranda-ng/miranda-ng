@@ -362,6 +362,8 @@ Last-Modified-Using: Miranda NG 0.95.13
 Изскачане на прозореца при състояние:
 [In background]
 без фокусиране (на заден план)
+[Maximum number of flashes (0 = indefinite)]
+Максимален брой мигания (0 = = безкрайност)
 [Close the message window on send]
 Затваряне на прозореца след изпращане
 [Minimize the message window on send]
@@ -1494,18 +1496,6 @@ Google Translate
 Показване на списъка с прякори
 [Icon overlay]
 Насложена икона
-[Status 1 (10x10)]
-Състояние 1 (10x10)
-[Status 2 (10x10)]
-Състояние 2 (10x10)
-[Status 3 (10x10)]
-Състояние 3 (10x10)
-[Status 4 (10x10)]
-Състояние 4 (10x10)
-[Status 5 (10x10)]
-Състояние 5 (10x10)
-[Status 6 (10x10)]
-Състояние 6 (10x10)
 [Message in (10x10)]
 Входящо съобщение (10x10)
 [Message out (10x10)]
@@ -1736,8 +1726,6 @@ Popups са изключени
 Копиране на времевата марка в клипборда
 [Host we are connecting to is not the one certificate was issued for]
 Хоста към който се свързвате не е този, за който е издаден сертификата
-[Invalid message]
-Невалидно съобщение
 [Outgoing message]
 Изходящо съобщение
 [Incoming message]
@@ -1746,8 +1734,12 @@ Popups са изключени
 Изходящи файлове
 [Incoming file]
 Входящи файлове
+[Added event]
+Добавяне на събитие
 [History for %s]
 История за %s
+[System history]
+Системна история
 [Are you sure you want to delete this history item?]
 Сигурен ли сте, че желаете елементът на историята да бъде изтрит?
 [Delete history]
@@ -1848,8 +1840,6 @@ Popups са изключени
 %s ви добави в списъка си с контакти
 [%u added you to their contact list]
 %u ви добави в списъка си с контакти
-[Added event]
-Добавяне на събитие
 [%s has joined]
 %s влезе
 [You have joined %s]
@@ -1920,6 +1910,18 @@ Popups са изключени
 Винаги
 [Never]
 Никога
+[Status 1 (10x10)]
+Състояние 1 (10x10)
+[Status 2 (10x10)]
+Състояние 2 (10x10)
+[Status 3 (10x10)]
+Състояние 3 (10x10)
+[Status 4 (10x10)]
+Състояние 4 (10x10)
+[Status 5 (10x10)]
+Състояние 5 (10x10)
+[Status 6 (10x10)]
+Състояние 6 (10x10)
 [Message is highlighted]
 Отличаване на съобщение
 [User has performed an action]
@@ -5066,7 +5068,7 @@ ChangeKeyboardLayout
 ;============================================================
 ;  File: Clist_blind.dll
 ;  Plugin: BClist
-;  Version: 0.8.1.1
+;  Version: 0.9.0.1
 ;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
 ;============================================================
 [A contact list for blind folks.]
@@ -5181,22 +5183,22 @@ ChangeKeyboardLayout
 Разделител между панелите
 [Show resize grip indicator]
 Индикатор за ръчна промяна на размера
+[Unknown protocol]
+Непознат протокол
 [Divider: %s]
 Разделител: %s
 [Info: %s]
 Информация: %s
+[Expanded]
+Разгърната
+[Collapsed]
+Сгъната
 [Contact list]
 Списък с контакти
 [List]
 Списък
 [Global]
 Общо
-[Unknown protocol]
-Непознат протокол
-[Expanded]
-Разгърната
-[Collapsed]
-Сгъната
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
@@ -7459,7 +7461,7 @@ XML файлове (*.xml)
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.4
+;  Version: 4.0.2.1
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -7706,8 +7708,6 @@ INI файлове
 База от данни
 [Open user tree in DBE++]
 Отваряне на контакта в DBE++
-[<UNKNOWN>]
-<НЕИЗВЕСТНО>
 [Are you sure you want to delete contact "%s"?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
 [Error loading module list]
@@ -7728,6 +7728,8 @@ INI файлове
 Тип
 [Size]
 Размер
+[<UNKNOWN>]
+<НЕИЗВЕСТНО>
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
 Промяна в базата от данни: \nМодул: "%s", Настройка: "%s"\nНова стойност (%s): "%s"
 #muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
@@ -7768,7 +7770,7 @@ INI файлове
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.3
+;  Version: 0.95.13.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -7872,7 +7874,7 @@ INI файлове
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.6
+;  Version: 0.6.2.7
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -10936,8 +10938,6 @@ ICQ номер
 История
 [View &history]
 Преглед на историята
-[&System History]
-История на системата
 #muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
@@ -11005,8 +11005,6 @@ ICQ номер
 Изходящо прехвърляне на файл
 [Incoming File Transfer]
 Входящ файл
-[(Unknown Contact)]
-(Непознат контакт)
 [ requested authorization]
  заявено упълномощаване
 [ was added.]
@@ -11514,8 +11512,6 @@ IRC предупреждение
 Протоколът не е на линия
 [Please choose an IRC-network to go online. This network will be the default.]
 Изберете, към коя IRC мрежа да се включите. Тя ще бъде стандартна.
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Връзката не може да бъде осъществена. Не са попълнени всички необходими полета (Прякор, User ID и m_name).
 [Main]
 Основна
 [Add]
@@ -14832,8 +14828,6 @@ UTF-8 за нови файлове
 Miranda NG (приставка Message Export)
 [No_Group]
 Без–Група
-[(Unknown Contact)]
-(Непознат контакт)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Името на файла за потребител "%s" е променено!\n\nот:\t%s\nна:\t%s\n\nЖелаете ли да бъде променено името на файла?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -15465,8 +15459,6 @@ HTTP връзки на NewsAggregator
 Завършен
 [Empty history]
 Изтриване на историята
-[System history]
-Системна история
 [Main icon]
 Главна икона
 [Search]
@@ -15543,6 +15535,8 @@ HTTP връзки на NewsAggregator
 ноември
 [December]
 декември
+[System history]
+Системна история
 [Interface]
 Интерфейс
 [Message log]
@@ -15928,7 +15922,7 @@ URL
 ;============================================================
 ;  File: NoHistory.dll
 ;  Plugin: NoHistory
-;  Version: 0.2.3.1
+;  Version: 0.2.3.2
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
 [History Enabled]
@@ -17971,18 +17965,6 @@ KB
 Скриване на списъка с прякори
 [Show nick list]
 Показване на списъка с прякори
-[Status 1 (10x10)]
-Състояние 1 (10x10)
-[Status 2 (10x10)]
-Състояние 2 (10x10)
-[Status 3 (10x10)]
-Състояние 3 (10x10)
-[Status 4 (10x10)]
-Състояние 4 (10x10)
-[Status 5 (10x10)]
-Състояние 5 (10x10)
-[Status 6 (10x10)]
-Състояние 6 (10x10)
 [Message in (10x10)]
 Входящо съобщение (10x10)
 [Message out (10x10)]
@@ -18825,7 +18807,7 @@ ms
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
@@ -20796,18 +20778,6 @@ UIN
 Икона на прозореца
 [Icon overlay]
 Насложена икона
-[Status 1 (10x10)]
-Състояние 1 (10x10)
-[Status 2 (10x10)]
-Състояние 2 (10x10)
-[Status 3 (10x10)]
-Състояние 3 (10x10)
-[Status 4 (10x10)]
-Състояние 4 (10x10)
-[Status 5 (10x10)]
-Състояние 5 (10x10)
-[Status 6 (10x10)]
-Състояние 6 (10x10)
 [Message in (10x10)]
 Входящо съобщение (10x10)
 [Message out (10x10)]
@@ -24109,7 +24079,7 @@ x - y - ...
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.7
+;  Version: 0.1.11.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]

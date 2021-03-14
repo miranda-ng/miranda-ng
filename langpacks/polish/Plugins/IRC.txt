@@ -427,8 +427,8 @@ Rozmowa DCC CHAT jest nieaktywna
 Protokół jest rozłączony
 [Please choose an IRC-network to go online. This network will be the default.]
 Proszę wybierz sieć IRC do podłączenia się. Ta sieć będzie domyślną.
-[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
-Połączenie nie może zostać ustalone! Nie zostały wypełnione wszystkie wymagane pola (Nick, Alternatywny nick, Nazwa (e-mail) i ID użytkownika).
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+Połączenie nie może zostać ustalone! Nie zostały wypełnione wszystkie wymagane pola (Nick, Nazwa (e-mail) i ID użytkownika).
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 Ogólne

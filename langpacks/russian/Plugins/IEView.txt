@@ -74,8 +74,6 @@
 [Incoming File Transfer]
 Входящий файл
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-[(Unknown Contact)]
-(Неизвестный контакт)
 [ requested authorization]
  запросил(а) авторизацию
 [ was added.]

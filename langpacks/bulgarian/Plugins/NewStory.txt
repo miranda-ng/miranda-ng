@@ -176,8 +176,6 @@
 
 [Empty history]
 Изтриване на историята
-[System history]
-Системна история
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Главна икона
@@ -291,6 +289,8 @@
 ноември
 [December]
 декември
+[System history]
+Системна история
 [System event]
 
 [Interface]
