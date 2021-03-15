@@ -186,7 +186,7 @@ static int SettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	if (!strcmp(cws->szModule, "SRMM") && !strcmp(cws->szSetting, "MuteMode")) {
-		SetChatMute(hContact, cws->value.type == DBVT_DELETED ? CHATMODE_NORMAL : cws->value.wVal);
+		SetChatMute(hContact, cws->value.type == DBVT_DELETED ? CHATMODE_NORMAL : cws->value.bVal);
 		return 0;
 	}
 
