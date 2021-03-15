@@ -54,6 +54,8 @@ bool CCtrlEdit::OnApply()
 
 void CCtrlEdit::OnReset()
 {
+	m_bSilent = (GetWindowLong(m_hwnd, GWL_STYLE) & ES_READONLY) != 0;
+
 	if (GetDataType() == DBVT_WCHAR)
 		SetText(LoadText());
 	else if (GetDataType() != DBVT_DELETED)

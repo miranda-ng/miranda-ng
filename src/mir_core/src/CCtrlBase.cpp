@@ -47,12 +47,7 @@ CCtrlBase::~CCtrlBase()
 
 void CCtrlBase::OnInit()
 {
-	if (m_idCtrl && m_parentWnd && m_parentWnd->GetHwnd()) {
-		m_hwnd = GetDlgItem(m_parentWnd->GetHwnd(), m_idCtrl);
-
-		m_bSilent = (GetWindowLong(m_hwnd, GWL_STYLE) & WS_DISABLED) == 0;
-	}
-	else m_hwnd = nullptr;
+	m_hwnd = (m_idCtrl && m_parentWnd && m_parentWnd->GetHwnd()) ? GetDlgItem(m_parentWnd->GetHwnd(), m_idCtrl) : nullptr;
 }
 
 void CCtrlBase::OnDestroy()
@@ -85,7 +80,6 @@ void CCtrlBase::Show(bool bShow)
 void CCtrlBase::Enable(bool bIsEnable)
 {
 	::EnableWindow(m_hwnd, bIsEnable);
-	m_bSilent = !bIsEnable;
 }
 
 bool CCtrlBase::Enabled() const
