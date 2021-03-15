@@ -85,6 +85,7 @@ void CCtrlBase::Show(bool bShow)
 void CCtrlBase::Enable(bool bIsEnable)
 {
 	::EnableWindow(m_hwnd, bIsEnable);
+	m_bSilent = !bIsEnable;
 }
 
 bool CCtrlBase::Enabled() const
