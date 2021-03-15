@@ -284,7 +284,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	}
 	
 	if (iMuteMode != CHATMODE_MUTE) {
-		auto sound = si->getSoundName(iEvent);
+		auto sound = si->getSoundName(gce->iType);
 		if (dat) {
 			bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
 			bActiveTab = (dat->m_pContainer->m_hwndActive == dat->GetHwnd());
@@ -298,10 +298,10 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	// dialog event processing
 	if (dat) {
 		HICON hIconHighlight = g_chatApi.getIcon(GC_EVENT_HIGHLIGHT), hIconMessage = g_chatApi.getIcon(GC_EVENT_MESSAGE);
-		HICON hNotifyIcon = (bManyFix && !bInactive) ? 0 : g_chatApi.getIcon(iEvent);
+		HICON hNotifyIcon = (bManyFix && !bInactive) ? 0 : g_chatApi.getIcon(gce->iType);
 		BOOL bForcedIcon = (hNotifyIcon == hIconHighlight || hNotifyIcon == hIconMessage);
 
-		if ((iEvent & si->iLogTrayFlags) || bForcedIcon) {
+		if ((gce->iType & si->iLogTrayFlags) || bForcedIcon) {
 			if (!bActiveTab) {
 				if (hNotifyIcon == hIconHighlight)
 					dat->m_iFlashIcon = hNotifyIcon;
@@ -337,7 +337,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			if (!dat->m_pContainer->m_flags.m_bNoFlash)
 				dat->m_pContainer->FlashContainer(1, 0);
 
-		if (hNotifyIcon && bInactive && ((iEvent & si->iLogTrayFlags) || bForcedIcon)) {
+		if (hNotifyIcon && bInactive && ((gce->iType & si->iLogTrayFlags) || bForcedIcon)) {
 			if (bMustFlash)
 				dat->m_hTabIcon = hNotifyIcon;
 			else if (dat->m_iFlashIcon) {
