@@ -260,6 +260,7 @@ public:
 			PathToRelativeW(str, strFull);
 			p->ptszTempFile = mir_wstrdup(strFull);
 			SetDlgItemText(m_hwnd, IDC_LOCATION, strFull);
+			NotifyChange();
 		}
 	}
 
