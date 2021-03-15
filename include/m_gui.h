@@ -867,7 +867,7 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
-	WORD m_wMin, m_wMax;
+	WORD m_wMin, m_wMax, m_wCurr;
 
 	BOOL OnNotify(int, NMHDR*) override;
 

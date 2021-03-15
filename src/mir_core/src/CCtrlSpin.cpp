@@ -34,6 +34,9 @@ CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId, WORD wMax, WORD wMin) :
 BOOL CCtrlSpin::OnNotify(int, NMHDR *pnmh)
 {
 	if (pnmh->code == UDN_DELTAPOS) {
+		auto *pEvent = (NMUPDOWN *)pnmh;
+		m_wCurr = pEvent->iPos + pEvent->iDelta;
+
 		NotifyChange();
 		return TRUE;
 	}
@@ -59,10 +62,10 @@ void CCtrlSpin::OnReset()
 
 WORD CCtrlSpin::GetPosition()
 {
-	return SendMsg(UDM_GETPOS, 0, 0);
+	return m_wCurr;
 }
 
 void CCtrlSpin::SetPosition(WORD wPos)
 {
-	SendMsg(UDM_SETPOS, 0, wPos);
+	SendMsg(UDM_SETPOS, 0, m_wCurr = wPos);
 }
