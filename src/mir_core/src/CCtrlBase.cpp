@@ -47,7 +47,12 @@ CCtrlBase::~CCtrlBase()
 
 void CCtrlBase::OnInit()
 {
-	m_hwnd = (m_idCtrl && m_parentWnd && m_parentWnd->GetHwnd()) ? GetDlgItem(m_parentWnd->GetHwnd(), m_idCtrl) : nullptr;
+	if (m_idCtrl && m_parentWnd && m_parentWnd->GetHwnd()) {
+		m_hwnd = GetDlgItem(m_parentWnd->GetHwnd(), m_idCtrl);
+
+		m_bSilent = (GetWindowLong(m_hwnd, GWL_STYLE) & WS_DISABLED) == 0;
+	}
+	else m_hwnd = nullptr;
 }
 
 void CCtrlBase::OnDestroy()
