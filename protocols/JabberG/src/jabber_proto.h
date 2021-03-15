@@ -702,7 +702,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int, const char *pszSrc);
 	void       OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime);
 	void       OmemoHandleMessageQueue();
-	void       OmemoHandleDeviceList(const TiXmlElement *node);
+	void       OmemoHandleDeviceList(const char *from, const TiXmlElement *node);
 	void       OmemoInitDevice();
 	void       OmemoAnnounceDevice();
 	void       OmemoSendBundle();

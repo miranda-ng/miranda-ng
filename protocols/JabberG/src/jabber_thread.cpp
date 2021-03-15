@@ -940,7 +940,7 @@ void CJabberProto::OnProcessPubsubEvent(const TiXmlElement *node)
 	if (m_bUseOMEMO) {
 		auto *itemsNode = XmlGetChildByTag(eventNode, "items", "node", JABBER_FEAT_OMEMO ".devicelist");
 		if (itemsNode) {
-			OmemoHandleDeviceList(itemsNode);
+			OmemoHandleDeviceList(from, itemsNode);
 			return;
 		}
 		//TODO:handle omemo device list

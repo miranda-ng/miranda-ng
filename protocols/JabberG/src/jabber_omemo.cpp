@@ -1710,16 +1710,12 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 	return true;
 }
 
-void CJabberProto::OmemoHandleDeviceList(const TiXmlElement *node)
+void CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *node)
 {
 	if (!node)
 		return;
 	
-	auto *message = node->Parent()->ToElement();
-	message = message->Parent()->ToElement();
-	
-	const char *jid = XmlGetAttr(message, "from");
-	MCONTACT hContact = HContactFromJID(jid);
+	MCONTACT hContact = HContactFromJID(from);
 	node = XmlFirstChild(node, "item"); //get <item> node
 	if (!node) {
 		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <item> node");
@@ -1731,7 +1727,7 @@ void CJabberProto::OmemoHandleDeviceList(const TiXmlElement *node)
 		return;
 	}
 	bool own_jid = false;
-	if (strstr(m_ThreadInfo->fullJID, jid))
+	if (strstr(m_ThreadInfo->fullJID, from))
 		own_jid = true;
 
 	if (own_jid) {
