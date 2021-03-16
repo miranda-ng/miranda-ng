@@ -348,16 +348,16 @@ complete:
 		return result;
 	}
 
-	void lock(void *user_data)
+	static void myLock(void *user_data)
 	{
 		omemo_impl *omi = (omemo_impl*)user_data;
-		omi->signal_mutex->lock();
+		omi->lock();
 	}
 
-	void unlock(void *user_data)
+	static void myUnlock(void *user_data)
 	{
 		omemo_impl *omi = (omemo_impl*)user_data;
-		omi->signal_mutex->unlock();
+		omi->unlock();
 	}
 
 	signal_context *global_context = nullptr;
@@ -395,7 +395,8 @@ complete:
 		signal_protocol_store_context *store_context;
 	};
 	
-	omemo_impl::omemo_impl(CJabberProto *p) : proto(p), signal_mutex(nullptr), provider(nullptr)
+	omemo_impl::omemo_impl(CJabberProto *p) :
+		proto(p)
 	{
 		if (proto->m_bUseOMEMO)
 			init();
@@ -403,13 +404,12 @@ complete:
 	
 	void omemo_impl::init()
 	{
-		if (provider && signal_mutex)
+		if (provider)
 			return;
 
 		if (!global_context)
 			signal_context_create(&global_context, this);
-		signal_mutex = new mir_cslockfull(_signal_cs);
-		signal_mutex->unlock(); //fuck...
+
 		provider = new signal_crypto_provider;
 		provider->random_func = &random_func;
 		provider->hmac_sha256_init_func = &hmac_sha256_init_func;
@@ -428,7 +428,7 @@ complete:
 			//TODO: handle error
 		}
 
-		if (signal_context_set_locking_functions(global_context, &lock, &unlock)) {
+		if (signal_context_set_locking_functions(global_context, &myLock, &myUnlock)) {
 			proto->debugLogA("Jabber OMEMO: signal_context_set_crypto_provider failed");
 			//TODO: handle error
 		}
@@ -442,7 +442,7 @@ complete:
 
 	void omemo_impl::deinit()
 	{
-		if (provider && signal_mutex) {
+		if (provider) {
 			for (auto &i : sessions) {
 				for (auto &i2 : i.second) {
 					if (i2.second.cipher)
@@ -455,7 +455,6 @@ complete:
 			}
 			sessions.clear();
 
-			delete signal_mutex; signal_mutex = nullptr;
 			delete provider; provider = nullptr;			
 		}
 	}

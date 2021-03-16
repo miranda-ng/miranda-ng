@@ -49,7 +49,9 @@ namespace omemo
 		bool build_session(MCONTACT hContact, const char *jid, const char *dev_id, const char *key_id, const char *pre_key_public, const char *signed_pre_key_id,
 			const char *signed_pre_key_public, const char *signed_pre_key_signature, const char *identity_key);
 
-		mir_cslockfull *signal_mutex;
+		__forceinline void lock() { _signal_cs.Lock(); }
+		__forceinline void unlock() { _signal_cs.Unlock(); }
+
 		std::map<MCONTACT, std::map<unsigned int, struct omemo_session_jabber_internal_ptrs>> sessions;
 		std::map<MCONTACT, bool> session_checked;
 		std::list<struct incoming_message> incoming_messages;
@@ -60,7 +62,7 @@ namespace omemo
 	private:
 		CJabberProto *proto;
 		mir_cs _signal_cs;
-		signal_crypto_provider *provider;
+		signal_crypto_provider *provider = nullptr;
 	};
 };
 
