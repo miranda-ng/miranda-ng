@@ -1365,7 +1365,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			if (!inviteReason)
 				inviteReason = szMessage;
 			if (!m_bIgnoreMUCInvites)
-				GroupchatProcessInvite(from, XmlGetAttr(xNode, "jid"), inviteReason, nullptr);
+				GroupchatProcessInvite(XmlGetAttr(xNode, "jid"), from, inviteReason, nullptr);
 			return;
 		}
 	}
