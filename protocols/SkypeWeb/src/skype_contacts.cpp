@@ -154,61 +154,61 @@ void CSkypeProto::LoadContactList(NETLIBHTTPREQUEST *response, AsyncHttpRequest*
 	for (auto &item : root["contacts"]) {
 		const JSONNode &name = item["name"];
 
-		std::string skypeId = item["id"].as_string();
+		std::string skypeId = item["person_id"].as_string();
 		CMStringW first_name = name["first"].as_mstring();
 		CMStringW last_name = name["surname"].as_mstring();
 		CMStringW avatar_url = item["avatar_url"].as_mstring();
 		std::string type = item["type"].as_string();
 
 		if (type == "skype" || loadAll) {
-			std::string displayName = item["displayname"].as_string();
-			const char *szNick = (displayName.empty()) ? nullptr : displayName.c_str();
+			MCONTACT hContact = AddContact(skypeId.c_str(), nullptr);
 
-			MCONTACT hContact = AddContact(skypeId.c_str(), szNick);
-			if (hContact) {
-				if (item["authorized"].as_bool()) {
-					delSetting(hContact, "Auth");
-					delSetting(hContact, "Grant");
+			std::string displayName = item["display_name"].as_string();
+			if (!displayName.empty())
+				setUString(hContact, "Nick", displayName.c_str());
+
+			if (item["authorized"].as_bool()) {
+				delSetting(hContact, "Auth");
+				delSetting(hContact, "Grant");
+			}
+			else setByte(hContact, "Grant", 1);
+
+			if (item["blocked"].as_bool())
+				setByte(hContact, "IsBlocked", 1);
+			else
+				delSetting(hContact, "IsBlocked");
+
+			ptrW wszGroup(Clist_GetGroup(hContact));
+			if (wszGroup == nullptr) {
+				if (wstrCListGroup) {
+					Clist_GroupCreate(0, wstrCListGroup);
+					Clist_SetGroup(hContact, wstrCListGroup);
 				}
-				else setByte(hContact, "Grant", 1);
+			}
 
-				if (item["blocked"].as_bool())
-					setByte(hContact, "IsBlocked", 1);
-				else
-					delSetting(hContact, "IsBlocked");
+			setString(hContact, "Type", type.c_str());
 
-				ptrW wszGroup(Clist_GetGroup(hContact));
-				if (wszGroup == nullptr) {
-					if (wstrCListGroup) {
-						Clist_GroupCreate(0, wstrCListGroup);
-						Clist_SetGroup(hContact, wstrCListGroup);
-					}
-				}
+			if (first_name)
+				setWString(hContact, "FirstName", first_name);
+			if (last_name)
+				setWString(hContact, "LastName", last_name);
 
-				setString(hContact, "Type", type.c_str());
+			if (item["mood"])
+				db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_mstring()));
 
-				if (first_name)
-					setWString(hContact, "FirstName", first_name);
-				if (last_name)
-					setWString(hContact, "LastName", last_name);
+			SetAvatarUrl(hContact, avatar_url);
+			ReloadAvatarInfo(hContact);
 
-				if (item["mood"])
-					db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_mstring()));
+			for (auto &phone : item["phones"]) {
+				CMStringW number = phone["number"].as_mstring();
 
-				SetAvatarUrl(hContact, avatar_url);
-				ReloadAvatarInfo(hContact);
-
-				for (auto &phone : item["phones"]) {
-					CMStringW number = phone["number"].as_mstring();
-
-					switch (phone["type"].as_int()) {
-					case 0:
-						setWString(hContact, "Phone", number);
-						break;
-					case 2:
-						setWString(hContact, "Cellular", number);
-						break;
-					}
+				switch (phone["type"].as_int()) {
+				case 0:
+					setWString(hContact, "Phone", number);
+					break;
+				case 2:
+					setWString(hContact, "Cellular", number);
+					break;
 				}
 			}
 		}
