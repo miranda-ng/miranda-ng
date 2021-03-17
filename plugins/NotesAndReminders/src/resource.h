@@ -50,7 +50,6 @@
 #define IDC_COMBOTIME                   1022
 #define IDC_COMBOREMINDERTIME           1023
 #define IDC_CHECK_MSI                   1023
-#define IDC_REFTIME                     1024
 #define IDC_STATIC_DATE                 1025
 #define IDC_STATIC_TIME                 1026
 #define IDC_COMBO_REPEATSND             1028
