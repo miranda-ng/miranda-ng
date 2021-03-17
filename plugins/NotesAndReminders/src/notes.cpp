@@ -1468,9 +1468,8 @@ public:
 		pListDialog = this;
 		Window_SetIcon_IcoLib(m_hwnd, iconList[13].hIcolib);
 
-		SetWindowText(m_hwnd, LPGENW("Notes"));
-
-		TranslateDialogDefault(m_hwnd);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_FILTER), SW_HIDE);
+		SetWindowText(m_hwnd, TranslateT("Notes"));
 
 		SetDlgItemText(m_hwnd, IDC_REMINDERDATA, L"");
 

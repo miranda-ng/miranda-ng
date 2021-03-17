@@ -1526,14 +1526,25 @@ static void EditReminder(REMINDERDATA *p)
 
 class CReminderListDlg : public CDlgBase
 {
+	CMStringW m_wszFilter;
+
+	REMINDERDATA* getData(int idx)
+	{
+		return (REMINDERDATA*)m_list.GetItemData(idx);
+	}
+
 	void RefreshList()
 	{
 		m_list.DeleteAllItems();
 
 		int i = 0;
 		for (auto &pReminder : arReminders) {
+			if (!m_wszFilter.IsEmpty())
+				if (pReminder->wszText.Find(m_wszFilter, 0) == -1)
+					continue;
+
 			LV_ITEM lvTIt;
-			lvTIt.mask = LVIF_TEXT;
+			lvTIt.mask = LVIF_TEXT | LVIF_PARAM;
 
 			wchar_t S1[128];
 			GetTriggerTimeString(&pReminder->When, S1, _countof(S1), TRUE);
@@ -1541,6 +1552,7 @@ class CReminderListDlg : public CDlgBase
 			lvTIt.iItem = i;
 			lvTIt.iSubItem = 0;
 			lvTIt.pszText = S1;
+			lvTIt.lParam = LPARAM(pReminder);
 			m_list.InsertItem(&lvTIt);
 			lvTIt.mask = LVIF_TEXT;
 
@@ -1553,17 +1565,22 @@ class CReminderListDlg : public CDlgBase
 			i++;
 		}
 
-		m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
+		if (i > 0) {
+			m_list.SetItemState(0, LVIS_SELECTED, LVIS_SELECTED);
+			SetDlgItemTextW(m_hwnd, IDC_REMINDERDATA, getData(0)->wszText);
+		}
 	}
 
-	CCtrlListView m_list;
+	CCtrlEdit edtFilter;
 	CCtrlButton btnNew;
+	CCtrlListView m_list;
 
 public:
 	CReminderListDlg() :
 		CDlgBase(g_plugin, IDD_LISTREMINDERS),
 		m_list(this, IDC_LISTREMINDERS),
-		btnNew(this, IDC_ADDNEWREMINDER)
+		btnNew(this, IDC_ADDNEWREMINDER),
+		edtFilter(this, IDC_FILTER)
 	{
 		SetMinSize(394, 300);
 
@@ -1572,6 +1589,8 @@ public:
 		m_list.OnBuildMenu = Callback(this, &CReminderListDlg::onContextMenu);
 		m_list.OnDoubleClick = Callback(this, &CReminderListDlg::list_onDblClick);
 		m_list.OnItemChanged = Callback(this, &CReminderListDlg::list_onItemChanged);
+
+		edtFilter.OnChange = Callback(this, &CReminderListDlg::onChange_Filter);
 	}
 
 	bool OnInitDialog() override
@@ -1630,6 +1649,9 @@ public:
 
 		case IDC_REMINDERDATA:
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
+
+		case IDC_FILTER:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 		}
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 	}
@@ -1640,7 +1662,7 @@ public:
 		HMENU FhMenu = GetSubMenu(hMenuLoad, 0);
 
 		int idx = m_list.GetSelectionMark();
-		REMINDERDATA *pReminder = (idx == -1) ? nullptr : arReminders[idx];
+		REMINDERDATA *pReminder = (idx == -1) ? nullptr : getData(idx);
 
 		MENUITEMINFO mii = {};
 		mii.cbSize = sizeof(mii);
@@ -1666,7 +1688,7 @@ public:
 		case ID_CONTEXTMENUREMINDER_EDIT:
 			idx = m_list.GetSelectionMark();
 			if (idx != -1)
-				EditReminder(arReminders[idx]);
+				EditReminder(getData(idx));
 			break;
 
 		case ID_CONTEXTMENUREMINDER_NEW:
@@ -1685,7 +1707,7 @@ public:
 			idx = m_list.GetSelectionMark();
 			if (idx != -1 && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
 				SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
-				DeleteReminder(arReminders[idx]);
+				DeleteReminder(getData(idx));
 				JustSaveReminders();
 				RefreshList();
 			}
@@ -1701,19 +1723,25 @@ public:
 
 	void list_onItemChanged(CCtrlListView::TEventInfo *ev)
 	{
-		SetDlgItemTextW(m_hwnd, IDC_REMINDERDATA, arReminders[ev->nmlv->iItem]->wszText);
+		SetDlgItemTextW(m_hwnd, IDC_REMINDERDATA, getData(ev->nmlv->iItem)->wszText);
 	}
 
 	void list_onDblClick(CCtrlListView::TEventInfo*)
 	{
 		int i = m_list.GetSelectionMark();
 		if (i != -1)
-			EditReminder(arReminders[i]);
+			EditReminder(getData(i));
 	}
 
 	void onClick_New(CCtrlButton *)
 	{
 		PluginMenuCommandNewReminder(0, 0);
+	}
+
+	void onChange_Filter(CCtrlEdit *)
+	{
+		m_wszFilter = ptrW(edtFilter.GetText());
+		RefreshList();
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)

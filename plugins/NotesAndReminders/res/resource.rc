@@ -139,10 +139,11 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Reminders"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    CONTROL         "List1",IDC_LISTREMINDERS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,3,4,251,146
-    EDITTEXT        IDC_REMINDERDATA,3,153,251,69,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    CONTROL         "List1",IDC_LISTREMINDERS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,4,4,250,146
+    EDITTEXT        IDC_REMINDERDATA,4,153,250,69,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
     PUSHBUTTON      "Add New",IDC_ADDNEWREMINDER,151,227,50,14
     DEFPUSHBUTTON   "&Close",IDCANCEL,203,227,50,14
+    EDITTEXT        IDC_FILTER,4,227,108,14,ES_AUTOHSCROLL
 END
 
 
@@ -154,19 +155,33 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ADDREMINDER         ICON                    "addremin.ico"
+
 IDI_DELETEICON          ICON                    "deleteic.ico"
+
 IDI_NOTEICON            ICON                    "noteicon.ico"
+
 IDI_SHOWHIDE            ICON                    "showhide.ico"
+
 IDI_CAPTIONICON         ICON                    "captioni.ico"
+
 IDI_DELETEREMINDER      ICON                    "deletere.ico"
+
 IDI_VIEWREMINDERS       ICON                    "viewremi.ico"
+
 IDI_CAPTIONICONNOTTOP   ICON                    "captionn.ico"
+
 IDI_HIDENOTE            ICON                    "hidenote.ico"
+
 IDI_REMOVENOTE          ICON                    "removeno.ico"
+
 IDI_REMINDER            ICON                    "reminder.ico"
+
 IDI_BRINGFRONT          ICON                    "bringfront.ico"
+
 IDI_PLAYSOUND           ICON                    "playsound.ico"
+
 IDI_VIEWNOTES           ICON                    "viewnotes.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -199,21 +214,21 @@ BEGIN
         BEGIN
             POPUP "Background Color"
             BEGIN
-                MENUITEM "Custom...",           ID_BACKGROUNDCOLOR_CUSTOM
+                MENUITEM "Custom...",                   ID_BACKGROUNDCOLOR_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",               ID_BACKGROUNDCOLOR_RESET
+                MENUITEM "Reset",                       ID_BACKGROUNDCOLOR_RESET
             END
             POPUP "Text Color"
             BEGIN
-                MENUITEM "Custom...",           ID_TEXTCOLOR_CUSTOM
+                MENUITEM "Custom...",                   ID_TEXTCOLOR_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",               ID_TEXTCOLOR_RESET
+                MENUITEM "Reset",                       ID_TEXTCOLOR_RESET
             END
             POPUP "Font"
             BEGIN
-                MENUITEM "Custom...",           ID_FONT_CUSTOM
+                MENUITEM "Custom...",                   ID_FONT_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",               ID_FONT_RESET
+                MENUITEM "Reset",                       ID_FONT_RESET
             END
         END
         MENUITEM "Paste Title",                 ID_CONTEXTMENUNOTE_PASTETITLE
