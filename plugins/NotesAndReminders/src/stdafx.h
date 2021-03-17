@@ -61,7 +61,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern void CreateMsgWindow(void);
 extern void DestroyMsgWindow(void);
 
-void NewNote(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULONGLONG *ID, BOOL Visible, BOOL bOnTop, int scrollV);
+void NewNote(int Ax, int Ay, int Aw, int Ah, const wchar_t *pwszText, ULONGLONG *ID, BOOL Visible, BOOL bOnTop, int scrollV);
 void LoadNotes(bool bIsStartup);
 void SaveNotes(void);
 void DeleteNotes(void);

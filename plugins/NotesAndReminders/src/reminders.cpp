@@ -21,7 +21,7 @@ struct REMINDERDATA : public MZeroedObject
 {
 	HWND handle;
 	DWORD uid;
-	CMStringA szText;
+	CMStringW wszText;
 	ULONGLONG When;	// FILETIME in UTC
 	UINT RepeatSound;
 	UINT RepeatSoundTTL;
@@ -61,7 +61,7 @@ int WS_Send(SOCKET s, char *data, int datalen);
 unsigned long WS_ResolveName(char *name, WORD *port, int defaultPort);
 
 void Send(char *user, char *host, const char *Msg, char* server);
-wchar_t* GetPreviewString(const char *lpsz);
+wchar_t* GetPreviewString(const wchar_t *lpsz);
 
 static void NotifyList();
 
@@ -165,8 +165,8 @@ void JustSaveReminders(void)
 			szValue.AppendFormat("\033""%u:%d", DATATAG_SNDSEL, pReminder->SoundSel);
 
 		// reminder text/note (ALWAYS PUT THIS PARAM LAST)
-		if (!pReminder->szText.IsEmpty())
-			szValue.AppendFormat("\033""%u:%s", DATATAG_TEXT, pReminder->szText.c_str());
+		if (!pReminder->wszText.IsEmpty())
+			szValue.AppendFormat("\033""%u:%s", DATATAG_TEXT, ptrA(mir_utf8encodeW(pReminder->wszText)).get());
 
 		char ValueName[32];
 		mir_snprintf(ValueName, "RemindersData%d", i++);
@@ -215,7 +215,11 @@ static bool LoadReminder(char *Value)
 
 		switch (tag) {
 		case DATATAG_TEXT:
-			TempRem->szText = TVal;
+			if (auto *szText = mir_utf8decodeW(TVal)) {
+				TempRem->wszText = szText;
+				mir_free(szText);
+			}
+			else TempRem->wszText = _A2T(TVal);
 			break;
 
 		case DATATAG_SNDREPEAT:
@@ -1096,7 +1100,7 @@ public:
 		mir_snwprintf(S2, L"%s! - %s", TranslateT("Reminder"), S1);
 		SetCaption(S2);
 
-		edtText.SetTextA(m_pReminder->szText);
+		edtText.SetText(m_pReminder->wszText);
 		return true;
 	}
 
@@ -1223,7 +1227,7 @@ public:
 		}
 
 		// update reminder text
-		m_pReminder->szText = ptrA(edtText.GetTextA());
+		m_pReminder->wszText = ptrW(edtText.GetText());
 		m_pReminder->bVisible = false;
 		m_pReminder->handle = nullptr;
 
@@ -1236,7 +1240,7 @@ public:
 	void onClick_None(CCtrlButton*)
 	{
 		// create note from reminder
-		NewNote(0, 0, -1, -1, ptrA(edtText.GetTextA()), nullptr, TRUE, TRUE, 0);
+		NewNote(0, 0, -1, -1, ptrW(edtText.GetText()), nullptr, TRUE, TRUE, 0);
 	}
 };
 
@@ -1334,7 +1338,7 @@ public:
 			else
 				cmbTime.SetText(s);
 
-			edtText.SetTextA(m_pReminder->szText);
+			edtText.SetText(m_pReminder->wszText);
 		}
 		else cmbTime.SetCurSel(0);
 
@@ -1423,7 +1427,7 @@ public:
 			REMINDERDATA *TempRem = new REMINDERDATA();
 			TempRem->uid = CreateUid();
 			SystemTimeToFileTime(&Date, (FILETIME*)&TempRem->When);
-			TempRem->szText = edtText.GetTextA();
+			TempRem->wszText = ptrW(edtText.GetText());
 			TempRem->bRepeat = chkRepeat.GetState();
 			TempRem->SoundSel = cmbSound.GetItemData(cmbSound.GetCurSel());
 			TempRem->RepeatSound = TempRem->SoundSel < 0 ? 0 : (UINT)RepeatSound;
@@ -1434,7 +1438,7 @@ public:
 			arReminders.remove(m_pReminder);
 			SystemTimeToFileTime(&Date, (FILETIME*)&m_pReminder->When);
 
-			m_pReminder->szText = ptrA(edtText.GetTextA());
+			m_pReminder->wszText = ptrW(edtText.GetText());
 			m_pReminder->bRepeat = chkRepeat.GetState();
 			m_pReminder->SoundSel = cmbSound.GetItemData(cmbSound.GetCurSel());
 			m_pReminder->RepeatSound = m_pReminder->SoundSel < 0 ? 0 : (UINT)RepeatSound;
@@ -1540,7 +1544,7 @@ class CReminderListDlg : public CDlgBase
 			m_list.InsertItem(&lvTIt);
 			lvTIt.mask = LVIF_TEXT;
 
-			wchar_t *S2 = GetPreviewString(pReminder->szText);
+			wchar_t *S2 = GetPreviewString(pReminder->wszText);
 			lvTIt.iItem = i;
 			lvTIt.iSubItem = 1;
 			lvTIt.pszText = S2;
@@ -1697,7 +1701,7 @@ public:
 
 	void list_onItemChanged(CCtrlListView::TEventInfo *ev)
 	{
-		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, arReminders[ev->nmlv->iItem]->szText);
+		SetDlgItemTextW(m_hwnd, IDC_REMINDERDATA, arReminders[ev->nmlv->iItem]->wszText);
 	}
 
 	void list_onDblClick(CCtrlListView::TEventInfo*)
@@ -1793,7 +1797,7 @@ bool CheckRemindersAndStart(void)
 				else {
 					char *p = strchr(g_RemindSMS, '@');
 					if (p) {
-						Send(g_RemindSMS, p + 1, pReminder->szText, NULL);
+						Send(g_RemindSMS, p + 1, _T2A(pReminder->wszText), NULL);
 						*p = '@';
 
 						DeleteReminder(pReminder);
