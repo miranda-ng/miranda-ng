@@ -40,7 +40,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-	CMOption<BYTE> bShowNotesAtStart, bShowScrollbar, bAddContListMI, bShowNoteButtons;
+	CMOption<BYTE> bShowNotesAtStart, bShowScrollbar, bShowNoteButtons;
 	CMOption<BYTE> bCloseAfterAddReminder, bUseMSI;
 
 	int Load() override;

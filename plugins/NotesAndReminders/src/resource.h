@@ -38,7 +38,6 @@
 #define IDC_DAILY                       1009
 #define IDC_CHECK_HIDENOTES             1010
 #define IDC_WEEKLY                      1010
-#define IDC_CHECK_MENUS                 1011
 #define IDC_MONTHLY                     1011
 #define IDC_EDIT_WIDTH                  1012
 #define IDC_EDIT_HEIGHT                 1013

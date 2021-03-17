@@ -53,7 +53,7 @@ bool CCtrlSlider::OnApply()
 
 void CCtrlSlider::OnReset()
 {
-	SendMsg(TBM_SETRANGE, 0, MAKELPARAM(m_wMax, m_wMin));
+	SendMsg(TBM_SETRANGE, 0, MAKELONG(m_wMin, m_wMax));
 
 	if (m_dbLink != nullptr)
 		SetPosition(LoadInt());

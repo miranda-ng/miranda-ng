@@ -200,17 +200,19 @@ class CNROptionsDlg : public CDlgBase
 		cmbDate.SetCurSel(g_NoteTitleDate ? g_NoteTitleDate - 1 : cmbDate.GetCount()-1);
 		cmbTime.SetCurSel(g_NoteTitleTime ? g_NoteTitleTime - 1 : cmbTime.GetCount()-1);
 
-		SendDlgItemMessage(m_hwnd, IDC_SLIDER_TRANSPARENCY, TBM_SETPOS, TRUE, 255 - g_Transparency);
+		slider.SetPosition(255 - g_Transparency);
 	}
 
 	CCtrlEdit edtBrowser, edtEmail;
 	CCtrlCombo cmbDate, cmbTime;
-	CCtrlCheck chkHide, chkMenus, chkButtons, chkScroll, chkClose, chkMSI;
+	CCtrlCheck chkHide, chkButtons, chkScroll, chkClose, chkMSI;
 	CCtrlButton btnBrowse, btnReset;
+	CCtrlSlider slider;
 
 public:
 	CNROptionsDlg() :
 		CDlgBase(g_plugin, IDD_STNOTEOPTIONS),
+		slider(this, IDC_SLIDER_TRANSPARENCY, 255 - MIN_ALPHA),
 		edtEmail(this, IDC_EDIT_EMAILSMS),
 		edtBrowser(this, IDC_EDIT_ALTBROWSER),
 		cmbDate(this, IDC_COMBODATE),
@@ -218,7 +220,6 @@ public:
 		chkMSI(this, IDC_CHECK_MSI),
 		chkHide(this, IDC_CHECK_HIDENOTES),
 		chkClose(this, IDC_CHECK_CLOSE),
-		chkMenus(this, IDC_CHECK_MENUS),
 		chkScroll(this, IDC_CHECK_SCROLLBARS),
 		chkButtons(this, IDC_CHECK_BUTTONS),
 		btnReset(this, IDC_BUTTON_RESET),
@@ -229,15 +230,12 @@ public:
 
 		CreateLink(chkMSI, g_plugin.bUseMSI);
 		CreateLink(chkClose, g_plugin.bCloseAfterAddReminder);
-		CreateLink(chkMenus, g_plugin.bAddContListMI);
 		CreateLink(chkScroll, g_plugin.bShowScrollbar);
 		CreateLink(chkButtons, g_plugin.bShowNoteButtons);
 	}
 
 	bool OnInitDialog() override
 	{
-		SendDlgItemMessage(m_hwnd, IDC_SLIDER_TRANSPARENCY, TBM_SETRANGE, TRUE, MAKELONG(0, 255 - MIN_ALPHA));
-
 		cmbDate.ResetContent();
 		for (auto &it : dateFormats)
 			cmbDate.AddString(it.lpszUI);
@@ -266,7 +264,7 @@ public:
 		BOOL LB;
 		g_NoteWidth = GetDlgItemInt(m_hwnd, IDC_EDIT_WIDTH, &LB, FALSE);
 		g_NoteHeight = GetDlgItemInt(m_hwnd, IDC_EDIT_HEIGHT, &LB, FALSE);
-		g_Transparency = 255 - SendDlgItemMessage(m_hwnd, IDC_SLIDER_TRANSPARENCY, TBM_GETPOS, 0, 0);
+		g_Transparency = 255 - slider.GetPosition();
 		
 		g_NoteTitleDate = (cmbDate.GetCurSel()+1) % cmbDate.GetCount();
 		g_NoteTitleTime = (cmbTime.GetCurSel()+1) % cmbTime.GetCount();
@@ -328,7 +326,7 @@ public:
 		replaceStr(g_RemindSMS, nullptr);
 		replaceStr(g_lpszAltBrowser, nullptr);
 
-		g_plugin.bShowNotesAtStart = g_plugin.bAddContListMI = g_plugin.bShowScrollbar = g_plugin.bShowNoteButtons = true;
+		g_plugin.bShowNotesAtStart = g_plugin.bShowScrollbar = g_plugin.bShowNoteButtons = true;
 		g_plugin.bCloseAfterAddReminder = g_plugin.bUseMSI = true;
 
 		g_NoteTitleDate = 1;

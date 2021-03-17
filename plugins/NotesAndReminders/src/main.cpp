@@ -72,11 +72,10 @@ int OnTopToolBarInit(WPARAM, LPARAM)
 
 static void addMenuItem(CMenuItem &mi)
 {
-	if (g_plugin.bAddContListMI) {
-		HGENMENU save = mi.root; mi.root = nullptr;
-		Menu_AddContactMenuItem(&mi);
-		mi.root = save;
-	}
+	HGENMENU save = mi.root; mi.root = nullptr;
+	Menu_AddContactMenuItem(&mi);
+	mi.root = save;
+
 	Menu_AddMainMenuItem(&mi);
 }
 
@@ -170,7 +169,6 @@ static int OnPreShutdown(WPARAM, LPARAM)
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
-	bAddContListMI(MODULENAME, "AddContactMenuItems", true),
 	bShowNotesAtStart(MODULENAME, "ShowNotesAtStart", true),
 	bShowNoteButtons(MODULENAME, "ShowNoteButtons", true),
 	bShowScrollbar(MODULENAME, "ShowScrollbar", true),
