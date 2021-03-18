@@ -95,6 +95,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[2].hIcolib;
 	mi.name.w = LPGENW("New Note");
 	mi.pszService = MS_NOTES_NEW;
+	SET_UID(mi, 0x1175be03, 0x1c2b, 0x4d87, 0xa7, 0xf3, 0x93, 0x5, 0xa6, 0xa6, 0x3d, 0xa1);
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandAddNew);
 
@@ -102,6 +103,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.w = LPGENW("New Reminder");
 	mi.pszService = MS_REMINDER_NEW;
+	SET_UID(mi, 0x535d76e7, 0x3874, 0x4aec, 0x87, 0x63, 0xc0, 0x3e, 0xf4, 0x3e, 0xd0, 0x2d);
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandNewReminder);
 
@@ -109,6 +111,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[3].hIcolib;
 	mi.name.w = LPGENW("Toggle Notes Visibility");
 	mi.pszService = MS_NOTES_SHOWHIDE;
+	SET_UID(mi, 0xa6380dc6, 0xf788, 0x451f, 0xa7, 0x9b, 0x78, 0x2f, 0xfd, 0x9e, 0x36, 0x7c);
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandShowHide);
 
@@ -116,6 +119,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[13].hIcolib;
 	mi.name.w = LPGENW("View Notes");
 	mi.pszService = MODULENAME"/MenuCommandViewNotes";
+	SET_UID(mi, 0xcff6908a, 0x713, 0x42c1, 0xb0, 0xa3, 0x1e, 0x36, 0x51, 0xa9, 0xd7, 0xdb);
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandViewNotes);
 
@@ -123,6 +127,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.w = LPGENW("Delete All Notes");
 	mi.pszService = MODULENAME"/MenuCommandDeleteAll";
+	SET_UID(mi, 0xdee35dce, 0x43a3, 0x46b7, 0xb3, 0x86, 0x6f, 0xc9, 0x8f, 0xa1, 0x46, 0xd9);
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandDeleteNotes);
 
@@ -130,6 +135,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[11].hIcolib;
 	mi.name.w = LPGENW("Bring All to Front");
 	mi.pszService = MS_NOTES_DISPLAY;
+	SET_UID(mi, 0x1b71f069, 0x7788, 0x488b, 0xb1, 0x7a, 0x74, 0x57, 0x14, 0xac, 0x20, 0x47);
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandAllBringFront);
 
@@ -137,6 +143,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[6].hIcolib;
 	mi.name.w = LPGENW("View Reminders");
 	mi.pszService = MS_REMINDER_VIEW;
+	SET_UID(mi, 0x87f35fa7, 0x375d, 0x44e6, 0x89, 0xca, 0x37, 0x30, 0xe, 0x1f, 0xe7, 0x93);
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandViewReminders);
 
@@ -144,6 +151,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[5].hIcolib;
 	mi.name.w = LPGENW("Delete All Reminders");
 	mi.pszService = MODULENAME"/MenuCommandDeleteReminders";
+	SET_UID(mi, 0x20ca5f76, 0xc4c1, 0x4bd2, 0xbf, 0xc3, 0x13, 0xfe, 0x39, 0x9, 0x79, 0x52);
 	addMenuItem(mi);
 	CreateServiceFunction(mi.pszService, PluginMenuCommandDeleteReminders);
 
