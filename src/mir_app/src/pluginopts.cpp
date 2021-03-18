@@ -237,6 +237,7 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 		}
 	}
 
+	dat->bWasLoaded = true;
 	dat->hInst = ppb->getInst();
 	NotifyFastHook(hevLoadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
 	return true;
@@ -249,6 +250,7 @@ static bool UnloadPluginDynamically(PluginListItemData *dat)
 		if (!Plugin_UnloadDyn(p))
 			return false;
 
+		dat->bWasLoaded = false;
 		dat->hInst = nullptr;
 	}
 	return true;
@@ -374,10 +376,8 @@ public:
 					PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
 					if (iState == 0x2000) { // enabling plugin
 						if (!dat->bWasLoaded) {
-							if (!dat->bRequiresRestart) {
+							if (!dat->bRequiresRestart)
 								LoadPluginDynamically(dat);
-								dat->bWasLoaded = true;
-							}
 							else {
 								bufRestart.AppendFormat(L" - %s\n", buf);
 								needRestart = true;
@@ -386,10 +386,8 @@ public:
 					}
 					else { // disabling plugin
 						if (dat->bWasLoaded) {
-							if (!dat->bRequiresRestart) {
+							if (!dat->bRequiresRestart)
 								UnloadPluginDynamically(dat);
-								dat->bWasLoaded = false;
-							}
 							else {
 								bufRestart.AppendFormat(L" - %s\n", buf);
 								needRestart = true;
