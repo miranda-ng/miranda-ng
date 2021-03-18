@@ -7,13 +7,13 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -27,7 +27,9 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_DISABLE_SERVER      ICON                    "dis_srv.ico"
+
 IDI_SHARE_NEW_FILE      ICON                    "share_ne.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -69,17 +71,12 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     EDITTEXT        IDC_EXTERNAL_SRV_NAME,15,73,284,21,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-    CONTROL         "Show HTTP server statistics",IDC_ADD_STATISTICS_MENU_ITEM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,30,137,10
     PUSHBUTTON      "Set to default",IDC_EXTERNAL_SRV_DEFAULT,244,55,56,14
     GROUPBOX        "External server name",IDC_STATIC,10,47,294,106
     LTEXT           "This is the link pasted to the message window",IDC_STATIC,15,61,206,8
-    CONTROL         "Write log file",IDC_WRITE_LOG_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,31,86,10
-    CONTROL         "Enable HTTP server",IDC_ACCEPT_COM_MENU_ITEM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,15,135,10
-    GROUPBOX        "Main menu items",IDC_STATIC,10,3,141,42
-    PUSHBUTTON      "Open log",IDC_OPEN_LOG,250,27,50,14
-    CONTROL         "Show popups",IDC_SHOW_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,15,137,10
+    CONTROL         "Write log file",IDC_WRITE_LOG_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,31,86,10
+    PUSHBUTTON      "Open log",IDC_OPEN_LOG,244,27,56,14
+    CONTROL         "Show popups",IDC_SHOW_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,15,137,10
     LTEXT           "Page keyword",IDC_STATIC,20,129,46,8
     LTEXT           "URL address",IDC_STATIC,20,110,42,8
     GROUPBOX        "%ExternalIP% variable",IDC_STATIC,15,96,284,51
@@ -95,7 +92,7 @@ BEGIN
     CONTROL         "Disable",IDC_INDEX_OFF,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,169,168,125,10
     CONTROL         "Create HTML (compatibility)",IDC_INDEX_HTML,"Button",BS_AUTORADIOBUTTON,169,182,125,10
     CONTROL         "Create XML",IDC_INDEX_XML,"Button",BS_AUTORADIOBUTTON,169,196,125,10
-    GROUPBOX        "Notifications",IDC_STATIC,157,3,147,42
+    GROUPBOX        "Notifications",IDC_STATIC,10,3,294,42
     LTEXT           "Total connection limit",IDC_STATIC,42,197,113,8
     LTEXT           "Connections per user limit",IDC_STATIC,42,211,113,8
     EDITTEXT        IDC_MAX_CONN_TOTAL,15,195,24,12,ES_AUTOHSCROLL
@@ -160,7 +157,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -190,7 +187,18 @@ BEGIN
     END
 END
 
-#endif    // Русский (Россия) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_HTTP_SERVER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

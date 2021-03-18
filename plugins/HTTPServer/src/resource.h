@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\MNG_orig\plugins\HTTPServer\res\resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by w:\miranda-ng\plugins\HTTPServer\res\resource.rc
 //
 #define IDD_NEW_SHARE_PROPERTIES        101
 #define IDI_DISABLE_SERVER              101
@@ -16,10 +16,8 @@
 #define IDC_CURRENT_SHARES              1071
 #define IDC_CURRENT_USERS               1072
 #define IDC_EXTERNAL_SRV_NAME           1073
-#define IDC_ADD_STATISTICS_MENU_ITEM    1074
 #define IDC_EXTERNAL_SRV_DEFAULT        1075
 #define IDC_WRITE_LOG_FILE              1076
-#define IDC_ACCEPT_COM_MENU_ITEM        1078
 #define IDC_TOGGLE_MASK                 1080
 #define IDC_OPEN_LOG                    1081
 #define IDC_SHOW_POPUPS                 1082
@@ -48,7 +46,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        126
+#define _APS_NEXT_RESOURCE_VALUE        127
 #define _APS_NEXT_COMMAND_VALUE         40009
 #define _APS_NEXT_CONTROL_VALUE         1095
 #define _APS_NEXT_SYMED_VALUE           101

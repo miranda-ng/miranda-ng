@@ -530,7 +530,7 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false)
 		ListView_DeleteAllItems(hShareList);
 	ListView_DeleteAllItems(hUserList);
 
-	CLFileShareListAccess scCrit;
+	mir_cslock lck(csFileShareListAccess);
 
 	char szTmp[50];
 	in_addr stAddr;
@@ -681,8 +681,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG,
-			(LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)g_plugin.getIcon(IDI_SHARE_NEW_FILE));
 
 		TranslateDialogDefault(hwndDlg);
 
@@ -1073,15 +1072,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		string sDefExt = DBGetString(0, MODULENAME, "ExternalSrvName", szDefaultExternalSrvName);
 		SetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, sDefExt.c_str());
 
-		bool b = g_plugin.getByte("AddStatisticsMenuItem", 1) != 0;
-		CheckDlgButton(hwndDlg, IDC_ADD_STATISTICS_MENU_ITEM, b ? BST_CHECKED : BST_UNCHECKED);
-
-		b = g_plugin.getByte("AddAcceptConMenuItem", 1) != 0;
-		CheckDlgButton(hwndDlg, IDC_ACCEPT_COM_MENU_ITEM, b ? BST_CHECKED : BST_UNCHECKED);
-
-		b = g_plugin.getByte("WriteLogFile", 0) != 0;
-		CheckDlgButton(hwndDlg, IDC_WRITE_LOG_FILE, b ? BST_CHECKED : BST_UNCHECKED);
-
+		CheckDlgButton(hwndDlg, IDC_WRITE_LOG_FILE, g_plugin.getByte("WriteLogFile", 0) != 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOW_POPUPS, bShowPopups ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_LIMIT_ONLY_WHEN_ONLINE, bLimitOnlyWhenOnline ? BST_CHECKED : BST_UNCHECKED);
 
@@ -1159,8 +1150,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_LIMIT_ONLY_WHEN_ONLINE:
 		case IDC_SHOW_POPUPS:
 		case IDC_WRITE_LOG_FILE:
-		case IDC_ADD_STATISTICS_MENU_ITEM:
-		case IDC_ACCEPT_COM_MENU_ITEM:
 			if (HIWORD(wParam) == BN_CLICKED)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			return TRUE;
@@ -1201,22 +1190,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (GetDlgItemText(hwndDlg, IDC_EXTERNAL_SRV_NAME, szTemp, _countof(szTemp)))
 				g_plugin.setString("ExternalSrvName", szTemp);
 
-			bool b = g_plugin.getByte("AddStatisticsMenuItem", 1) != 0;
-			bool bNew = IsDlgButtonChecked(hwndDlg, IDC_ADD_STATISTICS_MENU_ITEM) == BST_CHECKED;
-			if (b != bNew) {
-				g_plugin.setByte("AddStatisticsMenuItem", bNew);
-				MessageBoxW(hwndDlg, TranslateT("You need to restart Miranda to change the main menu"), TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
-			}
-
-			b = g_plugin.getByte("AddAcceptConMenuItem", 1) != 0;
-			bNew = IsDlgButtonChecked(hwndDlg, IDC_ACCEPT_COM_MENU_ITEM) == BST_CHECKED;
-			if (b != bNew) {
-				g_plugin.setByte("AddAcceptConMenuItem", bNew);
-				MessageBoxW(hwndDlg, TranslateT("You need to restart Miranda to change the main menu"), TranslateW(_A2W(MSG_BOX_TITLE)), MB_OK);
-			}
-
-			bNew = IsDlgButtonChecked(hwndDlg, IDC_WRITE_LOG_FILE) == BST_CHECKED;
-			g_plugin.setByte("WriteLogFile", bNew);
+			g_plugin.setByte("WriteLogFile", IsDlgButtonChecked(hwndDlg, IDC_WRITE_LOG_FILE) == BST_CHECKED);
 
 			bShowPopups = IsDlgButtonChecked(hwndDlg, IDC_SHOW_POPUPS) == BST_CHECKED;
 			g_plugin.setByte("ShowPopups", bShowPopups);
@@ -1398,7 +1372,7 @@ void ShowPopupWindow(const char * pszName, const char * pszText, COLORREF ColorB
 
 	POPUPDATA *pclData = new POPUPDATA;
 	memset(pclData, 0, sizeof(POPUPDATA));
-	pclData->lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
+	pclData->lchIcon = g_plugin.getIcon(IDI_SHARE_NEW_FILE);
 	strncpy(pclData->lpzContactName, pszName, sizeof(pclData->lpzContactName) - 1);   // -1 so that there aways will be a null termination !!
 	strncpy(pclData->lpzText, pszText, sizeof(pclData->lpzText) - 1);
 	pclData->colorBack = ColorBack;
@@ -1433,21 +1407,19 @@ void InitGuiElements()
 	hShowStatisticsViewService = CreateServiceFunction(MS_SHOW_STATISTICS_VIEW, nShowStatisticsView);
 
 	CMenuItem mi(&g_plugin);
-	mi.flags = CMIF_UNICODE;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SHARE_NEW_FILE);
+
 	SET_UID(mi, 0xb30a6ab5, 0x17a8, 0x4e2e, 0x84, 0x52, 0x5f, 0xbc, 0x83, 0x35, 0xf2, 0x6);
-	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 	mi.position = -2000019955;
-	mi.name.w = LPGENW("HTTP Share new file");
+	mi.name.a = LPGEN("HTTP Share new file");
 	mi.pszService = MS_SHARE_NEW_FILE;
 	hShareNewFileMenuItem = Menu_AddContactMenuItem(&mi);
 
-	if (g_plugin.getByte("AddStatisticsMenuItem", 1) != 0) {
-		SET_UID(mi, 0x68db84c9, 0xe6b4, 0x4b4f, 0x93, 0x4b, 0xfd, 0x34, 0x2d, 0x83, 0x11, 0xe7);
-		mi.position = 1000085005;
-		mi.name.w = LPGENW("Show HTTP server statistics");
-		mi.pszService = MS_SHOW_STATISTICS_VIEW;
-		hShowStatisticsViewMenuItem = Menu_AddMainMenuItem(&mi);
-	}
+	SET_UID(mi, 0x68db84c9, 0xe6b4, 0x4b4f, 0x93, 0x4b, 0xfd, 0x34, 0x2d, 0x83, 0x11, 0xe7);
+	mi.position = 1000085005;
+	mi.name.a = LPGEN("Show HTTP server statistics");
+	mi.pszService = MS_SHOW_STATISTICS_VIEW;
+	hShowStatisticsViewMenuItem = Menu_AddMainMenuItem(&mi);
 
 	bShowPopups = g_plugin.getByte("ShowPopups", bShowPopups) != 0;
 }
