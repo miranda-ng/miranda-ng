@@ -1068,14 +1068,9 @@ public:
 
 		PopulateTimeOffsetCombo();
 
-		cmbRemindAgainIn.Show();
-		dateAgain.Hide();
-		cmbTimeAgain.Hide();
-		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_DATE), SW_HIDE);
-		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_TIME), SW_HIDE);
+		cmbRemindAgainIn.SetCurSel(0);
 		chkAfter.SetState(true);
 		chkOnDate.SetState(false);
-		cmbRemindAgainIn.SetCurSel(0);
 
 		if (m_pReminder->bRepeat) {
 			chkOnDate.Hide();
@@ -1124,6 +1119,9 @@ public:
 
 	void onChange_OnDate(CCtrlCheck*)
 	{
+		if (!m_bInitialized)
+			return;
+
 		dateAgain.Show();
 		cmbTimeAgain.Show();
 		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_DATE), SW_SHOW);
@@ -1808,31 +1806,32 @@ bool CheckRemindersAndStart(void)
 		if (!bHasQueuedReminders && pReminder->When > curT)
 			break;
 
-		if (!pReminder->bVisible) {
-			if (pReminder->bSystemEventQueued) {
-				UpdateReminderEvent(pReminder, REMINDER_UPDATE_INTERVAL_SHORT / 1000, &bHasPlayedSound);
+		if (pReminder->bVisible)
+			continue;
 
-				QueuedReminderCount++;
-				bResult = true;
+		if (pReminder->bSystemEventQueued) {
+			UpdateReminderEvent(pReminder, REMINDER_UPDATE_INTERVAL_SHORT / 1000, &bHasPlayedSound);
+
+			QueuedReminderCount++;
+			bResult = true;
+		}
+		else if (pReminder->When <= curT) {
+			if (!mir_strlen(g_RemindSMS)) {
+				FireReminder(pReminder, &bHasPlayedSound);
+
+				if (pReminder->bSystemEventQueued)
+					bResult = true;
 			}
-			else if (pReminder->When <= curT) {
-				if (!g_RemindSMS) {
-					FireReminder(pReminder, &bHasPlayedSound);
+			else {
+				char *p = strchr(g_RemindSMS, '@');
+				if (p) {
+					Send(g_RemindSMS, p + 1, _T2A(pReminder->wszText), NULL);
+					*p = '@';
 
-					if (pReminder->bSystemEventQueued)
-						bResult = true;
-				}
-				else {
-					char *p = strchr(g_RemindSMS, '@');
-					if (p) {
-						Send(g_RemindSMS, p + 1, _T2A(pReminder->wszText), NULL);
-						*p = '@';
-
-						DeleteReminder(pReminder);
-						JustSaveReminders();
-						if (pListDialog)
-							pListDialog->Reload();
-					}
+					DeleteReminder(pReminder);
+					JustSaveReminders();
+					if (pListDialog)
+						pListDialog->Reload();
 				}
 			}
 		}
