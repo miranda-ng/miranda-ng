@@ -42,15 +42,12 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+   CMOption<BYTE> bUseAuthIcon, bUseGrantIcon, bContactMenuItem, bIconsForRecentContacts;
+
 	int Load() override;
 };
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam);
 int onExtraImageApplying(WPARAM wParam, LPARAM lParam);
-
-extern HANDLE hExtraIcon;
-
-#include "options.h"
-
 
 #endif //COMMHEADERS_H
