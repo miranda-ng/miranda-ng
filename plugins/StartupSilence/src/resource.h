@@ -15,7 +15,6 @@
 #define IDC_DELAY2                      40004
 #define IDC_SSPOPUPTIME                 40005
 #define IDC_SSSPIN2                     40006
-#define IDC_MENU                        40007
 #define IDC_TTB                         40008
 #define IDC_RESETDEFAULT                40009
 #define IDC_HST                         40010
