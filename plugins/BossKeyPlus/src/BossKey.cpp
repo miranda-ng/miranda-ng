@@ -436,7 +436,7 @@ INT_PTR BossKeyHideMiranda(WPARAM, LPARAM) // for service :)
 	return 0;
 }
 
-static wchar_t *HokeyVkToName(WORD vkKey)
+static wchar_t* HotkeyVkToName(WORD vkKey)
 {
 	static wchar_t buf[32] = { 0 };
 	DWORD code = MapVirtualKey(vkKey, 0) << 16;
@@ -472,20 +472,20 @@ static wchar_t *HokeyVkToName(WORD vkKey)
 	return buf;
 }
 
-static wchar_t *GetBossKeyText(void)
+static wchar_t* GetBossKeyText(void)
 {
 	WORD wHotKey = db_get_w(0, "SkinHotKeys", "Hide/Show Miranda", HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
 
 	BYTE key = LOBYTE(wHotKey);
 	BYTE shift = HIBYTE(wHotKey);
-	static wchar_t buf[128] = { 0 };
 
+	static wchar_t buf[128];
 	mir_snwprintf(buf, L"%s%s%s%s%s",
 		(shift & HOTKEYF_CONTROL) ? L"Ctrl + " : L"",
 		(shift & HOTKEYF_SHIFT) ? L"Shift + " : L"",
 		(shift & HOTKEYF_ALT) ? L"Alt + " : L"",
 		(shift & HOTKEYF_EXT) ? L"Win + " : L"",
-		HokeyVkToName(key));
+		HotkeyVkToName(key));
 
 	return buf;
 }
@@ -497,15 +497,13 @@ static IconItem iconList[] =
 
 static int GenMenuInit(WPARAM, LPARAM) // Modify menu item text before to show the main menu
 {
-	if (g_hMenuItem) {
-		wchar_t buf[128];
-		mir_snwprintf(buf, L"%s [%s]", TranslateT("Hide"), GetBossKeyText());
-		Menu_ModifyItem(g_hMenuItem, buf);
-	}
+	wchar_t buf[128];
+	mir_snwprintf(buf, L"%s [%s]", TranslateT("Hide"), GetBossKeyText());
+	Menu_ModifyItem(g_hMenuItem, buf);
 	return 0;
 }
 
-void BossKeyMenuItemInit(void) // Add menu item
+static void BossKeyMenuItemInit(void) // Add menu item
 {
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x42428114, 0xfac7, 0x44c2, 0x9a, 0x11, 0x18, 0xbe, 0x81, 0xd4, 0xa9, 0xe3);
@@ -519,13 +517,7 @@ void BossKeyMenuItemInit(void) // Add menu item
 	HookEvent(ME_CLIST_PREBUILDMAINMENU, GenMenuInit);
 }
 
-void BossKeyMenuItemUnInit(void) // Remove menu item
-{
-	Menu_RemoveItem(g_hMenuItem);
-	g_hMenuItem = nullptr;
-}
-
-void RegisterCoreHotKeys(void)
+static void RegisterCoreHotKeys(void)
 {
 	HOTKEYDESC hotkey = {};
 	hotkey.pszName = "Hide/Show Miranda";
@@ -631,8 +623,8 @@ static int MirandaLoaded(WPARAM, LPARAM)
 		if (hDwmApi)
 			dwmIsCompositionEnabled = (PFNDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
 	}
-	if (g_wMaskAdv & OPT_MENUITEM)
-		BossKeyMenuItemInit();
+
+	BossKeyMenuItemInit();
 
 	// Register token for variables plugin
 	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {
@@ -648,7 +640,6 @@ static int MirandaLoaded(WPARAM, LPARAM)
 	}
 
 	EnumProtos(0, 0);
-	InitIdleTimer();
 
 	if (g_bOldSetting && !(g_wMaskAdv & OPT_RESTORE)) // Restore settings if Miranda was crushed or killed in hidden mode and "Restore hiding on startup after failure" option is disabled
 		RestoreOldSettings();
@@ -656,6 +647,7 @@ static int MirandaLoaded(WPARAM, LPARAM)
 	if ((g_wMaskAdv & OPT_HIDEONSTART) || (g_wMaskAdv & OPT_RESTORE && g_bOldSetting))
 		BossKeyHideMiranda(0, 0);
 
+	g_plugin.impl.m_timer.Start(2000);
 	return 0;
 }
 
@@ -688,7 +680,7 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	UninitIdleTimer();
+	impl.m_timer.Stop();
 
 	if (g_hWinHook != nullptr)
 		UnhookWinEvent(g_hWinHook);
