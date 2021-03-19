@@ -875,7 +875,6 @@ static bool GetTriggerTime(CCtrlCombo &pCombo, ULONGLONG savedLi, SYSTEMTIME &pD
 	int n = pCombo.GetCurSel();
 	if (n != -1) {
 		// use preset value
-preset_value:;
 		if (IsRelativeCombo(pCombo)) {
 			ULONGLONG li;
 			SystemTimeToFileTime(&pDate, (FILETIME*)&li);
@@ -919,28 +918,10 @@ preset_value:;
 		return false;
 	}
 
-	if (IsRelativeCombo(pCombo)) {
-		// date has not been changed, the specified time is a time between reftime and reftime+24h
-		ULONGLONG li2;
-		if (ReformatTimeInput(pCombo, savedLi, h, m, &pDate, &li2))
-			return FALSE;
-
-		// check if reformatted value is a preset
-		if ((n = pCombo.GetCurSel()) != -1)
-			goto preset_value;
-
-		FileTimeToSystemTime((FILETIME*)&li2, &pDate);
-		return true;
-	}
-
+	// absolute time (on pDate)
 	if (ReformatTimeInput(pCombo, savedLi, h, m, &pDate, nullptr))
 		return false;
 
-	// check if reformatted value is a preset
-	if ((n = pCombo.GetCurSel()) != -1)
-		goto preset_value;
-
-	// absolute time (on pDate)
 	pDate.wHour = h;
 	pDate.wMinute = m;
 	pDate.wSecond = 0;
