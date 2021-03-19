@@ -282,7 +282,7 @@ LONG CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
 {
 	MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 	if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)
-		return -1;
+		return 0;
 	return ((const DBEvent*)data.iov_base)->cbBlob;
 }
 
