@@ -503,6 +503,10 @@ MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 	case MCI_OPT_UID:
 		UuidFromStringA((RPC_CSTR)value, (UUID*)&pimi->mi.uid);
 		return 0;
+
+	case MCI_OPT_DISABLED:
+		pimi->customVisible = false;
+		return 0;
 	}
 
 	return 1;
