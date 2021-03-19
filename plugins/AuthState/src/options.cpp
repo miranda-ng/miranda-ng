@@ -23,7 +23,6 @@ class COptionsDialog : public CDlgBase
 {
 	CCtrlCheck m_chkAuthIcon;
 	CCtrlCheck m_chkGrantIcon;
-	CCtrlCheck m_chkMenuItem;
 	CCtrlCheck m_chkOnlyForRecent;
 
 public:
@@ -31,12 +30,10 @@ public:
 		CDlgBase(g_plugin, IDD_AUTHSTATE_OPT),
 		m_chkAuthIcon(this, IDC_AUTHICON),
 		m_chkGrantIcon(this, IDC_GRANTICON),
-		m_chkMenuItem(this, IDC_ENABLEMENUITEM),
 		m_chkOnlyForRecent(this, IDC_ICONSFORRECENT)
 	{
 		CreateLink(m_chkAuthIcon, g_plugin.bUseAuthIcon);
 		CreateLink(m_chkGrantIcon, g_plugin.bUseGrantIcon);
-		CreateLink(m_chkMenuItem, g_plugin.bContactMenuItem);
 		CreateLink(m_chkOnlyForRecent, g_plugin.bIconsForRecentContacts);
 	}
 

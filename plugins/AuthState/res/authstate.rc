@@ -75,12 +75,11 @@ IDD_AUTHSTATE_OPT DIALOGEX 0, 0, 314, 130
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "Show Request icon",IDC_AUTHICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,70,246,18
-    CONTROL         "Show Grant icon",IDC_GRANTICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,86,246,18
     GROUPBOX        "Plugin settings",IDC_STATIC,19,23,276,90
-    CONTROL         "Enable menu item",IDC_ENABLEMENUITEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,42,246,13
     CONTROL         "Show icons only for recently added contacts",IDC_ICONSFORRECENT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,55,246,17
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,42,246,17
+    CONTROL         "Show Request icon",IDC_AUTHICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,55,246,18
+    CONTROL         "Show Grant icon",IDC_GRANTICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,70,246,18
 END
 
 

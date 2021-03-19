@@ -58,7 +58,6 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
 	bUseAuthIcon(MODULENAME, "EnableAuthIcon", 1),
 	bUseGrantIcon(MODULENAME, "EnableGrantIcon", 1),
-	bContactMenuItem(MODULENAME, "MenuItem", 0),
 	bIconsForRecentContacts(MODULENAME, "EnableOnlyForRecent", 0)
 {
 }
@@ -133,11 +132,6 @@ INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM)
 
 int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	if (!g_plugin.bContactMenuItem) {
-		Menu_ShowItem(hUserMenu, false);
-		return 0;
-	}
-
 	char *proto = Proto_GetBaseAccountName((MCONTACT)hContact);
 	if (!proto)
 		return 0;
@@ -181,9 +175,9 @@ int CMPlugin::Load()
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xc5a784ea, 0x8b07, 0x4b95, 0xa2, 0xb2, 0x84, 0x9d, 0x87, 0x43, 0x7e, 0xda);
 	mi.position = -1999901005;
-	mi.flags = CMIF_UNICODE;
-	mi.name.w = LPGENW("Enable AuthState icons");
+	mi.name.a = LPGEN("Enable AuthState icons");
 	mi.pszService = "AuthState/MenuItem";
 	hUserMenu = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(hUserMenu, MCI_OPT_DISABLED, TRUE);
 	return 0;
 }

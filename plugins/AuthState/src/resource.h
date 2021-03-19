@@ -8,7 +8,6 @@
 #define IDD_AUTHSTATE_OPT               103
 #define IDC_AUTHICON                    1002
 #define IDC_GRANTICON                   1003
-#define IDC_ENABLEMENUITEM              1005
 #define IDC_ICONSFORRECENT              1006
 
 // Next default values for new objects
