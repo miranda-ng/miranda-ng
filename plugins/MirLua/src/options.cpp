@@ -47,6 +47,7 @@ bool CMLuaOptionsMain::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
+	m_scriptsList.SetSilent();
 	m_scriptsList.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 
 	HIMAGELIST hImageList = m_scriptsList.CreateImageList(LVSIL_SMALL);
