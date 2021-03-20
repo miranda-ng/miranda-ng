@@ -470,7 +470,7 @@ public:
 	__forceinline int GetCtrlId() const { return m_idCtrl; }
 	__forceinline CDlgBase *GetParent() const { return m_parentWnd; }
 	__forceinline bool IsChanged() const { return m_bChanged; }
-	__forceinline void SetSilent() { m_bSilent = true; }
+	__forceinline void SetSilent(bool bSilent = true) { m_bSilent = bSilent; }
 	__forceinline void UseSystemColors() { m_bUseSystemColors = true; }
 
 	void Show(bool bShow = true);

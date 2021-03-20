@@ -1,9 +1,8 @@
 #include "stdafx.h"
 
-CMLuaOptionsMain::CMLuaOptionsMain(CMPlugin &plugin)
-	: CDlgBase(plugin, IDD_OPTIONSMAIN),
+CMLuaOptionsMain::CMLuaOptionsMain(CMPlugin &plugin) :
+	CDlgBase(plugin, IDD_OPTIONSMAIN),
 	m_plugin(plugin),
-	isScriptListInit(false),
 	m_popupOnError(this, IDC_POPUPONERROR),
 	m_popupOnObsolete(this, IDC_POPUPONOBSOLETE),
 	m_scriptsList(this, IDC_SCRIPTS),
@@ -47,7 +46,6 @@ bool CMLuaOptionsMain::OnInitDialog()
 {
 	CDlgBase::OnInitDialog();
 
-	m_scriptsList.SetSilent();
 	m_scriptsList.SetExtendedListViewStyle(LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES | LVS_EX_INFOTIP);
 
 	HIMAGELIST hImageList = m_scriptsList.CreateImageList(LVSIL_SMALL);
@@ -72,8 +70,6 @@ bool CMLuaOptionsMain::OnInitDialog()
 	m_scriptsList.AddColumn(3, nullptr, 36 - GetSystemMetrics(SM_CXVSCROLL));
 
 	LoadScripts();
-
-	isScriptListInit = true;
 	return true;
 }
 
@@ -88,25 +84,6 @@ bool CMLuaOptionsMain::OnApply()
 			script->Enable();
 	}
 	return true;
-}
-
-INT_PTR CMLuaOptionsMain::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_NOTIFY:
-	{
-		LPNMHDR lpnmHdr = (LPNMHDR)lParam;
-		if (lpnmHdr->idFrom == (UINT_PTR)m_scriptsList.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED) {
-			LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
-			if (pnmv->uChanged & LVIF_STATE && pnmv->uNewState & LVIS_STATEIMAGEMASK) {
-				if (isScriptListInit)
-					NotifyChange();
-			}
-		}
-	}
-	break;
-	}
-	return CDlgBase::DlgProc(msg, wParam, lParam);
 }
 
 void CMLuaOptionsMain::OnScriptListClick(CCtrlListView::TEventInfo *evt)
@@ -155,11 +132,11 @@ void CMLuaOptionsMain::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 
 void CMLuaOptionsMain::OnReload(CCtrlBase*)
 {
-	isScriptListInit = false;
+	m_scriptsList.SetSilent(true);
 	m_scriptsList.DeleteAllItems();
 	m_plugin.ReloadLuaScripts();
 	LoadScripts();
-	isScriptListInit = true;
+	m_scriptsList.SetSilent(false);
 }
 
 /***********************************************/
