@@ -513,7 +513,7 @@ static void BossKeyMenuItemInit(void) // Add menu item
 	mi.name.w = LPGENW("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
 	g_hMenuItem = Menu_AddMainMenuItem(&mi);
-	Menu_ConfigureItem(hUserMenu, MCI_OPT_DISABLED, TRUE);
+	Menu_ConfigureItem(g_hMenuItem, MCI_OPT_DISABLED, TRUE);
 
 	HookEvent(ME_CLIST_PREBUILDMAINMENU, GenMenuInit);
 }
