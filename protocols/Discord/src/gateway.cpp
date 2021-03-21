@@ -20,14 +20,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
-void CDiscordProto::GatewaySend(const JSONNode &pRoot)
+bool CDiscordProto::GatewaySend(const JSONNode &pRoot)
 {
 	if (m_hGatewayConnection == nullptr)
-		return;
+		return false;
 
 	json_string szText = pRoot.write();
 	debugLogA("Gateway send: %s", szText.c_str());
 	WebSocket_Send(m_hGatewayConnection, szText.c_str(), szText.length());
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -311,11 +312,11 @@ void CDiscordProto::GatewaySendResume()
 	GatewaySend(root);
 }
 
-void CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText)
+bool CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText)
 {
 	if (iStatus == ID_STATUS_OFFLINE) {
 		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/logout", nullptr));
-		return;
+		return true;
 	}
 
 	const char *pszStatus;
@@ -341,5 +342,5 @@ void CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText
 	}
 	
 	JSONNode root; root << INT_PARAM("op", OPCODE_STATUS_UPDATE) << payload;
-	GatewaySend(root);
+	return GatewaySend(root);
 }

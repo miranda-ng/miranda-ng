@@ -75,11 +75,6 @@ void CDiscordProto::OnLoggedIn()
 	debugLogA("CDiscordProto::OnLoggedIn");
 	m_bOnline = true;
 	SetServerStatus(m_iDesiredStatus);
-
-	if (m_szGateway.IsEmpty())
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/gateway", &CDiscordProto::OnReceiveGateway));
-	else
-		ForkThread(&CDiscordProto::GatewayThread, nullptr);
 }
 
 void CDiscordProto::OnLoggedOut()

@@ -508,6 +508,8 @@ void CDiscordProto::OnCommandPresence(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 {
+	OnLoggedIn();
+
 	GatewaySendHeartbeat();
 	m_impl.m_heartBeat.StartSafe(m_iHartbeatInterval);
 
