@@ -612,7 +612,7 @@ static void PopulateTimeCombo(CCtrlCombo &pCombo, const SYSTEMTIME *tmUtc)
 	GetSystemTime(&tm2);
 	if (tmUtc->wDay != tm2.wDay || tmUtc->wMonth != tm2.wMonth || tmUtc->wYear != tm2.wYear) {
 		// ensure that we start on midnight local time
-		SystemTimeToTzSpecificLocalTime(nullptr, (SYSTEMTIME*)tmUtc, &tm2);
+		SystemTimeToTzSpecificLocalTime(nullptr, tmUtc, &tm2);
 		tm2.wHour = 0;
 		tm2.wMinute = 0;
 		tm2.wSecond = 0;
@@ -876,15 +876,19 @@ static bool GetTriggerTime(CCtrlCombo &pCombo, ULONGLONG savedLi, SYSTEMTIME &pD
 	if (n != -1) {
 		// use preset value
 		if (IsRelativeCombo(pCombo)) {
-			ULONGLONG li;
-			SystemTimeToFileTime(&pDate, (FILETIME*)&li);
-			savedLi = li - (li % DayToFileTime) + (savedLi % DayToFileTime);
+			// combine date from pDate (local) and time from savedLi (utc)
+			SYSTEMTIME st, st2;
+			FileTimeToSystemTime((FILETIME *)&savedLi, &st);
+			SystemTimeToTzSpecificLocalTime(nullptr, &st, &st2);
+			st2.wYear = pDate.wYear; st2.wMonth = pDate.wMonth; st2.wDay = pDate.wDay; st2.wDayOfWeek = pDate.wDayOfWeek;
+			SystemTimeToFileTime(&st2, (FILETIME*)&savedLi);
 
 			// time offset from ref time ("24:43 (5 Minutes)" etc.)
 			UINT nDeltaSeconds = pCombo.GetItemData(n);
 			savedLi += (ULONGLONG)nDeltaSeconds * FILETIME_TICKS_PER_SEC;
 
-			FileTimeToSystemTime((FILETIME*)&savedLi, &pDate);
+			FileTimeToSystemTime((FILETIME*)&savedLi, &st);
+			TzSpecificLocalTimeToSystemTime(nullptr, &st, &pDate);
 
 			// if specified time is a small offset (< 10 Minutes) then retain current second count for better accuracy
 			// otherwise try to match specified time (which never contains seconds only even minutes) as close as possible
@@ -896,10 +900,7 @@ static bool GetTriggerTime(CCtrlCombo &pCombo, ULONGLONG savedLi, SYSTEMTIME &pD
 		else {
 			// absolute time (offset from midnight on pDate)
 			UINT nDeltaSeconds = pCombo.GetItemData(n) & ~0x80000000;
-			pDate.wHour = 0;
-			pDate.wMinute = 0;
-			pDate.wSecond = 0;
-			pDate.wMilliseconds = 0;
+			pDate.wHour = pDate.wMinute = pDate.wSecond = pDate.wMilliseconds = 0;
 			TzLocalSTToFileTime(&pDate, (FILETIME*)&savedLi);
 			savedLi += (ULONGLONG)nDeltaSeconds * FILETIME_TICKS_PER_SEC;
 
