@@ -229,7 +229,7 @@ DWORD dwReadIPAddress(char * pszStr, bool &bError)
 
 bool bReadConfigurationFile()
 {
-	CLFileShareListAccess clCritSection;
+	mir_cslock lck(csFileShareListAccess);
 
 	CLFileShareNode * pclLastNode = nullptr;
 
@@ -334,7 +334,7 @@ bool bReadConfigurationFile()
 
 bool bWriteConfigurationFile()
 {
-	CLFileShareListAccess clCritSection;
+	mir_cslock lck(csFileShareListAccess);
 	char szBuf[1000];
 	mir_strcpy(szBuf, szPluginPath);
 	mir_strcat(szBuf, szConfigFile);
@@ -396,7 +396,7 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam)
 	if (pclNew->lStructSize != sizeof(STFileShareInfo))
 		return 1002;
 
-	CLFileShareListAccess clCritSection;
+	mir_cslockfull lck(csFileShareListAccess);
 	bool bIsDirectory = (pclNew->pszSrvPath[mir_strlen(pclNew->pszSrvPath) - 1] == '/');
 
 	CLFileShareNode **pclPrev = &pclFirstNode;
@@ -421,9 +421,9 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam)
 					nTryCount++;
 					if (nTryCount >= 100)
 						return 1004;
-					clCritSection.Unlock();
+					lck.unlock();
 					Sleep(50);
-					clCritSection.Lock();
+					lck.lock();
 				} while (pclCur->bAnyUsers());
 			}
 
@@ -474,7 +474,7 @@ static INT_PTR nGetShare(WPARAM /*wParam*/, LPARAM lParam)
 	if (!lParam)
 		return 1001;
 
-	CLFileShareListAccess clCritSection;
+	mir_cslock lck(csFileShareListAccess);
 
 	STFileShareInfo * pclShare = (STFileShareInfo*)lParam;
 	CLFileShareNode * pclCur = pclFirstNode;
@@ -731,13 +731,12 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 {
+	bShutdownInProgress = true;
 	{
-		CLFileShareListAccess clCrit;
-		bShutdownInProgress = true;
+		mir_cslock lck(csFileShareListAccess);
 
-		for (CLFileShareNode * pclCur = pclFirstNode; pclCur; pclCur = pclCur->pclNext) {
+		for (CLFileShareNode * pclCur = pclFirstNode; pclCur; pclCur = pclCur->pclNext)
 			pclCur->CloseAllTransfers();
-		}
 	}
 
 	if (hDirectBoundPort)
@@ -823,16 +822,14 @@ int CMPlugin::Load()
 	bLimitOnlyWhenOnline = g_plugin.getByte("LimitOnlyWhenOnline", bLimitOnlyWhenOnline) != 0;
 	indexCreationMode = (eIndexCreationMode)g_plugin.getByte("IndexCreationMode", 2);
 
-	if (g_plugin.getByte("AddAcceptConMenuItem", 1)) {
-		CMenuItem mi(&g_plugin);
-		SET_UID(mi, 0xf0a68784, 0xc30e, 0x4245, 0xb6, 0x2b, 0xb8, 0x71, 0x7e, 0xe6, 0xe1, 0x73);
-		mi.flags = CMIF_UNICODE;
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
-		mi.position = 1000085000;
-		mi.name.a = LPGEN("Enable HTTP server");
-		mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;
-		hAcceptConnectionsMenuItem = Menu_AddMainMenuItem(&mi);
-	}
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0xf0a68784, 0xc30e, 0x4245, 0xb6, 0x2b, 0xb8, 0x71, 0x7e, 0xe6, 0xe1, 0x73);
+	mi.flags = CMIF_UNICODE;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SHARE_NEW_FILE);
+	mi.position = 1000085000;
+	mi.name.a = LPGEN("Enable HTTP server");
+	mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;
+	hAcceptConnectionsMenuItem = Menu_AddMainMenuItem(&mi);
 
 	if (indexCreationMode == INDEX_CREATION_HTML || indexCreationMode == INDEX_CREATION_DETECT)
 		if (!LoadIndexHTMLTemplate()) {

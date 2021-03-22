@@ -24,40 +24,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-POINT mousepos;
-UINT_PTR hTimer;
-UINT mouseidle, minutes;
-
-VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT idEvent, DWORD dwTime);
-
 static bool IsUserIdle()
 {
+	UINT dwPeriod = g_plugin.getByte("time", 10) * 60 * 1000;
+
 	if (g_wMaskAdv & OPT_HIDEIFMIRIDLE) {
 		DWORD dwTick = Miranda_GetIdle();
-		return GetTickCount() - dwTick > (minutes * 60 * 1000);
+		return GetTickCount() - dwTick > dwPeriod;
 	}
 
 	LASTINPUTINFO ii = { sizeof(ii) };
 	if (GetLastInputInfo(&ii))
-		return GetTickCount() - ii.dwTime > (minutes * 60 * 1000);
+		return GetTickCount() - ii.dwTime > dwPeriod;
 
 	return FALSE;
 }
 
-VOID CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
+void CMPlugin::Impl::onTimer(CTimer *)
 {
-	if (hTimer == idEvent && !g_bWindowHidden && ((g_wMaskAdv & (OPT_HIDEIFWINIDLE | OPT_HIDEIFMIRIDLE) && IsUserIdle()) ||
+	if (!g_bWindowHidden && ((g_wMaskAdv & (OPT_HIDEIFWINIDLE | OPT_HIDEIFMIRIDLE) && IsUserIdle()) ||
 		(g_wMaskAdv & OPT_HIDEIFSCRSVR) && IsScreenSaverRunning()))
 		BossKeyHideMiranda(0, 0);
-}
-
-void InitIdleTimer()
-{
-	minutes = g_plugin.getByte("time", 10);
-	hTimer = SetTimer(nullptr, 0, 2000, IdleTimer);
-}
-
-void UninitIdleTimer()
-{
-	KillTimer(nullptr, hTimer);
 }

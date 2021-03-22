@@ -35,7 +35,6 @@
 #define IDI_RENAME                      188
 #define IDI_SERVER                      189
 #define IDI_DCC                         196
-#define IDR_SERVERS                     200
 #define IDI_EDIT                        201
 #define IDI_IRCQUESTION                 202
 #define IDC_ENICK                       1000

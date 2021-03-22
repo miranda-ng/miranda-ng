@@ -5,10 +5,10 @@
 //  find it under Project properties - Configuration properties - Resource - General - Preprocessor definitions)
 
 // plugin version part
-#define __MAJOR_VERSION            0
-#define __MINOR_VERSION            2
-#define __RELEASE_NUM              0
-#define __BUILD_NUM                0
+#define __MAJOR_VERSION           0
+#define __MINOR_VERSION           2
+#define __RELEASE_NUM             0
+#define __BUILD_NUM               1
 
 // stuff that will be used in PluginInfo section and in Version resource
 #define __PLUGIN_NAME            "StartupSilence"

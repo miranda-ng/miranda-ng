@@ -26,18 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CMPlugin g_plugin;
 
-HGENMENU hSSMenuToggleOnOff;
-HANDLE hOptionsInitialize;
 HANDLE hTTBarloaded = nullptr;
 HANDLE Buttons = nullptr;
-int DisablePopup(WPARAM wParam, LPARAM lParam);
 
-void RemoveTTButtons();
 BYTE Enabled;
 DWORD delay;
 BYTE PopUp;
 DWORD PopUpTime;
-BYTE MenuItem;
 BYTE TTBButtons;
 BYTE DefSound;
 BYTE DefPopup;
@@ -183,7 +178,6 @@ void LoadSettings()
 	delay = g_plugin.getDword(DelayComp);
 	PopUp = g_plugin.getByte(PopUpComp);
 	PopUpTime = g_plugin.getDword(PopUpTimeComp);
-	MenuItem = g_plugin.getByte(MenuitemComp);
 	TTBButtons = g_plugin.getByte(TTBButtonsComp);
 	DefSound = g_plugin.getByte(DefSoundComp);
 	DefPopup = g_plugin.getByte(DefPopupComp);
@@ -207,8 +201,7 @@ static INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 {
 	g_plugin.setByte(EnabledComp, !Enabled);
 	LoadSettings();
-	if (MenuItem == 1)
-		UpdateMenu();
+	UpdateMenu();
 	if (PopUp == 1) {
 		wchar_t * lpwzText = Enabled == 1 ? S_MODE_CHANGEDON : S_MODE_CHANGEDOFF;
 		POPUPDATAW ppd;
@@ -230,6 +223,8 @@ static INT_PTR SilenceConnection(WPARAM wParam, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+HGENMENU hSSMenuToggleOnOff;
 
 static INT_PTR InitMenu()
 {
@@ -283,6 +278,9 @@ void RemoveTTButtons()
 	ttbButtons.destroy();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Options
+
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -301,8 +299,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETRANGE32, 1, 30);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((PopUpTime), 0));
 		SendDlgItemMessage(hwndDlg, IDC_SSPOPUPTIME, EM_LIMITTEXT, (WPARAM)3, 0);
-
-		CheckDlgButton(hwndDlg, IDC_MENU, (MenuItem == 1) ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_TTB, (TTBButtons == 1) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -337,10 +333,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DELAY2:
 			PopUp = db_set_b(0, MODULENAME, PopUpComp, IsDlgButtonChecked(hwndDlg, IDC_DELAY2) == BST_CHECKED);
-			break;
-
-		case IDC_MENU:
-			MenuItem = db_set_b(0, MODULENAME, MenuitemComp, IsDlgButtonChecked(hwndDlg, IDC_MENU) == BST_CHECKED);
 			break;
 
 		case IDC_TTB:
@@ -378,7 +370,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETPOS, 0, MAKELONG((delay), 0));
 			CheckDlgButton(hwndDlg, IDC_DELAY2, (PopUp == 1) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((PopUpTime), 0));
-			CheckDlgButton(hwndDlg, IDC_MENU, (MenuItem == 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_TTB, (TTBButtons == 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DEFPOPUP, (DefPopup == 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DEFSOUNDS, (DefSound == 1) ? BST_CHECKED : BST_UNCHECKED);
@@ -429,10 +420,8 @@ int CMPlugin::Load()
 	CreateServiceFunction(SS_SERVICE_NAME, StartupSilenceEnabled);
 	CreateServiceFunction(SS_SILENCE_CONNECTION, SilenceConnection);
 
-	if (MenuItem == 1) {
-		g_plugin.registerIcon(MENU_NAME, iconList, MENU_NAME);
-		InitMenu();
-	}
+	g_plugin.registerIcon(MENU_NAME, iconList, MENU_NAME);
+	InitMenu();
 	return 0;
 }
 

@@ -52,6 +52,18 @@
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	struct Impl
+	{
+		Impl() : m_timer(Miranda_GetSystemWindow(), (UINT_PTR)this) 
+		{
+			m_timer.OnEvent = Callback(this, &Impl::onTimer);
+		}
+
+		CTimer m_timer;
+		void onTimer(CTimer *);
+	}
+		impl;
+
 	CMPlugin();
 
 	int Load() override;
@@ -67,19 +79,18 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define OLD_FLTCONT			4
 #define OLD_WASHIDDEN		128
 
-#define OPT_SETONLINEBACK	1
-#define OPT_CHANGESTATUS	2
-#define OPT_DISABLESNDS		8
-#define OPT_REQPASS			16
-#define OPT_ONLINEONLY		32
-#define OPT_USEDEFMSG		128
-#define OPT_TRAYICON		256
+#define OPT_SETONLINEBACK  1
+#define OPT_CHANGESTATUS   2
+#define OPT_DISABLESNDS    8
+#define OPT_REQPASS        16
+#define OPT_ONLINEONLY     32
+#define OPT_USEDEFMSG      128
+#define OPT_TRAYICON       256
 
 #define OPT_HIDEIFLOCK		1
 #define OPT_HIDEIFWINIDLE	2
 #define OPT_HIDEIFMIRIDLE	4
 #define OPT_HIDEIFSCRSVR	8
-#define OPT_MENUITEM		16
 #define OPT_HIDEONSTART		32
 #define OPT_RESTORE			64
 
@@ -90,22 +101,17 @@ const unsigned STATUS_ARR_TO_ID[] = { ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_ST
 extern bool g_fOptionsOpen; // options dialog is open. be sure not to hide anything while we're there.
 extern WORD g_wMask, g_wMaskAdv;
 extern bool g_bWindowHidden;
-extern UINT minutes;
 
 int OptsDlgInit(WPARAM wParam, LPARAM lParam);
 INT_PTR BossKeyHideMiranda(WPARAM wParam, LPARAM lParam);
-void BossKeyMenuItemInit(void);
-void BossKeyMenuItemUnInit(void);
-static wchar_t *GetBossKeyText(void);
-void InitIdleTimer(void);
-void UninitIdleTimer(void);
+
 wchar_t* GetDefStatusMsg(unsigned uMode, const char* szProto);
 
 // I never really liked STL's vector... hmm this is nicer anyway, more flexible
-typedef struct HWND_ITEM_TYPE
+struct HWND_ITEM
 {
 	HWND hWnd;
-	HWND_ITEM_TYPE *next;
-}	HWND_ITEM;
+	HWND_ITEM *next;
+};
 
 typedef HRESULT(WINAPI *PFNDwmIsCompositionEnabled)(BOOL *);

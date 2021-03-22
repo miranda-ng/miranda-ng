@@ -67,11 +67,9 @@ BEGIN
     COMBOBOX        IDC_COMBODATE,53,95,92,149,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Title Time",IDC_STATIC,12,115,32,8
     COMBOBOX        IDC_COMBOTIME,53,114,92,130,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "Startup options",IDC_STATIC,168,6,128,56
+    GROUPBOX        "Startup options",IDC_STATIC,168,6,128,51
     CONTROL         "Hide notes at startup",IDC_CHECK_HIDENOTES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,172,17,119,16
-    CONTROL         "Add Contact list menu items",IDC_CHECK_MENUS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | BS_FLAT | WS_TABSTOP,172,35,119,10
-    CTEXT           "(Requires Miranda restart)",IDC_STATIC,172,50,119,10
-    GROUPBOX        "Reminder options",IDC_STATIC,168,66,128,95
+    GROUPBOX        "Reminder options",IDC_STATIC,168,61,128,95
     CONTROL         "Add Reminder closes dialog",IDC_CHECK_CLOSE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,172,81,119,10
     CONTROL         "Use MCI to play alert sounds",IDC_CHECK_MSI,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,172,96,119,10
     GROUPBOX        "Note transparency",IDC_STATIC,6,161,290,35
@@ -113,7 +111,6 @@ BEGIN
     DEFPUSHBUTTON   "&Add Reminder",IDC_ADDREMINDER,158,6,76,14
     PUSHBUTTON      "&Close",IDCANCEL,158,23,76,14
     PUSHBUTTON      "&View Reminders",IDC_VIEWREMINDERS,158,40,76,14
-    LTEXT           "",IDC_REFTIME,0,191,22,8,NOT WS_VISIBLE | NOT WS_GROUP
 END
 
 IDD_NOTIFYREMINDER DIALOGEX 0, 0, 240, 146
@@ -134,7 +131,6 @@ BEGIN
     DEFPUSHBUTTON   "&Remind Again",IDC_REMINDAGAIN,161,92,75,14
     PUSHBUTTON      "&Create Note",IDC_NONE,161,111,75,14
     PUSHBUTTON      "&Dismiss",IDC_DISMISS,161,129,75,14
-    LTEXT           "",IDC_REFTIME,0,137,22,8,NOT WS_VISIBLE | NOT WS_GROUP
 END
 
 IDD_LISTREMINDERS DIALOGEX 0, 0, 258, 244
@@ -143,10 +139,11 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Reminders"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    CONTROL         "List1",IDC_LISTREMINDERS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,3,4,251,146
-    EDITTEXT        IDC_REMINDERDATA,3,153,251,69,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    CONTROL         "List1",IDC_LISTREMINDERS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,4,4,250,146
+    EDITTEXT        IDC_REMINDERDATA,4,153,250,69,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
     PUSHBUTTON      "Add New",IDC_ADDNEWREMINDER,151,227,50,14
     DEFPUSHBUTTON   "&Close",IDCANCEL,203,227,50,14
+    EDITTEXT        IDC_FILTER,4,227,108,14,ES_AUTOHSCROLL
 END
 
 
@@ -158,19 +155,33 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ADDREMINDER         ICON                    "addremin.ico"
+
 IDI_DELETEICON          ICON                    "deleteic.ico"
+
 IDI_NOTEICON            ICON                    "noteicon.ico"
+
 IDI_SHOWHIDE            ICON                    "showhide.ico"
+
 IDI_CAPTIONICON         ICON                    "captioni.ico"
+
 IDI_DELETEREMINDER      ICON                    "deletere.ico"
+
 IDI_VIEWREMINDERS       ICON                    "viewremi.ico"
+
 IDI_CAPTIONICONNOTTOP   ICON                    "captionn.ico"
+
 IDI_HIDENOTE            ICON                    "hidenote.ico"
+
 IDI_REMOVENOTE          ICON                    "removeno.ico"
+
 IDI_REMINDER            ICON                    "reminder.ico"
+
 IDI_BRINGFRONT          ICON                    "bringfront.ico"
+
 IDI_PLAYSOUND           ICON                    "playsound.ico"
+
 IDI_VIEWNOTES           ICON                    "viewnotes.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -203,21 +214,21 @@ BEGIN
         BEGIN
             POPUP "Background Color"
             BEGIN
-                MENUITEM "Custom...",           ID_BACKGROUNDCOLOR_CUSTOM
+                MENUITEM "Custom...",                   ID_BACKGROUNDCOLOR_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",               ID_BACKGROUNDCOLOR_RESET
+                MENUITEM "Reset",                       ID_BACKGROUNDCOLOR_RESET
             END
             POPUP "Text Color"
             BEGIN
-                MENUITEM "Custom...",           ID_TEXTCOLOR_CUSTOM
+                MENUITEM "Custom...",                   ID_TEXTCOLOR_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",               ID_TEXTCOLOR_RESET
+                MENUITEM "Reset",                       ID_TEXTCOLOR_RESET
             END
             POPUP "Font"
             BEGIN
-                MENUITEM "Custom...",           ID_FONT_CUSTOM
+                MENUITEM "Custom...",                   ID_FONT_CUSTOM
                 MENUITEM SEPARATOR
-                MENUITEM "Reset",               ID_FONT_RESET
+                MENUITEM "Reset",                       ID_FONT_RESET
             END
         END
         MENUITEM "Paste Title",                 ID_CONTEXTMENUNOTE_PASTETITLE

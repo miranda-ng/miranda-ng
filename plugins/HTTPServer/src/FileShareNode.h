@@ -58,8 +58,8 @@ public://, 	DWORD dwAllowedIP, DWORD dwAllowedMask, int nMaxDownloads );
 	CLFileShareNode * pclNext;
 	//CLHttpUser * pclAddHttpUser( HANDLE hConnection, in_addr stAddr );
 	//bool bRemoveHttpUser( CLHttpUser * pclUser );
-	bool bAddUser(CLShareUser * pclUser);
-	bool bRemoveUser(CLShareUser * pclUser);
+	bool bAddUser(CLShareUser *pclUser);
+	bool bRemoveUser(CLShareUser *pclUser);
 	bool bAnyUsers() {
 		return pclCurrentUsers != nullptr;
 	}
@@ -72,31 +72,7 @@ private:
 
 };
 
-extern CLFileShareNode * pclFirstNode;
+extern CLFileShareNode *pclFirstNode;
 extern mir_cs csFileShareListAccess;
-
-class CLFileShareListAccess {
-	bool bLocked;
-public:
-	CLFileShareListAccess() {
-		bLocked = false;
-		Lock();
-	}
-	~CLFileShareListAccess() {
-		Unlock();
-	}
-	void Lock() {
-		if (bLocked)
-			return;
-		mir_cslock lck(csFileShareListAccess);
-		bLocked = true;
-	}
-	void Unlock() {
-		if (!bLocked)
-			return;
-		bLocked = false;
-	}
-
-};
 
 #endif

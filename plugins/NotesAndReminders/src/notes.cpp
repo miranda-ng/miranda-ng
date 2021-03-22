@@ -72,7 +72,7 @@ struct STICKYNOTE : public MZeroedObject
 {
 	HWND SNHwnd, REHwnd;
 	BOOL bVisible, bOnTop;
-	CMStringA szText;
+	CMStringW wszText;
 	ULONGLONG ID;		// FILETIME in UTC
 	wchar_t *pwszTitle;
 	BOOL CustomTitle;
@@ -251,9 +251,6 @@ static void JustSaveNotes(STICKYNOTE *pModified = nullptr)
 	g_plugin.setDword("NotesData", NotesCount);
 
 	for (auto &pNote : g_arStickies) {
-		int scrollV = 0;
-		char *tData = nullptr;
-
 		// window pos and size
 		WINDOWPLACEMENT wp;
 		wp.length = sizeof(WINDOWPLACEMENT);
@@ -268,30 +265,24 @@ static void JustSaveNotes(STICKYNOTE *pModified = nullptr)
 		if (pNote->bVisible) flags |= 1;
 		if (pNote->bOnTop) flags |= 2;
 
-		// get note text
-		int SzT = GetWindowTextLength(pNote->REHwnd);
-		if (SzT) { // TODO: change to support unicode and rtf, use EM_STREAMOUT
-			if (SzT > MAX_NOTE_LEN)
-				SzT = MAX_NOTE_LEN; // we want to be far below the 64k limit
-			tData = (char*)malloc(SzT + 1);
-			if (tData)
-				GetWindowTextA(pNote->REHwnd, tData, SzT + 1);
-		}
-
 		// update the data of the modified note
-		if (pNote == pModified)
-			pNote->szText = tData ? tData : "";
-
-		if (!tData) // empty note
-			SzT = 0;
-		else // get current scroll position
-			scrollV = SendMessage(pNote->REHwnd, EM_GETFIRSTVISIBLELINE, 0, 0);
+		if (pNote == pModified) {
+			int SzT = GetWindowTextLengthW(pNote->REHwnd);
+			if (SzT) { // TODO: change to support unicode and rtf, use EM_STREAMOUT
+				if (SzT > MAX_NOTE_LEN)
+					SzT = MAX_NOTE_LEN; // we want to be far below the 64k limit
+				pNote->wszText.Preallocate(SzT + 1);
+				GetWindowTextW(pNote->REHwnd, pNote->wszText.GetBuffer(), SzT + 1);
+			}
+			else pNote->wszText.Empty();
+		}
 
 		// data header
 		CMStringA szValue;
 		szValue.AppendFormat("X%I64x:%d:%d:%d:%d:%x", pNote->ID, TX, TY, TW, TH, flags);
 
 		// scroll pos
+		int scrollV = (pNote->wszText.IsEmpty()) ? 0 : SendMessage(pNote->REHwnd, EM_GETFIRSTVISIBLELINE, 0, 0);
 		if (scrollV > 0)
 			szValue.AppendFormat("\033""%u:%u", DATATAG_SCROLLPOS, (UINT)scrollV);
 
@@ -314,13 +305,11 @@ static void JustSaveNotes(STICKYNOTE *pModified = nullptr)
 			szValue.AppendFormat("\033""%u:%s", DATATAG_TITLE, pNote->pwszTitle);
 
 		// note text (ALWAYS PUT THIS PARAM LAST)
-		if (tData)
-			szValue.AppendFormat("\033""%u:%s", DATATAG_TEXT, tData);
+		if (!pNote->wszText.IsEmpty())
+			szValue.AppendFormat("\033""%u:%s", DATATAG_TEXT, ptrA(mir_utf8encodeW(pNote->wszText)).get());
 
 		mir_snprintf(ValueName, "NotesData%d", i++); // we do not reverse notes in DB
 		db_set_blob(0, MODULENAME, ValueName, szValue.GetBuffer(), szValue.GetLength() + 1);
-
-		free(tData);
 
 		// make no save is queued for the note
 		if (pNote->SNHwnd)
@@ -548,7 +537,7 @@ static void SetNoteTextControl(STICKYNOTE *SN)
 	CF.crTextColor = SN->FgColor ? (SN->FgColor & 0xffffff) : BodyFontColor;
 	SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 
-	SetWindowTextA(SN->REHwnd, SN->szText);
+	SetWindowTextW(SN->REHwnd, SN->wszText);
 }
 
 
@@ -1062,7 +1051,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULONGLONG *ID, BOOL bVisible, BOOL bOnTop, int scrollV, COLORREF bgClr, COLORREF fgClr, wchar_t *Title, STICKYNOTEFONT *pCustomFont, BOOL bLoading)
+static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const wchar_t *pwszText, ULONGLONG *ID, BOOL bVisible, BOOL bOnTop, int scrollV, COLORREF bgClr, COLORREF fgClr, wchar_t *Title, STICKYNOTEFONT *pCustomFont, BOOL bLoading)
 {
 	WNDCLASSEX TWC = {0};
 	WINDOWPLACEMENT TWP;
@@ -1087,7 +1076,7 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText
 		if (!RegisterClassEx(&TWC)) return nullptr;
 	}
 
-	if (!pszText || Aw < 0 || Ah < 0) {
+	if (!pwszText || Aw < 0 || Ah < 0) {
 		TWP.length = sizeof(WINDOWPLACEMENT);
 		GetWindowPlacement(GetDesktopWindow(), &TWP);
 		Aw = g_NoteWidth; Ah = g_NoteHeight;
@@ -1108,8 +1097,8 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText
 
 	g_arStickies.insert(TSN);
 
-	if (pszText)
-		TSN->szText = pszText;
+	if (pwszText)
+		TSN->wszText = pwszText;
 
 	// init note title (time-stamp)
 	if (Title) {
@@ -1143,7 +1132,7 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText
 
 	// ensure that window is not placed off-screen (if previous session had different monitor count or resolution)
 	// NOTE: SetWindowPlacement should do this, but it's extremly flakey
-	if (pszText) {
+	if (pwszText) {
 		if (!MonitorFromWindow(TSN->SNHwnd, MONITOR_DEFAULTTONULL)) {
 			TWP.length = sizeof(WINDOWPLACEMENT);
 			GetWindowPlacement(GetDesktopWindow(), &TWP);
@@ -1162,7 +1151,7 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText
 		ShowWindow(TSN->SNHwnd, SW_SHOWNA);
 
 		// when loading notes (only at startup), place all non-top notes at the bottom so they don't cover other windows
-		if (pszText && !bOnTop && bIsStartup)
+		if (pwszText && !bOnTop && bIsStartup)
 			SetWindowPos(TSN->SNHwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_ASYNCWINDOWPOS);
 	}
 
@@ -1178,9 +1167,9 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const char *pszText
 	return TSN;
 }
 
-void NewNote(int Ax, int Ay, int Aw, int Ah, const char *pszText, ULONGLONG *ID, BOOL bVisible, BOOL bOnTop, int scrollV)
+void NewNote(int Ax, int Ay, int Aw, int Ah, const wchar_t *pwszText, ULONGLONG *ID, BOOL bVisible, BOOL bOnTop, int scrollV)
 {
-	auto *PSN = NewNoteEx(Ax, Ay, Aw, Ah, pszText, ID, bVisible, bOnTop, scrollV, 0, 0, nullptr, nullptr, FALSE);
+	auto *PSN = NewNoteEx(Ax, Ay, Aw, Ah, pwszText, ID, bVisible, bOnTop, scrollV, 0, 0, nullptr, nullptr, FALSE);
 	if (PSN)
 		SetFocus(PSN->REHwnd);
 }
@@ -1224,7 +1213,7 @@ static void LoadNote(char *Value, bool bIsStartup)
 		bOnTop = TRUE;
 
 	// optional \033 separated params
-	char *data = 0;
+	CMStringW wszText;
 	ptrW title;
 	COLORREF BgColor = 0, FgColor = 0;
 
@@ -1245,7 +1234,11 @@ static void LoadNote(char *Value, bool bIsStartup)
 
 		switch (tag) {
 		case DATATAG_TEXT:
-			data = _strdup(TVal);
+			if (auto *pwszTmp = mir_utf8decodeW(TVal)) {
+				wszText = pwszTmp;
+				delete pwszTmp;
+			}
+			else wszText = _A2T(TVal);
 			break;
 
 		case DATATAG_SCROLLPOS:
@@ -1310,14 +1303,11 @@ static void LoadNote(char *Value, bool bIsStartup)
 		}
 	}
 
-	if (!data)
-		data = _strdup("");
-
 	bVisible = bVisible && (!bIsStartup || g_plugin.bShowNotesAtStart);
 	if (bIsStartup)
 		bVisible |= 0x10000;
 
-	NewNoteEx(rect[0], rect[1], rect[2], rect[3], data, &id, bVisible, bOnTop, scrollV, BgColor, FgColor, title, pCustomFont, TRUE);
+	NewNoteEx(rect[0], rect[1], rect[2], rect[3], wszText, &id, bVisible, bOnTop, scrollV, BgColor, FgColor, title, pCustomFont, TRUE);
 }
 
 void LoadNotes(bool bIsStartup)
@@ -1368,7 +1358,7 @@ static void EditNote(STICKYNOTE *SN)
 	SetFocus(SN->REHwnd);
 }
 
-wchar_t* GetPreviewString(const char *lpsz)
+wchar_t* GetPreviewString(const wchar_t *lpsz)
 {
 	const int MaxLen = 80;
 	static wchar_t s[MaxLen + 8];
@@ -1377,18 +1367,18 @@ wchar_t* GetPreviewString(const char *lpsz)
 		return L"";
 
 	// trim leading spaces
-	while (isspace(*lpsz))
+	while (iswspace(*lpsz))
 		lpsz++;
 
-	size_t l = mir_strlen(lpsz);
+	size_t l = mir_wstrlen(lpsz);
 	if (!l)
 		return L"";
 
 	if (l <= MaxLen) {
-		mir_wstrcpy(s, _A2T(lpsz));
+		mir_wstrcpy(s, lpsz);
 	}
 	else {
-		mir_wstrncpy(s, _A2T(lpsz), MaxLen);
+		mir_wstrncpy(s, lpsz, MaxLen);
 		s[MaxLen] = '.';
 		s[MaxLen + 1] = '.';
 		s[MaxLen + 2] = '.';
@@ -1450,7 +1440,7 @@ class CNotesListDlg : public CDlgBase
 
 			lvTIt.iItem = i;
 			lvTIt.iSubItem = 3;
-			lvTIt.pszText = GetPreviewString(pNote->szText);
+			lvTIt.pszText = GetPreviewString(pNote->wszText);
 			m_list.SetItem(&lvTIt);
 
 			i++;
@@ -1478,9 +1468,8 @@ public:
 		pListDialog = this;
 		Window_SetIcon_IcoLib(m_hwnd, iconList[13].hIcolib);
 
-		SetWindowText(m_hwnd, LPGENW("Notes"));
-
-		TranslateDialogDefault(m_hwnd);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_FILTER), SW_HIDE);
+		SetWindowText(m_hwnd, TranslateT("Notes"));
 
 		SetDlgItemText(m_hwnd, IDC_REMINDERDATA, L"");
 
@@ -1640,7 +1629,7 @@ public:
 
 	void list_onItemChanged(CCtrlListView::TEventInfo *ev)
 	{
-		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, g_arStickies[ev->nmlv->iItem].szText);
+		SetDlgItemTextW(m_hwnd, IDC_REMINDERDATA, g_arStickies[ev->nmlv->iItem].wszText);
 	}
 
 	void list_onDblClick(CCtrlListView::TEventInfo*)

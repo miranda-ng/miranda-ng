@@ -54,7 +54,8 @@ STYLE DS_ABSALIGN | DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS
 EXSTYLE WS_EX_TOPMOST
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Miranda NG is locked.\nEnter password to unlock it.",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,188,25
+    CONTROL         "Miranda NG is locked.\nEnter password to unlock it.",IDC_HEADERBAR,
+                    "MHeaderbarCtrl",0x0,0,0,188,25
     LTEXT           "Password:",-1,6,35,34,8
     EDITTEXT        IDC_EDIT1,48,33,113,13,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "",-1,"Static",SS_ETCHEDHORZ,0,52,190,1
@@ -63,7 +64,7 @@ BEGIN
     CTEXT           "",IDC_LANG,166,33,13,13,SS_CENTERIMAGE | NOT WS_GROUP
 END
 
-IDD_OPTDIALOGADV DIALOGEX 0, 0, 224, 154
+IDD_OPTDIALOGADV DIALOGEX 0, 0, 224, 129
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -78,10 +79,9 @@ BEGIN
     CONTROL         "",IDC_MAINOPT_SPIN_TIME,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,143,52,10,12
     LTEXT           "min",IDC_STATIC,166,54,43,8
     CONTROL         "Miranda is started",IDC_MAINOPT_HIDEONSTART,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,74,204,8
-    GROUPBOX        "Others",IDC_STATIC,0,100,223,44
-    CONTROL         "Create a main menu item",IDC_MAINOPT_MENUITEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,114,204,8
+    GROUPBOX        "Others",IDC_STATIC,0,95,223,30
     CONTROL         "Restore hiding on startup after failure",IDC_MAINOPT_RESTORE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,128,204,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,109,204,8
 END
 
 
@@ -105,7 +105,7 @@ BEGIN
 
     IDD_OPTDIALOGADV, DIALOG
     BEGIN
-        BOTTOMMARGIN, 150
+        BOTTOMMARGIN, 125
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -119,6 +119,7 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_DLGPASSWD           ICON                    "logo.ico"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

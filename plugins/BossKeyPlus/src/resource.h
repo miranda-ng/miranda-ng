@@ -27,7 +27,6 @@
 #define IDC_MAINOPT_HIDEIFSCRSVR        1027
 #define IDC_MAINOPT_TIME                1028
 #define IDC_MAINOPT_SPIN_TIME           1029
-#define IDC_MAINOPT_MENUITEM            1030
 #define IDC_MAINOPT_HIDEONSTART         1031
 #define IDC_MAINOPT_RESTORE             1032
 

@@ -239,6 +239,7 @@ __forceinline int Menu_ConfigureObject(int hMenuObject, int iSetting, LPCSTR psz
 #define MCI_OPT_HOTKEY     2 // DWORD value = MAKELONG(VK_*, VK_SHIFT)
 #define MCI_OPT_EXECPARAM  3 // INT_PTR or void*, associated with this item
 #define MCI_OPT_UID        4 // TMenuItem::uid as string like "2E407C55-5E89-4E83-9B79-15A803E7EE90"
+#define MCI_OPT_DISABLED   5 // Hidden by default
 
 EXTERN_C MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value);
 

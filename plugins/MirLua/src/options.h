@@ -5,8 +5,6 @@ class CMLuaOptionsMain : public CDlgBase
 private:
 	CMPlugin &m_plugin;
 
-	bool isScriptListInit;
-	
 	CCtrlCheck m_popupOnError;
 	CCtrlCheck m_popupOnObsolete;
 
@@ -21,8 +19,6 @@ protected:
 
 	void OnScriptListClick(CCtrlListView::TEventInfo *evt);
 	void OnReload(CCtrlBase*);
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 public:
 	CMLuaOptionsMain(CMPlugin &plugin);

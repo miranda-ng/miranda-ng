@@ -19,13 +19,39 @@
 
 #include "stdafx.h"
 
+class COptionsDialog : public CDlgBase
+{
+	CCtrlCheck m_chkAuthIcon;
+	CCtrlCheck m_chkGrantIcon;
+	CCtrlCheck m_chkOnlyForRecent;
+
+public:
+	COptionsDialog() : 
+		CDlgBase(g_plugin, IDD_AUTHSTATE_OPT),
+		m_chkAuthIcon(this, IDC_AUTHICON),
+		m_chkGrantIcon(this, IDC_GRANTICON),
+		m_chkOnlyForRecent(this, IDC_ICONSFORRECENT)
+	{
+		CreateLink(m_chkAuthIcon, g_plugin.bUseAuthIcon);
+		CreateLink(m_chkGrantIcon, g_plugin.bUseGrantIcon);
+		CreateLink(m_chkOnlyForRecent, g_plugin.bIconsForRecentContacts);
+	}
+
+	bool OnApply() override
+	{
+		for (auto &hContact : Contacts())
+			onExtraImageApplying((WPARAM)hContact, 0);
+		return true;
+	}
+};
+
 int onOptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.a = LPGEN("Icons");
 	odp.szTitle.a = LPGEN("Auth state");
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pDialog = new COptionsDialog;
+	odp.pDialog = new COptionsDialog();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

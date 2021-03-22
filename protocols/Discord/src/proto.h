@@ -233,14 +233,14 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void __cdecl GatewayThread(void*);
 	bool  GatewayThreadWorker(void);
 	
-	void  GatewaySend(const JSONNode &pNode);
+	bool  GatewaySend(const JSONNode &pNode);
 	bool  GatewayProcess(const JSONNode &pNode);
 
 	void  GatewaySendGuildInfo(CDiscordGuild *pGuild);
 	void  GatewaySendHeartbeat(void);
 	void  GatewaySendIdentify(void);
 	void  GatewaySendResume(void);
-	void  GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText);
+	bool  GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText);
 
 	GatewayHandlerFunc GetHandler(const wchar_t*);
 

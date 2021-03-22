@@ -187,7 +187,11 @@ void CDiscordProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*
 		}
 	}
 
-	OnLoggedIn();
+	// launch gateway thread
+	if (m_szGateway.IsEmpty())
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/gateway", &CDiscordProto::OnReceiveGateway));
+	else
+		ForkThread(&CDiscordProto::GatewayThread, nullptr);
 
 	CheckAvatarChange(0, data["avatar"].as_mstring());
 }
@@ -212,13 +216,10 @@ void CDiscordProto::OnReceiveGateway(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 void CDiscordProto::SetServerStatus(int iStatus)
 {
-	if (!m_bOnline)
-		return;
-
-	GatewaySendStatus(iStatus, nullptr);
-
-	int iOldStatus = m_iStatus; m_iStatus = iStatus;
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	if (GatewaySendStatus(iStatus, nullptr)) {
+		int iOldStatus = m_iStatus; m_iStatus = iStatus;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

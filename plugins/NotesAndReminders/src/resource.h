@@ -38,7 +38,6 @@
 #define IDC_DAILY                       1009
 #define IDC_CHECK_HIDENOTES             1010
 #define IDC_WEEKLY                      1010
-#define IDC_CHECK_MENUS                 1011
 #define IDC_MONTHLY                     1011
 #define IDC_EDIT_WIDTH                  1012
 #define IDC_EDIT_HEIGHT                 1013
@@ -51,7 +50,6 @@
 #define IDC_COMBOTIME                   1022
 #define IDC_COMBOREMINDERTIME           1023
 #define IDC_CHECK_MSI                   1023
-#define IDC_REFTIME                     1024
 #define IDC_STATIC_DATE                 1025
 #define IDC_STATIC_TIME                 1026
 #define IDC_COMBO_REPEATSND             1028
@@ -61,17 +59,17 @@
 #define IDC_BTN_BROWSEBROWSER           1032
 #define IDC_CHECK_REPEAT                1033
 #define IDC_LISTREMINDERS_HEADER        1034
+#define IDC_EDIT1                       1034
+#define IDC_FILTER                      1034
 #define IDC_DATE                        1035
 #define IDC_LISTREMINDERS               1036
-
 #define ID_CONTEXTMENUREMINDER_NEW      40001
-#define ID_CONTEXTMENUREMINDER_DELETE   40002
-#define ID_CONTEXTMENUREMINDER_DELETEALL 40003
-#define ID_CONTEXTMENUREMINDER_EDIT     40004
-
 #define ID_CONTEXTMENUNOTE_REMOVENOTE   40001
+#define ID_CONTEXTMENUREMINDER_DELETE   40002
 #define ID_CONTEXTMENUNOTE_HIDENOTE     40002
+#define ID_CONTEXTMENUREMINDER_DELETEALL 40003
 #define ID_CONTEXTMENUNOTE_TOGGLEONTOP  40003
+#define ID_CONTEXTMENUREMINDER_EDIT     40004
 #define ID_CONTEXTMENUNOTE_UNDO         40004
 #define ID_CONTEXTMENUNOTE_COPY         40005
 #define ID_CONTEXTMENUNOTE_PASTE        40006
@@ -87,7 +85,6 @@
 #define ID_CONTEXTMENUNOTE_DELETEALLNOTES 40016
 #define ID_CONTEXTMENUNOTE_VIEWNOTES    40017
 #define ID_CONTEXTMENUNOTE_TOGGLEVISIBILITY 40018
-
 #define ID_BACKGROUNDCOLOR_CUSTOM       40019
 #define ID_BACKGROUNDCOLOR_RESET        40020
 #define ID_TEXTCOLOR_CUSTOM             40021
@@ -101,7 +98,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        109
 #define _APS_NEXT_COMMAND_VALUE         40030
-#define _APS_NEXT_CONTROL_VALUE         1034
+#define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

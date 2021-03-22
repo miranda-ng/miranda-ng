@@ -377,10 +377,10 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 	if (nUriLength <= 0)
 		return false;
 
-	CLFileShareListAccess clCritSection;
-
 	if (bShutdownInProgress)
 		return false;
+
+	mir_cslockfull lck(csFileShareListAccess);
 
 	static char szTempfile[MAX_PATH + 1];
 	szTempfile[0] = '\0';
@@ -561,7 +561,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 				ShowPopupWindow(inet_ntoa(stAddr), pszSrvPath);
 			}
 
-			clCritSection.Unlock();
+			lck.unlock();
 
 			DWORD dwFileStart = 0;
 			DWORD dwDataToSend = nDataSize;
@@ -740,7 +740,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 
 					DeleteFile(szTempfile);
 				}
-				clCritSection.Lock();
+				lck.lock();
 				nThreadCount--;
 
 				bool bNeedToWriteConfig = false;

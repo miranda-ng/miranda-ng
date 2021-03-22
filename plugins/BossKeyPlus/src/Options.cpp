@@ -21,7 +21,6 @@
 
 bool g_fOptionsOpen;
 bool g_fReqRass;
-extern HGENMENU g_hMenuItem;
 
 class COptMainDlg : public CDlgBase
 {
@@ -208,7 +207,7 @@ public:
 
 class COptAdvDlg : public CDlgBase
 {
-	CCtrlCheck m_chkHideIfLock, m_chkHideIfScrSvr, m_chkHideIfWinIdle, m_chkHideIfMirIdle, m_chkHideOnStart, m_chkMenuItem, m_chkRestore;
+	CCtrlCheck m_chkHideIfLock, m_chkHideIfScrSvr, m_chkHideIfWinIdle, m_chkHideIfMirIdle, m_chkHideOnStart, m_chkRestore;
 	CCtrlEdit m_edtTime;
 	CCtrlSpin m_spnTime;
 
@@ -222,7 +221,6 @@ public:
 		m_edtTime(this, IDC_MAINOPT_TIME),
 		m_spnTime(this, IDC_MAINOPT_SPIN_TIME, 99, 1),
 		m_chkHideOnStart(this, IDC_MAINOPT_HIDEONSTART),
-		m_chkMenuItem(this, IDC_MAINOPT_MENUITEM),
 		m_chkRestore(this, IDC_MAINOPT_RESTORE)
 	{
 		m_chkHideIfWinIdle.OnChange = Callback(this, &COptAdvDlg::OnHideIfWinIdleChange);
@@ -233,13 +231,9 @@ public:
 	{
 		g_fOptionsOpen = true;
 
-		minutes = g_plugin.getByte("time", 10);
-		wchar_t szMinutes[4] = { 0 };
-		_itow(minutes, szMinutes, 10);
 		m_edtTime.SendMsg(EM_LIMITTEXT, 2, 0);
-		m_edtTime.SetText(szMinutes);
+		m_edtTime.SetInt(g_plugin.getByte("time", 10));
 		m_chkHideIfLock.SetState(g_wMaskAdv & OPT_HIDEIFLOCK);
-		m_chkMenuItem.SetState(g_wMaskAdv & OPT_MENUITEM);
 		m_chkHideIfWinIdle.SetState(g_wMaskAdv & OPT_HIDEIFWINIDLE);
 		m_chkHideIfMirIdle.SetState(g_wMaskAdv & OPT_HIDEIFMIRIDLE);
 		m_chkHideIfScrSvr.SetState(g_wMaskAdv & OPT_HIDEIFSCRSVR);
@@ -264,17 +258,9 @@ public:
 		if (m_chkRestore.GetState())
 			wMaskAdv |= OPT_RESTORE;
 
-		if (m_chkMenuItem.GetState()) {
-			if (g_hMenuItem == nullptr)
-				BossKeyMenuItemInit();
-			wMaskAdv |= OPT_MENUITEM;
-		}
-		else if (g_hMenuItem != nullptr)
-			BossKeyMenuItemUnInit();
-
 		wchar_t szMinutes[4] = { 0 };
 		m_edtTime.GetText(szMinutes, _countof(szMinutes));
-		minutes = _wtoi(szMinutes);
+		UINT minutes = _wtoi(szMinutes);
 		if (minutes < 1)
 			minutes = 1;
 		g_plugin.setByte("time", minutes);
@@ -304,15 +290,16 @@ public:
 int OptsDlgInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE optDi = {};
-	optDi.pDialog = new COptMainDlg;
+	optDi.flags = ODPF_BOLDGROUPS;
 	optDi.szTitle.a = LPGEN("BossKey");
 	optDi.szGroup.a = LPGEN("Events");
+
 	optDi.szTab.a = LPGEN("Main");
-	optDi.flags = ODPF_BOLDGROUPS;
+	optDi.pDialog = new COptMainDlg();
 	g_plugin.addOptions(wParam, &optDi);
 
 	optDi.szTab.a = LPGEN("Advanced");
-	optDi.pDialog = new COptAdvDlg;
+	optDi.pDialog = new COptAdvDlg();
 	g_plugin.addOptions(wParam, &optDi);
 	return 0;
 }

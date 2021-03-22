@@ -20,10 +20,9 @@
 #include "stdafx.h"
 
 static HGENMENU hUserMenu;
-HANDLE hExtraIcon;
-CMPlugin g_plugin;
+static HANDLE hExtraIcon;
 
-Opts Options;
+CMPlugin g_plugin;
 
 static IconItem iconList[] =
 {
@@ -56,7 +55,10 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bUseAuthIcon(MODULENAME, "EnableAuthIcon", 1),
+	bUseGrantIcon(MODULENAME, "EnableGrantIcon", 1),
+	bIconsForRecentContacts(MODULENAME, "EnableOnlyForRecent", 0)
 {
 }
 
@@ -66,7 +68,7 @@ INT_PTR getIconToUse(MCONTACT hContact, LPARAM)
 {
 	const char *proto = Proto_GetBaseAccountName(hContact);
 	//	if (lParam == 1) return icon_none;
-	if (!g_plugin.getByte(hContact, "ShowIcons", !Options.bIconsForRecentContacts))
+	if (!g_plugin.getByte(hContact, "ShowIcons", !g_plugin.bIconsForRecentContacts))
 		return ICON_NONE;
 
 	if (db_get_b(0, "ICQ", "UseServerCList", 0))
@@ -76,15 +78,15 @@ INT_PTR getIconToUse(MCONTACT hContact, LPARAM)
 	// Facebook contact type
 	int type = db_get_b(hContact, proto, "ContactType", 0);
 
-	if (Options.bUseAuthIcon & Options.bUseGrantIcon)
+	if (g_plugin.bUseAuthIcon & g_plugin.bUseGrantIcon)
 		if ((db_get_b(hContact, proto, "Auth", 0) && db_get_b(hContact, proto, "Grant", 0)) || type == 2)
 			return ICON_BOTH;
 
-	if (Options.bUseAuthIcon)
+	if (g_plugin.bUseAuthIcon)
 		if (db_get_b(hContact, proto, "Auth", 0) || type == 3)
 			return ICON_AUTH;
 
-	if (Options.bUseGrantIcon)
+	if (g_plugin.bUseGrantIcon)
 		if (db_get_b(hContact, proto, "Grant", 0) || type == 4)
 			return ICON_GRANT;
 
@@ -130,11 +132,6 @@ INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM)
 
 int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	if (!Options.bContactMenuItem) {
-		Menu_ShowItem(hUserMenu, false);
-		return 0;
-	}
-
 	char *proto = Proto_GetBaseAccountName((MCONTACT)hContact);
 	if (!proto)
 		return 0;
@@ -164,6 +161,9 @@ int onModulesLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	// IcoLib support
+	g_plugin.registerIcon(LPGEN("Auth state"), iconList);
+
 	HookEvent(ME_DB_CONTACT_ADDED, onDBContactAdded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
@@ -175,13 +175,9 @@ int CMPlugin::Load()
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xc5a784ea, 0x8b07, 0x4b95, 0xa2, 0xb2, 0x84, 0x9d, 0x87, 0x43, 0x7e, 0xda);
 	mi.position = -1999901005;
-	mi.flags = CMIF_UNICODE;
-	mi.name.w = LPGENW("Enable AuthState icons");
+	mi.name.a = LPGEN("Enable AuthState icons");
 	mi.pszService = "AuthState/MenuItem";
 	hUserMenu = Menu_AddContactMenuItem(&mi);
-
-	// IcoLib support
-	g_plugin.registerIcon(LPGEN("Auth state"), iconList);
-
+	Menu_ConfigureItem(hUserMenu, MCI_OPT_DISABLED, TRUE);
 	return 0;
 }

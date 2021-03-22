@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-//  NEUTRAL resources
+// Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
@@ -24,12 +24,12 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_SSOPT DIALOGEX 0, 0, 312, 238
+IDD_SSOPT DIALOGEX 0, 0, 312, 210
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Silence at Startup",IDC_STATIC,3,0,304,133
+    GROUPBOX        "Silence at Startup",IDC_STATIC,3,0,304,121
     LTEXT           "Settings for the next Computer Name:",IDC_STATIC,11,11,182,8
     EDITTEXT        IDC_HST,24,22,271,12,ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     CONTROL         "Enable silence at startup",IDC_DELAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,34,259,9
@@ -41,16 +41,17 @@ BEGIN
     EDITTEXT        IDC_SSPOPUPTIME,47,75,34,14,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_SSSPIN2,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,77,75,12,15
     LTEXT           "Popup time 1-30 seconds (Default 5)",IDC_STATIC,83,77,161,9
-    CONTROL         "Main Menu Item (plugin reload or Miranda restart required)",IDC_MENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,92,259,9
-    CONTROL         "TopToolBar button (Miranda restart required)",IDC_TTB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,105,259,9
-    PUSHBUTTON      "Reset to default\r\n(for this computer)",IDC_RESETDEFAULT,207,215,100,20,BS_CENTER | BS_VCENTER | BS_MULTILINE | NOT WS_TABSTOP
-    CTEXT           "You need to configure it once for each computer, where you run your Miranda NG.",IDC_STATIC,7,195,295,20
-    LTEXT           "No Apply button required.",IDC_STATIC,11,220,184,8
-    GROUPBOX        "After startup set:",IDC_STATIC,3,136,303,57
-    CONTROL         "Filtered popups only (leave uncheck for no popups)",IDC_DEFPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,167,274,9
-    CONTROL         "Enable sounds",IDC_DEFSOUNDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,181,287,9
-    CONTROL         "Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)",IDC_RESTORE,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,11,147,290,19
-    CONTROL         "Allow mRadio or Weather popups, etc.",IDC_NONSTATUSES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,118,259,9
+    CONTROL         "TopToolBar button (Miranda restart required)",IDC_TTB,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,92,259,9
+    PUSHBUTTON      "Reset to default",IDC_RESETDEFAULT,207,184,100,20,BS_CENTER | BS_VCENTER | BS_MULTILINE | NOT WS_TABSTOP
+    GROUPBOX        "After startup set:",IDC_STATIC,3,123,303,57
+    CONTROL         "Filtered popups only (leave uncheck for no popups)",IDC_DEFPOPUP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,154,274,9
+    CONTROL         "Enable sounds",IDC_DEFSOUNDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,168,287,9
+    CONTROL         "Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)",IDC_RESTORE,
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,11,134,290,19
+    CONTROL         "Allow mRadio or Weather popups, etc.",IDC_NONSTATUSES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,105,259,9
 END
 
 
@@ -88,11 +89,18 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_SSICON              ICON                    "startupsilence.ico"
+
 IDI_SSENABLE            ICON                    "enable.ico"
+
 IDI_SSDISABLE           ICON                    "disable.ico"
+
 IDI_SSENABLETTB         ICON                    "enablettb.ico"
+
 IDI_SSDISABLETTB        ICON                    "disablettb.ico"
+
 IDI_SSFILTEREDON        ICON                    "filteredon.ico"
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -103,12 +111,23 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_SSOPT, DIALOG
     BEGIN
-        BOTTOMMARGIN, 235
+        BOTTOMMARGIN, 204
     END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    //  NEUTRAL resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_SSOPT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 
