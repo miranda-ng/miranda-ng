@@ -1815,19 +1815,4 @@ void InitServers()
 	mir_free(szTemp);
 
 	RereadServers();
-
-	if (g_servers.getCount() == 0) {
-		wchar_t *szIniFile = Utils_ReplaceVarsW(L"%temp%\\default_servers.ini");
-		FILE *serverFile = _wfopen(szIniFile, L"a");
-		if (serverFile) {
-			char *pszSvrs = (char*)LockResource(LoadResource(g_plugin.getInst(), FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_SERVERS), L"TEXT")));
-			if (pszSvrs)
-				fwrite(pszSvrs, 1, mir_strlen(pszSvrs) + 1, serverFile);
-			fclose(serverFile);
-
-			sttImportIni(szIniFile);
-			RereadServers();
-		}
-		mir_free(szIniFile);
-	}
 }
