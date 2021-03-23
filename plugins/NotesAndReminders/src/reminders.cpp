@@ -1743,7 +1743,10 @@ public:
 			CDlgBase::DlgProc(msg, wParam, lParam);
 
 			GetWindowRect(m_list.GetHwnd(), &rc);
-			m_list.SetColumnWidth(1, rc.right - rc.left - m_list.GetColumnWidth(0) - 4);
+			int nWidth = rc.right - rc.left - m_list.GetColumnWidth(0) - 4;
+			if (GetWindowLong(m_list.GetHwnd(), GWL_STYLE) & WS_VSCROLL)
+				nWidth -= GetSystemMetrics(SM_CXVSCROLL);
+			m_list.SetColumnWidth(1, nWidth);
 			return 0;
 		}
 
