@@ -629,8 +629,10 @@ static bool CheckFileRename(const wchar_t *pwszOldName, wchar_t *pNewName)
 static bool isValidExtension(const wchar_t *pwszFileName)
 {
 	const wchar_t *pExt = wcsrchr(pwszFileName, '.');
+	if (pExt == nullptr)
+		return false;
 
-	return (pExt != nullptr) && (!_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt") || !_wcsicmp(pExt, L".bat"));
+	return !_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt") || !_wcsicmp(pExt, L".bat") || !_wcsicmp(pExt, L".cmd");
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
@@ -688,7 +690,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 			}
 		}
 		else {
-			if (level == 1 && !wcsicmp(ffd.cFileName, L"libmdbx.mir")) // move Libs\\libmdbx.mir to the root folder
+			if (level < 2 && !wcsicmp(ffd.cFileName, L"libmdbx.mir")) // move Libs\\libmdbx.mir to the root folder
 				wszNewName[0] = 0;
 			else if (!wcsicmp(ffd.cFileName, L"libeay32.mir") || !wcsicmp(ffd.cFileName, L"ssleay32.mir")) // remove old OpenSSL modules
 				wszNewName[0] = 0;
