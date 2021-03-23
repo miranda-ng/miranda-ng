@@ -71,8 +71,3 @@ Plugins\Dbx_mdbx.dll
 Plugins\Dbx_sqlite.dll
 Plugins\Dummy.dll
 Plugins\Import.dll
-fixme.cmd
-libmdbx.mir
-mdbx_chk.exe
-mdbx_load.exe
-mdbx_dump.exe

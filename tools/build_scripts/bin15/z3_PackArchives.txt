@@ -41,12 +41,7 @@ Libs\api-ms-win-crt-utility-l1-1-0.dll
 Libs\msvcp140.dll
 Libs\ucrtbase.dll
 Libs\vcruntime140.dll
-fixme.cmd
-libmdbx.mir
 mirandaboot.ini
-mdbx_chk.exe
-mdbx_load.exe
-mdbx_dump.exe
 pu_stub.exe
 Core\StdAutoAway.dll
 Core\StdAway.dll

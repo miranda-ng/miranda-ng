@@ -1,9 +1,4 @@
 hashes.txt
-fixme.cmd
-libmdbx.mir
-mdbx_chk.exe
-mdbx_dump.exe
-mdbx_load.exe
 miranda64.exe
 pu_stub.exe
 sendlog.exe

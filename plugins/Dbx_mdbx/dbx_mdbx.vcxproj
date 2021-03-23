@@ -18,11 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\libs\libmdbx\libmdbx.vcxproj">
-      <Project>{6d19209b-ece7-4b9c-941c-0aa2b484f199}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Dbx_mdbx</ProjectName>
     <ProjectGuid>{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}</ProjectGuid>
@@ -31,6 +26,9 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\libmdbx\mdbx.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\dbcheck.cpp" />
     <ClCompile Include="src\dbcontacts.cpp" />
     <ClCompile Include="src\dbcrypt.cpp" />
@@ -53,6 +51,9 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>MDBX_TXN_CHECKOWNER=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
     <Link>
       <AdditionalDependencies>ntdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
