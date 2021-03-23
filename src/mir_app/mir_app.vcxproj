@@ -60,6 +60,7 @@
     <ClCompile Include="src\db_events.cpp" />
     <ClCompile Include="src\db_ini.cpp" />
     <ClCompile Include="src\db_intf.cpp" />
+    <ClCompile Include="src\db_upgrade.cpp" />
     <ClCompile Include="src\db_util.cpp" />
     <ClCompile Include="src\descbutton.cpp" />
     <ClCompile Include="src\dll_sniffer.cpp" />

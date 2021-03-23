@@ -774,3 +774,4 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?Flush@MDatabaseCommon@@UAGHXZ @862 NONAME
 ?getIcon@CHAT_MANAGER@@QBGPAUHICON__@@H@Z @863 NONAME
 ?getSoundName@GCSessionInfoBase@@QBEPBDH@Z @864 NONAME
+?Upgrade@DB@@YGPAVMDatabaseCommon@@PB_W@Z @865 NONAME

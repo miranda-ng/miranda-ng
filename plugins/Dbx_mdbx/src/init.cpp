@@ -74,9 +74,13 @@ static int grokHeader(const wchar_t *profile)
 	return db->Check();
 }
 
-// returns 0 if all the APIs are injected otherwise, 1
+// returns a pointer to a database instance if all the APIs are injected, otherwise NULL
 static MDatabaseCommon* loadDatabase(const wchar_t *profile, BOOL bReadOnly)
 {
+	// if not read only, convert the old profile to SQLITE
+	if (!bReadOnly)
+		return DB::Upgrade(profile);
+
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, (bReadOnly) ? DBMODE_READONLY : 0));
 	if (db->Map() != ERROR_SUCCESS)
 		return nullptr;
