@@ -45,6 +45,7 @@ MIR_APP_DLL(MDatabaseCommon*) DB::Upgrade(const wchar_t *profile)
 	int errorCode;
 	CMStringW wszBackupName(profile);
 	wszBackupName.Append(L".bak");
+	DeleteFileW(wszBackupName);
 	if (!MoveFileW(profile, wszBackupName)) {
 		DWORD dwError = GetLastError();
 		CMStringW wszError(FORMAT, TranslateT("Cannot move old profile '%s' to '%s': error %d"), profile, wszBackupName.c_str(), dwError);
