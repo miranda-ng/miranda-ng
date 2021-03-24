@@ -47,7 +47,7 @@ bool CheckProtocolOrder(void)
 	for (;;) {
 		// Find account with this id
 		bool bFound = false;
-		for (auto &pa : accounts)
+		for (auto &pa : g_arAccounts)
 			if (pa->iOrder == id) {
 				bFound = true;
 				break;
@@ -56,7 +56,7 @@ bool CheckProtocolOrder(void)
 		// Account with id not found
 		if (!bFound) {
 			// Check if this is skipped id, if it is decrement all other ids
-			for (auto &pa : accounts) {
+			for (auto &pa : g_arAccounts) {
 				if (pa->iOrder < 1000000 && pa->iOrder > id) {
 					--pa->iOrder;
 					bFound = true;
@@ -70,22 +70,22 @@ bool CheckProtocolOrder(void)
 		else id++;
 	}
 
-	if (id < accounts.getCount()) {
+	if (id < g_arAccounts.getCount()) {
 		// Remove huge ids
-		for (auto &pa : accounts)
+		for (auto &pa : g_arAccounts)
 			if (pa->iOrder >= 1000000)
 				pa->iOrder = id++;
 
 		changed = true;
 	}
 
-	if (id < accounts.getCount()) {
+	if (id < g_arAccounts.getCount()) {
 		// Remove duplicate ids
-		for (int i = 0; i < accounts.getCount(); i++) {
+		for (int i = 0; i < g_arAccounts.getCount(); i++) {
 			bool found = false;
-			for (int j = 0; j < accounts.getCount(); j++) {
-				if (accounts[j]->iOrder == i) {
-					if (found) accounts[j]->iOrder = id++;
+			for (int j = 0; j < g_arAccounts.getCount(); j++) {
+				if (g_arAccounts[j]->iOrder == i) {
+					if (found) g_arAccounts[j]->iOrder = id++;
 					else found = true;
 				}
 			}
@@ -118,12 +118,12 @@ class CProtocolOrderOpts : public CDlgBase
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
-		for (int i = 0; i < accounts.getCount(); i++) {
+		for (int i = 0; i < g_arAccounts.getCount(); i++) {
 			int idx = Clist_GetAccountIndex(i);
 			if (idx == -1)
 				continue;
 
-			PROTOACCOUNT *pa = accounts[idx];
+			PROTOACCOUNT *pa = g_arAccounts[idx];
 			if (!ProtoToInclude(pa))
 				continue;
 
@@ -166,13 +166,13 @@ public:
 
 	bool OnApply() override
 	{
-		// assume all accounts are disabled
-		for (auto &it : accounts)
+		// assume all g_arAccounts are disabled
+		for (auto &it : g_arAccounts)
 			it->iOrder = -1;
 
 		int idx = 0;
 
-		// scan chosen accounts and apply the order
+		// scan chosen g_arAccounts and apply the order
 		TVITEMEX tvi;
 		tvi.hItem = m_order.GetRoot();
 		tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
@@ -192,8 +192,8 @@ public:
 			tvi.hItem = m_order.GetNextSibling(tvi.hItem);
 		}
 
-		// all accounts in the rest are disabled, so order doesn't matter
-		for (auto &it : accounts)
+		// all g_arAccounts in the rest are disabled, so order doesn't matter
+		for (auto &it : g_arAccounts)
 			if (it->iOrder == -1)
 				it->iOrder = idx++;
 
@@ -207,8 +207,8 @@ public:
 
 	void onReset_Click(CCtrlButton*)
 	{
-		for (int i = 0; i < accounts.getCount(); i++)
-			accounts[i]->iOrder = i;
+		for (int i = 0; i < g_arAccounts.getCount(); i++)
+			g_arAccounts[i]->iOrder = i;
 
 		FillTree();
 		NotifyChange();

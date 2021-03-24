@@ -226,7 +226,7 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 		if (pd->hInst != ppb->getInst())
 			continue;
 
-		for (auto &pa : accounts) {
+		for (auto &pa : g_arAccounts) {
 			if (pa->ppro == nullptr && !mir_strcmp(pa->szProtoName, pd->szName)) {
 				if (pa->bIsEnabled) {
 					if (ActivateAccount(pa, true))

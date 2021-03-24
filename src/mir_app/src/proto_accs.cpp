@@ -39,7 +39,7 @@ static int CompareAccounts(const PROTOACCOUNT* p1, const PROTOACCOUNT* p2)
 	return mir_strcmp(p1->szModuleName, p2->szModuleName);
 }
 
-LIST<PROTOACCOUNT> accounts(10, CompareAccounts);
+LIST<PROTOACCOUNT> g_arAccounts(10, CompareAccounts);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,8 +53,8 @@ static int EnumDbModules(const char *szModuleName, void*)
 			pa->tszAccountName = mir_a2u(szModuleName);
 			pa->bIsVisible = true;
 			pa->bIsEnabled = false;
-			pa->iOrder = accounts.getCount();
-			accounts.insert(pa);
+			pa->iOrder = g_arAccounts.getCount();
+			g_arAccounts.insert(pa);
 		}
 	}
 	return 0;
@@ -75,7 +75,7 @@ void LoadDbAccounts(void)
 		PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
 		if (pa == nullptr) {
 			pa = new PROTOACCOUNT(szModuleName);
-			accounts.insert(pa);
+			g_arAccounts.insert(pa);
 		}
 
 		_itoa(OFFSET_VISIBLE + i, buf, 10);
@@ -110,9 +110,9 @@ void LoadDbAccounts(void)
 	if (CheckProtocolOrder())
 		WriteDbAccounts();
 
-	int anum = accounts.getCount();
+	int anum = g_arAccounts.getCount();
 	db_enum_modules(EnumDbModules);
-	if (anum != accounts.getCount())
+	if (anum != g_arAccounts.getCount())
 		WriteDbAccounts();
 }
 
@@ -124,8 +124,8 @@ void WriteDbAccounts()
 	db_delete_module(0, "Protocols");
 
 	// write new data
-	for (int i = 0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	for (int i = 0; i < g_arAccounts.getCount(); i++) {
+		PROTOACCOUNT *pa = g_arAccounts[i];
 
 		char buf[20];
 		_itoa(i, buf, 10);
@@ -144,7 +144,7 @@ void WriteDbAccounts()
 		db_set_ws(0, "Protocols", buf, pa->tszAccountName);
 	}
 
-	db_set_dw(0, "Protocols", "ProtoCount", accounts.getCount());
+	db_set_dw(0, "Protocols", "ProtoCount", g_arAccounts.getCount());
 	db_set_dw(0, "Protocols", "PrVer", 4);
 }
 
@@ -168,7 +168,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 {
 	int count = 0;
 
-	for (auto &pa : accounts) {
+	for (auto &pa : g_arAccounts) {
 		if (!pa->ppro || !pa->IsEnabled())
 			continue;
 
@@ -185,7 +185,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 		db_set_b(0, "FirstRun", "AccManager", 1);
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 	}
-	// This is for pack creators with a profile with predefined accounts
+	// This is for pack creators with a profile with predefined g_arAccounts
 	else if (db_get_b(0, "FirstRun", "ForceShowAccManager", 0)) {
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 		db_unset(0, "FirstRun", "ForceShowAccManager");
@@ -196,13 +196,13 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 static int UninitializeStaticAccounts(WPARAM, LPARAM)
 {
 	// request permission to exit first
-	for (auto &pa : accounts)
+	for (auto &pa : g_arAccounts)
 		if (pa->ppro && pa->IsEnabled())
 			if (!pa->ppro->IsReadyToExit())
 				return 1;
 
 	// okay, all protocols are ready, exiting
-	for (auto &pa : accounts)
+	for (auto &pa : g_arAccounts)
 		if (pa->ppro && pa->IsEnabled())
 			pa->ppro->OnShutdown();
 
@@ -213,7 +213,7 @@ int LoadAccountsModule(void)
 {
 	bModuleInitialized = true;
 
-	for (auto &pa : accounts) {
+	for (auto &pa : g_arAccounts) {
 		pa->bDynDisabled = !Proto_IsProtocolLoaded(pa->szProtoName);
 		if (pa->ppro)
 			continue;
@@ -273,7 +273,7 @@ MIR_APP_DLL(int) Proto_GetAverageStatus(int *pAccountNumber)
 {
 	int netProtoCount = 0, averageMode = 0;
 
-	for (auto &pa : accounts) {
+	for (auto &pa : g_arAccounts) {
 		if (!pa->IsVisible() || pa->IsLocked())
 			continue;
 
@@ -372,7 +372,7 @@ void KillModuleAccounts(HINSTANCE hInst)
 		if (pd->hInst != hInst)
 			continue;
 
-		for (auto &pa : accounts.rev_iter()) {
+		for (auto &pa : g_arAccounts.rev_iter()) {
 			if (!mir_strcmp(pa->szProtoName, pd->szName)) {
 				pa->bDynDisabled = true;
 				DeactivateAccount(pa, DAF_DYNAMIC);
@@ -421,12 +421,12 @@ void UnloadAccountsModule()
 	if (!bModuleInitialized)
 		return;
 
-	auto T = accounts.rev_iter();
+	auto T = g_arAccounts.rev_iter();
 	for (auto &it : T) {
 		UnloadAccount(it, 0);
-		accounts.removeItem(&it);
+		g_arAccounts.removeItem(&it);
 	}
-	accounts.destroy();
+	g_arAccounts.destroy();
 
 	for (auto &it : hHooks)
 		UnhookEvent(it);

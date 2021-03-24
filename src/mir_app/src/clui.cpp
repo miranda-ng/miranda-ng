@@ -77,7 +77,7 @@ static int CluiModulesLoaded(WPARAM, LPARAM)
 // Happens on shutdown and standby.
 static void DisconnectAll()
 {
-	for (auto &it : accounts)
+	for (auto &it : g_arAccounts)
 		CallProtoServiceInt(0, it->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 }
 

@@ -260,7 +260,7 @@ MIR_APP_DLL(HANDLE) Skin_GetProtoIcon(const char *szProto, int status)
 	if (!szProto) {
 		// Only return a protocol specific icon if there is only one protocol
 		// Otherwise return the global icon. This affects the global status menu mainly.
-		if (accounts.getCount() == 1) {
+		if (g_arAccounts.getCount() == 1) {
 			// format: core_status_%proto%statusindex
 			mir_snprintf(iconName, "%s%s%d", statusIconsFmt, szProto, statusIndx);
 

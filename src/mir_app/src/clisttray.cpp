@@ -74,11 +74,11 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 	wchar_t *szSeparator = L"\n";
 
 	if (szProto == nullptr) {
-		if (accounts.getCount() == 0)
+		if (g_arAccounts.getCount() == 0)
 			return nullptr;
 
-		if (accounts.getCount() == 1)
-			return Clist_TrayIconMakeTooltip(szPrefix, accounts[0]->szModuleName);
+		if (g_arAccounts.getCount() == 1)
+			return Clist_TrayIconMakeTooltip(szPrefix, g_arAccounts[0]->szModuleName);
 
 		CMStringW tszTip;
 
@@ -90,12 +90,12 @@ MIR_APP_DLL(wchar_t*) Clist_TrayIconMakeTooltip(const wchar_t *szPrefix, const c
 			tszTip.Append(szPrefix);
 		}
 
-		for (int t = 0; t < accounts.getCount(); t++) {
+		for (int t = 0; t < g_arAccounts.getCount(); t++) {
 			int i = Clist_GetAccountIndex(t);
 			if (i == -1)
 				continue;
 
-			PROTOACCOUNT *pa = accounts[i];
+			PROTOACCOUNT *pa = g_arAccounts[i];
 			if (!pa->IsVisible())
 				continue;
 
@@ -228,7 +228,7 @@ int fnTrayIconInit(HWND hwnd)
 	g_clistApi.trayIconCount = 1;
 
 	if (netProtoCount) {
-		g_clistApi.trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * accounts.getCount());
+		g_clistApi.trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * g_arAccounts.getCount());
 
 		int trayIconSetting = db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
 		if (trayIconSetting == SETTING_TRAYICON_SINGLE) {
@@ -244,10 +244,10 @@ int fnTrayIconInit(HWND hwnd)
 		}
 		else if (trayIconSetting == SETTING_TRAYICON_MULTI && (averageMode < 0 || db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))) {
 			g_clistApi.trayIconCount = netProtoCount;
-			for (int i = 0; i < accounts.getCount(); i++) {
+			for (int i = 0; i < g_arAccounts.getCount(); i++) {
 				int j = Clist_GetAccountIndex(i);
 				if (j >= 0) {
-					PROTOACCOUNT *pa = accounts[j];
+					PROTOACCOUNT *pa = g_arAccounts[j];
 					if (pa->IsVisible())
 						Clist_TrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->iRealStatus);
 				}
@@ -307,7 +307,7 @@ static VOID CALLBACK RefreshTimerProc(HWND, UINT, UINT_PTR, DWORD)
 		RefreshTimerId = 0;
 	}
 
-	for (auto &it : accounts)
+	for (auto &it : g_arAccounts)
 		Clist_TrayIconUpdateBase(it->szModuleName);
 }
 
@@ -436,15 +436,15 @@ static VOID CALLBACK TrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 	mir_cslock lck(trayLockCS);
 
 	int i;
-	for (i = accounts.getCount() + 1; --i;) {
-		g_clistApi.cycleStep = (g_clistApi.cycleStep + 1) % accounts.getCount();
-		if (accounts[g_clistApi.cycleStep]->IsVisible())
+	for (i = g_arAccounts.getCount() + 1; --i;) {
+		g_clistApi.cycleStep = (g_clistApi.cycleStep + 1) % g_arAccounts.getCount();
+		if (g_arAccounts[g_clistApi.cycleStep]->IsVisible())
 			break;
 	}
 
 	if (i) {
 		DestroyIcon(g_clistApi.trayIcon[0].hBaseIcon);
-		g_clistApi.trayIcon[0].hBaseIcon = g_clistApi.pfnGetIconFromStatusMode(0, accounts[g_clistApi.cycleStep]->szModuleName, accounts[g_clistApi.cycleStep]->iRealStatus);
+		g_clistApi.trayIcon[0].hBaseIcon = g_clistApi.pfnGetIconFromStatusMode(0, g_arAccounts[g_clistApi.cycleStep]->szModuleName, g_arAccounts[g_clistApi.cycleStep]->iRealStatus);
 		if (g_clistApi.trayIcon[0].isBase)
 			TrayIconUpdate(g_clistApi.trayIcon[0].hBaseIcon, nullptr, nullptr, 1);
 	}
@@ -472,9 +472,9 @@ MIR_APP_DLL(void) Clist_TrayIconUpdateBase(const char *szChangedProto)
 		CycleTimerId = 0;
 	}
 
-	for (auto &it : accounts)
+	for (auto &it : g_arAccounts)
 		if (!mir_strcmp(szChangedProto, it->szModuleName))
-			g_clistApi.cycleStep = accounts.indexOf(&it);
+			g_clistApi.cycleStep = g_arAccounts.indexOf(&it);
 
 	int changed = g_clistApi.pfnTrayCalcChanged(szChangedProto, averageMode, netProtoCount);
 	if (changed != -1 && g_clistApi.trayIcon[changed].isBase)
@@ -687,16 +687,16 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 							break;
 
 						int ind = 0;
-						for (int j = 0; j < accounts.getCount(); j++) {
+						for (int j = 0; j < g_arAccounts.getCount(); j++) {
 							int k = Clist_GetAccountIndex(j);
 							if (k >= 0) {
-								if (!mir_strcmp(g_clistApi.trayIcon[i].szProto, accounts[k]->szModuleName)) {
+								if (!mir_strcmp(g_clistApi.trayIcon[i].szProto, g_arAccounts[k]->szModuleName)) {
 									HMENU hm = GetSubMenu(hMenu, ind);
 									if (hm) hMenu = hm;
 									break;
 								}
 
-								if (accounts[k]->IsVisible())
+								if (g_arAccounts[k]->IsVisible())
 									++ind;
 							}
 						}

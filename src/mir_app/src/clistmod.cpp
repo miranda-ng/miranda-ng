@@ -162,7 +162,7 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 	ScheduleMenuUpdate();
 
 	RebuildMenuOrder();
-	for (auto &it : accounts)
+	for (auto &it : g_arAccounts)
 		AddProtoIconIndex(it);
 
 	Clist_LoadContactTree();
@@ -205,7 +205,7 @@ static int CListIconsChanged(WPARAM, LPARAM)
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
 
-	for (auto &it : accounts) {
+	for (auto &it : g_arAccounts) {
 		if (it->iIconBase == -1)
 			continue;
 
