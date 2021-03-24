@@ -114,8 +114,6 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 		}
 	}
 
-	InitContactCache();
-
 	m_hWorkerThread = ForkThreadEx(&CIcqProto::ServerThread, nullptr, nullptr);
 }
 
@@ -129,6 +127,8 @@ CIcqProto::~CIcqProto()
 
 void CIcqProto::OnModulesLoaded()
 {
+	InitContactCache();
+
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 
 	// load custom smilies
