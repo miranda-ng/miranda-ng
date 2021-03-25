@@ -32,8 +32,8 @@
     <ClCompile Include="src\dbcheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libs\libmdbx\src\mdbx.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\libmdbx\mdbx.c">
+      <Filter>Source Files\libmdbx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +49,9 @@
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\libmdbx\mdbx.h">
+      <Filter>Source Files\libmdbx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\dbx_mdbx.rc">
@@ -57,5 +60,10 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files\libmdbx">
+      <UniqueIdentifier>{15959756-96ed-4cd0-8392-62451d45921b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
