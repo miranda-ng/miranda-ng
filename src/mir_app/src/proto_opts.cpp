@@ -71,12 +71,12 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const ch
 
 	PROTOACCOUNT *pa = new PROTOACCOUNT(szProto);
 	pa->bIsEnabled = pa->bIsVisible = true;
-	pa->iOrder = accounts.getCount();
+	pa->iOrder = g_arAccounts.getCount();
 	pa->szProtoName = mir_strdup(pszBaseProto);
 	pa->tszAccountName = mir_wstrdup(tszAccountName);
 
 	db_set_s(0, pa->szModuleName, "AM_BaseProto", pszBaseProto);
-	accounts.insert(pa);
+	g_arAccounts.insert(pa);
 
 	ActivateAccount(pa, true);	
 	WriteDbAccounts();
@@ -89,7 +89,7 @@ static bool FindAccountByName(const char *szModuleName)
 	if (!mir_strlen(szModuleName))
 		return false;
 
-	for (auto &pa : accounts)
+	for (auto &pa : g_arAccounts)
 		if (_stricmp(szModuleName, pa->szModuleName) == 0)
 			return true;
 
@@ -318,7 +318,7 @@ public:
 		PSHNOTIFY pshn;
 		pshn.hdr.idFrom = 0;
 		pshn.hdr.code = PSN_APPLY;
-		for (auto &pa : accounts) {
+		for (auto &pa : g_arAccounts) {
 			if (pa->hwndAccMgrUI && pa->bAccMgrUIChanged) {
 				pshn.hdr.hwndFrom = pa->hwndAccMgrUI;
 				SendMessage(pa->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -333,7 +333,7 @@ public:
 		PSHNOTIFY pshn;
 		pshn.hdr.idFrom = 0;
 		pshn.hdr.code = PSN_RESET;
-		for (auto &pa : accounts) {
+		for (auto &pa : g_arAccounts) {
 			if (pa->hwndAccMgrUI && pa->bAccMgrUIChanged) {
 				pshn.hdr.hwndFrom = pa->hwndAccMgrUI;
 				SendMessage(pa->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -344,7 +344,7 @@ public:
 
 	void OnDestroy() override
 	{
-		for (auto &pa : accounts) {
+		for (auto &pa : g_arAccounts) {
 			pa->bAccMgrUIChanged = FALSE;
 			if (pa->hwndAccMgrUI) {
 				::DestroyWindow(pa->hwndAccMgrUI);
@@ -544,7 +544,7 @@ public:
 
 		m_accList.SetItemData(idx, 0);
 
-		accounts.remove(pa);
+		g_arAccounts.remove(pa);
 
 		CheckProtocolOrder();
 
@@ -597,7 +597,7 @@ public:
 		PROTOACCOUNT *acc = (i == LB_ERR) ? nullptr : (PROTOACCOUNT *)m_accList.GetItemData(i);
 
 		m_accList.ResetContent();
-		for (auto &p : accounts) {
+		for (auto &p : g_arAccounts) {
 			PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(p->szProtoName);
 			if (pd != nullptr && pd->type != PROTOTYPE_PROTOWITHACCS && pd->type != PROTOTYPE_PROTOCOL)
 				continue;
@@ -876,9 +876,9 @@ bool CAccountFormDlg::OnApply()
 		BOOL oldProto = m_pa->bOldProto;
 		wchar_t szPlugin[MAX_PATH];
 		mir_snwprintf(szPlugin, L"%S.dll", m_pa->szProtoName);
-		int idx = accounts.getIndex(m_pa);
+		int idx = g_arAccounts.getIndex(m_pa);
 		UnloadAccount(m_pa, 0);
-		accounts.remove(idx);
+		g_arAccounts.remove(idx);
 		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
 			wchar_t szNewName[MAX_PATH];
 			mir_snwprintf(szNewName, L"%s~", szPlugin);

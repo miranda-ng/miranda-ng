@@ -550,13 +550,13 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 
 	int MenusProtoCount = 0;
 
-	for (auto &pa : accounts)
+	for (auto &pa : g_arAccounts)
 		if (pa->IsVisible())
 			MenusProtoCount++;
 
 	g_clistApi.currentDesiredStatusMode = smep->status;
 
-	for (auto &pa : accounts) {
+	for (auto &pa : g_arAccounts) {
 		if (!pa->IsEnabled())
 			continue;
 		if (MenusProtoCount > 1 && pa->IsLocked())
@@ -672,9 +672,9 @@ MIR_APP_DLL(bool) Clist_GetProtocolVisibility(const char *szModuleName)
 
 MIR_APP_DLL(int) Clist_GetAccountIndex(int Pos)
 {
-	for (auto &it : accounts)
+	for (auto &it : g_arAccounts)
 		if (it->iOrder == Pos)
-			return accounts.indexOf(&it);
+			return g_arAccounts.indexOf(&it);
 
 	return -1;
 }
@@ -693,12 +693,12 @@ void RebuildMenuOrder(void)
 
 	g_menuProtos.destroy();
 
-	for (int s = 0; s < accounts.getCount(); s++) {
+	for (int s = 0; s < g_arAccounts.getCount(); s++) {
 		int i = Clist_GetAccountIndex(s);
 		if (i == -1)
 			continue;
 
-		PROTOACCOUNT *pa = accounts[i];
+		PROTOACCOUNT *pa = g_arAccounts[i];
 		if (!pa->IsVisible())
 			continue;
 
@@ -796,7 +796,7 @@ void RebuildMenuOrder(void)
 
 	// add to root menu
 	for (auto &it : g_statuses) {
-		for (auto &pa : accounts) {
+		for (auto &pa : g_arAccounts) {
 			if (!pa->IsVisible())
 				continue;
 
@@ -842,7 +842,7 @@ void RebuildMenuOrder(void)
 
 void BuildProtoMenus()
 {
-	for (auto &pa : accounts) {
+	for (auto &pa : g_arAccounts) {
 		if (!pa->IsVisible())
 			continue;
 
@@ -920,7 +920,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 		currentStatusMenuItem = 0;
 	}
 
-	for (auto &pa : accounts) {
+	for (auto &pa : g_arAccounts) {
 		if (!mir_strcmp(pa->szModuleName, ack->szModule)) {
 			int iOldStatus = (INT_PTR)ack->hProcess;
 			if ((iOldStatus >= ID_STATUS_OFFLINE || iOldStatus == 0) && iOldStatus < ID_STATUS_OFFLINE + _countof(g_statuses)) {

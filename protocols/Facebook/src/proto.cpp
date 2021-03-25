@@ -49,12 +49,6 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	m_bLoginInvisible(this, "LoginInvisible", false),
 	m_wszDefaultGroup(this, "DefaultGroup", L"Facebook")
 {
-	for (auto &cc : AccContacts()) {
-		CMStringA szId(getMStringA(cc, DBKEY_ID));
-		if (!szId.IsEmpty())
-			m_users.insert(new FacebookUser(_atoi64(szId), cc, isChatRoom(cc)));
-	}
-
 	// to upgrade previous settings
 	if (getByte("Compatibility") < 1) {
 		setByte("Compatibility", 1);
@@ -139,6 +133,13 @@ void FacebookProto::OnModulesLoaded()
 	wszPath.Format(L"%s\\%S\\Stickers\\*.webp", wszCache.get(), m_szModuleName);
 	cont.path = wszPath;
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+
+	// contacts cache
+	for (auto &cc : AccContacts()) {
+		CMStringA szId(getMStringA(cc, DBKEY_ID));
+		if (!szId.IsEmpty())
+			m_users.insert(new FacebookUser(_atoi64(szId), cc, isChatRoom(cc)));
+	}
 
 	// Default group
 	Clist_GroupCreate(0, m_wszDefaultGroup);

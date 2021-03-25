@@ -369,7 +369,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				szProto = NEWWSTR_ALLOCA(tszLast);
 
 			int index = 0, cbwidth = 0, netProtoCount = 0;
-			for (auto &pa : accounts) {
+			for (auto &pa : g_arAccounts) {
 				if (!pa->IsEnabled())
 					continue;
 
@@ -396,7 +396,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				cbei.iItem++;
 			}
 
-			for (auto &pa : accounts) {
+			for (auto &pa : g_arAccounts) {
 				if (!pa->IsEnabled())
 					continue;
 
@@ -472,7 +472,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (szProto == (char *)CB_ERR)
 				break;
 			if (szProto == nullptr) {
-				for (auto &pa : accounts) {
+				for (auto &pa : g_arAccounts) {
 					if (pa->IsEnabled()) {
 						DWORD protoCaps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 						if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
@@ -979,7 +979,7 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 		// One alternative would be to only create the service if we have network
 		// protocols loaded but that would delay the creation until MODULE_LOADED and
 		// that is not good either...
-		for (auto &pa : accounts) {
+		for (auto &pa : g_arAccounts) {
 			if (!pa->IsEnabled())
 				continue;
 
@@ -1024,7 +1024,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	int netProtoCount = 0;
 
 	// Make sure we have some networks to search on.
-	for (auto &pa : accounts) {
+	for (auto &pa : g_arAccounts) {
 		int protoCaps = CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (protoCaps & PF1_ANYSEARCH)
 			netProtoCount++;

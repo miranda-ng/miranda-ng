@@ -968,7 +968,8 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 			g_arSessions.insert(p1);
 		}
 	}
-	if (g_cbModuleInfo) { // reallocate old modules
+	
+	if (g_cbModuleInfo != pInit->cbModuleInfo) { // reallocate old modules
 		bool bReallocated = false;
 		mir_cslock lck(csChat);
 

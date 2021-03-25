@@ -122,8 +122,8 @@ MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(int type, const char *szNa
 				pa->szProtoName = mir_strdup(szName);
 				pa->tszAccountName = mir_a2u(szName);
 				pa->bIsVisible = pa->bIsEnabled = true;
-				pa->iOrder = accounts.getCount();
-				accounts.insert(pa);
+				pa->iOrder = g_arAccounts.getCount();
+				g_arAccounts.insert(pa);
 			}
 			pa->bOldProto = true;
 			pa->bIsVirtual = (pd->type == PROTOTYPE_VIRTUAL);
@@ -294,7 +294,7 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *accName)
 	if (accName == nullptr)
 		return nullptr;
 
-	return accounts.find((PROTOACCOUNT*)&accName);
+	return g_arAccounts.find((PROTOACCOUNT*)&accName);
 }
 
 MIR_APP_DLL(int) Proto_GetStatus(const char *accName)
@@ -302,7 +302,7 @@ MIR_APP_DLL(int) Proto_GetStatus(const char *accName)
 	if (accName == nullptr)
 		return ID_STATUS_OFFLINE;
 
-	PROTOACCOUNT *pa = accounts.find((PROTOACCOUNT*)&accName);
+	PROTOACCOUNT *pa = g_arAccounts.find((PROTOACCOUNT*)&accName);
 	return (pa) ? pa->iRealStatus : ID_STATUS_OFFLINE;
 }
 
@@ -310,13 +310,13 @@ MIR_APP_DLL(int) Proto_GetStatus(const char *accName)
 
 MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs)
 {
-	if (nAccs) *nAccs = accounts.getCount();
-	if (pAccs) *pAccs = accounts.getArray();
+	if (nAccs) *nAccs = g_arAccounts.getCount();
+	if (pAccs) *pAccs = g_arAccounts.getArray();
 }
 
 MIR_APP_DLL(LIST<PROTOACCOUNT>&) Accounts(void)
 {
-	return accounts;
+	return g_arAccounts;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

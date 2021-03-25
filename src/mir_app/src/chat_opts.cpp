@@ -30,7 +30,7 @@ HICON g_hChatIcons[20];
 DWORD g_dwDiskLogFlags;
 HPLUGIN g_pChatPlugin;
 GlobalLogSettingsBase *g_Settings;
-int g_cbSession, g_cbModuleInfo, g_iFontMode;
+int g_cbSession, g_cbModuleInfo = sizeof(MODULEINFO), g_iFontMode;
 wchar_t *g_szFontGroup;
 
 #define FONTF_BOLD   1

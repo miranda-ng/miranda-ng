@@ -238,7 +238,7 @@ MIR_APP_DLL(int) Clist_GetGeneralizedStatus(char **szProto)
 	int status = ID_STATUS_OFFLINE;
 	int statusOnlineness = 0;
 
-	for (auto &pa : accounts) {
+	for (auto &pa : g_arAccounts) {
 		if (!pa->IsVisible())
 			continue;
 

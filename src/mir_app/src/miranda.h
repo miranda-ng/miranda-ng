@@ -135,7 +135,7 @@ extern MStatus g_statuses[MAX_STATUS_COUNT];
 #define OFFSET_ENABLED  600
 #define OFFSET_NAME     800
 
-extern LIST<PROTOACCOUNT> accounts;
+extern LIST<PROTOACCOUNT> g_arAccounts;
 
 struct MBaseProto : public PROTOCOLDESCRIPTOR, public MZeroedObject
 {
