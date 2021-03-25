@@ -452,8 +452,9 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 CMStringW CVkProto::RunConfirmationCode(LPCWSTR pwszTitle)
 {
 	ENTER_STRING pForm = {};
-	pForm.type = ESF_COMBO;
-	pForm.caption = IsEmpty(pwszTitle) ? TranslateT("Enter confirmation code") : pwszTitle;
+	pForm.type = 0;
+	CMStringW wszTitle(FORMAT, L"%s: %s", ptrW(mir_a2u(m_szModuleName)).get(), IsEmpty(pwszTitle) ? TranslateT("Enter confirmation code") : pwszTitle);
+	pForm.caption = wszTitle;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "confirmcode_";
 	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
@@ -462,7 +463,7 @@ CMStringW CVkProto::RunConfirmationCode(LPCWSTR pwszTitle)
 CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 {
 	ENTER_STRING pForm = {};
-	pForm.type = ESF_COMBO;
+	pForm.type = 0;
 	pForm.caption = TranslateT("Enter new nickname");
 	pForm.ptszInitVal = pwszOldName;
 	pForm.szModuleName = m_szModuleName;
