@@ -604,8 +604,8 @@ static int Nicer_CustomizeToolbar(WPARAM, LPARAM)
 
 static int Nicer_ReloadToolbar(WPARAM wParam, LPARAM)
 {
-	PLUGININFOEX *pInfo = (PLUGININFOEX*)wParam;
-	if (!_stricmp(pInfo->shortName, "TopToolBar"))
+	auto &pInfo = HPLUGIN(wParam)->getInfo();
+	if (!_stricmp(pInfo.shortName, "TopToolBar"))
 		TopToolbar_SetCustomProc(CustomizeToolbar, 0);
 	return 0;
 }

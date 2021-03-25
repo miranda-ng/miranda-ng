@@ -239,7 +239,7 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 
 	dat->bWasLoaded = true;
 	dat->hInst = ppb->getInst();
-	NotifyFastHook(hevLoadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
+	NotifyFastHook(hevLoadModule, (WPARAM)ppb, (LPARAM)ppb->getInst());
 	return true;
 }
 
