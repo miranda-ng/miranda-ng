@@ -47,8 +47,9 @@ bool CCtrlSpin::OnApply()
 {
 	CSuper::OnApply();
 
+	m_wCurr = SendMsg(UDM_GETPOS, 0, 0);
 	if (m_dbLink != nullptr)
-		SaveInt(GetPosition());
+		SaveInt(m_wCurr);
 	return true;
 }
 
