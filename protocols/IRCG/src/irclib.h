@@ -92,14 +92,13 @@ private :
 
 struct CIrcSessionInfo
 {
-	CMStringA  sServer;
+	CMStringA sServer;
 	CMStringW sServerName;
 	CMStringW sNick;
 	CMStringW sUserID;
 	CMStringW sFullName;
-	CMStringA  sPassword;
+	CMStringA sPassword;
 	CMStringW sIdentServerType;
-	CMStringW sNetwork;
 	bool bIdentServer;
 	bool bNickFlag;
 	int m_iSSL;

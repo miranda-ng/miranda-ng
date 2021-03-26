@@ -599,12 +599,10 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage *pmsg)
 		if (!m_ignore || !IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'n')) {
 			CMStringW S;
 			CMStringW S2;
-			CMStringW S3;
+
 			if (pmsg->prefix.sNick.GetLength() > 0)
 				S = pmsg->prefix.sNick;
-			else
-				S = m_info.sNetwork;
-			S3 = m_info.sNetwork;
+
 			if (IsChannel(pmsg->parameters[0]))
 				S2 = pmsg->parameters[0];
 			else {
@@ -625,7 +623,7 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage *pmsg)
 				}
 				else S2 = L"";
 			}
-			DoEvent(GC_EVENT_NOTICE, S2.IsEmpty() ? nullptr : S2.c_str(), S, pmsg->parameters[1], nullptr, S3, NULL, true, false);
+			DoEvent(GC_EVENT_NOTICE, S2.IsEmpty() ? nullptr : S2.c_str(), S, pmsg->parameters[1], nullptr, L"IRC", NULL, true, false);
 		}
 	}
 	else ShowMessage(pmsg);
@@ -2338,9 +2336,8 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		PostIrcMessage(L"/AWAY " + m_statusMessage.Mid(0, 450));
 
 	if (m_perform) {
-		DoPerform("ALL NETWORKS");
 		if (IsConnected()) {
-			DoPerform(_T2A(m_info.sNetwork));
+			DoPerform("Connect");
 			switch (Temp) {
 				case ID_STATUS_FREECHAT:   DoPerform("Event: Free for chat");   break;
 				case ID_STATUS_ONLINE:     DoPerform("Event: Available");       break;
@@ -2418,19 +2415,14 @@ int CIrcProto::IsIgnored(CMStringW user, char type)
 			return i + 1;
 
 		bool bUserContainsWild = (wcschr(user, '*') != nullptr || wcschr(user, '?') != nullptr);
-		if (!bUserContainsWild && WCCmp(C.mask, user) ||
-			bUserContainsWild && !mir_wstrcmpi(user, C.mask)) {
+		if (!bUserContainsWild && WCCmp(C.mask, user) || bUserContainsWild && !mir_wstrcmpi(user, C.mask)) {
 			if (C.flags.IsEmpty() || C.flags[0] != '+')
 				continue;
 
 			if (!wcschr(C.flags, type))
 				continue;
 
-			if (C.network.IsEmpty())
-				return i + 1;
-
-			if (IsConnected() && !mir_wstrcmpi(C.network, m_info.sNetwork))
-				return i + 1;
+			return i + 1;
 		}
 	}
 
@@ -2444,7 +2436,7 @@ bool CIrcProto::AddIgnore(const wchar_t* mask, const wchar_t* flags, const wchar
 	RewriteIgnoreSettings();
 
 	if (m_ignoreDlg)
-		m_ignoreDlg->RebuildList();
+		m_ignoreDlg->Update();
 	return true;
 }
 
@@ -2457,6 +2449,6 @@ bool CIrcProto::RemoveIgnore(const wchar_t* mask)
 	RewriteIgnoreSettings();
 
 	if (m_ignoreDlg)
-		m_ignoreDlg->RebuildList();
+		m_ignoreDlg->Update();
 	return true;
 }

@@ -373,10 +373,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 
 	GCEVENT gce = { m_szModuleName, nullptr, iEvent };
 	if (pszWindow) {
-		if (mir_wstrcmpi(pszWindow, SERVERWINDOW))
-			sID = pszWindow + (CMStringW)L" - " + m_info.sNetwork;
-		else
-			sID = pszWindow;
+		sID = pszWindow;
 		gce.pszID.w = (wchar_t*)sID.c_str();
 	}
 	else gce.pszID.w = nullptr;
@@ -521,7 +518,7 @@ int CIrcProto::SetChannelSBText(CMStringW sWindow, CHANNELINFO * wi)
 CMStringW CIrcProto::MakeWndID(const wchar_t* sWindow)
 {
 	wchar_t buf[200];
-	mir_snwprintf(buf, L"%s - %s", sWindow, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"));
+	mir_snwprintf(buf, L"%s - %s", sWindow, (IsConnected()) ? m_tszUserName : TranslateT("Offline"));
 	return CMStringW(buf);
 }
 
@@ -669,13 +666,4 @@ void CIrcProto::ClearUserhostReasons(int type)
 		vWhoInProgress.destroy();
 		break;
 	}
-}
-
-////////////////////////////////////////////////////////////////////
-
-SERVER_INFO::~SERVER_INFO()
-{
-	mir_free(m_name);
-	mir_free(m_address);
-	mir_free(m_group);
 }

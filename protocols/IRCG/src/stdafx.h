@@ -69,7 +69,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "resource.h"
 
-#define IRC_QUICKCONNECT      "/QuickConnectMenu"
 #define IRC_JOINCHANNEL       "/JoinChannelMenu"
 #define IRC_CHANGENICK        "/ChangeNickMenu"
 #define IRC_SHOWLIST          "/ShowListMenu"
@@ -136,14 +135,6 @@ struct CHANNELINFO   // Contains info about the channels
 	int    codepage;
 };
 
-struct SERVER_INFO  // Contains info about different servers
-{
-	~SERVER_INFO();
-
-	char *m_name, *m_address, *m_group;
-	int  m_portStart, m_portEnd, m_iSSL;
-};
-
 struct PERFORM_INFO  // Contains 'm_perform buffer' for different networks
 {
 	PERFORM_INFO(const char* szSetting, const wchar_t* value) :
@@ -199,7 +190,6 @@ using namespace irc;
 // Functions
 
 // main.cpp
-extern OBJLIST<SERVER_INFO> g_servers;
 
 CIrcProto* GetTimerOwner(UINT_PTR eventId);
 
@@ -211,9 +201,6 @@ VOID CALLBACK OnlineNotifTimerProc3(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWOR
 VOID CALLBACK DCCTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 // options.cpp
-
-void    InitServers(void);
-void    RereadServers(void);
 
 void    InitContactMenus(void);
 void    UninitContactMenus(void);

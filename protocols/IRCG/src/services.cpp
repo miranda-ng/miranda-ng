@@ -25,14 +25,8 @@ void CIrcProto::OnBuildProtoMenu()
 {
 	CMenuItem mi(&g_plugin);
 	mi.root = Menu_GetProtocolRoot(this);
-
-	mi.name.a = LPGEN("&Quick connect");
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_QUICK);
-	mi.pszService = IRC_QUICKCONNECT;
-	mi.position = 201001;
-	hMenuQuick = Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
-	if (m_iStatus != ID_STATUS_OFFLINE) mi.flags |= CMIF_GRAYED;
+	if (m_iStatus != ID_STATUS_OFFLINE)
+		mi.flags |= CMIF_GRAYED;
 
 	mi.name.a = LPGEN("&Join channel");
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
@@ -312,23 +306,6 @@ INT_PTR __cdecl CIrcProto::OnJoinMenuCommand(WPARAM, LPARAM)
 	SendDlgItemMessage(m_joinDlg->GetHwnd(), IDC_ENICK, EM_SETSEL, 0, MAKELPARAM(0, -1));
 	ShowWindow(m_joinDlg->GetHwnd(), SW_SHOW);
 	SetActiveWindow(m_joinDlg->GetHwnd());
-	return 0;
-}
-
-INT_PTR __cdecl CIrcProto::OnQuickConnectMenuCommand(WPARAM, LPARAM)
-{
-	if (!m_quickDlg) {
-		m_quickDlg = new CQuickDlg(this);
-		m_quickDlg->Show();
-
-		SetWindowText(m_quickDlg->GetHwnd(), TranslateT("Quick connect"));
-		SetDlgItemText(m_quickDlg->GetHwnd(), IDC_TEXT, TranslateT("Please select IRC network and enter the password if needed"));
-		SetDlgItemText(m_quickDlg->GetHwnd(), IDC_CAPTION, TranslateT("Quick connect"));
-		Window_SetIcon_IcoLib(m_quickDlg->GetHwnd(), g_plugin.getIconHandle(IDI_QUICK));
-	}
-
-	ShowWindow(m_quickDlg->GetHwnd(), SW_SHOW);
-	SetActiveWindow(m_quickDlg->GetHwnd());
 	return 0;
 }
 
@@ -948,8 +925,6 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 		if (IsConnected()) {
 			if (m_mySpecifiedHost[0])
 				ForkThread(&CIrcProto::ResolveIPThread, new IPRESOLVE(m_mySpecifiedHost, IP_MANUAL));
-
-			Chat_ChangeSessionName(m_szModuleName, SERVERWINDOW, m_info.sNetwork);
 		}
 		else {
 			Temp = m_iDesiredStatus;
@@ -985,7 +960,6 @@ void CIrcProto::ConnectToServer(void)
 	m_sessionInfo.iIdentServerPort = _wtoi(m_identPort);
 	m_sessionInfo.sIdentServerType = m_identSystem;
 	m_sessionInfo.m_iSSL = m_iSSL;
-	m_sessionInfo.sNetwork = m_network;
 
 	bPerformDone = false;
 	bTempDisableCheck = false;
@@ -1002,7 +976,7 @@ void CIrcProto::ConnectToServer(void)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	wchar_t szTemp[300];
-	mir_snwprintf(szTemp, L"\033%s %c%s%c (%S: %u)", TranslateT("Connecting to"), irc::BOLD, m_sessionInfo.sNetwork.c_str(), irc::BOLD, m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
+	mir_snwprintf(szTemp, L"\033%s %S:%u", TranslateT("Connecting to"), m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 }
 

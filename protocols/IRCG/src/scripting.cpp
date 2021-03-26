@@ -113,9 +113,6 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 		if (sRequest == "ownnick" && IsConnected())
 			sOutput = m_info.sNick;
 
-		else if (sRequest == "network" && IsConnected())
-			sOutput = m_info.sNetwork;
-
 		else if (sRequest == "primarynick")
 			sOutput = m_nick;
 

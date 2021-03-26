@@ -170,7 +170,6 @@ CMStringW CIrcProto::DoIdentifiers(CMStringW text, const wchar_t*)
 	text.Replace(L"%module", _A2T(m_szModuleName));
 	text.Replace(L"%name", m_name);
 	text.Replace(L"%newl", L"\r\n");
-	text.Replace(L"%network", m_info.sNetwork.c_str());
 	text.Replace(L"%me", m_info.sNick.c_str());
 
 	char mirver[100];
@@ -294,7 +293,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 			CMStringW szNetwork;
 			if (three.IsEmpty())
-				szNetwork = m_info.sNetwork;
+				szNetwork = "IRC";
 			else
 				szNetwork = three;
 

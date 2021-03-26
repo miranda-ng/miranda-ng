@@ -24,15 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CMPlugin g_plugin;
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static int CompareServers(const SERVER_INFO* p1, const SERVER_INFO* p2)
-{
-	return mir_strcmp(p1->m_name, p2->m_name);
-}
-
-OBJLIST<SERVER_INFO> g_servers(20, CompareServers);
-
 void UninitTimers(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +58,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 int CMPlugin::Load()
 {
 	InitIcons();
-	InitServers();
 	InitContactMenus();
 	return 0;
 }
