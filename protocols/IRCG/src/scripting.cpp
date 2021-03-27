@@ -124,11 +124,10 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			(m_IPFromServer) ? m_myHost : m_myLocalHost);
 
 		else if (sRequest == "usercount" && !sChannel.IsEmpty()) {
-			CMStringW S = MakeWndID(sChannel.c_str());
 			GC_INFO gci = { 0 };
 			gci.Flags = GCF_BYID | GCF_COUNT;
 			gci.pszModule = m_szModuleName;
-			gci.pszID = S.c_str();
+			gci.pszID = sChannel.c_str();
 			if (!Chat_GetInfo(&gci)) {
 				wchar_t szTemp[40];
 				mir_snwprintf(szTemp, L"%u", gci.iCount);
@@ -136,11 +135,10 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 			}
 		}
 		else if (sRequest == "userlist" && !sChannel.IsEmpty()) {
-			CMStringW S = MakeWndID(sChannel.c_str());
 			GC_INFO gci = { 0 };
 			gci.Flags = GCF_BYID | GCF_USERS;
 			gci.pszModule = m_szModuleName;
-			gci.pszID = S.c_str();
+			gci.pszID = sChannel.c_str();
 			if (!Chat_GetInfo(&gci))
 				return (INT_PTR)mir_strdup(gci.pszUsers);
 		}

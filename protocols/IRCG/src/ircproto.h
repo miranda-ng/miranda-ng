@@ -278,7 +278,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	bool      IsChannel(const char* sName);
 	bool      IsChannel(const wchar_t* sName);
 	void      KillChatTimer(UINT_PTR &nIDEvent);
-	CMStringW MakeWndID(const wchar_t* sWindow);
 	CMStringW ModeToStatus(int sMode);
 	CMStringW PrefixToStatus(int cPrefix);
 	int       SetChannelSBText(CMStringW sWindow, CHANNELINFO *wi);

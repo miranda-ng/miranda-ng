@@ -177,7 +177,7 @@ void CIrcProto::OnContactDeleted(MCONTACT hContact)
 		if (type != 0) {
 			CMStringW S;
 			if (type == GCW_CHATROOM)
-				S = MakeWndID(dbv.pwszVal);
+				S = dbv.pwszVal;
 			if (type == GCW_SERVER)
 				S = SERVERWINDOW;
 			int i = Chat_Terminate(m_szModuleName, S);
@@ -220,7 +220,7 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
 		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM) {
 			PostIrcMessage(L"/PART %s %s", dbv.pwszVal, m_userInfo);
-			Chat_Terminate(m_szModuleName, MakeWndID(dbv.pwszVal));
+			Chat_Terminate(m_szModuleName, dbv.pwszVal);
 		}
 		db_free(&dbv);
 	}
@@ -477,7 +477,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 		case 3:
 			PostIrcMessage(L"/PART %s %s", p1, m_userInfo);
-			Chat_Terminate(m_szModuleName, MakeWndID(p1));
+			Chat_Terminate(m_szModuleName, p1);
 			break;
 
 		case 4:		// show server window
@@ -976,7 +976,7 @@ void CIrcProto::ConnectToServer(void)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	wchar_t szTemp[300];
-	mir_snwprintf(szTemp, L"\033%s %S:%u", TranslateT("Connecting to"), m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
+	mir_snwprintf(szTemp, L"\033%s %c%s%c (%S: %u)", TranslateT("Connecting to"), irc::BOLD, m_tszUserName, irc::BOLD, m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 }
 

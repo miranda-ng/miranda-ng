@@ -500,7 +500,7 @@ void CIrcProto::KillChatTimer(UINT_PTR &nIDEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CIrcProto::SetChannelSBText(CMStringW sWindow, CHANNELINFO * wi)
+int CIrcProto::SetChannelSBText(CMStringW sWindow, CHANNELINFO *wi)
 {
 	CMStringW sTemp = L"";
 	if (wi->pszMode) {
@@ -513,13 +513,6 @@ int CIrcProto::SetChannelSBText(CMStringW sWindow, CHANNELINFO * wi)
 	sTemp = DoColorCodes(sTemp.c_str(), TRUE, FALSE);
 	Chat_SetStatusbarText(m_szModuleName, sWindow, sTemp);
 	return 0;
-}
-
-CMStringW CIrcProto::MakeWndID(const wchar_t* sWindow)
-{
-	wchar_t buf[200];
-	mir_snwprintf(buf, L"%s - %s", sWindow, (IsConnected()) ? m_tszUserName : TranslateT("Offline"));
-	return CMStringW(buf);
 }
 
 bool CIrcProto::FreeWindowItemData(CMStringW window, CHANNELINFO *wis)

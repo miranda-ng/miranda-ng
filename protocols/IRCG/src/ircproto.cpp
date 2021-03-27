@@ -191,7 +191,7 @@ void CIrcProto::OnModulesLoaded()
 	nlu.szDescriptiveName.w = name;
 	hNetlibDCC = Netlib_RegisterUser(&nlu);
 
-	m_pServer = Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, TranslateT("Server window"));
+	m_pServer = Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, m_tszUserName);
 
 	if (m_useServer && !m_hideServerWindow)
 		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_VISIBLE);
@@ -209,6 +209,18 @@ void CIrcProto::OnModulesLoaded()
 			delSetting(szSetting);
 		}
 		delSetting("Network");
+	}
+
+	if (getByte("CompatibilityLevel") < 1) {
+		for (auto &cc : AccContacts()) {
+			CMStringW chatId(getMStringW(cc, "ChatRoomID"));
+			int idx = chatId.Find(L" - ");
+			if (idx != -1) {
+				chatId.Truncate(idx);
+				setWString(cc, "ChatRoomID", chatId);
+			}
+		}
+		setByte("CompatibilityLevel", 1);
 	}
 
 	InitIgnore();
