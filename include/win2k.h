@@ -25,19 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef WIN2K_H__
 #define WIN2K_H__ 1
 
-/*
-This file was made to define the new constants normally provided by the windows
-sdk you can get from http://www.microsoft.com/msdownload/platformsdk/sdkupdate/
-To not need to install the whole sdk you can simply comment out the following lines.
-To make myself clear, you are supposed to use the sdk, this is just a work around.
-
-All constants are normally declared in winuser.h
-
-File created by Christian Kostner, and tweaked a bit by Richard Hughes*/
-
-#define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
-#define WinVerMinor()      HIBYTE(LOWORD(GetVersion()))
-
 // put stuff that's not apart of any SDKs but is used nonetheless
 
 #if _MSC_VER >= 1300
