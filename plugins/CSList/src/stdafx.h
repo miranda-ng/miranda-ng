@@ -47,7 +47,6 @@ Offers List of your Custom Statuses.
 #include <m_hotkeys.h>
 
 #include <m_variables.h>
-#include <win2k.h>
 
 #include "resource.h"
 #include "version.h"

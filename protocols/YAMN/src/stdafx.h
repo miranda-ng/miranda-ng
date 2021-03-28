@@ -8,7 +8,6 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_contacts.h>

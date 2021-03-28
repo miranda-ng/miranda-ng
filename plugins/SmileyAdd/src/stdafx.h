@@ -50,7 +50,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define NETLIB_NOLOGGING
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_button.h>
 #include <m_clist.h>

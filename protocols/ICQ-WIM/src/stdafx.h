@@ -67,7 +67,6 @@
 #include <m_timezones.h>
 #include <m_userinfo.h>
 #include <m_utils.h>
-#include <win2k.h>
 
 #include <openssl/evp.h>
 #include <openssl/hmac.h>

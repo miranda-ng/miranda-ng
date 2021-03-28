@@ -32,7 +32,6 @@
 #include <windows.h>
 #include <time.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>

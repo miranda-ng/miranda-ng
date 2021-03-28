@@ -64,7 +64,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_chat_int.h"
 #include "m_icolib.h"
 #include "m_string.h"
-#include "win2k.h"
 #include "m_gui.h"
 
 #include "resource.h"

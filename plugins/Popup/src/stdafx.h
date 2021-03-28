@@ -61,7 +61,6 @@ https://miranda-ng.org/distr/
 #include <Uxtheme.h>
 
 #include <newpluginapi.h>
-#include <win2k.h>
 #include <m_clistint.h>
 #include <m_options.h>
 #include <m_skin.h>

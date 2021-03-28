@@ -13,7 +13,6 @@
 #include <shlwapi.h>
 #include <process.h>
 #include <string.h>
-#include <win2k.h>
 #include <malloc.h>
 
 #include <newpluginapi.h>

@@ -17,7 +17,6 @@
 #include <m_hotkeys.h>
 #include <m_protosvc.h>
 #include <m_options.h>
-#include <win2k.h>
 
 #include <m_toptoolbar.h>
 

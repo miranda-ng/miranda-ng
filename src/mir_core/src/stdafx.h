@@ -50,8 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <direct.h>
 
 #define __NO_CMPLUGIN_NEEDED
-#include <win2k.h>
-
 #include <m_system.h>
 #include <m_database.h>
 #include <m_db_int.h>

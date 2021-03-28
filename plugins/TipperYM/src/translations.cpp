@@ -656,7 +656,7 @@ wchar_t *TimezoneToTime(MCONTACT hContact, const char *szModuleName, const char 
 		timezone += tzi.DaylightBias / 30;
 
 	lift.QuadPart = *(__int64*)&ft;
-	lift.QuadPart -= (__int64)timezone * BIGI(30) * BIGI(60) * BIGI(10000000);
+	lift.QuadPart -= (__int64)timezone * 30ll * 60ll * 10000000ll;
 	*(__int64*)&ft = lift.QuadPart;
 	FileTimeToSystemTime(&ft, &st);
 	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, nullptr, buff, bufflen);

@@ -2,7 +2,6 @@
 
 #include <m_system.h>
 #include <m_fontservice.h>
-#include <win2k.h>
 
 #include "mir_fonts.h"
 

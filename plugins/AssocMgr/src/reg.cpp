@@ -21,6 +21,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#ifndef FILETYPEATTRIBUTEFLAGS
+	#define FTA_Exclude               0x00000001
+	#define FTA_Show                  0x00000002
+	#define FTA_HasExtension          0x00000004
+	#define FTA_NoEdit                0x00000008
+	#define FTA_NoRemove              0x00000010
+	#define FTA_NoNewVerb             0x00000020
+	#define FTA_NoEditVerb            0x00000040
+	#define FTA_NoRemoveVerb          0x00000080
+	#define FTA_NoEditDesc            0x00000100
+	#define FTA_NoEditIcon            0x00000200
+	#define FTA_NoEditDflt            0x00000400
+	#define FTA_NoEditVerbCmd         0x00000800
+	#define FTA_NoEditVerbExe         0x00001000
+	#define FTA_NoDDE                 0x00002000
+	#define FTA_NoEditMIME            0x00008000
+	#define FTA_OpenIsSafe            0x00010000
+	#define FTA_AlwaysUnsafe          0x00020000
+	#define FTA_AlwaysShowExt         0x00040000
+	#define FTA_NoRecentDocs          0x00100000
+	#define FTA_SafeForElevation      0x00200000
+	#define FTA_AlwaysUseDirectInvoke 0x00400000
+#endif  /* FTA_Exclude */
+
 #ifdef _DEBUG
 // Debug: Ensure all registry calls do succeed and have valid parameters.
 // Shows a details message box otherwise.
@@ -604,9 +628,9 @@ BOOL AddRegClass(const char *pszClassName, const wchar_t *pszTypeDescription, co
 		{
 			DWORD dwFlags = 0, dwSize = sizeof(dwFlags);
 			RegQueryValueEx(hClassKey, L"EditFlags", nullptr, nullptr, (BYTE*)&dwFlags, &dwSize);
-			if (fBrowserAutoOpen) dwFlags = (dwFlags&~FTA_AlwaysUnsafe) | FTA_OpenIsSafe;
+			if (fBrowserAutoOpen) dwFlags = (dwFlags & ~FTA_AlwaysUnsafe) | FTA_OpenIsSafe;
 			if (!fUrlProto) dwFlags |= FTA_HasExtension;
-			else dwFlags = (dwFlags&~FTA_HasExtension) | FTA_Show; // show classes without extension
+			else dwFlags = (dwFlags & ~FTA_HasExtension) | FTA_Show; // show classes without extension
 			RegSetValueEx(hClassKey, L"EditFlags", 0, REG_DWORD, (BYTE*)&dwFlags, sizeof(dwFlags));
 		}
 		if (fIsShortcut) {

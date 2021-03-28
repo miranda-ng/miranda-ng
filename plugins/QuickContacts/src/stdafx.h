@@ -39,7 +39,6 @@ Boston, MA 02111-1307, USA.
 #include <m_history.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>
-#include <win2k.h>
 
 #include <m_metacontacts.h>
 #include <m_quickcontacts.h>

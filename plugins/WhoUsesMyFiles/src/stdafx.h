@@ -13,7 +13,6 @@
 #include <m_skin.h>
 #include <m_utils.h>
 #include <m_popup.h>
-#include <win2k.h>
 
 #include <m_toptoolbar.h>
 

@@ -14,7 +14,6 @@
 #include <m_popup.h>
 #include <m_utils.h>
 #include <m_icolib.h>
-#include <win2k.h>
 
 #include <m_ieview.h>
 #include <m_changekeyboardlayout.h>

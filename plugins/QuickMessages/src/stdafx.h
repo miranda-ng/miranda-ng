@@ -35,7 +35,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_protosvc.h>
 #include <m_srmm_int.h>
 #include <m_utils.h>
-#include <win2k.h>
 
 #include "resource.h"
 #include "version.h"

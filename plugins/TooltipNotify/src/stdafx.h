@@ -24,7 +24,6 @@
 #include <m_langpack.h>
 #include <m_clc.h>
 #include <m_fontservice.h>
-#include <win2k.h>
 
 #define MODULENAME "TooltipNotify"
 

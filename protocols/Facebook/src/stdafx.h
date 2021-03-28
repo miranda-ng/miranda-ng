@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string.h>
 #include <assert.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_chat_int.h>

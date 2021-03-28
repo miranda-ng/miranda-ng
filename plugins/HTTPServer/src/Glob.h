@@ -27,7 +27,6 @@
 #include <string>
 using namespace std;
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clistint.h>

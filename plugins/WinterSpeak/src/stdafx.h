@@ -11,7 +11,6 @@
 #include <m_database.h>
 #include <m_genmenu.h>
 #include <m_utils.h>
-#include <win2k.h>
 #include <m_options.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>

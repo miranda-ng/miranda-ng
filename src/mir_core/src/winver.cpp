@@ -17,6 +17,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+#ifndef _WIN32_WINNT_WIN8
+#define _WIN32_WINNT_WIN8     0x0602 // Windows 8
+#endif
+
+#ifndef _WIN32_WINNT_WINBLUE
+#define _WIN32_WINNT_WINBLUE  0x0603 // Windows 8.1
+#endif
+
+#ifndef _WIN32_WINNT_WIN10
+#define _WIN32_WINNT_WIN10    0x0A00 // Windows 10
+#endif
+
 static int dwWinVer;
 
 void InitWinver()

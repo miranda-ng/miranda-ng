@@ -21,7 +21,6 @@ Distributed under GNU's GPL 2 or later
 #include <m_clist.h>
 #include <m_protosvc.h>
 #include <m_ignore.h>
-#include <win2k.h>
 #include <m_message.h>
 
 #include "resource.h"

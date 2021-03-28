@@ -35,7 +35,6 @@
 #include <malloc.h>
 
 #include <newpluginapi.h>
-#include <win2k.h>
 #include <m_button.h>
 #include <m_clc.h>
 #include <m_contacts.h>

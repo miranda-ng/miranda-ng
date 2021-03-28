@@ -42,7 +42,6 @@
 #include "m_userinfo.h"
 #include "m_button.h"
 #include "m_message.h"
-#include "win2k.h"
 
 #include "resource.h"
 #include "version.h"

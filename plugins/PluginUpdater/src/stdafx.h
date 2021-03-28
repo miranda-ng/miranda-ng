@@ -40,7 +40,6 @@ Boston, MA 02111-1307, USA.
 #include <m_icolib.h>
 #include <m_assocmgr.h>
 #include <m_gui.h>
-#include <win2k.h>
 
 #include <m_folders.h>
 

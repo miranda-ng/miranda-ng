@@ -28,7 +28,6 @@ Boston, MA 02111-1307, USA.
 #include <windowsx.h>
 #include <malloc.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_awaymsg.h>

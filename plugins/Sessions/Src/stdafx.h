@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_message.h>
 #include <m_clistint.h>
 #include <m_hotkeys.h>
-#include <win2k.h>
 
 #include <m_toptoolbar.h>
 #include <m_sessions.h>
