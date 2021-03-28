@@ -52,8 +52,10 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(SRMSGMOD, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>("SRMsg", pluginInfoEx),
+	hLogger(RegisterSrmmLog("built-in", L"tabSRMM internal log", &logBuilder))
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -63,14 +65,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 
 int CMPlugin::Load()
 {
-	if (WinVerMajor() < 5) {
-		MessageBox(nullptr, TranslateT("This version of TabSRMM requires Windows 2000 or later."), L"tabSRMM", MB_OK | MB_ICONERROR);
-		return 1;
-	}
-
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
-
-	hLogger = RegisterSrmmLog("built-in", L"tabSRMM internal log", &logBuilder);
 
 	Chat_Load();
 

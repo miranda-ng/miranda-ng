@@ -710,7 +710,7 @@ void CMsgDialog::OnDestroy()
 		if (!m_bEditNotesActive) {
 			char *msg = m_message.GetRichTextRtf(true);
 			if (msg) {
-				db_set_utf(m_hContact, SRMSGMOD, "SavedMsg", msg);
+				g_plugin.setUString(m_hContact, "SavedMsg", msg);
 				mir_free(msg);
 			}
 			else g_plugin.delSetting(m_hContact, "SavedMsg");
