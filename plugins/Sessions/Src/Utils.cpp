@@ -88,28 +88,6 @@ bool LoadContactsFromMask(MCONTACT hContact, int mode, int count)
 	return szValue[count] == '1';
 }
 
-void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
-{
-	char buf[100];
-	mir_snprintf(buf, "%02u", ordernum);
-
-	if (mode == 0) {
-		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsOrder"));
-		if (writemode == 0 && szValue.IsEmpty())
-			return;
-
-		szValue.Insert(0, buf);
-		szValue.Truncate(g_ses_limit * 2);
-		g_plugin.setString(hContact, "LastSessionsOrder", szValue);
-	}
-	else if (mode == 1) {
-		CMStringA szValue(g_plugin.getMStringA(hContact, "UserSessionsOrder"));
-		szValue.Insert(0, buf);
-		szValue.Truncate(g_ses_count * 2);
-		g_plugin.setString(hContact, "UserSessionsOrder", szValue);
-	}
-}
-
 int GetInSessionOrder(MCONTACT hContact, int mode, int count)
 {
 	char szTemp[3] = { 0, 0, 0 };
