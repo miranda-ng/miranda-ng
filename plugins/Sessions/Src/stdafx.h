@@ -27,16 +27,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <malloc.h>
 
 #include <newpluginapi.h>
-#include <m_contacts.h>
-#include <m_options.h>
 #include <m_clc.h>
-#include <m_utils.h>
-#include <m_langpack.h>
-#include <m_metacontacts.h>
-#include <m_icolib.h>
-#include <m_message.h>
 #include <m_clistint.h>
+#include <m_contacts.h>
 #include <m_hotkeys.h>
+#include <m_icolib.h>
+#include <m_langpack.h>
+#include <m_message.h>
+#include <m_metacontacts.h>
+#include <m_options.h>
+#include <m_srmm_int.h>
+#include <m_utils.h>
 
 #include <m_toptoolbar.h>
 #include <m_sessions.h>
@@ -61,16 +62,23 @@ extern IconItem iconList[];
 int DelUserDefSession(int ses_count);
 int DeleteAutoSession(int ses_count);
 int LoadSession(WPARAM, LPARAM);
-int SaveSessionHandles(WPARAM, LPARAM);
-INT_PTR SaveUserSessionHandles(WPARAM, LPARAM);
-int SaveUserSessionName(wchar_t*);
-INT_PTR CloseCurrentSession(WPARAM, LPARAM);
+int SaveSessionHandles(MCONTACT *pSession, bool bNewSession);
 int SaveSessionDate();
+
+void CALLBACK LaunchSessions();
+
+INT_PTR CloseCurrentSession(WPARAM, LPARAM);
+INT_PTR LoadLastSession(WPARAM wparam, LPARAM lparam);
+INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM);
+INT_PTR SaveUserSessionHandles(WPARAM, LPARAM);
 
 extern MCONTACT session_list_recovered[255];
 extern MCONTACT session_list[255];
+
+extern HWND g_hDlg, g_hSDlg;
 extern int g_ses_limit;
 extern int g_ses_count;
+extern bool isLastTRUE;
 extern bool g_bExclHidden;	
 extern bool g_bWarnOnHidden;
 extern bool g_bOtherWarnings;

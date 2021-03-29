@@ -26,8 +26,10 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="Src\LoadSessions.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="Src\SaveSessions.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

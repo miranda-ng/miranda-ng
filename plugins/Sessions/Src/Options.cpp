@@ -429,48 +429,60 @@ public:
 		}
 	}
 
-	void onChange_StartDialog(CCtrlCheck *)
+	void onChange_StartDialog(CCtrlCheck *pCheck)
 	{
+		if (!pCheck->IsChecked()) return;
+
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STARTDELAY), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICOP), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICMS), TRUE);
 		chkLast.Enable();
 	}
 
-	void onChange_LoadLast(CCtrlCheck *)
+	void onChange_LoadLast(CCtrlCheck *pCheck)
 	{
+		if (!pCheck->IsChecked()) return;
+
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STARTDELAY), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICOP), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICMS), TRUE);
 		chkLast.Disable();
 	}
 
-	void onChange_Nothing(CCtrlCheck *)
+	void onChange_Nothing(CCtrlCheck *pCheck)
 	{
+		if (!pCheck->IsChecked()) return;
+
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STARTDELAY), FALSE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICOP), FALSE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_STATICMS), FALSE);
 		chkLast.Disable();
 	}
 
-	void onChange_ExSave(CCtrlCheck *)
+	void onChange_ExSave(CCtrlCheck *pCheck)
 	{
+		if (!pCheck->IsChecked()) return;
+
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EXSTATIC1), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EXSTATIC2), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_TRACK), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_SPIN1), TRUE);
 	}
 
-	void onChange_ExNothing(CCtrlCheck *)
+	void onChange_ExNothing(CCtrlCheck *pCheck)
 	{
+		if (!pCheck->IsChecked()) return;
+
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EXSTATIC1), FALSE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EXSTATIC2), FALSE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_TRACK), FALSE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_SPIN1), FALSE);
 	}
 
-	void onChange_ExAsk(CCtrlCheck *)
+	void onChange_ExAsk(CCtrlCheck *pCheck)
 	{
+		if (!pCheck->IsChecked()) return;
+
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EXSTATIC1), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EXSTATIC2), TRUE);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_TRACK), TRUE);
