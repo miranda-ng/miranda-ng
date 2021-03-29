@@ -7,10 +7,8 @@
 #define IDI_SESSIONS_LOAD               103
 #define IDD_SESSIONS_SAVE               104
 #define IDD_SESSIONS_LOADLAST           105
-
 #define IDD_SESSION_CHECKED             106
 #define IDD_SESSION_UNCHECKED           107
-
 #define IDD_WLCMDIALOG                  120
 #define IDD_SAVEDIALOG                  121
 #define IDD_EXDIALOG                    123
@@ -50,7 +48,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        124
+#define _APS_NEXT_RESOURCE_VALUE        125
 #define _APS_NEXT_COMMAND_VALUE         40015
 #define _APS_NEXT_CONTROL_VALUE         1059
 #define _APS_NEXT_SYMED_VALUE           1125
