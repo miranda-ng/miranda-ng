@@ -377,16 +377,6 @@ EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDAT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-// receives LOGSTREAMDATA* as the first parameter
-EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
-
-// sends a message to all SRMM windows
-EXTERN_C MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
-
-// finds a SRMM window using hContact
-EXTERN_C MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact);
-EXTERN_C MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact);
-
 // updates options for all windows
 EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions();
 
