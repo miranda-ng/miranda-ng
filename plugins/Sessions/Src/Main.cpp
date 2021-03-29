@@ -42,16 +42,6 @@ CMPlugin g_plugin;
 
 int OptionsInit(WPARAM, LPARAM);
 
-IconItem iconList[] =
-{
-	{ LPGEN("Sessions"), "Sessions", IDD_SESSION_CHECKED },
-	{ LPGEN("Favorite Session"), "SessionMarked", IDD_SESSION_CHECKED },
-	{ LPGEN("Not favorite Session"), "SessionUnMarked", IDD_SESSION_UNCHECKED },
-	{ LPGEN("Load Session"), "SessionsLoad", IDI_SESSIONS_LOAD },
-	{ LPGEN("Save Session"), "SessionsSave", IDD_SESSIONS_SAVE },
-	{ LPGEN("Load last Session"), "SessionsLoadLast", IDD_SESSIONS_LOADLAST }
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx =
@@ -257,22 +247,22 @@ static int CreateButtons(WPARAM, LPARAM)
 
 	ttb.pszService = MS_SESSIONS_OPENMANAGER;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Open Sessions Manager");
-	ttb.hIconHandleUp = iconList[3].hIcolib;
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_SESSIONS_LOAD);
 	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Save Session");
-	ttb.hIconHandleUp = iconList[4].hIcolib;
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDD_SESSIONS_SAVE);
 	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Restore Last Session");
-	ttb.hIconHandleUp = iconList[5].hIcolib;
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDD_SESSIONS_LOADLAST);
 	g_plugin.addTTB(&ttb);
 
 	ttb.pszService = MS_SESSIONS_SHOWFAVORITESMENU;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Show Favorite Sessions Menu");
-	ttb.hIconHandleUp = iconList[1].hIcolib;
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDD_SESSION_CHECKED);
 	g_plugin.addTTB(&ttb);
 	return 0;
 }
@@ -313,14 +303,14 @@ static int PluginInit(WPARAM, LPARAM)
 
 	SET_UID(mi, 0xd35302fa, 0x8326, 0x4323, 0xa3, 0xe5, 0xb4, 0x41, 0xff, 0xfb, 0xaa, 0x2d);
 	mi.name.a = LPGEN("Save session...");
-	mi.hIcolibItem = iconList[4].hIcolib;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDD_SESSIONS_SAVE);
 	mi.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	hmSaveCurrentSession = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x8de4d8b1, 0x9a62, 0x4f4e, 0xb0, 0x3d, 0x99, 0x7, 0x80, 0xe8, 0x93, 0xc2);
 	mi.name.a = LPGEN("Load session...");
 	mi.pszService = MS_SESSIONS_OPENMANAGER;
-	mi.hIcolibItem = iconList[3].hIcolib;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SESSIONS_LOAD);
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x73ea91d6, 0xb7e5, 0x4f67, 0x96, 0x96, 0xa, 0x24, 0x21, 0x48, 0x6f, 0x15);
@@ -332,13 +322,23 @@ static int PluginInit(WPARAM, LPARAM)
 	SET_UID(mi, 0xe2c4e4ba, 0x5d08, 0x441b, 0xb5, 0x93, 0xc4, 0xe7, 0x9a, 0xfb, 0xa4, 0x6c);
 	mi.name.a = LPGEN("Load last session");
 	mi.pszService = MS_SESSIONS_RESTORELASTSESSION;
-	mi.hIcolibItem = iconList[5].hIcolib;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDD_SESSIONS_LOADLAST);
 	mi.position = 10100000;
 	Menu_AddMainMenuItem(&mi);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Sessions"), "Sessions", IDD_SESSION_CHECKED },
+	{ LPGEN("Favorite Session"), "SessionMarked", IDD_SESSION_CHECKED },
+	{ LPGEN("Not favorite Session"), "SessionUnMarked", IDD_SESSION_UNCHECKED },
+	{ LPGEN("Load Session"), "SessionsLoad", IDI_SESSIONS_LOAD },
+	{ LPGEN("Save Session"), "SessionsSave", IDD_SESSIONS_SAVE },
+	{ LPGEN("Load last Session"), "SessionsLoadLast", IDD_SESSIONS_LOADLAST }
+};
 
 int CMPlugin::Load()
 {

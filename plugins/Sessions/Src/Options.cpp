@@ -189,8 +189,8 @@ public:
 		cbi.cbSize = sizeof(cbi);
 
 		iSessionId = 0;
-		hMarked = IcoLib_GetIconByHandle(iconList[1].hIcolib);
-		hNotMarked = IcoLib_GetIconByHandle(iconList[2].hIcolib);
+		hMarked = g_plugin.getIcon(IDD_SESSION_CHECKED);
+		hNotMarked = g_plugin.getIcon(IDD_SESSION_UNCHECKED);
 
 		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE,
 				GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);

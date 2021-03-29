@@ -55,8 +55,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Load() override;
 };
 
-extern IconItem iconList[];
-
 #define MIIM_STRING	0x00000040
 
 int DelUserDefSession(int ses_count);
