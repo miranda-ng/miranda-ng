@@ -28,7 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId, WORD wMax, WORD wMin) :
 	CCtrlData(dlg, ctrlId),
 	m_wMin(wMin),
-	m_wMax(wMax)
+	m_wMax(wMax),
+	m_wCurr(0)
 {}
 
 BOOL CCtrlSpin::OnNotify(int, NMHDR *pnmh)
@@ -50,6 +51,14 @@ bool CCtrlSpin::OnApply()
 	m_wCurr = SendMsg(UDM_GETPOS, 0, 0);
 	if (m_dbLink != nullptr)
 		SaveInt(m_wCurr);
+
+	HWND hwndBuddy = (HWND)SendMsg(UDM_GETBUDDY, 0, 0);
+	if (hwndBuddy) {
+		wchar_t buf[100];
+		_itow(m_wCurr, buf, 10);
+		::SendMessage(hwndBuddy, WM_SETTEXT, 0, LPARAM(buf));
+	}
+
 	return true;
 }
 
