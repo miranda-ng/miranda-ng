@@ -23,101 +23,36 @@ bool bSC = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int SaveSessionDate()
+static int SaveUserSessionName(MCONTACT *contacts, wchar_t *szUSessionName)
 {
-	if (session_list[0] != 0) {
-		int TimeSize = GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, nullptr, nullptr, nullptr, 0);
-		wchar_t *szTimeBuf = (wchar_t*)mir_alloc((TimeSize + 1)*sizeof(wchar_t));
-
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, nullptr, nullptr, szTimeBuf, TimeSize);
-
-		int DateSize = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, nullptr, 0);
-		wchar_t *szDateBuf = (wchar_t*)mir_alloc((DateSize + 1)*sizeof(wchar_t));
-
-		GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, szDateBuf, DateSize);
-		int lenn = (DateSize + TimeSize + 5);
-		wchar_t *szSessionTime = (wchar_t*)mir_alloc(lenn*sizeof(wchar_t));
-		mir_snwprintf(szSessionTime, lenn, L"%s - %s", szTimeBuf, szDateBuf);
-
-		char szSetting[256];
-		mir_snprintf(szSetting, "%s_%d", "SessionDate", 0);
-		wchar_t *ptszSaveSessionDate = g_plugin.getWStringA(szSetting);
-
-		g_plugin.setWString(szSetting, szSessionTime);
-		mir_free(szSessionTime);
-
-		if (ptszSaveSessionDate)
-			ResaveSettings("SessionDate", 1, g_ses_limit, ptszSaveSessionDate);
-
-		if (szTimeBuf)
-			mir_free(szTimeBuf);
-		if (szDateBuf)
-			mir_free(szDateBuf);
-	}
-	
-	if (g_bCrashRecovery)
-		g_plugin.setByte("lastSaveCompleted", 1);
-	return 0;
-}
-
-static int SaveUserSessionName(MCONTACT *pSession, wchar_t *szUSessionName)
-{
-	if (pSession[0] == 0)
+	if (contacts[0] == 0)
 		return 1;
 
-	char szSetting[256];
-	mir_snprintf(szSetting, "%s_%u", "UserSessionDsc", 0);
-	wchar_t *ptszUserSessionName = g_plugin.getWStringA(szSetting);
-	if (ptszUserSessionName)
-		ResaveSettings("UserSessionDsc", 1, 255, ptszUserSessionName);
+	CSession *pSession = nullptr;
+	for (auto &it : g_arUserSessions)
+		if (!it->wszName.CompareNoCase(szUSessionName))
+			pSession = it;
 
-	g_plugin.setWString(szSetting, szUSessionName);
-	return 0;
-}
+	if (pSession)
+		pSession->contacts.clear();
+	else {
+		g_plugin.g_lastUserId = g_plugin.g_lastUserId + 1;
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
-{
-	char buf[100];
-	mir_snprintf(buf, "%02u", ordernum);
-
-	if (mode == 0) {
-		CMStringA szValue(g_plugin.getMStringA(hContact, "LastSessionsOrder"));
-		if (writemode == 0 && szValue.IsEmpty())
-			return;
-
-		szValue.Insert(0, buf);
-		szValue.Truncate(g_ses_limit * 2);
-		g_plugin.setString(hContact, "LastSessionsOrder", szValue);
+		pSession = new CSession();
+		pSession->id = g_plugin.g_lastUserId;
+		pSession->bIsUser = true;
+		pSession->wszName = szUSessionName;
+		g_arUserSessions.insert(pSession);
 	}
-	else if (mode == 1) {
-		CMStringA szValue(g_plugin.getMStringA(hContact, "UserSessionsOrder"));
-		szValue.Insert(0, buf);
-		szValue.Truncate(g_ses_count * 2);
-		g_plugin.setString(hContact, "UserSessionsOrder", szValue);
-	}
-}
 
-int SaveSessionHandles(MCONTACT *pSession, bool bNewSession)
-{
-	if (pSession[0] == 0)
-		return 1;
+	for (int i = 0; contacts[i]; i++)
+		pSession->contacts.push_back(contacts[i]);
 
-	int k = 0;
-	for (auto &hContact : Contacts()) {
-		if ((k = CheckForDuplicate(pSession, hContact)) != -1 && !(g_bExclHidden && !CheckContactVisibility(hContact))) {
-			AddSessionMark(hContact, bNewSession, '1');
-			AddInSessionOrder(hContact, bNewSession, k, 1);
-		}
-		else {
-			AddSessionMark(hContact, bNewSession, '0');
-			AddInSessionOrder(hContact, bNewSession, 0, 0);
-		}
-	}
-	if (bNewSession) {
-		g_ses_count++;
-		g_plugin.setByte("UserSessionsCount", (BYTE)g_ses_count);
+	pSession->save();
+
+	while (g_arUserSessions.getCount() > g_ses_limit) {
+		g_arUserSessions[0].remove();
+		g_arUserSessions.remove(int(0));
 	}
 	return 0;
 }
@@ -151,7 +86,7 @@ public:
 	bool OnInitDialog() override
 	{
 		g_hSDlg = m_hwnd;
-		LoadSessionToCombobox(m_hwnd, 1, 5, "UserSessionDsc", 0);
+		LoadSessionToCombobox(m_sessions, true);
 
 		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE,
 			GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
@@ -166,6 +101,7 @@ public:
 	{
 		wchar_t szUserSessionName[MAX_PATH];
 		m_sessions.GetText(szUserSessionName, _countof(szUserSessionName));
+		rtrimw(szUserSessionName);
 		if (szUserSessionName[0] == 0) {
 			MessageBox(nullptr, TranslateT("Session name is empty, enter the name and try again"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			return false;
@@ -181,14 +117,11 @@ public:
 				}
 			}
 
-			SaveSessionHandles(user_session_list, true);
 			SaveUserSessionName(user_session_list, szUserSessionName);
 			return true;
 		}
 
 		if (!SaveUserSessionName(session_list, szUserSessionName)) {
-			SaveSessionHandles(session_list, true);
-
 			if (chkSaveAndClose.IsChecked())
 				CloseCurrentSession(0, 0);
 			return true;

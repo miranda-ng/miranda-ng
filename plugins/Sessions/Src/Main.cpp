@@ -21,10 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HGENMENU hmSaveCurrentSession;
 
+OBJLIST<CSession> g_arUserSessions(1, NumericKeySortT), g_arDateSessions(1, NumericKeySortT);
+
 HANDLE hmTBButton[2], hiTBbutton[2], iTBbutton[2];
 
 int g_ses_limit;
-int g_ses_count;
+int g_lastUserId, g_lastDateId;
+
 bool g_bExclHidden;
 bool g_bWarnOnHidden;
 bool g_bOtherWarnings;
@@ -33,7 +36,7 @@ bool g_bIncompletedSave;
 
 HWND g_hDlg;
 bool DONT = false;
-bool isLastTRUE = false;
+bool g_bLastSessionPresent = false;
 
 MCONTACT session_list[255] = { 0 };
 MCONTACT session_list_recovered[255];
@@ -59,51 +62,10 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	g_lastUserId(MODULENAME, "LastUserId", 0),
+	g_lastDateId(MODULENAME, "LastDateId", 0)
 {}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-INT_PTR CALLBACK ExitDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		LoadPosition(hdlg, "ExitDlg");
-		ShowWindow(hdlg, SW_SHOW);
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wparam)) {
-		case IDOK:
-			SavePosition(hdlg, "ExitDlg");
-			SaveSessionDate();
-			SaveSessionHandles(session_list, false);
-			g_plugin.setByte("lastempty", 0);
-			DestroyWindow(hdlg);
-			break;
-
-		case IDCANCEL:
-			SavePosition(hdlg, "ExitDlg");
-			g_plugin.setByte("lastempty", 1);
-			DestroyWindow(hdlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hdlg);
-		break;
-
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-
-	default:
-		return FALSE;
-	}
-	return TRUE;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -119,69 +81,6 @@ INT_PTR CloseCurrentSession(WPARAM, LPARAM)
 	return 0;
 }
 
-int DelUserDefSession(int ses_count)
-{
-	for (auto &hContact : Contacts()) {
-		RemoveSessionMark(hContact, 1, ses_count);
-		SetInSessionOrder(hContact, 1, ses_count, 0);
-	}
-
-	char szSessionName[256];
-	mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", ses_count);
-	g_plugin.delSetting(szSessionName);
-
-	mir_snprintf(szSessionName, "%s_%u", "FavUserSession", ses_count);
-	g_plugin.delSetting(szSessionName);
-
-	for (int i = ses_count + 1;; i++) {
-		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i);
-		ptrW szSessionNameBuf(g_plugin.getWStringA(szSessionName));
-
-		mir_snprintf(szSessionName, "%s_%u", "UserSessionDsc", i - 1);
-		if (szSessionNameBuf) {
-			MarkUserDefSession(i - 1, IsMarkedUserDefSession(i));
-			g_plugin.setWString(szSessionName, szSessionNameBuf);
-		}
-		else {
-			g_plugin.delSetting(szSessionName);
-
-			mir_snprintf(szSessionName, "%s_%u", "FavUserSession", i - 1);
-			g_plugin.delSetting(szSessionName);
-			break;
-		}
-	}
-	g_ses_count--;
-	g_plugin.setByte("UserSessionsCount", (BYTE)g_ses_count);
-	return 0;
-}
-
-int DeleteAutoSession(int ses_count)
-{
-	for (auto &hContact : Contacts()) {
-		RemoveSessionMark(hContact, 0, ses_count);
-		SetInSessionOrder(hContact, 0, ses_count, 0);
-	}
-
-	char szSessionName[256];
-	mir_snprintf(szSessionName, "%s_%u", "SessionDate", ses_count);
-	g_plugin.delSetting(szSessionName);
-
-	for (int i = ses_count + 1;; i++) {
-		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i);
-		ptrW szSessionNameBuf(g_plugin.getWStringA(szSessionName));
-
-		mir_snprintf(szSessionName, "%s_%u", "SessionDate", i - 1);
-		if (szSessionNameBuf)
-			g_plugin.setWString(szSessionName, szSessionNameBuf);
-		else {
-			g_plugin.delSetting(szSessionName);
-			break;
-		}
-	}
-
-	return 0;
-}
-
 int SessionPreShutdown(WPARAM, LPARAM)
 {
 	DONT = 1;
@@ -193,33 +92,125 @@ int SessionPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void SaveDateSession()
+{
+	if (session_list[0] != 0) {
+		int TimeSize = GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, nullptr, nullptr, nullptr, 0);
+		ptrW szTimeBuf((wchar_t*)mir_alloc((TimeSize + 1)*sizeof(wchar_t)));
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, nullptr, nullptr, szTimeBuf, TimeSize);
+
+		int DateSize = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, nullptr, 0);
+		ptrW szDateBuf((wchar_t*)mir_alloc((DateSize + 1)*sizeof(wchar_t)));
+		GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, szDateBuf, DateSize);
+
+		g_plugin.g_lastDateId = g_plugin.g_lastDateId+1;
+
+		CSession data;
+		data.wszName.Format(L"%s - %s", szTimeBuf.get(), szDateBuf.get());
+		for (int i = 0; session_list[i]; i++)
+			data.contacts.push_back(session_list[i]);
+
+		char szSetting[256];
+		mir_snprintf(szSetting, "%s_%d", "SessionDate", int(g_plugin.g_lastDateId));
+		g_plugin.setUString(szSetting, data.toString().c_str());
+
+		while (g_arDateSessions.getCount() >= g_ses_limit) {
+			mir_snprintf(szSetting, "%s_%d", "SessionDate", g_arDateSessions[0].id);
+			g_plugin.delSetting(szSetting);
+			g_arDateSessions.remove(int(0));
+		}
+	}
+
+	if (g_bCrashRecovery)
+		g_plugin.setByte("lastSaveCompleted", 1);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Exit dialog
+
+class CExitDlg : public CDlgBase
+{
+
+public:
+	CExitDlg() :
+		CDlgBase(g_plugin, IDD_EXDIALOG)
+	{}
+
+	bool OnInitDialog() override
+	{
+		LoadPosition(m_hwnd, "ExitDlg");
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		SaveDateSession();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		SavePosition(m_hwnd, "ExitDlg");
+		g_plugin.setByte("lastempty", 1);
+		PostQuitMessage(0);
+	}
+};
+
 int OkToExit(WPARAM, LPARAM)
 {
 	int exitmode = g_plugin.getByte("ShutdownMode", 2);
 	DONT = 1;
 	if (exitmode == 2 && session_list[0] != 0) {
-		SaveSessionDate();
-		SaveSessionHandles(session_list, false);
+		SaveDateSession();
 		g_plugin.setByte("lastempty", 0);
 	}
 	else if (exitmode == 1 && session_list[0] != 0) {
-		DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXDIALOG), nullptr, ExitDlgProc);
+		CExitDlg().DoModal();
 	}
 	else g_plugin.setByte("lastempty", 1);
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void AddToCurSession(MCONTACT hContact)
+{
+	if (CheckForDuplicate(session_list, hContact) == -1) {
+		for (int i = 0;; i++) {
+			if (session_list[i] == 0) {
+				session_list[i] = hContact;
+				break;
+			}
+		}
+	}
+}
+
+static void DelFromCurSession(MCONTACT hContact)
+{
+	for (int i = 0; session_list[i] != 0; i++) {
+		if (session_list[i] == hContact) {
+			while (session_list[i + 1] != 0) {
+				session_list[i] = session_list[i + 1];
+				i++;
+			}
+			session_list[i] = 0;
+		}
+	}
 }
 
 static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
 	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
-		AddToCurSession(MWeventdata->hContact, 0);
+		AddToCurSession(MWeventdata->hContact);
 		if (g_bCrashRecovery)
 			g_plugin.setByte(MWeventdata->hContact, "wasInLastSession", 1);
 	}
 	else if (MWeventdata->uType == MSG_WINDOW_EVT_CLOSE) {
 		if (!DONT)
-			DelFromCurSession(MWeventdata->hContact, 0);
+			DelFromCurSession(MWeventdata->hContact);
 		if (g_bCrashRecovery)
 			g_plugin.setByte(MWeventdata->hContact, "wasInLastSession", 0);
 	}
@@ -227,18 +218,35 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR BuildFavMenu(WPARAM, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
 
 	HMENU hMenu = CreatePopupMenu();
-	FillFavoritesMenu(hMenu, g_ses_count);
+	for (auto &it: g_arUserSessions)
+		if (it->bIsFavorite)
+			AppendMenu(hMenu, MF_STRING, it->id + 1, it->wszName);
+	
+	if (GetMenuItemCount(hMenu) == 0) {
+		DestroyMenu(hMenu);
+		return 2;
+	}
+
 	int res = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_NONOTIFY, pt.x, pt.y, 0, GetActiveWindow(), nullptr);
-	if (res == 0) return 1;
-	LoadSession(0, (res - 1) + g_ses_limit);
+	if (res == 0)
+		return 1;
+	
+	res--;
+	if (auto *pSession = g_arUserSessions.find((CSession*)&res))
+		LoadSession(pSession);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Toolbar initialization
 
 static int CreateButtons(WPARAM, LPARAM)
 {
@@ -267,7 +275,9 @@ static int CreateButtons(WPARAM, LPARAM)
 	return 0;
 }
 
-static int PluginInit(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
 	HookEvent(ME_TTB_MODULELOADED, CreateButtons);
@@ -340,23 +350,52 @@ static IconItem iconList[] =
 	{ LPGEN("Load last Session"), "SessionsLoadLast", IDD_SESSIONS_LOADLAST }
 };
 
+int LoadSettings(const char *szSetting, void *)
+{
+	if (!memcmp(szSetting, "SessionUser_", 12)) {
+		auto *pSession = new CSession();
+		pSession->id = atoi(szSetting + 12);
+		pSession->fromString(ptrA(db_get_utfa(0, MODULENAME, szSetting)));
+		g_arUserSessions.insert(pSession);
+	}
+	else if (!memcmp(szSetting, "SessionDate_", 12)) {
+		auto *pSession = new CSession();
+		pSession->id = atoi(szSetting + 12);
+		pSession->fromString(ptrA(db_get_utfa(0, MODULENAME, szSetting)));
+		g_arDateSessions.insert(pSession);
+	}
+	
+	return 0;
+}
+
 int CMPlugin::Load()
 {
+	// Icons
+	g_plugin.registerIcon(MODULENAME, iconList);
+
+	// Services
 	CreateServiceFunction(MS_SESSIONS_SHOWFAVORITESMENU, BuildFavMenu);
 	CreateServiceFunction(MS_SESSIONS_OPENMANAGER, OpenSessionsManagerWindow);
 	CreateServiceFunction(MS_SESSIONS_RESTORELASTSESSION, LoadLastSession);
 	CreateServiceFunction(MS_SESSIONS_SAVEUSERSESSION, SaveUserSessionHandles);
 	CreateServiceFunction(MS_SESSIONS_CLOSESESSION, CloseCurrentSession);
 
+	// Events
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+
 	Miranda_WaitOnHandle(LaunchSessions);
 
-	g_ses_count = g_plugin.getByte("UserSessionsCount", 0);
+	// Settimgs
 	g_ses_limit = g_plugin.getByte("TrackCount", 10);
 	g_bExclHidden = g_plugin.getByte("ExclHidden", 0) != 0;
 	g_bWarnOnHidden = g_plugin.getByte("WarnOnHidden", 0) != 0;
 	g_bOtherWarnings = g_plugin.getByte("OtherWarnings", 1) != 0;
 	g_bCrashRecovery = g_plugin.getByte("CrashRecovery", 0) != 0;
 
+	// Crash recovery
 	if (g_bCrashRecovery)
 		g_bIncompletedSave = g_plugin.getByte("lastSaveCompleted", 0) == 0;
 
@@ -375,14 +414,12 @@ int CMPlugin::Load()
 	g_plugin.setByte("lastSaveCompleted", 0);
 
 	if (!g_plugin.getByte("lastempty", 1) || g_bIncompletedSave)
-		isLastTRUE = true;
+		g_bLastSessionPresent = true;
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
-	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	// Check for old settings
+	CheckImport();
 
-	// Icons
-	g_plugin.registerIcon(MODULENAME, iconList);
+	// Load settings data
+	db_enum_settings(0, LoadSettings, MODULENAME);
 	return 0;
 }

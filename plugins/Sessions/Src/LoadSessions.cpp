@@ -17,154 +17,113 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-bool g_hghostw, g_bStartup;
+static bool g_bDontShow, g_bStartup;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
+class CLoadSessionDlg : public CDlgBase
 {
-	static int ses_count;
+	CSession *pSession = nullptr;
 
-	g_hDlg = hdlg;
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hdlg);
-		{
-			int iDelay = g_plugin.getWord("StartupModeDelay", 1500);
-			if (g_hghostw == TRUE)
-				SetTimer(hdlg, TIMERID_LOAD, iDelay, nullptr);
-			else {
-				if ((ses_count = LoadSessionToCombobox(hdlg, 0, g_ses_limit, "SessionDate", 0)) == g_ses_limit)
-					EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), TRUE);
+	CTimer timerShow, timerLoad;
+	CCtrlCombo m_list;
+	CCtrlButton btnDelete;
 
-				if (LoadSessionToCombobox(hdlg, 0, 255, "UserSessionDsc", g_ses_limit) == 0 && ses_count != 0)
-					ses_count = 0;
+public:
+	CLoadSessionDlg() :
+		CDlgBase(g_plugin, IDD_WLCMDIALOG),
+		m_list(this, IDC_LIST),
+		btnDelete(this, IDC_SESSDEL),
+		timerLoad(this, TIMERID_LOAD),
+		timerShow(this, TIMERID_SHOW)
+	{
+		btnDelete.OnClick = Callback(this, &CLoadSessionDlg::onClick_Delete);
 
-				if (session_list_recovered[0])
-					ses_count = 256;
+		m_list.OnSelChanged = Callback(this, &CLoadSessionDlg::onSelChange_List);
 
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
-				LoadPosition(hdlg, "LoadDlg");
-				if (g_bStartup)
-					SetTimer(hdlg, TIMERID_SHOW, iDelay, nullptr);
-				else
-					ShowWindow(g_hDlg, SW_SHOW);
-			}
-		}
-		break;
+		timerLoad.OnEvent = Callback(this, &CLoadSessionDlg::onTimer_Load);
+		timerShow.OnEvent = Callback(this, &CLoadSessionDlg::onTimer_Show);
+	}
 
-	case WM_TIMER:
-		if (wparam == TIMERID_SHOW) {
-			KillTimer(hdlg, TIMERID_SHOW);
-			ShowWindow(hdlg, SW_SHOW);
-			g_bStartup = FALSE;
-		}
+	bool OnInitDialog() override
+	{
+		g_hDlg = m_hwnd;
+
+		LoadSessionToCombobox(m_list, false);
+		LoadSessionToCombobox(m_list, true);
+		m_list.SetCurSel(0);
+		pSession = (CSession *)m_list.GetItemData(0);
+
+		int iDelay = g_plugin.getWord("StartupModeDelay", 1500);
+		if (g_bDontShow == TRUE)
+			timerLoad.Start(iDelay);
 		else {
-			KillTimer(hdlg, TIMERID_LOAD);
-			LoadSession(0, g_bIncompletedSave ? 256 : 0);
-			g_hghostw = g_bStartup = FALSE;
-			DestroyWindow(hdlg);
-			g_hDlg = nullptr;
+			LoadPosition(m_hwnd, "LoadDlg");
+			if (g_bStartup)
+				timerShow.Start(iDelay);
+			else
+				Show();
 		}
-		break;
 
-	case WM_CLOSE:
-		SavePosition(hdlg, "LoadDlg");
-		DestroyWindow(hdlg);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (!LoadSession(pSession))
+			return true;
+
+		return false;
+	}
+
+	void OnDestroy() override
+	{
+		SavePosition(m_hwnd, "LoadDlg");
 		g_hDlg = nullptr;
-		break;
+	}
 
-	case WM_COMMAND:
-		switch (LOWORD(wparam)) {
-		case IDC_LIST:
-			switch (HIWORD(wparam)) {
-			case CBN_SELCHANGE:
-				HWND hCombo = GetDlgItem(hdlg, IDC_LIST);
-				int index = SendMessage(hCombo, CB_GETCURSEL, 0, 0);
-				if (index != CB_ERR)
-					ses_count = SendMessage(hCombo, CB_GETITEMDATA, (WPARAM)index, 0);
-			}
-			break;
+	void onTimer_Load(CTimer *pTimer)
+	{
+		pTimer->Stop();
+		LoadSession(pSession);
+		g_bDontShow = g_bStartup = false;
+		Close();
+	}
 
-		case IDC_SESSDEL:
-			if (session_list_recovered[0] && ses_count == 256) {
+	void onTimer_Show(CTimer *pTimer)
+	{
+		pTimer->Stop();
+		Show();
+		g_bStartup = FALSE;
+	}
+
+	void onSelChange_List(CCtrlCombo *)
+	{
+		int index = m_list.GetCurSel();
+		if (index != CB_ERR)
+			pSession = (CSession*)m_list.GetItemData(index);
+	}
+
+	void onClick_Delete(CCtrlButton *)
+	{
+		if (pSession == nullptr) {
+			if (session_list_recovered[0]) {
 				for (int i = 0; session_list_recovered[i]; i++)
 					g_plugin.setByte(session_list_recovered[i], "wasInLastSession", 0);
-
 				memset(session_list_recovered, 0, sizeof(session_list_recovered));
-				g_bIncompletedSave = 0;
-
-				EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), FALSE);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_RESETCONTENT, 0, 0);
-
-				if ((ses_count = LoadSessionToCombobox(hdlg, 1, g_ses_limit, "SessionDate", 0)) == g_ses_limit)
-					EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), TRUE);
-
-				if (LoadSessionToCombobox(hdlg, 1, 255, "UserSessionDsc", g_ses_limit) == 0 && ses_count != 0)
-					ses_count = 0;
-
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
-
 			}
-			else if (ses_count >= g_ses_limit) {
-				ses_count -= g_ses_limit;
-				DelUserDefSession(ses_count);
-				EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), FALSE);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_RESETCONTENT, 0, 0);
-
-				if ((ses_count = LoadSessionToCombobox(hdlg, 0, g_ses_limit, "SessionDate", 0)) == g_ses_limit)
-					EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), TRUE);
-
-				if (LoadSessionToCombobox(hdlg, 0, 255, "UserSessionDsc", g_ses_limit) == 0 && ses_count != 0)
-					ses_count = 0;
-
-				if (session_list_recovered[0])
-					ses_count = 256;
-
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
-			}
-			else {
-				DeleteAutoSession(ses_count);
-				EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), FALSE);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_RESETCONTENT, 0, 0);
-				if ((ses_count = LoadSessionToCombobox(hdlg, 0, g_ses_limit, "SessionDate", 0)) == g_ses_limit)
-					EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), TRUE);
-
-				if (LoadSessionToCombobox(hdlg, 0, 255, "UserSessionDsc", g_ses_limit) == 0 && ses_count != 0)
-					ses_count = 0;
-
-				if (session_list_recovered[0])
-					ses_count = 256;
-
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
-			}
-			if (SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, 0, 0))
-				EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), TRUE);
-			else
-				EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), FALSE);
-			break;
-
-		case IDOK:
-			if (!LoadSession(0, ses_count)) {
-				SavePosition(hdlg, "LoadDlg");
-				DestroyWindow(hdlg);
-				g_hDlg = nullptr;
-			}
-			break;
-
-		case IDCANCEL:
-			SavePosition(hdlg, "LoadDlg");
-			DestroyWindow(hdlg);
-			g_hDlg = nullptr;
-			break;
+			g_bIncompletedSave = 0;
 		}
-		break;
+		else pSession->remove();
 
-	default:
-		return FALSE;
+		m_list.ResetContent();
+		LoadSessionToCombobox(m_list, false);
+		LoadSessionToCombobox(m_list, true);
+
+		m_list.SetCurSel(0);
+		btnDelete.Enable(m_list.GetCount() != 0);
 	}
-	return TRUE;
-}
+};
 
 INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 {
@@ -173,9 +132,8 @@ INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 		return 0;
 	}
 
-	ptrW tszSession(g_plugin.getWStringA("SessionDate_0")), tszUserSession(g_plugin.getWStringA("UserSessionDsc_0"));
-	if (g_bIncompletedSave || tszSession || tszUserSession) {
-		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
+	if (g_bIncompletedSave || g_arDateSessions.getCount() || g_arUserSessions.getCount()) {
+		(new CLoadSessionDlg())->Create();
 		return 0;
 	}
 	
@@ -187,22 +145,24 @@ INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 void CALLBACK LaunchSessions()
 {
 	int startup = g_plugin.getByte("StartupMode", 3);
-	if (startup == 1 || (startup == 3 && isLastTRUE == TRUE)) {
-		g_bStartup = TRUE;
-		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
+	if (startup == 1 || (startup == 3 && g_bLastSessionPresent)) {
+		g_bStartup = true;
+		(new CLoadSessionDlg())->Create();
 	}
-	else if (startup == 2 && isLastTRUE == TRUE) {
-		g_hghostw = TRUE;
-		g_hDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
+	else if (startup == 2 && g_bLastSessionPresent) {
+		g_bDontShow = true;
+		(new CLoadSessionDlg())->Create();
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR LoadLastSession(WPARAM wparam, LPARAM lparam)
+INT_PTR LoadLastSession(WPARAM, LPARAM)
 {
-	if (isLastTRUE)
-		return LoadSession(wparam, lparam);
+	int cnt = g_arDateSessions.getCount();
+	if (g_bLastSessionPresent && cnt)
+		return LoadSession(&g_arDateSessions[cnt-1]);
+	
 	if (g_bOtherWarnings)
 		MessageBox(nullptr, TranslateT("Last Sessions is empty"), TranslateT("Sessions Manager"), MB_OK);
 	return 0;
@@ -211,24 +171,19 @@ INT_PTR LoadLastSession(WPARAM wparam, LPARAM lparam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load session dialog
 
-int LoadSession(WPARAM, LPARAM lparam)
+int LoadSession(CSession *pSession)
 {
 	int dup = 0;
 	int hidden[255] = { '0' };
-	MCONTACT session_list_t[255] = { 0 };
-	int mode = 0;
-	if ((int)lparam >= g_ses_limit && lparam != 256) {
-		mode = 1;
-		lparam -= g_ses_limit;
-	}
-	if (session_list_recovered[0] && lparam == 256 && mode == 0)
+
+	MCONTACT session_list_t[255] = {};
+	if (session_list_recovered[0] && pSession == nullptr)
 		memcpy(session_list_t, session_list_recovered, sizeof(session_list_t));
-	else
-		for (auto &hContact : Contacts())
-			if (LoadContactsFromMask(hContact, mode, lparam)) {
-				int i = GetInSessionOrder(hContact, mode, lparam);
-				session_list_t[i] = hContact;
-			}
+	else {
+		int i = 0;
+		for (auto &cc : pSession->contacts)
+			session_list_t[i++] = cc;
+	}
 
 	int i = 0, j = 0;
 	// TODO: change to "switch"

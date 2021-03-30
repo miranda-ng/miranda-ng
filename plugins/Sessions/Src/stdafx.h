@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <commctrl.h>
 
 #include <malloc.h>
+#include <vector>
 
 #include <newpluginapi.h>
 #include <m_clc.h>
@@ -32,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_contacts.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
+#include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_metacontacts.h>
@@ -50,18 +52,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<int> g_lastUserId, g_lastDateId;
+
 	CMPlugin();
+
+	void CheckImport();
 
 	int Load() override;
 };
 
-#define MIIM_STRING	0x00000040
+/////////////////////////////////////////////////////////////////////////////////////////
 
-int DelUserDefSession(int ses_count);
-int DeleteAutoSession(int ses_count);
-int LoadSession(WPARAM, LPARAM);
-int SaveSessionHandles(MCONTACT *pSession, bool bNewSession);
-int SaveSessionDate();
+struct CSession
+{
+	int id;
+	CMStringW wszName;
+	std::vector<MCONTACT> contacts;
+	bool bIsFavorite = false, bIsUser = false;
+
+	void fromString(const char *str);
+	std::string toString() const;
+
+	CMStringA getSetting() const;
+	void remove();
+	void save();
+};
+
+extern OBJLIST<CSession> g_arUserSessions, g_arDateSessions;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int  LoadSession(CSession *pSession);
+int  SaveSessionHandles(MCONTACT *pSession, bool bNewSession);
 
 void CALLBACK LaunchSessions();
 
@@ -74,9 +96,8 @@ extern MCONTACT session_list_recovered[255];
 extern MCONTACT session_list[255];
 
 extern HWND g_hDlg, g_hSDlg;
-extern int g_ses_limit;
-extern int g_ses_count;
-extern bool isLastTRUE;
+extern int  g_ses_limit;
+extern bool g_bLastSessionPresent;
 extern bool g_bExclHidden;	
 extern bool g_bWarnOnHidden;
 extern bool g_bOtherWarnings;

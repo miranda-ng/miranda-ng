@@ -26,6 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Import.cpp" />
     <ClCompile Include="Src\LoadSessions.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Options.cpp" />

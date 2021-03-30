@@ -27,10 +27,8 @@ HWND hComboBoxEdit = nullptr;
 
 HWND hOpClistControl = nullptr;
 
-int iSessionId;
+CSession *pSession = nullptr;
 BOOL bSesssionNameChanged = 0;
-
-MCONTACT session_list_t[255] = { 0 };
 
 BOOL bChecked = FALSE;
 
@@ -71,17 +69,18 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	case WM_NCLBUTTONDBLCLK:
 	case WM_NCLBUTTONDOWN:
 		if (!bChecked) {
-			MarkUserDefSession(iSessionId, 1);
+			pSession->bIsFavorite = true;
 			hIcon = hMarked;
 			bChecked = TRUE;
 			RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 		}
 		else {
-			MarkUserDefSession(iSessionId, 0);
+			pSession->bIsFavorite = false;
 			hIcon = hNotMarked;
 			bChecked = FALSE;
 			RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 		}
+		pSession->save();
 		break;
 
 	case WM_MOUSEMOVE:
@@ -127,16 +126,9 @@ class COptionsDlg : public CDlgBase
 	{
 		memset(session_list_t, 0, sizeof(session_list_t));
 
-		for (auto &hContact : Contacts()) {
-			if (LoadContactsFromMask(hContact, 1, iSessionId)) {
-				int i = GetInSessionOrder(hContact, 1, iSessionId);
-				session_list_t[i] = hContact;
-			}
-		}
-
-		int i;
-		for (i = 0; session_list_t[i] != 0; i++)
-			m_opclist.AddString(Clist_GetContactDisplayName(session_list_t[i]));
+		int i = 0;
+		for (auto &cc : pSession->contacts)
+			m_opclist.AddString(Clist_GetContactDisplayName(session_list_t[i++] = cc));
 
 		return i;
 	}
@@ -148,6 +140,8 @@ class COptionsDlg : public CDlgBase
 	CCtrlCheck chkStartDialog, chkLoadLast, chkLast, chkNothing;
 	CCtrlCheck chkExitAsk, chkExitSave, chkExitNothing;
 	CCtrlButton btnSave, btnEdit, btnDel;
+
+	MCONTACT session_list_t[255];
 
 public:
 	COptionsDlg() :
@@ -179,8 +173,11 @@ public:
 		chkExitNothing.OnChange = Callback(this, &COptionsDlg::onChange_ExNothing);
 
 		m_list.OnChange = Callback(this, &COptionsDlg::onEditChange_List);
+		m_list.OnSelChanged = Callback(this, &COptionsDlg::onSelChange_List);
 
 		m_clist.OnCheckChanged = Callback(this, &COptionsDlg::onCheckChanged_Clist);
+
+		memset(session_list_t, 0, sizeof(session_list_t));
 	}
 
 	bool OnInitDialog() override
@@ -188,7 +185,7 @@ public:
 		COMBOBOXINFO cbi = { 0 };
 		cbi.cbSize = sizeof(cbi);
 
-		iSessionId = 0;
+		pSession = nullptr;
 		hMarked = g_plugin.getIcon(IDD_SESSION_CHECKED);
 		hNotMarked = g_plugin.getIcon(IDD_SESSION_UNCHECKED);
 
@@ -196,8 +193,6 @@ public:
 				GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
 		m_clist.SetExStyle(CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT);
 		m_clist.AutoRebuild();
-
-		hIcon = (bChecked = IsMarkedUserDefSession(iSessionId)) ? hMarked : hNotMarked;
 
 		SetDlgItemInt(m_hwnd, IDC_TRACK, g_ses_limit = g_plugin.getByte("TrackCount", 10), FALSE);
 		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
@@ -236,10 +231,11 @@ public:
 		else if (exitmode == 2)
 			chkExitSave.SetState(true);
 
-		LoadSessionToCombobox(m_hwnd, 1, 255, "UserSessionDsc", 0);
+		LoadSessionToCombobox(m_list, true);
 		if (m_list.GetCount()) {
 			btnEdit.Enable();
 			m_list.SetCurSel(0);
+			pSession = (CSession *)m_list.GetItemData(0);
 			if (!LoadSessionContacts())
 				btnDel.Disable();
 		}
@@ -328,9 +324,9 @@ public:
 		if (index == CB_ERR)
 			return;
 
-		iSessionId = m_list.GetItemData(index);
+		pSession = (CSession*)m_list.GetItemData(index);
 		m_opclist.ResetContent();
-		if (IsMarkedUserDefSession(iSessionId)) {
+		if (pSession->bIsFavorite) {
 			hIcon = hMarked;
 			bChecked = TRUE;
 			RedrawWindow(hComboBoxEdit, nullptr, nullptr, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
@@ -379,26 +375,21 @@ public:
 
 	void onClick_Save(CCtrlButton *)
 	{
-		int i = 0;
 		for (auto &hContact : Contacts()) {
 			BYTE res = m_clist.GetCheck(m_clist.FindContact(hContact));
 			if (res) {
-				SetSessionMark(hContact, 1, '1', iSessionId);
-				SetInSessionOrder(hContact, 1, iSessionId, i);
-				i++;
-			}
-			else {
-				SetSessionMark(hContact, 1, '0', iSessionId);
-				SetInSessionOrder(hContact, 1, iSessionId, 0);
+				// !!!!!!!!!!!!!!!!!!!
 			}
 		}
 		if (bSesssionNameChanged) {
 			if (GetWindowTextLength(hComboBoxEdit)) {
 				wchar_t szUserSessionName[MAX_PATH] = { '\0' };
 				GetWindowText(hComboBoxEdit, szUserSessionName, _countof(szUserSessionName));
-				RenameUserDefSession(iSessionId, szUserSessionName);
+				pSession->wszName = szUserSessionName;
+				pSession->save();
+
 				m_list.ResetContent();
-				LoadSessionToCombobox(m_hwnd, 1, 255, "UserSessionDsc", 0);
+				LoadSessionToCombobox(m_list, true);
 			}
 			bSesssionNameChanged = FALSE;
 		}
@@ -408,14 +399,12 @@ public:
 
 	void onClick_Del(CCtrlButton *)
 	{
-		DelUserDefSession(iSessionId);
+		pSession->remove();
 
 		m_opclist.ResetContent();
 		m_list.ResetContent();
 
-		LoadSessionToCombobox(m_hwnd, 1, 255, "UserSessionDsc", 0);
-
-		iSessionId = 0;
+		LoadSessionToCombobox(m_list, true);
 
 		if (m_list.GetCount()) {
 			btnEdit.Enable();
@@ -424,6 +413,7 @@ public:
 				btnDel.Disable();
 		}
 		else {
+			pSession = nullptr;
 			btnEdit.Disable();
 			btnDel.Disable();
 		}
