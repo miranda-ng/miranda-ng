@@ -289,15 +289,9 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			}
 			else IgnoreFlags = L"qnidc";
 
-			CMStringW szNetwork;
-			if (three.IsEmpty())
-				szNetwork = m_szModuleName;
-			else
-				szNetwork = three;
+			AddIgnore(one.c_str(), IgnoreFlags.c_str());
 
-			AddIgnore(one.c_str(), IgnoreFlags.c_str(), szNetwork.c_str());
-
-			mir_snwprintf(temp, TranslateT("%s on %s is now ignored (+%s)"), one.c_str(), szNetwork.c_str(), IgnoreFlags.c_str());
+			mir_snwprintf(temp, TranslateT("%s is now ignored (+%s)"), one.c_str(), IgnoreFlags.c_str());
 			DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), temp, nullptr, nullptr, NULL, true, false);
 		}
 		return true;

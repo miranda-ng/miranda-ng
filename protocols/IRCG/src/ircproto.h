@@ -208,7 +208,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void __cdecl DoPerformThread(void *di);
 	void __cdecl ResolveIPThread(void *di);
 
-	bool AddIgnore(const wchar_t *mask, const wchar_t *mode, const wchar_t *network);
+	bool AddIgnore(const wchar_t *mask, const wchar_t *mode);
 	int  IsIgnored(const CMStringW &nick, const CMStringW &address, const CMStringW &host, char type);
 	int  IsIgnored(CMStringW user, char type);
 	bool RemoveIgnore(const wchar_t *mask);

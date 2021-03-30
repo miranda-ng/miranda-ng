@@ -115,11 +115,11 @@ struct CIrcSessionInfo
 
 struct CIrcIgnoreItem
 {
-	CIrcIgnoreItem( const wchar_t*, const wchar_t*, const wchar_t* );
-	CIrcIgnoreItem( int codepage, const char*, const char*, const char* );
+	CIrcIgnoreItem(const wchar_t *, const wchar_t *);
+	CIrcIgnoreItem(int codepage, const char *, const char *);
 	~CIrcIgnoreItem();
 
-   CMStringW mask, flags, network;
+   CMStringW mask, flags;
 };
 
 ////////////////////////////////////////////////////////////////////

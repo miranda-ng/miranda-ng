@@ -856,7 +856,6 @@ struct CAddIgnoreDlg : public CIrcBaseDlg
 	bool OnApply() override
 	{
 		wchar_t szMask[500];
-		wchar_t szNetwork[500];
 		CMStringW flags;
 		if (IsDlgButtonChecked(m_hwnd, IDC_Q) == BST_CHECKED) flags += 'q';
 		if (IsDlgButtonChecked(m_hwnd, IDC_N) == BST_CHECKED) flags += 'n';
@@ -866,7 +865,6 @@ struct CAddIgnoreDlg : public CIrcBaseDlg
 		if (IsDlgButtonChecked(m_hwnd, IDC_M) == BST_CHECKED) flags += 'm';
 
 		GetDlgItemText(m_hwnd, IDC_MASK, szMask, _countof(szMask));
-		GetDlgItemText(m_hwnd, IDC_NETWORK, szNetwork, _countof(szNetwork));
 
 		CMStringW Mask = GetWord(szMask, 0);
 		if (Mask.GetLength() != 0) {
@@ -876,7 +874,7 @@ struct CAddIgnoreDlg : public CIrcBaseDlg
 			if (!flags.IsEmpty()) {
 				if (*szOldMask)
 					m_proto->RemoveIgnore(szOldMask);
-				m_proto->AddIgnore(Mask.c_str(), flags.c_str(), szNetwork);
+				m_proto->AddIgnore(Mask.c_str(), flags.c_str());
 			}
 		}
 		return true;
@@ -946,9 +944,8 @@ void CIrcProto::InitIgnore(void)
 
 			CMStringA mask = GetWord(p1, 0);
 			CMStringA flags = GetWord(p1, 1);
-			CMStringA network = GetWord(p1, 2);
 			if (!mask.IsEmpty())
-				m_ignoreItems.insert(new CIrcIgnoreItem(getCodepage(), mask.c_str(), flags.c_str(), network.c_str()));
+				m_ignoreItems.insert(new CIrcIgnoreItem(getCodepage(), mask.c_str(), flags.c_str()));
 
 			p1 = p2;
 		}
@@ -970,8 +967,7 @@ void CIrcProto::InitIgnore(void)
 
 		CMStringW mask = GetWord(dbv.pwszVal, 0);
 		CMStringW flags = GetWord(dbv.pwszVal, 1);
-		CMStringW network = GetWord(dbv.pwszVal, 2);
-		m_ignoreItems.insert(new CIrcIgnoreItem(mask.c_str(), flags.c_str(), network.c_str()));
+		m_ignoreItems.insert(new CIrcIgnoreItem(mask.c_str(), flags.c_str()));
 		db_free(&dbv);
 	}
 }
@@ -991,7 +987,7 @@ void CIrcProto::RewriteIgnoreSettings(void)
 		mir_snprintf(settingName, "IGNORE:%d", i);
 
 		CIrcIgnoreItem &C = m_ignoreItems[i];
-		setWString(settingName, (C.mask + L" " + C.flags + L" " + C.network).c_str());
+		setWString(settingName, (C.mask + L" " + C.flags).c_str());
 	}
 }
 
@@ -1048,20 +1044,16 @@ class CIgnorePrefsDlg : public CIrcBaseDlg
 
 			LVITEM lvItem;
 			lvItem.iItem = m_list.GetItemCount();
-			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
+
 			lvItem.iSubItem = 0;
+			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 			lvItem.lParam = lvItem.iItem;
 			lvItem.pszText = (wchar_t *)C->mask.c_str();
 			lvItem.iItem = m_list.InsertItem(&lvItem);
 
-			lvItem.mask = LVIF_TEXT;
 			lvItem.iSubItem = 1;
-			lvItem.pszText = (wchar_t *)C->flags.c_str();
-			m_list.SetItem(&lvItem);
-
 			lvItem.mask = LVIF_TEXT;
-			lvItem.iSubItem = 2;
-			lvItem.pszText = (wchar_t *)C->network.c_str();
+			lvItem.pszText = (wchar_t *)C->flags.c_str();
 			m_list.SetItem(&lvItem);
 		}
 
@@ -1129,23 +1121,19 @@ public:
 		m_ignoreChannel.Enable(m_proto->m_ignore);
 		m_add.Enable(m_proto->m_ignore);
 
-		static int COLUMNS_SIZES[3] = { 195, 60, 80 };
 		LV_COLUMN lvC;
 		lvC.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 		lvC.fmt = LVCFMT_LEFT;
-		for (int index = 0; index < 3; index++) {
-			lvC.iSubItem = index;
-			lvC.cx = COLUMNS_SIZES[index];
 
-			wchar_t *text = nullptr;
-			switch (index) {
-			case 0: text = TranslateT("Ignore mask"); break;
-			case 1: text = TranslateT("Flags"); break;
-			case 2: text = TranslateT("Network"); break;
-			}
-			lvC.pszText = text;
-			ListView_InsertColumn(GetDlgItem(m_hwnd, IDC_INFO_LISTVIEW), index, &lvC);
-		}
+		lvC.iSubItem = 0;
+		lvC.cx = 235;
+		lvC.pszText = TranslateT("Ignore mask");
+		ListView_InsertColumn(GetDlgItem(m_hwnd, IDC_INFO_LISTVIEW), 0, &lvC);
+
+		lvC.iSubItem = 1;
+		lvC.cx = 100;
+		lvC.pszText = TranslateT("Flags");
+		ListView_InsertColumn(GetDlgItem(m_hwnd, IDC_INFO_LISTVIEW), 1, &lvC);
 
 		ListView_SetExtendedListViewStyle(GetDlgItem(m_hwnd, IDC_INFO_LISTVIEW), LVS_EX_FULLROWSELECT);
 		RebuildList();
@@ -1170,11 +1158,10 @@ public:
 
 		int i = m_list.GetItemCount();
 		for (int j = 0; j < i; j++) {
-			wchar_t szMask[512], szFlags[40], szNetwork[100];
+			wchar_t szMask[512], szFlags[40];
 			m_list.GetItemText(j, 0, szMask, _countof(szMask));
 			m_list.GetItemText(j, 1, szFlags, _countof(szFlags));
-			m_list.GetItemText(j, 2, szNetwork, _countof(szNetwork));
-			m_proto->m_ignoreItems.insert(new CIrcIgnoreItem(szMask, szFlags, szNetwork));
+			m_proto->m_ignoreItems.insert(new CIrcIgnoreItem(szMask, szFlags));
 		}
 
 		m_proto->RewriteIgnoreSettings();
@@ -1258,7 +1245,6 @@ public:
 		}
 
 		SetDlgItemText(hWnd, IDC_MASK, szMask);
-		SetDlgItemText(hWnd, IDC_NETWORK, szNetwork);
 		m_add.Disable();
 		m_edit.Disable();
 		m_del.Disable();

@@ -581,17 +581,15 @@ void CIrcProto::CheckDCCTimeout(void)
 
 ////////////////////////////////////////////////////////////////////
 
-CIrcIgnoreItem::CIrcIgnoreItem(const wchar_t* _mask, const wchar_t* _flags, const wchar_t* _network) :
+CIrcIgnoreItem::CIrcIgnoreItem(const wchar_t* _mask, const wchar_t* _flags) :
 	mask(_mask),
-	flags(_flags),
-	network(_network)
+	flags(_flags)
 {
 }
 
-CIrcIgnoreItem::CIrcIgnoreItem(int codepage, const char* _mask, const char* _flags, const char* _network) :
+CIrcIgnoreItem::CIrcIgnoreItem(int codepage, const char* _mask, const char* _flags) :
 	mask((wchar_t*)_A2T(_mask, codepage)),
-	flags((wchar_t*)_A2T(_flags, codepage)),
-	network((wchar_t*)_A2T(_network, codepage))
+	flags((wchar_t*)_A2T(_flags, codepage))
 {
 }
 

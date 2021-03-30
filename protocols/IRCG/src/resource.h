@@ -143,7 +143,6 @@
 #define IDC_I                           1208
 #define IDC_C                           1209
 #define IDC_D                           1210
-#define IDC_NETWORK                     1211
 #define IDC_IGNORECHANNEL               1212
 #define IDC_ENABLEIGNORE                1213
 #define IDC_IGNOREFILE                  1214

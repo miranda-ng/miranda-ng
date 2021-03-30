@@ -2414,21 +2414,17 @@ int CIrcProto::IsIgnored(CMStringW user, char type)
 			if (!wcschr(C.flags, type))
 				continue;
 
-			if (C.network.IsEmpty())
-				return i + 1;
-
-			if (IsConnected() && !mir_wstrcmpi(C.network, _A2T(m_szModuleName)))
-				return i + 1;
+			return i + 1;
 		}
 	}
 
 	return 0;
 }
 
-bool CIrcProto::AddIgnore(const wchar_t* mask, const wchar_t* flags, const wchar_t* network)
+bool CIrcProto::AddIgnore(const wchar_t* mask, const wchar_t* flags)
 {
 	RemoveIgnore(mask);
-	m_ignoreItems.insert(new CIrcIgnoreItem(mask, (L"+" + CMStringW(flags)), network));
+	m_ignoreItems.insert(new CIrcIgnoreItem(mask, (L"+" + CMStringW(flags))));
 	RewriteIgnoreSettings();
 
 	if (m_ignoreDlg)
