@@ -353,7 +353,7 @@ void CCtrlTreeView::InvertCheck(HTREEITEM hItem)
 	if (!GetItem(&tvi))
 		return;
 
-	if (tvi.uStateEx & TVIS_EX_DISABLED)
+	if (IsWinVerVistaPlus() && (tvi.uStateEx & TVIS_EX_DISABLED))
 		return;
 
 	tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
