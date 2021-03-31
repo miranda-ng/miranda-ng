@@ -148,7 +148,7 @@ public:
 		m_backupOnStart.OnChange = m_backupOnExit.OnChange = m_backupPeriodic.OnChange = Callback(this, &COptionsDlg::onChange_BackupType);
 		m_useCloudFile.OnChange = Callback(this, &COptionsDlg::onChange_UseCloudFile);
 		m_useZip.OnChange = Callback(this, &COptionsDlg::onChange_UseZip);
-		m_period.OnChange = Callback(this, &COptionsDlg::onChange_Period);
+		m_periodType.OnSelChanged = m_period.OnChange = Callback(this, &COptionsDlg::onChange_Period);
 
 		m_backup.OnClick = Callback(this, &COptionsDlg::onClick_Backup);
 		m_browseFolder.OnClick = Callback(this, &COptionsDlg::onClick_BrowseFolder);
@@ -271,7 +271,14 @@ public:
 
 	void onChange_Period(CCtrlSpin*)
 	{
-		time_t nextBackup = time_t(g_plugin.getDword("LastBackupTimestamp")) + m_period.GetPosition() * 86400;
+		int iMultiplicator;
+		switch (m_periodType.GetCurSel()) {
+		case PT_MINUTES: iMultiplicator = 60; break;
+		case PT_HOURS: iMultiplicator = 3600; break;
+		default: iMultiplicator = 86400; break; // days
+		}
+
+		time_t nextBackup = time_t(g_plugin.getDword("LastBackupTimestamp")) + m_period.GetPosition() * iMultiplicator;
 
 		wchar_t buf[100];
 		TimeZone_PrintTimeStamp(nullptr, nextBackup, L"D t", buf, _countof(buf), 0);

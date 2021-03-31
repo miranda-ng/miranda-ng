@@ -324,7 +324,15 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t t = time(0);
 	time_t diff = t - (time_t)g_plugin.getDword("LastBackupTimestamp");
-	if (diff > time_t(g_plugin.period) * (g_plugin.period_type == PT_MINUTES ? 60 : (g_plugin.period_type == PT_HOURS ? (60 * 60) : (60 * 60 * 24))))
+
+	int iMultiplicator;
+	switch (g_plugin.period_type) {
+	case PT_MINUTES: iMultiplicator = 60; break;
+	case PT_HOURS: iMultiplicator = 3600; break;
+	default: iMultiplicator = 86400; break; // days
+	}
+
+	if (diff > time_t(g_plugin.period) * iMultiplicator)
 		BackupStart(nullptr);
 }
 
