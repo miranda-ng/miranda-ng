@@ -24,6 +24,7 @@
 #define IDC_BACKUPPROFILE               1675
 #define IDC_CLOUDFILESEVICE             1676
 #define IDC_FILEMASK                    1677
+#define IDC_NEXTTIME                    1678
 #define IDC_PROGRESSMESSAGE             0xDAED
 #define IDC_PROGRESS                    0xDEAD
 
@@ -33,7 +34,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        273
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1678
+#define _APS_NEXT_CONTROL_VALUE         1679
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -25,6 +25,7 @@ namespace fs = std::filesystem;
 #include <m_icolib.h>
 #include <m_autobackups.h>
 #include <m_gui.h>
+#include <m_timezones.h>
 #include <m_variables.h>
 
 #include <m_folders.h>
@@ -74,10 +75,5 @@ struct ZipFile
 int CreateZipFile(const wchar_t *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback);
 
 extern char g_szMirVer[];
-
-static IconItem iconList[] = {
-	{ LPGEN("Backup profile"),     "backup", IDI_BACKUP },
-	{ LPGEN("Save profile as..."), "saveas", IDI_BACKUP }
-};
 
 #endif

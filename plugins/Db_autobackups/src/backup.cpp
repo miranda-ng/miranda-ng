@@ -37,7 +37,7 @@ static void ShowPopup(const wchar_t *ptszText, wchar_t *ptszHeader, wchar_t *pts
 	if (ptszPath != nullptr)
 		ppd.PluginData = (void*)mir_wstrdup(ptszPath);
 	ppd.PluginWindowProc = DlgProcPopup;
-	ppd.lchIcon = IcoLib_GetIcon(iconList[0].szName);
+	ppd.lchIcon = g_plugin.getIcon(IDI_BACKUP);
 	PUAddPopupW(&ppd);
 }
 
