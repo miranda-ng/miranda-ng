@@ -41,6 +41,7 @@ static class COptionsDlg *pOptionsDlg = nullptr;
 
 // Thread for search keywords in dialogs
 static BYTE bSearchState = 0; // 0 - not executed; 1 - in progress; 2 - completed;
+static bool bLoadingPrivateOptions = false;
 static int FilterLoadProgress = 100;
 
 struct OptionsPage : public OPTIONSDIALOGPAGE
@@ -1161,7 +1162,9 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 		return;
 
 	OptionsPageList arPages(1);
+	bLoadingPrivateOptions = true;
 	CallObjectEventHook(pa->ppro, hOptionsInitEvent, (WPARAM)&arPages, 0);
+	bLoadingPrivateOptions = false;
 	if (arPages.getCount() == 0)
 		return;
 
@@ -1244,7 +1247,7 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, HPLUGIN 
 	if (pList != nullptr)
 		pList->insert(dst);
 
-	if (pOptionsDlg)
+	if (pOptionsDlg && !bLoadingPrivateOptions)
 		pOptionsDlg->DynamicAddPage(dst);
 	return 0;
 }
@@ -1267,8 +1270,10 @@ static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 
 static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
 {
+	bLoadingPrivateOptions = true;
 	OptionsPageList arPages(1);
 	CallPluginEventHook((HINSTANCE)hInstance, hOptionsInitEvent, (WPARAM)&arPages, 0);
+	bLoadingPrivateOptions = false;
 	return 0;
 }
 
