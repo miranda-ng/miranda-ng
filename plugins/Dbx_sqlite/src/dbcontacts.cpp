@@ -82,6 +82,12 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 	if (hContact == 0)
 		return 1;
 
+	DBCachedContact *cc = m_cache->GetCachedContact(hContact);
+	if (cc == nullptr)
+		return 1;
+
+	NotifyEventHooks(g_hevContactDeleted, hContact);
+
 	mir_cslockfull lock(m_csDbAccess);
 
 	sqlite3_stmt *stmt = ctc_stmts[SQL_CTC_STMT_DELETEEVENTS].pQuery;
@@ -117,9 +123,7 @@ LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
 		return 1;
 
 	m_cache->FreeCachedContact(hContact);
-
 	lock.unlock();
-	NotifyEventHooks(g_hevContactDeleted, hContact);
 
 	DBFlush();
 	return 0;
