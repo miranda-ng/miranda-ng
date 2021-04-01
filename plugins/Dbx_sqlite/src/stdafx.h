@@ -5,6 +5,7 @@
 #include <crtdbg.h>
 
 #include <memory>
+#include <vector>
 
 #include <newpluginapi.h>
 #include <m_crypto.h>

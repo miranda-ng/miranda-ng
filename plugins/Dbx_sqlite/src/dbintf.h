@@ -84,6 +84,9 @@ class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 	void InitSettings();
 	void UninitSettings();
 
+	void InitEncryption();
+	void UninintEncryption();
+
 	void DBFlush(bool bForce = false);
 
 public:

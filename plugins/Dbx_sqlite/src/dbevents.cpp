@@ -134,22 +134,33 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 		if (NotifyEventHooks(g_hevEventFiltered, hNotifyContact, (LPARAM)dbei))
 			return 0;
 
+	DBEVENTINFO tmp = *dbei;
 	const char *szEventId;
-	DWORD dwFlags = dbei->flags;
-	if (dbei->szId != nullptr) {
-		dwFlags |= DBEF_HAS_ID;
-		szEventId = dbei->szId;
+	if (tmp.szId != nullptr) {
+		tmp.flags |= DBEF_HAS_ID;
+		szEventId = tmp.szId;
 	}
 	else szEventId = "";
+
+	mir_ptr<BYTE> pCryptBlob;
+	if (m_bEncrypted) {
+		size_t len;
+		BYTE *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
+		if (pResult != nullptr) {
+			pCryptBlob = tmp.pBlob = pResult;
+			tmp.cbBlob = (uint16_t)len;
+			tmp.flags |= DBEF_ENCRYPTED;
+		}
+	}
 
 	mir_cslockfull lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_ADDEVENT].pQuery;
 	sqlite3_bind_int64(stmt, 1, hContact);
-	sqlite3_bind_text(stmt, 2, dbei->szModule, (int)mir_strlen(dbei->szModule), nullptr);
-	sqlite3_bind_int64(stmt, 3, dbei->timestamp);
-	sqlite3_bind_int(stmt, 4, dbei->eventType);
-	sqlite3_bind_int64(stmt, 5, dwFlags);
-	sqlite3_bind_blob(stmt, 6, dbei->pBlob, dbei->cbBlob, nullptr);
+	sqlite3_bind_text(stmt, 2, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
+	sqlite3_bind_int64(stmt, 3, tmp.timestamp);
+	sqlite3_bind_int(stmt, 4, tmp.eventType);
+	sqlite3_bind_int64(stmt, 5, tmp.flags);
+	sqlite3_bind_blob(stmt, 6, tmp.pBlob, tmp.cbBlob, nullptr);
 	sqlite3_bind_text(stmt, 7, szEventId, (int)mir_strlen(szEventId), nullptr);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -160,32 +171,32 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	stmt = evt_stmts[SQL_EVT_STMT_ADDEVENT_SRT].pQuery;
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	sqlite3_bind_int64(stmt, 2, cc->contactID);
-	sqlite3_bind_int64(stmt, 3, dbei->timestamp);
+	sqlite3_bind_int64(stmt, 3, tmp.timestamp);
 	rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
 
-	cc->AddEvent(hDbEvent, dbei->timestamp, !dbei->markedRead());
+	cc->AddEvent(hDbEvent, tmp.timestamp, !tmp.markedRead());
 	if (ccSub != nullptr) {
 		stmt = evt_stmts[SQL_EVT_STMT_ADDEVENT_SRT].pQuery;
 		sqlite3_bind_int64(stmt, 1, hDbEvent);
 		sqlite3_bind_int64(stmt, 2, ccSub->contactID);
-		sqlite3_bind_int64(stmt, 3, dbei->timestamp);
+		sqlite3_bind_int64(stmt, 3, tmp.timestamp);
 		rc = sqlite3_step(stmt);
 		logError(rc, __FILE__, __LINE__);
 		sqlite3_reset(stmt); //is this necessary ?
 
-		ccSub->AddEvent(hDbEvent, dbei->timestamp, !dbei->markedRead());
+		ccSub->AddEvent(hDbEvent, tmp.timestamp, !tmp.markedRead());
 	}
 
-	char *module = m_modules.find((char *)dbei->szModule);
+	char *module = m_modules.find((char *)tmp.szModule);
 	if (module == nullptr)
-		m_modules.insert(mir_strdup(dbei->szModule));
+		m_modules.insert(mir_strdup(tmp.szModule));
 
 	lock.unlock();
 
 	DBFlush();
-	if (m_safetyMode && !(dbei->flags & DBEF_TEMPORARY))
+	if (m_safetyMode && !(tmp.flags & DBEF_TEMPORARY))
 		NotifyEventHooks(g_hevEventAdded, hNotifyContact, (LPARAM)hDbEvent);
 
 	return hDbEvent;
@@ -241,25 +252,37 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO
 	if (cc == nullptr)
 		return 1;
 
+	DBEVENTINFO tmp = *dbei;
+	mir_ptr<BYTE> pCryptBlob;
+	if (m_bEncrypted) {
+		size_t len;
+		BYTE *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
+		if (pResult != nullptr) {
+			pCryptBlob = tmp.pBlob = pResult;
+			tmp.cbBlob = (uint16_t)len;
+			tmp.flags |= DBEF_ENCRYPTED;
+		}
+	}
+
 	mir_cslockfull lock(m_csDbAccess);
 	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_EDIT].pQuery;
-	sqlite3_bind_text(stmt, 1, dbei->szModule, (int)mir_strlen(dbei->szModule), nullptr);
-	sqlite3_bind_int64(stmt, 2, dbei->timestamp);
-	sqlite3_bind_int(stmt, 3, dbei->eventType);
-	sqlite3_bind_int64(stmt, 4, dbei->flags);
-	sqlite3_bind_blob(stmt, 5, dbei->pBlob, dbei->cbBlob, nullptr);
+	sqlite3_bind_text(stmt, 1, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
+	sqlite3_bind_int64(stmt, 2, tmp.timestamp);
+	sqlite3_bind_int(stmt, 3, tmp.eventType);
+	sqlite3_bind_int64(stmt, 4, tmp.flags);
+	sqlite3_bind_blob(stmt, 5, tmp.pBlob, tmp.cbBlob, nullptr);
 	sqlite3_bind_int64(stmt, 6, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
 
-	cc->EditEvent(hDbEvent, dbei->timestamp, !dbei->markedRead());
+	cc->EditEvent(hDbEvent, tmp.timestamp, !tmp.markedRead());
 	if (cc->IsSub() && (cc = m_cache->GetCachedContact(cc->parentID)))
-		cc->EditEvent(hDbEvent, dbei->timestamp, !dbei->markedRead());
+		cc->EditEvent(hDbEvent, tmp.timestamp, !tmp.markedRead());
 
-	char *module = m_modules.find((char *)dbei->szModule);
+	char *module = m_modules.find((char *)tmp.szModule);
 	if (module == nullptr)
-		m_modules.insert(mir_strdup(dbei->szModule));
+		m_modules.insert(mir_strdup(tmp.szModule));
 
 	lock.unlock();
 
@@ -325,7 +348,21 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->cbBlob = cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
 		BYTE *data = (BYTE *)sqlite3_column_blob(stmt, 5);
-		memcpy(dbei->pBlob, data, bytesToCopy);
+
+		if (dbei->flags & DBEF_ENCRYPTED) {
+			dbei->flags &= ~DBEF_ENCRYPTED;
+			size_t len;
+			BYTE* pBlob = (BYTE*)m_crypto->decodeBuffer(data, cbBlob, &len);
+			if (pBlob == nullptr)
+				return 1;
+
+			memcpy(dbei->pBlob, pBlob, bytesToCopy);
+			if (bytesToCopy > len)
+				memset(dbei->pBlob + len, 0, bytesToCopy - len);
+
+			mir_free(pBlob);
+		}
+		else memcpy(dbei->pBlob, data, bytesToCopy);		
 	}
 	sqlite3_reset(stmt);
 	return 0;
