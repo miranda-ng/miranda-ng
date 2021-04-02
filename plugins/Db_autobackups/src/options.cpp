@@ -124,6 +124,7 @@ class COptionsDlg : public CDlgBase
 	INT_PTR BackupDone(UINT, WPARAM, LPARAM)
 	{
 		onChange_Period(0);
+		return 0;
 	}
 
 public:
