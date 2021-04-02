@@ -9,6 +9,7 @@ enum
 	SQL_CRYPT_GET_KEY,
 	SQL_CRYPT_SET_KEY,
 	SQL_CRYPT_ENCRYPT,
+	SQL_CRYPT_ENCRYPT2,
 };
 
 static CQuery crypto_stmts[] =
@@ -20,6 +21,7 @@ static CQuery crypto_stmts[] =
 	{ "SELECT data FROM crypto WHERE id=3;" },          // SQL_CRYPT_GET_KEY 
 	{ "REPLACE INTO crypto VALUES(3, ?);" },            // SQL_CRYPT_SET_KEY
 	{ "UPDATE events SET flags=?, data=? WHERE id=?;"}, // SQL_CRYPT_ENCRYPT
+	{ "UPDATE settings SET type=?, value=? WHERE contact_id=? AND module=? AND setting=?;"}, // SQL_CRYPT_ENCRYPT2
 };
 
 static char szCreateQuery[] =
@@ -128,18 +130,20 @@ STDMETHODIMP_(BOOL) CDbxSQLite::StoreProvider(CRYPTO_PROVIDER *pProvider)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Toggles full/partial encryption mode
 
-STDMETHODIMP_(BOOL) CDbxSQLite::EnableEncryption(BOOL bEncrypted)
+STDMETHODIMP_(BOOL) CDbxSQLite::EnableEncryption(BOOL bEncrypt)
 {
-	if (m_bEncrypted == (bEncrypted != 0))
+	if (m_bEncrypted == (bEncrypt != 0))
 		return TRUE;
 
 	mir_cslock lock(m_csDbAccess);
+
+	// encrypt all histories
 	sqlite3_stmt *stmt = nullptr;
 	int rc = sqlite3_prepare_v2(m_db, "SELECT id, flags, data FROM events;", -1, &stmt, 0);
 	logError(rc, __FILE__, __LINE__);
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
 		int dwFlags = sqlite3_column_int(stmt, 1);
-		if (((dwFlags & DBEF_ENCRYPTED) != 0) == bEncrypted)
+		if (((dwFlags & DBEF_ENCRYPTED) != 0) == bEncrypt)
 			continue;
 	
 		int id = sqlite3_column_int(stmt, 0);
@@ -167,14 +171,51 @@ STDMETHODIMP_(BOOL) CDbxSQLite::EnableEncryption(BOOL bEncrypted)
 		sqlite3_reset(upd);
 	}
 	sqlite3_finalize(stmt);
+	DBFlush(true);
+	
+	// if database is encrypted, decrypt all settings with type = DBVT_ENCRYPTED
+	CMStringA query(FORMAT, "SELECT contact_id, module, setting, value FROM settings WHERE type=%d", (bEncrypt) ? DBVT_UTF8 : DBVT_ENCRYPTED);
+	rc = sqlite3_prepare_v2(m_db, query, -1, &stmt, 0);
+	logError(rc, __FILE__, __LINE__);
+	while (sqlite3_step(stmt) == SQLITE_ROW) {
+		int hContact = sqlite3_column_int(stmt, 0);
+		auto *pszModule = (char *)sqlite3_column_text(stmt, 1);
+		auto *pszSetting = (char *)sqlite3_column_text(stmt, 2);
+
+		// all passwords etc should remain encrypted
+		if (!bEncrypt && IsSettingEncrypted(pszModule, pszSetting))
+			continue;
+
+		sqlite3_stmt *upd = crypto_stmts[SQL_CRYPT_ENCRYPT2].pQuery;
+		sqlite3_bind_int(upd, 1, (bEncrypt) ? DBVT_ENCRYPTED : DBVT_UTF8);
+
+		size_t resultLen;
+		mir_ptr<BYTE> pBuf;
+		if (bEncrypt) {
+			pBuf = m_crypto->encodeString((char*)sqlite3_column_text(stmt, 3), &resultLen);
+			sqlite3_bind_blob(upd, 2, pBuf, (int)resultLen, 0);
+		}
+		else {
+			pBuf = (BYTE *)m_crypto->decodeString(sqlite3_column_text(stmt, 3), sqlite3_column_bytes(stmt, 3), &resultLen);
+			sqlite3_bind_text(upd, 2, (char*)pBuf.get(), (int)resultLen, 0);
+		}
+
+		sqlite3_bind_int(upd, 3, hContact);
+		sqlite3_bind_text(upd, 4, pszModule, (int)strlen(pszModule), 0);
+		sqlite3_bind_text(upd, 5, pszSetting, (int)strlen(pszSetting), 0);
+		rc = sqlite3_step(upd);
+		logError(rc, __FILE__, __LINE__);
+		sqlite3_reset(upd);
+	}
 
 	// Finally update flag
 	stmt = crypto_stmts[SQL_CRYPT_SET_MODE].pQuery;
-	sqlite3_bind_int(stmt, 1, bEncrypted);
+	sqlite3_bind_int(stmt, 1, bEncrypt);
 	rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
+	DBFlush(true);
 
-	m_bEncrypted = bEncrypted;
+	m_bEncrypted = bEncrypt;
 	return TRUE;
 }
