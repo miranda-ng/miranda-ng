@@ -190,16 +190,16 @@ STDMETHODIMP_(BOOL) CDbxSQLite::EnableEncryption(BOOL bEncrypt)
 		sqlite3_bind_int(upd, 1, (bEncrypt) ? DBVT_ENCRYPTED : DBVT_UTF8);
 
 		size_t resultLen;
-		mir_ptr<BYTE> pBuf;
+		ptrA pBuf;
 		if (bEncrypt) {
-			pBuf = m_crypto->encodeString((char*)sqlite3_column_text(stmt, 3), &resultLen);
+			pBuf = (char*)m_crypto->encodeString((char*)sqlite3_column_text(stmt, 3), &resultLen);
 			sqlite3_bind_blob(upd, 2, pBuf, (int)resultLen, 0);
 		}
 		else {
-			pBuf = (BYTE *)m_crypto->decodeString(sqlite3_column_text(stmt, 3), sqlite3_column_bytes(stmt, 3), &resultLen);
-			sqlite3_bind_text(upd, 2, (char*)pBuf.get(), (int)resultLen, 0);
+			pBuf = (char*)m_crypto->decodeString(sqlite3_column_text(stmt, 3), sqlite3_column_bytes(stmt, 3), &resultLen);
+			sqlite3_bind_text(upd, 2, pBuf, (int)strlen(pBuf), 0);
 		}
-
+		
 		sqlite3_bind_int(upd, 3, hContact);
 		sqlite3_bind_text(upd, 4, pszModule, (int)strlen(pszModule), 0);
 		sqlite3_bind_text(upd, 5, pszSetting, (int)strlen(pszSetting), 0);
