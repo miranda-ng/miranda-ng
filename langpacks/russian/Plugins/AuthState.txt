@@ -2,22 +2,20 @@
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Помещает значок напротив имени контакта, если контакт не авторизовал вас, или вы не авторизовали его.
 ;file \plugins\AuthState\res\authstate.rc
+[Plugin settings]
+Настройки
+[Show icons only for recently added contacts]
+Значки только для недавно добавленных
 [Show Request icon]
 Показывать значок "Запросить"
 [Show Grant icon]
 Показывать значок "Разрешить"
-[Plugin settings]
-Настройки
-[Enable menu item]
-Добавить пункт меню
-[Show icons only for recently added contacts]
-Значки только для недавно добавленных
 ;file \plugins\AuthState\src\main.cpp
 [Request]
 Запросить
