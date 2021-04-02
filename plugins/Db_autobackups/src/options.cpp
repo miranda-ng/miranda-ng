@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#define WM_BACKUP_DONE (WM_USER+1)
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 class COptionsDlg : public CDlgBase
@@ -113,6 +115,16 @@ class COptionsDlg : public CDlgBase
 	CCtrlHyperlink m_foldersPageLink;
 
 	HWND m_hPathTip;
+	HANDLE m_hEvent;
+
+	UI_MESSAGE_MAP(COptionsDlg, CDlgBase);
+		UI_MESSAGE(WM_BACKUP_DONE, BackupDone);
+	UI_MESSAGE_MAP_END();
+
+	INT_PTR BackupDone(UINT, WPARAM, LPARAM)
+	{
+		onChange_Period(0);
+	}
 
 public:
 	COptionsDlg() :
@@ -157,6 +169,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		m_hEvent = HookEventMessage(ME_AUTOBACKUP_DONE, m_hwnd, WM_BACKUP_DONE);
+
 		m_disable.SetState(g_plugin.backup_types == BT_DISABLED);
 		m_backupOnStart.SetState(g_plugin.backup_types & BT_START ? TRUE : FALSE);
 		m_backupOnExit.SetState(g_plugin.backup_types & BT_EXIT ? TRUE : FALSE);

@@ -37,10 +37,12 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	HANDLE hevBackup;
+	wchar_t folder[MAX_PATH];
+
 	CMOption<BYTE>	    backup_types;
 	CMOption<WORD>	    period;
 	CMOption<BYTE>	    period_type;
-	wchar_t			    folder[MAX_PATH];
 	CMOption<wchar_t*> file_mask;
 	CMOption<WORD>	    num_backups;
 	CMOption<BYTE>	    disable_progress;
@@ -59,6 +61,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 #define SUB_DIR L"\\AutoBackups"
 #define DIR L"%miranda_userdata%"
+
+#define ME_AUTOBACKUP_DONE "Autobackup/Done"
 
 int  SetBackupTimer(void);
 int  OptionsInit(WPARAM wParam, LPARAM lParam);

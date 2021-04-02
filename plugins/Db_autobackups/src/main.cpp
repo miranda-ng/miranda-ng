@@ -173,6 +173,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
 
+	hevBackup = CreateHookableEvent(ME_AUTOBACKUP_DONE);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	SetBackupTimer();

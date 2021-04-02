@@ -266,6 +266,7 @@ static int Backup(wchar_t *backup_filename)
 			UpdateWindow(progress_dialog);
 		}
 		g_plugin.setDword("LastBackupTimestamp", (DWORD)time(0));
+		NotifyEventHooks(g_plugin.hevBackup);
 
 		if (g_plugin.use_cloudfile) {
 			CFUPLOADDATA ui = { g_plugin.cloudfile_service, dest_file, L"Backups" };
