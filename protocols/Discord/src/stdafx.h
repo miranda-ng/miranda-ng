@@ -47,7 +47,6 @@
 #include <m_utils.h>
 #include <m_voice.h>
 #include <m_voiceservice.h>
-#include <win2k.h>
 
 #include "../../libs/zlib/src/zlib.h"
 

@@ -87,7 +87,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	INT_PTR __cdecl OnMenuDisconnect(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuIgnore(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuWhois(WPARAM, LPARAM);
-	INT_PTR __cdecl OnQuickConnectMenuCommand(WPARAM, LPARAM);
 	INT_PTR __cdecl OnShowListMenuCommand(WPARAM, LPARAM);
 	INT_PTR __cdecl OnShowServerMenuCommand(WPARAM, LPARAM);
 
@@ -105,7 +104,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	char     m_serverName[100];
 	char     m_password[500];
 	wchar_t  m_identSystem[10];
-	char     m_network[30];
 	char     m_portStart[10];
 	char     m_portEnd[10];
 	int      m_iSSL;
@@ -122,7 +120,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	char     m_myLocalHost[50];
 	WORD     m_myLocalPort;
 	wchar_t *m_alias;
-	int      m_serverComboSelection;
 	int      m_quickComboSelection;
 	int      m_onlineNotificationTime;
 	int      m_onlineNotificationLimit;
@@ -136,7 +133,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	BYTE     m_hideServerWindow;
 	BYTE     m_ident;
 	BYTE     m_identTimer;
-	BYTE     m_disableDefaultServer;
 	BYTE     m_autoOnlineNotification;
 	BYTE     m_sendKeepAlive;
 	BYTE     m_joinOnInvite;
@@ -189,9 +185,8 @@ struct CIrcProto : public PROTO<CIrcProto>
 	CListDlg *m_listDlg;
 	CNickDlg *m_nickDlg;
 	CWhoisDlg *m_whoisDlg;
-	CQuickDlg *m_quickDlg;
 	CManagerDlg *m_managerDlg;
-	CIgnorePrefsDlg *m_ignoreDlg;
+	CIrcBaseDlg *m_ignoreDlg;
 
 	int m_noOfChannels, m_manualWhoisCount;
 	CMStringA sChannelModes, sUserModes;
@@ -213,7 +208,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void __cdecl DoPerformThread(void *di);
 	void __cdecl ResolveIPThread(void *di);
 
-	bool AddIgnore(const wchar_t *mask, const wchar_t *mode, const wchar_t *network);
+	bool AddIgnore(const wchar_t *mask, const wchar_t *mode);
 	int  IsIgnored(const CMStringW &nick, const CMStringW &address, const CMStringW &host, char type);
 	int  IsIgnored(CMStringW user, char type);
 	bool RemoveIgnore(const wchar_t *mask);
@@ -283,7 +278,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	bool      IsChannel(const char* sName);
 	bool      IsChannel(const wchar_t* sName);
 	void      KillChatTimer(UINT_PTR &nIDEvent);
-	CMStringW MakeWndID(const wchar_t* sWindow);
 	CMStringW ModeToStatus(int sMode);
 	CMStringW PrefixToStatus(int cPrefix);
 	int       SetChannelSBText(CMStringW sWindow, CHANNELINFO *wi);

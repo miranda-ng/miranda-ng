@@ -62,7 +62,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_xstatus.h>
 #include <m_chat_int.h>
 #include <m_srmm_int.h>
-#include <win2k.h>
 
 #include <m_ieview.h>
 #include <m_smileyadd.h>

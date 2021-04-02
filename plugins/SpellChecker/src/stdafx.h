@@ -43,7 +43,6 @@ using namespace std;
 #include <m_message.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>
-#include <win2k.h>
 #include <m_system.h>
 
 //own includes

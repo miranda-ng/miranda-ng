@@ -30,7 +30,6 @@ Boston, MA 02111-1307, USA.
 #include <algorithm>
 
 #include <newpluginapi.h>
-#include <win2k.h>
 #include <m_protosvc.h>
 #include <m_langpack.h>
 #include <m_database.h>

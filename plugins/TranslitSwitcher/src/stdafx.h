@@ -27,7 +27,6 @@ Boston, MA 02111-1307, USA.
 #include <m_langpack.h>
 #include <m_utils.h>
 #include <m_hotkeys.h>
-#include <win2k.h>
 #include <m_icolib.h>
 #include <m_popup.h>
 #include <m_srmm_int.h>

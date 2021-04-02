@@ -46,7 +46,6 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 	CreateProtoService(PS_LEAVECHAT, &CIrcProto::OnLeaveChat);
 
 	CreateProtoService(IRC_JOINCHANNEL, &CIrcProto::OnJoinMenuCommand);
-	CreateProtoService(IRC_QUICKCONNECT, &CIrcProto::OnQuickConnectMenuCommand);
 	CreateProtoService(IRC_CHANGENICK, &CIrcProto::OnChangeNickMenuCommand);
 	CreateProtoService(IRC_SHOWLIST, &CIrcProto::OnShowListMenuCommand);
 	CreateProtoService(IRC_SHOWSERVER, &CIrcProto::OnShowServerMenuCommand);
@@ -171,19 +170,6 @@ CIrcProto::~CIrcProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoaded - performs hook registration
 
-static int sttCheckPerform(const char *szSetting, void *lParam)
-{
-	if (!_strnicmp(szSetting, "PERFORM:", 8)) {
-		CMStringA s = szSetting;
-		s.MakeUpper();
-		if (s != szSetting) {
-			OBJLIST<CMStringA>* p = (OBJLIST<CMStringA>*)lParam;
-			p->insert(new CMStringA(szSetting));
-		}
-	}
-	return 0;
-}
-
 void CIrcProto::OnModulesLoaded()
 {
 	wchar_t name[128];
@@ -205,54 +191,36 @@ void CIrcProto::OnModulesLoaded()
 	nlu.szDescriptiveName.w = name;
 	hNetlibDCC = Netlib_RegisterUser(&nlu);
 
-	m_pServer = Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, _A2T(m_network));
+	m_pServer = Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, m_tszUserName);
 
 	if (m_useServer && !m_hideServerWindow)
 		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_VISIBLE);
 	else
 		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_HIDDEN);
 
-	wchar_t szTemp[MAX_PATH];
-	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);
-	wchar_t *szLoadFileName = Utils_ReplaceVarsW(szTemp);
-	char* pszPerformData = IrcLoadFile(szLoadFileName);
-	if (pszPerformData != nullptr) {
-		char *p1 = pszPerformData, *p2 = pszPerformData;
-		while ((p1 = strstr(p2, "NETWORK: ")) != nullptr) {
-			p1 += 9;
-			p2 = strchr(p1, '\n');
-			CMStringA sNetwork(p1, int(p2 - p1 - 1));
-			sNetwork.MakeUpper();
-			p1 = p2;
-			p2 = strstr(++p1, "\nNETWORK: ");
-			if (!p2)
-				p2 = p1 + mir_strlen(p1) - 1;
-			if (p1 == p2)
-				break;
+	ptrA szNetwork(getStringA("Network"));
+	if (szNetwork) {
+		CMStringA szSetting(FORMAT, "PERFORM:%s", szNetwork);
+		szSetting.MakeUpper();
 
-			*p2++ = 0;
-			setString(("PERFORM:" + sNetwork).c_str(), rtrim(p1));
+		CMStringW wszValue(getMStringW(szSetting));
+		if (!wszValue.IsEmpty()) {
+			setWString("PERFORM:EVENT: CONNECT", wszValue);
+			delSetting(szSetting);
 		}
-		delete[] pszPerformData;
-		::_wremove(szLoadFileName);
+		delSetting("Network");
 	}
-	mir_free(szLoadFileName);
 
-	if (!getByte("PerformConversionDone", 0)) {
-		OBJLIST<CMStringA> performToConvert(10);
-		db_enum_settings(NULL, sttCheckPerform, m_szModuleName, &performToConvert);
-
-		for (auto &it : performToConvert) {
-			DBVARIANT dbv;
-			if (!getWString(*it, &dbv)) {
-				db_unset(0, m_szModuleName, *it);
-				it->MakeUpper();
-				setWString(*it, dbv.pwszVal);
-				db_free(&dbv);
+	if (getByte("CompatibilityLevel") < 1) {
+		for (auto &cc : AccContacts()) {
+			CMStringW chatId(getMStringW(cc, "ChatRoomID"));
+			int idx = chatId.Find(L" - ");
+			if (idx != -1) {
+				chatId.Truncate(idx);
+				setWString(cc, "ChatRoomID", chatId);
 			}
 		}
-
-		setByte("PerformConversionDone", 1);
+		setByte("CompatibilityLevel", 1);
 	}
 
 	InitIgnore();
@@ -664,25 +632,6 @@ int CIrcProto::SetStatus(int iNewStatus)
 
 int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 {
-	if (iNewStatus != ID_STATUS_OFFLINE && !m_network[0]) {
-		if (m_nick[0] && !m_disableDefaultServer) {
-			if (m_quickDlg == nullptr) {
-				m_quickDlg = new CQuickDlg(this);
-				m_quickComboSelection = m_serverComboSelection + 1;
-				m_quickDlg->Show();
-			}
-			
-			HWND hwnd = m_quickDlg->GetHwnd();
-			SetWindowTextA(hwnd, "Miranda IRC");
-			SetDlgItemText(hwnd, IDC_TEXT, TranslateT("Please choose an IRC-network to go online. This network will be the default."));
-			SetDlgItemText(hwnd, IDC_CAPTION, TranslateT("Default network"));
-			Window_SetIcon_IcoLib(hwnd, g_plugin.getIconHandle(IDI_MAIN));
-			ShowWindow(hwnd, SW_SHOW);
-			SetActiveWindow(hwnd);
-		}
-		return 0;
-	}
-
 	if (iNewStatus != ID_STATUS_OFFLINE && !m_nick[0] || !m_userID[0] || !m_name[0]) {
 		Clist_TrayNotifyW(m_szModuleName, TranslateT("IRC error"), TranslateT("Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name)."), NIIF_ERROR, 15000);
 		return 0;

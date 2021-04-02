@@ -254,12 +254,28 @@ public:
 	__forceinline SESSION_INFO *getChat() const { return m_si; }
 	__forceinline CSrmmLogWindow *log() const { return m_pLog; }
 
-	__inline void *operator new(size_t size) { return calloc(1, size); }
+	__inline void* operator new(size_t size) { return calloc(1, size); }
 	__inline void operator delete(void *p) { free(p); }
 };
 
 #ifndef SRMM_OWN_STRUCTURES
 class CMsgDialog : public CSrmmBaseDialog {};
 #endif 
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// receives LOGSTREAMDATA* as the first parameter
+
+EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// sends a message to all SRMM windows
+
+EXTERN_C MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// finds a SRMM window using hContact
+
+EXTERN_C MIR_APP_DLL(HWND) Srmm_FindWindow(MCONTACT hContact);
+EXTERN_C MIR_APP_DLL(CMsgDialog*) Srmm_FindDialog(MCONTACT hContact);
 
 #endif // M_MESSAGE_H__

@@ -39,7 +39,6 @@ using namespace std;
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <m_skin.h>
-#include <win2k.h>
 
 #include <m_ftpfile.h>
 

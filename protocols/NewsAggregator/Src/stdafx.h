@@ -41,7 +41,6 @@ Boston, MA 02111-1307, USA.
 #include <m_netlib.h>
 #include <m_icolib.h>
 #include <m_message.h>
-#include <win2k.h>
 #include <m_xml.h>
 #include <m_avatars.h>
 #include <m_hotkeys.h>

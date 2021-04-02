@@ -20,7 +20,6 @@
 #include <m_cluiframes.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>
-#include <win2k.h>
 
 #include <m_toptoolbar.h>
 #include <m_alarms.h>

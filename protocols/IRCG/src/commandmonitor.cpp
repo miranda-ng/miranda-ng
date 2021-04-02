@@ -383,10 +383,8 @@ bool CIrcProto::OnIrc_PART(const CIrcMessage *pmsg)
 	if (pmsg->parameters.getCount() > 0 && pmsg->m_bIncoming) {
 		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_PART, pmsg->parameters[0], pmsg->prefix.sNick, pmsg->parameters.getCount() > 1 ? pmsg->parameters[1].c_str() : nullptr, nullptr, host, NULL, true, false);
-		if (pmsg->prefix.sNick == m_info.sNick) {
-			CMStringW S = MakeWndID(pmsg->parameters[0]);
-			Chat_Control(m_szModuleName, S, SESSION_OFFLINE);
-		}
+		if (pmsg->prefix.sNick == m_info.sNick)
+			Chat_Control(m_szModuleName, pmsg->parameters[0], SESSION_OFFLINE);
 	}
 	else ShowMessage(pmsg);
 
@@ -401,11 +399,10 @@ bool CIrcProto::OnIrc_KICK(const CIrcMessage *pmsg)
 		ShowMessage(pmsg);
 
 	if (pmsg->parameters[1] == m_info.sNick) {
-		CMStringW S = MakeWndID(pmsg->parameters[0]);
-		Chat_Control(m_szModuleName, S, SESSION_OFFLINE);
+		Chat_Control(m_szModuleName, pmsg->parameters[0], SESSION_OFFLINE);
 
 		if (m_rejoinIfKicked) {
-			CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, MakeWndID(pmsg->parameters[0]));
+			CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, pmsg->parameters[0]);
 			if (wi && wi->pszPassword)
 				PostIrcMessage(L"/JOIN %s %s", pmsg->parameters[0].c_str(), wi->pszPassword);
 			else
@@ -489,8 +486,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage *pmsg)
 					if ((int)pmsg->parameters.getCount() > iParametercount) {
 						if (!mir_wstrcmp(pmsg->parameters[2], m_info.sNick)) {
 							char cModeBit = -1;
-							CMStringW windowName = MakeWndID(pmsg->parameters[0]);
-							CHANNELINFO *wi = (CHANNELINFO*)Chat_GetUserInfo(m_szModuleName, windowName);
+							CHANNELINFO *wi = (CHANNELINFO*)Chat_GetUserInfo(m_szModuleName, pmsg->parameters[0]);
 							switch (*p1) {
 							case 'v':      cModeBit = 0;       break;
 							case 'h':      cModeBit = 1;       break;
@@ -507,7 +503,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage *pmsg)
 									wi->OwnMode &= ~(1 << cModeBit);
 							}
 
-							Chat_SetUserInfo(m_szModuleName, windowName, wi);
+							Chat_SetUserInfo(m_szModuleName, pmsg->parameters[0], wi);
 						}
 						DoEvent(bAdd ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS, pmsg->parameters[0], pmsg->parameters[iParametercount], pmsg->prefix.sNick, sStatus, nullptr, NULL, m_oldStyleModes ? false : true, false);
 						iParametercount++;
@@ -597,14 +593,13 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage *pmsg)
 			return true;
 
 		if (!m_ignore || !IsIgnored(pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'n')) {
-			CMStringW S;
-			CMStringW S2;
-			CMStringW S3;
+			CMStringW S, S2, S3 = m_szModuleName;
+
 			if (pmsg->prefix.sNick.GetLength() > 0)
 				S = pmsg->prefix.sNick;
 			else
-				S = m_info.sNetwork;
-			S3 = m_info.sNetwork;
+				S = m_szModuleName;
+
 			if (IsChannel(pmsg->parameters[0]))
 				S2 = pmsg->parameters[0];
 			else {
@@ -616,14 +611,10 @@ bool CIrcProto::OnIrc_NOTICE(const CIrcMessage *pmsg)
 				if (str[0] == '[' && str[1] == '#' && str[str.GetLength() - 1] == ']') {
 					str.Delete(str.GetLength() - 1, 1);
 					str.Delete(0, 1);
-					CMStringW Wnd = MakeWndID(str);
-					gci.pszID = Wnd;
+					gci.pszID = str;
 					if (!Chat_GetInfo(&gci) && gci.iType == GCW_CHATROOM)
 						S2 = GetWord(gci.pszID, 0);
-					else
-						S2 = L"";
 				}
-				else S2 = L"";
 			}
 			DoEvent(GC_EVENT_NOTICE, S2.IsEmpty() ? nullptr : S2.c_str(), S, pmsg->parameters[1], nullptr, S3, NULL, true, false);
 		}
@@ -1257,10 +1248,9 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 				sChanName++;
 
 			// Add a new chat window
-			CMStringW sID = MakeWndID(sChanName);
 			BYTE btOwnMode = 0;
 
-			SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sID, sChanName);
+			SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sChanName, sChanName);
 			if (si) {
 				PostIrcMessage(L"/MODE %s", sChanName);
 
@@ -1287,7 +1277,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 							sTemp.Delete(0, 1);
 
 						GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-						gce.pszID.w = sID;
+						gce.pszID.w = sChanName;
 						gce.pszUID.w = sTemp;
 						gce.pszNick.w = sTemp;
 						gce.pszStatus.w = sStat;
@@ -1316,7 +1306,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 							sTemp2.Delete(0, 1);
 							sStat = PrefixToStatus(sTemp2[0]);
 							while (sStat != pwszNormal) {
-								DoEvent(GC_EVENT_ADDSTATUS, sID, sTemp, L"system", sStat, nullptr, NULL, false, false, 0);
+								DoEvent(GC_EVENT_ADDSTATUS, sChanName, sTemp, L"system", sStat, nullptr, NULL, false, false, 0);
 								sTemp2.Delete(0, 1);
 								sStat = PrefixToStatus(sTemp2[0]);
 							}
@@ -1329,7 +1319,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 
 				//Set the item data for the window
 				{
-					CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, sID);
+					CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, sChanName);
 					if (!wi)
 						wi = new CHANNELINFO;
 					wi->OwnMode = btOwnMode;
@@ -1338,7 +1328,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 					wi->pszPassword = nullptr;
 					wi->pszTopic = nullptr;
 					wi->codepage = getCodepage();
-					Chat_SetUserInfo(m_szModuleName, sID, wi);
+					Chat_SetUserInfo(m_szModuleName, sChanName, wi);
 
 					if (!sTopic.IsEmpty() && !mir_wstrcmpi(GetWord(sTopic, 0), sChanName)) {
 						DoEvent(GC_EVENT_TOPIC, sChanName, sTopicName.IsEmpty() ? nullptr : sTopicName.c_str(), GetWordAddress(sTopic, 1), nullptr, sTopicTime.IsEmpty() ? nullptr : sTopicTime.c_str(), NULL, true, false);
@@ -1371,17 +1361,17 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 						save += GetWordAddress(dbv.pwszVal, k);
 						switch (command[0]) {
 						case 'M':
-							Chat_Control(m_szModuleName, sID, WINDOW_HIDDEN);
+							Chat_Control(m_szModuleName, sChanName, WINDOW_HIDDEN);
 							break;
 						case 'X':
-							Chat_Control(m_szModuleName, sID, WINDOW_VISIBLE);
+							Chat_Control(m_szModuleName, sChanName, WINDOW_VISIBLE);
 							break;
 						default:
-							Chat_Control(m_szModuleName, sID, SESSION_INITDONE);
+							Chat_Control(m_szModuleName, sChanName, SESSION_INITDONE);
 							break;
 						}
 					}
-					else Chat_Control(m_szModuleName, sID, SESSION_INITDONE);
+					else Chat_Control(m_szModuleName, sChanName, SESSION_INITDONE);
 
 					if (save.IsEmpty())
 						db_unset(0, m_szModuleName, "JTemp");
@@ -1389,9 +1379,9 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 						setWString("JTemp", save);
 					db_free(&dbv);
 				}
-				else Chat_Control(m_szModuleName, sID, SESSION_INITDONE);
+				else Chat_Control(m_szModuleName, sChanName, SESSION_INITDONE);
 
-				Chat_Control(m_szModuleName, sID, SESSION_ONLINE);
+				Chat_Control(m_szModuleName, sChanName, SESSION_ONLINE);
 			}
 		}
 	}
@@ -2338,9 +2328,8 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 		PostIrcMessage(L"/AWAY " + m_statusMessage.Mid(0, 450));
 
 	if (m_perform) {
-		DoPerform("ALL NETWORKS");
 		if (IsConnected()) {
-			DoPerform(_T2A(m_info.sNetwork));
+			DoPerform("Event: Connect");
 			switch (Temp) {
 				case ID_STATUS_FREECHAT:   DoPerform("Event: Free for chat");   break;
 				case ID_STATUS_ONLINE:     DoPerform("Event: Available");       break;
@@ -2418,33 +2407,28 @@ int CIrcProto::IsIgnored(CMStringW user, char type)
 			return i + 1;
 
 		bool bUserContainsWild = (wcschr(user, '*') != nullptr || wcschr(user, '?') != nullptr);
-		if (!bUserContainsWild && WCCmp(C.mask, user) ||
-			bUserContainsWild && !mir_wstrcmpi(user, C.mask)) {
+		if (!bUserContainsWild && WCCmp(C.mask, user) || bUserContainsWild && !mir_wstrcmpi(user, C.mask)) {
 			if (C.flags.IsEmpty() || C.flags[0] != '+')
 				continue;
 
 			if (!wcschr(C.flags, type))
 				continue;
 
-			if (C.network.IsEmpty())
-				return i + 1;
-
-			if (IsConnected() && !mir_wstrcmpi(C.network, m_info.sNetwork))
-				return i + 1;
+			return i + 1;
 		}
 	}
 
 	return 0;
 }
 
-bool CIrcProto::AddIgnore(const wchar_t* mask, const wchar_t* flags, const wchar_t* network)
+bool CIrcProto::AddIgnore(const wchar_t* mask, const wchar_t* flags)
 {
 	RemoveIgnore(mask);
-	m_ignoreItems.insert(new CIrcIgnoreItem(mask, (L"+" + CMStringW(flags)), network));
+	m_ignoreItems.insert(new CIrcIgnoreItem(mask, (L"+" + CMStringW(flags))));
 	RewriteIgnoreSettings();
 
 	if (m_ignoreDlg)
-		m_ignoreDlg->RebuildList();
+		m_ignoreDlg->Update();
 	return true;
 }
 
@@ -2457,6 +2441,6 @@ bool CIrcProto::RemoveIgnore(const wchar_t* mask)
 	RewriteIgnoreSettings();
 
 	if (m_ignoreDlg)
-		m_ignoreDlg->RebuildList();
+		m_ignoreDlg->Update();
 	return true;
 }

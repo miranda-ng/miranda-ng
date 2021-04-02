@@ -24,7 +24,6 @@
 #include <m_cluiframes.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>
-#include <win2k.h>
 
 #include "resource.h"
 #include "collection.h"

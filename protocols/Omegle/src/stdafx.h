@@ -36,7 +36,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <io.h>
 
 #include <windows.h>
-#include <win2k.h>
 #include <commctrl.h>
 
 #include <newpluginapi.h>

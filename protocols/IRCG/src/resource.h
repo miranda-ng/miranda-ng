@@ -9,7 +9,6 @@
 #define IDD_INFO                        106
 #define IDD_NICK                        107
 #define IDD_PREFS_OTHER                 113
-#define IDD_ADDSERVER                   120
 #define IDD_LIST                        123
 #define IDD_QUICKCONN                   133
 #define IDI_MAIN                        136
@@ -27,7 +26,6 @@
 #define IDI_WHOIS                       179
 #define IDI_LIST                        181
 #define IDI_MANAGER                     182
-#define IDI_QUICK                       184
 #define IDI_GO                          185
 #define IDI_APPLY                       185
 #define IDI_SHOW                        186
@@ -66,11 +64,8 @@
 #define IDC_INFO_NICK                   1013
 #define IDC_EDIT2                       1013
 #define ID_INFO_GO                      1017
-#define IDC_SERVERCOMBO                 1022
 #define IDC_IDENT                       1023
 #define IDC_IDENT_TIMED                 1024
-#define IDC_ADDSERVER                   1031
-#define IDC_EDITSERVER                  1032
 #define IDC_IDENTSYSTEM                 1036
 #define IDC_IDENTPORT                   1037
 #define IDC_ONLINETIMER                 1038
@@ -95,16 +90,9 @@
 #define IDC_REMOVE                      1094
 #define IDC_APPLYTOPIC                  1095
 #define IDC_APPLYMODES                  1096
-#define IDC_DELETESERVER                1097
-#define IDC_ADD_COMBO                   1100
-#define IDC_ADD_SERVER                  1101
-#define IDC_ADD_ADDRESS                 1102
-#define IDC_ADD_PORT                    1103
-#define IDC_ADD_PORT2                   1104
 #define IDC_CLOSE                       1108
 #define IDC_JOIN                        1109
 #define ID_INFO_OK                      1110
-#define IDC_STARTUP                     1133
 #define IDC_TEXT                        1134
 #define IDC_DEFAULT                     1139
 #define IDC_WILDCARD                    1140
@@ -131,9 +119,6 @@
 #define IDC_WHITERECT                   1179
 #define IDC_LOGO                        1180
 #define IDC_CAPTION                     1181
-#define IDC_OFF                         1184
-#define IDC_AUTO                        1185
-#define IDC_ON                          1186
 #define IDC_QUITMESSAGE                 1187
 #define IDC_USERINFO                    1189
 #define IDC_PING                        1190
@@ -158,7 +143,6 @@
 #define IDC_I                           1208
 #define IDC_C                           1209
 #define IDC_D                           1210
-#define IDC_NETWORK                     1211
 #define IDC_IGNORECHANNEL               1212
 #define IDC_ENABLEIGNORE                1213
 #define IDC_IGNOREFILE                  1214

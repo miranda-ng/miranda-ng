@@ -35,7 +35,6 @@ using namespace std;
 #include <m_icolib.h>
 #include <m_skin.h>
 #include <m_gui.h>
-#include <win2k.h>
 #include <m_genmenu.h>
 #include <m_options.h>
 

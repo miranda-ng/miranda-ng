@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#define WM_BACKUP_DONE (WM_USER+1)
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 class COptionsDlg : public CDlgBase
@@ -8,11 +10,12 @@ class COptionsDlg : public CDlgBase
 	{
 		auto *periodText = FindControl(IDC_ED_PERIOD);
 		auto *numBackupsText = FindControl(IDC_ED_NUMBACKUPS);
-		
+
 		bool bEnabled = !m_disable.IsChecked();
 		m_backupOnStart.Enable(bEnabled);
 		m_backupOnExit.Enable(bEnabled);
 		m_backupPeriodic.Enable(bEnabled);
+		m_nextTime.Enable(bEnabled);
 		numBackupsText->Enable(bEnabled);
 		m_numBackups.Enable(bEnabled);
 		m_backup.Enable(bEnabled);
@@ -37,7 +40,7 @@ class COptionsDlg : public CDlgBase
 		}
 		else {
 			m_cloudFileService.Enable(m_useCloudFile.IsChecked());
-			UseZip_OnChange(0);
+			onChange_UseZip(0);
 
 			BYTE backupTypes = g_plugin.backup_types;
 			if (backupTypes == BT_DISABLED)
@@ -102,24 +105,26 @@ class COptionsDlg : public CDlgBase
 		return 0;
 	}
 
-	CCtrlCheck m_disable;
-	CCtrlCheck m_backupOnStart;
-	CCtrlCheck m_backupOnExit;
-	CCtrlCheck m_backupPeriodic;
-	CCtrlButton m_backup;
-	CCtrlSpin m_period;
-	CCtrlCombo m_periodType;
+	CCtrlBase m_nextTime;
 	CCtrlEdit m_folder, m_filemask;
-	CCtrlButton m_browseFolder;
+	CCtrlSpin m_period, m_numBackups;
+	CCtrlCheck m_disable, m_backupOnStart, m_backupOnExit, m_backupPeriodic;
+	CCtrlCheck m_disableProgress, m_useZip, m_backupProfile, m_useCloudFile;
+	CCtrlCombo m_periodType, m_cloudFileService;
+	CCtrlButton m_browseFolder, m_backup;
 	CCtrlHyperlink m_foldersPageLink;
-	CCtrlSpin m_numBackups;
-	CCtrlCheck m_disableProgress;
-	CCtrlCheck m_useZip;
-	CCtrlCheck m_backupProfile;
-	CCtrlCheck m_useCloudFile;
-	CCtrlCombo m_cloudFileService;
 
 	HWND m_hPathTip;
+	HANDLE m_hEvent;
+
+	UI_MESSAGE_MAP(COptionsDlg, CDlgBase);
+		UI_MESSAGE(WM_BACKUP_DONE, BackupDone);
+	UI_MESSAGE_MAP_END();
+
+	INT_PTR BackupDone(UINT, WPARAM, LPARAM)
+	{
+		onChange_Period(0);
+	}
 
 public:
 	COptionsDlg() :
@@ -132,6 +137,7 @@ public:
 		m_backupProfile(this, IDC_BACKUPPROFILE),
 		m_period(this, SPIN_PERIOD, 60, 1),
 		m_periodType(this, IDC_PT),
+		m_nextTime(this, IDC_NEXTTIME),
 		m_folder(this, IDC_ED_FOLDER),
 		m_browseFolder(this, IDC_BUT_BROWSE),
 		m_filemask(this, IDC_FILEMASK),
@@ -150,24 +156,26 @@ public:
 		CreateLink(m_backupProfile, g_plugin.backup_profile);
 		CreateLink(m_useCloudFile, g_plugin.use_cloudfile);
 
-		m_disable.OnChange = Callback(this, &COptionsDlg::Disable_OnChange);
-		m_backupOnStart.OnChange = Callback(this, &COptionsDlg::BackupType_OnChange);
-		m_backupOnExit.OnChange = Callback(this, &COptionsDlg::BackupType_OnChange);
-		m_backupPeriodic.OnChange = Callback(this, &COptionsDlg::BackupType_OnChange);
-		m_useCloudFile.OnChange = Callback(this, &COptionsDlg::UseCloudFile_OnChange);
-		m_useZip.OnChange = Callback(this, &COptionsDlg::UseZip_OnChange);
+		m_disable.OnChange = Callback(this, &COptionsDlg::onChange_Disable);
+		m_backupOnStart.OnChange = m_backupOnExit.OnChange = m_backupPeriodic.OnChange = Callback(this, &COptionsDlg::onChange_BackupType);
+		m_useCloudFile.OnChange = Callback(this, &COptionsDlg::onChange_UseCloudFile);
+		m_useZip.OnChange = Callback(this, &COptionsDlg::onChange_UseZip);
+		m_periodType.OnSelChanged = m_period.OnChange = Callback(this, &COptionsDlg::onChange_Period);
 
-		m_backup.OnClick = Callback(this, &COptionsDlg::Backup_OnClick);
-		m_browseFolder.OnClick = Callback(this, &COptionsDlg::BrowseFolder_OnClick);
-		m_foldersPageLink.OnClick = Callback(this, &COptionsDlg::FoldersPageLink_OnClick);
+		m_backup.OnClick = Callback(this, &COptionsDlg::onClick_Backup);
+		m_browseFolder.OnClick = Callback(this, &COptionsDlg::onClick_BrowseFolder);
+		m_foldersPageLink.OnClick = Callback(this, &COptionsDlg::onClick_FoldersPageLink);
 	}
 
 	bool OnInitDialog() override
 	{
+		m_hEvent = HookEventMessage(ME_AUTOBACKUP_DONE, m_hwnd, WM_BACKUP_DONE);
+
 		m_disable.SetState(g_plugin.backup_types == BT_DISABLED);
 		m_backupOnStart.SetState(g_plugin.backup_types & BT_START ? TRUE : FALSE);
 		m_backupOnExit.SetState(g_plugin.backup_types & BT_EXIT ? TRUE : FALSE);
 		m_backupPeriodic.SetState(g_plugin.backup_types & BT_PERIODIC ? TRUE : FALSE);
+		onChange_Period(0);
 
 		m_numBackups.SetPosition(g_plugin.num_backups);
 
@@ -270,35 +278,54 @@ public:
 		}
 	}
 
-	void Disable_OnChange(CCtrlBase*)
+	void onChange_Disable(CCtrlBase*)
 	{
 		SetDialogState();
 	}
 
-	void BackupType_OnChange(CCtrlBase*)
+	void onChange_Period(CCtrlSpin*)
 	{
-		if (!m_backupOnStart.IsChecked() && !m_backupOnExit.IsChecked() && !m_backupPeriodic.IsChecked()) {
+		int iMultiplicator;
+		switch (m_periodType.GetCurSel()) {
+		case PT_MINUTES: iMultiplicator = 60; break;
+		case PT_HOURS: iMultiplicator = 3600; break;
+		default: iMultiplicator = 86400; break; // days
+		}
+
+		time_t nextBackup = time_t(g_plugin.getDword("LastBackupTimestamp")) + m_period.GetPosition() * iMultiplicator;
+
+		wchar_t buf[100];
+		TimeZone_PrintTimeStamp(nullptr, nextBackup, L"D t", buf, _countof(buf), 0);
+		m_nextTime.SetText(CMStringW(FORMAT, L"%s %s", TranslateT("Next backup is scheduled to"), buf));
+	}
+
+	void onChange_BackupType(CCtrlBase*)
+	{
+		bool bEnabled = m_backupPeriodic.IsChecked();
+		m_nextTime.Enable(bEnabled);
+
+		if (!m_backupOnStart.IsChecked() && !m_backupOnExit.IsChecked() && !bEnabled) {
 			m_disable.SetState(true);
 			SetDialogState();
 		}
 	}
 
-	void UseCloudFile_OnChange(CCtrlBase*)
+	void onChange_UseCloudFile(CCtrlBase*)
 	{
 		m_cloudFileService.Enable(m_useCloudFile.IsChecked());
 	}
 
-	void UseZip_OnChange(CCtrlCheck*)
+	void onChange_UseZip(CCtrlCheck*)
 	{
 		m_backupProfile.Enable(m_useZip.GetState());
 	}
 
-	void Backup_OnClick(CCtrlButton*)
+	void onClick_Backup(CCtrlButton*)
 	{
 		BackupStart(nullptr);
 	}
 
-	void BrowseFolder_OnClick(CCtrlButton*)
+	void onClick_BrowseFolder(CCtrlButton*)
 	{
 		wchar_t folder_buff[MAX_PATH] = { 0 };
 
@@ -320,7 +347,7 @@ public:
 		}
 	}
 
-	void FoldersPageLink_OnClick(CCtrlHyperlink*)
+	void onClick_FoldersPageLink(CCtrlHyperlink*)
 	{
 		g_plugin.openOptions(L"Customize", L"Folders");
 	}

@@ -19,7 +19,6 @@
 #include <process.h>
 #include <time.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_contacts.h>
 #include <m_database.h>

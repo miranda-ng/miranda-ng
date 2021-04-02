@@ -37,7 +37,7 @@ static void ShowPopup(const wchar_t *ptszText, wchar_t *ptszHeader, wchar_t *pts
 	if (ptszPath != nullptr)
 		ppd.PluginData = (void*)mir_wstrdup(ptszPath);
 	ppd.PluginWindowProc = DlgProcPopup;
-	ppd.lchIcon = IcoLib_GetIcon(iconList[0].szName);
+	ppd.lchIcon = g_plugin.getIcon(IDI_BACKUP);
 	PUAddPopupW(&ppd);
 }
 
@@ -266,6 +266,7 @@ static int Backup(wchar_t *backup_filename)
 			UpdateWindow(progress_dialog);
 		}
 		g_plugin.setDword("LastBackupTimestamp", (DWORD)time(0));
+		NotifyEventHooks(g_plugin.hevBackup);
 
 		if (g_plugin.use_cloudfile) {
 			CFUPLOADDATA ui = { g_plugin.cloudfile_service, dest_file, L"Backups" };
@@ -324,7 +325,15 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t t = time(0);
 	time_t diff = t - (time_t)g_plugin.getDword("LastBackupTimestamp");
-	if (diff > time_t(g_plugin.period) * (g_plugin.period_type == PT_MINUTES ? 60 : (g_plugin.period_type == PT_HOURS ? (60 * 60) : (60 * 60 * 24))))
+
+	int iMultiplicator;
+	switch (g_plugin.period_type) {
+	case PT_MINUTES: iMultiplicator = 60; break;
+	case PT_HOURS: iMultiplicator = 3600; break;
+	default: iMultiplicator = 86400; break; // days
+	}
+
+	if (diff > time_t(g_plugin.period) * iMultiplicator)
 		BackupStart(nullptr);
 }
 

@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <time.h>
 #include <math.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_database.h>

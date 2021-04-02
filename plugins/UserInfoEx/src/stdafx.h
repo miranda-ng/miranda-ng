@@ -64,7 +64,6 @@ using namespace std;
 #include <m_message.h>
 #include <m_userinfo.h>
 #include <m_email.h>
-#include <win2k.h>
 #include <msapi/vsstyle.h>
 #include <msapi/vssym32.h>
 #include <m_skin.h>

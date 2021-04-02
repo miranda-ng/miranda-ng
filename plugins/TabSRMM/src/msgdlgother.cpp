@@ -1455,6 +1455,134 @@ void CMsgDialog::SetStatusText(const wchar_t *wszText, HICON hIcon)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// subclassing for the message filter dialog (set and configure event filters for the 
+// current session
+
+static UINT _eventorder[] =
+{
+	GC_EVENT_ACTION,
+	GC_EVENT_MESSAGE,
+	GC_EVENT_NICK,
+	GC_EVENT_JOIN,
+	GC_EVENT_PART,
+	GC_EVENT_TOPIC,
+	GC_EVENT_ADDSTATUS,
+	GC_EVENT_INFORMATION,
+	GC_EVENT_QUIT,
+	GC_EVENT_KICK,
+	GC_EVENT_NOTICE
+};
+
+INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CMsgDialog *pDlg = (CMsgDialog *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		pDlg = (CMsgDialog *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		{
+			DWORD dwMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0);
+			DWORD dwFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", 0);
+
+			DWORD dwPopupMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", 0);
+			DWORD dwPopupFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", 0);
+
+			DWORD dwTrayMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", 0);
+			DWORD dwTrayFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", 0);
+
+			for (int i = 0; i < _countof(_eventorder); i++) {
+				CheckDlgButton(hwndDlg, IDC_1 + i, dwMask & _eventorder[i] ? (dwFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
+				CheckDlgButton(hwndDlg, IDC_P1 + i, dwPopupMask & _eventorder[i] ? (dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
+				CheckDlgButton(hwndDlg, IDC_T1 + i, dwTrayMask & _eventorder[i] ? (dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
+			}
+		}
+		return FALSE;
+
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		SetTextColor((HDC)wParam, RGB(60, 60, 150));
+		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+
+	case WM_CLOSE:
+		if (wParam == 1 && lParam == 1 && pDlg) {
+			int iFlags = 0;
+			DWORD dwMask = 0;
+
+			for (int i = 0; i < _countof(_eventorder); i++) {
+				int result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
+
+			if (iFlags & GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			if (dwMask == 0) {
+				db_unset(pDlg->m_hContact, CHAT_MODULE, "FilterFlags");
+				db_unset(pDlg->m_hContact, CHAT_MODULE, "FilterMask");
+			}
+			else {
+				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", iFlags);
+				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", dwMask);
+			}
+
+			dwMask = iFlags = 0;
+
+			for (int i = 0; i < _countof(_eventorder); i++) {
+				int result = IsDlgButtonChecked(hwndDlg, IDC_P1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
+
+			if (iFlags & GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			if (dwMask == 0) {
+				db_unset(pDlg->m_hContact, CHAT_MODULE, "PopupFlags");
+				db_unset(pDlg->m_hContact, CHAT_MODULE, "PopupMask");
+			}
+			else {
+				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", iFlags);
+				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", dwMask);
+			}
+
+			dwMask = iFlags = 0;
+
+			for (int i = 0; i < _countof(_eventorder); i++) {
+				int result = IsDlgButtonChecked(hwndDlg, IDC_T1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
+			if (iFlags & GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			if (dwMask == 0) {
+				db_unset(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags");
+				db_unset(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask");
+			}
+			else {
+				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", iFlags);
+				db_set_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", dwMask);
+			}
+			Chat_SetFilters(pDlg->getChat());
+
+			if (pDlg->m_bFilterEnabled) {
+				if (pDlg->m_iLogFilterFlags == 0)
+					pDlg->m_btnFilter.Click();
+				pDlg->RedrawLog();
+				db_set_b(pDlg->m_hContact, CHAT_MODULE, "FilterEnabled", pDlg->m_bFilterEnabled);
+			}
+		}
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		break;
+	}
+	return FALSE;
+}
 
 void CMsgDialog::ShowFilterMenu()
 {

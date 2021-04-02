@@ -37,7 +37,6 @@ Boston, MA 02111-1307, USA.
 using namespace std;
 
 // Miranda headers
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_protocols.h>

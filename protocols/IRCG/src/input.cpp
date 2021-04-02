@@ -170,7 +170,7 @@ CMStringW CIrcProto::DoIdentifiers(CMStringW text, const wchar_t*)
 	text.Replace(L"%module", _A2T(m_szModuleName));
 	text.Replace(L"%name", m_name);
 	text.Replace(L"%newl", L"\r\n");
-	text.Replace(L"%network", m_info.sNetwork.c_str());
+	text.Replace(L"%network", _A2T(m_szModuleName));
 	text.Replace(L"%me", m_info.sNick.c_str());
 
 	char mirver[100];
@@ -241,12 +241,9 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			if (one == L"server")
 				S = SERVERWINDOW;
 			else
-				S = MakeWndID(one.c_str());
+				S = one;
 		}
-		else if (mir_wstrcmpi(window, SERVERWINDOW) == 0)
-			S = window;
-		else
-			S = MakeWndID(window);
+		else S = window;
 
 		Chat_Control(m_szModuleName, S, WINDOW_CLEARLOG);
 		return true;
@@ -292,15 +289,9 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			}
 			else IgnoreFlags = L"qnidc";
 
-			CMStringW szNetwork;
-			if (three.IsEmpty())
-				szNetwork = m_info.sNetwork;
-			else
-				szNetwork = three;
+			AddIgnore(one.c_str(), IgnoreFlags.c_str());
 
-			AddIgnore(one.c_str(), IgnoreFlags.c_str(), szNetwork.c_str());
-
-			mir_snwprintf(temp, TranslateT("%s on %s is now ignored (+%s)"), one.c_str(), szNetwork.c_str(), IgnoreFlags.c_str());
+			mir_snwprintf(temp, TranslateT("%s is now ignored (+%s)"), one.c_str(), IgnoreFlags.c_str());
 			DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), temp, nullptr, nullptr, NULL, true, false);
 		}
 		return true;
@@ -359,11 +350,10 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 	if (command == L"/nusers") {
 		wchar_t szTemp[40];
-		CMStringW S = MakeWndID(window);
 		GC_INFO gci = { 0 };
 		gci.Flags = GCF_BYID | GCF_NAME | GCF_COUNT;
 		gci.pszModule = m_szModuleName;
-		gci.pszID = S.c_str();
+		gci.pszID = window;
 		if (!Chat_GetInfo(&gci))
 			mir_snwprintf(szTemp, L"users: %u", gci.iCount);
 
@@ -470,7 +460,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			return true;
 		}
 
-		Chat_Terminate(m_szModuleName, MakeWndID(window));
+		Chat_Terminate(m_szModuleName, window);
 
 		PostIrcMessage(L"/JOIN %s", GetWordAddress(text, 1));
 		return true;

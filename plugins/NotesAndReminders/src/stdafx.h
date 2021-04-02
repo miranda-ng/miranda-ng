@@ -7,7 +7,6 @@
 #include <time.h>
 #include <richedit.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_utils.h>

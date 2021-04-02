@@ -21,10 +21,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
+struct CIrcBaseDlg : public CProtoDlgBase<CIrcProto>
+{
+	CIrcBaseDlg(CIrcProto *ppro, int dlgId) :
+		CProtoDlgBase<CIrcProto>(ppro, dlgId)
+	{}
+
+	virtual void Update() {};
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Dialogs
 
-struct CMessageBoxDlg : public CProtoDlgBase < CIrcProto >
+struct CMessageBoxDlg : public CIrcBaseDlg
 {
 	DCCINFO *pdci;
 
@@ -33,7 +42,7 @@ struct CMessageBoxDlg : public CProtoDlgBase < CIrcProto >
 	bool OnApply() override;
 };
 
-struct CCoolIrcDlg : public CProtoDlgBase < CIrcProto >
+struct CCoolIrcDlg : public CIrcBaseDlg
 {
 	CCoolIrcDlg(CIrcProto* _pro, int dlgId);
 
@@ -79,7 +88,7 @@ struct CNickDlg : public CCoolIrcDlg
 	void OnDestroy() override;
 };
 
-struct CListDlg : public CProtoDlgBase < CIrcProto >
+struct CListDlg : public CIrcBaseDlg
 {
 	CListDlg(CIrcProto* _pro);
 
@@ -109,21 +118,6 @@ struct CJoinDlg : public CCoolIrcDlg
 	bool OnInitDialog() override;
 	bool OnApply() override;
 	void OnDestroy() override;
-};
-
-struct CQuickDlg : public CCoolIrcDlg
-{
-	CQuickDlg(CIrcProto* _pro);
-
-	bool OnInitDialog() override;
-	bool OnApply() override;
-	void OnDestroy() override;
-
-	CCtrlCombo m_serverCombo;
-	void OnServerCombo(CCtrlData*);
-
-private:
-	struct SERVER_INFO* m_si;
 };
 
 struct CManagerDlg : public CCoolIrcDlg
@@ -175,129 +169,4 @@ struct CQuestionDlg : public CCoolIrcDlg
 
 private:
 	CManagerDlg* m_owner;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// options
-
-//---- the first property page: Account -------------------------------------------------
-
-struct CConnectPrefsDlg : public CProtoDlgBase < CIrcProto >
-{
-	bool m_serverlistModified;
-
-	CCtrlCombo   m_serverCombo;
-	CCtrlEdit    m_server, m_port, m_port2, m_pass;
-	CCtrlMButton m_add, m_edit, m_del;
-	CCtrlEdit    m_nick, m_nick2, m_name, m_userID;
-
-	CCtrlCheck   m_ident, m_identTimer;
-	CCtrlEdit    m_identSystem, m_identPort;
-
-	CCtrlCheck   m_forceVisible, m_rejoinOnKick, m_rejoinChannels, m_disableError,
-		m_address, m_useServer, m_showServer, m_keepAlive, m_autoJoin,
-		m_oldStyle, m_onlineNotif, m_channelAway, m_enableServer, m_useSasl;
-	CCtrlEdit    m_onlineTimer, m_limit, m_ssl;
-	CCtrlSpin    m_spin1, m_spin2;
-
-	CConnectPrefsDlg(CIrcProto* _pro);
-
-	bool OnInitDialog() override;
-	bool OnApply() override;
-
-	void OnServerCombo(CCtrlData*);
-	void OnAddServer(CCtrlButton*);
-	void OnDeleteServer(CCtrlButton*);
-	void OnEditServer(CCtrlButton*);
-	void OnStartup(CCtrlData*);
-	void OnIdent(CCtrlData*);
-	void OnUseServer(CCtrlData*);
-	void OnOnlineNotif(CCtrlData*);
-	void OnChannelAway(CCtrlData*);
-};
-
-//---- the second property page: DCC/CTCP -----------------------------------------------
-
-struct CCtcpPrefsDlg : public CProtoDlgBase < CIrcProto >
-{
-	CCtrlCombo m_combo;
-	CCtrlCheck m_slow, m_fast, m_disc, m_passive, m_sendNotice, m_enableIP, m_fromServer;
-	CCtrlEdit m_ip, m_userInfo;
-	CCtrlCheck m_radio1, m_radio2, m_radio3;
-
-	CCtcpPrefsDlg(CIrcProto* _pro);
-
-	bool OnInitDialog() override;
-	bool OnApply() override;
-
-	void OnClicked(CCtrlData*);
-};
-
-//---- the third property page: Other ---------------------------------------------------
-
-struct COtherPrefsDlg : public CProtoDlgBase < CIrcProto >
-{
-	bool m_performlistModified;
-
-	CCtrlButton  m_url;
-	CCtrlMButton m_add, m_delete;
-	CCtrlCombo   m_performCombo, m_codepage;
-	CCtrlEdit    m_pertormEdit, m_quitMessage, m_alias;
-	CCtrlCheck   m_perform, m_scripting, m_autodetect;
-
-	COtherPrefsDlg(CIrcProto* _pro);
-
-	bool OnInitDialog() override;
-	bool OnApply() override;
-	void OnDestroy() override;
-
-	void OnPerformCombo(CCtrlData*);
-	void OnCodePage(CCtrlData*);
-	void OnPerformEdit(CCtrlData*);
-	void OnPerform(CCtrlData*);
-	void OnAdd(CCtrlButton*);
-	void OnDelete(CCtrlButton*);
-
-	void addPerformComboValue(int idx, const char* szValueName);
-};
-
-//---- the fourth property page: Ignore -------------------------------------------------
-
-struct CIgnorePrefsDlg : public CProtoDlgBase < CIrcProto >
-{
-	CCtrlMButton m_add, m_edit, m_del;
-	CCtrlCheck m_enable, m_ignoreChat, m_ignoreFile, m_ignoreChannel, m_ignoreUnknown;
-	CCtrlListView m_list;
-
-	CIgnorePrefsDlg(CIrcProto* _pro);
-
-	bool OnInitDialog() override;
-	bool OnApply() override;
-	void OnDestroy() override;
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
-
-	void List_OnColumnClick(CCtrlListView::TEventInfo*);
-	void OnEnableIgnore(CCtrlData*);
-	void OnIgnoreChat(CCtrlData*);
-	void OnAdd(CCtrlButton*);
-	void OnEdit(CCtrlButton*);
-	void OnDelete(CCtrlButton*);
-
-	void FixButtons(void);
-	void RebuildList(void);
-	void UpdateList(void);
-};
-
-struct CAddIgnoreDlg : public CProtoDlgBase < CIrcProto >
-{
-	CIgnorePrefsDlg* m_owner;
-
-	wchar_t szOldMask[500];
-
-	CAddIgnoreDlg(CIrcProto* _pro, const wchar_t* mask, CIgnorePrefsDlg* parent);
-
-	bool OnInitDialog() override;
-	bool OnApply() override;
-	void OnDestroy() override;
 };

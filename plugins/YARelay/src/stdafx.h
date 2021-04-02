@@ -30,7 +30,6 @@ Features:
 #include <m_contacts.h>
 #include <m_options.h>
 #include <m_protosvc.h>
-#include <win2k.h>
 
 #include "resource.h"
 #include "version.h"

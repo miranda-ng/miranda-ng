@@ -13,7 +13,6 @@
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_utils.h>
-#include <win2k.h>
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

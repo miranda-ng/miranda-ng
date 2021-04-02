@@ -47,7 +47,6 @@
 #include "m_protosvc.h"
 #include "m_icolib.h"
 #include "m_genmenu.h"
-#include "win2k.h"
 #include "m_metacontacts.h"
 #include "m_netlib.h"
 

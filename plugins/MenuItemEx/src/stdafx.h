@@ -6,7 +6,6 @@
 #include <windows.h>
 
 #include <newpluginapi.h>
-#include <win2k.h>
 #include <m_system.h>
 #include <m_options.h>
 #include <m_contacts.h>

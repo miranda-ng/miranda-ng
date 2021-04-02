@@ -2,30 +2,22 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
 ;file \protocols\IRCG\res\IRC.rc
-[Default network]
-Сеть по умолчанию
-[Enable]
-Включено
-[Server name]
-Имя сервера
-[Internet address]
-Сетевой адрес
+[Server]
+Сервер
+[Host address]
+Адрес сервера
 [Port range]
 Диапазон портов
+[Enable SASL]
+Включить SASL
 [Password]
 Пароль
-[&Add]
-&Добавить
-[&Edit]
-&Править
-[&Del]
-&Удалить
 [User info - Required]
 Инфо пользователя - Требуется
 [Nick]
@@ -38,6 +30,8 @@
 ID пользователя
 [Ident]
 Идентификация
+[Enable]
+Включено
 [System]
 Система
 [Port]
@@ -98,8 +92,6 @@ ID пользователя
 Комнаты чата
 [Auth]
 Авторизация
-[Server]
-Сервер
 [User]
 Пользователь
 [Away Info]
@@ -116,6 +108,8 @@ ID пользователя
 Выполнить
 [&Set]
 &Установить
+[&Del]
+&Удалить
 [Alias]
 Алиас
 [Perform on event:]
@@ -128,28 +122,12 @@ ID пользователя
 Кодовая страница сервера:
 [Enable UTF-8 autodetection]
 Включить автоопределение UTF-8
-[Add server]
-Добавить сервер
-[Auto]
-Авто
-[On]
-Вкл.
-[Off]
-Откл.
-[Host address]
-Адрес сервера
-[Server description]
-Описание
-[Network]
-Сеть
 [Channels on server]
 Комнаты чата сервера
 [&Join]
 &Зайти
 [Filter by]
 Фильтр по
-[C&onnect]
-Со&единение
 [&Save]
 &Сохранить
 [Hostmask]
@@ -170,6 +148,10 @@ Wildcard поиск по сети
 Приглашения
 [Excepts]
 Исключения
+[&Add]
+&Добавить
+[&Edit]
+&Править
 [Only Ops set topic]
 Смена темы только ОПами
 [No external messages]
@@ -198,12 +180,24 @@ Wildcard поиск по сети
 Настройки комнаты чата. Для этого, чаще всего, требуются права администратора.
 [Strip colors]
 Цвета полос
+[Client-to-Client File Transfers]
+Передача файлов по СТСР
+[Send mode:]
+Режим отправки:
 [Normal]
 Обычный
 [Send-ahead]
 Упреждающий
+[Packet size (bytes):]
+Размер пакета (байт):
+[Send notice]
+Отправить уведомление
 [Attempt reverse DCC (good if firewalled)]
 Реверсный DCC (для брандмауэров)
+[Client-to-Client Chats]
+Чаты СТСР
+[Auto-accept from:]
+Автоприём от:
 [none]
 нет
 [everyone on the contact list]
@@ -212,24 +206,12 @@ Wildcard поиск по сети
 всех
 [Disconnect DCC chats when disconnecting from server]
 Отключать DCC-чаты при выходе с сервера
-[Manually set external IP:]
-Ручная настройка внешнего IP:
-[Client-to-Client File Transfers]
-Передача файлов по СТСР
 [Client-to-Client Protocol]
 Протокол СТСР
-[Client-to-Client Chats]
-Чаты СТСР
-[Send mode:]
-Режим отправки:
-[Packet size (bytes):]
-Размер пакета (байт):
+[Manually set external IP:]
+Ручная настройка внешнего IP:
 [Get IP address from server]
 Получить IP у сервера
-[Auto-accept from:]
-Автоприём от:
-[Send notice]
-Отправить уведомление
 [CTCP Chat Request]
 Запрос на СТСР-чат
 [&Accept]
@@ -250,24 +232,18 @@ Wildcard поиск по сети
 Игнорировать пользователей
 [(*) Queries from users on your contact list are never ignored]
 (*) Запросы от пользователей из списка контактов не игнорируются
+[Ignore mask (nick!user@host)]
+Маска игнорирования (nick!user@host)
+[Ignore events]
+События
 [Queries]
 Запросы
 [Messages]
 Сообщения
 [Notices]
 Уведомления
-[Ignore mask (nick!user@host)]
-Маска игнорирования (nick!user@host)
-[Network (*)]
-Сеть (*)
-[Ignore events]
-События
-[(*) blank to set this mask for all networks]
-(*) оставьте пустым, чтобы применить маску для всех сетей
-[Server:]
-Сервер:
-[Password:]
-Пароль:
+[Host]
+Сервер
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запрос СТСР-чата от %s
@@ -369,8 +345,8 @@ DCC: Запрос на продолжение закачки файла от %s 
 Система игнорирования вкл.
 [Ignore system is disabled]
 Система игнорирования выкл.
-[%s on %s is now ignored (+%s)]
-%s на %s игнорируется (+%s)
+[%s is now ignored (+%s)]
+%s игнорируется (+%s)
 [%s is not ignored now]
 %s больше не игнорируется
 [%s was not ignored]
@@ -425,8 +401,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Соединение DCC-чата неактивно
 [The protocol is not online]
 Протокол не в сети
-[Please choose an IRC-network to go online. This network will be the default.]
-Выберите IRC сеть. Эта сеть будет выбрана по умолчанию.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
 Невозможно установить подключение. Вы не ввели все необходимые данные (ник, User ID и полное имя).
 ;file \protocols\IRCG\src\options.cpp
@@ -444,8 +418,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Отмена
 [Channel list]
 Список каналов
-[Quick connect]
-Быстрое соединение
 [Server window]
 Окно сервера
 [Show channel]
@@ -488,26 +460,20 @@ DCC-запрос на передачу файла послан %s [%s]
 Вьетнамский
 [Korean (Johab)]
 Корейский (Johab)
-[Please complete all fields]
-Заполните все поля
-[Add a new network]
-Добавить сеть
-[Edit this network]
-Изменить настройки сети
-[Delete this network]
-Удалить эту сеть
-[Do you want to delete\r\n%s]
-Удалить?\r\n%s
-[Delete server]
-Удалить сервер
-[Edit server]
-Изменить настройки
+[Off]
+Откл.
+[Auto]
+Авто
+[On]
+Вкл.
 [<Resolved IP: ]
 <Определённый IP:\s
 [<Automatic>]
 <Автоматически>
 [<Local IP: ]
 <Локальный IP:\s
+[Event: Connect]
+Событие: Подключён
 [Event: Available]
 Событие: Доступен
 [Event: Away]
@@ -522,8 +488,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Событие: Готов болтать
 [Event: Disconnect]
 Событие: Отключён
-[ALL NETWORKS]
-Все сети
 [Click to set commands that will be performed for this event]
 Кликните для установки команд обработки этого события
 [Click to delete the commands for this event]
@@ -544,6 +508,8 @@ DCC-запрос на передачу файла послан %s [%s]
 Добавление правила
 [Edit ignore]
 Изменение правила
+[Network]
+Сеть
 [Account]
 Учётная запись
 [DCC and CTCP]
@@ -566,8 +532,6 @@ WallOps от %s:\s
 [Notice to %s: ]
 Уведомление для %s:\s
 ;file \protocols\IRCG\src\services.cpp
-[&Quick connect]
-&Быстрое соединение
 [&Join channel]
 &Войти в комнату чата
 [&Change your nickname]
@@ -590,8 +554,6 @@ WallOps от %s:\s
 Зайти в комнату чата
 [Please enter a channel to join]
 Введите название комнаты чата
-[Please select IRC network and enter the password if needed]
-Выберите IRC сеть и введите пароль, если необходимо
 [Please enter a unique nickname]
 Введите уникальный ник
 [Please enter your authentication code]
@@ -745,8 +707,6 @@ Nickserv убить фантома
 [Connecting to]
 Соединение с
 ;file \protocols\IRCG\src\tools.cpp
-[Offline]
-Не в сети
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Быстрее: в сети ищется лишь ник, в точности совпадающий c указанным. Маска узла необязательна, но добавляет безопасности. Поддерживаются метасимволы ? и *.
@@ -765,10 +725,6 @@ Nickserv убить фантома
 Режим
 [%s - Filtered - %d items]
 %s - отфильтровано - %d объектов 
-[Not listed server]
-Сервер вне списка
-[Type new server address here]
-Новый адрес сервера
 [Add ban/invite/exception]
 Добавить бан/приглашение/исключение
 [Edit selected ban/invite/exception]

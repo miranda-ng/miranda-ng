@@ -25,6 +25,7 @@ namespace fs = std::filesystem;
 #include <m_icolib.h>
 #include <m_autobackups.h>
 #include <m_gui.h>
+#include <m_timezones.h>
 #include <m_variables.h>
 
 #include <m_folders.h>
@@ -36,10 +37,12 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	HANDLE hevBackup;
+	wchar_t folder[MAX_PATH];
+
 	CMOption<BYTE>	    backup_types;
 	CMOption<WORD>	    period;
 	CMOption<BYTE>	    period_type;
-	wchar_t			    folder[MAX_PATH];
 	CMOption<wchar_t*> file_mask;
 	CMOption<WORD>	    num_backups;
 	CMOption<BYTE>	    disable_progress;
@@ -59,6 +62,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define SUB_DIR L"\\AutoBackups"
 #define DIR L"%miranda_userdata%"
 
+#define ME_AUTOBACKUP_DONE "Autobackup/Done"
+
 int  SetBackupTimer(void);
 int  OptionsInit(WPARAM wParam, LPARAM lParam);
 void BackupStart(wchar_t *backup_filename);
@@ -74,10 +79,5 @@ struct ZipFile
 int CreateZipFile(const wchar_t *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback);
 
 extern char g_szMirVer[];
-
-static IconItem iconList[] = {
-	{ LPGEN("Backup profile"),     "backup", IDI_BACKUP },
-	{ LPGEN("Save profile as..."), "saveas", IDI_BACKUP }
-};
 
 #endif

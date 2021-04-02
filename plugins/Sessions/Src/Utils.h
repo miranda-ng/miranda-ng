@@ -20,25 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef __UTILS_H__
 # define __UTILS_H__
 
-void SetInSessionOrder(MCONTACT hContact, int mode, int count, int ordernum);
-void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode);
-int GetInSessionOrder(MCONTACT hContact, int mode, int count);
-void AddSessionMark(MCONTACT hContact, int mode, char bit);
-void RemoveSessionMark(MCONTACT hContact, int mode, int marknum);
-void SetSessionMark(MCONTACT hContact, int mode, char bit, int marknum);
 bool LoadContactsFromMask(MCONTACT hContact, int mode, int count);
-int AddToCurSession(MCONTACT hContact, LPARAM lparam);
-int DelFromCurSession(MCONTACT hContact, LPARAM lparam);
-int CheckForDuplicate(MCONTACT contact_list[], MCONTACT lparam);
-BOOL ResaveSettings(char *szName, int iFirst, int iLimit, wchar_t *pszPrevSetting);
+int  CheckForDuplicate(MCONTACT *contact_list, MCONTACT lparam);
 void OffsetWindow(HWND parent, HWND hwnd, int dx, int dy);
-int LoadSessionToCombobox(HWND hdlg, BOOL mode, int iLimit, char *pszSetting, int iFirstNum);
-int MarkUserDefSession(int ses_count, BYTE bCheck);
-BYTE IsMarkedUserDefSession(int ses_count);
+void LoadSessionToCombobox(CCtrlCombo &combo, bool bUser);
 void SavePosition(HWND hWnd, char *wndName);
 void LoadPosition(HWND hWnd, char *wndName);
-int CheckContactVisibility(MCONTACT hContact);
+int  CheckContactVisibility(MCONTACT hContact);
 void RenameUserDefSession(int ses_count, wchar_t *ptszNewName);
-int FillFavoritesMenu(HMENU hMenu, int iLimit);
 
 #endif // __UTILS_H__

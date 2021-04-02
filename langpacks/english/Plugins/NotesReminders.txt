@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.0
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -17,8 +17,6 @@
 [Title Time]
 [Startup options]
 [Hide notes at startup]
-[Add Contact list menu items]
-[(Requires Miranda restart)]
 [Reminder options]
 [Add Reminder closes dialog]
 [Use MCI to play alert sounds]

@@ -25,7 +25,6 @@
 #include <windows.h>
 #include <commctrl.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_ignore.h>

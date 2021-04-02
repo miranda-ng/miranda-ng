@@ -32,7 +32,6 @@
 #include <m_skin.h>
 #include <m_utils.h>
 #include <m_variables.h>
-#include <win2k.h>
 
 #include "version.h"
 #include "resource.h"

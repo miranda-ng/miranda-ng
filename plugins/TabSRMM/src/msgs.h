@@ -856,7 +856,6 @@ struct TIconDescW
 #define TIMERID_HOVER 10
 #define TIMERID_HOVER_T 11
 
-#define SRMSGMOD "SRMsg"
 #define SRMSGMOD_T "Tab_SRMsg"
 #define FONTMODULE "TabSRMM_Fonts"
 #define CHAT_OLDFONTMODULE "TabSRMM_chat_Fonts"

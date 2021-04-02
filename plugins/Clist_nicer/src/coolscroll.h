@@ -6,7 +6,6 @@ extern "C"{
 #endif
 
 #include <windows.h>
-#include <win2k.h>
 
 // To complement the exisiting SB_HORZ, SB_VERT, SB_BOTH
 // scrollbar identifiers

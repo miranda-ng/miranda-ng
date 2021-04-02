@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Message Box
 
-CMessageBoxDlg::CMessageBoxDlg(CIrcProto *_pro, DCCINFO *_dci)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_MESSAGEBOX),
+CMessageBoxDlg::CMessageBoxDlg(CIrcProto *_pro, DCCINFO *_dci) :
+	CIrcBaseDlg(_pro, IDD_MESSAGEBOX),
 	pdci(_dci)
 {
 }
@@ -244,8 +244,8 @@ bool CNickDlg::OnApply()
 
 #define LIST_TIMER 10
 
-CListDlg::CListDlg(CIrcProto *_pro)
-	: CProtoDlgBase<CIrcProto>(_pro, IDD_LIST),
+CListDlg::CListDlg(CIrcProto *_pro) :
+	CIrcBaseDlg(_pro, IDD_LIST),
 	m_Join(this, IDC_JOIN),
 	m_list(this, IDC_INFO_LISTVIEW),
 	m_list2(this, IDC_INFO_LISTVIEW2),
@@ -546,157 +546,6 @@ bool CJoinDlg::OnApply()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// 'Quick' dialog
-
-CQuickDlg::CQuickDlg(CIrcProto *_pro)
-	: CCoolIrcDlg(_pro, IDD_QUICKCONN),
-	m_serverCombo(this, IDC_SERVERCOMBO)
-{
-	m_serverCombo.OnChange = Callback(this, &CQuickDlg::OnServerCombo);
-}
-
-bool CQuickDlg::OnInitDialog()
-{
-	CCoolIrcDlg::OnInitDialog();
-
-	if (g_servers.getCount() > 0) {
-		for (auto &si : g_servers)
-			m_serverCombo.AddStringA(si->m_name, (LPARAM)si);
-	}
-	else EnableWindow(GetDlgItem(m_hwnd, IDOK), false);
-
-	CMStringA szName(FORMAT, "---- %s ----", Translate("Not listed server"));
-	m_si = new SERVER_INFO;
-	m_si->m_group = mir_strdup("");
-	m_si->m_name = szName.Detach();
-
-	DBVARIANT dbv;
-	if (!m_proto->getString("ServerName", &dbv)) {
-		m_si->m_address = mir_strdup(dbv.pszVal);
-		db_free(&dbv);
-	}
-	else m_si->m_address = mir_strdup(Translate("Type new server address here"));
-
-	if (!m_proto->getString("PortStart", &dbv)) {
-		m_si->m_portStart = atoi(dbv.pszVal);
-		db_free(&dbv);
-	}
-	else m_si->m_portStart = 6667;
-
-	if (!m_proto->getString("PortEnd", &dbv)) {
-		m_si->m_portEnd = atoi(dbv.pszVal);
-		db_free(&dbv);
-	}
-	else m_si->m_portEnd = 6667;
-
-	m_si->m_iSSL = m_proto->getByte("UseSSL", 0);
-
-	m_serverCombo.AddStringA(m_si->m_name, (LPARAM)m_si);
-
-	if (m_proto->m_quickComboSelection != -1) {
-		m_serverCombo.SetCurSel(m_proto->m_quickComboSelection);
-		OnServerCombo(nullptr);
-	}
-	else EnableWindow(GetDlgItem(m_hwnd, IDOK), false);
-	return true;
-}
-
-void CQuickDlg::OnDestroy()
-{
-	CCoolIrcDlg::OnDestroy();
-
-	delete m_si;
-	m_proto->m_quickDlg = nullptr;
-}
-
-bool CQuickDlg::OnApply()
-{
-	GetDlgItemTextA(m_hwnd, IDC_SERVER, m_proto->m_serverName, _countof(m_proto->m_serverName));
-	GetDlgItemTextA(m_hwnd, IDC_PORT, m_proto->m_portStart, _countof(m_proto->m_portStart));
-	GetDlgItemTextA(m_hwnd, IDC_PORT2, m_proto->m_portEnd, _countof(m_proto->m_portEnd));
-	GetDlgItemTextA(m_hwnd, IDC_PASS, m_proto->m_password, _countof(m_proto->m_password));
-
-	int i = m_serverCombo.GetCurSel();
-	SERVER_INFO* pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
-	if (pData && (INT_PTR)pData != CB_ERR) {
-		mir_strcpy(m_proto->m_network, pData->m_group);
-		pData->m_iSSL = 0;
-		if (IsDlgButtonChecked(m_hwnd, IDC_SSL_ON))
-			pData->m_iSSL = 2;
-		if (IsDlgButtonChecked(m_hwnd, IDC_SSL_AUTO))
-			pData->m_iSSL = 1;
-		m_proto->m_iSSL = pData->m_iSSL;
-	}
-
-	wchar_t windowname[20];
-	GetWindowText(m_hwnd, windowname, _countof(windowname));
-	if (mir_wstrcmpi(windowname, L"Miranda IRC") == 0) {
-		m_proto->m_serverComboSelection = m_serverCombo.GetCurSel() - 1;
-		m_proto->setDword("ServerComboSelection", m_proto->m_serverComboSelection);
-		m_proto->setString("ServerName", m_proto->m_serverName);
-		m_proto->setString("PortStart", m_proto->m_portStart);
-		m_proto->setString("PortEnd", m_proto->m_portEnd);
-		m_proto->setString("Password", m_proto->m_password);
-		m_proto->setString("Network", m_proto->m_network);
-		m_proto->setByte("UseSSL", m_proto->m_iSSL);
-	}
-	m_proto->m_quickComboSelection = m_serverCombo.GetCurSel();
-	m_proto->setDword("QuickComboSelection", m_proto->m_quickComboSelection);
-	m_proto->DisconnectFromServer();
-	m_proto->ConnectToServer();
-	return true;
-}
-
-void CQuickDlg::OnServerCombo(CCtrlData*)
-{
-	int i = m_serverCombo.GetCurSel();
-	if (i == CB_ERR)
-		return;
-
-	SERVER_INFO* pData = (SERVER_INFO*)m_serverCombo.GetItemData(i);
-	SetDlgItemTextA(m_hwnd, IDC_SERVER, pData->m_address);
-	SetDlgItemTextA(m_hwnd, IDC_PASS, "");
-	SetDlgItemInt(m_hwnd, IDC_PORT, pData->m_portStart, FALSE);
-	SetDlgItemInt(m_hwnd, IDC_PORT2, pData->m_portEnd, FALSE);
-
-	if (pData->m_iSSL == 0) {
-		CheckDlgButton(m_hwnd, IDC_SSL_OFF, BST_CHECKED);
-		CheckDlgButton(m_hwnd, IDC_SSL_AUTO, BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SSL_ON, BST_UNCHECKED);
-	}
-	if (pData->m_iSSL == 1) {
-		CheckDlgButton(m_hwnd, IDC_SSL_AUTO, BST_CHECKED);
-		CheckDlgButton(m_hwnd, IDC_SSL_OFF, BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SSL_ON, BST_UNCHECKED);
-	}
-	if (pData->m_iSSL == 2) {
-		CheckDlgButton(m_hwnd, IDC_SSL_ON, BST_CHECKED);
-		CheckDlgButton(m_hwnd, IDC_SSL_OFF, BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SSL_AUTO, BST_UNCHECKED);
-	}
-
-	CMStringA szDefault(FORMAT, "---- %s ----", Translate("Not listed server"));
-	if (!mir_strcmp(pData->m_name, szDefault)) {
-		SendDlgItemMessage(m_hwnd, IDC_SERVER, EM_SETREADONLY, false, 0);
-		SendDlgItemMessage(m_hwnd, IDC_PORT, EM_SETREADONLY, false, 0);
-		SendDlgItemMessage(m_hwnd, IDC_PORT2, EM_SETREADONLY, false, 0);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SSL_OFF), TRUE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SSL_AUTO), TRUE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SSL_ON), TRUE);
-	}
-	else {
-		SendDlgItemMessage(m_hwnd, IDC_SERVER, EM_SETREADONLY, true, 0);
-		SendDlgItemMessage(m_hwnd, IDC_PORT, EM_SETREADONLY, true, 0);
-		SendDlgItemMessage(m_hwnd, IDC_PORT2, EM_SETREADONLY, true, 0);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SSL_OFF), FALSE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SSL_AUTO), FALSE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SSL_ON), FALSE);
-	}
-
-	EnableWindow(GetDlgItem(m_hwnd, IDOK), true);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // 'Question' dialog
 
 CQuestionDlg::CQuestionDlg(CIrcProto *_pro, CManagerDlg *owner) :
@@ -921,7 +770,7 @@ bool CManagerDlg::OnClose()
 	}
 
 	if (!S.IsEmpty() && m_proto->IsConnected()) {
-		mir_snwprintf(temp, L"Topic%s%s", window, m_proto->m_info.sNetwork.c_str());
+		mir_snwprintf(temp, L"Topic%s", window);
 		char* p = mir_u2a(temp);
 		m_proto->setWString(p, S.c_str());
 		mir_free(p);
@@ -1277,7 +1126,7 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 	if (wi) {
 		if (m_proto->IsConnected()) {
 			wchar_t temp[1000];
-			mir_snwprintf(temp, L"Topic%s%s", window, m_proto->m_info.sNetwork.c_str());
+			mir_snwprintf(temp, L"Topic%s", window);
 
 			char* p = mir_u2a(temp);
 
@@ -1370,8 +1219,8 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 /////////////////////////////////////////////////////////////////////////////////////////
 // 'cool' dialog
 
-CCoolIrcDlg::CCoolIrcDlg(CIrcProto* _pro, int dlgId)
-	: CProtoDlgBase<CIrcProto>(_pro, dlgId)
+CCoolIrcDlg::CCoolIrcDlg(CIrcProto* _pro, int dlgId) :
+	CIrcBaseDlg(_pro, dlgId)
 {}
 
 bool CCoolIrcDlg::OnInitDialog()

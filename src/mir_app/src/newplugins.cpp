@@ -289,7 +289,7 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 
 		freePluginInstance(ppb->getInst());
 
-		NotifyFastHook(hevUnloadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
+		NotifyFastHook(hevUnloadModule, (WPARAM)&ppb, (LPARAM)ppb->getInst());
 	}
 
 	// mark default plugins to be loaded
@@ -517,7 +517,7 @@ LBL_Error:
 		if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
 			goto LBL_Error;
 
-		NotifyEventHooks(hevLoadModule, (WPARAM)&ppb->getInfo(), (LPARAM)ppb->getInst());
+		NotifyEventHooks(hevLoadModule, (WPARAM)ppb, (LPARAM)ppb->getInst());
 	}
 	mr.pImpl = ppe;
 	return true;

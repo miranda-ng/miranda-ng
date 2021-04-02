@@ -25,19 +25,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <commctrl.h>
 
 #include <malloc.h>
+#include <vector>
 
 #include <newpluginapi.h>
-#include <m_contacts.h>
-#include <m_options.h>
 #include <m_clc.h>
-#include <m_utils.h>
-#include <m_langpack.h>
-#include <m_metacontacts.h>
-#include <m_icolib.h>
-#include <m_message.h>
 #include <m_clistint.h>
+#include <m_contacts.h>
 #include <m_hotkeys.h>
-#include <win2k.h>
+#include <m_icolib.h>
+#include <m_json.h>
+#include <m_langpack.h>
+#include <m_message.h>
+#include <m_metacontacts.h>
+#include <m_options.h>
+#include <m_srmm_int.h>
+#include <m_utils.h>
 
 #include <m_toptoolbar.h>
 #include <m_sessions.h>
@@ -50,28 +52,52 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<int> g_lastUserId, g_lastDateId;
+
 	CMPlugin();
+
+	void CheckImport();
 
 	int Load() override;
 };
 
-extern IconItem iconList[];
+/////////////////////////////////////////////////////////////////////////////////////////
 
-#define MIIM_STRING	0x00000040
+struct CSession
+{
+	int id;
+	CMStringW wszName;
+	std::vector<MCONTACT> contacts;
+	bool bIsFavorite = false, bIsUser = false;
 
-int DelUserDefSession(int ses_count);
-int DeleteAutoSession(int ses_count);
-int LoadSession(WPARAM, LPARAM);
-int SaveSessionHandles(WPARAM, LPARAM);
-INT_PTR SaveUserSessionHandles(WPARAM, LPARAM);
-int SaveUserSessionName(wchar_t*);
+	void fromString(const char *str);
+	std::string toString() const;
+
+	CMStringA getSetting() const;
+	void remove();
+	void save();
+};
+
+extern OBJLIST<CSession> g_arUserSessions, g_arDateSessions;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int  LoadSession(CSession *pSession);
+int  SaveSessionHandles(MCONTACT *pSession, bool bNewSession);
+
+void CALLBACK LaunchSessions();
+
 INT_PTR CloseCurrentSession(WPARAM, LPARAM);
-int SaveSessionDate();
+INT_PTR LoadLastSession(WPARAM wparam, LPARAM lparam);
+INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM);
+INT_PTR SaveUserSessionHandles(WPARAM, LPARAM);
 
 extern MCONTACT session_list_recovered[255];
 extern MCONTACT session_list[255];
-extern int g_ses_limit;
-extern int g_ses_count;
+
+extern HWND g_hDlg, g_hSDlg;
+extern int  g_ses_limit;
+extern bool g_bLastSessionPresent;
 extern bool g_bExclHidden;	
 extern bool g_bWarnOnHidden;
 extern bool g_bOtherWarnings;

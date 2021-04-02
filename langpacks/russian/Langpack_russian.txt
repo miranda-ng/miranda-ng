@@ -16,7 +16,7 @@ Last-Modified-Using: Miranda NG 0.95.13
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 [Become idle if the following is left unattended:]
 Перейти в режим ожидания, если неактивны:
@@ -2148,6 +2148,14 @@ Miranda не может распознать этот профиль
 Неизвестно, будет ли изменение безопасным.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
+[This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
+Формат вашей базы является устаревшим. Нажмите "Да", чтобы преобразовать её в новый формат или "Нет", чтобы вернуться назад
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
+Для открытия этой базы требуется плагин Import. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
+[Cannot move old profile '%s' to '%s': error %d]
+Не удалось переместить старый профиль '%s'в '%s': ошибка %d
+[Attempt to create database '%s' failed with error code %d]
+Неудачная попытка создать базу '%s', код ошибки: %d
 [Homepage]
 Сайт
 [Phone/SMS]
@@ -4405,21 +4413,19 @@ Miranda NG не может открыть "%S".\n\nДанная ссылка н�
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Помещает значок напротив имени контакта, если контакт не авторизовал вас, или вы не авторизовали его.
+[Plugin settings]
+Настройки
+[Show icons only for recently added contacts]
+Значки только для недавно добавленных
 [Show Request icon]
 Показывать значок "Запросить"
 [Show Grant icon]
 Показывать значок "Разрешить"
-[Plugin settings]
-Настройки
-[Enable menu item]
-Добавить пункт меню
-[Show icons only for recently added contacts]
-Значки только для недавно добавленных
 [Request]
 Запросить
 [Grant]
@@ -5527,7 +5533,7 @@ Mind файлы
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
@@ -5576,8 +5582,6 @@ Windows не активен
 Программа запускается
 [Others]
 Другое
-[Create a main menu item]
-Пункт в главном меню
 [Restore hiding on startup after failure]
 Восстанавливать скрытие при запуске после "падения"
 [Password is not correct!\nPlease, enter correct password.]
@@ -6162,9 +6166,9 @@ Windows не активен
 [Info: %s]
 Инфо: %s
 [Expanded]
-развёрнута
+Развёрнута
 [Collapsed]
-свёрнута
+Свёрнута
 [Contact list]
 Список контактов
 [List]
@@ -9168,6 +9172,8 @@ ID пользователя
 Новая настройка (%s)
 [<UNKNOWN>]
 <НЕИЗВЕСТНО>
+[[UNLOADED]]
+\[НЕ ЗАГРУЖЕН]
 [*** resident ***]
 *** резидентная ***
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
@@ -9216,21 +9222,11 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Формат вашей базы является устаревшим. Чтобы получать обновления через PluginUpdater, нужно преобразовать базу в современный формат.\n\nНажмите Да, чтобы получить информацию, как это исправить.
 [Obsolete database format]
 Устаревший формат базы
-[This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
-Формат вашей базы является устаревшим. Нажмите "Да", чтобы преобразовать её в новый формат или "Нет", чтобы вернуться назад
-[To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
-Для открытия этой базы требуется плагин dbx_mdbx. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
-[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
-Для открытия этой базы требуется плагин Import. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
-[Cannot move old profile '%s' to '%s': error %d]
-Не удалось переместить старый профиль '%s'в '%s': ошибка %d
-[Attempt to create database '%s' failed with error code %d]
-Неудачная попытка создать базу '%s', код ошибки: %d
 #muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -9249,7 +9245,7 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -9300,6 +9296,10 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 База данных зарезервирована
 [Database back up in process...]
 Производится резервирование базы данных...
+[Backup profile]
+Резервировать базу данных
+[Save profile as...]
+Сохранить профиль как...
 [Enable &AutoBackups notification]
 Включить уведомления о &резервном копировании
 [Disable &AutoBackups notification]
@@ -9312,10 +9312,6 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Все файлы
 [Database]
 База данных
-[Backup profile]
-Резервировать базу данных
-[Save profile as...]
-Сохранить профиль как...
 [Popups]
 Всплывающие окна
 [Database backups]
@@ -9358,7 +9354,7 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.8
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -12747,7 +12743,7 @@ wdayF:Воскресенье
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -12768,8 +12764,6 @@ IP-адрес 2
 Разрешённые IP
 [HTTP Server statistics view]
 Статистика просмотров HTTP сервера
-[Show HTTP server statistics]
-Статистика НТТР сервера
 [Set to default]
 По умолчанию
 [External server name]
@@ -12778,10 +12772,6 @@ IP-адрес 2
 Это ссылка, вставленная в окно сообщений
 [Write log file]
 Записывать лог
-[Enable HTTP server]
-Включить HTTP сервер
-[Main menu items]
-Элементы главного меню
 [Open log]
 Открыть лог
 [Show popups]
@@ -12852,20 +12842,22 @@ IP-адрес 2
 IP-адрес:\s
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш внешний IP определён как %d.%d.%d.%d\r\nс: %s
-[You need to restart Miranda to change the main menu]
-Изменения в меню вступят в силу после перезапуска программы.
 [HTTP Server]
 HTTP сервер
 [Network]
 Сеть
 [HTTP Share new file]
 HTTP Новый общий файл
+[Show HTTP server statistics]
+Статистика НТТР сервера
 [Share removed]
 Общее удалено
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 Не удалось выполнить привязку к порту %s\r\nВероятно, это вызвано тем, что этот порт уже используется другой программой или службой
 [Disable HTTP server]
 Отключить HTTP сервер
+[Enable HTTP server]
+Включить HTTP сервер
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
 ;============================================================
 ;  File: HwHotKeys.dll
@@ -13493,29 +13485,19 @@ UIN/почта/телефон
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
-[Default network]
-Сеть по умолчанию
-[Enable]
-Включено
-[Server name]
-Имя сервера
-[Internet address]
-Сетевой адрес
+[Server]
+Сервер
+[Host address]
+Адрес сервера
 [Port range]
 Диапазон портов
 [Password]
 Пароль
-[&Add]
-&Добавить
-[&Edit]
-&Править
-[&Del]
-&Удалить
 [User info - Required]
 Инфо пользователя - Требуется
 [Nick]
@@ -13528,6 +13510,8 @@ UIN/почта/телефон
 ID пользователя
 [Ident]
 Идентификация
+[Enable]
+Включено
 [System]
 Система
 [Port]
@@ -13588,8 +13572,6 @@ ID пользователя
 Комнаты чата
 [Auth]
 Авторизация
-[Server]
-Сервер
 [User]
 Пользователь
 [Away Info]
@@ -13606,6 +13588,8 @@ ID пользователя
 Выполнить
 [&Set]
 &Установить
+[&Del]
+&Удалить
 [Alias]
 Алиас
 [Perform on event:]
@@ -13618,28 +13602,12 @@ ID пользователя
 Кодовая страница сервера:
 [Enable UTF-8 autodetection]
 Включить автоопределение UTF-8
-[Add server]
-Добавить сервер
-[Auto]
-Авто
-[On]
-Вкл.
-[Off]
-Откл.
-[Host address]
-Адрес сервера
-[Server description]
-Описание
-[Network]
-Сеть
 [Channels on server]
 Комнаты чата сервера
 [&Join]
 &Зайти
 [Filter by]
 Фильтр по
-[C&onnect]
-Со&единение
 [&Save]
 &Сохранить
 [Hostmask]
@@ -13660,6 +13628,10 @@ Wildcard поиск по сети
 Приглашения
 [Excepts]
 Исключения
+[&Add]
+&Добавить
+[&Edit]
+&Править
 [Only Ops set topic]
 Смена темы только ОПами
 [No external messages]
@@ -13688,12 +13660,24 @@ Wildcard поиск по сети
 Настройки комнаты чата. Для этого, чаще всего, требуются права администратора.
 [Strip colors]
 Цвета полос
+[Client-to-Client File Transfers]
+Передача файлов по СТСР
+[Send mode:]
+Режим отправки:
 [Normal]
 Обычный
 [Send-ahead]
 Упреждающий
+[Packet size (bytes):]
+Размер пакета (байт):
+[Send notice]
+Отправить уведомление
 [Attempt reverse DCC (good if firewalled)]
 Реверсный DCC (для брандмауэров)
+[Client-to-Client Chats]
+Чаты СТСР
+[Auto-accept from:]
+Автоприём от:
 [none]
 нет
 [everyone on the contact list]
@@ -13702,24 +13686,12 @@ Wildcard поиск по сети
 всех
 [Disconnect DCC chats when disconnecting from server]
 Отключать DCC-чаты при выходе с сервера
-[Manually set external IP:]
-Ручная настройка внешнего IP:
-[Client-to-Client File Transfers]
-Передача файлов по СТСР
 [Client-to-Client Protocol]
 Протокол СТСР
-[Client-to-Client Chats]
-Чаты СТСР
-[Send mode:]
-Режим отправки:
-[Packet size (bytes):]
-Размер пакета (байт):
+[Manually set external IP:]
+Ручная настройка внешнего IP:
 [Get IP address from server]
 Получить IP у сервера
-[Auto-accept from:]
-Автоприём от:
-[Send notice]
-Отправить уведомление
 [CTCP Chat Request]
 Запрос на СТСР-чат
 [&Accept]
@@ -13740,24 +13712,16 @@ Wildcard поиск по сети
 Игнорировать пользователей
 [(*) Queries from users on your contact list are never ignored]
 (*) Запросы от пользователей из списка контактов не игнорируются
+[Ignore mask (nick!user@host)]
+Маска игнорирования (nick!user@host)
+[Ignore events]
+События
 [Queries]
 Запросы
 [Messages]
 Сообщения
 [Notices]
 Уведомления
-[Ignore mask (nick!user@host)]
-Маска игнорирования (nick!user@host)
-[Network (*)]
-Сеть (*)
-[Ignore events]
-События
-[(*) blank to set this mask for all networks]
-(*) оставьте пустым, чтобы применить маску для всех сетей
-[Server:]
-Сервер:
-[Password:]
-Пароль:
 [CTCP chat request from %s]
 Запрос СТСР-чата от %s
 [%s sets mode %s]
@@ -13856,8 +13820,6 @@ DCC: Запрос на продолжение закачки файла от %s 
 Система игнорирования вкл.
 [Ignore system is disabled]
 Система игнорирования выкл.
-[%s on %s is now ignored (+%s)]
-%s на %s игнорируется (+%s)
 [%s is not ignored now]
 %s больше не игнорируется
 [%s was not ignored]
@@ -13910,8 +13872,8 @@ DCC-запрос на передачу файла послан %s [%s]
 Соединение DCC-чата неактивно
 [The protocol is not online]
 Протокол не в сети
-[Please choose an IRC-network to go online. This network will be the default.]
-Выберите IRC сеть. Эта сеть будет выбрана по умолчанию.
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+Невозможно установить подключение. Вы не ввели все необходимые данные (ник, User ID и полное имя).
 [Main]
 Главный
 [Add]
@@ -13926,8 +13888,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Отмена
 [Channel list]
 Список каналов
-[Quick connect]
-Быстрое соединение
 [Server window]
 Окно сервера
 [Show channel]
@@ -13970,20 +13930,12 @@ DCC-запрос на передачу файла послан %s [%s]
 Вьетнамский
 [Korean (Johab)]
 Корейский (Johab)
-[Please complete all fields]
-Заполните все поля
-[Add a new network]
-Добавить сеть
-[Edit this network]
-Изменить настройки сети
-[Delete this network]
-Удалить эту сеть
-[Do you want to delete\r\n%s]
-Удалить?\r\n%s
-[Delete server]
-Удалить сервер
-[Edit server]
-Изменить настройки
+[Off]
+Откл.
+[Auto]
+Авто
+[On]
+Вкл.
 [<Resolved IP: ]
 <Определённый IP:\s
 [<Automatic>]
@@ -14004,8 +13956,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Событие: Готов болтать
 [Event: Disconnect]
 Событие: Отключён
-[ALL NETWORKS]
-Все сети
 [Click to set commands that will be performed for this event]
 Кликните для установки команд обработки этого события
 [Click to delete the commands for this event]
@@ -14026,6 +13976,8 @@ DCC-запрос на передачу файла послан %s [%s]
 Добавление правила
 [Edit ignore]
 Изменение правила
+[Network]
+Сеть
 [Account]
 Учётная запись
 [DCC and CTCP]
@@ -14046,8 +13998,6 @@ WallOps от %s:\s
 СТСР %s ответ послан для %s: %s
 [Notice to %s: ]
 Уведомление для %s:\s
-[&Quick connect]
-&Быстрое соединение
 [&Join channel]
 &Войти в комнату чата
 [&Change your nickname]
@@ -14070,8 +14020,6 @@ WallOps от %s:\s
 Зайти в комнату чата
 [Please enter a channel to join]
 Введите название комнаты чата
-[Please select IRC network and enter the password if needed]
-Выберите IRC сеть и введите пароль, если необходимо
 [Please enter a unique nickname]
 Введите уникальный ник
 [Please enter your authentication code]
@@ -14224,8 +14172,6 @@ Nickserv убить фантома
 &Добавить в контакты
 [Connecting to]
 Соединение с
-[Offline]
-Не в сети
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Быстрее: в сети ищется лишь ник, в точности совпадающий c указанным. Маска узла необязательна, но добавляет безопасности. Поддерживаются метасимволы ? и *.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
@@ -14240,10 +14186,6 @@ Nickserv убить фантома
 Режим
 [%s - Filtered - %d items]
 %s - отфильтровано - %d объектов 
-[Not listed server]
-Сервер вне списка
-[Type new server address here]
-Новый адрес сервера
 [Add ban/invite/exception]
 Добавить бан/приглашение/исключение
 [Edit selected ban/invite/exception]
@@ -20305,6 +20247,8 @@ GPG не удалось расшифровать входящее сообщен
 Сохранять историю контакта
 [Disable history for this contact]
 Не сохранять историю контакта
+[Remove history on startup]
+Удалять историю при запуске
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Эта операция полностью удалит историю этого контакта.\nВы уверены?
 [Clear History]
@@ -20337,7 +20281,7 @@ GPG не удалось расшифровать входящее сообщен
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.0
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -20362,10 +20306,6 @@ GPG не удалось расшифровать входящее сообщен
 Настройки запуска
 [Hide notes at startup]
 Скрывать заметки на старте
-[Add Contact list menu items]
-Пункты в меню контакта
-[(Requires Miranda restart)]
-(Требует перезапуск Miranda NG)
 [Reminder options]
 Настройки напоминаний
 [Add Reminder closes dialog]
@@ -24538,7 +24478,7 @@ Upload Pie (1 нед)
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -24611,20 +24551,6 @@ Upload Pie (1 нед)
 Отмена
 [Save your current session?]
 Сохранить текущую сессию?
-[Sessions]
-Сессии
-[Favorite Session]
-Избранная сессия
-[Not favorite Session]
-Неизбранная сессия
-[Load Session]
-Загрузить сессию
-[Load last Session]
-Загрузить последнюю сессию
-[Current session is empty!]
-Текущая сессия пуста!
-[Session name is empty, enter the name and try again]
-Имя сессии пусто, введите имя и попробуйте ещё раз
 [No sessions to open]
 Нет сессий для открытия
 [Last Sessions is empty]
@@ -24639,6 +24565,8 @@ Upload Pie (1 нед)
 Открыть менеджер сессий
 [Show Favorite Sessions Menu]
 Открыть меню избранных сессий
+[Sessions]
+Сессии
 [Restore last Session]
 Восстановить последнюю сессию
 [Close Session]
@@ -24651,10 +24579,22 @@ Upload Pie (1 нед)
 Закрыть сессию
 [Load last session]
 Загрузить последнюю сессию
+[Favorite Session]
+Избранная сессия
+[Not favorite Session]
+Неизбранная сессия
+[Load Session]
+Загрузить сессию
+[Load last Session]
+Загрузить последнюю сессию
 [View]
 Вид
 [Message sessions]
 Беседы
+[Session name is empty, enter the name and try again]
+Имя сессии пусто, введите имя и попробуйте ещё раз
+[Current session is empty!]
+Текущая сессия пуста!
 [Session Before Last Crash]
 Сессия до последнего сбоя
 #muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
@@ -25669,7 +25609,7 @@ cкрывать в трей
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
@@ -25688,16 +25628,10 @@ cкрывать в трей
 Уведомлять во всплывающих окнах
 [Popup time 1-30 seconds (Default 5)]
 Время показа 1-30 секунд (По умолчанию 5)
-[Main Menu Item (plugin reload or Miranda restart required)]
-Пункт в главном меню (требуется перезапуск Миранды)
 [TopToolBar button (Miranda restart required)]
 Кнопка в TopToolBar (требуется перезапуск Миранды)
-[Reset to default\r\n(for this computer)]
-Сбросить настройки\r\n(для этого компьютера)
-[You need to configure it once for each computer, where you run your Miranda NG.]
-Необходимо однократно настраивать для нового компьютера, где вы запускаете Miranda NG.
-[No Apply button required.]
-Настройки сохраняются автоматически.
+[Reset to default]
+Сброс на умолчания
 [After startup set:]
 Установить после запуска:
 [Filtered popups only (leave uncheck for no popups)]
@@ -28196,8 +28130,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Расширенное размещение с аватарами
 [Advanced with avatars, vertical orientation]
 Расширенное размещение с аватарами, вертикальная ориентация
-[This version of TabSRMM requires Windows 2000 or later.]
-Требуется Windows 2000 или более новая операционная система.
 [Previews not available when using History++ plugin for message log display.]
 Предпросмотр недоступен при использовании History++ в качестве журнала сообщений.
 [%d unread]

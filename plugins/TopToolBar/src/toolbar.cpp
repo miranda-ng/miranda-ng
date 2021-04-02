@@ -551,9 +551,9 @@ int OnPluginLoad(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Removes buttons of plugins being unloaded. lParam = HINSTANCE
 
-int OnPluginUnload(WPARAM, LPARAM lParam)
+int OnPluginUnload(WPARAM wParam, LPARAM)
 {
-	HPLUGIN pPlugin = &GetPluginByInstance((HINSTANCE)lParam);
+	HPLUGIN pPlugin = HPLUGIN(wParam);
 	if (pPlugin) {
 		bool bNeedUpdate = false;
 		mir_cslock lck(csButtonsHook);

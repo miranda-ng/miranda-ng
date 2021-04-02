@@ -20,7 +20,6 @@
 #include <m_button.h>
 #include <m_netlib.h>
 #include <m_file.h>
-#include <win2k.h>
 
 #include "dialog.h"
 #include "resource.h"

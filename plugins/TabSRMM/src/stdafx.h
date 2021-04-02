@@ -50,7 +50,6 @@
 
 #include <m_avatars.h>
 #include <m_message.h>
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_imgsrvc.h>
 #include <m_database.h>

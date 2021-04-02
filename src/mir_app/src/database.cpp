@@ -416,6 +416,9 @@ static int tryCreateDatabase(const wchar_t *ptszProfile)
 	CreatePathToFileW(ptszProfile);
 
 	for (auto &p : arDbPlugins) {
+		if (!(p->capabilities & MDB_CAPS_CREATE))
+			continue;
+
 		int err = p->makeDatabase(ptszProfile);
 		if (err == ERROR_SUCCESS) {
 			g_bDbCreated = true;

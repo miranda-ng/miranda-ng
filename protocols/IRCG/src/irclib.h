@@ -92,14 +92,13 @@ private :
 
 struct CIrcSessionInfo
 {
-	CMStringA  sServer;
+	CMStringA sServer;
 	CMStringW sServerName;
 	CMStringW sNick;
 	CMStringW sUserID;
 	CMStringW sFullName;
-	CMStringA  sPassword;
+	CMStringA sPassword;
 	CMStringW sIdentServerType;
-	CMStringW sNetwork;
 	bool bIdentServer;
 	bool bNickFlag;
 	int m_iSSL;
@@ -116,11 +115,11 @@ struct CIrcSessionInfo
 
 struct CIrcIgnoreItem
 {
-	CIrcIgnoreItem( const wchar_t*, const wchar_t*, const wchar_t* );
-	CIrcIgnoreItem( int codepage, const char*, const char*, const char* );
+	CIrcIgnoreItem(const wchar_t *, const wchar_t *);
+	CIrcIgnoreItem(int codepage, const char *, const char *);
 	~CIrcIgnoreItem();
 
-   CMStringW mask, flags, network;
+   CMStringW mask, flags;
 };
 
 ////////////////////////////////////////////////////////////////////

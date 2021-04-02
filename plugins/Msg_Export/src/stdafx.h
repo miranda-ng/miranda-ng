@@ -45,7 +45,6 @@ using namespace std;
 #include <m_protosvc.h>
 #include <m_timezones.h>
 #include <m_skin.h>
-#include <win2k.h>
 #include <m_gui.h>
 #include <m_json.h>
 

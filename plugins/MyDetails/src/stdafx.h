@@ -38,7 +38,6 @@ Boston, MA 02111-1307, USA.
 #include <m_xstatus.h>
 #include <m_icolib.h>
 #include <m_cluiframes.h>
-#include <win2k.h>
 #include <m_gui.h>
 
 #include <m_proto_listeningto.h>

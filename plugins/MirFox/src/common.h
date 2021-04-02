@@ -6,7 +6,6 @@
 #include <commctrl.h>
 
 // Miranda headers
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_contacts.h>
 #include <m_database.h>

@@ -21,7 +21,6 @@
 #include <m_database.h>
 #include <m_protosvc.h>
 #include <m_icolib.h>	
-#include <win2k.h>
 
 #include <m_metacontacts.h>
 #include <m_nudge.h>

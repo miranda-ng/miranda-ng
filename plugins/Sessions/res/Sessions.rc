@@ -16,10 +16,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1251)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -59,16 +57,17 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Action on Startup",IDC_STATIC,6,11,157,75
     CONTROL         "Open Sessions Manager dialog",IDC_STARTDIALOG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,21,144,10
-    CONTROL         "Restore Last Session",IDC_RLOADLAST,"Button",BS_AUTORADIOBUTTON,9,42,144,10
-    CONTROL         "Do nothing",IDC_RNOTHING,"Button",BS_AUTORADIOBUTTON,9,54,144,10
-    CONTROL         "Only if last session present",IDC_CHECKLAST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,31,126,10
+    CONTROL         "Restore Last Session",IDC_RLOADLAST,"Button",BS_AUTORADIOBUTTON,9,43,144,10
+    CONTROL         "Do nothing",IDC_RNOTHING,"Button",BS_AUTORADIOBUTTON,9,55,144,10
+    CONTROL         "Only if last session present",IDC_CHECKLAST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,32,126,10
     EDITTEXT        IDC_STARTDELAY,105,70,26,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Startup delay",IDC_STATICOP,51,72,54,8
+    LTEXT           "Startup delay",IDC_STATICOP,9,72,93,8
     LTEXT           "ms",IDC_STATICMS,136,72,16,8
     GROUPBOX        "User Sessions Management",IDC_STATIC,6,96,157,129
     PUSHBUTTON      "Edit",IDC_EDIT,119,132,42,13,WS_DISABLED
     COMBOBOX        IDC_LIST,9,107,107,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
     LISTBOX         IDC_OPCLIST,9,122,107,100,LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL
+    CONTROL         "",IDC_EMCLIST,"CListControl",NOT WS_VISIBLE | WS_TABSTOP | WS_CHILD,9,122,107,100
     PUSHBUTTON      "Delete",IDC_DEL,119,107,42,13
     PUSHBUTTON      "Save",IDC_SAVE,119,145,42,13,WS_DISABLED
     GROUPBOX        "Action on Exit",IDC_STATIC,170,11,128,75
@@ -76,7 +75,7 @@ BEGIN
     CONTROL         "Save Current Session",IDC_REXSAVE,"Button",BS_AUTORADIOBUTTON,173,37,122,10
     CONTROL         "Do nothing",IDC_REXDSAVE,"Button",BS_AUTORADIOBUTTON,173,50,122,10
     EDITTEXT        IDC_TRACK,224,70,27,12,ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
-    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_TABSTOP,241,62,10,14
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_TABSTOP,246,69,10,14
     LTEXT           "Save only last",IDC_EXSTATIC1,173,72,48,8
     LTEXT           "sessions",IDC_EXSTATIC2,253,72,28,8
     GROUPBOX        "Misc",IDC_STATIC,170,96,128,95
@@ -110,6 +109,7 @@ BEGIN
     PUSHBUTTON      "&Cancel",IDCANCEL,107,58,52,14
     LTEXT           "Enter session name:",IDC_STATIC,13,16,123,11
     COMBOBOX        IDC_LIST,12,30,148,65,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_CLIST,"CListControl",NOT WS_VISIBLE | WS_TABSTOP | WS_CHILD,12,30,148,65
     CONTROL         "Save and Close",IDC_SANDCCHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,46,137,10
     CONTROL         "adv.",IDC_SELCONTACTS,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_FLAT | WS_TABSTOP,136,4,24,10
 END
@@ -131,7 +131,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
@@ -183,12 +183,27 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_SESSIONS            ICON                    "sessions.ico"
+
 IDI_SESSIONS_LOAD       ICON                    "load.ico"
+
 IDD_SESSIONS_SAVE       ICON                    "save.ico"
+
 IDD_SESSIONS_LOADLAST   ICON                    "loadlast.ico"
+
 IDD_SESSION_CHECKED     ICON                    "checked.ico"
+
 IDD_SESSION_UNCHECKED   ICON                    "unchecked.ico"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

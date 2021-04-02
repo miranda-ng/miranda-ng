@@ -25,7 +25,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <commctrl.h>
 #include <limits.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_utils.h>
 #include <m_clistint.h>

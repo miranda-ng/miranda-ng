@@ -55,8 +55,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_metacontacts.h>
 #include <m_smileyadd.h>
 
-#include "win2k.h"
-
 #include "resource.h"
 #include "vk.h"
 #include "vk_struct.h"

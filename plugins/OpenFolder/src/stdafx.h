@@ -9,7 +9,6 @@
 #include <m_langpack.h>
 #include <m_utils.h>
 #include <m_hotkeys.h>
-#include <win2k.h>
 
 #include <m_toptoolbar.h>
 

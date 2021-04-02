@@ -10,7 +10,6 @@
 //LotusNotify.h
 
 #include <m_core.h>
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_skin.h>

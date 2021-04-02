@@ -20,7 +20,6 @@
 #include <m_imgsrvc.h>
 #include <m_timezones.h>
 #include <m_icolib.h>
-#include <win2k.h>
 
 #include <m_folders.h>
 #include <m_metacontacts.h>

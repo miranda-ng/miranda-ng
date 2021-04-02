@@ -285,7 +285,7 @@ class CChooseProfileDlg : public CDlgBase
 		DATABASELINK *dblink;
 		switch (touchDatabase(tszFullPath, &dblink)) {
 		case ERROR_SUCCESS:
-			item.iImage = 0;
+			item.iImage = (bFileLocked) ? 1 : 0;
 			break;
 
 		case EGROKPRF_OBSOLETE:

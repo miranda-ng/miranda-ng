@@ -37,7 +37,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_icolib.h>
 #include <m_hotkeys.h>
 #include <m_gui.h>
-#include <win2k.h>
 
 #include <m_statusplugins.h>
 #include <m_toptoolbar.h>

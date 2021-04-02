@@ -6,6 +6,12 @@ HGENMENU g_hPopupMenu;
 HANDLE hFolder;
 char g_szMirVer[100];
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Backup profile"),     "backup", IDI_BACKUP },
+	{ LPGEN("Save profile as..."), "saveas", IDI_BACKUP }
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -167,6 +173,7 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
 
+	hevBackup = CreateHookableEvent(ME_AUTOBACKUP_DONE);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
 	SetBackupTimer();

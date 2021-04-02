@@ -18,6 +18,7 @@ CDbxSQLite::~CDbxSQLite()
 	UninitEvents();
 	UninitContacts();
 	UninitSettings();
+	UninintEncryption();
 
 	if (m_db) {
 		rc = sqlite3_close(m_db);
@@ -40,6 +41,9 @@ int CDbxSQLite::Create()
 	}
 
 	rc = sqlite3_exec(m_db, "CREATE TABLE contacts (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT);", nullptr, nullptr, nullptr);
+	logError(rc, __FILE__, __LINE__);
+
+	rc = sqlite3_exec(m_db, "CREATE TABLE crypto (id INTEGER NOT NULL PRIMARY KEY, data ANY NOT NULL);", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(m_db, "CREATE TABLE events (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, contact_id INTEGER NOT NULL, module TEXT NOT NULL,"
@@ -135,6 +139,7 @@ int CDbxSQLite::Load()
 	}
 
 	InitContacts();
+	InitEncryption();
 	InitSettings();
 	InitEvents();
 

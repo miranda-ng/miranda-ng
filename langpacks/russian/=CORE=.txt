@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -2196,6 +2196,17 @@ Miranda не может распознать этот профиль
 Неизвестно, будет ли изменение безопасным.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
+;file \src\mir_app\src\db_upgrade.cpp
+[This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
+Формат вашей базы является устаревшим. Нажмите "Да", чтобы преобразовать её в новый формат или "Нет", чтобы вернуться назад
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return back]
+Для открытия этой базы требуется плагин Dbx_sqlite. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
+Для открытия этой базы требуется плагин Import. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
+[Cannot move old profile '%s' to '%s': error %d]
+Не удалось переместить старый профиль '%s'в '%s': ошибка %d
+[Attempt to create database '%s' failed with error code %d]
+Неудачная попытка создать базу '%s', код ошибки: %d
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 Сайт

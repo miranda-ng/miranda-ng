@@ -27,7 +27,6 @@
 #include <time.h>
 #include <dshow.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clist.h>

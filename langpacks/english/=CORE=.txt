@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1131,6 +1131,12 @@
 [This change is known to be potentially hazardous.]
 [This change is not known to be safe.]
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+;file \src\mir_app\src\db_upgrade.cpp
+[This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return back]
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
+[Cannot move old profile '%s' to '%s': error %d]
+[Attempt to create database '%s' failed with error code %d]
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 [Phone/SMS]

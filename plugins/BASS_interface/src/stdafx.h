@@ -13,7 +13,6 @@ Copyright (C) 2010, 2011 tico-tico
 #include <m_skin.h>
 #include <m_database.h>
 #include <m_options.h>
-#include <win2k.h>
 #include <m_clistint.h>
 #include <m_cluiframes.h>
 #include <m_fontservice.h>

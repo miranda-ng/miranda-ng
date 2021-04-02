@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
@@ -22,16 +22,10 @@
 Уведомлять во всплывающих окнах
 [Popup time 1-30 seconds (Default 5)]
 Время показа 1-30 секунд (По умолчанию 5)
-[Main Menu Item (plugin reload or Miranda restart required)]
-Пункт в главном меню (требуется перезапуск Миранды)
 [TopToolBar button (Miranda restart required)]
 Кнопка в TopToolBar (требуется перезапуск Миранды)
-[Reset to default\r\n(for this computer)]
-Сбросить настройки\r\n(для этого компьютера)
-[You need to configure it once for each computer, where you run your Miranda NG.]
-Необходимо однократно настраивать для нового компьютера, где вы запускаете Miranda NG.
-[No Apply button required.]
-Настройки сохраняются автоматически.
+[Reset to default]
+Сброс на умолчания
 [After startup set:]
 Установить после запуска:
 [Filtered popups only (leave uncheck for no popups)]

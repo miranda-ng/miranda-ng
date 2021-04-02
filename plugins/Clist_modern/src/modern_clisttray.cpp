@@ -31,7 +31,6 @@ BOOL IS_WM_MOUSE_DOWN_IN_TRAY;
 BOOL g_trayTooltipActive = FALSE;
 POINT tray_hover_pos = { 0 };
 
-// don't move to win2k.h, need new and old versions to work on 9x/2000/XP
 #define NIF_STATE       0x00000008
 #define NIF_INFO        0x00000010
 

@@ -49,7 +49,6 @@ using std::map;
 #include <m_utils.h>
 #include <m_hotkeys.h>
 #include <m_json.h>
-#include <win2k.h>
 #pragma warning(pop)
 
 #include <openssl/hmac.h>

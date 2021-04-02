@@ -200,7 +200,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	con = Netlib_OpenConnection(m_hNetlibUser, &ncon);
 	if (con == nullptr) {
 		wchar_t szTemp[300];
-		mir_snwprintf(szTemp, L"%c5%s %c%s%c (%S: %u).", irc::COLOR, TranslateT("Failed to connect to"), irc::BOLD, m_sessionInfo.sNetwork.c_str(), irc::BOLD, m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
+		mir_snwprintf(szTemp, L"%c5%s %c%s%c (%S: %u).", irc::COLOR, TranslateT("Failed to connect to"), irc::BOLD, m_tszUserName, irc::BOLD, m_sessionInfo.sServer.c_str(), m_sessionInfo.iPort);
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 		return false;
 	}
@@ -581,17 +581,15 @@ void CIrcProto::CheckDCCTimeout(void)
 
 ////////////////////////////////////////////////////////////////////
 
-CIrcIgnoreItem::CIrcIgnoreItem(const wchar_t* _mask, const wchar_t* _flags, const wchar_t* _network) :
+CIrcIgnoreItem::CIrcIgnoreItem(const wchar_t* _mask, const wchar_t* _flags) :
 	mask(_mask),
-	flags(_flags),
-	network(_network)
+	flags(_flags)
 {
 }
 
-CIrcIgnoreItem::CIrcIgnoreItem(int codepage, const char* _mask, const char* _flags, const char* _network) :
+CIrcIgnoreItem::CIrcIgnoreItem(int codepage, const char* _mask, const char* _flags) :
 	mask((wchar_t*)_A2T(_mask, codepage)),
-	flags((wchar_t*)_A2T(_flags, codepage)),
-	network((wchar_t*)_A2T(_network, codepage))
+	flags((wchar_t*)_A2T(_flags, codepage))
 {
 }
 
@@ -619,7 +617,6 @@ CIrcSessionInfo::CIrcSessionInfo(const CIrcSessionInfo& si) :
 	bIdentServer(si.bIdentServer),
 	m_iSSL(si.m_iSSL),
 	sIdentServerType(si.sIdentServerType),
-	sNetwork(si.sNetwork),
 	iIdentServerPort(si.iIdentServerPort)
 {
 }
@@ -638,7 +635,6 @@ void CIrcSessionInfo::Reset()
 	m_iSSL = 0;
 	sIdentServerType = L"";
 	iIdentServerPort = 0;
-	sNetwork = L"";
 }
 
 ////////////////////////////////////////////////////////////////////
