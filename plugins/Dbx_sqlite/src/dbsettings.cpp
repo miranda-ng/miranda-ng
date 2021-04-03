@@ -1,29 +1,7 @@
 #include "stdafx.h"
 
-enum {
-	SQL_SET_STMT_ENUM = 0,
-	SQL_SET_STMT_GET,
-	SQL_SET_STMT_REPLACE,
-	SQL_SET_STMT_DELETE,
-	SQL_SET_STMT_ENUMMODULE,
-	SQL_SET_STMT_CHANGES
-};
-
-static CQuery settings_stmts[] =
-{
-	{ "SELECT DISTINCT module FROM settings;" },
-	{ "SELECT type, value FROM settings WHERE contact_id = ? AND module = ? AND setting = ? LIMIT 1;" },
-	{ "REPLACE INTO settings(contact_id, module, setting, type, value) VALUES (?, ?, ?, ?, ?);" },
-	{ "DELETE FROM settings WHERE contact_id = ? AND module = ? AND setting = ?;" },
-	{ "SELECT setting FROM settings WHERE contact_id = ? AND module = ?;" },
-	{ "SELECT CHANGES() FROM settings;" },
-};
-
 void CDbxSQLite::InitSettings()
 {
-	for (auto &it : settings_stmts)
-		sqlite3_prepare_v3(m_db, it.szQuery, -1, SQLITE_PREPARE_PERSISTENT, &it.pQuery, nullptr);
-
 	sqlite3_stmt *stmt = nullptr;
 	sqlite3_prepare_v2(m_db, "SELECT type, value, contact_id, module, setting FROM settings;", -1, &stmt, nullptr);
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -82,11 +60,6 @@ void CDbxSQLite::InitSettings()
 	FillContactSettings();
 }
 
-void CDbxSQLite::UninitSettings()
-{
-	for (auto &it : settings_stmts)
-		sqlite3_finalize(it.pQuery);
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -94,7 +67,7 @@ BOOL CDbxSQLite::EnumModuleNames(DBMODULEENUMPROC pFunc, void *param)
 {
 	LIST<char> modules(100);
 	{
-		sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_ENUM].pQuery;
+		sqlite3_stmt *stmt = InitQuery("SELECT DISTINCT module FROM settings;", qSettModules);
 		int rc = 0;
 		while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
 			const char *value = (const char *)sqlite3_column_text(stmt, 0);
@@ -116,7 +89,7 @@ BOOL CDbxSQLite::EnumModuleNames(DBMODULEENUMPROC pFunc, void *param)
 
 BOOL CDbxSQLite::WriteContactSettingWorker(MCONTACT hContact, DBCONTACTWRITESETTING &dbcws)
 {
-	sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_REPLACE].pQuery;
+	sqlite3_stmt *stmt = InitQuery("REPLACE INTO settings(contact_id, module, setting, type, value) VALUES (?, ?, ?, ?, ?);", qSettWrite);
 	sqlite3_bind_int64(stmt, 1, hContact);
 	sqlite3_bind_text(stmt, 2, dbcws.szModule, (int)mir_strlen(dbcws.szModule), nullptr);
 	sqlite3_bind_text(stmt, 3, dbcws.szSetting, (int)mir_strlen(dbcws.szSetting), nullptr);
@@ -167,14 +140,15 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, mir_strlen(szModule), mir_strlen(szSetting));
 	if (szCachedSettingName[-1] == 0) { // it's not a resident variable
 		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_DELETE].pQuery;
+		sqlite3_stmt *stmt = InitQuery("DELETE FROM settings WHERE contact_id = ? AND module = ? AND setting = ?;", qSettDel);
 		sqlite3_bind_int64(stmt, 1, hContact);
 		sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
 		sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
 		int rc = sqlite3_step(stmt);
 		logError(rc, __FILE__, __LINE__);
 		sqlite3_reset(stmt);
-		stmt = settings_stmts[SQL_SET_STMT_CHANGES].pQuery;
+
+		stmt = InitQuery("SELECT CHANGES() FROM settings;", qSettChanges);
 		rc = sqlite3_step(stmt);
 		logError(rc, __FILE__, __LINE__);
 		int deleted = sqlite3_column_int(stmt, 0);
@@ -212,7 +186,7 @@ BOOL CDbxSQLite::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnu
 	LIST<char> settings(100);
 	{
 		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = settings_stmts[SQL_SET_STMT_ENUMMODULE].pQuery;
+		sqlite3_stmt *stmt = InitQuery("SELECT setting FROM settings WHERE contact_id = ? AND module = ?;", qSettEnum);
 		sqlite3_bind_int64(stmt, 1, hContact);
 		sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
 		int rc = 0;

@@ -21,12 +21,6 @@
 #include "resource.h"
 #include "version.h"
 
-struct CQuery
-{
-	const char *szQuery;
-	sqlite3_stmt *pQuery;
-};
-
 void logError(int rc, const char *szFile, int line);
 
 /////////////////////////////////////////////////////////////////////////////////////////
