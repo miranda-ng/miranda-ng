@@ -98,7 +98,7 @@
 #endif
 
 /* Allow SMB to work on Windows */
-#cmakedefine USE_WIN32_CRYPTO
+#cmakedefine USE_WIN32_CRYPTO 1
 
 /* Use Windows LDAP implementation */
 #cmakedefine USE_WIN32_LDAP 1
@@ -659,9 +659,6 @@
 /* Define to 1 if you have the `strlcpy' function. */
 #cmakedefine HAVE_STRLCPY 1
 
-/* Define to 1 if you have the strncasecmp function. */
-#cmakedefine HAVE_STRNCASECMP 1
-
 /* Define to 1 if you have the strncmpi function. */
 #cmakedefine HAVE_STRNCMPI 1
 
@@ -963,9 +960,6 @@ ${SIZEOF_TIME_T_CODE}
 /* Define if you want to enable WIN32 threaded DNS lookup */
 #cmakedefine USE_THREADS_WIN32 1
 
-/* Define to disable non-blocking sockets. */
-#cmakedefine USE_BLOCKING_SOCKETS 1
-
 /* if GnuTLS is enabled */
 #cmakedefine USE_GNUTLS 1
 
@@ -1079,3 +1073,9 @@ ${SIZEOF_TIME_T_CODE}
 
 /* Define to 1 if you have the mach_absolute_time function. */
 #cmakedefine HAVE_MACH_ABSOLUTE_TIME 1
+
+/* to enable Windows IDN */
+#cmakedefine USE_WIN32_IDN 1
+
+/* to make the compiler know the prototypes of Windows IDN APIs */
+#cmakedefine WANT_IDN_PROTOTYPES 1

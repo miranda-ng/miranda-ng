@@ -234,17 +234,18 @@ am__objects_1 = libcurl_la-altsvc.lo libcurl_la-amigaos.lo \
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_2 = vauth/libcurl_la-cleartext.lo vauth/libcurl_la-cram.lo \
 	vauth/libcurl_la-digest.lo vauth/libcurl_la-digest_sspi.lo \
-	vauth/libcurl_la-krb5_gssapi.lo vauth/libcurl_la-krb5_sspi.lo \
-	vauth/libcurl_la-ntlm.lo vauth/libcurl_la-ntlm_sspi.lo \
-	vauth/libcurl_la-oauth2.lo vauth/libcurl_la-spnego_gssapi.lo \
+	vauth/libcurl_la-gsasl.lo vauth/libcurl_la-krb5_gssapi.lo \
+	vauth/libcurl_la-krb5_sspi.lo vauth/libcurl_la-ntlm.lo \
+	vauth/libcurl_la-ntlm_sspi.lo vauth/libcurl_la-oauth2.lo \
+	vauth/libcurl_la-spnego_gssapi.lo \
 	vauth/libcurl_la-spnego_sspi.lo vauth/libcurl_la-vauth.lo
 am__objects_3 = vtls/libcurl_la-bearssl.lo vtls/libcurl_la-gskit.lo \
 	vtls/libcurl_la-gtls.lo vtls/libcurl_la-keylog.lo \
 	vtls/libcurl_la-mbedtls.lo \
 	vtls/libcurl_la-mbedtls_threadlock.lo \
 	vtls/libcurl_la-mesalink.lo vtls/libcurl_la-nss.lo \
-	vtls/libcurl_la-openssl.lo vtls/libcurl_la-schannel.lo \
-	vtls/libcurl_la-schannel_verify.lo \
+	vtls/libcurl_la-openssl.lo vtls/libcurl_la-rustls.lo \
+	vtls/libcurl_la-schannel.lo vtls/libcurl_la-schannel_verify.lo \
 	vtls/libcurl_la-sectransp.lo vtls/libcurl_la-vtls.lo \
 	vtls/libcurl_la-wolfssl.lo
 am__objects_4 = vquic/libcurl_la-ngtcp2.lo vquic/libcurl_la-quiche.lo \
@@ -324,7 +325,7 @@ am__objects_9 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-wildcard.lo libcurlu_la-x509asn1.lo
 am__objects_10 = vauth/libcurlu_la-cleartext.lo \
 	vauth/libcurlu_la-cram.lo vauth/libcurlu_la-digest.lo \
-	vauth/libcurlu_la-digest_sspi.lo \
+	vauth/libcurlu_la-digest_sspi.lo vauth/libcurlu_la-gsasl.lo \
 	vauth/libcurlu_la-krb5_gssapi.lo \
 	vauth/libcurlu_la-krb5_sspi.lo vauth/libcurlu_la-ntlm.lo \
 	vauth/libcurlu_la-ntlm_sspi.lo vauth/libcurlu_la-oauth2.lo \
@@ -335,7 +336,8 @@ am__objects_11 = vtls/libcurlu_la-bearssl.lo vtls/libcurlu_la-gskit.lo \
 	vtls/libcurlu_la-mbedtls.lo \
 	vtls/libcurlu_la-mbedtls_threadlock.lo \
 	vtls/libcurlu_la-mesalink.lo vtls/libcurlu_la-nss.lo \
-	vtls/libcurlu_la-openssl.lo vtls/libcurlu_la-schannel.lo \
+	vtls/libcurlu_la-openssl.lo vtls/libcurlu_la-rustls.lo \
+	vtls/libcurlu_la-schannel.lo \
 	vtls/libcurlu_la-schannel_verify.lo \
 	vtls/libcurlu_la-sectransp.lo vtls/libcurlu_la-vtls.lo \
 	vtls/libcurlu_la-wolfssl.lo
@@ -604,6 +606,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	vauth/$(DEPDIR)/libcurl_la-cram.Plo \
 	vauth/$(DEPDIR)/libcurl_la-digest.Plo \
 	vauth/$(DEPDIR)/libcurl_la-digest_sspi.Plo \
+	vauth/$(DEPDIR)/libcurl_la-gsasl.Plo \
 	vauth/$(DEPDIR)/libcurl_la-krb5_gssapi.Plo \
 	vauth/$(DEPDIR)/libcurl_la-krb5_sspi.Plo \
 	vauth/$(DEPDIR)/libcurl_la-ntlm.Plo \
@@ -616,6 +619,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	vauth/$(DEPDIR)/libcurlu_la-cram.Plo \
 	vauth/$(DEPDIR)/libcurlu_la-digest.Plo \
 	vauth/$(DEPDIR)/libcurlu_la-digest_sspi.Plo \
+	vauth/$(DEPDIR)/libcurlu_la-gsasl.Plo \
 	vauth/$(DEPDIR)/libcurlu_la-krb5_gssapi.Plo \
 	vauth/$(DEPDIR)/libcurlu_la-krb5_sspi.Plo \
 	vauth/$(DEPDIR)/libcurlu_la-ntlm.Plo \
@@ -645,6 +649,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	vtls/$(DEPDIR)/libcurl_la-mesalink.Plo \
 	vtls/$(DEPDIR)/libcurl_la-nss.Plo \
 	vtls/$(DEPDIR)/libcurl_la-openssl.Plo \
+	vtls/$(DEPDIR)/libcurl_la-rustls.Plo \
 	vtls/$(DEPDIR)/libcurl_la-schannel.Plo \
 	vtls/$(DEPDIR)/libcurl_la-schannel_verify.Plo \
 	vtls/$(DEPDIR)/libcurl_la-sectransp.Plo \
@@ -659,6 +664,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	vtls/$(DEPDIR)/libcurlu_la-mesalink.Plo \
 	vtls/$(DEPDIR)/libcurlu_la-nss.Plo \
 	vtls/$(DEPDIR)/libcurlu_la-openssl.Plo \
+	vtls/$(DEPDIR)/libcurlu_la-rustls.Plo \
 	vtls/$(DEPDIR)/libcurlu_la-schannel.Plo \
 	vtls/$(DEPDIR)/libcurlu_la-schannel_verify.Plo \
 	vtls/$(DEPDIR)/libcurlu_la-sectransp.Plo \
@@ -848,7 +854,6 @@ SUPPORT_PROTOCOLS = @SUPPORT_PROTOCOLS@
 USE_ARES = @USE_ARES@
 USE_BEARSSL = @USE_BEARSSL@
 USE_GNUTLS = @USE_GNUTLS@
-USE_GNUTLS_NETTLE = @USE_GNUTLS_NETTLE@
 USE_HYPER = @USE_HYPER@
 USE_LIBRTMP = @USE_LIBRTMP@
 USE_LIBSSH = @USE_LIBSSH@
@@ -863,9 +868,13 @@ USE_NGTCP2_CRYPTO_OPENSSL = @USE_NGTCP2_CRYPTO_OPENSSL@
 USE_NSS = @USE_NSS@
 USE_OPENLDAP = @USE_OPENLDAP@
 USE_QUICHE = @USE_QUICHE@
+USE_RUSTLS = @USE_RUSTLS@
 USE_SCHANNEL = @USE_SCHANNEL@
 USE_SECTRANSP = @USE_SECTRANSP@
 USE_UNIX_SOCKETS = @USE_UNIX_SOCKETS@
+USE_WIN32_CRYPTO = @USE_WIN32_CRYPTO@
+USE_WIN32_LARGE_FILES = @USE_WIN32_LARGE_FILES@
+USE_WIN32_SMALL_FILES = @USE_WIN32_SMALL_FILES@
 USE_WINDOWS_SSPI = @USE_WINDOWS_SSPI@
 USE_WOLFSSH = @USE_WOLFSSH@
 USE_WOLFSSL = @USE_WOLFSSL@
@@ -1007,6 +1016,7 @@ LIB_VAUTH_CFILES = \
   vauth/cram.c          \
   vauth/digest.c        \
   vauth/digest_sspi.c   \
+  vauth/gsasl.c         \
   vauth/krb5_gssapi.c   \
   vauth/krb5_sspi.c     \
   vauth/ntlm.c          \
@@ -1031,6 +1041,7 @@ LIB_VTLS_CFILES = \
   vtls/mesalink.c           \
   vtls/nss.c                \
   vtls/openssl.c            \
+  vtls/rustls.c             \
   vtls/schannel.c           \
   vtls/schannel_verify.c    \
   vtls/sectransp.c          \
@@ -1047,6 +1058,7 @@ LIB_VTLS_HFILES = \
   vtls/mesalink.h           \
   vtls/nssg.h               \
   vtls/openssl.h            \
+  vtls/rustls.h             \
   vtls/schannel.h           \
   vtls/sectransp.h          \
   vtls/vtls.h               \
@@ -1442,6 +1454,8 @@ vauth/libcurl_la-digest.lo: vauth/$(am__dirstamp) \
 	vauth/$(DEPDIR)/$(am__dirstamp)
 vauth/libcurl_la-digest_sspi.lo: vauth/$(am__dirstamp) \
 	vauth/$(DEPDIR)/$(am__dirstamp)
+vauth/libcurl_la-gsasl.lo: vauth/$(am__dirstamp) \
+	vauth/$(DEPDIR)/$(am__dirstamp)
 vauth/libcurl_la-krb5_gssapi.lo: vauth/$(am__dirstamp) \
 	vauth/$(DEPDIR)/$(am__dirstamp)
 vauth/libcurl_la-krb5_sspi.lo: vauth/$(am__dirstamp) \
@@ -1481,6 +1495,8 @@ vtls/libcurl_la-mesalink.lo: vtls/$(am__dirstamp) \
 vtls/libcurl_la-nss.lo: vtls/$(am__dirstamp) \
 	vtls/$(DEPDIR)/$(am__dirstamp)
 vtls/libcurl_la-openssl.lo: vtls/$(am__dirstamp) \
+	vtls/$(DEPDIR)/$(am__dirstamp)
+vtls/libcurl_la-rustls.lo: vtls/$(am__dirstamp) \
 	vtls/$(DEPDIR)/$(am__dirstamp)
 vtls/libcurl_la-schannel.lo: vtls/$(am__dirstamp) \
 	vtls/$(DEPDIR)/$(am__dirstamp)
@@ -1527,6 +1543,8 @@ vauth/libcurlu_la-digest.lo: vauth/$(am__dirstamp) \
 	vauth/$(DEPDIR)/$(am__dirstamp)
 vauth/libcurlu_la-digest_sspi.lo: vauth/$(am__dirstamp) \
 	vauth/$(DEPDIR)/$(am__dirstamp)
+vauth/libcurlu_la-gsasl.lo: vauth/$(am__dirstamp) \
+	vauth/$(DEPDIR)/$(am__dirstamp)
 vauth/libcurlu_la-krb5_gssapi.lo: vauth/$(am__dirstamp) \
 	vauth/$(DEPDIR)/$(am__dirstamp)
 vauth/libcurlu_la-krb5_sspi.lo: vauth/$(am__dirstamp) \
@@ -1560,6 +1578,8 @@ vtls/libcurlu_la-mesalink.lo: vtls/$(am__dirstamp) \
 vtls/libcurlu_la-nss.lo: vtls/$(am__dirstamp) \
 	vtls/$(DEPDIR)/$(am__dirstamp)
 vtls/libcurlu_la-openssl.lo: vtls/$(am__dirstamp) \
+	vtls/$(DEPDIR)/$(am__dirstamp)
+vtls/libcurlu_la-rustls.lo: vtls/$(am__dirstamp) \
 	vtls/$(DEPDIR)/$(am__dirstamp)
 vtls/libcurlu_la-schannel.lo: vtls/$(am__dirstamp) \
 	vtls/$(DEPDIR)/$(am__dirstamp)
@@ -1843,6 +1863,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-cram.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-digest.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-digest_sspi.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-gsasl.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-krb5_gssapi.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-krb5_sspi.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurl_la-ntlm.Plo@am__quote@ # am--include-marker
@@ -1855,6 +1876,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurlu_la-cram.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurlu_la-digest.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurlu_la-digest_sspi.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurlu_la-gsasl.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurlu_la-krb5_gssapi.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurlu_la-krb5_sspi.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vauth/$(DEPDIR)/libcurlu_la-ntlm.Plo@am__quote@ # am--include-marker
@@ -1884,6 +1906,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurl_la-mesalink.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurl_la-nss.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurl_la-openssl.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurl_la-rustls.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurl_la-schannel.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurl_la-schannel_verify.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurl_la-sectransp.Plo@am__quote@ # am--include-marker
@@ -1898,6 +1921,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurlu_la-mesalink.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurlu_la-nss.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurlu_la-openssl.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurlu_la-rustls.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurlu_la-schannel.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurlu_la-schannel_verify.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@vtls/$(DEPDIR)/libcurlu_la-sectransp.Plo@am__quote@ # am--include-marker
@@ -2795,6 +2819,13 @@ vauth/libcurl_la-digest_sspi.lo: vauth/digest_sspi.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o vauth/libcurl_la-digest_sspi.lo `test -f 'vauth/digest_sspi.c' || echo '$(srcdir)/'`vauth/digest_sspi.c
 
+vauth/libcurl_la-gsasl.lo: vauth/gsasl.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT vauth/libcurl_la-gsasl.lo -MD -MP -MF vauth/$(DEPDIR)/libcurl_la-gsasl.Tpo -c -o vauth/libcurl_la-gsasl.lo `test -f 'vauth/gsasl.c' || echo '$(srcdir)/'`vauth/gsasl.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) vauth/$(DEPDIR)/libcurl_la-gsasl.Tpo vauth/$(DEPDIR)/libcurl_la-gsasl.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vauth/gsasl.c' object='vauth/libcurl_la-gsasl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o vauth/libcurl_la-gsasl.lo `test -f 'vauth/gsasl.c' || echo '$(srcdir)/'`vauth/gsasl.c
+
 vauth/libcurl_la-krb5_gssapi.lo: vauth/krb5_gssapi.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT vauth/libcurl_la-krb5_gssapi.lo -MD -MP -MF vauth/$(DEPDIR)/libcurl_la-krb5_gssapi.Tpo -c -o vauth/libcurl_la-krb5_gssapi.lo `test -f 'vauth/krb5_gssapi.c' || echo '$(srcdir)/'`vauth/krb5_gssapi.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) vauth/$(DEPDIR)/libcurl_la-krb5_gssapi.Tpo vauth/$(DEPDIR)/libcurl_la-krb5_gssapi.Plo
@@ -2913,6 +2944,13 @@ vtls/libcurl_la-openssl.lo: vtls/openssl.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vtls/openssl.c' object='vtls/libcurl_la-openssl.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o vtls/libcurl_la-openssl.lo `test -f 'vtls/openssl.c' || echo '$(srcdir)/'`vtls/openssl.c
+
+vtls/libcurl_la-rustls.lo: vtls/rustls.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT vtls/libcurl_la-rustls.lo -MD -MP -MF vtls/$(DEPDIR)/libcurl_la-rustls.Tpo -c -o vtls/libcurl_la-rustls.lo `test -f 'vtls/rustls.c' || echo '$(srcdir)/'`vtls/rustls.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) vtls/$(DEPDIR)/libcurl_la-rustls.Tpo vtls/$(DEPDIR)/libcurl_la-rustls.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vtls/rustls.c' object='vtls/libcurl_la-rustls.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o vtls/libcurl_la-rustls.lo `test -f 'vtls/rustls.c' || echo '$(srcdir)/'`vtls/rustls.c
 
 vtls/libcurl_la-schannel.lo: vtls/schannel.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT vtls/libcurl_la-schannel.lo -MD -MP -MF vtls/$(DEPDIR)/libcurl_la-schannel.Tpo -c -o vtls/libcurl_la-schannel.lo `test -f 'vtls/schannel.c' || echo '$(srcdir)/'`vtls/schannel.c
@@ -3852,6 +3890,13 @@ vauth/libcurlu_la-digest_sspi.lo: vauth/digest_sspi.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o vauth/libcurlu_la-digest_sspi.lo `test -f 'vauth/digest_sspi.c' || echo '$(srcdir)/'`vauth/digest_sspi.c
 
+vauth/libcurlu_la-gsasl.lo: vauth/gsasl.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT vauth/libcurlu_la-gsasl.lo -MD -MP -MF vauth/$(DEPDIR)/libcurlu_la-gsasl.Tpo -c -o vauth/libcurlu_la-gsasl.lo `test -f 'vauth/gsasl.c' || echo '$(srcdir)/'`vauth/gsasl.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) vauth/$(DEPDIR)/libcurlu_la-gsasl.Tpo vauth/$(DEPDIR)/libcurlu_la-gsasl.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vauth/gsasl.c' object='vauth/libcurlu_la-gsasl.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o vauth/libcurlu_la-gsasl.lo `test -f 'vauth/gsasl.c' || echo '$(srcdir)/'`vauth/gsasl.c
+
 vauth/libcurlu_la-krb5_gssapi.lo: vauth/krb5_gssapi.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT vauth/libcurlu_la-krb5_gssapi.lo -MD -MP -MF vauth/$(DEPDIR)/libcurlu_la-krb5_gssapi.Tpo -c -o vauth/libcurlu_la-krb5_gssapi.lo `test -f 'vauth/krb5_gssapi.c' || echo '$(srcdir)/'`vauth/krb5_gssapi.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) vauth/$(DEPDIR)/libcurlu_la-krb5_gssapi.Tpo vauth/$(DEPDIR)/libcurlu_la-krb5_gssapi.Plo
@@ -3970,6 +4015,13 @@ vtls/libcurlu_la-openssl.lo: vtls/openssl.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vtls/openssl.c' object='vtls/libcurlu_la-openssl.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o vtls/libcurlu_la-openssl.lo `test -f 'vtls/openssl.c' || echo '$(srcdir)/'`vtls/openssl.c
+
+vtls/libcurlu_la-rustls.lo: vtls/rustls.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT vtls/libcurlu_la-rustls.lo -MD -MP -MF vtls/$(DEPDIR)/libcurlu_la-rustls.Tpo -c -o vtls/libcurlu_la-rustls.lo `test -f 'vtls/rustls.c' || echo '$(srcdir)/'`vtls/rustls.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) vtls/$(DEPDIR)/libcurlu_la-rustls.Tpo vtls/$(DEPDIR)/libcurlu_la-rustls.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vtls/rustls.c' object='vtls/libcurlu_la-rustls.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o vtls/libcurlu_la-rustls.lo `test -f 'vtls/rustls.c' || echo '$(srcdir)/'`vtls/rustls.c
 
 vtls/libcurlu_la-schannel.lo: vtls/schannel.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT vtls/libcurlu_la-schannel.lo -MD -MP -MF vtls/$(DEPDIR)/libcurlu_la-schannel.Tpo -c -o vtls/libcurlu_la-schannel.lo `test -f 'vtls/schannel.c' || echo '$(srcdir)/'`vtls/schannel.c
@@ -4437,6 +4489,7 @@ distclean: distclean-am
 	-rm -f vauth/$(DEPDIR)/libcurl_la-cram.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-digest.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-digest_sspi.Plo
+	-rm -f vauth/$(DEPDIR)/libcurl_la-gsasl.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-krb5_gssapi.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-krb5_sspi.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-ntlm.Plo
@@ -4449,6 +4502,7 @@ distclean: distclean-am
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-cram.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-digest.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-digest_sspi.Plo
+	-rm -f vauth/$(DEPDIR)/libcurlu_la-gsasl.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-krb5_gssapi.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-krb5_sspi.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-ntlm.Plo
@@ -4478,6 +4532,7 @@ distclean: distclean-am
 	-rm -f vtls/$(DEPDIR)/libcurl_la-mesalink.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-nss.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-openssl.Plo
+	-rm -f vtls/$(DEPDIR)/libcurl_la-rustls.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-schannel.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-schannel_verify.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-sectransp.Plo
@@ -4492,6 +4547,7 @@ distclean: distclean-am
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-mesalink.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-nss.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-openssl.Plo
+	-rm -f vtls/$(DEPDIR)/libcurlu_la-rustls.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-schannel.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-schannel_verify.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-sectransp.Plo
@@ -4784,6 +4840,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f vauth/$(DEPDIR)/libcurl_la-cram.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-digest.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-digest_sspi.Plo
+	-rm -f vauth/$(DEPDIR)/libcurl_la-gsasl.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-krb5_gssapi.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-krb5_sspi.Plo
 	-rm -f vauth/$(DEPDIR)/libcurl_la-ntlm.Plo
@@ -4796,6 +4853,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-cram.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-digest.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-digest_sspi.Plo
+	-rm -f vauth/$(DEPDIR)/libcurlu_la-gsasl.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-krb5_gssapi.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-krb5_sspi.Plo
 	-rm -f vauth/$(DEPDIR)/libcurlu_la-ntlm.Plo
@@ -4825,6 +4883,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f vtls/$(DEPDIR)/libcurl_la-mesalink.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-nss.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-openssl.Plo
+	-rm -f vtls/$(DEPDIR)/libcurl_la-rustls.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-schannel.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-schannel_verify.Plo
 	-rm -f vtls/$(DEPDIR)/libcurl_la-sectransp.Plo
@@ -4839,6 +4898,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-mesalink.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-nss.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-openssl.Plo
+	-rm -f vtls/$(DEPDIR)/libcurlu_la-rustls.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-schannel.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-schannel_verify.Plo
 	-rm -f vtls/$(DEPDIR)/libcurlu_la-sectransp.Plo
