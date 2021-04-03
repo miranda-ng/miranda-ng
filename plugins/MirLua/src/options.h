@@ -2,9 +2,6 @@
 
 class CMLuaOptionsMain : public CDlgBase
 {
-private:
-	CMPlugin &m_plugin;
-
 	CCtrlCheck m_popupOnError;
 	CCtrlCheck m_popupOnObsolete;
 
@@ -21,14 +18,13 @@ protected:
 	void OnReload(CCtrlBase*);
 
 public:
-	CMLuaOptionsMain(CMPlugin &plugin);
+	CMLuaOptionsMain();
 };
 
 /***********************************************/
 
 class CMLuaEvaluateOptions : public CDlgBase
 {
-private:
 	lua_State *L = nullptr;
 	int threadRef = 0;
 
@@ -46,6 +42,6 @@ protected:
 	void OnEvaluate(CCtrlBase*);
 
 public:
-	CMLuaEvaluateOptions(CMPlugin &plugin);
+	CMLuaEvaluateOptions();
 	~CMLuaEvaluateOptions();
 };
