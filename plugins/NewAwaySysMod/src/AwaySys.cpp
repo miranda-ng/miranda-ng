@@ -558,6 +558,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[8].hIcolib;
 	mi.pszService = MS_AWAYSYS_SETCONTACTSTATMSG;
 	g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(g_hContactMenuItem, MCI_OPT_DISABLED, TRUE);
 
 	memset(&mi, 0, sizeof(mi));
 	SET_UID(mi, 0x47a3c631, 0x8ca9, 0x4b7e, 0x84, 0x6e, 0x29, 0xbf, 0x53, 0x30, 0x6f, 0x83);
@@ -566,6 +567,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	mi.position = 1000020000;
 	mi.name.w = LPGENW("Autoreply");
 	g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
+	Menu_ConfigureItem(g_hToggleSOEContactMenuItem, MCI_OPT_DISABLED, TRUE);
 	UNSET_UID(mi);
 
 	mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
