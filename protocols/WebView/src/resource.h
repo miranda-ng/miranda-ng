@@ -25,7 +25,6 @@
 #define IDC_UPDATE_ONALERT  304
 
 #define IDD_OPT  443
-#define IDC_DISABLEMENU     446
 #define IDC_OPEN_WEBPAGE    447
 #define IDC_TIME 450
 

@@ -123,68 +123,60 @@ int CMPlugin::Load()
 	//add sound event to options
 	g_plugin.addSound("webviewalert", _A2W(MODULENAME), LPGENW("Alert event"));
 
-	//value is 1 if menu is disabled
-	g_plugin.setByte(MENU_IS_DISABLED_KEY, 1);
-
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
-	if ( g_plugin.getByte(MENU_OFF, 0)) {
-		//value is 0 if menu is enabled
-		g_plugin.setByte(MENU_IS_DISABLED_KEY, 0);
+	mi.root = g_plugin.addRootMenu(MO_MAIN, _A2W(MODULENAME), 20200001);
+	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "403BE07B-7954-4F3E-B318-4301571776B8");
 
-		mi.root = g_plugin.addRootMenu(MO_MAIN, _A2W(MODULENAME), 20200001);
-		Menu_ConfigureItem(mi.root, MCI_OPT_UID, "403BE07B-7954-4F3E-B318-4301571776B8");
+	/*DISABLE WEBVIEW*/
+	SET_UID(mi, 0xdedeb697, 0xfc10, 0x4622, 0x8b, 0x97, 0x74, 0x39, 0x32, 0x68, 0xa7, 0x7b);
+	CreateServiceFunction("DisableWebview", AutoUpdateMCmd);
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
+	if (g_plugin.getByte(DISABLE_AUTOUPDATE_KEY, 0))
+		mi.name.w = LPGENW("Auto update disabled");
+	else
+		mi.name.w = LPGENW("Auto update enabled"); 
+	mi.pszService = "DisableWebview";
+	hMenuItem1 = Menu_AddMainMenuItem(&mi);
 
-		/*DISABLE WEBVIEW*/
-		SET_UID(mi, 0xdedeb697, 0xfc10, 0x4622, 0x8b, 0x97, 0x74, 0x39, 0x32, 0x68, 0xa7, 0x7b);
-		CreateServiceFunction("DisableWebview", AutoUpdateMCmd);
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE));
-		if (g_plugin.getByte(DISABLE_AUTOUPDATE_KEY, 0))
-			mi.name.w = LPGENW("Auto update disabled");
-		else
-			mi.name.w = LPGENW("Auto update enabled"); 
-		mi.pszService = "DisableWebview";
-		hMenuItem1 = Menu_AddMainMenuItem(&mi);
+	// Update all webview contacts
+	SET_UID(mi, 0xf324ede, 0xfdf, 0x498a, 0x8f, 0x49, 0x6d, 0x2a, 0x9f, 0xda, 0x58, 0x6);
+	CreateServiceFunction("UpdateAll", UpdateAllMenuCommand);
+	mi.position = 500090002;
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
+	mi.name.w = LPGENW("Update all Webview sites");
+	mi.pszService = "UpdateAll";
+	Menu_AddMainMenuItem(&mi);
 
-		// Update all webview contacts
-		SET_UID(mi, 0xf324ede, 0xfdf, 0x498a, 0x8f, 0x49, 0x6d, 0x2a, 0x9f, 0xda, 0x58, 0x6);
-		CreateServiceFunction("UpdateAll", UpdateAllMenuCommand);
-		mi.position = 500090002;
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
-		mi.name.w = LPGENW("Update all Webview sites");
-		mi.pszService = "UpdateAll";
-		Menu_AddMainMenuItem(&mi);
+	// Mark All Webview Sites As Read
+	SET_UID(mi, 0x1fa5fa21, 0x2ee1, 0x4372, 0xae, 0x3e, 0x3b, 0x96, 0xac, 0xd, 0xe8, 0x49);
+	CreateServiceFunction("MarkAllSitesRead", MarkAllReadMenuCommand);
+	mi.position = 500090099;
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MARKALLREAD));
+	mi.name.w = LPGENW("Mark all Webview sites as read");
+	mi.pszService = "MarkAllSitesRead";
+	Menu_AddMainMenuItem(&mi);
 
-		// Mark All Webview Sites As Read
-		SET_UID(mi, 0x1fa5fa21, 0x2ee1, 0x4372, 0xae, 0x3e, 0x3b, 0x96, 0xac, 0xd, 0xe8, 0x49);
-		CreateServiceFunction("MarkAllSitesRead", MarkAllReadMenuCommand);
-		mi.position = 500090099;
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MARKALLREAD));
-		mi.name.w = LPGENW("Mark all Webview sites as read");
-		mi.pszService = "MarkAllSitesRead";
-		Menu_AddMainMenuItem(&mi);
+	// open cache directory
+	SET_UID(mi, 0xfed046a8, 0xaae5, 0x4cbe, 0xa8, 0xc, 0x3c, 0x50, 0x3e, 0x3e, 0x9b, 0x15);
+	CreateServiceFunction("OpenCacheFolder", OpenCacheDir);
+	mi.position = 500090099;
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_FOLDER));
+	mi.name.w = LPGENW("Open cache folder");
+	mi.pszService = "OpenCacheFolder";
+	Menu_AddMainMenuItem(&mi);
 
-		// open cache directory
-		SET_UID(mi, 0xfed046a8, 0xaae5, 0x4cbe, 0xa8, 0xc, 0x3c, 0x50, 0x3e, 0x3e, 0x9b, 0x15);
-		CreateServiceFunction("OpenCacheFolder", OpenCacheDir);
-		mi.position = 500090099;
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_FOLDER));
-		mi.name.w = LPGENW("Open cache folder");
-		mi.pszService = "OpenCacheFolder";
-		Menu_AddMainMenuItem(&mi);
-
-		// Countdown test
-		SET_UID(mi, 0xbb1a94a9, 0xca63, 0x4966, 0x98, 0x48, 0x8b, 0x3f, 0x9d, 0xac, 0x6a, 0x10);
-		CreateServiceFunction("Countdown", CountdownMenuCommand);
-		mi.flags |= CMIF_KEEPUNTRANSLATED;
-		wchar_t countername[100];
-		mir_snwprintf(countername, TranslateT("%d minutes to update"), g_plugin.getDword(COUNTDOWN_KEY, 0));
-		mi.position = 600090099;
-		mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
-		mi.name.w = countername;
-		mi.pszService = "Countdown";
-		hMenuItemCountdown = Menu_AddMainMenuItem(&mi);
-	}
+	// Countdown test
+	SET_UID(mi, 0xbb1a94a9, 0xca63, 0x4966, 0x98, 0x48, 0x8b, 0x3f, 0x9d, 0xac, 0x6a, 0x10);
+	CreateServiceFunction("Countdown", CountdownMenuCommand);
+	mi.flags |= CMIF_KEEPUNTRANSLATED;
+	wchar_t countername[100];
+	mir_snwprintf(countername, TranslateT("%d minutes to update"), g_plugin.getDword(COUNTDOWN_KEY, 0));
+	mi.position = 600090099;
+	mi.hIcolibItem = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_UPDATEALL));
+	mi.name.w = countername;
+	mi.pszService = "Countdown";
+	hMenuItemCountdown = Menu_AddMainMenuItem(&mi);
 
 	// contact menu
 	mi.flags = CMIF_UNICODE;

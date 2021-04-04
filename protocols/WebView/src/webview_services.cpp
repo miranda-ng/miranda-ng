@@ -25,7 +25,7 @@
 
 static int searchId = -1;
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 static char szInvalidChars[] = { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' };
 
 int DBSettingChanged(WPARAM wParam, LPARAM lParam)
@@ -107,7 +107,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int SiteDeleted(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
@@ -138,7 +138,7 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR OpenCacheDir(WPARAM, LPARAM)
 {
 	//GET NAME FOR CACHE
@@ -157,7 +157,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 {
 	FILE *pfile = fopen("psite.bat", "r");
@@ -184,7 +184,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR StpPrcssMenuCommand(WPARAM wParam, LPARAM)
 {
 	g_plugin.setByte(wParam, STOP_KEY, 1);
@@ -296,7 +296,7 @@ INT_PTR BPLoadIcon(WPARAM wParam, LPARAM)
 		GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 static void __cdecl BasicSearchTimerProc(wchar_t *pszNick)
 {
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
@@ -324,7 +324,7 @@ INT_PTR BasicSearch(WPARAM, LPARAM lParam)
 	return searchId;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR AddToList(WPARAM, LPARAM lParam)
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *)lParam;
@@ -443,7 +443,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	return (INT_PTR)hContact;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static void __cdecl AckFunc(void*)
 {

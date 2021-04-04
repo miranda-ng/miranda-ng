@@ -26,7 +26,6 @@
 
 #define MODULENAME "WebView"
 
-#define MENU_OFF    "DisableMenu"
 #define REFRESH_KEY "Refresh interval"
 #define ON_TOP_KEY  "Always on top"
 #define OFFLINE_STATUS "OfflineOnBoot"
@@ -37,7 +36,6 @@
 #define HIDE_STATUS_ICON_KEY    "Hide_Status_Icon"
 #define HAS_CRASHED_KEY         "Has_Crashed"
 #define U_ALLSITE_KEY  "UseAllTheWebsite"
-#define MENU_IS_DISABLED_KEY    "MainMenuReallyDisabled"
 #define UPDATE_ONALERT_KEY      "WND_UPDATE_OALERY_ONLY"
 #define DISABLE_AUTOUPDATE_KEY  "Disable_Auto_Update"
 #define RWSPACE_KEY "level_of_wspace_removal"
@@ -125,7 +123,6 @@ void FillFontListThread(void *);
 
 INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int DataWndAlertCommand(WPARAM wParam, LPARAM lParam);
 int PopupAlert(WPARAM wParam, LPARAM lParam);
@@ -210,7 +207,6 @@ void EraseBlock(char *truncated);
 void EraseSymbols(char *truncated);
 int  ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactname, int notpresent);
 
-INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int  DataDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * urc);
 int OptInitialise(WPARAM, LPARAM);
