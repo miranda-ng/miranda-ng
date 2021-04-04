@@ -14,7 +14,6 @@
 #define IDR_SAM_OPTIONS                 122
 #define IDI_DOT                         123
 #define IDI_IGNORE                      124
-#define IDI_SAVEMSG                     127
 #define IDI_SAVE                        127
 #define IDI_SAVEASNEW                   128
 #define IDI_DELETE                      130

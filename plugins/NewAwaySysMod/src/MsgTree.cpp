@@ -63,7 +63,7 @@ static LRESULT CALLBACK EditSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 	return CallWindowProc(g_OrigEditProc, hWnd, Msg, wParam, lParam);
 }
 
-static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CMsgTree::ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	CMsgTree *dat = CWndUserData(hWnd).GetMsgTree();
 	switch (Msg) {
@@ -174,9 +174,9 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					TreeView_GetItemRect(lpNMCD->nmcd.hdr.hwndFrom, (HTREEITEM)lpNMCD->nmcd.dwItemSpec, &rc, true);
 					int iSize = GetSystemMetrics(SM_CXSMICON);
 					int x = rc.left - iSize - 5;
-					for (int i = 0; i < _countof(SettingsList); i++) {
-						if (lpNMCD->nmcd.lItemlParam == (LPARAM)dat->MsgTreePage.GetValue(SettingsList[i].DBSetting)) {
-							DrawIconEx(lpNMCD->nmcd.hdc, x, rc.top, Skin_LoadProtoIcon(nullptr, SettingsList[i].Status), iSize, iSize, 0, GetSysColorBrush(COLOR_WINDOW), DI_NORMAL);
+					for (auto &it: SettingsList) {
+						if (lpNMCD->nmcd.lItemlParam == (LPARAM)dat->MsgTreePage.GetValue(it.DBSetting)) {
+							DrawIconEx(lpNMCD->nmcd.hdc, x, rc.top, Skin_LoadProtoIcon(nullptr, it.Status), iSize, iSize, 0, GetSysColorBrush(COLOR_WINDOW), DI_NORMAL);
 							x -= iSize + 1;
 						}
 					}
@@ -390,15 +390,15 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_BITMAP | MIIM_DATA | MIIM_STATE | MIIM_CHECKMARKS;
 					mii.hbmpItem = HBMMENU_CALLBACK;
-					for (int i = 0; i < _countof(MenuItems); i++) { // set icons
-						mii.dwItemData = MenuItems[i].IconID;
-						SetMenuItemInfo(hPopupMenu, MenuItems[i].ItemID, false, &mii);
+					for (auto &it: MenuItems) { // set icons
+						mii.dwItemData = it.IconID;
+						SetMenuItemInfo(hPopupMenu, it.ItemID, false, &mii);
 					}
 					mii.fMask = MIIM_STATE;
 					mii.fState = MFS_CHECKED;
-					for (int i = 0; i < _countof(SettingsList); i++) // set checkmarks
-						if (TreeCtrl->m_value[Order].ID == (int)dat->MsgTreePage.GetValue(SettingsList[i].DBSetting))
-							SetMenuItemInfo(hPopupMenu, SettingsList[i].MenuItemID, false, &mii);
+					for (auto &it: SettingsList) // set checkmarks
+						if (TreeCtrl->m_value[Order].ID == (int)dat->MsgTreePage.GetValue(it.DBSetting))
+							SetMenuItemInfo(hPopupMenu, it.MenuItemID, false, &mii);
 
 					int MenuResult = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, ht.pt.x, ht.pt.y, 0, hWnd, nullptr);
 					switch (MenuResult) {
@@ -421,9 +421,9 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 					case IDR_MSGTREEMENU_DEF_DND:
 					case IDR_MSGTREEMENU_DEF_FFC:
 					case IDR_MSGTREEMENU_DEF_INV:
-						for (int i = 0; i < _countof(SettingsList); i++) {
-							if (SettingsList[i].MenuItemID == MenuResult) {
-								dat->SetDefMsg(SettingsList[i].Status, tvi.lParam);
+						for (auto &it: SettingsList) {
+							if (it.MenuItemID == MenuResult) {
+								dat->SetDefMsg(it.Status, tvi.lParam);
 								break;
 							}
 						}
@@ -468,9 +468,9 @@ CMsgTree::CMsgTree(HWND hTreeView) : MsgTreePage(g_MsgTreePage), hTreeView(hTree
 	COptItem_TreeCtrl* TreeCtrl = (COptItem_TreeCtrl*)MsgTreePage.Find(IDV_MSGTREE);
 	TreeCtrl->SetDlgItemID(GetDlgCtrlID(hTreeView));
 	hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
-	ImageList_AddIcon(hImageList, GetIcon(IDI_NEWMESSAGE));
-	ImageList_AddIcon(hImageList, GetIcon(IDI_NEWCATEGORY));
-	ImageList_AddIcon(hImageList, GetIcon(IDI_DELETE));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_NEWMESSAGE));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_NEWCATEGORY));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_DELETE));
 	MsgTreePage.DBToMemToPage();
 	if (!g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RECENTMSGSCOUNT)) // show "Recent messages" group only when RECENTMSGSCOUNT is not set to 0.
 		TreeView_DeleteItem(hTreeView, TreeCtrl->RootItems[g_Messages_RecentRootID].hItem);
@@ -510,21 +510,21 @@ bool CMsgTree::SetSelection(int ID, int Flags) // set ID = -1 to unselect; retur
 
 int CMsgTree::GetDefMsg(int iMode)
 {
-	for (int i = 0; i < _countof(SettingsList); i++)
-		if (SettingsList[i].Status == iMode)
-			return (int)MsgTreePage.GetValue(SettingsList[i].DBSetting);
+	for (auto &it: SettingsList)
+		if (it.Status == iMode)
+			return (int)MsgTreePage.GetValue(it.DBSetting);
 
 	return 0;
 }
 
 void CMsgTree::SetDefMsg(int iMode, int ID)
 {
-	for (int i = 0; i < _countof(SettingsList); i++) {
-		if (SettingsList[i].Status == iMode) {
-			if ((int)MsgTreePage.GetValue(SettingsList[i].DBSetting) != ID) {
+	for (auto &it: SettingsList) {
+		if (it.Status == iMode) {
+			if ((int)MsgTreePage.GetValue(it.DBSetting) != ID) {
 				RECT rc;
 				COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
-				int OrderOld = TreeCtrl->IDToOrder((int)MsgTreePage.GetValue(SettingsList[i].DBSetting));
+				int OrderOld = TreeCtrl->IDToOrder((int)MsgTreePage.GetValue(it.DBSetting));
 				if (OrderOld >= 0 && TreeView_GetItemRect(hTreeView, TreeCtrl->m_value[OrderOld].hItem, &rc, false))
 					InvalidateRect(hTreeView, &rc, true); // refresh icons of previous default tree item
 
@@ -532,7 +532,7 @@ void CMsgTree::SetDefMsg(int iMode, int ID)
 				if (OrderNew >= 0 && TreeView_GetItemRect(hTreeView, TreeCtrl->m_value[OrderNew].hItem, &rc, false))
 					InvalidateRect(hTreeView, &rc, true); // refresh new default item icons
 
-				MsgTreePage.SetValue(SettingsList[i].DBSetting, ID);
+				MsgTreePage.SetValue(it.DBSetting, ID);
 				NMMSGTREE nm = { 0 };
 				if (OrderOld >= 0)
 					nm.ItemOld = &TreeCtrl->m_value[OrderOld];

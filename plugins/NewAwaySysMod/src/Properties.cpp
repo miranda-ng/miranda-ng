@@ -296,22 +296,22 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 		if (Message == nullptr) { // ...or we didn't succeed retrieving the last message
 			// get default message for this status
 			int DefMsgID = -1;
-			static struct {
+			struct {
 				int DBSetting, Status;
 			}
-			DefMsgDlgItems[] = {
-				IDS_MESSAGEDLG_DEF_ONL, ID_STATUS_ONLINE,
+			static DefMsgDlgItems[] = {
+				IDS_MESSAGEDLG_DEF_ONL,  ID_STATUS_ONLINE,
 				IDS_MESSAGEDLG_DEF_AWAY, ID_STATUS_AWAY,
-				IDS_MESSAGEDLG_DEF_NA, ID_STATUS_NA,
-				IDS_MESSAGEDLG_DEF_OCC, ID_STATUS_OCCUPIED,
-				IDS_MESSAGEDLG_DEF_DND, ID_STATUS_DND,
-				IDS_MESSAGEDLG_DEF_FFC, ID_STATUS_FREECHAT,
-				IDS_MESSAGEDLG_DEF_INV, ID_STATUS_INVISIBLE,
+				IDS_MESSAGEDLG_DEF_NA,   ID_STATUS_NA,
+				IDS_MESSAGEDLG_DEF_OCC,  ID_STATUS_OCCUPIED,
+				IDS_MESSAGEDLG_DEF_DND,  ID_STATUS_DND,
+				IDS_MESSAGEDLG_DEF_FFC,  ID_STATUS_FREECHAT,
+				IDS_MESSAGEDLG_DEF_INV,  ID_STATUS_INVISIBLE,
 			};
 
-			for (int i = 0; i < _countof(DefMsgDlgItems); i++) {
-				if (DefMsgDlgItems[i].Status == Status) {
-					DefMsgID = MsgTreeData.GetDBValue(DefMsgDlgItems[i].DBSetting);
+			for (auto &it: DefMsgDlgItems) {
+				if (it.Status == Status) {
+					DefMsgID = MsgTreeData.GetDBValue(it.DBSetting);
 					break;
 				}
 			}

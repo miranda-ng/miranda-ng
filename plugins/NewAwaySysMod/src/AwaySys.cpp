@@ -50,29 +50,21 @@ bool g_fNoProcessing = false; // tells the status change proc not to do anything
 int g_bIsIdle = false;
 VAR_PARSE_DATA VarParseData;
 
-IconItem iconList[] = {
-	{ LPGEN("Toggle Off"),			"off",			IDI_SOE_DISABLED },
-	{ LPGEN("Toggle On"),			"on",			IDI_SOE_ENABLED		},
-	{ LPGEN("New message"),			"new_msg",		IDI_NEWMESSAGE		},
-	{ LPGEN("New category"),		"new_cat",		IDI_NEWCATEGORY		},
-	{ LPGEN("Delete"),				"delete",		IDI_DELETE			},
-	{ LPGEN("Dot"),					"dot",			IDI_DOT				},
-	{ LPGEN("Ignore"),				"ignore",		IDI_IGNORE			},
-	{ LPGEN("Indefinite"),			"indefinite",	IDI_INDEFINITE		},
-	{ LPGEN("Set status message"),	"msg_icon",		IDI_MSGICON			},
-	{ LPGEN("Add"),					"add",			IDI_SAVEASNEW		},
-	{ LPGEN("Save"),				"save",			IDI_SAVE			},
-	{ LPGEN("Settings"),			"settings",		IDI_SETTINGS		}
-};
-
-HICON GetIcon(int iconId, bool size)
+static IconItem iconList[] =
 {
-	for (size_t i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iconId)
-			return IcoLib_GetIconByHandle(iconList[i].hIcolib, size);
-
-	return nullptr;
-}
+	{ LPGEN("Toggle Off"),         "off",        IDI_SOE_DISABLED },
+	{ LPGEN("Toggle On"),          "on",         IDI_SOE_ENABLED  },
+	{ LPGEN("New message"),        "new_msg",    IDI_NEWMESSAGE   },
+	{ LPGEN("New category"),       "new_cat",    IDI_NEWCATEGORY  },
+	{ LPGEN("Delete"),             "delete",     IDI_DELETE       },
+	{ LPGEN("Dot"),                "dot",        IDI_DOT          },
+	{ LPGEN("Ignore"),             "ignore",     IDI_IGNORE       },
+	{ LPGEN("Indefinite"),         "indefinite", IDI_INDEFINITE   },
+	{ LPGEN("Set status message"), "msg_icon",   IDI_MSGICON      },
+	{ LPGEN("Add"),                "add",        IDI_SAVEASNEW    },
+	{ LPGEN("Save"),               "save",       IDI_SAVE         },
+	{ LPGEN("Settings"),           "settings",   IDI_SETTINGS     },
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -367,8 +359,6 @@ static int Create_TopToolbar(WPARAM, LPARAM)
 
 static int IconsChanged(WPARAM, LPARAM)
 {
-	g_IconList.ReloadIcons();
-	
 	if (g_MessagesOptPage.GetWnd())
 		SendMessage(g_MessagesOptPage.GetWnd(), UM_ICONSCHANGED, 0, 0);
 
@@ -505,7 +495,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 	LoadMsgTreeModule();
 	LoadCListModule();
 	InitUpdateMsgs();
-	g_IconList.ReloadIcons();
 
 	CreateServiceFunction(MS_AWAYSYS_SETCONTACTSTATMSG, SetContactStatMsg);
 	CreateServiceFunction(MS_AWAYSYS_AUTOREPLY_TOGGLE, ToggleSendOnEvent);
@@ -603,10 +592,10 @@ int MirandaLoaded(WPARAM, LPARAM)
 		tr.szService = MS_AWAYSYS_VARIABLESHANDLER;
 		tr.szCleanupService = MS_AWAYSYS_FREEVARMEM;
 		tr.memType = TR_MEM_OWNER;
-		for (int i = 0; i < _countof(Variables); i++) {
-			tr.flags = Variables[i].Flags | TRF_CALLSVC | TRF_TCHAR;
-			tr.szTokenString.w = Variables[i].Name;
-			tr.szHelpText = Variables[i].Descr;
+		for (auto &it: Variables) {
+			tr.flags = it.Flags | TRF_CALLSVC | TRF_TCHAR;
+			tr.szTokenString.w = it.Name;
+			tr.szHelpText = it.Descr;
 			CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&tr);
 		}
 	}
