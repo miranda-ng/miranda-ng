@@ -1270,10 +1270,8 @@ static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 
 static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
 {
-	bLoadingPrivateOptions = true;
 	OptionsPageList arPages(1);
 	CallPluginEventHook((HINSTANCE)hInstance, hOptionsInitEvent, (WPARAM)&arPages, 0);
-	bLoadingPrivateOptions = false;
 	return 0;
 }
 
