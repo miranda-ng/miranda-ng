@@ -541,6 +541,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
 	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
 
+	// contact menu items	
 	memset(&mi, 0, sizeof(mi));
 	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);
 	mi.position = -2000005000;
@@ -549,44 +550,43 @@ int MirandaLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	g_hReadStatMenuItem = Menu_AddContactMenuItem(&mi);
 
-	if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USEMENUITEM)) {
-		memset(&mi, 0, sizeof(mi));
-		SET_UID(mi, 0xc42a4fdb, 0x51b8, 0x4bbe, 0x83, 0xee, 0x2d, 0x32, 0x29, 0x5c, 0x2, 0xb3);
-		mi.flags = CMIF_UNICODE | CMIF_HIDDEN;
-		mi.name.w = LPGENW("Set status message"); // will never be shown
-		mi.position = 1000020000;
-		mi.hIcolibItem = iconList[8].hIcolib;
-		mi.pszService = MS_AWAYSYS_SETCONTACTSTATMSG;
-		g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
+	memset(&mi, 0, sizeof(mi));
+	SET_UID(mi, 0xc42a4fdb, 0x51b8, 0x4bbe, 0x83, 0xee, 0x2d, 0x32, 0x29, 0x5c, 0x2, 0xb3);
+	mi.flags = CMIF_UNICODE | CMIF_HIDDEN;
+	mi.name.w = LPGENW("Set status message"); // will never be shown
+	mi.position = 1000020000;
+	mi.hIcolibItem = iconList[8].hIcolib;
+	mi.pszService = MS_AWAYSYS_SETCONTACTSTATMSG;
+	g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		memset(&mi, 0, sizeof(mi));
-		SET_UID(mi, 0x47a3c631, 0x8ca9, 0x4b7e, 0x84, 0x6e, 0x29, 0xbf, 0x53, 0x30, 0x6f, 0x83);
-		mi.flags = CMIF_UNICODE;
-		mi.hIcolibItem = nullptr;
-		mi.position = 1000020000;
-		mi.name.w = LPGENW("Autoreply");
-		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
-		UNSET_UID(mi);
+	memset(&mi, 0, sizeof(mi));
+	SET_UID(mi, 0x47a3c631, 0x8ca9, 0x4b7e, 0x84, 0x6e, 0x29, 0xbf, 0x53, 0x30, 0x6f, 0x83);
+	mi.flags = CMIF_UNICODE;
+	mi.hIcolibItem = nullptr;
+	mi.position = 1000020000;
+	mi.name.w = LPGENW("Autoreply");
+	g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
+	UNSET_UID(mi);
 
-		mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
-		mi.root = g_hToggleSOEContactMenuItem;
-		mi.position = 1000020000;
+	mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
+	mi.root = g_hToggleSOEContactMenuItem;
+	mi.position = 1000020000;
 
-		mi.hIcolibItem = iconList[1].hIcolib;
-		mi.name.w = LPGENW("On");
-		mi.pszService = MS_AWAYSYS_AUTOREPLY_ON;
-		g_hAutoreplyOnContactMenuItem = Menu_AddContactMenuItem(&mi);
+	mi.hIcolibItem = iconList[1].hIcolib;
+	mi.name.w = LPGENW("On");
+	mi.pszService = MS_AWAYSYS_AUTOREPLY_ON;
+	g_hAutoreplyOnContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		mi.hIcolibItem = iconList[0].hIcolib;
-		mi.name.w = LPGENW("Off");
-		mi.pszService = MS_AWAYSYS_AUTOREPLY_OFF;
-		g_hAutoreplyOffContactMenuItem = Menu_AddContactMenuItem(&mi);
+	mi.hIcolibItem = iconList[0].hIcolib;
+	mi.name.w = LPGENW("Off");
+	mi.pszService = MS_AWAYSYS_AUTOREPLY_OFF;
+	g_hAutoreplyOffContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		mi.hIcolibItem = iconList[5].hIcolib;
-		mi.name.w = LPGENW("Use the default setting");
-		mi.pszService = MS_AWAYSYS_AUTOREPLY_USEDEFAULT;
-		g_hAutoreplyUseDefaultContactMenuItem = Menu_AddContactMenuItem(&mi);
-	}
+	mi.hIcolibItem = iconList[5].hIcolib;
+	mi.name.w = LPGENW("Use the default setting");
+	mi.pszService = MS_AWAYSYS_AUTOREPLY_USEDEFAULT;
+	g_hAutoreplyUseDefaultContactMenuItem = Menu_AddContactMenuItem(&mi);
+
 	// add that funky thingy (just tweaked a bit, was spotted in Miranda's src code)
 	// we have to read the status message from contacts too... err
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetContactStatMsg);

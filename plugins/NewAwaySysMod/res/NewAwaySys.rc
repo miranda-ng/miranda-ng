@@ -185,8 +185,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,146,288,10
     CONTROL         "Store contact autoreply/ignore settings for each status separately",IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,15,157,294,16
-    CONTROL         "Enable contact menu items",IDC_MOREOPTDLG_USEMENUITEM,
-                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,167,203,142,17
     CONTROL         "Use protocol specific nick for %nas_mynick%",IDC_MOREOPTDLG_MYNICKPERPROTO,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,6,175,294,8
     CONTROL         "Update status messages for non-ICQ protocols every",IDC_MOREOPTDLG_UPDATEMSGS,

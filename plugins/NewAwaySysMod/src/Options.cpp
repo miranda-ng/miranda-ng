@@ -113,9 +113,11 @@ COptPage& COptPage::operator=(const COptPage& Page)
 	return *this;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// default procedure for reading value from DB; used only for integral types
 
 int COptItem::GetIntDBVal(const CString &sModule, int bSigned, CString*)
-{ // default procedure for reading value from DB; used only for integral types
+{
 	if (sDBSetting != nullptr) {
 		_ASSERT(nValueSize == DBVT_BYTE || nValueSize == DBVT_WORD || nValueSize == DBVT_DWORD);
 		DBVARIANT dbv;
@@ -127,8 +129,11 @@ int COptItem::GetIntDBVal(const CString &sModule, int bSigned, CString*)
 	return (int)GetDefValue();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// default procedure for writing value to the DB; used only for integral types
+
 void COptItem::SetIntDBVal(const CString &sModule, int m_value, CString*)
-{ // default procedure for writing value to the DB; used only for integral types
+{
 	if (sDBSetting != nullptr && !m_bReadOnly) {
 		_ASSERT(nValueSize == DBVT_BYTE || nValueSize == DBVT_WORD || nValueSize == DBVT_DWORD);
 
@@ -214,7 +219,6 @@ void COptItem_BitDBSetting::MemToDB(const CString &sModule, CString *sDBSettingP
 
 	COptItem::MemToDB(sModule, sDBSettingPrefix);
 }
-
 
 // ================================================ COptItem_TreeCtrl ================================================
 
@@ -341,8 +345,11 @@ void COptItem_TreeCtrl::MemToDB(const CString &sModule, CString *sDBSettingPrefi
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// only need to gather info of items state (expanded/collapsed, checked/unchecked)
+
 void COptItem_TreeCtrl::WndToMem(HWND hWnd)
-{ // only need to gather info of items state (expanded/collapsed, checked/unchecked)
+{
 	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
 	for (int i = 0; i < m_value.GetSize(); i++) {
 		DWORD State = TreeView_GetItemState(hTreeView, m_value[i].hItem, TVIS_EXPANDED | TVIS_STATEIMAGEMASK);
@@ -433,13 +440,12 @@ void COptItem_TreeCtrl::MemToWnd(HWND hWnd)
 	COptItem::MemToWnd(hWnd);
 }
 
-
-typedef struct
+struct sTreeDeleteEnumData
 {
 	TMyArray<CString> TreeSettings;
 	COptItem_TreeCtrl *TreeCtrl;
 	CString *sDBSettingPrefix;
-} sTreeDeleteEnumData;
+};
 
 int TreeDeleteEnum(const char *szSetting, void *lParam)
 {
@@ -515,9 +521,11 @@ void COptItem_TreeCtrl::RecursiveDelete(HWND hWnd, int i)
 	m_value.RemoveElem(i);
 }
 
-CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
+/////////////////////////////////////////////////////////////////////////////////////////
 // Item's ID and ParentID are not used (the new item position is determined by current selection in the tree)
 // returns a pointer to the newly inserted item info
+
+CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
 {
 	_ASSERT(!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) || !(Item.Flags & TIF_GROUP));
 	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
@@ -564,9 +572,11 @@ CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
 	return &m_value[SelOrder + 1];
 }
 
-int COptItem_TreeCtrl::RecursiveMove(int ItemOrder, int ParentID, int InsertAtOrder)
+/////////////////////////////////////////////////////////////////////////////////////////
 // ItemOrder must be a movable item (i.e. ItemOrder >= 0)
 // InsertAtOrder must be >= 0 too.
+
+int COptItem_TreeCtrl::RecursiveMove(int ItemOrder, int ParentID, int InsertAtOrder)
 {
 	int ItemsMoved = 1;
 	m_value.MoveElem(ItemOrder, InsertAtOrder);
@@ -585,8 +595,11 @@ int COptItem_TreeCtrl::RecursiveMove(int ItemOrder, int ParentID, int InsertAtOr
 	return ItemsMoved;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// hMoveTo can be NULL and it means that we must move hItem to the beginning of the list
+
 void COptItem_TreeCtrl::MoveItem(HWND hWnd, HTREEITEM hItem, HTREEITEM hMoveTo)
-{ // hMoveTo can be NULL and it means that we must move hItem to the beginning of the list
+{
 	_ASSERT(hItem && (hMoveTo || TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL));
 	if (hItem == hMoveTo)
 		return;
@@ -607,10 +620,12 @@ void COptItem_TreeCtrl::MoveItem(HWND hWnd, HTREEITEM hItem, HTREEITEM hMoveTo)
 	}
 	else MoveToOrder = -1;
 
+	// can't move root items
 	if (ItemOrder <= TREECTRL_ROOTORDEROFFS)
-		return; // can't move root items
+		return;
 	
-	if (m_value[ItemOrder].Flags & TIF_GROUP) { // need to check for a case when trying to move a group to its own subgroup.
+	// need to check for a case when trying to move a group to its own subgroup.
+	if (m_value[ItemOrder].Flags & TIF_GROUP) {
 		int Order = MoveToOrder;
 		while (Order >= 0) {
 			Order = IDToOrder(m_value[Order].ParentID);
@@ -784,9 +799,11 @@ void COptItem_ListCtrl::ModifyItem(HWND hWnd, int ID, CListItem &Item)
 	m_bModified = true;
 }
 
-CListItem* COptItem_ListCtrl::InsertItem(HWND hWnd, int ID, CListItem &Item)
+/////////////////////////////////////////////////////////////////////////////////////////
 // returns a pointer to the newly inserted item info
 // ID is position at which to insert the item; -1 = add to the end of the list
+
+CListItem* COptItem_ListCtrl::InsertItem(HWND hWnd, int ID, CListItem &Item)
 {
 	HWND hListView = GetDlgItem(hWnd, m_dlgItemID);
 	int Res = SendMessage(hListView, LB_INSERTSTRING, ID, (LPARAM)(wchar_t*)(Item.Text)); // LB_INSERTSTRING doesn't sort the lists even with LBS_SORT style

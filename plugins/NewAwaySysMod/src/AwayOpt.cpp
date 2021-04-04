@@ -404,7 +404,6 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			case IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS:
 			case IDC_MOREOPTDLG_PERSTATUSPERSONAL:
 			case IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS:
-			case IDC_MOREOPTDLG_USEMENUITEM:
 			case IDC_MOREOPTDLG_MYNICKPERPROTO:
 			case IDC_MOREOPTDLG_USEDEFMSG:
 			case IDC_MOREOPTDLG_USELASTMSG:
@@ -1081,7 +1080,6 @@ void InitOptions()
 	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_SAVEPERSONALMSGS, "SavePersonalMsgs", DBVT_BYTE, 1));
 	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_PERSTATUSPERSONAL, "PerStatusPersonal", DBVT_BYTE, 0));
 	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS, "PerStatusPersonalSettings", DBVT_BYTE, 0));
-	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_USEMENUITEM, "UseMenuItem", DBVT_BYTE, 0));
 	g_MoreOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MOREOPTDLG_MYNICKPERPROTO, "MyNickPerProto", DBVT_BYTE, 1));
 	g_MoreOptPage.Items.AddElem(new COptItem_IntEdit(IDC_MOREOPTDLG_WAITFORMSG, "WaitForMsg", DBVT_WORD, TRUE, 5));
 	g_MoreOptPage.Items.AddElem(new COptItem_IntEdit(IDC_MOREOPTDLG_RECENTMSGSCOUNT, "MRMCount", DBVT_WORD, TRUE, 5));
