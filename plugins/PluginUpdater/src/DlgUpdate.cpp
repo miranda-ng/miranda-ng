@@ -832,14 +832,17 @@ static void CheckUpdates(void *)
 			else
 				CallFunctionAsync(LaunchDialog, UpdateFiles);
 		}
-	}
 
-	CallFunctionAsync(InitTimer, (success ? nullptr : (void*)2));
+		// reset timer to next update
+		g_plugin.dwLastUpdate = time(0);
+		g_plugin.InitTimer(0);
+	}
+	else g_plugin.InitTimer(1); // update failed, postpone the timer
 
 	hashes.destroy();
 }
 
-static void DoCheck(bool bSilent = true)
+void DoCheck(bool bSilent)
 {
 	if (dwCheckThreadId)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Update checking already started!"), POPUP_TYPE_INFO);
@@ -850,8 +853,6 @@ static void DoCheck(bool bSilent = true)
 	}
 	else {
 		g_plugin.bSilent = bSilent;
-		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
-
 		mir_forkthread(CheckUpdates);
 	}
 }
@@ -864,29 +865,13 @@ void UninitCheck()
 		DestroyWindow(hwndDialog);
 }
 
-// menu item command
-static INT_PTR MenuCommand(WPARAM, LPARAM)
-{
-	Netlib_LogfW(hNetlibUser, L"Update started manually!");
-	DoCheck(false);
-	return 0;
-}
-
-void InitCheck()
-{
-	CreateServiceFunction(MS_PU_CHECKUPDATES, MenuCommand);
-}
-
 void CALLBACK CheckUpdateOnStartup()
 {
 	if (g_plugin.bUpdateOnStartup) {
-		if (g_plugin.bOnlyOnceADay) {
-			time_t now = time(0),
-				was = g_plugin.getDword(DB_SETTING_LAST_UPDATE, 0);
-
-			if ((now - was) < 86400)
+		if (g_plugin.bOnlyOnceADay)
+			if (time(0) - g_plugin.dwLastUpdate < 86400)
 				return;
-		}
+
 		Netlib_LogfW(hNetlibUser, L"Update on startup started!");
 		DoCheck();
 	}
@@ -894,69 +879,28 @@ void CALLBACK CheckUpdateOnStartup()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
+void CMPlugin::Impl::onTimer(CTimer*)
 {
-	DoCheck();
+	if (g_plugin.iNextCheck)
+		if (time(0) >= g_plugin.iNextCheck)
+			DoCheck();
 }
 
-static LONGLONG PeriodToMilliseconds(const int period, CMOption<int> &periodMeasure)
+void CMPlugin::InitTimer(int type)
 {
-	LONGLONG result = period * 1000LL;
-	switch (periodMeasure) {
-	case 1:
-		// day
-		result *= 60 * 60 * 24;
-		break;
-
-	default:
-		// hour
-		if (periodMeasure != 0)
-			periodMeasure = 0;
-		result *= 60 * 60;
-	}
-	return result;
-}
-
-void __stdcall InitTimer(void *type)
-{
-	if (!g_plugin.bUpdateOnPeriod)
+	if (!bUpdateOnPeriod) {
+		iNextCheck = 0;
 		return;
-
-	LONGLONG interval;
-
-	switch ((INT_PTR)type) {
-	case 0: // default, plan next check relative to last check
-		{
-			time_t now = time(0);
-			time_t was = g_plugin.getDword(DB_SETTING_LAST_UPDATE, 0);
-
-			interval = PeriodToMilliseconds(g_plugin.iPeriod, g_plugin.iPeriodMeasure);
-			interval -= (now - was) * 1000;
-			if (interval <= 0)
-				interval = 1000; // no last update or too far in the past -> do it now
-		}
-		break;
-
-	case 2: // failed last check, check again in two hours
-		interval = 1000 * 60 * 60 * 2;
-		break;
-
-	default: // options changed, use set interval from now
-		interval = PeriodToMilliseconds(g_plugin.iPeriod, g_plugin.iPeriodMeasure);
 	}
 
-	FILETIME ft;
-	GetSystemTimeAsFileTime(&ft);
-
-	LARGE_INTEGER li;
-	li.LowPart = ft.dwLowDateTime;
-	li.HighPart = ft.dwHighDateTime;
-	li.QuadPart += interval * 10000LL;
-	SetWaitableTimer(hTimer, &li, 0, TimerAPCProc, nullptr, 0);
-}
-
-void CreateTimer()
-{
-	hTimer = CreateWaitableTimer(nullptr, FALSE, nullptr);
-	InitTimer(0);
+	// normal timer reset;
+	if (type == 0) {
+		iNextCheck = dwLastUpdate;
+		if (iPeriodMeasure == 1)
+			iNextCheck += g_plugin.iPeriod * 86400; // day
+		else
+			iNextCheck += g_plugin.iPeriod * 3600; // hour
+	}
+	else // failed last check, check again in two hours
+		iNextCheck += 60 * 60 * 2;
 }
