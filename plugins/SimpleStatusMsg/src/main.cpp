@@ -1268,8 +1268,6 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
-	if (!g_plugin.getByte("ShowStatusMenuItem", 1))
-		mi.flags |= CMIF_HIDDEN;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CSMSG);
 	mi.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	mi.name.w = LPGENW("Status message...");

@@ -68,7 +68,7 @@ public:
 	PTREEITEMARRAY GetSelection() {return &SelectedItems;}
 	void SetRedraw(bool bRedraw) {SendMessage(hTreeView, WM_SETREDRAW, bRedraw, 0);}
 
-	friend LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 	friend LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 	friend int CALLBACK CompareItemsCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 

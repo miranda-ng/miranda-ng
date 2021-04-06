@@ -12,16 +12,15 @@ CDbxSQLite::CDbxSQLite(const wchar_t *pwszFileName, bool bReadOnly, bool bShared
 
 CDbxSQLite::~CDbxSQLite()
 {
-	int rc = sqlite3_exec(m_db, "commit;", nullptr, nullptr, nullptr);
-	logError(rc, __FILE__, __LINE__);
+	if (m_bTranStarted) {
+		int rc = sqlite3_exec(m_db, "commit;", nullptr, nullptr, nullptr);
+		logError(rc, __FILE__, __LINE__);
+	}
 
 	UninitEvents();
-	UninitContacts();
-	UninitSettings();
-	UninintEncryption();
 
 	if (m_db) {
-		rc = sqlite3_close(m_db);
+		int rc = sqlite3_close(m_db);
 		logError(rc, __FILE__, __LINE__);
 
 		m_db = nullptr;
@@ -43,7 +42,7 @@ int CDbxSQLite::Create()
 	rc = sqlite3_exec(m_db, "CREATE TABLE contacts (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT);", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
-	rc = sqlite3_exec(m_db, "CREATE TABLE crypto (id INTEGER NOT NULL PRIMARY KEY, data ANY NOT NULL);", nullptr, nullptr, nullptr);
+	rc = sqlite3_exec(m_db, "CREATE TABLE crypto (id INTEGER NOT NULL PRIMARY KEY, data NOT NULL);", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(m_db, "CREATE TABLE events (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, contact_id INTEGER NOT NULL, module TEXT NOT NULL,"
@@ -60,7 +59,7 @@ int CDbxSQLite::Create()
 	rc = sqlite3_exec(m_db, "CREATE TABLE events_srt (id INTEGER NOT NULL, contact_id INTEGER NOT NULL, timestamp INTEGER, PRIMARY KEY(contact_id, timestamp, id));", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
-	rc = sqlite3_exec(m_db, "CREATE TABLE settings (contact_id INTEGER NOT NULL, module TEXT NOT NULL, setting TEXT NOT NULL, type INTEGER NOT NULL, value ANY,"
+	rc = sqlite3_exec(m_db, "CREATE TABLE settings (contact_id INTEGER NOT NULL, module TEXT NOT NULL, setting TEXT NOT NULL, type INTEGER NOT NULL, value NOT NULL,"
 		"PRIMARY KEY(contact_id, module, setting)) WITHOUT ROWID;", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
@@ -146,6 +145,7 @@ int CDbxSQLite::Load()
 	if (InitCrypt())
 		return EGROKPRF_CANTREAD;
 
+	m_bTranStarted = true;
 	rc = sqlite3_exec(m_db, "begin transaction;", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 	return EGROKPRF_NOERROR;

@@ -232,59 +232,59 @@ void PicLoader(LPVOID)
 		dwDelay = 100;
 
 	while (!g_shutDown) {
-		while (!g_shutDown) {
-			CacheNode *node;
-			{
-				mir_cslock all(alloccs);
-				node = arQueue[0];
-				if (node)
-					arQueue.remove(0);
-			}
-			if (node == nullptr)
-				break;
-
-			if (db_get_b(node->hContact, "ContactPhoto", "NeedUpdate", 0))
-				QueueAdd(node->hContact);
-
-			AVATARCACHEENTRY ace_temp;
-			memcpy(&ace_temp, node, sizeof(AVATARCACHEENTRY));
-			ace_temp.hbmPic = nullptr;
-
-			int result = CreateAvatarInCache(node->hContact, &ace_temp, nullptr);
-			if (result == -2) {
-				char *szProto = Proto_GetBaseAccountName(node->hContact);
-				if (szProto == nullptr || Proto_NeedDelaysForAvatars(szProto))
-					QueueAdd(node->hContact);
-				else if (FetchAvatarFor(node->hContact, szProto) == GAIR_SUCCESS) // Try to create again
-					result = CreateAvatarInCache(node->hContact, &ace_temp, nullptr);
-			}
-
-			if (result == 1 && ace_temp.hbmPic != nullptr) { // Loaded
-				HBITMAP oldPic = node->hbmPic;
-				{
-					mir_cslock l(cachecs);
-					memcpy(node, &ace_temp, sizeof(AVATARCACHEENTRY));
-					node->bLoaded = true;
-				}
-				if (oldPic)
-					DeleteObject(oldPic);
-				NotifyMetaAware(node->hContact, node);
-			}
-			else if (result == 0 || result == -3) { // Has no avatar
-				HBITMAP oldPic = node->hbmPic;
-				{
-					mir_cslock l(cachecs);
-					memcpy(node, &ace_temp, sizeof(AVATARCACHEENTRY));
-					node->bLoaded = false;
-				}
-				if (oldPic)
-					DeleteObject(oldPic);
-				NotifyMetaAware(node->hContact, node);
-			}
-
-			mir_sleep(dwDelay);
+		CacheNode *node;
+		{
+			mir_cslock all(alloccs);
+			node = arQueue[0];
+			if (node)
+				arQueue.remove(0);
 		}
-		WaitForSingleObject(hLoaderEvent, INFINITE);
-		ResetEvent(hLoaderEvent);
+
+		if (node == nullptr) {
+			WaitForSingleObject(hLoaderEvent, INFINITE);
+			ResetEvent(hLoaderEvent);
+			continue;
+		}
+
+		if (db_get_b(node->hContact, "ContactPhoto", "NeedUpdate", 0))
+			QueueAdd(node->hContact);
+
+		AVATARCACHEENTRY ace_temp;
+		memcpy(&ace_temp, node, sizeof(AVATARCACHEENTRY));
+		ace_temp.hbmPic = nullptr;
+
+		int result = CreateAvatarInCache(node->hContact, &ace_temp, nullptr);
+		if (result == -2) {
+			char *szProto = Proto_GetBaseAccountName(node->hContact);
+			if (szProto == nullptr || Proto_NeedDelaysForAvatars(szProto))
+				QueueAdd(node->hContact);
+			else if (FetchAvatarFor(node->hContact, szProto) == GAIR_SUCCESS) // Try to create again
+				result = CreateAvatarInCache(node->hContact, &ace_temp, nullptr);
+		}
+
+		if (result == 1 && ace_temp.hbmPic != nullptr) { // Loaded
+			HBITMAP oldPic = node->hbmPic;
+			{
+				mir_cslock l(cachecs);
+				memcpy(node, &ace_temp, sizeof(AVATARCACHEENTRY));
+				node->bLoaded = true;
+			}
+			if (oldPic)
+				DeleteObject(oldPic);
+			NotifyMetaAware(node->hContact, node);
+		}
+		else if (result == 0 || result == -3) { // Has no avatar
+			HBITMAP oldPic = node->hbmPic;
+			{
+				mir_cslock l(cachecs);
+				memcpy(node, &ace_temp, sizeof(AVATARCACHEENTRY));
+				node->bLoaded = false;
+			}
+			if (oldPic)
+				DeleteObject(oldPic);
+			NotifyMetaAware(node->hContact, node);
+		}
+
+		mir_sleep(dwDelay);
 	}
 }

@@ -55,7 +55,6 @@
 #define IDC_COPTMSG2                    1036
 #define IDC_VARSHELP                    1037
 #define IDC_CBOPTBUTTONS                1038
-#define IDC_CSHOWSMSG                   1039
 #define IDC_CRPOSWND                    1040
 #define IDC_ESECUPDTMSG                 1041
 #define IDC_CUPDATEMSG                  1042
@@ -117,7 +116,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        117
+#define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40037
 #define _APS_NEXT_CONTROL_VALUE         1061
 #define _APS_NEXT_SYMED_VALUE           100

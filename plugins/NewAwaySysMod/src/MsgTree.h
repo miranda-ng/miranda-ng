@@ -41,7 +41,7 @@ public:
 	bool GetModified() {return MsgTreePage.GetModified();}
 	void SetModified(bool m_bModified) {MsgTreePage.SetModified(m_bModified);}
 
-	friend LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 	friend LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 private:

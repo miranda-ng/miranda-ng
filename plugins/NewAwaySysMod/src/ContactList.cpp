@@ -51,7 +51,7 @@ void LoadCListModule()
 	HookEvent(ME_SKIN_ICONSCHANGED, CLIconsChanged);
 }
 
-static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CCList::ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	CCList *dat = CWndUserData(hWnd).GetCList();
 	switch (Msg) {
@@ -74,11 +74,10 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					{
 						LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
 						TREEITEMARRAY OldSelection = dat->SelectedItems;
-						for (int i = 0; i < dat->SelectedItems.GetSize(); i++) {
-							if (dat->SelectedItems[i] != pnmtv->itemNew.hItem) {
+						for (int i = 0; i < dat->SelectedItems.GetSize(); i++)
+							if (dat->SelectedItems[i] != pnmtv->itemNew.hItem)
 								TreeView_SetItemState(dat->hTreeView, dat->SelectedItems[i], 0, TVIS_SELECTED);
-							}
-						}
+
 						dat->SelectedItems.RemoveAll();
 						if (pnmtv->itemNew.hItem) {
 							dat->SelectedItems.AddElem(pnmtv->itemNew.hItem);

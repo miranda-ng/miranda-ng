@@ -353,6 +353,9 @@
     <ClCompile Include="src\vauth\digest_sspi.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vauth\gsasl.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vauth\krb5_gssapi.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

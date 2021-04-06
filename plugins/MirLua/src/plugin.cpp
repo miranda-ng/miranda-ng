@@ -99,11 +99,11 @@ int CMPlugin::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.w = L"Lua";
 
 	odp.szTab.w = LPGENW("Scripts");
-	odp.pDialog = new CMLuaOptionsMain(*this);
+	odp.pDialog = new CMLuaOptionsMain();
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Evaluate");
-	odp.pDialog = new CMLuaEvaluateOptions(*this);
+	odp.pDialog = new CMLuaEvaluateOptions();
 	g_plugin.addOptions(wParam, &odp);
 
 	return 0;

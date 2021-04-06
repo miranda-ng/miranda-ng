@@ -443,18 +443,20 @@ struct {
 }
 static Buttons[] =
 {
-	{ IDC_SAWAYMSG_SAVEMSG, ILI_SAVE, LPGENW("Save, replacing the selected message") },
-	{ IDC_SAWAYMSG_SAVEASNEW, ILI_SAVEASNEW, LPGENW("Save as a new message") },
-	{ IDC_SAWAYMSG_NEWCATEGORY, ILI_NEWCATEGORY, LPGENW("Create new category") },
-	{ IDC_SAWAYMSG_DELETE, ILI_DELETE, LPGENW("Delete") },
-	{ IDC_SAWAYMSG_VARS, ILI_NOICON, LPGENW("Open Variables help dialog") },
-	{ IDC_SAWAYMSG_OPTIONS, ILI_SETTINGS, LPGENW("Show settings menu") }
+	{ IDC_SAWAYMSG_SAVEMSG,     IDI_SAVE,        LPGENW("Save, replacing the selected message") },
+	{ IDC_SAWAYMSG_SAVEASNEW,   IDI_SAVEASNEW,   LPGENW("Save as a new message") },
+	{ IDC_SAWAYMSG_NEWCATEGORY, IDI_NEWCATEGORY, LPGENW("Create new category") },
+	{ IDC_SAWAYMSG_DELETE,      IDI_DELETE,      LPGENW("Delete") },
+	{ IDC_SAWAYMSG_VARS,        -1,              LPGENW("Open Variables help dialog") },
+	{ IDC_SAWAYMSG_OPTIONS,     IDI_SETTINGS,    LPGENW("Show settings menu") },
 };
 
 struct {
 	int m_dlgItemID;
 	wchar_t* Text;
-} Tooltips[] = {
+}
+static Tooltips[] =
+{
 	IDC_SAWAYMSG_IGNOREREQ, LPGENW("Don't send the status message to selected contact(s)"),
 	IDC_SAWAYMSG_SENDMSG, LPGENW("Send an autoreply to selected contact(s)"),
 };
@@ -487,8 +489,8 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_STATIC_IGNOREICON, STM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(IDI_IGNORE));
-			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_STATIC_REPLYICON, STM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIcon(IDI_SOE_ENABLED));
+			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_STATIC_IGNOREICON, STM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_IGNORE));
+			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_STATIC_REPLYICON, STM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_SOE_ENABLED));
 
 			// init window size variables / resize the window
 			RECT rc;
@@ -595,9 +597,9 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			}
 
 			// init image buttons
-			for (int i = 0; i < _countof(Buttons); i++) {
-				HWND hButton = GetDlgItem(hwndDlg, Buttons[i].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateW(Buttons[i].Text), BATF_UNICODE);
+			for (auto &it: Buttons) {
+				HWND hButton = GetDlgItem(hwndDlg, it.DlgItem);
+				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateW(it.Text), BATF_UNICODE);
 				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 
@@ -606,9 +608,9 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, GetModuleHandleA("mir_app.mir"), nullptr);
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
-			for (int i = 0; i < _countof(Tooltips); i++) {
-				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, Tooltips[i].m_dlgItemID);
-				ti.lpszText = TranslateW(Tooltips[i].Text);
+			for (auto &it: Tooltips) {
+				ti.uId = (UINT_PTR)GetDlgItem(hwndDlg, it.m_dlgItemID);
+				ti.lpszText = TranslateW(it.Text);
 				SendMessage(hWndTooltips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			}
 			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
@@ -845,11 +847,11 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		{
 			// init contact tree
 			HIMAGELIST hil = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 5, 2);
-			ImageList_AddIcon(hil, GetIcon(IDI_DOT));
-			ImageList_AddIcon(hil, GetIcon(IDI_IGNORE));
-			ImageList_AddIcon(hil, GetIcon(IDI_MSGICON));
-			ImageList_AddIcon(hil, GetIcon(IDI_SOE_ENABLED));
-			ImageList_AddIcon(hil, GetIcon(IDI_SOE_DISABLED));
+			ImageList_AddIcon(hil, g_plugin.getIcon(IDI_DOT));
+			ImageList_AddIcon(hil, g_plugin.getIcon(IDI_IGNORE));
+			ImageList_AddIcon(hil, g_plugin.getIcon(IDI_MSGICON));
+			ImageList_AddIcon(hil, g_plugin.getIcon(IDI_SOE_ENABLED));
+			ImageList_AddIcon(hil, g_plugin.getIcon(IDI_SOE_DISABLED));
 			CList->SetExtraImageList(hil);
 
 			HTREEITEM hSelItem;
@@ -926,17 +928,15 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		return true;
 
 	case UM_SAM_SAVEDLGSETTINGS:
-		{
-			RECT rcRect;
-			GetWindowRect(hwndDlg, &rcRect);
-			g_plugin.setDword(SAM_DB_DLGPOSX, rcRect.left);
-			g_plugin.setDword(SAM_DB_DLGPOSY, rcRect.top);
-			g_plugin.setDword(SAM_DB_DLGSIZEX, rcRect.right - rcRect.left);
-			g_plugin.setDword(SAM_DB_DLGSIZEY, rcRect.bottom - rcRect.top);
-			g_plugin.setDword(SAM_DB_MSGSPLITTERPOS, g_MsgSplitterX);
-			g_plugin.setDword(SAM_DB_CONTACTSPLITTERPOS, g_ContactSplitterX);
-			g_SetAwayMsgPage.PageToMemToDB();
-		}
+		RECT rc;
+		GetWindowRect(hwndDlg, &rc);
+		g_plugin.setDword(SAM_DB_DLGPOSX, rc.left);
+		g_plugin.setDword(SAM_DB_DLGPOSY, rc.top);
+		g_plugin.setDword(SAM_DB_DLGSIZEX, rc.right - rc.left);
+		g_plugin.setDword(SAM_DB_DLGSIZEY, rc.bottom - rc.top);
+		g_plugin.setDword(SAM_DB_MSGSPLITTERPOS, g_MsgSplitterX);
+		g_plugin.setDword(SAM_DB_CONTACTSPLITTERPOS, g_ContactSplitterX);
+		g_SetAwayMsgPage.PageToMemToDB();
 		break;
 
 	case UM_SAM_REPLYSETTINGCHANGED:
@@ -984,9 +984,9 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		break;
 
 	case UM_ICONSCHANGED:
-		for (int i = 0; i < _countof(Buttons); i++)
-			if (Buttons[i].IconIndex != ILI_NOICON)
-				SendDlgItemMessage(hwndDlg, Buttons[i].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Buttons[i].IconIndex]);
+		for (auto &it: Buttons)
+			if (it.IconIndex != -1)
+				SendDlgItemMessage(hwndDlg, it.DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(it.IconIndex));
 
 		variables_skin_helpbutton(hwndDlg, IDC_SAWAYMSG_VARS);
 		break;
@@ -1153,7 +1153,6 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 	case UM_SAM_SPLITTERMOVED:
 		switch (lParam) {
-		RECT rc;
 		POINT pt;
 		int MaxSetSplitterX, MaxSplitterX;
 		case IDC_SAWAYMSG_MSGSPLITTER:

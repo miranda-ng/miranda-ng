@@ -1208,10 +1208,10 @@ UIN, E-mail и т.д.
 Стандартный
 [Total]
 Полный
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрование только критических данных (пароли, токены авторизации и т.п.). Остальные настройки и история, остаются незашифрованными. Быстрый и эффективный, подходит в большинстве случаев
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в базе в случае утери пароля. Рекомендуется только параноидальным пользователям
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted]
+Шифрование только критических данных (пароли, токены авторизации и т.п.). Остальные настройки и история остаются незашифрованными
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password]
+Шифрование всех строковых настроек и событий истории. Замедляет работу программы, а в случае утери пароля создаёт риск потери всего сохранённого в базе
 [Set password]
 Установить пароль
 [&Hide/Show]

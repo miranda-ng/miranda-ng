@@ -108,7 +108,7 @@
 [Error creating backup folder]
 Ошибка при создании папки для резервного копирования
 [Next backup is scheduled to]
-Следующее резервное копирование состоится
+Следующее резервирование:
 [Select backup folder]
 Выберите папку для хранения резервных копий
 ;file \plugins\Db_autobackups\src\zip.cpp

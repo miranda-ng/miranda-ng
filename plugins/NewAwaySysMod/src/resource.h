@@ -14,7 +14,6 @@
 #define IDR_SAM_OPTIONS                 122
 #define IDI_DOT                         123
 #define IDI_IGNORE                      124
-#define IDI_SAVEMSG                     127
 #define IDI_SAVE                        127
 #define IDI_SAVEASNEW                   128
 #define IDI_DELETE                      130
@@ -66,7 +65,6 @@
 #define IDC_MOREOPTDLG_SETLASTCONTCAT   1034
 #define IDC_MOREOPTDLG_SAVECONTACTMSGS  1034
 #define IDC_MOREOPTDLG_SAVEPERSONALMSGS 1034
-#define IDC_MOREOPTDLG_USEMENUITEM      1035
 #define IDC_MOREOPTDLG_PERSTATUSPERSONAL 1036
 #define IDC_MOREOPTDLG_RESETPROTOMSGS   1037
 #define IDC_MOREOPTDLG_PERSTATUSPROTOMSGS 1038

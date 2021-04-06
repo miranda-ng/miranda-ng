@@ -29,6 +29,9 @@
     <ClCompile Include="src\webview_services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\webview_ui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">

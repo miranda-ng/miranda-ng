@@ -4,6 +4,13 @@
 
 #include <m_db_int.h>
 
+struct CQuery
+{
+	~CQuery();
+
+	sqlite3_stmt *pQuery = nullptr;
+};
+
 struct DBCachedContact : public DBCachedContactBase
 {
 	int32_t  m_count;
@@ -72,22 +79,29 @@ class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 		}
 	} m_impl;
 
-	bool m_safetyMode, m_bReadOnly, m_bShared;
+	bool m_safetyMode, m_bReadOnly, m_bShared, m_bTranStarted;
 
+	// contacts
 	void InitContacts();
-	void UninitContacts();
+	CQuery qCntCount, qCntAdd, qCntDel, qCntDelSettings, qCntDelEvents, qCntDelEventSrt;
 
+	// encryption
+	void InitEncryption();
+	CQuery qCryptGetMode, qCryptSetMode, qCryptGetProvider, qCryptSetProvider, qCryptGetKey, qCryptSetKey, qCryptEnc1, qCryptEnc2;
+
+	// events
 	LIST<char> m_modules;
 	void InitEvents();
 	void UninitEvents();
+	CQuery qEvCount, qEvAdd, qEvDel, qEvEdit, qEvBlobSize, qEvGet, qEvGetFlags, qEvSetFlags, qEvGetContact;
+	CQuery qEvFindFirst, qEvFindNext, qEvFindLast, qEvFindPrev, qEvFindUnread, qEvGetById, qEvAddSrt, qEvDelSrt, qEvMetaSplit, qEvMetaMerge;
 
+	// settings
 	void InitSettings();
-	void UninitSettings();
-
-	void InitEncryption();
-	void UninintEncryption();
+	CQuery qSettModules, qSettWrite, qSettDel, qSettEnum, qSettChanges;
 
 	void DBFlush(bool bForce = false);
+	sqlite3_stmt* InitQuery(const char *szQuery, CQuery &stmt);
 
 public:
 	CDbxSQLite(const wchar_t *pwszFileName, bool bReadOnly, bool bShared);

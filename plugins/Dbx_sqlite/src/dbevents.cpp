@@ -1,66 +1,16 @@
 #include "stdafx.h"
 
-enum {
-	SQL_EVT_STMT_COUNT = 0,
-	SQL_EVT_STMT_ADDEVENT,
-	SQL_EVT_STMT_DELETE,
-	SQL_EVT_STMT_EDIT,
-	SQL_EVT_STMT_BLOBSIZE,
-	SQL_EVT_STMT_GET,
-	SQL_EVT_STMT_GETFLAGS,
-	SQL_EVT_STMT_SETFLAGS,
-	SQL_EVT_STMT_GETCONTACT,
-	SQL_EVT_STMT_FINDFIRST,
-	SQL_EVT_STMT_FINDNEXT,
-	SQL_EVT_STMT_FINDLAST,
-	SQL_EVT_STMT_FINDPREV,
-	SQL_EVT_STMT_FINDFIRSTUNREAD,
-	SQL_EVT_STMT_GETIDBYSRVID,
-	SQL_EVT_STMT_ADDEVENT_SRT,
-	SQL_EVT_STMT_DELETE_SRT,
-	SQL_EVT_STMT_META_SPLIT,
-	SQL_EVT_STMT_META_MERGE_SELECT,
-};
-
 //TODO: hide it inside cursor class
-static const char* normal_order_query = 
-	"SELECT id FROM events_srt WHERE contact_id = ? ORDER BY timestamp, id;";
-static const char* normal_order_pos_query =
-	"SELECT id FROM events_srt WHERE contact_id = ? AND id >= ? ORDER BY timestamp, id;";
+static const char normal_order_query[] = "SELECT id FROM events_srt WHERE contact_id = ? ORDER BY timestamp, id;";
+static const char normal_order_pos_query[] = "SELECT id FROM events_srt WHERE contact_id = ? AND id >= ? ORDER BY timestamp, id;";
 
-static const char* reverse_order_query =
-	"SELECT id FROM events_srt WHERE contact_id = ? ORDER BY timestamp desc, id DESC;";
-static const char* reverse_order_pos_query =
-	"SELECT id FROM events_srt WHERE contact_id = ? AND id <= ? ORDER BY timestamp desc, id DESC;";
+static const char reverse_order_query[] = "SELECT id FROM events_srt WHERE contact_id = ? ORDER BY timestamp desc, id DESC;";
+static const char reverse_order_pos_query[] = "SELECT id FROM events_srt WHERE contact_id = ? AND id <= ? ORDER BY timestamp desc, id DESC;";
 
-static CQuery evt_stmts[] =
-{
-	{ "SELECT COUNT(1) FROM events_srt WHERE contact_id = ? LIMIT 1;" },                                                    // SQL_EVT_STMT_COUNT 
-	{ "INSERT INTO events(contact_id, module, timestamp, type, flags, data, server_id) VALUES (?, ?, ?, ?, ?, ?, ?);" },    // SQL_EVT_STMT_ADDEVENT
-	{ "DELETE FROM events WHERE id = ?;" },                                                                                 // SQL_EVT_STMT_DELETE
-	{ "UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, data = ? WHERE id = ?;" },                         // SQL_EVT_STMT_EDIT
-	{ "SELECT LENGTH(data) FROM events WHERE id = ? LIMIT 1;" },                                                            // SQL_EVT_STMT_BLOBSIZE
-	{ "SELECT module, timestamp, type, flags, length(data), data FROM events WHERE id = ? LIMIT 1;" },                      // SQL_EVT_STMT_GET
-	{ "SELECT flags FROM events WHERE id = ? LIMIT 1;" },                                                                   // SQL_EVT_STMT_GETFLAGS
-	{ "UPDATE events SET flags = ? WHERE id = ?;" },                                                                        // SQL_EVT_STMT_SETFLAGS
-	{ "SELECT contact_id FROM events WHERE id = ? LIMIT 1;" },                                                              // SQL_EVT_STMT_GETCONTACT
-	{ normal_order_query },                                                                                                 // SQL_EVT_STMT_FINDFIRST
-	{ "SELECT id FROM events_srt WHERE contact_id = ? AND id > ? ORDER BY timestamp, id;" },                                // SQL_EVT_STMT_FINDNEXT
-	{ reverse_order_query },                                                                                                // SQL_EVT_STMT_FINDLAST
-	{ "SELECT id FROM events_srt WHERE contact_id = ? AND id < ? ORDER BY timestamp desc, id DESC;" },                      // SQL_EVT_STMT_FINDPREV
-	{ "SELECT id, timestamp FROM events WHERE contact_id = ? AND (flags & ?) = 0 ORDER BY timestamp, id LIMIT 1;" },        // SQL_EVT_STMT_FINDFIRSTUNREAD
-	{ "SELECT id, timestamp FROM events WHERE module = ? AND server_id = ? LIMIT 1;" },                                     // SQL_EVT_STMT_GETIDBYSRVID
-	{ "INSERT INTO events_srt(id, contact_id, timestamp) VALUES (?, ?, ?);" },                                              // SQL_EVT_STMT_ADDEVENT_SRT
-	{ "DELETE FROM events_srt WHERE id = ?;" },                                                                             // SQL_EVT_STMT_DELETE_SRT
-	{ "DELETE FROM events_srt WHERE contact_id = ?;" },                                                                     // SQL_EVT_STMT_META_SPLIT
-	{ "SELECT id, timestamp FROM events WHERE contact_id = ?;" },                                                           // SQL_EVT_STMT_META_MERGE_SELECT
-};
+static const char add_event_sort_query[] = "INSERT INTO events_srt(id, contact_id, timestamp) VALUES (?, ?, ?);";
 
 void CDbxSQLite::InitEvents()
 {
-	for (auto &it : evt_stmts)
-		sqlite3_prepare_v3(m_db, it.szQuery, -1, SQLITE_PREPARE_PERSISTENT, &it.pQuery, nullptr);
-
 	sqlite3_stmt *stmt = nullptr;
 	sqlite3_prepare_v2(m_db, "SELECT DISTINCT module FROM events;", -1, &stmt, nullptr);
 	int rc = 0;
@@ -78,9 +28,6 @@ void CDbxSQLite::UninitEvents()
 	for (auto &module : m_modules)
 		mir_free(module);
 	m_modules.destroy();
-
-	for (auto &it : evt_stmts)
-		sqlite3_finalize(it.pQuery);
 }
 
 LONG CDbxSQLite::GetEventCount(MCONTACT hContact)
@@ -90,7 +37,7 @@ LONG CDbxSQLite::GetEventCount(MCONTACT hContact)
 		return cc->m_count;
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_COUNT].pQuery;
+	sqlite3_stmt *stmt = InitQuery("SELECT COUNT(1) FROM events_srt WHERE contact_id = ? LIMIT 1;", qEvCount);
 	sqlite3_bind_int64(stmt, 1, hContact);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -154,7 +101,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	}
 
 	mir_cslockfull lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_ADDEVENT].pQuery;
+	sqlite3_stmt *stmt = InitQuery("INSERT INTO events(contact_id, module, timestamp, type, flags, data, server_id) VALUES (?, ?, ?, ?, ?, ?, ?);", qEvAdd);
 	sqlite3_bind_int64(stmt, 1, hContact);
 	sqlite3_bind_text(stmt, 2, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
 	sqlite3_bind_int64(stmt, 3, tmp.timestamp);
@@ -168,7 +115,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 
 	MEVENT hDbEvent = sqlite3_last_insert_rowid(m_db);
 
-	stmt = evt_stmts[SQL_EVT_STMT_ADDEVENT_SRT].pQuery;
+	stmt = InitQuery(add_event_sort_query, qEvAddSrt);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	sqlite3_bind_int64(stmt, 2, cc->contactID);
 	sqlite3_bind_int64(stmt, 3, tmp.timestamp);
@@ -178,7 +125,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 
 	cc->AddEvent(hDbEvent, tmp.timestamp, !tmp.markedRead());
 	if (ccSub != nullptr) {
-		stmt = evt_stmts[SQL_EVT_STMT_ADDEVENT_SRT].pQuery;
+		stmt = InitQuery(add_event_sort_query, qEvAddSrt);
 		sqlite3_bind_int64(stmt, 1, hDbEvent);
 		sqlite3_bind_int64(stmt, 2, ccSub->contactID);
 		sqlite3_bind_int64(stmt, 3, tmp.timestamp);
@@ -213,7 +160,7 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 		return 1;
 
 	mir_cslockfull lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_DELETE].pQuery;
+	sqlite3_stmt *stmt = InitQuery("DELETE FROM events WHERE id = ?;", qEvDel);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -221,7 +168,7 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	if (rc != SQLITE_DONE)
 		return 1;
 
-	stmt = evt_stmts[SQL_EVT_STMT_DELETE_SRT].pQuery;
+	stmt = InitQuery("DELETE FROM events_srt WHERE id = ?;", qEvDelSrt);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -265,7 +212,7 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO
 	}
 
 	mir_cslockfull lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_EDIT].pQuery;
+	sqlite3_stmt *stmt = InitQuery("UPDATE events SET module = ?, timestamp = ?, type = ?, flags = ?, data = ? WHERE id = ?;", qEvEdit);
 	sqlite3_bind_text(stmt, 1, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
 	sqlite3_bind_int64(stmt, 2, tmp.timestamp);
 	sqlite3_bind_int(stmt, 3, tmp.eventType);
@@ -297,7 +244,7 @@ LONG CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 		return -1;
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_BLOBSIZE].pQuery;
+	sqlite3_stmt *stmt = InitQuery("SELECT LENGTH(data) FROM events WHERE id = ? LIMIT 1;", qEvBlobSize);
 	sqlite3_bind_int(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -325,7 +272,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_GET].pQuery;
+	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, length(data), data FROM events WHERE id = ? LIMIT 1;", qEvGet);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -380,7 +327,7 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 	DWORD flags = 0;
 	{
 		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_GETFLAGS].pQuery;
+		sqlite3_stmt *stmt = InitQuery("SELECT flags FROM events WHERE id = ? LIMIT 1;", qEvGetFlags);
 		sqlite3_bind_int64(stmt, 1, hDbEvent);
 		int rc = sqlite3_step(stmt);
 		logError(rc, __FILE__, __LINE__);
@@ -398,7 +345,7 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 	flags |= DBEF_READ;
 	{
 		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_SETFLAGS].pQuery;
+		sqlite3_stmt *stmt = InitQuery("UPDATE events SET flags = ? WHERE id = ?;", qEvSetFlags);
 		sqlite3_bind_int(stmt, 1, flags);
 		sqlite3_bind_int64(stmt, 2, hDbEvent);
 		int rc = sqlite3_step(stmt);
@@ -423,7 +370,7 @@ MCONTACT CDbxSQLite::GetEventContact(MEVENT hDbEvent)
 		return INVALID_CONTACT_ID;
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_GETCONTACT].pQuery;
+	sqlite3_stmt *stmt = InitQuery("SELECT contact_id FROM events WHERE id = ? LIMIT 1;", qEvGetContact);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -474,7 +421,7 @@ MEVENT CDbxSQLite::FindFirstUnreadEvent(MCONTACT hContact)
 		return cc->m_unread;
 	}
 
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_FINDFIRSTUNREAD].pQuery;
+	sqlite3_stmt *stmt = InitQuery("SELECT id, timestamp FROM events WHERE contact_id = ? AND (flags & ?) = 0 ORDER BY timestamp, id LIMIT 1;", qEvFindUnread);
 	sqlite3_bind_int64(stmt, 1, hContact);
 	sqlite3_bind_int(stmt, 2, DBEF_READ | DBEF_SENT);
 	int rc = sqlite3_step(stmt);
@@ -504,7 +451,7 @@ MEVENT CDbxSQLite::FindFirstEvent(MCONTACT hContact)
 		sqlite3_reset(fwd.cur);
 
 	fwd.hContact = hContact;
-	fwd.cur = evt_stmts[SQL_EVT_STMT_FINDFIRST].pQuery;
+	fwd.cur = InitQuery(normal_order_query, qEvFindFirst);
 	sqlite3_bind_int64(fwd.cur, 1, hContact);
 
 	int rc = sqlite3_step(fwd.cur);
@@ -530,7 +477,7 @@ MEVENT CDbxSQLite::FindNextEvent(MCONTACT hContact, MEVENT hDbEvent)
 			sqlite3_reset(fwd.cur);
 
 		fwd.hContact = hContact;
-		fwd.cur = evt_stmts[SQL_EVT_STMT_FINDNEXT].pQuery;
+		fwd.cur = InitQuery("SELECT id FROM events_srt WHERE contact_id = ? AND id > ? ORDER BY timestamp, id;", qEvFindNext);
 		sqlite3_bind_int64(fwd.cur, 1, hContact);
 		sqlite3_bind_int64(fwd.cur, 2, hDbEvent);
 	}
@@ -560,7 +507,7 @@ MEVENT CDbxSQLite::FindLastEvent(MCONTACT hContact)
 		sqlite3_reset(back.cur);
 
 	back.hContact = hContact;
-	back.cur = evt_stmts[SQL_EVT_STMT_FINDLAST].pQuery;
+	back.cur = InitQuery(reverse_order_query, qEvFindLast);
 	sqlite3_bind_int64(back.cur, 1, hContact);
 	int rc = sqlite3_step(back.cur);
 	logError(rc, __FILE__, __LINE__);
@@ -586,7 +533,7 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 			sqlite3_reset(back.cur);
 
 		back.hContact = hContact;
-		back.cur = evt_stmts[SQL_EVT_STMT_FINDPREV].pQuery;
+		back.cur = InitQuery("SELECT id FROM events_srt WHERE contact_id = ? AND id < ? ORDER BY timestamp desc, id DESC;", qEvFindPrev);
 		sqlite3_bind_int64(back.cur, 1, hContact);
 		sqlite3_bind_int64(back.cur, 2, hDbEvent);
 	}
@@ -608,12 +555,12 @@ BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSu
 {
 	//TODO: test this
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_META_MERGE_SELECT].pQuery;
+	sqlite3_stmt *stmt = InitQuery("SELECT id, timestamp FROM events WHERE contact_id = ?;", qEvMetaMerge);
 	sqlite3_bind_int64(stmt, 1, ccSub->contactID);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	while (rc == SQLITE_ROW) {
-		sqlite3_stmt *stmt2 = evt_stmts[SQL_EVT_STMT_ADDEVENT_SRT].pQuery;
+		sqlite3_stmt *stmt2 = InitQuery(add_event_sort_query, qEvAddSrt);
 		sqlite3_bind_int64(stmt2, 1, sqlite3_column_int64(stmt, 0));
 		sqlite3_bind_int64(stmt2, 2, ccMeta->contactID);
 		sqlite3_bind_int64(stmt2, 3, sqlite3_column_int64(stmt, 1));
@@ -632,7 +579,7 @@ BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSu
 BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *)
 {
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_META_SPLIT].pQuery;
+	sqlite3_stmt *stmt = InitQuery("DELETE FROM events_srt WHERE contact_id = ?;", qEvMetaSplit);
 	sqlite3_bind_int64(stmt, 1, ccMeta->contactID);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -653,7 +600,7 @@ MEVENT CDbxSQLite::GetEventById(LPCSTR szModule, LPCSTR szId)
 		return 0;
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = evt_stmts[SQL_EVT_STMT_GETIDBYSRVID].pQuery;
+	sqlite3_stmt *stmt = InitQuery("SELECT id, timestamp FROM events WHERE module = ? AND server_id = ? LIMIT 1;", qEvGetById);
 	sqlite3_bind_text(stmt, 1, szModule, (int)mir_strlen(szModule), nullptr);
 	sqlite3_bind_text(stmt, 2, szId, (int)mir_strlen(szId), nullptr);
 	int rc = sqlite3_step(stmt);

@@ -1,8 +1,7 @@
 #include "stdafx.h"
 
-CMLuaOptionsMain::CMLuaOptionsMain(CMPlugin &plugin) :
-	CDlgBase(plugin, IDD_OPTIONSMAIN),
-	m_plugin(plugin),
+CMLuaOptionsMain::CMLuaOptionsMain() :
+	CDlgBase(g_plugin, IDD_OPTIONSMAIN),
 	m_popupOnError(this, IDC_POPUPONERROR),
 	m_popupOnObsolete(this, IDC_POPUPONOBSOLETE),
 	m_scriptsList(this, IDC_SCRIPTS),
@@ -31,7 +30,7 @@ static int ScriptStatusToIcon(ScriptStatus status)
 
 void CMLuaOptionsMain::LoadScripts()
 {
-	for (auto &script : m_plugin.m_scripts.rev_iter()) {
+	for (auto &script : g_plugin.m_scripts.rev_iter()) {
 		int iIcon = ScriptStatusToIcon(script->GetStatus());
 		int iItem = m_scriptsList.AddItem(script->GetName(), iIcon, (LPARAM)script);
 		m_scriptsList.SetCheckState(iItem, script->IsEnabled());
@@ -134,21 +133,21 @@ void CMLuaOptionsMain::OnReload(CCtrlBase*)
 {
 	m_scriptsList.SetSilent(true);
 	m_scriptsList.DeleteAllItems();
-	m_plugin.ReloadLuaScripts();
+	g_plugin.ReloadLuaScripts();
 	LoadScripts();
 	m_scriptsList.SetSilent(false);
 }
 
 /***********************************************/
 
-CMLuaEvaluateOptions::CMLuaEvaluateOptions(CMPlugin &plugin)
-	: CDlgBase(plugin, IDD_OPTIONSEVALUATE),
+CMLuaEvaluateOptions::CMLuaEvaluateOptions() :
+	CDlgBase(g_plugin, IDD_OPTIONSEVALUATE),
 	m_script(this, IDC_SCRIPTTEXT),
 	m_result(this, IDC_SCRIPTRESULT),
 	m_autoEval(this, IDC_AUTOEVAL),
 	m_evaluate(this, IDC_EVALUATE)
 {
-	this->L = lua_newthread(plugin.L);
+	this->L = lua_newthread(g_plugin.L);
 	threadRef = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	CreateLink(m_autoEval, "AutoEval", DBVT_BYTE, 0);

@@ -23,7 +23,8 @@
 #include "stdafx.h"
 #include "webview.h"
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static char     Searchstr[128];
@@ -115,7 +116,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return FALSE;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static wchar_t tszSizeString[] = L"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
@@ -450,7 +451,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int DataDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
@@ -466,7 +467,7 @@ int DataDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void SavewinSettings(void)
 {
@@ -486,7 +487,7 @@ void SavewinSettings(void)
 
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void ValidatePosition(HWND)
 {
 	RECT r;

@@ -332,7 +332,3 @@ static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags 
 		return -1;
 	}
 }
-
-//icons
-extern IconItem iconList[];
-HICON GetIcon(int iconId, bool size = false);

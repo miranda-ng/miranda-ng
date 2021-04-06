@@ -1,195 +1,146 @@
-//////////////////
 #include <windows.h>
+// Microsoft Visual C++ generated resource script.
+//
 #include "..\src\resource.h"
-///////////////////
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
 
-
-
-
-/////////////////////////////
-////Icons
-/////////////////////////////
-
-IDI_SITE         ICON    DISCARDABLE     "web.ico"
-IDI_STICK        ICON    DISCARDABLE     "stick.ico"
-IDI_UNSTICK      ICON    DISCARDABLE     "unstick.ico"
-IDI_URL ICON    DISCARDABLE     "url.ico"
-IDI_OPTIONS      ICON    DISCARDABLE     "options.ico"
-IDI_UPDATE       ICON    DISCARDABLE     "update.ico"
-IDI_SHOW_HIDE    ICON    DISCARDABLE     "show_hide.ico"
-IDI_FIND         ICON    DISCARDABLE     "find.ico"
-IDI_ALERT        ICON    DISCARDABLE     "alert.ico"
-IDI_FOLDER       ICON    DISCARDABLE     "folder.ico"
-IDI_UPDATEALL    ICON    DISCARDABLE     "updateall.ico"
-IDI_MARKALLREAD  ICON    DISCARDABLE     "markallread.ico"
-IDI_PING         ICON    DISCARDABLE     "ping.ico"
-IDI_STOP         ICON    DISCARDABLE     "stop.ico"
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SITE                ICON                    "web.ico"
+
+IDI_STICK               ICON                    "stick.ico"
+
+IDI_UNSTICK             ICON                    "unstick.ico"
+
+IDI_URL                 ICON                    "url.ico"
+
+IDI_OPTIONS             ICON                    "options.ico"
+
+IDI_UPDATE              ICON                    "update.ico"
+
+IDI_SHOW_HIDE           ICON                    "show_hide.ico"
+
+IDI_FIND                ICON                    "find.ico"
+
+IDI_ALERT               ICON                    "alert.ico"
+
+IDI_FOLDER              ICON                    "folder.ico"
+
+IDI_UPDATEALL           ICON                    "updateall.ico"
+
+IDI_MARKALLREAD         ICON                    "markallread.ico"
+
+IDI_PING                ICON                    "ping.ico"
+
+IDI_STOP                ICON                    "stop.ico"
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
 
-//////////////////////////
-//// Main Options
-///////////////////////////
-IDD_OPT DIALOGEX 0,0,280,231
+IDD_OPT DIALOGEX 0, 0, 280, 231
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    //
-
     GROUPBOX        "Webview",IDC_STATIC,1,11,278,63,WS_GROUP
-    //
-    LTEXT  "Update data every",IDC_STATIC,6,26,100,8
+    LTEXT           "Update data every",IDC_STATIC,6,26,100,8
     EDITTEXT        IDC_TIME,84,26,28,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT |
-        UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS |
-        UDS_NOTHOUSANDS,125,11,7,11
-    LTEXT  "minutes",IDC_STATIC,113,26,25,8
-    //
-    LTEXT  "Delay update on start",IDC_STARTDELAYTXT,6,49,100,8
+    CONTROL         "Spin1",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,125,11,7,11
+    LTEXT           "minutes",IDC_STATIC,113,26,25,8
+    LTEXT           "Delay update on start",IDC_STARTDELAYTXT,6,49,100,8
     EDITTEXT        IDC_START_DELAY,84,49,28,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Spin2",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT |
-        UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS |
-        UDS_NOTHOUSANDS,125,34,7,11
-    LTEXT  "seconds",IDC_STDELAYSECTXT,113,49,36,8
-    //
-    CONTROL         "Hide icon on status bar",IDC_HIDE_STATUS_ICON,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,150,20,128,8
-    CONTROL         "Disable main menu items",IDC_DISABLEMENU,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,150,30,128,8
-    CONTROL         "Load page on window open",IDC_UPDATE_ON_OPEN,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,150,40,128,8
-    CONTROL         "Update data on startup",IDC_UPDATE_ONSTART,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,150,50,128,8
-    CONTROL         "Only update window on alert",IDC_UPDATE_ONALERT,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,150,60,128,8
-
-///////////
-
-   GROUPBOX        "Window appearance",IDC_STATIC,1,75,278,62
-   LTEXT  "Background color:",IDC_STATIC,16,85,69,8
-   CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,85,85,20,8
-   LTEXT  "Text color:",IDC_STATIC,16,95,69,8
-   CONTROL         "",IDC_TXTCOLOR,"ColourPicker",WS_TABSTOP,85,95,20,8
-
-   COMBOBOX        IDC_TYPEFACE,16,105,136,182,CBS_DROPDOWN | CBS_SORT |
-        WS_VSCROLL | WS_TABSTOP
-   COMBOBOX        IDC_SCRIPT,58,120,72,68,CBS_DROPDOWNLIST | WS_VSCROLL |
-        WS_TABSTOP
-
-   COMBOBOX        IDC_FONTSIZE,16,120,40,69,CBS_DROPDOWN | WS_VSCROLL |
-        WS_TABSTOP
-   CONTROL         "Bold",IDC_FONT_BOLD,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,160,90,48,8
-   CONTROL         "Italic",IDC_FONT_ITALIC,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,160,100,48,8
-   CONTROL         "Underline",IDC_FONT_UNDERLINE,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,160,110,58,8
-   CONTROL         "Save individual window positions",IDC_SAVE_INDIVID_POS,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,132,122,146,8
-
-///////////
-   GROUPBOX        "Error messages",IDC_STATIC,1,137,278,25
-   CONTROL         "Suppress error messages",IDC_SUPPRESS,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,16,149,113,8
-   CONTROL         "Display using popup or OSD plugin",IDC_ERROR_POPUP,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,140,149,130,8
-//////////
-   GROUPBOX         "Expert options",IDC_ADV_GRP,142,163,137,35,WS_GROUP
-   CONTROL "Disable download protection",IDC_NO_PROTECT,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP,148,175,130,8
-   LTEXT "(not recommended)",IDC_NOT_RECOMND_TXT,148,185,122,8
-//////////
-   GROUPBOX         "Display data in popup on alert",IDC_STATIC, 1, 164, 139, 34
-   CONTROL "Display data in popup", IDC_DATAPOPUP , "Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP, 16, 177, 120, 8
-/////
-   LTEXT "You may need to restart Miranda NG for this change to take effect.",IDC_RESTART,
-         30,220,230,8,NOT WS_VISIBLE
-
-
+    CONTROL         "Spin2",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,125,34,7,11
+    LTEXT           "seconds",IDC_STDELAYSECTXT,113,49,36,8
+    CONTROL         "Hide icon on status bar",IDC_HIDE_STATUS_ICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,20,128,8
+    CONTROL         "Load page on window open",IDC_UPDATE_ON_OPEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,33,128,8
+    CONTROL         "Update data on startup",IDC_UPDATE_ONSTART,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,47,128,8
+    CONTROL         "Only update window on alert",IDC_UPDATE_ONALERT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,60,128,8
+    GROUPBOX        "Window appearance",IDC_STATIC,1,75,278,62
+    LTEXT           "Background color:",IDC_STATIC,16,85,69,8
+    CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,85,85,20,8
+    LTEXT           "Text color:",IDC_STATIC,16,95,69,8
+    CONTROL         "",IDC_TXTCOLOR,"ColourPicker",WS_TABSTOP,85,95,20,8
+    COMBOBOX        IDC_TYPEFACE,16,105,136,182,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SCRIPT,58,120,72,68,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FONTSIZE,16,120,40,69,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Bold",IDC_FONT_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,90,48,8
+    CONTROL         "Italic",IDC_FONT_ITALIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,100,48,8
+    CONTROL         "Underline",IDC_FONT_UNDERLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,110,58,8
+    CONTROL         "Save individual window positions",IDC_SAVE_INDIVID_POS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,132,122,146,8
+    GROUPBOX        "Error messages",IDC_STATIC,1,137,278,25
+    CONTROL         "Suppress error messages",IDC_SUPPRESS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,149,113,8
+    CONTROL         "Display using popup or OSD plugin",IDC_ERROR_POPUP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,140,149,130,8
+    GROUPBOX        "Expert options",IDC_ADV_GRP,142,163,137,35,WS_GROUP
+    CONTROL         "Disable download protection",IDC_NO_PROTECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,175,130,8
+    LTEXT           "(not recommended)",IDC_NOT_RECOMND_TXT,148,185,122,8
+    GROUPBOX        "Display data in popup on alert",IDC_STATIC,1,164,139,34
+    CONTROL         "Display data in popup",IDC_DATAPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,177,120,8
+    LTEXT           "You may need to restart Miranda NG for this change to take effect.",IDC_RESTART,30,220,230,8,NOT WS_VISIBLE
 END
 
-///////////////////////////////////////////////////////////////////////////////////
-//data window
-////////////////
 IDD_DISPLAY_DATA DIALOGEX 0, 0, 212, 150
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP |
-   NOT WS_VISIBLE  | WS_SYSMENU | WS_CAPTION | WS_THICKFRAME |WS_MAXIMIZEBOX |
-    WS_MINIMIZEBOX
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION ""
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
-
 BEGIN
-
-CONTROL         "",IDC_UPDATE_BUTTON,"MButtonClass",WS_TABSTOP,5,1,16,14
-CONTROL         "",IDC_STICK_BUTTON,"MButtonClass",WS_TABSTOP,25,1,16,14
-CONTROL         "",IDC_FIND_BUTTON,"MButtonClass",WS_TABSTOP,45,1,16,14
-CONTROL         "",IDC_OPTIONS_BUTTON,"MButtonClass",WS_TABSTOP,65,1,16,14
-CONTROL         "",IDC_ALERT_BUTTON ,"MButtonClass",WS_TABSTOP,85,1,16,14
-CONTROL         "",IDC_STOP ,"MButtonClass",WS_TABSTOP,105,1,16,14
-CONTROL         "",IDC_OPEN_URL ,"MButtonClass",WS_TABSTOP,1,19,212,8
-CONTROL         "",IDC_DATA,"RichEdit50W", ES_LEFT | ES_MULTILINE | ES_WANTRETURN | WS_CHILD | WS_VISIBLE | WS_VSCROLL, 1, 28, 209, 110
-CONTROL         "", IDC_STATUSBAR, "msctls_statusbar32", SBARS_SIZEGRIP | WS_CHILD | WS_VISIBLE, 128, 4, 60, 12
-
+    CONTROL         "",IDC_UPDATE_BUTTON,"MButtonClass",WS_TABSTOP,5,1,16,14
+    CONTROL         "",IDC_STICK_BUTTON,"MButtonClass",WS_TABSTOP,25,1,16,14
+    CONTROL         "",IDC_FIND_BUTTON,"MButtonClass",WS_TABSTOP,45,1,16,14
+    CONTROL         "",IDC_OPTIONS_BUTTON,"MButtonClass",WS_TABSTOP,65,1,16,14
+    CONTROL         "",IDC_ALERT_BUTTON,"MButtonClass",WS_TABSTOP,85,1,16,14
+    CONTROL         "",IDC_STOP,"MButtonClass",WS_TABSTOP,105,1,16,14
+    CONTROL         "",IDC_OPEN_URL,"MButtonClass",WS_TABSTOP,1,19,212,8
+    CONTROL         "",IDC_DATA,"RichEdit50W",WS_VSCROLL | 0x1004,1,28,209,110
+    CONTROL         "",IDC_STATUSBAR,"msctls_statusbar32",0x100,128,4,60,12
 END
 
-
-///////////////////////////////////////////////////////////////////////
-///contact options
-//////////
 IDD_CONTACT_OPT DIALOGEX 0, 0, 367, 115
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-//
-  GROUPBOX        "Webview",IDC_STATIC, 4, 1, 239, 44 ,WS_GROUP
-  RTEXT  "Contact name:",IDC_STATIC,7, 14, 72, 8
-  EDITTEXT        IDC_SITE_NAME, 80, 12, 158, 12 ,ES_AUTOHSCROLL
-  RTEXT  "URL:",IDC_STATIC,7, 28, 72, 8
-  EDITTEXT        IDC_URL, 80, 26, 158, 12,ES_AUTOHSCROLL
-  //
-  GROUPBOX        "Display", IDC_STATIC, 245, 1, 120, 92,WS_GROUP
-  CONTROL         "Between start and end strings",IDC_U_SE_STRINGS,"Button",
-        BS_AUTORADIOBUTTON, 249, 25, 113, 8
-  CONTROL         "Whole web page",IDC_U_ALLSITE,"Button",
-        BS_AUTORADIOBUTTON, 249, 12, 113, 8
-  RTEXT  "Start:",IDC_STATIC, 249, 39, 30, 8
-  EDITTEXT        IDC_START, 280, 37, 70, 12 ,ES_AUTOHSCROLL
-  RTEXT  "End:",IDC_STATIC,249, 53, 30, 8
-  EDITTEXT        IDC_END, 280, 51, 70, 12 ,ES_AUTOHSCROLL
-  DEFPUSHBUTTON   "Copy strings to alerts",IDC_CPY_STRINGS, 249, 66, 101, 12
-  //LTEXT  "(pastes strings)",IDC_CPY_STR_TXT, 270, 81, 92, 8
-  //
-  GROUPBOX        "Double click action",IDC_STATIC, 4, 47, 111, 47 ,WS_GROUP
-  CONTROL         "Opens web page",IDC_DBLE_WEB,"Button",
-        BS_AUTORADIOBUTTON, 6, 68, 105, 8
-  CONTROL         "Opens data window",IDC_DBLE_WIN,"Button",
-        BS_AUTORADIOBUTTON,6, 81, 105, 8
-  //
-  GROUPBOX        "Display clean-up",IDC_STATIC, 117, 47, 126, 47 ,WS_GROUP
-  CONTROL         "Remove HTML",IDC_CLEAN,"Button",
-        BS_AUTOCHECKBOX | WS_TABSTOP, 120, 59, 100, 8
-  CONTROL         "Slider1",IDC_RWSPACE,"msctls_trackbar32",TBS_BOTH |
-        TBS_NOTICKS | WS_TABSTOP,120, 70, 100, 8
-  LTEXT  "",IDC_RWSPC_TEXT, 120, 81, 120, 8 ,WS_VISIBLE
-  //
-  DEFPUSHBUTTON   "OK",IDOK, 207, 98, 50, 14
-  PUSHBUTTON      "Cancel",IDC_OPT_CANCEL, 261, 98, 50, 14
-  PUSHBUTTON      "Apply",IDC_OPT_APPLY, 315, 98, 50, 14
-
-
+    GROUPBOX        "Webview",IDC_STATIC,4,1,239,44,WS_GROUP
+    RTEXT           "Contact name:",IDC_STATIC,7,14,72,8
+    EDITTEXT        IDC_SITE_NAME,80,12,158,12,ES_AUTOHSCROLL
+    RTEXT           "URL:",IDC_STATIC,7,28,72,8
+    EDITTEXT        IDC_URL,80,26,158,12,ES_AUTOHSCROLL
+    GROUPBOX        "Display",IDC_STATIC,245,1,120,92,WS_GROUP
+    CONTROL         "Between start and end strings",IDC_U_SE_STRINGS,"Button",BS_AUTORADIOBUTTON,249,25,113,8
+    CONTROL         "Whole web page",IDC_U_ALLSITE,"Button",BS_AUTORADIOBUTTON,249,12,113,8
+    RTEXT           "Start:",IDC_STATIC,249,39,30,8
+    EDITTEXT        IDC_START,280,37,70,12,ES_AUTOHSCROLL
+    RTEXT           "End:",IDC_STATIC,249,53,30,8
+    EDITTEXT        IDC_END,280,51,70,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Copy strings to alerts",IDC_CPY_STRINGS,249,66,101,12
+    GROUPBOX        "Double click action",IDC_STATIC,4,47,111,47,WS_GROUP
+    CONTROL         "Opens web page",IDC_DBLE_WEB,"Button",BS_AUTORADIOBUTTON,6,68,105,8
+    CONTROL         "Opens data window",IDC_DBLE_WIN,"Button",BS_AUTORADIOBUTTON,6,81,105,8
+    GROUPBOX        "Display clean-up",IDC_STATIC,117,47,126,47,WS_GROUP
+    CONTROL         "Remove HTML",IDC_CLEAN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,59,100,8
+    CONTROL         "Slider1",IDC_RWSPACE,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,120,70,100,8
+    LTEXT           "",IDC_RWSPC_TEXT,120,81,120,8
+    DEFPUSHBUTTON   "OK",IDOK,207,98,50,14
+    PUSHBUTTON      "Cancel",IDC_OPT_CANCEL,261,98,50,14
+    PUSHBUTTON      "Apply",IDC_OPT_APPLY,315,98,50,14
 END
 
-/////////////////////////////////////////////////////////////////////////////////////
-//find window
-//////
 IDD_FIND DIALOGEX 0, 0, 230, 46
-STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Find"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -197,168 +148,175 @@ BEGIN
     EDITTEXT        IDC_FINDWHAT,48,11,115,12,ES_AUTOHSCROLL
     DEFPUSHBUTTON   "&Find next",IDC_OK,173,7,50,14
     PUSHBUTTON      "Cancel",IDC_CANCEL,173,24,50,14
-    LTEXT  "Find what:",IDC_STATIC,7,13,39,9
+    LTEXT           "Find what:",IDC_STATIC,7,13,39,9
     GROUPBOX        "",IDC_STATIC,48,24,115,18
-    LTEXT  "Search was completed.",IDC_SEARCH_COMPLETE,
-        52,30,90,8,NOT WS_VISIBLE
+    LTEXT           "Search was completed.",IDC_SEARCH_COMPLETE,52,30,90,8,NOT WS_VISIBLE
 END
 
-
-
-///////////////////////////////////
-//Alert Options
-////////
 IDD_ALRT_OPT DIALOGEX 0, 0, 337, 185
-STYLE DS_MODALFRAME | DS_3DLOOK | DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_CAPTION
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
-
 BEGIN
-
-   GROUPBOX        "Events and alerts",IDC_STATIC,3, 4, 331, 71,WS_GROUP
-   CONTROL         "Enable alerts",IDC_ENABLE_ALERTS,"Button",
-         BS_AUTOCHECKBOX | WS_TABSTOP, 9, 13, 82, 13
-   CONTROL         "Always log to file",IDC_ALWAYS_LOG,"Button",
-         BS_AUTOCHECKBOX | WS_TABSTOP, 9, 25, 82, 13
-       //
-   GROUPBOX        "",IDC_STATIC,7, 36, 324, 35 ,WS_GROUP
-   CONTROL         "Add time and date of alert to contact name",IDC_ADD_DATE_NAME,"Button",
-         BS_AUTOCHECKBOX | WS_TABSTOP, 9, 42, 235, 13
-   CONTROL         "Use 24 hour time format instead of 12 hour",IDC_24_HOUR,"Button",
-         BS_AUTOCHECKBOX | WS_TABSTOP,9, 57, 235, 13
-   CONTROL         "Add as prefix",IDC_PREFIX,"Button",
-        BS_AUTORADIOBUTTON, 248, 46, 82, 8
-   CONTROL         "Add as suffix",IDC_SUFFIX,"Button",
-        BS_AUTORADIOBUTTON, 248, 58, 82, 8
-    //
-   RTEXT  "Alert when:",IDC_STATIC, 120, 13, 63, 9
-   COMBOBOX        IDC_EVENT_TYPE,184, 11, 147, 63 ,CBS_DROPDOWN |
-        WS_VSCROLL | WS_TABSTOP
-   RTEXT  "Alert type:",IDC_STATIC, 120, 27, 63, 9
-   COMBOBOX        IDC_ALERT_TYPE, 184, 26, 147, 67 ,CBS_DROPDOWN |
-        WS_VSCROLL | WS_TABSTOP
-   //
-  //////////
-  GROUPBOX        "Test conditions",IDC_STATIC, 3, 77, 331, 58 ,WS_GROUP
-  //
-  GROUPBOX        "Alert when string is present on web page",IDC_STATIC, 7, 85, 144, 44 ,WS_GROUP
-  RTEXT  "String:",IDC_STATIC, 10, 99, 34, 8
-  EDITTEXT        IDC_ALERT_STRING, 45, 97, 103, 12 ,ES_AUTOHSCROLL
-  //
-   GROUPBOX        "Alert when specific area of web page changes",IDC_STATIC,155, 85, 176, 44 ,WS_GROUP
-   RTEXT  "Start:",IDC_STATIC, 163, 97, 36, 8
-   EDITTEXT        IDC_START2,200, 95, 126, 12,ES_AUTOHSCROLL
-   RTEXT  "End:",IDC_STATIC, 163, 112, 36, 8
-   EDITTEXT        IDC_END2,200, 110, 125, 12,ES_AUTOHSCROLL
-   //
-  /////////
-  //
-  GROUPBOX        "Log to file",IDC_STATIC, 3, 137, 246, 37,WS_GROUP
-  RTEXT  "Log file:",IDC_STATIC, 8, 148, 39, 9
-  EDITTEXT        IDC_FILENAME, 48, 147, 174, 12,ES_AUTOHSCROLL
-  PUSHBUTTON      "...",IDC_BROWSE, 228, 148, 15, 11
-  CONTROL         "Append data to file",IDC_APPEND,"Button",
-         BS_AUTOCHECKBOX | WS_TABSTOP,8, 161, 132, 8
-  CONTROL         "Save as raw data",IDC_SAVE_AS_RAW,"Button",
-         BS_AUTOCHECKBOX | WS_TABSTOP,141, 161, 106, 8
-
-  //
-
-  DEFPUSHBUTTON   "OK",IDC_OK2, 276, 137, 50, 14
-  PUSHBUTTON      "Cancel",IDC_ALERT_CANCEL, 276, 153, 50, 14
-  PUSHBUTTON      "Apply",IDC_ALERT_APPLY, 276, 169, 50, 14
-  //
-
-
-
-
+    GROUPBOX        "Events and alerts",IDC_STATIC,3,4,331,71,WS_GROUP
+    CONTROL         "Enable alerts",IDC_ENABLE_ALERTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,13,82,13
+    CONTROL         "Always log to file",IDC_ALWAYS_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,25,82,13
+    GROUPBOX        "",IDC_STATIC,7,36,324,35,WS_GROUP
+    CONTROL         "Add time and date of alert to contact name",IDC_ADD_DATE_NAME,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,42,235,13
+    CONTROL         "Use 24 hour time format instead of 12 hour",IDC_24_HOUR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,57,235,13
+    CONTROL         "Add as prefix",IDC_PREFIX,"Button",BS_AUTORADIOBUTTON,248,46,82,8
+    CONTROL         "Add as suffix",IDC_SUFFIX,"Button",BS_AUTORADIOBUTTON,248,58,82,8
+    RTEXT           "Alert when:",IDC_STATIC,120,13,63,9
+    COMBOBOX        IDC_EVENT_TYPE,184,11,147,63,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Alert type:",IDC_STATIC,120,27,63,9
+    COMBOBOX        IDC_ALERT_TYPE,184,26,147,67,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Test conditions",IDC_STATIC,3,77,331,58,WS_GROUP
+    GROUPBOX        "Alert when string is present on web page",IDC_STATIC,7,85,144,44,WS_GROUP
+    RTEXT           "String:",IDC_STATIC,10,99,34,8
+    EDITTEXT        IDC_ALERT_STRING,45,97,103,12,ES_AUTOHSCROLL
+    GROUPBOX        "Alert when specific area of web page changes",IDC_STATIC,155,85,176,44,WS_GROUP
+    RTEXT           "Start:",IDC_STATIC,163,97,36,8
+    EDITTEXT        IDC_START2,200,95,126,12,ES_AUTOHSCROLL
+    RTEXT           "End:",IDC_STATIC,163,112,36,8
+    EDITTEXT        IDC_END2,200,110,125,12,ES_AUTOHSCROLL
+    GROUPBOX        "Log to file",IDC_STATIC,3,137,246,37,WS_GROUP
+    RTEXT           "Log file:",IDC_STATIC,8,148,39,9
+    EDITTEXT        IDC_FILENAME,48,147,174,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BROWSE,228,148,15,11
+    CONTROL         "Append data to file",IDC_APPEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,161,132,8
+    CONTROL         "Save as raw data",IDC_SAVE_AS_RAW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,141,161,106,8
+    DEFPUSHBUTTON   "OK",IDC_OK2,276,137,50,14
+    PUSHBUTTON      "Cancel",IDC_ALERT_CANCEL,276,153,50,14
+    PUSHBUTTON      "Apply",IDC_ALERT_APPLY,276,169,50,14
 END
-//////////////
-//popup options
-///////
+
 IDD_POPUP DIALOGEX 0, 0, 306, 183
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    ////
     GROUPBOX        "Popup timeout",IDC_STATIC,8,5,150,54,WS_GROUP
-    //CONTROL         "Timeout",IDC_PD3,"Button",BS_AUTORADIOBUTTON,18,15,47,8
-    LTEXT  "Timeout",IDC_STATIC,18,15,47,8
-    EDITTEXT        IDC_DELAY,65,15,31,9,ES_RIGHT | ES_AUTOHSCROLL |
-        ES_NUMBER | NOT WS_BORDER,WS_EX_STATICEDGE
-    LTEXT  "seconds",IDC_STATIC,106,15,34,10
-    //CONTROL         "Default",IDC_PD1,"Button",BS_AUTORADIOBUTTON,
-    //    18,30,110,12
-    CONTROL         "Default",IDC_PD1,"MButtonClass",WS_TABSTOP,
-        18,30,110,12
-    //CONTROL         "Permanent",IDC_PD2,"Button",BS_AUTORADIOBUTTON,18,45,
-    //    110,12
-    CONTROL         "Permanent",IDC_PD2,"MButtonClass",WS_TABSTOP,18,45,
-        110,12
-
-     ////
-    CONTROL         "Preview",IDC_PREVIEW,"MButtonClass",WS_TABSTOP,223,30,
-        45,11,0x18000000L
-    ////
+    LTEXT           "Timeout",IDC_STATIC,18,15,47,8
+    EDITTEXT        IDC_DELAY,65,15,31,9,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "seconds",IDC_STATIC,106,15,34,10
+    CONTROL         "Default",IDC_PD1,"MButtonClass",WS_TABSTOP,18,30,110,12
+    CONTROL         "Permanent",IDC_PD2,"MButtonClass",WS_TABSTOP,18,45,110,12
+    CONTROL         "Preview",IDC_PREVIEW,"MButtonClass",WS_TABSTOP,223,30,45,11,WS_EX_NOACTIVATE | 0x10000000L
     GROUPBOX        "Colors",IDC_STATIC,8,60,270,60,WS_GROUP
-    CONTROL         "Use custom colors",IDC_POP_USECUSTCOLORS,"Button",
-        BS_AUTORADIOBUTTON,18,70,111,13
-    CONTROL         "Use Windows colors",IDC_POP_USEWINCOLORS,"Button",
-        BS_AUTORADIOBUTTON,18,85,121,13
-    CONTROL         "Use same colors as data window", IDC_POP_USESAMECOLORS,"Button",
-        BS_AUTORADIOBUTTON,18,100,161,13
-
-    LTEXT  "Background",IDC_STATIC,223,65,50,8,SS_CENTERIMAGE
-    LTEXT  "Text",IDC_STATIC,147,65,50,8,SS_CENTERIMAGE
+    CONTROL         "Use custom colors",IDC_POP_USECUSTCOLORS,"Button",BS_AUTORADIOBUTTON,18,70,111,13
+    CONTROL         "Use Windows colors",IDC_POP_USEWINCOLORS,"Button",BS_AUTORADIOBUTTON,18,85,121,13
+    CONTROL         "Use same colors as data window",IDC_POP_USESAMECOLORS,
+                    "Button",BS_AUTORADIOBUTTON,18,100,161,13
+    LTEXT           "Background",IDC_STATIC,223,65,50,8,SS_CENTERIMAGE
+    LTEXT           "Text",IDC_STATIC,147,65,50,8,SS_CENTERIMAGE
     CONTROL         "",IDC_POP_BGCOLOUR,"ColourPicker",WS_TABSTOP,223,75,35,11
     CONTROL         "",IDC_POP_TEXTCOLOUR,"ColourPicker",WS_TABSTOP,147,75,35,11
-    ////
-
     GROUPBOX        "Left click action",IDC_STATIC,8,125,120,54,WS_GROUP
-    CONTROL         "Open data display window",IDC_LCLK_WINDOW,"Button",
-        BS_AUTORADIOBUTTON,18,135,100,8
-    CONTROL         "Open web page",IDC_LCLK_WEB_PGE,"Button",
-        BS_AUTORADIOBUTTON,18,150,100,8
-    CONTROL         "Dismiss popup",IDC_LCLK_DISMISS,"Button",
-        BS_AUTORADIOBUTTON,18,165,100,8
-
-
+    CONTROL         "Open data display window",IDC_LCLK_WINDOW,"Button",BS_AUTORADIOBUTTON,18,135,100,8
+    CONTROL         "Open web page",IDC_LCLK_WEB_PGE,"Button",BS_AUTORADIOBUTTON,18,150,100,8
+    CONTROL         "Dismiss popup",IDC_LCLK_DISMISS,"Button",BS_AUTORADIOBUTTON,18,165,100,8
     GROUPBOX        "Right click action",IDC_STATIC,160,125,120,54,WS_GROUP
-    CONTROL         "Open data display window",IDC_RCLK_WINDOW,"Button",
-        BS_AUTORADIOBUTTON,170,135,100,8
-    CONTROL         "Open web page",IDC_RCLK_WEB_PGE,"Button",
-        BS_AUTORADIOBUTTON,170,150,100,8
-    CONTROL         "Dismiss popup",IDC_RCLK_DISMISS,"Button",
-        BS_AUTORADIOBUTTON,170,165,100,8
-
-   //CONTROL         "Use popup plugins notify popups",IDC_PUALERT,"Button",
-   //     BS_AUTOCHECKBOX | WS_TABSTOP,16,185,130,8
-
+    CONTROL         "Open data display window",IDC_RCLK_WINDOW,"Button",BS_AUTORADIOBUTTON,170,135,100,8
+    CONTROL         "Open web page",IDC_RCLK_WEB_PGE,"Button",BS_AUTORADIOBUTTON,170,150,100,8
+    CONTROL         "Dismiss popup",IDC_RCLK_DISMISS,"Button",BS_AUTORADIOBUTTON,170,165,100,8
 END
 
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
 
-
-
-/////////////////////////////
-
-///////////////
-//Menus
-///////////////
-
-IDR_CONTEXT MENU DISCARDABLE
+IDR_CONTEXT MENU
 BEGIN
-     POPUP "Log"
+    POPUP "Log"
     BEGIN
-        MENUITEM "&Copy",  IDM_COPY
-        MENUITEM "C&ut", IDM_CUT
-        MENUITEM "&Delete",         IDM_DELETE
-        MENUITEM "&Paste", IDM_PASTE
+        MENUITEM "&Copy",                       IDM_COPY
+        MENUITEM "C&ut",                        IDM_CUT
+        MENUITEM "&Delete",                     IDM_DELETE
+        MENUITEM "&Paste",                      IDM_PASTE
         MENUITEM SEPARATOR
-        MENUITEM "Co&py all",       IDM_COPYALL
-        MENUITEM "&Select all",     IDM_SELECTALL
-        MENUITEM "C&lear all",      IDM_CLEAR_ALL
-
-     END
+        MENUITEM "Co&py all",                   IDM_COPYALL
+        MENUITEM "&Select all",                 IDM_SELECTALL
+        MENUITEM "C&lear all",                  IDM_CLEAR_ALL
+    END
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

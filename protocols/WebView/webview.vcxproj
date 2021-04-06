@@ -33,6 +33,7 @@
     <ClCompile Include="src\webview.cpp" />
     <ClCompile Include="src\webview_alerts.cpp" />
     <ClCompile Include="src\webview_cleanup.cpp" />
+    <ClCompile Include="src\webview_ui.cpp" />
     <ClCompile Include="src\webview_datawnd.cpp" />
     <ClCompile Include="src\webview_getdata.cpp" />
     <ClCompile Include="src\webview_opts.cpp" />

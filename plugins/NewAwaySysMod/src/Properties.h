@@ -71,112 +71,44 @@ private:
 	_CWndUserData *dat;
 };
 
-#define IL_SKINICON 0x80000000
-#define IL_PROTOICON 0x40000000
-
-#define ILI_NOICON (-1)
-#define ILI_EVENT_MESSAGE 0
-#define ILI_EVENT_FILE    1
-#define ILI_PROTO_ONL     2
-#define ILI_PROTO_AWAY    3
-#define ILI_PROTO_NA      4
-#define ILI_PROTO_OCC     5
-#define ILI_PROTO_DND     6
-#define ILI_PROTO_FFC     7
-#define ILI_PROTO_INV     8
-#define ILI_DOT          11
-#define ILI_MSGICON      12
-#define ILI_IGNORE       13
-#define ILI_SOE_DISABLED 14
-#define ILI_SOE_ENABLED  15
-#define ILI_NEWMESSAGE   16
-#define ILI_NEWCATEGORY  17
-#define ILI_SAVE         18
-#define ILI_SAVEASNEW    19
-#define ILI_DELETE       20
-#define ILI_SETTINGS     21
-
-static unsigned Icons[] = {
-	SKINICON_EVENT_MESSAGE | IL_SKINICON, SKINICON_EVENT_FILE | IL_SKINICON,
-	ID_STATUS_ONLINE | IL_PROTOICON, ID_STATUS_AWAY | IL_PROTOICON, ID_STATUS_NA | IL_PROTOICON, ID_STATUS_OCCUPIED | IL_PROTOICON, ID_STATUS_DND | IL_PROTOICON, ID_STATUS_FREECHAT | IL_PROTOICON, ID_STATUS_INVISIBLE | IL_PROTOICON, 
-	IDI_DOT, IDI_MSGICON, IDI_IGNORE, IDI_SOE_ENABLED, IDI_SOE_DISABLED, IDI_NEWMESSAGE, IDI_NEWCATEGORY, IDI_SAVE, IDI_SAVEASNEW, IDI_DELETE, IDI_SETTINGS
-};
-
-
-class CIconList
-{
-public:
-	~CIconList()
-	{
-		for (int i = 0; i < IconList.GetSize(); i++)
-			if (IconList[i])
-				DestroyIcon(IconList[i]);
-	}
-
-	HICON& operator [] (int nIndex) {return IconList[nIndex];}
-	void ReloadIcons()
-	{
-		int cxIcon = GetSystemMetrics(SM_CXSMICON);
-		int cyIcon = GetSystemMetrics(SM_CYSMICON);
-		int i;
-		for (i = 0; i < _countof(Icons); i++) {
-			if (IconList.GetSize() > i && IconList[i])
-				DestroyIcon(IconList[i]);
-
-			if (Icons[i] & IL_SKINICON)
-				IconList.SetAtGrow(i) = (HICON)CopyImage(Skin_LoadIcon(Icons[i] & ~IL_SKINICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
-			else if (Icons[i] & IL_PROTOICON)
-				IconList.SetAtGrow(i) = (HICON)CopyImage(Skin_LoadProtoIcon(nullptr, Icons[i] & ~IL_PROTOICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
-			else
-				IconList.SetAtGrow(i) = (HICON)GetIcon(Icons[i]);
-		}
-	}
-
-private:
-	TMyArray<HICON> IconList;
-};
-
-extern CIconList g_IconList;
-
-
 class CProtoStates;
 
 class CProtoState
 {
 public:
-	CProtoState(const char* szProto, CProtoStates* Parent): m_szProto(szProto), m_parent(Parent), m_status(szProto, Parent), m_awaySince(szProto, Parent) {}
+	CProtoState(const char *szProto, CProtoStates *Parent) : m_szProto(szProto), m_parent(Parent), m_status(szProto, Parent), m_awaySince(szProto, Parent) {}
 
 	class CStatus
 	{
 	public:
-		CStatus(const char* szProto, CProtoStates* GrandParent): m_szProto(szProto), m_grandParent(GrandParent), m_status(ID_STATUS_OFFLINE) {}
-		CStatus& operator=(int Status);
-		operator int() {return m_status;}
+		CStatus(const char *szProto, CProtoStates *GrandParent) : m_szProto(szProto), m_grandParent(GrandParent), m_status(ID_STATUS_OFFLINE) {}
+		CStatus &operator=(int Status);
+		operator int() { return m_status; }
 		friend class CProtoState;
 	private:
 		int m_status;
 		CString m_szProto;
-		CProtoStates* m_grandParent;
+		CProtoStates *m_grandParent;
 	} m_status;
 
 	class CAwaySince
 	{
 	public:
-		CAwaySince(const char* szProto, CProtoStates* GrandParent): m_szProto(szProto), m_grandParent(GrandParent) {Reset();}
+		CAwaySince(const char *szProto, CProtoStates *GrandParent) : m_szProto(szProto), m_grandParent(GrandParent) { Reset(); }
 		void Reset();
-		operator LPSYSTEMTIME() {return &m_awaySince;}
+		operator LPSYSTEMTIME() { return &m_awaySince; }
 		friend class CProtoState;
 	private:
 		SYSTEMTIME m_awaySince;
 		CString m_szProto;
-		CProtoStates* m_grandParent;
+		CProtoStates *m_grandParent;
 	} m_awaySince;
 
 	class CCurStatusMsg
 	{
 	public:
-		CCurStatusMsg() {*this = nullptr;}
-		CCurStatusMsg& operator=(TCString Msg)
+		CCurStatusMsg() { *this = nullptr; }
+		CCurStatusMsg &operator=(TCString Msg)
 		{
 			CurStatusMsg = Msg;
 			SYSTEMTIME st;
@@ -184,7 +116,7 @@ public:
 			SystemTimeToFileTime(&st, (LPFILETIME)&LastUpdateTime); // i'm too lazy to declare FILETIME structure and then copy its data to absolutely equivalent ULARGE_INTEGER structure, so we'll just pass a pointer to the ULARGE_INTEGER directly ;-P
 			return *this;
 		}
-		operator TCString() {return CurStatusMsg;}
+		operator TCString() { return CurStatusMsg; }
 		DWORD GetUpdateTimeDifference()
 		{
 			ULARGE_INTEGER CurTime;
@@ -201,45 +133,44 @@ public:
 	class CTempMsg
 	{ // we use temporary messages to keep user-defined per-protocol messages intact, when changing messages through MS_NAS_SETSTATE, or when autoaway becomes active etc.. temporary messages are automatically resetted when protocol status changes
 	public:
-		CTempMsg(): iIsSet(0) {}
-		CTempMsg& operator=(TCString _Msg) {this->Msg = _Msg; iIsSet = true; return *this;}
+		CTempMsg() : iIsSet(0) {}
+		CTempMsg &operator=(TCString _Msg) { this->Msg = _Msg; iIsSet = true; return *this; }
 		operator TCString()
 		{
 			_ASSERT(iIsSet);
 			return Msg;
 		}
-		void Unset() {iIsSet = false;}
-		int IsSet() {return iIsSet;}
+		void Unset() { iIsSet = false; }
+		int IsSet() { return iIsSet; }
 
 	private:
 		int iIsSet; // as we need TempMsg to support every possible value, including NULL and "", we'll use this variable to specify whether TempMsg is set
 		TCString Msg;
 	} TempMsg;
 
-	void SetParent(CProtoStates* _Parent)
+	void SetParent(CProtoStates *_Parent)
 	{
 		m_parent = _Parent;
 		m_status.m_grandParent = _Parent;
 		m_awaySince.m_grandParent = _Parent;
 	}
 
-	CString &GetProto() {return m_szProto;}
+	CString &GetProto() { return m_szProto; }
 
-//NightFox: fix?
-//private:
+	//NightFox: fix?
+	//private:
 public:
 	CString m_szProto;
 	CProtoStates *m_parent;
 };
-
 
 class CProtoStates // this class stores all protocols' dynamic data
 {
 public:
 	CProtoStates() {}
 
-	CProtoStates(const CProtoStates &States) {*this = States;}
-	CProtoStates& operator=(const CProtoStates& States)
+	CProtoStates(const CProtoStates &States) { *this = States; }
+	CProtoStates &operator=(const CProtoStates &States)
 	{
 		ProtoStates = States.ProtoStates;
 		for (int i = 0; i < ProtoStates.GetSize(); i++)
@@ -247,7 +178,7 @@ public:
 		return *this;
 	}
 
-	CProtoState& operator[](const char *szProto)
+	CProtoState &operator[](const char *szProto)
 	{
 		for (int i = 0; i < ProtoStates.GetSize(); i++)
 			if (ProtoStates[i].GetProto() == szProto)
@@ -266,8 +197,8 @@ public:
 	friend class CProtoState::CAwaySince;
 
 private:
-	CProtoState& operator[](int nIndex) {return ProtoStates[nIndex];}
-	int GetSize() {return ProtoStates.GetSize();}
+	CProtoState &operator[](int nIndex) { return ProtoStates[nIndex]; }
+	int GetSize() { return ProtoStates.GetSize(); }
 
 	TMyArray<CProtoState> ProtoStates;
 };
@@ -308,9 +239,9 @@ public:
 	CString ProtoStatusToDBSetting(const char *Prefix, int MoreOpt_PerStatusID = 0)
 	{
 		if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID)) {
-			for (int i = 0; i < _countof(StatusSettings); i++)
-				if (Status == StatusSettings[i].Status)
-					return szProto ? (CString(Prefix) + "_" + szProto + "_" + StatusSettings[i].Setting) : (CString(Prefix) + StatusSettings[i].Setting);
+			for (auto &it: StatusSettings)
+				if (Status == it.Status)
+					return szProto ? (CString(Prefix) + "_" + szProto + "_" + it.Setting) : (CString(Prefix) + it.Setting);
 		}
 		return szProto ? (CString(Prefix) + "_" + szProto) : CString(Prefix);
 	}
@@ -318,7 +249,7 @@ public:
 	class CAutoreply
 	{
 	public:
-		CAutoreply& operator=(const int m_value)
+		CAutoreply &operator=(const int m_value)
 		{
 			CString Setting(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY);
 			if (g_plugin.getByte(Setting, VAL_USEDEFAULT) == m_value)
@@ -330,13 +261,13 @@ public:
 				g_plugin.delSetting(Setting);
 			return *this;
 		}
-		
+
 		operator int()
 		{
-			return g_plugin.getByte(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY, 
+			return g_plugin.getByte(Parent->szProto ? Parent->ProtoStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS) : DB_ENABLEREPLY,
 				Parent->szProto ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);
 		}
-		
+
 		int IncludingParents() // takes into account global data also, if per-protocol setting is not defined
 		{
 			_ASSERT(Parent->szProto);
@@ -351,8 +282,8 @@ public:
 	class CStatus
 	{
 	public:
-		CStatus(int iStatus = 0, const char *szProto = nullptr): Status(iStatus), szProto(szProto) {}
-		CStatus& operator=(int _Status) {this->Status = _Status; return *this;}
+		CStatus(int iStatus = 0, const char *szProto = nullptr) : Status(iStatus), szProto(szProto) {}
+		CStatus &operator=(int _Status) { this->Status = _Status; return *this; }
 		operator int()
 		{
 			if (!Status)
@@ -372,9 +303,9 @@ public:
 __inline CString StatusToDBSetting(int Status, const char *Prefix, int MoreOpt_PerStatusID = 0)
 {
 	if (!MoreOpt_PerStatusID || g_MoreOptPage.GetDBValueCopy(MoreOpt_PerStatusID))
-		for (int i = 0; i < _countof(StatusSettings); i++)
-			if (Status == StatusSettings[i].Status)
-				return CString(Prefix) + StatusSettings[i].Setting;
+		for (auto &it: StatusSettings)
+			if (Status == it.Status)
+				return CString(Prefix) + it.Setting;
 
 	return CString(Prefix);
 }
@@ -397,7 +328,7 @@ class CContactSettings
 	MCONTACT m_hContact;
 
 public:
-	CContactSettings(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus, _hContact), m_hContact(_hContact)
+	CContactSettings(int iStatus = 0, MCONTACT _hContact = NULL) : Status(iStatus, _hContact), m_hContact(_hContact)
 	{
 		Ignore.Parent = this;
 		Autoreply.Parent = this;
@@ -411,9 +342,9 @@ public:
 	class CIgnore
 	{
 	public:
-		CIgnore& operator=(const int m_value)
+		CIgnore &operator=(const int m_value)
 		{
-      CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
+			CString Setting(Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
 			if (m_value)
 				g_plugin.setByte(hContact, Setting, 1);
@@ -422,7 +353,7 @@ public:
 			return *this;
 		}
 
-		operator int() 
+		operator int()
 		{
 			return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MODULENAME,
 				Parent->ContactStatusToDBSetting(DB_IGNOREREQUESTS, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), 0);
@@ -436,7 +367,7 @@ public:
 	class CAutoreply
 	{
 	public:
-		CAutoreply& operator=(const int m_value)
+		CAutoreply &operator=(const int m_value)
 		{
 			CString Setting(Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS));
 			MCONTACT hContact = (Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL;
@@ -449,7 +380,7 @@ public:
 				g_plugin.delSetting(hContact, Setting);
 			return *this;
 		}
-		operator int() {return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MODULENAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
+		operator int() { return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MODULENAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY); }
 		int IncludingParents(const char *szProtoOverride = nullptr) // takes into account protocol and global data also, if per-contact setting is not defined
 		{
 			_ASSERT((Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
@@ -463,12 +394,12 @@ public:
 		int GetNextToggleValue()
 		{
 			switch ((int)*this) {
-				case VAL_USEDEFAULT: return 0; break;
-				case 0: return 1; break;
-				default: return Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY; break;
+			case VAL_USEDEFAULT: return 0; break;
+			case 0: return 1; break;
+			default: return Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY; break;
 			}
 		}
-		int Toggle() {return *this = GetNextToggleValue();}
+		int Toggle() { return *this = GetNextToggleValue(); }
 		friend class CContactSettings;
 	private:
 		CContactSettings *Parent;
@@ -477,8 +408,8 @@ public:
 	class CStatus
 	{
 	public:
-		CStatus(int iStatus = 0, MCONTACT _hContact = NULL): Status(iStatus), m_hContact(_hContact) {}
-		CStatus& operator=(int _Status) {this->Status = _Status; return *this;}
+		CStatus(int iStatus = 0, MCONTACT _hContact = NULL) : Status(iStatus), m_hContact(_hContact) {}
+		CStatus &operator=(int _Status) { this->Status = _Status; return *this; }
 		operator int()
 		{
 			if (!Status) {

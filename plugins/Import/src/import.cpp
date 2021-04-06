@@ -786,6 +786,12 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 
 	// adding missing contact
 	MCONTACT hDst = db_add_contact();
+	if (hDst == INVALID_CONTACT_ID) {
+		nSkippedContacts++;
+		AddMessage(LPGENW("Failed to create contact %s (%s)"), cc->szProto, pszUniqueID);
+		return 0;
+	}
+
 	if (Proto_AddToContact(hDst, szDstModuleName) != 0) {
 		db_delete_contact(hDst);
 		AddMessage(LPGENW("Failed to add %S contact %s"), szDstModuleName, pszUniqueID);

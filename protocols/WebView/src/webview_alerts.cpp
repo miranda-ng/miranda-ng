@@ -23,7 +23,7 @@
 #include "stdafx.h"
 #include "webview.h"
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
@@ -80,35 +80,35 @@ int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int WDisplayDataAlert(MCONTACT hContact)
 {
 	NotifyEventHooks(hHookDisplayDataAlert, hContact, 0);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int WAlertPopup(MCONTACT hContact, wchar_t *displaytext)
 {
 	NotifyEventHooks(hHookAlertPopup, hContact, (LPARAM)displaytext);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int WErrorPopup(MCONTACT hContact, wchar_t *textdisplay)
 {
 	NotifyEventHooks(hHookErrorPopup, hContact, (LPARAM)textdisplay);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int WAlertOSD(MCONTACT hContact, wchar_t *displaytext)
 {
 	NotifyEventHooks(hHookAlertOSD, hContact, (LPARAM)displaytext);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int PopupAlert(WPARAM hContact, LPARAM lParam)
 {
 	POPUPDATAW ppd;
@@ -146,7 +146,7 @@ int PopupAlert(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int OSDAlert(WPARAM hContact, LPARAM lParam)
 {
 	char contactname[255], newdisplaytext[2000];
@@ -171,7 +171,7 @@ int OSDAlert(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = wParam;
@@ -194,7 +194,7 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void SaveToFile(MCONTACT hContact, char *truncated)
 {
 	char *mode;
@@ -237,7 +237,7 @@ void SaveToFile(MCONTACT hContact, char *truncated)
 	db_free(&dbv);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactname, int notpresent)
 {
 	char alertstring[255];
@@ -750,7 +750,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 	return wasAlert;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int DataWndAlertCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
@@ -774,7 +774,7 @@ int DataWndAlertCommand(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void ReadFromFile(void *param)
 {
 	MCONTACT hContact = (UINT_PTR)param;

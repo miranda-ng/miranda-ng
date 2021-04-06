@@ -657,8 +657,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		chkCreateMMI.SetText(TranslateT("Create a status menu item"));
-
 		int defProfile;
 		int profileCount = GetProfileCount((WPARAM)&defProfile, 0);
 		if (profileCount == 0) {

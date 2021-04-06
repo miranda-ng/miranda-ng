@@ -42,7 +42,9 @@ int       bpStatus;
 HGENMENU  hMenuItem1;
 HGENMENU  hMenuItemCountdown;
 
-/*****************************************************************************/
+int OptInitialise(WPARAM wParam, LPARAM);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 void ChangeMenuItem1()
 {
 	// Enable or Disable auto updates
@@ -55,7 +57,7 @@ void ChangeMenuItem1()
 	Menu_ModifyItem(hMenuItem1, ptszName, LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SITE)));
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void ChangeMenuItemCountdown()
 {
 	// countdown
@@ -67,7 +69,7 @@ void ChangeMenuItemCountdown()
 	Menu_ModifyItem(hMenuItemCountdown, countername, hIcon, CMIF_KEEPUNTRANSLATED);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 static int CALLBACK EnumFontsProc(ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX*, int, LPARAM lParam)
 {
 	if (!IsWindow((HWND)lParam))
@@ -89,7 +91,7 @@ void FillFontListThread(void *param)
 	ReleaseDC((HWND)param, hdc);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void TxtclrLoop()
 {
 	for (auto &hContact : Contacts(MODULENAME)) {
@@ -99,7 +101,7 @@ void TxtclrLoop()
 	}
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void BGclrLoop()
 {
 	for (auto &hContact : Contacts(MODULENAME)) {
@@ -110,7 +112,7 @@ void BGclrLoop()
 	}
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void StartUpdate(void*)
 {
 	StartUpDelay = 1;
@@ -122,7 +124,7 @@ void StartUpdate(void*)
 	StartUpDelay = 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void ContactLoop(void*)
 {
 	if (StartUpDelay == 0) {
@@ -135,14 +137,14 @@ void ContactLoop(void*)
 	WAlertPopup(NULL, TranslateT("All Webview sites have been updated."));
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR MarkAllReadMenuCommand(WPARAM, LPARAM)
 {
 	ChangeContactStatus(1);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void InitialiseGlobals(void)
 {
 	Xposition = g_plugin.getDword(Xpos_WIN_KEY, 0);
@@ -161,7 +163,7 @@ void InitialiseGlobals(void)
 	WindowWidth = g_plugin.getDword(WIN_WIDTH_KEY, Def_win_width);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int Doubleclick(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
@@ -212,7 +214,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 	return 1;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgbBack)
 {
 	DBVARIANT       dbv;
@@ -260,7 +262,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	return 1;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD)
 {
 	g_plugin.setByte(HAS_CRASHED_KEY, 0);
@@ -272,7 +274,7 @@ void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD)
 	g_plugin.setDword(COUNTDOWN_KEY, 0);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 {
 	DWORD timetemp = g_plugin.getDword(COUNTDOWN_KEY, 100);
@@ -286,27 +288,7 @@ void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 	ChangeMenuItemCountdown();
 }
 
-/*****************************************************************************/
-
-int OptInitialise(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
-	odp.szGroup.a = LPGEN("Network");
-	odp.szTitle.a = MODULENAME;
-	odp.pfnDlgProc = DlgProcOpt;
-	odp.flags = ODPF_BOLDGROUPS;
-	g_plugin.addOptions(wParam, &odp);
-
-	// if popup service exists
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-	odp.szGroup.a = LPGEN("Popups");
-	odp.pfnDlgProc = DlgPopUpOpts;
-	g_plugin.addOptions(wParam, &odp);
-	return 0;
-}
-
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 void FontSettings(void)
 {
 	g_lf.lfHeight = 16;
@@ -325,7 +307,7 @@ void FontSettings(void)
 	mir_wstrcpy(g_lf.lfFaceName, Def_font_face);
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int ModulesLoaded(WPARAM, LPARAM)
 {
 	hHookDisplayDataAlert = CreateHookableEvent(ME_DISPLAYDATA_ALERT);
@@ -350,7 +332,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
@@ -386,14 +368,14 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR UpdateAllMenuCommand(WPARAM, LPARAM)
 {
 	mir_forkthread(ContactLoop);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR AutoUpdateMCmd(WPARAM, LPARAM)
 {
 	if (g_plugin.getByte(DISABLE_AUTOUPDATE_KEY, 0))
@@ -405,7 +387,7 @@ INT_PTR AutoUpdateMCmd(WPARAM, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR AddContactMenuCommand(WPARAM, LPARAM)
 {
 	db_set_s(0, "FindAdd", "LastSearched", MODULENAME);
@@ -413,7 +395,7 @@ INT_PTR AddContactMenuCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int OnTopMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 {
 	int ontop = 0;
@@ -432,7 +414,7 @@ int OnTopMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
@@ -444,35 +426,35 @@ INT_PTR WebsiteMenuCommand(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int UpdateMenuCommand(WPARAM, LPARAM, MCONTACT singlecontact)
 {
 	mir_forkthread(GetData, (void*)singlecontact);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 int ContactMenuItemUpdateData(WPARAM wParam, LPARAM lParam)
 {
 	UpdateMenuCommand(wParam, lParam, wParam);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 {
 	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONTACT_OPT), nullptr, DlgProcContactOpt, wParam);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM)
 {
 	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ALRT_OPT), nullptr, DlgProcAlertOpt, wParam);
 	return 0;
 }
 
-/*****************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
 INT_PTR CountdownMenuCommand(WPARAM, LPARAM)
 {
 	return 0;
