@@ -77,7 +77,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * server started checking this.
  */
 
-#define FB_ORCA_AGENT "[FBAN/Orca-Android;FBAV/248.0.0.7.127;FBPN/com.facebook.orca;FBLC/en_US;FBBV/194293860]"
+#define FB_ORCA_AGENT "[FBAN/Orca-Android;FBAV/537.0.0.31.101;FBPN/com.facebook.orca;FBLC/en_US;FBBV/52182662]"
 
 /**
  * FB_API_AGENT:
