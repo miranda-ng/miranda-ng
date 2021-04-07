@@ -51,39 +51,6 @@
     <ClCompile Include="src\dlg_propsheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ex_import\classExImContactBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ex_import\classExImContactXML.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ex_import\dlg_ExImModules.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ex_import\dlg_ExImOpenSaveFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ex_import\dlg_ExImProgress.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ex_import\svc_ExImINI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ex_import\svc_ExImport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ex_import\svc_ExImVCF.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ex_import\svc_ExImXML.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Flags\svc_flags.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Flags\svc_flagsicons.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -156,42 +123,42 @@
     <ClCompile Include="src\svc_timezone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ex_import\classExImContactBase.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\classExImContactXML.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\dlg_ExImModules.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\dlg_ExImOpenSaveFile.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\dlg_ExImProgress.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\svc_ExImINI.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\svc_ExImport.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\svc_ExImVCF.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ex_import\svc_ExImXML.cpp">
+      <Filter>Source Files\Export</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flags\svc_flagsicons.cpp">
+      <Filter>Source Files\Flags</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flags\svc_flags.cpp">
+      <Filter>Source Files\Flags</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ex_import\classExImContactBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ex_import\classExImContactXML.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ex_import\dlg_ExImModules.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ex_import\dlg_ExImOpenSaveFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ex_import\dlg_ExImProgress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ex_import\mir_rfcCodecs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ex_import\svc_ExImINI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ex_import\svc_ExImport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ex_import\svc_ExImVCF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ex_import\svc_ExImXML.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Flags\svc_flags.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Flags\svc_flagsicons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mir_contactqueue.h">
@@ -283,6 +250,39 @@
     </ClInclude>
     <ClInclude Include="src\dlg_propsheet.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\dlg_ExImModules.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\dlg_ExImOpenSaveFile.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\dlg_ExImProgress.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\classExImContactXML.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\classExImContactBase.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\svc_ExImINI.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\svc_ExImport.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\svc_ExImVCF.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ex_import\svc_ExImXML.h">
+      <Filter>Source Files\Export</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flags\svc_flagsicons.h">
+      <Filter>Source Files\Flags</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flags\svc_flags.h">
+      <Filter>Source Files\Flags</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
