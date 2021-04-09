@@ -185,6 +185,8 @@ void UnloadAccount(PROTOACCOUNT *pa, int flags);
 void LoadDbAccounts(void);
 void WriteDbAccounts(void);
 
+void InitStaticAccounts();
+
 void KillModuleAccounts(HINSTANCE);
 
 INT_PTR CallProtoServiceInt(MCONTACT hContact, const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam);

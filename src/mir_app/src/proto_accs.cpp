@@ -164,7 +164,7 @@ static int OnEventEdited(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-static int InitializeStaticAccounts(WPARAM, LPARAM)
+void InitStaticAccounts()
 {
 	int count = 0;
 
@@ -190,7 +190,6 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 		db_unset(0, "FirstRun", "ForceShowAccManager");
 	}
-	return 0;
 }
 
 static int UninitializeStaticAccounts(WPARAM, LPARAM)
@@ -225,7 +224,6 @@ int LoadAccountsModule(void)
 			pa->bDynDisabled = true;
 	}
 
-	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);
 	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
 	hHooks[2] = HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	hHooks[3] = HookEvent(ME_DB_EVENT_EDITED, OnEventEdited);
