@@ -481,7 +481,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	}
 
 	InitCryptMenuItem(mi);
-	InitStaticAccounts();
 	return 0;
 }
 

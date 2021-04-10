@@ -170,7 +170,7 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 	LoadCLUIModule();
 
 	InitClistHotKeys();
-
+	InitStaticAccounts();
 	return 0;
 }
 
