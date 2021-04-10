@@ -126,23 +126,44 @@ void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *s
 
 	if (g_plugin.bWarnOnDelete) {
 		wchar_t text[MSG_SIZE];
-		mir_snwprintf(text, TranslateT("Are you sure you want to delete setting(s): %d?"), count);
+		if (info.hContact == 0)
+			mir_snwprintf(text, TranslateT("Are you sure you want to delete %d contact(s)?"), count);
+		else
+			mir_snwprintf(text, TranslateT("Are you sure you want to delete %d setting(s)?"), count);
 		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 			return;
 	}
 
-	if (count == 1)
-		db_unset(hContact, module, setting);
-	else {
+	if (hContact == 0) {
 		int items = ListView_GetItemCount(hwnd2List);
 		for (int i = 0; i < items;) {
 			if (ListView_GetItemState(hwnd2List, i, LVIS_SELECTED)) {
-				char text[FLD_SIZE];
-				if (ListView_GetItemTextA(hwnd2List, i, 0, text, _countof(text)))
-					db_unset(hContact, module, text);
+				LVITEM lvi = {};
+				lvi.mask = LVIF_PARAM;
+				lvi.iItem = i;
+				if (ListView_GetItem(hwnd2List, &lvi)) {
+					db_delete_contact(MCONTACT(lvi.lParam));
+					ListView_DeleteItem(hwnd2List, i);
+				}
 				items--;
 			}
 			else i++;
+		}
+	}
+	else {
+		if (count == 1)
+			db_unset(hContact, module, setting);
+		else {
+			int items = ListView_GetItemCount(hwnd2List);
+			for (int i = 0; i < items;) {
+				if (ListView_GetItemState(hwnd2List, i, LVIS_SELECTED)) {
+					char text[FLD_SIZE];
+					if (ListView_GetItemTextA(hwnd2List, i, 0, text, _countof(text)))
+						db_unset(hContact, module, text);
+					items--;
+				}
+				else i++;
+			}
 		}
 	}
 
