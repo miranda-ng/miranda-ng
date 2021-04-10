@@ -36,8 +36,6 @@ static int OnFileDialogCanceled(WPARAM hContact, LPARAM)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	InitializeMenus();
-
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 
 	// srfile
