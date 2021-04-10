@@ -47,12 +47,13 @@ bool CMirandaPageDlg::OnInitDialog()
 	int iType = 1;
 	for (auto& it : g_plugin.m_patterns)
 		m_cmbFileType.AddString(it->wszName, iType++);
+	m_cmbFileType.SetCurSel(0);
 
 	btnPath.Hide();
 	m_list.Disable();
 	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 1, 0);
 
-	m_cmbFileType.SetCurSel(0);
+	SetFocus(m_cmbFileType.GetHwnd());
 	return true;
 }
 
