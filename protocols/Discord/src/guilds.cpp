@@ -309,6 +309,32 @@ CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, cons
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CDiscordProto::ProcessChatUser(CDiscordUser *pChat, const CMStringW &wszUserId, const JSONNode &pRoot)
+{
+	// input data control
+	SnowFlake userId = _wtoi64(wszUserId);
+	CDiscordGuild *pGuild = pChat->pGuild;
+	if (pGuild == nullptr || userId == 0)
+		return;
+
+	// does user exist? if yes, there's nothing to do
+	auto *pm = pGuild->FindUser(userId);
+	if (pm != nullptr)
+		return;
+
+	// otherwise let's create a user and insert him into all guild's chats
+	pm = new CDiscordGuildMember(userId);
+	pm->wszNick = pRoot["nick"].as_mstring();
+	if (pm->wszNick.IsEmpty())
+		pm->wszNick = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
+	pGuild->arChatUsers.insert(pm);
+
+	debugLogA("add missing user to chat: id=%lld, nick=%S", userId, pm->wszNick.c_str());
+	AddGuildUser(pGuild, *pm);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMember &pUser)
 {
 	int flags = 0;

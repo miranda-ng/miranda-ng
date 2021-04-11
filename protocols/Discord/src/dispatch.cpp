@@ -430,20 +430,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 				return;
 			}
 
-			CDiscordGuild *pGuild = pUser->pGuild;
-			if (pGuild != nullptr && userId != 0) {
-				CDiscordGuildMember *pm = pGuild->FindUser(userId);
-				if (pm == nullptr) {
-					pm = new CDiscordGuildMember(userId);
-					pm->wszNick = pRoot["nick"].as_mstring();
-					if (pm->wszNick.IsEmpty())
-						pm->wszNick = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
-					pGuild->arChatUsers.insert(pm);
-
-					debugLogA("add missing user to chat: id=%lld, nick=%S", userId, pm->wszNick.c_str());
-					AddGuildUser(pGuild, *pm);
-				}
-			}
+			ProcessChatUser(pUser, wszUserId, pRoot);
 
 			ParseSpecialChars(si, wszText);
 			wszText.Replace(L"%", L"%%");

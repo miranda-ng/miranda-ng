@@ -328,6 +328,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Chat_ProcessLogMenu(GCHOOK *gch);
 
 	void CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser);
+	void ProcessChatUser(CDiscordUser *pChat, const CMStringW &wszUserId, const JSONNode &pRoot);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 
 	//////////////////////////////////////////////////////////////////////////////////////
