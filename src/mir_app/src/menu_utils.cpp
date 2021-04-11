@@ -1208,6 +1208,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// register all icons from all menus in IcoLib
 
 static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 {
@@ -1255,44 +1256,28 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 	return FALSE;
 }
 
-int RegisterAllIconsInIconLib()
+static void CALLBACK RegisterAllIconsInIconLib()
 {
-	// register all icons
 	for (auto &p : g_menus) {
 		if (hStatusMenuObject == p->id) //skip status menu
 			continue;
 
 		MO_RecursiveWalkMenu(p->m_items.first, MO_RegisterIcon, nullptr);
 	}
-
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Static services
-
-int posttimerid;
-
-static VOID CALLBACK PostRegisterIcons(HWND, UINT, UINT_PTR, DWORD)
-{
-	KillTimer(nullptr, posttimerid);
-	RegisterAllIconsInIconLib();
-}
-
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	posttimerid = SetTimer(nullptr, 0, 5, (TIMERPROC)PostRegisterIcons);
-	return 0;
-}
 
 int InitGenMenu()
 {
 	bIconsDisabled = db_get_b(0, "CList", "DisableMenuIcons", 0) != 0;
 	bIsGenMenuInited = true;
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, GenMenuOptInit);
 	HookEvent(ME_SKIN_ICONSCHANGED, OnIconLibChanges);
+
+	Miranda_WaitOnHandle(RegisterAllIconsInIconLib);
 	return 0;
 }
 

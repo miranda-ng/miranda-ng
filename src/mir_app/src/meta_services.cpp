@@ -586,6 +586,9 @@ static int Meta_SrmmIconClicked(WPARAM hMeta, LPARAM lParam)
 
 int Meta_ModulesLoaded(WPARAM, LPARAM)
 {
+	Proto_RegisterModule(PROTOTYPE_FILTER, META_FILTER);
+	Proto_RegisterModule(PROTOTYPE_VIRTUAL, META_PROTO);
+
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
 
 	// hook srmm window close/open events

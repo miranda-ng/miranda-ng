@@ -1275,19 +1275,6 @@ static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
 	return 0;
 }
 
-static int OptModulesLoaded(WPARAM, LPARAM)
-{
-	CMenuItem mi(&g_plugin);
-	SET_UID(mi, 0xc1284523, 0x548d, 0x4744, 0xb0, 0x9, 0xfb, 0xa0, 0x4, 0x8e, 0xa8, 0x67);
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
-	mi.position = 1900000000;
-	mi.name.a = LPGEN("&Options...");
-	mi.pszService = "Options/OptionsCommand";
-	Menu_AddMainMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, OpenOptionsDialog);
-	return 0;
-}
-
 int ShutdownOptionsModule(WPARAM, LPARAM)
 {
 	delete pOptionsDlg; pOptionsDlg = nullptr;
@@ -1296,10 +1283,10 @@ int ShutdownOptionsModule(WPARAM, LPARAM)
 
 int LoadOptionsModule(void)
 {
-	HookEvent(ME_OPT_INITIALISE, LangpackOptionsInit);
+	CreateServiceFunction(MS_OPTIONS_OPEN, OpenOptionsDialog);
 
+	HookEvent(ME_OPT_INITIALISE, LangpackOptionsInit);
 	HookEvent(ME_SYSTEM_MODULELOAD, OptDynamicLoadOptions);
-	HookEvent(ME_SYSTEM_MODULESLOADED, OptModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownOptionsModule);
 	return 0;
 }

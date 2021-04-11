@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
 int InitClistHotKeys(void);
+void InitMoveToGroup(void);
 void ScheduleMenuUpdate(void);
 
 HANDLE hContactDoubleClicked, hContactIconChangedEvent;
@@ -171,6 +172,33 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 
 	InitClistHotKeys();
 	InitStaticAccounts();
+	InitMoveToGroup();
+
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0xb1f74008, 0x1fa6, 0x4e98, 0x95, 0x28, 0x5a, 0x7e, 0xab, 0xfe, 0x10, 0x61);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ACCMGR);
+	mi.position = 1900000000;
+	mi.name.a = LPGEN("&Accounts...");
+	mi.pszService = MS_PROTO_SHOWACCMGR;
+	Menu_AddMainMenuItem(&mi);
+
+	SET_UID(mi, 0xc1284523, 0x548d, 0x4744, 0xb0, 0x9, 0xfb, 0xa0, 0x4, 0x8e, 0xa8, 0x67);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
+	mi.name.a = LPGEN("&Options...");
+	mi.pszService = MS_OPTIONS_OPEN;
+	Menu_AddMainMenuItem(&mi);
+
+	if (g_clistApi.hMenuMain) {
+		MENUITEMINFO mii = { 0 };
+		mii.cbSize = sizeof(mii);
+		mii.fMask = MIIM_SUBMENU;
+
+		mii.hSubMenu = Menu_GetMainMenu();
+		SetMenuItemInfo(g_clistApi.hMenuMain, 0, TRUE, &mii);
+
+		mii.hSubMenu = Menu_GetStatusMenu();
+		SetMenuItemInfo(g_clistApi.hMenuMain, 1, TRUE, &mii);
+	}
 	return 0;
 }
 
@@ -380,6 +408,7 @@ int LoadContactListModule2(void)
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
 	HookEvent(ME_OPT_INITIALISE, ClcOptInit);
+	HookEvent(ME_SKIN_ICONSCHANGED, CListIconsChanged);
 
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);
 	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
@@ -387,8 +416,6 @@ int LoadContactListModule2(void)
 	InitCListEvents();
 	InitGroupServices();
 	InitTray();
-
-	HookEvent(ME_SKIN_ICONSCHANGED, CListIconsChanged);
 	return 0;
 }
 
