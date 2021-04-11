@@ -775,3 +775,5 @@ Netlib_GetTlsUnique @831 NONAME
 ?getIcon@CHAT_MANAGER@@QEBAPEAUHICON__@@H@Z @863 NONAME
 ?getSoundName@GCSessionInfoBase@@QEBAPEBDH@Z @864 NONAME
 ?Upgrade@DB@@YAPEAVMDatabaseCommon@@PEB_W@Z @865 NONAME
+?IsPluginOnWhiteList@@YA_NPEBD@Z @866 NONAME
+?SetPluginOnWhiteList@@YAXPEBD_N@Z @867 NONAME

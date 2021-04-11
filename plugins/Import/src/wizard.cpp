@@ -53,7 +53,7 @@ void CIntroPageDlg::OnNext()
 // Final wizard page
 
 CFinishedPageDlg::CFinishedPageDlg() :
-	CWizardPageDlg(IDD_FINISHED)
+	CSuper(IDD_FINISHED)
 {}
 
 bool CFinishedPageDlg::OnInitDialog()
@@ -77,9 +77,9 @@ void CFinishedPageDlg::OnNext()
 void CFinishedPageDlg::OnCancel()
 {
 	if (IsDlgButtonChecked(m_hwnd, IDC_DONTLOADPLUGIN))
-		db_set_b(0, "PluginDisable", "import", 1);
+		SetPluginOnWhiteList("import", false);
 
-	CWizardPageDlg::OnCancel();
+	CSuper::OnCancel();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

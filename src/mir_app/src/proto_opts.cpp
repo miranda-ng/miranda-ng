@@ -882,7 +882,7 @@ bool CAccountFormDlg::OnApply()
 		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
 			wchar_t szNewName[MAX_PATH];
 			mir_snwprintf(szNewName, L"%s~", szPlugin);
-			MoveFile(szPlugin, szNewName);
+			MoveFileW(szPlugin, szNewName);
 		}
 		m_action = PRAC_ADDED;
 	}
