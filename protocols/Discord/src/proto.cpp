@@ -198,6 +198,9 @@ void CDiscordProto::OnShutdown()
 	m_bTerminated = true;
 	SetEvent(m_evRequestsQueue);
 
+	for (auto &it : arGuilds)
+		it->SaveToFile();
+
 	if (m_hGatewayConnection)
 		Netlib_Shutdown(m_hGatewayConnection);
 

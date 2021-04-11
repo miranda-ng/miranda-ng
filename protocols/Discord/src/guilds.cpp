@@ -160,6 +160,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	CDiscordGuild *pGuild = FindGuild(guildId);
 	if (pGuild == nullptr) {
 		pGuild = new CDiscordGuild(guildId);
+		pGuild->LoadFromFile();
 		arGuilds.insert(pGuild);
 	}
 
@@ -326,4 +327,50 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 	pu->iStatusEx = flags;
 	if (pUser.userId == m_ownId)
 		pGuild->pParentSi->pMe = pu;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordGuild ::LoadFromFile()
+{
+	int fileNo = _wopen(GetCacheFile(), O_TEXT | O_RDONLY);
+	if (fileNo == -1)
+		return;
+
+	int fSize = ::filelength(fileNo);
+	ptrA json((char*)mir_alloc(fSize + 1));
+	read(fileNo, json, fSize);
+	close(fileNo);
+
+	JSONNode cached = JSONNode::parse(json);
+	for (auto &it : cached) {
+		SnowFlake userId = getId(it["id"]);
+		auto *pUser = FindUser(userId);
+		if (pUser == nullptr) {
+			pUser = new CDiscordGuildMember(userId);
+			arChatUsers.insert(pUser);
+		}
+
+		pUser->wszNick = it["n"].as_mstring();
+		pUser->wszRole = it["r"].as_mstring();
+	}
+}
+
+void CDiscordGuild ::SaveToFile()
+{
+	JSONNode members(JSON_ARRAY);
+	for (auto &it : arChatUsers) {
+		JSONNode member; 
+		member << INT64_PARAM("id", it->userId) << WCHAR_PARAM("n", it->wszNick) << WCHAR_PARAM("r", it->wszRole);
+		members << member;
+	}
+
+	CMStringW wszFileName(GetCacheFile());
+	CreatePathToFileW(wszFileName);
+	int fileNo = _wopen(wszFileName, O_CREAT | O_TRUNC | O_TEXT | O_WRONLY);
+	if (fileNo != -1) {
+		std::string json = members.write_formatted();
+		write(fileNo, json.c_str(), (int)json.size());
+		close(fileNo);
+	}
 }

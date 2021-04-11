@@ -114,7 +114,12 @@ struct CDiscordGuild : public MZeroedObject
 
 	__forceinline CDiscordGuildMember* FindUser(SnowFlake userId)
 	{
-		return arChatUsers.find((CDiscordGuildMember*)&userId);
+		return arChatUsers.find((CDiscordGuildMember *)&userId);
+	}
+
+	__inline CMStringW GetCacheFile() const
+	{
+		return CMStringW(FORMAT, L"%s\\DiscordCache\\%lld.json", VARSW(L"%miranda_userdata%").get(), id);
 	}
 
 	SnowFlake id, ownerId;
@@ -127,6 +132,9 @@ struct CDiscordGuild : public MZeroedObject
 	SESSION_INFO *pParentSi;
 	OBJLIST<CDiscordGuildMember> arChatUsers;
 	OBJLIST<CDiscordRole> arRoles; // guild roles
+
+	void LoadFromFile();
+	void SaveToFile();
 };
 
 struct CDiscordVoiceCall
