@@ -1281,7 +1281,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						PopupWindow(true);
 				}
 
-				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
+				if (isChat() || (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0))
 					m_pLog->LogEvents(hDbEvent, 1, 1);
 				else
 					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
