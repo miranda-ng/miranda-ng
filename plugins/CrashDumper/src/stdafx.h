@@ -131,7 +131,6 @@ void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, DWORD dwSize);
 void GetLastWriteTime(FILETIME* ftime, LPTSTR lpszString, DWORD dwSize);
 void StoreStringToClip(CMStringW& buffer);
 void ShowMessage(int type, const wchar_t* format, ...);
-bool IsPluginEnabled(wchar_t* filename);
 
 const PLUGININFOEX* GetMirInfo(HMODULE hModule);
 

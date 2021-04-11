@@ -38,8 +38,6 @@
 
 #define INI_FILE_NAME  "RemovePersonalSettings.ini"
 
-#define PLUGINDISABLELIST "PluginDisable"
-
 #define METACONTACTS_PROTOCOL_NAME "MetaContacts"
 
 #define NOTICE_TEXT LPGENW("All your personal settings will be erased!\n\

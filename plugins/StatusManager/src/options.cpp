@@ -69,12 +69,8 @@ int OnCommonOptionsInit(WPARAM wParam, LPARAM)
 
 static bool IsSubPluginEnabled(const char *name)
 {
-	// Check if this plugin was disabled as separate dll
-	CMStringA dllName(FORMAT, "%s.dll", name);
-	dllName.MakeLower();
-	bool res = !db_get_b(0, "PluginDisable", dllName);
-
-	db_unset(0, "PluginDisable", dllName);
+	bool res = IsPluginOnWhiteList(name);
+	SetPluginOnWhiteList(name, true);
 	return res;
 }
 

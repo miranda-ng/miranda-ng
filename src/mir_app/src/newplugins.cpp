@@ -421,8 +421,14 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 
 MIR_APP_DLL(void) SetPluginOnWhiteList(const char* szPluginName, bool bAllow)
 {
-	if (szPluginName != nullptr)
-		db_set_b(0, PLUGINDISABLELIST, CPluginName(szPluginName).c_str(), !bAllow);
+	if (szPluginName == nullptr)
+		return;
+
+	CPluginName tmp(szPluginName);
+	if (bAllow)
+		db_unset(0, PLUGINDISABLELIST, tmp);
+	else
+		db_set_b(0, PLUGINDISABLELIST, tmp, 1);
 }
 
 // returns 1 if the plugin should be enabled within this profile, filename is always lower case
