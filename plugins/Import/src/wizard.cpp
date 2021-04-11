@@ -181,6 +181,7 @@ public:
 			SetWindowPos(hwndPage, nullptr, 0, 0, m_splitterX, m_splitterY, SWP_NOZORDER);
 			if (bFirstLaunch)
 				ShowWindow(m_hwnd, SW_SHOW);
+			SetFocus(hwndPage);
 			break;
 
 		case WIZM_DISABLEBUTTON:

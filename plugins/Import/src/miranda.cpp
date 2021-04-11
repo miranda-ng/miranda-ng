@@ -52,8 +52,6 @@ bool CMirandaPageDlg::OnInitDialog()
 	btnPath.Hide();
 	m_list.Disable();
 	SendMessage(m_hwndParent, WIZM_DISABLEBUTTON, 1, 0);
-
-	SetFocus(m_cmbFileType.GetHwnd());
 	return true;
 }
 
