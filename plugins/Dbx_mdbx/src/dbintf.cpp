@@ -334,29 +334,13 @@ void CDbxMDBX::TouchFile()
 ///////////////////////////////////////////////////////////////////////////////
 // MIDatabaseChecker
 
-typedef int (CDbxMDBX::*CheckWorker)(void);
-
-int CDbxMDBX::Start(DBCHeckCallback *callback)
-{
-	cb = callback;
-	return ERROR_SUCCESS;
-}
-
-static CheckWorker Workers[] =
-{
-	&CDbxMDBX::CheckEvents1,
-	&CDbxMDBX::CheckEvents2,
-	&CDbxMDBX::CheckEvents3,
-};
-
 int CDbxMDBX::CheckDb(int phase)
 {
-	if (phase >= _countof(Workers))
-		return ERROR_OUT_OF_PAPER;
+	switch (phase) {
+	case 0: return CDbxMDBX::CheckEvents1();
+	case 1: return CDbxMDBX::CheckEvents2();
+	case 2: return CDbxMDBX::CheckEvents3();
+	}
 
-	return (this->*Workers[phase])();
-}
-
-void CDbxMDBX::Destroy()
-{
+	return ERROR_OUT_OF_PAPER;
 }

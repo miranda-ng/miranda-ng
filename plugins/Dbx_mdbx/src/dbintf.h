@@ -296,9 +296,16 @@ protected:
 		return this;
 	}
 
-	STDMETHODIMP_(BOOL)     Start(DBCHeckCallback *callback);
-	STDMETHODIMP_(BOOL)     CheckDb(int phase);
-	STDMETHODIMP_(VOID)     Destroy();
+	STDMETHODIMP_(BOOL) Start(DBCHeckCallback *callback)
+	{
+		cb = callback;
+		return ERROR_SUCCESS;
+	}
+
+	STDMETHODIMP_(VOID) Destroy()
+	{}
+
+	STDMETHODIMP_(BOOL) CheckDb(int phase);
 
 	DBCHeckCallback *cb;
 };
