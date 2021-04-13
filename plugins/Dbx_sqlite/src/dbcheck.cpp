@@ -84,7 +84,7 @@ int CDbxSQLite::CheckPhase4()
 		auto *szModule = (const char *)sqlite3_column_text(pQuery, 1);
 		auto *szSetting = (const char *)sqlite3_column_text(pQuery, 1);
 
-		cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned setting [%s:%s] with wrong contact ID %d, deleting"), szModule, szSetting, hContact));
+		cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned setting [%S:%S] with wrong contact ID %d, deleting"), szModule, szSetting, hContact));
 		DeleteContactSettingWorker(hContact, szModule, szSetting);
 	}
 
