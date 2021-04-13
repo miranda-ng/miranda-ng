@@ -23,9 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define CONVERT_MSG LPGEN("This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back")
-#define MISSING_DB_MSG LPGEN("To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return back")
-#define MISSING_PLUG_MSG LPGEN("To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back")
+#define CONVERT_MSG LPGEN("This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return")
+#define MISSING_DB_MSG LPGEN("To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return")
+#define MISSING_PLUG_MSG LPGEN("To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return")
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
