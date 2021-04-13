@@ -118,13 +118,13 @@ __forceinline wchar_t *GetMenuTitle(bool bUsesPassword)
 
 void MDatabaseCommon::SetPassword(const wchar_t *ptszPassword)
 {
-	if (ptszPassword == nullptr || *ptszPassword == 0) {
+	if (mir_wstrlen(ptszPassword) == 0) {
 		m_bUsesPassword = false;
 		m_crypto->setPassword(nullptr);
 	}
 	else {
 		m_bUsesPassword = true;
-		m_crypto->setPassword(T2Utf(ptszPassword));
+		m_crypto->setPassword(pass_ptrA(mir_utf8encodeW(ptszPassword)));
 	}
 
 	Menu_ModifyItem(hSetPwdMenu, GetMenuTitle(m_bUsesPassword), Skin_GetIconHandle(SKINICON_OTHER_KEYS));
@@ -160,24 +160,14 @@ static bool CheckOldPassword(HWND hwndDlg, MDatabaseCommon *db)
 	return true;
 }
 
-struct DlgChangePassParam
-{
-	MDatabaseCommon *db;
-	wchar_t newPass[100];
-	unsigned short wrongPass;
-};
-
 static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	DlgChangePassParam *param = (DlgChangePassParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	wchar_t buf[100];
+	MDatabaseCommon *db = (MDatabaseCommon *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_SMALL, (LPARAM)g_plugin.getIcon(IDI_DATABASE, true));
-
-		param = (DlgChangePassParam*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		oldLangID = 0;
@@ -200,15 +190,15 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			break;
 
 		case IDREMOVE:
-			if (!CheckOldPassword(hwndDlg, param->db)) {
+			if (!CheckOldPassword(hwndDlg, db)) {
 LBL_Error:
 				SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 				SetDlgItemTextA(hwndDlg, IDC_USERPASS1, "");
 				SetDlgItemTextA(hwndDlg, IDC_USERPASS2, "");
 			}
 			else {
-				param->db->SetPassword(nullptr);
-				param->db->StoreCryptoKey();
+				db->SetPassword(nullptr);
+				db->StoreCryptoKey();
 				EndDialog(hwndDlg, IDREMOVE);
 			}
 			break;
@@ -221,17 +211,19 @@ LBL_Error:
 				goto LBL_Error;
 			}
 
+			wchar_t buf[100];
 			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, _countof(buf));
 			if (wcscmp(buf2, buf)) {
 				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Passwords do not match!"));
 				goto LBL_Error;
 			}
 
-			if (!CheckOldPassword(hwndDlg, param->db))
+			if (!CheckOldPassword(hwndDlg, db))
 				goto LBL_Error;
 
-			param->db->SetPassword(buf2);
-			param->db->StoreCryptoKey();
+			db->SetPassword(buf2);
+			db->StoreCryptoKey();
+			SecureZeroMemory(buf, sizeof(buf));
 			SecureZeroMemory(buf2, sizeof(buf2));
 			EndDialog(hwndDlg, IDOK);
 		}
@@ -252,8 +244,7 @@ LBL_Error:
 static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
 	MDatabaseCommon *db = (MDatabaseCommon*)obj;
-	DlgChangePassParam param = { db };
-	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)&param);
+	DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)db);
 	return 0;
 }
 
@@ -379,6 +370,11 @@ public:
 		m_timer.OnEvent = Callback(this, &CEnterPasswordDialog::OnTimer);
 	}
 
+	~CEnterPasswordDialog()
+	{
+		SecureZeroMemory(m_newPass, sizeof(m_newPass));
+	}
+
 	bool OnInitDialog() override
 	{
 		m_header.SendMsg(WM_SETICON, ICON_SMALL, (LPARAM)g_plugin.getIcon(IDI_DATABASE, true));
@@ -426,16 +422,16 @@ int MDatabaseCommon::InitCrypt()
 	MBinBuffer key;
 	BOOL bSuccess = ReadCryptoKey(key);
 	if (bSuccess && (key.length() == m_crypto->getKeyLength())) {
-		if (!m_crypto->setKey((const BYTE*)key.data(), key.length())) {
+		// first try to set a key without password
+		if (!m_crypto->setKey(nullptr, (const BYTE*)key.data(), key.length())) {
 			CEnterPasswordDialog dlg(this);
 			while (true) {
 				if (!dlg.DoModal())
 					return 4;
 
-				m_crypto->setPassword(pass_ptrA(mir_utf8encodeW(dlg.m_newPass)));
-				if (m_crypto->setKey((const BYTE*)key.data(), key.length())) {
+				pass_ptrA szPassword(mir_utf8encodeW(dlg.m_newPass));
+				if (m_crypto->setKey(szPassword, (const BYTE*)key.data(), key.length())) {
 					m_bUsesPassword = true;
-					SecureZeroMemory(&dlg.m_newPass, sizeof(dlg.m_newPass));
 					break;
 				}
 				dlg.m_wrongPass++;

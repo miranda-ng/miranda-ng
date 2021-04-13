@@ -37,7 +37,7 @@ struct MICryptoEngine
 	// get/set the instance key
 	STDMETHOD_(size_t, getKeyLength)(void) PURE;
 	STDMETHOD_(bool, getKey)(BYTE *pKey, size_t cbKeyLen) PURE;
-	STDMETHOD_(bool, setKey)(const BYTE *pKey, size_t cbKeyLen) PURE;
+	STDMETHOD_(bool, setKey)(const char *pszPassword, const BYTE *pKey, size_t cbKeyLen) PURE;
 
 	STDMETHOD_(bool, generateKey)(void)PURE; // creates a new key inside
 	STDMETHOD_(void, purgeKey)(void)PURE;    // purges a key from memory

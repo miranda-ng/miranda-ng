@@ -26,35 +26,44 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define KEY_LENGTH 32
 #define BLOCK_SIZE 16
 
+struct ExternalKey
+{
+	BYTE  m_key[KEY_LENGTH];
+	DWORD m_crc32;
+	BYTE  slack[BLOCK_SIZE - sizeof(DWORD)];
+};
+
 struct CStdCrypt : public MICryptoEngine, public MZeroedObject
 {
 	CStdCrypt();
 
-	BOOL      m_valid;
-	CMStringA m_password;
-
-	BYTE      m_key[KEY_LENGTH];
+	bool      m_valid = false;
+	uint8_t   m_key[KEY_LENGTH];
 	CRijndael m_aes;
+	ExternalKey m_extKey;
+
+	bool checkKey(const char *pszPassword, const ExternalKey *pPublic, ExternalKey &key);
+	void key2ext(const char *pszPassword, ExternalKey &key);
 
 	STDMETHODIMP_(void) destroy();
 
 	// get/set the instance key
-	STDMETHODIMP_(size_t) getKeyLength(void);
-	STDMETHODIMP_(bool) getKey(BYTE *pKey, size_t cbKeyLen);
-	STDMETHODIMP_(bool) setKey(const BYTE *pKey, size_t cbKeyLen);
+	STDMETHODIMP_(size_t) getKeyLength(void) override;
+	STDMETHODIMP_(bool) getKey(BYTE *pKey, size_t cbKeyLen) override;
+	STDMETHODIMP_(bool) setKey(const char *pszPassword, const BYTE *pKey, size_t cbKeyLen) override;
 
-	STDMETHODIMP_(bool) generateKey(void); // creates a new key inside
-	STDMETHODIMP_(void) purgeKey(void);    // purges a key from memory
+	STDMETHODIMP_(bool) generateKey(void) override; // creates a new key inside
+	STDMETHODIMP_(void) purgeKey(void) override;    // purges a key from memory
 
 	// sets the master password (in utf-8)
-	STDMETHODIMP_(bool) checkPassword(const char *pszPassword);
 	STDMETHODIMP_(void) setPassword(const char *pszPassword);
+	STDMETHODIMP_(bool) checkPassword(const char *pszPassword) override;
 
 	// result must be freed using mir_free or assigned to mir_ptr<BYTE>
-	STDMETHODIMP_(BYTE*) encodeString(const char *src, size_t *cbResultLen);
-	STDMETHODIMP_(BYTE*) encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen);
+	STDMETHODIMP_(BYTE*) encodeString(const char *src, size_t *cbResultLen) override;
+	STDMETHODIMP_(BYTE*) encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen) override;
 
 	// result must be freed using mir_free or assigned to ptrA/ptrW
-	STDMETHODIMP_(char*) decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
-	STDMETHODIMP_(void*) decodeBuffer(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen);
+	STDMETHODIMP_(char*) decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) override;
+	STDMETHODIMP_(void*) decodeBuffer(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) override;
 };
