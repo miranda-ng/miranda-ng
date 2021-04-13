@@ -330,17 +330,3 @@ void CDbxMDBX::TouchFile()
 		CloseHandle(hFile);
 	}
 }
-
-///////////////////////////////////////////////////////////////////////////////
-// MIDatabaseChecker
-
-int CDbxMDBX::CheckDb(int phase)
-{
-	switch (phase) {
-	case 0: return CDbxMDBX::CheckEvents1();
-	case 1: return CDbxMDBX::CheckEvents2();
-	case 2: return CDbxMDBX::CheckEvents3();
-	}
-
-	return ERROR_OUT_OF_PAPER;
-}
