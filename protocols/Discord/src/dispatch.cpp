@@ -470,6 +470,9 @@ void CDiscordProto::OnCommandMessageAck(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandMessageDelete(const JSONNode &pRoot)
 {
+	if (!m_bSyncDeleteMsgs)
+		return;
+
 	CMStringA msgid(pRoot["id"].as_mstring());
 	if (!msgid.IsEmpty()) {
 		MEVENT hEvent = db_event_getById(m_szModuleName, msgid);

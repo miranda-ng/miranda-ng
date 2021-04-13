@@ -52,7 +52,8 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_wszDefaultGroup(this, "GroupName", DB_KEYVAL_GROUP),
 	m_bUseGroupchats(this, "UseGroupChats", true),
 	m_bHideGroupchats(this, "HideChats", true),
-	m_bUseGuildGroups(this, "UseGuildGroups", false)
+	m_bUseGuildGroups(this, "UseGuildGroups", false),
+	m_bSyncDeleteMsgs(this, "DeleteServerMsgs", true)
 {
 	// Services
 	CreateProtoService(PS_CREATEACCMGRUI, &CDiscordProto::SvcCreateAccMgrUI);
