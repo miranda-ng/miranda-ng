@@ -150,13 +150,15 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 			return 1;
 	}
 
+	// if a setting isn't found in cache, then return an error - we don't cache misses anymore
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, mir_strlen(szModule), mir_strlen(szSetting));
+	if (m_cache->GetCachedValuePtr(hContact, szCachedSettingName, -1) == nullptr)
+		return 1;
+
 	if (szCachedSettingName[-1] == 0) { // it's not a resident variable
 		DeleteContactSettingWorker(hContact, szModule, szSetting);
 		DBFlush();
 	}
-
-	m_cache->GetCachedValuePtr(hContact, szCachedSettingName, -1);
 
 	// notify
 	DBCONTACTWRITESETTING dbcws = { 0 };
