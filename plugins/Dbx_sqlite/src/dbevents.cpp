@@ -149,6 +149,28 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	return hDbEvent;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CDbxSQLite::DeleteEventMain(MEVENT hDbEvent)
+{
+	auto *stmt = InitQuery("DELETE FROM events WHERE id = ?;", qEvDel);
+	sqlite3_bind_int64(stmt, 1, hDbEvent);
+	int rc = sqlite3_step(stmt);
+	logError(rc, __FILE__, __LINE__);
+	sqlite3_reset(stmt);
+	return rc;
+}
+
+int CDbxSQLite::DeleteEventSrt(MEVENT hDbEvent)
+{
+	auto *stmt = InitQuery("DELETE FROM events_srt WHERE id = ?;", qEvDelSrt);
+	sqlite3_bind_int64(stmt, 1, hDbEvent);
+	int rc = sqlite3_step(stmt);
+	logError(rc, __FILE__, __LINE__);
+	sqlite3_reset(stmt);
+	return rc;
+}
+
 BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 {
 	if (hDbEvent == 0)
@@ -160,19 +182,11 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 		return 1;
 
 	mir_cslockfull lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("DELETE FROM events WHERE id = ?;", qEvDel);
-	sqlite3_bind_int64(stmt, 1, hDbEvent);
-	int rc = sqlite3_step(stmt);
-	logError(rc, __FILE__, __LINE__);
-	sqlite3_reset(stmt);
+	int rc = DeleteEventMain(hDbEvent);
 	if (rc != SQLITE_DONE)
 		return 1;
 
-	stmt = InitQuery("DELETE FROM events_srt WHERE id = ?;", qEvDelSrt);
-	sqlite3_bind_int64(stmt, 1, hDbEvent);
-	rc = sqlite3_step(stmt);
-	logError(rc, __FILE__, __LINE__);
-	sqlite3_reset(stmt);
+	rc = DeleteEventSrt(hDbEvent);
 	if (rc != SQLITE_DONE)
 		return 1;
 
@@ -186,6 +200,8 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	NotifyEventHooks(g_hevEventDeleted, hContact, hDbEvent);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbei)
 {

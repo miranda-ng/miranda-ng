@@ -126,6 +126,19 @@ BOOL CDbxSQLite::WriteContactSettingWorker(MCONTACT hContact, DBCONTACTWRITESETT
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CDbxSQLite::DeleteContactSettingWorker(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting)
+{
+	mir_cslock lock(m_csDbAccess);
+	sqlite3_stmt *stmt = InitQuery("DELETE FROM settings WHERE contact_id = ? AND module = ? AND setting = ?;", qSettDel);
+	sqlite3_bind_int64(stmt, 1, hContact);
+	sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
+	sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
+	int rc = sqlite3_step(stmt);
+	logError(rc, __FILE__, __LINE__);
+	sqlite3_reset(stmt);
+	return rc;
+}
+
 BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting)
 {
 	if (szSetting == nullptr || szModule == nullptr)
@@ -139,25 +152,10 @@ BOOL CDbxSQLite::DeleteContactSetting(MCONTACT hContact, LPCSTR szModule, LPCSTR
 
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, mir_strlen(szModule), mir_strlen(szSetting));
 	if (szCachedSettingName[-1] == 0) { // it's not a resident variable
-		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = InitQuery("DELETE FROM settings WHERE contact_id = ? AND module = ? AND setting = ?;", qSettDel);
-		sqlite3_bind_int64(stmt, 1, hContact);
-		sqlite3_bind_text(stmt, 2, szModule, (int)mir_strlen(szModule), nullptr);
-		sqlite3_bind_text(stmt, 3, szSetting, (int)mir_strlen(szSetting), nullptr);
-		int rc = sqlite3_step(stmt);
-		logError(rc, __FILE__, __LINE__);
-		sqlite3_reset(stmt);
-
-		stmt = InitQuery("SELECT CHANGES() FROM settings;", qSettChanges);
-		rc = sqlite3_step(stmt);
-		logError(rc, __FILE__, __LINE__);
-		int deleted = sqlite3_column_int(stmt, 0);
-		sqlite3_reset(stmt);
-		if (deleted == 0)
-			return 1;
-
+		DeleteContactSettingWorker(hContact, szModule, szSetting);
 		DBFlush();
 	}
+
 	m_cache->GetCachedValuePtr(hContact, szCachedSettingName, -1);
 
 	// notify

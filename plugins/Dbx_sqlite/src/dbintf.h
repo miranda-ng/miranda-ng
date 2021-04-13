@@ -36,12 +36,13 @@ struct CDbxSQLiteEventCursor : public DB::EventCursor
 	CDbxSQLiteEventCursor(MCONTACT _1, sqlite3* m_db, MEVENT hDbEvent, bool reverse = false);
 	~CDbxSQLiteEventCursor() override;
 	MEVENT FetchNext() override;
+
 private:
-	sqlite3* m_db;
-	sqlite3_stmt* cursor;
+	sqlite3 *m_db;
+	sqlite3_stmt *cursor;
 };
 
-class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
+class CDbxSQLite : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
 {
 	ptrW m_wszFileName;
 	sqlite3 *m_db = nullptr;
@@ -95,10 +96,13 @@ class CDbxSQLite : public MDatabaseCommon, public MZeroedObject
 	void UninitEvents();
 	CQuery qEvCount, qEvAdd, qEvDel, qEvEdit, qEvBlobSize, qEvGet, qEvGetFlags, qEvSetFlags, qEvGetContact;
 	CQuery qEvFindFirst, qEvFindNext, qEvFindLast, qEvFindPrev, qEvFindUnread, qEvGetById, qEvAddSrt, qEvDelSrt, qEvMetaSplit, qEvMetaMerge;
+	int DeleteEventMain(MEVENT);
+	int DeleteEventSrt(MEVENT);
 
 	// settings
 	void InitSettings();
 	CQuery qSettModules, qSettWrite, qSettDel, qSettEnum, qSettChanges;
+	int DeleteContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
 
 	void DBFlush(bool bForce = false);
 	sqlite3_stmt* InitQuery(const char *szQuery, CQuery &stmt);
@@ -162,4 +166,28 @@ public:
 
 	STDMETHODIMP_(DB::EventCursor*) EventCursor(MCONTACT hContact, MEVENT hDbEvent) override;
 	STDMETHODIMP_(DB::EventCursor*) EventCursorRev(MCONTACT hContact, MEVENT hDbEvent) override;
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// database checker interface implementation
+
+protected:
+	STDMETHODIMP_(MIDatabaseChecker *) GetChecker() override
+	{	return this;
+	}
+
+	STDMETHODIMP_(BOOL) Start(DBCHeckCallback *callback) override
+	{
+		cb = callback;
+		return ERROR_SUCCESS;
+	}
+	
+	STDMETHODIMP_(BOOL) CheckDb(int phase) override;
+	STDMETHODIMP_(VOID) Destroy() override
+	{}
+
+	DBCHeckCallback *cb;
+	int CheckPhase1(void);
+	int CheckPhase2(void);
+	int CheckPhase3(void);
+	int CheckPhase4(void);
 };
