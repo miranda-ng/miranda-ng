@@ -311,7 +311,7 @@ public:
 				// download update
 				m_list.SetItemText(i, 1, TranslateT("Downloading..."));
 
-				if (DownloadFile(&p->File, nlc)) {
+				if (DownloadFile(&p->File, nlc) == ERROR_SUCCESS) {
 					m_list.SetItemText(i, 1, TranslateT("Succeeded."));
 					if (!unzip(p->File.wszDiskPath, wszMirandaPath, wszBackupFolder, false))
 						PU::SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update

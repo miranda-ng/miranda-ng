@@ -250,7 +250,7 @@ bool  ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 wchar_t* GetDefaultUrl();
-bool  DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
+int   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
 
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
 

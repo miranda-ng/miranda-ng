@@ -67,7 +67,7 @@ class CUpdateDLg : public CDlgBase
 					pDlg->m_list.SetItemText(i, 1, TranslateT("Downloading..."));
 
 					FILEURL *pFileUrl = &todo[i].File;
-					if (!DownloadFile(pFileUrl, nlc)) {
+					if (DownloadFile(pFileUrl, nlc) != ERROR_SUCCESS) {
 						pDlg->m_list.SetItemText(i, 1, TranslateT("Failed!"));
 
 						// interrupt update as we require all components to be updated
@@ -413,7 +413,7 @@ static void DlgUpdateSilent(void *param)
 			count++;
 		else if (it->bEnabled) {
 			// download update
-			if (!DownloadFile(&it->File, nlc)) {
+			if (DownloadFile(&it->File, nlc) != ERROR_SUCCESS) {
 				// interrupt update as we require all components to be updated
 				Netlib_CloseHandle(nlc);
 				Skin_PlaySound("updatefailed");
