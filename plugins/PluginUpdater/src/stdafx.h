@@ -55,6 +55,7 @@ extern "C"
 
 #include <m_autobackups.h>
 
+#define MS_PU_CHECK    "PluginUpdater/CheckUpdates"
 #define MS_PU_SHOWLIST "PluginUpdater/ShowList"
 
 #include "Notifications.h"
@@ -150,9 +151,7 @@ using namespace std;
 
 extern DWORD g_mirandaVersion;
 extern wchar_t g_wszRoot[MAX_PATH], g_wszTempPath[MAX_PATH];
-extern HNETLIBUSER hNetlibUser;
-
-extern IconItem iconList[];
+extern HNETLIBUSER g_hNetlibUser;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
@@ -237,13 +236,10 @@ typedef OBJLIST<ServListEntry> SERVLIST;
 ///////////////////////////////////////////////////////////////////////////////
 
 void  InitPopupList();
-void  InitNetlib();
-void  InitIcoLib();
 void  InitEvents();
-void  InitListNew();
 
+void  InitListNew();
 void  UnloadListNew();
-void  UnloadNetlib();
 
 void  CALLBACK RestartPrompt(void *);
 void  CALLBACK CheckUpdateOnStartup(void);
@@ -254,11 +250,11 @@ bool  ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 wchar_t* GetDefaultUrl();
-bool   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
+bool  DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
 
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
 
-int  unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackPath, bool ch);
+int   unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackPath, bool ch);
 
 ///////////////////////////////////////////////////////////////////////////////
 

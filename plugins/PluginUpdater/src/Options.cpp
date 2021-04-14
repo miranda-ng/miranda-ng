@@ -290,7 +290,7 @@ public:
 
 		// if user tried to change the channel, run the update dialog immediately
 		if (bStartUpdate) {
-			Netlib_Log(hNetlibUser, "Platform changed, let's check for updates");
+			Netlib_Log(g_hNetlibUser, "Platform changed, let's check for updates");
 			DoCheck(false);
 		}
 

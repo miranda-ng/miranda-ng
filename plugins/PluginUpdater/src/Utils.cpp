@@ -19,36 +19,10 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HNETLIBUSER hNetlibUser = nullptr;
+HNETLIBUSER g_hNetlibUser = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////
-
-IconItem iconList[] =
-{
-	{ LPGEN("Check for updates"),"check_update", IDI_MENU },
-	{ LPGEN("Plugin info"), "info", IDI_INFO },
-	{ LPGEN("Component list"),"plg_list", IDI_PLGLIST }
-};
-
-void InitIcoLib()
-{
-	g_plugin.registerIcon(MODULEA, iconList);
-}
-
-void InitNetlib()
-{
-	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
-	nlu.szSettingsModule = MODULENAME;
-	hNetlibUser = Netlib_RegisterUser(&nlu);
-}
-
-void UnloadNetlib()
-{
-	Netlib_CloseHandle(hNetlibUser);
-	hNetlibUser = nullptr;
-}
+// Hashes processing
 
 int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 {
@@ -79,14 +53,14 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	Netlib_CloseHandle(nlc);
 
 	if (!ret) {
-		Netlib_LogfW(hNetlibUser, L"Downloading list of available updates from %s failed", baseUrl.get());
+		Netlib_LogfW(g_hNetlibUser, L"Downloading list of available updates from %s failed", baseUrl.get());
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		Skin_PlaySound("updatefailed");
 		return false;
 	}
 
 	if (unzip(pFileUrl.wszDiskPath, g_wszTempPath, nullptr, true)) {
-		Netlib_LogfW(hNetlibUser, L"Unzipping list of available updates from %s failed", baseUrl.get());
+		Netlib_LogfW(g_hNetlibUser, L"Unzipping list of available updates from %s failed", baseUrl.get());
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		Skin_PlaySound("updatefailed");
 		return false;
@@ -98,7 +72,7 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	mir_snwprintf(wszTmpIni, L"%s\\hashes.txt", g_wszTempPath);
 	FILE *fp = _wfopen(wszTmpIni, L"r");
 	if (!fp) {
-		Netlib_LogfW(hNetlibUser, L"Opening %s failed", g_wszTempPath);
+		Netlib_LogfW(g_hNetlibUser, L"Opening %s failed", g_wszTempPath);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		return false;
 	}
@@ -112,7 +86,7 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 			bDoNotSwitchToStable = true;
 		}
 		else if (str[0] != ';') { // ';' marks a comment
-			Netlib_Logf(hNetlibUser, "Update: %s", str);
+			Netlib_Logf(g_hNetlibUser, "Update: %s", str);
 			char *p = strchr(str, ' ');
 			if (p != nullptr) {
 				*p++ = 0;
@@ -186,8 +160,8 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	nlhr.headers = headers;
 
 	for (int i = 0; i < MAX_RETRIES; i++) {
-		Netlib_LogfW(hNetlibUser, L"Downloading file %s to %s (attempt %d)", pFileURL->wszDownloadURL, pFileURL->wszDiskPath, i + 1);
-		NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
+		Netlib_LogfW(g_hNetlibUser, L"Downloading file %s to %s (attempt %d)", pFileURL->wszDownloadURL, pFileURL->wszDiskPath, i + 1);
+		NLHR_PTR pReply(Netlib_HttpTransaction(g_hNetlibUser, &nlhr));
 		if (pReply) {
 			nlc = pReply->nlc;
 			if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
@@ -196,7 +170,7 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 					int crc = crc32(0, (unsigned char *)pReply->pData, pReply->dataLength);
 					if (crc != pFileURL->CRCsum) {
 						// crc check failed, try again
-						Netlib_LogfW(hNetlibUser, L"crc check failed for file %s", pFileURL->wszDiskPath);
+						Netlib_LogfW(g_hNetlibUser, L"crc check failed for file %s", pFileURL->wszDiskPath);
 						continue;
 					}
 				}
@@ -221,15 +195,15 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 				}
 				return true;
 			}
-			Netlib_LogfW(hNetlibUser, L"Downloading file %s failed with error %d", pFileURL->wszDownloadURL, pReply->resultCode);
+			Netlib_LogfW(g_hNetlibUser, L"Downloading file %s failed with error %d", pFileURL->wszDownloadURL, pReply->resultCode);
 		}
 		else {
-			Netlib_LogfW(hNetlibUser, L"Downloading file %s failed, host is propably temporary down.", pFileURL->wszDownloadURL);
+			Netlib_LogfW(g_hNetlibUser, L"Downloading file %s failed, host is propably temporary down.", pFileURL->wszDownloadURL);
 			nlc = nullptr;
 		}
 	}
 
-	Netlib_LogfW(hNetlibUser, L"Downloading file %s failed, giving up", pFileURL->wszDownloadURL);
+	Netlib_LogfW(g_hNetlibUser, L"Downloading file %s failed, giving up", pFileURL->wszDownloadURL);
 	return false;
 }
 

@@ -67,15 +67,24 @@ CMPlugin::CMPlugin() :
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Check for updates"),"check_update", IDI_MENU },
+	{ LPGEN("Plugin info"), "info", IDI_INFO },
+	{ LPGEN("Component list"),"plg_list", IDI_PLGLIST }
+};
+
 static INT_PTR MenuCommand(WPARAM, LPARAM)
 {
-	Netlib_LogfW(hNetlibUser, L"Update started manually!");
+	Netlib_LogfW(g_hNetlibUser, L"Update started manually!");
 	DoCheck(false);
 	return 0;
 }
 
 int CMPlugin::Load()
 {
+	g_plugin.registerIcon(MODULEA, iconList);
+
 	m_impl.m_timer.Start(60 * 1000);
 	InitTimer(0);
 
@@ -85,16 +94,23 @@ int CMPlugin::Load()
 	if (g_wszTempPath[dwLen-1] == '\\')
 		g_wszTempPath[dwLen-1] = 0;
 
+	// Netlib initialization
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
+	nlu.szSettingsModule = MODULENAME;
+	g_hNetlibUser = Netlib_RegisterUser(&nlu);
+
 	InitPopupList();
-	InitNetlib();
-	InitIcoLib();
+	InitEvents();
+	InitListNew();
 
 	// Add hotkey
 	HOTKEYDESC hkd = {};
 	hkd.pszName = "Check for updates";
 	hkd.szDescription.a = "Check for updates";
 	hkd.szSection.a = "Plugin Updater";
-	hkd.pszService = "PluginUpdater/CheckUpdates";
+	hkd.pszService = MS_PU_CHECK;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	g_plugin.addHotkey(&hkd);
 
@@ -102,23 +118,18 @@ int CMPlugin::Load()
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0xfa2cbe01, 0x3b37, 0x4a4c, 0xa6, 0x97, 0xe4, 0x6f, 0x31, 0xa9, 0xfc, 0x33);
 	mi.name.a = LPGEN("Check for updates");
-	mi.hIcolibItem = iconList[0].hIcolib;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MENU);
 	mi.position = 400010000;
-	mi.pszService = hkd.pszService;
+	mi.pszService = MS_PU_CHECK;
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, MenuCommand);
 
-	InitListNew();
-
 	SET_UID(mi, 0xafe94fad, 0xea83, 0x41aa, 0xa4, 0x26, 0xcb, 0x4a, 0x1c, 0x37, 0xc1, 0xd3);
 	mi.position++;
-	mi.hIcolibItem = iconList[2].hIcolib;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_PLGLIST);
 	mi.name.a = LPGEN("Available components list");
 	mi.pszService = MS_PU_SHOWLIST;
 	Menu_AddMainMenuItem(&mi);
-
-	// initialize event hooks
-	InitEvents();
 
 	// add sounds
 	g_plugin.addSound("updatefailed", LPGENW("Plugin Updater"), LPGENW("Update failed"));
@@ -132,7 +143,8 @@ int CMPlugin::Unload()
 {
 	m_impl.m_timer.Stop();
 
+	Netlib_CloseHandle(g_hNetlibUser); g_hNetlibUser = nullptr;
+
 	UnloadListNew();
-	UnloadNetlib();
 	return 0;
 }
