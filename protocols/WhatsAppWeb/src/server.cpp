@@ -236,6 +236,8 @@ void WhatsAppProto::OnStartSession(const JSONNode &root)
 
 void WhatsAppProto::ServerThread(void *)
 {
+	m_bTerminated = false;
+
 	while (ServerThreadWorker())
 		;
 	ShutdownSession();
