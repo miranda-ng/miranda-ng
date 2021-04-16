@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.2.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -134,10 +134,10 @@
 [Select Executable]
 [Plugins]
 ;file \plugins\NotesAndReminders\src\reminders.cpp
+[The specified time is invalid.]
 [Minutes]
 [Hours]
 [The specified time is invalid due to begin of daylight saving (summer time).]
-[The specified time is invalid.]
 [Hour]
 [Day]
 [Days]
