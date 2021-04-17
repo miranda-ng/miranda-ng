@@ -93,11 +93,15 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	bool ProcessChallenge(const CMStringA &szChallenge);
 	bool ProcessSecret(const CMStringA &szSecret);
 
+	bool decryptBinaryMessage(size_t cbSize, const void *buf, MBinBuffer &res);
+
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
 	void OnRestoreSession1(const JSONNode &node);
 	void OnRestoreSession2(const JSONNode &node);
 	void OnStartSession(const JSONNode &node);
+
+	void ProcessBinaryPacket(const MBinBuffer &buf);
 
 	void ProcessPacket(const JSONNode &node);
 	void ProcessBlocked(const JSONNode &node);

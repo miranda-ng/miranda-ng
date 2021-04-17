@@ -335,20 +335,38 @@ bool WhatsAppProto::ServerThreadWorker()
 		while (true) {
 			switch (hdr.opCode) {
 			case 1: // json packet
+			case 2: // binary packet
 				if (hdr.bIsFinal) {
 					// process a packet here
-					CMStringA szJson(netbuf.data() + hdr.headerSize, (int)hdr.payloadSize);
-					debugLogA("JSON received:\n%s", szJson.c_str());
+					const char *start = netbuf.data() + hdr.headerSize;
+					const char *pos = strchr(start, ',');
+					if (pos == nullptr) {
+						debugLogA("invalid packet received, no comma");
+						break;
+					}
+					pos++;
+					size_t dataSize = hdr.payloadSize - size_t(pos - start);
 
-					int pos = szJson.Find(',');
-					if (pos != -1) {
-						CMStringA szPrefix = szJson.Left(pos);
-						szJson.Delete(0, pos+1);
+					// try to decode
+					if (hdr.opCode == 2 && hdr.payloadSize > 32) {
+						MBinBuffer dest;
+						if (!decryptBinaryMessage(dataSize, pos, dest)) {
+							Netlib_Dump(m_hServerConn, netbuf.data(), hdr.headerSize + hdr.payloadSize, false, 0);
+							debugLogA("cannot decrypt incoming message");
+							break;
+						}
+
+						Netlib_Dump(m_hServerConn, dest.data(), dest.length(), false, 0);
+						ProcessBinaryPacket(dest);
+					}
+					else {
+						CMStringA szJson(pos, (int)dataSize);
+						debugLogA("JSON received:\n%s", szJson.c_str());
 
 						JSONNode root = JSONNode::parse(szJson);
 						if (root) {
 							int sessId, pktId;
-							if (sscanf(szPrefix, "%d.--%d,", &sessId, &pktId) == 2) {
+							if (sscanf(start, "%d.--%d,", &sessId, &pktId) == 2) {
 								auto *pReq = m_arPacketQueue.find((WARequest *)&pktId);
 								if (pReq != nullptr) {
 									(this->*pReq->pHandler)(root);
@@ -358,9 +376,6 @@ bool WhatsAppProto::ServerThreadWorker()
 						}
 					}
 				}
-				break;
-
-			case 2: // binary packet
 				break;
 
 			case 8: // close
@@ -403,6 +418,16 @@ bool WhatsAppProto::ServerThreadWorker()
 	m_hServerConn = nullptr;
 	return false;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Binary data processing
+
+void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
+{
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Json data processing
 
 void WhatsAppProto::ProcessPacket(const JSONNode &root)
 {
