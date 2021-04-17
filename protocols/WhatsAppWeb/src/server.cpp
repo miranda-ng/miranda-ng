@@ -413,6 +413,17 @@ void WhatsAppProto::ProcessPacket(const JSONNode &root)
 		ProcessConn(content);
 	else if (szType == "Cmd")
 		ProcessCmd(content);
+	else if (szType == "Blocklist")
+		ProcessBlocked(content);
+}
+
+void WhatsAppProto::ProcessBlocked(const JSONNode &node)
+{
+	for (auto &it : node["blocklist"]) {
+		auto *pUser = AddUser(it.as_string().c_str(), false);
+		Ignore_Ignore(pUser->hContact, IGNOREEVENT_ALL);
+		Contact_RemoveFromList(pUser->hContact);
+	}
 }
 
 void WhatsAppProto::ProcessCmd(const JSONNode &root)

@@ -17,10 +17,17 @@ struct SearchParam
 	LONG id;
 };
 
-WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
-	: PROTO<WhatsAppProto>(proto_name, username),
+static int CompareUsers(const WAUser *p1, const WAUser *p2)
+{
+	return strcmp(p1->szId, p2->szId);
+}
+
+WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
+	PROTO<WhatsAppProto>(proto_name, username),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
-	m_arPacketQueue(10, NumericKeySortT)
+	m_arUsers(10, CompareUsers),
+	m_arPacketQueue(10, NumericKeySortT),
+	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp")
 {
 	db_set_resident(m_szModuleName, "StatusMsg");
 
@@ -73,13 +80,29 @@ WhatsAppProto::~WhatsAppProto()
 {
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// OnModulesLoaded emulator for an account
+
+void WhatsAppProto::OnModulesLoaded()
+{
+	// initialize contacts cache
+	for (auto &cc : AccContacts()) {
+		CMStringA szId(getMStringA(cc, DBKEY_ID));
+		if (!szId.IsEmpty())
+			m_arUsers.insert(new WAUser(cc, szId));
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// PROTO_INTERFACE implementation
+
 MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
 	if (psr->id.w == nullptr)
 		return NULL;
 
 	std::string phone(T2Utf(psr->id.w));
-	std::string jid(phone + "@s.whatsapp.net");
+	std::string jid(phone + "@c.us");
 
 	/*	MCONTACT hContact = AddToContactList(jid, phone.c_str());
 		if (!(flags & PALF_TEMPORARY))
@@ -92,7 +115,7 @@ INT_PTR WhatsAppProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILESEND | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_MODEMSGRECV;
+		return PF1_IM | PF1_FILE | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_MODEMSGRECV;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE;
 	case PFLAGNUM_3:
@@ -162,7 +185,7 @@ int WhatsAppProto::SetStatus(int new_status)
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
-	ptrA jid(getStringA(hContact, "ID"));
+	ptrA jid(getStringA(hContact, DBKEY_ID));
 	if (jid == NULL)
 		return 0;
 
@@ -186,13 +209,14 @@ int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// contacts search
 
 void WhatsAppProto::SearchAckThread(void *targ)
 {
 	Sleep(100);
 
 	SearchParam *param = (SearchParam*)targ;
-	PROTOSEARCHRESULT psr = { 0 };
+	PROTOSEARCHRESULT psr = {};
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_UNICODE;
 	psr.nick.w = psr.firstName.w = psr.lastName.w = L"";
@@ -218,27 +242,6 @@ HANDLE WhatsAppProto::SearchBasic(const wchar_t* id)
 //////////////////////////////////////////////////////////////////////////////
 // EVENTS
 
-int WhatsAppProto::OnUserInfo(WPARAM, LPARAM hContact)
-{
-/*	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
-	if (jid && isOnline()) {
-		m_pConnection->sendGetPicture((char*)jid, "image");
-		m_pConnection->sendPresenceSubscriptionRequest((char*)jid);
-	}
-*/	
-	return 0;
-}
-
-void WhatsAppProto::RequestFriendship(MCONTACT hContact)
-{
-	if (hContact == NULL || isOffline())
-		return;
-
-/*	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
-	if (jid)
-		m_pConnection->sendPresenceSubscriptionRequest((char*)jid); */
-}
-
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
@@ -258,4 +261,4 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
-};
+}

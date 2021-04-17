@@ -10,6 +10,7 @@ Copyright © 2019-21 George Hazan
 #pragma warning(disable:4996)
 #pragma warning(disable:4290)
 
+#include <malloc.h>
 #include <time.h>
 #include <windows.h>
 
@@ -17,6 +18,7 @@ Copyright © 2019-21 George Hazan
 #include <m_avatars.h>
 #include <m_chat.h>
 #include <m_clist.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_history.h>
 #include <m_imgsrvc.h>

@@ -51,6 +51,7 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
     <ClInclude Include="src\db.h" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />

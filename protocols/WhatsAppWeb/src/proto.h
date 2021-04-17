@@ -32,6 +32,22 @@ struct WARequest
 	WA_PKT_HANDLER pHandler;
 };
 
+struct WAUser
+{
+	WAUser(MCONTACT _1, const char *_2) :
+		hContact(_1),
+		szId(mir_strdup(_2))
+	{}
+
+	~WAUser()
+	{
+		mir_free(szId);
+	}
+
+	MCONTACT hContact;
+	char *szId;
+};
+
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
 	bool m_bTerminated, m_bOnline;
@@ -40,10 +56,19 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	CMStringA m_szJid, m_szClientId, m_szClientToken;
 	CMStringW m_tszAvatarFolder;
 
+	EVP_PKEY *m_pKeys; // private & public keys
 	MBinBuffer mac_key, enc_key;
 	bool getBlob(const char *pSetting, MBinBuffer &buf);
 
-	EVP_PKEY *m_pKeys; // private & public keys
+	// Contacts management /////////////////////////////////////////////////////////////////
+
+	mir_cs m_csUsers;
+	OBJLIST<WAUser> m_arUsers;
+
+	WAUser* FindUser(const char *szId);
+	WAUser* AddUser(const char *szId, bool bTemporary);
+
+	// UI //////////////////////////////////////////////////////////////////////////////////
 
 	void CloseQrDialog();
 	bool ShowQrCode(const CMStringA &ref);
@@ -75,6 +100,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnStartSession(const JSONNode &node);
 
 	void ProcessPacket(const JSONNode &node);
+	void ProcessBlocked(const JSONNode &node);
 	void ProcessCmd(const JSONNode &node);
 	void ProcessConn(const JSONNode &node);
 
@@ -113,6 +139,8 @@ public:
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
+	void     OnModulesLoaded() override;
+
 	// Services ////////////////////////////////////////////////////////////////////////////
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
@@ -120,17 +148,16 @@ public:
 	// Events //////////////////////////////////////////////////////////////////////////////
 
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int __cdecl OnUserInfo(WPARAM, LPARAM);
 	int __cdecl OnBuildStatusMenu(WPARAM, LPARAM);
+
+	// Options /////////////////////////////////////////////////////////////////////////////
+
+	CMOption<wchar_t*> m_wszDefaultGroup;  // clist group to store contacts
 
 	// Processing Threads //////////////////////////////////////////////////////////////////
 
 	void __cdecl SearchAckThread(void*);
 	void __cdecl ServerThread(void*);
-
-	// Contacts handling ///////////////////////////////////////////////////////////////////
-
-	void RequestFriendship(MCONTACT hContact);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<WhatsAppProto>
