@@ -1816,9 +1816,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Розширений вигляд з аватарами
 [Advanced with avatars, vertical orientation]
 Розширений вигляд з аватарами, вертикальна орієнтація
-;file \plugins\TabSRMM\src\srmm.cpp
-[This version of TabSRMM requires Windows 2000 or later.]
-Потрібна Windows 2000 або новіша операційа система.
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Попередній перегляд недоступний при використанні History++ як журналу повідомлень.

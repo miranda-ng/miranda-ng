@@ -3,4 +3,4 @@ Language: Беларуская
 Locale: 0423
 Authors: Jerbifor, Inha
 Author-email: jerbifor@gmail.com
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1

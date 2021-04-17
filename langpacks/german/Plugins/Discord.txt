@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -24,6 +24,8 @@ Gruppenchats aktivieren
 Chatfenster bei der Erzeugung nicht öffnen
 [Use subgroups for server channels (requires restart)]
 Untergruppen für Server-Kanäle benutzen (Neustart erforderlich)
+[Delete messages in Miranda when they are deleted from server]
+
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp

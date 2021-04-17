@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -28,8 +28,6 @@ IP-адреса 2
 Показувати приховані "шари"
 [New share]
 Нова "шара"
-[Show HTTP server statistics]
-Статистика НТТР-сервера
 [Set to default]
 За замовчанням
 [External server name]
@@ -38,10 +36,6 @@ IP-адреса 2
 Це посилання, вставлене у вікно повідомлень
 [Write log file]
 Записувати журнал
-[Enable HTTP server]
-Увімкнути HTTP-сервер
-[Main menu items]
-Елементи головного меню
 [Open log]
 Відкрити
 [Show popups]
@@ -117,14 +111,14 @@ IP-адреса:\s
 
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nза: %s
-[You need to restart Miranda to change the main menu]
-Зміни в меню набудуть чинності після перезапуску програми.
 [HTTP Server]
 HTTP-сервер
 [Network]
 Мережа
 [HTTP Share new file]
 HTTP Новий розшарений файл
+[Show HTTP server statistics]
+Статистика НТТР-сервера
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Шару видалено
@@ -133,3 +127,5 @@ HTTP Новий розшарений файл
 
 [Disable HTTP server]
 Вимкнути HTTP-сервер
+[Enable HTTP server]
+Увімкнути HTTP-сервер

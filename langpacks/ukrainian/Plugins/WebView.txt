@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
@@ -20,8 +20,6 @@ Webview
 секунд
 [Hide icon on status bar]
 Ховати значок на панелі статусів
-[Disable main menu items]
-Вимк. пункти у головному меню
 [Load page on window open]
 Завантажити сайт при відкритті
 [Update data on startup]
@@ -210,10 +208,6 @@ Webview
 ;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 Усі сторінки оновлено.
-[Network]
-Мережа
-[Popups]
-Спливаючі вікна
 ;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Неможливо записати у файл
@@ -306,6 +300,24 @@ URL-адреса не поставляється
 [Alert test conditions not met; press the refresh button to view content.]
 Тест умов сповіщення не виконано, натисніть кнопку "Оновити", щоб переглянути вміст.
 ;file \protocols\WebView\src\webview_opts.cpp
+[This is a preview popup.]
+Це спливаюче вікно попереднього перегляду.
+[Network]
+Мережа
+[Popups]
+Спливаючі вікна
+;file \protocols\WebView\src\webview_services.cpp
+[Invalid symbol present in contact name.]
+В імені контакту присутній неприпустимий символ.
+[Cache folder does not exist.]
+Папки кешу не існує.
+[Missing "psite.bat" file.]
+Відсутній файл psite.bat
+[Site URL]
+Посилання на сайт
+[Please select site in Find/Add contacts...]
+Будь ласка, виберіть сайт у Знайти/додати контакти...
+;file \protocols\WebView\src\webview_ui.cpp
 [No whitespace removal]
 Не видаляти вільне місце
 [Minimal level of whitespace removal]
@@ -326,8 +338,6 @@ URL-адреса не поставляється
 Веб-сторінка змінилася
 [A specific part of web page changes]
 Змінилися певні частини веб-сторінки
-[This is a preview popup.]
-Це спливаюче вікно попереднього перегляду.
 [You need to supply a search string.]
 Необхідно ввести в пошуковий рядок.
 [You need to supply a start string.]
@@ -340,14 +350,3 @@ URL-адреса не поставляється
 Необхідно ввести URL-адресу.
 [You need to supply a name for the contact.]
 Необхідно вказати ім'я контакту.
-[Invalid symbol present in contact name.]
-В імені контакту присутній неприпустимий символ.
-;file \protocols\WebView\src\webview_services.cpp
-[Cache folder does not exist.]
-Папки кешу не існує.
-[Missing "psite.bat" file.]
-Відсутній файл psite.bat
-[Site URL]
-Посилання на сайт
-[Please select site in Find/Add contacts...]
-Будь ласка, виберіть сайт у Знайти/додати контакти...

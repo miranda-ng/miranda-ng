@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
@@ -90,8 +90,6 @@ Schließe Dialogfenster automatisch nach
 Letzte Dialogposition merken
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Absätze (CR = '\\r' = #0D) aus Statusnachrichten entfernen
-[Show 'Status message...' item in status menu]
-Menüpunkt 'Statusnachricht...' im Statusmenü anzeigen
 [Clear History]
 Verlauf leeren
 [Clear Predefined]

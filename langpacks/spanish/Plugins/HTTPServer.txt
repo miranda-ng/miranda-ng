@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -28,8 +28,6 @@
 
 [New share]
 
-[Show HTTP server statistics]
-
 [Set to default]
 
 [External server name]
@@ -37,10 +35,6 @@
 [This is the link pasted to the message window]
 
 [Write log file]
-
-[Enable HTTP server]
-
-[Main menu items]
 
 [Open log]
 
@@ -117,13 +111,13 @@ Todos los archivos
 
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 
-[You need to restart Miranda to change the main menu]
-
 [HTTP Server]
 
 [Network]
 Red
 [HTTP Share new file]
+
+[Show HTTP server statistics]
 
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
@@ -132,4 +126,6 @@ Red
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 
 [Disable HTTP server]
+
+[Enable HTTP server]
 

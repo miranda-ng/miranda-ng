@@ -1816,9 +1816,6 @@ Kompaktní rozvržení, horizontální orientace
 Rozšířené rozvržení s avatary, horizontální orientace
 [Advanced with avatars, vertical orientation]
 Rozšířené rozvržení s avatary, vertikální orientace
-;file \plugins\TabSRMM\src\srmm.cpp
-[This version of TabSRMM requires Windows 2000 or later.]
-Tato verze TabSRMM vyžaduje Windows 2000 nebo novější.
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Náhled není dostupný při použití pluginu History++ pro zobrazení záznamu zpráv.

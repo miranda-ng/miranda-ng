@@ -1,3 +1,4 @@
+[Host]
 [%u second]
 [%u seconds]
 [Op]
@@ -6,6 +7,7 @@
 [Failed to connect to]
 [DCC ERROR: Unable to bind local port for passive file transfer]
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+[Event: Connect]
 [Event: Available]
 [Event: Away]
 [Event: Not available]
@@ -68,5 +70,3 @@
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 [%s - Filtered - %d items]
-[Not listed server]
-[Type new server address here]

@@ -236,8 +236,8 @@ Dial-up (експериментално)
 Бутон в лентата с инструменти
 [Show confirm dialog when loading]
 Диалог за потвърждение при стартиране
-[Create a main menu item]
-Елемент в главното меню
+[Create a status menu item]
+Елемент за състояние в менюто
 [Status profiles]
 Профили на състоянията
 [Hotkey]
@@ -354,8 +354,6 @@ Dial-up (експериментално)
 размер: %d x %d
 [loc: %d x %d]
 положение: %d x %d
-[Create a status menu item]
-Елемент за състояние в менюто
 [unknown]
 неизвестен
 [At least one profile must exist]

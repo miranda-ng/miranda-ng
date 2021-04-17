@@ -1,4 +1,3 @@
-[You need to configure it once for each computer, where you run your Miranda NG.]
 [After startup set:]
 [Filtered popups only (leave uncheck for no popups)]
 [Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]

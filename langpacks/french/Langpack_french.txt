@@ -2,14 +2,14 @@ Miranda Language Pack Version 1
 Language: Français
 Locale: 040c
 Authors: Dagobert_78, Jerbifor, soopah
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1
 ;	This translation is automatically generated from the French langpack Miranda IM by Dagobert_78.
 ;	If you want to add, visit the forum https://forum.miranda-ng.org/index.php?board=36.0
 
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
@@ -1823,6 +1823,10 @@ Renommer un groupe
 Ce groupe
 [Connecting]
 Connexion...
+[&Accounts...]
+&Comptes...
+[&Options...]
+&Paramètres...
 [Common]
 Commun
 [(Unknown contact)]
@@ -1975,8 +1979,6 @@ Menu principal
 Menus
 [&Hide/show]
 &Afficher/Cacher
-[&Options...]
-&Paramètres...
 [Menu icons]
 Menus
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
@@ -2077,8 +2079,8 @@ Sélectionnez le programme à lancer
 Réseau
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Aucun plugin de messagerie chargés. S'il vous plaît installer/activer l'un des plugins de messagerie, par exemple, "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' est inactif, le réactiver ?
+['%S' is disabled, re-enable?]
+'%S' est inactif, le réactiver ?
 [Re-enable Miranda plugin?]
 Réactiver le plugin ?
 [Fatal error]
@@ -2183,8 +2185,6 @@ Modifier ce compte
 Mise à jour du compte
 [Account name has to be unique. Please enter unique name.]
 Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
-[&Accounts...]
-&Comptes...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Impossible de lancer une recherche sur '%s', êtes-vous sûr que %s est connecté ?
 [Could not search on any of the protocols, are you online?]
@@ -3216,7 +3216,7 @@ Miranda-IM ne peut ouvrir cet URL
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [Icons]
@@ -3838,7 +3838,7 @@ Tous les fichiers
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
@@ -3885,8 +3885,6 @@ min
 Miranda est démarré
 [Others]
 Autres
-[Create a main menu item]
-Créer un élément de menu principal
 [Password is not correct!\nPlease, enter correct password.]
 Mot de passe incorrect!\nVeuillez entrer le bon mot de passe.
 [Hide Miranda NG]
@@ -6024,7 +6022,7 @@ Erreur
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.1
+;  Version: 4.0.2.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Search and replace]
@@ -6267,14 +6265,14 @@ Panique dans la Base de données !
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Automatic backups]
@@ -6303,10 +6301,10 @@ Sauvegarde en cours
 Copie de la base de données...
 [Error]
 Erreur
-[All files]
-Tous les fichiers
 [Backup profile]
 Sauvegarder votre profil
+[All files]
+Tous les fichiers
 [Popups]
 Popups
 [Database backups]
@@ -6325,7 +6323,7 @@ Sélectionner le répertoire de sauvegarde
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -7752,7 +7750,7 @@ Historique
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [IPAddress1]
@@ -7765,16 +7763,10 @@ Download max
 Adresse
 [Allowed IP]
 IP autorisée
-[Show HTTP server statistics]
-Voir les stat. HTTP server
 [Set to default]
 Par défaut
 [Write log file]
 Journaliser
-[Enable HTTP server]
-Activer HTTP server
-[Main menu items]
-Éléments du menu
 [Open log]
 Ouvrir
 [URL address]
@@ -7813,8 +7805,12 @@ Vitesse
 Serveur HTTP
 [Network]
 Réseau
+[Show HTTP server statistics]
+Voir les stat. HTTP server
 [Disable HTTP server]
 Désactiver HTTP server
+[Enable HTTP server]
+Activer HTTP server
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
 ;============================================================
 ;  File: HwHotKeys.dll
@@ -8136,29 +8132,19 @@ Profil Miranda-NG/mContacts
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Support du protocole Internet Relay Chat (IRC) pour Miranda NG.
-[Default network]
-Réseau par défaut
-[Enable]
-Activer
-[Server name]
-Nom du Serveur
-[Internet address]
-Adresse Internet
+[Server]
+Serveur
+[Host address]
+Adresse d'hôte
 [Port range]
 Ports
 [Password]
 Mot de passe
-[&Add]
-&Ajouter
-[&Edit]
-&Modifier
-[&Del]
-&Effacer
 [User info - Required]
 Info usager - Obligatoire
 [Nick]
@@ -8171,6 +8157,8 @@ Nom (e-mail)
 Identifiant
 [Ident]
 Ident.
+[Enable]
+Activer
 [System]
 Système
 [Port]
@@ -8229,8 +8217,6 @@ Nom
 Adresse
 [Channels]
 Canaux
-[Server]
-Serveur
 [User]
 Utilisateur
 [Away Info]
@@ -8247,6 +8233,8 @@ Question
 Action
 [&Set]
 &Régler
+[&Del]
+&Effacer
 [Perform on event:]
 Action sur l'évènement :
 [Scripting support]
@@ -8257,22 +8245,12 @@ Message de départ :
 Page de code du serveur :
 [Enable UTF-8 autodetection]
 Auto-détection de l'UTF-8
-[Add server]
-Ajouter serveur
-[Host address]
-Adresse d'hôte
-[Server description]
-Description du serveur
-[Network]
-Réseau
 [Channels on server]
 Canaux sur le serveur
 [&Join]
 Re&joindre
 [Filter by]
 Filtrer par
-[C&onnect]
-&Connecter
 [&Save]
 &Sauvegarder
 [Hostmask]
@@ -8293,6 +8271,10 @@ Exclusions
 Invitations
 [Excepts]
 Exceptions
+[&Add]
+&Ajouter
+[&Edit]
+&Modifier
 [Only Ops set topic]
 Sujet par les Ops seulement
 [No external messages]
@@ -8319,12 +8301,24 @@ Modes de canal
 Caché
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
 Utilisez les préférences pour régler les modes pour ce canal. Vous devez normalement être op. ou plus pour modifier
+[Client-to-Client File Transfers]
+Transfert de Fichiers client à client
+[Send mode:]
+Mode d'envoi :
 [Normal]
 Normale
 [Send-ahead]
 Prévenir
+[Packet size (bytes):]
+Taille du paquet :
+[Send notice]
+Envoyer une notice
 [Attempt reverse DCC (good if firewalled)]
 Essayer DCC inversé (bon avec pare-feu)
+[Client-to-Client Chats]
+Chats client à client
+[Auto-accept from:]
+Accepter automatiq. de :
 [none]
 Aucun
 [everyone on the contact list]
@@ -8333,24 +8327,12 @@ toute la liste
 tous
 [Disconnect DCC chats when disconnecting from server]
 Déconnecter les chats DCC en quittant le serveur
-[Manually set external IP:]
-Saisir IP externe manuellement
-[Client-to-Client File Transfers]
-Transfert de Fichiers client à client
 [Client-to-Client Protocol]
 Protocole client-à-client (CTCP)
-[Client-to-Client Chats]
-Chats client à client
-[Send mode:]
-Mode d'envoi :
-[Packet size (bytes):]
-Taille du paquet :
+[Manually set external IP:]
+Saisir IP externe manuellement
 [Get IP address from server]
 Adresse IP du serveur
-[Auto-accept from:]
-Accepter automatiq. de :
-[Send notice]
-Envoyer une notice
 [CTCP Chat Request]
 Requêtes CTCP
 [&Accept]
@@ -8371,24 +8353,16 @@ Ignorer les requêtes de DCC Chat venant de contacts inconnus
 Ignorer les usagers
 [(*) Queries from users on your contact list are never ignored]
 (*) Ne jamais ignorer les messages privés d'utilisateurs de la liste de contacts
+[Ignore mask (nick!user@host)]
+Ignorer masque (nick!user@host)
+[Ignore events]
+Ignorer les évènements
 [Queries]
 Recherches
 [Messages]
 Messages
 [Notices]
 Notifications
-[Ignore mask (nick!user@host)]
-Ignorer masque (nick!user@host)
-[Network (*)]
-Réseau (*)
-[Ignore events]
-Ignorer les évènements
-[(*) blank to set this mask for all networks]
-(*) laisser vide pour couvrir tous les réseaux
-[Server:]
-Serveur :
-[Password:]
-Passe :
 [CTCP chat request from %s]
 Requête de chat CTCP de %s
 [%s sets mode %s]
@@ -8465,8 +8439,8 @@ Paramètre incorrecte. Utiliser : /sleep [ms], ms doit être compris entre 0 et 
 Filtre usagers activé
 [Ignore system is disabled]
 Filtre usagers désactivé
-[%s on %s is now ignored (+%s)]
-%s sur %s est maintenant ignoré (+%s)
+[%s is now ignored (+%s)]
+%s est maintenant ignoré (+%s)
 [%s is not ignored now]
 %s n'est pas ignoré
 [%s was not ignored]
@@ -8517,8 +8491,6 @@ Erreur DCC : Impossible de joindre le port local
 La connexion de chat DCC est inactive
 [The protocol is not online]
 Le protocole n'est pas en ligne
-[Please choose an IRC-network to go online. This network will be the default.]
-Veuillez choisir un réseau IRC pour vous connecter. Il deviendra celui par défaut.
 [Main]
 Principales
 [Add]
@@ -8533,8 +8505,6 @@ Renommer
 Annuler
 [Channel list]
 Liste des salons
-[Quick connect]
-Connexion rapide
 [Server window]
 Fenêtre du serveur
 [Show channel]
@@ -8573,20 +8543,6 @@ Balte
 Vietnamien
 [Korean (Johab)]
 Coréen (Johab)
-[Please complete all fields]
-Veuillez renseigner tous les champs
-[Add a new network]
-Ajouter un nouveau réseau
-[Edit this network]
-Éditer ce réseau
-[Delete this network]
-Effacer ce réseau
-[Do you want to delete\r\n%s]
-Voulez-vous vraiment supprimer\r\n%s
-[Delete server]
-Effacer le serveur
-[Edit server]
-Éditer le serveur
 [<Resolved IP: ]
 <IP trouvé :\s
 [<Automatic>]
@@ -8605,6 +8561,8 @@ Ajouter un nouvel ignoré
 Effacer cet ignoré
 [Ignore mask]
 Ignorer le masque
+[Network]
+Réseau
 [Account]
 Compte
 [Advanced]
@@ -8623,8 +8581,6 @@ Réponse CTCP %s envoyée à %s
 Réponse CTCP %s envoyée à %s : %s
 [Notice to %s: ]
 Notice à %s :\s
-[&Quick connect]
-Connexion &rapide
 [&Join channel]
 Re&joindre un canal
 [&Change your nickname]
@@ -8647,8 +8603,6 @@ Info &WhoIs
 Rejoindre canal
 [Please enter a channel to join]
 Veuillez entrer un canal
-[Please select IRC network and enter the password if needed]
-Veuillez sélectionner un réseau IRC et entrer le mot de passe si nécessaire.
 [Please enter a unique nickname]
 Veuillez entrer un pseudo unique
 [Please enter your authentication code]
@@ -8749,8 +8703,6 @@ Ajouter à la liste des &ignorés
 &Ajouter usager
 [Connecting to]
 Se connecte à
-[Offline]
-Hors ligne
 [Channel]
 Canal
 [Add ban/invite/exception]
@@ -10708,7 +10660,7 @@ Changer mon message d'état pour %s
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [On&line]
@@ -11432,7 +11384,7 @@ Historique
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Default Note Size]
@@ -11445,8 +11397,6 @@ Hauteur (Pixels)
 Voir les ascenseur
 [Startup options]
 Options démarrage
-[Add Contact list menu items]
-Ajouter au menu de la liste de contacts
 [Send Reminders through E-mail/SMS:]
 Envoyer les Rappels par Courriel/SMS :
 [Add Reminder]
@@ -12031,7 +11981,7 @@ Inconnu
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.11
+;  Version: 0.2.0.12
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -12152,12 +12102,12 @@ Test
 Services
 [Check for updates]
 Vérifier la présence de mises à jour
-[Available components list]
-Montrer la liste complète des plugins
 [Plugin info]
 Informations sur le plugin
 [Plugin Updater HTTP connections]
 Connexions HTTP de Plugin Updater
+[Available components list]
+Montrer la liste complète des plugins
 [An error occurred while checking for new updates.]
 Une erreur est survenue lors de la vérification des mises à jour.
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
@@ -13493,7 +13443,7 @@ Sélectionnez une fenêtre comme cible.
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [ms]
@@ -13566,7 +13516,7 @@ Sessions de message
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [%s message for %s]
@@ -13892,11 +13842,13 @@ Liste de contacts
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [for]
 pendant
+[Reset to default]
+Paramètres par défaut
 [Events]
 Évènements
 #muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
@@ -14003,8 +13955,8 @@ Compte
 État
 [Delete]
 Effacer
-[Create a main menu item]
-Créer un élément de menu principal
+[Create a status menu item]
+Ajouter dans le menu
 [Hotkey]
 Raccourci clavier
 [seconds]
@@ -14051,8 +14003,6 @@ Normale
 Droite
 [None]
 Aucun
-[Create a status menu item]
-Ajouter dans le menu
 [unknown]
 Inconnu
 [At least one profile must exist]
@@ -17260,7 +17210,7 @@ min
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [minutes]
@@ -17317,12 +17267,12 @@ Co&uper
 C&oller
 [Co&py all]
 &Tout copier
+[Online]
+En ligne
 [Network]
 Réseau
 [Popups]
 Popups
-[Online]
-En ligne
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll

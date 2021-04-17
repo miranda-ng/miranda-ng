@@ -113,6 +113,8 @@ Pomijanie kontaktu, %S jest niezainstalowane.
 Pomijanie kontaktów nie-IM (%S)
 [Skipping duplicate %S contact %s]
 Pomijanie zduplikowanego %S kontaktu %s
+[Failed to create contact %s (%s)]
+
 [Failed to add %S contact %s]
 Nie udało się dodać %S kontaktu %s
 [Added %S contact %s, '%s']

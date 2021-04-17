@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -76,21 +76,7 @@ Správce relací
 Zrušit
 [Save your current session?]
 Uložit vaši aktuální relaci?
-;file \plugins\Sessions\Src\Main.cpp
-[Sessions]
-Relace
-[Favorite Session]
-Oblíbená relace
-[Not favorite Session]
-Běžná relace
-[Load Session]
-Načíst relaci
-[Load last Session]
-Načíst poslední relaci
-[Current session is empty!]
-Aktuální relace je prázdná!
-[Session name is empty, enter the name and try again]
-Nezadali jste název relace, zadejte jej a zkuste to znovu
+;file \plugins\Sessions\Src\LoadSessions.cpp
 [No sessions to open]
 Neexistuje žádná relace k otevření
 [Last Sessions is empty]
@@ -101,10 +87,13 @@ Neexistují žádné kontakty k otevření
 Tato relace je již otevřena
 [This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Tato relace je již otevřena (ale nejspíše skryta)\nPřejete si zobrazit skryté kontakty?
+;file \plugins\Sessions\Src\Main.cpp
 [Open Sessions Manager]
 Otevřít správce relací
 [Show Favorite Sessions Menu]
 Zobrazit nabídku oblíbených relací
+[Sessions]
+Relace
 [Restore last Session]
 Obnovit poslední relaci
 [Close Session]
@@ -117,11 +106,24 @@ Načíst relaci...
 Zavřít rozhovor
 [Load last session]
 Načíst poslední relaci
+[Favorite Session]
+Oblíbená relace
+[Not favorite Session]
+Běžná relace
+[Load Session]
+Načíst relaci
+[Load last Session]
+Načíst poslední relaci
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Zobrazit
 [Message sessions]
 Komunikace
+;file \plugins\Sessions\Src\SaveSessions.cpp
+[Session name is empty, enter the name and try again]
+Nezadali jste název relace, zadejte jej a zkuste to znovu
+[Current session is empty!]
+Aktuální relace je prázdná!
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
 Relace před posledním pádem

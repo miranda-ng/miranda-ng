@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.1
+;  Version: 4.0.2.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -324,7 +324,9 @@ Typ
 Größe
 [Unable to store value in this data type!]
 Kann diesen Wert nicht in diesem Datentyp speichern!
-[Are you sure you want to delete setting(s): %d?]
+[Are you sure you want to delete %d contact(s)?]
+
+[Are you sure you want to delete %d setting(s)?]
 Sind Sie sich sicher, dass Sie diese %d Einstellung(en) löschen wollen?
 [*** encrypted ***]
 *** verschlüsselt ***

@@ -1816,9 +1816,6 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Пашыранае месцаванне з аватарамі
 [Advanced with avatars, vertical orientation]
 Пашыранае месцаванне з аватарамі, вертыкальная арыентацыя
-;file \plugins\TabSRMM\src\srmm.cpp
-[This version of TabSRMM requires Windows 2000 or later.]
-атрабуецца Windows 2000 ці больш новая сістэма.
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Прадпрагляд недаступны пры выкарыстанні History++ у якасці лога паведамленняў.

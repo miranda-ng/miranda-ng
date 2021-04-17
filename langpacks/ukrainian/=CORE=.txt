@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1208,10 +1208,10 @@ UIN, E-mail тощо
 Стандартний
 [Total]
 Повний
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
+Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля.
 [Set password]
 Встановити пароль
 [&Hide/Show]
@@ -2106,6 +2106,10 @@ UIN, E-mail тощо
 З'єднання
 [Connecting (attempt %d)]
 З'єднання (спроба %d)
+[&Accounts...]
+Облікові записи...
+[&Options...]
+&Налаштування...
 ;file \src\mir_app\src\clistopts.cpp
 [Common]
 Загальний
@@ -2196,6 +2200,17 @@ Miranda не може зрозуміти цей профіль
 Невідомо, чи є ця зміна налаштувань безпечною.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неправильний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
+;file \src\mir_app\src\db_upgrade.cpp
+[This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
+
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[Cannot move old profile '%s' to '%s': error %d]
+
+[Attempt to create database '%s' failed with error code %d]
+
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 Сайт
@@ -2409,8 +2424,6 @@ xСтатус
 Меню в треї
 [&Hide/show]
 С&ховати/Показати
-[&Options...]
-&Налаштування...
 [&About]
 Про &програму
 ;file \src\mir_app\src\menu_utils.cpp
@@ -2548,8 +2561,8 @@ xСтатус
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не знайдено жодного плагіна вікна повідомлень. Встановіть/увімкніть один з них, наприклад, StdMsg.dll
-['%s' is disabled, re-enable?]
-"%s" вимкнений. Увімкнути?
+['%S' is disabled, re-enable?]
+"%S" вимкнений. Увімкнути?
 [Re-enable Miranda plugin?]
 Увімкнути плагін?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2686,8 +2699,6 @@ ID облікового запису
 Помилка облікового запису
 [Account name has to be unique. Please enter unique name.]
 Назва облікового запису має бути унікальною. Вкажіть унікальну назву.
-[&Accounts...]
-Облікові записи...
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]

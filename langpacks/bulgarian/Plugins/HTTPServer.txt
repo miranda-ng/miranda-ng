@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -28,8 +28,6 @@ IP адрес 2
 
 [New share]
 
-[Show HTTP server statistics]
-Статистика на HTTP сървъра
 [Set to default]
 Задаване
 [External server name]
@@ -38,10 +36,6 @@ IP адрес 2
 Следната връзка ще бъде поставяна с прозореца за съобщения
 [Write log file]
 
-[Enable HTTP server]
-Включване на HTTP сървъра
-[Main menu items]
-Елементи в главното меню
 [Open log]
 Дневник
 [Show popups]
@@ -117,14 +111,14 @@ IP адрес:\s
 Преглеждате от
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Вашето външно IP е %d.%d.%d.%d\r\nзасечено от: %s
-[You need to restart Miranda to change the main menu]
-За променянето на главното меню е необходимо рестартиране на Miranda
 [HTTP Server]
 HTTP сървър
 [Network]
 Мрежа
 [HTTP Share new file]
 HTTP споделяне на нов файл
+[Show HTTP server statistics]
+Статистика на HTTP сървъра
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 
@@ -133,3 +127,5 @@ HTTP споделяне на нов файл
 
 [Disable HTTP server]
 Изключване на HTTP сървъра
+[Enable HTTP server]
+Включване на HTTP сървъра

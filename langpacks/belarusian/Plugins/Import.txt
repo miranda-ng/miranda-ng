@@ -113,6 +113,8 @@
 Пропуск не-IM кантакта (%s)
 [Skipping duplicate %S contact %s]
 Пропуск паўтора %S кантакт %s
+[Failed to create contact %s (%s)]
+
 [Failed to add %S contact %s]
 Не атрымалася дадаць %S кантакт %s
 [Added %S contact %s, '%s']

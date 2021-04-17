@@ -2,30 +2,22 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Support du protocole Internet Relay Chat (IRC) pour Miranda NG.
 ;file \protocols\IRCG\res\IRC.rc
-[Default network]
-Réseau par défaut
-[Enable]
-Activer
-[Server name]
-Nom du Serveur
-[Internet address]
-Adresse Internet
+[Server]
+Serveur
+[Host address]
+Adresse d'hôte
 [Port range]
 Ports
+[Enable SASL]
+
 [Password]
 Mot de passe
-[&Add]
-&Ajouter
-[&Edit]
-&Modifier
-[&Del]
-&Effacer
 [User info - Required]
 Info usager - Obligatoire
 [Nick]
@@ -38,6 +30,8 @@ Nom (e-mail)
 Identifiant
 [Ident]
 Ident.
+[Enable]
+Activer
 [System]
 Système
 [Port]
@@ -98,8 +92,6 @@ Adresse
 Canaux
 [Auth]
 
-[Server]
-Serveur
 [User]
 Utilisateur
 [Away Info]
@@ -116,6 +108,8 @@ Question
 Action
 [&Set]
 &Régler
+[&Del]
+&Effacer
 [Alias]
 
 [Perform on event:]
@@ -128,28 +122,12 @@ Message de départ :
 Page de code du serveur :
 [Enable UTF-8 autodetection]
 Auto-détection de l'UTF-8
-[Add server]
-Ajouter serveur
-[Auto]
-
-[On]
-
-[Off]
-
-[Host address]
-Adresse d'hôte
-[Server description]
-Description du serveur
-[Network]
-Réseau
 [Channels on server]
 Canaux sur le serveur
 [&Join]
 Re&joindre
 [Filter by]
 Filtrer par
-[C&onnect]
-&Connecter
 [&Save]
 &Sauvegarder
 [Hostmask]
@@ -170,6 +148,10 @@ Exclusions
 Invitations
 [Excepts]
 Exceptions
+[&Add]
+&Ajouter
+[&Edit]
+&Modifier
 [Only Ops set topic]
 Sujet par les Ops seulement
 [No external messages]
@@ -198,12 +180,24 @@ Caché
 Utilisez les préférences pour régler les modes pour ce canal. Vous devez normalement être op. ou plus pour modifier
 [Strip colors]
 
+[Client-to-Client File Transfers]
+Transfert de Fichiers client à client
+[Send mode:]
+Mode d'envoi :
 [Normal]
 Normale
 [Send-ahead]
 Prévenir
+[Packet size (bytes):]
+Taille du paquet :
+[Send notice]
+Envoyer une notice
 [Attempt reverse DCC (good if firewalled)]
 Essayer DCC inversé (bon avec pare-feu)
+[Client-to-Client Chats]
+Chats client à client
+[Auto-accept from:]
+Accepter automatiq. de :
 [none]
 Aucun
 [everyone on the contact list]
@@ -212,24 +206,12 @@ toute la liste
 tous
 [Disconnect DCC chats when disconnecting from server]
 Déconnecter les chats DCC en quittant le serveur
-[Manually set external IP:]
-Saisir IP externe manuellement
-[Client-to-Client File Transfers]
-Transfert de Fichiers client à client
 [Client-to-Client Protocol]
 Protocole client-à-client (CTCP)
-[Client-to-Client Chats]
-Chats client à client
-[Send mode:]
-Mode d'envoi :
-[Packet size (bytes):]
-Taille du paquet :
+[Manually set external IP:]
+Saisir IP externe manuellement
 [Get IP address from server]
 Adresse IP du serveur
-[Auto-accept from:]
-Accepter automatiq. de :
-[Send notice]
-Envoyer une notice
 [CTCP Chat Request]
 Requêtes CTCP
 [&Accept]
@@ -250,24 +232,18 @@ Ignorer les requêtes de DCC Chat venant de contacts inconnus
 Ignorer les usagers
 [(*) Queries from users on your contact list are never ignored]
 (*) Ne jamais ignorer les messages privés d'utilisateurs de la liste de contacts
+[Ignore mask (nick!user@host)]
+Ignorer masque (nick!user@host)
+[Ignore events]
+Ignorer les évènements
 [Queries]
 Recherches
 [Messages]
 Messages
 [Notices]
 Notifications
-[Ignore mask (nick!user@host)]
-Ignorer masque (nick!user@host)
-[Network (*)]
-Réseau (*)
-[Ignore events]
-Ignorer les évènements
-[(*) blank to set this mask for all networks]
-(*) laisser vide pour couvrir tous les réseaux
-[Server:]
-Serveur :
-[Password:]
-Passe :
+[Host]
+
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Requête de chat CTCP de %s
@@ -369,8 +345,8 @@ Paramètre incorrecte. Utiliser : /sleep [ms], ms doit être compris entre 0 et 
 Filtre usagers activé
 [Ignore system is disabled]
 Filtre usagers désactivé
-[%s on %s is now ignored (+%s)]
-%s sur %s est maintenant ignoré (+%s)
+[%s is now ignored (+%s)]
+%s est maintenant ignoré (+%s)
 [%s is not ignored now]
 %s n'est pas ignoré
 [%s was not ignored]
@@ -425,8 +401,6 @@ Erreur DCC : Impossible de joindre le port local
 La connexion de chat DCC est inactive
 [The protocol is not online]
 Le protocole n'est pas en ligne
-[Please choose an IRC-network to go online. This network will be the default.]
-Veuillez choisir un réseau IRC pour vous connecter. Il deviendra celui par défaut.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
 
 ;file \protocols\IRCG\src\options.cpp
@@ -444,8 +418,6 @@ Renommer
 Annuler
 [Channel list]
 Liste des salons
-[Quick connect]
-Connexion rapide
 [Server window]
 Fenêtre du serveur
 [Show channel]
@@ -488,26 +460,20 @@ Balte
 Vietnamien
 [Korean (Johab)]
 Coréen (Johab)
-[Please complete all fields]
-Veuillez renseigner tous les champs
-[Add a new network]
-Ajouter un nouveau réseau
-[Edit this network]
-Éditer ce réseau
-[Delete this network]
-Effacer ce réseau
-[Do you want to delete\r\n%s]
-Voulez-vous vraiment supprimer\r\n%s
-[Delete server]
-Effacer le serveur
-[Edit server]
-Éditer le serveur
+[Off]
+
+[Auto]
+
+[On]
+
 [<Resolved IP: ]
 <IP trouvé :\s
 [<Automatic>]
 <Automatique>
 [<Local IP: ]
 <IP Local :\s
+[Event: Connect]
+
 [Event: Available]
 
 [Event: Away]
@@ -521,8 +487,6 @@ Effacer le serveur
 [Event: Free for chat]
 
 [Event: Disconnect]
-
-[ALL NETWORKS]
 
 [Click to set commands that will be performed for this event]
 Cliquez pour définir la commande pour cet évènement
@@ -544,6 +508,8 @@ Ignorer le masque
 
 [Edit ignore]
 
+[Network]
+Réseau
 [Account]
 Compte
 [DCC and CTCP]
@@ -566,8 +532,6 @@ Réponse CTCP %s envoyée à %s : %s
 [Notice to %s: ]
 Notice à %s :\s
 ;file \protocols\IRCG\src\services.cpp
-[&Quick connect]
-Connexion &rapide
 [&Join channel]
 Re&joindre un canal
 [&Change your nickname]
@@ -590,8 +554,6 @@ Info &WhoIs
 Rejoindre canal
 [Please enter a channel to join]
 Veuillez entrer un canal
-[Please select IRC network and enter the password if needed]
-Veuillez sélectionner un réseau IRC et entrer le mot de passe si nécessaire.
 [Please enter a unique nickname]
 Veuillez entrer un pseudo unique
 [Please enter your authentication code]
@@ -745,8 +707,6 @@ Ajouter à la liste des &ignorés
 [Connecting to]
 Se connecte à
 ;file \protocols\IRCG\src\tools.cpp
-[Offline]
-Hors ligne
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 
@@ -764,10 +724,6 @@ Canal
 [Mode]
 
 [%s - Filtered - %d items]
-
-[Not listed server]
-
-[Type new server address here]
 
 [Add ban/invite/exception]
 Ajouter ban/invite/exception

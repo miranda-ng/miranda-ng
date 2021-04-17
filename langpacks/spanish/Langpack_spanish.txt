@@ -3,7 +3,7 @@ Language: Español
 Locale: 0c0a
 Authors: Carlos Sánchez (c-sanchez)
 Author-email: carlos1994sanchez@gmail.com
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1
 
 ; Una nueva traducción al Español para Miranda NG realizada desde cero.
 
@@ -17,7 +17,7 @@ Last-Modified-Using: Miranda NG 0.95.13
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
@@ -1783,6 +1783,10 @@ Renombrar grupo
 Este grupo
 [Connecting]
 Conectando
+[&Accounts...]
+&Cuentas...
+[&Options...]
+&Opciones
 [(Unknown contact)]
 (Contacto desconocido)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -1975,8 +1979,6 @@ Menús
 Menú de la bandeja
 [&Hide/show]
 &Mostrar/Ocultar
-[&Options...]
-&Opciones
 [Menu icons]
 Iconos de menú
 [Protocol]
@@ -2009,8 +2011,8 @@ Seleccione el programa a ser ejecutado
 Red
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' está deshabilitado, ¿volver a activar?
+['%S' is disabled, re-enable?]
+'%S' está deshabilitado, ¿volver a activar?
 [Re-enable Miranda plugin?]
 Volver a activar el plugin de Miranda?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2131,8 +2133,6 @@ Actualizar cuenta
 Error de cuenta
 [Account name has to be unique. Please enter unique name.]
 El nombre de la cuenta tiene que ser único. Por favor ingrese el nombre único.
-[&Accounts...]
-&Cuentas...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
 [Could not search on any of the protocols, are you online?]
@@ -3210,19 +3210,17 @@ Servicios
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Si un contacto no autorizó que este plugin colocar un icono delante del nombre del contacto.
-[Show Grant icon]
-Mostrar icono de concesión
 [Plugin settings]
 Configuración de plugin
-[Enable menu item]
-Activar opción de menú
 [Show icons only for recently added contacts]
 Mostrar sólo iconos de los contactos agregados recientemente
+[Show Grant icon]
+Mostrar icono de concesión
 [Grant]
 Conceder
 [Disable AuthState icons]
@@ -3538,7 +3536,7 @@ Todos los archivos
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
@@ -3551,8 +3549,6 @@ Tecla de acceso directo
 Contraseña:
 [Cancel]
 Cancelar
-[Create a main menu item]
-Crear un elemento del menú principal
 [Events]
 Eventos
 [Main]
@@ -5058,7 +5054,7 @@ Error
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.1
+;  Version: 4.0.2.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [&Search]
@@ -5133,14 +5129,14 @@ Error
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Disabled]
@@ -5167,7 +5163,7 @@ Variables
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -5826,7 +5822,7 @@ Historial
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [Show popups]
@@ -6050,19 +6046,15 @@ Todos los archivos
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
-[Enable]
-Habilitar
 [Password]
 Contraseña
-[&Add]
-&Añadir
-[&Edit]
-&Editar
 [Nick]
 Apodo
+[Enable]
+Habilitar
 [System]
 Sistema
 [Port]
@@ -6083,14 +6075,12 @@ Autenticación
 &Cancelar
 [Alias]
 Alias
-[On]
-Encendido
-[Off]
-Apagado
-[Network]
-Red
 [&Join]
 &Entrar
+[&Add]
+&Añadir
+[&Edit]
+&Editar
 [Hidden]
 Oculto
 [Normal]
@@ -6103,10 +6093,6 @@ ninguno
 Mensajes
 [Notices]
 Avisos
-[Server:]
-Servidor:
-[Password:]
-Contraseña:
 [Owner]
 Propietario
 [Voice]
@@ -6131,14 +6117,16 @@ Renombrar
 Editar
 [Cancel]
 Cancelar
-[ALL NETWORKS]
-Todas las redes
+[Off]
+Apagado
+[On]
+Encendido
+[Network]
+Red
 [Account]
 Cuenta
 [Advanced]
 Avanzado
-[Offline]
-Fuera de línea
 #muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
@@ -6986,7 +6974,7 @@ Lista de contactos
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [On&line]
@@ -7458,7 +7446,7 @@ Iniciando sesión
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [None]
@@ -7755,7 +7743,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.11
+;  Version: 0.2.0.12
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -7888,10 +7876,10 @@ Prueba
 Servicios
 [Check for updates]
 Buscar actualizaciones de plugin
-[Available components list]
-Mostrar lista de plugins completa
 [Plugin info]
 Información del plugin
+[Available components list]
+Mostrar lista de plugins completa
 [An error occurred while checking for new updates.]
 Se ha producido un error al comprobar nuevas actualizaciones.
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
@@ -8835,7 +8823,7 @@ E-mail
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Do nothing]
@@ -8880,7 +8868,7 @@ Sesiones de mensaje
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [%s message for %s]
@@ -9160,11 +9148,13 @@ Posición inicial
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [for]
 para
+[Reset to default]
+Restaurar por defecto
 [Enable sounds]
 Habilitar sonidos
 [Events]
@@ -9427,8 +9417,8 @@ Eliminar
 Crear un botón de barra de herramientas superior
 [Show confirm dialog when loading]
 Mostrar diálogo de confirmación cuando se carga
-[Create a main menu item]
-Crear un elemento del menú principal
+[Create a status menu item]
+Crear un elemento de menú de estado
 [Status profiles]
 Perfiles de estado
 [Hotkey]
@@ -9509,8 +9499,6 @@ Ninguno
 tamaño: %d x %d
 [loc: %d x %d]
 loc: %d x %d
-[Create a status menu item]
-Crear un elemento de menú de estado
 [unknown]
 desconocido
 [At least one profile must exist]
@@ -11090,7 +11078,7 @@ Velocidad del viento
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [minutes]
@@ -11143,12 +11131,12 @@ Registro
 Co&piar todo
 [&Select all]
 &Seleccionar todo
+[Online]
+En línea
 [Network]
 Red
 [Popups]
 Ventanas emergentes
-[Online]
-En línea
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll

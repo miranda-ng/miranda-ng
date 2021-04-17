@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -76,21 +76,7 @@ Sitzungsmanager
 Abbrechen
 [Save your current session?]
 Aktuelle Sitzung speichern?
-;file \plugins\Sessions\Src\Main.cpp
-[Sessions]
-Sitzungen
-[Favorite Session]
-Sitzungsfavorit
-[Not favorite Session]
-Kein Sitzungsfavorit
-[Load Session]
-Lade Sitzung
-[Load last Session]
-Lade letzte Sitzung
-[Current session is empty!]
-Aktuelle Sitzung ist leer.
-[Session name is empty, enter the name and try again]
-Sitzungsname ist leer, geben Sie einen Namen ein und versuchen Sie es erneut.
+;file \plugins\Sessions\Src\LoadSessions.cpp
 [No sessions to open]
 Keine Sitzungen zu öffnen.
 [Last Sessions is empty]
@@ -101,10 +87,13 @@ Keine Kontakte zu öffnen.
 Diese Sitzung ist bereits geöffnet.
 [This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Diese Sitzung ist bereits geöffnet (aber vermutlich versteckt).\nWollen Sie versteckte Kontakte anzeigen?
+;file \plugins\Sessions\Src\Main.cpp
 [Open Sessions Manager]
 Öffne Sitzungsmanager
 [Show Favorite Sessions Menu]
 Zeige Sitzungsfavoriten
+[Sessions]
+Sitzungen
 [Restore last Session]
 Letzte Sitzung wiederherstellen
 [Close Session]
@@ -117,11 +106,24 @@ Sitzung laden...
 Sitzung schließen
 [Load last session]
 Letzte Sitzung laden
+[Favorite Session]
+Sitzungsfavorit
+[Not favorite Session]
+Kein Sitzungsfavorit
+[Load Session]
+Lade Sitzung
+[Load last Session]
+Lade letzte Sitzung
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Anzeigen
 [Message sessions]
 Nachrichtensitzungen
+;file \plugins\Sessions\Src\SaveSessions.cpp
+[Session name is empty, enter the name and try again]
+Sitzungsname ist leer, geben Sie einen Namen ein und versuchen Sie es erneut.
+[Current session is empty!]
+Aktuelle Sitzung ist leer.
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
 Sitzung vor dem letzten Absturz

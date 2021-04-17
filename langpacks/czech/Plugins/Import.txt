@@ -113,6 +113,8 @@ Přeskakování kontaktu, %S není nainstalován
 Přeskakování ne-IM kontaktu (%S)
 [Skipping duplicate %S contact %s]
 Přeskakování duplicitního %S kontaktu %s
+[Failed to create contact %s (%s)]
+
 [Failed to add %S contact %s]
 Nepodařilo se přidat %S kontakt %s
 [Added %S contact %s, '%s']

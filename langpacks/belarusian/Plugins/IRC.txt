@@ -2,30 +2,22 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Плагін падтрымкі пратаколу IRC.
 ;file \protocols\IRCG\res\IRC.rc
-[Default network]
-Сетка па змаўчанні
-[Enable]
-Уключана
-[Server name]
-Імя сервера
-[Internet address]
-Сеткавы адрас
+[Server]
+Сервер
+[Host address]
+&OK
 [Port range]
 Дыяпазон портаў
+[Enable SASL]
+Уключыць SASL
 [Password]
 Пароль
-[&Add]
-&Дадаць
-[&Edit]
-Кіраваць
-[&Del]
-Выдаліць
 [User info - Required]
 Пра кантакт - Неабходна
 [Nick]
@@ -38,6 +30,8 @@
 ID кантакта
 [Ident]
 Ідэнтыфікацыя
+[Enable]
+Уключана
 [System]
 Сістэма
 [Port]
@@ -98,8 +92,6 @@ ID кантакта
 Каналы
 [Auth]
 Аўтарызацыя
-[Server]
-Сервер
 [User]
 Карыстач
 [Away Info]
@@ -116,6 +108,8 @@ ID кантакта
 Выканаць
 [&Set]
 Усталяваць
+[&Del]
+Выдаліць
 [Alias]
 Аліас
 [Perform on event:]
@@ -128,28 +122,12 @@ ID кантакта
 Кодавая старонка сервера:
 [Enable UTF-8 autodetection]
 Уключыць аўтавызначэнне UTF-8
-[Add server]
-Дадаць сервер
-[Auto]
-Аўта
-[On]
-Укл
-[Off]
-Адкл.
-[Host address]
-&OK
-[Server description]
-Апісанне сервера
-[Network]
-Сеціва
 [Channels on server]
 Чаты сервера
 [&Join]
 Зайсці
 [Filter by]
 Фільтр па
-[C&onnect]
-Злучэнне
 [&Save]
 &Захаваць
 [Hostmask]
@@ -170,6 +148,10 @@ Wildcard пошук па сетцы
 Запрашэнні
 [Excepts]
 Выключэнні
+[&Add]
+&Дадаць
+[&Edit]
+Кіраваць
 [Only Ops set topic]
 Змена тэмы Опамі
 [No external messages]
@@ -198,12 +180,24 @@ Wildcard пошук па сетцы
 Налады чата. Для кіравання патрэбныя правы адміністратара.
 [Strip colors]
 Колеры палос
+[Client-to-Client File Transfers]
+Перадача файлаў па CTCP
+[Send mode:]
+Рэжым адпраўкі:
 [Normal]
 Звычайны
 [Send-ahead]
 Папераджальны
+[Packet size (bytes):]
+Памер пакета (б):
+[Send notice]
+Пасылаць абвестку
 [Attempt reverse DCC (good if firewalled)]
 Рэверсіўнае DCC (для брандмаўараў)
+[Client-to-Client Chats]
+Чаты CTCP
+[Auto-accept from:]
+Аўтапрыем ад:
 [none]
 няма
 [everyone on the contact list]
@@ -212,24 +206,12 @@ Wildcard пошук па сетцы
 усё
 [Disconnect DCC chats when disconnecting from server]
 Адключаць DCC-чаты пры выйсці з сервера
-[Manually set external IP:]
-Ручная налада вонкавага IP:
-[Client-to-Client File Transfers]
-Перадача файлаў па CTCP
 [Client-to-Client Protocol]
 Пратакол CTCP
-[Client-to-Client Chats]
-Чаты CTCP
-[Send mode:]
-Рэжым адпраўкі:
-[Packet size (bytes):]
-Памер пакета (б):
+[Manually set external IP:]
+Ручная налада вонкавага IP:
 [Get IP address from server]
 Атрымаць IP у сервера
-[Auto-accept from:]
-Аўтапрыем ад:
-[Send notice]
-Пасылаць абвестку
 [CTCP Chat Request]
 Запыт на CTCP-чат
 [&Accept]
@@ -250,24 +232,18 @@ Wildcard пошук па сетцы
 Ігнараваць кантакты
 [(*) Queries from users on your contact list are never ignored]
 (*) Не ігнараваць запыты ад кантыктаў з спісу
+[Ignore mask (nick!user@host)]
+Маска ігнаравання (nick!user@host)
+[Ignore events]
+Падзеі
 [Queries]
 Запыты
 [Messages]
 Паведамленні
 [Notices]
 Абвесткі
-[Ignore mask (nick!user@host)]
-Маска ігнаравання (nick!user@host)
-[Network (*)]
-Сетка (*)
-[Ignore events]
-Падзеі
-[(*) blank to set this mask for all networks]
-(*) Пакіньце пустым каб ужыць маску для ўсіх сетак
-[Server:]
-Сервер:
-[Password:]
-Пароль:
+[Host]
+
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запыт CTCP-чата ад %s
@@ -369,8 +345,8 @@ CTCP %s адказ ад %s: %s
 Сістэма ігнаравання укл
 [Ignore system is disabled]
 Сістэма ігнаравання выкл
-[%s on %s is now ignored (+%s)]
-%s на %s ігнаруецца (+%s)
+[%s is now ignored (+%s)]
+%s ігнаруецца (+%s)
 [%s is not ignored now]
 %s больш не ігнаруецца
 [%s was not ignored]
@@ -425,8 +401,6 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Злучэнне DCC-чата неактыўна
 [The protocol is not online]
 Пратакол не ў сетцы
-[Please choose an IRC-network to go online. This network will be the default.]
-Абярыце IRC сетка. Гэта сетка будзе абрана па змаўчанні.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
 Немагчыма ўсталяваць далучэнне. Вы не ўвялі ўсе неабходныя дадзеныя (мянушка, User ID і поўнае імя)
 ;file \protocols\IRCG\src\options.cpp
@@ -444,8 +418,6 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Скасаваць
 [Channel list]
 Спіс каналаў
-[Quick connect]
-Хуткае злучэнне
 [Server window]
 Вакно сервера
 [Show channel]
@@ -488,26 +460,20 @@ WhoIs
 В'етнамскі
 [Korean (Johab)]
 Карэйскі (Johab)
-[Please complete all fields]
-Запоўніце ўсе палі
-[Add a new network]
-Дадаць сетку
-[Edit this network]
-Змяніць налады сеткі
-[Delete this network]
-Выдаліць гэту сетку
-[Do you want to delete\r\n%s]
-Выдаліць?\r\n%s
-[Delete server]
-Выдаліць сервер
-[Edit server]
-Змяніць налады
+[Off]
+Адкл.
+[Auto]
+Аўта
+[On]
+Укл
 [<Resolved IP: ]
 <Вызначаныя IP:>
 [<Automatic>]
 <Аўтаматычна>
 [<Local IP: ]
 <Лакальны IP:>
+[Event: Connect]
+
 [Event: Available]
 
 [Event: Away]
@@ -522,8 +488,6 @@ WhoIs
 
 [Event: Disconnect]
 
-[ALL NETWORKS]
-Усе сеткі
 [Click to set commands that will be performed for this event]
 Клікніце для каманд апрацоўкі гэтай падзеі
 [Click to delete the commands for this event]
@@ -544,6 +508,8 @@ WhoIs
 Даданне правіла
 [Edit ignore]
 Змяніць ігнор
+[Network]
+Сеціва
 [Account]
 Конт
 [DCC and CTCP]
@@ -566,8 +532,6 @@ CTCP %s адказ пасланы для %s: %s
 [Notice to %s: ]
 Абвестка для %s:\s
 ;file \protocols\IRCG\src\services.cpp
-[&Quick connect]
-&Хуткае далучэнне
 [&Join channel]
 Увайсці ў чат
 [&Change your nickname]
@@ -590,8 +554,6 @@ CTCP %s адказ пасланы для %s: %s
 Зайсці на канал
 [Please enter a channel to join]
 Увядзіце назву чата
-[Please select IRC network and enter the password if needed]
-Абярыце IRC сетка і ўвядзіце пароль, калі неабходна
 [Please enter a unique nickname]
 Увядзіце ўнікальную мянушку
 [Please enter your authentication code]
@@ -745,8 +707,6 @@ Nickserv забіць фантому
 [Connecting to]
 Злучэнне з
 ;file \protocols\IRCG\src\tools.cpp
-[Offline]
-Адключаны
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Хутчэй! Шукае ў сетцы для дакладнай адпаведнасці толькі мянушкай. Маска хосту з'яўляецца неабавязковай і забяспечвае дадатковую абарону пры выкарыстанні. Гуртавыя сімвалы (* і?) Не дапускаюцца.
@@ -765,10 +725,6 @@ Nickserv забіць фантому
 Рэжым
 [%s - Filtered - %d items]
 %s - адфільтравана - %d
-[Not listed server]
-Сервер па-за спісам
-[Type new server address here]
-Новы адрас сервера
 [Add ban/invite/exception]
 Дадаць бан/запрашэнне/выключэнне
 [Edit selected ban/invite/exception]

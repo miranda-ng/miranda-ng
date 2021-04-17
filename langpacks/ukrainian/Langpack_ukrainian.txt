@@ -2,14 +2,14 @@ Miranda Language Pack Version 1
 Language: Українська
 Locale: 0422
 Authors: apollo2k4, RMN
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1
 
 ; Based on translation for Miranda IM by Vitaliy Stopchans'kyy, SLV, Ivan Blazhko
 
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 [Become idle if the following is left unattended:]
 Перейти до режиму очікування, якщо неактивні:
@@ -1187,10 +1187,10 @@ UIN, E-mail тощо
 Стандартний
 [Total]
 Повний
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
+Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля.
 [Set password]
 Встановити пароль
 [&Hide/Show]
@@ -2031,6 +2031,10 @@ UIN, E-mail тощо
 З'єднання
 [Connecting (attempt %d)]
 З'єднання (спроба %d)
+[&Accounts...]
+Облікові записи...
+[&Options...]
+&Налаштування...
 [Common]
 Загальний
 [(Unknown contact)]
@@ -2259,8 +2263,6 @@ xСтатус
 Меню в треї
 [&Hide/show]
 С&ховати/Показати
-[&Options...]
-&Налаштування...
 [&About]
 Про &програму
 [Menu icons]
@@ -2385,8 +2387,8 @@ xСтатус
 Мережа
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не знайдено жодного плагіна вікна повідомлень. Встановіть/увімкніть один з них, наприклад, StdMsg.dll
-['%s' is disabled, re-enable?]
-"%s" вимкнений. Увімкнути?
+['%S' is disabled, re-enable?]
+"%S" вимкнений. Увімкнути?
 [Re-enable Miranda plugin?]
 Увімкнути плагін?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2515,8 +2517,6 @@ ID облікового запису
 Помилка облікового запису
 [Account name has to be unique. Please enter unique name.]
 Назва облікового запису має бути унікальною. Вкажіть унікальну назву.
-[&Accounts...]
-Облікові записи...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не можу запустити пошук у мережі %s. Перевірте з'єднання з %s.
 [Could not search on any of the protocols, are you online?]
@@ -4218,21 +4218,19 @@ Miranda NG не може відкрити "%S".\n\nЦей URL є недійсн�
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Показує значок навпроти імені, якщо контакт авторизував вас, або ви не авторизували його.
+[Plugin settings]
+Налаштування
+[Show icons only for recently added contacts]
+Значки тільки для нещодавно доданих
 [Show Request icon]
 Показувати значок "Запитати"
 [Show Grant icon]
 Показувати значок "Дозволити"
-[Plugin settings]
-Налаштування
-[Enable menu item]
-Додати пункт меню
-[Show icons only for recently added contacts]
-Значки тільки для нещодавно доданих
 [Request]
 Запитати
 [Grant]
@@ -5340,7 +5338,7 @@ Mind файли
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
@@ -5389,8 +5387,6 @@ Windows не активна
 Програма запускається
 [Others]
 Інше
-[Create a main menu item]
-Пункт у головному меню
 [Restore hiding on startup after failure]
 Відновлювати приховування при запуску після "падіння"
 [Password is not correct!\nPlease, enter correct password.]
@@ -8578,7 +8574,7 @@ HTTP-з'єднання CurrencyRates
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.1
+;  Version: 4.0.2.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8885,7 +8881,7 @@ ID користувача
 Розмір
 [Unable to store value in this data type!]
 Неможливо зберегти значення, використовуючи цей тип даних!
-[Are you sure you want to delete setting(s): %d?]
+[Are you sure you want to delete %d setting(s)?]
 Видалити налаштування: %d?
 [*** encrypted ***]
 ***зашифровано***
@@ -8937,26 +8933,16 @@ ID користувача
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів тощо.
-[Database encryption mode]
-Режим шифрування бази
-[Standard]
-Стандартний
-[Total]
-Повний
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими. Швидкий та ефективний, підходить для більшості випадків.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -9003,6 +8989,10 @@ ID користувача
 Базу даних зарезервовано
 [Database back up in process...]
 Резервування бази...
+[Backup profile]
+Резервувати профіль
+[Save profile as...]
+Зберегти профіль як...
 [Miranda NG databases]
 Бази даних Miranda NG
 [Compressed Miranda NG databases]
@@ -9011,10 +9001,6 @@ ID користувача
 Усі файли
 [Database]
 База даних
-[Backup profile]
-Резервувати профіль
-[Save profile as...]
-Зберегти профіль як...
 [Popups]
 Спливаючі вікна
 [Database backups]
@@ -9057,7 +9043,7 @@ ID користувача
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -12330,7 +12316,7 @@ wdayF:Неділя
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -12355,8 +12341,6 @@ IP-адреса 2
 Показувати приховані "шари"
 [New share]
 Нова "шара"
-[Show HTTP server statistics]
-Статистика НТТР-сервера
 [Set to default]
 За замовчанням
 [External server name]
@@ -12365,10 +12349,6 @@ IP-адреса 2
 Це посилання, вставлене у вікно повідомлень
 [Write log file]
 Записувати журнал
-[Enable HTTP server]
-Увімкнути HTTP-сервер
-[Main menu items]
-Елементи головного меню
 [Open log]
 Відкрити
 [Show popups]
@@ -12441,18 +12421,20 @@ IP-адреса 2
 IP-адреса:\s
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ваш зовнішній IP ідентифіковано як %d.%d.%d.%d\r\nза: %s
-[You need to restart Miranda to change the main menu]
-Зміни в меню набудуть чинності після перезапуску програми.
 [HTTP Server]
 HTTP-сервер
 [Network]
 Мережа
 [HTTP Share new file]
 HTTP Новий розшарений файл
+[Show HTTP server statistics]
+Статистика НТТР-сервера
 [Share removed]
 Шару видалено
 [Disable HTTP server]
 Вимкнути HTTP-сервер
+[Enable HTTP server]
+Увімкнути HTTP-сервер
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
 ;============================================================
 ;  File: HwHotKeys.dll
@@ -12988,29 +12970,21 @@ RTL за замовчанням
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Підтримка протоколу Internet Relay Chat (IRC) у Miranda NG.
-[Default network]
-Мережа за замовчанням
-[Enable]
-Увімкнено
-[Server name]
-Ім'я сервера
-[Internet address]
-Адреса в мережі
+[Server]
+Сервер
+[Host address]
+Адреса хоста
 [Port range]
 Діапазон портів
+[Enable SASL]
+Увімкнути SASL
 [Password]
 Пароль
-[&Add]
-&Додати
-[&Edit]
-&Правити
-[&Del]
-&Видалити
 [User info - Required]
 Інфо користувача - Необхідно
 [Nick]
@@ -13023,6 +12997,8 @@ RTL за замовчанням
 ID користувача
 [Ident]
 Ідентифікація
+[Enable]
+Увімкнено
 [System]
 Система
 [Port]
@@ -13083,8 +13059,6 @@ ID користувача
 Чат-кімнати
 [Auth]
 Авторизація
-[Server]
-Сервер
 [User]
 Користувач
 [Away Info]
@@ -13101,6 +13075,8 @@ ID користувача
 Виконати
 [&Set]
 &Встановити
+[&Del]
+&Видалити
 [Alias]
 Аліас
 [Perform on event:]
@@ -13113,28 +13089,12 @@ ID користувача
 Кодова сторінка сервера:
 [Enable UTF-8 autodetection]
 Увімкнути автоматичне UTF-8
-[Add server]
-Додати сервер
-[Auto]
-Авто
-[On]
-Увімк.
-[Off]
-Вимк.
-[Host address]
-Адреса хоста
-[Server description]
-Коментар серверу
-[Network]
-Мережа
 [Channels on server]
 Чат-кімнати сервера
 [&Join]
 &Зайти
 [Filter by]
 Фільтр
-[C&onnect]
-З'є&днання
 [&Save]
 &Зберегти
 [Hostmask]
@@ -13155,6 +13115,10 @@ Wildcard пошук по мережі
 Запрошення
 [Excepts]
 Винятки
+[&Add]
+&Додати
+[&Edit]
+&Правити
 [Only Ops set topic]
 Зміна теми лише ОПами
 [No external messages]
@@ -13183,12 +13147,24 @@ Wildcard пошук по мережі
 Опції настройки чат-кімнати. Для налаштування чат-кімнати потрібні права адміністратора.
 [Strip colors]
 Кольори смуг
+[Client-to-Client File Transfers]
+Передача файлів по СТСР
+[Send mode:]
+Режим відправки:
 [Normal]
 Нормальний
 [Send-ahead]
 Випереджальний
+[Packet size (bytes):]
+Розмір пакета (байт):
+[Send notice]
+Надіслати повідомлення
 [Attempt reverse DCC (good if firewalled)]
 Реверсний DCC (для брандмауерів)
+[Client-to-Client Chats]
+Чати СТСР
+[Auto-accept from:]
+Автоприйом від:
 [none]
 Нічого
 [everyone on the contact list]
@@ -13197,24 +13173,12 @@ Wildcard пошук по мережі
 усіх
 [Disconnect DCC chats when disconnecting from server]
 Відключати DCC-чати при виході з сервера
-[Manually set external IP:]
-Ручна настройка зовнішнього IP:
-[Client-to-Client File Transfers]
-Передача файлів по СТСР
 [Client-to-Client Protocol]
 Протокол СТСР
-[Client-to-Client Chats]
-Чати СТСР
-[Send mode:]
-Режим відправки:
-[Packet size (bytes):]
-Розмір пакета (байт):
+[Manually set external IP:]
+Ручна настройка зовнішнього IP:
 [Get IP address from server]
 Отримати IP сервера
-[Auto-accept from:]
-Автоприйом від:
-[Send notice]
-Надіслати повідомлення
 [CTCP Chat Request]
 Запит на СТСР-чат
 [&Accept]
@@ -13235,24 +13199,16 @@ Wildcard пошук по мережі
 Ігнорувати користувачів
 [(*) Queries from users on your contact list are never ignored]
 (*) Запити від користувачів зі списку не ігноруються
+[Ignore mask (nick!user@host)]
+Маска ігнорування (nick!user@host)
+[Ignore events]
+Події
 [Queries]
 Запити
 [Messages]
 Повідомлення
 [Notices]
 Повідомлення
-[Ignore mask (nick!user@host)]
-Маска ігнорування (nick!user@host)
-[Network (*)]
-Мережа (*)
-[Ignore events]
-Події
-[(*) blank to set this mask for all networks]
-(*) Залиште порожнім, щоб застосувати маску для всіх мереж
-[Server:]
-Сервер:
-[Password:]
-Пароль:
 [CTCP chat request from %s]
 Запит СТСР-чату від %s
 [%s sets mode %s]
@@ -13351,8 +13307,8 @@ DCC: Запит на продовження закачування файлу в
 Система ігнорування ввімк.
 [Ignore system is disabled]
 Система ігнорування вимк.
-[%s on %s is now ignored (+%s)]
-%s на %s ігнорується (+%s)
+[%s is now ignored (+%s)]
+%s ігнорується (+%s)
 [%s is not ignored now]
 %s більше не ігнорується
 [%s was not ignored]
@@ -13405,8 +13361,8 @@ DCC-запит на передачу файлу надісланий %s [%s]
 З'єднання DCC-чату неактивне
 [The protocol is not online]
 Протокол не в мережі
-[Please choose an IRC-network to go online. This network will be the default.]
-Виберіть мережу IRC. Ця мережа буде встановлена за замовчанням.
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+Неможливо встановити з'єднання. Ви не ввели всі необхідні дані (нік, ID користувача та повне ім'я).
 [Main]
 Головний
 [Add]
@@ -13421,8 +13377,6 @@ DCC-запит на передачу файлу надісланий %s [%s]
 Скасувати
 [Channel list]
 Список каналів
-[Quick connect]
-Швидке з'єднання
 [Server window]
 Вікно сервера
 [Show channel]
@@ -13465,20 +13419,12 @@ DCC-запит на передачу файлу надісланий %s [%s]
 В'єтнамська
 [Korean (Johab)]
 Корейська (Johab)
-[Please complete all fields]
-Заповніть усі поля
-[Add a new network]
-Додати мережу
-[Edit this network]
-Змінити налаштування мережі
-[Delete this network]
-Видалити цю мережу
-[Do you want to delete\r\n%s]
-Видалити?\r\n%s
-[Delete server]
-Видалити сервер
-[Edit server]
-Змінити налаштування
+[Off]
+Вимк.
+[Auto]
+Авто
+[On]
+Увімк.
 [<Resolved IP: ]
 <Визначені IP:\s
 [<Automatic>]
@@ -13499,8 +13445,6 @@ DCC-запит на передачу файлу надісланий %s [%s]
 Подія: Готовий до чату
 [Event: Disconnect]
 Подія: Не в мережі
-[ALL NETWORKS]
-Усі мережі
 [Click to set commands that will be performed for this event]
 Клацніть, щоб встановити команди для обробки цієї події
 [Click to delete the commands for this event]
@@ -13521,6 +13465,8 @@ DCC-запит на передачу файлу надісланий %s [%s]
 Правила додавання
 [Edit ignore]
 Змінити правило
+[Network]
+Мережа
 [Account]
 Обліковий запис
 [DCC and CTCP]
@@ -13541,8 +13487,6 @@ WallOps від %s:\s
 СТСР %s відповідь надіслана для %s: %s
 [Notice to %s: ]
 Повідомлення для %s:\s
-[&Quick connect]
-&Швидке з'єдання
 [&Join channel]
 &Увійти в чат-кімнату
 [&Change your nickname]
@@ -13565,8 +13509,6 @@ WallOps від %s:\s
 Зайти в чат-кімнату
 [Please enter a channel to join]
 Введіть назву чат-кімнати
-[Please select IRC network and enter the password if needed]
-Виберіть мережу IRC і введіть пароль, якщо необхідно
 [Please enter a unique nickname]
 Введіть унікальний нік
 [Please enter your authentication code]
@@ -13719,8 +13661,6 @@ Nickserv вбити фантома
 &Додати в контакти
 [Connecting to]
 З'єднання з
-[Offline]
-Не в мережі
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Швидше: шукає в мережі нік, який точно збігається із вказаним. Маска вузла необов'язкова, але додає безпеки при використанні. Дозволені символи підстановки (? і *).
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
@@ -13737,10 +13677,6 @@ Nickserv вбити фантома
 Режим
 [%s - Filtered - %d items]
 %s - відфільтровано - %d пунктів
-[Not listed server]
-Сервер поза списком
-[Type new server address here]
-Нова адреса сервера
 [Add ban/invite/exception]
 Додати бан/запрошення/виняток
 [Edit selected ban/invite/exception]
@@ -17836,7 +17772,7 @@ ID користувача
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
@@ -17935,8 +17871,6 @@ ID користувача
 Пам'ятати останнє повідомлення для контакту
 [Store contact autoreply/ignore settings for each status separately]
 Зберігати налаштування автовідповідача/ігнорування контакту окремо для кожного статусу
-[Enable contact menu items]
-Увімкнути меню контакту
 [Use protocol specific nick for %nas_mynick%]
 Використовувати нік протоколу для %nas_mynick%
 [Update status messages for non-ICQ protocols every]
@@ -19488,7 +19422,7 @@ ID ключа:
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -19513,10 +19447,6 @@ ID ключа:
 Налаштування запуску
 [Hide notes at startup]
 Ховати нотатки на старті
-[Add Contact list menu items]
-Пункт у меню контакту
-[(Requires Miranda restart)]
-(потрібен перезапуск Miranda NG)
 [Reminder options]
 Налаштування нагадувань
 [Add Reminder closes dialog]
@@ -19739,14 +19669,14 @@ ID ключа:
 Вибрати програму...
 [Plugins]
 Плагіни
+[The specified time is invalid.]
+Зазначений час недійсний.
 [Minutes]
 хвилин
 [Hours]
 годин
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Зазначений час недійсний через перехід на літній час.
-[The specified time is invalid.]
-Зазначений час недійсний.
 [Hour]
 годину
 [Day]
@@ -20545,7 +20475,7 @@ TCP-з'єднання
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.11
+;  Version: 0.2.0.12
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -20712,16 +20642,16 @@ TCP-з'єднання
 Служби
 [Check for updates]
 Перевірити оновлення
-[Available components list]
-Встановити компоненти
-[Update completed]
-Оновлення завершено
-[Update failed]
-Помилка оновлення
 [Plugin info]
 Інформація
 [Plugin Updater HTTP connections]
 HTTP-з'єднання Plugin Updater
+[Available components list]
+Встановити компоненти
+[Update failed]
+Помилка оновлення
+[Update completed]
+Оновлення завершено
 [An error occurred while checking for new updates.]
 Під час перевірки оновлень сталася помилка.
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
@@ -23609,7 +23539,7 @@ Upload Pie (1 тижд)
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -23682,20 +23612,6 @@ Upload Pie (1 тижд)
 Скасувати
 [Save your current session?]
 Зберегти поточну сесію?
-[Sessions]
-Сесії
-[Favorite Session]
-Обрана сесія
-[Not favorite Session]
-Не обрана сесія
-[Load Session]
-Завантажити сесію
-[Load last Session]
-Завантажити останню сесію
-[Current session is empty!]
-Поточна сесія порожня!
-[Session name is empty, enter the name and try again]
-Ім'я сесії порожнє, введіть назву та спробуйте знову
 [No sessions to open]
 Немає сесій для відкриття
 [Last Sessions is empty]
@@ -23710,6 +23626,8 @@ Upload Pie (1 тижд)
 Відкрити менеджер сесій
 [Show Favorite Sessions Menu]
 Відкрити меню обраних сесій
+[Sessions]
+Сесії
 [Restore last Session]
 Відновити останню сесію
 [Close Session]
@@ -23722,10 +23640,22 @@ Upload Pie (1 тижд)
 Закрити сесію
 [Load last session]
 Завантажити останню сесію
+[Favorite Session]
+Обрана сесія
+[Not favorite Session]
+Не обрана сесія
+[Load Session]
+Завантажити сесію
+[Load last Session]
+Завантажити останню сесію
 [View]
 Вигляд
 [Message sessions]
 Бесіди
+[Session name is empty, enter the name and try again]
+Ім'я сесії порожнє, введіть назву та спробуйте знову
+[Current session is empty!]
+Поточна сесія порожня!
 [Session Before Last Crash]
 Сесія до останнього збою
 #muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
@@ -23834,7 +23764,7 @@ Upload Pie (1 тижд)
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
@@ -23921,8 +23851,6 @@ Upload Pie (1 тижд)
 Пам'ятати останню позицію вікна
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Видаляти символи повернення каретки (CR = '\\r' = #0D) з повідомлень статусу
-[Show 'Status message...' item in status menu]
-Показувати "Повідомлення статусу" в контекстному меню
 [Clear History]
 Очистити
 [Clear Predefined]
@@ -24726,7 +24654,7 @@ HTTP-з'єднання SmileyAdd
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
@@ -24745,16 +24673,10 @@ HTTP-з'єднання SmileyAdd
 Сповіщати в спливаючих вікнах
 [Popup time 1-30 seconds (Default 5)]
 Час показу 1-30 секунд (Замовчання 5)
-[Main Menu Item (plugin reload or Miranda restart required)]
-Пункт у головному меню (потрібен перезапуск Miranda)
 [TopToolBar button (Miranda restart required)]
 Кнопка в TopToolBar (потрібен перезапуск Miranda)
-[Reset to default\r\n(for this computer)]
-Скинути налаштування\r\n(для цього комп'ютера)
-[You need to configure it once for each computer, where you run your Miranda NG.]
-Необхідно один раз налаштовувати для нового комп'ютера, де ви запускаєте Miranda NG.
-[No Apply button required.]
-Налаштування зберігаються автоматично.
+[Reset to default]
+Скинути на стандартне
 [After startup set:]
 Встановити після запуску:
 [Filtered popups only (leave uncheck for no popups)]
@@ -25069,8 +24991,8 @@ HTTP-з'єднання SmileyAdd
 Створити кнопку в Панелі кнопок
 [Show confirm dialog when loading]
 Підтверджувати при завантаженні
-[Create a main menu item]
-Пункт у головному меню
+[Create a status menu item]
+Створити пункт у меню
 [Status profiles]
 Профілі статусів
 [Hotkey]
@@ -25179,8 +25101,6 @@ HTTP-з'єднання SmileyAdd
 розмір: %d x %d
 [loc: %d x %d]
 поз.: %d x %d
-[Create a status menu item]
-Створити пункт у меню
 [unknown]
 невідомо
 [At least one profile must exist]
@@ -27223,8 +27143,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Розширений вигляд з аватарами
 [Advanced with avatars, vertical orientation]
 Розширений вигляд з аватарами, вертикальна орієнтація
-[This version of TabSRMM requires Windows 2000 or later.]
-Потрібна Windows 2000 або новіша операційа система.
 [Previews not available when using History++ plugin for message log display.]
 Попередній перегляд недоступний при використанні History++ як журналу повідомлень.
 [%d unread]
@@ -33284,7 +33202,7 @@ ID міста
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
@@ -33301,8 +33219,6 @@ Webview
 секунд
 [Hide icon on status bar]
 Ховати значок на панелі статусів
-[Disable main menu items]
-Вимк. пункти у головному меню
 [Load page on window open]
 Завантажити сайт при відкритті
 [Update data on startup]
@@ -33489,10 +33405,6 @@ Webview
 Припинити обробку даних
 [All Webview sites have been updated.]
 Усі сторінки оновлено.
-[Network]
-Мережа
-[Popups]
-Спливаючі вікна
 [Cannot write to file]
 Неможливо записати у файл
 [Last updated on]
@@ -33581,6 +33493,22 @@ URL-адреса не поставляється
 Скачано байтів
 [Alert test conditions not met; press the refresh button to view content.]
 Тест умов сповіщення не виконано, натисніть кнопку "Оновити", щоб переглянути вміст.
+[This is a preview popup.]
+Це спливаюче вікно попереднього перегляду.
+[Network]
+Мережа
+[Popups]
+Спливаючі вікна
+[Invalid symbol present in contact name.]
+В імені контакту присутній неприпустимий символ.
+[Cache folder does not exist.]
+Папки кешу не існує.
+[Missing "psite.bat" file.]
+Відсутній файл psite.bat
+[Site URL]
+Посилання на сайт
+[Please select site in Find/Add contacts...]
+Будь ласка, виберіть сайт у Знайти/додати контакти...
 [No whitespace removal]
 Не видаляти вільне місце
 [Minimal level of whitespace removal]
@@ -33601,8 +33529,6 @@ URL-адреса не поставляється
 Веб-сторінка змінилася
 [A specific part of web page changes]
 Змінилися певні частини веб-сторінки
-[This is a preview popup.]
-Це спливаюче вікно попереднього перегляду.
 [You need to supply a search string.]
 Необхідно ввести в пошуковий рядок.
 [You need to supply a start string.]
@@ -33615,16 +33541,6 @@ URL-адреса не поставляється
 Необхідно ввести URL-адресу.
 [You need to supply a name for the contact.]
 Необхідно вказати ім'я контакту.
-[Invalid symbol present in contact name.]
-В імені контакту присутній неприпустимий символ.
-[Cache folder does not exist.]
-Папки кешу не існує.
-[Missing "psite.bat" file.]
-Відсутній файл psite.bat
-[Site URL]
-Посилання на сайт
-[Please select site in Find/Add contacts...]
-Будь ласка, виберіть сайт у Знайти/додати контакти...
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll

@@ -27,5 +27,6 @@
 [Change platform to 64-bit]
 [Close popup]
 [Do nothing]
-[Update completed]
 [Update failed]
+[Update completed]
+[Updates are temporarily disabled, try again later.]

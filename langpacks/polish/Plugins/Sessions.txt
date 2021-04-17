@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -76,21 +76,7 @@ Menedżer sesji
 Anuluj
 [Save your current session?]
 Zapisać obecną sesję?
-;file \plugins\Sessions\Src\Main.cpp
-[Sessions]
-Sesje
-[Favorite Session]
-Ulubione sesje
-[Not favorite Session]
-Nie ulubione sesje
-[Load Session]
-Wczytaj sesję
-[Load last Session]
-Wczytaj ostatnią sesję
-[Current session is empty!]
-Obecna sesja jest pusta!
-[Session name is empty, enter the name and try again]
-Nazwa sesji jest pusta, wpisz nazwę i spróbuj ponownie
+;file \plugins\Sessions\Src\LoadSessions.cpp
 [No sessions to open]
 Brak sesji do otwarcia
 [Last Sessions is empty]
@@ -101,10 +87,13 @@ Brak kontaktów do otwarcia
 Ta sesja jest już otwarta
 [This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Ta sesja jest już otwarta (ale prawdopodobnie ukryta).\nCzy chcesz pokazać ukryte kontakty?
+;file \plugins\Sessions\Src\Main.cpp
 [Open Sessions Manager]
 Otwórz menedżer sesji
 [Show Favorite Sessions Menu]
 Pokaż menu sesji ulubionych
+[Sessions]
+Sesje
 [Restore last Session]
 Przywróć ostatnią sesję
 [Close Session]
@@ -117,11 +106,24 @@ Wczytaj sesję...
 Zamknij sesję
 [Load last session]
 Wczytaj ostatnią sesję
+[Favorite Session]
+Ulubione sesje
+[Not favorite Session]
+Nie ulubione sesje
+[Load Session]
+Wczytaj sesję
+[Load last Session]
+Wczytaj ostatnią sesję
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Pokaż
 [Message sessions]
 Okno rozmowy
+;file \plugins\Sessions\Src\SaveSessions.cpp
+[Session name is empty, enter the name and try again]
+Nazwa sesji jest pusta, wpisz nazwę i spróbuj ponownie
+[Current session is empty!]
+Obecna sesja jest pusta!
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
 Sesja przed ostatnią awarią

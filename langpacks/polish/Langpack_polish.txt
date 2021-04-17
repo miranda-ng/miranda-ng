@@ -2,12 +2,12 @@ Miranda Language Pack Version 1
 Language: Polski
 Locale: 0415
 Authors: bunnyhoney, Xantros, Goraf, Piciok
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1
 
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 [Become idle if the following is left unattended:]
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
@@ -1205,10 +1205,10 @@ Tryb szyfrowania bazy
 Standardowy
 [Total]
 Całkowity
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
+Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła.
 [Set password]
 Ustaw/zmień hasło
 [&Hide/Show]
@@ -2057,6 +2057,10 @@ Ta grupa
 Łączenie
 [Connecting (attempt %d)]
 Łączenie (próba %d)
+[&Accounts...]
+&Konta...
+[&Options...]
+&Opcje...
 [Common]
 Wspólne
 [(Unknown contact)]
@@ -2139,6 +2143,16 @@ Ta zmiana wydaje się być potencjalnie ryzykowna.
 Ta zmiana wydaje się być niebezpieczna.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nieprawidłowe ustawienie typu dla "%s". Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
+[This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
+Ten profil jest w starym niewspieranym już formacie. Wciśnij Tak aby przekonwertować go do nowego formatu lub Nie aby powrócić.
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]
+Aby otworzyć ten profil musisz zainstalować wtyczkę Dbx_sqlite. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return]
+Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
+[Cannot move old profile '%s' to '%s': error %d]
+Nie można przenieść starego profilu '%s' do '%s' : błąd %d
+[Attempt to create database '%s' failed with error code %d]
+Błąd tworzenia bazy danych '%s' : kod błędu %d
 [Homepage]
 Strona WWW
 [Phone/SMS]
@@ -2335,8 +2349,6 @@ Menu
 Menu zasobnika
 [&Hide/show]
 &Ukryj/pokaż
-[&Options...]
-&Opcje...
 [&About]
 &Informacje
 [Menu icons]
@@ -2461,8 +2473,8 @@ Wybierz program do uruchomienia
 Protokoły
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "StdMsg.dll".
-['%s' is disabled, re-enable?]
-"%s" jest wyłączony, włączyć?
+['%S' is disabled, re-enable?]
+"%S" jest wyłączony, włączyć?
 [Re-enable Miranda plugin?]
 Załadować ponownie wtyczkę?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2593,8 +2605,6 @@ Nazwa konta musi zostać podana.
 Błąd konta
 [Account name has to be unique. Please enter unique name.]
 Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
-[&Accounts...]
-&Konta...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Nie można rozpocząć wyszukiwania na koncie '%s'. Czy konto '%s' jest połączone z siecią?
 [Could not search on any of the protocols, are you online?]
@@ -4414,21 +4424,19 @@ Ostrzeżenie rejestru
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Pokazuje status autoryzacji w postaci ikony obok nazwy kontaktu.
+[Plugin settings]
+Ustawienia wtyczki
+[Show icons only for recently added contacts]
+Pokazuj ikony tylko dla nowo dodanych kontaktów
 [Show Request icon]
 Ikona żądania
 [Show Grant icon]
 Ikona przyznania
-[Plugin settings]
-Ustawienia wtyczki
-[Enable menu item]
-Dodaj pozycję w menu
-[Show icons only for recently added contacts]
-Pokazuj ikony tylko dla nowo dodanych kontaktów
 [Request]
 Żądanie
 [Grant]
@@ -5536,7 +5544,7 @@ Ustawienia Silnika
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
@@ -5585,8 +5593,6 @@ min
 Program się uruchamia
 [Others]
 Inne
-[Create a main menu item]
-Utwórz wpis w menu głównym
 [Restore hiding on startup after failure]
 Ukryj podczas uruchamiania po awarii
 [Password is not correct!\nPlease, enter correct password.]
@@ -8860,7 +8866,7 @@ Wszystkie zadania zakończono pomyślnie
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.1
+;  Version: 4.0.2.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9169,7 +9175,7 @@ Typ
 Rozmiar
 [Unable to store value in this data type!]
 Nie można zapisać wartości w tym typie danych!
-[Are you sure you want to delete setting(s): %d?]
+[Are you sure you want to delete %d setting(s)?]
 Czy na pewno chcesz usunąć ustawienie(a): %d?
 [*** encrypted ***]
 *** zaszyfrowane ***
@@ -9233,40 +9239,24 @@ Panika profilu
 Ten profil jest zbyt stary, by uaktualnić go wtyczką PluginUpdater. Twoja baza danych musi zostać najpierw skonwertowana.\n\nChcesz przeczytać jak to naprawić?
 [Obsolete database format]
 Przestarzały format bazy danych
-[This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
-Ten profil jest w starym niewspieranym już formacie. Wciśnij Tak aby przekonwertować go do nowego formatu lub Nie aby powrócić.
-[To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
-Aby otworzyć ten profil musisz zainstalować wtyczkę dbx_mdbx. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
-[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
-Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
-[Cannot move old profile '%s' to '%s': error %d]
-Nie można przenieść starego profilu '%s' do '%s' : błąd %d
-[Attempt to create database '%s' failed with error code %d]
-Błąd tworzenia bazy danych '%s' : kod błędu %d
 #muuid {da223468-5f8e-4513-88b0-e52ce8a8b33b}
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
-[Database encryption mode]
-Tryb szyfrowania bazy
-[Standard]
-Standardowy
-[Total]
-Całkowity
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
+[Orphaned sorting event with wrong event ID %d:%08X, deleting]
+Utracone zdarzenie sortowania z nieprawidłowym identyfikatorem zdarzenia %d:%08X, usuwanie
+[Orphaned event with wrong event ID %d:%08X, deleting]
+Utracone zdarzenie z nieprawidłowym identyfikatorem zdarzenia %d:%08X, usuwanie
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -9317,6 +9307,10 @@ Błąd
 Kopia zapasowa utworzona
 [Database back up in process...]
 Tworzenie kopii zapasowej bazy danych w toku...
+[Backup profile]
+Kopia zapasowa profilu
+[Save profile as...]
+Zapisz profil w...
 [Enable &AutoBackups notification]
 Włącz powiadomienia o &kopii zapasowej
 [Disable &AutoBackups notification]
@@ -9329,10 +9323,6 @@ Skompresowane bazy danych Miranda NG
 Wszystkie pliki
 [Database]
 Profil
-[Backup profile]
-Kopia zapasowa profilu
-[Save profile as...]
-Zapisz profil w...
 [Popups]
 Powiadomienia
 [Database backups]
@@ -9375,7 +9365,7 @@ Miranda NG [%s] kopia zapasowa profilu
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -12766,7 +12756,7 @@ Historia
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -12791,8 +12781,6 @@ Widok statystyk serwera HTTP
 Wyświetl ukryte udziały
 [New share]
 Nowy udział
-[Show HTTP server statistics]
-Pokaż statystyki serwera HTTP
 [Set to default]
 Domyślne
 [External server name]
@@ -12801,10 +12789,6 @@ Nazwa serwera zewnętrznego
 To jest link wklejany do okna rozmowy
 [Write log file]
 Utwórz dziennik
-[Enable HTTP server]
-Włącz serwer HTTP
-[Main menu items]
-Element głównego menu
 [Open log]
 Otwórz
 [Show popups]
@@ -12879,20 +12863,22 @@ Adres IP:\s
 Przeglądasz z
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Twoje IP zewnętrzne zostało wykryte jako %d.%d.%d.%d\r\nprzez: %s
-[You need to restart Miranda to change the main menu]
-Musisz uruchomić ponownie Mirandę, by dokonać zmian w menu głównym
 [HTTP Server]
 Serwer HTTP
 [Network]
 Protokoły
 [HTTP Share new file]
 HTTP udostępnij plik
+[Show HTTP server statistics]
+Pokaż statystyki serwera HTTP
 [Share removed]
 Usunięto udział
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 Nie udało się połączyć do portu %s\r\nPrawdopodobnie inny program lub usługa używa tego portu.
 [Disable HTTP server]
 Wyłącz serwer HTTP
+[Enable HTTP server]
+Włącz serwer HTTP
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
 ;============================================================
 ;  File: HwHotKeys.dll
@@ -13476,29 +13462,21 @@ Zakończ
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Zapewnia obsługę protokołu Internet Relay Chat (IRC) w Mirandzie NG.
-[Default network]
-Sieć domyślna
-[Enable]
-Włącz
-[Server name]
-Nazwa serwera
-[Internet address]
-Adres internetowy
+[Server]
+Serwer
+[Host address]
+Adres hosta
 [Port range]
 Zakres portów
+[Enable SASL]
+Włącz SASL
 [Password]
 Hasło:
-[&Add]
-&Dodaj
-[&Edit]
-&Edytuj
-[&Del]
-&Usuń
 [User info - Required]
 Informacje użytkownika - Wymagane
 [Nick]
@@ -13511,6 +13489,8 @@ Nazwa (e-mail)
 ID użytkownika
 [Ident]
 Ident
+[Enable]
+Włącz
 [System]
 System
 [Port]
@@ -13571,8 +13551,6 @@ Adres
 Kanały
 [Auth]
 Autoryzacja
-[Server]
-Serwer
 [User]
 Użytkownik
 [Away Info]
@@ -13589,6 +13567,8 @@ Pytanie
 Wykonaj
 [&Set]
 &Ustaw
+[&Del]
+&Usuń
 [Alias]
 Alias
 [Perform on event:]
@@ -13601,28 +13581,12 @@ Wiadomość przy wyjściu:
 Kodowanie znaków:
 [Enable UTF-8 autodetection]
 Włącz autowykrywanie UTF-8
-[Add server]
-Dodaj serwer
-[Auto]
-Automatyczny
-[On]
-Wł.
-[Off]
-Wył.
-[Host address]
-Adres hosta
-[Server description]
-Opis serwera
-[Network]
-Protokoły
 [Channels on server]
 Kanały na serwerze
 [&Join]
 &Dołącz
 [Filter by]
 Filtruj według
-[C&onnect]
-&Połącz
 [&Save]
 &Zapisz
 [Hostmask]
@@ -13643,6 +13607,10 @@ Bany
 Zaproszenia
 [Excepts]
 Wyjątki
+[&Add]
+&Dodaj
+[&Edit]
+&Edytuj
 [Only Ops set topic]
 Tylko Opy ustawiają temat
 [No external messages]
@@ -13671,12 +13639,24 @@ Ukryte
 Użyj opcji do ustawienia trybów dla tego kanału. Wymaga to bycia Op'em lub wyższym rangą do modyfikacji.
 [Strip colors]
 Usuń kolory z wiadomości
+[Client-to-Client File Transfers]
+Transfer Plików Klient-do-Klienta
+[Send mode:]
+Tryb wysyłania:
 [Normal]
 Normalne
 [Send-ahead]
 Wyślij z wyprzedzeniem
+[Packet size (bytes):]
+Rozmiar pakietu (bajty):
+[Send notice]
+Wysyłaj powiadomienie
 [Attempt reverse DCC (good if firewalled)]
 Spróbuj odwróconego DCC (dobre, gdy za firewallem)
+[Client-to-Client Chats]
+Rozmowy Klient-do-Klienta
+[Auto-accept from:]
+Automatycznie akceptuj od:
 [none]
 brak
 [everyone on the contact list]
@@ -13685,24 +13665,12 @@ wszystkich na liście kontaktów
 wszystkich
 [Disconnect DCC chats when disconnecting from server]
 Rozłącz rozmowy DCC, gdy odłączasz się od serwera
-[Manually set external IP:]
-Ustaw ręcznie zewnętrzne IP:
-[Client-to-Client File Transfers]
-Transfer Plików Klient-do-Klienta
 [Client-to-Client Protocol]
 Protokół Klient-do-Klienta
-[Client-to-Client Chats]
-Rozmowy Klient-do-Klienta
-[Send mode:]
-Tryb wysyłania:
-[Packet size (bytes):]
-Rozmiar pakietu (bajty):
+[Manually set external IP:]
+Ustaw ręcznie zewnętrzne IP:
 [Get IP address from server]
 Pobierz IP z serwera
-[Auto-accept from:]
-Automatycznie akceptuj od:
-[Send notice]
-Wysyłaj powiadomienie
 [CTCP Chat Request]
 Żądanie rozmowy CTCP
 [&Accept]
@@ -13723,24 +13691,16 @@ Ignoruj żądania rozmów DCC od nieznanych kontaktów
 Ignoruj użytkowników
 [(*) Queries from users on your contact list are never ignored]
 (*) Zapytania użytkowników z listy kontaktów nigdy nie są ignorowane
+[Ignore mask (nick!user@host)]
+Ignoruj maskę (nazwa!użytkownik@host)
+[Ignore events]
+Ignoruj zdarzenia
 [Queries]
 Zapytania
 [Messages]
 Wiadomości
 [Notices]
 Powiadomienia
-[Ignore mask (nick!user@host)]
-Ignoruj maskę (nazwa!użytkownik@host)
-[Network (*)]
-Sieć (*)
-[Ignore events]
-Ignoruj zdarzenia
-[(*) blank to set this mask for all networks]
-(*) zostaw puste, żeby ustawić tą maskę dla wszystkich sieci
-[Server:]
-Serwer:
-[Password:]
-Hasło:
 [CTCP chat request from %s]
 Żądanie rozmowy CTCP od %s
 [%s sets mode %s]
@@ -13835,8 +13795,8 @@ Niewłaściwe parametry. Jak używać: /sleep [ms], ms powinno wynosić więcej 
 System ignorowania jest włączony
 [Ignore system is disabled]
 System ignorowania jest wyłączony
-[%s on %s is now ignored (+%s)]
-%s na %s jest teraz ignorowany (+%s)
+[%s is now ignored (+%s)]
+%s jest teraz ignorowany (+%s)
 [%s is not ignored now]
 %s nie jest ignorowany
 [%s was not ignored]
@@ -13889,8 +13849,8 @@ BŁĄD DCC: Nie można przypisać lokalnego portu
 Rozmowa DCC CHAT jest nieaktywna
 [The protocol is not online]
 Protokół jest rozłączony
-[Please choose an IRC-network to go online. This network will be the default.]
-Proszę wybierz sieć IRC do podłączenia się. Ta sieć będzie domyślną.
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+Połączenie nie może zostać ustalone! Nie zostały wypełnione wszystkie wymagane pola (Nick, Nazwa (e-mail) i ID użytkownika).
 [Main]
 Ogólne
 [Add]
@@ -13905,8 +13865,6 @@ Edytuj
 Anuluj
 [Channel list]
 Lista kanałów
-[Quick connect]
-Szybkie łączenie
 [Server window]
 Okno serwera
 [Show channel]
@@ -13949,20 +13907,12 @@ Bałtyckie
 Wietnamski
 [Korean (Johab)]
 Koreański (Johab)
-[Please complete all fields]
-Wypełnij wszystkie pola
-[Add a new network]
-Dodaj nową sieć
-[Edit this network]
-Edytuj tą sieć
-[Delete this network]
-Usuń tą sieć
-[Do you want to delete\r\n%s]
-Chcesz skasować\r\n%s
-[Delete server]
-Usuń serwer
-[Edit server]
-Edytuj serwer
+[Off]
+Wył.
+[Auto]
+Automatyczny
+[On]
+Wł.
 [<Resolved IP: ]
 <Ustalone IP:\s
 [<Automatic>]
@@ -13983,8 +13933,6 @@ Zdarzenie: Nie przeszkadzać
 Zdarzenie: Porozmawiajmy
 [Event: Disconnect]
 Zdarzenie: Rozłączony
-[ALL NETWORKS]
-Wszystkie sieci
 [Click to set commands that will be performed for this event]
 Kliknij, żeby ustawić polecenia dla tego zdarzenia
 [Click to delete the commands for this event]
@@ -14005,6 +13953,8 @@ Flagi
 Dodaj ignorowanie
 [Edit ignore]
 Edytuj ignorowanie
+[Network]
+Protokoły
 [Account]
 Konto
 [DCC and CTCP]
@@ -14025,8 +13975,6 @@ Odpowiedź CTCP %s wysłano do %s
 Odpowiedź CTCP %s wysłano do %s: %s
 [Notice to %s: ]
 Powiadomienie do %s:\s
-[&Quick connect]
-&Szybkie połączenie
 [&Join channel]
 &Dołącz do kanału
 [&Change your nickname]
@@ -14049,8 +13997,6 @@ Ro&złącz
 Dołącz do kanału
 [Please enter a channel to join]
 Proszę wpisać kanał, do którego chcesz dołączyć
-[Please select IRC network and enter the password if needed]
-Proszę wybrać sieć IRC i wpisać hasło, jeśli jest potrzebne
 [Please enter a unique nickname]
 Proszę wpisać nową ksywkę
 [Please enter your authentication code]
@@ -14203,8 +14149,6 @@ Dodaj do listy &ignorowanych
 &Dodaj użytkownika
 [Connecting to]
 Połącz do
-[Offline]
-Rozłączony
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 Szybciej! Przeszukuje sieć w poszukiwaniu tylko dokładnego dopasowania nicka. Maska hosta jest opcjonalna i zapewnia większe bezpieczeństwo, jeśli jest używana. Znaki (? oraz *) są dozwolone.
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
@@ -14221,10 +14165,6 @@ Kanał
 Tryb
 [%s - Filtered - %d items]
 %s - Wybrano - %d elementów
-[Not listed server]
-Serwer z poza listy
-[Type new server address here]
-Wprowadź nowy adres serwera tutaj
 [Add ban/invite/exception]
 Dodaj ban/zaproszenie/wyjątek
 [Edit selected ban/invite/exception]
@@ -18494,7 +18434,7 @@ Ustaw mój opis dla %s
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
@@ -18593,8 +18533,6 @@ Zachowuj ustawienia autoodpowiedzi protokołów osobno dla każdego statusu
 Pamiętaj ostatnią wiadomość użytą dla kontaktu
 [Store contact autoreply/ignore settings for each status separately]
 Zachowuj ustawienia ignorowania kontaktów przy wysyłce autoodpowiedzi osobno dla każdego statusu.
-[Enable contact menu items]
-Włącz elementy menu kontaktu
 [Use protocol specific nick for %nas_mynick%]
 Używaj nicka specyficznego dla protokołu w zmiennej %nas_mynick%
 [Update status messages for non-ICQ protocols every]
@@ -20432,7 +20370,7 @@ Zapisywanie
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -20457,10 +20395,6 @@ Czas
 Opcje uruchamiania
 [Hide notes at startup]
 Ukryj notatki przy starcie
-[Add Contact list menu items]
-Dodaj elementy do listy kontaktów
-[(Requires Miranda restart)]
-(Wymaga ponownego uruchomienia)
 [Reminder options]
 Opcje przypomnień
 [Add Reminder closes dialog]
@@ -20685,14 +20619,14 @@ Pliki wykonywalne\0*.exe\0Wszystkie pliki \0*.*\0\0
 Wybierz plik wykonywalny
 [Plugins]
 Wtyczki
+[The specified time is invalid.]
+Podany czas jest niepoprawny.
 [Minutes]
 Minut
 [Hours]
 Godzin
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Podany czas jest niepoprawny z powodu rozpoczęcia czasu letniego.
-[The specified time is invalid.]
-Podany czas jest niepoprawny.
 [Hour]
 Godzina
 [Day]
@@ -21497,7 +21431,7 @@ Nieznany
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.11
+;  Version: 0.2.0.12
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21676,16 +21610,16 @@ Test
 Usługi
 [Check for updates]
 Sprawdź aktualizacje
-[Available components list]
-Pobierz komponenty
-[Update completed]
-Aktualizacja zakończona
-[Update failed]
-Aktualizacja nie powiodła się
 [Plugin info]
 Informacje o wtyczkach
 [Plugin Updater HTTP connections]
 Połączenia HTTP Plugin Updater
+[Available components list]
+Pobierz komponenty
+[Update failed]
+Aktualizacja nie powiodła się
+[Update completed]
+Aktualizacja zakończona
 [An error occurred while checking for new updates.]
 Wystąpił błąd podczas sprawdzania aktualizacji.
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
@@ -24729,7 +24663,7 @@ Wysłać zrzut ekranu?
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -24802,20 +24736,6 @@ Menedżer sesji
 Anuluj
 [Save your current session?]
 Zapisać obecną sesję?
-[Sessions]
-Sesje
-[Favorite Session]
-Ulubione sesje
-[Not favorite Session]
-Nie ulubione sesje
-[Load Session]
-Wczytaj sesję
-[Load last Session]
-Wczytaj ostatnią sesję
-[Current session is empty!]
-Obecna sesja jest pusta!
-[Session name is empty, enter the name and try again]
-Nazwa sesji jest pusta, wpisz nazwę i spróbuj ponownie
 [No sessions to open]
 Brak sesji do otwarcia
 [Last Sessions is empty]
@@ -24830,6 +24750,8 @@ Ta sesja jest już otwarta (ale prawdopodobnie ukryta).\nCzy chcesz pokazać ukr
 Otwórz menedżer sesji
 [Show Favorite Sessions Menu]
 Pokaż menu sesji ulubionych
+[Sessions]
+Sesje
 [Restore last Session]
 Przywróć ostatnią sesję
 [Close Session]
@@ -24842,10 +24764,22 @@ Wczytaj sesję...
 Zamknij sesję
 [Load last session]
 Wczytaj ostatnią sesję
+[Favorite Session]
+Ulubione sesje
+[Not favorite Session]
+Nie ulubione sesje
+[Load Session]
+Wczytaj sesję
+[Load last Session]
+Wczytaj ostatnią sesję
 [View]
 Pokaż
 [Message sessions]
 Okno rozmowy
+[Session name is empty, enter the name and try again]
+Nazwa sesji jest pusta, wpisz nazwę i spróbuj ponownie
+[Current session is empty!]
+Obecna sesja jest pusta!
 [Session Before Last Crash]
 Sesja przed ostatnią awarią
 #muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
@@ -24958,7 +24892,7 @@ Okno rozmowy
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
@@ -25045,8 +24979,6 @@ Zamykaj automatycznie okno po
 Pamiętaj i przywracaj ostatnią pozycję okna
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Usuń znaki nowej linii (CR = '\\r' = #0D) z opisu
-[Show 'Status message...' item in status menu]
-Pokaż element "Zmień opis..." w menu statusu
 [Clear History]
 Wyczyść historię
 [Clear Predefined]
@@ -25896,7 +25828,7 @@ Pozycja startowa
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
@@ -25915,16 +25847,10 @@ przez
 Pokaż powiadomienia
 [Popup time 1-30 seconds (Default 5)]
 Wyświetlaj 1-30 sekund (domyślnie 5)
-[Main Menu Item (plugin reload or Miranda restart required)]
-Element w menu głównym (wymagane przeładowanie wtyczki lub ponowne uruchomienie)
 [TopToolBar button (Miranda restart required)]
 Przycisk TopToolbar (wymagane ponowne uruchomienie)
-[Reset to default\r\n(for this computer)]
-Przywróć domyślne\r\n(dla tego komputera)
-[You need to configure it once for each computer, where you run your Miranda NG.]
-Musisz skonfigurować raz dla każdego komputera, na którym uruchamiasz Mirandę.
-[No Apply button required.]
-Przycisk Zastosuj nie jest wymagany.
+[Reset to default]
+Przywróć domyślne
 [After startup set:]
 Po starcie ustaw:
 [Filtered popups only (leave uncheck for no popups)]
@@ -26249,8 +26175,8 @@ Usuń
 Utwórz przycisk paska narzędzi
 [Show confirm dialog when loading]
 Okno potwierdzania przy uruchamianiu
-[Create a main menu item]
-Utwórz wpis w menu głównym
+[Create a status menu item]
+Utwórz wpis w menu
 [Status profiles]
 Profile statusów
 [Hotkey]
@@ -26361,8 +26287,6 @@ Brak
 rozmiar: %d x %d
 [loc: %d x %d]
 poł: %d x %d
-[Create a status menu item]
-Utwórz wpis w menu
 [unknown]
 nieznany
 [At least one profile must exist]
@@ -28423,8 +28347,6 @@ Układ kompaktowy, poziome przyciski
 Zaawansowany układ awatarów
 [Advanced with avatars, vertical orientation]
 Zaawansowany układ awatarów, orientacja pionowa
-[This version of TabSRMM requires Windows 2000 or later.]
-Ta wersja TabSRMM wymaga Windows 2000 lub nowszego.
 [Previews not available when using History++ plugin for message log display.]
 Podglądy niedostępne, gdy History++ jest używany do wyświetlania dziennika wiadomości.
 [%d unread]
@@ -34542,7 +34464,7 @@ Prędkość wiatru
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
@@ -34559,8 +34481,6 @@ Opóźniaj przy starcie
 s
 [Hide icon on status bar]
 Ukryj ikonę w pasku stanu
-[Disable main menu items]
-Wyłącz elementy menu głównego
 [Load page on window open]
 Ładuj stronę po otwarciu okna
 [Update data on startup]
@@ -34747,10 +34667,6 @@ Pinguj stronę
 Zakończ przetwarzanie danych
 [All Webview sites have been updated.]
 Wszystkie strony w Webview zostały zaktualizowane.
-[Network]
-Protokoły
-[Popups]
-Powiadomienia
 [Cannot write to file]
 Nie można zapisać w pliku
 [Last updated on]
@@ -34839,6 +34755,22 @@ bajtów wyświetlanych
 bajtów pobranych
 [Alert test conditions not met; press the refresh button to view content.]
 Nie spełniono warunków testowych powiadomienia; naciśnij przycisk odśwież, by przejrzeć zawartość.
+[This is a preview popup.]
+To jest podgląd powiadomienia.
+[Network]
+Protokoły
+[Popups]
+Powiadomienia
+[Invalid symbol present in contact name.]
+Nieprawidłowy symbol znajduje się w nazwie kontaktu.
+[Cache folder does not exist.]
+Folder Cache nie istnieje.
+[Missing "psite.bat" file.]
+Brak pliku "psite.bat".
+[Site URL]
+Adres strony
+[Please select site in Find/Add contacts...]
+Proszę wybrać stronę w Szukaj/dodaj kontakty...
 [No whitespace removal]
 Brak usuwania białych spacji
 [Minimal level of whitespace removal]
@@ -34859,8 +34791,6 @@ Ciąg jest dostępny
 Strona zmienia się
 [A specific part of web page changes]
 Określona część strony zmienia się
-[This is a preview popup.]
-To jest podgląd powiadomienia.
 [You need to supply a search string.]
 Musisz podać ciąg wyszukiwania.
 [You need to supply a start string.]
@@ -34873,16 +34803,6 @@ Musisz podać nazwę oraz ścieżkę pliku.
 Musisz podać adres.
 [You need to supply a name for the contact.]
 Musisz podać nazwę kontaktu.
-[Invalid symbol present in contact name.]
-Nieprawidłowy symbol znajduje się w nazwie kontaktu.
-[Cache folder does not exist.]
-Folder Cache nie istnieje.
-[Missing "psite.bat" file.]
-Brak pliku "psite.bat".
-[Site URL]
-Adres strony
-[Please select site in Find/Add contacts...]
-Proszę wybrać stronę w Szukaj/dodaj kontakty...
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll

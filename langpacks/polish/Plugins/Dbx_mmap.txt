@@ -23,14 +23,3 @@ Panika profilu
 Ten profil jest zbyt stary, by uaktualnić go wtyczką PluginUpdater. Twoja baza danych musi zostać najpierw skonwertowana.\n\nChcesz przeczytać jak to naprawić?
 [Obsolete database format]
 Przestarzały format bazy danych
-;file \plugins\Db3x_mmap\src\init.cpp
-[This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
-Ten profil jest w starym niewspieranym już formacie. Wciśnij Tak aby przekonwertować go do nowego formatu lub Nie aby powrócić.
-[To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
-Aby otworzyć ten profil musisz zainstalować wtyczkę dbx_mdbx. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
-[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
-Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
-[Cannot move old profile '%s' to '%s': error %d]
-Nie można przenieść starego profilu '%s' do '%s' : błąd %d
-[Attempt to create database '%s' failed with error code %d]
-Błąd tworzenia bazy danych '%s' : kod błędu %d

@@ -2,19 +2,17 @@
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
-;file \plugins\Dbx_sqlite\res\dbx_sqlite.rc
-[Database encryption mode]
-Režim šifrování databáze
-[Standard]
-Standardní
-[Total]
-Celkem
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+;file \plugins\Dbx_sqlite\src\dbcheck.cpp
+[Orphaned event with wrong contact ID %d, deleting]
+
+[Orphaned sorting event with wrong event ID %d:%08X, deleting]
+
+[Orphaned event with wrong event ID %d:%08X, deleting]
+
+[Orphaned setting [%S:%S] with wrong contact ID %d, deleting]
 

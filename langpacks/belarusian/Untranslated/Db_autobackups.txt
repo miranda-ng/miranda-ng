@@ -5,3 +5,4 @@
 [Enable &AutoBackups notification]
 [Disable &AutoBackups notification]
 [path to folder containing Miranda profiles]
+[Next backup is scheduled to]

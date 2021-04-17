@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
@@ -90,8 +90,6 @@ Automaticky zavřít okno se zprávou po
 Zapamatovat poslední pozici dialogu
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Odstranit ze stavových zpráv znaky CR (CR = '\\r' = #0D)
-[Show 'Status message...' item in status menu]
-Zobrazit v menu stavů 'Zpráva stavu...'
 [Clear History]
 Smazat historii
 [Clear Predefined]

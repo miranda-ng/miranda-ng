@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1208,10 +1208,10 @@ UIN, E-mail і г.д.
 Звычайны
 [Total]
 Агульна
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Толькі крытычныя дадзеныя шыфруюцца (паролі, маркеры бяспекі і г.д.). Ўсё налады і гісторыя застаецца ў незашыфраваным выглядзе. Хуткі і эфектыўны, падыходзіць для большасці выпадкаў
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль. Рэкамендуем толькі для паранаідальных карыстальнікаў
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Толькі крытычныя дадзеныя шыфруюцца (паролі, маркеры бяспекі і г.д.). Ўсё налады і гісторыя застаецца ў незашыфраваным выглядзе.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
+Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль.
 [Set password]
 Усталяваць пароль
 [&Hide/Show]
@@ -2106,6 +2106,10 @@ Miranda не здолела загрузіць убудаваную сістэм
 Далучэнне
 [Connecting (attempt %d)]
 Далучэнне (спроба %d)
+[&Accounts...]
+Уліковыя запісы...
+[&Options...]
+&Налады
 ;file \src\mir_app\src\clistopts.cpp
 [Common]
 Агульныя
@@ -2196,6 +2200,17 @@ Miranda не можа распазнаць гэты профіль
 Невядома, ці будзе змена бяспечнай.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Наслушны тып налады для '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h ці n.
+;file \src\mir_app\src\db_upgrade.cpp
+[This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
+
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[Cannot move old profile '%s' to '%s': error %d]
+
+[Attempt to create database '%s' failed with error code %d]
+
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 Сайт
@@ -2409,8 +2424,6 @@ xСтатус
 Меню ў трэі
 [&Hide/show]
 С&хаваць/паказаць
-[&Options...]
-&Налады
 [&About]
 Пра праграму
 ;file \src\mir_app\src\menu_utils.cpp
@@ -2548,8 +2561,8 @@ xСтатус
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' адключаны, далучыць?
+['%S' is disabled, re-enable?]
+'%S' адключаны, далучыць?
 [Re-enable Miranda plugin?]
 Уключыць плагін?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2686,8 +2699,6 @@ ID конта
 Памылка ўліковага запісу
 [Account name has to be unique. Please enter unique name.]
 Імя ўліковага запісу павінна быць унікальным. Калі ласка, увядзіце іншае імя.
-[&Accounts...]
-Уліковыя запісы...
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]

@@ -2,22 +2,20 @@
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Tento doplněk zobrazí ikonu vedle jména kontaktu s informací o stavu jeho autorizace.
 ;file \plugins\AuthState\res\authstate.rc
+[Plugin settings]
+Nastavení doplňku
+[Show icons only for recently added contacts]
+Zobrazit ikony jen pro nedávno přidané kontakty
 [Show Request icon]
 Zobrazit ikony požadavků
 [Show Grant icon]
 Zobrazit ikony schválení
-[Plugin settings]
-Nastavení doplňku
-[Enable menu item]
-Zobrazit položku v nabídce
-[Show icons only for recently added contacts]
-Zobrazit ikony jen pro nedávno přidané kontakty
 ;file \plugins\AuthState\src\main.cpp
 [Request]
 Požadavek

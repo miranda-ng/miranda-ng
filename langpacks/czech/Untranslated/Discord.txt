@@ -1,6 +1,7 @@
 [Discord support for Miranda NG.]
 [Enable group chats]
 [Use subgroups for server channels (requires restart)]
+[Delete messages in Miranda when they are deleted from server]
 [edited at]
 [Channel control]
 [Change &topic]

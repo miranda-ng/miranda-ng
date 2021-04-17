@@ -236,8 +236,8 @@ Löschen
 TopToolbar-Button erstellen
 [Show confirm dialog when loading]
 Bestätigungsdialog beim Profilaufruf
-[Create a main menu item]
-Hauptmenüeintrag erstellen
+[Create a status menu item]
+Statusmenüeintrag erstellen
 [Status profiles]
 Statusprofile
 [Hotkey]
@@ -354,8 +354,6 @@ Keine
 Größe: %d x %d
 [loc: %d x %d]
 Position: %d x %d
-[Create a status menu item]
-Statusmenüeintrag erstellen
 [unknown]
 Unbekannt
 [At least one profile must exist]

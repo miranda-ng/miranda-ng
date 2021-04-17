@@ -2,3 +2,4 @@
 [Uploading to cloud failed]
 [Enable &AutoBackups notification]
 [Disable &AutoBackups notification]
+[Next backup is scheduled to]

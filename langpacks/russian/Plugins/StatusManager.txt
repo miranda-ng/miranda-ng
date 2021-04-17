@@ -236,8 +236,8 @@ Cтатус-профиль
 Создать кнопку Панели кнопок
 [Show confirm dialog when loading]
 Подтверждать при загрузке
-[Create a main menu item]
-Пункт в главном меню
+[Create a status menu item]
+Создать пункт в меню статусов
 [Status profiles]
 Профили статусов
 [Hotkey]
@@ -354,8 +354,6 @@ Cтатус-профиль
 размер: %d x %d
 [loc: %d x %d]
 позиция: %d x %d
-[Create a status menu item]
-Создать пункт в меню
 [unknown]
 неизвестно
 [At least one profile must exist]

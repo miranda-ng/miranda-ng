@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -76,21 +76,7 @@
 Скасаваць
 [Save your current session?]
 Захаваць бягучую сесію?
-;file \plugins\Sessions\Src\Main.cpp
-[Sessions]
-Сесіі
-[Favorite Session]
-Абраная сесія
-[Not favorite Session]
-Не абраная сесія
-[Load Session]
-Загрузіць сесію
-[Load last Session]
-Загрузіць апошнюю сесію
-[Current session is empty!]
-Бягучая сесія пустая!
-[Session name is empty, enter the name and try again]
-Імя сесіі пуста, увядзіце імя і паспрабуйце яшчэ раз
+;file \plugins\Sessions\Src\LoadSessions.cpp
 [No sessions to open]
 Няма сесій для адкрыцця
 [Last Sessions is empty]
@@ -101,10 +87,13 @@
 Сесія ўжо адкрыта
 [This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
 Сесія ўжо адкрыта(але магчыма ўтоена)\n Вы жадаеце паказваць утоеныя кантакты?
+;file \plugins\Sessions\Src\Main.cpp
 [Open Sessions Manager]
 Адкрыць мэнэджар сесій
 [Show Favorite Sessions Menu]
 Адкрыць меню абраных сесій
+[Sessions]
+Сесіі
 [Restore last Session]
 Аднавіць апошнюю сесію
 [Close Session]
@@ -117,11 +106,24 @@
 Зачыніць сесію
 [Load last session]
 Загрузіць апошнюю сесію
+[Favorite Session]
+Абраная сесія
+[Not favorite Session]
+Не абраная сесія
+[Load Session]
+Загрузіць сесію
+[Load last Session]
+Загрузіць апошнюю сесію
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Выгляд
 [Message sessions]
 Гутаркі
+;file \plugins\Sessions\Src\SaveSessions.cpp
+[Session name is empty, enter the name and try again]
+Імя сесіі пуста, увядзіце імя і паспрабуйце яшчэ раз
+[Current session is empty!]
+Бягучая сесія пустая!
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
 Сесія да апошняга збою

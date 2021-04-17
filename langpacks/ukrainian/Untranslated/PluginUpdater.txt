@@ -4,3 +4,4 @@
 [Unpack operation failed with error code=%d, update terminated]
 [Plugin updater URI scheme]
 [Change platform to 64-bit]
+[Updates are temporarily disabled, try again later.]

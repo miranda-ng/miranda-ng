@@ -2,30 +2,22 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Internet Relay Chat (IRC) protokol pro Mirandu NG.
 ;file \protocols\IRCG\res\IRC.rc
-[Default network]
-Výchozí síť
-[Enable]
-Aktivovat
-[Server name]
-Název serveru
-[Internet address]
-Adresa
+[Server]
+Server
+[Host address]
+Adresa hostitele
 [Port range]
 Rozsah portů
+[Enable SASL]
+Zapnout SASL
 [Password]
 Heslo
-[&Add]
-Přid&at
-[&Edit]
-Up&ravit
-[&Del]
-&Smaz
 [User info - Required]
 Osobní informace (povinné)
 [Nick]
@@ -38,6 +30,8 @@ Celé jméno (e-mail)
 Identifikátor
 [Ident]
 Ident
+[Enable]
+Aktivovat
 [System]
 Systém
 [Port]
@@ -98,8 +92,6 @@ Adresa
 Přehled kanálů
 [Auth]
 Ověření
-[Server]
-Server
 [User]
 Uživatel
 [Away Info]
@@ -116,6 +108,8 @@ Otázka
 Akce
 [&Set]
 Na&stavit
+[&Del]
+&Smaz
 [Alias]
 Alias
 [Perform on event:]
@@ -128,28 +122,12 @@ Při ukončení:
 Kódování serveru:
 [Enable UTF-8 autodetection]
 Zapnout detekci UTF-8
-[Add server]
-Přidat server
-[Auto]
-Auto
-[On]
-Zap
-[Off]
-Vyp
-[Host address]
-Adresa hostitele
-[Server description]
-Popis serveru
-[Network]
-Sítě
 [Channels on server]
 Seznam kanálů na serveru
 [&Join]
 Při&jít
 [Filter by]
 Filtrovat dle
-[C&onnect]
-Přip&ojit
 [&Save]
 &Uložit
 [Hostmask]
@@ -170,6 +148,10 @@ Zákazy
 Pozvání
 [Excepts]
 Výjimky
+[&Add]
+Přid&at
+[&Edit]
+Up&ravit
 [Only Ops set topic]
 Téma určuje op
 [No external messages]
@@ -198,12 +180,24 @@ Skrytý
 Přehled možností nastavení módů kanálu. Obvykle jsou k dispozici pouze operátorům.
 [Strip colors]
 Odstranit barvy
+[Client-to-Client File Transfers]
+Přenos souborů (DCC Send/Receive)
+[Send mode:]
+Metoda odesílání:
 [Normal]
 Normální
 [Send-ahead]
 Předem (send-ahead)
+[Packet size (bytes):]
+Velikost paketu (byty):
+[Send notice]
+Poslat oznámení
 [Attempt reverse DCC (good if firewalled)]
 Zkusit reverzní DCC (za firewallem)
+[Client-to-Client Chats]
+Privátní diskuse (DCC Chat)
+[Auto-accept from:]
+Automaticky přijímat od:
 [none]
 ---
 [everyone on the contact list]
@@ -212,24 +206,12 @@ všech ze seznamu kontaktů
 každého
 [Disconnect DCC chats when disconnecting from server]
 Ukončit privátní diskusi při odpojení od serveru
-[Manually set external IP:]
-Ručně nastavit externí IP:
-[Client-to-Client File Transfers]
-Přenos souborů (DCC Send/Receive)
 [Client-to-Client Protocol]
 Ostatní možnosti CTCP
-[Client-to-Client Chats]
-Privátní diskuse (DCC Chat)
-[Send mode:]
-Metoda odesílání:
-[Packet size (bytes):]
-Velikost paketu (byty):
+[Manually set external IP:]
+Ručně nastavit externí IP:
 [Get IP address from server]
 Zjistit IP adresu ze serveru
-[Auto-accept from:]
-Automaticky přijímat od:
-[Send notice]
-Poslat oznámení
 [CTCP Chat Request]
 Žádost CTCP Chat
 [&Accept]
@@ -250,24 +232,18 @@ Ignorovat žádosti o privátní diskusi od neznámých
 Ignorování účastníků
 [(*) Queries from users on your contact list are never ignored]
 (*) Žádosti od uživatelů ze seznamu kontaktů ignorovány nejsou
+[Ignore mask (nick!user@host)]
+Maska (přezdívka!uživ_jméno@hostitel)
+[Ignore events]
+Události
 [Queries]
 Soukr. zprávy
 [Messages]
 Zprávy
 [Notices]
 Poznámky
-[Ignore mask (nick!user@host)]
-Maska (přezdívka!uživ_jméno@hostitel)
-[Network (*)]
-Síť (*)
-[Ignore events]
-Události
-[(*) blank to set this mask for all networks]
-(*) ponecháte-li prázdné, platí pro všechny sítě
-[Server:]
-Server:
-[Password:]
-Heslo:
+[Host]
+
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Žádost CTCP Chat od %s
@@ -369,8 +345,8 @@ Upozornění na uživatele online vypnuto
 Systém ignorování aktivován
 [Ignore system is disabled]
 Systém ignorování deaktivován
-[%s on %s is now ignored (+%s)]
-%s (na %s), aktivováno ignorování (+%s)
+[%s is now ignored (+%s)]
+%s, aktivováno ignorování (+%s)
 [%s is not ignored now]
 %s, zrušeno ignorování
 [%s was not ignored]
@@ -425,8 +401,6 @@ Chyba DCC: Nelze navázat spojení na požadovaném lokálním portu
 Privátní diskuse není aktivní
 [The protocol is not online]
 Protokol není ve stavu online
-[Please choose an IRC-network to go online. This network will be the default.]
-Do stavu online přejdete po výběru sítě serverů IRC. Tato síť bude nastavena jako výchozí.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
 
 ;file \protocols\IRCG\src\options.cpp
@@ -444,8 +418,6 @@ Upravit
 Zrušit
 [Channel list]
 Seznam kanálů
-[Quick connect]
-Připojit rychle
 [Server window]
 Okno serveru
 [Show channel]
@@ -488,26 +460,20 @@ pobaltský
 vietnamština
 [Korean (Johab)]
 korejština (Johab)
-[Please complete all fields]
-Vyplňte všechna pole prosím
-[Add a new network]
-Přidá nový server
-[Edit this network]
-Upraví možnosti vybraného serveru
-[Delete this network]
-Odebere vybranýo server
-[Do you want to delete\r\n%s]
-Opravdu chcete smazat %s?
-[Delete server]
-Smazat server
-[Edit server]
-Upravit server
+[Off]
+Vyp
+[Auto]
+Auto
+[On]
+Zap
 [<Resolved IP: ]
 <zjištěná IP:\s
 [<Automatic>]
 <automaticky>
 [<Local IP: ]
 <lokální IP:\s
+[Event: Connect]
+
 [Event: Available]
 
 [Event: Away]
@@ -522,8 +488,6 @@ Upravit server
 
 [Event: Disconnect]
 
-[ALL NETWORKS]
-Všechny sítě
 [Click to set commands that will be performed for this event]
 Přidá příkazy k vybrané události
 [Click to delete the commands for this event]
@@ -544,6 +508,8 @@ Příznaky
 Přidat mezi ignorované
 [Edit ignore]
 Upravit ignorované
+[Network]
+Sítě
 [Account]
 Účet
 [DCC and CTCP]
@@ -566,8 +532,6 @@ Odpověď na žádost CTCP odeslána -> %s: %s
 [Notice to %s: ]
 Poznámka -> %s:\s
 ;file \protocols\IRCG\src\services.cpp
-[&Quick connect]
-&Připojit rychle
 [&Join channel]
 Při&jít na kanál
 [&Change your nickname]
@@ -590,8 +554,6 @@ Přid&at mezi ignorované
 Přijít na kanál
 [Please enter a channel to join]
 Zadejte požadovaný kanál
-[Please select IRC network and enter the password if needed]
-Vyberte síť serverů IRC a pokud je to nutné, zadejte heslo.
 [Please enter a unique nickname]
 Vyberte jinou přezdívku
 [Please enter your authentication code]
@@ -745,8 +707,6 @@ Přid&at mezi kontakty
 [Connecting to]
 Připojování k
 ;file \protocols\IRCG\src\tools.cpp
-[Offline]
-Offline
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 
@@ -764,10 +724,6 @@ Kanál
 [Mode]
 Mód
 [%s - Filtered - %d items]
-
-[Not listed server]
-
-[Type new server address here]
 
 [Add ban/invite/exception]
 Přidání zákazu/pozvání/výjimky

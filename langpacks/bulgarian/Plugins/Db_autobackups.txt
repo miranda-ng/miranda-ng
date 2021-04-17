@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -56,6 +56,10 @@
 [Database back up in process...]
 Създава се резервно копие...
 ;file \plugins\Db_autobackups\src\main.cpp
+[Backup profile]
+Създаване резервно копие на профила
+[Save profile as...]
+Запис на профила като...
 [Enable &AutoBackups notification]
 
 [Disable &AutoBackups notification]
@@ -68,10 +72,6 @@
 Всички файлове
 [Database]
 База данни
-[Backup profile]
-Създаване резервно копие на профила
-[Save profile as...]
-Запис на профила като...
 [Popups]
 Рopups
 [Database backups]
@@ -107,9 +107,10 @@
 Променливи
 [Error creating backup folder]
 Грешка при създаването на папка за резервните копия
+[Next backup is scheduled to]
+
 [Select backup folder]
 Избор на папка за резервните копия
-;file \plugins\Db_autobackups\src\stdafx.h
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]
 

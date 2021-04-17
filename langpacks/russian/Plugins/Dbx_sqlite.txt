@@ -2,19 +2,17 @@
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.1.1
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
-;file \plugins\Dbx_sqlite\res\dbx_sqlite.rc
-[Database encryption mode]
-Режим шифрования базы
-[Standard]
-Стандартный
-[Total]
-Полный
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Шифрование только критических данных (пароли, токены авторизации и т.п.). Остальные настройки и история, остаются незашифрованными. Быстрый и эффективный, подходит в большинстве случаев
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в базе в случае утери пароля. Рекомендуется только параноидальным пользователям
+;file \plugins\Dbx_sqlite\src\dbcheck.cpp
+[Orphaned event with wrong contact ID %d, deleting]
+Потерянное событие с некорректным идентификатором контакта %d, удаляем
+[Orphaned sorting event with wrong event ID %d:%08X, deleting]
+Потерянное событие сортировки с некорректным идентификатором события %d:%08X, удаляем
+[Orphaned event with wrong event ID %d:%08X, deleting]
+Потерянное событие с некорректным идентификатором события %d:%08X, удаляем
+[Orphaned setting [%S:%S] with wrong contact ID %d, deleting]
+Потерянная настройка [%S:%S] с некорректным идентификатором контакта %d, удаляем

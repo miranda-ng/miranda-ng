@@ -236,8 +236,8 @@ Eliminar
 Crear un botón de barra de herramientas superior
 [Show confirm dialog when loading]
 Mostrar diálogo de confirmación cuando se carga
-[Create a main menu item]
-Crear un elemento del menú principal
+[Create a status menu item]
+Crear un elemento de menú de estado
 [Status profiles]
 Perfiles de estado
 [Hotkey]
@@ -354,8 +354,6 @@ Ninguno
 tamaño: %d x %d
 [loc: %d x %d]
 loc: %d x %d
-[Create a status menu item]
-Crear un elemento de menú de estado
 [unknown]
 desconocido
 [At least one profile must exist]

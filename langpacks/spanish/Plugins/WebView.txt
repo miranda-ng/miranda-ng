@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
@@ -19,8 +19,6 @@ minutos
 [seconds]
 segundos
 [Hide icon on status bar]
-
-[Disable main menu items]
 
 [Load page on window open]
 
@@ -210,10 +208,6 @@ Co&piar todo
 ;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 
-[Network]
-Red
-[Popups]
-Ventanas emergentes
 ;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 
@@ -306,6 +300,24 @@ En línea
 [Alert test conditions not met; press the refresh button to view content.]
 
 ;file \protocols\WebView\src\webview_opts.cpp
+[This is a preview popup.]
+
+[Network]
+Red
+[Popups]
+Ventanas emergentes
+;file \protocols\WebView\src\webview_services.cpp
+[Invalid symbol present in contact name.]
+
+[Cache folder does not exist.]
+
+[Missing "psite.bat" file.]
+
+[Site URL]
+
+[Please select site in Find/Add contacts...]
+
+;file \protocols\WebView\src\webview_ui.cpp
 [No whitespace removal]
 
 [Minimal level of whitespace removal]
@@ -326,8 +338,6 @@ En línea
 
 [A specific part of web page changes]
 
-[This is a preview popup.]
-
 [You need to supply a search string.]
 
 [You need to supply a start string.]
@@ -339,15 +349,4 @@ En línea
 [You need to supply a URL.]
 
 [You need to supply a name for the contact.]
-
-[Invalid symbol present in contact name.]
-
-;file \protocols\WebView\src\webview_services.cpp
-[Cache folder does not exist.]
-
-[Missing "psite.bat" file.]
-
-[Site URL]
-
-[Please select site in Find/Add contacts...]
 

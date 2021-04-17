@@ -1816,9 +1816,6 @@ Układ kompaktowy, poziome przyciski
 Zaawansowany układ awatarów
 [Advanced with avatars, vertical orientation]
 Zaawansowany układ awatarów, orientacja pionowa
-;file \plugins\TabSRMM\src\srmm.cpp
-[This version of TabSRMM requires Windows 2000 or later.]
-Ta wersja TabSRMM wymaga Windows 2000 lub nowszego.
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Podglądy niedostępne, gdy History++ jest używany do wyświetlania dziennika wiadomości.

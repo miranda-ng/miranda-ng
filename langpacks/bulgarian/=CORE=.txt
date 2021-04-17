@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1208,9 +1208,9 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Стандартен
 [Total]
 Тотален
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
 [Set password]
 Задаване на парола
@@ -2106,6 +2106,10 @@ Popups са изключени
 Свързване
 [Connecting (attempt %d)]
 Свързване (опит %d)
+[&Accounts...]
+Акаунти...
+[&Options...]
+Настройки...
 ;file \src\mir_app\src\clistopts.cpp
 [Common]
 Общи
@@ -2196,6 +2200,17 @@ Popups са изключени
 Тази команда не е известна като сигурна.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Невалиден тип настройка за "%s". Първият знак на всяка стойност трябва да бъде b, w, d, l, s, e, u, g, h или n.
+;file \src\mir_app\src\db_upgrade.cpp
+[This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
+
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[Cannot move old profile '%s' to '%s': error %d]
+
+[Attempt to create database '%s' failed with error code %d]
+
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 Домашна страница
@@ -2409,8 +2424,6 @@ Win +\s
 Трей меню
 [&Hide/show]
 Показване/Скриване
-[&Options...]
-Настройки...
 [&About]
 Относно
 ;file \src\mir_app\src\menu_utils.cpp
@@ -2548,8 +2561,8 @@ Win +\s
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
-['%s' is disabled, re-enable?]
-"%s" е изключена, желаете да бъде включена?
+['%S' is disabled, re-enable?]
+"%S" е изключена, желаете да бъде включена?
 [Re-enable Miranda plugin?]
 
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2686,8 +2699,6 @@ ID на акаунта
 Грешка в акаунт
 [Account name has to be unique. Please enter unique name.]
 Името на акаунта трябва да бъде уникално.
-[&Accounts...]
-Акаунти...
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]

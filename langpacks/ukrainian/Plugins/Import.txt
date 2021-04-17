@@ -113,6 +113,8 @@
 Пропуск не-IM контакту (%S)
 [Skipping duplicate %S contact %s]
 Пропуск дубліката %S контакт %s
+[Failed to create contact %s (%s)]
+
 [Failed to add %S contact %s]
 Не вдалося додати %S контакт %s
 [Added %S contact %s, '%s']

@@ -1208,10 +1208,10 @@ UIN, E-mail и т.д.
 Стандартный
 [Total]
 Полный
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted]
-Шифрование только критических данных (пароли, токены авторизации и т.п.). Остальные настройки и история остаются незашифрованными
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password]
-Шифрование всех строковых настроек и событий истории. Замедляет работу программы, а в случае утери пароля создаёт риск потери всего сохранённого в базе
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Шифрование только критических данных (пароли, токены авторизации и т.п.). Остальные настройки и история остаются незашифрованными.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
+Шифрование всех строковых настроек и событий истории. Замедляет работу программы, а в случае утери пароля создаёт риск потери всего сохранённого в базе.
 [Set password]
 Установить пароль
 [&Hide/Show]
@@ -2106,6 +2106,10 @@ Miranda не смогла загрузить встроенную систему
 Подключение
 [Connecting (attempt %d)]
 Подключение (попытка %d)
+[&Accounts...]
+&Учётные записи...
+[&Options...]
+&Настройки...
 ;file \src\mir_app\src\clistopts.cpp
 [Common]
 Общие
@@ -2197,11 +2201,11 @@ Miranda не может распознать этот профиль
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
 ;file \src\mir_app\src\db_upgrade.cpp
-[This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
+[This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
 Формат вашей базы является устаревшим. Нажмите "Да", чтобы преобразовать её в новый формат или "Нет", чтобы вернуться назад
-[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return back]
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]
 Для открытия этой базы требуется плагин Dbx_sqlite. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
-[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return]
 Для открытия этой базы требуется плагин Import. Нажмите "Да", чтобы загрузить его с сайта Miranda NG, либо "Нет", чтобы вернуться назад
 [Cannot move old profile '%s' to '%s': error %d]
 Не удалось переместить старый профиль '%s'в '%s': ошибка %d
@@ -2420,8 +2424,6 @@ xСтатус
 Меню в трее
 [&Hide/show]
 С&крыть/Показать
-[&Options...]
-&Настройки...
 [&About]
 О &программе
 ;file \src\mir_app\src\menu_utils.cpp
@@ -2559,8 +2561,8 @@ xСтатус
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не найден плагин окна сообщений. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' отключён, включить?
+['%S' is disabled, re-enable?]
+'%S' отключён, включить?
 [Re-enable Miranda plugin?]
 Включить плагин?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2697,8 +2699,6 @@ ID учётной записи
 Ошибка учётной записи
 [Account name has to be unique. Please enter unique name.]
 Имя учётной записи должно быть уникальным. Введите уникальное имя.
-[&Accounts...]
-&Учётные записи...
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]

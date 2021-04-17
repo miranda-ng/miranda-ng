@@ -1,2 +1,4 @@
+[Host]
 [Op]
 [Halfop]
+[Event: Connect]

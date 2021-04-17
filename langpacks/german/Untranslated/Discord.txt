@@ -1,0 +1,1 @@
+[Delete messages in Miranda when they are deleted from server]

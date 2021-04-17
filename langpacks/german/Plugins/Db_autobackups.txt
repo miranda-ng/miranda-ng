@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -56,6 +56,10 @@ Datenbank gesichert
 [Database back up in process...]
 Datenbank wird gerade gesichert...
 ;file \plugins\Db_autobackups\src\main.cpp
+[Backup profile]
+Sicherheitskopie des Profils erstellen
+[Save profile as...]
+Profil speichern unter...
 [Enable &AutoBackups notification]
 &AutoBackups-Benachrichtigung aktivieren
 [Disable &AutoBackups notification]
@@ -68,10 +72,6 @@ Komprimierte Miranda-NG-Datenbanken
 Alle Dateien
 [Database]
 Datenbank
-[Backup profile]
-Sicherheitskopie des Profils erstellen
-[Save profile as...]
-Profil speichern unter...
 [Popups]
 Popups
 [Database backups]
@@ -107,9 +107,10 @@ Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %syste
 Variablen
 [Error creating backup folder]
 Fehler beim Erstellen des Backup-Verzeichnisses.
+[Next backup is scheduled to]
+
 [Select backup folder]
 Backup-Verzeichnis auswählen
-;file \plugins\Db_autobackups\src\stdafx.h
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]
 Miranda NG [%s] Datenbanksicherung

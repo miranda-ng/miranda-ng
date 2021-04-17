@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
@@ -52,8 +52,6 @@ minut
 Spuštění Mirandy
 [Others]
 Ostatní
-[Create a main menu item]
-Přidat položku do hlavní nabídky
 [Restore hiding on startup after failure]
 Obnovit skrývání při startu po chybě
 ;file \plugins\BossKeyPlus\src\BossKey.cpp

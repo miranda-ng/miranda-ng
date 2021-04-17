@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -28,8 +28,6 @@ Statistik für HTTP-Server
 Versteckte Freigaben anzeigen
 [New share]
 Neue Freigabe
-[Show HTTP server statistics]
-HTTP-Server-Statistik anzeigen
 [Set to default]
 Standard setzen
 [External server name]
@@ -38,10 +36,6 @@ Externer Servername
 Füge folgenden Link im Nachrichtenfenster ein
 [Write log file]
 Logdatei schreib.
-[Enable HTTP server]
-HTTP-Server aktivieren
-[Main menu items]
-Einträge im Hauptmenü
 [Open log]
 Log zeigen
 [Show popups]
@@ -117,14 +111,14 @@ IP-Adresse:\s
 Sie browsen von
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Ihre externe IP wurde als %d.%d.%d.%d erkannt\r\nvon: %s
-[You need to restart Miranda to change the main menu]
-Um die Änderungen zu übernehmen, ist ein Neustart von Miranda NG erforderlich
 [HTTP Server]
 HTTP-Server
 [Network]
 Netzwerk
 [HTTP Share new file]
 HTTP Datei freigeben
+[Show HTTP server statistics]
+HTTP-Server-Statistik anzeigen
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Freigabe entfernt
@@ -133,3 +127,5 @@ Freigabe entfernt
 Zuweisung von Port %s fehlgeschlagen!\r\nVermutlich verwendet ein anderes Programm oder ein anderer Dienst diesen Port.
 [Disable HTTP server]
 HTTP-Server deaktivieren
+[Enable HTTP server]
+HTTP-Server aktivieren

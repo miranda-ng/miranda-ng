@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -28,8 +28,6 @@ Widok statystyk serwera HTTP
 Wyświetl ukryte udziały
 [New share]
 Nowy udział
-[Show HTTP server statistics]
-Pokaż statystyki serwera HTTP
 [Set to default]
 Domyślne
 [External server name]
@@ -38,10 +36,6 @@ Nazwa serwera zewnętrznego
 To jest link wklejany do okna rozmowy
 [Write log file]
 Utwórz dziennik
-[Enable HTTP server]
-Włącz serwer HTTP
-[Main menu items]
-Element głównego menu
 [Open log]
 Otwórz
 [Show popups]
@@ -117,14 +111,14 @@ Adres IP:\s
 Przeglądasz z
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Twoje IP zewnętrzne zostało wykryte jako %d.%d.%d.%d\r\nprzez: %s
-[You need to restart Miranda to change the main menu]
-Musisz uruchomić ponownie Mirandę, by dokonać zmian w menu głównym
 [HTTP Server]
 Serwer HTTP
 [Network]
 Protokoły
 [HTTP Share new file]
 HTTP udostępnij plik
+[Show HTTP server statistics]
+Pokaż statystyki serwera HTTP
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Usunięto udział
@@ -133,3 +127,5 @@ Usunięto udział
 Nie udało się połączyć do portu %s\r\nPrawdopodobnie inny program lub usługa używa tego portu.
 [Disable HTTP server]
 Wyłącz serwer HTTP
+[Enable HTTP server]
+Włącz serwer HTTP
