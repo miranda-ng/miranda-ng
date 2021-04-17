@@ -149,7 +149,7 @@ bool WhatsAppProto::ProcessSecret(const CMStringA &szSecret)
 	{
 		BYTE enc[80], dec[112], key[32], iv[16];
 		memcpy(key, pSharedExpanded, sizeof(key));
-		memcpy(key, pSharedExpanded+64, sizeof(iv));
+		memcpy(iv, pSharedExpanded+64, sizeof(iv));
 		memcpy(enc, pSecret.get() + 64, sizeof(enc));
 
 		int dec_len = 0, final_len = 0;
@@ -172,7 +172,7 @@ bool WhatsAppProto::ProcessSecret(const CMStringA &szSecret)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::RestoreSession()
+void WhatsAppProto::OnRestoreSession1(const JSONNode&)
 {
 	ptrA szClient(getStringA(DBKEY_CLIENT_TOKEN)), szServer(getStringA(DBKEY_SERVER_TOKEN));
 	if (szClient == nullptr || szServer == nullptr) {
@@ -181,14 +181,23 @@ void WhatsAppProto::RestoreSession()
 	}
 
 	CMStringA payload(FORMAT, "[\"admin\",\"login\",\"%s\",\"%s\",\"%s\",\"takeover\"]", szClient.get(), szServer.get(), m_szClientId.c_str());
-	WSSend(payload, &WhatsAppProto::OnRestoreSession);
+	WSSend(payload, &WhatsAppProto::OnRestoreSession2);
 }
 
-void WhatsAppProto::OnRestoreSession(const JSONNode &root)
+void WhatsAppProto::OnRestoreSession2(const JSONNode &root)
 {
 	int status = root["status"].as_int();
 	if (status != 200) {
 		debugLogA("Attempt to restore session failed with error %d", status);
+
+		if (status == 401 || status == 419) {
+			delSetting(DBKEY_ENC_KEY);
+			delSetting(DBKEY_MAC_KEY);
+			delSetting(DBKEY_CLIENT_ID);
+			delSetting(DBKEY_CLIENT_TOKEN);
+			delSetting(DBKEY_SERVER_TOKEN);
+		}
+
 		ShutdownSession();
 		return;
 	}
@@ -212,12 +221,6 @@ void WhatsAppProto::ShutdownSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::StartSession()
-{
-	CMStringA payload(FORMAT, "[\"admin\",\"init\",[0,3,4940],[\"Windows\",\"Chrome\",\"10\"],\"%s\",true]", m_szClientId.c_str());
-	WSSend(payload, &WhatsAppProto::OnStartSession);
-}
-
 void WhatsAppProto::OnStartSession(const JSONNode &root)
 {
 	int status = root["status"].as_int();
@@ -233,6 +236,28 @@ void WhatsAppProto::OnStartSession(const JSONNode &root)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gateway worker thread
+
+bool WhatsAppProto::WSReadPacket(int nBytes, const WSHeader &hdr, MBinBuffer &res)
+{
+	size_t currPacketSize = nBytes - hdr.headerSize;
+
+	char buf[1024];
+	while (currPacketSize < hdr.payloadSize) {
+		int result = Netlib_Recv(m_hServerConn, buf, _countof(buf), MSG_NODUMP);
+		if (result == 0) {
+			debugLogA("Gateway connection gracefully closed");
+			return false;
+		}
+		if (result < 0) {
+			debugLogA("Gateway connection error, exiting");
+			return false;
+		}
+		
+		currPacketSize += result;
+		res.append(buf, result);
+	}
+	return true;
+}
 
 void WhatsAppProto::ServerThread(void *)
 {
@@ -267,24 +292,21 @@ bool WhatsAppProto::ServerThreadWorker()
 	getBlob(DBKEY_ENC_KEY, enc_key);
 	getBlob(DBKEY_MAC_KEY, mac_key);
 
+	CMStringA payload(FORMAT, "[\"admin\",\"init\",[0,3,4940],[\"Windows\",\"Chrome\",\"10\"],\"%s\",true]", m_szClientId.c_str());
 	if (m_szClientToken.IsEmpty() || mac_key.isEmpty() || enc_key.isEmpty())
-		StartSession();
+		WSSend(payload, &WhatsAppProto::OnStartSession);
 	else
-		RestoreSession();
+		WSSend(payload, &WhatsAppProto::OnRestoreSession1);
 
 	bool bExit = false;
 	int offset = 0;
 	MBinBuffer netbuf;
 
-	while (!bExit) {
-		if (m_bTerminated)
-			break;
-
+	while (!bExit && !m_bTerminated) {
 		unsigned char buf[2048];
 		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf + offset, _countof(buf) - offset, MSG_NODUMP);
 		if (bufSize == 0) {
 			debugLogA("Gateway connection gracefully closed");
-			bExit = !m_bTerminated;
 			break;
 		}
 		if (bufSize < 0) {
@@ -297,28 +319,15 @@ bool WhatsAppProto::ServerThreadWorker()
 			offset += bufSize;
 			continue;
 		}
+		
 		offset = 0;
-
 		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
 
 		// we have some additional data, not only opcode
 		if ((size_t)bufSize > hdr.headerSize) {
-			size_t currPacketSize = bufSize - hdr.headerSize;
 			netbuf.append(buf, bufSize);
-			while (currPacketSize < hdr.payloadSize) {
-				int result = Netlib_Recv(m_hServerConn, (char *)buf, _countof(buf), MSG_NODUMP);
-				if (result == 0) {
-					debugLogA("Gateway connection gracefully closed");
-					bExit = !m_bTerminated;
-					break;
-				}
-				if (result < 0) {
-					debugLogA("Gateway connection error, exiting");
-					break;
-				}
-				currPacketSize += result;
-				netbuf.append(buf, result);
-			}
+			if (!WSReadPacket(bufSize, hdr, netbuf))
+				break;
 		}
 
 		// read all payloads from the current buffer, one by one
@@ -392,7 +401,7 @@ bool WhatsAppProto::ServerThreadWorker()
 
 	Netlib_CloseHandle(m_hServerConn);
 	m_hServerConn = nullptr;
-	return bExit;
+	return false;
 }
 
 void WhatsAppProto::ProcessPacket(const JSONNode &root)
@@ -426,10 +435,11 @@ void WhatsAppProto::ProcessConn(const JSONNode &root)
 	setString(DBKEY_ID, m_szJid);
 
 	CMStringA szSecret(root["secret"].as_mstring());
-	if (!ProcessSecret(szSecret)) {
-		ShutdownSession();
-		return;
-	}
+	if (!szSecret.IsEmpty())
+		if (!ProcessSecret(szSecret)) {
+			ShutdownSession();
+			return;
+		}
 
 	setWString(DBKEY_NICK, root["pushname"].as_mstring());
 	setWString(DBKEY_CLIENT_TOKEN, root["clientToken"].as_mstring());

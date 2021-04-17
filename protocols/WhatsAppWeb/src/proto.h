@@ -57,13 +57,12 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	mir_cs m_csPacketQueue;
 	OBJLIST<WARequest> m_arPacketQueue;
 
-	int WSSend(const CMStringA &str, WA_PKT_HANDLER = nullptr);
+	bool WSReadPacket(int nBytes, const WSHeader &hdr, MBinBuffer &buf);
+	int  WSSend(const CMStringA &str, WA_PKT_HANDLER = nullptr);
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);
-	void RestoreSession(void);
 	bool ServerThreadWorker(void);
-	void StartSession(void);
 	void ShutdownSession(void);
 
 	bool ProcessChallenge(const CMStringA &szChallenge);
@@ -71,7 +70,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
-	void OnRestoreSession(const JSONNode &node);
+	void OnRestoreSession1(const JSONNode &node);
+	void OnRestoreSession2(const JSONNode &node);
 	void OnStartSession(const JSONNode &node);
 
 	void ProcessPacket(const JSONNode &node);
