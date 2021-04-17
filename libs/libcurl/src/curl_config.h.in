@@ -762,9 +762,6 @@
 /* Define to 1 if you have the <termio.h> header file. */
 #undef HAVE_TERMIO_H
 
-/* Define to 1 if you have the <time.h> header file. */
-#undef HAVE_TIME_H
-
 /* Define this if time_t is unsigned */
 #undef HAVE_TIME_T_UNSIGNED
 
