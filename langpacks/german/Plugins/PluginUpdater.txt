@@ -200,7 +200,7 @@ Aktualisierung fehlgeschlagen
 Aktualisierung erfolgreich
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Updates are temporarily disabled, try again later.]
-
+Updates sind vorrübergehend deaktiviert, versuchen Sie es später nochmal.
 [An error occurred while checking for new updates.]
 Ein Fehler trat bei der Prüfung auf Aktualisierungen auf.
 ;file \plugins\PluginUpdater\src\Compat\compat.h

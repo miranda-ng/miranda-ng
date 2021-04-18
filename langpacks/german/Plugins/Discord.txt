@@ -25,7 +25,7 @@ Chatfenster bei der Erzeugung nicht öffnen
 [Use subgroups for server channels (requires restart)]
 Untergruppen für Server-Kanäle benutzen (Neustart erforderlich)
 [Delete messages in Miranda when they are deleted from server]
-
+Nachrichten in Miranda löschen, wenn sie vom Server gelöscht werden
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp

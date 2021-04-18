@@ -15,7 +15,7 @@ Host-Adresse
 [Port range]
 Portbereich
 [Enable SASL]
-
+SASL aktivieren
 [Password]
 Passwort
 [User info - Required]
@@ -243,7 +243,7 @@ Nachrichten
 [Notices]
 Notizen
 [Host]
-
+Host
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP-Chatanfrage von %s
@@ -467,13 +467,13 @@ Auto
 [On]
 Ein
 [<Resolved IP: ]
-<Aufgeloste IP:\s
+<Aufgelöste IP:\s
 [<Automatic>]
 <Automatisch>
 [<Local IP: ]
-<lokale IP:\s
+<Lokale IP:\s
 [Event: Connect]
-
+Ereignis: Verbinden
 [Event: Available]
 Ereignis: Verfügbar
 [Event: Away]

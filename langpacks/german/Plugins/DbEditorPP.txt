@@ -325,7 +325,7 @@ Größe
 [Unable to store value in this data type!]
 Kann diesen Wert nicht in diesem Datentyp speichern!
 [Are you sure you want to delete %d contact(s)?]
-
+Sind Sie sich sicher, dass Sie diese %d Kontakt(e) löschen wollen?
 [Are you sure you want to delete %d setting(s)?]
 Sind Sie sich sicher, dass Sie diese %d Einstellung(en) löschen wollen?
 [*** encrypted ***]

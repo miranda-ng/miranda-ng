@@ -108,7 +108,7 @@ Variablen
 [Error creating backup folder]
 Fehler beim Erstellen des Backup-Verzeichnisses.
 [Next backup is scheduled to]
-
+Nächste Sicherung geplant am
 [Select backup folder]
 Backup-Verzeichnis auswählen
 ;file \plugins\Db_autobackups\src\zip.cpp

@@ -1,3 +1,0 @@
-[Orphaned event with wrong contact ID %d, deleting]
-[Orphaned event with wrong event ID %d:%08X, deleting]
-[Orphaned setting [%S:%S] with wrong contact ID %d, deleting]
