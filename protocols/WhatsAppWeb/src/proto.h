@@ -8,20 +8,6 @@ Copyright © 2019-21 George Hazan
 #if !defined(PROTO_H)
 #define PROTO_H
 
-struct WAChatInfo
-{
-	WAChatInfo(wchar_t *_jid, wchar_t *_nick) :
-		tszJid(_jid), tszNick(_nick)
-	{
-		bActive = false;
-	}
-
-	ptrW tszJid, tszNick, tszOwner;
-	bool bActive;
-
-	MCONTACT hContact;
-};
-
 class WhatsAppProto;
 typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node);
 
@@ -46,6 +32,7 @@ struct WAUser
 	}
 
 	MCONTACT hContact;
+	DWORD dwModifyTag;
 	char *szId;
 	SESSION_INFO *si = 0;
 };
@@ -109,6 +96,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// binary packets
 	void ProcessBinaryPacket(const MBinBuffer &buf);
+	void ProcessChats(const JSONNode &node);
 	void ProcessContacts(const JSONNode &node);
 
 	// text packets

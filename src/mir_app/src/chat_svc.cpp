@@ -725,6 +725,11 @@ EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions()
 			si->pDlg->UpdateOptions();
 }
 
+EXTERN_C MIR_APP_DLL(void) Chat_Mute(SESSION_INFO *si, int mode)
+{
+	db_set_b(si->hContact, "SRMM", "MuteMode", mode);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // module initialization
 

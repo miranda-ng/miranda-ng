@@ -389,8 +389,11 @@ EXTERN_C MIR_APP_DLL(UINT) Chat_CreateMenu(HWND hwnd, HMENU hMenu, POINT pt, SES
 // calculates width or height of a string
 EXTERN_C MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth);
 
-// creates a default description of a groupchat event
+// creates a default description of a group chat event
 // returns true if lin->ptszText is already utilized, you need to add it manually then otherwise
 EXTERN_C MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &res);
+
+// sets mute mode for a group chat
+EXTERN_C MIR_APP_DLL(void) Chat_Mute(SESSION_INFO *si, int mode);
 
 #endif // M_CHAT_INT_H__

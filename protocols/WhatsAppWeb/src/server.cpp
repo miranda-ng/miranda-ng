@@ -435,6 +435,26 @@ void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
 	CMStringA szType = root["type"].as_mstring();
 	if (szType == "contacts")
 		ProcessContacts(root["$list$"]);
+	else if (szType == "chat")
+		ProcessChats(root["$list$"]);
+}
+
+void WhatsAppProto::ProcessChats(const JSONNode &list)
+{
+	for (auto &it : list) {
+		CMStringW jid(it["jid"].as_mstring());
+		auto *pUser = AddUser(T2Utf(jid), false);
+
+		DWORD dwLastId = it["t"].as_int();
+		setDword(pUser->hContact, "LastWriteTime", dwLastId);
+
+		pUser->dwModifyTag = it["modify_tag"].as_int();
+
+		if (pUser->si) {
+			DWORD dwMute = _wtoi(it["mute"].as_mstring());
+			Chat_Mute(pUser->si, dwMute ? CHATMODE_MUTE : CHATMODE_NORMAL);
+		}
+	}
 }
 
 void WhatsAppProto::ProcessContacts(const JSONNode &list)

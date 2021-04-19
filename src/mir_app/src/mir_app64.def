@@ -777,3 +777,4 @@ Netlib_GetTlsUnique @831 NONAME
 ?Upgrade@DB@@YAPEAVMDatabaseCommon@@PEB_W@Z @865 NONAME
 ?IsPluginOnWhiteList@@YA_NPEBD@Z @866 NONAME
 ?SetPluginOnWhiteList@@YAXPEBD_N@Z @867 NONAME
+Chat_Mute @868

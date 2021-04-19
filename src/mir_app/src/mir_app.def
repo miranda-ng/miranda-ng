@@ -777,3 +777,4 @@ _Netlib_GetTlsUnique@8 @831 NONAME
 ?Upgrade@DB@@YGPAVMDatabaseCommon@@PB_W@Z @865 NONAME
 ?IsPluginOnWhiteList@@YG_NPBD@Z @866 NONAME
 ?SetPluginOnWhiteList@@YGXPBD_N@Z @867 NONAME
+Chat_Mute @868
