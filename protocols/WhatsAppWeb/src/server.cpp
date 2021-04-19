@@ -330,7 +330,11 @@ bool WhatsAppProto::ServerThreadWorker()
 		// read all payloads from the current buffer, one by one
 		size_t prevSize = 0;
 		while (true) {
-			const char *start = netbuf.data() + hdr.headerSize;
+			MBinBuffer currPacket;
+			currPacket.assign(netbuf.data() + hdr.headerSize, hdr.payloadSize);
+			currPacket.append("", 1);
+			
+			const char *start = currPacket.data();
 
 			switch (hdr.opCode) {
 			case 1: // json packet
@@ -338,18 +342,15 @@ bool WhatsAppProto::ServerThreadWorker()
 				if (hdr.bIsFinal) {
 					// process a packet here
 					const char *pos = strchr(start, ',');
-					if (pos == nullptr) {
-						debugLogA("invalid packet received, no comma");
-						break;
-					}
-					pos++;
+					if (pos != nullptr)
+						pos++;
 					size_t dataSize = hdr.payloadSize - size_t(pos - start);
 
 					// try to decode
 					if (hdr.opCode == 2 && hdr.payloadSize > 32) {
 						MBinBuffer dest;
 						if (!decryptBinaryMessage(dataSize, pos, dest)) {
-							Netlib_Dump(m_hServerConn, netbuf.data(), hdr.headerSize + hdr.payloadSize, false, 0);
+							Netlib_Dump(m_hServerConn, currPacket.data(), currPacket.length(), false, 0);
 							debugLogA("cannot decrypt incoming message");
 							break;
 						}
@@ -359,10 +360,11 @@ bool WhatsAppProto::ServerThreadWorker()
 					}
 					else {
 						CMStringA szJson(pos, (int)dataSize);
-						debugLogA("JSON received:\n%s", szJson.c_str());
 
 						JSONNode root = JSONNode::parse(szJson);
 						if (root) {
+							debugLogA("JSON received:\n%s", szJson.c_str());
+
 							int sessId, pktId;
 							if (sscanf(start, "%d.--%d,", &sessId, &pktId) == 2) {
 								auto *pReq = m_arPacketQueue.find((WARequest *)&pktId);
