@@ -101,8 +101,11 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnRestoreSession2(const JSONNode &node);
 	void OnStartSession(const JSONNode &node);
 
+	// binary packets
 	void ProcessBinaryPacket(const MBinBuffer &buf);
+	void ProcessContacts(const JSONNode &node);
 
+	// text packets
 	void ProcessPacket(const JSONNode &node);
 	void ProcessBlocked(const JSONNode &node);
 	void ProcessCmd(const JSONNode &node);

@@ -356,7 +356,7 @@ bool WhatsAppProto::ServerThreadWorker()
 							break;
 						}
 
-						Netlib_Dump(m_hServerConn, dest.data(), dest.length(), false, 0);
+						// Netlib_Dump(m_hServerConn, dest.data(), dest.length(), false, 0);
 						ProcessBinaryPacket(dest);
 					}
 					else {
@@ -431,6 +431,39 @@ void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
 		return;
 
 	debugLogA("packed JSON: %s", root.write().c_str());
+	
+	CMStringA szType = root["type"].as_mstring();
+	if (szType == "contacts")
+		ProcessContacts(root["$list$"]);
+}
+
+void WhatsAppProto::ProcessContacts(const JSONNode &list)
+{
+	for (auto &it : list) {
+		CMStringW jid(it["jid"].as_mstring());
+		auto *pUser = AddUser(T2Utf(jid), false);
+
+		CMStringW wszNick(it["notify"].as_mstring());
+		if (wszNick.IsEmpty()) {
+			int idx = jid.Find('@');
+			wszNick = (idx == -1) ? jid : jid.Left(idx);
+		}
+		setWString(pUser->hContact, "Nick", wszNick);
+
+		CMStringW wszFullName(it["name"].as_mstring());
+		wszFullName.TrimRight();
+		if (!wszFullName.IsEmpty()) {
+			setWString(pUser->hContact, "FullName", wszFullName);
+
+			CMStringW wszShort(it["short"].as_mstring());
+			wszShort.TrimRight();
+			if (!wszShort.IsEmpty()) {
+				setWString(pUser->hContact, "FirstName", wszShort);
+				if (wszShort.GetLength()+1 < wszFullName.GetLength())
+					setWString(pUser->hContact, "LastName", wszFullName.c_str() + 1 + wszShort.GetLength());
+			}
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
