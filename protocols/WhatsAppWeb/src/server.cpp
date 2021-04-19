@@ -443,6 +443,11 @@ void WhatsAppProto::ProcessContacts(const JSONNode &list)
 		CMStringW jid(it["jid"].as_mstring());
 		auto *pUser = AddUser(T2Utf(jid), false);
 
+		if (strstr(pUser->szId, "@g.us")) {
+			InitChat(pUser, it);
+			continue;
+		}
+		
 		CMStringW wszNick(it["notify"].as_mstring());
 		if (wszNick.IsEmpty()) {
 			int idx = jid.Find('@');

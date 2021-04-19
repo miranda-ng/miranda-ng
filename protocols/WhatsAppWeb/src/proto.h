@@ -37,7 +37,8 @@ struct WAUser
 	WAUser(MCONTACT _1, const char *_2) :
 		hContact(_1),
 		szId(mir_strdup(_2))
-	{}
+	{
+	}
 
 	~WAUser()
 	{
@@ -46,6 +47,7 @@ struct WAUser
 
 	MCONTACT hContact;
 	char *szId;
+	SESSION_INFO *si = 0;
 };
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
@@ -67,6 +69,10 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	WAUser* FindUser(const char *szId);
 	WAUser* AddUser(const char *szId, bool bTemporary);
+
+	// Group chats /////////////////////////////////////////////////////////////////////////
+
+	void InitChat(WAUser *pUser, const JSONNode &chat);
 
 	// UI //////////////////////////////////////////////////////////////////////////////////
 
@@ -160,6 +166,7 @@ public:
 	// Options /////////////////////////////////////////////////////////////////////////////
 
 	CMOption<wchar_t*> m_wszDefaultGroup;  // clist group to store contacts
+	CMOption<bool>     m_bHideGroupchats;  // do not open chat windows on creation
 
 	// Processing Threads //////////////////////////////////////////////////////////////////
 

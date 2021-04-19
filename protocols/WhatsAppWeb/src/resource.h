@@ -2,44 +2,23 @@
 // Microsoft Visual C++ generated include file.
 // Used by w:\miranda-ng\protocols\WhatsAppWeb\res\whatsapp.rc
 //
-#define IDD_INPUTBOX                    102
-#define IDR_REGISTERUTILITY             103
-#define IDD_ACCMGRUI                    104
-#define IDD_GROUPCHAT_INVITE            105
-#define IDD_OPTIONS                     106
-#define IDD_SHOWQR                      107
-#define IDI_WHATSAPP                    203
-#define IDI_ADD_GROUP                   206
-#define IDI_RENAME_GROUP                208
-#define IDC_CLIST                       1001
-#define IDC_NEWJID                      1002
-#define IDC_LOGIN                       1003
-#define IDC_PW                          1004
-#define IDC_SSL                         1005
-#define IDC_NICK                        1006
-#define IDC_BUTTON_REQUEST_SMS_CODE     1007
-#define IDC_BUTTON_REGISTER             1008
-#define IDC_CC                          1009
-#define IDC_VALUE                       1010
-#define IDC_SSL2                        1010
-#define IDC_CANCEL                      1011
-#define IDC_OK                          1012
-#define IDC_PW2                         1013
-#define IDC_TEXT                        1014
-#define IDC_INVITE                      1015
-#define IDC_AUTORUN                     1016
-#define IDC_DEFGROUP                    1017
-#define IDC_REMOTE_TIME                 1018
-#define IDC_BUTTON_REQUEST_VOICE_CODE   1019
-#define IDC_QRPIC                       1020
+#define IDI_WHATSAPP                    100
+#define IDD_ACCMGRUI                    101
+#define IDD_OPTIONS                     102
+#define IDD_SHOWQR                      103
+#define IDC_HIDECHATS                   1000
+#define IDC_DEFGROUP                    1001
+#define IDC_QRPIC                       1002
+#define IDC_CLIST                       1003
+#define IDC_NEWJID                      1004
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        109
+#define _APS_NEXT_RESOURCE_VALUE        104
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1021
+#define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

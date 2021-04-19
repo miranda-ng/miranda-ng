@@ -6,9 +6,7 @@ Copyright © 2019-21 George Hazan
 */
 
 #pragma once
-
-#pragma warning(disable:4996)
-#pragma warning(disable:4290)
+#pragma warning(disable:4996 4290 4200)
 
 #include <malloc.h>
 #include <time.h>

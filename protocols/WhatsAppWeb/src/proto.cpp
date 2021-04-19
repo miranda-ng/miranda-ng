@@ -27,19 +27,19 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
 	m_arPacketQueue(10, NumericKeySortT),
-	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp")
+	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
+	m_bHideGroupchats(this, "HideChats", true)
 {
 	db_set_resident(m_szModuleName, "StatusMsg");
 
-	// CreateProtoService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
 
 	CreateProtoService(PS_GETAVATARINFO, &WhatsAppProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &WhatsAppProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &WhatsAppProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &WhatsAppProto::SetMyAvatar);
 
-	// HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
-	// HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
+	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 
 	// Client id generation
 	m_szClientId = getMStringA(DBKEY_CLIENT_ID);
@@ -71,9 +71,17 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeW(m_tszAvatarFolder.c_str());
 
+	// default contacts group
 	if (m_tszDefaultGroup == NULL)
 		m_tszDefaultGroup = mir_wstrdup(L"WhatsApp");
 	Clist_GroupCreate(0, m_tszDefaultGroup);
+
+	// groupchat initialization
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
 }
 
 WhatsAppProto::~WhatsAppProto()
@@ -96,19 +104,15 @@ void WhatsAppProto::OnModulesLoaded()
 /////////////////////////////////////////////////////////////////////////////////////////
 // PROTO_INTERFACE implementation
 
-MCONTACT WhatsAppProto::AddToList(int, PROTOSEARCHRESULT *psr)
+MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
 	if (psr->id.w == nullptr)
 		return NULL;
 
-	std::string phone(T2Utf(psr->id.w));
-	std::string jid(phone + "@c.us");
-
-	/*	MCONTACT hContact = AddToContactList(jid, phone.c_str());
-		if (!(flags & PALF_TEMPORARY))
-			db_unset(hContact, "CList", "NotOnList");
-
-		return hContact;*/
+	auto *pUser = AddUser(T2Utf(psr->id.w), (flags & PALF_TEMPORARY) != 0);
+	db_unset(pUser->hContact, "CList", "NotOnList");
+	
+	return pUser->hContact;
 }
 
 INT_PTR WhatsAppProto::GetCaps(int type, MCONTACT)
