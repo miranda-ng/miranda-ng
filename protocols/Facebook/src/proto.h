@@ -343,207 +343,208 @@ public:
 
 struct FacebookUser
 {
-   FacebookUser(__int64 _p1, MCONTACT _p2, bool _p3 = false, bool _p4 = false) :
-      id(_p1),
-      hContact(_p2),
-      bIsChat(_p3),
-      bIsChatInitialized(_p4)
-   {}
+	FacebookUser(__int64 _p1, MCONTACT _p2, bool _p3 = false, bool _p4 = false) :
+		id(_p1),
+		hContact(_p2),
+		bIsChat(_p3),
+		bIsChatInitialized(_p4)
+	{}
 
-   __int64  id;
-   MCONTACT hContact;
-   bool bIsChat;
-   bool bIsChatInitialized;
+	__int64  id;
+	MCONTACT hContact;
+	bool bIsChat;
+	bool bIsChatInitialized;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct COwnMessage
 {
-   __int64 msgId;
-   int reqId;
-   MCONTACT hContact;
-   CMStringW wszText;
+	__int64 msgId;
+	int reqId;
+	MCONTACT hContact;
+	CMStringW wszText;
 
-   COwnMessage() :
-      msgId(0),
-      reqId(0),
-      hContact(0)
+	COwnMessage() :
+		msgId(0),
+		reqId(0),
+		hContact(0)
    {
    }
 
-   COwnMessage(__int64 _id, int _reqId, MCONTACT _hContact) :
-      msgId(_id),
-      reqId(_reqId),
-      hContact(_hContact)
+	COwnMessage(__int64 _id, int _reqId, MCONTACT _hContact) :
+		msgId(_id),
+		reqId(_reqId),
+		hContact(_hContact)
    {
    }
 };
 
 class FacebookProto : public PROTO<FacebookProto>
 {
-   friend class CGroupchatInviteDlg;
+	friend class CGroupchatInviteDlg;
 
-   class FacebookImpl
-   {
-      friend class FacebookProto;
-      
-      FacebookProto &m_proto;
-      CTimer m_heartBeat;
+	class FacebookImpl
+	{
+		friend class FacebookProto;
 
-      void OnHeartBeat(CTimer *)
-      {
-         m_proto.MqttPing();
-      }
-      
-      FacebookImpl(FacebookProto &pro) :
-         m_proto(pro),
-         m_heartBeat(Miranda_GetSystemWindow(), (UINT_PTR)this)
-      {
-         m_heartBeat.OnEvent = Callback(this, &FacebookImpl::OnHeartBeat);
-      }
-   } m_impl;
+		FacebookProto &m_proto;
+		CTimer m_heartBeat;
 
-   uint8_t *doZip(size_t cbData, const void *pData, size_t &cbRes);
-   uint8_t *doUnzip(size_t cbData, const void *pData, size_t &cbRes);
+		void OnHeartBeat(CTimer *)
+		{
+			m_proto.MqttPing();
+		}
 
-   void ConnectionFailed();
+		FacebookImpl(FacebookProto &pro) :
+			m_proto(pro),
+			m_heartBeat(Miranda_GetSystemWindow(), (UINT_PTR)this)
+		{
+			m_heartBeat.OnEvent = Callback(this, &FacebookImpl::OnHeartBeat);
+		}
+	} m_impl;
+
+	uint8_t *doZip(size_t cbData, const void *pData, size_t &cbRes);
+	uint8_t *doUnzip(size_t cbData, const void *pData, size_t &cbRes);
+
+	void ConnectionFailed();
 
 	AsyncHttpRequest *CreateRequest(const char *szUrl, const char *szName, const char *szMethod);
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
 	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
 
-   // Avatars
-   void __cdecl AvatarsUpdate(void *);
-   void GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName);
+	// Avatars
+	void __cdecl AvatarsUpdate(void *);
+	void GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName);
 
-   // Group chats
-   void Chat_InviteUser(SESSION_INFO *si);
-   int  Chat_KickUser(SESSION_INFO *si, const wchar_t *pwszUid);
-   void Chat_Leave(SESSION_INFO *si);
-   void Chat_SendPrivateMessage(GCHOOK *gch);
-   void Chat_ProcessLogMenu(SESSION_INFO *si, GCHOOK *gch);
-   void Chat_ProcessNickMenu(SESSION_INFO *si, GCHOOK *gch);
+	// Group chats
+	void Chat_InviteUser(SESSION_INFO *si);
+	int  Chat_KickUser(SESSION_INFO *si, const wchar_t *pwszUid);
+	void Chat_Leave(SESSION_INFO *si);
+	void Chat_SendPrivateMessage(GCHOOK *gch);
+	void Chat_ProcessLogMenu(SESSION_INFO *si, GCHOOK *gch);
+	void Chat_ProcessNickMenu(SESSION_INFO *si, GCHOOK *gch);
 
 	// MQTT
-   void MqttLogin();
-   
-   void MqttPing();
-   void MqttPublish(const char *topic, const JSONNode &value);
-   void MqttSubscribe(const char *topic, ...);
-   void MqttUnsubscribe(const char *topic, ...);
+	void MqttLogin();
 
-   bool MqttRead(MqttMessage &payload);
-   bool MqttParse(const MqttMessage &payload);
-   void MqttSend(const MqttMessage &payload);
+	void MqttPing();
+	void MqttPublish(const char *topic, const JSONNode &value);
+	void MqttSubscribe(const char *topic, ...);
+	void MqttUnsubscribe(const char *topic, ...);
 
-   void MqttQueueConnect();
+	bool MqttRead(MqttMessage &payload);
+	bool MqttParse(const MqttMessage &payload);
+	void MqttSend(const MqttMessage &payload);
 
-   void OnPublish(const char *str, const uint8_t *payLoad, size_t cbLen);
-   void OnPublishMessage(FbThriftReader &rdr);
-   void OnPublishPresence(FbThriftReader &rdr);
-   void OnPublishUtn(FbThriftReader &rdr);
+	void MqttQueueConnect();
+
+	void OnPublish(const char *str, const uint8_t *payLoad, size_t cbLen);
+	void OnPublishMessage(FbThriftReader &rdr);
+	void OnPublishPresence(FbThriftReader &rdr);
+	void OnPublishUtn(FbThriftReader &rdr);
 
 	HNETLIBCONN m_mqttConn;
-   __int64     m_iMqttId;
-   int16_t     m_mid;        // MQTT message id
+	__int64     m_iMqttId;
+	int16_t     m_mid;        // MQTT message id
 
 	// internal data
 	CMStringA m_szDeviceID;   // stored, GUID that identifies this miranda's account
 	CMStringA m_szClientID;   // stored, random alphanumeric string of 20 chars
-   __int64   m_uid;          // stored, Facebook user id
+	__int64   m_uid;          // stored, Facebook user id
 
-   CMStringA m_szSyncToken;  // stored, sequence query token
-   __int64   m_sid;          // stored, Facebook sequence id
+	CMStringA m_szSyncToken;  // stored, sequence query token
+	__int64   m_sid;          // stored, Facebook sequence id
 
-   int       m_iUnread;
+	int       m_iUnread;
 	bool      m_bOnline;
-   bool      m_QueueCreated;
+	bool      m_QueueCreated;
 
 	CMStringA m_szAuthToken; // calculated 
 
-   mir_cs    m_csOwnMessages;
-   OBJLIST<COwnMessage> arOwnMessages;
-   bool      ExtractOwnMessage(__int64 msgId, COwnMessage &res);
+	mir_cs    m_csOwnMessages;
+	OBJLIST<COwnMessage> arOwnMessages;
+	bool      ExtractOwnMessage(__int64 msgId, COwnMessage &res);
 
-   OBJLIST<FacebookUser> m_users;
-   FacebookUser* FindUser(__int64 id)
-   {
-      return m_users.find((FacebookUser *)&id);
-   }
+	OBJLIST<FacebookUser> m_users;
+	FacebookUser *FindUser(__int64 id)
+	{
+		return m_users.find((FacebookUser *)&id);
+	}
 
-   FacebookUser* UserFromJson(const JSONNode &root, CMStringW &wszId, bool &bIsChat);
+	FacebookUser *UserFromJson(const JSONNode &root, CMStringW &wszId, bool &bIsChat);
 
-   bool CheckOwnMessage(FacebookUser *pUser, __int64 offlineId, const char *pszMsgId);
-   void FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody);
+	bool CheckOwnMessage(FacebookUser *pUser, __int64 offlineId, const char *pszMsgId);
+	void FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &szBody);
 
-   void OnLoggedIn();
-   void OnLoggedOut();
+	void OnLoggedIn();
+	void OnLoggedOut();
 
-   bool RefreshSid();
-   bool RefreshToken();
 	FacebookUser* RefreshThread(JSONNode &n);
 	FacebookUser* RefreshThread(CMStringW &wszId);
-   void RefreshThreads();
-   int  RefreshContacts();
+	bool RefreshSid();
+	bool RefreshToken();
+	void RefreshThreads();
+	int  RefreshContacts();
 
-   FacebookUser* AddContact(const CMStringW &wszId, bool bTemp = true);
+	FacebookUser *AddContact(const CMStringW &wszId, bool bTemp = true);
 
-   void __cdecl ServerThread(void *);
+	void __cdecl ServerThread(void *);
 
 public:
 	FacebookProto(const char *proto_name, const wchar_t *username);
 	~FacebookProto();
 
-    inline const char* ModuleName() const {
-        return m_szModuleName;
-    }
+	inline const char *ModuleName() const
+	{
+		return m_szModuleName;
+	}
 
-    void OnPublishPrivateMessage(const JSONNode &json);
-    void OnPublishReadReceipt(const JSONNode &json);
-    void OnPublishSentMessage(const JSONNode &json);
-    void OnPublishThreadName(const JSONNode &json);
-    void OnPublishChatJoin(const JSONNode &json);
-    void OnPublishChatLeave(const JSONNode &json);
+	void OnPublishPrivateMessage(const JSONNode &json);
+	void OnPublishReadReceipt(const JSONNode &json);
+	void OnPublishSentMessage(const JSONNode &json);
+	void OnPublishThreadName(const JSONNode &json);
+	void OnPublishChatJoin(const JSONNode &json);
+	void OnPublishChatLeave(const JSONNode &json);
 
-    //////////////////////////////////////////////////////////////////////////////////////
-    // options
+	//////////////////////////////////////////////////////////////////////////////////////
+	// options
 
-    CMOption<wchar_t *> m_wszDefaultGroup;  // clist group to store contacts
-    CMOption<bool>      m_bUseBigAvatars;   // use big or small avatars by default
-    CMOption<bool>      m_bUseGroupchats;   // do we need group chats at all?
-    CMOption<bool>      m_bHideGroupchats;  // do not open chat windows on creation
-    CMOption<bool>      m_bLoginInvisible;  // login in the invisible mode
-    CMOption<bool>      m_bKeepUnread;      // do not mark incoming messages as read
-    CMOption<bool>      m_bLoadAll;         // load all contacts, not only those who have ARE_FRIENDS status
+	CMOption<wchar_t *> m_wszDefaultGroup;  // clist group to store contacts
+	CMOption<bool>      m_bUseBigAvatars;   // use big or small avatars by default
+	CMOption<bool>      m_bUseGroupchats;   // do we need group chats at all?
+	CMOption<bool>      m_bHideGroupchats;  // do not open chat windows on creation
+	CMOption<bool>      m_bLoginInvisible;  // login in the invisible mode
+	CMOption<bool>      m_bKeepUnread;      // do not mark incoming messages as read
+	CMOption<bool>      m_bLoadAll;         // load all contacts, not only those who have ARE_FRIENDS status
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
 
 	void OnModulesLoaded() override;
-   void OnShutdown() override;
+	void OnShutdown() override;
 
-   MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact) override;
-   int      SendMsg(MCONTACT hContact, int flags, const char *pszSrc);
+	int      SendMsg(MCONTACT hContact, int flags, const char *pszSrc);
 	int      SetStatus(int iNewStatus) override;
-   int      UserIsTyping(MCONTACT hContact, int type) override;
+	int      UserIsTyping(MCONTACT hContact, int type) override;
 
-   ////////////////////////////////////////////////////////////////////////////////////////
-   // Events
+	////////////////////////////////////////////////////////////////////////////////////////
+	// Events
 
-   int __cdecl OnMarkedRead(WPARAM, LPARAM);
-   int __cdecl OnOptionsInit(WPARAM, LPARAM);
-   
-   int __cdecl GroupchatMenuHook(WPARAM, LPARAM);
-   int __cdecl GroupchatEventHook(WPARAM, LPARAM);
+	int __cdecl OnMarkedRead(WPARAM, LPARAM);
+	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 
-   ////////////////////////////////////////////////////////////////////////////////////////
-   // Services
-   
-   INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
-   INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
-   INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	int __cdecl GroupchatMenuHook(WPARAM, LPARAM);
+	int __cdecl GroupchatEventHook(WPARAM, LPARAM);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// Services
+
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 };
 
 typedef CProtoDlgBase<FacebookProto> CFBDlgBase;
