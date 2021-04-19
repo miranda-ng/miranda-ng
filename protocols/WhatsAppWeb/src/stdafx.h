@@ -76,6 +76,7 @@ struct ec_private_key : public signal_type_base
 };
 
 #include "db.h"
+#include "utils.h"
 #include "proto.h"
 #include "resource.h"
 

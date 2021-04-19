@@ -56,6 +56,7 @@
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>

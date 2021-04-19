@@ -320,15 +320,15 @@ bool WhatsAppProto::ServerThreadWorker()
 			continue;
 		}
 		
-		offset = 0;
-		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
-
 		// we have some additional data, not only opcode
 		if ((size_t)bufSize > hdr.headerSize) {
 			netbuf.append(buf, bufSize);
 			if (!WSReadPacket(bufSize, hdr, netbuf))
 				break;
 		}
+
+		offset = 0;
+		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
 
 		// read all payloads from the current buffer, one by one
 		size_t prevSize = 0;
@@ -424,6 +424,13 @@ bool WhatsAppProto::ServerThreadWorker()
 
 void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
 {
+	WAReader reader(buf.data(), buf.length());
+
+	JSONNode root;
+	if (!reader.readNode(root))
+		return;
+
+	debugLogA("packed JSON: %s", root.write().c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -447,7 +454,7 @@ void WhatsAppProto::ProcessBlocked(const JSONNode &node)
 	for (auto &it : node["blocklist"]) {
 		auto *pUser = AddUser(it.as_string().c_str(), false);
 		Ignore_Ignore(pUser->hContact, IGNOREEVENT_ALL);
-		Contact_RemoveFromList(pUser->hContact);
+		Contact_Hide(pUser->hContact);
 	}
 }
 
