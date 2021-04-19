@@ -46,6 +46,9 @@ void WhatsAppProto::OnLoggedIn()
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
+
+	SendKeepAlive();
+	m_impl.m_keepAlive.Start(60000);
 }
 
 void WhatsAppProto::OnLoggedOut(void)
@@ -59,6 +62,11 @@ void WhatsAppProto::OnLoggedOut(void)
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
+}
+
+void WhatsAppProto::SendKeepAlive()
+{
+	WebSocket_Send(m_hServerConn, "?,,", 3);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -375,7 +383,7 @@ bool WhatsAppProto::ServerThreadWorker()
 
 			case 9: // ping
 				debugLogA("ping received");
-				Netlib_Send(m_hServerConn, start, (int)hdr.payloadSize, 0);
+				Netlib_Send(m_hServerConn, "?,,", 3, 0);
 				break;
 
 			default:

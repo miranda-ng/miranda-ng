@@ -50,6 +50,25 @@ struct WAMessage
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
+	class CWhatsAppProtoImpl
+	{
+		friend class WhatsAppProto;
+		WhatsAppProto &m_proto;
+
+		CTimer m_keepAlive;
+		void OnKeepAlive(CTimer *) {
+			m_proto.SendKeepAlive();
+		}
+
+		CWhatsAppProtoImpl(WhatsAppProto &pro) :
+			m_proto(pro),
+			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this))
+		{
+			m_keepAlive.OnEvent = Callback(this, &CWhatsAppProtoImpl::OnKeepAlive);
+		}
+	} m_impl;
+
+
 	bool m_bTerminated, m_bOnline;
 	ptrW m_tszDefaultGroup;
 
@@ -98,6 +117,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	bool ProcessSecret(const CMStringA &szSecret);
 
 	bool decryptBinaryMessage(size_t cbSize, const void *buf, MBinBuffer &res);
+
+	void SendKeepAlive();
 
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
