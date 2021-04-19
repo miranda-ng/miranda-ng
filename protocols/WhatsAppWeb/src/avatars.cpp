@@ -75,7 +75,7 @@ INT_PTR WhatsAppProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR WhatsAppProto::SetMyAvatar(WPARAM, LPARAM lParam)
+INT_PTR WhatsAppProto::SetMyAvatar(WPARAM, LPARAM)
 {
 	return 0;
 }

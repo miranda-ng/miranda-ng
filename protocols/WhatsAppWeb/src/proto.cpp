@@ -96,7 +96,7 @@ void WhatsAppProto::OnModulesLoaded()
 /////////////////////////////////////////////////////////////////////////////////////////
 // PROTO_INTERFACE implementation
 
-MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+MCONTACT WhatsAppProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
 	if (psr->id.w == nullptr)
 		return NULL;
@@ -183,7 +183,7 @@ int WhatsAppProto::SetStatus(int new_status)
 	return 0;
 }
 
-int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *msg)
+int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *)
 {
 	ptrA jid(getStringA(hContact, DBKEY_ID));
 	if (jid == NULL)
@@ -197,7 +197,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *msg)
 	return 0;
 }
 
-int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)
+int WhatsAppProto::UserIsTyping(MCONTACT hContact, int)
 {
 	if (hContact && isOnline()) {
 		ptrA jid(getStringA(hContact, DBKEY_ID));

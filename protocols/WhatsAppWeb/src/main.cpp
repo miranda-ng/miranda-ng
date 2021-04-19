@@ -34,7 +34,7 @@ static int hmac_sha256_init(void **hmac_context, const uint8_t *key, size_t key_
 {
 	HMAC_CTX *ctx = HMAC_CTX_new();
 	*hmac_context = ctx;
-	HMAC_Init(ctx, key, key_len, EVP_sha256());
+	HMAC_Init(ctx, key, (int)key_len, EVP_sha256());
 	return 0;
 }
 
@@ -43,7 +43,7 @@ int hmac_sha256_update(void *hmac_context, const uint8_t *data, size_t data_len,
 	return HMAC_Update((HMAC_CTX *)hmac_context, data, data_len);
 }
 
-int hmac_sha256_final(void *hmac_context, signal_buffer **output, void *user_data)
+int hmac_sha256_final(void *hmac_context, signal_buffer **output, void *)
 {
 	BYTE data[200];
 	unsigned len = 0;
