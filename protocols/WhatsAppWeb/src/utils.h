@@ -45,3 +45,32 @@ public:
 	CMStringA readString(int tag);
 	bool      readNode(JSONNode&);
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// object serialization
+
+#define WAS_STRING 1
+#define WAS_BINARY 2
+#define WAS_BOOL   3
+#define WAS_INT8   4
+#define WAS_INT64  5
+
+struct WAS_Field
+{
+	uint8_t type;
+	uint8_t len;
+	uint16_t offset;
+};
+
+class WAS_Decoder
+{
+	const BYTE *m_buf, *m_limit;
+
+public:
+	WAS_Decoder(const void *pData, size_t cbLen) :
+		m_buf((BYTE*)pData),
+		m_limit((BYTE*)pData + cbLen)
+	{}
+
+	bool read(void *pObj, const WAS_Field *fields, size_t iFieldCount);
+};

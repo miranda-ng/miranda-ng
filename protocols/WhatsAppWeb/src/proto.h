@@ -37,6 +37,17 @@ struct WAUser
 	SESSION_INFO *si = 0;
 };
 
+struct WAMessage
+{
+	bool bFromTo;
+	BYTE iMsgType;
+	ptrA szShit;
+	ptrA szJid;
+	ptrA szMsgId;
+	ptrA szBody;
+	__int64 timestamp;
+};
+
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
 	bool m_bTerminated, m_bOnline;
@@ -96,6 +107,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// binary packets
 	void ProcessBinaryPacket(const MBinBuffer &buf);
+	void ProcessAdd(const JSONNode &node);
 	void ProcessChats(const JSONNode &node);
 	void ProcessContacts(const JSONNode &node);
 

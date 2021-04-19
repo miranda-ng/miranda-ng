@@ -7,17 +7,6 @@ Copyright © 2019-21 George Hazan
 
 #include "stdafx.h"
 
-bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
-{
-	DBVARIANT dbv = { DBVT_BLOB };
-	if (db_get(0, m_szModuleName, szSetting, &dbv))
-		return false;
-
-	buf.assign(dbv.pbVal, dbv.cpbVal);
-	db_free(&dbv);
-	return true;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
@@ -328,17 +317,18 @@ bool WhatsAppProto::ServerThreadWorker()
 		}
 
 		offset = 0;
-		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
+		debugLogA("Got packet: buffer = %d, opcode = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
 
 		// read all payloads from the current buffer, one by one
 		size_t prevSize = 0;
 		while (true) {
+			const char *start = netbuf.data() + hdr.headerSize;
+
 			switch (hdr.opCode) {
 			case 1: // json packet
 			case 2: // binary packet
 				if (hdr.bIsFinal) {
 					// process a packet here
-					const char *start = netbuf.data() + hdr.headerSize;
 					const char *pos = strchr(start, ',');
 					if (pos == nullptr) {
 						debugLogA("invalid packet received, no comma");
@@ -385,8 +375,11 @@ bool WhatsAppProto::ServerThreadWorker()
 
 			case 9: // ping
 				debugLogA("ping received");
-				Netlib_Send(m_hServerConn, (char *)buf + hdr.headerSize, bufSize - int(hdr.headerSize), 0);
+				Netlib_Send(m_hServerConn, start, (int)hdr.payloadSize, 0);
 				break;
+
+			default:
+				Netlib_Dump(m_hServerConn, start, hdr.payloadSize, false, 0);
 			}
 
 			if (hdr.bIsFinal)
@@ -437,6 +430,74 @@ void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
 		ProcessContacts(root["$list$"]);
 	else if (szType == "chat")
 		ProcessChats(root["$list$"]);
+	else {
+		CMStringW szAdd = root["add"].as_mstring();
+		if (!szAdd.IsEmpty())
+			ProcessAdd(root["$list$"]);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static WAS_Field msgFields[] =
+{
+	{ WAS_STRING, 1, FIELD_OFFSET(WAMessage, szShit)    },
+	{ WAS_STRING, 0, FIELD_OFFSET(WAMessage, szJid)     },
+	{ WAS_BOOL,   0, FIELD_OFFSET(WAMessage, bFromTo)   },
+	{ WAS_BINARY, 0, FIELD_OFFSET(WAMessage, szMsgId)   },
+	{ WAS_INT8,   0, FIELD_OFFSET(WAMessage, iMsgType)  },
+	{ WAS_STRING, 0, FIELD_OFFSET(WAMessage, szBody)    },
+	{ WAS_INT64,  0, FIELD_OFFSET(WAMessage, timestamp) },
+};
+
+void WhatsAppProto::ProcessAdd(const JSONNode &list)
+{
+	for (auto &it : list) {
+		std::string buf = it["$bin$"].as_string();
+
+		size_t resLen;
+		void *pRes = mir_base64_decode(buf.c_str(), &resLen);
+		if (pRes == nullptr)
+			continue;
+
+		WAMessage msg;
+		WAS_Decoder rdr(pRes, resLen);
+		if (rdr.read(&msg, msgFields, _countof(msgFields))) {
+			CMStringA jid(msg.szJid);
+			jid.Replace("@s.whatsapp.net", "@c.us");
+			jid.Replace("@g.whatsapp.net", "@g.us");
+
+			auto *pUser = AddUser(jid, false);
+			if (db_event_getById(m_szModuleName, msg.szMsgId))
+				continue;
+
+			if (pUser->si) {
+				CMStringA szText(msg.szBody);
+				szText.Replace("%", "%%");
+
+				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+				gce.pszID.a = msg.szJid;
+				gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+				gce.pszUID.a = "";
+				gce.pszText.a = szText;
+				gce.time = int(msg.timestamp / 1000000ll);
+				gce.bIsMe = true;
+				Chat_Event(&gce);
+			}
+			else {
+				PROTORECVEVENT pre = { 0 };
+				pre.timestamp = int(msg.timestamp / 1000000ll);
+				pre.szMessage = msg.szBody;
+				pre.flags = PREF_CREATEREAD;
+				pre.szMsgId = msg.szMsgId;
+				if (msg.bFromTo)
+					pre.flags |= PREF_SENT;
+				ProtoChainRecvMsg(pUser->hContact, &pre);
+			}
+		}
+	
+		mir_free(pRes);
+	}
 }
 
 void WhatsAppProto::ProcessChats(const JSONNode &list)
