@@ -452,17 +452,6 @@ void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static WAS_Field msgFields[] =
-{
-	{ WAS_STRING, 1, FIELD_OFFSET(WAMessage, szShit)    },
-	{ WAS_STRING, 0, FIELD_OFFSET(WAMessage, szJid)     },
-	{ WAS_BOOL,   0, FIELD_OFFSET(WAMessage, bFromTo)   },
-	{ WAS_BINARY, 0, FIELD_OFFSET(WAMessage, szMsgId)   },
-	{ WAS_INT8,   0, FIELD_OFFSET(WAMessage, iMsgType)  },
-	{ WAS_STRING, 0, FIELD_OFFSET(WAMessage, szBody)    },
-	{ WAS_INT64,  0, FIELD_OFFSET(WAMessage, timestamp) },
-};
-
 void WhatsAppProto::ProcessAdd(const JSONNode &list)
 {
 	for (auto &it : list) {
