@@ -128,7 +128,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// binary packets
 	void ProcessBinaryPacket(const MBinBuffer &buf);
-	void ProcessAdd(const JSONNode &node);
+	void ProcessAdd(const CMStringA &type, const JSONNode &node);
 	void ProcessChats(const JSONNode &node);
 	void ProcessContacts(const JSONNode &node);
 

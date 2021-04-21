@@ -444,15 +444,15 @@ void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
 	else if (szType == "chat")
 		ProcessChats(root["$list$"]);
 	else {
-		CMStringW szAdd = root["add"].as_mstring();
+		CMStringA szAdd = root["add"].as_mstring();
 		if (!szAdd.IsEmpty())
-			ProcessAdd(root["$list$"]);
+			ProcessAdd(szAdd, root["$list$"]);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::ProcessAdd(const JSONNode &list)
+void WhatsAppProto::ProcessAdd(const CMStringA &type, const JSONNode &list)
 {
 	for (auto &it : list) {
 		std::string buf = it["$bin$"].as_string();
@@ -508,7 +508,7 @@ void WhatsAppProto::ProcessAdd(const JSONNode &list)
 				PROTORECVEVENT pre = { 0 };
 				pre.timestamp = dwTimestamp;
 				pre.szMessage = szMsgText.GetBuffer();
-				pre.flags = PREF_CREATEREAD;
+				pre.flags = (type == "relay" ? 0 : PREF_CREATEREAD);
 				pre.szMsgId = key.id().c_str();
 				if (key.fromme())
 					pre.flags |= PREF_SENT;
