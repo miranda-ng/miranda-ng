@@ -289,7 +289,10 @@ bool WhatsAppProto::ServerThreadWorker()
 	getBlob(DBKEY_ENC_KEY, enc_key);
 	getBlob(DBKEY_MAC_KEY, mac_key);
 
-	CMStringA payload(FORMAT, "[\"admin\",\"init\",[0,3,4940],[\"Windows\",\"Chrome\",\"10\"],\"%s\",true]", m_szClientId.c_str());
+	MFileVersion v;
+	Miranda_GetFileVersion(&v);
+
+	CMStringA payload(FORMAT, "[\"admin\",\"init\",[%d,%d,%d],[\"Miranda NG\",\"Windows\",\"10\"],\"%s\",true]", v[1], v[2], v[3], m_szClientId.c_str());
 	if (m_szClientToken.IsEmpty() || mac_key.isEmpty() || enc_key.isEmpty())
 		WSSend(payload, &WhatsAppProto::OnStartSession);
 	else
@@ -466,54 +469,63 @@ void WhatsAppProto::ProcessAdd(const JSONNode &list)
 		std::string buf = it["$bin$"].as_string();
 
 		size_t resLen;
-		void *pRes = mir_base64_decode(buf.c_str(), &resLen);
+		ptrA pRes((char*)mir_base64_decode(buf.c_str(), &resLen));
 		if (pRes == nullptr)
 			continue;
 
 		proto::WebMessageInfo payLoad;
-		if (payLoad.ParseFromArray(pRes, (int)resLen)) {
-			auto &key= payLoad.key();
+		if (!payLoad.ParseFromArray(pRes, (int)resLen)) {
+			debugLogA("Error: message failed to decode by protobuf!");
+			Netlib_Dump(m_hServerConn, pRes, resLen, false, 0);
+			continue;
+		}
 
-			CMStringA jid(key.remotejid().c_str());
-			if (!jid.Replace("@s.whatsapp.net", "@c.us"))
-				jid.Replace("@g.whatsapp.net", "@g.us");
+		// this part is common for all types of messages
+		auto &key= payLoad.key();
 
-			auto *pUser = AddUser(jid, false);
+		// if this event already exists in the database - skip it
+		if (db_event_getById(m_szModuleName, key.id().c_str()))
+			continue;
 
-			if (payLoad.has_message()) {
-				auto &msg = payLoad.message();
-				std::string conv = msg.conversation();
+		CMStringA jid(key.remotejid().c_str());
+		if (!jid.Replace("@s.whatsapp.net", "@c.us"))
+			jid.Replace("@g.whatsapp.net", "@g.us");
 
-				if (db_event_getById(m_szModuleName, key.id().c_str()))
-					continue;
+		auto *pUser = AddUser(jid, false);
+		DWORD dwTimestamp = DWORD(payLoad.messagetimestamp());
+		CMStringA szMsgText;
 
-				if (pUser->si) {
-					CMStringA szText(conv.c_str());
-					szText.Replace("%", "%%");
+		// regular messages
+		if (payLoad.has_message()) {
+			auto &msg = payLoad.message();
+			szMsgText = msg.conversation().c_str();
+		}
 
-					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-					gce.pszID.a = jid;
-					gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
-					gce.pszUID.a = "";
-					gce.pszText.a = szText;
-					gce.time = int(payLoad.messagetimestamp());
-					gce.bIsMe = true;
-					Chat_Event(&gce);
-				}
-				else {
-					PROTORECVEVENT pre = { 0 };
-					pre.timestamp = int(payLoad.messagetimestamp());
-					pre.szMessage = (char*)conv.c_str();
-					pre.flags = PREF_CREATEREAD;
-					pre.szMsgId = key.id().c_str();
-					if (key.fromme())
-						pre.flags |= PREF_SENT;
-					ProtoChainRecvMsg(pUser->hContact, &pre);
-				}
+		if (!szMsgText.IsEmpty()) {
+			if (pUser->si) {
+				CMStringA szText(szMsgText);
+				szText.Replace("%", "%%");
+
+				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+				gce.pszID.a = jid;
+				gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+				gce.pszUID.a = "";
+				gce.pszText.a = szText;
+				gce.time = dwTimestamp;
+				gce.bIsMe = true;
+				Chat_Event(&gce);
+			}
+			else {
+				PROTORECVEVENT pre = { 0 };
+				pre.timestamp = dwTimestamp;
+				pre.szMessage = szMsgText.GetBuffer();
+				pre.flags = PREF_CREATEREAD;
+				pre.szMsgId = key.id().c_str();
+				if (key.fromme())
+					pre.flags |= PREF_SENT;
+				ProtoChainRecvMsg(pUser->hContact, &pre);
 			}
 		}
-	
-		mir_free(pRes);
 	}
 }
 
