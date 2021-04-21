@@ -498,7 +498,7 @@ void WhatsAppProto::ProcessAdd(const CMStringA &type, const JSONNode &list)
 				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
 				gce.pszID.a = jid;
 				gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
-				gce.pszUID.a = "";
+				gce.pszUID.a = payLoad.participant().c_str();
 				gce.pszText.a = szText;
 				gce.time = dwTimestamp;
 				gce.bIsMe = true;
