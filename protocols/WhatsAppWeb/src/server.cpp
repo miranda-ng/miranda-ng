@@ -470,39 +470,46 @@ void WhatsAppProto::ProcessAdd(const JSONNode &list)
 		if (pRes == nullptr)
 			continue;
 
-		WAMessage msg;
-		WAS_Decoder rdr(pRes, resLen);
-		if (rdr.read(&msg, msgFields, _countof(msgFields))) {
-			CMStringA jid(msg.szJid);
-			jid.Replace("@s.whatsapp.net", "@c.us");
-			jid.Replace("@g.whatsapp.net", "@g.us");
+		proto::WebMessageInfo payLoad;
+		if (payLoad.ParseFromArray(pRes, (int)resLen)) {
+			auto &key= payLoad.key();
+
+			CMStringA jid(key.remotejid().c_str());
+			if (!jid.Replace("@s.whatsapp.net", "@c.us"))
+				jid.Replace("@g.whatsapp.net", "@g.us");
 
 			auto *pUser = AddUser(jid, false);
-			if (db_event_getById(m_szModuleName, msg.szMsgId))
-				continue;
 
-			if (pUser->si) {
-				CMStringA szText(msg.szBody);
-				szText.Replace("%", "%%");
+			if (payLoad.has_message()) {
+				auto &msg = payLoad.message();
+				std::string conv = msg.conversation();
 
-				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-				gce.pszID.a = msg.szJid;
-				gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
-				gce.pszUID.a = "";
-				gce.pszText.a = szText;
-				gce.time = int(msg.timestamp / 1000000ll);
-				gce.bIsMe = true;
-				Chat_Event(&gce);
-			}
-			else {
-				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = int(msg.timestamp / 1000000ll);
-				pre.szMessage = msg.szBody;
-				pre.flags = PREF_CREATEREAD;
-				pre.szMsgId = msg.szMsgId;
-				if (msg.bFromTo)
-					pre.flags |= PREF_SENT;
-				ProtoChainRecvMsg(pUser->hContact, &pre);
+				if (db_event_getById(m_szModuleName, key.id().c_str()))
+					continue;
+
+				if (pUser->si) {
+					CMStringA szText(conv.c_str());
+					szText.Replace("%", "%%");
+
+					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+					gce.pszID.a = jid;
+					gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+					gce.pszUID.a = "";
+					gce.pszText.a = szText;
+					gce.time = int(payLoad.messagetimestamp());
+					gce.bIsMe = true;
+					Chat_Event(&gce);
+				}
+				else {
+					PROTORECVEVENT pre = { 0 };
+					pre.timestamp = int(payLoad.messagetimestamp());
+					pre.szMessage = (char*)conv.c_str();
+					pre.flags = PREF_CREATEREAD;
+					pre.szMsgId = key.id().c_str();
+					if (key.fromme())
+						pre.flags |= PREF_SENT;
+					ProtoChainRecvMsg(pUser->hContact, &pre);
+				}
 			}
 		}
 	
