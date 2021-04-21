@@ -1,0 +1,8 @@
+;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[Light Rain And Snow]
+Leichter Regen und Schauer
+[Rain Showers]
+Regenschauer
