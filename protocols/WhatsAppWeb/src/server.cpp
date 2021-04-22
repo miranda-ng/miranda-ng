@@ -292,7 +292,7 @@ bool WhatsAppProto::ServerThreadWorker()
 	MFileVersion v;
 	Miranda_GetFileVersion(&v);
 
-	CMStringA payload(FORMAT, "[\"admin\",\"init\",[%d,%d,%d],[\"Miranda NG\",\"Windows\",\"10\"],\"%s\",true]", v[1], v[2], v[3], m_szClientId.c_str());
+	CMStringA payload(FORMAT, "[\"admin\",\"init\",[0,3,4940],[\"Windows\",\"Chrome\",\"10\"],\"%s\",true]", m_szClientId.c_str());
 	if (m_szClientToken.IsEmpty() || mac_key.isEmpty() || enc_key.isEmpty())
 		WSSend(payload, &WhatsAppProto::OnStartSession);
 	else
