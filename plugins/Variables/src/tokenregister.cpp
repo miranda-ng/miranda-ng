@@ -177,8 +177,11 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 
 		if (thisVr->flags & TRF_PARSEFUNC)
 			callRes = (INT_PTR)thisVr->parseFunction(&cAi);
-		else if (thisVr->szService != nullptr)
+		else if (thisVr->szService != nullptr) {
 			callRes = CallService(thisVr->szService, 0, (LPARAM)&cAi);
+			if (callRes == CALLSERVICE_NOTFOUND)
+				callRes = 0;
+		}
 
 		for (unsigned j = 0; j < cAi.argc; j++)
 			mir_free(cAi.argv.a[j]);
@@ -190,8 +193,11 @@ wchar_t *parseFromRegister(ARGUMENTSINFO *ai)
 		// unicode variables calls unicode plugin
 		if (thisVr->flags & TRF_PARSEFUNC)
 			callRes = (INT_PTR)thisVr->parseFunctionW(ai);
-		else if (thisVr->szService != nullptr)
+		else if (thisVr->szService != nullptr) {
 			callRes = CallService(thisVr->szService, 0, (LPARAM)ai);
+			if (callRes == CALLSERVICE_NOTFOUND)
+				callRes = 0;
+		}
 
 		if ((wchar_t*)callRes != nullptr)
 			res = mir_wstrdup((wchar_t*)callRes);
