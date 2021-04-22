@@ -30,6 +30,15 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<WhatsAppProto>(MODULENAME, pluginInfo)
+{
+	SetUniqueId(DBKEY_ID);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Load
+
 static int hmac_sha256_init(void **hmac_context, const uint8_t *key, size_t key_len, void *)
 {
 	HMAC_CTX *ctx = HMAC_CTX_new();
@@ -64,15 +73,6 @@ static int random_func(uint8_t *pData, size_t size, void *)
 	Utils_GetRandom(pData, size);
 	return 0;
 }
-
-CMPlugin::CMPlugin() :
-	ACCPROTOPLUGIN<WhatsAppProto>(MODULENAME, pluginInfo)
-{
-	SetUniqueId(DBKEY_ID);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Load
 
 int CMPlugin::Load()
 {
