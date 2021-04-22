@@ -482,7 +482,7 @@ RECT GetRect(HDC hdc, RECT rc, SIZE s, UINT uFormat, int next_top, int text_left
 	return r;
 }
 
-RECT GetRect(HDC hdc, RECT rc, const wchar_t *text, const wchar_t *def_text, Protocol *proto, UINT uFormat,
+RECT GetRect(HDC hdc, RECT rc, const wchar_t *text, const wchar_t *def_text, Protocol &proto, UINT uFormat,
 	int next_top, int text_left, bool smileys = true, bool frame = true, bool end_elipsis_on_frame = true)
 {
 	const wchar_t *tmp;
@@ -507,7 +507,7 @@ RECT GetRect(HDC hdc, RECT rc, const wchar_t *text, const wchar_t *def_text, Pro
 		pos[0] = '\0';
 
 	if (smileys)
-		DRAW_TEXT(hdc, tmp2, (int)mir_wstrlen(tmp2), &r_tmp, uFormat | DT_CALCRECT, proto->name);
+		DRAW_TEXT(hdc, tmp2, (int)mir_wstrlen(tmp2), &r_tmp, uFormat | DT_CALCRECT, proto.name);
 	else
 		DrawText(hdc, tmp2, -1, &r_tmp, uFormat | DT_CALCRECT);
 
@@ -602,14 +602,14 @@ void CalcRectangles(HWND hwnd)
 		return;
 	}
 
-	Protocol *proto = protocols->Get(data->protocol_number);
-	if (proto == nullptr) {
+	Protocol &proto = protocols[data->protocol_number];
+	if (&proto == nullptr) {
 		ReleaseDC(hwnd, hdc);
 		return;
 	}
 
 	data->recalc_rectangles = false;
-	proto->data_changed = false;
+	proto.data_changed = false;
 
 	data->draw_proto = false;
 	data->draw_proto_cycle = false;
@@ -673,12 +673,12 @@ void CalcRectangles(HWND hwnd)
 	text_left = r.left;
 
 	// Draw image?
-	if (proto->CanGetAvatar()) {
-		if (proto->avatar_bmp != nullptr) {
+	if (proto.CanGetAvatar()) {
+		if (proto.avatar_bmp != nullptr) {
 			data->draw_img = true;
 
 			BITMAP bmp;
-			if (GetObject(proto->avatar_bmp, sizeof(bmp), &bmp)) {
+			if (GetObject(proto.avatar_bmp, sizeof(bmp), &bmp)) {
 				// make bounds
 				RECT rc = r;
 
@@ -733,9 +733,9 @@ void CalcRectangles(HWND hwnd)
 	data->draw_nick = true;
 	SelectObject(hdc, hFont[FONT_NICK]);
 
-	data->nick_rect = GetRect(hdc, r, proto->nickname, DEFAULT_NICKNAME, proto, uFormat, next_top, text_left);
+	data->nick_rect = GetRect(hdc, r, proto.nickname, DEFAULT_NICKNAME, proto, uFormat, next_top, text_left);
 
-	if (proto->nickname[0] != '\0')
+	if (proto.nickname[0] != '\0')
 		data->nick_tt_hwnd = CreateTooltip(hwnd, data->nick_rect);
 
 	next_top = data->nick_rect.bottom + SPACE_TEXT_TEXT;
@@ -758,7 +758,7 @@ void CalcRectangles(HWND hwnd)
 		if (opts.show_protocol_cycle_button)
 			tmp_r.right -= 2 * ICON_SIZE;
 
-		data->proto_rect = GetRect(hdc, tmp_r, proto->description, L"", proto, uFormat, next_top, tmp_text_left, false, true, false);
+		data->proto_rect = GetRect(hdc, tmp_r, proto.description, L"", proto, uFormat, next_top, tmp_text_left, false, true, false);
 
 		if (opts.show_protocol_cycle_button) {
 			data->draw_proto_cycle = true;
@@ -819,7 +819,7 @@ void CalcRectangles(HWND hwnd)
 
 		// Text size
 		RECT r_tmp = r;
-		DrawText(hdc, proto->status_name, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+		DrawText(hdc, proto.status_name, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 		SIZE s;
 		s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
@@ -828,7 +828,7 @@ void CalcRectangles(HWND hwnd)
 		// Status global rect
 		data->status_rect = GetRect(hdc, r, s, uFormat, next_top, text_left, true, false);
 
-		if (proto->status_name[0] != '\0')
+		if (proto.status_name[0] != '\0')
 			data->status_tt_hwnd = CreateTooltip(hwnd, data->status_rect);
 
 		next_top = data->status_rect.bottom + SPACE_TEXT_TEXT;
@@ -874,14 +874,14 @@ void CalcRectangles(HWND hwnd)
 		text_left = r.left;
 
 	// Away msg?
-	if (proto->CanGetStatusMsg()) {
+	if (proto.CanGetStatusMsg()) {
 		data->draw_away_msg = true;
 
 		SelectObject(hdc, hFont[FONT_AWAY_MSG]);
 
-		data->away_msg_rect = GetRect(hdc, r, proto->status_message, DEFAULT_STATUS_MESSAGE, proto, uFormat, next_top, text_left);
+		data->away_msg_rect = GetRect(hdc, r, proto.status_message, DEFAULT_STATUS_MESSAGE, proto, uFormat, next_top, text_left);
 
-		if (proto->status_message[0] != '\0')
+		if (proto.status_message[0] != '\0')
 			data->away_msg_tt_hwnd = CreateTooltip(hwnd, data->away_msg_rect);
 
 		next_top = data->away_msg_rect.bottom + SPACE_TEXT_TEXT;
@@ -895,13 +895,13 @@ void CalcRectangles(HWND hwnd)
 		text_left = r.left;
 
 	// Listening to
-	if (proto->ListeningToEnabled() && proto->GetStatus() > ID_STATUS_OFFLINE) {
+	if (proto.ListeningToEnabled() && proto.GetStatus() > ID_STATUS_OFFLINE) {
 		data->draw_listening_to = true;
 
-		if (proto->listening_to[0] == '\0') {
+		if (proto.listening_to[0] == '\0') {
 			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 
-			data->listening_to_rect = GetRect(hdc, r, proto->listening_to, DEFAULT_LISTENING_TO, proto, uFormat, next_top, text_left);
+			data->listening_to_rect = GetRect(hdc, r, proto.listening_to, DEFAULT_LISTENING_TO, proto, uFormat, next_top, text_left);
 
 			data->listening_to_text_rect = data->listening_to_rect;
 			memset(&data->listening_to_icon_rect, 0, sizeof(data->listening_to_icon_rect));
@@ -913,7 +913,7 @@ void CalcRectangles(HWND hwnd)
 
 			// Text size
 			RECT r_tmp = r;
-			DrawText(hdc, proto->listening_to, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+			DrawText(hdc, proto.listening_to, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 			SIZE s;
 			s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
@@ -1032,7 +1032,7 @@ void EraseBackground(HWND hwnd, HDC hdc)
 	}
 }
 
-void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, RECT rc, UINT uFormat, bool mouse_over, Protocol *proto)
+void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, RECT rc, UINT uFormat, bool mouse_over, Protocol &proto)
 {
 	const wchar_t *tmp;
 	if (text[0] == '\0')
@@ -1084,7 +1084,7 @@ void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, REC
 		}
 	}
 
-	DRAW_TEXT(hdc, tmp2, (int)mir_wstrlen(tmp2), &r, uFormat, proto->name);
+	DRAW_TEXT(hdc, tmp2, (int)mir_wstrlen(tmp2), &r, uFormat, proto.name);
 
 	if (mouse_over)
 		DrawText(hdc, L" ...", 4, &rc_tmp, uFormat);
@@ -1101,14 +1101,14 @@ void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, REC
 void Draw(HWND hwnd, HDC hdc_orig)
 {
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	Protocol *proto = protocols->Get(data->protocol_number);
+	Protocol &proto = protocols[data->protocol_number];
 
-	if (proto == nullptr) {
+	if (&proto == nullptr) {
 		EraseBackground(hwnd, hdc_orig);
 		return;
 	}
 
-	if (data->recalc_rectangles || proto->data_changed)
+	if (data->recalc_rectangles || proto.data_changed)
 		CalcRectangles(hwnd);
 
 	RECT r_full;
@@ -1166,7 +1166,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		adr.clrBorder = opts.draw_avatar_border_color;
 		adr.radius = round_radius;
 		adr.alpha = 255;
-		adr.szProto = proto->name;
+		adr.szProto = proto.name;
 		CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&adr);
 
 		// Clipping rgn
@@ -1183,7 +1183,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_NICK]);
 		SetTextColor(hdc, font_colour[FONT_NICK]);
 
-		DrawTextWithRect(hdc, proto->nickname, DEFAULT_NICKNAME, rc, uFormat, data->mouse_over_nick && proto->CanSetNick(), proto);
+		DrawTextWithRect(hdc, proto.nickname, DEFAULT_NICKNAME, rc, uFormat, data->mouse_over_nick && proto.CanSetNick(), proto);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, nullptr);
@@ -1234,7 +1234,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_PROTO]);
 		SetTextColor(hdc, font_colour[FONT_PROTO]);
 
-		DrawText(hdc, proto->description, -1, &rr, uFormat);
+		DrawText(hdc, proto.description, -1, &rr, uFormat);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, nullptr);
@@ -1258,10 +1258,10 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectClipRgn(hdc, rgn);
 
 		HICON status_icon;
-		if (proto->custom_status != 0 && ProtoServiceExists(proto->name, PS_GETCUSTOMSTATUSICON))
-			status_icon = (HICON)CallProtoService(proto->name, PS_GETCUSTOMSTATUSICON, proto->custom_status, LR_SHARED);
+		if (proto.custom_status != 0 && ProtoServiceExists(proto.name, PS_GETCUSTOMSTATUSICON))
+			status_icon = (HICON)CallProtoService(proto.name, PS_GETCUSTOMSTATUSICON, proto.custom_status, LR_SHARED);
 		else
-			status_icon = Skin_LoadProtoIcon(proto->name, proto->status);
+			status_icon = Skin_LoadProtoIcon(proto.name, proto.status);
 
 		if (status_icon != nullptr) {
 			DrawIconEx(hdc, data->status_icon_rect.left, data->status_icon_rect.top, status_icon, ICON_SIZE, ICON_SIZE, 0, nullptr, DI_NORMAL);
@@ -1278,7 +1278,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_STATUS]);
 		SetTextColor(hdc, font_colour[FONT_STATUS]);
 
-		DRAW_TEXT(hdc, proto->status_name, (int)mir_wstrlen(proto->status_name), &rc, uFormat, proto->name);
+		DRAW_TEXT(hdc, proto.status_name, (int)mir_wstrlen(proto.status_name), &rc, uFormat, proto.name);
 
 		SelectClipRgn(hdc, nullptr);
 		DeleteObject(rgn);
@@ -1296,8 +1296,8 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_AWAY_MSG]);
 		SetTextColor(hdc, font_colour[FONT_AWAY_MSG]);
 
-		DrawTextWithRect(hdc, proto->status_message, DEFAULT_STATUS_MESSAGE, rc, uFormat,
-			data->mouse_over_away_msg && proto->CanSetStatusMsg(), proto);
+		DrawTextWithRect(hdc, proto.status_message, DEFAULT_STATUS_MESSAGE, rc, uFormat,
+			data->mouse_over_away_msg && proto.CanSetStatusMsg(), proto);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, nullptr);
@@ -1314,8 +1314,8 @@ void Draw(HWND hwnd, HDC hdc_orig)
 			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 			SetTextColor(hdc, font_colour[FONT_LISTENING_TO]);
 
-			DrawTextWithRect(hdc, proto->listening_to, DEFAULT_LISTENING_TO, rc, uFormat,
-				data->mouse_over_listening_to && protocols->CanSetListeningTo(), proto);
+			DrawTextWithRect(hdc, proto.listening_to, DEFAULT_LISTENING_TO, rc, uFormat,
+				data->mouse_over_listening_to && protocols.CanSetListeningTo(), proto);
 
 			// Clipping rgn
 			SelectClipRgn(hdc, nullptr);
@@ -1349,12 +1349,12 @@ void Draw(HWND hwnd, HDC hdc_orig)
 			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 			SetTextColor(hdc, font_colour[FONT_LISTENING_TO]);
 
-			DrawText(hdc, proto->listening_to, -1, &rc, uFormat);
+			DrawText(hdc, proto.listening_to, -1, &rc, uFormat);
 
 			SelectClipRgn(hdc, nullptr);
 			DeleteObject(rgn);
 
-			if (data->mouse_over_listening_to && protocols->CanSetListeningTo())
+			if (data->mouse_over_listening_to && protocols.CanSetListeningTo())
 				FrameRect(hdc, &rtmp, (HBRUSH)GetStockObject(GRAY_BRUSH));
 		}
 	}
@@ -1412,7 +1412,7 @@ void ShowGlobalStatusMenu(HWND hwnd, MyDetailsFrameData *data, POINT &p)
 		Clist_MenuProcessCommand(LOWORD(ret), MPCF_MAINMENU, 0);
 }
 
-void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, POINT &p)
+static void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, POINT &p)
 {
 	HMENU menu = Menu_GetStatusMenu();
 	HMENU submenu = nullptr;
@@ -1439,7 +1439,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 			}
 		}
 
-		if (submenu == nullptr && protocols->GetSize() == 1)
+		if (submenu == nullptr && protocols.getCount() == 1)
 			submenu = menu;
 	}
 
@@ -1480,7 +1480,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 	}
 }
 
-void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, POINT &p)
+static void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, POINT &p)
 {
 	HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1));
 	HMENU submenu = GetSubMenu(menu, 5);
@@ -1507,9 +1507,9 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 	memset(&mii, 0, sizeof(mii));
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
-	mii.fState = protocols->ListeningToEnabled() ? MFS_CHECKED : 0;
+	mii.fState = protocols.ListeningToEnabled() ? MFS_CHECKED : 0;
 
-	if (!protocols->CanSetListeningTo())
+	if (!protocols.CanSetListeningTo())
 		mii.fState |= MFS_DISABLED;
 
 	SetMenuItemInfo(submenu, ID_LISTENINGTOPOPUP_SENDLISTENINGTO, FALSE, &mii);
@@ -1528,7 +1528,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 		break;
 
 	case ID_LISTENINGTOPOPUP_SENDLISTENINGTO:
-		CallService(MS_LISTENINGTO_ENABLE, 0, !protocols->ListeningToEnabled());
+		CallService(MS_LISTENINGTO_ENABLE, 0, !protocols.ListeningToEnabled());
 		break;
 	}
 }
@@ -1550,7 +1550,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		data->showing_menu = false;
 
 		data->protocol_number = db_get_w(0, "MyDetails", "ProtocolNumber", 0);
-		if (data->protocol_number >= protocols->GetSize())
+		if (data->protocol_number >= protocols.getCount())
 			data->protocol_number = 0;
 
 		SetCycleTime(hwnd);
@@ -1596,8 +1596,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				SetStatusMessageRefreshTime(hwnd);
 				data->get_status_messages = false;
 
-				protocols->GetStatuses();
-				protocols->GetStatusMsgs();
+				protocols.GetStatuses();
+				protocols.GetStatusMsgs();
 
 				data->recalc_rectangles = true;
 			}
@@ -1615,7 +1615,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return TRUE;
 
 	case WM_LBUTTONUP:
-		proto = protocols->Get(data->protocol_number);
+		proto = &protocols[data->protocol_number];
 		if (proto != nullptr) {
 			POINT p;
 			p.x = LOWORD(lParam);
@@ -1660,7 +1660,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				data->showing_menu = false;
 			}
 			// In listening to?
-			else if (data->draw_listening_to && InsideRect(&p, &data->listening_to_rect) && protocols->CanSetListeningTo())
+			else if (data->draw_listening_to && InsideRect(&p, &data->listening_to_rect) && protocols.CanSetListeningTo())
 				ShowListeningToMenu(hwnd, data, proto, p);
 
 			// In protocol?
@@ -1669,13 +1669,13 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				HMENU menu = CreatePopupMenu();
 
-				for (int i = protocols->GetSize() - 1; i >= 0; i--) {
-					MENUITEMINFO mii = { 0 };
+				for (int i = protocols.getCount() - 1; i >= 0; i--) {
+					MENUITEMINFO mii = {};
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
-					mii.dwTypeData = protocols->Get(i)->description;
-					mii.cch = (int)mir_wstrlen(protocols->Get(i)->description);
+					mii.dwTypeData = protocols[i].description;
+					mii.cch = (int)mir_wstrlen(mii.dwTypeData);
 					mii.wID = i + 1;
 
 					if (i == data->protocol_number) {
@@ -1697,7 +1697,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				DestroyMenu(menu);
 
 				if (ret != 0)
-					PluginCommand_ShowProtocol(NULL, (WPARAM)protocols->Get(ret - 1)->name);
+					PluginCommand_ShowProtocol(NULL, (WPARAM)protocols[ret - 1].name);
 
 				data->showing_menu = false;
 			}
@@ -1711,7 +1711,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return Menu_DrawItem(lParam);
 
 	case WM_CONTEXTMENU:
-		proto = protocols->Get(data->protocol_number);
+		proto = &protocols[data->protocol_number];
 		if (proto != nullptr) {
 			POINT p = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			ScreenToClient(hwnd, &p);
@@ -1812,7 +1812,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				HMENU submenu = GetSubMenu(menu, 3);
 				TranslateMenu(submenu);
 
-				if (protocols->CanSetStatusMsgPerProtocol()) {
+				if (protocols.CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
 					mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), proto->description);
 
@@ -1877,7 +1877,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					ShowGlobalStatusMenu(hwnd, data, p);
 			}
 			// In listening to?
-			else if (data->draw_listening_to && InsideRect(&p, &data->listening_to_rect) && protocols->CanSetListeningTo())
+			else if (data->draw_listening_to && InsideRect(&p, &data->listening_to_rect) && protocols.CanSetListeningTo())
 				ShowListeningToMenu(hwnd, data, proto, p);
 
 			// In protocol?
@@ -1929,7 +1929,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
-				if (protocols->CanSetStatusMsgPerProtocol()) {
+				if (protocols.CanSetStatusMsgPerProtocol()) {
 					// Add this proto to menu
 					mir_snwprintf(tmp, TranslateT("Set my status message for %s..."), proto->description);
 
@@ -1986,9 +1986,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_STATE;
-				mii.fState = protocols->ListeningToEnabled() ? MFS_CHECKED : 0;
+				mii.fState = protocols.ListeningToEnabled() ? MFS_CHECKED : 0;
 
-				if (!protocols->CanSetListeningTo())
+				if (!protocols.CanSetListeningTo())
 					mii.fState |= MFS_DISABLED;
 
 				SetMenuItemInfo(submenu, ID_CONTEXTPOPUP_ENABLELISTENINGTO, FALSE, &mii);
@@ -2032,7 +2032,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					break;
 
 				case ID_CONTEXTPOPUP_ENABLELISTENINGTO:
-					CallService(MS_LISTENINGTO_ENABLE, 0, !protocols->ListeningToEnabled());
+					CallService(MS_LISTENINGTO_ENABLE, 0, !protocols.ListeningToEnabled());
 					break;
 
 				case ID_SHOW_NEXT_PROTO:
@@ -2054,8 +2054,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 
 			data->showing_menu = false;
-			break;
 		}
+		break;
 
 	case WM_NCMOUSELEAVE:
 	case WM_MOUSELEAVE:
@@ -2086,8 +2086,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			TrackMouseEvent(&tme);
 		}
 	case WM_MOUSEMOVE:
-		proto = protocols->Get(data->protocol_number);
-		if (proto != nullptr) {
+		if (&proto != nullptr) {
 			POINT p = { LOWORD(lParam), HIWORD(lParam) };
 			MakeHover(hwnd, data->draw_img, &data->mouse_over_img, &p, &data->img_rect);
 			MakeHover(hwnd, data->draw_nick, &data->mouse_over_nick, &p, &data->nick_rect);
@@ -2103,7 +2102,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
 			switch (lpnmhdr->code) {
 			case TTN_GETDISPINFO:
-				proto = protocols->Get(data->protocol_number);
+				proto = &protocols[data->protocol_number];
 
 				LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lpnmhdr;
 				SendMessage(lpnmhdr->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 300);
@@ -2142,7 +2141,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case MWM_AVATAR_CHANGED:
-		proto = protocols->Get((const char *)wParam);
+		proto = protocols.GetByName((const char *)wParam);
 		if (proto != nullptr) {
 			proto->GetAvatar();
 			RefreshFrame();
@@ -2150,7 +2149,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case MWM_NICK_CHANGED:
-		proto = protocols->Get((const char *)wParam);
+		proto = protocols.GetByName((const char *)wParam);
 		if (proto != nullptr) {
 			proto->GetNick();
 			RefreshFrame();
@@ -2158,7 +2157,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case MWM_STATUS_CHANGED:
-		proto = protocols->Get((const char *)wParam);
+		proto = protocols.GetByName((const char *)wParam);
 		if (proto != nullptr) {
 			proto->GetStatus();
 			proto->GetStatusMsg();
@@ -2175,7 +2174,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case MWM_LISTENINGTO_CHANGED:
 		if (wParam != NULL) {
-			proto = protocols->Get((const char *)wParam);
+			proto = protocols.GetByName((const char *)wParam);
 			if (proto != nullptr)
 				proto->GetListeningTo();
 		}
@@ -2319,7 +2318,7 @@ INT_PTR PluginCommand_ShowNextProtocol(WPARAM, LPARAM)
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number++;
-	if (data->protocol_number >= protocols->GetSize())
+	if (data->protocol_number >= protocols.getCount())
 		data->protocol_number = 0;
 
 	db_set_w(0, "MyDetails", "ProtocolNumber", data->protocol_number);
@@ -2342,7 +2341,7 @@ INT_PTR PluginCommand_ShowPreviousProtocol(WPARAM, LPARAM)
 
 	data->protocol_number--;
 	if (data->protocol_number < 0)
-		data->protocol_number = protocols->GetSize() - 1;
+		data->protocol_number = protocols.getCount() - 1;
 
 	db_set_w(0, "MyDetails", "ProtocolNumber", data->protocol_number);
 
@@ -2362,9 +2361,9 @@ INT_PTR PluginCommand_ShowProtocol(WPARAM, LPARAM lParam)
 		return -1;
 
 	int proto_num = -1;
-	for (int i = 0; i < protocols->GetSize(); i++) {
-		if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
-			proto_num = i;
+	for (auto &it : protocols) {
+		if (mir_strcmpi(it->name, proto) == 0) {
+			proto_num = protocols.indexOf(&it);
 			break;
 		}
 	}
@@ -2397,7 +2396,7 @@ int SettingsChangedHook(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
 	if ((HANDLE)wParam == nullptr) {
-		Protocol *proto = protocols->Get(cws->szModule);
+		Protocol *proto = protocols.GetByName(cws->szModule);
 
 		if (!strcmp(cws->szSetting, "MyHandle")
 			|| !strcmp(cws->szSetting, "UIN")
@@ -2425,7 +2424,7 @@ int AvatarChangedHook(WPARAM wParam, LPARAM)
 	if (hwnd_frame == nullptr)
 		return 0;
 
-	Protocol *proto = protocols->Get((const char *)wParam);
+	Protocol *proto = protocols.GetByName((const char *)wParam);
 
 	if (proto != nullptr)
 		PostMessage(hwnd_frame, MWM_AVATAR_CHANGED, (WPARAM)proto->name, 0);
@@ -2442,7 +2441,7 @@ int ProtoAckHook(WPARAM, LPARAM lParam)
 	if (ack->result != ACKRESULT_SUCCESS)
 		return 0;
 
-	Protocol *proto = protocols->Get(ack->szModule);
+	Protocol *proto = protocols.GetByName(ack->szModule);
 	switch (ack->type) {
 	case ACKTYPE_STATUS:
 		if (proto != nullptr)
@@ -2468,7 +2467,7 @@ int ListeningtoEnableStateChangedHook(WPARAM wParam, LPARAM)
 	if (hwnd_frame == nullptr)
 		return 0;
 
-	if (wParam == NULL || protocols->Get((const char *)wParam) != nullptr)
+	if (wParam == NULL || protocols.GetByName((const char *)wParam) != nullptr)
 		PostMessage(hwnd_frame, MWM_LISTENINGTO_CHANGED, wParam, 0);
 
 	return 0;

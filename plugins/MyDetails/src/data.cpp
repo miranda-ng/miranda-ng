@@ -21,12 +21,10 @@ Boston, MA 02111-1307, USA.
 
 static char *StatusModeToDbSetting(int status, const char *suffix);
 
-ProtocolArray *protocols = nullptr;
+ProtocolArray protocols;
 
 void InitProtocolData()
 {
-	protocols = new ProtocolArray(10);
-
 	for (auto &pa : Accounts()) {
 		if (pa->szModuleName == nullptr || pa->szModuleName[0] == '\0' || pa->bIsVirtual)
 			continue;
@@ -34,7 +32,7 @@ void InitProtocolData()
 		// Found a protocol
 		Protocol *p = new Protocol(pa->szModuleName, pa->tszAccountName);
 		if (p->IsValid())
-			protocols->Add(p);
+			protocols.insert(p);
 		else
 			delete p;
 	}
@@ -42,7 +40,7 @@ void InitProtocolData()
 
 void DeInitProtocolData()
 {
-	delete protocols;
+	protocols.destroy();
 }
 
 // Protocol Class ///////////////////////////////////////////////////////////////////////////////////////////
@@ -111,8 +109,7 @@ int Protocol::GetStatus()
 		if (CallProtoService(name, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&css) != 0)
 			tszXStatusMessage[0] = tszXStatusName[0] = 0, custom_status = 0;
 	}
-	else
-		custom_status = 0;
+	else custom_status = 0;
 
 	// if protocol supports custom status, but it is not set (custom_status will be -1), show normal status
 	if (custom_status < 0)
@@ -337,53 +334,21 @@ wchar_t *Protocol::GetListeningTo()
 
 // ProtocolDataArray Class /////////////////////////////////////////////////////////////////////////////
 
-ProtocolArray::ProtocolArray(int max_size)
+ProtocolArray::ProtocolArray() :
+	OBJLIST<Protocol>(10)
 {
-	buffer = (Protocol **)malloc(max_size * sizeof(Protocol *));
-	buffer_len = 0;
-
 	GetDefaultNick();
 	GetDefaultAvatar();
 }
 
-
-ProtocolArray::~ProtocolArray()
-{
-	if (buffer != nullptr) {
-		for (int i = 0; i < buffer_len; i++)
-			delete buffer[i];
-		free(buffer);
-	}
-}
-
-
-int ProtocolArray::GetSize()
-{
-	return buffer_len;
-}
-
-
-void ProtocolArray::Add(Protocol *p)
-{
-	buffer[buffer_len] = p;
-	buffer_len++;
-}
-
-
-Protocol *ProtocolArray::Get(int i)
-{
-	return (i >= buffer_len) ? nullptr : buffer[i];
-}
-
-
-Protocol *ProtocolArray::Get(const char *name)
+Protocol* ProtocolArray::GetByName(const char *name)
 {
 	if (name == nullptr)
 		return nullptr;
 
-	for (int i = 0; i < buffer_len; i++)
-		if (mir_strcmp(name, buffer[i]->name) == 0)
-			return buffer[i];
+	for (auto &it: *this)
+		if (mir_strcmp(name, it->name) == 0)
+			return it;
 
 	return nullptr;
 }
@@ -394,23 +359,22 @@ bool ProtocolArray::CanSetStatusMsgPerProtocol()
 	return ServiceExists(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG) != 0;
 }
 
-
 void ProtocolArray::GetAvatars()
 {
-	for (int i = 0; i < buffer_len; i++)
-		buffer[i]->GetAvatar();
+	for (auto &it: *this)
+		it->GetAvatar();
 }
 
 void ProtocolArray::GetStatusMsgs()
 {
-	for (int i = 0; i < buffer_len; i++)
-		buffer[i]->GetStatusMsg();
+	for (auto &it: *this)
+		it->GetStatusMsg();
 }
 
 void ProtocolArray::GetStatuses()
 {
-	for (int i = 0; i < buffer_len; i++)
-		buffer[i]->GetStatus();
+	for (auto &it: *this)
+		it->GetStatus();
 }
 
 int ProtocolArray::GetGlobalStatus()
@@ -444,10 +408,9 @@ void ProtocolArray::SetNicks(const wchar_t *nick)
 
 	g_plugin.setWString(SETTING_DEFAULT_NICK, nick);
 
-	for (int i = 0; i < buffer_len; i++)
-		buffer[i]->SetNick(default_nick);
+	for (auto &it: *this)
+		it->SetNick(default_nick);
 }
-
 
 void ProtocolArray::SetStatus(int aStatus)
 {
@@ -468,9 +431,9 @@ void ProtocolArray::SetStatusMsgs(int status, const wchar_t *message)
 	if (!db_get_b(0, "SRAway", StatusModeToDbSetting(status, "UsePrev"), 0))
 		db_set_ws(0, "SRAway", StatusModeToDbSetting(status, "Default"), message);
 
-	for (int i = 0; i < buffer_len; i++)
-		if (buffer[i]->status == status)
-			buffer[i]->SetStatusMsg(status, message);
+	for (auto &it: *this)
+		if (it->status == status)
+			it->SetStatusMsg(status, message);
 }
 
 void ProtocolArray::GetDefaultNick()
@@ -487,12 +450,12 @@ void ProtocolArray::GetDefaultAvatar()
 	wcsncpy_s(default_avatar_file, ptrW(db_get_wsa(0, "ContactPhoto", "File", L"")), _TRUNCATE);
 }
 
-wchar_t *ProtocolArray::GetDefaultStatusMsg()
+wchar_t* ProtocolArray::GetDefaultStatusMsg()
 {
 	return GetDefaultStatusMsg(CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
 }
 
-wchar_t *ProtocolArray::GetDefaultStatusMsg(int status)
+wchar_t* ProtocolArray::GetDefaultStatusMsg(int status)
 {
 	default_status_message[0] = '\0';
 

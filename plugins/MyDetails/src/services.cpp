@@ -45,41 +45,41 @@ public:
 			Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_MIRANDA);
 
 			// All protos have the same nick?
-			if (protocols->GetSize() > 0) {
-				wchar_t *nick = protocols->Get(0)->nickname;
+			if (protocols.getCount() > 0) {
+				wchar_t *nick = protocols[0].nickname;
 
 				bool foundDefNick = true;
-				for (int i = 1; foundDefNick && i < protocols->GetSize(); i++) {
-					if (mir_wstrcmpi(protocols->Get(i)->nickname, nick) != 0) {
+				for (int i = 1; foundDefNick && i < protocols.getCount(); i++) {
+					if (mir_wstrcmpi(protocols[i].nickname, nick) != 0) {
 						foundDefNick = false;
 						break;
 					}
 				}
 
 				if (foundDefNick)
-					if (mir_wstrcmpi(protocols->default_nick, nick) != 0)
-						mir_wstrcpy(protocols->default_nick, nick);
+					if (mir_wstrcmpi(protocols.default_nick, nick) != 0)
+						mir_wstrcpy(protocols.default_nick, nick);
 			}
 
-			m_edtNickname.SetText(protocols->default_nick);
+			m_edtNickname.SetText(protocols.default_nick);
 			m_edtNickname.SendMsg(EM_LIMITTEXT, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, 0);
 		}
 		else {
-			Protocol *proto = protocols->Get(m_protonum);
+			auto &proto = protocols[m_protonum];
 
 			wchar_t tmp[128];
-			mir_snwprintf(tmp, TranslateT("Set my nickname for %s"), proto->description);
+			mir_snwprintf(tmp, TranslateT("Set my nickname for %s"), proto.description);
 
 			SetWindowText(m_hwnd, tmp);
 
-			HICON hIcon = (HICON)CallProtoService(proto->name, PS_LOADICON, PLI_PROTOCOL, 0);
+			HICON hIcon = (HICON)CallProtoService(proto.name, PS_LOADICON, PLI_PROTOCOL, 0);
 			if (hIcon != nullptr) {
 				SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 				DestroyIcon(hIcon);
 			}
 
-			m_edtNickname.SetText(proto->nickname);
-			m_edtNickname.SendMsg(EM_LIMITTEXT, min(MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, proto->GetNickMaxLength()), 0);
+			m_edtNickname.SetText(proto.nickname);
+			m_edtNickname.SendMsg(EM_LIMITTEXT, min(MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE, proto.GetNickMaxLength()), 0);
 		}
 		return true;
 	}
@@ -90,9 +90,9 @@ public:
 		m_edtNickname.GetText(tmp, _countof(tmp));
 
 		if (m_protonum == -1)
-			protocols->SetNicks(tmp);
+			protocols.SetNicks(tmp);
 		else
-			protocols->Get(m_protonum)->SetNick(tmp);
+			protocols[m_protonum].SetNick(tmp);
 		return true;
 	}
 
@@ -109,10 +109,9 @@ INT_PTR PluginCommand_SetMyNicknameUI(WPARAM, LPARAM lParam)
 	int proto_num = -1;
 
 	if (proto != nullptr) {
-		int i;
-		for (i = 0; i < protocols->GetSize(); i++) {
-			if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
-				proto_num = i;
+		for (auto &it: protocols) {
+			if (mir_strcmpi(it->name, proto) == 0) {
+				proto_num = protocols.indexOf(&it);
 				break;
 			}
 		}
@@ -120,7 +119,7 @@ INT_PTR PluginCommand_SetMyNicknameUI(WPARAM, LPARAM lParam)
 		if (proto_num == -1)
 			return -1;
 
-		if (!protocols->Get(i)->CanSetNick())
+		if (!protocols[proto_num].CanSetNick())
 			return -2;
 
 	}
@@ -141,12 +140,12 @@ INT_PTR PluginCommand_SetMyNickname(WPARAM wParam, LPARAM lParam)
 {
 	char *proto = (char *)wParam;
 	if (proto != nullptr) {
-		for (int i = 0; i < protocols->GetSize(); i++) {
-			if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
-				if (!protocols->Get(i)->CanSetNick())
+		for (auto &it : protocols) {
+			if (mir_strcmpi(it->name, proto) == 0) {
+				if (!it->CanSetNick())
 					return -2;
 
-				protocols->Get(i)->SetNick((wchar_t *)lParam);
+				it->SetNick((wchar_t *)lParam);
 				return 0;
 			}
 		}
@@ -154,7 +153,7 @@ INT_PTR PluginCommand_SetMyNickname(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 
-	protocols->SetNicks((wchar_t *)lParam);
+	protocols.SetNicks((wchar_t *)lParam);
 	return 0;
 }
 
@@ -166,11 +165,11 @@ INT_PTR PluginCommand_GetMyNickname(WPARAM wParam, LPARAM lParam)
 
 	char *proto = (char *)wParam;
 	if (proto == nullptr) {
-		mir_wstrncpy(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
+		mir_wstrncpy(ret, protocols.default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
 		return 0;
 	}
 	else {
-		Protocol *protocol = protocols->Get(proto);
+		Protocol *protocol = protocols.GetByName(proto);
 		if (protocol != nullptr) {
 			mir_wstrncpy(ret, protocol->nickname, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);
 			return 0;
@@ -188,25 +187,23 @@ INT_PTR PluginCommand_SetMyAvatarUI(WPARAM, LPARAM lParam)
 	int proto_num = -1;
 
 	if (proto != nullptr) {
-		int i;
-		for (i = 0; i < protocols->GetSize(); i++) {
-			if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
-				proto_num = i;
+		for (auto &it : protocols)
+			if (mir_strcmpi(it->name, proto) == 0) {
+				proto_num = protocols.indexOf(&it);
 				break;
 			}
-		}
 
 		if (proto_num == -1)
 			return -1;
 
-		if (!protocols->Get(i)->CanSetAvatar())
+		if (!protocols[proto_num].CanSetAvatar())
 			return -2;
 	}
 
 	if (proto_num == -1)
-		protocols->SetAvatars(nullptr);
+		protocols.SetAvatars(nullptr);
 	else
-		protocols->Get(proto_num)->SetAvatar(nullptr);
+		protocols[proto_num].SetAvatar(nullptr);
 
 	return 0;
 }
@@ -215,12 +212,12 @@ INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	char *proto = (char *)wParam;
 	if (proto != nullptr) {
-		for (int i = 0; i < protocols->GetSize(); i++) {
-			if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
-				if (!protocols->Get(i)->CanSetAvatar())
+		for (auto &it: protocols) {
+			if (mir_strcmpi(it->name, proto) == 0) {
+				if (!it->CanSetAvatar())
 					return -2;
 
-				protocols->Get(i)->SetAvatar((wchar_t *)lParam);
+				it->SetAvatar((wchar_t *)lParam);
 				return 0;
 			}
 		}
@@ -228,7 +225,7 @@ INT_PTR PluginCommand_SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 
-	protocols->SetAvatars((wchar_t *)lParam);
+	protocols.SetAvatars((wchar_t *)lParam);
 	return 0;
 }
 
@@ -241,19 +238,19 @@ INT_PTR PluginCommand_GetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	if (proto == nullptr) {
-		mir_wstrncpy(ret, protocols->default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
+		mir_wstrncpy(ret, protocols.default_avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 		return 0;
 	}
 
-	for (int i = 0; i < protocols->GetSize(); i++) {
-		if (mir_strcmpi(protocols->Get(i)->name, proto) == 0) {
-			if (!protocols->Get(i)->CanGetAvatar())
+	for (auto &it: protocols) {
+		if (mir_strcmpi(it->name, proto) == 0) {
+			if (!it->CanGetAvatar())
 				return -2;
 
-			protocols->Get(i)->GetAvatar();
+			it->GetAvatar();
 
-			if (mir_wstrlen(protocols->Get(i)->avatar_file))
-				mir_wstrncpy(ret, protocols->Get(i)->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
+			if (mir_wstrlen(it->avatar_file))
+				mir_wstrncpy(ret, it->avatar_file, MS_MYDETAILS_GETMYAVATAR_BUFFER_SIZE);
 			else
 				ret[0] = '\0';
 
@@ -306,19 +303,19 @@ public:
 		mir_subclassWindow(m_edtStatusMessage.GetHwnd(), StatusMsgEditSubclassProc);
 
 		if (m_data->proto_num >= 0) {
-			Protocol *proto = protocols->Get(m_data->proto_num);
+			auto &proto = protocols[m_data->proto_num];
 
-			HICON hIcon = (HICON)CallProtoService(proto->name, PS_LOADICON, PLI_PROTOCOL, 0);
+			HICON hIcon = (HICON)CallProtoService(proto.name, PS_LOADICON, PLI_PROTOCOL, 0);
 			if (hIcon != nullptr) {
 				SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 				DestroyIcon(hIcon);
 			}
 
 			wchar_t title[256];
-			mir_snwprintf(title, TranslateT("Set my status message for %s"), proto->description);
+			mir_snwprintf(title, TranslateT("Set my status message for %s"), proto.description);
 			SetWindowText(m_hwnd, title);
 
-			m_edtStatusMessage.SetText(proto->GetStatusMsg());
+			m_edtStatusMessage.SetText(proto.GetStatusMsg());
 		}
 		else if (m_data->status != 0) {
 			Window_SetProtoIcon_IcoLib(m_hwnd, nullptr, m_data->status);
@@ -327,12 +324,12 @@ public:
 			mir_snwprintf(title, TranslateT("Set my status message for %s"), Clist_GetStatusModeDescription(m_data->status, 0));
 			SetWindowText(m_hwnd, title);
 
-			m_edtStatusMessage.SetText(protocols->GetDefaultStatusMsg(m_data->status));
+			m_edtStatusMessage.SetText(protocols.GetDefaultStatusMsg(m_data->status));
 		}
 		else {
 			Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_MIRANDA);
 
-			m_edtStatusMessage.SetText(protocols->GetDefaultStatusMsg());
+			m_edtStatusMessage.SetText(protocols.GetDefaultStatusMsg());
 		}
 		return true;
 	}
@@ -343,11 +340,11 @@ public:
 		m_edtStatusMessage.GetText(tmp, _countof(tmp));
 
 		if (m_data->proto_num >= 0)
-			protocols->Get(m_data->proto_num)->SetStatusMsg(tmp);
+			protocols[m_data->proto_num].SetStatusMsg(tmp);
 		else if (m_data->status == 0)
-			protocols->SetStatusMsgs(tmp);
+			protocols.SetStatusMsgs(tmp);
 		else
-			protocols->SetStatusMsgs(m_data->status, tmp);
+			protocols.SetStatusMsgs(m_data->status, tmp);
 		return true;
 	}
 
@@ -371,11 +368,9 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 		return -10;
 
 	if (proto_name != nullptr) {
-		for (int i = 0; i < protocols->GetSize(); i++) {
-			proto = protocols->Get(i);
-
-			if (mir_strcmpi(proto->name, proto_name) == 0) {
-				proto_num = i;
+		for (auto &it: protocols) {
+			if (mir_strcmpi(it->name, proto_name) == 0) {
+				proto_num = protocols.indexOf(&it);
 				break;
 			}
 		}
@@ -383,7 +378,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 		if (proto_num == -1)
 			return -1;
 
-		if (protocols->CanSetStatusMsgPerProtocol() && !proto->CanSetStatusMsg())
+		if (protocols.CanSetStatusMsgPerProtocol() && !proto->CanSetStatusMsg())
 			return -2;
 	}
 	else if (ServiceExists(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG)) {
@@ -392,7 +387,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 		else if (proto != nullptr)
 			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, proto->status, (LPARAM)proto_name);
 		else
-			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, protocols->GetGlobalStatus(), NULL);
+			CallService(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, protocols.GetGlobalStatus(), NULL);
 		return 0;
 	} // fallthrough
 
