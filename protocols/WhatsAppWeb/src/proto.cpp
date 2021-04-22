@@ -96,7 +96,7 @@ void WhatsAppProto::OnModulesLoaded()
 {
 	// initialize contacts cache
 	for (auto &cc : AccContacts()) {
-		CMStringA szId(getMStringA(cc, DBKEY_ID));
+		CMStringA szId(getMStringA(cc, isChatRoom(cc) ? "ChatRoomID" : DBKEY_ID));
 		if (!szId.IsEmpty())
 			m_arUsers.insert(new WAUser(cc, szId));
 	}
@@ -161,6 +161,9 @@ int WhatsAppProto::SetStatus(int new_status)
 	}
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
+		if (m_hServerConn != nullptr)
+			Netlib_Shutdown(m_hServerConn);
+
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
