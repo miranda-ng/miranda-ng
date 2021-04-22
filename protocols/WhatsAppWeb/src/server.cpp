@@ -343,10 +343,11 @@ bool WhatsAppProto::ServerThreadWorker()
 		}
 
 		offset = 0;
-		debugLogA("Got packet: buffer = %d, opcode = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
+		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
+			netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
+		// Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
 
 		// read all payloads from the current buffer, one by one
-		size_t prevSize = 0;
 		while (true) {
 			MBinBuffer currPacket;
 			currPacket.assign(netbuf.data() + hdr.headerSize, hdr.payloadSize);
@@ -403,37 +404,28 @@ bool WhatsAppProto::ServerThreadWorker()
 				bExit = true; // simply reconnect, don't exit
 				break;
 
-			case 9: // ping
-				debugLogA("ping received");
-				Netlib_Send(m_hServerConn, "?,,", 3, 0);
-				break;
-
 			default:
 				Netlib_Dump(m_hServerConn, start, hdr.payloadSize, false, 0);
 			}
 
-			if (hdr.bIsFinal)
-				netbuf.remove(hdr.headerSize + hdr.payloadSize);
-
+			netbuf.remove(hdr.headerSize + hdr.payloadSize);
+			debugLogA("%d bytes removed from network buffer, %d bytes remain", hdr.headerSize + hdr.payloadSize, netbuf.length());
 			if (netbuf.length() == 0)
 				break;
 
 			// if we have not enough data for header, continue reading
-			if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length()))
-				break;
-
-			// if we have not enough data for data, continue reading
-			if (hdr.headerSize + hdr.payloadSize > netbuf.length())
-				break;
-
-			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
-			if (prevSize == netbuf.length()) {
-				netbuf.remove(prevSize);
-				debugLogA("dropping current packet, exiting");
+			if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length())) {
+				debugLogA("not enough data for header, continue reading");
 				break;
 			}
 
-			prevSize = netbuf.length();
+			// if we have not enough data for data, continue reading
+			if (hdr.headerSize + hdr.payloadSize > netbuf.length()) {
+				debugLogA("not enough place for data (%d+%d > %d), continue reading", hdr.headerSize, hdr.payloadSize, netbuf.length());
+				break;
+			}
+
+			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
 		}
 	}
 
