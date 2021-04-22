@@ -187,13 +187,13 @@ void WhatsAppProto::OnRestoreSession2(const JSONNode &root)
 	if (status != 200) {
 		debugLogA("Attempt to restore session failed with error %d", status);
 
-		if (status == 401 || status == 419) {
-			delSetting(DBKEY_ENC_KEY);
-			delSetting(DBKEY_MAC_KEY);
-			delSetting(DBKEY_CLIENT_ID);
-			delSetting(DBKEY_CLIENT_TOKEN);
-			delSetting(DBKEY_SERVER_TOKEN);
-		}
+		// if (status == 401 || status == 419) {
+		//		delSetting(DBKEY_ENC_KEY);
+		//		delSetting(DBKEY_MAC_KEY);
+		//		delSetting(DBKEY_CLIENT_ID);
+		//		delSetting(DBKEY_CLIENT_TOKEN);
+		//		delSetting(DBKEY_SERVER_TOKEN);
+		// }
 
 		ShutdownSession();
 		return;
