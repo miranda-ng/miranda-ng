@@ -35,6 +35,7 @@ struct WAUser
 	DWORD dwModifyTag;
 	char *szId;
 	SESSION_INFO *si = 0;
+	DWORD m_time1 = 0, m_time2 = 0;
 };
 
 struct WAMessage
@@ -137,6 +138,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void ProcessBlocked(const JSONNode &node);
 	void ProcessCmd(const JSONNode &node);
 	void ProcessConn(const JSONNode &node);
+	void ProcessPresence(const JSONNode &node);
 
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);

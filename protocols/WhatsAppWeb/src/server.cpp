@@ -67,6 +67,20 @@ void WhatsAppProto::OnLoggedOut(void)
 void WhatsAppProto::SendKeepAlive()
 {
 	WebSocket_Send(m_hServerConn, "?,,", 3);
+
+	time_t now = time(0);
+
+	for (auto &it : m_arUsers) {
+		if (it->m_time1 && now - it->m_time1 >= 1200) { // 20 minutes
+			setWord(it->hContact, "Status", ID_STATUS_NA);
+			it->m_time1 = 0;
+			it->m_time2 = now;
+		}
+		else if (it->m_time2 && now - it->m_time2 >= 1200) { // 20 minutes
+			setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
+			it->m_time2 = 0;
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -187,13 +201,14 @@ void WhatsAppProto::OnRestoreSession2(const JSONNode &root)
 	if (status != 200) {
 		debugLogA("Attempt to restore session failed with error %d", status);
 
-		// if (status == 401 || status == 419) {
-		//		delSetting(DBKEY_ENC_KEY);
-		//		delSetting(DBKEY_MAC_KEY);
-		//		delSetting(DBKEY_CLIENT_ID);
-		//		delSetting(DBKEY_CLIENT_TOKEN);
-		//		delSetting(DBKEY_SERVER_TOKEN);
-		// }
+		if (status == 401 || status == 419) {
+			POPUPDATAW Popup = {};
+			Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR));
+			wcsncpy_s(Popup.lpwzText, TranslateT("You need to launch WhatsApp on your phone"), _TRUNCATE);
+			wcsncpy_s(Popup.lpwzContactName, m_tszUserName, _TRUNCATE);
+			Popup.iSeconds = 10;
+			PUAddPopupW(&Popup);
+		}
 
 		ShutdownSession();
 		return;
@@ -342,11 +357,13 @@ bool WhatsAppProto::ServerThreadWorker()
 			switch (hdr.opCode) {
 			case 1: // json packet
 			case 2: // binary packet
-				if (hdr.bIsFinal) {
-					// process a packet here
+				// process a packet here
+				{
 					const char *pos = strchr(start, ',');
 					if (pos != nullptr)
 						pos++;
+					else
+						pos = start;
 					size_t dataSize = hdr.payloadSize - size_t(pos - start);
 
 					// try to decode
@@ -420,6 +437,7 @@ bool WhatsAppProto::ServerThreadWorker()
 		}
 	}
 
+	debugLogA("Server connection dropped");
 	Netlib_CloseHandle(m_hServerConn);
 	m_hServerConn = nullptr;
 	return false;
@@ -582,6 +600,8 @@ void WhatsAppProto::ProcessPacket(const JSONNode &root)
 		ProcessConn(content);
 	else if (szType == "Cmd")
 		ProcessCmd(content);
+	else if (szType == "Presence")
+		ProcessPresence(content);
 	else if (szType == "Blocklist")
 		ProcessBlocked(content);
 }
@@ -627,4 +647,21 @@ void WhatsAppProto::ProcessConn(const JSONNode &root)
 	setWString(DBKEY_BROWSER_TOKEN, root["browserToken"].as_mstring());
 
 	OnLoggedIn();
+}
+
+void WhatsAppProto::ProcessPresence(const JSONNode &root)
+{
+	CMStringA jid = root["id"].as_mstring();
+	if (auto *pUser = FindUser(jid)) {
+		CMStringA state(root["type"].as_mstring());
+		DWORD timestamp(_wtoi(root["t"].as_mstring()));
+		if (state == "available") {
+			setWord(pUser->hContact, "Status", ID_STATUS_ONLINE);
+		}
+		else if (state == "unavailable") {
+			setWord(pUser->hContact, "Status", ID_STATUS_AWAY);
+			pUser->m_time1 = timestamp;
+		}
+	}
+	else debugLogA("Presence from unknown contact %s ignored", jid.c_str());
 }
