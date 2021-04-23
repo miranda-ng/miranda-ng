@@ -482,13 +482,13 @@ public:
 	__forceinline size_t length() const { return m_len; }
 
 	// adds a buffer to the end
-	void append(void *pBuf, size_t bufLen);
+	void append(const void *pBuf, size_t bufLen);
 
 	// adds a buffer to the beginning
-	void appendBefore(void *pBuf, size_t bufLen);
+	void appendBefore(const void *pBuf, size_t bufLen);
 
 	// replaces buffer contents
-	void assign(void *pBuf, size_t bufLen);
+	void assign(const void *pBuf, size_t bufLen);
 
 	// drops a part of buffer
 	void remove(size_t sz);

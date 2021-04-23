@@ -989,8 +989,8 @@ CallFunctionSync @1170
 ??0MBinBuffer@@QEAA@XZ @1206 NONAME
 ??1MBinBuffer@@QEAA@XZ @1207 NONAME
 ??4MBinBuffer@@QEAAAEAV0@AEBV0@@Z @1208 NONAME
-?append@MBinBuffer@@QEAAXPEAX_K@Z @1209 NONAME
-?appendBefore@MBinBuffer@@QEAAXPEAX_K@Z @1210 NONAME
+?append@MBinBuffer@@QEAAXPEBX_K@Z @1209 NONAME
+?appendBefore@MBinBuffer@@QEAAXPEBX_K@Z @1210 NONAME
 ?data@MBinBuffer@@QEBAPEADXZ @1211 NONAME
 ?isEmpty@MBinBuffer@@QEBA_NXZ @1212 NONAME
 ?length@MBinBuffer@@QEBA_KXZ @1213 NONAME
@@ -1444,7 +1444,7 @@ XmlGetChildText @1645
 ?Unsigned64Text@XMLElement@tinyxml2@@QEBA_K_K@Z @1665 NONAME
 ?Unsigned64Value@XMLAttribute@tinyxml2@@QEBA_KXZ @1666 NONAME
 ?RemoveControl@CDlgBase@@IEAAXPEAVCCtrlBase@@@Z @1667 NONAME
-?assign@MBinBuffer@@QEAAXPEAX_K@Z @1668 NONAME
+?assign@MBinBuffer@@QEAAXPEBX_K@Z @1668 NONAME
 ?GetHwnd@CTimer@@QEBAPEAUHWND__@@XZ @1669 NONAME
 ??0MNonCopyable@@QEAA@XZ @1670 NONAME
 ??0mir_cs@@QEAA@XZ @1671 NONAME
