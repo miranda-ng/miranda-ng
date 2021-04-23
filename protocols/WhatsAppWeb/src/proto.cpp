@@ -191,10 +191,10 @@ int WhatsAppProto::SetStatus(int new_status)
 	return 0;
 }
 
-int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *)
+int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 {
 	ptrA jid(getStringA(hContact, DBKEY_ID));
-	if (jid == NULL)
+	if (jid == nullptr || pszMsg == nullptr)
 		return 0;
 
 	if (!isOnline()) {
@@ -202,6 +202,18 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *)
 		return 0;
 	}
 
+	auto *key = new proto::MessageKey();
+	key->set_remotejid(jid);
+	key->set_fromme(true);
+
+	proto::WebMessageInfo msg;
+	msg.set_allocated_key(key);
+	msg.mutable_message()->set_conversation(pszMsg);
+	msg.set_messagetimestamp(_time64(0));
+
+	size_t cbBinaryLen = msg.ByteSizeLong();
+	mir_ptr<BYTE> pBuf((BYTE *)mir_alloc(cbBinaryLen));
+	msg.SerializeToArray(pBuf, (int)cbBinaryLen);
 	return 0;
 }
 

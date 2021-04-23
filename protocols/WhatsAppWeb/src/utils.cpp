@@ -84,8 +84,72 @@ bool WhatsAppProto::decryptBinaryMessage(size_t cbSize, const void *buf, MBinBuf
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// WANode members
 
-bool WAReader::readAttributes(JSONNode &ret, int count)
+WANode::WANode()
+{}
+
+WANode::~WANode()
+{
+	for (auto &p: attrs)
+		delete p;
+
+	for (auto &p: children)
+		delete p;
+}
+
+CMStringA WANode::getAttr(const char *pszFieldName) const
+{
+	for (auto &p: attrs)
+		if (p->name == pszFieldName)
+			return p->value;
+
+	return "";
+}
+
+void WANode::addAttr(const char *pszName, const char *pszValue)
+{
+	attrs.push_back(new Attr(pszName, pszValue));
+}
+
+void WANode::print(CMStringA &dest, int level) const
+{
+	for (int i = 0; i < level; i++)
+		dest.Append("  ");
+
+	dest.AppendFormat("<%s ", title.c_str());
+	for (auto &p: attrs)
+		dest.AppendFormat("%s=\"%s\" ", p->name.c_str(), p->value.c_str());
+	dest.Truncate(dest.GetLength() - 1);
+
+	if (content.isEmpty() && children.empty()) {
+		dest.Append("/>\n");
+		return;
+	}
+
+	dest.Append(">");
+	if (!content.isEmpty()) {
+		ptrA tmp((char *)mir_alloc(content.length() * 2 + 1));
+		bin2hex(content.data(), content.length(), tmp);
+		dest.AppendFormat("%s", tmp.get());
+	}
+
+	if (!children.empty()) {
+		dest.Append("\n");
+
+		for (auto &p : children)
+			p->print(dest, level + 1);
+
+		for (int i = 0; i < level; i++)
+			dest.Append("  ");
+	}
+
+	dest.AppendFormat("</%s>\n", title.c_str());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool WAReader::readAttributes(WANode *pNode, int count)
 {
 	if (count == 0)
 		return true;
@@ -99,7 +163,7 @@ bool WAReader::readAttributes(JSONNode &ret, int count)
 		if (value.IsEmpty())
 			return false;
 
-		ret << CHAR_PARAM(name, value);
+		pNode->addAttr(name, value);
 	}
 	return true;
 }
@@ -125,21 +189,19 @@ uint32_t WAReader::readIntN(int n)
 	return res;
 }
 
-bool WAReader::readList(JSONNode &parent, int tag)
+bool WAReader::readList(WANode *pParent, int tag)
 {
 	int size = readListSize(tag);
 	if (size == -1)
 		return false;
 
-	JSONNode list(JSON_ARRAY); list.set_name("$list$");
 	for (int i = 0; i < size; i++) {
-		JSONNode tmp;
-		if (!readNode(tmp))
+		WANode *pNew = readNode();
+		if (pNew == nullptr)
 			return false;
-		list << tmp;
+		pParent->children.push_back(pNew);
 	}
 	
-	parent << list;
 	return true;
 }
 
@@ -156,31 +218,33 @@ int WAReader::readListSize(int tag)
 	return -1;
 }
 
-bool WAReader::readNode(JSONNode &ret)
+WANode* WAReader::readNode()
 {
 	int listSize = readListSize(readInt8());
 	if (listSize == -1)
-		return false;
+		return nullptr;
 
 	int descrTag = readInt8();
 	if (descrTag == STREAM_END)
-		return false;
+		return nullptr;
 
 	CMStringA name = readString(descrTag);
 	if (name.IsEmpty())
-		return false;
-	ret.set_name(name.c_str());
+		return nullptr;
 
-	if (!readAttributes(ret, (listSize-1)>>1))
-		return false;
+	std::unique_ptr<WANode> ret(new WANode());
+	ret->title = name.c_str();
+
+	if (!readAttributes(ret.get(), (listSize-1)>>1))
+		return nullptr;
 
 	if ((listSize % 2) == 1)
-		return true;
+		return ret.release();
 
 	int size, tag = readInt8();
 	switch (tag) {
 	case LIST_EMPTY:	case LIST_8:  case LIST_16:
-		readList(ret, tag);
+		readList(ret.get(), tag);
 		break;
 
 	case BINARY_8:
@@ -190,7 +254,7 @@ LBL_Binary:
 		if (m_limit - m_buf < size)
 			return false;
 
-		ret << CHAR_PARAM("$bin$", ptrA(mir_base64_encode(m_buf, size)));
+		ret->content.assign((void*)m_buf, size);
 		m_buf += size;
 		break;
 
@@ -203,10 +267,11 @@ LBL_Binary:
 		goto LBL_Binary;
 
 	default:
-		ret << CHAR_PARAM("$str$", readString(tag).c_str());
+		CMStringA str = readString(tag);
+		ret->content.assign(str.GetBuffer(), str.GetLength() + 1);
 	}
 	
-	return true;
+	return ret.release();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -256,6 +321,8 @@ CMStringA WAReader::readPacked(int tag)
 		ret.AppendChar(higher);
 	}
 
+	if (bTrim && !ret.IsEmpty())
+		ret.Truncate(ret.GetLength() - 1);
 	return ret;
 }
 

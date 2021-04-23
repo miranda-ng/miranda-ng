@@ -436,41 +436,37 @@ bool WhatsAppProto::ServerThreadWorker()
 void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
 {
 	WAReader reader(buf.data(), buf.length());
-
-	JSONNode root;
-	if (!reader.readNode(root))
+	WANode *pRoot = reader.readNode();
+	if (pRoot == nullptr) // smth went wrong
 		return;
 
-	debugLogA("packed JSON: %s", root.write().c_str());
+	CMStringA szText;
+	pRoot->print(szText);
+	debugLogA("packed JSON: %s", szText.c_str());
 	
-	CMStringA szType = root["type"].as_mstring();
+	CMStringA szType = pRoot->getAttr("type");
 	if (szType == "contacts")
-		ProcessContacts(root["$list$"]);
+		ProcessContacts(pRoot);
 	else if (szType == "chat")
-		ProcessChats(root["$list$"]);
+		ProcessChats(pRoot);
 	else {
-		CMStringA szAdd = root["add"].as_mstring();
+		CMStringA szAdd = pRoot->getAttr("add");
 		if (!szAdd.IsEmpty())
-			ProcessAdd(szAdd, root["$list$"]);
+			ProcessAdd(szAdd, pRoot);
 	}
+
+	delete pRoot;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::ProcessAdd(const CMStringA &type, const JSONNode &list)
+void WhatsAppProto::ProcessAdd(const CMStringA &type, const WANode *root)
 {
-	for (auto &it : list) {
-		std::string buf = it["$bin$"].as_string();
-
-		size_t resLen;
-		ptrA pRes((char*)mir_base64_decode(buf.c_str(), &resLen));
-		if (pRes == nullptr)
-			continue;
-
+	for (auto &p: root->children) {
 		proto::WebMessageInfo payLoad;
-		if (!payLoad.ParseFromArray(pRes, (int)resLen)) {
+		if (!payLoad.ParseFromArray(p->content.data(), (int)p->content.length())) {
 			debugLogA("Error: message failed to decode by protobuf!");
-			Netlib_Dump(m_hServerConn, pRes, resLen, false, 0);
+			Netlib_Dump(m_hServerConn, p->content.data(), p->content.length(), false, 0);
 			continue;
 		}
 
@@ -523,53 +519,53 @@ void WhatsAppProto::ProcessAdd(const CMStringA &type, const JSONNode &list)
 	}
 }
 
-void WhatsAppProto::ProcessChats(const JSONNode &list)
+void WhatsAppProto::ProcessChats(const WANode *root)
 {
-	for (auto &it : list) {
-		CMStringW jid(it["jid"].as_mstring());
-		auto *pUser = AddUser(T2Utf(jid), false);
+	for (auto &p: root->children) {
+		CMStringA jid = p->getAttr("jid");
+		auto *pUser = AddUser(jid, false);
 
-		DWORD dwLastId = it["t"].as_int();
+		DWORD dwLastId = atoi(p->getAttr("t"));
 		setDword(pUser->hContact, "LastWriteTime", dwLastId);
 
-		pUser->dwModifyTag = it["modify_tag"].as_int();
+		pUser->dwModifyTag = atoi(p->getAttr("modify_tag"));
 
 		if (pUser->si) {
-			DWORD dwMute = _wtoi(it["mute"].as_mstring());
+			DWORD dwMute = atoi(p->getAttr("mute"));
 			Chat_Mute(pUser->si, dwMute ? CHATMODE_MUTE : CHATMODE_NORMAL);
 		}
 	}
 }
 
-void WhatsAppProto::ProcessContacts(const JSONNode &list)
+void WhatsAppProto::ProcessContacts(const WANode *root)
 {
-	for (auto &it : list) {
-		CMStringW jid(it["jid"].as_mstring());
-		auto *pUser = AddUser(T2Utf(jid), false);
+	for (auto &p: root->children) {
+		CMStringA jid(p->getAttr("jid"));
+		auto *pUser = AddUser(jid, false);
 
 		if (strstr(pUser->szId, "@g.us")) {
-			InitChat(pUser, it);
+			InitChat(pUser, p);
 			continue;
 		}
 		
-		CMStringW wszNick(it["notify"].as_mstring());
+		CMStringA wszNick(p->getAttr("notify"));
 		if (wszNick.IsEmpty()) {
 			int idx = jid.Find('@');
 			wszNick = (idx == -1) ? jid : jid.Left(idx);
 		}
-		setWString(pUser->hContact, "Nick", wszNick);
+		setUString(pUser->hContact, "Nick", wszNick);
 
-		CMStringW wszFullName(it["name"].as_mstring());
+		CMStringA wszFullName(p->getAttr("name"));
 		wszFullName.TrimRight();
 		if (!wszFullName.IsEmpty()) {
-			setWString(pUser->hContact, "FullName", wszFullName);
+			setUString(pUser->hContact, "FullName", wszFullName);
 
-			CMStringW wszShort(it["short"].as_mstring());
+			CMStringA wszShort(p->getAttr("short"));
 			wszShort.TrimRight();
 			if (!wszShort.IsEmpty()) {
-				setWString(pUser->hContact, "FirstName", wszShort);
+				setUString(pUser->hContact, "FirstName", wszShort);
 				if (wszShort.GetLength()+1 < wszFullName.GetLength())
-					setWString(pUser->hContact, "LastName", wszFullName.c_str() + 1 + wszShort.GetLength());
+					setUString(pUser->hContact, "LastName", wszFullName.c_str() + 1 + wszShort.GetLength());
 			}
 		}
 	}

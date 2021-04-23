@@ -38,17 +38,6 @@ struct WAUser
 	DWORD m_time1 = 0, m_time2 = 0;
 };
 
-struct WAMessage
-{
-	bool bFromTo;
-	BYTE iMsgType;
-	ptrA szShit;
-	ptrA szJid;
-	ptrA szMsgId;
-	ptrA szBody;
-	__int64 timestamp;
-};
-
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
 	class CWhatsAppProtoImpl
@@ -90,7 +79,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// Group chats /////////////////////////////////////////////////////////////////////////
 
-	void InitChat(WAUser *pUser, const JSONNode &chat);
+	void InitChat(WAUser *pUser, const WANode *pNode);
 
 	// UI //////////////////////////////////////////////////////////////////////////////////
 
@@ -129,9 +118,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// binary packets
 	void ProcessBinaryPacket(const MBinBuffer &buf);
-	void ProcessAdd(const CMStringA &type, const JSONNode &node);
-	void ProcessChats(const JSONNode &node);
-	void ProcessContacts(const JSONNode &node);
+	void ProcessAdd(const CMStringA &type, const WANode *node);
+	void ProcessChats(const WANode *node);
+	void ProcessContacts(const WANode *node);
 
 	// text packets
 	void ProcessPacket(const JSONNode &node);

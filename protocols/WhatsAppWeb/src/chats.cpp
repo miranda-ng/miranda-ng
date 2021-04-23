@@ -7,9 +7,9 @@ Copyright © 2019 George Hazan
 
 #include "stdafx.h"
 
-void WhatsAppProto::InitChat(WAUser *pUser, const JSONNode &pRoot)
+void WhatsAppProto::InitChat(WAUser *pUser, const WANode *pRoot)
 {
-	CMStringW wszId(pRoot["jid"].as_mstring()), wszNick(pRoot["name"].as_mstring());
+	CMStringW wszId(Utf2T(pRoot->getAttr("jid"))), wszNick(Utf2T(pRoot->getAttr("name")));
 
 	setWString(pUser->hContact, "Nick", wszNick);
 

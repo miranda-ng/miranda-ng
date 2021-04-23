@@ -12,6 +12,9 @@ Copyright © 2019-21 George Hazan
 #include <time.h>
 #include <windows.h>
 
+#include <list>
+#include <string>
+
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_chat_int.h>

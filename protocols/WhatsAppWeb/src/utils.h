@@ -20,6 +20,34 @@ Copyright © 2019-21 George Hazan
 #define BINARY_32    254
 #define NIBBLE_8     255
 
+class WANode // kinda XML
+{
+	struct Attr
+	{
+		Attr(const char *pszName, const char *pszValue) :
+			name(pszName),
+			value(pszValue)
+		{}
+
+		CMStringA name, value;
+	};
+
+	std::list<Attr*> attrs;
+
+public:
+	WANode();
+	~WANode();
+
+	void addAttr(const char *pszName, const char *pszValue);
+	CMStringA getAttr(const char *pszFieldValue) const;
+
+	void print(CMStringA &dest, int level = 0) const;
+
+	CMStringA title;
+	MBinBuffer content;
+	std::list<WANode*> children;
+};
+
 class WAReader
 {
 	const BYTE *m_buf, *m_limit;
@@ -37,11 +65,11 @@ public:
 	__forceinline uint32_t readInt16() { return readIntN(2); }
 	__forceinline uint32_t readInt32() { return readIntN(4); }
 
-	bool      readAttributes(JSONNode &node, int count);
+	bool      readAttributes(WANode *node, int count);
 	uint32_t  readInt20();
-	bool      readList(JSONNode &node, int tag);
+	bool      readList(WANode *pParent, int tag);
 	int       readListSize(int tag);
 	CMStringA readPacked(int tag);
 	CMStringA readString(int tag);
-	bool      readNode(JSONNode&);
+	WANode*   readNode();
 };
