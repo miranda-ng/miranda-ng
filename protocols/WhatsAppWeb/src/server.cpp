@@ -249,9 +249,9 @@ void WhatsAppProto::OnStartSession(const JSONNode &root)
 /////////////////////////////////////////////////////////////////////////////////////////
 // gateway worker thread
 
-bool WhatsAppProto::WSReadPacket(int nBytes, const WSHeader &hdr, MBinBuffer &res)
+bool WhatsAppProto::WSReadPacket(const WSHeader &hdr, MBinBuffer &res)
 {
-	size_t currPacketSize = nBytes - hdr.headerSize;
+	size_t currPacketSize = res.length() - hdr.headerSize;
 
 	char buf[1024];
 	while (currPacketSize < hdr.payloadSize) {
@@ -314,12 +314,11 @@ bool WhatsAppProto::ServerThreadWorker()
 		WSSend(payload, &WhatsAppProto::OnRestoreSession1);
 
 	bool bExit = false;
-	int offset = 0;
 	MBinBuffer netbuf;
 
 	while (!bExit && !m_bTerminated) {
 		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf + offset, _countof(buf) - offset, MSG_NODUMP);
+		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf, _countof(buf), MSG_NODUMP);
 		if (bufSize == 0) {
 			debugLogA("Gateway connection gracefully closed");
 			break;
@@ -329,20 +328,17 @@ bool WhatsAppProto::ServerThreadWorker()
 			break;
 		}
 
-		WSHeader hdr;
-		if (!WebSocket_InitHeader(hdr, buf, bufSize)) {
-			offset += bufSize;
-			continue;
-		}
-		
-		// we have some additional data, not only opcode
-		if ((size_t)bufSize > hdr.headerSize) {
-			netbuf.append(buf, bufSize);
-			if (!WSReadPacket(bufSize, hdr, netbuf))
-				break;
-		}
+		netbuf.append(buf, bufSize);
 
-		offset = 0;
+		WSHeader hdr;
+		if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length()))
+			continue;
+		
+		// we lack some data, let's read them
+		if (netbuf.length() < hdr.headerSize + hdr.payloadSize)
+			if (!WSReadPacket(hdr, netbuf))
+				break;
+
 		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
 			netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
 		// Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
@@ -351,7 +347,7 @@ bool WhatsAppProto::ServerThreadWorker()
 		while (true) {
 			MBinBuffer currPacket;
 			currPacket.assign(netbuf.data() + hdr.headerSize, hdr.payloadSize);
-			currPacket.append("", 1);
+			currPacket.append("", 1); // add 0 to use strchr safely
 			
 			const char *start = currPacket.data();
 
@@ -425,7 +421,8 @@ bool WhatsAppProto::ServerThreadWorker()
 				break;
 			}
 
-			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
+			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
+				netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
 		}
 	}
 
