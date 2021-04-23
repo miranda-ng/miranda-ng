@@ -238,7 +238,7 @@ void WhatsAppProto::SearchAckThread(void *targ)
 
 HANDLE WhatsAppProto::SearchBasic(const wchar_t* id)
 {
-	if (isOffline())
+	if (!isOnline())
 		return nullptr;
 
 	// fake - we always accept search

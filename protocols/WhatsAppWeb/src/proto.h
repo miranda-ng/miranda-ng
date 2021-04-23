@@ -70,7 +70,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	} m_impl;
 
 
-	bool m_bTerminated, m_bOnline;
+	bool m_bTerminated;
 	ptrW m_tszDefaultGroup;
 
 	CMStringA m_szJid, m_szClientId, m_szClientToken;
@@ -152,16 +152,8 @@ public:
 	WhatsAppProto(const char *proto_name, const wchar_t *username);
 	~WhatsAppProto();
 
-	inline bool isOnline() const
-	{	return m_bOnline;
-	}
-
-	inline bool isOffline() const
-	{	return (m_iStatus == ID_STATUS_OFFLINE);
-	}
-
-	inline bool isInvisible() const
-	{	return (m_iStatus == ID_STATUS_INVISIBLE);
+	__forceinline bool isOnline() const
+	{	return m_hServerConn != 0;
 	}
 
 	class CWhatsAppQRDlg *m_pQRDlg;

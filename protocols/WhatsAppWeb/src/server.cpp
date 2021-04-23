@@ -42,7 +42,6 @@ int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
 void WhatsAppProto::OnLoggedIn()
 {
 	debugLogA("CDiscordProto::OnLoggedIn");
-	m_bOnline = true;
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
@@ -54,7 +53,6 @@ void WhatsAppProto::OnLoggedIn()
 void WhatsAppProto::OnLoggedOut(void)
 {
 	debugLogA("CDiscordProto::OnLoggedOut");
-	m_bOnline = false;
 	m_bTerminated = true;
 	m_iPktNumber = 0;
 
