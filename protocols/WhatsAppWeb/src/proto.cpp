@@ -17,6 +17,16 @@ struct SearchParam
 	LONG id;
 };
 
+static int CompareOwnMsgs(const WAOwnMessage *p1, const WAOwnMessage *p2)
+{
+	return strcmp(p1->szPrefix, p2->szPrefix);
+}
+
+static int CompareRequests(const WARequest *p1, const WARequest *p2)
+{
+	return strcmp(p1->szPrefix, p2->szPrefix);
+}
+
 static int CompareUsers(const WAUser *p1, const WAUser *p2)
 {
 	return strcmp(p1->szId, p2->szId);
@@ -27,8 +37,8 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_impl(*this),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
-	m_arOwnMsgs(1, NumericKeySortT),
-	m_arPacketQueue(10, NumericKeySortT),
+	m_arOwnMsgs(1, CompareOwnMsgs),
+	m_arPacketQueue(10, CompareRequests),
 	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
 	m_bHideGroupchats(this, "HideChats", true)
 {
@@ -196,25 +206,26 @@ int WhatsAppProto::SetStatus(int new_status)
 
 void WhatsAppProto::OnSendMessage(const JSONNode &node)
 {
-	int pktId = node["$id$"].as_int();
+	CMStringA szPrefix= node["$id$"].as_mstring();
 
-	WAOwnMessage tmp(pktId, 0);
+	WAOwnMessage tmp(0, 0, szPrefix);
 	{
 		mir_cslock lck(m_csOwnMessages);
 		auto *pOwn = m_arOwnMsgs.find(&tmp);
 		if (pOwn == nullptr)
 			return;
 		
+		tmp.pktId = pOwn->pktId;
 		tmp.hContact = pOwn->hContact;
 		m_arOwnMsgs.remove(pOwn);
 	}
 
 	int status = node["status"].as_int();
 	if (status == 200)
-		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pktId);
+		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.pktId);
 	else {
 		CMStringW wszError(FORMAT, TranslateT("Operation failed with server error status %d"), status);
-		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)pktId, LPARAM(wszError.c_str()));
+		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tmp.pktId, LPARAM(wszError.c_str()));
 	}
 }
 
@@ -229,9 +240,14 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 		return 0;
 	}
 
+	char msgId[16], szMsgId[33];
+	Utils_GetRandom(msgId, sizeof(msgId));
+	bin2hex(msgId, sizeof(msgId), szMsgId);
+
 	auto *key = new proto::MessageKey();
 	key->set_remotejid(jid);
 	key->set_fromme(true);
+	key->set_id(szMsgId);
 
 	proto::WebMessageInfo msg;
 	msg.set_allocated_key(key);
@@ -242,19 +258,15 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 	mir_ptr<BYTE> pBuf((BYTE *)mir_alloc(cbBinaryLen));
 	msg.SerializeToArray(pBuf, (int)cbBinaryLen);
 
-	auto *message = new WANode();
-	message->title = "message";
-	message->content.assign(pBuf, cbBinaryLen);
-
 	WANode payLoad;
 	payLoad.title = "action";
 	payLoad.addAttr("type", "relay");
-	payLoad.children.push_back(message);
+	payLoad.content.assign(pBuf, cbBinaryLen);
 	
-	int pktId = WSSendNode(payLoad, &WhatsAppProto::OnSendMessage);
+	int pktId = WSSendNode(szMsgId, WAMetric::message, int(WAFlag::ignore), payLoad, &WhatsAppProto::OnSendMessage);
 
 	mir_cslock lck(m_csOwnMessages);
-	m_arOwnMsgs.insert(new WAOwnMessage(pktId, hContact));
+	m_arOwnMsgs.insert(new WAOwnMessage(pktId, hContact, szMsgId));
 	return pktId;
 }
 

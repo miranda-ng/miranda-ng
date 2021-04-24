@@ -11,10 +11,62 @@ Copyright © 2019-21 George Hazan
 class WhatsAppProto;
 typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node);
 
+enum class WAMetric
+{
+	debugLog = 1,
+	queryResume,
+	queryReceipt,
+	queryMedia,
+	queryChat,
+	queryContacts,
+	queryMessages,
+	presence,
+	presenceSubscribe,
+	group,
+	read,
+	chat,
+	received,
+	pic,
+	status,
+	message,
+	queryActions,
+	block,
+	queryGroup,
+	queryPreview,
+	queryEmoji,
+	queryMessageInfo,
+	spam,
+	querySearch,
+	queryIdentity,
+	queryUrl,
+	profile,
+	contact,
+	queryVcard,
+	queryStatus,
+	queryStatusUpdate,
+	privacyStatus,
+	queryLiveLocations,
+	liveLocation,
+	queryVname,
+	queryLabels,
+	call,
+	queryCall,
+	queryQuickReplies,
+};
+
+enum class WAFlag
+{
+	skipOffline = 1 << 2,
+	expires = 1 << 3,
+	notAvailable = 1 << 4,
+	available = 1 << 5,
+	ackRequest = 1 << 6,
+	ignore = 1 << 7,
+};
+
 struct WARequest
 {
-	int pktId;
-	time_t issued;
+	CMStringA szPrefix;
 	WA_PKT_HANDLER pHandler;
 };
 
@@ -40,13 +92,15 @@ struct WAUser
 
 struct WAOwnMessage
 {
-	WAOwnMessage(int _1, MCONTACT _2) :
+	WAOwnMessage(int _1, MCONTACT _2, const char *_3) :
 		pktId(_1),
-		hContact(_2)
+		hContact(_2),
+		szPrefix(_3)
 	{}
 
 	int pktId;
 	MCONTACT hContact;
+	CMStringA szPrefix;
 };
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
@@ -111,7 +165,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const CMStringA &str, WA_PKT_HANDLER = nullptr);
-	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
+	int  WSSendNode(const char *pszPrefix, WAMetric, int flags, WANode &node, WA_PKT_HANDLER = nullptr);
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);

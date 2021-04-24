@@ -18,21 +18,23 @@ int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
 	int pktId = ++m_iPktNumber;
 
 	CMStringA buf;
-	buf.Format("%d.--%d,", (int)m_iLoginTime, pktId);
+	buf.Format("%d.--%d", (int)m_iLoginTime, pktId);
+
+	if (pHandler != nullptr) {
+		auto *pReq = new WARequest;
+		pReq->pHandler = pHandler;
+		pReq->szPrefix = buf;
+
+		mir_cslock lck(m_csPacketQueue);
+		m_arPacketQueue.insert(pReq);
+	}
+
+	buf.AppendChar(',');
 	if (!str.IsEmpty()) {
 		buf.AppendChar(',');
 		buf += str;
 	}
 
-	if (pHandler != nullptr) {
-		auto *pReq = new WARequest;
-		pReq->issued = time(0);
-		pReq->pHandler = pHandler;
-		pReq->pktId = pktId;
-
-		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(pReq);
-	}
 
 	debugLogA("Sending packet #%d: %s", pktId, buf.c_str());
 	WebSocket_SendText(m_hServerConn, buf.c_str());
@@ -43,7 +45,7 @@ int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
 
 static char zeroData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
+int WhatsAppProto::WSSendNode(const char *pszPrefix, WAMetric metric, int flags, WANode &node, WA_PKT_HANDLER pHandler)
 {
 	if (m_hServerConn == nullptr)
 		return 0;
@@ -74,11 +76,11 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 	enc.assign(writer.body.data(), writer.body.length()); 
 	enc.append(mac_key.data(), mac_key.length()); 
 
-	int dec_len = 0, final_len = 0;
+	int enc_len = 0, final_len = 0;
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 	EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, (BYTE*)enc_key.data(), iv);
-	EVP_EncryptUpdate(ctx, (BYTE*)enc.data(), &dec_len, (BYTE*)writer.body.data(), (int)writer.body.length());
-	EVP_EncryptFinal_ex(ctx, (BYTE*)enc.data() + dec_len, &final_len);
+	EVP_EncryptUpdate(ctx, (BYTE*)enc.data(), &enc_len, (BYTE*)writer.body.data(), (int)writer.body.length());
+	EVP_EncryptFinal_ex(ctx, (BYTE*)enc.data() + enc_len, &final_len);
 	EVP_CIPHER_CTX_free(ctx);
 
 	// build the resulting buffer of the following structure:
@@ -89,26 +91,27 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 	
 	BYTE hmac[32];
 	unsigned int hmac_len = 32;
-	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE*)enc.data(), (int)enc.length(), hmac, &hmac_len);
+	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE*)enc.data(), enc_len, hmac, &hmac_len);
 
 	int pktId = ++m_iPktNumber;
-	CMStringA prefix(FORMAT, "%d.--%d,", (int)m_iLoginTime, pktId);
 
 	if (pHandler != nullptr) {
 		auto *pReq = new WARequest;
-		pReq->issued = time(0);
 		pReq->pHandler = pHandler;
-		pReq->pktId = pktId;
+		pReq->szPrefix = pszPrefix;
 
 		mir_cslock lck(m_csPacketQueue);
 		m_arPacketQueue.insert(pReq);
 	}
 
+	char postPrefix[3] = { ',', (char)metric, (char)flags };
+
 	MBinBuffer ret;
-	ret.append(prefix, prefix.GetLength());
+	ret.append(pszPrefix, strlen(pszPrefix));
+	ret.append(postPrefix, sizeof(postPrefix));
 	ret.append(hmac, sizeof(hmac));
 	ret.append(iv, sizeof(iv));
-	ret.append(enc.data(), enc.length());
+	ret.append(enc.data(), enc_len);
 	WebSocket_SendBinary(m_hServerConn, ret.data(), ret.length());
 
 	return pktId;
@@ -448,13 +451,11 @@ bool WhatsAppProto::ServerThreadWorker()
 						if (root) {
 							debugLogA("JSON received:\n%s", start);
 
-							int sessId, pktId;
-							if (sscanf(start, "%d.--%d,", &sessId, &pktId) == 2) {
-								auto *pReq = m_arPacketQueue.find((WARequest *)&pktId);
-								if (pReq != nullptr) {
-									root << INT_PARAM("$id$", pktId);
-									(this->*pReq->pHandler)(root);
-								}
+							CMStringA szPrefix(start, int(pos - start - 1));
+							auto *pReq = m_arPacketQueue.find((WARequest *)&szPrefix);
+							if (pReq != nullptr) {
+								root << CHAR_PARAM("$id$", szPrefix);
+								(this->*pReq->pHandler)(root);
 							}
 							else ProcessPacket(root);
 						}
