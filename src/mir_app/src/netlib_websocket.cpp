@@ -110,33 +110,34 @@ MIR_APP_DLL(bool) WebSocket_InitHeader(WSHeader &hdr, const void *pData, size_t 
 	return true;
 }
 
-MIR_APP_DLL(void) WebSocket_Send(HNETLIBCONN nlc, const void *pData, size_t strLen)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void WebSocket_Send(HNETLIBCONN nlc, const void *pData, size_t dataLen, BYTE opCode)
 {
 	BYTE header[20];
-	int opCode = 1;
 	size_t datalen;
 
 	header[0] = 0x80 + (opCode & 0x7F);
-	if (strLen < 126) {
-		header[1] = (strLen & 0xFF);
+	if (dataLen < 126) {
+		header[1] = (dataLen & 0xFF);
 		datalen = 2;
 	}
-	else if (strLen < 65536) {
+	else if (dataLen < 65536) {
 		header[1] = 0x7E;
-		header[2] = (strLen >> 8) & 0xFF;
-		header[3] = strLen & 0xFF;
+		header[2] = (dataLen >> 8) & 0xFF;
+		header[3] = dataLen & 0xFF;
 		datalen = 4;
 	}
 	else {
 		header[1] = 0x7F;
-		header[2] = (strLen >> 56) & 0xff;
-		header[3] = (strLen >> 48) & 0xff;
-		header[4] = (strLen >> 40) & 0xff;
-		header[5] = (strLen >> 32) & 0xff;
-		header[6] = (strLen >> 24) & 0xff;
-		header[7] = (strLen >> 16) & 0xff;
-		header[8] = (strLen >> 8) & 0xff;
-		header[9] = strLen & 0xff;
+		header[2] = (dataLen >> 56) & 0xff;
+		header[3] = (dataLen >> 48) & 0xff;
+		header[4] = (dataLen >> 40) & 0xff;
+		header[5] = (dataLen >> 32) & 0xff;
+		header[6] = (dataLen >> 24) & 0xff;
+		header[7] = (dataLen >> 16) & 0xff;
+		header[8] = (dataLen >> 8) & 0xff;
+		header[9] = dataLen & 0xff;
 		datalen = 10;
 	}
 
@@ -144,18 +145,30 @@ MIR_APP_DLL(void) WebSocket_Send(HNETLIBCONN nlc, const void *pData, size_t strL
 		uint32_t dwMask;
 		uint8_t arMask[4];
 	};
-	
-	dwMask = crc32(rand(), (uint8_t*)pData, (unsigned)strLen);
+
+	dwMask = crc32(rand(), (uint8_t*)pData, (unsigned)dataLen);
 	memcpy(header + datalen, arMask, _countof(arMask));
 	datalen += _countof(arMask);
 	header[1] |= 0x80;
 
-	ptrA sendBuf((char*)mir_alloc(strLen + datalen));
+	ptrA sendBuf((char*)mir_alloc(dataLen + datalen));
 	memcpy(sendBuf, header, datalen);
-	if (strLen) {
-		memcpy(sendBuf.get() + datalen, pData, strLen);
-		for (size_t i = 0; i < strLen; i++)
+	if (dataLen) {
+		memcpy(sendBuf.get() + datalen, pData, dataLen);
+		for (size_t i = 0; i < dataLen; i++)
 			sendBuf[i + datalen] ^= arMask[i & 3];
 	}
-	Netlib_Send(nlc, sendBuf, int(strLen + datalen), MSG_NODUMP);
+	Netlib_Send(nlc, sendBuf, int(dataLen + datalen), MSG_NODUMP);
+}
+
+MIR_APP_DLL(void) WebSocket_SendText(HNETLIBCONN nlc, const char *pData)
+{
+	if (nlc && pData)
+		WebSocket_Send(nlc, pData, strlen(pData), 1);
+}
+
+MIR_APP_DLL(void) WebSocket_SendBinary(HNETLIBCONN nlc, const void *pData, size_t dataLen)
+{
+	if (nlc && pData)
+		WebSocket_Send(nlc, pData, dataLen, 2);
 }

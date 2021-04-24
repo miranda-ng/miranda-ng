@@ -27,7 +27,7 @@ bool CDiscordProto::GatewaySend(const JSONNode &pRoot)
 
 	json_string szText = pRoot.write();
 	debugLogA("Gateway send: %s", szText.c_str());
-	WebSocket_Send(m_hGatewayConnection, szText.c_str(), szText.length());
+	WebSocket_SendText(m_hGatewayConnection, szText.c_str());
 	return true;
 }
 
