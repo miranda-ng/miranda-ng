@@ -35,9 +35,86 @@ int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
 	}
 
 	debugLogA("Sending packet #%d: %s", pktId, buf.c_str());
-	WebSocket_Send(m_hServerConn, buf.c_str(), buf.GetLength());
+	WebSocket_SendText(m_hServerConn, buf.c_str());
 	return pktId;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static char zeroData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
+{
+	if (m_hServerConn == nullptr)
+		return 0;
+
+	{
+		char str[100];
+		_i64toa(_time64(0), str, 10);
+		node.addAttr("epoch", str);
+
+		CMStringA szText;
+		node.print(szText);
+		debugLogA("Sending binary node: %s", szText.c_str());
+	}
+
+	WAWriter writer;
+	writer.writeNode(&node);
+
+	// AES block size = 16 bytes, let's expand data to block size boundary
+	size_t rest = writer.body.length() % 16;
+	if (rest != 0)
+		writer.body.append(zeroData, 16 - rest);
+
+	BYTE iv[16];
+	Utils_GetRandom(iv, sizeof(iv));
+
+	// allocate the buffer of the same size + 32 bytes for temporary operations
+	MBinBuffer enc;
+	enc.assign(writer.body.data(), writer.body.length()); 
+	enc.append(mac_key.data(), mac_key.length()); 
+
+	int dec_len = 0, final_len = 0;
+	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+	EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, (BYTE*)enc_key.data(), iv);
+	EVP_EncryptUpdate(ctx, (BYTE*)enc.data(), &dec_len, (BYTE*)writer.body.data(), (int)writer.body.length());
+	EVP_EncryptFinal_ex(ctx, (BYTE*)enc.data() + dec_len, &final_len);
+	EVP_CIPHER_CTX_free(ctx);
+
+	// build the resulting buffer of the following structure:
+	// - packet prefix
+	// - 32 bytes of HMAC
+	// - 16 bytes of iv
+	// - rest of encoded data
+	
+	BYTE hmac[32];
+	unsigned int hmac_len = 32;
+	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE*)enc.data(), (int)enc.length(), hmac, &hmac_len);
+
+	int pktId = ++m_iPktNumber;
+	CMStringA prefix(FORMAT, "%d.--%d,", (int)m_iLoginTime, pktId);
+
+	if (pHandler != nullptr) {
+		auto *pReq = new WARequest;
+		pReq->issued = time(0);
+		pReq->pHandler = pHandler;
+		pReq->pktId = pktId;
+
+		mir_cslock lck(m_csPacketQueue);
+		m_arPacketQueue.insert(pReq);
+	}
+
+	MBinBuffer ret;
+	ret.append(prefix, prefix.GetLength());
+	ret.append(hmac, sizeof(hmac));
+	ret.append(iv, sizeof(iv));
+	ret.append(enc.data(), enc.length());
+	WebSocket_SendBinary(m_hServerConn, ret.data(), ret.length());
+
+	return pktId;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::OnLoggedIn()
 {
@@ -64,7 +141,7 @@ void WhatsAppProto::OnLoggedOut(void)
 
 void WhatsAppProto::SendKeepAlive()
 {
-	WebSocket_Send(m_hServerConn, "?,,", 3);
+	WebSocket_SendText(m_hServerConn, "?,,");
 
 	time_t now = time(0);
 
@@ -362,28 +439,20 @@ bool WhatsAppProto::ServerThreadWorker()
 					size_t dataSize = hdr.payloadSize - size_t(pos - start);
 
 					// try to decode
-					if (hdr.opCode == 2 && hdr.payloadSize > 32) {
-						MBinBuffer dest;
-						if (!decryptBinaryMessage(dataSize, pos, dest)) {
-							Netlib_Dump(m_hServerConn, currPacket.data(), currPacket.length(), false, 0);
-							debugLogA("cannot decrypt incoming message");
-							break;
-						}
-
-						// Netlib_Dump(m_hServerConn, dest.data(), dest.length(), false, 0);
-						ProcessBinaryPacket(dest);
-					}
+					if (hdr.opCode == 2 && hdr.payloadSize > 32)
+						ProcessBinaryPacket(pos, dataSize);
 					else {
 						CMStringA szJson(pos, (int)dataSize);
 
 						JSONNode root = JSONNode::parse(szJson);
 						if (root) {
-							debugLogA("JSON received:\n%s", szJson.c_str());
+							debugLogA("JSON received:\n%s", start);
 
 							int sessId, pktId;
 							if (sscanf(start, "%d.--%d,", &sessId, &pktId) == 2) {
 								auto *pReq = m_arPacketQueue.find((WARequest *)&pktId);
 								if (pReq != nullptr) {
+									root << INT_PARAM("$id$", pktId);
 									(this->*pReq->pHandler)(root);
 								}
 							}
@@ -433,16 +502,26 @@ bool WhatsAppProto::ServerThreadWorker()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Binary data processing
 
-void WhatsAppProto::ProcessBinaryPacket(const MBinBuffer &buf)
+void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
 {
-	WAReader reader(buf.data(), buf.length());
-	WANode *pRoot = reader.readNode();
-	if (pRoot == nullptr) // smth went wrong
+	MBinBuffer dest;
+	if (!decryptBinaryMessage(cbDataLen, pData, dest)) {
+		debugLogA("cannot decrypt incoming message");
+		Netlib_Dump(m_hServerConn, pData, cbDataLen, false, 0);
 		return;
+	}
+
+	WAReader reader(dest.data(), dest.length());
+	WANode *pRoot = reader.readNode();
+	if (pRoot == nullptr) { // smth went wrong
+		debugLogA("cannot read binary message");
+		Netlib_Dump(m_hServerConn, dest.data(), dest.length(), false, 0);
+		return;
+	}
 
 	CMStringA szText;
 	pRoot->print(szText);
-	debugLogA("packed JSON: %s", szText.c_str());
+	debugLogA("packed content: %s", szText.c_str());
 	
 	CMStringA szType = pRoot->getAttr("type");
 	if (szType == "contacts")

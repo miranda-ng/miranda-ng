@@ -38,6 +38,17 @@ struct WAUser
 	DWORD m_time1 = 0, m_time2 = 0;
 };
 
+struct WAOwnMessage
+{
+	WAOwnMessage(int _1, MCONTACT _2) :
+		pktId(_1),
+		hContact(_2)
+	{}
+
+	int pktId;
+	MCONTACT hContact;
+};
+
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
 	class CWhatsAppProtoImpl
@@ -74,6 +85,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	mir_cs m_csUsers;
 	OBJLIST<WAUser> m_arUsers;
 
+	mir_cs m_csOwnMessages;
+	OBJLIST<WAOwnMessage> m_arOwnMsgs;
+
 	WAUser* FindUser(const char *szId);
 	WAUser* AddUser(const char *szId, bool bTemporary);
 
@@ -97,6 +111,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const CMStringA &str, WA_PKT_HANDLER = nullptr);
+	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);
@@ -114,10 +129,11 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void OnRestoreSession1(const JSONNode &node);
 	void OnRestoreSession2(const JSONNode &node);
+	void OnSendMessage(const JSONNode &node);
 	void OnStartSession(const JSONNode &node);
 
 	// binary packets
-	void ProcessBinaryPacket(const MBinBuffer &buf);
+	void ProcessBinaryPacket(const void *pData, size_t cbLen);
 	void ProcessAdd(const CMStringA &type, const WANode *node);
 	void ProcessChats(const WANode *node);
 	void ProcessContacts(const WANode *node);

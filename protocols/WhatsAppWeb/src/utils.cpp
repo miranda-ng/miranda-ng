@@ -148,6 +148,7 @@ void WANode::print(CMStringA &dest, int level) const
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// WAReader class members
 
 bool WAReader::readAttributes(WANode *pNode, int count)
 {
@@ -410,4 +411,183 @@ CMStringA WAReader::readStringFromChars(int size)
 	CMStringA ret((char*)m_buf, size);
 	m_buf += size;
 	return ret;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// WAWriter class members
+
+void WAWriter::writeByte(uint8_t b)
+{
+	body.append(&b, 1);
+}
+
+void WAWriter::writeIntN(int value, int n)
+{
+	for (int i = n - 1; i >= 0; i--)
+		writeByte((value >> i * 8) & 0xFF);
+}
+
+void WAWriter::writeInt20(int value)
+{
+	writeByte((value >> 16) & 0xFF);
+	writeByte((value >> 8) & 0xFF);
+	writeByte(value & 0xFF);
+}
+
+void WAWriter::writeLength(int value)
+{
+	if (value >= (1 << 20)) {
+		writeByte(BINARY_32);
+		writeInt32(value);
+	}
+	else if (value >= 256) {
+		writeByte(BINARY_20);
+		writeInt20(value);
+	}
+	else {
+		writeByte(BINARY_8);
+		writeInt8(value);
+	}
+}
+
+void WAWriter::writeListSize(int length)
+{
+	if (length == 0)
+		writeByte(LIST_EMPTY);
+	else if (length < 256) {
+		writeByte(LIST_8);
+		writeInt8(length);
+	}
+	else {
+		writeByte(LIST_16);
+		writeInt16(length);
+	}
+}
+
+void WAWriter::writeNode(const WANode *pNode)
+{
+	int numAttrs = (int)pNode->attrs.size();
+	int hasContent = pNode->content.length() != 0;
+	writeListSize(2*numAttrs + 1 + hasContent);
+
+	writeString(pNode->title.c_str());
+
+	// write attributes
+	for (auto &it : pNode->attrs) {
+		if (it->value.IsEmpty())
+			continue;
+
+		writeString(it->name.c_str());
+		writeString(it->value.c_str());
+	}
+
+	// write contents
+	if (pNode->content.length()) {
+		writeLength((int)pNode->content.length());
+		body.append(pNode->content.data(), pNode->content.length());
+	}
+
+	// write children
+	if (pNode->children.size()) {
+		writeListSize((int)pNode->children.size());
+		for (auto &it : pNode->children)
+			writeNode(it);
+	}
+}
+
+void WAWriter::writeString(const char *str, bool bRaw)
+{
+	if (!bRaw && !mir_strcmp(str, "c.us")) {
+		writeToken("s.whatsapp.net");
+		return;
+	}
+
+	if (writeToken(str))
+		return;
+
+	auto *pszDelimiter = strchr(str, '@');
+	if (pszDelimiter) {
+		writeByte(JID_PAIR);
+
+		if (pszDelimiter == str) // empty jid
+			writeByte(LIST_EMPTY);
+		else
+			writePacked(CMStringA(str, int(pszDelimiter - str)));
+	}
+	else {
+		int len = (int)strlen(str);
+		writeLength(len);
+		body.append((void *)str, len);
+	}
+}
+
+bool WAWriter::writeToken(const char *str)
+{
+	for (auto &it : SingleByteTokens)
+		if (!strcmp(str, it)) {
+			writeByte(int(&it - SingleByteTokens));
+			return true;
+		}
+
+	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static BYTE packNibble(char c)
+{
+	if (c >= '0' && c <= '9')
+		return c - '0';
+
+	switch (c) {
+	case '-': return 10;
+	case '.': return 11;
+	case 0: return 15;
+	}
+
+	return -1;
+}
+
+static BYTE packHex(char c)
+{
+	if (c == 0)
+		return 15;
+
+	if (c >= '0' && c <= '9')
+		return c - '0';
+
+	if (c >= 'A' && c <= 'F')
+		return c - 'A';
+
+	if (c >= 'a' && c <= 'f')
+		return c - 'a';
+
+	return -1;
+}
+
+static BYTE packPair(int type, char c1, char c2)
+{
+	BYTE b1 = (type == NIBBLE_8) ? packNibble(c1) : packHex(c1);
+	BYTE b2 = (type == NIBBLE_8) ? packNibble(c2) : packHex(c2);
+	return (b1 << 4) + b2;
+}
+
+void WAWriter::writePacked(const CMStringA &str)
+{
+	if (str.GetLength() > 254)
+		return;
+
+	// all symbols of str can be a nibble?
+	int type = (strspn(str, "0123456789-.") == str.GetLength()) ? NIBBLE_8 : HEX_8;
+
+	int len = str.GetLength() / 2;
+	BYTE firstByte = (len % 2) == 0 ? 0 : 0x80;
+	writeByte(firstByte | len);
+
+	const char *p = str;
+	for (int i = 0; i < len; i++, p += 2)
+		writeByte(packPair(type, p[0], p[1]));
+
+	if (firstByte != 0)
+		writeByte(packPair(type, p[0], 0));
 }

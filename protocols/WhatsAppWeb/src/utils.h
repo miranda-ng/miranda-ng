@@ -22,6 +22,8 @@ Copyright © 2019-21 George Hazan
 
 class WANode // kinda XML
 {
+	friend class WAWriter;
+
 	struct Attr
 	{
 		Attr(const char *pszName, const char *pszValue) :
@@ -55,12 +57,6 @@ class WAReader
 	uint32_t readIntN(int i);
 	CMStringA readStringFromChars(int size);
 
-public:
-	WAReader(const void *buf, size_t cbLen) :
-		m_buf((BYTE*)buf),
-		m_limit((BYTE*)buf + cbLen)
-	{}
-
 	__forceinline uint32_t readInt8() { return readIntN(1); }
 	__forceinline uint32_t readInt16() { return readIntN(2); }
 	__forceinline uint32_t readInt32() { return readIntN(4); }
@@ -71,5 +67,33 @@ public:
 	int       readListSize(int tag);
 	CMStringA readPacked(int tag);
 	CMStringA readString(int tag);
-	WANode*   readNode();
+
+public:
+	WAReader(const void *buf, size_t cbLen) :
+		m_buf((BYTE*)buf),
+		m_limit((BYTE*)buf + cbLen)
+	{}
+
+	WANode* readNode();
+};
+
+class WAWriter
+{
+	__forceinline void writeInt8(int value) { writeIntN(value, 1); }
+	__forceinline void writeInt16(int value) { writeIntN(value, 2); }
+	__forceinline void writeInt32(int value) { writeIntN(value, 4); }
+
+	void writeByte(uint8_t b);
+	void writeIntN(int value, int i);
+	void writeInt20(int value);
+	void writeLength(int value);
+	void writeListSize(int tag);
+	void writePacked(const CMStringA &str);
+	void writeString(const char *str, bool bRaw = false);
+	bool writeToken(const char *str);
+
+public:
+	void writeNode(const WANode *pNode);
+
+	MBinBuffer body;
 };

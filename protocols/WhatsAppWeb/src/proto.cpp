@@ -27,6 +27,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_impl(*this),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
+	m_arOwnMsgs(1, NumericKeySortT),
 	m_arPacketQueue(10, NumericKeySortT),
 	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
 	m_bHideGroupchats(this, "HideChats", true)
@@ -191,6 +192,32 @@ int WhatsAppProto::SetStatus(int new_status)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnSendMessage(const JSONNode &node)
+{
+	int pktId = node["$id$"].as_int();
+
+	WAOwnMessage tmp(pktId, 0);
+	{
+		mir_cslock lck(m_csOwnMessages);
+		auto *pOwn = m_arOwnMsgs.find(&tmp);
+		if (pOwn == nullptr)
+			return;
+		
+		tmp.hContact = pOwn->hContact;
+		m_arOwnMsgs.remove(pOwn);
+	}
+
+	int status = node["status"].as_int();
+	if (status == 200)
+		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pktId);
+	else {
+		CMStringW wszError(FORMAT, TranslateT("Operation failed with server error status %d"), status);
+		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)pktId, LPARAM(wszError.c_str()));
+	}
+}
+
 int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 {
 	ptrA jid(getStringA(hContact, DBKEY_ID));
@@ -214,7 +241,21 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 	size_t cbBinaryLen = msg.ByteSizeLong();
 	mir_ptr<BYTE> pBuf((BYTE *)mir_alloc(cbBinaryLen));
 	msg.SerializeToArray(pBuf, (int)cbBinaryLen);
-	return 0;
+
+	auto *message = new WANode();
+	message->title = "message";
+	message->content.assign(pBuf, cbBinaryLen);
+
+	WANode payLoad;
+	payLoad.title = "action";
+	payLoad.addAttr("type", "relay");
+	payLoad.children.push_back(message);
+	
+	int pktId = WSSendNode(payLoad, &WhatsAppProto::OnSendMessage);
+
+	mir_cslock lck(m_csOwnMessages);
+	m_arOwnMsgs.insert(new WAOwnMessage(pktId, hContact));
+	return pktId;
 }
 
 int WhatsAppProto::UserIsTyping(MCONTACT hContact, int)
