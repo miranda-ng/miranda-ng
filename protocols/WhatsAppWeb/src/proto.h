@@ -9,7 +9,7 @@ Copyright © 2019-21 George Hazan
 #define PROTO_H
 
 class WhatsAppProto;
-typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node);
+typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node, void*);
 
 enum class WAMetric
 {
@@ -68,6 +68,7 @@ struct WARequest
 {
 	CMStringA szPrefix;
 	WA_PKT_HANDLER pHandler;
+	void *pUserInfo;
 };
 
 struct WAUser
@@ -164,7 +165,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	OBJLIST<WARequest> m_arPacketQueue;
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
-	int  WSSend(const CMStringA &str, WA_PKT_HANDLER = nullptr);
+	int  WSSend(const CMStringA &str, WA_PKT_HANDLER = nullptr, void *pUserIndo = nullptr);
 	int  WSSendNode(const char *pszPrefix, WAMetric, int flags, WANode &node, WA_PKT_HANDLER = nullptr);
 
 	void OnLoggedIn(void);
@@ -181,10 +182,11 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
-	void OnRestoreSession1(const JSONNode &node);
-	void OnRestoreSession2(const JSONNode &node);
-	void OnSendMessage(const JSONNode &node);
-	void OnStartSession(const JSONNode &node);
+	void OnGetAvatarInfo(const JSONNode &node, void*);
+	void OnRestoreSession1(const JSONNode &node, void*);
+	void OnRestoreSession2(const JSONNode &node, void*);
+	void OnSendMessage(const JSONNode &node, void*);
+	void OnStartSession(const JSONNode &node, void*);
 
 	// binary packets
 	void ProcessBinaryPacket(const void *pData, size_t cbLen);
@@ -251,6 +253,10 @@ public:
 struct CMPlugin : public ACCPROTOPLUGIN<WhatsAppProto>
 {
 	signal_context *pCtx;
+	
+	HNETLIBUSER hAvatarUser = nullptr;
+	HNETLIBCONN hAvatarConn = nullptr;
+	bool SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai);
 
 	CMPlugin();
 

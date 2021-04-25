@@ -79,6 +79,12 @@ int CMPlugin::Load()
 	// InitIcons();
 	// InitContactMenus();
 
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szSettingsModule = "WhatsApp";
+	nlu.szDescriptiveName.w = TranslateT("WhatsApp HTTP connection");
+	hAvatarUser = Netlib_RegisterUser(&nlu);
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	signal_context_create(&pCtx, nullptr);
 
@@ -99,6 +105,9 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	Netlib_CloseHandle(hAvatarConn);
+	Netlib_CloseHandle(hAvatarUser);
+
 	signal_context_destroy(pCtx);
 	return 0;
 }

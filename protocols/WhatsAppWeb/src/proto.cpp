@@ -72,11 +72,6 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
-	if (m_hNetlibUser == nullptr) {
-		wchar_t error[200];
-		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
-	}
 
 	m_tszAvatarFolder = CMStringW(VARSW(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
@@ -204,7 +199,7 @@ int WhatsAppProto::SetStatus(int new_status)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnSendMessage(const JSONNode &node)
+void WhatsAppProto::OnSendMessage(const JSONNode &node, void*)
 {
 	CMStringA szPrefix= node["$id$"].as_mstring();
 

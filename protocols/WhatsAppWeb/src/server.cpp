@@ -10,7 +10,7 @@ Copyright © 2019-21 George Hazan
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
-int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
+int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler, void *pUserInfo)
 {
 	if (m_hServerConn == nullptr)
 		return -1;
@@ -24,6 +24,7 @@ int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
 		auto *pReq = new WARequest;
 		pReq->pHandler = pHandler;
 		pReq->szPrefix = buf;
+		pReq->pUserInfo = pUserInfo;
 
 		mir_cslock lck(m_csPacketQueue);
 		m_arPacketQueue.insert(pReq);
@@ -261,7 +262,7 @@ bool WhatsAppProto::ProcessSecret(const CMStringA &szSecret)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnRestoreSession1(const JSONNode&)
+void WhatsAppProto::OnRestoreSession1(const JSONNode&, void*)
 {
 	ptrA szClient(getStringA(DBKEY_CLIENT_TOKEN)), szServer(getStringA(DBKEY_SERVER_TOKEN));
 	if (szClient == nullptr || szServer == nullptr) {
@@ -273,7 +274,7 @@ void WhatsAppProto::OnRestoreSession1(const JSONNode&)
 	WSSend(payload, &WhatsAppProto::OnRestoreSession2);
 }
 
-void WhatsAppProto::OnRestoreSession2(const JSONNode &root)
+void WhatsAppProto::OnRestoreSession2(const JSONNode &root, void*)
 {
 	int status = root["status"].as_int();
 	if (status != 200) {
@@ -311,7 +312,7 @@ void WhatsAppProto::ShutdownSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnStartSession(const JSONNode &root)
+void WhatsAppProto::OnStartSession(const JSONNode &root, void*)
 {
 	int status = root["status"].as_int();
 	if (status != 200) {
@@ -455,7 +456,7 @@ bool WhatsAppProto::ServerThreadWorker()
 							auto *pReq = m_arPacketQueue.find((WARequest *)&szPrefix);
 							if (pReq != nullptr) {
 								root << CHAR_PARAM("$id$", szPrefix);
-								(this->*pReq->pHandler)(root);
+								(this->*pReq->pHandler)(root, pReq->pUserInfo);
 							}
 							else ProcessPacket(root);
 						}
