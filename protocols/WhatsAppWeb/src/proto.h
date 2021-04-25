@@ -87,6 +87,7 @@ struct WAUser
 	MCONTACT hContact;
 	DWORD dwModifyTag;
 	char *szId;
+	bool bInited = false;
 	SESSION_INFO *si = 0;
 	DWORD m_time1 = 0, m_time2 = 0;
 };
@@ -183,6 +184,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
 	void OnGetAvatarInfo(const JSONNode &node, void*);
+	void OnGetChatInfo(const JSONNode &node, void*);
 	void OnRestoreSession1(const JSONNode &node, void*);
 	void OnRestoreSession2(const JSONNode &node, void*);
 	void OnSendMessage(const JSONNode &node, void*);
