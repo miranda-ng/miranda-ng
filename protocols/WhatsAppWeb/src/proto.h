@@ -71,11 +71,18 @@ struct WARequest
 	void *pUserInfo;
 };
 
+struct WAHistoryMessage
+{
+	CMStringA jid, text;
+	DWORD timestamp;
+};
+
 struct WAUser
 {
 	WAUser(MCONTACT _1, const char *_2) :
 		hContact(_1),
-		szId(mir_strdup(_2))
+		szId(mir_strdup(_2)),
+		arHistory(1)
 	{
 	}
 
@@ -90,6 +97,7 @@ struct WAUser
 	bool bInited = false;
 	SESSION_INFO *si = 0;
 	DWORD m_time1 = 0, m_time2 = 0;
+	OBJLIST<WAHistoryMessage> arHistory;
 };
 
 struct WAOwnMessage

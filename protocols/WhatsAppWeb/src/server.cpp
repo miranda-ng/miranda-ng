@@ -577,14 +577,27 @@ void WhatsAppProto::ProcessAdd(const CMStringA &type, const WANode *root)
 				CMStringA szText(szMsgText);
 				szText.Replace("%", "%%");
 
-				GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-				gce.pszID.a = jid;
-				gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
-				gce.pszUID.a = payLoad.participant().c_str();
-				gce.pszText.a = szText;
-				gce.time = dwTimestamp;
-				gce.bIsMe = true;
-				Chat_Event(&gce);
+				CMStringA szUserJid(payLoad.participant().c_str());
+				if (!szUserJid.Replace("@s.whatsapp.net", "@c.us"))
+					szUserJid.Replace("@g.whatsapp.net", "@g.us");
+
+				if (pUser->bInited) {
+					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+					gce.pszID.a = jid;
+					gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+					gce.pszUID.a = szUserJid;
+					gce.pszText.a = szText;
+					gce.time = dwTimestamp;
+					gce.bIsMe = (jid == m_szJid);
+					Chat_Event(&gce);
+				}
+				else {
+					auto *pMsg = new WAHistoryMessage;
+					pMsg->jid = jid;
+					pMsg->text = szText;
+					pMsg->timestamp = dwTimestamp;
+					pUser->arHistory.insert(pMsg);
+				}
 			}
 			else {
 				PROTORECVEVENT pre = { 0 };
