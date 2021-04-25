@@ -63,7 +63,7 @@ FbThrift& FbThrift::operator<<(const char *str)
 {
 	size_t len = mir_strlen(str);
 	writeIntV(len);
-	m_buf.append((void*)str, len);
+	m_buf.append(str, len);
 	return *this;
 }
 
@@ -75,7 +75,7 @@ void FbThrift::writeBool(bool bValue)
 
 void FbThrift::writeBuf(const void *pData, size_t cbLen)
 {
-	m_buf.append((void*)pData, cbLen);
+	m_buf.append(pData, cbLen);
 }
 
 void FbThrift::writeField(int iType)
