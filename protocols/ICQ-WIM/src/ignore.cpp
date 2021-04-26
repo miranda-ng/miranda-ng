@@ -35,8 +35,10 @@ void CIcqProto::OnGetPermitDeny(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 
 void CIcqProto::ProcessPermissions(const JSONNode &ev)
 {
-	for (auto &it : m_arCache)
-		it->m_iApparentMode = 0;
+	{	mir_cslock lck(m_csCache);
+		for (auto &it : m_arCache)
+			it->m_iApparentMode = 0;
+	}
 
 	for (auto &it : ev["allows"]) {
 		auto *p = FindContactByUIN(it.as_mstring());
@@ -57,13 +59,15 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 		m_bIgnoreListEmpty = false;
 	}
 
-	for (auto &it: m_arCache) {
-		int oldMode = getDword(it->m_hContact, "ApparentMode");
-		if (oldMode != it->m_iApparentMode) {
-			if (it->m_iApparentMode == 0)
-				delSetting(it->m_hContact, "ApparentMode");
-			else
-				setDword(it->m_hContact, "ApparentMode", it->m_iApparentMode);
+	{	mir_cslock lck(m_csCache);
+		for (auto &it : m_arCache) {
+			int oldMode = getDword(it->m_hContact, "ApparentMode");
+			if (oldMode != it->m_iApparentMode) {
+				if (it->m_iApparentMode == 0)
+					delSetting(it->m_hContact, "ApparentMode");
+				else
+					setDword(it->m_hContact, "ApparentMode", it->m_iApparentMode);
+			}
 		}
 	}
 }
