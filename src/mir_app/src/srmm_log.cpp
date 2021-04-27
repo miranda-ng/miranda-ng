@@ -79,16 +79,16 @@ static bool sttEnableCustomLogs(CMsgDialog *pDlg)
 
 CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
 {
+	CMStringA szViewerName;
 	if (sttEnableCustomLogs(pDlg)) {
-		ptrA szCurr(db_get_sa(pDlg->m_hContact, "SRMsg", "Logger", ""));
-
-		for (auto &it : g_arLogClasses)
-			if (!mir_strcmp(szCurr, it->szShortName))
-				return it->pfnBuilder(*pDlg);
+		szViewerName = db_get_sm(pDlg->m_hContact, "SRMsg", "Logger");
+		if (szViewerName.IsEmpty())
+			szViewerName = db_get_sm(0, "SRMM", "Logger", "built-in");
 	}
+	else szViewerName = "built-in";
 
 	for (auto &it : g_arLogClasses)
-		if (!mir_strcmp(it->szShortName, "built-in"))
+		if (szViewerName == it->szShortName)
 			return it->pfnBuilder(*pDlg);
 
 	return nullptr;
