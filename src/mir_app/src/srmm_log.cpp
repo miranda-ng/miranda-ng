@@ -46,12 +46,41 @@ static CMOption<BYTE> g_bEnableCustomLogs("SRMM", "EnableCustomLogs", 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static bool sttEnableCustomLogs(CMsgDialog *pDlg)
+{
+	// always enable custom log viewers for private chats
+	if (!pDlg->isChat())
+		return true;
+
+	// if custom log viewers are disable, use build-in one
+	if (!g_bEnableCustomLogs)
+		return false;
+
+	// check if custom viewers are forbidden for this particular account
+	auto *szProto = Proto_GetBaseAccountName(pDlg->m_hContact);
+	if (szProto) {
+		// hidden setting !!!!!!!!
+		CMStringA szProtoList(db_get_sm(0, "SRMM", "DisableCustomLogsForProto"));
+
+		int iStart = 0;
+		while (true) {
+			auto forbiddenProto = szProtoList.Tokenize(",; ", iStart);
+			if (forbiddenProto.IsEmpty())
+				break;
+
+			if (forbiddenProto == szProto)
+				return false;
+		}
+	}
+	
+	// ok-ok, use that custom viewer
+	return true;
+}
+
 CSrmmLogWindow* Srmm_GetLogWindow(CMsgDialog *pDlg)
 {
-	if (!pDlg->isChat() || g_bEnableCustomLogs) {
-		ptrA szCurr(db_get_sa(pDlg->m_hContact, "SRMsg", "Logger"));
-		if (!szCurr)
-			szCurr = db_get_sa(0, "SRMM", "Logger", "built-in");
+	if (sttEnableCustomLogs(pDlg)) {
+		ptrA szCurr(db_get_sa(pDlg->m_hContact, "SRMsg", "Logger", ""));
 
 		for (auto &it : g_arLogClasses)
 			if (!mir_strcmp(szCurr, it->szShortName))
