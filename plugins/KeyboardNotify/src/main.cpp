@@ -298,7 +298,7 @@ static void __cdecl FlashThreadFunction(void*)
 
 			// Wait for exit event
 			if (WaitForSingleObject(hExitEvent, nWaitDelay) == WAIT_OBJECT_0) {
-				g_plugin.debugLogA("%s: got exit signal1", g_plugin.getModule());
+				Netlib_Logf(0, "%s: got exit signal1", g_plugin.getModule());
 				return;
 			}
 		}
@@ -312,7 +312,7 @@ static void __cdecl FlashThreadFunction(void*)
 		Objects[0] = hFlashEvent;
 		Objects[1] = hExitEvent;
 		if (WaitForMultipleObjects(_countof(Objects), Objects, FALSE, INFINITE) != WAIT_OBJECT_0) {
-			g_plugin.debugLogA("%s: got exit signal2", g_plugin.getModule());
+			Netlib_Logf(0, "%s: got exit signal2", g_plugin.getModule());
 			return;
 		}
 
@@ -883,7 +883,7 @@ static int OnMetaChanged(WPARAM wParam, LPARAM)
 
 static int OnPreshutdown(WPARAM, LPARAM)
 {
-	g_plugin.debugLogA("%s: got ME_SYSTEM_PRESHUTDOWN", g_plugin.getModule());
+	Netlib_Logf(0, "%s: got ME_SYSTEM_PRESHUTDOWN", g_plugin.getModule());
 	SetEvent(hExitEvent);
 	return 0;
 }

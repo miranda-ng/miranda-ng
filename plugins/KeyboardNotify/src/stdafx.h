@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h>
 #include <commdlg.h>
 #include <winioctl.h>
+#include <winsock.h>
 #include <Uxtheme.h>
 
 #include <newpluginapi.h>
@@ -40,6 +41,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_metacontacts.h>
+#include <m_netlib.h>
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <m_skin.h>
