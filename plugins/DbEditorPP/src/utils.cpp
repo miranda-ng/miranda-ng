@@ -175,7 +175,7 @@ int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *
 	return 0;
 }
 
-int GetValueW(MCONTACT hContact, const char *module, const char *setting, WCHAR *value, int length)
+int GetValueW(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int length)
 {
 	DBVARIANT dbv = {};
 

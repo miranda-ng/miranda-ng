@@ -212,7 +212,7 @@ int setNumericValue(MCONTACT hContact, const char *module, const char *setting, 
 int IsRealUnicode(wchar_t *value);
 int setTextValue(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int type);
 int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *value, int length);
-int GetValueW(MCONTACT hContact, const char *module, const char *setting, WCHAR *value, int length);
+int GetValueW(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int length);
 int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int maxlen);
 int ApplyProtoFilter(MCONTACT hContact);
 void loadListSettings(HWND hwnd, ColumnsSettings *cs);
