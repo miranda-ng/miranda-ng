@@ -297,8 +297,10 @@ static void __cdecl FlashThreadFunction(void*)
 			ToggleKeyboardLights((BYTE)(data | unchangedLeds));
 
 			// Wait for exit event
-			if (WaitForSingleObject(hExitEvent, nWaitDelay) == WAIT_OBJECT_0)
+			if (WaitForSingleObject(hExitEvent, nWaitDelay) == WAIT_OBJECT_0) {
+				g_plugin.debugLogA("%s: got exit signal1", g_plugin.getModule());
 				return;
+			}
 		}
 		RestoreLEDState();
 
@@ -309,8 +311,10 @@ static void __cdecl FlashThreadFunction(void*)
 		HANDLE Objects[2];
 		Objects[0] = hFlashEvent;
 		Objects[1] = hExitEvent;
-		if (WaitForMultipleObjects(2, Objects, FALSE, INFINITE) == WAIT_OBJECT_0 + 1)
+		if (WaitForMultipleObjects(_countof(Objects), Objects, FALSE, INFINITE) != WAIT_OBJECT_0) {
+			g_plugin.debugLogA("%s: got exit signal2", g_plugin.getModule());
 			return;
+		}
 
 		bEvent = TRUE;
 		bReminderDisabled = TRUE;
@@ -397,7 +401,6 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther)) {
 
 			if (contactCheckProtocol(einfo.szModule, hContact, einfo.eventType) && checkNotifyOptions() && checkStatus(einfo.szModule) && checkXstatus(einfo.szModule))
-
 				SetEvent(hFlashEvent);
 		}
 
@@ -408,12 +411,10 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 static int OnGcEvent(WPARAM, LPARAM lParam)
 {
 	auto *gce = (GCEVENT *)lParam;
-	if (gce->iType == GC_EVENT_MESSAGE && bFlashOnGC) {
-		SESSION_INFO *si = g_chatApi.SM_FindSession(gce->pszID.w, gce->pszModule);
-		if (si)
+	if (gce->iType == GC_EVENT_MESSAGE && bFlashOnGC)
+		if (SESSION_INFO *si = g_chatApi.SM_FindSession(gce->pszID.w, gce->pszModule))
 			if (contactCheckProtocol(si->pszModule, si->hContact, EVENTTYPE_MESSAGE) && checkNotifyOptions() && checkStatus(si->pszModule))
 				SetEvent(hFlashEvent);
-	}
 
 	return 0;
 }
@@ -882,6 +883,7 @@ static int OnMetaChanged(WPARAM wParam, LPARAM)
 
 static int OnPreshutdown(WPARAM, LPARAM)
 {
+	g_plugin.debugLogA("%s: got ME_SYSTEM_PRESHUTDOWN", g_plugin.getModule());
 	SetEvent(hExitEvent);
 	return 0;
 }
@@ -933,6 +935,11 @@ int CMPlugin::Unload()
 
 	// Wait for thread to exit
 	WaitForSingleObject(hThread, INFINITE);
+
+	if (hExitEvent)
+		CloseHandle(hExitEvent);
+	if (hFlashEvent)
+		CloseHandle(hFlashEvent);
 
 	RestoreLEDState();
 	CloseKeyboardDevice();
