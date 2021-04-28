@@ -435,6 +435,8 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 				}
 
 				value = RunConfirmationCode(wszTitle);
+				if (value.IsEmpty())
+					return false;
 			}
 
 			if (!result.IsEmpty())
@@ -453,7 +455,7 @@ CMStringW CVkProto::RunConfirmationCode(LPCWSTR pwszTitle)
 {
 	ENTER_STRING pForm = {};
 	pForm.type = 0;
-	CMStringW wszTitle(FORMAT, L"%s: %s", ptrW(mir_a2u(m_szModuleName)).get(), IsEmpty(pwszTitle) ? TranslateT("Enter confirmation code") : pwszTitle);
+	CMStringW wszTitle(FORMAT, L"%s: %s", m_tszUserName, IsEmpty(pwszTitle) ? TranslateT("Enter confirmation code") : pwszTitle);
 	pForm.caption = wszTitle;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "confirmcode_";
