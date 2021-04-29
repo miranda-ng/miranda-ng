@@ -74,7 +74,7 @@ INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM)
 {
 	if (!hwnd2mainWindow) { // so only opens 1 at a time
 		hRestore = wParam;
-		openMainWindow();
+		(new CMainDlg())->Create();
 	}
 	else {
 		ShowWindow(hwnd2mainWindow, SW_RESTORE);

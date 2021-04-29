@@ -683,9 +683,9 @@ void EditLabel(int item, int subitem)
 }
 
 // hwnd here is to the main window, NOT the listview
-void SettingsListRightClick(HWND hwnd, CContextMenuPos &pos) 
+void CMainDlg::onContextMenu_Settings(CContextMenuPos *pos)
 {
-	if (pos.iCurr == -1) {
+	if (pos->iCurr == -1) {
 		// nowhere.. new item menu
 		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
 		HMENU hSubMenu = GetSubMenu(hMenu, 6);
@@ -696,7 +696,7 @@ void SettingsListRightClick(HWND hwnd, CContextMenuPos &pos)
 			RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // separator
 		}
 
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos.pt.x, pos.pt.y, 0, hwnd, nullptr)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 		case MENU_ADD_BYTE:
 			newSetting(info.hContact, info.module, DBVT_BYTE);
 			break;
@@ -735,8 +735,8 @@ void SettingsListRightClick(HWND hwnd, CContextMenuPos &pos)
 
 	LVITEM lvi = {};
 	lvi.mask = LVIF_IMAGE;
-	lvi.iItem = pos.iCurr;
-	ListView_GetItem(hwnd2List, &lvi);
+	lvi.iItem = pos->iCurr;
+	m_settings.GetItem(&lvi);
 
 	switch (lvi.iImage) {
 	case IMAGE_STRING:
@@ -781,7 +781,7 @@ void SettingsListRightClick(HWND hwnd, CContextMenuPos &pos)
 		break;
 	}
 
-	if (ListView_GetSelectedCount(hwnd2List) > 1) {
+	if (m_settings.GetSelectedCount() > 1) {
 		RemoveMenu(hSubMenu, 3, MF_BYPOSITION); // convert
 		RemoveMenu(hSubMenu, MENU_EDIT_SET, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_COPY_SET, MF_BYCOMMAND);
@@ -789,14 +789,15 @@ void SettingsListRightClick(HWND hwnd, CContextMenuPos &pos)
 	}
 
 	char setting[FLD_SIZE];
-	if (!ListView_GetItemTextA(hwnd2List, pos.iCurr, 0, setting, _countof(setting))) return;
+	if (!ListView_GetItemTextA(m_settings.GetHwnd(), pos->iCurr, 0, setting, _countof(setting)))
+		return;
 
 	// check if the setting is being watched and if it is then check the menu item
 	int watchIdx = WatchedArrayIndex(info.hContact, info.module, setting, 1);
 	if (watchIdx >= 0)
 		CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
 
-	switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos.pt.x, pos.pt.y, 0, hwnd, nullptr)) {
+	switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 	case MENU_EDIT_SET:
 		editSetting(info.hContact, info.module, setting);
 		break;

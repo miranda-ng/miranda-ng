@@ -220,7 +220,44 @@ void saveListSettings(HWND hwnd, ColumnsSettings *cs);
 INT_PTR CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam);
 
 // main_window
-void openMainWindow();
+
+class CMainDlg : public CDlgBase
+{
+	int splitterPos;
+	int lastColumn = -1;
+
+	CSplitter m_splitter;
+	CCtrlTreeView m_modules;
+	CCtrlListView m_settings;
+
+	UI_MESSAGE_MAP(CMainDlg, CDlgBase);
+		UI_MESSAGE(WM_FINDITEM, OnFindItem);
+		UI_MESSAGE(WM_COMMAND, OnCommand);
+	UI_MESSAGE_MAP_END();
+
+public:
+	CMainDlg();
+
+	bool OnInitDialog() override;
+	void OnDestroy() override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
+
+	LRESULT OnFindItem(UINT, WPARAM, LPARAM);
+	LRESULT OnCommand(UINT, WPARAM, LPARAM);
+
+	void onChange_Splitter(CSplitter*);
+
+	void onItemExpand_Modules(CCtrlTreeView::TEventInfo *ev);
+	void onSelChanged_Modules(CCtrlTreeView::TEventInfo *ev);
+	void onBeginLabelEdit_Modules(CCtrlTreeView::TEventInfo *ev);
+	void onEndLabelEdit_Modules(CCtrlTreeView::TEventInfo *ev);
+	void onContextMenu_Modules(CContextMenuPos *pos);
+
+	void onClick_Settings(CCtrlListView::TEventInfo *ev);
+	void onDblClick_Settings(CCtrlListView::TEventInfo *ev);
+	void onColumnClick_Settings(CCtrlListView::TEventInfo *ev);
+	void onContextMenu_Settings(CContextMenuPos *pos);
+};
 
 // deletemodules
 int deleteModule(MCONTACT hContact, const char *module, int confirm);

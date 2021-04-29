@@ -451,15 +451,15 @@ void refreshTree(int restore)
 }
 
 // hwnd here is to the main window, NOT the treview
-void moduleListRightClick(HWND hwnd, CContextMenuPos &pos)
+void CMainDlg::onContextMenu_Modules(CContextMenuPos *pos)
 {
 	wchar_t text[FLD_SIZE];
-	TVITEM tvi = {};
+	TVITEMEX tvi = {};
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
-	tvi.hItem = pos.hItem;
+	tvi.hItem = pos->hItem;
 	tvi.pszText = text;
 	tvi.cchTextMax = _countof(text);
-	TreeView_GetItem(hwnd2Tree, &tvi);
+	m_modules.GetItem(&tvi);
 	if (!tvi.lParam)
 		return;
 
@@ -496,15 +496,15 @@ void moduleListRightClick(HWND hwnd, CContextMenuPos &pos)
 			if (watchIdx >= 0)
 				CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
 
-			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos.pt.x, pos.pt.y, 0, hwnd, nullptr)) {
+			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 			case MENU_RENAME_MOD:
 				skipEnter = true;
-				TreeView_EditLabel(hwnd2Tree, tvi.hItem);
+				m_modules.EditLabel(tvi.hItem);
 				break;
 
 			case MENU_DELETE_MOD:
 				if (deleteModule(hContact, module, 1)) {
-					TreeView_DeleteItem(hwnd2Tree, pos.hItem);
+					m_modules.DeleteItem(pos->hItem);
 					mir_free(mtis);
 				}
 				break;
@@ -538,7 +538,7 @@ void moduleListRightClick(HWND hwnd, CContextMenuPos &pos)
 		break;
 
 	case 2: // contact
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos.pt.x, pos.pt.y, 0, hwnd, nullptr)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 		case MENU_CLONE_CONTACT:
 			if (CloneContact(hContact))
 				refreshTree(1);
@@ -553,21 +553,21 @@ void moduleListRightClick(HWND hwnd, CContextMenuPos &pos)
 			}
 			db_delete_contact(hContact);
 			freeTree(hContact);
-			TreeView_DeleteItem(hwnd2Tree, tvi.hItem);
+			m_modules.DeleteItem(tvi.hItem);
 			break;
 
-			////////////////////////////////////////////////////////////////////// divider
 		case MENU_EXPORTCONTACT:
 			exportDB(hContact, nullptr);
 			break;
+
 		case MENU_IMPORTFROMTEXT:
 			ImportSettingsMenuItem(hContact);
 			break;
+
 		case MENU_IMPORTFROMFILE:
 			ImportSettingsFromFileMenuItem(hContact, nullptr);
 			break;
 
-			////////////////////////////////////////////////////////////////////// divider
 		case MENU_ADD_MODULE:
 			addModuleDlg(hContact);
 			break;
@@ -579,7 +579,7 @@ void moduleListRightClick(HWND hwnd, CContextMenuPos &pos)
 		break;
 
 	case 3: // NULL contact
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos.pt.x, pos.pt.y, 0, hwnd, nullptr)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 		case MENU_ADD_MODULE:
 			addModuleDlg(hContact);
 			break;
@@ -599,7 +599,7 @@ void moduleListRightClick(HWND hwnd, CContextMenuPos &pos)
 		break;
 
 	case 4: // Contacts root
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos.pt.x, pos.pt.y, 0, hwnd, nullptr)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 		case MENU_EXPORTCONTACT:
 			exportDB(INVALID_CONTACT_ID, "");
 			break;
