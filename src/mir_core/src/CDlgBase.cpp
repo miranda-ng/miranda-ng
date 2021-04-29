@@ -351,12 +351,12 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CONTEXTMENU:
 		if (CCtrlBase *ctrl = FindControl(HWND(wParam))) {
-			CContextMenuPos pos;
-			ctrl->GetCaretPos(pos);
+			CContextMenuPos pos = {};
 			if (lParam != -1) {
 				pos.pt.x = GET_X_LPARAM(lParam);
 				pos.pt.y = GET_Y_LPARAM(lParam);
 			}
+			ctrl->GetCaretPos(pos);
 			ctrl->OnBuildMenu(&pos);
 		}
 		break;

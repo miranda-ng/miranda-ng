@@ -130,7 +130,7 @@ HANDLE CCtrlClc::GetSelection() const
 {	return (HANDLE)SendMessage(m_hwnd, CLM_GETSELECTION, 0, 0);
 }
 
-HANDLE CCtrlClc::HitTest(int x, int y, DWORD *hitTest)
+HANDLE CCtrlClc::HitTest(int x, int y, DWORD *hitTest) const
 {	return (HANDLE)SendMessage(m_hwnd, CLM_HITTEST, (WPARAM)hitTest, MAKELPARAM(x,y));
 }
 

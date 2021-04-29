@@ -152,14 +152,28 @@ LPARAM CCtrlListView::GetItemData(int iItem) const
 void CCtrlListView::GetCaretPos(CContextMenuPos &pos) const
 {
 	pos.pCtrl = this;
-	pos.iCurr = GetSelectionMark();
-	if (pos.iCurr != -1) {
-		RECT rc;
-		GetItemRect(pos.iCurr, &rc, TRUE);
-		pos.pt.x = rc.left;
-		pos.pt.y = rc.top;
+
+	// position is empty, let's fill it using selection
+	if (pos.pt.x == 0 && pos.pt.y == 0) {
+		pos.iCurr = GetSelectionMark();
+		if (pos.iCurr != -1) {
+			RECT rc;
+			GetItemRect(pos.iCurr, &rc, TRUE);
+			pos.pt.x = rc.left;
+			pos.pt.y = rc.top;
+			return;
+		}
 	}
-	else CSuper::GetCaretPos(pos);
+	// position is present, let's calculate current item
+	else {
+		LVHITTESTINFO hti;
+		hti.pt = pos.pt;
+		if (SubItemHitTest(&hti) != -1) {
+			pos.iCurr = hti.iItem;
+			return;
+		}
+	}
+	CSuper::GetCaretPos(pos);
 }
 
 // classic api
@@ -337,7 +351,7 @@ void CCtrlListView::GetWorkAreas(INT nWorkAreas, LPRECT lprc) const
 BOOL CCtrlListView::HasGroup(int dwGroupId)
 {	return ListView_HasGroup(m_hwnd, dwGroupId);
 }
-int CCtrlListView::HitTest(LPLVHITTESTINFO pinfo)
+int CCtrlListView::HitTest(LPLVHITTESTINFO pinfo) const
 {	return ListView_HitTest(m_hwnd, pinfo);
 }
 int CCtrlListView::InsertColumn(int iCol, const LPLVCOLUMN pcol)
@@ -496,7 +510,7 @@ BOOL CCtrlListView::SortItems(PFNLVCOMPARE pfnCompare, LPARAM lParamSort)
 BOOL CCtrlListView::SortItemsEx(PFNLVCOMPARE pfnCompare, LPARAM lParamSort)
 {	return ListView_SortItemsEx(m_hwnd, pfnCompare, lParamSort);
 }
-INT CCtrlListView::SubItemHitTest(LPLVHITTESTINFO pInfo)
+INT CCtrlListView::SubItemHitTest(LPLVHITTESTINFO pInfo) const
 {	return ListView_SubItemHitTest(m_hwnd, pInfo);
 }
 BOOL CCtrlListView::Update(int iItem)

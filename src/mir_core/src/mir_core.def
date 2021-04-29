@@ -697,9 +697,9 @@ mir_wstrcmpi                  @280
 ?GlobalDlgResizer@CDlgBase@@CAHPAUHWND__@@JPAUUTILRESIZECONTROL@@@Z @885 NONAME
 ?GlobalSubclassWndProc@CCtrlBase@@CGJPAUHWND__@@IIJ@Z @886 NONAME
 ?HasGroup@CCtrlListView@@QAEHH@Z @887 NONAME
-?HitTest@CCtrlClc@@QAEPAXHHPAK@Z @888 NONAME
-?HitTest@CCtrlListView@@QAEHPAUtagLVHITTESTINFO@@@Z @889 NONAME
-?HitTest@CCtrlTreeView@@QAEPAU_TREEITEM@@PAUtagTVHITTESTINFO@@@Z @890 NONAME
+?HitTest@CCtrlClc@@QBEPAXHHPAK@Z @888 NONAME
+?HitTest@CCtrlListView@@QBEHPAUtagLVHITTESTINFO@@@Z @889 NONAME
+?HitTest@CCtrlTreeView@@QBEPAU_TREEITEM@@PAUtagTVHITTESTINFO@@@Z @890 NONAME
 ?InsertColumn@CCtrlListView@@QAEHHQAUtagLVCOLUMNW@@@Z @891 NONAME
 ?InsertGroup@CCtrlListView@@QAEHHPAUtagLVGROUP@@@Z @892 NONAME
 ?InsertGroupSorted@CCtrlListView@@QAEXPAUtagLVINSERTGROUPSORTED@@@Z @893 NONAME
@@ -857,7 +857,7 @@ mir_wstrcmpi                  @280
 ?SortGroups@CCtrlListView@@QAEHP6GHHHPAX@Z0@Z @1056 NONAME
 ?SortItems@CCtrlListView@@QAEHP6GHJJJ@ZJ@Z @1057 NONAME
 ?SortItemsEx@CCtrlListView@@QAEHP6GHJJJ@ZJ@Z @1058 NONAME
-?SubItemHitTest@CCtrlListView@@QAEHPAUtagLVHITTESTINFO@@@Z @1059 NONAME
+?SubItemHitTest@CCtrlListView@@QBEHPAUtagLVHITTESTINFO@@@Z @1059 NONAME
 ?Subclass@CCtrlBase@@IAEXXZ @1060 NONAME
 ?ThemeDialogBackground@CDlgBase@@IAEXH@Z @1061 NONAME
 ?TranslateItem@CCtrlTreeView@@QAEXPAU_TREEITEM@@@Z @1062 NONAME

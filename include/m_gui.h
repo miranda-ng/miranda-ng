@@ -459,7 +459,10 @@ struct CContextMenuPos
 {
 	const CCtrlBase *pCtrl;
 	POINT pt;
-	INT_PTR iCurr; // int for list boxes, HTREEITEM for treeview
+	union {
+		int iCurr; // int for list boxes
+		HTREEITEM hItem;
+	};
 };
 
 class MIR_CORE_EXPORT CCtrlBase
@@ -686,7 +689,7 @@ public:
 	int        GetItemType(HANDLE hItem) const;
 	HANDLE     GetNextItem(HANDLE hItem, DWORD flags) const;
 	HANDLE     GetSelection() const;
-	HANDLE     HitTest(int x, int y, DWORD *hitTest);
+	HANDLE     HitTest(int x, int y, DWORD *hitTest) const;
 	void       SelectItem(HANDLE hItem);
 	void       SetBkColor(COLORREF clBack);
 	void       SetCheck(HANDLE hItem, bool check);
@@ -1046,7 +1049,7 @@ public:
 	BOOL       GetViewRect(RECT *prc) const;
 	void       GetWorkAreas(INT nWorkAreas, LPRECT lprc) const;
 	BOOL       HasGroup(int dwGroupId);
-	int        HitTest(LPLVHITTESTINFO pinfo);
+	int        HitTest(LPLVHITTESTINFO pinfo) const;
 	int        HitTestEx(LPLVHITTESTINFO pinfo);
 	int        InsertColumn(int iCol, const LPLVCOLUMN pcol);
 	int        InsertGroup(int index, PLVGROUP pgrp);
@@ -1102,7 +1105,7 @@ public:
 	int        SortGroups(PFNLVGROUPCOMPARE pfnGroupCompare, LPVOID plv);
 	BOOL       SortItems(PFNLVCOMPARE pfnCompare, LPARAM lParamSort);
 	BOOL       SortItemsEx(PFNLVCOMPARE pfnCompare, LPARAM lParamSort);
-	INT        SubItemHitTest(LPLVHITTESTINFO pInfo);
+	INT        SubItemHitTest(LPLVHITTESTINFO pInfo) const;
 	INT        SubItemHitTestEx(LPLVHITTESTINFO plvhti);
 	BOOL       Update(int iItem);
 
@@ -1215,7 +1218,7 @@ public:
 	HWND       GetToolTips() const;
 	BOOL       GetUnicodeFormat() const;
 	unsigned   GetVisibleCount() const;
-	HTREEITEM  HitTest(TVHITTESTINFO *hti);
+	HTREEITEM  HitTest(TVHITTESTINFO *hti) const;
 	HTREEITEM  InsertItem(TVINSERTSTRUCT *tvis);
 	void       Select(HTREEITEM hItem, DWORD flag);
 	void       SelectDropTarget(HTREEITEM hItem);

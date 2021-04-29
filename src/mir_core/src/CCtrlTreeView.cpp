@@ -550,17 +550,33 @@ void CCtrlTreeView::Select(LIST<_TREEITEM> &selected)
 
 void CCtrlTreeView::GetCaretPos(CContextMenuPos &pos) const
 {
-	HTREEITEM hItem = GetSelection();
-	if (hItem != nullptr) {
-		pos.pCtrl = this;
-		pos.iCurr = (INT_PTR)hItem;
-		
-		RECT rc;
-		GetItemRect(hItem, &rc, TRUE);
-		pos.pt.x = rc.left;
-		pos.pt.y = rc.top;
+	pos.pCtrl = this;
+
+	// position is empty, let's fill it using selection
+	if (pos.pt.x == 0 && pos.pt.y == 0) {
+		HTREEITEM hItem = GetSelection();
+		if (hItem != nullptr) {
+			pos.pCtrl = this;
+			pos.iCurr = (INT_PTR)hItem;
+
+			RECT rc;
+			GetItemRect(hItem, &rc, TRUE);
+			pos.pt.x = rc.left;
+			pos.pt.y = rc.top;
+			return;
+		}
 	}
-	else CSuper::GetCaretPos(pos);
+	// position is present, let's calculate current item
+	else {
+		TVHITTESTINFO hti;
+		hti.pt = pos.pt;
+		if (HitTest(&hti) && (hti.flags & TVHT_ONITEM)) {
+			pos.hItem = hti.hItem;
+			return;
+		}
+	}
+
+	CSuper::GetCaretPos(pos);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -709,7 +725,7 @@ unsigned CCtrlTreeView::GetVisibleCount() const
 {	return TreeView_GetVisibleCount(m_hwnd);
 }
 
-HTREEITEM CCtrlTreeView::HitTest(TVHITTESTINFO *hti)
+HTREEITEM CCtrlTreeView::HitTest(TVHITTESTINFO *hti) const
 {	return TreeView_HitTest(m_hwnd, hti);
 }
 

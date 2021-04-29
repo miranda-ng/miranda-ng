@@ -181,7 +181,9 @@ void CCtrlBase::GetCaretPos(CContextMenuPos &pos) const
 {
 	pos.pCtrl = this;
 	pos.iCurr = -1;
-	GetCursorPos(&pos.pt);
+
+	if (pos.pt.x == 0 && pos.pt.y == 0)
+		GetCursorPos(&pos.pt);
 }
 
 LRESULT CCtrlBase::CustomWndProc(UINT, WPARAM, LPARAM)

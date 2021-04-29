@@ -42,12 +42,15 @@ BOOL CCtrlListBox::OnCommand(HWND, WORD, WORD idCode)
 void CCtrlListBox::GetCaretPos(CContextMenuPos &pos) const
 {
 	pos.pCtrl = this;
-	pos.iCurr = GetCurSel();
-	if (pos.iCurr != -1) {
-		RECT rc;
-		GetItemRect(pos.iCurr, &rc);
-		pos.pt.x = rc.left;
-		pos.pt.y = rc.top;
+	if (pos.pt.x == 0 && pos.pt.y == 0) {
+		pos.iCurr = GetCurSel();
+		if (pos.iCurr != -1) {
+			RECT rc;
+			GetItemRect(pos.iCurr, &rc);
+			pos.pt.x = rc.left;
+			pos.pt.y = rc.top;
+		}
+		else CSuper::GetCaretPos(pos);
 	}
 	else CSuper::GetCaretPos(pos);
 }
