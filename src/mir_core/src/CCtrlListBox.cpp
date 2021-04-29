@@ -39,6 +39,21 @@ BOOL CCtrlListBox::OnCommand(HWND, WORD, WORD idCode)
 	return TRUE;
 }
 
+void CCtrlListBox::GetCaretPos(CContextMenuPos &pos) const
+{
+	pos.pCtrl = this;
+	pos.iCurr = GetCurSel();
+	if (pos.iCurr != -1) {
+		RECT rc;
+		GetItemRect(pos.iCurr, &rc);
+		pos.pt.x = rc.left;
+		pos.pt.y = rc.top;
+	}
+	else CSuper::GetCaretPos(pos);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CCtrlListBox::AddString(const wchar_t *text, LPARAM data)
 {
 	int iItem = ListBox_AddString(m_hwnd, text);
@@ -54,30 +69,30 @@ int CCtrlListBox::FindString(const wchar_t *str, int index, bool exact)
 {	return SendMessage(m_hwnd, exact?LB_FINDSTRINGEXACT:LB_FINDSTRING, index, (LPARAM)str);
 }
 
-int CCtrlListBox::GetCount()
+int CCtrlListBox::GetCount() const
 {	return ListBox_GetCount(m_hwnd);
 }
 
-int CCtrlListBox::GetCurSel()
+int CCtrlListBox::GetCurSel() const
 {	return ListBox_GetCurSel(m_hwnd);
 }
 
-LPARAM CCtrlListBox::GetItemData(int index)
+LPARAM CCtrlListBox::GetItemData(int index) const
 {	return ListBox_GetItemData(m_hwnd, index);
 }
 
-int CCtrlListBox::GetItemRect(int index, RECT *pResult)
+int CCtrlListBox::GetItemRect(int index, RECT *pResult) const
 {	return ListBox_GetItemRect(m_hwnd, index, pResult);
 }
 
-wchar_t* CCtrlListBox::GetItemText(int index)
+wchar_t* CCtrlListBox::GetItemText(int index) const
 {
 	wchar_t *result = (wchar_t *)mir_alloc(sizeof(wchar_t) * (SendMessage(m_hwnd, LB_GETTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, LB_GETTEXT, index, (LPARAM)result);
 	return result;
 }
 
-wchar_t* CCtrlListBox::GetItemText(int index, wchar_t *buf, int size)
+wchar_t* CCtrlListBox::GetItemText(int index, wchar_t *buf, int size) const
 {
 	wchar_t *result = (wchar_t *)_alloca(sizeof(wchar_t) * (SendMessage(m_hwnd, LB_GETTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, LB_GETTEXT, index, (LPARAM)result);
@@ -85,21 +100,21 @@ wchar_t* CCtrlListBox::GetItemText(int index, wchar_t *buf, int size)
 	return buf;
 }
 
-bool CCtrlListBox::GetSel(int index)
+bool CCtrlListBox::GetSel(int index) const
 {	return ListBox_GetSel(m_hwnd, index) ? true : false;
 }
 
-int CCtrlListBox::GetSelCount()
+int CCtrlListBox::GetSelCount() const
 {	return ListBox_GetSelCount(m_hwnd);
 }
 
-int* CCtrlListBox::GetSelItems(int *items, int count)
+int* CCtrlListBox::GetSelItems(int *items, int count) const
 {
 	ListBox_GetSelItems(m_hwnd, count, items);
 	return items;
 }
 
-int* CCtrlListBox::GetSelItems()
+int* CCtrlListBox::GetSelItems() const
 {
 	int count = GetSelCount() + 1;
 	int *result = (int *)mir_alloc(sizeof(int) * count);

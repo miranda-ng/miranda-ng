@@ -246,7 +246,7 @@ public:
 	__inline CDataLink(BYTE type) : m_type(type) {}
 	virtual ~CDataLink() {}
 
-	__inline BYTE GetDataType() { return m_type; }
+	__inline BYTE GetDataType() const { return m_type; }
 
 	virtual DWORD LoadInt() = 0;
 	virtual void  SaveInt(DWORD value) = 0;
@@ -455,6 +455,13 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlBase
 
+struct CContextMenuPos
+{
+	const CCtrlBase *pCtrl;
+	POINT pt;
+	INT_PTR iCurr; // int for list boxes, HTREEITEM for treeview
+};
+
 class MIR_CORE_EXPORT CCtrlBase
 {
 	friend class CDlgBase;
@@ -488,15 +495,15 @@ public:
 	void SetTextA(const char *text);
 	void SetInt(int value);
 
-	wchar_t* GetText();
-	char*    GetTextA();
-	char*    GetTextU();
+	wchar_t* GetText() const;
+	char*    GetTextA() const;
+	char*    GetTextU() const;
 
-	wchar_t* GetText(wchar_t *buf, size_t size);
-	char*    GetTextA(char *buf, size_t size);
-	char*    GetTextU(char *buf, size_t size);
+	wchar_t* GetText(wchar_t *buf, size_t size) const;
+	char*    GetTextA(char *buf, size_t size) const;
+	char*    GetTextU(char *buf, size_t size) const;
 
-	int      GetInt();
+	int      GetInt() const;
 
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { return FALSE; }
 	virtual BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
@@ -519,10 +526,12 @@ protected:
 
 public:
 	CCallback<CCtrlBase> OnChange;
-	CCallback<CCtrlBase> OnBuildMenu;
+	CCallback<CContextMenuPos> OnBuildMenu;
 
 protected:
+	virtual void GetCaretPos(CContextMenuPos&) const;
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+
 	void Subclass();
 	void Unsubclass();
 
@@ -654,6 +663,7 @@ public:
 
 	void       AddContact(MCONTACT hContact);
 	void       AddGroup(HANDLE hGroup);
+	HANDLE     AddInfoItem(CLCINFOITEM *cii);
 	void       AutoRebuild();
 	void       DeleteItem(HANDLE hItem);
 	void       EditLabel(HANDLE hItem);
@@ -662,35 +672,34 @@ public:
 	void       Expand(HANDLE hItem, DWORD flags);
 	HANDLE     FindContact(MCONTACT hContact);
 	HANDLE     FindGroup(MGROUP hGroup);
-	COLORREF   GetBkColor();
-	bool       GetCheck(HANDLE hItem);
-	int        GetCount();
-	HWND       GetEditControl();
-	DWORD      GetExpand(HANDLE hItem);
-	int        GetExtraColumns();
-	BYTE       GetExtraImage(HANDLE hItem, int iColumn);
-	HIMAGELIST GetExtraImageList();
-	HFONT      GetFont(int iFontId);
-	HANDLE     GetSelection();
+	COLORREF   GetBkColor() const;
+	bool       GetCheck(HANDLE hItem) const;
+	int        GetCount() const;
+	HWND       GetEditControl() const;
+	DWORD      GetExStyle() const;
+	DWORD      GetExpand(HANDLE hItem) const;
+	int        GetExtraColumns() const;
+	BYTE       GetExtraImage(HANDLE hItem, int iColumn) const;
+	HIMAGELIST GetExtraImageList() const;
+	HFONT      GetFont(int iFontId) const;
+	bool       GetHideOfflineRoot() const;
+	int        GetItemType(HANDLE hItem) const;
+	HANDLE     GetNextItem(HANDLE hItem, DWORD flags) const;
+	HANDLE     GetSelection() const;
 	HANDLE     HitTest(int x, int y, DWORD *hitTest);
 	void       SelectItem(HANDLE hItem);
 	void       SetBkColor(COLORREF clBack);
 	void       SetCheck(HANDLE hItem, bool check);
+	void       SetExStyle(DWORD exStyle);
 	void       SetExtraColumns(int iColumns);
 	void       SetExtraImage(HANDLE hItem, int iColumn, int iImage);
 	void       SetExtraImageList(HIMAGELIST hImgList);
 	void       SetFont(int iFontId, HANDLE hFont, bool bRedraw);
 	void       SetItemText(HANDLE hItem, char *szText);
 	void       SetHideEmptyGroups(bool state);
-	bool       GetHideOfflineRoot();
 	void       SetHideOfflineRoot(bool state);
-	void       SetUseGroups(bool state);
 	void       SetOfflineModes(DWORD modes);
-	DWORD      GetExStyle();
-	void       SetExStyle(DWORD exStyle);
-	HANDLE     AddInfoItem(CLCINFOITEM *cii);
-	int        GetItemType(HANDLE hItem);
-	HANDLE     GetNextItem(HANDLE hItem, DWORD flags);
+	void       SetUseGroups(bool state);
 	
 	struct TEventInfo
 	{
@@ -756,7 +765,7 @@ public:
 	bool OnApply() override;
 	void OnReset() override;
 
-	int GetState();
+	int GetState() const;
 	void SetState(int state);
 
 	bool IsChecked();
@@ -856,7 +865,7 @@ public:
 	bool OnApply() override;
 	void OnReset() override;
 
-	int  GetPosition();
+	int  GetPosition() const;
 	void SetPosition(int pos);
 };
 
@@ -894,16 +903,16 @@ public:
 	int      AddString(const wchar_t *text, LPARAM data=0);
 	void     DeleteString(int index);
 	int      FindString(const wchar_t *str, int index = -1, bool exact = false);
-	int      GetCount();
-	int      GetCurSel();
-	LPARAM   GetItemData(int index);
-	int      GetItemRect(int index, RECT *pResult);
-	wchar_t* GetItemText(int index);
-	wchar_t* GetItemText(int index, wchar_t *buf, int size);
-	bool     GetSel(int index);
-	int      GetSelCount();
-	int*     GetSelItems(int *items, int count);
-	int*     GetSelItems();
+	int      GetCount() const;
+	int      GetCurSel() const;
+	LPARAM   GetItemData(int index) const;
+	int      GetItemRect(int index, RECT *pResult) const;
+	wchar_t* GetItemText(int index) const;
+	wchar_t* GetItemText(int index, wchar_t *buf, int size) const;
+	bool     GetSel(int index) const;
+	int      GetSelCount() const;
+	int*     GetSelItems(int *items, int count) const;
+	int*     GetSelItems() const;
 	int      InsertString(const wchar_t *text, int pos, LPARAM data=0);
 	void     ResetContent();
 	int      SelectString(const wchar_t *str);
@@ -919,6 +928,7 @@ public:
 
 protected:
 	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
+	void GetCaretPos(CContextMenuPos&) const override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -942,12 +952,12 @@ public:
 	void     DeleteString(int index);
 	int      FindString(const wchar_t *str, int index = -1, bool exact = false);
 	int      FindStringA(const char *str, int index = -1, bool exact = false);
-	int      GetCount();
-	int      GetCurSel();
-	bool     GetDroppedState();
-	LPARAM   GetItemData(int index);
-	wchar_t* GetItemText(int index);
-	wchar_t* GetItemText(int index, wchar_t *buf, int size);
+	int      GetCount() const;
+	int      GetCurSel() const;
+	bool     GetDroppedState() const;
+	LPARAM   GetItemData(int index) const;
+	wchar_t* GetItemText(int index) const;
+	wchar_t* GetItemText(int index, wchar_t *buf, int size) const;
 	int      InsertString(const wchar_t *text, int pos, LPARAM data=0);
 	void     ResetContent();
 	int      SelectString(const wchar_t *str);
@@ -984,57 +994,57 @@ public:
 	int        EnableGroupView(BOOL fEnable);
 	BOOL       EnsureVisible(int i, BOOL fPartialOK);
 	int        FindItem(int iStart, const LVFINDINFO *plvfi);
-	COLORREF   GetBkColor();
-	void       GetBkImage(LPLVBKIMAGE plvbki);
-	UINT       GetCallbackMask();
-	BOOL       GetCheckState(UINT iIndex);
-	void       GetColumn(int iCol, LPLVCOLUMN pcol);
-	void       GetColumnOrderArray(int iCount, int *lpiArray);
-	int        GetColumnWidth(int iCol);
-	int        GetCountPerPage();
-	HWND       GetEditControl();
-	DWORD      GetExtendedListViewStyle();
-	INT        GetFocusedGroup();
-	int        GetGroupCount();
-	void       GetGroupInfo(int iGroupId, PLVGROUP pgrp);
-	void       GetGroupInfoByIndex(int iIndex, PLVGROUP pgrp);
-	void       GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics);
-	UINT       GetGroupState(UINT dwGroupId, UINT dwMask);
-	HWND       GetHeader();
-	HCURSOR    GetHotCursor();
-	INT        GetHotItem();
-	DWORD      GetHoverTime();
-	HIMAGELIST GetImageList(int iImageList);
-	BOOL       GetInsertMark(LVINSERTMARK *plvim);
-	COLORREF   GetInsertMarkColor();
-	int        GetInsertMarkRect(LPRECT prc);
-	BOOL       GetISearchString(LPSTR lpsz);
-	bool       GetItem(LPLVITEM pitem);
-	int        GetItemCount();
-	void       GetItemPosition(int i, POINT *ppt);
-	void       GetItemRect(int i, RECT *prc, int code);
-	DWORD      GetItemSpacing(BOOL fSmall);
-	UINT       GetItemState(int i, UINT mask);
-	void       GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cchTextMax);
-	int        GetNextItem(int iStart, UINT flags);
-	BOOL       GetNumberOfWorkAreas(LPUINT lpuWorkAreas);
-	BOOL       GetOrigin(LPPOINT lpptOrg);
-	COLORREF   GetOutlineColor();
-	UINT       GetSelectedColumn();
-	UINT       GetSelectedCount();
-	INT        GetSelectionMark();
-	int        GetStringWidth(LPCSTR psz);
-	BOOL       GetSubItemRect(int iItem, int iSubItem, int code, LPRECT lpRect);
-	COLORREF   GetTextBkColor();
-	COLORREF   GetTextColor();
-	void       GetTileInfo(PLVTILEINFO plvtinfo);
-	void       GetTileViewInfo(PLVTILEVIEWINFO plvtvinfo);
-	HWND       GetToolTips();
-	int        GetTopIndex();
-	BOOL       GetUnicodeFormat();
-	DWORD      GetView();
-	BOOL       GetViewRect(RECT *prc);
-	void       GetWorkAreas(INT nWorkAreas, LPRECT lprc);
+	COLORREF   GetBkColor() const;
+	void       GetBkImage(LPLVBKIMAGE plvbki) const;
+	UINT       GetCallbackMask() const;
+	BOOL       GetCheckState(UINT iIndex) const;
+	void       GetColumn(int iCol, LPLVCOLUMN pcol) const;
+	void       GetColumnOrderArray(int iCount, int *lpiArray) const;
+	int        GetColumnWidth(int iCol) const;
+	int        GetCountPerPage() const;
+	HWND       GetEditControl() const;
+	DWORD      GetExtendedListViewStyle() const;
+	INT        GetFocusedGroup() const;
+	int        GetGroupCount() const;
+	void       GetGroupInfo(int iGroupId, PLVGROUP pgrp) const;
+	void       GetGroupInfoByIndex(int iIndex, PLVGROUP pgrp) const;
+	void       GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics) const;
+	UINT       GetGroupState(UINT dwGroupId, UINT dwMask) const;
+	HWND       GetHeader() const;
+	HCURSOR    GetHotCursor() const;
+	INT        GetHotItem() const;
+	DWORD      GetHoverTime() const;
+	HIMAGELIST GetImageList(int iImageList) const;
+	BOOL       GetInsertMark(LVINSERTMARK *plvim) const;
+	COLORREF   GetInsertMarkColor() const;
+	int        GetInsertMarkRect(LPRECT prc) const;
+	BOOL       GetISearchString(LPSTR lpsz) const;
+	bool       GetItem(LPLVITEM pitem) const;
+	int        GetItemCount() const;
+	void       GetItemPosition(int i, POINT *ppt) const;
+	void       GetItemRect(int i, RECT *prc, int code) const;
+	DWORD      GetItemSpacing(BOOL fSmall) const;
+	UINT       GetItemState(int i, UINT mask) const;
+	void       GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cchTextMax) const;
+	int        GetNextItem(int iStart, UINT flags) const;
+	BOOL       GetNumberOfWorkAreas(LPUINT lpuWorkAreas) const;
+	BOOL       GetOrigin(LPPOINT lpptOrg) const;
+	COLORREF   GetOutlineColor() const;
+	UINT       GetSelectedColumn() const;
+	UINT       GetSelectedCount() const;
+	INT        GetSelectionMark() const;
+	int        GetStringWidth(LPCSTR psz) const;
+	BOOL       GetSubItemRect(int iItem, int iSubItem, int code, LPRECT lpRect) const;
+	COLORREF   GetTextBkColor() const;
+	COLORREF   GetTextColor() const;
+	void       GetTileInfo(PLVTILEINFO plvtinfo) const;
+	void       GetTileViewInfo(PLVTILEVIEWINFO plvtvinfo) const;
+	HWND       GetToolTips() const;
+	int        GetTopIndex() const;
+	BOOL       GetUnicodeFormat() const;
+	DWORD      GetView() const;
+	BOOL       GetViewRect(RECT *prc) const;
+	void       GetWorkAreas(INT nWorkAreas, LPRECT lprc) const;
 	BOOL       HasGroup(int dwGroupId);
 	int        HitTest(LPLVHITTESTINFO pinfo);
 	int        HitTestEx(LPLVHITTESTINFO pinfo);
@@ -1102,7 +1112,7 @@ public:
 	void       AddGroup(int iGroupId, const wchar_t *name);
 	int        AddItem(const wchar_t *text, int iIcon, LPARAM lParam = 0, int iGroupId = -1);
 	void       SetItem(int iItem, int iSubItem, const wchar_t *text, int iIcon = -1);
-	LPARAM     GetItemData(int iItem);
+	LPARAM     GetItemData(int iItem) const;
 
 	// Events
 	struct TEventInfo {
@@ -1144,6 +1154,7 @@ public:
 
 protected:
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
+	void GetCaretPos(CContextMenuPos&) const override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1175,35 +1186,35 @@ public:
 	void       EndEditLabelNow(BOOL cancel);
 	void       EnsureVisible(HTREEITEM hItem);
 	void       Expand(HTREEITEM hItem, DWORD flag);
-	COLORREF   GetBkColor();
-	DWORD      GetCheckState(HTREEITEM hItem);
-	HTREEITEM  GetChild(HTREEITEM hItem);
-	int        GetCount();
-	HTREEITEM  GetDropHilight();
-	HWND       GetEditControl();
-	HTREEITEM  GetFirstVisible();
-	HIMAGELIST GetImageList(int iImage);
-	int        GetIndent();
-	COLORREF   GetInsertMarkColor();
-	bool       GetItem(TVITEMEX *tvi);
-	int        GetItemHeight();
-	void       GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect);
-	DWORD      GetItemState(HTREEITEM hItem, DWORD stateMask);
-	HTREEITEM  GetLastVisible();
-	COLORREF   GetLineColor();
-	HTREEITEM  GetNextItem(HTREEITEM hItem, DWORD flag);
-	HTREEITEM  GetNextSibling(HTREEITEM hItem);
-	HTREEITEM  GetNextVisible(HTREEITEM hItem);
-	HTREEITEM  GetParent(HTREEITEM hItem);
-	HTREEITEM  GetPrevSibling(HTREEITEM hItem);
-	HTREEITEM  GetPrevVisible(HTREEITEM hItem);
-	HTREEITEM  GetRoot();
-	DWORD      GetScrollTime();
-	HTREEITEM  GetSelection();
-	COLORREF   GetTextColor();
-	HWND       GetToolTips();
-	BOOL       GetUnicodeFormat();
-	unsigned   GetVisibleCount();
+	COLORREF   GetBkColor() const;
+	DWORD      GetCheckState(HTREEITEM hItem) const;
+	HTREEITEM  GetChild(HTREEITEM hItem) const;
+	int        GetCount() const;
+	HTREEITEM  GetDropHilight() const;
+	HWND       GetEditControl() const;
+	HTREEITEM  GetFirstVisible() const;
+	HIMAGELIST GetImageList(int iImage) const;
+	int        GetIndent() const;
+	COLORREF   GetInsertMarkColor() const;
+	bool       GetItem(TVITEMEX *tvi) const;
+	int        GetItemHeight() const;
+	void       GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect) const;
+	DWORD      GetItemState(HTREEITEM hItem, DWORD stateMask) const;
+	HTREEITEM  GetLastVisible() const;
+	COLORREF   GetLineColor() const;
+	HTREEITEM  GetNextItem(HTREEITEM hItem, DWORD flag) const;
+	HTREEITEM  GetNextSibling(HTREEITEM hItem) const;
+	HTREEITEM  GetNextVisible(HTREEITEM hItem) const;
+	HTREEITEM  GetParent(HTREEITEM hItem) const;
+	HTREEITEM  GetPrevSibling(HTREEITEM hItem) const;
+	HTREEITEM  GetPrevVisible(HTREEITEM hItem) const;
+	HTREEITEM  GetRoot() const;
+	DWORD      GetScrollTime() const;
+	HTREEITEM  GetSelection() const;
+	COLORREF   GetTextColor() const;
+	HWND       GetToolTips() const;
+	BOOL       GetUnicodeFormat() const;
+	unsigned   GetVisibleCount() const;
 	HTREEITEM  HitTest(TVHITTESTINFO *hti);
 	HTREEITEM  InsertItem(TVINSERTSTRUCT *tvis);
 	void       Select(HTREEITEM hItem, DWORD flag);
@@ -1231,8 +1242,8 @@ public:
 	void       TranslateItem(HTREEITEM hItem);
 	void       TranslateTree();
 	HTREEITEM  FindNamedItem(HTREEITEM hItem, const wchar_t *name);
-	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi);
-	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi, wchar_t *szText, int iTextLength);
+	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi) const;
+	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi, wchar_t *szText, int iTextLength) const;
 	void       InvertCheck(HTREEITEM hItem);
 
 	bool       IsSelected(HTREEITEM hItem);
@@ -1285,6 +1296,7 @@ protected:
 	void OnDestroy() override;
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	
+	void GetCaretPos(CContextMenuPos&) const override;
 	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	union {

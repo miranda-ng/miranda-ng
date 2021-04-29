@@ -59,7 +59,7 @@ void CCtrlSlider::OnReset()
 		SetPosition(LoadInt());
 }
 
-int CCtrlSlider::GetPosition()
+int CCtrlSlider::GetPosition() const
 {
 	return SendMsg(TBM_GETPOS, 0, 0);
 }

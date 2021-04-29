@@ -350,8 +350,15 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CONTEXTMENU:
-		if (CCtrlBase *ctrl = FindControl(HWND(wParam)))
-			ctrl->OnBuildMenu(ctrl);
+		if (CCtrlBase *ctrl = FindControl(HWND(wParam))) {
+			CContextMenuPos pos;
+			ctrl->GetCaretPos(pos);
+			if (lParam != -1) {
+				pos.pt.x = GET_X_LPARAM(lParam);
+				pos.pt.y = GET_Y_LPARAM(lParam);
+			}
+			ctrl->OnBuildMenu(&pos);
+		}
 		break;
 
 	case WM_SIZE:
