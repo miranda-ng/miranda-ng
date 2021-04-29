@@ -65,10 +65,10 @@
 #define IDC_ARRAYSIZE                   1030
 #define IDC_CURRENTSIZE                 1032
 #define IDC_INFOTEXT                    1033
+#define IDC_BTNREPLACE                  1034
 #define IDC_CRLF                        1035
 #define IDC_CASESENSITIVE               1040
 #define IDC_LIST                        1041
-#define IDC_SEARCH                      1042
 #define IDC_EXACT                       1043
 #define IDC_EXPANDSETTINGS              1044
 #define IDC_SEARCH2                     1045

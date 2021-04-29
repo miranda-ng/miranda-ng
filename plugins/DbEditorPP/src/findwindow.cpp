@@ -348,7 +348,7 @@ class CFindWindowDlg : public CDlgBase
 
 		if (fi->replace) {
 			pDlg->btnReplace.SetText(TranslateT("&Replace"));
-			pDlg->btnSearch.Enable(1);
+			pDlg->btnSearch.Enable();
 		}
 		else {
 			pDlg->btnSearch.SetText(TranslateT("&Search"));
@@ -398,6 +398,22 @@ class CFindWindowDlg : public CDlgBase
 			m_results.SetItemText(index, 4, value);
 	}
 
+	void OpenSettings(int iItem)
+	{
+		ItemInfo ii = {};
+		ii.hContact = (MCONTACT)m_results.GetItemData(iItem);
+		if (ii.hContact == -1)
+			return;
+
+		ListView_GetItemTextA(m_results.GetHwnd(), iItem, 2, ii.module, _countof(ii.module));
+		ListView_GetItemTextA(m_results.GetHwnd(), iItem, 3, ii.setting, _countof(ii.setting));
+		if (ii.setting[0])
+			ii.type = FW_SETTINGNAME;
+		else if (ii.module[0])
+			ii.type = FW_MODULE;
+		SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
+	}
+
 	CCtrlBase m_sb;
 	CCtrlCheck chkModules, chkSettings, chkValues, chkReplaceAll, chkExactMatch, chkCaseSensitive;
 	CCtrlButton btnSearch, btnReplace;
@@ -408,8 +424,8 @@ public:
 		CDlgBase(g_plugin, IDD_FIND),
 		m_sb(this, IDC_SBAR),
 		m_results(this, IDC_LIST),
-		btnReplace(this, IDOK),
-		btnSearch(this, IDC_SEARCH),
+		btnSearch(this, IDOK),
+		btnReplace(this, IDC_BTNREPLACE),
 		chkModules(this, IDC_MODNAME),
 		chkSettings(this, IDC_SETTINGNAME),
 		chkValues(this, IDC_SETTINGVALUE),
@@ -427,7 +443,7 @@ public:
 		CreateLink(chkExactMatch, g_bExactMatch);
 		CreateLink(chkCaseSensitive, g_bCaseSensitive);
 
-		btnSearch.OnClick = Callback(this, &CFindWindowDlg::onClick_Search);
+		btnReplace.OnClick = Callback(this, &CFindWindowDlg::onClick_Search);
 
 		m_results.OnColumnClick = Callback(this, &CFindWindowDlg::onColumnClick_List);
 		m_results.OnDoubleClick = Callback(this, &CFindWindowDlg::onDblClick_List);
@@ -439,7 +455,7 @@ public:
 		CheckDlgButton(m_hwnd, IDC_FOUND, BST_CHECKED);
 		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT)));
 		SetWindowLong(m_hwnd, GWL_EXSTYLE, GetWindowLong(m_hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW); // taskbar icon
-		m_results.SetExtendedListViewStyle(32 | LVS_EX_LABELTIP); // LVS_EX_GRIDLINES
+		m_results.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP); // LVS_EX_GRIDLINES
 		loadListSettings(m_results.GetHwnd(), csResultList);
 		Utils_RestoreWindowPositionNoMove(m_hwnd, NULL, MODULENAME, "Search_");
 		return true;
@@ -447,7 +463,10 @@ public:
 
 	bool OnApply() override
 	{
-		onClick_Search(0);
+		if (::GetFocus() == m_results.GetHwnd())
+			OpenSettings(m_results.GetSelectionMark());
+		else
+			onClick_Search(&btnSearch);
 		return false;
 	}
 
@@ -486,7 +505,7 @@ public:
 
 		// empty replace is done only for exact match or entire replace
 		wchar_t replace[FLD_SIZE] = {};
-		if (pButton->GetCtrlId() == IDOK && !GetDlgItemText(m_hwnd, IDC_REPLACE, replace, _countof(replace)) && !g_bReplaceAll && !g_bExactMatch)
+		if (pButton == &btnReplace && !GetDlgItemText(m_hwnd, IDC_REPLACE, replace, _countof(replace)) && !g_bReplaceAll && !g_bExactMatch)
 			return;
 
 		if (!g_bSearchModule && !g_bSearchSetting && !g_bSearchValues)
@@ -496,7 +515,7 @@ public:
 		fi->pDlg = this;
 		fi->options = (g_bCaseSensitive ? F_CASE : 0) | (g_bExactMatch ? F_EXACT : 0) | (g_bSearchModule ? F_MODNAME : 0) | (g_bSearchSetting ? F_SETNAME : 0) | (g_bSearchValues ? F_SETVAL : 0);
 
-		if (pButton->GetCtrlId() == IDOK) {
+		if (pButton == &btnReplace) {
 			if (g_bReplaceAll)
 				fi->options |= F_ENTIRE;
 
@@ -526,24 +545,8 @@ public:
 		if (m_results.SubItemHitTest(&hti) == -1)
 			return;
 
-		if (hti.flags & LVHT_ONITEM) {
-			LVITEM lvi;
-			lvi.mask = LVIF_PARAM;
-			lvi.iItem = hti.iItem;
-			lvi.iSubItem = 0;
-			if (m_results.GetItem(&lvi)) {
-				ItemInfo ii = {};
-				ii.hContact = (MCONTACT)lvi.lParam;
-				ListView_GetItemTextA(m_results.GetHwnd(), hti.iItem, 2, ii.module, _countof(ii.module));
-				ListView_GetItemTextA(m_results.GetHwnd(), hti.iItem, 3, ii.setting, _countof(ii.setting));
-				if (ii.setting[0])
-					ii.type = FW_SETTINGNAME;
-				else if (ii.module[0])
-					ii.type = FW_MODULE;
-
-				SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
-			}
-		}
+		if (hti.flags & LVHT_ONITEM)
+			OpenSettings(hti.iItem);
 	}
 
 	void onColumnClick_List(CCtrlListView::TEventInfo *ev)
