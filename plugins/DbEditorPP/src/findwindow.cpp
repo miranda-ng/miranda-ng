@@ -12,6 +12,13 @@
 #define F_REPLACED 0x0200
 #define F_DELETED  0x0400
 
+static CMOption<bool> g_bSearchModule(MODULENAME, "SearchModules", true);
+static CMOption<bool> g_bSearchSetting(MODULENAME, "SearchSettings", true);
+static CMOption<bool> g_bSearchValues(MODULENAME, "SearchValues", true);
+static CMOption<bool> g_bReplaceAll(MODULENAME, "ReplaceAll", false);
+static CMOption<bool> g_bExactMatch(MODULENAME, "ExactMatch", false);
+static CMOption<bool> g_bCaseSensitive(MODULENAME, "CaseSensitive", false);
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int FindMatchA(const char *text, char *search, int options)
@@ -392,6 +399,7 @@ class CFindWindowDlg : public CDlgBase
 	}
 
 	CCtrlBase m_sb;
+	CCtrlCheck chkModules, chkSettings, chkValues, chkReplaceAll, chkExactMatch, chkCaseSensitive;
 	CCtrlButton btnSearch, btnReplace;
 	CCtrlListView m_results;
 
@@ -401,10 +409,23 @@ public:
 		m_sb(this, IDC_SBAR),
 		m_results(this, IDC_LIST),
 		btnReplace(this, IDOK),
-		btnSearch(this, IDC_SEARCH)
+		btnSearch(this, IDC_SEARCH),
+		chkModules(this, IDC_MODNAME),
+		chkSettings(this, IDC_SETTINGNAME),
+		chkValues(this, IDC_SETTINGVALUE),
+		chkExactMatch(this, IDC_EXACT),
+		chkReplaceAll(this, IDC_ENTIRELY),
+		chkCaseSensitive(this, IDC_CASESENSITIVE)
 	{
 		SetParent(hwndParent);
 		SetMinSize(610, 300);
+
+		CreateLink(chkModules, g_bSearchModule);
+		CreateLink(chkSettings, g_bSearchSetting);
+		CreateLink(chkValues, g_bSearchValues);
+		CreateLink(chkReplaceAll, g_bReplaceAll);
+		CreateLink(chkExactMatch, g_bExactMatch);
+		CreateLink(chkCaseSensitive, g_bCaseSensitive);
 
 		btnSearch.OnClick = Callback(this, &CFindWindowDlg::onClick_Search);
 	}
@@ -412,9 +433,6 @@ public:
 	bool OnInitDialog() override
 	{
 		m_sb.SendMsg(SB_SETTEXT, 0, (LPARAM)TranslateT("Enter a string to search the database for"));
-		CheckDlgButton(m_hwnd, IDC_MODNAME, BST_CHECKED);
-		CheckDlgButton(m_hwnd, IDC_SETTINGNAME, BST_CHECKED);
-		CheckDlgButton(m_hwnd, IDC_SETTINGVALUE, BST_CHECKED);
 		CheckDlgButton(m_hwnd, IDC_FOUND, BST_CHECKED);
 		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT)));
 		SetWindowLong(m_hwnd, GWL_EXSTYLE, GetWindowLong(m_hwnd, GWL_EXSTYLE) | WS_EX_APPWINDOW); // taskbar icon
@@ -456,32 +474,27 @@ public:
 			return;
 		}
 
+		chkModules.OnApply(); chkSettings.OnApply(); chkValues.OnApply();
+		chkReplaceAll.OnApply(); chkExactMatch.OnApply(); chkCaseSensitive.OnApply();
+
 		wchar_t text[FLD_SIZE];
-		if (!GetDlgItemText(m_hwnd, IDC_TEXT, text, _countof(text)) && !IsDlgButtonChecked(m_hwnd, IDC_EXACT))
+		if (!GetDlgItemText(m_hwnd, IDC_TEXT, text, _countof(text)) && !g_bExactMatch)
 			return;
 
 		// empty replace is done only for exact match or entire replace
 		wchar_t replace[FLD_SIZE] = {};
-		if (pButton->GetCtrlId() == IDOK &&
-			!GetDlgItemText(m_hwnd, IDC_REPLACE, replace, _countof(replace)) &&
-			(!IsDlgButtonChecked(m_hwnd, IDC_ENTIRELY) && !IsDlgButtonChecked(m_hwnd, IDC_EXACT)))
+		if (pButton->GetCtrlId() == IDOK && !GetDlgItemText(m_hwnd, IDC_REPLACE, replace, _countof(replace)) && !g_bReplaceAll && !g_bExactMatch)
 			return;
 
-		if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_MODNAME) &&
-			BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_SETTINGNAME) &&
-			BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_SETTINGVALUE))
+		if (!g_bSearchModule && !g_bSearchSetting && !g_bSearchValues)
 			return;
 
 		FindInfo *fi = new FindInfo();
 		fi->pDlg = this;
-		fi->options = (IsDlgButtonChecked(m_hwnd, IDC_CASESENSITIVE) ? F_CASE : 0) |
-			(IsDlgButtonChecked(m_hwnd, IDC_EXACT) ? F_EXACT : 0) |
-			(IsDlgButtonChecked(m_hwnd, IDC_MODNAME) ? F_MODNAME : 0) |
-			(IsDlgButtonChecked(m_hwnd, IDC_SETTINGNAME) ? F_SETNAME : 0) |
-			(IsDlgButtonChecked(m_hwnd, IDC_SETTINGVALUE) ? F_SETVAL : 0);
+		fi->options = (g_bCaseSensitive ? F_CASE : 0) | (g_bExactMatch ? F_EXACT : 0) | (g_bSearchModule ? F_MODNAME : 0) | (g_bSearchSetting ? F_SETNAME : 0) | (g_bSearchValues ? F_SETVAL : 0);
 
 		if (pButton->GetCtrlId() == IDOK) {
-			if (IsDlgButtonChecked(m_hwnd, IDC_ENTIRELY))
+			if (g_bReplaceAll)
 				fi->options |= F_ENTIRE;
 
 			fi->replace = mir_wstrdup(replace);
