@@ -428,6 +428,9 @@ public:
 		CreateLink(chkCaseSensitive, g_bCaseSensitive);
 
 		btnSearch.OnClick = Callback(this, &CFindWindowDlg::onClick_Search);
+
+		m_results.OnColumnClick = Callback(this, &CFindWindowDlg::onColumnClick_List);
+		m_results.OnDoubleClick = Callback(this, &CFindWindowDlg::onDblClick_List);
 	}
 
 	bool OnInitDialog() override
@@ -519,12 +522,12 @@ public:
 	void onDblClick_List(CCtrlListView::TEventInfo *ev)
 	{
 		LVHITTESTINFO hti;
-		LVITEM lvi;
 		hti.pt = ev->nmlv->ptAction;
 		if (m_results.SubItemHitTest(&hti) == -1)
 			return;
 
 		if (hti.flags & LVHT_ONITEM) {
+			LVITEM lvi;
 			lvi.mask = LVIF_PARAM;
 			lvi.iItem = hti.iItem;
 			lvi.iSubItem = 0;
