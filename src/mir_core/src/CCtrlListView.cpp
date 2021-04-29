@@ -145,8 +145,7 @@ LPARAM CCtrlListView::GetItemData(int iItem) const
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_PARAM;
 	lvi.iItem = iItem;
-	GetItem(&lvi);
-	return lvi.lParam;
+	return GetItem(&lvi) ? lvi.lParam : -1;
 }
 
 void CCtrlListView::GetCaretPos(CContextMenuPos &pos) const
