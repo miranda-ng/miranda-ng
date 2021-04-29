@@ -557,12 +557,13 @@ void CCtrlTreeView::GetCaretPos(CContextMenuPos &pos) const
 		HTREEITEM hItem = GetSelection();
 		if (hItem != nullptr) {
 			pos.pCtrl = this;
-			pos.iCurr = (INT_PTR)hItem;
+			pos.hItem = hItem;
 
 			RECT rc;
 			GetItemRect(hItem, &rc, TRUE);
-			pos.pt.x = rc.left;
-			pos.pt.y = rc.top;
+			pos.pt.x = rc.left + 8;
+			pos.pt.y = rc.top + 8;
+			ClientToScreen(m_hwnd, &pos.pt);
 			return;
 		}
 	}
@@ -570,6 +571,7 @@ void CCtrlTreeView::GetCaretPos(CContextMenuPos &pos) const
 	else {
 		TVHITTESTINFO hti;
 		hti.pt = pos.pt;
+		ScreenToClient(m_hwnd, &hti.pt);
 		if (HitTest(&hti) && (hti.flags & TVHT_ONITEM)) {
 			pos.hItem = hti.hItem;
 			return;

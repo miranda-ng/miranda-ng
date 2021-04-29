@@ -159,8 +159,9 @@ void CCtrlListView::GetCaretPos(CContextMenuPos &pos) const
 		if (pos.iCurr != -1) {
 			RECT rc;
 			GetItemRect(pos.iCurr, &rc, TRUE);
-			pos.pt.x = rc.left;
-			pos.pt.y = rc.top;
+			pos.pt.x = rc.left + 8;
+			pos.pt.y = rc.top + 8;
+			ClientToScreen(m_hwnd, &pos.pt);
 			return;
 		}
 	}
