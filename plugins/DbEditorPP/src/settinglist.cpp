@@ -3,8 +3,6 @@
 SettingListInfo info = {};
 HWND hwnd2List = nullptr;
 
-static int lastColumn = -1;
-
 struct ColumnsSettings csSettingList[] =
 {
 	{ LPGENW("Name"), 0, "Column0width", 180 },
@@ -684,78 +682,13 @@ void EditLabel(int item, int subitem)
 	SendMessage(info.hwnd2Edit, WM_USER, 0, 0);
 }
 
-void SettingsListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam);
-
-void SettingsListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
+// hwnd here is to the main window, NOT the listview
+void SettingsListRightClick(HWND hwnd, CContextMenuPos &pos) 
 {
-	LVHITTESTINFO hti;
-
-	switch (((NMHDR *)lParam)->code) {
-	case NM_CLICK:
-		hti.pt = ((NMLISTVIEW *)lParam)->ptAction;
-		if (ListView_SubItemHitTest(hwnd2List, &hti) > -1) {
-			if (g_Inline && hti.iSubItem <= 1 && hti.flags != LVHT_ONITEMICON && info.selectedItem == hti.iItem)
-				EditLabel(hti.iItem, hti.iSubItem);
-			else
-				EditFinish(hti.iItem);
-		}
-		else EditFinish(0);
-		break;
-
-	case NM_DBLCLK:
-		hti.pt = ((NMLISTVIEW *)lParam)->ptAction;
-		if (ListView_SubItemHitTest(hwnd2List, &hti) > -1) {
-			if (!info.module[0]) { // contact
-				LVITEM lvi = {};
-				lvi.mask = LVIF_PARAM;
-				lvi.iItem = hti.iItem;
-				if (!ListView_GetItem(hwnd2List, &lvi)) break;
-
-				ItemInfo ii = {};
-				ii.hContact = (MCONTACT)lvi.lParam;
-				SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
-				break;
-			}
-			
-			if (!g_Inline || hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) {
-				char setting[FLD_SIZE];
-				EditFinish(hti.iItem);
-				if (ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, _countof(setting)))
-					editSetting(info.hContact, info.module, setting);
-			}
-			else EditLabel(hti.iItem, hti.iSubItem);
-		}
-		break;
-
-	case NM_RCLICK:
-		SettingsListRightClick(hwnd, wParam, lParam);
-		break;
-
-	case LVN_COLUMNCLICK:
-		LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
-		ColumnsSortParams params = {};
-		params.hList = hwnd2List;
-		params.column = lv->iSubItem;
-		params.last = lastColumn;
-		ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
-		lastColumn = (params.column == lastColumn) ? -1 : params.column;
-		break;
-	}
-}
-
-void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to the main window, NOT the listview
-{
-	LVHITTESTINFO hti;
-	POINT pt;
-	HMENU hMenu, hSubMenu;
-
-	hti.pt = ((NMLISTVIEW *)lParam)->ptAction;
-
-	if (ListView_SubItemHitTest(hwnd2List, &hti) == -1) {
+	if (pos.iCurr == -1) {
 		// nowhere.. new item menu
-		GetCursorPos(&pt);
-		hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
-		hSubMenu = GetSubMenu(hMenu, 6);
+		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
+		HMENU hSubMenu = GetSubMenu(hMenu, 6);
 		TranslateMenu(hSubMenu);
 
 		if (!info.module[0]) {
@@ -763,7 +696,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 			RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // separator
 		}
 
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos.pt.x, pos.pt.y, 0, hwnd, nullptr)) {
 		case MENU_ADD_BYTE:
 			newSetting(info.hContact, info.module, DBVT_BYTE);
 			break;
@@ -796,14 +729,13 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 	}
 
 	// on item
-	GetCursorPos(&pt);
-	hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
-	hSubMenu = GetSubMenu(hMenu, 0);
+	HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXTMENU));
+	HMENU hSubMenu = GetSubMenu(hMenu, 0);
 	TranslateMenu(hSubMenu);
 
 	LVITEM lvi = {};
 	lvi.mask = LVIF_IMAGE;
-	lvi.iItem = hti.iItem;
+	lvi.iItem = pos.iCurr;
 	ListView_GetItem(hwnd2List, &lvi);
 
 	switch (lvi.iImage) {
@@ -857,14 +789,14 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 	}
 
 	char setting[FLD_SIZE];
-	if (!ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, _countof(setting))) return;
+	if (!ListView_GetItemTextA(hwnd2List, pos.iCurr, 0, setting, _countof(setting))) return;
 
 	// check if the setting is being watched and if it is then check the menu item
 	int watchIdx = WatchedArrayIndex(info.hContact, info.module, setting, 1);
 	if (watchIdx >= 0)
 		CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
 
-	switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr)) {
+	switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos.pt.x, pos.pt.y, 0, hwnd, nullptr)) {
 	case MENU_EDIT_SET:
 		editSetting(info.hContact, info.module, setting);
 		break;

@@ -9,85 +9,21 @@ int g_Mode;
 int g_Order;
 int g_Inline;
 
+extern volatile BOOL populating, skipEnter;
+extern volatile int Select;
+
 extern SettingListInfo info;
 extern struct ColumnsSettings csSettingList[];
 extern HWND hwnd2List;
 extern HWND hwnd2Tree;
 
-#define GC_SPLITTERMOVED		(WM_USER+101)
+void EditFinish(int selected);
+void EditLabel(int item, int subitem);
 
-void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void SettingsListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+void moduleListRightClick(HWND hwnd, CContextMenuPos&);
+void SettingsListRightClick(HWND hwnd, CContextMenuPos&);
 
-int DialogResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDC_MODULES:
-		urc->rcItem.right = lParam - 3;
-		urc->rcItem.top = 0;
-		urc->rcItem.left = 0;
-		urc->rcItem.bottom = urc->dlgNewSize.cy;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
-
-	case IDC_SPLITTER:
-		urc->rcItem.top = 0;
-		urc->rcItem.bottom = urc->dlgNewSize.cy;
-		urc->rcItem.right = lParam;
-		urc->rcItem.left = lParam - 3;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
-
-	case IDC_SETTINGS:
-		urc->rcItem.top = 0;
-		urc->rcItem.bottom = urc->dlgNewSize.cy;
-		urc->rcItem.left = lParam;
-		urc->rcItem.right = urc->dlgNewSize.cx;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
-
-	case IDC_VARS:
-		urc->rcItem.top = 0;
-		urc->rcItem.bottom = urc->dlgNewSize.cy;
-		urc->rcItem.left = 0;
-		urc->rcItem.right = urc->dlgNewSize.cx;
-		return RD_ANCHORY_CUSTOM | RD_ANCHORX_CUSTOM;
-	}
-	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
-}
-
-static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_NCHITTEST:
-		return HTCLIENT;
-
-	case WM_SETCURSOR:
-		{
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			SetCursor(rc.right > rc.bottom ? LoadCursor(nullptr, IDC_SIZENS) : LoadCursor(nullptr, IDC_SIZEWE));
-		}
-		return TRUE;
-
-	case WM_LBUTTONDOWN:
-		SetCapture(hwnd);
-		return 0;
-
-	case WM_MOUSEMOVE:
-		if (GetCapture() == hwnd) {
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			SendMessage(GetParent(hwnd), GC_SPLITTERMOVED, rc.right > rc.bottom ? (short)HIWORD(GetMessagePos()) + rc.bottom / 2 : (short)LOWORD(GetMessagePos()) + rc.right / 2, (LPARAM)hwnd);
-		}
-		return 0;
-
-	case WM_LBUTTONUP:
-		ReleaseCapture();
-		return 0;
-	}
-
-	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
-}
-
-LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_RBUTTONDOWN:
@@ -165,148 +101,159 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		break;
 
 	case WM_KEYDOWN:
-
-		if (wParam == VK_F5) {
+		if (wParam == VK_F5)
 			PopulateSettings(info.hContact, info.module);
-		}
 		else if (wParam == VK_F3)
 			newFindWindow();
-		else
-			if (wParam == VK_DELETE || (wParam == VK_F2 && ListView_GetSelectedCount(hwnd) == 1)) {
+		else if (wParam == VK_DELETE || (wParam == VK_F2 && ListView_GetSelectedCount(hwnd) == 1)) {
+			char setting[FLD_SIZE];
+			int idx = ListView_GetSelectionMark(hwnd);
+			if (idx == -1) return 0;
+			ListView_GetItemTextA(hwnd, idx, 0, setting, _countof(setting));
 
-				char setting[FLD_SIZE];
-				int idx = ListView_GetSelectionMark(hwnd);
-				if (idx == -1) return 0;
-				ListView_GetItemTextA(hwnd, idx, 0, setting, _countof(setting));
+			if (wParam == VK_F2)
+				editSetting(info.hContact, info.module, setting);
+			else if (wParam == VK_DELETE)
+				DeleteSettingsFromList(info.hContact, info.module, setting);
 
-				if (wParam == VK_F2)
-					editSetting(info.hContact, info.module, setting);
-				else if (wParam == VK_DELETE)
-					DeleteSettingsFromList(info.hContact, info.module, setting);
-
-				return 0;
-			}
+			return 0;
+		}
 		break;
 	}
 	return mir_callNextSubclass(hwnd, SettingListSubclassProc, msg, wParam, lParam);
 }
 
-INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK ModuleTreeLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	wchar_t text[256];
-
 	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwnd);
-		{
-			hwnd2mainWindow = hwnd;
-			hwnd2Tree = GetDlgItem(hwnd, IDC_MODULES);
-			hwnd2List = GetDlgItem(hwnd, IDC_SETTINGS);
-
-			LoadResidentSettings();
-
-			// image list
-			hImg = LoadIcons();
-
-			// do the icon
-			SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT)));
-			SetWindowText(hwnd, TranslateT("Database Editor++"));
-
-			// setup the splitter
-			SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, (LONG_PTR)g_plugin.getWord("Splitter", 200));
-			SendMessage(hwnd, GC_SPLITTERMOVED, 0, 0);
-			mir_subclassWindow(GetDlgItem(hwnd, IDC_SPLITTER), SplitterSubclassProc);
-
-			// module tree
-			mir_subclassWindow(hwnd2Tree, ModuleTreeSubclassProc);
-			TreeView_SetImageList(hwnd2Tree, hImg, TVSIL_NORMAL);
-
-			//setting list
-			mir_subclassWindow(hwnd2List, SettingListSubclassProc);
-			ListView_SetExtendedListViewStyle(hwnd2List, 32 | LVS_EX_SUBITEMIMAGES | LVS_EX_LABELTIP); //LVS_EX_GRIDLINES
-			loadListSettings(hwnd2List, csSettingList);
-			ListView_SetImageList(hwnd2List, hImg, LVSIL_SMALL);
-
-			HMENU hMenu = GetMenu(hwnd);
-			TranslateMenu(hMenu);
-			for (int i = 0; i < 6; i++)
-				TranslateMenu(GetSubMenu(hMenu, i));
-
-			Utils_RestoreWindowPosition(hwnd, NULL, MODULENAME, "Main_");
-			if (g_plugin.getByte("Maximized", 0))
-				ShowWindow(hwnd, SW_SHOWMAXIMIZED);
-
-			g_Inline = !g_plugin.getByte("DontAllowInLineEdit", 1);
-			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED : MF_UNCHECKED));
-
-			g_Mode = MODE_ALL;
-			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_ALL, MF_BYCOMMAND | MF_CHECKED);
-
-			g_Hex = g_plugin.getByte("HexMode", 0);
-			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_BYTE_HEX, MF_BYCOMMAND | ((g_Hex & HEX_BYTE) ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_WORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_WORD) ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(GetSubMenu(hMenu, 5), MENU_DWORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_DWORD) ? MF_CHECKED : MF_UNCHECKED));
-
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (g_plugin.bRestoreOnOpen ? MF_CHECKED : MF_UNCHECKED));
-
-			g_Order = g_plugin.getByte("SortMode", 1);
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SORT_ORDER, MF_BYCOMMAND | (g_Order ? MF_CHECKED : MF_UNCHECKED));
-
-			int restore;
-			if (hRestore)
-				restore = 3;
-			else if (g_plugin.bRestoreOnOpen)
-				restore = 2;
+	case WM_KEYUP:
+		switch (wParam) {
+		case VK_RETURN:
+			if (skipEnter)
+				skipEnter = 0;
 			else
-				restore = 0;
-
-			refreshTree(restore);
-		}
-		return TRUE;
-
-	case GC_SPLITTERMOVED:
-		{
-			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
-
-			RECT rc2;
-			GetWindowRect(hwnd, &rc2);
-
-			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SPLITTER)) {
-				RECT rc;
-				GetClientRect(hwnd, &rc);
-				POINT pt = { (LONG)wParam, 0 };
-				ScreenToClient(hwnd, &pt);
-
-				splitterPos = rc.left + pt.x + 1;
-				if (splitterPos < 150)
-					splitterPos = 150;
-				if (splitterPos > rc2.right - rc2.left - 150)
-					splitterPos = rc2.right - rc2.left - 150;
-				SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
-				g_plugin.setWord("Splitter", (WORD)splitterPos);
-			}
-			PostMessage(hwnd, WM_SIZE, 0, 0);
+				TreeView_EndEditLabelNow(GetParent(hwnd), 0);
+			return 0;
+		case VK_ESCAPE:
+			TreeView_EndEditLabelNow(GetParent(hwnd), 1);
+			return 0;
 		}
 		break;
+	}
+	return mir_callNextSubclass(hwnd, ModuleTreeLabelEditSubClassProc, msg, wParam, lParam);
+}
 
-	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
-			mmi->ptMinTrackSize.x = splitterPos + 150;
-			mmi->ptMinTrackSize.y = 300;
-		}
-		return 0;
+/////////////////////////////////////////////////////////////////////////////////////////
+// Main window dialog
 
-	case WM_MOVE:
-	case WM_SIZE:
-		Utils_ResizeDialog(hwnd, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_MAIN), DialogResize, GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA));
-		break;
+class CMainDlg : public CDlgBase
+{
+	int splitterPos;
+	int lastColumn = -1;
 
-	case WM_DESTROY: // free our shit!
+	CSplitter m_splitter;
+	CCtrlTreeView m_modules;
+	CCtrlListView m_settings;
+
+	UI_MESSAGE_MAP(CMainDlg, CDlgBase);
+		UI_MESSAGE(WM_FINDITEM, OnFindItem);
+		UI_MESSAGE(WM_COMMAND, OnCommand);
+	UI_MESSAGE_MAP_END();
+
+public:
+	CMainDlg() :
+		CDlgBase(g_plugin, IDD_MAIN),
+		m_modules(this, IDC_MODULES),
+		m_settings(this, IDC_SETTINGS),
+		m_splitter(this, IDC_SPLITTER),
+		splitterPos(g_plugin.getWord("Splitter", 200))
+	{
+		SetMinSize(450, 300);
+
+		m_autoClose = 0;
+
+		m_splitter.OnChange = Callback(this, &CMainDlg::onChange_Splitter);
+
+		m_modules.OnItemExpanding = Callback(this, &CMainDlg::onItemExpand_Modules);
+		m_modules.OnSelChanged = Callback(this, &CMainDlg::onSelChanged_Modules);
+		m_modules.OnBeginLabelEdit = Callback(this, &CMainDlg::onBeginLabelEdit_Modules);
+		m_modules.OnEndLabelEdit = Callback(this, &CMainDlg::onEndLabelEdit_Modules);
+		m_modules.OnBuildMenu = Callback(this, &CMainDlg::onContextMenu_Modules);
+
+		m_settings.OnClick = Callback(this, &CMainDlg::onClick_Settings);
+		m_settings.OnDoubleClick = Callback(this, &CMainDlg::onDblClick_Settings);
+		m_settings.OnColumnClick = Callback(this, &CMainDlg::onColumnClick_Settings);
+		m_settings.OnBuildMenu = Callback(this, &CMainDlg::onContextMenu_Settings);
+	}
+
+	bool OnInitDialog() override
+	{
+		hwnd2mainWindow = m_hwnd;
+		hwnd2Tree = GetDlgItem(m_hwnd, IDC_MODULES);
+		hwnd2List = GetDlgItem(m_hwnd, IDC_SETTINGS);
+
+		LoadResidentSettings();
+
+		// image list
+		hImg = LoadIcons();
+
+		// do the icon
+		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(ICO_REGEDIT)));
+		SetWindowText(m_hwnd, TranslateT("Database Editor++"));
+
+		// module tree
+		mir_subclassWindow(hwnd2Tree, ModuleTreeSubclassProc);
+		m_modules.SetImageList(hImg, TVSIL_NORMAL);
+
+		//setting list
+		mir_subclassWindow(hwnd2List, SettingListSubclassProc);
+		m_settings.SetExtendedListViewStyle(32 | LVS_EX_SUBITEMIMAGES | LVS_EX_LABELTIP); //LVS_EX_GRIDLINES
+		loadListSettings(hwnd2List, csSettingList);
+		m_settings.SetImageList(hImg, LVSIL_SMALL);
+
+		HMENU hMenu = GetMenu(m_hwnd);
+		TranslateMenu(hMenu);
+		for (int i = 0; i < 6; i++)
+			TranslateMenu(GetSubMenu(hMenu, i));
+
+		Utils_RestoreWindowPosition(m_hwnd, NULL, MODULENAME, "Main_");
+		if (g_plugin.getByte("Maximized", 0))
+			ShowWindow(m_hwnd, SW_SHOWMAXIMIZED);
+
+		g_Inline = !g_plugin.getByte("DontAllowInLineEdit", 1);
+		CheckMenuItem(GetSubMenu(hMenu, 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED : MF_UNCHECKED));
+
+		g_Mode = MODE_ALL;
+		CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_ALL, MF_BYCOMMAND | MF_CHECKED);
+
+		g_Hex = g_plugin.getByte("HexMode", 0);
+		CheckMenuItem(GetSubMenu(hMenu, 5), MENU_BYTE_HEX, MF_BYCOMMAND | ((g_Hex & HEX_BYTE) ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(GetSubMenu(hMenu, 5), MENU_WORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_WORD) ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(GetSubMenu(hMenu, 5), MENU_DWORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_DWORD) ? MF_CHECKED : MF_UNCHECKED));
+
+		CheckMenuItem(GetSubMenu(GetMenu(m_hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (g_plugin.bRestoreOnOpen ? MF_CHECKED : MF_UNCHECKED));
+
+		g_Order = g_plugin.getByte("SortMode", 1);
+		CheckMenuItem(GetSubMenu(GetMenu(m_hwnd), 5), MENU_SORT_ORDER, MF_BYCOMMAND | (g_Order ? MF_CHECKED : MF_UNCHECKED));
+
+		int restore;
+		if (hRestore)
+			restore = 3;
+		else if (g_plugin.bRestoreOnOpen)
+			restore = 2;
+		else
+			restore = 0;
+
+		refreshTree(restore);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		wchar_t text[256];
+
 		if (g_plugin.bRestoreOnOpen) {
 			HTREEITEM item;
-
 			if (item = TreeView_GetSelection(hwnd2Tree)) {
 				int type = MODULE;
 				TVITEM tvi = {};
@@ -350,19 +297,17 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		g_plugin.setByte("SortMode", (byte)g_Order);
 		g_plugin.setByte("DontAllowInLineEdit", (byte)!g_Inline);
 
-		{
-			WINDOWPLACEMENT wp;
-			wp.length = sizeof(WINDOWPLACEMENT);
-			GetWindowPlacement(hwnd, &wp);
-			if (wp.flags == WPF_RESTORETOMAXIMIZED) {
-				g_plugin.setByte("Maximized", 1);
-				ShowWindow(hwnd, SW_SHOWNOACTIVATE);
-			}
-			else g_plugin.setByte("Maximized", 0);
-
-			Utils_SaveWindowPosition(hwnd, NULL, MODULENAME, "Main_");
-			ShowWindow(hwnd, SW_HIDE);
+		WINDOWPLACEMENT wp;
+		wp.length = sizeof(WINDOWPLACEMENT);
+		GetWindowPlacement(m_hwnd, &wp);
+		if (wp.flags == WPF_RESTORETOMAXIMIZED) {
+			g_plugin.setByte("Maximized", 1);
+			ShowWindow(m_hwnd, SW_SHOWNOACTIVATE);
 		}
+		else g_plugin.setByte("Maximized", 0);
+
+		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "Main_");
+		ShowWindow(m_hwnd, SW_HIDE);
 
 		saveListSettings(hwnd2List, csSettingList);
 		ClearListView();
@@ -382,11 +327,81 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if (g_bServiceMode)
 			PostQuitMessage(0);
-		return 0;
+	}
 
-	case WM_COMMAND:
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_MODULES:
+			urc->rcItem.right = splitterPos - 3;
+			urc->rcItem.top = 0;
+			urc->rcItem.left = 0;
+			urc->rcItem.bottom = urc->dlgNewSize.cy;
+			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+		case IDC_SPLITTER:
+			urc->rcItem.top = 0;
+			urc->rcItem.bottom = urc->dlgNewSize.cy;
+			urc->rcItem.right = splitterPos;
+			urc->rcItem.left = splitterPos - 3;
+			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+		case IDC_SETTINGS:
+			urc->rcItem.top = 0;
+			urc->rcItem.bottom = urc->dlgNewSize.cy;
+			urc->rcItem.left = splitterPos;
+			urc->rcItem.right = urc->dlgNewSize.cx;
+			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+
+		case IDC_VARS:
+			urc->rcItem.top = 0;
+			urc->rcItem.bottom = urc->dlgNewSize.cy;
+			urc->rcItem.left = 0;
+			urc->rcItem.right = urc->dlgNewSize.cx;
+			return RD_ANCHORY_CUSTOM | RD_ANCHORX_CUSTOM;
+		}
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+	}
+
+	void onChange_Splitter(CSplitter *)
+	{
+		RECT rc2;
+		GetWindowRect(m_hwnd, &rc2);
+
+		RECT rc;
+		GetClientRect(m_hwnd, &rc);
+		POINT pt = { m_splitter.GetPos(), 0 };
+		ScreenToClient(m_hwnd, &pt);
+
+		splitterPos = rc.left + pt.x + 1;
+		if (splitterPos < 150)
+			splitterPos = 150;
+		if (splitterPos > rc2.right - rc2.left - 150)
+			splitterPos = rc2.right - rc2.left - 150;
+		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
+		g_plugin.setWord("Splitter", (WORD)splitterPos);
+
+		PostMessage(m_hwnd, WM_SIZE, 0, 0);
+	}
+
+	LRESULT OnFindItem(UINT, WPARAM wParam, LPARAM)
+	{
+		ItemInfo *ii = (ItemInfo *)wParam;
+		if (HTREEITEM hItem = findItemInTree(ii->hContact, ii->module)) {
+			m_modules.SelectItem(hItem);
+			m_modules.Expand(hItem, TVE_EXPAND);
+			if (ii->type != FW_MODULE)
+				SelectSetting(ii->setting);
+		}
+		return 0;
+	}
+
+	LRESULT OnCommand(UINT, WPARAM wParam, LPARAM)
+	{
 		if (GetKeyState(VK_ESCAPE) & 0x8000)
 			return TRUE; // this needs to be changed to c if htere is a label edit happening..
+
+		wchar_t text[256];
 
 		switch (LOWORD(wParam)) {
 		case MENU_REFRESH_MODS:
@@ -432,7 +447,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_EXIT:
 		case IDCANCEL:
-			DestroyWindow(hwnd);
+			DestroyWindow(m_hwnd);
 			break;
 		case MENU_DELETE:
 			deleteModuleDlg();
@@ -449,7 +464,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_FILTER_ALL:
 			if (g_Mode != MODE_ALL) {
-				HMENU hMenu = GetMenu(hwnd);
+				HMENU hMenu = GetMenu(m_hwnd);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_ALL, MF_BYCOMMAND | MF_CHECKED);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_LOADED, MF_BYCOMMAND | MF_UNCHECKED);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_UNLOADED, MF_BYCOMMAND | MF_UNCHECKED);
@@ -459,7 +474,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_FILTER_LOADED:
 			if (g_Mode != MODE_LOADED) {
-				HMENU hMenu = GetMenu(hwnd);
+				HMENU hMenu = GetMenu(m_hwnd);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_ALL, MF_BYCOMMAND | MF_UNCHECKED);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_LOADED, MF_BYCOMMAND | MF_CHECKED);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_UNLOADED, MF_BYCOMMAND | MF_UNCHECKED);
@@ -469,7 +484,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_FILTER_UNLOADED:
 			if (g_Mode != MODE_UNLOADED) {
-				HMENU hMenu = GetMenu(hwnd);
+				HMENU hMenu = GetMenu(m_hwnd);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_ALL, MF_BYCOMMAND | MF_UNCHECKED);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_LOADED, MF_BYCOMMAND | MF_UNCHECKED);
 				CheckMenuItem(GetSubMenu(hMenu, 5), MENU_FILTER_UNLOADED, MF_BYCOMMAND | MF_CHECKED);
@@ -479,65 +494,226 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_BYTE_HEX:
 			g_Hex ^= HEX_BYTE;
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_BYTE_HEX, MF_BYCOMMAND | ((g_Hex & HEX_BYTE) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(GetMenu(m_hwnd), 5), MENU_BYTE_HEX, MF_BYCOMMAND | ((g_Hex & HEX_BYTE) ? MF_CHECKED : MF_UNCHECKED));
 			break;
 		case MENU_WORD_HEX:
 			g_Hex ^= HEX_WORD;
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_WORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_WORD) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(GetMenu(m_hwnd), 5), MENU_WORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_WORD) ? MF_CHECKED : MF_UNCHECKED));
 			break;
 		case MENU_DWORD_HEX:
 			g_Hex ^= HEX_DWORD;
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_DWORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_DWORD) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(GetMenu(m_hwnd), 5), MENU_DWORD_HEX, MF_BYCOMMAND | ((g_Hex & HEX_DWORD) ? MF_CHECKED : MF_UNCHECKED));
 			break;
 		case MENU_SAVE_POSITION:
 			{
 				bool bSave = !g_plugin.bRestoreOnOpen;
-				CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (bSave ? MF_CHECKED : MF_UNCHECKED));
+				CheckMenuItem(GetSubMenu(GetMenu(m_hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (bSave ? MF_CHECKED : MF_UNCHECKED));
 				g_plugin.bRestoreOnOpen = bSave;
 			}
 			break;
 		case MENU_INLINE_EDIT:
 			g_Inline = !g_Inline;
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(GetMenu(m_hwnd), 5), MENU_INLINE_EDIT, MF_BYCOMMAND | (g_Inline ? MF_CHECKED : MF_UNCHECKED));
 			break;
 		case MENU_SORT_ORDER:
 			g_Order = !g_Order;
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SORT_ORDER, MF_BYCOMMAND | (g_Order ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(GetMenu(m_hwnd), 5), MENU_SORT_ORDER, MF_BYCOMMAND | (g_Order ? MF_CHECKED : MF_UNCHECKED));
 			refreshTree(1);
 			break;
 		case MENU_OPEN_OPTIONS:
 			g_plugin.openOptions(L"Database", _A2W(modFullname));
 			break;
 		}
-		return TRUE; // case WM_COMMAND
-
-	case WM_NOTIFY:
-		switch (LOWORD(wParam)) {
-		case IDC_MODULES:
-			moduleListWM_NOTIFY(hwnd, msg, wParam, lParam);
-			break;
-		case IDC_SETTINGS:
-			SettingsListWM_NOTIFY(hwnd, msg, wParam, lParam);
-			break;
-		}
-		return TRUE; // case WM_NOTIFY
-
-	case WM_FINDITEM:
-		ItemInfo * ii = (ItemInfo *)wParam;
-		HTREEITEM hItem = findItemInTree(ii->hContact, ii->module);
-		if (hItem) {
-			TreeView_SelectItem(hwnd2Tree, hItem);
-			TreeView_Expand(hwnd2Tree, hItem, TVE_EXPAND);
-			if (ii->type != FW_MODULE)
-				SelectSetting(ii->setting);
-		}
-		break;
+		return TRUE;
 	}
-	return 0;
-}
 
+	void onItemExpand_Modules(CCtrlTreeView::TEventInfo *ev)
+	{
+		if (populating && ev->nmtv->action == TVE_EXPAND) {
+			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ev->nmtv->itemNew.lParam;
+			if (mtis && (mtis->type == (CONTACT | EMPTY))) {
+				MCONTACT hContact = mtis->hContact;
+				mtis->type = CONTACT;
+
+				ModuleSettingLL modlist;
+				if (!EnumModules(&modlist))
+					return;
+
+				ModSetLinkLinkItem *module = modlist.first;
+				while (module && hwnd2mainWindow) {
+					if (module->name[0] && !IsModuleEmpty(hContact, module->name)) {
+						insertItem(hContact, module->name, ev->nmtv->itemNew.hItem);
+					}
+					module = (ModSetLinkLinkItem *)module->next;
+				}
+
+				FreeModuleSettingLL(&modlist);
+			}
+		}
+	}
+
+	void onSelChanged_Modules(CCtrlTreeView::TEventInfo *ev)
+	{
+		wchar_t text[FLD_SIZE];
+		
+		TVITEMEX tvi = {};
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
+		tvi.hItem = ev->nmtv->itemNew.hItem;
+		tvi.pszText = text;
+		tvi.cchTextMax = _countof(text);
+		m_modules.GetItem(&tvi);
+
+		ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
+		if (mtis) {
+			MCONTACT hContact = mtis->hContact;
+			if (mtis->type == STUB)
+				return;
+
+			if (populating)
+				Select = 0;
+
+			if (mtis->type == MODULE) {
+				_T2A module(text);
+				PopulateSettings(hContact, module);
+			}
+			else if (((mtis->type & CONTACT) == CONTACT && hContact) || (mtis->type == CONTACT_ROOT_ITEM && !hContact)) {
+				int multi = 0;
+
+				ClearListView();
+
+				if (mtis->type == CONTACT_ROOT_ITEM && !hContact) {
+					multi = 1;
+					hContact = db_find_first();
+				}
+
+				while (hContact && hwnd2mainWindow) {
+					if (multi && ApplyProtoFilter(hContact)) {
+						hContact = db_find_next(hContact);
+						continue;
+					}
+
+					addListHandle(hContact);
+
+					if (!multi)
+						break;
+
+					hContact = db_find_next(hContact);
+				}
+			}
+			else ClearListView();
+		}
+		else ClearListView();
+	}
+
+	void onBeginLabelEdit_Modules(CCtrlTreeView::TEventInfo *ev)
+	{
+		ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ev->nmtvdi->item.lParam;
+		if (!mtis->type || mtis->type == CONTACT) {
+			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+			return;
+		}
+
+		mir_subclassWindow(m_modules.GetEditControl(), ModuleTreeLabelEditSubClassProc);
+		SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, FALSE);
+	}
+
+	void onEndLabelEdit_Modules(CCtrlTreeView::TEventInfo *ev)
+	{
+		TVITEMEX tvi = {};
+		wchar_t text[FLD_SIZE];
+		ModuleTreeInfoStruct *mtis;
+		tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
+		tvi.hItem = ev->nmtvdi->item.hItem;
+		tvi.pszText = text;
+		tvi.cchTextMax = _countof(text);
+		m_modules.GetItem(&tvi);
+		mtis = (ModuleTreeInfoStruct *)ev->nmtvdi->item.lParam;
+
+		_T2A newtext(ev->nmtvdi->item.pszText);
+		_T2A oldtext(tvi.pszText);
+
+		if (!newtext // edit control failed
+			|| !mtis->type // its a root item
+			|| mtis->type == CONTACT // its a contact
+			|| newtext[0] == 0)  // empty string
+			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, FALSE);
+		else {
+			if (mir_strcmp(oldtext, newtext)) {
+				renameModule(mtis->hContact, oldtext, newtext);
+				findAndRemoveDuplicates(mtis->hContact, newtext);
+				if (m_modules.GetItem(&tvi))
+					PopulateSettings(mtis->hContact, newtext);
+			}
+			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+		}
+	}
+
+	void onContextMenu_Modules(CContextMenuPos *pos)
+	{
+		moduleListRightClick(m_hwnd, *pos);
+	}
+
+	void onClick_Settings(CCtrlListView::TEventInfo *ev)
+	{
+		LVHITTESTINFO hti;
+		hti.pt = ev->nmlv->ptAction;
+		if (m_settings.SubItemHitTest(&hti) > -1) {
+			if (g_Inline && hti.iSubItem <= 1 && hti.flags != LVHT_ONITEMICON && info.selectedItem == hti.iItem)
+				EditLabel(hti.iItem, hti.iSubItem);
+			else
+				EditFinish(hti.iItem);
+		}
+		else EditFinish(0);
+	}
+
+	void onDblClick_Settings(CCtrlListView::TEventInfo *ev)
+	{
+		LVHITTESTINFO hti;
+		hti.pt = ev->nmlv->ptAction;
+		if (m_settings.SubItemHitTest(&hti) == -1)
+			return;
+
+		if (!info.module[0]) { // contact
+			LVITEM lvi = {};
+			lvi.mask = LVIF_PARAM;
+			lvi.iItem = hti.iItem;
+			if (m_settings.GetItem(&lvi)) {
+				ItemInfo ii = {};
+				ii.hContact = (MCONTACT)lvi.lParam;
+				OnFindItem(0, (WPARAM)&ii, 0);
+			}
+			return;
+		}
+
+		if (!g_Inline || hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) {
+			char setting[FLD_SIZE];
+			EditFinish(hti.iItem);
+			if (ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, _countof(setting)))
+				editSetting(info.hContact, info.module, setting);
+		}
+		else EditLabel(hti.iItem, hti.iSubItem);
+	}
+
+	void onColumnClick_Settings(CCtrlListView::TEventInfo *ev)
+	{
+		ColumnsSortParams params = {};
+		params.hList = hwnd2List;
+		params.column = ev->nmlv->iSubItem;
+		params.last = lastColumn;
+		ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
+		lastColumn = (params.column == lastColumn) ? -1 : params.column;
+	}
+
+	void onContextMenu_Settings(CContextMenuPos *pos)
+	{
+		SettingsListRightClick(m_hwnd, *pos);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
 
 void openMainWindow()
 {
-	CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MAIN), nullptr, MainDlgProc);
+	(new CMainDlg())->Create();
 }

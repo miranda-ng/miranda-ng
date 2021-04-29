@@ -234,6 +234,7 @@ void addModuleDlg(MCONTACT hContact);
 // moduletree
 void insertItem(MCONTACT hContact, const char *module, HTREEITEM hParent);
 HTREEITEM findItemInTree(MCONTACT hContact, const char *module);
+BOOL findAndRemoveDuplicates(MCONTACT hContact, const char *module);
 void replaceTreeItem(MCONTACT hContact, const char *module, const char *newModule);
 void refreshTree(BOOL restore);
 void freeTree(MCONTACT hContact);
