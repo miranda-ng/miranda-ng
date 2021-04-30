@@ -74,7 +74,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				break;
 
 			default:
-				msg(TranslateT("Unknown DBVariant type!"));
+				g_pMainWindow->msg(TranslateT("Unknown DBVariant type!"));
 				DestroyWindow(hwnd);
 				return TRUE;
 			}
@@ -238,7 +238,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				mir_free(value);
 
 				if (!res) {
-					msg(TranslateT("Unable to store value in this data type!"));
+					g_pMainWindow->msg(TranslateT("Unable to store value in this data type!"));
 					break;
 				}
 
@@ -263,26 +263,25 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	return 0;
 }
 
-void editSetting(MCONTACT hContact, const char *module, const char *setting)
+void CMainDlg::editSetting(MCONTACT hContact, const char *module, const char *setting)
 {
 	DBVARIANT dbv = {};
-	if (!db_get_s(hContact, module, setting, &dbv, 0) || IsResidentSetting(module, setting)) {
-		// gets free()ed in the window proc
-		struct DBsetting *dbsetting = (struct DBsetting *)mir_calloc(sizeof(struct DBsetting));
+	if (db_get_s(hContact, module, setting, &dbv, 0) || IsResidentSetting(module, setting))
+		return;
 
-		dbsetting->dbv = dbv;
-		dbsetting->hContact = hContact;
-		dbsetting->module = mir_strdup(module);
-		dbsetting->setting = mir_strdup(setting);
-
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
-	}
+	struct DBsetting *dbsetting = (struct DBsetting *)mir_calloc(sizeof(struct DBsetting));
+	dbsetting->dbv = dbv;
+	dbsetting->hContact = hContact;
+	dbsetting->module = mir_strdup(module);
+	dbsetting->setting = mir_strdup(setting);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), m_hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
 }
 
-void copySetting(MCONTACT hContact, const char *module, const char *setting)
+void CMainDlg::copySetting(MCONTACT hContact, const char *module, const char *setting)
 {
 	DBVARIANT dbv = {}, dbv2;
-	if (db_get_s(hContact, module, setting, &dbv, 0)) return;
+	if (db_get_s(hContact, module, setting, &dbv, 0))
+		return;
 
 	char tmp[FLD_SIZE];
 
@@ -291,21 +290,19 @@ void copySetting(MCONTACT hContact, const char *module, const char *setting)
 		if (!db_get_s(hContact, module, tmp, &dbv2, 0))
 			db_free(&dbv2);
 		else {
-			// gets free()ed in the window proc
 			struct DBsetting *dbsetting = (struct DBsetting *)mir_calloc(sizeof(struct DBsetting));
-
 			dbsetting->dbv = dbv;
 			dbsetting->hContact = hContact;
 			dbsetting->module = mir_strdup(module);
 			dbsetting->setting = mir_strdup(tmp);
-			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
+			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), m_hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
 			return;
 		}
 	}
 	db_free(&dbv);
 }
 
-void newSetting(MCONTACT hContact, const char *module, int type)
+void CMainDlg::newSetting(MCONTACT hContact, const char *module, int type)
 {
 	// gets safe_free()ed in the window proc
 	DBsetting *dbsetting = (DBsetting*)mir_calloc(sizeof(DBsetting));
@@ -313,5 +310,5 @@ void newSetting(MCONTACT hContact, const char *module, int type)
 	dbsetting->hContact = hContact;
 	dbsetting->module = mir_strdup(module);
 	dbsetting->setting = nullptr;
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EDIT_SETTING), m_hwnd, EditSettingDlgProc, (LPARAM)dbsetting);
 }

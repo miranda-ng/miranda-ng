@@ -295,12 +295,11 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							lvi.iItem = hti.iItem;
 							lvi.iSubItem = 0;
 							if (ListView_GetItem(hwndVars, &lvi)) {
-								ItemInfo ii;
-								ii.hContact = (MCONTACT)lvi.lParam;
-								ListView_GetItemTextA(hwndVars, hti.iItem, 1, ii.module, _countof(ii.module));
-								ListView_GetItemTextA(hwndVars, hti.iItem, 2, ii.setting, _countof(ii.setting));
-								ii.type = FW_SETTINGNAME;
-								SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
+								char szModule[NAME_SIZE], szSetting[NAME_SIZE];
+								ListView_GetItemTextA(hwndVars, hti.iItem, 1, szModule, _countof(szModule));
+								ListView_GetItemTextA(hwndVars, hti.iItem, 2, szSetting, _countof(szSetting));
+								if (g_pMainWindow)
+									g_pMainWindow->FindItem(FW_SETTINGNAME, (MCONTACT)lvi.lParam, szModule, szSetting);
 							}
 						}
 					}

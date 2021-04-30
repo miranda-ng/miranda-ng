@@ -324,14 +324,14 @@ class CFindWindowDlg : public CDlgBase
 					if (replace) {
 						newModule = (fi->options & F_ENTIRE) ? replace : ptr = multiReplaceA(module->name, search, replace, fi->options & F_CASE);
 						if (!newModule[0]) {
-							deleteModule(hContact, module->name, 0);
-							replaceTreeItem(hContact, module->name, nullptr);
+							deleteModule(g_pMainWindow->GetHwnd(), hContact, module->name, 0);
+							g_pMainWindow->replaceTreeItem(hContact, module->name, nullptr);
 							flag |= F_DELETED;
 							newModule = module->name;
 							deleteCount++;
 						}
 						else if (renameModule(hContact, module->name, newModule)) {
-							replaceTreeItem(hContact, module->name, nullptr);
+							g_pMainWindow->replaceTreeItem(hContact, module->name, nullptr);
 							flag |= F_REPLACED;
 							replaceCount++;
 						}
@@ -400,18 +400,15 @@ class CFindWindowDlg : public CDlgBase
 
 	void OpenSettings(int iItem)
 	{
-		ItemInfo ii = {};
-		ii.hContact = (MCONTACT)m_results.GetItemData(iItem);
-		if (ii.hContact == -1)
+		MCONTACT hContact = (MCONTACT)m_results.GetItemData(iItem);
+		if (hContact == INVALID_CONTACT_ID)
 			return;
 
-		ListView_GetItemTextA(m_results.GetHwnd(), iItem, 2, ii.module, _countof(ii.module));
-		ListView_GetItemTextA(m_results.GetHwnd(), iItem, 3, ii.setting, _countof(ii.setting));
-		if (ii.setting[0])
-			ii.type = FW_SETTINGNAME;
-		else if (ii.module[0])
-			ii.type = FW_MODULE;
-		SendMessage(hwnd2mainWindow, WM_FINDITEM, (WPARAM)&ii, 0);
+		char szModule[NAME_SIZE], szSetting[NAME_SIZE];
+		ListView_GetItemTextA(m_results.GetHwnd(), iItem, 2, szModule, _countof(szModule));
+		ListView_GetItemTextA(m_results.GetHwnd(), iItem, 3, szSetting, _countof(szSetting));
+
+		g_pMainWindow->FindItem((szSetting[0]) ? FW_SETTINGNAME : FW_MODULE, hContact, szModule, szSetting);
 	}
 
 	CCtrlBase m_sb;
@@ -420,7 +417,7 @@ class CFindWindowDlg : public CDlgBase
 	CCtrlListView m_results;
 
 public: 
-	CFindWindowDlg(HWND hwndParent) : 
+	CFindWindowDlg() : 
 		CDlgBase(g_plugin, IDD_FIND),
 		m_sb(this, IDC_SBAR),
 		m_results(this, IDC_LIST),
@@ -433,7 +430,7 @@ public:
 		chkReplaceAll(this, IDC_ENTIRELY),
 		chkCaseSensitive(this, IDC_CASESENSITIVE)
 	{
-		SetParent(hwndParent);
+		SetParent(g_pMainWindow->GetHwnd());
 		SetMinSize(610, 300);
 
 		CreateLink(chkModules, g_bSearchModule);
@@ -555,12 +552,12 @@ public:
 		params.hList = m_results.GetHwnd();
 		params.column = ev->nmlv->iSubItem;
 		params.last = lastColumn;
-		ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
+		m_results.SortItemsEx(ColumnsCompare, (LPARAM)&params);
 		lastColumn = (params.column == lastColumn) ? -1 : params.column;
 	}
 };
 
 void newFindWindow()
 {
-	(new CFindWindowDlg(hwnd2mainWindow))->Create();
+	(new CFindWindowDlg())->Create();
 }

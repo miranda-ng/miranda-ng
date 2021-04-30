@@ -55,8 +55,8 @@ static int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
 	// setting list
-	if (hwnd2mainWindow)
-		settingChanged(hContact, cws->szModule, cws->szSetting, &(cws->value));
+	if (g_pMainWindow)
+		g_pMainWindow->onSettingChanged(hContact, cws);
 
 	// watch list
 	if (!hwnd2watchedVarsWindow && !g_bUsePopups)
@@ -72,13 +72,13 @@ static int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 
 INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM)
 {
-	if (!hwnd2mainWindow) { // so only opens 1 at a time
+	if (!g_pMainWindow) { // so only opens 1 at a time
 		hRestore = wParam;
 		(new CMainDlg())->Create();
 	}
 	else {
-		ShowWindow(hwnd2mainWindow, SW_RESTORE);
-		SetForegroundWindow(hwnd2mainWindow);
+		ShowWindow(g_pMainWindow->GetHwnd(), SW_RESTORE);
+		SetForegroundWindow(g_pMainWindow->GetHwnd());
 		if (!hRestore && wParam) {
 			hRestore = wParam;
 			refreshTree(4);
@@ -140,8 +140,10 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 static int PreShutdown(WPARAM, LPARAM)
 {
-	if (hwnd2watchedVarsWindow) DestroyWindow(hwnd2watchedVarsWindow);
-	if (hwnd2mainWindow) DestroyWindow(hwnd2mainWindow);
+	if (hwnd2watchedVarsWindow)
+		DestroyWindow(hwnd2watchedVarsWindow);
+	if (g_pMainWindow)
+		g_pMainWindow->Close();
 	return 0;
 }
 
@@ -163,8 +165,6 @@ static INT_PTR ImportFromFile(WPARAM wParam, LPARAM lParam)
 
 int CMPlugin::Load()
 {
-	hwnd2mainWindow = nullptr;
-
 	hRestore = NULL;
 	g_db = db_get_current();
 

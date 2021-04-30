@@ -79,15 +79,14 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	return 0;
 }
 
-void copyModuleMenuItem(MCONTACT hContact, const char *module)
+void copyModuleMenuItem(HWND hwndParent, MCONTACT hContact, const char *module)
 {
 	ModuleAndContact *mac = (ModuleAndContact *)mir_calloc(sizeof(ModuleAndContact));
 	mac->hContact = hContact;
 	mir_strncpy(mac->module, module, sizeof(mac->module));
 
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, copyModDlgProc, (LPARAM)mac);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPY_MOD), hwndParent, copyModDlgProc, (LPARAM)mac);
 }
-
 
 int CloneContact(MCONTACT hContact)
 {

@@ -48,7 +48,7 @@ int EnumModules(ModuleSettingLL *msll) // 1 = success, 0 = fail
 	msll->first = nullptr;
 	msll->last = nullptr;
 	if (db_enum_modules(enumModulesSettingsProc, msll)) {
-		msg(TranslateT("Error loading module list"));
+		g_pMainWindow->msg(TranslateT("Error loading module list"));
 		return 0;
 	}
 	return 1;
@@ -65,7 +65,7 @@ int EnumSettings(MCONTACT hContact, const char *module, ModuleSettingLL *msll)
 	msll->first = nullptr;
 	msll->last = nullptr;
 	if (db_enum_settings(hContact, enumSettingsProc, module, msll)) {
-		msg(TranslateT("Error loading setting list"));
+		g_pMainWindow->msg(TranslateT("Error loading setting list"));
 		return 0;
 	}
 	return 1;

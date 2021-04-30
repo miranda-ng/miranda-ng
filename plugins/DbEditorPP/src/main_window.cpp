@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-HWND hwnd2mainWindow;
-
 static HIMAGELIST hImg = nullptr;
 
 int g_Hex;
@@ -9,13 +7,12 @@ int g_Mode;
 int g_Order;
 int g_Inline;
 
+CMainDlg *g_pMainWindow = nullptr;
+
 extern volatile BOOL populating, skipEnter;
 extern volatile int Select;
 
 extern SettingListInfo info;
-extern struct ColumnsSettings csSettingList[];
-extern HWND hwnd2List;
-extern HWND hwnd2Tree;
 
 void EditFinish(int selected);
 void EditLabel(int item, int subitem);
@@ -55,7 +52,7 @@ static LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				MCONTACT hContact = mtis->hContact;
 				if (wParam == VK_DELETE) {
 					if ((mtis->type) & MODULE) {
-						if (deleteModule(hContact, _T2A(text), 1)) {
+						if (deleteModule(g_pMainWindow->GetHwnd(), hContact, _T2A(text), 1)) {
 							mir_free(mtis);
 							TreeView_DeleteItem(hwnd, tvi.hItem);
 						}
@@ -64,11 +61,11 @@ static LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						if (db_get_b(0, "CList", "ConfirmDelete", 1)) {
 							wchar_t str[MSG_SIZE];
 							mir_snwprintf(str, TranslateT("Are you sure you want to delete contact \"%s\"?"), text);
-							if (dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
+							if (g_pMainWindow->dlg(str, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 								break;
 						}
 						db_delete_contact(hContact);
-						freeTree(mtis->hContact);
+						g_pMainWindow->freeTree(mtis->hContact);
 						TreeView_DeleteItem(hwnd, tvi.hItem);
 					}
 				}
@@ -99,7 +96,7 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 	case WM_KEYDOWN:
 		if (wParam == VK_F5)
-			PopulateSettings(info.hContact, info.module);
+			g_pMainWindow->PopulateSettings(info.hContact, info.module);
 		else if (wParam == VK_F3)
 			newFindWindow();
 		else if (wParam == VK_DELETE || (wParam == VK_F2 && ListView_GetSelectedCount(hwnd) == 1)) {
@@ -109,9 +106,9 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			ListView_GetItemTextA(hwnd, idx, 0, setting, _countof(setting));
 
 			if (wParam == VK_F2)
-				editSetting(info.hContact, info.module, setting);
+				g_pMainWindow->editSetting(info.hContact, info.module, setting);
 			else if (wParam == VK_DELETE)
-				DeleteSettingsFromList(info.hContact, info.module, setting);
+				g_pMainWindow->DeleteSettingsFromList(info.hContact, info.module, setting);
 
 			return 0;
 		}
@@ -168,11 +165,19 @@ CMainDlg::CMainDlg() :
 	m_settings.OnBuildMenu = Callback(this, &CMainDlg::onContextMenu_Settings);
 }
 
+static ColumnsSettings csSettingList[] =
+{
+	{ LPGENW("Name"), 0, "Column0width", 180 },
+	{ LPGENW("Value"), 1, "Column1width", 250 },
+	{ LPGENW("Type"), 2, "Column2width", 60 },
+	{ LPGENW("Size"), 3, "Column3width", 80 },
+	{ LPGENW("#"), 4, "Column4width", 30 },
+	{ nullptr }
+};
+
 bool CMainDlg::OnInitDialog() 
 {
-	hwnd2mainWindow = m_hwnd;
-	hwnd2Tree = GetDlgItem(m_hwnd, IDC_MODULES);
-	hwnd2List = GetDlgItem(m_hwnd, IDC_SETTINGS);
+	g_pMainWindow = this;
 
 	LoadResidentSettings();
 
@@ -184,13 +189,13 @@ bool CMainDlg::OnInitDialog()
 	SetWindowText(m_hwnd, TranslateT("Database Editor++"));
 
 	// module tree
-	mir_subclassWindow(hwnd2Tree, ModuleTreeSubclassProc);
+	mir_subclassWindow(m_modules.GetHwnd(), ModuleTreeSubclassProc);
 	m_modules.SetImageList(hImg, TVSIL_NORMAL);
 
 	//setting list
-	mir_subclassWindow(hwnd2List, SettingListSubclassProc);
+	mir_subclassWindow(m_settings.GetHwnd(), SettingListSubclassProc);
 	m_settings.SetExtendedListViewStyle(32 | LVS_EX_SUBITEMIMAGES | LVS_EX_LABELTIP); //LVS_EX_GRIDLINES
-	loadListSettings(hwnd2List, csSettingList);
+	loadListSettings(m_settings.GetHwnd(), csSettingList);
 	m_settings.SetImageList(hImg, LVSIL_SMALL);
 
 	HMENU hMenu = GetMenu(m_hwnd);
@@ -236,14 +241,14 @@ void CMainDlg::OnDestroy()
 
 	if (g_plugin.bRestoreOnOpen) {
 		HTREEITEM item;
-		if (item = TreeView_GetSelection(hwnd2Tree)) {
+		if (item = m_modules.GetSelection()) {
 			int type = MODULE;
-			TVITEM tvi = {};
+			TVITEMEX tvi = {};
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.pszText = text;
 			tvi.cchTextMax = _countof(text);
 			tvi.hItem = item;
-			if (TreeView_GetItem(hwnd2Tree, &tvi)) {
+			if (m_modules.GetItem(&tvi)) {
 				MCONTACT hContact = 0;
 				if (tvi.lParam) {
 					ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
@@ -263,11 +268,11 @@ void CMainDlg::OnDestroy()
 				g_plugin.delSetting("LastModule");
 			}
 
-			int pos = ListView_GetSelectionMark(hwnd2List);
+			int pos = m_settings.GetSelectionMark();
 
 			if (pos != -1) {
 				char data[FLD_SIZE];
-				ListView_GetItemTextA(hwnd2List, pos, 0, data, _countof(data));
+				ListView_GetItemTextA(m_settings.GetHwnd(), pos, 0, data, _countof(data));
 				g_plugin.setString("LastSetting", data);
 			}
 			else
@@ -291,14 +296,12 @@ void CMainDlg::OnDestroy()
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "Main_");
 	ShowWindow(m_hwnd, SW_HIDE);
 
-	saveListSettings(hwnd2List, csSettingList);
+	saveListSettings(m_settings.GetHwnd(), csSettingList);
 	ClearListView();
 
 	freeTree(0);
 
-	hwnd2mainWindow = nullptr;
-	hwnd2Tree = nullptr;
-	hwnd2List = nullptr;
+	g_pMainWindow = nullptr;
 
 	if (hImg) {
 		ImageList_Destroy(hImg);
@@ -366,16 +369,14 @@ void CMainDlg::onChange_Splitter(CSplitter *)
 	PostMessage(m_hwnd, WM_SIZE, 0, 0);
 }
 
-LRESULT CMainDlg::OnFindItem(UINT, WPARAM wParam, LPARAM)
+void CMainDlg::FindItem(int type, MCONTACT hContact, const char *szModule, const char *szSetting)
 {
-	ItemInfo *ii = (ItemInfo *)wParam;
-	if (HTREEITEM hItem = findItemInTree(ii->hContact, ii->module)) {
+	if (HTREEITEM hItem = findItemInTree(hContact, szModule)) {
 		m_modules.SelectItem(hItem);
 		m_modules.Expand(hItem, TVE_EXPAND);
-		if (ii->type != FW_MODULE)
-			SelectSetting(ii->setting);
+		if (type != FW_MODULE)
+			SelectSetting(szSetting);
 	}
-	return 0;
 }
 
 LRESULT CMainDlg::OnCommand(UINT, WPARAM wParam, LPARAM)
@@ -391,12 +392,12 @@ LRESULT CMainDlg::OnCommand(UINT, WPARAM wParam, LPARAM)
 		break;
 
 	case MENU_REFRESH_SETS:
-		TVITEM tvi;
+		TVITEMEX tvi;
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
-		tvi.hItem = TreeView_GetSelection(hwnd2Tree);
+		tvi.hItem = m_modules.GetSelection();
 		tvi.pszText = text; // modulename
 		tvi.cchTextMax = _countof(text);
-		if (TreeView_GetItem(hwnd2Tree, &tvi)) {
+		if (m_modules.GetItem(&tvi)) {
 			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)tvi.lParam;
 			if (mtis && (mtis->type == MODULE))
 				PopulateSettings(mtis->hContact, _T2A(text));
@@ -438,10 +439,10 @@ LRESULT CMainDlg::OnCommand(UINT, WPARAM wParam, LPARAM)
 		newFindWindow();
 		break;
 	case MENU_FIX_RESIDENT:
-		if (dlg(TranslateT("Delete resident settings from database?"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
+		if (g_pMainWindow->dlg(TranslateT("Delete resident settings from database?"), MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
 			int cnt = fixResidentSettings();
 			mir_snwprintf(text, TranslateT("%d items deleted."), cnt);
-			msg(text);
+			g_pMainWindow->msg(text);
 		}
 		break;
 	case MENU_FILTER_ALL:
@@ -522,10 +523,10 @@ void CMainDlg::onItemExpand_Modules(CCtrlTreeView::TEventInfo *ev)
 				return;
 
 			ModSetLinkLinkItem *module = modlist.first;
-			while (module && hwnd2mainWindow) {
-				if (module->name[0] && !IsModuleEmpty(hContact, module->name)) {
+			while (module && g_pMainWindow) {
+				if (module->name[0] && !IsModuleEmpty(hContact, module->name))
 					insertItem(hContact, module->name, ev->nmtv->itemNew.hItem);
-				}
+
 				module = (ModSetLinkLinkItem *)module->next;
 			}
 
@@ -567,7 +568,7 @@ void CMainDlg::onSelChanged_Modules(CCtrlTreeView::TEventInfo *ev)
 				hContact = db_find_first();
 			}
 
-			while (hContact && hwnd2mainWindow) {
+			while (hContact && g_pMainWindow) {
 				if (multi && ApplyProtoFilter(hContact)) {
 					hContact = db_find_next(hContact);
 					continue;
@@ -653,18 +654,15 @@ void CMainDlg::onDblClick_Settings(CCtrlListView::TEventInfo *ev)
 		LVITEM lvi = {};
 		lvi.mask = LVIF_PARAM;
 		lvi.iItem = hti.iItem;
-		if (m_settings.GetItem(&lvi)) {
-			ItemInfo ii = {};
-			ii.hContact = (MCONTACT)lvi.lParam;
-			OnFindItem(0, (WPARAM)&ii, 0);
-		}
+		if (m_settings.GetItem(&lvi))
+			FindItem(FW_MODULE, (MCONTACT)lvi.lParam, "", "");
 		return;
 	}
 
 	if (!g_Inline || hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) {
 		char setting[FLD_SIZE];
 		EditFinish(hti.iItem);
-		if (ListView_GetItemTextA(hwnd2List, hti.iItem, 0, setting, _countof(setting)))
+		if (ListView_GetItemTextA(m_settings.GetHwnd(), hti.iItem, 0, setting, _countof(setting)))
 			editSetting(info.hContact, info.module, setting);
 	}
 	else EditLabel(hti.iItem, hti.iSubItem);
@@ -673,9 +671,9 @@ void CMainDlg::onDblClick_Settings(CCtrlListView::TEventInfo *ev)
 void CMainDlg::onColumnClick_Settings(CCtrlListView::TEventInfo *ev)
 {
 	ColumnsSortParams params = {};
-	params.hList = hwnd2List;
+	params.hList = m_settings.GetHwnd();
 	params.column = ev->nmlv->iSubItem;
 	params.last = lastColumn;
-	ListView_SortItemsEx(params.hList, ColumnsCompare, (LPARAM)&params);
+	m_settings.SortItemsEx(ColumnsCompare, (LPARAM)&params);
 	lastColumn = (params.column == lastColumn) ? -1 : params.column;
 }
