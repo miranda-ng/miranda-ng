@@ -245,7 +245,10 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 
 static bool UnloadPluginDynamically(PluginListItemData *dat)
 {
-	pluginEntry *p = pluginList.find((pluginEntry*)dat->fileName);
+	pluginEntry tmp;
+	strncpy_s(tmp.pluginname, _T2A(dat->fileName), _TRUNCATE);
+
+	pluginEntry *p = pluginList.find(&tmp);
 	if (p) {
 		if (!Plugin_UnloadDyn(p))
 			return false;
