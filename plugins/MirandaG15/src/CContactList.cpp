@@ -506,15 +506,12 @@ void CContactList::RefreshList()
 	m_bUseGroups = CConfig::GetBoolSetting(CLIST_USEGROUPS);
 	m_bUseMetaContacts = db_get_b(0, "MetaContacts", "Enabled", 1) != 0;
 
-	CListEntry<CContactListEntry*, CContactListGroup*> *pContactEntry = nullptr;
-	MCONTACT hContact = db_find_first();
-	while (hContact != NULL) {
-		pContactEntry = FindContact(hContact);
+	for (auto &hContact: Contacts()) {
+		auto *pContactEntry = FindContact(hContact);
 		if (!pContactEntry)
 			AddContact(hContact);
 		else if (pContactEntry && !IsVisible(GetContactData(pContactEntry)))
 			RemoveContact(hContact);
-		hContact = db_find_next(hContact);
 	}
 }
 
@@ -935,7 +932,7 @@ void CContactList::InitializeGroupObjects()
 {
 	UninitializeGroupObjects();
 
-	for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+	for (auto &hContact: Contacts()) {
 		tstring strGroup = GetContactGroupPath(hContact);
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto && db_get_b(0, META_PROTO, "Enabled", 1) && !mir_strcmpi(szProto, META_PROTO)) {

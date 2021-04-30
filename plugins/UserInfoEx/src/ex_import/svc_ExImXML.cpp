@@ -137,7 +137,7 @@ int CFileXml::Export(lpExImParam ExImContact, const wchar_t *pszFileName)
 				vContact.Export(xmlfile, &Modules);
 
 			// loop for all other contact
-			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+			for (auto &hContact: Contacts()) {
 				switch (ExImContact->Typ) {
 				case EXIM_ALL:
 				case EXIM_GROUP:

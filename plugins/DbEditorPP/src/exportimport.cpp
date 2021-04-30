@@ -161,17 +161,15 @@ void exportDB(MCONTACT hContact, const char *module)
 
 		// exporting entire db
 		if (hContact == INVALID_CONTACT_ID) {
-			hContact = NULL;
-
 			if (module == nullptr) {
 				fprintf(file, "SETTINGS:\n");
 				mod = modlist.first;
 				while (mod) {
-					if (IsModuleEmpty(hContact, mod->name)) {
+					if (IsModuleEmpty(NULL, mod->name)) {
 						mod = (ModSetLinkLinkItem *)mod->next;
 						continue;
 					}
-					exportModule(hContact, mod->name, file);
+					exportModule(NULL, mod->name, file);
 					mod = (ModSetLinkLinkItem *)mod->next;
 					if (mod)
 						fprintf(file, "\n");
@@ -182,27 +180,23 @@ void exportDB(MCONTACT hContact, const char *module)
 					module = nullptr; // reset module for all contacts export
 			}
 
-			hContact = db_find_first();
-			if (hContact)
-				fprintf(file, "\n\n");
+			fprintf(file, "\n\n");
 
-			while (hContact) {
-				if (ApplyProtoFilter(hContact)) {
-					hContact = db_find_next(hContact);
+			for (auto &cc : Contacts()) {
+				if (ApplyProtoFilter(cc))
 					continue;
-				}
 
-				fprintf(file, "CONTACT: %s\n", NickFromHContact(hContact));
+				fprintf(file, "CONTACT: %s\n", NickFromHContact(cc));
 
 				if (module == nullptr) // export all modules
 				{
 					mod = modlist.first;
 					while (mod) {
-						if (IsModuleEmpty(hContact, mod->name)) {
+						if (IsModuleEmpty(cc, mod->name)) {
 							mod = (ModSetLinkLinkItem *)mod->next;
 							continue;
 						}
-						exportModule(hContact, mod->name, file);
+						exportModule(cc, mod->name, file);
 						mod = (ModSetLinkLinkItem *)mod->next;
 						if (mod)
 							fprintf(file, "\n");
@@ -210,9 +204,8 @@ void exportDB(MCONTACT hContact, const char *module)
 				}
 				else // export module
 				{
-					exportModule(hContact, module, file);
+					exportModule(cc, module, file);
 				}
-				hContact = db_find_next(hContact);
 			}
 		}
 		// exporting a contact

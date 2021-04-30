@@ -555,8 +555,7 @@ void CMainDlg::onSelChanged_Modules(CCtrlTreeView::TEventInfo *ev)
 			Select = 0;
 
 		if (mtis->type == MODULE) {
-			_T2A module(text);
-			PopulateSettings(hContact, module);
+			PopulateSettings(hContact, _T2A(text));
 		}
 		else if (((mtis->type & CONTACT) == CONTACT && hContact) || (mtis->type == CONTACT_ROOT_ITEM && !hContact)) {
 			int multi = 0;

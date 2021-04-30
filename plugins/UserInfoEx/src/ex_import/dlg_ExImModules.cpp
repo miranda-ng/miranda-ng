@@ -273,9 +273,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 								// module must exist in at least one contact
 								if (pDat->ExImContact->Typ != EXIM_CONTACT) // TRUE = All Contacts
 								{
-									MCONTACT hContact;
-
-									for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+									for (auto &hContact: Contacts()) {
 										// ignore empty modules
 										if (!DB::Module::IsEmpty(hContact, p)) {
 											pszProto = Proto_GetBaseAccountName(hContact);
