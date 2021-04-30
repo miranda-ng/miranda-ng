@@ -91,13 +91,8 @@ MCONTACT CIcqProto::CreateContact(const CMStringW &wszId, bool bTemporary)
 		return pCache->m_hContact;
 
 	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
 	setWString(hContact, DB_KEY_ID, wszId);
-	pCache = new IcqCacheItem(wszId, hContact);
-	{
-		mir_cslock l(m_csCache);
-		m_arCache.insert(pCache);
-	}
+	Proto_AddToContact(hContact, m_szModuleName);
 	RetrieveUserInfo(hContact);
 
 	if (bTemporary)

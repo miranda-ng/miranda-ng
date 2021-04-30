@@ -248,22 +248,26 @@ bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 	if (ppd->fnInit == nullptr)
 		return false;
 
-	PROTO_INTERFACE *ppi = ppd->fnInit(pa->szModuleName, pa->tszAccountName);
-	if (ppi == nullptr)
-		return false;
+	PROTO_INTERFACE *ppi = pa->ppro;
+	if (ppi == nullptr) {
+		ppi = ppd->fnInit(pa->szModuleName, pa->tszAccountName);
+		if (ppi == nullptr)
+			return false;
 
-	pa->ppro = ppi;
+		pa->ppro = ppi;
+
+		if (bIsDynamic) {
+			if (g_bModulesLoadedFired)
+				pa->ppro->OnModulesLoaded();
+			if (!db_get_b(0, "CList", "MoveProtoMenus", true))
+				pa->ppro->OnBuildProtoMenu();
+			pa->bDynDisabled = false;
+		}
+	}
+
 	if (ppi->m_hProtoIcon == nullptr)
 		ppi->m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pa->szModuleName, ID_STATUS_ONLINE));
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
-
-	if (bIsDynamic) {
-		if (g_bModulesLoadedFired)
-			pa->ppro->OnModulesLoaded();
-		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
-			pa->ppro->OnBuildProtoMenu();
-		pa->bDynDisabled = false;
-	}
 	return true;
 }
 

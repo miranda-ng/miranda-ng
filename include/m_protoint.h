@@ -247,6 +247,9 @@ public:
 	// builds the account's protocol menu
 	virtual void OnBuildProtoMenu(void);
 
+	// called when an account's contact is added
+	virtual void OnContactAdded(MCONTACT);
+
 	// called when an account's contact is deleted
 	virtual void OnContactDeleted(MCONTACT);
 

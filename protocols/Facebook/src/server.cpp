@@ -89,15 +89,19 @@ void FacebookProto::OnLoggedOut()
 FacebookUser* FacebookProto::AddContact(const CMStringW &wszId, bool bTemp)
 {
 	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
 	setWString(hContact, DBKEY_ID, wszId);
+	Proto_AddToContact(hContact, m_szModuleName);
 	Clist_SetGroup(hContact, m_wszDefaultGroup);
 	if (bTemp)
 		Contact_RemoveFromList(hContact);
 
-	auto *ret = new FacebookUser(_wtoi64(wszId), hContact);
-	m_users.insert(ret);
-	return ret;
+	return FindUser(_wtoi64(wszId));
+}
+
+FacebookUser* FacebookProto::FindUser(__int64 id)
+{
+	mir_cslock lck(m_csUsers);
+	return m_users.find((FacebookUser *)&id);
 }
 
 FacebookUser* FacebookProto::UserFromJson(const JSONNode &root, CMStringW &wszUserId, bool &bIsChat)
@@ -267,6 +271,7 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode &n)
 	auto *pUser = FindUser(userId);
 
 	if (pUser == nullptr) {
+		mir_cslock lck(m_csUsers);
 		pUser = new FacebookUser(userId, si->hContact, true, true);
 		m_users.insert(pUser);
 	}

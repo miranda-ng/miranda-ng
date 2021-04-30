@@ -466,11 +466,10 @@ class FacebookProto : public PROTO<FacebookProto>
 	OBJLIST<COwnMessage> arOwnMessages;
 	bool      ExtractOwnMessage(__int64 msgId, COwnMessage &res);
 
+	mir_cs    m_csUsers;
 	OBJLIST<FacebookUser> m_users;
-	FacebookUser *FindUser(__int64 id)
-	{
-		return m_users.find((FacebookUser *)&id);
-	}
+
+	FacebookUser* FindUser(__int64 id);
 
 	FacebookUser *UserFromJson(const JSONNode &root, CMStringW &wszId, bool &bIsChat);
 
@@ -521,6 +520,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
 
+	void OnContactAdded(MCONTACT) override;
 	void OnModulesLoaded() override;
 	void OnShutdown() override;
 

@@ -779,3 +779,4 @@ Netlib_GetTlsUnique @831 NONAME
 Chat_Mute @868
 WebSocket_SendBinary @869 NONAME
 WebSocket_SendText @870 NONAME
+?OnContactAdded@PROTO_INTERFACE@@UEAAXI@Z @871 NONAME

@@ -122,6 +122,18 @@ FacebookProto::~FacebookProto()
 {
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// protocol events
+
+void FacebookProto::OnContactAdded(MCONTACT hContact)
+{
+	__int64 userId = _atoi64(getMStringA(hContact, DBKEY_ID));
+	if (userId && !FindUser(userId)) {
+		mir_cslock lck(m_csUsers);
+		m_users.insert(new FacebookUser(userId, hContact));
+	}
+}
+
 void FacebookProto::OnModulesLoaded()
 {
 	VARSW wszCache(L"%miranda_avatarcache%");
@@ -162,8 +174,8 @@ MCONTACT FacebookProto::AddToList(int, PROTOSEARCHRESULT *psr)
 		return pUser->hContact;
 
 	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
 	setWString(hContact, DBKEY_ID, psr->id.w);
+	Proto_AddToContact(hContact, m_szModuleName);
 	return hContact;
 }
 

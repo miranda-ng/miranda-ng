@@ -63,6 +63,9 @@ HGENMENU PROTO_INTERFACE::GetMenuItem(ProtoMenuItemType aType)
 void PROTO_INTERFACE::OnBuildProtoMenu()
 {}
 
+void PROTO_INTERFACE::OnContactAdded(MCONTACT)
+{}
+
 void PROTO_INTERFACE::OnContactDeleted(MCONTACT)
 {}
 
