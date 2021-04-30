@@ -418,7 +418,6 @@ BEGIN
     POPUP "Contact menu"
     BEGIN
         MENUITEM "&Add module",                 MENU_ADD_MODULE
-        MENUITEM "&Clone",                      MENU_CLONE_CONTACT
         MENUITEM "&Delete",                     MENU_DELETE_CONTACT
         MENUITEM SEPARATOR
         MENUITEM "Export contact",              MENU_EXPORTCONTACT

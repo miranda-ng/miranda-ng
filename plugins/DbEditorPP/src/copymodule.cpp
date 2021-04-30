@@ -87,24 +87,3 @@ void copyModuleMenuItem(HWND hwndParent, MCONTACT hContact, const char *module)
 
 	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPY_MOD), hwndParent, copyModDlgProc, (LPARAM)mac);
 }
-
-int CloneContact(MCONTACT hContact)
-{
-	MCONTACT newContact = db_add_contact();
-	if (!newContact)
-		return 0;
-
-	// enum all the modules
-	ModuleSettingLL modlist;
-	if (!EnumModules(&modlist))
-		return 0;
-
-	ModSetLinkLinkItem *mod = modlist.first;
-	while (mod) {
-		copyModule(mod->name, hContact, newContact);
-		mod = (ModSetLinkLinkItem *)mod->next;
-	}
-
-	FreeModuleSettingLL(&modlist);
-	return 1;
-}

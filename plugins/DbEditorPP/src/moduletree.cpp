@@ -532,11 +532,6 @@ void CMainDlg::onContextMenu_Modules(CContextMenuPos *pos)
 
 	case 2: // contact
 		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
-		case MENU_CLONE_CONTACT:
-			if (CloneContact(hContact))
-				refreshTree(1);
-			break;
-
 		case MENU_DELETE_CONTACT:
 			if (db_get_b(0, "CList", "ConfirmDelete", 1)) {
 				wchar_t str[MSG_SIZE];

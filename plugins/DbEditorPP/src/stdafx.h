@@ -313,7 +313,6 @@ void newFindWindow();
 // copymodule
 void copyModuleMenuItem(HWND hwndParent, MCONTACT hContact, const char *module);
 void copyModule(const char *module, MCONTACT hContactFrom, MCONTACT hContactTo);
-int CloneContact(MCONTACT hContact);
 
 // options
 int OptInit(WPARAM wParam, LPARAM lParam);

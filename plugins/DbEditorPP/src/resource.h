@@ -103,7 +103,6 @@
 #define MENU_WATCH_ITEM                 40018
 #define MENU_WATCH_MOD                  40019
 #define MENU_ADD_BLOB                   40020
-#define MENU_CLONE_CONTACT              40021
 #define MENU_DELETE_CONTACT             40022
 #define MENU_ADD_MODULE                 40023
 #define MENU_ADD_BYTE                   40024
