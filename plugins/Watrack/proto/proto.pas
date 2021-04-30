@@ -301,13 +301,6 @@ begin
   end;
 end;
 
-function HookAddUser(hContact:WPARAM;lParam:LPARAM):int; cdecl;
-begin
-  result:=0;
-  if not IsChat(hContact) then
-    Proto_AddToContact(hContact,PluginShort);
-end;
-
 function OnContactMenu(hContact:WPARAM;lParam:LPARAM):int;cdecl;
 begin
   if IsMirandaUser(hContact)<=0 then
@@ -376,7 +369,6 @@ begin
   RegisterContacts;
   hGCI:=CreateServiceFunction(MS_WAT_GETCONTACTINFO,@SendRequest);
   HookEvent(ME_CLIST_PREBUILDCONTACTMENU,@OnContactMenu);
-  HookEvent(ME_DB_CONTACT_ADDED         ,@HookAddUser);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
