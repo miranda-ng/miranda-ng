@@ -64,7 +64,7 @@ static void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 		wcsncpy(str, WEATHER_NO_INFO, _countof(str) - 1);
 	else
 		// set the display text and show the message box
-		GetDisplay(&winfo, opt.bText, str);
+		GetDisplay(&winfo, GetTextValue('B'), str);
 	SetDlgItemText(hwndDlg, IDC_MTEXT, str);
 
 	GetDisplay(&winfo, L"%c, %t", str);

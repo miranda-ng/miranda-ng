@@ -129,10 +129,10 @@ int UpdateWeather(MCONTACT hContact)
 		g_plugin.setWord(hContact, "Status", winfo.status);
 	AvatarDownloaded(hContact);
 
-	GetDisplay(&winfo, opt.cText, str2);
+	GetDisplay(&winfo, GetTextValue('C'), str2);
 	db_set_ws(hContact, "CList", "MyHandle", str2);
 
-	GetDisplay(&winfo, opt.sText, str2);
+	GetDisplay(&winfo, GetTextValue('S'), str2);
 	if (str2[0])
 		db_set_ws(hContact, "CList", "StatusMsg", str2);
 	else
@@ -141,9 +141,9 @@ int UpdateWeather(MCONTACT hContact)
 	ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2[0] ? str2 : nullptr));
 
 	// save descriptions in MyNotes
-	GetDisplay(&winfo, opt.nText, str2);
+	GetDisplay(&winfo, GetTextValue('N'), str2);
 	db_set_ws(hContact, "UserInfo", "MyNotes", str2);
-	GetDisplay(&winfo, opt.xText, str2);
+	GetDisplay(&winfo, GetTextValue('X'), str2);
 	db_set_ws(hContact, WEATHERCONDITION, "WeatherInfo", str2);
 
 	// set the update tag
@@ -176,7 +176,7 @@ int UpdateWeather(MCONTACT hContact)
 				db_free(&dbv);
 				if (file != nullptr) {
 					// write data to the file and close
-					GetDisplay(&winfo, opt.eText, str2);
+					GetDisplay(&winfo, GetTextValue('E'), str2);
 					fputws(str2, file);
 					fclose(file);
 				}
@@ -185,7 +185,7 @@ int UpdateWeather(MCONTACT hContact)
 
 		if (g_plugin.getByte(hContact, "History")) {
 			// internal log using history
-			GetDisplay(&winfo, opt.hText, str2);
+			GetDisplay(&winfo, GetTextValue('H'), str2);
 
 			T2Utf szMessage(str2);
 

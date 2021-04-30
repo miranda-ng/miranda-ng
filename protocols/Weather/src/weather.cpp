@@ -220,7 +220,6 @@ int CMPlugin::Unload()
 	Netlib_CloseHandle(hNetlibUser);
 
 	DestroyUpdateList();
-	DestroyOptions();
 	DestroyWIList();				// unload all ini data from memory
 
 	WindowList_Destroy(hDataWindowList);
