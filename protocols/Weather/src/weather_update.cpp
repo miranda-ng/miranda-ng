@@ -26,7 +26,7 @@ menu items).
 
 #include "stdafx.h"
 
-UPDATELIST *UpdateListHead, *UpdateListTail;
+UPDATELIST *UpdateListHead = nullptr, *UpdateListTail = nullptr;
 
 //============  RETRIEVE NEW WEATHER  ============
 //
@@ -34,7 +34,7 @@ UPDATELIST *UpdateListHead, *UpdateListTail;
 // hContact = current contact
 int UpdateWeather(MCONTACT hContact)
 {
-	wchar_t str[256], str2[MAX_TEXT_SIZE];
+	wchar_t str2[MAX_TEXT_SIZE];
 	DBVARIANT dbv;
 	BOOL Ch = FALSE;
 
@@ -56,13 +56,10 @@ int UpdateWeather(MCONTACT hContact)
 		// error occurs if the return value is not equals to 0
 		if (opt.ShowWarnings) {
 			// show warnings by popup
-			mir_snwprintf(str, _countof(str) - 105,
-				TranslateT("Unable to retrieve weather information for %s"), dbv.pwszVal);
-			mir_wstrncat(str, L"\n", _countof(str) - mir_wstrlen(str));
-			wchar_t *tszError = GetError(code);
-			mir_wstrncat(str, tszError, _countof(str) - mir_wstrlen(str));
+			CMStringW str(FORMAT, TranslateT("Unable to retrieve weather information for %s"), dbv.pwszVal);
+			str.AppendChar('\n');
+			str.Append(ptrW(GetError(code)));
 			WPShowMessage(str, SM_WARNING);
-			mir_free(tszError);
 		}
 		// log to netlib
 		Netlib_LogfW(hNetlibUser, L"Error! Update cannot continue... Start to free memory");
@@ -104,7 +101,7 @@ int UpdateWeather(MCONTACT hContact)
 	if (!dbres && dbv.pwszVal[0] != 0) {
 		if (opt.AlertPopup && !g_plugin.getByte(hContact, "DPopUp") && Ch) {
 			// display alert popup
-			mir_snwprintf(str, L"Alert for %s%c%s", winfo.city, 255, dbv.pwszVal);
+			CMStringW str(FORMAT, L"Alert for %s%c%s", winfo.city, 255, dbv.pwszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic

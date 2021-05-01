@@ -81,7 +81,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 //  (threaded)
 // lpzText = error text
 // kind = display type (see m_popup.h)
-int WPShowMessage(wchar_t* lpzText, WORD kind)
+int WPShowMessage(const wchar_t* lpzText, WORD kind)
 {
 	NotifyEventHooks(hHookWeatherError, (WPARAM)lpzText, (LPARAM)kind);
 	return 0;
@@ -246,7 +246,6 @@ void ReadPopupOpt(HWND hdlg)
 INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ID;
-	wchar_t str[512];
 	HMENU hMenu, hMenu1;
 	RECT pos;
 	HWND button;
@@ -260,6 +259,8 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		// click actions
 		hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_PMENU));
 		hMenu1 = GetSubMenu(hMenu, 0);
+
+		wchar_t str[512];
 		GetMenuString(hMenu1, opt.LeftClickAction, str, _countof(str), MF_BYCOMMAND);
 		SetDlgItemText(hdlg, IDC_LeftClick, TranslateW(str));
 		GetMenuString(hMenu1, opt.RightClickAction, str, _countof(str), MF_BYCOMMAND);
@@ -285,10 +286,12 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD1);
 		else
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD3);
-		//Colours. First step is configuring the colours.
+
+		// Colours. First step is configuring the colours.
 		SendDlgItemMessage(hdlg, IDC_BGCOLOUR, CPM_SETCOLOUR, 0, opt.BGColour);
 		SendDlgItemMessage(hdlg, IDC_TEXTCOLOUR, CPM_SETCOLOUR, 0, opt.TextColour);
-		//Second step is disabling them if we want to use default Windows ones.
+
+		// Second step is disabling them if we want to use default Windows ones.
 		CheckDlgButton(hdlg, IDC_USEWINCOLORS, opt.UseWinColors ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hdlg, IDC_BGCOLOUR), !opt.UseWinColors);
 		EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOUR), !opt.UseWinColors);
@@ -395,11 +398,14 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_VAR3:
 			// display variable list
-			wcsncpy(str, L"                                                            \n", _countof(str) - 1);		// to make the message box wider
-			mir_wstrncat(str, VAR_LIST_POPUP, _countof(str) - mir_wstrlen(str));
-			mir_wstrncat(str, L"\n", _countof(str) - mir_wstrlen(str));
-			mir_wstrncat(str, CUSTOM_VARS, _countof(str) - mir_wstrlen(str));
-			MessageBox(nullptr, str, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
+			{
+				CMStringW wszText;
+				wszText += L"                                                            \n"; // to make the message box wider
+				wszText += TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set");
+				wszText += L"\n";
+				wszText += TranslateT("%[..]\tcustom variables");
+				MessageBox(nullptr, wszText, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
+			}
 			break;
 
 		case IDC_PREVIEW:

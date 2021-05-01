@@ -424,11 +424,12 @@ void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM)
 			if (!mir_strcmp(str, "WeatherInfo") || !mir_strcmp(str, "Ignore") || str[0] == '#')
 				continue;
 
+			_A2T strW(str);
 			HWND hList = GetDlgItem((HWND)wParam, IDC_DATALIST);
-			LV_ITEM lvi = { 0 };
+			LV_ITEM lvi = {};
 			lvi.mask = LVIF_TEXT | LVIF_PARAM;
 			lvi.lParam = T.indexOf(&str);
-			lvi.pszText = TranslateW(_A2T(str));
+			lvi.pszText = TranslateW(strW);
 			lvi.iItem = ListView_InsertItem(hList, &lvi);
 			lvi.pszText = wszText;
 			ListView_SetItemText(hList, lvi.iItem, 1, wszText);

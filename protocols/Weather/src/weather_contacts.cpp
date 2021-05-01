@@ -61,7 +61,7 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM)
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
 		if (db_get_wstatic(wParam, MODULENAME, "InfoURL", loc2, _countof(loc2)) || loc2[0] == 0) {
-			MessageBox(nullptr, NO_FORECAST_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
+			MessageBox(nullptr, TranslateT("The URL for complete forecast has not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
 		// set the url and open the webpage
@@ -79,7 +79,7 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM)
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
 		if (db_get_wstatic(wParam, MODULENAME, "MapURL", loc2, _countof(loc2)) || loc2[0] == 0) {
-			MessageBox(nullptr, NO_MAP_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
+			MessageBox(nullptr, TranslateT("The URL for weather map has not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
 
@@ -106,7 +106,7 @@ typedef struct
 static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	wchar_t str[MAX_DATA_LEN], str2[256], city[256], filter[256], *pfilter, *chop;
+	wchar_t str[MAX_DATA_LEN], str2[256], city[256], filter[256], *chop;
 	char loc[512];
 	OPENFILENAME ofn;       // common dialog box structure
 	MCONTACT hContact;
@@ -270,18 +270,9 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			ofn.hwndOwner = hwndDlg;
 			ofn.lpstrFile = str;
 			ofn.nMaxFile = _countof(str);
+			
 			// set filters
-			wcsncpy(filter, TranslateT("Text Files"), _countof(filter) - 1);
-			mir_wstrncat(filter, L" (*.txt)", _countof(filter) - mir_wstrlen(filter));
-			pfilter = filter + mir_wstrlen(filter) + 1;
-			wcsncpy(pfilter, L"*.txt", _countof(filter) - 1);
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			wcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - 1);
-			mir_wstrncat(pfilter, L" (*.*)", _countof(filter) - mir_wstrlen(filter));
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			wcsncpy(pfilter, L"*.*", _countof(filter) - 1);
-			pfilter = pfilter + mir_wstrlen(pfilter) + 1;
-			*pfilter = '\0';
+			mir_snwprintf(filter, L"%s (*.txt)%c*.txt%c%s (*.*)%c*.*%c%c", TranslateT("Text Files"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 1;
 			ofn.lpstrFileTitle = nullptr;

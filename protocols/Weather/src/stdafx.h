@@ -165,13 +165,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 505 HTTP Version Not Supported
 
 // defaults constants
-#define VAR_LIST_POPUP TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set")
-#define VAR_LIST_OPT   TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
-#define WEATHER_NO_INFO TranslateT("No information available.\r\nPlease update weather condition first.")
-#define CUSTOM_VARS TranslateT("%[..]\tcustom variables")
-#define VARS_LIST TranslateT("Here is a list of custom variables that are currently available")
-#define NO_FORECAST_URL TranslateT("The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.")
-#define NO_MAP_URL TranslateT("The URL for weather map has not been set. You can set it from the Edit Settings dialog.")
+#define VAR_LIST_OPT TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
 
 //============  OPTION STRUCT  ============
 
@@ -454,7 +448,7 @@ const wchar_t* GetDefaultText(int c);
 // functions in weather_popup.c
 int WeatherPopup(WPARAM wParam, LPARAM lParam);
 int WeatherError(WPARAM wParam, LPARAM lParam);
-int WPShowMessage(wchar_t* lpzText, WORD kind);
+int WPShowMessage(const wchar_t* lpzText, WORD kind);
 
 LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

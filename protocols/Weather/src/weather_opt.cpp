@@ -106,19 +106,23 @@ void LoadOptions(void)
 
 	// advanced
 	opt.DisCondIcon = g_plugin.getByte("DisableConditionIcon", false);
+
 	// popup options
 	opt.UsePopup = g_plugin.getByte("UsePopUp", true);
 	opt.UpdatePopup = g_plugin.getByte("UpdatePopup", true);
 	opt.AlertPopup = g_plugin.getByte("AlertPopup", true);
 	opt.PopupOnChange = g_plugin.getByte("PopUpOnChange", true);
 	opt.ShowWarnings = g_plugin.getByte("ShowWarnings", true);
+
 	// popup colors
 	opt.BGColour = g_plugin.getDword("BackgroundColour", GetSysColor(COLOR_BTNFACE));
 	opt.TextColour = g_plugin.getDword("TextColour", GetSysColor(COLOR_WINDOWTEXT));
 	opt.UseWinColors = g_plugin.getByte("UseWinColors", false);
+
 	// popup actions
 	opt.LeftClickAction = g_plugin.getDword("LeftClickAction", IDM_M2);
 	opt.RightClickAction = g_plugin.getDword("RightClickAction", IDM_M1);
+
 	// popup delay
 	opt.pDelay = g_plugin.getDword("PopupDelay", 0);
 
@@ -141,6 +145,7 @@ void SaveOptions(void)
 	g_plugin.setByte("RemoveOld", (BYTE)opt.RemoveOldData);
 	g_plugin.setByte("MakeItalic", (BYTE)opt.MakeItalic);
 	g_plugin.setByte("AvatarSize", (BYTE)opt.AvatarSize);
+	
 	// units
 	g_plugin.setWord("tUnit", opt.tUnit);
 	g_plugin.setWord("wUnit", opt.wUnit);
@@ -151,29 +156,36 @@ void SaveOptions(void)
 	g_plugin.setWString("DegreeSign", opt.DegreeSign);
 	g_plugin.setByte("DoNotAppendUnit", (BYTE)opt.DoNotAppendUnit);
 	g_plugin.setByte("NoFractions", (BYTE)opt.NoFrac);
+	
 	// advanced
 	g_plugin.setByte("DisableConditionIcon", (BYTE)opt.DisCondIcon);
+	
 	// popup options
 	g_plugin.setByte("UsePopUp", (BYTE)opt.UsePopup);
 	g_plugin.setByte("UpdatePopup", (BYTE)opt.UpdatePopup);
 	g_plugin.setByte("AlertPopup", (BYTE)opt.AlertPopup);
 	g_plugin.setByte("PopUpOnChange", (BYTE)opt.PopupOnChange);
 	g_plugin.setByte("ShowWarnings", (BYTE)opt.ShowWarnings);
+	
 	// popup colors
 	g_plugin.setDword("BackgroundColour", opt.BGColour);
 	g_plugin.setDword("TextColour", opt.TextColour);
 	g_plugin.setByte("UseWinColors", (BYTE)opt.UseWinColors);
+	
 	// popup actions
 	g_plugin.setDword("LeftClickAction", opt.LeftClickAction);
 	g_plugin.setDword("RightClickAction", opt.RightClickAction);
+	
 	// popup delay
 	g_plugin.setDword("PopupDelay", opt.pDelay);
+	
 	// misc stuff
 	g_plugin.setWString("Default", opt.Default);
 }
-//============  MAIN OPTIONS  ============
 
+//============  MAIN OPTIONS  ============
 // weather options
+
 static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	wchar_t str[512];
@@ -333,7 +345,6 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 	RECT rc, pos;
 	HWND button;
 	HMENU hMenu, hMenu1;
-	wchar_t str[4096];
 	switch (msg) {
 	case WM_INITDIALOG:
 		opt_startup = TRUE;
@@ -343,8 +354,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 		TranslateDialogDefault(hdlg);
 
 		// generate the display text for variable list
-		wcsncpy(str, VAR_LIST_OPT, _countof(str) - 1);
-		SetDlgItemText(hdlg, IDC_VARLIST, str);
+		SetDlgItemText(hdlg, IDC_VARLIST, VAR_LIST_OPT);
 
 		for (auto &it : controls)
 			SetDlgItemText(hdlg, it.id, GetTextValue(it.c));
@@ -407,7 +417,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 					{
 						// show the preview in a message box, using the weather data from the default station
 						WEATHERINFO winfo = LoadWeatherInfo(opt.DefStn);
-						wchar_t buf[2] = { var.c, 0 };
+						wchar_t buf[2] = { var.c, 0 }, str[4096];
 						GetDisplay(&winfo, buf, str);
 						MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
 					}
