@@ -187,7 +187,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
 		// temperature
 		if (!mir_wstrcmp(UpdateData->Name, L"Temperature") || !mir_wstrcmp(UpdateData->Name, L"High") ||
 			!mir_wstrcmp(UpdateData->Name, L"Low") || !mir_wstrcmp(UpdateData->Name, L"Feel") ||
-			!mir_wstrcmp(UpdateData->Name, L"Dewpoint") ||
+			!mir_wstrcmp(UpdateData->Name, L"Dew point") ||
 			!mir_wstrcmpi(UpdateData->Unit, L"C") || !mir_wstrcmpi(UpdateData->Unit, L"F") ||
 			!mir_wstrcmpi(UpdateData->Unit, L"K")) {
 			GetTemp(Data, UpdateData->Unit, str);
