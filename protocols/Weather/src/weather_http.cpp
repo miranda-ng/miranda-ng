@@ -89,12 +89,10 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 				while (end) {
 					// look for
 					// <meta http-equiv="Content-Type" content="utf-8" />
-					char* beg = strstr(end, "<meta");
-					if (beg)
-					{
+					char *beg = strstr(end, "<meta");
+					if (beg) {
 						end = strchr(beg, '>');
-						if (end)
-						{
+						if (end) {
 							char tmp = *end;
 							*end = 0;
 

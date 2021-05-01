@@ -75,7 +75,7 @@ static void numToStr(double num, wchar_t *str, size_t strSize)
 // tempchar = the string containing the temperature value
 // unit = the unit for temperature
 // return value = the converted temperature with degree sign and unit; if fails, return N/A
-void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
+void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be C, F
 	double temp;
@@ -83,7 +83,7 @@ void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 
 	TrimString(tempchar);
 	if (tempchar[0] == '-' && tempchar[1] == ' ')
-		memmove(&tempchar[1], &tempchar[2], sizeof(wchar_t)*(mir_wstrlen(&tempchar[2]) + 1));
+		memmove(&tempchar[1], &tempchar[2], sizeof(wchar_t) * (mir_wstrlen(&tempchar[2]) + 1));
 
 	// quit if the value obtained is N/A or not a number
 	if (!mir_wstrcmp(tempchar, NODATA) || !mir_wstrcmp(tempchar, L"N/A")) {
@@ -127,7 +127,7 @@ void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
 // tempchar = the string containing the pressure value
 // unit = the unit for pressure
 // return value = the converted pressure with unit; if fail, return the original string
-void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t* str)
+void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be kPa, hPa, mb, in, mm, torr
 	double tempunit = 0, output;
@@ -319,7 +319,7 @@ void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 static const wchar_t *statusStr[10] = { L"Lightning", L"Fog", L"Snow", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A" };
 static const WORD statusValue[10] = { LIGHT, FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
-WORD GetIcon(const wchar_t* cond, WIDATA *Data)
+WORD GetIcon(const wchar_t *cond, WIDATA *Data)
 {
 	// set the icon using ini
 	for (int i = 0; i < 10; i++)
@@ -378,7 +378,7 @@ void CaseConv(wchar_t *str)
 	for (wchar_t *pstr = str; *pstr; pstr++) {
 		if (*pstr == ' ' || *pstr == '-')
 			nextUp = true;
-		else if (nextUp)  {
+		else if (nextUp) {
 			CharUpperBuffW(pstr, 1);
 			nextUp = false;
 		}
@@ -405,7 +405,7 @@ void TrimString(WCHAR *str)
 	len = mir_wstrlen(str);
 	while (len && (unsigned char)str[len - 1] <= ' ') str[--len] = 0;
 	for (start = 0; (unsigned char)str[start] <= ' ' && str[start]; start++);
-	memmove(str, str + start, (len - start + 1)*sizeof(WCHAR));
+	memmove(str, str + start, (len - start + 1) * sizeof(WCHAR));
 }
 
 // convert \t to tab and \n to linefeed
@@ -448,7 +448,7 @@ char *GetSearchStr(char *dis)
 // w = WEATHERINFO data to be parsed
 // dis = the string to parse
 // return value = the parsed string
-wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str)
+wchar_t *GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 {
 	wchar_t lpzDate[32], chr;
 	char name[256], temp[2];

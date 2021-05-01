@@ -177,18 +177,18 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 
 		case IDC_STEP2:
-		{
-			CMStringW wszPath('\x00', MAX_PATH);
-			GetModuleFileName(GetModuleHandle(nullptr), wszPath.GetBuffer(), MAX_PATH);
-			int idx = wszPath.Find('\\');
-			if (idx != -1) {
-				wszPath.Truncate(idx);
-				wszPath += L"\\Plugins\\weather\\";
-				if (_wmkdir(wszPath) == 0)
-					ShellExecute((HWND)lParam, L"open", wszPath, L"", L"", SW_SHOW);
+			{
+				CMStringW wszPath('\x00', MAX_PATH);
+				GetModuleFileName(GetModuleHandle(nullptr), wszPath.GetBuffer(), MAX_PATH);
+				int idx = wszPath.Find('\\');
+				if (idx != -1) {
+					wszPath.Truncate(idx);
+					wszPath += L"\\Plugins\\weather\\";
+					if (_wmkdir(wszPath) == 0)
+						ShellExecute((HWND)lParam, L"open", wszPath, L"", L"", SW_SHOW);
+				}
+				break;
 			}
-			break;
-		}
 
 		case IDC_STEP3:
 			if (LoadWIData(false))
@@ -323,7 +323,7 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 
 	// initialize the linked list for update items
 	Data->UpdateDataCount = 0;
-	Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (mir_wstrlen(pszShortFile) + mir_wstrlen(pszFile) + 20)*sizeof(wchar_t);
+	Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (mir_wstrlen(pszShortFile) + mir_wstrlen(pszFile) + 20) * sizeof(wchar_t);
 	Data->UpdateData = nullptr;
 	Data->UpdateDataTail = nullptr;
 

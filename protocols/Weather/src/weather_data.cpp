@@ -30,7 +30,7 @@ saving individual weather data for a weather contact.
 // hContact = the current contact handle
 // return value = the string for station ID
 //
-void GetStationID(MCONTACT hContact, wchar_t* id, int idlen)
+void GetStationID(MCONTACT hContact, wchar_t *id, int idlen)
 {
 	// accessing the database
 	if (db_get_wstatic(hContact, MODULENAME, "ID", id, idlen))
@@ -245,7 +245,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
 // Data = the string containing weather data obtained from UpdateData
 // global var. used: szInfo = the downloaded string
 //
-void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szData)
+void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData)
 {
 	wchar_t last = 0, current, *start, *end;
 	unsigned startloc = 0, endloc = 0, respos = 0;

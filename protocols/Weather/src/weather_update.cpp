@@ -242,7 +242,7 @@ MCONTACT UpdateGetFirst()
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
 	if (UpdateListHead != nullptr) {
-		UPDATELIST* Item = UpdateListHead;
+		UPDATELIST *Item = UpdateListHead;
 
 		hContact = Item->hContact;
 		UpdateListHead = Item->next;
@@ -378,7 +378,7 @@ int GetWeatherData(MCONTACT hContact)
 	GetStationID(hContact, id, _countof(id));
 
 	// test ID format
-	wchar_t* szInfo = wcschr(id, '/');
+	wchar_t *szInfo = wcschr(id, '/');
 	if (szInfo == nullptr)
 		return INVALID_ID_FORMAT;
 
@@ -426,7 +426,7 @@ int GetWeatherData(MCONTACT hContact)
 			continue;
 
 		// download the html file from the internet
-		wchar_t* szData = nullptr;
+		wchar_t *szData = nullptr;
 		int retval = InternetDownloadFile(loc, Data->Cookie, Data->UserAgent, &szData);
 		if (retval != 0) {
 			mir_free(szData);
@@ -517,7 +517,7 @@ int GetWeatherData(MCONTACT hContact)
 					}
 
 					// generate the strings
-					wchar_t* end = wcsstr(DataValue, Item->Item.Break);
+					wchar_t *end = wcsstr(DataValue, Item->Item.Break);
 					if (end == nullptr) {
 						DataValue[0] = 0;
 						break;	// exit if break string is not found

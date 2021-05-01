@@ -433,6 +433,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 // functions in weather_info.c
 void GetINIInfo(wchar_t *pszSvc);
+wchar_t* GetINIVersionNum(int iVersion);
 
 void MoreVarList();
 

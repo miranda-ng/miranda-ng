@@ -35,7 +35,6 @@ static void INIInfo(HWND hwndDlg)
 	wchar_t str[16];
 	size_t memused = 0;
 
-
 	HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
 
 	ListView_DeleteAllItems(hIniList);
@@ -55,16 +54,7 @@ static void INIInfo(HWND hwndDlg)
 		lvi.pszText = Item->Data.Version;
 		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 3;
-		switch (Item->Data.InternalVer) {
-		case 1:  lvi.pszText = L"1.0";  break;
-		case 2:  lvi.pszText = L"1.1";  break;
-		case 3:  lvi.pszText = L"1.1a"; break;
-		case 4:  lvi.pszText = L"1.2";  break;
-		case 5:  lvi.pszText = L"1.3";  break;
-		case 6:  lvi.pszText = L"1.4";  break;
-		case 7:  lvi.pszText = L"1.5";  break;
-		default: lvi.pszText = L"";     break;
-		}
+		lvi.pszText = GetINIVersionNum(Item->Data.InternalVer);
 		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 4;
 		lvi.pszText = _ltow(Item->Data.UpdateDataCount, str, 10);
@@ -142,7 +132,7 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 // get the info of individual ini file
 // pszSvc = the internal name of the service to get the data
 
-static wchar_t* GetVersionNum(int iVersion)
+wchar_t* GetINIVersionNum(int iVersion)
 {
 	switch (iVersion) {
 	case 1: return L"1.0";
@@ -172,7 +162,7 @@ void GetINIInfo(wchar_t *pszSvc)
 		str.AppendFormat(L"%s\t%s\n", TranslateT("Internal Name:"), sData->InternalName);
 		str.AppendFormat(L"%s\t%s\n", TranslateT("Author:"), sData->Author);
 		str.AppendFormat(L"%s\t%s\n", TranslateT("Version:"), sData->Version);
-		str.AppendFormat(L"%s\t%s\n", TranslateT("INI Version:"), GetVersionNum(sData->InternalVer));
+		str.AppendFormat(L"%s\t%s\n", TranslateT("INI Version:"), GetINIVersionNum(sData->InternalVer));
 		str.AppendFormat(L"%s\t%s\n", TranslateT("File Name:"), sData->ShortFileName);
 		str.AppendFormat(L"%s\t%i\n", TranslateT("Item Count:"), sData->UpdateDataCount);
 		str.AppendFormat(L"%s\t%i %s\n\n", TranslateT("Memory Used:"), (int)sData->MemUsed, TranslateT("bytes"));

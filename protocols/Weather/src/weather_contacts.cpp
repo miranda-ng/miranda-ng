@@ -25,7 +25,7 @@ the contact.
 
 #include "stdafx.h"
 
-static void OpenUrl(wchar_t* format, wchar_t* id)
+static void OpenUrl(wchar_t *format, wchar_t *id)
 {
 	wchar_t loc[512];
 	GetID(id);
@@ -239,7 +239,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				wchar_t *pData = nullptr;
 				if (InternetDownloadFile(loc, nullptr, sData->UserAgent, &pData) == 0) {
 					wchar_t *szInfo = pData;
-					wchar_t* search = wcsstr(szInfo, sData->IDSearch.NotFoundStr);
+					wchar_t *search = wcsstr(szInfo, sData->IDSearch.NotFoundStr);
 
 					// if the page is found (ie. valid ID), get the name of the city
 					if (search == nullptr)
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			ofn.hwndOwner = hwndDlg;
 			ofn.lpstrFile = str;
 			ofn.nMaxFile = _countof(str);
-			
+
 			// set filters
 			mir_snwprintf(filter, L"%s (*.txt)%c*.txt%c%s (*.*)%c*.*%c%c", TranslateT("Text Files"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 			ofn.lpstrFilter = filter;
