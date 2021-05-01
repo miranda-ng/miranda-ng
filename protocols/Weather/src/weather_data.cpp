@@ -65,11 +65,11 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 		wcsncpy(winfo.sunset, NODATA, _countof(winfo.sunset) - 1);
 	if (db_get_wstatic(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, _countof(winfo.sunrise)))
 		wcsncpy(winfo.sunrise, NODATA, _countof(winfo.sunrise) - 1);
-	if (db_get_wstatic(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, _countof(winfo.wind)))
+	if (db_get_wstatic(hContact, WEATHERCONDITION, "Wind speed", winfo.wind, _countof(winfo.wind)))
 		wcsncpy(winfo.wind, NODATA, _countof(winfo.wind) - 1);
-	if (db_get_wstatic(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, _countof(winfo.winddir)))
+	if (db_get_wstatic(hContact, WEATHERCONDITION, "Wind direction", winfo.winddir, _countof(winfo.winddir)))
 		wcsncpy(winfo.winddir, NODATA, _countof(winfo.winddir) - 1);
-	if (db_get_wstatic(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, _countof(winfo.dewpoint)))
+	if (db_get_wstatic(hContact, WEATHERCONDITION, "Dew point", winfo.dewpoint, _countof(winfo.dewpoint)))
 		wcsncpy(winfo.dewpoint, NODATA, _countof(winfo.dewpoint) - 1);
 	if (db_get_wstatic(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, _countof(winfo.pressure)))
 		wcsncpy(winfo.pressure, NODATA, _countof(winfo.pressure) - 1);
