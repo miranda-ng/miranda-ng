@@ -88,6 +88,8 @@ class FbThriftReader : public FbThrift
 	uint8_t decodeType(int type);
 
 public:
+	__forceinline CMStringA rest() const { return CMStringA((char*)data() + offset, int(size() - offset)); }
+
 	bool isStop();
 	bool readBool(bool &bVal);
 	bool readByte(uint8_t &val);

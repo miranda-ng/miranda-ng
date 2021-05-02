@@ -456,6 +456,7 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 		void *pData = doUnzip(cbLen, p, dataSize);
 		if (pData != nullptr) {
 			debugLogA("UNZIP: %d bytes unzipped ok", dataSize);
+			Netlib_Dump(m_mqttConn, pData, dataSize, false, 0);
 			rdr.reset(dataSize, pData);
 			mir_free(pData);
 		}
@@ -474,7 +475,7 @@ void FacebookProto::OnPublish(const char *topic, const uint8_t *p, size_t cbLen)
 
 void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
 {
-	char *str;
+	char *str = nullptr;
 	rdr.readStr(str);
 	mir_free(str);
 
@@ -537,7 +538,7 @@ void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
 
 void FacebookProto::OnPublishUtn(FbThriftReader &rdr)
 {
-	JSONNode root = JSONNode::parse((const char *)rdr.data());
+	JSONNode root = JSONNode::parse(rdr.rest());
 	auto *pUser = FindUser(_wtoi64(root["sender_fbid"].as_mstring()));
 	if (pUser != nullptr) {
 		int length = (root["state"].as_int() == 0) ? PROTOTYPE_CONTACTTYPING_OFF : 60;
@@ -564,10 +565,24 @@ static MsgHandlers[] =
 
 void FacebookProto::OnPublishMessage(FbThriftReader &rdr)
 {
-	CMStringA szJson((const char *)rdr.data(), (int)rdr.size());
-	if (szJson[0] == 0)
-		szJson.Delete(0);
+	uint8_t stop;
+	if (rdr.isStop())
+		rdr.readByte(stop);
+	else {
+		uint8_t type;
+		uint16_t id;
+		rdr.readField(type, id);
+		_ASSERT(type == FB_THRIFT_TYPE_STRING);
+		_ASSERT(id == 1 || id == 2);
+		
+		char *szShit = nullptr;
+		rdr.readStr(szShit);
+		mir_free(szShit);
 
+		rdr.readByte(stop);
+	}
+
+	CMStringA szJson(rdr.rest());
 	debugLogA("MS: <%s>", szJson.c_str());
 	JSONNode root = JSONNode::parse(szJson);
 
