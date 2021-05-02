@@ -168,6 +168,7 @@ void CCtrlListView::GetCaretPos(CContextMenuPos &pos) const
 	else {
 		LVHITTESTINFO hti;
 		hti.pt = pos.pt;
+		ScreenToClient(m_hwnd, &hti.pt);
 		if (SubItemHitTest(&hti) != -1) {
 			pos.iCurr = hti.iItem;
 			return;
