@@ -742,11 +742,10 @@ void CMainDlg::onContextMenu_Settings(CContextMenuPos *pos)
 	case IMAGE_HANDLE:
 		RemoveMenu(hSubMenu, MENU_EDIT_SET, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_COPY_SET, MF_BYCOMMAND);
-		RemoveMenu(hSubMenu, MENU_DELETE_SET, MF_BYCOMMAND);
 		RemoveMenu(hSubMenu, MENU_WATCH_ITEM, MF_BYCOMMAND);
-		RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // convert
-		RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // separator
-		RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // new
+		RemoveMenu(hSubMenu, 1, MF_BYPOSITION); // convert
+		RemoveMenu(hSubMenu, 1, MF_BYPOSITION); // separator
+		RemoveMenu(hSubMenu, 1, MF_BYPOSITION); // new
 		break;
 	}
 
