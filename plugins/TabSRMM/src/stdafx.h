@@ -45,6 +45,8 @@
 #include <malloc.h>
 #include <locale.h>
 
+#include <map>
+
 #include <msapi/vsstyle.h>
 #include <msapi/comptr.h>
 

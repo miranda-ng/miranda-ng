@@ -353,6 +353,13 @@ class CMsgDialog : public CSrmmBaseDialog
 	BOOL    BB_SetButtonsPos(void);
 	void    BB_RedrawButtons(void);
 
+	std::map<CustomButtonData *, bool> mapHidden;
+
+	__forceinline bool BB_IsDisplayed(CustomButtonData *cbd) const
+	{
+		return (!isChat() && cbd->m_bIMButton) || (isChat() && cbd->m_bChatButton);
+	}
+
 	void    CB_DestroyAllButtons(void);
 	void    CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags);
 	void    CB_ChangeButton(CustomButtonData *cbd);
