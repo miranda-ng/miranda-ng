@@ -52,10 +52,8 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("SRMsg", pluginInfoEx),
-	hLogger(RegisterSrmmLog("built-in", L"tabSRMM internal log", &logBuilder))
-{
-}
+	PLUGIN<CMPlugin>("SRMsg", pluginInfoEx)
+{}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,6 +65,8 @@ int CMPlugin::Load()
 {
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 
+	hLogger = RegisterSrmmLog("built-in", L"tabSRMM internal log", &logBuilder);
+	
 	Chat_Load();
 
 	return LoadSendRecvMessageModule();
