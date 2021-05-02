@@ -226,7 +226,7 @@ void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder)
 {
 	SYSTEMTIME st;
 	GetLocalTime(&st);
-	mir_snwprintf(wszBackupFolder, L"%s\\Backups\\BKP%04d-%02d-%02d %02d-%02d-%02d-%03d", g_wszRoot, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+	mir_snwprintf(wszBackupFolder, L"%s\\Backups\\BKP%04d-%02d-%02d %02d-%02d-%02d", g_wszRoot, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 	PU::SafeCreateDirectory(wszBackupFolder);
 
 	mir_snwprintf(wszTempFolder, L"%s\\Temp", g_wszRoot);
